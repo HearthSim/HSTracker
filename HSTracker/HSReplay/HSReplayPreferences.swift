@@ -174,7 +174,7 @@ extension HSReplayPreferences: MASPreferencesViewController {
     }
 
     var toolbarItemImage: NSImage? {
-        return NSImage(named: NSImage.Name(rawValue: "hsreplay_icon"))
+        return NSImage(named: "hsreplay_icon")
     }
 
     var toolbarItemLabel: String? {

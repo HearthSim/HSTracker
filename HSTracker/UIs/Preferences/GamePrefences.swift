@@ -27,9 +27,9 @@ class GamePreferences: NSViewController {
             hearthstonePath.stringValue = Settings.hearthstonePath
             hearthstonePath.isEnabled = false
             chooseHearthstonePath.isEnabled = false
-            checkImage.image = NSImage(named: NSImage.Name(rawValue: "check"))
+            checkImage.image = NSImage(named: "check")
         } else {
-            checkImage.image = NSImage(named: NSImage.Name(rawValue: "error"))
+            checkImage.image = NSImage(named: "error")
 
             let alert = NSAlert()
             alert.alertStyle = .critical
@@ -39,11 +39,11 @@ class GamePreferences: NSViewController {
         }
 
         if let locale = Settings.hsTrackerLanguage,
-            let index = Array(Language.HSTracker.allCases).index(of: locale) {
+            let index = Array(Language.HSTracker.allCases).firstIndex(of: locale) {
             hstrackerLanguage.selectItem(at: index)
         }
         if let locale = Settings.hearthstoneLanguage,
-            let index = Array(Language.Hearthstone.allCases).index(of: locale) {
+            let index = Array(Language.Hearthstone.allCases).firstIndex(of: locale) {
             hearthstoneLanguage.selectItem(at: index)
         }
 
@@ -68,7 +68,7 @@ class GamePreferences: NSViewController {
                 if sender == chooseHearthstonePath {
                     let path = url.path
                     hearthstonePath.stringValue = path.replace("/Hearthstone.app", with: "")
-                    checkImage.image = NSImage(named: NSImage.Name(rawValue: "check"))
+                    checkImage.image = NSImage(named: "check")
                     Settings.hearthstonePath = hearthstonePath.stringValue
                 }
             }
@@ -146,7 +146,7 @@ extension GamePreferences: MASPreferencesViewController {
     }
     
     var toolbarItemImage: NSImage? {
-        return NSImage(named: NSImage.Name.advanced)
+        return NSImage(named: NSImage.advancedName)
     }
     
     var toolbarItemLabel: String? {

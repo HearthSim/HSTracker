@@ -57,7 +57,7 @@ extension BattlegroundsPreferences: MASPreferencesViewController {
     }
 
     var toolbarItemImage: NSImage? {
-        return NSImage(named: NSImage.Name.advanced)
+        return NSImage(named: NSImage.advancedName)
     }
 
     var toolbarItemLabel: String? {

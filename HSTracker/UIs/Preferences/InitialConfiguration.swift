@@ -34,7 +34,7 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
             hearthstonePath.isEnabled = false
             choosePath.isEnabled = false
         } else {
-            checkImage.image = NSImage(named: NSImage.Name(rawValue: "error"))
+            checkImage.image = NSImage(named: "error")
 
             let alert = NSAlert()
             alert.alertStyle = .critical
@@ -84,7 +84,7 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
             if let url = openDialog.urls.first {
                 let path = url.path
                 hearthstonePath.stringValue = path.replace("/Hearthstone.app", with: "")
-                checkImage.image = NSImage(named: NSImage.Name(rawValue: "check"))
+                checkImage.image = NSImage(named: "check")
             }
         }
         checkToEnableSave()

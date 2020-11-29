@@ -13,7 +13,7 @@ open class FillImageView: NSImageView {
   open override var image: NSImage? {
     set {
       self.layer = CALayer()
-      self.layer?.contentsGravity = kCAGravityResizeAspectFill
+      self.layer?.contentsGravity = CALayerContentsGravity.resizeAspectFill
       self.layer?.contents = newValue
       self.wantsLayer = true
 

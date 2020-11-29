@@ -27,7 +27,7 @@ class StatsTab: NSViewController {
         for mode in modePickerItems {
             modePicker.addItem(withTitle: mode.userFacingName)
         }
-        modePicker.selectItem(at: modePickerItems.index(of: .ranked)!)
+        modePicker.selectItem(at: modePickerItems.firstIndex(of: .ranked)!)
         
         seasonPicker.addItem(withTitle: NSLocalizedString("all_seasons", comment: ""))
         if let deck = self.deck {
@@ -86,7 +86,7 @@ class StatsTab: NSViewController {
         if let deck = self.deck {
             var index = modePicker.indexOfSelectedItem
             if index == -1 { // In case somehow nothing is selected
-                modePicker.selectItem(at: modePickerItems.index(of: .ranked)!)
+                modePicker.selectItem(at: modePickerItems.firstIndex(of: .ranked)!)
                 index = modePicker.indexOfSelectedItem
             }
             var season = seasonPicker.indexOfSelectedItem
@@ -148,7 +148,7 @@ extension StatsTab: NSTableViewDelegate {
         let item = statsTableItems[row]
         
         if tableColumn == tableView.tableColumns[0] {
-            image = NSImage(named: NSImage.Name(rawValue: item.classIcon))
+            image = NSImage(named: item.classIcon)
             text  = item.opponentClassName
             alignment = NSTextAlignment.left
             cellIdentifier = "StatsClassCellID"

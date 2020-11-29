@@ -241,7 +241,7 @@ class CardBar: NSView, CardBarTheme {
                     fade.toValue = 0.0
                     fade.duration = 0.5
                     fade.isRemovedOnCompletion = false
-                    fade.fillMode = kCAFillModeBoth
+                    fade.fillMode = CAMediaTimingFillMode.both
                     flashingLayer.add(fade, forKey: "alpha")
                 }
             }
@@ -592,7 +592,7 @@ class CardBar: NSView, CardBarTheme {
 
         if let font = NSFont(name: font, size: round(fontSize / ratioHeight)) {
             let ratioRect = ratio(rect)
-            var attributes: [NSAttributedStringKey: Any] = [
+            var attributes: [NSAttributedString.Key: Any] = [
                 .font: font,
                 .foregroundColor: textColor,
                 .strokeWidth: strokeThickness,

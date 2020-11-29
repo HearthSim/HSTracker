@@ -27,10 +27,10 @@ class Statistics: NSWindowController {
         
         update()
         
-        statsTab = StatsTab(nibName: NSNib.Name(rawValue: "StatsTab"), bundle: nil)
+        statsTab = StatsTab(nibName: "StatsTab", bundle: nil)
         statsTab!.deck = self.deck
         
-        ladderTab = LadderTab(nibName: NSNib.Name(rawValue: "LadderTab"), bundle: nil)
+        ladderTab = LadderTab(nibName: "LadderTab", bundle: nil)
         ladderTab!.deck = self.deck
         ladderTab!.guessRankAndUpdate()
         
@@ -87,10 +87,10 @@ class Statistics: NSWindowController {
             // I'm assuming that the player class names
             // and class assets are always the same
             let imageName = deck.playerClass.rawValue.lowercased()
-            selectedDeckIcon.image = NSImage(named: NSImage.Name(rawValue: imageName))
+            selectedDeckIcon.image = NSImage(named: imageName)
             selectedDeckName.stringValue = deck.name
         } else {
-            selectedDeckIcon.image = NSImage(named: NSImage.Name(rawValue: "error"))
+            selectedDeckIcon.image = NSImage(named: "error")
             selectedDeckName.stringValue = "No deck selected."
         }
     }

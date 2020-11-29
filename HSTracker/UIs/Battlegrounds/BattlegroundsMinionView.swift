@@ -49,7 +49,7 @@ class BattlegroundsMinionView: NSView {
         let poisonous = entity.has(tag: GameTag.poisonous)
         let divineShield = entity.has(tag: GameTag.divine_shield)
         
-        if taunt, let tauntImage = NSImage(named: NSImage.Name("taunt\(premium)")) {
+        if taunt, let tauntImage = NSImage(named: "taunt\(premium)") {
             tauntImage.draw(in: rect)
         }
         if let cardImage = ImageUtils.cachedArt(cardId: entity.cardId) {
@@ -72,23 +72,23 @@ class BattlegroundsMinionView: NSView {
             })
         }
         
-        if let borderImage = NSImage(named: NSImage.Name("border\(premium)")) {
+        if let borderImage = NSImage(named: "border\(premium)") {
             borderImage.draw(in: rect)
         }
         
-        if deathrattle, let deathrattleImage = NSImage(named: NSImage.Name("deathrattle")) {
+        if deathrattle, let deathrattleImage = NSImage(named: "deathrattle") {
             deathrattleImage.draw(in: rect)
         }
         
-        if legendary, let legendaryImage = NSImage(named: NSImage.Name("legendary\(premium)")) {
+        if legendary, let legendaryImage = NSImage(named: "legendary\(premium)") {
             legendaryImage.draw(in: rect)
         }
         
-        if poisonous, let poisonousImage = NSImage(named: NSImage.Name("poisonous")) {
+        if poisonous, let poisonousImage = NSImage(named: "poisonous") {
             poisonousImage.draw(in: rect)
         }
         
-        if divineShield, let divineShieldImage = NSImage(named: NSImage.Name("divine-shield")) {
+        if divineShield, let divineShieldImage = NSImage(named: "divine-shield") {
             divineShieldImage.draw(in: rect) //NSRect(x: 30, y: 35, width: 240, height: 290))
         }
         
@@ -114,7 +114,7 @@ class BattlegroundsMinionView: NSView {
     
     func drawText(text: String, rect: NSRect, color: NSColor) {
         if let font = NSFont(name: "ChunkFive", size: 45) {
-            var attributes: [NSAttributedStringKey: Any] = [
+            var attributes: [NSAttributedString.Key: Any] = [
                 .font: font,
                 .foregroundColor: color,
                 .strokeWidth: -2,

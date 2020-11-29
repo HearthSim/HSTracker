@@ -23,8 +23,8 @@ class Database {
                 logger.error("\(jsonFile) is not a valid file")
                 return false
             }
-            if (try? JSONSerialization
-                .jsonObject(with: jsonData, options: []) as? [[String: Any]]) == nil {
+            if (((try? JSONSerialization
+                .jsonObject(with: jsonData, options: []) as? [[String: Any]]) as [[String: Any]]??)) == nil {
                     logger.error("\(jsonFile) is not a valid file")
                     return false
             }
@@ -54,8 +54,8 @@ class Database {
                 logger.error("\(jsonFile) is not a valid file")
                 continue
             }
-            guard let jsonCards = try? JSONSerialization
-                    .jsonObject(with: jsonData, options: []) as? [[String: Any]],
+            guard let jsonCards = ((try? JSONSerialization
+                    .jsonObject(with: jsonData, options: []) as? [[String: Any]]) as [[String: Any]]??),
                 let cards = jsonCards else {
                                     logger.error("\(jsonFile) is not a valid file")
                 continue

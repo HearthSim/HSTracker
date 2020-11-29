@@ -62,7 +62,7 @@ class TrackersPreferences: NSViewController {
         }
         floatingCardStyle.selectItem(at: index)
 
-        theme.selectItem(at: themes.index(of: Settings.theme) ?? 0)
+        theme.selectItem(at: themes.firstIndex(of: Settings.theme) ?? 0)
         allowFullscreen.state = Settings.canJoinFullscreen ? .on : .off
         hideAllWhenNotInGame.state = Settings.hideAllTrackersWhenNotInGame ? .on : .off
         hideAllWhenGameInBackground.state = Settings.hideAllWhenGameInBackground
@@ -137,7 +137,7 @@ extension TrackersPreferences: MASPreferencesViewController {
     }
 
     var toolbarItemImage: NSImage? {
-        return NSImage(named: NSImage.Name.advanced)
+        return NSImage(named: NSImage.advancedName)
     }
 
     var toolbarItemLabel: String? {

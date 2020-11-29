@@ -32,58 +32,58 @@ class WindowManager {
     var playerTracker: Tracker = {
         $0.playerType = .player
         return $0
-    }(Tracker(windowNibName: NSNib.Name(rawValue: "Tracker")))
+    }(Tracker(windowNibName: "Tracker"))
 
     var opponentTracker: Tracker = {
         $0.playerType = .opponent
         return $0
-    }(Tracker(windowNibName: NSNib.Name(rawValue: "Tracker")))
+    }(Tracker(windowNibName: "Tracker"))
 
     var secretTracker: CardList = {
         return $0
-    }(CardList(windowNibName: NSNib.Name(rawValue: "CardList")))
+    }(CardList(windowNibName: "CardList"))
 	
 	var arenaHelper: CardList = {
 		return $0
-	}(CardList(windowNibName: NSNib.Name(rawValue: "CardList")))
+	}(CardList(windowNibName: "CardList"))
 	
     var playerBoardDamage: BoardDamage = {
         $0.player = .player
         return $0
-    }(BoardDamage(windowNibName: NSNib.Name(rawValue: "BoardDamage")))
+    }(BoardDamage(windowNibName: "BoardDamage"))
 
     var opponentBoardDamage: BoardDamage = {
         $0.player = .opponent
         return $0
-    }(BoardDamage(windowNibName: NSNib.Name(rawValue: "BoardDamage")))
+    }(BoardDamage(windowNibName: "BoardDamage"))
 
     var timerHud: TimerHud = {
         return $0
-    }(TimerHud(windowNibName: NSNib.Name(rawValue: "TimerHud")))
+    }(TimerHud(windowNibName: "TimerHud"))
 
     var turnCounter: TurnCounter = {
         return $0
-    }(TurnCounter(windowNibName: NSNib.Name(rawValue: "TurnCounter")))
+    }(TurnCounter(windowNibName: "TurnCounter"))
 
     var battlegroundsOverlay: BattlegroundsOverlay = {
         return $0
-    }(BattlegroundsOverlay(windowNibName: NSNib.Name(rawValue: "BattlegroundsOverlay")))
+    }(BattlegroundsOverlay(windowNibName: "BattlegroundsOverlay"))
 
     var battlegroundsDetailsWindow: BattlegroundsDetailsWindow = {
         return $0
-    }(BattlegroundsDetailsWindow(windowNibName: NSNib.Name(rawValue: "BattlegroundsDetailsWindow")))
+    }(BattlegroundsDetailsWindow(windowNibName: "BattlegroundsDetailsWindow"))
 
     var battlegroundsTierOverlay: BattlegroundsTierOverlay = {
         return $0
-    }(BattlegroundsTierOverlay(windowNibName: NSNib.Name(rawValue: "BattlegroundsTierOverlay")))
+    }(BattlegroundsTierOverlay(windowNibName: "BattlegroundsTierOverlay"))
 
     var battlegroundsTierDetailsWindowController: BattlegroundsTierDetailWindowController = {
         return $0
-    }(BattlegroundsTierDetailWindowController(windowNibName: NSNib.Name(rawValue: "BattlegroundsTierDetailWindowController")))
+    }(BattlegroundsTierDetailWindowController(windowNibName: "BattlegroundsTierDetailWindowController"))
     
     var bobsBuddyPanel: BobsBuddyPanel = {
         return $0
-    }(BobsBuddyPanel(windowNibName: NSNib.Name(rawValue: "BobsBuddyPanel")))
+    }(BobsBuddyPanel(windowNibName: "BobsBuddyPanel"))
 
     var toastWindowController = ToastWindowController()
 
@@ -105,11 +105,11 @@ class WindowManager {
 			fWindow.orderOut(nil)
         }
         return $0
-    }(FloatingCard(windowNibName: NSNib.Name(rawValue: "FloatingCard")))
+    }(FloatingCard(windowNibName: "FloatingCard"))
     
     var cardHudContainer: CardHudContainer = {
         return $0
-    }(CardHudContainer(windowNibName: NSNib.Name(rawValue: "CardHudContainer")))
+    }(CardHudContainer(windowNibName: "CardHudContainer"))
 
     private var lastCardsUpdateRequest = Date.distantPast.timeIntervalSince1970
 

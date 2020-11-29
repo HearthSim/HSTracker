@@ -123,7 +123,7 @@ class CardHud: NSView {
     }
     
     private func addImage(filename: String, rect: NSRect) {
-        guard let image = NSImage(named: NSImage.Name(rawValue: filename)) else { return }
+        guard let image = NSImage(named: filename) else { return }
         image.draw(in: rect)
     }
     

@@ -62,7 +62,7 @@ class DeckManager: NSWindowController {
     override func windowDidLoad() {
         super.windowDidLoad()
 
-        let nib = NSNib(nibNamed: NSNib.Name(rawValue: "DeckCellView"), bundle: nil)
+        let nib = NSNib(nibNamed: "DeckCellView", bundle: nil)
         decksTable.register(nib, forIdentifier: NSUserInterfaceItemIdentifier(rawValue: "DeckCellView"))
 
         decksTable.backgroundColor = NSColor.clear
@@ -200,7 +200,7 @@ class DeckManager: NSWindowController {
     }
 
     // MARK: - Toolbar actions
-    override func validateToolbarItem(_ item: NSToolbarItem) -> Bool {
+    func validateToolbarItem(_ item: NSToolbarItem) -> Bool {
         switch item.itemIdentifier.rawValue {
         case "add", "donate", "twitter", "gitter":
             return true
@@ -212,7 +212,7 @@ class DeckManager: NSWindowController {
     }
 
     @IBAction func addDeck(_ sender: AnyObject) {
-        newDeck = NewDeck(windowNibName: NSNib.Name(rawValue: "NewDeck"))
+        newDeck = NewDeck(windowNibName: "NewDeck")
         if let newDeck = newDeck {
             newDeck.setDelegate(self)
             newDeck.defaultClass = currentClass ?? nil
@@ -221,7 +221,7 @@ class DeckManager: NSWindowController {
     }
 
     @IBAction func showStatistics(_ sender: AnyObject) {
-        statistics = Statistics(windowNibName: NSNib.Name(rawValue: "Statistics"))
+        statistics = Statistics(windowNibName: "Statistics")
         if let statistics = statistics {
             statistics.deck = currentDeck
             self.window!.beginSheet(statistics.window!) { _ in
@@ -295,7 +295,7 @@ class DeckManager: NSWindowController {
     }
     
     private func editDeck(_ deck: Deck) {
-        editDeck = EditDeck(windowNibName: NSNib.Name(rawValue: "EditDeck"))
+        editDeck = EditDeck(windowNibName: "EditDeck")
         if let editDeck = editDeck {
             editDeck.set(deck: deck)
             editDeck.set(playerClass: deck.playerClass)
@@ -502,12 +502,12 @@ extension DeckManager: NSTableViewDelegate {
                 let deck = sortedFilteredDecks()[row]
                 cell.deck = deck
                 cell.label.stringValue = deck.name
-                cell.image.image = NSImage(named: NSImage.Name(rawValue: deck.playerClass.rawValue.lowercased()))
+                cell.image.image = NSImage(named: deck.playerClass.rawValue.lowercased())
                 cell.arenaImage.image = deck.isArena && deck.arenaFinished() ?
-                    NSImage(named: NSImage.Name(rawValue: "silenced")) : nil
-                cell.wildImage.image = deck.isArena ? NSImage(named: NSImage.Name(rawValue: "arena")) :
+                    NSImage(named: "silenced") : nil
+                cell.wildImage.image = deck.isArena ? NSImage(named: "arena") :
                     !deck.standardViable() && !deck.isArena ?
-                    NSImage(named: NSImage.Name(rawValue: "Mode_Wild")) : nil
+                    NSImage(named: "Mode_Wild") : nil
                 cell.color = ClassColor.color(playerClass: deck.playerClass)
                 cell.selected = tableView.selectedRow == row
                 
@@ -601,7 +601,7 @@ extension DeckManager: NewDeckDelegate {
     }
 
     func openDeckBuilder(playerClass: CardClass, arenaDeck: Bool) {
-        editDeck = EditDeck(windowNibName: NSNib.Name(rawValue: "EditDeck"))
+        editDeck = EditDeck(windowNibName: "EditDeck")
         if let editDeck = editDeck {
             let deck = Deck()
             deck.playerClass = playerClass

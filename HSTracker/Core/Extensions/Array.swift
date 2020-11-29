@@ -62,7 +62,7 @@ extension Sequence where Iterator.Element: Hashable {
 
 extension Array where Element: Equatable {
     mutating func remove(_ element: Element) {
-        if let index = index(of: element) {
+        if let index = firstIndex(of: element) {
             remove(at: index)
         }
     }

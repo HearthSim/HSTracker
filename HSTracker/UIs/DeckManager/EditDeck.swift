@@ -493,7 +493,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
     // MARK: - Toolbar actions
     @IBAction func save(_ sender: AnyObject?) {
-        saveDeck = SaveDeck(windowNibName: NSNib.Name(rawValue: "SaveDeck"))
+        saveDeck = SaveDeck(windowNibName: "SaveDeck")
         if let saveDeck = saveDeck {
             saveDeck.setDelegate(self)
             saveDeck.deck = currentDeck
@@ -613,7 +613,7 @@ extension EditDeck: SaveDeckDelegate {
 
 // MARK: - Health/Damage - NSTextFieldDelegate
 extension EditDeck: NSTextFieldDelegate {
-    override func controlTextDidChange(_ notification: Notification) {
+    func controlTextDidChange(_ notification: Notification) {
         if let editor = notification.object as? NSTextField {
             if editor == health {
                 if let value = Int(editor.stringValue) {

@@ -47,7 +47,7 @@ class CollectionWatcher {
 
     func setFeedback(message: String, loading: Bool, timeoutMillis: Int) {
         let toastViewController = CollectionToastViewController(
-            nibName: NSNib.Name(rawValue: "CollectionToastViewController"),
+            nibName: "CollectionToastViewController",
             bundle: nil)
         toastViewController.message = message
         toastViewController.loading = loading

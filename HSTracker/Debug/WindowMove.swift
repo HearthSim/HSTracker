@@ -32,7 +32,7 @@ class WindowMove: NSWindowController {
 	
 	private weak var windowManager: WindowManager!
     override var windowNibName: NSNib.Name? {
-        return NSNib.Name("WindowMove")
+        return "WindowMove"
 	}
 	
 	convenience init(windowNibName: String, windowManager: WindowManager) {

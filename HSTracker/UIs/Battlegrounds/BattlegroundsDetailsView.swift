@@ -57,7 +57,7 @@ class BattlegroundsDetailsView: NSView {
     
     func drawText(text: String, rect: NSRect) {
         if let font = NSFont(name: "ChunkFive", size: 14) {
-            var attributes: [NSAttributedStringKey: Any] = [
+            var attributes: [NSAttributedString.Key: Any] = [
                 .font: font,
                 .foregroundColor: NSColor.white,
                 .strokeWidth: -2,
@@ -75,7 +75,7 @@ class BattlegroundsDetailsView: NSView {
 
     func drawTurn(turns: Int) {
         if let font = NSFont(name: "ChunkFive", size: 20) {
-            let attributes: [NSAttributedStringKey: Any] = [
+            let attributes: [NSAttributedString.Key: Any] = [
                 .font: font,
                 .foregroundColor: NSColor.white,
                 .strokeWidth: -2,

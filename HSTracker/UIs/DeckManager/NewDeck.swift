@@ -148,7 +148,7 @@ class NewDeck: NSWindowController {
         // notice that there's no statement needed to disable OK "fromAFile.state != .on"
     }
 
-    override func controlTextDidChange(_ notification: Notification) {
+    func controlTextDidChange(_ notification: Notification) {
         checkToEnableSave()
     }
 }

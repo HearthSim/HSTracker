@@ -35,7 +35,7 @@ import Foundation
 		                   target: self,
 		                   selector: #selector(self.timerTick),
 		                   userInfo: nil, repeats: true)
-		RunLoop.main.add(timer!, forMode: RunLoopMode.defaultRunLoopMode)
+		RunLoop.main.add(timer!, forMode: RunLoop.Mode.default)
 		
         if timeout < 0 {
             seconds = 75

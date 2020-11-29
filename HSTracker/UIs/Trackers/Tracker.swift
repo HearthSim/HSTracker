@@ -131,7 +131,7 @@ class Tracker: OverWindowController {
                 newAnimated.setDelegate(self)
                 newAnimated.card = newCard
 
-                let index = animatedCards.index(of: card)!
+                let index = animatedCards.firstIndex(of: card)!
                 animatedCards.insert(newAnimated, at: index)
                 newAnimated.update(highlight: true)
                 newCards.remove(newCard!)
@@ -145,7 +145,7 @@ class Tracker: OverWindowController {
             newCard.playerType = self.playerType
             newCard.setDelegate(self)
             newCard.card = $0
-            let index = cards.index(of: $0)!
+            let index = cards.firstIndex(of: $0)!
             animatedCards.insert(newCard, at: index)
             newCard.fadeIn(highlight: !reset)
         })

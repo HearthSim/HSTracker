@@ -106,7 +106,7 @@ class CurveView: NSView {
 
             x += padding
 
-            if let mana = NSImage(named: NSImage.Name(rawValue: "mana")) {
+            if let mana = NSImage(named: "mana") {
                 mana.draw(in: NSRect(x: x, y: padding, width: manaHeight, height: manaHeight),
                     from: NSRect.zero,
                     operation: .sourceOver,

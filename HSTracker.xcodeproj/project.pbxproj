@@ -509,6 +509,7 @@
 		B8A9CB3025699BCA000071FC /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C0C2A25244C8AED00E7B75E /* AppCenter.framework */; };
 		B8A9CB3125699BCA000071FC /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C0C2A29244C8CF400E7B75E /* AppCenterCrashes.framework */; };
 		B8A9CB332571F160000071FC /* GuessedCardState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A9CB322571F160000071FC /* GuessedCardState.swift */; };
+		B8A9CB3C2573FD61000071FC /* GuessedCardState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A9CB322571F160000071FC /* GuessedCardState.swift */; };
 		B8B7CC1F253C721400033758 /* BattlegroundsPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B7CC1E253C721400033758 /* BattlegroundsPreferences.swift */; };
 		B8B7CC20253C74D100033758 /* BattlegroundsPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8B7CC22253C74D100033758 /* BattlegroundsPreferences.xib */; };
 		B8D8859224F3034700F2F0F2 /* StatusMessageConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D8859124F3034700F2F0F2 /* StatusMessageConverter.swift */; };
@@ -2067,7 +2068,7 @@
 					439C7E471C7772C000D29859 = {
 						CreatedOnToolsVersion = 7.2.1;
 						DevelopmentTeam = RL7C49LAMC;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1220;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.HardenedRuntime = {
@@ -2078,7 +2079,7 @@
 					439C7E5B1C7772C100D29859 = {
 						CreatedOnToolsVersion = 7.2.1;
 						DevelopmentTeam = RL7C49LAMC;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1220;
 					};
 				};
 			};
@@ -2545,6 +2546,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8A9CB3C2573FD61000071FC /* GuessedCardState.swift in Sources */,
 				B8A9CB2F25699B70000071FC /* RemoteConfig.swift in Sources */,
 				B8A9CB2E25699B13000071FC /* BattlegroundsMinionView.swift in Sources */,
 				B8DEDCEA2547CF9F00DF524B /* MonoUtility.c in Sources */,
@@ -3321,7 +3323,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "HSTracker/HSTracker-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -3362,7 +3364,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "HSTracker/HSTracker-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -3388,7 +3390,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "HSTrackerTests/HSTracker-Test-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -3413,7 +3415,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "HSTrackerTests/HSTracker-Test-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};

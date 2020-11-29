@@ -40,13 +40,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	
 	var preferences: MASPreferencesWindowController = {
 		var controllers = [
-			GeneralPreferences(nibName: NSNib.Name(rawValue: "GeneralPreferences"), bundle: nil),
-			GamePreferences(nibName: NSNib.Name(rawValue: "GamePreferences"), bundle: nil),
-			TrackersPreferences(nibName: NSNib.Name(rawValue: "TrackersPreferences"), bundle: nil),
-			PlayerTrackersPreferences(nibName: NSNib.Name(rawValue: "PlayerTrackersPreferences"), bundle: nil),
-			OpponentTrackersPreferences(nibName: NSNib.Name(rawValue: "OpponentTrackersPreferences"), bundle: nil),
-			BattlegroundsPreferences(nibName: NSNib.Name(rawValue: "BattlegroundsPreferences"), bundle: nil),
-			HSReplayPreferences(nibName: NSNib.Name(rawValue: "HSReplayPreferences"), bundle: nil)
+			GeneralPreferences(nibName: "GeneralPreferences", bundle: nil),
+			GamePreferences(nibName: "GamePreferences", bundle: nil),
+			TrackersPreferences(nibName: "TrackersPreferences", bundle: nil),
+			PlayerTrackersPreferences(nibName: "PlayerTrackersPreferences", bundle: nil),
+			OpponentTrackersPreferences(nibName: "OpponentTrackersPreferences", bundle: nil),
+			BattlegroundsPreferences(nibName: "BattlegroundsPreferences", bundle: nil),
+			HSReplayPreferences(nibName: "HSReplayPreferences", bundle: nil)
         ]
 		
 		let preferences = MASPreferencesWindowController(
@@ -123,7 +123,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		if Settings.validated() {
 			loadSplashscreen()
 		} else {
-			initalConfig = InitialConfiguration(windowNibName: NSNib.Name(rawValue: "InitialConfiguration"))
+			initalConfig = InitialConfiguration(windowNibName: "InitialConfiguration")
 			initalConfig?.completionHandler = {
 				self.loadSplashscreen()
 			}
@@ -162,7 +162,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			])
 		NSApp.activate(ignoringOtherApps: true)
 		
-		splashscreen = Splashscreen(windowNibName: NSNib.Name(rawValue: "Splashscreen"))
+		splashscreen = Splashscreen(windowNibName: "Splashscreen")
 		let screenFrame = NSScreen.screens.first!.frame
 		let splashscreenWidth: CGFloat = 350
 		let splashscreenHeight: CGFloat = 250
@@ -509,7 +509,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	
 	@IBAction func openDeckManager(_ sender: AnyObject) {
 		if deckManager == nil {
-			deckManager = DeckManager(windowNibName: NSNib.Name(rawValue: "DeckManager"))
+			deckManager = DeckManager(windowNibName: "DeckManager")
 			deckManager?.game = coreManager.game
 		}
 		deckManager?.showWindow(self)
@@ -534,7 +534,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	private func saveDeck(_ player: Player) {
 		if let playerClass = player.playerClass {
 			if deckManager == nil {
-				deckManager = DeckManager(windowNibName: NSNib.Name(rawValue: "DeckManager"))
+				deckManager = DeckManager(windowNibName: "DeckManager")
 			}
 			let deck = Deck()
 			deck.playerClass = playerClass

@@ -522,7 +522,7 @@ class SecretsManager {
     }
     
     func onNewSecret(secret: Secret) {
-        if secret.entity[GameTag.class] == CardClass.allCases.index(of: .hunter) {
+        if secret.entity[GameTag.class] == CardClass.allCases.firstIndex(of: .hunter) {
             entititesInHandOnMinionsPlayed.removeAll()
         }
     }
