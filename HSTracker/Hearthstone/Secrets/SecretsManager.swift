@@ -15,6 +15,8 @@ class SecretsManager {
     private var _avengeDeathRattleCount = 0
     private var _awaitingAvenge = false
     private var _lastStartOfTurnSecretCheck = 0
+    private var _lastStartOfTurnMinionSecretCheck = 0
+
     private var entititesInHandOnMinionsPlayed: Set<Entity>  = Set<Entity>()
 
     private var game: Game
@@ -72,6 +74,7 @@ class SecretsManager {
         _avengeDeathRattleCount = 0
         _awaitingAvenge = false
         _lastStartOfTurnSecretCheck = 0
+        _lastStartOfTurnMinionSecretCheck = 0
         opponentTookDamageDuringTurns.removeAll()
         entititesInHandOnMinionsPlayed.removeAll()
         secrets.removeAll()
@@ -421,16 +424,19 @@ class SecretsManager {
     func handleTurnsInPlayChange(entity: Entity, turn: Int) {
         guard handleAction else { return }
 
-        if game.opponentEntity?.isCurrentPlayer ?? false && turn > _lastStartOfTurnSecretCheck {
-            _lastStartOfTurnSecretCheck = turn
-            if entity.isMinion && entity.isControlled(by: game.opponent.id) {
+        if game.opponentEntity?.isCurrentPlayer ?? false && (turn > _lastStartOfTurnSecretCheck || turn > _lastStartOfTurnMinionSecretCheck) {
+            if entity.isMinion && entity.isControlled(by: game.opponent.id) && turn > _lastStartOfTurnMinionSecretCheck {
+                _lastStartOfTurnMinionSecretCheck = turn
                 exclude(cardId: CardIds.Secrets.Paladin.CompetitiveSpirit)
                 if game.opponentMinionCount >= 2 && freeSpaceOnBoard {
                     exclude(cardId: CardIds.Secrets.Hunter.OpenTheCages)
                 }
             }
-            if !opponentTookDamageDuringTurns.contains(game.turnNumber() - 1) {
-                exclude(cardId: CardIds.Secrets.Mage.RiggedFaireGame)
+            if turn > _lastStartOfTurnSecretCheck {
+                if !opponentTookDamageDuringTurns.contains(game.turnNumber() - 1) {
+                    exclude(cardId: CardIds.Secrets.Mage.RiggedFaireGame)
+                }
+                _lastStartOfTurnSecretCheck = turn
             }
         }
     }

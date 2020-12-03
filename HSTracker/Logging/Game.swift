@@ -378,10 +378,8 @@ class Game: NSObject, PowerEventHandler {
     }
     
     func updateSecretTracker(cards: [Card]) {
-        DispatchQueue.main.async { [unowned(unsafe) self] in
-            self.windowManager.secretTracker.set(cards: cards)
-            self.updateSecretTracker()
-        }
+        self.windowManager.secretTracker.set(cards: cards)
+        self.updateSecretTracker()
     }
     
     func updateSecretTracker() {
@@ -392,8 +390,8 @@ class Game: NSObject, PowerEventHandler {
             if Settings.showSecretHelper && !self.gameEnded &&
                 ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
                     || !Settings.hideAllWhenGameInBackground) {
-                if tracker.cards.count > 0 {
-                    tracker.table?.reloadData()
+                if tracker.cardCount() > 0 {
+                    tracker.setWindowSizes()
                     self.windowManager.show(controller: tracker, show: true,
                                             frame: SizeHelper.secretTrackerFrame(height: tracker.frameHeight),
                                             title: nil, overlay: self.hearthstoneRunState.isActive)
@@ -584,10 +582,11 @@ class Game: NSObject, PowerEventHandler {
 			
 			if Settings.showArenaHelper && ArenaWatcher.isRunning() &&
                 !(Settings.dontTrackWhileSpectating && self.spectator) &&
-				self.windowManager.arenaHelper.cards.count == 3 &&
+				self.windowManager.arenaHelper.cardCount() == 3 &&
 				((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
 					|| !Settings.hideAllWhenGameInBackground ) {
-				tracker.table?.reloadData()
+                tracker.setWindowSizes()
+                self.windowManager.arenaHelper.table?.reloadData()
 				self.windowManager.show(controller: tracker, show: true, frame: SizeHelper.arenaHelperFrame(),
                                         title: nil, overlay: self.hearthstoneRunState.isActive)
 			} else {

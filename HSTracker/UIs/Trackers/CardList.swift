@@ -13,7 +13,9 @@ class CardList: OverWindowController {
 
     @IBOutlet weak var table: NSTableView?
 
-    var cards = [Card]()
+    fileprivate var animatedCards: [CardBar] = []
+    let semaphore = DispatchSemaphore(value: 1)
+
     var observer: NSObjectProtocol?
 
     override func windowDidLoad() {
@@ -39,9 +41,60 @@ class CardList: OverWindowController {
     func cardSizeChange() {
         setWindowSizes()
     }
+    
+    func cardCount() -> Int {
+        semaphore.wait()
+        defer {
+            semaphore.signal()
+        }
+        return animatedCards.count
+    }
 
     func set(cards: [Card]) {
-        self.cards = cards
+        DispatchQueue.main.async { [self] in
+            semaphore.wait()
+            
+            var newCards = [Card]()
+            cards.forEach({ (card: Card) in
+                let existing = animatedCards.first { self.areEqualForList($0.card!, card) }
+                if existing == nil {
+                    newCards.append(card)
+                }
+            })
+
+            var toRemove: [Int] = []
+            animatedCards.forEach({ (c: CardBar) in
+                if !cards.any({ self.areEqualForList($0, c.card!) }) {
+                    toRemove.append(animatedCards.firstIndex(of: c)!)
+                }
+            })
+            
+            table?.beginUpdates()
+            var indexSet = IndexSet(toRemove)
+            table?.removeRows(at: indexSet, withAnimation: [.effectFade, .slideRight])
+            for index in indexSet.reversed() {
+                animatedCards.remove(at: index)
+            }
+            indexSet.removeAll()
+            newCards.forEach({
+                let newCard = CardBar.factory()
+                newCard.setDelegate(self)
+                newCard.card = $0
+                newCard.playerType = .secrets
+                let index = cards.firstIndex(of: $0)!
+                animatedCards.insert(newCard, at: index)
+                indexSet.insert(index)
+            })
+            table?.insertRows(at: indexSet, withAnimation: .slideLeft)
+            // need to signal here to avoid a deadlock
+            semaphore.signal()
+
+            table?.endUpdates()
+        }
+    }
+    
+    fileprivate func areEqualForList(_ c1: Card, _ c2: Card) -> Bool {
+        return c1.id == c2.id
     }
     
     var frameHeight: CGFloat {
@@ -53,14 +106,18 @@ class CardList: OverWindowController {
         case .huge: rowHeight = CGFloat(kHighRowHeight)
         case .big: rowHeight = CGFloat(kRowHeight)
         }
-        return rowHeight * CGFloat(self.cards.count)
+        semaphore.wait()
+        defer {
+            semaphore.signal()
+        }
+        return rowHeight * CGFloat(self.animatedCards.count)
     }
 }
 
 // MARK: - NSTableViewDataSource
 extension CardList: NSTableViewDataSource {
     func numberOfRows(in tableView: NSTableView) -> Int {
-        return cards.count
+        return cardCount()
     }
 }
 
@@ -69,15 +126,11 @@ extension CardList: NSTableViewDelegate {
     func tableView(_ tableView: NSTableView,
                    viewFor tableColumn: NSTableColumn?,
                    row: Int) -> NSView? {
-        let card = cards[row]
-        let cell = CardBar.factory()
-        cell.card = card
-        cell.playerType = .secrets
-        cell.setDelegate(self)
-
-        if card.hasChanged {
-            card.hasChanged = false
+        semaphore.wait()
+        defer {
+            semaphore.signal()
         }
+        let cell = row >= 0 && row < animatedCards.count ? animatedCards[row] : nil
         return cell
     }
 
