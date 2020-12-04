@@ -114,14 +114,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		
         // setup logger
 		let path = Paths.logs
-        let file = FileDestination()
+        let file = RotatingFileDestination()
         file.logFileURL = path.appendingPathComponent("hstracker.log")
 		logger.addDestination(file)
 		logger.info("*** Starting \(Version.buildName) ***")
 		
         // check if we have valid settings
 		if Settings.validated() {
-			loadSplashscreen()
+			loadSplashscreen()  
 		} else {
 			initalConfig = InitialConfiguration(windowNibName: "InitialConfiguration")
 			initalConfig?.completionHandler = {
