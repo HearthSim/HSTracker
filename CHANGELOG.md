@@ -1,3 +1,13 @@
+# 1.7.7
+## New:
+- Add more tracking of 'created by' effects
+- Add option to hide minion tiers in battlegrounds
+
+## Fixes:
+- Improve speed and memory usage
+- Fixes issues where spells wouldn't track for the player
+- Fixed issue where Bob's Buddy occasionally wouldn't detect Lich King hero powers
+
 # 1.7.6
 ## New:
 - Improve last seen board
