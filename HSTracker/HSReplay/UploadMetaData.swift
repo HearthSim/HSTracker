@@ -114,6 +114,17 @@ class UploadMetaData {
 
         return (metaData, stats.statId)
     }
+    
+    static func retryWhileNull<T>(f: @escaping (() -> T?), tries: Int = 5, delay: Int = 150) -> T? {
+        for _ in 0 ..< tries {
+            let value = f()
+            if value != nil {
+                return value
+            }
+            usleep(useconds_t(1000 * delay))
+        }
+        return nil
+    }
 
     static func getFriendlyPlayer(stats: InternalGameStats, deck: PlayingDeck?) -> Player {
 
@@ -147,11 +158,9 @@ class UploadMetaData {
             }
         } else if stats.gameMode == .battlegrounds {
             friendly.battlegrounds_rating = stats.battlegroundsRating
-            var retries = 5
-            while retries > 0 && friendly.battlegrounds_rating_after == nil {
-                friendly.battlegrounds_rating_after = MirrorHelper.getBattlegroundsRatingChange()?.ratingNew as? Int
-                retries -= 1
-                usleep(150000)
+
+            if let ratingsChange = retryWhileNull(f: MirrorHelper.getBattlegroundsRatingChange) {
+                friendly.battlegrounds_rating_after = ratingsChange.ratingNew as? Int
             }
             friendly.deckId = nil
             friendly.deck = nil
@@ -160,8 +169,7 @@ class UploadMetaData {
             friendly.stars = stats.playerMedalInfo?.stars
             friendly.star_multiplier = nil //stats.playerMedalInfo?.starMultiplier
 
-            usleep(500000)
-            if let medalData = MirrorHelper.getMedalData() {
+            if let medalData = retryWhileNull(f: MirrorHelper.getMedalData) {
                 let medalInfo: MirrorMedalInfo
                 if stats.format == .wild {
                     medalInfo = medalData.wild
