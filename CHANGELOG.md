@@ -1,3 +1,8 @@
+# 1.7.8
+## New:
+- Updated for patch 19.2
+- Improve function around Dungeon Runs and Duels
+
 # 1.7.7
 ## New:
 - Add more tracking of 'created by' effects
