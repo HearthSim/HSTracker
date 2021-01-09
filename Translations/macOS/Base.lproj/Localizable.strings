@@ -135,6 +135,8 @@
 "pirate" = "Pirate";
 "totem" = "Totem";
 "elemental" = "Elemental";
+"all" = "All";
+"unavailable" = "Unavailable";
 
 /* sorting */
 "name" = "Name";
@@ -156,7 +158,16 @@
 "mode_friendly"  = "Friendly";
 "mode_practice"  = "Practice/Adventure";
 "mode_spectator" = "Spectator";
+"mode_duels"     = "Duels";
 "mode_none"      = "None";
+
+/* deck types */
+"DeckType_all"      = "All";
+"DeckType_standard" = "Standard";
+"DeckType_wild"     = "Wild";
+"DeckType_arena"    = "Arena";
+"DeckType_dungeon"  = "Dungeon Run";
+"DeckType_duels"    = "Duels";
 
 /* Stats tabs */
 "Statistics" = "Statistics";

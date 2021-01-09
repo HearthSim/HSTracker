@@ -47,6 +47,18 @@ final class CoreManager: NSObject {
 		logReaderManager = LogReaderManager(logPath: Settings.hearthstonePath, coreManager: self)
         
         self.toaster = Toaster(windowManager: game.windowManager)
+        
+        DungeonRunDeckWatcher.dungeonRunMatchStarted = { newrun, set in CoreManager.dungeonRunMatchStarted(newRun: newrun, set: set, isPVPDR: false)
+        }
+        DungeonRunDeckWatcher.dungeonInfoChanged = { info in
+            CoreManager.updateDungeonRunDeck(info: info, isPVPDR: false)
+        }
+        PVPDungeonRunWatcher.pvpDungeonRunMatchStarted = { newrun, set in
+            CoreManager.dungeonRunMatchStarted(newRun: newrun, set: set, isPVPDR: true)
+        }
+        PVPDungeonRunWatcher.pvpDungeonInfoChanged = { info in
+            CoreManager.updateDungeonRunDeck(info: info, isPVPDR: true)
+        }
     }
     
     deinit {
@@ -328,6 +340,207 @@ final class CoreManager: NSObject {
         return nil
     }
     
+    static func getMissingCards(revealed: [String: [Entity]], deck: Deck) -> [String: [Entity]] {
+        return revealed.filter({ x in deck.cards.filter({ c in c.id == x.key && c.count >= x.value.count}).count == 0 })
+    }
+    
+    static func filterDeck(x: Deck, isPVPDR: Bool, playerClass: CardClass, newRun: Bool, revealed: [String: [Entity]]) -> Bool {
+        guard x.isActive else {
+            return false
+        }
+        if isPVPDR && x.isDuels || !isPVPDR && x.isDungeon {
+            if x.playerClass == playerClass {
+                if !(x.isDungeonRunCompleted() || x.isDuelsRunCompleted()) {
+                    if !newRun || x.cards.count == 10 || x.cards.count == 11 {
+                        let missing = getMissingCards(revealed: revealed, deck: x)
+                        if missing.count == 0 {
+                            return true
+                        }
+                    }
+                }
+            }
+        }
+        return false
+    }
+    
+    static func dungeonRunMatchStarted(newRun: Bool, set: CardSet, isPVPDR: Bool, recursive: Bool = false) {
+        logger.info("Dungeon run detected! New=\(newRun), PVPDR: \(isPVPDR), Recursive=\(recursive)")
+        guard let core = AppDelegate.instance().coreManager else {
+            return
+        }
+        guard let boardHero = core.game.player.board.first(where: { x in x.isHero })?.card else {
+            logger.info("Dungeon run started but player entity not found")
+            return
+        }
+        let opponentId = core.game.opponentHeroId
+        if opponentId != "" {
+            core.game.adventureOpponentId = opponentId
+        }
+        let playerClass = set == CardSet.uldum ? DefaultDecks.DungeonRun.getUldumHeroPlayerClass(playerClass: boardHero.playerClass) : boardHero.playerClass
+        if playerClass == .invalid || playerClass == .neutral {
+            logger.info("Dungeon run started but player class is invalid")
+            return
+        }
+        
+        if !isPVPDR && DungeonRunDeckWatcher.currentAdventure?.adventureId == AdventureDbId.boh {
+            logger.info("Book of Heroes match started with playerClass \(playerClass)")
+            let cards = DungeonRunDeckWatcher.dungeonRunDeck
+            
+            if cards.count > 0 {
+                let deck = Deck()
+                cards.group({ (c: Card) in c.id }).forEach({
+                    let realmCard = RealmCard()
+                    realmCard.id = $0.key
+                    realmCard.count = $0.value.count
+                    deck.cards.append(realmCard)
+                })
+                deck.playerClass = playerClass
+                deck.heroId = playerClass.defaultHeroCardId
+                if let hero = core.game.player.revealedEntities.first(where: { x in
+                    x.isHero && !x.card.collectible
+                }) {
+                    deck.heroId = hero.cardId
+                    deck.name = hero.card.name
+                }
+                
+                core.game.set(activeDeck: deck)
+                return
+            }
+
+        }
+        
+        let revealed = core.game.player.revealedEntities.filter({ x in x.isPlayableCard && !x.info.created && !x.info.stolen && x.card.collectible }).group({ (e: Entity) in e.cardId })
+        
+        let existingDeck = RealmHelper.getDecks()?.filter({ x in
+            return filterDeck(x: x, isPVPDR: isPVPDR, playerClass: playerClass, newRun: newRun, revealed: revealed)
+        }).sorted(by: { a, b in a.lastEdited > b.lastEdited }).first
+        if existingDeck == nil {
+            if newRun {
+//                let hero = core.game.opponent.playerEntities.first(where: { x in x.isHero })?.cardId
+                if set == CardSet.dalaran || set == CardSet.uldum {
+                    _ = DungeonRunDeckWatcher._instance.updateDungeonInfo(key: DungeonRunDeckWatcher.saveKey)
+                    if !recursive {
+                        dungeonRunMatchStarted(newRun: newRun, set: set, isPVPDR: isPVPDR, recursive: true)
+                        return
+                    }
+                } else {
+                    _ = CoreManager.createDungeonDeck(playerClass: playerClass, hero: boardHero.id, set: set, isPVPDR: isPVPDR)
+                }
+            } else {
+                logger.info("We don't have an existing deck for this run, but it's not a new run")
+            }
+        } else if let existingDeck = existingDeck {
+            logger.info("Selecting existing deck: \(existingDeck.name)")
+            core.game.set(activeDeckId: existingDeck.deckId, autoDetected: true)
+        }
+    }
+    
+    static func updateDungeonRunDeck(info: MirrorDungeonInfo, isPVPDR: Bool) {
+        let isNewPVPDR = isPVPDR && !info.runActive && info.selectedLoadoutTreasureDbId.intValue > 0
+        logger.info("Found dungeon run deck Set=\(info.cardSet), PVPDR=\(isPVPDR) new=\(isNewPVPDR)")
+
+        var allCards = info.dbfIds.compactMap({ x in x.intValue })
+
+        // New PVPDR runs have all non-loadout cards in the DbfIds. We still add the picked loadout below.
+        // So we don't want to replace allCards with baseDeck, as backDeck is empty, and we don't want to add
+        // any loot or treasure, as these will be the ones from a previous run, if they exist.
+        if !isNewPVPDR {
+            let baseDeck = info.selectedDeckId.intValue > 0 ? MirrorHelper.getDungeonDeck(id: info.selectedDeckId.intValue) ?? [Int]() : [Int]()
+            if allCards.count == 0 {
+                allCards.append(contentsOf: baseDeck)
+            }
+            if info.playerChosenLoot.intValue > 0 {
+                let loot = [ info.lootA, info.lootB, info.lootC ]
+                let chosen = loot[info.playerChosenLoot.intValue - 1]
+                for i in 1..<chosen.count {
+                    allCards.append(chosen[i].intValue)
+                }
+            }
+            if info.playerChosenTreasure.intValue > 0 {
+                allCards.append(info.treasure[info.playerChosenTreasure.intValue - 1].intValue)
+            }
+        }
+
+        var cards: [Card] = allCards.group({ x in x }).compactMap({ x in
+            guard let card = Cards.by(dbfId: x.key, collectible: false) else {
+                return nil
+            }
+            card.count = x.value.count
+            return card
+        })
+
+        let loadout = info.selectedLoadoutTreasureDbId.intValue != 0 ? Cards.by(dbfId: info.selectedLoadoutTreasureDbId.intValue, collectible: false) : nil
+        if let loadout = loadout, !allCards.contains(loadout.dbfId) {
+            cards.append(loadout)
+        }
+
+        if !Settings.importDungeonIncludePassives {
+            cards.removeAll(where: { c in !c.collectible && c.hideStats })
+        }
+
+        let cardSet = CardSetInt(rawValue: info.cardSet.intValue) ?? .invalid
+
+        var playerClass: CardClass = .invalid
+        if cardSet == CardSetInt.uldum, let loadout = loadout {
+            playerClass = DefaultDecks.DungeonRun.getUldumHeroPlayerClass(playerClass: loadout.playerClass)
+        } else {
+            playerClass = CardClass.allCases[info.heroClass.intValue != 0 ? info.heroClass.intValue : info.heroCardClass.intValue]
+        }
+        var deck = RealmHelper.getDecks()?.filter({ x in x.isActive && (!isPVPDR && x.isDungeon || isPVPDR && x.isDuels)
+                                                    &&  x.playerClass == playerClass
+                                                    && !x.isDungeonRunCompleted()
+                                                    && !x.isDuelsRunCompleted() }).first
+        let baseDeck = info.selectedDeckId.intValue > 0 ? MirrorHelper.getDungeonDeck(id: info.selectedDeckId.intValue) ?? [Int]() : [Int]()
+        
+        let baseDbfids = isPVPDR ? info.dbfIds.map({ x in x.intValue}) : baseDeck
+        if deck == nil {
+            let hero = playerClass.defaultHeroCardId
+            let cardset = CardSet(rawValue: "\(cardSet)") ?? .invalid
+            logger.debug("Creating new dungeon deck for hero \(hero), playerClass \(playerClass), cardset \(cardset), cardSet \(cardSet)")
+            deck = createDungeonDeck(playerClass: playerClass, hero: hero, set: cardset, isPVPDR: isPVPDR, selectedDeck: baseDbfids, loadout: loadout)
+        }
+        if deck == nil {
+            logger.info("No existing deck - can't find default deck for \(playerClass)")
+            return
+        }
+        if !info.runActive && (cardSet == CardSetInt.uldum || cardSet == CardSetInt.dalaran) {
+            logger.info("Inactive run for Set=\(cardSet) - this is a new run")
+            return
+        }
+        if cards.all({ c in deck?.cards.filter({ e in c.id == e.id && c.count == e.count}).first != nil }) {
+            logger.info("No new cards")
+            return
+        }
+        if let deck = deck {
+            RealmHelper.update(deck: deck, with: cards.sortCardList())
+            logger.info("Updated dungeon run deck")
+        }
+    }
+
+    static func createDungeonDeck(playerClass: CardClass, hero: String, set: CardSet, isPVPDR: Bool, selectedDeck: [Int]? = nil, loadout: Card? = nil) -> Deck? {
+        guard let core = AppDelegate.instance().coreManager else {
+            return nil
+        }
+
+        let shrine = core.game.player.board.first(where: { x in x.has(tag: GameTag.shrine) })?.cardId
+        logger.info("Creating new \(playerClass) dungeon run deck CardSet=\(set), Shrine=\(String(describing: shrine)), SelectedDeck=\(selectedDeck != nil)")
+        let tmpdeck = selectedDeck == nil
+            ? DefaultDecks.DungeonRun.getDefaultDeck(playerClass: playerClass, set: set, shrineCardId: shrine)
+            : DefaultDecks.DungeonRun.getDeckFromDbfIds(playerClass: playerClass, set: set, isPVPDR: isPVPDR, dbfIds: selectedDeck)
+        guard let deck = tmpdeck else {
+            logger.info("Could not find default deck for \(playerClass) in card set \(set) with Shrine=\(String(describing: shrine))")
+            return nil
+        }
+        if let loadout = loadout, let selectedDeck = selectedDeck, !selectedDeck.contains(loadout.dbfId) {
+            deck.tmpCards.append(loadout)
+        }
+        deck.heroId = hero
+        deck.playerClass = playerClass
+        RealmHelper.add(deck: deck, with: deck.tmpCards.sortCardList())
+        core.game.set(activeDeckId: deck.deckId, autoDetected: true)
+        return deck
+    }
+    
     static func autoDetectDeckWithMirror(mode: Mode, playerClass: CardClass? = nil) -> Deck? {
 		
 		let selectedModes: [Mode] = [.tavern_brawl, .tournament,
@@ -335,20 +548,9 @@ final class CoreManager: NSObject {
 		if selectedModes.contains(mode) {
             
             // Try dungeon run deck
-            if mode == .adventure && Settings.autoImportDungeonRun {
-                if let opponentId = MirrorHelper.getMatchInfo()?.opposingPlayer.playerId.intValue {
-                    if DungeonRunDeckWatcher.initialOpponents.contains(opponentId), let playerClass = playerClass {
-                        // get player class MirrorHelper.get
-                        let cards = DefaultDecks.DungeonRun.deck(for: playerClass)
-                        logger.info("Found starter dungeon run deck")
-                        return RealmHelper.checkAndUpdateDungeonRunDeck(cards: cards, reset: true)
-                    }
-                }
-                let cards = DungeonRunDeckWatcher.dungeonRunDeck
-                if cards.count > 0 {
-                    logger.info("Found dungeon run deck via watcher")
-                    return RealmHelper.checkAndUpdateDungeonRunDeck(cards: cards)
-                }
+            if mode == .gameplay && AppDelegate.instance().coreManager.game.previousMode == .adventure
+                && (DungeonRunDeckWatcher.currentModeId == .dungeon_crawl || DungeonRunDeckWatcher.currentModeId == .dungeon_crawl_heroic) {
+                return nil
             }
 			
 			logger.info("Trying to import deck from Hearthstone")

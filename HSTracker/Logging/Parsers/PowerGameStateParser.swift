@@ -811,11 +811,11 @@ class PowerGameStateParser: LogEventParser {
         // Autodecting deck might require the full CREATE_GAME block to function properly, thus it should be called right after it
         // detect deck
         if Settings.autoDeckDetection && !(Settings.dontTrackWhileSpectating && eventHandler.currentGameMode == .spectator) {
-            if let currentMode = eventHandler.currentMode,
-                let deck = AppDelegate._instance?.coreManager.autoDetectDeck(mode: currentMode, playerClass: self.eventHandler.player.playerClass) {
+            let currentMode = eventHandler.currentMode ?? .invalid
+            if let deck = AppDelegate._instance?.coreManager.autoDetectDeck(mode: currentMode, playerClass: self.eventHandler.player.playerClass) {
                 eventHandler.set(activeDeckId: deck.deckId, autoDetected: true)
-            } else {
-                logger.warning("could not autodetect deck")
+            } else if currentMode != .adventure && currentMode != .pvp_dungeon_run {
+                logger.warning("could not autodetect deck, setting to empty deck")
                 eventHandler.set(activeDeckId: nil, autoDetected: false)
             }
         }

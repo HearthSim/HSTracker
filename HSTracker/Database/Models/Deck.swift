@@ -29,17 +29,26 @@ class Deck: Object {
     @objc dynamic var deckMinorVersion: Int = 0
     
     @objc dynamic var creationDate = Date()
+    @objc dynamic var lastEdited = Date()
     let hearthstatsId = RealmOptional<Int>()
     let hearthstatsVersionId = RealmOptional<Int>()
     let hearthStatsArenaId = RealmOptional<Int>()
     @objc dynamic var isActive = true
     @objc dynamic var isArena = false
+    @objc dynamic var isDungeon = false
+    @objc dynamic var isDuels = false
 
     let hsDeckId = RealmOptional<Int64>()
 
     let cards = List<RealmCard>()
     let gameStats = List<GameStats>()
+    
+    var tmpCards = [Card]()
 
+    override static func ignoredProperties() -> [String] {
+        return [ "tmpCards" ]
+    }
+    
     override static func primaryKey() -> String? {
         return "deckId"
     }
@@ -114,6 +123,16 @@ class Deck: Object {
         }
         return win == 12 || loss == 3
     }
+    
+    func isDungeonRunCompleted() -> Bool {
+        return isDungeon ? gameStats.filter({ x in x.result == .win }).count == 8 ||
+        gameStats.filter({ x in x.result == .loss }).count == 1 : false
+    }
+
+    func isDuelsRunCompleted() -> Bool {
+        return isDuels ? gameStats.filter({ x in x.result == .win }).count == 12 ||
+        gameStats.filter({ x in x.result == .loss }).count == 3 : false
+    }
 
     func standardViable() -> Bool {
         return !isArena && !sortedCards.any {
@@ -122,7 +141,7 @@ class Deck: Object {
     }
 
     var isWildDeck: Bool {
-        return sortedCards.any { CardSet.wildSets().contains($0.set ?? .all) }
+        return sortedCards.any { CardSet.wildSets().contains($0.set ?? .invalid) }
     }
     
     /**

@@ -9,6 +9,10 @@
 import Foundation
 
 struct ClassColor {
+    static let DemonHunter = NSColor(red: 163.0 / 255.0,
+                                     green: 48.0 / 255.0,
+                                     blue: 201.0 / 255.0,
+                                     alpha: 1)
     static let Druid = NSColor(red: 255.0 / 255.0,
                                green: 125.0 / 255.0,
                                blue: 10.0 / 255.0,
@@ -48,6 +52,7 @@ struct ClassColor {
 
     static func color(playerClass: CardClass) -> NSColor? {
         switch playerClass {
+        case .demonhunter: return DemonHunter
         case .druid: return Druid
         case .hunter: return Hunter
         case .mage: return Mage

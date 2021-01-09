@@ -392,8 +392,11 @@ final class Player {
         }
 
         let revealedNotInDeck = revealedEntities.filter {
-            (!$0.info.created || $0.info.originalEntityWasCreated == false) && ($0.isSpell || $0.isWeapon || $0.isMinion || $0.isHero)
-                && ((!$0.isInDeck || $0.info.stolen) && $0.info.originalController == self.id)
+            (!$0.info.created || $0.info.originalEntityWasCreated == false)
+                && $0.isPlayableCard
+                && (!$0.isInDeck || $0.info.stolen)
+                && $0.info.originalController == self.id
+                && !($0.info.hidden && ($0.isInDeck || $0.isInHand))
         }
 
         var removedFromDeck = [String]()

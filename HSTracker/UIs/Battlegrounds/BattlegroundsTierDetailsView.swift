@@ -42,7 +42,9 @@ class BattlegroundsTierDetailsView: NSStackView {
     }
     
     func setTier(tier: Int) {
-        let availableRaces = AppDelegate.instance().coreManager.game.availableRaces
+        var availableRaces = AppDelegate.instance().coreManager.game.availableRaces
+        availableRaces?.append(Race.all)
+        var counts = [Race: Int]()
         var cardBars: [CardBar] = Cards.battlegroundsMinions.filter {
             let race = $0.race
             return ($0.techLevel == tier && (race == .invalid || (availableRaces?.firstIndex(of: race) != nil)))
@@ -54,29 +56,62 @@ class BattlegroundsTierDetailsView: NSStackView {
             card.id = inCard.id
             card.name = inCard.name
             card.race = inCard.race
+            if let count = counts[inCard.race] {
+                counts[inCard.race] = count + 1
+            } else {
+                counts[inCard.race] = 1
+            }
             card.count = 1
             card.rarity = inCard.rarity
             cardBar.card = card
+            cardBar.isBattlegrounds = true
             return cardBar
         }
         
-        var cardBar = CardBar.factory()
+        let cardBar = CardBar.factory()
+        let size = NSSize(width: cardBar.imageRectBG.width, height: cardBar.imageRectBG.height)
+        let blueBackground = NSImage(color: NSColor(red: 0x1d/255.0, green: 0x36/255.0, blue: 0x57/255.0, alpha: 1.0), size: size)
+        let blackImage = NSImage(color: NSColor(red: 0x23/255.0, green: 0x27/255.0, blue: 0x2a/255.0, alpha: 1.0), size: size)
 
-        let size = NSSize(width: cardBar.imageRect.width, height: cardBar.imageRect.height)
-        let blackImage = NSImage(color: NSColor(red: 35/255.0, green: 39/255.0, blue: 42/255.0, alpha: 1.0), size: size)
+        if let cnt = counts[.invalid], cnt > 0 {
+            cardBar.playerName = NSLocalizedString("neutral", comment: "")
+            let race = Race(rawValue: "invalid")
+            cardBar.playerRace = race
+            cardBar.backgroundImage = blueBackground
+            cardBar.isBattlegrounds = true
+            cardBar.playerType = .deckManager
+            cardBars.append(cardBar)
+        }
+        if let availableRaces = availableRaces {
+            for i in 0..<availableRaces.count {
+                if let cnt = counts[availableRaces[i]], cnt > 0 {
+                    let race: String = availableRaces[i].rawValue
+                    let cardBar = CardBar.factory()
+                    cardBar.playerName = NSLocalizedString(race, comment: "")
+                    let cardRace = Race(rawValue: race)
+                    cardBar.playerRace = cardRace
+                    cardBar.backgroundImage = blueBackground
+                    cardBar.isBattlegrounds = true
+                    cardBar.playerType = .deckManager
+                    cardBars.append(cardBar)
+                }
+            }
+        }
+        if let unavailable = AppDelegate.instance().coreManager.game.unavailableRaces {
+            var cardBar = CardBar.factory()
+            cardBar.playerName = NSLocalizedString("unavailable", comment: "")
+            cardBar.playerRace = .blank
+            cardBar.backgroundImage = blueBackground
+            cardBar.isBattlegrounds = true
+            cardBar.playerType = .deckManager
+            cardBars.append(cardBar)
 
-        cardBar.playerName = "Neutral"
-        let race = Race(rawValue: "invalid")
-        cardBar.playerRace = race
-        cardBar.backgroundImage = blackImage
-        cardBars.append(cardBar)
-        for i in 0..<availableRaces!.count {
-            let race: String = availableRaces![i].rawValue
+            let text = unavailable.compactMap({ race in NSLocalizedString(race.rawValue, comment: "")}).joined(separator: ", ")
             cardBar = CardBar.factory()
-            cardBar.playerName = NSLocalizedString(race, comment: "")
-            let cardRace = Race(rawValue: race)
-            cardBar.playerRace = cardRace
+            cardBar.playerName = text
+            cardBar.playerRace = .blank
             cardBar.backgroundImage = blackImage
+            cardBar.isBattlegrounds = true
             cardBars.append(cardBar)
         }
         cardBars = cardBars.sorted(by: {(a: CardBar, b: CardBar) -> Bool in
@@ -87,6 +122,10 @@ class BattlegroundsTierDetailsView: NSStackView {
                 raceA = a.card!.race.rawValue
                 nameA = a.card!.name
                 isTitleA = 1
+            } else if a.playerRace == .blank && a.playerType != .deckManager {
+                raceA = a.playerRace!.rawValue
+                nameA = a.playerName!
+                isTitleA = 1
             } else {
                 raceA = a.playerRace!.rawValue
                 nameA = a.playerName!
@@ -94,6 +133,8 @@ class BattlegroundsTierDetailsView: NSStackView {
             }
             if raceA == "invalid" {
                 raceA = "neutral"
+            } else if raceA == "blank" {
+                raceA = "unavailable"
             }
             var raceB: String
             var nameB: String
@@ -102,6 +143,10 @@ class BattlegroundsTierDetailsView: NSStackView {
                 raceB = b.card!.race.rawValue
                 nameB = b.card!.name
                 isTitleB = 1
+            } else if b.playerRace == .blank && b.playerType != .deckManager {
+                raceB = b.playerRace!.rawValue
+                nameB = b.playerName!
+                isTitleB = 1
             } else {
                 raceB = b.playerRace!.rawValue
                 nameB = b.playerName!
@@ -109,6 +154,8 @@ class BattlegroundsTierDetailsView: NSStackView {
             }
             if raceB == "invalid" {
                 raceB = "neutral"
+            } else if raceB == "blank" {
+                raceB = "unavailable"
             }
             return (raceA, isTitleA, nameA) > (raceB, isTitleB, nameB)
         })

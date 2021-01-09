@@ -131,6 +131,14 @@ extension CardIds.Collectible {
         static let OpenTheCages = "DMF_123"
         static let ZixorApexPredator = "BT_210"
         static let HalazziTheLynx = "TRL_900"
+        static let Toxmonger_HuntingMastiffToken = "GIL_607t"
+        static let Candleshot = "LOOT_222"
+        static let SecretPlan = "BOT_402"
+        static let BloodscalpStrategist = "TRL_349"
+        static let BaitedArrow = "TRL_347"
+        static let Springpaw = "TRL_348"
+        static let CaveHydra = "LOOT_078"
+        static let UntamedBeastmaster = "TRL_405"
     }
 }
 
@@ -195,6 +203,10 @@ extension CardIds.NonCollectible {
         static let WeeWhelpHeroic: String = "LOOTA_BOSS_44h"
         static let ZixorApexPredator_ZixorPrimeToken = "BT_210t"
         static let Springpaw_LynxToken = "TRL_348t"
+        static let GobblesHeroic = "GILA_BOSS_65h"
+        static let HalazzisTrap = "TRLA_110"
+        static let HalazzisHunt = "TRLA_162"
+        static let HalazzisGuise = "TRLA_163"
     }
 }
 

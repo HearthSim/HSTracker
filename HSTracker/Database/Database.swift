@@ -99,6 +99,8 @@ class Database {
 
                     if let cost = jsonCard["cost"] as? Int {
                         card.cost = cost
+                    } else {
+                        card.cost = -1
                     }
 
                     if let cardRarity = jsonCard["rarity"] as? String,
@@ -178,6 +180,10 @@ class Database {
                     if let techLevel = jsonCard["techLevel"] as? Int {
                         card.techLevel = techLevel
                         Cards.battlegroundsMinions.append(card)
+                    }
+                    
+                    if let hideStats = jsonCard["hideStats"] as? Bool {
+                        card.hideStats = hideStats
                     }
                     Cards.cards.insert(card, at: index)
                     Cards.cardsById[card.id] = card

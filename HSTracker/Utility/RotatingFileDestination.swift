@@ -177,7 +177,7 @@ public class RotatingFileDestination: BaseDestination {
        let lastIndex = (noOfLogFiles-1)
        let firstIndex = 1
        do {
-           for index in stride(from: lastIndex, to: firstIndex, by: -1) {
+           for index in stride(from: lastIndex, to: firstIndex-1, by: -1) {
                let oldFile = String.init(format: "%@.%d", filePath, index)
                if FileManager.default.fileExists(atPath: oldFile) == true {
                    if index == lastIndex {
@@ -191,7 +191,7 @@ public class RotatingFileDestination: BaseDestination {
                }
            }
            // Finally, move the current file
-           let newFile = String.init(format: "%@.d", filePath, firstIndex)
+           let newFile = String.init(format: "%@.%d", filePath, firstIndex)
            try FileManager.default.moveItem(atPath: filePath, toPath: newFile )
        } catch {
            print("rotateFile error: \(error)")

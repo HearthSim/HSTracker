@@ -19,6 +19,8 @@ class HSReplayPreferences: NSViewController {
     @IBOutlet weak var uploadFriendlyGames: NSButton!
     @IBOutlet weak var uploadAdventureGames: NSButton!
     @IBOutlet weak var uploadSpectatorGames: NSButton!
+    @IBOutlet weak var uploadBattlegroundsGames: NSButton!
+    @IBOutlet weak var uploadDuelsGames: NSButton!
 
     @IBOutlet weak var claimAccountButton: NSButtonCell!
     @IBOutlet weak var claimAccountInfo: NSTextField!
@@ -42,6 +44,8 @@ class HSReplayPreferences: NSViewController {
         uploadFriendlyGames.state = Settings.hsReplayUploadFriendlyMatches ? .on : .off
         uploadAdventureGames.state = Settings.hsReplayUploadAdventureMatches ? .on : .off
         uploadSpectatorGames.state = Settings.hsReplayUploadSpectatorMatches ? .on : .off
+        uploadBattlegroundsGames.state = Settings.hsReplayUploadBattlegroundsMatches ? .on : .off
+        uploadDuelsGames.state = Settings.hsReplayUploadDuelsMatches ? .on : .off
 
         updateUploadGameTypeView()
         updateStatus()
@@ -70,6 +74,10 @@ class HSReplayPreferences: NSViewController {
             Settings.hsReplayUploadAdventureMatches = uploadAdventureGames.state == .on
         } else if sender == uploadSpectatorGames {
             Settings.hsReplayUploadSpectatorMatches = uploadSpectatorGames.state == .on
+        } else if sender == uploadBattlegroundsGames {
+            Settings.hsReplayUploadBattlegroundsMatches = uploadBattlegroundsGames.state == .on
+        } else if sender == uploadDuelsGames {
+            Settings.hsReplayUploadDuelsMatches = uploadDuelsGames.state == .on
         }
 
         updateUploadGameTypeView()
@@ -84,6 +92,8 @@ class HSReplayPreferences: NSViewController {
             uploadFriendlyGames.isEnabled = false
             uploadAdventureGames.isEnabled = false
             uploadSpectatorGames.isEnabled = false
+            uploadBattlegroundsGames.isEnabled = false
+            uploadDuelsGames.isEnabled = false
         } else {
             uploadRankedGames.isEnabled = true
             uploadCasualGames.isEnabled = true
@@ -92,6 +102,8 @@ class HSReplayPreferences: NSViewController {
             uploadFriendlyGames.isEnabled = true
             uploadAdventureGames.isEnabled = true
             uploadSpectatorGames.isEnabled = true
+            uploadBattlegroundsGames.isEnabled = true
+            uploadDuelsGames.isEnabled = true
         }
     }
 

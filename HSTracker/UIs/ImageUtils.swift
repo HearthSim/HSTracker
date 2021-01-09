@@ -51,6 +51,14 @@ struct ImageUtils {
         ImageUtils.semaphore.signal()
     }
 
+    static func cachedTile(cardId: String) -> NSImage? {
+        ImageUtils.semaphore.wait()
+        let res = cache[cardId]
+        ImageUtils.semaphore.signal()
+        
+        return res
+    }
+    
     static func tile(for cardId: String,
                      completion: @escaping ((NSImage?) -> Void)) {
         ImageUtils.semaphore.wait()

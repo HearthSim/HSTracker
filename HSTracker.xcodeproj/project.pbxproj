@@ -499,7 +499,16 @@
 		B83355B524F850C10025F644 /* Mono.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B864A14224F58539005EA2A0 /* Mono.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		B850AA33252CB0490031E8F2 /* TurnCounter.xib in Resources */ = {isa = PBXBuildFile; fileRef = B850AA32252CB0490031E8F2 /* TurnCounter.xib */; };
 		B850AA35252CB0FA0031E8F2 /* TurnCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */; };
+		B85F1AC9258A558200A6F8C3 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85F1AC8258A558200A6F8C3 /* Helper.swift */; };
 		B864A13E24F54E1F005EA2A0 /* MinionHeroPowerTrigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B864A13D24F54E1F005EA2A0 /* MinionHeroPowerTrigger.swift */; };
+		B864AE2025979E3400793F36 /* AdventureDbId.swift in Sources */ = {isa = PBXBuildFile; fileRef = B864AE1F25979E3400793F36 /* AdventureDbId.swift */; };
+		B864AE2225979E9100793F36 /* AdventureModeDbId.swift in Sources */ = {isa = PBXBuildFile; fileRef = B864AE2125979E9100793F36 /* AdventureModeDbId.swift */; };
+		B864AE242597BB0500793F36 /* AdventureConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B864AE232597BB0500793F36 /* AdventureConfig.swift */; };
+		B864AE252597BB6000793F36 /* AdventureConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B864AE232597BB0500793F36 /* AdventureConfig.swift */; };
+		B864AE272597DD9400793F36 /* GameSaveKeyId.swift in Sources */ = {isa = PBXBuildFile; fileRef = B864AE262597DD9400793F36 /* GameSaveKeyId.swift */; };
+		B864AE292599359500793F36 /* DeckType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B864AE282599359400793F36 /* DeckType.swift */; };
+		B864AE3A25A4CC1200793F36 /* ImportingPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B864AE3925A4CC1200793F36 /* ImportingPreferences.xib */; };
+		B864AE3C25A4D15C00793F36 /* ImportingPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B864AE3B25A4D15C00793F36 /* ImportingPreferences.swift */; };
 		B86F214E255A3E50008D522A /* HearthMirror.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = B86F214D255A3E50008D522A /* HearthMirror.framework.dSYM */; };
 		B8820CD025603FB00072ECBC /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8820CCF25603FB00072ECBC /* RemoteConfig.swift */; };
 		B8956CFD25509B3F0073D70C /* BattlegroundsMinionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8956CFC25509B3F0073D70C /* BattlegroundsMinionView.swift */; };
@@ -1073,8 +1082,16 @@
 		B83355B324F84F200025F644 /* libiconv.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.2.dylib; path = ../../../usr/lib/libiconv.2.dylib; sourceTree = "<group>"; };
 		B850AA32252CB0490031E8F2 /* TurnCounter.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TurnCounter.xib; sourceTree = "<group>"; };
 		B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnCounter.swift; sourceTree = "<group>"; };
+		B85F1AC8258A558200A6F8C3 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		B864A13D24F54E1F005EA2A0 /* MinionHeroPowerTrigger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinionHeroPowerTrigger.swift; sourceTree = "<group>"; };
 		B864A14224F58539005EA2A0 /* Mono.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mono.framework; path = ../../../Library/Frameworks/Mono.framework; sourceTree = "<group>"; };
+		B864AE1F25979E3400793F36 /* AdventureDbId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdventureDbId.swift; sourceTree = "<group>"; };
+		B864AE2125979E9100793F36 /* AdventureModeDbId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdventureModeDbId.swift; sourceTree = "<group>"; };
+		B864AE232597BB0500793F36 /* AdventureConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdventureConfig.swift; sourceTree = "<group>"; };
+		B864AE262597DD9400793F36 /* GameSaveKeyId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSaveKeyId.swift; sourceTree = "<group>"; };
+		B864AE282599359400793F36 /* DeckType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckType.swift; sourceTree = "<group>"; };
+		B864AE3925A4CC1200793F36 /* ImportingPreferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImportingPreferences.xib; sourceTree = "<group>"; };
+		B864AE3B25A4D15C00793F36 /* ImportingPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportingPreferences.swift; sourceTree = "<group>"; };
 		B86F214D255A3E50008D522A /* HearthMirror.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = HearthMirror.framework.dSYM; path = "downloaded-frameworks/HearthMirror/HearthMirror.framework.dSYM"; sourceTree = "<group>"; };
 		B8820CCF25603FB00072ECBC /* RemoteConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfig.swift; sourceTree = "<group>"; };
 		B8956CFC25509B3F0073D70C /* BattlegroundsMinionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsMinionView.swift; sourceTree = "<group>"; };
@@ -1446,6 +1463,8 @@
 				432B5FB51CB5371C00B05D19 /* PlayerTrackersPreferences.xib */,
 				437B5BB41CD2558500DE0A41 /* OpponentTrackersPreferences.swift */,
 				437B5BB61CD2559300DE0A41 /* OpponentTrackersPreferences.xib */,
+				B864AE3925A4CC1200793F36 /* ImportingPreferences.xib */,
+				B864AE3B25A4D15C00793F36 /* ImportingPreferences.swift */,
 			);
 			path = Preferences;
 			sourceTree = "<group>";
@@ -1509,6 +1528,7 @@
 				BCCCDB9D1EA54FF800C328D0 /* NotificationManager.swift */,
 				B8820CCF25603FB00072ECBC /* RemoteConfig.swift */,
 				B8A3E4B3257AE71500D9C77A /* RotatingFileDestination.swift */,
+				B85F1AC8258A558200A6F8C3 /* Helper.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -1642,6 +1662,7 @@
 				1CCB4AE91E8A46F0003FD1AD /* Parsers */,
 				439C7E961C777F8900D29859 /* Enums */,
 				439C7EA21C777F8900D29859 /* Handlers */,
+				B864AE232597BB0500793F36 /* AdventureConfig.swift */,
 				1C132F811DBA24C1002B1BF2 /* AppHealth.swift */,
 				4345FE941DF54CA900E8936B /* Block.swift */,
 				439C7E951C777F8900D29859 /* Entity.swift */,
@@ -1667,6 +1688,8 @@
 		439C7E961C777F8900D29859 /* Enums */ = {
 			isa = PBXGroup;
 			children = (
+				B864AE1F25979E3400793F36 /* AdventureDbId.swift */,
+				B864AE2125979E9100793F36 /* AdventureModeDbId.swift */,
 				4361D8331DC8A21800D831CF /* BnetGameType.swift */,
 				431AA0CE1D3632BC0030AD22 /* CardClass.swift */,
 				439C7E971C777F8900D29859 /* CardMark.swift */,
@@ -1690,6 +1713,8 @@
 				437B5BAB1CD1E6AF00DE0A41 /* Step.swift */,
 				439C7E9E1C777F8900D29859 /* TagClass.swift */,
 				439C7E9F1C777F8900D29859 /* Zone.swift */,
+				B864AE262597DD9400793F36 /* GameSaveKeyId.swift */,
+				B864AE282599359400793F36 /* DeckType.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -2035,6 +2060,8 @@
 			dependencies = (
 			);
 			name = HSTracker;
+			packageProductDependencies = (
+			);
 			productName = HSTracker;
 			productReference = 439C7E481C7772C000D29859 /* HSTracker.app */;
 			productType = "com.apple.product-type.application";
@@ -2109,6 +2136,8 @@
 				"th-TH",
 			);
 			mainGroup = 439C7E3F1C7772C000D29859;
+			packageReferences = (
+			);
 			productRefGroup = 439C7E491C7772C000D29859 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -2138,6 +2167,7 @@
 				4CECFFD723C10C570093253E /* BattlegroundsTierDetailWindowController.xib in Resources */,
 				5B3BA4492561F07900FAD183 /* libmonosgen-2.0.1.dylib.dSYM in Resources */,
 				432B5FC21CB5373D00B05D19 /* SaveDeck.xib in Resources */,
+				B864AE3A25A4CC1200793F36 /* ImportingPreferences.xib in Resources */,
 				437B5BB81CD2559300DE0A41 /* OpponentTrackersPreferences.xib in Resources */,
 				4335543A1D5FAF0300277B27 /* HSReplayPreferences.xib in Resources */,
 				43EBA3A51D129B030093B1C2 /* CardHudContainer.xib in Resources */,
@@ -2228,7 +2258,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Change SHA1 here to change the version of HearthMirror used by HSTRracker\nSHA1=d7ddb0d9b9adf29cc1d8ea89a8ed123ca5511ed8\n\nDIR=\"$SRCROOT/downloaded-frameworks/HearthMirror\"\nVERSION_FILE=\"$DIR/HearthMirror.sha1\"\nZIP_FILE=\"$DIR/HearthMirror.framework.zip\"\nDSYM_ZIP_FILE=\"$DIR/HearthMirror.framework.dSYM.zip\"\n\nif [ \"$(cat $VERSION_FILE)\" != \"$SHA1\"  ]\nthen\n    set -e\n    \n    rm -rf \"$DIR\"\n    mkdir -p \"$DIR\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.zip\" -O \"$ZIP_FILE\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.dSYM.zip\" -O \"$DSYM_ZIP_FILE\"\n    unzip -d \"$DIR\" \"$ZIP_FILE\"\n    unzip -d \"$DIR\" \"$DSYM_ZIP_FILE\"\n    echo \"$SHA1\" > \"$VERSION_FILE\"\nfi\n\n\n\n";
+			shellScript = "# Change SHA1 here to change the version of HearthMirror used by HSTRracker\nSHA1=\"2705c1f701690df2fe54222619a0348996cc4e4f\"\n\nDIR=\"$SRCROOT/downloaded-frameworks/HearthMirror\"\nVERSION_FILE=\"$DIR/HearthMirror.sha1\"\nZIP_FILE=\"$DIR/HearthMirror.framework.zip\"\nDSYM_ZIP_FILE=\"$DIR/HearthMirror.framework.dSYM.zip\"\n\nif [ \"$(cat $VERSION_FILE)\" != \"$SHA1\"  ]\nthen\n    set -e\n    \n    rm -rf \"$DIR\"\n    mkdir -p \"$DIR\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.zip\" -O \"$ZIP_FILE\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.dSYM.zip\" -O \"$DSYM_ZIP_FILE\"\n    unzip -d \"$DIR\" \"$ZIP_FILE\"\n    unzip -d \"$DIR\" \"$DSYM_ZIP_FILE\"\n    echo \"$SHA1\" > \"$VERSION_FILE\"\nfi\n\n\n\n";
 		};
 		4C777CFF2400AD7B003F7205 /* Codesign Sparkle.framework */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2359,16 +2389,19 @@
 				4360329A1C7B6578005F1893 /* InitialConfiguration.swift in Sources */,
 				439C7EB71C777F8900D29859 /* CardType.swift in Sources */,
 				432B60391CBF9AD700B05D19 /* ManaGemButton.swift in Sources */,
+				B864AE292599359500793F36 /* DeckType.swift in Sources */,
 				43D308041C842DC000480488 /* GeneralPreferences.swift in Sources */,
 				4323C5E81E16963200C97896 /* MatchInfo.swift in Sources */,
 				439C7E891C777CFC00D29859 /* Card.swift in Sources */,
 				437B5BAC1CD1E6AF00DE0A41 /* Step.swift in Sources */,
 				439C7E921C777EFA00D29859 /* Settings.swift in Sources */,
+				B864AE2025979E3400793F36 /* AdventureDbId.swift in Sources */,
 				4C3E2D8C245ED5AA00292349 /* Toaster.swift in Sources */,
 				43EECB961C7DE3BA0077AC1B /* DeckCellView.swift in Sources */,
 				43A8A0F11E0BC08F00AF34FD /* JadeCounter.swift in Sources */,
 				438B04F91E6F55720071594B /* Date.swift in Sources */,
 				437C58301EBC7E8400FFD888 /* NSImage.swift in Sources */,
+				B85F1AC9258A558200A6F8C3 /* Helper.swift in Sources */,
 				43873CC31CA6E6CD00F01CB4 /* WindowMove.swift in Sources */,
 				C92C680E1D1F225F009030DC /* StatsTab.swift in Sources */,
 				439C7E8B1C777CFC00D29859 /* CardMechanic.swift in Sources */,
@@ -2422,6 +2455,7 @@
 				4C3E2DA3245F87B700292349 /* BgHeroesToastViewController.swift in Sources */,
 				43D308081C84410000480488 /* PlayerTrackersPreferences.swift in Sources */,
 				43C567E91D5D0F5700451B6F /* LogLineZone.swift in Sources */,
+				B864AE272597DD9400793F36 /* GameSaveKeyId.swift in Sources */,
 				439C7EC71C777F8900D29859 /* TagChangeHandler.swift in Sources */,
 				43F2040A1E93C2E600E0BC4A /* Invalid.swift in Sources */,
 				4387BED21CF4D7A00002ECBB /* State.swift in Sources */,
@@ -2430,6 +2464,7 @@
 				436789B71CACF64600C962D1 /* CardCounter.swift in Sources */,
 				4359BF941D52142D00F61993 /* PlayedCard.swift in Sources */,
 				439C7E851C777CFC00D29859 /* Deck.swift in Sources */,
+				B864AE2225979E9100793F36 /* AdventureModeDbId.swift in Sources */,
 				431AA0CB1D362DBA0030AD22 /* Faction.swift in Sources */,
 				C92C68181D1F74CE009030DC /* LadderGrid.swift in Sources */,
 				439C7EB51C777F8900D29859 /* Entity.swift in Sources */,
@@ -2496,6 +2531,7 @@
 				436789BF1CACF8C900C962D1 /* PlayerDrawChance.swift in Sources */,
 				4C1923992392E18E007EBB0F /* BattlegroundsOverlayView.swift in Sources */,
 				B82F4EAE24E3229200905024 /* TestInputProxy.swift in Sources */,
+				B864AE242597BB0500793F36 /* AdventureConfig.swift in Sources */,
 				433554561D62EE1200277B27 /* PlayerType.swift in Sources */,
 				4308EB7E1D76AFE6000897C8 /* ReleaseChannel.swift in Sources */,
 				439C7EC91C777F8900D29859 /* LogLine.swift in Sources */,
@@ -2503,6 +2539,7 @@
 				433554391D5FABD600277B27 /* HSReplayPreferences.swift in Sources */,
 				439C7EBC1C777F8900D29859 /* PlayState.swift in Sources */,
 				43E77EE61C94B4B400C26950 /* CardHud.swift in Sources */,
+				B864AE3C25A4D15C00793F36 /* ImportingPreferences.swift in Sources */,
 				4C3E2D93245F16B900292349 /* CollectionToastViewController.swift in Sources */,
 				439DD8F41DB23212004EBE47 /* PlayerTurn.swift in Sources */,
 				437B5BAE1CD1F76C00DE0A41 /* WotogCounter.swift in Sources */,
@@ -2698,6 +2735,7 @@
 				43C1CA751E96CD6F008C20B1 /* TurnTimer.swift in Sources */,
 				43C1CA761E96CD6F008C20B1 /* HttpMethod.swift in Sources */,
 				43C1CA771E96CD6F008C20B1 /* HttpEncoding.swift in Sources */,
+				B864AE252597BB6000793F36 /* AdventureConfig.swift in Sources */,
 				43C1CA781E96CD6F008C20B1 /* Http.swift in Sources */,
 				43C1CA791E96CD6F008C20B1 /* PackWatcher.swift in Sources */,
 				43C1CA7D1E96CD6F008C20B1 /* StatsHelper.swift in Sources */,

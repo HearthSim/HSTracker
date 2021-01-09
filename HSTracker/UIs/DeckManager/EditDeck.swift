@@ -368,11 +368,11 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         let popupMenu = NSMenu()
         for set in CardSet.deckManagerValidCardSets() {
             let popupMenuItem = NSMenuItem(title:
-                NSLocalizedString(set.rawValue.uppercased(), comment: ""),
+                NSLocalizedString("\(set)".uppercased(), comment: ""),
                                            action: #selector(EditDeck.changeSet(_:)),
                                            keyEquivalent: "")
             popupMenuItem.representedObject = set.rawValue
-            popupMenuItem.image = NSImage(named: "Set_\(set.rawValue.uppercased())",
+            popupMenuItem.image = NSImage(named: "Set_\("\(set)".uppercased()))",
                 size: NSSize(width: 15, height: 15))
             popupMenu.addItem(popupMenuItem)
         }
@@ -385,7 +385,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
             case "all": currentSet = []
             case "expert1": currentSet = [.core, .expert1, .promo, .hof]
             default:
-                if let set = CardSet(rawValue: type) {
+                if let set = CardSet.allCases.first(where: { x in "\(x)".lowercased() == type }) {
                     currentSet = [set]
                 } else {
                     currentSet = []

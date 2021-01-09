@@ -26,8 +26,4 @@ class TurnCounter: OverWindowController {
 
         turnLabel = String(format: "Turn %d", turn)
     }
-    
-    func reset() {
-        turnLabel = ""
-    }
 }

@@ -128,6 +128,10 @@ extension CardIds.Collectible {
         static let SpiritOfTheDead = "TRL_502"
         static let ReliquaryOfSouls = "BT_197"
         static let Seance = "TRL_097"
+        static let DeadRinger = "BOT_509"
+        static let PsionicProbe = "LOOT_353"
+        static let SandDrudge = "TRL_131"
+        static let Regenerate = "TRL_128"
     }
 }
 
@@ -173,6 +177,9 @@ extension CardIds.NonCollectible {
         static let ShadowreaperAnduin_Voidform: String = "ICC_830p"
         static let ExtraArms_MoreArmsToken: String = "BOT_219t"
         static let ReliquaryofSouls_ReliquaryPrimeToken = "BT_197t"
+        static let BwonsamdisSanctum = "TRLA_114"
+        static let BwonsamdisTome = "TRLA_146"
+        static let BwonsamdisCovenant = "TRLA_147"
     }
 }
 

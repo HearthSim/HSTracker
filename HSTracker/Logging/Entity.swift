@@ -96,6 +96,9 @@ class Entity {
     var isMinion: Bool {
         return has(tag: .cardtype) && self[.cardtype] == CardType.minion.rawValue
     }
+    var isPlayableCard: Bool {
+        return isMinion || isSpell || isWeapon || isPlayableHero
+    }
     var isWeapon: Bool {
         return has(tag: .cardtype) && self[.cardtype] == CardType.weapon.rawValue
     }

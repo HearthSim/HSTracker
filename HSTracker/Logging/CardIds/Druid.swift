@@ -129,6 +129,12 @@ extension CardIds.Collectible {
         static let KiriChosenOfElune = "DMF_733"
         static let LunarEclipse = "DMF_057"
         static let SolarEclipse = "DMF_058"
+        static let LesserJasperSpellstone = "LOOT_051"
+        static let FerociousHowl = "GIL_637"
+        static let IronwoodGolem = "LOOT_048"
+        static let WitchwoodApple = "GIL_663"
+        static let Pounce = "TRL_243"
+        static let SavageStriker = "TRL_240"
     }
 }
 
@@ -259,6 +265,11 @@ extension CardIds.NonCollectible {
         static let MalfurionthePestilent_PlagueLord: String = "ICC_832p"
         static let ArchsporeMsshifn_MsshifnPrimeToken = "BT_136t"
         static let YseraUnleashed_DreamPortalToken = "DRG_320t"
+        static let AMangyWolfHeroic = "GILA_BOSS_20h"
+        static let RottoothHeroic = "GILA_BOSS_21h"
+        static let GonksArmament = "TRLA_112"
+        static let GonksMark = "TRLA_115"
+        static let BondsOfBalance = "TRLA_116"
     }
 }
 

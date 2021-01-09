@@ -127,6 +127,17 @@ extension CardIds.Collectible {
         static let SchoolSpirits = "SCH_307"
         static let SoulShear = "SCH_701"
         static let SpiritJailer = "SCH_700"
+        static let QueenOfPain = "GVG_018"
+        static let Duskbat = "GIL_508"
+        static let LesserAmethystSpellstone = "LOOT_043"
+        static let FiendishCircle = "GIL_191"
+        static let Shriek = "TRL_245"
+        static let Felstalker = "EX1_306"
+        static let RecklessDiretroll = "TRL_551"
+        static let Soulwarden = "TRL_247"
+        static let CallOfTheVoid = "EX1_181"
+        static let SpiritBomb = "BOT_222"
+        static let BloodWitch = "GIL_693"
     }
 }
 
@@ -183,6 +194,9 @@ extension CardIds.NonCollectible {
         static let Impbalming_WorthlessImpToken: String = "ULD_324t"
         static let KanrethadEbonlocke_KanrethadPrimeToken = "BT_309t"
         static let SchoolSpirits_SoulFragmentToken = "SCH_307t"
+        static let BloodPact = "TRLA_113"
+        static let DarkReliquary = "TRLA_178"
+        static let HireeksHunger = "TRLA_179"
     }
 }
 
