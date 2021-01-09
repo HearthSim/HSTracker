@@ -130,6 +130,12 @@ extension CardIds.Collectible {
         static let OhMyYogg = "DMF_236"
         static let ImmortalPrelate = "TRL_306"
         static let MurgurMurgurgle = "BT_019"
+        static let ParagonOfLight = "GIL_685"
+        static let FarrakiBattleaxe = "TRL_304"
+        static let Bloodclaw = "TRL_543"
+        static let FlashOfLight = "TRL_307"
+        static let BenevolentDjinn = "LOOT_398"
+        static let PotionOfHeroism = "LOOT_088"
     }
 }
 
@@ -192,6 +198,9 @@ extension CardIds.NonCollectible {
         static let HandOfSalvation: String = "BCON_012"
         static let SandwaspQueen_SandwaspToken: String = "ULD_439t"
         static let MurgurMurgurgle_MurgurglePrimeToken = "BT_019t"
+        static let ShirvallahsProtection = "TRLA_105"
+        static let ShirvallahsVengeance = "TRLA_137"
+        static let ShirvallahsGrace = "TRLA_138"
     }
 }
 

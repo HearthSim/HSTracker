@@ -23,5 +23,9 @@ enum Mode: String {
     credits,
     reset,
     adventure,
-    tavern_brawl
+    tavern_brawl,
+    fireside_gathering,
+    bacon,
+    game_mode,
+    pvp_dungeon_run
 }

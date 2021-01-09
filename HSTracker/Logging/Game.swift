@@ -328,11 +328,6 @@ class Game: NSObject, PowerEventHandler {
             } else {
                 self.windowManager.show(controller: tracker, show: false)
             }
-            
-            if self.currentGameType == .gt_battlegrounds {
-                //TODO: what is this supposed to do?
-                //self.battlegroundsRating
-            }
         }
     }
     
@@ -389,7 +384,7 @@ class Game: NSObject, PowerEventHandler {
             
             if Settings.showSecretHelper && !self.gameEnded &&
                 ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
-                    || !Settings.hideAllWhenGameInBackground) {
+                    || !Settings.hideAllWhenGameInBackground) && !isBattlegroundsMatch() {
                 if tracker.cardCount() > 0 {
                     tracker.setWindowSizes()
                     self.windowManager.show(controller: tracker, show: true,
@@ -618,6 +613,8 @@ class Game: NSObject, PowerEventHandler {
     var opponent: Player!
     var currentMode: Mode? = .invalid
     var previousMode: Mode? = .invalid
+    
+    private var _brawlInfo: BrawlInfo?
 	
 	var gameResult: GameResult = .unknown
 	var wasConceded: Bool = false
@@ -719,19 +716,16 @@ class Game: NSObject, PowerEventHandler {
     
     private var _availableRaces: [Race]?
     
+    private var _unavailableRaces: [Race]?
+    
+    var adventureOpponentId: String?
+    
     var hideBobsBuddy = false
     
     var availableRaces: [Race]? {
         if _availableRaces == nil {
             if let races = MirrorHelper.getAvailableBattlegroundsRaces() {
-                let count = races.count
-                var res: [Race] = []
-                let raceEnum = Race.allCases
-                for i in 0..<count {
-                    let r = races[i].intValue
-                    res.append(raceEnum[r])
-                }
-                _availableRaces = res
+                _availableRaces = races.compactMap({ x in x.intValue < Race.allCases.count ? Race.allCases[x.intValue] : nil })
             } else {
                 return []
             }
@@ -739,6 +733,17 @@ class Game: NSObject, PowerEventHandler {
         return _availableRaces
     }
     
+    var unavailableRaces: [Race]? {
+        if _unavailableRaces == nil {
+            if let races = MirrorHelper.getUnavailableBattlegroundsRaces() {
+                _unavailableRaces = races.compactMap({ x in x.intValue < Race.allCases.count ? Race.allCases[x.intValue] : nil })
+            } else {
+                return []
+            }
+        }
+        return _unavailableRaces
+    }
+
     var battlegroundsRating: Int? {
         if let rating = _battlegroundsRating {
             return rating
@@ -789,6 +794,9 @@ class Game: NSObject, PowerEventHandler {
     }
 
     var brawlInfo: BrawlInfo? {
+        if let brawlInfo = _brawlInfo {
+            return brawlInfo
+        }
         if let _brawlInfo = MirrorHelper.getBrawlInfo() {
             return BrawlInfo(info: _brawlInfo)
         }
@@ -834,6 +842,30 @@ class Game: NSObject, PowerEventHandler {
     var opponentSecretCount: Int {
         return entities.map { $0.1 }
             .filter { $0.isSecret && $0.isControlled(by: self.opponent.id) }.count
+    }
+    
+    var inAiMatch: Bool {
+        return currentMode == Mode.gameplay && currentGameType == GameType.gt_vs_ai
+    }
+    
+    var inAdventureScreen: Bool {
+        return currentMode == Mode.adventure
+    }
+    
+    var inPVPDungeonRunScreen: Bool {
+        return currentMode == Mode.pvp_dungeon_run
+    }
+    
+    var inPVPDungeonRunMatch: Bool {
+        return currentMode == Mode.gameplay && previousMode == Mode.pvp_dungeon_run
+    }
+    
+    var opponentHeroId: String {
+        return opponent.board.first(where: { x in x.isHero })?.cardId ?? ""
+    }
+    
+    var opponentHeroHealth: Int {
+        return opponent.board.first(where: { x in x.isHero })?[.health] ?? 0
     }
 
     private(set) var currentFormat = Format(formatType: FormatType.ft_unknown)
@@ -978,12 +1010,27 @@ class Game: NSObject, PowerEventHandler {
 		
 		_spectator = false
         _availableRaces = nil
+        _unavailableRaces = nil
+        _brawlInfo = nil
         lastKnownBattlegroundsBoardState.removeAll()
         windowManager.battlegroundsDetailsWindow.reset()
         windowManager.bobsBuddyPanel.resetDisplays()
-        windowManager.turnCounter.reset()
+        updateTurnCounter(turn: 1)
         
         hideBobsBuddy = false
+        adventureOpponentId = nil
+    }
+    
+    func cacheBrawlInfo() {
+        if let info = MirrorHelper.getBrawlInfo() {
+            _brawlInfo = BrawlInfo(info: info)
+        }
+    }
+    
+    func cacheBattlegroundRatingInfo() {
+        if let rating = MirrorHelper.getBattlegroundsRating() {
+            _battlegroundsRating = rating
+        }
     }
 
     private func tryToDetectWhizbangDeck() {
@@ -1065,7 +1112,7 @@ class Game: NSObject, PowerEventHandler {
 		}
 	}
 	
-	private func set(activeDeck deck: Deck) {
+    func set(activeDeck deck: Deck) {
 		
         var cards: [Card] = []
         for deckCard in deck.cards {
@@ -1074,16 +1121,25 @@ class Game: NSObject, PowerEventHandler {
                 cards.append(card)
             }
         }
-        currentDeck = PlayingDeck(id: deck.deckId,
-                                  name: deck.name,
-                                  hsDeckId: deck.hsDeckId.value,
-                                  playerClass: deck.playerClass,
-                                  heroId: deck.heroId,
-                                  cards: cards.sortCardList(),
-                                  isArena: deck.isArena
-        )
-        player.playerClass = currentDeck?.playerClass
-        updateTrackers(reset: true)
+        let deckId = deck.deckId
+        let name = deck.name
+        let hsDeckId = deck.hsDeckId.value
+        let playerClass = deck.playerClass
+        let heroId = deck.heroId
+        let isArena = deck.isArena
+        DispatchQueue.main.async {
+            cards = cards.sortCardList()
+            self.currentDeck = PlayingDeck(id: deckId,
+                                      name: name,
+                                      hsDeckId: hsDeckId,
+                                      playerClass: playerClass,
+                                      heroId: heroId,
+                                      cards: cards.sortCardList(),
+                                      isArena: isArena
+            )
+            self.player.playerClass = self.currentDeck?.playerClass
+            self.updateTrackers(reset: true)
+        }
     }
 
     func removeActiveDeck() {
@@ -1301,10 +1357,18 @@ class Game: NSObject, PowerEventHandler {
         logger.verbose("End game: \(currentGameStats)")
         let stats = currentGameStats.toGameStats()
         // reset the turn counter
-        windowManager.turnCounter.reset()
+        updateTurnCounter(turn: 1)
         
         if let currentDeck = self.currentDeck {
-            if let deck = RealmHelper.getDeck(with: currentDeck.id) {
+            var skip = false
+            if previousMode == Mode.adventure {
+                let heroId = adventureOpponentId
+                // don't add the result to statistics for Bob encounters
+                if heroId == CardIds.NonCollectible.Neutral.BartenderBob || heroId == CardIds.NonCollectible.Neutral.BazaarBob {
+                    skip = true
+                }
+            }
+            if !skip, let deck = RealmHelper.getDeck(with: currentDeck.id) {
                 
                 RealmHelper.addStatistics(to: deck, stats: stats)
                 if Settings.autoArchiveArenaDeck &&
@@ -1339,7 +1403,10 @@ class Game: NSObject, PowerEventHandler {
                 Settings.hsReplayUploadFriendlyMatches) ||
             (stats.gameMode == .spectator &&
                 Settings.hsReplayUploadFriendlyMatches) ||
-            stats.gameMode == .battlegrounds) {
+            (stats.gameMode == .battlegrounds &&
+                Settings.hsReplayUploadBattlegroundsMatches) ||
+            (stats.gameMode == .duels &&
+                Settings.hsReplayUploadDuelsMatches)) {
 			
             let (uploadMetaData, statId) = UploadMetaData.generate(stats: stats, buildNumber: self.buildNumber,
 				deck: self.playerDeckAutodetected && self.currentDeck != nil ? self.currentDeck : nil )

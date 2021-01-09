@@ -67,6 +67,7 @@ class CardBar: NSView, CardBarTheme {
     var isArena: Bool?
     var playerRace: Race?
     var backgroundImage: NSImage?
+    var isBattlegrounds: Bool = false
 
     var hasAllRequired: Bool {
         let path = Bundle.main.resourcePath!
@@ -119,6 +120,7 @@ class CardBar: NSView, CardBarTheme {
     let gemRect = NSRect(x: 0, y: 0, width: 34, height: 34)
     let boxRect = NSRect(x: 183, y: 0, width: 34, height: 34)
     let imageRect = NSRect(x: 83, y: 0, width: 134, height: 34)
+    let imageRectBG = NSRect(x: 0, y: 0, width: 217, height: 34)
     let countTextRect = NSRect(x: 198, y: 9, width: CGFloat.greatestFiniteMagnitude, height: 34)
     let costTextRect = NSRect(x: 0, y: 9, width: 34, height: 34)
     let arenaHelperRect = NSRect(x: 17, y: 0, width: 34, height: 34)
@@ -279,7 +281,7 @@ class CardBar: NSView, CardBarTheme {
         cardLayer?.sublayers?.forEach { $0.removeFromSuperlayer() }
         
         if let img = backgroundImage {
-            add(image: img, rect: imageRect)
+            add(image: img, rect: isBattlegrounds ? imageRectBG : imageRect)
         }
         
         addCardImage()
@@ -297,7 +299,9 @@ class CardBar: NSView, CardBarTheme {
                 addLegendaryIcon()
             }
         }
-        addFrame()
+        if (isBattlegrounds && card != nil) || !isBattlegrounds {
+            addFrame()
+        }
 
         if card != nil {
             addGem()
@@ -327,12 +331,26 @@ class CardBar: NSView, CardBarTheme {
         let rarity = card.rarity
         var count = card.count
         if count == 0 { count = 1 }
+        var offset = offsetByCountBox
+        var r = rect
+        if isBattlegrounds {
+            offset = false
+            r = imageRectBG
+        }
 
         if let image = cardTile {
-            if offsetByCountBox && abs(count) > 1 && playerType != .editDeck || rarity == .legendary {
-                add(image: image, rect: rect.offsetBy(dx: imageOffset, dy: 0))
+            if offset && abs(count) > 1 && playerType != .editDeck || rarity == .legendary {
+                add(image: image, rect: r.offsetBy(dx: imageOffset, dy: 0))
             } else {
-                add(image: image, rect: rect)
+                add(image: image, rect: r)
+            }
+
+            return
+        } else if let image = ImageUtils.cachedTile(cardId: card.id) {
+            if offset && abs(count) > 1 && playerType != .editDeck || rarity == .legendary {
+                add(image: image, rect: r.offsetBy(dx: imageOffset, dy: 0))
+            } else {
+                add(image: image, rect: r)
             }
 
             return
@@ -363,6 +381,8 @@ class CardBar: NSView, CardBarTheme {
         if let card = card {
             count = card.count
             rarity = card.rarity
+        } else if isBattlegrounds {
+            return
         }
 
         if let fadeOverlay = required[.fadeOverlay] {
@@ -483,6 +503,7 @@ class CardBar: NSView, CardBarTheme {
     func addGem() {
         guard let card = card else { return }
         if Cards.isHero(cardId: card.id) && !Cards.isPlayableHero(cardId: card.id) { return }
+        if card.cost < 0 { return }
 
         var gem = required[.defaultGem]
         if Settings.showRarityColors && hasAllOptionalGems {
@@ -535,7 +556,7 @@ class CardBar: NSView, CardBarTheme {
     }
 
     func addCardName() {
-        var width = frameRect.width - 38
+        var width = frameRect.width - (isBattlegrounds ? 14 : 38)
         if let card = card {
             if abs(card.count) > 0 || card.rarity == .legendary {
                 width -= boxRect.width
@@ -545,8 +566,7 @@ class CardBar: NSView, CardBarTheme {
                 width -= abs(createdIconOffset)
             }
         }
-
-        addCardName(rect: NSRect(x: 38,
+        addCardName(rect: NSRect(x: isBattlegrounds ? 14 : 38,
             y: 10,
             width: width,
             height: 30))

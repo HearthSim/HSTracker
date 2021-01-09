@@ -579,6 +579,27 @@ extension CardIds.Collectible {
         static let PortalOverfiend = "DAL_565"
         static let Sathrovarr = "DRG_402"
         static let DragonBreeder = "DRG_070"
+        static let SharkfinFan = "TRL_507"
+        static let HenchClanThug = "GIL_534"
+        static let Spellzerker = "TRL_312"
+        static let SwampLeech = "GIL_558"
+        static let Waterboy = "TRL_407"
+        static let HalfTimeScavenger = "TRL_010"
+        static let DragonmawScorcher = "TRL_526"
+        static let FiretreeWitchdoctor = "TRL_523"
+        static let NightmareAmalgam = "GIL_681"
+        static let EbonDragonsmith = "LOOT_118"
+        static let SwiftMessenger = "GIL_528"
+        static let UntamedBeastmaster = "TRL_405"
+        static let Brainstormer = "BOT_413"
+        static let BlackwaldPixie = "GIL_561"
+        static let IceCreamPeddler = "TRL_533"
+        static let BelligerentGnome = "TRL_514"
+        static let ArenaFanatic = "TRL_517"
+        static let Crystallizer = "BOT_447"
+        static let SnapjawShellfighter = "TRL_535"
+        static let WaxElemental = "LOOT_117"
+        static let ArenaPatron = "TRL_521"
     }
 }
 
@@ -2204,6 +2225,9 @@ extension CardIds.NonCollectible {
         static let SmugSenior_SpectralSeniorToken = "SCH_709t"
         static let BananaBuffoon_BananasToken = "TRL_509t"
         static let PortalKeeper_FelhoundPortalToken = "DAL_582t"
+        static let ExtraPowder = "GILA_604"
+        static let BartenderBob = "DALA_BOSS_99h"
+        static let BazaarBob = "ULDA_BOSS_99h"
     }
 }
 

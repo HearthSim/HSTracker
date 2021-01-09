@@ -37,6 +37,7 @@ class DeckManager: NSWindowController {
     @IBOutlet weak var progressIndicator: NSProgressIndicator!
     @IBOutlet weak var archiveToolBarItem: NSToolbarItem!
     @IBOutlet weak var sortPopUp: NSPopUpButton!
+    @IBOutlet weak var deckTypePopup: NSPopUpButton!
 
     @IBOutlet weak var classesPopup: NSPopUpButton!
     @IBOutlet weak var toolbar: NSToolbar!
@@ -46,6 +47,7 @@ class DeckManager: NSWindowController {
 
     var decks = [Deck]()
     var currentClass: CardClass?
+    var currentDeckType: DeckType = .all
     var currentDeck: Deck?
     var currentCell: DeckCellView?
     var statistics: Statistics?
@@ -81,6 +83,7 @@ class DeckManager: NSWindowController {
         
         loadSortPopUp()
         loadClassesPopUp()
+        loadModesPopup()
 
         NSEvent.addLocalMonitorForEvents(matching: NSEvent.EventTypeMask.keyDown) { (e) -> NSEvent? in
             let isCmd = e.modifierFlags.contains(NSEvent.ModifierFlags.command)
@@ -161,14 +164,31 @@ class DeckManager: NSWindowController {
         return ascend ? sortedDeck : sortedDeck.reversed()
     }
     
+    func isCurrentDeckType(deck: Deck) -> Bool {
+        switch currentDeckType {
+        case .all:
+            return true
+        case .duels:
+            return deck.isDuels
+        case .dungeon:
+            return deck.isDungeon
+        case .arena:
+            return deck.isArena
+        case .wild:
+            return deck.isWildDeck && !deck.isDungeon && !deck.isDuels
+        case .standard:
+            return !deck.isWildDeck
+        }
+    }
+    
     func unsortedFilteredDecks() -> [Deck] {
         if let currentClass = currentClass {
-            return decks.filter({ $0.playerClass == currentClass && $0.isActive == true })
+            return decks.filter({ isCurrentDeckType(deck: $0) && $0.playerClass == currentClass && $0.isActive == true })
                 .sorted { $0.name < $1.name }
         } else if showArchivedDecks {
-            return decks.filter({ $0.isActive != true }).sorted { $0.name < $1.name }
+            return decks.filter({ isCurrentDeckType(deck: $0) && $0.isActive != true }).sorted { $0.name < $1.name }
         } else {
-            return decks.filter({ $0.isActive == true }).sorted { $0.name < $1.name }
+            return decks.filter({ isCurrentDeckType(deck: $0) && $0.isActive == true }).sorted { $0.name < $1.name }
         }
     }
 
@@ -185,6 +205,16 @@ class DeckManager: NSWindowController {
         refreshDecks()
     }
     
+    @IBAction func filterDeckTypeAction(_ sender: Any) {
+        guard let menuItem = sender as? NSMenuItem else { return }
+
+        if let deckType = menuItem.representedObject as? DeckType {
+            currentDeckType = deckType
+        }
+
+        refreshDecks()
+    }
+
     func updateStatsLabel() {
         if let currentDeck = self.currentDeck {
             DispatchQueue.main.async {
@@ -441,6 +471,17 @@ class DeckManager: NSWindowController {
         sortPopUp.menu = popupMenu
     }
     
+    private func loadModesPopup() {
+        let popupMenu = NSMenu()
+        
+        for mode in DeckType.allCases {
+            let popupMenuItem = NSMenuItem(title: NSLocalizedString("DeckType_\(mode)", comment: ""), action: #selector(DeckManager.filterDeckTypeAction(_:)), keyEquivalent: "")
+            popupMenuItem.representedObject = mode
+            popupMenu.addItem(popupMenuItem)
+        }
+        deckTypePopup.menu = popupMenu
+    }
+    
     @IBAction func changeSort(_ sender: NSMenuItem) {
         // Unset the previously selected one, select the new one
         var previous: String = ""
@@ -505,7 +546,7 @@ extension DeckManager: NSTableViewDelegate {
                 cell.image.image = NSImage(named: deck.playerClass.rawValue.lowercased())
                 cell.arenaImage.image = deck.isArena && deck.arenaFinished() ?
                     NSImage(named: "silenced") : nil
-                cell.wildImage.image = deck.isArena ? NSImage(named: "arena") :
+                cell.wildImage.image = deck.isDungeon ? NSImage(named: "Mode_Adventure") : deck.isDuels ? NSImage(named: "Mode_Duels") : deck.isArena ? NSImage(named: "arena") :
                     !deck.standardViable() && !deck.isArena ?
                     NSImage(named: "Mode_Wild") : nil
                 cell.color = ClassColor.color(playerClass: deck.playerClass)

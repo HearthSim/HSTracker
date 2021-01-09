@@ -343,6 +343,7 @@ enum GameTag: Int, WrappableEnum, CaseIterable, Codable {
     zombeast = 823,
     modular = 849,
     whizbang_deck_id = 1048,
+    shrine = 1057,
     reborn = 1085,
     proxy_galakrond = 1190,
     mega_windfury = 1207,

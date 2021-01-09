@@ -13,13 +13,16 @@ enum CardSet: String, CaseIterable {
     case core,
     expert1,
     naxx,
+    missions,
     gvg,
     brm,
     tgt,
+    credits,
     loe,
     promo,
     reward,
     hero_skins,
+    tb,
     og,
     kara,
     gangs,
@@ -43,7 +46,7 @@ enum CardSet: String, CaseIterable {
     darkmoon_faire
     
     static func deckManagerValidCardSets() -> [CardSet] {
-        return [.all, .expert1, .naxx, .gvg, .brm, .tgt,
+        return [.invalid, .expert1, .naxx, .gvg, .brm, .tgt,
                 .loe, .og, .kara, .gangs, .ungoro, .icecrown,
                 .lootapalooza, .gilneas, .boomsday, .troll,
                 .dalaran, .uldum, .dragons, .year_of_the_dragon,

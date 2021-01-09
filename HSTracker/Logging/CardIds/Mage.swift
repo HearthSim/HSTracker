@@ -131,6 +131,8 @@ extension CardIds.Collectible {
         static let RiggedFaireGame = "DMF_107"
         static let AstromancerSolarian = "BT_028"
         static let ConfectionCyclone = "DMF_100"
+        static let Cinderstorm = "GIL_147"
+        static let BlastWave = "TRL_317"
     }
 }
 
@@ -192,6 +194,9 @@ extension CardIds.NonCollectible {
         static let DeckofWondersScrollOfWonderToken: String = "LOOT_106t"
         static let AstromancerSolarian_SolarianPrimeToken = "BT_028t"
         static let ConfectionCyclone_SugarElementalToken = "DMF_100t"
+        static let JanalaisMantle = "TRLA_108"
+        static let JanalaisFlame = "TRLA_128"
+        static let JanalaisProgeny = "TRLA_129"
     }
 }
 

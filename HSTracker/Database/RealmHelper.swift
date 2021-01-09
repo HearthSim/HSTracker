@@ -24,7 +24,7 @@ struct RealmHelper {
 	static func initRealm(destination: URL) {
 		let config = Realm.Configuration(
 			fileURL: destination.appendingPathComponent("hstracker.realm"),
-			schemaVersion: 5,
+			schemaVersion: 7,
 			migrationBlock: { migration, oldSchemaVersion in
 				// version == 1 : add hearthstoneId in Deck,
 				// automatically managed by realm, nothing to do here
@@ -56,6 +56,18 @@ struct RealmHelper {
 						}
 					}
 				}
+                
+                if oldSchemaVersion < 6 {
+                    migration.enumerateObjects(ofType: Deck.className()) { _, newObject in
+                        newObject!["isDungeon"] = false
+                        newObject!["isDuels"] = false
+                    }
+                }
+                if oldSchemaVersion < 7 {
+                    migration.enumerateObjects(ofType: Deck.className()) { _, newObject in
+                        newObject!["lastEdited"] = Date()
+                    }
+                }
 		})
 		Realm.Configuration.defaultConfiguration = config
 	}
@@ -353,6 +365,7 @@ struct RealmHelper {
                 if resetStats {
                     deck.gameStats.removeAll()
                 }
+                deck.lastEdited = Date()
 			}
 		} catch {
 			logger.error("Can not add deck : \(error)")

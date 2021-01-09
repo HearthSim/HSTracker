@@ -35,45 +35,54 @@ struct LoadingScreenHandler: LogEventParser {
             if game.previousMode == .gameplay && game.currentMode != .gameplay {
                 game.inMenu()
             }
+            
+            if game.currentMode == Mode.collectionmanager {
+                CollectionWatcher.start(toaster: coreManager.toaster)
+            } else {
+                CollectionWatcher.stop()
+            }
+            
+            if game.currentMode == Mode.tournament {
+                DeckWatcher.start()
+            } else {
+                DeckWatcher.stop()
+            }
 
-            switch game.currentMode {
-            case Optional(.draft):
+            if game.currentMode == .draft {
                 ArenaDeckWatcher.start()
                 if Settings.showArenaHelper {
                     ArenaWatcher.start(handler: game)
                 }
-            case Optional(.packopening):
-                coreManager.packWatcher.startWatching()
-            case Optional(.tournament):
-                DeckWatcher.start()
-            case Optional(.adventure):
-                DeckWatcher.start()
-                DungeonRunDeckWatcher.start()
-            case Optional(.friendly):
-                DeckWatcher.start()
-            case Optional(.collectionmanager):
-                CollectionWatcher.start(toaster: coreManager.toaster)
-            default: break
-            }
-
-            switch game.previousMode {
-            case Optional(.draft):
-                ArenaWatcher.stop()
+            } else {
                 ArenaDeckWatcher.stop()
-            case Optional(.packopening):
-                coreManager.packWatcher.stopWatching()
-            case Optional(.tournament):
-                DeckWatcher.stop()
-            case Optional(.adventure):
-                DeckWatcher.stop()
-                DungeonRunDeckWatcher.stop()
-            case Optional(.friendly):
-                DeckWatcher.stop()
-            case Optional(.collectionmanager):
-                CollectionWatcher.stop()
-            default: break
+                ArenaWatcher.stop()
             }
-
+            
+            if game.currentMode == .packopening {
+                coreManager.packWatcher.startWatching()
+            } else {
+                coreManager.packWatcher.stopWatching()
+            }
+            
+            if game.currentMode == .tavern_brawl {
+                game.cacheBrawlInfo()
+            }
+            
+            if game.currentMode == .bacon {
+                game.cacheBattlegroundRatingInfo()
+            }
+            
+            if game.currentMode == .adventure || game.previousMode == Mode.adventure && game.currentMode == .gameplay {
+                DungeonRunDeckWatcher.start()
+            } else {
+                DungeonRunDeckWatcher.stop()
+            }
+            
+            if game.currentMode == Mode.pvp_dungeon_run || game.previousMode == Mode.pvp_dungeon_run && game.currentMode == Mode.gameplay {
+                PVPDungeonRunWatcher.start()
+            } else {
+                PVPDungeonRunWatcher.stop()
+            }
         } else if logLine.line.contains("Gameplay.Start") {
             // uncommenting this line will prevent powerlog reader to work properly
             //coreManager.game.gameStart(at: logLine.time)

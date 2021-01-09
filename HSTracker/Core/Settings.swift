@@ -9,6 +9,97 @@
 import Foundation
 import AppKit
 
+private protocol AnyOptional {
+    var isNil: Bool { get }
+}
+
+extension Optional: AnyOptional {
+    var isNil: Bool { self == nil }
+}
+
+protocol UserDefaultConvertible {
+    associatedtype ConvertedType
+    
+    func convert() -> ConvertedType
+    
+    static func reverse(from object: ConvertedType) -> Self?
+}
+
+@propertyWrapper
+struct UserDefault<Value> {
+    let key: String
+    let defaultValue: Value
+    var container: UserDefaults = .standard
+
+    var wrappedValue: Value {
+        get {
+            return container.object(forKey: key) as? Value ?? defaultValue
+        }
+        set {
+            if let optional = newValue as? AnyOptional, optional.isNil {
+                container.removeObject(forKey: key)
+            } else {
+                container.setValue(newValue, forKey: key)
+            }
+        }
+    }
+}
+
+@propertyWrapper
+struct UserDefaultRawRepresentable<Value: RawRepresentable> {
+    let key: String
+    let defaultValue: Value
+    let container: UserDefaults = .standard
+    
+    var wrappedValue: Value {
+        get {
+            guard let object = container.object(forKey: key) as? Value.RawValue else {
+                return defaultValue
+            }
+            
+            return Value(rawValue: object) ?? defaultValue
+        }
+        set {
+            container.set(newValue.rawValue, forKey: key)
+        }
+    }
+}
+
+@propertyWrapper
+struct UserDefaultCustom<Value: UserDefaultConvertible> {
+    let key: String
+    let defaultValue: Value?
+    var container: UserDefaults = .standard
+
+    var wrappedValue: Value? {
+        get {
+            if let value = container.object(forKey: key) as? Value.ConvertedType {
+                if let result = Value.reverse(from: value) {
+                    return result
+                }
+            }
+            return defaultValue
+        }
+        set {
+            if let value = newValue {
+                container.setValue(value.convert(), forKey: key)
+            } else {
+                container.removeObject(forKey: key)
+            }
+        }
+    }
+}
+
+extension NSRect: UserDefaultConvertible {
+    func convert() -> String {
+        return NSStringFromRect(self)
+    }
+    
+    static func reverse(from object: String) -> CGRect? {
+        return NSRectFromString(object)
+    }
+}
+
 final class Settings {
 
     static var fullGameLog: Bool = false
@@ -40,51 +131,28 @@ final class Settings {
         return nil
     }
     
-    static var showMemoryReadingWarning: Bool {
-        set { set(name: Settings.show_memory_reading_warning, value: newValue) }
-        get { return get(name: Settings.show_memory_reading_warning) as? Bool ?? true }
-    }
-    static var canJoinFullscreen: Bool {
-        set { set(name: Settings.can_join_fullscreen, value: newValue) }
-        get { return get(name: Settings.can_join_fullscreen) as? Bool ?? true }
-    }
-    static var quitWhenHearthstoneCloses: Bool {
-        set { set(name: Settings.quit_when_hs_closes, value: newValue) }
-        get { return get(name: Settings.quit_when_hs_closes) as? Bool ?? false }
-    }
-    static var deckManagerZoom: Double {
-        set { set(name: Settings.deck_manager_zoom, value: newValue) }
-        get { return get(name: Settings.deck_manager_zoom) as? Double ?? 100.0 }
-    }
-    static var trackerOpacity: Double {
-        set { set(name: Settings.tracker_opacity, value: newValue) }
-        get { return get(name: Settings.tracker_opacity) as? Double ?? 0.0 }
-    }
-    static var activeDeck: String? {
-        set { set(name: Settings.active_deck, value: newValue) }
-        get { return get(name: Settings.active_deck) as? String }
-    }
-    static var cardSize: CardSize {
-        set { set(name: Settings.card_size, value: newValue.rawValue) }
-        get { return CardSize(rawValue: get(name: Settings.card_size) as? Int
-            ?? CardSize.big.rawValue) ?? .big }
-    }
-    static var deckSortCriteria: String {
-        set { set(name: Settings.deck_sort_criteria, value: newValue) }
-        get { return get(name: Settings.deck_sort_criteria) as? String ?? "name" }
-    }
-    static var deckSortOrder: String {
-        set { set(name: Settings.deck_sort_order, value: newValue) }
-        get { return get(name: Settings.deck_sort_order) as? String ?? "ascending" }
-    }
-    static var autoArchiveArenaDeck: Bool {
-        set { set(name: Settings.archive_arena_deck, value: newValue) }
-        get { return get(name: Settings.archive_arena_deck) as? Bool ?? true }
-    }
-    static var hearthstonePath: String {
-        set { set(name: Settings.hearthstone_log_path, value: newValue) }
-        get { return get(name: Settings.hearthstone_log_path) as? String ?? "/Applications/Hearthstone" }
-    }
+    @UserDefault(key: Settings.show_memory_reading_warning, defaultValue: true)
+    static var showMemoryReadingWarning: Bool
+    @UserDefault(key: Settings.can_join_fullscreen, defaultValue: true)
+    static var canJoinFullscreen: Bool
+    @UserDefault(key: Settings.quit_when_hs_closes, defaultValue: false)
+    static var quitWhenHearthstoneCloses: Bool
+    @UserDefault(key: Settings.deck_manager_zoom, defaultValue: 100.0)
+    static var deckManagerZoom: Double
+    @UserDefault(key: Settings.tracker_opacity, defaultValue: 0.0)
+    static var trackerOpacity: Double
+    @UserDefault(key: Settings.active_deck, defaultValue: nil)
+    static var activeDeck: String?
+    @UserDefaultRawRepresentable(key: Settings.card_size, defaultValue: .big)
+    static var cardSize: CardSize
+    @UserDefault(key: Settings.deck_sort_criteria, defaultValue: "name")
+    static var deckSortCriteria: String
+    @UserDefault(key: Settings.deck_sort_order, defaultValue: "ascending")
+    static var deckSortOrder: String
+    @UserDefault(key: Settings.archive_arena_deck, defaultValue: true)
+    static var autoArchiveArenaDeck: Bool
+    @UserDefault(key: Settings.hearthstone_log_path, defaultValue: "/Applications/Hearthstone")
+    static var hearthstonePath: String
     static var hearthstoneLanguage: Language.Hearthstone? {
         set { set(name: Settings.hearthstone_language, value: newValue?.rawValue) }
         get {
@@ -109,245 +177,119 @@ final class Settings {
         }
     }
     
-    static var autoImportDungeonRun: Bool {
-        set { set(name: Settings.auto_import_dungeon_run, value: newValue) }
-        get { return get(name: Settings.auto_import_dungeon_run) as? Bool ?? true }
-    }
-    
-    static var includeDungeonRunPassiveCards: Bool {
-        set { set(name: Settings.include_dungeon_run_passive_cards, value: newValue) }
-        get { return get(name: Settings.include_dungeon_run_passive_cards) as? Bool ?? true }
-    }
-    
-    static var showRarityColors: Bool {
-        set { set(name: Settings.rarity_colors, value: newValue) }
-        get { return get(name: Settings.rarity_colors) as? Bool ?? true }
-    }
+    @UserDefault(key: Settings.rarity_colors, defaultValue: true)
+    static var showRarityColors: Bool
     /*static var promptNotes: Bool {
         set { set(name: Settings.prompt_for_notes, value: newValue) }
         get { return get(name: Settings.prompt_for_notes) as? Bool ?? false }
     }*/
-    static var autoPositionTrackers: Bool {
-        set { set(name: Settings.auto_position_trackers, value: newValue) }
-        get { return get(name: Settings.auto_position_trackers) as? Bool ?? true }
-    }
-    static var hideAllTrackersWhenNotInGame: Bool {
-        set { set(name: Settings.hide_all_trackers_when_not_in_game, value: newValue) }
-        get { return get(name: Settings.hide_all_trackers_when_not_in_game) as? Bool ?? false }
-    }
-    static var hideAllWhenGameInBackground: Bool {
-        set { set(name: Settings.hide_all_trackers_when_game_in_background, value: newValue) }
-        get { return get(name: Settings.hide_all_trackers_when_game_in_background) as? Bool ?? false }
-    }
-    static var deckManagerPreferCards: Bool {
-        set { set(name: Settings.deckmanager_prefer_cards, value: newValue) }
-        get { return get(name: Settings.deckmanager_prefer_cards) as? Bool ?? true }
-    }
-    static var showFloatingCard: Bool {
-        set { set(name: Settings.show_floating_card, value: newValue) }
-        get { return get(name: Settings.show_floating_card) as? Bool ?? true }
-    }
-    static var floatingCardStyle: FloatingCardStyle {
-        set { set(name: Settings.floating_card_style, value: newValue.rawValue) }
-        get {
-            if let _style = get(name: Settings.floating_card_style) as? String,
-               let style = FloatingCardStyle(rawValue: _style) {
-                return style
-            }
-            return .image
-        }
-    }
+    @UserDefault(key: Settings.auto_position_trackers, defaultValue: true)
+    static var autoPositionTrackers: Bool
+    @UserDefault(key: Settings.hide_all_trackers_when_not_in_game, defaultValue: false)
+    static var hideAllTrackersWhenNotInGame: Bool
+    @UserDefault(key: Settings.hide_all_trackers_when_game_in_background, defaultValue: false)
+    static var hideAllWhenGameInBackground: Bool
+    @UserDefault(key: Settings.deckmanager_prefer_cards, defaultValue: true)
+    static var deckManagerPreferCards: Bool
+    @UserDefault(key: Settings.show_floating_card, defaultValue: true)
+    static var showFloatingCard: Bool
+    @UserDefaultRawRepresentable(key: Settings.floating_card_style, defaultValue: .image)
+    static var floatingCardStyle: FloatingCardStyle
+    @UserDefault(key: Settings.disable_tracking_in_spectator_mode, defaultValue: true)
+    static var dontTrackWhileSpectating: Bool
+    @UserDefault(key: Settings.show_topdeck_chance, defaultValue: true)
+    static var showTopdeckchance: Bool
+    @UserDefault(key: Settings.window_locked, defaultValue: true)
+    static var windowsLocked: Bool
+    @UserDefault(key: Settings.prefer_golden_cards, defaultValue: false)
+    static var preferGoldenCards: Bool
+    @UserDefault(key: Settings.auto_deck_detection, defaultValue: true)
+    static var autoDeckDetection: Bool
     
-    static var dontTrackWhileSpectating: Bool {
-        set { set(name: Settings.disable_tracking_in_spectator_mode, value: newValue) }
-        get { return get(name: Settings.disable_tracking_in_spectator_mode) as? Bool ?? true }
-    }
-    static var showTopdeckchance: Bool {
-        set { set(name: Settings.show_topdeck_chance, value: newValue) }
-        get { return get(name: Settings.show_topdeck_chance) as? Bool ?? true }
-    }
-    static var windowsLocked: Bool {
-        set { set(name: Settings.window_locked, value: newValue) }
-        get { return get(name: Settings.window_locked) as? Bool ?? true }
-    }
-    static var preferGoldenCards: Bool {
-        set { set(name: Settings.prefer_golden_cards, value: newValue) }
-        get { return get(name: Settings.prefer_golden_cards) as? Bool ?? false }
-    }
-    static var autoDeckDetection: Bool {
-        set { set(name: Settings.auto_deck_detection, value: newValue) }
-        get { return get(name: Settings.auto_deck_detection) as? Bool ?? true }
-    }
-    
-    static var showBobsBuddy: Bool {
-        set { set(name: Settings.show_bobs_buddy, value: newValue) }
-        get { return get(name: Settings.show_bobs_buddy) as? Bool ?? true }
-    }
-    static var showBobsBuddyDuringCombat: Bool {
-        set { set(name: Settings.show_bobs_buddy_during_combat, value: newValue) }
-        get { return get(name: Settings.show_bobs_buddy_during_combat) as? Bool ?? true }
-    }
-    static var showBobsBuddyDuringShopping: Bool {
-        set { set(name: Settings.show_bobs_buddy_during_shopping, value: newValue) }
-        get { return get(name: Settings.show_bobs_buddy_during_shopping) as? Bool ?? true }
-    }
-    static var showTurnCounter: Bool {
-        set { set(name: Settings.show_turn_counter, value: newValue) }
-        get { return get(name: Settings.show_turn_counter) as? Bool ?? true }
-    }
-    static var showAverageDamage: Bool {
-        set { set(name: Settings.show_average_damage, value: newValue) }
-        get { return get(name: Settings.show_average_damage) as? Bool ?? true }
-    }
-    static var showOpponentWarband: Bool {
-        set { set(name: Settings.show_opponent_warband, value: newValue) }
-        get { return get(name: Settings.show_opponent_warband) as? Bool ?? true }
-    }
-    static var showTiers: Bool {
-        set { set(name: Settings.show_tiers, value: newValue) }
-        get { return get(name: Settings.show_tiers) as? Bool ?? true }
-    }
+    // MARK: - Battlegrounds
+    @UserDefault(key: Settings.show_bobs_buddy, defaultValue: true)
+    static var showBobsBuddy: Bool
+    @UserDefault(key: Settings.show_bobs_buddy_during_combat, defaultValue: true)
+    static var showBobsBuddyDuringCombat: Bool
+    @UserDefault(key: Settings.show_bobs_buddy_during_shopping, defaultValue: true)
+    static var showBobsBuddyDuringShopping: Bool
+    @UserDefault(key: Settings.show_turn_counter, defaultValue: true)
+    static var showTurnCounter: Bool
+    @UserDefault(key: Settings.show_average_damage, defaultValue: true)
+    static var showAverageDamage: Bool
+    @UserDefault(key: Settings.show_opponent_warband, defaultValue: true)
+    static var showOpponentWarband: Bool
+    @UserDefault(key: Settings.show_tiers, defaultValue: true)
+    static var showTiers: Bool
 
-    static var showPlayerDrawChance: Bool {
-        set { set(name: Settings.player_draw_chance, value: newValue) }
-        get { return get(name: Settings.player_draw_chance) as? Bool ?? true }
-    }
-    static var showPlayerCardCount: Bool {
-        set { set(name: Settings.player_card_count, value: newValue) }
-        get { return get(name: Settings.player_card_count) as? Bool ?? true }
-    }
-    static var showOpponentCardCount: Bool {
-        set { set(name: Settings.opponent_card_count, value: newValue) }
-        get { return get(name: Settings.opponent_card_count) as? Bool ?? true }
-    }
-    static var showOpponentDrawChance: Bool {
-        set { set(name: Settings.opponent_draw_chance, value: newValue) }
-        get { return get(name: Settings.opponent_draw_chance) as? Bool ?? true }
-    }
-    static var showPlayerCthun: Bool {
-        set { set(name: Settings.player_cthun_frame, value: newValue) }
-        get { return get(name: Settings.player_cthun_frame) as? Bool ?? true }
-    }
-    static var showPlayerDeathrattle: Bool {
-        set { set(name: Settings.player_deathrattle_frame, value: newValue) }
-        get { return get(name: Settings.player_deathrattle_frame) as? Bool ?? false }
-    }
-    static var showPlayerSpell: Bool {
-        set { set(name: Settings.player_yogg_frame, value: newValue) }
-        get { return get(name: Settings.player_yogg_frame) as? Bool ?? true }
-    }
-    static var showPlayerGraveyard: Bool {
-        set { set(name: Settings.player_graveyard_frame, value: newValue) }
-        get { return get(name: Settings.player_graveyard_frame) as? Bool ?? true }
-    }
-    static var showPlayerGraveyardDetails: Bool {
-        set { set(name: Settings.player_graveyard_details_frame, value: newValue) }
-        get { return get(name: Settings.player_graveyard_details_frame) as? Bool ?? true }
-    }
-    static var showPlayerJadeCounter: Bool {
-        set { set(name: Settings.player_jade_frame, value: newValue) }
-        get { return get(name: Settings.player_jade_frame) as? Bool ?? true }
-    }
-    static var showPlayerGalakrondCounter: Bool {
-        set { set(name: Settings.player_galakrond_invoke_frame, value: newValue) }
-        get { return get(name: Settings.player_galakrond_invoke_frame) as? Bool ?? true }
-    }
-    static var showOpponentGalakrondCounter: Bool {
-        set { set(name: Settings.opponent_galakrond_invoke_frame, value: newValue) }
-        get { return get(name: Settings.opponent_galakrond_invoke_frame) as? Bool ?? true }
-    }
-    static var showOpponentCthun: Bool {
-        set { set(name: Settings.opponent_cthun_frame, value: newValue) }
-        get { return get(name: Settings.opponent_cthun_frame) as? Bool ?? true }
-    }
-    static var showOpponentSpell: Bool {
-        set { set(name: Settings.opponent_yogg_frame, value: newValue) }
-        get { return get(name: Settings.opponent_yogg_frame) as? Bool ?? true }
-    }
-    static var showOpponentDeathrattle: Bool {
-        set { set(name: Settings.opponent_deathrattle_frame, value: newValue) }
-        get { return get(name: Settings.opponent_deathrattle_frame) as? Bool ?? false }
-    }
-    static var showOpponentGraveyard: Bool {
-        set { set(name: Settings.opponent_graveyard_frame, value: newValue) }
-        get { return get(name: Settings.opponent_graveyard_frame) as? Bool ?? true }
-    }
-    static var showOpponentGraveyardDetails: Bool {
-        set { set(name: Settings.opponent_graveyard_details_frame, value: newValue) }
-        get { return get(name: Settings.opponent_graveyard_details_frame) as? Bool ?? true }
-    }
-    static var showOpponentJadeCounter: Bool {
-        set { set(name: Settings.opponent_jade_frame, value: newValue) }
-        get { return get(name: Settings.opponent_jade_frame) as? Bool ?? true }
-    }
-    static var removeCardsFromDeck: Bool {
-        set { set(name: Settings.remove_cards_from_deck, value: newValue) }
-        get { return get(name: Settings.remove_cards_from_deck) as? Bool ?? false }
-    }
-    static var highlightLastDrawn: Bool {
-        set { set(name: Settings.highlight_last_drawn, value: newValue) }
-        get { return get(name: Settings.highlight_last_drawn) as? Bool ?? true }
-    }
-    static var highlightCardsInHand: Bool {
-        set { set(name: Settings.highlight_cards_in_hand, value: newValue) }
-        get { return get(name: Settings.highlight_cards_in_hand) as? Bool ?? false }
-    }
-    static var highlightDiscarded: Bool {
-        set { set(name: Settings.highlight_discarded, value: newValue) }
-        get { return get(name: Settings.highlight_discarded) as? Bool ?? false }
-    }
-    static var showPlayerGet: Bool {
-        set { set(name: Settings.show_player_get, value: newValue) }
-        get { return get(name: Settings.show_player_get) as? Bool ?? false }
-    }
-    static var showOpponentCreated: Bool {
-        set { set(name: Settings.show_opponent_created, value: newValue) }
-        get { return get(name: Settings.show_opponent_created) as? Bool ?? true }
-    }
-    static var showPlayerTracker: Bool {
-        set { set(name: Settings.show_player_tracker, value: newValue) }
-        get { return get(name: Settings.show_player_tracker) as? Bool ?? true }
-    }
-    static var clearTrackersOnGameEnd: Bool {
-        set { set(name: Settings.clear_trackers_end, value: newValue) }
-        get { return get(name: Settings.clear_trackers_end) as? Bool ?? false }
-    }
-    static var showOpponentTracker: Bool {
-        set { set(name: Settings.show_opponent_tracker, value: newValue) }
-        get { return get(name: Settings.show_opponent_tracker) as? Bool ?? true }
-    }
-    static var showTimer: Bool {
-        set { set(name: Settings.show_timer, value: newValue) }
-        get { return get(name: Settings.show_timer) as? Bool ?? false }
-    }
+    @UserDefault(key: Settings.player_draw_chance, defaultValue: true)
+    static var showPlayerDrawChance: Bool
+    @UserDefault(key: Settings.player_card_count, defaultValue: true)
+    static var showPlayerCardCount: Bool
+    @UserDefault(key: Settings.opponent_card_count, defaultValue: true)
+    static var showOpponentCardCount: Bool
+    @UserDefault(key: Settings.opponent_draw_chance, defaultValue: true)
+    static var showOpponentDrawChance: Bool
+    @UserDefault(key: Settings.player_cthun_frame, defaultValue: true)
+    static var showPlayerCthun: Bool
+    @UserDefault(key: Settings.player_deathrattle_frame, defaultValue: false)
+    static var showPlayerDeathrattle: Bool
+    @UserDefault(key: Settings.player_yogg_frame, defaultValue: true)
+    static var showPlayerSpell: Bool
+    @UserDefault(key: Settings.player_graveyard_frame, defaultValue: true)
+    static var showPlayerGraveyard: Bool
+    @UserDefault(key: Settings.player_graveyard_details_frame, defaultValue: true)
+    static var showPlayerGraveyardDetails: Bool
+    @UserDefault(key: Settings.player_jade_frame, defaultValue: true)
+    static var showPlayerJadeCounter: Bool
+    @UserDefault(key: Settings.player_galakrond_invoke_frame, defaultValue: true)
+    static var showPlayerGalakrondCounter: Bool
+    @UserDefault(key: Settings.opponent_galakrond_invoke_frame, defaultValue: true)
+    static var showOpponentGalakrondCounter: Bool
+    @UserDefault(key: Settings.opponent_cthun_frame, defaultValue: true)
+    static var showOpponentCthun: Bool
+    @UserDefault(key: Settings.opponent_yogg_frame, defaultValue: true)
+    static var showOpponentSpell: Bool
+    @UserDefault(key: Settings.opponent_deathrattle_frame, defaultValue: false)
+    static var showOpponentDeathrattle: Bool
+    @UserDefault(key: Settings.opponent_graveyard_frame, defaultValue: true)
+    static var showOpponentGraveyard: Bool
+    @UserDefault(key: Settings.opponent_graveyard_details_frame, defaultValue: true)
+    static var showOpponentGraveyardDetails: Bool
+    @UserDefault(key: Settings.opponent_jade_frame, defaultValue: true)
+    static var showOpponentJadeCounter: Bool
+    @UserDefault(key: Settings.remove_cards_from_deck, defaultValue: false)
+    static var removeCardsFromDeck: Bool
+    @UserDefault(key: Settings.highlight_last_drawn, defaultValue: true)
+    static var highlightLastDrawn: Bool
+    @UserDefault(key: Settings.highlight_cards_in_hand, defaultValue: false)
+    static var highlightCardsInHand: Bool
+    @UserDefault(key: Settings.highlight_discarded, defaultValue: false)
+    static var highlightDiscarded: Bool
+    @UserDefault(key: Settings.show_player_get, defaultValue: false)
+    static var showPlayerGet: Bool
+    @UserDefault(key: Settings.show_opponent_created, defaultValue: true)
+    static var showOpponentCreated: Bool
+    @UserDefault(key: Settings.show_player_tracker, defaultValue: true)
+    static var showPlayerTracker: Bool
+    @UserDefault(key: Settings.clear_trackers_end, defaultValue: false)
+    static var clearTrackersOnGameEnd: Bool
+    @UserDefault(key: Settings.show_opponent_tracker, defaultValue: true)
+    static var showOpponentTracker: Bool
+    @UserDefault(key: Settings.show_timer, defaultValue: false)
+    static var showTimer: Bool
     
-    static var timerHudFrame: NSRect? {
-        set { set(name: Settings.timer_hud_frame,
-                  value: newValue == nil ? nil : NSStringFromRect(newValue!)) }
-        get {
-            if let stringRect = get(name: Settings.timer_hud_frame) as? String {
-                return NSRectFromString(stringRect)
-            }
-            return nil
-        }
-    }
+    @UserDefaultCustom(key: Settings.timer_hud_frame, defaultValue: nil)
+    static var timerHudFrame: NSRect?
     
-    static var showCardHuds: Bool {
-        set { set(name: Settings.show_card_huds, value: newValue) }
-        get { return get(name: Settings.show_card_huds) as? Bool ?? true }
-    }
-    static var showSecretHelper: Bool {
-        set { set(name: Settings.show_secret_helper, value: newValue) }
-        get { return get(name: Settings.show_secret_helper) as? Bool ?? true }
-    }
-    static var showArenaHelper: Bool {
-        set { set(name: Settings.show_arena_helper, value: newValue) }
-        get { return get(name: Settings.show_arena_helper) as? Bool ?? true }
-    }
-    static var showWinLossRatio: Bool {
-        set { set(name: Settings.show_win_loss_ratio, value: newValue) }
-        get { return get(name: Settings.show_win_loss_ratio) as? Bool ?? false }
-    }
+    @UserDefault(key: Settings.show_card_huds, defaultValue: true)
+    static var showCardHuds: Bool
+    @UserDefault(key: Settings.show_secret_helper, defaultValue: true)
+    static var showSecretHelper: Bool
+    @UserDefault(key: Settings.show_arena_helper, defaultValue: true)
+    static var showArenaHelper: Bool
+    @UserDefault(key: Settings.show_win_loss_ratio, defaultValue: false)
+    static var showWinLossRatio: Bool
     static var playerInHandColor: NSColor {
         set { set(name: Settings.player_in_hand_color, value: [
             newValue.redComponent,
@@ -361,170 +303,102 @@ final class Settings {
             return NSColor(red: 0.678, green: 1, blue: 0.184, alpha: 1)
         }
     }
-    static var showAppHealth: Bool {
-        set { set(name: Settings.show_apphealth, value: newValue) }
-        get { return get(name: Settings.show_apphealth) as? Bool ?? true }
-    }
+    @UserDefault(key: Settings.show_apphealth, defaultValue: true)
+    static var showAppHealth: Bool
 
-    static var playerTrackerFrame: NSRect? {
-        set { set(name: Settings.player_tracker_frame,
-                  value: newValue == nil ? nil : NSStringFromRect(newValue!)) }
-        get {
-            if let stringRect = get(name: Settings.player_tracker_frame) as? String {
-                return NSRectFromString(stringRect)
-            }
-            return nil
-        }
-    }
+    @UserDefaultCustom(key: Settings.player_tracker_frame, defaultValue: nil)
+    static var playerTrackerFrame: NSRect?
+    
+    @UserDefaultCustom(key: Settings.opponent_tracker_frame, defaultValue: nil)
+    static var opponentTrackerFrame: NSRect?
 
-    static var opponentTrackerFrame: NSRect? {
-        set { set(name: Settings.opponent_tracker_frame,
-                  value: newValue == nil ? nil : NSStringFromRect(newValue!)) }
-        get {
-            if let stringRect = get(name: Settings.opponent_tracker_frame) as? String {
-                return NSRectFromString(stringRect)
-            }
-            return nil
-        }
-    }
-
-    static var playerBoardDamage: Bool {
-        set { set(name: Settings.player_board_damage, value: newValue) }
-        get { return get(name: Settings.player_board_damage) as? Bool ?? true }
-    }
+    @UserDefault(key: Settings.player_board_damage, defaultValue: true)
+    static var playerBoardDamage: Bool
     
-    static var playerBoardDamageFrame: NSRect? {
-        set { set(name: Settings.player_board_damage_frame,
-                  value: newValue == nil ? nil : NSStringFromRect(newValue!)) }
-        get {
-            if let stringRect = get(name: Settings.player_board_damage_frame) as? String {
-                return NSRectFromString(stringRect)
-            }
-            return nil
-        }
-    }
+    @UserDefaultCustom(key: Settings.player_board_damage_frame, defaultValue: nil)
+    static var playerBoardDamageFrame: NSRect?
     
-    static var opponentBoardDamage: Bool {
-        set { set(name: Settings.opponent_board_damage, value: newValue) }
-        get { return get(name: Settings.opponent_board_damage) as? Bool ?? true }
-    }
+    @UserDefault(key: Settings.opponent_board_damage, defaultValue: true)
+    static var opponentBoardDamage: Bool
     
-    static var opponentBoardDamageFrame: NSRect? {
-        set { set(name: Settings.opponent_board_damage_frame,
-                  value: newValue == nil ? nil : NSStringFromRect(newValue!)) }
-        get {
-            if let stringRect = get(name: Settings.opponent_board_damage_frame) as? String {
-                return NSRectFromString(stringRect)
-            }
-            return nil
-        }
-    }
+    @UserDefaultCustom(key: Settings.opponent_board_damage_frame, defaultValue: nil)
+    static var opponentBoardDamageFrame: NSRect?
     
-    static var fatigueIndicator: Bool {
-        set { set(name: Settings.show_fatigue, value: newValue) }
-        get { return get(name: Settings.show_fatigue) as? Bool ?? true }
-    }
+    @UserDefault(key: Settings.show_fatigue, defaultValue: true)
+    static var fatigueIndicator: Bool
 
     // MARK: - Notifications
-    static var useToastNotification: Bool {
-        set { set(name: Settings.use_toast_notification, value: newValue) }
-        get { return get(name: Settings.use_toast_notification) as? Bool ?? true }
-    }
-    static var notifyGameStart: Bool {
-        set { set(name: Settings.notify_game_start, value: newValue) }
-        get { return get(name: Settings.notify_game_start) as? Bool ?? true }
-    }
-    static var notifyTurnStart: Bool {
-        set { set(name: Settings.notify_turn_start, value: newValue) }
-        get { return get(name: Settings.notify_turn_start) as? Bool ?? true }
-    }
-    static var notifyOpponentConcede: Bool {
-        set { set(name: Settings.notify_opponent_concede, value: newValue) }
-        get { return get(name: Settings.notify_opponent_concede) as? Bool ?? true }
-    }
-    static var flashOnDraw: Bool {
-        set { set(name: Settings.flash_draw, value: newValue) }
-        get { return get(name: Settings.flash_draw) as? Bool ?? true }
-    }
-    static var showOpponentClassInTracker: Bool {
-        set { set(name: Settings.show_opponent_class, value: newValue) }
-        get { return get(name: Settings.show_opponent_class) as? Bool ?? false }
-    }
-    static var preventOpponentNameCovering: Bool {
-        set { set(name: Settings.prevent_opponent_name_covering, value: newValue) }
-        get { return get(name: Settings.prevent_opponent_name_covering) as? Bool ?? false }
-    }
-    static var showDeckNameInTracker: Bool {
-        set { set(name: Settings.show_deck_name, value: newValue) }
-        get { return get(name: Settings.show_deck_name) as? Bool ?? false }
-    }
+    @UserDefault(key: Settings.use_toast_notification, defaultValue: true)
+    static var useToastNotification: Bool
+    @UserDefault(key: Settings.notify_game_start, defaultValue: true)
+    static var notifyGameStart: Bool
+    @UserDefault(key: Settings.notify_turn_start, defaultValue: true)
+    static var notifyTurnStart: Bool
+    @UserDefault(key: Settings.notify_opponent_concede, defaultValue: true)
+    static var notifyOpponentConcede: Bool
+    @UserDefault(key: Settings.flash_draw, defaultValue: true)
+    static var flashOnDraw: Bool
+    @UserDefault(key: Settings.show_opponent_class, defaultValue: false)
+    static var showOpponentClassInTracker: Bool
+    @UserDefault(key: Settings.prevent_opponent_name_covering, defaultValue: false)
+    static var preventOpponentNameCovering: Bool
+    @UserDefault(key: Settings.show_deck_name, defaultValue: false)
+    static var showDeckNameInTracker: Bool
+
+    // MARK: - Importing
+    @UserDefault(key: Settings.import_dungeon_include_passives, defaultValue: true)
+    static var importDungeonIncludePassives: Bool
+    @UserDefault(key: Settings.import_dungeon_template, defaultValue: "Dungeon Run {Date dd-MM HH:mm}")
+    static var importDungeonTemplate: String
+    @UserDefault(key: Settings.import_monster_hunt_template, defaultValue: "Monster Hunt {Date dd-MM HH:mm}")
+    static var importMonsterHuntTemplate: String
+    @UserDefault(key: Settings.import_rumble_run_template, defaultValue: "Rumble Run {Date dd-MM HH:mm}")
+    static var importRumbleRunTemplate: String
+    @UserDefault(key: Settings.import_dalaran_heist_template, defaultValue: "Dalaran Heist {Date dd-MM HH:mm}")
+    static var importDalaranHeistTemplate: String
+    @UserDefault(key: Settings.import_tombs_of_terror_template, defaultValue: "Tombs of Terror {Date dd-MM HH:mm}")
+    static var importTombsOfTerrorTemplate: String
+    @UserDefault(key: Settings.import_duels_template, defaultValue: "Duels Run {Date dd-MM HH:mm}")
+    static var importDuelsTemplate: String
 
     // MARK: - HSReplay.net
-    static var saveReplays: Bool {
-        set { set(name: Settings.save_replays, value: newValue) }
-        get { return get(name: Settings.save_replays) as? Bool ?? false }
-    }
-    static var hsReplayUploadToken: String? {
-        set { set(name: Settings.hsreplay_upload_token, value: newValue) }
-        get { return get(name: Settings.hsreplay_upload_token) as? String }
-    }
-    static var hsReplayOAuthToken: String? {
-        set { set(name: Settings.hsreplay_oauth_token, value: newValue) }
-        get { return get(name: Settings.hsreplay_oauth_token) as? String }
-    }
-    static var hsReplayOAuthRefreshToken: String? {
-        set { set(name: Settings.hsreplay_oauth_refresh_token, value: newValue) }
-        get { return get(name: Settings.hsreplay_oauth_refresh_token) as? String }
-    }
-    static var hsReplayUsername: String? {
-        set { set(name: Settings.hsreplay_username, value: newValue) }
-        get { return get(name: Settings.hsreplay_username) as? String }
-    }
-    static var hsReplayId: Int? {
-        set { set(name: Settings.hsreplay_id, value: newValue) }
-        get { return get(name: Settings.hsreplay_id) as? Int }
-    }
-    static var hsReplaySynchronizeMatches: Bool {
-        set { set(name: Settings.hsreplay_auto_synchronize_matches, value: newValue) }
-        get { return get(name: Settings.hsreplay_auto_synchronize_matches) as? Bool ?? true }
-    }
-    static var showHSReplayPushNotification: Bool {
-        set { set(name: Settings.hsreplay_show_push_notification, value: newValue) }
-        get { return get(name: Settings.hsreplay_show_push_notification) as? Bool ?? true }
-    }
-    static var hsReplayUploadRankedMatches: Bool {
-        set { set(name: Settings.hsreplay_auto_synchronize_ranked_matches, value: newValue) }
-        get { return get(name: Settings.hsreplay_auto_synchronize_ranked_matches) as? Bool ?? true }
-    }
-    static var hsReplayUploadCasualMatches: Bool {
-        set { set(name: Settings.hsreplay_auto_synchronize_casual_matches, value: newValue) }
-        get { return get(name: Settings.hsreplay_auto_synchronize_casual_matches) as? Bool ?? true }
-    }
-    static var hsReplayUploadArenaMatches: Bool {
-        set { set(name: Settings.hsreplay_auto_synchronize_arena_matches, value: newValue) }
-        get { return get(name: Settings.hsreplay_auto_synchronize_arena_matches) as? Bool ?? true }
-    }
-    static var hsReplayUploadBrawlMatches: Bool {
-        set { set(name: Settings.hsreplay_auto_synchronize_brawl_matches, value: newValue) }
-        get { return get(name: Settings.hsreplay_auto_synchronize_brawl_matches) as? Bool ?? true }
-    }
-    static var hsReplayUploadFriendlyMatches: Bool {
-        set { set(name: Settings.hsreplay_auto_synchronize_friendly_matches, value: newValue) }
-        get { return get(name: Settings.hsreplay_auto_synchronize_friendly_matches) as? Bool ?? true }
-    }
-    static var hsReplayUploadAdventureMatches: Bool {
-        set { set(name: Settings.hsreplay_auto_synchronize_adventure_matches, value: newValue) }
-        get { return get(name: Settings.hsreplay_auto_synchronize_adventure_matches) as? Bool ?? true }
-    }
-    static var hsReplayUploadSpectatorMatches: Bool {
-        set { set(name: Settings.hsreplay_auto_synchronize_spectator_matches, value: newValue) }
-        get { return get(name: Settings.hsreplay_auto_synchronize_spectator_matches) as? Bool ?? false }
-    }
-
-    static var theme: String {
-        set { set(name: Settings.theme_token, value: newValue) }
-        get { return get(name: Settings.theme_token) as? String ?? "dark" }
-    }
+    @UserDefault(key: Settings.save_replays, defaultValue: false)
+    static var saveReplays: Bool
+    @UserDefault(key: Settings.hsreplay_upload_token, defaultValue: nil)
+    static var hsReplayUploadToken: String?
+    @UserDefault(key: Settings.hsreplay_oauth_token, defaultValue: nil)
+    static var hsReplayOAuthToken: String?
+    @UserDefault(key: Settings.hsreplay_oauth_refresh_token, defaultValue: nil)
+    static var hsReplayOAuthRefreshToken: String?
+    @UserDefault(key: Settings.hsreplay_username, defaultValue: nil)
+    static var hsReplayUsername: String?
+    @UserDefault(key: Settings.hsreplay_id, defaultValue: nil)
+    static var hsReplayId: Int?
+    @UserDefault(key: Settings.hsreplay_auto_synchronize_matches, defaultValue: true)
+    static var hsReplaySynchronizeMatches: Bool
+    @UserDefault(key: Settings.hsreplay_show_push_notification, defaultValue: true)
+    static var showHSReplayPushNotification: Bool
+    @UserDefault(key: Settings.hsreplay_auto_synchronize_ranked_matches, defaultValue: true)
+    static var hsReplayUploadRankedMatches: Bool
+    @UserDefault(key: Settings.hsreplay_auto_synchronize_casual_matches, defaultValue: true)
+    static var hsReplayUploadCasualMatches: Bool
+    @UserDefault(key: Settings.hsreplay_auto_synchronize_arena_matches, defaultValue: true)
+    static var hsReplayUploadArenaMatches: Bool
+    @UserDefault(key: Settings.hsreplay_auto_synchronize_brawl_matches, defaultValue: true)
+    static var hsReplayUploadBrawlMatches: Bool
+    @UserDefault(key: Settings.hsreplay_auto_synchronize_friendly_matches, defaultValue: true)
+    static var hsReplayUploadFriendlyMatches: Bool
+    @UserDefault(key: Settings.hsreplay_auto_synchronize_adventure_matches, defaultValue: true)
+    static var hsReplayUploadAdventureMatches: Bool
+    @UserDefault(key: Settings.hsreplay_auto_synchronize_spectator_matches, defaultValue: false)
+    static var hsReplayUploadSpectatorMatches: Bool
+    @UserDefault(key: Settings.hsreplay_auto_synchronize_battlegrounds_matches, defaultValue: true)
+    static var hsReplayUploadBattlegroundsMatches: Bool
+    @UserDefault(key: Settings.hsreplay_auto_synchronize_duels_matches, defaultValue: true)
+    static var hsReplayUploadDuelsMatches: Bool
+    
+    @UserDefault(key: Settings.theme_token, defaultValue: "dark")
+    static var theme: String
 
     // MARK: - Paths / utils
     static var isCyrillicLanguage: Bool {
@@ -657,6 +531,15 @@ extension Settings {
     static let save_replays = "save_replays"
     static let archive_arena_deck = "archive_arena_deck"
     
+    // MARK: - Importing
+    static let import_dungeon_include_passives = "import_dungeon_include_passives"
+    static let import_dungeon_template = "import_dungeon_template"
+    static let import_monster_hunt_template = "import_monster_hunt_template"
+    static let import_rumble_run_template = "import_rumble_run_template"
+    static let import_dalaran_heist_template = "import_dalaran_heist_template"
+    static let import_tombs_of_terror_template = "import_tombs_of_terror_template"
+    static let import_duels_template = "import_duels_template"
+    
     // MARK: - HSReplay.net related preferences
     static let hsreplay_upload_token = "hsreplay_upload_token"
     static let hsreplay_username = "hsreplay_username"
@@ -672,4 +555,6 @@ extension Settings {
     static let hsreplay_auto_synchronize_friendly_matches = "hsreplay_auto_synchronize_friendly_matches"
     static let hsreplay_auto_synchronize_adventure_matches = "hsreplay_auto_synchronize_adventure_matches"
     static let hsreplay_auto_synchronize_spectator_matches = "hsreplay_auto_synchronize_spectator_matches"
+    static let hsreplay_auto_synchronize_battlegrounds_matches = "hsreplay_auto_synchronize_battlegrounds_matches"
+    static let hsreplay_auto_synchronize_duels_matches = "hsreplay_auto_synchronize_duels_matches"
 }

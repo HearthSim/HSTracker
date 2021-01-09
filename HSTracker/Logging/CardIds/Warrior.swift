@@ -125,6 +125,11 @@ extension CardIds.Collectible {
         static let ClockworkGoblin: String = "DAL_060"
         static let Wrenchcalibur: String = "DAL_063"
         static let KargathBladefist = "BT_123"
+        static let RedbandWasp = "GIL_155"
+        static let EterniumRover = "BOT_059"
+        static let DrywhiskerArmorer = "LOOT_367"
+        static let EmberscaleDrake = "TRL_323"
+        static let DragonRoar = "TRL_362"
     }
 }
 
@@ -194,6 +199,9 @@ extension CardIds.NonCollectible {
         static let BladestormHeroic: String = "ICC_834h"
         static let ScourgelordGarrosh_Shadowmourne: String = "ICC_834w"
         static let KargathBladefist_KargathPrimeToken = "BT_123t"
+        static let AkalisChampion = "TRLA_104"
+        static let AkalisWarDrum = "TRLA_170"
+        static let AkalisHorn = "TRLA_171"
     }
 }
 

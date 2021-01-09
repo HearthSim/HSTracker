@@ -33,5 +33,8 @@ enum Race: String, CaseIterable {
     totem,
     nerubian,
     pirate,
-    dragon
+    dragon,
+    blank,
+    all,
+    egg
 }

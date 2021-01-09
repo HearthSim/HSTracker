@@ -231,10 +231,58 @@ struct MirrorHelper {
     
     // MARK: - dungeon
     
-    static func getDungeonRunInfo() -> MirrorDungeonInfo? {
+    static func getDungeonRunInfo(key: Int) -> MirrorDungeonInfo? {
         var result: MirrorDungeonInfo?
         MirrorHelper.accessQueue.sync {
-            result = mirror?.getDungeonInfo()
+            result = mirror?.getDungeonInfo(Int32(key))
+        }
+        return result
+    }
+    
+    static func getPVPDungeonInfo() -> MirrorDungeonInfo? {
+        var result: MirrorDungeonInfo?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getPVPDungeonInfo()
+        }
+        return result
+    }
+    
+    static func getPVPDungeonSeedDeck() -> MirrorDeck? {
+        var result: MirrorDeck?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getPVPDungeonSeedDeck()
+        }
+        return result
+    }
+    
+    static func getDungeonDeck(id: Int) -> [Int]? {
+        var result: [Int]?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getDungeonDeck(Int32(id))?.compactMap({ x in x.intValue })
+        }
+        return result
+    }
+    
+    static func getAdventureConfig() -> AdventureConfig? {
+        var result: AdventureConfig?
+        MirrorHelper.accessQueue.sync {
+            let temp = mirror?.getAdventureConfig()
+            var res = AdventureConfig()
+            if let config = temp {
+                res.adventureId = AdventureDbId(rawValue: config.selectedAdventure.intValue) ?? .invalid
+                res.adventureModeId = AdventureModeDbId(rawValue: config.selectedMode.intValue) ?? .invalid
+                res.selectedMission = config.selectedMission.intValue
+                res.selectedDeckId = config.selectedDeckId.intValue
+                result = res
+            }
+        }
+        return result
+    }
+    
+    static func getScenarioDeckId(id: Int) -> Int? {
+        var result: Int?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getScenarioDeckId(Int32(id))?.intValue
         }
         return result
     }
@@ -247,4 +295,11 @@ struct MirrorHelper {
         return result
     }
 	
+    static func getUnavailableBattlegroundsRaces() -> [NSNumber]? {
+        var result: [NSNumber]?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getUnavailableBattlegroundsRaces()
+        }
+        return result
+    }
 }

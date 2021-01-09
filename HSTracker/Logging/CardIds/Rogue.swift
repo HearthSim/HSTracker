@@ -141,6 +141,8 @@ extension CardIds.Collectible {
         static let TogwagglesScheme = "DAL_010"
         static let BloodsailFlybooter = "DRG_035"
         static let UmbralSkulker = "DRG_027"
+        static let BlinkFox = "GIL_827"
+        static let AcademicEspionage = "BOT_087"
     }
 }
 
@@ -210,6 +212,9 @@ extension CardIds.NonCollectible {
         static let Waxadred_WaxadredsCandleToken = "DRG_036t"
         static let Akama_AkamaPrimeToken = "BT_713t"
         static let BloodsailFlybooter_SkyPirateToken = "DRG_035t"
+        static let BottledTerror = "TRLA_106"
+        static let TreasureFromBelow = "TRLA_186"
+        static let PiratesMark = "TRLA_187"
     }
 }
 

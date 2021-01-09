@@ -40,13 +40,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	
 	var preferences: MASPreferencesWindowController = {
 		var controllers = [
-			GeneralPreferences(nibName: "GeneralPreferences", bundle: nil),
-			GamePreferences(nibName: "GamePreferences", bundle: nil),
-			TrackersPreferences(nibName: "TrackersPreferences", bundle: nil),
-			PlayerTrackersPreferences(nibName: "PlayerTrackersPreferences", bundle: nil),
-			OpponentTrackersPreferences(nibName: "OpponentTrackersPreferences", bundle: nil),
-			BattlegroundsPreferences(nibName: "BattlegroundsPreferences", bundle: nil),
-			HSReplayPreferences(nibName: "HSReplayPreferences", bundle: nil)
+            GeneralPreferences(nibName: "GeneralPreferences", bundle: nil),
+            GamePreferences(nibName: "GamePreferences", bundle: nil),
+            TrackersPreferences(nibName: "TrackersPreferences", bundle: nil),
+            PlayerTrackersPreferences(nibName: "PlayerTrackersPreferences", bundle: nil),
+            OpponentTrackersPreferences(nibName: "OpponentTrackersPreferences", bundle: nil),
+            BattlegroundsPreferences(nibName: "BattlegroundsPreferences", bundle: nil),
+            ImportingPreferences(nibName: "ImportingPreferences", bundle: nil),
+            HSReplayPreferences(nibName: "HSReplayPreferences", bundle: nil)
         ]
 		
 		let preferences = MASPreferencesWindowController(
