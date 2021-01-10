@@ -14,6 +14,8 @@ import RegexUtil
 struct LoadingScreenHandler: LogEventParser {
 	
 	private unowned(unsafe) let coreManager: CoreManager
+    
+    private let showExperienceDuringMode = [ Mode.hub, Mode.game_mode, Mode.tournament, Mode.bacon, Mode.draft, Mode.pvp_dungeon_run ]
 	
 	init(with coreManager: CoreManager) {
 		self.coreManager = coreManager
@@ -32,6 +34,26 @@ struct LoadingScreenHandler: LogEventParser {
             logger.info("Game mode from \(String(describing: game.previousMode)) "
                 + "to \(String(describing: game.currentMode))")
 
+            if logLine.time.timeIntervalSinceNow < 5 {
+                if game.currentMode == Optional(.hub) && !MirrorHelper.isInitialized() {
+                    DispatchQueue.global().async {
+                        if MirrorHelper.getAccountId() != nil {
+                            ExperienceWatcher._instance.startWatching()
+                        }
+                    }
+                }
+            }
+            
+            if let currentMode = game.currentMode, showExperienceDuringMode.contains(currentMode) {
+                game.windowManager.experiencePanel.visible = true
+                game.updateExperienceOverlay()
+            } else {
+                if let previousMode = game.previousMode, showExperienceDuringMode.contains(previousMode) {
+                    game.windowManager.experiencePanel.visible = false
+                    game.updateExperienceOverlay()
+                }
+            }
+        
             if game.previousMode == .gameplay && game.currentMode != .gameplay {
                 game.inMenu()
             }

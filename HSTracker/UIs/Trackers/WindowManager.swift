@@ -84,6 +84,10 @@ class WindowManager {
     var bobsBuddyPanel: BobsBuddyPanel = {
         return $0
     }(BobsBuddyPanel(windowNibName: "BobsBuddyPanel"))
+    
+    var experiencePanel: ExperienceOverlay = {
+        return $0
+    }(ExperienceOverlay(windowNibName: "ExperienceOverlay"))
 
     var toastWindowController = ToastWindowController()
 

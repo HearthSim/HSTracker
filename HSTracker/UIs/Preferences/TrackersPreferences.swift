@@ -29,6 +29,7 @@ class TrackersPreferences: NSViewController {
     @IBOutlet weak var hideAllWhenGameInBackground: NSButton!
     @IBOutlet weak var disableTrackingInSpectatorMode: NSButton!
     @IBOutlet weak var floatingCardStyle: NSComboBox!
+    @IBOutlet weak var showExperienceCounter: NSButton!
     
     let themes = ["classic", "frost", "dark", "minimal"]
 
@@ -54,6 +55,7 @@ class TrackersPreferences: NSViewController {
         showRarityColors.state = Settings.showRarityColors ? .on : .off
         showFloatingCard.state = Settings.showFloatingCard ? .on : .off
         showTopdeckChance.state = Settings.showTopdeckchance ? .on : .off
+        showExperienceCounter.state = Settings.showExperienceCounter ? .on : .off
 
         floatingCardStyle.isEnabled = Settings.showFloatingCard
         switch Settings.floatingCardStyle {
@@ -125,6 +127,17 @@ class TrackersPreferences: NSViewController {
             Settings.hideAllWhenGameInBackground = hideAllWhenGameInBackground.state == .on
         } else if sender == disableTrackingInSpectatorMode {
             Settings.dontTrackWhileSpectating = disableTrackingInSpectatorMode.state == .on
+        } else if sender == showExperienceCounter {
+            Settings.showExperienceCounter = showExperienceCounter.state == .on
+            let game = AppDelegate.instance().coreManager.game
+            
+            if showExperienceCounter.state == .on {
+                if let mode = game.currentMode, mode == Mode.hub {
+                    game.windowManager.experiencePanel.visible = true
+                }
+            } else {
+                game.windowManager.experiencePanel.visible = false
+            }
         }
     }
 }

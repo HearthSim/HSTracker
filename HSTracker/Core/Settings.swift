@@ -205,6 +205,8 @@ final class Settings {
     static var preferGoldenCards: Bool
     @UserDefault(key: Settings.auto_deck_detection, defaultValue: true)
     static var autoDeckDetection: Bool
+    @UserDefault(key: Settings.show_experience_counter, defaultValue: true)
+    static var showExperienceCounter: Bool
     
     // MARK: - Battlegrounds
     @UserDefault(key: Settings.show_bobs_buddy, defaultValue: true)
@@ -462,6 +464,7 @@ extension Settings {
     static let window_locked = "window_locked"
     static let prefer_golden_cards = "prefer_golden_cards"
     static let auto_deck_detection = "auto_deck_detection"
+    static let show_experience_counter = "show_experience_counter"
     
     // MARK: Battlegrounds
     static let show_bobs_buddy = "show_bobs_buddy"

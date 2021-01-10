@@ -151,6 +151,7 @@ class Game: NSObject, PowerEventHandler {
         self.updateBobsBuddyOverlay()
         self.updateTurnCounterOverlay()
         self.updateToaster()
+        self.updateExperienceOverlay()
 	}
 	
     // MARK: - GUI calls
@@ -474,6 +475,53 @@ class Game: NSObject, PowerEventHandler {
         }
     }
     
+    func updateExperienceOverlay() {
+        let rect = SizeHelper.experienceOverlayFrame()
+        
+        DispatchQueue.main.async {
+            let experiencePanel = self.windowManager.experiencePanel
+            if Settings.showExperienceCounter && experiencePanel.visible && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground) {
+                self.windowManager.show(controller: experiencePanel, show: true, frame: rect, title: nil, overlay: true)
+            } else {
+                self.windowManager.show(controller: experiencePanel, show: false)
+            }
+        }
+    }
+    
+    static let experienceFadeDelay = 6.0
+    
+    func experienceChangedAsync(experience: Int, experienceNeeded: Int, level: Int, levelChange: Int, animate: Bool) {
+        let currentMode = self.currentMode ?? .invalid
+        
+        logger.debug("Experience changed. Current mode \(currentMode)")
+        
+        while currentMode == Mode.gameplay && previousMode == Mode.bacon {
+            Thread.sleep(forTimeInterval: 0.500)
+        }
+        let experienceCounter = windowManager.experiencePanel.experienceTracker
+        experienceCounter.xpDisplay = "\(experience)/\(experienceNeeded)"
+        experienceCounter.levelDisplay = "\(level+1)"
+        experienceCounter.xpPercentage = (Double(experience) / Double(experienceNeeded))
+        if animate {
+            DispatchQueue.main.async {
+                experienceCounter.needsDisplay = true
+                self.windowManager.experiencePanel.visible = true
+                self.updateExperienceOverlay()
+                self.guiNeedsUpdate = true
+            }
+            Thread.sleep(forTimeInterval: Game.experienceFadeDelay)
+        } else {
+            DispatchQueue.main.async {
+                experienceCounter.needsDisplay = true
+                
+            }
+        }
+        if currentMode != Mode.hub {
+            windowManager.experiencePanel.visible = false
+            guiNeedsUpdate = true
+        }
+    }
+
     func updateCardHud() {
         tryToDetectWhizbangDeck()
 

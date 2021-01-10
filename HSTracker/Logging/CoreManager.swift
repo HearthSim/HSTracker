@@ -59,6 +59,10 @@ final class CoreManager: NSObject {
         PVPDungeonRunWatcher.pvpDungeonInfoChanged = { info in
             CoreManager.updateDungeonRunDeck(info: info, isPVPDR: true)
         }
+        
+        ExperienceWatcher.newExperienceHandler = { args in
+            AppDelegate.instance().coreManager.game.experienceChangedAsync(experience: args.experience, experienceNeeded: args.experienceNeeded, level: args.level, levelChange: args.levelChange, animate: args.animate)
+        }
     }
     
     deinit {
@@ -76,7 +80,7 @@ final class CoreManager: NSObject {
         startListeners()
         if CoreManager.isHearthstoneRunning() {
             logger.info("Hearthstone is running, starting trackers now.")
-
+            ExperienceWatcher._instance.startWatching()
             startTracking()
         }
     }
@@ -257,6 +261,7 @@ final class CoreManager: NSObject {
             logger.verbose("Hearthstone is now launched")
             self.startTracking()
             self.game.setHearthstoneRunning(flag: true)
+            ExperienceWatcher._instance.startWatching()
             NotificationCenter.default.post(name: Notification.Name(rawValue: Events.hearthstone_running), object: nil)
         }
     }
@@ -269,7 +274,7 @@ final class CoreManager: NSObject {
             
             self.game.setHearthstoneRunning(flag: false)
             AppHealth.instance.setHearthstoneRunning(flag: false)
-
+            ExperienceWatcher._instance.stopWatching()
             if Settings.quitWhenHearthstoneCloses {
                 NSApplication.shared.terminate(self)
             } else {

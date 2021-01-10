@@ -74,6 +74,10 @@ struct MirrorHelper {
         }
 	}
     
+    static func isInitialized() -> Bool {
+        return MirrorHelper._mirror != nil
+    }
+    
     // MARK: - Account information
     
     static func getBattleTag() -> String? {
@@ -299,6 +303,14 @@ struct MirrorHelper {
         var result: [NSNumber]?
         MirrorHelper.accessQueue.sync {
             result = mirror?.getUnavailableBattlegroundsRaces()
+        }
+        return result
+    }
+
+    static func getRewardTrackData() -> MirrorRewardTrackData? {
+        var result: MirrorRewardTrackData?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getRewardTrackData()
         }
         return result
     }

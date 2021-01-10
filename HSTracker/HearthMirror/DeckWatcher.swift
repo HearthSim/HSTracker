@@ -405,3 +405,55 @@ class PVPDungeonRunWatcher: Watcher {
         return false
     }
 }
+
+struct ExperienceEvent {
+    var experience: Int
+    var experienceNeeded: Int
+    var level: Int
+    var levelChange: Int
+    var animate: Bool
+}
+
+class ExperienceWatcher: Watcher {
+    static var newExperienceHandler: ((_ args: ExperienceEvent) -> Void)?
+
+    static let _instance = ExperienceWatcher()
+    
+    var _rewardTrackData: MirrorRewardTrackData?
+
+    static func start() {
+        _instance.startWatching()
+    }
+
+    static func stop() {
+        _instance.stopWatching()
+    }
+
+    override func run() {
+        while isRunning {
+            Thread.sleep(forTimeInterval: refreshInterval)
+
+            if !isRunning {
+                break
+            }
+            
+            if !MirrorHelper.isInitialized() {
+                continue
+            }
+            
+            if let newRewards = MirrorHelper.getRewardTrackData() {
+                if _rewardTrackData == nil || _rewardTrackData?.xp != newRewards.xp || _rewardTrackData?.level != newRewards.level || _rewardTrackData?.xpNeeded != newRewards.xpNeeded {
+                    var levelChange = 0
+                    if let temp = _rewardTrackData {
+                        levelChange = temp.level.intValue - newRewards.level.intValue
+                    }
+                    ExperienceWatcher.newExperienceHandler?(ExperienceEvent(experience: newRewards.xp.intValue, experienceNeeded: newRewards.xpNeeded.intValue, level: newRewards.level.intValue, levelChange: levelChange, animate: _rewardTrackData != nil))
+                    _rewardTrackData = newRewards
+                }
+            }
+        }
+        isRunning = false
+
+        queue = nil
+    }
+}

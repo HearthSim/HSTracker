@@ -243,6 +243,11 @@ struct SizeHelper {
         let frame = NSRect(x: 915.0, y: 667.0, width: 50.0, height: 50.0)
         return hearthstoneWindow.relativeFrame(frame)
     }
+    
+    static func experienceOverlayFrame() -> NSRect {
+        let frame = NSRect(x: 920.0, y: 20.0, width: 250, height: 80)
+        return hearthstoneWindow.relativeFrame(frame)
+    }
 
     static func arenaHelperFrame() -> NSRect {
         let height: CGFloat = 450
