@@ -1,5 +1,4 @@
 github "microsoft/appcenter-sdk-apple"
-github "jwilling/JNWCollectionView" "master"
 github "shpakovski/MASPreferences" "master"
 github "sparkle-project/Sparkle" "master"
 github "annjose/TextAttributes" "annjose-master"

@@ -10,7 +10,6 @@
 #define HSTracker_Bridging_Header_h
 
 #import <MASPreferences/MASPreferencesViewController.h>
-#import <JNWCollectionView/JNWCollectionView.h>
 
 #import <Sparkle/Sparkle.h>
 
