@@ -16,7 +16,7 @@ protocol NewDeckDelegate: class {
     func refreshDecks()
 }
 
-class NewDeck: NSWindowController {
+class NewDeck: NSWindowController, NSControlTextEditingDelegate {
     
     @IBOutlet weak var hstrackerDeckBuilder: NSButton!
     @IBOutlet weak var fromAFile: NSButton!
