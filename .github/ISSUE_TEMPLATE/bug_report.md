@@ -25,3 +25,6 @@ Important: please specify the version of HSTracker that you are using
 
 **Additional context**
 Add any other context about the problem here.
+
+**Log file**
+Attach the `hstracker.log` file found under `/Users/<userid>/Library/Logs/HSTracker/` directory.
