@@ -30,6 +30,7 @@ class FloatingCard: OverWindowController {
     }
 
     var card: Card?
+    var isBattlegrounds = false
     private var drawChanceTop: Float = 0
     private var drawChanceTop2: Float = 0
 
@@ -68,7 +69,7 @@ class FloatingCard: OverWindowController {
 
     private func reload() {
         if let cardId = self.card?.id, let lang = Settings.hearthstoneLanguage?.rawValue {
-            let imageUrl = URL(string: ImageUtils.artUrl(cardId: cardId, lang: lang))!
+            let imageUrl = URL(string: isBattlegrounds ? ImageUtils.artUrlBG(cardId: cardId, lang: lang) : ImageUtils.artUrl(cardId: cardId, lang: lang))!
             self.imageView.kf.setImage(with: imageUrl)
         }
 

@@ -169,6 +169,10 @@ class WindowManager {
                 let arrayFrame = notification.userInfo?["frame"] as? [CGFloat] else {
                     return
             }
+            
+            if let bgs = notification.userInfo?["battlegrounds"] as? Bool, bgs {
+                self.floatingCard.isBattlegrounds = true
+            }
             if let timer = self.closeRequestTimer {
                 timer.invalidate()
                 self.closeRequestTimer = nil

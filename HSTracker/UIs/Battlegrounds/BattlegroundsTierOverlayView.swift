@@ -9,7 +9,8 @@
 import Foundation
 
 class BattlegroundsTierOverlayView: NSView {
-    var currentTier = -1
+    var currentTier = 0
+    var hoverTier = 0
 
     init() {
         super.init(frame: NSRect.zero)
@@ -23,8 +24,26 @@ class BattlegroundsTierOverlayView: NSView {
         super.init(coder: coder)
     }
     
+    func unhideTier() {
+        if currentTier >= 1 && currentTier <= 6 {
+            let windowManager = AppDelegate.instance().coreManager.game.windowManager
+            let controller = windowManager.battlegroundsTierDetailsWindowController
+            let frame = SizeHelper.battlegroundsTierDetailFrame()
+            controller.detailsView?.contentFrame = frame
+            windowManager.show(controller: controller, show: true, frame: frame, overlay: true)
+        }
+    }
+    
+    func hideTier() {
+        if currentTier >= 1 && currentTier <= 6 {
+            let windowManager = AppDelegate.instance().coreManager.game.windowManager
+            let controller = windowManager.battlegroundsTierDetailsWindowController
+            windowManager.show(controller: controller, show: false)
+        }
+    }
+    
     func drawTier(tier: Int, x: Int) {
-        if tier == currentTier {
+        if hoverTier != 0 && tier == hoverTier || hoverTier == 0 && tier == currentTier {
             let rect = NSRect(x: x, y: 8, width: 40, height: 40)
             let image = NSImage(contentsOfFile: Bundle.main.resourcePath! + "/Resources/Battlegrounds/tier-glow.png")!
             image.draw(in: rect)
@@ -62,31 +81,45 @@ class BattlegroundsTierOverlayView: NSView {
     func displayTier(tier: Int) {
         if tier != currentTier {
             currentTier = tier
-            setNeedsDisplay(frame)
             
             let windowManager = AppDelegate.instance().coreManager.game.windowManager
             let controller = windowManager.battlegroundsTierDetailsWindowController
             if tier >= 1 && tier <= 6 {
-                
+                let frame = SizeHelper.battlegroundsTierDetailFrame()
                 windowManager.show(controller: controller, show: true,
-                                   frame: SizeHelper.battlegroundsTierDetailFrame(), overlay: true)
-                controller.setTier(tier: tier)
+                                   frame: frame, overlay: true)
+                controller.detailsView?.contentFrame = frame
+                controller.detailsView?.setTier(tier: tier)
             } else {
                 windowManager.show(controller: controller, show: false)
             }
         }
     }
+    
+    override func mouseUp(with event: NSEvent) {
+        let index = (Int(CGFloat(event.locationInWindow.x - 4.0))) / 48 + 1
+        
+        if index >= 1 && index <= 6 {
+            displayTier(tier: index == currentTier ? 0 : index)
+        } else {
+            displayTier(tier: 0)
+        }
+        needsDisplay = true
+    }
 
     override func mouseMoved(with event: NSEvent) {
         let index = (Int(CGFloat(event.locationInWindow.x - 4.0))) / 48 + 1
         
-        displayTier(tier: index)
-    }
-
-    override func mouseEntered(with event: NSEvent) {
+        if index >= 1 && index <= 6 {
+            hoverTier = index
+        } else {
+            hoverTier = 0
+        }
+        needsDisplay = true
     }
 
     override func mouseExited(with event: NSEvent) {
-        displayTier(tier: -1)
+        hoverTier = 0
+        needsDisplay = true
     }
 }

@@ -9,7 +9,17 @@
 import Foundation
 
 class BattlegroundsTierOverlay: OverWindowController {
+    
+    @IBOutlet weak var tierOverlay: BattlegroundsTierOverlayView!
+    
+    override var alwaysLocked: Bool {
+        return true
+    }
+    
     override func windowDidLoad() {
         super.windowDidLoad()
+    }
+    
+    override func updateFrames() {
     }
 }

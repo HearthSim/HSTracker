@@ -11,6 +11,10 @@ import Foundation
 class BattlegroundsTierDetailWindowController: OverWindowController {
     @IBOutlet weak var detailsView: BattlegroundsTierDetailsView?
     
+    override var alwaysLocked: Bool {
+        return true
+    }
+    
     override func windowDidLoad() {
         super.windowDidLoad()
     }

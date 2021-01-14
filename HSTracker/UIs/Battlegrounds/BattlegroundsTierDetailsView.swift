@@ -19,6 +19,8 @@ struct BattlegroundMinion {
 }
 
 class BattlegroundsTierDetailsView: NSStackView {
+    var contentFrame = NSRect.zero
+    
     init() {
         super.init(frame: NSRect.zero)
         self.orientation = .vertical
@@ -65,6 +67,7 @@ class BattlegroundsTierDetailsView: NSStackView {
             card.rarity = inCard.rarity
             cardBar.card = card
             cardBar.isBattlegrounds = true
+            cardBar.setDelegate(self)
             return cardBar
         }
         
@@ -173,16 +176,58 @@ class BattlegroundsTierDetailsView: NSStackView {
         }
 
         var totalHeight = CGFloat(cardBars.count) * cardHeight
-        if totalHeight > self.frame.height {
-            totalHeight = self.frame.height
+        if totalHeight > contentFrame.height {
+            totalHeight = contentFrame.height
             cardHeight = totalHeight / CGFloat(cardBars.count)
         }
         
         for i in 0...(cardBars.count - 1) {
-            let y = CGFloat(i) * cardHeight + self.frame.height - totalHeight
+            let y = CGFloat(i) * cardHeight + contentFrame.height - totalHeight
             let cardBar = cardBars[i]
-            cardBar.frame = NSRect(x: 0, y: y, width: self.frame.width, height: cardHeight)
+            cardBar.frame = NSRect(x: 0, y: y, width: contentFrame.width, height: cardHeight)
             self.addSubview(cardBar)
         }
+    }
+}
+
+// MARK: - CardCellHover
+extension BattlegroundsTierDetailsView: CardCellHover {
+    func hover(cell: CardBar, card: Card) {
+        let windowRect = self.window!.frame
+
+        let hoverFrame = NSRect(x: 0, y: 0, width: 180, height: 250)
+
+        var x: CGFloat
+        // decide if the popup window should on the left or right side of the tracker
+        if windowRect.origin.x < hoverFrame.size.width {
+            x = windowRect.origin.x + windowRect.size.width
+        } else {
+            x = windowRect.origin.x - hoverFrame.size.width
+        }
+
+        let cellFrameRelativeToWindow = cell.convert(cell.bounds, to: nil)
+        let cellFrameRelativeToScreen = cell.window?.convertToScreen(cellFrameRelativeToWindow)
+
+        let y: CGFloat = cellFrameRelativeToScreen!.origin.y
+
+        let frame = [x, y, hoverFrame.width, hoverFrame.height]
+
+        NotificationCenter.default
+            .post(name: Notification.Name(rawValue: Events.show_floating_card),
+                                  object: nil,
+                                  userInfo: [
+                                    "card": card,
+                                    "frame": frame,
+                                    "battlegrounds": true
+                ])
+    }
+
+    func out(card: Card) {
+        let userinfo = [
+            "card": card
+            ] as [String: Any]
+
+        NotificationCenter.default
+            .post(name: Notification.Name(rawValue: Events.hide_floating_card), object: nil, userInfo: userinfo)
     }
 }
