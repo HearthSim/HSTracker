@@ -27,6 +27,7 @@ class PowerGameStateParser: LogEventParser {
     let BuildNumberRegex: RegexPattern = "BuildNumber=(\\d+)"
     let PlayerIDNameRegex: RegexPattern = "PlayerID=(\\d+), PlayerName=(.+)"
     let HideEntityRegex: RegexPattern = "HIDE_ENTITY\\ -\\ .* id=(?<id>(\\d+))"
+    let CthunTheShatteredToken = "DMF_254t"
 
     var tagChangeHandler = TagChangeHandler()
     var currentEntity: Entity?
@@ -320,6 +321,11 @@ class PowerGameStateParser: LogEventParser {
                     let entity = eventHandler.entities[entityId]
                     if entity?.info.guessedCardState != GuessedCardState.none {
                         entity?.info.guessedCardState = GuessedCardState.revealed
+                    }
+                    if entity != nil {
+                        if(entity!.cardId.contains(CthunTheShatteredToken)){
+                            entity?.info.guessedCardState = GuessedCardState.guessed
+                        }
                     }
                 }
                 
