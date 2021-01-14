@@ -323,7 +323,7 @@ class PowerGameStateParser: LogEventParser {
                         entity?.info.guessedCardState = GuessedCardState.revealed
                     }
                     if entity != nil {
-                        if(entity!.cardId.contains(CthunTheShatteredToken)){
+                        if entity!.cardId.contains(CthunTheShatteredToken) {
                             entity?.info.guessedCardState = GuessedCardState.guessed
                         }
                     }

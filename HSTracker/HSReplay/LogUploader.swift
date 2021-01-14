@@ -8,7 +8,6 @@
 
 import Foundation
 import Wrap
-import ZipArchive
 import Gzip
 import RealmSwift
 import RegexUtil
@@ -16,96 +15,6 @@ import RegexUtil
 class LogUploader {
     private static var inProgress: [UploaderItem] = []
     
-    static func upload(filename: String, completion: @escaping (UploadResult) -> Void) {
-        if !SSZipArchive.unzipFile(atPath: filename, toDestination: Paths.tmpReplays.path) {
-            completion(.failed(error: "Can not unzip \(filename)"))
-            return
-        }
-        
-        let output = Paths.tmpReplays.appendingPathComponent("output_log.txt")
-        if !FileManager.default.fileExists(atPath: output.path) {
-            completion(.failed(error: "Can not find \(output)"))
-            return
-        }
-        do {
-            let content = try String(contentsOf: output)
-            let lines = content.components(separatedBy: "\n")
-            if lines.isEmpty {
-                completion(.failed(error: "Log is empty"))
-                return
-            }
-            
-            if lines.first?.hasPrefix("[") ?? true {
-                completion(.failed(error: "Output log not supported"))
-                return
-            }
-            if lines.first?.contains("PowerTaskList.") ?? true {
-                completion(.failed(error: "PowerTaskList is not supported"))
-                return
-            }
-            if !lines.any({ $0.contains("CREATE_GAME") }) {
-                completion(.failed(error: "'CREATE_GAME' not found"))
-                return
-            }
-            
-            var date: Date?
-            do {
-                let attr = try FileManager.default.attributesOfItem(atPath: output.path)
-                date = attr[.creationDate] as? Date
-            } catch {
-                logger.error("\(error)")
-            }
-
-            guard date != nil else {
-                completion(.failed(error: "Cannot find game start date"))
-                return
-            }
-            if let line = lines.first(where: { $0.contains("CREATE_GAME") }) {
-                let gameStart = LogLine(namespace: .power, line: line).time
-                var dateComponents = LogReaderManager.calendar
-                    .dateComponents(in: LogReaderManager.timeZone,
-                                    from: date!)
-                dateComponents.hour = gameStart.hour
-                dateComponents.minute = gameStart.minute
-                dateComponents.second = gameStart.second
-
-                date = LogReaderManager.calendar.date(from: dateComponents)
-            }
-
-            let logLines = lines.map({
-                LogLine.init(namespace: .power, line: $0)
-            })
-            
-            // find build number
-            var buildNumber = 0
-            let BuildNumberRegex: RegexPattern = "BuildNumber=(\\d+)"
-            for logline in logLines {
-                if logline.line.match(BuildNumberRegex) {
-                    if let buildnumber = Int(logline.line.matches(BuildNumberRegex)[0].value) {
-                        buildNumber = buildnumber
-                    }
-                }
-            }
-            
-            if buildNumber == 0 {
-                // build number was not found, bail
-                completion(.failed(error: "Build number was not found"))
-                return
-            }
-            
-            self.upload(logLines: logLines, buildNumber: buildNumber, gameStart: date, fromFile: true) { (result) in
-                do {
-                    try FileManager.default.removeItem(at: output)
-                } catch {
-                    logger.error("Can not remove tmp files")
-                }
-                completion(result)
-            }
-        } catch {
-            return completion(.failed(error: "Can not read \(output)"))
-        }
-    }
-
     static func upload(logLines: [LogLine], buildNumber: Int, metaData: (metaData: UploadMetaData, statId: String )? = nil,
                        gameStart: Date? = nil, fromFile: Bool = false,
                        completion: @escaping (UploadResult) -> Void) {

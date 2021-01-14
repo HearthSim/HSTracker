@@ -476,27 +476,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		}
 	}
 	
-	@IBAction func importReplay(_ sender: NSMenuItem) {
-		let panel = NSOpenPanel()
-		panel.directoryURL = Paths.replays
-		panel.canChooseFiles = true
-		panel.canChooseDirectories = false
-		panel.allowsMultipleSelection = false
-		panel.allowedFileTypes = ["hdtreplay"]
-		panel.begin { (returnCode) in
-			if returnCode.rawValue == NSFileHandlingPanelOKButton {
-				for filename in panel.urls {
-					let path = filename.path
-					LogUploader.upload(filename: path, completion: { (result) in
-						if case UploadResult.successful(let replayId) = result {
-							HSReplayManager.showReplay(replayId: replayId)
-						}
-					})
-				}
-			}
-		}
-	}
-	
 	func applicationDockMenu(_ sender: NSApplication) -> NSMenu? {
 		return self.dockMenu
 	}
@@ -578,4 +557,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	@IBAction func openReplayDirectory(_ sender: AnyObject) {
 		NSWorkspace.shared.activateFileViewerSelecting([Paths.replays])
 	}
+
+    @IBAction func openLogDirectory(_ sender: AnyObject) {
+        NSWorkspace.shared.activateFileViewerSelecting([Paths.logs])
+    }
 }

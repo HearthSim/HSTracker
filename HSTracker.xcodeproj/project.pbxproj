@@ -96,7 +96,6 @@
 		43647A531CDC9A3D00C2B78E /* TextAttributes.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43647A521CDC9A3D00C2B78E /* TextAttributes.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		43647A541CDC9A5100C2B78E /* TextAttributes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43647A521CDC9A3D00C2B78E /* TextAttributes.framework */; };
 		43647A561CDC9A5F00C2B78E /* TextAttributes.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = 43647A551CDC9A5F00C2B78E /* TextAttributes.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		436530DA1FA08343008F326F /* ZipArchive.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43C5680F1D5F692800451B6F /* ZipArchive.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4367899F1CAC05DD00C962D1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367899E1CAC05DD00C962D1 /* Cocoa.framework */; };
 		436789AE1CAC07BB00C962D1 /* MASPreferences.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = 436789A71CAC07BB00C962D1 /* MASPreferences.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		436789B71CACF64600C962D1 /* CardCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436789B61CACF64600C962D1 /* CardCounter.swift */; };
@@ -395,7 +394,6 @@
 		43C568011D5E584F00451B6F /* LogUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C568001D5E584F00451B6F /* LogUploader.swift */; };
 		43C568031D5E59E500451B6F /* UploadResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C568021D5E59E500451B6F /* UploadResult.swift */; };
 		43C568051D5E5BFF00451B6F /* UploadMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C568041D5E5BFF00451B6F /* UploadMetaData.swift */; };
-		43C568101D5F692800451B6F /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43C5680F1D5F692800451B6F /* ZipArchive.framework */; };
 		43C9EF291E9C1DED00D17F2A /* ArenaHelperSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C9EF281E9C1DED00D17F2A /* ArenaHelperSync.swift */; };
 		43D307FB1C83159C00480488 /* SizeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D307FA1C83159C00480488 /* SizeHelper.swift */; };
 		43D308041C842DC000480488 /* GeneralPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D308031C842DC000480488 /* GeneralPreferences.swift */; };
@@ -678,7 +676,6 @@
 				4C68AF2C2447D37000E52834 /* HearthMirror.framework in Embed Frameworks */,
 				5BD4A5042233E44E00EF879B /* Kingfisher.framework in Embed Frameworks */,
 				E301D342217CE7C6001F8D11 /* FMDB.framework in Embed Frameworks */,
-				436530DA1FA08343008F326F /* ZipArchive.framework in Embed Frameworks */,
 				436789DF1CAE484800C962D1 /* MASPreferences.framework in Embed Frameworks */,
 				439DD8FE1DB24F83004EBE47 /* Gzip.framework in Embed Frameworks */,
 				43BBAA9F1E619F96009B6298 /* Unbox.framework in Embed Frameworks */,
@@ -1298,7 +1295,6 @@
 				4C0C2A26244C8AED00E7B75E /* AppCenter.framework in Frameworks */,
 				43647A541CDC9A5100C2B78E /* TextAttributes.framework in Frameworks */,
 				4305CA401CF42AC70048E7EC /* Wrap.framework in Frameworks */,
-				43C568101D5F692800451B6F /* ZipArchive.framework in Frameworks */,
 				43F2F0CD1FA3568E002F5AEA /* AwaitKit.framework in Frameworks */,
 				43F2F0CE1FA3568E002F5AEA /* PromiseKit.framework in Frameworks */,
 				4C0C2A2A244C8CF400E7B75E /* AppCenterCrashes.framework in Frameworks */,
