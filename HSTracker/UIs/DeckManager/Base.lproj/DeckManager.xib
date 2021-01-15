@@ -206,11 +206,6 @@
                             <action selector="addDeck:" target="-2" id="vwS-C5-2yS"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="78B3DA64-7816-4C98-B154-267CEFE9433D" explicitItemIdentifier="donate" label="Donate" paletteLabel="Donate" tag="-1" image="donate" id="wWN-25-Exd">
-                        <connections>
-                            <action selector="donate:" target="-2" id="c4R-LJ-JnO"/>
-                        </connections>
-                    </toolbarItem>
                     <toolbarItem implicitItemIdentifier="AF6C9D32-A463-4FBC-9D95-D9A35EF1829C" explicitItemIdentifier="edit" label="Edit" paletteLabel="Edit" tag="-1" image="edit-deck" id="cbH-rI-BvP">
                         <connections>
                             <action selector="editDeck:" target="-2" id="VXP-sN-kLm"/>
@@ -261,9 +256,9 @@
                             </popUpButtonCell>
                         </popUpButton>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="FBE926F0-EDEB-49B0-B1AE-DAB2EA7D69CF" explicitItemIdentifier="gitter" label="Gitter" paletteLabel="Gitter" tag="-1" image="gitter" id="0zG-7b-xsf">
+                    <toolbarItem implicitItemIdentifier="FBE926F0-EDEB-49B0-B1AE-DAB2EA7D69CF" explicitItemIdentifier="discord" label="Discord" paletteLabel="Discord" tag="-1" image="discord" id="0zG-7b-xsf">
                         <connections>
-                            <action selector="gitter:" target="-2" id="NtE-6f-IiX"/>
+                            <action selector="discord:" target="-2" id="AN9-K7-7fI"/>
                         </connections>
                     </toolbarItem>
                     <toolbarItem implicitItemIdentifier="BFDE5318-FCC7-464C-B272-87005FBA3E24" explicitItemIdentifier="statistics" label="Statistics" paletteLabel="Statistics" tag="-1" image="statistics" id="T0e-lu-Gfj">
@@ -372,9 +367,8 @@
     <resources>
         <image name="archive" width="32" height="32"/>
         <image name="delete-deck" width="32" height="32"/>
-        <image name="donate" width="32" height="32"/>
+        <image name="discord" width="480" height="480"/>
         <image name="edit-deck" width="32" height="32"/>
-        <image name="gitter" width="32" height="32"/>
         <image name="hearthstone" width="32" height="32"/>
         <image name="plus" width="32" height="32"/>
         <image name="rename-deck" width="32" height="32"/>

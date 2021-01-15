@@ -232,7 +232,7 @@ class DeckManager: NSWindowController {
     // MARK: - Toolbar actions
     func validateToolbarItem(_ item: NSToolbarItem) -> Bool {
         switch item.itemIdentifier.rawValue {
-        case "add", "donate", "twitter", "gitter":
+        case "add", "twitter", "discord":
             return true
         case "edit", "use", "delete", "rename", "archive", "statistics", "export_hearthstone", "export":
             return currentDeck != nil
@@ -260,18 +260,12 @@ class DeckManager: NSWindowController {
         }
     }
 
-    @IBAction func donate(_ sender: AnyObject) {
-        openUrl("https://www.paypal.com/cgi-bin/webscr?cmd=_donations"
-            + "&business=bmichotte%40gmail%2ecom&lc=US&item_name=HSTracker"
-            + "&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted")
-    }
-
     @IBAction func twitter(_ sender: AnyObject) {
         openUrl("https://twitter.com/hstracker_mac")
     }
 
-    @IBAction func gitter(_ sender: AnyObject) {
-        openUrl("https://gitter.im/bmichotte/HSTracker")
+    @IBAction func discord(_ sender: AnyObject) {
+        openUrl("https://hsreplay.net/discord/")
     }
     
     fileprivate func openUrl(_ url: String) {
