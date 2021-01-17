@@ -172,6 +172,8 @@ class WindowManager {
             
             if let bgs = notification.userInfo?["battlegrounds"] as? Bool, bgs {
                 self.floatingCard.isBattlegrounds = true
+            } else {
+                self.floatingCard.isBattlegrounds = false
             }
             if let timer = self.closeRequestTimer {
                 timer.invalidate()
