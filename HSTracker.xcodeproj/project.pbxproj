@@ -202,7 +202,6 @@
 		43BA1C9C1FB2EAD30007C500 /* AwaitKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43F2F0CA1FA3566A002F5AEA /* AwaitKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		43BA1C9D1FB2EAD30007C500 /* PromiseKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43F2F0C91FA3566A002F5AEA /* PromiseKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		43BA1C9E1FB2EAD30007C500 /* SwiftyBeaver.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43F2F0D51FA4F3B5002F5AEA /* SwiftyBeaver.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		43BBAA9F1E619F96009B6298 /* Unbox.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43BBAA991E619AA9009B6298 /* Unbox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		43BDF0BC1DB7FB040081964A /* OverWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BDF0BB1DB7FB040081964A /* OverWindowController.swift */; };
 		43BDF0BE1DB89A830081964A /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BDF0BD1DB89A830081964A /* WindowManager.swift */; };
 		43BE58BE1DC47C6D00B24A21 /* Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BE58BD1DC47C6D00B24A21 /* Paths.swift */; };
@@ -678,7 +677,6 @@
 				E301D342217CE7C6001F8D11 /* FMDB.framework in Embed Frameworks */,
 				436789DF1CAE484800C962D1 /* MASPreferences.framework in Embed Frameworks */,
 				439DD8FE1DB24F83004EBE47 /* Gzip.framework in Embed Frameworks */,
-				43BBAA9F1E619F96009B6298 /* Unbox.framework in Embed Frameworks */,
 				43647A531CDC9A3D00C2B78E /* TextAttributes.framework in Embed Frameworks */,
 				4305CA411CF42AC70048E7EC /* Wrap.framework in Embed Frameworks */,
 				4387316F1CCBB7BE004EEAD1 /* Sparkle.framework in Embed Frameworks */,

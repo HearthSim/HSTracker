@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import Unbox
 
 class ArenaWatcher: Watcher {
 	
@@ -64,7 +63,7 @@ class ArenaWatcher: Watcher {
                     let card = Cards.by(cardId: mirrorCard.cardId),
                     let index = heroes.firstIndex(of: ArenaWatcher.hero) {
 
-                    let value = cardInfo.values[index]
+                    let value = cardInfo.value[index]
                     let costs = value.matches("([0-9]+)")
                     card.cost = Int(costs.first?.value ?? "0") ?? 0
                     card.isBadAsMultiple = value.contains("*")
@@ -105,7 +104,8 @@ class ArenaWatcher: Watcher {
             logger.warning("Can not load cardtier.json")
             return
         }
-        guard let cardTiers: [ArenaCard] = try? unbox(data: data) else {
+        let decoder = JSONDecoder()
+        guard let cardTiers: [ArenaCard] = try? decoder.decode([ArenaCard].self, from: data) else {
             logger.warning("Can not parse cardtier.json")
             return
         }
@@ -113,14 +113,7 @@ class ArenaWatcher: Watcher {
     }
 }
 
-struct ArenaCard {
+struct ArenaCard: Codable {
     let id: String
-    let values: [String]
-}
-
-extension ArenaCard: Unboxable {
-    init(unboxer: Unboxer) throws {
-        self.id = try unboxer.unbox(key: "id")
-        self.values = try unboxer.unbox(key: "value")
-    }
+    let value: [String]
 }
