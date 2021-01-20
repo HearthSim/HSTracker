@@ -7,9 +7,14 @@
 //
 
 import Foundation
-import MASPreferences
+import Preferences
 
-class TrackersPreferences: NSViewController {
+class TrackersPreferences: NSViewController, PreferencePane {
+    var preferencePaneIdentifier = Preferences.PaneIdentifier.trackers
+    
+    var preferencePaneTitle = NSLocalizedString("Trackers", comment: "")
+    
+    var toolbarItemIcon = NSImage(named: "gear")!
 
     @IBOutlet weak var highlightCardsInHand: NSButton!
     @IBOutlet weak var highlightLastDrawn: NSButton!
@@ -35,6 +40,7 @@ class TrackersPreferences: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+                
         highlightCardsInHand.state = Settings.highlightCardsInHand ? .on : .off
         highlightLastDrawn.state = Settings.highlightLastDrawn ? .on : .off
         removeCards.state = Settings.removeCardsFromDeck ? .on : .off
@@ -142,18 +148,7 @@ class TrackersPreferences: NSViewController {
     }
 }
 
-// MARK: - MASPreferencesViewController
-
-extension TrackersPreferences: MASPreferencesViewController {
-    var viewIdentifier: String {
-        return "trackers"
-    }
-
-    var toolbarItemImage: NSImage? {
-        return NSImage(named: NSImage.advancedName)
-    }
-
-    var toolbarItemLabel: String? {
-        return NSLocalizedString("Trackers", comment: "")
-    }
+// MARK: - Preferences
+extension Preferences.PaneIdentifier {
+    static let trackers = Self("trackers")
 }

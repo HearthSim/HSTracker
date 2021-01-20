@@ -7,9 +7,14 @@
 //
 
 import Foundation
-import MASPreferences
+import Preferences
 
-class OpponentTrackersPreferences: NSViewController {
+class OpponentTrackersPreferences: NSViewController, PreferencePane {
+    var preferencePaneIdentifier = Preferences.PaneIdentifier.opponent_trackers
+    
+    var preferencePaneTitle = NSLocalizedString("Opponent tracker", comment: "")
+    
+    var toolbarItemIcon = NSImage(named: "opponent")!
 
     @IBOutlet weak var showOpponentTracker: NSButton!
     @IBOutlet weak var showCardHuds: NSButton!
@@ -91,17 +96,7 @@ class OpponentTrackersPreferences: NSViewController {
     }
 }
 
-// MARK: - MASPreferencesViewController
-extension OpponentTrackersPreferences: MASPreferencesViewController {
-    var viewIdentifier: String {
-        return "opponent_trackers"
-    }
-
-    var toolbarItemImage: NSImage? {
-        return NSImage(named: NSImage.advancedName)
-    }
-
-    var toolbarItemLabel: String? {
-        return NSLocalizedString("Opponent tracker", comment: "")
-    }
+// MARK: - Preferences
+extension Preferences.PaneIdentifier {
+    static let opponent_trackers = Self("opponent_trackers")
 }

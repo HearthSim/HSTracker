@@ -7,9 +7,14 @@
 //
 
 import Foundation
-import MASPreferences
+import Preferences
 
-class GamePreferences: NSViewController {
+class GamePreferences: NSViewController, PreferencePane {
+    var preferencePaneIdentifier = Preferences.PaneIdentifier.game
+    
+    var preferencePaneTitle = NSLocalizedString("Game", comment: "")
+    
+    var toolbarItemIcon = NSImage(named: "game")!
 
     @IBOutlet weak var hearthstonePath: NSTextField!
     @IBOutlet weak var decksPath: NSTextField!
@@ -140,16 +145,6 @@ extension GamePreferences: NSOpenSavePanelDelegate {
 }
 
 // MARK: - MASPreferencesViewController
-extension GamePreferences: MASPreferencesViewController {
-    var viewIdentifier: String {
-        return "game"
-    }
-    
-    var toolbarItemImage: NSImage? {
-        return NSImage(named: NSImage.advancedName)
-    }
-    
-    var toolbarItemLabel: String? {
-        return NSLocalizedString("Game", comment: "")
-    }
+extension Preferences.PaneIdentifier {
+    static let game = Self("game")
 }

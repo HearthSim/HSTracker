@@ -7,9 +7,14 @@
 //
 
 import Foundation
-import MASPreferences
+import Preferences
 
-class PlayerTrackersPreferences: NSViewController {
+class PlayerTrackersPreferences: NSViewController, PreferencePane {
+    var preferencePaneIdentifier = Preferences.PaneIdentifier.player_trackers
+    
+    var preferencePaneTitle = NSLocalizedString("Player tracker", comment: "")
+    
+    var toolbarItemIcon = NSImage(named: "player")!
 
     @IBOutlet weak var showPlayerTracker: NSButton!
     @IBOutlet weak var showPlayerCardCount: NSButton!
@@ -95,17 +100,7 @@ class PlayerTrackersPreferences: NSViewController {
     }
 }
 
-// MARK: - MASPreferencesViewController
-extension PlayerTrackersPreferences: MASPreferencesViewController {
-    var viewIdentifier: String {
-        return "player_trackers"
-    }
-
-    var toolbarItemImage: NSImage? {
-        return NSImage(named: NSImage.advancedName)
-    }
-
-    var toolbarItemLabel: String? {
-        return NSLocalizedString("Player tracker", comment: "")
-    }
+// MARK: - Preferences
+extension Preferences.PaneIdentifier {
+    static let player_trackers = Self("player_trackers")
 }

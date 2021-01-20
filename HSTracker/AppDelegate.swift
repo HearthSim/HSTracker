@@ -9,7 +9,7 @@
 import Cocoa
 import SwiftyBeaver
 let logger = SwiftyBeaver.self
-import MASPreferences
+import Preferences
 //import HearthAssets
 import AppCenter
 import AppCenterAnalytics
@@ -38,8 +38,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	var coreManager: CoreManager!
     var triggers: [NSObjectProtocol] = []
 	
-	var preferences: MASPreferencesWindowController = {
-		var controllers = [
+	lazy var preferences = PreferencesWindowController(preferencePanes: [
             GeneralPreferences(nibName: "GeneralPreferences", bundle: nil),
             GamePreferences(nibName: "GamePreferences", bundle: nil),
             TrackersPreferences(nibName: "TrackersPreferences", bundle: nil),
@@ -48,14 +47,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             BattlegroundsPreferences(nibName: "BattlegroundsPreferences", bundle: nil),
             ImportingPreferences(nibName: "ImportingPreferences", bundle: nil),
             HSReplayPreferences(nibName: "HSReplayPreferences", bundle: nil)
-        ]
+    ], style: .toolbarItems, animated: true)
 		
-		let preferences = MASPreferencesWindowController(
-			viewControllers: controllers,
-			title: NSLocalizedString("Preferences", comment: ""))
-		return preferences
-	}()
-	
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
         AppDelegate._instance = self
         //setenv("CFNETWORK_DIAGNOSTICS", "3", 1)
@@ -528,7 +521,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	}
 	
 	@IBAction func openPreferences(_ sender: AnyObject) {
-		preferences.showWindow(self)
+		preferences.show()
 	}
 	
 	@IBAction func lockWindows(_ sender: AnyObject) {

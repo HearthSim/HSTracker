@@ -7,9 +7,15 @@
 //
 
 import Foundation
-import MASPreferences
+import Preferences
 
-class HSReplayPreferences: NSViewController {
+class HSReplayPreferences: NSViewController, PreferencePane {
+    var preferencePaneIdentifier = Preferences.PaneIdentifier.hsreplay
+    
+    var preferencePaneTitle = "HSReplay"
+    
+    var toolbarItemIcon = NSImage(named: "hsreplay_icon")!
+    
     @IBOutlet weak var synchronizeMatches: NSButton!
     @IBOutlet weak var gameTypeSelector: NSView!
     @IBOutlet weak var uploadRankedGames: NSButton!
@@ -179,17 +185,7 @@ class HSReplayPreferences: NSViewController {
     }
 }
 
-// MARK: - MASPreferencesViewController
-extension HSReplayPreferences: MASPreferencesViewController {
-    var viewIdentifier: String {
-        return "hsreplay"
-    }
-
-    var toolbarItemImage: NSImage? {
-        return NSImage(named: "hsreplay_icon")
-    }
-
-    var toolbarItemLabel: String? {
-        return "HSReplay"
-    }
+// MARK: - Preferences
+extension Preferences.PaneIdentifier {
+    static let hsreplay = Self("hsreplay")
 }

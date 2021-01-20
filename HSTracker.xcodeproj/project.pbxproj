@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -97,13 +97,10 @@
 		43647A541CDC9A5100C2B78E /* TextAttributes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43647A521CDC9A3D00C2B78E /* TextAttributes.framework */; };
 		43647A561CDC9A5F00C2B78E /* TextAttributes.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = 43647A551CDC9A5F00C2B78E /* TextAttributes.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4367899F1CAC05DD00C962D1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367899E1CAC05DD00C962D1 /* Cocoa.framework */; };
-		436789AE1CAC07BB00C962D1 /* MASPreferences.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = 436789A71CAC07BB00C962D1 /* MASPreferences.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		436789B71CACF64600C962D1 /* CardCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436789B61CACF64600C962D1 /* CardCounter.swift */; };
 		436789BB1CACF79800C962D1 /* TrackerFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436789BA1CACF79800C962D1 /* TrackerFrame.swift */; };
 		436789BF1CACF8C900C962D1 /* PlayerDrawChance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436789BE1CACF8C900C962D1 /* PlayerDrawChance.swift */; };
 		436789D11CAE484000C962D1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367899C1CAC05D700C962D1 /* Foundation.framework */; };
-		436789DE1CAE484800C962D1 /* MASPreferences.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789941CABFB1600C962D1 /* MASPreferences.framework */; };
-		436789DF1CAE484800C962D1 /* MASPreferences.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 436789941CABFB1600C962D1 /* MASPreferences.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		436DFAA31E6AE1D8001C8F34 /* PackWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436DFAA21E6AE1D8001C8F34 /* PackWatcher.swift */; };
 		436F5D0C1CFD5F6A00DEB9A1 /* CardBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436F5D0B1CFD5F6A00DEB9A1 /* CardBar.swift */; };
 		436F5D0E1CFD64A300DEB9A1 /* ThemeElementInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436F5D0D1CFD64A300DEB9A1 /* ThemeElementInfo.swift */; };
@@ -472,8 +469,6 @@
 		4CFF95AD23C0C48E006AB461 /* BattlegroundsTierOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CFF95AC23C0C48E006AB461 /* BattlegroundsTierOverlay.xib */; };
 		4CFF95AF23C0C56A006AB461 /* BattlegroundsTierOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFF95AE23C0C56A006AB461 /* BattlegroundsTierOverlayView.swift */; };
 		5B308AEB22287FBF00D853BA /* Kingfisher.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = 5B308AEA22287FBF00D853BA /* Kingfisher.framework.dSYM */; };
-		5B3BA4482561F07900FAD183 /* libmono-native-compat.0.dylib.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 5B3BA4462561F07900FAD183 /* libmono-native-compat.0.dylib.dSYM */; };
-		5B3BA4492561F07900FAD183 /* libmonosgen-2.0.1.dylib.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 5B3BA4472561F07900FAD183 /* libmonosgen-2.0.1.dylib.dSYM */; };
 		5BD4A5022233E40B00EF879B /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BD4A5012233E40B00EF879B /* Kingfisher.framework */; };
 		5BD4A5032233E43000EF879B /* Kingfisher.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5BD4A5012233E40B00EF879B /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5BD4A5042233E44E00EF879B /* Kingfisher.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5BD4A5012233E40B00EF879B /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -501,7 +496,6 @@
 		B864AE292599359500793F36 /* DeckType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B864AE282599359400793F36 /* DeckType.swift */; };
 		B864AE3A25A4CC1200793F36 /* ImportingPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B864AE3925A4CC1200793F36 /* ImportingPreferences.xib */; };
 		B864AE3C25A4D15C00793F36 /* ImportingPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B864AE3B25A4D15C00793F36 /* ImportingPreferences.swift */; };
-		B86F214E255A3E50008D522A /* HearthMirror.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = B86F214D255A3E50008D522A /* HearthMirror.framework.dSYM */; };
 		B8820CD025603FB00072ECBC /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8820CCF25603FB00072ECBC /* RemoteConfig.swift */; };
 		B8956CFD25509B3F0073D70C /* BattlegroundsMinionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8956CFC25509B3F0073D70C /* BattlegroundsMinionView.swift */; };
 		B8A3E4B4257AE71500D9C77A /* RotatingFileDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A3E4B3257AE71500D9C77A /* RotatingFileDestination.swift */; };
@@ -517,6 +511,7 @@
 		B8D75B8F25A9DC9A00446923 /* ExperienceOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8D75B8E25A9DC9A00446923 /* ExperienceOverlay.xib */; };
 		B8D75B9125A9DCDE00446923 /* ExperienceOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D75B9025A9DCDE00446923 /* ExperienceOverlay.swift */; };
 		B8D75B9325A9DD1300446923 /* ExperienceTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D75B9225A9DD1300446923 /* ExperienceTracker.swift */; };
+		B8D75B9625B4799200446923 /* Preferences in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75B9525B4799200446923 /* Preferences */; };
 		B8D8859224F3034700F2F0F2 /* StatusMessageConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D8859124F3034700F2F0F2 /* StatusMessageConverter.swift */; };
 		B8D8859824F40D4E00F2F0F2 /* ClickableBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D8859724F40D4E00F2F0F2 /* ClickableBox.swift */; };
 		B8D8859A24F4185200F2F0F2 /* BobsBuddyErrorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D8859924F4185200F2F0F2 /* BobsBuddyErrorState.swift */; };
@@ -647,7 +642,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
-				B86F214E255A3E50008D522A /* HearthMirror.framework.dSYM in Copy Files */,
 				5B308AEB22287FBF00D853BA /* Kingfisher.framework.dSYM in Copy Files */,
 				E3057D6D20B888DF00B9A5B8 /* OAuthSwift.framework.dSYM in Copy Files */,
 				BC78DD7A1E80875800DBA7C9 /* BTree.framework.dSYM in Copy Files */,
@@ -661,7 +655,6 @@
 				43F2F0D11FA356AA002F5AEA /* AwaitKit.framework.dSYM in Copy Files */,
 				43F2F0D21FA356AA002F5AEA /* PromiseKit.framework.dSYM in Copy Files */,
 				43847D921E8D96970060C2D2 /* RegexUtil.framework.dSYM in Copy Files */,
-				436789AE1CAC07BB00C962D1 /* MASPreferences.framework.dSYM in Copy Files */,
 			);
 			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -675,7 +668,6 @@
 				4C68AF2C2447D37000E52834 /* HearthMirror.framework in Embed Frameworks */,
 				5BD4A5042233E44E00EF879B /* Kingfisher.framework in Embed Frameworks */,
 				E301D342217CE7C6001F8D11 /* FMDB.framework in Embed Frameworks */,
-				436789DF1CAE484800C962D1 /* MASPreferences.framework in Embed Frameworks */,
 				439DD8FE1DB24F83004EBE47 /* Gzip.framework in Embed Frameworks */,
 				43647A531CDC9A3D00C2B78E /* TextAttributes.framework in Embed Frameworks */,
 				4305CA411CF42AC70048E7EC /* Wrap.framework in Embed Frameworks */,
@@ -1054,8 +1046,6 @@
 		4CFF95AE23C0C56A006AB461 /* BattlegroundsTierOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsTierOverlayView.swift; sourceTree = "<group>"; };
 		5B0AB88C2313083700654A03 /* HSTracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HSTracker.entitlements; sourceTree = "<group>"; };
 		5B308AEA22287FBF00D853BA /* Kingfisher.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Kingfisher.framework.dSYM; path = Carthage/Build/Mac/Kingfisher.framework.dSYM; sourceTree = "<group>"; };
-		5B3BA4462561F07900FAD183 /* libmono-native-compat.0.dylib.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = "libmono-native-compat.0.dylib.dSYM"; path = "mono-dSYM/libmono-native-compat.0.dylib.dSYM"; sourceTree = "<group>"; };
-		5B3BA4472561F07900FAD183 /* libmonosgen-2.0.1.dylib.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = "libmonosgen-2.0.1.dylib.dSYM"; path = "mono-dSYM/libmonosgen-2.0.1.dylib.dSYM"; sourceTree = "<group>"; };
 		5BD4A5012233E40B00EF879B /* Kingfisher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kingfisher.framework; path = Carthage/Build/Mac/Kingfisher.framework; sourceTree = "<group>"; };
 		61424BCA24701A3700877EE4 /* DecksReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecksReader.swift; sourceTree = "<group>"; };
 		64C117F078373147EF731146 /* ArenaWatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArenaWatcher.swift; sourceTree = "<group>"; };
@@ -1082,7 +1072,6 @@
 		B864AE282599359400793F36 /* DeckType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckType.swift; sourceTree = "<group>"; };
 		B864AE3925A4CC1200793F36 /* ImportingPreferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImportingPreferences.xib; sourceTree = "<group>"; };
 		B864AE3B25A4D15C00793F36 /* ImportingPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportingPreferences.swift; sourceTree = "<group>"; };
-		B86F214D255A3E50008D522A /* HearthMirror.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = HearthMirror.framework.dSYM; path = "downloaded-frameworks/HearthMirror/HearthMirror.framework.dSYM"; sourceTree = "<group>"; };
 		B8820CCF25603FB00072ECBC /* RemoteConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfig.swift; sourceTree = "<group>"; };
 		B8956CFC25509B3F0073D70C /* BattlegroundsMinionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsMinionView.swift; sourceTree = "<group>"; };
 		B8A3E4B3257AE71500D9C77A /* RotatingFileDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotatingFileDestination.swift; sourceTree = "<group>"; };
@@ -1284,8 +1273,8 @@
 				436789D11CAE484000C962D1 /* Foundation.framework in Frameworks */,
 				43F2F0D71FA4F3CA002F5AEA /* SwiftyBeaver.framework in Frameworks */,
 				433554331D5F6B4400277B27 /* libz.tbd in Frameworks */,
+				B8D75B9625B4799200446923 /* Preferences in Frameworks */,
 				43847D8F1E8D96720060C2D2 /* RegexUtil.framework in Frameworks */,
-				436789DE1CAE484800C962D1 /* MASPreferences.framework in Frameworks */,
 				43E7BEAA1DBB7FA00057DC0C /* Realm.framework in Frameworks */,
 				4C0C2A28244C8CE400E7B75E /* AppCenterAnalytics.framework in Frameworks */,
 				43E7BEAB1DBB7FA00057DC0C /* RealmSwift.framework in Frameworks */,
@@ -1454,8 +1443,8 @@
 				432B5FB51CB5371C00B05D19 /* PlayerTrackersPreferences.xib */,
 				437B5BB41CD2558500DE0A41 /* OpponentTrackersPreferences.swift */,
 				437B5BB61CD2559300DE0A41 /* OpponentTrackersPreferences.xib */,
-				B864AE3925A4CC1200793F36 /* ImportingPreferences.xib */,
 				B864AE3B25A4D15C00793F36 /* ImportingPreferences.swift */,
+				B864AE3925A4CC1200793F36 /* ImportingPreferences.xib */,
 			);
 			path = Preferences;
 			sourceTree = "<group>";
@@ -1535,9 +1524,6 @@
 		439C7E3F1C7772C000D29859 = {
 			isa = PBXGroup;
 			children = (
-				5B3BA4462561F07900FAD183 /* libmono-native-compat.0.dylib.dSYM */,
-				5B3BA4472561F07900FAD183 /* libmonosgen-2.0.1.dylib.dSYM */,
-				B86F214D255A3E50008D522A /* HearthMirror.framework.dSYM */,
 				B81F069C253899FB00F319F1 /* Config.xcconfig */,
 				F731044E211FF0050082651C /* Translations */,
 				439C7E4A1C7772C000D29859 /* HSTracker */,
@@ -2054,6 +2040,7 @@
 			);
 			name = HSTracker;
 			packageProductDependencies = (
+				B8D75B9525B4799200446923 /* Preferences */,
 			);
 			productName = HSTracker;
 			productReference = 439C7E481C7772C000D29859 /* HSTracker.app */;
@@ -2130,6 +2117,7 @@
 			);
 			mainGroup = 439C7E3F1C7772C000D29859;
 			packageReferences = (
+				B8D75B9425B4799100446923 /* XCRemoteSwiftPackageReference "Preferences" */,
 			);
 			productRefGroup = 439C7E491C7772C000D29859 /* Products */;
 			projectDirPath = "";
@@ -2158,7 +2146,6 @@
 				B8B7CC20253C74D100033758 /* BattlegroundsPreferences.xib in Resources */,
 				434D1CB41D10947200222B8E /* Statistics.xib in Resources */,
 				4CECFFD723C10C570093253E /* BattlegroundsTierDetailWindowController.xib in Resources */,
-				5B3BA4492561F07900FAD183 /* libmonosgen-2.0.1.dylib.dSYM in Resources */,
 				432B5FC21CB5373D00B05D19 /* SaveDeck.xib in Resources */,
 				B864AE3A25A4CC1200793F36 /* ImportingPreferences.xib in Resources */,
 				437B5BB81CD2559300DE0A41 /* OpponentTrackersPreferences.xib in Resources */,
@@ -2182,7 +2169,6 @@
 				E301D340217CE737001F8D11 /* FMDB.framework.dSYM in Resources */,
 				C9BDB3D71D20BE9500886A11 /* LadderTab.xib in Resources */,
 				432B5FBF1CB5373500B05D19 /* InitialConfiguration.xib in Resources */,
-				5B3BA4482561F07900FAD183 /* libmono-native-compat.0.dylib.dSYM in Resources */,
 				432B5FB01CB536E700B05D19 /* MainMenu.xib in Resources */,
 				B81F069D253899FB00F319F1 /* Config.xcconfig in Resources */,
 				4C1923A12392FB3F007EBB0F /* BattlegroundsDetailsWindow.xib in Resources */,
@@ -3312,7 +3298,8 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
 			name = Release;
 		};
@@ -3344,7 +3331,10 @@
 					"/Library/Frameworks/Mono.framework/Headers/mono-2.0",
 				);
 				INFOPLIST_FILE = HSTracker/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = /Library/Frameworks/Mono.framework/Libraries;
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MARKETING_VERSION = 1.8.0;
@@ -3387,7 +3377,10 @@
 					"/Library/Frameworks/Mono.framework/Headers/mono-2.0",
 				);
 				INFOPLIST_FILE = HSTracker/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = /Library/Frameworks/Mono.framework/Libraries;
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MARKETING_VERSION = 1.8.0;
@@ -3396,9 +3389,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = net.hearthsim.hstracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "HSTracker/HSTracker-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 5.0;
 			};
@@ -3421,7 +3415,11 @@
 					"/Library/Frameworks/Mono.framework/Headers/mono-2.0",
 				);
 				INFOPLIST_FILE = HSTrackerTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = net.hearthsim.hstracker.HSTrackerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "HSTrackerTests/HSTracker-Test-Bridging-Header.h";
@@ -3446,7 +3444,11 @@
 					"/Library/Frameworks/Mono.framework/Headers/mono-2.0",
 				);
 				INFOPLIST_FILE = HSTrackerTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = net.hearthsim.hstracker.HSTrackerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "HSTrackerTests/HSTracker-Test-Bridging-Header.h";
@@ -3486,6 +3488,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B8D75B9425B4799100446923 /* XCRemoteSwiftPackageReference "Preferences" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/Preferences";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B8D75B9525B4799200446923 /* Preferences */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8D75B9425B4799100446923 /* XCRemoteSwiftPackageReference "Preferences" */;
+			productName = Preferences;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 439C7E401C7772C000D29859 /* Project object */;
 }

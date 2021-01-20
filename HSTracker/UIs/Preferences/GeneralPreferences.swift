@@ -7,9 +7,14 @@
 //
 
 import Foundation
-import MASPreferences
+import Preferences
 
-class GeneralPreferences: NSViewController {
+class GeneralPreferences: NSViewController, PreferencePane {
+    var preferencePaneIdentifier = Preferences.PaneIdentifier.general
+    
+    var preferencePaneTitle = NSLocalizedString("General", comment: "")
+    
+    var toolbarItemIcon = NSImage(named: NSImage.preferencesGeneralName)!
 
     @IBOutlet weak var notifyGameStart: NSButton!
     @IBOutlet weak var notifyTurnStart: NSButton!
@@ -63,18 +68,7 @@ class GeneralPreferences: NSViewController {
     }
 
 }
-// MARK: - MASPreferencesViewController
-extension GeneralPreferences: MASPreferencesViewController {
-    var viewIdentifier: String {
-        return "general"
-    }
-
-    var toolbarItemImage: NSImage? {
-        return NSImage(named: NSImage.advancedName)
-
-    }
-
-    var toolbarItemLabel: String? {
-        return NSLocalizedString("General", comment: "")
-    }
+// MARK: - Preferences
+extension Preferences.PaneIdentifier {
+    static let general = Self("general")
 }

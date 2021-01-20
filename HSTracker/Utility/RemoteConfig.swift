@@ -88,7 +88,7 @@ class RemoteConfig {
             logger.info("Retrieved remote configuration")
             semaphore.signal()
         }.catch { error in
-            logger.error("Error parsing remote config: \(error.localizedDescription)")
+            logger.error("Error parsing remote config: \(error)")
             semaphore.signal()
         }
         _ = semaphore.wait(timeout: DispatchTime.distantFuture)

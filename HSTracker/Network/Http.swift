@@ -175,6 +175,8 @@ struct Http {
         for (headerField, headerValue) in headers {
             request.setValue(headerValue, forHTTPHeaderField: headerField)
         }
+        
+        request.cachePolicy = .reloadRevalidatingCacheData
 
         return request
     }

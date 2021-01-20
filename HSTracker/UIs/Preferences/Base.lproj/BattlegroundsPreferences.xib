@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -20,9 +20,8 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customView id="c22-O7-iKe">
+        <customView translatesAutoresizingMaskIntoConstraints="NO" id="c22-O7-iKe">
             <rect key="frame" x="0.0" y="0.0" width="480" height="198"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="U9l-4H-26w" userLabel="Show Bob's Buddy">
                     <rect key="frame" x="18" y="162" width="444" height="18"/>
@@ -114,6 +113,7 @@
                 <constraint firstAttribute="trailing" secondItem="U9l-4H-26w" secondAttribute="trailing" constant="20" id="qll-og-92W"/>
                 <constraint firstAttribute="trailing" secondItem="4bq-q8-4qp" secondAttribute="trailing" constant="20" id="uPP-ZD-Hma"/>
                 <constraint firstAttribute="trailing" secondItem="K3g-MV-6WU" secondAttribute="trailing" constant="20" id="uef-F2-zSK"/>
+                <constraint firstAttribute="bottom" secondItem="66r-fs-Jja" secondAttribute="bottom" constant="20" id="wvs-D6-ddy"/>
                 <constraint firstItem="4bq-q8-4qp" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="xEf-eL-dGq"/>
                 <constraint firstItem="4Xd-Cc-geO" firstAttribute="top" secondItem="K3g-MV-6WU" secondAttribute="bottom" constant="10" id="yFX-82-sbj"/>
                 <constraint firstItem="d7f-Kb-z3w" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="yjD-cp-i8g"/>

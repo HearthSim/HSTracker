@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12120"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -22,12 +23,11 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customView id="c22-O7-iKe">
-            <rect key="frame" x="0.0" y="0.0" width="480" height="272"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+        <customView translatesAutoresizingMaskIntoConstraints="NO" id="c22-O7-iKe">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
             <subviews>
                 <button toolTip="Notifications are only visible if Hearthstone is not focused" translatesAutoresizingMaskIntoConstraints="NO" id="08B-rI-8LA">
-                    <rect key="frame" x="18" y="236" width="444" height="18"/>
+                    <rect key="frame" x="8" y="234" width="464" height="18"/>
                     <buttonCell key="cell" type="check" title="Notify me when the game starts" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="aaX-mu-c31">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -37,7 +37,7 @@
                     </connections>
                 </button>
                 <button toolTip="Notifications are only visible if Hearthstone is not focused" translatesAutoresizingMaskIntoConstraints="NO" id="c8y-VJ-p2U">
-                    <rect key="frame" x="18" y="216" width="444" height="18"/>
+                    <rect key="frame" x="8" y="210" width="464" height="18"/>
                     <buttonCell key="cell" type="check" title="Notify me when my turn starts" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Rbw-dw-oAI">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -47,7 +47,7 @@
                     </connections>
                 </button>
                 <button toolTip="Notifications are only visible if Hearthstone is not focused" translatesAutoresizingMaskIntoConstraints="NO" id="Yit-xi-gbj">
-                    <rect key="frame" x="18" y="196" width="444" height="18"/>
+                    <rect key="frame" x="8" y="186" width="464" height="18"/>
                     <buttonCell key="cell" type="check" title="Notify me when my opponent concedes" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="GhP-a6-Faw">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -57,7 +57,7 @@
                     </connections>
                 </button>
                 <button toolTip="Notifications are only visible if Hearthstone is not focused" translatesAutoresizingMaskIntoConstraints="NO" id="hzK-vu-1RX">
-                    <rect key="frame" x="18" y="176" width="444" height="18"/>
+                    <rect key="frame" x="8" y="162" width="464" height="18"/>
                     <buttonCell key="cell" type="check" title="Close HSTracker when Hearthstone closes" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="oQm-3D-WOn">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -67,7 +67,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="ZLL-Et-PWS">
-                    <rect key="frame" x="18" y="156" width="444" height="18"/>
+                    <rect key="frame" x="8" y="138" width="464" height="18"/>
                     <buttonCell key="cell" type="check" title="Add a note on end game" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="4f5-xO-gik">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -77,7 +77,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="lku-8T-sZE">
-                    <rect key="frame" x="18" y="136" width="444" height="18"/>
+                    <rect key="frame" x="8" y="114" width="464" height="18"/>
                     <buttonCell key="cell" type="check" title="Save replays" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="vod-AA-O2m">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -87,7 +87,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="9ux-qy-79X">
-                    <rect key="frame" x="18" y="116" width="444" height="18"/>
+                    <rect key="frame" x="8" y="90" width="464" height="18"/>
                     <buttonCell key="cell" type="check" title="Enable Apphealth icon badge" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="mBv-nX-Cn3">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -97,7 +97,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="qet-kh-hRB">
-                    <rect key="frame" x="18" y="96" width="444" height="18"/>
+                    <rect key="frame" x="8" y="66" width="464" height="18"/>
                     <buttonCell key="cell" type="check" title="Prefer golden cards when exporting to Hearthstone" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="1BI-nh-nxq">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -107,7 +107,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="qVY-kW-az1">
-                    <rect key="frame" x="18" y="76" width="129" height="18"/>
+                    <rect key="frame" x="8" y="42" width="464" height="18"/>
                     <buttonCell key="cell" type="check" title="Use Arena Helper" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="TKd-w3-odf">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -116,9 +116,8 @@
                         <action selector="checkboxClicked:" target="-2" id="LQc-rn-ehZ"/>
                     </connections>
                 </button>
-                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ONL-4k-EMK">
-                    <rect key="frame" x="18" y="56" width="343" height="18"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="ONL-4k-EMK">
+                    <rect key="frame" x="8" y="18" width="464" height="18"/>
                     <buttonCell key="cell" type="check" title="Use Toast notifications instead of Notification Center" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="XEI-kJ-kec">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -129,33 +128,39 @@
                 </button>
             </subviews>
             <constraints>
-                <constraint firstItem="Yit-xi-gbj" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="0B0-QG-9Dn"/>
-                <constraint firstItem="hzK-vu-1RX" firstAttribute="top" secondItem="Yit-xi-gbj" secondAttribute="bottom" constant="6" symbolic="YES" id="4a4-F5-NRY"/>
-                <constraint firstAttribute="trailing" secondItem="ZLL-Et-PWS" secondAttribute="trailing" constant="20" symbolic="YES" id="9jq-ld-Wtn"/>
-                <constraint firstAttribute="trailing" secondItem="9ux-qy-79X" secondAttribute="trailing" constant="20" symbolic="YES" id="B6W-5H-T3a"/>
-                <constraint firstAttribute="trailing" secondItem="qet-kh-hRB" secondAttribute="trailing" constant="20" symbolic="YES" id="Ioq-bs-dNt"/>
-                <constraint firstItem="ZLL-Et-PWS" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="JTv-GP-KA3"/>
-                <constraint firstItem="qVY-kW-az1" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="L4p-ep-5dR"/>
-                <constraint firstAttribute="trailing" secondItem="hzK-vu-1RX" secondAttribute="trailing" constant="20" symbolic="YES" id="M9w-fO-gOz"/>
-                <constraint firstItem="qet-kh-hRB" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="RUZ-Jt-5XX"/>
-                <constraint firstItem="lku-8T-sZE" firstAttribute="top" secondItem="ZLL-Et-PWS" secondAttribute="bottom" constant="6" symbolic="YES" id="Snx-eE-2dC"/>
-                <constraint firstItem="qVY-kW-az1" firstAttribute="top" secondItem="qet-kh-hRB" secondAttribute="bottom" constant="6" symbolic="YES" id="SwG-4a-7RC"/>
-                <constraint firstItem="08B-rI-8LA" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="20" symbolic="YES" id="VaG-S9-qeb"/>
-                <constraint firstItem="c8y-VJ-p2U" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="Vdd-JU-GGZ"/>
-                <constraint firstAttribute="trailing" secondItem="08B-rI-8LA" secondAttribute="trailing" constant="20" symbolic="YES" id="XDP-fc-z3O"/>
-                <constraint firstAttribute="trailing" secondItem="c8y-VJ-p2U" secondAttribute="trailing" constant="20" symbolic="YES" id="XoQ-1A-pYd"/>
-                <constraint firstItem="c8y-VJ-p2U" firstAttribute="top" secondItem="08B-rI-8LA" secondAttribute="bottom" constant="6" symbolic="YES" id="aGW-Oi-8PP"/>
-                <constraint firstItem="Yit-xi-gbj" firstAttribute="top" secondItem="c8y-VJ-p2U" secondAttribute="bottom" constant="6" symbolic="YES" id="b5F-d8-vYj"/>
-                <constraint firstItem="9ux-qy-79X" firstAttribute="top" secondItem="lku-8T-sZE" secondAttribute="bottom" constant="6" symbolic="YES" id="bYA-Ja-Ahm"/>
-                <constraint firstItem="qet-kh-hRB" firstAttribute="top" secondItem="9ux-qy-79X" secondAttribute="bottom" constant="6" symbolic="YES" id="cIT-WU-phQ"/>
-                <constraint firstItem="ZLL-Et-PWS" firstAttribute="top" secondItem="hzK-vu-1RX" secondAttribute="bottom" constant="6" symbolic="YES" id="hwq-ih-S94"/>
-                <constraint firstAttribute="trailing" secondItem="Yit-xi-gbj" secondAttribute="trailing" constant="20" symbolic="YES" id="ii7-vq-aXk"/>
-                <constraint firstItem="hzK-vu-1RX" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="k3f-ob-5z7"/>
-                <constraint firstItem="08B-rI-8LA" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="m85-2p-jMA"/>
-                <constraint firstAttribute="trailing" secondItem="lku-8T-sZE" secondAttribute="trailing" constant="20" symbolic="YES" id="qyB-h6-3qv"/>
-                <constraint firstItem="9ux-qy-79X" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="tfw-qJ-dwG"/>
-                <constraint firstItem="lku-8T-sZE" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="vqx-Up-9VW"/>
+                <constraint firstItem="Yit-xi-gbj" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="10" id="0B0-QG-9Dn"/>
+                <constraint firstItem="hzK-vu-1RX" firstAttribute="top" secondItem="Yit-xi-gbj" secondAttribute="bottom" constant="10" id="4a4-F5-NRY"/>
+                <constraint firstAttribute="trailing" secondItem="ZLL-Et-PWS" secondAttribute="trailing" constant="10" id="9jq-ld-Wtn"/>
+                <constraint firstItem="ONL-4k-EMK" firstAttribute="top" secondItem="qVY-kW-az1" secondAttribute="bottom" constant="10" id="AYN-TX-ytz"/>
+                <constraint firstAttribute="trailing" secondItem="9ux-qy-79X" secondAttribute="trailing" constant="10" id="B6W-5H-T3a"/>
+                <constraint firstAttribute="trailing" secondItem="qVY-kW-az1" secondAttribute="trailing" constant="10" id="Fb8-rB-fRo"/>
+                <constraint firstItem="ONL-4k-EMK" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="10" id="H05-wP-fpz"/>
+                <constraint firstAttribute="trailing" secondItem="qet-kh-hRB" secondAttribute="trailing" constant="10" id="Ioq-bs-dNt"/>
+                <constraint firstItem="ZLL-Et-PWS" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="10" id="JTv-GP-KA3"/>
+                <constraint firstItem="qVY-kW-az1" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="10" id="L4p-ep-5dR"/>
+                <constraint firstAttribute="trailing" secondItem="hzK-vu-1RX" secondAttribute="trailing" constant="10" id="M9w-fO-gOz"/>
+                <constraint firstItem="qet-kh-hRB" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="10" id="RUZ-Jt-5XX"/>
+                <constraint firstItem="lku-8T-sZE" firstAttribute="top" secondItem="ZLL-Et-PWS" secondAttribute="bottom" constant="10" id="Snx-eE-2dC"/>
+                <constraint firstItem="qVY-kW-az1" firstAttribute="top" secondItem="qet-kh-hRB" secondAttribute="bottom" constant="10" id="SwG-4a-7RC"/>
+                <constraint firstItem="08B-rI-8LA" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="20" id="VaG-S9-qeb"/>
+                <constraint firstItem="c8y-VJ-p2U" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="10" id="Vdd-JU-GGZ"/>
+                <constraint firstAttribute="trailing" secondItem="08B-rI-8LA" secondAttribute="trailing" constant="10" id="XDP-fc-z3O"/>
+                <constraint firstAttribute="trailing" secondItem="c8y-VJ-p2U" secondAttribute="trailing" constant="10" id="XoQ-1A-pYd"/>
+                <constraint firstItem="c8y-VJ-p2U" firstAttribute="top" secondItem="08B-rI-8LA" secondAttribute="bottom" constant="10" id="aGW-Oi-8PP"/>
+                <constraint firstItem="Yit-xi-gbj" firstAttribute="top" secondItem="c8y-VJ-p2U" secondAttribute="bottom" constant="10" id="b5F-d8-vYj"/>
+                <constraint firstItem="9ux-qy-79X" firstAttribute="top" secondItem="lku-8T-sZE" secondAttribute="bottom" constant="10" id="bYA-Ja-Ahm"/>
+                <constraint firstAttribute="bottom" secondItem="ONL-4k-EMK" secondAttribute="bottom" constant="20" id="bs2-tl-vEh"/>
+                <constraint firstItem="qet-kh-hRB" firstAttribute="top" secondItem="9ux-qy-79X" secondAttribute="bottom" constant="10" id="cIT-WU-phQ"/>
+                <constraint firstAttribute="trailing" secondItem="ONL-4k-EMK" secondAttribute="trailing" constant="10" id="gel-Ja-p1p"/>
+                <constraint firstItem="ZLL-Et-PWS" firstAttribute="top" secondItem="hzK-vu-1RX" secondAttribute="bottom" constant="10" id="hwq-ih-S94"/>
+                <constraint firstAttribute="trailing" secondItem="Yit-xi-gbj" secondAttribute="trailing" constant="10" id="ii7-vq-aXk"/>
+                <constraint firstItem="hzK-vu-1RX" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="10" id="k3f-ob-5z7"/>
+                <constraint firstItem="08B-rI-8LA" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="10" id="m85-2p-jMA"/>
+                <constraint firstAttribute="trailing" secondItem="lku-8T-sZE" secondAttribute="trailing" constant="10" id="qyB-h6-3qv"/>
+                <constraint firstItem="9ux-qy-79X" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="10" id="tfw-qJ-dwG"/>
+                <constraint firstItem="lku-8T-sZE" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="10" id="vqx-Up-9VW"/>
             </constraints>
+            <point key="canvasLocation" x="11" y="107"/>
         </customView>
     </objects>
 </document>

@@ -7,9 +7,14 @@
 //
 
 import Foundation
-import MASPreferences
+import Preferences
 
-class BattlegroundsPreferences: NSViewController {
+class BattlegroundsPreferences: NSViewController, PreferencePane {
+    var preferencePaneIdentifier = Preferences.PaneIdentifier.battlegrounds
+    
+    var preferencePaneTitle = NSLocalizedString("Battlegrounds", comment: "")
+    
+    var toolbarItemIcon = NSImage(named: "Mode_Battlegrounds_Dark")!
 
     @IBOutlet weak var showBobsBuddy: NSButton!
     @IBOutlet weak var showBobsBuddyDuringCombat: NSButton!
@@ -49,18 +54,8 @@ class BattlegroundsPreferences: NSViewController {
     }
 }
 
-// MARK: - MASPreferencesViewController
+// MARK: - Preferences
 
-extension BattlegroundsPreferences: MASPreferencesViewController {
-    var viewIdentifier: String {
-        return "battlegrounds"
-    }
-
-    var toolbarItemImage: NSImage? {
-        return NSImage(named: NSImage.advancedName)
-    }
-
-    var toolbarItemLabel: String? {
-        return NSLocalizedString("Battlegrounds", comment: "")
-    }
+extension Preferences.PaneIdentifier {
+    static let battlegrounds = Self("battlegrounds")
 }

@@ -7,9 +7,14 @@
 //
 
 import Foundation
-import MASPreferences
+import Preferences
 
-class ImportingPreferences: NSViewController, NSControlTextEditingDelegate {
+class ImportingPreferences: NSViewController, NSControlTextEditingDelegate, PreferencePane {
+    let preferencePaneIdentifier = Preferences.PaneIdentifier.importing
+    
+    let preferencePaneTitle = NSLocalizedString("Importing", comment: "")
+    
+    let toolbarItemIcon = NSImage(named: "import")!
 
     @IBOutlet weak var dungeonIncludePassives: NSButton!
     @IBOutlet weak var dungeonAdventure: NSComboBox!
@@ -92,17 +97,7 @@ class ImportingPreferences: NSViewController, NSControlTextEditingDelegate {
     }
 }
 
-// MARK: - MASPreferencesViewController
-extension ImportingPreferences: MASPreferencesViewController {
-    var viewIdentifier: String {
-        return "importing"
-    }
-    
-    var toolbarItemImage: NSImage? {
-        return NSImage(named: NSImage.advancedName)
-    }
-    
-    var toolbarItemLabel: String? {
-        return NSLocalizedString("Importing", comment: "")
-    }
+// MARK: - Preferences
+extension Preferences.PaneIdentifier {
+    static let importing = Self("importing")
 }
