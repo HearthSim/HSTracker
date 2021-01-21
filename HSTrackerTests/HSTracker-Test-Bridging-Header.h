@@ -9,9 +9,6 @@
 #ifndef HSTracker_Test_Bridging_Header_h
 #define HSTracker_Test_Bridging_Header_h
 
-#import <MASPreferences/MASPreferencesViewController.h>
-#import <JNWCollectionView/JNWCollectionView.h>
-
 #ifndef DEBUG
 #import <HockeySDK/HockeySDK.h>
 #endif

@@ -21,7 +21,6 @@
 		1CCB4ADE1E8474A8003FD1AD /* Realm.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43E7BEA41DBB7F8E0057DC0C /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1CCB4ADF1E8474A8003FD1AD /* RealmSwift.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43E7BEA51DBB7F8F0057DC0C /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1CCB4AE11E8474F8003FD1AD /* Gzip.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 439DD8FD1DB24F83004EBE47 /* Gzip.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		1CCB4AE21E847512003FD1AD /* Unbox.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43BBAA991E619AA9009B6298 /* Unbox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1CCB4AEB1E8A4930003FD1AD /* LogEventHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCB4AEA1E8A4930003FD1AD /* LogEventHandlers.swift */; };
 		1CF204F91E83B74300037A42 /* MirrorHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF204F81E83B74300037A42 /* MirrorHelper.swift */; };
 		340AAC051D0544AD0015FE33 /* StringTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340AAC041D0544AD0015FE33 /* StringTracker.swift */; };
@@ -116,18 +115,12 @@
 		437B5BC51CD2568E00DE0A41 /* TrackersPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 437B5BC31CD2568E00DE0A41 /* TrackersPreferences.xib */; };
 		437C58301EBC7E8400FFD888 /* NSImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437C582F1EBC7E8400FFD888 /* NSImage.swift */; };
 		437C58311EBC816900FFD888 /* NSImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437C582F1EBC7E8400FFD888 /* NSImage.swift */; };
-		437E56CA1DAAA32E00FC0FC1 /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43C5680F1D5F692800451B6F /* ZipArchive.framework */; };
 		437E56CE1DAAA32E00FC0FC1 /* Wrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4305CA3D1CF42AC60048E7EC /* Wrap.framework */; };
 		437E56CF1DAAA32E00FC0FC1 /* TextAttributes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43647A521CDC9A3D00C2B78E /* TextAttributes.framework */; };
 		437E56D01DAAA32E00FC0FC1 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4387316D1CCBB7BE004EEAD1 /* Sparkle.framework */; };
-		437E56D51DAAA32E00FC0FC1 /* JNWCollectionView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789921CABFB1600C962D1 /* JNWCollectionView.framework */; };
-		437E56D71DAAA32E00FC0FC1 /* MASPreferences.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789941CABFB1600C962D1 /* MASPreferences.framework */; };
-		437E56D91DAAA33200FC0FC1 /* ZipArchive.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43C5680F1D5F692800451B6F /* ZipArchive.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		437E56DD1DAAA33200FC0FC1 /* Wrap.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4305CA3D1CF42AC60048E7EC /* Wrap.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		437E56DE1DAAA33200FC0FC1 /* TextAttributes.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43647A521CDC9A3D00C2B78E /* TextAttributes.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		437E56DF1DAAA33200FC0FC1 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4387316D1CCBB7BE004EEAD1 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		437E56E61DAAA33200FC0FC1 /* JNWCollectionView.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789921CABFB1600C962D1 /* JNWCollectionView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		437E56E81DAAA33200FC0FC1 /* MASPreferences.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789941CABFB1600C962D1 /* MASPreferences.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		437E56F01DAAB81400FC0FC1 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56E91DAAB81400FC0FC1 /* Array.swift */; };
 		437E56F11DAAB81400FC0FC1 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56EA1DAAB81400FC0FC1 /* Color.swift */; };
 		437E56F61DAAB81400FC0FC1 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56EF1DAAB81400FC0FC1 /* String.swift */; };
@@ -512,6 +505,18 @@
 		B8D75B9125A9DCDE00446923 /* ExperienceOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D75B9025A9DCDE00446923 /* ExperienceOverlay.swift */; };
 		B8D75B9325A9DD1300446923 /* ExperienceTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D75B9225A9DD1300446923 /* ExperienceTracker.swift */; };
 		B8D75B9625B4799200446923 /* Preferences in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75B9525B4799200446923 /* Preferences */; };
+		B8D75B9725BA205200446923 /* ExperienceOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D75B9025A9DCDE00446923 /* ExperienceOverlay.swift */; };
+		B8D75B9825BA206000446923 /* AdventureDbId.swift in Sources */ = {isa = PBXBuildFile; fileRef = B864AE1F25979E3400793F36 /* AdventureDbId.swift */; };
+		B8D75B9925BA206000446923 /* AdventureModeDbId.swift in Sources */ = {isa = PBXBuildFile; fileRef = B864AE2125979E9100793F36 /* AdventureModeDbId.swift */; };
+		B8D75B9A25BA206900446923 /* ImportingPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B864AE3B25A4D15C00793F36 /* ImportingPreferences.swift */; };
+		B8D75B9B25BA207000446923 /* RotatingFileDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A3E4B3257AE71500D9C77A /* RotatingFileDestination.swift */; };
+		B8D75B9C25BA207700446923 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85F1AC8258A558200A6F8C3 /* Helper.swift */; };
+		B8D75B9D25BA209B00446923 /* ExperienceTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D75B9225A9DD1300446923 /* ExperienceTracker.swift */; };
+		B8D75B9E25BA20A500446923 /* BattlegroundsTierOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFF95AE23C0C56A006AB461 /* BattlegroundsTierOverlayView.swift */; };
+		B8D75B9F25BA20AA00446923 /* GameSaveKeyId.swift in Sources */ = {isa = PBXBuildFile; fileRef = B864AE262597DD9400793F36 /* GameSaveKeyId.swift */; };
+		B8D75BA025BA20B700446923 /* DeckType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B864AE282599359400793F36 /* DeckType.swift */; };
+		B8D75BA425BA21C900446923 /* Preferences in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BA325BA21C900446923 /* Preferences */; };
+		B8D75BA525BA22B900446923 /* BattlegroundsTierOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CFF95AC23C0C48E006AB461 /* BattlegroundsTierOverlay.xib */; };
 		B8D8859224F3034700F2F0F2 /* StatusMessageConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D8859124F3034700F2F0F2 /* StatusMessageConverter.swift */; };
 		B8D8859824F40D4E00F2F0F2 /* ClickableBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D8859724F40D4E00F2F0F2 /* ClickableBox.swift */; };
 		B8D8859A24F4185200F2F0F2 /* BobsBuddyErrorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D8859924F4185200F2F0F2 /* BobsBuddyErrorState.swift */; };
@@ -616,7 +621,6 @@
 			files = (
 				B8DEDCEB2547CFF200DF524B /* HearthMirror.framework in CopyFiles */,
 				5BD4A5032233E43000EF879B /* Kingfisher.framework in CopyFiles */,
-				1CCB4AE21E847512003FD1AD /* Unbox.framework in CopyFiles */,
 				1CCB4AE11E8474F8003FD1AD /* Gzip.framework in CopyFiles */,
 				43BA1C9C1FB2EAD30007C500 /* AwaitKit.framework in CopyFiles */,
 				43BA1C9D1FB2EAD30007C500 /* PromiseKit.framework in CopyFiles */,
@@ -624,13 +628,10 @@
 				1CCB4ADB1E84743D003FD1AD /* BTree.framework in CopyFiles */,
 				1CCB4ADE1E8474A8003FD1AD /* Realm.framework in CopyFiles */,
 				1CCB4ADF1E8474A8003FD1AD /* RealmSwift.framework in CopyFiles */,
-				437E56D91DAAA33200FC0FC1 /* ZipArchive.framework in CopyFiles */,
 				437E56DD1DAAA33200FC0FC1 /* Wrap.framework in CopyFiles */,
 				437E56DE1DAAA33200FC0FC1 /* TextAttributes.framework in CopyFiles */,
 				437E56DF1DAAA33200FC0FC1 /* Sparkle.framework in CopyFiles */,
 				43C1CAC31E96CEC4008C20B1 /* RegexUtil.framework in CopyFiles */,
-				437E56E61DAAA33200FC0FC1 /* JNWCollectionView.framework in CopyFiles */,
-				437E56E81DAAA33200FC0FC1 /* MASPreferences.framework in CopyFiles */,
 				E3057D6F20B8890500B9A5B8 /* OAuthSwift.framework in CopyFiles */,
 				E301D344217CF1FB001F8D11 /* FMDB.framework in CopyFiles */,
 			);
@@ -1303,19 +1304,17 @@
 				1CCB4AD31E847139003FD1AD /* BTree.framework in Frameworks */,
 				4345E9DD1CB45122002D0F23 /* Cocoa.framework in Frameworks */,
 				43BA1C981FB2EA380007C500 /* AwaitKit.framework in Frameworks */,
+				B8D75BA425BA21C900446923 /* Preferences in Frameworks */,
 				43BA1C991FB2EA380007C500 /* PromiseKit.framework in Frameworks */,
 				43BA1C9A1FB2EA380007C500 /* SwiftyBeaver.framework in Frameworks */,
 				43BA1C9B1FB2EA8B0007C500 /* Gzip.framework in Frameworks */,
 				4345E9DE1CB45122002D0F23 /* Foundation.framework in Frameworks */,
-				437E56D51DAAA32E00FC0FC1 /* JNWCollectionView.framework in Frameworks */,
 				1CCB4ACF1E84708A003FD1AD /* libz.tbd in Frameworks */,
-				437E56D71DAAA32E00FC0FC1 /* MASPreferences.framework in Frameworks */,
 				1CCB4AD41E847177003FD1AD /* Realm.framework in Frameworks */,
 				1CCB4AD51E847177003FD1AD /* RealmSwift.framework in Frameworks */,
 				43C1CAC21E96CEB5008C20B1 /* RegexUtil.framework in Frameworks */,
 				437E56D01DAAA32E00FC0FC1 /* Sparkle.framework in Frameworks */,
 				437E56CE1DAAA32E00FC0FC1 /* Wrap.framework in Frameworks */,
-				437E56CA1DAAA32E00FC0FC1 /* ZipArchive.framework in Frameworks */,
 				437E56CF1DAAA32E00FC0FC1 /* TextAttributes.framework in Frameworks */,
 				E3057D6E20B888FB00B9A5B8 /* OAuthSwift.framework in Frameworks */,
 				E301D343217CF14C001F8D11 /* FMDB.framework in Frameworks */,
@@ -2061,6 +2060,9 @@
 				439C7E5E1C7772C100D29859 /* PBXTargetDependency */,
 			);
 			name = HSTrackerTests;
+			packageProductDependencies = (
+				B8D75BA325BA21C900446923 /* Preferences */,
+			);
 			productName = HSTrackerTests;
 			productReference = 439C7E5C1C7772C100D29859 /* HSTrackerTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -2186,6 +2188,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8D75BA525BA22B900446923 /* BattlegroundsTierOverlay.xib in Resources */,
 				B81F069E253899FB00F319F1 /* Config.xcconfig in Resources */,
 				43640BE11E89A25F00FAFD07 /* Resources in Resources */,
 			);
@@ -2307,7 +2310,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "LOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"/Resources/Cards\nmkdir -p \"${LOCATION}\"\nrm -f \"${LOCATION}\"/cardsDB*\n\nHSJSON=\"https://api.hearthstonejson.com/v1\"\n\nfor lang in deDE enUS esES esMX frFR itIT jaJP koKR plPL ptBR ruRU thTH zhCN zhTW; do\n    echo \"Downloading cards.$lang.json\"\n    wget \"$HSJSON/latest/$lang/cards.json\" -O \"${LOCATION}/cardsDB.$lang.json\"\ndone\n";
+			shellScript = "LOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"/Resources/Cards\nmkdir -p \"${LOCATION}\"\nrm -f \"${LOCATION}\"/cardsDB*\n\nHSJSON=\"https://api.hearthstonejson.com/v1\"\n\nfor lang in deDE enUS esES esMX frFR itIT jaJP koKR plPL ptBR ruRU thTH zhCN zhTW; do\n    echo \"Downloading cards.$lang.json\"\n    wget -N \"$HSJSON/latest/$lang/cards.json\" -O \"${LOCATION}/cardsDB.$lang.json\"\ndone\n";
 			showEnvVarsInLog = 0;
 		};
 		B8D8859B24F4333000F2F0F2 /* Download BobsBuddy and HearthDb */ = {
@@ -2568,6 +2571,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8D75BA025BA20B700446923 /* DeckType.swift in Sources */,
+				B8D75B9F25BA20AA00446923 /* GameSaveKeyId.swift in Sources */,
+				B8D75B9E25BA20A500446923 /* BattlegroundsTierOverlayView.swift in Sources */,
+				B8D75B9D25BA209B00446923 /* ExperienceTracker.swift in Sources */,
+				B8D75B9C25BA207700446923 /* Helper.swift in Sources */,
+				B8D75B9B25BA207000446923 /* RotatingFileDestination.swift in Sources */,
+				B8D75B9A25BA206900446923 /* ImportingPreferences.swift in Sources */,
+				B8D75B9825BA206000446923 /* AdventureDbId.swift in Sources */,
+				B8D75B9925BA206000446923 /* AdventureModeDbId.swift in Sources */,
+				B8D75B9725BA205200446923 /* ExperienceOverlay.swift in Sources */,
 				B8A9CB3C2573FD61000071FC /* GuessedCardState.swift in Sources */,
 				B8A9CB2F25699B70000071FC /* RemoteConfig.swift in Sources */,
 				B8A9CB2E25699B13000071FC /* BattlegroundsMinionView.swift in Sources */,
@@ -3502,6 +3515,11 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		B8D75B9525B4799200446923 /* Preferences */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8D75B9425B4799100446923 /* XCRemoteSwiftPackageReference "Preferences" */;
+			productName = Preferences;
+		};
+		B8D75BA325BA21C900446923 /* Preferences */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B8D75B9425B4799100446923 /* XCRemoteSwiftPackageReference "Preferences" */;
 			productName = Preferences;

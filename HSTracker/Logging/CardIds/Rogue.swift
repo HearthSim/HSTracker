@@ -143,6 +143,7 @@ extension CardIds.Collectible {
         static let UmbralSkulker = "DRG_027"
         static let BlinkFox = "GIL_827"
         static let AcademicEspionage = "BOT_087"
+        static let Shenanigans = "YOP_017"
     }
 }
 
@@ -220,7 +221,7 @@ extension CardIds.NonCollectible {
 
 extension CardIds.Secrets {
     struct Rogue {
-        static let All = [CheatDeath, Evasion, SuddenBetrayal, Bamboozle, Ambush, DirtyTricks, Plagiarize, ShadowClone]
+        static let All = [CheatDeath, Evasion, SuddenBetrayal, Bamboozle, Ambush, DirtyTricks, Plagiarize, ShadowClone, Shenanigans]
         static let CheatDeath = CardIds.Collectible.Rogue.CheatDeath
         static let Evasion = CardIds.Collectible.Rogue.Evasion
         static let SuddenBetrayal = CardIds.Collectible.Rogue.SuddenBetrayal
@@ -229,5 +230,6 @@ extension CardIds.Secrets {
         static let DirtyTricks = CardIds.Collectible.Rogue.DirtyTricks
         static let Plagiarize = CardIds.Collectible.Rogue.Plagiarize
         static let ShadowClone = CardIds.Collectible.Rogue.ShadowClone
+        static let Shenanigans = CardIds.Collectible.Rogue.Shenanigans
     }
 }

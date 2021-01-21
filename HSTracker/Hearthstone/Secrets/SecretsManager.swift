@@ -476,6 +476,10 @@ class SecretsManager {
             }
         }
         
+        if let player = game.playerEntity, player.has(tag: .num_cards_played_this_turn) && (player[.num_cards_played_this_turn] >= 2) {
+            exclude.append(CardIds.Secrets.Rogue.Shenanigans)
+        }
+        
         if entity.isSpell {
             _triggeredSecrets.removeAll()
             if game.opponentSecretCount > 1 {

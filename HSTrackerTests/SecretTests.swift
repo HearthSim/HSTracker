@@ -476,6 +476,32 @@ class SecretTests: HSTrackerTests {
         verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
     }
     
+    func testSingleSecret_OpponentDrawsTwoCards_ShenanigansTriggered() {
+        heroPlayer[.num_cards_played_this_turn] = 2
+        game.secretsManager?.handleCardPlayed(entity: playerSpell1)
+        verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All, triggered: [CardIds.Secrets.Hunter.CatTrick])
+        verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
+                      triggered: [CardIds.Secrets.Mage.Counterspell,
+                                  CardIds.Secrets.Mage.Spellbender,
+                                  CardIds.Secrets.Mage.ManaBind,
+                                  CardIds.Secrets.Mage.NetherwindPortal])
+        verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All, triggered: [CardIds.Secrets.Paladin.OhMyYogg])
+        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All, triggered: [CardIds.Secrets.Rogue.Shenanigans, CardIds.Secrets.Rogue.DirtyTricks])
+    }
+
+    func testSingleSecret_OpponentDrawsOneCard_ShenanigansNotTriggered() {
+        heroPlayer[.num_cards_played_this_turn] = 1
+        game.secretsManager?.handleCardPlayed(entity: playerSpell1)
+        verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All, triggered: [CardIds.Secrets.Hunter.CatTrick])
+        verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
+                      triggered: [CardIds.Secrets.Mage.Counterspell,
+                                  CardIds.Secrets.Mage.Spellbender,
+                                  CardIds.Secrets.Mage.ManaBind,
+                                  CardIds.Secrets.Mage.NetherwindPortal])
+        verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All, triggered: [CardIds.Secrets.Paladin.OhMyYogg])
+        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All, triggered: [CardIds.Secrets.Rogue.DirtyTricks])
+    }
+    
 //    func testSingleSecret_OpponentTurnStart_OpponentTookNoDamage_RiggedFaireGameTriggered() {
 //        game.opponent.onTurnStart()
 //        game.secretsManager?.handleOpponentTurnStart()
