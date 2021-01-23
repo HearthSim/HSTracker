@@ -1,3 +1,10 @@
+# 1.8.0
+## New:
+- Updated for patch 19.4
+- Add experience tracker
+## Fixes:
+- Fix issue where players could occasionally see when their opponent drew a card created by C'thun the Shattered
+
 # 1.7.8
 ## New:
 - Updated for patch 19.2
