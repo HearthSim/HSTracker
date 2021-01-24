@@ -2,8 +2,13 @@
 ## New:
 - Updated for patch 19.4
 - Add experience tracker
+- Duels support
+- Improved Battlegrounds Tier display
+- Improved Adventure support, including Book of Heroes
 ## Fixes:
 - Fix issue where players could occasionally see when their opponent drew a card created by C'thun the Shattered
+- Hide Secret Helper during Battlegrounds
+- Fix bug when importing deck code strings
 
 # 1.7.8
 ## New:
