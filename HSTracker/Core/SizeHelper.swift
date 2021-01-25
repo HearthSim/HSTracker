@@ -102,15 +102,19 @@ struct SizeHelper {
         // All size are taken from a resolution of BaseWidth*BaseHeight (my MBA resolution)
         // and translated to your resolution
         //
-        func relativeFrame(_ frame: NSRect, relative: Bool = true) -> NSRect {
+        func relativeFrame(_ frame: NSRect, relative: Bool = true, keepRatio: Bool = false) -> NSRect {
             var pointX = frame.minX
             var pointY = frame.minY
-            let width = frame.width
-            let height = frame.height
+            var width = frame.width
+            var height = frame.height
             
             if relative {
                 pointX *= scaleX
                 pointY *= scaleY
+            }
+            if keepRatio {
+                width *= scaleX
+                height *= scaleY
             }
             
             let x = self.frame.minX + pointX
@@ -245,8 +249,9 @@ struct SizeHelper {
     }
     
     static func experienceOverlayFrame() -> NSRect {
-        let frame = NSRect(x: hearthstoneWindow.frame.maxX  - 400, y: hearthstoneWindow.frame.origin.y, width: 150.0, height: 45.0)
-        return frame
+        let frame = NSRect(x: 1055.0, y: 0.0, width: 135.0, height: 45.0)
+        //NSRect(x: hearthstoneWindow.frame.maxX  - 400, y: hearthstoneWindow.frame.origin.y, width: 150.0, height: 45.0)
+        return hearthstoneWindow.relativeFrame(frame, keepRatio: true)
     }
 
     static func arenaHelperFrame() -> NSRect {
