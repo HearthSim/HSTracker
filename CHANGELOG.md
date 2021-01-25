@@ -1,3 +1,7 @@
+# 1.8.1:
+## Fixes:
+- Improved experience tracker location & size
+
 # 1.8.0
 ## New:
 - Updated for patch 19.4
