@@ -92,12 +92,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             credential.oauthToken = oauthToken
         }
         
-        HSReplayAPI.oauthswift.renewAccessToken(withRefreshToken: credential.oauthRefreshToken, success: { (credential, _, _) in
-            logger.debug("HSReplay: Refreshed OAuthToken")
-            Settings.hsReplayOAuthToken =  credential.oauthToken
-            Settings.hsReplayOAuthRefreshToken = credential.oauthRefreshToken
-        }, failure: { error in
-            logger.error(error)
+        HSReplayAPI.oauthswift.renewAccessToken(withRefreshToken: credential.oauthRefreshToken, completionHandler: { result in
+            switch result {
+            case .success(let (credential, _, _)):
+                logger.debug("HSReplay: Refreshed OAuthToken")
+                Settings.hsReplayOAuthToken =  credential.oauthToken
+                Settings.hsReplayOAuthRefreshToken = credential.oauthRefreshToken
+            case .failure(let error):
+                logger.error(error)
+            }
         })
 		
 		// init debug loggers

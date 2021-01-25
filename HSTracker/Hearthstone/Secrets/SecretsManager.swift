@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import AwaitKit
 
 class SecretsManager {
     let avengeDelay: Double = 50
@@ -393,15 +392,9 @@ class SecretsManager {
             self._awaitingAvenge = true
             self._avengeDeathRattleCount += deathRattleCount
             if self.game.opponentMinionCount != 0 {
-                do {
-                    try await {
-                        Thread.sleep(forTimeInterval: self.avengeDelay)
-                    }
-                    if self.game.opponentMinionCount - self._avengeDeathRattleCount > 0 {
-                        self.exclude(cardId: CardIds.Secrets.Paladin.Avenge)
-                    }
-                } catch {
-                    logger.error("\(error)")
+                Thread.sleep(forTimeInterval: self.avengeDelay)
+                if self.game.opponentMinionCount - self._avengeDeathRattleCount > 0 {
+                    self.exclude(cardId: CardIds.Secrets.Paladin.Avenge)
                 }
             }
             self._avengeDeathRattleCount = 0
@@ -506,20 +499,14 @@ class SecretsManager {
 
             if freeSpaceOnBoard {
                 // CARD_TARGET is set after ZONE, wait for 50ms gametime before checking
-                do {
-                    try await {
-                        Thread.sleep(forTimeInterval: 0.2)
-                    }
-                    if let target = game.entities[entity[.card_target]],
-                        entity.has(tag: .card_target),
-                        target.isMinion {
-                        exclude.append(CardIds.Secrets.Mage.Spellbender)
-                    }
-                    exclude.append(CardIds.Secrets.Hunter.CatTrick)
-                    exclude.append(CardIds.Secrets.Mage.NetherwindPortal)
-                } catch {
-                    logger.error("\(error)")
+                Thread.sleep(forTimeInterval: 0.2)
+                if let target = game.entities[entity[.card_target]],
+                    entity.has(tag: .card_target),
+                    target.isMinion {
+                    exclude.append(CardIds.Secrets.Mage.Spellbender)
                 }
+                exclude.append(CardIds.Secrets.Hunter.CatTrick)
+                exclude.append(CardIds.Secrets.Mage.NetherwindPortal)
             }
 
             if game.playerMinionCount > 0 {

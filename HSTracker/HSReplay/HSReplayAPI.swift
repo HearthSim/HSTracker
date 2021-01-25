@@ -22,9 +22,14 @@ class HSReplayAPI {
     static let oAuthClientSecret = "sk_live_20180308078UceCXo8qmoG72ExZxeqOW"//"sk_test_20180308Z5qWO7yiYpqi8qAmQY0PDzcJ"
     private static let defaultHeaders = ["Accept": "application/json", "Content-Type": "application/json"]
 
-    static let tokenRenewalHandler: OAuthSwift.TokenRenewedHandler = { credential in
-        Settings.hsReplayOAuthToken = credential.oauthToken
-        Settings.hsReplayOAuthRefreshToken = credential.oauthRefreshToken
+    static let tokenRenewalHandler: OAuthSwift.TokenRenewedHandler = { result in
+        switch result {
+        case .success(let credential):
+            Settings.hsReplayOAuthToken = credential.oauthToken
+            Settings.hsReplayOAuthRefreshToken = credential.oauthRefreshToken
+        case .failure(let error):
+            logger.error("Failed to renew token: \(error)")
+        }
     }
     
     static let oauthswift = {
@@ -42,18 +47,20 @@ class HSReplayAPI {
             withCallbackURL: URL(string: "hstracker://oauth-callback/hsreplay")!,
             scope: "fullaccess",
             state: "HSREPLAY",
-            success: { credential, _, _ in
-                logger.info("HSReplay: OAuth succeeded")
-                Settings.hsReplayOAuthToken = credential.oauthToken
-                Settings.hsReplayOAuthRefreshToken = credential.oauthRefreshToken
+            completionHandler: { result in
+                switch result {
+                case .success(let (credential, _, _)):
+                    logger.info("HSReplay: OAuth succeeded")
+                    Settings.hsReplayOAuthToken = credential.oauthToken
+                    Settings.hsReplayOAuthRefreshToken = credential.oauthRefreshToken
 
-                handle()
-            },
-            failure: { error in
-                // TODO: Better error handling
-                logger.info("HSReplay: OAuth failed \(error)")
-                print(error.localizedDescription)
-            })
+                    handle()
+                case .failure(let error):
+                    // TODO: Better error handling
+                    logger.info("HSReplay: OAuth failed \(error)")
+                }
+            }
+        )
     }
 
     static func getUploadToken(handle: @escaping (String) -> Void) {
@@ -71,7 +78,8 @@ class HSReplayAPI {
                         Settings.hsReplayUploadToken = key
                         handle(key)
                     } else {
-                        // TODO error handling
+                        logger.error("Failed to obtain upload token")
+                        handle("failed-token")
                     }
         }
     }
@@ -83,13 +91,17 @@ class HSReplayAPI {
         }
         oauthswift.startAuthorizedRequest("\(HSReplay.claimBattleTagUrl)/\(accountId.hi)/\(accountId.lo)/", method: .POST,
             parameters: ["battletag": battleTag], headers: defaultHeaders,
-            onTokenRenewal: tokenRenewalHandler, success: { _ in
-
-            complete()
-        }, failure: { error in
-            logger.error(error)
-            failed()
-        })
+            onTokenRenewal: tokenRenewalHandler,
+            completionHandler: { result in
+                switch result {
+                case .success:
+                    complete()
+                case .failure(let error):
+                    logger.error(error)
+                    failed()
+                }
+            }
+        )
     }
 
     static func claimAccount() {
@@ -151,22 +163,26 @@ class HSReplayAPI {
                 seal.reject(HSReplayError.missingAccount)
                 return
             }
-            oauthswift.startAuthorizedRequest("\(HSReplay.collectionTokensUrl)", method: .GET, parameters: ["account_hi": accountId.hi, "account_lo": accountId.lo], headers: defaultHeaders, onTokenRenewal: tokenRenewalHandler, success: { response in
-                do {
-                    guard let json = try response.jsonObject() as? [String: Any], let token = json["url"] as? String else {
-                        logger.error("HSReplay: Unexpected JSON \(String(describing: response.string))")
-                        seal.reject(HSReplayError.collectionUploadMissingURL)
-                        return
-                    }
-                    logger.info("HSReplay: obtained new collection upload json: \(json)")
-                    seal.fulfill(token)
-                } catch {
-                    seal.reject(HSReplayError.missingAccount)
-                }
-            }, failure: { error in
-                logger.error(error)
-                seal.reject(HSReplayError.authorizationTokenNotSet)
-            })
+            oauthswift.startAuthorizedRequest("\(HSReplay.collectionTokensUrl)", method: .GET, parameters: ["account_hi": accountId.hi, "account_lo": accountId.lo], headers: defaultHeaders, onTokenRenewal: tokenRenewalHandler,
+                                              completionHandler: { result in
+                                                switch result {
+                                                case .success(let response):
+                                                    do {
+                                                        guard let json = try response.jsonObject() as? [String: Any], let token = json["url"] as? String else {
+                                                            logger.error("HSReplay: Unexpected JSON \(String(describing: response.string))")
+                                                            seal.reject(HSReplayError.collectionUploadMissingURL)
+                                                            return
+                                                        }
+                                                        logger.info("HSReplay: obtained new collection upload json: \(json)")
+                                                        seal.fulfill(token)
+                                                    } catch {
+                                                        seal.reject(HSReplayError.missingAccount)
+                                                    }
+                                                case .failure(let error):
+                                                    logger.error(error)
+                                                    seal.reject(HSReplayError.authorizationTokenNotSet)
+                                                }
+                                              })
         }
     }
     

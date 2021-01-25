@@ -14,20 +14,10 @@
 		1CB43A151E8317A800E42181 /* WotogCounterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437B5BB21CD2439800DE0A41 /* WotogCounterHelper.swift */; };
 		1CB623A71DD37C890045E0CF /* GlowFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CB623A61DD37C890045E0CF /* GlowFilter.m */; };
 		1CCB4ACF1E84708A003FD1AD /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 433554321D5F6B4400277B27 /* libz.tbd */; };
-		1CCB4AD31E847139003FD1AD /* BTree.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC78DD761E80871600DBA7C9 /* BTree.framework */; };
-		1CCB4AD41E847177003FD1AD /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E7BEA41DBB7F8E0057DC0C /* Realm.framework */; };
-		1CCB4AD51E847177003FD1AD /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E7BEA51DBB7F8F0057DC0C /* RealmSwift.framework */; };
-		1CCB4ADB1E84743D003FD1AD /* BTree.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BC78DD761E80871600DBA7C9 /* BTree.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		1CCB4ADE1E8474A8003FD1AD /* Realm.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43E7BEA41DBB7F8E0057DC0C /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		1CCB4ADF1E8474A8003FD1AD /* RealmSwift.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43E7BEA51DBB7F8F0057DC0C /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		1CCB4AE11E8474F8003FD1AD /* Gzip.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 439DD8FD1DB24F83004EBE47 /* Gzip.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1CCB4AEB1E8A4930003FD1AD /* LogEventHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCB4AEA1E8A4930003FD1AD /* LogEventHandlers.swift */; };
 		1CF204F91E83B74300037A42 /* MirrorHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF204F81E83B74300037A42 /* MirrorHelper.swift */; };
 		340AAC051D0544AD0015FE33 /* StringTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340AAC041D0544AD0015FE33 /* StringTracker.swift */; };
 		43050C621E6B484D007600EA /* Hearthstone.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43050C611E6B484D007600EA /* Hearthstone.xcassets */; };
-		4305CA401CF42AC70048E7EC /* Wrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4305CA3D1CF42AC60048E7EC /* Wrap.framework */; };
-		4305CA411CF42AC70048E7EC /* Wrap.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4305CA3D1CF42AC60048E7EC /* Wrap.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		4305CA451CF42AE50048E7EC /* Wrap.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = 4305CA431CF42AE50048E7EC /* Wrap.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4305CA471CF434E30048E7EC /* Cards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4305CA461CF434E30048E7EC /* Cards.swift */; };
 		4308EB7E1D76AFE6000897C8 /* ReleaseChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4308EB7D1D76AFE6000897C8 /* ReleaseChannel.swift */; };
 		431719711C84911300F5988B /* EditDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431719701C84911300F5988B /* EditDeck.swift */; };
@@ -92,9 +82,6 @@
 		436032A21C7D0333005F1893 /* DeckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436032A11C7D0332005F1893 /* DeckManager.swift */; };
 		4361D8341DC8A21800D831CF /* BnetGameType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4361D8331DC8A21800D831CF /* BnetGameType.swift */; };
 		43640BE11E89A25F00FAFD07 /* Resources in Resources */ = {isa = PBXBuildFile; fileRef = 439C7E8E1C777D6C00D29859 /* Resources */; };
-		43647A531CDC9A3D00C2B78E /* TextAttributes.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43647A521CDC9A3D00C2B78E /* TextAttributes.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		43647A541CDC9A5100C2B78E /* TextAttributes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43647A521CDC9A3D00C2B78E /* TextAttributes.framework */; };
-		43647A561CDC9A5F00C2B78E /* TextAttributes.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = 43647A551CDC9A5F00C2B78E /* TextAttributes.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4367899F1CAC05DD00C962D1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367899E1CAC05DD00C962D1 /* Cocoa.framework */; };
 		436789B71CACF64600C962D1 /* CardCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436789B61CACF64600C962D1 /* CardCounter.swift */; };
 		436789BB1CACF79800C962D1 /* TrackerFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436789BA1CACF79800C962D1 /* TrackerFrame.swift */; };
@@ -115,21 +102,9 @@
 		437B5BC51CD2568E00DE0A41 /* TrackersPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 437B5BC31CD2568E00DE0A41 /* TrackersPreferences.xib */; };
 		437C58301EBC7E8400FFD888 /* NSImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437C582F1EBC7E8400FFD888 /* NSImage.swift */; };
 		437C58311EBC816900FFD888 /* NSImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437C582F1EBC7E8400FFD888 /* NSImage.swift */; };
-		437E56CE1DAAA32E00FC0FC1 /* Wrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4305CA3D1CF42AC60048E7EC /* Wrap.framework */; };
-		437E56CF1DAAA32E00FC0FC1 /* TextAttributes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43647A521CDC9A3D00C2B78E /* TextAttributes.framework */; };
-		437E56D01DAAA32E00FC0FC1 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4387316D1CCBB7BE004EEAD1 /* Sparkle.framework */; };
-		437E56DD1DAAA33200FC0FC1 /* Wrap.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4305CA3D1CF42AC60048E7EC /* Wrap.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		437E56DE1DAAA33200FC0FC1 /* TextAttributes.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43647A521CDC9A3D00C2B78E /* TextAttributes.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		437E56DF1DAAA33200FC0FC1 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4387316D1CCBB7BE004EEAD1 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		437E56F01DAAB81400FC0FC1 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56E91DAAB81400FC0FC1 /* Array.swift */; };
 		437E56F11DAAB81400FC0FC1 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56EA1DAAB81400FC0FC1 /* Color.swift */; };
 		437E56F61DAAB81400FC0FC1 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56EF1DAAB81400FC0FC1 /* String.swift */; };
-		43847D8F1E8D96720060C2D2 /* RegexUtil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43847D8D1E8D965E0060C2D2 /* RegexUtil.framework */; };
-		43847D901E8D96720060C2D2 /* RegexUtil.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43847D8D1E8D965E0060C2D2 /* RegexUtil.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		43847D921E8D96970060C2D2 /* RegexUtil.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = 43847D911E8D96970060C2D2 /* RegexUtil.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		4387316E1CCBB7BE004EEAD1 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4387316D1CCBB7BE004EEAD1 /* Sparkle.framework */; };
-		4387316F1CCBB7BE004EEAD1 /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4387316D1CCBB7BE004EEAD1 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		438731711CCBB7DB004EEAD1 /* Sparkle.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = 438731701CCBB7DB004EEAD1 /* Sparkle.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		43873CC11CA6E6C200F01CB4 /* WindowMove.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43873CC01CA6E6C200F01CB4 /* WindowMove.xib */; };
 		43873CC31CA6E6CD00F01CB4 /* WindowMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43873CC21CA6E6CD00F01CB4 /* WindowMove.swift */; };
 		4387BED21CF4D7A00002ECBB /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4387BED11CF4D7A00002ECBB /* State.swift */; };
@@ -172,8 +147,6 @@
 		439DD8F61DB2324A004EBE47 /* CardSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DD8F51DB2324A004EBE47 /* CardSize.swift */; };
 		439DD8FA1DB236A4004EBE47 /* ThemeElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DD8F91DB236A4004EBE47 /* ThemeElement.swift */; };
 		439DD8FC1DB237C0004EBE47 /* EntityInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DD8FB1DB237C0004EBE47 /* EntityInfo.swift */; };
-		439DD8FE1DB24F83004EBE47 /* Gzip.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 439DD8FD1DB24F83004EBE47 /* Gzip.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		439DD9001DB24F8A004EBE47 /* Gzip.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = 439DD8FF1DB24F8A004EBE47 /* Gzip.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		43A12C871CA3D24800090BFE /* SaveDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A12C861CA3D24800090BFE /* SaveDeck.swift */; };
 		43A8A0F11E0BC08F00AF34FD /* JadeCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8A0F01E0BC08F00AF34FD /* JadeCounter.swift */; };
 		43A8A0F71E1557C900AF34FD /* FormatType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8A0F61E1557C900AF34FD /* FormatType.swift */; };
@@ -185,13 +158,6 @@
 		43B695631C920A0500F4D0AC /* CardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B695621C920A0500F4D0AC /* CardList.swift */; };
 		43B695651C920BD500F4D0AC /* CardList.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43B695641C920BD500F4D0AC /* CardList.xib */; };
 		43BA1C971FB2E72E0007C500 /* SecretsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFA0021FA11F11008ED490 /* SecretsManager.swift */; };
-		43BA1C981FB2EA380007C500 /* AwaitKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0CA1FA3566A002F5AEA /* AwaitKit.framework */; };
-		43BA1C991FB2EA380007C500 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0C91FA3566A002F5AEA /* PromiseKit.framework */; };
-		43BA1C9A1FB2EA380007C500 /* SwiftyBeaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0D51FA4F3B5002F5AEA /* SwiftyBeaver.framework */; };
-		43BA1C9B1FB2EA8B0007C500 /* Gzip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 439DD8FD1DB24F83004EBE47 /* Gzip.framework */; };
-		43BA1C9C1FB2EAD30007C500 /* AwaitKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43F2F0CA1FA3566A002F5AEA /* AwaitKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		43BA1C9D1FB2EAD30007C500 /* PromiseKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43F2F0C91FA3566A002F5AEA /* PromiseKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		43BA1C9E1FB2EAD30007C500 /* SwiftyBeaver.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43F2F0D51FA4F3B5002F5AEA /* SwiftyBeaver.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		43BDF0BC1DB7FB040081964A /* OverWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BDF0BB1DB7FB040081964A /* OverWindowController.swift */; };
 		43BDF0BE1DB89A830081964A /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BDF0BD1DB89A830081964A /* WindowManager.swift */; };
 		43BE58BE1DC47C6D00B24A21 /* Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BE58BD1DC47C6D00B24A21 /* Paths.swift */; };
@@ -371,8 +337,6 @@
 		43C1CABF1E96CD6F008C20B1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E4B1C7772C000D29859 /* AppDelegate.swift */; };
 		43C1CAC01E96CE3C008C20B1 /* FileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA70F291E2C16DD00038A6C /* FileUtils.m */; };
 		43C1CAC11E96CE4E008C20B1 /* GlowFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CB623A61DD37C890045E0CF /* GlowFilter.m */; };
-		43C1CAC21E96CEB5008C20B1 /* RegexUtil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43847D8D1E8D965E0060C2D2 /* RegexUtil.framework */; };
-		43C1CAC31E96CEC4008C20B1 /* RegexUtil.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43847D8D1E8D965E0060C2D2 /* RegexUtil.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		43C36D2C1D08623D00F6723C /* CardSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C36D2B1D08623D00F6723C /* CardSet.swift */; };
 		43C567E71D5D0F2E00451B6F /* LogLineNamespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567E61D5D0F2E00451B6F /* LogLineNamespace.swift */; };
 		43C567E91D5D0F5700451B6F /* LogLineZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567E81D5D0F5700451B6F /* LogLineZone.swift */; };
@@ -393,12 +357,6 @@
 		43E77EE21C949C7800C26950 /* TimerHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE11C949C7800C26950 /* TimerHud.swift */; };
 		43E77EE41C94A19700C26950 /* TurnTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE31C94A19700C26950 /* TurnTimer.swift */; };
 		43E77EE61C94B4B400C26950 /* CardHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE51C94B4B400C26950 /* CardHud.swift */; };
-		43E7BEA61DBB7F8F0057DC0C /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43E7BEA41DBB7F8E0057DC0C /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		43E7BEA71DBB7F8F0057DC0C /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43E7BEA51DBB7F8F0057DC0C /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		43E7BEAA1DBB7FA00057DC0C /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E7BEA41DBB7F8E0057DC0C /* Realm.framework */; };
-		43E7BEAB1DBB7FA00057DC0C /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E7BEA51DBB7F8F0057DC0C /* RealmSwift.framework */; };
-		43E7BEAE1DBB7FAA0057DC0C /* Realm.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = 43E7BEAC1DBB7FAA0057DC0C /* Realm.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		43E7BEAF1DBB7FAA0057DC0C /* RealmSwift.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = 43E7BEAD1DBB7FAA0057DC0C /* RealmSwift.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		43E7BEB11DBB81B10057DC0C /* RealmCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E7BEB01DBB81B10057DC0C /* RealmCard.swift */; };
 		43EBA3A31D1299AC0093B1C2 /* CardHudContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EBA3A21D1299AC0093B1C2 /* CardHudContainer.swift */; };
 		43EBA3A51D129B030093B1C2 /* CardHudContainer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43EBA3A41D129B030093B1C2 /* CardHudContainer.xib */; };
@@ -420,20 +378,8 @@
 		43F204111E93C2E600E0BC4A /* Shaman.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F204031E93C2E600E0BC4A /* Shaman.swift */; };
 		43F204121E93C2E600E0BC4A /* Warlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F204041E93C2E600E0BC4A /* Warlock.swift */; };
 		43F204131E93C2E600E0BC4A /* Warrior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F204051E93C2E600E0BC4A /* Warrior.swift */; };
-		43F2F0CB1FA3566B002F5AEA /* PromiseKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0C91FA3566A002F5AEA /* PromiseKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		43F2F0CC1FA3566B002F5AEA /* AwaitKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0CA1FA3566A002F5AEA /* AwaitKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		43F2F0CD1FA3568E002F5AEA /* AwaitKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0CA1FA3566A002F5AEA /* AwaitKit.framework */; };
-		43F2F0CE1FA3568E002F5AEA /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0C91FA3566A002F5AEA /* PromiseKit.framework */; };
-		43F2F0D11FA356AA002F5AEA /* AwaitKit.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = 43F2F0CF1FA356A9002F5AEA /* AwaitKit.framework.dSYM */; };
-		43F2F0D21FA356AA002F5AEA /* PromiseKit.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = 43F2F0D01FA356AA002F5AEA /* PromiseKit.framework.dSYM */; };
-		43F2F0D41FA4F3A6002F5AEA /* SwiftyBeaver.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = 43F2F0D31FA4F3A5002F5AEA /* SwiftyBeaver.framework.dSYM */; };
-		43F2F0D71FA4F3CA002F5AEA /* SwiftyBeaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0D51FA4F3B5002F5AEA /* SwiftyBeaver.framework */; };
-		43F2F0D81FA4F3CA002F5AEA /* SwiftyBeaver.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0D51FA4F3B5002F5AEA /* SwiftyBeaver.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		43F4D0491EB7A23E006B4479 /* HeroPower.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F4D0481EB7A23D006B4479 /* HeroPower.swift */; };
 		49930DD41DFA859F008C8CD4 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 49930DD31DFA859F008C8CD4 /* .swiftlint.yml */; };
-		4C0C2A26244C8AED00E7B75E /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C0C2A25244C8AED00E7B75E /* AppCenter.framework */; };
-		4C0C2A28244C8CE400E7B75E /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C0C2A27244C8CE400E7B75E /* AppCenterAnalytics.framework */; };
-		4C0C2A2A244C8CF400E7B75E /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C0C2A29244C8CF400E7B75E /* AppCenterCrashes.framework */; };
 		4C1923942392DF8A007EBB0F /* BattlegroundsOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1923932392DF8A007EBB0F /* BattlegroundsOverlay.swift */; };
 		4C1923962392DFA5007EBB0F /* BattlegroundsOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C1923952392DFA5007EBB0F /* BattlegroundsOverlay.xib */; };
 		4C1923992392E18E007EBB0F /* BattlegroundsOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1923982392E18E007EBB0F /* BattlegroundsOverlayView.swift */; };
@@ -461,10 +407,6 @@
 		4CFF95AB23C0C3B3006AB461 /* BattlegroundsTierOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFF95AA23C0C3B3006AB461 /* BattlegroundsTierOverlay.swift */; };
 		4CFF95AD23C0C48E006AB461 /* BattlegroundsTierOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CFF95AC23C0C48E006AB461 /* BattlegroundsTierOverlay.xib */; };
 		4CFF95AF23C0C56A006AB461 /* BattlegroundsTierOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFF95AE23C0C56A006AB461 /* BattlegroundsTierOverlayView.swift */; };
-		5B308AEB22287FBF00D853BA /* Kingfisher.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = 5B308AEA22287FBF00D853BA /* Kingfisher.framework.dSYM */; };
-		5BD4A5022233E40B00EF879B /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BD4A5012233E40B00EF879B /* Kingfisher.framework */; };
-		5BD4A5032233E43000EF879B /* Kingfisher.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5BD4A5012233E40B00EF879B /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		5BD4A5042233E44E00EF879B /* Kingfisher.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5BD4A5012233E40B00EF879B /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		61424BCB24701A3700877EE4 /* DecksReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61424BCA24701A3700877EE4 /* DecksReader.swift */; };
 		64C117C8D3B76359080E750A /* ArenaWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C117F078373147EF731146 /* ArenaWatcher.swift */; };
 		B81F069D253899FB00F319F1 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = B81F069C253899FB00F319F1 /* Config.xcconfig */; };
@@ -492,11 +434,8 @@
 		B8820CD025603FB00072ECBC /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8820CCF25603FB00072ECBC /* RemoteConfig.swift */; };
 		B8956CFD25509B3F0073D70C /* BattlegroundsMinionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8956CFC25509B3F0073D70C /* BattlegroundsMinionView.swift */; };
 		B8A3E4B4257AE71500D9C77A /* RotatingFileDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A3E4B3257AE71500D9C77A /* RotatingFileDestination.swift */; };
-		B8A9CB2D25699ACA000071FC /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C0C2A27244C8CE400E7B75E /* AppCenterAnalytics.framework */; };
 		B8A9CB2E25699B13000071FC /* BattlegroundsMinionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8956CFC25509B3F0073D70C /* BattlegroundsMinionView.swift */; };
 		B8A9CB2F25699B70000071FC /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8820CCF25603FB00072ECBC /* RemoteConfig.swift */; };
-		B8A9CB3025699BCA000071FC /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C0C2A25244C8AED00E7B75E /* AppCenter.framework */; };
-		B8A9CB3125699BCA000071FC /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C0C2A29244C8CF400E7B75E /* AppCenterCrashes.framework */; };
 		B8A9CB332571F160000071FC /* GuessedCardState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A9CB322571F160000071FC /* GuessedCardState.swift */; };
 		B8A9CB3C2573FD61000071FC /* GuessedCardState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A9CB322571F160000071FC /* GuessedCardState.swift */; };
 		B8B7CC1F253C721400033758 /* BattlegroundsPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B7CC1E253C721400033758 /* BattlegroundsPreferences.swift */; };
@@ -517,6 +456,35 @@
 		B8D75BA025BA20B700446923 /* DeckType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B864AE282599359400793F36 /* DeckType.swift */; };
 		B8D75BA425BA21C900446923 /* Preferences in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BA325BA21C900446923 /* Preferences */; };
 		B8D75BA525BA22B900446923 /* BattlegroundsTierOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CFF95AC23C0C48E006AB461 /* BattlegroundsTierOverlay.xib */; };
+		B8D75BAF25BCE68900446923 /* SwiftyBeaver in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BAE25BCE68900446923 /* SwiftyBeaver */; };
+		B8D75BB225BCE76500446923 /* AppCenterCrashes in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BB125BCE76500446923 /* AppCenterCrashes */; };
+		B8D75BB425BCE76500446923 /* AppCenterAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BB325BCE76500446923 /* AppCenterAnalytics */; };
+		B8D75BB725BCE8C000446923 /* RegexUtil in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BB625BCE8C000446923 /* RegexUtil */; };
+		B8D75BBA25BCE97000446923 /* Wrap in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BB925BCE97000446923 /* Wrap */; };
+		B8D75BBD25BCEACB00446923 /* TextAttributes in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BBC25BCEACB00446923 /* TextAttributes */; };
+		B8D75BC325BD10B600446923 /* OAuthSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BC225BD10B600446923 /* OAuthSwift */; };
+		B8D75BC525BDAF1300446923 /* SwiftyBeaver in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BC425BDAF1300446923 /* SwiftyBeaver */; };
+		B8D75BC725BDAF1300446923 /* AppCenterAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BC625BDAF1300446923 /* AppCenterAnalytics */; };
+		B8D75BC925BDAF1300446923 /* AppCenterCrashes in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BC825BDAF1300446923 /* AppCenterCrashes */; };
+		B8D75BCB25BDAF1300446923 /* RegexUtil in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BCA25BDAF1300446923 /* RegexUtil */; };
+		B8D75BCD25BDAF1300446923 /* Wrap in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BCC25BDAF1300446923 /* Wrap */; };
+		B8D75BCF25BDAF1300446923 /* TextAttributes in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BCE25BDAF1300446923 /* TextAttributes */; };
+		B8D75BD125BDAF1300446923 /* OAuthSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BD025BDAF1300446923 /* OAuthSwift */; };
+		B8D75BD425BDD3A700446923 /* PromiseKit in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BD325BDD3A700446923 /* PromiseKit */; };
+		B8D75BD625BDD3F000446923 /* PromiseKit in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BD525BDD3F000446923 /* PromiseKit */; };
+		B8D75BD925BDD47A00446923 /* FMDB in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BD825BDD47A00446923 /* FMDB */; };
+		B8D75BDB25BDD4BF00446923 /* FMDB in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BDA25BDD4BF00446923 /* FMDB */; };
+		B8D75BDE25BDD51400446923 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BDD25BDD51400446923 /* Kingfisher */; };
+		B8D75BE025BDD55600446923 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BDF25BDD55600446923 /* Kingfisher */; };
+		B8D75BE625BDD63F00446923 /* BTree in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BE525BDD63F00446923 /* BTree */; };
+		B8D75BE725BDD63F00446923 /* BTree in CopyFiles */ = {isa = PBXBuildFile; productRef = B8D75BE525BDD63F00446923 /* BTree */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		B8D75BEA25BDF92B00446923 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BE925BDF92B00446923 /* RealmSwift */; };
+		B8D75BEC25BDFA2500446923 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BEB25BDFA2500446923 /* RealmSwift */; };
+		B8D75BEF25BDFE6D00446923 /* Gzip in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BEE25BDFE6D00446923 /* Gzip */; };
+		B8D75BF125BDFEDE00446923 /* Gzip in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BF025BDFEDE00446923 /* Gzip */; };
+		B8D75BF325BDFF4E00446923 /* BTree in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BF225BDFF4E00446923 /* BTree */; };
+		B8D75BF425BDFF4E00446923 /* BTree in Embed Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BF225BDFF4E00446923 /* BTree */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		B8D75BF725BE032500446923 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BF625BE032500446923 /* Sparkle */; };
 		B8D8859224F3034700F2F0F2 /* StatusMessageConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D8859124F3034700F2F0F2 /* StatusMessageConverter.swift */; };
 		B8D8859824F40D4E00F2F0F2 /* ClickableBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D8859724F40D4E00F2F0F2 /* ClickableBox.swift */; };
 		B8D8859A24F4185200F2F0F2 /* BobsBuddyErrorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D8859924F4185200F2F0F2 /* BobsBuddyErrorState.swift */; };
@@ -564,9 +532,6 @@
 		B8DEDCEB2547CFF200DF524B /* HearthMirror.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4C68AF2A2447D35A00E52834 /* HearthMirror.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BC0780841E3152D800AC9DB8 /* DeckWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0780831E3152D800AC9DB8 /* DeckWatcher.swift */; };
 		BC78DD751E806B6F00DBA7C9 /* Algorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC78DD741E806B6F00DBA7C9 /* Algorithm.swift */; };
-		BC78DD771E80871600DBA7C9 /* BTree.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC78DD761E80871600DBA7C9 /* BTree.framework */; };
-		BC78DD781E80871600DBA7C9 /* BTree.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BC78DD761E80871600DBA7C9 /* BTree.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		BC78DD7A1E80875800DBA7C9 /* BTree.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = BC78DD791E80875800DBA7C9 /* BTree.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		BC90FD0B1D97F81B00BAFC0D /* GraveyardCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC90FD0A1D97F81B00BAFC0D /* GraveyardCounter.swift */; };
 		BCA70F2A1E2C16DD00038A6C /* FileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA70F291E2C16DD00038A6C /* FileUtils.m */; };
 		BCCCDB9E1EA54FF800C328D0 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCCDB9D1EA54FF800C328D0 /* NotificationManager.swift */; };
@@ -580,17 +545,6 @@
 		C99C0C9D1D0A608C000DD6FB /* StatsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99C0C9C1D0A608C000DD6FB /* StatsHelper.swift */; };
 		C9BDB3C81D20BC4C00886A11 /* StatsTab.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9BDB3CA1D20BC4C00886A11 /* StatsTab.xib */; };
 		C9BDB3D71D20BE9500886A11 /* LadderTab.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9BDB3D91D20BE9500886A11 /* LadderTab.xib */; };
-		E301D340217CE737001F8D11 /* FMDB.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = E301D33E217CE737001F8D11 /* FMDB.framework.dSYM */; };
-		E301D341217CE737001F8D11 /* FMDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E301D33F217CE737001F8D11 /* FMDB.framework */; };
-		E301D342217CE7C6001F8D11 /* FMDB.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E301D33F217CE737001F8D11 /* FMDB.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E301D343217CF14C001F8D11 /* FMDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E301D33F217CE737001F8D11 /* FMDB.framework */; };
-		E301D344217CF1FB001F8D11 /* FMDB.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = E301D33F217CE737001F8D11 /* FMDB.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E3057D6920B8887100B9A5B8 /* OAuthSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3057D6720B8887000B9A5B8 /* OAuthSwift.framework */; };
-		E3057D6A20B8887100B9A5B8 /* OAuthSwift.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = E3057D6820B8887100B9A5B8 /* OAuthSwift.framework.dSYM */; };
-		E3057D6B20B8889800B9A5B8 /* OAuthSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E3057D6720B8887000B9A5B8 /* OAuthSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E3057D6D20B888DF00B9A5B8 /* OAuthSwift.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = E3057D6820B8887100B9A5B8 /* OAuthSwift.framework.dSYM */; };
-		E3057D6E20B888FB00B9A5B8 /* OAuthSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3057D6720B8887000B9A5B8 /* OAuthSwift.framework */; };
-		E3057D6F20B8890500B9A5B8 /* OAuthSwift.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = E3057D6720B8887000B9A5B8 /* OAuthSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E30590BB21174FC900679D66 /* UploadCollectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30590BA21174FC900679D66 /* UploadCollectionData.swift */; };
 		F719B88A200ACAE3004F5E36 /* DefaultDecks.swift in Sources */ = {isa = PBXBuildFile; fileRef = F719B889200ACAE3004F5E36 /* DefaultDecks.swift */; };
 		F719B88B200ACAE3004F5E36 /* DefaultDecks.swift in Sources */ = {isa = PBXBuildFile; fileRef = F719B889200ACAE3004F5E36 /* DefaultDecks.swift */; };
@@ -620,20 +574,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				B8DEDCEB2547CFF200DF524B /* HearthMirror.framework in CopyFiles */,
-				5BD4A5032233E43000EF879B /* Kingfisher.framework in CopyFiles */,
-				1CCB4AE11E8474F8003FD1AD /* Gzip.framework in CopyFiles */,
-				43BA1C9C1FB2EAD30007C500 /* AwaitKit.framework in CopyFiles */,
-				43BA1C9D1FB2EAD30007C500 /* PromiseKit.framework in CopyFiles */,
-				43BA1C9E1FB2EAD30007C500 /* SwiftyBeaver.framework in CopyFiles */,
-				1CCB4ADB1E84743D003FD1AD /* BTree.framework in CopyFiles */,
-				1CCB4ADE1E8474A8003FD1AD /* Realm.framework in CopyFiles */,
-				1CCB4ADF1E8474A8003FD1AD /* RealmSwift.framework in CopyFiles */,
-				437E56DD1DAAA33200FC0FC1 /* Wrap.framework in CopyFiles */,
-				437E56DE1DAAA33200FC0FC1 /* TextAttributes.framework in CopyFiles */,
-				437E56DF1DAAA33200FC0FC1 /* Sparkle.framework in CopyFiles */,
-				43C1CAC31E96CEC4008C20B1 /* RegexUtil.framework in CopyFiles */,
-				E3057D6F20B8890500B9A5B8 /* OAuthSwift.framework in CopyFiles */,
-				E301D344217CF1FB001F8D11 /* FMDB.framework in CopyFiles */,
+				B8D75BE725BDD63F00446923 /* BTree in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -643,19 +584,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
-				5B308AEB22287FBF00D853BA /* Kingfisher.framework.dSYM in Copy Files */,
-				E3057D6D20B888DF00B9A5B8 /* OAuthSwift.framework.dSYM in Copy Files */,
-				BC78DD7A1E80875800DBA7C9 /* BTree.framework.dSYM in Copy Files */,
-				4305CA451CF42AE50048E7EC /* Wrap.framework.dSYM in Copy Files */,
-				438731711CCBB7DB004EEAD1 /* Sparkle.framework.dSYM in Copy Files */,
-				43647A561CDC9A5F00C2B78E /* TextAttributes.framework.dSYM in Copy Files */,
-				439DD9001DB24F8A004EBE47 /* Gzip.framework.dSYM in Copy Files */,
-				43E7BEAE1DBB7FAA0057DC0C /* Realm.framework.dSYM in Copy Files */,
-				43E7BEAF1DBB7FAA0057DC0C /* RealmSwift.framework.dSYM in Copy Files */,
-				43F2F0D41FA4F3A6002F5AEA /* SwiftyBeaver.framework.dSYM in Copy Files */,
-				43F2F0D11FA356AA002F5AEA /* AwaitKit.framework.dSYM in Copy Files */,
-				43F2F0D21FA356AA002F5AEA /* PromiseKit.framework.dSYM in Copy Files */,
-				43847D921E8D96970060C2D2 /* RegexUtil.framework.dSYM in Copy Files */,
 			);
 			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -666,21 +594,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				B8D75BF425BDFF4E00446923 /* BTree in Embed Frameworks */,
 				4C68AF2C2447D37000E52834 /* HearthMirror.framework in Embed Frameworks */,
-				5BD4A5042233E44E00EF879B /* Kingfisher.framework in Embed Frameworks */,
-				E301D342217CE7C6001F8D11 /* FMDB.framework in Embed Frameworks */,
-				439DD8FE1DB24F83004EBE47 /* Gzip.framework in Embed Frameworks */,
-				43647A531CDC9A3D00C2B78E /* TextAttributes.framework in Embed Frameworks */,
-				4305CA411CF42AC70048E7EC /* Wrap.framework in Embed Frameworks */,
-				4387316F1CCBB7BE004EEAD1 /* Sparkle.framework in Embed Frameworks */,
-				BC78DD781E80871600DBA7C9 /* BTree.framework in Embed Frameworks */,
-				43F2F0D81FA4F3CA002F5AEA /* SwiftyBeaver.framework in Embed Frameworks */,
-				43E7BEA61DBB7F8F0057DC0C /* Realm.framework in Embed Frameworks */,
-				43847D901E8D96720060C2D2 /* RegexUtil.framework in Embed Frameworks */,
-				43E7BEA71DBB7F8F0057DC0C /* RealmSwift.framework in Embed Frameworks */,
-				43F2F0CB1FA3566B002F5AEA /* PromiseKit.framework in Embed Frameworks */,
-				43F2F0CC1FA3566B002F5AEA /* AwaitKit.framework in Embed Frameworks */,
-				E3057D6B20B8889800B9A5B8 /* OAuthSwift.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1268,27 +1183,25 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8D75BF725BE032500446923 /* Sparkle in Frameworks */,
 				B83355B524F850C10025F644 /* Mono.framework in Frameworks */,
-				BC78DD771E80871600DBA7C9 /* BTree.framework in Frameworks */,
+				B8D75BBD25BCEACB00446923 /* TextAttributes in Frameworks */,
 				4367899F1CAC05DD00C962D1 /* Cocoa.framework in Frameworks */,
+				B8D75BD925BDD47A00446923 /* FMDB in Frameworks */,
 				436789D11CAE484000C962D1 /* Foundation.framework in Frameworks */,
-				43F2F0D71FA4F3CA002F5AEA /* SwiftyBeaver.framework in Frameworks */,
 				433554331D5F6B4400277B27 /* libz.tbd in Frameworks */,
+				B8D75BEF25BDFE6D00446923 /* Gzip in Frameworks */,
 				B8D75B9625B4799200446923 /* Preferences in Frameworks */,
-				43847D8F1E8D96720060C2D2 /* RegexUtil.framework in Frameworks */,
-				43E7BEAA1DBB7FA00057DC0C /* Realm.framework in Frameworks */,
-				4C0C2A28244C8CE400E7B75E /* AppCenterAnalytics.framework in Frameworks */,
-				43E7BEAB1DBB7FA00057DC0C /* RealmSwift.framework in Frameworks */,
-				4387316E1CCBB7BE004EEAD1 /* Sparkle.framework in Frameworks */,
-				4C0C2A26244C8AED00E7B75E /* AppCenter.framework in Frameworks */,
-				43647A541CDC9A5100C2B78E /* TextAttributes.framework in Frameworks */,
-				4305CA401CF42AC70048E7EC /* Wrap.framework in Frameworks */,
-				43F2F0CD1FA3568E002F5AEA /* AwaitKit.framework in Frameworks */,
-				43F2F0CE1FA3568E002F5AEA /* PromiseKit.framework in Frameworks */,
-				4C0C2A2A244C8CF400E7B75E /* AppCenterCrashes.framework in Frameworks */,
-				E301D341217CE737001F8D11 /* FMDB.framework in Frameworks */,
-				5BD4A5022233E40B00EF879B /* Kingfisher.framework in Frameworks */,
-				E3057D6920B8887100B9A5B8 /* OAuthSwift.framework in Frameworks */,
+				B8D75BB725BCE8C000446923 /* RegexUtil in Frameworks */,
+				B8D75BDE25BDD51400446923 /* Kingfisher in Frameworks */,
+				B8D75BEA25BDF92B00446923 /* RealmSwift in Frameworks */,
+				B8D75BF325BDFF4E00446923 /* BTree in Frameworks */,
+				B8D75BBA25BCE97000446923 /* Wrap in Frameworks */,
+				B8D75BAF25BCE68900446923 /* SwiftyBeaver in Frameworks */,
+				B8D75BB225BCE76500446923 /* AppCenterCrashes in Frameworks */,
+				B8D75BB425BCE76500446923 /* AppCenterAnalytics in Frameworks */,
+				B8D75BC325BD10B600446923 /* OAuthSwift in Frameworks */,
+				B8D75BD425BDD3A700446923 /* PromiseKit in Frameworks */,
 				4C68AF2B2447D35B00E52834 /* HearthMirror.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1297,27 +1210,24 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B8A9CB3025699BCA000071FC /* AppCenter.framework in Frameworks */,
-				B8A9CB3125699BCA000071FC /* AppCenterCrashes.framework in Frameworks */,
-				B8A9CB2D25699ACA000071FC /* AppCenterAnalytics.framework in Frameworks */,
+				B8D75BEC25BDFA2500446923 /* RealmSwift in Frameworks */,
 				B8DEDCE32547CE8300DF524B /* Mono.framework in Frameworks */,
-				1CCB4AD31E847139003FD1AD /* BTree.framework in Frameworks */,
 				4345E9DD1CB45122002D0F23 /* Cocoa.framework in Frameworks */,
-				43BA1C981FB2EA380007C500 /* AwaitKit.framework in Frameworks */,
 				B8D75BA425BA21C900446923 /* Preferences in Frameworks */,
-				43BA1C991FB2EA380007C500 /* PromiseKit.framework in Frameworks */,
-				43BA1C9A1FB2EA380007C500 /* SwiftyBeaver.framework in Frameworks */,
-				43BA1C9B1FB2EA8B0007C500 /* Gzip.framework in Frameworks */,
+				B8D75BE025BDD55600446923 /* Kingfisher in Frameworks */,
+				B8D75BCB25BDAF1300446923 /* RegexUtil in Frameworks */,
+				B8D75BC725BDAF1300446923 /* AppCenterAnalytics in Frameworks */,
+				B8D75BD625BDD3F000446923 /* PromiseKit in Frameworks */,
 				4345E9DE1CB45122002D0F23 /* Foundation.framework in Frameworks */,
 				1CCB4ACF1E84708A003FD1AD /* libz.tbd in Frameworks */,
-				1CCB4AD41E847177003FD1AD /* Realm.framework in Frameworks */,
-				1CCB4AD51E847177003FD1AD /* RealmSwift.framework in Frameworks */,
-				43C1CAC21E96CEB5008C20B1 /* RegexUtil.framework in Frameworks */,
-				437E56D01DAAA32E00FC0FC1 /* Sparkle.framework in Frameworks */,
-				437E56CE1DAAA32E00FC0FC1 /* Wrap.framework in Frameworks */,
-				437E56CF1DAAA32E00FC0FC1 /* TextAttributes.framework in Frameworks */,
-				E3057D6E20B888FB00B9A5B8 /* OAuthSwift.framework in Frameworks */,
-				E301D343217CF14C001F8D11 /* FMDB.framework in Frameworks */,
+				B8D75BDB25BDD4BF00446923 /* FMDB in Frameworks */,
+				B8D75BE625BDD63F00446923 /* BTree in Frameworks */,
+				B8D75BD125BDAF1300446923 /* OAuthSwift in Frameworks */,
+				B8D75BCD25BDAF1300446923 /* Wrap in Frameworks */,
+				B8D75BC925BDAF1300446923 /* AppCenterCrashes in Frameworks */,
+				B8D75BF125BDFEDE00446923 /* Gzip in Frameworks */,
+				B8D75BCF25BDAF1300446923 /* TextAttributes in Frameworks */,
+				B8D75BC525BDAF1300446923 /* SwiftyBeaver in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2040,6 +1950,20 @@
 			name = HSTracker;
 			packageProductDependencies = (
 				B8D75B9525B4799200446923 /* Preferences */,
+				B8D75BAE25BCE68900446923 /* SwiftyBeaver */,
+				B8D75BB125BCE76500446923 /* AppCenterCrashes */,
+				B8D75BB325BCE76500446923 /* AppCenterAnalytics */,
+				B8D75BB625BCE8C000446923 /* RegexUtil */,
+				B8D75BB925BCE97000446923 /* Wrap */,
+				B8D75BBC25BCEACB00446923 /* TextAttributes */,
+				B8D75BC225BD10B600446923 /* OAuthSwift */,
+				B8D75BD325BDD3A700446923 /* PromiseKit */,
+				B8D75BD825BDD47A00446923 /* FMDB */,
+				B8D75BDD25BDD51400446923 /* Kingfisher */,
+				B8D75BE925BDF92B00446923 /* RealmSwift */,
+				B8D75BEE25BDFE6D00446923 /* Gzip */,
+				B8D75BF225BDFF4E00446923 /* BTree */,
+				B8D75BF625BE032500446923 /* Sparkle */,
 			);
 			productName = HSTracker;
 			productReference = 439C7E481C7772C000D29859 /* HSTracker.app */;
@@ -2062,6 +1986,19 @@
 			name = HSTrackerTests;
 			packageProductDependencies = (
 				B8D75BA325BA21C900446923 /* Preferences */,
+				B8D75BC425BDAF1300446923 /* SwiftyBeaver */,
+				B8D75BC625BDAF1300446923 /* AppCenterAnalytics */,
+				B8D75BC825BDAF1300446923 /* AppCenterCrashes */,
+				B8D75BCA25BDAF1300446923 /* RegexUtil */,
+				B8D75BCC25BDAF1300446923 /* Wrap */,
+				B8D75BCE25BDAF1300446923 /* TextAttributes */,
+				B8D75BD025BDAF1300446923 /* OAuthSwift */,
+				B8D75BD525BDD3F000446923 /* PromiseKit */,
+				B8D75BDA25BDD4BF00446923 /* FMDB */,
+				B8D75BDF25BDD55600446923 /* Kingfisher */,
+				B8D75BE525BDD63F00446923 /* BTree */,
+				B8D75BEB25BDFA2500446923 /* RealmSwift */,
+				B8D75BF025BDFEDE00446923 /* Gzip */,
 			);
 			productName = HSTrackerTests;
 			productReference = 439C7E5C1C7772C100D29859 /* HSTrackerTests.xctest */;
@@ -2120,6 +2057,19 @@
 			mainGroup = 439C7E3F1C7772C000D29859;
 			packageReferences = (
 				B8D75B9425B4799100446923 /* XCRemoteSwiftPackageReference "Preferences" */,
+				B8D75BAD25BCE68900446923 /* XCRemoteSwiftPackageReference "SwiftyBeaver" */,
+				B8D75BB025BCE76500446923 /* XCRemoteSwiftPackageReference "appcenter-sdk-apple" */,
+				B8D75BB525BCE8C000446923 /* XCRemoteSwiftPackageReference "RegexUtil" */,
+				B8D75BB825BCE97000446923 /* XCRemoteSwiftPackageReference "Wrap" */,
+				B8D75BBB25BCEACB00446923 /* XCRemoteSwiftPackageReference "TextAttributes" */,
+				B8D75BC125BD10B600446923 /* XCRemoteSwiftPackageReference "OAuthSwift" */,
+				B8D75BD225BDD3A700446923 /* XCRemoteSwiftPackageReference "PromiseKit" */,
+				B8D75BD725BDD47A00446923 /* XCRemoteSwiftPackageReference "fmdb" */,
+				B8D75BDC25BDD51400446923 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				B8D75BE125BDD60800446923 /* XCRemoteSwiftPackageReference "BTree" */,
+				B8D75BE825BDF92B00446923 /* XCRemoteSwiftPackageReference "realm-cocoa" */,
+				B8D75BED25BDFE6D00446923 /* XCRemoteSwiftPackageReference "GzipSwift" */,
+				B8D75BF525BE032500446923 /* XCRemoteSwiftPackageReference "Sparkle" */,
 			);
 			productRefGroup = 439C7E491C7772C000D29859 /* Products */;
 			projectDirPath = "";
@@ -2164,11 +2114,9 @@
 				B83355AE24F807220025F644 /* BobsBuddyPanel.xib in Resources */,
 				432B5FBC1CB5373200B05D19 /* Splashscreen.xib in Resources */,
 				43EECB9A1C7E3F620077AC1B /* DeckCellView.xib in Resources */,
-				E3057D6A20B8887100B9A5B8 /* OAuthSwift.framework.dSYM in Resources */,
 				437B5BC51CD2568E00DE0A41 /* TrackersPreferences.xib in Resources */,
 				4C1923962392DFA5007EBB0F /* BattlegroundsOverlay.xib in Resources */,
 				432B5FCB1CB5375500B05D19 /* DeckManager.xib in Resources */,
-				E301D340217CE737001F8D11 /* FMDB.framework.dSYM in Resources */,
 				C9BDB3D71D20BE9500886A11 /* LadderTab.xib in Resources */,
 				432B5FBF1CB5373500B05D19 /* InitialConfiguration.xib in Resources */,
 				432B5FB01CB536E700B05D19 /* MainMenu.xib in Resources */,
@@ -3328,15 +3276,8 @@
 				EXCLUDED_ARCHS = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/Mac",
 					"$(PROJECT_DIR)/HSTracker",
-					"\"${PROJECT_DIR}/Carthage/Build/Mac\"/**",
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/Mac",
-					"$(PROJECT_DIR)/HSTracker",
-					"\"${PROJECT_DIR}/Carthage/Build/Mac\"/**",
 					"$(PROJECT_DIR)/downloaded-frameworks/HearthMirror",
-					"$(PROJECT_DIR)/Carthage/Build/Mac/Static",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
 				HEADER_SEARCH_PATHS = (
@@ -3378,11 +3319,8 @@
 				EXCLUDED_ARCHS = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/Mac",
 					"$(PROJECT_DIR)/HSTracker",
-					"\"${PROJECT_DIR}/Carthage/Build/Mac\"/**",
 					"$(PROJECT_DIR)/downloaded-frameworks/HearthMirror",
-					"$(PROJECT_DIR)/Carthage/Build/Mac/Static",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
 				HEADER_SEARCH_PATHS = (
@@ -3418,10 +3356,8 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/Mac",
 					"$(PROJECT_DIR)/downloaded-frameworks/HearthMirror",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
-					"$(PROJECT_DIR)/Carthage/Build/Mac/Static",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(SDKROOT)/usr/include/libxml2",
@@ -3448,9 +3384,8 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/Mac",
+					"$(PROJECT_DIR)/downloaded-frameworks/HearthMirror",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
-					"$(PROJECT_DIR)/Carthage/Build/Mac/Static",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(SDKROOT)/usr/include/libxml2",
@@ -3511,6 +3446,110 @@
 				minimumVersion = 2.2.0;
 			};
 		};
+		B8D75BAD25BCE68900446923 /* XCRemoteSwiftPackageReference "SwiftyBeaver" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyBeaver/SwiftyBeaver";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.9.3;
+			};
+		};
+		B8D75BB025BCE76500446923 /* XCRemoteSwiftPackageReference "appcenter-sdk-apple" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/microsoft/appcenter-sdk-apple";
+			requirement = {
+				kind = exactVersion;
+				version = 4.0.0;
+			};
+		};
+		B8D75BB525BCE8C000446923 /* XCRemoteSwiftPackageReference "RegexUtil" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/bmichotte/RegexUtil";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
+		B8D75BB825BCE97000446923 /* XCRemoteSwiftPackageReference "Wrap" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Zeropointer11/Wrap";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.1;
+			};
+		};
+		B8D75BBB25BCEACB00446923 /* XCRemoteSwiftPackageReference "TextAttributes" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/delba/TextAttributes";
+			requirement = {
+				kind = revision;
+				revision = febe1d7fcdb6ba764d9392bee14a6d3086c907d1;
+			};
+		};
+		B8D75BC125BD10B600446923 /* XCRemoteSwiftPackageReference "OAuthSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/OAuthSwift/OAuthSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.1.2;
+			};
+		};
+		B8D75BD225BDD3A700446923 /* XCRemoteSwiftPackageReference "PromiseKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mxcl/PromiseKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.13.3;
+			};
+		};
+		B8D75BD725BDD47A00446923 /* XCRemoteSwiftPackageReference "fmdb" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ccgus/fmdb";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.7.7;
+			};
+		};
+		B8D75BDC25BDD51400446923 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.1;
+			};
+		};
+		B8D75BE125BDD60800446923 /* XCRemoteSwiftPackageReference "BTree" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/attaswift/BTree";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.1.0;
+			};
+		};
+		B8D75BE825BDF92B00446923 /* XCRemoteSwiftPackageReference "realm-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-cocoa";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.4.8;
+			};
+		};
+		B8D75BED25BDFE6D00446923 /* XCRemoteSwiftPackageReference "GzipSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/1024jp/GzipSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.1;
+			};
+		};
+		B8D75BF525BE032500446923 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparkle-project/Sparkle";
+			requirement = {
+				kind = exactVersion;
+				version = "1.24.0-spm";
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -3523,6 +3562,141 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B8D75B9425B4799100446923 /* XCRemoteSwiftPackageReference "Preferences" */;
 			productName = Preferences;
+		};
+		B8D75BAE25BCE68900446923 /* SwiftyBeaver */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8D75BAD25BCE68900446923 /* XCRemoteSwiftPackageReference "SwiftyBeaver" */;
+			productName = SwiftyBeaver;
+		};
+		B8D75BB125BCE76500446923 /* AppCenterCrashes */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8D75BB025BCE76500446923 /* XCRemoteSwiftPackageReference "appcenter-sdk-apple" */;
+			productName = AppCenterCrashes;
+		};
+		B8D75BB325BCE76500446923 /* AppCenterAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8D75BB025BCE76500446923 /* XCRemoteSwiftPackageReference "appcenter-sdk-apple" */;
+			productName = AppCenterAnalytics;
+		};
+		B8D75BB625BCE8C000446923 /* RegexUtil */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8D75BB525BCE8C000446923 /* XCRemoteSwiftPackageReference "RegexUtil" */;
+			productName = RegexUtil;
+		};
+		B8D75BB925BCE97000446923 /* Wrap */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8D75BB825BCE97000446923 /* XCRemoteSwiftPackageReference "Wrap" */;
+			productName = Wrap;
+		};
+		B8D75BBC25BCEACB00446923 /* TextAttributes */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8D75BBB25BCEACB00446923 /* XCRemoteSwiftPackageReference "TextAttributes" */;
+			productName = TextAttributes;
+		};
+		B8D75BC225BD10B600446923 /* OAuthSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8D75BC125BD10B600446923 /* XCRemoteSwiftPackageReference "OAuthSwift" */;
+			productName = OAuthSwift;
+		};
+		B8D75BC425BDAF1300446923 /* SwiftyBeaver */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8D75BAD25BCE68900446923 /* XCRemoteSwiftPackageReference "SwiftyBeaver" */;
+			productName = SwiftyBeaver;
+		};
+		B8D75BC625BDAF1300446923 /* AppCenterAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8D75BB025BCE76500446923 /* XCRemoteSwiftPackageReference "appcenter-sdk-apple" */;
+			productName = AppCenterAnalytics;
+		};
+		B8D75BC825BDAF1300446923 /* AppCenterCrashes */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8D75BB025BCE76500446923 /* XCRemoteSwiftPackageReference "appcenter-sdk-apple" */;
+			productName = AppCenterCrashes;
+		};
+		B8D75BCA25BDAF1300446923 /* RegexUtil */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8D75BB525BCE8C000446923 /* XCRemoteSwiftPackageReference "RegexUtil" */;
+			productName = RegexUtil;
+		};
+		B8D75BCC25BDAF1300446923 /* Wrap */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8D75BB825BCE97000446923 /* XCRemoteSwiftPackageReference "Wrap" */;
+			productName = Wrap;
+		};
+		B8D75BCE25BDAF1300446923 /* TextAttributes */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8D75BBB25BCEACB00446923 /* XCRemoteSwiftPackageReference "TextAttributes" */;
+			productName = TextAttributes;
+		};
+		B8D75BD025BDAF1300446923 /* OAuthSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8D75BC125BD10B600446923 /* XCRemoteSwiftPackageReference "OAuthSwift" */;
+			productName = OAuthSwift;
+		};
+		B8D75BD325BDD3A700446923 /* PromiseKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8D75BD225BDD3A700446923 /* XCRemoteSwiftPackageReference "PromiseKit" */;
+			productName = PromiseKit;
+		};
+		B8D75BD525BDD3F000446923 /* PromiseKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8D75BD225BDD3A700446923 /* XCRemoteSwiftPackageReference "PromiseKit" */;
+			productName = PromiseKit;
+		};
+		B8D75BD825BDD47A00446923 /* FMDB */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8D75BD725BDD47A00446923 /* XCRemoteSwiftPackageReference "fmdb" */;
+			productName = FMDB;
+		};
+		B8D75BDA25BDD4BF00446923 /* FMDB */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8D75BD725BDD47A00446923 /* XCRemoteSwiftPackageReference "fmdb" */;
+			productName = FMDB;
+		};
+		B8D75BDD25BDD51400446923 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8D75BDC25BDD51400446923 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		B8D75BDF25BDD55600446923 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8D75BDC25BDD51400446923 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		B8D75BE525BDD63F00446923 /* BTree */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8D75BE125BDD60800446923 /* XCRemoteSwiftPackageReference "BTree" */;
+			productName = BTree;
+		};
+		B8D75BE925BDF92B00446923 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8D75BE825BDF92B00446923 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = RealmSwift;
+		};
+		B8D75BEB25BDFA2500446923 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8D75BE825BDF92B00446923 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = RealmSwift;
+		};
+		B8D75BEE25BDFE6D00446923 /* Gzip */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8D75BED25BDFE6D00446923 /* XCRemoteSwiftPackageReference "GzipSwift" */;
+			productName = Gzip;
+		};
+		B8D75BF025BDFEDE00446923 /* Gzip */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8D75BED25BDFE6D00446923 /* XCRemoteSwiftPackageReference "GzipSwift" */;
+			productName = Gzip;
+		};
+		B8D75BF225BDFF4E00446923 /* BTree */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8D75BE125BDD60800446923 /* XCRemoteSwiftPackageReference "BTree" */;
+			productName = BTree;
+		};
+		B8D75BF625BE032500446923 /* Sparkle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8D75BF525BE032500446923 /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = Sparkle;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
