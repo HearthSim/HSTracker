@@ -1,5 +1,26 @@
 # Contributing
 
+## Contributor License Agreement
+
+HearthSim requires a signed CLA from any contributor before his/her PR can be merged.
+
+### What's a CLA?
+
+> A CLA is a legal document in which you state you are entitled to contribute
+the code/documentation/translation to the project you’re contributing to and are
+willing to have it used in distributions and derivative works. This means that
+should there be any kind of legal issue in the future as to the origins and
+ownership of any particular piece of code, then that project has the necessary
+forms on file from the contributor(s) saying they were permitted to make this
+contribution.
+
+> The CLA also ensures that once you have provided a contribution, you cannot try
+to withdraw permission for its use at a later date. People and companies can
+therefore use that software, confident that they will not be asked to stop using
+pieces of the code at a later date.
+
+# Contributing after the CLA is in place
+
 Feel free to fork and file a Pull Request, and file [new issues](https://github.com/HearthSim/HSTracker/issues).
 
 In order to compile, you have to
@@ -10,25 +31,17 @@ In order to compile, you have to
 git clone https://github.com/HearthSim/HSTracker.git
 ```
 
-- Get / update swift dependencies using [Carthage](https://github.com/Carthage/Carthage/blob/master/README.md#installing-carthage)
-
-```
-carthage update --platform osx --no-use-binaries
-```
-
 - Install [SwiftLint](https://github.com/realm/SwiftLint/blob/master/README.md#installation). Example using Homebrew:
 
 ```
 brew install swiftlint
 ```
-- Download translations and latest card data (you need wget to pull the files, run `brew install wget` to install it)
-```
-./scripts/bootstrap.sh
-```
 
 - Open the project in XCode and build it.
-  If you run into code signing errors, go to the "Build Settings" and change the signing enitity and certificate to your profile.
+  If you run into code signing errors, edit `Config.xcconfig` and swap the comments around. This will allow you to compile for running locally. Alternatively, go to the "Build Settings" and change the signing enitity and certificate to your profile.
   HSTracker _must_ be code signed in order to function properly.
+  
+  NOTE: Do not submit changes to `Config.xcconfig` on pull requests. The file is meant to make life simple when developing and running locally.
 
 ### Commits and Pull Requests
 
@@ -46,7 +59,7 @@ If you need to modify it or amend it in some way, you should always appropriatel
 
 We use several tools to help with releases:
 
-* [HockeyApp](https://hockeyapp.net/) for crash monitoring
+* [AppCenter](https://appcenter.ms/) for crash monitoring
 * [Sparkle](https://sparkle-project.org) for auto-update
 * Github to host the [releases](https://github.com/HearthSim/HSTracker/releases)
 
@@ -56,7 +69,7 @@ The general flow to make a release is:
 * Update `CFBundleShortVersionString`
 * Tag 
 * Build & export
-* Upload to hockeyapp
+* Upload to AppCenter
 * Upload to github
 * Publish appcast file
 
