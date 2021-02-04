@@ -382,7 +382,7 @@ final class CoreManager: NSObject {
             core.game.adventureOpponentId = opponentId
         }
         let playerClass = set == CardSet.uldum ? DefaultDecks.DungeonRun.getUldumHeroPlayerClass(playerClass: boardHero.playerClass) : boardHero.playerClass
-        if playerClass == .invalid || playerClass == .neutral {
+        if DungeonRunDeckWatcher.currentAdventure?.adventureId != AdventureDbId.boh && (playerClass == .invalid || playerClass == .neutral) {
             logger.info("Dungeon run started but player class is invalid")
             return
         }
