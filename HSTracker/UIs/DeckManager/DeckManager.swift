@@ -337,6 +337,11 @@ class DeckManager: NSWindowController {
             let deckmenu = menu as? DeckContextMenu,
             deckmenu.clickedrow >= 0 {
             useDeck(deck: sortedFilteredDecks()[deckmenu.clickedrow])
+        } else if let button = sender as? NSButton, let sv = button.superview as? DeckCellView {
+            logger.debug("Use deck row \(sv.row)")
+            let deck = sortedFilteredDecks()[sv.row]
+            currentDeck = deck
+            useDeck(deck: sortedFilteredDecks()[sv.row])
         }
     }
 
@@ -540,11 +545,17 @@ extension DeckManager: NSTableViewDelegate {
                 cell.image.image = NSImage(named: deck.playerClass.rawValue.lowercased())
                 cell.arenaImage.image = deck.isArena && deck.arenaFinished() ?
                     NSImage(named: "silenced") : nil
-                cell.wildImage.image = deck.isDungeon ? NSImage(named: "Mode_Adventure") : deck.isDuels ? NSImage(named: "Mode_Duels") : deck.isArena ? NSImage(named: "arena") :
-                    !deck.standardViable() && !deck.isArena ?
-                    NSImage(named: "Mode_Wild") : nil
-                cell.color = ClassColor.color(playerClass: deck.playerClass)
+                cell.wildImage.image = !deck.standardViable() && !deck.isArena ? NSImage(named: "Mode_Wild") : nil
                 cell.selected = tableView.selectedRow == row
+                cell.color = NSColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.0)
+                cell.row = row
+                if Settings.activeDeck == deck.deckId {
+                    cell.useButton.title = "ACTIVE"
+                    cell.useButton.isEnabled = false
+                } else {
+                    cell.useButton.title = "USE"
+                    cell.useButton.isEnabled = true
+                }
                 
                 let record = StatsHelper.getDeckRecord(deck: deck, mode: .all)
                 switch sortCriteria {
@@ -599,7 +610,13 @@ extension DeckManager: NSTableViewDelegate {
         
         for i in 0 ..< decks {
             let row = decksTable?.view(atColumn: 0, row: i, makeIfNecessary: false) as? DeckCellView
-            row?.selected = decksTable?.selectedRow == -1 || decksTable?.selectedRow == i
+            let sel = decksTable?.selectedRow == -1 || decksTable?.selectedRow == i
+            if row?.selected != sel {
+                row?.selected = sel
+                row?.needsDisplay = true
+            }
+            logger.debug("Row selection: \(i): \(decksTable?.selectedRow ?? -1) \(row?.selected ?? false)")
+            
         }
         
         if let clickedRow = (notification.object as? NSTableView)?.selectedRow, clickedRow >= 0 {

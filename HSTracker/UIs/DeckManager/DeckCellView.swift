@@ -9,25 +9,27 @@
 import Foundation
 import AppKit
 
-class DeckCellView: NSView {
+class DeckCellView: NSTableCellView {
 
     @IBOutlet weak var image: NSImageView!
     @IBOutlet weak var arenaImage: NSImageView!
     @IBOutlet weak var label: NSTextField!
-    @IBOutlet weak var moreButton: NSButton!
     @IBOutlet weak var detailTextLabel: NSTextField!
     @IBOutlet weak var wildImage: NSImageView!
+    @IBOutlet weak var useButton: NSButton!
     var selected = true
+    var row = -1
 
     var deck: Deck?
     var color: NSColor?
 
     override func draw(_ dirtyRect: NSRect) {
-        if var color = color {
-            if !selected {
-                color = color.darken(amount: 0.50)
+        if let color = color {
+            if selected {
+                NSColor.selectedControlColor.set()
+            } else {
+                color.set()
             }
-            color.set()
             dirtyRect.fill()
         }
         super.draw(dirtyRect)
