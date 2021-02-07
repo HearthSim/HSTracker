@@ -64,6 +64,7 @@ class Tracker: OverWindowController {
         self.observer = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: Settings.tracker_opacity), object: nil, queue: OperationQueue.main) { _ in
             self.setOpacity()
         }
+        graveyardCounter.playerType = playerType!
         setOpacity()
     }
     
