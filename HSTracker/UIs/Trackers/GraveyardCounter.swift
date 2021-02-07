@@ -21,23 +21,12 @@ class GraveyardCounter: TextFrame {
     var graveyard: [Card] = []
     var minions: Int = 0
     var murlocks: Int = 0
-    private var graveyardWindow: NSWindow?
+    private var graveyardWindow: CardList?
     private var trackingArea: NSTrackingArea?
+    var playerType: PlayerType = PlayerType.cardList
     
     private func initGraveyard() {
-        graveyardWindow = NSWindow(contentRect:
-            NSRect(x: 0, y: 0, width: (self.window?.frame.width)!, height: 800),
-                                   styleMask: .borderless,
-                                   backing: .buffered,
-                                   defer: true)
-        
-        graveyardWindow?.setIsVisible(false)
-        graveyardWindow?.collectionBehavior = [NSWindow.CollectionBehavior.canJoinAllSpaces, NSWindow.CollectionBehavior.fullScreenAuxiliary]
-        graveyardWindow?.ignoresMouseEvents = true
-        graveyardWindow?.acceptsMouseMovedEvents = true
-        graveyardWindow?.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(
-            CGWindowLevelKey.screenSaverWindow)))
-        graveyardWindow?.backgroundColor = NSColor.clear
+        graveyardWindow = CardList(windowNibName: "CardList")
     }
     
     override func draw(_ dirtyRect: NSRect) {
@@ -71,55 +60,31 @@ class GraveyardCounter: TextFrame {
         var point = theEvent.locationInWindow
         
         // show graveyard
-        let gframe = self.frame
-        if let gframe2 = graveyardWindow?.frame, let sframe = self.window?.screen?.frame {
-            
+        let gframe = self.window!.frame
+        if let gw = graveyardWindow {
             if let screenpoint = self.window?.convertToScreen(
                 NSRect(x: point.x, y: point.y, width: 0, height: 0)) {
-                point.x = min(screenpoint.origin.x,
-                              sframe.width - gframe.width)
-                point.y = max(screenpoint.origin.y, gframe2.height)
+                point.x = playerType == .player ? gframe.minX - gframe.width : gframe.maxX
+                point.y = screenpoint.origin.y
             }
-            
-            graveyardWindow?.setFrame(NSRect(
-                x: point.x, y: point.y,
-                width: gframe.width, height: gframe2.height),
-                                      display: true)
+
+            let frame = NSRect(x: point.x, y: point.y, width: gframe.width, height: gw.frameHeight)
+            AppDelegate.instance().coreManager.game.windowManager.show(controller: gw, show: true, frame: frame, overlay: true)
         }
-        
-        graveyardWindow?.orderFront(self)
     }
     
     override func mouseExited(with theEvent: NSEvent) {
         // hide graveyard
-        graveyardWindow?.orderOut(self)
+        if let gw = graveyardWindow {
+            AppDelegate.instance().coreManager.game.windowManager.show(controller: gw, show: false)
+        }
     }
     
     private func updateGraveyard() {
         
-        if let mainView = graveyardWindow?.contentView {
-            for view in mainView.subviews {
-                view.removeFromSuperview()
-            }
-            
-            if let gframe = graveyardWindow?.frame {
-                let height: CGFloat = cardHeight*CGFloat(graveyard.count)
-                graveyardWindow?.setFrame(NSRect(
-                    x: 0, y: 0,
-                    width: gframe.width, height: height),
-                                          display: true)
-                if graveyard.count > 0 {
-                    var y: CGFloat = height
-                    for entity in graveyard {
-                        y -= cardHeight
-                        let cell = CardBar.factory()
-                        cell.card = entity
-                        cell.frame = NSRect(x: 0, y: y, width: gframe.width, height: cardHeight)
-                        mainView.addSubview(cell)
-                    }
-                }
-            }
+        if let gw = graveyardWindow {
+            gw.set(cards: graveyard)
+            gw.setWindowSizes()
         }
-        
     }
 }

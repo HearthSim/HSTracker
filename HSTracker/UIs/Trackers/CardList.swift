@@ -50,46 +50,54 @@ class CardList: OverWindowController {
         return animatedCards.count
     }
 
-    func set(cards: [Card]) {
-        DispatchQueue.main.async { [self] in
-            semaphore.wait()
-            
-            var newCards = [Card]()
-            cards.forEach({ (card: Card) in
-                let existing = animatedCards.first { self.areEqualForList($0.card!, card) }
-                if existing == nil {
-                    newCards.append(card)
-                }
-            })
-
-            var toRemove: [Int] = []
-            animatedCards.forEach({ (c: CardBar) in
-                if !cards.any({ self.areEqualForList($0, c.card!) }) {
-                    toRemove.append(animatedCards.firstIndex(of: c)!)
-                }
-            })
-            
-            table?.beginUpdates()
-            var indexSet = IndexSet(toRemove)
-            table?.removeRows(at: indexSet, withAnimation: [.effectFade, .slideRight])
-            for index in indexSet.reversed() {
-                animatedCards.remove(at: index)
+    fileprivate func internalSet(cards: [Card]) {
+        semaphore.wait()
+        
+        var newCards = [Card]()
+        cards.forEach({ (card: Card) in
+            let existing = animatedCards.first { areEqualForList($0.card!, card) }
+            if existing == nil {
+                newCards.append(card)
             }
-            indexSet.removeAll()
-            newCards.forEach({
-                let newCard = CardBar.factory()
-                newCard.setDelegate(self)
-                newCard.card = $0
-                newCard.playerType = .secrets
-                let index = cards.firstIndex(of: $0)!
-                animatedCards.insert(newCard, at: index)
-                indexSet.insert(index)
-            })
-            table?.insertRows(at: indexSet, withAnimation: .slideLeft)
-            // need to signal here to avoid a deadlock
-            semaphore.signal()
+        })
 
-            table?.endUpdates()
+        var toRemove: [Int] = []
+        animatedCards.forEach({ (c: CardBar) in
+            if !cards.any({ areEqualForList($0, c.card!) }) {
+                toRemove.append(animatedCards.firstIndex(of: c)!)
+            }
+        })
+        
+        table?.beginUpdates()
+        var indexSet = IndexSet(toRemove)
+        table?.removeRows(at: indexSet, withAnimation: [.effectFade, .slideRight])
+        for index in indexSet.reversed() {
+            animatedCards.remove(at: index)
+        }
+        indexSet.removeAll()
+        newCards.forEach({
+            let newCard = CardBar.factory()
+            newCard.setDelegate(self)
+            newCard.card = $0
+            newCard.playerType = .secrets
+            let index = cards.firstIndex(of: $0)!
+            animatedCards.insert(newCard, at: index)
+            indexSet.insert(index)
+        })
+        table?.insertRows(at: indexSet, withAnimation: .slideLeft)
+        // need to signal here to avoid a deadlock
+        semaphore.signal()
+
+        table?.endUpdates()
+    }
+    
+    func set(cards: [Card]) {
+        if Thread.isMainThread {
+            internalSet(cards: cards)
+        } else {
+            DispatchQueue.main.async { [self] in
+                self.internalSet(cards: cards)
+            }
         }
     }
     
