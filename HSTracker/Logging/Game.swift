@@ -495,12 +495,14 @@ class Game: NSObject, PowerEventHandler {
     
     func experienceChangedAsync(experience: Int, experienceNeeded: Int, level: Int, levelChange: Int, animate: Bool) {
         let currentMode = self.currentMode ?? .invalid
+        let previousMode = self.previousMode ?? .invalid
         
-        logger.debug("Experience changed. Current mode \(currentMode)")
+        logger.debug("Experience changed. Current mode \(currentMode), previous \(previousMode)")
         
-        while currentMode == Mode.gameplay && previousMode == Mode.bacon {
+        while let cm = self.currentMode, let pm = self.previousMode, cm == Mode.gameplay && pm == Mode.bacon {
             Thread.sleep(forTimeInterval: 0.500)
         }
+        logger.debug("Showing experience counter now")
         let experienceCounter = windowManager.experiencePanel.experienceTracker
         experienceCounter.xpDisplay = "\(experience)/\(experienceNeeded)"
         experienceCounter.levelDisplay = "\(level+1)"
