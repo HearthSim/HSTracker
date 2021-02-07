@@ -186,26 +186,45 @@ class HSReplayAPI {
         }
     }
     
+    private static func uploadCollectionInternal(collectionData: UploadCollectionData, url: String, seal: Resolver<CollectionUploadResult>) {
+        let upload = Http(url: url)
+        let enc = JSONEncoder()
+        if let data = try? enc.encode(collectionData) {
+            upload.uploadPromise(method: .put, headers: [ "Content-Type": "application/json" ], data: data).done { data in
+                if data != nil {
+                    seal.fulfill(.successful)
+                }
+            }.catch { error in
+                seal.fulfill(.failed(error: error.localizedDescription))
+            }
+        } else {
+            seal.fulfill(.failed(error: "JSON convertion failed"))
+        }
+    }
+    
     static func uploadCollection(collectionData: UploadCollectionData) -> Promise<CollectionUploadResult> {
         return Promise<CollectionUploadResult> { seal in
             
             getUploadCollectionToken().done { url in
-                let upload = Http(url: url)
-                let enc = JSONEncoder()
-                if let data = try? enc.encode(collectionData) {
-                    upload.uploadPromise(method: .put, headers: [ "Content-Type": "application/json" ], data: data).done { data in
-                        if data != nil {
-                            seal.fulfill(.successful)
-                        }
-                    }.catch { error in
-                        seal.fulfill(.failed(error: error.localizedDescription))
-                    }
-                } else {
-                    seal.fulfill(.failed(error: "JSON convertion failed"))
-                }
+                uploadCollectionInternal(collectionData: collectionData, url: url, seal: seal)
             }.catch { error in
-                logger.error("HSReplay: Collection upload error \(error)")
-                seal.fulfill(.failed(error: error.localizedDescription))
+                logger.error("HSReplay: Collection upload error \(error), retrying...")
+                oauthswift.renewAccessToken(withRefreshToken: Settings.hsReplayOAuthRefreshToken ?? "", completionHandler: { result in
+                    switch result {
+                    case .success(let res):
+                        Settings.hsReplayOAuthToken = res.credential.oauthToken
+                        Settings.hsReplayOAuthRefreshToken = res.credential.oauthRefreshToken
+                        getUploadCollectionToken().done { url in
+                            uploadCollectionInternal(collectionData: collectionData, url: url, seal: seal)
+                        }.catch { error in
+                            logger.error("HSReplay: Failed to obtain collection upload token for 2nd time, aborting")
+                            seal.fulfill(.failed(error: "\(error)"))
+                        }
+                    case .failure(let error):
+                        logger.error("HSReplay: Failed to renew access token, aborting")
+                        seal.fulfill(.failed(error: "\(error)"))
+                    }
+                })
             }
         }
     }
