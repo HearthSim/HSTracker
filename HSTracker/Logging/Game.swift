@@ -1843,6 +1843,7 @@ class Game: NSObject, PowerEventHandler {
             player.draw(entity: entity, turn: turn)
             updateTrackers()
         }
+        secretsManager?.handleCardDrawn(entity: entity)
     }
 
     func playerRemoveFromDeck(entity: Entity, turn: Int) {

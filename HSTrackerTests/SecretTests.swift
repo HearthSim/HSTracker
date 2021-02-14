@@ -33,7 +33,9 @@ class SecretTests: HSTrackerTests {
     secretRogue1: Entity!,
     secretRogue2: Entity!,
     opponentEntity: Entity!,
-    opponentCardInHand1: Entity!
+    opponentCardInHand1: Entity!,
+    playerCardInHand1: Entity!,
+    playerCardInHand2: Entity!
 
     var database: Database!
 
@@ -94,6 +96,16 @@ class SecretTests: HSTrackerTests {
         game.entities[6] = opponentMinion1
         game.entities[7] = opponentMinion2
         
+        playerCardInHand1 = createNewEntity(cardId: "")
+        playerCardInHand1[.controller] = heroPlayer.id
+        playerCardInHand1[.zone] = Zone.hand.rawValue
+        game.entities[playerCardInHand1.id] = playerCardInHand1
+
+        playerCardInHand2 = createNewEntity(cardId: "")
+        playerCardInHand2[.controller] = heroPlayer.id
+        playerCardInHand2[.zone] = Zone.hand.rawValue
+        game.entities[playerCardInHand2.id] = playerCardInHand2
+
         opponentCardInHand1 = createNewEntity(cardId: "")
         opponentCardInHand1[.controller] = heroOpponent.id
         opponentCardInHand1[.zone] = Zone.hand.rawValue
@@ -477,29 +489,26 @@ class SecretTests: HSTrackerTests {
     }
     
     func testSingleSecret_OpponentDrawsTwoCards_ShenanigansTriggered() {
-        heroPlayer[.num_cards_played_this_turn] = 2
-        game.secretsManager?.handleCardPlayed(entity: playerSpell1)
-        verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All, triggered: [CardIds.Secrets.Hunter.CatTrick])
-        verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
-                      triggered: [CardIds.Secrets.Mage.Counterspell,
-                                  CardIds.Secrets.Mage.Spellbender,
-                                  CardIds.Secrets.Mage.ManaBind,
-                                  CardIds.Secrets.Mage.NetherwindPortal])
-        verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All, triggered: [CardIds.Secrets.Paladin.OhMyYogg])
-        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All, triggered: [CardIds.Secrets.Rogue.Shenanigans, CardIds.Secrets.Rogue.DirtyTricks])
+        game.secretsManager?.handleOpponentTurnStart()
+        game.player.onTurnStart()
+        //Set to 1 because the tag hasn't been incremented by the time the check is being made in normal course
+        heroPlayer[GameTag.num_cards_drawn_this_turn] = 1
+        game.secretsManager?.handleCardDrawn(entity: playerCardInHand2)
+        verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All)
+        verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All)
+        verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All)
+        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All, triggered: [CardIds.Collectible.Rogue.Shenanigans])
     }
 
     func testSingleSecret_OpponentDrawsOneCard_ShenanigansNotTriggered() {
-        heroPlayer[.num_cards_played_this_turn] = 1
-        game.secretsManager?.handleCardPlayed(entity: playerSpell1)
-        verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All, triggered: [CardIds.Secrets.Hunter.CatTrick])
-        verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
-                      triggered: [CardIds.Secrets.Mage.Counterspell,
-                                  CardIds.Secrets.Mage.Spellbender,
-                                  CardIds.Secrets.Mage.ManaBind,
-                                  CardIds.Secrets.Mage.NetherwindPortal])
-        verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All, triggered: [CardIds.Secrets.Paladin.OhMyYogg])
-        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All, triggered: [CardIds.Secrets.Rogue.DirtyTricks])
+        game.secretsManager?.handleOpponentTurnStart()
+        game.player.onTurnStart()
+        heroPlayer[GameTag.num_cards_drawn_this_turn] = 0
+        game.secretsManager?    .handleCardDrawn(entity: playerCardInHand1)
+        verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All)
+        verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All)
+        verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All)
+        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
     }
     
 //    func testSingleSecret_OpponentTurnStart_OpponentTookNoDamage_RiggedFaireGameTriggered() {

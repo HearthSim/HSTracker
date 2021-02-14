@@ -469,10 +469,6 @@ class SecretsManager {
             }
         }
         
-        if let player = game.playerEntity, player.has(tag: .num_cards_played_this_turn) && (player[.num_cards_played_this_turn] >= 2) {
-            exclude.append(CardIds.Secrets.Rogue.Shenanigans)
-        }
-        
         if entity.isSpell {
             _triggeredSecrets.removeAll()
             if game.opponentSecretCount > 1 {
@@ -522,6 +518,17 @@ class SecretsManager {
         if secret.entity[GameTag.class] == CardClass.allCases.firstIndex(of: .hunter) {
             entititesInHandOnMinionsPlayed.removeAll()
         }
+    }
+    
+    func handleCardDrawn(entity: Entity) {
+        guard handleAction else { return }
+
+        var exclude: [String] = []
+        if let playerEntity = game.playerEntity, playerEntity[.num_cards_drawn_this_turn] >= 1 {
+            exclude.append(CardIds.Secrets.Rogue.Shenanigans)
+        }
+        
+        self.exclude(cardIds: exclude)
     }
 
     func handleHeroPower() {

@@ -9,6 +9,7 @@
 - Fix experience counter showing at end of BG match before final combat
 - Fix graveyard missing in fullscreen (issue #973)
 - Retry collection upload after failure with new token
+- Fix Shenanigans handling
 
 # 1.8.0
 ## New:
