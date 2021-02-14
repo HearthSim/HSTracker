@@ -1663,7 +1663,7 @@ class Game: NSObject, PowerEventHandler {
     }
     
     func handleChameleosReveal(cardId: String) {
-        self.opponent.chameleosReveal(cardId: cardId)
+        self.opponent.predictUniqueCardInDeck(cardId: cardId, isCreated: false)
         self.updateOpponentTracker()
     }
     

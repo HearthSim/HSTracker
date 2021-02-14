@@ -10,6 +10,7 @@
 - Fix graveyard missing in fullscreen (issue #973)
 - Retry collection upload after failure with new token
 - Fix Shenanigans handling
+- Fix Cthun The Shattered cards
 
 # 1.8.0
 ## New:

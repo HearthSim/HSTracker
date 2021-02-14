@@ -65,10 +65,12 @@ class DeckState {
 class PredictedCard {
     var cardId: String
     var turn: Int
+    var isCreated: Bool
 
-    init(cardId: String, turn: Int) {
+    init(cardId: String, turn: Int, isCreated: Bool = false) {
         self.cardId = cardId
         self.turn = turn
+        self.isCreated = isCreated
     }
 }
 
@@ -200,15 +202,21 @@ final class Player {
             .sortCardList()
     }
 
-    var predictedCardsInDeck: [Card] {
+    func getPredictedCardsInDeck(hidden: Bool) -> [Card] {
         return inDeckPredictions.compactMap { g -> Card? in
             if let card = Cards.by(cardId: g.cardId) {
-                card.jousted = true
+                if hidden {
+                    card.jousted = true
+                }
+                if g.isCreated {
+                    card.isCreated = true
+                    card.count = 1
+                }
                 return card
             } else {
                 return nil
             }
-            }
+        }
     }
 
     var knownCardsInDeck: [Card] {
@@ -296,19 +304,20 @@ final class Player {
         let createdInHand = Settings.showPlayerGet ? createdCardsInHand : [Card]()
         if game.currentDeck == nil {
             return (revealedCards + createdInHand
-                + knownCardsInDeck + predictedCardsInDeck).sortCardList()
+                + knownCardsInDeck + getPredictedCardsInDeck(hidden: true)).sortCardList()
         }
         let deckState = getDeckState()
         let inDeck = deckState.remainingInDeck
         let notInDeck = deckState.removedFromDeck.filter({ x in inDeck.all({ x.id != $0.id }) })
+        let predictedInDeck = getPredictedCardsInDeck(hidden: false).filter({ x in inDeck.all { c in x.id != c.id } })
         if !Settings.removeCardsFromDeck {
-            return (inDeck + notInDeck + createdInHand).sortCardList()
+            return (inDeck + predictedInDeck + notInDeck + createdInHand).sortCardList()
         }
         if Settings.highlightCardsInHand {
-            return (inDeck + getHighlightedCardsInHand(cardsInDeck: inDeck)
+            return (inDeck + predictedInDeck + getHighlightedCardsInHand(cardsInDeck: inDeck)
                 + createdInHand).sortCardList()
         }
-        return (inDeck + createdInHand).sortCardList()
+        return (inDeck + predictedInDeck + createdInHand).sortCardList()
     }
 
     var opponentCardList: [Card] {
@@ -345,14 +354,7 @@ final class Player {
                 }
             }
 
-            let inDeck = inDeckPredictions.compactMap({ g -> Card? in
-                if let card = Cards.by(cardId: g.cardId) {
-                    card.jousted = true
-                    return card
-                } else {
-                    return nil
-                }
-            })
+        let inDeck = getPredictedCardsInDeck(hidden: true)
 
         return (revealed + inDeck).sortCardList()
     }
@@ -675,9 +677,9 @@ final class Player {
         }
     }
     
-    func chameleosReveal(cardId: String) {
-        if inDeckPredictions.first(where: { $0.cardId == cardId}) == nil {
-            inDeckPredictions.append(PredictedCard(cardId: cardId, turn: 0))
+    func predictUniqueCardInDeck(cardId: String, isCreated: Bool) {
+        if inDeckPredictions.all({ x in x.cardId != cardId }) {
+            inDeckPredictions.append(PredictedCard(cardId: cardId, turn: 0, isCreated: isCreated))
         }
     }
 }

@@ -27,7 +27,6 @@ class PowerGameStateParser: LogEventParser {
     let BuildNumberRegex: RegexPattern = "BuildNumber=(\\d+)"
     let PlayerIDNameRegex: RegexPattern = "PlayerID=(\\d+), PlayerName=(.+)"
     let HideEntityRegex: RegexPattern = "HIDE_ENTITY\\ -\\ .* id=(?<id>(\\d+))"
-    let CthunTheShatteredToken = "DMF_254t"
 
     var tagChangeHandler = TagChangeHandler()
     var currentEntity: Entity?
@@ -322,11 +321,6 @@ class PowerGameStateParser: LogEventParser {
                     if entity?.info.guessedCardState != GuessedCardState.none {
                         entity?.info.guessedCardState = GuessedCardState.revealed
                     }
-                    if entity != nil {
-                        if entity!.cardId.contains(CthunTheShatteredToken) {
-                            entity?.info.guessedCardState = GuessedCardState.guessed
-                        }
-                    }
                 }
                 
                 if type == "CHANGE_ENTITY" {
@@ -563,6 +557,16 @@ class PowerGameStateParser: LogEventParser {
                             if let lastCardPlayed = eventHandler.lastCardPlayed, let lastPlayedEntity1 = eventHandler.entities[lastCardPlayed] {
                                 addKnownCardId(eventHandler: eventHandler, cardId: lastPlayedEntity1.cardId)
                             }
+                        case CardIds.Collectible.Neutral.CthunTheShattered:
+                            // The pieces are created in random order. So we can not assign predicted ids to entities the way we usually do.
+                            if let actionStartingEntity = actionStartingEntity {
+                                if let player = actionStartingEntity.isControlled(by: eventHandler.player.id) ? eventHandler.player : eventHandler.opponent {
+                                    player.predictUniqueCardInDeck(cardId: CardIds.NonCollectible.Neutral.CThuntheShattered_EyeOfCthunToken, isCreated: true)
+                                    player.predictUniqueCardInDeck(cardId: CardIds.NonCollectible.Neutral.CThuntheShattered_BodyOfCthunToken, isCreated: true)
+                                    player.predictUniqueCardInDeck(cardId: CardIds.NonCollectible.Neutral.CThuntheShattered_MawOfCthunToken, isCreated: true)
+                                    player.predictUniqueCardInDeck(cardId: CardIds.NonCollectible.Neutral.CThuntheShattered_HeartOfCthunToken, isCreated: true)
+                                }
+                            }
                         default: break
                         }
                     }
@@ -738,6 +742,14 @@ class PowerGameStateParser: LogEventParser {
                         case CardIds.Collectible.Druid.KiriChosenOfElune:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Druid.LunarEclipse)
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Druid.SolarEclipse)
+                        case CardIds.NonCollectible.Neutral.CThuntheShattered_EyeOfCthunToken,
+                             CardIds.NonCollectible.Neutral.CThuntheShattered_HeartOfCthunToken,
+                             CardIds.NonCollectible.Neutral.CThuntheShattered_BodyOfCthunToken,
+                             CardIds.NonCollectible.Neutral.CThuntheShattered_MawOfCthunToken:
+                            // A new copy of C'Thun is created in the last of these POWER blocks.
+                            // This currently leads to a duplicate copy of C'Thun showing up in the
+                            // opponents deck list, but it will have to do for now.
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Neutral.CthunTheShattered)
                         default:
                             if let card = Cards.any(byId: actionStartingCardId) {
                                 if (player != nil && player![.current_player] == 1

@@ -600,6 +600,7 @@ extension CardIds.Collectible {
         static let SnapjawShellfighter = "TRL_535"
         static let WaxElemental = "LOOT_117"
         static let ArenaPatron = "TRL_521"
+        static let CthunTheShattered = "DMF_254"
     }
 }
 
@@ -2230,6 +2231,11 @@ extension CardIds.NonCollectible {
         static let BazaarBob = "ULDA_BOSS_99h"
         static let ArannaStarseekerTavernBrawl1 = "TB_BaconShop_HERO_59"
         static let ArannaStarseeker_ArannaUnleashedTokenTavernBrawl = "TB_BaconShop_HERO_59t"
+        static let CThuntheShattered_EyeOfCthunToken = "DMF_254t3"
+        static let CThuntheShattered_HeartOfCthunToken = "DMF_254t4"
+        static let CThuntheShattered_BodyOfCthunToken = "DMF_254t5"
+        static let CThuntheShattered_CthunsBodyToken = "DMF_254t5t"
+        static let CThuntheShattered_MawOfCthunToken = "DMF_254t7"
     }
 }
 
