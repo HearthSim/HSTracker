@@ -348,6 +348,7 @@ enum GameTag: Int, WrappableEnum, CaseIterable, Codable {
     proxy_galakrond = 1190,
     mega_windfury = 1207,
     creator_dbid = 1284,
+    next_opponent_player_id = 1360,
     invoke_counter = 1366,
     player_leaderboard_place = 1373,
     player_tech_level = 1377,

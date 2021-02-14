@@ -1,6 +1,14 @@
 # 1.8.1:
-## Fixes:
+## New:
+- Improved deck manager display
+- Add dead for turn tracking for Battlegrounds
+- Improved zh-Hans translation (thanks @moonfruit)
+## Fixes
 - Improved experience tracker location & size
+- Fix for Book of Heroes Anduin
+- Fix experience counter showing at end of BG match before final combat
+- Fix graveyard missing in fullscreen (issue #973)
+- Retry collection upload after failure with new token
 
 # 1.8.0
 ## New:

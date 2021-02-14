@@ -12,9 +12,11 @@ import TextAttributes
 class BattlegroundsOverlay: OverWindowController {
     override var alwaysLocked: Bool { true }
     
+    var view = BattlegroundsOverlayView()
+    
     override func windowDidLoad() {
         super.windowDidLoad()
-        self.window!.contentView = BattlegroundsOverlayView()
+        self.window!.contentView = view
         //self.window!.backgroundColor = NSColor.brown
     }
 }

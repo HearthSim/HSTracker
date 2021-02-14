@@ -493,6 +493,7 @@
 		B8DC11F424EACDB80088A755 /* SimulationRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC11F324EACDB80088A755 /* SimulationRunner.swift */; };
 		B8DC120024EC5F9A0088A755 /* BobsBuddyPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC11FF24EC5F990088A755 /* BobsBuddyPanel.swift */; };
 		B8DC120524EC79370088A755 /* TestOutputProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC120424EC79370088A755 /* TestOutputProxy.swift */; };
+		B8DC376125D06C2F00452A83 /* OpponentDeadForTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC376025D06C2F00452A83 /* OpponentDeadForTracker.swift */; };
 		B8DEDCC22547C4AE00DF524B /* DemonHunter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CED5D14243D1B27006D2E1F /* DemonHunter.swift */; };
 		B8DEDCC32547C4B900DF524B /* TurnCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */; };
 		B8DEDCC42547C4C000DF524B /* MonoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82F4EAA24E3021D00905024 /* MonoHelper.swift */; };
@@ -1018,6 +1019,7 @@
 		B8DC11F324EACDB80088A755 /* SimulationRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulationRunner.swift; sourceTree = "<group>"; };
 		B8DC11FF24EC5F990088A755 /* BobsBuddyPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BobsBuddyPanel.swift; sourceTree = "<group>"; };
 		B8DC120424EC79370088A755 /* TestOutputProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestOutputProxy.swift; sourceTree = "<group>"; };
+		B8DC376025D06C2F00452A83 /* OpponentDeadForTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpponentDeadForTracker.swift; sourceTree = "<group>"; };
 		BC0780831E3152D800AC9DB8 /* DeckWatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckWatcher.swift; sourceTree = "<group>"; };
 		BC78DD741E806B6F00DBA7C9 /* Algorithm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Algorithm.swift; sourceTree = "<group>"; };
 		BC78DD761E80871600DBA7C9 /* BTree.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BTree.framework; path = Carthage/Build/Mac/BTree.framework; sourceTree = "<group>"; };
@@ -1565,6 +1567,7 @@
 				43E77EE31C94A19700C26950 /* TurnTimer.swift */,
 				61424BCA24701A3700877EE4 /* DecksReader.swift */,
 				B8A9CB322571F160000071FC /* GuessedCardState.swift */,
+				B8DC376025D06C2F00452A83 /* OpponentDeadForTracker.swift */,
 			);
 			path = Logging;
 			sourceTree = "<group>";
@@ -1932,14 +1935,14 @@
 				4368741F201720A800C9D1E9 /* Update version */,
 				B8D8859B24F4333000F2F0F2 /* Download BobsBuddy and HearthDb */,
 				4C68AF242447CE5000E52834 /* Download HearthMirror */,
-				439C7E441C7772C000D29859 /* Sources */,
 				439C7E461C7772C000D29859 /* Resources */,
+				439C7E441C7772C000D29859 /* Sources */,
 				436789A01CAC078800C962D1 /* Copy Files */,
+				436789E01CAE484800C962D1 /* Embed Frameworks */,
 				439C7E451C7772C000D29859 /* Frameworks */,
 				437B5BCC1CD3B50000DE0A41 /* Swiftlint */,
 				B86F2153255DBFFC008D522A /* Download cards JSON */,
 				B83355B724F89D1A0025F644 /* Embed Mono */,
-				436789E01CAE484800C962D1 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2324,6 +2327,7 @@
 				43C567FD1D5E448200451B6F /* HSReplayManager.swift in Sources */,
 				43C567FF1D5E4F9700451B6F /* HSReplayAPI.swift in Sources */,
 				43D308061C842DC900480488 /* GamePrefences.swift in Sources */,
+				B8DC376125D06C2F00452A83 /* OpponentDeadForTracker.swift in Sources */,
 				43A8A0F71E1557C900AF34FD /* FormatType.swift in Sources */,
 				B8820CD025603FB00072ECBC /* RemoteConfig.swift in Sources */,
 				4CECFFD923C111AA0093253E /* BattlegroundsTierDetailsView.swift in Sources */,
@@ -3270,7 +3274,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = /Library/Frameworks/Mono.framework/Libraries;
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 1.8.0;
+				MARKETING_VERSION = 1.8.1;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = "$(inherited)";
@@ -3313,7 +3317,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = /Library/Frameworks/Mono.framework/Libraries;
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 1.8.0;
+				MARKETING_VERSION = 1.8.1;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = net.hearthsim.hstracker;

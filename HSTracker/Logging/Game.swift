@@ -46,7 +46,9 @@ class Game: NSObject, PowerEventHandler {
 	
 	private let turnTimer: TurnTimer
     
-    var lastKnownBattlegroundsBoardState = [String: BoardSnapshot]()
+    fileprivate var lastKnownBattlegroundsBoardState = [String: BoardSnapshot]()
+    
+    private static let _lastKnownBoardStateLookup = [ CardIds.NonCollectible.Neutral.ArannaStarseeker_ArannaUnleashedTokenTavernBrawl: CardIds.NonCollectible.Neutral.ArannaStarseekerTavernBrawl1 ]
     
 	private var hearthstoneRunState: HearthstoneRunState {
 		didSet {
@@ -75,6 +77,20 @@ class Game: NSObject, PowerEventHandler {
         self.updateTrackers()
 	}
     
+    func getCorrectBoardstateHeroId(heroId: String) -> String {
+        if let mapped = Game._lastKnownBoardStateLookup[heroId] {
+            return mapped
+        }
+        return heroId
+    }
+    
+    func getSnapshot(opponentHeroCardId: String) -> BoardSnapshot? {
+        if let state = lastKnownBattlegroundsBoardState[getCorrectBoardstateHeroId(heroId: opponentHeroCardId)] {
+            return state
+        }
+        return nil
+    }
+    
     func snapshotBattlegroundsBoardState() {
         let opponentH = entities.values.first(where: { x in x.isHero && x.isInZone(zone: .play) && x.isControlled(by: opponent.id)})
         
@@ -87,10 +103,11 @@ class Game: NSObject, PowerEventHandler {
             x[.zone_position] < y[.zone_position]
         })
         // swiftlint:enable force_cast
+        let correctedHero = getCorrectBoardstateHeroId(heroId: opponentHero.cardId)
 
-        logger.info("Snapshotting board state for \(opponentHero.card.name) with \(entities.count) entities")
+        logger.info("Snapshotting board state for \(opponentHero.card.name) with cardid \(opponentHero.cardId) (corrected=\(correctedHero)) with \(entities.count) entities")
         let board = BoardSnapshot(entities: entities, turn: turnNumber())
-        lastKnownBattlegroundsBoardState[opponentHero.cardId] = board
+        lastKnownBattlegroundsBoardState[correctedHero] = board
         // pre-cache art
         DispatchQueue.global().async {
             for entity in board.entities {
@@ -1072,6 +1089,8 @@ class Game: NSObject, PowerEventHandler {
         
         hideBobsBuddy = false
         adventureOpponentId = nil
+        
+        OpponentDeadForTracker.resetOpponentDeadForTracker()
     }
     
     func cacheBrawlInfo() {
@@ -1407,6 +1426,9 @@ class Game: NSObject, PowerEventHandler {
             }
         }*/
 
+        if isBattlegroundsMatch() {
+            OpponentDeadForTracker.resetOpponentDeadForTracker()
+        }
         logger.verbose("End game: \(currentGameStats)")
         let stats = currentGameStats.toGameStats()
         // reset the turn counter
@@ -1563,8 +1585,11 @@ class Game: NSObject, PowerEventHandler {
         turnTimer.startTurn(for: player, timeout: timeout)
 
         if player == .player && !isInMenu {
-            if isBattlegroundsMatch() && isMonoAvailable() != 0 && playerTurn.turn > 1 {
-                BobsBuddyInvoker.instance(turn: turnNumber()).startShopping()
+            if isBattlegroundsMatch() {
+                OpponentDeadForTracker.shoppingStarted(game: self)
+                if isMonoAvailable() != 0 && playerTurn.turn > 1 {
+                    BobsBuddyInvoker.instance(turn: turnNumber()).startShopping()
+                }
             }
 
             NotificationManager.showNotification(type: .turnStart)

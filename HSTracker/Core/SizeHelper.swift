@@ -63,11 +63,11 @@ struct SizeHelper {
             }
         }
         
-        fileprivate var width: CGFloat {
+        var width: CGFloat {
             return _frame.width
         }
         
-        fileprivate var height: CGFloat {
+        var height: CGFloat {
             let height = _frame.height
             return isFullscreen() ? height : max(height - 22, 0)
         }
@@ -143,6 +143,22 @@ struct SizeHelper {
     }
 
     static let hearthstoneWindow = HearthstoneWindow()
+    
+    static var battlegroundsTileHeight: CGFloat {
+        return (hearthstoneWindow.height * 0.7) / 8.0
+    }
+    
+    static var battlegroundsTileWidth: CGFloat {
+        return hearthstoneWindow.height * 0.078
+    }
+    
+    static var hearthstoneBoardWidth: CGFloat {
+        return hearthstoneWindow.height * 1.5
+    }
+    
+    static var screenRatio: CGFloat {
+        return (4.0 / 3.0) / (hearthstoneWindow.width / hearthstoneWindow.height)
+    }
 
     static func overHearthstoneFrame() -> NSRect {
         let frame = hearthstoneWindow.frame
@@ -174,8 +190,8 @@ struct SizeHelper {
         return hearthstoneWindow.relativeFrame(frame, relative: false)
     }
 
-    fileprivate static func getScaledXPos(_ left: CGFloat, width: CGFloat,
-                                          ratio: CGFloat) -> CGFloat {
+    static func getScaledXPos(_ left: CGFloat, width: CGFloat,
+                              ratio: CGFloat) -> CGFloat {
         return ((width) * ratio * left) + (width * (1 - ratio) / 2)
     }
 
@@ -293,7 +309,7 @@ struct SizeHelper {
         // Looks like the HS board ratio is 1.5, the rest is padding
         let boardWidth = hearthstoneWindow.height * 1.5
         let left = hearthstoneWindow.frame.minX + 0.05 * boardWidth + (hearthstoneWindow.width - boardWidth)/2
-        let right = hearthstoneWindow.frame.minX + 0.125 * boardWidth + (hearthstoneWindow.width - boardWidth)/2
+        let right = hearthstoneWindow.frame.minX + 0.133 * boardWidth + (hearthstoneWindow.width - boardWidth)/2
                  
         let frame = NSRect(x: left, y: bottom, width: right - left, height: top - bottom)
         return (frame)

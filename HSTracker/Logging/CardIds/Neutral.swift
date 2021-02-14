@@ -2228,6 +2228,8 @@ extension CardIds.NonCollectible {
         static let ExtraPowder = "GILA_604"
         static let BartenderBob = "DALA_BOSS_99h"
         static let BazaarBob = "ULDA_BOSS_99h"
+        static let ArannaStarseekerTavernBrawl1 = "TB_BaconShop_HERO_59"
+        static let ArannaStarseeker_ArannaUnleashedTokenTavernBrawl = "TB_BaconShop_HERO_59t"
     }
 }
 
