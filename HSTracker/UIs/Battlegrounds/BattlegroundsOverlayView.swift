@@ -76,19 +76,20 @@ class BattlegroundsOverlayView: NSView {
         let w = SizeHelper.hearthstoneBoardWidth
         let la = BattlegroundsOverlayView.leftAdjust * w
         let lo = BattlegroundsOverlayView.leftOffset * w
+        let h = battlegroundsTileHeight / 4.0
         for i in 0 ..< leaderboardDeadForText.count {
-            let r = NSRect(x: 0.0, y: CGFloat((7 - i)) * battlegroundsTileHeight, width: battlegroundsTileWidth, height: battlegroundsTileHeight / 4.0)
+            let r = NSRect(x: 0.0, y: CGFloat((7 - i)) * battlegroundsTileHeight, width: battlegroundsTileWidth, height: h)
             let adj = CGFloat(7 - i) * la + lo
-            leaderboardDeadForText[i].frame = r.offsetBy(dx: adj, dy: 2.0 * battlegroundsTileHeight / 4.0)
-            leaderboardDeadForTurnText[i].frame = r.offsetBy(dx: adj, dy: battlegroundsTileHeight / 4.0)
+            leaderboardDeadForText[i].frame = r.offsetBy(dx: adj, dy: 2.0 * h + h/2)
+            leaderboardDeadForTurnText[i].frame = r.offsetBy(dx: adj, dy: h + h/2)
         }
 
         if _nextOpponentLeaderboardPosition > 0 {
             let pos = _nextOpponentLeaderboardPosition - 1
-            let r = NSRect(x: 0.0, y: CGFloat(7 - pos) * battlegroundsTileHeight, width: battlegroundsTileWidth, height: battlegroundsTileHeight / 4.0)
+            let r = NSRect(x: 0.0, y: CGFloat(7 - pos) * battlegroundsTileHeight, width: battlegroundsTileWidth, height: h)
             let adj = CGFloat(7 - pos) * la + lo + (battlegroundsTileWidth / 2.0)
-            leaderboardDeadForText[pos].frame = r.offsetBy(dx: adj, dy: 2.0 * battlegroundsTileHeight / 4.0)
-            leaderboardDeadForTurnText[pos].frame = r.offsetBy(dx: adj, dy: battlegroundsTileHeight / 4.0)
+            leaderboardDeadForText[pos].frame = r.offsetBy(dx: adj, dy: 2.0 * h + h/2)
+            leaderboardDeadForTurnText[pos].frame = r.offsetBy(dx: adj, dy: h + h/2)
         }
     }
     
