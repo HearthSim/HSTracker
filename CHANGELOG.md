@@ -3,6 +3,7 @@
 - Improved deck manager display
 - Add dead for turn tracking for Battlegrounds
 - Improved zh-Hans translation (thanks @moonfruit)
+- Improved Russian translation (thanks @4llower)
 ## Fixes
 - Improved experience tracker location & size
 - Fix for Book of Heroes Anduin
