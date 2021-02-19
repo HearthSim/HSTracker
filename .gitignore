@@ -47,6 +47,7 @@ xcuserdata/
 
 # AppCode
 .idea
+.vscode
 
 # Archived builds
 archives
