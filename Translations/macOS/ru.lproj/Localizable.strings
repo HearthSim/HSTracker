@@ -58,7 +58,7 @@
 "In top 2:" = "В лучших 2:";
 "Connected" = "Подключены";
 "Connected as %@" = "Подключены как %@";
-"HSTracker needs elevated privileges to read data from Hearthstone's memory. If macOS asks you for your system password, do not be alarmed, no changes to your computer will be performed." = "HSTracker needs elevated privileges to read data from Hearthstone's memory. If macOS asks you for your system password, do not be alarmed, no changes to your computer will be performed.";
+"HSTracker needs elevated privileges to read data from Hearthstone's memory. If macOS asks you for your system password, do not be alarmed, no changes to your computer will be performed." = "HSTracker необходимы повышенные привилегии для чтения данных из памяти Hearthstone. Если macOS запрашивает у вас системный пароль, не беспокойтесь, никакие изменения на вашем компьютере производиться не будут.";
 "I understand" = "Я понимаю";
 
 /* notifications */
