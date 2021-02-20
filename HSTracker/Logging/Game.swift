@@ -423,8 +423,8 @@ class Game: NSObject, PowerEventHandler {
         DispatchQueue.main.async {
             let isBG = self.isBattlegroundsMatch() && !self.gameEnded
 
-            if isBG && (Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
-                    || !Settings.hideAllWhenGameInBackground {
+            if isBG && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
+                    || !Settings.hideAllWhenGameInBackground) {
                 
                 self.windowManager.show(controller: self.windowManager.battlegroundsOverlay, show: true, frame: rect, title: nil, overlay: true)
             } else {

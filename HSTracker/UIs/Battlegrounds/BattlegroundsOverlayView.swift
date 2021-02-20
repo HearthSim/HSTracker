@@ -172,11 +172,10 @@ class BattlegroundsOverlayView: NSView {
             currentIndex = index
             let windowManager = AppDelegate.instance().coreManager.game.windowManager
             AppDelegate.instance().coreManager.game.hideBobsBuddy = true
-            if windowManager.bobsBuddyPanel.window != nil {
+            if windowManager.bobsBuddyPanel.window?.isVisible ?? false {
                 bobsBuddyHidden = true
+                windowManager.show(controller: windowManager.bobsBuddyPanel, show: false)
             }
-            
-            windowManager.show(controller: windowManager.bobsBuddyPanel, show: false)
         }
     }
 
