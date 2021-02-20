@@ -12,6 +12,7 @@
 - Retry collection upload after failure with new token
 - Fix Shenanigans handling
 - Fix Cthun The Shattered cards
+- Fix for BobsBuddy showing incorrectly if Hide while in background was unchecked (issue #1201)
 
 # 1.8.0
 ## New:
