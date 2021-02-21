@@ -1,4 +1,4 @@
-# 1.8.1:
+# 1.8.1
 ## New:
 - Improved deck manager display
 - Add dead for turn tracking for Battlegrounds
@@ -6,13 +6,13 @@
 - Improved Russian translation (thanks @4llower)
 ## Fixes
 - Improved experience tracker location & size
-- Fix for Book of Heroes Anduin
+- Fix for Book of Heroes: Anduin
 - Fix experience counter showing at end of BG match before final combat
 - Fix graveyard missing in fullscreen (issue #973)
 - Retry collection upload after failure with new token
 - Fix Shenanigans handling
-- Fix Cthun The Shattered cards
-- Fix for BobsBuddy showing incorrectly if Hide while in background was unchecked (issue #1201)
+- Fix C'thun the Shattered cards
+- Fix for Bobs Buddy showing incorrectly if "Hide while in background" was unchecked (issue #1201)
 
 # 1.8.0
 ## New:
