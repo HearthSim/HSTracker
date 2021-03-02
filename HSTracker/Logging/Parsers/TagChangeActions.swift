@@ -55,6 +55,8 @@ struct TagChangeActions {
         case .copied_from_entity_id: return { self.onCardCopy(eventHandler: eventHandler, id: id, value: value) }
         case .tag_script_data_num_1: return { self.tagScriptDataNum1(eventHandler: eventHandler, id: id, value: value) }
         case .reborn: return { self.rebornChange(eventHandler: eventHandler, id: id, value: value)}
+        case .player_tech_level: return { self.playerTechLevel(eventHandler: eventHandler, id: id, value: value, previous: prevValue)}
+        case .player_triples: return { self.playerTriples(eventHandler: eventHandler, id: id, value: value, previous: prevValue)}
         default: return nil
         }
     }
@@ -748,6 +750,22 @@ struct TagChangeActions {
                     }
                     return
                 }
+            }
+        }
+    }
+    
+    private func playerTechLevel(eventHandler: PowerEventHandler, id: Int, value: Int, previous: Int) {
+        if value != 0 && value > previous {
+            if let entity = eventHandler.entities[id] {
+                eventHandler.handlePlayerTechLevel(entity: entity, techLevel: value)
+            }
+        }
+    }
+    
+    private func playerTriples(eventHandler: PowerEventHandler, id: Int, value: Int, previous: Int) {
+        if value != 0 && value > previous {
+            if let entity = eventHandler.entities[id] {
+                eventHandler.handlePlayerTriples(entity: entity, triples: value - previous)
             }
         }
     }

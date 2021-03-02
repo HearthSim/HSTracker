@@ -344,7 +344,7 @@ struct SizeHelper {
 
     static func battlegroundsDetailsFrame() -> NSRect {
         let w: CGFloat = 100 * 7
-        let h: CGFloat = 140
+        let h: CGFloat = 200
         
         let x = max(0, hearthstoneWindow.frame.minX + (hearthstoneWindow.width - w) / 2)
         

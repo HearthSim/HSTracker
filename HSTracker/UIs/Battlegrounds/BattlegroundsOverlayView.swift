@@ -87,7 +87,7 @@ class BattlegroundsOverlayView: NSView {
         if _nextOpponentLeaderboardPosition > 0 {
             let pos = _nextOpponentLeaderboardPosition - 1
             let r = NSRect(x: 0.0, y: CGFloat(7 - pos) * battlegroundsTileHeight, width: battlegroundsTileWidth, height: h)
-            let adj = CGFloat(7 - pos) * la + lo + (battlegroundsTileWidth / 2.0)
+            let adj = CGFloat(7 - pos) * la + lo + (battlegroundsTileWidth / 3.0)
             leaderboardDeadForText[pos].frame = r.offsetBy(dx: adj, dy: 2.0 * h + h/2)
             leaderboardDeadForTurnText[pos].frame = r.offsetBy(dx: adj, dy: h + h/2)
         }
@@ -159,22 +159,27 @@ class BattlegroundsOverlayView: NSView {
     
     override func mouseMoved(with event: NSEvent) {
         let index = 7 - Int(CGFloat(event.locationInWindow.y / (self.frame.height/8)))
-        
-        if index != currentIndex {
-            for i in 0 ..< leaderboardDeadForText.count {
-                leaderboardDeadForText[i].isHidden = false
-            }
-            for i in 0 ..< leaderboardDeadForTurnText.count {
-                leaderboardDeadForTurnText[i].isHidden = false
-            }
-            
-            displayHero(at: index)
-            currentIndex = index
-            let windowManager = AppDelegate.instance().coreManager.game.windowManager
-            AppDelegate.instance().coreManager.game.hideBobsBuddy = true
-            if windowManager.bobsBuddyPanel.window?.isVisible ?? false {
-                bobsBuddyHidden = true
-                windowManager.show(controller: windowManager.bobsBuddyPanel, show: false)
+        let game = AppDelegate.instance().coreManager.game
+
+        if let hero = game.entities.values.first(where: { ent in ent[.player_leaderboard_place] == index + 1}), index != currentIndex {
+            if hero.cardId != game.playerHeroId {
+                for i in 0 ..< leaderboardDeadForText.count {
+                    leaderboardDeadForText[i].isHidden = false
+                }
+                for i in 0 ..< leaderboardDeadForTurnText.count {
+                    leaderboardDeadForTurnText[i].isHidden = false
+                }
+                
+                displayHero(at: index)
+                currentIndex = index
+                let windowManager = AppDelegate.instance().coreManager.game.windowManager
+                AppDelegate.instance().coreManager.game.hideBobsBuddy = true
+                if windowManager.bobsBuddyPanel.window?.isVisible ?? false {
+                    bobsBuddyHidden = true
+                    windowManager.show(controller: windowManager.bobsBuddyPanel, show: false)
+                }
+            } else {
+                game.windowManager.show(controller: game.windowManager.battlegroundsDetailsWindow, show: false)
             }
         }
     }

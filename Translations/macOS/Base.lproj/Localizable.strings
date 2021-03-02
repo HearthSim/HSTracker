@@ -200,3 +200,5 @@
 /* Battlegrounds */
 "Turn" = "Turn";
 "Turns" = "Turns";
+"%d turn(s) ago" = "%d turn(s) ago";
+"You have not fought this opponent" = "You have not fought this opponent";

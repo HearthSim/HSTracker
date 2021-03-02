@@ -200,4 +200,8 @@ protocol PowerEventHandler: class {
     func startCombat()
     
     var chameleosReveal: (Int, String)? { get set }
+    
+    func handlePlayerTechLevel(entity: Entity, techLevel: Int)
+    
+    func handlePlayerTriples(entity: Entity, triples: Int)
 }

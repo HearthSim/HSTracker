@@ -1,3 +1,6 @@
+# 1.8.2
+## New:
+- Add tavern upgrade and triple history
 # 1.8.1
 ## New:
 - Improved deck manager display

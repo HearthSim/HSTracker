@@ -14,7 +14,6 @@ class BattlegroundsDetailsWindow: OverWindowController {
     
     override func windowDidLoad() {
         
-        battlegroundsDetailsView.heightAnchor.constraint(equalToConstant: 140).isActive = true
         self.window!.contentView = battlegroundsDetailsView
 
         super.windowDidLoad()

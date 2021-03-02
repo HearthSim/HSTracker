@@ -25,6 +25,8 @@ struct PlayingDeck {
 class BoardSnapshot {
     let entities: [Entity]
     let turn: Int
+    var techLevel = [ 0, 0, 0, 0, 0, 0 ]
+    var triples = [ 0, 0, 0, 0, 0, 0 ]
     
     init(entities: [Entity], turn: Int) {
         self.entities = entities
@@ -106,7 +108,12 @@ class Game: NSObject, PowerEventHandler {
         let correctedHero = getCorrectBoardstateHeroId(heroId: opponentHero.cardId)
 
         logger.info("Snapshotting board state for \(opponentHero.card.name) with cardid \(opponentHero.cardId) (corrected=\(correctedHero)) with \(entities.count) entities")
+        let current = lastKnownBattlegroundsBoardState[correctedHero]
         let board = BoardSnapshot(entities: entities, turn: turnNumber())
+        if let current = current {
+            board.triples = current.triples
+            board.techLevel = current.techLevel
+        }
         lastKnownBattlegroundsBoardState[correctedHero] = board
         // pre-cache art
         DispatchQueue.global().async {
@@ -930,6 +937,10 @@ class Game: NSObject, PowerEventHandler {
         return currentMode == Mode.gameplay && previousMode == Mode.pvp_dungeon_run
     }
     
+    var playerHeroId: String {
+        return player.board.first(where: { x in x.isHero })?.cardId ?? ""
+    }
+
     var opponentHeroId: String {
         return opponent.board.first(where: { x in x.isHero })?.cardId ?? ""
     }
@@ -1785,6 +1796,41 @@ class Game: NSObject, PowerEventHandler {
     func handlePlayerMulliganDone() {
         if isBattlegroundsMatch() {
             // hide toast panel
+        }
+    }
+    
+    func handlePlayerTechLevel(entity: Entity, techLevel: Int) {
+        guard techLevel >= 1 && techLevel <= 6 else { return }
+        let heroId = getCorrectBoardstateHeroId(heroId: entity.cardId)
+        
+        var snapshot = lastKnownBattlegroundsBoardState[heroId]
+        
+        if snapshot == nil {
+            snapshot = BoardSnapshot(entities: [], turn: -1)
+            lastKnownBattlegroundsBoardState[heroId] = snapshot
+        }
+        
+        if let snapshot = snapshot {
+            snapshot.techLevel[techLevel - 1] = turnNumber()
+        }
+    }
+    
+    func handlePlayerTriples(entity: Entity, triples: Int) {
+        guard triples > 0 else { return }
+        let techLevel = entity[.player_tech_level]
+        guard techLevel >= 1 && techLevel <= 6 else { return }
+        
+        let heroId = getCorrectBoardstateHeroId(heroId: entity.cardId)
+
+        var snapshot = lastKnownBattlegroundsBoardState[heroId]
+        
+        if snapshot == nil {
+            snapshot = BoardSnapshot(entities: [], turn: -1)
+            lastKnownBattlegroundsBoardState[heroId] = snapshot
+        }
+        
+        if let snapshot = snapshot {
+            snapshot.triples[techLevel - 1] += triples
         }
     }
     

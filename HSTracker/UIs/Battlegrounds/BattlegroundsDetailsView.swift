@@ -13,21 +13,16 @@ class BattlegroundsDetailsView: NSView {
     var cache: [(String, NSImage)] = []
     var boardMinions: [BattlegroundsMinionView] = []
     
-    override var intrinsicContentSize: NSSize {
-        return NSSize(width: 100*7, height: 140)
-    }
-
     init() {
         super.init(frame: NSRect.zero)
         logger.debug("BattlegroundsDetailsView created")
         
-        let rect = NSRect(x: 0, y: 30, width: 100, height: 110).insetBy(dx: 0, dy: 0)
+        let rect = NSRect(x: 0, y: 90, width: 100, height: 110).insetBy(dx: 0, dy: 0)
         for i in 0..<7 {
             let view = BattlegroundsMinionView(frame: rect.offsetBy(dx: CGFloat(i) * 100, dy: 0))
             boardMinions.append(view)
             addSubview(view)
         }
-        translatesAutoresizingMaskIntoConstraints = false
     }
 
     override init(frame frameRect: NSRect) {
@@ -47,7 +42,11 @@ class BattlegroundsDetailsView: NSView {
         dirtyRect.fill()
         
         if let board = self.board {
-            drawTurn(turns: AppDelegate.instance().coreManager.game.turnNumber() - board.turn)
+            drawTurn(turns: AppDelegate.instance().coreManager.game.turnNumber() - board.turn, boardTurn: board.turn)
+            if Settings.showTavernTriples {
+                drawTavernUpgrades()
+                drawTriples()
+            }
         }
     }
     
@@ -73,7 +72,7 @@ class BattlegroundsDetailsView: NSView {
 
     }
 
-    func drawTurn(turns: Int) {
+    func drawTurn(turns: Int, boardTurn: Int) {
         if let font = NSFont(name: "ChunkFive", size: 20) {
             let attributes: [NSAttributedString.Key: Any] = [
                 .font: font,
@@ -82,7 +81,51 @@ class BattlegroundsDetailsView: NSView {
                 .strokeColor: NSColor.black
             ]
             let h = CGFloat(20)
-            "\(turns) turn(s) ago".draw(with: NSRect(x: 0, y: 10, width: bounds.width, height: h),
+            let text = boardTurn != -1 ?
+                String.localizedStringWithFormat(NSLocalizedString("%d turn(s) ago", comment: ""), turns) :
+                NSLocalizedString("You have not fought this opponent", comment: "")
+            text.draw(with: NSRect(x: 0, y: 70, width: bounds.width, height: h),
+                                        options: NSString.DrawingOptions.truncatesLastVisibleLine,
+                                        attributes: attributes)
+        }
+    }
+    
+    static let levelSymbols = [
+        "1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣"
+    ]
+    
+    func drawTavernUpgrades() {
+        let techLevels = board?.techLevel.enumerated().filter({ $0.element != 0 }).map({ (idx, turn) in
+            "\(BattlegroundsDetailsView.levelSymbols[idx]): \(turn)"
+        }).joined(separator: " ") ?? ""
+        if techLevels.count > 0, let font = NSFont(name: "Courier", size: 20) {
+            let attributes: [NSAttributedString.Key: Any] = [
+                .font: font,
+                .foregroundColor: NSColor.white,
+                .strokeWidth: -2,
+                .strokeColor: NSColor.black
+            ]
+            let h = CGFloat(20)
+            "⬆️: \(techLevels)".draw(with: NSRect(x: 0, y: 40, width: bounds.width, height: h),
+                                        options: NSString.DrawingOptions.truncatesLastVisibleLine,
+                                        attributes: attributes)
+        }
+    }
+    
+    func drawTriples() {
+        let triples = board?.triples.enumerated().filter({ $0.element != 0 }).map({ (idx, triple) in
+            "\(BattlegroundsDetailsView.levelSymbols[idx]): \(triple)"
+        }).joined(separator: " ") ?? ""
+
+        if triples.count > 0, let font = NSFont(name: "Courier", size: 20) {
+            let attributes: [NSAttributedString.Key: Any] = [
+                .font: font,
+                .foregroundColor: NSColor.white,
+                .strokeWidth: -2,
+                .strokeColor: NSColor.black
+            ]
+            let h = CGFloat(20)
+            "⏫: \(triples)".draw(with: NSRect(x: 0, y: 10, width: bounds.width, height: h),
                                         options: NSString.DrawingOptions.truncatesLastVisibleLine,
                                         attributes: attributes)
         }

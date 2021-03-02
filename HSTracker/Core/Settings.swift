@@ -223,6 +223,8 @@ final class Settings {
     static var showOpponentWarband: Bool
     @UserDefault(key: Settings.show_tiers, defaultValue: true)
     static var showTiers: Bool
+    @UserDefault(key: Settings.show_tavern_triples, defaultValue: true)
+    static var showTavernTriples: Bool
 
     @UserDefault(key: Settings.player_draw_chance, defaultValue: true)
     static var showPlayerDrawChance: Bool
@@ -474,6 +476,7 @@ extension Settings {
     static let show_average_damage = "show_average_damage"
     static let show_opponent_warband = "show_opponent_warband"
     static let show_tiers = "show_tiers"
+    static let show_tavern_triples = "show_tavern_triples"
 
     static let player_draw_chance = "player_draw_chance"
     static let player_card_count = "player_card_count"
