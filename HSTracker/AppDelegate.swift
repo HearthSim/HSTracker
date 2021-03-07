@@ -19,42 +19,42 @@ import OAuthSwift
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-	
+    
     static var _instance: AppDelegate?
     static func instance() -> AppDelegate {
         return _instance!
     }
     
-	var appWillRestart = false
-	var splashscreen: Splashscreen?
-	var initalConfig: InitialConfiguration?
-	var deckManager: DeckManager?
-	@IBOutlet weak var sparkleUpdater: SUUpdater!
-	var operationQueue: OperationQueue!
-	
-	var dockMenu = NSMenu(title: "DockMenu")
-	var appHealth: AppHealth = AppHealth.instance
-	
-	var coreManager: CoreManager!
+    var appWillRestart = false
+    var splashscreen: Splashscreen?
+    var initalConfig: InitialConfiguration?
+    var deckManager: DeckManager?
+    @IBOutlet weak var sparkleUpdater: SUUpdater!
+    var operationQueue: OperationQueue!
+    
+    var dockMenu = NSMenu(title: "DockMenu")
+    var appHealth: AppHealth = AppHealth.instance
+    
+    var coreManager: CoreManager!
     var triggers: [NSObjectProtocol] = []
-	
-	lazy var preferences = PreferencesWindowController(preferencePanes: [
-            GeneralPreferences(nibName: "GeneralPreferences", bundle: nil),
-            GamePreferences(nibName: "GamePreferences", bundle: nil),
-            TrackersPreferences(nibName: "TrackersPreferences", bundle: nil),
-            PlayerTrackersPreferences(nibName: "PlayerTrackersPreferences", bundle: nil),
-            OpponentTrackersPreferences(nibName: "OpponentTrackersPreferences", bundle: nil),
-            BattlegroundsPreferences(nibName: "BattlegroundsPreferences", bundle: nil),
-            ImportingPreferences(nibName: "ImportingPreferences", bundle: nil),
-            HSReplayPreferences(nibName: "HSReplayPreferences", bundle: nil)
+    
+    lazy var preferences = PreferencesWindowController(preferencePanes: [
+        GeneralPreferences(nibName: "GeneralPreferences", bundle: nil),
+        GamePreferences(nibName: "GamePreferences", bundle: nil),
+        TrackersPreferences(nibName: "TrackersPreferences", bundle: nil),
+        PlayerTrackersPreferences(nibName: "PlayerTrackersPreferences", bundle: nil),
+        OpponentTrackersPreferences(nibName: "OpponentTrackersPreferences", bundle: nil),
+        BattlegroundsPreferences(nibName: "BattlegroundsPreferences", bundle: nil),
+        ImportingPreferences(nibName: "ImportingPreferences", bundle: nil),
+        HSReplayPreferences(nibName: "HSReplayPreferences", bundle: nil)
     ], style: .toolbarItems, animated: true)
-		
-	func applicationDidFinishLaunching(_ aNotification: Notification) {
+    
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
         AppDelegate._instance = self
         //setenv("CFNETWORK_DIAGNOSTICS", "3", 1)
         
         AppCenter.start(withAppSecret: "2f0021b9-bb18-4282-9aa1-cfbbd85d3bed", services: [Analytics.self, Crashes.self])
-
+        
         // Migrate preferences from old bundle ID
         let oldPrefs = UserDefaults.standard.persistentDomain(forName: "be.michotte.hstracker")
         if let oldPrefs = oldPrefs, let bundleId = Bundle.main.bundleIdentifier {
@@ -63,26 +63,26 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             UserDefaults.standard.synchronize()
         }
         
-		// warn user about memory reading
-		if Settings.showMemoryReadingWarning {
-			let alert = NSAlert()
-			alert.addButton(withTitle: NSLocalizedString("I understand", comment: ""))
-			// swiftlint:disable line_length
-			alert.messageText = NSLocalizedString("HSTracker needs elevated privileges to read data from Hearthstone's memory. If macOS asks you for your system password, do not be alarmed, no changes to your computer will be performed.", comment: "")
-			// swiftlint:enable line_length
-			alert.runModal()
-			Settings.showMemoryReadingWarning = false
-		}
-		
-		// create folders in file system
-		Paths.initDirs()
-		
-		// initialize realm's database
-		RealmHelper.initRealm(destination: Paths.HSTracker)
-
+        // warn user about memory reading
+        if Settings.showMemoryReadingWarning {
+            let alert = NSAlert()
+            alert.addButton(withTitle: NSLocalizedString("I understand", comment: ""))
+            // swiftlint:disable line_length
+            alert.messageText = NSLocalizedString("HSTracker needs elevated privileges to read data from Hearthstone's memory. If macOS asks you for your system password, do not be alarmed, no changes to your computer will be performed.", comment: "")
+            // swiftlint:enable line_length
+            alert.runModal()
+            Settings.showMemoryReadingWarning = false
+        }
+        
+        // create folders in file system
+        Paths.initDirs()
+        
+        // initialize realm's database
+        RealmHelper.initRealm(destination: Paths.HSTracker)
+        
         // OAuth callback
         NSAppleEventManager.shared().setEventHandler(self, andSelector: #selector(AppDelegate.handleGetURL(event:withReplyEvent:)), forEventClass: AEEventClass(kInternetEventClass), andEventID: AEEventID(kAEGetURL))
-
+        
         // Restore OAuth credentials
         let credential = HSReplayAPI.oauthswift.client.credential
         if let refreshToken = Settings.hsReplayOAuthRefreshToken {
@@ -102,81 +102,81 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 logger.error(error)
             }
         })
-		
-		// init debug loggers
-		#if DEBUG
-            let console = ConsoleDestination()
-            logger.addDestination(console)
-		#endif
-		
+        
+        // init debug loggers
+        #if DEBUG
+        let console = ConsoleDestination()
+        logger.addDestination(console)
+        #endif
+        
         // setup logger
-		let path = Paths.logs
+        let path = Paths.logs
         let file = RotatingFileDestination()
         file.logFileURL = path.appendingPathComponent("hstracker.log")
-		logger.addDestination(file)
-		logger.info("*** Starting \(Version.buildName) ***")
-		
+        logger.addDestination(file)
+        logger.info("*** Starting \(Version.buildName) ***")
+        
         // check if we have valid settings
-		if Settings.validated() {
-			loadSplashscreen()  
-		} else {
-			initalConfig = InitialConfiguration(windowNibName: "InitialConfiguration")
-			initalConfig?.completionHandler = {
-				self.loadSplashscreen()
-			}
-			initalConfig?.showWindow(nil)
-			initalConfig?.window?.orderFrontRegardless()
-		}
+        if Settings.validated() {
+            loadSplashscreen()
+        } else {
+            initalConfig = InitialConfiguration(windowNibName: "InitialConfiguration")
+            initalConfig?.completionHandler = {
+                self.loadSplashscreen()
+            }
+            initalConfig?.showWindow(nil)
+            initalConfig?.window?.orderFrontRegardless()
+        }
         
         Analytics.trackEvent("app_start")
-	}
-	
-	func applicationWillTerminate(_ notification: Notification) {
+    }
+    
+    func applicationWillTerminate(_ notification: Notification) {
         if coreManager != nil {
             // we are in the initial configuration, do not crash
             coreManager.stopTracking()
         }
-		if appWillRestart {
-			let appPath = Bundle.main.bundlePath
-			let task = Process()
-			task.launchPath = "/usr/bin/open"
-			task.arguments = [appPath]
-			task.launch()
-		}
-	}
-  
+        if appWillRestart {
+            let appPath = Bundle.main.bundlePath
+            let task = Process()
+            task.launchPath = "/usr/bin/open"
+            task.arguments = [appPath]
+            task.launch()
+        }
+    }
+    
     @objc func handleGetURL(event: NSAppleEventDescriptor!, withReplyEvent: NSAppleEventDescriptor!) {
         if let urlString = event.paramDescriptor(forKeyword: AEKeyword(keyDirectObject))?.stringValue, let url = URL(string: urlString) {
             OAuthSwift.handle(url: url)
         }
     }
-	
-	// MARK: - Application init
-	func loadSplashscreen() {
-		NSRunningApplication.current.activate(options: [
-			NSApplication.ActivationOptions.activateAllWindows,
-			NSApplication.ActivationOptions.activateIgnoringOtherApps
-			])
-		NSApp.activate(ignoringOtherApps: true)
-		
-		splashscreen = Splashscreen(windowNibName: "Splashscreen")
-		let screenFrame = NSScreen.screens.first!.frame
-		let splashscreenWidth: CGFloat = 350
-		let splashscreenHeight: CGFloat = 250
-		
-		splashscreen?.window?.setFrame(NSRect(
-			x: (screenFrame.width / 2) - (splashscreenWidth / 2),
-			y: (screenFrame.height / 2) - (splashscreenHeight / 2),
-			width: splashscreenWidth,
-			height: splashscreenHeight),
-		                               display: true)
-		splashscreen?.showWindow(self)
-		
-		logger.info("Opening trackers")
-		
-		coreManager = CoreManager()
-		
-		DispatchQueue.global().async { [unowned(unsafe) self] in
+    
+    // MARK: - Application init
+    func loadSplashscreen() {
+        NSRunningApplication.current.activate(options: [
+            NSApplication.ActivationOptions.activateAllWindows,
+            NSApplication.ActivationOptions.activateIgnoringOtherApps
+        ])
+        NSApp.activate(ignoringOtherApps: true)
+        
+        splashscreen = Splashscreen(windowNibName: "Splashscreen")
+        let screenFrame = NSScreen.screens.first!.frame
+        let splashscreenWidth: CGFloat = 350
+        let splashscreenHeight: CGFloat = 250
+        
+        splashscreen?.window?.setFrame(NSRect(
+                                        x: (screenFrame.width / 2) - (splashscreenWidth / 2),
+                                        y: (screenFrame.height / 2) - (splashscreenHeight / 2),
+                                        width: splashscreenWidth,
+                                        height: splashscreenHeight),
+                                       display: true)
+        splashscreen?.showWindow(self)
+        
+        logger.info("Opening trackers")
+        
+        coreManager = CoreManager()
+        
+        DispatchQueue.global().async { [unowned(unsafe) self] in
             // load card tier via http request
             let cardTierOperation = BlockOperation {
                 ArenaHelperSync.checkTierList(splashscreen: self.splashscreen!)
@@ -184,56 +184,56 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     ArenaHelperSync.downloadTierList(splashscreen: self.splashscreen!)
                 }
             }
-			
+            
             let remoteConfigOperation = BlockOperation {
                 RemoteConfig.checkRemoteConfig(splashscreen: self.splashscreen!)
             }
-
+            
             // load and generate assets from hearthstone files
-			/*let assetsOperation = BlockOperation {
-				DispatchQueue.main.async { [weak self] in
-					self?.splashscreen?.display(
-						NSLocalizedString("Loading Hearthstone assets", comment: ""),
-						indeterminate: true)
-				}
-			}*/
-			
-			// load and init local database
-			let databaseOperation = BlockOperation {
-				let database = Database()
+            /*let assetsOperation = BlockOperation {
+             DispatchQueue.main.async { [weak self] in
+             self?.splashscreen?.display(
+             NSLocalizedString("Loading Hearthstone assets", comment: ""),
+             indeterminate: true)
+             }
+             }*/
+            
+            // load and init local database
+            let databaseOperation = BlockOperation {
+                let database = Database()
                 var langs: [Language.Hearthstone] = []
                 if let language = Settings.hearthstoneLanguage, language != .enUS {
                     langs += [language]
                 }
                 langs += [.enUS]
-				database.loadDatabase(splashscreen: self.splashscreen!, withLanguages: langs)
-			}
-			
-			// build menu
-			let menuOperation = BlockOperation {
-				OperationQueue.main.addOperation {
-					logger.info("Loading menu")
-					self.buildMenu()
-				}
-			}
-			
-			/*if Settings.useHearthstoneAssets {
-				databaseOperation.addDependency(assetsOperation)
-				assetsOperation.addDependency(buildsOperation)
-			}*/
-			
-			var operations = [Operation]()
+                database.loadDatabase(splashscreen: self.splashscreen!, withLanguages: langs)
+            }
+            
+            // build menu
+            let menuOperation = BlockOperation {
+                OperationQueue.main.addOperation {
+                    logger.info("Loading menu")
+                    self.buildMenu()
+                }
+            }
+            
+            /*if Settings.useHearthstoneAssets {
+             databaseOperation.addDependency(assetsOperation)
+             assetsOperation.addDependency(buildsOperation)
+             }*/
+            
+            var operations = [Operation]()
             operations.append(cardTierOperation)
             operations.append(remoteConfigOperation)
-			/*if Settings.useHearthstoneAssets {
-				operations.append(assetsOperation)
-			}*/
-			operations.append(databaseOperation)
-			operations.append(menuOperation)
-			
-			self.operationQueue = OperationQueue()
-			self.operationQueue.addOperations(operations, waitUntilFinished: true)
-			
+            /*if Settings.useHearthstoneAssets {
+             operations.append(assetsOperation)
+             }*/
+            operations.append(databaseOperation)
+            operations.append(menuOperation)
+            
+            self.operationQueue = OperationQueue()
+            self.operationQueue.addOperations(operations, waitUntilFinished: true)
+            
             if isMonoAvailable() != 0 {
                 if MonoHelper.load() {
                     DispatchQueue.global().async(qos: .userInitiated) {
@@ -245,51 +245,59 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             } else {
                 self.coreManager.game.windowManager.bobsBuddyPanel.setErrorState(error: .monoNotFound)
             }
-
-			DispatchQueue.main.async { [unowned(unsafe) self] in
-				self.completeSetup()
-			}
-		}
-	}
-	
-	/** Finished setup, should only be called once */
-	private func completeSetup() {
-		
-		var message: String?
-		var alertStyle = NSAlert.Style.critical
-		do {
-			let canStart = try coreManager.setup()
-			
-			if !canStart {
-				message = NSLocalizedString("You must restart Hearthstone for logs to be used", comment: "")
-				alertStyle = .informational
-			}
-		} catch HearthstoneLogError.canNotCreateDir {
-			message = NSLocalizedString("Can not create Hearthstone config dir", comment: "")
-		} catch HearthstoneLogError.canNotReadFile {
-			message = NSLocalizedString("Can not read Hearthstone config file", comment: "")
-		} catch HearthstoneLogError.canNotCreateFile {
-			message = NSLocalizedString("Can not write Hearthstone config file", comment: "")
-		} catch {
-			message = NSLocalizedString("Unknown error", comment: "")
-		}
-		
-		if let message = message {
-			splashscreen?.close()
-			splashscreen = nil
-			
-			if alertStyle == .critical {
-				logger.error(message)
-			}
-			
-			NSAlert.show(style: alertStyle,
-			             message: message,
-			             forceFront: true)
-			return
-		}
-		
-		coreManager.start()
-
+            
+            DispatchQueue.main.async { [unowned(unsafe) self] in
+                self.completeSetup()
+            }
+        }
+    }
+    
+    private func computeTitlebarHeight() -> CGFloat {
+        let win = NSWindow()
+        win.styleMask = [.titled, .miniaturizable, .resizable, .borderless, .nonactivatingPanel]
+        let frame = NSRect(x: 0, y: 0, width: 400, height: 400)
+        win.setFrame(frame, display: false)
+        return win.frame.height - win.contentRect(forFrameRect: win.frame).height
+    }
+    
+    /** Finished setup, should only be called once */
+    private func completeSetup() {
+        SizeHelper.HearthstoneWindow.titlebarHeight = computeTitlebarHeight()
+        var message: String?
+        var alertStyle = NSAlert.Style.critical
+        do {
+            let canStart = try coreManager.setup()
+            
+            if !canStart {
+                message = NSLocalizedString("You must restart Hearthstone for logs to be used", comment: "")
+                alertStyle = .informational
+            }
+        } catch HearthstoneLogError.canNotCreateDir {
+            message = NSLocalizedString("Can not create Hearthstone config dir", comment: "")
+        } catch HearthstoneLogError.canNotReadFile {
+            message = NSLocalizedString("Can not read Hearthstone config file", comment: "")
+        } catch HearthstoneLogError.canNotCreateFile {
+            message = NSLocalizedString("Can not write Hearthstone config file", comment: "")
+        } catch {
+            message = NSLocalizedString("Unknown error", comment: "")
+        }
+        
+        if let message = message {
+            splashscreen?.close()
+            splashscreen = nil
+            
+            if alertStyle == .critical {
+                logger.error(message)
+            }
+            
+            NSAlert.show(style: alertStyle,
+                         message: message,
+                         forceFront: true)
+            return
+        }
+        
+        coreManager.start()
+        
         if triggers.count == 0 {
             let events = [
                 Events.reload_decks: self.reloadDecks,
@@ -303,82 +311,82 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 triggers.append(observer)
             }
         }
-		if let activeDeck = Settings.activeDeck {
-			self.coreManager.game.set(activeDeckId: activeDeck, autoDetected: false)
-		}
-		
-		splashscreen?.close()
-		splashscreen = nil
-	}
+        if let activeDeck = Settings.activeDeck {
+            self.coreManager.game.set(activeDeckId: activeDeck, autoDetected: false)
+        }
+        
+        splashscreen?.close()
+        splashscreen = nil
+    }
     
     deinit {
         for observer in triggers {
             NotificationCenter.default.removeObserver(observer)
         }
     }
-	
-	func reloadDecks() {
-		buildMenu()
-	}
-	
-	func languageChange() {
-		NSAlert.show(style: .informational,
-		             message: NSLocalizedString("You must restart HSTracker for the language change to take effect", comment: ""))
-		
-		appWillRestart = true
-		NSApplication.shared.terminate(nil)
-		exit(0)
-	}
-	
-	// MARK: - Menu
-	
-	/**
-	Builds the menu and its items.
-	*/
-	func buildMenu() {		
-		DispatchQueue.main.async { [unowned(unsafe) self] in
-			guard let decks = RealmHelper.getActiveDecks() else {
-				return
-			}
-			
-			// build main menu
-			// ---------------
-			let mainMenu = NSApplication.shared.mainMenu
-			let deckMenu = mainMenu?.item(withTitle: NSLocalizedString("Decks", comment: ""))
-			deckMenu?.submenu?.removeAllItems()
-			deckMenu?.submenu?.addItem(withTitle: NSLocalizedString("Deck Manager", comment: ""),
-			                           action: #selector(AppDelegate.openDeckManager(_:)),
-			                           keyEquivalent: "d")
-			let saveMenus = NSMenu()
-			saveMenus.addItem(withTitle: NSLocalizedString("Save Current Deck", comment: ""),
-			                  action: #selector(AppDelegate.saveCurrentDeck(_:)),
-			                  keyEquivalent: "").tag = 2
-			saveMenus.addItem(withTitle: NSLocalizedString("Save Opponent's Deck", comment: ""),
-			                  action: #selector(AppDelegate.saveCurrentDeck(_:)),
-			                  keyEquivalent: "").tag = 1
-			deckMenu?.submenu?.addItem(withTitle: NSLocalizedString("Save", comment: ""),
-			                           action: nil,
-			                           keyEquivalent: "").submenu = saveMenus
-			deckMenu?.submenu?.addItem(withTitle: NSLocalizedString("Clear", comment: ""),
-			                           action: #selector(AppDelegate.clearTrackers(_:)),
-			                           keyEquivalent: "R")
-			
-			// build dock menu
-			// ---------------
-			if let decksmenu = self.dockMenu.item(withTag: 1) {
-				decksmenu.submenu?.removeAllItems()
-			} else {
-				let decksmenu = NSMenuItem(title: NSLocalizedString("Decks", comment: ""),
-				                           action: nil, keyEquivalent: "")
-				decksmenu.tag = 1
-				decksmenu.submenu = NSMenu()
-				self.dockMenu.addItem(decksmenu)
-			}
+    
+    func reloadDecks() {
+        buildMenu()
+    }
+    
+    func languageChange() {
+        NSAlert.show(style: .informational,
+                     message: NSLocalizedString("You must restart HSTracker for the language change to take effect", comment: ""))
+        
+        appWillRestart = true
+        NSApplication.shared.terminate(nil)
+        exit(0)
+    }
+    
+    // MARK: - Menu
+    
+    /**
+     Builds the menu and its items.
+     */
+    func buildMenu() {
+        DispatchQueue.main.async { [unowned(unsafe) self] in
+            guard let decks = RealmHelper.getActiveDecks() else {
+                return
+            }
+            
+            // build main menu
+            // ---------------
+            let mainMenu = NSApplication.shared.mainMenu
+            let deckMenu = mainMenu?.item(withTitle: NSLocalizedString("Decks", comment: ""))
+            deckMenu?.submenu?.removeAllItems()
+            deckMenu?.submenu?.addItem(withTitle: NSLocalizedString("Deck Manager", comment: ""),
+                                       action: #selector(AppDelegate.openDeckManager(_:)),
+                                       keyEquivalent: "d")
+            let saveMenus = NSMenu()
+            saveMenus.addItem(withTitle: NSLocalizedString("Save Current Deck", comment: ""),
+                              action: #selector(AppDelegate.saveCurrentDeck(_:)),
+                              keyEquivalent: "").tag = 2
+            saveMenus.addItem(withTitle: NSLocalizedString("Save Opponent's Deck", comment: ""),
+                              action: #selector(AppDelegate.saveCurrentDeck(_:)),
+                              keyEquivalent: "").tag = 1
+            deckMenu?.submenu?.addItem(withTitle: NSLocalizedString("Save", comment: ""),
+                                       action: nil,
+                                       keyEquivalent: "").submenu = saveMenus
+            deckMenu?.submenu?.addItem(withTitle: NSLocalizedString("Clear", comment: ""),
+                                       action: #selector(AppDelegate.clearTrackers(_:)),
+                                       keyEquivalent: "R")
+            
+            // build dock menu
+            // ---------------
+            if let decksmenu = self.dockMenu.item(withTag: 1) {
+                decksmenu.submenu?.removeAllItems()
+            } else {
+                let decksmenu = NSMenuItem(title: NSLocalizedString("Decks", comment: ""),
+                                           action: nil, keyEquivalent: "")
+                decksmenu.tag = 1
+                decksmenu.submenu = NSMenu()
+                self.dockMenu.addItem(decksmenu)
+            }
             
             if self.dockMenu.item(withTag: 2) == nil {
                 self.dockMenu.addItem(NSMenuItem.separator())
                 let deckmanager = NSMenuItem(title: NSLocalizedString("Deck Manager", comment: ""),
-                                           action: #selector(AppDelegate.openDeckManager(_:)), keyEquivalent: "d")
+                                             action: #selector(AppDelegate.openDeckManager(_:)), keyEquivalent: "d")
                 deckmanager.tag = 2
                 self.dockMenu.addItem(deckmanager)
             }
@@ -391,169 +399,169 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 self.dockMenu.addItem(preferences)
             }
             
-			let dockdeckMenu = self.dockMenu.item(withTag: 1)
-			
-			// add deck items to main and dock menu
-			// ------------------------------------
-			deckMenu?.submenu?.addItem(NSMenuItem.separator())
-			for (playerClass, _decks) in decks
-				.sorted(by: { NSLocalizedString($0.0.rawValue.lowercased(), comment: "")
-					< NSLocalizedString($1.0.rawValue.lowercased(), comment: "") }) {
-						// create menu item for all decks in this class
-						let classmenuitem = NSMenuItem(title: NSLocalizedString(
-							playerClass.rawValue.lowercased(),
-							comment: ""), action: nil, keyEquivalent: "")
-						let classsubMenu = NSMenu()
-						_decks.filter({ $0.isActive == true })
-							.sorted(by: {$0.name.lowercased() < $1.name.lowercased() }).forEach({
-								let item = classsubMenu
-									.addItem(withTitle: $0.name,
-									         action: #selector(AppDelegate.playDeck(_:)),
-									         keyEquivalent: "")
-								item.representedObject = $0
-							})
-						classmenuitem.submenu = classsubMenu
-						deckMenu?.submenu?.addItem(classmenuitem)
-						if let menuitemcopy = classmenuitem.copy() as? NSMenuItem {
-							dockdeckMenu?.submenu?.addItem(menuitemcopy)
-						}
-			}
-			
-			let replayMenu = mainMenu?.item(withTitle: NSLocalizedString("Replays", comment: ""))
-			let replaysMenu = replayMenu?.submenu?.item(withTitle: NSLocalizedString("Last replays",
-			                                                                         comment: ""))
-			replaysMenu?.submenu?.removeAllItems()
-			replaysMenu?.isEnabled = false
-			if Settings.hsReplayUploadToken != nil,
-                let statistics = RealmHelper.getValidStatistics() {
-				
-				replaysMenu?.isEnabled = statistics.count > 0
-				let max = min(statistics.count, 10)
-				for i in 0..<max {
-					let stat = statistics[i]
-					var deckName = ""
-					if let deck = stat.deck.first, !deck.name.isEmpty {
-						deckName = deck.name
-					}
-					let opponentName = stat.opponentName.isEmpty ? "unknow" : stat.opponentName
-					let opponentClass = stat.opponentHero
-					
-					var name = ""
-					if !deckName.isEmpty {
-						name = "\(deckName) vs"
-					} else {
-						name = "Vs"
-					}
-					name += " \(opponentName)"
-					if opponentClass != .neutral {
-						name += " (\(NSLocalizedString(opponentClass.rawValue, comment: "")))"
-					}
-					
-					if let item = replaysMenu?.submenu?
-						.addItem(withTitle: name,
-						         action: #selector(self.showReplay(_:)),
-						         keyEquivalent: "") {
-						item.representedObject = stat.hsReplayId
-					}
-				}
-			}
-			
-			let windowMenu = mainMenu?.item(withTitle: NSLocalizedString("Window", comment: ""))
-			let item = windowMenu?.submenu?.item(withTitle: NSLocalizedString("Lock windows",
-			                                                                  comment: ""))
-			item?.title = NSLocalizedString(Settings.windowsLocked ?  "Unlock windows" : "Lock windows",
-			                                comment: "")
-		}
-	}
-	
-	@objc func showReplay(_ sender: NSMenuItem) {
-		if let replayId = sender.representedObject as? String {
-			HSReplayManager.showReplay(replayId: replayId)
-		}
-	}
-	
-	func applicationDockMenu(_ sender: NSApplication) -> NSMenu? {
-		return self.dockMenu
-	}
-	
-	@objc func playDeck(_ sender: NSMenuItem) {
-		if let deck = sender.representedObject as? Deck {
-			let deckId = deck.deckId
-			self.coreManager.game.set(activeDeckId: deckId, autoDetected: false)
-		}
-	}
-	
-	@IBAction func openDeckManager(_ sender: AnyObject) {
-		if deckManager == nil {
-			deckManager = DeckManager(windowNibName: "DeckManager")
-			deckManager?.game = coreManager.game
-		}
-		deckManager?.showWindow(self)
-	}
-	
-	@IBAction func clearTrackers(_ sender: AnyObject) {
-		coreManager.game.removeActiveDeck()
-	}
-	
-	@IBAction func saveCurrentDeck(_ sender: AnyObject) {
+            let dockdeckMenu = self.dockMenu.item(withTag: 1)
+            
+            // add deck items to main and dock menu
+            // ------------------------------------
+            deckMenu?.submenu?.addItem(NSMenuItem.separator())
+            for (playerClass, _decks) in decks
+                .sorted(by: { NSLocalizedString($0.0.rawValue.lowercased(), comment: "")
+                            < NSLocalizedString($1.0.rawValue.lowercased(), comment: "") }) {
+                // create menu item for all decks in this class
+                let classmenuitem = NSMenuItem(title: NSLocalizedString(
+                                                playerClass.rawValue.lowercased(),
+                                                comment: ""), action: nil, keyEquivalent: "")
+                let classsubMenu = NSMenu()
+                _decks.filter({ $0.isActive == true })
+                    .sorted(by: {$0.name.lowercased() < $1.name.lowercased() }).forEach({
+                        let item = classsubMenu
+                            .addItem(withTitle: $0.name,
+                                     action: #selector(AppDelegate.playDeck(_:)),
+                                     keyEquivalent: "")
+                        item.representedObject = $0
+                    })
+                classmenuitem.submenu = classsubMenu
+                deckMenu?.submenu?.addItem(classmenuitem)
+                if let menuitemcopy = classmenuitem.copy() as? NSMenuItem {
+                    dockdeckMenu?.submenu?.addItem(menuitemcopy)
+                }
+            }
+            
+            let replayMenu = mainMenu?.item(withTitle: NSLocalizedString("Replays", comment: ""))
+            let replaysMenu = replayMenu?.submenu?.item(withTitle: NSLocalizedString("Last replays",
+                                                                                     comment: ""))
+            replaysMenu?.submenu?.removeAllItems()
+            replaysMenu?.isEnabled = false
+            if Settings.hsReplayUploadToken != nil,
+               let statistics = RealmHelper.getValidStatistics() {
+                
+                replaysMenu?.isEnabled = statistics.count > 0
+                let max = min(statistics.count, 10)
+                for i in 0..<max {
+                    let stat = statistics[i]
+                    var deckName = ""
+                    if let deck = stat.deck.first, !deck.name.isEmpty {
+                        deckName = deck.name
+                    }
+                    let opponentName = stat.opponentName.isEmpty ? "unknow" : stat.opponentName
+                    let opponentClass = stat.opponentHero
+                    
+                    var name = ""
+                    if !deckName.isEmpty {
+                        name = "\(deckName) vs"
+                    } else {
+                        name = "Vs"
+                    }
+                    name += " \(opponentName)"
+                    if opponentClass != .neutral {
+                        name += " (\(NSLocalizedString(opponentClass.rawValue, comment: "")))"
+                    }
+                    
+                    if let item = replaysMenu?.submenu?
+                        .addItem(withTitle: name,
+                                 action: #selector(self.showReplay(_:)),
+                                 keyEquivalent: "") {
+                        item.representedObject = stat.hsReplayId
+                    }
+                }
+            }
+            
+            let windowMenu = mainMenu?.item(withTitle: NSLocalizedString("Window", comment: ""))
+            let item = windowMenu?.submenu?.item(withTitle: NSLocalizedString("Lock windows",
+                                                                              comment: ""))
+            item?.title = NSLocalizedString(Settings.windowsLocked ?  "Unlock windows" : "Lock windows",
+                                            comment: "")
+        }
+    }
+    
+    @objc func showReplay(_ sender: NSMenuItem) {
+        if let replayId = sender.representedObject as? String {
+            HSReplayManager.showReplay(replayId: replayId)
+        }
+    }
+    
+    func applicationDockMenu(_ sender: NSApplication) -> NSMenu? {
+        return self.dockMenu
+    }
+    
+    @objc func playDeck(_ sender: NSMenuItem) {
+        if let deck = sender.representedObject as? Deck {
+            let deckId = deck.deckId
+            self.coreManager.game.set(activeDeckId: deckId, autoDetected: false)
+        }
+    }
+    
+    @IBAction func openDeckManager(_ sender: AnyObject) {
+        if deckManager == nil {
+            deckManager = DeckManager(windowNibName: "DeckManager")
+            deckManager?.game = coreManager.game
+        }
+        deckManager?.showWindow(self)
+    }
+    
+    @IBAction func clearTrackers(_ sender: AnyObject) {
+        coreManager.game.removeActiveDeck()
+    }
+    
+    @IBAction func saveCurrentDeck(_ sender: AnyObject) {
         // swiftlint:disable force_cast
-		switch (sender as! NSMenuItem).tag {
-		case 1: // Opponent
-			saveDeck(coreManager.game.opponent)
-		case 2: // Self
-			saveDeck(coreManager.game.player)
-		default:
-			break
-		}
-	}
-	
-	private func saveDeck(_ player: Player) {
-		if let playerClass = player.playerClass {
-			if deckManager == nil {
-				deckManager = DeckManager(windowNibName: "DeckManager")
-			}
-			let deck = Deck()
-			deck.playerClass = playerClass
+        switch (sender as! NSMenuItem).tag {
+        case 1: // Opponent
+            saveDeck(coreManager.game.opponent)
+        case 2: // Self
+            saveDeck(coreManager.game.player)
+        default:
+            break
+        }
+    }
+    
+    private func saveDeck(_ player: Player) {
+        if let playerClass = player.playerClass {
+            if deckManager == nil {
+                deckManager = DeckManager(windowNibName: "DeckManager")
+            }
+            let deck = Deck()
+            deck.playerClass = playerClass
             deck.name = player.name ?? "Custom \(playerClass)"
-			let playerCardlist = player.playerCardList.filter({ $0.collectible == true })
-			
-			RealmHelper.add(deck: deck, with: playerCardlist)
+            let playerCardlist = player.playerCardList.filter({ $0.collectible == true })
+            
+            RealmHelper.add(deck: deck, with: playerCardlist)
             deckManager?.currentDeck = deck
             deckManager?.editDeck(self)
-		}
-	}
-	
-	@IBAction func openPreferences(_ sender: AnyObject) {
-		preferences.show()
-	}
-	
-	@IBAction func lockWindows(_ sender: AnyObject) {
-		let mainMenu = NSApplication.shared.mainMenu
-		let windowMenu = mainMenu?.item(withTitle: NSLocalizedString("Window", comment: ""))
-		let text = Settings.windowsLocked ? "Unlock windows" : "Lock windows"
-		let item = windowMenu?.submenu?.item(withTitle: NSLocalizedString(text, comment: ""))
-		Settings.windowsLocked = !Settings.windowsLocked
-		item?.title = NSLocalizedString(Settings.windowsLocked ?  "Unlock windows" : "Lock windows",
-		                                comment: "")
-	}
-	
-	#if DEBUG
-	var windowMove: WindowMove?
-	@IBAction func openDebugPositions(_ sender: AnyObject) {
-		if windowMove == nil {
-			windowMove = WindowMove(windowNibName: "WindowMove", windowManager: coreManager.game.windowManager)
-		}
-		windowMove?.showWindow(self)
-	}
-	#endif
-	
-	@IBAction func closeWindow(_ sender: AnyObject) {
-	}
-	
-	@IBAction func openReplayDirectory(_ sender: AnyObject) {
-		NSWorkspace.shared.activateFileViewerSelecting([Paths.replays])
-	}
-
+        }
+    }
+    
+    @IBAction func openPreferences(_ sender: AnyObject) {
+        preferences.show()
+    }
+    
+    @IBAction func lockWindows(_ sender: AnyObject) {
+        let mainMenu = NSApplication.shared.mainMenu
+        let windowMenu = mainMenu?.item(withTitle: NSLocalizedString("Window", comment: ""))
+        let text = Settings.windowsLocked ? "Unlock windows" : "Lock windows"
+        let item = windowMenu?.submenu?.item(withTitle: NSLocalizedString(text, comment: ""))
+        Settings.windowsLocked = !Settings.windowsLocked
+        item?.title = NSLocalizedString(Settings.windowsLocked ?  "Unlock windows" : "Lock windows",
+                                        comment: "")
+    }
+    
+    #if DEBUG
+    var windowMove: WindowMove?
+    @IBAction func openDebugPositions(_ sender: AnyObject) {
+        if windowMove == nil {
+            windowMove = WindowMove(windowNibName: "WindowMove", windowManager: coreManager.game.windowManager)
+        }
+        windowMove?.showWindow(self)
+    }
+    #endif
+    
+    @IBAction func closeWindow(_ sender: AnyObject) {
+    }
+    
+    @IBAction func openReplayDirectory(_ sender: AnyObject) {
+        NSWorkspace.shared.activateFileViewerSelecting([Paths.replays])
+    }
+    
     @IBAction func openLogDirectory(_ sender: AnyObject) {
         NSWorkspace.shared.activateFileViewerSelecting([Paths.logs])
     }

@@ -8,7 +8,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="BattlegroundsTierOverlay" customModule="HSTracker" customModuleProvider="target">
             <connections>
-                <outlet property="tierOverlay" destination="EiT-Mj-1SZ" id="UO4-y8-TYD"/>
+                <outlet property="tierOverlay" destination="EiT-Mj-1SZ" id="f6u-L4-FUJ"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="TKw-pv-c2T"/>
             </connections>
         </customObject>

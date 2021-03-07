@@ -20,6 +20,7 @@ struct SizeHelper {
         var _frame = NSRect.zero
         var windowId: CGWindowID?
         var screenRect = NSRect()
+        var fullscreen = false
 
         init() {
             reload()
@@ -37,13 +38,36 @@ struct SizeHelper {
             let windowListInfo = CGWindowListCopyWindowInfo(options, CGWindowID(0))
 
             if let info = (windowListInfo as? [NSDictionary])?.filter({dict in
-                dict["kCGWindowOwnerName"] as? String == CoreManager.applicationName
+                dict["kCGWindowOwnerName"] as? String == CoreManager.applicationName && dict["kCGWindowLayer"] as? Int == 0
             }).sorted(by: {
                 return area(dict: $1) > area(dict: $0)
             }).last {
                 if let id = info["kCGWindowNumber"] as? Int {
                     self.windowId = CGWindowID(id)
                 }
+
+                let pid = info["kCGWindowOwnerPID"] as? pid_t ?? 0
+                
+                let appRef = AXUIElementCreateApplication(pid)
+                var window: CFTypeRef?
+
+                let result: AXError = AXUIElementCopyAttributeValue(appRef, kAXFocusedWindowAttribute as CFString, &window)
+                var calculateFromFrame = false
+                if result == .success {
+                    var fs: CFTypeRef?
+                    // swiftlint:disable force_cast
+                    AXUIElementCopyAttributeValue(window as! AXUIElement, "AXFullScreen" as CFString, &fs)
+                    // swiftlint:enable force_cast
+                    if let nsvalue = fs as? NSNumber {
+                        fullscreen = nsvalue.intValue != 0
+                    } else {
+                        fullscreen = false
+                    }
+                } else {
+                    logger.error("Accessability error: \(result.rawValue)")
+                    calculateFromFrame = true
+                }
+                
                 // swiftlint:disable force_cast
                 let bounds = info["kCGWindowBounds"] as! CFDictionary
                 // swiftlint:enable force_cast
@@ -59,6 +83,16 @@ struct SizeHelper {
 
                     //logger.debug("HS Frame is : \(rect)")
                     self._frame = frame
+                    
+                    if calculateFromFrame {
+                        var fs = false
+                        if let scr = NSScreen.main {
+                            if scr.frame == frame {
+                                fs = true
+                            }
+                        }
+                        fullscreen = fs
+                    }
                 }
             }
         }
@@ -67,9 +101,11 @@ struct SizeHelper {
             return _frame.width
         }
         
+        static var titlebarHeight: CGFloat = 0.0
+        
         var height: CGFloat {
             let height = _frame.height
-            return isFullscreen() ? height : max(height - 22, 0)
+            return isFullscreen() ? height : max(height - SizeHelper.HearthstoneWindow.titlebarHeight, 0)
         }
         
         fileprivate var left: CGFloat {
@@ -81,8 +117,7 @@ struct SizeHelper {
         }
         
         fileprivate func isFullscreen() -> Bool {
-            return _frame.minX == 0.0 && _frame.minY == 0.0
-                && (Int(_frame.height) & 22) != 22
+            return fullscreen
         }
         
         var frame: NSRect {

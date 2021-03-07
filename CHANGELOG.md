@@ -1,6 +1,9 @@
 # 1.8.2
 ## New:
 - Add tavern upgrade and triple history
+## Fixes
+- Fix tracker positions on Big Sur and fullscreen (issue #1204)
+
 # 1.8.1
 ## New:
 - Improved deck manager display

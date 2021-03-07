@@ -264,7 +264,7 @@ class WindowManager {
                 // as a normal window otherwise
                 let level: Int
                 if overlay {
-                    level = Int(CGWindowLevelForKey(CGWindowLevelKey.mainMenuWindow)) - 1
+                    level = Int(CGWindowLevelForKey(CGWindowLevelKey.screenSaverWindow)) - 1
                 } else {
                     level = Int(CGWindowLevelForKey(CGWindowLevelKey.normalWindow))
                 }
