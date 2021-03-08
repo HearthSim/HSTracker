@@ -1,6 +1,7 @@
 # 1.8.2
 ## New:
 - Add tavern upgrade and triple history
+- Improve hover of BG cards from tier window
 ## Fixes
 - Fix tracker positions on Big Sur and fullscreen (issue #1204)
 

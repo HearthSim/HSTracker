@@ -73,8 +73,15 @@ class FloatingCard: OverWindowController {
             self.imageView.kf.setImage(with: imageUrl)
         }
 
-        title.isHidden = false
-        scrollview.isHidden = false
+        if isBattlegrounds {
+            title.isHidden = true
+            scrollview.isHidden = true
+            window?.backgroundColor = NSColor.clear
+        } else {
+            window?.backgroundColor = NSColor.textBackgroundColor
+            title.isHidden = false
+            scrollview.isHidden = false
+        }
         imageView.isHidden = false
 
         var information = "\n"

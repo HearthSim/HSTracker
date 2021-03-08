@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -19,7 +19,7 @@
         <window title="FloatingCard" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" hasShadow="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g" customClass="NSPanel">
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="180" height="310"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
             <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="180" height="310"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -36,17 +36,17 @@
                         </textFieldCell>
                     </textField>
                     <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L0k-t9-pNP">
-                        <rect key="frame" x="0.0" y="0.0" width="180" height="285"/>
+                        <rect key="frame" x="0.0" y="250" width="180" height="35"/>
                         <clipView key="contentView" copiesOnScroll="NO" id="RgW-lh-Pc8">
-                            <rect key="frame" x="0.0" y="0.0" width="180" height="285"/>
+                            <rect key="frame" x="0.0" y="0.0" width="180" height="35"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textView importsGraphics="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" smartInsertDelete="YES" id="sus-Fb-lGq">
-                                    <rect key="frame" x="0.0" y="0.0" width="180" height="285"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="180" height="35"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                    <size key="minSize" width="180" height="285"/>
+                                    <size key="minSize" width="180" height="35"/>
                                     <size key="maxSize" width="463" height="10000000"/>
                                     <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                 </textView>
@@ -76,11 +76,11 @@
                     <constraint firstItem="6Oc-im-VnY" firstAttribute="trailing" secondItem="L0k-t9-pNP" secondAttribute="trailing" id="AV5-XG-mWS"/>
                     <constraint firstItem="EJZ-Hb-t7o" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="D0G-g7-xxG"/>
                     <constraint firstItem="L0k-t9-pNP" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="Mv9-y5-2ez"/>
+                    <constraint firstAttribute="bottom" secondItem="6Oc-im-VnY" secondAttribute="bottom" id="NwS-1D-fn3"/>
                     <constraint firstItem="6Oc-im-VnY" firstAttribute="leading" secondItem="L0k-t9-pNP" secondAttribute="leading" id="SAH-vu-qTD"/>
-                    <constraint firstItem="6Oc-im-VnY" firstAttribute="bottom" secondItem="L0k-t9-pNP" secondAttribute="bottom" id="kLb-c5-5mL"/>
+                    <constraint firstItem="6Oc-im-VnY" firstAttribute="top" secondItem="L0k-t9-pNP" secondAttribute="bottom" id="WpU-pc-nYH"/>
+                    <constraint firstItem="L0k-t9-pNP" firstAttribute="top" secondItem="EJZ-Hb-t7o" secondAttribute="bottom" id="kjD-AK-Qzk"/>
                     <constraint firstAttribute="trailing" secondItem="EJZ-Hb-t7o" secondAttribute="trailing" id="ptK-mY-5my"/>
-                    <constraint firstItem="L0k-t9-pNP" firstAttribute="top" secondItem="EJZ-Hb-t7o" secondAttribute="bottom" id="vzK-lZ-Jct"/>
-                    <constraint firstAttribute="bottom" secondItem="L0k-t9-pNP" secondAttribute="bottom" id="y2U-LI-2Tl"/>
                 </constraints>
             </view>
             <point key="canvasLocation" x="345" y="278"/>
