@@ -4,6 +4,8 @@
 - Improve hover of BG cards from tier window
 ## Fixes
 - Fix tracker positions on Big Sur and fullscreen (issue #1204)
+- Fix dead for turn tracking for 8th place
+- Fix some crashes
 
 # 1.8.1
 ## New:

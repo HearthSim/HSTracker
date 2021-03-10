@@ -241,7 +241,10 @@ class PowerGameStateParser: LogEventParser {
             }
             
             let matches = logLine.line.matches(CreationRegex)
-            let id = Int(matches[0].value)!
+            guard let id = Int(matches[0].value) else {
+                logger.error("Failed to convert id to integer: Log line was $(logLine.line)")
+                return
+            }
             guard let zone = Zone(rawString: matches[1].value) else { return }
             var guessedCardId = false
             var cardId: String? = matches[2].value

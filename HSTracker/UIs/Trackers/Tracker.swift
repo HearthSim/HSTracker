@@ -141,15 +141,17 @@ class Tracker: OverWindowController {
         for (cardCellView, fadeOut) in toRemove {
             remove(card: cardCellView, fadeOut: fadeOut)
         }
-        newCards.forEach({
+        
+        for card in newCards {
             let newCard = CardBar.factory()
             newCard.playerType = self.playerType
             newCard.setDelegate(self)
-            newCard.card = $0
-            let index = cards.firstIndex(of: $0)!
-            animatedCards.insert(newCard, at: index)
-            newCard.fadeIn(highlight: !reset)
-        })
+            newCard.card = card
+            if let index = cards.firstIndex(of: card) {
+                animatedCards.insert(newCard, at: index)
+                newCard.fadeIn(highlight: !reset)
+            }
+        }
     }
     
     override func updateFrames() {
