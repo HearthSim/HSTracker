@@ -49,7 +49,7 @@ class OpponentDeadForTracker {
                 let nextOpponent = game.entities.values.first(where: { x in x[GameTag.player_id] == currentPlayer[GameTag.next_opponent_player_id] })
                 if let nextOpponent = nextOpponent {
                     let leaderboardPlace = nextOpponent[GameTag.player_leaderboard_place]
-                    if leaderboardPlace > 0 && leaderboardPlace < 8 && leaderboardPlace != prev {
+                    if leaderboardPlace > 0 && leaderboardPlace <= 8 && leaderboardPlace != prev {
                         prev = leaderboardPlace
                         logger.debug("Updating dead tracker with \(leaderboardPlace), id=\(nextOpponent[.entity_id]), player_id=\(nextOpponent[.player_id])")
                         DispatchQueue.main.async {
