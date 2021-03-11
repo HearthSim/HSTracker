@@ -28,8 +28,8 @@ class MinimalBar: CardBar {
             cardId = card.id
         }
 
-        if let cardId = cardId {
-            let fullPath = Bundle.main.resourcePath! + "/Resources/Small/\(cardId).png"
+        if let cardId = cardId, let rp = Bundle.main.resourcePath {
+            let fullPath = "\(rp)/Resources/Small/\(cardId).png"
             if let image = NSImage(contentsOfFile: fullPath) {
                 if let imageData = image.tiffRepresentation,
                     let ciimage = CIImage(data: imageData),

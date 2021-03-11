@@ -70,8 +70,10 @@ class CardBar: NSView, CardBarTheme {
     var isBattlegrounds: Bool = false
 
     var hasAllRequired: Bool {
-        let path = Bundle.main.resourcePath!
-            + "/Resources/Themes/Bars/\(themeDir)/"
+        guard let rp = Bundle.main.resourcePath else {
+            return false
+        }
+        let path = "\(rp)/Resources/Themes/Bars/\(themeDir)/"
         let manager = FileManager.default
         return required.map { $0.1 } .all {
             manager.fileExists(atPath: "\(path)\($0.filename)")
@@ -79,8 +81,10 @@ class CardBar: NSView, CardBarTheme {
     }
 
     private var hasAllOptionalFrames: Bool {
-        let path = Bundle.main.resourcePath!
-            + "/Resources/Themes/Bars/\(themeDir)/"
+        guard let rp = Bundle.main.resourcePath else {
+            return false
+        }
+        let path = "\(rp)/Resources/Themes/Bars/\(themeDir)/"
         let manager = FileManager.default
         return optionalFrame.map { $0.1 } .all {
             manager.fileExists(atPath: "\(path)\($0.filename)")
@@ -88,8 +92,10 @@ class CardBar: NSView, CardBarTheme {
     }
 
     private var hasAllOptionalGems: Bool {
-        let path = Bundle.main.resourcePath!
-            + "/Resources/Themes/Bars/\(themeDir)/"
+        guard let rp = Bundle.main.resourcePath else {
+            return false
+        }
+        let path = "\(rp)/Resources/Themes/Bars/\(themeDir)/"
         let manager = FileManager.default
         return optionalGems.map { $0.1 } .all {
             manager.fileExists(atPath: "\(path)\($0.filename)")
@@ -97,8 +103,10 @@ class CardBar: NSView, CardBarTheme {
     }
 
     private var hasAllOptionalCountBoxes: Bool {
-        let path = Bundle.main.resourcePath!
-            + "/Resources/Themes/Bars/\(themeDir)/"
+        guard let rp = Bundle.main.resourcePath else {
+            return false
+        }
+        let path = "\(rp)/Resources/Themes/Bars/\(themeDir)/"
         let manager = FileManager.default
         return optionalCountBoxes.map { $0.1 } .all {
             manager.fileExists(atPath: "\(path)\($0.filename)")
@@ -224,8 +232,10 @@ class CardBar: NSView, CardBarTheme {
     func update(highlight: Bool) {
         if highlight && Settings.flashOnDraw {
             if let themeElement = required[.flashFrame] {
-                let fullPath = Bundle.main.resourcePath!
-                    + "/Resources/Themes/Bars/\(themeDir)/\(themeElement.filename)"
+                guard let rp = Bundle.main.resourcePath else {
+                    return
+                }
+                let fullPath = "\(rp)/Resources/Themes/Bars/\(themeDir)/\(themeElement.filename)"
                 if let image = NSImage(contentsOfFile: fullPath),
                     FileManager.default.fileExists(atPath: fullPath) {
                     let flashingLayer = CALayer()
@@ -644,8 +654,10 @@ class CardBar: NSView, CardBarTheme {
     }
 
     private func add(themeElement: ThemeElementInfo, rect: NSRect) {
-        let fullPath = Bundle.main.resourcePath!
-            + "/Resources/Themes/Bars/\(themeDir)/\(themeElement.filename)"
+        guard let rp = Bundle.main.resourcePath else {
+            return
+        }
+        let fullPath = "\(rp)/Resources/Themes/Bars/\(themeDir)/\(themeElement.filename)"
         add(filename: fullPath, rect: rect)
     }
 

@@ -24,7 +24,7 @@ class BgHeroesToastView: NSView {
         super.init(frame: frameRect)
         
         let imageView = FillImageView(frame: frameRect)
-        if let image = NSImage(contentsOfFile: Bundle.main.resourcePath! + "/Resources/Battlegrounds/bgs_toast_background.jpg") {
+        if let rp = Bundle.main.resourcePath, let image = NSImage(contentsOfFile: "\(rp)/Resources/Battlegrounds/bgs_toast_background.jpg") {
             imageView.image = image
         }
         addSubview(imageView)
@@ -38,7 +38,7 @@ class BgHeroesToastView: NSView {
         let text = NSTextField()
         let rightSpacer = NSView()
         
-        if let image = NSImage(contentsOfFile: Bundle.main.resourcePath! + "/Resources/Battlegrounds/icon_white.png") {
+        if let rp = Bundle.main.resourcePath, let image = NSImage(contentsOfFile: "\(rp)/Resources/Battlegrounds/icon_white.png") {
             icon.image = image
         }
 

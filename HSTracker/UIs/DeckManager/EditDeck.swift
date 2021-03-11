@@ -453,6 +453,10 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
     // MARK: - Rarity
     private func loadRarities() {
+        guard let rp = Bundle.main.resourcePath else {
+            return
+        }
+        
         let popupMenu = NSMenu()
         let popupMenuItem = NSMenuItem(title: NSLocalizedString("all_rarities", comment: ""),
                                        action: #selector(EditDeck.changeRarity(_:)),
@@ -467,8 +471,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
             popupMenuItem.representedObject = rarity.rawValue
             let gemName = rarity == .free ? "gem" : "gem_\(rarity.rawValue)"
 
-            let fullPath = Bundle.main.resourcePath!
-                + "/Resources/Themes/Bars/classic/\(gemName).png"
+            let fullPath = "\(rp)/Resources/Themes/Bars/classic/\(gemName).png"
             if let image = NSImage(contentsOfFile: fullPath) {
                 popupMenuItem.image = image.resized(to: NSSize(width: 25, height: 25))
             } else {

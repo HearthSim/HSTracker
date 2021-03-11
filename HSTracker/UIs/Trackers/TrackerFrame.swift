@@ -55,12 +55,12 @@ class TextFrame: NSView {
 
     func add(image filename: String, rect: NSRect) {
         let theme = Settings.theme
-
-        var fullPath = Bundle.main.resourcePath!
-            + "/Resources/Themes/Overlay/\(theme)/\(filename)"
+        guard let rp = Bundle.main.resourcePath else {
+            return
+        }
+        var fullPath = "\(rp)/Resources/Themes/Overlay/\(theme)/\(filename)"
         if !FileManager.default.fileExists(atPath: fullPath) {
-            fullPath = Bundle.main.resourcePath!
-                + "/Resources/Themes/Overlay/default/\(filename)"
+            fullPath = "\(rp)/Resources/Themes/Overlay/default/\(filename)"
         }
 
         guard let image = NSImage(contentsOfFile: fullPath) else {return}

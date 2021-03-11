@@ -109,9 +109,9 @@ class ArenaWatcher: Watcher {
             logger.info("Using \(jsonFile)")
         } else {
             logger.error("\(jsonFile) is not a valid file")
-            let cardFile = URL(fileURLWithPath:
-                "\(Bundle.main.resourcePath!)/Resources/cardtier.json")
-            jsonData = try? Data(contentsOf: cardFile)
+            if let cardFile = Bundle.main.url(forResource: "cardtier", withExtension: "json", subdirectory: "Resources") {
+                jsonData = try? Data(contentsOf: cardFile)
+            }
         }
         guard let data = jsonData else {
             logger.warning("Can not load cardtier.json")

@@ -43,15 +43,20 @@ class BattlegroundsTierOverlayView: NSView {
     }
     
     func drawTier(tier: Int, x: Int) {
+        guard let rp = Bundle.main.resourcePath else {
+            return
+        }
         if hoverTier != 0 && tier == hoverTier || hoverTier == 0 && tier == currentTier {
             let rect = NSRect(x: x, y: 8, width: 40, height: 40)
-            let image = NSImage(contentsOfFile: Bundle.main.resourcePath! + "/Resources/Battlegrounds/tier-glow.png")!
-            image.draw(in: rect)
+            if let image = NSImage(contentsOfFile: "\(rp)/Resources/Battlegrounds/tier-glow.png") {
+                image.draw(in: rect)
+            }
         }
 
         let rect = NSRect(x: x + 2, y: 10, width: 36, height: 36)
-        let image = NSImage(contentsOfFile: Bundle.main.resourcePath! + "/Resources/Battlegrounds/tier-\(tier).png")!
-        image.draw(in: rect)
+        if let image = NSImage(contentsOfFile: "\(rp)/Resources/Battlegrounds/tier-\(tier).png") {
+            image.draw(in: rect)
+        }
     }
 
     override func draw(_ dirtyRect: NSRect) {

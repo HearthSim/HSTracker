@@ -91,8 +91,8 @@ struct ImageUtils {
 
     private static func loadTile(cardId: String, completion: @escaping ((NSImage?) -> Void)) {
         // Check in resource bundle
-        if let image = NSImage(contentsOfFile:
-            "\(Bundle.main.resourcePath!)/Resources/Small/\(cardId).png") {
+        if let rp = Bundle.main.resourcePath, let image = NSImage(contentsOfFile:
+            "\(rp)/Resources/Small/\(cardId).png") {
             ImageUtils.semaphore.wait()
             cache[cardId] = image
             ImageUtils.semaphore.signal()

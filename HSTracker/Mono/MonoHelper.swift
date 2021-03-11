@@ -14,6 +14,10 @@ class MonoHelper {
     static var _image: OpaquePointer? // MonoImage
 
     static func load() -> Bool {
+        guard let path = Bundle.main.resourcePath else {
+            logger.debug("Failed to resolve resourcePath")
+            return false
+        }
         // this flag is needed to avoid a deadlock/hang. Haven't found a better alternative
         // without it, the Mono stack will hang during GC and our calls to wait for the
         // simulation result
@@ -22,7 +26,11 @@ class MonoHelper {
         //setenv("MONO_LOG_LEVEL", "debug", 1)
         //setenv("MONO_LOG_MASK", "asm,dll", 1)
 
-        let managedDir = Bundle.main.resourcePath! + "/Resources/Managed"
+        let managedDir = path + "/Resources/Managed"
+        if let version = mono_get_runtime_build_info() {
+            let str = String(cString: version)
+            logger.debug("Loading mono version \(str)")
+        }
         mono_config_parse(managedDir + "/etc/mono/config")
         mono_set_dirs(managedDir, managedDir + "/etc")
         //mono_config_parse(nil)
@@ -32,10 +40,10 @@ class MonoHelper {
         if mono != nil {
             MonoHelper._monoInstance = mono
         }
-        mono_domain_set_config(mono, Bundle.main.resourcePath! + "/Resources/Managed", "HSTracker.config")
+        mono_domain_set_config(mono, path + "/Resources/Managed", "HSTracker.config")
         //mono_jit_set_trace_options("BobsBuddy")
             
-        MonoHelper._assembly = mono_domain_assembly_open(mono, Bundle.main.resourcePath! + "/Resources/Managed/BobsBuddy.dll")
+        MonoHelper._assembly = mono_domain_assembly_open(mono, path + "/Resources/Managed/BobsBuddy.dll")
         
         if let ass = MonoHelper._assembly {
             _assembly = ass
