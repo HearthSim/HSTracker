@@ -43,14 +43,15 @@ enum CardSet: String, CaseIterable {
     demon_hunter_initiate,
     scholomance,
     battlegrounds,
-    darkmoon_faire
+    darkmoon_faire,
+    the_barrens
     
     static func deckManagerValidCardSets() -> [CardSet] {
         return [.invalid, .expert1, .naxx, .gvg, .brm, .tgt,
                 .loe, .og, .kara, .gangs, .ungoro, .icecrown,
                 .lootapalooza, .gilneas, .boomsday, .troll,
                 .dalaran, .uldum, .dragons, .year_of_the_dragon,
-                .black_temple, .demon_hunter_initiate, .scholomance, .darkmoon_faire]
+                .black_temple, .demon_hunter_initiate, .scholomance, .darkmoon_faire, .the_barrens]
     }
     
     static func wildSets() -> [CardSet] {
@@ -104,5 +105,6 @@ public enum CardSetInt: Int {
     scholomance = 1443,
     battlegrounds = 1453,
     demon_hunter_initiate = 1463,
-    darkmoon_faire = 1466
+    darkmoon_faire = 1466,
+    the_barrens = 1525
 }
