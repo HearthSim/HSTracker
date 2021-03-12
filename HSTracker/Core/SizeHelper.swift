@@ -21,6 +21,8 @@ struct SizeHelper {
         var windowId: CGWindowID?
         var screenRect = NSRect()
         var fullscreen = false
+        
+        static var axErrorReported = false
 
         init() {
             reload()
@@ -64,7 +66,10 @@ struct SizeHelper {
                         fullscreen = false
                     }
                 } else {
-                    logger.error("Accessability error: \(result.rawValue)")
+                    if !SizeHelper.HearthstoneWindow.axErrorReported {
+                        logger.error("Accessability error: \(result.rawValue)")
+                        SizeHelper.HearthstoneWindow.axErrorReported = true
+                    }
                     calculateFromFrame = true
                 }
                 

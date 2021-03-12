@@ -2,6 +2,7 @@
 ## New:
 - Add tavern upgrade and triple history
 - Improve hover of BG cards from tier window
+- Ask permission to send crash reports
 ## Fixes
 - Fix tracker positions on Big Sur and fullscreen (issue #1204)
 - Fix dead for turn tracking for 8th place

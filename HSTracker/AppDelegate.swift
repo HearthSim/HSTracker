@@ -53,6 +53,30 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         AppDelegate._instance = self
         //setenv("CFNETWORK_DIAGNOSTICS", "3", 1)
         
+        Crashes.userConfirmationHandler = { (errorReports: [ErrorReport]) in
+            // Your code to present your UI to the user, e.g. an NSAlert.
+            let alert: NSAlert = NSAlert()
+            alert.messageText = NSLocalizedString("HSTracker Crashed", comment: "")
+            alert.informativeText = NSLocalizedString("Do you want to send an anonymous crash report so we can try to fix the issue?", comment: "")
+            alert.addButton(withTitle: NSLocalizedString("Always send", comment: ""))
+            alert.addButton(withTitle: NSLocalizedString("Send", comment: ""))
+            alert.addButton(withTitle: NSLocalizedString("Don't send", comment: ""))
+            alert.alertStyle = .warning
+
+            switch alert.runModal() {
+            case .alertFirstButtonReturn:
+                Crashes.notify(with: .always)
+            case .alertSecondButtonReturn:
+                Crashes.notify(with: .send)
+            case .alertThirdButtonReturn:
+                Crashes.notify(with: .dontSend)
+            default:
+                break
+            }
+
+            return true // Return true if the SDK should await user confirmation, otherwise return false.
+        }
+
         AppCenter.start(withAppSecret: "2f0021b9-bb18-4282-9aa1-cfbbd85d3bed", services: [Analytics.self, Crashes.self])
         
         // Migrate preferences from old bundle ID
@@ -558,11 +582,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBAction func closeWindow(_ sender: AnyObject) {
     }
     
-    @IBAction func openReplayDirectory(_ sender: AnyObject) {
-        NSWorkspace.shared.activateFileViewerSelecting([Paths.replays])
-    }
-    
     @IBAction func openLogDirectory(_ sender: AnyObject) {
         NSWorkspace.shared.activateFileViewerSelecting([Paths.logs])
+    }
+    
+    @IBAction func bugReport(_ sender: AnyObject) {
+        if let url = URL(string: "https://github.com/HearthSim/HSTracker/issues") {
+            NSWorkspace.shared.open(url)
+        }
     }
 }

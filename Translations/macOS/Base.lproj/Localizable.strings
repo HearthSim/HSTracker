@@ -202,3 +202,10 @@
 "Turns" = "Turns";
 "%d turn(s) ago" = "%d turn(s) ago";
 "You have not fought this opponent" = "You have not fought this opponent";
+
+/* Crashes */
+"HSTracker Crashed" = "HSTracker Crashed";
+"Do you want to send an anonymous crash report so we can try to fix the issue?" = "Do you want to send an anonymous crash report so we can try to fix the issue?";
+"Always send" = "Always send";
+"Send" = "Send";
+"Don't send" = "Don't send";

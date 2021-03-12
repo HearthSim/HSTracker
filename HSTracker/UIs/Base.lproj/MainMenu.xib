@@ -137,12 +137,6 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Replays" id="esn-TJ-7Ds">
                         <items>
-                            <menuItem title="Open replays directory" id="yTs-jD-geS">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="openReplayDirectory:" target="Voe-Tx-rLC" id="JMS-5j-YFt"/>
-                                </connections>
-                            </menuItem>
                             <menuItem title="Last replays" enabled="NO" id="gKK-Xg-cTS">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Last replays" id="Ck1-T5-ndx"/>
@@ -191,10 +185,16 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Help" systemMenu="help" id="F2S-fz-NVQ">
                         <items>
-                            <menuItem title="Open logs directory" id="aNE-rT-1XM" userLabel="Open logs directory">
+                            <menuItem title="Open logs directory..." id="aNE-rT-1XM" userLabel="Open logs directory">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="openLogDirectory:" target="-1" id="Pwy-CL-aAL"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Bug report..." id="3dl-ss-r23">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="bugReport:" target="-1" id="xOU-AY-SgR"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="HSTracker Help" keyEquivalent="?" id="FKE-Sm-Kum">
