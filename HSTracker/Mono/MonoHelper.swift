@@ -30,6 +30,7 @@ class MonoHelper {
         if let version = mono_get_runtime_build_info() {
             let str = String(cString: version)
             logger.debug("Loading mono version \(str)")
+            version.deallocate()
         }
         mono_config_parse(managedDir + "/etc/mono/config")
         mono_set_dirs(managedDir, managedDir + "/etc")
@@ -54,6 +55,7 @@ class MonoHelper {
             let version = UnsafeMutablePointer<UInt16>.allocate(capacity: 3)
             let major = mono_assembly_name_get_version(aname, version.advanced(by: 0), version.advanced(by: 1), version.advanced(by: 2))
             logger.info("Loaded BobsBuddy version \(major).\(version[0]).\(version[1]).\(version[2])")
+            version.deallocate()
             
         } else {
             logger.error("Failed to load BobsBuddy")
@@ -201,6 +203,8 @@ class MonoHelper {
          
         let cstr = String(cString: str!)
         
+        str?.deallocate()
+        
         return cstr
     }
     
@@ -341,6 +345,8 @@ class MonoHelper {
         let str = mono_string_to_utf8(res)
         
         let cstr = String(cString: str!)
+        
+        str?.deallocate()
         
         return cstr
     }

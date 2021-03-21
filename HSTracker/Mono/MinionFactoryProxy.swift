@@ -78,6 +78,8 @@ class MinionFactoryProxy {
 
                 let cstr = String(cString: str!)
                 arr.append(cstr)
+                
+                str?.deallocate()
             })
         }
         value.deallocate()
