@@ -4,10 +4,12 @@
 - Improve hover of BG cards from tier window
 - Ask permission to send crash reports
 - Add Forged in the Barrens card set
+- Log memory usage periodically
 ## Fixes
 - Fix tracker positions on Big Sur and fullscreen (issue #1204)
 - Fix dead for turn tracking for 8th place
 - Fix some crashes
+- Fix some memory leaks
 
 # 1.8.1
 ## New:
