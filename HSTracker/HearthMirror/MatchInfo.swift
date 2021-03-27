@@ -30,6 +30,7 @@ struct MatchInfo {
         var playerId: Int
         var wildMedalInfo: MedalInfo
         var standardMedalInfo: MedalInfo
+        var classicMedalInfo: MedalInfo
         var cardBackId: Int
 
         init(player: MirrorPlayer) {
@@ -39,6 +40,7 @@ struct MatchInfo {
 
             self.standardMedalInfo = MedalInfo(mirrorMedalInfo: player.standardMedalInfo)
             self.wildMedalInfo = MedalInfo(mirrorMedalInfo: player.wildMedalInfo)
+            self.classicMedalInfo = MedalInfo(mirrorMedalInfo: player.classicMedalInfo)
         }
     }
 

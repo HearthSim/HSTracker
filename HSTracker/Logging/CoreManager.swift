@@ -38,7 +38,7 @@ final class CoreManager: NSObject {
     let game: Game
     var toaster: Toaster!
     
-    var timer = RepeatingTimer(timeInterval: 60.0)
+    var timer = RepeatingTimer(timeInterval: 300.0)
 
     var queue = DispatchQueue(label: "net.hearthsim.hstracker.readers", attributes: [])
     

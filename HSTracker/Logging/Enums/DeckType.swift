@@ -12,6 +12,7 @@ enum DeckType: Int, CaseIterable {
     case all,
          standard,
          wild,
+         classic,
          arena,
          duels,
          dungeon

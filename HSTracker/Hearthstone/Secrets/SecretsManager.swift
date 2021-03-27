@@ -183,6 +183,9 @@ class SecretsManager {
                     cards = cards.filter({ card in
                         !wildSets.contains(card.set ?? .invalid)
                     })
+                } else if format == .classic {
+                    let classicSets = CardSet.classicSets()
+                    cards = cards.filter { card in classicSets.contains(card.set ?? .invalid) }
                 }
             }
         }

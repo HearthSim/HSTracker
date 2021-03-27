@@ -178,6 +178,8 @@ class DeckManager: NSWindowController {
             return deck.isWildDeck && !deck.isDungeon && !deck.isDuels
         case .standard:
             return !deck.isWildDeck
+        case .classic:
+            return deck.isClassicDeck
         }
     }
     

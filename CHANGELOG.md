@@ -5,6 +5,8 @@
 - Ask permission to send crash reports
 - Add Forged in the Barrens card set
 - Log memory usage periodically
+- Add support for patch 20.0
+- Add support for Classic mode
 ## Fixes
 - Fix tracker positions on Big Sur and fullscreen (issue #1204)
 - Fix dead for turn tracking for 8th place

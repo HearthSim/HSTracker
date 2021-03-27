@@ -367,6 +367,9 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     private func loadSets() {
         let popupMenu = NSMenu()
         for set in CardSet.deckManagerValidCardSets() {
+            if set == .invalid {
+                continue
+            }
             let popupMenuItem = NSMenuItem(title:
                 NSLocalizedString("\(set)".uppercased(), comment: ""),
                                            action: #selector(EditDeck.changeSet(_:)),
@@ -383,7 +386,6 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         if let type = sender.representedObject as? String {
             switch type {
             case "all": currentSet = []
-            case "expert1": currentSet = [.core, .expert1, .promo, .hof]
             default:
                 if let set = CardSet.allCases.first(where: { x in "\(x)".lowercased() == type }) {
                     currentSet = [set]

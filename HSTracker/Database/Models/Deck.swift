@@ -144,6 +144,10 @@ class Deck: Object {
         return sortedCards.any { CardSet.wildSets().contains($0.set ?? .invalid) }
     }
     
+    var isClassicDeck: Bool {
+        return sortedCards.all { CardSet.classicSets().contains($0.set ?? .invalid) }
+    }
+    
     /**
      * Compares the card content to the other deck
      */

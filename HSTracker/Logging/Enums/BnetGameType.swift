@@ -35,7 +35,11 @@ enum BnetGameType: Int {
     bgt_battlegrounds = 50,
     bgt_battlegrounds_friendly = 51,
     bgt_pvpdr_paid = 54,
-    bgt_pvpdr = 55
+    bgt_pvpdr = 55,
+    bgt_reserved_18_22 = 56,
+    bgt_reserved_18_23 = 57,
+    bgt_ranked_classic = 58,
+    bgt_casual_classic = 59
 
     static func getBnetGameType(gameType: GameType, format: Format?) -> BnetGameType {
         switch gameType {
@@ -50,9 +54,9 @@ enum BnetGameType: Int {
         case .gt_test:
             return .bgt_test1
         case .gt_ranked:
-            return format == .standard ? .bgt_ranked_standard : .bgt_ranked_wild
+            return format == .standard ? .bgt_ranked_standard : format == .classic ? .bgt_ranked_classic : .bgt_ranked_wild
         case .gt_casual:
-            return format == .standard ? .bgt_casual_standard : .bgt_casual_wild
+            return format == .standard ? .bgt_casual_standard : format == .classic ? .bgt_casual_classic : .bgt_casual_wild
         case .gt_tavernbrawl:
             return .bgt_tavernbrawl_pvp
         case .gt_tb_1p_vs_ai:

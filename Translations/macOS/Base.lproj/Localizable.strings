@@ -93,8 +93,10 @@
 
 /* sets */
 "ALL" = "All";
-"CORE" = "Basic";
-"EXPERT1" = "Classic";
+"VANILLA" = "Classic";
+"CORE" = "Core";
+"BASIC" = "Basic";
+"EXPERT1" = "Expert";
 "NAXX" = "Curse Of Naxxramas";
 "GVG" = "Goblins Vs Gnomes";
 "BRM" = "Blackrock Mountain";
@@ -169,6 +171,7 @@
 "DeckType_arena"    = "Arena";
 "DeckType_dungeon"  = "Dungeon Run";
 "DeckType_duels"    = "Duels";
+"DeckType_classic"  = "Classic";
 
 /* Stats tabs */
 "Statistics" = "Statistics";

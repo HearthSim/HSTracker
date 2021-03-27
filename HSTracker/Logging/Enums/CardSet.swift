@@ -10,7 +10,7 @@ import Foundation
 
 enum CardSet: String, CaseIterable {
     case all, invalid // fake one
-    case core,
+    case basic,
     expert1,
     naxx,
     missions,
@@ -44,10 +44,14 @@ enum CardSet: String, CaseIterable {
     scholomance,
     battlegrounds,
     darkmoon_faire,
-    the_barrens
+    the_barrens, // Forged in the Barrens
+    wailing_caverns,
+    legacy,
+    core,
+    vanilla
     
     static func deckManagerValidCardSets() -> [CardSet] {
-        return [.invalid, .expert1, .naxx, .gvg, .brm, .tgt,
+        return [.all, .vanilla, .core, .basic, .expert1, .naxx, .gvg, .brm, .tgt,
                 .loe, .og, .kara, .gangs, .ungoro, .icecrown,
                 .lootapalooza, .gilneas, .boomsday, .troll,
                 .dalaran, .uldum, .dragons, .year_of_the_dragon,
@@ -57,14 +61,18 @@ enum CardSet: String, CaseIterable {
     static func wildSets() -> [CardSet] {
         return [.naxx, .gvg, .brm, .tgt, .loe, .og, .hof, .promo,
                 .kara, .gangs, .ungoro, .icecrown, .lootapalooza,
-                .gilneas, .boomsday, .troll]
+                .gilneas, .boomsday, .troll, .dalaran, .uldum, .dragons, .year_of_the_dragon]
+    }
+    
+    static func classicSets() -> [CardSet] {
+        return [ .vanilla ]
     }
 }
 
 public enum CardSetInt: Int {
     case invalid = 0,
     test_temporary = 1,
-    core = 2,
+    basic = 2,
     expert1 = 3,
     hof = 4,
     missions = 5,
@@ -106,5 +114,9 @@ public enum CardSetInt: Int {
     battlegrounds = 1453,
     demon_hunter_initiate = 1463,
     darkmoon_faire = 1466,
-    the_barrens = 1525
+    the_barrens = 1525,
+    wailing_caverns = 1559,
+    legacy = 1635,
+    core = 1637,
+    vanilla = 1646
 }

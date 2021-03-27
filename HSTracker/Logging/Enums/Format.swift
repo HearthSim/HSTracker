@@ -12,7 +12,8 @@ enum Format: String {
     case unknown,
     all,
     standard,
-    wild
+    wild,
+    classic
 
     init(formatType: FormatType) {
         switch formatType {
@@ -20,6 +21,8 @@ enum Format: String {
             self = .wild
         case .ft_standard:
             self = .standard
+        case .ft_classic:
+            self = .classic
         default:
             self = .unknown
         }
@@ -31,6 +34,8 @@ enum Format: String {
             return .ft_standard
         case .wild:
             return .ft_wild
+        case .classic:
+            return .ft_classic
         default: return .ft_unknown
         }
     }
