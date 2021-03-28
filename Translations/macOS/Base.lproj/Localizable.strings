@@ -93,10 +93,10 @@
 
 /* sets */
 "ALL" = "All";
-"VANILLA" = "Classic";
+"VANILLA" = "Classic Mode";
 "CORE" = "Core";
 "BASIC" = "Basic";
-"EXPERT1" = "Expert";
+"EXPERT1" = "Classic";
 "NAXX" = "Curse Of Naxxramas";
 "GVG" = "Goblins Vs Gnomes";
 "BRM" = "Blackrock Mountain";
