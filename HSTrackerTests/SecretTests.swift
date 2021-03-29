@@ -423,23 +423,23 @@ class SecretTests: HSTrackerTests {
         verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All, triggered: [CardIds.Secrets.Rogue.DirtyTricks])
     }
 
-//    func testSingleSecret_MinionInPlay_OpponentTurnStart() {
-//        opponentEntity[.current_player] = 1
-//        game.turnsInPlayChange(entity: opponentMinion1, turn: 1)
-//        verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All)
-//        verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All)
-//        verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
-//                      triggered: [CardIds.Secrets.Paladin.CompetitiveSpirit])
-//        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
-//    }
+    func testSingleSecret_MinionInPlay_OpponentTurnStart() {
+        opponentEntity[.current_player] = 1
+        game.turnsInPlayChange(entity: opponentMinion1, turn: 1)
+        verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All)
+        verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All, triggered: [CardIds.Secrets.Mage.RiggedFaireGame])
+        verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
+                      triggered: [CardIds.Secrets.Paladin.CompetitiveSpirit])
+        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
+    }
 
-//    func testSingleSecret_NoMinionInPlay_OpponentTurnStart() {
-//        game.turnsInPlayChange(entity: heroOpponent, turn: 1)
-//        verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All)
-//        verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All)
-//        verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All)
-//        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
-//    }
+    func testSingleSecret_NoMinionInPlay_OpponentTurnStart() {
+        game.turnsInPlayChange(entity: heroOpponent, turn: 1)
+        verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All)
+        verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All)
+        verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All)
+        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
+    }
     
     func testSingleSecret_Retarget_FriendlyHitsFriendly() {
         game.secretsManager?.handleAttack(attacker: playerMinion1, defender: heroPlayer)
