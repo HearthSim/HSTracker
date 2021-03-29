@@ -1,4 +1,4 @@
-# 1.8.2
+# 1.9.0
 ## New:
 - Add tavern upgrade and triple history
 - Improve hover of BG cards from tier window
