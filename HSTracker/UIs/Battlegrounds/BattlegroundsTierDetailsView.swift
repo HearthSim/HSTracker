@@ -23,7 +23,7 @@ class BattlegroundsTierDetailsView: NSStackView {
     //This is a fix for a card that accidentilly is classified as a bg card by blizzard, causing it to incorrectly appear in the bg tier list.
     //We remove cards w/ this cardid from the first tier list. Could possibly go in a better place further down the code.
     //I construct the cardid in this weird way because I couldn't find the cardid available in the project anywhere.
-    let NonBgMurlocTidehunterCardId = "VAN_" + CardIds.Collectible.Neutral.MurlocTidecaller;
+    let NonBgMurlocTidehunterCardId = "VAN_" + CardIds.Collectible.Neutral.MurlocTidecaller
     
     init() {
         super.init(frame: NSRect.zero)

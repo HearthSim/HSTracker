@@ -139,6 +139,13 @@ extension CardIds.Collectible {
         static let Springpaw = "TRL_348"
         static let CaveHydra = "LOOT_078"
         static let UntamedBeastmaster = "TRL_405"
+        static let ExplosiveTrapVanilla = "VAN_EX1_610"
+        static let FreezingTrapCore = "CORE_EX1_611"
+        static let FreezingTrapVanilla = "VAN_EX1_611"
+        static let MisdirectionVanilla = "VAN_EX1_533"
+        static let SnipeVanilla = "VAN_EX1_609"
+        static let SnakeTrapCore = "CORE_EX1_554"
+        static let SnakeTrapVanilla = "VAN_EX1_554"
     }
 }
 
@@ -215,20 +222,20 @@ extension CardIds.Secrets {
         static let All = [BearTrap, DartTrap, ExplosiveTrap, FreezingTrap,
                           HiddenCache, Misdirection, RatTrap, Snipe, SnakeTrap, CatTrick,
                           VenomstrikeTrap, WanderingMonster, PressurePlate, PackTactics, OpenTheCages]
-        static let BearTrap = CardIds.Collectible.Hunter.BearTrap
-        static let DartTrap = CardIds.Collectible.Hunter.DartTrap
-        static let ExplosiveTrap = CardIds.Collectible.Hunter.ExplosiveTrap
-        static let FreezingTrap = CardIds.Collectible.Hunter.FreezingTrap
-        static let HiddenCache = CardIds.Collectible.Hunter.HiddenCache
-        static let Misdirection = CardIds.Collectible.Hunter.Misdirection
-        static let Snipe = CardIds.Collectible.Hunter.Snipe
-        static let SnakeTrap = CardIds.Collectible.Hunter.SnakeTrap
-        static let CatTrick = CardIds.Collectible.Hunter.CatTrick
-        static let VenomstrikeTrap = CardIds.Collectible.Hunter.VenomstrikeTrap
-        static let WanderingMonster = CardIds.Collectible.Hunter.WanderingMonster
-        static let RatTrap = CardIds.Collectible.Hunter.RatTrap
-        static let PressurePlate = CardIds.Collectible.Hunter.PressurePlate
-        static let PackTactics = CardIds.Collectible.Hunter.PackTactics
-        static let OpenTheCages = CardIds.Collectible.Hunter.OpenTheCages
+        static let BearTrap = MultiIdCard(CardIds.Collectible.Hunter.BearTrap)
+        static let CatTrick = MultiIdCard(CardIds.Collectible.Hunter.CatTrick)
+        static let DartTrap = MultiIdCard(CardIds.Collectible.Hunter.DartTrap)
+        static let ExplosiveTrap = MultiIdCard(CardIds.Collectible.Hunter.ExplosiveTrap, CardIds.Collectible.Hunter.ExplosiveTrapVanilla)
+        static let FreezingTrap = MultiIdCard(CardIds.Collectible.Hunter.FreezingTrap, CardIds.Collectible.Hunter.FreezingTrapCore, CardIds.Collectible.Hunter.FreezingTrapVanilla)
+        static let HiddenCache = MultiIdCard(CardIds.Collectible.Hunter.HiddenCache)
+        static let Misdirection = MultiIdCard(CardIds.Collectible.Hunter.Misdirection, CardIds.Collectible.Hunter.MisdirectionVanilla)
+        static let OpenTheCages = MultiIdCard(CardIds.Collectible.Hunter.OpenTheCages)
+        static let PackTactics = MultiIdCard(CardIds.Collectible.Hunter.PackTactics)
+        static let PressurePlate = MultiIdCard(CardIds.Collectible.Hunter.PressurePlate)
+        static let RatTrap = MultiIdCard(CardIds.Collectible.Hunter.RatTrap)
+        static let Snipe = MultiIdCard(CardIds.Collectible.Hunter.Snipe, CardIds.Collectible.Hunter.SnipeVanilla)
+        static let SnakeTrap = MultiIdCard(CardIds.Collectible.Hunter.SnakeTrap, CardIds.Collectible.Hunter.SnakeTrapCore, CardIds.Collectible.Hunter.SnakeTrapVanilla)
+        static let VenomstrikeTrap = MultiIdCard(CardIds.Collectible.Hunter.VenomstrikeTrap)
+        static let WanderingMonster = MultiIdCard(CardIds.Collectible.Hunter.WanderingMonster)
     }
 }

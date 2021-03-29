@@ -24,7 +24,7 @@ class SecretsManager {
     private var opponentTookDamageDuringTurns: [Int] = []
     
     private var _lastPlayedMinionId: Int = 0
-    private var savedSecrets: [String] = []
+    private var savedSecrets: [MultiIdCard] = []
 
     var onChanged: (([Card]) -> Void)?
 
@@ -41,19 +41,15 @@ class SecretsManager {
         return secrets.count > 0
     }
     
-    private func saveSecret(secretName: String) {
+    private func saveSecret(secret: MultiIdCard) {
         if !secrets.any({ (s) -> Bool in
-            s.isExcluded(cardId: secretName)
+            s.isExcluded(cardId: secret)
         }) {
-            savedSecrets.append(secretName)
+            savedSecrets.append(secret)
         }
     }
 
-    func exclude(cardId: String, invokeCallback: Bool = true) {
-        if cardId.isBlank {
-            return
-        }
-
+    func exclude(cardId: MultiIdCard, invokeCallback: Bool = true) {
         secrets.forEach {
             $0.exclude(cardId: cardId)
         }
@@ -63,7 +59,7 @@ class SecretsManager {
         }
     }
 
-    func exclude(cardIds: [String]) {
+    func exclude(cardIds: [MultiIdCard]) {
         cardIds.enumerated().forEach {
             exclude(cardId: $1, invokeCallback: $0 == cardIds.count - 1)
         }
@@ -86,7 +82,7 @@ class SecretsManager {
         }
 
         if entity.hasCardId {
-            exclude(cardId: entity.cardId)
+            exclude(cardId: MultiIdCard(entity.cardId))
         }
         do {
             let secret = try Secret(entity: entity)
@@ -111,19 +107,21 @@ class SecretsManager {
         handleFastCombat(entity: entity)
         secrets.remove(secret)
         if secret.entity.hasCardId {
-            exclude(cardId: secret.entity.cardId, invokeCallback: false)
-            savedSecrets.remove(secret.entity.cardId)
+            let mcid = MultiIdCard(secret.entity.cardId)
+            exclude(cardId: mcid, invokeCallback: false)
+            savedSecrets.remove(mcid)
         }
         onChanged?(getSecretList())
         return true
     }
 
     func toggle(cardId: String) {
-        let excluded = secrets.any { $0.isExcluded(cardId: cardId) }
+        let mcid = MultiIdCard(cardId)
+        let excluded = secrets.any { $0.isExcluded(cardId: mcid) }
         if excluded {
-            secrets.forEach { $0.include(cardId: cardId) }
+            secrets.forEach { $0.include(cardId: mcid) }
         } else {
-            exclude(cardId: cardId, invokeCallback: false)
+            exclude(cardId: mcid, invokeCallback: false)
         }
     }
 
@@ -146,15 +144,13 @@ class SecretsManager {
             opponentEntities.filter { $0.cardId == cardId && !$0.info.created }.count >= 2
         }
         let adjustCount: ((_ cardId: String, _ count: Int) -> Int) = { cardId, count in
-            gameModeHasCardLimit && hasPlayedTwoOf(cardId) && !createdSecrets.contains(cardId) ? 0 : count
+            gameModeHasCardLimit && hasPlayedTwoOf(cardId) && !createdSecrets.contains(MultiIdCard(cardId)) ? 0 : count
         }
 
-        var cards: [Card] = secrets.flatMap { $0.excluded }
+        var cards: [QuantifiedMultiIdCard] = secrets.flatMap { $0.excluded }
             .group { $0.key }
-            .compactMap {
-                let card = Cards.by(cardId: $0.key)
-                card?.count = adjustCount($0.key, $0.value.filter({ !$0.value }).count)
-                return card
+            .compactMap { group in
+                QuantifiedMultiIdCard(baseCard: group.key, count: adjustCount(group.key.ids[0], group.value.filter { x in !x.value }.count))
         }
         
         if let remoteData = RemoteConfig.data {
@@ -164,33 +160,37 @@ class SecretsManager {
                 })
                 
                 cards = cards.filter { card in
-                    (currentSets?.contains(card.set ?? .invalid) ?? false)
+                    (currentSets?.any { x in card.hasSet(set: x) } ?? false)
                 }
                 
                 if remoteData.arena?.banned_secrets?.count ?? 0 > 0 {
                     cards = cards.filter({ card in
-                        !(remoteData.arena?.banned_secrets?.contains(card.id) ?? false)
+                        !(remoteData.arena?.banned_secrets?.all { s in card != s } ?? false)
                     })
                 }
             } else {
                 if remoteData.arena?.exclusive_secrets?.count ?? 0 > 0 {
                     cards = cards.filter({ card in
-                        !(remoteData.arena?.exclusive_secrets?.contains(card.id) ?? true)
+                        !(remoteData.arena?.exclusive_secrets?.all { s in card != s } ?? true)
                     })
                 }
                 if format == .standard {
-                    let wildSets = CardSet.wildSets()
-                    cards = cards.filter({ card in
-                        !wildSets.contains(card.set ?? .invalid)
-                    })
+                    cards = cards.filter { card in card.isStandard }
                 } else if format == .classic {
-                    let classicSets = CardSet.classicSets()
-                    cards = cards.filter { card in classicSets.contains(card.set ?? .invalid) }
+                    cards = cards.filter { card in card.isClassic }
+                } else if format == .wild {
+                    cards = cards.filter { card in card.isWild }
                 }
             }
         }
 
-        return cards.filter { $0.count > 0 }.sortCardList()
+        return cards.compactMap { x in
+            if let card = x.getCardForFormat(format: format) {
+                card.count = x.count
+                return card
+            }
+            return nil
+        }.sortCardList()
     }
 
     func handleAttack(attacker: Entity, defender: Entity, fastOnly: Bool = false) {
@@ -200,7 +200,7 @@ class SecretsManager {
             return
         }
 
-        var exclude: [String] = []
+        var exclude: [MultiIdCard] = []
 
         if freeSpaceOnBoard {
             exclude.append(CardIds.Secrets.Paladin.NobleSacrifice)
@@ -264,7 +264,7 @@ class SecretsManager {
         if !entity.hasCardId || game.proposedAttacker == 0 || game.proposedDefender == 0 {
             return
         }
-        if !CardIds.Secrets.fastCombat.contains(entity.cardId) {
+        if !CardIds.Secrets.fastCombat.contains(MultiIdCard(entity.cardId)) {
             return
         }
         if let attacker = game.entities[game.proposedAttacker],
@@ -276,25 +276,25 @@ class SecretsManager {
     func handleMinionPlayed(entity: Entity) {
         guard handleAction else { return }
 
-        var exclude: [String] = []
+        var exclude: [MultiIdCard] = []
         
         _lastPlayedMinionId = entity.id
 
         if !entity.has(tag: .dormant) {
-            saveSecret(secretName: CardIds.Secrets.Hunter.Snipe)
+            saveSecret(secret: CardIds.Secrets.Hunter.Snipe)
             exclude.append(CardIds.Secrets.Hunter.Snipe)
-            saveSecret(secretName: CardIds.Secrets.Mage.ExplosiveRunes)
+            saveSecret(secret: CardIds.Secrets.Mage.ExplosiveRunes)
             exclude.append(CardIds.Secrets.Mage.ExplosiveRunes)
-            saveSecret(secretName: CardIds.Secrets.Mage.PotionOfPolymorph)
+            saveSecret(secret: CardIds.Secrets.Mage.PotionOfPolymorph)
             exclude.append(CardIds.Secrets.Mage.PotionOfPolymorph)
-            saveSecret(secretName: CardIds.Secrets.Paladin.Repentance)
+            saveSecret(secret: CardIds.Secrets.Paladin.Repentance)
             exclude.append(CardIds.Secrets.Paladin.Repentance)
         }
 
         if freeSpaceOnBoard {
-            saveSecret(secretName: CardIds.Secrets.Mage.MirrorEntity)
+            saveSecret(secret: CardIds.Secrets.Mage.MirrorEntity)
             exclude.append(CardIds.Secrets.Mage.MirrorEntity)
-            saveSecret(secretName: CardIds.Secrets.Rogue.Ambush)
+            saveSecret(secret: CardIds.Secrets.Rogue.Ambush)
             exclude.append(CardIds.Secrets.Rogue.Ambush)
         }
 
@@ -321,7 +321,7 @@ class SecretsManager {
     func handleOpponentMinionDeath(entity: Entity) {
         guard handleAction else { return }
 
-        var exclude: [String] = []
+        var exclude: [MultiIdCard] = []
         if freeSpaceInHand {
             exclude.append(CardIds.Secrets.Mage.Duplicate)
             exclude.append(CardIds.Secrets.Paladin.GetawayKodo)
@@ -456,7 +456,7 @@ class SecretsManager {
         
         savedSecrets.removeAll()
 
-        var exclude: [String] = []
+        var exclude: [MultiIdCard] = []
         
         if freeSpaceOnBoard {
             if let player = game.playerEntity, player.has(tag: .num_cards_played_this_turn) &&
@@ -480,7 +480,7 @@ class SecretsManager {
             
             exclude.append(CardIds.Secrets.Mage.Counterspell)
             
-            if _triggeredSecrets.any({ x in x.cardId == CardIds.Secrets.Mage.Counterspell }) {
+            if _triggeredSecrets.any({ x in CardIds.Secrets.Mage.Counterspell == x.cardId }) {
                 self.exclude(cardIds: exclude)
                 return
             }
@@ -526,7 +526,7 @@ class SecretsManager {
     func handleCardDrawn(entity: Entity) {
         guard handleAction else { return }
 
-        var exclude: [String] = []
+        var exclude: [MultiIdCard] = []
         if let playerEntity = game.playerEntity, playerEntity[.num_cards_drawn_this_turn] >= 1 {
             exclude.append(CardIds.Secrets.Rogue.Shenanigans)
         }

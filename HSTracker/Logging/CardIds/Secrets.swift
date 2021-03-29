@@ -38,7 +38,7 @@ extension CardIds.Secrets {
         Paladin.HandOfSalvation
     ]
 
-    static let fastCombat = [
+    static let fastCombat: [MultiIdCard] = [
         Hunter.FreezingTrap,
         Hunter.ExplosiveTrap,
         Hunter.Misdirection,

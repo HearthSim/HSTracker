@@ -133,6 +133,15 @@ extension CardIds.Collectible {
         static let ConfectionCyclone = "DMF_100"
         static let Cinderstorm = "GIL_147"
         static let BlastWave = "TRL_317"
+        static let CounterspellCore = "CORE_EX1_287"
+        static let CounterspellVanilla = "VAN_EX1_287"
+        static let IceBarrierCore = "CORE_EX1_289"
+        static let IceBarrierVanilla = "VAN_EX1_289"
+        static let IceBlockVanilla = "VAN_EX1_295"
+        static let MirrorEntityCore = "CORE_EX1_294"
+        static let MirrorEntityVanilla = "VAN_EX1_294"
+        static let SpellbenderVanilla = "VAN_tt_010"
+        static let VaporizeVanilla = "VAN_EX1_594"
     }
 }
 
@@ -205,21 +214,21 @@ extension CardIds.Secrets {
         static let All = [Counterspell, Duplicate, Effigy, ExplosiveRunes, FrozenClone, IceBarrier,
                           IceBlock, ManaBind, MirrorEntity, PotionOfPolymorph, Spellbender,
                           SplittingImage, Vaporize, FlameWard, NetherwindPortal, RiggedFaireGame]
-        static let Counterspell = CardIds.Collectible.Mage.Counterspell
-        static let Duplicate = CardIds.Collectible.Mage.Duplicate
-        static let Effigy = CardIds.Collectible.Mage.Effigy
-        static let FrozenClone = CardIds.Collectible.Mage.FrozenClone
-        static let IceBarrier = CardIds.Collectible.Mage.IceBarrier
-        static let IceBlock = CardIds.Collectible.Mage.IceBlock
-        static let ManaBind = CardIds.Collectible.Mage.ManaBind
-        static let MirrorEntity = CardIds.Collectible.Mage.MirrorEntity
-        static let PotionOfPolymorph = CardIds.Collectible.Mage.PotionOfPolymorph
-        static let Spellbender = CardIds.Collectible.Mage.Spellbender
-        static let SplittingImage = CardIds.Collectible.Mage.SplittingImage
-        static let Vaporize = CardIds.Collectible.Mage.Vaporize
-        static let ExplosiveRunes = CardIds.Collectible.Mage.ExplosiveRunes
-        static let FlameWard = CardIds.Collectible.Mage.FlameWard
-        static let NetherwindPortal = CardIds.Collectible.Mage.NetherwindPortal
-        static let RiggedFaireGame = CardIds.Collectible.Mage.RiggedFaireGame
+        static let Counterspell = MultiIdCard(CardIds.Collectible.Mage.Counterspell, CardIds.Collectible.Mage.CounterspellCore, CardIds.Collectible.Mage.CounterspellVanilla)
+        static let Duplicate = MultiIdCard(CardIds.Collectible.Mage.Duplicate)
+        static let Effigy = MultiIdCard(CardIds.Collectible.Mage.Effigy)
+        static let ExplosiveRunes = MultiIdCard(CardIds.Collectible.Mage.ExplosiveRunes)
+        static let FlameWard = MultiIdCard(CardIds.Collectible.Mage.FlameWard)
+        static let FrozenClone = MultiIdCard(CardIds.Collectible.Mage.FrozenClone)
+        static let IceBarrier = MultiIdCard(CardIds.Collectible.Mage.IceBarrier, CardIds.Collectible.Mage.IceBarrierCore, CardIds.Collectible.Mage.IceBarrierVanilla)
+        static let IceBlock = MultiIdCard(CardIds.Collectible.Mage.IceBlock, CardIds.Collectible.Mage.IceBlockVanilla)
+        static let ManaBind = MultiIdCard(CardIds.Collectible.Mage.ManaBind)
+        static let MirrorEntity = MultiIdCard(CardIds.Collectible.Mage.MirrorEntity, CardIds.Collectible.Mage.MirrorEntityCore, CardIds.Collectible.Mage.MirrorEntityVanilla)
+        static let NetherwindPortal = MultiIdCard(CardIds.Collectible.Mage.NetherwindPortal)
+        static let PotionOfPolymorph = MultiIdCard(CardIds.Collectible.Mage.PotionOfPolymorph)
+        static let RiggedFaireGame = MultiIdCard(CardIds.Collectible.Mage.RiggedFaireGame)
+        static let Spellbender = MultiIdCard(CardIds.Collectible.Mage.Spellbender, CardIds.Collectible.Mage.SpellbenderVanilla)
+        static let SplittingImage = MultiIdCard(CardIds.Collectible.Mage.SplittingImage)
+        static let Vaporize = MultiIdCard(CardIds.Collectible.Mage.Vaporize, CardIds.Collectible.Mage.VaporizeVanilla)
     }
 }

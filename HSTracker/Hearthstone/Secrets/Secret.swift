@@ -18,7 +18,7 @@ enum SecretError: Error {
 class Secret {
 
     private(set) var entity: Entity
-    var excluded: [String: Bool] = [:]
+    var excluded: [MultiIdCard: Bool] = [:]
 
     init(entity: Entity) throws {
         guard entity.isSecret else { throw SecretError.entityIsNotSecret(entity: entity) }
@@ -28,30 +28,30 @@ class Secret {
         }
         self.entity = entity
         self.excluded = Secret.getAllSecrets(for: tagClass)
-            .reduce([String: Bool]()) { dict, act in
+            .reduce([MultiIdCard: Bool]()) { dict, act in
                 var ret = dict
                 ret[act] = false
                 return ret
         }
     }
 
-    func exclude(cardId: String) {
+    func exclude(cardId: MultiIdCard) {
         if excluded.keys.contains(cardId) {
             excluded[cardId] = true
         }
     }
 
-    func isExcluded(cardId: String) -> Bool {
+    func isExcluded(cardId: MultiIdCard) -> Bool {
         return excluded.keys.contains(cardId) && excluded[cardId]!
     }
 
-    func include(cardId: String) {
+    func include(cardId: MultiIdCard) {
         if excluded.keys.contains(cardId) {
             excluded[cardId] = false
         }
     }
 
-    private static func getAllSecrets(for heroClass: TagClass) -> [String] {
+    private static func getAllSecrets(for heroClass: TagClass) -> [MultiIdCard] {
         switch heroClass {
         case .hunter: return CardIds.Secrets.Hunter.All
         case .mage: return CardIds.Secrets.Mage.All

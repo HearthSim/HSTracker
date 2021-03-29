@@ -221,15 +221,15 @@ extension CardIds.NonCollectible {
 
 extension CardIds.Secrets {
     struct Rogue {
-        static let All = [CheatDeath, Evasion, SuddenBetrayal, Bamboozle, Ambush, DirtyTricks, Plagiarize, ShadowClone, Shenanigans]
-        static let CheatDeath = CardIds.Collectible.Rogue.CheatDeath
-        static let Evasion = CardIds.Collectible.Rogue.Evasion
-        static let SuddenBetrayal = CardIds.Collectible.Rogue.SuddenBetrayal
-        static let Bamboozle = CardIds.Collectible.Rogue.Bamboozle
-        static let Ambush = CardIds.Collectible.Rogue.Ambush
-        static let DirtyTricks = CardIds.Collectible.Rogue.DirtyTricks
-        static let Plagiarize = CardIds.Collectible.Rogue.Plagiarize
-        static let ShadowClone = CardIds.Collectible.Rogue.ShadowClone
-        static let Shenanigans = CardIds.Collectible.Rogue.Shenanigans
+        static let All = [Ambush, Bamboozle, CheatDeath, DirtyTricks, Evasion, Plagiarize, ShadowClone, Shenanigans, SuddenBetrayal]
+        static let Ambush = MultiIdCard(CardIds.Collectible.Rogue.Ambush)
+        static let Bamboozle = MultiIdCard(CardIds.Collectible.Rogue.Bamboozle)
+        static let CheatDeath = MultiIdCard(CardIds.Collectible.Rogue.CheatDeath)
+        static let DirtyTricks = MultiIdCard(CardIds.Collectible.Rogue.DirtyTricks)
+        static let Evasion = MultiIdCard(CardIds.Collectible.Rogue.Evasion)
+        static let Plagiarize = MultiIdCard(CardIds.Collectible.Rogue.Plagiarize)
+        static let ShadowClone = MultiIdCard(CardIds.Collectible.Rogue.ShadowClone)
+        static let Shenanigans = MultiIdCard(CardIds.Collectible.Rogue.Shenanigans)
+        static let SuddenBetrayal = MultiIdCard(CardIds.Collectible.Rogue.SuddenBetrayal)
     }
 }

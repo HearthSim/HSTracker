@@ -136,6 +136,12 @@ extension CardIds.Collectible {
         static let FlashOfLight = "TRL_307"
         static let BenevolentDjinn = "LOOT_398"
         static let PotionOfHeroism = "LOOT_088"
+        static let AvengeCore = "CORE_FP1_020"
+        static let EyeForAnEyeVanilla = "VAN_EX1_132"
+        static let NobleSacrificeCore = "CORE_EX1_130"
+        static let NobleSacrificeVanilla = "VAN_EX1_130"
+        static let RedemptionVanilla = "VAN_EX1_136"
+        static let RepentanceVanilla = "VAN_EX1_379"
     }
 }
 
@@ -206,20 +212,19 @@ extension CardIds.NonCollectible {
 
 extension CardIds.Secrets {
     struct Paladin {
-        static let All = [AutodefenseMatrix, Avenge, CompetitiveSpirit, EyeForAnEye, HiddenWisdom, NobleSacrifice,
-                          HandOfSalvation, GetawayKodo, Redemption, Repentance, SacredTrial, NeverSurrender, OhMyYogg]
-        static let AutodefenseMatrix = CardIds.Collectible.Paladin.AutodefenseMatrix
-        static let Avenge = CardIds.Collectible.Paladin.Avenge
-        static let CompetitiveSpirit = CardIds.Collectible.Paladin.CompetitiveSpirit
-        static let EyeForAnEye = CardIds.Collectible.Paladin.EyeForAnEye
-        static let GetawayKodo = CardIds.Collectible.Paladin.GetawayKodo
-        static let NobleSacrifice = CardIds.Collectible.Paladin.NobleSacrifice
-        static let Redemption = CardIds.Collectible.Paladin.Redemption
-        static let Repentance = CardIds.Collectible.Paladin.Repentance
-        static let SacredTrial = CardIds.Collectible.Paladin.SacredTrial
-        static let HandOfSalvation = CardIds.NonCollectible.Paladin.HandOfSalvation
-        static let HiddenWisdom = CardIds.Collectible.Paladin.HiddenWisdom
-        static let NeverSurrender = CardIds.Collectible.Paladin.NeverSurrender
-        static let OhMyYogg = CardIds.Collectible.Paladin.OhMyYogg
+        static let All = [AutodefenseMatrix, Avenge, CompetitiveSpirit, EyeForAnEye, GetawayKodo, HandOfSalvation, HiddenWisdom, NeverSurrender, NobleSacrifice, OhMyYogg, Redemption, Repentance, SacredTrial ]
+        static let AutodefenseMatrix = MultiIdCard(CardIds.Collectible.Paladin.AutodefenseMatrix)
+        static let Avenge = MultiIdCard(CardIds.Collectible.Paladin.Avenge, CardIds.Collectible.Paladin.AvengeCore)
+        static let CompetitiveSpirit = MultiIdCard(CardIds.Collectible.Paladin.CompetitiveSpirit)
+        static let EyeForAnEye = MultiIdCard(CardIds.Collectible.Paladin.EyeForAnEye, CardIds.Collectible.Paladin.EyeForAnEyeVanilla)
+        static let GetawayKodo = MultiIdCard(CardIds.Collectible.Paladin.GetawayKodo)
+        static let HandOfSalvation = MultiIdCard(CardIds.NonCollectible.Paladin.HandOfSalvation)
+        static let HiddenWisdom = MultiIdCard(CardIds.Collectible.Paladin.HiddenWisdom)
+        static let NeverSurrender = MultiIdCard(CardIds.Collectible.Paladin.NeverSurrender)
+        static let NobleSacrifice = MultiIdCard(CardIds.Collectible.Paladin.NobleSacrifice, CardIds.Collectible.Paladin.NobleSacrificeCore, CardIds.Collectible.Paladin.NobleSacrificeVanilla)
+        static let OhMyYogg = MultiIdCard(CardIds.Collectible.Paladin.OhMyYogg)
+        static let Redemption = MultiIdCard(CardIds.Collectible.Paladin.Redemption, CardIds.Collectible.Paladin.RedemptionVanilla)
+        static let Repentance = MultiIdCard(CardIds.Collectible.Paladin.Repentance, CardIds.Collectible.Paladin.RepentanceVanilla)
+        static let SacredTrial = MultiIdCard(CardIds.Collectible.Paladin.SacredTrial)
     }
 }
