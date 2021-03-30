@@ -238,7 +238,7 @@ struct TagChangeActions {
         guard let playerEntity = eventHandler.playerEntity, let entity = eventHandler.entities[id] else { return }
         
         if playerEntity.isCurrentPlayer {
-            eventHandler.opponentDamage(entity: entity)
+            eventHandler.opponentDamage(entity: entity, damage: value)
         }
     }
 

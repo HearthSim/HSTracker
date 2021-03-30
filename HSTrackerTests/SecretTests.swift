@@ -269,7 +269,7 @@ class SecretTests: HSTrackerTests {
                                   CardIds.Secrets.Hunter.VenomstrikeTrap,
                                   CardIds.Secrets.Hunter.PackTactics])
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
-                      triggered: [CardIds.Secrets.Mage.SplittingImage])
+                      triggered: [CardIds.Secrets.Mage.OasisAlly, CardIds.Secrets.Mage.SplittingImage])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
                       triggered: [CardIds.Secrets.Paladin.NobleSacrifice,
                                   CardIds.Secrets.Paladin.AutodefenseMatrix])
@@ -284,7 +284,7 @@ class SecretTests: HSTrackerTests {
                                   CardIds.Secrets.Hunter.VenomstrikeTrap,
                                   CardIds.Secrets.Hunter.PackTactics])
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
-                      triggered: [CardIds.Secrets.Mage.SplittingImage])
+                      triggered: [CardIds.Secrets.Mage.OasisAlly, CardIds.Secrets.Mage.SplittingImage])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
                       triggered: [CardIds.Secrets.Paladin.NobleSacrifice,
                                   CardIds.Secrets.Paladin.AutodefenseMatrix])
@@ -298,7 +298,7 @@ class SecretTests: HSTrackerTests {
                                   CardIds.Secrets.Hunter.VenomstrikeTrap,
                                   CardIds.Secrets.Hunter.PackTactics])
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
-                      triggered: [CardIds.Secrets.Mage.SplittingImage])
+                      triggered: [CardIds.Secrets.Mage.OasisAlly, CardIds.Secrets.Mage.SplittingImage])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
                       triggered: [CardIds.Secrets.Paladin.NobleSacrifice])
         verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All, triggered: [CardIds.Secrets.Rogue.Bamboozle])
@@ -312,7 +312,7 @@ class SecretTests: HSTrackerTests {
                                   CardIds.Secrets.Hunter.VenomstrikeTrap,
                                   CardIds.Secrets.Hunter.PackTactics])
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
-                      triggered: [CardIds.Secrets.Mage.SplittingImage])
+                      triggered: [CardIds.Secrets.Mage.OasisAlly, CardIds.Secrets.Mage.SplittingImage])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
                       triggered: [CardIds.Secrets.Paladin.NobleSacrifice])
         verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All, triggered: [CardIds.Secrets.Rogue.Bamboozle])
@@ -372,13 +372,30 @@ class SecretTests: HSTrackerTests {
     }
 
     func testSingleSecret_OpponentDamage() {
-        game.opponentDamage(entity: heroOpponent)
+        game.opponentDamage(entity: heroOpponent, damage: 1)
         verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All)
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All)
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
                       triggered: [CardIds.Secrets.Paladin.EyeForAnEye])
         verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All,
                       triggered: [CardIds.Secrets.Rogue.Evasion])
+    }
+
+    func testSingleSecret_MinionOpponentDamage_ReckoningNotTriggered() {
+        game.opponentDamage(entity: opponentMinion1, damage: 1)
+        verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All)
+        verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All)
+        verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All)
+        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
+    }
+
+    func testSingleSecret_MinionOpponentDamage_ReckoningTriggered() {
+        game.opponentDamage(entity: opponentMinion1, damage: 3)
+        verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All)
+        verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All)
+        verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
+                      triggered: [CardIds.Secrets.Paladin.Reckoning])
+        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
     }
 
     func testSingleSecret_MinionTarget_SpellPlayed() {
@@ -663,4 +680,22 @@ class SecretTests: HSTrackerTests {
 //        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All, triggered: [CardIds.Secrets.Rogue.Bamboozle])
 //    }
     // TODO: Add test for Rat Trap, Hidden Wisdom, Sacred Trial, etc.
+
+    func testSingleSecret_OpponentPlaysTwoCards() {
+        heroPlayer[GameTag.num_cards_played_this_turn] = 2
+        game.secretsManager?.handleCardPlayed(entity: playerMinion1)
+        verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All)
+        verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All)
+        verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All)
+        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
+    }
+
+    func testSingleSecret_OpponentPlaysThreeCards() {
+        heroPlayer[GameTag.num_cards_played_this_turn] = 3
+        game.secretsManager?.handleCardPlayed(entity: playerMinion1)
+        verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All, triggered: [CardIds.Secrets.Hunter.RatTrap])
+        verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All)
+        verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All, triggered: [CardIds.Secrets.Paladin.GallopingSavior, CardIds.Secrets.Paladin.HiddenWisdom])
+        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
+    }
 }

@@ -96,7 +96,7 @@ protocol PowerEventHandler: class {
     
     func playerMinionDeath(entity: Entity)
 	
-	func opponentDamage(entity: Entity)
+    func opponentDamage(entity: Entity, damage: Int)
     
     func handleChameleosReveal(cardId: String)
     

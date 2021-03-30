@@ -245,6 +245,7 @@ class SecretsManager {
             }
             
             if freeSpaceOnBoard {
+                exclude.append(CardIds.Secrets.Mage.OasisAlly)
                 exclude.append(CardIds.Secrets.Mage.SplittingImage)
                 exclude.append(CardIds.Secrets.Hunter.PackTactics)
                 exclude.append(CardIds.Secrets.Hunter.SnakeTrap)
@@ -405,7 +406,7 @@ class SecretsManager {
         }
     }
 
-    func handleOpponentDamage(entity: Entity) {
+    func handleOpponentDamage(entity: Entity, damage: Int) {
         guard handleAction else { return }
 
         if entity.isHero && entity.isControlled(by: game.opponent.id) {
@@ -414,6 +415,10 @@ class SecretsManager {
                 exclude(cardId: CardIds.Secrets.Rogue.Evasion)
                 opponentTookDamageDuringTurns.append(game.turnNumber())
             }
+        }
+        
+        if damage >= 3 && entity.isMinion && entity.isControlled(by: game.opponent.id) {
+            exclude(cardId: CardIds.Secrets.Paladin.Reckoning)
         }
     }
 
@@ -463,7 +468,8 @@ class SecretsManager {
         if freeSpaceOnBoard {
             if let player = game.playerEntity, player.has(tag: .num_cards_played_this_turn) &&
                 (player[.num_cards_played_this_turn] >= 3) {
-                    exclude.append(CardIds.Secrets.Hunter.RatTrap)
+                exclude.append(CardIds.Secrets.Hunter.RatTrap)
+                exclude.append(CardIds.Secrets.Paladin.GallopingSavior)
             }
         }
         

@@ -142,6 +142,7 @@ extension CardIds.Collectible {
         static let MirrorEntityVanilla = "VAN_EX1_294"
         static let SpellbenderVanilla = "VAN_tt_010"
         static let VaporizeVanilla = "VAN_EX1_594"
+        static let OasisAlly = "BAR_812"
     }
 }
 
@@ -212,7 +213,7 @@ extension CardIds.NonCollectible {
 extension CardIds.Secrets {
     struct Mage {
         static let All = [Counterspell, Duplicate, Effigy, ExplosiveRunes, FrozenClone, IceBarrier,
-                          IceBlock, ManaBind, MirrorEntity, PotionOfPolymorph, Spellbender,
+                          IceBlock, ManaBind, MirrorEntity, OasisAlly, PotionOfPolymorph, Spellbender,
                           SplittingImage, Vaporize, FlameWard, NetherwindPortal, RiggedFaireGame]
         static let Counterspell = MultiIdCard(CardIds.Collectible.Mage.Counterspell, CardIds.Collectible.Mage.CounterspellCore, CardIds.Collectible.Mage.CounterspellVanilla)
         static let Duplicate = MultiIdCard(CardIds.Collectible.Mage.Duplicate)
@@ -225,6 +226,7 @@ extension CardIds.Secrets {
         static let ManaBind = MultiIdCard(CardIds.Collectible.Mage.ManaBind)
         static let MirrorEntity = MultiIdCard(CardIds.Collectible.Mage.MirrorEntity, CardIds.Collectible.Mage.MirrorEntityCore, CardIds.Collectible.Mage.MirrorEntityVanilla)
         static let NetherwindPortal = MultiIdCard(CardIds.Collectible.Mage.NetherwindPortal)
+        static let OasisAlly = MultiIdCard(CardIds.Collectible.Mage.OasisAlly)
         static let PotionOfPolymorph = MultiIdCard(CardIds.Collectible.Mage.PotionOfPolymorph)
         static let RiggedFaireGame = MultiIdCard(CardIds.Collectible.Mage.RiggedFaireGame)
         static let Spellbender = MultiIdCard(CardIds.Collectible.Mage.Spellbender, CardIds.Collectible.Mage.SpellbenderVanilla)

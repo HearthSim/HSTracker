@@ -2206,8 +2206,8 @@ class Game: NSObject, PowerEventHandler {
         secretsManager?.handleOpponentMinionDeath(entity: entity)
     }
 
-    func opponentDamage(entity: Entity) {
-        secretsManager?.handleOpponentDamage(entity: entity)
+    func opponentDamage(entity: Entity, damage: Int) {
+        secretsManager?.handleOpponentDamage(entity: entity, damage: damage)
     }
 
     func opponentTurnStart(entity: Entity) {
