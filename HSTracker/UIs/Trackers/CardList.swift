@@ -15,6 +15,7 @@ class CardList: OverWindowController {
 
     fileprivate var animatedCards: [CardBar] = []
     let semaphore = DispatchSemaphore(value: 1)
+    var isSecretPanel = false
 
     var observer: NSObjectProtocol?
 
@@ -169,7 +170,7 @@ extension CardList: CardCellHover {
         let hoverFrame = NSRect(x: 0, y: 0, width: 200, height: 300)
 
         var x: CGFloat
-        if windowRect.origin.x < hoverFrame.size.width {
+        if windowRect.origin.x < hoverFrame.size.width || isSecretPanel {
             x = windowRect.origin.x + windowRect.size.width
         } else {
             x = windowRect.origin.x - hoverFrame.size.width

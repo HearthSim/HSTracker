@@ -120,6 +120,7 @@ class WindowManager {
     var triggers: [NSObjectProtocol] = []
     
     func startManager() {
+        secretTracker.isSecretPanel = true
         if triggers.count == 0 {
             let events = [
                 Events.show_floating_card: self.showFloatingCard,

@@ -171,7 +171,7 @@ class SecretsManager {
             } else {
                 if remoteData.arena?.exclusive_secrets?.count ?? 0 > 0 {
                     cards = cards.filter({ card in
-                        !(remoteData.arena?.exclusive_secrets?.all { s in card != s } ?? true)
+                        remoteData.arena?.exclusive_secrets?.all { s in card != s } ?? true
                     })
                 }
                 if format == .standard {
