@@ -51,7 +51,7 @@ final class Cards {
         }
         
         if let card = cardsById[cardId!] {
-            if card.type == .hero && card.set != CardSet.core && card.set != CardSet.hero_skins {
+            if card.type == .hero && card.set != CardSet.hero_skins {
                 return true
             }
         }
@@ -62,8 +62,7 @@ final class Cards {
         guard !cardId.isBlank else { return nil }
 
         if let card = cardsById[cardId!] {
-            if card.type != .hero_power && (card.type != .hero || (card.type == .hero &&
-                                                                    card.set != CardSet.core && card.set != CardSet.hero_skins)) {
+            if card.type != .hero_power && (card.type != .hero || (card.type == .hero && card.set != CardSet.hero_skins)) {
                 return card.copy() as? Card
             }
         }

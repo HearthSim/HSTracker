@@ -96,7 +96,7 @@ class Database {
                             card.dbfId = dbfId
                         }
 
-                        card.isStandard = !CardSet.wildSets().contains(set)
+                        card.isStandard = !CardSet.wildSets().contains(set) && !CardSet.classicSets().contains(set)
 
                         if let cost = jsonCard["cost"] as? Int {
                             card.cost = cost
