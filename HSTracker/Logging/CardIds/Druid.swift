@@ -135,6 +135,8 @@ extension CardIds.Collectible {
         static let WitchwoodApple = "GIL_663"
         static let Pounce = "TRL_243"
         static let SavageStriker = "TRL_240"
+        static let MarkOfTheSpikeshell = "BAR_549"
+        static let ThorngrowthSentries = "BAR_533"
     }
 }
 
@@ -270,6 +272,7 @@ extension CardIds.NonCollectible {
         static let GonksArmament = "TRLA_112"
         static let GonksMark = "TRLA_115"
         static let BondsOfBalance = "TRLA_116"
+        static let ThorngrowthSentries_ThornguardTurtleToken = "BAR_533t"
     }
 }
 

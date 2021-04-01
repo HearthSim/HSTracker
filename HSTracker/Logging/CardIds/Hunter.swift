@@ -146,6 +146,7 @@ extension CardIds.Collectible {
         static let SnipeVanilla = "VAN_EX1_609"
         static let SnakeTrapCore = "CORE_EX1_554"
         static let SnakeTrapVanilla = "VAN_EX1_554"
+        static let SunscaleRaptor = "BAR_031"
     }
 }
 

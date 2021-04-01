@@ -601,6 +601,8 @@ extension CardIds.Collectible {
         static let WaxElemental = "LOOT_117"
         static let ArenaPatron = "TRL_521"
         static let CthunTheShattered = "DMF_254"
+        static let Mankrik = "BAR_721"
+        static let ShadowHunterVoljin = "BAR_080"
     }
 }
 
@@ -2236,6 +2238,7 @@ extension CardIds.NonCollectible {
         static let CThuntheShattered_BodyOfCthunToken = "DMF_254t5"
         static let CThuntheShattered_CthunsBodyToken = "DMF_254t5t"
         static let CThuntheShattered_MawOfCthunToken = "DMF_254t7"
+        static let Mankrik_OlgraMankriksWifeToken = "BAR_721t"
     }
 }
 

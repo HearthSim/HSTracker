@@ -598,7 +598,8 @@ class PowerGameStateParser: LogEventParser {
                              //CardIds.Collectible.Priest.HolyWater: -- TODO
                              CardIds.Collectible.Neutral.BalefulBanker,
                              CardIds.Collectible.Neutral.DollmasterDorian,
-                             CardIds.Collectible.Priest.Seance:
+                             CardIds.Collectible.Priest.Seance,
+                             CardIds.Collectible.Druid.MarkOfTheSpikeshell:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: getTargetCardId(matches: matches))
                         case CardIds.Collectible.Mage.ForgottenTorch:
@@ -644,6 +645,10 @@ class PowerGameStateParser: LogEventParser {
                         case CardIds.Collectible.Mage.GhastlyConjurer:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.Collectible.Mage.MirrorImage)
+                        case CardIds.Collectible.Druid.ThorngrowthSentries:
+                            addKnownCardId(eventHandler: eventHandler, cardId:
+                                            CardIds.NonCollectible.Druid.ThorngrowthSentries_ThornguardTurtleToken,
+                                           count: 2)
                         case CardIds.Collectible.Mage.DeckOfWonders:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Mage.DeckofWondersScrollOfWonderToken, count: 5)
@@ -753,6 +758,12 @@ class PowerGameStateParser: LogEventParser {
                             // This currently leads to a duplicate copy of C'Thun showing up in the
                             // opponents deck list, but it will have to do for now.
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Neutral.CthunTheShattered)
+                        case CardIds.Collectible.Hunter.SunscaleRaptor:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Hunter.SunscaleRaptor)
+                        case CardIds.Collectible.Neutral.Mankrik:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.Mankrik_OlgraMankriksWifeToken)
+                        case CardIds.Collectible.Neutral.ShadowHunterVoljin:
+                            addKnownCardId(eventHandler: eventHandler, cardId: getTargetCardId(matches: matches))
                         default:
                             if let card = Cards.any(byId: actionStartingCardId) {
                                 if (player != nil && player![.current_player] == 1
