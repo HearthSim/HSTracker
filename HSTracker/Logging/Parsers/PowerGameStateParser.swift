@@ -66,7 +66,6 @@ class PowerGameStateParser: LogEventParser {
 
     private var maxBlockId: Int = 0
     private var currentBlock: Block?
-    private var inCreateGameBlock = false
     
     func getCurrentBlock() -> Block? {
         return self.currentBlock
@@ -143,11 +142,6 @@ class PowerGameStateParser: LogEventParser {
                 return
             }
         } else if logLine.line.match(TagChangeRegex) {
-            if self.inCreateGameBlock {
-                self.inCreateGameBlock = false
-                self.autoDetectDeck()
-            }
-            
             let matches = logLine.line.matches(TagChangeRegex)
             let rawEntity = matches[0].value
                 .replacingOccurrences(of: "UNKNOWN ENTITY ", with: "")
@@ -235,11 +229,6 @@ class PowerGameStateParser: LogEventParser {
                 }
             }
         } else if logLine.line.match(CreationRegex) {
-            if self.inCreateGameBlock {
-                self.inCreateGameBlock = false
-                self.autoDetectDeck()
-            }
-            
             let matches = logLine.line.matches(CreationRegex)
             guard let id = Int(matches[0].value) else {
                 logger.error("Failed to convert id to integer: Log line was $(logLine.line)")
@@ -289,11 +278,6 @@ class PowerGameStateParser: LogEventParser {
             eventHandler.currentEntityZone = zone
             return
         } else if logLine.line.match(UpdatingEntityRegex) {
-            if self.inCreateGameBlock {
-                self.inCreateGameBlock = false
-                self.autoDetectDeck()
-            }
-            
             let matches = logLine.line.matches(UpdatingEntityRegex)
             let type = matches[0].value
             let rawEntity = matches[1].value
@@ -390,11 +374,6 @@ class PowerGameStateParser: LogEventParser {
         if logLine.line.contains("End Spectator") {
             eventHandler.gameEnd()
         } else if logLine.line.contains("BLOCK_START") {
-            if self.inCreateGameBlock {
-                self.inCreateGameBlock = false
-                self.autoDetectDeck()
-            }
-            
             var type: String?
             var cardId: String?
             var correspondPlayer: Int?
@@ -407,8 +386,12 @@ class PowerGameStateParser: LogEventParser {
                 cardId = matches[3].value
             }
             
+            let target = getTargetCardId(matches: matches)
+            
             if matches.count > 4 {
-                correspondPlayer = Int(matches[4].value)!
+                if let v = Int(matches[4].value) {
+                    correspondPlayer = v
+                }
             }
             
             blockStart(type: type, cardId: cardId)
@@ -467,11 +450,11 @@ class PowerGameStateParser: LogEventParser {
                                             .DirehornHatchling_DirehornMatriarchToken)
                         case CardIds.Collectible.Mage.FrozenClone:
                             addKnownCardId(eventHandler: eventHandler,
-                                           cardId: getTargetCardId(matches: matches),
+                                           cardId: target,
                                            count: 2)
                         case CardIds.Collectible.Shaman.Moorabi, CardIds.Collectible.Rogue.SonyaShadowdancer:
                             addKnownCardId(eventHandler: eventHandler,
-                                           cardId: getTargetCardId(matches: matches))
+                                           cardId: target)
                         case CardIds.Collectible.Neutral.HoardingDragon:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Neutral.TheCoinBasic, count: 2)
@@ -580,7 +563,7 @@ class PowerGameStateParser: LogEventParser {
                              CardIds.Collectible.Hunter.DireFrenzy,
                              CardIds.Collectible.Rogue.LabRecruiter:
                             addKnownCardId(eventHandler: eventHandler,
-                                           cardId: getTargetCardId(matches: matches),
+                                           cardId: target,
                                            count: 3)
                         case CardIds.Collectible.Rogue.BeneathTheGrounds:
                             addKnownCardId(eventHandler: eventHandler,
@@ -601,7 +584,7 @@ class PowerGameStateParser: LogEventParser {
                              CardIds.Collectible.Priest.Seance,
                              CardIds.Collectible.Druid.MarkOfTheSpikeshell:
                             addKnownCardId(eventHandler: eventHandler,
-                                           cardId: getTargetCardId(matches: matches))
+                                           cardId: target)
                         case CardIds.Collectible.Mage.ForgottenTorch:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Mage
@@ -720,7 +703,7 @@ class PowerGameStateParser: LogEventParser {
                                            cardId: CardIds.NonCollectible.Neutral.PortalKeeper_FelhoundPortalToken)
                         case CardIds.Collectible.Rogue.TogwagglesScheme:
                             addKnownCardId(eventHandler: eventHandler,
-                                           cardId: getTargetCardId(matches: matches))
+                                           cardId: target)
                         case CardIds.Collectible.Paladin.SandwaspQueen:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Paladin.SandwaspQueen_SandwaspToken,
@@ -740,9 +723,9 @@ class PowerGameStateParser: LogEventParser {
                         case CardIds.Collectible.Rogue.UmbralSkulker:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.TheCoinBasic, count: 3)
                         case CardIds.Collectible.Neutral.Sathrovarr:
-                            addKnownCardId(eventHandler: eventHandler, cardId: getTargetCardId(matches: matches), count: 3)
+                            addKnownCardId(eventHandler: eventHandler, cardId: target, count: 3)
                         case CardIds.Collectible.Neutral.DragonBreeder:
-                            addKnownCardId(eventHandler: eventHandler, cardId: getTargetCardId(matches: matches))
+                            addKnownCardId(eventHandler: eventHandler, cardId: target)
                         case CardIds.Collectible.Warlock.SchoolSpirits, CardIds.Collectible.Warlock.SoulShear, CardIds.Collectible.Warlock.SpiritJailer, CardIds.Collectible.DemonHunter.Marrowslicer:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Warlock.SchoolSpirits_SoulFragmentToken, count: 2)
                         case CardIds.Collectible.Mage.ConfectionCyclone:
@@ -763,7 +746,7 @@ class PowerGameStateParser: LogEventParser {
                         case CardIds.Collectible.Neutral.Mankrik:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.Mankrik_OlgraMankriksWifeToken)
                         case CardIds.Collectible.Neutral.ShadowHunterVoljin:
-                            addKnownCardId(eventHandler: eventHandler, cardId: getTargetCardId(matches: matches))
+                            addKnownCardId(eventHandler: eventHandler, cardId: target)
                         default:
                             if let card = Cards.any(byId: actionStartingCardId) {
                                 if (player != nil && player![.current_player] == 1
@@ -793,7 +776,6 @@ class PowerGameStateParser: LogEventParser {
                 eventHandler.gameTriggerCount += 1
             }
         } else if logLine.line.contains("CREATE_GAME") {
-            self.inCreateGameBlock = true
             tagChangeHandler.clearQueuedActions()
 
             // indicate game start

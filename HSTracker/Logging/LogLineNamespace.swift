@@ -72,7 +72,7 @@ enum LogLineNamespace: String {
     zone = "Zone"
     
     static func usedValues() -> [LogLineNamespace] {
-        return [.power, .rachelle, .arena, .loadingScreen, .decks]
+        return [.power, .rachelle, .arena, .loadingScreen, .decks, .fullScreenFX]
     }
     
     static func allValues() -> [LogLineNamespace] {
