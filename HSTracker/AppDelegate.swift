@@ -152,6 +152,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             initalConfig?.window?.orderFrontRegardless()
         }
         
+        if let rp = Bundle.main.resourcePath {
+            logger.info("Resource path: \(rp)")
+        } else {
+            logger.warning("Failed to obtain bundle resource path")
+        }
+        
         Analytics.trackEvent("app_start")
     }
     
