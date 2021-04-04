@@ -185,6 +185,9 @@ class SecretsManager {
         }
 
         return cards.compactMap { x in
+            if x.count == 0 {
+                return nil
+            }
             if let card = x.getCardForFormat(format: format) {
                 card.count = x.count
                 return card
