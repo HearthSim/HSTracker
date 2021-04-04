@@ -126,16 +126,17 @@ class Tracker: OverWindowController {
         toUpdate.forEach { (card: CardBar) in
             let newCard = newCards.first { $0.id == card.card!.id }
             toRemove[card] = newCard == nil
-            if newCard != nil {
+            if let newCard = newCard {
                 let newAnimated = CardBar.factory()
                 newAnimated.playerType = self.playerType
                 newAnimated.setDelegate(self)
                 newAnimated.card = newCard
 
-                let index = animatedCards.firstIndex(of: card)!
-                animatedCards.insert(newAnimated, at: index)
-                newAnimated.update(highlight: true)
-                newCards.remove(newCard!)
+                if let index = animatedCards.firstIndex(of: card) {
+                    animatedCards.insert(newAnimated, at: index)
+                    newAnimated.update(highlight: true)
+                    newCards.remove(newCard)
+                }
             }
         }
         for (cardCellView, fadeOut) in toRemove {

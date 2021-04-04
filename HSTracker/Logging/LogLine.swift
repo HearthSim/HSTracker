@@ -10,6 +10,7 @@
 
 import Foundation
 import RegexUtil
+import AppCenterAnalytics
 
 class LogDateFormatter: DateFormatter {
 	
@@ -126,9 +127,18 @@ struct LogLine {
 		return formatter
 	}()
 	
+    static var trackedFailure = false
+    
 	static func DateNoTime(date: Date) -> Date {
 		let str = LogLine.trimFormatter.string(from: date) // 12/15/16
-		return LogLine.trimFormatter.date(from: str)!
+        if let result = LogLine.trimFormatter.date(from: str) {
+            return result
+        }
+        if !trackedFailure {
+            Analytics.trackEvent("DateNoTime", withProperties: ["str": str, "date": date.debugDescription])
+            trackedFailure = true
+        }
+        return Date()
 	}
 	
 	init(namespace: LogLineNamespace, line: String) {
