@@ -139,6 +139,7 @@ extension CardIds.Collectible {
         static let Springpaw = "TRL_348"
         static let CaveHydra = "LOOT_078"
         static let UntamedBeastmaster = "TRL_405"
+        static let ExplosiveTrapCore = "CORE_EX1_610"
         static let ExplosiveTrapVanilla = "VAN_EX1_610"
         static let FreezingTrapCore = "CORE_EX1_611"
         static let FreezingTrapVanilla = "VAN_EX1_611"
@@ -226,7 +227,7 @@ extension CardIds.Secrets {
         static let BearTrap = MultiIdCard(CardIds.Collectible.Hunter.BearTrap)
         static let CatTrick = MultiIdCard(CardIds.Collectible.Hunter.CatTrick)
         static let DartTrap = MultiIdCard(CardIds.Collectible.Hunter.DartTrap)
-        static let ExplosiveTrap = MultiIdCard(CardIds.Collectible.Hunter.ExplosiveTrap, CardIds.Collectible.Hunter.ExplosiveTrapVanilla)
+        static let ExplosiveTrap = MultiIdCard(CardIds.Collectible.Hunter.ExplosiveTrap, CardIds.Collectible.Hunter.ExplosiveTrapCore, CardIds.Collectible.Hunter.ExplosiveTrapVanilla)
         static let FreezingTrap = MultiIdCard(CardIds.Collectible.Hunter.FreezingTrap, CardIds.Collectible.Hunter.FreezingTrapCore, CardIds.Collectible.Hunter.FreezingTrapVanilla)
         static let HiddenCache = MultiIdCard(CardIds.Collectible.Hunter.HiddenCache)
         static let Misdirection = MultiIdCard(CardIds.Collectible.Hunter.Misdirection, CardIds.Collectible.Hunter.MisdirectionVanilla)
