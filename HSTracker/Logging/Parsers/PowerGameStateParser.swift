@@ -836,6 +836,9 @@ class PowerGameStateParser: LogEventParser {
     }
 
     private func getTargetCardId(matches: [Match]) -> String? {
+        if matches.count < 5 {
+            return nil
+        }
         let target = matches[4].value.trim()
         guard target.hasPrefix("[") && tagChangeHandler.isEntity(rawEntity: target) else {
             return nil
