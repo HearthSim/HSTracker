@@ -3,6 +3,7 @@
 - Improved secret handling for different modes
 - Add Barrens known card ids
 - Improve deck detection logic
+- Add support for Book of Mercenaries
 ## Fixes
 - Fixed Core set cards causing deck detection failure
 - Fixed diamond cards causing deck deteciton failure
