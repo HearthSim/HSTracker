@@ -207,7 +207,7 @@ class DungeonRunDeckWatcher: Watcher {
         var isDungeonCrawl = false
         var isBOH = false
         if config.adventureModeId == .dungeon_crawl || config.adventureModeId == .dungeon_crawl_heroic {
-            if config.adventureId != .boh {
+            if config.adventureId != .boh && config.adventureId != .bom {
                 isDungeonCrawl = true
                 if config.adventureModeId == .dungeon_crawl {
                     key = DungeonRunDeckWatcher.saveKeys[config.adventureId] ?? .invalid
@@ -251,7 +251,7 @@ class DungeonRunDeckWatcher: Watcher {
                     }
                     DungeonRunDeckWatcher.dungeonRunMatchStarted?(newRun, card.set ?? .invalid)
                     return true
-                } else if isBOH && card.id.contains("Story_") {
+                } else if isBOH && (card.id.contains("Story_") || card.id.contains("BOM_")) {
                     if config.selectedMission > 0, let deckId = MirrorHelper.getScenarioDeckId(id: config.selectedMission) {
                         if let dbfids = MirrorHelper.getDungeonDeck(id: deckId) {
                             let cards = dbfids.compactMap({ x in

@@ -28,6 +28,7 @@ enum AdventureDbId: Int {
          bta = 617,
          bta_heroic = 636,
          boh = 644,
+         bom = 669,
          tavern_brawl = 7,
          returning_player = 245,
          blackrock_crash = 574,
