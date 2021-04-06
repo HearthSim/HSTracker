@@ -1,3 +1,13 @@
+# 1.9.1
+## New:
+- Improved secret handling for different modes
+- Add Barrens known card ids
+- Improve deck detection logic
+## Fixes
+- Fixed Core set cards causing deck detection failure
+- Fixed diamond cards causing deck deteciton failure
+- Fixed some more reported potential crash locations
+
 # 1.9.0
 ## New:
 - Add tavern upgrade and triple history
