@@ -59,7 +59,7 @@ enum CardSet: String, CaseIterable {
     }
     
     static func wildSets() -> [CardSet] {
-        return [.naxx, .gvg, .brm, .tgt, .loe, .og, .hof, .promo,
+        return [.naxx, .gvg, .brm, .tgt, .loe, .og, .hof, .promo, .expert1,
                 .kara, .gangs, .ungoro, .icecrown, .lootapalooza,
                 .gilneas, .boomsday, .troll, .dalaran, .uldum, .dragons, .year_of_the_dragon]
     }
