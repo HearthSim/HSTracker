@@ -442,6 +442,7 @@
 		B8B7CC1F253C721400033758 /* BattlegroundsPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B7CC1E253C721400033758 /* BattlegroundsPreferences.swift */; };
 		B8B7CC20253C74D100033758 /* BattlegroundsPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8B7CC22253C74D100033758 /* BattlegroundsPreferences.xib */; };
 		B8C2F90D2618185D00C31E6A /* FullScreenFxHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C2F90C2618185D00C31E6A /* FullScreenFxHandler.swift */; };
+		B8C2F90F261F530700C31E6A /* GetAccountResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C2F90E261F530700C31E6A /* GetAccountResult.swift */; };
 		B8D75B8F25A9DC9A00446923 /* ExperienceOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8D75B8E25A9DC9A00446923 /* ExperienceOverlay.xib */; };
 		B8D75B9125A9DCDE00446923 /* ExperienceOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D75B9025A9DCDE00446923 /* ExperienceOverlay.swift */; };
 		B8D75B9325A9DD1300446923 /* ExperienceTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D75B9225A9DD1300446923 /* ExperienceTracker.swift */; };
@@ -981,6 +982,7 @@
 		B8B7CC3A253C750600033758 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/BattlegroundsPreferences.strings"; sourceTree = "<group>"; };
 		B8B7CC3C253C750700033758 /* th-TH */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "th-TH"; path = "th-TH.lproj/BattlegroundsPreferences.strings"; sourceTree = "<group>"; };
 		B8C2F90C2618185D00C31E6A /* FullScreenFxHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenFxHandler.swift; sourceTree = "<group>"; };
+		B8C2F90E261F530700C31E6A /* GetAccountResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAccountResult.swift; sourceTree = "<group>"; };
 		B8D75B8E25A9DC9A00446923 /* ExperienceOverlay.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExperienceOverlay.xib; sourceTree = "<group>"; };
 		B8D75B9025A9DCDE00446923 /* ExperienceOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExperienceOverlay.swift; sourceTree = "<group>"; };
 		B8D75B9225A9DD1300446923 /* ExperienceTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExperienceTracker.swift; sourceTree = "<group>"; };
@@ -1709,6 +1711,7 @@
 				E30590BA21174FC900679D66 /* UploadCollectionData.swift */,
 				4335543C1D5FAF0300277B27 /* HSReplayPreferences.xib */,
 				433554381D5FABD600277B27 /* HSReplayPreferences.swift */,
+				B8C2F90E261F530700C31E6A /* GetAccountResult.swift */,
 			);
 			path = HSReplay;
 			sourceTree = "<group>";
@@ -2282,6 +2285,7 @@
 				43BE58BE1DC47C6D00B24A21 /* Paths.swift in Sources */,
 				43BF754F1ECC4EB7005827FF /* Varint.swift in Sources */,
 				B8832DDC26117FCF00646BA4 /* MultiIdCard.swift in Sources */,
+				B8C2F90F261F530700C31E6A /* GetAccountResult.swift in Sources */,
 				437B5BC21CD2568100DE0A41 /* TrackersPreferences.swift in Sources */,
 				439C7EC61C777F8900D29859 /* RachelleHandler.swift in Sources */,
 				434C2F2C1C7F122A001D1D91 /* NewDeck.swift in Sources */,

@@ -122,6 +122,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 logger.debug("HSReplay: Refreshed OAuthToken")
                 Settings.hsReplayOAuthToken =  credential.oauthToken
                 Settings.hsReplayOAuthRefreshToken = credential.oauthRefreshToken
+                HSReplayAPI.getAccount().done { result in
+                    switch result {
+                    case .failed:
+                        logger.error("Failed to retrieve account data")
+                    case .success(account: let data):
+                        logger.info("Successfully retrieved account data: Username: \(data.username), battletag: \(data.battletag)")
+                    }
+                }.catch { error in
+                    logger.error(error)
+                }
             case .failure(let error):
                 logger.error(error)
             }

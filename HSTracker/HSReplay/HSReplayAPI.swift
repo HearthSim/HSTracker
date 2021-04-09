@@ -14,6 +14,13 @@ enum HSReplayError: Error {
     case missingAccount
     case authorizationTokenNotSet
     case collectionUploadMissingURL
+    case genericError(message: String)
+}
+
+enum ClaimBlizzardAccountResponse {
+    case success
+    case error
+    case tokenAlreadyClaimed
 }
 
 class HSReplayAPI {
@@ -21,6 +28,7 @@ class HSReplayAPI {
     static let oAuthClientKey = "pk_live_IB0TiMMT8qrwIJ4G6eVHYaAi"//"pk_test_AUThiV1Ex9nKCbHSFchv7ybX"
     static let oAuthClientSecret = "sk_live_20180308078UceCXo8qmoG72ExZxeqOW"//"sk_test_20180308Z5qWO7yiYpqi8qAmQY0PDzcJ"
     private static let defaultHeaders = ["Accept": "application/json", "Content-Type": "application/json"]
+    static var accountData: AccountData?
 
     static let tokenRenewalHandler: OAuthSwift.TokenRenewedHandler = { result in
         switch result {
@@ -84,24 +92,26 @@ class HSReplayAPI {
         }
     }
 
-    static func claimBattleTag(complete: @escaping () -> Void, failed: @escaping () -> Void ) {
-        guard let accountId = MirrorHelper.getAccountId(), let battleTag = MirrorHelper.getBattleTag() else {
-            failed()
-            return
-        }
-        oauthswift.startAuthorizedRequest("\(HSReplay.claimBattleTagUrl)/\(accountId.hi)/\(accountId.lo)/", method: .POST,
-            parameters: ["battletag": battleTag], headers: defaultHeaders,
-            onTokenRenewal: tokenRenewalHandler,
-            completionHandler: { result in
-                switch result {
-                case .success:
-                    complete()
-                case .failure(let error):
-                    logger.error(error)
-                    failed()
+    static func claimBattleTag(account_hi: Int, account_lo: Int, battleTag: String) -> Promise<ClaimBlizzardAccountResponse> {
+        return Promise<ClaimBlizzardAccountResponse> { seal in
+            oauthswift.startAuthorizedRequest("\(HSReplay.claimBattleTagUrl)/\(account_hi)/\(account_lo)/", method: .POST,
+                parameters: ["battletag": battleTag], headers: defaultHeaders,
+                onTokenRenewal: tokenRenewalHandler,
+                completionHandler: { result in
+                    switch result {
+                    case .success:
+                        seal.fulfill(.success)
+                    case .failure(let error):
+                        logger.error(error)
+                        if error.description.contains("account_already_claimed") {
+                            seal.fulfill(.tokenAlreadyClaimed)
+                        } else {
+                            seal.fulfill(.error)
+                        }
+                    }
                 }
-            }
-        )
+            )
+        }
     }
 
     static func claimAccount() {
@@ -204,28 +214,89 @@ class HSReplayAPI {
     
     static func uploadCollection(collectionData: UploadCollectionData) -> Promise<CollectionUploadResult> {
         return Promise<CollectionUploadResult> { seal in
-            
-            getUploadCollectionToken().done { url in
-                uploadCollectionInternal(collectionData: collectionData, url: url, seal: seal)
-            }.catch { error in
-                logger.error("HSReplay: Collection upload error \(error), retrying...")
-                oauthswift.renewAccessToken(withRefreshToken: Settings.hsReplayOAuthRefreshToken ?? "", completionHandler: { result in
-                    switch result {
-                    case .success(let res):
-                        Settings.hsReplayOAuthToken = res.credential.oauthToken
-                        Settings.hsReplayOAuthRefreshToken = res.credential.oauthRefreshToken
-                        getUploadCollectionToken().done { url in
-                            uploadCollectionInternal(collectionData: collectionData, url: url, seal: seal)
-                        }.catch { error in
-                            logger.error("HSReplay: Failed to obtain collection upload token for 2nd time, aborting")
-                            seal.fulfill(.failed(error: "\(error)"))
-                        }
-                    case .failure(let error):
-                        logger.error("HSReplay: Failed to renew access token, aborting")
-                        seal.fulfill(.failed(error: "\(error)"))
-                    }
-                })
+            guard let accountId = MirrorHelper.getAccountId() else {
+                seal.reject(HSReplayError.missingAccount)
+                return
             }
+            let hi = accountId.hi.intValue
+            let lo = accountId.lo.intValue
+            if !(accountData?.blizzard_accounts.any({ x in x.account_hi == hi && x.account_lo == lo }) ?? false) {
+                if let battleTag = MirrorHelper.getBattleTag() {
+                    HSReplayAPI.claimBattleTag(account_hi: hi, account_lo: lo, battleTag: battleTag).done { result in
+                        switch result {
+                        case .success:
+                            logger.info("Successfully claimed battletag \(battleTag)")
+                            getAccount().done { result in
+                                switch result {
+                                case .success(account: let data):
+                                    self.accountData = data
+                                case .failed:
+                                    logger.debug("Failed to update account data")
+                                }
+                            }.catch { error in
+                                seal.reject(error)
+                            }
+                            getUploadCollectionToken().done { url in
+                                uploadCollectionInternal(collectionData: collectionData, url: url, seal: seal)
+                            }.catch { error in
+                                seal.reject(error)
+                            }
+                        case .tokenAlreadyClaimed:
+                            let message = "Your blizzard account (\(battleTag), \(hi)-\(lo)) is already attached to another HSReplay.net Account. You are currently logged in as \(accountData?.username ?? ""). Please contact us at contact@hsreplay.net if this is not correct."
+                            logger.error(message)
+                            seal.fulfill(.failed(error: message))
+                        case .error:
+                            let message = "Could not attach your Blizzard account (\(battleTag), \(hi)-\(lo)) to HSReplay.net Account (\(accountData?.username ?? "")). Please try again later or contact us at contact@hsreplay.net if this persists."
+                            seal.fulfill(.failed(error: message))
+                        }
+                    }.catch { error in
+                        logger.error(error)
+                        seal.reject(HSReplayError.genericError(message: error.localizedDescription))
+                    }
+                } else {
+                    seal.reject(HSReplayError.missingAccount)
+                }
+            } else {
+                getUploadCollectionToken().done { url in
+                    uploadCollectionInternal(collectionData: collectionData, url: url, seal: seal)
+                }.catch { error in
+                    logger.error(error)
+                    seal.reject(HSReplayError.genericError(message: error.localizedDescription))
+                }
+            }
+        }
+    }
+    
+    private static func parseAccountData(data: Data) -> AccountData? {
+        let decoder = JSONDecoder()
+        do {
+            let ad = try decoder.decode(AccountData.self, from: data)
+            return ad
+        } catch let error {
+            logger.error("Failed to parse account response: \(error)")
+            return nil
+        }
+        
+    }
+    
+    static func getAccount() -> Promise<GetAccountResult> {
+        return Promise<GetAccountResult> { seal in
+            oauthswift.startAuthorizedRequest("\(HSReplay.accountUrl)", method: .GET, parameters: [:], headers: defaultHeaders, onTokenRenewal: tokenRenewalHandler, completionHandler: { result in
+                switch result {
+                case .success(let response):
+                    if let ad = parseAccountData(data: response.data) {
+                        accountData = ad
+                        seal.fulfill(.success(account: ad))
+                    } else {
+                        accountData = nil
+                        seal.fulfill(.failed)
+                    }
+                case .failure(let error):
+                    accountData = nil
+                    logger.error(error)
+                    seal.fulfill(.failed)
+                }
+            })
         }
     }
 }

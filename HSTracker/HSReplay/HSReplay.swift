@@ -21,6 +21,7 @@ struct HSReplay {
     private static let authorizeApi = "/authorize/"
     private static let tokenApi = "/token/"
     private static let collectionTokenApi = "/collection/upload_request/"
+    private static let accountApi = "/account/"
     
     static let baseApiUrl = "\(baseUrl)\(baseApi)"
     static let baseOAuthUrl = "\(hsreplayUrl)\(baseOAuth)"
@@ -32,4 +33,5 @@ struct HSReplay {
     static let claimBattleTagUrl = "\(baseApiUrl)\(claimBattleTagApi)"
     static let oAuthAuthorizeUrl = "\(baseOAuthUrl)\(authorizeApi)"
     static let oAuthTokenUrl = "\(baseOAuthUrl)\(tokenApi)"
+    static let accountUrl = "\(baseApiUrl)\(accountApi)"
 }

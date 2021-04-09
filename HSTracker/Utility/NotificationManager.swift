@@ -72,15 +72,15 @@ class NotificationManager {
 
         case .hsReplayCollectionUploadFailed(let error):
             show(title: NSLocalizedString("HSReplay", comment: ""),
-                message: NSLocalizedString("Failed to upload collection: \(error)", comment: ""))
+                message: NSLocalizedString("Failed to upload collection: \(error)", comment: ""), duration: 10, fontSize: 8)
         }
 }
 
     private static var notificationDelegate = NotificationDelegate()
-    private static func show(title: String, message: String, duration: Double? = 3,
+    private static func show(title: String, message: String, duration: Double? = 3, fontSize: Int? = 14,
                              action: (() -> Void)? = nil) {
         if Settings.useToastNotification {
-            Toast.show(title: title, message: message, duration: duration, action: action)
+            Toast.show(title: title, message: message, duration: duration, fontSize: fontSize, action: action)
         } else {
             let notification = NSUserNotification()
             notification.title = title

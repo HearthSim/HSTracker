@@ -54,6 +54,14 @@ class CollectionWatcher {
         
         toaster.displayToast(viewController: toastViewController, timeoutMillis: timeoutMillis)
     }
+    
+    func hideFeedback() {
+        DispatchQueue.main.async {
+            let windowManager = AppDelegate.instance().coreManager.game.windowManager
+            windowManager.toastWindowController.displayed = false
+            windowManager.show(controller: windowManager.toastWindowController, show: false)
+        }
+    }
 
     private func mirrorCollectionToCollectionUploadData(mirrorCollection: MirrorCollection) -> UploadCollectionData {
                 
@@ -95,22 +103,15 @@ class CollectionWatcher {
         HSReplayAPI.uploadCollection(collectionData: collectionUploadData).done { result in
             switch result {
             case .successful:
-                self.setFeedback(
-                    message: NSLocalizedString("Your collection has been uploaded to HSReplay.net", comment: ""),
-                    loading: false,
-                    timeoutMillis: 5000)
+                NotificationManager.showNotification(type: .hsReplayCollectionUploaded)
             case .failed(let error):
-                self.setFeedback(
-                    message: NSLocalizedString("Failed to upload collection: \(error)", comment: ""),
-                    loading: false,
-                    timeoutMillis: 5000)
+                NotificationManager.showNotification(type: .hsReplayCollectionUploadFailed(error: error))
             }
+            self.hideFeedback()
         }.catch { error in
             logger.error("HSReplay: unexpected error: \(error)")
-            self.setFeedback(
-                message: NSLocalizedString("Failed to upload collection: \(error.localizedDescription)", comment: ""),
-                loading: false,
-                timeoutMillis: 5000)
+            NotificationManager.showNotification(type: .hsReplayCollectionUploadFailed(error: error.localizedDescription))
+            self.hideFeedback()
         }
     }
     

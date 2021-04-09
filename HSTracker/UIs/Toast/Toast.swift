@@ -33,12 +33,13 @@ class Toast {
         return w
     }()
    
-    class func show(title: String, message: String? = nil, duration: Double? = 3,
+    class func show(title: String, message: String? = nil, duration: Double? = 3, fontSize: Int? = 14,
                     action: (() -> Void)? = nil) {
         DispatchQueue.main.async {
             let panel = ToastPanel(title: title,
                                    message: message,
                                    duration: duration,
+                                   fontSize: fontSize,
                                    action: action)
             
             toastWindow.add(panel: panel)
@@ -60,8 +61,9 @@ class Toast {
         
         private let buttonWidth: CGFloat = 80
         private var inClick = false
+        private var fontSize = 14
         
-        convenience init(title: String, message: String? = nil, duration: Double? = nil,
+        convenience init(title: String, message: String? = nil, duration: Double? = nil, fontSize: Int? = 14,
                          action: (() -> Void)? = nil) {
             self.init()
             
@@ -72,6 +74,10 @@ class Toast {
                 self.duration = duration
             } else if action != nil {
                 self.duration = 6
+            }
+            
+            if let fs = fontSize {
+                self.fontSize = fs
             }
             
             self.action = action
@@ -104,7 +110,7 @@ class Toast {
             }
             if let message = message {
                 let attributes = TextAttributes()
-                    .font(NSFont(name: "ChunkFive", size: 14))
+                    .font(NSFont(name: "ChunkFive", size: CGFloat(fontSize)))
                     .foregroundColor(.black)
                 NSAttributedString(string: message, attributes: attributes)
                     .draw(in: messageFrame)
