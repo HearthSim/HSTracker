@@ -16,6 +16,7 @@ final class LogReader {
     var offset: UInt64 = 0
 	var startingPoint: LogDate = LogDate(date: Date.distantPast)
     var fileHandle: FileHandle?
+    var eraseFile = false
 
     var path: String
     let fileManager = FileManager()
@@ -176,6 +177,21 @@ final class LogReader {
 
             Thread.sleep(forTimeInterval: LogReaderManager.updateDelay)
         }
+        
+        fileHandle?.closeFile()
+        fileHandle = nil
+        
+        for lines in _lines {
+            lines.clear()
+        }
+        
+        // try to truncate log file when stopping
+        if fileManager.fileExists(atPath: path) && eraseFile {
+            let file = FileHandle(forWritingAtPath: path)
+            file?.truncateFile(atOffset: UInt64(0))
+            file?.closeFile()
+            offset = 0
+        }
     }
 
     func findInitialOffset() -> UInt64 {
@@ -236,20 +252,7 @@ final class LogReader {
 
 	func stop(eraseLogFile: Bool) {
         logger.info("Stopping tracker \(info.name)")
-        fileHandle?.closeFile()
-        fileHandle = nil
-        
-        for lines in _lines {
-            lines.clear()
-        }
-        
-        // try to truncate log file when stopping
-        if fileManager.fileExists(atPath: path) && eraseLogFile {
-            let file = FileHandle(forWritingAtPath: path)
-            file?.truncateFile(atOffset: UInt64(0))
-            file?.closeFile()
-            offset = 0
-        }
+        eraseFile = eraseLogFile
         stopped = true
     }
     
