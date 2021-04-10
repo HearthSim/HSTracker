@@ -412,8 +412,10 @@ class Game: NSObject, PowerEventHandler {
                     || !Settings.hideAllWhenGameInBackground) && !isBattlegroundsMatch() {
                 if tracker.cardCount() > 0 {
                     tracker.setWindowSizes()
+                    let rect = SizeHelper.secretTrackerFrame(height: tracker.frameHeight)
+                    tracker.contentViewController?.preferredContentSize = rect.size
                     self.windowManager.show(controller: tracker, show: true,
-                                            frame: SizeHelper.secretTrackerFrame(height: tracker.frameHeight),
+                                            frame: rect,
                                             title: nil, overlay: self.hearthstoneRunState.isActive)
                 } else {
                     self.windowManager.show(controller: tracker, show: false)
@@ -1242,7 +1244,6 @@ class Game: NSObject, PowerEventHandler {
 			&& lastGameStartTimestamp > LogDate(date: Date.distantPast)
             && timestamp > lastGameStartTimestamp {
             adventureRestart()
-            return
         }
 
         lastGameStartTimestamp = timestamp
