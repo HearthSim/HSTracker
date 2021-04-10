@@ -16,6 +16,7 @@
 "Edit deck" = "修改卡组";
 "Game" = "游戏";
 "General" = "通用";
+"You must restart HSTracker for the language change to take effect" = "必须重启 HSTracker 使语言设置生效";
 "Loading %@ cards" = "载入 %@ 卡牌";
 "Loading decks" = "载入卡组";
 "Lock windows" = "锁定窗口";
@@ -34,7 +35,6 @@
 "Window" = "窗口";
 "You are now connected to Hearthstats" = "您已连接到 Hearthstats";
 "You must restart Hearthstone for logs to be used" = "为正常记录您的对局，必须重新启动炉石传说";
-"You must restart HSTracker for the language change to take effect" = "必须重启 HSTracker 使语言设置生效";
 "Are you sure you want to disconnect from Hearthstats ?" = "确定要从 Hearthstats 断开吗?";
 "Save Opponent's Deck" = "保存对手的卡组";
 "Save Current Deck" = "保存现在的卡组";
@@ -93,7 +93,9 @@
 
 /* sets */
 "ALL" = "所有";
-"CORE" = "基本";
+"VANILLA" = "经典模式";
+"CORE" = "核心";
+"BASIC" = "基本";
 "EXPERT1" = "经典";
 "NAXX" = "纳克萨玛斯的诅咒";
 "GVG" = "地精大战侏儒";
@@ -118,6 +120,7 @@
 "DEMON_HUNTER_INITIATE" = "恶魔猎手新兵";
 "SCHOLOMANCE" = "通灵学园";
 "DARKMOON_FAIRE" = "疯狂的暗月马戏团";
+"THE_BARRENS" = "贫瘠之地的锤炼";
 
 /* card type */
 "all_types" = "所有";
@@ -168,6 +171,7 @@
 "DeckType_arena"    = "竞技场";
 "DeckType_dungeon"  = "地下城";
 "DeckType_duels"    = "对决";
+"DeckType_classic"  = "经典";
 
 /* Stats tabs */
 "Statistics" = "统计";
@@ -189,10 +193,23 @@
 "Secrets are not yet supported" = "当前还不支持奥秘";
 "Found unknown cards" = "发现未知卡牌";
 "Failed to load BobsBuddy" = "无法加载鲍勃之友";
-"Mono not found" = "无法找到 Mono";
+"Mono not found" = "无法加载 Mono";
 "Unknown error" = "未知错误";
 "Waiting For Combat" = "等待战斗开始";
 "Current Combat" = "本场战斗";
 "Show Current Combat" = "显示本场战斗";
 "Previous Combat" = "上场战斗";
 "Show Previous Combat" = "显示上场战斗";
+
+/* Battlegrounds */
+"Turn" = "回合";
+"Turns" = "回合";
+"%d turn(s) ago" = "%d 回合以前";
+"You have not fought this opponent" = "你未与这名对手对战过";
+
+/* Crashes */
+"HSTracker Crashed" = "HSTracker 崩溃";
+"Do you want to send an anonymous crash report so we can try to fix the issue?" = "你是否愿意发送一个匿名的崩溃报告以帮助我们修复这个问题?";
+"Always send" = "总是发送";
+"Send" = "发送";
+"Don't send" = "不要发送";
