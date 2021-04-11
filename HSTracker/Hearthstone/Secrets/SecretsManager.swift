@@ -248,11 +248,14 @@ class SecretsManager {
             }
             
             if freeSpaceOnBoard {
-                exclude.append(CardIds.Secrets.Mage.OasisAlly)
                 exclude.append(CardIds.Secrets.Mage.SplittingImage)
                 exclude.append(CardIds.Secrets.Hunter.PackTactics)
                 exclude.append(CardIds.Secrets.Hunter.SnakeTrap)
                 exclude.append(CardIds.Secrets.Hunter.VenomstrikeTrap)
+                //I think most of the secrets here could (and maybe should) check for this, but this one definitley does because of Hysteria.
+                if game.playerEntity?.isCurrentPlayer ?? false {
+                    exclude.append(CardIds.Secrets.Mage.OasisAlly)
+                }
             }
 
             if attacker.isMinion {
@@ -441,7 +444,8 @@ class SecretsManager {
         }
         if isCurrentPlayer && (turn > _lastStartOfTurnDamageCheck) {
             _lastStartOfTurnDamageCheck = turn
-            if !opponentTookDamageDuringTurns.contains(game.turnNumber() - 1) {
+            let turnToCheck = turn - (game.playerEntity?.has(tag: .first_player) ?? false ? 0 : 1)
+            if !opponentTookDamageDuringTurns.contains(turnToCheck) {
                 exclude(cardId: CardIds.Secrets.Mage.RiggedFaireGame)
             }
         }

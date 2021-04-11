@@ -2118,6 +2118,13 @@ class Game: NSObject, PowerEventHandler {
         if playersTurn && entity.isMinion {
             opponentMinionDeath(entity: entity, turn: turn)
         }
+        if !playersTurn && entity.info.wasTransformed {
+            Thread.sleep(forTimeInterval: 3.0)
+            if let transformedSecret = secretsManager?.secrets.filter({ x in x.entity.id == entity.id }).first {
+                secretsManager?.removeSecret(entity: transformedSecret.entity)
+            }
+            
+        }
         updateTrackers()
     }
 

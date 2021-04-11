@@ -263,6 +263,7 @@ class SecretTests: HSTrackerTests {
     }
 
     func testSingleSecret_HeroToMinion_PlayerAttack() {
+        game.playerEntity?[.current_player] = 1
         game.secretsManager?.handleAttack(attacker: heroPlayer, defender: opponentMinion1)
         verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All,
                       triggered: [CardIds.Secrets.Hunter.SnakeTrap,
@@ -277,6 +278,7 @@ class SecretTests: HSTrackerTests {
     }
 
     func testSingleSecret_MinionToMinion_PlayerAttack() {
+        game.playerEntity?[.current_player] = 1
         game.secretsManager?.handleAttack(attacker: playerMinion1, defender: opponentMinion1)
         verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All,
                       triggered: [CardIds.Secrets.Hunter.FreezingTrap,
@@ -292,6 +294,7 @@ class SecretTests: HSTrackerTests {
     }
     
     func testSingleSecret_HeroToDivineShieldMinion_PlayerAttackTest() {
+        game.playerEntity?[.current_player] = 1
         game.secretsManager?.handleAttack(attacker: heroPlayer, defender: opponentDivineShieldMinion)
         verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All,
                       triggered: [CardIds.Secrets.Hunter.SnakeTrap,
@@ -305,6 +308,7 @@ class SecretTests: HSTrackerTests {
     }
     
     func testSingleSecret_MinionToDivineShieldMinion_PlayerAttackTest() {
+        game.playerEntity?[.current_player] = 1
         game.secretsManager?.handleAttack(attacker: playerMinion1, defender: opponentDivineShieldMinion)
         verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All,
                       triggered: [CardIds.Secrets.Hunter.FreezingTrap,
