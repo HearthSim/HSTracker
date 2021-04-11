@@ -406,7 +406,7 @@ class PowerGameStateParser: LogEventParser {
                 var actionStartingCardId: String? = matches[3].value
                 var actionStartingEntity: Entity?
 
-                if actionStartingCardId.isBlank {
+                if !actionStartingCardId.isBlank {
                     actionStartingEntity = eventHandler.entities[actionStartingEntityId]
                     if let actionEntity = actionStartingEntity {
                         actionStartingCardId = actionEntity.cardId
