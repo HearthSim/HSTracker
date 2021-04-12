@@ -144,6 +144,7 @@ extension CardIds.Collectible {
         static let BlinkFox = "GIL_827"
         static let AcademicEspionage = "BOT_087"
         static let Shenanigans = "YOP_017"
+        static let WickedStabRank1 = "BAR_319"
     }
 }
 
@@ -216,6 +217,8 @@ extension CardIds.NonCollectible {
         static let BottledTerror = "TRLA_106"
         static let TreasureFromBelow = "TRLA_186"
         static let PiratesMark = "TRLA_187"
+        static let WickedStabRank1_WickedStabRank2Token = "BAR_319t"
+        static let WickedStabRank1_WickedStabRank3Token = "BAR_319t2"
     }
 }
 

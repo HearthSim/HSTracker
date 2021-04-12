@@ -603,6 +603,7 @@ extension CardIds.Collectible {
         static let CthunTheShattered = "DMF_254"
         static let Mankrik = "BAR_721"
         static let ShadowHunterVoljin = "BAR_080"
+        static let TransferStudent = "SCH_199"
     }
 }
 

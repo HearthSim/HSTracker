@@ -12,7 +12,8 @@ import Foundation
 import RegexUtil
 
 class PowerGameStateParser: LogEventParser {
-
+    static let TransferStudentToken = CardIds.Collectible.Neutral.TransferStudent + "t"
+    
     let BlockStartRegex = RegexPattern(stringLiteral: ".*BLOCK_START.*BlockType=(POWER|TRIGGER)"
         + ".*id=(\\d*).*(cardId=(\\w*)).*player=(\\d*).*Target=(.+).*SubOption=(.+)")
     let CardIdRegex: RegexPattern = "cardId=(\\w+)"
@@ -236,7 +237,7 @@ class PowerGameStateParser: LogEventParser {
             }
             guard let zone = Zone(rawString: matches[1].value) else { return }
             var guessedCardId = false
-            var cardId: String? = matches[2].value
+            var cardId: String? = ensureValidCardID(cardId: matches[2].value)
 
             if eventHandler.entities[id] == .none {
                 if cardId.isBlank && zone != .setaside {
@@ -281,7 +282,7 @@ class PowerGameStateParser: LogEventParser {
             let matches = logLine.line.matches(UpdatingEntityRegex)
             let type = matches[0].value
             let rawEntity = matches[1].value
-            let cardId = matches[2].value
+            let cardId = ensureValidCardID(cardId: matches[2].value)
             var entityId: Int?
 
             if rawEntity.hasPrefix("[") && tagChangeHandler.isEntity(rawEntity: rawEntity) {
@@ -833,6 +834,16 @@ class PowerGameStateParser: LogEventParser {
                 eventHandler.set(activeDeckId: nil, autoDetected: false)
             }
         }
+    }
+    
+    private func ensureValidCardID(cardId: String) -> String {
+        if cardId.starts(with: PowerGameStateParser.TransferStudentToken) && !cardId.hasSuffix("e") {
+            return CardIds.Collectible.Neutral.TransferStudent
+        }
+        if let overrideId = CardIds.upgradeOverrides[cardId] {
+            return overrideId
+        }
+        return cardId
     }
 
     private func getTargetCardId(matches: [Match]) -> String? {

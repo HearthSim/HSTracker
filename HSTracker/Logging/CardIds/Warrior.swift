@@ -130,6 +130,7 @@ extension CardIds.Collectible {
         static let DrywhiskerArmorer = "LOOT_367"
         static let EmberscaleDrake = "TRL_323"
         static let DragonRoar = "TRL_362"
+        static let ConditioningRank1 = "BAR_842"
     }
 }
 
@@ -202,6 +203,8 @@ extension CardIds.NonCollectible {
         static let AkalisChampion = "TRLA_104"
         static let AkalisWarDrum = "TRLA_170"
         static let AkalisHorn = "TRLA_171"
+        static let ConditioningRank1_ConditioningRank2Token = "BAR_842t"
+        static let ConditioningRank1_ConditioningRank3Token = "BAR_842t2"
     }
 }
 

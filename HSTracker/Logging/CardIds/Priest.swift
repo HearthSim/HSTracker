@@ -132,6 +132,7 @@ extension CardIds.Collectible {
         static let PsionicProbe = "LOOT_353"
         static let SandDrudge = "TRL_131"
         static let Regenerate = "TRL_128"
+        static let CondemnRank1 = "BAR_314"
     }
 }
 
@@ -180,6 +181,8 @@ extension CardIds.NonCollectible {
         static let BwonsamdisSanctum = "TRLA_114"
         static let BwonsamdisTome = "TRLA_146"
         static let BwonsamdisCovenant = "TRLA_147"
+        static let CondemnRank1_CondemnRank2Token = "BAR_314t"
+        static let CondemnRank1_CondemnRank3Token = "BAR_314t2"
     }
 }
 

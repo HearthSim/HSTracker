@@ -144,6 +144,7 @@ extension CardIds.Collectible {
         static let RepentanceVanilla = "VAN_EX1_379"
         static let ReckoningCore = "CS3_016"
         static let GallopingSavior = "BAR_550"
+        static let ConvictionRank1 = "BAR_880"
     }
 }
 
@@ -209,6 +210,8 @@ extension CardIds.NonCollectible {
         static let ShirvallahsProtection = "TRLA_105"
         static let ShirvallahsVengeance = "TRLA_137"
         static let ShirvallahsGrace = "TRLA_138"
+        static let ConvictionRank1_ConvictionRank2Token = "BAR_880t"
+        static let ConvictionRank1_ConvictionRank3Token = "BAR_880t2"
     }
 }
 

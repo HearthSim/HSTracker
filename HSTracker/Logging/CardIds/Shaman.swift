@@ -128,6 +128,7 @@ extension CardIds.Collectible {
         static let TotemicSmash = "TRL_012"
         static let Wartbringer = "TRL_522"
         static let RainOfToads = "TRL_351"
+        static let ChainLightningRank1 = "BAR_044"
     }
 }
 
@@ -183,6 +184,8 @@ extension CardIds.NonCollectible {
         static let KragwasLure = "TRLA_109"
         static let TributeFromTheTides = "TRLA_154"
         static let KragwasGrace = "TRLA_155"
+        static let ChainLightningRank1_ChainLightningRank2Token = "BAR_044t"
+        static let ChainLightningRank1_ChainLightningRank3Token = "BAR_044t2"
     }
 }
 

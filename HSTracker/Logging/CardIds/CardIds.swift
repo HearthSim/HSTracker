@@ -32,6 +32,29 @@ struct CardIds {
     
     static let hiddenCardidPrefixes: [String] = [ "PVPDR_TEST_" ]
     
+    static let upgradeOverrides = [
+        CardIds.NonCollectible.DemonHunter.FuryRank1_FuryRank2Token: CardIds.Collectible.DemonHunter.FuryRank1,
+        CardIds.NonCollectible.DemonHunter.FuryRank1_FuryRank3Token: CardIds.Collectible.DemonHunter.FuryRank1,
+        CardIds.NonCollectible.Druid.LivingSeedRank1_LivingSeedRank2Token: CardIds.Collectible.Druid.LivingSeedRank1,
+        CardIds.NonCollectible.Druid.LivingSeedRank1_LivingSeedRank3Token: CardIds.Collectible.Druid.LivingSeedRank1,
+        CardIds.NonCollectible.Hunter.TameBeastRank1_TameBeastRank2Token: CardIds.Collectible.Hunter.TameBeastRank1,
+        CardIds.NonCollectible.Hunter.TameBeastRank1_TameBeastRank3Token: CardIds.Collectible.Hunter.TameBeastRank1,
+        CardIds.NonCollectible.Mage.FlurryRank1_FlurryRank2Token: CardIds.Collectible.Mage.FlurryRank1,
+        CardIds.NonCollectible.Mage.FlurryRank1_FlurryRank3Token: CardIds.Collectible.Mage.FlurryRank1,
+        CardIds.NonCollectible.Paladin.ConvictionRank1_ConvictionRank2Token: CardIds.Collectible.Paladin.ConvictionRank1,
+        CardIds.NonCollectible.Paladin.ConvictionRank1_ConvictionRank3Token: CardIds.Collectible.Paladin.ConvictionRank1,
+        CardIds.NonCollectible.Priest.CondemnRank1_CondemnRank2Token: CardIds.Collectible.Priest.CondemnRank1,
+        CardIds.NonCollectible.Priest.CondemnRank1_CondemnRank3Token: CardIds.Collectible.Priest.CondemnRank1,
+        CardIds.NonCollectible.Rogue.WickedStabRank1_WickedStabRank2Token: CardIds.Collectible.Rogue.WickedStabRank1,
+        CardIds.NonCollectible.Rogue.WickedStabRank1_WickedStabRank3Token: CardIds.Collectible.Rogue.WickedStabRank1,
+        CardIds.NonCollectible.Shaman.ChainLightningRank1_ChainLightningRank2Token: CardIds.Collectible.Shaman.ChainLightningRank1,
+        CardIds.NonCollectible.Shaman.ChainLightningRank1_ChainLightningRank3Token: CardIds.Collectible.Shaman.ChainLightningRank1,
+        CardIds.NonCollectible.Warlock.ImpSwarmRank1_ImpSwarmRank2Token: CardIds.Collectible.Warlock.ImpSwarmRank1,
+        CardIds.NonCollectible.Warlock.ImpSwarmRank1_ImpSwarmRank3Token: CardIds.Collectible.Warlock.ImpSwarmRank1,
+        CardIds.NonCollectible.Warrior.ConditioningRank1_ConditioningRank2Token: CardIds.Collectible.Warrior.ConditioningRank1,
+        CardIds.NonCollectible.Warrior.ConditioningRank1_ConditioningRank3Token: CardIds.Collectible.Warrior.ConditioningRank1,
+    ]
+    
     struct Collectible {}
 
     struct NonCollectible {}

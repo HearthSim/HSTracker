@@ -143,6 +143,7 @@ extension CardIds.Collectible {
         static let SpellbenderVanilla = "VAN_tt_010"
         static let VaporizeVanilla = "VAN_EX1_594"
         static let OasisAlly = "BAR_812"
+        static let FlurryRank1 = "BAR_305"
     }
 }
 
@@ -207,6 +208,8 @@ extension CardIds.NonCollectible {
         static let JanalaisMantle = "TRLA_108"
         static let JanalaisFlame = "TRLA_128"
         static let JanalaisProgeny = "TRLA_129"
+        static let FlurryRank1_FlurryRank2Token = "BAR_305t"
+        static let FlurryRank1_FlurryRank3Token = "BAR_305t2"
     }
 }
 

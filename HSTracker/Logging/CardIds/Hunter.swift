@@ -148,6 +148,7 @@ extension CardIds.Collectible {
         static let SnakeTrapCore = "CORE_EX1_554"
         static let SnakeTrapVanilla = "VAN_EX1_554"
         static let SunscaleRaptor = "BAR_031"
+        static let TameBeastRank1 = "BAR_034"
     }
 }
 
@@ -216,6 +217,8 @@ extension CardIds.NonCollectible {
         static let HalazzisTrap = "TRLA_110"
         static let HalazzisHunt = "TRLA_162"
         static let HalazzisGuise = "TRLA_163"
+        static let TameBeastRank1_TameBeastRank2Token = "BAR_034t"
+        static let TameBeastRank1_TameBeastRank3Token = "BAR_034t2"
     }
 }
 

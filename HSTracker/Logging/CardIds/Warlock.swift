@@ -138,6 +138,7 @@ extension CardIds.Collectible {
         static let CallOfTheVoid = "EX1_181"
         static let SpiritBomb = "BOT_222"
         static let BloodWitch = "GIL_693"
+        static let ImpSwarmRank1 = "BAR_914"
     }
 }
 
@@ -197,6 +198,8 @@ extension CardIds.NonCollectible {
         static let BloodPact = "TRLA_113"
         static let DarkReliquary = "TRLA_178"
         static let HireeksHunger = "TRLA_179"
+        static let ImpSwarmRank1_ImpSwarmRank2Token = "BAR_914t"
+        static let ImpSwarmRank1_ImpSwarmRank3Token = "BAR_914t2"
     }
 }
 
