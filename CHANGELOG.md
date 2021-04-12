@@ -1,3 +1,15 @@
+# 1.9.2
+## New:
+- Add support for patch 20.2
+## Fixes:
+- Improve collection upload to be more reliable (issue #1189)
+- Fix secret handler showing classic secrets in standard (issue #1216)
+- Fix crash when Hearthstone is stopped and log reader is stopping
+- Fix logic for Adventure restart
+- Fix secret handling for Oasis Ally and Rigged Faire Game
+- Fix tracking of Rank spells and Transfer Student
+- Fix missing synchronization during deck list update
+
 # 1.9.1
 ## New:
 - Improved secret handling for different modes
