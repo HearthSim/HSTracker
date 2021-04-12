@@ -745,3 +745,10 @@ extension NSImage {
         unlockFocus()
     }
 }
+
+extension CardBar {
+    override var description: String {
+        return "[\(card?.id ?? ""):\(card?.count ?? 0)]"
+    }
+}
+

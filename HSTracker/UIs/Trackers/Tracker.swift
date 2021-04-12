@@ -540,7 +540,11 @@ class Tracker: OverWindowController {
                 + Double(Int64(600 * Double(NSEC_PER_MSEC))) / Double(NSEC_PER_SEC)
             let queue = DispatchQueue.main
             queue.asyncAfter(deadline: when) {
+                self.semaphore.wait()
+                
                 self.animatedCards.remove(card)
+                
+                self.semaphore.signal()
             }
         } else {
             animatedCards.remove(card)
