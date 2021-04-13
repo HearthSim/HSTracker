@@ -52,7 +52,7 @@ struct CardIds {
         CardIds.NonCollectible.Warlock.ImpSwarmRank1_ImpSwarmRank2Token: CardIds.Collectible.Warlock.ImpSwarmRank1,
         CardIds.NonCollectible.Warlock.ImpSwarmRank1_ImpSwarmRank3Token: CardIds.Collectible.Warlock.ImpSwarmRank1,
         CardIds.NonCollectible.Warrior.ConditioningRank1_ConditioningRank2Token: CardIds.Collectible.Warrior.ConditioningRank1,
-        CardIds.NonCollectible.Warrior.ConditioningRank1_ConditioningRank3Token: CardIds.Collectible.Warrior.ConditioningRank1,
+        CardIds.NonCollectible.Warrior.ConditioningRank1_ConditioningRank3Token: CardIds.Collectible.Warrior.ConditioningRank1
     ]
     
     struct Collectible {}
