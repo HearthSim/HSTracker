@@ -9,6 +9,7 @@
 - Fix secret handling for Oasis Ally and Rigged Faire Game
 - Fix tracking of Rank spells and Transfer Student
 - Fix missing synchronization during deck list update
+- Fix Far Sight drawn cards not tracking properly in Classic mode
 
 # 1.9.1
 ## New:

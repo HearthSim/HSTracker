@@ -129,6 +129,7 @@ extension CardIds.Collectible {
         static let Wartbringer = "TRL_522"
         static let RainOfToads = "TRL_351"
         static let ChainLightningRank1 = "BAR_044"
+        static let FarSightVanilla = "VAN_CS2_053"
     }
 }
 

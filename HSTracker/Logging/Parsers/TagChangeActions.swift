@@ -157,7 +157,7 @@ struct TagChangeActions {
             }
             if let displayedCreator = eventHandler.entities[displayedCreatorId] {
                 // For some reason Far Sight sets DISPLAYED_CREATOR on the entity
-                if displayedCreator.cardId == CardIds.Collectible.Shaman.FarSight {
+                if displayedCreator.cardId == CardIds.Collectible.Shaman.FarSight || displayedCreator.cardId == CardIds.Collectible.Shaman.FarSightVanilla {
                     return
                 }
             }
