@@ -1,6 +1,6 @@
 # 1.9.2
 ## New:
-- Add support for patch 20.2
+- Add support for patch 20.0.2
 ## Fixes:
 - Improve collection upload to be more reliable (issue #1189)
 - Fix secret handler showing classic secrets in standard (issue #1216)
