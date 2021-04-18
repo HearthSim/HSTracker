@@ -41,10 +41,8 @@ class MulliganToastView: NSView {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
         let frameView = FrameView()
-//        let leftSpacer = NSView()
         let icon = NSImageView()
         let text = NSTextField()
-//        let rightSpacer = NSView()
         let stack = NSStackView()
         let text2 = NSTextField()
 
@@ -54,7 +52,7 @@ class MulliganToastView: NSView {
 
         let attributes = TextAttributes()
         attributes
-            .font(NSFont(name: "Arial", size: 24))
+            .font(NSFont(name: "Arial", size: 20))
             .foregroundColor(.white)
             .strokeColor(.white)
             .alignment(.center)
@@ -70,7 +68,7 @@ class MulliganToastView: NSView {
 
         let attributes2 = TextAttributes()
         attributes2
-            .font(NSFont(name: "Arial", size: 12))
+            .font(NSFont(name: "Arial", size: 10))
             .foregroundColor(.white)
             .strokeColor(.white)
             .alignment(.center)
@@ -92,17 +90,13 @@ class MulliganToastView: NSView {
         stack.addArrangedSubview(text2)
 
         addSubview(frameView)
-//        addSubview(leftSpacer)
         addSubview(icon)
         addSubview(stack)
-//        addSubview(rightSpacer)
         
         frameView.translatesAutoresizingMaskIntoConstraints = false
-//        leftSpacer.translatesAutoresizingMaskIntoConstraints = false
         icon.translatesAutoresizingMaskIntoConstraints = false
         text.translatesAutoresizingMaskIntoConstraints = false
         text2.translatesAutoresizingMaskIntoConstraints = false
-//        rightSpacer.translatesAutoresizingMaskIntoConstraints = false
         stack.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -111,8 +105,8 @@ class MulliganToastView: NSView {
             imageView.topAnchor.constraint(equalTo: self.topAnchor),
             imageView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             imageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            imageView.widthAnchor.constraint(equalToConstant: 350),
-            imageView.heightAnchor.constraint(equalToConstant: 100),
+            imageView.widthAnchor.constraint(equalToConstant: 280),
+            imageView.heightAnchor.constraint(equalToConstant: 80),
             // frame
             frameView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             frameView.topAnchor.constraint(equalTo: self.topAnchor),
@@ -128,8 +122,8 @@ class MulliganToastView: NSView {
             text2.trailingAnchor.constraint(equalTo: stack.trailingAnchor),
             // vertical positionning
             icon.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            icon.heightAnchor.constraint(equalToConstant: 60),
-            icon.widthAnchor.constraint(equalToConstant: 60),
+            icon.heightAnchor.constraint(equalToConstant: 50),
+            icon.widthAnchor.constraint(equalToConstant: 50),
             stack.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
     }
