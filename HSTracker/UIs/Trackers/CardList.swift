@@ -21,7 +21,9 @@ class CardList: OverWindowController {
 
     override func windowDidLoad() {
         super.windowDidLoad()
-
+        if #available(macOS 11.0, *) {
+            table?.style = .fullWidth
+        }
         table?.intercellSpacing = NSSize(width: 0, height: 0)
 
         table?.backgroundColor = NSColor.clear

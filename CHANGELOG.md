@@ -2,6 +2,8 @@
 ## New:
 - Show deck mulligan for constructed matches
 - Added option to not display BG hero comparison
+## Fixes:
+- Fix secret helper window display on Big Sur (issue #1214)
  
 # 1.9.2
 ## New:
