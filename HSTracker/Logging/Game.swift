@@ -1642,7 +1642,11 @@ class Game: NSObject, PowerEventHandler {
         return currentGameType == .gt_battlegrounds || currentGameType == .gt_battlegrounds_friendly
         //return true
     }
-
+    
+    func isConstructedMatch() -> Bool {
+        return currentGameType == .gt_ranked || currentGameType == .gt_casual || currentGameType == .gt_vs_friend
+    }
+    
     func isMulliganDone() -> Bool {
         if isBattlegroundsMatch() {
                 return true
@@ -1792,12 +1796,50 @@ class Game: NSObject, PowerEventHandler {
     func handleBeginMulligan() {
         if isBattlegroundsMatch() {
             handleBattlegroundsStart()
+        } else if isConstructedMatch() {
+            handleConstructedStart()
+        }
+    }
+    
+    func handleConstructedStart() {
+        if Settings.showMulliganToast {
+            for _ in 0 ..< 10 {
+                Thread.sleep(forTimeInterval: 0.5)
+                let step = gameEntity?[.step] ?? 0
+                if step == 0 {
+                    continue
+                }
+                if step > Step.begin_mulligan.rawValue {
+                    break
+                }
+
+                // Wait for the game to fade in
+                Thread.sleep(forTimeInterval: 3)
+
+                if let currentDeck = currentDeck {
+                    let cards = player.playerEntities.filter { x in x.isInHand && !x.info.created }.compactMap({ x in x.card.dbfId})
+                    let opponentClass = opponent.playerEntities.first( where: { x in x.isHero && x.isInPlay })?.card.playerClass ?? CardClass.invalid
+                    let sid = ShortIdHelper.getShortId(deck: currentDeck)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
+                        let view = MulliganToastView(frame: NSRect.zero, sid: sid, ids: cards, opponent: opponentClass)
+                        view.clicked = {
+                            AppDelegate.instance().coreManager.toaster.hide()
+                        }
+                        AppDelegate.instance().coreManager.toaster.displayToast(view: view, timeoutMillis: 10000)
+                    })
+
+                }
+
+                break
+            }
         }
     }
     
     func handlePlayerMulliganDone() {
         if isBattlegroundsMatch() {
-            // hide toast panel
+            AppDelegate.instance().coreManager.toaster.hide()
+        } else if isConstructedMatch() {
+            AppDelegate.instance().coreManager.toaster.hide()
         }
     }
     
@@ -1865,11 +1907,12 @@ class Game: NSObject, PowerEventHandler {
     }
     
     private func handleBattlegroundsStart() {
-        //if(Config.Instance.ShowBattlegroundsToast)
-        logger.debug("Start of battlegrounds match")
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500), execute: {
-            self.internalHandleBGStart(count: 0)
-        })
+        if Settings.showHeroToast {
+            logger.debug("Start of battlegrounds match")
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500), execute: {
+                self.internalHandleBGStart(count: 0)
+            })
+        }
     }
 
     func playerMulligan(entity: Entity, cardId: String?) {

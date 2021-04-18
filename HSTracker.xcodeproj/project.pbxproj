@@ -390,11 +390,8 @@
 		4C3E2D8C245ED5AA00292349 /* Toaster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2D8B245ED5AA00292349 /* Toaster.swift */; };
 		4C3E2D93245F16B900292349 /* CollectionToastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2D91245F16B900292349 /* CollectionToastViewController.swift */; };
 		4C3E2D94245F16B900292349 /* CollectionToastViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C3E2D92245F16B900292349 /* CollectionToastViewController.xib */; };
-		4C3E2D9B245F81C800292349 /* BgHeroesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2D99245F81C800292349 /* BgHeroesViewController.swift */; };
-		4C3E2D9C245F81C800292349 /* BgHeroesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C3E2D9A245F81C800292349 /* BgHeroesViewController.xib */; };
 		4C3E2D9E245F85C700292349 /* FillImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2D9D245F85C700292349 /* FillImageView.swift */; };
 		4C3E2DA1245F86C400292349 /* BgHeroesToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2DA0245F86C400292349 /* BgHeroesToastView.swift */; };
-		4C3E2DA3245F87B700292349 /* BgHeroesToastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2DA2245F87B700292349 /* BgHeroesToastViewController.swift */; };
 		4C3E2DA52460C82900292349 /* FrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2DA42460C82800292349 /* FrameView.swift */; };
 		4C68AF2B2447D35B00E52834 /* HearthMirror.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C68AF2A2447D35A00E52834 /* HearthMirror.framework */; };
 		4C68AF2C2447D37000E52834 /* HearthMirror.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4C68AF2A2447D35A00E52834 /* HearthMirror.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -410,6 +407,9 @@
 		61424BCB24701A3700877EE4 /* DecksReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61424BCA24701A3700877EE4 /* DecksReader.swift */; };
 		64C117C8D3B76359080E750A /* ArenaWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C117F078373147EF731146 /* ArenaWatcher.swift */; };
 		B81F069E253899FB00F319F1 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = B81F069C253899FB00F319F1 /* Config.xcconfig */; };
+		B82E7B14262A533F00C42EF0 /* MulliganToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E7B13262A533F00C42EF0 /* MulliganToastView.swift */; };
+		B82E7B16262A798000C42EF0 /* ShortIdHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E7B15262A798000C42EF0 /* ShortIdHelper.swift */; };
+		B82E7B19262A88DB00C42EF0 /* BigInt in Frameworks */ = {isa = PBXBuildFile; productRef = B82E7B18262A88DB00C42EF0 /* BigInt */; };
 		B82F4EAB24E3021D00905024 /* MonoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82F4EAA24E3021D00905024 /* MonoHelper.swift */; };
 		B82F4EAE24E3229200905024 /* TestInputProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82F4EAD24E3229200905024 /* TestInputProxy.swift */; };
 		B82F4EB024E32C3000905024 /* SimulatorProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82F4EAF24E32C3000905024 /* SimulatorProxy.swift */; };
@@ -921,11 +921,8 @@
 		4C3E2D8B245ED5AA00292349 /* Toaster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toaster.swift; sourceTree = "<group>"; };
 		4C3E2D91245F16B900292349 /* CollectionToastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionToastViewController.swift; sourceTree = "<group>"; };
 		4C3E2D92245F16B900292349 /* CollectionToastViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CollectionToastViewController.xib; sourceTree = "<group>"; };
-		4C3E2D99245F81C800292349 /* BgHeroesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BgHeroesViewController.swift; sourceTree = "<group>"; };
-		4C3E2D9A245F81C800292349 /* BgHeroesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BgHeroesViewController.xib; sourceTree = "<group>"; };
 		4C3E2D9D245F85C700292349 /* FillImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillImageView.swift; sourceTree = "<group>"; };
 		4C3E2DA0245F86C400292349 /* BgHeroesToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BgHeroesToastView.swift; sourceTree = "<group>"; };
-		4C3E2DA2245F87B700292349 /* BgHeroesToastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BgHeroesToastViewController.swift; sourceTree = "<group>"; };
 		4C3E2DA42460C82800292349 /* FrameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameView.swift; sourceTree = "<group>"; };
 		4C68AF2A2447D35A00E52834 /* HearthMirror.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HearthMirror.framework; path = "downloaded-frameworks/HearthMirror/HearthMirror.framework"; sourceTree = "<group>"; };
 		4C6E99A2237F635300702AB2 /* CollectionWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionWatcher.swift; sourceTree = "<group>"; };
@@ -940,6 +937,8 @@
 		61424BCA24701A3700877EE4 /* DecksReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecksReader.swift; sourceTree = "<group>"; };
 		64C117F078373147EF731146 /* ArenaWatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArenaWatcher.swift; sourceTree = "<group>"; };
 		B81F069C253899FB00F319F1 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		B82E7B13262A533F00C42EF0 /* MulliganToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulliganToastView.swift; sourceTree = "<group>"; };
+		B82E7B15262A798000C42EF0 /* ShortIdHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortIdHelper.swift; sourceTree = "<group>"; };
 		B82F4EAA24E3021D00905024 /* MonoHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonoHelper.swift; sourceTree = "<group>"; };
 		B82F4EAD24E3229200905024 /* TestInputProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestInputProxy.swift; sourceTree = "<group>"; };
 		B82F4EAF24E32C3000905024 /* SimulatorProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulatorProxy.swift; sourceTree = "<group>"; };
@@ -1171,6 +1170,7 @@
 				B8D75BEA25BDF92B00446923 /* RealmSwift in Frameworks */,
 				B8D75BBA25BCE97000446923 /* Wrap in Frameworks */,
 				B8D75BAF25BCE68900446923 /* SwiftyBeaver in Frameworks */,
+				B82E7B19262A88DB00C42EF0 /* BigInt in Frameworks */,
 				B8D75BB225BCE76500446923 /* AppCenterCrashes in Frameworks */,
 				B8D75BB425BCE76500446923 /* AppCenterAnalytics in Frameworks */,
 				B8D75BC325BD10B600446923 /* OAuthSwift in Frameworks */,
@@ -1650,8 +1650,6 @@
 				436789BA1CACF79800C962D1 /* TrackerFrame.swift */,
 				43BDF0BD1DB89A830081964A /* WindowManager.swift */,
 				437B5BAD1CD1F76C00DE0A41 /* WotogCounter.swift */,
-				4C3E2D99245F81C800292349 /* BgHeroesViewController.swift */,
-				4C3E2D9A245F81C800292349 /* BgHeroesViewController.xib */,
 				B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */,
 				B850AA32252CB0490031E8F2 /* TurnCounter.xib */,
 				B8D75B8E25A9DC9A00446923 /* ExperienceOverlay.xib */,
@@ -1714,6 +1712,7 @@
 				4335543C1D5FAF0300277B27 /* HSReplayPreferences.xib */,
 				433554381D5FABD600277B27 /* HSReplayPreferences.swift */,
 				B8C2F90E261F530700C31E6A /* GetAccountResult.swift */,
+				B82E7B15262A798000C42EF0 /* ShortIdHelper.swift */,
 			);
 			path = HSReplay;
 			sourceTree = "<group>";
@@ -1754,9 +1753,9 @@
 			children = (
 				4C3E2D9D245F85C700292349 /* FillImageView.swift */,
 				4C3E2DA0245F86C400292349 /* BgHeroesToastView.swift */,
-				4C3E2DA2245F87B700292349 /* BgHeroesToastViewController.swift */,
 				4C3E2DA42460C82800292349 /* FrameView.swift */,
 				B8D75B9225A9DD1300446923 /* ExperienceTracker.swift */,
+				B82E7B13262A533F00C42EF0 /* MulliganToastView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1900,6 +1899,7 @@
 				B8D75BEE25BDFE6D00446923 /* Gzip */,
 				B8D75BF625BE032500446923 /* Sparkle */,
 				B8D75BFE25C0710900446923 /* BTree */,
+				B82E7B18262A88DB00C42EF0 /* BigInt */,
 			);
 			productName = HSTracker;
 			productReference = 439C7E481C7772C000D29859 /* HSTracker.app */;
@@ -2006,6 +2006,7 @@
 				B8D75BE825BDF92B00446923 /* XCRemoteSwiftPackageReference "realm-cocoa" */,
 				B8D75BED25BDFE6D00446923 /* XCRemoteSwiftPackageReference "GzipSwift" */,
 				B8D75BF525BE032500446923 /* XCRemoteSwiftPackageReference "Sparkle" */,
+				B82E7B17262A88DB00C42EF0 /* XCRemoteSwiftPackageReference "BigInt" */,
 			);
 			productRefGroup = 439C7E491C7772C000D29859 /* Products */;
 			projectDirPath = "";
@@ -2063,7 +2064,6 @@
 				432B60351CB6A8CC00B05D19 /* FloatingCard.xib in Resources */,
 				B850AA33252CB0490031E8F2 /* TurnCounter.xib in Resources */,
 				F7D7A3AE2017B51300E3A5F0 /* dsa_pub.pem in Resources */,
-				4C3E2D9C245F81C800292349 /* BgHeroesViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2304,7 +2304,6 @@
 				432AD9591DAD46AA00D8F959 /* HttpMethod.swift in Sources */,
 				436F5D101CFD79B500DEB9A1 /* ClassicBar.swift in Sources */,
 				431AA0CF1D3632BC0030AD22 /* CardClass.swift in Sources */,
-				4C3E2DA3245F87B700292349 /* BgHeroesToastViewController.swift in Sources */,
 				43D308081C84410000480488 /* PlayerTrackersPreferences.swift in Sources */,
 				43C567E91D5D0F5700451B6F /* LogLineZone.swift in Sources */,
 				B864AE272597DD9400793F36 /* GameSaveKeyId.swift in Sources */,
@@ -2366,7 +2365,6 @@
 				43E77EE41C94A19700C26950 /* TurnTimer.swift in Sources */,
 				C92C68121D1F3FC4009030DC /* LadderTab.swift in Sources */,
 				43EECB981C7DEF7F0077AC1B /* ClassColor.swift in Sources */,
-				4C3E2D9B245F81C800292349 /* BgHeroesViewController.swift in Sources */,
 				F79833971FFF324200D2893E /* Events.swift in Sources */,
 				43BDF0BC1DB7FB040081964A /* OverWindowController.swift in Sources */,
 				439C7EB91C777F8900D29859 /* GameResult.swift in Sources */,
@@ -2412,6 +2410,7 @@
 				43EECB9C1C7E4EA20077AC1B /* CurveView.swift in Sources */,
 				434910541D097B0500B22DB2 /* EntityHelper.swift in Sources */,
 				B8C2F90D2618185D00C31E6A /* FullScreenFxHandler.swift in Sources */,
+				B82E7B14262A533F00C42EF0 /* MulliganToastView.swift in Sources */,
 				439C7EE31C777FA900D29859 /* Tracker.swift in Sources */,
 				B8D8859224F3034700F2F0F2 /* StatusMessageConverter.swift in Sources */,
 				43C567E71D5D0F2E00451B6F /* LogLineNamespace.swift in Sources */,
@@ -2425,6 +2424,7 @@
 				436789BB1CACF79800C962D1 /* TrackerFrame.swift in Sources */,
 				439C7E4C1C7772C000D29859 /* AppDelegate.swift in Sources */,
 				C92C681A1D1F8E27009030DC /* Ranks.swift in Sources */,
+				B82E7B16262A798000C42EF0 /* ShortIdHelper.swift in Sources */,
 				BC90FD0B1D97F81B00BAFC0D /* GraveyardCounter.swift in Sources */,
 				F7D7A3A62011B67D00E3A5F0 /* Hearthstone.swift in Sources */,
 				4323C5F71E1BE28800C97896 /* BrawlInfo.swift in Sources */,
@@ -3365,6 +3365,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		B82E7B17262A88DB00C42EF0 /* XCRemoteSwiftPackageReference "BigInt" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/attaswift/BigInt";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.2.1;
+			};
+		};
 		B8D75B9425B4799100446923 /* XCRemoteSwiftPackageReference "Preferences" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sindresorhus/Preferences";
@@ -3480,6 +3488,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		B82E7B18262A88DB00C42EF0 /* BigInt */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B82E7B17262A88DB00C42EF0 /* XCRemoteSwiftPackageReference "BigInt" */;
+			productName = BigInt;
+		};
 		B8D75B9525B4799200446923 /* Preferences */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B8D75B9425B4799100446923 /* XCRemoteSwiftPackageReference "Preferences" */;

@@ -1,3 +1,8 @@
+# 1.9.3
+## New:
+- Show deck mulligan for constructed matches
+- Added option to not display BG hero comparison
+ 
 # 1.9.2
 ## New:
 - Add support for patch 20.0.2

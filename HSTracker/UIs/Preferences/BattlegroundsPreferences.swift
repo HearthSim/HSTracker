@@ -24,6 +24,7 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
     @IBOutlet weak var showOpponentWarband: NSButton!
     @IBOutlet weak var showTiers: NSButton!
     @IBOutlet weak var showTavernTriples: NSButton!
+    @IBOutlet weak var showHeroToast: NSButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +36,7 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
         showOpponentWarband.state = Settings.showOpponentWarband ? .on : .off
         showTiers.state = Settings.showTiers ? .on : .off
         showTavernTriples.state = Settings.showTavernTriples ? .on : .off
+        showHeroToast.state = Settings.showHeroToast ? .on : .off
     }
 
     @IBAction func checkboxClicked(_ sender: NSButton) {
@@ -54,6 +56,8 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
             Settings.showTiers = showTiers.state == .on
         } else if sender == showTavernTriples {
             Settings.showTavernTriples = showTavernTriples.state == .on
+        } else if sender == showHeroToast {
+            Settings.showHeroToast = showHeroToast.state == .on
         }
     }
 }

@@ -14,6 +14,9 @@ class ToastWindowController: OverWindowController {
         panel.styleMask.insert(.borderless)
         panel.styleMask.insert(.resizable)
         panel.styleMask.insert(.nonactivatingPanel)
+        panel.styleMask.remove(.titled)
+        panel.styleMask.remove(.closable)
+        panel.styleMask.remove(.resizable)
         panel.hasShadow = false
         panel.isReleasedWhenClosed = true
         panel.isFloatingPanel = true

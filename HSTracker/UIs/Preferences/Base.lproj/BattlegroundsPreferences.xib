@@ -12,6 +12,7 @@
                 <outlet property="showBobsBuddy" destination="U9l-4H-26w" id="3He-F4-nTp"/>
                 <outlet property="showBobsBuddyDuringCombat" destination="d7f-Kb-z3w" id="dK5-ys-CtC"/>
                 <outlet property="showBobsBuddyDuringShopping" destination="4bq-q8-4qp" id="IUB-xU-y7P"/>
+                <outlet property="showHeroToast" destination="aHt-pi-28x" id="Dmb-Gx-6YB"/>
                 <outlet property="showOpponentWarband" destination="4Xd-Cc-geO" id="WqX-S9-tma"/>
                 <outlet property="showTavernTriples" destination="5P3-yR-y70" id="MTL-lF-zzw"/>
                 <outlet property="showTiers" destination="66r-fs-Jja" id="g6P-yg-2Du"/>
@@ -22,10 +23,10 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView translatesAutoresizingMaskIntoConstraints="NO" id="c22-O7-iKe">
-            <rect key="frame" x="0.0" y="0.0" width="480" height="222"/>
+            <rect key="frame" x="0.0" y="0.0" width="480" height="246"/>
             <subviews>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="U9l-4H-26w" userLabel="Show Bob's Buddy">
-                    <rect key="frame" x="18" y="186" width="444" height="18"/>
+                    <rect key="frame" x="18" y="210" width="444" height="18"/>
                     <buttonCell key="cell" type="check" title="Show Bob's Buddy" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="i84-xc-QhF" userLabel="Show Bob'ss Buddy">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -35,7 +36,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="d7f-Kb-z3w" userLabel="Show Bob's Buddy during combat">
-                    <rect key="frame" x="18" y="162" width="444" height="18"/>
+                    <rect key="frame" x="18" y="186" width="444" height="18"/>
                     <buttonCell key="cell" type="check" title="Show Bob's Buddy during combat" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="QMN-RN-SBa" userLabel="Show Bob's Buddy during combat">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -45,7 +46,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="4bq-q8-4qp" userLabel="Show Bob's Buddy during shopping">
-                    <rect key="frame" x="18" y="138" width="444" height="18"/>
+                    <rect key="frame" x="18" y="162" width="444" height="18"/>
                     <buttonCell key="cell" type="check" title="Show Bob's Buddy during shopping" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="rPF-4f-O8s" userLabel="Show Bob's Buddy during shopping">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -55,7 +56,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="led-ON-LPz" userLabel="Show turn counter">
-                    <rect key="frame" x="18" y="114" width="444" height="18"/>
+                    <rect key="frame" x="18" y="138" width="444" height="18"/>
                     <buttonCell key="cell" type="check" title="Show turn counter" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="c2t-Sg-vNs" userLabel="Show turn counter">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -65,7 +66,7 @@
                     </connections>
                 </button>
                 <button verticalHuggingPriority="252" translatesAutoresizingMaskIntoConstraints="NO" id="K3g-MV-6WU">
-                    <rect key="frame" x="18" y="90" width="444" height="18"/>
+                    <rect key="frame" x="18" y="114" width="444" height="18"/>
                     <buttonCell key="cell" type="check" title="Always show average damage" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="LKm-DE-YdT">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -75,7 +76,7 @@
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4Xd-Cc-geO" userLabel="Show opponent warband">
-                    <rect key="frame" x="18" y="66" width="444" height="18"/>
+                    <rect key="frame" x="18" y="90" width="444" height="18"/>
                     <buttonCell key="cell" type="check" title="Show opponent warband" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="J07-pk-b78" userLabel="Show opponent warband">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -85,7 +86,7 @@
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="66r-fs-Jja" userLabel="Show tiers">
-                    <rect key="frame" x="18" y="42" width="444" height="18"/>
+                    <rect key="frame" x="18" y="66" width="444" height="18"/>
                     <buttonCell key="cell" type="check" title="Show tiers" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="4LE-h7-rfX">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -95,7 +96,7 @@
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5P3-yR-y70">
-                    <rect key="frame" x="18" y="18" width="444" height="18"/>
+                    <rect key="frame" x="18" y="42" width="444" height="18"/>
                     <buttonCell key="cell" type="check" title="Show tavern and triple history" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="nGc-Fs-IbI">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -104,10 +105,20 @@
                         <action selector="checkboxClicked:" target="-2" id="eXF-VI-eGP"/>
                     </connections>
                 </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aHt-pi-28x" userLabel="Show hero comparison">
+                    <rect key="frame" x="18" y="18" width="444" height="18"/>
+                    <buttonCell key="cell" type="check" title="Show hero comparision" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="oXq-kH-uaV">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="zBn-99-doh"/>
+                    </connections>
+                </button>
             </subviews>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="5P3-yR-y70" secondAttribute="bottom" constant="20" id="0EM-lX-glF"/>
                 <constraint firstAttribute="trailing" secondItem="led-ON-LPz" secondAttribute="trailing" constant="20" id="2b9-0e-Ac2"/>
+                <constraint firstAttribute="trailing" secondItem="aHt-pi-28x" secondAttribute="trailing" constant="20" id="3SW-b1-Pzi"/>
                 <constraint firstItem="4Xd-Cc-geO" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="3tz-Gl-t7a"/>
                 <constraint firstItem="led-ON-LPz" firstAttribute="top" secondItem="4bq-q8-4qp" secondAttribute="bottom" constant="10" id="Eha-sp-RwK"/>
                 <constraint firstItem="U9l-4H-26w" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="20" id="FAj-nI-BPf"/>
@@ -115,14 +126,17 @@
                 <constraint firstItem="K3g-MV-6WU" firstAttribute="top" secondItem="led-ON-LPz" secondAttribute="bottom" constant="10" id="Gx0-2H-9E4"/>
                 <constraint firstItem="led-ON-LPz" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="Hqg-4z-1fN"/>
                 <constraint firstItem="U9l-4H-26w" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="Ipb-4T-1Hj"/>
+                <constraint firstItem="aHt-pi-28x" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="JyA-e9-QUJ"/>
                 <constraint firstAttribute="trailing" secondItem="5P3-yR-y70" secondAttribute="trailing" constant="20" id="LAa-OI-1j9"/>
                 <constraint firstItem="K3g-MV-6WU" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="Lft-1F-YkB"/>
                 <constraint firstAttribute="trailing" secondItem="d7f-Kb-z3w" secondAttribute="trailing" constant="20" id="NAD-vJ-xbh"/>
                 <constraint firstAttribute="trailing" secondItem="66r-fs-Jja" secondAttribute="trailing" constant="20" id="NjO-XN-d4u"/>
                 <constraint firstAttribute="trailing" secondItem="4Xd-Cc-geO" secondAttribute="trailing" constant="20" id="Ufm-4R-WSN"/>
+                <constraint firstAttribute="bottom" secondItem="aHt-pi-28x" secondAttribute="bottom" constant="20" id="XWN-Jw-Pbv"/>
                 <constraint firstItem="5P3-yR-y70" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="a28-Od-6XP"/>
                 <constraint firstItem="66r-fs-Jja" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="bhO-Kz-h9M"/>
                 <constraint firstItem="5P3-yR-y70" firstAttribute="top" secondItem="66r-fs-Jja" secondAttribute="bottom" constant="10" id="dGG-Fc-8mX"/>
+                <constraint firstItem="aHt-pi-28x" firstAttribute="top" secondItem="5P3-yR-y70" secondAttribute="bottom" constant="10" id="gdL-Sp-mpQ"/>
                 <constraint firstItem="4bq-q8-4qp" firstAttribute="top" secondItem="d7f-Kb-z3w" secondAttribute="bottom" constant="10" id="nqH-He-o7o"/>
                 <constraint firstItem="d7f-Kb-z3w" firstAttribute="top" secondItem="U9l-4H-26w" secondAttribute="bottom" constant="10" id="qcJ-6e-bYG"/>
                 <constraint firstAttribute="trailing" secondItem="U9l-4H-26w" secondAttribute="trailing" constant="20" id="qll-og-92W"/>
@@ -132,7 +146,7 @@
                 <constraint firstItem="4Xd-Cc-geO" firstAttribute="top" secondItem="K3g-MV-6WU" secondAttribute="bottom" constant="10" id="yFX-82-sbj"/>
                 <constraint firstItem="d7f-Kb-z3w" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="yjD-cp-i8g"/>
             </constraints>
-            <point key="canvasLocation" x="-20" y="39"/>
+            <point key="canvasLocation" x="-20" y="50"/>
         </customView>
     </objects>
 </document>

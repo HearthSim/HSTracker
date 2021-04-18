@@ -213,3 +213,7 @@
 "Always send" = "Always send";
 "Send" = "Send";
 "Don't send" = "Don't send";
+
+/* Mulligan toast */
+"What should I keep?" = "What should I keep?";
+"HSReplay.net - Mulligan Guide" = "HSReplay.net - Mulligan Guide";

@@ -207,6 +207,8 @@ final class Settings {
     static var autoDeckDetection: Bool
     @UserDefault(key: Settings.show_experience_counter, defaultValue: true)
     static var showExperienceCounter: Bool
+    @UserDefault(key: Settings.show_mulligan_toast, defaultValue: true)
+    static var showMulliganToast: Bool
     
     // MARK: - Battlegrounds
     @UserDefault(key: Settings.show_bobs_buddy, defaultValue: true)
@@ -225,6 +227,8 @@ final class Settings {
     static var showTiers: Bool
     @UserDefault(key: Settings.show_tavern_triples, defaultValue: true)
     static var showTavernTriples: Bool
+    @UserDefault(key: Settings.show_hero_toast, defaultValue: true)
+    static var showHeroToast: Bool
 
     @UserDefault(key: Settings.player_draw_chance, defaultValue: true)
     static var showPlayerDrawChance: Bool
@@ -467,6 +471,7 @@ extension Settings {
     static let prefer_golden_cards = "prefer_golden_cards"
     static let auto_deck_detection = "auto_deck_detection"
     static let show_experience_counter = "show_experience_counter"
+    static let show_mulligan_toast = "show_mulligan_toast"
     
     // MARK: Battlegrounds
     static let show_bobs_buddy = "show_bobs_buddy"
@@ -477,6 +482,7 @@ extension Settings {
     static let show_opponent_warband = "show_opponent_warband"
     static let show_tiers = "show_tiers"
     static let show_tavern_triples = "show_tavern_triples"
+    static let show_hero_toast = "show_hero_toast"
 
     static let player_draw_chance = "player_draw_chance"
     static let player_card_count = "player_card_count"

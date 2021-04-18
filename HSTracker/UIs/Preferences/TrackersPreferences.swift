@@ -35,6 +35,7 @@ class TrackersPreferences: NSViewController, PreferencePane {
     @IBOutlet weak var disableTrackingInSpectatorMode: NSButton!
     @IBOutlet weak var floatingCardStyle: NSComboBox!
     @IBOutlet weak var showExperienceCounter: NSButton!
+    @IBOutlet weak var showMulliganToast: NSButton!
     
     let themes = ["classic", "frost", "dark", "minimal"]
 
@@ -62,6 +63,7 @@ class TrackersPreferences: NSViewController, PreferencePane {
         showFloatingCard.state = Settings.showFloatingCard ? .on : .off
         showTopdeckChance.state = Settings.showTopdeckchance ? .on : .off
         showExperienceCounter.state = Settings.showExperienceCounter ? .on : .off
+        showMulliganToast.state = Settings.showMulliganToast ? .on : .off
 
         floatingCardStyle.isEnabled = Settings.showFloatingCard
         switch Settings.floatingCardStyle {
@@ -144,6 +146,8 @@ class TrackersPreferences: NSViewController, PreferencePane {
             } else {
                 game.windowManager.experiencePanel.visible = false
             }
+        } else if sender == showMulliganToast {
+            Settings.showMulliganToast = showMulliganToast.state == .on
         }
     }
 }
