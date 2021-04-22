@@ -63,7 +63,7 @@ class ArenaWatcher: Watcher {
                     let card = Cards.by(cardId: mirrorCard.cardId),
                     let index = heroes.firstIndex(of: ArenaWatcher.hero) {
 
-                    if index >= 0 && index <= cardInfo.value.count {
+                    if index >= 0 && index < cardInfo.value.count {
                         let value = cardInfo.value[index]
                         let costs = value.matches("([0-9]+)")
                         card.cost = Int(costs.first?.value ?? "0") ?? 0

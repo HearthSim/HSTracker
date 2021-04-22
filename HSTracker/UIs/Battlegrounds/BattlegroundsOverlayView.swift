@@ -158,7 +158,11 @@ class BattlegroundsOverlayView: NSView {
     private var bobsBuddyHidden = false
     
     override func mouseMoved(with event: NSEvent) {
-        let index = 7 - Int(CGFloat(event.locationInWindow.y / (self.frame.height/8)))
+        guard frame.height > 0 else {
+            return
+        }
+        
+        let index = 7 - Int(CGFloat(event.locationInWindow.y / (frame.height/8)))
         let game = AppDelegate.instance().coreManager.game
 
         if let hero = game.entities.values.first(where: { ent in ent[.player_leaderboard_place] == index + 1}), index != currentIndex {
