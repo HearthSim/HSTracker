@@ -134,15 +134,17 @@ class BattlegroundsOverlayView: NSView {
     }
 
     func displayHero(at: Int) {
-        // swiftlint:disable force_cast
-        let windowManager = (NSApplication.shared.delegate as! AppDelegate).coreManager.game.windowManager
-        // swiftlint:enable force_cast
+        let windowManager = AppDelegate.instance().coreManager.game.windowManager
         
         let game = AppDelegate.instance().coreManager.game
         
         if Settings.showOpponentWarband, let hero = game.entities.values.first(where: { ent in ent.has(tag: .player_leaderboard_place) && ent[.player_leaderboard_place] == at + 1}) {
             let board = game.getSnapshot(opponentHeroCardId: hero.cardId)
             if let board = board {
+                let id = hero[.player_id]
+                if let history = game.getCombatHistory(playerId: id) {
+                    windowManager.battlegroundsDetailsWindow.setCombatHistory(id: id, cardId: hero.cardId, history: history)
+                }
                 windowManager.battlegroundsDetailsWindow.setBoard(board: board)
                 let rect = SizeHelper.battlegroundsDetailsFrame()
                 windowManager.show(controller: windowManager.battlegroundsDetailsWindow, show: true,
@@ -158,7 +160,11 @@ class BattlegroundsOverlayView: NSView {
     private var bobsBuddyHidden = false
     
     override func mouseMoved(with event: NSEvent) {
-        let index = 7 - Int(CGFloat(event.locationInWindow.y / (self.frame.height/8)))
+        let frameHeight = frame.height
+        if frameHeight <= 0 {
+            return
+        }
+        let index = 7 - Int(CGFloat(event.locationInWindow.y / (frameHeight / 8)))
         let game = AppDelegate.instance().coreManager.game
 
         if let hero = game.entities.values.first(where: { ent in ent[.player_leaderboard_place] == index + 1}), index != currentIndex {

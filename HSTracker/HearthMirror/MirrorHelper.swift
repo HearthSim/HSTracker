@@ -196,6 +196,14 @@ struct MirrorHelper {
         }
         return result
     }
+    
+    static func getBattlegroundsCombatHistory() -> [NSNumber: [MirrorCombatHistory]]? {
+        var result: [NSNumber: [MirrorCombatHistory]]?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getCombatHistory()
+        }
+        return result
+    }
 
 	static func getFormat() -> Int? {
         var result: Int?

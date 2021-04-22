@@ -23,6 +23,10 @@ class BattlegroundsDetailsWindow: OverWindowController {
         self.battlegroundsDetailsView.setBoard(board: board)
     }
     
+    func setCombatHistory(id: Int, cardId: String, history: [MirrorCombatHistory]) {
+        self.battlegroundsDetailsView.setCombatHistory(id: id, cardId: cardId, history: history)
+    }
+    
     func reset() {
         self.battlegroundsDetailsView.reset()
     }

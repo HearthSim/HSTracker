@@ -48,6 +48,10 @@ class Game: NSObject, PowerEventHandler {
 	
 	private let turnTimer: TurnTimer
     
+    fileprivate var lastCombatHistory = [Int: [MirrorCombatHistory]]()
+    
+    var battlegroundsHeroMap = [Int: String]()
+
     fileprivate var lastKnownBattlegroundsBoardState = [String: BoardSnapshot]()
     
     private static let _lastKnownBoardStateLookup = [ CardIds.NonCollectible.Neutral.ArannaStarseeker_ArannaUnleashedTokenTavernBrawl: CardIds.NonCollectible.Neutral.ArannaStarseekerTavernBrawl1 ]
@@ -89,6 +93,13 @@ class Game: NSObject, PowerEventHandler {
     func getSnapshot(opponentHeroCardId: String) -> BoardSnapshot? {
         if let state = lastKnownBattlegroundsBoardState[getCorrectBoardstateHeroId(heroId: opponentHeroCardId)] {
             return state
+        }
+        return nil
+    }
+    
+    func getCombatHistory(playerId: Int) -> [MirrorCombatHistory]? {
+        if let history = lastCombatHistory[playerId] {
+            return history
         }
         return nil
     }
@@ -1096,6 +1107,8 @@ class Game: NSObject, PowerEventHandler {
         _unavailableRaces = nil
         _brawlInfo = nil
         lastKnownBattlegroundsBoardState.removeAll()
+        lastCombatHistory.removeAll()
+        battlegroundsHeroMap.removeAll()
         windowManager.battlegroundsDetailsWindow.reset()
         windowManager.bobsBuddyPanel.resetDisplays()
         updateTurnCounter(turn: 1)
@@ -1601,6 +1614,24 @@ class Game: NSObject, PowerEventHandler {
             if isBattlegroundsMatch() {
                 OpponentDeadForTracker.shoppingStarted(game: self)
                 if isMonoAvailable() != 0 && playerTurn.turn > 1 {
+                    if playerTurn.turn == 2 {
+                        // cache the heroes art for combat history
+                        let heroes = entities.values.filter { x in x.has(tag: .player_leaderboard_place)}
+                        for h in heroes {
+                            battlegroundsHeroMap[h[.player_id]] = h.cardId
+                            ImageUtils.art(for: h.cardId, completion: { _ in
+                                logger.info("Cached image \(h.cardId) - \(h.card.name), player_id = \(h[.player_id])")
+                            })
+                        }
+                        ImageUtils.art(for: "TB_BaconShop_HERO_KelThuzad", completion: { _ in
+                            logger.info("Cached iamge TB_BaconShop_HERO_KelThuzad")
+                        })
+                    }
+                    if let history = MirrorHelper.getBattlegroundsCombatHistory() {
+                        for entry in history {
+                            lastCombatHistory[entry.key.intValue] = entry.value
+                        }
+                    }
                     BobsBuddyInvoker.instance(turn: turnNumber()).startShopping()
                 }
             }
