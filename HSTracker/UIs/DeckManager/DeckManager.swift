@@ -218,12 +218,14 @@ class DeckManager: NSWindowController {
     }
 
     func updateStatsLabel() {
-        if let currentDeck = self.currentDeck {
+        if let currentDeck = self.currentDeck, !currentDeck.isInvalidated {
             DispatchQueue.main.async {
                 self.statsLabel.stringValue = StatsHelper
                     .getDeckManagerRecordLabel(deck: currentDeck, mode: .all)
                 self.curveView.reload()
             }
+        } else {
+            self.currentDeck = nil
         }
     }
 

@@ -82,7 +82,7 @@ class Statistics: NSWindowController {
     }
     
     func update() {
-        if let deck = self.deck {
+        if let deck = self.deck, !deck.isInvalidated {
             // XXX: This might be unsafe
             // I'm assuming that the player class names
             // and class assets are always the same

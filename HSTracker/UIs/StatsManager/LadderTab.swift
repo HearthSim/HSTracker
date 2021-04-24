@@ -74,9 +74,11 @@ class LadderTab: NSViewController {
         if !self.isViewLoaded {
             return
         }
-        if let deck = self.deck {
+        if let deck = self.deck, !deck.isInvalidated {
             let rank = StatsHelper.guessRank(deck: deck)
             rankPicker.selectItem(at: 25 - rank)
+        } else {
+            self.deck = nil
         }
         update()
     }

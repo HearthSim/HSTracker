@@ -83,7 +83,7 @@ class StatsTab: NSViewController {
     }
         
     func update() {
-        if let deck = self.deck {
+        if let deck = self.deck, !deck.isInvalidated {
             var index = modePicker.indexOfSelectedItem
             if index == -1 { // In case somehow nothing is selected
                 modePicker.selectItem(at: modePickerItems.firstIndex(of: .ranked)!)
