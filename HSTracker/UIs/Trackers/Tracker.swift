@@ -101,30 +101,35 @@ class Tracker: OverWindowController {
         }
 
         var newCards = [Card]()
-        cards.forEach({ (card: Card) in
-            let existing = animatedCards.first { self.areEqualForList($0.card!, card) }
-            if existing == nil {
+        for card in cards {
+            if let existing = animatedCards.first(where: {
+                if let c0 = $0.card {
+                    return self.areEqualForList(c0, card)
+                }
+                return false
+            }) {
+                if existing.card?.count != card.count || existing.card?.highlightInHand != card.highlightInHand {
+                    let highlight = existing.card?.count != card.count
+                    existing.card?.count = card.count
+                    existing.card?.highlightInHand = card.highlightInHand
+                    existing.update(highlight: highlight)
+                } else if existing.card?.isCreated != card.isCreated {
+                    existing.update(highlight: false)
+                }
+            } else {
                 newCards.append(card)
-            } else if existing!.card!.count != card.count
-                || existing!.card!.highlightInHand != card.highlightInHand {
-                let highlight = existing!.card!.count != card.count
-                existing!.card!.count = card.count
-                existing!.card!.highlightInHand = card.highlightInHand
-                existing!.update(highlight: highlight)
-            } else if existing!.card!.isCreated != card.isCreated {
-                existing!.update(highlight: false)
             }
-        })
+        }
 
         var toUpdate = [CardBar]()
-        animatedCards.forEach({ (c: CardBar) in
-            if !cards.any({ self.areEqualForList($0, c.card!) }) {
+        for c in animatedCards {
+            if let card = c.card, !cards.any({ self.areEqualForList($0, card) }) {
                 toUpdate.append(c)
             }
-        })
+        }
         var toRemove: [CardBar: Bool] = [:]
-        toUpdate.forEach { (card: CardBar) in
-            let newCard = newCards.first { $0.id == card.card!.id }
+        for card in toUpdate {
+            let newCard = newCards.first { $0.id == card.card?.id }
             toRemove[card] = newCard == nil
             if let newCard = newCard {
                 let newAnimated = CardBar.factory()
