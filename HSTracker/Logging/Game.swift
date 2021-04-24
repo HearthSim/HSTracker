@@ -171,7 +171,7 @@ class Game: NSObject, PowerEventHandler {
 		self.updateArenaHelper()
         self.updateSecretTracker()
         self.updateBattlegroundsOverlay()
-        self.updateBattlegroundsTierOverlay()
+        self.updateBattlegroundsTierOverlay(reset: guiUpdateResets)
         self.updateBobsBuddyOverlay()
         self.updateTurnCounterOverlay()
         self.updateToaster()
@@ -485,7 +485,7 @@ class Game: NSObject, PowerEventHandler {
         }
     }
     
-    func updateBattlegroundsTierOverlay() {
+    func updateBattlegroundsTierOverlay(reset: Bool) {
         let rect = SizeHelper.battlegroundsTierOverlayFrame()
                 
         DispatchQueue.main.async {
@@ -497,6 +497,9 @@ class Game: NSObject, PowerEventHandler {
                     || !Settings.hideAllWhenGameInBackground) {
                 self.windowManager.show(controller: controller, show: true, frame: rect, title: nil, overlay: true)
                 controller.tierOverlay.unhideTier()
+                if reset {
+                    controller.tierOverlay.displayTier(tier: controller.tierOverlay.currentTier, force: true)
+                }
             } else {
                 self.windowManager.show(controller: controller, show: false)
                 controller.tierOverlay.hideTier()

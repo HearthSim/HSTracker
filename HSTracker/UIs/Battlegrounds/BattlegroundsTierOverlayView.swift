@@ -83,8 +83,8 @@ class BattlegroundsTierOverlayView: NSView {
         }
     }
 
-    func displayTier(tier: Int) {
-        if tier != currentTier {
+    func displayTier(tier: Int, force: Bool = false) {
+        if tier != currentTier || force {
             currentTier = tier
             
             let windowManager = AppDelegate.instance().coreManager.game.windowManager
