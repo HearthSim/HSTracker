@@ -76,8 +76,6 @@ class DeckWatcher: Watcher {
 
             Thread.sleep(forTimeInterval: refreshInterval)
         }
-
-        queue = nil
     }
 }
 
@@ -108,8 +106,6 @@ class ArenaDeckWatcher: Watcher {
 
             Thread.sleep(forTimeInterval: refreshInterval)
         }
-
-        queue = nil
     }
 }
 
@@ -183,7 +179,6 @@ class DungeonRunDeckWatcher: Watcher {
         }
         isRunning = false
         DungeonRunDeckWatcher.dungeonRunDeck.removeAll()
-        queue = nil
         DungeonRunDeckWatcher.saveKey = .invalid
     }
     
@@ -351,7 +346,6 @@ class PVPDungeonRunWatcher: Watcher {
             }
         }
         isRunning = false
-        queue = nil
     }
     
     private func update() -> Bool {
@@ -453,7 +447,5 @@ class ExperienceWatcher: Watcher {
             }
         }
         isRunning = false
-
-        queue = nil
     }
 }
