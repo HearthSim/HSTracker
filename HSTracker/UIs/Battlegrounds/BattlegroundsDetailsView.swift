@@ -23,6 +23,11 @@ class BattlegroundsDetailsView: NSView {
             boardMinions.append(view)
             addSubview(view)
         }
+
+        self.wantsLayer = true
+        self.layer?.backgroundColor = CGColor(red: 0x23/255.0, green: 0x27/255.0, blue: 0x2a/255.0, alpha: 0.8)
+        self.layer?.cornerRadius = 10.0
+        self.layer?.borderColor = CGColor(red: 0x40/255.0, green: 0x43/255.0, blue: 0x45/255.0, alpha: 1.0)
     }
 
     override init(frame frameRect: NSRect) {
@@ -35,11 +40,6 @@ class BattlegroundsDetailsView: NSView {
     
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
-        let backgroundColor: NSColor = NSColor.clear
-        //let backgroundColor = NSColor.init(red: 0x48/255.0, green: 0x7E/255.0, blue: 0xAA/255.0, alpha: 0.3)
-        
-        backgroundColor.set()
-        dirtyRect.fill()
         
         if let board = self.board {
             drawTurn(turns: AppDelegate.instance().coreManager.game.turnNumber() - board.turn, boardTurn: board.turn)
@@ -54,24 +54,6 @@ class BattlegroundsDetailsView: NSView {
         board = nil
     }
     
-    func drawText(text: String, rect: NSRect) {
-        if let font = NSFont(name: "ChunkFive", size: 14) {
-            var attributes: [NSAttributedString.Key: Any] = [
-                .font: font,
-                .foregroundColor: NSColor.white,
-                .strokeWidth: -2,
-                .strokeColor: NSColor.black
-            ]
-            let paragraph = NSMutableParagraphStyle()
-            paragraph.alignment = .center
-            attributes[.paragraphStyle] = paragraph
-
-            text.draw(with: rect, options: NSString.DrawingOptions.truncatesLastVisibleLine,
-                                        attributes: attributes)
-        }
-
-    }
-
     func drawTurn(turns: Int, boardTurn: Int) {
         if let font = NSFont(name: "ChunkFive", size: 20) {
             let attributes: [NSAttributedString.Key: Any] = [
@@ -84,7 +66,7 @@ class BattlegroundsDetailsView: NSView {
             let text = boardTurn != -1 ?
                 String.localizedStringWithFormat(NSLocalizedString("%d turn(s) ago", comment: ""), turns) :
                 NSLocalizedString("You have not fought this opponent", comment: "")
-            text.draw(with: NSRect(x: 0, y: 70, width: bounds.width, height: h),
+            text.draw(with: NSRect(x: 10, y: 70, width: bounds.width - 10, height: h),
                                         options: NSString.DrawingOptions.truncatesLastVisibleLine,
                                         attributes: attributes)
         }
@@ -106,7 +88,7 @@ class BattlegroundsDetailsView: NSView {
                 .strokeColor: NSColor.black
             ]
             let h = CGFloat(20)
-            "⬆️: \(techLevels)".draw(with: NSRect(x: 0, y: 40, width: bounds.width, height: h),
+            "⬆️: \(techLevels)".draw(with: NSRect(x: 10, y: 40, width: bounds.width - 10, height: h),
                                         options: NSString.DrawingOptions.truncatesLastVisibleLine,
                                         attributes: attributes)
         }
@@ -125,7 +107,7 @@ class BattlegroundsDetailsView: NSView {
                 .strokeColor: NSColor.black
             ]
             let h = CGFloat(20)
-            "⏫: \(triples)".draw(with: NSRect(x: 0, y: 10, width: bounds.width, height: h),
+            "⏫: \(triples)".draw(with: NSRect(x: 10, y: 10, width: bounds.width - 10, height: h),
                                         options: NSString.DrawingOptions.truncatesLastVisibleLine,
                                         attributes: attributes)
         }
@@ -133,15 +115,17 @@ class BattlegroundsDetailsView: NSView {
     
     func setBoard(board: BoardSnapshot) {
         self.board = board
-        logger.debug("Setting board with \(self.board!.entities.count) entities")
+        logger.debug("Setting board with \(board.entities.count) entities")
 
         var i = 0
         for entity in board.entities {
             boardMinions[i].entity = entity
+            boardMinions[i].needsDisplay = true
             i += 1
         }
         while i < 7 {
             boardMinions[i].entity = nil
+            boardMinions[i].needsDisplay = true
             i += 1
         }
         self.needsDisplay = true
