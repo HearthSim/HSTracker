@@ -14,6 +14,17 @@ Steps to reproduce the behavior:
 3. Scroll down to '....'
 4. See error
 
+**Game mode**
+- [ ] Standard
+- [ ] Wild
+- [ ] Classic
+- [ ] Arena
+- [ ] Battlegrounds
+- [ ] Duels
+- [ ] Tavern Brawl
+- [ ] Dungeon Run/Book of Heroes/Book of Mercenaries
+- [ ] Single Player
+
 **Expected behavior**
 A clear and concise description of what you expected to happen.
 
@@ -28,16 +39,6 @@ Add any other context about the problem here.
 
 **Log file**
 Attach the `hstracker.log` file found under `/Users/<userid>/Library/Logs/HSTracker/` directory (or use the Help->Open log directory)
-
-**Game mode**
-[ ] Standard
-[ ] Wild
-[ ] Classic
-[ ] Arena
-[ ] Duels
-[ ] Tavern Brawl
-[ ] Dungeon Run/Book of Heroes/Book of Mercenaries
-[ ] Single Player
 
 **Deck code**
 If the problem happens with a specific deck, please include the deck code used.
