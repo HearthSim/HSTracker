@@ -27,4 +27,17 @@ Important: please specify the version of HSTracker that you are using
 Add any other context about the problem here.
 
 **Log file**
-Attach the `hstracker.log` file found under `/Users/<userid>/Library/Logs/HSTracker/` directory.
+Attach the `hstracker.log` file found under `/Users/<userid>/Library/Logs/HSTracker/` directory (or use the Help->Open log directory)
+
+**Game mode**
+[ ] Standard
+[ ] Wild
+[ ] Classic
+[ ] Arena
+[ ] Duels
+[ ] Tavern Brawl
+[ ] Dungeon Run/Book of Heroes/Book of Mercenaries
+[ ] Single Player
+
+**Deck code**
+If the problem happens with a specific deck, please include the deck code used.
