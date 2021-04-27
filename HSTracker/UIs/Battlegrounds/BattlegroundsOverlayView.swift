@@ -16,7 +16,7 @@ class BattlegroundsOverlayView: NSView {
     var leaderboardDeadForText = [NSTextField]()
     var leaderboardDeadForTurnText = [NSTextField]()
     
-    let battlegroundsHeroRegex: RegexPattern = "TB_BaconShop_HERO_\\d\\d"
+    let battlegroundsHeroRegex: RegexPattern = ".+_HERO_\\d+"
     
     // Adjusts OpponentDeadFor textblocks left by this amount depending on what position they represent on the leaderboard.
     static let leftAdjust = CGFloat(0.00125)
