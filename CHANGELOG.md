@@ -1,14 +1,18 @@
 # 1.9.3
-## New:
+## New
 - Show deck mulligan for constructed matches
 - Added option to not display BG hero comparison
-## Fixes:
+- Improved background display of BG warband
+## Fixes
 - Fix secret helper window display on Big Sur (issue #1214)
+- Fix BG opponent dead tracker when Overlord Saurfang is in the lobby
+- Fix some more crashes in some rare occasions
+- Fix BG tier list not refreshing when starting new game (issue #1218)
  
 # 1.9.2
-## New:
+## New
 - Add support for patch 20.0.2
-## Fixes:
+## Fixes
 - Improve collection upload to be more reliable (issue #1189)
 - Fix secret handler showing classic secrets in standard (issue #1216)
 - Fix crash when Hearthstone is stopped and log reader is stopping
