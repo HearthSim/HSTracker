@@ -337,9 +337,9 @@ struct SizeHelper {
     
     static func turnCounterFrame() -> NSRect {
         let frame = battlegroundsTierOverlayFrame()
-        let left = frame.minX - 160
-        let top = frame.minY + (frame.height - 26) / 2
-        return NSRect(x: left, y: top, width: 160, height: 26)
+        let left = frame.minX - 100
+        let top = frame.minY
+        return NSRect(x: left, y: top, width: 100, height: frame.height)
     }
 
     static func battlegroundsOverlayFrame() -> NSRect {
