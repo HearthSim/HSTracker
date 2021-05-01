@@ -10,6 +10,7 @@
 
 import Foundation
 import RegexUtil
+import AppCenterAnalytics
 
 class PowerGameStateParser: LogEventParser {
     static let TransferStudentToken = CardIds.Collectible.Neutral.TransferStudent + "t"
@@ -42,6 +43,8 @@ class PowerGameStateParser: LogEventParser {
     // MARK: - Entities
 
     private var currentEntityId = 0
+    
+    private var trackedFailure = false
 
     func resetCurrentEntity() {
         currentEntityId = 0
@@ -403,7 +406,13 @@ class PowerGameStateParser: LogEventParser {
                 let opponent = eventHandler.entities.map { $0.1 }
                     .first { $0.has(tag: .player_id) && $0[.player_id] == eventHandler.opponent.id }
 
-                let actionStartingEntityId = Int(matches[1].value)!
+                guard let actionStartingEntityId = Int(matches[1].value) else {
+                    if !trackedFailure {
+                        trackedFailure = true
+                        Analytics.trackEvent("PowerGameStateParser_invalid_action_entity_id", withProperties: ["line": logLine.line])
+                    }
+                    return
+                }
                 var actionStartingCardId: String? = matches[3].value
                 var actionStartingEntity: Entity?
 
