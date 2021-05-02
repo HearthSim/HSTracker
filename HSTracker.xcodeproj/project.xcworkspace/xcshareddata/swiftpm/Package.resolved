@@ -2,12 +2,12 @@
   "object": {
     "pins": [
       {
-        "package": "App Center",
+        "package": "AppCenter",
         "repositoryURL": "https://github.com/microsoft/appcenter-sdk-apple",
         "state": {
           "branch": null,
-          "revision": "79d99eaff599d1b38adf81884fe220c75fd38867",
-          "version": "4.0.0"
+          "revision": "013bffe628b49433d7bc334146a4ed8c507c0e32",
+          "version": "4.1.1"
         }
       },
       {
@@ -102,7 +102,7 @@
       },
       {
         "package": "PLCrashReporter",
-        "repositoryURL": "https://github.com/microsoft/plcrashreporter.git",
+        "repositoryURL": "https://github.com/microsoft/PLCrashReporter.git",
         "state": {
           "branch": null,
           "revision": "de6b8f9db4b2a0aa859a5507550a70548e4da936",
@@ -132,8 +132,8 @@
         "repositoryURL": "https://github.com/realm/realm-cocoa",
         "state": {
           "branch": null,
-          "revision": "11ac74e1cc1faec1cad0e6a9a41652ef1432d4c1",
-          "version": "5.5.0"
+          "revision": "7ec5df0a700ef76ad930dcedb9c63c1b354979e1",
+          "version": "5.5.1"
         }
       },
       {
@@ -141,8 +141,8 @@
         "repositoryURL": "https://github.com/realm/realm-core",
         "state": {
           "branch": null,
-          "revision": "612057010f5521d41559970306054f4c5b12632a",
-          "version": "6.1.4"
+          "revision": "66d79b3c5213fb14d491c1b22193077b488d49a6",
+          "version": "6.2.4"
         }
       },
       {

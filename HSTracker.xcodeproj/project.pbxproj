@@ -3391,8 +3391,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/microsoft/appcenter-sdk-apple";
 			requirement = {
-				kind = exactVersion;
-				version = 4.0.0;
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
 			};
 		};
 		B8D75BB525BCE8C000446923 /* XCRemoteSwiftPackageReference "RegexUtil" */ = {
