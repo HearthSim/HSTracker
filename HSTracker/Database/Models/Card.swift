@@ -132,6 +132,13 @@ final class Card {
         self.id = fromRealCard.id
         self.count = fromRealCard.count
     }
+    
+    static func < (left: Card, right: Card) -> Bool {
+        if left.cost == right.cost {
+            return left.name < right.name
+        }
+        return left.cost < right.cost
+    }
 }
 
 extension Card: NSCopying {
