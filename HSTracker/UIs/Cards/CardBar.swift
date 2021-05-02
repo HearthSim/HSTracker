@@ -9,7 +9,7 @@
 import Foundation
 import TextAttributes
 
-protocol CardCellHover: class {
+protocol CardCellHover: AnyObject {
     func hover(cell: CardBar, card: Card)
     func out(card: Card)
 }

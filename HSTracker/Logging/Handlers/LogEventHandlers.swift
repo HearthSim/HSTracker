@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol PowerEventHandler: class {
+protocol PowerEventHandler: AnyObject {
 
     var proposedAttackerEntityId: Int { get set }
     var proposedDefenderEntityId: Int { get set }

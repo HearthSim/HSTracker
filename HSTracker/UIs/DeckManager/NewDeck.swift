@@ -10,7 +10,7 @@ import Foundation
 import RealmSwift
 import AppKit
 
-protocol NewDeckDelegate: class {
+protocol NewDeckDelegate: AnyObject {
     func addNewDeck(deck: Deck)
     func openDeckBuilder(playerClass: CardClass, arenaDeck: Bool)
     func refreshDecks()
