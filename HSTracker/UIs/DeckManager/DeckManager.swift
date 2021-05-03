@@ -362,8 +362,14 @@ class DeckManager: NSWindowController {
 
     @IBAction func deleteDeck(_ sender: AnyObject?) {
         if sender as? NSToolbarItem != nil,
-            let deck = currentDeck {
-            deleteDeck(deck)
+           let selection = decksTable?.selectedRowIndexes {
+            if selection.count == 1 {
+                let decks = sortedFilteredDecks()
+                let deck = decks[selection.first ?? decks.startIndex]
+                deleteDeck(deck)
+            } else if selection.count > 1 {
+                deleteDecks(selection)
+            }
         } else if let menuitem = sender as? NSMenuItem,
             let menu = menuitem.menu,
             let deckmenu = menu as? DeckContextMenu,
@@ -380,6 +386,24 @@ class DeckManager: NSWindowController {
             self._deleteDeck(deck)
             NotificationCenter.default.post(name: Notification.Name(rawValue: Events.reload_decks),
                                             object: deck)
+        }
+    }
+
+    private func deleteDecks(_ decks: IndexSet) {
+        let message = String(format: NSLocalizedString("Are you sure you want to delete "
+                                                        + "the selected %d deck(s) ?", comment: ""), decks.count)
+        
+        NSAlert.show(style: .informational, message: message, window: self.window!) {
+            var arr = [Deck]()
+            let allDecks = self.sortedFilteredDecks()
+            for idx in decks {
+                arr.append(allDecks[idx])
+            }
+            for deck in arr {
+                self._deleteDeck(deck)
+            }
+            NotificationCenter.default.post(name: Notification.Name(rawValue: Events.reload_decks),
+                                            object: nil)
         }
     }
 
@@ -612,9 +636,10 @@ extension DeckManager: NSTableViewDelegate {
         let decks = sortedFilteredDecks().count
         guard decks == (notification.object as? NSTableView)?.numberOfRows else { return }
         
+        let selection = decksTable?.selectedRowIndexes
         for i in 0 ..< decks {
             let row = decksTable?.view(atColumn: 0, row: i, makeIfNecessary: false) as? DeckCellView
-            let sel = decksTable?.selectedRow == -1 || decksTable?.selectedRow == i
+            let sel = selection?.contains(i) ?? false
             if row?.selected != sel {
                 row?.selected = sel
                 row?.needsDisplay = true
