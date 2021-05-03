@@ -10,7 +10,7 @@ import Foundation
 import RealmSwift
 import AppKit
 
-protocol SaveDeckDelegate: class {
+protocol SaveDeckDelegate: AnyObject {
     func deckSaveSaved()
     func deckSaveCanceled()
 }
