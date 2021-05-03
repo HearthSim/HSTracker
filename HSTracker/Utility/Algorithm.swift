@@ -114,6 +114,12 @@ public class LinkedList<T> {
     }
     
     public func clear() {
+        var cur = tail
+        while let node = cur {
+          node.next = nil
+          cur = cur?.previous
+        }
+
         head = nil
         tail = nil
         _count = 0
@@ -149,6 +155,10 @@ public class LinkedList<T> {
     
 	public var count: Int {
         return self._count
+    }
+    
+    deinit {
+        clear()
     }
 }
 
