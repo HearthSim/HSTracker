@@ -3,6 +3,7 @@
 - Show deck mulligan for constructed matches
 - Added option to not display BG hero comparison
 - Improved background display of BG warband
+- Support deleting multiple decks in the Deck Manager
 ## Fixes
 - Fix secret helper window display on Big Sur (issue #1214)
 - Fix BG opponent dead tracker when Overlord Saurfang is in the lobby
