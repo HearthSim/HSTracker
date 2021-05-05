@@ -1,5 +1,6 @@
 "Are you sure you want to close this deck ? Your changes will not be saved." = "确定要退出吗？您的修改将不会被保存。";
 "Are you sure you want to delete the deck %@ ?" = "确定要删除 %@ 卡组吗?";
+"Are you sure you want to delete the selected %d deck(s) ?" = "确定要删除选定的 %d 个卡组吗?";
 "Arena %@ %@" = "竞技场 %@ %@";
 "Cancel" = "取消";
 "Clear" = "清除";
@@ -140,6 +141,7 @@
 "elemental" = "元素";
 "all" = "全部";
 "unavailable" = "不可用";
+"quilboar" = "野猪人";
 
 /* sorting */
 "name" = "名字";
