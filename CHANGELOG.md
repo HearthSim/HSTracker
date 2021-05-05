@@ -1,5 +1,6 @@
 # 1.9.3
 ## New
+- Add support for patch 20.2.0
 - Show deck mulligan for constructed matches
 - Added option to not display BG hero comparison
 - Improved background display of BG warband
@@ -8,7 +9,6 @@
 - Fix secret helper window display on Big Sur (issue #1214)
 - Fix BG opponent dead tracker when Overlord Saurfang is in the lobby
 - Fix some more crashes in some rare occasions
-- Fix BG tier list not refreshing when starting new game (issue #1218)
 - Fix tracking for Core Jaraxxus not updating deck tracker (issue #1219)
 - Fix rare bug where deck has cards out of order
  

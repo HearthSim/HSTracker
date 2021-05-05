@@ -141,6 +141,7 @@
 "elemental" = "Elemental";
 "all" = "All";
 "unavailable" = "Unavailable";
+"quilboar" = "Quilboar";
 
 /* sorting */
 "name" = "Name";
