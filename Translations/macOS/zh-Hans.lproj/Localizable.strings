@@ -215,3 +215,7 @@
 "Always send" = "总是发送";
 "Send" = "发送";
 "Don't send" = "不要发送";
+
+/* Mulligan toast */
+"What should I keep?" = "我应该保留什么?";
+"HSReplay.net - Mulligan Guide" = "HSReplay.net - 调度建议";
