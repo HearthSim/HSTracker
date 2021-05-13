@@ -1,3 +1,11 @@
+# 1.9.4
+## New
+- Add support for patch 20.2.2
+- Improved support for spectator mode, including Battlegrounds
+- Updated zh-Hans translation (thanks @moonfruit)
+## Fixes
+- Fixed handling of log lines with Unicode characters
+
 # 1.9.3
 ## New
 - Add support for patch 20.2.0
