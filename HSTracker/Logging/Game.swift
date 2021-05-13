@@ -321,6 +321,9 @@ class Game: NSObject, PowerEventHandler {
                     } else {
                         tracker.playerClassId = currentDeck.playerClass.defaultHeroCardId
                     }
+                } else {
+                    tracker.playerName = player.name
+                    tracker.playerClassId = playerHeroId
                 }
                 
                 tracker.graveyard = self.player.graveyard
@@ -701,13 +704,13 @@ class Game: NSObject, PowerEventHandler {
 	var gameResult: GameResult = .unknown
 	var wasConceded: Bool = false
 
-    private var _spectator: Bool = false
+    private var _spectator: Bool?
     var spectator: Bool {
-		if self.gameEnded {
-			return false
-		}
-		
-		return _spectator
+        if let spec = _spectator {
+            return spec
+        }
+        _spectator = MirrorHelper.isSpectating()
+		return _spectator ?? false
 	}
 
     private var _currentGameMode: GameMode = .none
@@ -851,6 +854,7 @@ class Game: NSObject, PowerEventHandler {
             
             if let minfo = self._matchInfo {
                 // the player name is now read from the log file but the opponent is not
+                self.player.name = minfo.localPlayer.name
                 self.opponent.name = minfo.opposingPlayer.name
                 self.player.id = minfo.localPlayer.playerId
                 self.opponent.id = minfo.opposingPlayer.playerId
@@ -1093,8 +1097,9 @@ class Game: NSObject, PowerEventHandler {
         opponent.reset()
         updateSecretTracker(cards: [])
         windowManager.hideGameTrackers()
+        powerLog.removeAll()
 		
-		_spectator = false
+		_spectator = nil
         _availableRaces = nil
         _unavailableRaces = nil
         _brawlInfo = nil
@@ -1237,6 +1242,17 @@ class Game: NSObject, PowerEventHandler {
     }
 
     // MARK: - game state
+    private func cacheMatchInfo() {
+        DispatchQueue.global().async {
+            var minfo: MatchInfo? = self.matchInfo
+            while minfo == nil {
+                logger.info("Waiting for matchInfo... (matchInfo=\(String(describing: minfo))")
+                Thread.sleep(forTimeInterval: 1)
+                minfo = self.matchInfo
+            }
+        }
+    }
+    
     private var lastGameStart = Date.distantPast
     func gameStart(at timestamp: LogDate) {
         logger.info("currentGameMode: \(currentGameMode), isInMenu: \(isInMenu), "
@@ -1260,17 +1276,12 @@ class Game: NSObject, PowerEventHandler {
         reset()
         lastGameStart = Date()
         
-        // remove every line before _last_ create game
-        if let index = self.powerLog.reversed().firstIndex(where: { $0.line.contains("CREATE_GAME") }) {
-            self.powerLog = self.powerLog.reversed()[...index].reversed() as [LogLine]
-        } else {
-            self.powerLog = []
-        }
-
 		gameEnded = false
         isInMenu = false
         handledGameEnd = false
 
+        cacheMatchInfo()
+        
         logger.info("----- Game Started -----")
         AppHealth.instance.setHearthstoneGameRunning(flag: true)
 
@@ -1281,7 +1292,9 @@ class Game: NSObject, PowerEventHandler {
         }
 		
 		// update spectator information
-		_spectator = MirrorHelper.isSpectating() ?? false
+        if spectator {
+            set(activeDeckId: nil, autoDetected: false)
+        }
 		
         updateTrackers(reset: true)
 
@@ -1423,13 +1436,7 @@ class Game: NSObject, PowerEventHandler {
 			+ "handledGameEnd: \(self.handledGameEnd)")
 		
         self.handledGameEnd = true
-        
-        if self.currentGameMode == .spectator && currentGameStats.result == .none {
-            logger.info("Game was spectator mode without a game result."
-                + " Probably exited spectator mode early.")
-            return
-        }
-        
+                
         /*if Settings.promptNotes {
             let message = NSLocalizedString("Do you want to add some notes for this game ?",
                                             comment: "")
@@ -1469,6 +1476,12 @@ class Game: NSObject, PowerEventHandler {
             }
         }
 		
+        if currentGameMode == .spectator && (currentGameStats.result == .none || currentGameStats.result == .unknown) {
+            logger.info("Game was spectator mode without a game result."
+                + " Probably exited spectator mode early.")
+            return
+        }
+
 		self.syncStats(logLines: self.powerLog, stats: currentGameStats)
     }
 
@@ -1494,7 +1507,7 @@ class Game: NSObject, PowerEventHandler {
                 Settings.hsReplayUploadFriendlyMatches) ||
             (stats.gameMode == .spectator &&
                 Settings.hsReplayUploadFriendlyMatches) ||
-            (stats.gameMode == .battlegrounds &&
+            (isBattlegroundsMatch() &&
                 Settings.hsReplayUploadBattlegroundsMatches) ||
             (stats.gameMode == .duels &&
                 Settings.hsReplayUploadDuelsMatches)) {

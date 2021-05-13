@@ -119,6 +119,7 @@ class CardHudContainer: OverWindowController {
         for hud in huds {
             hud.alphaValue = 0.0
             hud.frame = NSRect.zero
+            hud.needsDisplay = true
         }
     }
     

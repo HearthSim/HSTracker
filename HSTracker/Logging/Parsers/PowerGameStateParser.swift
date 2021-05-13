@@ -111,30 +111,7 @@ class PowerGameStateParser: LogEventParser {
                         entity[.player_id] = playerId
                         if let name = eventHandler.playerName(for: playerId) {
                             entity.name = name
-                        }
-                        
-                        if matches.count > 2 {
-                            let idmatch = matches[2].value
-                            let idmatches = idmatch.matches(PlayerIDRegex)
-                            if idmatches.count >= 2 {
-                                if let accountId = MirrorHelper.getAccountId() {
-                                    if let hi = UInt64(idmatches[0].value),
-                                        let lo = UInt64(idmatches[1].value), (NSNumber(value: hi) == accountId.hi) && (NSNumber(value: lo) == accountId.lo) {
-                                        eventHandler.player.id = playerId
-                                        if let name = entity.name {
-                                            eventHandler.player.name = name
-                                        }
-                                    } else {
-                                        if let isSpectating = MirrorHelper.isSpectating(), isSpectating == false {
-                                            eventHandler.opponent.id = playerId
-                                        }
-                                        if let name = entity.name, name != "UNKNOWN HUMAN PLAYER" {
-                                            eventHandler.opponent.name = name
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        }                        
                     }
                 }
                 eventHandler.add(entity: entity)
@@ -376,6 +353,7 @@ class PowerGameStateParser: LogEventParser {
             }
         }
         if logLine.line.contains("End Spectator") {
+            eventHandler.gameEnded = true
             eventHandler.gameEnd()
         } else if logLine.line.contains("BLOCK_START") {
             var type: String?
@@ -792,7 +770,7 @@ class PowerGameStateParser: LogEventParser {
             maxBlockId = 0
             currentBlock = nil
             resetCurrentEntity()
-            eventHandler.gameStart(at: logLine.time)
+//            eventHandler.gameStart(at: logLine.time)
         } else if logLine.line.contains("BLOCK_END") {
             if eventHandler.gameTriggerCount < 10 && (eventHandler.gameEntity?.has(tag: .turn) ?? false) {
                 eventHandler.gameTriggerCount += 10
