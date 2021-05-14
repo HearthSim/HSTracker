@@ -811,6 +811,7 @@ class Game: NSObject, PowerEventHandler {
         if _availableRaces == nil {
             if let races = MirrorHelper.getAvailableBattlegroundsRaces() {
                 _availableRaces = races.compactMap({ x in x.intValue < Race.allCases.count ? Race.allCases[x.intValue] : nil })
+                logger.info("Battlegrounds available races: \(_availableRaces ?? [])")
             } else {
                 return []
             }
@@ -822,6 +823,7 @@ class Game: NSObject, PowerEventHandler {
         if _unavailableRaces == nil {
             if let races = MirrorHelper.getUnavailableBattlegroundsRaces() {
                 _unavailableRaces = races.compactMap({ x in x.intValue < Race.allCases.count ? Race.allCases[x.intValue] : nil })
+                logger.info("Battlegrounds unavailable races: \(_unavailableRaces ?? [])")
             } else {
                 return []
             }
@@ -840,6 +842,13 @@ class Game: NSObject, PowerEventHandler {
         return _battlegroundsRating
     }
     
+    private func validateMedalInfo(medalInfo: MatchInfo.MedalInfo) -> Bool {
+        if medalInfo.stars < 0 || medalInfo.stars > 1000 || medalInfo.starLevel < 0 || medalInfo.starLevel > 51 || medalInfo.starMultiplier < 0 || medalInfo.starMultiplier > 20 {
+            return false
+        }
+        return true
+    }
+    
     var matchInfo: MatchInfo? {
         
         if _matchInfo != nil {
@@ -847,22 +856,30 @@ class Game: NSObject, PowerEventHandler {
         }
         
         if !self.gameEnded, let mInfo = MirrorHelper.getMatchInfo() {
-            self._matchInfo = MatchInfo(info: mInfo)
-            logger.info("\(String(describing: self._matchInfo?.localPlayer.name))"
-                + " vs \(String(describing: self._matchInfo?.opposingPlayer.name))"
-                + " matchInfo: \(String(describing: self._matchInfo))")
+            let matchInfo = MatchInfo(info: mInfo)
+            logger.info("\(matchInfo.localPlayer.name)"
+                + " vs \(matchInfo.opposingPlayer.name)"
+                + " matchInfo: \(matchInfo)")
             
-            if let minfo = self._matchInfo {
+            if validateMedalInfo(medalInfo: matchInfo.localPlayer.standardMedalInfo) &&
+                validateMedalInfo(medalInfo: matchInfo.localPlayer.wildMedalInfo) &&
+                validateMedalInfo(medalInfo: matchInfo.localPlayer.classicMedalInfo) &&
+                validateMedalInfo(medalInfo: matchInfo.opposingPlayer.standardMedalInfo) &&
+                validateMedalInfo(medalInfo: matchInfo.opposingPlayer.wildMedalInfo) &&
+                validateMedalInfo(medalInfo: matchInfo.opposingPlayer.classicMedalInfo) {
                 // the player name is now read from the log file but the opponent is not
-                self.player.name = minfo.localPlayer.name
-                self.opponent.name = minfo.opposingPlayer.name
-                self.player.id = minfo.localPlayer.playerId
-                self.opponent.id = minfo.opposingPlayer.playerId
-                self._currentGameType = minfo.gameType
-                self.currentFormat = minfo.formatType
+                self.player.name = matchInfo.localPlayer.name
+                self.opponent.name = matchInfo.opposingPlayer.name
+                self.player.id = matchInfo.localPlayer.playerId
+                self.opponent.id = matchInfo.opposingPlayer.playerId
+                self._currentGameType = matchInfo.gameType
+                self.currentFormat = matchInfo.formatType
 
-                let opponentStarLevel = minfo.opposingPlayer.standardMedalInfo.starLevel
+                let opponentStarLevel = matchInfo.opposingPlayer.standardMedalInfo.starLevel
                 logger.info("LADDER opponentStarLevel=\(opponentStarLevel)")
+                self._matchInfo = matchInfo
+            } else {
+                return nil
             }
             
             // request a mirror read so we have this data at the end of the game
