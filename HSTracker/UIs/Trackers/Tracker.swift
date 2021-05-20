@@ -570,7 +570,7 @@ extension Tracker: CardCellHover {
 
         let windowRect = self.window!.frame
 
-        let hoverFrame = NSRect(x: 0, y: 0, width: 180, height: 250)
+        let hoverFrame = NSRect(x: 0, y: 0, width: 256, height: 350)
 
         var x: CGFloat
         // decide if the popup window should on the left or right side of the tracker

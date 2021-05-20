@@ -200,7 +200,7 @@ extension BattlegroundsTierDetailsView: CardCellHover {
     func hover(cell: CardBar, card: Card) {
         let windowRect = self.window!.frame
 
-        let hoverFrame = NSRect(x: 0, y: 0, width: 180, height: 250)
+        let hoverFrame = NSRect(x: 0, y: 0, width: 256, height: 350)
 
         var x: CGFloat
         // decide if the popup window should on the left or right side of the tracker
@@ -209,11 +209,18 @@ extension BattlegroundsTierDetailsView: CardCellHover {
         } else {
             x = windowRect.origin.x - hoverFrame.size.width
         }
+        
+        let tierFrame = SizeHelper.battlegroundsTierOverlayFrame()
 
         let cellFrameRelativeToWindow = cell.convert(cell.bounds, to: nil)
         let cellFrameRelativeToScreen = cell.window?.convertToScreen(cellFrameRelativeToWindow)
 
-        let y: CGFloat = cellFrameRelativeToScreen!.origin.y
+        var y: CGFloat = cellFrameRelativeToScreen!.origin.y
+        if (y + hoverFrame.height/2) >= tierFrame.minY {
+            y = tierFrame.minY - hoverFrame.height/2
+        } else if (y - hoverFrame.height/2) < 0 {
+            y = hoverFrame.height/2
+        }
 
         let frame = [x, y, hoverFrame.width, hoverFrame.height]
 

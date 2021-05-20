@@ -16,7 +16,7 @@ struct ImageUtils {
     static let semaphore = DispatchSemaphore(value: 1)
 
     static func artUrl(cardId: String, lang: String) -> String {
-        return "https://art.hearthstonejson.com/v1/render/latest/\(lang)/512x/\(cardId).png"
+        return "https://art.hearthstonejson.com/v1/render/latest/\(lang)/256x/\(cardId).png"
     }
 
     static func artUrlBG(cardId: String, lang: String) -> String {

@@ -810,10 +810,12 @@ class Game: NSObject, PowerEventHandler {
     var availableRaces: [Race]? {
         if _availableRaces == nil {
             if let races = MirrorHelper.getAvailableBattlegroundsRaces() {
-                _availableRaces = races.compactMap({ x in x.intValue < Race.allCases.count ? Race.allCases[x.intValue] : nil })
-                logger.info("Battlegrounds available races: \(_availableRaces ?? [])")
-            } else {
-                return []
+                let newRaces = races.compactMap({ x in x.intValue > 0 && x.intValue < Race.allCases.count ? Race.allCases[x.intValue] : nil })
+                logger.info("Battlegrounds available races: \(newRaces) - from mirror \(races)")
+                if newRaces.count == races.count {
+                    _availableRaces = newRaces
+                    return _availableRaces
+                }
             }
         }
         return _availableRaces
@@ -822,10 +824,14 @@ class Game: NSObject, PowerEventHandler {
     var unavailableRaces: [Race]? {
         if _unavailableRaces == nil {
             if let races = MirrorHelper.getUnavailableBattlegroundsRaces() {
-                _unavailableRaces = races.compactMap({ x in x.intValue < Race.allCases.count ? Race.allCases[x.intValue] : nil })
-                logger.info("Battlegrounds unavailable races: \(_unavailableRaces ?? [])")
-            } else {
-                return []
+                let newRaces = races.compactMap({ x in x.intValue > 0 && x.intValue < Race.allCases.count ? Race.allCases[x.intValue] : nil })
+                logger.info("Battlegrounds unavailable races: \(newRaces) - from mirror \(races)")
+                if newRaces.count == races.count && newRaces.count == 3 {
+                    _unavailableRaces = newRaces
+                    return _unavailableRaces
+                } else {
+                    return nil
+                }
             }
         }
         return _unavailableRaces
