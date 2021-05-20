@@ -1713,12 +1713,18 @@ class Game: NSObject, PowerEventHandler {
             return
         }
 
-        for impFavor in opponent.board
-            .filter({ $0.cardId ==
-                CardIds.NonCollectible.Neutral.EmperorThaurissan_ImperialFavorEnchantment }) {
-            if let entity = entities[impFavor[.attached]] {
-                entity.info.costReduction += thaurissans.count
-            }
+        handleOpponentHandCostReduction(value: thaurissans.count)
+    }
+    
+    func handlePlayerHandCostReduction(value: Int) {
+        for card in player.hand {
+            card.info.costReduction += value
+        }
+    }
+    
+    func handleOpponentHandCostReduction(value: Int) {
+        for card in opponent.hand {
+            card.info.costReduction += value
         }
     }
     

@@ -208,4 +208,8 @@ protocol PowerEventHandler: AnyObject {
     func handlePlayerLibramReduction(change: Int)
     
     func handleOpponentLibramReduction(change: Int)
+    
+    func handlePlayerHandCostReduction(value: Int)
+    
+    func handleOpponentHandCostReduction(value: Int)
 }

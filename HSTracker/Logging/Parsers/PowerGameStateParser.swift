@@ -512,6 +512,10 @@ class PowerGameStateParser: LogEventParser {
                                     addKnownCardId(eventHandler: eventHandler, cardId: card)
                                 }
                             }
+                        case CardIds.Collectible.Rogue.EfficientOctoBot:
+                            if let actionEntity = actionStartingEntity, actionEntity.isControlled(by: eventHandler.opponent.id) {
+                                eventHandler.handleOpponentHandCostReduction(value: 1)
+                            }
                         case CardIds.Collectible.Neutral.KeymasterAlabaster:
                             // The player controlled side of this is handled by TagChangeActions.OnCardCopy
                             if let actionEntity = actionStartingEntity, actionEntity.isControlled(by: eventHandler.opponent.id) && eventHandler.player.lastDrawnCardId != nil {
