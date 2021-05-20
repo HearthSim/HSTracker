@@ -145,6 +145,8 @@ extension CardIds.Collectible {
         static let ReckoningCore = "CS3_016"
         static let GallopingSavior = "BAR_550"
         static let ConvictionRank1 = "BAR_880"
+        static let AldorAttendant = "BT_020"
+        static let AldorTruthseeker = "BT_026"
     }
 }
 

@@ -204,4 +204,8 @@ protocol PowerEventHandler: AnyObject {
     func handlePlayerTechLevel(entity: Entity, techLevel: Int)
     
     func handlePlayerTriples(entity: Entity, triples: Int)
+    
+    func handlePlayerLibramReduction(change: Int)
+    
+    func handleOpponentLibramReduction(change: Int)
 }

@@ -286,7 +286,11 @@ final class Settings {
     static var showOpponentTracker: Bool
     @UserDefault(key: Settings.show_timer, defaultValue: false)
     static var showTimer: Bool
-    
+    @UserDefault(key: Settings.player_libram_counter, defaultValue: true)
+    static var showPlayerLibramCounter: Bool
+    @UserDefault(key: Settings.opponent_libram_counter, defaultValue: true)
+    static var showOpponentLibramCounter: Bool
+
     @UserDefaultCustom(key: Settings.timer_hud_frame, defaultValue: nil)
     static var timerHudFrame: NSRect?
     
@@ -492,10 +496,10 @@ extension Settings {
     static let player_deathrattle_frame = "player_deathrattle_frame"
     static let player_yogg_frame = "player_yogg_frame"
     static let player_graveyard_frame = "player_graveyard_frame"
-
     static let player_graveyard_details_frame = "player_graveyard_details_frame"
     static let player_jade_frame = "player_jade_frame"
     static let player_galakrond_invoke_frame = "player_galakrond_invoke_frame"
+    static let player_libram_counter = "player_libram_counter"
     static let opponent_galakrond_invoke_frame = "opponent_galakrond_invoke_frame"
     static let opponent_cthun_frame = "opponent_cthun_frame"
     static let opponent_yogg_frame = "opponent_yogg_frame"
@@ -503,6 +507,7 @@ extension Settings {
     static let opponent_graveyard_frame = "opponent_graveyard_frame"
     static let opponent_graveyard_details_frame = "opponent_graveyard_details_frame"
     static let opponent_jade_frame = "opponent_jade_frame"
+    static let opponent_libram_counter = "opponent_libram_counter"
 
     static let remove_cards_from_deck = "remove_cards_from_deck"
     static let highlight_last_drawn = "highlight_last_drawn"

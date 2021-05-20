@@ -229,6 +229,8 @@ class Game: NSObject, PowerEventHandler {
 				tracker.fatigueCounter = self.opponent.fatigue
 				tracker.spellsPlayedCount = self.opponent.spellsPlayedCount
 				tracker.deathrattlesPlayedCount = self.opponent.deathrattlesPlayedCount
+                tracker.showLibramCounter = Settings.showOpponentLibramCounter
+                tracker.libramReductionCount = self.opponent.libramReductionCount
                 
                 if let opponentEntity = self.opponentEntity {
                     tracker.galakrondInvokeCounter = opponentEntity.has(tag: GameTag.invoke_counter) ? opponentEntity[GameTag.invoke_counter] : 0
@@ -303,6 +305,8 @@ class Game: NSObject, PowerEventHandler {
                 tracker.fatigueCounter = self.player.fatigue
                 tracker.spellsPlayedCount = self.player.spellsPlayedCount
                 tracker.deathrattlesPlayedCount = self.player.deathrattlesPlayedCount
+                tracker.showLibramCounter = Settings.showPlayerLibramCounter
+                tracker.libramReductionCount = self.player.libramReductionCount
                 
                 if let playerEntity = self.playerEntity {
                     tracker.hasGalakrondProxy = playerEntity.has(tag: GameTag.proxy_galakrond)
@@ -1872,6 +1876,14 @@ class Game: NSObject, PowerEventHandler {
                 break
             }
         }
+    }
+    
+    func handlePlayerLibramReduction(change: Int) {
+        player.updateLibramReduction(change: change)
+    }
+    
+    func handleOpponentLibramReduction(change: Int) {
+        opponent.updateLibramReduction(change: change)
     }
     
     func handlePlayerMulliganDone() {

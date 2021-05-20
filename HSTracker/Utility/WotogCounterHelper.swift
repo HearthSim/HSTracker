@@ -121,4 +121,12 @@ extension Game {
 	var showOpponentCthunCounter: Bool {
 		return Settings.showOpponentCthun && opponentSeenCthun
 	}
+    
+    var playerLibramCounter: Int {
+        return self.player.libramReductionCount
+    }
+
+    var opponentLibramCounter: Int {
+        return self.opponent.libramReductionCount
+    }
 }

@@ -735,6 +735,22 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.Mankrik_OlgraMankriksWifeToken)
                         case CardIds.Collectible.Neutral.ShadowHunterVoljin:
                             addKnownCardId(eventHandler: eventHandler, cardId: target)
+                        case CardIds.Collectible.Paladin.AldorAttendant:
+                            if let ent = actionStartingEntity {
+                                if ent.isControlled(by: eventHandler.player.id) {
+                                    eventHandler.handlePlayerLibramReduction(change: 1)
+                                } else {
+                                    eventHandler.handleOpponentLibramReduction(change: 1)
+                                }
+                            }
+                        case CardIds.Collectible.Paladin.AldorTruthseeker:
+                            if let ent = actionStartingEntity {
+                                if ent.isControlled(by: eventHandler.player.id) {
+                                    eventHandler.handlePlayerLibramReduction(change: 2)
+                                } else {
+                                    eventHandler.handleOpponentLibramReduction(change: 2)
+                                }
+                            }
                         default:
                             if let card = Cards.any(byId: actionStartingCardId) {
                                 if (player != nil && player![.current_player] == 1

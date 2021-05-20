@@ -100,6 +100,7 @@ final class Player {
     fileprivate(set) var deathrattlesPlayedCount = 0
 	private unowned(unsafe) let game: Game
     var lastDrawnCardId: String?
+    var libramReductionCount: Int = 0
 
     var hasCoin: Bool {
         return hand.any { $0.cardId == CardIds.NonCollectible.Neutral.TheCoinBasic }
@@ -164,6 +165,7 @@ final class Player {
         inDeckPredictions.removeAll()
         
         lastDrawnCardId = nil
+        libramReductionCount = 0
     }
     
     var currentMana: Int {
@@ -681,5 +683,9 @@ final class Player {
         if inDeckPredictions.all({ x in x.cardId != cardId }) {
             inDeckPredictions.append(PredictedCard(cardId: cardId, turn: 0, isCreated: isCreated))
         }
+    }
+    
+    func updateLibramReduction(change: Int) {
+        libramReductionCount += change
     }
 }

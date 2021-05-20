@@ -40,6 +40,7 @@ class Tracker: OverWindowController {
     var showSpellCounter: Bool = false
     var showDeathrattleCounter: Bool = false
     var showJadeCounter: Bool = false
+    var showLibramCounter: Bool = false
     var showGraveyard: Bool = false
     var proxy: Entity?
     var nextJadeSize: Int = 1
@@ -49,6 +50,7 @@ class Tracker: OverWindowController {
     var graveyard: [Entity]?
     var spellsPlayedCount = 0
     var deathrattlesPlayedCount = 0
+    var libramReductionCount = 0
     
     var playerClassId: String?
     var playerName: String?
@@ -214,11 +216,11 @@ class Tracker: OverWindowController {
                 + "\(galakrondInvokeCounter)"
             galakrondCounter.needsDisplay = true
         }
-        
+        let showLibram = showLibramCounter  && libramReductionCount > 0
         var counterStyle: [WotogCounterStyle] = []
-        if showCthunCounter && showSpellCounter && showDeathrattleCounter {
+        if showCthunCounter && showSpellCounter && showDeathrattleCounter && showLibram {
             counterStyle.append(.full)
-        } else if !showCthunCounter && !showSpellCounter && !showDeathrattleCounter {
+        } else if !showCthunCounter && !showSpellCounter && !showDeathrattleCounter  && !showLibram {
             counterStyle.append(.none)
         } else {
             if showDeathrattleCounter {
@@ -230,6 +232,10 @@ class Tracker: OverWindowController {
             if showCthunCounter {
                 counterStyle.append(.cthun)
             }
+            
+            if showLibram {
+                counterStyle.append(.libram)
+            }
         }
         
         recordTracker.message = recordTrackerMessage
@@ -240,6 +246,7 @@ class Tracker: OverWindowController {
         wotogCounter.health = proxy?.health ?? 6
         wotogCounter.spell = spellsPlayedCount
         wotogCounter.deathrattle = deathrattlesPlayedCount
+        wotogCounter.libram = libramReductionCount
         
         if !jadeCounter.isHidden {
             jadeCounter.nextJade = nextJadeSize
@@ -369,7 +376,10 @@ class Tracker: OverWindowController {
         if !galakrondCounter.isHidden {
             offsetFrames += smallFrameHeight
         }
-        
+        if showLibram {
+            offsetFrames += smallFrameHeight
+        }
+
         var cardHeight: CGFloat
         switch Settings.cardSize {
         case .tiny: cardHeight = CGFloat(kTinyRowHeight)
@@ -425,7 +435,7 @@ class Tracker: OverWindowController {
                                             width: windowWidth,
                                             height: smallFrameHeight)
         }
-        if showCthunCounter || showSpellCounter || showDeathrattleCounter {
+        if showCthunCounter || showSpellCounter || showDeathrattleCounter || showLibram {
             var height: CGFloat = 0
             if showCthunCounter {
                 height += smallFrameHeight
@@ -434,6 +444,9 @@ class Tracker: OverWindowController {
                 height += smallFrameHeight
             }
             if showSpellCounter {
+                height += smallFrameHeight
+            }
+            if showLibram {
                 height += smallFrameHeight
             }
             y -= height
