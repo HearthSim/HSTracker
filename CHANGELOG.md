@@ -1,3 +1,11 @@
+# 1.9.5
+## New
+- Add Libram counter
+- Track Efficient Octobot cost reduction
+- Increased size of floating hover image
+## Fixes
+- Remove Rigged Faire Game secret when opponent loses armor
+
 # 1.9.4
 ## New
 - Add support for patch 20.2.2
