@@ -1733,6 +1733,12 @@ class Game: NSObject, PowerEventHandler {
         self.updateOpponentTracker()
     }
     
+    func handleEntityLostArmor(entity: Entity, value: Int) {
+        if playerEntity?.isCurrentPlayer ?? false {
+            secretsManager?.handleEntityLostArmor(entity: entity, value: value)
+        }
+    }
+    
     func handleCardCopy() {
         self.updateOpponentTracker()
     }

@@ -212,4 +212,6 @@ protocol PowerEventHandler: AnyObject {
     func handlePlayerHandCostReduction(value: Int)
     
     func handleOpponentHandCostReduction(value: Int)
+    
+    func handleEntityLostArmor(entity: Entity, value: Int)
 }

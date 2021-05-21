@@ -427,6 +427,18 @@ class SecretsManager {
             exclude(cardId: CardIds.Secrets.Paladin.Reckoning)
         }
     }
+    
+    func handleEntityLostArmor(entity: Entity, value: Int) {
+        if value <= 0 {
+            return
+        }
+        
+        if entity.isHero && entity.isControlled(by: game.opponent.id) {
+            if !entity.has(tag: .immune) {
+                opponentTookDamageDuringTurns.append(game.turnNumber())
+            }
+        }
+    }
 
     func handleTurnsInPlayChange(entity: Entity, turn: Int) {
         guard handleAction else { return }

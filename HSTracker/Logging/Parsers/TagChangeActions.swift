@@ -57,6 +57,7 @@ struct TagChangeActions {
         case .reborn: return { self.rebornChange(eventHandler: eventHandler, id: id, value: value)}
         case .player_tech_level: return { self.playerTechLevel(eventHandler: eventHandler, id: id, value: value, previous: prevValue)}
         case .player_triples: return { self.playerTriples(eventHandler: eventHandler, id: id, value: value, previous: prevValue)}
+        case .armor: return { self.armorChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue)}
         default: return nil
         }
     }
@@ -239,6 +240,16 @@ struct TagChangeActions {
         
         if playerEntity.isCurrentPlayer {
             eventHandler.opponentDamage(entity: entity, damage: value)
+        }
+    }
+    
+    private func armorChange(eventHandler: PowerEventHandler, id: Int, value: Int, previous: Int) {
+        if value <= 0 {
+            return
+        }
+        
+        if let entity = eventHandler.entities[id] {
+            eventHandler.handleEntityLostArmor(entity: entity, value: previous - value)
         }
     }
 
