@@ -712,9 +712,10 @@ class Game: NSObject, PowerEventHandler {
     var spectator: Bool {
         if let spec = _spectator {
             return spec
+        } else if MirrorHelper.isInitialized() {
+            _spectator = MirrorHelper.isSpectating()
         }
-        _spectator = MirrorHelper.isSpectating()
-		return _spectator ?? false
+        return _spectator ?? false
 	}
 
     private var _currentGameMode: GameMode = .none

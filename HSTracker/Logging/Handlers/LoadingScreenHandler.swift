@@ -35,7 +35,7 @@ struct LoadingScreenHandler: LogEventParser {
                 + "to \(String(describing: game.currentMode))")
 
             if logLine.time.timeIntervalSinceNow < 5 {
-                if game.currentMode == Optional(.hub) && !MirrorHelper.isInitialized() {
+                if let currentMode = game.currentMode, currentMode == .hub && !MirrorHelper.isInitialized() {
                     DispatchQueue.global().async {
                         if MirrorHelper.getAccountId() != nil {
                             ExperienceWatcher._instance.startWatching()

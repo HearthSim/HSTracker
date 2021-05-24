@@ -35,33 +35,31 @@ struct MirrorHelper {
         return MirrorHelper._mirror
     }
     
-	private static func initMirror(pid: Int32, blocking: Bool) -> HearthMirror {
+	private static func initMirror(pid: Int32, blocking: Bool) -> HearthMirror? {
         
 		// get rights to attach
 		if acquireTaskportRight() != 0 {
 			logger.error("acquireTaskportRight() failed!")
 		}
 		
-		var mirror = HearthMirror(pid: pid,
-		                           blocking: true)
+		let mirror = HearthMirror(pid: pid,
+                                  blocking: true)
 		
 		// waiting for mirror to be up and running
-		var _waitingForMirror = true
-		while _waitingForMirror {
+        var attempts = 0
+		while attempts < 3 {
 			if let battleTag = mirror.getBattleTag() {
 				logger.verbose("Getting BattleTag from HearthMirror : \(battleTag)")
-				_waitingForMirror = false
-				break
+				return mirror
 			} else {
 				// mirror might be partially initialized, reset
-                logger.error("Mirror is not working, trying again...")
-				mirror = HearthMirror(pid: pid,
-				                           blocking: true)
+                logger.error("Mirror is not working yet, trying again...")
 				Thread.sleep(forTimeInterval: 0.5)
+                attempts += 1
 			}
 		}
         
-        return mirror
+        return nil
 	}
 	
 	/**
