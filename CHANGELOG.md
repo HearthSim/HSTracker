@@ -5,6 +5,7 @@
 - Increased size of floating hover image
 ## Fixes
 - Remove Rigged Faire Game secret when opponent loses armor
+- Fix memory growth due to spectator improvements (issue #1207)
 
 # 1.9.4
 ## New
