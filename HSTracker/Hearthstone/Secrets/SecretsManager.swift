@@ -156,7 +156,7 @@ class SecretsManager {
         if let remoteData = RemoteConfig.data {
             if gameMode == .gt_arena {
                 let currentSets = remoteData.arena?.current_sets?.compactMap({ value in
-                    CardSet.allCases.first(where: { x in "\(x)".lowercased() == value })
+                    CardSet.allCases.first(where: { x in "\(x)".uppercased() == value })
                 })
                 
                 cards = cards.filter { card in
