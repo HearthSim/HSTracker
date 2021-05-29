@@ -84,10 +84,14 @@ class Database {
 
                     var index = Cards.indexOf(id: cardId)
                     
-                    if let name = jsonCard["name"] as? String,
-                        index >= 0,
+                    if index >= 0,
                         lang == .enUS && langs.count > 1 {
-                        Cards.cards[index].enName = name
+                        if let name = jsonCard["name"] as? String {
+                            Cards.cards[index].enName = name
+                        }
+                        if (jsonCard["techLevel"] as? Int) != nil, let text = jsonCard["text"] as? String {
+                            Cards.cards[index].enText = text
+                        }
                     } else {
                         let card = Card()
                         card.jsonRepresentation = jsonCard
@@ -158,6 +162,9 @@ class Database {
                         }
                         if let text = jsonCard["text"] as? String {
                             card.text = text
+                            if (jsonCard["techLevel"] as? Int) != nil, lang == .enUS && langs.count == 1 {
+                                card.enText = text
+                            }
                         }
                         if let artist = jsonCard["artist"] as? String {
                             card.artist = artist
@@ -180,6 +187,7 @@ class Database {
                         
                         if let techLevel = jsonCard["techLevel"] as? Int {
                             card.techLevel = techLevel
+                            card.bgRace = card.race
                             Cards.battlegroundsMinions.append(card)
                         }
                         
@@ -191,6 +199,26 @@ class Database {
                     }
                 }
             }
+            for card in Cards.battlegroundsMinions.filter({ x in x.race == .invalid }) {
+                let race = Database.getRace(card: card)
+                if race != .invalid {
+                    card.bgRace = race
+                    logger.debug("Setting race for \"\(card.name)\" to \(race)")
+                }
+            }
         }
+    }
+    
+    static func getRace(card: Card) -> Race {
+        let racesInText = Race.allCases.filter({ x in
+            x != .all && x != .invalid
+        }).filter({ x in
+            let raceText = x == .mechanical ? "Mech" : "\(x)".capitalized
+            return card.enText.contains(raceText)
+        })
+        if racesInText.count == 1 {
+            return racesInText.first!
+        }
+        return card.race
     }
 }

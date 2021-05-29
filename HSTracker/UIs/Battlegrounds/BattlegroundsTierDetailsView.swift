@@ -20,10 +20,6 @@ struct BattlegroundMinion {
 
 class BattlegroundsTierDetailsView: NSStackView {
     var contentFrame = NSRect.zero
-    //This is a fix for a card that accidentilly is classified as a bg card by blizzard, causing it to incorrectly appear in the bg tier list.
-    //We remove cards w/ this cardid from the first tier list. Could possibly go in a better place further down the code.
-    //I construct the cardid in this weird way because I couldn't find the cardid available in the project anywhere.
-    let NonBgMurlocTidehunterCardId = "VAN_" + CardIds.Collectible.Neutral.MurlocTidecaller
     
     init() {
         super.init(frame: NSRect.zero)
@@ -52,8 +48,8 @@ class BattlegroundsTierDetailsView: NSStackView {
         availableRaces?.append(Race.all)
         var counts = [Race: Int]()
         var cardBars: [CardBar] = Cards.battlegroundsMinions.filter {
-            let race = $0.race
-            return ($0.techLevel == tier && $0.id != NonBgMurlocTidehunterCardId &&
+            let race = $0.bgRace
+            return ($0.techLevel == tier &&
                         (race == .invalid || (availableRaces?.firstIndex(of: race) != nil)))
         }.map { inCard in
             let card = Card()

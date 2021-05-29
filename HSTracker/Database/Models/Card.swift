@@ -28,7 +28,9 @@ final class Card {
     var rarity: Rarity = .free
     var set: CardSet?
     var text = ""
+    var enText = ""
     var race: Race = .invalid
+    var bgRace: Race = .invalid
     var type: CardType = .invalid
     var mechanics: [CardMechanic] = []
     var isStandard = false
