@@ -1304,6 +1304,13 @@ class Game: NSObject, PowerEventHandler {
         reset()
         lastGameStart = Date()
         
+        // remove every line before _last_ create game
+        if let index = self.powerLog.reversed().firstIndex(where: { $0.line.contains("CREATE_GAME") }) {
+            self.powerLog = self.powerLog.reversed()[...index].reversed() as [LogLine]
+        } else {
+            self.powerLog = []
+        }   
+        
 		gameEnded = false
         isInMenu = false
         handledGameEnd = false
