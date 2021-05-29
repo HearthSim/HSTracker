@@ -1,13 +1,13 @@
 #!/usr/bin/env kscript
 
-//@file:DependsOn("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.72")
+//@file:MavenRepository("mavenLocal", "file:////Users/mbonnin/.m2/")
 @file:MavenRepository("gradle-releases", "https://repo.gradle.org/gradle/libs-releases-local/")
+
+@file:DependsOn("net.mbonnin.kinta:kinta-lib:0.1.14")
 @file:DependsOn("com.squareup.okhttp3:okhttp:3.8.1")
 @file:DependsOn("com.squareup.moshi:moshi:1.8.0")
-@file:DependsOn("org.w3c:dom:2.3.0-jaxb-1.0.6")
 @file:DependsOn("com.vladsch.flexmark:flexmark-all:0.42.2")
 @file:DependsOn("com.damnhandy:handy-uri-templates:2.1.7")
-@file:DependsOn("com.dailymotion.kinta:kinta-lib:0.1.10")
 @file:DependsOn("com.github.ajalt:clikt:2.6.0")
 
 
