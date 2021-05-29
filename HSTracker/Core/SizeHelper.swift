@@ -368,7 +368,7 @@ struct SizeHelper {
         let trackerFrame = playerTrackerFrame()
         let height = CGFloat(52)
         let width = CGFloat(404)
-        let x = max(0, hearthstoneWindow.frame.minX + (hearthstoneWindow.width - width) / 2)
+        let x = hearthstoneWindow.frame.minX + (hearthstoneWindow.width - width) / 2
 
         return NSRect(x: x, y: trackerFrame.minY + trackerFrame.height - height, width: width, height: height)
     }
@@ -386,7 +386,7 @@ struct SizeHelper {
         let w: CGFloat = 100 * 7
         let h: CGFloat = 200
         
-        let x = max(0, hearthstoneWindow.frame.minX + (hearthstoneWindow.width - w) / 2)
+        let x = hearthstoneWindow.frame.minX + (hearthstoneWindow.width - w) / 2
         
         let frame = NSRect(x: x, y: hearthstoneWindow.frame.maxY - h, width: w, height: h)
         return frame
