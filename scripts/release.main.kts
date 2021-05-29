@@ -1,9 +1,10 @@
-#!/usr/bin/env kscript
+#!/usr/bin/env kotlin
 
 //@file:MavenRepository("mavenLocal", "file:////Users/mbonnin/.m2/")
-@file:MavenRepository("gradle-releases", "https://repo.gradle.org/gradle/libs-releases-local/")
+@file:Repository("https://repo.gradle.org/gradle/libs-releases-local/")
 
 @file:DependsOn("net.mbonnin.kinta:kinta-lib:0.1.14")
+@file:DependsOn("org.gradle:gradle-tooling-api:6.0.1")
 @file:DependsOn("com.squareup.okhttp3:okhttp:3.8.1")
 @file:DependsOn("com.squareup.moshi:moshi:1.8.0")
 @file:DependsOn("com.vladsch.flexmark:flexmark-all:0.42.2")
