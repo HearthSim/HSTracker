@@ -182,21 +182,21 @@ val releaseCommand = object: CliktCommand(name = "release") {
             throw Exception("versions do not match, either update the CHANGELOG.md or Info.plist")
         }
 
-//        println("uploading $hstrackerDSYMZipPath")
-//
-//        AppCenter.uploadDsym(
-//                appId = "HSTracker",
-//                dsymFile = File(hstrackerDSYMZipPath)
-//        )
-//
-//        println("uploading $hstrackerAppZipPath")
-//
-//        AppCenter.uploadApp(
-//                appId = "HSTracker",
-//                file = File(hstrackerAppZipPath),
-//                changelog = changelog.first().markdown,
-//                destinationName = "All-users-of-HSTracker"
-//        )
+        println("uploading $hstrackerDSYMZipPath")
+
+        AppCenter.uploadDsym(
+                appId = "HSTracker",
+                dsymFile = File(hstrackerDSYMZipPath)
+        )
+
+        println("uploading $hstrackerAppZipPath")
+
+        AppCenter.uploadApp(
+                appId = "HSTracker",
+                file = File(hstrackerAppZipPath),
+                changelog = changelog.first().markdown,
+                destinationName = "All-users-of-HSTracker"
+        )
 
         GithubIntegration.createRelease(
                 tagName = changelogVersion,
