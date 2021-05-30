@@ -3,6 +3,7 @@
 //@file:MavenRepository("mavenLocal", "file:////Users/mbonnin/.m2/")
 @file:Repository("https://repo.gradle.org/gradle/libs-releases-local/")
 
+@file:DependsOn("org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.1")
 @file:DependsOn("net.mbonnin.kinta:kinta-lib:0.1.14")
 @file:DependsOn("org.gradle:gradle-tooling-api:6.0.1")
 @file:DependsOn("com.squareup.okhttp3:okhttp:3.8.1")
