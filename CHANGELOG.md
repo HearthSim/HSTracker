@@ -6,8 +6,9 @@
 ## Fixes
 - Remove Rigged Faire Game secret when opponent loses armor
 - Fix memory growth due to spectator improvements (issue #1207)
-- Fix secret helper in arena (#issue 1222)
+- Fix secret helper in arena (issue #1222)
 - Exclude BG neutral minions that are tribe specific
+- Fix multi-desktop overlay for battlegrounds (issue #1225)
 
 # 1.9.4
 ## New
