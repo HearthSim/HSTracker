@@ -1,10 +1,12 @@
-#!/usr/bin/env kotlin
+#!/usr/bin/env kscript
 
 //@file:MavenRepository("mavenLocal", "file:////Users/mbonnin/.m2/")
-@file:Repository("https://repo.gradle.org/gradle/libs-releases-local/")
+@file:MavenRepository("mavenCentral", "https://repo1.maven.org/maven2/")
+@file:MavenRepository("gradleReleases", "https://repo.gradle.org/gradle/libs-releases-local/")
 
 @file:DependsOn("net.mbonnin.kinta:kinta-lib:0.1.14")
-@file:DependsOn("org.gradle:gradle-tooling-api:6.0.1")
+// Replace the above line by the one below when https://github.com/dailymotion/kinta/issues/39 is fixed
+// @file:DependsOn("com.dailymotion.kinta:kinta-lib:0.1.14-SNAPSHOT")
 @file:DependsOn("com.squareup.okhttp3:okhttp:3.8.1")
 @file:DependsOn("com.squareup.moshi:moshi:1.8.0")
 @file:DependsOn("com.vladsch.flexmark:flexmark-all:0.42.2")
@@ -180,21 +182,21 @@ val releaseCommand = object: CliktCommand(name = "release") {
             throw Exception("versions do not match, either update the CHANGELOG.md or Info.plist")
         }
 
-        println("uploading $hstrackerDSYMZipPath")
-
-        AppCenter.uploadDsym(
-                appId = "HSTracker",
-                dsymFile = File(hstrackerDSYMZipPath)
-        )
-
-        println("uploading $hstrackerAppZipPath")
-
-        AppCenter.uploadApp(
-                appId = "HSTracker",
-                file = File(hstrackerAppZipPath),
-                changelog = changelog.first().markdown,
-                destinationName = "All-users-of-HSTracker"
-        )
+//        println("uploading $hstrackerDSYMZipPath")
+//
+//        AppCenter.uploadDsym(
+//                appId = "HSTracker",
+//                dsymFile = File(hstrackerDSYMZipPath)
+//        )
+//
+//        println("uploading $hstrackerAppZipPath")
+//
+//        AppCenter.uploadApp(
+//                appId = "HSTracker",
+//                file = File(hstrackerAppZipPath),
+//                changelog = changelog.first().markdown,
+//                destinationName = "All-users-of-HSTracker"
+//        )
 
         GithubIntegration.createRelease(
                 tagName = changelogVersion,
