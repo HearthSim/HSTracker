@@ -1,4 +1,8 @@
 # 1.9.5
+## Fixes
+- Fix card database for missing cards
+
+# 1.9.5
 ## New
 - Add Libram counter
 - Track Efficient Octobot cost reduction
