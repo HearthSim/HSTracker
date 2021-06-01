@@ -1,4 +1,4 @@
-# 1.9.5
+# 1.9.6
 ## Fixes
 - Fix card database for missing cards
 
