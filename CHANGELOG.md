@@ -1,3 +1,8 @@
+# 1.9.7
+## New
+- Added missing card set icons
+- Add support for patch 20.4
+
 # 1.9.6
 ## Fixes
 - Fix card database for missing cards
