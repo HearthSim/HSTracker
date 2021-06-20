@@ -1125,7 +1125,6 @@ class Game: NSObject, PowerEventHandler {
         opponent.reset()
         updateSecretTracker(cards: [])
         windowManager.hideGameTrackers()
-        powerLog.removeAll()
 		
 		_spectator = nil
         _availableRaces = nil
@@ -1309,7 +1308,7 @@ class Game: NSObject, PowerEventHandler {
             self.powerLog = self.powerLog.reversed()[...index].reversed() as [LogLine]
         } else {
             self.powerLog = []
-        }   
+        }
         
 		gameEnded = false
         isInMenu = false

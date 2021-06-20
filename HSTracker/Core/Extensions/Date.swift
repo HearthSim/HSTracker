@@ -27,4 +27,11 @@ extension Date {
     public var second: Int {
         return LogReaderManager.calendar.component(.second, from: self)
     }
+    
+    public var removeTimeStamp : Date? {
+        guard let date = LogReaderManager.calendar.date(from: Calendar.current.dateComponents([.year, .month, .day], from: self)) else {
+        return nil
+       }
+       return date
+   }
 }

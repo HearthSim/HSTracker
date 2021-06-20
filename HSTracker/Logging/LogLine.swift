@@ -130,12 +130,11 @@ struct LogLine {
     static var trackedFailure = false
     
 	static func DateNoTime(date: Date) -> Date {
-		let str = LogLine.trimFormatter.string(from: date) // 12/15/16
-        if let result = LogLine.trimFormatter.date(from: str) {
+        if let result = date.removeTimeStamp {
             return result
         }
         if !trackedFailure {
-            Analytics.trackEvent("DateNoTime", withProperties: ["str": str, "date": date.debugDescription])
+            Analytics.trackEvent("DateNoTime", withProperties: ["date": date.debugDescription])
             trackedFailure = true
         }
         return Date()
