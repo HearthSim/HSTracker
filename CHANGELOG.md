@@ -1,3 +1,7 @@
+# 1.9.9
+## Fixes
+- Fix only first game replay uploading (issue #1231)
+
 # 1.9.8
 ## New
 - Add support for patch 20.4.2

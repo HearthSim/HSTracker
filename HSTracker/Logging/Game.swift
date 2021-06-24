@@ -1349,6 +1349,7 @@ class Game: NSObject, PowerEventHandler {
         AppHealth.instance.setHearthstoneGameRunning(flag: false)
 		
         handleEndGame()
+        self.powerLog = []
 
         secretsManager?.reset()
         updateTrackers(reset: true)
