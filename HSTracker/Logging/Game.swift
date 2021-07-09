@@ -828,10 +828,15 @@ class Game: NSObject, PowerEventHandler {
     
     var unavailableRaces: [Race]? {
         if _unavailableRaces == nil {
-            if let races = MirrorHelper.getUnavailableBattlegroundsRaces() {
-                let newRaces = races.compactMap({ x in x.intValue > 0 && x.intValue < Race.allCases.count ? Race.allCases[x.intValue] : nil })
-                logger.info("Battlegrounds unavailable races: \(newRaces) - from mirror \(races)")
-                if newRaces.count == races.count && newRaces.count == 3 {
+            if let races = availableRaces {
+                var newRaces = [Race]()
+                for race in Database.battlegroundRaces {
+                    if !races.contains(race) {
+                        newRaces.append(race)
+                    }
+                }
+                logger.info("Battlegrounds unavailable races: \(newRaces) - all races \(races)")
+                if newRaces.count == 3 {
                     _unavailableRaces = newRaces
                     return _unavailableRaces
                 } else {

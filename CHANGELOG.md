@@ -1,3 +1,10 @@
+# 1.9.10
+## New
+- Add support for patch 20.8
+- Add BobsBuddy support for Akazamarak
+## Fixes
+- Fix unavailable battlegrounds races for new patch
+
 # 1.9.9
 ## Fixes
 - Fix only first game replay uploading (issue #1231)

@@ -36,6 +36,8 @@ class Database {
 
     static let deckManagerCardTypes = ["all_types", "spell", "minion", "weapon"]
     static var deckManagerRaces = [Race]()
+    
+    static var battlegroundRaces = [Race]()
 
     func loadDatabase(splashscreen: Splashscreen?, withLanguages langs: [Language.Hearthstone]) {
         autoreleasepool {
@@ -197,6 +199,11 @@ class Database {
                         Cards.cards.insert(card, at: index)
                         Cards.cardsById[card.id] = card
                     }
+                }
+            }
+            for card in Cards.battlegroundsMinions {
+                if card.race != .invalid && card.race != .all && !Database.battlegroundRaces.contains(card.race) {
+                    Database.battlegroundRaces.append(card.race)
                 }
             }
             for card in Cards.battlegroundsMinions.filter({ x in x.race == .invalid }) {
