@@ -12,4 +12,5 @@ enum BobsBuddyState: Int {
     case initial
     case combat
     case shopping
+    case combatWithoutSimulation
 }

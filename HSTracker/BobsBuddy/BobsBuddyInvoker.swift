@@ -33,6 +33,8 @@ class BobsBuddyInvoker {
     
     private var currentOpponentMinions: [Int: MinionProxy] = [:]
     
+    private var currentOpponentSecrets: [Entity] = []
+    
     var minionHeroPowerTrigger: MinionHeroPowerTrigger?
     
     private let turn: Int
@@ -40,6 +42,10 @@ class BobsBuddyInvoker {
     private final let LichKingHeroPowerId = CardIds.NonCollectible.Neutral.RebornRitesTavernBrawl
     private final let LichKingHeroPowerEnchantmentId = CardIds.NonCollectible.Neutral.RebornRites_RebornRiteEnchantmentTavernBrawl
     private final let canRemoveLichKing: Bool = RemoteConfig.data?.bobs_buddy?.can_remove_lich_king ?? false
+    
+    private var runSimulationAfterCombat: Bool {
+        return currentOpponentSecrets.count > 0
+    }
     
     let queue = DispatchQueue(label: "BobsBuddy", qos: .userInitiated)
     
@@ -111,8 +117,12 @@ class BobsBuddyInvoker {
         }
         
         logger.debug("Setting UI state to combat...")
-        BobsBuddyInvoker.bobsBuddyDisplay.setState(st: .combat)
-        BobsBuddyInvoker.bobsBuddyDisplay.hidePercentagesShowSpinners()
+        if runSimulationAfterCombat {
+            state = .combatWithoutSimulation
+            BobsBuddyInvoker.bobsBuddyDisplay.setState(st: .combatWithoutSimulation)
+        } else {
+            BobsBuddyInvoker.bobsBuddyDisplay.setState(st: .combat)
+        }
         
         if let mhpt = minionHeroPowerTrigger, canRemoveLichKing {
             let minion = mhpt.minion
@@ -138,38 +148,56 @@ class BobsBuddyInvoker {
             usleep(useconds_t(LichKingDelay * 1000))
         }
         
-        _ = runSimulation().done { (result) in
-            guard let top = result else {
-                logger.debug("Simulation returned no result. Exiting")
-                return
-            }
-            let opaque = mono_thread_attach(MonoHelper._monoInstance)
-            
-            defer {
-                mono_thread_detach(opaque)
-            }
-
-            // Add enum for exit conditions
-            if top.getSimulationCount() <= 500 && top.getMyExitCondition() ==  0 {
-                logger.debug("Could not perform enough simulations. Displaying error state and exiting.")
-                self.errorState = .notEnoughData
-                BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .notEnoughData)
-            } else {
-                logger.debug("Displaying simulation results")
-                let winRate = top.getWinRate()
-                let tieRate = top.getTieRate()
-                let lossRate = top.getLossRate()
-                let myDeathRate = top.getMyDeathRate()
-                let theirDeathRate = top.getTheirDeathRate()
-                let possibleResults = top.getResultDamage()
-                
-                BobsBuddyInvoker.bobsBuddyDisplay.showCompletedSimulation(winRate: winRate, tieRate: tieRate, lossRate: lossRate, playerLethal: theirDeathRate, opponentLethal: myDeathRate, possibleResults: possibleResults)
-            }
-        }.catch({ error in
+        if !runSimulationAfterCombat {
+            _ = runAndDisplaySimulationAsync().catch({ error in
             logger.error("Error running simulation: \(error.localizedDescription)")
             BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .failedToLoad)
             Analytics.trackEvent("runSimulation failed", withProperties: [ "error": error.localizedDescription])
-        })
+            })
+        }
+    }
+    
+    func runAndDisplaySimulationAsync() -> Promise<Bool> {
+        return Promise<Bool> { seal in
+            currentOpponentMinions.removeAll()
+            logger.debug("Running simulation...")
+            BobsBuddyInvoker.bobsBuddyDisplay.hidePercentagesShowSpinners()
+            _ = runSimulation().done { (result) in
+                guard let top = result else {
+                    logger.debug("Simulation returned no result. Exiting")
+                    seal.fulfill(false)
+                    return
+                }
+                let opaque = mono_thread_attach(MonoHelper._monoInstance)
+                
+                defer {
+                    mono_thread_detach(opaque)
+                }
+
+                // Add enum for exit conditions
+                if top.getSimulationCount() <= 500 && top.getMyExitCondition() ==  0 {
+                    logger.debug("Could not perform enough simulations. Displaying error state and exiting.")
+                    self.errorState = .notEnoughData
+                    BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .notEnoughData)
+                } else {
+                    logger.debug("Displaying simulation results")
+                    let winRate = top.getWinRate()
+                    let tieRate = top.getTieRate()
+                    let lossRate = top.getLossRate()
+                    let myDeathRate = top.getMyDeathRate()
+                    let theirDeathRate = top.getTheirDeathRate()
+                    let possibleResults = top.getResultDamage()
+                    
+                    BobsBuddyInvoker.bobsBuddyDisplay.showCompletedSimulation(winRate: winRate, tieRate: tieRate, lossRate: lossRate, playerLethal: theirDeathRate, opponentLethal: myDeathRate, possibleResults: possibleResults)
+                }
+                seal.fulfill(true)
+            }.catch({ error in
+                logger.error("Error running simulation: \(error.localizedDescription)")
+                BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .failedToLoad)
+                Analytics.trackEvent("runSimulation failed", withProperties: [ "error": error.localizedDescription])
+                seal.fulfill(false)
+            })
+        }
     }
     
     func runSimulation() -> Promise<TestOutputProxy?> {
@@ -181,6 +209,16 @@ class BobsBuddyInvoker {
                 var result: TestOutputProxy?
                 
                 if let inp = self.input {
+                    if self.runSimulationAfterCombat {
+                        let secrets: [Int] = self.currentOpponentSecrets.map({ $0.card.dbfId })
+                        
+                        for i in 0..<secrets.count {
+                            // secret priority starts at 2
+                            inp.addSecretFromDbfid(id: Int32(secrets[i]), priority: Int32(i + 2))
+                        }
+                        inp.setPlayerIsAkazamarak(value: false)
+                        logger.debug("Set opponent to Akazamarak with \(secrets.count) secrets.")
+                    }
                     logger.debug("----- Simulation Input -----")
                     let str = inp.unitestCopyableVersion()
                     
@@ -236,9 +274,15 @@ class BobsBuddyInvoker {
             logger.debug("Already in shopping state. Exiting")
             return
         }
-        logger.info("State is now shopping")
         state = .shopping
         BobsBuddyInvoker.bobsBuddyDisplay.setState(st: .shopping)
+        if !runSimulationAfterCombat {
+            logger.debug("Setting UI state to shopping")
+        } else {
+            _ = runAndDisplaySimulationAsync().done { _ in }.catch { error in
+                logger.error(error)
+            }
+        }
     }
     
     func hasErrorState() -> Bool {
@@ -325,12 +369,6 @@ class BobsBuddyInvoker {
             return
         }
         
-        if game.opponent.secrets.count > 0 {
-            errorState = .secretsNotSupported
-            logger.error("Opponent has a secret in play. Exiting")
-            return
-        }
-        
         input.addAvailableRaces(races: game.availableRaces!)
         
         let oppHero = game.opponent.board.first(where: { $0.isHero })
@@ -367,6 +405,8 @@ class BobsBuddyInvoker {
             // secret priority starts at 2
             input.addSecretFromDbfid(id: Int32(secrets[i]), priority: Int32(i + 2))
         }
+        
+        currentOpponentSecrets = game.opponent.secrets
         
         let playerSide = input.getPlayerSide()
         let opponentSide = input.getOpponentSide()

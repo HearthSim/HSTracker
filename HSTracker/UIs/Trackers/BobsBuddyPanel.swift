@@ -109,6 +109,8 @@ class BobsBuddyPanel: OverWindowController {
             showResults(show: Settings.showBobsBuddyDuringCombat)
         } else if state == .shopping {
             showResults(show: Settings.showBobsBuddyDuringShopping)
+        } else if state == .combatWithoutSimulation {
+            showResults(show: false)
         }
         
         statusMessage = StatusMessageConverter.getStatusMessage(state: state, errorState: errorState, statsShown: showingResults)
@@ -221,7 +223,7 @@ class BobsBuddyPanel: OverWindowController {
     }
     
     @objc func bottomBar_mouseDown(event: NSEvent) {
-        if state == .combat || state == .shopping {
+        if state == .combat || state == .combatWithoutSimulation || state == .shopping {
             if !showingResults {
                 showResults(show: true)
             } else {

@@ -34,6 +34,8 @@ class StatusMessageConverter {
             return statsShown ? NSLocalizedString("Current Combat", comment: "") : NSLocalizedString("Show Current Combat", comment: "")
         case .shopping:
             return statsShown ? NSLocalizedString("Previous Combat", comment: "") : NSLocalizedString("Show Previous Combat", comment: "")
+        case .combatWithoutSimulation:
+            return NSLocalizedString("Awaiting Shopping Phase", comment: "")
         }
     }
 }
