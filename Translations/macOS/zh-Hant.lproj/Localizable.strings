@@ -160,14 +160,31 @@
 "Deck string has been copied in your clipboard." = "卡牌代碼已複製到剪貼簿中。";
 
 /* Bobs Buddy */
-"Could not get accurate results" = "Could not get accurate results";
-"Secrets are not yet supported" = "Secrets are not yet supported";
-"Found unknown cards" = "Found unknown cards";
-"Failed to load BobsBuddy" = "Failed to load BobsBuddy";
-"Mono not found" = "Mono not found";
-"Unknown error" = "Unknown error";
-"Waiting For Combat" = "Waiting For Combat";
-"Current Combat" = "Current Combat";
-"Show Current Combat" = "Show Current Combat";
-"Previous Combat" = "Previous Combat";
-"Show Previous Combat" = "Show Previous Combat";
+"Could not get accurate results" = "無法獲得準確的結果";
+"Secrets are not yet supported" = "當前還不支持祕法";
+"Found unknown cards" = "發現未知卡牌";
+"Failed to load BobsBuddy" = "無法加載鮑勃之友";
+"Mono not found" = "無法加載 Mono";
+"Unknown error" = "未知錯誤";
+"Waiting For Combat" = "等待戰鬥開始";
+"Current Combat" = "本場戰鬥";
+"Show Current Combat" = "顯示本場戰鬥";
+"Previous Combat" = "上場戰鬥";
+"Show Previous Combat" = "顯示上場戰鬥";
+
+/* Battlegrounds */
+"Turn" = "回合";
+"Turns" = "回合";
+"%d turn(s) ago" = "%d 回合以前";
+"You have not fought this opponent" = "你未與這名對手對戰過";
+
+/* Crashes */
+"HSTracker Crashed" = "HSTracker 崩潰";
+"Do you want to send an anonymous crash report so we can try to fix the issue?" = "你是否願意發送一個匿名的崩潰報告以幫助我們修復這個問題?";
+"Always send" = "總是發送";
+"Send" = "發送";
+"Don't send" = "不要發送";
+
+/* Mulligan toast */
+"What should I keep?" = "我應該保留什麼?";
+"HSReplay.net - Mulligan Guide" = "HSReplay.net - 調度建議";
