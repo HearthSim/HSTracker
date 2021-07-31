@@ -34,15 +34,21 @@ class LogUploader {
             return
         }
 
+        var lines = logLines
         let numCreates = logLines.filter({ $0.contains("CREATE_GAME") }).count
         if numCreates != 1 {
-            logger.error("HSReplay upload failed: Log contains none or multiple games (\(numCreates))")
-            completion(.failed(error: "Log contains none or multiple games"))
-            return
+            logger.error("HSReplay upload: Log contains none or multiple games (\(numCreates))")
+            // remove every line before _last_ create game
+            if let index = logLines.reversed().firstIndex(where: { $0.contains("CREATE_GAME") }) {
+                lines = logLines.reversed()[...index].reversed() as [String]
+            } else {
+                completion(.failed(error: "Log contains none or multiple games"))
+                return
+            }
         }
         
-        let log = logLines.joined(separator: "\n")
-        if logLines.isEmpty || log.trim().isEmpty {
+        let log = lines.joined(separator: "\n")
+        if lines.isEmpty || log.trim().isEmpty {
             logger.warning("Log file is empty, skipping")
             completion(.failed(error: "Log file is empty"))
             return

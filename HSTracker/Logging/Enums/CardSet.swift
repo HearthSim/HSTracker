@@ -46,6 +46,7 @@ enum CardSet: String, CaseIterable {
     darkmoon_faire,
     the_barrens, // Forged in the Barrens
     wailing_caverns,
+    stormwind,
     legacy,
     core,
     vanilla
@@ -55,7 +56,7 @@ enum CardSet: String, CaseIterable {
                 .loe, .og, .kara, .gangs, .ungoro, .icecrown,
                 .lootapalooza, .gilneas, .boomsday, .troll,
                 .dalaran, .uldum, .dragons, .year_of_the_dragon,
-                .black_temple, .demon_hunter_initiate, .scholomance, .darkmoon_faire, .the_barrens]
+                .black_temple, .demon_hunter_initiate, .scholomance, .darkmoon_faire, .the_barrens, .wailing_caverns, .stormwind]
     }
     
     static func wildSets() -> [CardSet] {
@@ -120,6 +121,7 @@ public enum CardSetInt: Int {
     darkmoon_faire = 1466,
     the_barrens = 1525,
     wailing_caverns = 1559,
+    stormwind = 1578,
     legacy = 1635,
     core = 1637,
     vanilla = 1646

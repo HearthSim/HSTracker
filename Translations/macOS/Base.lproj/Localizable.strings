@@ -122,6 +122,8 @@
 "SCHOLOMANCE" = "Scholomance Academy";
 "DARKMOON_FAIRE" = "Madness at the Darkmoon Faire";
 "THE_BARRENS" = "Forged in the Barrens";
+"WAILING_CAVERNS" = "Wailing Caverns";
+"STORMWIND" = "United in Stormwind";
 
 /* card type */
 "all_types" = "All";

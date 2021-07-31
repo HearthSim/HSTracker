@@ -1,3 +1,10 @@
+# 1.9.11
+## New
+- Add support for patch 21.0
+- Add United in Stormwind card set
+## Fixes
+- Fix problem with replay upload after disconnect
+
 # 1.9.10
 ## New
 - Add support for patch 20.8
