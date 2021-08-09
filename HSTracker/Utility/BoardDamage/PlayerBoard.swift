@@ -14,7 +14,7 @@ class PlayerBoard {
     private(set) var heroPower: HeroPower?
     
     var damage: Int {
-        return cards.filter { $0.include }
+        return cards.filter { $0.include && !$0.dormant}
             .map { $0.attack }
             .reduce(0, +)
     }

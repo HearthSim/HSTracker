@@ -21,4 +21,6 @@ protocol IBoardEntity {
     var include: Bool { get }
     // the zone the entity is in
     var zone: String { get }
+    // dormant minion
+    var dormant: Bool { get}
 }

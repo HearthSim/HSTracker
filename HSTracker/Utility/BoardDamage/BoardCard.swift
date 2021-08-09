@@ -30,6 +30,7 @@ class BoardCard: IBoardEntity {
     
     private(set) var attacksThisTurn = 0
     private(set) var exhausted = false
+    private(set) var dormant = false
     
     private(set) var zone = ""
     
@@ -49,6 +50,7 @@ class BoardCard: IBoardEntity {
         charge = entity[.charge] == 1
         windfury = entity[.windfury] == 1
         attacksThisTurn = entity[.num_attacks_this_turn]
+        dormant = entity[.dormant] == 1
         
         cardId = entity.cardId
         taunt = entity[.taunt] == 1

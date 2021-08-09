@@ -1,3 +1,7 @@
+# 1.9.12
+## Fixes
+- Don't count dormant minion attack (issue #1234)
+
 # 1.9.11
 ## New
 - Add support for patch 21.0

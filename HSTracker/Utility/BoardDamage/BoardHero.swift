@@ -27,6 +27,8 @@ class BoardHero: IBoardEntity {
     
     var exhausted: Bool { return _hero.exhausted }
     
+    var dormant: Bool { return false }
+    
     private(set) var include = false
     
     var zone: String { return _hero.zone }
