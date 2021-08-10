@@ -1,6 +1,7 @@
 # 1.9.12
 ## Fixes
 - Don't count dormant minion attack (issue #1234)
+- Fixed an issue where the battlegrounds overlay would not work with hero skins in some cases
 
 # 1.9.11
 ## New

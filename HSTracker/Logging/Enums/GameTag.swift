@@ -357,7 +357,8 @@ enum GameTag: Int, WrappableEnum, CaseIterable, Codable {
     player_triples = 1447,
     bacon_hero_can_be_drafted = 1491,
     dormant = 1518,
-    copied_from_entity_id = 1565
+    copied_from_entity_id = 1565,
+    bacon_skin = 2038
 
     init?(rawString: String) {
         let string = rawString.lowercased()

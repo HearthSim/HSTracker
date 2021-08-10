@@ -1965,7 +1965,7 @@ class Game: NSObject, PowerEventHandler {
     }
     
     private func internalHandleBGStart(count: Int) {
-        let heroes = player.playerEntities.filter({ x in x.isHero && x.has(tag: .bacon_hero_can_be_drafted)})
+        let heroes = player.playerEntities.filter({ x in x.isHero && (x.has(tag: .bacon_hero_can_be_drafted) || x.has(tag: .bacon_skin))})
         if heroes.count < 2 {
             logger.debug("Not enough heroes")
             if count < 10 {
