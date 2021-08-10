@@ -205,7 +205,7 @@ class SecretTests: HSTrackerTests {
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
                       triggered: [CardIds.Secrets.Mage.IceBarrier])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
-                      triggered: [CardIds.Secrets.Paladin.NobleSacrifice])
+                      triggered: [CardIds.Secrets.Paladin.NobleSacrifice, CardIds.Secrets.Paladin.JudgementofJustice])
         verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
         
         // with minions on board
@@ -221,7 +221,7 @@ class SecretTests: HSTrackerTests {
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
                       triggered: [CardIds.Secrets.Mage.IceBarrier])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
-                      triggered: [CardIds.Secrets.Paladin.NobleSacrifice])
+                      triggered: [CardIds.Secrets.Paladin.NobleSacrifice, CardIds.Secrets.Paladin.JudgementofJustice])
         verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
     }
 
@@ -240,7 +240,7 @@ class SecretTests: HSTrackerTests {
                                   CardIds.Secrets.Mage.IceBarrier,
                                   CardIds.Secrets.Mage.Vaporize])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
-                      triggered: [CardIds.Secrets.Paladin.NobleSacrifice])
+                      triggered: [CardIds.Secrets.Paladin.NobleSacrifice, CardIds.Secrets.Paladin.JudgementofJustice])
         verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All, triggered: [CardIds.Secrets.Rogue.ShadowClone])
         
         // with more than one friendly minions on board
@@ -257,7 +257,7 @@ class SecretTests: HSTrackerTests {
                                   CardIds.Secrets.Mage.IceBarrier,
                                   CardIds.Secrets.Mage.Vaporize])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
-                      triggered: [CardIds.Secrets.Paladin.NobleSacrifice])
+                      triggered: [CardIds.Secrets.Paladin.NobleSacrifice, CardIds.Secrets.Paladin.JudgementofJustice])
         verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All,
                       triggered: [CardIds.Secrets.Rogue.SuddenBetrayal, CardIds.Secrets.Rogue.ShadowClone])
     }
@@ -273,7 +273,8 @@ class SecretTests: HSTrackerTests {
                       triggered: [CardIds.Secrets.Mage.OasisAlly, CardIds.Secrets.Mage.SplittingImage])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
                       triggered: [CardIds.Secrets.Paladin.NobleSacrifice,
-                                  CardIds.Secrets.Paladin.AutodefenseMatrix])
+                                  CardIds.Secrets.Paladin.AutodefenseMatrix,
+                                  CardIds.Secrets.Paladin.JudgementofJustice])
         verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All, triggered: [CardIds.Secrets.Rogue.Bamboozle])
     }
 
@@ -289,7 +290,8 @@ class SecretTests: HSTrackerTests {
                       triggered: [CardIds.Secrets.Mage.OasisAlly, CardIds.Secrets.Mage.SplittingImage])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
                       triggered: [CardIds.Secrets.Paladin.NobleSacrifice,
-                                  CardIds.Secrets.Paladin.AutodefenseMatrix])
+                                  CardIds.Secrets.Paladin.AutodefenseMatrix,
+                                  CardIds.Secrets.Paladin.JudgementofJustice])
         verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All, triggered: [CardIds.Secrets.Rogue.Bamboozle])
     }
     
@@ -303,7 +305,8 @@ class SecretTests: HSTrackerTests {
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
                       triggered: [CardIds.Secrets.Mage.OasisAlly, CardIds.Secrets.Mage.SplittingImage])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
-                      triggered: [CardIds.Secrets.Paladin.NobleSacrifice])
+                      triggered: [CardIds.Secrets.Paladin.NobleSacrifice,
+                                  CardIds.Secrets.Paladin.JudgementofJustice])
         verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All, triggered: [CardIds.Secrets.Rogue.Bamboozle])
     }
     
@@ -318,7 +321,8 @@ class SecretTests: HSTrackerTests {
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
                       triggered: [CardIds.Secrets.Mage.OasisAlly, CardIds.Secrets.Mage.SplittingImage])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
-                      triggered: [CardIds.Secrets.Paladin.NobleSacrifice])
+                      triggered: [CardIds.Secrets.Paladin.NobleSacrifice,
+                                  CardIds.Secrets.Paladin.JudgementofJustice])
         verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All, triggered: [CardIds.Secrets.Rogue.Bamboozle])
     }
 
@@ -567,7 +571,8 @@ class SecretTests: HSTrackerTests {
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
                       triggered: [CardIds.Secrets.Mage.IceBarrier])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
-                      triggered: [CardIds.Secrets.Paladin.NobleSacrifice])
+                      triggered: [CardIds.Secrets.Paladin.NobleSacrifice,
+                                  CardIds.Secrets.Paladin.JudgementofJustice])
         verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
     }
     

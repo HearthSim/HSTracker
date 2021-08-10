@@ -147,6 +147,7 @@ extension CardIds.Collectible {
         static let ConvictionRank1 = "BAR_880"
         static let AldorAttendant = "BT_020"
         static let AldorTruthseeker = "BT_026"
+        static let JudgmentOfJustice = "WC_033"
     }
 }
 
@@ -219,7 +220,7 @@ extension CardIds.NonCollectible {
 
 extension CardIds.Secrets {
     struct Paladin {
-        static let All = [AutodefenseMatrix, Avenge, CompetitiveSpirit, EyeForAnEye, GetawayKodo, GallopingSavior, HandOfSalvation, HiddenWisdom, NeverSurrender, NobleSacrifice, OhMyYogg, Reckoning, Redemption, Repentance, SacredTrial ]
+        static let All = [AutodefenseMatrix, Avenge, CompetitiveSpirit, EyeForAnEye, GetawayKodo, GallopingSavior, HandOfSalvation, HiddenWisdom, NeverSurrender, NobleSacrifice, OhMyYogg, Reckoning, Redemption, Repentance, SacredTrial, JudgementofJustice ]
         static let AutodefenseMatrix = MultiIdCard(CardIds.Collectible.Paladin.AutodefenseMatrix)
         static let Avenge = MultiIdCard(CardIds.Collectible.Paladin.Avenge, CardIds.Collectible.Paladin.AvengeCore)
         static let CompetitiveSpirit = MultiIdCard(CardIds.Collectible.Paladin.CompetitiveSpirit)
@@ -235,5 +236,6 @@ extension CardIds.Secrets {
         static let Redemption = MultiIdCard(CardIds.Collectible.Paladin.Redemption, CardIds.Collectible.Paladin.RedemptionVanilla)
         static let Repentance = MultiIdCard(CardIds.Collectible.Paladin.Repentance, CardIds.Collectible.Paladin.RepentanceVanilla)
         static let SacredTrial = MultiIdCard(CardIds.Collectible.Paladin.SacredTrial)
+        static let JudgementofJustice = MultiIdCard(CardIds.Collectible.Paladin.JudgmentOfJustice)
     }
 }

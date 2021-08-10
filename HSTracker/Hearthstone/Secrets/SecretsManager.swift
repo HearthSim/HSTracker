@@ -204,6 +204,8 @@ class SecretsManager {
         }
 
         var exclude: [MultiIdCard] = []
+        
+        exclude.append(CardIds.Secrets.Paladin.JudgementofJustice)
 
         if freeSpaceOnBoard {
             exclude.append(CardIds.Secrets.Paladin.NobleSacrifice)

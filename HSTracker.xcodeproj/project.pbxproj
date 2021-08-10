@@ -433,6 +433,10 @@
 		B8820CD025603FB00072ECBC /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8820CCF25603FB00072ECBC /* RemoteConfig.swift */; };
 		B8832DDA26057A5000646BA4 /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8832DD926057A5000646BA4 /* RepeatingTimer.swift */; };
 		B8832DDC26117FCF00646BA4 /* MultiIdCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8832DDB26117FCE00646BA4 /* MultiIdCard.swift */; };
+		B887656726C3049F003D3629 /* ShortIdHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E7B15262A798000C42EF0 /* ShortIdHelper.swift */; };
+		B887656826C304A5003D3629 /* MulliganToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E7B13262A533F00C42EF0 /* MulliganToastView.swift */; };
+		B887656A26C304FA003D3629 /* BigInt in Frameworks */ = {isa = PBXBuildFile; productRef = B887656926C304FA003D3629 /* BigInt */; };
+		B887656C26C30520003D3629 /* RegexUtil in Frameworks */ = {isa = PBXBuildFile; productRef = B887656B26C30520003D3629 /* RegexUtil */; };
 		B8956CFD25509B3F0073D70C /* BattlegroundsMinionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8956CFC25509B3F0073D70C /* BattlegroundsMinionView.swift */; };
 		B8A3E4B4257AE71500D9C77A /* RotatingFileDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A3E4B3257AE71500D9C77A /* RotatingFileDestination.swift */; };
 		B8A9CB2E25699B13000071FC /* BattlegroundsMinionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8956CFC25509B3F0073D70C /* BattlegroundsMinionView.swift */; };
@@ -1184,6 +1188,7 @@
 				B8D75BEC25BDFA2500446923 /* RealmSwift in Frameworks */,
 				B8DEDCE32547CE8300DF524B /* Mono.framework in Frameworks */,
 				4345E9DD1CB45122002D0F23 /* Cocoa.framework in Frameworks */,
+				B887656A26C304FA003D3629 /* BigInt in Frameworks */,
 				B8D75BA425BA21C900446923 /* Preferences in Frameworks */,
 				B8D75BE025BDD55600446923 /* Kingfisher in Frameworks */,
 				B8D75BC725BDAF1300446923 /* AppCenterAnalytics in Frameworks */,
@@ -1195,6 +1200,7 @@
 				B8D75BD125BDAF1300446923 /* OAuthSwift in Frameworks */,
 				B8D75BCD25BDAF1300446923 /* Wrap in Frameworks */,
 				B8D75BC925BDAF1300446923 /* AppCenterCrashes in Frameworks */,
+				B887656C26C30520003D3629 /* RegexUtil in Frameworks */,
 				B8D75BF125BDFEDE00446923 /* Gzip in Frameworks */,
 				B8D75BCF25BDAF1300446923 /* TextAttributes in Frameworks */,
 				B8D75BC525BDAF1300446923 /* SwiftyBeaver in Frameworks */,
@@ -1931,6 +1937,8 @@
 				B8D75BEB25BDFA2500446923 /* RealmSwift */,
 				B8D75BF025BDFEDE00446923 /* Gzip */,
 				B8D75BFB25BFCFDC00446923 /* BTree */,
+				B887656926C304FA003D3629 /* BigInt */,
+				B887656B26C30520003D3629 /* RegexUtil */,
 			);
 			productName = HSTrackerTests;
 			productReference = 439C7E5C1C7772C100D29859 /* HSTrackerTests.xctest */;
@@ -2435,6 +2443,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B887656826C304A5003D3629 /* MulliganToastView.swift in Sources */,
+				B887656726C3049F003D3629 /* ShortIdHelper.swift in Sources */,
 				B8C2F9112623233600C31E6A /* FullScreenFxHandler.swift in Sources */,
 				B8C2F9102623233100C31E6A /* GetAccountResult.swift in Sources */,
 				B8EC9A4A261215C800EB17A9 /* OpponentDeadForTracker.swift in Sources */,
@@ -3275,6 +3285,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B81F069C253899FB00F319F1 /* Config.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3303,6 +3314,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B81F069C253899FB00F319F1 /* Config.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3489,6 +3501,16 @@
 			productName = BigInt;
 		};
 		B85BBE42264B0C28001976AB /* RegexUtil */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B85BBE41264B0C28001976AB /* XCRemoteSwiftPackageReference "RegexUtil" */;
+			productName = RegexUtil;
+		};
+		B887656926C304FA003D3629 /* BigInt */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B82E7B17262A88DB00C42EF0 /* XCRemoteSwiftPackageReference "BigInt" */;
+			productName = BigInt;
+		};
+		B887656B26C30520003D3629 /* RegexUtil */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B85BBE41264B0C28001976AB /* XCRemoteSwiftPackageReference "RegexUtil" */;
 			productName = RegexUtil;

@@ -4,6 +4,7 @@
 - Fixed an issue where the battlegrounds overlay would not work with hero skins in some cases
 - Fixed an issue where questlines were not considered quests
 - Fixed an issue where HST did not count games played against an opponent with Maestra as games against a Rogue
+- Add support for Judgement of Justice
 
 # 1.9.11
 ## New
