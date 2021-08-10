@@ -90,7 +90,6 @@ final class Player {
     var playerClassId: String?
     var isLocalPlayer: Bool
     var id = -1
-    var goingFirst = false
     var fatigue = 0
     var heroPowerCount = 0
     var lastDiedMinionCardId: String?
@@ -156,7 +155,6 @@ final class Player {
         id = -1
         name = ""
         playerClass = nil
-        goingFirst = false
         fatigue = 0
         spellsPlayedCount = 0
         deathrattlesPlayedCount = 0

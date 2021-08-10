@@ -1700,7 +1700,7 @@ class Game: NSObject, PowerEventHandler {
     }
     
     func isConstructedMatch() -> Bool {
-        return currentGameType == .gt_ranked || currentGameType == .gt_casual || currentGameType == .gt_vs_friend
+        return currentGameType == .gt_ranked || currentGameType == .gt_casual || currentGameType == .gt_vs_friend || currentGameType == .gt_vs_ai
     }
     
     func isMulliganDone() -> Bool {
@@ -1887,9 +1887,19 @@ class Game: NSObject, PowerEventHandler {
                 if let currentDeck = currentDeck {
                     let cards = player.playerEntities.filter { x in x.isInHand && !x.info.created }.compactMap({ x in x.card.dbfId})
                     let opponentClass = opponent.playerEntities.first( where: { x in x.isHero && x.isInPlay })?.card.playerClass ?? CardClass.invalid
+                    
+                    let hasCoin = player.hasCoin
+                    let isWild = currentFormat == .wild
+                    let isClassic = currentFormat == .classic
+                    var playerStarLevel = 0
+                    if let matchInfo = matchInfo {
+                        let localPlayer = matchInfo.localPlayer
+                        let playerInfo = isClassic ? localPlayer.classicMedalInfo : isWild ? localPlayer.wildMedalInfo : localPlayer.standardMedalInfo
+                        playerStarLevel = playerInfo.starLevel
+                    }
                     let sid = ShortIdHelper.getShortId(deck: currentDeck)
                     DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
-                        let view = MulliganToastView(frame: NSRect.zero, sid: sid, ids: cards, opponent: opponentClass)
+                        let view = MulliganToastView(frame: NSRect.zero, sid: sid, ids: cards, opponent: opponentClass, coin: hasCoin, starLevel: playerStarLevel)
                         view.clicked = {
                             AppDelegate.instance().coreManager.toaster.hide()
                         }

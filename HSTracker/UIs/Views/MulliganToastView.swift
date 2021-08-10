@@ -14,6 +14,8 @@ class MulliganToastView: NSView {
     var dbfIds: [Int]
     var opponent: CardClass
     var hasData: Bool = false
+    var hasCoin: Bool = false
+    var playerStarLevel: Int = 0
     
     var clicked: (() -> Void)?
     
@@ -22,10 +24,12 @@ class MulliganToastView: NSView {
                               owner: self,
                               userInfo: nil)
 
-    init(frame frameRect: NSRect, sid: String, ids: [Int], opponent: CardClass) {
+    init(frame frameRect: NSRect, sid: String, ids: [Int], opponent: CardClass, coin: Bool, starLevel: Int) {
         shortId = sid
         dbfIds = ids
         self.opponent = opponent
+        hasCoin = coin
+        playerStarLevel = starLevel
         
         hasData = true
 
@@ -142,7 +146,9 @@ class MulliganToastView: NSView {
         }
         let ids = "mulliganIds=\(dbfIds.compactMap({ x in String(x)}).joined(separator: "%2C"))"
         let opponent = "mulliganOpponent=\(self.opponent.rawValue.uppercased())"
-        let url = "https://hsreplay.net/decks/\(shortId)?utm_source=hstracker&utm_medium=client&utm_campaign=mulligan_toast#\(ids)&\(opponent)"
+        let playerInitiative = "mulliganPlayerInitiative=\(hasCoin ? "COIN" : "FIRST")"
+        let playerStarLevel = "mulliganPlayerStarLevel=\(playerStarLevel)"
+        let url = "https://hsreplay.net/decks/\(shortId)?utm_source=hstracker&utm_medium=client&utm_campaign=mulligan_toast#\(ids)&\(opponent)&\(playerInitiative)&\(playerStarLevel)"
         NSWorkspace.shared.open(URL(string: url)!)
         if let clicked = self.clicked {
             clicked()
