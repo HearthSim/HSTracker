@@ -604,6 +604,8 @@ extension CardIds.Collectible {
         static let Mankrik = "BAR_721"
         static let ShadowHunterVoljin = "BAR_080"
         static let TransferStudent = "SCH_199"
+        static let MailboxDancer = "SW_070"
+        static let NorthshireFarmer = "SW_064"
     }
 }
 

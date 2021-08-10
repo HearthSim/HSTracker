@@ -138,6 +138,7 @@ extension CardIds.Collectible {
         static let MarkOfTheSpikeshell = "BAR_549"
         static let ThorngrowthSentries = "BAR_533"
         static let LivingSeedRank1 = "BAR_536"
+        static let VibrantSquirrel = "SW_439"
     }
 }
 
@@ -276,6 +277,7 @@ extension CardIds.NonCollectible {
         static let ThorngrowthSentries_ThornguardTurtleToken = "BAR_533t"
         static let LivingSeedRank1_LivingSeedRank2Token = "BAR_536t"
         static let LivingSeedRank1_LivingSeedRank3Token = "BAR_536t2"
+        static let VibrantSquirrel_AcornToken = "SW_439t"
     }
 }
 

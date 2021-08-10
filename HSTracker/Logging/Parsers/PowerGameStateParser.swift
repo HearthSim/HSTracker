@@ -755,6 +755,19 @@ class PowerGameStateParser: LogEventParser {
                                     eventHandler.handleOpponentLibramReduction(change: 2)
                                 }
                             }
+                        case CardIds.Collectible.Druid.VibrantSquirrel:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Druid.VibrantSquirrel_AcornToken, count: 4)
+                        case CardIds.Collectible.Mage.FirstFlame:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Mage
+                                            .FirstFlame_SecondFlameToken)
+                        case CardIds.Collectible.Rogue.Garrote:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Rogue.Garrote_BleedToken, count: 3)
+                        case CardIds.Collectible.Neutral.MailboxDancer:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.TheCoinBasic)
+                        case CardIds.Collectible.Neutral.NorthshireFarmer:
+                            addKnownCardId(eventHandler: eventHandler, cardId: target, count: 3)
+                        case CardIds.Collectible.Rogue.LoanShark:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.TheCoinBasic)
                         default:
                             if let card = Cards.any(byId: actionStartingCardId) {
                                 if (player != nil && player![.current_player] == 1
