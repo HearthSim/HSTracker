@@ -358,6 +358,7 @@ enum GameTag: Int, WrappableEnum, CaseIterable, Codable {
     bacon_hero_can_be_drafted = 1491,
     dormant = 1518,
     copied_from_entity_id = 1565,
+    questline = 1725,
     bacon_skin = 2038
 
     init?(rawString: String) {

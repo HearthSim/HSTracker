@@ -2,6 +2,7 @@
 ## Fixes
 - Don't count dormant minion attack (issue #1234)
 - Fixed an issue where the battlegrounds overlay would not work with hero skins in some cases
+- Fixed an issue where questlines were not considered quests
 
 # 1.9.11
 ## New
