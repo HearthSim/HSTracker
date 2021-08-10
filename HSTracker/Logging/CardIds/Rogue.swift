@@ -146,6 +146,7 @@ extension CardIds.Collectible {
         static let Shenanigans = "YOP_017"
         static let WickedStabRank1 = "BAR_319"
         static let EfficientOctoBot = "BAR_320"
+        static let MaestraOfTheMasquerade = "SW_050"
     }
 }
 

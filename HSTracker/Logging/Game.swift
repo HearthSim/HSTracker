@@ -2256,7 +2256,22 @@ class Game: NSObject, PowerEventHandler {
         }
         updateTrackers()
     }
+    
+    func getMaestraDbfid() -> Int {
+        return Cards.by(cardId: CardIds.NonCollectible.Neutral.MaestraoftheMasquerade_DisguiseEnchantment)?.dbfId ?? -1
+    }
+    
+    func isMaestraHero(entity: Entity) -> Bool {
+        return entity.isHero && entity[GameTag.creator_dbid] == getMaestraDbfid()
+    }
 
+    func OpponentIsDisguisedRogue() {
+        set(opponentHero: CardIds.Collectible.Rogue.ValeeraSanguinar)
+        //Core.Overlay.SetWinRates()
+        opponent.predictUniqueCardInDeck(cardId: CardIds.Collectible.Rogue.MaestraOfTheMasquerade, isCreated: false)
+        updateOpponentTracker()
+    }
+    
     func opponentJoust(entity: Entity, cardId: String?, turn: Int) {
         opponent.joustReveal(entity: entity, turn: turn)
         updateTrackers()
@@ -2280,6 +2295,9 @@ class Game: NSObject, PowerEventHandler {
     }
 
     func opponentCreateInPlay(entity: Entity, cardId: String?, turn: Int) {
+        if isMaestraHero(entity: entity) {
+            OpponentIsDisguisedRogue()
+        }
         opponent.createInPlay(entity: entity, turn: turn)
     }
 
