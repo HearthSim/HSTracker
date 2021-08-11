@@ -1700,7 +1700,7 @@ class Game: NSObject, PowerEventHandler {
     }
     
     func isConstructedMatch() -> Bool {
-        return currentGameType == .gt_ranked || currentGameType == .gt_casual || currentGameType == .gt_vs_friend || currentGameType == .gt_vs_ai
+        return currentGameType == .gt_ranked || currentGameType == .gt_casual || currentGameType == .gt_vs_friend
     }
     
     func isMulliganDone() -> Bool {
