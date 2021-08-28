@@ -10,6 +10,7 @@ import Foundation
 
 protocol IBoardEntity {
     var name: String { get }
+    var cardId: String { get }
     var health: Int { get }
     var attack: Int { get }
     // number of attacks made this turn
@@ -20,4 +21,6 @@ protocol IBoardEntity {
     var include: Bool { get }
     // the zone the entity is in
     var zone: String { get }
+    // dormant minion
+    var dormant: Bool { get}
 }

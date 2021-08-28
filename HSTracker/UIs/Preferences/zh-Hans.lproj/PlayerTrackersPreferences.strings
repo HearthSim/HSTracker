@@ -1,42 +1,45 @@
 
 /* Class = "NSButtonCell"; title = "Show player tracker"; ObjectID = "MiE-Lr-Vdi"; */
-"MiE-Lr-Vdi.title" = "显示跟踪器";
+"MiE-Lr-Vdi.title" = "显示记牌器";
 
 /* Class = "NSButtonCell"; title = "Show player card count"; ObjectID = "TmO-9A-Ffe"; */
-"TmO-9A-Ffe.title" = "显示你的卡牌数量";
+"TmO-9A-Ffe.title" = "显示你的卡牌数";
 
 /* Class = "NSButtonCell"; title = "Show player draw chance"; ObjectID = "acK-XF-6wQ"; */
 "acK-XF-6wQ.title" = "显示你的抽卡机会";
 
 /* Class = "NSButtonCell"; title = "Include obtained cards"; ObjectID = "r3h-Qd-YPW"; */
-"r3h-Qd-YPW.title" = "包括获得卡牌";
-
-/* Class = "NSButtonCell"; title = "Show Spell counter"; ObjectID = "LGM-aC-rL6"; */
-"LGM-aC-rL6.title" = "显示法术反制";
+"r3h-Qd-YPW.title" = "包括对局中获得的卡牌";
 
 /* Class = "NSButtonCell"; title = "Show C'Thun counter"; ObjectID = "Tex-bu-toa"; */
-"Tex-bu-toa.title" = "显示克苏恩反制";
+"Tex-bu-toa.title" = "显示克苏恩计数器";
+
+/* Class = "NSButtonCell"; title = "Show Spell counter"; ObjectID = "LGM-aC-rL6"; */
+"LGM-aC-rL6.title" = "显示法术计数器";
 
 /* Class = "NSButtonCell"; title = "Show Deathrattle counter"; ObjectID = "IPf-hF-E74"; */
-"IPf-hF-E74.title" = "显示亡语反制";
-
-/* Class = "NSButtonCell"; title = "Show Jade Counter"; ObjectID = "MDW-Ea-Q6M"; */
-"MDW-Ea-Q6M.title" = "显示青玉魔像反制";
+"IPf-hF-E74.title" = "显示亡语计数器";
 
 /* Class = "NSButtonCell"; title = "Flash on card draw"; ObjectID = "gpo-Wo-m50"; */
-"gpo-Wo-m50.title" = "闪抽的卡牌";
+"gpo-Wo-m50.title" = "抽的卡牌在记牌器上闪烁";
 
-/* Class = "NSButtonCell"; title = "Show win-loss ratio"; ObjectID = "oIi-8e-cCP"; */
-"oIi-8e-cCP.title" = "显示胜率";
+/* Class = "NSButtonCell"; title = "Show win-loss ratio"; ObjectID = "Ro2-NC-xMD"; */
+"Ro2-NC-xMD.title" = "显示胜率";
 
 /* Class = "NSTextFieldCell"; title = "In-hand color"; ObjectID = "gfe-fe-rJe"; */
-"gfe-fe-rJe.title" = "卡在手里的颜色";
+"gfe-fe-rJe.title" = "手牌显示的颜色";
 
 /* Class = "NSButtonCell"; title = "Show board damage"; ObjectID = "rj2-8a-HGB"; */
-"rj2-8a-HGB.title" = "显示白板伤害";
+"rj2-8a-HGB.title" = "显示场攻（包括武器）";
 
 /* Class = "NSButtonCell"; title = "Show deck name"; ObjectID = "e7g-zd-YkC"; */
-"e7g-zd-YkC.title" = "显示套牌名字";
+"e7g-zd-YkC.title" = "显示套牌名称";
 
-/* Class = "NSButtonCell"; title = "Show graveyard"; ObjectID = "D65-CQ-243"; */
-"D65-CQ-243.title" = "显示卡牌墓地";
+/* Class = "NSButtonCell"; title = "Show graveyard"; ObjectID = "5Sm-dB-rVB"; */
+"5Sm-dB-rVB.title" = "显示墓地";
+
+/* Class = "NSButtonCell"; title = "Cardlist opens on mouseover"; ObjectID = "1dP-3v-VLS"; */
+"1dP-3v-VLS.title" = "鼠标进入时显示卡牌列表";
+
+/* Class = "NSButtonCell"; title = "Show Jade Counter"; ObjectID = "MDW-Ea-Q6M"; */
+"MDW-Ea-Q6M.title" = "显示青玉魔像计数器";

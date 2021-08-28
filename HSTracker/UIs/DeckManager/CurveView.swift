@@ -51,7 +51,7 @@ class CurveView: NSView {
 
     override func draw(_ rect: NSRect) {
         super.draw(rect)
-        guard let _ = self.deck else { return }
+        guard self.deck != nil else { return }
         if self.counts.isEmpty {
             countCards()
         }

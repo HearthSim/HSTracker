@@ -15,7 +15,7 @@ class InternalGameStats {
     var opponentHero: CardClass = .neutral
     var coin = false
     var gameMode: GameMode = .none
-    var result: GameResult = .unknow
+    var result: GameResult = .unknown
     var turns = -1
     var startTime = Date()
     var endTime = Date()
@@ -23,15 +23,13 @@ class InternalGameStats {
     var playerName = ""
     var opponentName = ""
     var wasConceded = false
-    var rank = -1
-    var stars = -1
-    var legendRank = -1
-    var opponentLegendRank = -1
-    var opponentRank = -1
+    var playerMedalInfo: MatchInfo.MedalInfo?
+    var opponentMedalInfo: MatchInfo.MedalInfo?
     var hearthstoneBuild: Int?
     var playerCardbackId = -1
     var opponentCardbackId = -1
     var friendlyPlayerId = -1
+    var opposingPlayerId = -1
     var scenarioId = -1
     var serverInfo: ServerInfo?
     var season = 0
@@ -43,7 +41,10 @@ class InternalGameStats {
     var arenaLosses = 0
     var brawlWins = 0
     var brawlLosses = 0
+    var battlegroundsRating = 0
+    var battlegroundsRaces: [Int] = []
     private var _format: Format?
+        
     var format: Format? {
         get {
             return gameMode == .ranked || gameMode == .casual ? _format : nil
@@ -52,7 +53,7 @@ class InternalGameStats {
             _format = newValue
         }
     }
-    var hsReplayId: String? = nil
+    var hsReplayId: String?
     var opponentCards: [Card] = []
     var revealedCards: [Card] = []
 
@@ -64,6 +65,13 @@ class InternalGameStats {
         gameStats.opponentCardbackId = opponentCardbackId
         gameStats.opponentHero = opponentHero
         gameStats.friendlyPlayerId = friendlyPlayerId
+        gameStats.opponentName = opponentName
+        gameStats.opponentLegendRank = opponentMedalInfo?.legendRank ?? 0
+        gameStats.playerName = playerName
+        gameStats.legendRank = playerMedalInfo?.legendRank ?? 0
+        gameStats.stars = playerMedalInfo?.stars ?? 0
+        gameStats.wasConceded = wasConceded
+        gameStats.turns = turns
         gameStats.scenarioId = scenarioId
         gameStats.serverInfo = serverInfo
         gameStats.season = season
@@ -93,98 +101,109 @@ class InternalGameStats {
 
 extension InternalGameStats: CustomStringConvertible {
     var description: String {
-        return "statId: \(statId), " +
-        "hearthstoneBuild: \(hearthstoneBuild), " +
-        "playerCardbackId: \(playerCardbackId), " +
-        "opponentCardbackId: \(opponentCardbackId), " +
-        "friendlyPlayerId: \(friendlyPlayerId), " +
-        "scenarioId: \(scenarioId), " +
-        "serverInfo: \(serverInfo), " +
-        "season: \(season), " +
-        "gameType: \(gameType), " +
-        "hsDeckId: \(hsDeckId), " +
-        "brawlSeasonId: \(brawlSeasonId), " +
-        "rankedSeasonId: \(rankedSeasonId), " +
-        "arenaWins: \(arenaWins), " +
-        "arenaLosses: \(arenaLosses), " +
-        "brawlWins: \(brawlWins), " +
-        "brawlLosses: \(brawlLosses), " +
-        "format: \(format), " +
-        "hsReplayId: \(hsReplayId), " +
-        "opponentCards: \(opponentCards), " +
-        "revealedCards: \(revealedCards)"
+        return "playerHero: \(playerHero), " +
+            "opponentHero: \(opponentHero), " +
+            "coin: \(coin), " +
+            "gameMode: \(gameMode), " +
+            "result: \(result), " +
+            "turns: \(turns), " +
+            "startTime: \(startTime), " +
+            "endTime: \(endTime), " +
+            "note: \(note), " +
+            "playerName: \(playerName), " +
+            "opponentName: \(opponentName), " +
+            "wasConceded: \(wasConceded), " +
+            "hearthstoneBuild: \(String(describing: hearthstoneBuild)), " +
+            "playerCardbackId: \(playerCardbackId), " +
+            "opponentCardbackId: \(opponentCardbackId), " +
+            "friendlyPlayerId: \(friendlyPlayerId), " +
+            "scenarioId: \(scenarioId), " +
+            "serverInfo: \(String(describing: serverInfo)), " +
+            "season: \(season), " +
+            "gameType: \(gameType), " +
+            "hsDeckId: \(String(describing: hsDeckId)), " +
+            "brawlSeasonId: \(brawlSeasonId), " +
+            "rankedSeasonId: \(rankedSeasonId), " +
+            "arenaWins: \(arenaWins), " +
+            "arenaLosses: \(arenaLosses), " +
+            "brawlWins: \(brawlWins), " +
+            "brawlLosses: \(brawlLosses), " +
+            "format: \(String(describing: format)), " +
+            "hsReplayId: \(String(describing: hsReplayId)), " +
+            "opponentCards: \(opponentCards), " +
+            "revealedCards: \(revealedCards)"
     }
 }
 
 class GameStats: Object {
-    dynamic var statId = ""
+    @objc dynamic var statId = ""
 
     override static func primaryKey() -> String? {
         return "statId"
     }
 
-    private dynamic var _playerHero = CardClass.neutral.rawValue
+    @objc private dynamic var _playerHero = CardClass.neutral.rawValue
     var playerHero: CardClass {
         get { return CardClass(rawValue: _playerHero)! }
         set { _playerHero = newValue.rawValue }
     }
 
-    private dynamic var _opponentHero = CardClass.neutral.rawValue
+    @objc private dynamic var _opponentHero = CardClass.neutral.rawValue
     var opponentHero: CardClass {
         get { return CardClass(rawValue: _opponentHero)! }
         set { _opponentHero = newValue.rawValue }
     }
 
-    dynamic var coin = false
+    @objc dynamic var coin = false
 
-    private dynamic var _gameMode = GameMode.none.rawValue
+    @objc private dynamic var _gameMode = GameMode.none.rawValue
     var gameMode: GameMode {
         get { return GameMode(rawValue: _gameMode)! }
         set { _gameMode = newValue.rawValue }
     }
 
-    private dynamic var _result = GameResult.unknow.rawValue
+    @objc private dynamic var _result = GameResult.unknown.rawValue
     var result: GameResult {
         get { return GameResult(rawValue: _result)! }
         set { _result = newValue.rawValue }
     }
 
-    dynamic var turns = -1
-    dynamic var startTime = Date()
-    dynamic var endTime = Date()
-    dynamic var note = ""
-    dynamic var playerName = ""
-    dynamic var opponentName = ""
-    dynamic var wasConceded = false
-    dynamic var rank = -1
-    dynamic var stars = -1
-    dynamic var legendRank = -1
-    dynamic var opponentLegendRank = -1
-    dynamic var opponentRank = -1
+    @objc dynamic var turns = -1
+    @objc dynamic var startTime = Date()
+    @objc dynamic var endTime = Date()
+    @objc dynamic var note = ""
+    @objc dynamic var playerName = ""
+    @objc dynamic var opponentName = ""
+    @objc dynamic var wasConceded = false
+    @objc dynamic var rank = -1
+    @objc dynamic var stars = -1
+    @objc dynamic var legendRank = -1
+    @objc dynamic var opponentLegendRank = -1
+    @objc dynamic var opponentRank = -1
     var hearthstoneBuild = RealmOptional<Int>()
-    dynamic var playerCardbackId = -1
-    dynamic var opponentCardbackId = -1
-    dynamic var friendlyPlayerId = -1
-    dynamic var scenarioId = -1
-    dynamic var serverInfo: ServerInfo?
+    @objc dynamic var playerCardbackId = -1
+    @objc dynamic var opponentCardbackId = -1
+    @objc dynamic var friendlyPlayerId = -1
+    @objc dynamic var scenarioId = -1
+    @objc dynamic var serverInfo: ServerInfo?
 
-    dynamic var season = 0
+    @objc dynamic var season = 0
 
-    private dynamic var _gameType = GameType.gt_unknown.rawValue
+    @objc private dynamic var _gameType = GameType.gt_unknown.rawValue
     var gameType: GameType {
         get { return GameType(rawValue: _gameType)! }
         set { _gameType = newValue.rawValue }
     }
 
     var hsDeckId = RealmOptional<Int64>()
-    dynamic var brawlSeasonId = -1
-    dynamic var rankedSeasonId = -1
-    dynamic var arenaWins = 0
-    dynamic var arenaLosses = 0
-    dynamic var brawlWins = 0
-    dynamic var brawlLosses = 0
+    @objc dynamic var brawlSeasonId = -1
+    @objc dynamic var rankedSeasonId = -1
+    @objc dynamic var arenaWins = 0
+    @objc dynamic var arenaLosses = 0
+    @objc dynamic var brawlWins = 0
+    @objc dynamic var brawlLosses = 0
 
-    dynamic var __format: String? = nil
+    @objc dynamic var __format: String?
     private var _format: Format? {
         get {
             if let __format = __format {
@@ -203,7 +222,7 @@ class GameStats: Object {
         }
     }
 
-    dynamic var hsReplayId: String? = nil
+    @objc dynamic var hsReplayId: String?
     let opponentCards = List<RealmCard>()
     let revealedCards = List<RealmCard>()
 

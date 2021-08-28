@@ -51,7 +51,7 @@
 "Ruw-6m-B2m.title" = "全选";
 
 /* Class = "NSMenuItem"; title = "Clear trackers"; ObjectID = "Slg-Ni-HzQ"; */
-"Slg-Ni-HzQ.title" = "清除跟踪";
+"Slg-Ni-HzQ.title" = "清除记牌器";
 
 /* Class = "NSMenu"; title = "Window"; ObjectID = "Td7-aD-5lo"; */
 "Td7-aD-5lo.title" = "窗口";
@@ -99,16 +99,16 @@
 "cHz-nn-4Ia.title" = "关闭";
 
 /* Class = "NSMenuItem"; title = "Check for Updates..."; ObjectID = "4yc-yU-eH1"; */
-"4yc-yU-eH1.title" = "检测更新…";
+"4yc-yU-eH1.title" = "检查更新…";
 
 /* Class = "NSMenuItem"; title = "Replays"; ObjectID = "esn-TJ-7Ds"; */
-"esn-TJ-7Ds.title" = "录象";
+"esn-TJ-7Ds.title" = "回放";
 
 /* Class = "NSMenuItem"; title = "Open replays directory"; ObjectID = "yTs-jD-geS"; */
-"yTs-jD-geS.title" = "打开录像的目录";
+"yTs-jD-geS.title" = "打开回放目录";
 
 /* Class = "NSMenuItem"; title = "Last replays"; ObjectID = "gKK-Xg-cTS"; */
-"gKK-Xg-cTS.title" = "上次重播";
+"gKK-Xg-cTS.title" = "上次回放";
 
 /* Class = "NSMenuItem"; title = "Load from file"; ObjectID = "gJj-4D-mrw"; */
 "gJj-4D-mrw.title" = "从文件加载";

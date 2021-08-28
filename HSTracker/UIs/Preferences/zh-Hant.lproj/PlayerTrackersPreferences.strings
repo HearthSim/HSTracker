@@ -1,0 +1,45 @@
+
+/* Class = "NSButtonCell"; title = "Cardlist opens on mouseover"; ObjectID = "1dP-3v-VLS"; */
+"1dP-3v-VLS.title" = "滑鼠進入時顯示卡牌列表";
+
+/* Class = "NSButtonCell"; title = "Show graveyard"; ObjectID = "5Sm-dB-rVB"; */
+"5Sm-dB-rVB.title" = "顯示墓地";
+
+/* Class = "NSButtonCell"; title = "Show Deathrattle counter"; ObjectID = "IPf-hF-E74"; */
+"IPf-hF-E74.title" = "顯示死亡之聲計算器";
+
+/* Class = "NSButtonCell"; title = "Show Spell counter"; ObjectID = "LGM-aC-rL6"; */
+"LGM-aC-rL6.title" = "顯示法術計算器";
+
+/* Class = "NSButtonCell"; title = "Show Jade Counter"; ObjectID = "MDW-Ea-Q6M"; */
+"MDW-Ea-Q6M.title" = "顯示翠玉魔像計算器";
+
+/* Class = "NSButtonCell"; title = "Show player tracker"; ObjectID = "MiE-Lr-Vdi"; */
+"MiE-Lr-Vdi.title" = "顯示你的記牌器";
+
+/* Class = "NSButtonCell"; title = "Show win-loss ratio"; ObjectID = "Ro2-NC-xMD"; */
+"Ro2-NC-xMD.title" = "顯示勝率";
+
+/* Class = "NSButtonCell"; title = "Show C'Thun counter"; ObjectID = "Tex-bu-toa"; */
+"Tex-bu-toa.title" = "顯示克蘇恩計算器";
+
+/* Class = "NSButtonCell"; title = "Show player card count"; ObjectID = "TmO-9A-Ffe"; */
+"TmO-9A-Ffe.title" = "顯示你的卡牌數量";
+
+/* Class = "NSButtonCell"; title = "Show player draw chance"; ObjectID = "acK-XF-6wQ"; */
+"acK-XF-6wQ.title" = "顯示你的抽牌機率";
+
+/* Class = "NSButtonCell"; title = "Show deck name"; ObjectID = "e7g-zd-YkC"; */
+"e7g-zd-YkC.title" = "顯示套牌名稱";
+
+/* Class = "NSTextFieldCell"; title = "In-hand color"; ObjectID = "gfe-fe-rJe"; */
+"gfe-fe-rJe.title" = "手牌的顏色";
+
+/* Class = "NSButtonCell"; title = "Flash on card draw"; ObjectID = "gpo-Wo-m50"; */
+"gpo-Wo-m50.title" = "抽到的牌在記牌器上閃爍";
+
+/* Class = "NSButtonCell"; title = "Include obtained cards"; ObjectID = "r3h-Qd-YPW"; */
+"r3h-Qd-YPW.title" = "包含額外獲得的卡牌";
+
+/* Class = "NSButtonCell"; title = "Show board damage"; ObjectID = "rj2-8a-HGB"; */
+"rj2-8a-HGB.title" = "顯示場攻計算器";

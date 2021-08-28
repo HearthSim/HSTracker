@@ -19,6 +19,7 @@ class StatsTab: NSViewController {
     var statsTableItems = [StatsTableRow]()
     
     let modePickerItems: [GameMode] = [.all, .ranked, .casual, .brawl, .arena, .friendly, .practice]
+    var observer: NSObjectProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,11 +27,11 @@ class StatsTab: NSViewController {
         for mode in modePickerItems {
             modePicker.addItem(withTitle: mode.userFacingName)
         }
-        modePicker.selectItem(at: modePickerItems.index(of: .ranked)!)
+        modePicker.selectItem(at: modePickerItems.firstIndex(of: .ranked)!)
         
         seasonPicker.addItem(withTitle: NSLocalizedString("all_seasons", comment: ""))
         if let deck = self.deck {
-            let seasons = Array(deck.gameStats).flatMap({ $0.season })
+            let seasons = Array(deck.gameStats).compactMap({ $0.season })
                 .sorted().reversed()
             for season in seasons {
                 seasonPicker.addItem(
@@ -60,13 +61,17 @@ class StatsTab: NSViewController {
         statsTable.tableColumns[3].headerToolTip = NSLocalizedString("It is 90% certain that the true winrate falls between these values.", comment: "")
         // swiftlint:enable line_length
         
-        // We need to update the display both when the
+        // We need to update the display when the
         // stats change
-        NotificationCenter.default
-            .addObserver(self,
-                         selector: #selector(update),
-                         name: NSNotification.Name(rawValue: "reload_decks"),
-                         object: nil)
+        self.observer = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: Events.reload_decks), object: nil, queue: OperationQueue.main) { _ in
+            self.update()
+        }
+    }
+    
+    deinit {
+        if let observer = self.observer {
+            NotificationCenter.default.removeObserver(observer)
+        }
     }
 
     func sortStatsTable() {
@@ -78,10 +83,10 @@ class StatsTab: NSViewController {
     }
         
     func update() {
-        if let deck = self.deck {
+        if let deck = self.deck, !deck.isInvalidated {
             var index = modePicker.indexOfSelectedItem
             if index == -1 { // In case somehow nothing is selected
-                modePicker.selectItem(at: modePickerItems.index(of: .ranked)!)
+                modePicker.selectItem(at: modePickerItems.firstIndex(of: .ranked)!)
                 index = modePicker.indexOfSelectedItem
             }
             var season = seasonPicker.indexOfSelectedItem
@@ -117,7 +122,7 @@ class StatsTab: NSViewController {
     }
 }
 
-extension StatsTab : NSTableViewDataSource {
+extension StatsTab: NSTableViewDataSource {
     func numberOfRows(in tableView: NSTableView) -> Int {
         if tableView == statsTable {
             return statsTableItems.count
@@ -127,7 +132,7 @@ extension StatsTab : NSTableViewDataSource {
     }
 }
 
-extension StatsTab : NSTableViewDelegate {
+extension StatsTab: NSTableViewDelegate {
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?,
                    row: Int) -> NSView? {
         
@@ -161,7 +166,7 @@ extension StatsTab : NSTableViewDelegate {
             cellIdentifier = "StatsCICellID"
         }
         
-        if let cell = tableView.make(withIdentifier: cellIdentifier, owner: nil)
+        if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: cellIdentifier), owner: nil)
             as? NSTableCellView {
             cell.textField?.stringValue = text
             cell.imageView?.image = image ?? nil
@@ -173,8 +178,8 @@ extension StatsTab : NSTableViewDelegate {
         return nil
     }
     
-    func tableView(_ tableView: NSTableView, sortDescriptorsDidChange
-        oldDescriptors: [NSSortDescriptor]) {
+    func tableView(_ tableView: NSTableView,
+                   sortDescriptorsDidChange oldDescriptors: [NSSortDescriptor]) {
         if tableView == statsTable {
             DispatchQueue.main.async {
                 self.sortStatsTable()

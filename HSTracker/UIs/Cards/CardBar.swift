@@ -7,10 +7,9 @@
 //
 
 import Foundation
-import CleanroomLogger
 import TextAttributes
 
-protocol CardCellHover: class {
+protocol CardCellHover: AnyObject {
     func hover(cell: CardBar, card: Card)
     func out(card: Card)
 }
@@ -18,8 +17,8 @@ protocol CardCellHover: class {
 protocol CardBarTheme {
     var card: Card? {get set}
     var playerType: PlayerType? {get set}
-    var playerClassID: String? {get set}
     var playerName: String? {get set}
+    var playerRank: Int? {get set}
     var isArena: Bool? {get set}
 }
 
@@ -36,7 +35,7 @@ class CardBar: NSView, CardBarTheme {
     private var cardLayer: CALayer?
 
     class func factory() -> CardBar {
-        switch Settings.instance.theme {
+        switch Settings.theme {
         case "frost":
             return FrostBar()
         case "dark":
@@ -52,46 +51,62 @@ class CardBar: NSView, CardBarTheme {
         return ""
     }
 
+    private var cardTile: NSImage?
     private var oldCard: Card?
     var card: Card? {
         didSet {
             oldCard = oldValue
+            if oldCard?.id != card?.id {
+                cardTile = nil
+            }
         }
     }
     var playerType: PlayerType?
-    var playerClassID: String?
     var playerName: String?
+    var playerRank: Int?
     var isArena: Bool?
+    var playerRace: Race?
+    var backgroundImage: NSImage?
+    var isBattlegrounds: Bool = false
 
     var hasAllRequired: Bool {
-        let path = Bundle.main.resourcePath!
-            + "/Resources/Themes/Bars/\(themeDir)/"
+        guard let rp = Bundle.main.resourcePath else {
+            return false
+        }
+        let path = "\(rp)/Resources/Themes/Bars/\(themeDir)/"
         let manager = FileManager.default
         return required.map { $0.1 } .all {
             manager.fileExists(atPath: "\(path)\($0.filename)")
         }
     }
-    var hasAllOptionalFrames: Bool {
-        let path = Bundle.main.resourcePath!
-            + "/Resources/Themes/Bars/\(themeDir)/"
+
+    private var hasAllOptionalFrames: Bool {
+        guard let rp = Bundle.main.resourcePath else {
+            return false
+        }
+        let path = "\(rp)/Resources/Themes/Bars/\(themeDir)/"
         let manager = FileManager.default
         return optionalFrame.map { $0.1 } .all {
             manager.fileExists(atPath: "\(path)\($0.filename)")
         }
     }
 
-    var hasAllOptionalGems: Bool {
-        let path = Bundle.main.resourcePath!
-            + "/Resources/Themes/Bars/\(themeDir)/"
+    private var hasAllOptionalGems: Bool {
+        guard let rp = Bundle.main.resourcePath else {
+            return false
+        }
+        let path = "\(rp)/Resources/Themes/Bars/\(themeDir)/"
         let manager = FileManager.default
         return optionalGems.map { $0.1 } .all {
             manager.fileExists(atPath: "\(path)\($0.filename)")
         }
     }
 
-    var hasAllOptionalCountBoxes: Bool {
-        let path = Bundle.main.resourcePath!
-            + "/Resources/Themes/Bars/\(themeDir)/"
+    private var hasAllOptionalCountBoxes: Bool {
+        guard let rp = Bundle.main.resourcePath else {
+            return false
+        }
+        let path = "\(rp)/Resources/Themes/Bars/\(themeDir)/"
         let manager = FileManager.default
         return optionalCountBoxes.map { $0.1 } .all {
             manager.fileExists(atPath: "\(path)\($0.filename)")
@@ -113,19 +128,23 @@ class CardBar: NSView, CardBarTheme {
     let gemRect = NSRect(x: 0, y: 0, width: 34, height: 34)
     let boxRect = NSRect(x: 183, y: 0, width: 34, height: 34)
     let imageRect = NSRect(x: 83, y: 0, width: 134, height: 34)
+    let imageRectBG = NSRect(x: 0, y: 0, width: 217, height: 34)
     let countTextRect = NSRect(x: 198, y: 9, width: CGFloat.greatestFiniteMagnitude, height: 34)
     let costTextRect = NSRect(x: 0, y: 9, width: 34, height: 34)
+    let arenaHelperRect = NSRect(x: 17, y: 0, width: 34, height: 34)
 
     var countTextColor: NSColor {
-        return NSColor ( red: 0.9221, green: 0.7215, blue: 0.2226, alpha: 1.0 )
+        return NSColor( red: 0.9221, green: 0.7215, blue: 0.2226, alpha: 1.0 )
     }
     var numbersFont: String {
         return "ChunkFive"
     }
     var textFont: String {
-        if Settings.instance.isAsianLanguage {
+        if Settings.isSimplifiedChinese {
+            return "AR LisuGB Medium"
+        } else if Settings.isAsianLanguage {
             return "NanumGothic"
-        } else if Settings.instance.isCyrillicLanguage {
+        } else if Settings.isCyrillicLanguage {
             return "BenguiatBold"
         } else {
             return "ChunkFive"
@@ -140,6 +159,8 @@ class CardBar: NSView, CardBarTheme {
             .darkOverlay: ThemeElementInfo(filename: "dark.png", rect: frameRect),
             .fadeOverlay: ThemeElementInfo(filename: "fade.png", rect: frameRect),
             .createdIcon: ThemeElementInfo(filename: "icon_created.png", rect: boxRect),
+            .badAsMultipleIcon: ThemeElementInfo(filename: "icon_bad_multiple.png",
+                                                 rect: arenaHelperRect),
             .legendaryIcon: ThemeElementInfo(filename: "icon_legendary.png", rect: boxRect),
             .flashFrame: ThemeElementInfo(filename: "frame_mask.png", rect: frameRect)
         ]
@@ -209,10 +230,12 @@ class CardBar: NSView, CardBarTheme {
     }
 
     func update(highlight: Bool) {
-        if highlight && Settings.instance.flashOnDraw {
+        if highlight && Settings.flashOnDraw {
             if let themeElement = required[.flashFrame] {
-                let fullPath = Bundle.main.resourcePath!
-                    + "/Resources/Themes/Bars/\(themeDir)/\(themeElement.filename)"
+                guard let rp = Bundle.main.resourcePath else {
+                    return
+                }
+                let fullPath = "\(rp)/Resources/Themes/Bars/\(themeDir)/\(themeElement.filename)"
                 if let image = NSImage(contentsOfFile: fullPath),
                     FileManager.default.fileExists(atPath: fullPath) {
                     let flashingLayer = CALayer()
@@ -230,7 +253,7 @@ class CardBar: NSView, CardBarTheme {
                     fade.toValue = 0.0
                     fade.duration = 0.5
                     fade.isRemovedOnCompletion = false
-                    fade.fillMode = kCAFillModeBoth
+                    fade.fillMode = CAMediaTimingFillMode.both
                     flashingLayer.add(fade, forKey: "alpha")
                 }
             }
@@ -263,10 +286,14 @@ class CardBar: NSView, CardBarTheme {
 
         guard hasAllRequired else { return }
 
-        if let card = card, areEquals(card, oldCard) { return }
+        if let card = card, areEquals(card, oldCard) && playerType != .hero { return }
 
         cardLayer?.sublayers?.forEach { $0.removeFromSuperlayer() }
-
+        
+        if let img = backgroundImage {
+            add(image: img, rect: isBattlegrounds ? imageRectBG : imageRect)
+        }
+        
         addCardImage()
         addFadeOverlay()
 
@@ -282,16 +309,22 @@ class CardBar: NSView, CardBarTheme {
                 addLegendaryIcon()
             }
         }
-        addFrame()
+        if (isBattlegrounds && card != nil) || !isBattlegrounds {
+            addFrame()
+        }
 
-        if let _ = card {
+        if card != nil {
             addGem()
             addCost()
         }
         addCardName()
-        if let card = card {
+        if let card = card, card.isBadAsMultiple {
+            addBadAsMultipleIcon()
+        }
+        if let card = card, playerType != .hero {
             if let isArena = isArena,
-                playerType == .editDeck && !isArena && card.count >= 2 {
+                playerType == .editDeck && !isArena
+                    && (card.count >= 2 || (card.count == 1 && card.rarity == .legendary)) {
                 addDarken()
             } else if (card.count <= 0 || card.jousted)
                 && playerType != .cardList && playerType != .editDeck {
@@ -304,24 +337,46 @@ class CardBar: NSView, CardBarTheme {
         addCardImage(rect: imageRect)
     }
     func addCardImage(rect: NSRect, offsetByCountBox: Bool = false) {
-        guard let cardId = card?.id ?? playerClassID else { return }
-        let rarity = card?.rarity ?? .free
-        let count = card?.count ?? 1
+        guard let card = card else { return }
+        let rarity = card.rarity
+        var count = card.count
+        if count == 0 { count = 1 }
+        var offset = offsetByCountBox
+        var r = rect
+        if isBattlegrounds {
+            offset = false
+            r = imageRectBG
+        }
 
-        guard let image = ImageUtils.tile(for: cardId, completion: { [weak self] in
-            guard let _ = $0 else {
-                Log.warning?.message("No image for \(cardId)")
+        if let image = cardTile {
+            if offset && abs(count) > 1 && playerType != .editDeck || rarity == .legendary {
+                add(image: image, rect: r.offsetBy(dx: imageOffset, dy: 0))
+            } else {
+                add(image: image, rect: r)
+            }
+
+            return
+        } else if let image = ImageUtils.cachedTile(cardId: card.id) {
+            if offset && abs(count) > 1 && playerType != .editDeck || rarity == .legendary {
+                add(image: image, rect: r.offsetBy(dx: imageOffset, dy: 0))
+            } else {
+                add(image: image, rect: r)
+            }
+
+            return
+        }
+
+        ImageUtils.tile(for: card.id, completion: { [weak self] in
+            guard let image = $0 else {
+                logger.warning("No image for \(card)")
                 return
             }
 
-            self?.needsDisplay = true
-        }) else { return }
-
-        if offsetByCountBox && abs(count) > 1 && playerType != .editDeck || rarity == .legendary {
-            add(image: image, rect: rect.offsetBy(dx: imageOffset, dy: 0))
-        } else {
-            add(image: image, rect: rect)
-        }
+            self?.cardTile = image
+            DispatchQueue.main.async { [weak self] in
+                self?.needsDisplay = true
+            }
+        })
     }
 
     func addFadeOverlay() {
@@ -336,6 +391,8 @@ class CardBar: NSView, CardBarTheme {
         if let card = card {
             count = card.count
             rarity = card.rarity
+        } else if isBattlegrounds {
+            return
         }
 
         if let fadeOverlay = required[.fadeOverlay] {
@@ -351,7 +408,7 @@ class CardBar: NSView, CardBarTheme {
         guard let card = card else { return }
 
         var countBox = required[.defaultCountBox]
-        if Settings.instance.showRarityColors && hasAllOptionalCountBoxes {
+        if Settings.showRarityColors && hasAllOptionalCountBoxes {
             switch card.rarity {
             case .rare:
                 countBox = optionalCountBoxes[.rareCountBox]
@@ -386,6 +443,17 @@ class CardBar: NSView, CardBarTheme {
                         width: CGFloat.greatestFiniteMagnitude,
                         height: CGFloat.greatestFiniteMagnitude),
                     textColor: countTextColor, font: textFont)
+        }
+    }
+
+    func addBadAsMultipleIcon() {
+        if let rect = required[.badAsMultipleIcon]?.rect {
+            addBadAsMultipleIcon(rect: rect)
+        }
+    }
+    func addBadAsMultipleIcon(rect: NSRect) {
+        if let badAsMultipleIcon = required[.badAsMultipleIcon] {
+            add(themeElement: badAsMultipleIcon, rect: rect)
         }
     }
 
@@ -424,7 +492,7 @@ class CardBar: NSView, CardBarTheme {
         }
 
         var frame = required[.defaultFrame]
-        if Settings.instance.showRarityColors && hasAllOptionalFrames {
+        if Settings.showRarityColors && hasAllOptionalFrames {
             switch rarity {
             case .rare:
                 frame = optionalFrame[.rareFrame]
@@ -434,7 +502,6 @@ class CardBar: NSView, CardBarTheme {
                 frame = optionalFrame[.legendaryFrame]
             default:
                 frame = optionalFrame[.commonFrame]
-                break
             }
         }
 
@@ -445,9 +512,11 @@ class CardBar: NSView, CardBarTheme {
 
     func addGem() {
         guard let card = card else { return }
+        if Cards.isHero(cardId: card.id) && !Cards.isPlayableHero(cardId: card.id) { return }
+        if card.cost < 0 { return }
 
         var gem = required[.defaultGem]
-         if Settings.instance.showRarityColors && hasAllOptionalGems {
+        if Settings.showRarityColors && hasAllOptionalGems {
             switch card.rarity {
             case .rare:
                 gem = optionalGems[.rareGem]
@@ -471,18 +540,33 @@ class CardBar: NSView, CardBarTheme {
     func addCost(rect: NSRect) {
         guard let card = card else { return }
 
-        var textColor = card.textColor()
-        if playerType == .cardList || playerType == .editDeck {
-            textColor = NSColor.white
+        var cost = card.cost
+        
+        if cost < 0 {
+            return
         }
 
-        add(text: card.cost, fontSize: costFontSize, rect: rect,
+        var textColor = card.textColor()
+        if playerType == .cardList || playerType == .editDeck {
+            textColor = .white
+        }
+     
+        if Cards.isHero(cardId: card.id) && !Cards.isPlayableHero(cardId: card.id) {
+            if let rank = playerRank, rank > 0 {
+                textColor = .white
+                cost = rank
+            } else {
+                return
+            }
+        }
+
+        add(text: cost, fontSize: costFontSize, rect: rect,
                 textColor: textColor, font: numbersFont,
                 strokeThickness: -1.0, centered: true)
     }
 
     func addCardName() {
-        var width = frameRect.width - 38
+        var width = frameRect.width - (isBattlegrounds ? 14 : 38)
         if let card = card {
             if abs(card.count) > 0 || card.rarity == .legendary {
                 width -= boxRect.width
@@ -492,8 +576,7 @@ class CardBar: NSView, CardBarTheme {
                 width -= abs(createdIconOffset)
             }
         }
-        
-        addCardName(rect: NSRect(x: 38,
+        addCardName(rect: NSRect(x: isBattlegrounds ? 14 : 38,
             y: 10,
             width: width,
             height: 30))
@@ -502,11 +585,11 @@ class CardBar: NSView, CardBarTheme {
         var name: String?
         var textColor: NSColor = .white
 
-        if let card = card {
+        if let playerName = playerName {
+            name = playerName
+        } else if let card = card {
             name = card.name
             textColor = card.textColor()
-        } else if let playerName = playerName {
-            name = playerName
         }
 
         if playerType == .cardList || playerType == .editDeck {
@@ -526,32 +609,32 @@ class CardBar: NSView, CardBarTheme {
     }
 
     private func add(text value: Int, fontSize: CGFloat,
-                         rect: NSRect, textColor: NSColor, font: String,
-                         strokeThickness: CGFloat = -2.0, centered: Bool = false) {
+                     rect: NSRect, textColor: NSColor, font: String,
+                     strokeThickness: CGFloat = -2.0, centered: Bool = false) {
         add(text: "\(value)", fontSize: fontSize,
-                rect: rect, textColor: textColor, font: font,
-                strokeThickness: strokeThickness, centered: centered)
+            rect: rect, textColor: textColor, font: font,
+            strokeThickness: strokeThickness, centered: centered)
     }
 
     private func add(text value: String, fontSize: CGFloat,
-                         rect: NSRect, textColor: NSColor, font: String,
-                         strokeThickness: CGFloat = -2.0, centered: Bool = false) {
+                     rect: NSRect, textColor: NSColor, font: String,
+                     strokeThickness: CGFloat = -2.0, centered: Bool = false) {
 
         if let font = NSFont(name: font, size: round(fontSize / ratioHeight)) {
             let ratioRect = ratio(rect)
-            var attributes: [String : Any] = [
-                NSFontAttributeName: font,
-                NSForegroundColorAttributeName: textColor,
-                NSStrokeWidthAttributeName: strokeThickness,
-                NSStrokeColorAttributeName: NSColor.black
+            var attributes: [NSAttributedString.Key: Any] = [
+                .font: font,
+                .foregroundColor: textColor,
+                .strokeWidth: strokeThickness,
+                .strokeColor: NSColor.black
             ]
             if centered {
                 let paragraph = NSMutableParagraphStyle()
                 paragraph.alignment = .center
-                attributes[NSParagraphStyleAttributeName] = paragraph
+                attributes[.paragraphStyle] = paragraph
             }
             value.draw(with: ratioRect,
-                               options: .truncatesLastVisibleLine,
+                               options: NSString.DrawingOptions.truncatesLastVisibleLine,
                                attributes: attributes)
         }
     }
@@ -571,8 +654,10 @@ class CardBar: NSView, CardBarTheme {
     }
 
     private func add(themeElement: ThemeElementInfo, rect: NSRect) {
-        let fullPath = Bundle.main.resourcePath!
-            + "/Resources/Themes/Bars/\(themeDir)/\(themeElement.filename)"
+        guard let rp = Bundle.main.resourcePath else {
+            return
+        }
+        let fullPath = "\(rp)/Resources/Themes/Bars/\(themeDir)/\(themeElement.filename)"
         add(filename: fullPath, rect: rect)
     }
 
@@ -589,7 +674,7 @@ class CardBar: NSView, CardBarTheme {
         }
 
         var ratio: CGFloat
-        switch Settings.instance.cardSize {
+        switch Settings.cardSize {
         case .tiny: ratio = CGFloat(kRowHeight / kTinyRowHeight)
         case .small: ratio = CGFloat(kRowHeight / kSmallRowHeight)
         case .medium: ratio = CGFloat(kRowHeight / kMediumRowHeight)
@@ -605,7 +690,7 @@ class CardBar: NSView, CardBarTheme {
         }
 
         let baseHeight: CGFloat
-        switch Settings.instance.cardSize {
+        switch Settings.cardSize {
         case .tiny: baseHeight = CGFloat(kTinyRowHeight)
         case .small: baseHeight = CGFloat(kSmallRowHeight)
         case .medium: baseHeight = CGFloat(kMediumRowHeight)
@@ -651,3 +736,19 @@ class CardBar: NSView, CardBarTheme {
             && c1?.wasDiscarded == c2?.wasDiscarded
     }
 }
+
+extension NSImage {
+    convenience init(color: NSColor, size: NSSize) {
+        self.init(size: size)
+        lockFocus()
+        color.drawSwatch(in: NSRect(origin: .zero, size: size))
+        unlockFocus()
+    }
+}
+
+extension CardBar {
+    override var description: String {
+        return "[\(card?.id ?? ""):\(card?.count ?? 0)]"
+    }
+}
+

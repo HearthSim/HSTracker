@@ -1,0 +1,42 @@
+
+/* Class = "NSButton"; ibShadowedToolTip = "Notifications are only visible if Hearthstone is not focused"; ObjectID = "08B-rI-8LA"; */
+"08B-rI-8LA.ibShadowedToolTip" = "Notifications are only visible if Hearthstone is not focused";
+
+/* Class = "NSButtonCell"; title = "Prefer golden cards when exporting to Hearthstone"; ObjectID = "1BI-nh-nxq"; */
+"1BI-nh-nxq.title" = "Prefer golden cards when exporting to Hearthstone";
+
+/* Class = "NSButtonCell"; title = "Add a note on end game"; ObjectID = "4f5-xO-gik"; */
+"4f5-xO-gik.title" = "Add a note on end game";
+
+/* Class = "NSButtonCell"; title = "Notify me when my opponent concedes"; ObjectID = "GhP-a6-Faw"; */
+"GhP-a6-Faw.title" = "Notify me when my opponent concedes";
+
+/* Class = "NSButtonCell"; title = "Notify me when my turn starts"; ObjectID = "Rbw-dw-oAI"; */
+"Rbw-dw-oAI.title" = "Notify me when my turn starts";
+
+/* Class = "NSButtonCell"; title = "Use Arena Helper"; ObjectID = "TKd-w3-odf"; */
+"TKd-w3-odf.title" = "Use Arena Helper";
+
+/* Class = "NSButtonCell"; title = "Use Toast notifications instead of Notification Center"; ObjectID = "XEI-kJ-kec"; */
+"XEI-kJ-kec.title" = "Use Toast notifications instead of Notification Center";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Notifications are only visible if Hearthstone is not focused"; ObjectID = "Yit-xi-gbj"; */
+"Yit-xi-gbj.ibShadowedToolTip" = "Notifications are only visible if Hearthstone is not focused";
+
+/* Class = "NSButtonCell"; title = "Notify me when the game starts"; ObjectID = "aaX-mu-c31"; */
+"aaX-mu-c31.title" = "Notify me when the game starts";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Notifications are only visible if Hearthstone is not focused"; ObjectID = "c8y-VJ-p2U"; */
+"c8y-VJ-p2U.ibShadowedToolTip" = "Notifications are only visible if Hearthstone is not focused";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Notifications are only visible if Hearthstone is not focused"; ObjectID = "hzK-vu-1RX"; */
+"hzK-vu-1RX.ibShadowedToolTip" = "Notifications are only visible if Hearthstone is not focused";
+
+/* Class = "NSButtonCell"; title = "Enable Apphealth icon badge"; ObjectID = "mBv-nX-Cn3"; */
+"mBv-nX-Cn3.title" = "Enable Apphealth icon badge";
+
+/* Class = "NSButtonCell"; title = "Close HSTracker when Hearthstone closes"; ObjectID = "oQm-3D-WOn"; */
+"oQm-3D-WOn.title" = "Close HSTracker when Hearthstone closes";
+
+/* Class = "NSButtonCell"; title = "Save replays"; ObjectID = "vod-AA-O2m"; */
+"vod-AA-O2m.title" = "Save replays";

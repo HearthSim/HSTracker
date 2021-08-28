@@ -3,10 +3,10 @@
 "ERD-70-cWu.title" = "取消";
 
 /* Class = "NSTextFieldCell"; title = "Deck Name"; ObjectID = "LWn-HE-BcI"; */
-"LWn-HE-BcI.title" = "套牌名字";
+"LWn-HE-BcI.title" = "套牌名称";
 
 /* Class = "NSButtonCell"; title = "Save on Hearthstats"; ObjectID = "N6n-fW-1Nf"; */
-"N6n-fW-1Nf.title" = "存在 Hearthstats 上";
+"N6n-fW-1Nf.title" = "在 Hearthstats 中保存";
 
 /* Class = "NSWindow"; title = "Window"; ObjectID = "QvC-M9-y7g"; */
 "QvC-M9-y7g.title" = "窗口";

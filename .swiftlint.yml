@@ -10,7 +10,8 @@ disabled_rules:
   - file_length
   - type_body_length
   - todo
-  - variable_name
+  - identifier_name
   - function_parameter_count
   - trailing_newline
   - trailing_whitespace
+  - line_length

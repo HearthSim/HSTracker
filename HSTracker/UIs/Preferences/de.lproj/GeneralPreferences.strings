@@ -27,7 +27,10 @@
 "lku-8T-sZE.title" = "Replays speichern";
 
 /* Class = "NSButtonCell"; title = "Enable Apphealth icon badge"; ObjectID = "mBv-nX-Cn3"; */
-"mBv-nX-Cn3.title" = "Enable Apphealth icon badge";
+"mBv-nX-Cn3.title" = "Aktiviere Apphealth Icon-Badge";
 
 /* Class = "NSButtonCell"; title = "Prefer golden cards when exporting to Hearthstone"; ObjectID = "1BI-nh-nxq"; */
-"1BI-nh-nxq.title" = "Prefer golden cards when exporting to Hearthstone";
+"1BI-nh-nxq.title" = "Bevorzuge goldene Karten beim Export zu Hearthstone";
+
+/* Class = "NSButtonCell"; title = "Use Toast notifications instead of Notification Center"; ObjectID = "XEI-kJ-kec"; */
+"XEI-kJ-kec.title" = "Benutze Toast Benachrichtigungen anstelle des Mitteilungszentrale";

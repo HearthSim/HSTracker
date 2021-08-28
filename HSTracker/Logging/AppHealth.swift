@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AppKit
 
 enum HealthLevel: Int {
     case undefined = 0,
@@ -22,15 +23,33 @@ class AppHealth: NSObject {
 
     static let instance = AppHealth()
     
-    private let badge_icons = ["undefined": NSImage(named: "badge-icon-undefined")!,
+    private static let badge_icons = ["undefined": NSImage(named: "badge-icon-undefined")!,
                                "gameinstalled": NSImage(named: "badge-icon-gameinstalled")!,
                                "trackerworks": NSImage(named: "badge-icon-trackerworks")!,
                                "gamerunning": NSImage(named: "badge-icon-gamerunning")!,
                                "gameinprogress": NSImage(named: "badge-icon-gameinprogress")!]
 
+    private var observers: [NSObjectProtocol] = []
+    
     override init() {
         level = .undefined
         super.init()
+        
+        let center = NotificationCenter.default
+        let triggers = [Events.hearthstone_active, Events.hearthstone_running]
+        
+        for event in triggers {
+            let observer = center.addObserver(forName: NSNotification.Name(rawValue: event), object: nil, queue: OperationQueue.main) { _ in
+                self.setHearthstoneRunning()
+            }
+            self.observers.append(observer)
+        }
+    }
+    
+    deinit {
+        for observer in self.observers {
+            NotificationCenter.default.removeObserver(observer)
+        }
     }
     
     func setHSInstalled(flag installed: Bool) {
@@ -54,7 +73,7 @@ class AppHealth: NSObject {
         }
     }
     
-    func setHearthstoneRunning(flag running: Bool) {
+    func setHearthstoneRunning(flag running: Bool = true) {
         if running {
             if level.rawValue < HealthLevel.gamerunning.rawValue {
                 self.setLevel(level: HealthLevel.gamerunning)
@@ -82,22 +101,23 @@ class AppHealth: NSObject {
     func updateBadge() {
         // update app icon
         // check if feature is enabled in preferences
-        if Settings.instance.showAppHealth {
-            switch self.level {
-            case .undefined:
-                NSApp.applicationIconImage = badge_icons["undefined"]
-            case .gameinstalled:
-                NSApp.applicationIconImage = badge_icons["gameinstalled"]
-            case .trackerworks:
-                NSApp.applicationIconImage = badge_icons["trackerworks"]
-            case .gamerunning:
-                NSApp.applicationIconImage = badge_icons["gamerunning"]
-            case .gameinprogress:
-                NSApp.applicationIconImage = badge_icons["gameinprogress"]
+        DispatchQueue.main.async {
+            if Settings.showAppHealth {
+                switch self.level {
+                case .undefined:
+                    NSApp.applicationIconImage = AppHealth.badge_icons["undefined"]
+                case .gameinstalled:
+                    NSApp.applicationIconImage = AppHealth.badge_icons["gameinstalled"]
+                case .trackerworks:
+                    NSApp.applicationIconImage = AppHealth.badge_icons["trackerworks"]
+                case .gamerunning:
+                    NSApp.applicationIconImage = AppHealth.badge_icons["gamerunning"]
+                case .gameinprogress:
+                    NSApp.applicationIconImage = AppHealth.badge_icons["gameinprogress"]
+                }
+            } else {
+                NSApp.applicationIconImage = nil
             }
-        } else {
-            NSApp.applicationIconImage = nil
         }
-
     }
 }

@@ -7,30 +7,63 @@
 //
 
 import Foundation
-import CleanroomLogger
 import RealmSwift
+
+enum SecretError: Error {
+    case entityIsNotSecret(entity: Entity)
+    case entityHasNoClass(entity: Entity)
+    case entityHasInvalidClass(entity: Entity)
+}
 
 class Secret {
 
-    private(set) var cardId: String
-    var count: Int
+    private(set) var entity: Entity
+    var excluded: [MultiIdCard: Bool] = [:]
 
-    init(cardId: String, count: Int) {
-        self.cardId = cardId
-        self.count = count
+    init(entity: Entity) throws {
+        guard entity.isSecret else { throw SecretError.entityIsNotSecret(entity: entity) }
+        guard entity.has(tag: .class) else { throw SecretError.entityHasNoClass(entity: entity) }
+        guard let tagClass = TagClass(rawValue: entity[.class]) else {
+            throw SecretError.entityHasInvalidClass(entity: entity)
+        }
+        self.entity = entity
+        self.excluded = Secret.getAllSecrets(for: tagClass)
+            .reduce([MultiIdCard: Bool]()) { dict, act in
+                var ret = dict
+                ret[act] = false
+                return ret
+        }
     }
 
-    var activeDeckIsConstructed: Bool {
-        guard let deck = Game.shared.currentDeck else { return false }
-
-        return !deck.isArena
+    func exclude(cardId: MultiIdCard) {
+        if excluded.keys.contains(cardId) {
+            excluded[cardId] = true
+        }
     }
 
-    func adjustedCount(game: Game) -> Int {
-        return ((game.currentGameMode == .casual || game.currentGameMode == .ranked
-                || game.currentGameMode == .friendly || game.currentGameMode == .practice
-                || activeDeckIsConstructed)
-            && game.opponent.revealedEntities.filter { $0.id < 68 && $0.cardId == self.cardId }
-                .count >= 2) ? 0 : self.count
+    func isExcluded(cardId: MultiIdCard) -> Bool {
+        return excluded.keys.contains(cardId) && excluded[cardId]!
+    }
+
+    func include(cardId: MultiIdCard) {
+        if excluded.keys.contains(cardId) {
+            excluded[cardId] = false
+        }
+    }
+
+    private static func getAllSecrets(for heroClass: TagClass) -> [MultiIdCard] {
+        switch heroClass {
+        case .hunter: return CardIds.Secrets.Hunter.All
+        case .mage: return CardIds.Secrets.Mage.All
+        case .paladin: return CardIds.Secrets.Paladin.All
+        case .rogue: return CardIds.Secrets.Rogue.All
+        default: return []
+        }
+    }
+}
+
+extension Secret: Equatable {
+    static func == (lhs: Secret, rhs: Secret) -> Bool {
+        return lhs.entity.id == rhs.entity.id
     }
 }

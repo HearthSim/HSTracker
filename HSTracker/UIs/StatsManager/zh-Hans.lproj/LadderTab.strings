@@ -1,15 +1,15 @@
 
 /* Class = "NSTableColumn"; headerCell.title = "90% CI"; ObjectID = "4Yb-5T-nV4"; */
-"4Yb-5T-nV4.headerCell.title" = "90 % 置信区间";
+"4Yb-5T-nV4.headerCell.title" = "90% 置信区间";
 
 /* Class = "NSTextFieldCell"; title = "Rank"; ObjectID = "BEu-Gw-K2h"; */
 "BEu-Gw-K2h.title" = "排名";
 
 /* Class = "NSTableColumn"; headerCell.title = "90% CI"; ObjectID = "IWm-LF-igL"; */
-"IWm-LF-igL.headerCell.title" = "90 % 置信区间";
+"IWm-LF-igL.headerCell.title" = "90% 置信区间";
 
 /* Class = "NSTextFieldCell"; title = "Stars"; ObjectID = "TJK-Hp-ofq"; */
-"TJK-Hp-ofq.title" = "星星";
+"TJK-Hp-ofq.title" = "星";
 
 /* Class = "NSTableColumn"; headerCell.title = "Rank"; ObjectID = "dyI-Te-1C6"; */
 "dyI-Te-1C6.headerCell.title" = "排名";
@@ -21,7 +21,7 @@
 "e1h-FZ-9MU.headerCell.title" = "排名";
 
 /* Class = "NSTableColumn"; headerCell.title = "Games to Rank"; ObjectID = "hkD-WH-kOa"; */
-"hkD-WH-kOa.headerCell.title" = "游戏比排名";
+"hkD-WH-kOa.headerCell.title" = "对局数排名";
 
 /* Class = "NSTableColumn"; headerCell.title = "Time to Rank (h)"; ObjectID = "xS7-7X-Aef"; */
-"xS7-7X-Aef.headerCell.title" = "时间比排名 (小时)";
+"xS7-7X-Aef.headerCell.title" = "时间排名 (小时)";

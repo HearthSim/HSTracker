@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16A323" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -136,18 +137,6 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Replays" id="esn-TJ-7Ds">
                         <items>
-                            <menuItem title="Open replays directory" id="yTs-jD-geS">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="openReplayDirectory:" target="Voe-Tx-rLC" id="JMS-5j-YFt"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Load from file" id="gJj-4D-mrw" userLabel="Load from file">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="importReplay:" target="Voe-Tx-rLC" id="6N7-Qk-dwx"/>
-                                </connections>
-                            </menuItem>
                             <menuItem title="Last replays" enabled="NO" id="gKK-Xg-cTS">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Last replays" id="Ck1-T5-ndx"/>
@@ -196,6 +185,18 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Help" systemMenu="help" id="F2S-fz-NVQ">
                         <items>
+                            <menuItem title="Open logs directory..." id="aNE-rT-1XM" userLabel="Open logs directory">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="openLogDirectory:" target="-1" id="Pwy-CL-aAL"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Bug report..." id="3dl-ss-r23">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="bugReport:" target="-1" id="xOU-AY-SgR"/>
+                                </connections>
+                            </menuItem>
                             <menuItem title="HSTracker Help" keyEquivalent="?" id="FKE-Sm-Kum">
                                 <connections>
                                     <action selector="showHelp:" target="-1" id="y7X-2Q-9no"/>
@@ -205,6 +206,7 @@
                     </menu>
                 </menuItem>
             </items>
+            <point key="canvasLocation" x="19" y="123"/>
         </menu>
     </objects>
 </document>

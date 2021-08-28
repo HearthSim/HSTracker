@@ -7,8 +7,10 @@
 //
 
 import Foundation
-import CleanroomLogger
 
+/**
+	Helper object for system folder locations
+ */
 class Paths {
     static let HSTracker: URL = {
         let paths = FileManager.default.urls(for: .applicationSupportDirectory,
@@ -23,6 +25,10 @@ class Paths {
 
     static let tiles: URL = {
         return HSTracker.appendingPathComponent("tiles", isDirectory: true)
+    }()
+
+    static let arts: URL = {
+        return HSTracker.appendingPathComponent("arts", isDirectory: true)
     }()
 
     static let decks: URL = {
@@ -41,6 +47,10 @@ class Paths {
         return HSTracker.appendingPathComponent("json", isDirectory: true)
     }()
 
+    static let arenaJson: URL = {
+        return HSTracker.appendingPathComponent("arena", isDirectory: true)
+    }()
+
     static let logs: URL = {
         let paths = FileManager.default.urls(for: .libraryDirectory,
                                              in: .userDomainMask)
@@ -48,8 +58,11 @@ class Paths {
         return libraryDirectory.appendingPathComponent("Logs/HSTracker", isDirectory: true)
     }()
 
+	/**
+		Creates folders at all path object location
+	*/
     static func initDirs() {
-        let paths = [cards, decks, replays, cardJson, logs, tmpReplays, tiles]
+        let paths = [cards, decks, replays, cardJson, logs, tmpReplays, tiles, arts, arenaJson]
         let fileManager = FileManager.default
         for path in paths {
             if fileManager.fileExists(atPath: path.absoluteString) { continue }
@@ -59,7 +72,7 @@ class Paths {
                                      withIntermediateDirectories: true,
                                      attributes: nil)
             } catch {
-                Log.error?.message("Can not create directory \(path) : \(error)")
+                logger.error("Can not create directory \(path) : \(error)")
             }
         }
     }

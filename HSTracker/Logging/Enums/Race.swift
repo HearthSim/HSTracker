@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum Race: String {
+enum Race: String, CaseIterable {
     case invalid,
     bloodelf,
     draenei,
@@ -33,5 +33,24 @@ enum Race: String {
     totem,
     nerubian,
     pirate,
-    dragon
+    dragon,
+    blank,
+    all,
+    race_27,
+    race_28,
+    race_29,
+    race_30,
+    race_31,
+    race_32,
+    race_33,
+    race_34,
+    race_35,
+    race_36,
+    race_37,
+    egg,
+    race_39,
+    race_40,
+    race_41,
+    race_42,
+    quilboar
 }

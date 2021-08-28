@@ -1,6 +1,6 @@
 
 /* Class = "NSButtonCell"; title = "Standard only"; ObjectID = "37M-wa-5DN"; */
-"37M-wa-5DN.title" = "必须标准模式";
+"37M-wa-5DN.title" = "只能在标准模式中使用";
 
 /* Class = "NSToolbarItem"; label = "Delete"; ObjectID = "CT1-aM-w9a"; */
 "CT1-aM-w9a.label" = "删除";

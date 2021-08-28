@@ -1,0 +1,90 @@
+
+/* Class = "NSTextFieldCell"; title = "Floating card style"; ObjectID = "36t-98-K9E"; */
+"36t-98-K9E.title" = "卡片的懸浮風格";
+
+/* Class = "NSButtonCell"; title = "Auto position trackers"; ObjectID = "5rZ-fg-pB4"; */
+"5rZ-fg-pB4.title" = "記牌器自動定位";
+
+/* Class = "NSButtonCell"; title = "Allow HSTracker to run on fullscreen mode"; ObjectID = "6Gc-EJ-z7F"; */
+"6Gc-EJ-z7F.title" = "允許HSTracker以全螢幕執行";
+
+/* Class = "NSButtonCell"; title = "Disable tracking in spectator mode"; ObjectID = "6n7-a6-LsZ"; */
+"6n7-a6-LsZ.title" = "在觀戰模式中停止記牌";
+
+/* Class = "NSComboBoxCell"; GY2-Lg-KWo.ibShadowedObjectValues[0] = "Text"; ObjectID = "GY2-Lg-KWo"; */
+"GY2-Lg-KWo.ibShadowedObjectValues[0]" = "文字";
+
+/* Class = "NSComboBoxCell"; GY2-Lg-KWo.ibShadowedObjectValues[1] = "Image"; ObjectID = "GY2-Lg-KWo"; */
+"GY2-Lg-KWo.ibShadowedObjectValues[1]" = "圖片";
+
+/* Class = "NSButtonCell"; title = "Hide all trackers when game is in background"; ObjectID = "HEr-xo-koe"; */
+"HEr-xo-koe.title" = "當遊戲在背景時，隱藏所有的記牌器";
+
+/* Class = "NSButtonCell"; title = "Show card on tracker hover"; ObjectID = "HY0-s6-p7U"; */
+"HY0-s6-p7U.title" = "滑鼠停留在記牌器時顯示卡牌";
+
+/* Class = "NSTextFieldCell"; title = "Theme"; ObjectID = "Lah-xh-QVg"; */
+"Lah-xh-QVg.title" = "主題";
+
+/* Class = "NSTextFieldCell"; title = "Cards size"; ObjectID = "NLB-ON-zWk"; */
+"NLB-ON-zWk.title" = "卡牌大小";
+
+/* Class = "NSButtonCell"; title = "Highlight last drawn card"; ObjectID = "WKT-Hm-Z7h"; */
+"WKT-Hm-Z7h.title" = "標註剛抽到的牌";
+
+/* Class = "NSButton"; ibShadowedToolTip = "HSTracker will be visible on all your workspace while playing"; ObjectID = "aO1-IW-r7y"; */
+"aO1-IW-r7y.ibShadowedToolTip" = "遊戲進行中，能在所有桌面看見記牌器";
+
+/* Class = "NSComboBoxCell"; ar6-6g-GKv.ibShadowedObjectValues[0] = "Tiny"; ObjectID = "ar6-6g-GKv"; */
+"ar6-6g-GKv.ibShadowedObjectValues[0]" = "超小";
+
+/* Class = "NSComboBoxCell"; ar6-6g-GKv.ibShadowedObjectValues[1] = "Small"; ObjectID = "ar6-6g-GKv"; */
+"ar6-6g-GKv.ibShadowedObjectValues[1]" = "小";
+
+/* Class = "NSComboBoxCell"; ar6-6g-GKv.ibShadowedObjectValues[2] = "Medium"; ObjectID = "ar6-6g-GKv"; */
+"ar6-6g-GKv.ibShadowedObjectValues[2]" = "中";
+
+/* Class = "NSComboBoxCell"; ar6-6g-GKv.ibShadowedObjectValues[3] = "Big"; ObjectID = "ar6-6g-GKv"; */
+"ar6-6g-GKv.ibShadowedObjectValues[3]" = "大";
+
+/* Class = "NSComboBoxCell"; ar6-6g-GKv.ibShadowedObjectValues[4] = "Huge"; ObjectID = "ar6-6g-GKv"; */
+"ar6-6g-GKv.ibShadowedObjectValues[4]" = "超大";
+
+/* Class = "NSComboBoxCell"; cBa-wb-tRb.ibShadowedObjectValues[0] = "Classic"; ObjectID = "cBa-wb-tRb"; */
+"cBa-wb-tRb.ibShadowedObjectValues[0]" = "經典";
+
+/* Class = "NSComboBoxCell"; cBa-wb-tRb.ibShadowedObjectValues[1] = "Frost"; ObjectID = "cBa-wb-tRb"; */
+"cBa-wb-tRb.ibShadowedObjectValues[1]" = "冰霜";
+
+/* Class = "NSComboBoxCell"; cBa-wb-tRb.ibShadowedObjectValues[2] = "Dark"; ObjectID = "cBa-wb-tRb"; */
+"cBa-wb-tRb.ibShadowedObjectValues[2]" = "黑暗";
+
+/* Class = "NSComboBoxCell"; cBa-wb-tRb.ibShadowedObjectValues[3] = "Minimal"; ObjectID = "cBa-wb-tRb"; */
+"cBa-wb-tRb.ibShadowedObjectValues[3]" = "極簡";
+
+/* Class = "NSButtonCell"; title = "Show topdeck chance"; ObjectID = "fhr-Mz-lcf"; */
+"fhr-Mz-lcf.title" = "顯示抽牌機率";
+
+/* Class = "NSButtonCell"; title = "Show rarity colors"; ObjectID = "h5J-7C-d2f"; */
+"h5J-7C-d2f.title" = "顯示稀有度對應的顏色";
+
+/* Class = "NSButtonCell"; title = "Highlight cards in hand"; ObjectID = "hJI-dG-QeP"; */
+"hJI-dG-QeP.title" = "標註在手中的卡牌";
+
+/* Class = "NSButtonCell"; title = "Hide all trackers if not in game"; ObjectID = "hvr-dD-qVr"; */
+"hvr-dD-qVr.title" = "若不在遊戲中，隱藏所有的記牌器";
+
+/* Class = "NSButtonCell"; title = "Remove cards if count is 0"; ObjectID = "s9w-5p-pJs"; */
+"s9w-5p-pJs.title" = "若剩餘數量為0，則不顯示卡牌";
+
+/* Class = "NSButtonCell"; title = "Show timer"; ObjectID = "x27-iz-7Sv"; */
+"x27-iz-7Sv.title" = "顯示記牌器";
+
+/* Class = "NSButtonCell"; title = "Show secret helper"; ObjectID = "ySU-4j-Jbh"; */
+"ySU-4j-Jbh.title" = "顯示秘密小幫手";
+
+/* Class = "NSButtonCell"; title = "Highlight discarded from deck"; ObjectID = "yeJ-ZI-Pca"; */
+"yeJ-ZI-Pca.title" = "標註丟棄的卡牌";
+
+/* Class = "NSTextFieldCell"; title = "Opacity"; ObjectID = "zP3-ns-ggP"; */
+"zP3-ns-ggP.title" = "透明度";

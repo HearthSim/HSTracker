@@ -10,7 +10,8 @@ import Foundation
 import Wrap
 
 class EntityInfo {
-    private var _entity: Entity
+    private unowned var _entity: Entity
+    private var _latestCardId: String?
     var discarded = false
     var returned = false
     var mulliganed = false
@@ -26,6 +27,15 @@ class EntityInfo {
     var originalZone: Zone?
     var createdInDeck: Bool { return originalZone == .deck }
     var createdInHand: Bool { return originalZone == .hand }
+    private(set) var originalCardId: String?
+    var wasTransformed: Bool { return !originalCardId.isBlank }
+    var originalEntityWasCreated: Bool?
+    var guessedCardState: GuessedCardState = GuessedCardState.none
+    var storedCardIds: [String] = []
+    var latestCardId: String {
+        get { _latestCardId ?? _entity.cardId }
+        set { _latestCardId = newValue }
+    }
 
     init(entity: Entity) {
         _entity = entity
@@ -36,7 +46,7 @@ class EntityInfo {
             return .none
         }
 
-        if _entity.cardId == CardIds.NonCollectible.Neutral.TheCoin || _entity.cardId ==
+        if _entity.cardId == CardIds.NonCollectible.Neutral.TheCoinBasic || _entity.cardId ==
             CardIds.NonCollectible.Neutral.TradePrinceGallywix_GallywixsCoinToken {
             return .coin
         }
@@ -50,6 +60,12 @@ class EntityInfo {
             return .mulliganed
         }
         return .none
+    }
+
+    func set(originalCardId dbfId: Int) {
+        if dbfId <= 0 { return }
+
+        originalCardId = Cards.by(dbfId: dbfId)?.id
     }
 }
 
@@ -75,6 +91,15 @@ extension EntityInfo: CustomStringConvertible {
         }
         if mulliganed {
             description += ", mulliganed=true"
+        }
+        if guessedCardState != .none {
+            description += ", guessedCardState=\(guessedCardState)"
+        }
+        if _latestCardId != nil {
+            description += ", latestCardId=\(latestCardId)"
+        }
+        if storedCardIds.count > 0 {
+            description += ", storedCardIds=[\(storedCardIds.joined(separator: ", "))]"
         }
         description += "]"
 

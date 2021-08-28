@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CleanroomLogger
 
 class WindowMove: NSWindowController {
 
@@ -30,6 +29,16 @@ class WindowMove: NSWindowController {
     @IBOutlet weak var screenY: NSTextField!
     @IBOutlet weak var screenWidth: NSTextField!
     @IBOutlet weak var screenHeight: NSTextField!
+	
+	private weak var windowManager: WindowManager!
+    override var windowNibName: NSNib.Name? {
+        return "WindowMove"
+	}
+	
+	convenience init(windowNibName: String, windowManager: WindowManager) {
+		self.init(window: nil)
+		self.windowManager = windowManager
+	}
 
     lazy var overlayWindow: NSWindow = {
         let window = NSWindow()
@@ -37,8 +46,8 @@ class WindowMove: NSWindowController {
         window.backgroundColor = NSColor(red: 0.0, green: 0.0, blue: 1.0, alpha: 0.6)
         window.isOpaque = false
         window.hasShadow = false
-        window.styleMask = NSBorderlessWindowMask
-        window.level = Int(CGWindowLevelForKey(CGWindowLevelKey.screenSaverWindow))
+        window.styleMask = .borderless
+        window.level = .screenSaver
 
         return window
     }()
@@ -49,9 +58,9 @@ class WindowMove: NSWindowController {
     @IBAction func opacityChange(_ sender: NSSlider) {
         if let currentWindow = currentWindow {
             let alpha = CGFloat(sender.doubleValue / 100.0)
-            currentWindow.backgroundColor = NSColor(red: 0,
-                                                    green: 0,
-                                                    blue: 0,
+            currentWindow.backgroundColor = NSColor(red: 0.0,
+                                                    green: 0.0,
+                                                    blue: 0.0,
                                                     alpha: alpha)
         }
     }
@@ -61,15 +70,16 @@ class WindowMove: NSWindowController {
         if windowChooser.indexOfSelectedItem >= 0 {
             buttonEnabled = true
         }
-        [_up, _down, _left, _right,
-            _fup, _fdown, _fleft, _fright,
-            _show, _hide, _ffdown, _ffup
-            ].forEach { $0.isEnabled = buttonEnabled }
-
-        guard windowChooser.indexOfSelectedItem > 0 else { return }
+        let buttons: [NSButton] = [_up, _down, _left, _right,
+         _fup, _fdown, _fleft, _fright,
+         _show, _hide, _ffdown, _ffup
+        ]
+        for button in buttons {
+            button.isEnabled = buttonEnabled
+        }
 
         if let window = windowChooser
-            .itemObjectValue(at: windowChooser.indexOfSelectedItem) as? String {
+                .itemObjectValue(at: windowChooser.indexOfSelectedItem) as? String {
 
             // reset
             y = 0
@@ -77,28 +87,28 @@ class WindowMove: NSWindowController {
 
             currentWindow = nil
             if window == "Secret Tracker" {
-                currentWindow = WindowManager.default.secretTracker.window
+                currentWindow = windowManager.secretTracker.window
                 defaultFrame = NSRect(x: 200,
-                                      y: SizeHelper.hearthstoneWindow.frame.height - 50,
-                                      width: CGFloat(kMediumRowHeight), height: 300)
+                        y: SizeHelper.hearthstoneWindow.frame.height - 50,
+                        width: CGFloat(kMediumRowHeight), height: 300)
             } else if window == "Timer Hud" {
-                currentWindow = WindowManager.default.timerHud.window
+                currentWindow = windowManager.timerHud.window
                 defaultFrame = NSRect(x: 1082.0, y: 399.0, width: 160.0, height: 115.0)
             } else if window == "Card Hud Container" {
-                currentWindow = WindowManager.default.cardHudContainer.window
+                currentWindow = windowManager.cardHudContainer.window
                 defaultFrame = NSRect(x: 529.5,
-                                      y: SizeHelper.hearthstoneWindow.frame.height - 80,
-                                      width: 400, height: 80)
+                        y: SizeHelper.hearthstoneWindow.frame.height - 80,
+                        width: 400, height: 80)
             } else if window == "Full overlay" {
                 currentWindow = overlayWindow
                 var rect = SizeHelper.hearthstoneWindow.frame
                 rect.origin = NSPoint.zero
                 defaultFrame = rect
             } else if window == "Player Board Damage" {
-                currentWindow = WindowManager.default.playerBoardDamage.window
+                currentWindow = windowManager.playerBoardDamage.window
                 defaultFrame = NSRect(x: 915, y: 205.0, width: 50.0, height: 50.0)
             } else if window == "Opponent Board Damage" {
-                currentWindow = WindowManager.default.opponentBoardDamage.window
+                currentWindow = windowManager.opponentBoardDamage.window
                 defaultFrame = NSRect(x: 910, y: 617.0, width: 50.0, height: 50.0)
             }
 
@@ -135,7 +145,7 @@ class WindowMove: NSWindowController {
         y += 100
         update()
     }
-    
+
     @IBAction func fdown(_ sender: AnyObject) {
         y -= 10
         update()
@@ -145,7 +155,7 @@ class WindowMove: NSWindowController {
         y -= 100
         update()
     }
-    
+
     @IBAction func fleft(_ sender: AnyObject) {
         x -= 10
         update()
@@ -159,13 +169,14 @@ class WindowMove: NSWindowController {
     fileprivate func update() {
         let _x = defaultFrame.origin.x + x
         let _y = defaultFrame.origin.y + y
-        textbox.string = "NSRect(x: \(_x), y: \(_y), "
-            + "width: \(defaultFrame.width), height: \(defaultFrame.height))\n"
-            + "NSPoint(x: \(_x), y: \(_y))"
+        let str: String = "NSRect(x: \(_x), y: \(_y), "
+                + "width: \(defaultFrame.width), height: \(defaultFrame.height))\n"
+                + "NSPoint(x: \(_x), y: \(_y))"
+        textbox.string = str
 
         if let window = currentWindow {
             let frame = SizeHelper.hearthstoneWindow.relativeFrame(
-                NSRect(x: _x, y: _y, width: defaultFrame.width, height: defaultFrame.height))
+                    NSRect(x: _x, y: _y, width: defaultFrame.width, height: defaultFrame.height))
             window.setFrame(frame, display: true)
         }
     }
@@ -180,16 +191,16 @@ class WindowMove: NSWindowController {
 
     @IBAction func screenshot(_ sender: AnyObject) {
         if let x = Float(screenX.stringValue),
-            let y = Float(screenY.stringValue),
-            let w = Float(screenWidth.stringValue),
-            let h = Float(screenHeight.stringValue) {
- 
+           let y = Float(screenY.stringValue),
+           let w = Float(screenWidth.stringValue),
+           let h = Float(screenHeight.stringValue) {
+
             print("x: \(x), y: \(y), w: \(w), h: \(h)")
             if let image = SizeHelper.hearthstoneWindow.screenshot() {
                 let rect = NSRect(x: CGFloat(x),
-                                  y: CGFloat(y),
-                                  width: CGFloat(w),
-                                  height: CGFloat(h))
+                        y: CGFloat(y),
+                        width: CGFloat(w),
+                        height: CGFloat(h))
                 let cropped = ImageUtilities.cropRect(image: image, rect: rect)
                 screenshot.image = cropped
             }

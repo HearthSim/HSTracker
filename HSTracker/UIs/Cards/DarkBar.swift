@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AppKit
 
 class DarkBar: CardBar {
     private var _fadeRect = NSRect(x: 34, y: 0, width: 183, height: 34)

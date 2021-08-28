@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import CleanroomLogger
+import AppKit
 
 class CardHudContainer: OverWindowController {
     
@@ -119,16 +119,17 @@ class CardHudContainer: OverWindowController {
         for hud in huds {
             hud.alphaValue = 0.0
             hud.frame = NSRect.zero
+            hud.needsDisplay = true
         }
     }
     
     func update(entities: [Entity], cardCount: Int) {
         for (i, hud) in huds.enumerated() {
             var hide = true
-            if let entity = entities.firstWhere({ $0[.zone_position] == i + 1 }) {
+            if let entity = entities.first(where: { $0[.zone_position] == i + 1 }) {
                 hud.entity = entity
                 
-                var pos: NSPoint? = nil
+                var pos: NSPoint?
                 if let points = positions[cardCount], points.count > i {
                     pos = points[i]
                     
@@ -137,7 +138,7 @@ class CardHudContainer: OverWindowController {
                         let rect = NSRect(x: pos.x * SizeHelper.hearthstoneWindow.scaleX,
                                           y: pos.y * SizeHelper.hearthstoneWindow.scaleY,
                                           width: 36,
-                                          height: 45)
+                                          height: 50)
                         
                         hud.needsDisplay = true
                         

@@ -7,38 +7,48 @@
 //
 
 import Foundation
-import CleanroomLogger
 import RealmSwift
+import HearthMirror
 
 func generateId() -> String {
     return "\(UUID().uuidString)-\(Date().timeIntervalSince1970)"
 }
 
 class Deck: Object {
-    dynamic var deckId: String = generateId()
-    dynamic var name = ""
+    @objc dynamic var deckId: String = generateId()
+    @objc dynamic var name = ""
 
-    private dynamic var _playerClass = CardClass.neutral.rawValue
+    @objc private dynamic var _playerClass = CardClass.neutral.rawValue
     var playerClass: CardClass {
         get { return CardClass(rawValue: _playerClass)! }
         set { _playerClass = newValue.rawValue }
     }
+    @objc dynamic var heroId = ""
 
-    dynamic var deckMajorVersion: Int = 1
-    dynamic var deckMinorVersion: Int = 0
+    @objc dynamic var deckMajorVersion: Int = 1
+    @objc dynamic var deckMinorVersion: Int = 0
     
-    dynamic var creationDate = Date()
+    @objc dynamic var creationDate = Date()
+    @objc dynamic var lastEdited = Date()
     let hearthstatsId = RealmOptional<Int>()
     let hearthstatsVersionId = RealmOptional<Int>()
     let hearthStatsArenaId = RealmOptional<Int>()
-    dynamic var isActive = true
-    dynamic var isArena = false
+    @objc dynamic var isActive = true
+    @objc dynamic var isArena = false
+    @objc dynamic var isDungeon = false
+    @objc dynamic var isDuels = false
 
     let hsDeckId = RealmOptional<Int64>()
 
     let cards = List<RealmCard>()
     let gameStats = List<GameStats>()
+    
+    var tmpCards = [Card]()
 
+    override static func ignoredProperties() -> [String] {
+        return [ "tmpCards" ]
+    }
+    
     override static func primaryKey() -> String? {
         return "deckId"
     }
@@ -60,7 +70,7 @@ class Deck: Object {
             _card.count -= 1
             if _card.count <= 0 {
                 if let index = cards.index(of: _card) {
-                    cards.remove(objectAtIndex: index)
+                    cards.remove(at: index)
                 }
             }
         }
@@ -113,19 +123,36 @@ class Deck: Object {
         }
         return win == 12 || loss == 3
     }
+    
+    func isDungeonRunCompleted() -> Bool {
+        return isDungeon ? gameStats.filter({ x in x.result == .win }).count == 8 ||
+        gameStats.filter({ x in x.result == .loss }).count == 1 : false
+    }
+
+    func isDuelsRunCompleted() -> Bool {
+        return isDuels ? gameStats.filter({ x in x.result == .win }).count == 12 ||
+        gameStats.filter({ x in x.result == .loss }).count == 3 : false
+    }
 
     func standardViable() -> Bool {
         return !isArena && !sortedCards.any {
             $0.set != nil && CardSet.wildSets().contains($0.set!)
         }
     }
+
+    var isWildDeck: Bool {
+        return sortedCards.any { CardSet.wildSets().contains($0.set ?? .invalid) }
+    }
+    
+    var isClassicDeck: Bool {
+        return sortedCards.all { CardSet.classicSets().contains($0.set ?? .invalid) }
+    }
     
     /**
      * Compares the card content to the other deck
      */
     func isContentEqualTo(mirrorDeck: MirrorDeck) -> Bool {
-        guard let mirrorCards = mirrorDeck.cards as? [MirrorCard] else { return false }
-        
+        let mirrorCards = mirrorDeck.cards
         for c in self.cards {
             guard let othercard = mirrorCards.first(where: {$0.cardId == c.id}) else {
                 return false
@@ -139,7 +166,7 @@ class Deck: Object {
     
     func diffTo(mirrorDeck: MirrorDeck) -> (cards: [Card], success: Bool) {
         var diffs = [Card]()
-        guard let mirrorCards = mirrorDeck.cards as? [MirrorCard] else { return (diffs, false) }
+        let mirrorCards = mirrorDeck.cards
         
         for c in self.cards {
             guard let othercard = mirrorCards.first(where: {$0.cardId == c.id}) else {

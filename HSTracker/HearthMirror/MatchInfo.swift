@@ -7,18 +7,41 @@
 //
 
 import Foundation
+import HearthMirror
 
 struct MatchInfo {
+    struct MedalInfo {
+        var leagueId: Int
+        var stars: Int
+        var legendRank: Int
+        var starMultiplier: Int
+        var starLevel: Int
+        
+        init(mirrorMedalInfo: MirrorMedalInfo) {
+            self.leagueId = mirrorMedalInfo.leagueId as? Int ?? 0
+            self.legendRank = mirrorMedalInfo.legendRank as? Int ?? 0
+            self.stars = mirrorMedalInfo.stars as? Int ?? 0
+            self.starMultiplier = mirrorMedalInfo.starMultiplier as? Int ?? 0
+            self.starLevel = mirrorMedalInfo.starLevel as? Int ?? 0
+        }
+    }
     struct Player {
         var name: String
         var playerId: Int
-        var standardRank: Int
-        var standardLegendRank: Int
-        var standardStars: Int
-        var wildRank: Int
-        var wildLegendRank: Int
-        var wildStars: Int
+        var wildMedalInfo: MedalInfo
+        var standardMedalInfo: MedalInfo
+        var classicMedalInfo: MedalInfo
         var cardBackId: Int
+
+        init(player: MirrorPlayer) {
+            self.name = player.name
+            self.playerId = player.playerId as? Int ?? 0
+            self.cardBackId = player.cardBackId as? Int ?? 0
+
+            self.standardMedalInfo = MedalInfo(mirrorMedalInfo: player.standardMedalInfo)
+            self.wildMedalInfo = MedalInfo(mirrorMedalInfo: player.wildMedalInfo)
+            self.classicMedalInfo = MedalInfo(mirrorMedalInfo: player.classicMedalInfo)
+        }
     }
 
     var localPlayer: Player
@@ -26,30 +49,20 @@ struct MatchInfo {
     var brawlSeasonId: Int
     var missionId: Int
     var rankedSeasonId: Int
+    var gameType: GameType
+    var formatType: Format
+    var spectator: Bool
 
     init(info: MirrorMatchInfo) {
-        localPlayer = Player(name: info.localPlayer.name,
-                             playerId: info.localPlayer.playerId as Int,
-                             standardRank: info.localPlayer.standardRank as Int,
-                             standardLegendRank: info.localPlayer.standardLegendRank as Int,
-                             standardStars: info.localPlayer.standardStars as Int,
-                             wildRank: info.localPlayer.wildRank as Int,
-                             wildLegendRank: info.localPlayer.wildLegendRank as Int,
-                             wildStars: info.localPlayer.wildStars as Int,
-                             cardBackId: info.localPlayer.cardBackId as Int)
+        localPlayer = Player(player: info.localPlayer)
+        opposingPlayer = Player(player: info.opposingPlayer)
 
-        opposingPlayer = Player(name: info.opposingPlayer.name,
-                                playerId: info.opposingPlayer.playerId as Int,
-                                standardRank: info.opposingPlayer.standardRank as Int,
-                                standardLegendRank: info.opposingPlayer.standardLegendRank as Int,
-                                standardStars: info.opposingPlayer.standardStars as Int,
-                                wildRank: info.opposingPlayer.wildRank as Int,
-                                wildLegendRank: info.opposingPlayer.wildLegendRank as Int,
-                                wildStars: info.opposingPlayer.wildStars as Int,
-                                cardBackId: info.opposingPlayer.cardBackId as Int)
-
-        brawlSeasonId = info.brawlSeasonId as Int
-        missionId = info.missionId as Int
-        rankedSeasonId = info.rankedSeasonId as Int
+        brawlSeasonId = info.brawlSeasonId as? Int ?? 0
+        missionId = info.missionId as? Int ?? 0
+        rankedSeasonId = info.rankedSeasonId as? Int ?? 0
+        gameType = GameType(rawValue: info.gameType as? Int ?? 0) ?? .gt_unknown
+        formatType = Format(formatType: FormatType(rawValue: info.formatType as? Int ?? 0)
+        ?? .ft_unknown)
+        spectator = info.spectator
     }
 }

@@ -7,9 +7,14 @@
 //
 
 import Foundation
-import MASPreferences
+import Preferences
 
-class GamePreferences: NSViewController {
+class GamePreferences: NSViewController, PreferencePane {
+    var preferencePaneIdentifier = Preferences.PaneIdentifier.game
+    
+    var preferencePaneTitle = NSLocalizedString("Game", comment: "")
+    
+    var toolbarItemIcon = NSImage(named: "game")!
 
     @IBOutlet weak var hearthstonePath: NSTextField!
     @IBOutlet weak var decksPath: NSTextField!
@@ -22,10 +27,9 @@ class GamePreferences: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let settings = Settings.instance
 
-        if Hearthstone.validatedHearthstonePath() {
-            hearthstonePath.stringValue = settings.hearthstoneLogPath
+        if CoreManager.validatedHearthstonePath() {
+            hearthstonePath.stringValue = Settings.hearthstonePath
             hearthstonePath.isEnabled = false
             chooseHearthstonePath.isEnabled = false
             checkImage.image = NSImage(named: "check")
@@ -34,24 +38,22 @@ class GamePreferences: NSViewController {
 
             let alert = NSAlert()
             alert.alertStyle = .critical
-            // swiftlint:disable line_length
             alert.messageText = NSLocalizedString("Can't find Hearthstone, please select Hearthstone.app", comment: "")
-            // swiftlint:enable line_length
             alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
             alert.runModal()
         }
 
-        if let locale = settings.hsTrackerLanguage,
-            let index = Language.hstrackerLanguages.index(of: locale) {
+        if let locale = Settings.hsTrackerLanguage,
+            let index = Array(Language.HSTracker.allCases).firstIndex(of: locale) {
             hstrackerLanguage.selectItem(at: index)
         }
-        if let locale = settings.hearthstoneLanguage,
-            let index = Language.hsLanguages.index(of: locale) {
+        if let locale = Settings.hearthstoneLanguage,
+            let index = Array(Language.Hearthstone.allCases).firstIndex(of: locale) {
             hearthstoneLanguage.selectItem(at: index)
         }
 
-        autoArchiveArenaDeck.state = settings.autoArchiveArenaDeck ? NSOnState : NSOffState
-        autoSelectDecks.state = settings.autoDeckDetection ? NSOnState : NSOffState
+        autoArchiveArenaDeck.state = Settings.autoArchiveArenaDeck ? .on : .off
+        autoSelectDecks.state = Settings.autoDeckDetection ? .on : .off
     }
 
     @IBAction func choosePath(_ sender: NSButton) {
@@ -66,26 +68,23 @@ class GamePreferences: NSViewController {
             openDialog.title = NSLocalizedString("Please select your Hearthstone app", comment: "")
         }
 
-        if openDialog.runModal() == NSModalResponseOK {
+        if openDialog.runModal() == NSApplication.ModalResponse.OK {
             if let url = openDialog.urls.first {
-                let settings = Settings.instance
                 if sender == chooseHearthstonePath {
                     let path = url.path
                     hearthstonePath.stringValue = path.replace("/Hearthstone.app", with: "")
                     checkImage.image = NSImage(named: "check")
-                    settings.hearthstoneLogPath = hearthstonePath.stringValue
+                    Settings.hearthstonePath = hearthstonePath.stringValue
                 }
             }
         }
     }
 
     @IBAction func checkboxClicked(_ sender: NSButton) {
-        let settings = Settings.instance
-
         if sender == autoArchiveArenaDeck {
-            settings.autoArchiveArenaDeck = autoArchiveArenaDeck.state == NSOnState
+            Settings.autoArchiveArenaDeck = autoArchiveArenaDeck.state == .on
         } else if sender == autoSelectDecks {
-            settings.autoDeckDetection = autoSelectDecks.state == NSOnState
+            Settings.autoDeckDetection = autoSelectDecks.state == .on
         }
     }
 }
@@ -94,43 +93,39 @@ class GamePreferences: NSViewController {
 extension GamePreferences: NSComboBoxDataSource, NSComboBoxDelegate {
     func numberOfItems(in aComboBox: NSComboBox) -> Int {
         if aComboBox == hstrackerLanguage {
-            return Language.hstrackerLanguages.count
+            return Array(Language.HSTracker.allCases).count
         } else if aComboBox == hearthstoneLanguage {
-            return Language.hearthstoneLanguages.count
+            return Array(Language.Hearthstone.allCases).count
         }
 
         return 0
     }
 
     func comboBox(_ aComboBox: NSComboBox, objectValueForItemAt index: Int) -> Any? {
-        var language: String?
-        if aComboBox == hstrackerLanguage {
-            language = Language.hstrackerLanguages[index]
-        } else if aComboBox == hearthstoneLanguage {
-            language = Language.hearthstoneLanguages[index]
+        if aComboBox == hstrackerLanguage && Array(Language.HSTracker.allCases).count > index {
+            return Array(Language.HSTracker.allCases)[index].localizedString
+        } else if aComboBox == hearthstoneLanguage && Array(Language.Hearthstone.allCases).count > index {
+            return Array(Language.Hearthstone.allCases)[index].localizedString
         }
 
-        if let language = language {
-            let locale = Locale(identifier: language)
-            return (locale as NSLocale).displayName(forKey: NSLocale.Key.identifier,
-                                                    value: language)!.capitalized
-        } else {
-            return ""
-        }
+        return ""
     }
 
     func comboBoxSelectionDidChange(_ notification: Notification) {
         if let sender = notification.object as? NSComboBox {
-            let settings = Settings.instance
-            if sender == hearthstoneLanguage {
-                let hearthstone = Language.hsLanguages[hearthstoneLanguage!.indexOfSelectedItem]
-                if settings.hearthstoneLanguage != hearthstone {
-                    settings.hearthstoneLanguage = hearthstone
+            if sender == hearthstoneLanguage
+                && Array(Language.Hearthstone.allCases).count > sender.indexOfSelectedItem {
+                let index = hearthstoneLanguage!.indexOfSelectedItem
+                let hearthstone = Array(Language.Hearthstone.allCases)[index]
+                if Settings.hearthstoneLanguage != hearthstone {
+                    Settings.hearthstoneLanguage = hearthstone
                 }
-            } else if sender == hstrackerLanguage {
-                let hstracker = Language.hstrackerLanguages[hstrackerLanguage!.indexOfSelectedItem]
-                if settings.hsTrackerLanguage != hstracker {
-                    settings.hsTrackerLanguage = hstracker
+            } else if sender == hstrackerLanguage
+                && Array(Language.HSTracker.allCases).count > sender.indexOfSelectedItem {
+                let index = sender.indexOfSelectedItem
+                let hstracker = Array(Language.HSTracker.allCases)[index]
+                if Settings.hsTrackerLanguage != hstracker {
+                    Settings.hsTrackerLanguage = hstracker
                 }
             }
         }
@@ -150,21 +145,6 @@ extension GamePreferences: NSOpenSavePanelDelegate {
 }
 
 // MARK: - MASPreferencesViewController
-extension GamePreferences: MASPreferencesViewController {
-    override var identifier: String? {
-        get {
-            return "game"
-        }
-        set {
-            super.identifier = newValue
-        }
-    }
-    
-    var toolbarItemImage: NSImage? {
-        return NSImage(named: NSImageNameAdvanced)
-    }
-    
-    var toolbarItemLabel: String? {
-        return NSLocalizedString("Game", comment: "")
-    }
+extension Preferences.PaneIdentifier {
+    static let game = Self("game")
 }

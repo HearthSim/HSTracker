@@ -6,7 +6,7 @@
 "HY0-s6-p7U.title" = "Zeige Karten-Vollansicht per Mouseover-Tooltip";
 
 /* Class = "NSButtonCell"; title = "Show topdeck chance"; ObjectID = "Jj4-X9-UWO"; */
-"Jj4-X9-UWO.title" = "Show topdeck chance";
+"Jj4-X9-UWO.title" = "Zeige Topdeck-Chance";
 
 /* Class = "NSTextFieldCell"; title = "Cards size"; ObjectID = "NLB-ON-zWk"; */
 "NLB-ON-zWk.title" = "Kartengröße";
@@ -15,7 +15,7 @@
 "WKT-Hm-Z7h.title" = "Markierung der zuletzt gezogenen Karte";
 
 /* Class = "NSComboBoxCell"; ar6-6g-GKv.ibShadowedObjectValues[0] = "Tiny"; ObjectID = "ar6-6g-GKv"; */
-"ar6-6g-GKv.ibShadowedObjectValues[0]" = "Tiny";
+"ar6-6g-GKv.ibShadowedObjectValues[0]" = "Winzig";
 
 /* Class = "NSComboBoxCell"; ar6-6g-GKv.ibShadowedObjectValues[1] = "Small"; ObjectID = "ar6-6g-GKv"; */
 "ar6-6g-GKv.ibShadowedObjectValues[1]" = "Klein";
@@ -27,7 +27,7 @@
 "ar6-6g-GKv.ibShadowedObjectValues[3]" = "Groß";
 
 /* Class = "NSComboBoxCell"; ar6-6g-GKv.ibShadowedObjectValues[4] = "Huge"; ObjectID = "ar6-6g-GKv"; */
-"ar6-6g-GKv.ibShadowedObjectValues[4]" = "Huge";
+"ar6-6g-GKv.ibShadowedObjectValues[4]" = "Riesig";
 
 /* Class = "NSButtonCell"; title = "Show rarity colors"; ObjectID = "h5J-7C-d2f"; */
 "h5J-7C-d2f.title" = "Zeige Seltenheit durch Färbung an";
@@ -37,7 +37,7 @@
 "hJI-dG-QeP.title" = "Markiere Handkarten";
 
 /* Class = "NSButtonCell"; title = "Show topdeck chance"; ObjectID = "Jj4-X9-UWO"; */
-"Jj4-X9-UWO.title" = "Zeige Topdeck Wahrscheinlichkeit";
+"Jj4-X9-UWO.title" = "Zeige Topdeck-Wahrscheinlichkeit";
 
 /* Class = "NSButtonCell"; title = "Include obtained cards"; ObjectID = "ndN-hu-6Rx"; */
 "ndN-hu-6Rx.title" = "Entdeckte und fremde Karten mit einbeziehen";
@@ -73,7 +73,19 @@
 "cBa-wb-tRb.ibShadowedObjectValues[3]" = "Minimal";
 
 /* Class = "NSButtonCell"; title = "Allow HSTracker to run on fullscreen mode"; ObjectID = "6Gc-EJ-z7F"; */
-"6Gc-EJ-z7F.title" = "Allow HSTracker to run on fullscreen mode";
+"6Gc-EJ-z7F.title" = "Erlaube HSTracker im Vollbildmodus zu laufen";
 
 /* Class = "NSButton"; ibShadowedToolTip = "HSTracker will be visible on all your workspace while playing"; ObjectID = "aO1-IW-r7y"; */
-"aO1-IW-r7y.ibShadowedToolTip" = "HSTracker will be visible on all your workspace while playing";
+"aO1-IW-r7y.ibShadowedToolTip" = "HSTracker wird während Du spielst auf alles Schreibtischen sichtbar sein";
+
+/* Class = "NSButtonCell"; title = "Hide all trackers if not in game"; ObjectID = "hvr-dD-qVr"; */
+"hvr-dD-qVr.title" = "Verstecke alle Tracker, wenn sich Hearthstone im Hintergrund befindet";
+
+/* Class = "NSTextFieldCell"; title = "Floating card style"; ObjectID = "36t-98-K9E"; */
+"36t-98-K9E.title" = "Mouseover Kartenstil";
+
+/* Class = "NSComboBoxCell"; GY2-Lg-KWo.ibShadowedObjectValues[0] = "Text"; ObjectID = "GY2-Lg-KWo"; */
+"GY2-Lg-KWo.ibShadowedObjectValues[0]" = "Text";
+
+/* Class = "NSComboBoxCell"; GY2-Lg-KWo.ibShadowedObjectValues[1] = "Image"; ObjectID = "GY2-Lg-KWo"; */
+"GY2-Lg-KWo.ibShadowedObjectValues[1]" = "Bild";

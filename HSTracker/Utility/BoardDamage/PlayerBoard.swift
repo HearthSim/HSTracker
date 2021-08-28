@@ -11,9 +11,10 @@ import Foundation
 class PlayerBoard {
     private(set) var cards: [IBoardEntity]
     private(set) var hero: BoardHero?
+    private(set) var heroPower: HeroPower?
     
     var damage: Int {
-        return cards.filter { $0.include }
+        return cards.filter { $0.include && !$0.dormant}
             .map { $0.attack }
             .reduce(0, +)
     }
@@ -22,7 +23,10 @@ class PlayerBoard {
         cards = []
         let filtered = filter(cards: list)
         let weapon = getWeapon(list: filtered)
-        
+        if let heroPowerEntity = list.filter({$0[.cardtype] == CardType.hero_power.rawValue}).last {
+            self.heroPower = HeroPower(entity: heroPowerEntity)
+        }
+
         for card in filtered {
             if card.isHero {
                 hero = BoardHero(hero: card, weapon: weapon, activeTurn: activeTurn)

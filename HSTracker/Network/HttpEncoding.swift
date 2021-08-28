@@ -9,5 +9,5 @@
 import Foundation
 
 enum HttpEncoding {
-    case html, json, multipart
+    case json, multipart
 }

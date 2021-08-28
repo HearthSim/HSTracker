@@ -7,10 +7,13 @@
 //
 
 import Foundation
+//import HearthAssets
+import RegexUtil
 
 final class Card {
     // MARK: - Card data
     var id = ""
+    var dbfId = 0
     var collectible = false
     var cost = 0
     var faction: Faction = .invalid
@@ -25,11 +28,36 @@ final class Card {
     var rarity: Rarity = .free
     var set: CardSet?
     var text = ""
+    var enText = ""
     var race: Race = .invalid
+    var bgRace: Race = .invalid
     var type: CardType = .invalid
     var mechanics: [CardMechanic] = []
     var isStandard = false
     var artist = ""
+    var multiClassGroup: MultiClassGroup = .invalid
+    var techLevel = 0
+    var jsonRepresentation: [String: Any] = [:]
+    var hideStats = false
+    
+    static let multiClassGroups: [MultiClassGroup: [CardClass]] = [
+        .grimy_goons: [ .hunter, .paladin, .warrior ],
+        .jade_lotus: [ .druid, .rogue, .shaman ],
+        .kabal: [ .mage, .priest, .warlock ],
+        .druid_hunter: [ .druid, .hunter ],
+        .druid_shaman: [ .druid, .shaman ],
+        .hunter_demonhunter: [ .hunter, .demonhunter ],
+        .mage_rogue: [ .mage, .rogue ],
+        .mage_shaman: [ .mage, .shaman ],
+        .paladin_priest: [ .paladin, .priest ],
+        .paladin_warrior: [ .paladin, .warrior ],
+        .priest_warlock: [ .priest, .warlock ],
+        .rogue_warrior: [ .rogue, .warrior ],
+        .warlock_demonhunter: [ .warlock, .demonhunter ]
+    ]
+
+    // arena helper
+    var isBadAsMultiple = false
 
     // MARK: - deck / games
     var count = 0
@@ -44,14 +72,28 @@ final class Card {
     var highlightFrame = false
 
     var englishName: String {
-        if let language = Settings.instance.hearthstoneLanguage, language == "enUS" {
+        if let language = Settings.hearthstoneLanguage, language == .enUS {
             return self.name
         }
         return self.enName
     }
+    
+    func isClass(cardClass: CardClass) -> Bool {
+        if playerClass == cardClass {
+            return true
+        }
+        
+        if multiClassGroup == .invalid {
+            return false
+        }
+        
+        return Card.multiClassGroups[multiClassGroup]?.first(where: { cc in
+            cc == cardClass
+        }) != nil
+    }
 
     func formattedText() -> String {
-        let pluralRegex = "\\$(\\d+) \\|4\\((\\w+),(\\w+)\\)"
+        let pluralRegex: RegexPattern = "\\$(\\d+) \\|4\\((\\w+),(\\w+)\\)"
         return text.replace(pluralRegex, using: { string, matches in
             guard matches.count == 4 else { return string }
 
@@ -72,17 +114,15 @@ final class Card {
     }
 
     func textColor() -> NSColor {
-        var color: NSColor
-        if highlightDraw && Settings.instance.highlightLastDrawn {
+        var color = NSColor.white
+        if highlightDraw && Settings.highlightLastDrawn {
             color = NSColor(red: 1, green: 0.647, blue: 0, alpha: 1)
-        } else if highlightInHand && Settings.instance.highlightCardsInHand {
-            color = Settings.instance.playerInHandColor
+        } else if highlightInHand && Settings.highlightCardsInHand {
+            color = Settings.playerInHandColor
         } else if count <= 0 || jousted {
             color = NSColor(red: 0.501, green: 0.501, blue: 0.501, alpha: 1)
-        } else if wasDiscarded && Settings.instance.highlightDiscarded {
+        } else if wasDiscarded && Settings.highlightDiscarded {
             color = NSColor(red: 0.803, green: 0.36, blue: 0.36, alpha: 1)
-        } else {
-            color = NSColor.white
         }
         return color
     }
@@ -94,6 +134,13 @@ final class Card {
         self.id = fromRealCard.id
         self.count = fromRealCard.count
     }
+    
+    static func < (left: Card, right: Card) -> Bool {
+        if left.cost == right.cost {
+            return left.name < right.name
+        }
+        return left.cost < right.cost
+    }
 }
 
 extension Card: NSCopying {
@@ -101,6 +148,7 @@ extension Card: NSCopying {
     func copy(with zone: NSZone? = nil) -> Any {
         let copy = Card()
         copy.id = self.id
+        copy.dbfId = self.dbfId
         copy.collectible = self.collectible
         copy.cost = self.cost
         copy.faction = self.faction
@@ -129,6 +177,11 @@ extension Card: NSCopying {
         copy.highlightDraw = self.highlightDraw
         copy.highlightInHand = self.highlightInHand
         copy.highlightFrame = self.highlightFrame
+        copy.jsonRepresentation = self.jsonRepresentation
+        copy.multiClassGroup = self.multiClassGroup
+        copy.techLevel = self.techLevel
+        copy.hideStats = self.hideStats
+
         return copy
     }
 }
@@ -140,11 +193,24 @@ extension Card: CustomStringConvertible {
 }
 
 extension Card: Hashable {
-    var hashValue: Int {
-        return id.hashValue
+    
+    func hash(into hasher: inout Hasher) {
+        id.hash(into: &hasher)
     }
 
     static func == (lhs: Card, rhs: Card) -> Bool {
         return lhs.id == rhs.id
     }
 }
+
+/*extension HearthAssets {
+    func generate(card: Card,
+                  completed: @escaping ((NSImage?, HearthAssets.AssetError?) -> Void)) {
+        generate(card: card.jsonRepresentation, completed: completed)
+    }
+
+    func tile(card: Card,
+              completed: @escaping ((NSImage?, HearthAssets.AssetError?) -> Void)) {
+        tile(card: card.jsonRepresentation, completed: completed)
+    }
+}*/

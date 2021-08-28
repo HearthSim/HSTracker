@@ -10,6 +10,8 @@ import Foundation
 import Cocoa
 
 class OverWindowController: NSWindowController {
+    var alwaysLocked: Bool { false }
+    
     override func windowDidLoad() {
         super.windowDidLoad()
 
@@ -25,8 +27,7 @@ class OverWindowController: NSWindowController {
 
     func setWindowSizes() {
         var width: Double
-        let settings = Settings.instance
-        switch settings.cardSize {
+        switch Settings.cardSize {
         case .tiny: width = kTinyFrameWidth
         case .small: width = kSmallFrameWidth
         case .medium: width = kMediumFrameWidth
@@ -34,8 +35,18 @@ class OverWindowController: NSWindowController {
         case .big: width = kFrameWidth
         }
 
-        self.window!.contentMinSize = NSSize(width: CGFloat(width), height: 400)
-        self.window!.contentMaxSize = NSSize(width: CGFloat(width),
-                                             height: NSScreen.main()!.frame.height)
+        guard let window = self.window else { return }
+
+        window.contentMinSize = NSSize(width: CGFloat(width), height: 400)
+        window.contentMaxSize = NSSize(width: CGFloat(width),
+                                             height: NSScreen.main!.frame.height)
+    }
+    
+    /**
+        Updates the UI based on stored data. This method should only be called from the main thread
+     */
+    func updateFrames() {
+        // If the windows are unlocked, we want to be able to click on them to move them
+        self.window!.ignoresMouseEvents = Settings.windowsLocked
     }
 }

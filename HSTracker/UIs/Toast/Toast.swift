@@ -17,13 +17,13 @@ class Toast {
         w.isOpaque = false
         w.hasShadow = false
         w.acceptsMouseMovedEvents = true
-        w.styleMask = NSBorderlessWindowMask
-        w.level = Int(CGWindowLevelForKey(CGWindowLevelKey.maximumWindow))
+        w.styleMask = .borderless
+        w.level = .screenSaver
         w.backgroundColor = Color.clear
         
         w.orderFrontRegardless()
         
-        let screenRect = NSScreen.screens()!.first!.frame
+        let screenRect = NSScreen.screens.first!.frame
         let height = screenRect.height
         let x = screenRect.width / 2 - windowWidth / 2
         
@@ -33,12 +33,13 @@ class Toast {
         return w
     }()
    
-    class func show(title: String, message: String? = nil, duration: Double? = 3,
+    class func show(title: String, message: String? = nil, duration: Double? = 3, fontSize: Int? = 14,
                     action: (() -> Void)? = nil) {
         DispatchQueue.main.async {
             let panel = ToastPanel(title: title,
                                    message: message,
                                    duration: duration,
+                                   fontSize: fontSize,
                                    action: action)
             
             toastWindow.add(panel: panel)
@@ -48,7 +49,7 @@ class Toast {
     private class ToastPanel: NSView {
         private lazy var trackingArea: NSTrackingArea = {
             return NSTrackingArea(rect: NSRect.zero,
-                                  options: [.inVisibleRect, .activeAlways, .mouseEnteredAndExited],
+                                  options: [NSTrackingArea.Options.inVisibleRect, NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited],
                                   owner: self,
                                   userInfo: nil)
         }()
@@ -60,8 +61,9 @@ class Toast {
         
         private let buttonWidth: CGFloat = 80
         private var inClick = false
+        private var fontSize = 14
         
-        convenience init(title: String, message: String? = nil, duration: Double? = nil,
+        convenience init(title: String, message: String? = nil, duration: Double? = nil, fontSize: Int? = 14,
                          action: (() -> Void)? = nil) {
             self.init()
             
@@ -70,8 +72,12 @@ class Toast {
             
             if let duration = duration {
                 self.duration = duration
-            } else if let _ = action {
+            } else if action != nil {
                 self.duration = 6
+            }
+            
+            if let fs = fontSize {
+                self.fontSize = fs
             }
             
             self.action = action
@@ -104,7 +110,7 @@ class Toast {
             }
             if let message = message {
                 let attributes = TextAttributes()
-                    .font(NSFont(name: "ChunkFive", size: 14))
+                    .font(NSFont(name: "ChunkFive", size: CGFloat(fontSize)))
                     .foregroundColor(.black)
                 NSAttributedString(string: message, attributes: attributes)
                     .draw(in: messageFrame)
@@ -113,10 +119,10 @@ class Toast {
         
         func remove() {
             NSAnimationContext.beginGrouping()
-            NSAnimationContext.current().completionHandler = { [weak self] in
+            NSAnimationContext.current.completionHandler = { [weak self] in
                 self?.removeFromSuperview()
             }
-            NSAnimationContext.current().duration = 1.2
+            NSAnimationContext.current.duration = 1.2
             
             animator().alphaValue = 0
             
@@ -133,12 +139,12 @@ class Toast {
         }
         
         override func mouseDown(with event: NSEvent) {
-            guard let _ = self.action else { return }
+            guard self.action != nil else { return }
             
             inClick = true
         }
         override func mouseUp(with event: NSEvent) {
-            guard let _ = self.action else { return }
+            guard self.action != nil else { return }
             guard inClick else { return }
             
             inClick = false
@@ -180,7 +186,7 @@ class Toast {
         
         private func refresh() {
             NSAnimationContext.beginGrouping()
-            NSAnimationContext.current().duration = 0.8
+            NSAnimationContext.current.duration = 0.8
             
             var y: CGFloat = contentView!.frame.maxY
             panels.reversed().forEach {

@@ -1,0 +1,15 @@
+
+/* Class = "NSButtonCell"; title = "Always show average damage"; ObjectID = "LKm-DE-YdT"; */
+"LKm-DE-YdT.title" = "Always show average damage";
+
+/* Class = "NSButtonCell"; title = "Show Bob's Buddy during combat"; ObjectID = "QMN-RN-SBa"; */
+"QMN-RN-SBa.title" = "Show Bob's Buddy during combat";
+
+/* Class = "NSButtonCell"; title = "Show turn counter"; ObjectID = "c2t-Sg-vNs"; */
+"c2t-Sg-vNs.title" = "Show turn counter";
+
+/* Class = "NSButtonCell"; title = "Show Bob's Buddy"; ObjectID = "i84-xc-QhF"; */
+"i84-xc-QhF.title" = "Show Bob's Buddy";
+
+/* Class = "NSButtonCell"; title = "Show Bob's Buddy during shopping"; ObjectID = "rPF-4f-O8s"; */
+"rPF-4f-O8s.title" = "Show Bob's Buddy during shopping";

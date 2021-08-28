@@ -7,9 +7,14 @@
 //
 
 import Foundation
-import MASPreferences
+import Preferences
 
-class OpponentTrackersPreferences: NSViewController {
+class OpponentTrackersPreferences: NSViewController, PreferencePane {
+    var preferencePaneIdentifier = Preferences.PaneIdentifier.opponent_trackers
+    
+    var preferencePaneTitle = NSLocalizedString("Opponent tracker", comment: "")
+    
+    var toolbarItemIcon = NSImage(named: "opponent")!
 
     @IBOutlet weak var showOpponentTracker: NSButton!
     @IBOutlet weak var showCardHuds: NSButton!
@@ -25,83 +30,77 @@ class OpponentTrackersPreferences: NSViewController {
     @IBOutlet weak var showGraveyard: NSButton!
     @IBOutlet weak var showGraveyardDetails: NSButton!
     @IBOutlet weak var showJadeCounter: NSButton!
+    @IBOutlet weak var preventOpponentNameCovering: NSButton!
+    @IBOutlet weak var showGalakrondInvokeCounter: NSButton!
+    @IBOutlet weak var showLibramCounter: NSButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let settings = Settings.instance
-        showOpponentTracker.state = settings.showOpponentTracker ? NSOnState : NSOffState
-        showCardHuds.state = settings.showCardHuds ? NSOnState : NSOffState
-        clearTrackersOnGameEnd.state = settings.clearTrackersOnGameEnd ? NSOnState : NSOffState
-        showOpponentCardCount.state = settings.showOpponentCardCount ? NSOnState : NSOffState
-        showOpponentDrawChance.state = settings.showOpponentDrawChance ? NSOnState : NSOffState
-        showCthunCounter.state = settings.showOpponentCthun ? NSOnState : NSOffState
-        showSpellCounter.state = settings.showOpponentSpell ? NSOnState : NSOffState
-        includeCreated.state = settings.showOpponentCreated ? NSOnState : NSOffState
-        showDeathrattleCounter.state = settings.showOpponentDeathrattle ? NSOnState : NSOffState
-        showPlayerClass.state = settings.showOpponentClassInTracker ? NSOnState : NSOffState
-        showBoardDamage.state = settings.opponentBoardDamage ? NSOnState : NSOffState
-        showGraveyard.state = settings.showOpponentGraveyard ? NSOnState : NSOffState
-        showGraveyardDetails.state = settings.showOpponentGraveyardDetails ? NSOnState : NSOffState
-        showGraveyardDetails.isEnabled = showGraveyard.state == NSOnState
-        showJadeCounter.state = settings.showOpponentJadeCounter ? NSOnState : NSOffState
+        showOpponentTracker.state = Settings.showOpponentTracker ? .on : .off
+        showCardHuds.state = Settings.showCardHuds ? .on : .off
+        clearTrackersOnGameEnd.state = Settings.clearTrackersOnGameEnd ? .on : .off
+        showOpponentCardCount.state = Settings.showOpponentCardCount ? .on : .off
+        showOpponentDrawChance.state = Settings.showOpponentDrawChance ? .on : .off
+        showCthunCounter.state = Settings.showOpponentCthun ? .on : .off
+        showSpellCounter.state = Settings.showOpponentSpell ? .on : .off
+        includeCreated.state = Settings.showOpponentCreated ? .on : .off
+        showDeathrattleCounter.state = Settings.showOpponentDeathrattle ? .on : .off
+        showPlayerClass.state = Settings.showOpponentClassInTracker ? .on : .off
+        showBoardDamage.state = Settings.opponentBoardDamage ? .on : .off
+        showGraveyard.state = Settings.showOpponentGraveyard ? .on : .off
+        showGraveyardDetails.state = Settings.showOpponentGraveyardDetails ? .on : .off
+        showGraveyardDetails.isEnabled = showGraveyard.state == .on
+        showJadeCounter.state = Settings.showOpponentJadeCounter ? .on : .off
+        preventOpponentNameCovering.state = Settings.preventOpponentNameCovering ? .on : .off
+        showGalakrondInvokeCounter.state = Settings.showOpponentGalakrondCounter ? .on : .off
+        showLibramCounter.state = Settings.showOpponentLibramCounter ? .on : .off
     }
 
     @IBAction func checkboxClicked(_ sender: NSButton) {
-        let settings = Settings.instance
-
         if sender == showOpponentTracker {
-            settings.showOpponentTracker = showOpponentTracker.state == NSOnState
+            Settings.showOpponentTracker = showOpponentTracker.state == .on
         } else if sender == showCardHuds {
-            settings.showCardHuds = showCardHuds.state == NSOnState
+            Settings.showCardHuds = showCardHuds.state == .on
         } else if sender == clearTrackersOnGameEnd {
-            settings.clearTrackersOnGameEnd = clearTrackersOnGameEnd.state == NSOnState
+            Settings.clearTrackersOnGameEnd = clearTrackersOnGameEnd.state == .on
         } else if sender == showOpponentCardCount {
-            settings.showOpponentCardCount = showOpponentCardCount.state == NSOnState
+            Settings.showOpponentCardCount = showOpponentCardCount.state == .on
         } else if sender == showOpponentDrawChance {
-            settings.showOpponentDrawChance = showOpponentDrawChance.state == NSOnState
+            Settings.showOpponentDrawChance = showOpponentDrawChance.state == .on
         } else if sender == showCthunCounter {
-            settings.showOpponentCthun = showCthunCounter.state == NSOnState
+            Settings.showOpponentCthun = showCthunCounter.state == .on
         } else if sender == showSpellCounter {
-            settings.showOpponentSpell = showSpellCounter.state == NSOnState
+            Settings.showOpponentSpell = showSpellCounter.state == .on
         } else if sender == includeCreated {
-            settings.showOpponentCreated = includeCreated.state == NSOnState
+            Settings.showOpponentCreated = includeCreated.state == .on
         } else if sender == showDeathrattleCounter {
-            settings.showOpponentDeathrattle = showDeathrattleCounter.state == NSOnState
+            Settings.showOpponentDeathrattle = showDeathrattleCounter.state == .on
         } else if sender == showPlayerClass {
-            settings.showOpponentClassInTracker = showPlayerClass.state == NSOnState
+            Settings.showOpponentClassInTracker = showPlayerClass.state == .on
         } else if sender == showBoardDamage {
-            settings.opponentBoardDamage = showBoardDamage.state == NSOnState
+            Settings.opponentBoardDamage = showBoardDamage.state == .on
         } else if sender == showGraveyard {
-            settings.showOpponentGraveyard = showGraveyard.state == NSOnState
-            if showGraveyard.state == NSOnState {
+            Settings.showOpponentGraveyard = showGraveyard.state == .on
+            if showGraveyard.state == .on {
                 showGraveyardDetails.isEnabled = true
             } else {
                 showGraveyardDetails.isEnabled = false
             }
         } else if sender == showGraveyardDetails {
-            settings.showOpponentGraveyardDetails = showGraveyardDetails.state == NSOnState
+            Settings.showOpponentGraveyardDetails = showGraveyardDetails.state == .on
         } else if sender == showJadeCounter {
-            settings.showOpponentJadeCounter = showJadeCounter.state == NSOnState
+            Settings.showOpponentJadeCounter = showJadeCounter.state == .on
+        } else if sender == preventOpponentNameCovering {
+            Settings.preventOpponentNameCovering = preventOpponentNameCovering.state == .on
+        } else if sender == showGalakrondInvokeCounter {
+            Settings.showOpponentGalakrondCounter = showGalakrondInvokeCounter.state == .on
+        } else if sender == showLibramCounter {
+            Settings.showOpponentLibramCounter = showLibramCounter.state == .on
         }
     }
 }
 
-// MARK: - MASPreferencesViewController
-extension OpponentTrackersPreferences: MASPreferencesViewController {
-    override var identifier: String? {
-        get {
-            return "opponent_trackers"
-        }
-        set {
-            super.identifier = newValue
-        }
-    }
-
-    var toolbarItemImage: NSImage? {
-        return NSImage(named: NSImageNameAdvanced)
-    }
-
-    var toolbarItemLabel: String? {
-        return NSLocalizedString("Opponent tracker", comment: "")
-    }
+// MARK: - Preferences
+extension Preferences.PaneIdentifier {
+    static let opponent_trackers = Self("opponent_trackers")
 }

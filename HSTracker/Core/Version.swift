@@ -25,8 +25,8 @@ struct Version {
                 return "macOS \(versionString)"
             }()
 
-            let hsLocale: String = Settings.instance.hearthstoneLanguage ?? ""
-            let htLocale = Settings.instance.hsTrackerLanguage ?? ""
+            let hsLocale: String = Settings.hearthstoneLanguage?.rawValue ?? ""
+            let htLocale = Settings.hsTrackerLanguage?.rawValue ?? ""
 
             return "\(executable)/\(appVersion).\(appBuild); "
                 + "(\(hsLocale);\(htLocale);\(osNameVersion))"

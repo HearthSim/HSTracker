@@ -7,8 +7,8 @@
 //
 
 import Foundation
-import CleanroomLogger
 import RealmSwift
+import AppKit
 
 class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
@@ -50,20 +50,21 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     var currentCardCost = -1
     var currentSearchTerm = ""
     var currentRarity: Rarity?
-    var standardOnly = false
+    var standardOnly = true
     var currentDamage = -1
     var currentHealth = -1
     var currentRace: Race?
     var currentCardType: CardType = .invalid
     var deckUndoManager: UndoManager?
 
-    var monitor: Any? = nil
+    var monitor: Any?
 
     var saveDeck: SaveDeck?
 
     let baseCardWidth: CGFloat = 181
     let baseCardHeight: CGFloat = 250
-
+    var observer: NSObjectProtocol?
+    
     func set(playerClass: CardClass) {
         currentPlayerClass = playerClass
         selectedClass = currentPlayerClass
@@ -71,7 +72,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
     func set(deck: Deck) {
         currentDeck = deck
-        cards = deck.cards.flatMap {
+        cards = deck.cards.compactMap {
             if let card = Cards.by(cardId: $0.id) {
                 card.count = $0.count
                 return card
@@ -101,6 +102,10 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         curveView?.deck = currentDeck
         curveView?.reload()
 
+        standardOnlyCards.title = ""
+        standardOnlyCards.image = NSImage(named: "Mode_Standard_Dragon",
+                                          size: NSSize(width: 25, height: 25))
+
         countCards()
 
         loadSets()
@@ -119,27 +124,27 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
             cell.cancelButtonCell!.target = self
             cell.cancelButtonCell!.action = #selector(EditDeck.cancelSearch(_:))
         }
-
-        NotificationCenter.default
-            .addObserver(self,
-                         selector: #selector(EditDeck.updateTheme(_:)),
-                         name: NSNotification.Name(rawValue: "theme"),
-                         object: nil)
+        
+        self.observer = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: Settings.theme_token), object: nil, queue: OperationQueue.main) { _ in
+            self.updateTheme()
+        }
 
         deckUndoManager = window?.undoManager
         initKeyboardShortcuts()
     }
 
     deinit {
-        NotificationCenter.default.removeObserver(self)
+        if let observer = self.observer {
+            NotificationCenter.default.removeObserver(observer)
+        }
         removeKeyboardShortcuts()
     }
 
     func initKeyboardShortcuts() {
         self.monitor = NSEvent
-            .addLocalMonitorForEvents(matching: .keyDown) { (e) -> NSEvent? in
+            .addLocalMonitorForEvents(matching: NSEvent.EventTypeMask.keyDown) { (e) -> NSEvent? in
 
-            let isCmd = e.modifierFlags.contains(.command)
+            let isCmd = e.modifierFlags.contains(NSEvent.ModifierFlags.command)
 
             if isCmd {
                 switch e.keyCode {
@@ -178,7 +183,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
                     return nil
                 }
 
-                Log.verbose?.message("unsupported keycode \(e.keyCode)")
+                logger.verbose("unsupported keycode \(e.keyCode)")
  */
             }
 
@@ -217,7 +222,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         countLabel.stringValue = "\(count) / 30"
     }
 
-    func updateTheme(_ notification: Notification) {
+    func updateTheme() {
         deckCardsView.reloadData()
         cardsTableView.reloadData()
     }
@@ -269,7 +274,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     }
     
     // MARK: - Undo/Redo
-    func undoCardAdd(_ card: AnyObject) {
+    @objc func undoCardAdd(_ card: AnyObject) {
         if let c = card as? Card {
             deckUndoManager?.registerUndo(withTarget: self,
                                           selector: #selector(redoCardAdd(_:)),
@@ -290,7 +295,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         }
     }
     
-    func redoCardAdd(_ card: AnyObject) {
+    @objc func redoCardAdd(_ card: AnyObject) {
         if let c = card as? Card {
             deckUndoManager?.registerUndo(withTarget: self,
                                           selector: #selector(undoCardAdd(_:)),
@@ -316,16 +321,16 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
             card.count = 1
         }
 
-        if let c = cards.first({ $0.id == card.id }) {
-            c.count = c.count + 1
+        if let c = cards.first(where: { $0.id == card.id }) {
+            c.count += 1
         } else {
             cards.append(card)
         }
     }
 
     func remove(card: Card) {
-        guard let c = cards.first({ $0.id == card.id }) else { return }
-        c.count = c.count - 1
+        guard let c = cards.first(where: { $0.id == card.id }) else { return }
+        c.count -= 1
         if c.count == 0 {
             cards.remove(c)
         }
@@ -333,7 +338,11 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
     // MARK: - Standard/Wild
     @IBAction func standardWildChange(_ sender: NSButton) {
-        standardOnly = sender.state == NSOnState
+        standardOnly = sender.state == .on
+
+        let name = standardOnly ? "Mode_Standard_Dragon" : "Mode_Wild_Dark"
+        standardOnlyCards.image = NSImage(named: name,
+                                          size: NSSize(width: 25, height: 25))
         reloadCards()
     }
 
@@ -358,12 +367,18 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     private func loadSets() {
         let popupMenu = NSMenu()
         for set in CardSet.deckManagerValidCardSets() {
+            if set == .invalid {
+                continue
+            }
             let popupMenuItem = NSMenuItem(title:
-                NSLocalizedString(set.rawValue.uppercased(), comment: ""),
+                NSLocalizedString("\(set)".uppercased(), comment: ""),
                                            action: #selector(EditDeck.changeSet(_:)),
                                            keyEquivalent: "")
             popupMenuItem.representedObject = set.rawValue
-            popupMenuItem.image = NSImage(named: "Set_\(set.rawValue.uppercased())")
+            let setName = "\(set)".uppercased()
+            let imageName = "Set_\(setName)"
+            popupMenuItem.image = NSImage(named: imageName,
+                size: NSSize(width: 15, height: 15))
             popupMenu.addItem(popupMenuItem)
         }
         sets.menu = popupMenu
@@ -373,9 +388,8 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         if let type = sender.representedObject as? String {
             switch type {
             case "all": currentSet = []
-            case "expert1": currentSet = [.core, .expert1, .promo]
             default:
-                if let set = CardSet(rawValue: type) {
+                if let set = CardSet.allCases.first(where: { x in "\(x)".lowercased() == type }) {
                     currentSet = [set]
                 } else {
                     currentSet = []
@@ -443,6 +457,10 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
     // MARK: - Rarity
     private func loadRarities() {
+        guard let rp = Bundle.main.resourcePath else {
+            return
+        }
+        
         let popupMenu = NSMenu()
         let popupMenuItem = NSMenuItem(title: NSLocalizedString("all_rarities", comment: ""),
                                        action: #selector(EditDeck.changeRarity(_:)),
@@ -450,13 +468,20 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         popupMenuItem.representedObject = "all"
         popupMenu.addItem(popupMenuItem)
 
-        for rarity in Rarity.allValues() {
+        for rarity in Rarity.allCases {
             let popupMenuItem = NSMenuItem(title: "",
                                            action: #selector(EditDeck.changeRarity(_:)),
                                            keyEquivalent: "")
             popupMenuItem.representedObject = rarity.rawValue
             let gemName = rarity == .free ? "gem" : "gem_\(rarity.rawValue)"
-            popupMenuItem.image = NSImage(named: gemName)
+
+            let fullPath = "\(rp)/Resources/Themes/Bars/classic/\(gemName).png"
+            if let image = NSImage(contentsOfFile: fullPath) {
+                popupMenuItem.image = image.resized(to: NSSize(width: 25, height: 25))
+            } else {
+                popupMenuItem.title = gemName
+            }
+
             popupMenu.addItem(popupMenuItem)
         }
         rarity.menu = popupMenu
@@ -500,7 +525,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         }
     }
 
-    func cancelSearch(_ sender: AnyObject) {
+    @objc func cancelSearch(_ sender: AnyObject) {
         classChooser.isEnabled = true
         searchField.stringValue = ""
         searchField.resignFirstResponder()
@@ -519,7 +544,7 @@ extension EditDeck: NSWindowDelegate {
         removeKeyboardShortcuts()
     }
 
-    func windowShouldClose(_ sender: Any) -> Bool {
+    func windowShouldClose(_ sender: NSWindow) -> Bool {
         if isSaved {
             delegate?.refreshDecks()
             return true
@@ -527,14 +552,12 @@ extension EditDeck: NSWindowDelegate {
         
         let alert = NSAlert()
         alert.alertStyle = .informational
-        // swiftlint:disable line_length
         alert.messageText = NSLocalizedString("Are you sure you want to close this deck? "
             + "Your changes will not be saved.", comment: "")
-        // swiftlint:enable line_length
         alert.addButton(withTitle: NSLocalizedString("Yes", comment: ""))
         alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
         
-        return alert.runModal() == NSAlertFirstButtonReturn
+        return alert.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn
     }
 }
 
@@ -559,7 +582,7 @@ extension EditDeck: NSTableViewDelegate {
         if tableView == cardsTableView {
             card = currentClassCards[row]
             var count: Int = 0
-            if let deckCard = cards.sortCardList().firstWhere({ $0.id == card.id }) {
+            if let deckCard = cards.sortCardList().first(where: { $0.id == card.id }) {
                 count = deckCard.count
             }
             card.count = count
@@ -597,7 +620,7 @@ extension EditDeck: SaveDeckDelegate {
 
 // MARK: - Health/Damage - NSTextFieldDelegate
 extension EditDeck: NSTextFieldDelegate {
-    override func controlTextDidChange(_ notification: Notification) {
+    func controlTextDidChange(_ notification: Notification) {
         if let editor = notification.object as? NSTextField {
             if editor == health {
                 if let value = Int(editor.stringValue) {
