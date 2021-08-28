@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
-        <capability name="box content view" minToolsVersion="7.0"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -12,13 +12,15 @@
                 <outlet property="claimAccountInfo" destination="UdW-1g-XMj" id="pTI-6q-VjX"/>
                 <outlet property="disconnectButton" destination="y6L-Kw-KFY" id="hfI-ch-HrT"/>
                 <outlet property="gameTypeSelector" destination="ZEB-hT-h8U" id="f5g-mQ-bSX"/>
-                <outlet property="hsReplayAccountStatus" destination="1W9-OR-1lE" id="3CP-oh-Jzh"/>
+                <outlet property="oAuthAccount" destination="akc-iW-uso" id="5Dd-hV-mDG"/>
                 <outlet property="showPushNotification" destination="R7X-Vo-NSU" id="SUS-j2-fRy"/>
                 <outlet property="synchronizeMatches" destination="zU2-86-n1Q" id="Zxz-8w-y7c"/>
                 <outlet property="uploadAdventureGames" destination="uEm-3o-LLY" id="oFS-cO-ccY"/>
                 <outlet property="uploadArenaGames" destination="dft-Ld-Kfh" id="xRt-8i-EGr"/>
+                <outlet property="uploadBattlegroundsGames" destination="JJZ-kv-alD" id="tER-b4-qxW"/>
                 <outlet property="uploadBrawlGames" destination="iHo-eo-yaK" id="xWo-g3-igZ"/>
                 <outlet property="uploadCasualGames" destination="4Xi-Zh-hUb" id="SpM-om-8zJ"/>
+                <outlet property="uploadDuelsGames" destination="Don-6f-aUb" id="zGE-na-tVc"/>
                 <outlet property="uploadFriendlyGames" destination="ael-Gf-Yem" id="KXl-sI-zXC"/>
                 <outlet property="uploadRankedGames" destination="crm-2T-nVp" id="Jc4-xh-dMo"/>
                 <outlet property="uploadSpectatorGames" destination="ysO-6y-8Kn" id="jGe-b8-hdO"/>
@@ -27,112 +29,11 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customView id="c22-O7-iKe">
-            <rect key="frame" x="0.0" y="0.0" width="480" height="364"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+        <customView translatesAutoresizingMaskIntoConstraints="NO" id="c22-O7-iKe">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="558"/>
             <subviews>
-                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zU2-86-n1Q">
-                    <rect key="frame" x="18" y="317" width="444" height="18"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="check" title="Upload replays automatically" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="aAI-Yn-Z1P">
-                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="checkboxClicked:" target="-2" id="xeo-Uk-FyC"/>
-                    </connections>
-                </button>
-                <box fixedFrame="YES" title="Upload game modes" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="qvg-bJ-3rk">
-                    <rect key="frame" x="17" y="156" width="446" height="157"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <view key="contentView" ambiguous="YES" id="ZEB-hT-h8U">
-                        <rect key="frame" x="2" y="2" width="442" height="153"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="crm-2T-nVp">
-                                <rect key="frame" x="8" y="130" width="436" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="check" title="Ranked" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="hNI-pm-upP">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="checkboxClicked:" target="-2" id="voF-AN-0pF"/>
-                                </connections>
-                            </button>
-                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Xi-Zh-hUb">
-                                <rect key="frame" x="8" y="110" width="436" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="check" title="Casual" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="zUq-Mn-Mae">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="checkboxClicked:" target="-2" id="zWH-UJ-uBW"/>
-                                </connections>
-                            </button>
-                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dft-Ld-Kfh">
-                                <rect key="frame" x="8" y="90" width="436" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="check" title="Arena" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="XLN-hm-TrI">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="checkboxClicked:" target="-2" id="Htk-Ms-2M5"/>
-                                </connections>
-                            </button>
-                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iHo-eo-yaK">
-                                <rect key="frame" x="8" y="70" width="436" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="check" title="Tavern Brawl" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="lGJ-41-bPm">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="checkboxClicked:" target="-2" id="c6r-9R-7HL"/>
-                                </connections>
-                            </button>
-                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ael-Gf-Yem">
-                                <rect key="frame" x="8" y="50" width="436" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="check" title="Friendly" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Lla-JP-gmw">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="checkboxClicked:" target="-2" id="UYf-Z7-jZC"/>
-                                </connections>
-                            </button>
-                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uEm-3o-LLY" userLabel="Adventure">
-                                <rect key="frame" x="8" y="30" width="436" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="check" title="Adventure / Practice" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="XWA-c6-mjM">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="checkboxClicked:" target="-2" id="HuU-jO-znB"/>
-                                </connections>
-                            </button>
-                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ysO-6y-8Kn">
-                                <rect key="frame" x="8" y="10" width="436" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="check" title="Spectator" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="dX9-1S-Y1M">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="checkboxClicked:" target="-2" id="yN4-xA-oGr"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                    </view>
-                    <font key="titleFont" size="12" name=".AppleSystemUIFont"/>
-                </box>
-                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R7X-Vo-NSU">
-                    <rect key="frame" x="18" y="337" width="444" height="18"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="R7X-Vo-NSU">
+                    <rect key="frame" x="18" y="522" width="444" height="18"/>
                     <buttonCell key="cell" type="check" title="Show upload notification" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="a4D-nA-Vqz">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -141,63 +42,259 @@
                         <action selector="checkboxClicked:" target="-2" id="pHL-Ks-v6p"/>
                     </connections>
                 </button>
-                <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="UbW-mX-Jca">
-                    <rect key="frame" x="20" y="143" width="440" height="5"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                <box title="Upload game modes" translatesAutoresizingMaskIntoConstraints="NO" id="qvg-bJ-3rk">
+                    <rect key="frame" x="17" y="245" width="446" height="245"/>
+                    <view key="contentView" id="ZEB-hT-h8U">
+                        <rect key="frame" x="3" y="3" width="440" height="226"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="crm-2T-nVp">
+                                <rect key="frame" x="18" y="200" width="404" height="18"/>
+                                <buttonCell key="cell" type="check" title="Ranked" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="hNI-pm-upP">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="checkboxClicked:" target="-2" id="voF-AN-0pF"/>
+                                </connections>
+                            </button>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="4Xi-Zh-hUb">
+                                <rect key="frame" x="18" y="176" width="404" height="18"/>
+                                <buttonCell key="cell" type="check" title="Casual" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="zUq-Mn-Mae">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="checkboxClicked:" target="-2" id="zWH-UJ-uBW"/>
+                                </connections>
+                            </button>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="dft-Ld-Kfh">
+                                <rect key="frame" x="18" y="152" width="404" height="18"/>
+                                <buttonCell key="cell" type="check" title="Arena" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="XLN-hm-TrI">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="checkboxClicked:" target="-2" id="Htk-Ms-2M5"/>
+                                </connections>
+                            </button>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="iHo-eo-yaK">
+                                <rect key="frame" x="18" y="128" width="404" height="18"/>
+                                <buttonCell key="cell" type="check" title="Tavern Brawl" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="lGJ-41-bPm">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="checkboxClicked:" target="-2" id="c6r-9R-7HL"/>
+                                </connections>
+                            </button>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="ael-Gf-Yem">
+                                <rect key="frame" x="18" y="104" width="404" height="18"/>
+                                <buttonCell key="cell" type="check" title="Friendly" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Lla-JP-gmw">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="checkboxClicked:" target="-2" id="UYf-Z7-jZC"/>
+                                </connections>
+                            </button>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="uEm-3o-LLY" userLabel="Adventure">
+                                <rect key="frame" x="18" y="80" width="404" height="18"/>
+                                <buttonCell key="cell" type="check" title="Adventure / Practice" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="XWA-c6-mjM">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="checkboxClicked:" target="-2" id="HuU-jO-znB"/>
+                                </connections>
+                            </button>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="ysO-6y-8Kn">
+                                <rect key="frame" x="18" y="56" width="404" height="18"/>
+                                <buttonCell key="cell" type="check" title="Spectator" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="dX9-1S-Y1M">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="checkboxClicked:" target="-2" id="yN4-xA-oGr"/>
+                                </connections>
+                            </button>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="JJZ-kv-alD" userLabel="Battlegrounds">
+                                <rect key="frame" x="18" y="32" width="404" height="18"/>
+                                <buttonCell key="cell" type="check" title="Battlegrounds" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="ZRj-Jq-3gI" userLabel="Battlegrounds">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="checkboxClicked:" target="-2" id="uWE-VH-AAC"/>
+                                </connections>
+                            </button>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="Don-6f-aUb" userLabel="Duels">
+                                <rect key="frame" x="18" y="8" width="404" height="18"/>
+                                <buttonCell key="cell" type="check" title="Duels" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="3aJ-8X-AqP" userLabel="Duels">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="checkboxClicked:" target="-2" id="feS-Ro-lYM"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="dft-Ld-Kfh" firstAttribute="leading" secondItem="ZEB-hT-h8U" secondAttribute="leading" constant="20" id="1Zv-Pr-meM"/>
+                            <constraint firstItem="ael-Gf-Yem" firstAttribute="top" secondItem="iHo-eo-yaK" secondAttribute="bottom" constant="10" id="3h8-Wf-SIi"/>
+                            <constraint firstAttribute="trailing" secondItem="ael-Gf-Yem" secondAttribute="trailing" constant="20" id="5z6-Zb-pmE"/>
+                            <constraint firstAttribute="trailing" secondItem="JJZ-kv-alD" secondAttribute="trailing" constant="20" id="7Ub-HJ-RWW"/>
+                            <constraint firstItem="uEm-3o-LLY" firstAttribute="leading" secondItem="ZEB-hT-h8U" secondAttribute="leading" constant="20" id="9R9-d7-6hK"/>
+                            <constraint firstItem="ysO-6y-8Kn" firstAttribute="leading" secondItem="ZEB-hT-h8U" secondAttribute="leading" constant="20" id="Aw8-3N-z7K"/>
+                            <constraint firstItem="uEm-3o-LLY" firstAttribute="top" secondItem="ael-Gf-Yem" secondAttribute="bottom" constant="10" id="FEd-31-Slk"/>
+                            <constraint firstItem="4Xi-Zh-hUb" firstAttribute="leading" secondItem="ZEB-hT-h8U" secondAttribute="leading" constant="20" id="GX4-MM-YgF"/>
+                            <constraint firstAttribute="trailing" secondItem="4Xi-Zh-hUb" secondAttribute="trailing" constant="20" id="KlL-ND-mct"/>
+                            <constraint firstAttribute="trailing" secondItem="crm-2T-nVp" secondAttribute="trailing" constant="20" id="Ktf-eJ-AhU"/>
+                            <constraint firstAttribute="trailing" secondItem="Don-6f-aUb" secondAttribute="trailing" constant="20" id="Mce-0y-c0v"/>
+                            <constraint firstItem="iHo-eo-yaK" firstAttribute="top" secondItem="dft-Ld-Kfh" secondAttribute="bottom" constant="10" id="YOn-ri-kZx"/>
+                            <constraint firstItem="crm-2T-nVp" firstAttribute="leading" secondItem="ZEB-hT-h8U" secondAttribute="leading" constant="20" id="Zow-bZ-GDb"/>
+                            <constraint firstItem="ael-Gf-Yem" firstAttribute="leading" secondItem="ZEB-hT-h8U" secondAttribute="leading" constant="20" id="aiM-uy-6m0"/>
+                            <constraint firstItem="JJZ-kv-alD" firstAttribute="leading" secondItem="ZEB-hT-h8U" secondAttribute="leading" constant="20" id="eVj-0b-VjB"/>
+                            <constraint firstItem="Don-6f-aUb" firstAttribute="leading" secondItem="ZEB-hT-h8U" secondAttribute="leading" constant="20" id="eqC-aT-XvN"/>
+                            <constraint firstItem="4Xi-Zh-hUb" firstAttribute="top" secondItem="crm-2T-nVp" secondAttribute="bottom" constant="10" id="fIf-MP-8d6"/>
+                            <constraint firstAttribute="trailing" secondItem="uEm-3o-LLY" secondAttribute="trailing" constant="20" id="fOr-x6-xm1"/>
+                            <constraint firstItem="dft-Ld-Kfh" firstAttribute="top" secondItem="4Xi-Zh-hUb" secondAttribute="bottom" constant="10" id="gr0-6k-Lmx"/>
+                            <constraint firstItem="iHo-eo-yaK" firstAttribute="leading" secondItem="ZEB-hT-h8U" secondAttribute="leading" constant="20" id="hcF-Nv-yeo"/>
+                            <constraint firstItem="crm-2T-nVp" firstAttribute="top" secondItem="ZEB-hT-h8U" secondAttribute="top" constant="10" id="k08-S1-MVj"/>
+                            <constraint firstAttribute="trailing" secondItem="dft-Ld-Kfh" secondAttribute="trailing" constant="20" id="uJE-tA-QKv"/>
+                            <constraint firstItem="JJZ-kv-alD" firstAttribute="top" secondItem="ysO-6y-8Kn" secondAttribute="bottom" constant="10" id="xuL-qf-kJ8"/>
+                            <constraint firstAttribute="trailing" secondItem="ysO-6y-8Kn" secondAttribute="trailing" constant="20" id="y4V-1e-OwJ"/>
+                            <constraint firstItem="Don-6f-aUb" firstAttribute="top" secondItem="JJZ-kv-alD" secondAttribute="bottom" constant="10" id="yBX-H8-RqP"/>
+                            <constraint firstItem="ysO-6y-8Kn" firstAttribute="top" secondItem="uEm-3o-LLY" secondAttribute="bottom" constant="10" id="yVB-Pe-zMS"/>
+                            <constraint firstAttribute="trailing" secondItem="iHo-eo-yaK" secondAttribute="trailing" constant="20" id="zPX-3T-bTe"/>
+                            <constraint firstAttribute="bottom" secondItem="Don-6f-aUb" secondAttribute="bottom" constant="10" id="zpw-Wa-5xh"/>
+                        </constraints>
+                    </view>
+                    <font key="titleFont" metaFont="cellTitle"/>
                 </box>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1W9-OR-1lE">
-                    <rect key="frame" x="18" y="120" width="444" height="17"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="JsZ-J6-FKG">
-                        <font key="font" metaFont="system"/>
-                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
-                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cYC-b2-h3Y">
-                    <rect key="frame" x="14" y="84" width="128" height="32"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="push" title="Claim Account" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="PFc-eW-dQG">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="UbW-mX-Jca">
+                    <rect key="frame" x="20" y="236" width="440" height="5"/>
+                </box>
+                <box title="Replay Uploads" translatesAutoresizingMaskIntoConstraints="NO" id="VPW-70-gcw">
+                    <rect key="frame" x="17" y="125" width="446" height="103"/>
+                    <view key="contentView" id="gCe-Dr-Ihu">
+                        <rect key="frame" x="3" y="3" width="440" height="83"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cYC-b2-h3Y">
+                                <rect key="frame" x="4" y="45" width="128" height="32"/>
+                                <buttonCell key="cell" type="push" title="Claim Account" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="PFc-eW-dQG">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="claimAccount:" target="-2" id="qbd-Vw-8qY"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="y6L-Kw-KFY">
+                                <rect key="frame" x="130" y="45" width="296" height="32"/>
+                                <buttonCell key="cell" type="push" title="Disconnect from HSReplay.net" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Wij-ky-VUj">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="disconnectAccount:" target="-2" id="EOQ-kX-3wk"/>
+                                </connections>
+                            </button>
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UdW-1g-XMj">
+                                <rect key="frame" x="8" y="10" width="424" height="32"/>
+                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Log in with your Battle.net credentials on HSReplay.net to claim your existing replays. This will open your web browser." id="alf-8N-P9t">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="y6L-Kw-KFY" secondAttribute="trailing" constant="20" id="GT4-G8-7wx"/>
+                            <constraint firstItem="y6L-Kw-KFY" firstAttribute="leading" secondItem="cYC-b2-h3Y" secondAttribute="trailing" constant="10" id="IXs-g5-XvM"/>
+                            <constraint firstItem="UdW-1g-XMj" firstAttribute="top" secondItem="y6L-Kw-KFY" secondAttribute="bottom" constant="10" id="S8n-dQ-VeW"/>
+                            <constraint firstItem="cYC-b2-h3Y" firstAttribute="leading" secondItem="gCe-Dr-Ihu" secondAttribute="leading" constant="10" id="UWz-EW-Vwy"/>
+                            <constraint firstItem="y6L-Kw-KFY" firstAttribute="top" secondItem="gCe-Dr-Ihu" secondAttribute="top" constant="10" id="gGh-EK-DkD"/>
+                            <constraint firstAttribute="bottom" secondItem="UdW-1g-XMj" secondAttribute="bottom" constant="10" id="gaa-ii-Kyb"/>
+                            <constraint firstAttribute="trailing" secondItem="UdW-1g-XMj" secondAttribute="trailing" constant="10" id="lgd-D4-APF"/>
+                            <constraint firstItem="cYC-b2-h3Y" firstAttribute="top" secondItem="gCe-Dr-Ihu" secondAttribute="top" constant="10" id="lzy-HJ-wxW"/>
+                            <constraint firstItem="UdW-1g-XMj" firstAttribute="leading" secondItem="gCe-Dr-Ihu" secondAttribute="leading" constant="10" id="nqQ-VP-1d2"/>
+                            <constraint firstItem="UdW-1g-XMj" firstAttribute="top" secondItem="cYC-b2-h3Y" secondAttribute="bottom" constant="10" id="z1N-Dl-V1o"/>
+                        </constraints>
+                    </view>
+                    <font key="titleFont" metaFont="system"/>
+                </box>
+                <box title="Collection Uploads" translatesAutoresizingMaskIntoConstraints="NO" id="KV0-Rl-jeI">
+                    <rect key="frame" x="17" y="16" width="446" height="103"/>
+                    <view key="contentView" id="AhW-KI-qup">
+                        <rect key="frame" x="3" y="3" width="440" height="83"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="akc-iW-uso">
+                                <rect key="frame" x="14" y="45" width="412" height="32"/>
+                                <buttonCell key="cell" type="push" title="Login to HSReplay.net" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="87B-1e-y45">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="oauthAccount:" target="-2" id="jQ7-3D-y0c"/>
+                                </connections>
+                            </button>
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8vg-lb-UfO">
+                                <rect key="frame" x="18" y="10" width="404" height="32"/>
+                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="After connecting with HSReplay, open your collection and the uploading will begin automatically." id="zQQ-GF-3Lg">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="akc-iW-uso" secondAttribute="trailing" constant="20" id="KTX-aC-FSm"/>
+                            <constraint firstItem="akc-iW-uso" firstAttribute="top" secondItem="AhW-KI-qup" secondAttribute="top" constant="10" id="QHS-bf-F3F"/>
+                            <constraint firstAttribute="bottom" secondItem="8vg-lb-UfO" secondAttribute="bottom" constant="10" id="Vm3-Hq-hAa"/>
+                            <constraint firstItem="8vg-lb-UfO" firstAttribute="top" secondItem="akc-iW-uso" secondAttribute="bottom" constant="10" id="ZuD-4w-Y7d"/>
+                            <constraint firstItem="akc-iW-uso" firstAttribute="leading" secondItem="AhW-KI-qup" secondAttribute="leading" constant="20" id="bMd-le-8eh"/>
+                            <constraint firstItem="8vg-lb-UfO" firstAttribute="leading" secondItem="AhW-KI-qup" secondAttribute="leading" constant="20" id="p9D-4h-yX5"/>
+                            <constraint firstAttribute="trailing" secondItem="8vg-lb-UfO" secondAttribute="trailing" constant="20" id="zIW-Pa-2Kj"/>
+                        </constraints>
+                    </view>
+                    <font key="titleFont" metaFont="system"/>
+                </box>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="zU2-86-n1Q">
+                    <rect key="frame" x="18" y="498" width="444" height="18"/>
+                    <buttonCell key="cell" type="check" title="Upload replays automatically" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="aAI-Yn-Z1P">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                     <connections>
-                        <action selector="claimAccount:" target="-2" id="qbd-Vw-8qY"/>
-                    </connections>
-                </button>
-                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="y6L-Kw-KFY">
-                    <rect key="frame" x="264" y="84" width="202" height="32"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="push" title="Disconnect from HSReplay" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Wij-ky-VUj">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="disconnectAccount:" target="-2" id="EOQ-kX-3wk"/>
-                    </connections>
-                </button>
-                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UdW-1g-XMj">
-                    <rect key="frame" x="18" y="49" width="444" height="34"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Log in with your Battle.net credentials on HSReplay.net to claim your existing replays. This will open your web browser." id="alf-8N-P9t">
-                        <font key="font" metaFont="system"/>
-                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
-                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aoh-vg-EJj">
-                    <rect key="frame" x="14" y="13" width="128" height="32"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="push" title="Reset Account" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Ikd-r0-oiT">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="resetAccount:" target="-2" id="PiD-qI-xRy"/>
+                        <action selector="checkboxClicked:" target="-2" id="xeo-Uk-FyC"/>
                     </connections>
                 </button>
             </subviews>
-            <point key="canvasLocation" x="132" y="214"/>
+            <constraints>
+                <constraint firstItem="UbW-mX-Jca" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="03q-QD-CZI"/>
+                <constraint firstAttribute="trailing" secondItem="zU2-86-n1Q" secondAttribute="trailing" constant="20" id="0PB-I8-wcU"/>
+                <constraint firstItem="R7X-Vo-NSU" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="20" id="4tR-3F-UEX"/>
+                <constraint firstItem="UbW-mX-Jca" firstAttribute="top" secondItem="qvg-bJ-3rk" secondAttribute="bottom" constant="10" id="5Yn-h2-80s"/>
+                <constraint firstItem="VPW-70-gcw" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="6OI-yB-19k"/>
+                <constraint firstItem="qvg-bJ-3rk" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="8VC-mx-wFL"/>
+                <constraint firstItem="zU2-86-n1Q" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="FIc-0l-5pf"/>
+                <constraint firstItem="KV0-Rl-jeI" firstAttribute="top" secondItem="VPW-70-gcw" secondAttribute="bottom" constant="10" id="OIR-gg-gks"/>
+                <constraint firstAttribute="bottom" secondItem="KV0-Rl-jeI" secondAttribute="bottom" constant="20" id="Qug-Dj-LOK"/>
+                <constraint firstItem="R7X-Vo-NSU" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="SNq-vr-h33"/>
+                <constraint firstAttribute="trailing" secondItem="VPW-70-gcw" secondAttribute="trailing" constant="20" id="cTB-kt-jwB"/>
+                <constraint firstItem="KV0-Rl-jeI" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="d0r-uV-0Nb"/>
+                <constraint firstItem="qvg-bJ-3rk" firstAttribute="top" secondItem="zU2-86-n1Q" secondAttribute="bottom" constant="10" id="eSy-TE-tuF"/>
+                <constraint firstAttribute="trailing" secondItem="R7X-Vo-NSU" secondAttribute="trailing" constant="20" id="h82-xz-45d"/>
+                <constraint firstItem="VPW-70-gcw" firstAttribute="top" secondItem="UbW-mX-Jca" secondAttribute="bottom" constant="10" id="lx7-ly-DFl"/>
+                <constraint firstAttribute="trailing" secondItem="UbW-mX-Jca" secondAttribute="trailing" constant="20" id="mb8-Vw-ugy"/>
+                <constraint firstAttribute="trailing" secondItem="qvg-bJ-3rk" secondAttribute="trailing" constant="20" id="rDK-BE-BGj"/>
+                <constraint firstItem="zU2-86-n1Q" firstAttribute="top" secondItem="R7X-Vo-NSU" secondAttribute="bottom" constant="10" id="uV3-Ko-PEy"/>
+                <constraint firstAttribute="trailing" secondItem="KV0-Rl-jeI" secondAttribute="trailing" constant="20" id="vUj-5d-JQL"/>
+            </constraints>
+            <point key="canvasLocation" x="132" y="253.5"/>
         </customView>
     </objects>
 </document>

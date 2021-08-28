@@ -7,29 +7,26 @@
 //
 
 import Foundation
-import CleanroomLogger
 
 class CollectionManager {
     static let `default` = CollectionManager()
 
     func collection() -> [String: [Bool: Int]] {
         // get collection first
-        guard let collection = Hearthstone.instance.mirror?.getCardCollection() as? [MirrorCard]
-            else {
-                Log.error?.message("Can't get card collection")
-                return [:]
-        }
-
+		guard let collection = MirrorHelper.getCollection() else {
+			logger.error("Can't get card collection")
+			return [:]
+		}
         var cards: [String: [Bool: Int]] = [:]
-        for card in collection {
+        for card in collection.cards {
             if cards[card.cardId] == nil {
                 cards[card.cardId] = [:]
             }
             if cards[card.cardId]?[card.premium] == nil {
-                cards[card.cardId]?[card.premium] = card.count as Int
+                cards[card.cardId]?[card.premium] = card.count as? Int ?? 0
             } else {
                 if let count = cards[card.cardId]?[card.premium] {
-                    let newCount = count + (card.count as Int)
+                    let newCount = count + (card.count as? Int ?? 0)
                     cards[card.cardId]?[card.premium] = newCount
                 }
             }

@@ -8,17 +8,7 @@
 
 import Foundation
 
-struct PlayerTurn {
+struct PlayerTurn: Equatable, Hashable {
     let player: PlayerType
     let turn: Int
-}
-
-extension PlayerTurn: Hashable {
-    var hashValue: Int {
-        return player.rawValue.hashValue ^ turn.hashValue
-    }
-
-    static func == (lhs: PlayerTurn, rhs: PlayerTurn) -> Bool {
-        return lhs.player == rhs.player && lhs.turn == rhs.turn
-    }
 }

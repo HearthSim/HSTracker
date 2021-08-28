@@ -28,9 +28,11 @@ class BoardDamage: OverWindowController {
             .alignment(.center)
     }
 
-    func update(attack: Int) {      
-        damage.attributedStringValue = NSAttributedString(string: "\(attack)",
+    func update(attack: Int) {
+        if let damage = self.damage {
+            damage.attributedStringValue = NSAttributedString(string: "\(attack)",
                                                           attributes: attributes)
+        }
     }
 }
 
@@ -42,11 +44,10 @@ extension BoardDamage: NSWindowDelegate {
     
     private func onWindowMove() {
         if !self.isWindowLoaded || !self.hasValidFrame {return}
-        let settings = Settings.instance
         if player == .player {
-            settings.playerBoardDamageFrame = self.window?.frame
+            Settings.playerBoardDamageFrame = self.window?.frame
         } else {
-            settings.opponentBoardDamageFrame = self.window?.frame
+            Settings.opponentBoardDamageFrame = self.window?.frame
         }
     }
 }

@@ -13,7 +13,8 @@ enum WotogCounterStyle {
     full,
     cthun,
     spells,
-    deathrattles
+    deathrattles,
+    libram
 }
 
 class WotogCounter: TextFrame {
@@ -25,6 +26,7 @@ class WotogCounter: TextFrame {
     var health = 6
     var spell = 0
     var deathrattle = 0
+    var libram = 0
     var counterStyle: [WotogCounterStyle] = [.full]
 
     override func draw(_ dirtyRect: NSRect) {
@@ -50,6 +52,13 @@ class WotogCounter: TextFrame {
         if counterStyle.contains(.full) || counterStyle.contains(.deathrattles) {
             add(image: "deathrattle-frame.png", rect: frame)
             add(int: deathrattle, rect: textFrame)
+            frame = frame.offsetBy(dx: 0, dy: frame.height)
+            textFrame.origin.y += frame.height
+        }
+        
+        if counterStyle.contains(.full) || counterStyle.contains(.libram) {
+            add(image: "libram-frame.png", rect: frame)
+            add(int: libram, rect: textFrame)
         }
     }
 }

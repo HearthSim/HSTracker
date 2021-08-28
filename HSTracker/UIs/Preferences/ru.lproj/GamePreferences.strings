@@ -1,0 +1,18 @@
+
+/* Class = "NSButtonCell"; title = "Choose"; ObjectID = "L10-Eu-Nrc"; */
+"L10-Eu-Nrc.title" = "Choose";
+
+/* Class = "NSTextFieldCell"; title = "Hearthstone language"; ObjectID = "biS-yx-frk"; */
+"biS-yx-frk.title" = "Hearthstone language";
+
+/* Class = "NSButtonCell"; title = "Auto archive arena deck on run end"; ObjectID = "hMe-FU-CjR"; */
+"hMe-FU-CjR.title" = "Auto archive arena deck on run end";
+
+/* Class = "NSButtonCell"; title = "Auto import and select decks"; ObjectID = "mhj-j8-OPU"; */
+"mhj-j8-OPU.title" = "Auto import and select decks";
+
+/* Class = "NSTextFieldCell"; title = "HSTracker language"; ObjectID = "r3b-jQ-tUY"; */
+"r3b-jQ-tUY.title" = "HSTracker language";
+
+/* Class = "NSTextFieldCell"; title = "Hearthstone directory"; ObjectID = "s5e-Q8-cm8"; */
+"s5e-Q8-cm8.title" = "Hearthstone directory";

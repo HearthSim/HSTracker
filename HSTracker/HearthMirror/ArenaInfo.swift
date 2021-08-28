@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import HearthMirror
 
 struct ArenaInfo {
     //@property MirrorDeck *_Nonnull deck;
@@ -16,14 +17,10 @@ struct ArenaInfo {
     let rewards: [RewardData]
 
     init(info: MirrorArenaInfo) {
-        losses = info.losses as Int
-        wins = info.wins as Int
-        currentSlot = info.currentSlot as Int
-        if let mirrorRewards = info.rewards as? [MirrorRewardData] {
-            rewards = ArenaInfo.parseRewards(mirrorRewards: mirrorRewards)
-        } else {
-            rewards = []
-        }
+        losses = info.losses as? Int ?? 0
+        wins = info.wins as? Int ?? 0
+        currentSlot = info.currentSlot as? Int ?? 0
+        rewards = ArenaInfo.parseRewards(mirrorRewards: info.rewards)
     }
 
     private static func parseRewards(mirrorRewards: [MirrorRewardData]) -> [RewardData] {
@@ -56,7 +53,7 @@ struct ArcaneDustRewardData: RewardData {
     let amount: Int
 
     init(mirror: MirrorArcaneDustRewardData) {
-        amount = mirror.amount as Int
+        amount = mirror.amount as? Int ?? 0
     }
 }
 
@@ -65,8 +62,8 @@ struct BoosterPackRewardData: RewardData {
     let count: Int
 
     init(mirror: MirrorBoosterPackRewardData) {
-        boosterId = mirror.boosterId as Int
-        count = mirror.count as Int
+        boosterId = mirror.boosterId as? Int ?? 0
+        count = mirror.count as? Int ?? 0
     }
 }
 
@@ -77,7 +74,7 @@ struct CardRewardData: RewardData {
 
     init(mirror: MirrorCardRewardData) {
         cardId = mirror.cardId as String
-        count = mirror.count as Int
+        count = mirror.count as? Int ?? 0
         premium = mirror.premium
     }
 }
@@ -86,7 +83,7 @@ struct CardBackRewardData: RewardData {
     let cardbackId: Int
 
     init(mirror: MirrorCardBackRewardData) {
-        cardbackId = mirror.cardbackId as Int
+        cardbackId = mirror.cardbackId as? Int ?? 0
     }
 }
 
@@ -94,7 +91,7 @@ struct ForgeTicketRewardData: RewardData {
     let quantity: Int
 
     init(mirror: MirrorForgeTicketRewardData) {
-        quantity = mirror.quantity as Int
+        quantity = mirror.quantity as? Int ?? 0
     }
 }
 
@@ -102,7 +99,7 @@ struct GoldRewardData: RewardData {
     let amount: Int
 
     init(mirror: MirrorGoldRewardData) {
-        amount = mirror.amount as Int
+        amount = mirror.amount as? Int ?? 0
     }
 }
 
@@ -110,5 +107,6 @@ struct MountRewardData: RewardData {
     let mountType: Int
 
     init(mirror: MirrorMountRewardData) {
-        mountType = mirror.mountType as Int    }
+        mountType = mirror.mountType as? Int ?? 0
+    }
 }

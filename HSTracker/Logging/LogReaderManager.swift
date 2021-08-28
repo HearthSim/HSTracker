@@ -9,113 +9,188 @@
 */
 
 import Foundation
-import CleanroomLogger
-import SwiftDate
+import BTree
 
 final class LogReaderManager {
-    let powerGameStateHandler = PowerGameStateHandler()
+	
+    // lower update times result in faster operation but higher CPU usage
+	static let updateDelay: TimeInterval = 0.05
+	
+    let powerGameStateParser: LogEventParser
     let rachelleHandler = RachelleHandler()
-    let arenaHandler = ArenaHandler()
-    let loadingScreenHandler = LoadingScreenHandler()
-    var fullScreenFxHandler = FullScreenFxHandler()
+	let arenaHandler: LogEventParser
+	let loadingScreenHandler: LogEventParser
+    let fullscreenFXHandler: LogEventParser
 
     private let powerLog: LogReader
-    private let gameStatePowerLogReader: LogReader
     private let rachelle: LogReader
     private let arena: LogReader
     private let loadingScreen: LogReader
-    private let fullScreenFx: LogReader
+    private let decksReader = DecksReader()
+    private let fullscreen: LogReader
 
     private var readers: [LogReader] {
-        return [powerLog, rachelle, arena, loadingScreen, fullScreenFx]
+        return [powerLog, rachelle, arena, loadingScreen, fullscreen]
     }
+    
+    public static let dateStringFormatter: LogDateFormatter = {
+        let formatter = LogDateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.dateFormat = "HH:mm:ss"
+        return formatter
+    }()
+    
+    public static let iso8601StringFormatter: LogDateFormatter = {
+        let formatter = LogDateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        return formatter
+    }()
+    
+    public static let fullDateStringFormatter: LogDateFormatter = {
+        let formatter = LogDateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ssZZZZZ"
+        return formatter
+    }()
+	
+    public static let timeZone = TimeZone.current
+    public static let calendar = Calendar.current
 
     var running = false
     var stopped = false
+    private var queue: DispatchQueue?
+    private var processMap = Map<LogDate, [LogLine]>()
+    private let coreManager: CoreManager
     
-    init(logPath: String) {
+	init(logPath: String, coreManager: CoreManager) {
+        self.coreManager = coreManager
+		loadingScreenHandler = LoadingScreenHandler(with: coreManager)
+		powerGameStateParser = PowerGameStateParser(with: coreManager.game)
+		arenaHandler = ArenaHandler(with: coreManager)
+        fullscreenFXHandler = FullScreenFxHandler(coreManager: coreManager)
+		
         let rx = "GameState.DebugPrintEntityChoices\\(\\)\\s-\\sid=(\\d) Player=(.+) TaskList=(\\d)"
         let plReader = LogReaderInfo(name: .power,
-                                     startsWithFilters: ["PowerTaskList.DebugPrintPower", rx],
-                                     containsFilters: ["Begin Spectating", "Start Spectator",
-                                                       "End Spectator"])
+                                     startsWithFilters: [["PowerTaskList.DebugPrintPower", rx, "GameState.DebugPrintGame"], ["GameState."]],
+                                     containsFilters: [["Begin Spectating", "Start Spectator",
+                                                       "End Spectator"], []])
         powerLog = LogReader(info: plReader, logPath: logPath)
-        
-        gameStatePowerLogReader = LogReader(info: LogReaderInfo(name: .power,
-                                                                startsWithFilters: ["GameState."],
-                                                                include: false),
-                                            logPath: logPath)
 
         rachelle = LogReader(info: LogReaderInfo(name: .rachelle), logPath: logPath)
         arena = LogReader(info: LogReaderInfo(name: .arena), logPath: logPath)
         loadingScreen = LogReader(info: LogReaderInfo(name: .loadingScreen,
-                                                      startsWithFilters: [
-                                                        "LoadingScreen.OnSceneLoaded", "Gameplay"]),
+                                                      startsWithFilters: [[
+                                                        "LoadingScreen.OnSceneLoaded", "Gameplay"]]),
                                   logPath: logPath)
-        fullScreenFx = LogReader(info: LogReaderInfo(name: .fullScreenFX), logPath: logPath)
+        fullscreen = LogReader(info: LogReaderInfo(name: .fullScreenFX), logPath: logPath)
     }
 
     func start() {
         guard !running else {
-            Log.error?.message("LogReaderManager is already running")
+            logger.error("LogReaderManager is already running")
             return
         }
-
+        logger.info("LogReaderManager is starting")
+        
+        queue = DispatchQueue(label: "net.hearthsim.hstracker.logReaderManager", attributes: [])
+        
+        guard let queue = queue else {
+            logger.error("LogReaderManager can not create queue")
+            return
+        }
+        queue.async {
+            self.startLogReaders()
+        }
+    }
+    
+    private func startLogReaders() {
         stopped = false
         running = true
         let entryPoint = self.entryPoint()
         for reader in readers {
             reader.start(manager: self, entryPoint: entryPoint)
         }
-        gameStatePowerLogReader.start(manager: self, entryPoint: entryPoint)
+        decksReader.start()
+        
+        while !stopped {
+            
+            autoreleasepool {
+                
+                for reader in readers {
+                    let loglines = reader.collect(index: 0)
+                    for line in loglines {
+                        var lineList: [LogLine]?
+                        if let loglist = processMap[line.time] {
+                            lineList = loglist
+                        } else {
+                            lineList = [LogLine]()
+                        }
+                        lineList?.append(line)
+                        processMap[line.time] = lineList
+                    }
+                    
+                }
+                
+                // save powerlines for replay upload
+                let powerLines = powerLog.collect(index: 1)
+                for line in powerLines {
+                    coreManager.game.add(powerLog: line)
+                }
+
+                for lineList in processMap.values {
+                    if stopped {
+                        break
+                    }
+                    for line in lineList {
+                        if stopped {
+                            break
+                        }
+                        processLine(line: line)
+                    }
+                }
+                processMap.removeAll()
+            }
+            Thread.sleep(forTimeInterval: LogReaderManager.updateDelay)
+        }
+        running = false
     }
 
-    func stop() {
-        Log.info?.message("Stopping all trackers")
+	func stop(eraseLogFile: Bool) {
+        logger.info("Stopping all trackers")
         stopped = true
         running = false
         for reader in readers {
-            reader.stop()
+			reader.stop(eraseLogFile: eraseLogFile)
         }
-        gameStatePowerLogReader.stop()  
+        decksReader.stop()
     }
 
-    func restart() {
-        Log.info?.message("LogReaderManager is restarting")
-        stop()
+	func restart(eraseLogFile: Bool = false) {
+        logger.info("LogReaderManager is restarting")
+		stop(eraseLogFile: eraseLogFile)
         start()
     }
 
-    private func entryPoint() -> DateInRegion {
+    private func entryPoint() -> LogDate {
         let powerEntry = powerLog.findEntryPoint(choices:
-            ["tag=GOLD_REWARD_STATE", "End Spectator"])
+            ["tag=STATE value=COMPLETE", "End Spectator"])
         let loadingScreenEntry = loadingScreen.findEntryPoint(choice: "Gameplay.Start")
 
-        let pe = powerEntry.string(format: .iso8601(options: [.withInternetDateTime]))
-        let lse = loadingScreenEntry.string(format: .iso8601(options: [.withInternetDateTime]))
-        Log.verbose?.message("powerEntry : \(pe) / loadingScreenEntry : \(lse)")
+        let pe = LogReaderManager.iso8601StringFormatter.string(from: powerEntry)
+        let lse = LogReaderManager.iso8601StringFormatter.string(from: loadingScreenEntry)
+        logger.verbose("powerEntry : \(pe) / loadingScreenEntry : \(lse)")
         
         return powerEntry > loadingScreenEntry ? powerEntry : loadingScreenEntry
-    }
-
-    func processLine(line: LogLine) {
-        let game = Game.shared
-
-        DispatchQueue.main.async { [weak self] in
-            if line.include {
-                switch line.namespace {
-                case .power: self?.powerGameStateHandler.handle(game: game, logLine: line)
-                case .rachelle: self?.rachelleHandler.handle(game: game, logLine: line)
-                case .arena: self?.arenaHandler.handle(game: game, logLine: line)
-                case .loadingScreen: self?.loadingScreenHandler.handle(game: game, logLine: line)
-                case .fullScreenFX: self?.fullScreenFxHandler.handle(game: game, logLine: line)
-                default: break
-                }
-            } else {
-                if line.namespace == .power {
-                    game.powerLog.append(line)
-                }
-            }
-        }
-    }
+	}
+	
+	private func processLine(line: LogLine) {
+        switch line.namespace {
+        case .power:
+            self.powerGameStateParser.handle(logLine: line)
+        case .rachelle: self.rachelleHandler.handle(logLine: line)
+        case .arena: self.arenaHandler.handle(logLine: line)
+        case .loadingScreen: self.loadingScreenHandler.handle(logLine: line)
+        case .fullScreenFX: self.fullscreenFXHandler.handle(logLine: line)
+        default: break
+		}
+	}
 }

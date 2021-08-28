@@ -7,9 +7,14 @@
 //
 
 import Foundation
-import MASPreferences
+import Preferences
 
-class PlayerTrackersPreferences: NSViewController {
+class PlayerTrackersPreferences: NSViewController, PreferencePane {
+    var preferencePaneIdentifier = Preferences.PaneIdentifier.player_trackers
+    
+    var preferencePaneTitle = NSLocalizedString("Player tracker", comment: "")
+    
+    var toolbarItemIcon = NSImage(named: "player")!
 
     @IBOutlet weak var showPlayerTracker: NSButton!
     @IBOutlet weak var showPlayerCardCount: NSButton!
@@ -26,91 +31,80 @@ class PlayerTrackersPreferences: NSViewController {
     @IBOutlet weak var showGraveyard: NSButton!
     @IBOutlet weak var showGraveyardDetails: NSButton!
     @IBOutlet weak var showJadeCounter: NSButton!
+    @IBOutlet weak var showGalakrondInvokeCounter: NSButton!
+    @IBOutlet weak var showLibramCounter: NSButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let settings = Settings.instance
-        showPlayerTracker.state = settings.showPlayerTracker ? NSOnState : NSOffState
-        showPlayerCardCount.state = settings.showPlayerCardCount ? NSOnState : NSOffState
-        showPlayerDrawChance.state = settings.showPlayerDrawChance ? NSOnState : NSOffState
-        showPlayerGet.state = settings.showPlayerGet ? NSOnState : NSOffState
-        showCthunCounter.state = settings.showPlayerCthun ? NSOnState : NSOffState
-        showSpellCounter.state = settings.showPlayerSpell ? NSOnState : NSOffState
-        showDeathrattleCounter.state = settings.showPlayerDeathrattle ? NSOnState : NSOffState
-        flashOnDraw.state = settings.flashOnDraw ? NSOnState : NSOffState
-        showRecord.state = settings.showWinLossRatio ? NSOnState : NSOffState
-        inHandColor.color = settings.playerInHandColor
-        showBoardDamage.state = settings.playerBoardDamage ? NSOnState : NSOffState
-        showDeckName.state = settings.showDeckNameInTracker ? NSOnState : NSOffState
-        showGraveyard.state = settings.showPlayerGraveyard ? NSOnState : NSOffState
-        showGraveyardDetails.state = settings.showPlayerGraveyardDetails ? NSOnState : NSOffState
-        showGraveyardDetails.isEnabled = showGraveyard.state == NSOnState
-        showJadeCounter.state = settings.showPlayerJadeCounter ? NSOnState : NSOffState
+        showPlayerTracker.state = Settings.showPlayerTracker ? .on : .off
+        showPlayerCardCount.state = Settings.showPlayerCardCount ? .on : .off
+        showPlayerDrawChance.state = Settings.showPlayerDrawChance ? .on : .off
+        showPlayerGet.state = Settings.showPlayerGet ? .on : .off
+        showCthunCounter.state = Settings.showPlayerCthun ? .on : .off
+        showSpellCounter.state = Settings.showPlayerSpell ? .on : .off
+        showDeathrattleCounter.state = Settings.showPlayerDeathrattle ? .on : .off
+        flashOnDraw.state = Settings.flashOnDraw ? .on : .off
+        showRecord.state = Settings.showWinLossRatio ? .on : .off
+        inHandColor.color = Settings.playerInHandColor
+        showBoardDamage.state = Settings.playerBoardDamage ? .on : .off
+        showDeckName.state = Settings.showDeckNameInTracker ? .on : .off
+        showGraveyard.state = Settings.showPlayerGraveyard ? .on : .off
+        showGraveyardDetails.state = Settings.showPlayerGraveyardDetails ? .on : .off
+        showGraveyardDetails.isEnabled = showGraveyard.state == .on
+        showJadeCounter.state = Settings.showPlayerJadeCounter ? .on : .off
+        showGalakrondInvokeCounter.state = Settings.showPlayerGalakrondCounter ? .on : .off
+        showLibramCounter.state = Settings.showPlayerLibramCounter ? .on : .off
     }
     
     @IBAction func colorChange(_ sender: NSColorWell) {
-        let settings = Settings.instance
         if sender == inHandColor {
-            settings.playerInHandColor = inHandColor.color
+            Settings.playerInHandColor = inHandColor.color
         }
     }
 
     @IBAction func checkboxClicked(_ sender: NSButton) {
-        let settings = Settings.instance
-
         if sender == showPlayerTracker {
-            settings.showPlayerTracker = showPlayerTracker.state == NSOnState
+            Settings.showPlayerTracker = showPlayerTracker.state == .on
         } else if sender == showPlayerGet {
-            settings.showPlayerGet = showPlayerGet.state == NSOnState
+            Settings.showPlayerGet = showPlayerGet.state == .on
         } else if sender == showPlayerCardCount {
-            settings.showPlayerCardCount = showPlayerCardCount.state == NSOnState
+            Settings.showPlayerCardCount = showPlayerCardCount.state == .on
         } else if sender == showPlayerDrawChance {
-            settings.showPlayerDrawChance = showPlayerDrawChance.state == NSOnState
+            Settings.showPlayerDrawChance = showPlayerDrawChance.state == .on
         } else if sender == showCthunCounter {
-            settings.showPlayerCthun = showCthunCounter.state == NSOnState
+            Settings.showPlayerCthun = showCthunCounter.state == .on
         } else if sender == showSpellCounter {
-            settings.showPlayerSpell = showSpellCounter.state == NSOnState
+            Settings.showPlayerSpell = showSpellCounter.state == .on
         } else if sender == showDeathrattleCounter {
-            settings.showPlayerDeathrattle = showDeathrattleCounter.state == NSOnState
+            Settings.showPlayerDeathrattle = showDeathrattleCounter.state == .on
         } else if sender == flashOnDraw {
-            settings.flashOnDraw = flashOnDraw.state == NSOnState
+            Settings.flashOnDraw = flashOnDraw.state == .on
         } else if sender == showRecord {
-            settings.showWinLossRatio = showRecord.state == NSOnState
+            Settings.showWinLossRatio = showRecord.state == .on
         } else if sender == showBoardDamage {
-            settings.playerBoardDamage = showBoardDamage.state == NSOnState
+            Settings.playerBoardDamage = showBoardDamage.state == .on
         } else if sender == showDeckName {
-            settings.showDeckNameInTracker = showDeckName.state == NSOnState
+            Settings.showDeckNameInTracker = showDeckName.state == .on
         } else if sender == showGraveyard {
-            settings.showPlayerGraveyard = showGraveyard.state == NSOnState
-            if showGraveyard.state == NSOnState {
+            Settings.showPlayerGraveyard = showGraveyard.state == .on
+            if showGraveyard.state == .on {
                 showGraveyardDetails.isEnabled = true
             } else {
                 showGraveyardDetails.isEnabled = false
             }
         } else if sender == showGraveyardDetails {
-            settings.showPlayerGraveyardDetails = showGraveyardDetails.state == NSOnState
+            Settings.showPlayerGraveyardDetails = showGraveyardDetails.state == .on
         } else if sender == showJadeCounter {
-            settings.showPlayerJadeCounter = showJadeCounter.state == NSOnState
+            Settings.showPlayerJadeCounter = showJadeCounter.state == .on
+        } else if sender == showGalakrondInvokeCounter {
+            Settings.showPlayerGalakrondCounter = showGalakrondInvokeCounter.state == .on
+        } else if sender == showLibramCounter {
+            Settings.showPlayerLibramCounter = showLibramCounter.state == .on
         }
     }
 }
 
-// MARK: - MASPreferencesViewController
-extension PlayerTrackersPreferences: MASPreferencesViewController {
-    override var identifier: String? {
-        get {
-            return "player_trackers"
-        }
-        set {
-            super.identifier = newValue
-        }
-    }
-
-    var toolbarItemImage: NSImage? {
-        return NSImage(named: NSImageNameAdvanced)
-    }
-
-    var toolbarItemLabel: String? {
-        return NSLocalizedString("Player tracker", comment: "")
-    }
+// MARK: - Preferences
+extension Preferences.PaneIdentifier {
+    static let player_trackers = Self("player_trackers")
 }

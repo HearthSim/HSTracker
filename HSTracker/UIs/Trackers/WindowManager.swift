@@ -7,13 +7,14 @@
 //
 
 import Foundation
-import CleanroomLogger
+import AppKit
 
 class WindowManager {
-    static let `default` = WindowManager()
-
+	
+	var hearthstoneActive = false
+	
     static let cardWidth: CGFloat = {
-        switch Settings.instance.cardSize {
+        switch Settings.cardSize {
         case .tiny: return CGFloat(kTinyFrameWidth)
         case .small: return CGFloat(kSmallFrameWidth)
         case .medium: return CGFloat(kMediumFrameWidth)
@@ -22,7 +23,7 @@ class WindowManager {
         }
     }()
     static let screenFrame: NSRect = {
-        return NSScreen.main()!.frame
+        return NSScreen.main!.frame
     }()
     static let top: CGFloat = {
         return screenFrame.height - 50
@@ -38,296 +39,185 @@ class WindowManager {
         return $0
     }(Tracker(windowNibName: "Tracker"))
 
-    var secretTracker: SecretTracker = {
-        $0.window?.orderFront(nil)
+    var secretTracker: CardList = {
         return $0
-    }(SecretTracker(windowNibName: "SecretTracker"))
-    
+    }(CardList(windowNibName: "CardList"))
+	
+	var arenaHelper: CardList = {
+		return $0
+	}(CardList(windowNibName: "CardList"))
+	
     var playerBoardDamage: BoardDamage = {
         $0.player = .player
-        $0.window?.orderFront(nil)
         return $0
     }(BoardDamage(windowNibName: "BoardDamage"))
 
     var opponentBoardDamage: BoardDamage = {
         $0.player = .opponent
-        $0.window?.orderFront(nil)
         return $0
     }(BoardDamage(windowNibName: "BoardDamage"))
 
     var timerHud: TimerHud = {
-        $0.window?.orderFront(nil)
         return $0
     }(TimerHud(windowNibName: "TimerHud"))
 
+    var turnCounter: TurnCounter = {
+        return $0
+    }(TurnCounter(windowNibName: "TurnCounter"))
+
+    var battlegroundsOverlay: BattlegroundsOverlay = {
+        return $0
+    }(BattlegroundsOverlay(windowNibName: "BattlegroundsOverlay"))
+
+    var battlegroundsDetailsWindow: BattlegroundsDetailsWindow = {
+        return $0
+    }(BattlegroundsDetailsWindow(windowNibName: "BattlegroundsDetailsWindow"))
+
+    var battlegroundsTierOverlay: BattlegroundsTierOverlay = {
+        return $0
+    }(BattlegroundsTierOverlay(windowNibName: "BattlegroundsTierOverlay"))
+
+    var battlegroundsTierDetailsWindowController: BattlegroundsTierDetailWindowController = {
+        return $0
+    }(BattlegroundsTierDetailWindowController(windowNibName: "BattlegroundsTierDetailWindowController"))
+    
+    var bobsBuddyPanel: BobsBuddyPanel = {
+        return $0
+    }(BobsBuddyPanel(windowNibName: "BobsBuddyPanel"))
+    
+    var experiencePanel: ExperienceOverlay = {
+        return $0
+    }(ExperienceOverlay(windowNibName: "ExperienceOverlay"))
+
+    var toastWindowController = ToastWindowController()
+
     var floatingCard: FloatingCard = {
-        $0.window?.orderFront(nil)
+        if let fWindow = $0.window {
+            
+            fWindow.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(CGWindowLevelKey.mainMenuWindow)) - 1)
+            
+            if Settings.canJoinFullscreen {
+                fWindow.collectionBehavior = [NSWindow.CollectionBehavior.canJoinAllSpaces, NSWindow.CollectionBehavior.fullScreenAuxiliary]
+            } else {
+                fWindow.collectionBehavior = []
+            }
+            
+            fWindow.styleMask = [.borderless, .nonactivatingPanel]
+            fWindow.ignoresMouseEvents = true
+            
+            fWindow.orderFront(nil)
+			fWindow.orderOut(nil)
+        }
         return $0
     }(FloatingCard(windowNibName: "FloatingCard"))
     
     var cardHudContainer: CardHudContainer = {
-        $0.window?.orderFront(nil)
         return $0
     }(CardHudContainer(windowNibName: "CardHudContainer"))
 
     private var lastCardsUpdateRequest = Date.distantPast.timeIntervalSince1970
 
-    private init() {
-    }
-
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-
+    var triggers: [NSObjectProtocol] = []
+    
     func startManager() {
-        let events = [
-            "show_floating_card": #selector(showFloatingCard(_:)),
-            "hide_floating_card": #selector(hideFloatingCard(_:))
+        secretTracker.isSecretPanel = true
+        if triggers.count == 0 {
+            let events = [
+                Events.show_floating_card: self.showFloatingCard,
+                Events.hide_floating_card: self.hideFloatingCard
             ]
-
-        for (event, selector) in events {
-            NotificationCenter.default.addObserver(self,
-                                                   selector: selector,
-                                                   name: NSNotification.Name(rawValue: event),
-                                                   object: nil)
+            for (event, trigger) in events {
+                let observer = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: event), object: nil, queue: OperationQueue.main) { note in
+                    trigger(note)
+                }
+                triggers.append(observer)
+            }
         }
-
-        let reload = ["window_locked", "show_player_tracker", "show_opponent_tracker",
-                      "auto_position_trackers", "space_changed", "hearthstone_closed",
-                      "hearthstone_running", "hearthstone_active", "hearthstone_deactived",
-                      "can_join_fullscreen"]
-        for event in reload {
-            NotificationCenter.default.addObserver(self,
-                                                   selector: #selector(updateTrackersAfterEvent),
-                                                   name: NSNotification.Name(rawValue: event),
-                                                   object: nil)
+    }
+    
+    deinit {
+        for observer in triggers {
+            NotificationCenter.default.removeObserver(observer)
         }
-
-        updateTrackers()
-        forceHideFloatingCard()
     }
-
-    func isReady() -> Bool {
-        return playerTracker.isLoaded() && opponentTracker.isLoaded()
-    }
+	
+	private func setHearthstoneActive() { hearthstoneActive = true }
+	private func setHearthstoneBackground() { hearthstoneActive = false }
 
     func hideGameTrackers() {
+		// TODO: use not defered gui instead
         DispatchQueue.main.async { [weak self] in
             self?.secretTracker.window?.orderOut(nil)
+			self?.arenaHelper.window?.orderOut(nil)
             self?.timerHud.window?.orderOut(nil)
             self?.playerBoardDamage.window?.orderOut(nil)
             self?.opponentBoardDamage.window?.orderOut(nil)
+            self?.battlegroundsDetailsWindow.window?.orderOut(nil)
+            self?.bobsBuddyPanel.window?.orderOut(nil)
+            self?.turnCounter.window?.orderOut(nil)
+            self?.battlegroundsTierOverlay.window?.orderOut(nil)
             self?.cardHudContainer.reset()
-        }
-    }
-
-    @objc private func updateTrackersAfterEvent() {
-        let time = DispatchTime.now() + DispatchTimeInterval.seconds(2)
-        DispatchQueue.main.asyncAfter(deadline: time) { [weak self] in
-            SizeHelper.hearthstoneWindow.reload()
-            self?.updateTrackers()
-        }
-    }
-
-    // MARK: - Updating trackers
-    func updateTrackers(reset: Bool = false) {
-        lastCardsUpdateRequest = NSDate().timeIntervalSince1970
-        let when = DispatchTime.now() + DispatchTimeInterval.milliseconds(110)
-        DispatchQueue.main.asyncAfter(deadline: when) { [weak self] in
-            guard let strongSelf = self else { return }
-            guard Date().timeIntervalSince1970 - strongSelf.lastCardsUpdateRequest > 0.1 else {
-                return
-            }
-
-            SizeHelper.hearthstoneWindow.reload()
-
-            strongSelf.redrawTrackers(reset: reset)
-        }
-    }
-
-    private func redrawTrackers(reset: Bool = false) {
-        let settings = Settings.instance
-        let game = Game.shared
-        
-        var rect: NSRect?
-
-        // timer
-        if Settings.instance.showTimer && !game.gameEnded {
-            if settings.autoPositionTrackers {
-                rect = SizeHelper.timerHudFrame()
-            } else {
-                rect = Settings.instance.timerHudFrame
-                if rect == nil {
-                    rect = SizeHelper.timerHudFrame()
-                }
-            }
-            timerHud.hasValidFrame = true
-            show(controller: timerHud, show: true, frame: rect)
-        } else {
-            show(controller: timerHud, show: false)
-        }
-
-        // secret helper
-        if settings.showSecretHelper {
-            if let secrets = game.opponentSecrets, secrets.allSecrets().count > 0 {
-                secretTracker.set(secrets: secrets.allSecrets())
-                show(controller: secretTracker, show: true, frame: SizeHelper.secretTrackerFrame())
-            } else {
-                show(controller: secretTracker, show: false)
-            }
-        } else {
-            show(controller: secretTracker, show: false)
-        }
-
-        // card hud
-        if settings.showCardHuds {
-            if !game.gameEnded {
-                cardHudContainer.update(entities: game.opponent.hand,
-                                        cardCount: game.opponent.handCount)
-                show(controller: cardHudContainer, show: true,
-                           frame: SizeHelper.cardHudContainerFrame())
-            } else {
-                show(controller: cardHudContainer, show: false)
-            }
-        } else {
-            show(controller: cardHudContainer, show: false)
-        }
-
-        // board damage
-        let board = BoardState()
-
-        if settings.playerBoardDamage {
-            if !game.gameEnded {
-                playerBoardDamage.update(attack: board.player.damage)
-                if settings.autoPositionTrackers {
-                    rect = SizeHelper.playerBoardDamageFrame()
-                } else {
-                    rect = Settings.instance.playerBoardDamageFrame
-                    if rect == nil {
-                        rect = SizeHelper.playerBoardDamageFrame()
-                    }
-                }
-                playerBoardDamage.hasValidFrame = true
-                show(controller: playerBoardDamage, show: true,
-                     frame: rect)
-            } else {
-                show(controller: playerBoardDamage, show: false)
-            }
-        } else {
-            show(controller: playerBoardDamage, show: false)
-        }
-
-        if settings.opponentBoardDamage {
-            if !game.gameEnded {
-                opponentBoardDamage.update(attack: board.opponent.damage)
-                if settings.autoPositionTrackers {
-                    rect = SizeHelper.opponentBoardDamageFrame()
-                } else {
-                    rect = Settings.instance.opponentBoardDamageFrame
-                    if rect == nil {
-                        rect = SizeHelper.opponentBoardDamageFrame()
-                    }
-                }
-                opponentBoardDamage.hasValidFrame = true
-                show(controller: opponentBoardDamage, show: true,
-                     frame: SizeHelper.opponentBoardDamageFrame())
-            } else {
-                show(controller: opponentBoardDamage, show: false)
-            }
-        } else {
-            show(controller: opponentBoardDamage, show: false)
-        }
-
-        if settings.showOpponentTracker {
-            // opponent tracker
-            let cards = settings.clearTrackersOnGameEnd && game.gameEnded
-                ? [] : game.opponent.opponentCardList
-            opponentTracker.update(cards: cards, reset: reset)
-            opponentTracker.setWindowSizes()
-
-            if settings.autoPositionTrackers && Hearthstone.instance.isHearthstoneRunning {
-                rect = SizeHelper.opponentTrackerFrame()
-            } else {
-                rect = Settings.instance.opponentTrackerFrame
-                if rect == nil {
-                    let x = WindowManager.screenFrame.origin.x + 50
-                    rect = NSRect(x: x,
-                                  y: WindowManager.top + WindowManager.screenFrame.origin.y,
-                                  width: WindowManager.cardWidth,
-                                  height: WindowManager.top)
-                }
-            }
-            opponentTracker.hasValidFrame = true
-            show(controller: opponentTracker, show: true, frame: rect, title: "Opponent tracker")
-        } else {
-            show(controller: opponentTracker, show: false)
-        }
-
-        // player tracker
-        if settings.showPlayerTracker {
-            playerTracker.update(cards: game.player.playerCardList, reset: reset)
-            playerTracker.setWindowSizes()
-
-            if settings.autoPositionTrackers && Hearthstone.instance.isHearthstoneRunning {
-                rect = SizeHelper.playerTrackerFrame()
-            } else {
-                rect = settings.playerTrackerFrame
-                if rect == nil {
-                    let x = WindowManager.screenFrame.width - WindowManager.cardWidth
-                        + WindowManager.screenFrame.origin.x
-                    rect = NSRect(x: x,
-                                  y: WindowManager.top + WindowManager.screenFrame.origin.y,
-                                  width: WindowManager.cardWidth,
-                                  height: WindowManager.top)
-                }
-            }
-            playerTracker.hasValidFrame = true
-            show(controller: playerTracker, show: true, frame: rect, title: "Player tracker")
-        } else {
-            show(controller: playerTracker, show: false)
         }
     }
 
     // MARK: - Floating card
     var closeRequestTimer: Timer?
-    @objc func showFloatingCard(_ notification: Notification) {
-        guard Settings.instance.showFloatingCard else { return }
-
-        guard let card = notification.userInfo?["card"] as? Card,
-            let arrayFrame = notification.userInfo?["frame"] as? [CGFloat] else {
-                return
+    func showFloatingCard(_ notification: Notification) {
+        DispatchQueue.main.async { [unowned(unsafe) self] in
+            guard Settings.showFloatingCard else { return }
+            
+            guard let card = notification.userInfo?["card"] as? Card,
+                let arrayFrame = notification.userInfo?["frame"] as? [CGFloat] else {
+                    return
+            }
+            
+            if let bgs = notification.userInfo?["battlegrounds"] as? Bool, bgs {
+                self.floatingCard.isBattlegrounds = true
+            } else {
+                self.floatingCard.isBattlegrounds = false
+            }
+            if let timer = self.closeRequestTimer {
+                timer.invalidate()
+                self.closeRequestTimer = nil
+            }
+            
+            if let drawchancetop = notification.userInfo?["drawchancetop"] as? Float,
+                let drawchancetop2 = notification.userInfo?["drawchancetop2"] as? Float {
+                self.floatingCard.set(card: card, drawChanceTop: drawchancetop,
+                                 drawChanceTop2: drawchancetop2)
+            } else {
+                self.floatingCard.set(card: card, drawChanceTop: 0, drawChanceTop2: 0)
+            }
+            
+            if let fWindow = self.floatingCard.window {
+                fWindow.setFrameOrigin(NSPoint(x: arrayFrame[0],
+                                                            y: arrayFrame[1] - fWindow.frame.size.height/2))
+                
+                fWindow.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(CGWindowLevelKey.mainMenuWindow)) - 1)
+                
+                if Settings.canJoinFullscreen {
+                    fWindow.collectionBehavior = [NSWindow.CollectionBehavior.canJoinAllSpaces, NSWindow.CollectionBehavior.fullScreenAuxiliary]
+                } else {
+                    fWindow.collectionBehavior = []
+                }
+                
+                fWindow.styleMask = [.borderless, .nonactivatingPanel]
+                fWindow.ignoresMouseEvents = true
+                
+                fWindow.orderFront(nil)
+            }
+            
+            self.closeRequestTimer = Timer.scheduledTimer(
+                timeInterval: 3,
+                target: self,
+                selector: #selector(self.forceHideFloatingCard),
+                userInfo: nil,
+                repeats: false)
         }
-        if let timer = closeRequestTimer {
-            timer.invalidate()
-            closeRequestTimer = nil
-        }
-        
-        floatingCard.window?.level = Int(CGWindowLevelForKey(CGWindowLevelKey.mainMenuWindow)) - 1
-        
-        if let drawchancetop = notification.userInfo?["drawchancetop"] as? Float,
-            let drawchancetop2 = notification.userInfo?["drawchancetop2"] as? Float {
-            floatingCard.set(card: card, drawChanceTop: drawchancetop,
-                             drawChanceTop2: drawchancetop2)
-        } else {
-            floatingCard.set(card: card, drawChanceTop: 0, drawChanceTop2: 0)
-        }
-        
-        if let fWindow = floatingCard.window {
-            floatingCard.window?.setFrameOrigin(NSPoint(x: arrayFrame[0],
-                                                    y: arrayFrame[1] - fWindow.frame.size.height/2))
-        }
-        floatingCard.showWindow(self)
-        
-        closeRequestTimer = Timer.scheduledTimer(
-            timeInterval: 3,
-            target: self,
-            selector: #selector(forceHideFloatingCard),
-            userInfo: nil,
-            repeats: false)
     }
 
-    @objc func hideFloatingCard(_ notification: Notification) {
-        guard Settings.instance.showFloatingCard else { return }
+    func hideFloatingCard(_ notification: Notification) {
+        guard Settings.showFloatingCard else { return }
         
         // hide popup
         guard let card = notification.userInfo?["card"] as? Card
@@ -341,18 +231,16 @@ class WindowManager {
     }
     
     @objc func forceHideFloatingCard() {
-        floatingCard.window?.orderOut(self)
-        closeRequestTimer?.invalidate()
-        closeRequestTimer = nil
-    }
-
-    func showHideCardHuds(_ notification: Notification) {
-        updateTrackers()
+        DispatchQueue.main.async { [unowned(unsafe) self] in
+            self.floatingCard.window?.orderOut(self)
+            self.closeRequestTimer?.invalidate()
+            self.closeRequestTimer = nil
+        }
     }
 
     // MARK: - Utility functions
-    private func show(controller: OverWindowController, show: Bool,
-                      frame: NSRect? = nil, title: String? = nil) {
+    func show(controller: OverWindowController, show: Bool,
+              frame: NSRect? = nil, title: String? = nil, overlay: Bool = true) {
         guard let window = controller.window else { return }
 
         DispatchQueue.main.async {
@@ -365,41 +253,45 @@ class WindowManager {
                     window.title = NSLocalizedString(title, comment: "")
                 }
 
+                // update gui elements
+                controller.updateFrames()
+                
                 // show window and set size
                 if let frame = frame {
-                    window.setFrame(frame, display: true)
+                    window.setFrame(frame, display: true, animate: false)
                 }
 
                 // set the level of the window : over all if hearthstone is active
                 // as a normal window otherwise
                 let level: Int
-                if Hearthstone.instance.hearthstoneActive {
-                    level = Int(CGWindowLevelForKey(CGWindowLevelKey.mainMenuWindow)) - 1
+                if overlay {
+                    level = Int(CGWindowLevelForKey(CGWindowLevelKey.screenSaverWindow)) - 1
                 } else {
                     level = Int(CGWindowLevelForKey(CGWindowLevelKey.normalWindow))
                 }
-                window.level = level
+                window.level = NSWindow.Level(rawValue: level)
 
                 // if the setting is on, set the window behavior to join all workspaces
-                if Settings.instance.canJoinFullscreen {
-                    window.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
+                if Settings.canJoinFullscreen {
+                    window.collectionBehavior = [NSWindow.CollectionBehavior.canJoinAllSpaces, NSWindow.CollectionBehavior.fullScreenAuxiliary]
                 } else {
                     window.collectionBehavior = []
                 }
 
-                let locked = Settings.instance.windowsLocked
+                let locked = Settings.windowsLocked || controller.alwaysLocked
                 if locked {
-                    window.styleMask = [NSBorderlessWindowMask, NSNonactivatingPanelMask]
+                    window.styleMask = [.borderless, .nonactivatingPanel]
                 } else {
-                    window.styleMask = [NSTitledWindowMask, NSMiniaturizableWindowMask,
-                                        NSResizableWindowMask, NSBorderlessWindowMask,
-                                        NSNonactivatingPanelMask]
+                    window.styleMask = [.titled, .miniaturizable,
+                                        .resizable, .borderless,
+                                        .nonactivatingPanel]
                 }
-                window.ignoresMouseEvents = locked
 
                 window.orderFront(nil)
             } else {
-                NSApp.removeWindowsItem(window)
+                if title != nil {
+                    NSApp.removeWindowsItem(window)
+                }
                 window.orderOut(nil)
             }
         }

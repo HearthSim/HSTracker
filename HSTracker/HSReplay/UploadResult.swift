@@ -12,3 +12,8 @@ enum UploadResult {
     case failed(error: String)
     case successful(replayId: String)
 }
+
+enum CollectionUploadResult {
+    case failed(error: String)
+    case successful
+}

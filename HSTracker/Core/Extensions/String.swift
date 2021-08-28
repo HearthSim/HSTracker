@@ -11,41 +11,56 @@
 import Foundation
 
 extension String {
-
-    static func isNullOrEmpty(_ str: String?) -> Bool {
-        return str == nil || str!.isEmpty
-    }
-
-    func substringWithRange(_ start: Int, end: Int) -> String {
-        if start < 0 || start > self.characters.count {
-            print("start index \(start) out of bounds")
-            return ""
-        } else if end < 0 || end > self.characters.count {
-            print("end index \(end) out of bounds")
-            return ""
-        }
-        let range = self.characters.index(self.startIndex, offsetBy: start)
-            ..< self.characters.index(self.startIndex, offsetBy: end)
-        return self.substring(with: range)
-    }
-
-    func substringWithRange(_ start: Int, location: Int) -> String {
-        if start < 0 || start > self.characters.count {
-            print("start index \(start) out of bounds")
-            return ""
-        } else if location < 0 || start + location > self.characters.count {
-            print("end index \(start + location) out of bounds")
-            return ""
-        }
-
-        let startPos = self.characters.index(self.startIndex, offsetBy: start)
-        let endPos = self.characters.index(self.startIndex, offsetBy: start + location)
-        let range = startPos ..< endPos
-        return self.substring(with: range)
-    }
-
     func trim() -> String {
-        return self.trimmingCharacters(in: .whitespacesAndNewlines)
+        return trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    var isBlank: Bool {
+        return trim().isEmpty
+    }
+}
+extension Optional where Wrapped == String {
+    var isBlank: Bool {
+        return self?.isBlank ?? true
+    }
+}
+
+extension String {
+    func substring(from: Int) -> String {
+        if from < 0 || from > self.count {
+            print("from index \(from) out of bounds")
+            return ""
+        }
+
+        return String(self[index(startIndex, offsetBy: from)...])
+    }
+
+    func substring(from: Int, to: Int) -> String {
+        if from < 0 || from > self.count {
+            print("from index \(from) out of bounds")
+            return ""
+        } else if to < 0 || to > self.count {
+            print("to index \(to) out of bounds")
+            return ""
+        }
+        let range = self.index(self.startIndex, offsetBy: from)
+            ..< self.index(self.startIndex, offsetBy: to)
+        return String(self[range])
+    }
+
+    func substring(from: Int, length: Int) -> String {
+        if from < 0 || from > self.count {
+            print("from index \(from) out of bounds")
+            return ""
+        } else if length < 0 || from + length > self.count {
+            print("end index \(from + length) out of bounds")
+            return ""
+        }
+
+        let startPos = self.index(self.startIndex, offsetBy: from)
+        let endPos = self.index(self.startIndex, offsetBy: from + length)
+        let range = startPos ..< endPos
+        return String(self[range])
     }
 
     func char(at: Int) -> String {

@@ -8,8 +8,6 @@
 
 import Foundation
 
-// swiftlint:disable type_name
-
 enum Mode: String {
     case invalid,
     startup,
@@ -25,5 +23,9 @@ enum Mode: String {
     credits,
     reset,
     adventure,
-    tavern_brawl
+    tavern_brawl,
+    fireside_gathering,
+    bacon,
+    game_mode,
+    pvp_dungeon_run
 }

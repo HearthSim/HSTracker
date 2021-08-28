@@ -1,0 +1,120 @@
+
+/* Class = "NSMenuItem"; title = "HSTracker"; ObjectID = "1Xt-HY-uBw"; */
+"1Xt-HY-uBw.title" = "HSTracker";
+
+/* Class = "NSMenuItem"; title = "Decks"; ObjectID = "1a9-Jp-R8O"; */
+"1a9-Jp-R8O.title" = "套牌";
+
+/* Class = "NSMenuItem"; title = "Quit HSTracker"; ObjectID = "4sb-4s-VLi"; */
+"4sb-4s-VLi.title" = "結束 HSTracker";
+
+/* Class = "NSMenuItem"; title = "Check for Updates..."; ObjectID = "4yc-yU-eH1"; */
+"4yc-yU-eH1.title" = "檢查更新";
+
+/* Class = "NSMenuItem"; title = "Edit"; ObjectID = "5QF-Oa-p0T"; */
+"5QF-Oa-p0T.title" = "編輯";
+
+/* Class = "NSMenuItem"; title = "About HSTracker"; ObjectID = "5kV-Vb-QxS"; */
+"5kV-Vb-QxS.title" = "關於 HSTracker";
+
+/* Class = "NSMenuItem"; title = "Redo"; ObjectID = "6dh-zS-Vam"; */
+"6dh-zS-Vam.title" = "復原";
+
+/* Class = "NSMenu"; title = "Decks"; ObjectID = "8x4-Eu-hed"; */
+"8x4-Eu-hed.title" = "套牌";
+
+/* Class = "NSMenuItem"; title = "Lock windows"; ObjectID = "9Mn-Tj-Fg1"; */
+"9Mn-Tj-Fg1.title" = "鎖定視窗";
+
+/* Class = "NSMenu"; title = "Main Menu"; ObjectID = "AYu-sK-qS6"; */
+"AYu-sK-qS6.title" = "主選單";
+
+/* Class = "NSMenuItem"; title = "Preferences…"; ObjectID = "BOF-NM-1cW"; */
+"BOF-NM-1cW.title" = "偏好設定";
+
+/* Class = "NSMenu"; title = "Last replays"; ObjectID = "Ck1-T5-ndx"; */
+"Ck1-T5-ndx.title" = "最近的重播";
+
+/* Class = "NSMenu"; title = "Help"; ObjectID = "F2S-fz-NVQ"; */
+"F2S-fz-NVQ.title" = "幫助";
+
+/* Class = "NSMenuItem"; title = "HSTracker Help"; ObjectID = "FKE-Sm-Kum"; */
+"FKE-Sm-Kum.title" = "HSTracker 幫助";
+
+/* Class = "NSMenuItem"; title = "Show All"; ObjectID = "Kd2-mp-pUS"; */
+"Kd2-mp-pUS.title" = "顯示全部";
+
+/* Class = "NSMenuItem"; title = "Deck Manager"; ObjectID = "LKO-TA-MDe"; */
+"LKO-TA-MDe.title" = "套牌管理器";
+
+/* Class = "NSMenuItem"; title = "Minimize"; ObjectID = "OY7-WF-poV"; */
+"OY7-WF-poV.title" = "最小化";
+
+/* Class = "NSMenuItem"; title = "Hide HSTracker"; ObjectID = "Olw-nP-bQN"; */
+"Olw-nP-bQN.title" = "隱藏 HSTracker";
+
+/* Class = "NSMenuItem"; title = "Replays"; ObjectID = "RBa-X9-6k6"; */
+"RBa-X9-6k6.title" = "重播";
+
+/* Class = "NSMenuItem"; title = "Select All"; ObjectID = "Ruw-6m-B2m"; */
+"Ruw-6m-B2m.title" = "全選";
+
+/* Class = "NSMenuItem"; title = "Clear trackers"; ObjectID = "Slg-Ni-HzQ"; */
+"Slg-Ni-HzQ.title" = "清除記牌器";
+
+/* Class = "NSMenu"; title = "Window"; ObjectID = "Td7-aD-5lo"; */
+"Td7-aD-5lo.title" = "視窗";
+
+/* Class = "NSMenuItem"; title = "Hide Others"; ObjectID = "Vdr-fp-XzO"; */
+"Vdr-fp-XzO.title" = "隱藏其他";
+
+/* Class = "NSMenu"; title = "Edit"; ObjectID = "W48-6f-4Dl"; */
+"W48-6f-4Dl.title" = "編輯";
+
+/* Class = "NSMenuItem"; title = "Window"; ObjectID = "aUF-d1-5bR"; */
+"aUF-d1-5bR.title" = "視窗";
+
+/* Class = "NSMenuItem"; title = "Close"; ObjectID = "cHz-nn-4Ia"; */
+"cHz-nn-4Ia.title" = "關閉";
+
+/* Class = "NSMenuItem"; title = "Undo"; ObjectID = "dRJ-4n-Yzg"; */
+"dRJ-4n-Yzg.title" = "復原";
+
+/* Class = "NSMenu"; title = "Replays"; ObjectID = "esn-TJ-7Ds"; */
+"esn-TJ-7Ds.title" = "重播";
+
+/* Class = "NSMenuItem"; title = "Window positions"; ObjectID = "fkd-3m-6YS"; */
+"fkd-3m-6YS.title" = "視窗位置";
+
+/* Class = "NSMenuItem"; title = "Load from file"; ObjectID = "gJj-4D-mrw"; */
+"gJj-4D-mrw.title" = "從檔案讀入";
+
+/* Class = "NSMenuItem"; title = "Last replays"; ObjectID = "gKK-Xg-cTS"; */
+"gKK-Xg-cTS.title" = "最近的重播";
+
+/* Class = "NSMenuItem"; title = "Paste"; ObjectID = "gVA-U4-sdL"; */
+"gVA-U4-sdL.title" = "貼上";
+
+/* Class = "NSMenu"; title = "Debug"; ObjectID = "hYW-YU-3Sy"; */
+"hYW-YU-3Sy.title" = "除錯";
+
+/* Class = "NSMenuItem"; title = "Debug"; ObjectID = "jNP-dX-InV"; */
+"jNP-dX-InV.title" = "除錯";
+
+/* Class = "NSMenuItem"; title = "Delete"; ObjectID = "pa3-QI-u2k"; */
+"pa3-QI-u2k.title" = "刪除";
+
+/* Class = "NSMenu"; title = "HSTracker"; ObjectID = "uQy-DD-JDr"; */
+"uQy-DD-JDr.title" = "HSTracker";
+
+/* Class = "NSMenuItem"; title = "Cut"; ObjectID = "uRl-iY-unG"; */
+"uRl-iY-unG.title" = "剪下";
+
+/* Class = "NSMenuItem"; title = "Help"; ObjectID = "wpr-3q-Mcd"; */
+"wpr-3q-Mcd.title" = "幫助";
+
+/* Class = "NSMenuItem"; title = "Copy"; ObjectID = "x3v-GG-iWU"; */
+"x3v-GG-iWU.title" = "複製";
+
+/* Class = "NSMenuItem"; title = "Open replays directory"; ObjectID = "yTs-jD-geS"; */
+"yTs-jD-geS.title" = "開啟重播目錄";

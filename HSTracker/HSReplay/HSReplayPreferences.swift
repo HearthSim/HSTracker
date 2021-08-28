@@ -7,10 +7,15 @@
 //
 
 import Foundation
-import MASPreferences
-import CleanroomLogger
+import Preferences
 
-class HSReplayPreferences: NSViewController {
+class HSReplayPreferences: NSViewController, PreferencePane {
+    var preferencePaneIdentifier = Preferences.PaneIdentifier.hsreplay
+    
+    var preferencePaneTitle = "HSReplay"
+    
+    var toolbarItemIcon = NSImage(named: "hsreplay_icon")!
+    
     @IBOutlet weak var synchronizeMatches: NSButton!
     @IBOutlet weak var gameTypeSelector: NSView!
     @IBOutlet weak var uploadRankedGames: NSButton!
@@ -20,69 +25,72 @@ class HSReplayPreferences: NSViewController {
     @IBOutlet weak var uploadFriendlyGames: NSButton!
     @IBOutlet weak var uploadAdventureGames: NSButton!
     @IBOutlet weak var uploadSpectatorGames: NSButton!
-    
-    @IBOutlet weak var hsReplayAccountStatus: NSTextField!
+    @IBOutlet weak var uploadBattlegroundsGames: NSButton!
+    @IBOutlet weak var uploadDuelsGames: NSButton!
+
     @IBOutlet weak var claimAccountButton: NSButtonCell!
     @IBOutlet weak var claimAccountInfo: NSTextField!
     @IBOutlet weak var disconnectButton: NSButton!
     @IBOutlet weak var showPushNotification: NSButton!
+    @IBOutlet weak var oAuthAccount: NSButton!
     private var getAccountTimer: Timer?
     private var requests = 0
     private let maxRequests = 10
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        let settings = Settings.instance
-        
-        showPushNotification.state = settings.showHSReplayPushNotification ? NSOnState : NSOffState
-        synchronizeMatches.state = settings.hsReplaySynchronizeMatches ? NSOnState : NSOffState
-        
-        // swiftlint:disable line_length
-        uploadRankedGames.state = settings.hsReplayUploadRankedMatches ? NSOnState : NSOffState
-        uploadCasualGames.state = settings.hsReplayUploadCasualMatches ? NSOnState : NSOffState
-        uploadArenaGames.state = settings.hsReplayUploadArenaMatches ? NSOnState : NSOffState
-        uploadBrawlGames.state = settings.hsReplayUploadBrawlMatches ? NSOnState : NSOffState
-        uploadFriendlyGames.state = settings.hsReplayUploadFriendlyMatches ? NSOnState : NSOffState
-        uploadAdventureGames.state = settings.hsReplayUploadAdventureMatches ? NSOnState : NSOffState
-        uploadSpectatorGames.state = settings.hsReplayUploadSpectatorMatches ? NSOnState : NSOffState
-        // swiftlint:enable line_length
-        
+
+        showPushNotification.state = Settings.showHSReplayPushNotification ? .on : .off
+        synchronizeMatches.state = Settings.hsReplaySynchronizeMatches ? .on : .off
+
+        uploadRankedGames.state = Settings.hsReplayUploadRankedMatches ? .on : .off
+        uploadCasualGames.state = Settings.hsReplayUploadCasualMatches ? .on : .off
+        uploadArenaGames.state = Settings.hsReplayUploadArenaMatches ? .on : .off
+        uploadBrawlGames.state = Settings.hsReplayUploadBrawlMatches ? .on : .off
+        uploadFriendlyGames.state = Settings.hsReplayUploadFriendlyMatches ? .on : .off
+        uploadAdventureGames.state = Settings.hsReplayUploadAdventureMatches ? .on : .off
+        uploadSpectatorGames.state = Settings.hsReplayUploadSpectatorMatches ? .on : .off
+        uploadBattlegroundsGames.state = Settings.hsReplayUploadBattlegroundsMatches ? .on : .off
+        uploadDuelsGames.state = Settings.hsReplayUploadDuelsMatches ? .on : .off
+
         updateUploadGameTypeView()
         updateStatus()
     }
-    
+
     override func viewDidDisappear() {
         getAccountTimer?.invalidate()
     }
-    
+
     @IBAction func checkboxClicked(_ sender: NSButton) {
-        let settings = Settings.instance
-        
         if sender == synchronizeMatches {
-            settings.hsReplaySynchronizeMatches = synchronizeMatches.state == NSOnState
+            Settings.hsReplaySynchronizeMatches = synchronizeMatches.state == .on
         } else if sender == showPushNotification {
-            settings.showHSReplayPushNotification = showPushNotification.state == NSOnState
+            Settings.showHSReplayPushNotification = showPushNotification.state == .on
         } else if sender == uploadRankedGames {
-            settings.hsReplayUploadRankedMatches = uploadRankedGames.state == NSOnState
+            Settings.hsReplayUploadRankedMatches = uploadRankedGames.state == .on
         } else if sender == uploadCasualGames {
-            settings.hsReplayUploadCasualMatches = uploadCasualGames.state == NSOnState
+            Settings.hsReplayUploadCasualMatches = uploadCasualGames.state == .on
         } else if sender == uploadArenaGames {
-            settings.hsReplayUploadArenaMatches = uploadArenaGames.state == NSOnState
+            Settings.hsReplayUploadArenaMatches = uploadArenaGames.state == .on
         } else if sender == uploadBrawlGames {
-            settings.hsReplayUploadBrawlMatches = uploadBrawlGames.state == NSOnState
+            Settings.hsReplayUploadBrawlMatches = uploadBrawlGames.state == .on
         } else if sender == uploadFriendlyGames {
-            settings.hsReplayUploadFriendlyMatches = uploadFriendlyGames.state == NSOnState
+            Settings.hsReplayUploadFriendlyMatches = uploadFriendlyGames.state == .on
         } else if sender == uploadAdventureGames {
-            settings.hsReplayUploadAdventureMatches = uploadAdventureGames.state == NSOnState
+            Settings.hsReplayUploadAdventureMatches = uploadAdventureGames.state == .on
         } else if sender == uploadSpectatorGames {
-            settings.hsReplayUploadSpectatorMatches = uploadSpectatorGames.state == NSOnState
+            Settings.hsReplayUploadSpectatorMatches = uploadSpectatorGames.state == .on
+        } else if sender == uploadBattlegroundsGames {
+            Settings.hsReplayUploadBattlegroundsMatches = uploadBattlegroundsGames.state == .on
+        } else if sender == uploadDuelsGames {
+            Settings.hsReplayUploadDuelsMatches = uploadDuelsGames.state == .on
         }
-        
+
         updateUploadGameTypeView()
     }
-    
+
     fileprivate func updateUploadGameTypeView() {
-        if synchronizeMatches.state == NSOffState {
+        if synchronizeMatches.state == .off {
             uploadRankedGames.isEnabled = false
             uploadCasualGames.isEnabled = false
             uploadArenaGames.isEnabled = false
@@ -90,6 +98,8 @@ class HSReplayPreferences: NSViewController {
             uploadFriendlyGames.isEnabled = false
             uploadAdventureGames.isEnabled = false
             uploadSpectatorGames.isEnabled = false
+            uploadBattlegroundsGames.isEnabled = false
+            uploadDuelsGames.isEnabled = false
         } else {
             uploadRankedGames.isEnabled = true
             uploadCasualGames.isEnabled = true
@@ -98,19 +108,15 @@ class HSReplayPreferences: NSViewController {
             uploadFriendlyGames.isEnabled = true
             uploadAdventureGames.isEnabled = true
             uploadSpectatorGames.isEnabled = true
+            uploadBattlegroundsGames.isEnabled = true
+            uploadDuelsGames.isEnabled = true
         }
     }
-    
+
     @IBAction func disconnectAccount(_ sender: AnyObject) {
-        Settings.instance.hsReplayUsername = nil
-        Settings.instance.hsReplayId = nil
-        updateStatus()
-    }
-    
-    @IBAction func resetAccount(_ sender: Any) {
-        Settings.instance.hsReplayUsername = nil
-        Settings.instance.hsReplayId = nil
-        Settings.instance.hsReplayUploadToken = nil
+        Settings.hsReplayUsername = nil
+        Settings.hsReplayId = nil
+        Settings.hsReplayUploadToken = nil
         updateStatus()
     }
 
@@ -127,13 +133,25 @@ class HSReplayPreferences: NSViewController {
                 repeats: true)
         }
     }
-    
+
+    @IBAction func oauthAccount(_ sender: AnyObject) {
+        if Settings.hsReplayOAuthRefreshToken != nil {
+            Settings.hsReplayOAuthRefreshToken = nil
+            Settings.hsReplayOAuthToken = nil
+            updateStatus()
+        } else {
+            HSReplayAPI.oAuthAuthorize {
+                self.updateStatus()
+            }
+        }
+    }
+
     @objc private func checkAccountInfo() {
         guard requests < maxRequests else {
-            Log.warning?.message("max request for checking account info")
+            logger.warning("max request for checking account info")
             return
         }
-        
+
         HSReplayAPI.updateAccountStatus { (status) in
             self.requests += 1
             if status {
@@ -142,44 +160,32 @@ class HSReplayPreferences: NSViewController {
             self.updateStatus()
         }
     }
-    
+
     private func updateStatus() {
-        if let _ = Settings.instance.hsReplayId {
+        if Settings.hsReplayId != nil {
             var information = NSLocalizedString("Connected", comment: "")
-            if let username = Settings.instance.hsReplayUsername {
+            if let username = Settings.hsReplayUsername {
                 information = String(format: NSLocalizedString("Connected as %@", comment: ""),
-                                     username)
+                    username)
             }
-            hsReplayAccountStatus.stringValue = information
-            claimAccountInfo.isEnabled = false
+            claimAccountButton.title = information
             claimAccountButton.isEnabled = false
             disconnectButton.isEnabled = true
         } else {
-            claimAccountInfo.isEnabled = true
+            claimAccountButton.title = NSLocalizedString("Claim Account", comment: "")
             claimAccountButton.isEnabled = true
             disconnectButton.isEnabled = false
-            hsReplayAccountStatus.stringValue = NSLocalizedString("Account status : Anonymous",
-                                                                  comment: "")
+        }
+
+        if Settings.hsReplayOAuthRefreshToken != nil {
+            oAuthAccount.title = NSLocalizedString("Logout", comment: "")
+        } else {
+            oAuthAccount.title = NSLocalizedString("Login", comment: "")
         }
     }
 }
 
-// MARK: - MASPreferencesViewController
-extension HSReplayPreferences: MASPreferencesViewController {
-    override var identifier: String? {
-        get {
-            return "hsreplay"
-        }
-        set {
-            super.identifier = newValue
-        }
-    }
-    
-    var toolbarItemImage: NSImage? {
-        return NSImage(named: "hsreplay_icon")
-    }
-    
-    var toolbarItemLabel: String? {
-        return "HSReplay"
-    }
+// MARK: - Preferences
+extension Preferences.PaneIdentifier {
+    static let hsreplay = Self("hsreplay")
 }

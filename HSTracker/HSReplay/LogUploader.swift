@@ -7,125 +7,56 @@
 //
 
 import Foundation
-import CleanroomLogger
 import Wrap
-import ZipArchive
 import Gzip
 import RealmSwift
-import SwiftDate
+import RegexUtil
 
 class LogUploader {
     private static var inProgress: [UploaderItem] = []
     
-    static func upload(filename: String, completion: @escaping (UploadResult) -> Void) {
-        if !SSZipArchive.unzipFile(atPath: filename, toDestination: Paths.tmpReplays.path) {
-            completion(.failed(error: "Can not unzip \(filename)"))
-            return
-        }
-        
-        let output = Paths.tmpReplays.appendingPathComponent("output_log.txt")
-        if !FileManager.default.fileExists(atPath: output.path) {
-            completion(.failed(error: "Can not find \(output)"))
-            return
-        }
-        do {
-            let content = try String(contentsOf: output)
-            let lines = content.components(separatedBy: "\n")
-            if lines.isEmpty {
-                completion(.failed(error: "Log is empty"))
-                return
-            }
-            
-            if lines.first?.hasPrefix("[") ?? true {
-                completion(.failed(error: "Output log not supported"))
-                return
-            }
-            if lines.first?.contains("PowerTaskList.") ?? true {
-                completion(.failed(error: "PowerTaskList is not supported"))
-                return
-            }
-            if !lines.any({ $0.contains("CREATE_GAME") }) {
-                completion(.failed(error: "'CREATE_GAME' not found"))
-                return
-            }
-            
-            var date: Date? = nil
-            do {
-                let attr = try FileManager.default.attributesOfItem(atPath: output.path)
-                date = attr[.creationDate] as? Date
-            } catch {
-                print("\(error)")
-            }
-
-            guard let _ = date else {
-                completion(.failed(error: "Cannot find game start date"))
-                return
-            }
-            if let line = lines.first({ $0.contains("CREATE_GAME") }) {
-                let (gameStart, _) = LogLine.parseTime(line: line)
-                do {
-                    date = try date?.atTime(hour: gameStart.hour,
-                                            minute: gameStart.minute,
-                                            second: gameStart.second)
-                } catch {
-                    print("\(error)")
-                }
-            }
-
-            let logLines = lines.map({
-                LogLine.init(namespace: .power, line: $0)
-            })
-            
-            self.upload(logLines: logLines, gameStart: date, fromFile: true) { (result) in
-                do {
-                    try FileManager.default.removeItem(at: output)
-                } catch {
-                    Log.error?.message("Can not remove tmp files")
-                }
-                completion(result)
-            }
-        } catch {
-            return completion(.failed(error: "Can not read \(output)"))
-        }
-    }
-
-    static func upload(logLines: [LogLine], statistic: InternalGameStats? = nil,
+    static func upload(logLines: [LogLine], buildNumber: Int, metaData: (metaData: UploadMetaData, statId: String )? = nil,
                        gameStart: Date? = nil, fromFile: Bool = false,
                        completion: @escaping (UploadResult) -> Void) {
         let log = logLines.sorted {
-            if $0.time == $1.time {
-                return $0.nanoseconds < $1.nanoseconds
-            }
             return $0.time < $1.time
             }.map { $0.line }
-        upload(logLines: log, statistic: statistic, gameStart: gameStart,
+        upload(logLines: log, buildNumber: buildNumber, metaData: metaData, gameStart: gameStart,
                fromFile: fromFile, completion: completion)
     }
 
-    static func upload(logLines: [String], statistic: InternalGameStats? = nil,
+    static func upload(logLines: [String], buildNumber: Int, metaData: (metaData: UploadMetaData, statId: String )? = nil,
                        gameStart: Date? = nil, fromFile: Bool = false,
                        completion: @escaping (UploadResult) -> Void) {
-        guard let token = Settings.instance.hsReplayUploadToken else {
-            Log.error?.message("Authorization token not set yet")
+        guard let token = Settings.hsReplayUploadToken else {
+            logger.error("HSReplay upload failed: Authorization token not set yet")
             completion(.failed(error: "Authorization token not set yet"))
             return
         }
 
-        if logLines.filter({ $0.contains("CREATE_GAME") }).count != 1 {
-            completion(.failed(error: "Log contains none or multiple games"))
-            return
+        var lines = logLines
+        let numCreates = logLines.filter({ $0.contains("CREATE_GAME") }).count
+        if numCreates != 1 {
+            logger.error("HSReplay upload: Log contains none or multiple games (\(numCreates))")
+            // remove every line before _last_ create game
+            if let index = logLines.reversed().firstIndex(where: { $0.contains("CREATE_GAME") }) {
+                lines = logLines.reversed()[...index].reversed() as [String]
+            } else {
+                completion(.failed(error: "Log contains none or multiple games"))
+                return
+            }
         }
         
-        let log = logLines.joined(separator: "\n")
-        if logLines.isEmpty || log.trim().isEmpty {
-            Log.warning?.message("Log file is empty, skipping")
+        let log = lines.joined(separator: "\n")
+        if lines.isEmpty || log.trim().isEmpty {
+            logger.warning("Log file is empty, skipping")
             completion(.failed(error: "Log file is empty"))
             return
         }
         let item = UploaderItem(hash: log.hash)
         if inProgress.contains(item) {
             inProgress.append(item)
-            Log.info?.message("\(item.hash) already in progress. Waiting for it to complete...")
+            logger.info("\(item.hash) already in progress. Waiting for it to complete...")
             completion(.failed(error:
                 "\(item.hash) already in progress. Waiting for it to complete..."))
             return
@@ -133,83 +64,78 @@ class LogUploader {
         
         inProgress.append(item)
 
-        do {
-            let uploadMetaData = UploadMetaData.generate(game: statistic)
-            if let date = uploadMetaData.dateStart, fromFile {
-                uploadMetaData.hearthstoneBuild = BuildDates.get(byDate: date)?.build
-            } else if let build = BuildDates.getByProductDb() {
-                uploadMetaData.hearthstoneBuild = build.build
-            } else {
-                uploadMetaData.hearthstoneBuild = BuildDates.get(byDate: Date())?.build
-            }
-            let metaData: [String : Any] = try wrap(uploadMetaData)
-            Log.info?.message("Uploading \(item.hash) -> \(metaData)")
+        metaData?.metaData.hearthstoneBuild = buildNumber
 
-            let headers = [
-                "X-Api-Key": HSReplayAPI.apiKey,
-                "Authorization": "Token \(token)"
-            ]
+        guard let wrappedMetaData: [String: Any] = try? wrap(metaData?.metaData) else {
+            logger.warning("Can not encode to json game metadata")
+            completion(.failed(error: "Can not encode to json game metadata"))
+            return
+        }
+        logger.info("Uploading \(item.hash)")
 
-            var statId: String?
-            if let stat = statistic {
-                statId = stat.statId
-            }
+        let headers = [
+            "X-Api-Key": HSReplayAPI.apiKey,
+            "Authorization": "Token \(token)"
+        ]
 
-            let http = Http(url: HSReplay.uploadRequestUrl)
-            http.json(method: .post,
-                      parameters: metaData,
-                      headers: headers) { json in
-                        if let json = json as? [String: Any],
-                            let putUrl = json["put_url"] as? String,
-                            let uploadShortId = json["shortid"] as? String {
+        let statId: String? = metaData?.statId
 
-                            if let data = log.data(using: .utf8) {
-                                do {
-                                    let gzip = try data.gzipped()
+        let http = Http(url: HSReplay.uploadRequestUrl)
+        http.json(method: .post,
+                  parameters: wrappedMetaData,
+                  headers: headers) { jsonData in
 
-                                    let http = Http(url: putUrl)
-                                    http.upload(method: .put,
-                                                headers: [
-                                                    "Content-Type": "text/plain",
-                                                    "Content-Encoding": "gzip"
-                                        ],
-                                                data: gzip)
-                                } catch {
-                                    Log.error?.message("can not gzip")
-                                }
-                            }
-
-                            if let statId = statId {
-                                do {
-                                    let realm = try Realm()
-                                    if let existing = realm.objects(GameStats.self)
-                                        .filter("statId = '\(statId)'").first {
-                                        try realm.write {
-                                            existing.hsReplayId = uploadShortId
-                                        }
-                                    }
-                                } catch {
-                                    Log.error?.message("Can not update statistic : \(error)")
-                                }
-                            }
-
-                            let result = UploadResult.successful(replayId: uploadShortId)
-
-                            Log.info?.message("\(item.hash) upload done: Success")
-                            inProgress = inProgress.filter({ $0.hash == item.hash })
-
-                            completion(result)
+                    guard let json = jsonData as? [String: Any],
+                        let putUrl = json["put_url"] as? String,
+                        let uploadShortId = json["shortid"] as? String,
+                        let replayUrl = json["url"] as? String
+                    else {
+                            logger.error("JSON Error : \(String(describing: jsonData))")
+                            let message = "Can not gzip : \(String(describing: jsonData))"
+                            completion(.failed(error: message))
                             return
-                        }
-            }
-        } catch {
-            Log.error?.message("\(error)")
-            completion(.failed(error: "\(error)"))
+                    }
+
+                    guard let data = log.data(using: .utf8) else {
+                        logger.error("Can not convert log to data")
+                        completion(.failed(error: "Can not convert log to data"))
+                        return
+                    }
+                    guard let gzip = try? data.gzipped() else {
+                        logger.error("Can not gzip log")
+                        completion(.failed(error: "Can not gzip log"))
+                        return
+                    }
+                    
+                    logger.info("putURL: \(putUrl), replayUrl: \(replayUrl), shortid: \(uploadShortId)")
+
+                    let http = Http(url: putUrl)
+                    http.upload(method: .put,
+                                headers: [
+                                    "Content-Type": "text/plain",
+                                    "Content-Encoding": "gzip"
+                        ],
+                                data: gzip)
+
+                    logger.info("\(item.hash) upload done: Success")
+                    inProgress = inProgress.filter({ $0.hash == item.hash })
+
+                    if metaData?.metaData.gameType != BnetGameType.bgt_battlegrounds.rawValue && metaData?.metaData.gameType != BnetGameType.bgt_battlegrounds_friendly.rawValue {
+                            guard let statId = statId,
+                                let existing = RealmHelper.getGameStat(with: statId)  else {
+                                        logger.error("Can not update statistic")
+                                        completion(.failed(error: "Can not update statistic"))
+                                        return
+                            }
+                            RealmHelper.update(stat: existing, hsReplayId: uploadShortId)
+                    }
+            
+                    completion(.successful(replayId: uploadShortId))
         }
     }
 }
 
-fileprivate struct UploaderItem {
+private struct UploaderItem {
     let hash: Int
 }
 

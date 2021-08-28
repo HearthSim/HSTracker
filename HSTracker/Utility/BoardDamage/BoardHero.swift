@@ -12,8 +12,9 @@ class BoardHero: IBoardEntity {
     private(set) var _baseAttack = 0
     private(set) var _hero: BoardCard
     private(set) var _weapon: BoardCard?
-    
+
     var name: String { return _hero.name }
+    var cardId: String { return _hero.cardId }
     var hasWeapon: Bool { return _weapon != nil }
     
     // total health, including armor
@@ -25,6 +26,8 @@ class BoardHero: IBoardEntity {
     var attacksThisTurn: Int { return _hero.attacksThisTurn }
     
     var exhausted: Bool { return _hero.exhausted }
+    
+    var dormant: Bool { return false }
     
     private(set) var include = false
     

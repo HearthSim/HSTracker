@@ -8,9 +8,19 @@
 
 import Foundation
 
-enum MultiClassGroup: Int {
-    case invalid = 0,
-    grimy_goons = 1,
-    jade_lotus = 2,
-    kabal = 3
+enum MultiClassGroup: String, CaseIterable {
+    case invalid,
+    grimy_goons,
+    jade_lotus,
+    kabal,
+    paladin_priest,
+    priest_warlock,
+    warlock_demonhunter,
+    hunter_demonhunter,
+    druid_hunter,
+    druid_shaman,
+    mage_shaman,
+    mage_rogue,
+    rogue_warrior,
+    paladin_warrior
 }

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AppKit
 
 class ClassicBar: CardBar {
     private let _fadeRect = NSRect(x: 28, y: 0, width: 189, height: 34)
@@ -14,9 +15,11 @@ class ClassicBar: CardBar {
     private let _costRect = NSRect(x: 1, y: -13, width: 34, height: 37)
 
     override var textFont: String {
-        if Settings.instance.isAsianLanguage {
+        if Settings.isSimplifiedChinese {
+            return "AR LisuGB Medium"
+        } else if Settings.isAsianLanguage {
             return "NanumGothic"
-        } else if Settings.instance.isCyrillicLanguage {
+        } else if Settings.isCyrillicLanguage {
             return "Benguiat Rus"
         } else {
             return "Belwe Bd BT"

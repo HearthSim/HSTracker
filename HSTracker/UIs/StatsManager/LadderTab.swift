@@ -19,8 +19,7 @@ class LadderTab: NSViewController {
     @IBOutlet weak var streakButton: NSButton!
     
     var ladderTableItems = [LadderTableRow]()
-    
-    // TODO: latest data point
+    var observer: NSObjectProtocol?
     
     var deck: Deck?
     
@@ -60,20 +59,26 @@ class LadderTab: NSViewController {
             self.timeTable.reloadData()
         }
 
-        NotificationCenter.default
-            .addObserver(self,
-                         selector: #selector(guessRankAndUpdate),
-                         name: NSNotification.Name(rawValue: "reload_decks"),
-                         object: nil)
+        self.observer = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: Events.reload_decks), object: nil, queue: OperationQueue.main) { _ in
+            self.guessRankAndUpdate()
+        }
+    }
+    
+    deinit {
+        if let observer = self.observer {
+            NotificationCenter.default.removeObserver(observer)
+        }
     }
 
     func guessRankAndUpdate() {
         if !self.isViewLoaded {
             return
         }
-        if let deck = self.deck {
+        if let deck = self.deck, !deck.isInvalidated {
             let rank = StatsHelper.guessRank(deck: deck)
             rankPicker.selectItem(at: 25 - rank)
+        } else {
+            self.deck = nil
         }
         update()
     }
@@ -105,7 +110,7 @@ class LadderTab: NSViewController {
         streakButton.isEnabled = true
         if rank <= 5 {
             streakButton.isEnabled = false
-            streakButton.state = NSOffState
+            streakButton.state = .off
         }
     }
     
@@ -123,7 +128,7 @@ class LadderTab: NSViewController {
             let stars = Int(selectedStars.title)!
             
             if let deck = self.deck {
-                let streak = (streakButton.state == NSOnState)
+                let streak = (streakButton.state == .on)
                 DispatchQueue.main.async {
                     self.ladderTableItems = StatsHelper.getLadderTableData(deck: deck,
                                                                            rank: rank,
@@ -144,7 +149,7 @@ class LadderTab: NSViewController {
     }
 }
 
-extension LadderTab : NSTableViewDataSource {
+extension LadderTab: NSTableViewDataSource {
     func numberOfRows(in tableView: NSTableView) -> Int {
         if [gamesTable, timeTable].contains(tableView) {
             return ladderTableItems.count
@@ -154,7 +159,7 @@ extension LadderTab : NSTableViewDataSource {
     }
 }
 
-extension LadderTab : NSTableViewDelegate {
+extension LadderTab: NSTableViewDelegate {
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?,
                    row: Int) -> NSView? {
         var text: String = ""
@@ -195,7 +200,7 @@ extension LadderTab : NSTableViewDelegate {
             return nil
         }
         
-        if let cell = tableView.make(withIdentifier: cellIdentifier, owner: nil)
+        if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: cellIdentifier), owner: nil)
             as? NSTableCellView {
             cell.textField?.stringValue = text
             cell.textField?.alignment = alignment

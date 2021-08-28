@@ -9,14 +9,14 @@
  */
 
 import Foundation
-import CleanroomLogger
-import SwiftDate
+import RegexUtil
 
 final class LogReader {
     var stopped = true
     var offset: UInt64 = 0
-    var startingPoint: DateInRegion = DateInRegion.distantPast
+	var startingPoint: LogDate = LogDate(date: Date.distantPast)
     var fileHandle: FileHandle?
+    var eraseFile = false
 
     var path: String
     let fileManager = FileManager()
@@ -24,65 +24,72 @@ final class LogReader {
     private var logReaderManager: LogReaderManager?
 
     private var queue: DispatchQueue?
+    private var _lines = [ConcurrentQueue<LogLine>]()
 
-    init(info: LogReaderInfo, logPath: String) {
+	init(info: LogReaderInfo, logPath: String, removeLogfile: Bool = true) {
         self.info = info
-
-        self.path = "\(logPath)/Logs/\(info.name).log"
-        Log.info?.message("Init reader for \(info.name) at path \(self.path)")
+		
+        self.path = "\(logPath)/Logs/\(info.name.rawValue).log"
+        logger.info("Init reader for \(info.name) at path \(self.path)")
         if fileManager.fileExists(atPath: self.path)
-            && !FileUtils.isFileOpen(byHearthstone: self.path) {
+                   && !FileUtils.isFileOpen(byHearthstone: self.path)
+					&& removeLogfile {
             do {
+				logger.info("Removing log file at \(self.path)")
                 try fileManager.removeItem(atPath: self.path)
             } catch {
-                Log.error?.message("\(error)")
+                logger.error("\(error)")
             }
+        }
+        
+        _lines.removeAll()
+        for _ in 1...max(1, max(info.startsWithFiltersGroup.count, info.containsFiltersGroup.count) ) {
+            _lines.append(ConcurrentQueue<LogLine>())
         }
     }
 
-    func findEntryPoint(choice: String) -> DateInRegion {
+    func findEntryPoint(choice: String) -> LogDate {
         return findEntryPoint(choices: [choice])
     }
 
-    func findEntryPoint(choices: [String]) -> DateInRegion {
+    func findEntryPoint(choices: [String]) -> LogDate {
         guard fileManager.fileExists(atPath: path) else {
-            return DateInRegion.distantPast
+			return LogDate(date: Date.distantPast)
         }
         var fileContent: String
         do {
             fileContent = try String(contentsOfFile: path)
         } catch {
-            return DateInRegion.distantPast
+            return LogDate(date: Date.distantPast)
         }
 
         let lines: [String] = fileContent
-            .components(separatedBy: "\n")
-            .filter({ !String.isNullOrEmpty($0) }).reversed()
+                .components(separatedBy: "\n")
+                .filter({ !$0.isBlank }).reversed()
         for line in lines {
             if choices.any({ line.range(of: $0) != nil }) {
-                Log.verbose?.message("Found \(line)")
-                let (date, _) = LogLine.parseTime(line: line)
-                return date
+                logger.verbose("Found \(line)")
+				return LogLine(namespace: .power, line: line).time
             }
         }
 
-        return DateInRegion.distantPast
+        return LogDate(date: Date.distantPast)
     }
 
-    func start(manager logReaderManager: LogReaderManager, entryPoint: DateInRegion) {
+    func start(manager logReaderManager: LogReaderManager, entryPoint: LogDate) {
         stopped = false
         self.logReaderManager = logReaderManager
         startingPoint = entryPoint
 
-        var queueName = "be.michotte.hstracker.readers.\(info.name)"
-        if let filter = info.startsWithFilters.first {
+        var queueName = "net.hearthsim.hstracker.readers.\(info.name)"
+        if info.startsWithFiltersGroup.count > 0, let filter = info.startsWithFiltersGroup[0].first {
             queueName += ".\(filter.lowercased())"
         }
         queue = DispatchQueue(label: queueName, attributes: [])
         if let queue = queue {
-            Log.info?.message("Starting to track \(info.name)")
-            let sp = startingPoint.string(format: .iso8601(options: [.withInternetDateTime]))
-            Log.verbose?.message("\(info.name) has queue \(queueName) starting at \(sp)")
+            logger.info("Starting to track \(info.name)")
+            let sp = LogReaderManager.fullDateStringFormatter.string(from: startingPoint)
+            logger.verbose("\(info.name) has queue \(queueName) starting at \(sp)")
             queue.async {
                 self.readFile()
             }
@@ -90,127 +97,181 @@ final class LogReader {
     }
 
     func readFile() {
-        Log.verbose?.message("reading \(path)")
+        self.offset = findInitialOffset()
+        logger.verbose("reading \(path) starting at offset \(offset)")
 
         while !stopped {
             if fileHandle == nil && fileManager.fileExists(atPath: path) {
                 fileHandle = FileHandle(forReadingAtPath: path)
-                findInitialOffset()
-                fileHandle?.seek(toFileOffset: offset)
-
-                let sp = startingPoint.string(format: .iso8601(options: [.withInternetDateTime]))
-                Log.verbose?.message("file exists \(path), offset for \(sp) is \(offset)")
+                
+                let sp = LogReaderManager.fullDateStringFormatter.string(from: startingPoint)
+                logger.verbose("file exists \(path), offset for \(sp) is \(offset),"
+                    + " queue: net.hearthsim.hstracker.readers.\(info.name)")
             }
             
+            fileHandle?.seek(toFileOffset: offset)
+            
             if let data = fileHandle?.readDataToEndOfFile() {
-                if let linesStr = String(data: data, encoding: .utf8) {
+                autoreleasepool {
+                    
+                    let linesStr = String(decoding: data, as: UTF8.self)
+                    if !linesStr.isBlank {
+                        let lines = linesStr
+                            .components(separatedBy: CharacterSet.newlines)
+                            .filter {
+                                !$0.isEmpty && $0.hasPrefix(info.prefix) && $0.count > 20
+                        }
 
-                    let lines = linesStr
-                        .components(separatedBy: CharacterSet.newlines)
-                        .filter { !$0.isEmpty && $0.hasPrefix("D ") && $0.characters.count > 20 }
-
-                    if !lines.isEmpty {
-                        for line in lines {
-                            offset += UInt64((line + "\n")
-                                .lengthOfBytes(using: .utf8))
-                            let cutted = line.substring(from:
-                                line.characters.index(line.startIndex, offsetBy: 19))
-
-                            if !info.hasFilters
-                                || info.startsWithFilters.any({
-                                    cutted.hasPrefix($0) || cutted.match($0)
-                                })
-                                || info.containsFilters.any({ cutted.contains($0) }) {
-
-                                let logLine = LogLine(namespace: info.name,
-                                                      line: line,
-                                                      include: info.include)
-                                if logLine.time >= startingPoint {
-                                    logReaderManager?.processLine(line: logLine)
+                        if !lines.isEmpty {
+                            var loglinesBuffer = Array(repeating: [LogLine](), count: _lines.count)
+                            
+                            for line in lines {
+                                offset += UInt64((line + "\n")
+                                    .lengthOfBytes(using: .utf8))
+                                let cutted = line.substring(from: 19)
+                                
+                                if !info.hasFilters {
+                                    let logLine = LogLine(namespace: info.name,
+                                                          line: line)
+                                    if logLine.time >= startingPoint {
+                                        loglinesBuffer[0].append(logLine)
+                                    }
+                                } else {
+                                    
+                                    for i in 0..<info.startsWithFiltersGroup.count {
+                                        if (info.startsWithFiltersGroup.count > i
+                                            && info.startsWithFiltersGroup[i].any({
+                                            cutted.hasPrefix($0) || cutted.match(RegexPattern(stringLiteral: $0))
+                                        }))
+                                            || (info.containsFiltersGroup.count > i &&
+                                                info.containsFiltersGroup[i].any({ cutted.contains($0) })) {
+                                            let logLine = LogLine(namespace: info.name,
+                                                                  line: line)
+                                            if logLine.time >= startingPoint {
+                                                loglinesBuffer[i].append(logLine)
+                                            }
+                                        }
+                                    }
+                                    
                                 }
+                            }
+                            
+                            // enqueue all buffers
+                            for i in 0..<loglinesBuffer.count {
+                                _lines[i].enqueueAll(collection: loglinesBuffer[i])
                             }
                         }
                     }
-                } else {
-                    Log.warning?.message("Can not read \(path) as utf8, resetting")
-                    fileHandle = nil
-                }
 
-                if !fileManager.fileExists(atPath: path) {
-                    Log.verbose?.message("setting \(path) handle to nil \(offset))")
-                    fileHandle = nil
-                }
-                if fileHandle == nil {
-                    offset = 0
+                    if !fileManager.fileExists(atPath: path) {
+                        logger.verbose("setting \(path) handle to nil \(offset))")
+                        fileHandle = nil
+                    }
+                    if fileHandle == nil {
+                        offset = 0
+                    }
                 }
             } else {
                 fileHandle = nil
             }
 
-            Thread.sleep(forTimeInterval: 0.1)
+            Thread.sleep(forTimeInterval: LogReaderManager.updateDelay)
         }
-    }
-
-    func findInitialOffset() {
-        guard fileManager.fileExists(atPath: path) else { return }
-
-        var offset: UInt64 = 0
-        guard let fileHandle = FileHandle(forReadingAtPath: path) else { return }
-        fileHandle.seekToEndOfFile()
-        let fileLength = fileHandle.offsetInFile
-        fileHandle.seek(toFileOffset: 0)
-
-        while offset < fileLength {
-            let sizeDiff = 4096 - min(fileLength - offset, UInt64(4096))
-            offset += 4096
-            let fileOffset: UInt64 = UInt64(max(Int64(fileLength) - Int64(offset), Int64(0)))
-            fileHandle.seek(toFileOffset: fileOffset)
-            let data = fileHandle.readData(ofLength: 4096)
-            if let string = String(data: data, encoding: .ascii) {
-                
-                var skip: UInt64 = 0
-                for i in 0...4096 {
-                    skip += 1
-                    if i >= string.characters.count || string.char(at: i) == "\n" {
-                        break
-                    }
-                }
-                offset -= skip
-                let lines = String(string.characters.dropFirst(Int(skip)))
-                    .components(separatedBy: "\n")
-                    for i in 0...(lines.count - 1) {
-                        if String.isNullOrEmpty(lines[i].trim()) {
-                            continue
-                        }
-                        let logLine = LogLine(namespace: info.name, line: lines[i])
-                        if logLine.time < startingPoint {
-                            let negativeOffset = lines.take(i + 1)
-                                .map({ UInt64(($0 + "\n").characters.count) })
-                                .reduce(0, +)
-                            let current = Int64(fileLength) - Int64(offset)
-                                + Int64(negativeOffset) + Int64(sizeDiff)
-                            self.offset = UInt64(max(current, Int64(0)))
-                            return
-                        }
-                    }
-            
-            }
-        }
-    }
-
-    func stop() {
-        Log.info?.message("Stopping tracker \(info.name)")
+        
         fileHandle?.closeFile()
         fileHandle = nil
-
+        
+        for lines in _lines {
+            lines.clear()
+        }
+        
         // try to truncate log file when stopping
-        if fileManager.fileExists(atPath: path)
-            && !Hearthstone.instance.isHearthstoneRunning {
+        if fileManager.fileExists(atPath: path) && eraseFile {
             let file = FileHandle(forWritingAtPath: path)
             file?.truncateFile(atOffset: UInt64(0))
             file?.closeFile()
             offset = 0
         }
+    }
+
+    func findInitialOffset() -> UInt64 {
+        guard fileManager.fileExists(atPath: path) else {
+            return 0
+        }
+        
+        return autoreleasepool {
+            
+            var offset: UInt64 = 0
+            guard let fileHandle = FileHandle(forReadingAtPath: path) else {
+                return 0
+            }
+            fileHandle.seekToEndOfFile()
+            let fileLength = fileHandle.offsetInFile
+            fileHandle.seek(toFileOffset: 0)
+            
+            while offset < fileLength {
+                let sizeDiff = 4096 - min(fileLength - offset, UInt64(4096))
+                offset += 4096
+                let fileOffset: UInt64 = UInt64(max(Int64(fileLength) - Int64(offset), Int64(0)))
+                fileHandle.seek(toFileOffset: fileOffset)
+                let data = fileHandle.readData(ofLength: 4096)
+                if let string = String(data: data, encoding: .ascii) {
+                    
+                    var skip: UInt64 = 0
+                    for i in 0 ... 4096 {
+                        skip += 1
+                        if i >= string.count || string.char(at: i) == "\n" {
+                            break
+                        }
+                    }
+                    offset -= skip
+                    let lines = String(string.dropFirst(Int(skip)))
+                        .components(separatedBy: "\n")
+                    for i in 0 ... (lines.count - 1) {
+                        if lines[i].isBlank {
+                            continue
+                        }
+                        let logLine = LogLine(namespace: info.name, line: lines[i])
+                        if logLine.time < startingPoint {
+                            let negativeOffsetTmp = lines.take(i + 1)
+                                .map({ UInt64(($0 + "\n").count) })
+                            let negativeOffset = negativeOffsetTmp
+                                .reduce(0, +)
+                            let current = Int64(fileLength) - Int64(offset)
+                                + Int64(negativeOffset) + Int64(sizeDiff)
+                            
+                            return UInt64(max(current, Int64(0)))
+                        }
+                    }
+                    
+                }
+            }
+            return 0
+        }
+    }
+
+	func stop(eraseLogFile: Bool) {
+        logger.info("Stopping tracker \(info.name)")
+        eraseFile = eraseLogFile
         stopped = true
+    }
+    
+    func collect(index: Int) -> [LogLine] {
+        var items = [LogLine]()
+        let size = _lines[index].count
+        
+        if size == 0 {
+            return items
+        }
+        
+        for _ in 0..<size {
+            if let elem = _lines[index].dequeue() {
+                items.append(elem)
+            } else {
+                break
+            }
+        }
+
+        return items
     }
 }

@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import CoreImage
+import AppKit
 
 class MinimalBar: CardBar {
     override var themeDir: String {
@@ -24,12 +26,10 @@ class MinimalBar: CardBar {
 
         if let card = card {
             cardId = card.id
-        } else if let playerClassID = playerClassID {
-            cardId = playerClassID
         }
 
-        if let cardId = cardId {
-            let fullPath = Bundle.main.resourcePath! + "/Resources/Small/\(cardId).png"
+        if let cardId = cardId, let rp = Bundle.main.resourcePath {
+            let fullPath = "\(rp)/Resources/Small/\(cardId).png"
             if let image = NSImage(contentsOfFile: fullPath) {
                 if let imageData = image.tiffRepresentation,
                     let ciimage = CIImage(data: imageData),

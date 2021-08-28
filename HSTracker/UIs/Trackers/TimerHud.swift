@@ -42,7 +42,11 @@ class TimerHud: OverWindowController {
     }
  
     func tick(seconds: Int, playerSeconds: Int, opponentSeconds: Int) {
-        guard Settings.instance.showTimer else {
+        // TODO: turnLabel is nil when running unit tests, which causes crash
+        // a workaround of avoiding crash when running unit tests
+        guard turnLabel != nil else { return }
+        
+        guard Settings.showTimer else {
             turnLabel.attributedStringValue = NSAttributedString(string: "")
             playerLabel.attributedStringValue = NSAttributedString(string: "")
             opponentLabel.attributedStringValue = NSAttributedString(string: "")
@@ -69,6 +73,6 @@ extension TimerHud: NSWindowDelegate {
     
     private func onWindowMove() {
         if !self.isWindowLoaded || !self.hasValidFrame {return}
-        Settings.instance.timerHudFrame = self.window?.frame
+        Settings.timerHudFrame = self.window?.frame
     }
 }

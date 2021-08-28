@@ -7,13 +7,38 @@
 //
 
 import Foundation
+import RegexUtil
 
 struct Language {
-    static let hsLanguages = ["deDE", "enUS", "esES", "esMX", "frFR",
-                       "itIT", "koKR", "plPL", "ptBR", "ruRU",
-                       "zhCN", "zhTW", "jaJP", "thTH"]
-    static let hearthstoneLanguages = ["de_DE", "en_US", "es_ES", "es_MX", "fr_FR",
-                                "it_IT", "ko_KR", "pl_PL", "pt_BR", "ru_RU",
-                                "zh_CN", "zh_TW", "ja_JP", "th_TH"]
-    static let hstrackerLanguages = ["de", "en", "fr", "it", "pt-br", "zh-cn", "es", "ko"]
+    enum Hearthstone: String, CaseIterable {
+        case deDE, enUS, esES, esMX, frFR, itIT, koKR, plPL, ptBR, ruRU, zhCN, zhTW, jaJP, thTH
+
+        var localeValue: Locale? {
+            return Locale(identifier: self.rawValue.replace("(.)(\\p{Upper})", with: "$1_$2"))
+        }
+
+        var localizedString: String {
+            guard let locale = self.localeValue,
+                let localized = locale.localizedString(forIdentifier: locale.identifier) else {
+                    return self.rawValue
+            }
+            return localized.capitalized(with: locale)
+        }
+    }
+
+    enum HSTracker: String, CaseIterable {
+        case de, en, fr, it, pt_br = "pt-br", zh_cn = "zh-cn", es, ko, zh_tw = "zh-tw"
+
+        var localeValue: Locale? {
+            return Locale(identifier: self.rawValue)
+        }
+
+        var localizedString: String {
+            guard let locale = self.localeValue,
+                let localized = locale.localizedString(forIdentifier: locale.identifier) else {
+                    return self.rawValue
+            }
+            return localized.capitalized(with: locale)
+        }
+    }
 }

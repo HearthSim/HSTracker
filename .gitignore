@@ -1,5 +1,18 @@
+/Arcane-Tracker
+/.buildmetrics
 .DS_Store
 .env
+/.kinta
+/downloaded-frameworks
+# Downloaded cards
+HSTracker/Resources/Cards/*.json
+
+# Place where we store archives
+/archive
+
+fastlane/*
+!fastlane/Fastfile
+!fastlane/Scanfile
 
 build/
 DerivedData/
@@ -11,6 +24,8 @@ sparkle/config/dsa_priv.pem
 
 # Carthage
 Carthage/*
+downloaded-frameworks/
+mono-dSYM
 
 # Swift Package Manager
 .build/
@@ -29,3 +44,13 @@ xcuserdata/
 # Other
 *.moved-aside
 *.xcuserstate
+
+# AppCode
+.idea
+.vscode
+
+# Archived builds
+archives
+
+# Appcast private key
+dsa_priv.pem

@@ -7,8 +7,7 @@
 //
 
 import Foundation
-import Kanna
-import CleanroomLogger
+import PromiseKit
 
 struct Http {
     let url: String
@@ -17,51 +16,10 @@ struct Http {
         self.url = url
     }
 
-    func html(method: HttpMethod,
+    func json(method: HttpMethod,
               parameters: [String: Any] = [:],
               headers: [String: String] = [:],
-              completion: @escaping (HTMLDocument?) -> Void) {
-        guard let urlRequest = prepareRequest(method: method,
-                                              encoding: .html,
-                                              parameters: parameters,
-                                              headers: headers) else {
-                                                completion(nil)
-                                                return
-        }
-
-        Http.session.dataTask(with: urlRequest, completionHandler: { data, _, error in
-            Log.info?.message("Fetching \(self.url) complete")
-
-            if let error = error {
-                Log.error?.message("html : \(error)")
-                DispatchQueue.main.async {
-                    completion(nil)
-                }
-            } else if let data = data {
-                var convertedNSString: NSString?
-                NSString.stringEncoding(for: data,
-                                               encodingOptions: nil,
-                                               convertedString: &convertedNSString,
-                                               usedLossyConversion: nil)
-
-                if let html = convertedNSString as? String,
-                    let doc = Kanna.HTML(html: html, encoding: .utf8) {
-                    DispatchQueue.main.async {
-                        completion(doc)
-                    }
-                } else {
-                    DispatchQueue.main.async {
-                        completion(nil)
-                    }
-                }
-            }
-            }) .resume()
-    }
-
-    func json(method: HttpMethod,
-                      parameters: [String: Any] = [:],
-                      headers: [String: String] = [:],
-                      completion: @escaping (Any?) -> Void) {
+              completion: @escaping (Any?) -> Void) {
         guard let urlRequest = prepareRequest(method: method,
                                               encoding: .json,
                                               parameters: parameters,
@@ -70,11 +28,11 @@ struct Http {
                                                 return
         }
 
-        Http.session.dataTask(with: urlRequest, completionHandler: { data, response, error in
-            Log.info?.message("Fetching \(self.url) complete")
+        Http.session.dataTask(with: urlRequest) { data, response, error in
+            logger.info("Fetching \(self.url) complete")
 
             if let error = error {
-                Log.error?.message("request error : \(error)")
+                logger.error("request error : \(error)")
                 DispatchQueue.main.async {
                     completion(nil)
                 }
@@ -82,24 +40,81 @@ struct Http {
             } else if let data = data {
                 do {
                     let json = try JSONSerialization.jsonObject(with: data,
-                        options: .allowFragments)
+                                                                options: .allowFragments)
                     DispatchQueue.main.async {
                         completion(json)
                     }
                     return
                 } catch let error {
-                    Log.error?.message("json parsing : \(error)")
+                    logger.error("json parsing : \(error)")
                     DispatchQueue.main.async {
                         completion(nil)
                     }
                 }
             } else {
-                Log.error?.message("\(error), \(data), \(response)")
+                logger.error("\(#function): \(String(describing: error)), "
+                    + "\(String(describing: data)), \(String(describing: response))")
                 DispatchQueue.main.async {
                     completion(nil)
                 }
             }
-            }) .resume()
+            }.resume()
+    }
+    
+    func uploadPromise(method: HttpMethod,
+                       headers: [String: String] = [:],
+                       data: Data) -> Promise<Any?> {
+        return Promise<Any?> { seal in
+            guard let urlRequest = prepareRequest(method: method,
+                                                  encoding: .multipart,
+                                                  parameters: [:],
+                                                  headers: headers) else {
+                seal.fulfill(nil)
+                return
+            }
+
+            Http.session.uploadTask(with: urlRequest,
+                                    from: data) { data, response, error in
+                if let error = error {
+                    logger.error("request error : \(error)")
+                    seal.reject(error)
+                } else if let data = data {
+                    logger.verbose("upload result : \(data)")
+                    seal.fulfill(data)
+                }
+                logger.debug("p \(#function): "
+                                + "\(String(describing: error)), "
+                                + "data: \(String(describing: data)), "
+                                + "response: \(String(describing: response))")
+            }.resume()
+        }
+    }
+    
+    func getPromise(method: HttpMethod,
+                    headers: [String: String] = [:]) -> Promise<Data?> {
+        return Promise<Data?> { seal in
+            guard let urlRequest = prepareRequest(method: method,
+                                                  encoding: .multipart,
+                                                  parameters: [:],
+                                                  headers: headers) else {
+                seal.fulfill(nil)
+                return
+            }
+
+            Http.session.dataTask(with: urlRequest) { data, response, error in
+                if let error = error {
+                    logger.error("request error : \(error)")
+                    seal.reject(error)
+                } else if let data = data {
+                    logger.verbose("upload result : \(data)")
+                    seal.fulfill(data)
+                }
+                logger.debug("p \(#function): "
+                                + "\(String(describing: error)), "
+                                + "data: \(String(describing: data)), "
+                                + "response: \(String(describing: response))")
+            }.resume()
+        }
     }
 
     func upload(method: HttpMethod,
@@ -113,15 +128,19 @@ struct Http {
         }
 
         Http.session.uploadTask(with: urlRequest,
-                                           from: data, completionHandler: { data, response, error in
-                                            if let error = error {
-                                                Log.error?.message("request error : \(error)")
-                                            } else if let data = data {
-                                                Log.verbose?.message("\(data)")
-                                            } else {
-                                                Log.error?.message("\(error), \(data), \(response)")
-                                            }
-        }) .resume()
+                                from: data) { data, response, error in
+                                    if let error = error {
+                                        logger.error("request error : \(error)")
+                                    } else if let data = data {
+                                        logger.verbose("upload result : \(data)")
+                                    }
+                                    
+                                    logger.debug("\(#function): "
+                                            + "\(String(describing: error)), "
+                                            + "data: \(String(describing: data)), "
+                                            + "response: \(String(describing: response))")
+                                    
+            }.resume()
     }
 
     private func prepareRequest(method: HttpMethod,
@@ -147,7 +166,7 @@ struct Http {
                                                               options: .prettyPrinted)
                     request.httpBody = bodyData
                 } catch let error {
-                    Log.error?.message("json converting : \(error)")
+                    logger.error("json converting : \(error)")
                     return nil
                 }
             }
@@ -156,6 +175,8 @@ struct Http {
         for (headerField, headerValue) in headers {
             request.setValue(headerValue, forHTTPHeaderField: headerField)
         }
+        
+        request.cachePolicy = .reloadRevalidatingCacheData
 
         return request
     }
@@ -212,44 +233,45 @@ extension Http {
         return URLSession(configuration: configuration, delegate: nil, delegateQueue: nil)
         }()
 
+    public static func userAgent() -> String {
+        if let info = Bundle.main.infoDictionary {
+            let executable = info[kCFBundleExecutableKey as String] as? String ?? "Unknown"
+            _ = info[kCFBundleIdentifierKey as String] as? String ?? "Unknown"
+            let appVersion = info["CFBundleShortVersionString"] as? String ?? "Unknown"
+            let appBuild = info[kCFBundleVersionKey as String] as? String ?? "Unknown"
+
+            let osNameVersion: String = {
+                let version = ProcessInfo.processInfo.operatingSystemVersion
+                let versionString = "\(version.majorVersion)"
+                    + ".\(version.minorVersion)"
+                    + ".\(version.patchVersion)"
+
+                return "macOS \(versionString)"
+            }()
+
+            return "\(executable)/\(appVersion) (build:\(appBuild); \(osNameVersion))"
+        }
+
+        return "HSTracker"
+    }
     private static let defaultHTTPHeaders: [String: String] = {
         // Accept-Encoding HTTP Header; see https://tools.ietf.org/html/rfc7230#section-4.2.3
-        let acceptEncoding: String = "gzip;q=1.0, compress;q=0.5"
+        let acceptEncoding: String = "gzip" //;q=1.0, compress;q=0.5"
 
         // Accept-Language HTTP Header; see https://tools.ietf.org/html/rfc7231#section-5.3.5
         let acceptLanguage = Locale.preferredLanguages
             .prefix(6).enumerated().map { index, languageCode in
             let quality = 1.0 - (Double(index) * 0.1)
-            return "\(languageCode);q=\(quality)"
+            return "\(languageCode)" //";q=\(quality)"
             }.joined(separator: ", ")
 
         // User-Agent Header; see https://tools.ietf.org/html/rfc7231#section-5.5.3
-        let userAgent: String = {
-            if let info = Bundle.main.infoDictionary {
-                let executable = info[kCFBundleExecutableKey as String] as? String ?? "Unknown"
-                let bundle = info[kCFBundleIdentifierKey as String] as? String ?? "Unknown"
-                let appVersion = info["CFBundleShortVersionString"] as? String ?? "Unknown"
-                let appBuild = info[kCFBundleVersionKey as String] as? String ?? "Unknown"
-
-                let osNameVersion: String = {
-                    let version = ProcessInfo.processInfo.operatingSystemVersion
-                    let versionString = "\(version.majorVersion)"
-                        + ".\(version.minorVersion)"
-                        + ".\(version.patchVersion)"
-
-                    return "macOS \(versionString)"
-                }()
-
-                return "\(executable)/\(appVersion) (build:\(appBuild); \(osNameVersion))"
-            }
-
-            return "HSTracker"
-        }()
+        let ua = userAgent()
 
         return [
             "Accept-Encoding": acceptEncoding,
             "Accept-Language": acceptLanguage,
-            "User-Agent": userAgent
+            "User-Agent": ua
         ]
     }()
 }

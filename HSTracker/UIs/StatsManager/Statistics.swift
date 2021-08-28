@@ -7,7 +7,6 @@
 //
 
 import Cocoa
-import CleanroomLogger
 import RealmSwift
 
 class Statistics: NSWindowController {
@@ -21,6 +20,7 @@ class Statistics: NSWindowController {
     var ladderTab: LadderTab?
     
     var tabSizes = [NSTabViewItem: CGSize]()
+    var observer: NSObjectProtocol?
 
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -52,12 +52,15 @@ class Statistics: NSWindowController {
 
         // We need to update the display both when the
         // stats change
-        NotificationCenter.default
-            .addObserver(self,
-                         selector: #selector(update),
-                         name: NSNotification.Name(rawValue: "reload_decks"),
-                         object: nil)
-
+        self.observer = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: Events.reload_decks), object: nil, queue: OperationQueue.main) { _ in
+            self.update()
+        }
+    }
+    
+    deinit {
+        if let observer = self.observer {
+            NotificationCenter.default.removeObserver(observer)
+        }
     }
 
     func resizeWindowToFitTab(_ tab: NSTabViewItem) {
@@ -69,7 +72,7 @@ class Statistics: NSWindowController {
         let windowSize = swindow.frame.size
         
         let newSize = CGSize(
-            width:  windowSize.width  + desiredTabSize.width  - currentTabSize.width,
+            width: windowSize.width + desiredTabSize.width - currentTabSize.width,
             height: windowSize.height + desiredTabSize.height - currentTabSize.height)
         
         var frame = swindow.frame
@@ -79,7 +82,7 @@ class Statistics: NSWindowController {
     }
     
     func update() {
-        if let deck = self.deck {
+        if let deck = self.deck, !deck.isInvalidated {
             // XXX: This might be unsafe
             // I'm assuming that the player class names
             // and class assets are always the same
@@ -93,7 +96,7 @@ class Statistics: NSWindowController {
     }
 
     @IBAction func closeWindow(_ sender: AnyObject) {
-        self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
+        self.window?.sheetParent?.endSheet(self.window!, returnCode: NSApplication.ModalResponse.OK)
     }
 
     @IBAction func deleteStatistics(_ sender: AnyObject) {
@@ -101,15 +104,8 @@ class Statistics: NSWindowController {
             let msg = String(format: NSLocalizedString("Are you sure you want to delete the "
                 + "statistics for the deck %@ ?", comment: ""), deck.name)
             NSAlert.show(style: .informational, message: msg, window: self.window!) {
-                do {
-                    let realm = try Realm()
-                    try realm.write {
-                        deck.gameStats
-                            .removeAll()
-                    }
-                } catch {
-                    Log.error?.message("Can not update deck : \(error)")
-                }
+                RealmHelper.removeAllGameStats(from: deck)
+                
                 DispatchQueue.main.async {
                     self.statsTab!.statsTable.reloadData()
                 }

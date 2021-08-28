@@ -1,0 +1,18 @@
+//
+//  Config.xcconfig
+//  HSTracker
+//
+//  Created by Francisco Moraes on 10/15/20.
+//  Copyright © 2020 Benjamin Michotte. All rights reserved.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+// Release identity for code signing
+CODE_SIGN_IDENTITY = Developer ID Application
+DEVELOPMENT_TEAM = RL7C49LAMC
+
+// Debug identity for local running
+//CODE_SIGN_IDENTITY = -
+//DEVELOPMENT_TEAM =

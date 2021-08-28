@@ -11,21 +11,22 @@ import Foundation
 class LogReaderInfo {
 
     var name: LogLineNamespace
-    var startsWithFilters: [String]
-    var containsFilters: [String]
+    var startsWithFiltersGroup: [[String]]
+    var containsFiltersGroup: [[String]]
     var filePath: String?
+    var prefix = "D "
     var reset = true
     var include = true
 
     var hasFilters: Bool {
-        return !startsWithFilters.isEmpty || !containsFilters.isEmpty
+        return !startsWithFiltersGroup.isEmpty || !containsFiltersGroup.isEmpty
     }
 
-    init(name: LogLineNamespace, startsWithFilters: [String] = [],
-         containsFilters: [String] = [], reset: Bool = true, include: Bool = true) {
+    init(name: LogLineNamespace, startsWithFilters: [[String]] = [],
+         containsFilters: [[String]] = [], reset: Bool = true, include: Bool = true) {
         self.name = name
-        self.startsWithFilters = startsWithFilters
-        self.containsFilters = containsFilters
+        self.startsWithFiltersGroup = startsWithFilters
+        self.containsFiltersGroup = containsFilters
         self.reset = reset
         self.include = include
     }

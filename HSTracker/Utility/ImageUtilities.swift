@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CleanroomLogger
 
 struct ImageUtilities {
     static func screenshotFirstCard() -> NSImage? {
@@ -48,11 +47,11 @@ struct ImageUtilities {
     static func cropRect(image: NSImage, rect: NSRect) -> NSImage {
         let target = NSImage(size: rect.size)
         target.lockFocus()
-        NSGraphicsContext.current()?.imageInterpolation = .high
+        NSGraphicsContext.current?.imageInterpolation = .high
         image.draw(at: NSPoint.zero,
                            from: rect,
                            operation: .copy,
-                           fraction:1.0)
+                           fraction: 1.0)
         target.unlockFocus()
         return target
     }
@@ -66,12 +65,12 @@ struct ImageUtilities {
         }
         smallImage.lockFocus()
         sourceImage.size = newSize
-        NSGraphicsContext.current()!.imageInterpolation = .high
+        NSGraphicsContext.current!.imageInterpolation = .high
         sourceImage.draw(at: NSPoint.zero,
                                 from: CGRect(x: 0, y: 0,
                                     width: newSize.width, height: newSize.height),
                                 operation: .copy,
-                                fraction:1.0)
+                                fraction: 1.0)
         smallImage.unlockFocus()
         return smallImage
     }
