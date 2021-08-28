@@ -122,6 +122,8 @@
 "SCHOLOMANCE" = "通灵学园";
 "DARKMOON_FAIRE" = "疯狂的暗月马戏团";
 "THE_BARRENS" = "贫瘠之地的锤炼";
+"WAILING_CAVERNS" = "哀嚎洞穴";
+"STORMWIND" = "暴风城下的集结";
 
 /* card type */
 "all_types" = "所有";
@@ -202,6 +204,7 @@
 "Show Current Combat" = "显示本场战斗";
 "Previous Combat" = "上场战斗";
 "Show Previous Combat" = "显示上场战斗";
+"Awaiting Shopping Phase" = "等待随从购买阶段";
 
 /* Battlegrounds */
 "Turn" = "回合";
