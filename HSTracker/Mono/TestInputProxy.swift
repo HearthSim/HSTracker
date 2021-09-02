@@ -25,6 +25,7 @@ class TestInputProxy: MonoHandle {
     static var _playerIsAkazamarak: OpaquePointer!
     static var _playerSide: OpaquePointer!
     static var _opponentSide: OpaquePointer!
+    static var _heroHasDied: OpaquePointer!
     
     init(simulator: SimulatorProxy) {
         super.init()
@@ -47,6 +48,7 @@ class TestInputProxy: MonoHandle {
             TestInputProxy._playerSide = mono_class_get_field_from_name(TestInputProxy._class, "playerSide")
             TestInputProxy._opponentSide = mono_class_get_field_from_name(TestInputProxy._class, "opponentSide")
             TestInputProxy._playerIsAkazamarak = mono_class_get_field_from_name(TestInputProxy._class, "playerIsAkazamarak")
+            TestInputProxy._heroHasDied = mono_class_get_field_from_name(TestInputProxy._class, "HeroHasDied")
         }
         
         let obj = MonoHelper.objectNew(clazz: TestInputProxy._class!)
@@ -78,6 +80,10 @@ class TestInputProxy: MonoHandle {
 
     func setHeroPower(player: Bool, opponent: Bool) {
         MonoHelper.setBoolBool(obj: self, method: TestInputProxy._setHeroPower, v1: player, v2: opponent)
+    }
+    
+    func setHeroHasDied(value: Bool) {
+        MonoHelper.setBoolField(obj: self, field: TestInputProxy._heroHasDied, value: value)
     }
     
     func getPlayerSide() -> MonoHandle {

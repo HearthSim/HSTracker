@@ -371,6 +371,9 @@ class BobsBuddyInvoker {
         
         input.addAvailableRaces(races: game.availableRaces!)
         
+        let numHeroesAlive = game.entities.values.filter({ x in x.isHero && x.health > 0 && x.isInPlay }).count
+        input.setHeroHasDied(value: numHeroesAlive < 8)
+        
         let oppHero = game.opponent.board.first(where: { $0.isHero })
         let playerHero = game.player.board.first(where: { $0.isHero})
         

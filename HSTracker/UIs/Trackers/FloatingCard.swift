@@ -73,31 +73,12 @@ class FloatingCard: OverWindowController {
             self.imageView.kf.setImage(with: imageUrl)
         }
 
-        if isBattlegrounds {
-            title.isHidden = true
-            scrollview.isHidden = true
-            window?.backgroundColor = NSColor.clear
-        } else {
-            window?.backgroundColor = NSColor.textBackgroundColor
-            title.isHidden = false
-            scrollview.isHidden = false
-        }
+        title.isHidden = true
+        scrollview.isHidden = true
+        window?.backgroundColor = NSColor.clear
         imageView.isHidden = false
 
-        var information = "\n"
-        if let card = card, let title = self.title {
-            title.attributedStringValue = NSAttributedString(string: card.name,
-                    attributes: titleAttributes)
-        }
-
-        if drawChanceTop > 0 {
-            information += NSLocalizedString("Top deck:", comment: "")
-                    + "\(String(format: " %.2f", drawChanceTop))%\n"
-        }
-        if drawChanceTop2 > 0 {
-            information += NSLocalizedString("In top 2:", comment: "")
-                    + "\(String(format: " %.2f", drawChanceTop2))%\n"
-        }
+        let information = ""
         text?.string = ""
         text?.textStorage?.append(NSAttributedString(string: information,
                 attributes: attributes))

@@ -1,5 +1,6 @@
 # 1.9.13
 ## New
+- Add support for patch 21.2
 - Enhanced zh-Hant translations (thanks @Fidetro)
 - Updated zh-Hans translations (thanks @moonfruit)
 
