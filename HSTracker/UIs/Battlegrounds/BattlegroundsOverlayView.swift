@@ -95,7 +95,8 @@ class BattlegroundsOverlayView: NSView {
     
     func updateOpponentDeadForTurns(turns: [Int]) {
         let game = AppDelegate.instance().coreManager.game
-        var index = game.entities.values.filter({ x in x.isHero && x.info.turn == 0 && x.cardId.match(battlegroundsHeroRegex) && !x.info.discarded }).count
+        let presentHeroes = game.entities.values.filter({x in x.isHero && x.cardId.match(battlegroundsHeroRegex) && (x.isInPlay || x.isInSetAside)})
+        var index = presentHeroes.count - 1
         for text in leaderboardDeadForText {
             text.stringValue = ""
         }

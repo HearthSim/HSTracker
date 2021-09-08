@@ -1,3 +1,7 @@
+# 1.9.14
+## Fixes
+- Various BobsBuddy fixes and performance improvements
+
 # 1.9.13
 ## New
 - Add support for patch 21.2
