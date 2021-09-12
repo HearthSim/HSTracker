@@ -1,6 +1,5 @@
 "Are you sure you want to close this deck ? Your changes will not be saved." = "이 덱을 닫겠습니까? 수정한 내용은 저장되지 않습니다.";
-"Are you sure you want to delete the deck %@ ?" = " %@ 덱을 삭제하시겠습니까?";
-"Are you sure you want to delete the selected %d deck(s) ?" = "선택된 %d 덱을 삭제하시겠습니까? ?";
+"Are you sure you want to delete the deck %@ ?" = " %@ 덱을 삭제하겠습니까?";
 "Arena %@ %@" = "투기장 %@ %@";
 "Cancel" = "취소";
 "Clear" = "초기화";
@@ -59,8 +58,6 @@
 "In top 2:" = "상위 2:";
 "Connected" = "연결됨";
 "Connected as %@" = "%@로 연결됨";
-"HSTracker needs elevated privileges to read data from Hearthstone's memory. If macOS asks you for your system password, do not be alarmed, no changes to your computer will be performed." = "HSTracker는 하스스톤 게임의 메모리를 읽기 위해 특순 권한을 필요로 합니다. 만약 macOS가 시스템 비밀번호를 요구한다는 알람이 뜨더라도 시스템에는 아무런 변경사항이 없습니다.";
-"I understand" = "이해했습니다";
 
 /* notifications */
 "Your game begins" = "게임 시작 되었습니다.";
@@ -79,7 +76,6 @@
 "paladin" = "성기사";
 "priest" = "사제";
 "rogue" = "도적";
-"demonhunter" = "악마사냥꾼";
 "All classes" = "모든 직업";
 "Archived" = "Archived";
 
@@ -89,14 +85,12 @@
 "free" = "일반";
 "common" = "공용";
 "rare" = "희귀";
-"epic" = "특급";
+"epic" = "영웅";
 "legendary" = "전설";
 
 /* sets */
 "ALL" = "모든 셋트";
-"VANILLA" = "클래식 모드";
-"CORE" = "코어";
-"BASIC" = "기본";
+"CORE" = "기본";
 "EXPERT1" = "오리지날";
 "NAXX" = "낙스라마스의 저주";
 "GVG" = "고블린 대 노움";
@@ -107,23 +101,6 @@
 "PROMO" = "프로모션";
 "KARA" = "한여름밤의 카라잔";
 "GANGS" = "비열한 거리의 가젯잔";
-"UNGORO" = "운고로를 향한 여정";
-"ICECROWN" = "얼어붙은 왕좌의 기사들";
-"LOOTAPALOOZA" = "코볼트와 지하미궁";
-"GILNEAS" = "마녀숲";
-"BOOMSDAY" = "박사붐의 폭심만만 프로젝트";
-"TROLL" = "라스타칸의 대난투";
-"DALARAN" = "어둠의 반격";
-"ULDUM" = "울둠의 구원자";
-"DRAGONS" = "용의 강림";
-"YEAR_OF_THE_DRAGON" = "갈라크론드의 부활";
-"BLACK_TEMPLE" = "황폐한 아웃랜드";
-"DEMON_HUNTER_INITIATE" = "황폐한 아웃랜드와 악마사냥꾼";
-"SCHOLOMANCE" = "스칼로맨스 아카데미";
-"DARKMOON_FAIRE" = "광기의 다크문 축제";
-"THE_BARRENS" = "불모의 땅";
-"WAILING_CAVERNS" = "통곡의 동굴";
-"STORMWIND" = "스톰윈드";
 
 /* card type */
 "all_types" = "모든 타입";
@@ -140,10 +117,6 @@
 "murloc" = "멀록";
 "pirate" = "해적";
 "totem" = "토템";
-"elemental" = "정령";
-"all" = "모든 종족";
-"unavailable" = "알수없음";
-"quilboar" = "가시멧돼지";
 
 /* sorting */
 "name" = "이름";
@@ -165,22 +138,11 @@
 "mode_friendly"  = "친선전";
 "mode_practice"  = "연습/모험모드";
 "mode_spectator" = "관전";
-"mode_spectator" = "구경";
-"mode_duels"     = "결투";
 "mode_none"      = "없음";
-
-/* deck types */
-"DeckType_all"      = "모두";
-"DeckType_standard" = "정규";
-"DeckType_wild"     = "야생";
-"DeckType_arena"    = "투기장";
-"DeckType_dungeon"  = "던전";
-"DeckType_duels"    = "결투";
-"DeckType_classic"  = "클래식";
 
 /* Stats tabs */
 "Statistics" = "통계";
-"The Climb" = "등급전";
+"The Climb" = "등급";
 "all_seasons" = "모든 시즌";
 "season" = "%@ 시즌";
 
@@ -190,35 +152,4 @@
 "View" = "View";
 "To export a deck to Hearthstone, create a new deck with the correct class in your collection, then click OK and switch to Hearthstone.\nDo not touch your mouse or keyboard during the import." = "하스스톤에 덱을 내보내기 위해 정확한 직업으로 덱을 만들어주세요. 그 후 OK 누르고 하스스톤으로 돌아가세요. 덱을 읽는 동안 마우스나 키보드를 건드리지 마세요. 이 기능은 아직 정식 기능이 아닙니다!";
 "The followings cards were missing : " = "다음 카드들이 빠졌습니다.  : ";
-"Can't get card collection" = "카드 모음을 가져올 수 없습니다. 하스스톤이 실행되어 있나요?";
-"Deck string has been copied in your clipboard." = "덱 코드가 클립보드에 복사되었습니다.";
-
-/* Bobs Buddy */
-"Could not get accurate results" = "정확한 결과를 가져올 수 없습니다.";
-"Secrets are not yet supported" = "비밀은 아직 지원하지 않습니다.";
-"Found unknown cards" = "알 수 없는 카드를 찾았습니다.";
-"Failed to load BobsBuddy" = "밥의 친구를 로딩하는데 실패했습니다.";
-"Mono not found" = "모노를 찾을 수 없습니다.";
-"Unknown error" = "알 수 없는 오류입니다.";
-"Waiting For Combat" = "전투를 기다립니다.";
-"Current Combat" = "현재 전투";
-"Show Current Combat" = "현재 전투 보기";
-"Previous Combat" = "이전 전투";
-"Show Previous Combat" = "이전 전투 보기";
-
-/* Battlegrounds */
-"Turn" = "턴";
-"Turns" = "턴";
-"%d turn(s) ago" = "%d 턴 전";
-"You have not fought this opponent" = "이 상대와 싸우지 않았습니다.";
-
-/* Crashes */
-"HSTracker Crashed" = "HSTracker 에서 오류가 발생했습니다.";
-"Do you want to send an anonymous crash report so we can try to fix the issue?" = "이 오류를 해결하기 위해 익명의 로그를 보내겠습니까?";
-"Always send" = "언제나 전송";
-"Send" = "전송";
-"Don't send" = "전송하지 않음";
-
-/* Mulligan toast */
-"What should I keep?" = "어떤 카드를 집어야 할까요?";
-"HSReplay.net - Mulligan Guide" = "HSReplay.net - 멀리건 가이드";
+"Can't get card collection" = "Can't get card collection, is Hearthstone running ?";
