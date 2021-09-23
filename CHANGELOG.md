@@ -1,3 +1,8 @@
+# 1.9.15:
+## New
+- Enhanced Korean translations (thanks @rockmkd)
+- Add support for patch 21.3
+
 # 1.9.14
 ## Fixes
 - Various BobsBuddy fixes and performance improvements
