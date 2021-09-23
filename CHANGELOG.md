@@ -1,4 +1,4 @@
-# 1.9.15:
+# 1.9.15
 ## New
 - Enhanced Korean translations (thanks @rockmkd)
 - Add support for patch 21.3
