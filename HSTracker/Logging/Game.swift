@@ -199,7 +199,7 @@ class Game: NSObject, PowerEventHandler {
 			
 			let tracker = self.windowManager.opponentTracker
 			if Settings.showOpponentTracker &&
-                self.currentGameType != .gt_battlegrounds &&
+                self.currentGameMode != .battlegrounds && self.currentGameMode != .mercenaries &&
             !(Settings.dontTrackWhileSpectating && self.spectator) &&
 				((Settings.hideAllTrackersWhenNotInGame && !self.gameEnded)
 					|| (!Settings.hideAllTrackersWhenNotInGame) || self.selfAppActive ) &&
@@ -279,7 +279,7 @@ class Game: NSObject, PowerEventHandler {
             let tracker = self.windowManager.playerTracker
             if Settings.showPlayerTracker &&
                 !(Settings.dontTrackWhileSpectating && self.spectator) &&
-                (self.currentGameType != .gt_battlegrounds) &&
+                (self.currentGameMode != .battlegrounds && self.currentGameMode != .mercenaries) &&
                 ( (Settings.hideAllTrackersWhenNotInGame && !self.gameEnded)
                     || (!Settings.hideAllTrackersWhenNotInGame) || self.selfAppActive ) &&
                 ((Settings.hideAllWhenGameInBackground &&
@@ -596,7 +596,7 @@ class Game: NSObject, PowerEventHandler {
             
             var rect: NSRect?
             
-            if Settings.playerBoardDamage && self.shouldShowGUIElement && (self.currentGameType != .gt_battlegrounds) {
+            if Settings.playerBoardDamage && self.shouldShowGUIElement && (self.currentGameMode != .battlegrounds && self.currentGameMode != .mercenaries) {
                 if !self.gameEnded {
                     var heroPowerDmg = 0
                     if let heroPower = board.player.heroPower, self.player.currentMana >= heroPower.cost {
@@ -626,7 +626,7 @@ class Game: NSObject, PowerEventHandler {
                 self.windowManager.show(controller: playerBoardDamage, show: false)
             }
             
-            if Settings.opponentBoardDamage && self.shouldShowGUIElement && (self.currentGameType != .gt_battlegrounds) {
+            if Settings.opponentBoardDamage && self.shouldShowGUIElement && (self.currentGameMode != .battlegrounds && self.currentGameMode != .mercenaries) {
                 if !self.gameEnded {
                     var heroPowerDmg = 0
                     if let heroPower = board.opponent.heroPower {
@@ -1331,7 +1331,7 @@ class Game: NSObject, PowerEventHandler {
         }
 		
 		// update spectator information
-        if spectator {
+        if spectator || currentGameMode == .mercenaries { // no deck for mercenaries
             set(activeDeckId: nil, autoDetected: false)
         }
 		

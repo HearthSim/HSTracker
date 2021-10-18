@@ -1,3 +1,10 @@
+# 1.9.16
+## New
+- Add support for patch 21.4
+- Mercenaries support coming in near future
+## Fixes
+- Don't show trackers for during mercenaries mode
+
 # 1.9.15
 ## New
 - Enhanced Korean translations (thanks @rockmkd)

@@ -22,6 +22,7 @@ enum GameMode: Int, WrappableEnum {
     spectator,
     battlegrounds,
     duels,
+    mercenaries,
     none
     
     var userFacingName: String {
@@ -36,6 +37,7 @@ enum GameMode: Int, WrappableEnum {
         case .spectator: return NSLocalizedString("mode_spectator", comment: "")
         case .battlegrounds: return NSLocalizedString("mode_battlegrounds", comment: "")
         case .duels: return NSLocalizedString("mode_duels", comment: "")
+        case .mercenaries: return NSLocalizedString("mode_mercenaries", comment: "")
         case .none: return NSLocalizedString("mode_none", comment: "")
         }
     }
@@ -58,6 +60,8 @@ enum GameMode: Int, WrappableEnum {
             self = .battlegrounds
         case .gt_pvpdr, .gt_pvpdr_paid:
             self = .duels
+        case .gt_mercenaries_ai_vs_ai, .gt_mercenaries_friendly, .gt_mercenaries_pve, .gt_mercenaries_pvp, .gt_mercenaries_pve_coop:
+            self = .mercenaries
         default:
             self = .none
         }

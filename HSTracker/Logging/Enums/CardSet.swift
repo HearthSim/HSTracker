@@ -122,7 +122,9 @@ public enum CardSetInt: Int {
     the_barrens = 1525,
     wailing_caverns = 1559,
     stormwind = 1578,
+    lettuce = 1586,
     legacy = 1635,
     core = 1637,
-    vanilla = 1646
+    vanilla = 1646,
+    mercenaries_dev = 1705
 }

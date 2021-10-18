@@ -166,6 +166,7 @@
 "mode_practice"  = "Practice/Adventure";
 "mode_spectator" = "Spectator";
 "mode_duels"     = "Duels";
+"mode_mercenaries" = "Mercenaries";
 "mode_none"      = "None";
 
 /* deck types */
