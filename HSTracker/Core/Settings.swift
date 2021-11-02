@@ -197,8 +197,6 @@ final class Settings {
     static var floatingCardStyle: FloatingCardStyle
     @UserDefault(key: Settings.disable_tracking_in_spectator_mode, defaultValue: true)
     static var dontTrackWhileSpectating: Bool
-    @UserDefault(key: Settings.show_topdeck_chance, defaultValue: true)
-    static var showTopdeckchance: Bool
     @UserDefault(key: Settings.window_locked, defaultValue: true)
     static var windowsLocked: Bool
     @UserDefault(key: Settings.prefer_golden_cards, defaultValue: false)
@@ -356,6 +354,12 @@ final class Settings {
     static var preventOpponentNameCovering: Bool
     @UserDefault(key: Settings.show_deck_name, defaultValue: false)
     static var showDeckNameInTracker: Bool
+    
+    // MARK: - Mercenaries
+    @UserDefault(key: Settings.show_mercs_opponent_hover, defaultValue: true)
+    static var showMercsOpponentHover: Bool
+    @UserDefault(key: Settings.show_mercs_player_hover, defaultValue: true)
+    static var showMercsPlayerHover: Bool
 
     // MARK: - Importing
     @UserDefault(key: Settings.import_dungeon_include_passives, defaultValue: true)
@@ -408,7 +412,9 @@ final class Settings {
     static var hsReplayUploadBattlegroundsMatches: Bool
     @UserDefault(key: Settings.hsreplay_auto_synchronize_duels_matches, defaultValue: true)
     static var hsReplayUploadDuelsMatches: Bool
-    
+    @UserDefault(key: Settings.hsreplay_auto_synchronize_mercenaries_matches, defaultValue: true)
+    static var hsReplayUploadMercenariesMatches: Bool
+
     @UserDefault(key: Settings.theme_token, defaultValue: "dark")
     static var theme: String
 
@@ -470,7 +476,6 @@ extension Settings {
     static let show_floating_card = "show_floating_card"
     static let floating_card_style = "floating_card_style"
     static let disable_tracking_in_spectator_mode = "disable_tracking_in_spectator_mode"
-    static let show_topdeck_chance = "show_topdeck_chance"
     static let window_locked = "window_locked"
     static let prefer_golden_cards = "prefer_golden_cards"
     static let auto_deck_detection = "auto_deck_detection"
@@ -557,6 +562,10 @@ extension Settings {
     static let import_tombs_of_terror_template = "import_tombs_of_terror_template"
     static let import_duels_template = "import_duels_template"
     
+    // MARK: - Mercenaries
+    static let show_mercs_opponent_hover = "show_mercs_opponent_hover"
+    static let show_mercs_player_hover = "show_mercs_player_hover"
+    
     // MARK: - HSReplay.net related preferences
     static let hsreplay_upload_token = "hsreplay_upload_token"
     static let hsreplay_username = "hsreplay_username"
@@ -574,4 +583,5 @@ extension Settings {
     static let hsreplay_auto_synchronize_spectator_matches = "hsreplay_auto_synchronize_spectator_matches"
     static let hsreplay_auto_synchronize_battlegrounds_matches = "hsreplay_auto_synchronize_battlegrounds_matches"
     static let hsreplay_auto_synchronize_duels_matches = "hsreplay_auto_synchronize_duels_matches"
+    static let hsreplay_auto_synchronize_mercenaries_matches = "hsreplay_auto_synchronize_mercenaries_matches"
 }

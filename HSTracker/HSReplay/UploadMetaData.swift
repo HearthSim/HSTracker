@@ -36,7 +36,10 @@ class UploadMetaData {
     var format: Int?
     var players: [Player] = []
     var league_id: Int?
-    var battlegrounds_races: [Int] = []
+    var battlegrounds_races: [Int]?
+    var mercenaries_bounty_run_id: String?
+    var mercenaries_bounty_run_turns_taken: Int?
+    var mercenaries_bounty_run_completed_nodes: Int?
     
     public static let iso8601StringFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -110,7 +113,15 @@ class UploadMetaData {
 
         metaData.hearthstoneBuild = buildNumber
         
-        metaData.battlegrounds_races = stats.battlegroundsRaces
+        if stats.gameMode == .battlegrounds {
+            metaData.battlegrounds_races = stats.battlegroundsRaces
+        }
+        
+        if stats.mercenariesBountyRunId.count > 0 {
+            metaData.mercenaries_bounty_run_id = stats.mercenariesBountyRunId
+            metaData.mercenaries_bounty_run_turns_taken = stats.mercenariesBountyRunTurnsTaken
+            metaData.mercenaries_bounty_run_completed_nodes = stats.mercenariesBountyRunCompletedNodes
+        }
 
         return (metaData, stats.statId)
     }
@@ -164,6 +175,13 @@ class UploadMetaData {
             }
             friendly.deckId = nil
             friendly.deck = nil
+        } else if stats.gameMode == .mercenaries {
+            if stats.mercenariesRating > 0 {
+                friendly.mercenaries_rating = stats.mercenariesRating
+            }
+            if let ratingsChange = retryWhileNull(f: MirrorHelper.getMercenariesRatingChange) {
+                friendly.mercenaries_rating_after = ratingsChange.ratingNew as? Int
+            }
         } else {
             friendly.star_level = stats.playerMedalInfo?.starLevel
             friendly.stars = stats.playerMedalInfo?.stars
@@ -220,6 +238,9 @@ class UploadMetaData {
         
         var battlegrounds_rating: Int?
         var battlegrounds_rating_after: Int?
+        
+        var mercenaries_rating: Int?
+        var mercenaries_rating_after: Int?
 
         var wins: Int?
         var losses: Int?

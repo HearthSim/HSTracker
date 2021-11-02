@@ -94,6 +94,10 @@ struct LoadingScreenHandler: LogEventParser {
                 game.cacheBattlegroundRatingInfo()
             }
             
+            if game.currentMode == .lettuce_play {
+                game.cacheMercenariesRatingInfo()
+            }
+            
             if game.currentMode == .adventure || game.previousMode == Mode.adventure && game.currentMode == .gameplay {
                 DungeonRunDeckWatcher.start()
             } else {

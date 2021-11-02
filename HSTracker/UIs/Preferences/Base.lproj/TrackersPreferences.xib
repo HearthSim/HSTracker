@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="19455" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19455"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -12,7 +12,6 @@
                 <outlet property="autoPositionTrackers" destination="TNp-Jh-qS9" id="tWk-Iu-CQp"/>
                 <outlet property="cardSize" destination="oRs-V7-1J6" id="hMc-ok-6ju"/>
                 <outlet property="disableTrackingInSpectatorMode" destination="zka-3O-txd" id="LSN-Ma-O0H"/>
-                <outlet property="floatingCardStyle" destination="Pgn-tk-z67" id="YtC-6J-jig"/>
                 <outlet property="hideAllWhenGameInBackground" destination="GbU-Ts-Vje" id="6E9-Rh-b40"/>
                 <outlet property="hideAllWhenNotInGame" destination="dGD-b8-UwI" id="OlZ-EN-L3z"/>
                 <outlet property="highlightCardsInHand" destination="MOS-w7-D1d" id="XUa-7d-V1f"/>
@@ -26,7 +25,6 @@
                 <outlet property="showRarityColors" destination="HPM-az-sML" id="2fY-JA-SSd"/>
                 <outlet property="showSecretHelper" destination="jqc-dr-ATS" id="bRc-eW-TmL"/>
                 <outlet property="showTimer" destination="xW7-1C-T20" id="p89-Aa-JMK"/>
-                <outlet property="showTopdeckChance" destination="Jj4-X9-UWO" id="9dT-Sj-hQf"/>
                 <outlet property="theme" destination="d3D-Fi-17e" id="ppE-Lh-mWo"/>
                 <outlet property="view" destination="c22-O7-iKe" id="8Yr-e6-AQa"/>
             </connections>
@@ -34,10 +32,10 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView translatesAutoresizingMaskIntoConstraints="NO" id="c22-O7-iKe">
-            <rect key="frame" x="0.0" y="0.0" width="480" height="493"/>
+            <rect key="frame" x="0.0" y="0.0" width="480" height="502"/>
             <subviews>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="MOS-w7-D1d">
-                    <rect key="frame" x="8" y="457" width="464" height="18"/>
+                    <rect key="frame" x="8" y="465" width="462" height="18"/>
                     <buttonCell key="cell" type="check" title="Highlight cards in hand" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="hJI-dG-QeP">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -47,7 +45,7 @@
                     </buttonCell>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="PL6-uo-7RN">
-                    <rect key="frame" x="8" y="433" width="464" height="18"/>
+                    <rect key="frame" x="8" y="439" width="462" height="18"/>
                     <buttonCell key="cell" type="check" title="Highlight last drawn card" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="WKT-Hm-Z7h">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -57,7 +55,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="Q3s-94-J32">
-                    <rect key="frame" x="8" y="409" width="464" height="18"/>
+                    <rect key="frame" x="8" y="413" width="462" height="18"/>
                     <buttonCell key="cell" type="check" title="Remove cards if count is 0" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="s9w-5p-pJs">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -67,7 +65,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="1Ry-pR-4H6">
-                    <rect key="frame" x="8" y="385" width="464" height="18"/>
+                    <rect key="frame" x="8" y="387" width="462" height="18"/>
                     <buttonCell key="cell" type="check" title="Highlight discarded from deck" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="yeJ-ZI-Pca">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -77,7 +75,7 @@
                     </connections>
                 </button>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="avV-MQ-3U6">
-                    <rect key="frame" x="8" y="360" width="254" height="16"/>
+                    <rect key="frame" x="8" y="361" width="254" height="16"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Opacity" id="zP3-ns-ggP">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -85,7 +83,7 @@
                     </textFieldCell>
                 </textField>
                 <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KBy-Iy-S6O">
-                    <rect key="frame" x="268" y="360" width="204" height="19"/>
+                    <rect key="frame" x="268" y="352" width="204" height="28"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="200" id="dPZ-aH-nzY"/>
                     </constraints>
@@ -95,7 +93,7 @@
                     </connections>
                 </slider>
                 <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7tL-jS-waw">
-                    <rect key="frame" x="8" y="336" width="254" height="16"/>
+                    <rect key="frame" x="8" y="332" width="254" height="16"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Cards size" id="NLB-ON-zWk">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -103,7 +101,7 @@
                     </textFieldCell>
                 </textField>
                 <comboBox verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oRs-V7-1J6">
-                    <rect key="frame" x="270" y="331" width="203" height="25"/>
+                    <rect key="frame" x="270" y="327" width="203" height="25"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="200" id="Oka-T0-CJA"/>
                     </constraints>
@@ -124,7 +122,7 @@
                     </connections>
                 </comboBox>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="TNp-Jh-qS9">
-                    <rect key="frame" x="8" y="310" width="464" height="18"/>
+                    <rect key="frame" x="8" y="305" width="462" height="18"/>
                     <buttonCell key="cell" type="check" title="Auto position trackers" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="5rZ-fg-pB4">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -134,7 +132,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="xW7-1C-T20">
-                    <rect key="frame" x="8" y="286" width="464" height="18"/>
+                    <rect key="frame" x="8" y="279" width="462" height="18"/>
                     <buttonCell key="cell" type="check" title="Show timer" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="x27-iz-7Sv">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -144,7 +142,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="jqc-dr-ATS">
-                    <rect key="frame" x="8" y="262" width="464" height="18"/>
+                    <rect key="frame" x="8" y="253" width="462" height="18"/>
                     <buttonCell key="cell" type="check" title="Show secret helper" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="ySU-4j-Jbh">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -154,7 +152,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="HPM-az-sML">
-                    <rect key="frame" x="8" y="238" width="464" height="18"/>
+                    <rect key="frame" x="8" y="227" width="462" height="18"/>
                     <buttonCell key="cell" type="check" title="Show rarity colors" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="h5J-7C-d2f">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -164,7 +162,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="o0k-Kb-VAL">
-                    <rect key="frame" x="8" y="214" width="254" height="18"/>
+                    <rect key="frame" x="8" y="201" width="193" height="18"/>
                     <buttonCell key="cell" type="check" title="Show card on tracker hover" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="HY0-s6-p7U">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -173,31 +171,8 @@
                         <action selector="checkboxClicked:" target="-2" id="Nse-MF-fyA"/>
                     </connections>
                 </button>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="r8D-zp-rNZ">
-                    <rect key="frame" x="8" y="190" width="136" height="16"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Floating card style" id="36t-98-K9E">
-                        <font key="font" metaFont="system"/>
-                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
-                <comboBox verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Pgn-tk-z67">
-                    <rect key="frame" x="270" y="185" width="203" height="25"/>
-                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="GY2-Lg-KWo">
-                        <font key="font" metaFont="system"/>
-                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        <objectValues>
-                            <string>Text</string>
-                            <string>Image</string>
-                        </objectValues>
-                    </comboBoxCell>
-                    <connections>
-                        <action selector="comboboxChange:" target="-2" id="KDj-Gm-A7i"/>
-                    </connections>
-                </comboBox>
                 <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Pny-Gh-Hqe">
-                    <rect key="frame" x="8" y="164" width="254" height="16"/>
+                    <rect key="frame" x="8" y="176" width="254" height="16"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Theme" id="Lah-xh-QVg">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -205,7 +180,7 @@
                     </textFieldCell>
                 </textField>
                 <comboBox verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d3D-Fi-17e">
-                    <rect key="frame" x="270" y="159" width="203" height="25"/>
+                    <rect key="frame" x="270" y="171" width="203" height="25"/>
                     <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="cBa-wb-tRb">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -222,7 +197,7 @@
                     </connections>
                 </comboBox>
                 <button toolTip="HSTracker will be visible on all your workspace while playing" translatesAutoresizingMaskIntoConstraints="NO" id="aO1-IW-r7y">
-                    <rect key="frame" x="8" y="138" width="464" height="18"/>
+                    <rect key="frame" x="8" y="149" width="462" height="18"/>
                     <buttonCell key="cell" type="check" title="Allow HSTracker to run on fullscreen mode" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="6Gc-EJ-z7F">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -231,18 +206,8 @@
                         <action selector="checkboxClicked:" target="-2" id="Xpf-PX-tbT"/>
                     </connections>
                 </button>
-                <button translatesAutoresizingMaskIntoConstraints="NO" id="Jj4-X9-UWO">
-                    <rect key="frame" x="268" y="214" width="204" height="18"/>
-                    <buttonCell key="cell" type="check" title="Show topdeck chance" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="fhr-Mz-lcf">
-                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="checkboxClicked:" target="-2" id="xn6-KF-K2l"/>
-                    </connections>
-                </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="dGD-b8-UwI">
-                    <rect key="frame" x="8" y="114" width="464" height="18"/>
+                    <rect key="frame" x="8" y="123" width="462" height="18"/>
                     <buttonCell key="cell" type="check" title="Hide all trackers if not in game" bezelStyle="regularSquare" imagePosition="left" inset="2" id="hvr-dD-qVr">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -252,7 +217,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="GbU-Ts-Vje">
-                    <rect key="frame" x="8" y="90" width="464" height="18"/>
+                    <rect key="frame" x="8" y="97" width="462" height="18"/>
                     <buttonCell key="cell" type="check" title="Hide all trackers when game is in background" bezelStyle="regularSquare" imagePosition="left" inset="2" id="HEr-xo-koe">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -262,7 +227,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="zka-3O-txd">
-                    <rect key="frame" x="8" y="66" width="464" height="18"/>
+                    <rect key="frame" x="8" y="71" width="462" height="18"/>
                     <buttonCell key="cell" type="check" title="Disable tracking in spectator mode" bezelStyle="regularSquare" imagePosition="left" inset="2" id="6n7-a6-LsZ">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -272,7 +237,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="eYz-mj-UcC" userLabel="Show experience counter">
-                    <rect key="frame" x="8" y="42" width="464" height="18"/>
+                    <rect key="frame" x="8" y="45" width="462" height="18"/>
                     <buttonCell key="cell" type="check" title="Show experience counter" bezelStyle="regularSquare" imagePosition="left" inset="2" id="3i1-BX-ZbC" userLabel="Show experience counter">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -282,7 +247,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="JQv-VB-3MQ" userLabel="Show constructed mulligan">
-                    <rect key="frame" x="8" y="18" width="464" height="18"/>
+                    <rect key="frame" x="8" y="19" width="462" height="18"/>
                     <buttonCell key="cell" type="check" title="Show constructed mulligan" bezelStyle="regularSquare" imagePosition="left" inset="2" id="HeE-hK-rL7" userLabel="Show experience counter">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -294,21 +259,15 @@
             </subviews>
             <constraints>
                 <constraint firstItem="xW7-1C-T20" firstAttribute="top" secondItem="TNp-Jh-qS9" secondAttribute="bottom" constant="10" id="0GX-oK-naO"/>
-                <constraint firstItem="Pgn-tk-z67" firstAttribute="leading" secondItem="Jj4-X9-UWO" secondAttribute="leading" id="0IT-JJ-axb"/>
                 <constraint firstAttribute="trailing" secondItem="oRs-V7-1J6" secondAttribute="trailing" constant="10" id="0aL-uO-BAr"/>
-                <constraint firstItem="Jj4-X9-UWO" firstAttribute="top" secondItem="HPM-az-sML" secondAttribute="bottom" constant="10" id="2n7-77-vfe"/>
                 <constraint firstAttribute="trailing" secondItem="KBy-Iy-S6O" secondAttribute="trailing" constant="10" id="31P-d3-sTl"/>
                 <constraint firstAttribute="trailing" secondItem="d3D-Fi-17e" secondAttribute="trailing" constant="10" id="4CU-Ad-I1w"/>
                 <constraint firstItem="xW7-1C-T20" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="10" id="4dk-8H-PYN"/>
-                <constraint firstItem="Pgn-tk-z67" firstAttribute="centerY" secondItem="r8D-zp-rNZ" secondAttribute="centerY" id="8Gv-ms-Ur8"/>
                 <constraint firstAttribute="trailing" secondItem="zka-3O-txd" secondAttribute="trailing" constant="10" id="ABA-4f-vmI"/>
                 <constraint firstItem="PL6-uo-7RN" firstAttribute="top" secondItem="MOS-w7-D1d" secondAttribute="bottom" constant="10" id="AJ0-C2-jsQ"/>
                 <constraint firstItem="1Ry-pR-4H6" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="10" id="CbI-HT-t1F"/>
-                <constraint firstAttribute="trailing" secondItem="Jj4-X9-UWO" secondAttribute="trailing" constant="10" id="DkG-Kf-r3b"/>
-                <constraint firstItem="Jj4-X9-UWO" firstAttribute="leading" secondItem="o0k-Kb-VAL" secondAttribute="trailing" constant="10" id="EAc-Y3-Lt1"/>
                 <constraint firstItem="KBy-Iy-S6O" firstAttribute="top" secondItem="avV-MQ-3U6" secondAttribute="bottom" constant="-17" id="EMj-eH-cem"/>
                 <constraint firstItem="7tL-jS-waw" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="10" id="EYd-eF-sHv"/>
-                <constraint firstItem="r8D-zp-rNZ" firstAttribute="top" secondItem="o0k-Kb-VAL" secondAttribute="bottom" constant="10" id="Ebl-3h-7tT"/>
                 <constraint firstItem="o0k-Kb-VAL" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="10" id="Fxb-K6-pFN"/>
                 <constraint firstItem="KBy-Iy-S6O" firstAttribute="top" secondItem="1Ry-pR-4H6" secondAttribute="bottom" constant="10" id="Hmy-ho-WSx"/>
                 <constraint firstItem="eYz-mj-UcC" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="10" id="Hrh-5Y-r0g"/>
@@ -322,6 +281,7 @@
                 <constraint firstItem="dGD-b8-UwI" firstAttribute="top" secondItem="aO1-IW-r7y" secondAttribute="bottom" constant="10" id="Pcg-xJ-Amf"/>
                 <constraint firstItem="GbU-Ts-Vje" firstAttribute="top" secondItem="dGD-b8-UwI" secondAttribute="bottom" constant="10" id="QHm-3D-Lsq"/>
                 <constraint firstItem="JQv-VB-3MQ" firstAttribute="top" secondItem="eYz-mj-UcC" secondAttribute="bottom" constant="10" id="QrW-ub-IKV"/>
+                <constraint firstItem="Pny-Gh-Hqe" firstAttribute="top" secondItem="o0k-Kb-VAL" secondAttribute="bottom" constant="10" id="SMO-2s-0Cz"/>
                 <constraint firstAttribute="trailing" secondItem="eYz-mj-UcC" secondAttribute="trailing" constant="10" id="Shn-he-hKc"/>
                 <constraint firstItem="dGD-b8-UwI" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="10" id="TDu-db-QpX"/>
                 <constraint firstAttribute="trailing" secondItem="TNp-Jh-qS9" secondAttribute="trailing" constant="10" id="TML-YB-tow"/>
@@ -341,12 +301,10 @@
                 <constraint firstItem="TNp-Jh-qS9" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="10" id="i61-aR-dtg"/>
                 <constraint firstItem="aO1-IW-r7y" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="10" id="iqg-4p-LiG"/>
                 <constraint firstItem="zka-3O-txd" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="10" id="j4g-b5-rPi"/>
-                <constraint firstItem="Pgn-tk-z67" firstAttribute="width" secondItem="oRs-V7-1J6" secondAttribute="width" id="jQI-1v-NV6"/>
                 <constraint firstItem="KBy-Iy-S6O" firstAttribute="leading" secondItem="avV-MQ-3U6" secondAttribute="trailing" constant="10" id="kP8-kM-KBZ"/>
                 <constraint firstItem="zka-3O-txd" firstAttribute="top" secondItem="GbU-Ts-Vje" secondAttribute="bottom" constant="10" id="lT8-ef-y8Z"/>
                 <constraint firstAttribute="trailing" secondItem="GbU-Ts-Vje" secondAttribute="trailing" constant="10" id="lTM-4T-9XQ"/>
                 <constraint firstItem="HPM-az-sML" firstAttribute="top" secondItem="jqc-dr-ATS" secondAttribute="bottom" constant="10" id="lip-8R-501"/>
-                <constraint firstItem="Pgn-tk-z67" firstAttribute="leading" secondItem="r8D-zp-rNZ" secondAttribute="trailing" constant="128" id="mos-LQ-D5w"/>
                 <constraint firstItem="jqc-dr-ATS" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="10" id="nUw-4H-77f"/>
                 <constraint firstAttribute="trailing" secondItem="1Ry-pR-4H6" secondAttribute="trailing" constant="10" id="nda-W9-fST"/>
                 <constraint firstItem="avV-MQ-3U6" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="10" id="nsA-CX-H10"/>
@@ -359,13 +317,10 @@
                 <constraint firstItem="Q3s-94-J32" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="10" id="rxG-qO-jpi"/>
                 <constraint firstAttribute="trailing" secondItem="aO1-IW-r7y" secondAttribute="trailing" constant="10" id="tQg-LP-kcm"/>
                 <constraint firstAttribute="bottom" secondItem="JQv-VB-3MQ" secondAttribute="bottom" constant="20" id="vYV-aG-H0p"/>
-                <constraint firstItem="r8D-zp-rNZ" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="10" id="vbX-NH-HoG"/>
-                <constraint firstAttribute="trailing" secondItem="Pgn-tk-z67" secondAttribute="trailing" constant="10" id="vbj-tJ-D39"/>
-                <constraint firstItem="Pny-Gh-Hqe" firstAttribute="top" secondItem="r8D-zp-rNZ" secondAttribute="bottom" constant="10" id="xkj-sl-72p"/>
                 <constraint firstAttribute="trailing" secondItem="MOS-w7-D1d" secondAttribute="trailing" constant="10" id="zYU-fu-Zp6"/>
                 <constraint firstItem="JQv-VB-3MQ" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="10" id="zba-y9-34A"/>
             </constraints>
-            <point key="canvasLocation" x="453" y="423.5"/>
+            <point key="canvasLocation" x="450" y="379"/>
         </customView>
     </objects>
 </document>

@@ -27,13 +27,11 @@ class TrackersPreferences: NSViewController, PreferencePane {
     @IBOutlet weak var showSecretHelper: NSButton!
     @IBOutlet weak var showRarityColors: NSButton!
     @IBOutlet weak var showFloatingCard: NSButton!
-    @IBOutlet weak var showTopdeckChance: NSButton!
     @IBOutlet weak var theme: NSComboBox!
     @IBOutlet weak var allowFullscreen: NSButton!
     @IBOutlet weak var hideAllWhenNotInGame: NSButton!
     @IBOutlet weak var hideAllWhenGameInBackground: NSButton!
     @IBOutlet weak var disableTrackingInSpectatorMode: NSButton!
-    @IBOutlet weak var floatingCardStyle: NSComboBox!
     @IBOutlet weak var showExperienceCounter: NSButton!
     @IBOutlet weak var showMulliganToast: NSButton!
     
@@ -61,16 +59,8 @@ class TrackersPreferences: NSViewController, PreferencePane {
         showSecretHelper.state = Settings.showSecretHelper ? .on : .off
         showRarityColors.state = Settings.showRarityColors ? .on : .off
         showFloatingCard.state = Settings.showFloatingCard ? .on : .off
-        showTopdeckChance.state = Settings.showTopdeckchance ? .on : .off
         showExperienceCounter.state = Settings.showExperienceCounter ? .on : .off
         showMulliganToast.state = Settings.showMulliganToast ? .on : .off
-
-        floatingCardStyle.isEnabled = Settings.showFloatingCard
-        switch Settings.floatingCardStyle {
-        case .text: index = 0
-        case .image: index = 1
-        }
-        floatingCardStyle.selectItem(at: index)
 
         theme.selectItem(at: themes.firstIndex(of: Settings.theme) ?? 0)
         allowFullscreen.state = Settings.canJoinFullscreen ? .on : .off
@@ -124,9 +114,6 @@ class TrackersPreferences: NSViewController, PreferencePane {
             Settings.showTimer = showTimer.state == .on
         } else if sender == showFloatingCard {
             Settings.showFloatingCard = showFloatingCard.state == .on
-            showTopdeckChance.isEnabled = Settings.showFloatingCard
-        } else if sender == showTopdeckChance {
-            Settings.showTopdeckchance = showTopdeckChance.state == .on
         } else if sender == allowFullscreen {
             Settings.canJoinFullscreen = allowFullscreen.state == .on
         } else if sender == hideAllWhenNotInGame {

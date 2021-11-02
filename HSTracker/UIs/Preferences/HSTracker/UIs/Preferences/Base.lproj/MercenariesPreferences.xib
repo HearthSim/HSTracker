@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="19455" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19455"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="MercenariesPreferences">
+            <connections>
+                <outlet property="showMercsOpponentHover" destination="U9l-4H-26w" id="Zfs-Ll-ffk"/>
+                <outlet property="showMercsPlayerHover" destination="d7f-Kb-z3w" id="6Mt-Cb-jww"/>
+                <outlet property="view" destination="c22-O7-iKe" id="rY0-tu-oVL"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView translatesAutoresizingMaskIntoConstraints="NO" id="c22-O7-iKe">
+            <rect key="frame" x="0.0" y="0.0" width="468" height="82"/>
+            <subviews>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="U9l-4H-26w">
+                    <rect key="frame" x="18" y="45" width="430" height="18"/>
+                    <buttonCell key="cell" type="check" title="Show opponent Mercenary abilities on hover" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="i84-xc-QhF">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="SCo-fj-gdt"/>
+                    </connections>
+                </button>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="d7f-Kb-z3w">
+                    <rect key="frame" x="18" y="19" width="430" height="18"/>
+                    <buttonCell key="cell" type="check" title="Show player Mercenary abilities on hover" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="QMN-RN-SBa">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="S2N-Ef-dHy"/>
+                    </connections>
+                </button>
+            </subviews>
+            <constraints>
+                <constraint firstItem="U9l-4H-26w" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="20" id="FAj-nI-BPf"/>
+                <constraint firstItem="U9l-4H-26w" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="Ipb-4T-1Hj"/>
+                <constraint firstAttribute="trailing" secondItem="d7f-Kb-z3w" secondAttribute="trailing" constant="20" id="NAD-vJ-xbh"/>
+                <constraint firstAttribute="bottom" secondItem="d7f-Kb-z3w" secondAttribute="bottom" constant="20" id="QxS-if-MaY"/>
+                <constraint firstItem="d7f-Kb-z3w" firstAttribute="top" secondItem="U9l-4H-26w" secondAttribute="bottom" constant="10" id="qcJ-6e-bYG"/>
+                <constraint firstAttribute="trailing" secondItem="U9l-4H-26w" secondAttribute="trailing" constant="20" id="qll-og-92W"/>
+                <constraint firstItem="d7f-Kb-z3w" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="yjD-cp-i8g"/>
+            </constraints>
+            <point key="canvasLocation" x="58" y="-81"/>
+        </customView>
+    </objects>
+</document>

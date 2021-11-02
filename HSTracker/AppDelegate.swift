@@ -45,6 +45,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         PlayerTrackersPreferences(nibName: "PlayerTrackersPreferences", bundle: nil),
         OpponentTrackersPreferences(nibName: "OpponentTrackersPreferences", bundle: nil),
         BattlegroundsPreferences(nibName: "BattlegroundsPreferences", bundle: nil),
+        MercenariesPreferences(nibName: "MercenariesPreferences", bundle: nil),
         ImportingPreferences(nibName: "ImportingPreferences", bundle: nil),
         HSReplayPreferences(nibName: "HSReplayPreferences", bundle: nil)
     ], style: .toolbarItems, animated: true)

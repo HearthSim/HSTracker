@@ -176,6 +176,7 @@ class Game: NSObject, PowerEventHandler {
         self.updateTurnCounterOverlay()
         self.updateToaster()
         self.updateExperienceOverlay()
+        self.updateBoardOverlay()
 	}
 	
     // MARK: - GUI calls
@@ -678,6 +679,23 @@ class Game: NSObject, PowerEventHandler {
 			}
 		}
 	}
+    
+    func updateBoardOverlay() {
+        DispatchQueue.main.async {
+            let oppTracker = self.windowManager.opponentBoardOverlay
+            let playerTracker = self.windowManager.playerBoardOverlay
+
+            if self.currentGameMode == .mercenaries && self.currentMode == .gameplay {
+                self.windowManager.show(controller: oppTracker, show: true, frame: SizeHelper.opponentBoardOverlay(), title: nil, overlay: self.hearthstoneRunState.isActive)
+                oppTracker.updateBoardState(player: self.opponent)
+                self.windowManager.show(controller: playerTracker, show: true, frame: SizeHelper.playerBoardOverlay(), title: nil, overlay: self.hearthstoneRunState.isActive)
+                playerTracker.updateBoardState(player: self.player)
+            } else {
+                self.windowManager.show(controller: oppTracker, show: false)
+                self.windowManager.show(controller: playerTracker, show: false)
+            }
+        }
+    }
 	
     // MARK: - Vars
     
@@ -803,6 +821,21 @@ class Game: NSObject, PowerEventHandler {
     private var _matchInfo: MatchInfo?
     
     private var _battlegroundsRating: Int?
+    
+    private var _mercenariesRating: Int?
+    
+    var mercenariesRating: Int? {
+        if _mercenariesRating == nil {
+            if let rating = MirrorHelper.getMercenariesRating() {
+                _mercenariesRating = rating
+            }
+        }
+        return _mercenariesRating
+    }
+    
+    var mercenariesMapInfo: MirrorMercenariesMapInfo? {
+        return MirrorHelper.getMercenariesMapInfo()
+    }
     
     private var _availableRaces: [Race]?
     
@@ -1076,6 +1109,10 @@ class Game: NSObject, PowerEventHandler {
             self.updateAllTrackers()
             self.guiUpdateResets = false
         }
+        
+        if self.isMercenariesMatch() {
+            self.updateBoardOverlay()
+        }
         _queue.asyncAfter(deadline: DispatchTime.now() + Game.guiUpdateDelay, execute: {
             self.internalUpdateCheck()
         })
@@ -1155,6 +1192,12 @@ class Game: NSObject, PowerEventHandler {
     func cacheBattlegroundRatingInfo() {
         if let rating = MirrorHelper.getBattlegroundsRating() {
             _battlegroundsRating = rating
+        }
+    }
+    
+    func cacheMercenariesRatingInfo() {
+        if let rating = MirrorHelper.getMercenariesRating() {
+            _mercenariesRating = rating
         }
     }
 
@@ -1273,11 +1316,18 @@ class Game: NSObject, PowerEventHandler {
         updateTrackers(reset: true)
     }
 
+    private func isValidPlayerInfo(playerInfo: MatchInfo.Player?, allowMissing: Bool = true) -> Bool {
+        let name = playerInfo?.name ?? ""
+        let valid = allowMissing || !name.isBlank
+        logger.debug("valid=\(valid), gameMode=\(currentGameMode), player=\(name), starLevel=\(playerInfo?.standardMedalInfo.starLevel ?? 0)")
+        return valid
+    }
+
     // MARK: - game state
     private func cacheMatchInfo() {
         DispatchQueue.global().async {
             var minfo: MatchInfo? = self.matchInfo
-            while minfo == nil {
+            while minfo == nil || !self.isValidPlayerInfo(playerInfo: minfo?.localPlayer) || !self.isValidPlayerInfo(playerInfo: minfo?.opposingPlayer, allowMissing: self.isMercenariesMatch()) {
                 logger.info("Waiting for matchInfo... (matchInfo=\(String(describing: minfo))")
                 Thread.sleep(forTimeInterval: 1)
                 minfo = self.matchInfo
@@ -1426,7 +1476,20 @@ class Game: NSObject, PowerEventHandler {
 		} else if let brawlInfo = self.brawlInfo, self.currentGameMode == .brawl {
 			result.brawlWins = brawlInfo.wins
 			result.brawlLosses = brawlInfo.losses
-		}
+        } else if isBattlegroundsMatch(), let rating = self.battlegroundsRating {
+            result.battlegroundsRating = rating
+        } else if isMercenariesMatch() {
+            if isMercenariesPvpMatch(), let rating = self.mercenariesRating {
+                result.mercenariesRating = rating
+            }
+            if isMercenariesPveMatch() {
+                if let mapInfo = self.mercenariesMapInfo {
+                    result.mercenariesBountyRunId = String(mapInfo.seed.intValue)
+                    result.mercenariesBountyRunTurnsTaken = mapInfo.turnsTaken.intValue
+                    result.mercenariesBountyRunCompletedNodes = mapInfo.completedNodes.intValue
+                }
+            }
+        }
 		
 		result.gameType = self.currentGameType
 		if let serverInfo = self.serverInfo {
@@ -1452,7 +1515,7 @@ class Game: NSObject, PowerEventHandler {
 		}).forEach({
 			result.opponentCards.append($0)
 		})
-        result.battlegroundsRating = self.battlegroundsRating ?? 0
+        
         if currentGameType == .gt_battlegrounds || currentGameType == .gt_battlegrounds_friendly {
             result.battlegroundsRaces = self.availableRaces?.compactMap({ x in Race.allCases.firstIndex(of: x)}) ?? []
         }
@@ -1550,7 +1613,8 @@ class Game: NSObject, PowerEventHandler {
             (isBattlegroundsMatch() &&
                 Settings.hsReplayUploadBattlegroundsMatches) ||
             (stats.gameMode == .duels &&
-                Settings.hsReplayUploadDuelsMatches)) {
+                Settings.hsReplayUploadDuelsMatches) ||
+            (stats.gameMode == .mercenaries && Settings.hsReplayUploadMercenariesMatches)) {
 			
             let (uploadMetaData, statId) = UploadMetaData.generate(stats: stats, buildNumber: self.buildNumber,
 				deck: self.playerDeckAutodetected && self.currentDeck != nil ? self.currentDeck : nil )
@@ -1697,6 +1761,18 @@ class Game: NSObject, PowerEventHandler {
         // TODO: remove
         return currentGameType == .gt_battlegrounds || currentGameType == .gt_battlegrounds_friendly
         //return true
+    }
+    
+    func isMercenariesMatch() -> Bool {
+        return currentGameType == .gt_mercenaries_ai_vs_ai || currentGameType == .gt_mercenaries_friendly || currentGameType == .gt_mercenaries_pve || currentGameType == .gt_mercenaries_pvp || currentGameType == .gt_mercenaries_pve_coop
+    }
+    
+    func isMercenariesPvpMatch() -> Bool {
+        return currentGameType == .gt_mercenaries_pvp
+    }
+    
+    func isMercenariesPveMatch() -> Bool {
+        return currentGameType == .gt_mercenaries_pve || currentGameType == .gt_mercenaries_pve_coop
     }
     
     func isConstructedMatch() -> Bool {
@@ -1967,29 +2043,27 @@ class Game: NSObject, PowerEventHandler {
     private func internalHandleBGStart(count: Int) {
         let heroes = player.playerEntities.filter({ x in x.isHero && (x.has(tag: .bacon_hero_can_be_drafted) || x.has(tag: .bacon_skin))})
         if heroes.count < 2 {
-            logger.debug("Not enough heroes")
-            if count < 10 {
-                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500), execute: {
+            logger.debug("Not enough heroes, attempt #\(count), heroes count \(heroes.count)")
+            if count < 30 {
+                DispatchQueue.global().asyncAfter(deadline: .now() + .milliseconds(1000), execute: {
                     self.internalHandleBGStart(count: count + 1)
                 })
-            } else {
-                return
             }
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500), execute: {
-            let heroesArray = heroes.compactMap({ x in x.card.dbfId }).map({ x in String(x) })
-            logger.debug("Battlegrounds heroes: \(heroesArray)")
+        } else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500), execute: {
+                let heroesArray = heroes.compactMap({ x in x.card.dbfId }).map({ x in String(x) })
+                logger.debug("Battlegrounds heroes: \(heroesArray), original count: \(heroes.count)")
 
-            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3), execute: {
-                let view = BgHeroesToastView(frame: NSRect.zero)
-                view.clicked = {
-                    AppDelegate.instance().coreManager.toaster.hide()
-                }
-                view.heroes = heroesArray
-                AppDelegate.instance().coreManager.toaster.displayToast(view: view, timeoutMillis: 10000)
+                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3), execute: {
+                    let view = BgHeroesToastView(frame: NSRect.zero)
+                    view.clicked = {
+                        AppDelegate.instance().coreManager.toaster.hide()
+                    }
+                    view.heroes = heroesArray
+                    AppDelegate.instance().coreManager.toaster.displayToast(view: view, timeoutMillis: 10000)
+                })
             })
-        })
+        }
     }
     
     private func handleBattlegroundsStart() {

@@ -21,7 +21,11 @@ enum CardType: Int, CaseIterable {
     weapon = 7,
     item = 8,
     token = 9,
-    hero_power = 10
+    hero_power = 10,
+    blank = 11,
+    game_mode_button = 12,
+    move_minion_hover_target = 22,
+    lettuce_ability = 23
 
     init?(rawString: String) {
         let string = rawString.lowercased()

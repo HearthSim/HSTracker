@@ -74,6 +74,10 @@ class Entity {
     }
 
     func isControlled(by controller: Int) -> Bool {
+        let lettuceController = self[.lettuce_controller]
+        if lettuceController > 0 {
+            return lettuceController == controller
+        }
         return self.has(tag: .controller) ? self[.controller] == controller : false
     }
     

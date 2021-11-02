@@ -47,9 +47,11 @@ enum CardSet: String, CaseIterable {
     the_barrens, // Forged in the Barrens
     wailing_caverns,
     stormwind,
+    lettuce,
     legacy,
     core,
-    vanilla
+    vanilla,
+    mercenaries_dev
     
     static func deckManagerValidCardSets() -> [CardSet] {
         return [.all, .vanilla, .core, .basic, .expert1, .naxx, .gvg, .brm, .tgt,

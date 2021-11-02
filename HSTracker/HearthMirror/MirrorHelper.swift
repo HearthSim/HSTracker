@@ -187,8 +187,8 @@ struct MirrorHelper {
         return result
     }
     
-    static func getBattlegroundsRatingChange() -> MirrorBattlegroundsRatingChange? {
-        var result: MirrorBattlegroundsRatingChange?
+    static func getBattlegroundsRatingChange() -> MirrorRatingChange? {
+        var result: MirrorRatingChange?
         MirrorHelper.accessQueue.sync {
             result = mirror?.getBattlegroundsRatingChange()
         }
@@ -309,6 +309,30 @@ struct MirrorHelper {
         var result: MirrorRewardTrackData?
         MirrorHelper.accessQueue.sync {
             result = mirror?.getRewardTrackData()
+        }
+        return result
+    }
+
+    static func getMercenariesRating() -> Int? {
+        var result: Int?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getMercenariesRating() as? Int? ?? nil
+        }
+        return result
+    }
+    
+    static func getMercenariesRatingChange() -> MirrorRatingChange? {
+        var result: MirrorRatingChange?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getMercenariesRatingChange()
+        }
+        return result
+    }
+    
+    static func getMercenariesMapInfo() -> MirrorMercenariesMapInfo? {
+        var result: MirrorMercenariesMapInfo?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getMercenariesMapInfo()
         }
         return result
     }

@@ -60,6 +60,19 @@ struct BobsBuddyData: Codable {
     var log_lines_kept: Int?
 }
 
+struct MercAbility: Codable {
+    var id: Int
+    var tier_ids: [String]
+}
+
+struct Mercenary: Codable {
+    var id: Int
+    var name: String
+    var collectible: Bool
+    var art_variation_ids: [String]
+    var abilities: [MercAbility]
+}
+
 struct ConfigData: Codable {
     var news: NewsData?
     var collection_banner: CollectionBannerData?
@@ -71,8 +84,10 @@ struct ConfigData: Codable {
 
 class RemoteConfig {
     static var data: ConfigData?
+    static var mercenaries: [Mercenary]?
     
     private static var url = "https://hsdecktracker.net/config.json"
+    private static var mercsUrl = "https://hsdecktracker.net/data/mercs.json"
 
     static func checkRemoteConfig(splashscreen: Splashscreen) {
         DispatchQueue.main.async {
@@ -82,11 +97,22 @@ class RemoteConfig {
 
         let http = Http(url: RemoteConfig.url)
         let semaphore = DispatchSemaphore(value: 0)
-        _ = http.getPromise(method: .get).done { data in
-            let d = try JSONDecoder().decode(ConfigData.self, from: data!)
-            self.data = d
+        _ = http.getPromise(method: .get).map { data in
+            try JSONDecoder().decode(ConfigData.self, from: data!)
+        }.done { data in
+            self.data = data
             logger.info("Retrieved remote configuration")
-            semaphore.signal()
+            let http2 = Http(url: RemoteConfig.mercsUrl)
+            _ = http2.getPromise(method: .get).map { data in
+                try JSONDecoder().decode([Mercenary].self, from: data!)
+            }.done { mercs in
+                self.mercenaries = mercs
+                logger.info("Retrieved remote mercenaries configuration")
+                semaphore.signal()
+            }.catch { error in
+                logger.error("Error parsing remote mercenaries config: \(error)")
+                semaphore.signal()
+            }
         }.catch { error in
             logger.error("Error parsing remote config: \(error)")
             semaphore.signal()

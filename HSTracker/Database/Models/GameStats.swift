@@ -43,6 +43,11 @@ class InternalGameStats {
     var brawlLosses = 0
     var battlegroundsRating = 0
     var battlegroundsRaces: [Int] = []
+    var mercenariesRating = 0
+    var mercenariesRatingAfter = 0
+    var mercenariesBountyRunId = ""
+    var mercenariesBountyRunTurnsTaken = 0
+    var mercenariesBountyRunCompletedNodes = 0
     private var _format: Format?
         
     var format: Format? {

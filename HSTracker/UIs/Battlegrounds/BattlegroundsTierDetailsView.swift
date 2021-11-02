@@ -196,7 +196,7 @@ extension BattlegroundsTierDetailsView: CardCellHover {
     func hover(cell: CardBar, card: Card) {
         let windowRect = self.window!.frame
 
-        let hoverFrame = NSRect(x: 0, y: 0, width: 256, height: 350)
+        let hoverFrame = NSRect(x: 0, y: 0, width: 256, height: 388)
 
         var x: CGFloat
         // decide if the popup window should on the left or right side of the tracker
@@ -218,7 +218,7 @@ extension BattlegroundsTierDetailsView: CardCellHover {
             y = hoverFrame.height/2
         }
 
-        let frame = [x, y, hoverFrame.width, hoverFrame.height]
+        let frame = [x, y - hoverFrame.height / 2.0, hoverFrame.width, hoverFrame.height]
 
         NotificationCenter.default
             .post(name: Notification.Name(rawValue: Events.show_floating_card),
@@ -226,7 +226,8 @@ extension BattlegroundsTierDetailsView: CardCellHover {
                                   userInfo: [
                                     "card": card,
                                     "frame": frame,
-                                    "battlegrounds": true
+                                    "battlegrounds": true,
+                                    "useFrame": true
                 ])
     }
 

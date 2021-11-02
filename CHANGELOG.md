@@ -1,3 +1,11 @@
+# 2.0.0
+## New
+- Add Mercenaries ability hover (more to come soon)
+- Add support for patch 21.6
+## Fixes
+- Card hover only shows card, no text
+- Fixed crash during Book of Heroes
+
 # 1.9.16
 ## New
 - Add support for patch 21.4

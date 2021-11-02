@@ -88,6 +88,14 @@ class WindowManager {
     var experiencePanel: ExperienceOverlay = {
         return $0
     }(ExperienceOverlay(windowNibName: "ExperienceOverlay"))
+    
+    var opponentBoardOverlay: BoardOverlay = {
+        return $0
+    }(BoardOverlay(windowNibName: "BoardOverlay"))
+    
+    var playerBoardOverlay: BoardOverlay = {
+        return $0
+    }(BoardOverlay(windowNibName: "BoardOverlay"))
 
     var toastWindowController = ToastWindowController()
 
@@ -111,6 +119,46 @@ class WindowManager {
         return $0
     }(FloatingCard(windowNibName: "FloatingCard"))
     
+    var floatingCard3: FloatingCard = {
+        if let fWindow = $0.window {
+            
+            fWindow.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(CGWindowLevelKey.mainMenuWindow)) - 1)
+            
+            if Settings.canJoinFullscreen {
+                fWindow.collectionBehavior = [NSWindow.CollectionBehavior.canJoinAllSpaces, NSWindow.CollectionBehavior.fullScreenAuxiliary]
+            } else {
+                fWindow.collectionBehavior = []
+            }
+            
+            fWindow.styleMask = [.borderless, .nonactivatingPanel]
+            fWindow.ignoresMouseEvents = true
+            
+            fWindow.orderFront(nil)
+            fWindow.orderOut(nil)
+        }
+        return $0
+    }(FloatingCard(windowNibName: "FloatingCard"))
+
+    var floatingCard2: FloatingCard = {
+        if let fWindow = $0.window {
+            
+            fWindow.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(CGWindowLevelKey.mainMenuWindow)) - 1)
+            
+            if Settings.canJoinFullscreen {
+                fWindow.collectionBehavior = [NSWindow.CollectionBehavior.canJoinAllSpaces, NSWindow.CollectionBehavior.fullScreenAuxiliary]
+            } else {
+                fWindow.collectionBehavior = []
+            }
+            
+            fWindow.styleMask = [.borderless, .nonactivatingPanel]
+            fWindow.ignoresMouseEvents = true
+            
+            fWindow.orderFront(nil)
+            fWindow.orderOut(nil)
+        }
+        return $0
+    }(FloatingCard(windowNibName: "FloatingCard"))
+
     var cardHudContainer: CardHudContainer = {
         return $0
     }(CardHudContainer(windowNibName: "CardHudContainer"))
@@ -157,6 +205,8 @@ class WindowManager {
             self?.turnCounter.window?.orderOut(nil)
             self?.battlegroundsTierOverlay.window?.orderOut(nil)
             self?.cardHudContainer.reset()
+            self?.playerBoardOverlay.window?.orderOut(nil)
+            self?.opponentBoardOverlay.window?.orderOut(nil)
         }
     }
 
@@ -171,28 +221,35 @@ class WindowManager {
                     return
             }
             
+            var floatingCard = self.floatingCard
+            if let index = notification.userInfo?["index"] as? Int {
+                if index == 1 {
+                    floatingCard = self.floatingCard2
+                } else if index == 2 {
+                    floatingCard = self.floatingCard3
+                }
+            }
+            
+            let useFrame = notification.userInfo?["useFrame"] as? Bool ?? false
+
             if let bgs = notification.userInfo?["battlegrounds"] as? Bool, bgs {
-                self.floatingCard.isBattlegrounds = true
+                floatingCard.isBattlegrounds = true
             } else {
-                self.floatingCard.isBattlegrounds = false
+                floatingCard.isBattlegrounds = false
             }
             if let timer = self.closeRequestTimer {
                 timer.invalidate()
                 self.closeRequestTimer = nil
             }
             
-            if let drawchancetop = notification.userInfo?["drawchancetop"] as? Float,
-                let drawchancetop2 = notification.userInfo?["drawchancetop2"] as? Float {
-                self.floatingCard.set(card: card, drawChanceTop: drawchancetop,
-                                 drawChanceTop2: drawchancetop2)
-            } else {
-                self.floatingCard.set(card: card, drawChanceTop: 0, drawChanceTop2: 0)
-            }
+            floatingCard.set(card: card)
             
-            if let fWindow = self.floatingCard.window {
-                fWindow.setFrameOrigin(NSPoint(x: arrayFrame[0],
-                                                            y: arrayFrame[1] - fWindow.frame.size.height/2))
-                
+            if let fWindow = floatingCard.window {
+                if !useFrame {
+                    fWindow.setFrameOrigin(NSPoint(x: arrayFrame[0],
+                                                                y: arrayFrame[1] - fWindow.frame.size.height/2))
+                }
+
                 fWindow.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(CGWindowLevelKey.mainMenuWindow)) - 1)
                 
                 if Settings.canJoinFullscreen {
@@ -204,6 +261,10 @@ class WindowManager {
                 fWindow.styleMask = [.borderless, .nonactivatingPanel]
                 fWindow.ignoresMouseEvents = true
                 
+                if useFrame {
+                    fWindow.setFrame(NSRect(x: arrayFrame[0], y: arrayFrame[1], width: arrayFrame[2], height: arrayFrame[3]), display: true)
+                }
+
                 fWindow.orderFront(nil)
             }
             
@@ -233,6 +294,8 @@ class WindowManager {
     @objc func forceHideFloatingCard() {
         DispatchQueue.main.async { [unowned(unsafe) self] in
             self.floatingCard.window?.orderOut(self)
+            self.floatingCard2.window?.orderOut(self)
+            self.floatingCard3.window?.orderOut(self)
             self.closeRequestTimer?.invalidate()
             self.closeRequestTimer = nil
         }

@@ -199,6 +199,14 @@ struct SizeHelper {
     static var screenRatio: CGFloat {
         return (4.0 / 3.0) / (hearthstoneWindow.width / hearthstoneWindow.height)
     }
+    
+    static var minionWidth: CGFloat {
+        return hearthstoneWindow.width * 0.63 / 7 * screenRatio
+    }
+    
+    static var mercenariesMinionMargin: CGFloat {
+        return hearthstoneWindow.width * screenRatio * 0.01
+    }
 
     static func overHearthstoneFrame() -> NSRect {
         let frame = hearthstoneWindow.frame
@@ -398,6 +406,34 @@ struct SizeHelper {
         
         let frame = NSRect(x: hearthstoneWindow.frame.width - w - trackerWidth - 10, y: 10, width: w, height: h)
         return hearthstoneWindow.relativeFrame(frame, relative: false)
+    }
+    
+    static func opponentBoardOverlay() -> NSRect {
+        let width = hearthstoneWindow.width
+        let height = hearthstoneWindow.height
+        let frame = hearthstoneWindow.frame
+        let game = AppDelegate.instance().coreManager.game
+        let step = game.gameEntity?[.step] ?? 0
+        let isMainAction = step == Step.main_action.rawValue || step == Step.main_post_action.rawValue || step == Step.main_pre_action.rawValue
+        let mercsToNominate = game.gameEntity?.has(tag: .allow_move_minion) ?? false
+        
+        let opponentBoardOffset = game.isMercenariesMatch() && isMainAction && !mercsToNominate ? height * 0.142 : height * 0.045
+        let result = NSRect(x: frame.minX, y: frame.minY + height - (height / 2 - height * 0.158 - opponentBoardOffset) - height * 0.158, width: width, height: height * 0.158)
+        return result
+    }
+
+    static func playerBoardOverlay() -> NSRect {
+        let width = hearthstoneWindow.width
+        let height = hearthstoneWindow.height
+        let frame = hearthstoneWindow.frame
+        let game = AppDelegate.instance().coreManager.game
+        let step = game.gameEntity?[.step] ?? 0
+        let isMainAction = step == Step.main_action.rawValue || step == Step.main_post_action.rawValue || step == Step.main_pre_action.rawValue
+        let mercsToNominate = game.gameEntity?.has(tag: .allow_move_minion) ?? false
+
+        let playerBoardOffset = game.isMercenariesMatch() ? isMainAction && !mercsToNominate ? height * -0.09 : height * 0.003 : height * 0.03
+        let result = NSRect(x: frame.minX, y: frame.minY + height - (height / 2 - playerBoardOffset) - height * 0.158, width: width, height: height * 0.158)
+        return result
     }
 
     static let cardHudContainerWidth: CGFloat = 400

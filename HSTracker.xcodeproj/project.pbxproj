@@ -419,6 +419,11 @@
 		B83355B524F850C10025F644 /* Mono.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B864A14224F58539005EA2A0 /* Mono.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		B850AA33252CB0490031E8F2 /* TurnCounter.xib in Resources */ = {isa = PBXBuildFile; fileRef = B850AA32252CB0490031E8F2 /* TurnCounter.xib */; };
 		B850AA35252CB0FA0031E8F2 /* TurnCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */; };
+		B85A0D54272CDEFE006D2648 /* MercenariesPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85A0D53272CDEFE006D2648 /* MercenariesPreferences.swift */; };
+		B85A0D55272CE24A006D2648 /* MercenariesPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B85A0D51272CDDFB006D2648 /* MercenariesPreferences.xib */; };
+		B85A0D56272CE24B006D2648 /* MercenariesPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B85A0D51272CDDFB006D2648 /* MercenariesPreferences.xib */; };
+		B85A0D5727303709006D2648 /* BoardOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AFA40A2723310700B3470E /* BoardOverlay.swift */; };
+		B85A0D582730370D006D2648 /* BoardOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8AFA4082723306C00B3470E /* BoardOverlay.xib */; };
 		B85BBE43264B0C28001976AB /* RegexUtil in Frameworks */ = {isa = PBXBuildFile; productRef = B85BBE42264B0C28001976AB /* RegexUtil */; };
 		B85F1AC9258A558200A6F8C3 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85F1AC8258A558200A6F8C3 /* Helper.swift */; };
 		B864A13E24F54E1F005EA2A0 /* MinionHeroPowerTrigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B864A13D24F54E1F005EA2A0 /* MinionHeroPowerTrigger.swift */; };
@@ -443,6 +448,8 @@
 		B8A9CB2F25699B70000071FC /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8820CCF25603FB00072ECBC /* RemoteConfig.swift */; };
 		B8A9CB332571F160000071FC /* GuessedCardState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A9CB322571F160000071FC /* GuessedCardState.swift */; };
 		B8A9CB3C2573FD61000071FC /* GuessedCardState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A9CB322571F160000071FC /* GuessedCardState.swift */; };
+		B8AFA4092723306D00B3470E /* BoardOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8AFA4082723306C00B3470E /* BoardOverlay.xib */; };
+		B8AFA40B2723310700B3470E /* BoardOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AFA40A2723310700B3470E /* BoardOverlay.swift */; };
 		B8B7CC1F253C721400033758 /* BattlegroundsPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B7CC1E253C721400033758 /* BattlegroundsPreferences.swift */; };
 		B8B7CC20253C74D100033758 /* BattlegroundsPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8B7CC22253C74D100033758 /* BattlegroundsPreferences.xib */; };
 		B8C2F90D2618185D00C31E6A /* FullScreenFxHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C2F90C2618185D00C31E6A /* FullScreenFxHandler.swift */; };
@@ -953,6 +960,8 @@
 		B83355B324F84F200025F644 /* libiconv.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.2.dylib; path = ../../../usr/lib/libiconv.2.dylib; sourceTree = "<group>"; };
 		B850AA32252CB0490031E8F2 /* TurnCounter.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TurnCounter.xib; sourceTree = "<group>"; };
 		B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnCounter.swift; sourceTree = "<group>"; };
+		B85A0D52272CDDFB006D2648 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = HSTracker/UIs/Preferences/Base.lproj/MercenariesPreferences.xib; sourceTree = "<group>"; };
+		B85A0D53272CDEFE006D2648 /* MercenariesPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MercenariesPreferences.swift; sourceTree = "<group>"; };
 		B85F1AC8258A558200A6F8C3 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		B864A13D24F54E1F005EA2A0 /* MinionHeroPowerTrigger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinionHeroPowerTrigger.swift; sourceTree = "<group>"; };
 		B864A14224F58539005EA2A0 /* Mono.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mono.framework; path = ../../../Library/Frameworks/Mono.framework; sourceTree = "<group>"; };
@@ -969,6 +978,8 @@
 		B8956CFC25509B3F0073D70C /* BattlegroundsMinionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsMinionView.swift; sourceTree = "<group>"; };
 		B8A3E4B3257AE71500D9C77A /* RotatingFileDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotatingFileDestination.swift; sourceTree = "<group>"; };
 		B8A9CB322571F160000071FC /* GuessedCardState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuessedCardState.swift; sourceTree = "<group>"; };
+		B8AFA4082723306C00B3470E /* BoardOverlay.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BoardOverlay.xib; sourceTree = "<group>"; };
+		B8AFA40A2723310700B3470E /* BoardOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardOverlay.swift; sourceTree = "<group>"; };
 		B8B7CC1E253C721400033758 /* BattlegroundsPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsPreferences.swift; sourceTree = "<group>"; };
 		B8B7CC21253C74D100033758 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/BattlegroundsPreferences.xib; sourceTree = "<group>"; };
 		B8B7CC24253C74DB00033758 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/BattlegroundsPreferences.strings; sourceTree = "<group>"; };
@@ -1322,6 +1333,8 @@
 				432B5FB81CB5372600B05D19 /* GamePreferences.xib */,
 				437B5BC11CD2568100DE0A41 /* TrackersPreferences.swift */,
 				437B5BC31CD2568E00DE0A41 /* TrackersPreferences.xib */,
+				B85A0D53272CDEFE006D2648 /* MercenariesPreferences.swift */,
+				B85A0D51272CDDFB006D2648 /* MercenariesPreferences.xib */,
 				B8B7CC1E253C721400033758 /* BattlegroundsPreferences.swift */,
 				B8B7CC22253C74D100033758 /* BattlegroundsPreferences.xib */,
 				43D308071C84410000480488 /* PlayerTrackersPreferences.swift */,
@@ -1623,6 +1636,8 @@
 				4C1923A02392FB3F007EBB0F /* BattlegroundsDetailsWindow.xib */,
 				4C1923932392DF8A007EBB0F /* BattlegroundsOverlay.swift */,
 				4C1923952392DFA5007EBB0F /* BattlegroundsOverlay.xib */,
+				B8AFA40A2723310700B3470E /* BoardOverlay.swift */,
+				B8AFA4082723306C00B3470E /* BoardOverlay.xib */,
 				4CECFFD423C10C3D0093253E /* BattlegroundsTierDetailWindowController.swift */,
 				4CECFFD623C10C570093253E /* BattlegroundsTierDetailWindowController.xib */,
 				4CFF95AA23C0C3B3006AB461 /* BattlegroundsTierOverlay.swift */,
@@ -2036,6 +2051,7 @@
 				432B5FB91CB5372C00B05D19 /* GeneralPreferences.xib in Resources */,
 				43050C621E6B484D007600EA /* Hearthstone.xcassets in Resources */,
 				B8B7CC20253C74D100033758 /* BattlegroundsPreferences.xib in Resources */,
+				B85A0D55272CE24A006D2648 /* MercenariesPreferences.xib in Resources */,
 				434D1CB41D10947200222B8E /* Statistics.xib in Resources */,
 				4CECFFD723C10C570093253E /* BattlegroundsTierDetailWindowController.xib in Resources */,
 				432B5FC21CB5373D00B05D19 /* SaveDeck.xib in Resources */,
@@ -2053,6 +2069,7 @@
 				432B5FB31CB5371C00B05D19 /* PlayerTrackersPreferences.xib in Resources */,
 				B83355AE24F807220025F644 /* BobsBuddyPanel.xib in Resources */,
 				432B5FBC1CB5373200B05D19 /* Splashscreen.xib in Resources */,
+				B8AFA4092723306D00B3470E /* BoardOverlay.xib in Resources */,
 				43EECB9A1C7E3F620077AC1B /* DeckCellView.xib in Resources */,
 				437B5BC51CD2568E00DE0A41 /* TrackersPreferences.xib in Resources */,
 				4C1923962392DFA5007EBB0F /* BattlegroundsOverlay.xib in Resources */,
@@ -2075,7 +2092,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				B8D75BA525BA22B900446923 /* BattlegroundsTierOverlay.xib in Resources */,
+				B85A0D56272CE24B006D2648 /* MercenariesPreferences.xib in Resources */,
 				43640BE11E89A25F00FAFD07 /* Resources in Resources */,
+				B85A0D582730370D006D2648 /* BoardOverlay.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2126,7 +2145,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Change SHA1 here to change the version of HearthMirror used by HSTrracker\nSHA1=\"7a7b8a77f8ac719fe511e8725ec6193ffef5fcab\"\n\nDIR=\"$SRCROOT/downloaded-frameworks/HearthMirror\"\nVERSION_FILE=\"$DIR/HearthMirror.sha1\"\nZIP_FILE=\"$DIR/HearthMirror.framework.zip\"\nDSYM_ZIP_FILE=\"$DIR/HearthMirror.framework.dSYM.zip\"\n\nif [ \"$(cat $VERSION_FILE)\" != \"$SHA1\"  ]\nthen\n    set -e\n    \n    rm -rf \"$DIR\"\n    mkdir -p \"$DIR\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.zip\" -O \"$ZIP_FILE\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.dSYM.zip\" -O \"$DSYM_ZIP_FILE\"\n    unzip -d \"$DIR\" \"$ZIP_FILE\"\n    unzip -d \"$DIR\" \"$DSYM_ZIP_FILE\"\n    echo \"$SHA1\" > \"$VERSION_FILE\"\nfi\n\n\n\n";
+			shellScript = "# Change SHA1 here to change the version of HearthMirror used by HSTrracker\nSHA1=\"a0588302bc0b5a026396e3dca34a01e4616b75b1\"\n\nDIR=\"$SRCROOT/downloaded-frameworks/HearthMirror\"\nVERSION_FILE=\"$DIR/HearthMirror.sha1\"\nZIP_FILE=\"$DIR/HearthMirror.framework.zip\"\nDSYM_ZIP_FILE=\"$DIR/HearthMirror.framework.dSYM.zip\"\n\nif [ \"$(cat $VERSION_FILE)\" != \"$SHA1\"  ]\nthen\n    set -e\n    \n    rm -rf \"$DIR\"\n    mkdir -p \"$DIR\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.zip\" -O \"$ZIP_FILE\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.dSYM.zip\" -O \"$DSYM_ZIP_FILE\"\n    unzip -d \"$DIR\" \"$ZIP_FILE\"\n    unzip -d \"$DIR\" \"$DSYM_ZIP_FILE\"\n    echo \"$SHA1\" > \"$VERSION_FILE\"\nfi\n\n\n\n";
 		};
 		B83355B724F89D1A0025F644 /* Embed Mono */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2372,6 +2391,7 @@
 				439C7EB91C777F8900D29859 /* GameResult.swift in Sources */,
 				436F5D121CFD7E7500DEB9A1 /* DarkBar.swift in Sources */,
 				B8A3E4B4257AE71500D9C77A /* RotatingFileDestination.swift in Sources */,
+				B8AFA40B2723310700B3470E /* BoardOverlay.swift in Sources */,
 				43C9EF291E9C1DED00D17F2A /* ArenaHelperSync.swift in Sources */,
 				43F4D0491EB7A23E006B4479 /* HeroPower.swift in Sources */,
 				439DD8FA1DB236A4004EBE47 /* ThemeElement.swift in Sources */,
@@ -2397,6 +2417,7 @@
 				B8D75B9325A9DD1300446923 /* ExperienceTracker.swift in Sources */,
 				4349104A1D09545C00B22DB2 /* BoardCard.swift in Sources */,
 				43C567EC1D5E314500451B6F /* HSReplay.swift in Sources */,
+				B85A0D54272CDEFE006D2648 /* MercenariesPreferences.swift in Sources */,
 				4345FE951DF54CA900E8936B /* Block.swift in Sources */,
 				1CB43A151E8317A800E42181 /* WotogCounterHelper.swift in Sources */,
 				43C568051D5E5BFF00451B6F /* UploadMetaData.swift in Sources */,
@@ -2667,6 +2688,7 @@
 				43C1CAB31E96CD6F008C20B1 /* BoardCard.swift in Sources */,
 				43C1CAB41E96CD6F008C20B1 /* BoardHero.swift in Sources */,
 				43C1CAB51E96CD6F008C20B1 /* BoardState.swift in Sources */,
+				B85A0D5727303709006D2648 /* BoardOverlay.swift in Sources */,
 				43C1CAB61E96CD6F008C20B1 /* PlayerBoard.swift in Sources */,
 				43C1CAB71E96CD6F008C20B1 /* IBoardEntity.swift in Sources */,
 				43C1CAB81E96CD6F008C20B1 /* EntityHelper.swift in Sources */,
@@ -3021,6 +3043,14 @@
 			name = BobsBuddyPanel.xib;
 			sourceTree = "<group>";
 		};
+		B85A0D51272CDDFB006D2648 /* MercenariesPreferences.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B85A0D52272CDDFB006D2648 /* Base */,
+			);
+			name = MercenariesPreferences.xib;
+			sourceTree = "<group>";
+		};
 		B8B7CC22253C74D100033758 /* BattlegroundsPreferences.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -3222,7 +3252,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = /Library/Frameworks/Mono.framework/Libraries;
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 1.9.16;
+				MARKETING_VERSION = 2.0.0;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = "$(inherited)";
@@ -3266,7 +3296,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = /Library/Frameworks/Mono.framework/Libraries;
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 1.9.16;
+				MARKETING_VERSION = 2.0.0;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = net.hearthsim.hstracker;

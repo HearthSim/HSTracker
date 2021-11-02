@@ -27,6 +27,7 @@ class HSReplayPreferences: NSViewController, PreferencePane {
     @IBOutlet weak var uploadSpectatorGames: NSButton!
     @IBOutlet weak var uploadBattlegroundsGames: NSButton!
     @IBOutlet weak var uploadDuelsGames: NSButton!
+    @IBOutlet weak var uploadMercenariesGames: NSButton!
 
     @IBOutlet weak var claimAccountButton: NSButtonCell!
     @IBOutlet weak var claimAccountInfo: NSTextField!
@@ -52,6 +53,7 @@ class HSReplayPreferences: NSViewController, PreferencePane {
         uploadSpectatorGames.state = Settings.hsReplayUploadSpectatorMatches ? .on : .off
         uploadBattlegroundsGames.state = Settings.hsReplayUploadBattlegroundsMatches ? .on : .off
         uploadDuelsGames.state = Settings.hsReplayUploadDuelsMatches ? .on : .off
+        uploadMercenariesGames.state = Settings.hsReplayUploadMercenariesMatches ? .on : .off
 
         updateUploadGameTypeView()
         updateStatus()
@@ -84,6 +86,8 @@ class HSReplayPreferences: NSViewController, PreferencePane {
             Settings.hsReplayUploadBattlegroundsMatches = uploadBattlegroundsGames.state == .on
         } else if sender == uploadDuelsGames {
             Settings.hsReplayUploadDuelsMatches = uploadDuelsGames.state == .on
+        } else if sender == uploadMercenariesGames {
+            Settings.hsReplayUploadMercenariesMatches = uploadMercenariesGames.state == .on
         }
 
         updateUploadGameTypeView()
@@ -100,6 +104,7 @@ class HSReplayPreferences: NSViewController, PreferencePane {
             uploadSpectatorGames.isEnabled = false
             uploadBattlegroundsGames.isEnabled = false
             uploadDuelsGames.isEnabled = false
+            uploadMercenariesGames.isEnabled = false
         } else {
             uploadRankedGames.isEnabled = true
             uploadCasualGames.isEnabled = true
@@ -110,6 +115,7 @@ class HSReplayPreferences: NSViewController, PreferencePane {
             uploadSpectatorGames.isEnabled = true
             uploadBattlegroundsGames.isEnabled = true
             uploadDuelsGames.isEnabled = true
+            uploadMercenariesGames.isEnabled = true
         }
     }
 
