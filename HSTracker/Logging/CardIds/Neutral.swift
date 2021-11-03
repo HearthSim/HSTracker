@@ -2243,6 +2243,7 @@ extension CardIds.NonCollectible {
         static let CThuntheShattered_MawOfCthunToken = "DMF_254t7"
         static let Mankrik_OlgraMankriksWifeToken = "BAR_721t"
         static let MaestraoftheMasquerade_DisguiseEnchantment = "SW_050e"
+        static let Sneed_Replicate = "BG21_HERO_030pe"
     }
 }
 

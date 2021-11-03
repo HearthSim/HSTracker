@@ -32,6 +32,7 @@ class MinionProxy: MonoHandle {
     private static var _setGameId: OpaquePointer!
     private static var _minionName: OpaquePointer!
     private static var _addToBackOfList: OpaquePointer!
+    private static var _setReceivesSneedHeroPower: OpaquePointer!
 
     override init(obj: UnsafeMutablePointer<MonoObject>?) {
         super.init(obj: obj)
@@ -60,6 +61,7 @@ class MinionProxy: MonoHandle {
             MinionProxy._setGameId = mono_class_get_method_from_name(MinionProxy._class, "set_game_id", 1)
             MinionProxy._minionName = mono_class_get_field_from_name(MinionProxy._class, "minionName")
             MinionProxy._addToBackOfList = mono_class_get_method_from_name(MinionProxy._class, "AddToBackOfList", 2)
+            MinionProxy._setReceivesSneedHeroPower = mono_class_get_method_from_name(MinionProxy._class, "set_ReceivesSneedHeroPower", 1)
         }
     }    
 
@@ -129,6 +131,10 @@ class MinionProxy: MonoHandle {
 
     func setReceivesLichKingPower(power: Bool) {
         MonoHelper.setBool(obj: self, method: MinionProxy._setReceivesLichKingPower, value: power)
+    }
+    
+    func setReceivesSneedHeroPower(power: Bool) {
+        MonoHelper.setBool(obj: self, method: MinionProxy._setReceivesSneedHeroPower, value: power)
     }
 
     func getReceivesLichKingPower() -> Bool {
