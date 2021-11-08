@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AppKit
 
 extension NSColor {
     func darken(amount: CGFloat = 0.5) -> NSColor {
@@ -20,5 +21,22 @@ extension NSColor {
                        saturation: saturation,
                        brightness: brightness * amount,
                        alpha: alpha)
+    }
+    
+    class func fromHexString(hex: String, alpha: CGFloat = 1.0) -> NSColor? {
+        // Handle two types of literals: 0x and # prefixed
+        var cleanedString = ""
+        if hex.hasPrefix("0x") {
+            cleanedString = hex.substring(from: 2)
+        } else if hex.hasPrefix("#") {
+            cleanedString = hex.substring(from: 1)
+        }
+        var theInt: UInt32 = 0
+        let scanner = Scanner(string: cleanedString)
+        scanner.scanHexInt32(&theInt)
+        let red = CGFloat((theInt & 0xFF0000) >> 16) / 255.0
+        let green = CGFloat((theInt & 0xFF00) >> 8) / 255.0
+        let blue = CGFloat((theInt & 0xFF)) / 255.0
+        return NSColor(calibratedRed: red, green: green, blue: blue, alpha: alpha)
     }
 }

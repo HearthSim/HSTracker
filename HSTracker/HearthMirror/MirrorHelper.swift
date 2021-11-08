@@ -336,4 +336,22 @@ struct MirrorHelper {
         }
         return result
     }
+    
+    static func getMercenariesVisitorTasks() -> [MirrorMercenariesVisitorTask]? {
+        var result: [MirrorMercenariesVisitorTask]?
+        
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getMercenariesVisitorTasks()
+        }
+        return result
+    }
+    
+    static func getMercenariesTaskData() -> [MirrorMercenariesTaskData]? {
+        var result: [MirrorMercenariesTaskData]?
+        
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getMercenariesTaskData()
+        }
+        return result
+    }
 }

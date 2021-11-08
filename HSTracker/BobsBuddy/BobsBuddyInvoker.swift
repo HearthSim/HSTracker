@@ -347,9 +347,7 @@ class BobsBuddyInvoker {
             minion.setReceivesLichKingPower(power: true)
         }
         
-        if attachedEntities.any({ $0.cardId == CardIds.NonCollectible.Neutral.Sneed_Replicate}) {
-            minion.setReceivesSneedHeroPower(power: true)
-        }
+        minion.setSneedsHeroCount(count: Int32(attachedEntities.filter { x in x.cardId == CardIds.NonCollectible.Neutral.Sneed_Replicate}.count))
         
         minion.setGameId(id: Int32(ent.id))
         return minion

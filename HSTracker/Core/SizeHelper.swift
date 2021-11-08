@@ -435,7 +435,33 @@ struct SizeHelper {
         let result = NSRect(x: frame.minX, y: frame.minY + height - (height / 2 - playerBoardOffset) - height * 0.158, width: width, height: height * 0.158)
         return result
     }
+    
+    static func mercenariesButtonOffset() -> Double {
+        let h = hearthstoneWindow.height
+        if AppDelegate.instance().coreManager.game.isInMenu && screenRatio > 0.9 {
+            return h * 0.104
+        }
+        return h * 0.05
+    }
+    
+    static func mercenariesTaskListButton() -> NSRect {
+        let w = 150.0
+        let h = 60.0
+        let height = hearthstoneWindow.height
+        let bottom = hearthstoneWindow.frame.minY + mercenariesButtonOffset()
+        let right = hearthstoneWindow.frame.maxX - height * 0.01
+        let frame = NSRect(x: right - w, y: bottom, width: w, height: h)
+        return frame
+    }
 
+    static func mercenariesTaskListView() -> NSRect {
+        let frame = mercenariesTaskListButton()
+        let height = hearthstoneWindow.height
+        let bottom = hearthstoneWindow.frame.minY + frame.height + mercenariesButtonOffset() + 8
+        
+        return NSRect(x: frame.maxX - 360.0, y: bottom, width: 360.0, height: height - bottom)
+    }
+    
     static let cardHudContainerWidth: CGFloat = 400
     static let cardHudContainerHeight: CGFloat = 90
     static func cardHudContainerFrame() -> NSRect {

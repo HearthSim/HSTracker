@@ -226,3 +226,6 @@
 
 /* Mercenaries */
 "Mercenaries" = "Mercenaries";
+"Task progress will update after the game" = "Task progress will update after the game";
+"Completed!" = "Completed!";
+"Task %d: %@" = "Task %d: %@";

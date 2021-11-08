@@ -18,11 +18,13 @@ class MercenariesPreferences: NSViewController, PreferencePane {
 
     @IBOutlet weak var showMercsOpponentHover: NSButton!
     @IBOutlet weak var showMercsPlayerHover: NSButton!
+    @IBOutlet weak var showMercsTasks: NSButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         showMercsOpponentHover.state = Settings.showBobsBuddy ? .on : .off
         showMercsPlayerHover.state = Settings.showBobsBuddyDuringCombat ? .on : .off
+        showMercsTasks.state = Settings.showMercsTasks ? .on : .off
     }
 
     @IBAction func checkboxClicked(_ sender: NSButton) {
@@ -30,6 +32,11 @@ class MercenariesPreferences: NSViewController, PreferencePane {
             Settings.showMercsOpponentHover = showMercsOpponentHover.state == .on
         } else if sender == showMercsPlayerHover {
             Settings.showMercsPlayerHover = showMercsPlayerHover.state == .on
+        } else if sender == showMercsTasks {
+            Settings.showMercsTasks = showMercsTasks.state == .on
+            if Settings.showMercsTasks {
+                AppDelegate.instance().coreManager.game.updateMercenariesTaskListButton()
+            }
         }
     }
 }

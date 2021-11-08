@@ -96,6 +96,14 @@ class WindowManager {
     var playerBoardOverlay: BoardOverlay = {
         return $0
     }(BoardOverlay(windowNibName: "BoardOverlay"))
+    
+    var mercenariesTaskListButton: MercenariesTaskListButton = {
+        return $0
+    }(MercenariesTaskListButton(windowNibName: "MercenariesTaskListButton"))
+
+    var mercenariesTaskListView: MercenariesTaskListView = {
+        return $0
+    }(MercenariesTaskListView(windowNibName: "MercenariesTaskListView"))
 
     var toastWindowController = ToastWindowController()
 

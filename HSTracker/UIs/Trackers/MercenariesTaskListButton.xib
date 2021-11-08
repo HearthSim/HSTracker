@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="19455" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19455"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="MercenariesTaskListButton" customModule="HSTracker" customModuleProvider="target">
+            <connections>
+                <outlet property="window" destination="aQX-IB-TEo" id="3Pu-mg-ZTY"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="aQX-IB-TEo" customClass="NSPanel">
+            <windowStyleMask key="styleMask" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="167" y="107" width="150" height="60"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1025"/>
+            <view key="contentView" id="ehs-Lu-WIS">
+                <rect key="frame" x="0.0" y="0.0" width="150" height="60"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <box horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" boxType="custom" borderWidth="2" cornerRadius="3" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="cMO-UC-a0Q" userLabel="outer box">
+                        <rect key="frame" x="0.0" y="5" width="120" height="54"/>
+                        <view key="contentView" id="bRH-0R-l8y">
+                            <rect key="frame" x="2" y="2" width="116" height="50"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <textField horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="J69-Kw-bvt">
+                                    <rect key="frame" x="18" y="15" width="60" height="20"/>
+                                    <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Tasks" id="vBM-xr-9aG">
+                                        <font key="font" size="18" name="Arial-BoldMT"/>
+                                        <color key="textColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="J69-Kw-bvt" firstAttribute="leading" secondItem="bRH-0R-l8y" secondAttribute="leading" constant="20" id="FmP-qo-VJu"/>
+                                <constraint firstAttribute="trailing" secondItem="J69-Kw-bvt" secondAttribute="trailing" constant="40" id="MSP-n2-kJI"/>
+                                <constraint firstItem="J69-Kw-bvt" firstAttribute="centerY" secondItem="bRH-0R-l8y" secondAttribute="centerY" id="WDO-oJ-kRB"/>
+                            </constraints>
+                        </view>
+                        <color key="borderColor" red="0.066666666666666666" green="0.047058823529411764" blue="0.047058823529411764" alpha="1" colorSpace="deviceRGB"/>
+                        <color key="fillColor" red="0.13333333333333333" green="0.090196078431372548" blue="0.090196078431372548" alpha="1" colorSpace="calibratedRGB"/>
+                    </box>
+                    <imageView horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="qk8-lV-Se0">
+                        <rect key="frame" x="-91" y="0.0" width="241" height="60"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="60" id="GoB-9x-mDc"/>
+                        </constraints>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="right" imageScaling="proportionallyUpOrDown" image="merc_icon" id="Hvj-hX-kfo"/>
+                    </imageView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="cMO-UC-a0Q" secondAttribute="bottom" constant="5" id="1FZ-Yd-R2t"/>
+                    <constraint firstItem="qk8-lV-Se0" firstAttribute="top" secondItem="ehs-Lu-WIS" secondAttribute="top" id="2eg-xZ-h6e"/>
+                    <constraint firstAttribute="bottom" secondItem="qk8-lV-Se0" secondAttribute="bottom" id="R8T-y8-orU"/>
+                    <constraint firstItem="qk8-lV-Se0" firstAttribute="top" secondItem="ehs-Lu-WIS" secondAttribute="top" id="d2N-qT-2WW"/>
+                    <constraint firstAttribute="trailing" secondItem="cMO-UC-a0Q" secondAttribute="trailing" constant="30" id="gOB-ap-DUv"/>
+                    <constraint firstAttribute="trailing" secondItem="qk8-lV-Se0" secondAttribute="trailing" id="iv7-d3-5rl"/>
+                    <constraint firstItem="cMO-UC-a0Q" firstAttribute="top" secondItem="ehs-Lu-WIS" secondAttribute="top" constant="1" id="m6f-K2-j26"/>
+                    <constraint firstItem="cMO-UC-a0Q" firstAttribute="leading" secondItem="ehs-Lu-WIS" secondAttribute="leading" id="nb7-8j-sJd"/>
+                </constraints>
+            </view>
+            <point key="canvasLocation" x="-537" y="-392"/>
+        </window>
+    </objects>
+    <resources>
+        <image name="merc_icon" width="241" height="256"/>
+    </resources>
+</document>

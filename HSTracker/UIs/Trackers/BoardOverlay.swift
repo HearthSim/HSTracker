@@ -87,7 +87,7 @@ class BoardMinionView: NSView {
                 let ability = staticAbilities[i]
                 let actual = actualAbilities.first { x in ability.tier_ids.contains(x.cardId) }
                 if let card = actual?.card ?? Cards.any(byId: ability.tier_ids.last ?? "") {
-                    let frame = [x, hsFrame.maxY + delta - CGFloat(i+1) * dh, hoverFrame.width, hoverFrame.height]
+                    let frame = [x, hsFrame.maxY + delta - CGFloat(i+1) * h, hoverFrame.width, hoverFrame.height]
                     if i == 0 {
                         self.card = card
                         self.parent.mousedOver = true

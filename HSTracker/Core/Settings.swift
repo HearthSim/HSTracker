@@ -360,6 +360,8 @@ final class Settings {
     static var showMercsOpponentHover: Bool
     @UserDefault(key: Settings.show_mercs_player_hover, defaultValue: true)
     static var showMercsPlayerHover: Bool
+    @UserDefault(key: Settings.show_mercs_tasks, defaultValue: true)
+    static var showMercsTasks: Bool
 
     // MARK: - Importing
     @UserDefault(key: Settings.import_dungeon_include_passives, defaultValue: true)
@@ -565,6 +567,7 @@ extension Settings {
     // MARK: - Mercenaries
     static let show_mercs_opponent_hover = "show_mercs_opponent_hover"
     static let show_mercs_player_hover = "show_mercs_player_hover"
+    static let show_mercs_tasks = "show_mercs_tasks"
     
     // MARK: - HSReplay.net related preferences
     static let hsreplay_upload_token = "hsreplay_upload_token"

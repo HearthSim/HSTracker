@@ -16,6 +16,17 @@ struct LoadingScreenHandler: LogEventParser {
 	private unowned(unsafe) let coreManager: CoreManager
     
     private let showExperienceDuringMode = [ Mode.hub, Mode.game_mode, Mode.tournament, Mode.bacon, Mode.draft, Mode.pvp_dungeon_run ]
+    private let lettuceModes = [
+        Mode.lettuce_village,
+        Mode.lettuce_bounty_board,
+        Mode.lettuce_map,
+        Mode.lettuce_play,
+        Mode.lettuce_collection,
+        Mode.lettuce_coop,
+        Mode.lettuce_friendly,
+        Mode.lettuce_bounty_team_select,
+        Mode.lettuce_pack_opening
+    ]
 	
 	init(with coreManager: CoreManager) {
 		self.coreManager = coreManager
@@ -98,6 +109,18 @@ struct LoadingScreenHandler: LogEventParser {
                 game.cacheMercenariesRatingInfo()
             }
             
+            if Settings.showMercsTasks {
+                if let currentMode = game.currentMode, let previousMode = game.previousMode, lettuceModes.contains(currentMode) || (lettuceModes.contains(previousMode) && currentMode == Mode.gameplay) {
+                    game.windowManager.mercenariesTaskListButton.visible = true
+                    game.updateMercenariesTaskListButton()
+                    
+                    game.windowManager.mercenariesTaskListView.setGameNoticeVisible(flag: currentMode == Mode.gameplay)
+                } else {
+                    game.windowManager.mercenariesTaskListButton.visible = false
+                    game.updateMercenariesTaskListButton()
+                }
+            }
+        
             if game.currentMode == .adventure || game.previousMode == Mode.adventure && game.currentMode == .gameplay {
                 DungeonRunDeckWatcher.start()
             } else {

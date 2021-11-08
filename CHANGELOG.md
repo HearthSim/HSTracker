@@ -1,3 +1,10 @@
+# 2.0.1
+## New
+- Add Mercenaries tasks overlay
+- Battlegrounds support for multiple Sneeds hero powers
+## Fixes
+- Fixed Bob's Buddy's interaction with Diable 
+
 # 2.0.0
 ## New
 - Add Mercenaries ability hover (more to come soon)

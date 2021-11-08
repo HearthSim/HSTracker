@@ -176,6 +176,7 @@ class Game: NSObject, PowerEventHandler {
         self.updateTurnCounterOverlay()
         self.updateToaster()
         self.updateExperienceOverlay()
+        self.updateMercenariesTaskListButton()
         self.updateBoardOverlay()
 	}
 	
@@ -697,6 +698,20 @@ class Game: NSObject, PowerEventHandler {
         }
     }
 	
+    func updateMercenariesTaskListButton() {
+        let rect = SizeHelper.mercenariesTaskListButton()
+        
+        DispatchQueue.main.async {
+            let merc = self.windowManager.mercenariesTaskListButton
+            if Settings.showMercsTasks && merc.visible && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground) {
+                self.windowManager.show(controller: merc, show: true, frame: rect, title: nil, overlay: true)
+            } else {
+                self.windowManager.show(controller: self.windowManager.mercenariesTaskListView, show: false)
+                self.windowManager.show(controller: merc, show: false)
+            }
+        }
+    }
+
     // MARK: - Vars
     
     var buildNumber: Int = 0
