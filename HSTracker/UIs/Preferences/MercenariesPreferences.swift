@@ -19,24 +19,36 @@ class MercenariesPreferences: NSViewController, PreferencePane {
     @IBOutlet weak var showMercsOpponentHover: NSButton!
     @IBOutlet weak var showMercsPlayerHover: NSButton!
     @IBOutlet weak var showMercsTasks: NSButton!
+    @IBOutlet weak var showMercsOpponentAbilities: NSButton!
+    @IBOutlet weak var showMercsPlayerAbilities: NSButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         showMercsOpponentHover.state = Settings.showBobsBuddy ? .on : .off
         showMercsPlayerHover.state = Settings.showBobsBuddyDuringCombat ? .on : .off
         showMercsTasks.state = Settings.showMercsTasks ? .on : .off
+        showMercsOpponentAbilities.state = Settings.showMercsOpponentAbilities ? .on : .off
+        showMercsPlayerAbilities.state = Settings.showMercsPlayerAbilities ? .on : .off
     }
 
     @IBAction func checkboxClicked(_ sender: NSButton) {
         if sender == showMercsOpponentHover {
-            Settings.showMercsOpponentHover = showMercsOpponentHover.state == .on
+            Settings.showMercsOpponentHover = sender.state == .on
         } else if sender == showMercsPlayerHover {
-            Settings.showMercsPlayerHover = showMercsPlayerHover.state == .on
+            Settings.showMercsPlayerHover = sender.state == .on
         } else if sender == showMercsTasks {
-            Settings.showMercsTasks = showMercsTasks.state == .on
+            Settings.showMercsTasks = sender.state == .on
             if Settings.showMercsTasks {
                 AppDelegate.instance().coreManager.game.updateMercenariesTaskListButton()
+            } else {
+                AppDelegate.instance().coreManager.game.updateMercenariesTaskListButton()
             }
+        } else if sender == showMercsOpponentAbilities {
+            Settings.showMercsOpponentAbilities = sender.state == .on
+            AppDelegate.instance().coreManager.game.updateBoardOverlay()
+        } else if sender == showMercsPlayerAbilities {
+            Settings.showMercsPlayerAbilities = sender.state == .on
+            AppDelegate.instance().coreManager.game.updateBoardOverlay()
         }
     }
 }

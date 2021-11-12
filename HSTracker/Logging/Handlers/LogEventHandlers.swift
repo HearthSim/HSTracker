@@ -214,4 +214,6 @@ protocol PowerEventHandler: AnyObject {
     func handleOpponentHandCostReduction(value: Int)
     
     func handleEntityLostArmor(entity: Entity, value: Int)
+    
+    func handleMercenariesStateChange()
 }

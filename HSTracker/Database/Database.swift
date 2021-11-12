@@ -196,6 +196,10 @@ class Database {
                         if let hideStats = jsonCard["hideStats"] as? Bool {
                             card.hideStats = hideStats
                         }
+                        
+                        if let mercenariesAbilityCooldown = jsonCard["mercenariesAbilityCooldown"] as? Int {
+                            card.mercenariesAbilityCooldown = mercenariesAbilityCooldown
+                        }
                         Cards.cards.insert(card, at: index)
                         Cards.cardsById[card.id] = card
                     }

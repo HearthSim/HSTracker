@@ -686,7 +686,7 @@ class Game: NSObject, PowerEventHandler {
             let oppTracker = self.windowManager.opponentBoardOverlay
             let playerTracker = self.windowManager.playerBoardOverlay
 
-            if self.currentGameMode == .mercenaries && self.currentMode == .gameplay {
+            if self.currentGameMode == .mercenaries && self.currentMode == .gameplay && !self.gameEnded && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground) {
                 self.windowManager.show(controller: oppTracker, show: true, frame: SizeHelper.opponentBoardOverlay(), title: nil, overlay: self.hearthstoneRunState.isActive)
                 oppTracker.updateBoardState(player: self.opponent)
                 self.windowManager.show(controller: playerTracker, show: true, frame: SizeHelper.playerBoardOverlay(), title: nil, overlay: self.hearthstoneRunState.isActive)
@@ -1841,6 +1841,10 @@ class Game: NSObject, PowerEventHandler {
         if playerEntity?.isCurrentPlayer ?? false {
             secretsManager?.handleEntityLostArmor(entity: entity, value: value)
         }
+    }
+    
+    func handleMercenariesStateChange() {
+        updateBoardOverlay()
     }
     
     func handleCardCopy() {

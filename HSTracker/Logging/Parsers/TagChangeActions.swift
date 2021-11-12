@@ -58,6 +58,7 @@ struct TagChangeActions {
         case .player_tech_level: return { self.playerTechLevel(eventHandler: eventHandler, id: id, value: value, previous: prevValue)}
         case .player_triples: return { self.playerTriples(eventHandler: eventHandler, id: id, value: value, previous: prevValue)}
         case .armor: return { self.armorChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue)}
+        case .lettuce_ability_tile_visual_all_visible, .lettuce_ability_tile_visual_self_only, .fake_zone, .fake_zone_position: return { self.mercenariesStateChange(eventHandler: eventHandler)}
         default: return nil
         }
     }
@@ -252,6 +253,11 @@ struct TagChangeActions {
             eventHandler.handleEntityLostArmor(entity: entity, value: previous - value)
         }
     }
+    
+    private func mercenariesStateChange(eventHandler: PowerEventHandler) {
+        eventHandler.handleMercenariesStateChange()
+        
+    }
 
     private func numTurnsInPlayChange(eventHandler: PowerEventHandler, id: Int, value: Int) {
         guard value > 0 else { return }
@@ -342,6 +348,7 @@ struct TagChangeActions {
         if value == Step.begin_mulligan.rawValue {
             eventHandler.handleBeginMulligan()
         }
+        eventHandler.handleMercenariesStateChange()
         guard !eventHandler.setupDone && eventHandler.entities.first?.1.name == "GameEntity" else { return }
 
         logger.info("Game was already in progress.")

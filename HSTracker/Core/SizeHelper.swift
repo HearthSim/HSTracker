@@ -408,6 +408,14 @@ struct SizeHelper {
         return hearthstoneWindow.relativeFrame(frame, relative: false)
     }
     
+    static func boardOverlayHeight() -> Double {
+        return hearthstoneWindow.height * 0.158
+    }
+    
+    static func abilitySize() -> Double {
+        return boardOverlayHeight() * 0.28
+    }
+    
     static func opponentBoardOverlay() -> NSRect {
         let width = hearthstoneWindow.width
         let height = hearthstoneWindow.height
@@ -417,8 +425,10 @@ struct SizeHelper {
         let isMainAction = step == Step.main_action.rawValue || step == Step.main_post_action.rawValue || step == Step.main_pre_action.rawValue
         let mercsToNominate = game.gameEntity?.has(tag: .allow_move_minion) ?? false
         
+        let overlayHeight = boardOverlayHeight()
+        let margin = overlayHeight * 0.12
         let opponentBoardOffset = game.isMercenariesMatch() && isMainAction && !mercsToNominate ? height * 0.142 : height * 0.045
-        let result = NSRect(x: frame.minX, y: frame.minY + height - (height / 2 - height * 0.158 - opponentBoardOffset) - height * 0.158, width: width, height: height * 0.158)
+        let result = NSRect(x: frame.minX, y: frame.minY + height - (height / 2 - overlayHeight - opponentBoardOffset) - overlayHeight, width: width, height: overlayHeight + abilitySize() + margin)
         return result
     }
 
@@ -431,8 +441,10 @@ struct SizeHelper {
         let isMainAction = step == Step.main_action.rawValue || step == Step.main_post_action.rawValue || step == Step.main_pre_action.rawValue
         let mercsToNominate = game.gameEntity?.has(tag: .allow_move_minion) ?? false
 
+        let overlayHeight = boardOverlayHeight()
+        let margin = overlayHeight * 0.14
         let playerBoardOffset = game.isMercenariesMatch() ? isMainAction && !mercsToNominate ? height * -0.09 : height * 0.003 : height * 0.03
-        let result = NSRect(x: frame.minX, y: frame.minY + height - (height / 2 - playerBoardOffset) - height * 0.158, width: width, height: height * 0.158)
+        let result = NSRect(x: frame.minX, y: frame.minY + height - (height / 2 - playerBoardOffset) - overlayHeight - abilitySize() - margin, width: width, height: overlayHeight + abilitySize() + margin)
         return result
     }
     

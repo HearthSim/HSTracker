@@ -90,10 +90,12 @@ class WindowManager {
     }(ExperienceOverlay(windowNibName: "ExperienceOverlay"))
     
     var opponentBoardOverlay: BoardOverlay = {
+        $0.setPlayerType(playerType: .opponent)
         return $0
     }(BoardOverlay(windowNibName: "BoardOverlay"))
     
     var playerBoardOverlay: BoardOverlay = {
+        $0.setPlayerType(playerType: .player)
         return $0
     }(BoardOverlay(windowNibName: "BoardOverlay"))
     

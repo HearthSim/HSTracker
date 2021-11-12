@@ -458,6 +458,8 @@
 		B8B7CC20253C74D100033758 /* BattlegroundsPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8B7CC22253C74D100033758 /* BattlegroundsPreferences.xib */; };
 		B8BCC1DF2739987600DA6474 /* NSBezierPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BCC1DE2739987600DA6474 /* NSBezierPath.swift */; };
 		B8BCC1E12739991600DA6474 /* VerticallyAlignedTextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BCC1E02739991600DA6474 /* VerticallyAlignedTextFieldCell.swift */; };
+		B8BCC1E3273B0AE600DA6474 /* MercenariesAbilityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BCC1E2273B0AE500DA6474 /* MercenariesAbilityView.swift */; };
+		B8BCC1E5273B168300DA6474 /* MercenariesAbilitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BCC1E4273B168200DA6474 /* MercenariesAbilitiesView.swift */; };
 		B8C2F90D2618185D00C31E6A /* FullScreenFxHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C2F90C2618185D00C31E6A /* FullScreenFxHandler.swift */; };
 		B8C2F90F261F530700C31E6A /* GetAccountResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C2F90E261F530700C31E6A /* GetAccountResult.swift */; };
 		B8C2F9102623233100C31E6A /* GetAccountResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C2F90E261F530700C31E6A /* GetAccountResult.swift */; };
@@ -1007,6 +1009,8 @@
 		B8B7CC3C253C750700033758 /* th-TH */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "th-TH"; path = "th-TH.lproj/BattlegroundsPreferences.strings"; sourceTree = "<group>"; };
 		B8BCC1DE2739987600DA6474 /* NSBezierPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSBezierPath.swift; sourceTree = "<group>"; };
 		B8BCC1E02739991600DA6474 /* VerticallyAlignedTextFieldCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticallyAlignedTextFieldCell.swift; sourceTree = "<group>"; };
+		B8BCC1E2273B0AE500DA6474 /* MercenariesAbilityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MercenariesAbilityView.swift; sourceTree = "<group>"; };
+		B8BCC1E4273B168200DA6474 /* MercenariesAbilitiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MercenariesAbilitiesView.swift; sourceTree = "<group>"; };
 		B8C2F90C2618185D00C31E6A /* FullScreenFxHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenFxHandler.swift; sourceTree = "<group>"; };
 		B8C2F90E261F530700C31E6A /* GetAccountResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAccountResult.swift; sourceTree = "<group>"; };
 		B8D75B8E25A9DC9A00446923 /* ExperienceOverlay.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExperienceOverlay.xib; sourceTree = "<group>"; };
@@ -1688,6 +1692,8 @@
 				B800FCA32732AA7C00AFBD51 /* MercenariesTaskListButton.xib */,
 				B800FCA52732AA9100AFBD51 /* MercenariesTaskListButton.swift */,
 				B800FCA92732FABD00AFBD51 /* MercenariesTaskListView.swift */,
+				B8BCC1E2273B0AE500DA6474 /* MercenariesAbilityView.swift */,
+				B8BCC1E4273B168200DA6474 /* MercenariesAbilitiesView.swift */,
 			);
 			path = Trackers;
 			sourceTree = "<group>";
@@ -2350,6 +2356,7 @@
 				43D308081C84410000480488 /* PlayerTrackersPreferences.swift in Sources */,
 				43C567E91D5D0F5700451B6F /* LogLineZone.swift in Sources */,
 				B864AE272597DD9400793F36 /* GameSaveKeyId.swift in Sources */,
+				B8BCC1E5273B168300DA6474 /* MercenariesAbilitiesView.swift in Sources */,
 				439C7EC71C777F8900D29859 /* TagChangeHandler.swift in Sources */,
 				43F2040A1E93C2E600E0BC4A /* Invalid.swift in Sources */,
 				4387BED21CF4D7A00002ECBB /* State.swift in Sources */,
@@ -2384,6 +2391,7 @@
 				432A392F1CF0B0F80029F0EA /* LogReaderInfo.swift in Sources */,
 				43C567F51D5E342C00451B6F /* BuildDates.swift in Sources */,
 				B82F4EB224E4088500905024 /* MinionFactoryProxy.swift in Sources */,
+				B8BCC1E3273B0AE600DA6474 /* MercenariesAbilityView.swift in Sources */,
 				43883F1E1DA382BA00A7B79C /* Language.swift in Sources */,
 				B8DC11F024E6AF280088A755 /* BobsBuddyInvoker.swift in Sources */,
 				437E56F01DAAB81400FC0FC1 /* Array.swift in Sources */,
@@ -3276,7 +3284,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = /Library/Frameworks/Mono.framework/Libraries;
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 2.0.1;
+				MARKETING_VERSION = 2.0.2;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = "$(inherited)";
@@ -3320,7 +3328,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = /Library/Frameworks/Mono.framework/Libraries;
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 2.0.1;
+				MARKETING_VERSION = 2.0.2;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = net.hearthsim.hstracker;
