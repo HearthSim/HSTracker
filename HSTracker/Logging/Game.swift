@@ -1399,6 +1399,10 @@ class Game: NSObject, PowerEventHandler {
         if spectator || currentGameMode == .mercenaries { // no deck for mercenaries
             set(activeDeckId: nil, autoDetected: false)
         }
+        
+        if isMercenariesPveMatch() {
+            MercenariesCoins.update()
+        }
 		
         updateTrackers(reset: true)
 
@@ -1503,6 +1507,10 @@ class Game: NSObject, PowerEventHandler {
                     result.mercenariesBountyRunTurnsTaken = mapInfo.turnsTaken.intValue
                     result.mercenariesBountyRunCompletedNodes = mapInfo.completedNodes.intValue
                 }
+            }
+            let delta = MercenariesCoins.update()
+            if delta.count > 0 {
+                result.mercenariesBountyRunRewards = delta
             }
         }
 		
@@ -2079,7 +2087,7 @@ class Game: NSObject, PowerEventHandler {
                         AppDelegate.instance().coreManager.toaster.hide()
                     }
                     view.heroes = heroesArray
-                    AppDelegate.instance().coreManager.toaster.displayToast(view: view, timeoutMillis: 10000)
+                    AppDelegate.instance().coreManager.toaster.displayToast(view: view, timeoutMillis: 0)
                 })
             })
         }

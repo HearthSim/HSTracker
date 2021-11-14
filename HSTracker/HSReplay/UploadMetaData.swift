@@ -15,20 +15,15 @@ class UploadMetaData {
     private var log: [String] = []
     var dateStart: Date?
     
-    var serverIp: String?
-    var serverPort: String?
     var gameHandle: String?
     var clientHandle: String?
     var reconnected: String?
     var resumable: Bool?
-    var spectatePassword: String?
-    var auroraPassword: String?
     var serverVersion: String?
     var matchStart: String?
     var hearthstoneBuild: Int?
     var gameType: Int?
     var spectatorMode: Bool?
-    var _friendlyPlayerId: Int?
     var friendlyPlayerId: Int?
     var ladderSeason: Int?
     var brawlSeason: Int?
@@ -40,6 +35,7 @@ class UploadMetaData {
     var mercenaries_bounty_run_id: String?
     var mercenaries_bounty_run_turns_taken: Int?
     var mercenaries_bounty_run_completed_nodes: Int?
+    var mercenaries_rewards: [MercenaryReward]?
     
     public static let iso8601StringFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -57,12 +53,6 @@ class UploadMetaData {
         metaData.friendlyPlayerId = stats.friendlyPlayerId
 
         if let serverInfo = stats.serverInfo {
-            if !serverInfo.address.isBlank {
-                metaData.serverIp = serverInfo.address
-            }
-            if serverInfo.port > 0 {
-				metaData.serverPort = "\(serverInfo.port)"
-            }
             if serverInfo.gameHandle > 0 {
 				metaData.gameHandle = "\(serverInfo.gameHandle)"
             }
@@ -70,12 +60,6 @@ class UploadMetaData {
 				metaData.clientHandle = "\(serverInfo.clientHandle)"
             }
 
-            if !serverInfo.spectatorPassword.isBlank {
-				metaData.spectatePassword = serverInfo.spectatorPassword
-            }
-            if !serverInfo.auroraPassword.isBlank {
-				metaData.auroraPassword = serverInfo.auroraPassword
-            }
             if !serverInfo.version.isBlank {
 				metaData.serverVersion = serverInfo.version
             }
@@ -119,8 +103,16 @@ class UploadMetaData {
         
         if stats.mercenariesBountyRunId.count > 0 {
             metaData.mercenaries_bounty_run_id = stats.mercenariesBountyRunId
-            metaData.mercenaries_bounty_run_turns_taken = stats.mercenariesBountyRunTurnsTaken
-            metaData.mercenaries_bounty_run_completed_nodes = stats.mercenariesBountyRunCompletedNodes
+            if stats.mercenariesBountyRunTurnsTaken > 0 {
+                metaData.mercenaries_bounty_run_turns_taken = stats.mercenariesBountyRunTurnsTaken
+            }
+            if stats.mercenariesBountyRunCompletedNodes > 0 {
+                metaData.mercenaries_bounty_run_completed_nodes = stats.mercenariesBountyRunCompletedNodes
+            }
+        }
+        
+        if let mercenariesRewards = stats.mercenariesBountyRunRewards {
+            metaData.mercenaries_rewards = mercenariesRewards.compactMap { x in MercenaryReward(mercenary_id: x.id, coins: x.coins) }
         }
 
         return (metaData, stats.statId)
@@ -270,6 +262,16 @@ class UploadMetaData {
             self.friendlyPlayerId = friendlyPlayerId
         }
     }
+    
+    struct MercenaryReward {
+        let mercenary_id: Int
+        let coins: Int
+        
+        init(mercenary_id: Int, coins: Int) {
+            self.mercenary_id = mercenary_id
+            self.coins = coins
+        }
+    }
 }
 extension UploadMetaData.Player: WrapCustomizable {
     func keyForWrapping(propertyNamed propertyName: String) -> String? {
@@ -286,13 +288,9 @@ extension UploadMetaData.Player: WrapCustomizable {
 extension UploadMetaData: WrapCustomizable {
     func keyForWrapping(propertyNamed propertyName: String) -> String? {
         switch propertyName {
-        case "serverIp": return "server_ip"
-        case "serverPort": return "server_port"
         case "gameHandle": return "game_handle"
         case "clientHandle": return "client_handle"
         case "reconnected": return "reconnecting"
-        case "spectatePassword": return "spectator_password"
-        case "auroraPassword": return "aurora_password"
         case "serverVersion": return "server_version"
         case "matchStart": return "match_start"
         case "hearthstoneBuild": return "build"

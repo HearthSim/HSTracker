@@ -48,6 +48,7 @@ class InternalGameStats {
     var mercenariesBountyRunId = ""
     var mercenariesBountyRunTurnsTaken = 0
     var mercenariesBountyRunCompletedNodes = 0
+    var mercenariesBountyRunRewards: [MercenaryCoinsEntry]?
     private var _format: Format?
         
     var format: Format? {
