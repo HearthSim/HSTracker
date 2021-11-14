@@ -1,6 +1,8 @@
 # 2.0.2
 ## New
 - Add mercenaries abilities overlay
+## Fixes
+- Removed timeout from Battlegrounds Hero selection panel
 
 # 2.0.1
 ## New
