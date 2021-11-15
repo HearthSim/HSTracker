@@ -68,11 +68,10 @@ class CollectionWatcher {
         var c: [Int: [Int]] = [:]
         for mirrorCard in mirrorCollection.cards {
             if let card = Cards.any(byId: mirrorCard.cardId) {
-                var counts = c[card.dbfId] ?? [0, 0]
-                if mirrorCard.premium {
-                    counts[1] = mirrorCard.count.intValue
-                } else {
-                    counts[0] = mirrorCard.count.intValue
+                var counts = c[card.dbfId] ?? [0, 0, 0]
+                let premiumType = mirrorCard.premium.intValue
+                if premiumType >= 0 && premiumType <= 2 {
+                    counts[premiumType] = mirrorCard.count.intValue
                 }
                 c[card.dbfId] = counts
             }

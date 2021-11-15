@@ -152,7 +152,6 @@
 		43A8A0F71E1557C900AF34FD /* FormatType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8A0F61E1557C900AF34FD /* FormatType.swift */; };
 		43A8A0F91E15596000AF34FD /* GameType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8A0F81E15596000AF34FD /* GameType.swift */; };
 		43AFA0031FA11F11008ED490 /* SecretsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFA0021FA11F11008ED490 /* SecretsManager.swift */; };
-		43AFEEEB1E22529C00F6045A /* CollectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFEEEA1E22529C00F6045A /* CollectionManager.swift */; };
 		43B6954D1C9014FA00F4D0AC /* TagChangeActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6954C1C9014FA00F4D0AC /* TagChangeActions.swift */; };
 		43B6955B1C9065AC00F4D0AC /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6955A1C9065AC00F4D0AC /* Secret.swift */; };
 		43B695631C920A0500F4D0AC /* CardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B695621C920A0500F4D0AC /* CardList.swift */; };
@@ -333,7 +332,6 @@
 		43C1CAB91E96CD6F008C20B1 /* WotogCounterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437B5BB21CD2439800DE0A41 /* WotogCounterHelper.swift */; };
 		43C1CABA1E96CD6F008C20B1 /* ImageUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434D1CAE1D0C500300222B8E /* ImageUtilities.swift */; };
 		43C1CABB1E96CD6F008C20B1 /* ImageCompare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434D1CB01D0C507900222B8E /* ImageCompare.swift */; };
-		43C1CABD1E96CD6F008C20B1 /* CollectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFEEEA1E22529C00F6045A /* CollectionManager.swift */; };
 		43C1CABF1E96CD6F008C20B1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E4B1C7772C000D29859 /* AppDelegate.swift */; };
 		43C1CAC01E96CE3C008C20B1 /* FileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA70F291E2C16DD00038A6C /* FileUtils.m */; };
 		43C1CAC11E96CE4E008C20B1 /* GlowFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CB623A61DD37C890045E0CF /* GlowFilter.m */; };
@@ -874,7 +872,6 @@
 		43A8A0F81E15596000AF34FD /* GameType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameType.swift; sourceTree = "<group>"; };
 		43AFA0021FA11F11008ED490 /* SecretsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretsManager.swift; sourceTree = "<group>"; };
 		43AFEEE91E218B0800F6045A /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/GeneralPreferences.strings; sourceTree = "<group>"; };
-		43AFEEEA1E22529C00F6045A /* CollectionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionManager.swift; sourceTree = "<group>"; };
 		43B6954C1C9014FA00F4D0AC /* TagChangeActions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagChangeActions.swift; sourceTree = "<group>"; };
 		43B6955A1C9065AC00F4D0AC /* Secret.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
 		43B695621C920A0500F4D0AC /* CardList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardList.swift; sourceTree = "<group>"; };
@@ -1417,7 +1414,6 @@
 				437B5BB21CD2439800DE0A41 /* WotogCounterHelper.swift */,
 				434D1CAE1D0C500300222B8E /* ImageUtilities.swift */,
 				434D1CB01D0C507900222B8E /* ImageCompare.swift */,
-				43AFEEEA1E22529C00F6045A /* CollectionManager.swift */,
 				BCA70F281E2C16DD00038A6C /* FileUtils.h */,
 				BCA70F291E2C16DD00038A6C /* FileUtils.m */,
 				BCCCDB9D1EA54FF800C328D0 /* NotificationManager.swift */,
@@ -2174,7 +2170,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Change SHA1 here to change the version of HearthMirror used by HSTrracker\nSHA1=\"79c48be061b9c3092226a3ac40127d7d5adc20be\"\n\nDIR=\"$SRCROOT/downloaded-frameworks/HearthMirror\"\nVERSION_FILE=\"$DIR/HearthMirror.sha1\"\nZIP_FILE=\"$DIR/HearthMirror.framework.zip\"\nDSYM_ZIP_FILE=\"$DIR/HearthMirror.framework.dSYM.zip\"\n\nif [ \"$(cat $VERSION_FILE)\" != \"$SHA1\"  ]\nthen\n    set -e\n    \n    rm -rf \"$DIR\"\n    mkdir -p \"$DIR\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.zip\" -O \"$ZIP_FILE\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.dSYM.zip\" -O \"$DSYM_ZIP_FILE\"\n    unzip -d \"$DIR\" \"$ZIP_FILE\"\n    unzip -d \"$DIR\" \"$DSYM_ZIP_FILE\"\n    echo \"$SHA1\" > \"$VERSION_FILE\"\nfi\n\n\n\n";
+			shellScript = "# Change SHA1 here to change the version of HearthMirror used by HSTrracker\nSHA1=\"b0f9dd5ee089a0c4282b23ee9572da3e17931fed\"\n\nDIR=\"$SRCROOT/downloaded-frameworks/HearthMirror\"\nVERSION_FILE=\"$DIR/HearthMirror.sha1\"\nZIP_FILE=\"$DIR/HearthMirror.framework.zip\"\nDSYM_ZIP_FILE=\"$DIR/HearthMirror.framework.dSYM.zip\"\n\nif [ \"$(cat $VERSION_FILE)\" != \"$SHA1\"  ]\nthen\n    set -e\n    \n    rm -rf \"$DIR\"\n    mkdir -p \"$DIR\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.zip\" -O \"$ZIP_FILE\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.dSYM.zip\" -O \"$DSYM_ZIP_FILE\"\n    unzip -d \"$DIR\" \"$ZIP_FILE\"\n    unzip -d \"$DIR\" \"$DSYM_ZIP_FILE\"\n    echo \"$SHA1\" > \"$VERSION_FILE\"\nfi\n\n\n\n";
 		};
 		B83355B724F89D1A0025F644 /* Embed Mono */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2386,7 +2382,6 @@
 				439C7EBB1C777F8900D29859 /* Mulligan.swift in Sources */,
 				4C19239D2392FA7E007EBB0F /* BattlegroundsDetailsWindow.swift in Sources */,
 				B8DC120524EC79370088A755 /* TestOutputProxy.swift in Sources */,
-				43AFEEEB1E22529C00F6045A /* CollectionManager.swift in Sources */,
 				4CECFFD523C10C3E0093253E /* BattlegroundsTierDetailWindowController.swift in Sources */,
 				43AFA0031FA11F11008ED490 /* SecretsManager.swift in Sources */,
 				439C7EBF1C777F8900D29859 /* Game.swift in Sources */,
@@ -2731,7 +2726,6 @@
 				43C1CAB91E96CD6F008C20B1 /* WotogCounterHelper.swift in Sources */,
 				43C1CABA1E96CD6F008C20B1 /* ImageUtilities.swift in Sources */,
 				43C1CABB1E96CD6F008C20B1 /* ImageCompare.swift in Sources */,
-				43C1CABD1E96CD6F008C20B1 /* CollectionManager.swift in Sources */,
 				43C1CABF1E96CD6F008C20B1 /* AppDelegate.swift in Sources */,
 				43C1C9F61E96CCDB008C20B1 /* SecretTests.swift in Sources */,
 				43C1C9FB1E96CCE9008C20B1 /* StatsTests.swift in Sources */,
