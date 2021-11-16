@@ -376,21 +376,19 @@ class BobsBuddyInvoker {
         let livingHeroes = game.entities.values.filter({ x in x.isHero && x.health > 0 && !x.isInZone(zone: Zone.removedfromgame) && x.has(tag: .player_tech_level) && (x.isControlled(by: game.player.id) || !x.isInPlay)}).count
         input.setHeroHasDied(value: livingHeroes < 8)
         
-        let oppHero = game.opponent.board.first(where: { $0.isHero })
-        let playerHero = game.player.board.first(where: { $0.isHero})
-        
-        if oppHero == nil || playerHero == nil {
+        guard let oppHero = game.opponent.board.first(where: { $0.isHero }), let playerHero = game.player.board.first(where: { $0.isHero}) else {
             logger.error("Hero(es) could not be found. Exiting.")
             return
         }
-        var oppHealth = oppHero!.health
+        
+        var oppHealth = oppHero.health
         if oppHealth <= 0 {
             oppHealth = 1000
         }
-        input.setHealths(player: Int32(playerHero!.health), opponent: Int32(oppHealth))
+        input.setHealths(player: Int32(playerHero.health) + Int32(playerHero[.armor]), opponent: Int32(oppHealth) + Int32(oppHero[.armor]))
         
-        let playerTechLevel = playerHero![GameTag.player_tech_level]
-        let opponentTechLevel = oppHero![GameTag.player_tech_level]
+        let playerTechLevel = playerHero[GameTag.player_tech_level]
+        let opponentTechLevel = oppHero[GameTag.player_tech_level]
         input.setTiers(player: Int32(playerTechLevel), opponent: Int32(opponentTechLevel))
         
         let playerHeroPower = game.player.board.first(where: { $0.isHeroPower })
@@ -400,7 +398,7 @@ class BobsBuddyInvoker {
         
         input.setHeroPower(player: heroPowerUsed(heroPower: playerHeroPower), opponent: heroPowerUsed(heroPower: opponentHeroPower))
         
-        if playerHero?.cardId == CardIds.NonCollectible.Neutral.PrestidigitationTavernBrawl {
+        if playerHero.cardId == CardIds.NonCollectible.Neutral.PrestidigitationTavernBrawl {
             input.setPlayerIsAkazamarak(value: true)
         }
         
@@ -410,6 +408,8 @@ class BobsBuddyInvoker {
             // secret priority starts at 2
             input.addSecretFromDbfid(id: Int32(secrets[i]), priority: Int32(i + 2))
         }
+        
+        input.setTurn(value: Int32(turn))
         
         currentOpponentSecrets = game.opponent.secrets
         

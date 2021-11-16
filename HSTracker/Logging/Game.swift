@@ -1401,7 +1401,7 @@ class Game: NSObject, PowerEventHandler {
         }
         
         if isMercenariesPveMatch() {
-            MercenariesCoins.update()
+            _ = MercenariesCoins.update()
         }
 		
         updateTrackers(reset: true)

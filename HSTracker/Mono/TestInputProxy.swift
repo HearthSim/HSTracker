@@ -15,6 +15,7 @@ class TestInputProxy: MonoHandle {
     static var _setTiers: OpaquePointer!
     static var _setPowerID: OpaquePointer!
     static var _setHeroPower: OpaquePointer!
+    static var _setTurn: OpaquePointer!
     static var _addSecretFromDbfid: OpaquePointer!
     static var _unitTest: OpaquePointer!
     static var _addMinionToPlayerSide: OpaquePointer!
@@ -37,6 +38,7 @@ class TestInputProxy: MonoHandle {
             TestInputProxy._setTiers = mono_class_get_method_from_name(TestInputProxy._class, "SetTiers", 2)
             TestInputProxy._setPowerID = mono_class_get_method_from_name(TestInputProxy._class, "SetPowerID", 2)
             TestInputProxy._setHeroPower = mono_class_get_method_from_name(TestInputProxy._class, "SetHeroPower", 2)
+            TestInputProxy._setTurn = mono_class_get_method_from_name(TestInputProxy._class, "SetTurn", 1)
             TestInputProxy._addSecretFromDbfid = mono_class_get_method_from_name(TestInputProxy._class, "AddSecretFromDbfid", 2)
             TestInputProxy._addMinionToPlayerSide = mono_class_get_method_from_name(TestInputProxy._class, "AddMinionToPlayerSide", 1)
             TestInputProxy._addMinionToOpponentSide = mono_class_get_method_from_name(TestInputProxy._class, "AddMinionToOpponentSide", 1)
@@ -84,6 +86,10 @@ class TestInputProxy: MonoHandle {
     
     func setHeroHasDied(value: Bool) {
         MonoHelper.setBoolField(obj: self, field: TestInputProxy._heroHasDied, value: value)
+    }
+    
+    func setTurn(value: Int32) {
+        MonoHelper.setInt(obj: self, method: TestInputProxy._setTurn, value: value)
     }
     
     func getPlayerSide() -> MonoHandle {

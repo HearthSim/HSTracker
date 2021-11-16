@@ -1,8 +1,10 @@
 # 2.0.2
 ## New
+- Add support for patch 21.8
 - Add mercenaries abilities overlay
 ## Fixes
 - Removed timeout from Battlegrounds Hero selection panel
+- Fixed mercenaries tasks showing last completed task
 
 # 2.0.1
 ## New

@@ -229,7 +229,7 @@ class MercenariesTaskList: NSStackView {
             return
         }
         
-        guard let tasks = MirrorHelper.getMercenariesVisitorTasks(), tasks.count != 0 else {
+        guard let tasks = MirrorHelper.getMercenariesVisitorTasks() else {
             return
         }
         
