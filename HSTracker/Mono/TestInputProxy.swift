@@ -22,11 +22,14 @@ class TestInputProxy: MonoHandle {
     static var _addMinionToOpponentSide: OpaquePointer!
     static var _playerLast: OpaquePointer!
     static var _opponentLast: OpaquePointer!
-    
-    static var _playerIsAkazamarak: OpaquePointer!
+    static var _addMinionToPlayerSideAH: OpaquePointer!
+    static var _addMinionToOpponentSideAH: OpaquePointer!
+
     static var _playerSide: OpaquePointer!
     static var _opponentSide: OpaquePointer!
     static var _heroHasDied: OpaquePointer!
+    static var _playerSecrets: OpaquePointer!
+    static var _opponentSecrets: OpaquePointer!
     
     init(simulator: SimulatorProxy) {
         super.init()
@@ -44,13 +47,16 @@ class TestInputProxy: MonoHandle {
             TestInputProxy._addMinionToOpponentSide = mono_class_get_method_from_name(TestInputProxy._class, "AddMinionToOpponentSide", 1)
             TestInputProxy._playerLast = mono_class_get_method_from_name(TestInputProxy._class, "PlayerLast", 0)
             TestInputProxy._opponentLast = mono_class_get_method_from_name(TestInputProxy._class, "OpponentLast", 0)
+            TestInputProxy._addMinionToPlayerSideAH = mono_class_get_method_from_name(TestInputProxy._class, "AddMinionToPlayerSide", 3)
+            TestInputProxy._addMinionToOpponentSideAH = mono_class_get_method_from_name(TestInputProxy._class, "AddMinionToOpponentSide", 3)
 
             TestInputProxy._unitTest = mono_class_get_method_from_name(TestInputProxy._class, "UnitTestCopyableVersion", 0)
             
             TestInputProxy._playerSide = mono_class_get_field_from_name(TestInputProxy._class, "playerSide")
             TestInputProxy._opponentSide = mono_class_get_field_from_name(TestInputProxy._class, "opponentSide")
-            TestInputProxy._playerIsAkazamarak = mono_class_get_field_from_name(TestInputProxy._class, "playerIsAkazamarak")
             TestInputProxy._heroHasDied = mono_class_get_field_from_name(TestInputProxy._class, "HeroHasDied")
+            TestInputProxy._playerSecrets = mono_class_get_field_from_name(TestInputProxy._class, "PlayerSecrets")
+            TestInputProxy._opponentSecrets = mono_class_get_field_from_name(TestInputProxy._class, "OpponentSecrets")
         }
         
         let obj = MonoHelper.objectNew(clazz: TestInputProxy._class!)
@@ -100,10 +106,14 @@ class TestInputProxy: MonoHandle {
         return MonoHelper.getField(obj: self, field: TestInputProxy._opponentSide)
     }
     
-    func setPlayerIsAkazamarak(value: Bool) {
-        MonoHelper.setBoolField(obj: self, field: TestInputProxy._playerIsAkazamarak, value: value)
+    func getPlayerSecrets() -> MonoHandle {
+        return MonoHelper.getField(obj: self, field: TestInputProxy._playerSecrets)
     }
-    
+
+    func getOpponentSecrets() -> MonoHandle {
+        return MonoHelper.getField(obj: self, field: TestInputProxy._opponentSecrets)
+    }
+
     func addAvailableRaces(races: [Race]) {
         let field = mono_class_get_field_from_name(TestInputProxy._class, "availableRaces")
         let inst = get()
@@ -130,8 +140,8 @@ class TestInputProxy: MonoHandle {
         params.deallocate()
     }
     
-    func addSecretFromDbfid(id: Int32, priority: Int32) {
-        MonoHelper.setIntInt(obj: self, method: TestInputProxy._addSecretFromDbfid, v1: id, v2: priority)
+    func addSecretFromDbfid(id: Int32, target: MonoHandle) {
+        MonoHelper.setIntMonoHandle(obj: self, method: TestInputProxy._addSecretFromDbfid, v1: id, v2: target)
     }
     
     func addMinionToPlayerSide(minion: String) -> MinionProxy {
@@ -142,6 +152,14 @@ class TestInputProxy: MonoHandle {
         return MinionProxy(obj: MonoHelper.invokeString(obj: self, method: TestInputProxy._addMinionToOpponentSide, str: minion))
     }
     
+    func addMinionToPlayerSide(minion: String, a: Int32, h: Int32) -> MinionProxy {
+        return MinionProxy(obj: MonoHelper.invokeStringIntInt(obj: self, method: TestInputProxy._addMinionToPlayerSideAH, str: minion, a: a, b: h))
+    }
+
+    func addMinionToOpponentSide(minion: String, a: Int32, h: Int32) -> MinionProxy {
+        return MinionProxy(obj: MonoHelper.invokeStringIntInt(obj: self, method: TestInputProxy._addMinionToOpponentSide, str: minion, a: a, b: h))
+    }
+
     func playerLast() -> MinionProxy {
         return MinionProxy(obj: MonoHelper.invoke(obj: self, method: TestInputProxy._playerLast))
     }

@@ -1,3 +1,9 @@
+# 2.0.3
+## Fixes
+- Fixed Bob's Buddy performance for Diablo
+- Fixed Bob's Buddy speed
+- Fixed Bob's Buddy performance when two players with secrets enter combat
+
 # 2.0.2
 ## New
 - Add support for patch 21.8

@@ -211,12 +211,10 @@ class BobsBuddyInvoker {
                 if let inp = self.input {
                     if self.runSimulationAfterCombat {
                         let secrets: [Int] = self.currentOpponentSecrets.map({ $0.card.dbfId })
-                        
+                        let opponentSecrets = inp.getOpponentSecrets()
                         for i in 0..<secrets.count {
-                            // secret priority starts at 2
-                            inp.addSecretFromDbfid(id: Int32(secrets[i]), priority: Int32(i + 2))
+                            inp.addSecretFromDbfid(id: Int32(secrets[i]), target: opponentSecrets)
                         }
-                        inp.setPlayerIsAkazamarak(value: false)
                         logger.debug("Set opponent to Akazamarak with \(secrets.count) secrets.")
                     }
                     logger.debug("----- Simulation Input -----")
@@ -398,15 +396,13 @@ class BobsBuddyInvoker {
         
         input.setHeroPower(player: heroPowerUsed(heroPower: playerHeroPower), opponent: heroPowerUsed(heroPower: opponentHeroPower))
         
-        if playerHero.cardId == CardIds.NonCollectible.Neutral.PrestidigitationTavernBrawl {
-            input.setPlayerIsAkazamarak(value: true)
-        }
-        
         let secrets: [Int] = game.player.secrets.map({ $0.card.dbfId })
+        
+        let playerSecrets = input.getPlayerSecrets()
         
         for i in 0..<secrets.count {
             // secret priority starts at 2
-            input.addSecretFromDbfid(id: Int32(secrets[i]), priority: Int32(i + 2))
+            input.addSecretFromDbfid(id: Int32(secrets[i]), target: playerSecrets)
         }
         
         input.setTurn(value: Int32(turn))
