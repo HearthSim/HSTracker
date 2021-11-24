@@ -124,6 +124,7 @@
 "THE_BARRENS" = "Forged in the Barrens";
 "WAILING_CAVERNS" = "Wailing Caverns";
 "STORMWIND" = "United in Stormwind";
+"ALTERAC_VALLEY" = "Fractured in Alterac Valley";
 
 /* card type */
 "all_types" = "All";

@@ -469,9 +469,10 @@ struct SizeHelper {
     static func mercenariesTaskListView() -> NSRect {
         let frame = mercenariesTaskListButton()
         let height = hearthstoneWindow.height
+        let width = hearthstoneWindow.width / 2.0
         let bottom = hearthstoneWindow.frame.minY + frame.height + mercenariesButtonOffset() + 8
         
-        return NSRect(x: frame.maxX - 360.0, y: bottom, width: 360.0, height: height - bottom)
+        return NSRect(x: frame.maxX - width, y: bottom, width: width, height: height - bottom)
     }
     
     static let cardHudContainerWidth: CGFloat = 400

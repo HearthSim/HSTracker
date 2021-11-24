@@ -3,6 +3,8 @@
 - Fixed Bob's Buddy performance for Diablo
 - Fixed Bob's Buddy speed
 - Fixed Bob's Buddy performance when two players with secrets enter combat
+- Support the new Alterac Valley cards
+- Fix Mercenaries Task view when description is long
 
 # 2.0.2
 ## New

@@ -64,6 +64,11 @@ class Game: NSObject, PowerEventHandler {
 			}
 		}
 	}
+    
+    var isRunning: Bool {
+        return hearthstoneRunState.isRunning
+    }
+    
     private var selfAppActive: Bool = true
 	
     func setHearthstoneRunning(flag: Bool) {
@@ -1369,7 +1374,6 @@ class Game: NSObject, PowerEventHandler {
             return
         }
 
-        ImageUtils.clearCache()
         reset()
         lastGameStart = Date()
         

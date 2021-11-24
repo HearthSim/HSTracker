@@ -146,7 +146,6 @@ class MercenariesTaskList: NSStackView {
 
     var tasks = [MercenariesTaskViewModel]()
     var _taskData: [MirrorMercenariesTaskData]?
-    var gameNotice: NSBox = NSBox()
     var gameNoticeVisible: Bool = false
     
     init() {
@@ -155,7 +154,6 @@ class MercenariesTaskList: NSStackView {
         orientation = .vertical
         spacing = 4.0
         translatesAutoresizingMaskIntoConstraints = false
-        
         gameNotice.boxType = .custom
         gameNotice.titlePosition = .noTitle
         gameNotice.cornerRadius = 3
@@ -175,15 +173,8 @@ class MercenariesTaskList: NSStackView {
         gameNotice.contentView = noticeText
         noticeText.centerXAnchor.constraint(equalTo: gameNotice.centerXAnchor).isActive = true
         noticeText.topAnchor.constraint(equalTo: gameNotice.topAnchor, constant: 8).isActive = true
-//        noticeText.bottomAnchor.constraint(equalTo: gameNotice.bottomAnchor, constant: 8).isActive = true
         noticeText.heightAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
         noticeText.translatesAutoresizingMaskIntoConstraints = false
-        
-        gameNotice.bottomAnchor.constraint(equalTo: noticeText.bottomAnchor, constant: 8).isActive = true
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     fileprivate func updateContent() {
@@ -195,8 +186,8 @@ class MercenariesTaskList: NSStackView {
         }
         var previous: MercenariesTask?
         
+        
         for task in tasks {
-            let frame = NSRect(x: 0, y: 0, width: rect.width, height: 104)
             let view = MercenariesTask(frame: frame, task: task)
             view.identifier = NSUserInterfaceItemIdentifier(task.title)
             addView(view, in: NSStackView.Gravity.bottom)
