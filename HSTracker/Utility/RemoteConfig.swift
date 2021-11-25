@@ -60,17 +60,27 @@ struct BobsBuddyData: Codable {
     var log_lines_kept: Int?
 }
 
-struct MercAbility: Codable {
+struct MercenaryAbilityTier: Codable {
+    let tier: Int
+    let dbf_id: Int
+}
+
+struct MercenaryAbility: Codable {
     var id: Int
-    var tier_ids: [String]
+    var tiers: [MercenaryAbilityTier]
+}
+
+struct MercenarySpecialization: Codable {
+    var id: Int
+    var abilities: [MercenaryAbility]
 }
 
 struct Mercenary: Codable {
     var id: Int
     var name: String
     var collectible: Bool
-    var art_variation_ids: [String]
-    var abilities: [MercAbility]
+    var skinDbfIds: [Int]
+    var specializations: [MercenarySpecialization]
 }
 
 struct ConfigData: Codable {
@@ -87,7 +97,7 @@ class RemoteConfig {
     static var mercenaries: [Mercenary]?
     
     private static var url = "https://hsdecktracker.net/config.json"
-    private static var mercsUrl = "https://hsdecktracker.net/data/mercs.json"
+    private static var mercsUrl = "https://api.hearthstonejson.com/v1/latest/enUS/mercenaries.json"
 
     static func checkRemoteConfig(splashscreen: Splashscreen) {
         DispatchQueue.main.async {

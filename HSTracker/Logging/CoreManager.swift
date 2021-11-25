@@ -476,6 +476,15 @@ final class CoreManager: NSObject {
         }
     }
     
+    static func tryGetHeroClass(dbfId: Int) -> CardClass? {
+        var result: CardClass?
+        
+        if let heroCard = Cards.by(dbfId: dbfId), heroCard.playerClass != .invalid {
+            result = heroCard.playerClass
+        }
+        return result
+    }
+    
     static func updateDungeonRunDeck(info: MirrorDungeonInfo, isPVPDR: Bool) {
         let isNewPVPDR = isPVPDR && !info.runActive && info.selectedLoadoutTreasureDbId.intValue > 0
         logger.info("Found dungeon run deck Set=\(info.cardSet), PVPDR=\(isPVPDR) new=\(isNewPVPDR)")
@@ -524,6 +533,17 @@ final class CoreManager: NSObject {
         var playerClass: CardClass = .invalid
         if cardSet == CardSetInt.uldum, let loadout = loadout {
             playerClass = DefaultDecks.DungeonRun.getUldumHeroPlayerClass(playerClass: loadout.playerClass)
+        } else if isPVPDR {
+            if info.heroClass.intValue != 0 {
+                playerClass = CardClass.allCases[info.heroClass.intValue]
+
+            } else if info.heroCardDbId.intValue != 0, let cc = tryGetHeroClass(dbfId: info.heroCardDbId.intValue) {
+                playerClass = cc
+            } else if info.playerSelectedHeroDbId.intValue != 0, let cc = tryGetHeroClass(dbfId: info.playerSelectedHeroDbId.intValue) {
+                playerClass = cc
+            } else if info.heroCardClass.intValue != 0 {
+                playerClass = CardClass.allCases[info.heroCardClass.intValue]
+            }
         } else {
             playerClass = CardClass.allCases[info.heroClass.intValue != 0 ? info.heroClass.intValue : info.heroCardClass.intValue]
         }

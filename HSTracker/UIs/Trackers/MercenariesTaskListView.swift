@@ -154,6 +154,14 @@ class MercenariesTaskList: NSStackView {
         orientation = .vertical
         spacing = 4.0
         translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func createGameNotice() -> NSBox {
+        let gameNotice = NSBox()
         gameNotice.boxType = .custom
         gameNotice.titlePosition = .noTitle
         gameNotice.cornerRadius = 3
@@ -173,8 +181,11 @@ class MercenariesTaskList: NSStackView {
         gameNotice.contentView = noticeText
         noticeText.centerXAnchor.constraint(equalTo: gameNotice.centerXAnchor).isActive = true
         noticeText.topAnchor.constraint(equalTo: gameNotice.topAnchor, constant: 8).isActive = true
+        noticeText.bottomAnchor.constraint(equalTo: gameNotice.bottomAnchor, constant: -8).isActive = true
         noticeText.heightAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
         noticeText.translatesAutoresizingMaskIntoConstraints = false
+
+        return gameNotice
     }
     
     fileprivate func updateContent() {
@@ -186,24 +197,45 @@ class MercenariesTaskList: NSStackView {
         }
         var previous: MercenariesTask?
         
-        
+        var width = 360.0 - 50.0 - 58.0
+        if let font = NSFont(name: "Arial", size: 12) {
+            let attributes = [NSAttributedString.Key.font: font]
+            let options: NSString.DrawingOptions = [.usesLineFragmentOrigin, .usesFontLeading]
+            let size = CGSize(width: rect.width, height: .greatestFiniteMagnitude)
+            for task in tasks {
+                let attributedString = NSAttributedString(string: task.description, attributes: attributes)
+                let textSize = attributedString.boundingRect(with: size, options: options, context: nil)
+
+                if textSize.width > width {
+                    width = textSize.width
+                }
+            }
+        }
+        width += 108.0+16.0
+
         for task in tasks {
+            let frame = NSRect(x: 0, y: 0, width: width, height: 104)
             let view = MercenariesTask(frame: frame, task: task)
             view.identifier = NSUserInterfaceItemIdentifier(task.title)
             addView(view, in: NSStackView.Gravity.bottom)
             view.rightAnchor.constraint(equalTo: rightAnchor, constant: 0).isActive = true
             view.heightAnchor.constraint(equalToConstant: 104).isActive = true
+            view.widthAnchor.constraint(equalToConstant: width).isActive = true
             if let previous = previous {
                 view.topAnchor.constraint(equalTo: previous.bottomAnchor, constant: 4).isActive = true
             }
             previous = view
         }
+        
         if gameNoticeVisible {
+            let gameNotice = createGameNotice()
             addView(gameNotice, in: NSStackView.Gravity.bottom)
             gameNotice.rightAnchor.constraint(equalTo: rightAnchor, constant: 0).isActive = true
             if let previous = previous {
                 gameNotice.topAnchor.constraint(equalTo: previous.bottomAnchor, constant: 4).isActive = true
                 gameNotice.leftAnchor.constraint(equalTo: previous.leftAnchor, constant: 55).isActive = true
+            } else {
+                gameNotice.widthAnchor.constraint(equalToConstant: width).isActive = true
             }
             bottomAnchor.constraint(equalTo: gameNotice.bottomAnchor).isActive = true
         } else if let previous = previous {

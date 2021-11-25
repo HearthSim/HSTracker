@@ -30,21 +30,22 @@ private func getMercAbilities(player: Player) -> [[MercAbilityData]] {
     let game = AppDelegate.instance().coreManager.game
 
     let result: [[MercAbilityData]] = player.board.filter { x in x.isMinion }.sorted { (a, b) in a.zonePosition < b.zonePosition }.compactMap { entity in
+        let dbfId = entity.card.dbfId
         let actualAbilities = player.playerEntities.filter { x in x[.lettuce_ability_owner] == entity.id && !x.has(tag: .lettuce_is_equipment) && !x.has(tag: .dont_show_in_history) && x.hasCardId }
-        let staticAbilities = RemoteConfig.mercenaries?.first { x in x.art_variation_ids.contains(entity.cardId)}?.abilities ?? [MercAbility]()
+        let staticAbilities = dbfId != 0 ? RemoteConfig.mercenaries?.first { x in x.skinDbfIds.contains(dbfId)}?.specializations.first?.abilities ?? [MercenaryAbility]() : [MercenaryAbility]()
         var data = [MercAbilityData]()
         let max_ = min(3, max(staticAbilities.count, actualAbilities.count))
         
         for i in 0 ..< max_ {
             let staticAbility = i < staticAbilities.count ? staticAbilities[i] : nil
-            let actual = staticAbility != nil ? actualAbilities.first(where: { x in staticAbility!.tier_ids.contains(x.cardId)}) : actualAbilities.first { x in data.all({ d in d.entity?.cardId != x.cardId }) }
+            let actual = staticAbility != nil ? actualAbilities.first(where: { x in staticAbility!.tiers.any { t in t.dbf_id == x.card.dbfId }}) : actualAbilities.first { x in data.all({ d in d.entity?.cardId != x.cardId }) }
             if let actual = actual {
                 let active = entity[.lettuce_ability_tile_visual_self_only] == actual.id || entity[.lettuce_ability_tile_visual_all_visible] == actual.id
                 data.append(MercAbilityData(entity: actual, card: nil, active: active, gameTurn: 0, hasTiers: false))
             } else if let staticAbility = staticAbility {
-                if let card = actual?.card ?? Cards.any(byId: staticAbility.tier_ids.last ?? "") {
+                if let card = actual?.card ?? Cards.by(dbfId: staticAbility.tiers.last?.dbf_id ?? 0, collectible: false) {
                     let gameTurn = game.gameEntity?[.turn] ?? 0
-                    data.append(MercAbilityData(entity: nil, card: card, active: false, gameTurn: gameTurn, hasTiers: staticAbility.tier_ids.count > 1))
+                    data.append(MercAbilityData(entity: nil, card: card, active: false, gameTurn: gameTurn, hasTiers: staticAbility.tiers.count > 1))
                 }
             }
         }
