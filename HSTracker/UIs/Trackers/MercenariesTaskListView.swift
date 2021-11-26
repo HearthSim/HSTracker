@@ -235,7 +235,7 @@ class MercenariesTaskList: NSStackView {
                 gameNotice.topAnchor.constraint(equalTo: previous.bottomAnchor, constant: 4).isActive = true
                 gameNotice.leftAnchor.constraint(equalTo: previous.leftAnchor, constant: 55).isActive = true
             } else {
-                gameNotice.widthAnchor.constraint(equalToConstant: width).isActive = true
+                    gameNotice.widthAnchor.constraint(equalToConstant: width).isActive = true
             }
             bottomAnchor.constraint(equalTo: gameNotice.bottomAnchor).isActive = true
         } else if let previous = previous {
