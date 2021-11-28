@@ -44,7 +44,7 @@
                             </constraints>
                         </view>
                         <color key="borderColor" red="0.066666666666666666" green="0.047058823529411764" blue="0.047058823529411764" alpha="1" colorSpace="deviceRGB"/>
-                        <color key="fillColor" red="0.13333333333333333" green="0.090196078431372548" blue="0.090196078431372548" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="fillColor" red="0.13333333333333333" green="0.090196078431372548" blue="0.090196078431372548" alpha="1" colorSpace="deviceRGB"/>
                     </box>
                     <imageView horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="qk8-lV-Se0">
                         <rect key="frame" x="-91" y="0.0" width="241" height="60"/>

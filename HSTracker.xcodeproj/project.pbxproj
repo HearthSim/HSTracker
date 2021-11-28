@@ -437,6 +437,7 @@
 		B864AE292599359500793F36 /* DeckType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B864AE282599359400793F36 /* DeckType.swift */; };
 		B864AE3A25A4CC1200793F36 /* ImportingPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B864AE3925A4CC1200793F36 /* ImportingPreferences.xib */; };
 		B864AE3C25A4D15C00793F36 /* ImportingPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B864AE3B25A4D15C00793F36 /* ImportingPreferences.swift */; };
+		B8795EAC27516DBC00469B6E /* MercenariesTask.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8795EAB27516DBC00469B6E /* MercenariesTask.xib */; };
 		B8820CD025603FB00072ECBC /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8820CCF25603FB00072ECBC /* RemoteConfig.swift */; };
 		B8832DDA26057A5000646BA4 /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8832DD926057A5000646BA4 /* RepeatingTimer.swift */; };
 		B8832DDC26117FCF00646BA4 /* MultiIdCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8832DDB26117FCE00646BA4 /* MultiIdCard.swift */; };
@@ -982,6 +983,7 @@
 		B864AE282599359400793F36 /* DeckType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckType.swift; sourceTree = "<group>"; };
 		B864AE3925A4CC1200793F36 /* ImportingPreferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImportingPreferences.xib; sourceTree = "<group>"; };
 		B864AE3B25A4D15C00793F36 /* ImportingPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportingPreferences.swift; sourceTree = "<group>"; };
+		B8795EAB27516DBC00469B6E /* MercenariesTask.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MercenariesTask.xib; sourceTree = "<group>"; };
 		B8820CCF25603FB00072ECBC /* RemoteConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfig.swift; sourceTree = "<group>"; };
 		B8832DD926057A5000646BA4 /* RepeatingTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatingTimer.swift; sourceTree = "<group>"; };
 		B8832DDB26117FCE00646BA4 /* MultiIdCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiIdCard.swift; sourceTree = "<group>"; };
@@ -1690,6 +1692,7 @@
 				B800FCA32732AA7C00AFBD51 /* MercenariesTaskListButton.xib */,
 				B800FCA52732AA9100AFBD51 /* MercenariesTaskListButton.swift */,
 				B800FCA92732FABD00AFBD51 /* MercenariesTaskListView.swift */,
+				B8795EAB27516DBC00469B6E /* MercenariesTask.xib */,
 				B8BCC1E2273B0AE500DA6474 /* MercenariesAbilityView.swift */,
 				B8BCC1E4273B168200DA6474 /* MercenariesAbilitiesView.swift */,
 			);
@@ -2101,6 +2104,7 @@
 				432B5FCB1CB5375500B05D19 /* DeckManager.xib in Resources */,
 				C9BDB3D71D20BE9500886A11 /* LadderTab.xib in Resources */,
 				432B5FBF1CB5373500B05D19 /* InitialConfiguration.xib in Resources */,
+				B8795EAC27516DBC00469B6E /* MercenariesTask.xib in Resources */,
 				432B5FB01CB536E700B05D19 /* MainMenu.xib in Resources */,
 				4C1923A12392FB3F007EBB0F /* BattlegroundsDetailsWindow.xib in Resources */,
 				434106A51C9868620045655A /* Classes.xcassets in Resources */,
