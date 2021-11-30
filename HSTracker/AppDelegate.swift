@@ -151,6 +151,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         logger.addDestination(file)
         logger.info("*** Starting \(Version.buildName) ***")
         
+        HSReplayNetHelper.initialize()
+        
         // check if we have valid settings
         if Settings.validated() {
             loadSplashscreen()

@@ -69,10 +69,16 @@ struct LoadingScreenHandler: LogEventParser {
                 game.inMenu()
             }
             
-            if game.currentMode == Mode.collectionmanager {
-                CollectionWatcher.start(toaster: coreManager.toaster)
-            } else {
-                CollectionWatcher.stop()
+            if game.previousMode == Mode.collectionmanager || game.currentMode == Mode.collectionmanager || game.previousMode == Mode.packopening {
+                DispatchQueue.global().async {
+                    CollectionHelpers.hearthstone.updateCollection()
+                }
+            }
+            
+            if game.previousMode == .lettuce_collection || game.currentMode == .lettuce_collection || game.previousMode == .lettuce_pack_opening {
+                DispatchQueue.global().async {
+                    CollectionHelpers.mercenaries.updateCollection()
+                }
             }
             
             if game.currentMode == Mode.tournament {

@@ -258,7 +258,6 @@ final class CoreManager: NSObject {
 		logReaderManager.stop(eraseLogFile: !CoreManager.isHearthstoneRunning())
         DeckWatcher.stop()
         ArenaDeckWatcher.stop()
-        CollectionWatcher.stop()
         MirrorHelper.destroy()
     }
     

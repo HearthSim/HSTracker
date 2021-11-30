@@ -90,6 +90,44 @@ struct Http {
         }
     }
     
+//    func getAsync(parameters: [String: Any] = [:], headers: [String: String] = [:]) async -> Data? {
+//        guard let urlRequest = prepareRequest(method: .get, encoding: .multipart, parameters: parameters, headers: headers) else {
+//            return nil
+//        }
+//        return await withCheckedContinuation { cont in
+//            Http.session.dataTask(with: urlRequest) { (data, _, error) in
+//                if let error = error {
+//                    logger.error("request error: \(error)")
+//                    cont.resume(returning: nil)
+//                } else if let data = data {
+//                    logger.verbose("get result: \(data)")
+//                    cont.resume(returning: data)
+//                } else {
+//                    cont.resume(returning: nil)
+//                }
+//            }.resume()
+//        }
+//    }
+//    
+//    func uploadAsync(method: HttpMethod, data: Data, parameters: [String: Any] = [:], headers: [String: String] = [:]) async -> Data? {
+//        guard let urlRequest = prepareRequest(method: method, encoding: .multipart, parameters: parameters, headers: headers) else {
+//            return nil
+//        }
+//        return await withCheckedContinuation { cont in
+//            Http.session.uploadTask(with: urlRequest, from: data) { (data, _, error) in
+//                if let error = error {
+//                    logger.error("request error: \(error)")
+//                    cont.resume(returning: nil)
+//                } else if let data = data {
+//                    logger.verbose("upload result: \(data)")
+//                    cont.resume(returning: data)
+//                } else {
+//                    cont.resume(returning: nil)
+//                }
+//            }.resume()
+//        }
+//    }
+
     func getPromise(method: HttpMethod,
                     headers: [String: String] = [:]) -> Promise<Data?> {
         return Promise<Data?> { seal in

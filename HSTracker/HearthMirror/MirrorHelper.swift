@@ -363,4 +363,13 @@ struct MirrorHelper {
         }
         return result
     }
+    
+    static func getMercenariesCollection() -> [MirrorCollectionMercenary]? {
+        var result: [MirrorCollectionMercenary]?
+        
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getMercenariesCollection()
+        }
+        return result
+    }
 }
