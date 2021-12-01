@@ -1,3 +1,8 @@
+# 2.0.4
+## New
+# Add support for patch 22.0
+Note: HSTracker now requires MacOS 10.15 or later (Catalina)
+
 # 2.0.3
 ## Fixes
 - Fixed Bob's Buddy performance for Diablo
