@@ -425,7 +425,7 @@ class SecretsManager {
             }
         }
         
-        if damage >= 3 && entity.isMinion && entity.isControlled(by: game.opponent.id) {
+        if damage >= 3 && entity.isMinion && entity.isControlled(by: game.opponent.id) && entity[.zone] != Zone.graveyard.rawValue {
             exclude(cardId: CardIds.Secrets.Paladin.Reckoning)
         }
     }

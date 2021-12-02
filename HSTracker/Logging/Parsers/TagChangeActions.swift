@@ -21,7 +21,6 @@ struct TagChangeActions {
         case .zone: return { self.zoneChange(eventHandler: eventHandler, id: id, value: value, prevValue: prevValue) }
         case .playstate: return { self.playstateChange(eventHandler: eventHandler, id: id, value: value) }
         case .cardtype: return { self.cardTypeChange(eventHandler: eventHandler, id: id, value: value) }
-        case .last_card_played: return { self.lastCardPlayedChange(eventHandler: eventHandler, value: value) }
         case .defending: return { self.defendingChange(eventHandler: eventHandler, id: id, value: value) }
         case .attacking: return { self.attackingChange(eventHandler: eventHandler, id: id, value: value) }
         case .proposed_defender: return { self.proposedDefenderChange(eventHandler: eventHandler, value: value) }
@@ -192,29 +191,6 @@ struct TagChangeActions {
         guard let entity = eventHandler.entities[id] else { return }
 
         entity.info.set(originalCardId: value)
-    }
-
-    private func lastCardPlayedChange(eventHandler: PowerEventHandler, value: Int) {
-        eventHandler.lastCardPlayed = value
-        guard let playerEntity = eventHandler.playerEntity else { return }
-        guard playerEntity.isCurrentPlayer else { return }
-        
-        if let entity = eventHandler.entities[value] {
-            if !entity.isMinion {
-                return
-            }
-            
-            // check if it is a magnet buff, rather than a minion
-            if entity.has(tag: GameTag.modular) {
-                let pos = entity.tags[GameTag.zone_position]!
-                let neighbor = eventHandler.player.board.first(where: { $0.tags[GameTag.zone_position] == pos + 1 })
-                if neighbor?.card.race == Race.mechanical {
-                    return
-                }
-            }
-            
-            eventHandler.playerMinionPlayed(entity: entity)
-        }
     }
 
     private func defendingChange(eventHandler: PowerEventHandler, id: Int, value: Int) {
@@ -617,8 +593,20 @@ struct TagChangeActions {
         
         switch zoneValue {
         case .play:
+            eventHandler.lastCardPlayed = id
             if controller == eventHandler.player.id {
                 eventHandler.playerPlay(entity: entity, cardId: cardId, turn: eventHandler.turnNumber())
+                var magnetic = false
+                if entity.isMinion {
+                    if entity.has(tag: .modular) && (eventHandler.playerEntity?.isCurrentPlayer ?? false) {
+                        let pos = entity[.zone_position]
+                        let neighbour = eventHandler.player?.board.first { x in x[.zone_position] == pos + 1 }
+                        magnetic = neighbour?.card.race == .mechanical
+                    }
+                    if !magnetic {
+                        eventHandler.playerMinionPlayed(entity: entity)
+                    }
+                }
             } else if controller == eventHandler.opponent.id {
                 eventHandler.opponentPlay(entity: entity, cardId: cardId, from: entity[.zone_position],
                                   turn: eventHandler.turnNumber())
