@@ -2254,7 +2254,9 @@ class Game: NSObject, PowerEventHandler {
     }
     
     func opponentHandToDeck(entity: Entity, cardId: String?, turn: Int) {
-        opponent.predictUniqueCardInDeck(cardId: cardId ?? "", isCreated: false)
+        if cardId != nil && cardId != "" && entity.has(tag: .tradeable) {
+            opponent.predictUniqueCardInDeck(cardId: cardId ?? "", isCreated: false)
+        }
         opponent.handToDeck(entity: entity, turn: turn)
         updateTrackers()
     }
@@ -2332,7 +2334,8 @@ class Game: NSObject, PowerEventHandler {
         updateTrackers()
     }
 
-    func opponentDraw(entity: Entity, turn: Int) {
+    func opponentDraw(entity: Entity, turn: Int, cardId: String, drawerId: Int?) {
+        entity.info.drawerId = drawerId
         opponent.draw(entity: entity, turn: turn)
         updateTrackers()
     }

@@ -366,6 +366,7 @@ enum GameTag: Int, WrappableEnum, CaseIterable, Codable {
     lettuce_ability_tile_visual_self_only = 1698,
     fake_zone = 1702,
     fake_zone_position = 1703,
+    tradeable = 1720,
     questline = 1725,
     lettuce_is_equipment = 1855,
     dont_show_in_history = 2015,

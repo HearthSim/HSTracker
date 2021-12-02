@@ -170,7 +170,7 @@ protocol PowerEventHandler: AnyObject {
 	
 	func opponentMulligan(entity: Entity, from: Int)
 	
-	func opponentDraw(entity: Entity, turn: Int)
+    func opponentDraw(entity: Entity, turn: Int, cardId: String, drawerId: Int?)
 	
 	func opponentRemoveFromDeck(entity: Entity, turn: Int)
 	

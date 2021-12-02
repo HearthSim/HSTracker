@@ -662,7 +662,12 @@ struct TagChangeActions {
             if controller == eventHandler.player.id {
                 eventHandler.playerDraw(entity: entity, cardId: cardId, turn: eventHandler.turnNumber())
             } else if controller == eventHandler.opponent.id {
-                eventHandler.opponentDraw(entity: entity, turn: eventHandler.turnNumber())
+                let drawerCardId = powerGameStateParser?.getCurrentBlock()?.cardId ?? ""
+                var drawerId: Int?
+                if drawerCardId != "" {
+                    drawerId = eventHandler.entities.first { x in x.value.cardId == drawerCardId }?.value.id
+                }
+                eventHandler.opponentDraw(entity: entity, turn: eventHandler.turnNumber(), cardId: cardId ?? "", drawerId: drawerId)
             }
             
         case .setaside, .removedfromgame:
