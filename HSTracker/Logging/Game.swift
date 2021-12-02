@@ -11,6 +11,7 @@
 import Foundation
 import RealmSwift
 import HearthMirror
+import RegexUtil
 
 struct PlayingDeck {
     let id: String
@@ -96,6 +97,13 @@ class Game: NSObject, PowerEventHandler {
             return state
         }
         return nil
+    }
+    
+    let battlegroundsHeroRegex: RegexPattern = ".+_HERO_\\d+(_SKIN_.+)?"
+    
+    // We do count+1 because if you're playing against an opponent it will count their hero in play and the hero in the hero list, so instead we only count the heroes in the hero list and add 1 for the player hero.
+    func battlegroundsHeroCount() -> Int {
+        return  entities.values.filter { x in x.isHero && x.cardId.match( battlegroundsHeroRegex) && x.isInSetAside }.count + 1
     }
     
     func snapshotBattlegroundsBoardState() {
