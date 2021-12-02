@@ -153,6 +153,8 @@ protocol PowerEventHandler: AnyObject {
 	func playerRemoveFromPlay(entity: Entity, turn: Int)
 	
 	func opponentGet(entity: Entity, turn: Int, id: Int)
+    
+    func opponentHandToDeck(entity: Entity, cardId: String?, turn: Int)
 	
 	func opponentPlayToHand(entity: Entity, cardId: String?, turn: Int, id: Int)
 	

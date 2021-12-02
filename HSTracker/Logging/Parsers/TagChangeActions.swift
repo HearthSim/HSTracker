@@ -652,7 +652,12 @@ struct TagChangeActions {
             if controller == eventHandler.player.id {
                 eventHandler.playerMulligan(entity: entity, cardId: cardId)
             } else if controller == eventHandler.opponent.id {
-                eventHandler.opponentMulligan(entity: entity, from: entity[.zone_position])
+                if cardId != nil && cardId != "" {
+                    eventHandler.opponentHandToDeck(entity: entity, cardId: cardId, turn: eventHandler.turnNumber())
+                }
+                if eventHandler.opponentEntity?[.mulligan_state] ?? 0 == Mulligan.dealing.rawValue {
+                    eventHandler.opponentMulligan(entity: entity, from: entity[.zone_position])
+                }
             }
             
         default:

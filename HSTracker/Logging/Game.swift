@@ -2252,6 +2252,12 @@ class Game: NSObject, PowerEventHandler {
         opponent.boardToHand(entity: entity, turn: turn)
         updateTrackers()
     }
+    
+    func opponentHandToDeck(entity: Entity, cardId: String?, turn: Int) {
+        opponent.predictUniqueCardInDeck(cardId: cardId ?? "", isCreated: false)
+        opponent.handToDeck(entity: entity, turn: turn)
+        updateTrackers()
+    }
 
     func opponentPlayToDeck(entity: Entity, cardId: String?, turn: Int) {
         opponent.boardToDeck(entity: entity, turn: turn)
