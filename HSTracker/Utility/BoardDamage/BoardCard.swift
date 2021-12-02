@@ -44,7 +44,7 @@ class BoardCard: IBoardEntity {
         _armor = entity[.armor]
         _durability = entity[.durability]
         _damageTaken = entity[.damage]
-        exhausted = entity[.exhausted] == 1
+        exhausted = entity[.exhausted] == 1 || (entity[.num_turns_in_play] == 0 && !entity.isHero)
         _cantAttack = entity[.cant_attack] == 1
         _frozen = entity[.frozen] == 1
         charge = entity[.charge] == 1
