@@ -712,11 +712,10 @@ class Game: NSObject, PowerEventHandler {
     }
 	
     func updateMercenariesTaskListButton() {
-        let rect = SizeHelper.mercenariesTaskListButton()
-        
         DispatchQueue.main.async {
-            let merc = self.windowManager.mercenariesTaskListButton
+          let merc = self.windowManager.mercenariesTaskListButton
             if Settings.showMercsTasks && merc.visible && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground) {
+                let rect = SizeHelper.mercenariesTaskListButton()
                 self.windowManager.show(controller: merc, show: true, frame: rect, title: nil, overlay: true)
             } else {
                 self.windowManager.show(controller: self.windowManager.mercenariesTaskListView, show: false)

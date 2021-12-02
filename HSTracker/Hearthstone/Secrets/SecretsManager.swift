@@ -9,8 +9,8 @@
 import Foundation
 
 class SecretsManager {
-    let avengeDelay: Double = 50
-    let multipleSecretResolveDelay = 750
+    let avengeDelay: Double = 50.0 / 1000.0
+    let multipleSecretResolveDelay = 750.0 / 1000.0
     private var _avengeDeathRattleCount = 0
     private var _awaitingAvenge = false
     private var _lastStartOfTurnDamageCheck = 0
@@ -205,10 +205,12 @@ class SecretsManager {
 
         var exclude: [MultiIdCard] = []
         
-        exclude.append(CardIds.Secrets.Paladin.JudgementofJustice)
-
         if freeSpaceOnBoard {
             exclude.append(CardIds.Secrets.Paladin.NobleSacrifice)
+        }
+        
+        if !attacker.isHero {
+            exclude.append(CardIds.Secrets.Paladin.JudgementofJustice)
         }
 
         if defender.isHero {

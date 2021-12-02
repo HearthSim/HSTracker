@@ -429,6 +429,23 @@
 		B85F1AC9258A558200A6F8C3 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85F1AC8258A558200A6F8C3 /* Helper.swift */; };
 		B8621F1A2746A785004DD0E9 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8621F192746A785004DD0E9 /* Account.swift */; };
 		B8621F1C2746AF5E004DD0E9 /* HSReplayNetHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8621F1B2746AF5E004DD0E9 /* HSReplayNetHelper.swift */; };
+		B8643D012759814800B2D708 /* MercenariesCoins.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C33FB0273EF851006DA79E /* MercenariesCoins.swift */; };
+		B8643D022759814B00B2D708 /* MercenariesPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85A0D53272CDEFE006D2648 /* MercenariesPreferences.swift */; };
+		B8643D032759815200B2D708 /* MercenariesTaskListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B800FCAB273318DA00AFBD51 /* MercenariesTaskListView.xib */; };
+		B8643D042759815500B2D708 /* MercenariesTaskListButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = B800FCA32732AA7C00AFBD51 /* MercenariesTaskListButton.xib */; };
+		B8643D052759815700B2D708 /* MercenariesTaskListButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B800FCA52732AA9100AFBD51 /* MercenariesTaskListButton.swift */; };
+		B8643D062759815A00B2D708 /* MercenariesTaskListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B800FCA92732FABD00AFBD51 /* MercenariesTaskListView.swift */; };
+		B8643D072759815D00B2D708 /* MercenariesTask.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8795EAB27516DBC00469B6E /* MercenariesTask.xib */; };
+		B8643D082759816000B2D708 /* MercenariesAbilityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BCC1E2273B0AE500DA6474 /* MercenariesAbilityView.swift */; };
+		B8643D092759816300B2D708 /* MercenariesAbilitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BCC1E4273B168200DA6474 /* MercenariesAbilitiesView.swift */; };
+		B8643D0A275981F600B2D708 /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AB59992744145B00383EC8 /* Collection.swift */; };
+		B8643D0B275981F900B2D708 /* CollectionHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AB59972744139700383EC8 /* CollectionHelper.swift */; };
+		B8643D0C2759822C00B2D708 /* NSBezierPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BCC1DE2739987600DA6474 /* NSBezierPath.swift */; };
+		B8643D0D2759828500B2D708 /* VerticallyAlignedTextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BCC1E02739991600DA6474 /* VerticallyAlignedTextFieldCell.swift */; };
+		B8643D0E2759828C00B2D708 /* HSReplayNetHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8621F1B2746AF5E004DD0E9 /* HSReplayNetHelper.swift */; };
+		B8643D0F2759828F00B2D708 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8621F192746A785004DD0E9 /* Account.swift */; };
+		B8643D10275982C400B2D708 /* RateLimiter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AB59932742F94900383EC8 /* RateLimiter.swift */; };
+		B8643D11275982E700B2D708 /* Deque.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AB59952742FA5C00383EC8 /* Deque.swift */; };
 		B864A13E24F54E1F005EA2A0 /* MinionHeroPowerTrigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B864A13D24F54E1F005EA2A0 /* MinionHeroPowerTrigger.swift */; };
 		B864AE2025979E3400793F36 /* AdventureDbId.swift in Sources */ = {isa = PBXBuildFile; fileRef = B864AE1F25979E3400793F36 /* AdventureDbId.swift */; };
 		B864AE2225979E9100793F36 /* AdventureModeDbId.swift in Sources */ = {isa = PBXBuildFile; fileRef = B864AE2125979E9100793F36 /* AdventureModeDbId.swift */; };
@@ -1971,6 +1988,7 @@
 				439C7E5A1C7772C100D29859 /* Resources */,
 				4345E9EF1CB45134002D0F23 /* CopyFiles */,
 				439C7E591C7772C100D29859 /* Frameworks */,
+				B8643D122759872D00B2D708 /* Download enUS cards */,
 			);
 			buildRules = (
 			);
@@ -2022,7 +2040,6 @@
 					};
 					439C7E5B1C7772C100D29859 = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = RL7C49LAMC;
 						LastSwiftMigration = 1220;
 					};
 				};
@@ -2135,9 +2152,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				B8D75BA525BA22B900446923 /* BattlegroundsTierOverlay.xib in Resources */,
+				B8643D042759815500B2D708 /* MercenariesTaskListButton.xib in Resources */,
 				B85A0D56272CE24B006D2648 /* MercenariesPreferences.xib in Resources */,
 				43640BE11E89A25F00FAFD07 /* Resources in Resources */,
 				B85A0D582730370D006D2648 /* BoardOverlay.xib in Resources */,
+				B8643D072759815D00B2D708 /* MercenariesTask.xib in Resources */,
+				B8643D032759815200B2D708 /* MercenariesTaskListView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2208,6 +2228,24 @@
 			shellPath = /bin/sh;
 			shellScript = "# exit 0\n\n# Version\nMONO_VERSION=6.12.0\nSYSTEM_VERSION=4.0.0.0__b77a5c561934e089\nSYSTEM_CONFIGURATION_VERSION=4.0.0.0__b03f5f7f11d50a3a\n\n# Locations\nMONO_LOCATION=/Library/Frameworks/Mono.Framework/Versions/$MONO_VERSION\nLOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${FRAMEWORKS_FOLDER_PATH}\"\nBIN_LOCATION=\"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_FOLDER_PATH}\"\nRES_LOCATION=\"${BUILT_PRODUCTS_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Resources/Managed\"\n\nDIR=\"$SRCROOT/mono-dSYM/\"\nmkdir -p $DIR\nmkdir -p \"${LOCATION}\"\n\nset -x\nset -e\n\n# Copy needed files\ncp $MONO_LOCATION/lib/libmonosgen-2.0.1.dylib \"${LOCATION}\"\ncp $MONO_LOCATION/lib/libsqlite3.0.dylib \"${LOCATION}\"\ncp $MONO_LOCATION/lib/libmono-native-compat.dylib \"${LOCATION}\"\nmkdir -p \"${RES_LOCATION}/etc/mono\"\ncp -R $MONO_LOCATION/etc/mono \"${RES_LOCATION}/etc\"\nsed 's/$mono_libdir\\///g' $MONO_LOCATION/etc/mono/config > \"${RES_LOCATION}/etc/mono/config\"\ncp -rf $MONO_LOCATION/lib/libmonosgen-2.0.1.dylib.dSYM \"${DIR}\"\ncp -rf $MONO_LOCATION/lib/libmono-native-compat.0.dylib.dSYM \"${DIR}\"\n\n# Copy system assemblies needed\nmkdir -p \"${RES_LOCATION}/mono/4.5\"\ncp $MONO_LOCATION/lib/mono/4.5/mscorlib.dll \"${RES_LOCATION}/mono/4.5\"\ncp $MONO_LOCATION/lib/mono/4.5/Facades/netstandard.dll \"${RES_LOCATION}\"\ncp $MONO_LOCATION/lib/mono/gac/System.Xml/$SYSTEM_VERSION/System.Xml.dll \"${RES_LOCATION}\"\ncp $MONO_LOCATION/lib/mono/gac/System.Core/$SYSTEM_VERSION/System.Core.dll \"${RES_LOCATION}\"\ncp $MONO_LOCATION/lib/mono/gac/System/$SYSTEM_VERSION/System.dll \"${RES_LOCATION}\"\ncp $MONO_LOCATION/lib/mono/gac/System.Configuration/$SYSTEM_CONFIGURATION_VERSION/System.Configuration.dll \"${RES_LOCATION}\"\n\n# Change runtime paths\ninstall_name_tool -change /Library/Frameworks/Mono.framework/Versions/$MONO_VERSION/lib/libmonosgen-2.0.1.dylib @rpath/libmonosgen-2.0.1.dylib \"${BIN_LOCATION}/${EXECUTABLE_NAME}\"\ninstall_name_tool -change /Library/Frameworks/Mono.framework/Versions/$MONO_VERSION/lib/libsqlite3.0.dylib @rpath/libsqlite3.0.dylib \"${BIN_LOCATION}/${EXECUTABLE_NAME}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		B8643D122759872D00B2D708 /* Download enUS cards */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Download enUS cards";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "LOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"/Resources/Cards\nmkdir -p \"${LOCATION}\"\n\nHSJSON=\"https://api.hearthstonejson.com/v1\"\n\nfor lang in enUS; do\n    echo \"Downloading cards.$lang.json\"\n    curl -L -z \"${LOCATION}/cardsDB.$lang.json\" -o \"${LOCATION}/cardsDB.$lang.json\" \"$HSJSON/latest/$lang/cards.json\"\ndone\n";
 		};
 		B86F2153255DBFFC008D522A /* Download cards JSON */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2524,6 +2562,7 @@
 				B8C2F9102623233100C31E6A /* GetAccountResult.swift in Sources */,
 				B8EC9A4A261215C800EB17A9 /* OpponentDeadForTracker.swift in Sources */,
 				B8EC9A492612149D00EB17A9 /* RepeatingTimer.swift in Sources */,
+				B8643D062759815A00B2D708 /* MercenariesTaskListView.swift in Sources */,
 				B8EC9A482612148500EB17A9 /* MultiIdCard.swift in Sources */,
 				B8D75BA025BA20B700446923 /* DeckType.swift in Sources */,
 				B8D75B9F25BA20AA00446923 /* GameSaveKeyId.swift in Sources */,
@@ -2532,6 +2571,7 @@
 				B8D75B9C25BA207700446923 /* Helper.swift in Sources */,
 				B8D75B9B25BA207000446923 /* RotatingFileDestination.swift in Sources */,
 				B8D75B9A25BA206900446923 /* ImportingPreferences.swift in Sources */,
+				B8643D0E2759828C00B2D708 /* HSReplayNetHelper.swift in Sources */,
 				B8D75B9825BA206000446923 /* AdventureDbId.swift in Sources */,
 				B8D75B9925BA206000446923 /* AdventureModeDbId.swift in Sources */,
 				B8D75B9725BA205200446923 /* ExperienceOverlay.swift in Sources */,
@@ -2555,6 +2595,7 @@
 				B8DEDCD52547C58800DF524B /* FrameView.swift in Sources */,
 				B8DEDCD22547C58200DF524B /* BattlegroundsOverlayView.swift in Sources */,
 				B8DEDCD32547C58200DF524B /* BattlegroundsTierDetailsView.swift in Sources */,
+				B8643D11275982E700B2D708 /* Deque.swift in Sources */,
 				B8DEDCD42547C58200DF524B /* BattlegroundsDetailsWindow.swift in Sources */,
 				B8DEDCCF2547C55F00DF524B /* BattlegroundsDetailsView.swift in Sources */,
 				B8DEDCD02547C55F00DF524B /* BattlegroundsOverlay.swift in Sources */,
@@ -2577,6 +2618,7 @@
 				43C1C9FF1E96CD6F008C20B1 /* ArenaWatcher.swift in Sources */,
 				43C1CA011E96CD6F008C20B1 /* Date.swift in Sources */,
 				43C1CA021E96CD6F008C20B1 /* Array.swift in Sources */,
+				B8643D0C2759822C00B2D708 /* NSBezierPath.swift in Sources */,
 				43C1CA031E96CD6F008C20B1 /* Color.swift in Sources */,
 				BCFC60991EA29DE6005B879F /* ArenaHelperSync.swift in Sources */,
 				43C1CA061E96CD6F008C20B1 /* String.swift in Sources */,
@@ -2595,6 +2637,7 @@
 				43C1CA131E96CD6F008C20B1 /* Database.swift in Sources */,
 				43C1CA151E96CD6F008C20B1 /* Cards.swift in Sources */,
 				43C1CA161E96CD6F008C20B1 /* Language.swift in Sources */,
+				B8643D0F2759828F00B2D708 /* Account.swift in Sources */,
 				43E5C0041EB9152A00D49D8A /* HeroPower.swift in Sources */,
 				43C1CA171E96CD6F008C20B1 /* RealmHelper.swift in Sources */,
 				43C1CA181E96CD6F008C20B1 /* WindowMove.swift in Sources */,
@@ -2637,12 +2680,14 @@
 				43C1CA4A1E96CD6F008C20B1 /* CardClass.swift in Sources */,
 				43C1CA4B1E96CD6F008C20B1 /* CardMark.swift in Sources */,
 				F7D7A3A72011B67D00E3A5F0 /* Hearthstone.swift in Sources */,
+				B8643D022759814B00B2D708 /* MercenariesPreferences.swift in Sources */,
 				43C1CA4C1E96CD6F008C20B1 /* CardSet.swift in Sources */,
 				43C1CA4D1E96CD6F008C20B1 /* CardType.swift in Sources */,
 				43C1CA4E1E96CD6F008C20B1 /* Faction.swift in Sources */,
 				43C1CA4F1E96CD6F008C20B1 /* Format.swift in Sources */,
 				43C1CA501E96CD6F008C20B1 /* FormatType.swift in Sources */,
 				43C1CA511E96CD6F008C20B1 /* GameMode.swift in Sources */,
+				B8643D10275982C400B2D708 /* RateLimiter.swift in Sources */,
 				43C1CA521E96CD6F008C20B1 /* GameResult.swift in Sources */,
 				43C1CA531E96CD6F008C20B1 /* GameTag.swift in Sources */,
 				43C1CA541E96CD6F008C20B1 /* GameType.swift in Sources */,
@@ -2650,6 +2695,7 @@
 				43C1CA561E96CD6F008C20B1 /* Mulligan.swift in Sources */,
 				43C1CA571E96CD6F008C20B1 /* MultiClassGroup.swift in Sources */,
 				43C1CA591E96CD6F008C20B1 /* PlayerType.swift in Sources */,
+				B8643D0B275981F900B2D708 /* CollectionHelper.swift in Sources */,
 				43C1CA5A1E96CD6F008C20B1 /* PlayState.swift in Sources */,
 				43C1CA5B1E96CD6F008C20B1 /* Race.swift in Sources */,
 				43C1CA5C1E96CD6F008C20B1 /* Rarity.swift in Sources */,
@@ -2687,6 +2733,7 @@
 				43C1CA791E96CD6F008C20B1 /* PackWatcher.swift in Sources */,
 				43C1CA7D1E96CD6F008C20B1 /* StatsHelper.swift in Sources */,
 				1C561C991EC1EC6600007A46 /* ReplayUploadTests.swift in Sources */,
+				B8643D0A275981F600B2D708 /* Collection.swift in Sources */,
 				43C1CA7E1E96CD6F008C20B1 /* LadderGrid.swift in Sources */,
 				43C1CA7F1E96CD6F008C20B1 /* Ranks.swift in Sources */,
 				43C1CA831E96CD6F008C20B1 /* Toast.swift in Sources */,
@@ -2724,7 +2771,9 @@
 				43C1CAA31E96CD6F008C20B1 /* TrackerFrame.swift in Sources */,
 				43C1CAA41E96CD6F008C20B1 /* CardCounter.swift in Sources */,
 				43C1CAA51E96CD6F008C20B1 /* OpponentDrawChance.swift in Sources */,
+				B8643D052759815700B2D708 /* MercenariesTaskListButton.swift in Sources */,
 				43C1CAA61E96CD6F008C20B1 /* PlayerDrawChance.swift in Sources */,
+				B8643D082759816000B2D708 /* MercenariesAbilityView.swift in Sources */,
 				43C1CAA71E96CD6F008C20B1 /* FloatingCard.swift in Sources */,
 				43C1CAA81E96CD6F008C20B1 /* WotogCounter.swift in Sources */,
 				43C1CAA91E96CD6F008C20B1 /* StringTracker.swift in Sources */,
@@ -2737,7 +2786,9 @@
 				43C1CAAF1E96CD6F008C20B1 /* WindowManager.swift in Sources */,
 				43C1CAB01E96CD6F008C20B1 /* ImageUtils.swift in Sources */,
 				43C1CAB11E96CD6F008C20B1 /* ClassColor.swift in Sources */,
+				B8643D012759814800B2D708 /* MercenariesCoins.swift in Sources */,
 				43C1CAB21E96CD6F008C20B1 /* Algorithm.swift in Sources */,
+				B8643D092759816300B2D708 /* MercenariesAbilitiesView.swift in Sources */,
 				43C1CAB31E96CD6F008C20B1 /* BoardCard.swift in Sources */,
 				43C1CAB41E96CD6F008C20B1 /* BoardHero.swift in Sources */,
 				43C1CAB51E96CD6F008C20B1 /* BoardState.swift in Sources */,
@@ -2755,6 +2806,7 @@
 				43C1C9FD1E96CCE9008C20B1 /* DatabaseTests.swift in Sources */,
 				43C1C9F71E96CCE9008C20B1 /* AlgorithmTests.swift in Sources */,
 				43C1C9FE1E96CCE9008C20B1 /* PowerParserTests.swift in Sources */,
+				B8643D0D2759828500B2D708 /* VerticallyAlignedTextFieldCell.swift in Sources */,
 				F719B88B200ACAE3004F5E36 /* DefaultDecks.swift in Sources */,
 				43C1C9F91E96CCE9008C20B1 /* LogReaderTests.swift in Sources */,
 			);
@@ -3369,6 +3421,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Apple Development";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 4YL4B6GTUV;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/downloaded-frameworks/HearthMirror",
@@ -3398,6 +3451,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Apple Development";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 4YL4B6GTUV;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/downloaded-frameworks/HearthMirror",

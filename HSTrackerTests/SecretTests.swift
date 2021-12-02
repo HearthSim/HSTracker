@@ -37,13 +37,17 @@ class SecretTests: HSTrackerTests {
     playerCardInHand1: Entity!,
     playerCardInHand2: Entity!
 
-    var database: Database!
+    static var database: Database!
 
-    override func setUp() {
+    override class func setUp() {
         super.setUp()
 
         database = Database()
         database.loadDatabase(splashscreen: nil, withLanguages: [.enUS])
+    }
+    
+    override func setUp() {
+        super.setUp()
 
         game = Game(hearthstoneRunState: HearthstoneRunState(isRunning: false, isActive: false))
         gameEntity = createNewEntity(cardId: "")
@@ -205,7 +209,7 @@ class SecretTests: HSTrackerTests {
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
                       triggered: [CardIds.Secrets.Mage.IceBarrier])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
-                      triggered: [CardIds.Secrets.Paladin.NobleSacrifice, CardIds.Secrets.Paladin.JudgementofJustice])
+                      triggered: [CardIds.Secrets.Paladin.NobleSacrifice])
         verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
         
         // with minions on board
@@ -221,7 +225,7 @@ class SecretTests: HSTrackerTests {
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
                       triggered: [CardIds.Secrets.Mage.IceBarrier])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
-                      triggered: [CardIds.Secrets.Paladin.NobleSacrifice, CardIds.Secrets.Paladin.JudgementofJustice])
+                      triggered: [CardIds.Secrets.Paladin.NobleSacrifice])
         verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
     }
 
@@ -273,8 +277,7 @@ class SecretTests: HSTrackerTests {
                       triggered: [CardIds.Secrets.Mage.OasisAlly, CardIds.Secrets.Mage.SplittingImage])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
                       triggered: [CardIds.Secrets.Paladin.NobleSacrifice,
-                                  CardIds.Secrets.Paladin.AutodefenseMatrix,
-                                  CardIds.Secrets.Paladin.JudgementofJustice])
+                                  CardIds.Secrets.Paladin.AutodefenseMatrix])
         verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All, triggered: [CardIds.Secrets.Rogue.Bamboozle])
     }
 
@@ -305,8 +308,7 @@ class SecretTests: HSTrackerTests {
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
                       triggered: [CardIds.Secrets.Mage.OasisAlly, CardIds.Secrets.Mage.SplittingImage])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
-                      triggered: [CardIds.Secrets.Paladin.NobleSacrifice,
-                                  CardIds.Secrets.Paladin.JudgementofJustice])
+                      triggered: [CardIds.Secrets.Paladin.NobleSacrifice])
         verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All, triggered: [CardIds.Secrets.Rogue.Bamboozle])
     }
     
@@ -343,7 +345,7 @@ class SecretTests: HSTrackerTests {
         opponentMinion2[.zone] = Zone.play.rawValue
         game.opponentMinionDeath(entity: opponentMinion1, turn: 2)
         
-        wait(for: game.secretsManager?.avengeDelay ?? 50 + 2)
+        wait(for: game.secretsManager?.avengeDelay ?? 0.050 + 2)
 
         verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All)
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
