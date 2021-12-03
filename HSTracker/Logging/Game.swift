@@ -396,7 +396,7 @@ class Game: NSObject, PowerEventHandler {
     func updateTurnTimer() {
         DispatchQueue.main.async { [unowned(unsafe) self] in
 
-            if Settings.showTimer && !self.gameEnded && self.shouldShowGUIElement && !isBattlegroundsMatch() {
+            if Settings.showTimer && !self.gameEnded && self.shouldShowGUIElement && !isBattlegroundsMatch() && !isMercenariesMatch() {
                 var rect: NSRect?
                 if Settings.autoPositionTrackers {
                     rect = SizeHelper.timerHudFrame()
