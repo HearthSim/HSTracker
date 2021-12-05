@@ -278,12 +278,18 @@ class WindowManager {
                 fWindow.orderFront(nil)
             }
             
-            self.closeRequestTimer = Timer.scheduledTimer(
-                timeInterval: 3,
-                target: self,
-                selector: #selector(self.forceHideFloatingCard),
-                userInfo: nil,
-                repeats: false)
+            var disableTimeout = false
+            if let dt = notification.userInfo?["disableTimeout"] as? Bool, dt {
+                disableTimeout = true
+            }
+            if !disableTimeout {
+                self.closeRequestTimer = Timer.scheduledTimer(
+                    timeInterval: 3,
+                    target: self,
+                    selector: #selector(self.forceHideFloatingCard),
+                    userInfo: nil,
+                    repeats: false)
+            }
         }
     }
 

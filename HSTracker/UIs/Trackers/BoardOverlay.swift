@@ -141,7 +141,8 @@ class BoardMinionView: NSView {
                               userInfo: [ "card": card as Any,
                                           "frame": frame,
                                           "useFrame": true,
-                                          "index": i])
+                                          "index": i,
+                                          "disableTimeout": true])
                 }
             }
         }
