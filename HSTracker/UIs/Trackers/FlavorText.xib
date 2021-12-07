@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="19455" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19455"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="FlavorText" customModule="HSTracker" customModuleProvider="target">
+            <connections>
+                <outlet property="cardNameLabel" destination="X27-TQ-HX1" id="jyx-Kn-Ndg"/>
+                <outlet property="flavorTextLabel" destination="rI2-ON-HpU" id="ho5-lh-LQV"/>
+                <outlet property="window" destination="QvC-M9-y7g" id="OxK-gK-wzm"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" hasShadow="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g">
+            <windowStyleMask key="styleMask" fullSizeContentView="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="196" y="240" width="298" height="123"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1025"/>
+            <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
+                <rect key="frame" x="0.0" y="0.0" width="298" height="118"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gJH-ye-3XY">
+                        <rect key="frame" x="0.0" y="0.0" width="298" height="118"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="flavor_text" id="gAd-fZ-Bjj"/>
+                    </imageView>
+                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6o3-kE-Xqj">
+                        <rect key="frame" x="49" y="63" width="200" height="65"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="200" id="1xc-UN-zqc"/>
+                        </constraints>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="hs_banner" id="cf4-8c-RLP"/>
+                    </imageView>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="X27-TQ-HX1">
+                        <rect key="frame" x="-2" y="92" width="302" height="16"/>
+                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" placeholderString="Card Name" id="rtK-GC-co1">
+                            <font key="font" size="14" name="Arial-BoldMT"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="rI2-ON-HpU">
+                        <rect key="frame" x="18" y="20" width="262" height="52"/>
+                        <textFieldCell key="cell" alignment="center" placeholderString="Flavor text" id="iY5-JS-ACM">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="rI2-ON-HpU" firstAttribute="top" secondItem="X27-TQ-HX1" secondAttribute="bottom" constant="20" id="EPK-5n-v9i"/>
+                    <constraint firstAttribute="trailing" secondItem="gJH-ye-3XY" secondAttribute="trailing" id="JVh-91-PjN"/>
+                    <constraint firstItem="X27-TQ-HX1" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="10" id="OIL-uC-ocy"/>
+                    <constraint firstAttribute="bottom" secondItem="rI2-ON-HpU" secondAttribute="bottom" constant="20" id="Q4T-SF-ZX3"/>
+                    <constraint firstAttribute="trailing" secondItem="rI2-ON-HpU" secondAttribute="trailing" constant="20" id="ToM-1X-Szt"/>
+                    <constraint firstItem="6o3-kE-Xqj" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="-10" id="Y1T-96-Eg4"/>
+                    <constraint firstItem="6o3-kE-Xqj" firstAttribute="centerX" secondItem="EiT-Mj-1SZ" secondAttribute="centerX" id="Yfk-gD-dAG"/>
+                    <constraint firstItem="X27-TQ-HX1" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="dAx-w5-Jlo"/>
+                    <constraint firstItem="gJH-ye-3XY" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="iV8-J4-ahe"/>
+                    <constraint firstItem="gJH-ye-3XY" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="jf7-Fn-mTQ"/>
+                    <constraint firstAttribute="bottom" secondItem="gJH-ye-3XY" secondAttribute="bottom" id="m97-gn-HHq"/>
+                    <constraint firstAttribute="trailing" secondItem="X27-TQ-HX1" secondAttribute="trailing" id="oS7-0q-bBG"/>
+                    <constraint firstItem="rI2-ON-HpU" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="vfG-hI-VE7"/>
+                </constraints>
+            </view>
+            <point key="canvasLocation" x="257" y="111"/>
+        </window>
+    </objects>
+    <resources>
+        <image name="flavor_text" width="298" height="118"/>
+        <image name="hs_banner" width="281" height="65"/>
+    </resources>
+</document>

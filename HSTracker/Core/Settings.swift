@@ -207,6 +207,8 @@ final class Settings {
     static var showExperienceCounter: Bool
     @UserDefault(key: Settings.show_mulligan_toast, defaultValue: true)
     static var showMulliganToast: Bool
+    @UserDefault(key: Settings.show_flavor_text, defaultValue: true)
+    static var showFlavorText: Bool
     
     // MARK: - Battlegrounds
     @UserDefault(key: Settings.show_bobs_buddy, defaultValue: true)
@@ -487,6 +489,7 @@ extension Settings {
     static let auto_deck_detection = "auto_deck_detection"
     static let show_experience_counter = "show_experience_counter"
     static let show_mulligan_toast = "show_mulligan_toast"
+    static let show_flavor_text = "show_flavor_text"
     
     // MARK: Battlegrounds
     static let show_bobs_buddy = "show_bobs_buddy"

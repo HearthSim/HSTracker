@@ -106,6 +106,10 @@ class WindowManager {
     var mercenariesTaskListView: MercenariesTaskListView = {
         return $0
     }(MercenariesTaskListView(windowNibName: "MercenariesTaskListView"))
+    
+    var flavorText: FlavorText = {
+        return $0
+    }(FlavorText(windowNibName: "FlavorText"))
 
     var toastWindowController = ToastWindowController()
 
@@ -217,6 +221,7 @@ class WindowManager {
             self?.cardHudContainer.reset()
             self?.playerBoardOverlay.window?.orderOut(nil)
             self?.opponentBoardOverlay.window?.orderOut(nil)
+            self?.flavorText.window?.orderOut(nil)
         }
     }
 

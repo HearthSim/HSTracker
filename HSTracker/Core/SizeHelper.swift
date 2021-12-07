@@ -208,6 +208,10 @@ struct SizeHelper {
         return hearthstoneWindow.width * screenRatio * 0.01
     }
 
+    static var minionMargin: CGFloat {
+        return hearthstoneWindow.width * screenRatio * 0.0029
+    }
+
     static func overHearthstoneFrame() -> NSRect {
         let frame = hearthstoneWindow.frame
 
@@ -473,6 +477,16 @@ struct SizeHelper {
         let bottom = hearthstoneWindow.frame.minY + frame.height + mercenariesButtonOffset() + 8
         
         return NSRect(x: frame.maxX - width, y: bottom, width: width, height: height - bottom)
+    }
+    
+    static func flavorTextFrame() -> NSRect {
+        let hs = hearthstoneWindow.frame
+
+        let ft = AppDelegate.instance().coreManager.game.windowManager.flavorText.window?.frame ?? NSRect.zero
+        let w = ft.width
+        let h = ft.height
+        let frame = NSRect(x: hs.maxX - w - 10.0, y: hs.minY + 10.0, width: w, height: h)
+        return frame
     }
     
     static let cardHudContainerWidth: CGFloat = 400

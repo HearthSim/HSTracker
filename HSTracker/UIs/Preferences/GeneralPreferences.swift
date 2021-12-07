@@ -20,7 +20,6 @@ class GeneralPreferences: NSViewController, PreferencePane {
     @IBOutlet weak var notifyTurnStart: NSButton!
     @IBOutlet weak var notifyOpponentConcede: NSButton!
     @IBOutlet weak var closeTrackerWhenHSCloses: NSButton!
-    @IBOutlet weak var promptNote: NSButton!
     @IBOutlet weak var saveReplays: NSButton!
     @IBOutlet weak var enableDockBadge: NSButton!
     @IBOutlet weak var preferGoldenCards: NSButton!
@@ -34,7 +33,6 @@ class GeneralPreferences: NSViewController, PreferencePane {
         notifyTurnStart.state = Settings.notifyTurnStart ? .on : .off
         notifyOpponentConcede.state = Settings.notifyOpponentConcede ? .on : .off
         closeTrackerWhenHSCloses.state = Settings.quitWhenHearthstoneCloses ? .on : .off
-        //promptNote.state = Settings.promptNotes ? .on : .off
         saveReplays.state = Settings.saveReplays ? .on : .off
         enableDockBadge.state = Settings.showAppHealth ? .on : .off
         preferGoldenCards.state = Settings.preferGoldenCards ? .on : .off
@@ -51,8 +49,6 @@ class GeneralPreferences: NSViewController, PreferencePane {
             Settings.notifyOpponentConcede = notifyOpponentConcede.state == .on
         } else if sender == closeTrackerWhenHSCloses {
             Settings.quitWhenHearthstoneCloses = closeTrackerWhenHSCloses.state == .on
-        //} else if sender == promptNote {
-        //    Settings.promptNotes = promptNote.state == .on
         } else if sender == saveReplays {
             Settings.saveReplays = saveReplays.state == .on
         } else if sender == enableDockBadge {

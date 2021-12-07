@@ -34,6 +34,7 @@ class TrackersPreferences: NSViewController, PreferencePane {
     @IBOutlet weak var disableTrackingInSpectatorMode: NSButton!
     @IBOutlet weak var showExperienceCounter: NSButton!
     @IBOutlet weak var showMulliganToast: NSButton!
+    @IBOutlet weak var showFlavorText: NSButton!
     
     let themes = ["classic", "frost", "dark", "minimal"]
 
@@ -61,6 +62,7 @@ class TrackersPreferences: NSViewController, PreferencePane {
         showFloatingCard.state = Settings.showFloatingCard ? .on : .off
         showExperienceCounter.state = Settings.showExperienceCounter ? .on : .off
         showMulliganToast.state = Settings.showMulliganToast ? .on : .off
+        showFlavorText.state = Settings.showFlavorText ? .on : .off
 
         theme.selectItem(at: themes.firstIndex(of: Settings.theme) ?? 0)
         allowFullscreen.state = Settings.canJoinFullscreen ? .on : .off
@@ -135,6 +137,8 @@ class TrackersPreferences: NSViewController, PreferencePane {
             }
         } else if sender == showMulliganToast {
             Settings.showMulliganToast = showMulliganToast.state == .on
+        } else if sender == showFlavorText {
+            Settings.showFlavorText = showFlavorText.state == .on
         }
     }
 }

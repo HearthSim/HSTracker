@@ -699,7 +699,7 @@ class Game: NSObject, PowerEventHandler {
             let oppTracker = self.windowManager.opponentBoardOverlay
             let playerTracker = self.windowManager.playerBoardOverlay
 
-            if self.currentGameMode == .mercenaries && self.currentMode == .gameplay && !self.gameEnded && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground) {
+            if !self.isInMenu && (self.isMulliganDone() || self.isMercenariesMatch()) && !self.gameEnded && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground) {
                 self.windowManager.show(controller: oppTracker, show: true, frame: SizeHelper.opponentBoardOverlay(), title: nil, overlay: self.hearthstoneRunState.isActive)
                 oppTracker.updateBoardState(player: self.opponent)
                 self.windowManager.show(controller: playerTracker, show: true, frame: SizeHelper.playerBoardOverlay(), title: nil, overlay: self.hearthstoneRunState.isActive)
@@ -1137,9 +1137,8 @@ class Game: NSObject, PowerEventHandler {
             self.guiUpdateResets = false
         }
         
-        if self.isMercenariesMatch() {
-            self.updateBoardOverlay()
-        }
+        self.updateBoardOverlay()
+
         _queue.asyncAfter(deadline: DispatchTime.now() + Game.guiUpdateDelay, execute: {
             self.internalUpdateCheck()
         })
@@ -1574,18 +1573,6 @@ class Game: NSObject, PowerEventHandler {
 		
         self.handledGameEnd = true
                 
-        /*if Settings.promptNotes {
-            let message = NSLocalizedString("Do you want to add some notes for this game ?",
-                                            comment: "")
-            let frame = NSRect(x: 0, y: 0, width: 300, height: 80)
-            let input = NSTextView(frame: frame)
-            
-            if NSAlert.show(style: .informational, message: message,
-                            accessoryView: input, forceFront: true) {
-                currentGameStats.note = input.string ?? ""
-            }
-        }*/
-
         if isBattlegroundsMatch() {
             OpponentDeadForTracker.resetOpponentDeadForTracker()
         }

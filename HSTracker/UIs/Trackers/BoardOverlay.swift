@@ -101,6 +101,44 @@ class BoardMinionView: NSView {
         return Settings.showMercsOpponentHover
     }
     
+    private func clearMercHover() {
+        NotificationCenter.default
+            .post(name: Notification.Name(rawValue: Events.hide_floating_card), object: nil,
+                  userInfo: [ "card": card as Any])
+        card = nil
+    }
+    
+    private func setFlavorTextEntity(entity: Entity) {
+        guard Settings.showFlavorText else {
+            return
+        }
+        let card = entity.info.latestCardId == entity.cardId
+            ? entity.card : Cards.any(byId: entity.info.latestCardId)
+        guard let card = card else {
+            return
+        }
+        if card.flavor.isEmpty {
+            return
+        }
+        guard let font = NSFont(name: "ChunkFive", size: 14.0), let font12 = NSFont(name: "ChunkFive", size: 12.0) else {
+            return
+        }
+        let game = AppDelegate.instance().coreManager.game
+        let flavorWindow = game.windowManager.flavorText
+        let style = NSMutableParagraphStyle()
+        style.alignment = NSTextAlignment.center
+
+        let str = card.flavor.htmlToAttributedString ?? NSMutableAttributedString()
+        str.addAttribute(.paragraphStyle, value: style, range: NSRange(location: 0, length: str.length))
+        str.addAttribute(.font, value: font12, range: NSRange(location: 0, length: str.length))
+        flavorWindow.flavorTextLabel.cell = VerticallyAlignedTextFieldCell()
+        flavorWindow.flavorTextLabel.attributedStringValue = str
+        let cardNameStr = NSMutableAttributedString(string: card.name, attributes: [NSAttributedString.Key.strokeWidth: -4.0, NSAttributedString.Key.strokeColor: NSColor.black, NSAttributedString.Key.foregroundColor: NSColor.white, NSAttributedString.Key.font: font, NSAttributedString.Key.paragraphStyle: style])
+        flavorWindow.cardNameLabel.attributedStringValue = cardNameStr
+        let rect = SizeHelper.flavorTextFrame()
+        game.windowManager.show(controller: flavorWindow, show: true, frame: rect, title: nil, overlay: true)
+    }
+    
     override func mouseEntered(with event: NSEvent) {
         if let entity = entity {
             let game = AppDelegate.instance().coreManager.game
@@ -109,13 +147,22 @@ class BoardMinionView: NSView {
                 return
             }
             
-            if !game.isMercenariesMatch() && (game.player.board.count == 0 && game.opponent.board.count == 0 && game.player.handCount == 0) {
+            if !game.isMercenariesMatch() && (game.player.board.count == 0 && game.opponent.board.count == 0 && game.player.handCount == 0 || game.gameEnded) {
+                // hide flavor text
                 return
             }
             if game.isMercenariesMatch() && (game.gameEntity?[.step] == Step.main_combat.rawValue || !showMercenaryHover()) {
+                parent.mousedOver = false
+                clearMercHover()
+                parent.clearAbilitiesVisibility()
                 return
             }
             parent.updateAbilitiesVisibility(view: self)
+
+            if !game.isMercenariesMatch() {
+                setFlavorTextEntity(entity: entity)
+                return
+            }
             let player: Player = playerType == .player ? game.player : game.opponent
             let data = getMercAbilities(player: player)
             let abilities = data[entity.zonePosition - 1]
@@ -149,12 +196,13 @@ class BoardMinionView: NSView {
     }
     
     override func mouseExited(with event: NSEvent) {
-        self.parent.mousedOver = false
-        self.parent.clearAbilitiesVisibility()
-        NotificationCenter.default
-            .post(name: Notification.Name(rawValue: Events.hide_floating_card), object: nil,
-                  userInfo: [ "card": self.card as Any])
-        self.card = nil
+        parent.mousedOver = false
+        parent.clearAbilitiesVisibility()
+        clearMercHover()
+        let game = AppDelegate.instance().coreManager.game
+        if !game.isMercenariesMatch() {
+            game.windowManager.show(controller: game.windowManager.flavorText, show: false)
+        }
     }
 }
 
@@ -199,7 +247,7 @@ class BoardOverlayView: NSView {
         }
         let frame = SizeHelper.opponentBoardOverlay()
         let w = SizeHelper.minionWidth
-        let m = SizeHelper.mercenariesMinionMargin
+        let m = game.isMercenariesMatch() ? SizeHelper.mercenariesMinionMargin :  SizeHelper.minionMargin
         let abilitySize = SizeHelper.abilitySize()
         let overlayHeight = SizeHelper.boardOverlayHeight()
         let yOff = playerType == .player ? abilitySize + overlayHeight * 0.14: 0
@@ -219,14 +267,15 @@ class BoardOverlayView: NSView {
                 addSubview(minions[i])
             }
             
-            let abilityRect = NSRect(x: fr.minX, y: aOff, width: fr.width, height: abilitySize)
-            abilities[i].frame = abilityRect
-//            abilities[i].isHidden = playerType == .player ? !Settings.showMercsPlayerAbilities : !Settings.showMercsOpponentAbilities
-            if !abilities[i].isDescendant(of: self) {
-                addSubview(abilities[i])
+            if game.isMercenariesMatch() {
+                let abilityRect = NSRect(x: fr.minX, y: aOff, width: fr.width, height: abilitySize)
+                abilities[i].frame = abilityRect
+                if !abilities[i].isDescendant(of: self) {
+                    addSubview(abilities[i])
+                }
+                
+                abilities[i].setAbilities(abilities: mercAbilities?[i], abilitySize: abilitySize, parentFrame: abilityRect)
             }
-            
-            abilities[i].setAbilities(abilities: mercAbilities?[i], abilitySize: abilitySize, parentFrame: abilityRect)
         }
         for i in cnt..<7 {
             minions[i].frame = NSRect.zero
@@ -235,9 +284,11 @@ class BoardOverlayView: NSView {
             if minions[i].isDescendant(of: self) {
                 minions[i].removeFromSuperview()
             }
-            abilities[i].frame = NSRect.zero
-            if abilities[i].isDescendant(of: self) {
-                abilities[i].removeFromSuperview()
+            if game.isMercenariesMatch() {
+                abilities[i].frame = NSRect.zero
+                if abilities[i].isDescendant(of: self) {
+                    abilities[i].removeFromSuperview()
+                }
             }
         }
         needsLayout = true
@@ -268,21 +319,21 @@ class BoardOverlayView: NSView {
             for i in 0 ..< 7 {
                 if hoverIndex <= center {
                     // tooltip to the right
-                    if i <= hoverIndex {
+                    if i <= hoverIndex && game.isMercenariesMatch() {
                         abilities[i].isHidden = false
                     } else {
                         abilities[i].isHidden = true
                     }
                 } else {
                     // tooltip to the left
-                    if i >= hoverIndex {
+                    if i >= hoverIndex && game.isMercenariesMatch() {
                         abilities[i].isHidden = false
                     } else {
                         abilities[i].isHidden = true
                     }
                 }
             }
-            if excludeIndex {
+            if excludeIndex || !game.isMercenariesMatch() {
                 abilities[hoverIndex].isHidden = true
             }
         }
