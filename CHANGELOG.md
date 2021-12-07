@@ -1,3 +1,14 @@
+# 2.0.5
+## New
+# Add support for Alterac Valley cards
+# Show flavor text for cards on ther board
+## Fixes
+- Track tradeable cards
+- Fix secrets issues
+- Fix data leak with Pack Mule
+- Get right number of players on BG custom lobbies
+- Hide turn timer in Mercenaries
+
 # 2.0.4
 ## New
 # Add support for patch 22.0
