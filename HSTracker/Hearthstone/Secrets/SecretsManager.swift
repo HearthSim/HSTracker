@@ -508,11 +508,18 @@ class SecretsManager {
             if game.opponentSecretCount > 1 {
                 usleep(useconds_t(1000 * multipleSecretResolveDelay))
             }
-            
+            // Counterspell/Ice trap order may matter in rare edge cases where both are in play.
+            // This is currently not handled.
             exclude.append(CardIds.Secrets.Mage.Counterspell)
             
             if _triggeredSecrets.any({ x in CardIds.Secrets.Mage.Counterspell == x.cardId }) {
-                self.exclude(cardIds: exclude)
+                self.exclude(cardIds: [CardIds.Secrets.Mage.Counterspell])
+                return
+            }
+            
+            exclude.append(CardIds.Secrets.Hunter.IceTrap)
+            if _triggeredSecrets.any({ x in CardIds.Secrets.Hunter.IceTrap == x.cardId }) {
+                self.exclude(cardIds: [CardIds.Secrets.Hunter.IceTrap])
                 return
             }
 

@@ -407,6 +407,8 @@
 		B800FCA62732AA9100AFBD51 /* MercenariesTaskListButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B800FCA52732AA9100AFBD51 /* MercenariesTaskListButton.swift */; };
 		B800FCAA2732FABD00AFBD51 /* MercenariesTaskListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B800FCA92732FABD00AFBD51 /* MercenariesTaskListView.swift */; };
 		B800FCAC273318DA00AFBD51 /* MercenariesTaskListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B800FCAB273318DA00AFBD51 /* MercenariesTaskListView.xib */; };
+		B823E801275FB89400747CAF /* FlavorText.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88364FB275D746D0094D8E1 /* FlavorText.swift */; };
+		B823E802275FB89900747CAF /* FlavorText.xib in Resources */ = {isa = PBXBuildFile; fileRef = B88364F9275D6FE10094D8E1 /* FlavorText.xib */; };
 		B82E7B14262A533F00C42EF0 /* MulliganToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E7B13262A533F00C42EF0 /* MulliganToastView.swift */; };
 		B82E7B16262A798000C42EF0 /* ShortIdHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E7B15262A798000C42EF0 /* ShortIdHelper.swift */; };
 		B82E7B19262A88DB00C42EF0 /* BigInt in Frameworks */ = {isa = PBXBuildFile; productRef = B82E7B18262A88DB00C42EF0 /* BigInt */; };
@@ -2164,6 +2166,7 @@
 				43640BE11E89A25F00FAFD07 /* Resources in Resources */,
 				B85A0D582730370D006D2648 /* BoardOverlay.xib in Resources */,
 				B8643D072759815D00B2D708 /* MercenariesTask.xib in Resources */,
+				B823E802275FB89900747CAF /* FlavorText.xib in Resources */,
 				B8643D032759815200B2D708 /* MercenariesTaskListView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2722,6 +2725,7 @@
 				F7ED551A212A40D90085ABA9 /* UploadCollectionData.swift in Sources */,
 				43C1CA691E96CD6F008C20B1 /* EntityInfo.swift in Sources */,
 				43C1CA6A1E96CD6F008C20B1 /* Game.swift in Sources */,
+				B823E801275FB89400747CAF /* FlavorText.swift in Sources */,
 				43C1CA6B1E96CD6F008C20B1 /* CoreManager.swift in Sources */,
 				43C1CA6C1E96CD6F008C20B1 /* LogLine.swift in Sources */,
 				43C1CA6D1E96CD6F008C20B1 /* LogLineNamespace.swift in Sources */,

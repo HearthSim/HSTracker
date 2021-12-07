@@ -412,7 +412,7 @@ class SecretTests: HSTrackerTests {
         game.secretsManager?.handleCardPlayed(entity: playerSpell1)
 
         verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All,
-                      triggered: [CardIds.Secrets.Hunter.CatTrick])
+                      triggered: [CardIds.Secrets.Hunter.CatTrick, CardIds.Secrets.Hunter.IceTrap])
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
                       triggered: [CardIds.Secrets.Mage.Counterspell,
                                   CardIds.Secrets.Mage.Spellbender,
@@ -426,7 +426,7 @@ class SecretTests: HSTrackerTests {
         game.secretsManager?.handleCardPlayed(entity: playerSpell2)
 
         verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All,
-                      triggered: [CardIds.Secrets.Hunter.CatTrick])
+                      triggered: [CardIds.Secrets.Hunter.CatTrick, CardIds.Secrets.Hunter.IceTrap])
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
                       triggered: [CardIds.Secrets.Mage.Counterspell,
                                   CardIds.Secrets.Mage.ManaBind,
@@ -440,7 +440,7 @@ class SecretTests: HSTrackerTests {
         game.secretsManager?.handleCardPlayed(entity: playerSpell2)
         
         verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All,
-                      triggered: [CardIds.Secrets.Hunter.CatTrick])
+                      triggered: [CardIds.Secrets.Hunter.CatTrick, CardIds.Secrets.Hunter.IceTrap])
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
                       triggered: [CardIds.Secrets.Mage.Counterspell,
                                   CardIds.Secrets.Mage.ManaBind,
