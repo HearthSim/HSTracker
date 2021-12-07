@@ -768,6 +768,14 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler, cardId: target, count: 3)
                         case CardIds.Collectible.Rogue.LoanShark:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.TheCoinBasic)
+                        case CardIds.Collectible.Warlock.SeedsOfDestruction:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Warlock.DreadlichTamsin_FelRiftToken, count: 3)
+                        case CardIds.Collectible.Mage.BuildASnowman:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Mage.BuildaSnowman_BuildASnowbruteToken)
+                        case CardIds.Collectible.Warrior.Scrapsmith:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Warrior.Scrapsmith_ScrappyGruntToken)
+                        case CardIds.Collectible.Neutral.RamCommander:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.RamCommander_BattleRamToken)
                         default:
                             if let card = Cards.any(byId: actionStartingCardId) {
                                 if (player != nil && player![.current_player] == 1

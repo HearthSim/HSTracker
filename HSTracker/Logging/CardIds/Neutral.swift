@@ -29,6 +29,7 @@
 
 import Foundation
 
+// MARK: - Collectible
 extension CardIds.Collectible {
     struct Neutral {
         static let TwilightGuardian: String = "AT_017"
@@ -606,9 +607,11 @@ extension CardIds.Collectible {
         static let TransferStudent = "SCH_199"
         static let MailboxDancer = "SW_070"
         static let NorthshireFarmer = "SW_064"
+        static let RamCommander = "AV_219"
     }
 }
 
+// MARK: - NonCollectible
 extension CardIds.NonCollectible {
     struct Neutral {
         static let DeadlyPoison_DeadlyPoisonEnchantment: String = "CS2_074e"
@@ -2244,6 +2247,7 @@ extension CardIds.NonCollectible {
         static let Mankrik_OlgraMankriksWifeToken = "BAR_721t"
         static let MaestraoftheMasquerade_DisguiseEnchantment = "SW_050e"
         static let Sneed_Replicate = "BG21_HERO_030pe"
+        static let RamCommander_BattleRamToken = "AV_219t"
     }
 }
 

@@ -29,6 +29,7 @@
 
 import Foundation
 
+// MARK: - Collectible
 extension CardIds.Collectible {
     struct Warrior {
         static let Bash: String = "AT_064"
@@ -131,9 +132,11 @@ extension CardIds.Collectible {
         static let EmberscaleDrake = "TRL_323"
         static let DragonRoar = "TRL_362"
         static let ConditioningRank1 = "BAR_842"
+        static let Scrapsmith = "AV_323"
     }
 }
 
+// MARK: - NonCollectible
 extension CardIds.NonCollectible {
     struct Warrior {
         static let ArmorUp: String = "CS2_102"
@@ -205,6 +208,7 @@ extension CardIds.NonCollectible {
         static let AkalisHorn = "TRLA_171"
         static let ConditioningRank1_ConditioningRank2Token = "BAR_842t"
         static let ConditioningRank1_ConditioningRank3Token = "BAR_842t2"
+        static let Scrapsmith_ScrappyGruntToken = "AV_323t"
     }
 }
 
