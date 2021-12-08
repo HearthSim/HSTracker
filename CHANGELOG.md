@@ -1,7 +1,7 @@
 # 2.0.5
 ## New
-# Add support for Alterac Valley cards
-# Show flavor text for cards on ther board
+- Add support for Alterac Valley cards
+- Show flavor text for cards on the board
 ## Fixes
 - Track tradeable cards
 - Fix secrets issues
