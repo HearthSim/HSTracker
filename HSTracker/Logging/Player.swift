@@ -470,6 +470,14 @@ final class Player {
             logger.info("\(debugName) \(#function) \(entity)")
         }
     }
+    
+    func handToDeck(entity: Entity, turn: Int) {
+        entity.info.turn = turn
+        entity.info.returned = true
+        if Settings.fullGameLog {
+            logger.info("\(debugName) \(#function) \(entity)")
+        }
+    }
 
     func boardToDeck(entity: Entity, turn: Int) {
         entity.info.turn = turn

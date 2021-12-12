@@ -12,6 +12,7 @@ import Wrap
 class EntityInfo {
     private unowned var _entity: Entity
     private var _latestCardId: String?
+    var drawerId: Int?
     var discarded = false
     var returned = false
     var mulliganed = false

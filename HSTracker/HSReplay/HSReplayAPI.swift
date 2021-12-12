@@ -92,7 +92,32 @@ class HSReplayAPI {
         }
     }
 
-    static func claimBattleTag(account_hi: Int, account_lo: Int, battleTag: String) -> Promise<ClaimBlizzardAccountResponse> {
+//    static func claimBlizzardAccount(account_hi: Int64, account_lo: Int64, battleTag: String) async -> ClaimBlizzardAccountResponse {
+//        await withCheckedContinuation { continuation in
+//            oauthswift.startAuthorizedRequest("\(HSReplay.claimBattleTagUrl)/\(account_hi)/\(account_lo)/", method: .POST,
+//                                              parameters: ["battletag": battleTag], headers: defaultHeaders,
+//                                              onTokenRenewal: tokenRenewalHandler,
+//                                              completionHandler: { result in
+//                                                  switch result {
+//                                                  case .success:
+//                                                      continuation.resume(returning: .success)
+//                                                      return
+//                                                  case .failure(let error):
+//                                                      logger.error(error)
+//                                                      if error.description.contains("account_already_claimed") {
+//                                                          continuation.resume(returning: .tokenAlreadyClaimed)
+//                                                          return
+//                                                      } else {
+//                                                          continuation.resume(returning: .error)
+//                                                          return
+//                                                      }
+//                                                  }
+//                                              }
+//                                          )
+//        }
+//    }
+    
+    static func claimBattleTag(account_hi: Int64, account_lo: Int64, battleTag: String) -> Promise<ClaimBlizzardAccountResponse> {
         return Promise<ClaimBlizzardAccountResponse> { seal in
             oauthswift.startAuthorizedRequest("\(HSReplay.claimBattleTagUrl)/\(account_hi)/\(account_lo)/", method: .POST,
                 parameters: ["battletag": battleTag], headers: defaultHeaders,
@@ -167,13 +192,45 @@ class HSReplayAPI {
         }
     }
     
-    private static func getUploadCollectionToken() -> Promise<String> {
+//    private static func getUploadCollectionToken(type: CollectionType) async throws -> String {
+//        guard let accountId = MirrorHelper.getAccountId() else {
+//            throw HSReplayError.missingAccount
+//        }
+//        return try await withCheckedThrowingContinuation { continuation in
+//            oauthswift.startAuthorizedRequest("\(HSReplay.collectionTokensUrl)", method: .GET, parameters: ["account_hi": accountId.hi, "account_lo": accountId.lo, "type": type == .constructed ? "CONSTRUCTED" : "MERCENARIES"], headers: defaultHeaders, onTokenRenewal: tokenRenewalHandler,
+//                                              completionHandler: { result in
+//                switch result {
+//                case .success(let response):
+//                    do {
+//                        guard let json = try response.jsonObject() as? [String: Any], let token = json["url"] as? String else {
+//                            logger.error("HSReplay: Unexpected JSON \(response.string ?? "")")
+//                            continuation.resume(throwing: HSReplayError.collectionUploadMissingURL)
+//                            return
+//                        }
+//                        logger.info("HSReplay: obtained new collection upload json: \(json)")
+//                        continuation.resume(returning: token)
+//                        return
+//                    } catch {
+//                        logger.error("HSReplay: unknown error get upload token: \(error)")
+//                        continuation.resume(throwing: HSReplayError.missingAccount)
+//                        return
+//                    }
+//                case .failure(let error):
+//                    logger.error(error)
+//                    continuation.resume(throwing: HSReplayError.authorizationTokenNotSet)
+//                    return
+//                }
+//            })
+//        }
+//    }
+    
+    private static func getUploadCollectionToken(collectionType: CollectionType) -> Promise<String> {
         return Promise<String> { seal in
             guard let accountId = MirrorHelper.getAccountId() else {
                 seal.reject(HSReplayError.missingAccount)
                 return
             }
-            oauthswift.startAuthorizedRequest("\(HSReplay.collectionTokensUrl)", method: .GET, parameters: ["account_hi": accountId.hi, "account_lo": accountId.lo], headers: defaultHeaders, onTokenRenewal: tokenRenewalHandler,
+            oauthswift.startAuthorizedRequest("\(HSReplay.collectionTokensUrl)", method: .GET, parameters: ["account_hi": accountId.hi, "account_lo": accountId.lo, "type": collectionType == .constructed ? "CONSTRUCTED" : "MERCENARIES"], headers: defaultHeaders, onTokenRenewal: tokenRenewalHandler,
                                               completionHandler: { result in
                                                 switch result {
                                                 case .success(let response):
@@ -196,77 +253,69 @@ class HSReplayAPI {
         }
     }
     
-    private static func uploadCollectionInternal(collectionData: UploadCollectionData, url: String, seal: Resolver<CollectionUploadResult>) {
+//    static func updateCollection(collection: Collection) async -> Bool {
+//        do {
+//            let token = try await getUploadCollectionToken(type: .constructed)
+//            let upload = Http(url: token)
+//            if let data = try? JSONEncoder().encode(collection) {
+//                if let result = await upload.uploadAsync(method: .put, data: data, headers: [ "Content-Type": "application/json" ]) {
+//                    logger.debug("Upload result: \(result)")
+//                }
+//                return true
+//            } else {
+//                logger.error("JSON conversion failed")
+//                return false
+//            }
+//        } catch {
+//            return false
+//        }
+//    }
+//
+//    static func updateMercenariesCollection(collection: MercenariesCollection) async -> Bool {
+//        do {
+//            let token = try await getUploadCollectionToken(type: .mercenaries)
+//            let upload = Http(url: token)
+//            if let data = try? JSONEncoder().encode(collection) {
+//                if let result = await upload.uploadAsync(method: .put, data: data, headers: [ "Content-Type": "application/json" ]) {
+//                    logger.debug("Upload result: \(result)")
+//                }
+//                return true
+//            } else {
+//                logger.error("JSON conversion failed")
+//                return false
+//            }
+//        } catch {
+//            return false
+//        }
+//    }
+
+    private static func uploadCollectionInternal(collection: CollectionBase, url: String, seal: Resolver<Bool>) {
         let upload = Http(url: url)
         let enc = JSONEncoder()
-        if let data = try? enc.encode(collectionData) {
+        if let data = try? enc.encode(collection) {
             upload.uploadPromise(method: .put, headers: [ "Content-Type": "application/json" ], data: data).done { data in
                 if data != nil {
-                    seal.fulfill(.successful)
+                    seal.fulfill(true)
                 }
             }.catch { error in
-                seal.fulfill(.failed(error: error.localizedDescription))
+                logger.error(error)
+                seal.fulfill(false)
             }
         } else {
-            seal.fulfill(.failed(error: "JSON convertion failed"))
+            seal.fulfill(false)
         }
     }
     
-    static func uploadCollection(collectionData: UploadCollectionData) -> Promise<CollectionUploadResult> {
-        return Promise<CollectionUploadResult> { seal in
-            guard let accountId = MirrorHelper.getAccountId() else {
-                seal.reject(HSReplayError.missingAccount)
-                return
-            }
-            let hi = accountId.hi.intValue
-            let lo = accountId.lo.intValue
-            if !(accountData?.blizzard_accounts.any({ x in x.account_hi == hi && x.account_lo == lo }) ?? false) {
-                if let battleTag = MirrorHelper.getBattleTag() {
-                    HSReplayAPI.claimBattleTag(account_hi: hi, account_lo: lo, battleTag: battleTag).done { result in
-                        switch result {
-                        case .success:
-                            logger.info("Successfully claimed battletag \(battleTag)")
-                            getAccount().done { result in
-                                switch result {
-                                case .success(account: let data):
-                                    self.accountData = data
-                                case .failed:
-                                    logger.debug("Failed to update account data")
-                                }
-                            }.catch { error in
-                                seal.reject(error)
-                            }
-                            getUploadCollectionToken().done { url in
-                                uploadCollectionInternal(collectionData: collectionData, url: url, seal: seal)
-                            }.catch { error in
-                                seal.reject(error)
-                            }
-                        case .tokenAlreadyClaimed:
-                            let message = "Your blizzard account (\(battleTag), \(hi)-\(lo)) is already attached to another HSReplay.net Account. You are currently logged in as \(accountData?.username ?? ""). Please contact us at contact@hsreplay.net if this is not correct."
-                            logger.error(message)
-                            seal.fulfill(.failed(error: message))
-                        case .error:
-                            let message = "Could not attach your Blizzard account (\(battleTag), \(hi)-\(lo)) to HSReplay.net Account (\(accountData?.username ?? "")). Please try again later or contact us at contact@hsreplay.net if this persists."
-                            seal.fulfill(.failed(error: message))
-                        }
-                    }.catch { error in
-                        logger.error(error)
-                        seal.reject(HSReplayError.genericError(message: error.localizedDescription))
-                    }
-                } else {
-                    seal.reject(HSReplayError.missingAccount)
-                }
-            } else {
-                getUploadCollectionToken().done { url in
-                    uploadCollectionInternal(collectionData: collectionData, url: url, seal: seal)
-                }.catch { error in
-                    logger.error(error)
-                    seal.reject(HSReplayError.genericError(message: error.localizedDescription))
-                }
+    static func uploadCollection(collection: CollectionBase, collectionType: CollectionType) -> Promise<Bool> {
+        return Promise<Bool> { seal in
+            getUploadCollectionToken(collectionType: collectionType).done { url in
+                uploadCollectionInternal(collection: collection, url: url, seal: seal)
+            }.catch { error in
+                seal.reject(error)
             }
         }
     }
-    
+
     private static func parseAccountData(data: Data) -> AccountData? {
         let decoder = JSONDecoder()
         do {

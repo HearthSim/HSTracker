@@ -348,6 +348,7 @@ enum GameTag: Int, WrappableEnum, CaseIterable, Codable {
     proxy_galakrond = 1190,
     mega_windfury = 1207,
     creator_dbid = 1284,
+    allow_move_minion = 1356,
     next_opponent_player_id = 1360,
     invoke_counter = 1366,
     player_leaderboard_place = 1373,
@@ -358,8 +359,19 @@ enum GameTag: Int, WrappableEnum, CaseIterable, Codable {
     bacon_hero_can_be_drafted = 1491,
     dormant = 1518,
     copied_from_entity_id = 1565,
+    lettuce_controller = 1653,
+    lettuce_ability_owner = 1654,
+    lettuce_current_cooldown = 1670,
+    lettuce_ability_tile_visual_all_visible = 1697,
+    lettuce_ability_tile_visual_self_only = 1698,
+    fake_zone = 1702,
+    fake_zone_position = 1703,
+    tradeable = 1720,
     questline = 1725,
-    bacon_skin = 2038
+    lettuce_is_equipment = 1855,
+    dont_show_in_history = 2015,
+    bacon_skin = 2038,
+    lettuce_show_opposing_fake_hand = 2224
 
     init?(rawString: String) {
         let string = rawString.lowercased()

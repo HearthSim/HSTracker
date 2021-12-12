@@ -187,8 +187,8 @@ struct MirrorHelper {
         return result
     }
     
-    static func getBattlegroundsRatingChange() -> MirrorBattlegroundsRatingChange? {
-        var result: MirrorBattlegroundsRatingChange?
+    static func getBattlegroundsRatingChange() -> MirrorRatingChange? {
+        var result: MirrorRatingChange?
         MirrorHelper.accessQueue.sync {
             result = mirror?.getBattlegroundsRatingChange()
         }
@@ -309,6 +309,66 @@ struct MirrorHelper {
         var result: MirrorRewardTrackData?
         MirrorHelper.accessQueue.sync {
             result = mirror?.getRewardTrackData()
+        }
+        return result
+    }
+
+    static func getMercenariesRating() -> Int? {
+        var result: Int?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getMercenariesRating() as? Int? ?? nil
+        }
+        return result
+    }
+    
+    static func getMercenariesRatingChange() -> MirrorRatingChange? {
+        var result: MirrorRatingChange?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getMercenariesRatingChange()
+        }
+        return result
+    }
+    
+    static func getMercenariesMapInfo() -> MirrorMercenariesMapInfo? {
+        var result: MirrorMercenariesMapInfo?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getMercenariesMapInfo()
+        }
+        return result
+    }
+    
+    static func getMercenariesVisitorTasks() -> [MirrorMercenariesVisitorTask]? {
+        var result: [MirrorMercenariesVisitorTask]?
+        
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getMercenariesVisitorTasks()
+        }
+        return result
+    }
+    
+    static func getMercenariesTaskData() -> [MirrorMercenariesTaskData]? {
+        var result: [MirrorMercenariesTaskData]?
+        
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getMercenariesTaskData()
+        }
+        return result
+    }
+    
+    static func getMercenariesInCollection() -> [MirrorMercenaryData]? {
+        var result: [MirrorMercenaryData]?
+        
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getMercenariesInCollection()
+        }
+        return result
+    }
+    
+    static func getMercenariesCollection() -> [MirrorCollectionMercenary]? {
+        var result: [MirrorCollectionMercenary]?
+        
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getMercenariesCollection()
         }
         return result
     }

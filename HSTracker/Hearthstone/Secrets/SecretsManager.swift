@@ -9,8 +9,8 @@
 import Foundation
 
 class SecretsManager {
-    let avengeDelay: Double = 50
-    let multipleSecretResolveDelay = 750
+    let avengeDelay: Double = 50.0 / 1000.0
+    let multipleSecretResolveDelay = 750.0 / 1000.0
     private var _avengeDeathRattleCount = 0
     private var _awaitingAvenge = false
     private var _lastStartOfTurnDamageCheck = 0
@@ -205,10 +205,12 @@ class SecretsManager {
 
         var exclude: [MultiIdCard] = []
         
-        exclude.append(CardIds.Secrets.Paladin.JudgementofJustice)
-
         if freeSpaceOnBoard {
             exclude.append(CardIds.Secrets.Paladin.NobleSacrifice)
+        }
+        
+        if !attacker.isHero {
+            exclude.append(CardIds.Secrets.Paladin.JudgementofJustice)
         }
 
         if defender.isHero {
@@ -425,7 +427,7 @@ class SecretsManager {
             }
         }
         
-        if damage >= 3 && entity.isMinion && entity.isControlled(by: game.opponent.id) {
+        if damage >= 3 && entity.isMinion && entity.isControlled(by: game.opponent.id) && entity[.zone] != Zone.graveyard.rawValue {
             exclude(cardId: CardIds.Secrets.Paladin.Reckoning)
         }
     }
@@ -506,11 +508,18 @@ class SecretsManager {
             if game.opponentSecretCount > 1 {
                 usleep(useconds_t(1000 * multipleSecretResolveDelay))
             }
-            
+            // Counterspell/Ice trap order may matter in rare edge cases where both are in play.
+            // This is currently not handled.
             exclude.append(CardIds.Secrets.Mage.Counterspell)
             
             if _triggeredSecrets.any({ x in CardIds.Secrets.Mage.Counterspell == x.cardId }) {
-                self.exclude(cardIds: exclude)
+                self.exclude(cardIds: [CardIds.Secrets.Mage.Counterspell])
+                return
+            }
+            
+            exclude.append(CardIds.Secrets.Hunter.IceTrap)
+            if _triggeredSecrets.any({ x in CardIds.Secrets.Hunter.IceTrap == x.cardId }) {
+                self.exclude(cardIds: [CardIds.Secrets.Hunter.IceTrap])
                 return
             }
 

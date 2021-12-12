@@ -27,5 +27,10 @@ enum GameType: Int {
     gt_battlegrounds = 23,
     gt_battlegrounds_friendly = 24,
     gt_pvpdr_paid = 28,
-    gt_pvpdr = 29
+    gt_pvpdr = 29,
+    gt_mercenaries_pvp = 30,
+    gt_mercenaries_pve = 31,
+    gt_mercenaries_pve_coop = 32,
+    gt_mercenaries_ai_vs_ai = 33,
+    gt_mercenaries_friendly = 34
 }

@@ -153,6 +153,8 @@ protocol PowerEventHandler: AnyObject {
 	func playerRemoveFromPlay(entity: Entity, turn: Int)
 	
 	func opponentGet(entity: Entity, turn: Int, id: Int)
+    
+    func opponentHandToDeck(entity: Entity, cardId: String?, turn: Int)
 	
 	func opponentPlayToHand(entity: Entity, cardId: String?, turn: Int, id: Int)
 	
@@ -168,7 +170,7 @@ protocol PowerEventHandler: AnyObject {
 	
 	func opponentMulligan(entity: Entity, from: Int)
 	
-	func opponentDraw(entity: Entity, turn: Int)
+    func opponentDraw(entity: Entity, turn: Int, cardId: String, drawerId: Int?)
 	
 	func opponentRemoveFromDeck(entity: Entity, turn: Int)
 	
@@ -214,4 +216,6 @@ protocol PowerEventHandler: AnyObject {
     func handleOpponentHandCostReduction(value: Int)
     
     func handleEntityLostArmor(entity: Entity, value: Int)
+    
+    func handleMercenariesStateChange()
 }

@@ -26,7 +26,10 @@ enum Step: Int, CaseIterable {
     final_wrapup = 14,
     final_gameover = 15,
     main_cleanup = 16,
-    main_start_triggers = 17
+    main_start_triggers = 17,
+    main_set_action_step_type = 18,
+    main_pre_action = 19,
+    main_post_action = 20
     
     init?(rawString: String) {
         let string = rawString.lowercased()

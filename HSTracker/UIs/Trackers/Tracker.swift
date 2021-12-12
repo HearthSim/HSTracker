@@ -583,7 +583,7 @@ extension Tracker: CardCellHover {
 
         let windowRect = self.window!.frame
 
-        let hoverFrame = NSRect(x: 0, y: 0, width: 256, height: 350)
+        let hoverFrame = NSRect(x: 0, y: 0, width: 256, height: 388)
 
         var x: CGFloat
         // decide if the popup window should on the left or right side of the tracker
@@ -596,38 +596,15 @@ extension Tracker: CardCellHover {
         let cellFrameRelativeToWindow = cell.convert(cell.bounds, to: nil)
         let cellFrameRelativeToScreen = cell.window?.convertToScreen(cellFrameRelativeToWindow)
 
-        let y: CGFloat = cellFrameRelativeToScreen!.origin.y
+        let y: CGFloat = cellFrameRelativeToScreen!.origin.y - hoverFrame.height / 2.0
 
         let frame = [x, y, hoverFrame.width, hoverFrame.height]
 
-        var userinfo = [
+        let userinfo = [
             "card": card,
-            "frame": frame
+            "frame": frame,
+            "useFrame": true
         ] as [String: Any]
-
-        if self.playerType == .player && Settings.showTopdeckchance {
-			
-            semaphore.wait()
-            let playercardlist: [Card] = self.animatedCards.map { $0.card! }
-            semaphore.signal()
-            
-            let remainingcardsindeck = playercardlist.reduce(0) { $0 + $1.count}
-            if let cardindeck = playercardlist.first(where: { $0.id == card.id }) {
-                let cardindeckcount = cardindeck.count
-                // probability that the top card is the one
-                let Pfirst = Float(cardindeckcount) / Float(remainingcardsindeck)
-                userinfo["drawchancetop"] = Pfirst * 100.0
-
-                // probability that the card is in the first 2 cards
-                var drawchancetop2: Float = 0.0
-                if remainingcardsindeck > 1 {
-                    let Psecond = Float(cardindeckcount) / Float(remainingcardsindeck-1)
-                    drawchancetop2 = Pfirst + ((1-Pfirst) * Psecond )
-                }
-                userinfo["drawchancetop2"] = drawchancetop2 * 100.0
-                userinfo["frame"] = frame
-            }
-        }
 
         NotificationCenter.default
             .post(name: Notification.Name(rawValue: Events.show_floating_card),

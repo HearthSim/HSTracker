@@ -199,6 +199,18 @@ struct SizeHelper {
     static var screenRatio: CGFloat {
         return (4.0 / 3.0) / (hearthstoneWindow.width / hearthstoneWindow.height)
     }
+    
+    static var minionWidth: CGFloat {
+        return hearthstoneWindow.width * 0.63 / 7 * screenRatio
+    }
+    
+    static var mercenariesMinionMargin: CGFloat {
+        return hearthstoneWindow.width * screenRatio * 0.01
+    }
+
+    static var minionMargin: CGFloat {
+        return hearthstoneWindow.width * screenRatio * 0.0029
+    }
 
     static func overHearthstoneFrame() -> NSRect {
         let frame = hearthstoneWindow.frame
@@ -399,7 +411,84 @@ struct SizeHelper {
         let frame = NSRect(x: hearthstoneWindow.frame.width - w - trackerWidth - 10, y: 10, width: w, height: h)
         return hearthstoneWindow.relativeFrame(frame, relative: false)
     }
+    
+    static func boardOverlayHeight() -> Double {
+        return hearthstoneWindow.height * 0.158
+    }
+    
+    static func abilitySize() -> Double {
+        return boardOverlayHeight() * 0.28
+    }
+    
+    static func opponentBoardOverlay() -> NSRect {
+        let width = hearthstoneWindow.width
+        let height = hearthstoneWindow.height
+        let frame = hearthstoneWindow.frame
+        let game = AppDelegate.instance().coreManager.game
+        let step = game.gameEntity?[.step] ?? 0
+        let isMainAction = step == Step.main_action.rawValue || step == Step.main_post_action.rawValue || step == Step.main_pre_action.rawValue
+        let mercsToNominate = game.gameEntity?.has(tag: .allow_move_minion) ?? false
+        
+        let overlayHeight = boardOverlayHeight()
+        let margin = overlayHeight * 0.12
+        let opponentBoardOffset = game.isMercenariesMatch() && isMainAction && !mercsToNominate ? height * 0.142 : height * 0.045
+        let result = NSRect(x: frame.minX, y: frame.minY + height - (height / 2 - overlayHeight - opponentBoardOffset) - overlayHeight, width: width, height: overlayHeight + abilitySize() + margin)
+        return result
+    }
 
+    static func playerBoardOverlay() -> NSRect {
+        let width = hearthstoneWindow.width
+        let height = hearthstoneWindow.height
+        let frame = hearthstoneWindow.frame
+        let game = AppDelegate.instance().coreManager.game
+        let step = game.gameEntity?[.step] ?? 0
+        let isMainAction = step == Step.main_action.rawValue || step == Step.main_post_action.rawValue || step == Step.main_pre_action.rawValue
+        let mercsToNominate = game.gameEntity?.has(tag: .allow_move_minion) ?? false
+
+        let overlayHeight = boardOverlayHeight()
+        let margin = overlayHeight * 0.14
+        let playerBoardOffset = game.isMercenariesMatch() ? isMainAction && !mercsToNominate ? height * -0.09 : height * 0.003 : height * 0.03
+        let result = NSRect(x: frame.minX, y: frame.minY + height - (height / 2 - playerBoardOffset) - overlayHeight - abilitySize() - margin, width: width, height: overlayHeight + abilitySize() + margin)
+        return result
+    }
+    
+    static func mercenariesButtonOffset() -> Double {
+        let h = hearthstoneWindow.height
+        if AppDelegate.instance().coreManager.game.isInMenu && screenRatio > 0.9 {
+            return h * 0.104
+        }
+        return h * 0.05
+    }
+    
+    static func mercenariesTaskListButton() -> NSRect {
+        let w = 150.0
+        let h = 60.0
+        let height = hearthstoneWindow.height
+        let bottom = hearthstoneWindow.frame.minY + mercenariesButtonOffset()
+        let right = hearthstoneWindow.frame.maxX - height * 0.01
+        let frame = NSRect(x: right - w, y: bottom, width: w, height: h)
+        return frame
+    }
+
+    static func mercenariesTaskListView() -> NSRect {
+        let frame = mercenariesTaskListButton()
+        let height = hearthstoneWindow.height
+        let width = hearthstoneWindow.width / 2.0
+        let bottom = hearthstoneWindow.frame.minY + frame.height + mercenariesButtonOffset() + 8
+        
+        return NSRect(x: frame.maxX - width, y: bottom, width: width, height: height - bottom)
+    }
+    
+    static func flavorTextFrame() -> NSRect {
+        let hs = hearthstoneWindow.frame
+
+        let ft = AppDelegate.instance().coreManager.game.windowManager.flavorText.window?.frame ?? NSRect.zero
+        let w = ft.width
+        let h = ft.height
+        let frame = NSRect(x: hs.maxX - w - 10.0, y: hs.minY + 10.0, width: w, height: h)
+        return frame
+    }
+    
     static let cardHudContainerWidth: CGFloat = 400
     static let cardHudContainerHeight: CGFloat = 90
     static func cardHudContainerFrame() -> NSRect {

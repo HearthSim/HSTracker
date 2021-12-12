@@ -657,7 +657,7 @@ extension DeckManager: NSTableViewDelegate {
             updateStatsLabel()
             
             toolbar.validateVisibleItems()
-            decksTable?.setNeedsDisplay()
+            decksTable?.needsDisplay = true
         }
     }
 }

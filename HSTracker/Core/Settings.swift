@@ -197,8 +197,6 @@ final class Settings {
     static var floatingCardStyle: FloatingCardStyle
     @UserDefault(key: Settings.disable_tracking_in_spectator_mode, defaultValue: true)
     static var dontTrackWhileSpectating: Bool
-    @UserDefault(key: Settings.show_topdeck_chance, defaultValue: true)
-    static var showTopdeckchance: Bool
     @UserDefault(key: Settings.window_locked, defaultValue: true)
     static var windowsLocked: Bool
     @UserDefault(key: Settings.prefer_golden_cards, defaultValue: false)
@@ -209,6 +207,8 @@ final class Settings {
     static var showExperienceCounter: Bool
     @UserDefault(key: Settings.show_mulligan_toast, defaultValue: true)
     static var showMulliganToast: Bool
+    @UserDefault(key: Settings.show_flavor_text, defaultValue: true)
+    static var showFlavorText: Bool
     
     // MARK: - Battlegrounds
     @UserDefault(key: Settings.show_bobs_buddy, defaultValue: true)
@@ -356,6 +356,18 @@ final class Settings {
     static var preventOpponentNameCovering: Bool
     @UserDefault(key: Settings.show_deck_name, defaultValue: false)
     static var showDeckNameInTracker: Bool
+    
+    // MARK: - Mercenaries
+    @UserDefault(key: Settings.show_mercs_opponent_hover, defaultValue: true)
+    static var showMercsOpponentHover: Bool
+    @UserDefault(key: Settings.show_mercs_player_hover, defaultValue: true)
+    static var showMercsPlayerHover: Bool
+    @UserDefault(key: Settings.show_mercs_tasks, defaultValue: true)
+    static var showMercsTasks: Bool
+    @UserDefault(key: Settings.show_mercs_opponent_abilities, defaultValue: true)
+    static var showMercsOpponentAbilities
+    @UserDefault(key: Settings.show_mercs_player_abilities, defaultValue: true)
+    static var showMercsPlayerAbilities
 
     // MARK: - Importing
     @UserDefault(key: Settings.import_dungeon_include_passives, defaultValue: true)
@@ -408,7 +420,9 @@ final class Settings {
     static var hsReplayUploadBattlegroundsMatches: Bool
     @UserDefault(key: Settings.hsreplay_auto_synchronize_duels_matches, defaultValue: true)
     static var hsReplayUploadDuelsMatches: Bool
-    
+    @UserDefault(key: Settings.hsreplay_auto_synchronize_mercenaries_matches, defaultValue: true)
+    static var hsReplayUploadMercenariesMatches: Bool
+
     @UserDefault(key: Settings.theme_token, defaultValue: "dark")
     static var theme: String
 
@@ -470,12 +484,12 @@ extension Settings {
     static let show_floating_card = "show_floating_card"
     static let floating_card_style = "floating_card_style"
     static let disable_tracking_in_spectator_mode = "disable_tracking_in_spectator_mode"
-    static let show_topdeck_chance = "show_topdeck_chance"
     static let window_locked = "window_locked"
     static let prefer_golden_cards = "prefer_golden_cards"
     static let auto_deck_detection = "auto_deck_detection"
     static let show_experience_counter = "show_experience_counter"
     static let show_mulligan_toast = "show_mulligan_toast"
+    static let show_flavor_text = "show_flavor_text"
     
     // MARK: Battlegrounds
     static let show_bobs_buddy = "show_bobs_buddy"
@@ -557,6 +571,13 @@ extension Settings {
     static let import_tombs_of_terror_template = "import_tombs_of_terror_template"
     static let import_duels_template = "import_duels_template"
     
+    // MARK: - Mercenaries
+    static let show_mercs_opponent_hover = "show_mercs_opponent_hover"
+    static let show_mercs_player_hover = "show_mercs_player_hover"
+    static let show_mercs_tasks = "show_mercs_tasks"
+    static let show_mercs_opponent_abilities = "show_mercs_opponent_abilities"
+    static let show_mercs_player_abilities = "show_mercs_player_abilities"
+    
     // MARK: - HSReplay.net related preferences
     static let hsreplay_upload_token = "hsreplay_upload_token"
     static let hsreplay_username = "hsreplay_username"
@@ -574,4 +595,5 @@ extension Settings {
     static let hsreplay_auto_synchronize_spectator_matches = "hsreplay_auto_synchronize_spectator_matches"
     static let hsreplay_auto_synchronize_battlegrounds_matches = "hsreplay_auto_synchronize_battlegrounds_matches"
     static let hsreplay_auto_synchronize_duels_matches = "hsreplay_auto_synchronize_duels_matches"
+    static let hsreplay_auto_synchronize_mercenaries_matches = "hsreplay_auto_synchronize_mercenaries_matches"
 }

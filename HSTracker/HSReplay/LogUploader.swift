@@ -71,6 +71,7 @@ class LogUploader {
             completion(.failed(error: "Can not encode to json game metadata"))
             return
         }
+//        logger.debug("Upload metadata: \(wrappedMetaData)")
         logger.info("Uploading \(item.hash)")
 
         let headers = [
@@ -120,7 +121,8 @@ class LogUploader {
                     logger.info("\(item.hash) upload done: Success")
                     inProgress = inProgress.filter({ $0.hash == item.hash })
 
-                    if metaData?.metaData.gameType != BnetGameType.bgt_battlegrounds.rawValue && metaData?.metaData.gameType != BnetGameType.bgt_battlegrounds_friendly.rawValue {
+                    let gt = metaData?.metaData.gameType
+                    if gt != BnetGameType.bgt_battlegrounds.rawValue && gt != BnetGameType.bgt_battlegrounds_friendly.rawValue && gt != BnetGameType.bgt_mercenaries_pve.rawValue && gt != BnetGameType.bgt_mercenaries_pvp.rawValue && gt != BnetGameType.bgt_mercenaries_friendly.rawValue && gt != BnetGameType.bgt_mercenaries_pve_coop.rawValue {
                             guard let statId = statId,
                                 let existing = RealmHelper.getGameStat(with: statId)  else {
                                         logger.error("Can not update statistic")

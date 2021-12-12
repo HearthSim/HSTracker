@@ -39,6 +39,7 @@ final class Card {
     var techLevel = 0
     var jsonRepresentation: [String: Any] = [:]
     var hideStats = false
+    var mercenariesAbilityCooldown = 0
     
     static let multiClassGroups: [MultiClassGroup: [CardClass]] = [
         .grimy_goons: [ .hunter, .paladin, .warrior ],

@@ -1,3 +1,72 @@
+# 2.0.5
+## New
+- Add support for Alterac Valley cards
+- Show flavor text for cards on the board
+## Fixes
+- Track tradeable cards
+- Fix secrets issues
+- Fix data leak with Pack Mule
+- Get right number of players on BG custom lobbies
+- Hide turn timer in Mercenaries
+
+# 2.0.4
+## New
+# Add support for patch 22.0
+Note: HSTracker now requires MacOS 10.15 or later (Catalina)
+
+# 2.0.3
+## Fixes
+- Fixed Bob's Buddy performance for Diablo
+- Fixed Bob's Buddy speed
+- Fixed Bob's Buddy performance when two players with secrets enter combat
+- Support the new Alterac Valley cards
+- Fix Mercenaries Task view when description is long
+
+# 2.0.2
+## New
+- Add support for patch 21.8
+- Add mercenaries abilities overlay
+## Fixes
+- Removed timeout from Battlegrounds Hero selection panel
+- Fixed mercenaries tasks showing last completed task
+
+# 2.0.1
+## New
+- Add Mercenaries tasks overlay
+- Battlegrounds support for multiple Sneeds hero powers
+## Fixes
+- Fixed Bob's Buddy's interaction with Diablo
+
+# 2.0.0
+## New
+- Add Mercenaries ability hover (more to come soon)
+- Add support for patch 21.6
+## Fixes
+- Card hover only shows card, no text
+- Fixed crash during Book of Heroes
+
+# 1.9.16
+## New
+- Add support for patch 21.4
+- Mercenaries support coming in near future
+## Fixes
+- Don't show trackers for during mercenaries mode
+
+# 1.9.15
+## New
+- Enhanced Korean translations (thanks @rockmkd)
+- Add support for patch 21.3
+
+# 1.9.14
+## Fixes
+- Various BobsBuddy fixes and performance improvements
+
+# 1.9.13
+## New
+- Add support for patch 21.2
+- Enhanced zh-Hant translations (thanks @Fidetro)
+- Updated zh-Hans translations (thanks @moonfruit)
+
 # 1.9.12
 ## New
 - Add support for patch 21.0.3

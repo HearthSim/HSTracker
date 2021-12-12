@@ -211,12 +211,10 @@ class BobsBuddyInvoker {
                 if let inp = self.input {
                     if self.runSimulationAfterCombat {
                         let secrets: [Int] = self.currentOpponentSecrets.map({ $0.card.dbfId })
-                        
+                        let opponentSecrets = inp.getOpponentSecrets()
                         for i in 0..<secrets.count {
-                            // secret priority starts at 2
-                            inp.addSecretFromDbfid(id: Int32(secrets[i]), priority: Int32(i + 2))
+                            inp.addSecretFromDbfid(id: Int32(secrets[i]), target: opponentSecrets)
                         }
-                        inp.setPlayerIsAkazamarak(value: false)
                         logger.debug("Set opponent to Akazamarak with \(secrets.count) secrets.")
                     }
                     logger.debug("----- Simulation Input -----")
@@ -347,6 +345,8 @@ class BobsBuddyInvoker {
             minion.setReceivesLichKingPower(power: true)
         }
         
+        minion.setSneedsHeroCount(count: Int32(attachedEntities.filter { x in x.cardId == CardIds.NonCollectible.Neutral.Sneed_Replicate}.count))
+        
         minion.setGameId(id: Int32(ent.id))
         return minion
     }
@@ -371,21 +371,22 @@ class BobsBuddyInvoker {
         
         input.addAvailableRaces(races: game.availableRaces!)
         
-        let oppHero = game.opponent.board.first(where: { $0.isHero })
-        let playerHero = game.player.board.first(where: { $0.isHero})
+        let livingHeroes = game.entities.values.filter({ x in x.isHero && x.health > 0 && !x.isInZone(zone: Zone.removedfromgame) && x.has(tag: .player_tech_level) && (x.isControlled(by: game.player.id) || !x.isInPlay)}).count
+        input.setHeroHasDied(value: livingHeroes < game.battlegroundsHeroCount())
         
-        if oppHero == nil || playerHero == nil {
+        guard let oppHero = game.opponent.board.first(where: { $0.isHero }), let playerHero = game.player.board.first(where: { $0.isHero}) else {
             logger.error("Hero(es) could not be found. Exiting.")
             return
         }
-        var oppHealth = oppHero!.health
+        
+        var oppHealth = oppHero.health
         if oppHealth <= 0 {
             oppHealth = 1000
         }
-        input.setHealths(player: Int32(playerHero!.health), opponent: Int32(oppHealth))
+        input.setHealths(player: Int32(playerHero.health) + Int32(playerHero[.armor]), opponent: Int32(oppHealth) + Int32(oppHero[.armor]))
         
-        let playerTechLevel = playerHero![GameTag.player_tech_level]
-        let opponentTechLevel = oppHero![GameTag.player_tech_level]
+        let playerTechLevel = playerHero[GameTag.player_tech_level]
+        let opponentTechLevel = oppHero[GameTag.player_tech_level]
         input.setTiers(player: Int32(playerTechLevel), opponent: Int32(opponentTechLevel))
         
         let playerHeroPower = game.player.board.first(where: { $0.isHeroPower })
@@ -395,16 +396,16 @@ class BobsBuddyInvoker {
         
         input.setHeroPower(player: heroPowerUsed(heroPower: playerHeroPower), opponent: heroPowerUsed(heroPower: opponentHeroPower))
         
-        if playerHero?.cardId == CardIds.NonCollectible.Neutral.PrestidigitationTavernBrawl {
-            input.setPlayerIsAkazamarak(value: true)
-        }
-        
         let secrets: [Int] = game.player.secrets.map({ $0.card.dbfId })
+        
+        let playerSecrets = input.getPlayerSecrets()
         
         for i in 0..<secrets.count {
             // secret priority starts at 2
-            input.addSecretFromDbfid(id: Int32(secrets[i]), priority: Int32(i + 2))
+            input.addSecretFromDbfid(id: Int32(secrets[i]), target: playerSecrets)
         }
+        
+        input.setTurn(value: Int32(turn))
         
         currentOpponentSecrets = game.opponent.secrets
         

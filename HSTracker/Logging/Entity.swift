@@ -68,12 +68,23 @@ class Entity {
     var isCurrentPlayer: Bool {
         return has(tag: .current_player)
     }
-
+    
     func isInZone(zone: Zone) -> Bool {
-        return has(tag: .zone) ? self[.zone] == zone.rawValue : false
+        if zone.rawValue < 0 {
+            return false
+        }
+        let fake = self[.fake_zone]
+        if fake > 0 {
+            return fake == zone.rawValue
+        }
+        return self[.zone] == zone.rawValue
     }
 
     func isControlled(by controller: Int) -> Bool {
+        let lettuceController = self[.lettuce_controller]
+        if lettuceController > 0 {
+            return lettuceController == controller
+        }
         return self.has(tag: .controller) ? self[.controller] == controller : false
     }
     
@@ -168,6 +179,14 @@ class Entity {
 
     func set(cardCount count: Int) {
         card.count = count
+    }
+    
+    var zonePosition: Int {
+        let fake = self[.fake_zone_position]
+        if fake > 0 {
+            return fake
+        }
+        return self[.zone_position]
     }
 }
 

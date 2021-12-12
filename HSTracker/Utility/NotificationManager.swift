@@ -10,7 +10,7 @@ import Foundation
 
 enum NotificationType {
     case gameStart, turnStart, opponentConcede, hsReplayPush(replayId: String), hsReplayUploadFailed(error: String),
-         hsReplayCollectionUploaded, hsReplayCollectionUploadFailed(error: String)
+         hsReplayCollectionUploaded, hsReplayMercenariesCollectionUploaded, hsReplayCollectionUploadFailed(error: String), hsReplayMercenariesCollectionUploadFailed(error: String)
 }
 
 class NotificationManager {
@@ -73,6 +73,15 @@ class NotificationManager {
         case .hsReplayCollectionUploadFailed(let error):
             show(title: NSLocalizedString("HSReplay", comment: ""),
                 message: NSLocalizedString("Failed to upload collection: \(error)", comment: ""), duration: 10, fontSize: 8)
+            
+        case .hsReplayMercenariesCollectionUploaded:
+            show(title: NSLocalizedString("HSReplay", comment: ""),
+                message: NSLocalizedString("Your Mercenaries collection has been uploaded to HSReplay.net",
+                    comment: ""))
+
+        case .hsReplayMercenariesCollectionUploadFailed(let error):
+            show(title: NSLocalizedString("HSReplay", comment: ""),
+                message: NSLocalizedString("Failed to upload Mercenaries collection: \(error)", comment: ""), duration: 10, fontSize: 8)
         }
 }
 

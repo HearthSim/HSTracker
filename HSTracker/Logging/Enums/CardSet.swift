@@ -47,16 +47,19 @@ enum CardSet: String, CaseIterable {
     the_barrens, // Forged in the Barrens
     wailing_caverns,
     stormwind,
+    lettuce,
+    alterac_valley,
     legacy,
     core,
-    vanilla
+    vanilla,
+    mercenaries_dev
     
     static func deckManagerValidCardSets() -> [CardSet] {
         return [.all, .vanilla, .core, .basic, .expert1, .naxx, .gvg, .brm, .tgt,
                 .loe, .og, .kara, .gangs, .ungoro, .icecrown,
                 .lootapalooza, .gilneas, .boomsday, .troll,
                 .dalaran, .uldum, .dragons, .year_of_the_dragon,
-                .black_temple, .demon_hunter_initiate, .scholomance, .darkmoon_faire, .the_barrens, .wailing_caverns, .stormwind]
+                .black_temple, .demon_hunter_initiate, .scholomance, .darkmoon_faire, .the_barrens, .wailing_caverns, .stormwind, .alterac_valley]
     }
     
     static func wildSets() -> [CardSet] {
@@ -122,7 +125,10 @@ public enum CardSetInt: Int {
     the_barrens = 1525,
     wailing_caverns = 1559,
     stormwind = 1578,
+    lettuce = 1586,
+    alterac_valley = 1626,
     legacy = 1635,
     core = 1637,
-    vanilla = 1646
+    vanilla = 1646,
+    mercenaries_dev = 1705
 }

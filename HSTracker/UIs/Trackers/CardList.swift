@@ -169,7 +169,7 @@ extension CardList: CardCellHover {
         let offset = rect.origin.y - table!.enclosingScrollView!.documentVisibleRect.origin.y
         let windowRect = self.window!.frame
 
-        let hoverFrame = NSRect(x: 0, y: 0, width: 200, height: 300)
+        let hoverFrame = NSRect(x: 0, y: 0, width: 256, height: 388)
 
         var x: CGFloat
         if windowRect.origin.x < hoverFrame.size.width || isSecretPanel {
@@ -188,13 +188,14 @@ extension CardList: CardCellHover {
             }
         }
 
-        let frame = [x, y, hoverFrame.width, hoverFrame.height]
+        let frame = [x, y - hoverFrame.height / 2.0, hoverFrame.width, hoverFrame.height]
         NotificationCenter.default
             .post(name: Notification.Name(rawValue: Events.show_floating_card),
                                   object: nil,
                                   userInfo: [
                                     "card": card,
-                                    "frame": frame
+                                    "frame": frame,
+                                    "useFrame": true
                 ])
     }
 

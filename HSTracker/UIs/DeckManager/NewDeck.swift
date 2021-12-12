@@ -118,7 +118,7 @@ class NewDeck: NSWindowController, NSControlTextEditingDelegate {
         panel.allowedFileTypes = ["txt"]
 
         panel.beginSheetModal(for: self.window!) { (returnCode) in
-            if returnCode.rawValue == NSFileHandlingPanelOKButton {
+            if returnCode == NSApplication.ModalResponse.OK {
                 for filename in panel.urls {
                     let importer = FileImporter()
                     if let (deck, cards) = importer.fileImport(url: filename), cards.isValidDeck() {

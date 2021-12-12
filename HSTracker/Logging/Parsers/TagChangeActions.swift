@@ -21,7 +21,6 @@ struct TagChangeActions {
         case .zone: return { self.zoneChange(eventHandler: eventHandler, id: id, value: value, prevValue: prevValue) }
         case .playstate: return { self.playstateChange(eventHandler: eventHandler, id: id, value: value) }
         case .cardtype: return { self.cardTypeChange(eventHandler: eventHandler, id: id, value: value) }
-        case .last_card_played: return { self.lastCardPlayedChange(eventHandler: eventHandler, value: value) }
         case .defending: return { self.defendingChange(eventHandler: eventHandler, id: id, value: value) }
         case .attacking: return { self.attackingChange(eventHandler: eventHandler, id: id, value: value) }
         case .proposed_defender: return { self.proposedDefenderChange(eventHandler: eventHandler, value: value) }
@@ -58,6 +57,7 @@ struct TagChangeActions {
         case .player_tech_level: return { self.playerTechLevel(eventHandler: eventHandler, id: id, value: value, previous: prevValue)}
         case .player_triples: return { self.playerTriples(eventHandler: eventHandler, id: id, value: value, previous: prevValue)}
         case .armor: return { self.armorChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue)}
+        case .lettuce_ability_tile_visual_all_visible, .lettuce_ability_tile_visual_self_only, .fake_zone, .fake_zone_position: return { self.mercenariesStateChange(eventHandler: eventHandler)}
         default: return nil
         }
     }
@@ -193,29 +193,6 @@ struct TagChangeActions {
         entity.info.set(originalCardId: value)
     }
 
-    private func lastCardPlayedChange(eventHandler: PowerEventHandler, value: Int) {
-        eventHandler.lastCardPlayed = value
-        guard let playerEntity = eventHandler.playerEntity else { return }
-        guard playerEntity.isCurrentPlayer else { return }
-        
-        if let entity = eventHandler.entities[value] {
-            if !entity.isMinion {
-                return
-            }
-            
-            // check if it is a magnet buff, rather than a minion
-            if entity.has(tag: GameTag.modular) {
-                let pos = entity.tags[GameTag.zone_position]!
-                let neighbor = eventHandler.player.board.first(where: { $0.tags[GameTag.zone_position] == pos + 1 })
-                if neighbor?.card.race == Race.mechanical {
-                    return
-                }
-            }
-            
-            eventHandler.playerMinionPlayed(entity: entity)
-        }
-    }
-
     private func defendingChange(eventHandler: PowerEventHandler, id: Int, value: Int) {
         guard let entity = eventHandler.entities[id] else { return }
         eventHandler.defending(entity: value == 1 ? entity : nil)
@@ -251,6 +228,11 @@ struct TagChangeActions {
         if let entity = eventHandler.entities[id] {
             eventHandler.handleEntityLostArmor(entity: entity, value: previous - value)
         }
+    }
+    
+    private func mercenariesStateChange(eventHandler: PowerEventHandler) {
+        eventHandler.handleMercenariesStateChange()
+        
     }
 
     private func numTurnsInPlayChange(eventHandler: PowerEventHandler, id: Int, value: Int) {
@@ -342,6 +324,7 @@ struct TagChangeActions {
         if value == Step.begin_mulligan.rawValue {
             eventHandler.handleBeginMulligan()
         }
+        eventHandler.handleMercenariesStateChange()
         guard !eventHandler.setupDone && eventHandler.entities.first?.1.name == "GameEntity" else { return }
 
         logger.info("Game was already in progress.")
@@ -610,8 +593,20 @@ struct TagChangeActions {
         
         switch zoneValue {
         case .play:
+            eventHandler.lastCardPlayed = id
             if controller == eventHandler.player.id {
                 eventHandler.playerPlay(entity: entity, cardId: cardId, turn: eventHandler.turnNumber())
+                var magnetic = false
+                if entity.isMinion {
+                    if entity.has(tag: .modular) && (eventHandler.playerEntity?.isCurrentPlayer ?? false) {
+                        let pos = entity[.zone_position]
+                        let neighbour = eventHandler.player?.board.first { x in x[.zone_position] == pos + 1 }
+                        magnetic = neighbour?.card.race == .mechanical
+                    }
+                    if !magnetic {
+                        eventHandler.playerMinionPlayed(entity: entity)
+                    }
+                }
             } else if controller == eventHandler.opponent.id {
                 eventHandler.opponentPlay(entity: entity, cardId: cardId, from: entity[.zone_position],
                                   turn: eventHandler.turnNumber())
@@ -645,7 +640,12 @@ struct TagChangeActions {
             if controller == eventHandler.player.id {
                 eventHandler.playerMulligan(entity: entity, cardId: cardId)
             } else if controller == eventHandler.opponent.id {
-                eventHandler.opponentMulligan(entity: entity, from: entity[.zone_position])
+                if cardId != nil && cardId != "" {
+                    eventHandler.opponentHandToDeck(entity: entity, cardId: cardId, turn: eventHandler.turnNumber())
+                }
+                if eventHandler.opponentEntity?[.mulligan_state] ?? 0 == Mulligan.dealing.rawValue {
+                    eventHandler.opponentMulligan(entity: entity, from: entity[.zone_position])
+                }
             }
             
         default:
@@ -662,7 +662,12 @@ struct TagChangeActions {
             if controller == eventHandler.player.id {
                 eventHandler.playerDraw(entity: entity, cardId: cardId, turn: eventHandler.turnNumber())
             } else if controller == eventHandler.opponent.id {
-                eventHandler.opponentDraw(entity: entity, turn: eventHandler.turnNumber())
+                let drawerCardId = powerGameStateParser?.getCurrentBlock()?.cardId ?? ""
+                var drawerId: Int?
+                if drawerCardId != "" {
+                    drawerId = eventHandler.entities.first { x in x.value.cardId == drawerCardId }?.value.id
+                }
+                eventHandler.opponentDraw(entity: entity, turn: eventHandler.turnNumber(), cardId: cardId ?? "", drawerId: drawerId)
             }
             
         case .setaside, .removedfromgame:

@@ -91,10 +91,19 @@ class MonoHelper {
             murloc.setPoisonous(poisonous: true)
             _ = test.addMinionToOpponentSide(minion: "EX1_506a")
 
+            let playerSecrets = test.getPlayerSecrets()
+            test.addSecretFromDbfid(id: Int32(Cards.any(byId: "TB_Bacon_Secrets_12")?.dbfId ?? 0), target: playerSecrets)
+
+//            let oppSecrets = test.getOpponentSecrets()
+//            test.addSecretFromDbfid(id: Int32(Cards.any(byId: "TB_Bacon_Secrets_02")?.dbfId ?? 0), target: oppSecrets)
             let races: [Race] = [ Race.beast, Race.mechanical, Race.dragon, Race.murloc ]
             
             test.addAvailableRaces(races: races)
             
+            let str = test.unitestCopyableVersion()
+            
+            logger.debug(str)
+
             let runner = SimulationRunnerProxy()
             let obj = runner.simulateMultiThreaded(input: test, maxIterations: 1000, threadCount: 4, maxDuration: 1500)
             let c = mono_object_get_class(obj.get())
@@ -272,6 +281,19 @@ class MonoHelper {
         params.deallocate()
     }
     
+    static func setIntMonoHandle(obj: MonoHandle, method: OpaquePointer, v1: Int32, v2: MonoHandle) {
+        let params = UnsafeMutablePointer<UnsafeMutableRawPointer?>.allocate(capacity: 2)
+        let ptrs = UnsafeMutablePointer<Int32>.allocate(capacity: 1)
+        ptrs[0] = v1
+        params[0] = UnsafeMutableRawPointer(ptrs.advanced(by: 0))
+        params[1] = UnsafeMutableRawPointer(v2.get())
+        
+        mono_runtime_invoke(method, obj.get(), params, nil)
+        
+        ptrs.deallocate()
+        params.deallocate()
+    }
+
     static func setBoolBool(obj: MonoHandle, method: OpaquePointer, v1: Bool, v2: Bool) {
         let params = UnsafeMutablePointer<UnsafeMutablePointer<Int32>>.allocate(capacity: 2)
         let ptrs = UnsafeMutablePointer<Int32>.allocate(capacity: 2)
@@ -321,6 +343,27 @@ class MonoHelper {
         return res
     }
     
+    static func invokeStringIntInt(obj: MonoHandle, method: OpaquePointer, str: String, a: Int32, b: Int32) -> UnsafeMutablePointer<MonoObject>? {
+        let params = UnsafeMutablePointer<UnsafeMutableRawPointer?>.allocate(capacity: 3)
+        str.withCString({
+            params[0] = UnsafeMutableRawPointer(mono_string_new(MonoHelper._monoInstance, $0))
+        })
+        let ptrs = UnsafeMutablePointer<Int32>.allocate(capacity: 2)
+        ptrs[0] = a
+        ptrs[1] = b
+        params[1] = UnsafeMutableRawPointer(ptrs.advanced(by: 0))
+        params[2] = UnsafeMutableRawPointer(ptrs.advanced(by: 1))
+
+        let res: UnsafeMutablePointer<MonoObject>? = params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 1, {
+            let inst = obj.get()
+
+            return mono_runtime_invoke(method, inst, $0, nil)
+        })
+        ptrs.deallocate()
+        params.deallocate()
+        return res
+    }
+
     static func invoke(obj: MonoHandle, method: OpaquePointer) -> UnsafeMutablePointer<MonoObject>? {
         return mono_runtime_invoke(method, obj.get(), nil, nil)
     }

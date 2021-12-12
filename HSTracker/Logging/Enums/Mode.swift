@@ -27,5 +27,15 @@ enum Mode: String {
     fireside_gathering,
     bacon,
     game_mode,
-    pvp_dungeon_run
+    pvp_dungeon_run,
+    bacon_collection,
+    lettuce_village,
+    lettuce_bounty_board,
+    lettuce_map,
+    lettuce_play,
+    lettuce_collection,
+    lettuce_coop,
+    lettuce_friendly,
+    lettuce_bounty_team_select,
+    lettuce_pack_opening
 }

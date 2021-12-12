@@ -11,9 +11,9 @@ import XCTest
 
 class DatabaseTests: HSTrackerTests {
 
-    var database: Database!
+    static var database: Database!
 
-    override func setUp() {
+    override class func setUp() {
         super.setUp()
         database = Database()
         database.loadDatabase(splashscreen: nil, withLanguages: [.enUS])
@@ -49,16 +49,16 @@ class DatabaseTests: HSTrackerTests {
             return
         }
 
-        XCTAssertEqual(card.id, "EX1_249", "Baron Geddon")
+        XCTAssertEqual(card.id, "CORE_EX1_249", "Baron Geddon")
         XCTAssertEqual(card.artist, "Ian Ameling", "Baron Geddon artist")
         XCTAssertEqual(card.attack, 7, "Baron Geddon attack")
         XCTAssert(card.collectible, "Baron Geddon collectible")
         XCTAssertEqual(card.cost, 7, "Baron Geddon cost")
-        XCTAssertEqual(card.health, 5, "Baron Geddon health")
+        XCTAssertEqual(card.health, 7, "Baron Geddon health")
         XCTAssertEqual(card.playerClass, CardClass.neutral, "Baron Geddon playerClass")
         XCTAssertEqual(card.race, Race.elemental, "Baron Geddon race")
         XCTAssertEqual(card.rarity, Rarity.legendary, "Baron Geddon rarity")
-        XCTAssertEqual(card.set, CardSet.expert1, "Baron Geddon set")
+        XCTAssertEqual(card.set, CardSet.core, "Baron Geddon set")
         XCTAssertEqual(card.text, "At the end of your turn, deal 2 damage to ALL other characters.",  "Baron Geddon text")
         XCTAssertEqual(card.type, CardType.minion, "Baron Geddon type")
     }
