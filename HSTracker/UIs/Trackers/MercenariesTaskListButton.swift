@@ -12,6 +12,7 @@ import AppKit
 class MercenariesTaskListButton: OverWindowController {
     override var alwaysLocked: Bool { true }
     var visible = false
+    private var showMercTasks = false
     
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -21,21 +22,26 @@ class MercenariesTaskListButton: OverWindowController {
     
     override func mouseEntered(with event: NSEvent) {
         let wm = AppDelegate.instance().coreManager.game.windowManager
-        let taskList = wm.mercenariesTaskListView
-        
-        taskList.update()
-        taskList.updateContent()
-        
-        DispatchQueue.main.async {
+        showMercTasks = true
+        DispatchQueue.main.asyncAfter(deadline: Dispatch.DispatchTime.now() + .milliseconds(150)) {
+            if !self.showMercTasks {
+                return
+            }
+            let taskList = wm.mercenariesTaskListView
+            
+            taskList.update()
+            taskList.updateContent()
+            
             let frame = SizeHelper.mercenariesTaskListView()
-     
+         
             wm.show(controller: taskList, show: true, frame: frame, title: nil, overlay: true)
         }
     }
     
     override func mouseExited(with event: NSEvent) {
         let windowManager = AppDelegate.instance().coreManager.game.windowManager
-                
+        
+        showMercTasks = false
         windowManager.show(controller: windowManager.mercenariesTaskListView, show: false)
     }
 }
