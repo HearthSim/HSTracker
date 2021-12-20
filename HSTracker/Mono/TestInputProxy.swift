@@ -24,6 +24,7 @@ class TestInputProxy: MonoHandle {
     static var _opponentLast: OpaquePointer!
     static var _addMinionToPlayerSideAH: OpaquePointer!
     static var _addMinionToOpponentSideAH: OpaquePointer!
+    static var _setPlayerHandSize: OpaquePointer!
 
     static var _playerSide: OpaquePointer!
     static var _opponentSide: OpaquePointer!
@@ -49,6 +50,7 @@ class TestInputProxy: MonoHandle {
             TestInputProxy._opponentLast = mono_class_get_method_from_name(TestInputProxy._class, "OpponentLast", 0)
             TestInputProxy._addMinionToPlayerSideAH = mono_class_get_method_from_name(TestInputProxy._class, "AddMinionToPlayerSide", 3)
             TestInputProxy._addMinionToOpponentSideAH = mono_class_get_method_from_name(TestInputProxy._class, "AddMinionToOpponentSide", 3)
+            TestInputProxy._setPlayerHandSize = mono_class_get_method_from_name(TestInputProxy._class, "SetPlayesHandSize", 1)
 
             TestInputProxy._unitTest = mono_class_get_method_from_name(TestInputProxy._class, "UnitTestCopyableVersion", 0)
             
@@ -96,6 +98,10 @@ class TestInputProxy: MonoHandle {
     
     func setTurn(value: Int32) {
         MonoHelper.setInt(obj: self, method: TestInputProxy._setTurn, value: value)
+    }
+    
+    func setPlayerHandSize(value: Int32) {
+        MonoHelper.setInt(obj: self, method: TestInputProxy._setPlayerHandSize, value: value)
     }
     
     func getPlayerSide() -> MonoHandle {

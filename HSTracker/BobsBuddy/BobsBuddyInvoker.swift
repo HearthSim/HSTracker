@@ -396,6 +396,8 @@ class BobsBuddyInvoker {
         
         input.setHeroPower(player: heroPowerUsed(heroPower: playerHeroPower), opponent: heroPowerUsed(heroPower: opponentHeroPower))
         
+        input.setPlayerHandSize(value: Int32(game.player.handCount))
+        
         let secrets: [Int] = game.player.secrets.map({ $0.card.dbfId })
         
         let playerSecrets = input.getPlayerSecrets()
