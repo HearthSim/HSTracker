@@ -1,3 +1,7 @@
+# 2.0.7
+## Fixes
+- Fixed crash during Battlegrounds match
+
 # 2.0.6
 ## New
 - Updated for patch 22.0.2

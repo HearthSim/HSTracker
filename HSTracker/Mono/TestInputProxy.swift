@@ -50,7 +50,7 @@ class TestInputProxy: MonoHandle {
             TestInputProxy._opponentLast = mono_class_get_method_from_name(TestInputProxy._class, "OpponentLast", 0)
             TestInputProxy._addMinionToPlayerSideAH = mono_class_get_method_from_name(TestInputProxy._class, "AddMinionToPlayerSide", 3)
             TestInputProxy._addMinionToOpponentSideAH = mono_class_get_method_from_name(TestInputProxy._class, "AddMinionToOpponentSide", 3)
-            TestInputProxy._setPlayerHandSize = mono_class_get_method_from_name(TestInputProxy._class, "SetPlayesHandSize", 1)
+            TestInputProxy._setPlayerHandSize = mono_class_get_method_from_name(TestInputProxy._class, "SetPlayerHandSize", 1)
 
             TestInputProxy._unitTest = mono_class_get_method_from_name(TestInputProxy._class, "UnitTestCopyableVersion", 0)
             
