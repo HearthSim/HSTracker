@@ -1,3 +1,8 @@
+# 2.0.8
+## Fixes
+- Notarize the application to allow it running
+- Hide invisible board overlay if Flavor text setting is disabled (try to fix unable to click on minions)
+
 # 2.0.7
 ## Fixes
 - Fixed crash during Battlegrounds match

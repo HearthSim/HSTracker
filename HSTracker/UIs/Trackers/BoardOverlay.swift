@@ -239,7 +239,7 @@ class BoardOverlayView: NSView {
             clearAbilitiesVisibility()
             return
         }
-        let cnt = board.count
+        let cnt = min(board.count, minions.count)
         if cnt == 0 || game.gameEnded {
             isHidden = true
         } else {
@@ -356,10 +356,6 @@ class BoardOverlayView: NSView {
 //        backgroundColor.set()
 //        dirtyRect.fill()
 //    }
-    
-    override func isMousePoint(_ point: NSPoint, in rect: NSRect) -> Bool {
-        return false
-    }
 }
 
 class BoardOverlay: OverWindowController {
@@ -380,5 +376,9 @@ class BoardOverlay: OverWindowController {
     
     func setPlayerType(playerType: PlayerType) {
         view.playerType = playerType
+    }
+    
+    override func updateFrames() {
+        self.window!.ignoresMouseEvents = true
     }
 }
