@@ -8,7 +8,7 @@
 
 import Foundation
 
-class MinionFactoryProxy {
+class MinionFactoryProxy: MonoHandle {
     private static var _class: OpaquePointer?
     private static var _classVT: OpaquePointer!
     
@@ -22,27 +22,39 @@ class MinionFactoryProxy {
         
         mono_class_init(_class)
         
-        _getMinionFromCardid = mono_class_get_method_from_name(MinionFactoryProxy._class, "GetMinionFromCardid", 1)
+        _getMinionFromCardid = MonoHelper.getMethod(MinionFactoryProxy._class, "GetMinionFromCardid", 2)
         
-        _cardIdsWithoutPremiumImplementations = mono_class_get_field_from_name(_class, "cardIdsWithoutPremiumImplementations")
-        _cardIdsWithCleave = mono_class_get_field_from_name(_class, "cardIDsWithCleave")
-        _cardIdsWithMegaWindfury = mono_class_get_field_from_name(_class, "cardIdsWithMegaWindfury")
+        _cardIdsWithoutPremiumImplementations = MonoHelper.getField(_class, "cardIdsWithoutPremiumImplementations")
+        _cardIdsWithCleave = MonoHelper.getField(_class, "cardIDsWithCleave")
+        _cardIdsWithMegaWindfury = MonoHelper.getField(_class, "cardIdsWithMegaWindfury")
 
         _classVT = mono_class_vtable(MonoHelper._monoInstance, mono_field_get_parent(_cardIdsWithoutPremiumImplementations))
     }
+    
+    init(obj: MonoHandle) {
+        super.init(obj: obj.get())
+        
+        if MinionFactoryProxy._class == nil {
+            MinionFactoryProxy._init()
+        }
+    }
 
-    static func getMinionFromCardid(id: String) -> MinionProxy {
-        if _class == nil {
-            _init()
+    func getMinionFromCardid(id: String, player: Bool) -> MinionProxy {
+        if MinionFactoryProxy._class == nil {
+            MinionFactoryProxy._init()
         }
 
-        let params = UnsafeMutablePointer<OpaquePointer>.allocate(capacity: 1)
+        let params = UnsafeMutablePointer<OpaquePointer>.allocate(capacity: 2)
+        let ptrs = UnsafeMutablePointer<Int32>.allocate(capacity: 1)
+        ptrs[0] = player ? 1 : 0
+
         id.withCString({
             params[0] = mono_string_new(MonoHelper._monoInstance, $0)
+            params[1] = OpaquePointer(ptrs.advanced(by: 0))
         })
 
-        let res: MinionProxy = params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 1, {
-            let r = mono_runtime_invoke(MinionFactoryProxy._getMinionFromCardid, nil, $0, nil)
+        let res: MinionProxy = params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 2, {
+            let r = mono_runtime_invoke(MinionFactoryProxy._getMinionFromCardid, self.get(), $0, nil)
             return MinionProxy(obj: r)
         })
         params.deallocate()

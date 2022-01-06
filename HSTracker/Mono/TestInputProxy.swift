@@ -28,7 +28,7 @@ class TestInputProxy: MonoHandle {
 
     static var _playerSide: OpaquePointer!
     static var _opponentSide: OpaquePointer!
-    static var _heroHasDied: OpaquePointer!
+    static var _damageCap: OpaquePointer!
     static var _playerSecrets: OpaquePointer!
     static var _opponentSecrets: OpaquePointer!
     
@@ -37,28 +37,28 @@ class TestInputProxy: MonoHandle {
         
         if TestInputProxy._class == nil {
             TestInputProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Simulation", name: "TestInput")
-            TestInputProxy._constructor = mono_class_get_method_from_name(TestInputProxy._class, ".ctor", 1)
-            TestInputProxy._setHealths = mono_class_get_method_from_name(TestInputProxy._class, "SetHealths", 2)
-            TestInputProxy._setTiers = mono_class_get_method_from_name(TestInputProxy._class, "SetTiers", 2)
-            TestInputProxy._setPowerID = mono_class_get_method_from_name(TestInputProxy._class, "SetPowerID", 2)
-            TestInputProxy._setHeroPower = mono_class_get_method_from_name(TestInputProxy._class, "SetHeroPower", 2)
-            TestInputProxy._setTurn = mono_class_get_method_from_name(TestInputProxy._class, "SetTurn", 1)
-            TestInputProxy._addSecretFromDbfid = mono_class_get_method_from_name(TestInputProxy._class, "AddSecretFromDbfid", 2)
-            TestInputProxy._addMinionToPlayerSide = mono_class_get_method_from_name(TestInputProxy._class, "AddMinionToPlayerSide", 1)
-            TestInputProxy._addMinionToOpponentSide = mono_class_get_method_from_name(TestInputProxy._class, "AddMinionToOpponentSide", 1)
-            TestInputProxy._playerLast = mono_class_get_method_from_name(TestInputProxy._class, "PlayerLast", 0)
-            TestInputProxy._opponentLast = mono_class_get_method_from_name(TestInputProxy._class, "OpponentLast", 0)
-            TestInputProxy._addMinionToPlayerSideAH = mono_class_get_method_from_name(TestInputProxy._class, "AddMinionToPlayerSide", 3)
-            TestInputProxy._addMinionToOpponentSideAH = mono_class_get_method_from_name(TestInputProxy._class, "AddMinionToOpponentSide", 3)
-            TestInputProxy._setPlayerHandSize = mono_class_get_method_from_name(TestInputProxy._class, "SetPlayerHandSize", 1)
+            TestInputProxy._constructor = MonoHelper.getMethod(TestInputProxy._class, ".ctor", 1)
+            TestInputProxy._setHealths = MonoHelper.getMethod(TestInputProxy._class, "SetHealths", 2)
+            TestInputProxy._setTiers = MonoHelper.getMethod(TestInputProxy._class, "SetTiers", 2)
+            TestInputProxy._setPowerID = MonoHelper.getMethod(TestInputProxy._class, "SetPowerID", 2)
+            TestInputProxy._setHeroPower = MonoHelper.getMethod(TestInputProxy._class, "SetHeroPower", 2)
+            TestInputProxy._setTurn = MonoHelper.getMethod(TestInputProxy._class, "SetTurn", 1)
+            TestInputProxy._addSecretFromDbfid = MonoHelper.getMethod(TestInputProxy._class, "AddSecretFromDbfid", 2)
+            TestInputProxy._addMinionToPlayerSide = MonoHelper.getMethod(TestInputProxy._class, "AddMinionToPlayerSide", 1)
+            TestInputProxy._addMinionToOpponentSide = MonoHelper.getMethod(TestInputProxy._class, "AddMinionToOpponentSide", 1)
+            TestInputProxy._playerLast = MonoHelper.getMethod(TestInputProxy._class, "PlayerLast", 0)
+            TestInputProxy._opponentLast = MonoHelper.getMethod(TestInputProxy._class, "OpponentLast", 0)
+            TestInputProxy._addMinionToPlayerSideAH = MonoHelper.getMethod(TestInputProxy._class, "AddMinionToPlayerSide", 3)
+            TestInputProxy._addMinionToOpponentSideAH = MonoHelper.getMethod(TestInputProxy._class, "AddMinionToOpponentSide", 3)
+            TestInputProxy._setPlayerHandSize = MonoHelper.getMethod(TestInputProxy._class, "SetPlayerHandSize", 1)
 
-            TestInputProxy._unitTest = mono_class_get_method_from_name(TestInputProxy._class, "UnitTestCopyableVersion", 0)
+            TestInputProxy._unitTest = MonoHelper.getMethod(TestInputProxy._class, "UnitTestCopyableVersion", 0)
             
-            TestInputProxy._playerSide = mono_class_get_field_from_name(TestInputProxy._class, "playerSide")
-            TestInputProxy._opponentSide = mono_class_get_field_from_name(TestInputProxy._class, "opponentSide")
-            TestInputProxy._heroHasDied = mono_class_get_field_from_name(TestInputProxy._class, "HeroHasDied")
-            TestInputProxy._playerSecrets = mono_class_get_field_from_name(TestInputProxy._class, "PlayerSecrets")
-            TestInputProxy._opponentSecrets = mono_class_get_field_from_name(TestInputProxy._class, "OpponentSecrets")
+            TestInputProxy._playerSide = MonoHelper.getField(TestInputProxy._class, "playerSide")
+            TestInputProxy._opponentSide = MonoHelper.getField(TestInputProxy._class, "opponentSide")
+            TestInputProxy._damageCap = MonoHelper.getField(TestInputProxy._class, "DamageCap")
+            TestInputProxy._playerSecrets = MonoHelper.getField(TestInputProxy._class, "PlayerSecrets")
+            TestInputProxy._opponentSecrets = MonoHelper.getField(TestInputProxy._class, "OpponentSecrets")
         }
         
         let obj = MonoHelper.objectNew(clazz: TestInputProxy._class!)
@@ -92,8 +92,8 @@ class TestInputProxy: MonoHandle {
         MonoHelper.setBoolBool(obj: self, method: TestInputProxy._setHeroPower, v1: player, v2: opponent)
     }
     
-    func setHeroHasDied(value: Bool) {
-        MonoHelper.setBoolField(obj: self, field: TestInputProxy._heroHasDied, value: value)
+    func setDamageCap(value: Int32) {
+        MonoHelper.setIntField(obj: self, field: TestInputProxy._damageCap, value: value)
     }
     
     func setTurn(value: Int32) {

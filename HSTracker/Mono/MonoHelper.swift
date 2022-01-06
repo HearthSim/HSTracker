@@ -65,6 +65,22 @@ class MonoHelper {
         return true
     }
     
+    static func getMethod(_ clazz: OpaquePointer?, _ method: String, _ params: Int) -> OpaquePointer {
+        let result = mono_class_get_method_from_name(clazz, method, Int32(params))
+        if let result = result {
+            return result
+        }
+        fatalError("Method \(method) not found")
+    }
+    
+    static func getField(_ clazz: OpaquePointer?, _ field: String) -> OpaquePointer {
+        let result = mono_class_get_field_from_name(clazz, field)
+        if let result = result {
+            return result
+        }
+        fatalError("Field \(field) not found")
+    }
+
     static func testSimulation() {
         let handle = mono_thread_attach(MonoHelper._monoInstance)
         
@@ -128,10 +144,14 @@ class MonoHelper {
         mono_thread_detach(handle)
     }
     
-    static func loadClass(ns: String, name: String) -> OpaquePointer? {
+    static func loadClass(ns: String, name: String) -> OpaquePointer {
         let result = mono_class_from_name(_image, ns, name)
         
-        return result
+        if let result = result {
+            return result
+        }
+        
+        fatalError("Failed to load class \(ns).\(name)")
     }
     
     static func objectNew(clazz: OpaquePointer) -> UnsafeMutablePointer<MonoObject>? {
@@ -392,5 +412,20 @@ class MonoHelper {
         str?.deallocate()
         
         return cstr
+    }
+
+    static func addMinionToList(list: MonoHandle, minion: MinionProxy) {
+        let obj = list.get()
+        let clazz = mono_object_get_class(obj)
+        let method = mono_class_get_method_from_name(clazz, "Add", 1)
+        
+        let params = UnsafeMutablePointer<UnsafeMutablePointer<MonoObject>>.allocate(capacity: 1)
+
+        params[0] = minion.get()!
+            
+        _ = params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 1, {
+            mono_runtime_invoke(method, obj, $0, nil)
+        })
+        params.deallocate()
     }
 }

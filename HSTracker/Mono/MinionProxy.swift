@@ -23,45 +23,41 @@ class MinionProxy: MonoHandle {
     private static var _setReborn: OpaquePointer!
     private static var _getVanillaHealth: OpaquePointer!
     private static var _setVanillaHealth: OpaquePointer!
-    private static var _setMechDeathCount: OpaquePointer!
-    private static var _setMechDeathCountGold: OpaquePointer!
-    private static var _setPlantDeathCount: OpaquePointer!
+    private static var _getVanillaAttack: OpaquePointer!
+    private static var _setVanillaAttack: OpaquePointer!
     private static var _setReceivesLichKingPower: OpaquePointer!
     private static var _getReceivesLichKingPower: OpaquePointer!
     private static var _getGameId: OpaquePointer!
     private static var _setGameId: OpaquePointer!
     private static var _minionName: OpaquePointer!
     private static var _addToBackOfList: OpaquePointer!
-    private static var _setSneedsHeroPowerCount: OpaquePointer!
 
     override init(obj: UnsafeMutablePointer<MonoObject>?) {
         super.init(obj: obj)
         
         if MinionProxy._class == nil {
             MinionProxy._class = MonoHelper.loadClass(ns: "BobsBuddy", name: "Minion")
-            MinionProxy._setBaseAttack = mono_class_get_method_from_name(MinionProxy._class, "set_baseAttack", 1)
-            MinionProxy._setBaseHealth = mono_class_get_method_from_name(MinionProxy._class, "set_baseHealth", 1)
-            MinionProxy._setTaunt = mono_class_get_method_from_name(MinionProxy._class, "set_taunt", 1)
-            MinionProxy._setDiv = mono_class_get_method_from_name(MinionProxy._class, "set_div", 1)
-            MinionProxy._setCleave = mono_class_get_method_from_name(MinionProxy._class, "set_cleave", 1)
-            MinionProxy._setPoisonous = mono_class_get_method_from_name(MinionProxy._class, "set_poisonous", 1)
-            MinionProxy._setWindfury = mono_class_get_method_from_name(MinionProxy._class, "set_windfury", 1)
-            MinionProxy._setMegaWindfury = mono_class_get_method_from_name(MinionProxy._class, "set_megaWindfury", 1)
-            MinionProxy._setGolden = mono_class_get_method_from_name(MinionProxy._class, "set_golden", 1)
-            MinionProxy._tier = mono_class_get_field_from_name(MinionProxy._class, "tier")
-            MinionProxy._setReborn = mono_class_get_method_from_name(MinionProxy._class, "set_reborn", 1)
-            MinionProxy._getVanillaHealth = mono_class_get_method_from_name(MinionProxy._class, "get_vanillaHealth", 0)
-            MinionProxy._setVanillaHealth = mono_class_get_method_from_name(MinionProxy._class, "set_vanillaHealth", 1)
-            MinionProxy._setMechDeathCount = mono_class_get_method_from_name(MinionProxy._class, "set_mechDeathCount", 1)
-            MinionProxy._setMechDeathCountGold = mono_class_get_method_from_name(MinionProxy._class, "set_mechDeathCountGold", 1)
-            MinionProxy._setPlantDeathCount = mono_class_get_method_from_name(MinionProxy._class, "set_plantDeathCount", 1)
-            MinionProxy._setReceivesLichKingPower = mono_class_get_method_from_name(MinionProxy._class, "set_receivesLichKingPower", 1)
-            MinionProxy._getReceivesLichKingPower = mono_class_get_method_from_name(MinionProxy._class, "get_receivesLichKingPower", 0)
-            MinionProxy._getGameId = mono_class_get_method_from_name(MinionProxy._class, "get_game_id", 0)
-            MinionProxy._setGameId = mono_class_get_method_from_name(MinionProxy._class, "set_game_id", 1)
-            MinionProxy._minionName = mono_class_get_field_from_name(MinionProxy._class, "minionName")
-            MinionProxy._addToBackOfList = mono_class_get_method_from_name(MinionProxy._class, "AddToBackOfList", 2)
-            MinionProxy._setSneedsHeroPowerCount = mono_class_get_method_from_name(MinionProxy._class, "set_SneedsHeroPowerCount", 1)
+            MinionProxy._setBaseAttack = MonoHelper.getMethod(MinionProxy._class, "set_baseAttack", 1)
+            MinionProxy._setBaseHealth = MonoHelper.getMethod(MinionProxy._class, "set_baseHealth", 1)
+            MinionProxy._setTaunt = MonoHelper.getMethod(MinionProxy._class, "set_taunt", 1)
+            MinionProxy._setDiv = MonoHelper.getMethod(MinionProxy._class, "set_div", 1)
+            MinionProxy._setCleave = MonoHelper.getMethod(MinionProxy._class, "set_cleave", 1)
+            MinionProxy._setPoisonous = MonoHelper.getMethod(MinionProxy._class, "set_poisonous", 1)
+            MinionProxy._setWindfury = MonoHelper.getMethod(MinionProxy._class, "set_windfury", 1)
+            MinionProxy._setMegaWindfury = MonoHelper.getMethod(MinionProxy._class, "set_megaWindfury", 1)
+            MinionProxy._setGolden = MonoHelper.getMethod(MinionProxy._class, "set_golden", 1)
+            MinionProxy._tier = MonoHelper.getField(MinionProxy._class, "tier")
+            MinionProxy._setReborn = MonoHelper.getMethod(MinionProxy._class, "set_reborn", 1)
+            MinionProxy._getVanillaHealth = MonoHelper.getMethod(MinionProxy._class, "get_vanillaHealth", 0)
+            MinionProxy._setVanillaHealth = MonoHelper.getMethod(MinionProxy._class, "set_vanillaHealth", 1)
+            MinionProxy._getVanillaAttack = MonoHelper.getMethod(MinionProxy._class, "get_vanillaAttack", 0)
+            MinionProxy._setVanillaAttack = MonoHelper.getMethod(MinionProxy._class, "set_vanillaAttack", 1)
+            MinionProxy._setReceivesLichKingPower = MonoHelper.getMethod(MinionProxy._class, "set_receivesLichKingPower", 1)
+            MinionProxy._getReceivesLichKingPower = MonoHelper.getMethod(MinionProxy._class, "get_receivesLichKingPower", 0)
+            MinionProxy._getGameId = MonoHelper.getMethod(MinionProxy._class, "get_game_id", 0)
+            MinionProxy._setGameId = MonoHelper.getMethod(MinionProxy._class, "set_game_id", 1)
+            MinionProxy._minionName = MonoHelper.getField(MinionProxy._class, "minionName")
+            MinionProxy._addToBackOfList = MonoHelper.getMethod(MinionProxy._class, "AddToBackOfList", 1)
         }
     }    
 
@@ -117,26 +113,18 @@ class MinionProxy: MonoHandle {
         return MonoHelper.getInt(obj: self, method: MinionProxy._getVanillaHealth)
     }
     
-    func setMechDeathCount(count: Int32) {
-        MonoHelper.setInt(obj: self, method: MinionProxy._setMechDeathCount, value: count)
+    func setVanillaAttack(attack: Int32) {
+        MonoHelper.setInt(obj: self, method: MinionProxy._setVanillaAttack, value: attack)
     }
     
-    func setMechDeathCountGold(count: Int32) {
-        MonoHelper.setInt(obj: self, method: MinionProxy._setMechDeathCountGold, value: count)
-    }
-
-    func setPlantDeathCount(count: Int32) {
-        MonoHelper.setInt(obj: self, method: MinionProxy._setPlantDeathCount, value: count)
+    func getVanillaAttack() -> Int32 {
+        return MonoHelper.getInt(obj: self, method: MinionProxy._getVanillaAttack)
     }
 
     func setReceivesLichKingPower(power: Bool) {
         MonoHelper.setBool(obj: self, method: MinionProxy._setReceivesLichKingPower, value: power)
     }
     
-    func setSneedsHeroCount(count: Int32) {
-        MonoHelper.setInt(obj: self, method: MinionProxy._setSneedsHeroPowerCount, value: count)
-    }
-
     func getReceivesLichKingPower() -> Bool {
         return MonoHelper.getBool(obj: self, method: MinionProxy._getReceivesLichKingPower)
     }
@@ -153,15 +141,32 @@ class MinionProxy: MonoHandle {
         return MonoHelper.getStringField(obj: self, field: MinionProxy._minionName)
     }
 
-    func addToBackOfList(list: MonoHandle, sim: SimulatorProxy) {
-        let params = UnsafeMutablePointer<OpaquePointer>.allocate(capacity: 2)
+    func addToBackOfList(list: MonoHandle) {
+        let params = UnsafeMutablePointer<OpaquePointer>.allocate(capacity: 1)
         
         params[0] = OpaquePointer(list.get()!)
-        params[1] = OpaquePointer(sim.get()!)
         
-        params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 2, {
+        params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 1, {
             let me = self.get()
             mono_runtime_invoke(MinionProxy._addToBackOfList, me, $0, nil)
+        })
+        params.deallocate()
+    }
+    
+    func addDeathrattle(deathrattle: MonoHandle) {
+        let field = mono_class_get_field_from_name(MinionProxy._class, "AdditionalDeathrattles")
+        let inst = get()
+        let obj = mono_field_get_value_object(MonoHelper._monoInstance, field, inst)
+        
+        let clazz = mono_object_get_class(obj)
+        let method = mono_class_get_method_from_name(clazz, "Add", 1)
+        
+        let params = UnsafeMutablePointer<UnsafeMutablePointer<MonoObject>>.allocate(capacity: 1)
+
+        params[0] = deathrattle.get()!
+            
+        _ = params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 1, {
+            mono_runtime_invoke(method, obj, $0, nil)
         })
         params.deallocate()
     }

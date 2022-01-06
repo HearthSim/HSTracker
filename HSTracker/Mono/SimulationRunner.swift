@@ -19,7 +19,7 @@ class SimulationRunnerProxy: MonoHandle {
         if SimulationRunnerProxy._class == nil {
             SimulationRunnerProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Simulation", name: "SimulationRunner")
             
-            SimulationRunnerProxy._simulateMultiThreaded = mono_class_get_method_from_name(SimulationRunnerProxy._class, "SimulateMultiThreaded", 4 )
+            SimulationRunnerProxy._simulateMultiThreaded = MonoHelper.getMethod(SimulationRunnerProxy._class, "SimulateMultiThreaded", 4 )
         }
                 
         let obj = MonoHelper.objectNew(clazz: SimulationRunnerProxy._class!)

@@ -314,38 +314,49 @@ class BobsBuddyInvoker {
         // swiftlint:enable force_cast
     }
     
-    static func getMinionFromEntity(ent: Entity, attachedEntities: [Entity]) -> MinionProxy {
-        let minion = MinionFactoryProxy.getMinionFromCardid(id: ent.cardId)
+    static func getMinionFromEntity(minionFactory: MinionFactoryProxy, player: Bool, ent: Entity, attachedEntities: [Entity]) -> MinionProxy {
+        let cardId = ent.info.latestCardId
+        let minion = minionFactory.getMinionFromCardid(id: cardId, player: player)
         
         minion.setBaseAttack(attack: Int32(ent[GameTag.atk]))
         minion.setBaseHealth(health: Int32(ent[GameTag.health]))
         minion.setTaunt(taunt: ent.has(tag: GameTag.taunt))
         minion.setDiv(div: ent.has(tag: GameTag.divine_shield))
-        if cardIdsWithCleave.contains(ent.cardId) {
+        if cardIdsWithCleave.contains(cardId) {
             minion.setCleave(cleave: true)
         }
         minion.setPoisonous(poisonous: ent.has(tag: GameTag.poisonous))
         minion.setWindfury(windfury: ent.has(tag: GameTag.windfury))
-        minion.setMegaWindfury(megaWindfury: ent.has(tag: GameTag.mega_windfury) || cardIdsWithMegaWindfury.contains(ent.cardId))
+        minion.setMegaWindfury(megaWindfury: ent.has(tag: GameTag.mega_windfury) || cardIdsWithMegaWindfury.contains(cardId))
         
         let golden = ent.has(tag: GameTag.premium)
         minion.setGolden(golden: golden)
         minion.setTier(tier: Int32(ent[GameTag.tech_level]))
         minion.setReborn(reborn: ent.has(tag: GameTag.reborn))
         
-        if golden && (BobsBuddyInvoker.cardIdsWithoutPremiumImplementation.firstIndex(of: ent.cardId) != nil) {
+        if golden && (BobsBuddyInvoker.cardIdsWithoutPremiumImplementation.firstIndex(of: cardId) != nil) {
+            minion.setVanillaAttack(attack: minion.getVanillaAttack() * 2)
             minion.setVanillaHealth(health: minion.getVanillaHealth() * 2)
         }
         
-        minion.setMechDeathCount(count: Int32(attachedEntities.filter({ $0.cardId == CardIds.NonCollectible.Neutral.ReplicatingMenace_ReplicatingMenaceEnchantment }).count))
-        minion.setMechDeathCountGold(count: Int32(attachedEntities.filter({ $0.cardId == CardIds.NonCollectible.Neutral.ReplicatingMenace_ReplicatingMenaceEnchantmentTavernBrawl }).count))
-        minion.setPlantDeathCount(count: Int32(attachedEntities.filter({ $0.cardId == CardIds.NonCollectible.Neutral.LivingSporesToken2 }).count))
+        for ent in attachedEntities {
+            switch ent.cardId {
+            case CardIds.NonCollectible.Neutral.ReplicatingMenace_ReplicatingMenaceEnchantment:
+                minion.addDeathrattle(deathrattle: ReplicatingMenace.deathrattle(golden: false))
+            case CardIds.NonCollectible.Neutral.ReplicatingMenace_ReplicatingMenaceEnchantmentTavernBrawl:
+                minion.addDeathrattle(deathrattle: ReplicatingMenace.deathrattle(golden: true))
+            case CardIds.NonCollectible.Neutral.LivingSporesToken2:
+                minion.addDeathrattle(deathrattle: GenericDeathrattles.plants())
+            case CardIds.NonCollectible.Neutral.Sneed_Replicate:
+                minion.addDeathrattle(deathrattle: GenericDeathrattles.sneedHeroPower())
+            default:
+                break
+            }
+        }
         
         if attachedEntities.any({ $0.cardId == CardIds.NonCollectible.Neutral.RebornRites_RebornRiteEnchantmentTavernBrawl }) {
             minion.setReceivesLichKingPower(power: true)
         }
-        
-        minion.setSneedsHeroCount(count: Int32(attachedEntities.filter { x in x.cardId == CardIds.NonCollectible.Neutral.Sneed_Replicate}.count))
         
         minion.setGameId(id: Int32(ent.id))
         return minion
@@ -370,9 +381,8 @@ class BobsBuddyInvoker {
         }
         
         input.addAvailableRaces(races: game.availableRaces!)
-        
-        let livingHeroes = game.entities.values.filter({ x in x.isHero && x.health > 0 && !x.isInZone(zone: Zone.removedfromgame) && x.has(tag: .player_tech_level) && (x.isControlled(by: game.player.id) || !x.isInPlay)}).count
-        input.setHeroHasDied(value: livingHeroes < game.battlegroundsHeroCount())
+
+        input.setDamageCap(value: Int32(game.gameEntity?[.bacon_combat_damage_cap] ?? 0))
         
         guard let oppHero = game.opponent.board.first(where: { $0.isHero }), let playerHero = game.player.board.first(where: { $0.isHero}) else {
             logger.error("Hero(es) could not be found. Exiting.")
@@ -411,24 +421,20 @@ class BobsBuddyInvoker {
         
         currentOpponentSecrets = game.opponent.secrets
         
-        let playerSide = input.getPlayerSide()
-        let opponentSide = input.getOpponentSide()
+        let inputPlayerSide = input.getPlayerSide()
+        let inputOpponentSide = input.getOpponentSide()
+        let factory = simulator.minionFactory()
         
-        for m in BobsBuddyInvoker.getOrderedMinions(board: game.player.board).filter({e in
-            e.isControlled(by: game.player.id)
-        }).map({ BobsBuddyInvoker.getMinionFromEntity(ent: $0, attachedEntities: BobsBuddyInvoker.getAttachedEntities(game: game, entityId: $0.id))}) {
-            m.addToBackOfList(list: playerSide, sim: simulator)
+        let playerSide = BobsBuddyInvoker.getOrderedMinions(board: game.player.board).filter { e in e.isControlled(by: game.player.id) }.map { BobsBuddyInvoker.getMinionFromEntity(minionFactory: factory, player: true, ent: $0, attachedEntities: BobsBuddyInvoker.getAttachedEntities(game: game, entityId: $0.id))}
+        for m in playerSide {
+            MonoHelper.addMinionToList(list: inputPlayerSide, minion: m)
         }
 
-        for m in BobsBuddyInvoker.getOrderedMinions(board: game.opponent.board).map({ BobsBuddyInvoker.getMinionFromEntity(ent: $0, attachedEntities: BobsBuddyInvoker.getAttachedEntities(game: game, entityId: $0.id))}) {
-            m.addToBackOfList(list: opponentSide, sim: simulator)
-            
-            if m.getReceivesLichKingPower() {
-                minionHeroPowerTrigger = MinionHeroPowerTrigger(m: m, heroPower: CardIds.NonCollectible.Neutral.RebornRitesTavernBrawl)
-            }
-            currentOpponentMinions[Int(m.getGameId())] = m
+        let opponentSide = BobsBuddyInvoker.getOrderedMinions(board: game.opponent.board).filter { e in e.isControlled(by: game.opponent.id) }.map { BobsBuddyInvoker.getMinionFromEntity(minionFactory: factory, player: false, ent: $0, attachedEntities: BobsBuddyInvoker.getAttachedEntities(game: game, entityId: $0.id))}
+        for m in opponentSide {
+            MonoHelper.addMinionToList(list: inputOpponentSide, minion: m)
         }
-        
+
         self.input = input
     }
 }
