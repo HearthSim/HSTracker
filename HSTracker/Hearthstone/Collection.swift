@@ -40,10 +40,15 @@ class Collection: CollectionBase {
     func hash() -> String {
         do {
             let enc = JSONEncoder()
-            enc.outputFormatting = .sortedKeys
+            
+            if #available(macOS 10.13, *) {
+                enc.outputFormatting = .sortedKeys
+            } else {
+                // no fallback, just means we will update the collection more often than necessary
+            }
             let value = try enc.encode(self)
             
-            let sha = Insecure.MD5.hash(data: value)
+            let sha = MD5(data: value)
             
             let hashString = sha.compactMap { String(format: "%02x", $0) }.joined()
             return hashString
@@ -147,10 +152,14 @@ class MercenariesCollection: CollectionBase {
     func hash() -> String {
         do {
             let enc = JSONEncoder()
-            enc.outputFormatting = .sortedKeys
+            if #available(macOS 10.13, *) {
+                enc.outputFormatting = .sortedKeys
+            } else {
+                // no fallback, just means we will update the collection more often than necessary
+            }
             let value = try enc.encode(self)
             
-            let sha = Insecure.MD5.hash(data: value)
+            let sha = MD5(data: value)
             
             let hashString = sha.compactMap { String(format: "%02x", $0) }.joined()
             return hashString

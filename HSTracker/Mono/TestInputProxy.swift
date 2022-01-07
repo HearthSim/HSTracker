@@ -31,6 +31,7 @@ class TestInputProxy: MonoHandle {
     static var _damageCap: OpaquePointer!
     static var _playerSecrets: OpaquePointer!
     static var _opponentSecrets: OpaquePointer!
+    static var _heroPowerInfo: OpaquePointer!
     
     init(simulator: SimulatorProxy) {
         super.init()
@@ -59,6 +60,7 @@ class TestInputProxy: MonoHandle {
             TestInputProxy._damageCap = MonoHelper.getField(TestInputProxy._class, "DamageCap")
             TestInputProxy._playerSecrets = MonoHelper.getField(TestInputProxy._class, "PlayerSecrets")
             TestInputProxy._opponentSecrets = MonoHelper.getField(TestInputProxy._class, "OpponentSecrets")
+            TestInputProxy._heroPowerInfo = MonoHelper.getField(TestInputProxy._class, "heroPowerInfo")
         }
         
         let obj = MonoHelper.objectNew(clazz: TestInputProxy._class!)
@@ -172,6 +174,11 @@ class TestInputProxy: MonoHandle {
     
     func opponentLast() -> MinionProxy {
         return MinionProxy(obj: MonoHelper.invoke(obj: self, method: TestInputProxy._opponentLast))
+    }
+    func heroPowerInfo() -> HeroPowerInfoProxy {
+        let r = mono_field_get_value_object(MonoHelper._monoInstance, TestInputProxy._heroPowerInfo, get())
+
+        return HeroPowerInfoProxy(obj: r)
     }
 
     func unitestCopyableVersion() -> String {

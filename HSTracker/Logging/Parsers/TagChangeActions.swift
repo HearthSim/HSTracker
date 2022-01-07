@@ -69,7 +69,6 @@ struct TagChangeActions {
         if value != 1 {
             return
         }
-        BobsBuddyInvoker.instance(turn: eventHandler.turnNumber()).setMinionReborn(entityId: id)
     }
     
     private func tagScriptDataNum1(eventHandler: PowerEventHandler, id: Int, value: Int) {
@@ -85,7 +84,6 @@ struct TagChangeActions {
             if !entity.isHeroPower || !entity.isControlled(by: eventHandler.player.id) {
                 return
             }
-            BobsBuddyInvoker.instance(turn: eventHandler.turnNumber()).heroPowerTriggered(heroPowerId: entity.cardId)
         }
     }
     

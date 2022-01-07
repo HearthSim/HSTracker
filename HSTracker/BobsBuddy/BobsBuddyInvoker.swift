@@ -31,17 +31,18 @@ class BobsBuddyInvoker {
     
     var input: TestInputProxy?
     
+    private var opponentMinions = [MinionProxy]()
+    private var playerMinions = [MinionProxy]()
+    
     private var currentOpponentMinions: [Int: MinionProxy] = [:]
     
     private var currentOpponentSecrets: [Entity] = []
-    
-    var minionHeroPowerTrigger: MinionHeroPowerTrigger?
-    
+        
     private let turn: Int
     
     private final let LichKingHeroPowerId = CardIds.NonCollectible.Neutral.RebornRitesTavernBrawl
     private final let LichKingHeroPowerEnchantmentId = CardIds.NonCollectible.Neutral.RebornRites_RebornRiteEnchantmentTavernBrawl
-    private final let canRemoveLichKing: Bool = RemoteConfig.data?.bobs_buddy?.can_remove_lich_king ?? false
+    private final let canRemoveLichKing: Bool = true
     
     private var runSimulationAfterCombat: Bool {
         return currentOpponentSecrets.count > 0
@@ -74,18 +75,6 @@ class BobsBuddyInvoker {
         return true
     }
     
-    func setMinionReborn(entityId: Int) {
-        if let rebornMinion = currentOpponentMinions[entityId] {
-            let opaque = mono_thread_attach(MonoHelper._monoInstance)
-            
-            defer {
-                mono_thread_detach(opaque)
-            }
-
-            rebornMinion.setReceivesLichKingPower(power: true)
-        }
-    }
-    
     func startCombat() {
         if !shouldRun() {
             return
@@ -101,8 +90,6 @@ class BobsBuddyInvoker {
         defer {
             mono_thread_detach(opaque)
         }
-
-        minionHeroPowerTrigger = nil
         
         snapshotBoardState()
         
@@ -124,28 +111,35 @@ class BobsBuddyInvoker {
             BobsBuddyInvoker.bobsBuddyDisplay.setState(st: .combat)
         }
         
-        if let mhpt = minionHeroPowerTrigger, canRemoveLichKing {
-            let minion = mhpt.minion
-            let start = DispatchTime.now()
-            logger.debug("Waiting for hero power \(mhpt.heroPowerId) trigger for \(minion.getMinionName())...")
-            
-            let result = mhpt.semaphore.wait(timeout: .now() + .milliseconds(HeroPowerTriggerTimeout))
-            
-            let duration = (DispatchTime.now().uptimeNanoseconds - start.uptimeNanoseconds) / 1_000_000
-            
-            if result == .timedOut {
-                logger.debug("Found no hero power trigger after \(duration)ms. Resetting receivedHeroPower on \(minion.getMinionName())")
-                minion.setReceivesLichKingPower(power: false)
-            } else {
-                logger.debug("Found hero power trigger for \(minion.getMinionName()) after \(duration)ms")
-            }
-        }
-        
         let game = AppDelegate.instance().coreManager.game
-        if game.opponent.board.any({ x in
-            x.cardId == LichKingHeroPowerId || x.cardId == LichKingHeroPowerEnchantmentId
-        }) {
-            usleep(useconds_t(LichKingDelay * 1000))
+
+        if canRemoveLichKing {
+            var lichKingMinions = [MinionProxy]()
+            let playerLichMinions = playerMinions.filter { x in x.getReceivesLichKingPower() }
+            let opponentLichMinions = opponentMinions.filter { x in x.getReceivesLichKingPower() }
+            lichKingMinions.append(contentsOf: playerLichMinions)
+            lichKingMinions.append(contentsOf: opponentLichMinions)
+            if lichKingMinions.count > 0 {
+                Thread.sleep(forTimeInterval: Double(LichKingDelay) / 1000.0)
+                for minion in lichKingMinions {
+                    if game.entities[Int(minion.getGameId())] != nil {
+                        let attachedEntities = BobsBuddyInvoker.getAttachedEntities(game: game, entityId: Int(minion.getGameId()))
+                        if !attachedEntities.any({ x in x.cardId == LichKingHeroPowerEnchantmentId }) {
+                            minion.setReceivesLichKingPower(power: false)
+                        }
+                    }
+                }
+                if playerLichMinions.count > 0 && input?.heroPowerInfo().playerActivatedPower() == HeroPowerEnum.none {
+                    for minion in playerLichMinions {
+                        minion.setReceivesLichKingPower(power: false)
+                    }
+                }
+                if opponentLichMinions.count > 0 && input?.heroPowerInfo().opponentActivatedPower() == HeroPowerEnum.none {
+                    for minion in opponentMinions {
+                        minion.setReceivesLichKingPower(power: false)
+                    }
+                }
+            }
         }
         
         if !runSimulationAfterCombat {
@@ -292,14 +286,6 @@ class BobsBuddyInvoker {
         return true
     }
     
-    func heroPowerTriggered(heroPowerId: String) {
-        if let mht = minionHeroPowerTrigger {
-            if mht.heroPowerId == heroPowerId {
-                mht.semaphore.signal()
-            }
-        }
-    }
-    
     func isUnknownCard(e: Entity?) -> Bool {
         return e?.card.id == "unknown"
     }
@@ -426,11 +412,13 @@ class BobsBuddyInvoker {
         let factory = simulator.minionFactory()
         
         let playerSide = BobsBuddyInvoker.getOrderedMinions(board: game.player.board).filter { e in e.isControlled(by: game.player.id) }.map { BobsBuddyInvoker.getMinionFromEntity(minionFactory: factory, player: true, ent: $0, attachedEntities: BobsBuddyInvoker.getAttachedEntities(game: game, entityId: $0.id))}
+        playerMinions = playerSide
         for m in playerSide {
             MonoHelper.addMinionToList(list: inputPlayerSide, minion: m)
         }
 
         let opponentSide = BobsBuddyInvoker.getOrderedMinions(board: game.opponent.board).filter { e in e.isControlled(by: game.opponent.id) }.map { BobsBuddyInvoker.getMinionFromEntity(minionFactory: factory, player: false, ent: $0, attachedEntities: BobsBuddyInvoker.getAttachedEntities(game: game, entityId: $0.id))}
+        opponentMinions = opponentSide
         for m in opponentSide {
             MonoHelper.addMinionToList(list: inputOpponentSide, minion: m)
         }
