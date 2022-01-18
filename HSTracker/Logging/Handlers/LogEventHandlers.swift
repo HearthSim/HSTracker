@@ -218,4 +218,6 @@ protocol PowerEventHandler: AnyObject {
     func handleEntityLostArmor(entity: Entity, value: Int)
     
     func handleMercenariesStateChange()
+    
+    func handleProposedAttackerChange(entity: Entity)
 }

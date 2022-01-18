@@ -207,6 +207,16 @@ struct TagChangeActions {
 
     private func proposedAttackerChange(eventHandler: PowerEventHandler, value: Int) {
         eventHandler.proposedAttackerEntityId = value
+        if value <= 0 {
+            return
+        }
+        guard let entity = eventHandler.entities[value] else {
+            return
+        }
+        if entity.isHero {
+            logger.debug("Saw hero attack from \(entity.cardId)")
+        }
+        eventHandler.handleProposedAttackerChange(entity: entity)
     }
 
     private func predamageChange(eventHandler: PowerEventHandler, id: Int, value: Int) {

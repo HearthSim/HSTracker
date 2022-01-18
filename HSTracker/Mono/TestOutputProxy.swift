@@ -59,8 +59,8 @@ class TestOutputProxy: MonoHandle {
         return MonoHelper.getIntField(obj: self, field: TestOutputProxy._simulationCount)
     }
     
-    func getMyExitCondition() -> Int32 {
-        return MonoHelper.getIntField(obj: self, field: TestOutputProxy._myExitCondition)
+    func getMyExitCondition() -> ExitConditions {
+        return ExitConditions(rawValue: Int(MonoHelper.getIntField(obj: self, field: TestOutputProxy._myExitCondition))) ?? .completedSimulations
     }
     
     func getResultDamage() -> [Int32] {

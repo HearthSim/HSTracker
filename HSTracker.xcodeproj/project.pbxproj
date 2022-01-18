@@ -421,6 +421,9 @@
 		B83355AE24F807220025F644 /* BobsBuddyPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = B83355B024F807220025F644 /* BobsBuddyPanel.xib */; };
 		B83355B524F850C10025F644 /* Mono.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B864A14224F58539005EA2A0 /* Mono.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		B836821E27873B40007D5740 /* HeroPowerInfoProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B836821D27873B40007D5740 /* HeroPowerInfoProxy.swift */; };
+		B836822027888B12007D5740 /* CombatResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B836821F27888B12007D5740 /* CombatResult.swift */; };
+		B836822227888B4D007D5740 /* LethalResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B836822127888B4D007D5740 /* LethalResult.swift */; };
+		B83682242789F812007D5740 /* ExitConditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83682232789F812007D5740 /* ExitConditions.swift */; };
 		B8449A042781C7360094E5B3 /* ReplicatingMenace.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8449A032781C7360094E5B3 /* ReplicatingMenace.swift */; };
 		B8449A062781CB6F0094E5B3 /* GenericDeathrattles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8449A052781CB6F0094E5B3 /* GenericDeathrattles.swift */; };
 		B850AA33252CB0490031E8F2 /* TurnCounter.xib in Resources */ = {isa = PBXBuildFile; fileRef = B850AA32252CB0490031E8F2 /* TurnCounter.xib */; };
@@ -997,6 +1000,9 @@
 		B83355B124F84CBF0025F644 /* libmonosgen-2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libmonosgen-2.0.a"; path = "../../../Library/Frameworks/Mono.framework/Versions/6.12.0/lib/libmonosgen-2.0.a"; sourceTree = "<group>"; };
 		B83355B324F84F200025F644 /* libiconv.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.2.dylib; path = ../../../usr/lib/libiconv.2.dylib; sourceTree = "<group>"; };
 		B836821D27873B40007D5740 /* HeroPowerInfoProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroPowerInfoProxy.swift; sourceTree = "<group>"; };
+		B836821F27888B12007D5740 /* CombatResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatResult.swift; sourceTree = "<group>"; };
+		B836822127888B4D007D5740 /* LethalResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LethalResult.swift; sourceTree = "<group>"; };
+		B83682232789F812007D5740 /* ExitConditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExitConditions.swift; sourceTree = "<group>"; };
 		B8449A032781C7360094E5B3 /* ReplicatingMenace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplicatingMenace.swift; sourceTree = "<group>"; };
 		B8449A052781CB6F0094E5B3 /* GenericDeathrattles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericDeathrattles.swift; sourceTree = "<group>"; };
 		B850AA32252CB0490031E8F2 /* TurnCounter.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TurnCounter.xib; sourceTree = "<group>"; };
@@ -1886,6 +1892,9 @@
 				B8D8859124F3034700F2F0F2 /* StatusMessageConverter.swift */,
 				B8D8859924F4185200F2F0F2 /* BobsBuddyErrorState.swift */,
 				B864A13D24F54E1F005EA2A0 /* MinionHeroPowerTrigger.swift */,
+				B836821F27888B12007D5740 /* CombatResult.swift */,
+				B836822127888B4D007D5740 /* LethalResult.swift */,
+				B83682232789F812007D5740 /* ExitConditions.swift */,
 			);
 			path = BobsBuddy;
 			sourceTree = "<group>";
@@ -2389,6 +2398,7 @@
 				B8DC376125D06C2F00452A83 /* OpponentDeadForTracker.swift in Sources */,
 				43A8A0F71E1557C900AF34FD /* FormatType.swift in Sources */,
 				B8820CD025603FB00072ECBC /* RemoteConfig.swift in Sources */,
+				B83682242789F812007D5740 /* ExitConditions.swift in Sources */,
 				4CECFFD923C111AA0093253E /* BattlegroundsTierDetailsView.swift in Sources */,
 				4C3E2DA52460C82900292349 /* FrameView.swift in Sources */,
 				B8DC11F224E77F040088A755 /* BobsBuddyState.swift in Sources */,
@@ -2443,6 +2453,7 @@
 				434910521D09773D00B22DB2 /* IBoardEntity.swift in Sources */,
 				43BDF0BE1DB89A830081964A /* WindowManager.swift in Sources */,
 				436789B71CACF64600C962D1 /* CardCounter.swift in Sources */,
+				B836822027888B12007D5740 /* CombatResult.swift in Sources */,
 				4359BF941D52142D00F61993 /* PlayedCard.swift in Sources */,
 				439C7E851C777CFC00D29859 /* Deck.swift in Sources */,
 				B864AE2225979E9100793F36 /* AdventureModeDbId.swift in Sources */,
@@ -2539,6 +2550,7 @@
 				436F5D0E1CFD64A300DEB9A1 /* ThemeElementInfo.swift in Sources */,
 				1CB623A71DD37C890045E0CF /* GlowFilter.m in Sources */,
 				4349104E1D09757800B22DB2 /* BoardState.swift in Sources */,
+				B836822227888B4D007D5740 /* LethalResult.swift in Sources */,
 				434910471D09505E00B22DB2 /* BoardDamage.swift in Sources */,
 				B8C33FB1273EF851006DA79E /* MercenariesCoins.swift in Sources */,
 				439C7EDE1C777FA900D29859 /* ImageUtils.swift in Sources */,
@@ -3569,7 +3581,7 @@
 			repositoryURL = "https://github.com/microsoft/appcenter-sdk-apple";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 4.0.0;
+				minimumVersion = 4.4.1;
 			};
 		};
 		B8D75BB825BCE97000446923 /* XCRemoteSwiftPackageReference "Wrap" */ = {

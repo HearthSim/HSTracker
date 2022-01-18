@@ -175,6 +175,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func applicationWillTerminate(_ notification: Notification) {
+        Analytics.trackEvent("app_exit")
         if coreManager != nil {
             // we are in the initial configuration, do not crash
             coreManager.stopTracking()

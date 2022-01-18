@@ -25,6 +25,8 @@ class TestInputProxy: MonoHandle {
     static var _addMinionToPlayerSideAH: OpaquePointer!
     static var _addMinionToOpponentSideAH: OpaquePointer!
     static var _setPlayerHandSize: OpaquePointer!
+    static var _opponentIsKelThuzad: OpaquePointer!
+    static var _opponentPowerId: OpaquePointer!
 
     static var _playerSide: OpaquePointer!
     static var _opponentSide: OpaquePointer!
@@ -38,6 +40,7 @@ class TestInputProxy: MonoHandle {
         
         if TestInputProxy._class == nil {
             TestInputProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Simulation", name: "TestInput")
+            // methods
             TestInputProxy._constructor = MonoHelper.getMethod(TestInputProxy._class, ".ctor", 1)
             TestInputProxy._setHealths = MonoHelper.getMethod(TestInputProxy._class, "SetHealths", 2)
             TestInputProxy._setTiers = MonoHelper.getMethod(TestInputProxy._class, "SetTiers", 2)
@@ -52,15 +55,17 @@ class TestInputProxy: MonoHandle {
             TestInputProxy._addMinionToPlayerSideAH = MonoHelper.getMethod(TestInputProxy._class, "AddMinionToPlayerSide", 3)
             TestInputProxy._addMinionToOpponentSideAH = MonoHelper.getMethod(TestInputProxy._class, "AddMinionToOpponentSide", 3)
             TestInputProxy._setPlayerHandSize = MonoHelper.getMethod(TestInputProxy._class, "SetPlayerHandSize", 1)
-
             TestInputProxy._unitTest = MonoHelper.getMethod(TestInputProxy._class, "UnitTestCopyableVersion", 0)
+            TestInputProxy._opponentIsKelThuzad = MonoHelper.getMethod(TestInputProxy._class, "OpponentIsKelThuzad", 0)
             
+            // fields
             TestInputProxy._playerSide = MonoHelper.getField(TestInputProxy._class, "playerSide")
             TestInputProxy._opponentSide = MonoHelper.getField(TestInputProxy._class, "opponentSide")
             TestInputProxy._damageCap = MonoHelper.getField(TestInputProxy._class, "DamageCap")
             TestInputProxy._playerSecrets = MonoHelper.getField(TestInputProxy._class, "PlayerSecrets")
             TestInputProxy._opponentSecrets = MonoHelper.getField(TestInputProxy._class, "OpponentSecrets")
             TestInputProxy._heroPowerInfo = MonoHelper.getField(TestInputProxy._class, "heroPowerInfo")
+            TestInputProxy._opponentPowerId = MonoHelper.getField(TestInputProxy._class, "opponentPowerID")
         }
         
         let obj = MonoHelper.objectNew(clazz: TestInputProxy._class!)
@@ -179,6 +184,14 @@ class TestInputProxy: MonoHandle {
         let r = mono_field_get_value_object(MonoHelper._monoInstance, TestInputProxy._heroPowerInfo, get())
 
         return HeroPowerInfoProxy(obj: r)
+    }
+    
+    func opponentIsKelThuzad() -> Bool {
+        return MonoHelper.getBool(obj: self, method: TestInputProxy._opponentIsKelThuzad)
+    }
+    
+    func opponentPowerId() -> String {
+        return MonoHelper.getStringField(obj: self, field: TestInputProxy._opponentPowerId)
     }
 
     func unitestCopyableVersion() -> String {

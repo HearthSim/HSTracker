@@ -9,13 +9,14 @@
 import Foundation
 import PromiseKit
 import AppCenterAnalytics
+import AppCenterCrashes
 
 class BobsBuddyInvoker {
     
     let Iterations: Int = 10_000
     let MaxTime: Int = 1_500
     let MaxTimeForComplexBoards = 3_000
-    let HeroPowerTriggerTimeout = 5000
+    let MinimumSimulationsToReportSentry = 2500
     let StateChangeDelay = 500
     let LichKingDelay = 2000
     
@@ -30,6 +31,7 @@ class BobsBuddyInvoker {
     var errorState: BobsBuddyErrorState = .none
     
     var input: TestInputProxy?
+    var output: TestOutputProxy?
     
     private var opponentMinions = [MinionProxy]()
     private var playerMinions = [MinionProxy]()
@@ -38,11 +40,23 @@ class BobsBuddyInvoker {
     
     private var currentOpponentSecrets: [Entity] = []
         
-    private let turn: Int
+    private var _turn: Int = 0
+    
+    var opponentCardId = ""
+    var playerCardId = ""
     
     private final let LichKingHeroPowerId = CardIds.NonCollectible.Neutral.RebornRitesTavernBrawl
     private final let LichKingHeroPowerEnchantmentId = CardIds.NonCollectible.Neutral.RebornRites_RebornRiteEnchantmentTavernBrawl
+    private var _removedLichKingHeroPowerFromMinion = false
     private final let canRemoveLichKing: Bool = true
+    
+    private var _attackingHero: Entity?
+    private var _defendingHero: Entity?
+    var LastAttackingHero: Entity?
+    var LastAttackingHeroAttack: Int = 0
+    
+    var _instanceKey = ""
+    let game: Game
     
     private var runSimulationAfterCombat: Bool {
         return currentOpponentSecrets.count > 0
@@ -50,26 +64,42 @@ class BobsBuddyInvoker {
     
     let queue = DispatchQueue(label: "BobsBuddy", qos: .userInitiated)
     
-    private static var _instance: BobsBuddyInvoker?
+    private static let semaphore = DispatchSemaphore(value: 1)
+    private static var _instances = [String: BobsBuddyInvoker]()
+    private static var _currentGameId = ""
     
     private static let bobsBuddyDisplay = AppDelegate.instance().coreManager.game.windowManager.bobsBuddyPanel
     
-    private init(turn: Int) {
-        self.turn = turn
+    private init(key: String) {
+        _instanceKey = key
+        game = AppDelegate.instance().coreManager.game
     }
     
-    static func instance(turn: Int) -> BobsBuddyInvoker {
-        if let inst = _instance {
-            if inst.turn == turn {
-                return inst
-            }
+    static func instance(gameId: String, turn: Int, createInstanceIfNoneFound: Bool = true) -> BobsBuddyInvoker? {
+        semaphore.wait()
+        defer {
+            semaphore.signal()
         }
-        _instance = BobsBuddyInvoker(turn: turn)
-        return _instance!
+        if _currentGameId != gameId {
+            logger.debug("New GameId. Clearing instances...")
+            _instances.removeAll()
+        }
+        _currentGameId = gameId
+        
+        let key = "\(gameId)_\(turn)"
+        
+        if let inst = _instances[key] {
+            return inst
+        } else if createInstanceIfNoneFound {
+            let inst = BobsBuddyInvoker(key: key)
+            _instances[key] = inst
+            return inst
+        }
+        return nil
     }
     
     func shouldRun() -> Bool {
-        if !AppDelegate.instance().coreManager.game.isBattlegroundsMatch() {
+        if !game.isBattlegroundsMatch() {
             return false
         }
         return true
@@ -91,7 +121,7 @@ class BobsBuddyInvoker {
             mono_thread_detach(opaque)
         }
         
-        snapshotBoardState()
+        snapshotBoardState(turn: game.turnNumber())
         
         Thread.sleep(forTimeInterval: Double(StateChangeDelay) / 1_000.0)
         
@@ -110,8 +140,8 @@ class BobsBuddyInvoker {
         } else {
             BobsBuddyInvoker.bobsBuddyDisplay.setState(st: .combat)
         }
-        
-        let game = AppDelegate.instance().coreManager.game
+                
+        _removedLichKingHeroPowerFromMinion = false
 
         if canRemoveLichKing {
             var lichKingMinions = [MinionProxy]()
@@ -126,15 +156,18 @@ class BobsBuddyInvoker {
                         let attachedEntities = BobsBuddyInvoker.getAttachedEntities(game: game, entityId: Int(minion.getGameId()))
                         if !attachedEntities.any({ x in x.cardId == LichKingHeroPowerEnchantmentId }) {
                             minion.setReceivesLichKingPower(power: false)
+                            _removedLichKingHeroPowerFromMinion = true
                         }
                     }
                 }
                 if playerLichMinions.count > 0 && input?.heroPowerInfo().playerActivatedPower() == HeroPowerEnum.none {
+                    _removedLichKingHeroPowerFromMinion = true
                     for minion in playerLichMinions {
                         minion.setReceivesLichKingPower(power: false)
                     }
                 }
                 if opponentLichMinions.count > 0 && input?.heroPowerInfo().opponentActivatedPower() == HeroPowerEnum.none {
+                    _removedLichKingHeroPowerFromMinion = true
                     for minion in opponentMinions {
                         minion.setReceivesLichKingPower(power: false)
                     }
@@ -169,7 +202,7 @@ class BobsBuddyInvoker {
                 }
 
                 // Add enum for exit conditions
-                if top.getSimulationCount() <= 500 && top.getMyExitCondition() ==  0 {
+                if top.getSimulationCount() <= 500 && top.getMyExitCondition() ==  .time {
                     logger.debug("Could not perform enough simulations. Displaying error state and exiting.")
                     self.errorState = .notEnoughData
                     BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .notEnoughData)
@@ -184,6 +217,7 @@ class BobsBuddyInvoker {
                     
                     BobsBuddyInvoker.bobsBuddyDisplay.showCompletedSimulation(winRate: winRate, tieRate: tieRate, lossRate: lossRate, playerLethal: theirDeathRate, opponentLethal: myDeathRate, possibleResults: possibleResults)
                 }
+                self.output = top
                 seal.fulfill(true)
             }.catch({ error in
                 logger.error("Error running simulation: \(error.localizedDescription)")
@@ -261,7 +295,7 @@ class BobsBuddyInvoker {
         }
     }
     
-    func startShopping() {
+    func startShopping(validate: Bool = true) {
         if state == .shopping {
             logger.debug("Already in shopping state. Exiting")
             return
@@ -270,8 +304,15 @@ class BobsBuddyInvoker {
         BobsBuddyInvoker.bobsBuddyDisplay.setState(st: .shopping)
         if !runSimulationAfterCombat {
             logger.debug("Setting UI state to shopping")
+            if validate {
+                validateSimulationResult()
+            }
         } else {
-            _ = runAndDisplaySimulationAsync().done { _ in }.catch { error in
+             _ = runAndDisplaySimulationAsync().done { _ in
+                 if validate {
+                     self.validateSimulationResult()
+                 }
+            }.catch { error in
                 logger.error(error)
             }
         }
@@ -284,6 +325,181 @@ class BobsBuddyInvoker {
         BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: errorState)
         logger.debug("ErrorState=\(errorState)")
         return true
+    }
+    
+    func updateAttackingEntities(attacker: Entity, defender: Entity) {
+        guard attacker.isHero && defender.isHero else {
+            return
+        }
+        logger.debug("Updating entities with attacker=\(attacker.card.name), defender=\(defender.card.name)")
+        _defendingHero = defender
+        _attackingHero = attacker
+    }
+    
+    func handleNewAttackingEntity(newAttacker: Entity) {
+        if newAttacker.isHero {
+            LastAttackingHero = newAttacker
+            LastAttackingHeroAttack = newAttacker.attack
+        }
+    }
+    
+    private func getLastCombatDamageDealt() -> Int {
+        if LastAttackingHero != nil {
+            return LastAttackingHeroAttack
+        }
+        return 0
+    }
+    
+    private func getLastCombatResult() -> CombatResult {
+        guard let LastAttackingHero = LastAttackingHero else {
+            return .tie
+        }
+        let playerHero = game.entities.values.first { x in x.cardId == playerCardId }
+        let opponentHero = game.entities.values.first { x in x.cardId == opponentCardId }
+        
+        if let playerHero = playerHero, let opponentHero = opponentHero {
+            if LastAttackingHero.cardId == playerHero.cardId {
+                return .win
+            }
+            if LastAttackingHero.cardId == opponentHero.cardId {
+                return .loss
+            }
+        }
+        return .invalid
+    }
+    
+    private func getLastLethalResult() -> LethalResult {
+        guard let defendingHero = _defendingHero, let attackingHero = _attackingHero else {
+            return .noOneDied
+        }
+
+        let totalDefenderHealth = defendingHero.health + defendingHero[.armor]
+        if attackingHero.attack >= totalDefenderHealth {
+            if attackingHero.isControlled(by: game.player.id) {
+                return .opponentDied
+            } else {
+                return .friendlyDied
+            }
+        }
+        return .noOneDied
+    }
+    
+    private func validateSimulationResult() {
+        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        
+        defer {
+            mono_thread_detach(opaque)
+        }
+        logger.debug("Validating results...")
+        guard let output = output else {
+            logger.debug("_lastSimulationResult is null. Exiting")
+            return
+        }
+        if output.getSimulationCount() < MinimumSimulationsToReportSentry {
+            logger.debug("Did not complete enough simulations to report terminal cases. Exiting.")
+            return
+        }
+        
+        let metricSampling = RemoteConfig.data?.bobs_buddy?.metric_sampling ?? 0
+        let reportErrors = RemoteConfig.data?.bobs_buddy?.sentry_reporting ?? false
+        
+        logger.debug("metricSampling=\(metricSampling), reportErrors=\(reportErrors)")
+        
+        if !reportErrors && metricSampling == 0 {
+            logger.debug("Nothing to report. Exiting.")
+            return
+        }
+        
+        //We delay checking the combat results because the tag changes can sometimes be read by the parser with a bit of delay after they're printed in the log.
+        //Without this delay they can occasionally be missed.
+        
+        Thread.sleep(forTimeInterval: 0.050)
+        let result = getLastCombatResult()
+        let lethalResult = getLastLethalResult()
+        
+        logger.debug("result=\(result), lethalResult=\(lethalResult)")
+        
+        if lethalResult == .friendlyDied && game.wasConceded {
+            logger.debug("Game was conceded. Not reporting.")
+            return
+        }
+        
+//        var terminalCase = false
+        
+        if isIncorrectCombatResult(result: result) {
+//            terminalCase = true
+            if reportErrors {
+                alertWithLastInputOutput(result: "\(result)")
+            }
+        }
+        
+        if isIncorrectLethalResult(result: lethalResult) && !opposingKelThuzadDied(result: lethalResult) {
+            // Akazamzarak hero power - secrets are supported but not for lethal.
+            if input?.opponentPowerId() == CardIds.NonCollectible.Neutral.PrestidigitationTavernBrawl {
+                logger.debug("Opponent was Akazamarak. Currently not reporting lethal results. Exiting.")
+                return
+            }
+            
+            // There should never be relevant lethals this early in the game.
+            // These missed lethals are likely caused by some bug.
+            if _turn <= 5 {
+                logger.debug("There should not be missed lethals on turn ${_turn}, this is probably a bug. This won't be reported.")
+                return
+            }
+//            terminalCase = true
+            if reportErrors {
+                alertWithLastInputOutput(result: "\(lethalResult)")
+            }
+        }   
+//        Analytics.trackEvent("BobsBuddy_SimulationComplete", withProperties: [
+//            "result": "\(result)",
+//            "terminal_case": "\(terminalCase)",
+//            "turn": "\(_turn)",
+//            "exit_condition": "\(output.getMyExitCondition())",
+//            "thread_count": "\(ProcessInfo.processInfo.activeProcessorCount / 2)",
+//            "removed_lich_king": "\(_removedLichKingHeroPowerFromMinion)",
+//            "can_remove_lich_king": "\(canRemoveLichKing)",
+//            "iterations": "\(output.getSimulationCount())",
+//            "result_win": "\(result == .win ? 1 : 0)",
+//            "result_tie": "\(result == .tie ? 1 : 0)",
+//            "result_loss": "\(result == .loss ? 1 : 0)",
+//            "win_rate": "\(output.getWinRate() * 100.0)",
+//            "tie_rate": "\(output.getTieRate() * 100.0)",
+//            "loss_rate": "\(output.getLossRate() * 100.0)"
+//        ])
+    }
+    
+    private func alertWithLastInputOutput(result: String) {
+        logger.debug("Queing alert... (valind input: \(input != nil)")
+        if let input = input, let output = output {
+            Crashes.trackException(ExceptionModel.init(withType: "BobsBuddy_TerminalCase", exceptionMessage: "BobsBuddy Terminal Case", stackTrace: []), properties: [
+                "turn": "\(_turn)",
+                "result": "\(result)",
+                "threadCount": "\(ProcessInfo.processInfo.activeProcessorCount / 2)",
+                "iterations": "\(output.getSimulationCount())",
+                "exitCondition": "\(output.getMyExitCondition())",
+                "output": MonoHelper.toString(obj: output)], attachments: [
+                    ErrorAttachmentLog.attachment(withText: input.unitestCopyableVersion(), filename: "input.cs")])
+        }
+    }
+    
+    private func isIncorrectCombatResult(result: CombatResult) -> Bool {
+        return result == .tie && output?.getTieRate() == 0 ||
+        result == .win && output?.getWinRate() == 0 ||
+        result == .loss && output?.getLossRate() == 0
+    }
+    
+    private func isIncorrectLethalResult(result: LethalResult) -> Bool {
+        return result == .friendlyDied && output?.getMyDeathRate() == 0 ||
+        result == .opponentDied && output?.getTheirDeathRate() == 0
+    }
+    
+    private func opposingKelThuzadDied(result: LethalResult) -> Bool {
+        guard let input = input else {
+            return false
+        }
+
+        return result == .opponentDied && input.opponentIsKelThuzad()
     }
     
     func isUnknownCard(e: Entity?) -> Bool {
@@ -354,8 +570,9 @@ class BobsBuddyInvoker {
         // swiftlint:enable force_cast
     }
 
-    func snapshotBoardState() {
-        let game = AppDelegate.instance().coreManager.game
+    func snapshotBoardState(turn: Int) {
+        logger.debug("Snapshotting board state...")
+        LastAttackingHero = nil
         
         let simulator = SimulatorProxy()
         let input = TestInputProxy(simulator: simulator)
@@ -380,6 +597,10 @@ class BobsBuddyInvoker {
             oppHealth = 1000
         }
         input.setHealths(player: Int32(playerHero.health) + Int32(playerHero[.armor]), opponent: Int32(oppHealth) + Int32(oppHero[.armor]))
+        
+        //We set OpponentCardId and PlayerCardId here so that later we can do lookups for these entites without using _game.Opponent/Player, which might be innacurate or null depending on when they're accessed.
+        opponentCardId = oppHero.cardId
+        playerCardId = playerHero.cardId
         
         let playerTechLevel = playerHero[GameTag.player_tech_level]
         let opponentTechLevel = oppHero[GameTag.player_tech_level]
@@ -424,5 +645,6 @@ class BobsBuddyInvoker {
         }
 
         self.input = input
+        self._turn = turn
     }
 }
