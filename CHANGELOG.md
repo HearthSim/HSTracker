@@ -1,3 +1,22 @@
+# 2.0.9
+## New
+- Added experimental support for Arena tier list generated from HSReplay data
+- Require MacOS 10.12 or later again (may change in the near future)
+## Fixes
+- Fixed crash caused by missing synchronization of collection helper
+- Resize card bar based on text length to avoid clipping of long card names
+- Sort missing Battlegrounds tribe names
+## Bob's Buddy
+- Fixed an issue where Fish of N'Zoth was not copying all types of Deathrattles correctly.
+- Fixed an issue where Cattlecarp of N'Zoth was not working.
+- Fixed an issue where extra Deathrattles from Baron Rivendare would resolve too early.
+- Fixed an issue where Avenge effects would resolve too early.
+- Fixed an issue where golden Impulsive Trickster would always target the same minion twice.
+- Fixed an issue where Grease Bot would buff the target before damage was dealt.
+- Fixed an issue with the interaction between Greybough's Hero Power and Khadgar.
+- Fixed an issue where Prestor's Pyrospawn woud trigger on non-dragon minions and itself.
+- Fixed an issue where the 15 damage cap was still applied incorrectly in many cases when determining lethal rates.
+
 # 2.0.8
 ## Fixes
 - Notarize the application to allow it running
