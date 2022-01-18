@@ -110,7 +110,7 @@ class BattlegroundsTierDetailsView: NSStackView {
             cardBar.playerType = .deckManager
             cardBars.append(cardBar)
 
-            let text = unavailable.compactMap({ race in NSLocalizedString(race.rawValue, comment: "")}).joined(separator: ", ")
+            let text = unavailable.compactMap({ race in NSLocalizedString(race.rawValue, comment: "")}).sorted().joined(separator: ", ")
             cardBar = CardBar.factory()
             cardBar.playerName = text
             cardBar.playerRace = .blank
