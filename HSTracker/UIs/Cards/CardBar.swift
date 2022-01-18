@@ -581,6 +581,40 @@ class CardBar: NSView, CardBarTheme {
             width: width,
             height: 30))
     }
+    
+    func fitFontForSize(_ constrainedSize: CGSize,
+                        str: String,
+                        fontName: String,
+                        maxFontSize: CGFloat = 15,
+                        minFontSize: CGFloat = 5,
+                        accuracy: CGFloat = 1) -> CGFloat {
+        assert(maxFontSize > minFontSize)
+
+        var minFontSize = minFontSize
+        var maxFontSize = maxFontSize
+        var fittingSize = constrainedSize
+
+        while maxFontSize - minFontSize > accuracy {
+            let midFontSize: CGFloat = ((minFontSize + maxFontSize) / 2)
+            if let font = NSFont(name: fontName, size: round(midFontSize / ratioHeight)) {
+                let attributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: font,
+                                  NSAttributedString.Key.strokeWidth: -2.0]
+                let options: NSString.DrawingOptions = [.usesLineFragmentOrigin, .usesFontLeading]
+                let size = CGSize(width: constrainedSize.width, height: .greatestFiniteMagnitude)
+                let attributedString = NSAttributedString(string: str, attributes: attributes)
+                fittingSize = attributedString.boundingRect(with: size, options: options, context: nil).size
+
+                if fittingSize.height <= constrainedSize.height && fittingSize.width <= constrainedSize.width {
+                    minFontSize = midFontSize
+                } else {
+                    maxFontSize = midFontSize
+                }
+            }
+        }
+
+        return min(minFontSize, maxFontSize)
+    }
+    
     func addCardName(rect: NSRect) {
         var name: String?
         var textColor: NSColor = .white
@@ -597,7 +631,8 @@ class CardBar: NSView, CardBarTheme {
         }
 
         if let name = name {
-            add(text: name, fontSize: textFontSize,
+            let fontSize = fitFontForSize(ratio(rect).size, str: name, fontName: textFont, maxFontSize: 15.0, minFontSize: 5.0)
+            add(text: name, fontSize: fontSize,
                     rect: rect, textColor: textColor, font: textFont)
         }
     }
