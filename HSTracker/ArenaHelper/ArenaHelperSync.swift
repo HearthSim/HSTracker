@@ -10,7 +10,7 @@ import Foundation
 
 class ArenaHelperSync {
     private static var latestVersion: String?
-    private static var url = "https://raw.githubusercontent.com/rembound/Arena-Helper/master/data"
+    private static var url = "https://hsdecktracker.net/data/arena"
 
     static func checkTierList(splashscreen: Splashscreen) {
         DispatchQueue.main.async {
@@ -33,7 +33,7 @@ class ArenaHelperSync {
     static func isOutdated() -> Bool {
         guard let latest = self.latestVersion else { return true }
 
-        guard let actual = UserDefaults.standard.string(forKey: "arena_helper_version") else {
+        guard let actual = UserDefaults.standard.string(forKey: "hsreplay_cardtier_version") else {
             return true
         }
 
@@ -94,7 +94,7 @@ class ArenaHelperSync {
         _ = semaphore.wait(timeout: DispatchTime.distantFuture)
 
         if !hasError {
-            UserDefaults.standard.set(latest, forKey: "arena_helper_version")
+            UserDefaults.standard.set(latest, forKey: "hsreplay_cardtier_version")
         }
     }
 }
