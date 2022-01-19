@@ -87,7 +87,7 @@ class MonoHelper {
         let sim = SimulatorProxy()
         
         if sim.valid() {
-            let test = TestInputProxy(simulator: sim)
+            let test = InputProxy(simulator: sim)
             
             test.setHealths(player: 4, opponent: 4)
             
@@ -96,16 +96,20 @@ class MonoHelper {
             test.setPowerID(player: "TB_BaconShop_HP_043", opponent: "TB_BaconShop_HP_061")
             test.setHeroPower(player: false, opponent: false)
 
-            _ = test.addMinionToPlayerSide(minion: "UNG_073")
-            _ = test.addMinionToPlayerSide(minion: "UNG_073")
-            _ = test.addMinionToPlayerSide(minion: "EX1_506a")
-            _ = test.addMinionToPlayerSide(minion: "EX1_506a")
+            let ps = test.getPlayerSide()
+            let os = test.getOpponentSide()
+            let factory = sim.minionFactory()
 
-            _ = test.addMinionToOpponentSide(minion: "UNG_073")
-            _ = test.addMinionToOpponentSide(minion: "EX1_506")
-            let murloc = test.addMinionToOpponentSide(minion: "EX1_506a")
+            MonoHelper.addMinionToList(list: ps, minion: factory.getMinionFromCardid(id: "UNG_073", player: true))
+            MonoHelper.addMinionToList(list: ps, minion: factory.getMinionFromCardid(id: "UNG_073", player: true))
+            MonoHelper.addMinionToList(list: ps, minion: factory.getMinionFromCardid(id: "EX1_506a", player: true))
+            MonoHelper.addMinionToList(list: ps, minion: factory.getMinionFromCardid(id: "EX1_506a", player: true))
+
+            MonoHelper.addMinionToList(list: os, minion: factory.getMinionFromCardid(id: "UNG_073", player: false))
+            MonoHelper.addMinionToList(list: os, minion: factory.getMinionFromCardid(id: "EX1_506", player: false))
+            let murloc = factory.getMinionFromCardid(id: "EX1_506a", player: false)
             murloc.setPoisonous(poisonous: true)
-            _ = test.addMinionToOpponentSide(minion: "EX1_506a")
+            MonoHelper.addMinionToList(list: os, minion: murloc)
 
             let playerSecrets = test.getPlayerSecrets()
             test.addSecretFromDbfid(id: Int32(Cards.any(byId: "TB_Bacon_Secrets_12")?.dbfId ?? 0), target: playerSecrets)
@@ -131,7 +135,7 @@ class MonoHelper {
             
             let meth2 = mono_class_get_method_from_name(c, "get_Result", 0)
             let output = mono_runtime_invoke(meth2, inst2, nil, nil)
-            let top = TestOutputProxy(obj: output)
+            let top = OutputProxy(obj: output)
 
             let ostr = MonoHelper.toString(obj: top)
             logger.debug("testSimulation result is \(ostr)")

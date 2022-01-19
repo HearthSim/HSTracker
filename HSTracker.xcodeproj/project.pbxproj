@@ -413,7 +413,7 @@
 		B82E7B16262A798000C42EF0 /* ShortIdHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E7B15262A798000C42EF0 /* ShortIdHelper.swift */; };
 		B82E7B19262A88DB00C42EF0 /* BigInt in Frameworks */ = {isa = PBXBuildFile; productRef = B82E7B18262A88DB00C42EF0 /* BigInt */; };
 		B82F4EAB24E3021D00905024 /* MonoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82F4EAA24E3021D00905024 /* MonoHelper.swift */; };
-		B82F4EAE24E3229200905024 /* TestInputProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82F4EAD24E3229200905024 /* TestInputProxy.swift */; };
+		B82F4EAE24E3229200905024 /* InputProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82F4EAD24E3229200905024 /* InputProxy.swift */; };
 		B82F4EB024E32C3000905024 /* SimulatorProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82F4EAF24E32C3000905024 /* SimulatorProxy.swift */; };
 		B82F4EB224E4088500905024 /* MinionFactoryProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82F4EB124E4088500905024 /* MinionFactoryProxy.swift */; };
 		B82F4EB424E40B9F00905024 /* MinionProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82F4EB324E40B9F00905024 /* MinionProxy.swift */; };
@@ -547,15 +547,15 @@
 		B8DC11F224E77F040088A755 /* BobsBuddyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC11F124E77F040088A755 /* BobsBuddyState.swift */; };
 		B8DC11F424EACDB80088A755 /* SimulationRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC11F324EACDB80088A755 /* SimulationRunner.swift */; };
 		B8DC120024EC5F9A0088A755 /* BobsBuddyPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC11FF24EC5F990088A755 /* BobsBuddyPanel.swift */; };
-		B8DC120524EC79370088A755 /* TestOutputProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC120424EC79370088A755 /* TestOutputProxy.swift */; };
+		B8DC120524EC79370088A755 /* OutputProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC120424EC79370088A755 /* OutputProxy.swift */; };
 		B8DC376125D06C2F00452A83 /* OpponentDeadForTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC376025D06C2F00452A83 /* OpponentDeadForTracker.swift */; };
 		B8DEDCC22547C4AE00DF524B /* DemonHunter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CED5D14243D1B27006D2E1F /* DemonHunter.swift */; };
 		B8DEDCC32547C4B900DF524B /* TurnCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */; };
 		B8DEDCC42547C4C000DF524B /* MonoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82F4EAA24E3021D00905024 /* MonoHelper.swift */; };
 		B8DEDCC52547C4EA00DF524B /* MonoHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC11ED24E5A8360088A755 /* MonoHandle.swift */; };
 		B8DEDCC62547C4F200DF524B /* SimulatorProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82F4EAF24E32C3000905024 /* SimulatorProxy.swift */; };
-		B8DEDCC72547C4F800DF524B /* TestInputProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82F4EAD24E3229200905024 /* TestInputProxy.swift */; };
-		B8DEDCC82547C4FD00DF524B /* TestOutputProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC120424EC79370088A755 /* TestOutputProxy.swift */; };
+		B8DEDCC72547C4F800DF524B /* InputProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82F4EAD24E3229200905024 /* InputProxy.swift */; };
+		B8DEDCC82547C4FD00DF524B /* OutputProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC120424EC79370088A755 /* OutputProxy.swift */; };
 		B8DEDCC92547C50700DF524B /* SimulationRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC11F324EACDB80088A755 /* SimulationRunner.swift */; };
 		B8DEDCCA2547C51A00DF524B /* MinionProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82F4EB324E40B9F00905024 /* MinionProxy.swift */; };
 		B8DEDCCC2547C52800DF524B /* ToastWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2D89245ED13D00292349 /* ToastWindowController.swift */; };
@@ -990,7 +990,7 @@
 		B82E7B13262A533F00C42EF0 /* MulliganToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulliganToastView.swift; sourceTree = "<group>"; };
 		B82E7B15262A798000C42EF0 /* ShortIdHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortIdHelper.swift; sourceTree = "<group>"; };
 		B82F4EAA24E3021D00905024 /* MonoHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonoHelper.swift; sourceTree = "<group>"; };
-		B82F4EAD24E3229200905024 /* TestInputProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestInputProxy.swift; sourceTree = "<group>"; };
+		B82F4EAD24E3229200905024 /* InputProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputProxy.swift; sourceTree = "<group>"; };
 		B82F4EAF24E32C3000905024 /* SimulatorProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulatorProxy.swift; sourceTree = "<group>"; };
 		B82F4EB124E4088500905024 /* MinionFactoryProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinionFactoryProxy.swift; sourceTree = "<group>"; };
 		B82F4EB324E40B9F00905024 /* MinionProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinionProxy.swift; sourceTree = "<group>"; };
@@ -1069,7 +1069,7 @@
 		B8DC11F124E77F040088A755 /* BobsBuddyState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BobsBuddyState.swift; sourceTree = "<group>"; };
 		B8DC11F324EACDB80088A755 /* SimulationRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulationRunner.swift; sourceTree = "<group>"; };
 		B8DC11FF24EC5F990088A755 /* BobsBuddyPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BobsBuddyPanel.swift; sourceTree = "<group>"; };
-		B8DC120424EC79370088A755 /* TestOutputProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestOutputProxy.swift; sourceTree = "<group>"; };
+		B8DC120424EC79370088A755 /* OutputProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutputProxy.swift; sourceTree = "<group>"; };
 		B8DC376025D06C2F00452A83 /* OpponentDeadForTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpponentDeadForTracker.swift; sourceTree = "<group>"; };
 		BC0780831E3152D800AC9DB8 /* DeckWatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckWatcher.swift; sourceTree = "<group>"; };
 		BC78DD741E806B6F00DBA7C9 /* Algorithm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Algorithm.swift; sourceTree = "<group>"; };
@@ -1868,13 +1868,13 @@
 			isa = PBXGroup;
 			children = (
 				B82F4EAA24E3021D00905024 /* MonoHelper.swift */,
-				B82F4EAD24E3229200905024 /* TestInputProxy.swift */,
+				B82F4EAD24E3229200905024 /* InputProxy.swift */,
 				B82F4EAF24E32C3000905024 /* SimulatorProxy.swift */,
 				B82F4EB124E4088500905024 /* MinionFactoryProxy.swift */,
 				B82F4EB324E40B9F00905024 /* MinionProxy.swift */,
 				B8DC11ED24E5A8360088A755 /* MonoHandle.swift */,
 				B8DC11F324EACDB80088A755 /* SimulationRunner.swift */,
-				B8DC120424EC79370088A755 /* TestOutputProxy.swift */,
+				B8DC120424EC79370088A755 /* OutputProxy.swift */,
 				B82F535624EE161A004273FF /* MonoUtility.c */,
 				B82F535824EE167F004273FF /* MonoUtility.h */,
 				B8449A032781C7360094E5B3 /* ReplicatingMenace.swift */,
@@ -2473,7 +2473,7 @@
 				43C568031D5E59E500451B6F /* UploadResult.swift in Sources */,
 				439C7EBB1C777F8900D29859 /* Mulligan.swift in Sources */,
 				4C19239D2392FA7E007EBB0F /* BattlegroundsDetailsWindow.swift in Sources */,
-				B8DC120524EC79370088A755 /* TestOutputProxy.swift in Sources */,
+				B8DC120524EC79370088A755 /* OutputProxy.swift in Sources */,
 				4CECFFD523C10C3E0093253E /* BattlegroundsTierDetailWindowController.swift in Sources */,
 				43AFA0031FA11F11008ED490 /* SecretsManager.swift in Sources */,
 				439C7EBF1C777F8900D29859 /* Game.swift in Sources */,
@@ -2522,7 +2522,7 @@
 				432C11AB1CCF6B460067C5FE /* Format.swift in Sources */,
 				436789BF1CACF8C900C962D1 /* PlayerDrawChance.swift in Sources */,
 				4C1923992392E18E007EBB0F /* BattlegroundsOverlayView.swift in Sources */,
-				B82F4EAE24E3229200905024 /* TestInputProxy.swift in Sources */,
+				B82F4EAE24E3229200905024 /* InputProxy.swift in Sources */,
 				B864AE242597BB0500793F36 /* AdventureConfig.swift in Sources */,
 				433554561D62EE1200277B27 /* PlayerType.swift in Sources */,
 				4308EB7E1D76AFE6000897C8 /* ReleaseChannel.swift in Sources */,
@@ -2640,8 +2640,8 @@
 				B8DEDCCC2547C52800DF524B /* ToastWindowController.swift in Sources */,
 				B8DEDCCA2547C51A00DF524B /* MinionProxy.swift in Sources */,
 				B8DEDCC92547C50700DF524B /* SimulationRunner.swift in Sources */,
-				B8DEDCC82547C4FD00DF524B /* TestOutputProxy.swift in Sources */,
-				B8DEDCC72547C4F800DF524B /* TestInputProxy.swift in Sources */,
+				B8DEDCC82547C4FD00DF524B /* OutputProxy.swift in Sources */,
+				B8DEDCC72547C4F800DF524B /* InputProxy.swift in Sources */,
 				B8DEDCC62547C4F200DF524B /* SimulatorProxy.swift in Sources */,
 				B8DEDCC52547C4EA00DF524B /* MonoHandle.swift in Sources */,
 				B8DEDCC42547C4C000DF524B /* MonoHelper.swift in Sources */,

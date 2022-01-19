@@ -30,8 +30,8 @@ class BobsBuddyInvoker {
     
     var errorState: BobsBuddyErrorState = .none
     
-    var input: TestInputProxy?
-    var output: TestOutputProxy?
+    var input: InputProxy?
+    var output: OutputProxy?
     
     private var opponentMinions = [MinionProxy]()
     private var playerMinions = [MinionProxy]()
@@ -49,6 +49,7 @@ class BobsBuddyInvoker {
     private final let LichKingHeroPowerEnchantmentId = CardIds.NonCollectible.Neutral.RebornRites_RebornRiteEnchantmentTavernBrawl
     private var _removedLichKingHeroPowerFromMinion = false
     private final let canRemoveLichKing: Bool = true
+    private final let KelThuzadPowerID = "kel'thuzad"
     
     private var _attackingHero: Entity?
     private var _defendingHero: Entity?
@@ -228,13 +229,13 @@ class BobsBuddyInvoker {
         }
     }
     
-    func runSimulation() -> Promise<TestOutputProxy?> {
+    func runSimulation() -> Promise<OutputProxy?> {
         logger.info("Starting simulation")
-        return Promise<TestOutputProxy?> { seal in
+        return Promise<OutputProxy?> { seal in
             queue.async {
                 let opaque = mono_thread_attach(MonoHelper._monoInstance)
                 
-                var result: TestOutputProxy?
+                var result: OutputProxy?
                 
                 if let inp = self.input {
                     if self.runSimulationAfterCombat {
@@ -275,7 +276,7 @@ class BobsBuddyInvoker {
                     let mr = mono_class_get_method_from_name(c, "get_Result", 0)
                     let output = mono_runtime_invoke(mr, tinst, nil, nil)
                     
-                    let top = TestOutputProxy(obj: output)
+                    let top = OutputProxy(obj: output)
                     
                     let ellapsed = (DispatchTime.now().uptimeNanoseconds - start.uptimeNanoseconds) / 1_000_000
                     
@@ -499,7 +500,7 @@ class BobsBuddyInvoker {
             return false
         }
 
-        return result == .opponentDied && input.opponentIsKelThuzad()
+        return result == .opponentDied && input.opponentPowerId() == KelThuzadPowerID
     }
     
     func isUnknownCard(e: Entity?) -> Bool {
@@ -575,7 +576,7 @@ class BobsBuddyInvoker {
         LastAttackingHero = nil
         
         let simulator = SimulatorProxy()
-        let input = TestInputProxy(simulator: simulator)
+        let input = InputProxy(simulator: simulator)
         
         if game.player.board.any(isUnknownCard) || game.opponent.board.any(isUnknownCard) {
             errorState = .unknownCards

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class TestOutputProxy: MonoHandle {
+class OutputProxy: MonoHandle {
     static var _class: OpaquePointer?
     static var _winRate: OpaquePointer!
     static var _lossRate: OpaquePointer!
@@ -22,49 +22,49 @@ class TestOutputProxy: MonoHandle {
     override init(obj: UnsafeMutablePointer<MonoObject>?) {
         super.init(obj: obj)
         
-        if TestOutputProxy._class == nil {
-            TestOutputProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Simulation", name: "TestOutput")
-            TestOutputProxy._winRate = MonoHelper.getField(TestOutputProxy._class, "winRate")
-            TestOutputProxy._lossRate = MonoHelper.getField(TestOutputProxy._class, "lossRate")
-            TestOutputProxy._tieRate = MonoHelper.getField(TestOutputProxy._class, "tieRate")
-            TestOutputProxy._myDeathRate = MonoHelper.getField(TestOutputProxy._class, "myDeathRate")
-            TestOutputProxy._theirDeathRate = MonoHelper.getField(TestOutputProxy._class, "theirDeathRate")
-            TestOutputProxy._simulationCount = MonoHelper.getField(TestOutputProxy._class, "simulationCount")
-            TestOutputProxy._myExitCondition = MonoHelper.getField(TestOutputProxy._class, "myExitCondition")
-            TestOutputProxy._damageResults = MonoHelper.getField(TestOutputProxy._class, "damageResults")
+        if OutputProxy._class == nil {
+            OutputProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Simulation", name: "Output")
+            OutputProxy._winRate = MonoHelper.getField(OutputProxy._class, "winRate")
+            OutputProxy._lossRate = MonoHelper.getField(OutputProxy._class, "lossRate")
+            OutputProxy._tieRate = MonoHelper.getField(OutputProxy._class, "tieRate")
+            OutputProxy._myDeathRate = MonoHelper.getField(OutputProxy._class, "myDeathRate")
+            OutputProxy._theirDeathRate = MonoHelper.getField(OutputProxy._class, "theirDeathRate")
+            OutputProxy._simulationCount = MonoHelper.getField(OutputProxy._class, "simulationCount")
+            OutputProxy._myExitCondition = MonoHelper.getField(OutputProxy._class, "myExitCondition")
+            OutputProxy._damageResults = MonoHelper.getField(OutputProxy._class, "damageResults")
                     }
     }
     
     func getWinRate() -> Float {
-        return MonoHelper.getFloatField(obj: self, field: TestOutputProxy._winRate)
+        return MonoHelper.getFloatField(obj: self, field: OutputProxy._winRate)
     }
 
     func getLossRate() -> Float {
-        return MonoHelper.getFloatField(obj: self, field: TestOutputProxy._lossRate)
+        return MonoHelper.getFloatField(obj: self, field: OutputProxy._lossRate)
     }
 
     func getTieRate() -> Float {
-        return MonoHelper.getFloatField(obj: self, field: TestOutputProxy._tieRate)
+        return MonoHelper.getFloatField(obj: self, field: OutputProxy._tieRate)
     }
     
     func getMyDeathRate() -> Float {
-        return MonoHelper.getFloatField(obj: self, field: TestOutputProxy._myDeathRate)
+        return MonoHelper.getFloatField(obj: self, field: OutputProxy._myDeathRate)
     }
 
     func getTheirDeathRate() -> Float {
-        return MonoHelper.getFloatField(obj: self, field: TestOutputProxy._theirDeathRate)
+        return MonoHelper.getFloatField(obj: self, field: OutputProxy._theirDeathRate)
     }
     
     func getSimulationCount() -> Int32 {
-        return MonoHelper.getIntField(obj: self, field: TestOutputProxy._simulationCount)
+        return MonoHelper.getIntField(obj: self, field: OutputProxy._simulationCount)
     }
     
     func getMyExitCondition() -> ExitConditions {
-        return ExitConditions(rawValue: Int(MonoHelper.getIntField(obj: self, field: TestOutputProxy._myExitCondition))) ?? .completedSimulations
+        return ExitConditions(rawValue: Int(MonoHelper.getIntField(obj: self, field: OutputProxy._myExitCondition))) ?? .completedSimulations
     }
     
     func getResultDamage() -> [Int32] {
-        let field = TestOutputProxy._damageResults
+        let field = OutputProxy._damageResults
 
         let res = MonoHelper.getField(obj: self, field: field)
         

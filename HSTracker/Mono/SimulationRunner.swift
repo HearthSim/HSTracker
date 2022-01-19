@@ -30,7 +30,7 @@ class SimulationRunnerProxy: MonoHandle {
         mono_runtime_object_init(inst)
     }
     
-    func simulateMultiThreaded(input: TestInputProxy, maxIterations: Int, threadCount: Int, maxDuration: Int = 1500) -> MonoHandle {
+    func simulateMultiThreaded(input: InputProxy, maxIterations: Int, threadCount: Int, maxDuration: Int = 1500) -> MonoHandle {
         let params = UnsafeMutablePointer<UnsafeMutableRawPointer?>.allocate(capacity: 4)
         let intPointers = UnsafeMutablePointer<Int>.allocate(capacity: 3)
         intPointers[0] = maxIterations

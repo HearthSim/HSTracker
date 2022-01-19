@@ -30,7 +30,6 @@ class MinionProxy: MonoHandle {
     private static var _getGameId: OpaquePointer!
     private static var _setGameId: OpaquePointer!
     private static var _minionName: OpaquePointer!
-    private static var _addToBackOfList: OpaquePointer!
 
     override init(obj: UnsafeMutablePointer<MonoObject>?) {
         super.init(obj: obj)
@@ -57,7 +56,6 @@ class MinionProxy: MonoHandle {
             MinionProxy._getGameId = MonoHelper.getMethod(MinionProxy._class, "get_game_id", 0)
             MinionProxy._setGameId = MonoHelper.getMethod(MinionProxy._class, "set_game_id", 1)
             MinionProxy._minionName = MonoHelper.getField(MinionProxy._class, "minionName")
-            MinionProxy._addToBackOfList = MonoHelper.getMethod(MinionProxy._class, "AddToBackOfList", 1)
         }
     }    
 
@@ -141,18 +139,6 @@ class MinionProxy: MonoHandle {
         return MonoHelper.getStringField(obj: self, field: MinionProxy._minionName)
     }
 
-    func addToBackOfList(list: MonoHandle) {
-        let params = UnsafeMutablePointer<OpaquePointer>.allocate(capacity: 1)
-        
-        params[0] = OpaquePointer(list.get()!)
-        
-        params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 1, {
-            let me = self.get()
-            mono_runtime_invoke(MinionProxy._addToBackOfList, me, $0, nil)
-        })
-        params.deallocate()
-    }
-    
     func addDeathrattle(deathrattle: MonoHandle) {
         let field = mono_class_get_field_from_name(MinionProxy._class, "AdditionalDeathrattles")
         let inst = get()
