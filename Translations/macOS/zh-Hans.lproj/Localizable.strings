@@ -227,6 +227,6 @@
 
 /* Mercenaries */
 "Mercenaries" = "佣兵战纪";
-"Task progress will update after the game" = "任务进度会在对战结束后更新"
+"Task progress will update after the game" = "任务进度会在对战结束后更新";
 "Completed!" = "完成!";
 "Task %d: %@" = "任务 %d: %@";
