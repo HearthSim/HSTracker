@@ -8,19 +8,21 @@
 
 import Foundation
 
-class SimulationRunnerProxy: MonoHandle {
+class SimulationRunnerProxy: MonoHandle, MonoClassInitializer {
     static var _class: OpaquePointer?
     
     static var _simulateMultiThreaded: OpaquePointer!
     
-    override init() {
-        super.init()
-        
+    static func initialize() {
         if SimulationRunnerProxy._class == nil {
             SimulationRunnerProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Simulation", name: "SimulationRunner")
             
             SimulationRunnerProxy._simulateMultiThreaded = MonoHelper.getMethod(SimulationRunnerProxy._class, "SimulateMultiThreaded", 4 )
         }
+    }
+    
+    override init() {
+        super.init()
                 
         let obj = MonoHelper.objectNew(clazz: SimulationRunnerProxy._class!)
         set(obj: obj)
@@ -28,6 +30,10 @@ class SimulationRunnerProxy: MonoHandle {
         let inst = self.get()
         
         mono_runtime_object_init(inst)
+    }
+    
+    required init(obj: UnsafeMutablePointer<MonoObject>?) {
+        fatalError("init(obj:) has not been implemented")
     }
     
     func simulateMultiThreaded(input: InputProxy, maxIterations: Int, threadCount: Int, maxDuration: Int = 1500) -> MonoHandle {

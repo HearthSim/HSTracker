@@ -8,16 +8,18 @@
 
 import Foundation
 
-class ReplicatingMenace {
+class ReplicatingMenace: MonoClassInitializer {
     static var _class: OpaquePointer?
     static var _deathrattle: OpaquePointer!
     
-    static func deathrattle(golden: Bool) -> MonoHandle {
+    static func initialize() {
         if ReplicatingMenace._class == nil {
             ReplicatingMenace._class = MonoHelper.loadClass(ns: "BobsBuddy", name: "ReplicatingMenace")
             ReplicatingMenace._deathrattle = MonoHelper.getMethod(ReplicatingMenace._class, "Deathrattle", 1)
         }
-        
+    }
+    
+    static func deathrattle(golden: Bool) -> MonoHandle {
         let params = UnsafeMutablePointer<UnsafeMutablePointer<Int32>>.allocate(capacity: 1)
         let a = UnsafeMutablePointer<Int32>.allocate(capacity: 1)
         a.pointee = golden ? 1 : 0

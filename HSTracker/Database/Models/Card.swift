@@ -40,6 +40,7 @@ final class Card {
     var jsonRepresentation: [String: Any] = [:]
     var hideStats = false
     var mercenariesAbilityCooldown = 0
+    var battlegroundsPoolMinion = false
     
     static let multiClassGroups: [MultiClassGroup: [CardClass]] = [
         .grimy_goons: [ .hunter, .paladin, .warrior ],
@@ -182,6 +183,8 @@ extension Card: NSCopying {
         copy.multiClassGroup = self.multiClassGroup
         copy.techLevel = self.techLevel
         copy.hideStats = self.hideStats
+        copy.mercenariesAbilityCooldown = self.mercenariesAbilityCooldown
+        copy.battlegroundsPoolMinion = self.battlegroundsPoolMinion
 
         return copy
     }

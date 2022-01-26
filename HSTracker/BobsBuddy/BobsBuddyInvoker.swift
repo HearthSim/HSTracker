@@ -45,10 +45,8 @@ class BobsBuddyInvoker {
     var opponentCardId = ""
     var playerCardId = ""
     
-    private final let LichKingHeroPowerId = CardIds.NonCollectible.Neutral.RebornRitesTavernBrawl
-    private final let LichKingHeroPowerEnchantmentId = CardIds.NonCollectible.Neutral.RebornRites_RebornRiteEnchantmentTavernBrawl
-    private var _removedLichKingHeroPowerFromMinion = false
-    private final let canRemoveLichKing: Bool = true
+    private final let RebornRite = CardIds.NonCollectible.Neutral.RebornRitesTavernBrawl
+    private final let RebornRiteEnchmantment = CardIds.NonCollectible.Neutral.RebornRites_RebornRiteEnchantmentTavernBrawl
     private final let KelThuzadPowerID = "kel'thuzad"
     
     private var _attackingHero: Entity?
@@ -142,38 +140,8 @@ class BobsBuddyInvoker {
             BobsBuddyInvoker.bobsBuddyDisplay.setState(st: .combat)
         }
                 
-        _removedLichKingHeroPowerFromMinion = false
-
-        if canRemoveLichKing {
-            var lichKingMinions = [MinionProxy]()
-            let playerLichMinions = playerMinions.filter { x in x.getReceivesLichKingPower() }
-            let opponentLichMinions = opponentMinions.filter { x in x.getReceivesLichKingPower() }
-            lichKingMinions.append(contentsOf: playerLichMinions)
-            lichKingMinions.append(contentsOf: opponentLichMinions)
-            if lichKingMinions.count > 0 {
-                Thread.sleep(forTimeInterval: Double(LichKingDelay) / 1000.0)
-                for minion in lichKingMinions {
-                    if game.entities[Int(minion.getGameId())] != nil {
-                        let attachedEntities = BobsBuddyInvoker.getAttachedEntities(game: game, entityId: Int(minion.getGameId()))
-                        if !attachedEntities.any({ x in x.cardId == LichKingHeroPowerEnchantmentId }) {
-                            minion.setReceivesLichKingPower(power: false)
-                            _removedLichKingHeroPowerFromMinion = true
-                        }
-                    }
-                }
-                if playerLichMinions.count > 0 && input?.heroPowerInfo().playerActivatedPower() == HeroPowerEnum.none {
-                    _removedLichKingHeroPowerFromMinion = true
-                    for minion in playerLichMinions {
-                        minion.setReceivesLichKingPower(power: false)
-                    }
-                }
-                if opponentLichMinions.count > 0 && input?.heroPowerInfo().opponentActivatedPower() == HeroPowerEnum.none {
-                    _removedLichKingHeroPowerFromMinion = true
-                    for minion in opponentMinions {
-                        minion.setReceivesLichKingPower(power: false)
-                    }
-                }
-            }
+        if let input = input, (input.playerHeroPower().cardId() == RebornRite && input.playerHeroPower().isActivated()) || (input.opponentHeroPower().cardId() == RebornRite && input.opponentHeroPower().isActivated()) {
+            Thread.sleep(forTimeInterval: Double(LichKingDelay) / 1000.0)
         }
         
         if !runSimulationAfterCombat {
@@ -240,7 +208,7 @@ class BobsBuddyInvoker {
                 if let inp = self.input {
                     if self.runSimulationAfterCombat {
                         let secrets: [Int] = self.currentOpponentSecrets.map({ $0.card.dbfId })
-                        let opponentSecrets = inp.getOpponentSecrets()
+                        let opponentSecrets = inp.opponentSecrets
                         for i in 0..<secrets.count {
                             inp.addSecretFromDbfid(id: Int32(secrets[i]), target: opponentSecrets)
                         }
@@ -255,8 +223,8 @@ class BobsBuddyInvoker {
                     let tc = ProcessInfo.processInfo.activeProcessorCount / 2
                     let simulator = SimulationRunnerProxy()
                     
-                    let ps = inp.getPlayerSide()
-                    let os = inp.getOpponentSide()
+                    let ps = inp.playerSide
+                    let os = inp.opponentSide
                     let at = (MonoHelper.listCount(obj: ps) > 6 || MonoHelper.listCount(obj: os) > 6) ? self.MaxTimeForComplexBoards : self.MaxTime
                     
                     logger.debug("Running simulations with MaxIterations=\(self.Iterations) and ThreadCount=\(tc)...")
@@ -436,7 +404,7 @@ class BobsBuddyInvoker {
         
         if isIncorrectLethalResult(result: lethalResult) && !opposingKelThuzadDied(result: lethalResult) {
             // Akazamzarak hero power - secrets are supported but not for lethal.
-            if input?.opponentPowerId() == CardIds.NonCollectible.Neutral.PrestidigitationTavernBrawl {
+            if input?.opponentHeroPower().cardId() == CardIds.NonCollectible.Neutral.PrestidigitationTavernBrawl {
                 logger.debug("Opponent was Akazamarak. Currently not reporting lethal results. Exiting.")
                 return
             }
@@ -500,14 +468,14 @@ class BobsBuddyInvoker {
             return false
         }
 
-        return result == .opponentDied && input.opponentPowerId() == KelThuzadPowerID
+        return result == .opponentDied && input.opponentHeroPower().cardId() == KelThuzadPowerID
     }
     
     func isUnknownCard(e: Entity?) -> Bool {
         return e?.card.id == "unknown"
     }
     
-    func heroPowerUsed(heroPower: Entity?) -> Bool {
+    func wasHeroPowerUsed(heroPower: Entity?) -> Bool {
         return (heroPower?.has(tag: GameTag.exhausted) ?? false || heroPower?.has(tag: GameTag.bacon_hero_power_activated) ?? false)
     }
     
@@ -544,6 +512,8 @@ class BobsBuddyInvoker {
         
         for ent in attachedEntities {
             switch ent.cardId {
+            case CardIds.NonCollectible.Neutral.RebornRitesTavernBrawl:
+                minion.setReborn(reborn: true)
             case CardIds.NonCollectible.Neutral.ReplicatingMenace_ReplicatingMenaceEnchantment:
                 minion.addDeathrattle(deathrattle: ReplicatingMenace.deathrattle(golden: false))
             case CardIds.NonCollectible.Neutral.ReplicatingMenace_ReplicatingMenaceEnchantmentTavernBrawl:
@@ -552,13 +522,19 @@ class BobsBuddyInvoker {
                 minion.addDeathrattle(deathrattle: GenericDeathrattles.plants())
             case CardIds.NonCollectible.Neutral.Sneed_Replicate:
                 minion.addDeathrattle(deathrattle: GenericDeathrattles.sneedHeroPower())
+            case CardIds.NonCollectible.Neutral.Brukan_ElementEarth:
+                minion.addDeathrattle(deathrattle: GenericDeathrattles.earthInvocation())
+            case CardIds.NonCollectible.Neutral.Brukan_EarthRecollection:
+                minion.addDeathrattle(deathrattle: BrukanInvocationDeathrattles.earth())
+            case CardIds.NonCollectible.Neutral.Brukan_FireRecollection:
+                minion.addDeathrattle(deathrattle: BrukanInvocationDeathrattles.fire())
+            case CardIds.NonCollectible.Neutral.Brukan_WaterRecollection:
+                minion.addDeathrattle(deathrattle: BrukanInvocationDeathrattles.water())
+            case CardIds.NonCollectible.Neutral.Brukan_LightningRecollection:
+                minion.addDeathrattle(deathrattle: BrukanInvocationDeathrattles.lightning())
             default:
                 break
             }
-        }
-        
-        if attachedEntities.any({ $0.cardId == CardIds.NonCollectible.Neutral.RebornRites_RebornRiteEnchantmentTavernBrawl }) {
-            minion.setReceivesLichKingPower(power: true)
         }
         
         minion.setGameId(id: Int32(ent.id))
@@ -586,7 +562,7 @@ class BobsBuddyInvoker {
         
         input.addAvailableRaces(races: game.availableRaces!)
 
-        input.setDamageCap(value: Int32(game.gameEntity?[.bacon_combat_damage_cap] ?? 0))
+        input.damageCap = Int32(game.gameEntity?[.bacon_combat_damage_cap] ?? 0)
         
         guard let oppHero = game.opponent.board.first(where: { $0.isHero }), let playerHero = game.player.board.first(where: { $0.isHero}) else {
             logger.error("Hero(es) could not be found. Exiting.")
@@ -608,17 +584,18 @@ class BobsBuddyInvoker {
         input.setTiers(player: Int32(playerTechLevel), opponent: Int32(opponentTechLevel))
         
         let playerHeroPower = game.player.board.first(where: { $0.isHeroPower })
+        
+        input.setPlayerHeroPower(heroPowerCardId: playerHeroPower?.cardId ?? "", isActivated: wasHeroPowerUsed(heroPower: playerHeroPower), data: Int32(playerHeroPower?[.tag_script_data_num_1] ?? 0))
+        
         let opponentHeroPower = game.opponent.board.first(where: { $0.isHeroPower })
         
-        input.setPowerID(player: playerHeroPower?.cardId ?? "", opponent: opponentHeroPower?.cardId ?? "")
-        
-        input.setHeroPower(player: heroPowerUsed(heroPower: playerHeroPower), opponent: heroPowerUsed(heroPower: opponentHeroPower))
-        
+        input.setOpponentHeroPower(heroPowerCardId: opponentHeroPower?.cardId ?? "", isActivated: wasHeroPowerUsed(heroPower: opponentHeroPower), data: Int32(opponentHeroPower?[.tag_script_data_num_1] ?? 0))
+
         input.setPlayerHandSize(value: Int32(game.player.handCount))
         
         let secrets: [Int] = game.player.secrets.map({ $0.card.dbfId })
         
-        let playerSecrets = input.getPlayerSecrets()
+        let playerSecrets = input.playerSecrets
         
         for i in 0..<secrets.count {
             // secret priority starts at 2
@@ -629,8 +606,8 @@ class BobsBuddyInvoker {
         
         currentOpponentSecrets = game.opponent.secrets
         
-        let inputPlayerSide = input.getPlayerSide()
-        let inputOpponentSide = input.getOpponentSide()
+        let inputPlayerSide = input.playerSide
+        let inputOpponentSide = input.opponentSide
         let factory = simulator.minionFactory()
         
         let playerSide = BobsBuddyInvoker.getOrderedMinions(board: game.player.board).filter { e in e.isControlled(by: game.player.id) }.map { BobsBuddyInvoker.getMinionFromEntity(minionFactory: factory, player: true, ent: $0, attachedEntities: BobsBuddyInvoker.getAttachedEntities(game: game, entityId: $0.id))}

@@ -2248,6 +2248,11 @@ extension CardIds.NonCollectible {
         static let MaestraoftheMasquerade_DisguiseEnchantment = "SW_050e"
         static let Sneed_Replicate = "BG21_HERO_030pe"
         static let RamCommander_BattleRamToken = "AV_219t"
+        static let Brukan_ElementEarth = "BG22_HERO_001p_t1e"
+        static let Brukan_EarthRecollection = "BG22_HERO_001_Buddy_e1"
+        static let Brukan_FireRecollection = "BG22_HERO_001_Buddy_e2"
+        static let Brukan_WaterRecollection = "BG22_HERO_001_Buddy_e3"
+        static let Brukan_LightningRecollection = "BG22_HERO_001_Buddy_e4"
     }
 }
 

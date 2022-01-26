@@ -15,7 +15,7 @@ class MonoHandle {
         _handle = 0
     }
     
-    init(obj: UnsafeMutablePointer<MonoObject>?) {
+    required init(obj: UnsafeMutablePointer<MonoObject>?) {
         _handle = mono_gchandle_new(obj, 0)
     }
     

@@ -8,8 +8,8 @@
 
 import Foundation
 
-class MinionProxy: MonoHandle {
-    private static var _class: OpaquePointer?
+class MinionProxy: MonoHandle, MonoClassInitializer {
+    internal static var _class: OpaquePointer?
     private static var _setBaseAttack: OpaquePointer!
     private static var _setBaseHealth: OpaquePointer!
     private static var _setTaunt: OpaquePointer!
@@ -31,9 +31,7 @@ class MinionProxy: MonoHandle {
     private static var _setGameId: OpaquePointer!
     private static var _minionName: OpaquePointer!
 
-    override init(obj: UnsafeMutablePointer<MonoObject>?) {
-        super.init(obj: obj)
-        
+    static func initialize() {
         if MinionProxy._class == nil {
             MinionProxy._class = MonoHelper.loadClass(ns: "BobsBuddy", name: "Minion")
             MinionProxy._setBaseAttack = MonoHelper.getMethod(MinionProxy._class, "set_baseAttack", 1)
@@ -57,7 +55,11 @@ class MinionProxy: MonoHandle {
             MinionProxy._setGameId = MonoHelper.getMethod(MinionProxy._class, "set_game_id", 1)
             MinionProxy._minionName = MonoHelper.getField(MinionProxy._class, "minionName")
         }
-    }    
+    }
+    
+    required init(obj: UnsafeMutablePointer<MonoObject>?) {
+        super.init(obj: obj)
+    }
 
     func setBaseAttack(attack: Int32) {
         MonoHelper.setInt(obj: self, method: MinionProxy._setBaseAttack, value: attack)

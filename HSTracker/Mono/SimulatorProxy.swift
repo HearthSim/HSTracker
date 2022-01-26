@@ -8,24 +8,30 @@
 
 import Foundation
 
-class SimulatorProxy: MonoHandle {
+class SimulatorProxy: MonoHandle, MonoClassInitializer {
     static var _class: OpaquePointer?
     static var _minionFactory: OpaquePointer!
     
-    override init() {
-        super.init()
-        
+    static func initialize() {
         if SimulatorProxy._class == nil {
             SimulatorProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Simulation", name: "Simulator")
             SimulatorProxy._minionFactory = MonoHelper.getField(SimulatorProxy._class, "MinionFactory")
         }
-                
+    }
+    
+    override init() {
+        super.init()
+        
         let obj = MonoHelper.objectNew(clazz: SimulatorProxy._class!)
         set(obj: obj)
         
         let inst = self.get()
         
         mono_runtime_object_init(inst)
+    }
+    
+    required init(obj: UnsafeMutablePointer<MonoObject>?) {
+        fatalError("init(obj:) has not been implemented")
     }
     
     func minionFactory() -> MinionFactoryProxy {

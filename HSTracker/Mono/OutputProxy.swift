@@ -8,7 +8,7 @@
 
 import Foundation
 
-class OutputProxy: MonoHandle {
+class OutputProxy: MonoHandle, MonoClassInitializer {
     static var _class: OpaquePointer?
     static var _winRate: OpaquePointer!
     static var _lossRate: OpaquePointer!
@@ -18,10 +18,8 @@ class OutputProxy: MonoHandle {
     static var _simulationCount: OpaquePointer!
     static var _myExitCondition: OpaquePointer!
     static var _damageResults: OpaquePointer!
-    
-    override init(obj: UnsafeMutablePointer<MonoObject>?) {
-        super.init(obj: obj)
-        
+
+    static func initialize() {
         if OutputProxy._class == nil {
             OutputProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Simulation", name: "Output")
             OutputProxy._winRate = MonoHelper.getField(OutputProxy._class, "winRate")
@@ -32,7 +30,11 @@ class OutputProxy: MonoHandle {
             OutputProxy._simulationCount = MonoHelper.getField(OutputProxy._class, "simulationCount")
             OutputProxy._myExitCondition = MonoHelper.getField(OutputProxy._class, "myExitCondition")
             OutputProxy._damageResults = MonoHelper.getField(OutputProxy._class, "damageResults")
-                    }
+        }
+    }
+    
+    required init(obj: UnsafeMutablePointer<MonoObject>?) {
+        super.init(obj: obj)
     }
     
     func getWinRate() -> Float {

@@ -8,8 +8,8 @@
 
 import Foundation
 
-class MinionFactoryProxy: MonoHandle {
-    private static var _class: OpaquePointer?
+class MinionFactoryProxy: MonoHandle, MonoClassInitializer {
+    internal static var _class: OpaquePointer?
     private static var _classVT: OpaquePointer!
     
     private static var _getMinionFromCardid: OpaquePointer!
@@ -17,7 +17,7 @@ class MinionFactoryProxy: MonoHandle {
     private static var _cardIdsWithCleave: OpaquePointer!
     private static var _cardIdsWithMegaWindfury: OpaquePointer!
     
-    private static func _init() {
+    static func initialize() {
         _class = MonoHelper.loadClass(ns: "BobsBuddy", name: "MinionFactory")
         
         mono_class_init(_class)
@@ -33,17 +33,13 @@ class MinionFactoryProxy: MonoHandle {
     
     init(obj: MonoHandle) {
         super.init(obj: obj.get())
-        
-        if MinionFactoryProxy._class == nil {
-            MinionFactoryProxy._init()
-        }
     }
-
+    
+    required init(obj: UnsafeMutablePointer<MonoObject>?) {
+        fatalError("init(obj:) has not been implemented")
+    }
+    
     func getMinionFromCardid(id: String, player: Bool) -> MinionProxy {
-        if MinionFactoryProxy._class == nil {
-            MinionFactoryProxy._init()
-        }
-
         let params = UnsafeMutablePointer<OpaquePointer>.allocate(capacity: 2)
         let ptrs = UnsafeMutablePointer<Int32>.allocate(capacity: 1)
         ptrs[0] = player ? 1 : 0
@@ -62,10 +58,6 @@ class MinionFactoryProxy: MonoHandle {
     }
     
     static func getStringArrayField(field: OpaquePointer!) -> [String] {
-        if _class == nil {
-            _init()
-        }
-
         let value = UnsafeMutablePointer<UnsafeMutablePointer<MonoObject>>.allocate(capacity: 1)
         
         mono_field_static_get_value(MinionFactoryProxy._classVT, field, value)

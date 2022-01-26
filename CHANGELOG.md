@@ -1,3 +1,8 @@
+# 2.0.10
+## New
+- Updated for patch 22.2
+- Updated zh-Hans translations (thanks @moonfruit)
+
 # 2.0.9
 ## New
 - Added experimental support for Arena tier list generated from HSReplay data

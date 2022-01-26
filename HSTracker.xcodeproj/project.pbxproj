@@ -420,7 +420,7 @@
 		B82F535724EE161A004273FF /* MonoUtility.c in Sources */ = {isa = PBXBuildFile; fileRef = B82F535624EE161A004273FF /* MonoUtility.c */; };
 		B83355AE24F807220025F644 /* BobsBuddyPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = B83355B024F807220025F644 /* BobsBuddyPanel.xib */; };
 		B83355B524F850C10025F644 /* Mono.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B864A14224F58539005EA2A0 /* Mono.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		B836821E27873B40007D5740 /* HeroPowerInfoProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B836821D27873B40007D5740 /* HeroPowerInfoProxy.swift */; };
+		B836821E27873B40007D5740 /* HeroPowerDataProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B836821D27873B40007D5740 /* HeroPowerDataProxy.swift */; };
 		B836822027888B12007D5740 /* CombatResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B836821F27888B12007D5740 /* CombatResult.swift */; };
 		B836822227888B4D007D5740 /* LethalResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B836822127888B4D007D5740 /* LethalResult.swift */; };
 		B83682242789F812007D5740 /* ExitConditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83682232789F812007D5740 /* ExitConditions.swift */; };
@@ -463,6 +463,7 @@
 		B864AE292599359500793F36 /* DeckType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B864AE282599359400793F36 /* DeckType.swift */; };
 		B864AE3A25A4CC1200793F36 /* ImportingPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B864AE3925A4CC1200793F36 /* ImportingPreferences.xib */; };
 		B864AE3C25A4D15C00793F36 /* ImportingPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B864AE3B25A4D15C00793F36 /* ImportingPreferences.swift */; };
+		B86C9EAB27A17B3B00195C0A /* BrukanInvocationDeathrattles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86C9EAA27A17B3A00195C0A /* BrukanInvocationDeathrattles.swift */; };
 		B8795EAC27516DBC00469B6E /* MercenariesTask.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8795EAB27516DBC00469B6E /* MercenariesTask.xib */; };
 		B8820CD025603FB00072ECBC /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8820CCF25603FB00072ECBC /* RemoteConfig.swift */; };
 		B8832DDA26057A5000646BA4 /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8832DD926057A5000646BA4 /* RepeatingTimer.swift */; };
@@ -999,7 +1000,7 @@
 		B83355AF24F807220025F644 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/BobsBuddyPanel.xib; sourceTree = "<group>"; };
 		B83355B124F84CBF0025F644 /* libmonosgen-2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libmonosgen-2.0.a"; path = "../../../Library/Frameworks/Mono.framework/Versions/6.12.0/lib/libmonosgen-2.0.a"; sourceTree = "<group>"; };
 		B83355B324F84F200025F644 /* libiconv.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.2.dylib; path = ../../../usr/lib/libiconv.2.dylib; sourceTree = "<group>"; };
-		B836821D27873B40007D5740 /* HeroPowerInfoProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroPowerInfoProxy.swift; sourceTree = "<group>"; };
+		B836821D27873B40007D5740 /* HeroPowerDataProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroPowerDataProxy.swift; sourceTree = "<group>"; };
 		B836821F27888B12007D5740 /* CombatResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatResult.swift; sourceTree = "<group>"; };
 		B836822127888B4D007D5740 /* LethalResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LethalResult.swift; sourceTree = "<group>"; };
 		B83682232789F812007D5740 /* ExitConditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExitConditions.swift; sourceTree = "<group>"; };
@@ -1021,6 +1022,7 @@
 		B864AE282599359400793F36 /* DeckType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckType.swift; sourceTree = "<group>"; };
 		B864AE3925A4CC1200793F36 /* ImportingPreferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImportingPreferences.xib; sourceTree = "<group>"; };
 		B864AE3B25A4D15C00793F36 /* ImportingPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportingPreferences.swift; sourceTree = "<group>"; };
+		B86C9EAA27A17B3A00195C0A /* BrukanInvocationDeathrattles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrukanInvocationDeathrattles.swift; sourceTree = "<group>"; };
 		B8795EAB27516DBC00469B6E /* MercenariesTask.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MercenariesTask.xib; sourceTree = "<group>"; };
 		B8820CCF25603FB00072ECBC /* RemoteConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfig.swift; sourceTree = "<group>"; };
 		B8832DD926057A5000646BA4 /* RepeatingTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatingTimer.swift; sourceTree = "<group>"; };
@@ -1879,7 +1881,8 @@
 				B82F535824EE167F004273FF /* MonoUtility.h */,
 				B8449A032781C7360094E5B3 /* ReplicatingMenace.swift */,
 				B8449A052781CB6F0094E5B3 /* GenericDeathrattles.swift */,
-				B836821D27873B40007D5740 /* HeroPowerInfoProxy.swift */,
+				B86C9EAA27A17B3A00195C0A /* BrukanInvocationDeathrattles.swift */,
+				B836821D27873B40007D5740 /* HeroPowerDataProxy.swift */,
 			);
 			path = Mono;
 			sourceTree = "<group>";
@@ -2236,7 +2239,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Change SHA1 here to change the version of HearthMirror used by HSTrracker\nSHA1=\"9cb788b15a2981a7394d7c44691fd6ea156cc6b8\"\n\nDIR=\"$SRCROOT/downloaded-frameworks/HearthMirror\"\nVERSION_FILE=\"$DIR/HearthMirror.sha1\"\nZIP_FILE=\"$DIR/HearthMirror.framework.zip\"\nDSYM_ZIP_FILE=\"$DIR/HearthMirror.framework.dSYM.zip\"\n\nif [ \"$(cat $VERSION_FILE)\" != \"$SHA1\"  ]\nthen\n    set -e\n    \n    rm -rf \"$DIR\"\n    mkdir -p \"$DIR\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.zip\" -O \"$ZIP_FILE\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.dSYM.zip\" -O \"$DSYM_ZIP_FILE\"\n    unzip -d \"$DIR\" \"$ZIP_FILE\"\n    unzip -d \"$DIR\" \"$DSYM_ZIP_FILE\"\n    echo \"$SHA1\" > \"$VERSION_FILE\"\nfi\n\n\n\n";
+			shellScript = "# Change SHA1 here to change the version of HearthMirror used by HSTrracker\nSHA1=\"d639e6eb767d5e12ec24e6a8e1e41362aa50b484\"\n\nDIR=\"$SRCROOT/downloaded-frameworks/HearthMirror\"\nVERSION_FILE=\"$DIR/HearthMirror.sha1\"\nZIP_FILE=\"$DIR/HearthMirror.framework.zip\"\nDSYM_ZIP_FILE=\"$DIR/HearthMirror.framework.dSYM.zip\"\n\nif [ \"$(cat $VERSION_FILE)\" != \"$SHA1\"  ]\nthen\n    set -e\n    \n    rm -rf \"$DIR\"\n    mkdir -p \"$DIR\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.zip\" -O \"$ZIP_FILE\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.dSYM.zip\" -O \"$DSYM_ZIP_FILE\"\n    unzip -d \"$DIR\" \"$ZIP_FILE\"\n    unzip -d \"$DIR\" \"$DSYM_ZIP_FILE\"\n    echo \"$SHA1\" > \"$VERSION_FILE\"\nfi\n\n\n\n";
 		};
 		B83355B724F89D1A0025F644 /* Embed Mono */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2385,7 +2388,7 @@
 				B85F1AC9258A558200A6F8C3 /* Helper.swift in Sources */,
 				43873CC31CA6E6CD00F01CB4 /* WindowMove.swift in Sources */,
 				C92C680E1D1F225F009030DC /* StatsTab.swift in Sources */,
-				B836821E27873B40007D5740 /* HeroPowerInfoProxy.swift in Sources */,
+				B836821E27873B40007D5740 /* HeroPowerDataProxy.swift in Sources */,
 				439C7E8B1C777CFC00D29859 /* CardMechanic.swift in Sources */,
 				B8D8859A24F4185200F2F0F2 /* BobsBuddyErrorState.swift in Sources */,
 				43B6954D1C9014FA00F4D0AC /* TagChangeActions.swift in Sources */,
@@ -2552,6 +2555,7 @@
 				4349104E1D09757800B22DB2 /* BoardState.swift in Sources */,
 				B836822227888B4D007D5740 /* LethalResult.swift in Sources */,
 				434910471D09505E00B22DB2 /* BoardDamage.swift in Sources */,
+				B86C9EAB27A17B3B00195C0A /* BrukanInvocationDeathrattles.swift in Sources */,
 				B8C33FB1273EF851006DA79E /* MercenariesCoins.swift in Sources */,
 				439C7EDE1C777FA900D29859 /* ImageUtils.swift in Sources */,
 				431AA0CD1D362ECB0030AD22 /* Race.swift in Sources */,
@@ -3392,7 +3396,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = /Library/Frameworks/Mono.framework/Libraries;
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 2.0.9;
+				MARKETING_VERSION = 2.0.10;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = "$(inherited)";
@@ -3436,7 +3440,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = /Library/Frameworks/Mono.framework/Libraries;
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 2.0.9;
+				MARKETING_VERSION = 2.0.10;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = net.hearthsim.hstracker;
