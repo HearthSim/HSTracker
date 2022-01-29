@@ -8,52 +8,18 @@
 
 import Foundation
 
-class MinionProxy: MonoHandle, MonoClassInitializer {
+class MinionProxy: MonoHandle, MonoClassInitializer {    
     internal static var _class: OpaquePointer?
-    private static var _setBaseAttack: OpaquePointer!
-    private static var _setBaseHealth: OpaquePointer!
-    private static var _setTaunt: OpaquePointer!
-    private static var _setDiv: OpaquePointer!
-    private static var _setCleave: OpaquePointer!
-    private static var _setPoisonous: OpaquePointer!
-    private static var _setWindfury: OpaquePointer!
-    private static var _setMegaWindfury: OpaquePointer!
-    private static var _setGolden: OpaquePointer!
-    private static var _tier: OpaquePointer!
-    private static var _setReborn: OpaquePointer!
-    private static var _getVanillaHealth: OpaquePointer!
-    private static var _setVanillaHealth: OpaquePointer!
-    private static var _getVanillaAttack: OpaquePointer!
-    private static var _setVanillaAttack: OpaquePointer!
-    private static var _setReceivesLichKingPower: OpaquePointer!
-    private static var _getReceivesLichKingPower: OpaquePointer!
-    private static var _getGameId: OpaquePointer!
-    private static var _setGameId: OpaquePointer!
-    private static var _minionName: OpaquePointer!
-
+    
+    static var _members = [String: OpaquePointer]()
+    
     static func initialize() {
         if MinionProxy._class == nil {
             MinionProxy._class = MonoHelper.loadClass(ns: "BobsBuddy", name: "Minion")
-            MinionProxy._setBaseAttack = MonoHelper.getMethod(MinionProxy._class, "set_baseAttack", 1)
-            MinionProxy._setBaseHealth = MonoHelper.getMethod(MinionProxy._class, "set_baseHealth", 1)
-            MinionProxy._setTaunt = MonoHelper.getMethod(MinionProxy._class, "set_taunt", 1)
-            MinionProxy._setDiv = MonoHelper.getMethod(MinionProxy._class, "set_div", 1)
-            MinionProxy._setCleave = MonoHelper.getMethod(MinionProxy._class, "set_cleave", 1)
-            MinionProxy._setPoisonous = MonoHelper.getMethod(MinionProxy._class, "set_poisonous", 1)
-            MinionProxy._setWindfury = MonoHelper.getMethod(MinionProxy._class, "set_windfury", 1)
-            MinionProxy._setMegaWindfury = MonoHelper.getMethod(MinionProxy._class, "set_megaWindfury", 1)
-            MinionProxy._setGolden = MonoHelper.getMethod(MinionProxy._class, "set_golden", 1)
-            MinionProxy._tier = MonoHelper.getField(MinionProxy._class, "tier")
-            MinionProxy._setReborn = MonoHelper.getMethod(MinionProxy._class, "set_reborn", 1)
-            MinionProxy._getVanillaHealth = MonoHelper.getMethod(MinionProxy._class, "get_vanillaHealth", 0)
-            MinionProxy._setVanillaHealth = MonoHelper.getMethod(MinionProxy._class, "set_vanillaHealth", 1)
-            MinionProxy._getVanillaAttack = MonoHelper.getMethod(MinionProxy._class, "get_vanillaAttack", 0)
-            MinionProxy._setVanillaAttack = MonoHelper.getMethod(MinionProxy._class, "set_vanillaAttack", 1)
-            MinionProxy._setReceivesLichKingPower = MonoHelper.getMethod(MinionProxy._class, "set_receivesLichKingPower", 1)
-            MinionProxy._getReceivesLichKingPower = MonoHelper.getMethod(MinionProxy._class, "get_receivesLichKingPower", 0)
-            MinionProxy._getGameId = MonoHelper.getMethod(MinionProxy._class, "get_game_id", 0)
-            MinionProxy._setGameId = MonoHelper.getMethod(MinionProxy._class, "set_game_id", 1)
-            MinionProxy._minionName = MonoHelper.getField(MinionProxy._class, "minionName")
+            
+            initializeFields(fields: ["minionName", "tier"])
+            
+            initializeProperties(properties: ["baseAttack", "baseHealth", "cleave", "div", "game_id", "golden", "megaWindfury", "poisonous", "reborn", "receivesLichKingPower", "taunt", "vanillaAttack", "vanillaHealth", "windfury"])
         }
     }
     
@@ -61,85 +27,53 @@ class MinionProxy: MonoHandle, MonoClassInitializer {
         super.init(obj: obj)
     }
 
-    func setBaseAttack(attack: Int32) {
-        MonoHelper.setInt(obj: self, method: MinionProxy._setBaseAttack, value: attack)
-    }
+    @MonoPrimitiveProperty(property: "baseAttack", owner: MinionProxy.self)
+    var baseAttack: Int32
 
-    func setBaseHealth(health: Int32) {
-        MonoHelper.setInt(obj: self, method: MinionProxy._setBaseHealth, value: health)
-    }
+    @MonoPrimitiveProperty(property: "baseHealth", owner: MinionProxy.self)
+    var baseHealth: Int32
 
-    func setTaunt(taunt: Bool) {
-        MonoHelper.setBool(obj: self, method: MinionProxy._setTaunt, value: taunt)
-    }
+    @MonoPrimitiveProperty(property: "taunt", owner: MinionProxy.self)
+    var taunt: Bool
 
-    func setDiv(div: Bool) {
-        MonoHelper.setBool(obj: self, method: MinionProxy._setDiv, value: div)
-    }
-    
-    func setCleave(cleave: Bool) {
-        MonoHelper.setBool(obj: self, method: MinionProxy._setCleave, value: cleave)
-    }
-    
-    func setPoisonous(poisonous: Bool) {
-        MonoHelper.setBool(obj: self, method: MinionProxy._setPoisonous, value: poisonous)
-    }
-    
-    func setWindfury(windfury: Bool) {
-        MonoHelper.setBool(obj: self, method: MinionProxy._setWindfury, value: windfury)
-    }
-    
-    func setMegaWindfury(megaWindfury: Bool) {
-        MonoHelper.setBool(obj: self, method: MinionProxy._setMegaWindfury, value: megaWindfury)
-    }
+    @MonoPrimitiveProperty(property: "div", owner: MinionProxy.self)
+    var div: Bool
 
-    func setGolden(golden: Bool) {
-        MonoHelper.setBool(obj: self, method: MinionProxy._setGolden, value: golden)
-    }
-    
-    func setTier(tier: Int32) {
-        MonoHelper.setIntField(obj: self, field: MinionProxy._tier, value: tier)
-    }
-    
-    func setReborn(reborn: Bool) {
-        MonoHelper.setBool(obj: self, method: MinionProxy._setReborn, value: reborn)
-    }
-    
-    func setVanillaHealth(health: Int32) {
-        MonoHelper.setInt(obj: self, method: MinionProxy._setVanillaHealth, value: health)
-    }
-    
-    func getVanillaHealth() -> Int32 {
-        return MonoHelper.getInt(obj: self, method: MinionProxy._getVanillaHealth)
-    }
-    
-    func setVanillaAttack(attack: Int32) {
-        MonoHelper.setInt(obj: self, method: MinionProxy._setVanillaAttack, value: attack)
-    }
-    
-    func getVanillaAttack() -> Int32 {
-        return MonoHelper.getInt(obj: self, method: MinionProxy._getVanillaAttack)
-    }
+    @MonoPrimitiveProperty(property: "cleave", owner: MinionProxy.self)
+    var cleave: Bool
 
-    func setReceivesLichKingPower(power: Bool) {
-        MonoHelper.setBool(obj: self, method: MinionProxy._setReceivesLichKingPower, value: power)
-    }
-    
-    func getReceivesLichKingPower() -> Bool {
-        return MonoHelper.getBool(obj: self, method: MinionProxy._getReceivesLichKingPower)
-    }
-    
-    func getGameId() -> Int32 {
-        return MonoHelper.getInt(obj: self, method: MinionProxy._getGameId)
-    }
-    
-    func setGameId(id: Int32) {
-        return MonoHelper.setInt(obj: self, method: MinionProxy._setGameId, value: id)
-    }
+    @MonoPrimitiveProperty(property: "poisonous", owner: MinionProxy.self)
+    var poisonous: Bool
 
-    func getMinionName() -> String {
-        return MonoHelper.getStringField(obj: self, field: MinionProxy._minionName)
-    }
+    @MonoPrimitiveProperty(property: "windfury", owner: MinionProxy.self)
+    var windfury: Bool
+
+    @MonoPrimitiveProperty(property: "megaWindfury", owner: MinionProxy.self)
+    var megaWindfury: Bool
+
+    @MonoPrimitiveProperty(property: "golden", owner: MinionProxy.self)
+    var golden: Bool
+
+    @MonoPrimitiveField(field: "tier", owner: MinionProxy.self)
+    var tier: Int32
+
+    @MonoPrimitiveProperty(property: "reborn", owner: MinionProxy.self)
+    var reborn: Bool
+
+    @MonoPrimitiveProperty(property: "vanillaHealth", owner: MinionProxy.self)
+    var vanillaHealth: Int32
+
+    @MonoPrimitiveProperty(property: "vanillaAttack", owner: MinionProxy.self)
+    var vanillaAttack: Int32
+
+    @MonoPrimitiveProperty(property: "receivesLichKingPower", owner: MinionProxy.self)
+    var receivesLichKingPower: Bool
+
+    @MonoPrimitiveProperty(property: "game_id", owner: MinionProxy.self)
+    var gameId: Int32
+
+    @MonoStringField(field: "minionName", owner: MinionProxy.self)
+    var minionName: String
 
     func addDeathrattle(deathrattle: MonoHandle) {
         let field = mono_class_get_field_from_name(MinionProxy._class, "AdditionalDeathrattles")

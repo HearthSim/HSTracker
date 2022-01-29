@@ -140,7 +140,7 @@ class BobsBuddyInvoker {
             BobsBuddyInvoker.bobsBuddyDisplay.setState(st: .combat)
         }
                 
-        if let input = input, (input.playerHeroPower().cardId() == RebornRite && input.playerHeroPower().isActivated()) || (input.opponentHeroPower().cardId() == RebornRite && input.opponentHeroPower().isActivated()) {
+        if let input = input, (input.playerHeroPower.cardId == RebornRite && input.playerHeroPower.isActivated) || (input.opponentHeroPower.cardId == RebornRite && input.opponentHeroPower.isActivated) {
             Thread.sleep(forTimeInterval: Double(LichKingDelay) / 1000.0)
         }
         
@@ -171,17 +171,17 @@ class BobsBuddyInvoker {
                 }
 
                 // Add enum for exit conditions
-                if top.getSimulationCount() <= 500 && top.getMyExitCondition() ==  .time {
+                if top.simulationCount <= 500 && top.getMyExitCondition() ==  .time {
                     logger.debug("Could not perform enough simulations. Displaying error state and exiting.")
                     self.errorState = .notEnoughData
                     BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .notEnoughData)
                 } else {
                     logger.debug("Displaying simulation results")
-                    let winRate = top.getWinRate()
-                    let tieRate = top.getTieRate()
-                    let lossRate = top.getLossRate()
-                    let myDeathRate = top.getMyDeathRate()
-                    let theirDeathRate = top.getTheirDeathRate()
+                    let winRate = top.winRate
+                    let tieRate = top.tieRate
+                    let lossRate = top.lossRate
+                    let myDeathRate = top.myDeathRate
+                    let theirDeathRate = top.theirDeathRate
                     let possibleResults = top.getResultDamage()
                     
                     BobsBuddyInvoker.bobsBuddyDisplay.showCompletedSimulation(winRate: winRate, tieRate: tieRate, lossRate: lossRate, playerLethal: theirDeathRate, opponentLethal: myDeathRate, possibleResults: possibleResults)
@@ -249,8 +249,8 @@ class BobsBuddyInvoker {
                     let ellapsed = (DispatchTime.now().uptimeNanoseconds - start.uptimeNanoseconds) / 1_000_000
                     
                     logger.debug("----- Simulation Output -----")
-                    logger.debug("Duration=\(ellapsed)ms, ExitCondition=\(top.getMyExitCondition()), Iterations = \(top.getSimulationCount())")
-                    logger.debug("WinRate=\(top.getWinRate() * 100)% (Lethal=\(top.getTheirDeathRate() * 100)%), TieRate=\(top.getTieRate() * 100)%, LossRate=\(top.getLossRate() * 100)% (Lethal=\(top.getMyDeathRate() * 100)%)")
+                    logger.debug("Duration=\(ellapsed)ms, ExitCondition=\(top.getMyExitCondition()), Iterations = \(top.simulationCount)")
+                    logger.debug("WinRate=\(top.winRate * 100)% (Lethal=\(top.theirDeathRate * 100)%), TieRate=\(top.tieRate * 100)%, LossRate=\(top.lossRate * 100)% (Lethal=\(top.myDeathRate * 100)%)")
                     logger.debug("----- End of Output -----")
                     
                     result = top
@@ -364,7 +364,7 @@ class BobsBuddyInvoker {
             logger.debug("_lastSimulationResult is null. Exiting")
             return
         }
-        if output.getSimulationCount() < MinimumSimulationsToReportSentry {
+        if output.simulationCount < MinimumSimulationsToReportSentry {
             logger.debug("Did not complete enough simulations to report terminal cases. Exiting.")
             return
         }
@@ -404,7 +404,7 @@ class BobsBuddyInvoker {
         
         if isIncorrectLethalResult(result: lethalResult) && !opposingKelThuzadDied(result: lethalResult) {
             // Akazamzarak hero power - secrets are supported but not for lethal.
-            if input?.opponentHeroPower().cardId() == CardIds.NonCollectible.Neutral.PrestidigitationTavernBrawl {
+            if input?.opponentHeroPower.cardId == CardIds.NonCollectible.Neutral.PrestidigitationTavernBrawl {
                 logger.debug("Opponent was Akazamarak. Currently not reporting lethal results. Exiting.")
                 return
             }
@@ -445,7 +445,7 @@ class BobsBuddyInvoker {
                 "turn": "\(_turn)",
                 "result": "\(result)",
                 "threadCount": "\(ProcessInfo.processInfo.activeProcessorCount / 2)",
-                "iterations": "\(output.getSimulationCount())",
+                "iterations": "\(output.simulationCount)",
                 "exitCondition": "\(output.getMyExitCondition())",
                 "output": MonoHelper.toString(obj: output)], attachments: [
                     ErrorAttachmentLog.attachment(withText: input.unitestCopyableVersion(), filename: "input.cs")])
@@ -453,14 +453,14 @@ class BobsBuddyInvoker {
     }
     
     private func isIncorrectCombatResult(result: CombatResult) -> Bool {
-        return result == .tie && output?.getTieRate() == 0 ||
-        result == .win && output?.getWinRate() == 0 ||
-        result == .loss && output?.getLossRate() == 0
+        return result == .tie && output?.tieRate == 0 ||
+        result == .win && output?.winRate == 0 ||
+        result == .loss && output?.lossRate == 0
     }
     
     private func isIncorrectLethalResult(result: LethalResult) -> Bool {
-        return result == .friendlyDied && output?.getMyDeathRate() == 0 ||
-        result == .opponentDied && output?.getTheirDeathRate() == 0
+        return result == .friendlyDied && output?.myDeathRate == 0 ||
+        result == .opponentDied && output?.theirDeathRate == 0
     }
     
     private func opposingKelThuzadDied(result: LethalResult) -> Bool {
@@ -468,7 +468,7 @@ class BobsBuddyInvoker {
             return false
         }
 
-        return result == .opponentDied && input.opponentHeroPower().cardId() == KelThuzadPowerID
+        return result == .opponentDied && input.opponentHeroPower.cardId == KelThuzadPowerID
     }
     
     func isUnknownCard(e: Entity?) -> Bool {
@@ -489,31 +489,31 @@ class BobsBuddyInvoker {
         let cardId = ent.info.latestCardId
         let minion = minionFactory.getMinionFromCardid(id: cardId, player: player)
         
-        minion.setBaseAttack(attack: Int32(ent[GameTag.atk]))
-        minion.setBaseHealth(health: Int32(ent[GameTag.health]))
-        minion.setTaunt(taunt: ent.has(tag: GameTag.taunt))
-        minion.setDiv(div: ent.has(tag: GameTag.divine_shield))
+        minion.baseAttack = Int32(ent[GameTag.atk])
+        minion.baseHealth = Int32(ent[GameTag.health])
+        minion.taunt = ent.has(tag: GameTag.taunt)
+        minion.div = ent.has(tag: GameTag.divine_shield)
         if cardIdsWithCleave.contains(cardId) {
-            minion.setCleave(cleave: true)
+            minion.cleave = true
         }
-        minion.setPoisonous(poisonous: ent.has(tag: GameTag.poisonous))
-        minion.setWindfury(windfury: ent.has(tag: GameTag.windfury))
-        minion.setMegaWindfury(megaWindfury: ent.has(tag: GameTag.mega_windfury) || cardIdsWithMegaWindfury.contains(cardId))
+        minion.poisonous = ent.has(tag: GameTag.poisonous)
+        minion.windfury = ent.has(tag: GameTag.windfury)
+        minion.megaWindfury = ent.has(tag: GameTag.mega_windfury) || cardIdsWithMegaWindfury.contains(cardId)
         
         let golden = ent.has(tag: GameTag.premium)
-        minion.setGolden(golden: golden)
-        minion.setTier(tier: Int32(ent[GameTag.tech_level]))
-        minion.setReborn(reborn: ent.has(tag: GameTag.reborn))
+        minion.golden = golden
+        minion.tier = Int32(ent[GameTag.tech_level])
+        minion.reborn = ent.has(tag: GameTag.reborn)
         
         if golden && (BobsBuddyInvoker.cardIdsWithoutPremiumImplementation.firstIndex(of: cardId) != nil) {
-            minion.setVanillaAttack(attack: minion.getVanillaAttack() * 2)
-            minion.setVanillaHealth(health: minion.getVanillaHealth() * 2)
+            minion.vanillaAttack *= 2
+            minion.vanillaHealth *= 2
         }
         
         for ent in attachedEntities {
             switch ent.cardId {
             case CardIds.NonCollectible.Neutral.RebornRitesTavernBrawl:
-                minion.setReborn(reborn: true)
+                minion.reborn = true
             case CardIds.NonCollectible.Neutral.ReplicatingMenace_ReplicatingMenaceEnchantment:
                 minion.addDeathrattle(deathrattle: ReplicatingMenace.deathrattle(golden: false))
             case CardIds.NonCollectible.Neutral.ReplicatingMenace_ReplicatingMenaceEnchantmentTavernBrawl:
@@ -537,7 +537,7 @@ class BobsBuddyInvoker {
             }
         }
         
-        minion.setGameId(id: Int32(ent.id))
+        minion.gameId = Int32(ent.id)
         return minion
     }
     
@@ -608,7 +608,7 @@ class BobsBuddyInvoker {
         
         let inputPlayerSide = input.playerSide
         let inputOpponentSide = input.opponentSide
-        let factory = simulator.minionFactory()
+        let factory = simulator.minionFactory
         
         let playerSide = BobsBuddyInvoker.getOrderedMinions(board: game.player.board).filter { e in e.isControlled(by: game.player.id) }.map { BobsBuddyInvoker.getMinionFromEntity(minionFactory: factory, player: true, ent: $0, attachedEntities: BobsBuddyInvoker.getAttachedEntities(game: game, entityId: $0.id))}
         playerMinions = playerSide

@@ -19,17 +19,13 @@ class OutputProxy: MonoHandle, MonoClassInitializer {
     static var _myExitCondition: OpaquePointer!
     static var _damageResults: OpaquePointer!
 
+    static var _members = [String: OpaquePointer]()
+    
     static func initialize() {
         if OutputProxy._class == nil {
             OutputProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Simulation", name: "Output")
-            OutputProxy._winRate = MonoHelper.getField(OutputProxy._class, "winRate")
-            OutputProxy._lossRate = MonoHelper.getField(OutputProxy._class, "lossRate")
-            OutputProxy._tieRate = MonoHelper.getField(OutputProxy._class, "tieRate")
-            OutputProxy._myDeathRate = MonoHelper.getField(OutputProxy._class, "myDeathRate")
-            OutputProxy._theirDeathRate = MonoHelper.getField(OutputProxy._class, "theirDeathRate")
-            OutputProxy._simulationCount = MonoHelper.getField(OutputProxy._class, "simulationCount")
+            initializeFields(fields: ["winRate", "lossRate", "tieRate", "myDeathRate", "theirDeathRate", "simulationCount", "damageResults"])
             OutputProxy._myExitCondition = MonoHelper.getField(OutputProxy._class, "myExitCondition")
-            OutputProxy._damageResults = MonoHelper.getField(OutputProxy._class, "damageResults")
         }
     }
     
@@ -37,39 +33,34 @@ class OutputProxy: MonoHandle, MonoClassInitializer {
         super.init(obj: obj)
     }
     
-    func getWinRate() -> Float {
-        return MonoHelper.getFloatField(obj: self, field: OutputProxy._winRate)
-    }
+    @MonoPrimitiveField(field: "winRate", owner: OutputProxy.self)
+    var winRate: Float
 
-    func getLossRate() -> Float {
-        return MonoHelper.getFloatField(obj: self, field: OutputProxy._lossRate)
-    }
+    @MonoPrimitiveField(field: "lossRate", owner: OutputProxy.self)
+    var lossRate: Float
 
-    func getTieRate() -> Float {
-        return MonoHelper.getFloatField(obj: self, field: OutputProxy._tieRate)
-    }
+    @MonoPrimitiveField(field: "tieRate", owner: OutputProxy.self)
+    var tieRate: Float
     
-    func getMyDeathRate() -> Float {
-        return MonoHelper.getFloatField(obj: self, field: OutputProxy._myDeathRate)
-    }
+    @MonoPrimitiveField(field: "myDeathRate", owner: OutputProxy.self)
+    var myDeathRate: Float
 
-    func getTheirDeathRate() -> Float {
-        return MonoHelper.getFloatField(obj: self, field: OutputProxy._theirDeathRate)
-    }
+    @MonoPrimitiveField(field: "theirDeathRate", owner: OutputProxy.self)
+    var theirDeathRate: Float
     
-    func getSimulationCount() -> Int32 {
-        return MonoHelper.getIntField(obj: self, field: OutputProxy._simulationCount)
-    }
+    @MonoPrimitiveField(field: "simulationCount", owner: OutputProxy.self)
+    var simulationCount: Int32
     
+    @MonoHandleField(field: "damageResults", owner: OutputProxy.self)
+    private var _damageResults: MonoHandle
+
     func getMyExitCondition() -> ExitConditions {
         return ExitConditions(rawValue: Int(MonoHelper.getIntField(obj: self, field: OutputProxy._myExitCondition))) ?? .completedSimulations
     }
     
     func getResultDamage() -> [Int32] {
-        let field = OutputProxy._damageResults
+        let res = _damageResults
 
-        let res = MonoHelper.getField(obj: self, field: field)
-        
         let meth = mono_class_get_method_from_name(mono_object_get_class(res.get()), "ToArray", 0)
 
         let tempObj = mono_runtime_invoke(meth, res.get(), nil, nil)

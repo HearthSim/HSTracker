@@ -9,6 +9,7 @@
 import Foundation
 
 class MinionFactoryProxy: MonoHandle, MonoClassInitializer {
+
     internal static var _class: OpaquePointer?
     private static var _classVT: OpaquePointer!
     
@@ -16,6 +17,8 @@ class MinionFactoryProxy: MonoHandle, MonoClassInitializer {
     private static var _cardIdsWithoutPremiumImplementations: OpaquePointer!
     private static var _cardIdsWithCleave: OpaquePointer!
     private static var _cardIdsWithMegaWindfury: OpaquePointer!
+    
+    static var _members = [String: OpaquePointer]()
     
     static func initialize() {
         _class = MonoHelper.loadClass(ns: "BobsBuddy", name: "MinionFactory")
@@ -31,12 +34,8 @@ class MinionFactoryProxy: MonoHandle, MonoClassInitializer {
         _classVT = mono_class_vtable(MonoHelper._monoInstance, mono_field_get_parent(_cardIdsWithoutPremiumImplementations))
     }
     
-    init(obj: MonoHandle) {
-        super.init(obj: obj.get())
-    }
-    
     required init(obj: UnsafeMutablePointer<MonoObject>?) {
-        fatalError("init(obj:) has not been implemented")
+        super.init(obj: obj)
     }
     
     func getMinionFromCardid(id: String, player: Bool) -> MinionProxy {

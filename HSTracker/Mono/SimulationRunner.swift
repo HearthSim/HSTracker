@@ -13,6 +13,8 @@ class SimulationRunnerProxy: MonoHandle, MonoClassInitializer {
     
     static var _simulateMultiThreaded: OpaquePointer!
     
+    static var _members = [String: OpaquePointer]()
+    
     static func initialize() {
         if SimulationRunnerProxy._class == nil {
             SimulationRunnerProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Simulation", name: "SimulationRunner")

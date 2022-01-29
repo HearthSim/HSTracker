@@ -15,6 +15,8 @@ class BrukanInvocationDeathrattles: MonoClassInitializer {
     static var _water: OpaquePointer!
     static var _lightning: OpaquePointer!
 
+    static var _members = [String: OpaquePointer]()
+
     static func initialize() {
         if BrukanInvocationDeathrattles._class == nil {
             BrukanInvocationDeathrattles._class = MonoHelper.loadClass(ns: "BobsBuddy", name: "BrukanInvocationDeathrattleActions")

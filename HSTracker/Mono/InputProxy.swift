@@ -8,7 +8,7 @@
 
 import Foundation
 
-class InputProxy: MonoHandle, MonoClassInitializer {
+class InputProxy: MonoHandle, MonoClassInitializer {    
     static var _class: OpaquePointer?
     static var _constructor: OpaquePointer!
     static var _setHealths: OpaquePointer!
@@ -20,8 +20,7 @@ class InputProxy: MonoHandle, MonoClassInitializer {
     static var _setPlayerHeroPower: OpaquePointer!
     static var _setOpponentHeroPower: OpaquePointer!
 
-    static var _playerHeroPower: OpaquePointer!
-    static var _opponentHeroPower: OpaquePointer!
+    static var _members = [String: OpaquePointer]()
     
     static func initialize() {
         if InputProxy._class == nil {
@@ -38,9 +37,7 @@ class InputProxy: MonoHandle, MonoClassInitializer {
             InputProxy._setOpponentHeroPower = MonoHelper.getMethod(InputProxy._class, "SetOpponentHeroPower", 3)
             
             // fields
-            // these fields crashed when trying to use the property wrapper, so leaving as-is for now
-            InputProxy._playerHeroPower = MonoHelper.getField(InputProxy._class, "PlayerHeroPower")
-            InputProxy._opponentHeroPower = MonoHelper.getField(InputProxy._class, "OpponentHeroPower")
+            initializeFields(fields: [ "opponentSide", "playerSide", "PlayerSecrets", "OpponentSecrets", "DamageCap", "PlayerHeroPower", "OpponentHeroPower", "PlayerHeroPower" ])
         }
     }
     
@@ -112,30 +109,18 @@ class InputProxy: MonoHandle, MonoClassInitializer {
         MonoHelper.setIntMonoHandle(obj: self, method: InputProxy._addSecretFromDbfid, v1: id, v2: target)
     }
     
-    func playerHeroPower() -> HeroPowerDataProxy {
-        let r = mono_field_get_value_object(MonoHelper._monoInstance, InputProxy._playerHeroPower, get())
-
-        return HeroPowerDataProxy(obj: r)
-    }
-    
-    func opponentHeroPower() -> HeroPowerDataProxy {
-        let r = mono_field_get_value_object(MonoHelper._monoInstance, InputProxy._opponentHeroPower, get())
-
-        return HeroPowerDataProxy(obj: r)
-    }
-
     func setPlayerHeroPower(heroPowerCardId: String, isActivated: Bool, data: Int32) {
-        let hp = playerHeroPower()
-        hp.setCardId(value: heroPowerCardId)
-        hp.setIsActivated(value: isActivated)
-        hp.setData(value: data)
+        let hp = playerHeroPower
+        hp.cardId = heroPowerCardId
+        hp.isActivated = isActivated
+        hp.data = data
     }
     
     func setOpponentHeroPower(heroPowerCardId: String, isActivated: Bool, data: Int32) {
-        let hp = opponentHeroPower()
-        hp.setCardId(value: heroPowerCardId)
-        hp.setIsActivated(value: isActivated)
-        hp.setData(value: data)
+        let hp = opponentHeroPower
+        hp.cardId = heroPowerCardId
+        hp.isActivated = isActivated
+        hp.data = data
     }
 
     func unitestCopyableVersion() -> String {
@@ -146,13 +131,19 @@ class InputProxy: MonoHandle, MonoClassInitializer {
         return MonoHelper.toString(obj: temp)
     }
     
+    @MonoHandleField(field: "OpponentHeroPower", owner: InputProxy.self)
+    var opponentHeroPower: HeroPowerDataProxy
+    
+    @MonoHandleField(field: "PlayerHeroPower", owner: InputProxy.self)
+    var playerHeroPower: HeroPowerDataProxy
+
     @MonoHandleField(field: "opponentSide", owner: InputProxy.self)
     var opponentSide: MonoHandle
 
     @MonoHandleField(field: "playerSide", owner: InputProxy.self)
     var playerSide: MonoHandle
     
-    @MonoInt32Field(field: "DamageCap", owner: InputProxy.self)
+    @MonoPrimitiveField(field: "DamageCap", owner: InputProxy.self)
     var damageCap: Int32
 
     @MonoHandleField(field: "PlayerSecrets", owner: InputProxy.self)

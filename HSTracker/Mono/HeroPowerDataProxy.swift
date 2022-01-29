@@ -22,47 +22,26 @@ enum HeroPowerEnum: Int {
 class HeroPowerDataProxy: MonoHandle, MonoClassInitializer {
     static var _class: OpaquePointer?
     
-    static var _get_cardId: OpaquePointer!
-    static var _set_cardId: OpaquePointer!
-    static var _get_isActivated: OpaquePointer!
-    static var _set_isActivated: OpaquePointer!
-    static var _get_data: OpaquePointer!
-    static var _set_data: OpaquePointer!
+    static var _members = [String: OpaquePointer]()
 
     static func initialize() {
         if HeroPowerDataProxy._class == nil {
             HeroPowerDataProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Simulation", name: "HeroPowerData")
             
-            HeroPowerDataProxy._get_cardId = MonoHelper.getMethod(HeroPowerDataProxy._class, "get_CardId", 0)
-            HeroPowerDataProxy._set_cardId = MonoHelper.getMethod(HeroPowerDataProxy._class, "set_CardId", 1)
-            HeroPowerDataProxy._get_isActivated = MonoHelper.getMethod(HeroPowerDataProxy._class, "get_IsActivated", 0)
-            HeroPowerDataProxy._set_isActivated = MonoHelper.getMethod(HeroPowerDataProxy._class, "set_IsActivated", 1)
-            HeroPowerDataProxy._get_data = MonoHelper.getMethod(HeroPowerDataProxy._class, "get_Data", 0)
-            HeroPowerDataProxy._set_data = MonoHelper.getMethod(HeroPowerDataProxy._class, "set_Data", 1)
+            initializeProperties(properties: ["CardId", "IsActivated", "Data"])
         }
     }
-    
+
     required init(obj: UnsafeMutablePointer<MonoObject>?) {
         super.init(obj: obj)
     }
     
-    func cardId() -> String {
-        return MonoHelper.getString(obj: self, method: HeroPowerDataProxy._get_cardId)
-    }
-    
-    func setCardId(value: String) {
-        MonoHelper.setString(obj: self, method: HeroPowerDataProxy._set_cardId, value: value)
-    }
+    @MonoStringProperty(property: "CardId", owner: HeroPowerDataProxy.self)
+    var cardId: String
 
-    func isActivated() -> Bool {
-        return MonoHelper.getBool(obj: self, method: HeroPowerDataProxy._get_isActivated)
-    }
+    @MonoPrimitiveProperty(property: "IsActivated", owner: HeroPowerDataProxy.self)
+    var isActivated: Bool
 
-    func setIsActivated(value: Bool) {
-        MonoHelper.setBool(obj: self, method: HeroPowerDataProxy._set_isActivated, value: value)
-    }
-
-    func setData(value: Int32) {
-        MonoHelper.setInt(obj: self, method: HeroPowerDataProxy._set_data, value: value)
-    }
+    @MonoPrimitiveProperty(property: "Data", owner: HeroPowerDataProxy.self)
+    var data: Int32
 }

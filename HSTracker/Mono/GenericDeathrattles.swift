@@ -14,6 +14,8 @@ class GenericDeathrattles: MonoClassInitializer {
     static var _plants: OpaquePointer!
     static var _earthInvocation: OpaquePointer!
 
+    static var _members = [String: OpaquePointer]()
+    
     static func initialize() {
         if GenericDeathrattles._class == nil {
             GenericDeathrattles._class = MonoHelper.loadClass(ns: "BobsBuddy", name: "GenericDeathrattleActions")

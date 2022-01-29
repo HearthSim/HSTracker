@@ -12,6 +12,8 @@ class ReplicatingMenace: MonoClassInitializer {
     static var _class: OpaquePointer?
     static var _deathrattle: OpaquePointer!
     
+    static var _members = [String: OpaquePointer]()
+    
     static func initialize() {
         if ReplicatingMenace._class == nil {
             ReplicatingMenace._class = MonoHelper.loadClass(ns: "BobsBuddy", name: "ReplicatingMenace")
