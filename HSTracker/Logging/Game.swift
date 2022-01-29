@@ -223,7 +223,7 @@ class Game: NSObject, PowerEventHandler {
 			
 			let tracker = self.windowManager.opponentTracker
 			if Settings.showOpponentTracker &&
-                self.currentGameMode != .battlegrounds && self.currentGameMode != .mercenaries &&
+                (!self.isBattlegroundsMatch() && !self.isMercenariesMatch()) &&
             !(Settings.dontTrackWhileSpectating && self.spectator) &&
 				((Settings.hideAllTrackersWhenNotInGame && !self.gameEnded)
 					|| (!Settings.hideAllTrackersWhenNotInGame) || self.selfAppActive ) &&
@@ -303,7 +303,7 @@ class Game: NSObject, PowerEventHandler {
             let tracker = self.windowManager.playerTracker
             if Settings.showPlayerTracker &&
                 !(Settings.dontTrackWhileSpectating && self.spectator) &&
-                (self.currentGameMode != .battlegrounds && self.currentGameMode != .mercenaries) &&
+                (!self.isBattlegroundsMatch() && !self.isMercenariesMatch()) &&
                 ( (Settings.hideAllTrackersWhenNotInGame && !self.gameEnded)
                     || (!Settings.hideAllTrackersWhenNotInGame) || self.selfAppActive ) &&
                 ((Settings.hideAllWhenGameInBackground &&
