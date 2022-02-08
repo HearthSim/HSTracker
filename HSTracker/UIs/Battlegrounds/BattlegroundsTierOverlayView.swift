@@ -102,6 +102,9 @@ class BattlegroundsTierOverlayView: NSView {
     }
     
     override func mouseUp(with event: NSEvent) {
+        guard event.locationInWindow.x.isFinite else {
+            return
+        }
         let index = (Int(CGFloat(event.locationInWindow.x - 4.0))) / 48 + 1
         
         if index >= 1 && index <= 6 {
@@ -113,6 +116,9 @@ class BattlegroundsTierOverlayView: NSView {
     }
 
     override func mouseMoved(with event: NSEvent) {
+        guard event.locationInWindow.x.isFinite else {
+            return
+        }
         let index = (Int(CGFloat(event.locationInWindow.x - 4.0))) / 48 + 1
         
         if index >= 1 && index <= 6 {

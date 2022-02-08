@@ -260,7 +260,11 @@ class BoardOverlayView: NSView {
         let mercAbilities = showAbilities && showPlayerAbilities ? getMercAbilities(player: player) : nil
         for i in 0..<cnt {
             let fr = rect.offsetBy(dx: CGFloat(i) * (w + 2 * m), dy: 0)
-            minions[i].frame = fr
+            if fr.isInfinite {
+                minions[i].frame = NSRect.zero
+            } else {
+                minions[i].frame = fr
+            }
             minions[i].entity = board[i]
             minions[i].playerType = playerType
             if !minions[i].isDescendant(of: self) {
@@ -269,7 +273,11 @@ class BoardOverlayView: NSView {
             
             if game.isMercenariesMatch() {
                 let abilityRect = NSRect(x: fr.minX, y: aOff, width: fr.width, height: abilitySize)
-                abilities[i].frame = abilityRect
+                if abilityRect.isInfinite {
+                    abilities[i].frame = NSRect.zero
+                } else {
+                    abilities[i].frame = abilityRect
+                }
                 if !abilities[i].isDescendant(of: self) {
                     addSubview(abilities[i])
                 }
