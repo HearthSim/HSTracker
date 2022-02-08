@@ -532,6 +532,8 @@ class BobsBuddyInvoker {
                 minion.addDeathrattle(deathrattle: BrukanInvocationDeathrattles.water())
             case CardIds.NonCollectible.Neutral.Brukan_LightningRecollection:
                 minion.addDeathrattle(deathrattle: BrukanInvocationDeathrattles.lightning())
+            case CardIds.NonCollectible.Neutral.Wingmen_WingmenEnchantmentTavernBrawl:
+                minion.hasWingmen = true
             default:
                 break
             }
