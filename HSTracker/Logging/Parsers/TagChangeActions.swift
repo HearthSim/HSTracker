@@ -56,6 +56,7 @@ struct TagChangeActions {
         case .reborn: return { self.rebornChange(eventHandler: eventHandler, id: id, value: value)}
         case .player_tech_level: return { self.playerTechLevel(eventHandler: eventHandler, id: id, value: value, previous: prevValue)}
         case .player_triples: return { self.playerTriples(eventHandler: eventHandler, id: id, value: value, previous: prevValue)}
+        case .bacon_player_num_hero_buddies_gained: return { self.playerBuddiesGained(eventHandler: eventHandler, id: id, value: value)}
         case .armor: return { self.armorChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue)}
         case .lettuce_ability_tile_visual_all_visible, .lettuce_ability_tile_visual_self_only, .fake_zone, .fake_zone_position: return { self.mercenariesStateChange(eventHandler: eventHandler)}
         default: return nil
@@ -790,6 +791,14 @@ struct TagChangeActions {
         if value != 0 && value > previous {
             if let entity = eventHandler.entities[id] {
                 eventHandler.handlePlayerTriples(entity: entity, triples: value - previous)
+            }
+        }
+    }
+
+    private func playerBuddiesGained(eventHandler: PowerEventHandler, id: Int, value: Int) {
+        if value != 0 {
+            if let entity = eventHandler.entities[id] {
+                eventHandler.handlePlayerBuddiesGained(entity: entity, num: value)
             }
         }
     }

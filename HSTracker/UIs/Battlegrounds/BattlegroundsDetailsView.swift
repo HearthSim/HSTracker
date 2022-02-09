@@ -42,7 +42,7 @@ class BattlegroundsDetailsView: NSView {
         super.draw(dirtyRect)
         
         if let board = self.board {
-            drawTurn(turns: AppDelegate.instance().coreManager.game.turnNumber() - board.turn, boardTurn: board.turn)
+            drawTurn(turns: AppDelegate.instance().coreManager.game.turnNumber() - board.turn, boardTurn: board.turn, buddies: board.buddiesGained)
             if Settings.showTavernTriples {
                 drawTavernUpgrades()
                 drawTriples()
@@ -54,7 +54,7 @@ class BattlegroundsDetailsView: NSView {
         board = nil
     }
     
-    func drawTurn(turns: Int, boardTurn: Int) {
+    func drawTurn(turns: Int, boardTurn: Int, buddies: Int) {
         if let font = NSFont(name: "ChunkFive", size: 20) {
             let attributes: [NSAttributedString.Key: Any] = [
                 .font: font,
@@ -77,9 +77,10 @@ class BattlegroundsDetailsView: NSView {
     ]
     
     func drawTavernUpgrades() {
+        let buddies = "🅱️: \(board?.buddiesGained ?? 0)"
         let techLevels = board?.techLevel.enumerated().filter({ $0.element != 0 }).map({ (idx, turn) in
             "\(BattlegroundsDetailsView.levelSymbols[idx]): \(turn)"
-        }).joined(separator: " ") ?? ""
+        }).joined(separator: " ").appending(" ").appending(buddies) ?? buddies
         if techLevels.count > 0, let font = NSFont(name: "Courier", size: 20) {
             let attributes: [NSAttributedString.Key: Any] = [
                 .font: font,

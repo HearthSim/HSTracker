@@ -1,3 +1,14 @@
+# 2.0.11
+## New
+- Updated for patch 22.2.2
+- Added Battlegrounds buddies gained tracking (experimental)
+## Fixes
+- Hide player/opponent tracker during spectator mode for Battlegrounds
+- Improve collection upload
+- Fixed some crash cases
+- Several Bob's Buddy fixes
+- Fixed an issue where the indicator for how long Battlegrounds opponents have been dead was misaligned when Hero Skins were present in the lobby
+
 # 2.0.10
 ## New
 - Updated for patch 22.2

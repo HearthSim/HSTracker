@@ -27,12 +27,14 @@ struct PlayingDeck {
 class BoardSnapshot {
     let entities: [Entity]
     let turn: Int
+    var buddiesGained: Int
     var techLevel = [ 0, 0, 0, 0, 0, 0 ]
     var triples = [ 0, 0, 0, 0, 0, 0 ]
     
     init(entities: [Entity], turn: Int) {
         self.entities = entities
         self.turn = turn
+        self.buddiesGained = 0
     }
 }
 
@@ -106,12 +108,9 @@ class Game: NSObject, PowerEventHandler {
     
     var gameId = ""
         
-    let battlegroundsHeroRegex: RegexPattern = ".+_HERO_\\d+(_SKIN_.+)?"
-
-    // We do count+1 because if you're playing against an opponent it will count their hero in play and the hero in the hero list, so instead we only count the heroes in the hero list and add 1 for the player hero.
+    //We do count+1 because the friendly hero is not in setaside
     func battlegroundsHeroCount() -> Int {
-        return  entities.values.filter { x in x.isHero && x.cardId.match( battlegroundsHeroRegex) && x.isInSetAside }.count + 1
-    }
+        return entities.values.filter { x in x.isHero && x.isInSetAside && (x.has(tag: .bacon_hero_can_be_drafted) || x.has(tag: .bacon_skin) || x.has(tag: .player_tech_level)) }.count + 1 }
     
     func snapshotBattlegroundsBoardState() {
         let opponentH = entities.values.first(where: { x in x.isHero && x.isInZone(zone: .play) && x.isControlled(by: opponent.id)})
@@ -2082,6 +2081,29 @@ class Game: NSObject, PowerEventHandler {
         
         if let snapshot = snapshot {
             snapshot.triples[techLevel - 1] += triples
+        }
+        semaphore.signal()
+    }
+    
+    func handlePlayerBuddiesGained(entity: Entity, num: Int) {
+        guard num > 0 else { return }
+        
+        let heroId = getCorrectBoardstateHeroId(heroId: entity.cardId)
+
+        semaphore.wait()
+        var snapshot = lastKnownBattlegroundsBoardState[heroId]
+        
+        if snapshot == nil {
+            snapshot = BoardSnapshot(entities: [], turn: -1)
+            lastKnownBattlegroundsBoardState[heroId] = snapshot
+        }
+        
+        if let snapshot = snapshot {
+            if num == 1 {
+                snapshot.buddiesGained = 1
+            } else if num == 2 {
+                snapshot.buddiesGained = 3
+            }
         }
         semaphore.signal()
     }
