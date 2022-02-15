@@ -545,6 +545,10 @@ class PowerGameStateParser: LogEventParser {
                                     player.predictUniqueCardInDeck(cardId: CardIds.NonCollectible.Neutral.CThuntheShattered_HeartOfCthunToken, isCreated: true)
                                 }
                             }
+                        case CardIds.Collectible.Priest.MidaPureLight:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Priest.MidaPureLight_FragmentOfMidaToken)
+                        case CardIds.Collectible.Warlock.CurseOfAgony:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Warlock.CurseofAgony_AgonyToken, count: 3)
                         default: break
                         }
                     }
