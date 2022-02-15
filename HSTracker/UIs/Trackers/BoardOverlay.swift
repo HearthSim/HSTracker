@@ -165,6 +165,9 @@ class BoardMinionView: NSView {
             }
             let player: Player = playerType == .player ? game.player : game.opponent
             let data = getMercAbilities(player: player)
+            guard entity.zonePosition > 0 && entity.zonePosition - 1 < data.count else {
+                return
+            }
             let abilities = data[entity.zonePosition - 1]
             let hsFrame = SizeHelper.hearthstoneWindow.frame
             let h = hsFrame.height * 0.3
@@ -260,7 +263,7 @@ class BoardOverlayView: NSView {
         let mercAbilities = showAbilities && showPlayerAbilities ? getMercAbilities(player: player) : nil
         for i in 0..<cnt {
             let fr = rect.offsetBy(dx: CGFloat(i) * (w + 2 * m), dy: 0)
-            if fr.isInfinite {
+            if fr.isInfinite || fr.origin.x.isNaN || fr.origin.y.isNaN {
                 minions[i].frame = NSRect.zero
             } else {
                 minions[i].frame = fr
@@ -273,7 +276,7 @@ class BoardOverlayView: NSView {
             
             if game.isMercenariesMatch() {
                 let abilityRect = NSRect(x: fr.minX, y: aOff, width: fr.width, height: abilitySize)
-                if abilityRect.isInfinite {
+                if abilityRect.isInfinite || abilityRect.origin.x.isNaN || abilityRect.origin.y.isNaN {
                     abilities[i].frame = NSRect.zero
                 } else {
                     abilities[i].frame = abilityRect

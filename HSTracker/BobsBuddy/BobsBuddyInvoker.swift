@@ -562,7 +562,12 @@ class BobsBuddyInvoker {
             return
         }
         
-        input.addAvailableRaces(races: game.availableRaces!)
+        guard let races = game.availableRaces else {
+            errorState = .unknownCards
+            logger.error("Game has no available races. Exiting")
+            return
+        }
+        input.addAvailableRaces(races: races)
 
         input.damageCap = Int32(game.gameEntity?[.bacon_combat_damage_cap] ?? 0)
         
