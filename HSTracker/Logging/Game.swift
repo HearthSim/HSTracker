@@ -133,6 +133,7 @@ class Game: NSObject, PowerEventHandler {
         if let current = current {
             board.triples = current.triples
             board.techLevel = current.techLevel
+            board.buddiesGained = current.buddiesGained
         }
         lastKnownBattlegroundsBoardState[correctedHero] = board
         semaphore.signal()
