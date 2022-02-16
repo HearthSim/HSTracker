@@ -1,3 +1,10 @@
+# 2.0.12
+## New
+- Updated for patch 22.4
+## Fixes
+- Fixed buddies gained tracker when updating the current opponent board
+- Fixed some more crashes
+
 # 2.0.11
 ## New
 - Updated for patch 22.2.2
