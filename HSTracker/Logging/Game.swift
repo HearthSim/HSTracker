@@ -848,6 +848,7 @@ class Game: NSObject, PowerEventHandler {
     private var awaitingAvenge = false
     var isInMenu = true
     private var handledGameEnd = false
+    private var battlegroundsMulliganHandled = false
     
 	var enqueueTime = LogDate(date: Date.distantPast)
     private var lastTurnStart: [Int] = [0, 0]
@@ -1196,6 +1197,7 @@ class Game: NSObject, PowerEventHandler {
         avengeDeathRattleCount = 0
         awaitingAvenge = false
         lastTurnStart = [0, 0]
+        battlegroundsMulliganHandled = false
 
         player.reset()
         if let currentdeck = self.currentDeck {
@@ -2041,6 +2043,7 @@ class Game: NSObject, PowerEventHandler {
     
     func handlePlayerMulliganDone() {
         if isBattlegroundsMatch() {
+            battlegroundsMulliganHandled = true
             AppDelegate.instance().coreManager.toaster.hide()
         } else if isConstructedMatch() {
             AppDelegate.instance().coreManager.toaster.hide()
@@ -2139,7 +2142,9 @@ class Game: NSObject, PowerEventHandler {
         if Settings.showHeroToast {
             logger.debug("Start of battlegrounds match")
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500), execute: {
-                self.internalHandleBGStart(count: 0)
+                if !self.battlegroundsMulliganHandled {
+                    self.internalHandleBGStart(count: 0)
+                }
             })
         }
     }
