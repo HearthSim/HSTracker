@@ -22,12 +22,19 @@ class Toast {
         w.backgroundColor = Color.clear
         
         w.orderFrontRegardless()
-        
-        let screenRect = NSScreen.screens.first!.frame
+
+        let screen = NSScreen.screens.first!
+        let screenRect = screen.frame
         let height = screenRect.height
         let x = screenRect.width / 2 - windowWidth / 2
+        let y: CGFloat
+        if #available(macOS 12.0, *) {
+            y = screenRect.minY - screen.safeAreaInsets.top
+        } else {
+            y = screenRect.minY
+        }
         
-        let rect = NSRect(x: x, y: screenRect.minY, width: windowWidth, height: height)
+        let rect = NSRect(x: x, y: y, width: windowWidth, height: height)
         w.setFrame(rect, display: true)
         
         return w
