@@ -1,3 +1,10 @@
+# 2.0.13
+## New
+- Updated for patch 22.4.3
+## Fixes
+- Improvements to Toast notification appearing behind the notch (thanks @eraycantazeguney)
+- Fix BG mulligan appearing on an already started match (thanks @eraycantazeguney)
+
 # 2.0.12
 ## New
 - Updated for patch 22.4
