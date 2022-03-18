@@ -1,3 +1,10 @@
+# 2.0.14
+## New
+- Updated for patch 22.6
+## Fixes
+- Show Toast notifications on the correct monitor
+- Check Hearthstone window location has changed and update overlay if needed
+
 # 2.0.13
 ## New
 - Updated for patch 22.4.3

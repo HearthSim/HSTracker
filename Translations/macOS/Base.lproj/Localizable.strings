@@ -125,6 +125,7 @@
 "WAILING_CAVERNS" = "Wailing Caverns";
 "STORMWIND" = "United in Stormwind";
 "ALTERAC_VALLEY" = "Fractured in Alterac Valley";
+"THE_SUNKEN_CITY" = "The Sunken City";
 
 /* card type */
 "all_types" = "All";

@@ -1141,11 +1141,23 @@ class Game: NSObject, PowerEventHandler {
         }
     }
     
+    private var counter = 0
+    
     private func internalUpdateCheck() {
         if self.guiNeedsUpdate {
             self.guiNeedsUpdate = false
             self.updateAllTrackers()
             self.guiUpdateResets = false
+            self.counter = 0
+        } else if self.counter > 3 {
+            let rect = SizeHelper.hearthstoneWindow.frame
+            SizeHelper.hearthstoneWindow.reload()
+            if rect != SizeHelper.hearthstoneWindow.frame {
+                self.updateAllTrackers()
+            }
+            self.counter = 0
+        } else {
+            self.counter += 1
         }
         
         self.updateBoardOverlay()
