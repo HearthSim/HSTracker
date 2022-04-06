@@ -573,6 +573,7 @@ class PowerGameStateParser: LogEventParser {
                         case CardIds.Collectible.Druid.Recycle,
                              CardIds.Collectible.Mage.ManicSoulcaster,
                              CardIds.Collectible.Neutral.ZolaTheGorgon,
+                             CardIds.Collectible.Neutral.ZolaTheGorgon1810,
                              CardIds.Collectible.Druid.Splintergraft,
                              //CardIds.Collectible.Priest.HolyWater: -- TODO
                              CardIds.Collectible.Neutral.BalefulBanker,
@@ -596,7 +597,8 @@ class PowerGameStateParser: LogEventParser {
                         case CardIds.Collectible.Priest.ExcavatedEvil:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.Collectible.Priest.ExcavatedEvil)
-                        case CardIds.Collectible.Neutral.EliseStarseeker:
+                        case CardIds.Collectible.Neutral.EliseStarseeker,
+                             CardIds.Collectible.Neutral.EliseStarseeker1810:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Neutral
                                             .EliseStarseeker_MapToTheGoldenMonkeyToken)
