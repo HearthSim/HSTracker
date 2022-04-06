@@ -1,3 +1,7 @@
+# 2.1.0
+## New
+- Updated for patch 23.0
+
 # 2.0.14
 ## New
 - Updated for patch 22.6
