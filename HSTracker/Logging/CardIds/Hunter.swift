@@ -150,6 +150,8 @@ extension CardIds.Collectible {
         static let SunscaleRaptor = "BAR_031"
         static let TameBeastRank1 = "BAR_034"
         static let IceTrap = "AV_226"
+        static let AzsharanSaber = "TSC_945"
+        static let EmergencyManeuvers = "TSC_929"
     }
 }
 
@@ -220,6 +222,7 @@ extension CardIds.NonCollectible {
         static let HalazzisGuise = "TRLA_163"
         static let TameBeastRank1_TameBeastRank2Token = "BAR_034t"
         static let TameBeastRank1_TameBeastRank3Token = "BAR_034t2"
+        static let AzsharanSaber_SunkenSaberToken = "TSC_945t"
     }
 }
 
@@ -227,11 +230,12 @@ extension CardIds.Secrets {
     struct Hunter {
         static let All = [BearTrap, DartTrap, ExplosiveTrap, FreezingTrap,
                           HiddenCache, Misdirection, RatTrap, Snipe, SnakeTrap, CatTrick,
-                          VenomstrikeTrap, WanderingMonster, PressurePlate, PackTactics, OpenTheCages, IceTrap]
+                          VenomstrikeTrap, WanderingMonster, PressurePlate, PackTactics, OpenTheCages, IceTrap, EmergencyManeuvers]
         static let BearTrap = MultiIdCard(CardIds.Collectible.Hunter.BearTrap)
         static let CatTrick = MultiIdCard(CardIds.Collectible.Hunter.CatTrick)
         static let DartTrap = MultiIdCard(CardIds.Collectible.Hunter.DartTrap)
         static let ExplosiveTrap = MultiIdCard(CardIds.Collectible.Hunter.ExplosiveTrap, CardIds.Collectible.Hunter.ExplosiveTrapCore, CardIds.Collectible.Hunter.ExplosiveTrapVanilla)
+        static let EmergencyManeuvers = MultiIdCard(CardIds.Collectible.Hunter.EmergencyManeuvers)
         static let FreezingTrap = MultiIdCard(CardIds.Collectible.Hunter.FreezingTrap, CardIds.Collectible.Hunter.FreezingTrapCore, CardIds.Collectible.Hunter.FreezingTrapVanilla)
         static let HiddenCache = MultiIdCard(CardIds.Collectible.Hunter.HiddenCache)
         static let Misdirection = MultiIdCard(CardIds.Collectible.Hunter.Misdirection, CardIds.Collectible.Hunter.MisdirectionVanilla)

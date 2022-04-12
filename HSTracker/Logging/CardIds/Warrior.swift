@@ -133,6 +133,7 @@ extension CardIds.Collectible {
         static let DragonRoar = "TRL_362"
         static let ConditioningRank1 = "BAR_842"
         static let Scrapsmith = "AV_323"
+        static let AzsharanTrident = "TSC_913"
     }
 }
 
@@ -209,6 +210,7 @@ extension CardIds.NonCollectible {
         static let ConditioningRank1_ConditioningRank2Token = "BAR_842t"
         static let ConditioningRank1_ConditioningRank3Token = "BAR_842t2"
         static let Scrapsmith_ScrappyGruntToken = "AV_323t"
+        static let AzsharanTrident_SunkenTridentToken = "TSC_913t"
     }
 }
 

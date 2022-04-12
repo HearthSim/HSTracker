@@ -147,6 +147,7 @@ extension CardIds.Collectible {
         static let FlurryRank1 = "BAR_305"
         static let FirstFlame = "SW_108"
         static let BuildASnowman = "AV_282"
+        static let AzsharanSweeper = "TSC_776"
     }
 }
 
@@ -215,6 +216,7 @@ extension CardIds.NonCollectible {
         static let FlurryRank1_FlurryRank3Token = "BAR_305t2"
         static let FirstFlame_SecondFlameToken = "SW_108t"
         static let BuildaSnowman_BuildASnowbruteToken = "AV_282t2"
+        static let AzsharanSweeper_SunkenSweeperToken = "TSC_776t"
     }
 }
 

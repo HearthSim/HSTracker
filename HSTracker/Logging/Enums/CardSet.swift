@@ -60,7 +60,9 @@ enum CardSet: String, CaseIterable {
                 .loe, .og, .kara, .gangs, .ungoro, .icecrown,
                 .lootapalooza, .gilneas, .boomsday, .troll,
                 .dalaran, .uldum, .dragons, .year_of_the_dragon,
-                .black_temple, .demon_hunter_initiate, .scholomance, .darkmoon_faire, .the_barrens, .wailing_caverns, .stormwind, .alterac_valley, .the_sunken_city]
+                .black_temple, .demon_hunter_initiate, .scholomance, .darkmoon_faire,
+                .the_barrens, .wailing_caverns, .stormwind, .alterac_valley,
+                .the_sunken_city]
     }
     
     static func wildSets() -> [CardSet] {
@@ -70,7 +72,8 @@ enum CardSet: String, CaseIterable {
                 .ungoro, .icecrown, .lootapalooza,
                 .gilneas, .boomsday, .troll,
                 .dalaran, .uldum, .dragons, .year_of_the_dragon, .demon_hunter_initiate,
-                .basic, .expert1, .legacy]
+                .basic, .expert1, .legacy,
+                .black_temple, .scholomance, .darkmoon_faire]
     }
     
     static func classicSets() -> [CardSet] {

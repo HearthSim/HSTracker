@@ -1,3 +1,10 @@
+# 2.1.1
+## New
+- Updated for Year of the Hydra
+- Added support for the majority of new cards.
+
+Dredge support coming soon!
+
 # 2.1.0
 ## New
 - Updated for patch 23.0

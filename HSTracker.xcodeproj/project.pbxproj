@@ -588,6 +588,13 @@
 		B8EC9A482612148500EB17A9 /* MultiIdCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8832DDB26117FCE00646BA4 /* MultiIdCard.swift */; };
 		B8EC9A492612149D00EB17A9 /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8832DD926057A5000646BA4 /* RepeatingTimer.swift */; };
 		B8EC9A4A261215C800EB17A9 /* OpponentDeadForTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC376025D06C2F00452A83 /* OpponentDeadForTracker.swift */; };
+		B8F778732805CDDD006348B4 /* ExitConditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83682232789F812007D5740 /* ExitConditions.swift */; };
+		B8F778742805CDEA006348B4 /* GenericDeathrattles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8449A052781CB6F0094E5B3 /* GenericDeathrattles.swift */; };
+		B8F778752805CDF2006348B4 /* BrukanInvocationDeathrattles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86C9EAA27A17B3A00195C0A /* BrukanInvocationDeathrattles.swift */; };
+		B8F778762805CDF8006348B4 /* HeroPowerDataProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B836821D27873B40007D5740 /* HeroPowerDataProxy.swift */; };
+		B8F778772805CE00006348B4 /* LethalResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B836822127888B4D007D5740 /* LethalResult.swift */; };
+		B8F778782805CE54006348B4 /* CombatResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B836821F27888B12007D5740 /* CombatResult.swift */; };
+		B8F778792805CE59006348B4 /* ReplicatingMenace.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8449A032781C7360094E5B3 /* ReplicatingMenace.swift */; };
 		BC0780841E3152D800AC9DB8 /* DeckWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0780831E3152D800AC9DB8 /* DeckWatcher.swift */; };
 		BC78DD751E806B6F00DBA7C9 /* Algorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC78DD741E806B6F00DBA7C9 /* Algorithm.swift */; };
 		BC90FD0B1D97F81B00BAFC0D /* GraveyardCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC90FD0A1D97F81B00BAFC0D /* GraveyardCounter.swift */; };
@@ -2595,6 +2602,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8F778792805CE59006348B4 /* ReplicatingMenace.swift in Sources */,
+				B8F778782805CE54006348B4 /* CombatResult.swift in Sources */,
+				B8F778772805CE00006348B4 /* LethalResult.swift in Sources */,
+				B8F778762805CDF8006348B4 /* HeroPowerDataProxy.swift in Sources */,
+				B8F778752805CDF2006348B4 /* BrukanInvocationDeathrattles.swift in Sources */,
+				B8F778742805CDEA006348B4 /* GenericDeathrattles.swift in Sources */,
+				B8F778732805CDDD006348B4 /* ExitConditions.swift in Sources */,
 				B887656826C304A5003D3629 /* MulliganToastView.swift in Sources */,
 				B887656726C3049F003D3629 /* ShortIdHelper.swift in Sources */,
 				B8C2F9112623233600C31E6A /* FullScreenFxHandler.swift in Sources */,
@@ -3396,7 +3410,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = /Library/Frameworks/Mono.framework/Libraries;
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.1.1;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = "$(inherited)";
@@ -3440,7 +3454,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = /Library/Frameworks/Mono.framework/Libraries;
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.1.1;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = net.hearthsim.hstracker;

@@ -134,6 +134,7 @@ extension CardIds.Collectible {
         static let Regenerate = "TRL_128"
         static let CondemnRank1 = "BAR_314"
         static let MidaPureLight = "ONY_028"
+        static let AzsharanRitual = "TSC_775"
     }
 }
 
@@ -185,6 +186,7 @@ extension CardIds.NonCollectible {
         static let CondemnRank1_CondemnRank2Token = "BAR_314t"
         static let CondemnRank1_CondemnRank3Token = "BAR_314t2"
         static let MidaPureLight_FragmentOfMidaToken = "ONY_028t"
+        static let AzsharanRitual_SunkenRitualToken = "TSC_775t"
     }
 }
 

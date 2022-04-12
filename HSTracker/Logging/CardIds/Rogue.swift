@@ -149,6 +149,8 @@ extension CardIds.Collectible {
         static let MaestraOfTheMasquerade = "SW_050"
         static let Garrote = "SW_311"
         static let LoanShark = "SW_434"
+        static let AzsharanVessel = "TSC_912"
+        static let BootstrapSunkeneer = "TSC_933"
     }
 }
 
@@ -224,6 +226,7 @@ extension CardIds.NonCollectible {
         static let WickedStabRank1_WickedStabRank2Token = "BAR_319t"
         static let WickedStabRank1_WickedStabRank3Token = "BAR_319t2"
         static let Garrote_BleedToken = "SW_311t"
+        static let AzsharanVessel_SunkenVesselToken = "TSC_912t"
     }
 }
 

@@ -549,6 +549,16 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Priest.MidaPureLight_FragmentOfMidaToken)
                         case CardIds.Collectible.Warlock.CurseOfAgony:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Warlock.CurseofAgony_AgonyToken, count: 3)
+                        case CardIds.Collectible.Neutral.AzsharanSentinel:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.AzsharanSentinel_SunkenSentinelToken, count: 1)
+                        case CardIds.Collectible.Warrior.AzsharanTrident:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Warrior.AzsharanTrident_SunkenTridentToken, count: 1)
+                        case CardIds.Collectible.Hunter.AzsharanSaber:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Hunter.AzsharanSaber_SunkenSaberToken, count: 1)
+                        case CardIds.Collectible.DemonHunter.AzsharanDefector:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.DemonHunter.AzsharanDefector_SunkenDefectorToken, count: 1)
+                        case CardIds.Collectible.Shaman.PiranhaPoacher:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.PiranhaSwarmer_PiranhaSwarmerToken1, count: 1) // is this the correct token? There are 4 different ones
                         default: break
                         }
                     }
@@ -782,6 +792,31 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Warrior.Scrapsmith_ScrappyGruntToken)
                         case CardIds.Collectible.Neutral.RamCommander:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.RamCommander_BattleRamToken)
+                        case CardIds.Collectible.Warlock.DraggedBelow,
+                            CardIds.Collectible.Warlock.SirakessCultist:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Warlock.SirakessCultist_AbyssalCurseToken, count: 1)
+                        case CardIds.Collectible.Neutral.SchoolTeacher:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.SchoolTeacher_NagalingToken, count: 1)
+                        case CardIds.Collectible.Warlock.AzsharanScavenger:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Warlock.AzsharanScavenger_SunkenScavengerToken, count: 1)
+                        case CardIds.Collectible.Priest.AzsharanRitual:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Priest.AzsharanRitual_SunkenRitualToken, count: 1)
+                        case CardIds.Collectible.Shaman.AzsharanScroll:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Shaman.AzsharanScroll_SunkenScrollToken, count: 1)
+                        case CardIds.Collectible.Paladin.AzsharanMooncatcher:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Paladin.AzsharanMooncatcher_SunkenMooncatcherToken, count: 1)
+                        case CardIds.Collectible.Rogue.AzsharanVessel:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Rogue.AzsharanVessel_SunkenVesselToken, count: 1)
+                        case CardIds.Collectible.Shaman.Schooling:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.PiranhaSwarmer_PiranhaSwarmerToken1, count: 3) // is this the correct token? There are 4 different ones
+                        case CardIds.Collectible.Druid.AzsharanGardens:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Druid.AzsharanGardens_SunkenGardensToken, count: 1)
+                        case CardIds.Collectible.Mage.AzsharanSweeper:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Mage.AzsharanSweeper_SunkenSweeperToken, count: 1)
+                        case CardIds.Collectible.Rogue.BootstrapSunkeneer:
+                            if target != nil {
+                                addKnownCardId(eventHandler: eventHandler, cardId: target, count: 1)
+                            }
                         default:
                             if let card = Cards.any(byId: actionStartingCardId) {
                                 if (player != nil && player![.current_player] == 1
