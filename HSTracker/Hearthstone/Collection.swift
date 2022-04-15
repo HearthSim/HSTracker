@@ -115,11 +115,11 @@ class MercenariesCollection: CollectionBase {
     }
     
     class ArtVariation: Codable {
-        let dbfId: Int
+        let dbf_id: Int
         let equipped: Bool
         let premium: Int
         init(variation: MirrorArtVariation) {
-            dbfId = variation.dbfId.intValue
+            dbf_id = variation.dbfId.intValue
             equipped = variation.equipped
             premium = variation.premium.intValue
         }
