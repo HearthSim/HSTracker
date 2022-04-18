@@ -25,7 +25,8 @@ enum CardType: Int, CaseIterable {
     blank = 11,
     game_mode_button = 12,
     move_minion_hover_target = 22,
-    lettuce_ability = 23
+    lettuce_ability = 23,
+    battleground_hero_buddy = 24
 
     init?(rawString: String) {
         let string = rawString.lowercased()

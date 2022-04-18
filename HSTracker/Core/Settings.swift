@@ -154,26 +154,26 @@ final class Settings {
     @UserDefault(key: Settings.hearthstone_log_path, defaultValue: "/Applications/Hearthstone")
     static var hearthstonePath: String
     static var hearthstoneLanguage: Language.Hearthstone? {
-        set { set(name: Settings.hearthstone_language, value: newValue?.rawValue) }
         get {
             guard let locale = get(name: Settings.hearthstone_language) as? String else {
                 return nil
             }
             return Language.Hearthstone(rawValue: locale)
         }
+        set { set(name: Settings.hearthstone_language, value: newValue?.rawValue) }
     }
     static var hsTrackerLanguage: Language.HSTracker? {
-        set {
-            if let locale = newValue {
-                defaults.set([locale.rawValue], forKey: "AppleLanguages")
-            }
-            set(name: Settings.hstracker_language, value: newValue?.rawValue)
-        }
         get {
             guard let locale = get(name: Settings.hstracker_language) as? String else {
                 return nil
             }
             return Language.HSTracker(rawValue: locale)
+        }
+        set {
+            if let locale = newValue {
+                defaults.set([locale.rawValue], forKey: "AppleLanguages")
+            }
+            set(name: Settings.hstracker_language, value: newValue?.rawValue)
         }
     }
     
@@ -303,16 +303,16 @@ final class Settings {
     @UserDefault(key: Settings.show_win_loss_ratio, defaultValue: false)
     static var showWinLossRatio: Bool
     static var playerInHandColor: NSColor {
-        set { set(name: Settings.player_in_hand_color, value: [
-            newValue.redComponent,
-            newValue.greenComponent,
-            newValue.blueComponent])
-        }
         get {
             if let hexColor = get(name: Settings.player_in_hand_color) as? [CGFloat], hexColor.count == 3 {
                 return NSColor(red: hexColor[0], green: hexColor[1], blue: hexColor[2], alpha: 1)
             }
             return NSColor(red: 0.678, green: 1, blue: 0.184, alpha: 1)
+        }
+        set { set(name: Settings.player_in_hand_color, value: [
+            newValue.redComponent,
+            newValue.greenComponent,
+            newValue.blueComponent])
         }
     }
     @UserDefault(key: Settings.show_apphealth, defaultValue: true)

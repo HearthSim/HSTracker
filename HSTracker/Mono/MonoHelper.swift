@@ -8,11 +8,273 @@
 
 import Foundation
 
+protocol MonoClassInitializer {
+    static var _class: OpaquePointer? { get }
+    static var _members: [String: OpaquePointer] { get set }
+
+    static func initialize()
+    static func initializeFields(fields: [String])
+    static func initializeProperties(properties: [String])
+    static func getMember(name: String) -> OpaquePointer
+}
+
+extension MonoClassInitializer {
+    static func initializeFields(fields: [String]) {
+        for f in fields {
+            _members[f] = MonoHelper.getField(_class, f)
+        }
+    }
+    
+    static func initializeProperties(properties: [String]) {
+        for p in properties {
+            _members[p] = MonoHelper.getProperty(_class, p)
+        }
+    }
+
+    static func getMember(name: String) -> OpaquePointer {
+        if let member = _members[name] {
+            return member
+        }
+        fatalError("Member \(name) not found")
+    }
+}
+
+@propertyWrapper struct MonoHandleField<T> where T: MonoHandle {
+    let field: OpaquePointer
+
+    public static subscript<EnclosingSelf>(
+      _enclosingInstance observed: EnclosingSelf,
+      wrapped wrappedKeyPath: ReferenceWritableKeyPath<EnclosingSelf, T>,
+      storage storageKeyPath: ReferenceWritableKeyPath<EnclosingSelf, Self>
+    ) -> T where EnclosingSelf: MonoHandle {
+      get {
+          let field = observed[keyPath: storageKeyPath].field
+          
+          let inst = observed.get()
+          let obj = mono_field_get_value_object(MonoHelper._monoInstance, field, inst)
+          return T(obj: obj)
+      }
+      set {
+          let field = observed[keyPath: storageKeyPath].field
+          let inst = observed.get()
+          mono_field_set_value(inst, field, newValue.get())
+      }
+    }
+
+    public var wrappedValue: T {
+      get { fatalError("called wrappedValue getter") }
+        //swiftlint:disable unused_setter_value
+      set { fatalError("called wrappedValue setter") }
+        //swiftlint:enable unused_setter_value
+    }
+    
+    init(field: String, owner: MonoClassInitializer.Type) {
+        self.field = owner.getMember(name: field)
+    }
+}
+
+@propertyWrapper struct MonoPrimitiveField<T> {
+    let field: OpaquePointer!
+
+    public static subscript<EnclosingSelf>(
+      _enclosingInstance observed: EnclosingSelf,
+      wrapped wrappedKeyPath: ReferenceWritableKeyPath<EnclosingSelf, T>,
+      storage storageKeyPath: ReferenceWritableKeyPath<EnclosingSelf, Self>
+    ) -> T where EnclosingSelf: MonoHandle {
+      get {
+          let field = observed[keyPath: storageKeyPath].field
+          let inst = observed.get()
+          let params = UnsafeMutablePointer<T>.allocate(capacity: 1)
+          
+          mono_field_get_value(inst, field, params)
+          
+          let res: T = params.pointee
+          
+          params.deallocate()
+          
+          return res
+      }
+      set {
+          let field = observed[keyPath: storageKeyPath].field
+          let inst = observed.get()
+          
+          let params = UnsafeMutablePointer<T>.allocate(capacity: 1)
+          params.pointee = newValue
+          mono_field_set_value(inst, field, params)
+          params.deallocate()
+      }
+    }
+
+    public var wrappedValue: T {
+      get { fatalError("called wrappedValue getter") }
+        //swiftlint:disable unused_setter_value
+      set { fatalError("called wrappedValue setter") }
+        //swiftlint:enable unused_setter_value
+    }
+    
+    init(field: String, owner: MonoClassInitializer.Type) {
+        self.field = owner.getMember(name: field)
+    }
+}
+
+@propertyWrapper struct MonoStringField {
+    let field: OpaquePointer
+
+    public static subscript<EnclosingSelf>(
+      _enclosingInstance observed: EnclosingSelf,
+      wrapped wrappedKeyPath: ReferenceWritableKeyPath<EnclosingSelf, String>,
+      storage storageKeyPath: ReferenceWritableKeyPath<EnclosingSelf, Self>
+    ) -> String where EnclosingSelf: MonoHandle {
+      get {
+          let field = observed[keyPath: storageKeyPath].field
+          
+          let inst = observed.get()
+          let obj = mono_field_get_value_object(MonoHelper._monoInstance, field, inst)
+          let opaque = OpaquePointer(obj)
+          let str = mono_string_to_utf8(opaque)
+          let cstr = String(cString: str!)
+          str?.deallocate()
+          return cstr
+      }
+      set {
+          let field = observed[keyPath: storageKeyPath].field
+          let inst = observed.get()
+          newValue.withCString({
+              let str = mono_string_new(MonoHelper._monoInstance, $0)
+              let mstr = UnsafeMutableRawPointer(str)
+              mono_field_set_value(inst, field, mstr)
+          })
+      }
+    }
+
+    public var wrappedValue: String {
+      get { fatalError("called wrappedValue getter") }
+        //swiftlint:disable unused_setter_value
+      set { fatalError("called wrappedValue setter") }
+        //swiftlint:enable unused_setter_value
+    }
+    
+    init(field: String, owner: MonoClassInitializer.Type) {
+        self.field = owner.getMember(name: field)
+    }
+}
+
+@propertyWrapper struct MonoPrimitiveProperty<T> {
+    let property: OpaquePointer!
+
+    public static subscript<EnclosingSelf>(
+      _enclosingInstance observed: EnclosingSelf,
+      wrapped wrappedKeyPath: ReferenceWritableKeyPath<EnclosingSelf, T>,
+      storage storageKeyPath: ReferenceWritableKeyPath<EnclosingSelf, Self>
+    ) -> T where EnclosingSelf: MonoHandle {
+      get {
+          let property = observed[keyPath: storageKeyPath].property
+          let inst = observed.get()
+          
+          let temp = mono_property_get_value(property, inst, nil, nil)
+          
+          if let v = mono_object_unbox(temp) {
+              return v.bindMemory(to: T.self, capacity: 1).pointee
+          }
+          fatalError("Unexpected nil found")
+      }
+      set {
+          let property = observed[keyPath: storageKeyPath].property
+          let inst = observed.get()
+          
+          let params = UnsafeMutablePointer<UnsafeMutablePointer<T>>.allocate(capacity: 1)
+          let a = UnsafeMutablePointer<T>.allocate(capacity: 1)
+          a.pointee = newValue
+          params[0] = a
+          params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 1, {
+              mono_property_set_value(property, inst, $0, nil)
+          })
+          a.deallocate()
+          params.deallocate()
+      }
+    }
+
+    public var wrappedValue: T {
+      get { fatalError("called wrappedValue getter") }
+        //swiftlint:disable unused_setter_value
+      set { fatalError("called wrappedValue setter") }
+        //swiftlint:enable unused_setter_value
+    }
+    
+    init(property: String, owner: MonoClassInitializer.Type) {
+        self.property = owner.getMember(name: property)
+    }
+}
+
+@propertyWrapper struct MonoStringProperty {
+    let property: OpaquePointer!
+
+    public static subscript<EnclosingSelf>(
+      _enclosingInstance observed: EnclosingSelf,
+      wrapped wrappedKeyPath: ReferenceWritableKeyPath<EnclosingSelf, String>,
+      storage storageKeyPath: ReferenceWritableKeyPath<EnclosingSelf, Self>
+    ) -> String where EnclosingSelf: MonoHandle {
+      get {
+          let property = observed[keyPath: storageKeyPath].property
+          let inst = observed.get()
+          
+          let obj = mono_property_get_value(property, inst, nil, nil)
+          
+          let opaque = OpaquePointer(obj)
+          let str = mono_string_to_utf8(opaque)
+          let cstr = String(cString: str!)
+          str?.deallocate()
+          return cstr
+      }
+      set {
+          let property = observed[keyPath: storageKeyPath].property
+          let inst = observed.get()
+          
+          let params = UnsafeMutablePointer<UnsafeMutableRawPointer?>.allocate(capacity: 1)
+          newValue.withCString({
+              let str = mono_string_new(MonoHelper._monoInstance, $0)
+              let mstr = UnsafeMutableRawPointer(str)
+              params[0] = mstr
+              mono_property_set_value(property, inst, params, nil)
+          })
+
+          params.deallocate()
+      }
+    }
+
+    public var wrappedValue: String {
+      get { fatalError("called wrappedValue getter") }
+        //swiftlint:disable unused_setter_value
+      set { fatalError("called wrappedValue setter") }
+        //swiftlint:enable unused_setter_value
+    }
+    
+    init(property: String, owner: MonoClassInitializer.Type) {
+        self.property = owner.getMember(name: property)
+    }
+}
 class MonoHelper {
     static var _monoInstance: OpaquePointer? // MonoDomain
     static var _assembly: OpaquePointer? // MonoClass
     static var _image: OpaquePointer? // MonoImage
 
+    static let monoClasses: [MonoClassInitializer.Type] = [ BrukanInvocationDeathrattles.self,
+                                                            GenericDeathrattles.self,
+                                                            HeroPowerDataProxy.self,
+                                                            InputProxy.self,
+                                                            MinionFactoryProxy.self,
+                                                            MinionProxy.self,
+                                                            OutputProxy.self,
+                                                            ReplicatingMenace.self,
+                                                            SimulatorProxy.self,
+                                                            SimulationRunnerProxy.self ]
+    
+    static func initialize() {
+        for cl in monoClasses {
+            cl.initialize()
+        }
+    }
+    
     static func load() -> Bool {
         guard let path = Bundle.main.resourcePath else {
             logger.debug("Failed to resolve resourcePath")
@@ -56,7 +318,6 @@ class MonoHelper {
             let major = mono_assembly_name_get_version(aname, version.advanced(by: 0), version.advanced(by: 1), version.advanced(by: 2))
             logger.info("Loaded BobsBuddy version \(major).\(version[0]).\(version[1]).\(version[2])")
             version.deallocate()
-            
         } else {
             logger.error("Failed to load BobsBuddy")
             return false
@@ -65,35 +326,66 @@ class MonoHelper {
         return true
     }
     
+    static func getMethod(_ clazz: OpaquePointer?, _ method: String, _ params: Int) -> OpaquePointer {
+        let result = mono_class_get_method_from_name(clazz, method, Int32(params))
+        if let result = result {
+            return result
+        }
+        fatalError("Method \(method) not found")
+    }
+    
+    static func getField(_ clazz: OpaquePointer?, _ field: String) -> OpaquePointer {
+        let result = mono_class_get_field_from_name(clazz, field)
+        if let result = result {
+            return result
+        }
+        fatalError("Field \(field) not found")
+    }
+
+    static func getProperty(_ clazz: OpaquePointer?, _ property: String) -> OpaquePointer {
+        let result = mono_class_get_property_from_name(clazz, property)
+        if let result = result {
+            return result
+        }
+        fatalError("Property \(property) not found")
+    }
+
     static func testSimulation() {
         let handle = mono_thread_attach(MonoHelper._monoInstance)
+        
+        initialize()
         
         let sim = SimulatorProxy()
         
         if sim.valid() {
-            let test = TestInputProxy(simulator: sim)
+            let test = InputProxy(simulator: sim)
             
             test.setHealths(player: 4, opponent: 4)
             
             test.setTiers(player: 3, opponent: 3)
             
-            test.setPowerID(player: "TB_BaconShop_HP_043", opponent: "TB_BaconShop_HP_061")
-            test.setHeroPower(player: false, opponent: false)
+            test.setOpponentHeroPower(heroPowerCardId: "TB_BaconShop_HP_060", isActivated: true, data: 0)
+            test.setPlayerHeroPower(heroPowerCardId: "TB_BaconShop_HP_043", isActivated: false, data: 0)
 
-            _ = test.addMinionToPlayerSide(minion: "UNG_073")
-            _ = test.addMinionToPlayerSide(minion: "UNG_073")
-            _ = test.addMinionToPlayerSide(minion: "EX1_506a")
-            _ = test.addMinionToPlayerSide(minion: "EX1_506a")
+            let ps = test.playerSide
+            let os = test.opponentSide
+            let factory = sim.minionFactory
 
-            _ = test.addMinionToOpponentSide(minion: "UNG_073")
-            _ = test.addMinionToOpponentSide(minion: "EX1_506")
-            let murloc = test.addMinionToOpponentSide(minion: "EX1_506a")
-            murloc.setPoisonous(poisonous: true)
-            _ = test.addMinionToOpponentSide(minion: "EX1_506a")
+            MonoHelper.addMinionToList(list: ps, minion: factory.getMinionFromCardid(id: "UNG_073", player: true))
+            MonoHelper.addMinionToList(list: ps, minion: factory.getMinionFromCardid(id: "UNG_073", player: true))
+            MonoHelper.addMinionToList(list: ps, minion: factory.getMinionFromCardid(id: "EX1_506a", player: true))
+            MonoHelper.addMinionToList(list: ps, minion: factory.getMinionFromCardid(id: "EX1_506a", player: true))
 
-            let playerSecrets = test.getPlayerSecrets()
+            MonoHelper.addMinionToList(list: os, minion: factory.getMinionFromCardid(id: "UNG_073", player: false))
+            MonoHelper.addMinionToList(list: os, minion: factory.getMinionFromCardid(id: "EX1_506", player: false))
+            let murloc = factory.getMinionFromCardid(id: "EX1_506a", player: false)
+            murloc.poisonous = true
+            logger.debug("Murloc poisonous property \(murloc.poisonous), name \(murloc.minionName)")
+            MonoHelper.addMinionToList(list: os, minion: murloc)
+
+            let playerSecrets = test.playerSecrets
             test.addSecretFromDbfid(id: Int32(Cards.any(byId: "TB_Bacon_Secrets_12")?.dbfId ?? 0), target: playerSecrets)
-
+            logger.debug("Opponent HP \(test.opponentHeroPower.cardId)")
 //            let oppSecrets = test.getOpponentSecrets()
 //            test.addSecretFromDbfid(id: Int32(Cards.any(byId: "TB_Bacon_Secrets_02")?.dbfId ?? 0), target: oppSecrets)
             let races: [Race] = [ Race.beast, Race.mechanical, Race.dragon, Race.murloc ]
@@ -115,7 +407,7 @@ class MonoHelper {
             
             let meth2 = mono_class_get_method_from_name(c, "get_Result", 0)
             let output = mono_runtime_invoke(meth2, inst2, nil, nil)
-            let top = TestOutputProxy(obj: output)
+            let top = OutputProxy(obj: output)
 
             let ostr = MonoHelper.toString(obj: top)
             logger.debug("testSimulation result is \(ostr)")
@@ -128,10 +420,14 @@ class MonoHelper {
         mono_thread_detach(handle)
     }
     
-    static func loadClass(ns: String, name: String) -> OpaquePointer? {
+    static func loadClass(ns: String, name: String) -> OpaquePointer {
         let result = mono_class_from_name(_image, ns, name)
         
-        return result
+        if let result = result {
+            return result
+        }
+        
+        fatalError("Failed to load class \(ns).\(name)")
     }
     
     static func objectNew(clazz: OpaquePointer) -> UnsafeMutablePointer<MonoObject>? {
@@ -329,6 +625,40 @@ class MonoHelper {
         params.deallocate()
     }
 
+    static func setString(obj: MonoHandle, method: OpaquePointer, value: String) {
+        let params = UnsafeMutablePointer<OpaquePointer>.allocate(capacity: 1)
+        value.withCString({
+            params[0] = mono_string_new(MonoHelper._monoInstance, $0)
+        })
+        
+        params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 1, {
+            let inst = obj.get()
+
+            mono_runtime_invoke(method, inst, $0, nil)
+        })
+        params.deallocate()
+    }
+    
+    static func getString(obj: MonoHandle, method: OpaquePointer) -> String {
+        let inst = obj.get()
+        
+        let temp = mono_runtime_invoke(method, inst, nil, nil)
+        
+        if temp == nil {
+            return ""
+        }
+        
+        let res = mono_object_to_string(temp, nil)
+        
+        let str = mono_string_to_utf8(res)
+        
+        let cstr = String(cString: str!)
+        
+        str?.deallocate()
+        
+        return cstr
+    }
+
     static func invokeString(obj: MonoHandle, method: OpaquePointer, str: String) -> UnsafeMutablePointer<MonoObject>? {
         let params = UnsafeMutablePointer<OpaquePointer>.allocate(capacity: 1)
         str.withCString({
@@ -392,5 +722,20 @@ class MonoHelper {
         str?.deallocate()
         
         return cstr
+    }
+
+    static func addMinionToList(list: MonoHandle, minion: MinionProxy) {
+        let obj = list.get()
+        let clazz = mono_object_get_class(obj)
+        let method = mono_class_get_method_from_name(clazz, "Add", 1)
+        
+        let params = UnsafeMutablePointer<UnsafeMutablePointer<MonoObject>>.allocate(capacity: 1)
+
+        params[0] = minion.get()!
+            
+        _ = params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 1, {
+            mono_runtime_invoke(method, obj, $0, nil)
+        })
+        params.deallocate()
     }
 }

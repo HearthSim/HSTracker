@@ -2,6 +2,7 @@ excluded:
   - Carthage
   - HSTracker/Core/Extensions/LinqExtension.swift
   - HSTracker/Core/Extensions/NSData+GZIP.swift
+  - HSTracker/Logging/CardIds/
   - HSTrackerUITests
   - HSTrackerTests
 disabled_rules:
@@ -15,3 +16,4 @@ disabled_rules:
   - trailing_newline
   - trailing_whitespace
   - line_length
+  - comment_spacing

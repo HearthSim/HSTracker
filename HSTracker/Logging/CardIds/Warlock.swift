@@ -140,6 +140,10 @@ extension CardIds.Collectible {
         static let BloodWitch = "GIL_693"
         static let ImpSwarmRank1 = "BAR_914"
         static let SeedsOfDestruction = "AV_277"
+        static let CurseOfAgony = "ONY_034"
+        static let DraggedBelow = "TSC_956"
+        static let SirakessCultist = "TSC_955"
+        static let AzsharanScavenger = "TSC_039"
     }
 }
 
@@ -202,6 +206,9 @@ extension CardIds.NonCollectible {
         static let ImpSwarmRank1_ImpSwarmRank2Token = "BAR_914t"
         static let ImpSwarmRank1_ImpSwarmRank3Token = "BAR_914t2"
         static let DreadlichTamsin_FelRiftToken = "AV_316t4"
+        static let CurseofAgony_AgonyToken = "ONY_034t"
+        static let SirakessCultist_AbyssalCurseToken = "TSC_955t"
+        static let AzsharanScavenger_SunkenScavengerToken = "TSC_039t"
     }
 }
 

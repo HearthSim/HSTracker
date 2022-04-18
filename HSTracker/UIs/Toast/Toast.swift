@@ -22,20 +22,47 @@ class Toast {
         w.backgroundColor = Color.clear
         
         w.orderFrontRegardless()
+
+        let rect = computeRect()
         
-        let screenRect = NSScreen.screens.first!.frame
-        let height = screenRect.height
-        let x = screenRect.width / 2 - windowWidth / 2
-        
-        let rect = NSRect(x: x, y: screenRect.minY, width: windowWidth, height: height)
         w.setFrame(rect, display: true)
         
         return w
     }()
+    
+    private static func computeRect() -> NSRect {
+        let screen = findScreen()
+        let screenRect = screen.frame
+        let height = screenRect.height
+        let x = screenRect.minX + screenRect.width / 2 - windowWidth / 2
+        let y: CGFloat
+        if #available(macOS 12.0, *) {
+            y = screenRect.minY - screen.safeAreaInsets.top
+        } else {
+            y = screenRect.minY
+        }
+        
+        let rect = NSRect(x: x, y: y, width: windowWidth, height: height)
+        return rect
+    }
+    
+    private static func findScreen() -> NSScreen {
+        let hsRect = SizeHelper.hearthstoneWindow.frame
+        
+        for screen in NSScreen.screens {
+            if screen.frame.contains(hsRect) {
+                return screen
+            }
+        }
+        return NSScreen.screens.first!
+    }
    
     class func show(title: String, message: String? = nil, duration: Double? = 3, fontSize: Int? = 14,
                     action: (() -> Void)? = nil) {
         DispatchQueue.main.async {
+            let rect = computeRect()
+            
+            toastWindow.setFrame(rect, display: true)
             let panel = ToastPanel(title: title,
                                    message: message,
                                    duration: duration,

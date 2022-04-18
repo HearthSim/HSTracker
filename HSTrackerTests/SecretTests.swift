@@ -331,7 +331,7 @@ class SecretTests: HSTrackerTests {
     func testSingleSecret_OnlyMinionDied() {
         opponentMinion2[.zone] = Zone.hand.rawValue
         game.opponentMinionDeath(entity: opponentMinion1, turn: 2)
-        verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All)
+        verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All, triggered: [CardIds.Secrets.Hunter.EmergencyManeuvers])
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
                       triggered: [CardIds.Secrets.Mage.Duplicate, CardIds.Secrets.Mage.Effigy])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
@@ -347,7 +347,7 @@ class SecretTests: HSTrackerTests {
         
         wait(for: game.secretsManager?.avengeDelay ?? 0.050 + 2)
 
-        verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All)
+        verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All, triggered: [CardIds.Secrets.Hunter.EmergencyManeuvers])
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
                       triggered: [CardIds.Secrets.Mage.Duplicate, CardIds.Secrets.Mage.Effigy])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,

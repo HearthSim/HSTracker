@@ -207,6 +207,8 @@ protocol PowerEventHandler: AnyObject {
     
     func handlePlayerTriples(entity: Entity, triples: Int)
     
+    func handlePlayerBuddiesGained(entity: Entity, num: Int)
+
     func handlePlayerLibramReduction(change: Int)
     
     func handleOpponentLibramReduction(change: Int)
@@ -218,4 +220,6 @@ protocol PowerEventHandler: AnyObject {
     func handleEntityLostArmor(entity: Entity, value: Int)
     
     func handleMercenariesStateChange()
+    
+    func handleProposedAttackerChange(entity: Entity)
 }

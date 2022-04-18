@@ -165,6 +165,9 @@ class BoardMinionView: NSView {
             }
             let player: Player = playerType == .player ? game.player : game.opponent
             let data = getMercAbilities(player: player)
+            guard entity.zonePosition > 0 && entity.zonePosition - 1 < data.count else {
+                return
+            }
             let abilities = data[entity.zonePosition - 1]
             let hsFrame = SizeHelper.hearthstoneWindow.frame
             let h = hsFrame.height * 0.3
@@ -239,7 +242,7 @@ class BoardOverlayView: NSView {
             clearAbilitiesVisibility()
             return
         }
-        let cnt = board.count
+        let cnt = min(board.count, minions.count)
         if cnt == 0 || game.gameEnded {
             isHidden = true
         } else {
@@ -260,7 +263,11 @@ class BoardOverlayView: NSView {
         let mercAbilities = showAbilities && showPlayerAbilities ? getMercAbilities(player: player) : nil
         for i in 0..<cnt {
             let fr = rect.offsetBy(dx: CGFloat(i) * (w + 2 * m), dy: 0)
-            minions[i].frame = fr
+            if fr.isInfinite || fr.origin.x.isNaN || fr.origin.y.isNaN {
+                minions[i].frame = NSRect.zero
+            } else {
+                minions[i].frame = fr
+            }
             minions[i].entity = board[i]
             minions[i].playerType = playerType
             if !minions[i].isDescendant(of: self) {
@@ -269,7 +276,11 @@ class BoardOverlayView: NSView {
             
             if game.isMercenariesMatch() {
                 let abilityRect = NSRect(x: fr.minX, y: aOff, width: fr.width, height: abilitySize)
-                abilities[i].frame = abilityRect
+                if abilityRect.isInfinite || abilityRect.origin.x.isNaN || abilityRect.origin.y.isNaN {
+                    abilities[i].frame = NSRect.zero
+                } else {
+                    abilities[i].frame = abilityRect
+                }
                 if !abilities[i].isDescendant(of: self) {
                     addSubview(abilities[i])
                 }
@@ -356,10 +367,6 @@ class BoardOverlayView: NSView {
 //        backgroundColor.set()
 //        dirtyRect.fill()
 //    }
-    
-    override func isMousePoint(_ point: NSPoint, in rect: NSRect) -> Bool {
-        return false
-    }
 }
 
 class BoardOverlay: OverWindowController {
@@ -380,5 +387,9 @@ class BoardOverlay: OverWindowController {
     
     func setPlayerType(playerType: PlayerType) {
         view.playerType = playerType
+    }
+    
+    override func updateFrames() {
+        self.window!.ignoresMouseEvents = true
     }
 }

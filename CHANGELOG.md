@@ -1,3 +1,90 @@
+# 2.1.1
+## New
+- Updated for Year of the Hydra
+- Added support for the majority of new cards.
+
+Dredge support coming soon!
+
+# 2.1.0
+## New
+- Updated for patch 23.0
+
+# 2.0.14
+## New
+- Updated for patch 22.6
+## Fixes
+- Show Toast notifications on the correct monitor
+- Check Hearthstone window location has changed and update overlay if needed
+
+# 2.0.13
+## New
+- Updated for patch 22.4.3
+## Fixes
+- Improvements to Toast notification appearing behind the notch (thanks @eraycantazeguney)
+- Fix BG mulligan appearing on an already started match (thanks @eraycantazeguney)
+
+# 2.0.12
+## New
+- Updated for patch 22.4
+## Fixes
+- Fixed buddies gained tracker when updating the current opponent board
+- Fixed some more crashes
+
+# 2.0.11
+## New
+- Updated for patch 22.2.2
+- Added Battlegrounds buddies gained tracking (experimental)
+## Fixes
+- Hide player/opponent tracker during spectator mode for Battlegrounds
+- Improve collection upload
+- Fixed some crash cases
+- Several Bob's Buddy fixes
+- Fixed an issue where the indicator for how long Battlegrounds opponents have been dead was misaligned when Hero Skins were present in the lobby
+
+# 2.0.10
+## New
+- Updated for patch 22.2
+- Updated zh-Hans translations (thanks @moonfruit)
+
+# 2.0.9
+## New
+- Added experimental support for Arena tier list generated from HSReplay data
+- Require MacOS 10.12 or later again (may change in the near future)
+## Fixes
+- Fixed crash caused by missing synchronization of collection helper
+- Resize card bar based on text length to avoid clipping of long card names
+- Sort missing Battlegrounds tribe names
+## Bob's Buddy
+- Fixed an issue where Fish of N'Zoth was not copying all types of Deathrattles correctly.
+- Fixed an issue where Cattlecarp of N'Zoth was not working.
+- Fixed an issue where extra Deathrattles from Baron Rivendare would resolve too early.
+- Fixed an issue where Avenge effects would resolve too early.
+- Fixed an issue where golden Impulsive Trickster would always target the same minion twice.
+- Fixed an issue where Grease Bot would buff the target before damage was dealt.
+- Fixed an issue with the interaction between Greybough's Hero Power and Khadgar.
+- Fixed an issue where Prestor's Pyrospawn woud trigger on non-dragon minions and itself.
+- Fixed an issue where the 15 damage cap was still applied incorrectly in many cases when determining lethal rates.
+
+# 2.0.8
+## Fixes
+- Notarize the application to allow it running
+- Hide invisible board overlay if Flavor text setting is disabled (try to fix unable to click on minions)
+
+# 2.0.7
+## Fixes
+- Fixed crash during Battlegrounds match
+
+# 2.0.6
+## New
+- Updated for patch 22.0.2
+## Bob's Buddy:
+- Fixed various interactions with Peggy Brittlebone.
+- Fixed an issue where various Avenge effects would trigger too often.
+- Fixed an issue where Tamsin Roame's Hero Power could target the wrong minion.
+- Fixed an issue where Impulsive Trickster would not pass on the correct amount of health when buffed.
+- Fixed an issue where Sewer Rat was not considered to have a Deathrattle effect.
+- Fixed an issue where the 15 damage cap was applied incorrectly in many cases when determining lethal rates.
+
 # 2.0.5
 ## New
 - Add support for Alterac Valley cards
@@ -11,7 +98,7 @@
 
 # 2.0.4
 ## New
-# Add support for patch 22.0
+- Add support for patch 22.0
 Note: HSTracker now requires MacOS 10.15 or later (Catalina)
 
 # 2.0.3

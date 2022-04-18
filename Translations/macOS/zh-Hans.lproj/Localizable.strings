@@ -124,6 +124,7 @@
 "THE_BARRENS" = "贫瘠之地的锤炼";
 "WAILING_CAVERNS" = "哀嚎洞穴";
 "STORMWIND" = "暴风城下的集结";
+"ALTERAC_VALLEY" = "奥特兰克的决裂";
 
 /* card type */
 "all_types" = "所有";
@@ -166,6 +167,7 @@
 "mode_practice"  = "练习模式 / 冒险模式";
 "mode_spectator" = "观战模式";
 "mode_duels"     = "对决模式";
+"mode_mercenaries" = "佣兵战纪";
 "mode_none"      = "无";
 
 /* deck types */
@@ -222,3 +224,9 @@
 /* Mulligan toast */
 "What should I keep?" = "我应该保留什么?";
 "HSReplay.net - Mulligan Guide" = "HSReplay.net - 调度建议";
+
+/* Mercenaries */
+"Mercenaries" = "佣兵战纪";
+"Task progress will update after the game" = "任务进度会在对战结束后更新";
+"Completed!" = "完成!";
+"Task %d: %@" = "任务 %d: %@";

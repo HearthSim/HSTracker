@@ -8,11 +8,30 @@
 
 import Foundation
 import CryptoKit
+import var CommonCrypto.CC_MD5_DIGEST_LENGTH
+import func CommonCrypto.CC_MD5
+import typealias CommonCrypto.CC_LONG
 import BigInt
 
-func MD5(string: String) -> Insecure.MD5Digest {
+func MD5(data: Data) -> Data {
+    let length = Int(CC_MD5_DIGEST_LENGTH)
+    var digestData = Data(count: length)
+
+    _ = digestData.withUnsafeMutableBytes { digestBytes -> UInt8 in
+        data.withUnsafeBytes { messageBytes -> UInt8 in
+            if let messageBytesBaseAddress = messageBytes.baseAddress, let digestBytesBlindMemory = digestBytes.bindMemory(to: UInt8.self).baseAddress {
+                let messageLength = CC_LONG(data.count)
+                CC_MD5(messageBytesBaseAddress, messageLength, digestBytesBlindMemory)
+            }
+            return 0
+        }
+    }
+    return digestData
+}
+
+func MD5(string: String) -> Data {
     let messageData = string.data(using: .utf8)!
-    return Insecure.MD5.hash(data: messageData)
+    return MD5(data: messageData)
 }
 
 struct ShortIdHelper {

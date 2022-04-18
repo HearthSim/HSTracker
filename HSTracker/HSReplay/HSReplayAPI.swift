@@ -71,6 +71,11 @@ class HSReplayAPI {
         )
     }
 
+    static func startAuthorizedRequest(_ url: String, method: OAuthSwiftHTTPRequest.Method, parameters: OAuthSwift.Parameters, headers: OAuthSwift.Headers? = nil, onTokenRenewal: OAuthSwift.TokenRenewedHandler? = nil, completionHandler completion: @escaping OAuthSwiftHTTPRequest.CompletionHandler) {
+
+        oauthswift.client.requestWithAutomaticAccessTokenRenewal(url: URL(string: url)!, method: method, parameters: parameters, accessTokenUrl: HSReplay.oAuthTokenUrl, onTokenRenewal: onTokenRenewal, completionHandler: completion)
+    }
+    
     static func getUploadToken(handle: @escaping (String) -> Void) {
         if let token = Settings.hsReplayUploadToken {
             handle(token)
@@ -119,7 +124,7 @@ class HSReplayAPI {
     
     static func claimBattleTag(account_hi: Int64, account_lo: Int64, battleTag: String) -> Promise<ClaimBlizzardAccountResponse> {
         return Promise<ClaimBlizzardAccountResponse> { seal in
-            oauthswift.startAuthorizedRequest("\(HSReplay.claimBattleTagUrl)/\(account_hi)/\(account_lo)/", method: .POST,
+            startAuthorizedRequest("\(HSReplay.claimBattleTagUrl)/\(account_hi)/\(account_lo)/", method: .POST,
                 parameters: ["battletag": battleTag], headers: defaultHeaders,
                 onTokenRenewal: tokenRenewalHandler,
                 completionHandler: { result in
@@ -230,7 +235,7 @@ class HSReplayAPI {
                 seal.reject(HSReplayError.missingAccount)
                 return
             }
-            oauthswift.startAuthorizedRequest("\(HSReplay.collectionTokensUrl)", method: .GET, parameters: ["account_hi": accountId.hi, "account_lo": accountId.lo, "type": collectionType == .constructed ? "CONSTRUCTED" : "MERCENARIES"], headers: defaultHeaders, onTokenRenewal: tokenRenewalHandler,
+            startAuthorizedRequest("\(HSReplay.collectionTokensUrl)", method: .GET, parameters: ["account_hi": accountId.hi, "account_lo": accountId.lo, "type": collectionType == .constructed ? "CONSTRUCTED" : "MERCENARIES"], headers: defaultHeaders, onTokenRenewal: tokenRenewalHandler,
                                               completionHandler: { result in
                                                 switch result {
                                                 case .success(let response):
@@ -330,7 +335,7 @@ class HSReplayAPI {
     
     static func getAccount() -> Promise<GetAccountResult> {
         return Promise<GetAccountResult> { seal in
-            oauthswift.startAuthorizedRequest("\(HSReplay.accountUrl)", method: .GET, parameters: [:], headers: defaultHeaders, onTokenRenewal: tokenRenewalHandler, completionHandler: { result in
+            startAuthorizedRequest("\(HSReplay.accountUrl)", method: .GET, parameters: [:], headers: defaultHeaders, onTokenRenewal: tokenRenewalHandler, completionHandler: { result in
                 switch result {
                 case .success(let response):
                     if let ad = parseAccountData(data: response.data) {

@@ -130,6 +130,9 @@ extension CardIds.Collectible {
         static let RainOfToads = "TRL_351"
         static let ChainLightningRank1 = "BAR_044"
         static let FarSightVanilla = "VAN_CS2_053"
+        static let PiranhaPoacher = "TSC_633"
+        static let AzsharanScroll = "TSC_772"
+        static let Schooling = "TSC_631"
     }
 }
 
@@ -187,6 +190,7 @@ extension CardIds.NonCollectible {
         static let KragwasGrace = "TRLA_155"
         static let ChainLightningRank1_ChainLightningRank2Token = "BAR_044t"
         static let ChainLightningRank1_ChainLightningRank3Token = "BAR_044t2"
+        static let AzsharanScroll_SunkenScrollToken = "TSC_772t"
     }
 }
 

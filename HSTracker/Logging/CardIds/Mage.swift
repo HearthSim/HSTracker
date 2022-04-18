@@ -73,6 +73,7 @@ extension CardIds.Collectible {
         static let ArchmageAntonidas: String = "EX1_559"
         static let Vaporize: String = "EX1_594"
         static let ExplosiveRunes: String = "LOOT_101"
+        static let ExplosiveRunes1810 = "CORE_LOOT_101"
         static let SorcerersApprentice: String = "EX1_608"
         static let KirinTorMage: String = "EX1_612"
         static let Duplicate: String = "FP1_018"
@@ -146,6 +147,7 @@ extension CardIds.Collectible {
         static let FlurryRank1 = "BAR_305"
         static let FirstFlame = "SW_108"
         static let BuildASnowman = "AV_282"
+        static let AzsharanSweeper = "TSC_776"
     }
 }
 
@@ -214,6 +216,7 @@ extension CardIds.NonCollectible {
         static let FlurryRank1_FlurryRank3Token = "BAR_305t2"
         static let FirstFlame_SecondFlameToken = "SW_108t"
         static let BuildaSnowman_BuildASnowbruteToken = "AV_282t2"
+        static let AzsharanSweeper_SunkenSweeperToken = "TSC_776t"
     }
 }
 
@@ -225,7 +228,7 @@ extension CardIds.Secrets {
         static let Counterspell = MultiIdCard(CardIds.Collectible.Mage.Counterspell, CardIds.Collectible.Mage.CounterspellCore, CardIds.Collectible.Mage.CounterspellVanilla)
         static let Duplicate = MultiIdCard(CardIds.Collectible.Mage.Duplicate)
         static let Effigy = MultiIdCard(CardIds.Collectible.Mage.Effigy)
-        static let ExplosiveRunes = MultiIdCard(CardIds.Collectible.Mage.ExplosiveRunes)
+        static let ExplosiveRunes = MultiIdCard(CardIds.Collectible.Mage.ExplosiveRunes, CardIds.Collectible.Mage.ExplosiveRunes1810)
         static let FlameWard = MultiIdCard(CardIds.Collectible.Mage.FlameWard)
         static let FrozenClone = MultiIdCard(CardIds.Collectible.Mage.FrozenClone)
         static let IceBarrier = MultiIdCard(CardIds.Collectible.Mage.IceBarrier, CardIds.Collectible.Mage.IceBarrierCore, CardIds.Collectible.Mage.IceBarrierVanilla)

@@ -54,7 +54,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         AppDelegate._instance = self
         //setenv("CFNETWORK_DIAGNOSTICS", "3", 1)
         
-        Crashes.userConfirmationHandler = { (errorReports: [ErrorReport]) in
+        Crashes.userConfirmationHandler = { (_: [ErrorReport]) in
             // Your code to present your UI to the user, e.g. an NSAlert.
             let alert: NSAlert = NSAlert()
             alert.messageText = NSLocalizedString("HSTracker Crashed", comment: "")
@@ -175,6 +175,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func applicationWillTerminate(_ notification: Notification) {
+        Analytics.trackEvent("app_exit")
         if coreManager != nil {
             // we are in the initial configuration, do not crash
             coreManager.stopTracking()

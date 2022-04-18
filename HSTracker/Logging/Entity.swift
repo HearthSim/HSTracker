@@ -37,11 +37,6 @@ class Entity {
     }
 
     subscript(tag: GameTag) -> Int {
-        set {
-            Entity.semaphore.wait()
-            tags[tag] = newValue
-            Entity.semaphore.signal()
-        }
         get {
             Entity.semaphore.wait()
             guard let value = tags[tag] else {
@@ -50,6 +45,11 @@ class Entity {
             }
             Entity.semaphore.signal()
             return value
+        }
+        set {
+            Entity.semaphore.wait()
+            tags[tag] = newValue
+            Entity.semaphore.signal()
         }
     }
 

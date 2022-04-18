@@ -148,6 +148,7 @@ extension CardIds.Collectible {
         static let AldorAttendant = "BT_020"
         static let AldorTruthseeker = "BT_026"
         static let JudgmentOfJustice = "WC_033"
+        static let AzsharanMooncatcher = "TSC_644"
     }
 }
 
@@ -215,6 +216,7 @@ extension CardIds.NonCollectible {
         static let ShirvallahsGrace = "TRLA_138"
         static let ConvictionRank1_ConvictionRank2Token = "BAR_880t"
         static let ConvictionRank1_ConvictionRank3Token = "BAR_880t2"
+        static let AzsharanMooncatcher_SunkenMooncatcherToken = "TSC_644t"
     }
 }
 

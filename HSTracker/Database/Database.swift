@@ -190,9 +190,13 @@ class Database {
                         if let techLevel = jsonCard["techLevel"] as? Int {
                             card.techLevel = techLevel
                             card.bgRace = card.race
-                            Cards.battlegroundsMinions.append(card)
                         }
                         
+                        if let bgPool = jsonCard["isBattlegroundsPoolMinion"] as? Bool {
+                            card.battlegroundsPoolMinion = bgPool
+                            Cards.battlegroundsMinions.append(card)
+                        }
+
                         if let hideStats = jsonCard["hideStats"] as? Bool {
                             card.hideStats = hideStats
                         }

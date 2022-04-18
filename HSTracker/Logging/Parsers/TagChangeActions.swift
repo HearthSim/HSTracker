@@ -56,6 +56,7 @@ struct TagChangeActions {
         case .reborn: return { self.rebornChange(eventHandler: eventHandler, id: id, value: value)}
         case .player_tech_level: return { self.playerTechLevel(eventHandler: eventHandler, id: id, value: value, previous: prevValue)}
         case .player_triples: return { self.playerTriples(eventHandler: eventHandler, id: id, value: value, previous: prevValue)}
+        case .bacon_player_num_hero_buddies_gained: return { self.playerBuddiesGained(eventHandler: eventHandler, id: id, value: value)}
         case .armor: return { self.armorChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue)}
         case .lettuce_ability_tile_visual_all_visible, .lettuce_ability_tile_visual_self_only, .fake_zone, .fake_zone_position: return { self.mercenariesStateChange(eventHandler: eventHandler)}
         default: return nil
@@ -69,7 +70,6 @@ struct TagChangeActions {
         if value != 1 {
             return
         }
-        BobsBuddyInvoker.instance(turn: eventHandler.turnNumber()).setMinionReborn(entityId: id)
     }
     
     private func tagScriptDataNum1(eventHandler: PowerEventHandler, id: Int, value: Int) {
@@ -85,7 +85,6 @@ struct TagChangeActions {
             if !entity.isHeroPower || !entity.isControlled(by: eventHandler.player.id) {
                 return
             }
-            BobsBuddyInvoker.instance(turn: eventHandler.turnNumber()).heroPowerTriggered(heroPowerId: entity.cardId)
         }
     }
     
@@ -209,6 +208,16 @@ struct TagChangeActions {
 
     private func proposedAttackerChange(eventHandler: PowerEventHandler, value: Int) {
         eventHandler.proposedAttackerEntityId = value
+        if value <= 0 {
+            return
+        }
+        guard let entity = eventHandler.entities[value] else {
+            return
+        }
+        if entity.isHero {
+            logger.debug("Saw hero attack from \(entity.cardId)")
+        }
+        eventHandler.handleProposedAttackerChange(entity: entity)
     }
 
     private func predamageChange(eventHandler: PowerEventHandler, id: Int, value: Int) {
@@ -782,6 +791,14 @@ struct TagChangeActions {
         if value != 0 && value > previous {
             if let entity = eventHandler.entities[id] {
                 eventHandler.handlePlayerTriples(entity: entity, triples: value - previous)
+            }
+        }
+    }
+
+    private func playerBuddiesGained(eventHandler: PowerEventHandler, id: Int, value: Int) {
+        if value != 0 {
+            if let entity = eventHandler.entities[id] {
+                eventHandler.handlePlayerBuddiesGained(entity: entity, num: value)
             }
         }
     }
