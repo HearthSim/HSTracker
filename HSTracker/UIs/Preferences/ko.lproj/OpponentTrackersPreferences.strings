@@ -1,45 +1,45 @@
 
 /* Class = "NSButtonCell"; title = "Show opponent in-hand card huds"; ObjectID = "50X-Tt-yJa"; */
-"50X-Tt-yJa.title" = "Show opponent in-hand card huds";
+"50X-Tt-yJa.title" = "상대의 손에 있는 hud 보여주기";
 
 /* Class = "NSButtonCell"; title = "Show Spell counter"; ObjectID = "9eg-6X-x7A"; */
-"9eg-6X-x7A.title" = "Show Spell counter";
+"9eg-6X-x7A.title" = "주문 갯수 보여주기";
 
 /* Class = "NSButtonCell"; title = "Show Jade Counter"; ObjectID = "BFR-Pw-i1H"; */
-"BFR-Pw-i1H.title" = "Show Jade Counter";
+"BFR-Pw-i1H.title" = "비취 카운터 보여주기";
 
 /* Class = "NSButtonCell"; title = "Show opponent tracker"; ObjectID = "MLJ-7t-LVJ"; */
-"MLJ-7t-LVJ.title" = "Show opponent tracker";
+"MLJ-7t-LVJ.title" = "상대의 트래커 보여주기";
 
 /* Class = "NSButtonCell"; title = "Include created cards"; ObjectID = "PrR-2g-WEA"; */
-"PrR-2g-WEA.title" = "Include created cards";
+"PrR-2g-WEA.title" = "생성된 카드 포함";
 
 /* Class = "NSButtonCell"; title = "Show C'Thun counter"; ObjectID = "RyA-1i-LPY"; */
-"RyA-1i-LPY.title" = "Show C'Thun counter";
+"RyA-1i-LPY.title" = "S크툰 카운터 보여주기";
 
 /* Class = "NSButtonCell"; title = "Show graveyard"; ObjectID = "W6j-bY-6aE"; */
-"W6j-bY-6aE.title" = "Show graveyard";
+"W6j-bY-6aE.title" = "죽은 하수인 보여주기";
 
 /* Class = "NSButtonCell"; title = "Show player class and name"; ObjectID = "aW1-2y-nKx"; */
-"aW1-2y-nKx.title" = "Show player class and name";
+"aW1-2y-nKx.title" = "플레이어 직업과 이름 보여주기";
 
 /* Class = "NSButtonCell"; title = "Show Deathrattle counter"; ObjectID = "aZW-kf-zpy"; */
-"aZW-kf-zpy.title" = "Show Deathrattle counter";
+"aZW-kf-zpy.title" = "죽음의 메아리 카운터 보여주기";
 
 /* Class = "NSButtonCell"; title = "Show opponent draw chance"; ObjectID = "avf-qA-8vU"; */
-"avf-qA-8vU.title" = "Show opponent draw chance";
+"avf-qA-8vU.title" = "상대의 카드 뽑을 확률 보여주기";
 
 /* Class = "NSButtonCell"; title = "Clear opponent tracker on game end"; ObjectID = "eGQ-pE-MU0"; */
-"eGQ-pE-MU0.title" = "Clear opponent tracker on game end";
+"eGQ-pE-MU0.title" = "게임이 끝나면 상대의 트래커 초기화하기";
 
 /* Class = "NSButtonCell"; title = "Show board damage"; ObjectID = "fah-Dr-Amh"; */
-"fah-Dr-Amh.title" = "Show board damage";
+"fah-Dr-Amh.title" = "필드 데미지 보여주기";
 
 /* Class = "NSButtonCell"; title = "Show opponent card count"; ObjectID = "iqA-b1-owW"; */
-"iqA-b1-owW.title" = "Show opponent card count";
+"iqA-b1-owW.title" = "상대의 카드 카운트하기";
 
 /* Class = "NSButtonCell"; title = "Cardlist opens on mouseover"; ObjectID = "pMP-qQ-LuR"; */
-"pMP-qQ-LuR.title" = "Cardlist opens on mouseover";
+"pMP-qQ-LuR.title" = "마우스오버하면 카드목록 열기";
 
 /* Class = "NSButtonCell"; title = "Prevent tracker from covering opponent's name"; ObjectID = "rrt-Fg-VGw"; */
-"rrt-Fg-VGw.title" = "Prevent tracker from covering opponent's name";
+"rrt-Fg-VGw.title" = "상대의 이름이 트래커를 가리지 않게하기";

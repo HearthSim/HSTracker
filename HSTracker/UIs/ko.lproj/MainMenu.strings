@@ -3,16 +3,16 @@
 "1Xt-HY-uBw.title" = "HSTracker";
 
 /* Class = "NSMenuItem"; title = "Decks"; ObjectID = "1a9-Jp-R8O"; */
-"1a9-Jp-R8O.title" = "Decks";
+"1a9-Jp-R8O.title" = "덱";
 
 /* Class = "NSMenuItem"; title = "Quit HSTracker"; ObjectID = "4sb-4s-VLi"; */
-"4sb-4s-VLi.title" = "Quit HSTracker";
+"4sb-4s-VLi.title" = "HSTracker 나가기";
 
 /* Class = "NSMenuItem"; title = "Check for Updates..."; ObjectID = "4yc-yU-eH1"; */
-"4yc-yU-eH1.title" = "Check for Updates...";
+"4yc-yU-eH1.title" = "업데이트하기";
 
 /* Class = "NSMenuItem"; title = "Edit"; ObjectID = "5QF-Oa-p0T"; */
-"5QF-Oa-p0T.title" = "Edit";
+"5QF-Oa-p0T.title" = "편집";
 
 /* Class = "NSMenuItem"; title = "About HSTracker"; ObjectID = "5kV-Vb-QxS"; */
 "5kV-Vb-QxS.title" = "About HSTracker";
@@ -33,7 +33,7 @@
 "BOF-NM-1cW.title" = "Preferences…";
 
 /* Class = "NSMenu"; title = "Last replays"; ObjectID = "Ck1-T5-ndx"; */
-"Ck1-T5-ndx.title" = "Last replays";
+"Ck1-T5-ndx.title" = "마지막 Replay";
 
 /* Class = "NSMenu"; title = "Help"; ObjectID = "F2S-fz-NVQ"; */
 "F2S-fz-NVQ.title" = "Help";
@@ -42,7 +42,7 @@
 "FKE-Sm-Kum.title" = "HSTracker Help";
 
 /* Class = "NSMenuItem"; title = "Show All"; ObjectID = "Kd2-mp-pUS"; */
-"Kd2-mp-pUS.title" = "Show All";
+"Kd2-mp-pUS.title" = "모두 보기";
 
 /* Class = "NSMenuItem"; title = "Deck Manager"; ObjectID = "LKO-TA-MDe"; */
 "LKO-TA-MDe.title" = "Deck Manager";
@@ -57,7 +57,7 @@
 "RBa-X9-6k6.title" = "Replays";
 
 /* Class = "NSMenuItem"; title = "Select All"; ObjectID = "Ruw-6m-B2m"; */
-"Ruw-6m-B2m.title" = "Select All";
+"Ruw-6m-B2m.title" = "모두 선택";
 
 /* Class = "NSMenuItem"; title = "Clear trackers"; ObjectID = "Slg-Ni-HzQ"; */
 "Slg-Ni-HzQ.title" = "Clear trackers";
@@ -117,4 +117,4 @@
 "x3v-GG-iWU.title" = "Copy";
 
 /* Class = "NSMenuItem"; title = "Open replays directory"; ObjectID = "yTs-jD-geS"; */
-"yTs-jD-geS.title" = "Open replays directory";
+"yTs-jD-geS.title" = "리플레이 디렉토리 열기";

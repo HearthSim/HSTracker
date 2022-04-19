@@ -124,6 +124,8 @@
 "THE_BARRENS" = "불모의 땅";
 "WAILING_CAVERNS" = "통곡의 동굴";
 "STORMWIND" = "스톰윈드";
+"ALTERAC_VALLEY" = "알터랙 계곡";
+"THE_SUNKEN_CITY" = "가라앉은 도시";
 
 /* card type */
 "all_types" = "모든 타입";
@@ -205,6 +207,7 @@
 "Show Current Combat" = "현재 전투 보기";
 "Previous Combat" = "이전 전투";
 "Show Previous Combat" = "이전 전투 보기";
+"Awaiting Shopping Phase" = "상점 쇼핑중";
 
 /* Battlegrounds */
 "Turn" = "턴";
@@ -222,3 +225,9 @@
 /* Mulligan toast */
 "What should I keep?" = "어떤 카드를 집어야 할까요?";
 "HSReplay.net - Mulligan Guide" = "HSReplay.net - 멀리건 가이드";
+
+/* Mercenaries */
+"Mercenaries" = "용병단";
+"Task progress will update after the game" = "게임이 끝난후 임무 진행도가 업데이트 됩니다.";
+"Completed!" = "완료!";
+"Task %d: %@" = "%d: %@ 임무";
