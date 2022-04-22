@@ -33,6 +33,8 @@ class PlayerTrackersPreferences: NSViewController, PreferencePane {
     @IBOutlet weak var showJadeCounter: NSButton!
     @IBOutlet weak var showGalakrondInvokeCounter: NSButton!
     @IBOutlet weak var showLibramCounter: NSButton!
+    @IBOutlet weak var showTopCards: NSButton!
+    @IBOutlet weak var showBottomCards: NSButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,6 +56,8 @@ class PlayerTrackersPreferences: NSViewController, PreferencePane {
         showJadeCounter.state = Settings.showPlayerJadeCounter ? .on : .off
         showGalakrondInvokeCounter.state = Settings.showPlayerGalakrondCounter ? .on : .off
         showLibramCounter.state = Settings.showPlayerLibramCounter ? .on : .off
+        showTopCards.state = Settings.showPlayerCardsTop ? .on : .off
+        showBottomCards.state = Settings.showPlayerCardsBottom ? .on : .off
     }
     
     @IBAction func colorChange(_ sender: NSColorWell) {
@@ -100,6 +104,10 @@ class PlayerTrackersPreferences: NSViewController, PreferencePane {
             Settings.showPlayerGalakrondCounter = showGalakrondInvokeCounter.state == .on
         } else if sender == showLibramCounter {
             Settings.showPlayerLibramCounter = showLibramCounter.state == .on
+        } else if sender == showTopCards {
+            Settings.showPlayerCardsTop = showTopCards.state == .on
+        } else if sender == showBottomCards {
+            Settings.showPlayerCardsBottom = showBottomCards.state == .on
         }
     }
 }

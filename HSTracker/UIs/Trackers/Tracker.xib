@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="18122" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="20037" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18122"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20037"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -15,8 +15,10 @@
                 <outlet property="graveyardCounter" destination="aFR-AO-2Vy" id="ukz-pX-hST"/>
                 <outlet property="jadeCounter" destination="Ze5-XI-jWd" id="v7n-Xu-qv5"/>
                 <outlet property="opponentDrawChance" destination="Slp-Ya-S9h" id="R3r-Tb-bap"/>
+                <outlet property="playerBottom" destination="HpB-sw-IQc" id="11c-Ym-bcE"/>
                 <outlet property="playerClass" destination="YeM-kJ-hCT" id="xGi-5X-mTq"/>
                 <outlet property="playerDrawChance" destination="UC5-o5-y78" id="9EG-lm-GA7"/>
+                <outlet property="playerTop" destination="pOh-Wx-amx" id="9Bt-Gp-iTO"/>
                 <outlet property="recordTracker" destination="fgq-EG-nDe" id="ZuH-jH-lWJ"/>
                 <outlet property="window" destination="KpN-Eq-jNY" id="ToO-5Y-9JJ"/>
                 <outlet property="wotogCounter" destination="zLO-5L-hth" id="Pfr-tp-80O"/>
@@ -33,12 +35,20 @@
                 <rect key="frame" x="0.0" y="0.0" width="217" height="624"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <customView hidden="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YeM-kJ-hCT">
+                    <customView hidden="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YeM-kJ-hCT" userLabel="PlayerClass">
                         <rect key="frame" x="0.0" y="574" width="217" height="40"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
-                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="naK-zt-rPm">
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pOh-Wx-amx" userLabel="PlayerTop" customClass="DeckLens" customModule="HSTracker" customModuleProvider="target">
+                        <rect key="frame" x="27" y="264" width="163" height="96"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    </customView>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="naK-zt-rPm" customClass="AnimatedCardList" customModule="HSTracker" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="470" width="217" height="96"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    </customView>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HpB-sw-IQc" userLabel="PlayerBottom" customClass="DeckLens" customModule="HSTracker" customModuleProvider="target">
+                        <rect key="frame" x="27" y="264" width="163" height="96"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
                     <customView hidden="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fDJ-yZ-50f" customClass="CardCounter" customModule="HSTracker" customModuleProvider="target">

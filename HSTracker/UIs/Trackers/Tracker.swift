@@ -14,7 +14,7 @@ import RealmSwift
 class Tracker: OverWindowController {
 
     // UI elements
-    @IBOutlet weak private var cardsView: NSView!
+    @IBOutlet weak private var cardsView: AnimatedCardList!
     @IBOutlet weak private var cardCounter: CardCounter!
     @IBOutlet weak private var playerDrawChance: PlayerDrawChance!
     @IBOutlet weak private var opponentDrawChance: OpponentDrawChance!
@@ -25,13 +25,11 @@ class Tracker: OverWindowController {
     @IBOutlet weak private var galakrondCounter: StringTracker!
     @IBOutlet weak private var graveyardCounter: GraveyardCounter!
     @IBOutlet weak private var jadeCounter: JadeCounter!
+    @IBOutlet weak private var playerBottom: DeckLens!
+    @IBOutlet weak private var playerTop: DeckLens!
 
     private var hero: CardBar?
     private var heroCard: Card?
-
-    let semaphore = DispatchSemaphore(value: 1)
-
-    fileprivate var animatedCards: [CardBar] = []
 
     var hasValidFrame = false
     
@@ -66,7 +64,17 @@ class Tracker: OverWindowController {
         self.observer = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: Settings.tracker_opacity), object: nil, queue: OperationQueue.main) { _ in
             self.setOpacity()
         }
-        graveyardCounter.playerType = playerType!
+        if let playerType = playerType {
+            graveyardCounter.playerType = playerType
+            cardsView.playerType = playerType
+            playerBottom.setPlayerType(playerType: playerType)
+            playerTop.setPlayerType(playerType: playerType)
+        }
+        cardsView.delegate = self
+        playerBottom.setDelegate(delegate: self)
+        playerTop.setDelegate(delegate: self)
+        playerTop.setLabel(label: NSLocalizedString("On Top", comment: ""))
+        playerBottom.setLabel(label: NSLocalizedString("On Bottom", comment: ""))
         setOpacity()
     }
     
@@ -91,77 +99,10 @@ class Tracker: OverWindowController {
     }
 
     // MARK: - Game
-    func update(cards: [Card], reset: Bool = false) {
-        semaphore.wait()
-        
-        defer {
-            semaphore.signal()
-        }
-        
-        if reset {
-            animatedCards.removeAll()
-        }
-
-        var newCards = [Card]()
-        for card in cards {
-            if let existing = animatedCards.first(where: {
-                if let c0 = $0.card {
-                    return self.areEqualForList(c0, card)
-                }
-                return false
-            }) {
-                if existing.card?.count != card.count || existing.card?.highlightInHand != card.highlightInHand {
-                    let highlight = existing.card?.count != card.count
-                    existing.card?.count = card.count
-                    existing.card?.highlightInHand = card.highlightInHand
-                    existing.update(highlight: highlight)
-                } else if existing.card?.isCreated != card.isCreated {
-                    existing.update(highlight: false)
-                }
-            } else {
-                newCards.append(card)
-            }
-        }
-
-        var toUpdate = [CardBar]()
-        for c in animatedCards {
-            if let card = c.card, !cards.any({ self.areEqualForList($0, card) }) {
-                toUpdate.append(c)
-            }
-        }
-        var toRemove: [CardBar: Bool] = [:]
-        for card in toUpdate {
-            let newCard = newCards.first { $0.id == card.card?.id }
-            toRemove[card] = newCard == nil
-            if let newCard = newCard {
-                let newAnimated = CardBar.factory()
-                newAnimated.playerType = self.playerType
-                newAnimated.setDelegate(self)
-                newAnimated.card = newCard
-
-                if let index = animatedCards.firstIndex(of: card) {
-                    animatedCards.insert(newAnimated, at: index)
-                    newAnimated.update(highlight: true)
-                    newCards.remove(newCard)
-                }
-            }
-        }
-        for (cardCellView, fadeOut) in toRemove {
-            remove(card: cardCellView, fadeOut: fadeOut)
-        }
-        
-        for card in newCards {
-            let newCard = CardBar.factory()
-            newCard.playerType = self.playerType
-            newCard.setDelegate(self)
-            newCard.card = card
-            if let index = animatedCards.firstIndex(where: { x in card < x.card! }) {
-                animatedCards.insert(newCard, at: index)
-            } else {
-                animatedCards.append(newCard)
-            }
-            newCard.fadeIn(highlight: !reset)
-        }
+    func update(cards: [Card], top: [Card], bottom: [Card], reset: Bool = false) {
+        cardsView.update(cards: cards, reset: reset)
+        playerBottom.update(cards: bottom, reset: reset)
+        playerTop.update(cards: top, reset: reset)
     }
     
     override func updateFrames() {
@@ -379,6 +320,17 @@ class Tracker: OverWindowController {
         if showLibram {
             offsetFrames += smallFrameHeight
         }
+        
+        var totalCards = cardsView.count
+
+        if playerBottom.count > 0 && Settings.showPlayerCardsBottom {
+            offsetFrames += smallFrameHeight
+            totalCards += playerBottom.count
+        }
+        if playerTop.count > 0 && Settings.showPlayerCardsTop {
+            offsetFrames += smallFrameHeight
+            totalCards += playerTop.count
+        }
 
         var cardHeight: CGFloat
         switch Settings.cardSize {
@@ -388,35 +340,38 @@ class Tracker: OverWindowController {
         case .huge: cardHeight = CGFloat(kHighRowHeight)
         case .big: cardHeight = CGFloat(kRowHeight)
         }
-        
-        semaphore.wait()
-        
-        defer {
-            semaphore.signal()
-        }
-        
-        if animatedCards.count > 0 {
+        if totalCards > 0 {
             cardHeight = round(min(cardHeight,
-                                   (windowHeight - offsetFrames) / CGFloat(animatedCards.count)))
-        }
-        for view in cardsView.subviews {
-            view.removeFromSuperview()
+                                   (windowHeight - offsetFrames) / CGFloat(totalCards)))
         }
         
-        let cardViewHeight = CGFloat(animatedCards.count) * cardHeight
-        var y: CGFloat = cardViewHeight
+        let cardViewHeight = CGFloat(cardsView.count) * cardHeight
+        var y: CGFloat = windowHeight - startHeight
+
+        if playerTop.count > 0 && Settings.showPlayerCardsTop {
+            let playerTopHeight = CGFloat(playerTop.count) * cardHeight + smallFrameHeight + 5
+            y -= playerTopHeight
+            playerTop.frame = NSRect(x: 0, y: y, width: windowWidth, height: playerTopHeight)
+            playerTop.updateFrames(frameHeight: smallFrameHeight)
+        } else {
+            playerTop.frame = NSRect.zero
+        }
+
+        y -= cardViewHeight
         cardsView.frame = NSRect(x: 0,
-                                 y: windowHeight - startHeight - cardViewHeight,
+                                 y: y,
                                  width: windowWidth,
                                  height: cardViewHeight)
-        
-        for cell in animatedCards {
-            y -= cardHeight
-            cell.frame = NSRect(x: 0, y: y, width: windowWidth, height: cardHeight)
-            cardsView.addSubview(cell)
+        cardsView.updateFrames()
+                
+        if playerBottom.count > 0 && Settings.showPlayerCardsBottom {
+            let playerBottomHeight = CGFloat(playerBottom.count) * cardHeight + smallFrameHeight + 5
+            y -= playerBottomHeight
+            playerBottom.frame = NSRect(x: 0, y: y, width: windowWidth, height: playerBottomHeight)
+            playerBottom.updateFrames(frameHeight: smallFrameHeight)
+        } else {
+            playerBottom.frame = NSRect.zero
         }
-        
-        y = windowHeight - startHeight - cardViewHeight
         if !cardCounter.isHidden {
             y -= smallFrameHeight
             cardCounter.frame = NSRect(x: 0, y: y, width: windowWidth, height: smallFrameHeight)
@@ -496,7 +451,6 @@ class Tracker: OverWindowController {
                                        width: windowWidth,
                                        height: smallFrameHeight)
         }
-        
     }
 
     func updateCardCounter(deckCount: Int, handCount: Int, hasCoin: Bool, gameStarted: Bool) {
@@ -551,29 +505,6 @@ class Tracker: OverWindowController {
             playerDrawChance?.drawChance2 = draw2
             playerDrawChance?.needsDisplay = true
         }
-    }
-
-    private func remove(card: CardBar, fadeOut: Bool) {
-        if fadeOut {
-            card.fadeOut(highlight: card.card!.count > 0)
-            let when = DispatchTime.now()
-                + Double(Int64(600 * Double(NSEC_PER_MSEC))) / Double(NSEC_PER_SEC)
-            let queue = DispatchQueue.main
-            queue.asyncAfter(deadline: when) {
-                self.semaphore.wait()
-                
-                self.animatedCards.remove(card)
-                
-                self.semaphore.signal()
-            }
-        } else {
-            animatedCards.remove(card)
-        }
-    }
-
-    fileprivate func areEqualForList(_ c1: Card, _ c2: Card) -> Bool {
-        return c1.id == c2.id && c1.jousted == c2.jousted && c1.isCreated == c2.isCreated
-            && (!Settings.highlightDiscarded || c1.wasDiscarded == c2.wasDiscarded)
     }
 }
 

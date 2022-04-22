@@ -12,10 +12,14 @@ import Foundation
 import RegexUtil
 import AppCenterAnalytics
 
+enum DeckLocation: Int {
+    case unknown, top, bottom
+}
+
 class PowerGameStateParser: LogEventParser {
     static let TransferStudentToken = CardIds.Collectible.Neutral.TransferStudent + "t"
     
-    let BlockStartRegex = RegexPattern(stringLiteral: ".*BLOCK_START.*BlockType=(POWER|TRIGGER)"
+    let BlockStartRegex = RegexPattern(stringLiteral: ".*BLOCK_START.*BlockType=(\\w+)"
         + ".*id=(\\d*).*(cardId=(\\w*)).*player=(\\d*).*Target=(.+).*SubOption=(.+)")
     let CardIdRegex: RegexPattern = "cardId=(\\w+)"
     let CreationRegex: RegexPattern = "FULL_ENTITY - Updating.*id=(\\d+).*zone=(\\w+).*CardID=(\\w*)"
@@ -29,7 +33,7 @@ class PowerGameStateParser: LogEventParser {
     let BuildNumberRegex: RegexPattern = "BuildNumber=(\\d+)"
     let PlayerIDNameRegex: RegexPattern = "PlayerID=(\\d+), PlayerName=(.+)"
     let HideEntityRegex: RegexPattern = "HIDE_ENTITY\\ -\\ .* id=(?<id>(\\d+))"
-
+    let ShuffleRegex: RegexPattern = "SHUFFLE_DECK\\ PlayerID=(?<id>(\\d+))"
     var tagChangeHandler = TagChangeHandler()
     var currentEntity: Entity?
 
@@ -217,17 +221,18 @@ class PowerGameStateParser: LogEventParser {
             }
             guard let zone = Zone(rawString: matches[1].value) else { return }
             var guessedCardId = false
+            var guessedLocation = DeckLocation.unknown
             var cardId: String? = ensureValidCardID(cardId: matches[2].value)
 
             if eventHandler.entities[id] == .none {
                 if cardId.isBlank && zone != .setaside {
                     if let blockId = currentBlock?.id,
-                        let cards = eventHandler.knownCardIds[blockId] {
-                        cardId = cards.first
+                       let known = eventHandler.knownCardIds[blockId]?.first {
+                        cardId = known.0
                         if !cardId.isBlank {
-                            logger.verbose("Found known cardId "
-                                + "'\(String(describing: cardId))' for entity \(id)")
-                            eventHandler.knownCardIds[id] = nil
+                            guessedLocation = known.1
+                            logger.verbose("Found data for entity=\(id): CardId=\(cardId ?? ""), location=\(guessedLocation)")
+                            eventHandler.knownCardIds.removeValue(forKey: blockId)
                             guessedCardId = true
                         }
                     }
@@ -236,6 +241,12 @@ class PowerGameStateParser: LogEventParser {
                 let entity = Entity(id: id)
                 if guessedCardId {
                     entity.info.guessedCardState = GuessedCardState.guessed
+                }
+                if guessedLocation != .unknown {
+                    eventHandler.dredgeCounter += 1
+                    let newIndex = eventHandler.dredgeCounter
+                    let sign = guessedLocation == .top ? 1 : -1
+                    entity.info.deckIndex = sign * newIndex
                 }
                 if let cid = cardId {
                     entity.cardId = cid
@@ -289,6 +300,15 @@ class PowerGameStateParser: LogEventParser {
                     if entity?.info.guessedCardState != GuessedCardState.none {
                         entity?.info.guessedCardState = GuessedCardState.revealed
                     }
+                    if entity?.info.deckIndex ?? 0 < 0, let currentBlock = currentBlock, currentBlock.sourceEntityId != 0 {
+                        if let source = eventHandler.entities[currentBlock.sourceEntityId], source.has(tag: .dredge) {
+                            eventHandler.dredgeCounter += 1
+                            let newIndex = eventHandler.dredgeCounter
+                            entity?.info.deckIndex = newIndex
+                            logger.info("Dredge Top: \(entity?.description ?? "")")
+                            eventHandler.handlePlayerDredge()
+                        }
+                    }
                 }
                 
                 if type == "CHANGE_ENTITY" {
@@ -339,7 +359,23 @@ class PowerGameStateParser: LogEventParser {
                         || currentBlock?.cardId == CardIds.NonCollectible.Neutral.KingTogwaggle_KingsRansomToken {
                         entity.info.hidden = true
                     }
+                    if let blockId = currentBlock?.id, let known = eventHandler.knownCardIds[blockId]?.first {
+                        if entity.cardId == known.0 && known.1 != .unknown {
+                            logger.info("Setting DeckLocation=\(known.1) for \(entity.description)")
+                            eventHandler.dredgeCounter += 1
+                            let newIndex = eventHandler.dredgeCounter
+                            let sign = known.1 == .top ? 1 : -1
+                            entity.info.deckIndex = sign * newIndex
+                        }
+                    }
                  }
+            }
+        } else if logLine.line.match(ShuffleRegex) {
+            let match = logLine.line.matches(ShuffleRegex)
+            let playerId = Int(match[0].value)
+            if playerId == eventHandler.player.id {
+                eventHandler.player.shuffleDeck()
+                eventHandler.handlePlayerDredge()
             }
         } else if logLine.line.match(BuildNumberRegex) {
             if let buildNumber = Int(logLine.line.matches(BuildNumberRegex)[0].value) {
@@ -378,7 +414,7 @@ class PowerGameStateParser: LogEventParser {
             
             blockStart(type: type, cardId: cardId)
 
-            if logLine.line.match(BlockStartRegex) {
+            if matches.count > 0 && (type == "TRIGGER" || type == "POWER") {
                 let player = eventHandler.entities.map { $0.1 }
                     .first { $0.has(tag: .player_id) && $0[.player_id] == eventHandler.player.id }
                 let opponent = eventHandler.entities.map { $0.1 }
@@ -391,6 +427,8 @@ class PowerGameStateParser: LogEventParser {
                     }
                     return
                 }
+                currentBlock?.sourceEntityId = actionStartingEntityId
+
                 var actionStartingCardId: String? = matches[3].value
                 var actionStartingEntity: Entity?
 
@@ -414,7 +452,15 @@ class PowerGameStateParser: LogEventParser {
 
                 if type == "TRIGGER" {
                     if let actionStartingCardId = actionStartingCardId {
+                        
                         switch actionStartingCardId {
+                        case CardIds.Collectible.Neutral.SphereOfSapience:
+                            // These are tricky to implement correctly, so
+                            // until the are, we will just reset the state
+                            // known about the top/bottom of the deck
+                            if actionStartingEntity?.isControlled(by: player?.id ?? 0) ?? false {
+                                eventHandler.handlePlayerUnknownCardAddedToDeck()
+                            }
                         case CardIds.Collectible.Rogue.TradePrinceGallywix:
                             if let lastCardPlayed = eventHandler.lastCardPlayed,
                                 let entity = eventHandler.entities[lastCardPlayed] {
@@ -550,21 +596,33 @@ class PowerGameStateParser: LogEventParser {
                         case CardIds.Collectible.Warlock.CurseOfAgony:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Warlock.CurseofAgony_AgonyToken, count: 3)
                         case CardIds.Collectible.Neutral.AzsharanSentinel:
-                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.AzsharanSentinel_SunkenSentinelToken, count: 1)
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.AzsharanSentinel_SunkenSentinelToken, count: 1, location: .bottom)
                         case CardIds.Collectible.Warrior.AzsharanTrident:
-                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Warrior.AzsharanTrident_SunkenTridentToken, count: 1)
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Warrior.AzsharanTrident_SunkenTridentToken, count: 1, location: .bottom)
                         case CardIds.Collectible.Hunter.AzsharanSaber:
-                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Hunter.AzsharanSaber_SunkenSaberToken, count: 1)
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Hunter.AzsharanSaber_SunkenSaberToken, count: 1, location: .bottom)
                         case CardIds.Collectible.DemonHunter.AzsharanDefector:
-                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.DemonHunter.AzsharanDefector_SunkenDefectorToken, count: 1)
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.DemonHunter.AzsharanDefector_SunkenDefectorToken, count: 1, location: .bottom)
+                        case CardIds.Collectible.Druid.Bottomfeeder:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Druid.Bottomfeeder, count: 1, location: .bottom)
                         case CardIds.Collectible.Shaman.PiranhaPoacher:
-                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.PiranhaSwarmer_PiranhaSwarmerToken1, count: 1) // is this the correct token? There are 4 different ones
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Neutral.PiranhaSwarmer) // is this the correct token? There are 4 different ones
                         default: break
                         }
                     }
                 } else { // type == "POWER"
                     if let actionStartingCardId = actionStartingCardId {
                         switch actionStartingCardId {
+                        case CardIds.Collectible.DemonHunter.SightlessWatcherCore,
+                            CardIds.Collectible.DemonHunter.SightlessWatcherLegacy,
+                            CardIds.Collectible.Neutral.SirFinleySeaGuide,
+                            CardIds.Collectible.Neutral.AmbassadorFaelin:
+                            // These are tricky to implement correctly, so
+                            // until the are, we will just reset the state
+                            // known about the top/bottom of the deck
+                            if actionStartingEntity?.isControlled(by: player?.id ?? 0) ?? false {
+                                eventHandler.handlePlayerUnknownCardAddedToDeck()
+                            }
                         case CardIds.Collectible.Rogue.GangUp,
                              CardIds.Collectible.Hunter.DireFrenzy,
                              CardIds.Collectible.Rogue.LabRecruiter:
@@ -798,24 +856,24 @@ class PowerGameStateParser: LogEventParser {
                         case CardIds.Collectible.Neutral.SchoolTeacher:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.SchoolTeacher_NagalingToken, count: 1)
                         case CardIds.Collectible.Warlock.AzsharanScavenger:
-                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Warlock.AzsharanScavenger_SunkenScavengerToken, count: 1)
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Warlock.AzsharanScavenger_SunkenScavengerToken, count: 1, location: .bottom)
                         case CardIds.Collectible.Priest.AzsharanRitual:
-                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Priest.AzsharanRitual_SunkenRitualToken, count: 1)
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Priest.AzsharanRitual_SunkenRitualToken, count: 1, location: .bottom)
                         case CardIds.Collectible.Shaman.AzsharanScroll:
-                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Shaman.AzsharanScroll_SunkenScrollToken, count: 1)
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Shaman.AzsharanScroll_SunkenScrollToken, count: 1, location: .bottom)
                         case CardIds.Collectible.Paladin.AzsharanMooncatcher:
-                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Paladin.AzsharanMooncatcher_SunkenMooncatcherToken, count: 1)
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Paladin.AzsharanMooncatcher_SunkenMooncatcherToken, count: 1, location: .bottom)
                         case CardIds.Collectible.Rogue.AzsharanVessel:
-                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Rogue.AzsharanVessel_SunkenVesselToken, count: 1)
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Rogue.AzsharanVessel_SunkenVesselToken, count: 1, location: .bottom)
                         case CardIds.Collectible.Shaman.Schooling:
-                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.PiranhaSwarmer_PiranhaSwarmerToken1, count: 3) // is this the correct token? There are 4 different ones
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Neutral.PiranhaSwarmer, count: 3) // is this the correct token? There are 4 different ones
                         case CardIds.Collectible.Druid.AzsharanGardens:
-                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Druid.AzsharanGardens_SunkenGardensToken, count: 1)
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Druid.AzsharanGardens_SunkenGardensToken, count: 1, location: .bottom)
                         case CardIds.Collectible.Mage.AzsharanSweeper:
-                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Mage.AzsharanSweeper_SunkenSweeperToken, count: 1)
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Mage.AzsharanSweeper_SunkenSweeperToken, count: 1, location: .bottom)
                         case CardIds.Collectible.Rogue.BootstrapSunkeneer:
                             if target != nil {
-                                addKnownCardId(eventHandler: eventHandler, cardId: target, count: 1)
+                                addKnownCardId(eventHandler: eventHandler, cardId: target, count: 1, location: .bottom)
                             }
                         default:
                             if let card = Cards.any(byId: actionStartingCardId) {
@@ -929,7 +987,7 @@ class PowerGameStateParser: LogEventParser {
         return cardIdMatch.first?.value.trim()
     }
 
-    private func addKnownCardId(eventHandler: PowerEventHandler, cardId: String?, count: Int = 1) {
+    private func addKnownCardId(eventHandler: PowerEventHandler, cardId: String?, count: Int = 1, location: DeckLocation = .unknown) {
         guard let cardId = cardId else { return }
 
         if let blockId = currentBlock?.id {
@@ -938,7 +996,7 @@ class PowerGameStateParser: LogEventParser {
                     eventHandler.knownCardIds[blockId] = []
                 }
 
-                eventHandler.knownCardIds[blockId]?.append(cardId)
+                eventHandler.knownCardIds[blockId]?.append((cardId, location))
             }
         }
     }

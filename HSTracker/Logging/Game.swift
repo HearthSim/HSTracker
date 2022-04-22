@@ -232,9 +232,9 @@ class Game: NSObject, PowerEventHandler {
 				
 				// update cards
                 if self.gameEnded && Settings.clearTrackersOnGameEnd {
-                    tracker.update(cards: [], reset: reset)
+                    tracker.update(cards: [], top: [], bottom: [], reset: reset)
                 } else {
-                    tracker.update(cards: self.opponent.opponentCardList, reset: reset)
+                    tracker.update(cards: self.opponent.opponentCardList, top: [], bottom: [], reset: reset)
                 }
 				
 				let gameStarted = !self.isInMenu && self.entities.count >= 67
@@ -297,7 +297,7 @@ class Game: NSObject, PowerEventHandler {
 		}
 	}
 
-    @objc fileprivate func updatePlayerTracker(reset: Bool = false) {
+    @objc func updatePlayerTracker(reset: Bool = false) {
         DispatchQueue.main.async { [unowned(unsafe) self] in
 			
             let tracker = self.windowManager.playerTracker
@@ -310,7 +310,21 @@ class Game: NSObject, PowerEventHandler {
                     self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground || self.selfAppActive) {
                 
                 // update cards
-                tracker.update(cards: self.player.playerCardList, reset: reset)
+                let dredged = player.deck.filter { x in x.info.deckIndex != 0 }.sorted(by: { x, y in x.info.deckIndex > y.info.deckIndex })
+                let top = dredged.filter { x in x.info.deckIndex > 0 }.compactMap { (x) -> Card in
+                    let card = x.card.copy()
+                    card.deckListIndex = x.info.deckIndex
+                    card.count = 1
+                    return card
+                }
+                let bottom = dredged.filter { x in x.info.deckIndex < 0 }.compactMap { (x) -> Card in
+                    let card = x.card.copy()
+                    card.deckListIndex = x.info.deckIndex
+                    card.count = 1
+                    return card
+                }
+
+                tracker.update(cards: self.player.playerCardList, top: top, bottom: bottom, reset: reset)
                 
                 // update card counter values
                 let gameStarted = !self.isInMenu && self.entities.count >= 67
@@ -824,8 +838,9 @@ class Game: NSObject, PowerEventHandler {
 		}
 	}
     var tmpEntities: [Entity] = []
-    var knownCardIds: [Int: [String]] = [:]
+    var knownCardIds: [Int: [(String, DeckLocation)]] = [:]
     var joustReveals = 0
+    var dredgeCounter = 0
 
     var lastCardPlayed: Int?
     var gameEnded = true
@@ -1090,13 +1105,15 @@ class Game: NSObject, PowerEventHandler {
 		                                 Settings.show_player_get, Settings.player_draw_chance, Settings.player_card_count,
 		                                 Settings.player_cthun_frame, Settings.player_yogg_frame, Settings.player_deathrattle_frame,
 		                                 Settings.show_win_loss_ratio, Settings.player_in_hand_color, Settings.show_deck_name,
-		                                 Settings.player_graveyard_details_frame, Settings.player_graveyard_frame]
+		                                 Settings.player_graveyard_details_frame, Settings.player_graveyard_frame,
+                                         Settings.player_cards_top, Settings.player_cards_bottom, Settings.player_jade_frame, Settings.player_libram_counter]
 		
 		// events that should update the opponent's tracker
 		let opponentTrackerUpdateEvents = [Settings.show_opponent_tracker, Settings.opponent_card_count, Settings.opponent_draw_chance,
 		                                   Settings.opponent_cthun_frame, Settings.opponent_yogg_frame, Settings.opponent_deathrattle_frame,
 		                                   Settings.show_opponent_class, Settings.opponent_graveyard_frame,
-		                                   Settings.opponent_graveyard_details_frame]
+		                                   Settings.opponent_graveyard_details_frame,
+                                           Settings.player_jade_frame, Settings.player_libram_counter]
 		
 		// events that should update all trackers
 		let allTrackerUpdateEvents = [Settings.rarity_colors, Events.reload_decks, Settings.window_locked, Settings.auto_position_trackers,
@@ -1232,6 +1249,7 @@ class Game: NSObject, PowerEventHandler {
         
         hideBobsBuddy = false
         adventureOpponentId = nil
+        dredgeCounter = 0
         
         OpponentDeadForTracker.resetOpponentDeadForTracker()
     }
@@ -1855,6 +1873,16 @@ class Game: NSObject, PowerEventHandler {
         }
 
         handleOpponentHandCostReduction(value: thaurissans.count)
+    }
+    
+    func handlePlayerDredge() {
+        updatePlayerTracker()
+    }
+    
+    func handlePlayerUnknownCardAddedToDeck() {
+        for card in player.deck {
+            card.info.deckIndex = 0
+        }
     }
     
     func handlePlayerHandCostReduction(value: Int) {

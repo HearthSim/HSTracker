@@ -231,3 +231,7 @@
 "Task progress will update after the game" = "Task progress will update after the game";
 "Completed!" = "Completed!";
 "Task %d: %@" = "Task %d: %@";
+
+/* Deck Lens - Dredge */
+"On Top" = "On Top";
+"On Bottom" = "On Bottom";

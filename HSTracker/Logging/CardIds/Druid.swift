@@ -140,6 +140,7 @@ extension CardIds.Collectible {
         static let LivingSeedRank1 = "BAR_536"
         static let VibrantSquirrel = "SW_439"
         static let AzsharanGardens = "TSC_927"
+        static let Bottomfeeder = "TSC_653"
     }
 }
 

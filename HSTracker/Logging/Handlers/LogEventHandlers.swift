@@ -36,7 +36,7 @@ protocol PowerEventHandler: AnyObject {
 	
 	var lastId: Int { get set }
 	
-	var knownCardIds: [Int: [String]] { get set }
+	var knownCardIds: [Int: [(String, DeckLocation)]] { get set }
 	
 	var currentEntityHasCardId: Bool { get set }
 	
@@ -222,4 +222,10 @@ protocol PowerEventHandler: AnyObject {
     func handleMercenariesStateChange()
     
     func handleProposedAttackerChange(entity: Entity)
+    
+    func handlePlayerDredge()
+    
+    func handlePlayerUnknownCardAddedToDeck()
+
+    var dredgeCounter: Int { get set }
 }

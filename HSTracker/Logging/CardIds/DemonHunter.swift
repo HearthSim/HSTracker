@@ -14,6 +14,8 @@ extension CardIds.Collectible {
         static let Marrowslicer = "SCH_252"
         static let FuryRank1 = "BAR_891"
         static let AzsharanDefector = "TSC_057"
+        static let SightlessWatcherCore = "CORE_BT_323"
+        static let SightlessWatcherLegacy = "BT_323"
     }
 }
 

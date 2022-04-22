@@ -33,7 +33,7 @@ final class Cards {
     static func hero(byId cardId: String) -> Card? {
         if let card = cardsById[cardId] {
             if card.type == .hero {
-                return card.copy() as? Card
+                return card.copy()
             }
         }
         return nil
@@ -63,7 +63,7 @@ final class Cards {
 
         if let card = cardsById[cardId!] {
             if card.type != .hero_power && (card.type != .hero || (card.type == .hero && card.set != CardSet.hero_skins)) {
-                return card.copy() as? Card
+                return card.copy()
             }
         }
         return nil
@@ -74,7 +74,7 @@ final class Cards {
 
         if let card = (collectible ? self.collectible() : cards)
             .first(where: { $0.dbfId == dbfId }) {
-            return card.copy() as? Card
+            return card.copy()
         }
         return nil
     }
@@ -83,7 +83,7 @@ final class Cards {
         guard !cardId.isBlank else { return nil }
 
         if let card = cardsById[cardId] {
-            return card.copy() as? Card
+            return card.copy()
         }
         return nil
     }
@@ -105,14 +105,14 @@ final class Cards {
 
     static func by(name: String) -> Card? {
         if let card = collectible().first(where: { $0.name == name }) {
-            return card.copy() as? Card
+            return card.copy()
         }
         return nil
     }
 
     static func by(englishName name: String) -> Card? {
         if let card = collectible().first(where: { $0.enName == name || $0.name == name }) {
-            return card.copy() as? Card
+            return card.copy()
         }
         return nil
     }
@@ -122,7 +122,7 @@ final class Cards {
             $0.enName.caseInsensitiveCompare(name) == ComparisonResult.orderedSame ||
                 $0.name.caseInsensitiveCompare(name) == ComparisonResult.orderedSame
         }) {
-            return card.copy() as? Card
+            return card.copy()
         }
         return nil
     }

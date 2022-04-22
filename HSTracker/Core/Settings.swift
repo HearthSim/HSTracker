@@ -41,6 +41,9 @@ struct UserDefault<Value> {
             } else {
                 container.setValue(newValue, forKey: key)
             }
+            DispatchQueue.main.async { [newValue, key] in
+                NotificationCenter.default.post(name: Notification.Name(rawValue: key), object: newValue)
+            }
         }
     }
 }
@@ -61,6 +64,9 @@ struct UserDefaultRawRepresentable<Value: RawRepresentable> {
         }
         set {
             container.set(newValue.rawValue, forKey: key)
+            DispatchQueue.main.async { [newValue, key] in
+                NotificationCenter.default.post(name: Notification.Name(rawValue: key), object: newValue)
+            }
         }
     }
 }
@@ -85,6 +91,9 @@ struct UserDefaultCustom<Value: UserDefaultConvertible> {
                 container.setValue(value.convert(), forKey: key)
             } else {
                 container.removeObject(forKey: key)
+            }
+            DispatchQueue.main.async { [newValue, key] in
+                NotificationCenter.default.post(name: Notification.Name(rawValue: key), object: newValue)
             }
         }
     }
@@ -250,6 +259,10 @@ final class Settings {
     static var showPlayerGraveyardDetails: Bool
     @UserDefault(key: Settings.player_jade_frame, defaultValue: true)
     static var showPlayerJadeCounter: Bool
+    @UserDefault(key: Settings.player_cards_top, defaultValue: true)
+    static var showPlayerCardsTop: Bool
+    @UserDefault(key: Settings.player_cards_bottom, defaultValue: true)
+    static var showPlayerCardsBottom: Bool
     @UserDefault(key: Settings.player_galakrond_invoke_frame, defaultValue: true)
     static var showPlayerGalakrondCounter: Bool
     @UserDefault(key: Settings.opponent_galakrond_invoke_frame, defaultValue: true)
@@ -514,6 +527,8 @@ extension Settings {
     static let player_jade_frame = "player_jade_frame"
     static let player_galakrond_invoke_frame = "player_galakrond_invoke_frame"
     static let player_libram_counter = "player_libram_counter"
+    static let player_cards_top = "player_cards_top"
+    static let player_cards_bottom = "player_cards_botto"
     static let opponent_galakrond_invoke_frame = "opponent_galakrond_invoke_frame"
     static let opponent_cthun_frame = "opponent_cthun_frame"
     static let opponent_yogg_frame = "opponent_yogg_frame"

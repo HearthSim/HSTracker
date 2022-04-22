@@ -59,6 +59,7 @@ struct TagChangeActions {
         case .bacon_player_num_hero_buddies_gained: return { self.playerBuddiesGained(eventHandler: eventHandler, id: id, value: value)}
         case .armor: return { self.armorChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue)}
         case .lettuce_ability_tile_visual_all_visible, .lettuce_ability_tile_visual_self_only, .fake_zone, .fake_zone_position: return { self.mercenariesStateChange(eventHandler: eventHandler)}
+        case .linked_entity: return { self.linkedEntity(eventHandler: eventHandler, id: id, value: value)}
         default: return nil
         }
     }
@@ -93,10 +94,13 @@ struct TagChangeActions {
         guard let entity = eventHandler.entities[id] else {
             return
         }
-        if entity.isControlled(by: eventHandler.opponent.id) {
+        guard let targetEntity = eventHandler.entities[value] else {
             return
         }
-        guard let targetEntity = eventHandler.entities[value] else {
+
+        onDredge(eventHandler: eventHandler, entity: entity, target: targetEntity)
+        
+        if entity.isControlled(by: eventHandler.opponent.id) {
             return
         }
 
@@ -110,6 +114,42 @@ struct TagChangeActions {
 
             eventHandler.handleCardCopy()
         }
+    }
+    
+    private func linkedEntity(eventHandler: PowerEventHandler, id: Int, value: Int) {
+        guard let entity = eventHandler.entities[id] else {
+            return
+        }
+        guard let targetEntity = eventHandler.entities[value] else {
+            return
+        }
+        onDredge(eventHandler: eventHandler, entity: entity, target: targetEntity)
+    }
+    
+    private func onDredge(eventHandler: PowerEventHandler, entity: Entity, target: Entity) {
+        guard entity[.linked_entity] == target.id && entity[.copied_from_entity_id] == target.id && entity.isControlled(by: eventHandler.player.id) else {
+            return
+        }
+        guard entity.isInZone(zone: .setaside) || entity.isInZone(zone: .deck) else {
+            return
+        }
+        let source = entity[.creator]
+        guard source != 0, let sourceEntity = eventHandler.entities[source], sourceEntity.has(tag: .dredge) else {
+            return
+        }
+        guard let currentBlock = powerGameStateParser?.getCurrentBlock() else {
+            return
+        }
+        if currentBlock.dredgeCounter == 0 {
+            eventHandler.dredgeCounter += 3
+        }
+        let index = eventHandler.dredgeCounter - currentBlock.dredgeCounter
+        currentBlock.dredgeCounter += 1
+        target.info.deckIndex = -index
+        
+        logger.info("Dredge Bottom: \(target.description)")
+        
+        eventHandler.handlePlayerDredge()
     }
     
     private func mulliganStateChange(eventHandler: PowerEventHandler, id: Int, value: Int) {
@@ -440,6 +480,8 @@ struct TagChangeActions {
         }
         
         guard let entity = eventHandler.entities[id] else { return }
+        
+        entity.info.deckIndex = 0
         
         if value == Zone.setaside.rawValue {
             entity.info.created = true

@@ -291,12 +291,10 @@ final class Player {
             cardsInDeck.all({ $0.id != c.id }) && hand.any({ $0.cardId == c.id })
         })
             .compactMap {
-                if let card = $0.copy() as? Card {
-                    card.count = 0
-                    card.highlightInHand = true
-                    return card
-                }
-                return nil
+                let card = $0.copy()
+                card.count = 0
+                card.highlightInHand = true
+                return card
         }
     }
 
@@ -693,5 +691,11 @@ final class Player {
     
     func updateLibramReduction(change: Int) {
         libramReductionCount += change
+    }
+    
+    func shuffleDeck() {
+        for card in deck {
+            card.info.deckIndex = 0
+        }
     }
 }

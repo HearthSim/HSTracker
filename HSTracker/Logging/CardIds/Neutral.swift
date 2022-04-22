@@ -612,6 +612,10 @@ extension CardIds.Collectible {
         static let RamCommander = "AV_219"
         static let AzsharanSentinel = "TSC_919"
         static let SchoolTeacher = "TSC_052"
+        static let SphereOfSapience = "SCH_259"
+        static let PiranhaSwarmer = "TSC_638"
+        static let SirFinleySeaGuide = "TSC_908"
+        static let AmbassadorFaelin = "TSC_067"
     }
 }
 

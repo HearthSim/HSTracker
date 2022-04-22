@@ -41,6 +41,7 @@ final class Card {
     var hideStats = false
     var mercenariesAbilityCooldown = 0
     var battlegroundsPoolMinion = false
+    var deckListIndex = 0
     
     static let multiClassGroups: [MultiClassGroup: [CardClass]] = [
         .grimy_goons: [ .hunter, .paladin, .warrior ],
@@ -147,6 +148,12 @@ final class Card {
 
 extension Card: NSCopying {
 
+    func copy() -> Card {
+        // swiftlint:disable force_cast
+        return copy(with: nil) as! Card
+        // swiftlint:enable force_cast
+    }
+    
     func copy(with zone: NSZone? = nil) -> Any {
         let copy = Card()
         copy.id = self.id
@@ -185,6 +192,7 @@ extension Card: NSCopying {
         copy.hideStats = self.hideStats
         copy.mercenariesAbilityCooldown = self.mercenariesAbilityCooldown
         copy.battlegroundsPoolMinion = self.battlegroundsPoolMinion
+        copy.deckListIndex = self.deckListIndex
 
         return copy
     }

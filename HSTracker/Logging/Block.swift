@@ -15,6 +15,8 @@ class Block {
     let type: String?
     let cardId: String?
     var hasFullEntityHeroPackets: Bool
+    var sourceEntityId = 0
+    var dredgeCounter = 0
 
     init(parent: Block?, id: Int, type: String?, cardId: String?) {
         self.parent = parent

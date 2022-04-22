@@ -37,6 +37,7 @@ class EntityInfo {
         get { _latestCardId ?? _entity.cardId }
         set { _latestCardId = newValue }
     }
+    var deckIndex = 0
 
     init(entity: Entity) {
         _entity = entity
@@ -101,6 +102,9 @@ extension EntityInfo: CustomStringConvertible {
         }
         if storedCardIds.count > 0 {
             description += ", storedCardIds=[\(storedCardIds.joined(separator: ", "))]"
+        }
+        if deckIndex > 0 {
+            description += ", deckIndex=\(deckIndex)"
         }
         description += "]"
 

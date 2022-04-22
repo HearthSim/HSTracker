@@ -475,6 +475,8 @@
 		B887656A26C304FA003D3629 /* BigInt in Frameworks */ = {isa = PBXBuildFile; productRef = B887656926C304FA003D3629 /* BigInt */; };
 		B887656C26C30520003D3629 /* RegexUtil in Frameworks */ = {isa = PBXBuildFile; productRef = B887656B26C30520003D3629 /* RegexUtil */; };
 		B8956CFD25509B3F0073D70C /* BattlegroundsMinionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8956CFC25509B3F0073D70C /* BattlegroundsMinionView.swift */; };
+		B89C9894280A113A005E9315 /* AnimatedCardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89C9893280A113A005E9315 /* AnimatedCardList.swift */; };
+		B89C9896280C610C005E9315 /* DeckLens.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89C9895280C610C005E9315 /* DeckLens.swift */; };
 		B8A3E4B4257AE71500D9C77A /* RotatingFileDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A3E4B3257AE71500D9C77A /* RotatingFileDestination.swift */; };
 		B8A9CB2E25699B13000071FC /* BattlegroundsMinionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8956CFC25509B3F0073D70C /* BattlegroundsMinionView.swift */; };
 		B8A9CB2F25699B70000071FC /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8820CCF25603FB00072ECBC /* RemoteConfig.swift */; };
@@ -1037,6 +1039,8 @@
 		B88364F9275D6FE10094D8E1 /* FlavorText.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FlavorText.xib; sourceTree = "<group>"; };
 		B88364FB275D746D0094D8E1 /* FlavorText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlavorText.swift; sourceTree = "<group>"; };
 		B8956CFC25509B3F0073D70C /* BattlegroundsMinionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsMinionView.swift; sourceTree = "<group>"; };
+		B89C9893280A113A005E9315 /* AnimatedCardList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedCardList.swift; sourceTree = "<group>"; };
+		B89C9895280C610C005E9315 /* DeckLens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckLens.swift; sourceTree = "<group>"; };
 		B8A3E4B3257AE71500D9C77A /* RotatingFileDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotatingFileDestination.swift; sourceTree = "<group>"; };
 		B8A9CB322571F160000071FC /* GuessedCardState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuessedCardState.swift; sourceTree = "<group>"; };
 		B8AB59932742F94900383EC8 /* RateLimiter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateLimiter.swift; sourceTree = "<group>"; };
@@ -1736,6 +1740,7 @@
 				43E77EDF1C949C6D00C26950 /* TimerHud.xib */,
 				4C3E2D89245ED13D00292349 /* ToastWindowController.swift */,
 				439C7EDC1C777FA900D29859 /* Tracker.swift */,
+				B89C9893280A113A005E9315 /* AnimatedCardList.swift */,
 				439C7EDD1C777FA900D29859 /* Tracker.xib */,
 				436789BA1CACF79800C962D1 /* TrackerFrame.swift */,
 				43BDF0BD1DB89A830081964A /* WindowManager.swift */,
@@ -1751,6 +1756,7 @@
 				B8795EAB27516DBC00469B6E /* MercenariesTask.xib */,
 				B8BCC1E2273B0AE500DA6474 /* MercenariesAbilityView.swift */,
 				B8BCC1E4273B168200DA6474 /* MercenariesAbilitiesView.swift */,
+				B89C9895280C610C005E9315 /* DeckLens.swift */,
 			);
 			path = Trackers;
 			sourceTree = "<group>";
@@ -2463,6 +2469,7 @@
 				434910521D09773D00B22DB2 /* IBoardEntity.swift in Sources */,
 				43BDF0BE1DB89A830081964A /* WindowManager.swift in Sources */,
 				436789B71CACF64600C962D1 /* CardCounter.swift in Sources */,
+				B89C9896280C610C005E9315 /* DeckLens.swift in Sources */,
 				B836822027888B12007D5740 /* CombatResult.swift in Sources */,
 				4359BF941D52142D00F61993 /* PlayedCard.swift in Sources */,
 				439C7E851C777CFC00D29859 /* Deck.swift in Sources */,
@@ -2591,6 +2598,7 @@
 				4323C5F71E1BE28800C97896 /* BrawlInfo.swift in Sources */,
 				BCA70F2A1E2C16DD00038A6C /* FileUtils.m in Sources */,
 				434D1CB11D0C507900222B8E /* ImageCompare.swift in Sources */,
+				B89C9894280A113A005E9315 /* AnimatedCardList.swift in Sources */,
 				E30590BB21174FC900679D66 /* UploadCollectionData.swift in Sources */,
 				435CD9091E1E3AB4000AF3DE /* GameStats.swift in Sources */,
 				435CD90B1E1E4447000AF3DE /* ServerInfo.swift in Sources */,
@@ -3410,7 +3418,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = /Library/Frameworks/Mono.framework/Libraries;
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 2.1.1;
+				MARKETING_VERSION = 2.1.2;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = "$(inherited)";
@@ -3454,7 +3462,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = /Library/Frameworks/Mono.framework/Libraries;
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 2.1.1;
+				MARKETING_VERSION = 2.1.2;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = net.hearthsim.hstracker;
