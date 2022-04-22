@@ -1,12 +1,12 @@
 
 /* Class = "NSWindow"; title = "Deck Statistics"; ObjectID = "F0z-JX-Cv5"; */
-"F0z-JX-Cv5.title" = "Deck Statistics";
+"F0z-JX-Cv5.title" = "통계";
 
 /* Class = "NSButtonCell"; title = "OK"; ObjectID = "PwO-Us-vPh"; */
 "PwO-Us-vPh.title" = "OK";
 
 /* Class = "NSButtonCell"; title = "Delete statistics"; ObjectID = "dlb-Sh-7Xd"; */
-"dlb-Sh-7Xd.title" = "Delete statistics";
+"dlb-Sh-7Xd.title" = "통계 삭제";
 
 /* Class = "NSTextFieldCell"; title = "No deck selected"; ObjectID = "hZh-Kz-cgX"; */
-"hZh-Kz-cgX.title" = "No deck selected";
+"hZh-Kz-cgX.title" = "덱이 선택되지 않았습니다";

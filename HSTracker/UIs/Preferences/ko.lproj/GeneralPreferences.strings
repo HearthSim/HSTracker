@@ -1,42 +1,42 @@
 
 /* Class = "NSButton"; ibShadowedToolTip = "Notifications are only visible if Hearthstone is not focused"; ObjectID = "08B-rI-8LA"; */
-"08B-rI-8LA.ibShadowedToolTip" = "Notifications are only visible if Hearthstone is not focused";
+"08B-rI-8LA.ibShadowedToolTip" = "하스스톤이 포커중일때만 알림주기";
 
 /* Class = "NSButtonCell"; title = "Prefer golden cards when exporting to Hearthstone"; ObjectID = "1BI-nh-nxq"; */
 "1BI-nh-nxq.title" = "Prefer golden cards when exporting to Hearthstone";
 
 /* Class = "NSButtonCell"; title = "Add a note on end game"; ObjectID = "4f5-xO-gik"; */
-"4f5-xO-gik.title" = "Add a note on end game";
+"4f5-xO-gik.title" = "게임이 끝나면 메모 추가하기";
 
 /* Class = "NSButtonCell"; title = "Notify me when my opponent concedes"; ObjectID = "GhP-a6-Faw"; */
-"GhP-a6-Faw.title" = "Notify me when my opponent concedes";
+"GhP-a6-Faw.title" = "상대방이 포기하면 알림주기";
 
 /* Class = "NSButtonCell"; title = "Notify me when my turn starts"; ObjectID = "Rbw-dw-oAI"; */
-"Rbw-dw-oAI.title" = "Notify me when my turn starts";
+"Rbw-dw-oAI.title" = "내 턴이 시작하면 알림주기";
 
 /* Class = "NSButtonCell"; title = "Use Arena Helper"; ObjectID = "TKd-w3-odf"; */
-"TKd-w3-odf.title" = "Use Arena Helper";
+"TKd-w3-odf.title" = "투기장 헬퍼 사용";
 
 /* Class = "NSButtonCell"; title = "Use Toast notifications instead of Notification Center"; ObjectID = "XEI-kJ-kec"; */
-"XEI-kJ-kec.title" = "Use Toast notifications instead of Notification Center";
+"XEI-kJ-kec.title" = "Notification 센터 알림대신 토스트 알림 사용하기";
 
 /* Class = "NSButton"; ibShadowedToolTip = "Notifications are only visible if Hearthstone is not focused"; ObjectID = "Yit-xi-gbj"; */
-"Yit-xi-gbj.ibShadowedToolTip" = "Notifications are only visible if Hearthstone is not focused";
+"Yit-xi-gbj.ibShadowedToolTip" = "Notifications은 포커스가 하스스톤에 있을때만 나타나기";
 
 /* Class = "NSButtonCell"; title = "Notify me when the game starts"; ObjectID = "aaX-mu-c31"; */
-"aaX-mu-c31.title" = "Notify me when the game starts";
+"aaX-mu-c31.title" = "게임이 시작하면 알림주기";
 
 /* Class = "NSButton"; ibShadowedToolTip = "Notifications are only visible if Hearthstone is not focused"; ObjectID = "c8y-VJ-p2U"; */
-"c8y-VJ-p2U.ibShadowedToolTip" = "Notifications are only visible if Hearthstone is not focused";
+"c8y-VJ-p2U.ibShadowedToolTip" = "Notifications은 포커스가 하스스톤에 있지 않을때만 나타나기";
 
 /* Class = "NSButton"; ibShadowedToolTip = "Notifications are only visible if Hearthstone is not focused"; ObjectID = "hzK-vu-1RX"; */
-"hzK-vu-1RX.ibShadowedToolTip" = "Notifications are only visible if Hearthstone is not focused";
+"hzK-vu-1RX.ibShadowedToolTip" = "Notifications은 포커스가 하스스톤에 있지 않을때만 나타나기";
 
 /* Class = "NSButtonCell"; title = "Enable Apphealth icon badge"; ObjectID = "mBv-nX-Cn3"; */
 "mBv-nX-Cn3.title" = "Enable Apphealth icon badge";
 
 /* Class = "NSButtonCell"; title = "Close HSTracker when Hearthstone closes"; ObjectID = "oQm-3D-WOn"; */
-"oQm-3D-WOn.title" = "Close HSTracker when Hearthstone closes";
+"oQm-3D-WOn.title" = "하스스톤을 종료하면 HSTracker도 종료하기";
 
 /* Class = "NSButtonCell"; title = "Save replays"; ObjectID = "vod-AA-O2m"; */
-"vod-AA-O2m.title" = "Save replays";
+"vod-AA-O2m.title" = "리플레이 저장";

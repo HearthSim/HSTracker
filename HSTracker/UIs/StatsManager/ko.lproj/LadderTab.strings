@@ -1,12 +1,12 @@
 
 /* Class = "NSTableColumn"; headerCell.title = "90% CI"; ObjectID = "4Yb-5T-nV4"; */
-"4Yb-5T-nV4.headerCell.title" = "90% CI";
+"4Yb-5T-nV4.headerCell.title" = "90% 신뢰구간";
 
 /* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "5We-8T-hvS"; */
 "5We-8T-hvS.title" = "Text Cell";
 
 /* Class = "NSTextFieldCell"; title = "Rank"; ObjectID = "BEu-Gw-K2h"; */
-"BEu-Gw-K2h.title" = "Rank";
+"BEu-Gw-K2h.title" = "등급";
 
 /* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "Bgg-4P-izh"; */
 "Bgg-4P-izh.title" = "Table View Cell";
@@ -21,7 +21,7 @@
 "Gdv-Lb-Wb7.title" = "Text Cell";
 
 /* Class = "NSTableColumn"; headerCell.title = "90% CI"; ObjectID = "IWm-LF-igL"; */
-"IWm-LF-igL.headerCell.title" = "90% CI";
+"IWm-LF-igL.headerCell.title" = "90% 신뢰구간";
 
 /* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "S2f-ey-UNN"; */
 "S2f-ey-UNN.title" = "Text Cell";
@@ -33,13 +33,13 @@
 "ZV9-tA-MmI.title" = "Table View Cell";
 
 /* Class = "NSTableColumn"; headerCell.title = "Rank"; ObjectID = "dyI-Te-1C6"; */
-"dyI-Te-1C6.headerCell.title" = "Rank";
+"dyI-Te-1C6.headerCell.title" = "등급";
 
 /* Class = "NSButtonCell"; title = "Win Streak"; ObjectID = "dza-9B-OL5"; */
-"dza-9B-OL5.title" = "Win Streak";
+"dza-9B-OL5.title" = "연승 고려";
 
 /* Class = "NSTableColumn"; headerCell.title = "Rank"; ObjectID = "e1h-FZ-9MU"; */
-"e1h-FZ-9MU.headerCell.title" = "Rank";
+"e1h-FZ-9MU.headerCell.title" = "등급";
 
 /* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "e6j-KR-Pnw"; */
 "e6j-KR-Pnw.title" = "Table View Cell";
@@ -48,7 +48,7 @@
 "fql-pG-Qnh.title" = "Table View Cell";
 
 /* Class = "NSTableColumn"; headerCell.title = "Games to Rank"; ObjectID = "hkD-WH-kOa"; */
-"hkD-WH-kOa.headerCell.title" = "Games to Rank";
+"hkD-WH-kOa.headerCell.title" = "등급까지 예상 게임수";
 
 /* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "nJk-vW-Io9"; */
 "nJk-vW-Io9.title" = "Text Cell";
@@ -60,4 +60,4 @@
 "tue-KW-NxO.title" = "Text Cell";
 
 /* Class = "NSTableColumn"; headerCell.title = "Time to Rank (h)"; ObjectID = "xS7-7X-Aef"; */
-"xS7-7X-Aef.headerCell.title" = "Time to Rank (h)";
+"xS7-7X-Aef.headerCell.title" = "등급 달성 시간;

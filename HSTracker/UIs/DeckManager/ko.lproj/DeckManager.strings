@@ -9,43 +9,43 @@
 "0zG-7b-xsf.paletteLabel" = "Gitter";
 
 /* Class = "NSToolbarItem"; label = "Use"; ObjectID = "3nu-q9-wC1"; */
-"3nu-q9-wC1.label" = "Use";
+"3nu-q9-wC1.label" = "사용";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Use"; ObjectID = "3nu-q9-wC1"; */
-"3nu-q9-wC1.paletteLabel" = "Use";
+"3nu-q9-wC1.paletteLabel" = "사용";
 
 /* Class = "NSMenuItem"; title = "Item 2"; ObjectID = "6BA-8t-3vg"; */
 "6BA-8t-3vg.title" = "Item 2";
 
 /* Class = "NSToolbarItem"; label = "Add"; ObjectID = "7FY-gv-qwP"; */
-"7FY-gv-qwP.label" = "Add";
+"7FY-gv-qwP.label" = "추가하기";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Add"; ObjectID = "7FY-gv-qwP"; */
-"7FY-gv-qwP.paletteLabel" = "Add";
+"7FY-gv-qwP.paletteLabel" = "추가하기";
 
 /* Class = "NSMenuItem"; title = "Item 3"; ObjectID = "DIF-oI-g1Y"; */
 "DIF-oI-g1Y.title" = "Item 3";
 
 /* Class = "NSToolbarItem"; label = "Archive"; ObjectID = "Fe5-be-5CS"; */
-"Fe5-be-5CS.label" = "Archive";
+"Fe5-be-5CS.label" = "갈무리하기";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Archive"; ObjectID = "Fe5-be-5CS"; */
-"Fe5-be-5CS.paletteLabel" = "Archive";
+"Fe5-be-5CS.paletteLabel" = "갈무리하기";
 
 /* Class = "NSToolbarItem"; label = "Classes"; ObjectID = "Hyt-EI-Vfy"; */
-"Hyt-EI-Vfy.label" = "Classes";
+"Hyt-EI-Vfy.label" = "직업";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Classes"; ObjectID = "Hyt-EI-Vfy"; */
-"Hyt-EI-Vfy.paletteLabel" = "Classes";
+"Hyt-EI-Vfy.paletteLabel" = "직업";
 
 /* Class = "NSMenuItem"; title = "Edit"; ObjectID = "K4S-En-2ZL"; */
-"K4S-En-2ZL.title" = "Edit";
+"K4S-En-2ZL.title" = "편집";
 
 /* Class = "NSToolbarItem"; label = "Rename"; ObjectID = "Qp2-0h-Sid"; */
-"Qp2-0h-Sid.label" = "Rename";
+"Qp2-0h-Sid.label" = "이름바꾸기";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Rename"; ObjectID = "Qp2-0h-Sid"; */
-"Qp2-0h-Sid.paletteLabel" = "Rename";
+"Qp2-0h-Sid.paletteLabel" = "이름바꾸기";
 
 /* Class = "NSWindow"; title = "Deck Manager"; ObjectID = "QvC-M9-y7g"; */
 "QvC-M9-y7g.title" = "Deck Manager";
@@ -54,46 +54,46 @@
 "R1X-pL-sY1.title" = "Item 2";
 
 /* Class = "NSToolbarItem"; label = "Statistics"; ObjectID = "T0e-lu-Gfj"; */
-"T0e-lu-Gfj.label" = "Statistics";
+"T0e-lu-Gfj.label" = "통계";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Statistics"; ObjectID = "T0e-lu-Gfj"; */
-"T0e-lu-Gfj.paletteLabel" = "Statistics";
+"T0e-lu-Gfj.paletteLabel" = "통계";
 
 /* Class = "NSMenuItem"; title = "Item 3"; ObjectID = "WQ3-Qd-aVZ"; */
 "WQ3-Qd-aVZ.title" = "Item 3";
 
 /* Class = "NSToolbarItem"; label = "Export"; ObjectID = "XUQ-ti-e6U"; */
-"XUQ-ti-e6U.label" = "Export";
+"XUQ-ti-e6U.label" = "내보내기";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Export"; ObjectID = "XUQ-ti-e6U"; */
-"XUQ-ti-e6U.paletteLabel" = "Export";
+"XUQ-ti-e6U.paletteLabel" = "내보내기";
 
 /* Class = "NSMenuItem"; title = "Rename"; ObjectID = "YTC-HA-6U7"; */
-"YTC-HA-6U7.title" = "Rename";
+"YTC-HA-6U7.title" = "이름바꾸기";
 
 /* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "YgP-rU-92k"; */
 "YgP-rU-92k.title" = "Text Cell";
 
 /* Class = "NSToolbarItem"; label = "Delete"; ObjectID = "aaa-LK-buD"; */
-"aaa-LK-buD.label" = "Delete";
+"aaa-LK-buD.label" = "삭제";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Delete"; ObjectID = "aaa-LK-buD"; */
-"aaa-LK-buD.paletteLabel" = "Delete";
+"aaa-LK-buD.paletteLabel" = "삭제";
 
 /* Class = "NSMenuItem"; title = "Item 1"; ObjectID = "cCu-vJ-U3L"; */
 "cCu-vJ-U3L.title" = "Item 1";
 
 /* Class = "NSToolbarItem"; label = "Edit"; ObjectID = "cbH-rI-BvP"; */
-"cbH-rI-BvP.label" = "Edit";
+"cbH-rI-BvP.label" = "편집";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Edit"; ObjectID = "cbH-rI-BvP"; */
-"cbH-rI-BvP.paletteLabel" = "Edit";
+"cbH-rI-BvP.paletteLabel" = "편집";
 
 /* Class = "NSToolbarItem"; label = "Sort by"; ObjectID = "cu3-FG-2Cn"; */
-"cu3-FG-2Cn.label" = "Sort by";
+"cu3-FG-2Cn.label" = "정렬";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Sort"; ObjectID = "cu3-FG-2Cn"; */
-"cu3-FG-2Cn.paletteLabel" = "Sort";
+"cu3-FG-2Cn.paletteLabel" = "정렬";
 
 /* Class = "NSToolbarItem"; label = "Twitter"; ObjectID = "d38-Pq-vZv"; */
 "d38-Pq-vZv.label" = "Twitter";
@@ -105,16 +105,16 @@
 "fXC-1a-kDU.title" = "Text Cell";
 
 /* Class = "NSMenuItem"; title = "Delete"; ObjectID = "hbn-wb-w85"; */
-"hbn-wb-w85.title" = "Delete";
+"hbn-wb-w85.title" = "삭제";
 
 /* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "sFg-Jc-b7d"; */
 "sFg-Jc-b7d.title" = "Table View Cell";
 
 /* Class = "NSToolbarItem"; label = "Donate"; ObjectID = "wWN-25-Exd"; */
-"wWN-25-Exd.label" = "Donate";
+"wWN-25-Exd.label" = "기부하기";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Donate"; ObjectID = "wWN-25-Exd"; */
-"wWN-25-Exd.paletteLabel" = "Donate";
+"wWN-25-Exd.paletteLabel" = "기부하기";
 
 /* Class = "NSMenuItem"; title = "Use"; ObjectID = "xp4-7a-GbL"; */
-"xp4-7a-GbL.title" = "Use";
+"xp4-7a-GbL.title" = "사용";

@@ -3,88 +3,88 @@
 "36t-98-K9E.title" = "Floating card style";
 
 /* Class = "NSButtonCell"; title = "Auto position trackers"; ObjectID = "5rZ-fg-pB4"; */
-"5rZ-fg-pB4.title" = "Auto position trackers";
+"5rZ-fg-pB4.title" = "트래커 위치 자동조절";
 
 /* Class = "NSButtonCell"; title = "Allow HSTracker to run on fullscreen mode"; ObjectID = "6Gc-EJ-z7F"; */
-"6Gc-EJ-z7F.title" = "Allow HSTracker to run on fullscreen mode";
+"6Gc-EJ-z7F.title" = "전체화면모드에서 HSTracker 허용하기";
 
 /* Class = "NSButtonCell"; title = "Disable tracking in spectator mode"; ObjectID = "6n7-a6-LsZ"; */
-"6n7-a6-LsZ.title" = "Disable tracking in spectator mode";
+"6n7-a6-LsZ.title" = "관전모드에서는 트래킹 하지 않기";
 
 /* Class = "NSComboBoxCell"; GY2-Lg-KWo.ibShadowedObjectValues[0] = "Text"; ObjectID = "GY2-Lg-KWo"; */
-"GY2-Lg-KWo.ibShadowedObjectValues[0]" = "Text";
+"GY2-Lg-KWo.ibShadowedObjectValues[0]" = "글자";
 
 /* Class = "NSComboBoxCell"; GY2-Lg-KWo.ibShadowedObjectValues[1] = "Image"; ObjectID = "GY2-Lg-KWo"; */
-"GY2-Lg-KWo.ibShadowedObjectValues[1]" = "Image";
+"GY2-Lg-KWo.ibShadowedObjectValues[1]" = "이미지";
 
 /* Class = "NSButtonCell"; title = "Hide all trackers when game is in background"; ObjectID = "HEr-xo-koe"; */
-"HEr-xo-koe.title" = "Hide all trackers when game is in background";
+"HEr-xo-koe.title" = "게임이 백그라운드로 가면 트래커 감추기";
 
 /* Class = "NSButtonCell"; title = "Show card on tracker hover"; ObjectID = "HY0-s6-p7U"; */
-"HY0-s6-p7U.title" = "Show card on tracker hover";
+"HY0-s6-p7U.title" = "트래커위로 카드 보여주기";
 
 /* Class = "NSTextFieldCell"; title = "Theme"; ObjectID = "Lah-xh-QVg"; */
-"Lah-xh-QVg.title" = "Theme";
+"Lah-xh-QVg.title" = "테마";
 
 /* Class = "NSTextFieldCell"; title = "Cards size"; ObjectID = "NLB-ON-zWk"; */
-"NLB-ON-zWk.title" = "Cards size";
+"NLB-ON-zWk.title" = "카드 크기";
 
 /* Class = "NSButtonCell"; title = "Highlight last drawn card"; ObjectID = "WKT-Hm-Z7h"; */
-"WKT-Hm-Z7h.title" = "Highlight last drawn card";
+"WKT-Hm-Z7h.title" = "가장 최근에 뽑은 카드 강조하기";
 
 /* Class = "NSButton"; ibShadowedToolTip = "HSTracker will be visible on all your workspace while playing"; ObjectID = "aO1-IW-r7y"; */
 "aO1-IW-r7y.ibShadowedToolTip" = "HSTracker will be visible on all your workspace while playing";
 
 /* Class = "NSComboBoxCell"; ar6-6g-GKv.ibShadowedObjectValues[0] = "Tiny"; ObjectID = "ar6-6g-GKv"; */
-"ar6-6g-GKv.ibShadowedObjectValues[0]" = "Tiny";
+"ar6-6g-GKv.ibShadowedObjectValues[0]" = "아주 작게";
 
 /* Class = "NSComboBoxCell"; ar6-6g-GKv.ibShadowedObjectValues[1] = "Small"; ObjectID = "ar6-6g-GKv"; */
-"ar6-6g-GKv.ibShadowedObjectValues[1]" = "Small";
+"ar6-6g-GKv.ibShadowedObjectValues[1]" = "작게";
 
 /* Class = "NSComboBoxCell"; ar6-6g-GKv.ibShadowedObjectValues[2] = "Medium"; ObjectID = "ar6-6g-GKv"; */
-"ar6-6g-GKv.ibShadowedObjectValues[2]" = "Medium";
+"ar6-6g-GKv.ibShadowedObjectValues[2]" = "중간";
 
 /* Class = "NSComboBoxCell"; ar6-6g-GKv.ibShadowedObjectValues[3] = "Big"; ObjectID = "ar6-6g-GKv"; */
-"ar6-6g-GKv.ibShadowedObjectValues[3]" = "Big";
+"ar6-6g-GKv.ibShadowedObjectValues[3]" = "크게";
 
 /* Class = "NSComboBoxCell"; ar6-6g-GKv.ibShadowedObjectValues[4] = "Huge"; ObjectID = "ar6-6g-GKv"; */
-"ar6-6g-GKv.ibShadowedObjectValues[4]" = "Huge";
+"ar6-6g-GKv.ibShadowedObjectValues[4]" = "아주 크게";
 
 /* Class = "NSComboBoxCell"; cBa-wb-tRb.ibShadowedObjectValues[0] = "Classic"; ObjectID = "cBa-wb-tRb"; */
-"cBa-wb-tRb.ibShadowedObjectValues[0]" = "Classic";
+"cBa-wb-tRb.ibShadowedObjectValues[0]" = "클래식";
 
 /* Class = "NSComboBoxCell"; cBa-wb-tRb.ibShadowedObjectValues[1] = "Frost"; ObjectID = "cBa-wb-tRb"; */
-"cBa-wb-tRb.ibShadowedObjectValues[1]" = "Frost";
+"cBa-wb-tRb.ibShadowedObjectValues[1]" = "서리";
 
 /* Class = "NSComboBoxCell"; cBa-wb-tRb.ibShadowedObjectValues[2] = "Dark"; ObjectID = "cBa-wb-tRb"; */
-"cBa-wb-tRb.ibShadowedObjectValues[2]" = "Dark";
+"cBa-wb-tRb.ibShadowedObjectValues[2]" = "다크";
 
 /* Class = "NSComboBoxCell"; cBa-wb-tRb.ibShadowedObjectValues[3] = "Minimal"; ObjectID = "cBa-wb-tRb"; */
-"cBa-wb-tRb.ibShadowedObjectValues[3]" = "Minimal";
+"cBa-wb-tRb.ibShadowedObjectValues[3]" = "최소화";
 
 /* Class = "NSButtonCell"; title = "Show topdeck chance"; ObjectID = "fhr-Mz-lcf"; */
-"fhr-Mz-lcf.title" = "Show topdeck chance";
+"fhr-Mz-lcf.title" = "탑덱 찬스 보여주기";
 
 /* Class = "NSButtonCell"; title = "Show rarity colors"; ObjectID = "h5J-7C-d2f"; */
-"h5J-7C-d2f.title" = "Show rarity colors";
+"h5J-7C-d2f.title" = "카드 등급 색깔 보여주기";
 
 /* Class = "NSButtonCell"; title = "Highlight cards in hand"; ObjectID = "hJI-dG-QeP"; */
-"hJI-dG-QeP.title" = "Highlight cards in hand";
+"hJI-dG-QeP.title" = "손에 있는 카드 강조하기";
 
 /* Class = "NSButtonCell"; title = "Hide all trackers if not in game"; ObjectID = "hvr-dD-qVr"; */
-"hvr-dD-qVr.title" = "Hide all trackers if not in game";
+"hvr-dD-qVr.title" = "게임중이 아니면 모든 트래커 감추기";
 
 /* Class = "NSButtonCell"; title = "Remove cards if count is 0"; ObjectID = "s9w-5p-pJs"; */
-"s9w-5p-pJs.title" = "Remove cards if count is 0";
+"s9w-5p-pJs.title" = "덱에 카드가 없으면 카드 보여주지 않기";
 
 /* Class = "NSButtonCell"; title = "Show timer"; ObjectID = "x27-iz-7Sv"; */
-"x27-iz-7Sv.title" = "Show timer";
+"x27-iz-7Sv.title" = "타이머 보여주기";
 
 /* Class = "NSButtonCell"; title = "Show secret helper"; ObjectID = "ySU-4j-Jbh"; */
-"ySU-4j-Jbh.title" = "Show secret helper";
+"ySU-4j-Jbh.title" = "비밀 헬퍼 보여주기";
 
 /* Class = "NSButtonCell"; title = "Highlight discarded from deck"; ObjectID = "yeJ-ZI-Pca"; */
-"yeJ-ZI-Pca.title" = "Highlight discarded from deck";
+"yeJ-ZI-Pca.title" = "버려진 카드 강조하기";
 
 /* Class = "NSTextFieldCell"; title = "Opacity"; ObjectID = "zP3-ns-ggP"; */
-"zP3-ns-ggP.title" = "Opacity";
+"zP3-ns-ggP.title" = "투명도";
