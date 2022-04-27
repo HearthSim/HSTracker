@@ -1,3 +1,11 @@
+# 2.1.2
+## New
+- Updted for patch 23.0.3
+- Added support for top/bottom cards
+- Updated Korean translations (thanks @rockmkd)
+## Fixes
+- Corrected mercenaries collection upload of portraits
+
 # 2.1.1
 ## New
 - Updated for Year of the Hydra

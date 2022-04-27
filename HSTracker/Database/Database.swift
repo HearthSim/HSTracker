@@ -36,6 +36,9 @@ class Database {
 
     static let deckManagerCardTypes = ["all_types", "spell", "minion", "weapon"]
     static var deckManagerRaces = [Race]()
+
+    // list of cards that are incorrectly tagged as BG
+    static let battlegroundsExclusions: Set = [ "CORE_LOE_077" ]
     
     static var battlegroundRaces = [Race]()
 
@@ -192,7 +195,7 @@ class Database {
                             card.bgRace = card.race
                         }
                         
-                        if let bgPool = jsonCard["isBattlegroundsPoolMinion"] as? Bool {
+                        if let bgPool = jsonCard["isBattlegroundsPoolMinion"] as? Bool, !Database.battlegroundsExclusions.contains(cardId) {
                             card.battlegroundsPoolMinion = bgPool
                             Cards.battlegroundsMinions.append(card)
                         }
