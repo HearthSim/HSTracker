@@ -85,3 +85,12 @@
 
 /* Class = "NSButtonCell"; title = "Disable tracking in spectator mode"; ObjectID = "6n7-a6-LsZ"; */
 "6n7-a6-LsZ.title" = "在观战模式中停止记牌";
+
+/* Class = "NSButtonCell"; title = "Show experience counter"; ObjectID = "3i1-BX-ZbC"; */
+"3i1-BX-ZbC.title" = "显示经验进度";
+
+/* Class = "NSButtonCell"; title = "Show constructed mulligan"; ObjectID = "HeE-hK-rL7"; */
+"HeE-hK-rL7.title" = "显示构造调度建议";
+
+/* Class = "NSButtonCell"; title = "Show flavor text"; ObjectID = "Ehf-nl-mzO"; */
+"Ehf-nl-mzO.title" = "显示风味文字";

@@ -1,15 +1,27 @@
 
 /* Class = "NSButtonCell"; title = "Always show average damage"; ObjectID = "LKm-DE-YdT"; */
-"LKm-DE-YdT.title" = "Always show average damage";
+"LKm-DE-YdT.title" = "总是显示平均伤害";
 
 /* Class = "NSButtonCell"; title = "Show Bob's Buddy during combat"; ObjectID = "QMN-RN-SBa"; */
-"QMN-RN-SBa.title" = "Show Bob's Buddy during combat";
+"QMN-RN-SBa.title" = "在战斗中显示鲍勃助手";
 
 /* Class = "NSButtonCell"; title = "Show turn counter"; ObjectID = "c2t-Sg-vNs"; */
-"c2t-Sg-vNs.title" = "Show turn counter";
+"c2t-Sg-vNs.title" = "显示回合计数器";
 
 /* Class = "NSButtonCell"; title = "Show Bob's Buddy"; ObjectID = "i84-xc-QhF"; */
-"i84-xc-QhF.title" = "Show Bob's Buddy";
+"i84-xc-QhF.title" = "显示鲍勃助手";
 
 /* Class = "NSButtonCell"; title = "Show Bob's Buddy during shopping"; ObjectID = "rPF-4f-O8s"; */
-"rPF-4f-O8s.title" = "Show Bob's Buddy during shopping";
+"rPF-4f-O8s.title" = "在商店中显示鲍勃助手";
+
+/* Class = "NSButtonCell"; title = "Show opponent warband"; ObjectID = "J07-pk-b78"; */
+"J07-pk-b78.title" = "显示对手阵容";
+
+/* Class = "NSButtonCell"; title = "Show tiers"; ObjectID = "4LE-h7-rfX"; */
+"4LE-h7-rfX.title" = "显示酒馆等级";
+
+/* Class = "NSButtonCell"; title = "Show tavern and triple history"; ObjectID = "nGc-Fs-IbI"; */
+"nGc-Fs-IbI.title" = "显示酒馆升级和三连历史";
+
+/* Class = "NSButtonCell"; title = "Show hero comparision"; ObjectID = "oXq-kH-uaV"; */
+"oXq-kH-uaV.title" = "显示英雄对比";

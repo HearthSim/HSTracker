@@ -125,6 +125,7 @@
 "WAILING_CAVERNS" = "哀嚎洞穴";
 "STORMWIND" = "暴风城下的集结";
 "ALTERAC_VALLEY" = "奥特兰克的决裂";
+"THE_SUNKEN_CITY" = "探寻沉没之城";
 
 /* card type */
 "all_types" = "所有";
@@ -209,6 +210,7 @@
 "Awaiting Shopping Phase" = "等待随从购买阶段";
 
 /* Battlegrounds */
+"Battlegrounds" = "酒馆战棋";
 "Turn" = "回合";
 "Turns" = "回合";
 "%d turn(s) ago" = "%d 回合以前";
@@ -230,3 +232,7 @@
 "Task progress will update after the game" = "任务进度会在对战结束后更新";
 "Completed!" = "完成!";
 "Task %d: %@" = "任务 %d: %@";
+
+/* Deck Lens - Dredge */
+"On Top" = "在牌库顶";
+"On Bottom" = "在牌库底";

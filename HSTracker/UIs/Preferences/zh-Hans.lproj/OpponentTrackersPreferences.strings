@@ -43,3 +43,9 @@
 
 /* Class = "NSButtonCell"; title = "Prevent tracker from covering opponent's name"; ObjectID = "rrt-Fg-VGw"; */
 "rrt-Fg-VGw.title" = "避免记牌器挡住对手的名字";
+
+/* Class = "NSButtonCell"; title = "Show Galakrond invoke counter"; ObjectID = "d7f-oO-njY"; */
+"d7f-oO-njY.title" = "显示迦拉克隆计数器";
+
+/* Class = "NSButtonCell"; title = "Show Libram counter"; ObjectID = "0rm-Kh-0Ob"; */
+"0rm-Kh-0Ob.title" = "显示圣契计数器";
