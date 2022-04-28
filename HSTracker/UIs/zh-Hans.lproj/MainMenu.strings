@@ -112,3 +112,9 @@
 
 /* Class = "NSMenuItem"; title = "Load from file"; ObjectID = "gJj-4D-mrw"; */
 "gJj-4D-mrw.title" = "从文件加载";
+
+/* Class = "NSMenuItem"; title = "Open logs directory..."; ObjectID = "aNE-rT-1XM"; */
+"aNE-rT-1XM.title" = "打开日志目录...";
+
+/* Class = "NSMenuItem"; title = "Bug report..."; ObjectID = "3dl-ss-r23"; */
+"3dl-ss-r23.title" = "报告问题...";

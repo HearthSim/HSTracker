@@ -43,3 +43,15 @@
 
 /* Class = "NSButtonCell"; title = "Show Jade Counter"; ObjectID = "MDW-Ea-Q6M"; */
 "MDW-Ea-Q6M.title" = "显示青玉魔像计数器";
+
+/* Class = "NSButtonCell"; title = "Show Galakrond invoke counter"; ObjectID = "hcz-Gp-orK"; */
+"hcz-Gp-orK.title" = "显示迦拉克隆计数器";
+
+/* Class = "NSButtonCell"; title = "Show Libram counter"; ObjectID = "o5X-sj-pxz"; */
+"o5X-sj-pxz.title" = "显示圣契计数器";
+
+/* Class = "NSButtonCell"; title = "Show top cards"; ObjectID = "h9o-98-HVl"; */
+"h9o-98-HVl.title" = "显示牌库顶卡牌";
+
+/* Class = "NSButtonCell"; title = "Show bottom cards"; ObjectID = "JNf-li-uCC"; */
+"JNf-li-uCC.title" = "显示牌库底卡牌";
