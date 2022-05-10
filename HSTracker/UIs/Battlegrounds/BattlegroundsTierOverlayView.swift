@@ -42,6 +42,13 @@ class BattlegroundsTierOverlayView: NSView {
         }
     }
     
+    func reset() {
+        hideTier()
+        currentTier = 0
+        hoverTier = 0
+        needsDisplay = true
+    }
+    
     func drawTier(tier: Int, x: Int) {
         guard let rp = Bundle.main.resourcePath else {
             return

@@ -1624,6 +1624,13 @@ class Game: NSObject, PowerEventHandler {
         if isBattlegroundsMatch() {
             BobsBuddyInvoker.instance(gameId: gameId, turn: turnNumber())?.startShopping(validate: !wasConceded)
             OpponentDeadForTracker.resetOpponentDeadForTracker()
+            DispatchQueue.main.async {
+                self.windowManager.battlegroundsTierOverlay.tierOverlay.reset()
+            }
+        }
+        // clear any left over hover
+        DispatchQueue.main.async {
+            self.windowManager.forceHideFloatingCard()
         }
         logger.verbose("End game: \(currentGameStats)")
         let stats = currentGameStats.toGameStats()
