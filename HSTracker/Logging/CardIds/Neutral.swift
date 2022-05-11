@@ -698,6 +698,8 @@ extension CardIds.NonCollectible {
         static let ElisetheTrailblazer_UngoroPackToken = "UNG_851t1"
         static let TheDarknessDarknessCandleToken = "LOOT_526t"
         static let Chameleos_ShiftingEnchantment = "GIL_142e"
+        static let QueenAzsharaBATTLEGROUNDS = "BG22_HERO_007"
+        static let QueenAzshara_NagaQueenAzsharaToken = "BG22_HERO_007t"
     }
 }
 

@@ -55,7 +55,9 @@ class Game: NSObject, PowerEventHandler {
     let semaphore = DispatchSemaphore(value: 1)
     fileprivate var lastKnownBattlegroundsBoardState = [String: BoardSnapshot]()
     
-    private static let _lastKnownBoardStateLookup = [ CardIds.NonCollectible.Neutral.ArannaStarseeker_ArannaUnleashedTokenTavernBrawl: CardIds.NonCollectible.Neutral.ArannaStarseekerTavernBrawl1 ]
+    private static let transformableHeroCardidTable = [
+        CardIds.NonCollectible.Neutral.ArannaStarseeker_ArannaUnleashedTokenTavernBrawl: CardIds.NonCollectible.Neutral.ArannaStarseekerTavernBrawl1,
+        CardIds.NonCollectible.Neutral.QueenAzshara_NagaQueenAzsharaToken: CardIds.NonCollectible.Neutral.QueenAzsharaBATTLEGROUNDS ]
     
 	private var hearthstoneRunState: HearthstoneRunState {
 		didSet {
@@ -90,7 +92,7 @@ class Game: NSObject, PowerEventHandler {
 	}
     
     func getCorrectBoardstateHeroId(heroId: String) -> String {
-        if let mapped = Game._lastKnownBoardStateLookup[heroId] {
+        if let mapped = Game.transformableHeroCardidTable[heroId] {
             return mapped
         }
         return heroId
