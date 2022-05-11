@@ -96,7 +96,16 @@ class Entity {
         return has(tag: .secret)
     }
     var isQuest: Bool {
-        return has(tag: .quest) || has(tag: .questline)
+        return has(tag: .quest) || isQuestline
+    }
+    var isQuestline: Bool {
+        return has(tag: .questline)
+    }
+    var isQuestlinePart: Bool {
+        return isQuestline && self[.questline_part] > 1
+    }
+    var isSideQuest: Bool {
+        return has(tag: .sidequest)
     }
     var isSpell: Bool {
         return self[.cardtype] == CardType.spell.rawValue

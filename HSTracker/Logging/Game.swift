@@ -2009,7 +2009,7 @@ class Game: NSObject, PowerEventHandler {
         if cardId.isBlank { return }
 
         if !entity.isSecret {
-            if entity.isQuest {
+            if entity.isQuest  && !entity.isQuestlinePart || entity.isSideQuest {
                 player.questPlayedFromHand(entity: entity, turn: turn)
             }
             return
@@ -2383,7 +2383,7 @@ class Game: NSObject, PowerEventHandler {
                               from: Int, turn: Int,
                               fromZone: Zone, otherId: Int) {
         if !entity.isSecret {
-            if entity.isQuest {
+            if entity.isQuest && !entity.isQuestlinePart || entity.isSideQuest {
                 opponent.questPlayedFromHand(entity: entity, turn: turn)
             }
             return
