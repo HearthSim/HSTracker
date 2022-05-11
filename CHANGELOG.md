@@ -1,6 +1,12 @@
+# 2.1.3
+## New
+- Updated for patch 23.2
+## Fixes
+- Fixed an issue where Questline parts were counting towards the spell counter
+
 # 2.1.2
 ## New
-- Updted for patch 23.0.3
+- Updated for patch 23.0.3
 - Added support for top/bottom cards
 - Updated Korean translations (thanks @rockmkd)
 ## Fixes

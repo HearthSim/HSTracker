@@ -924,7 +924,7 @@ class Game: NSObject, PowerEventHandler {
                     }
                 }
                 logger.info("Battlegrounds unavailable races: \(newRaces) - all races \(races)")
-                if newRaces.count == 3 {
+                if newRaces.count == 4 {
                     _unavailableRaces = newRaces
                     return _unavailableRaces
                 } else {
