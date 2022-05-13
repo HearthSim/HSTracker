@@ -146,6 +146,7 @@
 "all" = "모든 종족";
 "unavailable" = "알수없음";
 "quilboar" = "가시멧돼지";
+"naga" = "나가";
 
 /* sorting */
 "name" = "이름";
@@ -169,6 +170,7 @@
 "mode_spectator" = "관전";
 "mode_spectator" = "구경";
 "mode_duels"     = "결투";
+"mode_mercenaries" = "용병단";
 "mode_none"      = "없음";
 
 /* deck types */
@@ -231,3 +233,7 @@
 "Task progress will update after the game" = "게임이 끝난후 임무 진행도가 업데이트 됩니다.";
 "Completed!" = "완료!";
 "Task %d: %@" = "%d: %@ 임무";
+
+/* Deck Lens - Dredge */
+"On Top" = "가장 위";
+"On Bottom" = "가장 아래";
