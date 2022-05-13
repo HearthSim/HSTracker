@@ -235,5 +235,5 @@
 "Task %d: %@" = "%d: %@ 임무";
 
 /* Deck Lens - Dredge */
-"On Top" = "가장 위";
-"On Bottom" = "가장 아래";
+"On Top" = "맨 위";
+"On Bottom" = "맨 아래";
