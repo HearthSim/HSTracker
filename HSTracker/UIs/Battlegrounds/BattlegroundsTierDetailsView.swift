@@ -182,11 +182,13 @@ class BattlegroundsTierDetailsView: NSStackView {
             cardHeight = totalHeight / CGFloat(cardBars.count)
         }
         
-        for i in 0...(cardBars.count - 1) {
-            let y = CGFloat(i) * cardHeight + contentFrame.height - totalHeight
-            let cardBar = cardBars[i]
-            cardBar.frame = NSRect(x: 0, y: y, width: contentFrame.width, height: cardHeight)
-            self.addSubview(cardBar)
+        if cardBars.count > 0 {
+            for i in 0...(cardBars.count - 1) {
+                let y = CGFloat(i) * cardHeight + contentFrame.height - totalHeight
+                let cardBar = cardBars[i]
+                cardBar.frame = NSRect(x: 0, y: y, width: contentFrame.width, height: cardHeight)
+                self.addSubview(cardBar)
+            }
         }
     }
 }

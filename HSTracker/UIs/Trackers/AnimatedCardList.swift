@@ -129,6 +129,8 @@ class AnimatedCardList: NSView {
     }
     
     func updateFrames() {
+        semaphore.wait()
+
         var y = frame.height
         let cardHeight = frame.height / CGFloat(animatedCards.count)
         for view in subviews {
@@ -140,5 +142,7 @@ class AnimatedCardList: NSView {
             cell.frame = NSRect(x: 0, y: y, width: frame.width, height: cardHeight)
             addSubview(cell)
         }
+        
+        semaphore.signal()
     }
 }

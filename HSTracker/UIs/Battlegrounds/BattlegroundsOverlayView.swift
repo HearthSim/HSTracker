@@ -156,7 +156,11 @@ class BattlegroundsOverlayView: NSView {
     private var bobsBuddyHidden = false
     
     override func mouseMoved(with event: NSEvent) {
-        guard frame.height > 0 else {
+        guard frame.height > 0 && !frame.height.isNaN else {
+            return
+        }
+        
+        guard !event.locationInWindow.y.isNaN else {
             return
         }
         
