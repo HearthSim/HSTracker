@@ -134,7 +134,7 @@ struct TagChangeActions {
             return
         }
         let source = entity[.creator]
-        guard source != 0, let sourceEntity = eventHandler.entities[source], sourceEntity.has(tag: .dredge) else {
+        guard source != 0, let sourceEntity = eventHandler.entities[source], sourceEntity.hasDredge else {
             return
         }
         guard let currentBlock = powerGameStateParser?.getCurrentBlock() else {

@@ -134,6 +134,7 @@ extension CardIds.Collectible {
         static let ConditioningRank1 = "BAR_842"
         static let Scrapsmith = "AV_323"
         static let AzsharanTrident = "TSC_913"
+        static let FromTheDepths = "TSC_940"
     }
 }
 

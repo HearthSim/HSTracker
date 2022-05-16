@@ -301,7 +301,7 @@ class PowerGameStateParser: LogEventParser {
                         entity?.info.guessedCardState = GuessedCardState.revealed
                     }
                     if entity?.info.deckIndex ?? 0 < 0, let currentBlock = currentBlock, currentBlock.sourceEntityId != 0 {
-                        if let source = eventHandler.entities[currentBlock.sourceEntityId], source.has(tag: .dredge) {
+                        if let source = eventHandler.entities[currentBlock.sourceEntityId], source.hasDredge {
                             eventHandler.dredgeCounter += 1
                             let newIndex = eventHandler.dredgeCounter
                             entity?.info.deckIndex = newIndex

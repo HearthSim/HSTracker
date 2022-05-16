@@ -162,6 +162,10 @@ class Entity {
         return !cardId.isBlank
     }
     
+    var hasDredge: Bool {
+        return has(tag: .dredge) || cardId == CardIds.Collectible.Warrior.FromTheDepths
+    }
+    
     var creatorId: Int {
         // TODO: add hidden support
         /*
