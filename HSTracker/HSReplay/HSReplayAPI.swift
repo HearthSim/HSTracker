@@ -73,7 +73,7 @@ class HSReplayAPI {
 
     static func startAuthorizedRequest(_ url: String, method: OAuthSwiftHTTPRequest.Method, parameters: OAuthSwift.Parameters, headers: OAuthSwift.Headers? = nil, onTokenRenewal: OAuthSwift.TokenRenewedHandler? = nil, completionHandler completion: @escaping OAuthSwiftHTTPRequest.CompletionHandler) {
 
-        oauthswift.client.requestWithAutomaticAccessTokenRenewal(url: URL(string: url)!, method: method, parameters: parameters, accessTokenUrl: HSReplay.oAuthTokenUrl, onTokenRenewal: onTokenRenewal, completionHandler: completion)
+        oauthswift.client.requestWithAutomaticAccessTokenRenewal(url: URL(string: url)!, method: method, parameters: parameters, headers: headers, accessTokenUrl: HSReplay.oAuthTokenUrl, onTokenRenewal: onTokenRenewal, completionHandler: completion)
     }
     
     static func getUploadToken(handle: @escaping (String) -> Void) {
@@ -235,7 +235,7 @@ class HSReplayAPI {
                 seal.reject(HSReplayError.missingAccount)
                 return
             }
-            startAuthorizedRequest("\(HSReplay.collectionTokensUrl)", method: .GET, parameters: ["account_hi": accountId.hi, "account_lo": accountId.lo, "type": collectionType == .constructed ? "CONSTRUCTED" : "MERCENARIES"], headers: defaultHeaders, onTokenRenewal: tokenRenewalHandler,
+            startAuthorizedRequest("\(HSReplay.collectionTokensUrl)", method: .POST, parameters: ["account_hi": accountId.hi, "account_lo": accountId.lo, "type": collectionType == .constructed ? "CONSTRUCTED" : "MERCENARIES"], headers: defaultHeaders, onTokenRenewal: tokenRenewalHandler,
                                               completionHandler: { result in
                                                 switch result {
                                                 case .success(let response):
