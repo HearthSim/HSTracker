@@ -1,3 +1,13 @@
+# 2.1.4
+## New
+- Updated for patch 23.2.2
+- Updated Korean translations (thanks @kshired)
+- Updated zh-Hans translations (thanks @moonfruit)
+## Fixes
+- Fixed collection upload issues introduced by version 2.1.3
+- Fixed some crashes
+- Fixed an issue where cards added to the top or bottom of the deck by From the Depths were not tracked correctly
+
 # 2.1.3
 ## New
 - Updated for patch 23.2
