@@ -31,7 +31,7 @@ class OpponentDeadForTracker {
         }
         let deadHeroes = game.entities.values.filter { x in x.isHero && x.health <= 0 }
         for hero in deadHeroes {
-            let id: String = game.getCorrectBoardstateHeroId(heroId: hero.cardId)
+            let id: String = BattlegroundsUtils.getOriginalHeroId(heroId: hero.cardId)
             if !id.contains(KelThuzadCardId) && !_uniqueDeadHeroes.contains(id) {
                 _deadTracker.append(0)
                 _uniqueDeadHeroes.append(id)

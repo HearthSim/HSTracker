@@ -55,10 +55,6 @@ class Game: NSObject, PowerEventHandler {
     let semaphore = DispatchSemaphore(value: 1)
     fileprivate var lastKnownBattlegroundsBoardState = [String: BoardSnapshot]()
     
-    private static let transformableHeroCardidTable = [
-        CardIds.NonCollectible.Neutral.ArannaStarseeker_ArannaUnleashedTokenTavernBrawl: CardIds.NonCollectible.Neutral.ArannaStarseekerTavernBrawl1,
-        CardIds.NonCollectible.Neutral.QueenAzshara_NagaQueenAzsharaToken: CardIds.NonCollectible.Neutral.QueenAzsharaBATTLEGROUNDS ]
-    
 	private var hearthstoneRunState: HearthstoneRunState {
 		didSet {
 			if hearthstoneRunState.isRunning {
@@ -91,16 +87,9 @@ class Game: NSObject, PowerEventHandler {
         self.updateTrackers()
 	}
     
-    func getCorrectBoardstateHeroId(heroId: String) -> String {
-        if let mapped = Game.transformableHeroCardidTable[heroId] {
-            return mapped
-        }
-        return heroId
-    }
-    
     func getSnapshot(opponentHeroCardId: String) -> BoardSnapshot? {
         semaphore.wait()
-        if let state = lastKnownBattlegroundsBoardState[getCorrectBoardstateHeroId(heroId: opponentHeroCardId)] {
+        if let state = lastKnownBattlegroundsBoardState[BattlegroundsUtils.getOriginalHeroId(heroId: opponentHeroCardId)] {
             semaphore.signal()
             return state
         }
@@ -126,7 +115,7 @@ class Game: NSObject, PowerEventHandler {
             x[.zone_position] < y[.zone_position]
         })
         // swiftlint:enable force_cast
-        let correctedHero = getCorrectBoardstateHeroId(heroId: opponentHero.cardId)
+        let correctedHero = BattlegroundsUtils.getOriginalHeroId(heroId: opponentHero.cardId)
 
         logger.info("Snapshotting board state for \(opponentHero.card.name) with cardid \(opponentHero.cardId) (corrected=\(correctedHero)) with \(entities.count) entities")
         semaphore.wait()
@@ -202,6 +191,7 @@ class Game: NSObject, PowerEventHandler {
         self.updateExperienceOverlay()
         self.updateMercenariesTaskListButton()
         self.updateBoardOverlay()
+        self.updateBattlegroundsSessionOverlay()
 	}
 	
     // MARK: - GUI calls
@@ -485,6 +475,25 @@ class Game: NSObject, PowerEventHandler {
                 self.windowManager.show(controller: self.windowManager.battlegroundsOverlay, show: true, frame: rect, title: nil, overlay: true)
             } else {
                 self.windowManager.show(controller: self.windowManager.battlegroundsOverlay, show: false)
+            }
+        }
+    }
+        
+    func updateBattlegroundsSessionOverlay() {
+        DispatchQueue.main.async {
+            if Settings.showSessionRecap && ((self.currentMode == .bacon) || (self.isBattlegroundsMatch() && !self.isInMenu)) && (Settings.hideAllWhenGameInBackground && (self.hearthstoneRunState.isActive || self.selfAppActive))
+                    || !Settings.hideAllWhenGameInBackground {
+                self.windowManager.battlegroundsSession.show()
+
+                var rect = SizeHelper.battlegroundsSessionFrame()
+                if !Settings.autoPositionTrackers {
+                    if let savedRect = Settings.battlegroundsSessionFrame {
+                        rect = savedRect
+                    }
+                }
+                self.windowManager.show(controller: self.windowManager.battlegroundsSession, show: true, frame: rect, title: nil, overlay: true)
+            } else {
+                self.windowManager.show(controller: self.windowManager.battlegroundsSession, show: false)
             }
         }
     }
@@ -807,9 +816,6 @@ class Game: NSObject, PowerEventHandler {
         if _currentGameType != .gt_unknown {
             return _currentGameType
         }
-        if self.gameEnded {
-            return .gt_unknown
-        }
         if let gameType = MirrorHelper.getGameType(),
             let type = GameType(rawValue: gameType) {
             _currentGameType = type
@@ -923,8 +929,8 @@ class Game: NSObject, PowerEventHandler {
                         newRaces.append(race)
                     }
                 }
-                logger.info("Battlegrounds unavailable races: \(newRaces) - all races \(races)")
                 if newRaces.count == 4 {
+                    logger.info("Battlegrounds unavailable races: \(newRaces) - all races \(races)")
                     _unavailableRaces = newRaces
                     return _unavailableRaces
                 } else {
@@ -1098,6 +1104,7 @@ class Game: NSObject, PowerEventHandler {
 		windowManager.startManager()
         windowManager.playerTracker.window?.delegate = self
         windowManager.opponentTracker.window?.delegate = self
+        windowManager.battlegroundsSession.window?.delegate = self
 		
 		let center = NotificationCenter.default
 		
@@ -1623,13 +1630,6 @@ class Game: NSObject, PowerEventHandler {
 		
         self.handledGameEnd = true
                 
-        if isBattlegroundsMatch() {
-            BobsBuddyInvoker.instance(gameId: gameId, turn: turnNumber())?.startShopping(validate: !wasConceded)
-            OpponentDeadForTracker.resetOpponentDeadForTracker()
-            DispatchQueue.main.async {
-                self.windowManager.battlegroundsTierOverlay.tierOverlay.reset()
-            }
-        }
         // clear any left over hover
         DispatchQueue.main.async {
             self.windowManager.forceHideFloatingCard()
@@ -1639,6 +1639,22 @@ class Game: NSObject, PowerEventHandler {
         // reset the turn counter
         updateTurnCounter(turn: 1)
         
+        if isBattlegroundsMatch() {
+            BobsBuddyInvoker.instance(gameId: gameId, turn: turnNumber())?.startShopping(validate: !wasConceded)
+            OpponentDeadForTracker.resetOpponentDeadForTracker()
+            DispatchQueue.main.async {
+                self.windowManager.battlegroundsTierOverlay.tierOverlay.reset()
+            }
+            updatePostGameBattlegroundsRating(gameStats: currentGameStats)
+            recordBattlegroundsGame(gameStats: currentGameStats)
+            _unavailableRaces = nil
+            if currentGameStats.battlegroundsRatingAfter != 0 {
+                _battlegroundsRating = currentGameStats.battlegroundsRatingAfter
+            }
+            windowManager.battlegroundsSession.onGameEnd(gameStats: currentGameStats)
+            updateBattlegroundsSessionOverlay()
+        }
+
         if let currentDeck = self.currentDeck {
             var skip = false
             if previousMode == Mode.adventure {
@@ -1665,6 +1681,14 @@ class Game: NSObject, PowerEventHandler {
         }
 
 		self.syncStats(logLines: self.powerLog, stats: currentGameStats)
+    }
+    
+    private func updatePostGameBattlegroundsRating(gameStats: InternalGameStats) {
+        if let data = UploadMetaData.retryWhileNull(f: MirrorHelper.getBattlegroundsRatingChange) {
+            gameStats.battlegroundsRatingAfter = data.ratingNew.intValue
+        } else {
+            logger.warning("Could not get battlegrounds rating")
+        }
     }
 
 	private func syncStats(logLines: [LogLine], stats: InternalGameStats) {
@@ -1712,6 +1736,21 @@ class Game: NSObject, PowerEventHandler {
                 }
             }
             
+        }
+    }
+    
+    func recordBattlegroundsGame(gameStats: InternalGameStats) {
+        let hero = entities.values.first(where: { x in x[.player_id] == player.id && x.isHero })
+        let heroCardId = hero?.cardId
+        let placement = hero?[.player_leaderboard_place] ?? 0
+        let finalBoard = entities.values.filter({ x in x.isMinion && x.isInZone(zone: .play) && x.isControlled(by: player.id)}).compactMap({ x in x.copy() as? Entity}).sorted(by: { x, y in
+            x[.zone_position] < y[.zone_position]
+        })
+        if let heroCardId = heroCardId, placement > 0 && placement <= 8 {
+            BattlegroundsLastGames.instance.addGame(startTime: gameStats.startTime, endTime: gameStats.endTime, hero: BattlegroundsUtils.getOriginalHeroId(heroId: heroCardId), rating: gameStats.battlegroundsRating, ratingAfter: gameStats.battlegroundsRatingAfter, placement: placement, finalBoard: finalBoard)
+            windowManager.battlegroundsSession.update()
+        } else {
+            logger.error("Missing data while trying to record battleground game")
         }
     }
 
@@ -1799,7 +1838,7 @@ class Game: NSObject, PowerEventHandler {
         if player == .player && !isInMenu {
             if isBattlegroundsMatch() {
                 OpponentDeadForTracker.shoppingStarted(game: self)
-                if isMonoAvailable() != 0 && playerTurn.turn > 1 {
+                if playerTurn.turn > 1 {
                     BobsBuddyInvoker.instance(gameId: gameId, turn: turnNumber() - 1)?.startShopping()
                 }
             }
@@ -2101,7 +2140,7 @@ class Game: NSObject, PowerEventHandler {
     
     func handlePlayerTechLevel(entity: Entity, techLevel: Int) {
         guard techLevel >= 1 && techLevel <= 6 else { return }
-        let heroId = getCorrectBoardstateHeroId(heroId: entity.cardId)
+        let heroId = BattlegroundsUtils.getOriginalHeroId(heroId: entity.cardId)
         
         semaphore.wait()
         var snapshot = lastKnownBattlegroundsBoardState[heroId]
@@ -2122,7 +2161,7 @@ class Game: NSObject, PowerEventHandler {
         let techLevel = entity[.player_tech_level]
         guard techLevel >= 1 && techLevel <= 6 else { return }
         
-        let heroId = getCorrectBoardstateHeroId(heroId: entity.cardId)
+        let heroId = BattlegroundsUtils.getOriginalHeroId(heroId: entity.cardId)
 
         semaphore.wait()
         var snapshot = lastKnownBattlegroundsBoardState[heroId]
@@ -2141,7 +2180,7 @@ class Game: NSObject, PowerEventHandler {
     func handlePlayerBuddiesGained(entity: Entity, num: Int) {
         guard num > 0 else { return }
         
-        let heroId = getCorrectBoardstateHeroId(heroId: entity.cardId)
+        let heroId = BattlegroundsUtils.getOriginalHeroId(heroId: entity.cardId)
 
         semaphore.wait()
         var snapshot = lastKnownBattlegroundsBoardState[heroId]
@@ -2195,6 +2234,9 @@ class Game: NSObject, PowerEventHandler {
                     self.internalHandleBGStart(count: 0)
                 }
             })
+        }
+        DispatchQueue.main.async { [self] in
+            self.windowManager.battlegroundsSession.onGameStart()
         }
     }
 
@@ -2592,10 +2634,6 @@ class Game: NSObject, PowerEventHandler {
     func startCombat() {
         snapshotBattlegroundsBoardState()
         
-        if isMonoAvailable() == 0 {
-            return
-        }
-        
         BobsBuddyInvoker.instance(gameId: gameId, turn: turnNumber())?.startCombat()
     }
     
@@ -2631,6 +2669,10 @@ extension Game: NSWindowDelegate {
             onWindowMove(tracker: self.windowManager.playerTracker)
         } else if window == self.windowManager.opponentTracker.window {
             onWindowMove(tracker: self.windowManager.opponentTracker)
+        } else if window == self.windowManager.battlegroundsSession.window {
+            if !window.frame.isEmpty && !window.frame.isInfinite {
+                Settings.battlegroundsSessionFrame = window.frame
+            }
         }
     }
     

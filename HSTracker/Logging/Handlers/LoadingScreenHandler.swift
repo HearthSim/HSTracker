@@ -109,6 +109,11 @@ struct LoadingScreenHandler: LogEventParser {
             
             if game.currentMode == .bacon {
                 game.cacheBattlegroundRatingInfo()
+                game.updateBattlegroundsSessionOverlay()
+            }
+            
+            if game.previousMode == .bacon && game.currentMode != .gameplay {
+                game.updateBattlegroundsSessionOverlay()
             }
             
             if game.currentMode == .lettuce_play {

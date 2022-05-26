@@ -109,6 +109,24 @@ extension NSRect: UserDefaultConvertible {
     }
 }
 
+extension Date: UserDefaultConvertible {
+    func convert() -> String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.dateFormat = "yyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
+        return formatter.string(from: self)
+    }
+    
+    static func reverse(from object: String) -> Date? {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.dateFormat = "yyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
+        return formatter.date(from: object)
+    }
+}
+
 final class Settings {
 
     static var fullGameLog: Bool = false
@@ -238,6 +256,18 @@ final class Settings {
     static var showTavernTriples: Bool
     @UserDefault(key: Settings.show_hero_toast, defaultValue: true)
     static var showHeroToast: Bool
+    @UserDefault(key: Settings.show_session_recap, defaultValue: true)
+    static var showSessionRecap: Bool
+    @UserDefault(key: Settings.show_banned_tribes, defaultValue: true)
+    static var showBannedTribes: Bool
+    @UserDefault(key: Settings.show_mmr, defaultValue: true)
+    static var showMMR: Bool
+    @UserDefault(key: Settings.show_mmr_start_current, defaultValue: true)
+    static var showMMRStartCurrent: Bool
+    @UserDefault(key: Settings.show_latest_games, defaultValue: true)
+    static var showLatestGames: Bool
+    @UserDefaultCustom(key: Settings.battlegrounds_session_frame, defaultValue: nil)
+    static var battlegroundsSessionFrame: NSRect?
 
     @UserDefault(key: Settings.player_draw_chance, defaultValue: true)
     static var showPlayerDrawChance: Bool
@@ -405,6 +435,8 @@ final class Settings {
     static var hsReplayUploadToken: String?
     @UserDefault(key: Settings.hsreplay_oauth_token, defaultValue: nil)
     static var hsReplayOAuthToken: String?
+    @UserDefaultCustom(key: Settings.hsreplay_oauth_token_expiration, defaultValue: nil)
+    static var hsReplayOAuthTokenExpiration: Date?
     @UserDefault(key: Settings.hsreplay_oauth_refresh_token, defaultValue: nil)
     static var hsReplayOAuthRefreshToken: String?
     @UserDefault(key: Settings.hsreplay_username, defaultValue: nil)
@@ -514,6 +546,12 @@ extension Settings {
     static let show_tiers = "show_tiers"
     static let show_tavern_triples = "show_tavern_triples"
     static let show_hero_toast = "show_hero_toast"
+    static let show_session_recap = "show_session_recap"
+    static let show_banned_tribes = "show_banned_tribes"
+    static let show_mmr = "show_mmr"
+    static let show_mmr_start_current = "show_mmr_start_current"
+    static let show_latest_games = "show_latest_games"
+    static let battlegrounds_session_frame = "battlegrounds_session_frame"
 
     static let player_draw_chance = "player_draw_chance"
     static let player_card_count = "player_card_count"
@@ -598,6 +636,7 @@ extension Settings {
     static let hsreplay_username = "hsreplay_username"
     static let hsreplay_id = "hsreplay_id"
     static let hsreplay_oauth_token = "hsreplay_oauth_token"
+    static let hsreplay_oauth_token_expiration = "hsreplay_oauth_token_expiration"
     static let hsreplay_oauth_refresh_token = "hsreplay_oauth_refresh_token"
     static let hsreplay_show_push_notification = "hsreplay_show_push_notification"
     static let hsreplay_auto_synchronize_matches = "hsreplay_auto_synchronize_matches"

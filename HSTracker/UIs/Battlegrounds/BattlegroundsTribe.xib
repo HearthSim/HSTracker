@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="20037" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20037"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="BattlegroundsTribe" customModule="HSTracker" customModuleProvider="target">
+            <connections>
+                <outlet property="contentView" destination="c22-O7-iKe" id="XdC-br-bve"/>
+                <outlet property="tribeImage" destination="t8q-p6-Vyl" id="qWN-0R-rGL"/>
+                <outlet property="tribeLabel" destination="iwU-mU-PhF" id="eHw-vd-d4Z"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="c22-O7-iKe">
+            <rect key="frame" x="0.0" y="0.0" width="40" height="56"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="vex-bl-blx" userLabel="ContentView">
+                    <rect key="frame" x="0.0" y="0.0" width="40" height="56"/>
+                    <subviews>
+                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="OTs-BS-EB0" userLabel="WrapperView">
+                            <rect key="frame" x="0.0" y="0.0" width="40" height="56"/>
+                            <subviews>
+                                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="t8q-p6-Vyl">
+                                    <rect key="frame" x="0.0" y="16" width="40" height="40"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="40" id="EVR-B9-FEa"/>
+                                        <constraint firstAttribute="width" constant="40" id="mcZ-PI-gEp"/>
+                                    </constraints>
+                                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="tribe_elemental" id="aK1-tq-U4a"/>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="boolean" keyPath="wantsLayer" value="YES"/>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                            <integer key="value" value="20"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                </imageView>
+                                <box boxType="custom" borderWidth="2" cornerRadius="20" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="Kv2-6J-bfM">
+                                    <rect key="frame" x="0.0" y="16" width="40" height="40"/>
+                                    <view key="contentView" id="8ye-tC-qEc">
+                                        <rect key="frame" x="2" y="2" width="36" height="36"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    </view>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="40" id="Gnq-RF-hZI"/>
+                                        <constraint firstAttribute="width" constant="40" id="lh3-Yf-658"/>
+                                    </constraints>
+                                    <color key="borderColor" red="0.83137254900000002" green="0.25098039220000001" blue="0.25098039220000001" alpha="1" colorSpace="deviceRGB"/>
+                                </box>
+                                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="y6d-3c-dUc" userLabel="Tribes-X">
+                                    <rect key="frame" x="14" y="10" width="31" height="32"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="30.93" id="LcW-8I-5rg"/>
+                                        <constraint firstAttribute="height" constant="32" id="mjF-3b-xNC"/>
+                                    </constraints>
+                                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="tribes-x" id="9d5-Gw-3OU"/>
+                                </imageView>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="y6d-3c-dUc" firstAttribute="top" secondItem="OTs-BS-EB0" secondAttribute="top" constant="14" id="HYM-Ox-68h"/>
+                                <constraint firstItem="t8q-p6-Vyl" firstAttribute="top" secondItem="OTs-BS-EB0" secondAttribute="top" id="KCL-do-epN"/>
+                                <constraint firstItem="Kv2-6J-bfM" firstAttribute="top" secondItem="OTs-BS-EB0" secondAttribute="top" id="SXp-YB-VA6"/>
+                                <constraint firstItem="Kv2-6J-bfM" firstAttribute="leading" secondItem="OTs-BS-EB0" secondAttribute="leading" id="cnp-Ff-VEB"/>
+                                <constraint firstItem="t8q-p6-Vyl" firstAttribute="leading" secondItem="OTs-BS-EB0" secondAttribute="leading" id="hcb-xS-VUK"/>
+                                <constraint firstItem="y6d-3c-dUc" firstAttribute="leading" secondItem="OTs-BS-EB0" secondAttribute="leading" constant="14" id="t5d-MK-Obw"/>
+                            </constraints>
+                        </customView>
+                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iwU-mU-PhF" userLabel="Tribe Label">
+                            <rect key="frame" x="-2" y="0.0" width="44" height="16"/>
+                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" alignment="center" placeholderString="Tribe" id="czc-yB-fAI">
+                                <font key="font" metaFont="system"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                            </textFieldCell>
+                        </textField>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="OTs-BS-EB0" secondAttribute="bottom" id="IaJ-76-2is"/>
+                        <constraint firstAttribute="trailing" secondItem="iwU-mU-PhF" secondAttribute="trailing" id="VWi-bq-LeP"/>
+                        <constraint firstItem="OTs-BS-EB0" firstAttribute="top" secondItem="vex-bl-blx" secondAttribute="top" id="VsI-PM-fgx"/>
+                        <constraint firstAttribute="trailing" secondItem="OTs-BS-EB0" secondAttribute="trailing" id="cMs-vI-WXb"/>
+                        <constraint firstAttribute="width" constant="40" id="dgx-G6-wUU"/>
+                        <constraint firstItem="OTs-BS-EB0" firstAttribute="leading" secondItem="vex-bl-blx" secondAttribute="leading" id="gah-M0-w5E"/>
+                        <constraint firstItem="iwU-mU-PhF" firstAttribute="leading" secondItem="vex-bl-blx" secondAttribute="leading" id="ir0-o7-4kU"/>
+                        <constraint firstAttribute="height" constant="56" id="kgC-QS-qYe"/>
+                        <constraint firstAttribute="bottom" secondItem="iwU-mU-PhF" secondAttribute="bottom" id="vwj-iH-ugd"/>
+                    </constraints>
+                </customView>
+            </subviews>
+            <constraints>
+                <constraint firstItem="vex-bl-blx" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="438-Ua-pwU"/>
+                <constraint firstAttribute="bottom" secondItem="vex-bl-blx" secondAttribute="bottom" id="lYa-O8-9TR"/>
+                <constraint firstAttribute="trailing" secondItem="vex-bl-blx" secondAttribute="trailing" id="ujr-kZ-Ird"/>
+                <constraint firstItem="vex-bl-blx" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="vE0-zh-9i4"/>
+            </constraints>
+            <point key="canvasLocation" x="139" y="100"/>
+        </customView>
+    </objects>
+    <resources>
+        <image name="tribe_elemental" width="256" height="256"/>
+        <image name="tribes-x" width="145" height="150"/>
+    </resources>
+</document>

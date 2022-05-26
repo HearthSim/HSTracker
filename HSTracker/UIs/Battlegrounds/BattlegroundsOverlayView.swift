@@ -167,7 +167,7 @@ class BattlegroundsOverlayView: NSView {
         let index = 7 - Int(CGFloat(event.locationInWindow.y / (frame.height/8)))
         let game = AppDelegate.instance().coreManager.game
 
-        if let hero = game.entities.values.first(where: { ent in ent[.player_leaderboard_place] == index + 1}), index != currentIndex {
+        if index != currentIndex, let hero = game.entities.values.first(where: { ent in ent[.player_leaderboard_place] == index + 1}) {
             if hero.cardId != game.playerHeroId {
                 for i in 0 ..< leaderboardDeadForText.count {
                     leaderboardDeadForText[i].isHidden = false

@@ -42,6 +42,7 @@ final class Card {
     var mercenariesAbilityCooldown = 0
     var battlegroundsPoolMinion = false
     var deckListIndex = 0
+    var battlegroundsSkinParentId = 0
     
     static let multiClassGroups: [MultiClassGroup: [CardClass]] = [
         .grimy_goons: [ .hunter, .paladin, .warrior ],
@@ -193,6 +194,7 @@ extension Card: NSCopying {
         copy.mercenariesAbilityCooldown = self.mercenariesAbilityCooldown
         copy.battlegroundsPoolMinion = self.battlegroundsPoolMinion
         copy.deckListIndex = self.deckListIndex
+        copy.battlegroundsSkinParentId = self.battlegroundsSkinParentId
 
         return copy
     }

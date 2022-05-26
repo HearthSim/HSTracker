@@ -8,7 +8,6 @@
 
 import Foundation
 import TextAttributes
-import Kingfisher
 
 enum FloatingCardStyle: String {
     case text
@@ -28,9 +27,20 @@ class FloatingCard: OverWindowController {
     }
 
     private func reload() {
-        if let cardId = self.card?.id, let lang = Settings.hearthstoneLanguage?.rawValue {
-            let imageUrl = URL(string: isBattlegrounds ? ImageUtils.artUrlBG(cardId: cardId, lang: lang) : ImageUtils.artUrl(cardId: cardId, lang: lang))!
-            self.imageView.kf.setImage(with: imageUrl)
+        if let cardId = self.card?.id {
+            if isBattlegrounds {
+                ImageUtils.cardArtBG(for: cardId, completion: { image in
+                    DispatchQueue.main.async {
+                        self.imageView.image = image
+                    }
+                })
+            } else {
+                ImageUtils.cardArt(for: cardId, completion: { image in
+                    DispatchQueue.main.async {
+                        self.imageView.image = image
+                    }
+                })
+            }
         }
 
         window?.backgroundColor = NSColor.clear

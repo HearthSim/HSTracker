@@ -37,6 +37,6 @@ extension NSColor {
         let red = CGFloat((theInt & 0xFF0000) >> 16) / 255.0
         let green = CGFloat((theInt & 0xFF00) >> 8) / 255.0
         let blue = CGFloat((theInt & 0xFF)) / 255.0
-        return NSColor(red: red, green: green, blue: blue, alpha: alpha)
+        return NSColor(colorSpace: .deviceRGB, components: [red, green, blue, alpha], count: 4)
     }
 }

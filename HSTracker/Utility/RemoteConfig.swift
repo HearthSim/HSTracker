@@ -83,11 +83,17 @@ struct Mercenary: Codable {
     var specializations: [MercenarySpecialization]
 }
 
+struct CardShortName: Codable {
+    var dbf_id: Int
+    var short_name: String
+}
+
 struct ConfigData: Codable {
     var news: NewsData?
     var collection_banner: CollectionBannerData?
     var arena: ArenaData?
     var whizbang_decks: [WhizbangDeck]?
+    var battlegrounds_short_names: [CardShortName]?
     var battlegrounds_tag_overrides: [TagOverride]?
     var bobs_buddy: BobsBuddyData?
 }

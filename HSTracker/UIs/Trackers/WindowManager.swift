@@ -107,6 +107,14 @@ class WindowManager {
         return $0
     }(MercenariesTaskListView(windowNibName: "MercenariesTaskListView"))
     
+    var battlegroundsSession: BattlegroundsSession = {
+        return $0
+    }(BattlegroundsSession(windowNibName: "BattlegroundsSession"))
+    
+    var battlegroundsFinalBoard: BattlegroundsFinalBoard = {
+        return $0
+    }(BattlegroundsFinalBoard(windowNibName: "BattlegroundsFinalBoard"))
+    
     var flavorText: FlavorText = {
         return $0
     }(FlavorText(windowNibName: "FlavorText"))

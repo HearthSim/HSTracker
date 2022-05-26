@@ -1,3 +1,14 @@
+# 2.1.5
+## New
+- Added Battlegrounds session recap overlay (can be moved if not autopositioned/windows unlocked). Shows:
+ * banned minions
+ * start & current MMR or current MMR and change
+ * latest 10 games
+ * final board
+- Added option to clear cached images and force a redownload
+## Fixes
+- Improved collection upload logic to avoid expired authorization issues
+
 # 2.1.4
 ## New
 - Updated for patch 23.2.2

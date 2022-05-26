@@ -35,6 +35,7 @@ class HSReplayAPI {
         case .success(let credential):
             Settings.hsReplayOAuthToken = credential.oauthToken
             Settings.hsReplayOAuthRefreshToken = credential.oauthRefreshToken
+            Settings.hsReplayOAuthTokenExpiration = credential.oauthTokenExpiresAt
         case .failure(let error):
             logger.error("Failed to renew token: \(error)")
         }
@@ -72,7 +73,29 @@ class HSReplayAPI {
     }
 
     static func startAuthorizedRequest(_ url: String, method: OAuthSwiftHTTPRequest.Method, parameters: OAuthSwift.Parameters, headers: OAuthSwift.Headers? = nil, onTokenRenewal: OAuthSwift.TokenRenewedHandler? = nil, completionHandler completion: @escaping OAuthSwiftHTTPRequest.CompletionHandler) {
+        
+        if let expiration = Settings.hsReplayOAuthTokenExpiration {
+            if expiration.timeIntervalSince(Date()) <= 0 {
+                logger.debug("OAuth token is expired, renewing")
 
+                HSReplayAPI.oauthswift.renewAccessToken(withRefreshToken: HSReplayAPI.oauthswift.client.credential
+.oauthRefreshToken, completionHandler: { result in
+                    switch result {
+                    case .success(let (credential, _, _)):
+                        logger.debug("HSReplay: Refreshed OAuthToken")
+                        Settings.hsReplayOAuthToken =  credential.oauthToken
+                        Settings.hsReplayOAuthRefreshToken = credential.oauthRefreshToken
+                        Settings.hsReplayOAuthTokenExpiration = credential.oauthTokenExpiresAt
+                        oauthswift.client.requestWithAutomaticAccessTokenRenewal(url: URL(string: url)!, method: method, parameters: parameters, headers: headers, accessTokenUrl: HSReplay.oAuthTokenUrl, onTokenRenewal: onTokenRenewal, completionHandler: completion)
+                    case .failure(let error):
+                        logger.error(error)
+                        // try again, just in case
+                        oauthswift.client.requestWithAutomaticAccessTokenRenewal(url: URL(string: url)!, method: method, parameters: parameters, headers: headers, accessTokenUrl: HSReplay.oAuthTokenUrl, onTokenRenewal: onTokenRenewal, completionHandler: completion)
+                    }
+                })
+                return
+            }
+        }
         oauthswift.client.requestWithAutomaticAccessTokenRenewal(url: URL(string: url)!, method: method, parameters: parameters, headers: headers, accessTokenUrl: HSReplay.oAuthTokenUrl, onTokenRenewal: onTokenRenewal, completionHandler: completion)
     }
     

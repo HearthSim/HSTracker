@@ -632,8 +632,7 @@ class CardBar: NSView, CardBarTheme {
 
         if let name = name {
             let fontSize = fitFontForSize(ratio(rect).size, str: name, fontName: textFont, maxFontSize: 15.0, minFontSize: 5.0)
-            add(text: name, fontSize: fontSize,
-                    rect: rect, textColor: textColor, font: textFont)
+            add(text: name, fontSize: fontSize, rect: rect, textColor: textColor, font: textFont)
         }
     }
 

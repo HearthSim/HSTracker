@@ -42,6 +42,7 @@ class InternalGameStats {
     var brawlWins = 0
     var brawlLosses = 0
     var battlegroundsRating = 0
+    var battlegroundsRatingAfter = 0
     var battlegroundsRaces: [Int] = []
     var mercenariesRating = 0
     var mercenariesRatingAfter = 0

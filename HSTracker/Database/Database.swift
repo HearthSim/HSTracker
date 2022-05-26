@@ -199,6 +199,10 @@ class Database {
                             card.battlegroundsPoolMinion = bgPool
                             Cards.battlegroundsMinions.append(card)
                         }
+                        
+                        if let battlegroundsSkinParentId = jsonCard["battlegroundsSkinParentId"] as? Int {
+                            card.battlegroundsSkinParentId = battlegroundsSkinParentId
+                        }
 
                         if let hideStats = jsonCard["hideStats"] as? Bool {
                             card.hideStats = hideStats

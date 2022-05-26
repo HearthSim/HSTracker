@@ -144,7 +144,7 @@ struct Http {
                     logger.error("request error : \(error)")
                     seal.reject(error)
                 } else if let data = data {
-                    logger.verbose("upload result : \(data)")
+                    logger.verbose("get result : \(data)")
                     seal.fulfill(data)
                 }
                 logger.debug("p \(#function): "

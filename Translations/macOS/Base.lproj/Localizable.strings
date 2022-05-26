@@ -61,6 +61,8 @@
 "Connected as %@" = "Connected as %@";
 "HSTracker needs elevated privileges to read data from Hearthstone's memory. If macOS asks you for your system password, do not be alarmed, no changes to your computer will be performed." = "HSTracker needs elevated privileges to read data from Hearthstone's memory. If macOS asks you for your system password, do not be alarmed, no changes to your computer will be performed.";
 "I understand" = "I understand";
+"Delete cached images" = "Delete cached images";
+"By clicking 'Delete' all locally cached images will be deleted. This may take a while" = "By clicking 'Delete' all locally cached images will be deleted. This may take a while";
 
 /* notifications */
 "Your game begins" = "Your game begins";
@@ -236,3 +238,13 @@
 /* Deck Lens - Dredge */
 "On Top" = "On Top";
 "On Bottom" = "On Bottom";
+
+/* BG Session Recap */
+"Start" = "Start";
+"Current" = "Current";
+"Resetting current Session" = "Resetting current Session";
+"By clicking 'Reset' you will clear your list of Latest Games and make your Start MMR the same as your current MMR." = "By clicking 'Reset' you will clear your list of Latest Games and make your Start MMR the same as your current MMR.";
+
+/* Buttons */
+"Change" = "Change";
+"Delete" = "Delete";

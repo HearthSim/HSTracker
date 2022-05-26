@@ -353,6 +353,16 @@ struct SizeHelper {
         let top = frame.minY
         return NSRect(x: left, y: top, width: 100, height: frame.height)
     }
+    
+    static func battlegroundsSessionFrame() -> NSRect {
+        let bottom = hearthstoneWindow.frame.minY + 0.05 * hearthstoneWindow.height
+        let top = hearthstoneWindow.frame.maxY - 0.15 * hearthstoneWindow.height
+                 
+        let left = hearthstoneWindow.frame.minX
+                 
+        let frame = NSRect(x: left, y: bottom, width: 200, height: top - bottom)
+        return (frame)
+    }
 
     static func battlegroundsOverlayFrame() -> NSRect {
         let top = hearthstoneWindow.frame.minY + 0.85 * hearthstoneWindow.height

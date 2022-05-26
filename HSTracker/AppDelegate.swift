@@ -116,6 +116,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let oauthToken = Settings.hsReplayOAuthToken {
             credential.oauthToken = oauthToken
         }
+        if let expiration = Settings.hsReplayOAuthTokenExpiration {
+            credential.oauthTokenExpiresAt = expiration
+        }
         
         HSReplayAPI.oauthswift.renewAccessToken(withRefreshToken: credential.oauthRefreshToken, completionHandler: { result in
             switch result {
@@ -123,6 +126,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 logger.debug("HSReplay: Refreshed OAuthToken")
                 Settings.hsReplayOAuthToken =  credential.oauthToken
                 Settings.hsReplayOAuthRefreshToken = credential.oauthRefreshToken
+                Settings.hsReplayOAuthTokenExpiration = credential.oauthTokenExpiresAt
                 HSReplayAPI.getAccount().done { result in
                     switch result {
                     case .failed:
@@ -610,5 +614,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let url = URL(string: "https://github.com/HearthSim/HSTracker/issues") {
             NSWorkspace.shared.open(url)
         }
+    }
+    
+    @IBAction func deleteCachedImages(_ sender: AnyObject) {
+        let alert = NSAlert()
+        alert.alertStyle = .informational
+        alert.messageText = NSLocalizedString("Delete cached images", comment: "")
+        alert.informativeText = NSLocalizedString("By clicking 'Delete' all locally cached images will be deleted. This may take a while", comment: "")
+        alert.addButton(withTitle: NSLocalizedString("Delete", comment: ""))
+        alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
+        
+        if alert.runModal() != NSApplication.ModalResponse.alertFirstButtonReturn {
+            return
+        }
+        
+        ImageUtils.clearCache()
     }
 }
