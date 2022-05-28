@@ -1,3 +1,7 @@
+# 2.1.6
+## Fixes
+- Fixed crash invoking BobsBuddy when Mono not available on the system
+
 # 2.1.5
 ## New
 - Added Battlegrounds session recap overlay (can be moved if not autopositioned/windows unlocked). Shows:
