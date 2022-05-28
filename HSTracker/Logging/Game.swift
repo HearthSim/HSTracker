@@ -1838,7 +1838,7 @@ class Game: NSObject, PowerEventHandler {
         if player == .player && !isInMenu {
             if isBattlegroundsMatch() {
                 OpponentDeadForTracker.shoppingStarted(game: self)
-                if playerTurn.turn > 1 {
+                if isMonoAvailable() != 0 && playerTurn.turn > 1 {
                     BobsBuddyInvoker.instance(gameId: gameId, turn: turnNumber() - 1)?.startShopping()
                 }
             }
@@ -2634,6 +2634,10 @@ class Game: NSObject, PowerEventHandler {
     func startCombat() {
         snapshotBattlegroundsBoardState()
         
+        if isMonoAvailable() == 0 {
+            return
+        }
+
         BobsBuddyInvoker.instance(gameId: gameId, turn: turnNumber())?.startCombat()
     }
     
