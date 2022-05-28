@@ -364,7 +364,7 @@ class MonoHelper {
             
             test.setTiers(player: 3, opponent: 3)
             
-            test.setOpponentHeroPower(heroPowerCardId: "TB_BaconShop_HP_060", isActivated: true, data: 0)
+            test.setOpponentHeroPower(heroPowerCardId: "TB_BaconShop_HP_061", isActivated: true, data: 0)
             test.setPlayerHeroPower(heroPowerCardId: "TB_BaconShop_HP_043", isActivated: false, data: 0)
 
             let ps = test.playerSide
@@ -622,6 +622,27 @@ class MonoHelper {
 
             mono_runtime_invoke(method, inst, $0, nil)
         })
+        params.deallocate()
+    }
+    
+    static func setStringBoolInt(obj: MonoHandle, method: OpaquePointer, v1: String, v2: Bool, v3: Int32) {
+        let params = UnsafeMutablePointer<OpaquePointer>.allocate(capacity: 3)
+        let ptrs = UnsafeMutablePointer<Int32>.allocate(capacity: 2)
+        ptrs[0] = v2 ? 1 : 0
+        ptrs[1] = v3
+        v1.withCString({
+            params[0] = mono_string_new(MonoHelper._monoInstance, $0)
+        })
+        params[1] = OpaquePointer(ptrs.advanced(by: 0))
+        params[2] = OpaquePointer(ptrs.advanced(by: 1))
+        
+        params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 3, {
+            let inst = obj.get()
+
+            mono_runtime_invoke(method, inst, $0, nil)
+        })
+        
+        ptrs.deallocate()
         params.deallocate()
     }
 
