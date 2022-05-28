@@ -217,6 +217,7 @@
 "Turns" = "Turns";
 "%d turn(s) ago" = "%d turn(s) ago";
 "You have not fought this opponent" = "You have not fought this opponent";
+"Turn %d" = "Turn %d";
 
 /* Crashes */
 "HSTracker Crashed" = "HSTracker Crashed";
