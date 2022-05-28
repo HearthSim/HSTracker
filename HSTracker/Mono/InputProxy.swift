@@ -110,17 +110,11 @@ class InputProxy: MonoHandle, MonoClassInitializer {
     }
     
     func setPlayerHeroPower(heroPowerCardId: String, isActivated: Bool, data: Int32) {
-        let hp = playerHeroPower
-        hp.cardId = heroPowerCardId
-        hp.isActivated = isActivated
-        hp.data = data
+        MonoHelper.setStringBoolInt(obj: self, method: InputProxy._setPlayerHeroPower, v1: heroPowerCardId, v2: isActivated, v3: data)
     }
     
     func setOpponentHeroPower(heroPowerCardId: String, isActivated: Bool, data: Int32) {
-        let hp = opponentHeroPower
-        hp.cardId = heroPowerCardId
-        hp.isActivated = isActivated
-        hp.data = data
+        MonoHelper.setStringBoolInt(obj: self, method: InputProxy._setOpponentHeroPower, v1: heroPowerCardId, v2: isActivated, v3: data)
     }
 
     func unitestCopyableVersion() -> String {
