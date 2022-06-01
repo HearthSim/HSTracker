@@ -1,13 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="20037" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20037"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="BattlegroundsDetailsWindow" customModule="HSTracker" customModuleProvider="target">
             <connections>
+                <outlet property="boardAge" destination="DKL-z7-u0X" id="wOT-A9-RAv"/>
+                <outlet property="emptyBoard" destination="cox-jk-Otc" id="YRq-Of-DCg"/>
+                <outlet property="minion1" destination="veo-NA-so6" id="AfO-Kc-HBR"/>
+                <outlet property="minion2" destination="BGP-Dl-WHm" id="YtA-2N-Kej"/>
+                <outlet property="minion3" destination="PeR-L6-KZD" id="jeN-0f-Ae9"/>
+                <outlet property="minion4" destination="tAq-HV-gME" id="bpx-Cq-7dC"/>
+                <outlet property="minion5" destination="ego-Bw-yW8" id="Rra-u4-mSs"/>
+                <outlet property="minion6" destination="Ygh-q2-qZy" id="0Mr-29-3Fu"/>
+                <outlet property="minion7" destination="ra0-y4-fHg" id="Uhz-G8-rcH"/>
+                <outlet property="notFought" destination="MZH-Z9-69b" id="gHu-gc-jhK"/>
+                <outlet property="notFound" destination="MZH-Z9-69b" id="mp9-d4-kLa"/>
+                <outlet property="tier1" destination="Af2-Gt-E2h" id="MNK-il-ask"/>
+                <outlet property="tier2" destination="KKz-d2-ifY" id="H0L-Gh-W6k"/>
+                <outlet property="tier3" destination="FqW-TG-zSI" id="s0X-jE-ed2"/>
+                <outlet property="tier4" destination="Xjr-uM-XI6" id="fyu-Wi-8pP"/>
+                <outlet property="tier5" destination="xDD-GJ-vai" id="OJk-VK-3Ka"/>
+                <outlet property="tier6" destination="Hf3-RU-cXj" id="tUD-bh-dJS"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="KWO-XM-87j"/>
             </connections>
         </customObject>
@@ -16,13 +33,368 @@
         <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g" customClass="NSPanel">
             <windowStyleMask key="styleMask" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="480" height="270"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+            <rect key="contentRect" x="196" y="240" width="1184" height="270"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1025"/>
             <view key="contentView" autoresizesSubviews="NO" wantsLayer="YES" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
-                <autoresizingMask key="autoresizingMask"/>
+                <rect key="frame" x="0.0" y="0.0" width="1184" height="270"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lLh-8h-Yme" userLabel="OuterStackView">
+                        <rect key="frame" x="134" y="101" width="917" height="169"/>
+                        <subviews>
+                            <stackView distribution="fill" orientation="horizontal" alignment="top" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ctI-7o-3bm" userLabel="InnerStackView">
+                                <rect key="frame" x="0.0" y="0.0" width="917" height="169"/>
+                                <subviews>
+                                    <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rFb-Ej-eHX" userLabel="ContentStackView">
+                                        <rect key="frame" x="0.0" y="0.0" width="672" height="169"/>
+                                        <subviews>
+                                            <box boxType="custom" cornerRadius="3" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="J2G-he-agZ">
+                                                <rect key="frame" x="0.0" y="19" width="672" height="150"/>
+                                                <view key="contentView" id="MfL-S7-xAW">
+                                                    <rect key="frame" x="1" y="1" width="670" height="148"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <subviews>
+                                                        <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="K2f-9g-HyM" userLabel="OpponentBoard">
+                                                            <rect key="frame" x="0.0" y="0.0" width="670" height="148"/>
+                                                            <subviews>
+                                                                <stackView distribution="fillEqually" orientation="horizontal" alignment="centerY" spacing="-20" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="c7p-gK-EOe" userLabel="BattlegroundsBoard">
+                                                                    <rect key="frame" x="10" y="10" width="580" height="128"/>
+                                                                    <subviews>
+                                                                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="veo-NA-so6" userLabel="BoardMinion1" customClass="BattlegroundsMinionView" customModule="HSTracker" customModuleProvider="target">
+                                                                            <rect key="frame" x="0.0" y="9" width="100" height="110"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="width" constant="100" id="14w-oO-Mpi"/>
+                                                                                <constraint firstAttribute="height" constant="110" id="hcG-Bt-qWF"/>
+                                                                            </constraints>
+                                                                        </customView>
+                                                                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="BGP-Dl-WHm" userLabel="BoardMinion2" customClass="BattlegroundsMinionView" customModule="HSTracker" customModuleProvider="target">
+                                                                            <rect key="frame" x="80" y="9" width="100" height="110"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="width" constant="100" id="BJD-eO-BaG"/>
+                                                                                <constraint firstAttribute="height" constant="110" id="VJZ-Yk-G8f"/>
+                                                                            </constraints>
+                                                                        </customView>
+                                                                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="PeR-L6-KZD" userLabel="BoardMinion3" customClass="BattlegroundsMinionView" customModule="HSTracker" customModuleProvider="target">
+                                                                            <rect key="frame" x="160" y="9" width="100" height="110"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="height" constant="110" id="6d0-Lw-6fX"/>
+                                                                                <constraint firstAttribute="width" constant="100" id="HSC-yO-ujb"/>
+                                                                            </constraints>
+                                                                        </customView>
+                                                                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="tAq-HV-gME" userLabel="BoardMinion4" customClass="BattlegroundsMinionView" customModule="HSTracker" customModuleProvider="target">
+                                                                            <rect key="frame" x="240" y="9" width="100" height="110"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="width" constant="100" id="Xo5-ce-LJh"/>
+                                                                                <constraint firstAttribute="height" constant="110" id="yVQ-Pf-iwH"/>
+                                                                            </constraints>
+                                                                        </customView>
+                                                                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="ego-Bw-yW8" userLabel="BoardMinion5" customClass="BattlegroundsMinionView" customModule="HSTracker" customModuleProvider="target">
+                                                                            <rect key="frame" x="320" y="9" width="100" height="110"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="width" constant="100" id="FOL-Ke-3bn"/>
+                                                                                <constraint firstAttribute="height" constant="110" id="Tgt-Rx-KSi"/>
+                                                                            </constraints>
+                                                                        </customView>
+                                                                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="Ygh-q2-qZy" userLabel="BoardMinion6" customClass="BattlegroundsMinionView" customModule="HSTracker" customModuleProvider="target">
+                                                                            <rect key="frame" x="400" y="9" width="100" height="110"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="width" constant="100" id="Cno-vX-UVT"/>
+                                                                                <constraint firstAttribute="height" constant="110" id="oPV-XX-0eh"/>
+                                                                            </constraints>
+                                                                        </customView>
+                                                                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="ra0-y4-fHg" userLabel="BoardMinion7" customClass="BattlegroundsMinionView" customModule="HSTracker" customModuleProvider="target">
+                                                                            <rect key="frame" x="480" y="9" width="100" height="110"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="height" constant="110" id="he7-yz-MzX"/>
+                                                                                <constraint firstAttribute="width" constant="100" id="mP2-d4-QmD"/>
+                                                                            </constraints>
+                                                                        </customView>
+                                                                    </subviews>
+                                                                    <visibilityPriorities>
+                                                                        <integer value="1000"/>
+                                                                        <integer value="1000"/>
+                                                                        <integer value="1000"/>
+                                                                        <integer value="1000"/>
+                                                                        <integer value="1000"/>
+                                                                        <integer value="1000"/>
+                                                                        <integer value="1000"/>
+                                                                    </visibilityPriorities>
+                                                                    <customSpacing>
+                                                                        <real value="3.4028234663852886e+38"/>
+                                                                        <real value="3.4028234663852886e+38"/>
+                                                                        <real value="3.4028234663852886e+38"/>
+                                                                        <real value="3.4028234663852886e+38"/>
+                                                                        <real value="3.4028234663852886e+38"/>
+                                                                        <real value="3.4028234663852886e+38"/>
+                                                                        <real value="3.4028234663852886e+38"/>
+                                                                    </customSpacing>
+                                                                </stackView>
+                                                                <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MZH-Z9-69b" userLabel="You have not fought this opponent">
+                                                                    <rect key="frame" x="48" y="63" width="574" height="22"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="You have not fought this opponent" id="YP2-eO-eyd">
+                                                                        <font key="font" metaFont="system" size="16"/>
+                                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                                <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cox-jk-Otc" userLabel="No minions on board">
+                                                                    <rect key="frame" x="48" y="63" width="574" height="22"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="No minions on board" id="1xq-7w-9a2">
+                                                                        <font key="font" metaFont="system" size="16"/>
+                                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                            </subviews>
+                                                            <edgeInsets key="edgeInsets" left="10" right="10" top="10" bottom="10"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="bottom" secondItem="MZH-Z9-69b" secondAttribute="bottom" constant="63" id="17A-1Z-Bj4"/>
+                                                                <constraint firstItem="MZH-Z9-69b" firstAttribute="top" secondItem="K2f-9g-HyM" secondAttribute="top" constant="63" id="6SH-mp-XiL"/>
+                                                                <constraint firstItem="cox-jk-Otc" firstAttribute="leading" secondItem="K2f-9g-HyM" secondAttribute="leading" constant="50" id="7Yu-9s-PCZ"/>
+                                                                <constraint firstItem="cox-jk-Otc" firstAttribute="top" secondItem="K2f-9g-HyM" secondAttribute="top" constant="63" id="9GP-JP-Hrl"/>
+                                                                <constraint firstAttribute="trailing" secondItem="MZH-Z9-69b" secondAttribute="trailing" constant="50" id="A6v-X9-xsH"/>
+                                                                <constraint firstAttribute="trailing" secondItem="cox-jk-Otc" secondAttribute="trailing" constant="50" id="ptl-OU-mTe"/>
+                                                                <constraint firstItem="MZH-Z9-69b" firstAttribute="leading" secondItem="K2f-9g-HyM" secondAttribute="leading" constant="50" id="qCZ-BD-Pzd"/>
+                                                                <constraint firstAttribute="bottom" secondItem="cox-jk-Otc" secondAttribute="bottom" constant="63" id="y0c-BM-w0F"/>
+                                                            </constraints>
+                                                            <visibilityPriorities>
+                                                                <integer value="1000"/>
+                                                                <integer value="1000"/>
+                                                                <integer value="1000"/>
+                                                            </visibilityPriorities>
+                                                            <customSpacing>
+                                                                <real value="3.4028234663852886e+38"/>
+                                                                <real value="3.4028234663852886e+38"/>
+                                                                <real value="3.4028234663852886e+38"/>
+                                                            </customSpacing>
+                                                        </stackView>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstAttribute="trailing" secondItem="K2f-9g-HyM" secondAttribute="trailing" id="CUT-ko-TGP"/>
+                                                        <constraint firstAttribute="bottom" secondItem="K2f-9g-HyM" secondAttribute="bottom" id="Kei-PR-JHK"/>
+                                                        <constraint firstItem="K2f-9g-HyM" firstAttribute="top" secondItem="MfL-S7-xAW" secondAttribute="top" id="vaI-pt-RiJ"/>
+                                                        <constraint firstItem="K2f-9g-HyM" firstAttribute="leading" secondItem="MfL-S7-xAW" secondAttribute="leading" id="wUn-6B-fPc"/>
+                                                    </constraints>
+                                                </view>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="150" id="bOH-Ly-PEk"/>
+                                                </constraints>
+                                                <color key="borderColor" red="0.25098039215686274" green="0.2627450980392157" blue="0.27058823529411763" alpha="1" colorSpace="deviceRGB"/>
+                                                <color key="fillColor" red="0.13725490196078433" green="0.15294117647058825" blue="0.16470588235294117" alpha="0.90000000000000002" colorSpace="custom" customColorSpace="deviceRGB"/>
+                                            </box>
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DKL-z7-u0X" userLabel="BoardAge">
+                                                <rect key="frame" x="-2" y="-5" width="676" height="19"/>
+                                                <shadow key="shadow" blurRadius="1">
+                                                    <size key="offset" width="2" height="2"/>
+                                                    <color key="color" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </shadow>
+                                                <textFieldCell key="cell" lineBreakMode="clipping" id="sip-3b-93m">
+                                                    <font key="font" metaFont="systemBold" size="16"/>
+                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="DKL-z7-u0X" secondAttribute="trailing" id="0uq-kI-8C1"/>
+                                            <constraint firstItem="J2G-he-agZ" firstAttribute="leading" secondItem="rFb-Ej-eHX" secondAttribute="leading" id="1GL-FV-AVl"/>
+                                            <constraint firstItem="DKL-z7-u0X" firstAttribute="top" secondItem="J2G-he-agZ" secondAttribute="bottom" constant="5" id="7KY-Zc-tL3"/>
+                                            <constraint firstItem="DKL-z7-u0X" firstAttribute="leading" secondItem="rFb-Ej-eHX" secondAttribute="leading" id="TFA-ra-svx"/>
+                                            <constraint firstAttribute="trailing" secondItem="J2G-he-agZ" secondAttribute="trailing" id="atX-PO-cPk"/>
+                                            <constraint firstItem="J2G-he-agZ" firstAttribute="top" secondItem="rFb-Ej-eHX" secondAttribute="top" id="qTy-Uj-Nxp"/>
+                                            <constraint firstAttribute="bottom" secondItem="DKL-z7-u0X" secondAttribute="bottom" constant="-5" id="qgD-xq-Mnf"/>
+                                        </constraints>
+                                        <visibilityPriorities>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                        </visibilityPriorities>
+                                        <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                        </customSpacing>
+                                    </stackView>
+                                    <box boxType="custom" cornerRadius="3" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="Mi5-ii-D2q">
+                                        <rect key="frame" x="672" y="19" width="245" height="150"/>
+                                        <view key="contentView" id="gfh-O8-6go">
+                                            <rect key="frame" x="1" y="1" width="243" height="148"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="5" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qOD-72-onS" userLabel="TiersInfo">
+                                                    <rect key="frame" x="0.0" y="0.0" width="243" height="150"/>
+                                                    <subviews>
+                                                        <stackView distribution="fillProportionally" orientation="horizontal" alignment="centerY" spacing="5" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Kz-hl-AhQ" userLabel="Tiers123">
+                                                            <rect key="frame" x="5" y="80" width="235" height="65"/>
+                                                            <subviews>
+                                                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="Af2-Gt-E2h" userLabel="Tier1" customClass="BattlegroundsTierTriples" customModule="HSTracker" customModuleProvider="target">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="75" height="65"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="65" id="dlV-f6-IbV"/>
+                                                                        <constraint firstAttribute="width" constant="75" id="e3U-xd-aCD"/>
+                                                                    </constraints>
+                                                                    <userDefinedRuntimeAttributes>
+                                                                        <userDefinedRuntimeAttribute type="number" keyPath="tier">
+                                                                            <integer key="value" value="1"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                    </userDefinedRuntimeAttributes>
+                                                                </customView>
+                                                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="KKz-d2-ifY" userLabel="Tier2" customClass="BattlegroundsTierTriples" customModule="HSTracker" customModuleProvider="target">
+                                                                    <rect key="frame" x="80" y="0.0" width="75" height="65"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="65" id="HWd-yF-EpV"/>
+                                                                        <constraint firstAttribute="width" constant="75" id="gaZ-Id-PVg"/>
+                                                                    </constraints>
+                                                                    <userDefinedRuntimeAttributes>
+                                                                        <userDefinedRuntimeAttribute type="number" keyPath="tier">
+                                                                            <integer key="value" value="2"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                    </userDefinedRuntimeAttributes>
+                                                                </customView>
+                                                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="FqW-TG-zSI" userLabel="Tier3" customClass="BattlegroundsTierTriples" customModule="HSTracker" customModuleProvider="target">
+                                                                    <rect key="frame" x="160" y="0.0" width="75" height="65"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="65" id="RXa-Z4-7ie"/>
+                                                                        <constraint firstAttribute="width" constant="75" id="xyg-OV-GaM"/>
+                                                                    </constraints>
+                                                                    <userDefinedRuntimeAttributes>
+                                                                        <userDefinedRuntimeAttribute type="number" keyPath="tier">
+                                                                            <integer key="value" value="3"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                    </userDefinedRuntimeAttributes>
+                                                                </customView>
+                                                            </subviews>
+                                                            <visibilityPriorities>
+                                                                <integer value="1000"/>
+                                                                <integer value="1000"/>
+                                                                <integer value="1000"/>
+                                                            </visibilityPriorities>
+                                                            <customSpacing>
+                                                                <real value="3.4028234663852886e+38"/>
+                                                                <real value="3.4028234663852886e+38"/>
+                                                                <real value="3.4028234663852886e+38"/>
+                                                            </customSpacing>
+                                                        </stackView>
+                                                        <stackView distribution="fillProportionally" orientation="horizontal" alignment="centerY" spacing="5" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PjC-6n-6YD" userLabel="Tiers456">
+                                                            <rect key="frame" x="5" y="5" width="235" height="70"/>
+                                                            <subviews>
+                                                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="Xjr-uM-XI6" userLabel="Tier4" customClass="BattlegroundsTierTriples" customModule="HSTracker" customModuleProvider="target">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="75" height="70"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="75" id="9xR-4a-Xhj"/>
+                                                                        <constraint firstAttribute="height" constant="70" id="aOt-ze-DjV"/>
+                                                                    </constraints>
+                                                                    <userDefinedRuntimeAttributes>
+                                                                        <userDefinedRuntimeAttribute type="number" keyPath="tier">
+                                                                            <integer key="value" value="4"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                    </userDefinedRuntimeAttributes>
+                                                                </customView>
+                                                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="xDD-GJ-vai" userLabel="Tier5" customClass="BattlegroundsTierTriples" customModule="HSTracker" customModuleProvider="target">
+                                                                    <rect key="frame" x="80" y="0.0" width="75" height="70"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="75" id="l8l-di-yuA"/>
+                                                                        <constraint firstAttribute="height" constant="70" id="zY6-LP-PAH"/>
+                                                                    </constraints>
+                                                                    <userDefinedRuntimeAttributes>
+                                                                        <userDefinedRuntimeAttribute type="number" keyPath="tier">
+                                                                            <integer key="value" value="5"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                    </userDefinedRuntimeAttributes>
+                                                                </customView>
+                                                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="Hf3-RU-cXj" userLabel="Tier6" customClass="BattlegroundsTierTriples" customModule="HSTracker" customModuleProvider="target">
+                                                                    <rect key="frame" x="160" y="0.0" width="75" height="70"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="70" id="Yg6-Hp-hGJ"/>
+                                                                        <constraint firstAttribute="width" constant="75" id="ru8-tw-bZi"/>
+                                                                    </constraints>
+                                                                    <userDefinedRuntimeAttributes>
+                                                                        <userDefinedRuntimeAttribute type="number" keyPath="tier">
+                                                                            <integer key="value" value="6"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                    </userDefinedRuntimeAttributes>
+                                                                </customView>
+                                                            </subviews>
+                                                            <visibilityPriorities>
+                                                                <integer value="1000"/>
+                                                                <integer value="1000"/>
+                                                                <integer value="1000"/>
+                                                            </visibilityPriorities>
+                                                            <customSpacing>
+                                                                <real value="3.4028234663852886e+38"/>
+                                                                <real value="3.4028234663852886e+38"/>
+                                                                <real value="3.4028234663852886e+38"/>
+                                                            </customSpacing>
+                                                        </stackView>
+                                                    </subviews>
+                                                    <edgeInsets key="edgeInsets" left="5" right="5" top="5" bottom="5"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="150" id="AcI-Ki-12B"/>
+                                                    </constraints>
+                                                    <visibilityPriorities>
+                                                        <integer value="1000"/>
+                                                        <integer value="1000"/>
+                                                    </visibilityPriorities>
+                                                    <customSpacing>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                    </customSpacing>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="qOD-72-onS" firstAttribute="top" secondItem="gfh-O8-6go" secondAttribute="top" id="1yJ-iR-QLs"/>
+                                                <constraint firstAttribute="trailing" secondItem="qOD-72-onS" secondAttribute="trailing" id="4VG-ew-lPt"/>
+                                                <constraint firstAttribute="bottom" secondItem="qOD-72-onS" secondAttribute="bottom" id="6Gt-IK-krl"/>
+                                                <constraint firstItem="qOD-72-onS" firstAttribute="leading" secondItem="gfh-O8-6go" secondAttribute="leading" id="AGc-4f-Hw7"/>
+                                                <constraint firstItem="qOD-72-onS" firstAttribute="top" secondItem="gfh-O8-6go" secondAttribute="top" id="Qyl-ka-kAI"/>
+                                                <constraint firstAttribute="trailing" secondItem="qOD-72-onS" secondAttribute="trailing" id="SGW-kO-z0P"/>
+                                                <constraint firstItem="qOD-72-onS" firstAttribute="leading" secondItem="gfh-O8-6go" secondAttribute="leading" id="nQc-4q-QIz"/>
+                                                <constraint firstAttribute="bottom" secondItem="qOD-72-onS" secondAttribute="bottom" id="x3O-P1-LIl"/>
+                                            </constraints>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="150" id="gb4-IC-RCp"/>
+                                            <constraint firstAttribute="width" constant="245" id="kMe-ig-MLp"/>
+                                        </constraints>
+                                        <color key="fillColor" red="0.13725490196078433" green="0.15294117647058825" blue="0.16470588235294117" alpha="0.90000000000000002" colorSpace="custom" customColorSpace="deviceRGB"/>
+                                    </box>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="Mi5-ii-D2q" secondAttribute="trailing" id="K1W-S6-TTs"/>
+                                    <constraint firstItem="rFb-Ej-eHX" firstAttribute="top" secondItem="ctI-7o-3bm" secondAttribute="top" id="MC0-KB-spw"/>
+                                    <constraint firstItem="Mi5-ii-D2q" firstAttribute="top" secondItem="ctI-7o-3bm" secondAttribute="top" id="SCh-R0-VbL"/>
+                                    <constraint firstItem="rFb-Ej-eHX" firstAttribute="leading" secondItem="ctI-7o-3bm" secondAttribute="leading" id="Zaq-lO-E7S"/>
+                                    <constraint firstItem="Mi5-ii-D2q" firstAttribute="leading" secondItem="rFb-Ej-eHX" secondAttribute="trailing" id="jv7-Fg-3U1"/>
+                                    <constraint firstAttribute="bottom" secondItem="rFb-Ej-eHX" secondAttribute="bottom" id="quH-ry-4fl"/>
+                                </constraints>
+                                <visibilityPriorities>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                </visibilityPriorities>
+                                <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                </customSpacing>
+                            </stackView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="ctI-7o-3bm" secondAttribute="bottom" id="BkO-bD-kyH"/>
+                            <constraint firstAttribute="trailing" secondItem="ctI-7o-3bm" secondAttribute="trailing" id="Ig5-K4-Guq"/>
+                            <constraint firstItem="ctI-7o-3bm" firstAttribute="leading" secondItem="lLh-8h-Yme" secondAttribute="leading" id="RLo-JY-z85"/>
+                            <constraint firstItem="ctI-7o-3bm" firstAttribute="top" secondItem="lLh-8h-Yme" secondAttribute="top" id="pCG-kh-gYB"/>
+                        </constraints>
+                        <visibilityPriorities>
+                            <integer value="1000"/>
+                        </visibilityPriorities>
+                        <customSpacing>
+                            <real value="3.4028234663852886e+38"/>
+                        </customSpacing>
+                    </stackView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="lLh-8h-Yme" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="FOJ-5w-C9G"/>
+                    <constraint firstItem="lLh-8h-Yme" firstAttribute="centerX" secondItem="EiT-Mj-1SZ" secondAttribute="centerX" id="q8E-OS-6Um"/>
+                </constraints>
             </view>
-            <point key="canvasLocation" x="139" y="147"/>
+            <point key="canvasLocation" x="146" y="118"/>
         </window>
     </objects>
 </document>
