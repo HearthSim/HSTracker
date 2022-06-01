@@ -122,10 +122,10 @@ class BattlegroundsGameView: NSView {
 
         let wm = AppDelegate.instance().coreManager.game.windowManager
         let fb = wm.battlegroundsFinalBoard
-        fb.setBoard(board: minions)
+        fb.setBoard(board: minions, endTime: game?.endTime)
         let sessionFrame = wm.battlegroundsSession.window!.frame
         let outerFrame = wm.battlegroundsSession.outerBox.frame
-        let size = NSSize(width: 378, height: 107)
+        let size = NSSize(width: 378, height: 125)
         var x: CGFloat = sessionFrame.maxX + 10
         if let screenFrame = self.window?.screen?.frame ?? NSScreen.main?.frame, x + size.width >= screenFrame.maxX {
             x = sessionFrame.minX - 10 - size.width

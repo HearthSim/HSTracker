@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AppKit
 
 class BattlegroundsFinalBoard: OverWindowController {
     override var alwaysLocked: Bool { true }
@@ -18,19 +19,23 @@ class BattlegroundsFinalBoard: OverWindowController {
     @IBOutlet weak var minion5: BattlegroundsMinionView!
     @IBOutlet weak var minion6: BattlegroundsMinionView!
     @IBOutlet weak var minion7: BattlegroundsMinionView!
+    
+    @IBOutlet weak var timespanLabel: NSTextField!
 
     var board: [Entity] = []
+    var endTime: Date?
     
     override func windowDidLoad() {
         super.windowDidLoad()
         if board.count > 0 {
-            setBoard(board: board)
+            setBoard(board: board, endTime: endTime)
         }
     }
     
-    func setBoard(board: [Entity]) {
+    func setBoard(board: [Entity], endTime: Date?) {
         logger.debug("Setting board with \(board.count) entities")
         self.board = board
+        self.endTime = endTime
         if minion1 == nil {
             return
         }
@@ -45,6 +50,20 @@ class BattlegroundsFinalBoard: OverWindowController {
             boardMinions[i]?.entity = nil
             boardMinions[i]?.needsDisplay = true
             i += 1
+        }
+        if let endTime = endTime {
+            if #available(macOS 10.15, *) {
+                let formatter = RelativeDateTimeFormatter()
+                timespanLabel.stringValue = formatter.localizedString(fromTimeInterval: endTime.timeIntervalSinceNow)
+            } else {
+                let formatter = DateComponentsFormatter()
+                formatter.unitsStyle = .full
+                formatter.allowedUnits = [ .hour, .minute ]
+                formatter.maximumUnitCount = 1
+                timespanLabel.stringValue = formatter.string(from: Date().timeIntervalSince(endTime)) ?? ""
+            }
+        } else {
+            timespanLabel.stringValue = ""
         }
         self.window?.contentView?.needsDisplay = true
     }

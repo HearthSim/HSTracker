@@ -15,6 +15,7 @@
                 <outlet property="minion5" destination="4On-Lw-10h" id="7I0-JI-auC"/>
                 <outlet property="minion6" destination="n9o-l6-pFm" id="Jcc-u7-Jt4"/>
                 <outlet property="minion7" destination="w6F-l2-vdl" id="WHA-3G-5ag"/>
+                <outlet property="timespanLabel" destination="9Ih-3x-Bp7" id="vJk-z3-lcL"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="zzI-ZI-RGA"/>
             </connections>
         </customObject>
@@ -22,23 +23,23 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" hasShadow="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g" customClass="NSPanel">
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="486" height="107"/>
+            <rect key="contentRect" x="196" y="240" width="378" height="125"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1025"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="378" height="107"/>
+                <rect key="frame" x="0.0" y="0.0" width="378" height="125"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <box boxType="custom" borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="trY-dY-qT0">
-                        <rect key="frame" x="0.0" y="0.0" width="378" height="107"/>
+                        <rect key="frame" x="0.0" y="0.0" width="378" height="125"/>
                         <view key="contentView" id="Q0p-US-d9h">
-                            <rect key="frame" x="1" y="1" width="376" height="105"/>
+                            <rect key="frame" x="1" y="1" width="376" height="123"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <stackView identifier="OuterStack" distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8bg-nT-9vt" userLabel="OuterStack">
-                                    <rect key="frame" x="0.0" y="0.0" width="376" height="105"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="376" height="123"/>
                                     <subviews>
                                         <box identifier="HeaderBox" boxType="custom" borderWidth="0.0" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="JRw-Ue-S6r">
-                                            <rect key="frame" x="0.0" y="80" width="376" height="25"/>
+                                            <rect key="frame" x="0.0" y="98" width="376" height="25"/>
                                             <view key="contentView" id="AZN-Jl-box">
                                                 <rect key="frame" x="0.0" y="0.0" width="376" height="25"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -62,53 +63,61 @@
                                             <color key="borderColor" red="0.10980392156862745" green="0.12549019607843137" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="deviceRGB"/>
                                             <color key="fillColor" red="0.10980392160000001" green="0.12549019610000001" blue="0.1333333333" alpha="1" colorSpace="custom" customColorSpace="deviceRGB"/>
                                         </box>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9Ih-3x-Bp7" userLabel="TimespanLabel">
+                                            <rect key="frame" x="16" y="78" width="354" height="15"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" alignment="left" title="Time ago" id="MKZ-vG-9yK">
+                                                <font key="font" metaFont="system" size="12"/>
+                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
                                         <stackView identifier="MinionContainer" distribution="fill" orientation="horizontal" alignment="top" spacing="-10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GH8-fe-uyl" userLabel="MinionContainer">
-                                            <rect key="frame" x="0.0" y="0.0" width="376" height="72"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="376" height="74"/>
                                             <subviews>
                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="3Lm-w9-6sK" userLabel="minion1" customClass="BattlegroundsMinionView" customModule="HSTracker" customModuleProvider="target">
-                                                    <rect key="frame" x="8" y="6" width="60" height="66"/>
+                                                    <rect key="frame" x="8" y="8" width="60" height="66"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="60" id="RD6-8k-h9x"/>
                                                         <constraint firstAttribute="height" constant="66" id="W7O-WH-ON3"/>
                                                     </constraints>
                                                 </customView>
                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="eFM-RQ-BZ1" userLabel="minion2" customClass="BattlegroundsMinionView" customModule="HSTracker" customModuleProvider="target">
-                                                    <rect key="frame" x="58" y="6" width="60" height="66"/>
+                                                    <rect key="frame" x="58" y="8" width="60" height="66"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="66" id="Z3d-8V-OO9"/>
                                                         <constraint firstAttribute="width" constant="60" id="sw3-T6-0bd"/>
                                                     </constraints>
                                                 </customView>
                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="8j1-is-ha2" userLabel="minion3" customClass="BattlegroundsMinionView" customModule="HSTracker" customModuleProvider="target">
-                                                    <rect key="frame" x="108" y="6" width="60" height="66"/>
+                                                    <rect key="frame" x="108" y="8" width="60" height="66"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="60" id="JYf-4v-KoO"/>
                                                         <constraint firstAttribute="height" constant="66" id="Zca-nR-nxf"/>
                                                     </constraints>
                                                 </customView>
                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="CFh-w9-rNW" userLabel="minion4" customClass="BattlegroundsMinionView" customModule="HSTracker" customModuleProvider="target">
-                                                    <rect key="frame" x="158" y="6" width="60" height="66"/>
+                                                    <rect key="frame" x="158" y="8" width="60" height="66"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="66" id="DOw-Za-89a"/>
                                                         <constraint firstAttribute="width" constant="60" id="ML9-r3-5MF"/>
                                                     </constraints>
                                                 </customView>
                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="4On-Lw-10h" userLabel="minion5" customClass="BattlegroundsMinionView" customModule="HSTracker" customModuleProvider="target">
-                                                    <rect key="frame" x="208" y="6" width="60" height="66"/>
+                                                    <rect key="frame" x="208" y="8" width="60" height="66"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="66" id="1TE-iY-LYm"/>
                                                         <constraint firstAttribute="width" constant="60" id="h9H-HP-foa"/>
                                                     </constraints>
                                                 </customView>
                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="n9o-l6-pFm" userLabel="minion6" customClass="BattlegroundsMinionView" customModule="HSTracker" customModuleProvider="target">
-                                                    <rect key="frame" x="258" y="6" width="60" height="66"/>
+                                                    <rect key="frame" x="258" y="8" width="60" height="66"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="66" id="ewo-hi-H1r"/>
                                                         <constraint firstAttribute="width" constant="60" id="v6d-c8-Hyk"/>
                                                     </constraints>
                                                 </customView>
                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="w6F-l2-vdl" userLabel="minion7" customClass="BattlegroundsMinionView" customModule="HSTracker" customModuleProvider="target">
-                                                    <rect key="frame" x="308" y="6" width="60" height="66"/>
+                                                    <rect key="frame" x="308" y="8" width="60" height="66"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="60" id="5rd-BC-kkd"/>
                                                         <constraint firstAttribute="height" constant="66" id="tKi-36-uWm"/>
@@ -138,18 +147,23 @@
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="GH8-fe-uyl" firstAttribute="leading" secondItem="8bg-nT-9vt" secondAttribute="leading" id="ASo-d3-tHD"/>
+                                        <constraint firstItem="9Ih-3x-Bp7" firstAttribute="leading" secondItem="8bg-nT-9vt" secondAttribute="leading" constant="18" id="Ccv-YW-M4D"/>
                                         <constraint firstAttribute="trailing" secondItem="GH8-fe-uyl" secondAttribute="trailing" id="GbF-RE-OQz"/>
                                         <constraint firstItem="JRw-Ue-S6r" firstAttribute="top" secondItem="8bg-nT-9vt" secondAttribute="top" id="MRS-I2-DQy"/>
                                         <constraint firstAttribute="bottom" secondItem="GH8-fe-uyl" secondAttribute="bottom" id="Sty-WB-qDO"/>
-                                        <constraint firstItem="GH8-fe-uyl" firstAttribute="top" secondItem="JRw-Ue-S6r" secondAttribute="bottom" priority="999" id="dEP-rJ-OQL"/>
+                                        <constraint firstItem="9Ih-3x-Bp7" firstAttribute="top" secondItem="JRw-Ue-S6r" secondAttribute="bottom" constant="4" id="W5R-Tr-Rqx"/>
                                         <constraint firstItem="JRw-Ue-S6r" firstAttribute="leading" secondItem="8bg-nT-9vt" secondAttribute="leading" id="nuZ-hj-cd5"/>
+                                        <constraint firstAttribute="trailing" secondItem="9Ih-3x-Bp7" secondAttribute="trailing" constant="8" id="p9U-5R-xCa"/>
                                         <constraint firstAttribute="trailing" secondItem="JRw-Ue-S6r" secondAttribute="trailing" id="qNd-Yk-MHu"/>
+                                        <constraint firstItem="GH8-fe-uyl" firstAttribute="top" secondItem="9Ih-3x-Bp7" secondAttribute="bottom" constant="4" id="wRU-t0-CcC"/>
                                     </constraints>
                                     <visibilityPriorities>
                                         <integer value="1000"/>
                                         <integer value="1000"/>
+                                        <integer value="1000"/>
                                     </visibilityPriorities>
                                     <customSpacing>
+                                        <real value="3.4028234663852886e+38"/>
                                         <real value="3.4028234663852886e+38"/>
                                         <real value="3.4028234663852886e+38"/>
                                     </customSpacing>
@@ -173,7 +187,7 @@
                     <constraint firstItem="trY-dY-qT0" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="sKg-cs-hjt"/>
                 </constraints>
             </view>
-            <point key="canvasLocation" x="316" y="-62.5"/>
+            <point key="canvasLocation" x="320" y="-50.5"/>
         </window>
     </objects>
 </document>
