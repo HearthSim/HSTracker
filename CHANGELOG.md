@@ -1,3 +1,12 @@
+# 2.1.7
+## New
+- Updated for patch 23.4
+- Improve Battlegrounds triples and upgrade history from HDT
+- Show Battlegrounds Session recap final board age
+## Fixes
+- Fix for incorrectly showing session recap when not in Battlegrounds mode and Hide all when game in background is unchecked
+
+## Fixes
 # 2.1.6
 ## Fixes
 - Fixed crash invoking BobsBuddy when Mono not available on the system
