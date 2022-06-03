@@ -245,6 +245,13 @@
 "Current" = "Current";
 "Resetting current Session" = "Resetting current Session";
 "By clicking 'Reset' you will clear your list of Latest Games and make your Start MMR the same as your current MMR." = "By clicking 'Reset' you will clear your list of Latest Games and make your Start MMR the same as your current MMR.";
+"MMR" = "MMR";
+"Latest Games" = "Latest Games";
+"Hero" = "Hero";
+"Final" = "Final";
+"Minions Banned" = "Minions Banned";
+"No games played this session." = "No games played this session.";
+"Latest 10 games will appear here." = "Latest 10 games will appear here.";
 
 /* Buttons */
 "Change" = "Change";

@@ -17,6 +17,14 @@ class BattlegroundsSession: OverWindowController {
     @IBOutlet weak var tribe3: BattlegroundsTribe!
     @IBOutlet weak var tribe4: BattlegroundsTribe!
     
+    @IBOutlet weak var mmrLabel: NSTextFieldCell!
+    @IBOutlet weak var finalLabel: NSTextFieldCell!
+    @IBOutlet weak var heroLabel: NSTextFieldCell!
+    @IBOutlet weak var minionsBannedLabel: NSTextFieldCell!
+    @IBOutlet weak var mmrTitleLabel: NSTextField!
+    @IBOutlet weak var noGamesLabelA: NSTextField!
+    @IBOutlet weak var noGamesLabelB: NSTextField!
+    @IBOutlet weak var latestGamesLabel: NSTextField!
     @IBOutlet weak var mmrSection: NSStackView!
     @IBOutlet weak var mmrLabelA: NSTextField!
     @IBOutlet weak var mmrFieldA: NSTextField!
@@ -111,6 +119,15 @@ class BattlegroundsSession: OverWindowController {
         let rating = game.battlegroundsRating ?? 0
         let ratingStart = firstGame?.rating ?? rating
         
+        minionsBannedLabel.stringValue = NSLocalizedString("Minions Banned", comment: "")
+        noGamesLabelA.stringValue = NSLocalizedString("No games played this session.", comment: "")
+        noGamesLabelB.stringValue = NSLocalizedString("Latest 10 games will appear here.", comment:"")
+        mmrTitleLabel.stringValue = NSLocalizedString("MMR", comment: "")
+        latestGamesLabel.stringValue = NSLocalizedString("Latest Games", comment: "")
+        heroLabel.stringValue = NSLocalizedString("Hero", comment: "")
+        finalLabel.stringValue = NSLocalizedString("Final", comment: "")
+        mmrLabel.stringValue = NSLocalizedString("MMR", comment: "")
+
         if Settings.showMMRStartCurrent {
             mmrLabelA.stringValue = NSLocalizedString("Start", comment: "")
             mmrFieldA.stringValue = formatRating(mmr: ratingStart)

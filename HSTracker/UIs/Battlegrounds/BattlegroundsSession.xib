@@ -8,13 +8,21 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="BattlegroundsSession" customModule="HSTracker" customModuleProvider="target">
             <connections>
+                <outlet property="finalLabel" destination="ADc-hE-j9S" id="dTp-c4-LUD"/>
+                <outlet property="heroLabel" destination="CfC-IE-Is9" id="qSg-tk-1Gt"/>
                 <outlet property="lastGames" destination="2gS-lz-Je2" id="NSZ-0R-ZqA"/>
+                <outlet property="latestGamesLabel" destination="PFm-dy-Peo" id="cl1-5p-KcH"/>
                 <outlet property="latestGamesSection" destination="4Yu-1c-FGo" id="6Va-QF-ozd"/>
+                <outlet property="minionsBannedLabel" destination="O4Y-sl-bSw" id="Cx0-i8-Fbg"/>
                 <outlet property="mmrFieldA" destination="1Gp-2D-Ot1" id="mNm-hM-KRG"/>
                 <outlet property="mmrFieldB" destination="vhL-Yc-Yrh" id="ZYi-Cy-sVg"/>
+                <outlet property="mmrLabel" destination="WXy-qI-nin" id="pyw-jM-RLa"/>
                 <outlet property="mmrLabelA" destination="vT4-FW-x14" id="CxF-cu-j24"/>
                 <outlet property="mmrLabelB" destination="52x-No-Hbp" id="CXx-ag-v12"/>
                 <outlet property="mmrSection" destination="cOI-Au-VfA" id="mVv-C0-BXU"/>
+                <outlet property="mmrTitleLabel" destination="EgQ-Rq-WaR" id="FWZ-Ah-WW4"/>
+                <outlet property="noGamesLabelA" destination="Wge-uD-hu3" id="ATw-K5-6eY"/>
+                <outlet property="noGamesLabelB" destination="Kuy-5f-Ii0" id="K14-Kr-c12"/>
                 <outlet property="noGamesSection" destination="PBB-pr-CQn" id="YJA-aR-TnZ"/>
                 <outlet property="outerBox" destination="prf-b9-6D8" id="KIN-mF-dMG"/>
                 <outlet property="tribe1" destination="wbb-tS-g5D" id="dJl-pv-yvK"/>
