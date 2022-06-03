@@ -247,6 +247,13 @@
 "Current" = "현재";
 "Resetting current Session" = "현재 세션 리셋하기";
 "By clicking 'Reset' you will clear your list of Latest Games and make your Start MMR the same as your current MMR." = "'리셋'을 클릭하면 이전 게임 리스트가 초기화 되며, 시작 평점이 현재 평점으로 변경됩니다.";
+"MMR" = "평점";
+"Latest Games" = "최근 게임";
+"Hero" = "영웅";
+"Final" = "등수";
+"Minions Banned" = "제외된 종족";
+"No games played this session." = "현재 세션에서 플레이된 게임이 없습니다.";
+"Latest 10 games will appear here." = "최근 10번의 게임이 이곳에 표시됩니다.";
 
 /* Buttons */
 "Change" = "변경";
