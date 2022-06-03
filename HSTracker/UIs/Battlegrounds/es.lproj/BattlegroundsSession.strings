@@ -1,0 +1,69 @@
+
+/* Class = "NSBox"; title = "Box"; ObjectID = "1rc-Wn-WXa"; */
+"1rc-Wn-WXa.title" = "Box";
+
+/* Class = "NSTextFieldCell"; title = "0"; ObjectID = "5Iv-FD-3EE"; */
+"5Iv-FD-3EE.title" = "0";
+
+/* Class = "NSTextFieldCell"; title = "No games played this session."; ObjectID = "7m7-Z3-h67"; */
+"7m7-Z3-h67.title" = "No games played this session.";
+
+/* Class = "NSTextFieldCell"; title = "Final"; ObjectID = "ADc-hE-j9S"; */
+"ADc-hE-j9S.title" = "Final";
+
+/* Class = "NSTextFieldCell"; title = "Hero"; ObjectID = "CfC-IE-Is9"; */
+"CfC-IE-Is9.title" = "Hero";
+
+/* Class = "NSTextFieldCell"; title = "Minions Banned"; ObjectID = "O4Y-sl-bSw"; */
+"O4Y-sl-bSw.title" = "Minions Banned";
+
+/* Class = "NSWindow"; title = "Window"; ObjectID = "QvC-M9-y7g"; */
+"QvC-M9-y7g.title" = "Window";
+
+/* Class = "NSTextFieldCell"; title = "0"; ObjectID = "RZG-YG-Lt0"; */
+"RZG-YG-Lt0.title" = "0";
+
+/* Class = "NSBox"; title = "Box"; ObjectID = "SvQ-Ml-UVU"; */
+"SvQ-Ml-UVU.title" = "Box";
+
+/* Class = "NSTextFieldCell"; title = "MMR"; ObjectID = "V6f-P8-1Oy"; */
+"V6f-P8-1Oy.title" = "MMR";
+
+/* Class = "NSTextFieldCell"; title = "Latest Games"; ObjectID = "VL2-Bl-ipX"; */
+"VL2-Bl-ipX.title" = "Latest Games";
+
+/* Class = "NSTextFieldCell"; title = "MMR"; ObjectID = "WXy-qI-nin"; */
+"WXy-qI-nin.title" = "MMR";
+
+/* Class = "NSBox"; title = "Box"; ObjectID = "aNM-VY-1mc"; */
+"aNM-VY-1mc.title" = "Box";
+
+/* Class = "NSTextFieldCell"; title = "Latest 10 games will appear here."; ObjectID = "aq7-wT-9Od"; */
+"aq7-wT-9Od.title" = "Latest 10 games will appear here.";
+
+/* Class = "NSBox"; title = "Box"; ObjectID = "c2E-0p-5HV"; */
+"c2E-0p-5HV.title" = "Box";
+
+/* Class = "NSTextFieldCell"; placeholderString = "Label B"; ObjectID = "d8c-CA-Xnd"; */
+"d8c-CA-Xnd.placeholderString" = "Label B";
+
+/* Class = "NSBox"; title = "Box"; ObjectID = "g0d-al-yth"; */
+"g0d-al-yth.title" = "Box";
+
+/* Class = "NSTextFieldCell"; placeholderString = "Label A"; ObjectID = "ha4-gL-nzv"; */
+"ha4-gL-nzv.placeholderString" = "Label A";
+
+/* Class = "NSBox"; title = "Box"; ObjectID = "juA-YM-l4A"; */
+"juA-YM-l4A.title" = "Box";
+
+/* Class = "NSBox"; title = "Box"; ObjectID = "mRh-ct-YTH"; */
+"mRh-ct-YTH.title" = "Box";
+
+/* Class = "NSBox"; title = "Box"; ObjectID = "oQv-rg-ExR"; */
+"oQv-rg-ExR.title" = "Box";
+
+/* Class = "NSBox"; title = "Box"; ObjectID = "prf-b9-6D8"; */
+"prf-b9-6D8.title" = "Box";
+
+/* Class = "NSBox"; title = "Box"; ObjectID = "wKW-hr-OKg"; */
+"wKW-hr-OKg.title" = "Box";
