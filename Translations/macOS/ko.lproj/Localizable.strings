@@ -62,6 +62,9 @@
 "HSTracker needs elevated privileges to read data from Hearthstone's memory. If macOS asks you for your system password, do not be alarmed, no changes to your computer will be performed." = "HSTracker는 하스스톤 게임의 메모리를 읽기 위해 특순 권한을 필요로 합니다. 만약 macOS가 시스템 비밀번호를 요구한다는 알람이 뜨더라도 시스템에는 아무런 변경사항이 없습니다.";
 "I understand" = "이해했습니다";
 
+"Delete cached images" = "캐시된 이미지 삭제";
+"By clicking 'Delete' all locally cached images will be deleted. This may take a while" = "'삭제' 버튼을 클릭하면 캐시된 이미지가 삭제됩니다. 이 작업은 시간이 조금 걸릴 수 있습니다.";
+
 /* notifications */
 "Your game begins" = "게임 시작 되었습니다.";
 "Victory" = "승리";
@@ -216,6 +219,7 @@
 "Turns" = "턴";
 "%d turn(s) ago" = "%d 턴 전";
 "You have not fought this opponent" = "이 상대와 싸우지 않았습니다.";
+"Turn %d" = "%d 턴";
 
 /* Crashes */
 "HSTracker Crashed" = "HSTracker 에서 오류가 발생했습니다.";
@@ -237,3 +241,13 @@
 /* Deck Lens - Dredge */
 "On Top" = "맨 위";
 "On Bottom" = "맨 아래";
+
+/* BG Session Recap */
+"Start" = "시작";
+"Current" = "현재";
+"Resetting current Session" = "현재 세션 리셋하기";
+"By clicking 'Reset' you will clear your list of Latest Games and make your Start MMR the same as your current MMR." = "'리셋'을 클릭하면 이전 게임 리스트가 초기화 되며, 시작 MMR이 현재 MMR로 변경됩니다.";
+
+/* Buttons */
+"Change" = "변경";
+"Delete" = "삭제";
