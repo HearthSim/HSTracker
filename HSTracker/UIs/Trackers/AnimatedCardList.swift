@@ -95,7 +95,7 @@ class AnimatedCardList: NSView {
                 newCard.setDelegate(delegate)
             }
             newCard.card = card
-            if let index = cards.firstIndex(of: card) {
+            if let index = cards.firstIndex(of: card), index <= animatedCards.count {
                 animatedCards.insert(newCard, at: index)
             } else {
                 animatedCards.append(newCard)

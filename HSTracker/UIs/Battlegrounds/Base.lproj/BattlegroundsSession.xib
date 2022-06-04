@@ -35,7 +35,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="200" height="259"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <box identifier="OuterBox" boxType="custom" borderType="none" borderWidth="0.0" cornerRadius="5" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="prf-b9-6D8" userLabel="OuterBox">
+                    <box identifier="OuterBox" boxType="custom" borderType="none" borderWidth="0.0" cornerRadius="5" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="prf-b9-6D8" userLabel="OuterBox">
                         <rect key="frame" x="0.0" y="-3" width="200" height="262"/>
                         <view key="contentView" id="ees-dA-MVn">
                             <rect key="frame" x="0.0" y="0.0" width="200" height="262"/>
@@ -47,7 +47,7 @@
                                         <stackView identifier="BattlegroundsTribeSection" distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1P4-zG-CQh" userLabel="BgBannedTribesSection">
                                             <rect key="frame" x="0.0" y="158" width="200" height="104"/>
                                             <subviews>
-                                                <box identifier="MinionsBannedBox" boxType="custom" borderType="none" cornerRadius="5" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="g0d-al-yth">
+                                                <box identifier="MinionsBannedBox" boxType="custom" borderType="none" cornerRadius="5" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="g0d-al-yth">
                                                     <rect key="frame" x="0.0" y="74" width="200" height="30"/>
                                                     <view key="contentView" id="hbn-Dn-EOp">
                                                         <rect key="frame" x="0.0" y="0.0" width="200" height="30"/>
@@ -75,7 +75,7 @@
                                                     <color key="borderColor" red="0.29019607843137252" green="0.32156862745098036" blue="0.33725490196078434" alpha="1" colorSpace="deviceRGB"/>
                                                     <color key="fillColor" red="0.10980392156862745" green="0.12549019607843137" blue="0.13333333333333333" alpha="1" colorSpace="deviceRGB"/>
                                                 </box>
-                                                <box identifier="TribesSeparator" boxType="custom" borderType="none" borderWidth="0.0" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="SvQ-Ml-UVU" userLabel="Separator1">
+                                                <box identifier="TribesSeparator" boxType="custom" borderType="none" borderWidth="0.0" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="SvQ-Ml-UVU" userLabel="Separator1">
                                                     <rect key="frame" x="0.0" y="73" width="200" height="1"/>
                                                     <view key="contentView" id="gpQ-EA-dhB">
                                                         <rect key="frame" x="0.0" y="0.0" width="200" height="1"/>
@@ -146,7 +146,7 @@
                                                         <real value="3.4028234663852886e+38"/>
                                                     </customSpacing>
                                                 </stackView>
-                                                <box identifier="TribesSeparator2" boxType="custom" borderType="none" borderWidth="0.0" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="oQv-rg-ExR" userLabel="Separator2">
+                                                <box identifier="TribesSeparator2" boxType="custom" borderType="none" borderWidth="0.0" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="oQv-rg-ExR" userLabel="Separator2">
                                                     <rect key="frame" x="0.0" y="0.0" width="200" height="1"/>
                                                     <view key="contentView" id="xtP-ah-qSk">
                                                         <rect key="frame" x="0.0" y="0.0" width="200" height="1"/>

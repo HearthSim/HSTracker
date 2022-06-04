@@ -481,8 +481,9 @@ class Game: NSObject, PowerEventHandler {
         
     func updateBattlegroundsSessionOverlay() {
         DispatchQueue.main.async {
-            if Settings.showSessionRecap && ((self.currentMode == .bacon) || (self.isBattlegroundsMatch() && !self.isInMenu)) && (!Settings.hideAllWhenGameInBackground && (self.hearthstoneRunState.isActive || self.selfAppActive))
-                || (!Settings.hideAllWhenGameInBackground && self.currentMode == .bacon) {
+            let isBG = (self.isBattlegroundsMatch() && !self.gameEnded) || self.currentMode == .bacon
+
+            if isBG && Settings.showSessionRecap && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground) {
                 self.windowManager.battlegroundsSession.show()
 
                 var rect = SizeHelper.battlegroundsSessionFrame()

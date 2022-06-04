@@ -14,7 +14,21 @@ class BattlegroundsUtils {
         CardIds.NonCollectible.Neutral.QueenAzshara_NagaQueenAzsharaToken: CardIds.NonCollectible.Neutral.QueenAzsharaBATTLEGROUNDS ]
     
     static func getOriginalHeroId(heroId: String) -> String {
-        if let mapped = BattlegroundsUtils.transformableHeroCardidTable[heroId] {
+        var result = heroId
+        if heroId == "TB_BaconShop_HERO_KelThuzad" {
+            let game = AppDelegate.instance().coreManager.game
+            
+            let currentPlayer = game.entities.values.first(where: { x in x.has(tag: GameTag.next_opponent_player_id) })
+            if let currentPlayer = currentPlayer {
+                let nextOpponent = game.entities.values.first(where: { x in x[GameTag.player_id] == currentPlayer[GameTag.next_opponent_player_id] })
+                if let nextOpponent = nextOpponent {
+                    result = nextOpponent.cardId
+                    logger.debug("Kel'Thuzad corrected id is \(result)")
+                }
+            }
+        }
+
+        if let mapped = BattlegroundsUtils.transformableHeroCardidTable[result] {
             return mapped
         }
         return heroId
