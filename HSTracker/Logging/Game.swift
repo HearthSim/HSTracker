@@ -483,7 +483,7 @@ class Game: NSObject, PowerEventHandler {
         DispatchQueue.main.async {
             let isBG = (self.isBattlegroundsMatch() && (self.currentMode == .bacon || self.currentMode == .gameplay)) || self.currentMode == .bacon
 
-            if isBG && Settings.showSessionRecap && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground) {
+            if isBG && Settings.showSessionRecap && self.isAnyBattlegroundsSessionSettingActive() && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground) {
                 self.windowManager.battlegroundsSession.show()
 
                 var rect = SizeHelper.battlegroundsSessionFrame()
@@ -1896,6 +1896,10 @@ class Game: NSObject, PowerEventHandler {
         // TODO: remove
         return currentGameType == .gt_battlegrounds || currentGameType == .gt_battlegrounds_friendly
         //return true
+    }
+    
+    func isAnyBattlegroundsSessionSettingActive() -> Bool {
+        return Settings.showBannedTribes || Settings.showMMR || Settings.showLatestGames
     }
     
     func isMercenariesMatch() -> Bool {
