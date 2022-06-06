@@ -22,6 +22,7 @@
                 <outlet property="tribe3" destination="fcI-tY-CCG" id="k3d-Ro-DD2"/>
                 <outlet property="tribe4" destination="VNs-Hr-whc" id="p1C-WD-D2A"/>
                 <outlet property="tribesSection" destination="1P4-zG-CQh" id="IRO-I7-k77"/>
+                <outlet property="waitingForNext" destination="RB6-js-2ZR" id="B3b-tp-Veb"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="cGV-R5-rgS"/>
             </connections>
         </customObject>
@@ -117,14 +118,25 @@
                                                                 <constraint firstAttribute="height" priority="750" constant="56" id="jRF-1V-Tx3"/>
                                                             </constraints>
                                                         </customView>
+                                                        <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RB6-js-2ZR">
+                                                            <rect key="frame" x="-2" y="27" width="204" height="19"/>
+                                                            <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Waiting for next game" id="F5K-Qy-jMG">
+                                                                <font key="font" metaFont="system" size="16"/>
+                                                                <color key="textColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="custom" customColorSpace="deviceRGB"/>
+                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                        </textField>
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstAttribute="bottom" secondItem="VNs-Hr-whc" secondAttribute="bottom" constant="8" id="1r8-tb-8fE"/>
                                                         <constraint firstItem="wbb-tS-g5D" firstAttribute="leading" secondItem="n2b-VF-4kJ" secondAttribute="leading" constant="8" id="2BA-0R-Uvp"/>
+                                                        <constraint firstItem="RB6-js-2ZR" firstAttribute="leading" secondItem="n2b-VF-4kJ" secondAttribute="leading" id="Eli-5Q-vJ7"/>
                                                         <constraint firstItem="fcI-tY-CCG" firstAttribute="leading" secondItem="nkE-Zv-Q2c" secondAttribute="trailing" constant="8" id="Fb4-Zx-ez0"/>
                                                         <constraint firstAttribute="bottom" secondItem="nkE-Zv-Q2c" secondAttribute="bottom" constant="8" id="NLi-fm-gNn"/>
                                                         <constraint firstItem="nkE-Zv-Q2c" firstAttribute="leading" secondItem="wbb-tS-g5D" secondAttribute="trailing" constant="8" id="NlL-HD-Qaf"/>
+                                                        <constraint firstItem="RB6-js-2ZR" firstAttribute="centerY" secondItem="n2b-VF-4kJ" secondAttribute="centerY" id="QmK-8b-PVM"/>
                                                         <constraint firstItem="VNs-Hr-whc" firstAttribute="top" secondItem="n2b-VF-4kJ" secondAttribute="top" constant="8" id="UU3-9e-uzh"/>
+                                                        <constraint firstAttribute="trailing" secondItem="RB6-js-2ZR" secondAttribute="trailing" id="Uba-Yz-u8Y"/>
                                                         <constraint firstAttribute="trailing" secondItem="VNs-Hr-whc" secondAttribute="trailing" constant="8" id="cvW-EY-NPz"/>
                                                         <constraint firstAttribute="bottom" secondItem="wbb-tS-g5D" secondAttribute="bottom" constant="8" id="dVL-8i-t8Y"/>
                                                         <constraint firstItem="VNs-Hr-whc" firstAttribute="leading" secondItem="fcI-tY-CCG" secondAttribute="trailing" constant="8" id="eFR-7H-c3L"/>
@@ -138,8 +150,10 @@
                                                         <integer value="1000"/>
                                                         <integer value="1000"/>
                                                         <integer value="1000"/>
+                                                        <integer value="1000"/>
                                                     </visibilityPriorities>
                                                     <customSpacing>
+                                                        <real value="3.4028234663852886e+38"/>
                                                         <real value="3.4028234663852886e+38"/>
                                                         <real value="3.4028234663852886e+38"/>
                                                         <real value="3.4028234663852886e+38"/>

@@ -481,7 +481,7 @@ class Game: NSObject, PowerEventHandler {
         
     func updateBattlegroundsSessionOverlay() {
         DispatchQueue.main.async {
-            let isBG = (self.isBattlegroundsMatch() && !self.gameEnded) || self.currentMode == .bacon
+            let isBG = (self.isBattlegroundsMatch() && (self.currentMode == .bacon || self.currentMode == .gameplay)) || self.currentMode == .bacon
 
             if isBG && Settings.showSessionRecap && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground) {
                 self.windowManager.battlegroundsSession.show()
@@ -791,9 +791,7 @@ class Game: NSObject, PowerEventHandler {
 
     private var _spectator: Bool?
     var spectator: Bool {
-        if let spec = _spectator {
-            return spec
-        } else if MirrorHelper.isInitialized() {
+        if _spectator == nil {
             _spectator = MirrorHelper.isSpectating()
         }
         return _spectator ?? false
@@ -817,11 +815,11 @@ class Game: NSObject, PowerEventHandler {
         if _currentGameType != .gt_unknown {
             return _currentGameType
         }
-        if let gameType = MirrorHelper.getGameType(),
+        if currentMode == .gameplay, let gameType = MirrorHelper.getGameType(),
             let type = GameType(rawValue: gameType) {
             _currentGameType = type
         }
-        return _currentGameType
+        return .gt_unknown
     }
     
     private var _serverInfo: MirrorGameServerInfo?
@@ -1281,6 +1279,20 @@ class Game: NSObject, PowerEventHandler {
             _mercenariesRating = rating
         }
     }
+    
+    func cacheSpectator() {
+        _spectator = MirrorHelper.isSpectating()
+    }
+    
+    func cacheGameType() {
+        if let currentGameType = MirrorHelper.getGameType(), currentGameType != GameType.gt_unknown.rawValue {
+            _currentGameType = GameType(rawValue: currentGameType) ?? .gt_unknown
+        } else {
+            DispatchQueue.global().asyncAfter(deadline: .now() + 1.0) {
+                self.cacheGameType()
+            }
+        }
+    }
 
     private func tryToDetectWhizbangDeck() {
         if hasValidDeck {
@@ -1450,6 +1462,8 @@ class Game: NSObject, PowerEventHandler {
         handledGameEnd = false
 
         cacheMatchInfo()
+        cacheGameType()
+        cacheSpectator()
 
         Analytics.trackEvent("match_start", withProperties: ["gameMode": "\(currentGameMode)",
                                                              "gameType": "\(currentGameType)"])
@@ -1648,7 +1662,6 @@ class Game: NSObject, PowerEventHandler {
             }
             updatePostGameBattlegroundsRating(gameStats: currentGameStats)
             recordBattlegroundsGame(gameStats: currentGameStats)
-            _unavailableRaces = nil
             if currentGameStats.battlegroundsRatingAfter != 0 {
                 _battlegroundsRating = currentGameStats.battlegroundsRatingAfter
             }
@@ -1741,6 +1754,9 @@ class Game: NSObject, PowerEventHandler {
     }
     
     func recordBattlegroundsGame(gameStats: InternalGameStats) {
+        if spectator {
+            return
+        }
         let hero = entities.values.first(where: { x in x[.player_id] == player.id && x.isHero })
         let heroCardId = hero?.cardId
         let placement = hero?[.player_leaderboard_place] ?? 0

@@ -16,6 +16,7 @@ class BattlegroundsSession: OverWindowController {
     @IBOutlet weak var tribe2: BattlegroundsTribe!
     @IBOutlet weak var tribe3: BattlegroundsTribe!
     @IBOutlet weak var tribe4: BattlegroundsTribe!
+    @IBOutlet weak var waitingForNext: NSTextField!
     
     @IBOutlet weak var mmrSection: NSStackView!
     @IBOutlet weak var mmrLabelA: NSTextField!
@@ -34,34 +35,51 @@ class BattlegroundsSession: OverWindowController {
     }
     
     func onGameStart() {
+        if AppDelegate.instance().coreManager.game.spectator {
+            return
+        }
         DispatchQueue.main.async {
-            self.updateBannedMinionsVisibility()
+            self.showBannedTribes()
             self.update()
         }
     }
     
     func onGameEnd(gameStats: InternalGameStats) {
+        if AppDelegate.instance().coreManager.game.spectator {
+            return
+        }
         DispatchQueue.main.async {
+            self.hideBannedTribes()
             self.update()
         }
     }
     
     func show() {
-        if window?.occlusionState.contains(.visible) ?? false {
+        if window?.occlusionState.contains(.visible) ?? false || AppDelegate.instance().coreManager.game.spectator {
             return
         }
         update()
         updateSectionsVisibilities()
     }
     
-    private func updateBannedMinionsVisibility() {
-        let game = AppDelegate.instance().coreManager.game
-        let shouldShow = Settings.showBannedTribes && game.isBattlegroundsMatch() && game.currentMode == .gameplay
-        tribesSection.isHidden = !shouldShow
+    private func showBannedTribes() {
+        tribe1.isHidden = false
+        tribe2.isHidden = false
+        tribe3.isHidden = false
+        tribe4.isHidden = false
+        waitingForNext.isHidden = true
+    }
+    
+    private func hideBannedTribes() {
+        tribe1.isHidden = true
+        tribe2.isHidden = true
+        tribe3.isHidden = true
+        tribe4.isHidden = true
+        waitingForNext.isHidden = false
     }
     
     func updateSectionsVisibilities() {
-        updateBannedMinionsVisibility()
+        tribesSection.isHidden = !Settings.showBannedTribes
         mmrSection.isHidden = !Settings.showMMR
         latestGamesSection.isHidden = !Settings.showLatestGames
     }
@@ -75,14 +93,19 @@ class BattlegroundsSession: OverWindowController {
         }
         let game = AppDelegate.instance().coreManager.game
         let unavail = game.unavailableRaces
-        if let races = unavail, races.count >= 3 {
-            tribesSection.isHidden = false
+        if !game.gameEnded, let races = unavail, races.count >= 3 {
             let sorted = races.sorted(by: { (a, b) in NSLocalizedString(a.rawValue, comment: "") < NSLocalizedString(b.rawValue, comment: "") })
             tribe1.setRace(newRace: sorted[0])
             tribe2.setRace(newRace: sorted[1])
             tribe3.setRace(newRace: sorted[2])
+            tribe1.isHidden = false
+            tribe2.isHidden = false
+            tribe3.isHidden = false
             if sorted.count > 3 {
                 tribe4.setRace(newRace: sorted[3])
+                tribe4.isHidden = false
+            } else {
+                tribe4.isHidden = true
             }
             var font = tribe1.tribeLabel.font
             var minSize = tribe1.tribeLabel.font?.pointSize ?? 13.0
@@ -102,8 +125,13 @@ class BattlegroundsSession: OverWindowController {
             tribe2.tribeLabel.font = font
             tribe3.tribeLabel.font = font
             tribe4.tribeLabel.font = font
+            waitingForNext.isHidden = true
         } else {
-            tribesSection.isHidden = true
+            tribe1.isHidden = true
+            tribe2.isHidden = true
+            tribe3.isHidden = true
+            tribe4.isHidden = true
+            waitingForNext.isHidden = false
         }
         
         let firstGame = updateLatestGames()
