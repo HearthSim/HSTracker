@@ -234,7 +234,7 @@ extension CardIds.Secrets {
         static let IceBarrier = MultiIdCard(CardIds.Collectible.Mage.IceBarrier, CardIds.Collectible.Mage.IceBarrierCore, CardIds.Collectible.Mage.IceBarrierVanilla)
         static let IceBlock = MultiIdCard(CardIds.Collectible.Mage.IceBlock, CardIds.Collectible.Mage.IceBlockVanilla)
         static let ManaBind = MultiIdCard(CardIds.Collectible.Mage.ManaBind)
-        static let MirrorEntity = MultiIdCard(CardIds.Collectible.Mage.MirrorEntity, CardIds.Collectible.Mage.MirrorEntityCore, CardIds.Collectible.Mage.MirrorEntityVanilla)
+        static let MirrorEntity = MultiIdCard(CardIds.Collectible.Mage.MirrorEntity, CardIds.Collectible.Mage.MirrorEntityVanilla)
         static let NetherwindPortal = MultiIdCard(CardIds.Collectible.Mage.NetherwindPortal)
         static let OasisAlly = MultiIdCard(CardIds.Collectible.Mage.OasisAlly)
         static let PotionOfPolymorph = MultiIdCard(CardIds.Collectible.Mage.PotionOfPolymorph)
