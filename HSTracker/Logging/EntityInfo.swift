@@ -69,6 +69,11 @@ class EntityInfo {
 
         originalCardId = Cards.by(dbfId: dbfId)?.id
     }
+    
+    func clearCardId() {
+        originalCardId = nil
+        _latestCardId = nil
+    }
 }
 
 extension EntityInfo: CustomStringConvertible {

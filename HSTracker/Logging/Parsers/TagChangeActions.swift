@@ -60,6 +60,7 @@ struct TagChangeActions {
         case .armor: return { self.armorChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue)}
         case .lettuce_ability_tile_visual_all_visible, .lettuce_ability_tile_visual_self_only, .fake_zone, .fake_zone_position: return { self.mercenariesStateChange(eventHandler: eventHandler)}
         case .linked_entity: return { self.linkedEntity(eventHandler: eventHandler, id: id, value: value)}
+        case .immolatestage: return { self.onImmolateStage(eventHandler: eventHandler, id: id, value: value)}
         default: return nil
         }
     }
@@ -842,6 +843,14 @@ struct TagChangeActions {
             if let entity = eventHandler.entities[id] {
                 eventHandler.handlePlayerBuddiesGained(entity: entity, num: value)
             }
+        }
+    }
+    
+    private func onImmolateStage(eventHandler: PowerEventHandler, id: Int, value: Int) {
+        let game = AppDelegate.instance().coreManager.game
+        
+        if value == 4, let entity = game.entities[id], entity.cardId != CardIds.NonCollectible.Neutral.TheCoinBasic {
+            entity.clearCardId()
         }
     }
 }

@@ -376,7 +376,8 @@ enum GameTag: Int, WrappableEnum, CaseIterable, Codable {
     bacon_combat_damage_cap = 2089,
     lettuce_show_opposing_fake_hand = 2224,
     dredge = 2332,
-    bacon_player_num_hero_buddies_gained = 2346
+    bacon_player_num_hero_buddies_gained = 2346,
+    immolatestage = 2600
 
     init?(rawString: String) {
         let string = rawString.lowercased()

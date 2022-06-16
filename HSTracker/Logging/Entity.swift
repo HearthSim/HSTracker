@@ -179,6 +179,11 @@ class Entity {
         }
         return creatorId
     }
+    
+    func clearCardId() {
+        cardId = ""
+        info.clearCardId()
+    }
 
     private var _cachedCard: Card?
     var card: Card {
