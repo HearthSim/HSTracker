@@ -2233,6 +2233,7 @@ class Game: NSObject, PowerEventHandler {
 
                 DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3), execute: {
                     let view = BgHeroesToastView(frame: NSRect.zero)
+                    view.mmr = self.battlegroundsRating
                     view.clicked = {
                         AppDelegate.instance().coreManager.toaster.hide()
                     }

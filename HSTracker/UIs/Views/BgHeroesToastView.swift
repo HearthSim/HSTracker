@@ -12,6 +12,7 @@ import TextAttributes
 class BgHeroesToastView: NSView {
 
     var heroes = [String]()
+    var mmr: Int?
     var clicked: (() -> Void)?
     
     private lazy var trackingArea: NSTrackingArea = NSTrackingArea(rect: NSRect.zero,
@@ -117,6 +118,9 @@ class BgHeroesToastView: NSView {
                 let tmpRaces = races.compactMap({ x in String(x) }).joined(separator: ",")
                 url += "&minionTypes=" + tmpRaces
             }
+        }
+        if let mmr = mmr {
+            url += "&mmr=\(mmr)"
         }
         NSWorkspace.shared.open(URL(string: url)!)
         if let clicked = self.clicked {
