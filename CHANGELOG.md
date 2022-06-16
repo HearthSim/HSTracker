@@ -1,3 +1,14 @@
+# 2.1.8
+## New
+- Updated for poatch 23.4.3
+- Korean translation updates (thanks @kshired)
+## Fixes
+- Fixed Battlegrounds session recap not showing correctly
+- Fixed Battlegorunds session recap gray window if all settings disabled (thanks @kshired)
+- Fixed size of deck statistics tab to show all classes better (issue #1269)
+- Fixed an issue where Mirror Entity was displayed in Standard games.
+- Fixed an issue where information about cards discarded by Immolation was unintentionally revealed.
+
 # 2.1.7
 ## New
 - Updated for patch 23.4

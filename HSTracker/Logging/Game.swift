@@ -1736,16 +1736,21 @@ class Game: NSObject, PowerEventHandler {
             let (uploadMetaData, statId) = UploadMetaData.generate(stats: stats, buildNumber: self.buildNumber,
 				deck: self.playerDeckAutodetected && self.currentDeck != nil ? self.currentDeck : nil )
 			
+            let showUploadNotification = stats.gameMode == .practice || stats.gameMode == .arena || stats.gameMode == .brawl || stats.gameMode == .ranked || stats.gameMode == .friendly || stats.gameMode == .casual || stats.gameMode == .spectator || stats.gameMode == .duels
             HSReplayAPI.getUploadToken { _ in
                 
                 LogUploader.upload(logLines: logLines, buildNumber: self.buildNumber,
                                    metaData: (uploadMetaData, statId)) { result in
                     if case UploadResult.successful(let replayId) = result {
-                        NotificationManager.showNotification(type: .hsReplayPush(replayId: replayId))
+                        if showUploadNotification {
+                            NotificationManager.showNotification(type: .hsReplayPush(replayId: replayId))
+                        }
                         NotificationCenter.default
                             .post(name: Notification.Name(rawValue: Events.reload_decks), object: nil)
                     } else if case UploadResult.failed(let error) = result {
-                        NotificationManager.showNotification(type: .hsReplayUploadFailed(error: error))
+                        if showUploadNotification {
+                            NotificationManager.showNotification(type: .hsReplayUploadFailed(error: error))
+                        }
                     }
                 }
             }
