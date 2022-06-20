@@ -717,7 +717,7 @@ struct TagChangeActions {
                 let drawerCardId = powerGameStateParser?.getCurrentBlock()?.cardId ?? ""
                 var drawerId: Int?
                 if drawerCardId != "" {
-                    drawerId = eventHandler.entities.first { x in x.value.cardId == drawerCardId }?.value.id
+                    drawerId = eventHandler.entities.first { (_, value) in value.cardId == drawerCardId }?.1.id
                 }
                 eventHandler.opponentDraw(entity: entity, turn: eventHandler.turnNumber(), cardId: cardId ?? "", drawerId: drawerId)
             }

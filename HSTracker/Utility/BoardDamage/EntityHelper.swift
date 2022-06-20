@@ -19,15 +19,13 @@ class EntityHelper {
         return getHeroEntity(forPlayer: forPlayer, entities: game.entities, id: game.player.id)
     }
 
-    class func getHeroEntity(forPlayer: Bool, entities: [Int: Entity], id: Int) -> Entity? {
+    class func getHeroEntity(forPlayer: Bool, entities: SynchronizedDictionary<Int, Entity>, id: Int) -> Entity? {
         var _id = id
         if !forPlayer {
             _id = (_id % 2) + 1
         }
-        let heros = entities.filter {
-            isHero(entity: $0.1)
-        }.map {
-            $0.1
+        let heros = entities.values.filter {
+            isHero(entity: $0)
         }
         return heros.first {
             $0[.controller] == id
@@ -36,14 +34,12 @@ class EntityHelper {
 
 	class func isPlayersTurn(eventHandler: PowerEventHandler) -> Bool {
 		let entities = eventHandler.entities
-        let firstPlayer = entities.map {
-            $0.1
-        }.first {
+        let firstPlayer = entities.values.first {
             $0.has(tag: .first_player)
         }
         if let firstPlayer = firstPlayer {
 			let offset = firstPlayer.isPlayer(eventHandler: eventHandler) ? 0 : 1
-            guard let gameRoot = entities.map({ $0.1 })
+            guard let gameRoot = entities.values
                 .first(where: { $0.name == "GameEntity" }) else {
                 return false
             }

@@ -15,94 +15,86 @@ class AnimatedCardList: NSView {
     
     var delegate: CardCellHover?
     
-    let semaphore = DispatchSemaphore(value: 1)
+    let lock = UnfairLock()
     
     var count: Int {
-        semaphore.wait()
-        
-        let result = animatedCards.count
-        
-        semaphore.signal()
-        
-        return result
+        lock.around {
+            return animatedCards.count
+        }
     }
 
     @discardableResult func update(cards: [Card], reset: Bool) -> Bool {
-        semaphore.wait()
-        
-        defer {
-            semaphore.signal()
-        }
-        
-        if reset {
-            animatedCards.removeAll()
-        }
-
-        var newCards = [Card]()
-        for card in cards {
-            if let existing = animatedCards.first(where: {
-                if let c0 = $0.card {
-                    return self.areEqualForList(c0, card)
-                }
-                return false
-            }) {
-                if existing.card?.count != card.count || existing.card?.highlightInHand != card.highlightInHand {
-                    let highlight = existing.card?.count != card.count
-                    existing.card?.count = card.count
-                    existing.card?.highlightInHand = card.highlightInHand
-                    existing.update(highlight: highlight)
-                } else if existing.card?.isCreated != card.isCreated {
-                    existing.update(highlight: false)
-                }
-            } else {
-                newCards.append(card)
+        lock.around {
+            if reset {
+                animatedCards.removeAll()
             }
-        }
 
-        var toUpdate = [CardBar]()
-        for c in animatedCards {
-            if let card = c.card, !cards.any({ self.areEqualForList($0, card) }) {
-                toUpdate.append(c)
+            var newCards = [Card]()
+            for card in cards {
+                if let existing = animatedCards.first(where: {
+                    if let c0 = $0.card {
+                        return self.areEqualForList(c0, card)
+                    }
+                    return false
+                }) {
+                    if existing.card?.count != card.count || existing.card?.highlightInHand != card.highlightInHand {
+                        let highlight = existing.card?.count != card.count
+                        existing.card?.count = card.count
+                        existing.card?.highlightInHand = card.highlightInHand
+                        existing.update(highlight: highlight)
+                    } else if existing.card?.isCreated != card.isCreated {
+                        existing.update(highlight: false)
+                    }
+                } else {
+                    newCards.append(card)
+                }
             }
-        }
-        var toRemove: [CardBar: Bool] = [:]
-        for card in toUpdate {
-            let newCard = newCards.first { $0.id == card.card?.id }
-            toRemove[card] = newCard == nil
-            if let newCard = newCard {
-                let newAnimated = CardBar.factory()
-                newAnimated.playerType = self.playerType
+
+            var toUpdate = [CardBar]()
+            for c in animatedCards {
+                if let card = c.card, !cards.any({ self.areEqualForList($0, card) }) {
+                    toUpdate.append(c)
+                }
+            }
+            var toRemove: [CardBar: Bool] = [:]
+            for card in toUpdate {
+                let newCard = newCards.first { $0.id == card.card?.id }
+                toRemove[card] = newCard == nil
+                if let newCard = newCard {
+                    let newAnimated = CardBar.factory()
+                    newAnimated.playerType = self.playerType
+                    if let delegate = delegate {
+                        newAnimated.setDelegate(delegate)
+                    }
+                    newAnimated.card = newCard
+
+                    if let index = animatedCards.firstIndex(of: card) {
+                        animatedCards.insert(newAnimated, at: index)
+                        newAnimated.update(highlight: true)
+                        newCards.remove(newCard)
+                    }
+                }
+            }
+            for (cardCellView, fadeOut) in toRemove {
+                remove(card: cardCellView, fadeOut: fadeOut)
+            }
+            
+            for card in newCards {
+                let newCard = CardBar.factory()
+                newCard.playerType = self.playerType
                 if let delegate = delegate {
-                    newAnimated.setDelegate(delegate)
+                    newCard.setDelegate(delegate)
                 }
-                newAnimated.card = newCard
-
-                if let index = animatedCards.firstIndex(of: card) {
-                    animatedCards.insert(newAnimated, at: index)
-                    newAnimated.update(highlight: true)
-                    newCards.remove(newCard)
+                newCard.card = card
+                if let index = cards.firstIndex(of: card), index <= animatedCards.count {
+                    animatedCards.insert(newCard, at: index)
+                } else {
+                    animatedCards.append(newCard)
                 }
+                newCard.fadeIn(highlight: !reset)
             }
+            return toRemove.count > 0
         }
-        for (cardCellView, fadeOut) in toRemove {
-            remove(card: cardCellView, fadeOut: fadeOut)
-        }
-        
-        for card in newCards {
-            let newCard = CardBar.factory()
-            newCard.playerType = self.playerType
-            if let delegate = delegate {
-                newCard.setDelegate(delegate)
-            }
-            newCard.card = card
-            if let index = cards.firstIndex(of: card), index <= animatedCards.count {
-                animatedCards.insert(newCard, at: index)
-            } else {
-                animatedCards.append(newCard)
-            }
-            newCard.fadeIn(highlight: !reset)
-        }
-        return toRemove.count > 0
     }
     
     private func remove(card: CardBar, fadeOut: Bool) {
@@ -112,11 +104,9 @@ class AnimatedCardList: NSView {
                 + Double(Int64(600 * Double(NSEC_PER_MSEC))) / Double(NSEC_PER_SEC)
             let queue = DispatchQueue.main
             queue.asyncAfter(deadline: when) {
-                self.semaphore.wait()
-                
-                self.animatedCards.remove(card)
-                
-                self.semaphore.signal()
+                self.lock.around {
+                    self.animatedCards.remove(card)
+                }
             }
         } else {
             animatedCards.remove(card)
@@ -129,20 +119,18 @@ class AnimatedCardList: NSView {
     }
     
     func updateFrames() {
-        semaphore.wait()
+        lock.around {
+            var y = frame.height
+            let cardHeight = frame.height / CGFloat(animatedCards.count)
+            for view in subviews {
+                view.removeFromSuperview()
+            }
 
-        var y = frame.height
-        let cardHeight = frame.height / CGFloat(animatedCards.count)
-        for view in subviews {
-            view.removeFromSuperview()
+            for cell in animatedCards {
+                y -= cardHeight
+                cell.frame = NSRect(x: 0, y: y, width: frame.width, height: cardHeight)
+                addSubview(cell)
+            }
         }
-
-        for cell in animatedCards {
-            y -= cardHeight
-            cell.frame = NSRect(x: 0, y: y, width: frame.width, height: cardHeight)
-            addSubview(cell)
-        }
-        
-        semaphore.signal()
     }
 }

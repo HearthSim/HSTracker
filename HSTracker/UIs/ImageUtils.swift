@@ -17,8 +17,6 @@ struct ImageUtils {
         case tile, art, cardArt, cardArtBG
     }
     
-    static let semaphore = DispatchSemaphore(value: 1)
-
     static func tileUrl(cardId: String) -> String {
         return "https://art.hearthstonejson.com/v1/tiles/\(cardId).png"
     }
@@ -35,20 +33,16 @@ struct ImageUtils {
         return "https://art.hearthstonejson.com/v1/256x/\(cardId).jpg"
     }
 
-    private static var cache: [String: NSImage] = [:]
-    private static var cacheArt: [String: NSImage] = [:]
-    private static var cacheCardArt: [String: NSImage] = [:]
-    private static var cacheCardArtBG: [String: NSImage] = [:]
+    private static var cache =  SynchronizedDictionary<String, NSImage>()
+    private static var cacheArt =  SynchronizedDictionary<String, NSImage>()
+    private static var cacheCardArt =  SynchronizedDictionary<String, NSImage>()
+    private static var cacheCardArtBG =  SynchronizedDictionary<String, NSImage>()
     
     static func clearCache() {
-        ImageUtils.semaphore.wait()
-        
-        cache = [:]
-        cacheArt = [:]
-        cacheCardArt = [:]
-        cacheCardArtBG = [:]
-        
-        ImageUtils.semaphore.signal()
+        cache.removeAll()
+        cacheArt.removeAll()
+        cacheCardArt.removeAll()
+        cacheCardArtBG.removeAll()
         
         clearDirectory(path: Paths.cards)
         clearDirectory(path: Paths.cardsBG)
@@ -70,18 +64,12 @@ struct ImageUtils {
     }
 
     static func cachedTile(cardId: String) -> NSImage? {
-        ImageUtils.semaphore.wait()
-        let res = cache[cardId]
-        ImageUtils.semaphore.signal()
-        
-        return res
+        return cache[cardId]
     }
     
     static func tile(for cardId: String,
                      completion: @escaping ((NSImage?) -> Void)) {
-        ImageUtils.semaphore.wait()
         let image = cache[cardId]
-        ImageUtils.semaphore.signal()
         
         if let image = image {
             completion(image)
@@ -92,9 +80,7 @@ struct ImageUtils {
     }
     
     static func art(for cardId: String, completion: @escaping ((NSImage?) -> Void)) {
-        ImageUtils.semaphore.wait()
         let image = cacheArt[cardId]
-        ImageUtils.semaphore.signal()
         
         if let image = image {
             completion(image)
@@ -104,9 +90,7 @@ struct ImageUtils {
     }
     
     static func cardArt(for cardId: String, completion: @escaping ((NSImage?) -> Void)) {
-        ImageUtils.semaphore.wait()
         let image = cacheCardArt[cardId]
-        ImageUtils.semaphore.signal()
         
         if let image = image {
             completion(image)
@@ -116,9 +100,7 @@ struct ImageUtils {
     }
     
     static func cardArtBG(for cardId: String, completion: @escaping ((NSImage?) -> Void)) {
-        ImageUtils.semaphore.wait()
         let image = cacheCardArtBG[cardId]
-        ImageUtils.semaphore.signal()
         
         if let image = image {
             completion(image)
@@ -128,9 +110,7 @@ struct ImageUtils {
     }
 
     static func cachedArt(cardId: String) -> NSImage? {
-        ImageUtils.semaphore.wait()
         let res = cacheArt[cardId]
-        ImageUtils.semaphore.signal()
         
         return res
     }
@@ -149,7 +129,6 @@ struct ImageUtils {
             path = Paths.cardsBG.appendingPathComponent("\(cardId).jpg")
         }
         if let image = NSImage(contentsOf: path) {
-            ImageUtils.semaphore.wait()
             switch type {
             case .tile:
                 cache[cardId] = image
@@ -160,7 +139,6 @@ struct ImageUtils {
             case .cardArtBG:
                 cacheCardArtBG[cardId] = image
             }
-            ImageUtils.semaphore.signal()
             
             completion(image)
             return
@@ -193,7 +171,6 @@ struct ImageUtils {
                     let image = NSImage(data: data) {
                     try? data.write(to: path, options: [.atomic])
 
-                    ImageUtils.semaphore.wait()
                     switch type {
                     case .tile:
                         cache[cardId] = image
@@ -204,7 +181,6 @@ struct ImageUtils {
                     case .cardArtBG:
                         cacheCardArtBG[cardId] = image
                     }
-                    ImageUtils.semaphore.signal()
                     
                     completion(image)
                 }

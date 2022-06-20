@@ -115,13 +115,13 @@ final class Player {
     }
 
     var playerEntities: [Entity] {
-        return game.entities.map({ $0.1 }).filter({
+        return game.entities.values.filter({
             return !$0.info.hasOutstandingTagChanges && $0.isControlled(by: self.id)
         })
     }
 
     var revealedEntities: [Entity] {
-        return game.entities.map({ $0.1 })
+        return game.entities.values
             .filter({
                 return !$0.info.hasOutstandingTagChanges
                     && ($0.isControlled(by: self.id) || $0.info.originalController == self.id)
@@ -136,7 +136,7 @@ final class Player {
     var quests: [Entity] { return playerEntities.filter({ $0.isInSecret && $0.isQuest }) }
     var setAside: [Entity] { return playerEntities.filter({ $0.isInSetAside }) }
     var entity: Entity? {
-        return game.entities.map({ $0.1 }).filter({ $0[.player_id] == self.id }).first
+        return game.entities.values.filter({ $0[.player_id] == self.id }).first
     }
 
     fileprivate(set) lazy var inDeckPredictions = [PredictedCard]()

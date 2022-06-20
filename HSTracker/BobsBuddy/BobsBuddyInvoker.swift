@@ -63,8 +63,7 @@ class BobsBuddyInvoker {
     
     let queue = DispatchQueue(label: "BobsBuddy", qos: .userInitiated)
     
-    private static let semaphore = DispatchSemaphore(value: 1)
-    private static var _instances = [String: BobsBuddyInvoker]()
+    private static var _instances = SynchronizedDictionary<String, BobsBuddyInvoker>()
     private static var _currentGameId = ""
     
     private static let bobsBuddyDisplay = AppDelegate.instance().coreManager.game.windowManager.bobsBuddyPanel
@@ -75,10 +74,6 @@ class BobsBuddyInvoker {
     }
     
     static func instance(gameId: String, turn: Int, createInstanceIfNoneFound: Bool = true) -> BobsBuddyInvoker? {
-        semaphore.wait()
-        defer {
-            semaphore.signal()
-        }
         if _currentGameId != gameId {
             logger.debug("New GameId. Clearing instances...")
             _instances.removeAll()

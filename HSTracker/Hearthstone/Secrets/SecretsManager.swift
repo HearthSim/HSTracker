@@ -354,11 +354,11 @@ class SecretsManager {
                 numDeathrattleMinions = 1
             }
 
-            if game.entities.map({ $0.value }).any({ $0.cardId == CardIds.NonCollectible.Druid.SouloftheForest_SoulOfTheForestEnchantment
+            if game.entities.values.any({ $0.cardId == CardIds.NonCollectible.Druid.SouloftheForest_SoulOfTheForestEnchantment
                 && $0[.attached] == entity.id }) {
                 numDeathrattleMinions += 1
             }
-            if game.entities.map({ $0.value }).any({ $0.cardId == CardIds.NonCollectible.Shaman.AncestralSpirit_AncestralSpiritEnchantment
+            if game.entities.values.any({ $0.cardId == CardIds.NonCollectible.Shaman.AncestralSpirit_AncestralSpiritEnchantment
                 && $0[.attached] == entity.id }) {
                 numDeathrattleMinions += 1
             }

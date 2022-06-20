@@ -22,7 +22,7 @@ class BoardState {
                   opponent: BoardState.createOpponentBoard(game: game))
     }
     
-    convenience init(player: [Entity], opponent: [Entity], entities: [Int: Entity], playerId: Int) {
+    convenience init(player: [Entity], opponent: [Entity], entities: SynchronizedDictionary<Int, Entity>, playerId: Int) {
         let player = BoardState.createBoard(list: player,
                                             entities: entities,
                                             isPlayer: true,
@@ -45,7 +45,7 @@ class BoardState {
     
 	private class func createPlayerBoard(game: Game?) -> PlayerBoard {
         guard let game = game else {
-            return createBoard(list: [], entities: [:], isPlayer: true, playerId: -1)
+            return createBoard(list: [], entities: SynchronizedDictionary<Int, Entity>(), isPlayer: true, playerId: -1)
         }
         return createBoard(list: game.player.board,
                            entities: game.entities,
@@ -55,7 +55,7 @@ class BoardState {
     
     private class func createOpponentBoard(game: Game?) -> PlayerBoard {
         guard let game = game else {
-            return createBoard(list: [], entities: [:], isPlayer: false, playerId: -1)
+            return createBoard(list: [], entities: SynchronizedDictionary<Int, Entity>(), isPlayer: false, playerId: -1)
         }
         return createBoard(list: game.opponent.board,
                            entities: game.entities,
@@ -64,7 +64,7 @@ class BoardState {
     }
     
     private class func createBoard(list: [Entity],
-                                   entities: [Int: Entity],
+                                   entities: SynchronizedDictionary<Int, Entity>,
                                    isPlayer: Bool,
                                    playerId: Int) -> PlayerBoard {
         /*let activeTurn = !(EntityHelper.isPlayersTurn(entities) ^ isPlayer)

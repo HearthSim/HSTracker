@@ -141,14 +141,14 @@ class PowerGameStateParser: LogEventParser {
             } else if let id = Int(rawEntity) {
                 tagChangeHandler.tagChange(eventHandler: eventHandler, rawTag: tag, id: id, rawValue: value)
             } else {
-                var entity = eventHandler.entities.map { $0.1 }
+                var entity = eventHandler.entities.values
                     .first { $0.name == rawEntity }
 
                 if let entity = entity {
                     tagChangeHandler.tagChange(eventHandler: eventHandler, rawTag: tag,
                                                id: entity.id, rawValue: value)
                 } else {
-                    let players = eventHandler.entities.map { $0.1 }
+                    let players = eventHandler.entities.values
                         .filter { $0.has(tag: .player_id) }
                         .take(2)
                     let unnamedPlayers = players.filter { $0.name.isBlank }
@@ -173,7 +173,7 @@ class PowerGameStateParser: LogEventParser {
                             entity = unnamedPlayers.first
                         } else if unnamedPlayers.count == 2 &&
                             _tag == .current_player && tagValue == 0 {
-                            entity = eventHandler.entities.map { $0.1 }
+                            entity = eventHandler.entities.values
                                 .first { $0.has(tag: .current_player) }
                         }
 
@@ -198,7 +198,7 @@ class PowerGameStateParser: LogEventParser {
                                 : (eventHandler.opponent.name == tmpEntity.name ? eventHandler.opponent : nil)
 
                             if let _player = player,
-                                let playerEntity = eventHandler.entities.map({$0.1})
+                                let playerEntity = eventHandler.entities.values
                                     .first(where: { $0[.player_id] == _player.id }) {
                                 playerEntity.name = tmpEntity.name
                                 tmpEntity.tags.forEach({ gameTag, val in
@@ -415,9 +415,9 @@ class PowerGameStateParser: LogEventParser {
             blockStart(type: type, cardId: cardId)
 
             if matches.count > 0 && (type == "TRIGGER" || type == "POWER") {
-                let player = eventHandler.entities.map { $0.1 }
+                let player = eventHandler.entities.values
                     .first { $0.has(tag: .player_id) && $0[.player_id] == eventHandler.player.id }
-                let opponent = eventHandler.entities.map { $0.1 }
+                let opponent = eventHandler.entities.values
                     .first { $0.has(tag: .player_id) && $0[.player_id] == eventHandler.opponent.id }
 
                 guard let actionStartingEntityId = Int(matches[1].value) else {

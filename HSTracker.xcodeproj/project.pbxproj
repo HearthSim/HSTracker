@@ -507,6 +507,8 @@
 		B8BCC1E3273B0AE600DA6474 /* MercenariesAbilityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BCC1E2273B0AE500DA6474 /* MercenariesAbilityView.swift */; };
 		B8BCC1E5273B168300DA6474 /* MercenariesAbilitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BCC1E4273B168200DA6474 /* MercenariesAbilitiesView.swift */; };
 		B8BD8443284AB92700F4F224 /* BattlegroundsSession.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8BD8441284AB92600F4F224 /* BattlegroundsSession.xib */; };
+		B8BD8453285D23C500F4F224 /* UnfairLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD8452285D23C500F4F224 /* UnfairLock.swift */; };
+		B8BD84552860058400F4F224 /* SynchronizedDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD84542860058400F4F224 /* SynchronizedDictionary.swift */; };
 		B8C2F90D2618185D00C31E6A /* FullScreenFxHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C2F90C2618185D00C31E6A /* FullScreenFxHandler.swift */; };
 		B8C2F90F261F530700C31E6A /* GetAccountResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C2F90E261F530700C31E6A /* GetAccountResult.swift */; };
 		B8C2F9102623233100C31E6A /* GetAccountResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C2F90E261F530700C31E6A /* GetAccountResult.swift */; };
@@ -1106,6 +1108,8 @@
 		B8BD844F284AB94F00F4F224 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/BattlegroundsSession.strings; sourceTree = "<group>"; };
 		B8BD8450284AB95100F4F224 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/BattlegroundsSession.strings"; sourceTree = "<group>"; };
 		B8BD8451284AB95300F4F224 /* th-TH */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "th-TH"; path = "th-TH.lproj/BattlegroundsSession.strings"; sourceTree = "<group>"; };
+		B8BD8452285D23C500F4F224 /* UnfairLock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnfairLock.swift; sourceTree = "<group>"; };
+		B8BD84542860058400F4F224 /* SynchronizedDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynchronizedDictionary.swift; sourceTree = "<group>"; };
 		B8C2F90C2618185D00C31E6A /* FullScreenFxHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenFxHandler.swift; sourceTree = "<group>"; };
 		B8C2F90E261F530700C31E6A /* GetAccountResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAccountResult.swift; sourceTree = "<group>"; };
 		B8C33FB0273EF851006DA79E /* MercenariesCoins.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MercenariesCoins.swift; sourceTree = "<group>"; };
@@ -1518,6 +1522,8 @@
 				B8AB59932742F94900383EC8 /* RateLimiter.swift */,
 				B8AB59952742FA5C00383EC8 /* Deque.swift */,
 				B8BB7AB32832F02D008239CA /* BattlegroundsUtils.swift */,
+				B8BD8452285D23C500F4F224 /* UnfairLock.swift */,
+				B8BD84542860058400F4F224 /* SynchronizedDictionary.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -2407,6 +2413,7 @@
 				4CFF95AF23C0C56A006AB461 /* BattlegroundsTierOverlayView.swift in Sources */,
 				432A077C1E93B0F100921E34 /* Secrets.swift in Sources */,
 				4CED5D15243D1B27006D2E1F /* DemonHunter.swift in Sources */,
+				B8BD8453285D23C500F4F224 /* UnfairLock.swift in Sources */,
 				43F2040F1E93C2E600E0BC4A /* Priest.swift in Sources */,
 				43F204071E93C2E600E0BC4A /* DreamCards.swift in Sources */,
 				43F2040E1E93C2E600E0BC4A /* Paladin.swift in Sources */,
@@ -2487,6 +2494,7 @@
 				4349104C1D09739C00B22DB2 /* BoardHero.swift in Sources */,
 				1CF204F91E83B74300037A42 /* MirrorHelper.swift in Sources */,
 				43D307FB1C83159C00480488 /* SizeHelper.swift in Sources */,
+				B8BD84552860058400F4F224 /* SynchronizedDictionary.swift in Sources */,
 				4C3E2D8A245ED13D00292349 /* ToastWindowController.swift in Sources */,
 				43E77EE21C949C7800C26950 /* TimerHud.swift in Sources */,
 				340AAC051D0544AD0015FE33 /* StringTracker.swift in Sources */,

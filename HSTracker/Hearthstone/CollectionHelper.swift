@@ -50,8 +50,7 @@ class CollectionHelpers {
 class CollectionHelper<T> {
     private var _lastUpdate: TimeInterval = 0.0
     private var _lastUsedKey: String?
-    let semaphore = DispatchSemaphore(value: 1)
-    private var collections = [String: T]()
+    private var collections = SynchronizedDictionary<String, T>()
     private let _loadCollection: (String) /*async*/ -> T?
     var onCollectionChanged: (() -> Void)?
     
@@ -63,16 +62,12 @@ class CollectionHelper<T> {
         let key = /*await*/ getCurrentKey()
         var collection: T?
         if let key = key {
-            semaphore.wait()
             if let collection = collections[key] {
-                semaphore.signal()
                 return collection
             }
-            semaphore.signal()
+
             /*await*/ updateCollection()
-            semaphore.wait()
             collection = collections[key]
-            semaphore.signal()
         }
         return collection
     }
@@ -98,9 +93,7 @@ class CollectionHelper<T> {
         let data = /*await*/ _loadCollection(key)
         
         if let collection = data {
-            semaphore.wait()
             collections[key] = collection
-            semaphore.signal()
             onCollectionChanged?()
             logger.info("Updated collection!")
             return true

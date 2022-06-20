@@ -14,7 +14,7 @@ protocol PowerEventHandler: AnyObject {
     var proposedDefenderEntityId: Int { get set }
 
 	// TODO: remove set on most properties to ensure encapsulation
-	var entities: [Int: Entity] { get set }
+	var entities: SynchronizedDictionary<Int, Entity> { get }
 	var tmpEntities: [Entity] { get set }
 	
 	func add(entity: Entity)

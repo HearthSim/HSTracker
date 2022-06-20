@@ -14,7 +14,7 @@ class CardList: OverWindowController {
     @IBOutlet weak var table: NSTableView?
 
     fileprivate var animatedCards: [CardBar] = []
-    let semaphore = DispatchSemaphore(value: 1)
+    let lock = UnfairLock()
     var isSecretPanel = false
 
     var observer: NSObjectProtocol?
@@ -46,51 +46,50 @@ class CardList: OverWindowController {
     }
     
     func cardCount() -> Int {
-        semaphore.wait()
-        defer {
-            semaphore.signal()
+        return lock.around {
+            return animatedCards.count
         }
-        return animatedCards.count
     }
 
     fileprivate func internalSet(cards: [Card]) {
-        semaphore.wait()
-        
-        var newCards = [Card]()
-        cards.forEach({ (card: Card) in
-            let existing = animatedCards.first { areEqualForList($0.card!, card) }
-            if existing == nil {
-                newCards.append(card)
-            }
-        })
+        lock.around {
+            var newCards = [Card]()
+            cards.forEach({ (card: Card) in
+                let existing = animatedCards.first { areEqualForList($0.card!, card) }
+                if existing == nil {
+                    newCards.append(card)
+                }
+            })
 
-        var toRemove: [Int] = []
-        animatedCards.forEach({ (c: CardBar) in
-            if !cards.any({ areEqualForList($0, c.card!) }) {
-                toRemove.append(animatedCards.firstIndex(of: c)!)
+            var toRemove: [Int] = []
+            animatedCards.forEach({ (c: CardBar) in
+                if !cards.any({ areEqualForList($0, c.card!) }) {
+                    if let index = animatedCards.firstIndex(of: c), index < table?.numberOfRows ?? 0 {
+                        toRemove.append(index)
+                    }
+                }
+            })
+            
+            table?.beginUpdates()
+            var indexSet = IndexSet(toRemove)
+            table?.removeRows(at: indexSet, withAnimation: [.effectFade, .slideRight])
+            for index in indexSet.reversed() {
+                animatedCards.remove(at: index)
             }
-        })
-        
-        table?.beginUpdates()
-        var indexSet = IndexSet(toRemove)
-        table?.removeRows(at: indexSet, withAnimation: [.effectFade, .slideRight])
-        for index in indexSet.reversed() {
-            animatedCards.remove(at: index)
+            indexSet.removeAll()
+            newCards.forEach({
+                let newCard = CardBar.factory()
+                newCard.setDelegate(self)
+                newCard.card = $0
+                newCard.playerType = .secrets
+                let index = cards.firstIndex(of: $0)!
+                animatedCards.insert(newCard, at: index)
+                indexSet.insert(index)
+            })
+            table?.insertRows(at: indexSet, withAnimation: .slideLeft)
+            // need to signal here to avoid a deadlock
         }
-        indexSet.removeAll()
-        newCards.forEach({
-            let newCard = CardBar.factory()
-            newCard.setDelegate(self)
-            newCard.card = $0
-            newCard.playerType = .secrets
-            let index = cards.firstIndex(of: $0)!
-            animatedCards.insert(newCard, at: index)
-            indexSet.insert(index)
-        })
-        table?.insertRows(at: indexSet, withAnimation: .slideLeft)
-        // need to signal here to avoid a deadlock
-        semaphore.signal()
-
+        // needs to be outside of lock.around or it will abort
         table?.endUpdates()
     }
     
@@ -117,11 +116,9 @@ class CardList: OverWindowController {
         case .huge: rowHeight = CGFloat(kHighRowHeight)
         case .big: rowHeight = CGFloat(kRowHeight)
         }
-        semaphore.wait()
-        defer {
-            semaphore.signal()
+        return lock.around {
+            return rowHeight * CGFloat(self.animatedCards.count)
         }
-        return rowHeight * CGFloat(self.animatedCards.count)
     }
 }
 
@@ -137,12 +134,9 @@ extension CardList: NSTableViewDelegate {
     func tableView(_ tableView: NSTableView,
                    viewFor tableColumn: NSTableColumn?,
                    row: Int) -> NSView? {
-        semaphore.wait()
-        defer {
-            semaphore.signal()
+        return lock.around {
+            return row >= 0 && row < animatedCards.count ? animatedCards[row] : nil
         }
-        let cell = row >= 0 && row < animatedCards.count ? animatedCards[row] : nil
-        return cell
     }
 
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {

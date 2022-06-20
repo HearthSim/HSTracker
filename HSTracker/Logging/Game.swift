@@ -52,8 +52,7 @@ class Game: NSObject, PowerEventHandler {
 	
 	private let turnTimer: TurnTimer
     
-    let semaphore = DispatchSemaphore(value: 1)
-    fileprivate var lastKnownBattlegroundsBoardState = [String: BoardSnapshot]()
+    fileprivate var lastKnownBattlegroundsBoardState = SynchronizedDictionary<String, BoardSnapshot>()
     
 	private var hearthstoneRunState: HearthstoneRunState {
 		didSet {
@@ -88,12 +87,9 @@ class Game: NSObject, PowerEventHandler {
 	}
     
     func getSnapshot(opponentHeroCardId: String) -> BoardSnapshot? {
-        semaphore.wait()
         if let state = lastKnownBattlegroundsBoardState[BattlegroundsUtils.getOriginalHeroId(heroId: opponentHeroCardId)] {
-            semaphore.signal()
             return state
         }
-        semaphore.signal()
         return nil
     }
     
@@ -118,7 +114,6 @@ class Game: NSObject, PowerEventHandler {
         let correctedHero = BattlegroundsUtils.getOriginalHeroId(heroId: opponentHero.cardId)
 
         logger.info("Snapshotting board state for \(opponentHero.card.name) with cardid \(opponentHero.cardId) (corrected=\(correctedHero)) with \(entities.count) entities")
-        semaphore.wait()
         let current = lastKnownBattlegroundsBoardState[correctedHero]
         let board = BoardSnapshot(entities: entities, turn: turnNumber())
         if let current = current {
@@ -127,7 +122,6 @@ class Game: NSObject, PowerEventHandler {
             board.buddiesGained = current.buddiesGained
         }
         lastKnownBattlegroundsBoardState[correctedHero] = board
-        semaphore.signal()
         // pre-cache art
         DispatchQueue.global().async {
             for entity in board.entities {
@@ -143,20 +137,6 @@ class Game: NSObject, PowerEventHandler {
 	// MARK: - PowerEventHandler protocol
 	
 	func handleEntitiesChange(changed: [(old: Entity, new: Entity)]) {
-
-        if let playerPair = changed.first(where: { $0.old.id == self.player.id }) {
-			// TODO: player entity changed
-			if let oldName = playerPair.old.name, let newName = playerPair.new.name, oldName != newName {
-				print("Player entity name changed from \(oldName) to \(newName)")
-			} else {
-                // get added/removed tags
-                let newTags = playerPair.new.tags.keys.filter { !playerPair.old.tags.keys.contains($0) }
-                
-                if newTags.contains(.mulligan_state) {
-                    print("Player new mulligan state: \(playerPair.new[.mulligan_state])")
-                }
-			}
-		}
 	}
 	
 	func add(entity: Entity) {
@@ -295,7 +275,7 @@ class Game: NSObject, PowerEventHandler {
             let tracker = self.windowManager.playerTracker
             if Settings.showPlayerTracker &&
                 !(Settings.dontTrackWhileSpectating && self.spectator) &&
-                (!self.isBattlegroundsMatch() && !self.isMercenariesMatch()) &&
+                (!self.isBattlegroundsMatch() && !self.isMercenariesMatch() && self.currentGameType != .gt_unknown) &&
                 ( (Settings.hideAllTrackersWhenNotInGame && !self.gameEnded)
                     || (!Settings.hideAllTrackersWhenNotInGame) || self.selfAppActive ) &&
                 ((Settings.hideAllWhenGameInBackground &&
@@ -830,20 +810,7 @@ class Game: NSObject, PowerEventHandler {
         return _serverInfo
     }
 
-	var entities: [Int: Entity] = [:] {
-		didSet {
-			// collect all elements that changed
-			let newKeys = entities.keys
-			
-			let changedElements = Array(newKeys.filter {
-				if let oldEntity = oldValue[$0] {
-					return oldEntity != self.entities[$0]
-				}
-				return false
-			}).map { (old: oldValue[$0]!, new: self.entities[$0]!) }
-			self.handleEntitiesChange(changed: changedElements)
-		}
-	}
+	var entities =  SynchronizedDictionary<Int, Entity>()
     var tmpEntities: [Entity] = []
     var knownCardIds: [Int: [(String, DeckLocation)]] = [:]
     var joustReveals = 0
@@ -1016,43 +983,43 @@ class Game: NSObject, PowerEventHandler {
     }
 
     var playerEntity: Entity? {
-        return entities.map { $0.1 }.first { $0[.player_id] == self.player.id }
+        return entities.values.first { $0[.player_id] == self.player.id }
     }
 
     var opponentEntity: Entity? {
-        return entities.map { $0.1 }.first { $0.has(tag: .player_id) && !$0.isPlayer(eventHandler: self) }
+        return entities.values.first { $0.has(tag: .player_id) && !$0.isPlayer(eventHandler: self) }
     }
 
     var gameEntity: Entity? {
-        return entities.map { $0.1 }.first { $0.name == "GameEntity" }
+        return entities.values.first { $0.name == "GameEntity" }
     }
 
     var isMinionInPlay: Bool {
-        return entities.map { $0.1 }.first { $0.isInPlay && $0.isMinion } != nil
+        return entities.values.first { $0.isInPlay && $0.isMinion } != nil
     }
 
     var isOpponentMinionInPlay: Bool {
-        return entities.map { $0.1 }
+        return entities.values
             .first { $0.isInPlay && $0.isMinion
                 && $0.isControlled(by: self.opponent.id) } != nil
     }
 
     var opponentMinionCount: Int {
-        return entities.map { $0.1 }
+        return entities.values
             .filter { $0.isInPlay && $0.isMinion
                 && $0.isControlled(by: self.opponent.id) }.count }
 
     var playerMinionCount: Int {
-        return entities.map { $0.1 }
+        return entities.values
             .filter { $0.isInPlay && $0.isMinion
                 && $0.isControlled(by: self.player.id) }.count }
 
     var opponentHandCount: Int {
-        return entities.map { $0.1 }
+        return entities.values
             .filter { $0.isInHand && $0.isControlled(by: self.opponent.id) }.count }
     
     var opponentSecretCount: Int {
-        return entities.map { $0.1 }
+        return entities.values
             .filter { $0.isSecret && $0.isControlled(by: self.opponent.id) }.count
     }
     
@@ -1248,9 +1215,7 @@ class Game: NSObject, PowerEventHandler {
         _availableRaces = nil
         _unavailableRaces = nil
         _brawlInfo = nil
-        semaphore.wait()
         lastKnownBattlegroundsBoardState.removeAll()
-        semaphore.signal()
         windowManager.battlegroundsDetailsWindow.reset()
         windowManager.bobsBuddyPanel.resetDisplays()
         updateTurnCounter(turn: 1)
@@ -1312,7 +1277,7 @@ class Game: NSObject, PowerEventHandler {
             return
         }
         
-        let mandatoryEntities = entities.map({ $0.1 }).filter({ e in
+        let mandatoryEntities = entities.values.filter({ e in
             return !e.info.created
                 && (e.isMinion || e.isSpell || e.isWeapon)
                 && (e.info.originalController == player.id)
@@ -1542,7 +1507,7 @@ class Game: NSObject, PowerEventHandler {
 		if let name = self.player.name {
 			result.playerName = name
 		}
-		if let _player = self.entities.map({ $0.1 }).first(where: { $0.isPlayer(eventHandler: self) }) {
+		if let _player = self.entities.values.first(where: { $0.isPlayer(eventHandler: self) }) {
 			result.coin = !_player.has(tag: .first_player)
 		}
 		
@@ -1927,8 +1892,8 @@ class Game: NSObject, PowerEventHandler {
         if isBattlegroundsMatch() {
                 return true
         }
-		let player = entities.map { $0.1 }.first { $0.isPlayer(eventHandler: self) }
-        let opponent = entities.map { $0.1 }
+		let player = entities.values.first { $0.isPlayer(eventHandler: self) }
+        let opponent = entities.values
             .first { $0.has(tag: .player_id) && !$0.isPlayer(eventHandler: self) }
 
         if let player = player, let opponent = opponent {
@@ -2168,7 +2133,6 @@ class Game: NSObject, PowerEventHandler {
         guard techLevel >= 1 && techLevel <= 6 else { return }
         let heroId = BattlegroundsUtils.getOriginalHeroId(heroId: entity.cardId)
         
-        semaphore.wait()
         var snapshot = lastKnownBattlegroundsBoardState[heroId]
         
         if snapshot == nil {
@@ -2179,7 +2143,6 @@ class Game: NSObject, PowerEventHandler {
         if let snapshot = snapshot {
             snapshot.techLevel[techLevel - 1] = turnNumber()
         }
-        semaphore.signal()
     }
     
     func handlePlayerTriples(entity: Entity, triples: Int) {
@@ -2189,7 +2152,6 @@ class Game: NSObject, PowerEventHandler {
         
         let heroId = BattlegroundsUtils.getOriginalHeroId(heroId: entity.cardId)
 
-        semaphore.wait()
         var snapshot = lastKnownBattlegroundsBoardState[heroId]
         
         if snapshot == nil {
@@ -2200,7 +2162,6 @@ class Game: NSObject, PowerEventHandler {
         if let snapshot = snapshot {
             snapshot.triples[techLevel - 1] += triples
         }
-        semaphore.signal()
     }
     
     func handlePlayerBuddiesGained(entity: Entity, num: Int) {
@@ -2208,7 +2169,6 @@ class Game: NSObject, PowerEventHandler {
         
         let heroId = BattlegroundsUtils.getOriginalHeroId(heroId: entity.cardId)
 
-        semaphore.wait()
         var snapshot = lastKnownBattlegroundsBoardState[heroId]
         
         if snapshot == nil {
@@ -2223,7 +2183,6 @@ class Game: NSObject, PowerEventHandler {
                 snapshot.buddiesGained = 3
             }
         }
-        semaphore.signal()
     }
     
     private func internalHandleBGStart(count: Int) {
