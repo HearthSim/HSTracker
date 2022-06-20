@@ -118,7 +118,7 @@
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         <prototypeCellViews>
                                             <tableCellView identifier="StatsRecordCellID" id="COo-ka-wDx">
-                                                <rect key="frame" x="150.5" y="1" width="73" height="20"/>
+                                                <rect key="frame" x="151" y="1" width="73" height="20"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="1g5-ye-Ohn">
@@ -154,7 +154,7 @@
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         <prototypeCellViews>
                                             <tableCellView identifier="StatsWinRateCellID" id="9Rf-o0-vyE">
-                                                <rect key="frame" x="226.5" y="1" width="83" height="17"/>
+                                                <rect key="frame" x="227" y="1" width="83" height="17"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="XQ2-Ec-tY3">
@@ -190,7 +190,7 @@
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         <prototypeCellViews>
                                             <tableCellView identifier="StatsCICellID" id="ss6-X3-o8H">
-                                                <rect key="frame" x="312.5" y="1" width="109" height="17"/>
+                                                <rect key="frame" x="313" y="1" width="109" height="17"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="prP-AF-619">
