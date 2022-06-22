@@ -9,15 +9,13 @@
  */
 
 import Foundation
-import RegexUtil
 
 struct RachelleHandler: LogEventParser {
-    let TowardsGolds: RegexPattern = "(\\d)/3 wins towards 10 gold"
-    let CardInCache: RegexPattern = ".*somehow the card def for (\\w+_\\w+) was already in the cache\\.\\.\\."
+    let TowardsGolds = Regex("(\\d)/3 wins towards 10 gold")
 
     func handle(logLine: LogLine) {
-        if logLine.line.match(TowardsGolds) {
-            if let match = logLine.line.matches(TowardsGolds).first,
+        if TowardsGolds.match(logLine.line) {
+            if let match = TowardsGolds.matches(logLine.line).first,
                 let victories = Int(match.value) {
                 logger.info("\(victories) / 3 -> 10 gold")
             }

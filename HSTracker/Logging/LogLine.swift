@@ -9,17 +9,16 @@
 */
 
 import Foundation
-import RegexUtil
 import AppCenterAnalytics
 
 class LogDateFormatter: DateFormatter {
 	
-	private static let subsecRegex: RegexPattern = "(S+)"
+	private static let subsecRegex = Regex("(S+)")
 	
 	func string(from date: LogDate) -> String {
 		var str = self.string(from: date.date)
 		
-		let matches = self.dateFormat.matches(LogDateFormatter.subsecRegex)
+        let matches = LogDateFormatter.subsecRegex.matches(self.dateFormat)
 		for match in matches {
 			let len = match.value.count
 			let rcen = 10^^(7-len)

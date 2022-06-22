@@ -9,7 +9,6 @@
  */
 
 import Foundation
-import RegexUtil
 
 final class LogReader {
     var stopped = true
@@ -141,7 +140,7 @@ final class LogReader {
                                     for i in 0..<info.startsWithFiltersGroup.count {
                                         if (info.startsWithFiltersGroup.count > i
                                             && info.startsWithFiltersGroup[i].any({
-                                            cutted.hasPrefix($0) || cutted.match(RegexPattern(stringLiteral: $0))
+                                            cutted.hasPrefix($0)
                                         }))
                                             || (info.containsFiltersGroup.count > i &&
                                                 info.containsFiltersGroup[i].any({ cutted.contains($0) })) {
@@ -152,7 +151,6 @@ final class LogReader {
                                             }
                                         }
                                     }
-                                    
                                 }
                             }
                             

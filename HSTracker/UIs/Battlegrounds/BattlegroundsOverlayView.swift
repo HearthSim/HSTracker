@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import RegexUtil
 
 class BattlegroundsOverlayView: NSView {
     var currentIndex = -1

@@ -7,10 +7,9 @@
 //
 
 import Foundation
-import RegexUtil
 
 class FullScreenFxHandler: LogEventParser {
-    let beginBlurRegex: RegexPattern = "BeginEffect blur \\d => 1"
+    let beginBlurRegex = Regex("BeginEffect blur \\d => 1")
 
     private unowned(unsafe) let core: CoreManager
 
@@ -21,7 +20,7 @@ class FullScreenFxHandler: LogEventParser {
     }
     
     func handle(logLine: LogLine) {
-        if logLine.line.match(beginBlurRegex) {
+        if beginBlurRegex.match(logLine.line) {
             let game = AppDelegate.instance().coreManager.game
             
             if game.isInMenu {

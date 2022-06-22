@@ -432,7 +432,6 @@
 		B85A0D56272CE24B006D2648 /* MercenariesPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B85A0D51272CDDFB006D2648 /* MercenariesPreferences.xib */; };
 		B85A0D5727303709006D2648 /* BoardOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AFA40A2723310700B3470E /* BoardOverlay.swift */; };
 		B85A0D582730370D006D2648 /* BoardOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8AFA4082723306C00B3470E /* BoardOverlay.xib */; };
-		B85BBE43264B0C28001976AB /* RegexUtil in Frameworks */ = {isa = PBXBuildFile; productRef = B85BBE42264B0C28001976AB /* RegexUtil */; };
 		B85F1AC9258A558200A6F8C3 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85F1AC8258A558200A6F8C3 /* Helper.swift */; };
 		B8621F1A2746A785004DD0E9 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8621F192746A785004DD0E9 /* Account.swift */; };
 		B8621F1C2746AF5E004DD0E9 /* HSReplayNetHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8621F1B2746AF5E004DD0E9 /* HSReplayNetHelper.swift */; };
@@ -472,7 +471,6 @@
 		B887656726C3049F003D3629 /* ShortIdHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E7B15262A798000C42EF0 /* ShortIdHelper.swift */; };
 		B887656826C304A5003D3629 /* MulliganToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E7B13262A533F00C42EF0 /* MulliganToastView.swift */; };
 		B887656A26C304FA003D3629 /* BigInt in Frameworks */ = {isa = PBXBuildFile; productRef = B887656926C304FA003D3629 /* BigInt */; };
-		B887656C26C30520003D3629 /* RegexUtil in Frameworks */ = {isa = PBXBuildFile; productRef = B887656B26C30520003D3629 /* RegexUtil */; };
 		B8956CFD25509B3F0073D70C /* BattlegroundsMinionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8956CFC25509B3F0073D70C /* BattlegroundsMinionView.swift */; };
 		B89C9894280A113A005E9315 /* AnimatedCardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89C9893280A113A005E9315 /* AnimatedCardList.swift */; };
 		B89C9896280C610C005E9315 /* DeckLens.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89C9895280C610C005E9315 /* DeckLens.swift */; };
@@ -509,6 +507,7 @@
 		B8BD8443284AB92700F4F224 /* BattlegroundsSession.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8BD8441284AB92600F4F224 /* BattlegroundsSession.xib */; };
 		B8BD8453285D23C500F4F224 /* UnfairLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD8452285D23C500F4F224 /* UnfairLock.swift */; };
 		B8BD84552860058400F4F224 /* SynchronizedDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD84542860058400F4F224 /* SynchronizedDictionary.swift */; };
+		B8BD84572861394100F4F224 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD84562861394100F4F224 /* Regex.swift */; };
 		B8C2F90D2618185D00C31E6A /* FullScreenFxHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C2F90C2618185D00C31E6A /* FullScreenFxHandler.swift */; };
 		B8C2F90F261F530700C31E6A /* GetAccountResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C2F90E261F530700C31E6A /* GetAccountResult.swift */; };
 		B8C2F9102623233100C31E6A /* GetAccountResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C2F90E261F530700C31E6A /* GetAccountResult.swift */; };
@@ -1110,6 +1109,7 @@
 		B8BD8451284AB95300F4F224 /* th-TH */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "th-TH"; path = "th-TH.lproj/BattlegroundsSession.strings"; sourceTree = "<group>"; };
 		B8BD8452285D23C500F4F224 /* UnfairLock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnfairLock.swift; sourceTree = "<group>"; };
 		B8BD84542860058400F4F224 /* SynchronizedDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynchronizedDictionary.swift; sourceTree = "<group>"; };
+		B8BD84562861394100F4F224 /* Regex.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
 		B8C2F90C2618185D00C31E6A /* FullScreenFxHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenFxHandler.swift; sourceTree = "<group>"; };
 		B8C2F90E261F530700C31E6A /* GetAccountResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAccountResult.swift; sourceTree = "<group>"; };
 		B8C33FB0273EF851006DA79E /* MercenariesCoins.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MercenariesCoins.swift; sourceTree = "<group>"; };
@@ -1303,7 +1303,6 @@
 				B8D75BC325BD10B600446923 /* OAuthSwift in Frameworks */,
 				B8D75BD425BDD3A700446923 /* PromiseKit in Frameworks */,
 				4C68AF2B2447D35B00E52834 /* HearthMirror.framework in Frameworks */,
-				B85BBE43264B0C28001976AB /* RegexUtil in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1325,7 +1324,6 @@
 				B8D75BD125BDAF1300446923 /* OAuthSwift in Frameworks */,
 				B8D75BCD25BDAF1300446923 /* Wrap in Frameworks */,
 				B8D75BC925BDAF1300446923 /* AppCenterCrashes in Frameworks */,
-				B887656C26C30520003D3629 /* RegexUtil in Frameworks */,
 				B8D75BF125BDFEDE00446923 /* Gzip in Frameworks */,
 				B8D75BCF25BDAF1300446923 /* TextAttributes in Frameworks */,
 				B8D75BC525BDAF1300446923 /* SwiftyBeaver in Frameworks */,
@@ -1524,6 +1522,7 @@
 				B8BB7AB32832F02D008239CA /* BattlegroundsUtils.swift */,
 				B8BD8452285D23C500F4F224 /* UnfairLock.swift */,
 				B8BD84542860058400F4F224 /* SynchronizedDictionary.swift */,
+				B8BD84562861394100F4F224 /* Regex.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -2070,7 +2069,6 @@
 				B8D75BF625BE032500446923 /* Sparkle */,
 				B8D75BFE25C0710900446923 /* BTree */,
 				B82E7B18262A88DB00C42EF0 /* BigInt */,
-				B85BBE42264B0C28001976AB /* RegexUtil */,
 			);
 			productName = HSTracker;
 			productReference = 439C7E481C7772C000D29859 /* HSTracker.app */;
@@ -2106,7 +2104,6 @@
 				B8D75BF025BDFEDE00446923 /* Gzip */,
 				B8D75BFB25BFCFDC00446923 /* BTree */,
 				B887656926C304FA003D3629 /* BigInt */,
-				B887656B26C30520003D3629 /* RegexUtil */,
 			);
 			productName = HSTrackerTests;
 			productReference = 439C7E5C1C7772C100D29859 /* HSTrackerTests.xctest */;
@@ -2175,7 +2172,6 @@
 				B8D75BED25BDFE6D00446923 /* XCRemoteSwiftPackageReference "GzipSwift" */,
 				B8D75BF525BE032500446923 /* XCRemoteSwiftPackageReference "Sparkle" */,
 				B82E7B17262A88DB00C42EF0 /* XCRemoteSwiftPackageReference "BigInt" */,
-				B85BBE41264B0C28001976AB /* XCRemoteSwiftPackageReference "RegexUtil" */,
 			);
 			productRefGroup = 439C7E491C7772C000D29859 /* Products */;
 			projectDirPath = "";
@@ -2309,7 +2305,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Change SHA1 here to change the version of HearthMirror used by HSTrracker\nSHA1=\"41df77f265c2cde589595c87dfdb5deb01ab82f1\"\n\nDIR=\"$SRCROOT/downloaded-frameworks/HearthMirror\"\nVERSION_FILE=\"$DIR/HearthMirror.sha1\"\nZIP_FILE=\"$DIR/HearthMirror.framework.zip\"\nDSYM_ZIP_FILE=\"$DIR/HearthMirror.framework.dSYM.zip\"\n\nif [ \"$(cat $VERSION_FILE)\" != \"$SHA1\"  ]\nthen\n    set -e\n    \n    rm -rf \"$DIR\"\n    mkdir -p \"$DIR\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.zip\" -O \"$ZIP_FILE\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.dSYM.zip\" -O \"$DSYM_ZIP_FILE\"\n    unzip -d \"$DIR\" \"$ZIP_FILE\"\n    unzip -d \"$DIR\" \"$DSYM_ZIP_FILE\"\n    echo \"$SHA1\" > \"$VERSION_FILE\"\nfi\n\n\n\n";
+			shellScript = "# Change SHA1 here to change the version of HearthMirror used by HSTracker\nSHA1=\"2ab5ca34b2f382645468d54d896eca4bdad7877e\"\n\nDIR=\"$SRCROOT/downloaded-frameworks/HearthMirror\"\nVERSION_FILE=\"$DIR/HearthMirror.sha1\"\nZIP_FILE=\"$DIR/HearthMirror.framework.zip\"\nDSYM_ZIP_FILE=\"$DIR/HearthMirror.framework.dSYM.zip\"\n\nif [ \"$(cat $VERSION_FILE)\" != \"$SHA1\"  ]\nthen\n    set -e\n    \n    rm -rf \"$DIR\"\n    mkdir -p \"$DIR\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.zip\" -O \"$ZIP_FILE\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.dSYM.zip\" -O \"$DSYM_ZIP_FILE\"\n    unzip -d \"$DIR\" \"$ZIP_FILE\"\n    unzip -d \"$DIR\" \"$DSYM_ZIP_FILE\"\n    echo \"$SHA1\" > \"$VERSION_FILE\"\nfi\n\n\n\n";
 		};
 		B83355B724F89D1A0025F644 /* Embed Mono */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2666,6 +2662,7 @@
 				434D1CB11D0C507900222B8E /* ImageCompare.swift in Sources */,
 				B89C9894280A113A005E9315 /* AnimatedCardList.swift in Sources */,
 				E30590BB21174FC900679D66 /* UploadCollectionData.swift in Sources */,
+				B8BD84572861394100F4F224 /* Regex.swift in Sources */,
 				435CD9091E1E3AB4000AF3DE /* GameStats.swift in Sources */,
 				435CD90B1E1E4447000AF3DE /* ServerInfo.swift in Sources */,
 				64C117C8D3B76359080E750A /* ArenaWatcher.swift in Sources */,
@@ -3667,14 +3664,6 @@
 				minimumVersion = 5.2.1;
 			};
 		};
-		B85BBE41264B0C28001976AB /* XCRemoteSwiftPackageReference "RegexUtil" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/fmoraes74/RegexUtil";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.2.1;
-			};
-		};
 		B8D75B9425B4799100446923 /* XCRemoteSwiftPackageReference "Preferences" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sindresorhus/Preferences";
@@ -3779,20 +3768,10 @@
 			package = B82E7B17262A88DB00C42EF0 /* XCRemoteSwiftPackageReference "BigInt" */;
 			productName = BigInt;
 		};
-		B85BBE42264B0C28001976AB /* RegexUtil */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B85BBE41264B0C28001976AB /* XCRemoteSwiftPackageReference "RegexUtil" */;
-			productName = RegexUtil;
-		};
 		B887656926C304FA003D3629 /* BigInt */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B82E7B17262A88DB00C42EF0 /* XCRemoteSwiftPackageReference "BigInt" */;
 			productName = BigInt;
-		};
-		B887656B26C30520003D3629 /* RegexUtil */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B85BBE41264B0C28001976AB /* XCRemoteSwiftPackageReference "RegexUtil" */;
-			productName = RegexUtil;
 		};
 		B8D75B9525B4799200446923 /* Preferences */ = {
 			isa = XCSwiftPackageProductDependency;

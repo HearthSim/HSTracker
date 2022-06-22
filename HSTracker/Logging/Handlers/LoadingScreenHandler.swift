@@ -9,7 +9,6 @@
  */
 
 import Foundation
-import RegexUtil
 
 struct LoadingScreenHandler: LogEventParser {
 	
@@ -32,11 +31,11 @@ struct LoadingScreenHandler: LogEventParser {
 		self.coreManager = coreManager
 	}
 
-    let GameModeRegex: RegexPattern = "prevMode=(\\w+).*currMode=(\\w+)"
+    let GameModeRegex = Regex("prevMode=(\\w+).*currMode=(\\w+)")
 
     func handle(logLine: LogLine) {
-        if logLine.line.match(GameModeRegex) {
-            let matches = logLine.line.matches(GameModeRegex)
+        if GameModeRegex.match(logLine.line) {
+            let matches = GameModeRegex.matches(logLine.line)
 			let game = coreManager.game
             
             game.currentMode = Mode(rawValue: matches[1].value.lowercased()) ?? .invalid

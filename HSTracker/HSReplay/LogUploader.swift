@@ -10,7 +10,6 @@ import Foundation
 import Wrap
 import Gzip
 import RealmSwift
-import RegexUtil
 
 class LogUploader {
     private static var inProgress: [UploaderItem] = []

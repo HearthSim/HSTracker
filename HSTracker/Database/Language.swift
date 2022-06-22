@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import RegexUtil
 
 struct Language {
     enum Hearthstone: String, CaseIterable {

@@ -9,17 +9,16 @@
  */
 
 import Foundation
-import RegexUtil
 
 class TagChangeHandler {
 
-    let ParseEntityIDRegex: RegexPattern = "id=(\\d+)"
-    let ParseEntityZonePosRegex: RegexPattern = "zonePos=(\\d+)"
-    let ParseEntityPlayerRegex: RegexPattern = "player=(\\d+)"
-    let ParseEntityNameRegex: RegexPattern = "name=(\\w+)"
-    let ParseEntityZoneRegex: RegexPattern = "zone=(\\w+)"
-    let ParseEntityCardIDRegex: RegexPattern = "cardId=(\\w+)"
-    let ParseEntityTypeRegex: RegexPattern = "type=(\\w+)"
+    let ParseEntityIDRegex = Regex("id=(\\d+)")
+    let ParseEntityZonePosRegex = Regex("zonePos=(\\d+)")
+    let ParseEntityPlayerRegex = Regex("player=(\\d+)")
+    let ParseEntityNameRegex = Regex("name=(\\w+)")
+    let ParseEntityZoneRegex = Regex("zone=(\\w+)")
+    let ParseEntityCardIDRegex = Regex("cardId=(\\w+)")
+    let ParseEntityTypeRegex = Regex("type=(\\w+)")
 
     private var creationTagActionQueue: [(id: Int, action: (() -> Void))] = []
     private var tagChangeAction = TagChangeActions()
@@ -107,38 +106,38 @@ class TagChangeHandler {
         var id: Int?, zonePos: Int?, player: Int?
         var name: String?, zone: String?, cardId: String?, type: String?
 
-        if entity.match(ParseEntityIDRegex) {
-            if let match = entity.matches(ParseEntityIDRegex).first {
+        if ParseEntityIDRegex.match(entity) {
+            if let match = ParseEntityIDRegex.matches(entity).first {
                 id = Int(match.value)
             }
         }
-        if entity.match(ParseEntityZonePosRegex) {
-            if let match = entity.matches(ParseEntityZonePosRegex).first {
+        if ParseEntityZonePosRegex.match(entity) {
+            if let match = ParseEntityZonePosRegex.matches(entity).first {
                 zonePos = Int(match.value)
             }
         }
-        if entity.match(ParseEntityPlayerRegex) {
-            if let match = entity.matches(ParseEntityPlayerRegex).first {
+        if ParseEntityPlayerRegex.match(entity) {
+            if let match = ParseEntityPlayerRegex.matches(entity).first {
                 player = Int(match.value)
             }
         }
-        if entity.match(ParseEntityNameRegex) {
-            if let match = entity.matches(ParseEntityNameRegex).first {
+        if ParseEntityNameRegex.match(entity) {
+            if let match = ParseEntityNameRegex.matches(entity).first {
                 name = match.value
             }
         }
-        if entity.match(ParseEntityZoneRegex) {
-            if let match = entity.matches(ParseEntityZoneRegex).first {
+        if ParseEntityZoneRegex.match(entity) {
+            if let match = ParseEntityZoneRegex.matches(entity).first {
                 zone = match.value
             }
         }
-        if entity.match(ParseEntityCardIDRegex) {
-            if let match = entity.matches(ParseEntityCardIDRegex).first {
+        if ParseEntityCardIDRegex.match(entity) {
+            if let match = ParseEntityCardIDRegex.matches(entity).first {
                 cardId = match.value
             }
         }
-        if entity.match(ParseEntityTypeRegex) {
-            if let match = entity.matches(ParseEntityTypeRegex).first {
+        if ParseEntityTypeRegex.match(entity) {
+            if let match = ParseEntityTypeRegex.matches(entity).first {
                 type = match.value
             }
         }

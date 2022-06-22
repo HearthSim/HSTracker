@@ -39,6 +39,7 @@ class ArenaWatcher: Watcher {
     private var cardTiers: [ArenaCard] = []
     private var currentCards: [String] = []
 	private var handler: PowerEventHandler?
+    private let digitsRegex = Regex("([0-9]+)")
 	
     override func run() {
         if cardTiers.count == 0 {
@@ -65,7 +66,7 @@ class ArenaWatcher: Watcher {
 
                     if index >= 0 && index < cardInfo.value.count {
                         let value = cardInfo.value[index]
-                        let costs = value.matches("([0-9]+)")
+                        let costs = digitsRegex.matches(value)
                         card.cost = Int(costs.first?.value ?? "0") ?? 0
                         card.isBadAsMultiple = value.contains("*")
                         card.count = 1

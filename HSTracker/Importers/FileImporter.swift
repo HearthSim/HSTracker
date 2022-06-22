@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import RegexUtil
 
 struct FileImporter {
 
@@ -35,13 +34,13 @@ struct FileImporter {
         deck.name = deckName
 
         var cards: [Card] = []
-        let regex: RegexPattern = "(\\d)(\\s|x)?([\\w\\s'\\.:!-]+)"
+        let regex = Regex("(\\d)(\\s|x)?([\\w\\s'\\.:!-]+)")
         for line in lines {
             guard !line.isBlank else { continue }
 
             // match "2xMirror Image" as well as "2 Mirror Image" or "2 GVG_002"
-            if line.match(regex) {
-                let matches = line.matches(regex)
+            if regex.match(line) {
+                let matches = regex.matches(line)
                 let cardName = matches[2].value.trim()
                 if let count = Int(matches[0].value) {
                     if count > 2 {

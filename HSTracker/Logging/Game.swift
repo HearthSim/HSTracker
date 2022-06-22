@@ -11,7 +11,6 @@
 import Foundation
 import RealmSwift
 import HearthMirror
-import RegexUtil
 import AppCenterAnalytics
 
 struct PlayingDeck {

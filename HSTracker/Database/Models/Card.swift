@@ -8,7 +8,6 @@
 
 import Foundation
 //import HearthAssets
-import RegexUtil
 
 final class Card {
     // MARK: - Card data
@@ -96,9 +95,10 @@ final class Card {
         }) != nil
     }
 
+    static let pluralRegex = Regex("\\$(\\d+) \\|4\\((\\w+),(\\w+)\\)")
+
     func formattedText() -> String {
-        let pluralRegex: RegexPattern = "\\$(\\d+) \\|4\\((\\w+),(\\w+)\\)"
-        return text.replace(pluralRegex, using: { string, matches in
+        return text.replace(Card.pluralRegex, using: { string, matches in
             guard matches.count == 4 else { return string }
 
             let single = matches[1].value
@@ -106,7 +106,7 @@ final class Card {
             let count = Int(matches[0].value) ?? 0
 
             let replace = "\(count) \(count <= 1 ? single : plural)"
-            return string.replace(pluralRegex, with: replace)
+            return string.replace(Card.pluralRegex, with: replace)
         }).replace("\\$", with: "")
             .replace("<b>", with: "")
             .replace("</b>", with: "")

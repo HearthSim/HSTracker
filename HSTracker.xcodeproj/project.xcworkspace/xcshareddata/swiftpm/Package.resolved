@@ -136,15 +136,6 @@
       }
     },
     {
-      "identity" : "regexutil",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/fmoraes74/RegexUtil",
-      "state" : {
-        "revision" : "e29c499bf18741342dfc49f1ed16a20b89191d5d",
-        "version" : "1.2.1"
-      }
-    },
-    {
       "identity" : "sparkle",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sparkle-project/Sparkle",

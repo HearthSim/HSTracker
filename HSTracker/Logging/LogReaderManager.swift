@@ -68,9 +68,8 @@ final class LogReaderManager {
 		arenaHandler = ArenaHandler(with: coreManager)
         fullscreenFXHandler = FullScreenFxHandler(coreManager: coreManager)
 		
-        let rx = "GameState.DebugPrintEntityChoices\\(\\)\\s-\\sid=(\\d) Player=(.+) TaskList=(\\d)"
         let plReader = LogReaderInfo(name: .power,
-                                     startsWithFilters: [["PowerTaskList.DebugPrintPower", rx, "GameState.DebugPrintGame"], ["GameState."]],
+                                     startsWithFilters: [["PowerTaskList.DebugPrintPower", "GameState.DebugPrintGame"], ["GameState."]],
                                      containsFilters: [["Begin Spectating", "Start Spectator",
                                                        "End Spectator"], []])
         powerLog = LogReader(info: plReader, logPath: logPath)

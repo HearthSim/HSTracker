@@ -9,7 +9,6 @@
  */
 
 import Foundation
-import RegexUtil
 import AppCenterAnalytics
 
 enum DeckLocation: Int {
@@ -19,21 +18,20 @@ enum DeckLocation: Int {
 class PowerGameStateParser: LogEventParser {
     static let TransferStudentToken = CardIds.Collectible.Neutral.TransferStudent + "t"
     
-    let BlockStartRegex = RegexPattern(stringLiteral: ".*BLOCK_START.*BlockType=(\\w+)"
-        + ".*id=(\\d*).*(cardId=(\\w*)).*player=(\\d*).*Target=(.+).*SubOption=(.+)")
-    let CardIdRegex: RegexPattern = "cardId=(\\w+)"
-    let CreationRegex: RegexPattern = "FULL_ENTITY - Updating.*id=(\\d+).*zone=(\\w+).*CardID=(\\w*)"
-    let CreationTagRegex: RegexPattern = "tag=(\\w+) value=(\\w+)"
-    let GameEntityRegex: RegexPattern = "GameEntity EntityID=(\\d+)"
-    let PlayerEntityRegex: RegexPattern = "Player EntityID=(\\d+) PlayerID=(\\d+) GameAccountId=(.+)"
-    let PlayerIDRegex: RegexPattern = "\\[hi\\=(\\d+)\\slo=(\\d+)"
-    let PlayerNameRegex: RegexPattern = "id=(\\d) Player=(.+) TaskList=(\\d)"
-    let TagChangeRegex: RegexPattern = "TAG_CHANGE Entity=(.+) tag=(\\w+) value=(\\w+)"
-    let UpdatingEntityRegex: RegexPattern = "(SHOW_ENTITY|CHANGE_ENTITY) - Updating Entity=(.+) CardID=(\\w*)"
-    let BuildNumberRegex: RegexPattern = "BuildNumber=(\\d+)"
-    let PlayerIDNameRegex: RegexPattern = "PlayerID=(\\d+), PlayerName=(.+)"
-    let HideEntityRegex: RegexPattern = "HIDE_ENTITY\\ -\\ .* id=(?<id>(\\d+))"
-    let ShuffleRegex: RegexPattern = "SHUFFLE_DECK\\ PlayerID=(?<id>(\\d+))"
+    let BlockStartRegex = Regex(".*BLOCK_START.*BlockType=(\\w+).*id=(\\d*).*(cardId=(\\w*)).*player=(\\d*).*Target=(.+).*SubOption=(.+)")
+    let CardIdRegex = Regex("cardId=(\\w+)")
+    let CreationRegex = Regex("FULL_ENTITY - Updating.*id=(\\d+).*zone=(\\w+).*CardID=(\\w*)")
+    let CreationTagRegex = Regex("tag=(\\w+) value=(\\w+)")
+    let GameEntityRegex = Regex("GameEntity EntityID=(\\d+)")
+    let PlayerEntityRegex = Regex("Player EntityID=(\\d+) PlayerID=(\\d+) GameAccountId=(.+)")
+    let PlayerIDRegex = Regex("\\[hi\\=(\\d+)\\slo=(\\d+)")
+    let PlayerNameRegex = Regex("id=(\\d) Player=(.+) TaskList=(\\d)")
+    let TagChangeRegex = Regex("TAG_CHANGE Entity=(.+) tag=(\\w+) value=(\\w+)")
+    let UpdatingEntityRegex = Regex("(SHOW_ENTITY|CHANGE_ENTITY) - Updating Entity=(.+) CardID=(\\w*)")
+    let BuildNumberRegex = Regex("BuildNumber=(\\d+)")
+    let PlayerIDNameRegex = Regex("PlayerID=(\\d+), PlayerName=(.+)")
+    let HideEntityRegex = Regex("HIDE_ENTITY\\ -\\ .* id=(?<id>(\\d+))")
+    let ShuffleRegex = Regex("SHUFFLE_DECK\\ PlayerID=(?<id>(\\d+))")
     var tagChangeHandler = TagChangeHandler()
     var currentEntity: Entity?
 
@@ -85,8 +83,8 @@ class PowerGameStateParser: LogEventParser {
         var creationTag = false
 
         // current game
-        if logLine.line.match(GameEntityRegex) {
-            if let match = logLine.line.matches(GameEntityRegex).first,
+        if GameEntityRegex.match(logLine.line) {
+            if let match = GameEntityRegex.matches(logLine.line).first,
                 let id = Int(match.value) {
                 //print("**** GameEntityRegex id:'\(id)'")
 				let entity = Entity(id: id)
@@ -103,8 +101,8 @@ class PowerGameStateParser: LogEventParser {
         }
 
         // players
-        else if logLine.line.match(PlayerEntityRegex) {
-            let matches = logLine.line.matches(PlayerEntityRegex)
+        else if PlayerEntityRegex.match(logLine.line) {
+            let matches = PlayerEntityRegex.matches(logLine.line)
             if let match = matches.first,
                 let id = Int(match.value) {
 				let entity = Entity(id: id)
@@ -126,8 +124,8 @@ class PowerGameStateParser: LogEventParser {
                 }
                 return
             }
-        } else if logLine.line.match(TagChangeRegex) {
-            let matches = logLine.line.matches(TagChangeRegex)
+        } else if TagChangeRegex.match(logLine.line) {
+            let matches = TagChangeRegex.matches(logLine.line)
             let rawEntity = matches[0].value
                 .replacingOccurrences(of: "UNKNOWN ENTITY ", with: "")
             let tag = matches[1].value
@@ -213,8 +211,8 @@ class PowerGameStateParser: LogEventParser {
                     }
                 }
             }
-        } else if logLine.line.match(CreationRegex) {
-            let matches = logLine.line.matches(CreationRegex)
+        } else if CreationRegex.match(logLine.line) {
+            let matches = CreationRegex.matches(logLine.line)
             guard let id = Int(matches[0].value) else {
                 logger.error("Failed to convert id to integer: Log line was $(logLine.line)")
                 return
@@ -269,8 +267,8 @@ class PowerGameStateParser: LogEventParser {
             eventHandler.currentEntityHasCardId = !cardId.isBlank
             eventHandler.currentEntityZone = zone
             return
-        } else if logLine.line.match(UpdatingEntityRegex) {
-            let matches = logLine.line.matches(UpdatingEntityRegex)
+        } else if UpdatingEntityRegex.match(logLine.line) {
+            let matches = UpdatingEntityRegex.matches(logLine.line)
             let type = matches[0].value
             let rawEntity = matches[1].value
             let cardId = ensureValidCardID(cardId: matches[2].value)
@@ -339,16 +337,16 @@ class PowerGameStateParser: LogEventParser {
                 }
             }
             return
-        } else if logLine.line.match(CreationTagRegex)
+        } else if CreationTagRegex.match(logLine.line)
             && !logLine.line.contains("HIDE_ENTITY") {
-            let matches = logLine.line.matches(CreationTagRegex)
+            let matches = CreationTagRegex.matches(logLine.line)
             let tag = matches[0].value
             let value = matches[1].value
             tagChangeHandler.tagChange(eventHandler: eventHandler, rawTag: tag, id: currentEntityId,
                                        rawValue: value, isCreationTag: true)
             creationTag = true
         } else if logLine.line.contains("HIDE_ENTITY") {
-            let match = logLine.line.matches(HideEntityRegex)
+            let match = HideEntityRegex.matches(logLine.line)
             if match.count > 0 {
                 let id = Int(match[0].value) ?? -1
                 if let entity = eventHandler.entities[id] {
@@ -370,19 +368,19 @@ class PowerGameStateParser: LogEventParser {
                     }
                  }
             }
-        } else if logLine.line.match(ShuffleRegex) {
-            let match = logLine.line.matches(ShuffleRegex)
+        } else if ShuffleRegex.match(logLine.line) {
+            let match = ShuffleRegex.matches(logLine.line)
             let playerId = Int(match[0].value)
             if playerId == eventHandler.player.id {
                 eventHandler.player.shuffleDeck()
                 eventHandler.handlePlayerDredge()
             }
-        } else if logLine.line.match(BuildNumberRegex) {
-            if let buildNumber = Int(logLine.line.matches(BuildNumberRegex)[0].value) {
+        } else if BuildNumberRegex.match(logLine.line) {
+            if let buildNumber = Int(BuildNumberRegex.matches(logLine.line)[0].value) {
                 eventHandler.set(buildNumber: buildNumber)
             }
-        } else if logLine.line.match(PlayerIDNameRegex) {
-            let matches = logLine.line.matches(PlayerIDNameRegex)
+        } else if PlayerIDNameRegex.match(logLine.line) {
+            let matches = PlayerIDNameRegex.matches(logLine.line)
             if matches.count >= 2, let playerID = Int(matches[0].value) {
                 let playerName = matches[1].value
                 eventHandler.add(playerName: playerName, for: playerID)
@@ -395,7 +393,7 @@ class PowerGameStateParser: LogEventParser {
             var type: String?
             var cardId: String?
             var correspondPlayer: Int?
-            let matches = logLine.line.matches(BlockStartRegex)
+            let matches = BlockStartRegex.matches(logLine.line)
             if matches.count > 0 {
                 type = matches[0].value
             }
@@ -981,9 +979,9 @@ class PowerGameStateParser: LogEventParser {
         guard target.hasPrefix("[") && tagChangeHandler.isEntity(rawEntity: target) else {
             return nil
         }
-        guard target.match(CardIdRegex) else { return nil }
+        guard CardIdRegex.match(target) else { return nil }
 
-        let cardIdMatch = target.matches(CardIdRegex)
+        let cardIdMatch = CardIdRegex.matches(target)
         return cardIdMatch.first?.value.trim()
     }
 
