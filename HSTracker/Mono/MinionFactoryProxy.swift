@@ -52,6 +52,7 @@ class MinionFactoryProxy: MonoHandle, MonoClassInitializer {
             let r = mono_runtime_invoke(MinionFactoryProxy._getMinionFromCardid, self.get(), $0, nil)
             return MinionProxy(obj: r)
         })
+        ptrs.deallocate()
         params.deallocate()
         return res
     }
