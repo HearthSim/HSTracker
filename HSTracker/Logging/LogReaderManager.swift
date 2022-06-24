@@ -69,16 +69,15 @@ final class LogReaderManager {
         fullscreenFXHandler = FullScreenFxHandler(coreManager: coreManager)
 		
         let plReader = LogReaderInfo(name: .power,
-                                     startsWithFilters: [["PowerTaskList.DebugPrintPower", "GameState.DebugPrintGame"], ["GameState."]],
-                                     containsFilters: [["Begin Spectating", "Start Spectator",
-                                                       "End Spectator"], []])
+                                     startsWithFilters: ["PowerTaskList.DebugPrintPower", "GameState."],
+                                     containsFilters: ["Begin Spectating", "Start Spectator",
+                                                       "End Spectator"])
         powerLog = LogReader(info: plReader, logPath: logPath)
 
         rachelle = LogReader(info: LogReaderInfo(name: .rachelle), logPath: logPath)
         arena = LogReader(info: LogReaderInfo(name: .arena), logPath: logPath)
         loadingScreen = LogReader(info: LogReaderInfo(name: .loadingScreen,
-                                                      startsWithFilters: [[
-                                                        "LoadingScreen.OnSceneLoaded", "Gameplay"]]),
+                                                      startsWithFilters: ["LoadingScreen.OnSceneLoaded", "Gameplay"]),
                                   logPath: logPath)
         fullscreen = LogReader(info: LogReaderInfo(name: .fullScreenFX), logPath: logPath)
     }
@@ -115,7 +114,7 @@ final class LogReaderManager {
             autoreleasepool {
                 
                 for reader in readers {
-                    let loglines = reader.collect(index: 0)
+                    let loglines = reader.collect()
                     for line in loglines {
                         var lineList: [LogLine]?
                         if let loglist = processMap[line.time] {
@@ -129,12 +128,6 @@ final class LogReaderManager {
                     
                 }
                 
-                // save powerlines for replay upload
-                let powerLines = powerLog.collect(index: 1)
-                for line in powerLines {
-                    coreManager.game.add(powerLog: line)
-                }
-
                 for lineList in processMap.values {
                     if stopped {
                         break
@@ -184,7 +177,11 @@ final class LogReaderManager {
 	private func processLine(line: LogLine) {
         switch line.namespace {
         case .power:
-            self.powerGameStateParser.handle(logLine: line)
+            if line.content.hasPrefix("GameState.") {
+                coreManager.game.add(powerLog: line)
+            } else {
+                self.powerGameStateParser.handle(logLine: line)
+            }
         case .rachelle: self.rachelleHandler.handle(logLine: line)
         case .arena: self.arenaHandler.handle(logLine: line)
         case .loadingScreen: self.loadingScreenHandler.handle(logLine: line)

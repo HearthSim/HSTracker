@@ -11,8 +11,8 @@ import Foundation
 class LogReaderInfo {
 
     var name: LogLineNamespace
-    var startsWithFiltersGroup: [[String]]
-    var containsFiltersGroup: [[String]]
+    var startsWithFiltersGroup: [String]
+    var containsFiltersGroup: [String]
     var filePath: String?
     var prefix = "D "
     var reset = true
@@ -22,8 +22,8 @@ class LogReaderInfo {
         return !startsWithFiltersGroup.isEmpty || !containsFiltersGroup.isEmpty
     }
 
-    init(name: LogLineNamespace, startsWithFilters: [[String]] = [],
-         containsFilters: [[String]] = [], reset: Bool = true, include: Bool = true) {
+    init(name: LogLineNamespace, startsWithFilters: [String] = [],
+         containsFilters: [String] = [], reset: Bool = true, include: Bool = true) {
         self.name = name
         self.startsWithFiltersGroup = startsWithFilters
         self.containsFiltersGroup = containsFilters

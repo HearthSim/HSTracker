@@ -23,7 +23,7 @@ final class LogReader {
     private var logReaderManager: LogReaderManager?
 
     private var queue: DispatchQueue?
-    private var _lines = [ConcurrentQueue<LogLine>]()
+    private var _lines = ConcurrentQueue<LogLine>()
 
 	init(info: LogReaderInfo, logPath: String, removeLogfile: Bool = true) {
         self.info = info
@@ -39,11 +39,6 @@ final class LogReader {
             } catch {
                 logger.error("\(error)")
             }
-        }
-        
-        _lines.removeAll()
-        for _ in 1...max(1, max(info.startsWithFiltersGroup.count, info.containsFiltersGroup.count) ) {
-            _lines.append(ConcurrentQueue<LogLine>())
         }
     }
 
@@ -122,41 +117,15 @@ final class LogReader {
                         }
 
                         if !lines.isEmpty {
-                            var loglinesBuffer = Array(repeating: [LogLine](), count: _lines.count)
-                            
                             for line in lines {
                                 offset += UInt64((line + "\n")
                                     .lengthOfBytes(using: .utf8))
-                                let cutted = line.substring(from: 19)
-                                
-                                if !info.hasFilters {
-                                    let logLine = LogLine(namespace: info.name,
-                                                          line: line)
-                                    if logLine.time >= startingPoint {
-                                        loglinesBuffer[0].append(logLine)
-                                    }
-                                } else {
-                                    
-                                    for i in 0..<info.startsWithFiltersGroup.count {
-                                        if (info.startsWithFiltersGroup.count > i
-                                            && info.startsWithFiltersGroup[i].any({
-                                            cutted.hasPrefix($0)
-                                        }))
-                                            || (info.containsFiltersGroup.count > i &&
-                                                info.containsFiltersGroup[i].any({ cutted.contains($0) })) {
-                                            let logLine = LogLine(namespace: info.name,
-                                                                  line: line)
-                                            if logLine.time >= startingPoint {
-                                                loglinesBuffer[i].append(logLine)
-                                            }
-                                        }
-                                    }
+                                let logLine = LogLine(namespace: info.name,
+                                                      line: line)
+
+                                if (!info.hasFilters || info.startsWithFiltersGroup.any({ logLine.content.hasPrefix($0)}) || info.containsFiltersGroup.any({ logLine.content.contains($0)})) && logLine.time >= startingPoint {
+                                        _lines.enqueue(value: logLine)
                                 }
-                            }
-                            
-                            // enqueue all buffers
-                            for i in 0..<loglinesBuffer.count {
-                                _lines[i].enqueueAll(collection: loglinesBuffer[i])
                             }
                         }
                     }
@@ -179,9 +148,7 @@ final class LogReader {
         fileHandle?.closeFile()
         fileHandle = nil
         
-        for lines in _lines {
-            lines.clear()
-        }
+        _lines.clear()
         
         // try to truncate log file when stopping
         if fileManager.fileExists(atPath: path) && eraseFile {
@@ -254,16 +221,16 @@ final class LogReader {
         stopped = true
     }
     
-    func collect(index: Int) -> [LogLine] {
+    func collect() -> [LogLine] {
         var items = [LogLine]()
-        let size = _lines[index].count
+        let size = _lines.count
         
         if size == 0 {
             return items
         }
         
         for _ in 0..<size {
-            if let elem = _lines[index].dequeue() {
+            if let elem = _lines.dequeue() {
                 items.append(elem)
             } else {
                 break

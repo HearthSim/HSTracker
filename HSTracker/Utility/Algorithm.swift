@@ -168,40 +168,37 @@ public class LinkedList<T> {
 public class ConcurrentQueue<T> {
 
     private var elements = LinkedList<T>()
-    private let accessQueue = DispatchQueue(label: "net.hearthsim.hstracker.concurrentQueue")
+    private let lock = UnfairLock()
     
     public func enqueue(value: T) {
-        self.accessQueue.sync {
+        lock.around {
             self.elements.append(value)
         }
     }
 	
 	public func enqueueAll(collection: [T]) {
-		self.accessQueue.sync {
+        lock.around {
 			self.elements.appendAll(collection)
 		}
 	}
 	
     public func dequeue() -> T? {
-        var result: T?
-        self.accessQueue.sync {
+        return lock.around {
             if let head = self.elements.first {
-                result = self.elements.remove(node: head)
+                return self.elements.remove(node: head)
             }
+            return nil
         }
-        return result
     }
     
 	public var count: Int {
-        var result = 0
-        self.accessQueue.sync {
-            result = self.elements.count
+        return lock.around {
+            return self.elements.count
         }
-        return result
     }
     
     public func clear() {
-        self.accessQueue.sync {
+        lock.around {
             self.elements.clear()
         }
     }
