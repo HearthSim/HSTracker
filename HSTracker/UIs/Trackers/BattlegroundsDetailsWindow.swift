@@ -74,10 +74,12 @@ class BattlegroundsDetailsWindow: OverWindowController {
             tier6.qty = snapshot.triples[5]
             
             for entity in snapshot.entities {
-                minions[index]?.entity = entity
-                minions[index]?.needsDisplay = true
-                minions[index]?.isHidden = false
-                index += 1
+                if index >= 0 && index < minions.count {
+                    minions[index]?.entity = entity
+                    minions[index]?.needsDisplay = true
+                    minions[index]?.isHidden = false
+                    index += 1
+                }
             }
             emptyBoard.isHidden = index != 0 || snapshot.turn == -1
             notFought.isHidden = snapshot.turn != -1
