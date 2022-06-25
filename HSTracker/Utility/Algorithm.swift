@@ -203,3 +203,26 @@ public class ConcurrentQueue<T> {
         }
     }
 }
+
+class ConcurrentSet<T: Hashable> {
+    let lock = UnfairLock()
+    var set = Set<T>()
+    
+    var count: Int {
+        return lock.around {
+            return set.count
+        }
+    }
+    
+    func insert(_ newElement: T) {
+        _ = lock.around {
+            set.insert(newElement)
+        }
+    }
+    
+    func popFirst() -> T? {
+        return lock.around {
+            return set.popFirst()
+        }
+    }
+}

@@ -840,7 +840,7 @@ class Game: NSObject, PowerEventHandler {
     
 	var enqueueTime = LogDate(date: Date.distantPast)
     private var lastTurnStart: [Int] = [0, 0]
-    private var turnQueue: Set<PlayerTurn> = Set()
+    private var turnQueue: ConcurrentSet<PlayerTurn> = ConcurrentSet()
     
 	fileprivate var lastGameStartTimestamp: LogDate = LogDate(date: Date.distantPast)
 
