@@ -245,6 +245,14 @@
 "Current" = "Current";
 "Resetting current Session" = "Resetting current Session";
 "By clicking 'Reset' you will clear your list of Latest Games and make your Start MMR the same as your current MMR." = "By clicking 'Reset' you will clear your list of Latest Games and make your Start MMR the same as your current MMR.";
+"Battlegrounds_Game_Ordinal_1" = "1st";
+"Battlegrounds_Game_Ordinal_2" = "2nd";
+"Battlegrounds_Game_Ordinal_3" = "3rd";
+"Battlegrounds_Game_Ordinal_4" = "4th";
+"Battlegrounds_Game_Ordinal_5" = "5th";
+"Battlegrounds_Game_Ordinal_6" = "6th";
+"Battlegrounds_Game_Ordinal_7" = "7th";
+"Battlegrounds_Game_Ordinal_8" = "8th";
 
 /* Buttons */
 "Change" = "Change";

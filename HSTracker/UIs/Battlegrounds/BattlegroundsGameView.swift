@@ -170,9 +170,7 @@ class BattlegroundsGameView: NSView {
         })
         let heroShortNameMap = RemoteConfig.data?.battlegrounds_short_names?.first(where: { x in x.dbf_id == heroCard.dbfId })
         heroName.stringValue = heroShortNameMap?.short_name ?? heroCard.name
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .ordinal
-        placementText.stringValue = formatter.string(from: NSNumber(value: game.placement)) ?? "?"
+        placementText.stringValue = NSLocalizedString("Battlegrounds_Game_Ordinal_\(game.placement)", comment: "")
         let mmrDelta = game.ratingAfter - game.rating
         let signal = mmrDelta > 0 ? "+" : ""
         mmrText.stringValue = "\(signal)\(mmrDelta)"
