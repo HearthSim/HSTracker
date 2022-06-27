@@ -1,6 +1,15 @@
+# 2.1.9
+## New
+- Updated for patch 23.6
+## Fixes
+- Changed localization of Battlegrounds Session recap placement
+- Several memory leak fixes
+- Fixed several data races that led to crashes
+- Some performance optimizations
+
 # 2.1.8
 ## New
-- Updated for poatch 23.4.3
+- Updated for patch 23.4.3
 - Korean translation updates (thanks @kshired)
 ## Fixes
 - Fixed Battlegrounds session recap not showing correctly

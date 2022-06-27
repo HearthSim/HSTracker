@@ -106,7 +106,7 @@ class Deck: Object {
 
     func isValid() -> Bool {
         let count = countCards()
-        return count == 30
+        return count == 30 || count == 40
     }
 
     func arenaFinished() -> Bool {

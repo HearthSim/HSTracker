@@ -130,7 +130,7 @@ final class Cards {
     static func collectible() -> [Card] {
         return cards.filter {
             $0.collectible && $0.type != .hero_power &&
-            ($0.type != .hero || ($0.type == .hero && $0.set != CardSet.core && $0.set != CardSet.hero_skins ))
+            ($0.type != .hero || ($0.type == .hero && $0.set != CardSet.expert1 && $0.set != CardSet.hero_skins ))
                 || $0.set == CardSet.wild_event
         }
     }

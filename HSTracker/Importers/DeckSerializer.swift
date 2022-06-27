@@ -102,8 +102,9 @@ class DeckSerializer {
             let dbfId = dbfId ?? (try? read())
             guard let id = dbfId,
                 let card = Cards.by(dbfId: Int(id.toInt64())) else {
-                    logger.error("Can not get card")
-                    return
+                let cardId = Int(dbfId!.toInt64())
+                logger.error("Can not get card with id \(cardId)")
+                return
             }
             logger.verbose("**** got card \(card.id) * \(count)")
 

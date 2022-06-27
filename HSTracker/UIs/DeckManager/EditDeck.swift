@@ -219,7 +219,8 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
     func countCards() {
         let count = cards.countCards()
-        countLabel.stringValue = "\(count) / 30"
+        let deckSize = cards.any { x in x.id == CardIds.Collectible.Neutral.PrinceRenathal } ? 40 : 30
+        countLabel.stringValue = "\(count) / \(deckSize)"
     }
 
     func updateTheme() {
@@ -242,8 +243,10 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         let card: Card
 
         if sender == cardsTableView {
+            let deckSize = cards.any { x in x.id == CardIds.Collectible.Neutral.PrinceRenathal } ? 40 : 30
+
             card = currentClassCards[sender.clickedRow]
-            if cards.countCards() == 30 {
+            if cards.countCards() >= deckSize {
                 return
             }
 

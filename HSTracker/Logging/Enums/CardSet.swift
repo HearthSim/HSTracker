@@ -53,6 +53,7 @@ enum CardSet: String, CaseIterable {
     core,
     vanilla,
     the_sunken_city,
+    revendreth,
     mercenaries_dev
     
     static func deckManagerValidCardSets() -> [CardSet] {
@@ -62,7 +63,7 @@ enum CardSet: String, CaseIterable {
                 .dalaran, .uldum, .dragons, .year_of_the_dragon,
                 .black_temple, .demon_hunter_initiate, .scholomance, .darkmoon_faire,
                 .the_barrens, .wailing_caverns, .stormwind, .alterac_valley,
-                .the_sunken_city]
+                .the_sunken_city, .revendreth]
     }
     
     static func wildSets() -> [CardSet] {
@@ -135,5 +136,6 @@ public enum CardSetInt: Int {
     core = 1637,
     vanilla = 1646,
     the_sunken_city = 1658,
+    revendreth = 1691,
     mercenaries_dev = 1705
 }

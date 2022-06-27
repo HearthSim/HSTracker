@@ -31,7 +31,8 @@ extension Array where Element: Card {
     }
 
     func isValidDeck() -> Bool {
-        return countCards() == 30
+        let count = countCards()
+        return count == 30 || count == 40
     }
 }
 
