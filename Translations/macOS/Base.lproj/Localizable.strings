@@ -128,6 +128,7 @@
 "STORMWIND" = "United in Stormwind";
 "ALTERAC_VALLEY" = "Fractured in Alterac Valley";
 "THE_SUNKEN_CITY" = "The Sunken City";
+"REVENDRETH" = "Murder at Castle Nathria";
 
 /* card type */
 "all_types" = "All";

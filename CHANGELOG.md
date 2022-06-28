@@ -1,6 +1,7 @@
 # 2.1.9
 ## New
 - Updated for patch 23.6
+- Korean translation updates (thanks @kshired)
 ## Fixes
 - Changed localization of Battlegrounds Session recap placement
 - Several memory leak fixes
