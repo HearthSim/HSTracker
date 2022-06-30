@@ -67,7 +67,7 @@
                         <rect key="frame" x="0.0" y="201" width="217" height="40"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
-                    <customView hidden="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zLO-5L-hth" customClass="WotogCounter" customModule="HSTracker" customModuleProvider="target">
+                    <customView hidden="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zLO-5L-hth" customClass="WotogCounterFrame" customModule="HSTracker" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="249" width="217" height="40"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>

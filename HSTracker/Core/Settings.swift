@@ -295,6 +295,10 @@ final class Settings {
     static var showPlayerCardsBottom: Bool
     @UserDefault(key: Settings.player_galakrond_invoke_frame, defaultValue: true)
     static var showPlayerGalakrondCounter: Bool
+    @UserDefault(key: Settings.player_abyssal_counter, defaultValue: false)
+    static var showPlayerAbyssalCounter: Bool
+    @UserDefault(key: Settings.opponent_abyssal_counter, defaultValue: false)
+    static var showOpponentAbyssalCounter: Bool
     @UserDefault(key: Settings.opponent_galakrond_invoke_frame, defaultValue: true)
     static var showOpponentGalakrondCounter: Bool
     @UserDefault(key: Settings.opponent_cthun_frame, defaultValue: true)
@@ -567,6 +571,7 @@ extension Settings {
     static let player_libram_counter = "player_libram_counter"
     static let player_cards_top = "player_cards_top"
     static let player_cards_bottom = "player_cards_botto"
+    static let player_abyssal_counter = "player_abyssal_counter"
     static let opponent_galakrond_invoke_frame = "opponent_galakrond_invoke_frame"
     static let opponent_cthun_frame = "opponent_cthun_frame"
     static let opponent_yogg_frame = "opponent_yogg_frame"
@@ -575,6 +580,7 @@ extension Settings {
     static let opponent_graveyard_details_frame = "opponent_graveyard_details_frame"
     static let opponent_jade_frame = "opponent_jade_frame"
     static let opponent_libram_counter = "opponent_libram_counter"
+    static let opponent_abyssal_counter = "opponent_abyssal_counter"
 
     static let remove_cards_from_deck = "remove_cards_from_deck"
     static let highlight_last_drawn = "highlight_last_drawn"

@@ -213,6 +213,10 @@ protocol PowerEventHandler: AnyObject {
     
     func handleOpponentLibramReduction(change: Int)
     
+    func handlePlayerAbyssalCurse(value: Int)
+    
+    func handleOpponentAbyssalCurse(value: Int)
+    
     func handlePlayerHandCostReduction(value: Int)
     
     func handleOpponentHandCostReduction(value: Int)

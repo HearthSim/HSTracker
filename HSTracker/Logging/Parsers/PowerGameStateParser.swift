@@ -934,6 +934,20 @@ class PowerGameStateParser: LogEventParser {
             if currentBlock?.type == "TRIGGER" && currentBlock?.cardId == CardIds.NonCollectible.Neutral.Baconshop8playerenchantTavernBrawl && currentBlock?.hasFullEntityHeroPackets ?? false && (eventHandler.turn() % 2 == 0) {
                 eventHandler.startCombat()
             }
+            
+            let abyssalCurseCreators = [ CardIds.Collectible.Warlock.DraggedBelow, CardIds.Collectible.Warlock.SirakessCultist, CardIds.Collectible.Warlock.AbyssalWave, CardIds.Collectible.Warlock.Zaqul ]
+            if currentBlock?.type == "POWER" && abyssalCurseCreators.contains(currentBlock?.cardId ?? "") {
+                if let sourceEntity = eventHandler.entities.values.first(where: { x in x.id == currentBlock!.sourceEntityId }) {
+                    let abyssalCurse = eventHandler.entities.values.last(where: { x in x[.creator] == sourceEntity.id })
+                    let nextDamage = abyssalCurse?[.tag_script_data_num_1] ?? 0
+                    
+                    if sourceEntity.isControlled(by: eventHandler.player.id) {
+                        eventHandler.handleOpponentAbyssalCurse(value: nextDamage)
+                    } else {
+                        eventHandler.handlePlayerAbyssalCurse(value: nextDamage)
+                    }
+                }
+            }
             blockEnd()
         }
 

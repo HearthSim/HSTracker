@@ -509,4 +509,18 @@ struct SizeHelper {
                            width: w, height: h)
         return hearthstoneWindow.relativeFrame(frame, relative: false)
     }
+    
+    static func opponentWotogIconsFrame() -> NSRect {
+        let hs = hearthstoneWindow.frame
+        let w = 77.0
+        let h = 50.0
+        return NSRect(x: getScaledXPos(86.5 / 100.0, width: hs.width, ratio: screenRatio), y: (hs.height * (100.0 - 18.5) / 100.0) - h, width: w, height: h)
+    }
+
+    static func playerWotogIconsFrame() -> NSRect {
+        let hs = hearthstoneWindow.frame
+        let w = 77.0
+        let h = 50.0
+        return NSRect(x: getScaledXPos(86.8 / 100.0, width: hs.width, ratio: screenRatio), y: (hs.height * (100.0 - 68.5) / 100.0) - h, width: w, height: h)
+    }
 }

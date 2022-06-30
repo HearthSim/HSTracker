@@ -167,6 +167,8 @@ class Game: NSObject, PowerEventHandler {
         self.updateBobsBuddyOverlay()
         self.updateTurnCounterOverlay()
         self.updateToaster()
+        self.updateOpponentIcons()
+        self.updatePlayerIcons()
         self.updateExperienceOverlay()
         self.updateMercenariesTaskListButton()
         self.updateBoardOverlay()
@@ -267,6 +269,40 @@ class Game: NSObject, PowerEventHandler {
 			}
 		}
 	}
+    
+    func updateOpponentIcons() {
+        DispatchQueue.main.async { [unowned(unsafe) self] in
+            if !self.isInMenu && (self.opponent.abyssalCurseCount > 0 && Settings.showOpponentAbyssalCounter) &&
+                ( (Settings.hideAllTrackersWhenNotInGame && !self.gameEnded)
+                    || (!Settings.hideAllTrackersWhenNotInGame) || self.selfAppActive ) &&
+                ((Settings.hideAllWhenGameInBackground &&
+                    self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground || self.selfAppActive) {
+                let frame = SizeHelper.opponentWotogIconsFrame()
+                self.windowManager.opponentWotogIcons.abyssalCurse = "\(self.opponent.abyssalCurseCount)"
+                self.windowManager.show(controller: self.windowManager.opponentWotogIcons, show: true,
+                                   frame: frame)
+            } else {
+                self.windowManager.show(controller: self.windowManager.opponentWotogIcons, show: false)
+            }
+        }
+    }
+
+    func updatePlayerIcons() {
+        DispatchQueue.main.async { [unowned(unsafe) self] in
+            if !self.isInMenu && (self.player.abyssalCurseCount > 0 && Settings.showPlayerAbyssalCounter)  &&
+                ( (Settings.hideAllTrackersWhenNotInGame && !self.gameEnded)
+                    || (!Settings.hideAllTrackersWhenNotInGame) || self.selfAppActive ) &&
+                ((Settings.hideAllWhenGameInBackground &&
+                    self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground || self.selfAppActive) {
+                let frame = SizeHelper.playerWotogIconsFrame()
+                self.windowManager.opponentWotogIcons.abyssalCurse = "\(self.player.abyssalCurseCount)"
+                self.windowManager.show(controller: self.windowManager.playerWotogIcons, show: true,
+                                   frame: frame)
+            } else {
+                self.windowManager.show(controller: self.windowManager.playerWotogIcons, show: false)
+            }
+        }
+    }
 
     @objc func updatePlayerTracker(reset: Bool = false) {
         DispatchQueue.main.async { [unowned(unsafe) self] in
@@ -2117,6 +2153,14 @@ class Game: NSObject, PowerEventHandler {
     
     func handleOpponentLibramReduction(change: Int) {
         opponent.updateLibramReduction(change: change)
+    }
+    
+    func handlePlayerAbyssalCurse(value: Int) {
+        player.updateAbyssalCurse(value: value)
+    }
+    
+    func handleOpponentAbyssalCurse(value: Int) {
+        opponent.updateAbyssalCurse(value: value)
     }
     
     func handlePlayerMulliganDone() {

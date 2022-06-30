@@ -18,7 +18,7 @@ class Tracker: OverWindowController {
     @IBOutlet weak private var cardCounter: CardCounter!
     @IBOutlet weak private var playerDrawChance: PlayerDrawChance!
     @IBOutlet weak private var opponentDrawChance: OpponentDrawChance!
-    @IBOutlet weak private var wotogCounter: WotogCounter!
+    @IBOutlet weak private var wotogCounter: WotogCounterFrame!
     @IBOutlet weak private var playerClass: NSView!
     @IBOutlet weak private var recordTracker: StringTracker!
     @IBOutlet weak private var fatigueTracker: StringTracker!

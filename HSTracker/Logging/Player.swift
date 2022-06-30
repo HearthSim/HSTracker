@@ -100,6 +100,7 @@ final class Player {
 	private unowned(unsafe) let game: Game
     var lastDrawnCardId: String?
     var libramReductionCount: Int = 0
+    var abyssalCurseCount: Int = 0
 
     var hasCoin: Bool {
         return hand.any { $0.cardId == CardIds.NonCollectible.Neutral.TheCoinBasic }
@@ -164,6 +165,7 @@ final class Player {
         
         lastDrawnCardId = nil
         libramReductionCount = 0
+        abyssalCurseCount = 0
     }
     
     var currentMana: Int {
@@ -691,6 +693,10 @@ final class Player {
     
     func updateLibramReduction(change: Int) {
         libramReductionCount += change
+    }
+    
+    func updateAbyssalCurse(value: Int) {
+        abyssalCurseCount = value > 0 ? value : abyssalCurseCount + 1
     }
     
     func shuffleDeck() {
