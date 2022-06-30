@@ -1,3 +1,7 @@
+# 2.1.10
+## Fixes
+- Fixed detection of 40 card decks
+
 # 2.1.9
 ## New
 - Updated for patch 23.6
