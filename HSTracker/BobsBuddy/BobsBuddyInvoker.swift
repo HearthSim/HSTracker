@@ -349,6 +349,12 @@ class BobsBuddyInvoker {
     }
     
     private func validateSimulationResult() {
+        queue.async {
+            self.validateSimulationResultInternal()
+        }
+    }
+    
+    private func validateSimulationResultInternal() {
         let opaque = mono_thread_attach(MonoHelper._monoInstance)
         
         defer {

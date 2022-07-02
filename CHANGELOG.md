@@ -1,3 +1,9 @@
+# 2.1.11
+## New
+- Add Abyssal counter
+## Fixes
+- Fixed turn timer and card drawn turn indicators not working
+
 # 2.1.10
 ## Fixes
 - Fixed detection of 40 card decks

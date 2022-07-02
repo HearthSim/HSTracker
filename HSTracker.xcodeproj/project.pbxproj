@@ -2312,7 +2312,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Change SHA1 here to change the version of HearthMirror used by HSTracker\nSHA1=\"bb9b4cfbf2f175dc5c508a56e82c459663814749\"\n\nDIR=\"$SRCROOT/downloaded-frameworks/HearthMirror\"\nVERSION_FILE=\"$DIR/HearthMirror.sha1\"\nZIP_FILE=\"$DIR/HearthMirror.framework.zip\"\nDSYM_ZIP_FILE=\"$DIR/HearthMirror.framework.dSYM.zip\"\n\nif [ \"$(cat $VERSION_FILE)\" != \"$SHA1\"  ]\nthen\n    set -e\n    \n    rm -rf \"$DIR\"\n    mkdir -p \"$DIR\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.zip\" -O \"$ZIP_FILE\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.dSYM.zip\" -O \"$DSYM_ZIP_FILE\"\n    unzip -d \"$DIR\" \"$ZIP_FILE\"\n    unzip -d \"$DIR\" \"$DSYM_ZIP_FILE\"\n    echo \"$SHA1\" > \"$VERSION_FILE\"\nfi\n\n\n\n";
+			shellScript = "# Change SHA1 here to change the version of HearthMirror used by HSTracker\nSHA1=\"38474e5eb49a360d7eff3c3714307bd776382c3d\"\n\nDIR=\"$SRCROOT/downloaded-frameworks/HearthMirror\"\nVERSION_FILE=\"$DIR/HearthMirror.sha1\"\nZIP_FILE=\"$DIR/HearthMirror.framework.zip\"\nDSYM_ZIP_FILE=\"$DIR/HearthMirror.framework.dSYM.zip\"\n\nif [ \"$(cat $VERSION_FILE)\" != \"$SHA1\"  ]\nthen\n    set -e\n    \n    rm -rf \"$DIR\"\n    mkdir -p \"$DIR\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.zip\" -O \"$ZIP_FILE\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.dSYM.zip\" -O \"$DSYM_ZIP_FILE\"\n    unzip -d \"$DIR\" \"$ZIP_FILE\"\n    unzip -d \"$DIR\" \"$DSYM_ZIP_FILE\"\n    echo \"$SHA1\" > \"$VERSION_FILE\"\nfi\n\n\n\n";
 		};
 		B83355B724F89D1A0025F644 /* Embed Mono */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3511,7 +3511,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = /Library/Frameworks/Mono.framework/Libraries;
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 2.1.10;
+				MARKETING_VERSION = 2.1.11;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = "$(inherited)";
@@ -3556,7 +3556,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = /Library/Frameworks/Mono.framework/Libraries;
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 2.1.10;
+				MARKETING_VERSION = 2.1.11;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = net.hearthsim.hstracker;

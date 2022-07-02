@@ -295,9 +295,9 @@ final class Settings {
     static var showPlayerCardsBottom: Bool
     @UserDefault(key: Settings.player_galakrond_invoke_frame, defaultValue: true)
     static var showPlayerGalakrondCounter: Bool
-    @UserDefault(key: Settings.player_abyssal_counter, defaultValue: false)
+    @UserDefault(key: Settings.player_abyssal_counter, defaultValue: true)
     static var showPlayerAbyssalCounter: Bool
-    @UserDefault(key: Settings.opponent_abyssal_counter, defaultValue: false)
+    @UserDefault(key: Settings.opponent_abyssal_counter, defaultValue: true)
     static var showOpponentAbyssalCounter: Bool
     @UserDefault(key: Settings.opponent_galakrond_invoke_frame, defaultValue: true)
     static var showOpponentGalakrondCounter: Bool

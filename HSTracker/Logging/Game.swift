@@ -295,7 +295,7 @@ class Game: NSObject, PowerEventHandler {
                 ((Settings.hideAllWhenGameInBackground &&
                     self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground || self.selfAppActive) {
                 let frame = SizeHelper.playerWotogIconsFrame()
-                self.windowManager.opponentWotogIcons.abyssalCurse = "\(self.player.abyssalCurseCount)"
+                self.windowManager.playerWotogIcons.abyssalCurse = "\(self.player.abyssalCurseCount)"
                 self.windowManager.show(controller: self.windowManager.playerWotogIcons, show: true,
                                    frame: frame)
             } else {
@@ -1116,14 +1116,14 @@ class Game: NSObject, PowerEventHandler {
 		                                 Settings.player_cthun_frame, Settings.player_yogg_frame, Settings.player_deathrattle_frame,
 		                                 Settings.show_win_loss_ratio, Settings.player_in_hand_color, Settings.show_deck_name,
 		                                 Settings.player_graveyard_details_frame, Settings.player_graveyard_frame,
-                                         Settings.player_cards_top, Settings.player_cards_bottom, Settings.player_jade_frame, Settings.player_libram_counter]
+                                         Settings.player_cards_top, Settings.player_cards_bottom, Settings.player_jade_frame, Settings.player_libram_counter, Settings.player_abyssal_counter]
 		
 		// events that should update the opponent's tracker
 		let opponentTrackerUpdateEvents = [Settings.show_opponent_tracker, Settings.opponent_card_count, Settings.opponent_draw_chance,
 		                                   Settings.opponent_cthun_frame, Settings.opponent_yogg_frame, Settings.opponent_deathrattle_frame,
 		                                   Settings.show_opponent_class, Settings.opponent_graveyard_frame,
 		                                   Settings.opponent_graveyard_details_frame,
-                                           Settings.player_jade_frame, Settings.player_libram_counter]
+                                           Settings.opponent_jade_frame, Settings.opponent_libram_counter, Settings.opponent_abyssal_counter]
 		
 		// events that should update all trackers
 		let allTrackerUpdateEvents = [Settings.rarity_colors, Events.reload_decks, Settings.window_locked, Settings.auto_position_trackers,
@@ -1425,7 +1425,26 @@ class Game: NSObject, PowerEventHandler {
                 Thread.sleep(forTimeInterval: 1)
                 minfo = self.matchInfo
             }
+            if let minfo = minfo {
+                self.updatePlayers(matchInfo: minfo)
+            }
         }
+    }
+    
+    private func updatePlayers(matchInfo: MatchInfo) {
+        func getName(player: MatchInfo.Player) -> String {
+            if let btag = player.battleTag {
+                return btag
+            }
+            return player.name
+        }
+        let pname = getName(player: matchInfo.localPlayer)
+        player.name = pname
+        let oname = getName(player: matchInfo.opposingPlayer)
+        opponent.name = oname
+        player.id = matchInfo.localPlayer.playerId
+        opponent.id = matchInfo.opposingPlayer.playerId
+        logger.info("\(pname) [PlayerId=\(player.id)] vs \(oname) [PlayerId=\(opponent.id)]")
     }
     
     private var lastGameStart = Date.distantPast
@@ -1927,8 +1946,8 @@ class Game: NSObject, PowerEventHandler {
         if isBattlegroundsMatch() {
                 return true
         }
-		let player = entities.values.first { $0.isPlayer(eventHandler: self) }
-        let opponent = entities.values
+        let player = entities.map { $0.1 }.first { $0.isPlayer(eventHandler: self) }
+        let opponent = entities.map { $0.1 }
             .first { $0.has(tag: .player_id) && !$0.isPlayer(eventHandler: self) }
 
         if let player = player, let opponent = opponent {

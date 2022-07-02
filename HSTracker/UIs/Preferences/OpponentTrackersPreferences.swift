@@ -33,7 +33,8 @@ class OpponentTrackersPreferences: NSViewController, PreferencePane {
     @IBOutlet weak var preventOpponentNameCovering: NSButton!
     @IBOutlet weak var showGalakrondInvokeCounter: NSButton!
     @IBOutlet weak var showLibramCounter: NSButton!
-
+    @IBOutlet weak var showAbyssalCounter: NSButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         showOpponentTracker.state = Settings.showOpponentTracker ? .on : .off
@@ -54,6 +55,7 @@ class OpponentTrackersPreferences: NSViewController, PreferencePane {
         preventOpponentNameCovering.state = Settings.preventOpponentNameCovering ? .on : .off
         showGalakrondInvokeCounter.state = Settings.showOpponentGalakrondCounter ? .on : .off
         showLibramCounter.state = Settings.showOpponentLibramCounter ? .on : .off
+        showAbyssalCounter.state = Settings.showOpponentAbyssalCounter ? .on : .off
     }
 
     @IBAction func checkboxClicked(_ sender: NSButton) {
@@ -96,6 +98,8 @@ class OpponentTrackersPreferences: NSViewController, PreferencePane {
             Settings.showOpponentGalakrondCounter = showGalakrondInvokeCounter.state == .on
         } else if sender == showLibramCounter {
             Settings.showOpponentLibramCounter = showLibramCounter.state == .on
+        } else if sender == showAbyssalCounter {
+            Settings.showOpponentAbyssalCounter = showAbyssalCounter.state == .on
         }
     }
 }

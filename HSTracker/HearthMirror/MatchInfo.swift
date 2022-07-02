@@ -10,6 +10,10 @@ import Foundation
 import HearthMirror
 
 struct MatchInfo {
+    struct AccountId {
+        var hi: Int64
+        var lo: Int64
+    }
     struct MedalInfo {
         var leagueId: Int
         var stars: Int
@@ -28,6 +32,8 @@ struct MatchInfo {
     struct Player {
         var name: String
         var playerId: Int
+        var accountId: AccountId
+        var battleTag: String?
         var wildMedalInfo: MedalInfo
         var standardMedalInfo: MedalInfo
         var classicMedalInfo: MedalInfo
@@ -37,7 +43,10 @@ struct MatchInfo {
             self.name = player.name
             self.playerId = player.playerId as? Int ?? 0
             self.cardBackId = player.cardBackId as? Int ?? 0
-
+            self.accountId = AccountId(hi: player.accountId.hi.int64Value, lo: player.accountId.lo.int64Value)
+            if let btag = player.battleTag {
+                self.battleTag = "\(btag.name)#\(btag.number)"
+            }
             self.standardMedalInfo = MedalInfo(mirrorMedalInfo: player.standardMedalInfo)
             self.wildMedalInfo = MedalInfo(mirrorMedalInfo: player.wildMedalInfo)
             self.classicMedalInfo = MedalInfo(mirrorMedalInfo: player.classicMedalInfo)
