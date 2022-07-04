@@ -1421,7 +1421,7 @@ class Game: NSObject, PowerEventHandler {
         DispatchQueue.global().async {
             var minfo: MatchInfo? = self.matchInfo
             while minfo == nil || !self.isValidPlayerInfo(playerInfo: minfo?.localPlayer) || !self.isValidPlayerInfo(playerInfo: minfo?.opposingPlayer, allowMissing: self.isMercenariesMatch()) {
-                logger.info("Waiting for matchInfo... (matchInfo=\(String(describing: minfo))")
+                logger.info("Waiting for matchInfo... (matchInfo=\(String(describing: minfo)), localPlayer=\(self.matchInfo?.localPlayer.name ?? "Unknown"), opposingPlayer=\(self.matchInfo?.opposingPlayer.name ?? "Unknown"))")
                 Thread.sleep(forTimeInterval: 1)
                 minfo = self.matchInfo
             }
