@@ -23,11 +23,11 @@ class AppHealth: NSObject {
 
     static let instance = AppHealth()
     
-    private static let badge_icons = ["undefined": NSImage(named: "badge-icon-undefined")!,
-                               "gameinstalled": NSImage(named: "badge-icon-gameinstalled")!,
-                               "trackerworks": NSImage(named: "badge-icon-trackerworks")!,
-                               "gamerunning": NSImage(named: "badge-icon-gamerunning")!,
-                               "gameinprogress": NSImage(named: "badge-icon-gameinprogress")!]
+    private static let badge_icons = ["undefined": NSImage(named: "badge-icon-undefined"),
+                               "gameinstalled": NSImage(named: "badge-icon-gameinstalled"),
+                               "trackerworks": NSImage(named: "badge-icon-trackerworks"),
+                               "gamerunning": NSImage(named: "badge-icon-gamerunning"),
+                               "gameinprogress": NSImage(named: "badge-icon-gameinprogress")]
 
     private var observers: [NSObjectProtocol] = []
     
@@ -103,17 +103,21 @@ class AppHealth: NSObject {
         // check if feature is enabled in preferences
         DispatchQueue.main.async {
             if Settings.showAppHealth {
+                var image: NSImage??
                 switch self.level {
                 case .undefined:
-                    NSApp.applicationIconImage = AppHealth.badge_icons["undefined"]
+                    image = AppHealth.badge_icons["undefined"]
                 case .gameinstalled:
-                    NSApp.applicationIconImage = AppHealth.badge_icons["gameinstalled"]
+                    image = AppHealth.badge_icons["gameinstalled"]
                 case .trackerworks:
-                    NSApp.applicationIconImage = AppHealth.badge_icons["trackerworks"]
+                    image = AppHealth.badge_icons["trackerworks"]
                 case .gamerunning:
-                    NSApp.applicationIconImage = AppHealth.badge_icons["gamerunning"]
+                    image = AppHealth.badge_icons["gamerunning"]
                 case .gameinprogress:
-                    NSApp.applicationIconImage = AppHealth.badge_icons["gameinprogress"]
+                    image = AppHealth.badge_icons["gameinprogress"]
+                }
+                if let image = image {
+                    NSApp.applicationIconImage = image
                 }
             } else {
                 NSApp.applicationIconImage = nil
