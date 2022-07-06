@@ -216,7 +216,7 @@ class Database {
                     }
                 }
             }
-            for card in Cards.battlegroundsMinions {
+            for card in Cards.battlegroundsMinions.array() {
                 if card.race != .invalid && card.race != .all && !Database.battlegroundRaces.contains(card.race) {
                     Database.battlegroundRaces.append(card.race)
                 }

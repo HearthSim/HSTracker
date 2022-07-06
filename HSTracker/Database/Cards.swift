@@ -24,11 +24,11 @@ final class Cards {
                 < NSLocalizedString($1.rawValue, comment: "") }
     }()
     
-    static var cards = [Card]()
+    static var cards = SynchronizedArray<Card>()
     // map used to quickly find cards by id
-    static var cardsById = [String: Card]()
+    static var cardsById = SynchronizedDictionary<String, Card>()
     // battlegrounds miniona only
-    static var battlegroundsMinions = [Card]()
+    static var battlegroundsMinions = SynchronizedArray<Card>()
 
     static func hero(byId cardId: String) -> Card? {
         if let card = cardsById[cardId] {
@@ -72,7 +72,7 @@ final class Cards {
     static func by(dbfId: Int?, collectible: Bool = true) -> Card? {
         guard let dbfId = dbfId else { return nil }
 
-        if let card = (collectible ? self.collectible() : cards)
+        if let card = collectible ? self.collectible().first(where: { $0.dbfId == dbfId }) : cards
             .first(where: { $0.dbfId == dbfId }) {
             return card.copy()
         }
