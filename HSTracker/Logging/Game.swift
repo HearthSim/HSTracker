@@ -880,6 +880,7 @@ class Game: NSObject, PowerEventHandler {
     
 	fileprivate var lastGameStartTimestamp: LogDate = LogDate(date: Date.distantPast)
 
+    private var _matchInfoCacheInvalid = true
     private var _matchInfo: MatchInfo?
     
     private var _battlegroundsRating: Int?
@@ -988,16 +989,10 @@ class Game: NSObject, PowerEventHandler {
 
                 let opponentStarLevel = matchInfo.opposingPlayer.standardMedalInfo.starLevel
                 logger.info("LADDER opponentStarLevel=\(opponentStarLevel)")
-                self._matchInfo = matchInfo
-            } else {
-                return nil
+                return matchInfo
             }
-            
-            // request a mirror read so we have this data at the end of the game
-            _ = self.serverInfo
         }
-        
-        return _matchInfo
+        return nil
     }
 	
     var arenaInfo: ArenaInfo? {
@@ -1415,9 +1410,16 @@ class Game: NSObject, PowerEventHandler {
         logger.debug("valid=\(valid), gameMode=\(currentGameMode), player=\(name), starLevel=\(playerInfo?.standardMedalInfo.starLevel ?? 0)")
         return valid
     }
+    
+    func invalidateMatchInfoCache() {
+        _matchInfoCacheInvalid = true
+    }
 
     // MARK: - game state
     private func cacheMatchInfo() {
+        if !_matchInfoCacheInvalid {
+            return
+        }
         DispatchQueue.global().async {
             var minfo: MatchInfo? = self.matchInfo
             while minfo == nil || !self.isValidPlayerInfo(playerInfo: minfo?.localPlayer) || !self.isValidPlayerInfo(playerInfo: minfo?.opposingPlayer, allowMissing: self.isMercenariesMatch()) {
@@ -1427,6 +1429,8 @@ class Game: NSObject, PowerEventHandler {
             }
             if let minfo = minfo {
                 self.updatePlayers(matchInfo: minfo)
+                self._matchInfoCacheInvalid = false
+                self._matchInfo = minfo
             }
         }
     }
@@ -1453,6 +1457,7 @@ class Game: NSObject, PowerEventHandler {
             + "handledGameEnd: \(handledGameEnd), "
             + "lastGameStartTimestamp: \(lastGameStartTimestamp), " +
             "timestamp: \(timestamp)")
+        invalidateMatchInfoCache()
         if currentGameMode == .practice && !isInMenu && !handledGameEnd
 			&& lastGameStartTimestamp > LogDate(date: Date.distantPast)
             && timestamp > lastGameStartTimestamp {
@@ -1670,6 +1675,7 @@ class Game: NSObject, PowerEventHandler {
         }
         logger.verbose("End game: \(currentGameStats)")
         let stats = currentGameStats.toGameStats()
+        invalidateMatchInfoCache()
         // reset the turn counter
         updateTurnCounter(turn: 1)
         
