@@ -627,7 +627,9 @@ final class CoreManager: NSObject {
 			if selectedDeckId <= 0 {
 				if mode != .tavern_brawl {
 					return nil
-				}
+                } else {
+                    selectedDeckId = MirrorHelper.getEditedDeck()?.id.int64Value ?? 0
+                }
 			}
 			
 			if let decks = MirrorHelper.getDecks() {
