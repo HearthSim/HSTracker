@@ -150,8 +150,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         // setup logger
         let path = Paths.logs
-        let file = RotatingFileDestination()
+        let file = FileDestination()
         file.logFileURL = path.appendingPathComponent("hstracker.log")
+        file.logFileMaxSize = (2 * 1024 * 1024) // 2MB
+        file.logFileAmount = 2
         logger.addDestination(file)
         logger.info("*** Starting \(Version.buildName) ***")
         

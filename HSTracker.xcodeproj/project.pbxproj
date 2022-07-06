@@ -474,7 +474,6 @@
 		B8956CFD25509B3F0073D70C /* BattlegroundsMinionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8956CFC25509B3F0073D70C /* BattlegroundsMinionView.swift */; };
 		B89C9894280A113A005E9315 /* AnimatedCardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89C9893280A113A005E9315 /* AnimatedCardList.swift */; };
 		B89C9896280C610C005E9315 /* DeckLens.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89C9895280C610C005E9315 /* DeckLens.swift */; };
-		B8A3E4B4257AE71500D9C77A /* RotatingFileDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A3E4B3257AE71500D9C77A /* RotatingFileDestination.swift */; };
 		B8A70C152841494D004D054C /* BattlegroundsTierTriples.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8A70C142841494D004D054C /* BattlegroundsTierTriples.xib */; };
 		B8A70C17284152DC004D054C /* BattlegroundsTierTriples.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A70C16284152DC004D054C /* BattlegroundsTierTriples.swift */; };
 		B8A9CB2E25699B13000071FC /* BattlegroundsMinionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8956CFC25509B3F0073D70C /* BattlegroundsMinionView.swift */; };
@@ -499,7 +498,6 @@
 		B8BB7AB828351890008239CA /* NSFont+NSTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BB7AB728351890008239CA /* NSFont+NSTextField.swift */; };
 		B8BB7ABA28369737008239CA /* BattlegroundsFinalBoard.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8BB7AB928369737008239CA /* BattlegroundsFinalBoard.xib */; };
 		B8BB7ABC28369C9F008239CA /* BattlegroundsFinalBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BB7ABB28369C9F008239CA /* BattlegroundsFinalBoard.swift */; };
-		B8BB7ABE2836E8A1008239CA /* HearthMirror.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = B8BB7ABD2836E8A1008239CA /* HearthMirror.framework.dSYM */; };
 		B8BCC1DF2739987600DA6474 /* NSBezierPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BCC1DE2739987600DA6474 /* NSBezierPath.swift */; };
 		B8BCC1E12739991600DA6474 /* VerticallyAlignedTextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BCC1E02739991600DA6474 /* VerticallyAlignedTextFieldCell.swift */; };
 		B8BCC1E3273B0AE600DA6474 /* MercenariesAbilityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BCC1E2273B0AE500DA6474 /* MercenariesAbilityView.swift */; };
@@ -521,7 +519,6 @@
 		B8D75B9825BA206000446923 /* AdventureDbId.swift in Sources */ = {isa = PBXBuildFile; fileRef = B864AE1F25979E3400793F36 /* AdventureDbId.swift */; };
 		B8D75B9925BA206000446923 /* AdventureModeDbId.swift in Sources */ = {isa = PBXBuildFile; fileRef = B864AE2125979E9100793F36 /* AdventureModeDbId.swift */; };
 		B8D75B9A25BA206900446923 /* ImportingPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B864AE3B25A4D15C00793F36 /* ImportingPreferences.swift */; };
-		B8D75B9B25BA207000446923 /* RotatingFileDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A3E4B3257AE71500D9C77A /* RotatingFileDestination.swift */; };
 		B8D75B9C25BA207700446923 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85F1AC8258A558200A6F8C3 /* Helper.swift */; };
 		B8D75B9D25BA209B00446923 /* ExperienceTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D75B9225A9DD1300446923 /* ExperienceTracker.swift */; };
 		B8D75B9E25BA20A500446923 /* BattlegroundsTierOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFF95AE23C0C56A006AB461 /* BattlegroundsTierOverlayView.swift */; };
@@ -610,6 +607,7 @@
 		B8F778792805CE59006348B4 /* ReplicatingMenace.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8449A032781C7360094E5B3 /* ReplicatingMenace.swift */; };
 		B8FE1F9328693EDD004C397C /* WotogCounter.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8FE1F9228693EDD004C397C /* WotogCounter.xib */; };
 		B8FE1F9528694F44004C397C /* WotogCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FE1F9428694F44004C397C /* WotogCounter.swift */; };
+		B8FE1F992875BD15004C397C /* SynchronizedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FE1F982875BD15004C397C /* SynchronizedArray.swift */; };
 		BC0780841E3152D800AC9DB8 /* DeckWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0780831E3152D800AC9DB8 /* DeckWatcher.swift */; };
 		BC78DD751E806B6F00DBA7C9 /* Algorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC78DD741E806B6F00DBA7C9 /* Algorithm.swift */; };
 		BC90FD0B1D97F81B00BAFC0D /* GraveyardCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC90FD0A1D97F81B00BAFC0D /* GraveyardCounter.swift */; };
@@ -664,7 +662,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
-				B8BB7ABE2836E8A1008239CA /* HearthMirror.framework.dSYM in Copy Files */,
 			);
 			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1054,7 +1051,6 @@
 		B8956CFC25509B3F0073D70C /* BattlegroundsMinionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsMinionView.swift; sourceTree = "<group>"; };
 		B89C9893280A113A005E9315 /* AnimatedCardList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedCardList.swift; sourceTree = "<group>"; };
 		B89C9895280C610C005E9315 /* DeckLens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckLens.swift; sourceTree = "<group>"; };
-		B8A3E4B3257AE71500D9C77A /* RotatingFileDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotatingFileDestination.swift; sourceTree = "<group>"; };
 		B8A70C142841494D004D054C /* BattlegroundsTierTriples.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsTierTriples.xib; sourceTree = "<group>"; };
 		B8A70C16284152DC004D054C /* BattlegroundsTierTriples.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsTierTriples.swift; sourceTree = "<group>"; };
 		B8A9CB322571F160000071FC /* GuessedCardState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuessedCardState.swift; sourceTree = "<group>"; };
@@ -1089,7 +1085,6 @@
 		B8BB7AB728351890008239CA /* NSFont+NSTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSFont+NSTextField.swift"; sourceTree = "<group>"; };
 		B8BB7AB928369737008239CA /* BattlegroundsFinalBoard.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsFinalBoard.xib; sourceTree = "<group>"; };
 		B8BB7ABB28369C9F008239CA /* BattlegroundsFinalBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsFinalBoard.swift; sourceTree = "<group>"; };
-		B8BB7ABD2836E8A1008239CA /* HearthMirror.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = HearthMirror.framework.dSYM; path = "downloaded-frameworks/HearthMirror/HearthMirror.framework.dSYM"; sourceTree = "<group>"; };
 		B8BCC1DE2739987600DA6474 /* NSBezierPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSBezierPath.swift; sourceTree = "<group>"; };
 		B8BCC1E02739991600DA6474 /* VerticallyAlignedTextFieldCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticallyAlignedTextFieldCell.swift; sourceTree = "<group>"; };
 		B8BCC1E2273B0AE500DA6474 /* MercenariesAbilityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MercenariesAbilityView.swift; sourceTree = "<group>"; };
@@ -1130,6 +1125,7 @@
 		B8DC376025D06C2F00452A83 /* OpponentDeadForTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpponentDeadForTracker.swift; sourceTree = "<group>"; };
 		B8FE1F9228693EDD004C397C /* WotogCounter.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WotogCounter.xib; sourceTree = "<group>"; };
 		B8FE1F9428694F44004C397C /* WotogCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WotogCounter.swift; sourceTree = "<group>"; };
+		B8FE1F982875BD15004C397C /* SynchronizedArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynchronizedArray.swift; sourceTree = "<group>"; };
 		BC0780831E3152D800AC9DB8 /* DeckWatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckWatcher.swift; sourceTree = "<group>"; };
 		BC78DD741E806B6F00DBA7C9 /* Algorithm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Algorithm.swift; sourceTree = "<group>"; };
 		BC90FD0A1D97F81B00BAFC0D /* GraveyardCounter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraveyardCounter.swift; sourceTree = "<group>"; };
@@ -1518,7 +1514,6 @@
 				BCA70F291E2C16DD00038A6C /* FileUtils.m */,
 				BCCCDB9D1EA54FF800C328D0 /* NotificationManager.swift */,
 				B8820CCF25603FB00072ECBC /* RemoteConfig.swift */,
-				B8A3E4B3257AE71500D9C77A /* RotatingFileDestination.swift */,
 				B85F1AC8258A558200A6F8C3 /* Helper.swift */,
 				B8832DD926057A5000646BA4 /* RepeatingTimer.swift */,
 				B8AB59932742F94900383EC8 /* RateLimiter.swift */,
@@ -1527,6 +1522,7 @@
 				B8BD8452285D23C500F4F224 /* UnfairLock.swift */,
 				B8BD84542860058400F4F224 /* SynchronizedDictionary.swift */,
 				B8BD84562861394100F4F224 /* Regex.swift */,
+				B8FE1F982875BD15004C397C /* SynchronizedArray.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -1543,7 +1539,6 @@
 		439C7E3F1C7772C000D29859 = {
 			isa = PBXGroup;
 			children = (
-				B8BB7ABD2836E8A1008239CA /* HearthMirror.framework.dSYM */,
 				B81F069C253899FB00F319F1 /* Config.xcconfig */,
 				F731044E211FF0050082651C /* Translations */,
 				439C7E4A1C7772C000D29859 /* HSTracker */,
@@ -2423,6 +2418,7 @@
 				43F204111E93C2E600E0BC4A /* Shaman.swift in Sources */,
 				43F204131E93C2E600E0BC4A /* Warrior.swift in Sources */,
 				43F2040B1E93C2E600E0BC4A /* Mage.swift in Sources */,
+				B8FE1F992875BD15004C397C /* SynchronizedArray.swift in Sources */,
 				B800FCA62732AA9100AFBD51 /* MercenariesTaskListButton.swift in Sources */,
 				B8DC120024EC5F9A0088A755 /* BobsBuddyPanel.swift in Sources */,
 				43F204121E93C2E600E0BC4A /* Warlock.swift in Sources */,
@@ -2597,7 +2593,6 @@
 				43BDF0BC1DB7FB040081964A /* OverWindowController.swift in Sources */,
 				439C7EB91C777F8900D29859 /* GameResult.swift in Sources */,
 				436F5D121CFD7E7500DEB9A1 /* DarkBar.swift in Sources */,
-				B8A3E4B4257AE71500D9C77A /* RotatingFileDestination.swift in Sources */,
 				B8AFA40B2723310700B3470E /* BoardOverlay.swift in Sources */,
 				43C9EF291E9C1DED00D17F2A /* ArenaHelperSync.swift in Sources */,
 				B8AF9330282D4A7C00864934 /* BattlegroundsSession.swift in Sources */,
@@ -2701,7 +2696,6 @@
 				B8D75B9E25BA20A500446923 /* BattlegroundsTierOverlayView.swift in Sources */,
 				B8D75B9D25BA209B00446923 /* ExperienceTracker.swift in Sources */,
 				B8D75B9C25BA207700446923 /* Helper.swift in Sources */,
-				B8D75B9B25BA207000446923 /* RotatingFileDestination.swift in Sources */,
 				B8D75B9A25BA206900446923 /* ImportingPreferences.swift in Sources */,
 				B8643D0E2759828C00B2D708 /* HSReplayNetHelper.swift in Sources */,
 				B8D75B9825BA206000446923 /* AdventureDbId.swift in Sources */,
@@ -3685,7 +3679,7 @@
 			repositoryURL = "https://github.com/SwiftyBeaver/SwiftyBeaver";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.9.3;
+				minimumVersion = 1.9.6;
 			};
 		};
 		B8D75BB025BCE76500446923 /* XCRemoteSwiftPackageReference "appcenter-sdk-apple" */ = {
