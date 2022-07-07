@@ -77,6 +77,10 @@ enum BnetGameType: Int {
             return .bgt_battlegrounds
         case .gt_battlegrounds_friendly:
             return .bgt_battlegrounds_friendly
+        case .gt_pvpdr:
+            return .bgt_pvpdr
+        case .gt_pvpdr_paid:
+            return .bgt_pvpdr_paid
         case .gt_mercenaries_ai_vs_ai:
             return .bgt_unknown // does not exist in BGT
         case .gt_mercenaries_friendly:

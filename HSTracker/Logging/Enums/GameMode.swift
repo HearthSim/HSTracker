@@ -50,14 +50,14 @@ enum GameMode: Int, WrappableEnum {
             self = .friendly
         case .gt_arena:
             self = .arena
+        case .gt_battlegrounds, .gt_battlegrounds_friendly:
+            self = .battlegrounds
         case .gt_ranked:
             self = .ranked
         case .gt_casual:
             self = .casual
-        case .gt_tavernbrawl, .gt_tb_2p_coop, .gt_tb_1p_vs_ai:
+        case .gt_tavernbrawl, .gt_tb_2p_coop, .gt_tb_1p_vs_ai, .gt_fsg_brawl_vs_friend, .gt_fsg_brawl, .gt_fsg_brawl_1p_vs_ai, .gt_fsg_brawl_2p_coop:
             self = .brawl
-        case .gt_battlegrounds, .gt_battlegrounds_friendly:
-            self = .battlegrounds
         case .gt_pvpdr, .gt_pvpdr_paid:
             self = .duels
         case .gt_mercenaries_ai_vs_ai, .gt_mercenaries_friendly, .gt_mercenaries_pve, .gt_mercenaries_pvp, .gt_mercenaries_pve_coop:
