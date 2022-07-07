@@ -43,10 +43,8 @@
                                            pidsSize);
     
     NSUInteger pidsCount = (listpidspathResult / sizeof(*pids));
-    NSMutableSet* result = [NSMutableSet set];
     
     for (int i = 0; i < pidsCount; i++) {
-        [result addObject: [NSNumber numberWithInt: pids[i]]];
         if (hsPid == pids[i]) {
             free(pids);
             return YES;
