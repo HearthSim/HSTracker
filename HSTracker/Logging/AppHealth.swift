@@ -23,12 +23,6 @@ class AppHealth: NSObject {
 
     static let instance = AppHealth()
     
-    private static let badge_icons = ["undefined": NSImage(named: "badge-icon-undefined"),
-                               "gameinstalled": NSImage(named: "badge-icon-gameinstalled"),
-                               "trackerworks": NSImage(named: "badge-icon-trackerworks"),
-                               "gamerunning": NSImage(named: "badge-icon-gamerunning"),
-                               "gameinprogress": NSImage(named: "badge-icon-gameinprogress")]
-
     private var observers: [NSObjectProtocol] = []
     
     override init() {
@@ -103,21 +97,17 @@ class AppHealth: NSObject {
         // check if feature is enabled in preferences
         DispatchQueue.main.async {
             if Settings.showAppHealth {
-                var image: NSImage??
                 switch self.level {
                 case .undefined:
-                    image = AppHealth.badge_icons["undefined"]
+                    NSApp.applicationIconImage = NSImage(named: "badge-icon-undefined")
                 case .gameinstalled:
-                    image = AppHealth.badge_icons["gameinstalled"]
+                    NSApp.applicationIconImage = NSImage(named: "badge-icon-gameinstalled")
                 case .trackerworks:
-                    image = AppHealth.badge_icons["trackerworks"]
+                    NSApp.applicationIconImage = NSImage(named: "badge-icon-trackerworks")
                 case .gamerunning:
-                    image = AppHealth.badge_icons["gamerunning"]
+                    NSApp.applicationIconImage = NSImage(named: "badge-icon-gamerunning")
                 case .gameinprogress:
-                    image = AppHealth.badge_icons["gameinprogress"]
-                }
-                if let image = image {
-                    NSApp.applicationIconImage = image
+                    NSApp.applicationIconImage = NSImage(named: "badge-icon-gameinprogress")
                 }
             } else {
                 NSApp.applicationIconImage = nil
