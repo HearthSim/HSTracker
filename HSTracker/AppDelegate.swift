@@ -148,6 +148,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         logger.addDestination(console)
         #endif
         
+        let bobsBuddy = BobsBuddyDestination()
+        logger.addDestination(bobsBuddy)
+        
         // setup logger
         let path = Paths.logs
         let file = FileDestination()

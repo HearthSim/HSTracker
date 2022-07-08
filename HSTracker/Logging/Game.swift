@@ -1751,19 +1751,28 @@ class Game: NSObject, PowerEventHandler {
                 LogUploader.upload(logLines: logLines, buildNumber: self.buildNumber,
                                    metaData: (uploadMetaData, statId)) { result in
                     if case UploadResult.successful(let replayId) = result {
+                        if stats.gameMode == .battlegrounds {
+                            Sentry.sendQueuedBobsBuddyEvents(shortId: replayId)
+                        }
                         if showUploadNotification {
                             NotificationManager.showNotification(type: .hsReplayPush(replayId: replayId))
                         }
                         NotificationCenter.default
                             .post(name: Notification.Name(rawValue: Events.reload_decks), object: nil)
                     } else if case UploadResult.failed(let error) = result {
+                        if stats.gameMode == .battlegrounds {
+                            Sentry.sendQueuedBobsBuddyEvents(shortId: nil)
+                        }
                         if showUploadNotification {
                             NotificationManager.showNotification(type: .hsReplayUploadFailed(error: error))
                         }
                     }
                 }
             }
-            
+        } else {
+            if stats.gameMode == .battlegrounds {
+                Sentry.sendQueuedBobsBuddyEvents(shortId: nil)
+            }
         }
     }
     

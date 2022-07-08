@@ -38,9 +38,21 @@ class SynchronizedArray<T> {
         }
     }
     
+    @discardableResult func remove(at index: Int) -> T {
+        return lock.around {
+            return arr.remove(at: index)
+        }
+    }
+    
     func append(_ newElement: T) {
         lock.around {
             arr.append(newElement)
+        }
+    }
+    
+    func removeFirst() -> T {
+        return lock.around {
+            return arr.removeFirst()
         }
     }
     

@@ -10,6 +10,19 @@ import Foundation
 import PromiseKit
 import AppCenterAnalytics
 import AppCenterCrashes
+import SwiftyBeaver
+
+class BobsBuddyDestination: BaseDestination {
+    
+    override func send(_ level: SwiftyBeaver.Level, msg: String, thread: String, file: String, function: String, line: Int, context: Any? = nil) -> String? {
+        let str = super.send(level, msg: msg, thread: thread, file: file, function: function, line: line, context: context)
+        
+        if let str = str {
+            BobsBuddyInvoker.addHDTLogLine(str)
+        }
+        return str
+    }
+}
 
 class BobsBuddyInvoker {
     
@@ -56,6 +69,23 @@ class BobsBuddyInvoker {
     
     var _instanceKey = ""
     let game: Game
+    
+    private static var logLinesKept: Int {
+        return RemoteConfig.data?.bobs_buddy?.log_lines_kept ?? 100
+    }
+    
+    private static var _recentHDTLog = SynchronizedArray<String>()
+    private static let _debugLinesToIgnore = Regex("(Player|Opponent|TagChangeActions)\\.")
+    
+    fileprivate static func addHDTLogLine(_ string: String) {
+        if _debugLinesToIgnore.match(string) {
+            return
+        }
+        if _recentHDTLog.count >= logLinesKept {
+            _recentHDTLog.remove(at: 0)
+        }
+        _recentHDTLog.append(string)
+    }
     
     private var runSimulationAfterCombat: Bool {
         return currentOpponentSecrets.count > 0
@@ -442,14 +472,13 @@ class BobsBuddyInvoker {
     private func alertWithLastInputOutput(result: String) {
         logger.debug("Queing alert... (valind input: \(input != nil)")
         if let input = input, let output = output {
-            Crashes.trackException(ExceptionModel.init(withType: "BobsBuddy_TerminalCase", exceptionMessage: "BobsBuddy Terminal Case", stackTrace: []), properties: [
+            Sentry.queueBobsBuddyTerminalCase(type: "BobsBuddy_TerminalCase", message: "BobsBuddy Terminal Case", properties: [
                 "turn": "\(_turn)",
                 "result": "\(result)",
                 "threadCount": "\(ProcessInfo.processInfo.activeProcessorCount / 2)",
                 "iterations": "\(output.simulationCount)",
                 "exitCondition": "\(output.getMyExitCondition())",
-                "output": MonoHelper.toString(obj: output)], attachments: [
-                    ErrorAttachmentLog.attachment(withText: input.unitestCopyableVersion(), filename: "input.cs")])
+                "output": MonoHelper.toString(obj: output)], input: input.unitestCopyableVersion(), log: BobsBuddyInvoker._recentHDTLog.array().joined(separator: "\n"))
         }
     }
     
