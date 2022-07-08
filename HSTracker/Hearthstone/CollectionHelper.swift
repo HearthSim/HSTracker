@@ -18,9 +18,10 @@ class CollectionHelpers {
             let battletag = MirrorHelper.getBattleTag()
             return (collection, battletag)
         }
-        
-        if let collection = data.0, collection.cards.count > 0, let battleTag = data.1 {
-            let parts = key.split(separator: "-")
+
+        let parts = key.split(separator: "-")
+
+        if let collection = data.0, collection.cards.count > 0, let battleTag = data.1, parts.count == 2 {
             let hi = Int64(parts[0]) ?? 0
             let lo = Int64(parts[1]) ?? 0
 
