@@ -16,17 +16,23 @@ class Splashscreen: NSWindowController {
 
     func display(_ str: String, indeterminate: Bool) {
         DispatchQueue.main.async { [weak self] in
-            self?.information.stringValue = str
-            self?.progressBar.isIndeterminate = indeterminate
+            guard let self = self else {
+                return
+            }
+            self.information.stringValue = str
+            self.progressBar.isIndeterminate = indeterminate
         }
     }
 
     func display(_ str: String, total: Double) {
         DispatchQueue.main.async { [weak self] in
-            self?.progressBar.isIndeterminate = false
-            self?.information.stringValue = str
-            self?.progressBar.maxValue = total
-            self?.progressBar.doubleValue = 0
+            guard let self = self else {
+                return
+            }
+            self.progressBar.isIndeterminate = false
+            self.information.stringValue = str
+            self.progressBar.maxValue = total
+            self.progressBar.doubleValue = 0
         }
         
     }
@@ -34,9 +40,12 @@ class Splashscreen: NSWindowController {
     func increment(_ str: String? = nil) {
         // UI should be adjusted on the main thread
         DispatchQueue.main.async { [weak self] in
-            self?.progressBar.increment(by: 1)
+            guard let self = self else {
+                return
+            }
+            self.progressBar.increment(by: 1)
             if let str = str {
-                self?.information.stringValue = str
+                self.information.stringValue = str
             }
         }
     }
