@@ -10,7 +10,9 @@ class ArenaWatcher: Watcher {
 	static let _instance = ArenaWatcher()
 	
 	static func start(handler: PowerEventHandler) {
-		_instance.handler = handler
+        if !_instance.isRunning {
+            _instance.handler = handler
+        }
 		_instance.startWatching()
 	}
 	
