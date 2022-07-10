@@ -3755,7 +3755,7 @@
 			repositoryURL = "https://github.com/realm/realm-cocoa";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 5.4.8;
+				minimumVersion = 10.28.2;
 			};
 		};
 		B8D75BED25BDFE6D00446923 /* XCRemoteSwiftPackageReference "GzipSwift" */ = {

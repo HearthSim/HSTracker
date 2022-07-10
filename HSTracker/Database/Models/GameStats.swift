@@ -187,7 +187,7 @@ class GameStats: Object {
     @objc dynamic var legendRank = -1
     @objc dynamic var opponentLegendRank = -1
     @objc dynamic var opponentRank = -1
-    var hearthstoneBuild = RealmOptional<Int>()
+    var hearthstoneBuild = RealmProperty<Int?>()
     @objc dynamic var playerCardbackId = -1
     @objc dynamic var opponentCardbackId = -1
     @objc dynamic var friendlyPlayerId = -1
@@ -202,7 +202,7 @@ class GameStats: Object {
         set { _gameType = newValue.rawValue }
     }
 
-    var hsDeckId = RealmOptional<Int64>()
+    var hsDeckId = RealmProperty<Int64?>()
     @objc dynamic var brawlSeasonId = -1
     @objc dynamic var rankedSeasonId = -1
     @objc dynamic var arenaWins = 0

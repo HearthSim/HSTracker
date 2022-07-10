@@ -30,15 +30,15 @@ class Deck: Object {
     
     @objc dynamic var creationDate = Date()
     @objc dynamic var lastEdited = Date()
-    let hearthstatsId = RealmOptional<Int>()
-    let hearthstatsVersionId = RealmOptional<Int>()
-    let hearthStatsArenaId = RealmOptional<Int>()
+    let hearthstatsId = RealmProperty<Int?>()
+    let hearthstatsVersionId = RealmProperty<Int?>()
+    let hearthStatsArenaId = RealmProperty<Int?>()
     @objc dynamic var isActive = true
     @objc dynamic var isArena = false
     @objc dynamic var isDungeon = false
     @objc dynamic var isDuels = false
 
-    let hsDeckId = RealmOptional<Int64>()
+    let hsDeckId = RealmProperty<Int64?>()
 
     let cards = List<RealmCard>()
     let gameStats = List<GameStats>()
