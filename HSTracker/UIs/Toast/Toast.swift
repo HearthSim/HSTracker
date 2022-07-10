@@ -37,7 +37,11 @@ class Toast {
         let x = screenRect.minX + screenRect.width / 2 - windowWidth / 2
         let y: CGFloat
         if #available(macOS 12.0, *) {
-            y = screenRect.minY - screen.safeAreaInsets.top
+            if screen.responds(to: Selector(("safeAreaInsets"))) {
+                y = screenRect.minY - screen.safeAreaInsets.top
+            } else {
+                y = screenRect.minY
+            }
         } else {
             y = screenRect.minY
         }
