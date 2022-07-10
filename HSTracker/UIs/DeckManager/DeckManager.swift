@@ -247,19 +247,23 @@ class DeckManager: NSWindowController {
 
     @IBAction func addDeck(_ sender: AnyObject) {
         newDeck = NewDeck(windowNibName: "NewDeck")
-        if let newDeck = newDeck, let newDeckWindow = newDeck.window {
+        if let newDeck = newDeck {
             newDeck.setDelegate(self)
             newDeck.defaultClass = currentClass ?? nil
-            self.window!.beginSheet(newDeckWindow, completionHandler: nil)
+            if let newDeckWindow = newDeck.window {
+                self.window?.beginSheet(newDeckWindow, completionHandler: nil)
+            }
         }
     }
 
     @IBAction func showStatistics(_ sender: AnyObject) {
         statistics = Statistics(windowNibName: "Statistics")
-        if let statistics = statistics, let statisticsWindow = statistics.window {
+        if let statistics = statistics {
             statistics.deck = currentDeck
-            self.window!.beginSheet(statisticsWindow) { _ in
-                self.refreshDecks()
+            if let statisticsWindow = statistics.window {
+                self.window?.beginSheet(statisticsWindow) { _ in
+                    self.refreshDecks()
+                }
             }
         }
     }
