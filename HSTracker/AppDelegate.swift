@@ -38,17 +38,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var coreManager: CoreManager!
     var triggers: [NSObjectProtocol] = []
     
-    lazy var preferences = PreferencesWindowController(preferencePanes: [
-        GeneralPreferences(nibName: "GeneralPreferences", bundle: nil),
-        GamePreferences(nibName: "GamePreferences", bundle: nil),
-        TrackersPreferences(nibName: "TrackersPreferences", bundle: nil),
-        PlayerTrackersPreferences(nibName: "PlayerTrackersPreferences", bundle: nil),
-        OpponentTrackersPreferences(nibName: "OpponentTrackersPreferences", bundle: nil),
-        BattlegroundsPreferences(nibName: "BattlegroundsPreferences", bundle: nil),
-        MercenariesPreferences(nibName: "MercenariesPreferences", bundle: nil),
-        ImportingPreferences(nibName: "ImportingPreferences", bundle: nil),
-        HSReplayPreferences(nibName: "HSReplayPreferences", bundle: nil)
-    ], style: .toolbarItems, animated: true)
+    lazy var preferences: PreferencesWindowController = {
+        let panes: [PreferencePane] = [
+            GeneralPreferences(nibName: "GeneralPreferences", bundle: nil),
+            GamePreferences(nibName: "GamePreferences", bundle: nil),
+            TrackersPreferences(nibName: "TrackersPreferences", bundle: nil),
+            PlayerTrackersPreferences(nibName: "PlayerTrackersPreferences", bundle: nil),
+            OpponentTrackersPreferences(nibName: "OpponentTrackersPreferences", bundle: nil),
+            BattlegroundsPreferences(nibName: "BattlegroundsPreferences", bundle: nil),
+            MercenariesPreferences(nibName: "MercenariesPreferences", bundle: nil),
+            ImportingPreferences(nibName: "ImportingPreferences", bundle: nil),
+            HSReplayPreferences(nibName: "HSReplayPreferences", bundle: nil)
+        ]
+        for pane in panes {
+            logger.debug("Pane \(pane.description) view \(pane.view.description)")
+        }
+        return PreferencesWindowController(preferencePanes: panes, style: .toolbarItems, animated: true)
+    }()
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         AppDelegate._instance = self
