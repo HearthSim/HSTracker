@@ -547,10 +547,6 @@
 		B8D75BEF25BDFE6D00446923 /* Gzip in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BEE25BDFE6D00446923 /* Gzip */; };
 		B8D75BF125BDFEDE00446923 /* Gzip in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BF025BDFEDE00446923 /* Gzip */; };
 		B8D75BF725BE032500446923 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BF625BE032500446923 /* Sparkle */; };
-		B8D75BFC25BFCFDC00446923 /* BTree in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BFB25BFCFDC00446923 /* BTree */; };
-		B8D75BFD25BFCFDC00446923 /* BTree in CopyFiles */ = {isa = PBXBuildFile; productRef = B8D75BFB25BFCFDC00446923 /* BTree */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		B8D75BFF25C0710900446923 /* BTree in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BFE25C0710900446923 /* BTree */; };
-		B8D75C0025C0710900446923 /* BTree in Embed Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BFE25C0710900446923 /* BTree */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		B8D8859224F3034700F2F0F2 /* StatusMessageConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D8859124F3034700F2F0F2 /* StatusMessageConverter.swift */; };
 		B8D8859824F40D4E00F2F0F2 /* ClickableBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D8859724F40D4E00F2F0F2 /* ClickableBox.swift */; };
 		B8D8859A24F4185200F2F0F2 /* BobsBuddyErrorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D8859924F4185200F2F0F2 /* BobsBuddyErrorState.swift */; };
@@ -653,7 +649,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				B8DEDCEB2547CFF200DF524B /* HearthMirror.framework in CopyFiles */,
-				B8D75BFD25BFCFDC00446923 /* BTree in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -674,7 +669,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				4C68AF2C2447D37000E52834 /* HearthMirror.framework in Embed Frameworks */,
-				B8D75C0025C0710900446923 /* BTree in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1295,7 +1289,6 @@
 				433554331D5F6B4400277B27 /* libz.tbd in Frameworks */,
 				B8D75BEF25BDFE6D00446923 /* Gzip in Frameworks */,
 				B8D75B9625B4799200446923 /* Preferences in Frameworks */,
-				B8D75BFF25C0710900446923 /* BTree in Frameworks */,
 				B8D75BEA25BDF92B00446923 /* RealmSwift in Frameworks */,
 				B8D75BBA25BCE97000446923 /* Wrap in Frameworks */,
 				B8D75BAF25BCE68900446923 /* SwiftyBeaver in Frameworks */,
@@ -1320,7 +1313,6 @@
 				B8D75BC725BDAF1300446923 /* AppCenterAnalytics in Frameworks */,
 				B8D75BD625BDD3F000446923 /* PromiseKit in Frameworks */,
 				4345E9DE1CB45122002D0F23 /* Foundation.framework in Frameworks */,
-				B8D75BFC25BFCFDC00446923 /* BTree in Frameworks */,
 				1CCB4ACF1E84708A003FD1AD /* libz.tbd in Frameworks */,
 				B8D75BDB25BDD4BF00446923 /* FMDB in Frameworks */,
 				B8D75BD125BDAF1300446923 /* OAuthSwift in Frameworks */,
@@ -2079,7 +2071,6 @@
 				B8D75BE925BDF92B00446923 /* RealmSwift */,
 				B8D75BEE25BDFE6D00446923 /* Gzip */,
 				B8D75BF625BE032500446923 /* Sparkle */,
-				B8D75BFE25C0710900446923 /* BTree */,
 				B82E7B18262A88DB00C42EF0 /* BigInt */,
 			);
 			productName = HSTracker;
@@ -2114,7 +2105,6 @@
 				B8D75BDA25BDD4BF00446923 /* FMDB */,
 				B8D75BEB25BDFA2500446923 /* RealmSwift */,
 				B8D75BF025BDFEDE00446923 /* Gzip */,
-				B8D75BFB25BFCFDC00446923 /* BTree */,
 				B887656926C304FA003D3629 /* BigInt */,
 			);
 			productName = HSTrackerTests;
@@ -2179,7 +2169,6 @@
 				B8D75BC125BD10B600446923 /* XCRemoteSwiftPackageReference "OAuthSwift" */,
 				B8D75BD225BDD3A700446923 /* XCRemoteSwiftPackageReference "PromiseKit" */,
 				B8D75BD725BDD47A00446923 /* XCRemoteSwiftPackageReference "fmdb" */,
-				B8D75BE125BDD60800446923 /* XCRemoteSwiftPackageReference "BTree" */,
 				B8D75BE825BDF92B00446923 /* XCRemoteSwiftPackageReference "realm-cocoa" */,
 				B8D75BED25BDFE6D00446923 /* XCRemoteSwiftPackageReference "GzipSwift" */,
 				B8D75BF525BE032500446923 /* XCRemoteSwiftPackageReference "Sparkle" */,
@@ -3742,14 +3731,6 @@
 				minimumVersion = 2.7.7;
 			};
 		};
-		B8D75BE125BDD60800446923 /* XCRemoteSwiftPackageReference "BTree" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/attaswift/BTree";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.1.0;
-			};
-		};
 		B8D75BE825BDF92B00446923 /* XCRemoteSwiftPackageReference "realm-cocoa" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-cocoa";
@@ -3901,16 +3882,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B8D75BF525BE032500446923 /* XCRemoteSwiftPackageReference "Sparkle" */;
 			productName = Sparkle;
-		};
-		B8D75BFB25BFCFDC00446923 /* BTree */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B8D75BE125BDD60800446923 /* XCRemoteSwiftPackageReference "BTree" */;
-			productName = BTree;
-		};
-		B8D75BFE25C0710900446923 /* BTree */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B8D75BE125BDD60800446923 /* XCRemoteSwiftPackageReference "BTree" */;
-			productName = BTree;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

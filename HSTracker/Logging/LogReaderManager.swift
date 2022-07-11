@@ -9,7 +9,6 @@
 */
 
 import Foundation
-import BTree
 
 final class LogReaderManager {
 	
@@ -58,7 +57,7 @@ final class LogReaderManager {
     var running = false
     var stopped = false
     private var queue: DispatchQueue?
-    private var processMap = Map<LogDate, [LogLine]>()
+    private var processMap = [LogDate: [LogLine]]()
     private let coreManager: CoreManager
     
 	init(logPath: String, coreManager: CoreManager) {
@@ -116,27 +115,24 @@ final class LogReaderManager {
                 for reader in readers {
                     let loglines = reader.collect()
                     for line in loglines {
-                        var lineList: [LogLine]?
-                        if let loglist = processMap[line.time] {
-                            lineList = loglist
-                        } else {
-                            lineList = [LogLine]()
-                        }
-                        lineList?.append(line)
+                        var lineList = processMap[line.time] ?? [LogLine]()
+                        lineList.append(line)
                         processMap[line.time] = lineList
                     }
                     
                 }
                 
-                for lineList in processMap.values {
-                    if stopped {
-                        break
-                    }
-                    for line in lineList {
+                for time in processMap.keys.sorted() {
+                    if let lineList = processMap[time] {
                         if stopped {
                             break
                         }
-                        processLine(line: line)
+                        for line in lineList {
+                            if stopped {
+                                break
+                            }
+                            processLine(line: line)
+                        }
                     }
                 }
                 processMap.removeAll()
