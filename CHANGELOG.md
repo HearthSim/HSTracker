@@ -1,3 +1,9 @@
+# 2.1.12
+## Fixes
+- Fixed Mercenaries abilities not showing in matches versus AI (issue #1276)
+- Fixed deck detection for Tavern Brawl
+- Fixed some rare crashes
+
 # 2.1.11
 ## New
 - Add Abyssal counter
