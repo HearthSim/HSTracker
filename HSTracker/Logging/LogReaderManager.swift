@@ -95,6 +95,11 @@ final class LogReaderManager {
             return
         }
         queue.async {
+            guard !self.running else {
+                logger.error("LogReaderManager is already running")
+                return
+            }
+            self.running = true
             self.startLogReaders()
         }
     }
