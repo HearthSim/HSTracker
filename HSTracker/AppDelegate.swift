@@ -218,18 +218,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         ])
         NSApp.activate(ignoringOtherApps: true)
         
-        splashscreen = Splashscreen(windowNibName: "Splashscreen")
+        let splashscreen = Splashscreen(windowNibName: "Splashscreen")
+        self.splashscreen = splashscreen
         let screenFrame = NSScreen.screens.first!.frame
         let splashscreenWidth: CGFloat = 350
         let splashscreenHeight: CGFloat = 250
         
-        splashscreen?.window?.setFrame(NSRect(
-                                        x: (screenFrame.width / 2) - (splashscreenWidth / 2),
-                                        y: (screenFrame.height / 2) - (splashscreenHeight / 2),
-                                        width: splashscreenWidth,
-                                        height: splashscreenHeight),
-                                       display: true)
-        splashscreen?.showWindow(self)
+        if let window = splashscreen.window {
+            window.setFrame(NSRect(x: (screenFrame.width / 2) - (splashscreenWidth / 2),
+                                   y: (screenFrame.height / 2) - (splashscreenHeight / 2),
+                                   width: splashscreenWidth,
+                                   height: splashscreenHeight),
+                            display: true)
+        }
+        splashscreen.showWindow(self)
         
         logger.info("Opening trackers")
         
@@ -238,14 +240,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         DispatchQueue.global().async { [unowned(unsafe) self] in
             // load card tier via http request
             let cardTierOperation = BlockOperation {
-                ArenaHelperSync.checkTierList(splashscreen: self.splashscreen!)
+                ArenaHelperSync.checkTierList(splashscreen: splashscreen)
                 if ArenaHelperSync.isOutdated() || !ArenaHelperSync.jsonFilesAreValid() {
-                    ArenaHelperSync.downloadTierList(splashscreen: self.splashscreen!)
+                    ArenaHelperSync.downloadTierList(splashscreen: splashscreen)
                 }
             }
             
             let remoteConfigOperation = BlockOperation {
-                RemoteConfig.checkRemoteConfig(splashscreen: self.splashscreen!)
+                RemoteConfig.checkRemoteConfig(splashscreen: splashscreen)
             }
             
             // load and generate assets from hearthstone files
@@ -265,7 +267,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     langs += [language]
                 }
                 langs += [.enUS]
-                database.loadDatabase(splashscreen: self.splashscreen!, withLanguages: langs)
+                database.loadDatabase(splashscreen: splashscreen, withLanguages: langs)
             }
             
             // build menu
