@@ -379,9 +379,17 @@ enum GameTag: Int, WrappableEnum, CaseIterable, Codable {
     bacon_player_num_hero_buddies_gained = 2346,
     immolatestage = 2600
 
+    static var lookup = [String: GameTag]()
+    
+    static func initialize() {
+        for _enum in GameTag.allCases {
+            GameTag.lookup["\(_enum)"] = _enum
+        }
+    }
+    
     init?(rawString: String) {
         let string = rawString.lowercased()
-        for _enum in GameTag.allCases where "\(_enum)" == string {
+        if let _enum = GameTag.lookup[string] {
             self = _enum
             return
         }

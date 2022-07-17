@@ -58,6 +58,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         AppDelegate._instance = self
+        GameTag.initialize()
         //setenv("CFNETWORK_DIAGNOSTICS", "3", 1)
         
         Crashes.userConfirmationHandler = { (_: [ErrorReport]) in
