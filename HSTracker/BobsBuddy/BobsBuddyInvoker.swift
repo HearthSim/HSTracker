@@ -75,12 +75,12 @@ class BobsBuddyInvoker {
     }
     
     private static var _recentHDTLog = SynchronizedArray<String>()
-    private static let _debugLinesToIgnore = Regex("(Player|Opponent|TagChangeActions)\\.")
+//    private static let _debugLinesToIgnore = Regex("(Player|Opponent|TagChangeActions)\\.")
     
     fileprivate static func addHDTLogLine(_ string: String) {
-        if _debugLinesToIgnore.match(string) {
-            return
-        }
+//        if _debugLinesToIgnore.match(string) {
+//            return
+//        }
         if _recentHDTLog.count >= logLinesKept {
             _recentHDTLog.remove(at: 0)
         }
@@ -90,9 +90,7 @@ class BobsBuddyInvoker {
     private var runSimulationAfterCombat: Bool {
         return currentOpponentSecrets.count > 0
     }
-    
-    let queue = DispatchQueue(label: "BobsBuddy", qos: .userInitiated)
-    
+        
     private static var _instances = SynchronizedDictionary<String, BobsBuddyInvoker>()
     private static var _currentGameId = ""
     
@@ -225,7 +223,7 @@ class BobsBuddyInvoker {
     func runSimulation() -> Promise<OutputProxy?> {
         logger.info("Starting simulation")
         return Promise<OutputProxy?> { seal in
-            queue.async {
+            DispatchQueue.global().async {
                 let opaque = mono_thread_attach(MonoHelper._monoInstance)
                 
                 var result: OutputProxy?
@@ -379,7 +377,7 @@ class BobsBuddyInvoker {
     }
     
     private func validateSimulationResult() {
-        queue.async {
+        DispatchQueue.global().async {
             self.validateSimulationResultInternal()
         }
     }
@@ -413,7 +411,7 @@ class BobsBuddyInvoker {
         //We delay checking the combat results because the tag changes can sometimes be read by the parser with a bit of delay after they're printed in the log.
         //Without this delay they can occasionally be missed.
         
-        Thread.sleep(forTimeInterval: 0.050)
+        Thread.sleep(forTimeInterval: 0.100)
         let result = getLastCombatResult()
         let lethalResult = getLastLethalResult()
         
