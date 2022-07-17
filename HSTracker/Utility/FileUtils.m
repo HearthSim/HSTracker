@@ -42,6 +42,11 @@
                                            [filePath cStringUsingEncoding:NSUTF8StringEncoding], PROC_LISTPIDSPATH_EXCLUDE_EVTONLY, pids,
                                            pidsSize);
     
+    if (listpidspathResult <= 1) {
+        free(pids);
+        return NO;
+    }
+    
     NSUInteger pidsCount = (listpidspathResult / sizeof(*pids));
     
     for (int i = 0; i < pidsCount; i++) {
