@@ -617,6 +617,7 @@ extension CardIds.Collectible {
         static let SirFinleySeaGuide = "TSC_908"
         static let AmbassadorFaelin = "TSC_067"
         static let PrinceRenathal = "REV_018"
+        static let GrandArchivist = "LOOT_414"
     }
 }
 

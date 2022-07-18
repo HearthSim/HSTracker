@@ -133,6 +133,8 @@ extension CardIds.Collectible {
         static let PiranhaPoacher = "TSC_633"
         static let AzsharanScroll = "TSC_772"
         static let Schooling = "TSC_631"
+        static let Shudderwock = "GIL_820"
+        static let FarSightCore = "CORE_CS2_053"
     }
 }
 

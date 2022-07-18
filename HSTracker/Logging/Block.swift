@@ -14,20 +14,25 @@ class Block {
     let id: Int
     let type: String?
     let cardId: String?
-    var hasFullEntityHeroPackets: Bool
+    let target: String?
+    
     var sourceEntityId = 0
     var dredgeCounter = 0
-
-    init(parent: Block?, id: Int, type: String?, cardId: String?) {
+    
+    var hasFullEntityHeroPackets = false
+    
+    var entityDiscardedByArchivist: Entity?
+   
+    init(parent: Block?, id: Int, type: String?, cardId: String?, target: String?) {
         self.parent = parent
         self.children = []
         self.id = id
         self.type = type
         self.cardId = cardId
-        self.hasFullEntityHeroPackets = false
+        self.target = target
     }
 
-    func createChild(blockId: Int, type: String?, cardId: String?) -> Block {
-        return Block(parent: self, id: blockId, type: type, cardId: cardId)
+    func createChild(blockId: Int, type: String?, cardId: String?, target: String?) -> Block {
+        return Block(parent: self, id: blockId, type: type, cardId: cardId, target: target)
     }
 }

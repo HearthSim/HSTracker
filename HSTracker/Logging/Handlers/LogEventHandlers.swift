@@ -15,7 +15,7 @@ protocol PowerEventHandler: AnyObject {
 
 	// TODO: remove set on most properties to ensure encapsulation
 	var entities: SynchronizedDictionary<Int, Entity> { get }
-	var tmpEntities: [Entity] { get set }
+	var tmpEntities: SynchronizedArray<Entity> { get set }
 	
 	func add(entity: Entity)
 	
@@ -36,7 +36,7 @@ protocol PowerEventHandler: AnyObject {
 	
 	var lastId: Int { get set }
 	
-	var knownCardIds: [Int: [(String, DeckLocation)]] { get set }
+    var knownCardIds: SynchronizedDictionary<Int, [(String, DeckLocation)]> { get set }
 	
 	var currentEntityHasCardId: Bool { get set }
 	
@@ -95,8 +95,10 @@ protocol PowerEventHandler: AnyObject {
     func playerMinionPlayed(entity: Entity)
     
     func playerMinionDeath(entity: Entity)
-	
-    func opponentDamage(entity: Entity, damage: Int)
+	    
+    func entityPredamage(entity: Entity, damage: Int)
+    
+    func entityDamage(dealer: Entity, entity: Entity, damage: Int)
     
     func handleChameleosReveal(cardId: String)
     
@@ -116,7 +118,7 @@ protocol PowerEventHandler: AnyObject {
 	
 	func playerHeroPower(cardId: String, turn: Int)
 	
-	func playerPlay(entity: Entity, cardId: String?, turn: Int)
+    func playerPlay(entity: Entity, cardId: String?, turn: Int, parentCardId: String)
 	
 	func playerGet(entity: Entity, cardId: String?, turn: Int)
 	
@@ -138,7 +140,7 @@ protocol PowerEventHandler: AnyObject {
 	
 	func playerStolen(entity: Entity, cardId: String?, turn: Int)
 	
-	func playerSecretPlayed(entity: Entity, cardId: String?, turn: Int, fromZone: Zone)
+    func playerSecretPlayed(entity: Entity, cardId: String?, turn: Int, fromZone: Zone, parentCardId: String)
 	
 	func playerBackToHand(entity: Entity, cardId: String?, turn: Int)
 	

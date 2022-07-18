@@ -18,7 +18,7 @@ enum DeckLocation: Int {
 class PowerGameStateParser: LogEventParser {
     static let TransferStudentToken = CardIds.Collectible.Neutral.TransferStudent + "t"
     
-    let BlockStartRegex = Regex(".*BLOCK_START.*BlockType=(\\w+).*id=(\\d*).*(cardId=(\\w*)).*player=(\\d*).*Target=(.+).*SubOption=(.+)")
+    let BlockStartRegex = Regex(".*BLOCK_START.*BlockType=(\\w+).*id=(\\d*).*(cardId=(\\w*)).*player=(\\d*).*EffectCardId=(.*)\\sEffectIndex=.*Target=(.+).*SubOption=(.+)")
     let CardIdRegex = Regex("cardId=(\\w+)")
     let CreationRegex = Regex("FULL_ENTITY - Updating.*id=(\\d+).*zone=(\\w+).*CardID=(\\w*)")
     let CreationTagRegex = Regex("tag=(\\w+) value=(\\w+)")
@@ -28,8 +28,6 @@ class PowerGameStateParser: LogEventParser {
     let PlayerNameRegex = Regex("id=(\\d) Player=(.+) TaskList=(\\d)")
     let TagChangeRegex = Regex("TAG_CHANGE Entity=(.+) tag=(\\w+) value=(\\w+)")
     let UpdatingEntityRegex = Regex("(SHOW_ENTITY|CHANGE_ENTITY) - Updating Entity=(.+) CardID=(\\w*)")
-    let BuildNumberRegex = Regex("BuildNumber=(\\d+)")
-    let PlayerIDNameRegex = Regex("PlayerID=(\\d+), PlayerName=(.+)")
     let HideEntityRegex = Regex("HIDE_ENTITY\\ -\\ .* id=(?<id>(\\d+))")
     let ShuffleRegex = Regex("SHUFFLE_DECK\\ PlayerID=(?<id>(\\d+))")
     var tagChangeHandler = TagChangeHandler()
@@ -56,11 +54,11 @@ class PowerGameStateParser: LogEventParser {
     }
 
     // MARK: - blocks
-    func blockStart(type: String?, cardId: String?) {
+    func blockStart(type: String?, cardId: String?, target: String?) {
         maxBlockId += 1
         let blockId = maxBlockId
-        currentBlock = currentBlock?.createChild(blockId: blockId, type: type, cardId: cardId)
-            ?? Block(parent: nil, id: blockId, type: type, cardId: cardId)
+        currentBlock = currentBlock?.createChild(blockId: blockId, type: type, cardId: cardId, target: target) ?? Block(parent: nil, id: blockId, type: type, cardId: cardId, target: target)
+        AppDelegate.instance().coreManager.game.secretsManager?.onNewBlock()
     }
 
     func blockEnd() {
@@ -87,10 +85,12 @@ class PowerGameStateParser: LogEventParser {
             if let match = GameEntityRegex.matches(logLine.line).first,
                 let id = Int(match.value) {
                 //print("**** GameEntityRegex id:'\(id)'")
-				let entity = Entity(id: id)
-				entity.name = "GameEntity"
+                if eventHandler.entities[id] == nil {
+                    let entity = Entity(id: id)
+                    entity.name = "GameEntity"
+                    eventHandler.add(entity: entity)
+                }
 
-				eventHandler.add(entity: entity)
                 set(currentEntity: id)
 
                 if eventHandler.determinedPlayers() {
@@ -103,27 +103,18 @@ class PowerGameStateParser: LogEventParser {
         // players
         else if PlayerEntityRegex.match(logLine.line) {
             let matches = PlayerEntityRegex.matches(logLine.line)
-            if let match = matches.first,
-                let id = Int(match.value) {
-				let entity = Entity(id: id)
-                
-                if matches.count > 1 {
-                    let playerIdMatch = matches[1]
-                    if let playerId = Int(playerIdMatch.value) {
-                        entity[.player_id] = playerId
-                        if let name = eventHandler.playerName(for: playerId) {
-                            entity.name = name
-                        }                        
-                    }
+            if let id = Int(matches[0].value) {
+                if eventHandler.entities[id] == nil {
+                    let entity = Entity(id: id)
+                    eventHandler.add(entity: entity)
                 }
-                eventHandler.add(entity: entity)
-
+                
                 set(currentEntity: id)
                 if eventHandler.determinedPlayers() {
                     tagChangeHandler.invokeQueuedActions(eventHandler: eventHandler)
                 }
-                return
             }
+            return
         } else if TagChangeRegex.match(logLine.line) {
             let matches = TagChangeRegex.matches(logLine.line)
             let rawEntity = matches[0].value
@@ -153,15 +144,17 @@ class PowerGameStateParser: LogEventParser {
                     let unknownHumanPlayer = players
                         .first { $0.name == "UNKNOWN HUMAN PLAYER" }
 
-                    if unnamedPlayers.count == 0 && unknownHumanPlayer != .none {
+                    if unnamedPlayers.count == 0 && unknownHumanPlayer != nil {
                         entity = unknownHumanPlayer
                     }
 
+                    //while the id is unknown, store in tmp entities
                     var tmpEntity = eventHandler.tmpEntities.first { $0.name == rawEntity }
-                    if tmpEntity == .none {
-                        tmpEntity = Entity(id: eventHandler.tmpEntities.count + 1)
-                        tmpEntity!.name = rawEntity
-                        eventHandler.tmpEntities.append(tmpEntity!)
+                    if tmpEntity == nil {
+                        let tmp = Entity(id: eventHandler.tmpEntities.count + 1)
+                        tmp.name = rawEntity
+                        eventHandler.tmpEntities.append(tmp)
+                        tmpEntity = tmp
                     }
 
                     if let _tag = GameTag(rawString: tag) {
@@ -222,7 +215,7 @@ class PowerGameStateParser: LogEventParser {
             var guessedLocation = DeckLocation.unknown
             var cardId: String? = ensureValidCardID(cardId: matches[2].value)
 
-            if eventHandler.entities[id] == .none {
+            if eventHandler.entities[id] == nil {
                 if cardId.isBlank && zone != .setaside {
                     if let blockId = currentBlock?.id,
                        let known = eventHandler.knownCardIds[blockId]?.first {
@@ -237,6 +230,7 @@ class PowerGameStateParser: LogEventParser {
                 }
 
                 let entity = Entity(id: id)
+                entity.cardId = cardId ?? ""
                 if guessedCardId {
                     entity.info.guessedCardState = GuessedCardState.guessed
                 }
@@ -251,13 +245,9 @@ class PowerGameStateParser: LogEventParser {
                 }
                 eventHandler.entities[id] = entity
                 
-                if currentBlock != nil &&  entity.cardId.uppercased().contains("HERO") {
-                    currentBlock!.hasFullEntityHeroPackets = true
+                if let currentBlock = currentBlock, entity.cardId.uppercased().contains("HERO") {
+                    currentBlock.hasFullEntityHeroPackets = true
                 }
-            }
-
-            if !cardId.isBlank {
-                eventHandler.entities[id]!.cardId = cardId!
             }
 
             set(currentEntity: id)
@@ -276,23 +266,21 @@ class PowerGameStateParser: LogEventParser {
 
             if rawEntity.hasPrefix("[") && tagChangeHandler.isEntity(rawEntity: rawEntity) {
                 let entity = tagChangeHandler.parseEntity(entity: rawEntity)
-                if let _entityId = entity.id {
-                    entityId = _entityId
-                }
+                entityId = entity.id
             } else if let _entityId = Int(rawEntity) {
                 entityId = _entityId
             }
 
             if let entityId = entityId {
-                if eventHandler.entities[entityId] == .none {
+                if eventHandler.entities[entityId] == nil {
                     let entity = Entity(id: entityId)
                     eventHandler.entities[entityId] = entity
-                    entity.info.latestCardId = cardId
                 }
-                if type != "CHANGE_ENTITY" || eventHandler.entities[entityId]!.cardId.isBlank {
-                    eventHandler.entities[entityId]!.cardId = cardId
+                let entity = eventHandler.entities[entityId]!
+                if entity.cardId.isBlank {
+                    entity.cardId = cardId
                 }
-                
+                entity.info.latestCardId = cardId
                 if type == "SHOW_ENTITY" {
                     let entity = eventHandler.entities[entityId]
                     if entity?.info.guessedCardState != GuessedCardState.none {
@@ -308,7 +296,7 @@ class PowerGameStateParser: LogEventParser {
                         }
                     }
                 }
-                
+
                 if type == "CHANGE_ENTITY" {
                     let entity = eventHandler.entities[entityId]!
                     if entity.info.originalEntityWasCreated == nil {
@@ -375,44 +363,31 @@ class PowerGameStateParser: LogEventParser {
                 eventHandler.player.shuffleDeck()
                 eventHandler.handlePlayerDredge()
             }
-        } else if BuildNumberRegex.match(logLine.line) {
-            if let buildNumber = Int(BuildNumberRegex.matches(logLine.line)[0].value) {
-                eventHandler.set(buildNumber: buildNumber)
-            }
-        } else if PlayerIDNameRegex.match(logLine.line) {
-            let matches = PlayerIDNameRegex.matches(logLine.line)
-            if matches.count >= 2, let playerID = Int(matches[0].value) {
-                let playerName = matches[1].value
-                eventHandler.add(playerName: playerName, for: playerID)
-            }
         }
-        if logLine.line.contains("End Spectator") {
+        if logLine.line.contains("End Spectator") && eventHandler.isInMenu {
             eventHandler.gameEnded = true
             eventHandler.gameEnd()
         } else if logLine.line.contains("BLOCK_START") {
-            var type: String?
-            var cardId: String?
-            var correspondPlayer: Int?
             let matches = BlockStartRegex.matches(logLine.line)
+            var blockType: String?
             if matches.count > 0 {
-                type = matches[0].value
+                blockType = matches[0].value
             }
-            
+            var cardId: String?
             if matches.count > 3 {
                 cardId = matches[3].value
             }
-            
-            let target = getTargetCardId(matches: matches)
-            
+            var target = getTargetCardId(matches: matches)
+            var correspondPlayer: Int?
             if matches.count > 4 {
                 if let v = Int(matches[4].value) {
                     correspondPlayer = v
                 }
             }
             
-            blockStart(type: type, cardId: cardId)
+            blockStart(type: blockType, cardId: cardId, target: target)
 
-            if matches.count > 0 && (type == "TRIGGER" || type == "POWER") {
+            if matches.count > 0 && (blockType == "TRIGGER" || blockType == "POWER") {
                 let player = eventHandler.entities.values
                     .first { $0.has(tag: .player_id) && $0[.player_id] == eventHandler.player.id }
                 let opponent = eventHandler.entities.values
@@ -441,14 +416,26 @@ class PowerGameStateParser: LogEventParser {
                     return
                 }
                 
-                if type == "TRIGGER" && actionStartingCardId == CardIds.Collectible.Neutral.AugmentedElekk {
+                if actionStartingCardId == CardIds.Collectible.Shaman.Shudderwock {
+                    let effectCardId = matches.count > 5 ? matches[5] : nil
+                    if let cardId = effectCardId {
+                        actionStartingCardId = cardId.value
+                    }
+                }
+                
+                if actionStartingCardId == CardIds.NonCollectible.Rogue.ValeeratheHollow_ShadowReflectionToken {
+                    actionStartingCardId = cardId
+                }
+                
+                if blockType == "TRIGGER" && actionStartingCardId == CardIds.Collectible.Neutral.AugmentedElekk {
                     if currentBlock?.parent != nil {
                         actionStartingCardId = currentBlock?.parent?.cardId
-                        type = currentBlock?.parent?.type
+                        blockType = currentBlock?.parent?.type
+                        target = currentBlock?.parent?.target
                     }
                 }
 
-                if type == "TRIGGER" {
+                if blockType == "TRIGGER" {
                     if let actionStartingCardId = actionStartingCardId {
                         
                         switch actionStartingCardId {
@@ -897,6 +884,8 @@ class PowerGameStateParser: LogEventParser {
                 }
             } else if logLine.line.contains("BlockType=JOUST") {
                 eventHandler.joustReveals = 2
+            } else if logLine.line.contains("BlockType=REVEAL_CARD") {
+                eventHandler.joustReveals = 1
             } else if eventHandler.gameTriggerCount == 0
                 && logLine.line.contains("BLOCK_START BlockType=TRIGGER Entity=GameEntity") {
                 eventHandler.gameTriggerCount += 1
@@ -986,10 +975,10 @@ class PowerGameStateParser: LogEventParser {
     }
 
     private func getTargetCardId(matches: [Match]) -> String? {
-        if matches.count < 5 {
+        if matches.count < 7 {
             return nil
         }
-        let target = matches[4].value.trim()
+        let target = matches[6].value.trim()
         guard target.hasPrefix("[") && tagChangeHandler.isEntity(rawEntity: target) else {
             return nil
         }

@@ -22,6 +22,7 @@ class SecretsManager {
     private(set) var secrets: [Secret] = []
     private var _triggeredSecrets: [Entity] = []
     private var opponentTookDamageDuringTurns: [Int] = []
+    private var entityDamageDealtHistory = SynchronizedDictionary<Int, SynchronizedDictionary<Int, Int>>()
     
     private var _lastPlayedMinionId: Int = 0
     private var savedSecrets: [MultiIdCard] = []
@@ -482,7 +483,7 @@ class SecretsManager {
         _triggeredSecrets.append(entity)
     }
 
-    func handleCardPlayed(entity: Entity) {
+    func handleCardPlayed(entity: Entity, parentCardId: String) {
         guard handleAction else { return }
         
         savedSecrets.removeAll()
@@ -505,6 +506,9 @@ class SecretsManager {
         }
         
         if entity.isSpell {
+            if parentCardId == CardIds.Collectible.Rogue.SparkjoyCheat {
+                return
+            }
             _triggeredSecrets.removeAll()
             if game.opponentSecretCount > 1 {
                 usleep(useconds_t(1000 * multipleSecretResolveDelay))
@@ -530,7 +534,7 @@ class SecretsManager {
                 exclude.append(CardIds.Secrets.Paladin.NeverSurrender)
             }
 
-            if freeSpaceInHand {
+            if game.opponentHandCount < 10 {
                 exclude.append(CardIds.Secrets.Rogue.DirtyTricks)
                 exclude.append(CardIds.Secrets.Mage.ManaBind)
             }
@@ -576,5 +580,42 @@ class SecretsManager {
     func handleHeroPower() {
         guard handleAction else { return }
         exclude(cardId: CardIds.Secrets.Hunter.DartTrap)
+    }
+    
+    func onEntityRevealedAsMinion(entity: Entity) {
+        if entititesInHandOnMinionsPlayed.contains(entity) && entity.isMinion {
+            exclude(cardId: CardIds.Secrets.Hunter.HiddenCache)
+        }
+    }
+    
+    func onNewBlock() {
+        entityDamageDealtHistory.removeAll()
+    }
+    
+    func entityDamage(dealer: Entity, target: Entity, damage: Int) {
+        DispatchQueue.global().async { [self] in
+            if target.isHero && target.isControlled(by: game.opponent.id) {
+                if !target.has(tag: .immune) {
+                    exclude(cardId: CardIds.Secrets.Paladin.EyeForAnEye)
+                    exclude(cardId: CardIds.Secrets.Rogue.Evasion)
+                    opponentTookDamageDuringTurns.append(game.turnNumber())
+                }
+            }
+            if dealer.isMinion && dealer.isControlled(by: game.player.id) {
+                if entityDamageDealtHistory[dealer.id] == nil {
+                    entityDamageDealtHistory[dealer.id] = SynchronizedDictionary<Int, Int>()
+                }
+                if entityDamageDealtHistory[dealer.id]![target.id] == nil {
+                    entityDamageDealtHistory[dealer.id]![target.id] = 0
+                }
+                entityDamageDealtHistory[dealer.id]?[target.id]! += damage
+                let damageDealt = entityDamageDealtHistory[dealer.id]?[target.id] ?? 0
+                Thread.sleep(forTimeInterval: 0.1)
+                //We check both heaolth and zone because sometimes after the await the dealer's health will revert to that of the original card.
+                if damageDealt >= 3 && dealer.health > 0 && dealer[.zone] != Zone.graveyard.rawValue {
+                    exclude(cardId: CardIds.Secrets.Paladin.Reckoning)
+                }
+            }
+        }
     }
 }

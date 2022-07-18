@@ -43,6 +43,12 @@ class SynchronizedDictionary<Key: Hashable, Value> {
         }
     }
     
+    @discardableResult func removeValue(forKey key: Key) -> Value? {
+        return lock.around {
+            return dictionary.removeValue(forKey: key)
+        }
+    }
+    
     func removeAll() {
         lock.around {
             dictionary.removeAll()

@@ -152,6 +152,7 @@ extension CardIds.Collectible {
         static let IceTrap = "AV_226"
         static let AzsharanSaber = "TSC_945"
         static let EmergencyManeuvers = "TSC_929"
+        static let TrackingVanilla = "VAN_DS1_184"
     }
 }
 

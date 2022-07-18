@@ -41,7 +41,6 @@ class BoardSnapshot {
  * Game object represents the current state of the tracker
  */
 class Game: NSObject, PowerEventHandler {
-
 	/**
 	 * View controller of this game object
 	 */
@@ -846,8 +845,8 @@ class Game: NSObject, PowerEventHandler {
     }
 
 	var entities =  SynchronizedDictionary<Int, Entity>()
-    var tmpEntities: [Entity] = []
-    var knownCardIds: [Int: [(String, DeckLocation)]] = [:]
+    var tmpEntities = SynchronizedArray<Entity>()
+    var knownCardIds = SynchronizedDictionary<Int, [(String, DeckLocation)]>()
     var joustReveals = 0
     var dredgeCounter = 0
 
@@ -2059,7 +2058,7 @@ class Game: NSObject, PowerEventHandler {
         updateTrackers()
     }
 
-    func playerPlay(entity: Entity, cardId: String?, turn: Int) {
+    func playerPlay(entity: Entity, cardId: String?, turn: Int, parentCardId: String) {
         if cardId.isBlank {
             return
         }
@@ -2069,16 +2068,7 @@ class Game: NSObject, PowerEventHandler {
             playedCards.append(PlayedCard(player: .player, cardId: cardId, turn: turn))
         }
 
-        if entity.has(tag: .ritual) {
-            // if this entity has the RITUAL tag, it will trigger some C'Thun change
-            // we wait 300ms so the proxy have the time to be updated
-            let when = DispatchTime.now() + DispatchTimeInterval.milliseconds(300)
-            DispatchQueue.main.asyncAfter(deadline: when) { [weak self] in
-                self?.updateTrackers()
-            }
-        }
-
-        secretsManager?.handleCardPlayed(entity: entity)
+        secretsManager?.handleCardPlayed(entity: entity, parentCardId: parentCardId)
         updateTrackers()
     }
 
@@ -2090,7 +2080,7 @@ class Game: NSObject, PowerEventHandler {
         updateTrackers()
     }
 
-    func playerSecretPlayed(entity: Entity, cardId: String?, turn: Int, fromZone: Zone) {
+    func playerSecretPlayed(entity: Entity, cardId: String?, turn: Int, fromZone: Zone, parentCardId: String) {
         if cardId.isBlank { return }
 
         if !entity.isSecret {
@@ -2105,7 +2095,7 @@ class Game: NSObject, PowerEventHandler {
             player.secretPlayedFromDeck(entity: entity, turn: turn)
         case .hand:
             player.secretPlayedFromHand(entity: entity, turn: turn)
-            secretsManager?.handleCardPlayed(entity: entity)
+            secretsManager?.handleCardPlayed(entity: entity, parentCardId: parentCardId)
         default:
             player.createInSecret(entity: entity, turn: turn)
             return
@@ -2328,12 +2318,6 @@ class Game: NSObject, PowerEventHandler {
         player.playToGraveyard(entity: entity, cardId: cardId, turn: turn)
         if playersTurn && entity.isMinion {
             playerMinionDeath(entity: entity)
-        }
-        
-        // a workaround to fix (#1080) by double-checking the secrets after a spell takes effect,
-        // e.g., summoned a minion.
-        if playersTurn && entity.isSpell {
-            secretsManager?.handleCardPlayed(entity: entity)
         }
         
         updateTrackers()
@@ -2670,14 +2654,19 @@ class Game: NSObject, PowerEventHandler {
         secretsManager?.handleOpponentMinionDeath(entity: entity)
     }
 
-    func opponentDamage(entity: Entity, damage: Int) {
-        secretsManager?.handleOpponentDamage(entity: entity, damage: damage)
-    }
-
     func opponentTurnStart(entity: Entity) {
 
     }
     
+    func entityPredamage(entity: Entity, damage: Int) {
+    }
+    
+    func entityDamage(dealer: Entity, entity: Entity, damage: Int) {
+        if player.entity?.isCurrentPlayer ?? false {
+            secretsManager?.entityDamage(dealer: dealer, target: entity, damage: damage)
+        }
+    }
+
     func startCombat() {
         snapshotBattlegroundsBoardState()
         

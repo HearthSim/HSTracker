@@ -151,6 +151,7 @@ extension CardIds.Collectible {
         static let LoanShark = "SW_434"
         static let AzsharanVessel = "TSC_912"
         static let BootstrapSunkeneer = "TSC_933"
+        static let SparkjoyCheat = "YOP_016"
     }
 }
 

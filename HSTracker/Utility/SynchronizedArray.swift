@@ -87,3 +87,18 @@ class SynchronizedArray<T> {
         }
     }
 }
+extension SynchronizedArray where T: Equatable {
+    func remove(_ element: T) {
+        lock.around {
+            if let index = arr.firstIndex(of: element) {
+                arr.remove(at: index)
+            }
+        }
+    }
+
+    func contains(_ element: T) -> Bool {
+        return lock.around {
+            return arr.contains(element)
+        }
+    }
+}

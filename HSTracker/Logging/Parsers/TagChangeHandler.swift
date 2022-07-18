@@ -48,6 +48,9 @@ class TagChangeHandler {
 
         if let entity = eventHandler.entities[id] {
             let prevValue = entity[tag]
+            if prevValue == value {
+                return
+            }
             entity[tag] = value
 
             if isCreationTag {
@@ -72,8 +75,8 @@ class TagChangeHandler {
             let action = creationTagActionQueue.removeFirst()
             action.action()
 
-            if creationTagActionQueue.all({ $0.id != action.id }) && eventHandler.entities[action.id] != nil {
-                eventHandler.entities[action.id]!.info.hasOutstandingTagChanges = false
+            if creationTagActionQueue.all({ $0.id != action.id }), let entity = eventHandler.entities[action.id] {
+                entity.info.hasOutstandingTagChanges = false
             }
         }
     }
