@@ -567,13 +567,13 @@ class Game: NSObject, PowerEventHandler {
             if isBG && Settings.showTiers && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
                     || !Settings.hideAllWhenGameInBackground) {
                 self.windowManager.show(controller: controller, show: true, frame: rect, title: nil, overlay: true)
-                controller.tierOverlay.unhideTier()
+                controller.tierOverlay?.unhideTier()
                 if reset {
-                    controller.tierOverlay.displayTier(tier: controller.tierOverlay.currentTier, force: true)
+                    controller.tierOverlay?.displayTier(tier: controller.tierOverlay.currentTier, force: true)
                 }
             } else {
                 self.windowManager.show(controller: controller, show: false)
-                controller.tierOverlay.hideTier()
+                controller.tierOverlay?.hideTier()
             }
         }
     }
