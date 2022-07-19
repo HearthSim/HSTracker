@@ -57,7 +57,6 @@ final class LogReaderManager {
     var running = false
     var stopped = false
     private var queue: DispatchQueue?
-    private var processMap = [LogDate: [LogLine]]()
     private let coreManager: CoreManager
     
 	init(logPath: String, coreManager: CoreManager) {
@@ -114,33 +113,31 @@ final class LogReaderManager {
         decksReader.start()
         
         while !stopped {
-            
-            autoreleasepool {
-                
-                for reader in readers {
-                    let loglines = reader.collect()
-                    for line in loglines {
-                        var lineList = processMap[line.time] ?? [LogLine]()
-                        lineList.append(line)
-                        processMap[line.time] = lineList
-                    }
-                    
+            var processMap = [LogDate: [LogLine]]()
+
+            for reader in readers {
+                let loglines = reader.collect()
+                for line in loglines {
+                    var lineList = processMap[line.time] ?? [LogLine]()
+                    lineList.append(line)
+                    processMap[line.time] = lineList
                 }
                 
-                for time in processMap.keys.sorted() {
-                    if let lineList = processMap[time] {
+            }
+            
+            let keys = processMap   .keys.sorted()
+            for time in keys {
+                if let lineList = processMap[time] {
+                    if stopped {
+                        break
+                    }
+                    for line in lineList {
                         if stopped {
                             break
                         }
-                        for line in lineList {
-                            if stopped {
-                                break
-                            }
-                            processLine(line: line)
-                        }
+                        processLine(line: line)
                     }
                 }
-                processMap.removeAll()
             }
             Thread.sleep(forTimeInterval: LogReaderManager.updateDelay)
         }
