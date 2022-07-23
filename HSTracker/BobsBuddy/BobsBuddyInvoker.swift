@@ -121,7 +121,7 @@ class BobsBuddyInvoker {
     }
     
     func shouldRun() -> Bool {
-        if !game.isBattlegroundsMatch() {
+        if !Settings.showBobsBuddy || !game.isBattlegroundsMatch() {
             return false
         }
         return true

@@ -2608,24 +2608,22 @@ class Game: NSObject, PowerEventHandler {
     // MARK: - Game actions
     func defending(entity: Entity?) {
         self.defendingEntity = entity
-        if let attackingEntity = self.attackingEntity,
-            let defendingEntity = self.defendingEntity,
-            let entity = entity {
-            if entity.isControlled(by: opponent.id) {
-                secretsManager?.handleAttack(attacker: attackingEntity, defender: defendingEntity)
-            }
+        guard let attackingEntity = self.attackingEntity, let defendingEntity = self.defendingEntity, let entity = entity else {
+            return
+        }
+        if entity.isControlled(by: opponent.id) {
+            secretsManager?.handleAttack(attacker: attackingEntity, defender: defendingEntity)
         }
         attackEvent()
     }
 
     func attacking(entity: Entity?) {
         self.attackingEntity = entity
-        if let attackingEntity = self.attackingEntity,
-            let defendingEntity = self.defendingEntity,
-            let entity = entity {
-            if entity.isControlled(by: player.id) {
-                secretsManager?.handleAttack(attacker: attackingEntity, defender: defendingEntity)
-            }
+        guard let attackingEntity = self.attackingEntity, let defendingEntity = self.defendingEntity, let entity = entity else {
+            return
+        }
+        if entity.isControlled(by: player.id) {
+            secretsManager?.handleAttack(attacker: attackingEntity, defender: defendingEntity)
         }
         attackEvent()
     }
