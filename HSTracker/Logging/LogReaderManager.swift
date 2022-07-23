@@ -93,12 +93,8 @@ final class LogReaderManager {
             logger.error("LogReaderManager can not create queue")
             return
         }
+        self.running = true
         queue.async {
-            guard !self.running else {
-                logger.error("LogReaderManager is already running")
-                return
-            }
-            self.running = true
             self.startLogReaders()
         }
     }
@@ -113,31 +109,34 @@ final class LogReaderManager {
         decksReader.start()
         
         while !stopped {
-            var processMap = [LogDate: [LogLine]]()
+            autoreleasepool {
+                var processMap = [LogDate: [LogLine]]()
 
-            for reader in readers {
-                let loglines = reader.collect()
-                for line in loglines {
-                    var lineList = processMap[line.time] ?? [LogLine]()
-                    lineList.append(line)
-                    processMap[line.time] = lineList
+                for reader in readers {
+                    let loglines = reader.collect()
+                    for line in loglines {
+                        var lineList = processMap[line.time] ?? [LogLine]()
+                        lineList.append(line)
+                        processMap[line.time] = lineList
+                    }
+                    
                 }
                 
-            }
-            
-            let keys = processMap   .keys.sorted()
-            for time in keys {
-                if let lineList = processMap[time] {
-                    if stopped {
-                        break
-                    }
-                    for line in lineList {
+                let keys = processMap.keys.sorted()
+                for time in keys {
+                    if let lineList = processMap[time] {
                         if stopped {
                             break
                         }
-                        processLine(line: line)
+                        for line in lineList {
+                            if stopped {
+                                break
+                            }
+                            processLine(line: line)
+                        }
                     }
                 }
+                processMap.removeAll()
             }
             Thread.sleep(forTimeInterval: LogReaderManager.updateDelay)
         }
