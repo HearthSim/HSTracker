@@ -370,8 +370,7 @@ struct TagChangeActions {
 
         if eventHandler.gameEnded { return }
 
-        let entity = eventHandler.entities[id]
-        if entity == nil || entity?.isPlayer(eventHandler: eventHandler) ?? true {
+        guard let entity = eventHandler.entities[id], entity.isPlayer(eventHandler: eventHandler) else {
             return
         }
 

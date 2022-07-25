@@ -1,3 +1,7 @@
+# 2.1.14
+## Fixes
+- Fixed incorrect match result being recorded in deck statistics
+
 # 2.1.13
 ## Fixes
 - Miscellaneous performance improvements
