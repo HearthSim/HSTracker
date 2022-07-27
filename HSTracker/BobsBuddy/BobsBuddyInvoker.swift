@@ -75,12 +75,12 @@ class BobsBuddyInvoker {
     }
     
     private static var _recentHDTLog = SynchronizedArray<String>()
-//    private static let _debugLinesToIgnore = Regex("(Player|Opponent|TagChangeActions)\\.")
+    private static let _debugLinesToIgnore = Regex("(Player|Opponent|TagChangeActions)\\.")
     
     fileprivate static func addHDTLogLine(_ string: String) {
-//        if _debugLinesToIgnore.match(string) {
-//            return
-//        }
+        if _debugLinesToIgnore.match(string) {
+            return
+        }
         if _recentHDTLog.count >= logLinesKept {
             _recentHDTLog.remove(at: 0)
         }

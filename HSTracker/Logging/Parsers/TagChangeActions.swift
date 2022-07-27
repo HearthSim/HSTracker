@@ -562,6 +562,8 @@ struct TagChangeActions {
                 eventHandler.opponentCreateInSetAside(entity: entity, turn: eventHandler.turnNumber())
             }
             
+        case .removedfromgame:
+            break
         default:
             logger.warning("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
         }

@@ -1,3 +1,7 @@
+# 2.2.0
+## Fixes
+- Updated for patch 24.0
+
 # 2.1.14
 ## Fixes
 - Fixed incorrect match result being recorded in deck statistics
