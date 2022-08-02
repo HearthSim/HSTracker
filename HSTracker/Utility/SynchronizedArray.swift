@@ -68,6 +68,24 @@ class SynchronizedArray<T> {
         }
     }
     
+    func any(_ fn: (T) -> Bool) -> Bool {
+        return lock.around {
+            return arr.any(fn)
+        }
+    }
+    
+    func forEach(_ body: (T) -> Void) {
+        lock.around {
+            arr.forEach(body)
+        }
+    }
+    
+    func compactMap<Element>(_ transform: (T) -> Element?) -> [Element] {
+        return lock.around {
+            return arr.compactMap(transform)
+        }
+    }
+    
     func filter(_ isIncluded: (T) -> Bool) -> [T] {
         return lock.around {
             return arr.filter(isIncluded)

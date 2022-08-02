@@ -38,7 +38,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var coreManager: CoreManager!
     var triggers: [NSObjectProtocol] = []
     
-    lazy var preferences: PreferencesWindowController = {
+    var preferences: PreferencesWindowController = {
         let panes: [PreferencePane] = [
             GeneralPreferences(nibName: "GeneralPreferences", bundle: nil),
             GamePreferences(nibName: "GamePreferences", bundle: nil),
@@ -50,9 +50,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             ImportingPreferences(nibName: "ImportingPreferences", bundle: nil),
             HSReplayPreferences(nibName: "HSReplayPreferences", bundle: nil)
         ]
-        for pane in panes {
-            logger.debug("Pane \(pane.description) view \(pane.view.description)")
-        }
         return PreferencesWindowController(preferencePanes: panes, style: .toolbarItems, animated: true)
     }()
     
@@ -298,9 +295,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             
             if isMonoAvailable() != 0 {
                 if MonoHelper.load() {
-                    DispatchQueue.global().async(qos: .userInitiated) {
-                        MonoHelper.testSimulation()
-                    }
+                    MonoHelper.initialize()
+//                    DispatchQueue.global().async(qos: .userInitiated) {
+//                        MonoHelper.testSimulation()
+//                    }
                 } else {
                     logger.error("Failed to load BobsBuddy")
                 }

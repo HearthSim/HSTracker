@@ -140,7 +140,9 @@ class BattlegroundsGameView: NSView {
     }
     
     private func commonInit() {
-        Bundle.main.loadNibNamed("BattlegroundsGameView", owner: self, topLevelObjects: nil)
+        guard Bundle.main.loadNibNamed("BattlegroundsGameView", owner: self, topLevelObjects: nil) else {
+            return
+        }
         translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
         contentView.frame = NSRect(x: 0, y: 0, width: 200, height: 34)

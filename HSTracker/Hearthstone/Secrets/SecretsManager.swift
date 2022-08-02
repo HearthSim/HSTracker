@@ -19,13 +19,13 @@ class SecretsManager {
     private var entititesInHandOnMinionsPlayed: Set<Entity>  = Set<Entity>()
 
     private var game: Game
-    private(set) var secrets: [Secret] = []
-    private var _triggeredSecrets: [Entity] = []
-    private var opponentTookDamageDuringTurns: [Int] = []
+    private(set) var secrets = SynchronizedArray<Secret>()
+    private var _triggeredSecrets = SynchronizedArray<Entity>()
+    private var opponentTookDamageDuringTurns = SynchronizedArray<Int>()
     private var entityDamageDealtHistory = SynchronizedDictionary<Int, SynchronizedDictionary<Int, Int>>()
     
     private var _lastPlayedMinionId: Int = 0
-    private var savedSecrets: [MultiIdCard] = []
+    private var savedSecrets = SynchronizedArray<MultiIdCard>()
 
     var onChanged: (([Card]) -> Void)?
 
@@ -147,8 +147,8 @@ class SecretsManager {
         let adjustCount: ((_ cardId: String, _ count: Int) -> Int) = { cardId, count in
             gameModeHasCardLimit && hasPlayedTwoOf(cardId) && !createdSecrets.contains(MultiIdCard(cardId)) ? 0 : count
         }
-
-        var cards: [QuantifiedMultiIdCard] = secrets.flatMap { $0.excluded }
+        
+        var cards = secrets.array().flatMap { $0.excluded }
             .group { $0.key }
             .compactMap { group in
                 QuantifiedMultiIdCard(baseCard: group.key, count: adjustCount(group.key.ids[0], group.value.filter { x in !x.value }.count))
@@ -602,13 +602,17 @@ class SecretsManager {
                 }
             }
             if dealer.isMinion && dealer.isControlled(by: game.player.id) {
-                if entityDamageDealtHistory[dealer.id] == nil {
-                    entityDamageDealtHistory[dealer.id] = SynchronizedDictionary<Int, Int>()
+                if let dict = entityDamageDealtHistory[dealer.id] {
+                    if let hist = dict[target.id] {
+                        dict[target.id] = hist + damage
+                    } else {
+                        dict[target.id] = damage
+                    }
+                } else {
+                    let dict = SynchronizedDictionary<Int, Int>()
+                    entityDamageDealtHistory[dealer.id] = dict
+                    dict[target.id] = damage
                 }
-                if entityDamageDealtHistory[dealer.id]![target.id] == nil {
-                    entityDamageDealtHistory[dealer.id]![target.id] = 0
-                }
-                entityDamageDealtHistory[dealer.id]?[target.id]! += damage
                 let damageDealt = entityDamageDealtHistory[dealer.id]?[target.id] ?? 0
                 Thread.sleep(forTimeInterval: 0.1)
                 //We check both heaolth and zone because sometimes after the await the dealer's health will revert to that of the original card.
