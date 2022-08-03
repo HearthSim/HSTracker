@@ -107,11 +107,17 @@ class Entity {
 	func isOpponent(eventHandler: PowerEventHandler) -> Bool {
 		return !isPlayer(eventHandler: eventHandler) && has(tag: .player_id)
     }
+    var isMinionOrLocation: Bool {
+        return isMinion || isLocation
+    }
     var isMinion: Bool {
         return has(tag: .cardtype) && self[.cardtype] == CardType.minion.rawValue
     }
+    var isLocation: Bool {
+        return self[.cardtype] == CardType.location.rawValue
+    }
     var isPlayableCard: Bool {
-        return isMinion || isSpell || isWeapon || isPlayableHero
+        return isMinionOrLocation || isSpell || isWeapon || isPlayableHero
     }
     var isWeapon: Bool {
         return has(tag: .cardtype) && self[.cardtype] == CardType.weapon.rawValue

@@ -49,10 +49,22 @@ struct TagChangeActions {
         case .player_tech_level: return { self.playerTechLevel(eventHandler: eventHandler, id: id, value: value, previous: prevValue)}
         case .player_triples: return { self.playerTriples(eventHandler: eventHandler, id: id, value: value, previous: prevValue)}
         case .immolatestage: return { self.onImmolateStage(eventHandler: eventHandler, id: id, value: value)}
+        case .resources_used: return { self.onResourcesUsedChange(eventHandler: eventHandler, id: id, value: value)}
 
         case .bacon_player_num_hero_buddies_gained: return { self.playerBuddiesGained(eventHandler: eventHandler, id: id, value: value)}
         default: return nil
         }
+    }
+    
+    private func onResourcesUsedChange(eventHandler: PowerEventHandler, id: Int, value: Int) {
+        guard let playerEntity = eventHandler.playerEntity else {
+            return
+        }
+        if id != playerEntity.id {
+            return
+        }
+        let available = playerEntity[.resources] + playerEntity[.temp_resources]
+        AppDelegate.instance().coreManager.game.secretsManager?.handleManaRemaining(mana: max(0, available - value))
     }
     
     private func rebornChange(eventHandler: PowerEventHandler, id: Int, value: Int) {
@@ -95,6 +107,11 @@ struct TagChangeActions {
         onDredge(eventHandler: eventHandler, entity: entity, target: targetEntity)
         
         if entity.isControlled(by: eventHandler.opponent.id) {
+            return
+        }
+        
+        if entity[.creator_dbid] == CardIds.suspiciousMysteryDbfId {
+            // Card was created by Suspicious Alchemist/Usher/Pirate
             return
         }
 

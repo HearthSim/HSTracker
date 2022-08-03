@@ -1021,10 +1021,21 @@ class Game: NSObject, PowerEventHandler {
         return entities.values
             .filter { $0.isInPlay && $0.isMinion
                 && $0.isControlled(by: self.opponent.id) }.count }
+    
+    var opponentBoardCount: Int {
+        return entities.values
+            .filter { $0.isInPlay && $0.isMinionOrLocation
+                && $0.isControlled(by: self.opponent.id) }.count
+    }
 
     var playerMinionCount: Int {
         return entities.values
             .filter { $0.isInPlay && $0.isMinion
+                && $0.isControlled(by: self.player.id) }.count }
+
+    var playerBoardCount: Int {
+        return entities.values
+            .filter { $0.isInPlay && $0.isMinionOrLocation
                 && $0.isControlled(by: self.player.id) }.count }
 
     var opponentHandCount: Int {
@@ -1036,6 +1047,10 @@ class Game: NSObject, PowerEventHandler {
             .filter { $0.isSecret && $0.isControlled(by: self.opponent.id) }.count
     }
     
+    var playerHandCount: Int {
+        return entities.values
+            .filter { $0.isInHand && $0.isControlled(by: self.player.id) }.count }
+
     var inAiMatch: Bool {
         return currentMode == Mode.gameplay && currentGameType == GameType.gt_vs_ai
     }
@@ -1436,10 +1451,6 @@ class Game: NSObject, PowerEventHandler {
     
     private var lastGameStart = Date.distantPast
     func gameStart(at timestamp: LogDate) {
-        logger.info("currentGameMode: \(currentGameMode), isInMenu: \(isInMenu), "
-            + "handledGameEnd: \(handledGameEnd), "
-            + "lastGameStartTimestamp: \(lastGameStartTimestamp), " +
-            "timestamp: \(timestamp)")
         invalidateMatchInfoCache()
         if currentGameMode == .practice && !isInMenu && !handledGameEnd
 			&& lastGameStartTimestamp > LogDate(date: Date.distantPast)
@@ -1454,7 +1465,6 @@ class Game: NSObject, PowerEventHandler {
             return
         }
 
-        reset()
         lastGameStart = Date()
         
         // remove every line before _last_ create game
@@ -1472,10 +1482,11 @@ class Game: NSObject, PowerEventHandler {
         cacheGameType()
         cacheSpectator()
 
-        Analytics.trackEvent("match_start", withProperties: ["gameMode": "\(currentGameMode)",
-                                                             "gameType": "\(currentGameType)"])
-
         logger.info("----- Game Started -----")
+        logger.info("currentGameMode: \(currentGameMode), isInMenu: \(isInMenu), "
+            + "handledGameEnd: \(handledGameEnd), "
+            + "lastGameStartTimestamp: \(lastGameStartTimestamp), " +
+            "timestamp: \(timestamp)")
         AppHealth.instance.setHearthstoneGameRunning(flag: true)
 
         NotificationManager.showNotification(type: .gameStart)
@@ -1496,6 +1507,10 @@ class Game: NSObject, PowerEventHandler {
         updateTrackers(reset: true)
 
         self.startTime = Date()
+        
+        Analytics.trackEvent("match_start", withProperties: ["gameMode": "\(self.currentGameMode)",
+                                                             "gameType": "\(self.currentGameType)",
+                                                             "spectator": "\(self.spectator)"])
     }
 
     private func adventureRestart() {

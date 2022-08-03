@@ -1,3 +1,7 @@
+# 2.2.1
+## New
+- Added support for Murder at Castle Nathria
+
 # 2.2.0
 ## Fixes
 - Updated for patch 24.0

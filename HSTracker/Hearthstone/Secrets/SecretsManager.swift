@@ -33,7 +33,7 @@ class SecretsManager {
         self.game = game
     }
 
-    private var freeSpaceOnBoard: Bool { return game.opponentMinionCount < 7 }
+    private var freeSpaceOnBoard: Bool { return game.opponentBoardCount < 7 }
     private var freeSpaceInHand: Bool { return game.opponentHandCount < 10 }
     private var handleAction: Bool { return hasActiveSecrets }
     private var isAnyMinionInOpponentsHand: Bool { return entititesInHandOnMinionsPlayed.first(where: { entity in entity.isMinion }) != nil }
@@ -242,6 +242,9 @@ class SecretsManager {
 
             if freeSpaceOnBoard {
                 exclude.append(CardIds.Secrets.Hunter.WanderingMonster)
+                if attacker.isMinion {
+                    exclude.append(CardIds.Secrets.Mage.VengefulVisage)
+                }
             }
 
             exclude.append(CardIds.Secrets.Mage.IceBarrier)
@@ -313,6 +316,7 @@ class SecretsManager {
         if freeSpaceInHand {
             exclude.append(CardIds.Secrets.Mage.FrozenClone)
         }
+        exclude.append(CardIds.Secrets.Rogue.Kidnap)
 
         //Hidden cache will only trigger if the opponent has a minion in hand.
         //We might not know this for certain - requires additional tracking logic.
@@ -374,7 +378,7 @@ class SecretsManager {
 
         // redemption never triggers if a deathrattle effect fills up the board
         // effigy can trigger ahead of the deathrattle effect, but only if effigy was played before the deathrattle minion
-        if game.opponentMinionCount < 7 - numDeathrattleMinions {
+        if game.opponentBoardCount < 7 - numDeathrattleMinions {
             exclude.append(CardIds.Secrets.Paladin.Redemption)
         }
 
@@ -479,6 +483,12 @@ class SecretsManager {
         }
     }
     
+    func handleManaRemaining(mana: Int) {
+        if mana == 0 && freeSpaceInHand {
+            exclude(cardId: CardIds.Secrets.Rogue.DoubleCross)
+        }
+    }
+    
     func secretTriggered(entity: Entity) {
         _triggeredSecrets.append(entity)
     }
@@ -549,6 +559,7 @@ class SecretsManager {
                 }
                 exclude.append(CardIds.Secrets.Hunter.CatTrick)
                 exclude.append(CardIds.Secrets.Mage.NetherwindPortal)
+                exclude.append(CardIds.Secrets.Rogue.StickySituation)
             }
 
             if game.playerMinionCount > 0 {

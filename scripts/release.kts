@@ -77,6 +77,9 @@ val buildCommand = object: CliktCommand(name = "build") {
                 File(hstracker_dir),
                 "xcodebuild -exportArchive -archivePath $hstrackerXcarchivePath -exportPath $releaseDir -exportOptionsPlist $optionsPlistPath"
         )
+        File("$releaseDir/dSYMs").mkdirs()
+        CommandLine.executeOrFail(File("$releaseDir/dSYMs"), "unzip $hstracker_dir/downloaded-frameworks/HearthMirror/HearthMirror.framework.dSYM.zip")
+        CommandLine.executeOrFail(File("$releaseDir"), "zip -r $hstrackerDSYMZipPath dSYMs/")
 
         ZipIntegration.zip(input = File(hstrackerAppPath), output = File(hstrackerAppZipPath))
         ZipIntegration.zip(input = File(hstrackerXcarchiveDSYMPath),  output = File(hstrackerDSYMZipPath))
@@ -191,12 +194,14 @@ val releaseCommand = object: CliktCommand(name = "release") {
 
         println("uploading $hstrackerAppZipPath")
 
+/*
         AppCenter.uploadApp(
                 appId = "HSTracker",
                 file = File(hstrackerAppZipPath),
                 changelog = changelog.first().markdown,
                 destinationName = "All-users-of-HSTracker"
         )
+        */
 
         GithubIntegration.createRelease(
                 tagName = changelogVersion,

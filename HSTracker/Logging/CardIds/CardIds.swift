@@ -29,6 +29,7 @@ import Foundation
 
 struct CardIds {
     static let keyMasterAlabasterDbfId = 61174
+    static let suspiciousMysteryDbfId = 75867
     
     static let hiddenCardidPrefixes: [String] = [ "PVPDR_TEST_" ]
     

@@ -135,6 +135,7 @@ extension CardIds.Collectible {
         static let CondemnRank1 = "BAR_314"
         static let MidaPureLight = "ONY_028"
         static let AzsharanRitual = "TSC_775"
+        static let SuspiciousUsher = "REV_002"
     }
 }
 

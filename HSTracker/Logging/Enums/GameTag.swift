@@ -357,6 +357,7 @@ enum GameTag: Int, WrappableEnum, CaseIterable, Codable {
     bacon_hero_power_activated = 1398,
     tech_level = 1440,
     player_triples = 1447,
+    is_bacon_pool_minion = 1456,
     bacon_hero_can_be_drafted = 1491,
     dormant = 1518,
     copied_from_entity_id = 1565,

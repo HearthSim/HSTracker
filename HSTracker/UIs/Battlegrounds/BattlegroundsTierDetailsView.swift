@@ -47,7 +47,15 @@ class BattlegroundsTierDetailsView: NSStackView {
         var availableRaces = AppDelegate.instance().coreManager.game.availableRaces
         availableRaces?.append(Race.all)
         var counts = [Race: Int]()
-        var cardBars: [CardBar] = Cards.battlegroundsMinions.filter {
+        let bgMinions = Cards.battlegroundsMinions
+        if let overrides = RemoteConfig.data?.battlegrounds_tag_overrides {
+            for over in overrides {
+                if over.tag == GameTag.is_bacon_pool_minion.rawValue && over.value == 0, let card = Cards.by(dbfId: over.dbf_id, collectible: false) {
+                    bgMinions.remove(card)
+                }
+            }
+        }
+        var cardBars: [CardBar] = bgMinions.filter {
             let race = $0.bgRace
             return ($0.techLevel == tier &&
                         (race == .invalid || (availableRaces?.firstIndex(of: race) != nil)))

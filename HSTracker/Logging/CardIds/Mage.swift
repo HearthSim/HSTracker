@@ -148,6 +148,8 @@ extension CardIds.Collectible {
         static let FirstFlame = "SW_108"
         static let BuildASnowman = "AV_282"
         static let AzsharanSweeper = "TSC_776"
+        static let VengefulVisage = "REV_516"
+        static let SuspiciousAlchemist = "REV_000"
     }
 }
 
@@ -224,7 +226,7 @@ extension CardIds.Secrets {
     struct Mage {
         static let All = [Counterspell, Duplicate, Effigy, ExplosiveRunes, FrozenClone, IceBarrier,
                           IceBlock, ManaBind, MirrorEntity, OasisAlly, PotionOfPolymorph, Spellbender,
-                          SplittingImage, Vaporize, FlameWard, NetherwindPortal, RiggedFaireGame]
+                          SplittingImage, Vaporize, FlameWard, NetherwindPortal, RiggedFaireGame, VengefulVisage]
         static let Counterspell = MultiIdCard(CardIds.Collectible.Mage.Counterspell, CardIds.Collectible.Mage.CounterspellCore, CardIds.Collectible.Mage.CounterspellVanilla)
         static let Duplicate = MultiIdCard(CardIds.Collectible.Mage.Duplicate)
         static let Effigy = MultiIdCard(CardIds.Collectible.Mage.Effigy)
@@ -242,5 +244,6 @@ extension CardIds.Secrets {
         static let Spellbender = MultiIdCard(CardIds.Collectible.Mage.Spellbender, CardIds.Collectible.Mage.SpellbenderVanilla)
         static let SplittingImage = MultiIdCard(CardIds.Collectible.Mage.SplittingImage)
         static let Vaporize = MultiIdCard(CardIds.Collectible.Mage.Vaporize, CardIds.Collectible.Mage.VaporizeVanilla)
+        static let VengefulVisage = MultiIdCard(CardIds.Collectible.Mage.VengefulVisage)
     }
 }

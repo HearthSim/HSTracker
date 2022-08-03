@@ -135,6 +135,7 @@ extension CardIds.Collectible {
         static let Scrapsmith = "AV_323"
         static let AzsharanTrident = "TSC_913"
         static let FromTheDepths = "TSC_940"
+        static let SuspiciousPirate = "REV_006"
     }
 }
 
