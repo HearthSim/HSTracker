@@ -165,6 +165,9 @@ class BattlegroundsGameView: NSView {
         guard let heroCard = heroCard else {
             return
         }
+        guard heroName != nil else {
+            return
+        }
         ImageUtils.tile(for: heroCard.id, completion: { image in
             DispatchQueue.main.async {
                 self.heroImage.image = image

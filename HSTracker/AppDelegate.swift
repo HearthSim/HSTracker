@@ -542,6 +542,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @IBAction func openDeckManager(_ sender: AnyObject) {
+        guard let coreManager = coreManager else {
+            return
+        }
         if deckManager == nil {
             deckManager = DeckManager(windowNibName: "DeckManager")
             deckManager?.game = coreManager.game

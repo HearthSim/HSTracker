@@ -125,6 +125,9 @@ class BoardMinionView: NSView {
         }
         let game = AppDelegate.instance().coreManager.game
         let flavorWindow = game.windowManager.flavorText
+        guard flavorWindow.flavorTextLabel != nil else {
+            return
+        }
         let style = NSMutableParagraphStyle()
         style.alignment = NSTextAlignment.center
 
