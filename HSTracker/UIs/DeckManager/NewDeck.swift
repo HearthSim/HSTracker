@@ -122,13 +122,14 @@ class NewDeck: NSWindowController, NSControlTextEditingDelegate {
                 for filename in panel.urls {
                     let importer = FileImporter()
                     if let (deck, cards) = importer.fileImport(url: filename), cards.isValidDeck() {
-                        for card in cards {
-                            deck.add(card: card)
-                        }
-                        RealmHelper.add(deck: deck)
+                        RealmHelper.add(deck: deck, with: cards)
                         self._addDeck(deck)
                     } else {
-                        // TODO show error
+                        let msg = NSLocalizedString("Failed to import deck from \n", comment: "")
+                        + filename.path
+                        NSAlert.show(style: .critical,
+                                     message: msg)
+                        return
                     }
                 }
             }

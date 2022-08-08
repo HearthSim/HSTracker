@@ -22,7 +22,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     static var _instance: AppDelegate?
     static func instance() -> AppDelegate {
-        return _instance!
+        if let instance = _instance {
+            return instance
+        }
+        fatalError("Unexpected nil for AppDelegate._instance")
     }
     
     var appWillRestart = false
@@ -38,7 +41,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var coreManager: CoreManager!
     var triggers: [NSObjectProtocol] = []
     
-    var preferences: PreferencesWindowController = {
+    lazy var preferences: PreferencesWindowController = {
         let panes: [PreferencePane] = [
             GeneralPreferences(nibName: "GeneralPreferences", bundle: nil),
             GamePreferences(nibName: "GamePreferences", bundle: nil),
@@ -235,7 +238,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         coreManager = CoreManager()
         
-        DispatchQueue.global().async { [unowned(unsafe) self] in
+        DispatchQueue.global().async {
             // load card tier via http request
             let cardTierOperation = BlockOperation {
                 ArenaHelperSync.checkTierList(splashscreen: splashscreen)
@@ -247,15 +250,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let remoteConfigOperation = BlockOperation {
                 RemoteConfig.checkRemoteConfig(splashscreen: splashscreen)
             }
-            
-            // load and generate assets from hearthstone files
-            /*let assetsOperation = BlockOperation {
-             DispatchQueue.main.async { [weak self] in
-             self?.splashscreen?.display(
-             NSLocalizedString("Loading Hearthstone assets", comment: ""),
-             indeterminate: true)
-             }
-             }*/
             
             // load and init local database
             let databaseOperation = BlockOperation {
@@ -276,17 +270,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             }
             
-            /*if Settings.useHearthstoneAssets {
-             databaseOperation.addDependency(assetsOperation)
-             assetsOperation.addDependency(buildsOperation)
-             }*/
+            menuOperation.addDependency(databaseOperation)
+            remoteConfigOperation.addDependency(menuOperation)
+            cardTierOperation.addDependency(menuOperation)
             
             var operations = [Operation]()
             operations.append(cardTierOperation)
             operations.append(remoteConfigOperation)
-            /*if Settings.useHearthstoneAssets {
-             operations.append(assetsOperation)
-             }*/
             operations.append(databaseOperation)
             operations.append(menuOperation)
             
@@ -306,7 +296,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 self.coreManager.game.windowManager.bobsBuddyPanel.setErrorState(error: .monoNotFound)
             }
             
-            DispatchQueue.main.async { [unowned(unsafe) self] in
+            DispatchQueue.main.async {
                 self.completeSetup()
             }
         }

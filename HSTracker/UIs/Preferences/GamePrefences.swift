@@ -17,7 +17,6 @@ class GamePreferences: NSViewController, PreferencePane {
     var toolbarItemIcon = NSImage(named: "game")!
 
     @IBOutlet weak var hearthstonePath: NSTextField!
-    @IBOutlet weak var decksPath: NSTextField!
     @IBOutlet weak var chooseHearthstonePath: NSButton!
     @IBOutlet weak var hstrackerLanguage: NSComboBox!
     @IBOutlet weak var hearthstoneLanguage: NSComboBox!
