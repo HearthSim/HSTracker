@@ -1,3 +1,10 @@
+# 2.2.2
+## Fixes
+- Fixed bug importing deck lists from file
+- Fixed Location cards not showing in the opponent tracker
+- Fixed deck manager not showing card counts if scrollbar was visible
+- Added code to prevent some crashes
+
 # 2.2.1
 ## New
 - Added support for Murder at Castle Nathria
