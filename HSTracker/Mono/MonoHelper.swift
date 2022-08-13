@@ -289,21 +289,33 @@ class MonoHelper {
         //setenv("MONO_LOG_MASK", "asm,dll", 1)
 
         let managedDir = path + "/Resources/Managed"
+
+        do {
+            let files = try FileManager.default.contentsOfDirectory(atPath: managedDir)
+            let libs = files.filter { x in x.hasSuffix(".dll") }.compactMap { x in "\(managedDir)/\(x)" }
+            let props = UnsafeMutablePointer<UnsafePointer<CChar>?>.allocate(capacity: 1)
+            "TRUSTED_PLATFORM_ASSEMBLIES".withCString {
+                props.pointee = $0
+            }
+            let values = UnsafeMutablePointer<UnsafePointer<CChar>?>.allocate(capacity: 1)
+            libs.joined(separator: ":").withCString {
+                values.pointee = $0
+            }
+            monovm_initialize(1, props, values)
+        } catch {
+            fatalError(error.localizedDescription)
+        }
+
         if let version = mono_get_runtime_build_info() {
             let str = String(cString: version)
             logger.debug("Loading mono version \(str)")
             version.deallocate()
         }
-        mono_config_parse(managedDir + "/etc/mono/config")
-        mono_set_dirs(managedDir, managedDir + "/etc")
-        //mono_config_parse(nil)
-
         let mono = mono_jit_init("HSTracker")
         
         if mono != nil {
             MonoHelper._monoInstance = mono
         }
-        mono_domain_set_config(mono, path + "/Resources/Managed", "HSTracker.config")
         //mono_jit_set_trace_options("BobsBuddy")
             
         MonoHelper._assembly = mono_domain_assembly_open(mono, path + "/Resources/Managed/BobsBuddy.dll")
@@ -400,12 +412,15 @@ class MonoHelper {
             let obj = runner.simulateMultiThreaded(input: test, maxIterations: 1000, threadCount: 4, maxDuration: 1500)
             let c = mono_object_get_class(obj.get())
             let inst2 = obj.get()
+            let parent = mono_class_get_parent(c)
+            
+            let parentparent = mono_class_get_parent(parent)
 
-            let mw = mono_class_get_method_from_name(mono_class_get_parent(c), "Wait", 0)
+            let mw = mono_class_get_method_from_name(parentparent, "Wait", 0)
 
             _ = mono_runtime_invoke(mw, inst2, nil, nil)
             
-            let meth2 = mono_class_get_method_from_name(c, "get_Result", 0)
+            let meth2 = mono_class_get_method_from_name(parent, "get_Result", 0)
             let output = mono_runtime_invoke(meth2, inst2, nil, nil)
             let top = OutputProxy(obj: output)
 
