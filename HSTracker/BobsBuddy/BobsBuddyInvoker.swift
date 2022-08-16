@@ -258,14 +258,12 @@ class BobsBuddyInvoker {
                     
                     let tinst = task.get()
                     let c = mono_object_get_class(tinst)
-                    let cp = mono_class_get_parent(c)
-                    let cpp = mono_class_get_parent(cp)
 
-                    let mw = mono_class_get_method_from_name(cpp, "Wait", 0)
+                    let mw = MonoHelper.getMethod(c, "Wait", 0)
                     
                     _ = mono_runtime_invoke(mw, tinst, nil, nil)
                     
-                    let mr = mono_class_get_method_from_name(cp, "get_Result", 0)
+                    let mr = MonoHelper.getMethod(c, "get_Result", 0)
                     let output = mono_runtime_invoke(mr, tinst, nil, nil)
                     
                     let top = OutputProxy(obj: output)

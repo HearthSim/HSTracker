@@ -339,9 +339,13 @@ class MonoHelper {
     }
     
     static func getMethod(_ clazz: OpaquePointer?, _ method: String, _ params: Int) -> OpaquePointer {
-        let result = mono_class_get_method_from_name(clazz, method, Int32(params))
-        if let result = result {
-            return result
+        var class_ = clazz
+        while class_ != nil {
+            let result = mono_class_get_method_from_name(class_, method, Int32(params))
+            if let result = result {
+                return result
+            }
+            class_ = mono_class_get_parent(class_)
         }
         fatalError("Method \(method) not found")
     }
@@ -361,7 +365,7 @@ class MonoHelper {
         }
         fatalError("Property \(property) not found")
     }
-
+    
     static func testSimulation() {
         let handle = mono_thread_attach(MonoHelper._monoInstance)
         
@@ -412,15 +416,12 @@ class MonoHelper {
             let obj = runner.simulateMultiThreaded(input: test, maxIterations: 1000, threadCount: 4, maxDuration: 1500)
             let c = mono_object_get_class(obj.get())
             let inst2 = obj.get()
-            let parent = mono_class_get_parent(c)
-            
-            let parentparent = mono_class_get_parent(parent)
 
-            let mw = mono_class_get_method_from_name(parentparent, "Wait", 0)
+            let mw = MonoHelper.getMethod(c, "Wait", 0)
 
             _ = mono_runtime_invoke(mw, inst2, nil, nil)
             
-            let meth2 = mono_class_get_method_from_name(parent, "get_Result", 0)
+            let meth2 = MonoHelper.getMethod(c, "get_Result", 0)
             let output = mono_runtime_invoke(meth2, inst2, nil, nil)
             let top = OutputProxy(obj: output)
 
