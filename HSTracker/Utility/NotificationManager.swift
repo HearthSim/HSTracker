@@ -10,7 +10,7 @@ import Foundation
 
 enum NotificationType {
     case gameStart, turnStart, opponentConcede, hsReplayPush(replayId: String), hsReplayUploadFailed(error: String),
-         hsReplayCollectionUploaded, hsReplayMercenariesCollectionUploaded, hsReplayCollectionUploadFailed(error: String), hsReplayMercenariesCollectionUploadFailed(error: String)
+         hsReplayCollectionUploaded, hsReplayMercenariesCollectionUploaded, hsReplayCollectionUploadFailed(error: String), hsReplayMercenariesCollectionUploadFailed(error: String), updateAvailable(version: String)
 }
 
 class NotificationManager {
@@ -63,7 +63,7 @@ class NotificationManager {
 
         case .hsReplayUploadFailed(let error):
             show(title: NSLocalizedString("HSReplay", comment: ""),
-                message: NSLocalizedString("Failed to upload replay: \(error)", comment: ""))
+                 message: String(format: NSLocalizedString("Failed to upload replay: %@", comment: ""), "\(error)"))
 
         case .hsReplayCollectionUploaded:
             show(title: NSLocalizedString("HSReplay", comment: ""),
@@ -72,7 +72,7 @@ class NotificationManager {
 
         case .hsReplayCollectionUploadFailed(let error):
             show(title: NSLocalizedString("HSReplay", comment: ""),
-                message: NSLocalizedString("Failed to upload collection: \(error)", comment: ""), duration: 10, fontSize: 8)
+                 message: String(format: NSLocalizedString("Failed to upload collection: %@", comment: ""), "\(error)"), duration: 10, fontSize: 8)
             
         case .hsReplayMercenariesCollectionUploaded:
             show(title: NSLocalizedString("HSReplay", comment: ""),
@@ -81,9 +81,15 @@ class NotificationManager {
 
         case .hsReplayMercenariesCollectionUploadFailed(let error):
             show(title: NSLocalizedString("HSReplay", comment: ""),
-                message: NSLocalizedString("Failed to upload Mercenaries collection: \(error)", comment: ""), duration: 10, fontSize: 8)
+                 message: String(format: NSLocalizedString("Failed to upload Mercenaries collection: %@", comment: ""), "\(error)"), duration: 10, fontSize: 8)
+            
+        case .updateAvailable(let version):
+            show(title: NSLocalizedString("A new update is available", comment: ""),
+                 message: String(format: NSLocalizedString("Version %@ is now available", comment: ""), version), duration: 30, action: {
+                AppDelegate.instance().sparkleUpdater.checkForUpdates(nil)
+            })
         }
-}
+    }
 
     private static var notificationDelegate = NotificationDelegate()
     private static func show(title: String, message: String, duration: Double? = 3, fontSize: Int? = 14,

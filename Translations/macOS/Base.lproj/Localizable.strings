@@ -70,6 +70,13 @@
 "Hearthstone" = "Hearthstone";
 "Your opponent have conceded" = "Your opponent has conceded";
 "It's your turn to play" = "It's your turn to play";
+"Failed to upload replay: %@" = "Failed to upload replay: %@";
+"Your collection has been uploaded to HSReplay.net" = "Your collection has been uploaded to HSReplay.net";
+"Failed to upload collection: %@" = "Failed to upload collection: %@";
+"Your Mercenaries collection has been uploaded to HSReplay.net" = "Your Mercenaries collection has been uploaded to HSReplay.net";
+"Failed to upload Mercenaries collection: %@" = "Failed to upload Mercenaries collection: %@";
+"A new update is available" = "A new update is available";
+"Version %@ is now available" = "Version %@ is now available";
 
 /* classes */
 "shaman" = "Shaman";

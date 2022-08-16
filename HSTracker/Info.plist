@@ -36,7 +36,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>2540</string>
+	<string>DEV</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.entertainment</string>
 	<key>LSMinimumSystemVersion</key>
@@ -62,6 +62,8 @@
 	<string>https://hsdecktracker.net/hstracker/appcast2.xml</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
+	<key>SUPublicEDKey</key>
+	<string>FAEVNwLFlLldmu1C6aA0h041sJAP1sWrTjQhE9iw7BE=</string>
 	<key>SecTaskAccess</key>
 	<array>
 		<string>allowed</string>

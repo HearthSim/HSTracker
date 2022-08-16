@@ -19,7 +19,7 @@ import Sparkle
 import OAuthSwift
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegate, NSUserNotificationCenterDelegate {
     
     static var _instance: AppDelegate?
     static func instance() -> AppDelegate {
@@ -635,5 +635,41 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         
         ImageUtils.clearCache()
+    }
+    
+    // MARK: - Sparkle
+    
+    // Declares that we support gentle scheduled update reminders to Sparkle's standard user driver
+    var supportsGentleScheduledUpdateReminders: Bool {
+        return true
+    }
+        
+    func standardUserDriverShouldHandleShowingScheduledUpdate(_ update: SUAppcastItem, andInImmediateFocus immediateFocus: Bool) -> Bool {
+        // If the standard user driver will show the update in immediate focus (e.g. near app launch),
+        // then let Sparkle take care of showing the update.
+        // Otherwise we will handle showing any other scheduled updates
+        return immediateFocus
+    }
+    
+    func standardUserDriverWillHandleShowingUpdate(_ handleShowingUpdate: Bool, forUpdate update: SUAppcastItem, state: SPUUserUpdateState) {
+        // We will ignore updates that the user driver will handle showing
+        // This includes user initiated (non-scheduled) updates
+        guard !handleShowingUpdate else {
+            return
+        }
+        
+        if !state.userInitiated {
+            // And add a badge to the app's dock icon indicating one alert occurred
+            NSApp.dockTile.badgeLabel = "1"
+            NotificationManager.showNotification(type: .updateAvailable(version: update.displayVersionString))
+        }
+    }
+
+    func standardUserDriverDidReceiveUserAttention(forUpdate update: SUAppcastItem) {
+        // Clear the dock badge indicator for the update
+        NSApp.dockTile.badgeLabel = ""
+    }
+    
+    func standardUserDriverWillFinishUpdateSession() {
     }
 }

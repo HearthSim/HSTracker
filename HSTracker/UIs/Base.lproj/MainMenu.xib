@@ -18,7 +18,11 @@
             </connections>
         </customObject>
         <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
-        <customObject id="l75-pu-pNN" customClass="SPUStandardUpdaterController"/>
+        <customObject id="l75-pu-pNN" customClass="SPUStandardUpdaterController">
+            <connections>
+                <outlet property="userDriverDelegate" destination="Voe-Tx-rLC" id="DK6-nK-khx"/>
+            </connections>
+        </customObject>
         <menu title="Main Menu" systemMenu="main" id="AYu-sK-qS6">
             <items>
                 <menuItem title="HSTracker" id="1Xt-HY-uBw">
