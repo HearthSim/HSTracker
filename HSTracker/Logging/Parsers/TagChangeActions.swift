@@ -603,6 +603,14 @@ struct TagChangeActions {
                                            turn: eventHandler.turnNumber(), otherId: id)
             }
             
+        case .setaside:
+            if controller == eventHandler.opponent.id {
+                guard let entity = eventHandler.entities[id] else {
+                    return
+                }
+                eventHandler.handleOpponentSecretRemove(entity: entity, cardId: cardId, turn: eventHandler.turnNumber())
+            }
+            
         default:
             logger.warning("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
         }

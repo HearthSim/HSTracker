@@ -2575,6 +2575,15 @@ class Game: NSObject, PowerEventHandler {
         opponent.createInDeck(entity: entity, turn: turn)
         updateTrackers()
     }
+    
+    func handleOpponentSecretRemove(entity: Entity, cardId: String?, turn: Int) {
+        if !entity.isSecret {
+            return
+        }
+        opponent.removeFromPlay(entity: entity, turn: turn)
+        secretsManager?.removeSecret(entity: entity)
+        updateOpponentTracker()
+    }
 
     func opponentSecretTrigger(entity: Entity, cardId: String?, turn: Int, otherId: Int) {
         if !entity.isSecret { return }
