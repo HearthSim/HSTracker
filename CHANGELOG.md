@@ -1,3 +1,10 @@
+# 2.2.3
+## New
+- Added support for patch 24.0.3
+- Added update reminder and notifications for future updates
+## Fixes
+- Fixed an issue where Secrets countered by Blademaster Okami were not handled correctly.
+
 # 2.2.2
 ## Fixes
 - Fixed bug importing deck lists from file
