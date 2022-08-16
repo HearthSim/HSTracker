@@ -223,7 +223,7 @@ class MercenariesTaskList: NSView {
     }
 
     func update() {
-        if _taskData == nil {
+        if _taskData == nil || _taskData?.count == 0 {
             _taskData = MirrorHelper.getMercenariesTaskData()
         }
         
