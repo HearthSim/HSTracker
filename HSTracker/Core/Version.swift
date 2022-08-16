@@ -33,4 +33,14 @@ struct Version {
         }
         return "HSTracker"
     }()
+    
+    static let buildVersion: String = {
+        if let info = Bundle.main.infoDictionary {
+            let appVersion = info["CFBundleShortVersionString"] as? String ?? "Unknown"
+            let appBuild = info[kCFBundleVersionKey as String] as? String ?? "Unknown"
+
+            return "\(appVersion) (\(appBuild))"
+        }
+        return "Unknown"
+    }()
 }

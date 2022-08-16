@@ -14,6 +14,7 @@ import Preferences
 import AppCenter
 import AppCenterAnalytics
 import AppCenterCrashes
+import Sparkle
 
 import OAuthSwift
 
@@ -32,7 +33,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var splashscreen: Splashscreen?
     var initalConfig: InitialConfiguration?
     var deckManager: DeckManager?
-    @IBOutlet weak var sparkleUpdater: SUUpdater!
+    @IBOutlet weak var sparkleUpdater: SPUStandardUpdaterController!
     var operationQueue: OperationQueue!
     
     var dockMenu = NSMenu(title: "DockMenu")
@@ -187,7 +188,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             logger.warning("Failed to obtain bundle resource path")
         }
         
-        Analytics.trackEvent("app_start")
+        Analytics.trackEvent("app_start", withProperties: ["version": Version.buildVersion])
     }
     
     func applicationWillTerminate(_ notification: Notification) {

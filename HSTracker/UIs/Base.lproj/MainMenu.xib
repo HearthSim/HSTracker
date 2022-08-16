@@ -18,7 +18,7 @@
             </connections>
         </customObject>
         <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
-        <customObject id="l75-pu-pNN" customClass="SUUpdater"/>
+        <customObject id="l75-pu-pNN" customClass="SPUStandardUpdaterController"/>
         <menu title="Main Menu" systemMenu="main" id="AYu-sK-qS6">
             <items>
                 <menuItem title="HSTracker" id="1Xt-HY-uBw">
