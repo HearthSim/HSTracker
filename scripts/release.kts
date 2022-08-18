@@ -216,7 +216,7 @@ val releaseCommand = object: CliktCommand(name = "release") {
         // generateAppCast will output some warnings, that's ok at this point
         // Warning: Private key not found in the Keychain (-25300). Please run the generate_keys tool
         // Could not unarchive /Users/martin/git/HSTracker/archive/2019_6_6/options.plist Error Domain=SUSparkleErrorDomain Code=3000 "Not a supported archive format: file:///Users/martin/Library/Caches/Sparkle_generate_appcast/options.plist.tmp/options.plist" UserInfo={NSLocalizedDescription=Not a supported archive format: file:///Users/martin/Library/Caches/Sparkle_generate_appcast/options.plist.tmp/options.plist}
-        CommandLine.executeOrFail(File(hstracker_dir), "$generateAppcast ${hstracker_dir}/dsa_priv.pem $releaseDir")
+        CommandLine.executeOrFail(File(hstracker_dir), "$generateAppcast -f ${hstracker_dir}/dsa_priv.pem $releaseDir")
 
         val hsdecktracker_net_dir = File(KintaEnv.getOrFail("HSTRACKER_HSDECKTRACKER_DIR"))
 
