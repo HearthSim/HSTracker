@@ -71,6 +71,13 @@
 "Hearthstone" = "Hearthstone";
 "Your opponent have conceded" = "상대가 항복했습니다.";
 "It's your turn to play" = "플레이할 차례입니다.";
+"Failed to upload replay: %@" = "리플레이를 업로드하는데 실패하였습니다.: %@";
+"Your collection has been uploaded to HSReplay.net" = "당신의 덱이 HSReplay.net에 업로드 되었습니다.";
+"Failed to upload collection: %@" = "덱을 업로드하는데 실패하였습니다: %@";
+"Your Mercenaries collection has been uploaded to HSReplay.net" = "당신의 용병단 덱이 HSReplay.net에 업로드 되었습니다.";
+"Failed to upload Mercenaries collection: %@" = "용병단 덱을 업로드하는데 실패하였습니다: %@";
+"A new update is available" = "새로운 업데이트가 있습니다.";
+"Version %@ is now available" = "%@ 버전이 현재 사용가능합니다.";
 
 /* classes */
 "shaman" = "주술사";
@@ -129,6 +136,7 @@
 "STORMWIND" = "스톰윈드";
 "ALTERAC_VALLEY" = "알터랙 계곡";
 "THE_SUNKEN_CITY" = "가라앉은 도시";
+"REVENDRETH" = "나스리아 성채 살인 사건";
 
 /* card type */
 "all_types" = "모든 타입";
