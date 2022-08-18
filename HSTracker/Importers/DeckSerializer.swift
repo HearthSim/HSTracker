@@ -102,8 +102,8 @@ class DeckSerializer {
             let dbfId = dbfId ?? (try? read())
             guard let id = dbfId,
                 let card = Cards.by(dbfId: Int(id.toInt64())) else {
-                let cardId = Int(dbfId!.toInt64())
-                logger.error("Can not get card with id \(cardId)")
+                logger.error("Can not get card id for deck string: \(deckString)")
+                Influx.sendSingleEvent(eventName: "DeckSerializer_failed_addCard", withProperties: ["deckString": deckString])
                 return
             }
             logger.verbose("**** got card \(card.id) * \(count)")
