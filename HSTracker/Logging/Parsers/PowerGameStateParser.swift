@@ -9,7 +9,6 @@
  */
 
 import Foundation
-import AppCenterAnalytics
 
 enum DeckLocation: Int {
     case unknown, top, bottom
@@ -43,8 +42,6 @@ class PowerGameStateParser: LogEventParser {
     // MARK: - Entities
 
     private var currentEntityId = 0
-    
-    private var trackedFailure = false
 
     func resetCurrentEntity() {
         currentEntityId = 0
@@ -394,10 +391,7 @@ class PowerGameStateParser: LogEventParser {
                     .first { $0.has(tag: .player_id) && $0[.player_id] == eventHandler.opponent.id }
 
                 guard let actionStartingEntityId = Int(matches[1].value) else {
-                    if !trackedFailure {
-                        trackedFailure = true
-                        Analytics.trackEvent("PowerGameStateParser_invalid_action_entity_id", withProperties: ["line": logLine.line])
-                    }
+                    Influx.sendSingleEvent(eventName: "PowerGameStateParser_invalid_action_entity_id", withProperties: ["line": logLine.line])
                     return
                 }
                 currentBlock?.sourceEntityId = actionStartingEntityId

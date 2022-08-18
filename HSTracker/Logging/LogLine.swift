@@ -9,7 +9,6 @@
 */
 
 import Foundation
-import AppCenterAnalytics
 
 class LogDateFormatter: DateFormatter {
 	
@@ -126,16 +125,11 @@ struct LogLine {
 		return formatter
 	}()
 	
-    static var trackedFailure = false
-    
 	static func DateNoTime(date: Date) -> Date {
         if let result = date.removeTimeStamp {
             return result
         }
-        if !trackedFailure {
-            Analytics.trackEvent("DateNoTime", withProperties: ["date": date.debugDescription])
-            trackedFailure = true
-        }
+        Influx.sendSingleEvent(eventName: "DateNoTime", withProperties: ["date": date.debugDescription])
         return Date()
 	}
 	
