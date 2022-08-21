@@ -142,10 +142,13 @@ struct LoadingScreenHandler: LogEventParser {
             } else {
                 PVPDungeonRunWatcher.stop()
             }
+            
+            if game.previousMode != .gameplay && game.currentMode == .gameplay {
+                coreManager.game.gameStart(at: logLine.time)
+            }
         } else if logLine.line.contains("Gameplay.Start") {
             // uncommenting this line will prevent powerlog reader to work properly
             coreManager.game.reset()
-            coreManager.game.gameStart(at: logLine.time)
         }
     }
 }

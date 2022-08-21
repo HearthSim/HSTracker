@@ -220,7 +220,11 @@ class PowerGameStateParser: LogEventParser {
                         if !cardId.isBlank {
                             guessedLocation = known.1
                             logger.verbose("Found data for entity=\(id): CardId=\(cardId ?? ""), location=\(guessedLocation)")
-                            eventHandler.knownCardIds.removeValue(forKey: blockId)
+                            var v = eventHandler.knownCardIds[blockId]
+                            v?.removeAll(where: { x in
+                                x == known
+                            })
+                            eventHandler.knownCardIds[blockId] = v
                             guessedCardId = true
                         }
                     }

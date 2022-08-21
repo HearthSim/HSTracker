@@ -53,11 +53,11 @@
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>SUAutomaticallyUpdate</key>
-	<true/>
+	<false/>
 	<key>SUEnableAutomaticChecks</key>
 	<true/>
 	<key>SUEnableSystemProfiling</key>
-	<true/>
+	<false/>
 	<key>SUFeedURL</key>
 	<string>https://hsdecktracker.net/hstracker/appcast2.xml</string>
 	<key>SUPublicDSAKeyFile</key>
