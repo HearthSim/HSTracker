@@ -45,6 +45,9 @@ class BattlegroundsFinalBoard: OverWindowController {
             boardMinions[i]?.entity = entity
             boardMinions[i]?.needsDisplay = true
             i += 1
+            if i > 6 {
+                break
+            }
         }
         while i < 7 {
             boardMinions[i]?.entity = nil
