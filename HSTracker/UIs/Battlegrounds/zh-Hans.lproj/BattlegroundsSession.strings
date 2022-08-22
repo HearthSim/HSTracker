@@ -6,19 +6,19 @@
 "5Iv-FD-3EE.title" = "0";
 
 /* Class = "NSTextFieldCell"; title = "No games played this session."; ObjectID = "7m7-Z3-h67"; */
-"7m7-Z3-h67.title" = "No games played this session.";
+"7m7-Z3-h67.title" = "本次游戏期间没有对局记录。";
 
 /* Class = "NSTextFieldCell"; title = "Final"; ObjectID = "ADc-hE-j9S"; */
-"ADc-hE-j9S.title" = "Final";
+"ADc-hE-j9S.title" = "最后阵容";
 
 /* Class = "NSTextFieldCell"; title = "Hero"; ObjectID = "CfC-IE-Is9"; */
-"CfC-IE-Is9.title" = "Hero";
+"CfC-IE-Is9.title" = "英雄";
 
 /* Class = "NSTextFieldCell"; title = "Minions Banned"; ObjectID = "O4Y-sl-bSw"; */
-"O4Y-sl-bSw.title" = "Minions Banned";
+"O4Y-sl-bSw.title" = "禁用随从";
 
 /* Class = "NSWindow"; title = "Window"; ObjectID = "QvC-M9-y7g"; */
-"QvC-M9-y7g.title" = "Window";
+"QvC-M9-y7g.title" = "窗口";
 
 /* Class = "NSTextFieldCell"; title = "0"; ObjectID = "RZG-YG-Lt0"; */
 "RZG-YG-Lt0.title" = "0";
@@ -30,7 +30,7 @@
 "V6f-P8-1Oy.title" = "MMR";
 
 /* Class = "NSTextFieldCell"; title = "Latest Games"; ObjectID = "VL2-Bl-ipX"; */
-"VL2-Bl-ipX.title" = "Latest Games";
+"VL2-Bl-ipX.title" = "最近对局";
 
 /* Class = "NSTextFieldCell"; title = "MMR"; ObjectID = "WXy-qI-nin"; */
 "WXy-qI-nin.title" = "MMR";
@@ -39,7 +39,7 @@
 "aNM-VY-1mc.title" = "Box";
 
 /* Class = "NSTextFieldCell"; title = "Latest 10 games will appear here."; ObjectID = "aq7-wT-9Od"; */
-"aq7-wT-9Od.title" = "Latest 10 games will appear here.";
+"aq7-wT-9Od.title" = "最近10次对局会显示在这里。";
 
 /* Class = "NSBox"; title = "Box"; ObjectID = "c2E-0p-5HV"; */
 "c2E-0p-5HV.title" = "Box";
