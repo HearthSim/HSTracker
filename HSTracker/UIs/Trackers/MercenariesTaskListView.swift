@@ -27,11 +27,17 @@ extension NibLoadable where Self: NSView {
 
     static func createFromNib(owner: NSView, in bundle: Bundle = Bundle.main) -> Self {
         var topLevelArray: NSArray?
-        bundle.loadNibNamed(NSNib.Name(nibName), owner: owner, topLevelObjects: &topLevelArray)
-        let views = [Any](topLevelArray!).filter { $0 is Self }
-        // swiftlint:disable force_cast
-        return views.last as! Self
-        // swiftlint:enable force_cast
+        guard bundle.loadNibNamed(NSNib.Name(nibName), owner: owner, topLevelObjects: &topLevelArray) else {
+            fatalError("Failed to load NIB \(nibName)")
+        }
+        if let topLevelArray = topLevelArray {
+            let views = [Any](topLevelArray).filter { $0 is Self }
+            if let result = views.last as? Self {
+                return result
+            }
+            fatalError("Failed to find view in topLevelArray")
+        }
+        fatalError("Unexpected nil found for topLevelArray")
     }
 }
 
