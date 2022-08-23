@@ -66,7 +66,7 @@
 "PLl-9e-lE5.label" = "导出到炉石传说";
 
 /* Class = "NSToolbarItem"; label = "Export"; ObjectID = "XUQ-ti-e6U"; */
-"XUQ-ti-e6U.label" = "Export";
+"XUQ-ti-e6U.label" = "导出";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Export HS"; ObjectID = "PLl-9e-lE5"; */
 "PLl-9e-lE5.paletteLabel" = "导出到炉石传说";

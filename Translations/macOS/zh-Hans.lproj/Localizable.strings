@@ -61,6 +61,8 @@
 "Connected as %@" = "已连接，帐号为： %@";
 "HSTracker needs elevated privileges to read data from Hearthstone's memory. If macOS asks you for your system password, do not be alarmed, no changes to your computer will be performed." = "HSTracker 需要您的权限以读取炉石传说的数据。若系统要求您输入密码请不必担心，您电脑中的设置不会被改变。";
 "I understand" = "我明白了";
+"Delete cached images" = "删除缓存图像";
+"By clicking 'Delete' all locally cached images will be deleted. This may take a while" = "通过点击“删除”，所有本地缓存的图像都将被删除。这可能需要一些时间";
 
 /* notifications */
 "Your game begins" = "游戏开始";
@@ -68,6 +70,13 @@
 "Hearthstone" = "炉石传说";
 "Your opponent have conceded" = "你的对手投降了";
 "It's your turn to play" = "你的回合";
+"Failed to upload replay: %@" = "上传游戏录像失败: %@";
+"Your collection has been uploaded to HSReplay.net" = "你的卡牌收藏已上传至 HSReplay.net";
+"Failed to upload collection: %@" = "上传卡牌收藏失败: %@";
+"Your Mercenaries collection has been uploaded to HSReplay.net" = "你的佣兵收藏已上传至 HSReplay.net";
+"Failed to upload Mercenaries collection: %@" = "上传佣兵收藏失败: %@";
+"A new update is available" = "发现一个可用更新";
+"Version %@ is now available" = "版本 %@ 现在已可用";
 
 /* classes */
 "shaman" = "萨满";
@@ -126,6 +135,7 @@
 "STORMWIND" = "暴风城下的集结";
 "ALTERAC_VALLEY" = "奥特兰克的决裂";
 "THE_SUNKEN_CITY" = "探寻沉没之城";
+"REVENDRETH" = "纳斯利亚堡的悬案";
 
 /* card type */
 "all_types" = "所有";
@@ -189,11 +199,11 @@
 
 "Vs %@" = "Vs %@";
 "%@ vs %@" = "%@ vs %@";
-"Your replay has been uploaded on HSReplay" = "已将本场对局上传至 HSReplay";
-"View" = "查看本场对局的录像";
-"To export a deck to Hearthstone, create a new deck with the correct class in your collection, then click OK and switch to Hearthstone.\nDo not touch your mouse or keyboard during the import." = "如果想将本卡组导出到炉石传说中, 请创建一个与卡组英雄对应的新卡组, 点 OK , 切换到炉石传说。\n。在导入过程中，请不要按鼠标或键盘。\n警告, 这只是一个测试功能!";
-"The followings cards were missing : " = "以下卡牌缺失 : ";
-"Can't get card collection" = "无法获取你的卡牌, 请确保炉石传说正在运行。";
+"Your replay has been uploaded on HSReplay" = "你的游戏录像已上传至 HSReplay";
+"View" = "查看";
+"To export a deck to Hearthstone, create a new deck with the correct class in your collection, then click OK and switch to Hearthstone.\nDo not touch your mouse or keyboard during the import." = "如果想将本卡组导出到炉石传说中, 请创建一个与卡组英雄对应的新卡组, 然后点击 OK 并切换到炉石传说。\n。在导入过程中，请不要使用鼠标或键盘。\n警告, 这只是一个测试功能!";
+"The followings cards were missing : " = "以下卡牌缺失: ";
+"Can't get card collection" = "无法获取卡牌收藏, 请确保炉石传说正在运行";
 "Deck string has been copied in your clipboard." = "卡组代码已复制到剪贴板中。";
 
 /* Bobs Buddy */
@@ -211,11 +221,12 @@
 "Awaiting Shopping Phase" = "等待随从购买阶段";
 
 /* Battlegrounds */
-"Battlegrounds" = "酒馆战棋";
 "Turn" = "回合";
 "Turns" = "回合";
 "%d turn(s) ago" = "%d 回合以前";
 "You have not fought this opponent" = "你未与这名对手对战过";
+"Turn %d" = "回合 %d";
+"Battlegrounds" = "酒馆战棋";
 
 /* Crashes */
 "HSTracker Crashed" = "HSTracker 崩溃";
@@ -237,3 +248,21 @@
 /* Deck Lens - Dredge */
 "On Top" = "牌库顶";
 "On Bottom" = "牌库底";
+
+/* BG Session Recap */
+"Start" = "起始";
+"Current" = "当前";
+"Resetting current Session" = "重置当前游戏";
+"By clicking 'Reset' you will clear your list of Latest Games and make your Start MMR the same as your current MMR." = "通过点击“重置”，将清除你的最近对局记录，并使起始MMR与当前MMR相同。";
+"Battlegrounds_Game_Ordinal_1" = "第一名";
+"Battlegrounds_Game_Ordinal_2" = "第二名";
+"Battlegrounds_Game_Ordinal_3" = "第三名";
+"Battlegrounds_Game_Ordinal_4" = "第四名";
+"Battlegrounds_Game_Ordinal_5" = "第五名";
+"Battlegrounds_Game_Ordinal_6" = "第六名";
+"Battlegrounds_Game_Ordinal_7" = "第七名";
+"Battlegrounds_Game_Ordinal_8" = "第八名";
+
+/* Buttons */
+"Change" = "更改";
+"Delete" = "删除";
