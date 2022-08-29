@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AppCenterCrashes
 
 protocol MonoClassInitializer {
     static var _class: OpaquePointer? { get }
@@ -303,6 +304,7 @@ class MonoHelper {
             }
             monovm_initialize(1, props, values)
         } catch {
+            Crashes.trackError(error, properties: nil, attachments: nil)
             fatalError(error.localizedDescription)
         }
 
