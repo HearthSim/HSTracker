@@ -19,7 +19,9 @@ class InputProxy: MonoHandle, MonoClassInitializer {
     static var _setPlayerHandSize: OpaquePointer!
     static var _setPlayerHeroPower: OpaquePointer!
     static var _setOpponentHeroPower: OpaquePointer!
-
+    static var _playerQuests: OpaquePointer!
+    static var _opponentQuests: OpaquePointer!
+    
     static var _members = [String: OpaquePointer]()
     
     static func initialize() {
@@ -37,7 +39,7 @@ class InputProxy: MonoHandle, MonoClassInitializer {
             InputProxy._setOpponentHeroPower = MonoHelper.getMethod(InputProxy._class, "SetOpponentHeroPower", 3)
             
             // fields
-            initializeFields(fields: [ "opponentSide", "playerSide", "PlayerSecrets", "OpponentSecrets", "DamageCap", "PlayerHeroPower", "OpponentHeroPower", "PlayerHeroPower" ])
+            initializeFields(fields: [ "opponentSide", "playerSide", "PlayerSecrets", "OpponentSecrets", "DamageCap", "PlayerHeroPower", "OpponentHeroPower", "PlayerHeroPower", "PlayerQuests", "OpponentQuests" ])
         }
     }
     
@@ -146,4 +148,9 @@ class InputProxy: MonoHandle, MonoClassInitializer {
     @MonoHandleField(field: "OpponentSecrets", owner: InputProxy.self)
     var opponentSecrets: MonoHandle
     
+    @MonoHandleField(field: "PlayerQuests", owner: InputProxy.self)
+    var playerQuests: MonoHandle
+
+    @MonoHandleField(field: "OpponentQuests", owner: InputProxy.self)
+    var opponentQuests: MonoHandle
 }

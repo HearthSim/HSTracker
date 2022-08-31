@@ -13,7 +13,7 @@ class MinionFactoryProxy: MonoHandle, MonoClassInitializer {
     internal static var _class: OpaquePointer?
     private static var _classVT: OpaquePointer!
     
-    private static var _getMinionFromCardid: OpaquePointer!
+    private static var _createFromCardid: OpaquePointer!
     private static var _cardIdsWithoutPremiumImplementations: OpaquePointer!
     private static var _cardIdsWithCleave: OpaquePointer!
     private static var _cardIdsWithMegaWindfury: OpaquePointer!
@@ -21,11 +21,11 @@ class MinionFactoryProxy: MonoHandle, MonoClassInitializer {
     static var _members = [String: OpaquePointer]()
     
     static func initialize() {
-        _class = MonoHelper.loadClass(ns: "BobsBuddy", name: "MinionFactory")
+        _class = MonoHelper.loadClass(ns: "BobsBuddy.Factory", name: "MinionFactory")
         
         mono_class_init(_class)
         
-        _getMinionFromCardid = MonoHelper.getMethod(MinionFactoryProxy._class, "GetMinionFromCardid", 2)
+        _createFromCardid = MonoHelper.getMethod(MinionFactoryProxy._class, "CreateFromCardId", 2)
         
         _cardIdsWithoutPremiumImplementations = MonoHelper.getField(_class, "cardIdsWithoutPremiumImplementations")
         _cardIdsWithCleave = MonoHelper.getField(_class, "cardIDsWithCleave")
@@ -38,7 +38,7 @@ class MinionFactoryProxy: MonoHandle, MonoClassInitializer {
         super.init(obj: obj)
     }
     
-    func getMinionFromCardid(id: String, player: Bool) -> MinionProxy {
+    func createFromCardid(id: String, player: Bool) -> MinionProxy {
         let params = UnsafeMutablePointer<OpaquePointer>.allocate(capacity: 2)
         let ptrs = UnsafeMutablePointer<Int32>.allocate(capacity: 1)
         ptrs[0] = player ? 1 : 0
@@ -49,7 +49,7 @@ class MinionFactoryProxy: MonoHandle, MonoClassInitializer {
         })
 
         let res: MinionProxy = params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 2, {
-            let r = mono_runtime_invoke(MinionFactoryProxy._getMinionFromCardid, self.get(), $0, nil)
+            let r = mono_runtime_invoke(MinionFactoryProxy._createFromCardid, self.get(), $0, nil)
             return MinionProxy(obj: r)
         })
         ptrs.deallocate()

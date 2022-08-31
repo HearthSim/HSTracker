@@ -128,6 +128,9 @@ class Entity {
     var isHeroPower: Bool {
         return self[.cardtype] == CardType.hero_power.rawValue
     }
+    var isBgsQuestReward: Bool {
+        return self[.cardtype] == CardType.battleground_quest_reward.rawValue
+    }
     var isPlayableHero: Bool {
         return isHero && card.set != .hero_skins && card.collectible
     }

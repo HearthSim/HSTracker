@@ -135,6 +135,7 @@ final class Player {
     var graveyard: [Entity] { return playerEntities.filter({ $0.isInGraveyard }) }
     var secrets: [Entity] { return playerEntities.filter({ $0.isInSecret && $0.isSecret }) }
     var quests: [Entity] { return playerEntities.filter({ $0.isInSecret && $0.isQuest }) }
+    var questRewards: [Entity] { return playerEntities.filter( { $0.isBgsQuestReward })}
     var setAside: [Entity] { return playerEntities.filter({ $0.isInSetAside }) }
     var entity: Entity? {
         return game.entities.values.filter({ $0[.player_id] == self.id }).first

@@ -266,6 +266,7 @@ class MonoHelper {
                                                             MinionFactoryProxy.self,
                                                             MinionProxy.self,
                                                             OutputProxy.self,
+                                                            QuestDataProxy.self,
                                                             ReplicatingMenace.self,
                                                             SimulatorProxy.self,
                                                             SimulationRunnerProxy.self ]
@@ -389,17 +390,17 @@ class MonoHelper {
             let os = test.opponentSide
             let factory = sim.minionFactory
 
-            MonoHelper.addMinionToList(list: ps, minion: factory.getMinionFromCardid(id: "UNG_073", player: true))
-            MonoHelper.addMinionToList(list: ps, minion: factory.getMinionFromCardid(id: "UNG_073", player: true))
-            MonoHelper.addMinionToList(list: ps, minion: factory.getMinionFromCardid(id: "EX1_506a", player: true))
-            MonoHelper.addMinionToList(list: ps, minion: factory.getMinionFromCardid(id: "EX1_506a", player: true))
+            MonoHelper.addToList(list: ps, element: factory.createFromCardid(id: "UNG_073", player: true))
+            MonoHelper.addToList(list: ps, element: factory.createFromCardid(id: "UNG_073", player: true))
+            MonoHelper.addToList(list: ps, element: factory.createFromCardid(id: "EX1_506a", player: true))
+            MonoHelper.addToList(list: ps, element: factory.createFromCardid(id: "EX1_506a", player: true))
 
-            MonoHelper.addMinionToList(list: os, minion: factory.getMinionFromCardid(id: "UNG_073", player: false))
-            MonoHelper.addMinionToList(list: os, minion: factory.getMinionFromCardid(id: "EX1_506", player: false))
-            let murloc = factory.getMinionFromCardid(id: "EX1_506a", player: false)
+            MonoHelper.addToList(list: ps, element: factory.createFromCardid(id: "UNG_073", player: false))
+            MonoHelper.addToList(list: ps, element: factory.createFromCardid(id: "EX1_506", player: false))
+            let murloc = factory.createFromCardid(id: "EX1_506a", player: false)
             murloc.poisonous = true
             logger.debug("Murloc poisonous property \(murloc.poisonous), name \(murloc.minionName)")
-            MonoHelper.addMinionToList(list: os, minion: murloc)
+            MonoHelper.addToList(list: os, element: murloc)
 
             let playerSecrets = test.playerSecrets
             test.addSecretFromDbfid(id: Int32(Cards.any(byId: "TB_Bacon_Secrets_12")?.dbfId ?? 0), target: playerSecrets)
@@ -763,14 +764,14 @@ class MonoHelper {
         return cstr
     }
 
-    static func addMinionToList(list: MonoHandle, minion: MinionProxy) {
+    static func addToList(list: MonoHandle, element: MonoHandle) {
         let obj = list.get()
         let clazz = mono_object_get_class(obj)
         let method = mono_class_get_method_from_name(clazz, "Add", 1)
         
         let params = UnsafeMutablePointer<UnsafeMutablePointer<MonoObject>>.allocate(capacity: 1)
 
-        params[0] = minion.get()!
+        params[0] = element.get()!
             
         _ = params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 1, {
             mono_runtime_invoke(method, obj, $0, nil)

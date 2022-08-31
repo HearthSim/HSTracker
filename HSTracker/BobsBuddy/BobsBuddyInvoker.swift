@@ -514,7 +514,7 @@ class BobsBuddyInvoker {
     
     static func getMinionFromEntity(minionFactory: MinionFactoryProxy, player: Bool, ent: Entity, attachedEntities: [Entity]) -> MinionProxy {
         let cardId = ent.info.latestCardId
-        let minion = minionFactory.getMinionFromCardid(id: cardId, player: player)
+        let minion = minionFactory.createFromCardid(id: cardId, player: player)
         
         minion.baseAttack = Int32(ent[GameTag.atk])
         minion.baseHealth = Int32(ent[GameTag.health])
@@ -624,6 +624,48 @@ class BobsBuddyInvoker {
         let opponentHeroPower = game.opponent.board.first(where: { $0.isHeroPower })
         
         input.setOpponentHeroPower(heroPowerCardId: opponentHeroPower?.cardId ?? "", isActivated: wasHeroPowerUsed(heroPower: opponentHeroPower), data: Int32(opponentHeroPower?[.tag_script_data_num_1] ?? 0))
+        
+        let playerQuests = input.playerQuests
+        for quest in game.player.quests {
+            let rewardDbfId = quest[.quest_reward_database_id]
+            let reward = Cards.by(dbfId: rewardDbfId, collectible: false)
+            let questData = QuestDataProxy()
+            questData.questProgress = Int32(quest[.quest_progress])
+            questData.questProgressTotal = Int32(quest[.quest_progress_total])
+            questData.questCardId = quest.cardId
+            questData.rewardCardId = reward?.id ?? ""
+            MonoHelper.addToList(list: playerQuests, element: questData)
+        }
+
+        for reward in game.player.questRewards {
+            let questData = QuestDataProxy()
+            questData.questProgress = Int32(0)
+            questData.questProgressTotal = Int32(0)
+            questData.questCardId = ""
+            questData.rewardCardId = reward.cardId
+            MonoHelper.addToList(list: playerQuests, element: questData)
+        }
+
+        let opponentQuests = input.opponentQuests
+        for quest in game.opponent.quests {
+            let rewardDbfId = quest[.quest_reward_database_id]
+            let reward = Cards.by(dbfId: rewardDbfId, collectible: false)
+            let questData = QuestDataProxy()
+            questData.questProgress = Int32(quest[.quest_progress])
+            questData.questProgressTotal = Int32(quest[.quest_progress_total])
+            questData.questCardId = quest.cardId
+            questData.rewardCardId = reward?.id ?? ""
+            MonoHelper.addToList(list: opponentQuests, element: questData)
+        }
+
+        for reward in game.opponent.questRewards {
+            let questData = QuestDataProxy()
+            questData.questProgress = Int32(0)
+            questData.questProgressTotal = Int32(0)
+            questData.questCardId = ""
+            questData.rewardCardId = reward.cardId
+            MonoHelper.addToList(list: opponentQuests, element: questData)
+        }
 
         input.setPlayerHandSize(value: Int32(game.player.handCount))
         
@@ -647,13 +689,13 @@ class BobsBuddyInvoker {
         let playerSide = BobsBuddyInvoker.getOrderedMinions(board: game.player.board).filter { e in e.isControlled(by: game.player.id) }.map { BobsBuddyInvoker.getMinionFromEntity(minionFactory: factory, player: true, ent: $0, attachedEntities: BobsBuddyInvoker.getAttachedEntities(game: game, entityId: $0.id))}
         playerMinions = playerSide
         for m in playerSide {
-            MonoHelper.addMinionToList(list: inputPlayerSide, minion: m)
+            MonoHelper.addToList(list: inputPlayerSide, element: m)
         }
 
         let opponentSide = BobsBuddyInvoker.getOrderedMinions(board: game.opponent.board).filter { e in e.isControlled(by: game.opponent.id) }.map { BobsBuddyInvoker.getMinionFromEntity(minionFactory: factory, player: false, ent: $0, attachedEntities: BobsBuddyInvoker.getAttachedEntities(game: game, entityId: $0.id))}
         opponentMinions = opponentSide
         for m in opponentSide {
-            MonoHelper.addMinionToList(list: inputOpponentSide, minion: m)
+            MonoHelper.addToList(list: inputOpponentSide, element: m)
         }
 
         self.input = input

@@ -409,6 +409,11 @@
 		B823E801275FB89400747CAF /* FlavorText.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88364FB275D746D0094D8E1 /* FlavorText.swift */; };
 		B823E802275FB89900747CAF /* FlavorText.xib in Resources */ = {isa = PBXBuildFile; fileRef = B88364F9275D6FE10094D8E1 /* FlavorText.xib */; };
 		B82AE5F028ADBC55004A8FE0 /* Influx.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82AE5EF28ADBC54004A8FE0 /* Influx.swift */; };
+		B82AE5FD28BE8631004A8FE0 /* BobsBuddy-version.txt in Resources */ = {isa = PBXBuildFile; fileRef = B82AE5F928BE8631004A8FE0 /* BobsBuddy-version.txt */; };
+		B82AE5FE28BE8631004A8FE0 /* cards-version.txt in Resources */ = {isa = PBXBuildFile; fileRef = B82AE5FA28BE8631004A8FE0 /* cards-version.txt */; };
+		B82AE5FF28BE8631004A8FE0 /* HearthMirror-version.txt in Resources */ = {isa = PBXBuildFile; fileRef = B82AE5FB28BE8631004A8FE0 /* HearthMirror-version.txt */; };
+		B82AE60028BE8631004A8FE0 /* mono-version.txt in Resources */ = {isa = PBXBuildFile; fileRef = B82AE5FC28BE8631004A8FE0 /* mono-version.txt */; };
+		B82AE60228BED413004A8FE0 /* QuestDataProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82AE60128BED413004A8FE0 /* QuestDataProxy.swift */; };
 		B82E7B14262A533F00C42EF0 /* MulliganToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E7B13262A533F00C42EF0 /* MulliganToastView.swift */; };
 		B82E7B16262A798000C42EF0 /* ShortIdHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E7B15262A798000C42EF0 /* ShortIdHelper.swift */; };
 		B82E7B19262A88DB00C42EF0 /* BigInt in Frameworks */ = {isa = PBXBuildFile; productRef = B82E7B18262A88DB00C42EF0 /* BigInt */; };
@@ -1010,6 +1015,11 @@
 		B800FCAB273318DA00AFBD51 /* MercenariesTaskListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MercenariesTaskListView.xib; sourceTree = "<group>"; };
 		B81F069C253899FB00F319F1 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		B82AE5EF28ADBC54004A8FE0 /* Influx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Influx.swift; sourceTree = "<group>"; };
+		B82AE5F928BE8631004A8FE0 /* BobsBuddy-version.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "BobsBuddy-version.txt"; sourceTree = "<group>"; };
+		B82AE5FA28BE8631004A8FE0 /* cards-version.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "cards-version.txt"; sourceTree = "<group>"; };
+		B82AE5FB28BE8631004A8FE0 /* HearthMirror-version.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "HearthMirror-version.txt"; sourceTree = "<group>"; };
+		B82AE5FC28BE8631004A8FE0 /* mono-version.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "mono-version.txt"; sourceTree = "<group>"; };
+		B82AE60128BED413004A8FE0 /* QuestDataProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestDataProxy.swift; sourceTree = "<group>"; };
 		B82E7B13262A533F00C42EF0 /* MulliganToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulliganToastView.swift; sourceTree = "<group>"; };
 		B82E7B15262A798000C42EF0 /* ShortIdHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortIdHelper.swift; sourceTree = "<group>"; };
 		B82F4EAA24E3021D00905024 /* MonoHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonoHelper.swift; sourceTree = "<group>"; };
@@ -1569,6 +1579,10 @@
 		439C7E4A1C7772C000D29859 /* HSTracker */ = {
 			isa = PBXGroup;
 			children = (
+				B82AE5F928BE8631004A8FE0 /* BobsBuddy-version.txt */,
+				B82AE5FA28BE8631004A8FE0 /* cards-version.txt */,
+				B82AE5FB28BE8631004A8FE0 /* HearthMirror-version.txt */,
+				B82AE5FC28BE8631004A8FE0 /* mono-version.txt */,
 				B82F4EAC24E3221D00905024 /* BobsBuddy */,
 				B82F4EA924E3020800905024 /* Mono */,
 				5B0AB88C2313083700654A03 /* HSTracker.entitlements */,
@@ -1955,6 +1969,7 @@
 				B8449A052781CB6F0094E5B3 /* GenericDeathrattles.swift */,
 				B86C9EAA27A17B3A00195C0A /* BrukanInvocationDeathrattles.swift */,
 				B836821D27873B40007D5740 /* HeroPowerDataProxy.swift */,
+				B82AE60128BED413004A8FE0 /* QuestDataProxy.swift */,
 			);
 			path = Mono;
 			sourceTree = "<group>";
@@ -2215,6 +2230,7 @@
 				B8BB7ABA28369737008239CA /* BattlegroundsFinalBoard.xib in Resources */,
 				434D1CB41D10947200222B8E /* Statistics.xib in Resources */,
 				4CECFFD723C10C570093253E /* BattlegroundsTierDetailWindowController.xib in Resources */,
+				B82AE60028BE8631004A8FE0 /* mono-version.txt in Resources */,
 				432B5FC21CB5373D00B05D19 /* SaveDeck.xib in Resources */,
 				B864AE3A25A4CC1200793F36 /* ImportingPreferences.xib in Resources */,
 				B8A70C152841494D004D054C /* BattlegroundsTierTriples.xib in Resources */,
@@ -2232,14 +2248,17 @@
 				434106A41C9868620045655A /* Assets.xcassets in Resources */,
 				432B5FB31CB5371C00B05D19 /* PlayerTrackersPreferences.xib in Resources */,
 				B83355AE24F807220025F644 /* BobsBuddyPanel.xib in Resources */,
+				B82AE5FF28BE8631004A8FE0 /* HearthMirror-version.txt in Resources */,
 				432B5FBC1CB5373200B05D19 /* Splashscreen.xib in Resources */,
 				B8AFA4092723306D00B3470E /* BoardOverlay.xib in Resources */,
+				B82AE5FD28BE8631004A8FE0 /* BobsBuddy-version.txt in Resources */,
 				43EECB9A1C7E3F620077AC1B /* DeckCellView.xib in Resources */,
 				B800FCAC273318DA00AFBD51 /* MercenariesTaskListView.xib in Resources */,
 				437B5BC51CD2568E00DE0A41 /* TrackersPreferences.xib in Resources */,
 				4C1923962392DFA5007EBB0F /* BattlegroundsOverlay.xib in Resources */,
 				432B5FCB1CB5375500B05D19 /* DeckManager.xib in Resources */,
 				B8BD8443284AB92700F4F224 /* BattlegroundsSession.xib in Resources */,
+				B82AE5FE28BE8631004A8FE0 /* cards-version.txt in Resources */,
 				C9BDB3D71D20BE9500886A11 /* LadderTab.xib in Resources */,
 				432B5FBF1CB5373500B05D19 /* InitialConfiguration.xib in Resources */,
 				B8795EAC27516DBC00469B6E /* MercenariesTask.xib in Resources */,
@@ -2312,7 +2331,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/HearthMirror-version.txt",
+				"$(SRCROOT)/HSTracker/HearthMirror-version.txt",
 			);
 			name = "Download HearthMirror";
 			outputFileListPaths = (
@@ -2322,7 +2341,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Change SHA1 here to change the version of HearthMirror used by HSTracker\nSHA1=$(cat $SRCROOT/HearthMirror-version.txt)\n\nDIR=\"$SRCROOT/downloaded-frameworks/HearthMirror\"\nVERSION_FILE=\"$DIR/HearthMirror.sha1\"\nZIP_FILE=\"$DIR/HearthMirror.framework.zip\"\nDSYM_ZIP_FILE=\"$DIR/HearthMirror.framework.dSYM.zip\"\n\nif [ \"$(cat $VERSION_FILE)\" != \"$SHA1\"  ]\nthen\n    set -e\n    \n    rm -rf \"$DIR\"\n    mkdir -p \"$DIR\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.zip\" -O \"$ZIP_FILE\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.dSYM.zip\" -O \"$DSYM_ZIP_FILE\"\n    unzip -d \"$DIR\" \"$ZIP_FILE\"\n    unzip -d \"$DIR\" \"$DSYM_ZIP_FILE\"\n    echo \"$SHA1\" > \"$VERSION_FILE\"\nfi\n\n\n\n";
+			shellScript = "# Change SHA1 here to change the version of HearthMirror used by HSTracker\nSHA1=$(cat $SRCROOT/HSTracker/HearthMirror-version.txt)\n\nDIR=\"$SRCROOT/downloaded-frameworks/HearthMirror\"\nVERSION_FILE=\"$DIR/HearthMirror.sha1\"\nZIP_FILE=\"$DIR/HearthMirror.framework.zip\"\nDSYM_ZIP_FILE=\"$DIR/HearthMirror.framework.dSYM.zip\"\n\nif [ \"$(cat $VERSION_FILE)\" != \"$SHA1\"  ]\nthen\n    set -e\n    \n    rm -rf \"$DIR\"\n    mkdir -p \"$DIR\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.zip\" -O \"$ZIP_FILE\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.dSYM.zip\" -O \"$DSYM_ZIP_FILE\"\n    unzip -d \"$DIR\" \"$ZIP_FILE\"\n    unzip -d \"$DIR\" \"$DSYM_ZIP_FILE\"\n    echo \"$SHA1\" > \"$VERSION_FILE\"\nfi\n\n\n\n";
 		};
 		B83355B724F89D1A0025F644 /* Embed Mono */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2352,7 +2371,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/mono-version.txt",
+				"$(SRCROOT)/HSTracker/mono-version.txt",
 			);
 			name = "Download Mono";
 			outputFileListPaths = (
@@ -2362,7 +2381,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nMONO_VERSION=$(cat $SRCROOT/mono-version.txt)\n\nDIR=\"$SRCROOT/downloaded-frameworks/mono\"\nmkdir -p $DIR\n\nwget  \"https://www.nuget.org/api/v2/package/Microsoft.NETCore.App.Runtime.Mono.osx-x64/${MONO_VERSION}\" -P \"$DIR\" -O \"$DIR/mono-${MONO_VERSION}.zip\"\nunzip -n \"$DIR/mono-${MONO_VERSION}.zip\" -d \"$DIR\"\n\nwget \"https://www.nuget.org/api/v2/package/Microsoft.NETCore.App.Runtime.Mono.ios-arm/${MONO_VERSION}\" -P \"$DIR\" -O \"$DIR/mono-${MONO_VERSION}-ios.zip\"\nunzip -n \"$DIR/mono-${MONO_VERSION}-ios.zip\" -d \"$DIR\" \"runtimes/ios-arm/native/include/*\"\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nMONO_VERSION=$(cat $SRCROOT/HSTracker/mono-version.txt)\n\nDIR=\"$SRCROOT/downloaded-frameworks/mono\"\nmkdir -p $DIR\n\nwget  \"https://www.nuget.org/api/v2/package/Microsoft.NETCore.App.Runtime.Mono.osx-x64/${MONO_VERSION}\" -P \"$DIR\" -O \"$DIR/mono-${MONO_VERSION}.zip\"\nunzip -n \"$DIR/mono-${MONO_VERSION}.zip\" -d \"$DIR\"\n\nwget \"https://www.nuget.org/api/v2/package/Microsoft.NETCore.App.Runtime.Mono.ios-arm/${MONO_VERSION}\" -P \"$DIR\" -O \"$DIR/mono-${MONO_VERSION}-ios.zip\"\nunzip -n \"$DIR/mono-${MONO_VERSION}-ios.zip\" -d \"$DIR\" \"runtimes/ios-arm/native/include/*\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B8643D122759872D00B2D708 /* Download enUS cards */ = {
@@ -2391,7 +2410,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/cards-version.txt",
+				"$(SRCROOT)/HSTracker/cards-version.txt",
 			);
 			name = "Download cards JSON";
 			outputFileListPaths = (
@@ -2425,7 +2444,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/BobsBuddy-version.txt",
+				"$(SRCROOT)/HSTracker/BobsBuddy-version.txt",
 			);
 			name = "Download BobsBuddy and HearthDb";
 			outputFileListPaths = (
@@ -2502,6 +2521,7 @@
 				B8A70C17284152DC004D054C /* BattlegroundsTierTriples.swift in Sources */,
 				B836821E27873B40007D5740 /* HeroPowerDataProxy.swift in Sources */,
 				439C7E8B1C777CFC00D29859 /* CardMechanic.swift in Sources */,
+				B82AE60228BED413004A8FE0 /* QuestDataProxy.swift in Sources */,
 				B8D8859A24F4185200F2F0F2 /* BobsBuddyErrorState.swift in Sources */,
 				43B6954D1C9014FA00F4D0AC /* TagChangeActions.swift in Sources */,
 				B8DC11F424EACDB80088A755 /* SimulationRunner.swift in Sources */,
@@ -3564,7 +3584,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/downloaded-frameworks/mono/runtimes/osx-x64/native";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 2.2.3;
+				MARKETING_VERSION = 2.2.4;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = "$(inherited)";
@@ -3609,7 +3629,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/downloaded-frameworks/mono/runtimes/osx-x64/native";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 2.2.3;
+				MARKETING_VERSION = 2.2.4;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = net.hearthsim.hstracker;

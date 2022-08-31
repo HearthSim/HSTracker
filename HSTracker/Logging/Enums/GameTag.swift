@@ -345,6 +345,7 @@ enum GameTag: Int, WrappableEnum, CaseIterable, Codable {
     whizbang_deck_id = 1048,
     shrine = 1057,
     reborn = 1085,
+    quest_reward_database_id = 1089,
     proxy_galakrond = 1190,
     sidequest = 1192,
     mega_windfury = 1207,
