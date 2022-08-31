@@ -3,6 +3,7 @@
 - Added support for patch 24.2
 ## Fixes
 - Prevent crash during log parsing under some rare condition and log it for further analysis
+- Fixed an issue where it was revealed that the opponent was playing Renathal during mulligan.
 **Notes**:
 - There are likely still issues with some new cards in Bob's Buddy. We will update these in the coming days.
 - Tooltips for vaious Battlegrounds cards may still be missing but should start appearing soon.

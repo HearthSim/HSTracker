@@ -210,7 +210,7 @@ class Game: NSObject, PowerEventHandler {
                 }
 				
 				let gameStarted = !self.isInMenu && self.entities.count >= 67
-				tracker.updateCardCounter(deckCount: !gameStarted ? 30 : self.opponent.deckCount,
+                tracker.updateCardCounter(deckCount: !gameStarted || !isMulliganDone() ? 30 - self.opponent.handCount : self.opponent.deckCount,
 				                          handCount: !gameStarted ? 0 : self.opponent.handCount,
 				                          hasCoin: self.opponent.hasCoin,
 				                          gameStarted: gameStarted)
