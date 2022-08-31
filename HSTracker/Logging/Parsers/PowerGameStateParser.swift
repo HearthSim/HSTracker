@@ -114,6 +114,10 @@ class PowerGameStateParser: LogEventParser {
             return
         } else if TagChangeRegex.match(logLine.line) {
             let matches = TagChangeRegex.matches(logLine.line)
+            guard matches.count == 3 else {
+                Influx.sendSingleEvent(eventName: "TagChangeRegex_unexpected_matches", withProperties: ["logline": logLine.line, "matches": "\(matches.count)"])
+                return
+            }
             let rawEntity = matches[0].value
                 .replacingOccurrences(of: "UNKNOWN ENTITY ", with: "")
             let tag = matches[1].value
