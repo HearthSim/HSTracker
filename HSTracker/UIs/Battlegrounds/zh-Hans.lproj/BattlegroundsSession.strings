@@ -9,7 +9,7 @@
 "7m7-Z3-h67.title" = "本次游戏期间没有对局记录。";
 
 /* Class = "NSTextFieldCell"; title = "Final"; ObjectID = "ADc-hE-j9S"; */
-"ADc-hE-j9S.title" = "最后阵容";
+"ADc-hE-j9S.title" = "最终阵容";
 
 /* Class = "NSTextFieldCell"; title = "Hero"; ObjectID = "CfC-IE-Is9"; */
 "CfC-IE-Is9.title" = "英雄";
@@ -67,3 +67,6 @@
 
 /* Class = "NSBox"; title = "Box"; ObjectID = "wKW-hr-OKg"; */
 "wKW-hr-OKg.title" = "Box";
+
+/* Class = "NSTextFieldCell"; title = "Waiting for next game"; ObjectID = "F5K-Qy-jMG"; */
+"F5K-Qy-jMG.title" = "等待对局开始";
