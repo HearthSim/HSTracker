@@ -526,6 +526,7 @@ class BobsBuddyInvoker {
         minion.poisonous = ent.has(tag: GameTag.poisonous)
         minion.windfury = ent.has(tag: GameTag.windfury)
         minion.megaWindfury = ent.has(tag: GameTag.mega_windfury) || cardIdsWithMegaWindfury.contains(cardId)
+        minion.stealth = ent.has(tag: .stealth)
         
         let golden = ent.has(tag: GameTag.premium)
         minion.golden = golden
