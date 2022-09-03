@@ -1,3 +1,7 @@
+# 2.2.5
+## Fixes
+- Fixed various more Bob's Buddy simulation issues related to Hearthstone 24.2.0.
+
 # 2.2.4
 ## New
 - Added support for patch 24.2
