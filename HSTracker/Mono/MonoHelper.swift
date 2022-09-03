@@ -278,8 +278,8 @@ class MonoHelper {
     }
     
     static func load() -> Bool {
-        guard let path = Bundle.main.resourcePath else {
-            logger.debug("Failed to resolve resourcePath")
+        guard let path = Bundle.main.resourceURL else {
+            logger.debug("Failed to resolve resourceURL")
             return false
         }
         // this flag is needed to avoid a deadlock/hang. Haven't found a better alternative
@@ -290,11 +290,8 @@ class MonoHelper {
         //setenv("MONO_LOG_LEVEL", "debug", 1)
         //setenv("MONO_LOG_MASK", "asm,dll", 1)
 
-        let managedDir = path + "/Resources/Managed"
-
-        do {
-            let files = try FileManager.default.contentsOfDirectory(atPath: managedDir)
-            let libs = files.filter { x in x.hasSuffix(".dll") }.compactMap { x in "\(managedDir)/\(x)" }
+        if let files = Bundle.main.urls(forResourcesWithExtension: "dll", subdirectory: "Resources/Managed") {
+            let libs = files.compactMap { x in x.path }
             let props = UnsafeMutablePointer<UnsafePointer<CChar>?>.allocate(capacity: 1)
             "TRUSTED_PLATFORM_ASSEMBLIES".withCString {
                 props.pointee = $0
@@ -304,9 +301,9 @@ class MonoHelper {
                 values.pointee = $0
             }
             monovm_initialize(1, props, values)
-        } catch {
-            Crashes.trackError(error, properties: nil, attachments: nil)
-            fatalError(error.localizedDescription)
+        } else {
+            logger.debug("Failed to resolve urls for managed assemblies")
+            return false
         }
 
         if let version = mono_get_runtime_build_info() {
@@ -321,7 +318,7 @@ class MonoHelper {
         }
         //mono_jit_set_trace_options("BobsBuddy")
             
-        MonoHelper._assembly = mono_domain_assembly_open(mono, path + "/Resources/Managed/BobsBuddy.dll")
+        MonoHelper._assembly = mono_domain_assembly_open(mono, path.path + "/Resources/Managed/BobsBuddy.dll")
         
         if let ass = MonoHelper._assembly {
             _assembly = ass
