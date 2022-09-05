@@ -254,14 +254,14 @@
 "Current" = "当前";
 "Resetting current Session" = "重置当前游戏";
 "By clicking 'Reset' you will clear your list of Latest Games and make your Start MMR the same as your current MMR." = "通过点击“重置”，将清除你的最近对局记录，并使起始MMR与当前MMR相同。";
-"Battlegrounds_Game_Ordinal_1" = "第一名";
-"Battlegrounds_Game_Ordinal_2" = "第二名";
-"Battlegrounds_Game_Ordinal_3" = "第三名";
-"Battlegrounds_Game_Ordinal_4" = "第四名";
-"Battlegrounds_Game_Ordinal_5" = "第五名";
-"Battlegrounds_Game_Ordinal_6" = "第六名";
-"Battlegrounds_Game_Ordinal_7" = "第七名";
-"Battlegrounds_Game_Ordinal_8" = "第八名";
+"Battlegrounds_Game_Ordinal_1" = "一";
+"Battlegrounds_Game_Ordinal_2" = "二";
+"Battlegrounds_Game_Ordinal_3" = "三";
+"Battlegrounds_Game_Ordinal_4" = "四";
+"Battlegrounds_Game_Ordinal_5" = "五";
+"Battlegrounds_Game_Ordinal_6" = "六";
+"Battlegrounds_Game_Ordinal_7" = "七";
+"Battlegrounds_Game_Ordinal_8" = "八";
 
 /* Buttons */
 "Change" = "更改";
