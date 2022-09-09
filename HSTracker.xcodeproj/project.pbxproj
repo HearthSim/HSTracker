@@ -406,6 +406,7 @@
 		B800FCA62732AA9100AFBD51 /* MercenariesTaskListButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B800FCA52732AA9100AFBD51 /* MercenariesTaskListButton.swift */; };
 		B800FCAA2732FABD00AFBD51 /* MercenariesTaskListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B800FCA92732FABD00AFBD51 /* MercenariesTaskListView.swift */; };
 		B800FCAC273318DA00AFBD51 /* MercenariesTaskListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B800FCAB273318DA00AFBD51 /* MercenariesTaskListView.xib */; };
+		B8074B0228C83A96006E0133 /* RewardTrackType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8074B0128C83A96006E0133 /* RewardTrackType.swift */; };
 		B823E801275FB89400747CAF /* FlavorText.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88364FB275D746D0094D8E1 /* FlavorText.swift */; };
 		B823E802275FB89900747CAF /* FlavorText.xib in Resources */ = {isa = PBXBuildFile; fileRef = B88364F9275D6FE10094D8E1 /* FlavorText.xib */; };
 		B82AE5F028ADBC55004A8FE0 /* Influx.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82AE5EF28ADBC54004A8FE0 /* Influx.swift */; };
@@ -1013,6 +1014,7 @@
 		B800FCA52732AA9100AFBD51 /* MercenariesTaskListButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MercenariesTaskListButton.swift; sourceTree = "<group>"; };
 		B800FCA92732FABD00AFBD51 /* MercenariesTaskListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MercenariesTaskListView.swift; sourceTree = "<group>"; };
 		B800FCAB273318DA00AFBD51 /* MercenariesTaskListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MercenariesTaskListView.xib; sourceTree = "<group>"; };
+		B8074B0128C83A96006E0133 /* RewardTrackType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardTrackType.swift; sourceTree = "<group>"; };
 		B81F069C253899FB00F319F1 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		B82AE5EF28ADBC54004A8FE0 /* Influx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Influx.swift; sourceTree = "<group>"; };
 		B82AE5F928BE8631004A8FE0 /* BobsBuddy-version.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "BobsBuddy-version.txt"; sourceTree = "<group>"; };
@@ -1725,6 +1727,7 @@
 				439C7E9F1C777F8900D29859 /* Zone.swift */,
 				B864AE262597DD9400793F36 /* GameSaveKeyId.swift */,
 				B864AE282599359400793F36 /* DeckType.swift */,
+				B8074B0128C83A96006E0133 /* RewardTrackType.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -2656,6 +2659,7 @@
 				43BDF0BC1DB7FB040081964A /* OverWindowController.swift in Sources */,
 				439C7EB91C777F8900D29859 /* GameResult.swift in Sources */,
 				436F5D121CFD7E7500DEB9A1 /* DarkBar.swift in Sources */,
+				B8074B0228C83A96006E0133 /* RewardTrackType.swift in Sources */,
 				B8AFA40B2723310700B3470E /* BoardOverlay.swift in Sources */,
 				43C9EF291E9C1DED00D17F2A /* ArenaHelperSync.swift in Sources */,
 				B8AF9330282D4A7C00864934 /* BattlegroundsSession.swift in Sources */,
@@ -3584,7 +3588,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/downloaded-frameworks/mono/runtimes/osx-x64/native";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 2.2.5;
+				MARKETING_VERSION = 2.2.6;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = "$(inherited)";
@@ -3629,7 +3633,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/downloaded-frameworks/mono/runtimes/osx-x64/native";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 2.2.5;
+				MARKETING_VERSION = 2.2.6;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = net.hearthsim.hstracker;

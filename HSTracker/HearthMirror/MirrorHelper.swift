@@ -308,7 +308,7 @@ struct MirrorHelper {
     static func getRewardTrackData() -> MirrorRewardTrackData? {
         var result: MirrorRewardTrackData?
         MirrorHelper.accessQueue.sync {
-            result = mirror?.getRewardTrackData()
+            result = mirror?.getRewardTrackData(Int32(RewardTrackType.global.rawValue))
         }
         return result
     }

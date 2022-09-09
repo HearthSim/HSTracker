@@ -1,3 +1,10 @@
+# 2.2.6
+## New
+- Updated for patch 24.2.2
+- Updated zh-Hans translations (thanks @moonfruit)
+## Fixes
+- Fixes varios Bob's Buddy simulation issues, specially due to quest rewards not being tracked correctly
+
 # 2.2.5
 ## Fixes
 - Fixed various more Bob's Buddy simulation issues related to Hearthstone 24.2.0.
