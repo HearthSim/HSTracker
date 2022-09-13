@@ -36,7 +36,9 @@ HSTracker is an automatic deck tracker and deck manager for Hearthstone on macOS
 
 ### Updated Features
 -Wild and standard format cards supported through most recent expansion (Murder at Castle Nathria)
+
 -View cards in your deck or that your opponent has played by hovering over them in the overlay.
+
 -Card collection manager.
 
 -Abyssal curse support keeps track of how many curses have been played.
@@ -48,8 +50,11 @@ HSTracker is an automatic deck tracker and deck manager for Hearthstone on macOS
 -Secret tracker dynamically displays potential enemy secrets based on format and secret trigger conditions.
 
 -Battlegrounds support
+
 	Hovering an opponent in the sidebar displays their last known board state.
+	
 -Battlegrounds session recap overlay
+
 	Shows banned minions, start & current MMR or current MMR and change, latest 10 games and the final board.
 
 -arena tier list generated through hs replay
