@@ -40,8 +40,11 @@ HSTracker is an automatic deck tracker and deck manager for Hearthstone on macOS
 -Card collection manager.
 
 -Abyssal curse support keeps track of how many curses have been played.
+
 -Libram counter keeps track of how many librams have been played.
+
 -Jade counter keeps track of jade golem size.
+
 -Secret tracker dynamically displays potential enemy secrets based on format and secret trigger conditions.
 
 -Battlegrounds support
@@ -50,9 +53,13 @@ HSTracker is an automatic deck tracker and deck manager for Hearthstone on macOS
 	Shows banned minions, start & current MMR or current MMR and change, latest 10 games and the final board.
 
 -arena tier list generated through hs replay
+
 -mercenaries tasks overlay
+
 -book of mercenaries support
+
 -Duels support
+
 -Dungeon run support
 
 ### HSReplay.net Integration
