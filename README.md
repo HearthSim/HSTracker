@@ -51,11 +51,11 @@ HSTracker is an automatic deck tracker and deck manager for Hearthstone on macOS
 
 -Battlegrounds support
 
-	Hovering an opponent in the sidebar displays their last known board state.
+Hovering over an opponent in the sidebar displays their last known board state.
 	
 -Battlegrounds session recap overlay
 
-	Shows banned minions, start & current MMR or current MMR and change, latest 10 games and the final board.
+Shows banned minions, start & current MMR or current MMR and change, latest 10 games and the final board.
 
 -arena tier list generated through hs replay
 
