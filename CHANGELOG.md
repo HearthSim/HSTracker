@@ -1,3 +1,7 @@
+# 2.2.7
+## New
+- Updated for patch 24.4
+
 # 2.2.6
 ## New
 - Updated for patch 24.2.2
