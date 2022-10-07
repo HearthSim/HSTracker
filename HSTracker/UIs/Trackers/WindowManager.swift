@@ -38,6 +38,10 @@ class WindowManager {
         $0.playerType = .opponent
         return $0
     }(Tracker(windowNibName: "Tracker"))
+    
+    var linkOpponentDeckPanel: LinkOpponentDeckPanel = {
+        return $0
+    }(LinkOpponentDeckPanel(windowNibName: "LinkOpponentDeckPanel"))
 
     var secretTracker: CardList = {
         return $0

@@ -64,6 +64,11 @@
 "Delete cached images" = "Delete cached images";
 "By clicking 'Delete' all locally cached images will be deleted. This may take a while" = "By clicking 'Delete' all locally cached images will be deleted. This may take a while";
 
+/* Link Opponent Deck Panel */
+"LinkOpponentDeck_Dismiss" = "Dismiss";
+"LinkOpponentDeck_Clear" = "Clear";
+"LinkOpponentDeck_NoValidDeckOnClipboardMessage" = "No valid deck code found on clipboard";
+
 /* notifications */
 "Your game begins" = "Your game begins";
 "Victory" = "Victory";

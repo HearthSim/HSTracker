@@ -44,6 +44,10 @@ class DeckSerializer {
                 cards = _cards
             }
         }
+        
+        if deckName == nil {
+            deckName = "Imported Deck"
+        }
 
         guard let _deckName = deckName,
             let _playerClass = playerClass,

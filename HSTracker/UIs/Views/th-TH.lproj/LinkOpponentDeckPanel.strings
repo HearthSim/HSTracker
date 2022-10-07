@@ -1,0 +1,18 @@
+
+/* Class = "NSTextFieldCell"; title = "Error"; ObjectID = "4gN-Ez-53m"; */
+"4gN-Ez-53m.title" = "Error";
+
+/* Class = "NSWindow"; title = "Window"; ObjectID = "CFL-xR-KgF"; */
+"CFL-xR-KgF.title" = "Window";
+
+/* Class = "NSTextFieldCell"; title = "Copy a deck code to your clipboard and click the button below to see their deck update as they play"; ObjectID = "EeO-25-kGw"; */
+"EeO-25-kGw.title" = "Copy a deck code to your clipboard and click the button below to see their deck update as they play";
+
+/* Class = "NSButtonCell"; title = "Clear"; ObjectID = "lWR-k8-nsx"; */
+"lWR-k8-nsx.title" = "Clear";
+
+/* Class = "NSButtonCell"; title = "Set deck from clipboard"; ObjectID = "ogh-3B-QHX"; */
+"ogh-3B-QHX.title" = "Set deck from clipboard";
+
+/* Class = "NSTextFieldCell"; title = "Know your opponent's deck?"; ObjectID = "rp4-Z9-eiC"; */
+"rp4-Z9-eiC.title" = "Know your opponent's deck?";

@@ -30,6 +30,8 @@ class Tracker: OverWindowController {
 
     private var hero: CardBar?
     private var heroCard: Card?
+    
+    var bottomY = CGFloat(0.0)
 
     var hasValidFrame = false
     
@@ -58,6 +60,14 @@ class Tracker: OverWindowController {
     var recordTrackerMessage: String = ""
     var observer: NSObjectProtocol?
     
+    private func getTrackingArea() -> NSTrackingArea {
+        let frame = window?.frame ?? NSRect.zero
+        return NSTrackingArea(rect: NSRect(x: frame.minX, y: bottomY, width: frame.width, height: frame.maxY - bottomY),
+                              options: [.activeAlways, .mouseEnteredAndExited],
+                              owner: self,
+                              userInfo: nil)
+    }
+
     override func windowDidLoad() {
         super.windowDidLoad()
 
@@ -76,12 +86,29 @@ class Tracker: OverWindowController {
         playerTop.setLabel(label: NSLocalizedString("On Top", comment: ""))
         playerBottom.setLabel(label: NSLocalizedString("On Bottom", comment: ""))
         setOpacity()
+        
+        if playerType == .opponent {
+            window?.contentView?.addTrackingArea(getTrackingArea())
+        }
     }
     
     deinit {
         if let observer = self.observer {
             NotificationCenter.default.removeObserver(observer)
         }
+    }
+    
+    override func mouseEntered(with event: NSEvent) {
+        logger.debug("ME: \(window?.mouseLocationOutsideOfEventStream ?? CGPoint(x: 0, y: 0)), bottom Y \(bottomY)")
+        if window?.mouseLocationOutsideOfEventStream.y ?? 0 >= bottomY {
+            AppDelegate.instance().coreManager.game.windowManager.linkOpponentDeckPanel.showByOpponentStack()
+        }
+    }
+
+    override func mouseExited(with event: NSEvent) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
+            AppDelegate.instance().coreManager.game.windowManager.linkOpponentDeckPanel.hideByOpponentStack()
+        })
     }
 
     func isLoaded() -> Bool {
@@ -450,6 +477,14 @@ class Tracker: OverWindowController {
                                        y: y,
                                        width: windowWidth,
                                        height: smallFrameHeight)
+        }
+        
+        bottomY = y
+        if playerType == .opponent, let cv = window?.contentView {
+            for ta in cv.trackingAreas {
+                cv.removeTrackingArea(ta)
+            }
+            cv.addTrackingArea(getTrackingArea())
         }
     }
 

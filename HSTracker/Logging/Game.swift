@@ -263,9 +263,10 @@ class Game: NSObject, PowerEventHandler {
                 self.windowManager.show(controller: tracker, show: true,
                                         frame: rect, title: "Opponent tracker",
                                         overlay: self.hearthstoneRunState.isActive)
-			} else {
-				self.windowManager.show(controller: tracker, show: false)
-			}
+            } else {
+                self.windowManager.show(controller: tracker, show: false)
+                self.windowManager.show(controller: self.windowManager.linkOpponentDeckPanel, show: false)
+            }
 		}
 	}
     
@@ -1511,6 +1512,15 @@ class Game: NSObject, PowerEventHandler {
         Analytics.trackEvent("match_start", withProperties: ["gameMode": "\(self.currentGameMode)",
                                                              "gameType": "\(self.currentGameType)",
                                                              "spectator": "\(self.spectator)"])
+        
+        windowManager.linkOpponentDeckPanel.isFriendlyMatch = isFriendlyMatch
+        
+        if isFriendlyMatch {
+            if !Settings.interactedWithLinkOpponentDeck {
+                windowManager.linkOpponentDeckPanel.autoShown = true
+                windowManager.linkOpponentDeckPanel.show()
+            }
+        }
     }
 
     private func adventureRestart() {
@@ -1934,6 +1944,8 @@ class Game: NSObject, PowerEventHandler {
         return currentGameType == .gt_battlegrounds || currentGameType == .gt_battlegrounds_friendly
         //return true
     }
+    
+    var isFriendlyMatch: Bool { return currentGameType == .gt_vs_friend }
     
     func isAnyBattlegroundsSessionSettingActive() -> Bool {
         return Settings.showBannedTribes || Settings.showMMR || Settings.showLatestGames

@@ -337,6 +337,10 @@ final class Settings {
     static var showPlayerLibramCounter: Bool
     @UserDefault(key: Settings.opponent_libram_counter, defaultValue: true)
     static var showOpponentLibramCounter: Bool
+    @UserDefault(key: Settings.interacted_with_link_opponentDeck, defaultValue: false)
+    static var interactedWithLinkOpponentDeck: Bool
+    @UserDefault(key: Settings.enable_link_opponent_deck, defaultValue: false)
+    static var enableLinkOpponentDeckInNonFriendly: Bool
 
     @UserDefaultCustom(key: Settings.timer_hud_frame, defaultValue: nil)
     static var timerHudFrame: NSRect?
@@ -581,6 +585,8 @@ extension Settings {
     static let opponent_jade_frame = "opponent_jade_frame"
     static let opponent_libram_counter = "opponent_libram_counter"
     static let opponent_abyssal_counter = "opponent_abyssal_counter"
+    static let interacted_with_link_opponentDeck = "interacted_with_link_opponentDeck"
+    static let enable_link_opponent_deck = "enable_link_opponent_deck"
 
     static let remove_cards_from_deck = "remove_cards_from_deck"
     static let highlight_last_drawn = "highlight_last_drawn"

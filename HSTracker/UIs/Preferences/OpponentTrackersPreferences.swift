@@ -34,6 +34,7 @@ class OpponentTrackersPreferences: NSViewController, PreferencePane {
     @IBOutlet weak var showGalakrondInvokeCounter: NSButton!
     @IBOutlet weak var showLibramCounter: NSButton!
     @IBOutlet weak var showAbyssalCounter: NSButton!
+    @IBOutlet weak var enableLinkOpponentDeckInNonFriendly: NSButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,6 +57,7 @@ class OpponentTrackersPreferences: NSViewController, PreferencePane {
         showGalakrondInvokeCounter.state = Settings.showOpponentGalakrondCounter ? .on : .off
         showLibramCounter.state = Settings.showOpponentLibramCounter ? .on : .off
         showAbyssalCounter.state = Settings.showOpponentAbyssalCounter ? .on : .off
+        enableLinkOpponentDeckInNonFriendly.state = Settings.enableLinkOpponentDeckInNonFriendly ? .on : .off
     }
 
     @IBAction func checkboxClicked(_ sender: NSButton) {
@@ -100,6 +102,8 @@ class OpponentTrackersPreferences: NSViewController, PreferencePane {
             Settings.showOpponentLibramCounter = showLibramCounter.state == .on
         } else if sender == showAbyssalCounter {
             Settings.showOpponentAbyssalCounter = showAbyssalCounter.state == .on
+        } else if sender == enableLinkOpponentDeckInNonFriendly {
+            Settings.enableLinkOpponentDeckInNonFriendly = enableLinkOpponentDeckInNonFriendly.state == .on
         }
     }
 }
