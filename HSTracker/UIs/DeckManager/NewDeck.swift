@@ -22,7 +22,6 @@ class NewDeck: NSWindowController, NSControlTextEditingDelegate {
     @IBOutlet weak var fromAFile: NSButton!
     @IBOutlet weak var fromDeckString: NSButton!
     @IBOutlet weak var classesPopUpMenu: NSPopUpButton!
-    @IBOutlet weak var deckString: NSTextField!
     @IBOutlet weak var chooseFile: NSButton!
     @IBOutlet weak var okButton: NSButton!
     @IBOutlet weak var arenaDeck: NSButton!
@@ -44,7 +43,7 @@ class NewDeck: NSWindowController, NSControlTextEditingDelegate {
         return [
             hstrackerDeckBuilder: [classesPopUpMenu, arenaDeck],
             fromAFile: [chooseFile],
-            fromDeckString: [deckString]
+            fromDeckString: []
         ]
     }
 
@@ -83,29 +82,22 @@ class NewDeck: NSWindowController, NSControlTextEditingDelegate {
         } else if fromAFile.state == .on {
             // add here to remember this case exists
         } else if fromDeckString.state == .on {
-            let string = deckString.stringValue
-
-            let deck = Deck()
-            let cards: [Card]?
-            if let serializedDeck = DeckSerializer.deserialize(input: string) {
+            if let serializedDeck = ClipboardImporter.clipboardImport() {
+                let deck = Deck()
+                let cards: [Card]?
                 deck.playerClass = serializedDeck.playerClass
                 deck.name = serializedDeck.name
                 cards = serializedDeck.cards
-            } else if let (cardClass, _cards) = DeckSerializer.deserializeDeckString(deckString: string) {
-                deck.playerClass = cardClass
-                deck.name = "Imported deck"
-                cards = _cards
+                
+                if let _cards = cards {
+                    RealmHelper.add(deck: deck, with: _cards)
+                    self._addDeck(deck)
+                }
             } else {
-                let msg = NSLocalizedString("Failed to import deck from \n", comment: "")
-                    + string
+                let msg = NSLocalizedString("Failed to import deck from the Clipboard", comment: "")
                 NSAlert.show(style: .critical,
                              message: msg)
                 return
-            }
-
-            if let _cards = cards {
-                RealmHelper.add(deck: deck, with: _cards)
-                self._addDeck(deck)
             }
         }
     }
@@ -145,7 +137,7 @@ class NewDeck: NSWindowController, NSControlTextEditingDelegate {
     func checkToEnableSave() {
         okButton.isEnabled =
             hstrackerDeckBuilder.state == .on
-        || fromDeckString.state == .on && !deckString.stringValue.isEmpty
+        || fromDeckString.state == .on
         // notice that there's no statement needed to disable OK "fromAFile.state != .on"
     }
 

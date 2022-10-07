@@ -11,7 +11,6 @@
                 <outlet property="arenaDeck" destination="Hi4-1P-a8c" id="hZ9-K0-N9b"/>
                 <outlet property="chooseFile" destination="zId-Z2-sHp" id="E6R-75-GeI"/>
                 <outlet property="classesPopUpMenu" destination="Mqd-Tw-L0d" id="p2M-Y2-CZi"/>
-                <outlet property="deckString" destination="WXd-YG-Dns" id="fio-fr-Qla"/>
                 <outlet property="fromAFile" destination="cZL-u5-ElV" id="wUb-CF-zQY"/>
                 <outlet property="fromDeckString" destination="CZt-Rl-BuG" id="lgu-wk-gMA"/>
                 <outlet property="hstrackerDeckBuilder" destination="HQy-Fh-m0E" id="FCQ-mJ-rDj"/>
@@ -57,8 +56,8 @@
                         </buttonCell>
                     </button>
                     <button horizontalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="CZt-Rl-BuG">
-                        <rect key="frame" x="18" y="96" width="206" height="18"/>
-                        <buttonCell key="cell" type="radio" title="From deckstring" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="OSn-2r-6E8">
+                        <rect key="frame" x="18" y="96" width="452" height="18"/>
+                        <buttonCell key="cell" type="radio" title="From the Clipboard" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="OSn-2r-6E8">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
@@ -66,20 +65,6 @@
                             <action selector="radioChange:" target="-2" id="iPS-py-YL3"/>
                         </connections>
                     </button>
-                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WXd-YG-Dns">
-                        <rect key="frame" x="244" y="95" width="220" height="21"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="220" id="fLo-5T-l9d"/>
-                        </constraints>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" enabled="NO" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="CWX-il-PNX">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                        <connections>
-                            <outlet property="delegate" destination="-2" id="H28-W8-39w"/>
-                        </connections>
-                    </textField>
                     <button horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zId-Z2-sHp">
                         <rect key="frame" x="375" y="47" width="102" height="32"/>
                         <buttonCell key="cell" type="push" title="Choose file" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="xPi-Gg-ebR">
@@ -143,15 +128,13 @@ Gw
                     <constraint firstItem="Mqd-Tw-L0d" firstAttribute="leading" secondItem="HQy-Fh-m0E" secondAttribute="trailing" constant="20" id="BwZ-dN-6fn"/>
                     <constraint firstItem="Hi4-1P-a8c" firstAttribute="trailing" secondItem="Mqd-Tw-L0d" secondAttribute="trailing" constant="-80" id="Few-SK-bAy"/>
                     <constraint firstItem="cZL-u5-ElV" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="G3x-hd-0jO"/>
-                    <constraint firstItem="cZL-u5-ElV" firstAttribute="top" secondItem="WXd-YG-Dns" secondAttribute="bottom" constant="23" id="IDb-Nl-6Dg"/>
                     <constraint firstItem="CZt-Rl-BuG" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="IHR-rW-1u2"/>
                     <constraint firstItem="YM1-PJ-coX" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="ItC-de-k6z"/>
                     <constraint firstAttribute="trailing" secondItem="5rB-EX-IcR" secondAttribute="trailing" constant="20" id="JXa-dK-mbl"/>
-                    <constraint firstItem="WXd-YG-Dns" firstAttribute="centerY" secondItem="CZt-Rl-BuG" secondAttribute="centerY" id="JxB-cE-dJG"/>
                     <constraint firstItem="HQy-Fh-m0E" firstAttribute="top" secondItem="YM1-PJ-coX" secondAttribute="bottom" constant="20" id="Ltl-zQ-xMI"/>
                     <constraint firstItem="CZt-Rl-BuG" firstAttribute="top" secondItem="Hi4-1P-a8c" secondAttribute="bottom" constant="8" symbolic="YES" id="Nnt-1l-QP5"/>
-                    <constraint firstItem="WXd-YG-Dns" firstAttribute="leading" secondItem="CZt-Rl-BuG" secondAttribute="trailing" constant="20" id="OgI-5W-lDm"/>
                     <constraint firstAttribute="trailing" secondItem="YM1-PJ-coX" secondAttribute="trailing" constant="20" id="PpV-mm-l2l"/>
+                    <constraint firstAttribute="trailing" secondItem="CZt-Rl-BuG" secondAttribute="trailing" constant="20" id="SMU-zU-1bM"/>
                     <constraint firstAttribute="bottom" secondItem="5rB-EX-IcR" secondAttribute="bottom" constant="20" id="Wfz-He-sc7"/>
                     <constraint firstItem="kOn-oh-tpj" firstAttribute="centerY" secondItem="5rB-EX-IcR" secondAttribute="centerY" id="ZCH-VK-dn4"/>
                     <constraint firstItem="kOn-oh-tpj" firstAttribute="leading" secondItem="AnM-ox-JdV" secondAttribute="trailing" constant="10" id="ZkX-Ly-vR4"/>
@@ -163,7 +146,7 @@ Gw
                     <constraint firstItem="YM1-PJ-coX" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="10" id="sTh-38-q2F"/>
                     <constraint firstItem="Hi4-1P-a8c" firstAttribute="top" secondItem="Mqd-Tw-L0d" secondAttribute="bottom" constant="9" id="tS6-3a-VgW"/>
                     <constraint firstAttribute="trailing" secondItem="Mqd-Tw-L0d" secondAttribute="trailing" constant="20" id="u1G-1E-1sP"/>
-                    <constraint firstItem="WXd-YG-Dns" firstAttribute="leading" secondItem="Mqd-Tw-L0d" secondAttribute="leading" id="x9G-DO-oug"/>
+                    <constraint firstItem="cZL-u5-ElV" firstAttribute="top" secondItem="CZt-Rl-BuG" secondAttribute="bottom" constant="25" id="uJN-nn-nN0"/>
                     <constraint firstItem="Hi4-1P-a8c" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="75" id="y5x-PG-D5g"/>
                     <constraint firstItem="zId-Z2-sHp" firstAttribute="leading" secondItem="cZL-u5-ElV" secondAttribute="trailing" constant="10" id="yWj-iN-yvF"/>
                 </constraints>
