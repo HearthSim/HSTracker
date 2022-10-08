@@ -13,6 +13,7 @@ class SecretsManager {
     let multipleSecretResolveDelay = 750.0 / 1000.0
     private var _avengeDeathRattleCount = 0
     private var _awaitingAvenge = false
+    private var _lastStartOfTurnCheck = 0
     private var _lastStartOfTurnDamageCheck = 0
     private var _lastStartOfTurnMinionCheck = 0
 
@@ -69,6 +70,7 @@ class SecretsManager {
     func reset() {
         _avengeDeathRattleCount = 0
         _awaitingAvenge = false
+        _lastStartOfTurnCheck = 0
         _lastStartOfTurnDamageCheck = 0
         _lastStartOfTurnMinionCheck = 0
         opponentTookDamageDuringTurns.removeAll()
@@ -300,6 +302,8 @@ class SecretsManager {
             exclude.append(CardIds.Secrets.Hunter.Snipe)
             saveSecret(secret: CardIds.Secrets.Mage.ExplosiveRunes)
             exclude.append(CardIds.Secrets.Mage.ExplosiveRunes)
+            saveSecret(secret: CardIds.Secrets.Mage.Objection)
+            exclude.append(CardIds.Secrets.Mage.Objection)
             saveSecret(secret: CardIds.Secrets.Mage.PotionOfPolymorph)
             exclude.append(CardIds.Secrets.Mage.PotionOfPolymorph)
             saveSecret(secret: CardIds.Secrets.Paladin.Repentance)
@@ -455,6 +459,11 @@ class SecretsManager {
 
         let isCurrentPlayer = game.opponentEntity?.isCurrentPlayer ?? false
         
+        if isCurrentPlayer && (turn > _lastStartOfTurnCheck) {
+            _lastStartOfTurnCheck = turn
+            exclude(cardId: CardIds.Secrets.Rogue.Perjury)
+        }
+        
         if isCurrentPlayer && (turn > _lastStartOfTurnMinionCheck) {
             if entity.isMinion && entity.isControlled(by: game.opponent.id) {
                 _lastStartOfTurnMinionCheck = turn
@@ -500,17 +509,14 @@ class SecretsManager {
 
         var exclude: [MultiIdCard] = []
         
-        if freeSpaceOnBoard {
-            if let player = game.playerEntity, player.has(tag: .num_cards_played_this_turn) &&
-                (player[.num_cards_played_this_turn] >= 3) {
+        if let player = game.playerEntity, player.has(tag: .num_cards_played_this_turn) && (player[.num_cards_played_this_turn] >= 3) {
+            exclude.append(CardIds.Secrets.Hunter.MotionDenied)
+            if freeSpaceOnBoard {
                 exclude.append(CardIds.Secrets.Hunter.RatTrap)
                 exclude.append(CardIds.Secrets.Paladin.GallopingSavior)
             }
-        }
-        
-        if freeSpaceInHand {
-            if let player = game.playerEntity, player.has(tag: .num_cards_played_this_turn) &&
-                (player[.num_cards_played_this_turn] >= 3) {
+            
+            if freeSpaceInHand {
                 exclude.append(CardIds.Secrets.Paladin.HiddenWisdom)
             }
         }

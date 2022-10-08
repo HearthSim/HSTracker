@@ -284,6 +284,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
             self.operationQueue = OperationQueue()
             self.operationQueue.addOperations(operations, waitUntilFinished: true)
             
+            #if !HSTTEST
             if isMonoAvailable() != 0 {
                 if MonoHelper.load() {
                     MonoHelper.initialize()
@@ -296,7 +297,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
             } else {
                 self.coreManager.game.windowManager.bobsBuddyPanel.setErrorState(error: .monoNotFound)
             }
-            
+            #endif
+
             DispatchQueue.main.async {
                 self.completeSetup()
             }

@@ -368,7 +368,8 @@ class SecretTests: HSTrackerTests {
                       triggered: [CardIds.Secrets.Mage.ExplosiveRunes,
                                   CardIds.Secrets.Mage.MirrorEntity,
                                   CardIds.Secrets.Mage.PotionOfPolymorph,
-                                  CardIds.Secrets.Mage.FrozenClone])
+                                  CardIds.Secrets.Mage.FrozenClone,
+                                  CardIds.Secrets.Mage.Objection])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
                       triggered: [CardIds.Secrets.Paladin.Repentance])
         verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All, triggered: [CardIds.Secrets.Rogue.Ambush, CardIds.Secrets.Rogue.Kidnap])
@@ -442,6 +443,18 @@ class SecretTests: HSTrackerTests {
         verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All, triggered: [CardIds.Secrets.Rogue.DirtyTricks, CardIds.Secrets.Rogue.StickySituation])
     }
     
+    func testSingleSecret_NoMinionTarget_SpellPlayed_ThirdThisTurn() {
+        game.playerEntity?[.num_cards_played_this_turn] = 3
+        game.secretsManager?.handleCardPlayed(entity: playerSpell2, parentCardId: "")
+
+        verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All, triggered: [ CardIds.Secrets.Hunter.CatTrick, CardIds.Secrets.Hunter.IceTrap, CardIds.Secrets.Hunter.MotionDenied, CardIds.Secrets.Hunter.RatTrap])
+        verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All, triggered: [CardIds.Secrets.Mage.Counterspell, CardIds.Secrets.Mage.ManaBind, CardIds.Secrets.Mage.NetherwindPortal])
+        verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All, triggered: [CardIds.Secrets.Paladin.OhMyYogg, CardIds.Secrets.Paladin.GallopingSavior, CardIds.Secrets.Paladin.HiddenWisdom])
+        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All, triggered: [CardIds.Secrets.Rogue.DirtyTricks, CardIds.Secrets.Rogue.StickySituation])
+
+        game.playerEntity?[.num_cards_drawn_this_turn] = 0
+    }
+    
     func testSingleSecret_MinionOnBoard_NoMinionTarget_SpellPlayed() {
         opponentMinion1[.zone] = Zone.play.rawValue
         game.secretsManager?.handleCardPlayed(entity: playerSpell2, parentCardId: "")
@@ -464,7 +477,7 @@ class SecretTests: HSTrackerTests {
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All, triggered: [CardIds.Secrets.Mage.RiggedFaireGame])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
                       triggered: [CardIds.Secrets.Paladin.CompetitiveSpirit])
-        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
+        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All, triggered: [CardIds.Secrets.Rogue.Perjury])
     }
 
     func testSingleSecret_NoMinionInPlay_OpponentTurnStart() {
@@ -473,6 +486,15 @@ class SecretTests: HSTrackerTests {
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All)
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All)
         verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
+    }
+    
+    func testSingleSecret_OpponentTurnStart() {
+        game.opponentEntity?[.current_player] = 1
+        game.turnsInPlayChange(entity: opponentMinion1, turn: 1)
+        verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All)
+        verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All, triggered: [CardIds.Secrets.Mage.RiggedFaireGame])
+        verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All, triggered: [CardIds.Secrets.Paladin.CompetitiveSpirit])
+        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All, triggered: [CardIds.Secrets.Rogue.Perjury])
     }
     
     func testSingleSecret_Retarget_FriendlyHitsFriendly() {
@@ -658,7 +680,8 @@ class SecretTests: HSTrackerTests {
                       triggered: [CardIds.Secrets.Mage.ExplosiveRunes,
                                   CardIds.Secrets.Mage.FrozenClone,
                                   CardIds.Secrets.Mage.MirrorEntity,
-                                  CardIds.Secrets.Mage.PotionOfPolymorph])
+                                  CardIds.Secrets.Mage.PotionOfPolymorph,
+                                  CardIds.Secrets.Mage.Objection])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
                       triggered: [CardIds.Secrets.Paladin.Repentance])
         verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All, triggered: [CardIds.Secrets.Rogue.Ambush, CardIds.Secrets.Rogue.Kidnap])
@@ -711,7 +734,7 @@ class SecretTests: HSTrackerTests {
     func testSingleSecret_OpponentPlaysThreeCards() {
         heroPlayer[GameTag.num_cards_played_this_turn] = 3
         game.secretsManager?.handleCardPlayed(entity: playerMinion1, parentCardId: "")
-        verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All, triggered: [CardIds.Secrets.Hunter.RatTrap])
+        verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All, triggered: [CardIds.Secrets.Hunter.RatTrap, CardIds.Secrets.Hunter.MotionDenied])
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All)
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All, triggered: [CardIds.Secrets.Paladin.GallopingSavior, CardIds.Secrets.Paladin.HiddenWisdom])
         verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)

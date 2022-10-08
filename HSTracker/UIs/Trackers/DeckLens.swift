@@ -29,7 +29,11 @@ class DeckLens: NSStackView {
         box.fillColor = NSColor.fromHexString(hex: "23272A")!
         box.borderColor = NSColor.fromHexString(hex: "141617")!
         
+        #if HSTTEST
+        image = NSImageView(image: NSImage(systemSymbolName: "magnifyingglass", accessibilityDescription: nil)!)
+        #else
         image = NSImageView(image: NSImage(named: "icon_magnifying_glass", size: NSSize(width: 17, height: 17))!)
+        #endif
         box.addSubview(image)
         
         text = NSTextField(labelWithString: "")

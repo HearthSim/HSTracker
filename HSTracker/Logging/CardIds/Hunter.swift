@@ -153,6 +153,7 @@ extension CardIds.Collectible {
         static let AzsharanSaber = "TSC_945"
         static let EmergencyManeuvers = "TSC_929"
         static let TrackingVanilla = "VAN_DS1_184"
+        static let MotionDenied = "MAW_010"
     }
 }
 
@@ -231,7 +232,8 @@ extension CardIds.Secrets {
     struct Hunter {
         static let All = [BearTrap, DartTrap, ExplosiveTrap, FreezingTrap,
                           HiddenCache, Misdirection, RatTrap, Snipe, SnakeTrap, CatTrick,
-                          VenomstrikeTrap, WanderingMonster, PressurePlate, PackTactics, OpenTheCages, IceTrap, EmergencyManeuvers]
+                          VenomstrikeTrap, WanderingMonster, PressurePlate, PackTactics,
+                          OpenTheCages, IceTrap, EmergencyManeuvers, MotionDenied]
         static let BearTrap = MultiIdCard(CardIds.Collectible.Hunter.BearTrap)
         static let CatTrick = MultiIdCard(CardIds.Collectible.Hunter.CatTrick)
         static let DartTrap = MultiIdCard(CardIds.Collectible.Hunter.DartTrap)
@@ -249,5 +251,6 @@ extension CardIds.Secrets {
         static let VenomstrikeTrap = MultiIdCard(CardIds.Collectible.Hunter.VenomstrikeTrap)
         static let WanderingMonster = MultiIdCard(CardIds.Collectible.Hunter.WanderingMonster)
         static let IceTrap = MultiIdCard(CardIds.Collectible.Hunter.IceTrap)
+        static let MotionDenied = MultiIdCard(CardIds.Collectible.Hunter.MotionDenied)
     }
 }

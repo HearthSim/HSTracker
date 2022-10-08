@@ -379,7 +379,8 @@ enum GameTag: Int, WrappableEnum, CaseIterable, Codable {
     lettuce_show_opposing_fake_hand = 2224,
     dredge = 2332,
     bacon_player_num_hero_buddies_gained = 2346,
-    immolatestage = 2600
+    immolatestage = 2600,
+    secret_locked = 2676
 
     static var lookup = [String: GameTag]()
     

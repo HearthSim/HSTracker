@@ -36,7 +36,7 @@ class Secret {
     }
 
     func exclude(cardId: MultiIdCard) {
-        if excluded.keys.contains(cardId) {
+        if excluded.keys.contains(cardId) && !entity.has(tag: .secret_locked) {
             excluded[cardId] = true
         }
     }

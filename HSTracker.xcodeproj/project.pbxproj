@@ -519,6 +519,17 @@
 		B8BA17D728E91C52004D40ED /* LinkOpponentDeckPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BA17D628E91C52004D40ED /* LinkOpponentDeckPanel.swift */; };
 		B8BA17D928EFAF73004D40ED /* ClipboardImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BA17D828EFAF73004D40ED /* ClipboardImporter.swift */; };
 		B8BA17DA28EFC8F8004D40ED /* LinkOpponentDeckPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8BA17DC28EFC8F8004D40ED /* LinkOpponentDeckPanel.xib */; };
+		B8BA17F728F0CF7D004D40ED /* QuestDataProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82AE60128BED413004A8FE0 /* QuestDataProxy.swift */; };
+		B8BA17F828F0CF82004D40ED /* LinkOpponentDeckPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BA17D628E91C52004D40ED /* LinkOpponentDeckPanel.swift */; };
+		B8BA17F928F0CFA1004D40ED /* RewardTrackType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8074B0128C83A96006E0133 /* RewardTrackType.swift */; };
+		B8BA17FA28F0CFD4004D40ED /* ClipboardImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BA17D828EFAF73004D40ED /* ClipboardImporter.swift */; };
+		B8BA17FB28F0CFED004D40ED /* Influx.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82AE5EF28ADBC54004A8FE0 /* Influx.swift */; };
+		B8BA17FD28F10F6C004D40ED /* FloatingCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B60341CB6A8CC00B05D19 /* FloatingCard.xib */; };
+		B8BA17FE28F10F76004D40ED /* Tracker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439C7EDD1C777FA900D29859 /* Tracker.xib */; };
+		B8BA17FF28F10FE8004D40ED /* Hearthstone.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43050C611E6B484D007600EA /* Hearthstone.xcassets */; };
+		B8BA180028F1101D004D40ED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 434106A11C9868620045655A /* Assets.xcassets */; };
+		B8BA180228F113B2004D40ED /* LinkOpponentDeckPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8BA17DC28EFC8F8004D40ED /* LinkOpponentDeckPanel.xib */; };
+		B8BA180328F113DA004D40ED /* BattlegroundsTribe.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8AF9331282D797700864934 /* BattlegroundsTribe.xib */; };
 		B8BB7AB22831ABE0008239CA /* BattlegroundsLastGames.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BB7AB12831ABE0008239CA /* BattlegroundsLastGames.swift */; };
 		B8BB7AB42832F02D008239CA /* BattlegroundsUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BB7AB32832F02D008239CA /* BattlegroundsUtils.swift */; };
 		B8BB7AB828351890008239CA /* NSFont+NSTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BB7AB728351890008239CA /* NSFont+NSTextField.swift */; };
@@ -2305,6 +2316,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8BA180328F113DA004D40ED /* BattlegroundsTribe.xib in Resources */,
+				B8BA180228F113B2004D40ED /* LinkOpponentDeckPanel.xib in Resources */,
+				B8BA180028F1101D004D40ED /* Assets.xcassets in Resources */,
+				B8BA17FF28F10FE8004D40ED /* Hearthstone.xcassets in Resources */,
+				B8BA17FE28F10F76004D40ED /* Tracker.xib in Resources */,
+				B8BA17FD28F10F6C004D40ED /* FloatingCard.xib in Resources */,
 				B8D75BA525BA22B900446923 /* BattlegroundsTierOverlay.xib in Resources */,
 				B8643D042759815500B2D708 /* MercenariesTaskListButton.xib in Resources */,
 				B85A0D56272CE24B006D2648 /* MercenariesPreferences.xib in Resources */,
@@ -2768,6 +2785,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8BA17FB28F0CFED004D40ED /* Influx.swift in Sources */,
+				B8BA17FA28F0CFD4004D40ED /* ClipboardImporter.swift in Sources */,
+				B8BA17F928F0CFA1004D40ED /* RewardTrackType.swift in Sources */,
+				B8BA17F828F0CF82004D40ED /* LinkOpponentDeckPanel.swift in Sources */,
+				B8BA17F728F0CF7D004D40ED /* QuestDataProxy.swift in Sources */,
 				B8496740289A119200D90B30 /* NSFont+NSTextField.swift in Sources */,
 				B849673F289A0EA400D90B30 /* BattlegroundsFinalBoard.swift in Sources */,
 				B849673E289A0E9D00D90B30 /* BattlegroundsGameView.swift in Sources */,
@@ -3699,8 +3721,9 @@
 			baseConfigurationReference = B81F069C253899FB00F319F1 /* Config.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 4YL4B6GTUV;
+				DEVELOPMENT_TEAM = RL7C49LAMC;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/downloaded-frameworks/HearthMirror",
@@ -3708,7 +3731,7 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(SDKROOT)/usr/include/libxml2",
-					"/Library/Frameworks/Mono.framework/Headers/mono-2.0",
+					"$(PROJECT_DIR)/downloaded-frameworks/mono/runtimes/ios-arm/native/include/mono-2.0",
 				);
 				INFOPLIST_FILE = HSTrackerTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -3716,6 +3739,9 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/downloaded-frameworks/mono/runtimes/osx-x64/native";
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				OTHER_SWIFT_FLAGS = "-DHSTTEST";
 				PRODUCT_BUNDLE_IDENTIFIER = net.hearthsim.hstracker.HSTrackerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "HSTrackerTests/HSTracker-Test-Bridging-Header.h";
@@ -3729,8 +3755,9 @@
 			baseConfigurationReference = B81F069C253899FB00F319F1 /* Config.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 4YL4B6GTUV;
+				DEVELOPMENT_TEAM = RL7C49LAMC;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/downloaded-frameworks/HearthMirror",
@@ -3738,7 +3765,7 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(SDKROOT)/usr/include/libxml2",
-					"/Library/Frameworks/Mono.framework/Headers/mono-2.0",
+					"$(PROJECT_DIR)/downloaded-frameworks/mono/runtimes/ios-arm/native/include/mono-2.0",
 				);
 				INFOPLIST_FILE = HSTrackerTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -3746,6 +3773,9 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/downloaded-frameworks/mono/runtimes/osx-x64/native";
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				OTHER_SWIFT_FLAGS = "-DHSTTEST";
 				PRODUCT_BUNDLE_IDENTIFIER = net.hearthsim.hstracker.HSTrackerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "HSTrackerTests/HSTracker-Test-Bridging-Header.h";

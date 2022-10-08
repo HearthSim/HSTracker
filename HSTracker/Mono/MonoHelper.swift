@@ -278,6 +278,7 @@ class MonoHelper {
     }
     
     static func load() -> Bool {
+        #if !HSTTEST
         guard let path = Bundle.main.resourceURL else {
             logger.debug("Failed to resolve resourceURL")
             return false
@@ -334,6 +335,7 @@ class MonoHelper {
             logger.error("Failed to load BobsBuddy")
             return false
         }
+        #endif
         
         return true
     }

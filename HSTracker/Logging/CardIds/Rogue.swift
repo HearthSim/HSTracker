@@ -155,6 +155,7 @@ extension CardIds.Collectible {
         static let DoubleCross = "REV_825"
         static let Kidnap = "REV_828"
         static let StickySituation = "REV_827"
+        static let Perjury = "MAW_018"
     }
 }
 
@@ -236,7 +237,9 @@ extension CardIds.NonCollectible {
 
 extension CardIds.Secrets {
     struct Rogue {
-        static let All = [Ambush, Bamboozle, CheatDeath, DirtyTricks, Evasion, Plagiarize, ShadowClone, Shenanigans, SuddenBetrayal, DoubleCross, Kidnap, StickySituation]
+        static let All = [Ambush, Bamboozle, CheatDeath, DirtyTricks, Evasion, Plagiarize,
+                          ShadowClone, Shenanigans, SuddenBetrayal, DoubleCross, Kidnap,
+                          StickySituation, Perjury]
         static let Ambush = MultiIdCard(CardIds.Collectible.Rogue.Ambush)
         static let Bamboozle = MultiIdCard(CardIds.Collectible.Rogue.Bamboozle)
         static let CheatDeath = MultiIdCard(CardIds.Collectible.Rogue.CheatDeath)
@@ -249,5 +252,6 @@ extension CardIds.Secrets {
         static let DoubleCross = MultiIdCard(CardIds.Collectible.Rogue.DoubleCross)
         static let Kidnap = MultiIdCard(CardIds.Collectible.Rogue.Kidnap)
         static let StickySituation = MultiIdCard(CardIds.Collectible.Rogue.StickySituation)
+        static let Perjury = MultiIdCard(CardIds.Collectible.Rogue.Perjury)
     }
 }
