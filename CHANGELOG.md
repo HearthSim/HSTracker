@@ -1,3 +1,10 @@
+# 2.2.8
+## New
+- Updated for patch 24.4.3
+- The opponent deck list can now be set in friendly games. This can be enabled for all game modes under Preferences > Opponent -> Enable setting opponent deck in non-friendly matches
+- Deck importing can now be done using Clipboard instead of pasting
+- Added support for Maw and Disorder secrets
+
 # 2.2.7
 ## New
 - Updated for patch 24.4
