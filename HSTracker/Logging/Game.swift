@@ -280,7 +280,7 @@ class Game: NSObject, PowerEventHandler {
                 let frame = SizeHelper.opponentWotogIconsFrame()
                 self.windowManager.opponentWotogIcons.abyssalCurse = "\(self.opponent.abyssalCurseCount)"
                 self.windowManager.show(controller: self.windowManager.opponentWotogIcons, show: true,
-                                   frame: frame)
+                                        frame: frame, overlay: self.hearthstoneRunState.isActive)
             } else {
                 self.windowManager.show(controller: self.windowManager.opponentWotogIcons, show: false)
             }
@@ -297,7 +297,7 @@ class Game: NSObject, PowerEventHandler {
                 let frame = SizeHelper.playerWotogIconsFrame()
                 self.windowManager.playerWotogIcons.abyssalCurse = "\(self.player.abyssalCurseCount)"
                 self.windowManager.show(controller: self.windowManager.playerWotogIcons, show: true,
-                                   frame: frame)
+                                        frame: frame, overlay: self.hearthstoneRunState.isActive)
             } else {
                 self.windowManager.show(controller: self.windowManager.playerWotogIcons, show: false)
             }
