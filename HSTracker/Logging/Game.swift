@@ -109,7 +109,7 @@ class Game: NSObject, PowerEventHandler {
             x[.zone_position] < y[.zone_position]
         })
         // swiftlint:enable force_cast
-        let correctedHero = BattlegroundsUtils.getOriginalHeroId(heroId: opponentHero.cardId)
+        let correctedHero = BattlegroundsUtils.getOriginalHeroId(heroId: opponentHero.cardId, mapKelthuzad: true)
 
         logger.info("Snapshotting board state for \(opponentHero.card.name) with cardid \(opponentHero.cardId) (corrected=\(correctedHero)) with \(entities.count) entities")
         let current = lastKnownBattlegroundsBoardState[correctedHero]
