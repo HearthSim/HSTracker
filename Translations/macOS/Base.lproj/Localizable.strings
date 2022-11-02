@@ -141,6 +141,7 @@
 "ALTERAC_VALLEY" = "Fractured in Alterac Valley";
 "THE_SUNKEN_CITY" = "The Sunken City";
 "REVENDRETH" = "Murder at Castle Nathria";
+"RETURN_OF_THE_LICH_KING" = "March of the Lich King";
 
 /* card type */
 "all_types" = "All";
