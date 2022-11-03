@@ -1,3 +1,9 @@
+# 2.2.9
+## New
+- Updated for patch 24.6.0
+## Fixes
+- Correctly capture the board of Battlegrounds dead opponents
+
 # 2.2.8
 ## New
 - Updated for patch 24.4.3
