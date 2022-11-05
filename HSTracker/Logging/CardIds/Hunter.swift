@@ -154,6 +154,7 @@ extension CardIds.Collectible {
         static let EmergencyManeuvers = "TSC_929"
         static let TrackingVanilla = "VAN_DS1_184"
         static let MotionDenied = "MAW_010"
+        static let VenomstrikeTrapCore = "CORE_ICC_200"
     }
 }
 
@@ -248,7 +249,7 @@ extension CardIds.Secrets {
         static let RatTrap = MultiIdCard(CardIds.Collectible.Hunter.RatTrap)
         static let Snipe = MultiIdCard(CardIds.Collectible.Hunter.Snipe, CardIds.Collectible.Hunter.SnipeVanilla)
         static let SnakeTrap = MultiIdCard(CardIds.Collectible.Hunter.SnakeTrap, CardIds.Collectible.Hunter.SnakeTrapCore, CardIds.Collectible.Hunter.SnakeTrapVanilla)
-        static let VenomstrikeTrap = MultiIdCard(CardIds.Collectible.Hunter.VenomstrikeTrap)
+        static let VenomstrikeTrap = MultiIdCard(CardIds.Collectible.Hunter.VenomstrikeTrap, CardIds.Collectible.Hunter.VenomstrikeTrapCore)
         static let WanderingMonster = MultiIdCard(CardIds.Collectible.Hunter.WanderingMonster)
         static let IceTrap = MultiIdCard(CardIds.Collectible.Hunter.IceTrap)
         static let MotionDenied = MultiIdCard(CardIds.Collectible.Hunter.MotionDenied)

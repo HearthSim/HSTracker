@@ -151,6 +151,7 @@ extension CardIds.Collectible {
         static let VengefulVisage = "REV_516"
         static let SuspiciousAlchemist = "REV_000"
         static let Objection = "MAW_006"
+        static let FrozenCloneCore = "CORE_ICC_082"
     }
 }
 
@@ -234,7 +235,7 @@ extension CardIds.Secrets {
         static let Effigy = MultiIdCard(CardIds.Collectible.Mage.Effigy)
         static let ExplosiveRunes = MultiIdCard(CardIds.Collectible.Mage.ExplosiveRunes, CardIds.Collectible.Mage.ExplosiveRunes1810)
         static let FlameWard = MultiIdCard(CardIds.Collectible.Mage.FlameWard)
-        static let FrozenClone = MultiIdCard(CardIds.Collectible.Mage.FrozenClone)
+        static let FrozenClone = MultiIdCard(CardIds.Collectible.Mage.FrozenClone, CardIds.Collectible.Mage.FrozenCloneCore)
         static let IceBarrier = MultiIdCard(CardIds.Collectible.Mage.IceBarrier, CardIds.Collectible.Mage.IceBarrierCore, CardIds.Collectible.Mage.IceBarrierVanilla)
         static let IceBlock = MultiIdCard(CardIds.Collectible.Mage.IceBlock, CardIds.Collectible.Mage.IceBlockVanilla)
         static let ManaBind = MultiIdCard(CardIds.Collectible.Mage.ManaBind)
