@@ -211,6 +211,11 @@ protocol PowerEventHandler: AnyObject {
     
     func handlePlayerBuddiesGained(entity: Entity, num: Int)
 
+    func handlePlayerHeroPowerQuestRewardDatabaseId(entity: Entity, num: Int)
+    func handlePlayerHeroPowerQuestRewardCompleted(entity: Entity, num: Int)
+    func handlePlayerHeroQuestRewardDatabaseId(entity: Entity, num: Int)
+    func handlePlayerHeroQuestRewardCompleted(entity: Entity, num: Int)
+
     func handlePlayerLibramReduction(change: Int)
     
     func handleOpponentLibramReduction(change: Int)

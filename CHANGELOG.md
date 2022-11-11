@@ -1,3 +1,8 @@
+# 2.2.10
+## Fixes
+- Fixed an issue in Bob's Buddy where Volatile Venom was not working correctly.
+- Fixed an issue where Venomstrike Trap and Frozen Clone were not showing up in the secret tracker.
+
 # 2.2.9
 ## New
 - Updated for patch 24.6.0

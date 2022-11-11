@@ -27,13 +27,23 @@ class BoardSnapshot {
     let entities: [Entity]
     let turn: Int
     var buddiesGained: Int
-    var techLevel = [ 0, 0, 0, 0, 0, 0 ]
-    var triples = [ 0, 0, 0, 0, 0, 0 ]
+    var techLevel: [Int]
+    var triples: [Int]
+    var questHP: Int
+    var questHPTurn: Int
+    var quest: Int
+    var questTurn: Int
     
-    init(entities: [Entity], turn: Int) {
+    init(entities: [Entity], turn: Int, previous: BoardSnapshot? = nil) {
         self.entities = entities
         self.turn = turn
-        self.buddiesGained = 0
+        self.buddiesGained = previous?.buddiesGained ?? 0
+        self.techLevel = previous?.techLevel ?? [ 0, 0, 0, 0, 0, 0 ]
+        self.triples = previous?.triples ?? [ 0, 0, 0, 0, 0, 0 ]
+        self.questHP = previous?.questHP ?? 0
+        self.questHPTurn = previous?.questHPTurn ?? 0
+        self.quest = previous?.quest ?? 0
+        self.questTurn = previous?.questTurn ?? 0
     }
 }
 
@@ -113,12 +123,7 @@ class Game: NSObject, PowerEventHandler {
 
         logger.info("Snapshotting board state for \(opponentHero.card.name) with cardid \(opponentHero.cardId) (corrected=\(correctedHero)) with \(entities.count) entities")
         let current = lastKnownBattlegroundsBoardState[correctedHero]
-        let board = BoardSnapshot(entities: entities, turn: turnNumber())
-        if let current = current {
-            board.triples = current.triples
-            board.techLevel = current.techLevel
-            board.buddiesGained = current.buddiesGained
-        }
+        let board = BoardSnapshot(entities: entities, turn: turnNumber(), previous: current)
         lastKnownBattlegroundsBoardState[correctedHero] = board
         // pre-cache art
         DispatchQueue.global().async {
@@ -534,7 +539,7 @@ class Game: NSObject, PowerEventHandler {
             let isBG = self.isBattlegroundsMatch() && !self.gameEnded
             if isBG && Settings.showTurnCounter &&
                 ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
-                || !Settings.hideAllWhenGameInBackground) {
+                 || !Settings.hideAllWhenGameInBackground) && !self.hideBattlegroundsTurn {
                 self.windowManager.show(controller: self.windowManager.turnCounter, show: true, frame: rect, title: nil, overlay: true)
             } else {
                 self.windowManager.show(controller: self.windowManager.turnCounter, show: false)
@@ -566,7 +571,7 @@ class Game: NSObject, PowerEventHandler {
             let controller = self.windowManager.battlegroundsTierOverlay
 
             if isBG && Settings.showTiers && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
-                    || !Settings.hideAllWhenGameInBackground) {
+                                              || !Settings.hideAllWhenGameInBackground) && !self.hideBattlegroundsTier {
                 self.windowManager.show(controller: controller, show: true, frame: rect, title: nil, overlay: true)
                 controller.tierOverlay?.unhideTier()
                 if reset {
@@ -907,6 +912,8 @@ class Game: NSObject, PowerEventHandler {
     var adventureOpponentId: String?
     
     var hideBobsBuddy = false
+    var hideBattlegroundsTier = false
+    var hideBattlegroundsTurn = false
     
     var availableRaces: [Race]? {
         if _availableRaces == nil {
@@ -1250,6 +1257,9 @@ class Game: NSObject, PowerEventHandler {
         updateTurnCounter(turn: 1)
         
         hideBobsBuddy = false
+        hideBattlegroundsTier = false
+        hideBattlegroundsTurn = false
+        
         adventureOpponentId = nil
         dredgeCounter = 0
         
@@ -2260,6 +2270,75 @@ class Game: NSObject, PowerEventHandler {
             } else if num == 2 {
                 snapshot.buddiesGained = 3
             }
+        }
+    }
+    
+    func handlePlayerHeroPowerQuestRewardDatabaseId(entity: Entity, num: Int) {
+        guard num > 0 else { return }
+        
+        let heroId = BattlegroundsUtils.getOriginalHeroId(heroId: entity.cardId)
+
+        var snapshot = lastKnownBattlegroundsBoardState[heroId]
+        
+        if snapshot == nil {
+            snapshot = BoardSnapshot(entities: [], turn: -1)
+            lastKnownBattlegroundsBoardState[heroId] = snapshot
+        }
+        
+        if let snapshot = snapshot {
+            snapshot.questHP = num
+        }
+    }
+    
+    func handlePlayerHeroPowerQuestRewardCompleted(entity: Entity, num: Int) {
+        guard num > 0 else { return }
+        
+        let heroId = BattlegroundsUtils.getOriginalHeroId(heroId: entity.cardId)
+
+        var snapshot = lastKnownBattlegroundsBoardState[heroId]
+        
+        if snapshot == nil {
+            snapshot = BoardSnapshot(entities: [], turn: -1)
+            lastKnownBattlegroundsBoardState[heroId] = snapshot
+        }
+        
+        if let snapshot = snapshot {
+            snapshot.questHPTurn = turnNumber()
+        }
+
+    }
+    
+    func handlePlayerHeroQuestRewardDatabaseId(entity: Entity, num: Int) {
+        guard num > 0 else { return }
+        
+        let heroId = BattlegroundsUtils.getOriginalHeroId(heroId: entity.cardId)
+
+        var snapshot = lastKnownBattlegroundsBoardState[heroId]
+        
+        if snapshot == nil {
+            snapshot = BoardSnapshot(entities: [], turn: -1)
+            lastKnownBattlegroundsBoardState[heroId] = snapshot
+        }
+        
+        if let snapshot = snapshot {
+            snapshot.quest = num
+        }
+    }
+    
+    func handlePlayerHeroQuestRewardCompleted(entity: Entity, num: Int) {
+        guard num > 0 else { return }
+        
+        let heroId = BattlegroundsUtils.getOriginalHeroId(heroId: entity.cardId)
+
+        var snapshot = lastKnownBattlegroundsBoardState[heroId]
+        
+        if snapshot == nil {
+            snapshot = BoardSnapshot(entities: [], turn: -1)
+            lastKnownBattlegroundsBoardState[heroId] = snapshot
+        }
+        
+        if let snapshot = snapshot {
+            snapshot.questTurn = turnNumber()
         }
     }
     

@@ -52,6 +52,10 @@ struct TagChangeActions {
         case .resources_used: return { self.onResourcesUsedChange(eventHandler: eventHandler, id: id, value: value)}
 
         case .bacon_player_num_hero_buddies_gained: return { self.playerBuddiesGained(eventHandler: eventHandler, id: id, value: value)}
+        case .bacon_hero_heropower_quest_reward_database_id: return { self.playerHeroPowerQuestRewardDatabaseId(eventHandler: eventHandler, id: id, value: value)}
+        case .bacon_hero_heropower_quest_reward_completed: return { self.playerHeroPowerQuestRewardCompleted(eventHandler: eventHandler, id: id, value: value)}
+        case .bacon_hero_quest_reward_database_id: return { self.playerHeroQuestRewardDatabaseId(eventHandler: eventHandler, id: id, value: value)}
+        case .bacon_hero_quest_reward_completed: return { self.playerHeroQuestRewardCompleted(eventHandler: eventHandler, id: id, value: value)}
         default: return nil
         }
     }
@@ -903,6 +907,38 @@ struct TagChangeActions {
         if value != 0 {
             if let entity = eventHandler.entities[id] {
                 eventHandler.handlePlayerBuddiesGained(entity: entity, num: value)
+            }
+        }
+    }
+    
+    private func playerHeroPowerQuestRewardDatabaseId(eventHandler: PowerEventHandler, id: Int, value: Int) {
+        if value != 0 {
+            if let entity = eventHandler.entities[id] {
+                eventHandler.handlePlayerHeroPowerQuestRewardDatabaseId(entity: entity, num: value)
+            }
+        }
+    }
+    
+    private func playerHeroPowerQuestRewardCompleted(eventHandler: PowerEventHandler, id: Int, value: Int) {
+        if value != 0 {
+            if let entity = eventHandler.entities[id] {
+                eventHandler.handlePlayerHeroPowerQuestRewardCompleted(entity: entity, num: value)
+            }
+        }
+    }
+    
+    private func playerHeroQuestRewardDatabaseId(eventHandler: PowerEventHandler, id: Int, value: Int) {
+        if value != 0 {
+            if let entity = eventHandler.entities[id] {
+                eventHandler.handlePlayerHeroQuestRewardDatabaseId(entity: entity, num: value)
+            }
+        }
+    }
+    
+    private func playerHeroQuestRewardCompleted(eventHandler: PowerEventHandler, id: Int, value: Int) {
+        if value != 0 {
+            if let entity = eventHandler.entities[id] {
+                eventHandler.handlePlayerHeroQuestRewardCompleted(entity: entity, num: value)
             }
         }
     }

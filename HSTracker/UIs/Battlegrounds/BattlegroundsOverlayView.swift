@@ -153,7 +153,9 @@ class BattlegroundsOverlayView: NSView {
     }
 
     private var bobsBuddyHidden = false
-    
+    private var battlegroundsTierHidden = false
+    private var battlegroundsTurnHidden = false
+
     override func mouseMoved(with event: NSEvent) {
         guard frame.height > 0 && !frame.height.isNaN else {
             return
@@ -178,10 +180,22 @@ class BattlegroundsOverlayView: NSView {
                 displayHero(at: index)
                 currentIndex = index
                 let windowManager = AppDelegate.instance().coreManager.game.windowManager
+                
                 AppDelegate.instance().coreManager.game.hideBobsBuddy = true
+                AppDelegate.instance().coreManager.game.hideBattlegroundsTier = true
+                AppDelegate.instance().coreManager.game.hideBattlegroundsTurn = true
+                
                 if windowManager.bobsBuddyPanel.window?.isVisible ?? false {
                     bobsBuddyHidden = true
                     windowManager.show(controller: windowManager.bobsBuddyPanel, show: false)
+                }
+                if windowManager.battlegroundsTierOverlay.window?.isVisible ?? false {
+                    battlegroundsTierHidden = true
+                    windowManager.show(controller: windowManager.battlegroundsTierOverlay, show: false)
+                }
+                if windowManager.turnCounter.window?.isVisible ?? false {
+                    battlegroundsTurnHidden = true
+                    windowManager.show(controller: windowManager.turnCounter, show: false)
                 }
             } else {
                 game.windowManager.show(controller: game.windowManager.battlegroundsDetailsWindow, show: false)
@@ -206,6 +220,18 @@ class BattlegroundsOverlayView: NSView {
             bobsBuddyHidden = false
             let windowManager = AppDelegate.instance().coreManager.game.windowManager
             windowManager.show(controller: windowManager.bobsBuddyPanel, show: true)
+        }
+        AppDelegate.instance().coreManager.game.hideBattlegroundsTier = false
+        if battlegroundsTierHidden {
+            battlegroundsTierHidden = false
+            let windowManager = AppDelegate.instance().coreManager.game.windowManager
+            windowManager.show(controller: windowManager.battlegroundsTierOverlay, show: true)
+        }
+        AppDelegate.instance().coreManager.game.hideBattlegroundsTurn = false
+        if battlegroundsTurnHidden {
+            battlegroundsTurnHidden = false
+            let windowManager = AppDelegate.instance().coreManager.game.windowManager
+            windowManager.show(controller: windowManager.turnCounter, show: true)
         }
     }
 }

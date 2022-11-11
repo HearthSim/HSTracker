@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="BattlegroundsQuestView" customModule="HSTracker" customModuleProvider="target">
+            <connections>
+                <outlet property="box" destination="GG7-hx-BR7" id="CdU-ce-LoV"/>
+                <outlet property="contentView" destination="c22-O7-iKe" id="cHr-l9-ahj"/>
+                <outlet property="questExclamationImage" destination="KQr-mv-ggi" id="5Qi-EH-zVj"/>
+                <outlet property="questImage" destination="dPE-Dh-gKY" id="QS2-Uf-3yb"/>
+                <outlet property="turnText" destination="Ea4-m2-TdL" id="MK2-bg-nWr"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="c22-O7-iKe">
+            <rect key="frame" x="0.0" y="0.0" width="83" height="108"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <box boxType="custom" borderWidth="0.0" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="GG7-hx-BR7">
+                    <rect key="frame" x="0.0" y="0.0" width="83" height="108"/>
+                    <view key="contentView" id="3Ef-y1-FOa">
+                        <rect key="frame" x="0.0" y="0.0" width="83" height="108"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yqf-Oe-MLN">
+                                <rect key="frame" x="3" y="6" width="80" height="98"/>
+                                <subviews>
+                                    <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="acU-7x-pT5" userLabel="Canvas">
+                                        <rect key="frame" x="0.0" y="16" width="80" height="82"/>
+                                        <subviews>
+                                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dPE-Dh-gKY" userLabel="Quest">
+                                                <rect key="frame" x="5" y="7" width="60" height="60"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="60" id="kR0-Me-UvJ"/>
+                                                    <constraint firstAttribute="width" constant="60" id="v04-bO-EQd"/>
+                                                </constraints>
+                                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="TheCoin" id="rqt-IC-qkv"/>
+                                            </imageView>
+                                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="d9g-Va-iAY" userLabel="QuestFrame">
+                                                <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="80" id="YNT-9X-Ma8"/>
+                                                    <constraint firstAttribute="height" constant="80" id="udy-su-RVE"/>
+                                                </constraints>
+                                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="bacon_quest_frame" id="rHN-j8-9Ip"/>
+                                            </imageView>
+                                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KQr-mv-ggi" userLabel="Exclamation">
+                                                <rect key="frame" x="25" y="52" width="30" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="30" id="Vm5-KC-skj"/>
+                                                    <constraint firstAttribute="height" constant="30" id="qjv-11-lQv"/>
+                                                </constraints>
+                                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="bacon_quest_exclamation" id="NJ0-bW-xsq"/>
+                                            </imageView>
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6EL-y5-gnh">
+                                                <rect key="frame" x="36" y="60" width="9" height="15"/>
+                                                <textFieldCell key="cell" lineBreakMode="clipping" title="!" id="fjX-Y1-jcr">
+                                                    <font key="font" size="15" name="ChunkFive-Roman"/>
+                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="dPE-Dh-gKY" firstAttribute="top" secondItem="acU-7x-pT5" secondAttribute="top" constant="15" id="3rO-0r-aMC"/>
+                                            <constraint firstItem="d9g-Va-iAY" firstAttribute="leading" secondItem="acU-7x-pT5" secondAttribute="leading" id="4s0-mG-GgL"/>
+                                            <constraint firstAttribute="height" constant="82" id="9vr-9Z-MNl"/>
+                                            <constraint firstItem="dPE-Dh-gKY" firstAttribute="leading" secondItem="acU-7x-pT5" secondAttribute="leading" constant="5" id="Nl3-8k-fR7"/>
+                                            <constraint firstItem="KQr-mv-ggi" firstAttribute="top" secondItem="acU-7x-pT5" secondAttribute="top" id="YEB-EQ-F9i"/>
+                                            <constraint firstItem="6EL-y5-gnh" firstAttribute="top" secondItem="acU-7x-pT5" secondAttribute="top" constant="7" id="Z74-i1-DIK"/>
+                                            <constraint firstItem="6EL-y5-gnh" firstAttribute="leading" secondItem="acU-7x-pT5" secondAttribute="leading" constant="38" id="afZ-28-kT2"/>
+                                            <constraint firstItem="KQr-mv-ggi" firstAttribute="leading" secondItem="acU-7x-pT5" secondAttribute="leading" constant="25" id="axE-TI-iiz"/>
+                                            <constraint firstItem="d9g-Va-iAY" firstAttribute="top" secondItem="acU-7x-pT5" secondAttribute="top" constant="2" id="kUJ-TE-i2w"/>
+                                            <constraint firstAttribute="width" constant="80" id="yWz-Vo-gMx"/>
+                                        </constraints>
+                                    </customView>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ea4-m2-TdL">
+                                        <rect key="frame" x="0.0" y="0.0" width="82" height="16"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Turn 1" id="Vny-6h-cSP">
+                                            <font key="font" usesAppearanceFont="YES"/>
+                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="Ea4-m2-TdL" firstAttribute="leading" secondItem="yqf-Oe-MLN" secondAttribute="leading" constant="2" id="CJM-Xz-wHH"/>
+                                    <constraint firstAttribute="trailing" secondItem="Ea4-m2-TdL" secondAttribute="trailing" id="K2j-Fy-AFW"/>
+                                    <constraint firstItem="acU-7x-pT5" firstAttribute="top" secondItem="yqf-Oe-MLN" secondAttribute="top" id="VLP-KR-fhv"/>
+                                    <constraint firstItem="Ea4-m2-TdL" firstAttribute="top" secondItem="acU-7x-pT5" secondAttribute="bottom" id="oNp-9j-vhX"/>
+                                    <constraint firstAttribute="height" constant="98" id="vK7-ZL-CBG"/>
+                                    <constraint firstItem="acU-7x-pT5" firstAttribute="leading" secondItem="yqf-Oe-MLN" secondAttribute="leading" id="zNy-F2-PoP"/>
+                                </constraints>
+                                <visibilityPriorities>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                </visibilityPriorities>
+                                <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                </customSpacing>
+                            </stackView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="yqf-Oe-MLN" firstAttribute="leading" secondItem="3Ef-y1-FOa" secondAttribute="leading" constant="3" id="aj3-Qm-0yN"/>
+                            <constraint firstAttribute="trailing" secondItem="yqf-Oe-MLN" secondAttribute="trailing" id="bFw-je-j8L"/>
+                            <constraint firstItem="yqf-Oe-MLN" firstAttribute="top" secondItem="3Ef-y1-FOa" secondAttribute="top" constant="4" id="q6l-TW-0gV"/>
+                        </constraints>
+                    </view>
+                    <color key="borderColor" red="0.2156862745" green="0.22352941179999999" blue="0.23529411759999999" alpha="1" colorSpace="deviceRGB"/>
+                    <color key="fillColor" red="0.13725490196078433" green="0.15294117647058825" blue="0.16470588235294117" alpha="0.90000000000000002" colorSpace="custom" customColorSpace="deviceRGB"/>
+                </box>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="GG7-hx-BR7" secondAttribute="trailing" id="IGC-ic-7jT"/>
+                <constraint firstItem="GG7-hx-BR7" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="S9N-Kz-8FS"/>
+                <constraint firstItem="GG7-hx-BR7" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="Yt6-Zc-ZBN"/>
+                <constraint firstAttribute="bottom" secondItem="GG7-hx-BR7" secondAttribute="bottom" id="qvO-88-6EN"/>
+            </constraints>
+            <point key="canvasLocation" x="-171" y="41"/>
+        </customView>
+    </objects>
+    <resources>
+        <image name="TheCoin" width="179" height="250"/>
+        <image name="bacon_quest_exclamation" width="512" height="512"/>
+        <image name="bacon_quest_frame" width="512" height="512"/>
+    </resources>
+</document>
