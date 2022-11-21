@@ -120,7 +120,11 @@ class MercenariesTaskView: NSView {
         guard let task = task else { return }
         
         titleLabel.stringValue = task.title
-        descriptionLabel.stringValue = task.description
+        if let astr = task.description.htmlToAttributedString {
+            descriptionLabel.attributedStringValue = astr
+        } else {
+            descriptionLabel.stringValue = task.description
+        }
         progressTextLabel.stringValue = task.progressText
 
         actualBar.widthAnchor.constraint(equalTo: progressBar.widthAnchor, multiplier: task.progress).isActive = true
@@ -241,15 +245,20 @@ class MercenariesTaskList: NSView {
             return
         }
         
-        self.tasks = tasks.compactMap({ task in
+        self.tasks = tasks.compactMap({ task -> MercenariesTaskViewModel? in
             guard let td = taskData.first(where: { $0.id == task.taskId }) else {
                 return nil
             }
-            guard let card = Cards.by(dbfId: td.mercenaryDefaultDbfId.intValue, collectible: false) else {
+            let cardId = td.mercenaryDefaultDbfId.intValue != 0 ? td.mercenaryDefaultDbfId.intValue : task.visitorCardDbf.intValue
+            
+            guard let card = Cards.by(dbfId: cardId, collectible: false) else {
                 return nil
             }
-            let title = td.title.contains(":") ? td.title : String(format: NSLocalizedString("Task %d: %@", comment: ""), task.taskChainProgress.intValue + 1, td.title)
-            let result = MercenariesTaskViewModel(mercCard: card, title: title, description: td.taskDescription, quota: td.quota.intValue, progress: task.progress.intValue)
+            var titleStr = td.title.replacingOccurrences(of: "$owner_merc", with: task.visitorName)
+            let title = titleStr.contains(":") ? titleStr : String(format: NSLocalizedString("Task %d: %@", comment: ""), task.taskChainProgress.intValue + 1, titleStr)
+            let bountyName = task.bountyHeroic ? String(format: NSLocalizedString("%@ (Heroic)", comment: ""), task.bountyName) : task.bountyName
+            var descStr = td.taskDescription.replacingOccurrences(of: "$bounty_nd", with: bountyName).replacingOccurrences(of: "$bounty_set", with: task.bountySet).replacingOccurrences(of: "$additional_mercs", with: task.additionalMercenaries.joined(separator: ", "))
+            let result = MercenariesTaskViewModel(mercCard: card, title: title, description: descStr, quota: td.quota.intValue, progress: task.progress.intValue)
             return result
         })
     }
