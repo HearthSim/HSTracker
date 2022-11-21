@@ -643,7 +643,7 @@ class BobsBuddyInvoker {
             questData.questProgress = Int32(0)
             questData.questProgressTotal = Int32(0)
             questData.questCardId = ""
-            questData.rewardCardId = reward.cardId
+            questData.rewardCardId = reward.info.latestCardId
             MonoHelper.addToList(list: playerQuests, element: questData)
         }
 
@@ -664,7 +664,7 @@ class BobsBuddyInvoker {
             questData.questProgress = Int32(0)
             questData.questProgressTotal = Int32(0)
             questData.questCardId = ""
-            questData.rewardCardId = reward.cardId
+            questData.rewardCardId = reward.info.latestCardId
             MonoHelper.addToList(list: opponentQuests, element: questData)
         }
 
