@@ -1,5 +1,8 @@
 # 2.2.10
+## New
+- Add support for new Mercenaries Visitor tasks
 ## Fixes
+- Fixed various Bob's Buddy simulation issues related to Hearthstone 24.6.0.
 - Fixed an issue in Bob's Buddy where Volatile Venom was not working correctly.
 - Fixed an issue where Venomstrike Trap and Frozen Clone were not showing up in the secret tracker.
 

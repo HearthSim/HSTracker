@@ -2019,14 +2019,14 @@
 		B82F4EAC24E3221D00905024 /* BobsBuddy */ = {
 			isa = PBXGroup;
 			children = (
+				B8D8859924F4185200F2F0F2 /* BobsBuddyErrorState.swift */,
 				B8DC11EF24E6AF280088A755 /* BobsBuddyInvoker.swift */,
 				B8DC11F124E77F040088A755 /* BobsBuddyState.swift */,
-				B8D8859124F3034700F2F0F2 /* StatusMessageConverter.swift */,
-				B8D8859924F4185200F2F0F2 /* BobsBuddyErrorState.swift */,
-				B864A13D24F54E1F005EA2A0 /* MinionHeroPowerTrigger.swift */,
 				B836821F27888B12007D5740 /* CombatResult.swift */,
-				B836822127888B4D007D5740 /* LethalResult.swift */,
 				B83682232789F812007D5740 /* ExitConditions.swift */,
+				B836822127888B4D007D5740 /* LethalResult.swift */,
+				B864A13D24F54E1F005EA2A0 /* MinionHeroPowerTrigger.swift */,
+				B8D8859124F3034700F2F0F2 /* StatusMessageConverter.swift */,
 			);
 			path = BobsBuddy;
 			sourceTree = "<group>";
@@ -3664,7 +3664,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/downloaded-frameworks/mono/runtimes/osx-x64/native";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 2.2.9;
+				MARKETING_VERSION = 2.2.10;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = "$(inherited)";
@@ -3709,7 +3709,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/downloaded-frameworks/mono/runtimes/osx-x64/native";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 2.2.9;
+				MARKETING_VERSION = 2.2.10;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = net.hearthsim.hstracker;
