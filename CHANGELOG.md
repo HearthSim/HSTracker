@@ -1,3 +1,9 @@
+# 2.3.0
+## New
+- Updated for patch 25.0.0
+## Fixes
+- Updated how Khadgar interacts with Evil Twin in Bob's Buddy
+
 # 2.2.10
 ## New
 - Add support for new Mercenaries Visitor tasks
