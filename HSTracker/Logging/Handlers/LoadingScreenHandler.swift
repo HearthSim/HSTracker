@@ -144,6 +144,9 @@ struct LoadingScreenHandler: LogEventParser {
             }
             
             if game.previousMode != .gameplay && game.currentMode == .gameplay {
+                if let deck = coreManager.autoDetectDeck(mode: game.currentMode ?? .invalid) {
+                    game.set(activeDeckId: deck.deckId, autoDetected: true)
+                }
                 coreManager.game.gameStart(at: logLine.time)
             }
         } else if logLine.line.contains("Gameplay.Start") {
