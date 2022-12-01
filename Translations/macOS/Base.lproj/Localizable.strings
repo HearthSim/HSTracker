@@ -250,6 +250,9 @@
 "Completed!" = "Completed!";
 "Task %d: %@" = "Task %d: %@";
 "%@ (Heroic)" = "%@ (Heroic)";
+"BOUNTY_HEROIC" = "Heroic";
+"BOUNTY_NORMAL" = "Normal";
+"BOUNTY_NZ" = "%@ in %@";
 
 /* Deck Lens - Dredge */
 "On Top" = "On Top";
