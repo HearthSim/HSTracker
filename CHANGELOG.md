@@ -1,3 +1,8 @@
+# 2.3.1
+## Fixes
+- Fixed Mercenaries visitor tasks
+- Added work around for deck detection not working (issue #1291). This may not be perfect but will be improved
+
 # 2.3.0
 ## New
 - Updated for patch 25.0.0
