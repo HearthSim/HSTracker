@@ -62,9 +62,9 @@ class Collection: CollectionBase {
         for mirrorCard in collection.cards {
             if let card = Cards.any(byId: mirrorCard.cardId) {
                 if mirrorCard.count.intValue > 0 {
-                    var counts = c[card.dbfId] ?? [0, 0, 0]
+                    var counts = c[card.dbfId] ?? [0, 0, 0, 0]
                     let premiumType = mirrorCard.premium.intValue
-                    if premiumType >= 0 && premiumType <= 2 {
+                    if premiumType >= 0 && premiumType <= 3 {
                         counts[premiumType] = mirrorCard.count.intValue
                     }
                     c[card.dbfId] = counts
