@@ -55,7 +55,8 @@ enum CardSet: String, CaseIterable {
     the_sunken_city,
     revendreth,
     mercenaries_dev,
-    return_of_the_lich_king
+    return_of_the_lich_king,
+    path_of_arthas
     
     static func deckManagerValidCardSets() -> [CardSet] {
         return [.all, .vanilla, .core, .basic, .expert1, .naxx, .gvg, .brm, .tgt,
@@ -64,7 +65,7 @@ enum CardSet: String, CaseIterable {
                 .dalaran, .uldum, .dragons, .year_of_the_dragon,
                 .black_temple, .demon_hunter_initiate, .scholomance, .darkmoon_faire,
                 .the_barrens, .wailing_caverns, .stormwind, .alterac_valley,
-                .the_sunken_city, .revendreth, .return_of_the_lich_king ]
+                .the_sunken_city, .revendreth, .return_of_the_lich_king, .path_of_arthas ]
     }
     
     static func wildSets() -> [CardSet] {
@@ -139,5 +140,6 @@ public enum CardSetInt: Int {
     the_sunken_city = 1658,
     revendreth = 1691,
     mercenaries_dev = 1705,
-    return_of_the_lich_king = 1776
+    return_of_the_lich_king = 1776,
+    path_of_arthas = 1869
 }

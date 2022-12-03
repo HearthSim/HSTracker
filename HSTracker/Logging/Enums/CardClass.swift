@@ -29,6 +29,10 @@ enum CardClass: String, Codable, CaseIterable {
         switch self {
         case .neutral:
             return ""
+        case .deathknight:
+            return CardIds.Collectible.Deathknight.TheLichKingHeroHeroSkins
+        case .demonhunter:
+            return CardIds.Collectible.DemonHunter.Illidan
         case .druid:
             return CardIds.Collectible.Druid.MalfurionStormrage
         case .hunter:
@@ -47,8 +51,6 @@ enum CardClass: String, Codable, CaseIterable {
             return CardIds.Collectible.Warlock.Guldan
         case .warrior:
             return CardIds.Collectible.Warrior.GarroshHellscream
-        case .demonhunter:
-            return CardIds.Collectible.DemonHunter.Illidan
         case .whizbang:
             return CardIds.Collectible.Neutral.WhizbangTheWonderful
         default:

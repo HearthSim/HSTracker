@@ -593,7 +593,9 @@ class PowerGameStateParser: LogEventParser {
                         case CardIds.Collectible.Druid.Bottomfeeder:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Druid.Bottomfeeder, count: 1, location: .bottom)
                         case CardIds.Collectible.Shaman.PiranhaPoacher:
-                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Neutral.PiranhaSwarmer) // is this the correct token? There are 4 different ones
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Neutral.PiranhaSwarmer)
+                        case CardIds.Collectible.Paladin.SinfulSousChef:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Paladin.SilverHandRecruitLegacyToken, count: 2)
                         default: break
                         }
                     }
@@ -862,6 +864,12 @@ class PowerGameStateParser: LogEventParser {
                             if target != nil {
                                 addKnownCardId(eventHandler: eventHandler, cardId: target, count: 1, location: .bottom)
                             }
+                        case CardIds.Collectible.Mage.FrozenTouch:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Mage.FrozenTouch_FrozenTouchToken)
+                        case CardIds.Collectible.Mage.ArcaneWyrm:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Mage.ArcaneBolt)
+                        case CardIds.Collectible.Priest.SisterSvalna:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Priest.SisterSvalna_VisionOfDarknessToken)
                         default:
                             if let card = Cards.any(byId: actionStartingCardId) {
                                 if (player != nil && player![.current_player] == 1

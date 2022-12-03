@@ -136,6 +136,7 @@ extension CardIds.Collectible {
         static let MidaPureLight = "ONY_028"
         static let AzsharanRitual = "TSC_775"
         static let SuspiciousUsher = "REV_002"
+        static let SisterSvalna = "RLK_816"
     }
 }
 
@@ -188,6 +189,7 @@ extension CardIds.NonCollectible {
         static let CondemnRank1_CondemnRank3Token = "BAR_314t2"
         static let MidaPureLight_FragmentOfMidaToken = "ONY_028t"
         static let AzsharanRitual_SunkenRitualToken = "TSC_775t"
+        static let SisterSvalna_VisionOfDarknessToken = "RLK_816t3"
     }
 }
 

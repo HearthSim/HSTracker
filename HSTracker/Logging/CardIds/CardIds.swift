@@ -90,6 +90,8 @@ struct CardIds {
     ]
 
     static let HeroIdDict: [String: String] = [
+        CardIds.Collectible.Deathknight.TheLichKingHeroHeroSkins: "Deathknight",
+        CardIds.Collectible.DemonHunter.IllidanStormrageHeroHeroSkins: "DemonHunter",
         CardIds.Collectible.Warrior.GarroshHellscream: "Warrior",
         CardIds.Collectible.Shaman.Thrall: "Shaman",
         CardIds.Collectible.Rogue.ValeeraSanguinar: "Rogue",

@@ -12,14 +12,14 @@ final class Cards {
     
     static let classes: [CardClass] = {
         return [.druid, .hunter, .mage, .paladin, .priest,
-                .rogue, .shaman, .warlock, .warrior, .demonhunter]
+                .rogue, .shaman, .warlock, .warrior, .demonhunter, .deathknight]
             .sorted { NSLocalizedString($0.rawValue, comment: "")
                 < NSLocalizedString($1.rawValue, comment: "") }
     }()
 
     static let classesPlusNeutral: [CardClass] = {
         return [.druid, .hunter, .mage, .paladin, .priest,
-                .rogue, .shaman, .warlock, .warrior, .demonhunter, .neutral]
+                .rogue, .shaman, .warlock, .warrior, .demonhunter, .deathknight, .neutral]
             .sorted { NSLocalizedString($0.rawValue, comment: "")
                 < NSLocalizedString($1.rawValue, comment: "") }
     }()

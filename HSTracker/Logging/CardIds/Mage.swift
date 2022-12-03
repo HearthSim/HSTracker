@@ -152,6 +152,9 @@ extension CardIds.Collectible {
         static let SuspiciousAlchemist = "REV_000"
         static let Objection = "MAW_006"
         static let FrozenCloneCore = "CORE_ICC_082"
+        static let FrozenTouch = "REV_601"
+        static let ArcaneWyrm = "RLK_548"
+        static let ArcaneBolt = "RLK_843"
     }
 }
 
@@ -221,6 +224,7 @@ extension CardIds.NonCollectible {
         static let FirstFlame_SecondFlameToken = "SW_108t"
         static let BuildaSnowman_BuildASnowbruteToken = "AV_282t2"
         static let AzsharanSweeper_SunkenSweeperToken = "TSC_776t"
+        static let FrozenTouch_FrozenTouchToken = "REV_601t"
     }
 }
 

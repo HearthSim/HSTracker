@@ -22,7 +22,9 @@ enum TagClass: Int, CaseIterable {
     shaman,
     warlock,
     warrior,
-    dream
+    dream,
+    whizbang,
+    demonhunter
 
     init?(rawString: String) {
         let string = rawString.lowercased()
@@ -48,8 +50,10 @@ enum TagClass: Int, CaseIterable {
         case .shaman: return CardClass.shaman
         case .warlock: return CardClass.warlock
         case .warrior: return CardClass.warrior
+        case .deathknight: return CardClass.deathknight
+        case .demonhunter: return CardClass.demonhunter
 
-        case .invalid, .deathknight, .dream: return CardClass.neutral
+        case .invalid, .whizbang, .dream: return CardClass.neutral
         }
     }
 }
