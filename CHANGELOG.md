@@ -1,3 +1,9 @@
+# 2.3.2
+## New
+- Added support for March of the Lich King
+## Fixes
+- Fixed deck detection (issue #1291)
+
 # 2.3.1
 ## Fixes
 - Fixed Mercenaries visitor tasks
