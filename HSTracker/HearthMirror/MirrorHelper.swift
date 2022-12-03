@@ -372,4 +372,12 @@ struct MirrorHelper {
         }
         return result
     }
+    
+    static func getFindGameState() -> FindGameState? {
+        var result: FindGameState?
+        MirrorHelper.accessQueue.sync {
+            result = FindGameState(rawValue: mirror?.getFindGameState().intValue ?? 0)
+        }
+        return result
+    }
 }

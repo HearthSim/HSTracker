@@ -80,6 +80,8 @@ class Game: NSObject, PowerEventHandler {
     }
     
     private var selfAppActive: Bool = true
+    
+    lazy var queueEvents: QueueEvents = QueueEvents(game: self)
 	
     func setHearthstoneRunning(flag: Bool) {
         hearthstoneRunState.isRunning = flag

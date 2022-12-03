@@ -356,11 +356,11 @@ final class Player {
                 } + getPredictedCardsInDeck(hidden: true)).sortCardList()
         }
 
-        var createdInHand = Settings.showPlayerGet ? createdCardsInHand : [Card]()
-        var deckState = getOpponentDeckState()
-        var inDeck = deckState.remainingInDeck
-        var notInDeck = deckState.removedFromDeck.filter { x in inDeck.all { c in x.id != c.id } }
-        var predictedInDeck = getPredictedCardsInDeck(hidden: false).filter { x in inDeck.all { c in x.id != c.id } }
+        let createdInHand = Settings.showPlayerGet ? createdCardsInHand : [Card]()
+        let deckState = getOpponentDeckState()
+        let inDeck = deckState.remainingInDeck
+        let notInDeck = deckState.removedFromDeck.filter { x in inDeck.all { c in x.id != c.id } }
+        let predictedInDeck = getPredictedCardsInDeck(hidden: false).filter { x in inDeck.all { c in x.id != c.id } }
         if !Settings.removeCardsFromDeck {
             return (inDeck + predictedInDeck + notInDeck + createdInHand).sortCardList()
         }

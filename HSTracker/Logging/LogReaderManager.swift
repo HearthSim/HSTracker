@@ -19,17 +19,15 @@ final class LogReaderManager {
     let rachelleHandler = RachelleHandler()
 	let arenaHandler: LogEventParser
 	let loadingScreenHandler: LogEventParser
-    let fullscreenFXHandler: LogEventParser
 
     private let powerLog: LogReader
     private let rachelle: LogReader
     private let arena: LogReader
     private let loadingScreen: LogReader
     private let decksReader = DecksReader()
-    private let fullscreen: LogReader
 
     private var readers: [LogReader] {
-        return [powerLog, rachelle, arena, loadingScreen, fullscreen]
+        return [powerLog, rachelle, arena, loadingScreen]
     }
     
     public static let dateStringFormatter: LogDateFormatter = {
@@ -64,7 +62,6 @@ final class LogReaderManager {
 		loadingScreenHandler = LoadingScreenHandler(with: coreManager)
 		powerGameStateParser = PowerGameStateParser(with: coreManager.game)
 		arenaHandler = ArenaHandler(with: coreManager)
-        fullscreenFXHandler = FullScreenFxHandler(coreManager: coreManager)
 		
         let plReader = LogReaderInfo(name: .power,
                                      startsWithFilters: ["PowerTaskList.DebugPrintPower", "GameState."],
@@ -77,7 +74,6 @@ final class LogReaderManager {
         loadingScreen = LogReader(info: LogReaderInfo(name: .loadingScreen,
                                                       startsWithFilters: ["LoadingScreen.OnSceneLoaded", "Gameplay"]),
                                   logPath: logPath)
-        fullscreen = LogReader(info: LogReaderInfo(name: .fullScreenFX), logPath: logPath)
     }
 
     func start() {
@@ -182,7 +178,6 @@ final class LogReaderManager {
         case .rachelle: self.rachelleHandler.handle(logLine: line)
         case .arena: self.arenaHandler.handle(logLine: line)
         case .loadingScreen: self.loadingScreenHandler.handle(logLine: line)
-        case .fullScreenFX: self.fullscreenFXHandler.handle(logLine: line)
         default: break
 		}
 	}

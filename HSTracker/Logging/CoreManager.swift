@@ -62,6 +62,10 @@ final class CoreManager: NSObject {
             CoreManager.updateDungeonRunDeck(info: info, isPVPDR: true)
         }
         
+        QueueWatcher.inQueueChanged = { _, args in
+            self.game.queueEvents.handle(args)
+        }
+        
         ExperienceWatcher.newExperienceHandler = { args in
             AppDelegate.instance().coreManager.game.experienceChangedAsync(experience: args.experience, experienceNeeded: args.experienceNeeded, level: args.level, levelChange: args.levelChange, animate: args.animate)
         }

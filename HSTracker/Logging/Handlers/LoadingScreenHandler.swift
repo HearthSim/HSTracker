@@ -27,6 +27,8 @@ struct LoadingScreenHandler: LogEventParser {
         Mode.lettuce_pack_opening
     ]
 	
+    private let ignoredModes = [ Mode.invalid, Mode.startup, Mode.login, Mode.gameplay ]
+        
 	init(with coreManager: CoreManager) {
 		self.coreManager = coreManager
 	}
@@ -143,10 +145,13 @@ struct LoadingScreenHandler: LogEventParser {
                 PVPDungeonRunWatcher.stop()
             }
             
+            if !ignoredModes.contains(game.currentMode ?? .invalid) {
+                QueueWatcher.start()
+            } else {
+                QueueWatcher.stop()
+            }
+            
             if game.previousMode != .gameplay && game.currentMode == .gameplay {
-                if let deck = coreManager.autoDetectDeck(mode: game.currentMode ?? .invalid) {
-                    game.set(activeDeckId: deck.deckId, autoDetected: true)
-                }
                 coreManager.game.gameStart(at: logLine.time)
             }
         } else if logLine.line.contains("Gameplay.Start") {

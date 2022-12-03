@@ -74,16 +74,4 @@ enum LogLineNamespace: String {
     static func usedValues() -> [LogLineNamespace] {
         return [.power, .rachelle, .arena, .loadingScreen, .decks, .fullScreenFX]
     }
-    
-    static func allValues() -> [LogLineNamespace] {
-        return [.achievements, .adTracking, .all, .arena, .asset, .biReport, .battleNet, .becca,
-                .ben, .bob, .brian, .bugReporter, .cameron, .cardbackMgr, .changedCards,
-                .clientRequestManager, .configFile, .crafting, .dbfXml, .deckHelper, .deckRuleset,
-                .deckTray, .derek, .deviceEmulation, .downloader, .endOfGame, .eventTiming,
-                .faceDownCard, .fullScreenFX, .gameMgr, .graphics, .hand, .healthyGaming, .henry,
-                .innKeepersSpecial, .jMac, .jay, .josh, .kyle, .loadingScreen, .mike, .mikeH,
-                .missingAssets, .net, .packet, .party, .playErrors, .power, .raf, .rachelle, .reset,
-                .robin, .ryan, .sound, .spectator, .store, .updateManager, .userAttention,
-                .yim, .zone]
-    }
 }

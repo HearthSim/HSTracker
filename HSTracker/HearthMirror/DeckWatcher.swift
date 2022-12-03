@@ -449,3 +449,62 @@ class ExperienceWatcher: Watcher {
         isRunning = false
     }
 }
+
+struct QueueEventArgs {
+    var isInQueue: Bool
+    var current: FindGameState?
+    var previous: FindGameState?
+    
+    init(isInQueue: Bool, current: FindGameState?, previous: FindGameState?) {
+        self.isInQueue = isInQueue
+        self.current = current
+        self.previous = previous
+    }
+}
+
+class QueueWatcher: Watcher {
+    static var inQueueChanged: ((_ sender: QueueWatcher, _ args: QueueEventArgs) -> Void)?
+    var _watch: Bool = false
+    var _prev: FindGameState?
+    
+    static let _instance = QueueWatcher()
+    
+    init(delay: TimeInterval = 0.200) {
+        super.init()
+        
+        refreshInterval = delay
+    }
+    
+    override func run() {
+        _watch = true
+        checkForFriendlyChallenge()
+    }
+    
+    static func start() {
+        _instance.startWatching()
+    }
+    
+    static func stop() {
+        _instance._watch = false
+        _instance.stopWatching()
+    }
+    
+    private func checkForFriendlyChallenge() {
+        isRunning = true
+        while _watch {
+            Thread.sleep(forTimeInterval: refreshInterval)
+            if !_watch {
+                break
+            }
+            let state = MirrorHelper.getFindGameState()
+            let isInQueue = state?.rawValue ?? 0 > 0
+            let wasInQueue = _prev?.rawValue ?? 0 > 0
+            if isInQueue != wasInQueue {
+                QueueWatcher.inQueueChanged?(self, QueueEventArgs(isInQueue: isInQueue, current: state, previous: _prev))
+            }
+            _prev = state
+        }
+        _prev = nil
+        isRunning = false
+    }
+}
