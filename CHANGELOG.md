@@ -1,3 +1,7 @@
+# 2.3.3
+## Fixes
+- Fixed deck detection with March of the Lich King cards (issue #1292)
+
 # 2.3.2
 ## New
 - Added support for March of the Lich King
