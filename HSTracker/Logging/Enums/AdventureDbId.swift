@@ -12,6 +12,7 @@ enum AdventureDbId: Int {
     case invalid = 0,
          tutorial = 1,
          practice = 2,
+         mercenary_pve = 892,
          naxxramas = 3,
          brm = 4,
          loe = 8,
@@ -29,6 +30,7 @@ enum AdventureDbId: Int {
          bta_heroic = 636,
          boh = 644,
          bom = 669,
+         rotlk = 894,
          tavern_brawl = 7,
          returning_player = 245,
          blackrock_crash = 574,
@@ -37,5 +39,10 @@ enum AdventureDbId: Int {
          naxx_crash = 597,
          temple_outrun = 598,
          road_to_northrend = 600,
-         pvpdr = 642
+         pvpdr = 642,
+         pvpdr_season_2 = 885,
+         pvpdr_neutral_heroes = 889,
+         pvpdr_loh_heroes = 893,
+         pvpdr_witchwood_heroes = 895,
+         pvpdr_death_knight = 898
 }
