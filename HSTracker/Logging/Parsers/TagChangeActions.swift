@@ -449,6 +449,12 @@ struct TagChangeActions {
                                  cardId: entity.cardId)
             
         case .invalid:
+            if !eventHandler.setupDone && value == Zone.graveyard.rawValue {
+                // Souleater's Scythe causes entites to be created in the graveyard.
+                // We need to not reveal this card for the opponent and only reveal
+                // it for the player after mulligan.
+                entity.info.inGraveyardAtStartOfGame = true
+            }
             let maxId = getMaxHeroPowerId(eventHandler: eventHandler)
             if !eventHandler.setupDone
                 && (id <= maxId || eventHandler.gameEntity?[.step] == Step.invalid.rawValue

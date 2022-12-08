@@ -38,6 +38,7 @@ class EntityInfo {
         set { _latestCardId = newValue }
     }
     var deckIndex = 0
+    var inGraveyardAtStartOfGame = false
 
     init(entity: Entity) {
         _entity = entity
@@ -111,6 +112,7 @@ extension EntityInfo: CustomStringConvertible {
         if deckIndex > 0 {
             description += ", deckIndex=\(deckIndex)"
         }
+        description += ", inGraveyardAtStartOfGame=\(inGraveyardAtStartOfGame)"
         description += "]"
 
         return description

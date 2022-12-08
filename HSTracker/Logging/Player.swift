@@ -126,7 +126,18 @@ final class Player {
             .filter({
                 return !$0.info.hasOutstandingTagChanges
                     && ($0.isControlled(by: self.id) || $0.info.originalController == self.id)
-            }).filter({ $0.hasCardId })
+            }).filter({ $0.hasCardId }).filter({ x in
+                // Souleater's Scythe causes entites to be created in the graveyard.
+                // We need to not reveal this card for the opponent and only reveal
+                // it for the player after mulligan.
+                if x.info.inGraveyardAtStartOfGame && x.isInGraveyard {
+                    if isLocalPlayer {
+                        return game.isMulliganDone()
+                    }
+                    return false
+                }
+                return true
+            })
     }
 
     var hand: [Entity] { return playerEntities.filter({ $0.isInHand }) }
