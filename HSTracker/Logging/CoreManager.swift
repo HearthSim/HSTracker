@@ -421,13 +421,14 @@ final class CoreManager: NSObject {
         }
         let playerClass = set == CardSet.uldum ? DefaultDecks.DungeonRun.getUldumHeroPlayerClass(playerClass: boardHero.playerClass) : boardHero.playerClass
         let adventureId = DungeonRunDeckWatcher.currentAdventure?.adventureId ?? .invalid
+        let modeId = DungeonRunDeckWatcher.currentAdventure?.adventureModeId ?? .invalid
         if adventureId != AdventureDbId.boh && adventureId != AdventureDbId.bom && (playerClass == .invalid || playerClass == .neutral) {
             logger.info("Dungeon run started but player class is invalid")
             return
         }
         
-        if !isPVPDR && (adventureId == AdventureDbId.boh || adventureId == AdventureDbId.bom) {
-            logger.info("Book of Heroes/Mercenaries match started with playerClass \(playerClass)")
+        if !isPVPDR && ((adventureId == AdventureDbId.boh || adventureId == AdventureDbId.bom) || modeId == .linear || modeId == .linear_heroic) {
+            logger.info("Book of Heroes/Mercenaries/Linear match started with playerClass \(playerClass)")
             let cards = DungeonRunDeckWatcher.dungeonRunDeck
             
             if cards.count > 0 {

@@ -246,7 +246,7 @@ class DungeonRunDeckWatcher: Watcher {
                     }
                     DungeonRunDeckWatcher.dungeonRunMatchStarted?(newRun, card.set ?? .invalid)
                     return true
-                } else if isBOH && (card.id.contains("Story_") || card.id.contains("BOM_")) {
+                } else if (isBOH && (card.id.contains("Story_") || card.id.contains("BOM_"))) || (config.adventureModeId == .linear || config.adventureModeId == .linear_heroic) {
                     if config.selectedMission > 0, let deckId = MirrorHelper.getScenarioDeckId(id: config.selectedMission) {
                         if let dbfids = MirrorHelper.getDungeonDeck(id: deckId) {
                             let cards = dbfids.compactMap({ x in
