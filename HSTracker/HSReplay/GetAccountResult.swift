@@ -10,9 +10,24 @@ import Foundation
 
 struct BlizzardAccount: Decodable {
     var battletag: String
-    var account_hi: Int
+    var account_hi: Int64
     var account_lo: Int
     var region: Int
+    
+    enum CodingKeys: String, CodingKey {
+        case battletag
+        case account_hi
+        case account_lo
+        case region
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        battletag = try container.decode(String.self, forKey: .battletag)
+        account_hi = try Int64(container.decode(String.self, forKey: .account_hi))!
+        account_lo = try container.decode(Int.self, forKey: .account_lo)
+        region = try container.decode(Int.self, forKey: .region)
+    }
 }
 
 struct AccountData: Decodable {
