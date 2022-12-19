@@ -1,3 +1,11 @@
+# 2.3.4
+## New
+- Updated for patch 25.0.4
+- Improved adventure pre-built deck detection
+## Fixes
+- Fix revealing cards consumed by Souleater's Scythe
+- Fix some collection upload issues
+
 # 2.3.3
 ## Fixes
 - Fixed deck detection with March of the Lich King cards (issue #1292)

@@ -2485,7 +2485,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "LOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"/Resources/Cards\nmkdir -p \"${LOCATION}\"\n\nHSJSON=\"https://api.hearthstonejson.com/v1\"\n\nfor lang in deDE enUS esES esMX frFR itIT jaJP koKR plPL ptBR ruRU thTH zhCN zhTW; do\n    echo \"Downloading cards.$lang.json\"\n    curl -L -z \"${LOCATION}/cardsDB.$lang.json\" -o \"${LOCATION}/cardsDB.$lang.json\" \"$HSJSON/latest/$lang/cards.json\"\ndone\n";
+			shellScript = "VERSION=$(cat $SRCROOT/HSTracker/cards-version.txt)\n\nLOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"/Resources/Cards\nmkdir -p \"${LOCATION}\"\n\nHSJSON=\"https://api.hearthstonejson.com/v1\"\n\nfor lang in deDE enUS esES esMX frFR itIT jaJP koKR plPL ptBR ruRU thTH zhCN zhTW; do\n    echo \"Downloading cards.$lang.json\"\n    curl -L -z \"${LOCATION}/cardsDB.$lang.json\" -o \"${LOCATION}/cardsDB.$lang.json\" \"$HSJSON/$VERSION/$lang/cards.json\"\ndone\n";
 			showEnvVarsInLog = 0;
 		};
 		B8D8859B24F4333000F2F0F2 /* Download BobsBuddy and HearthDb */ = {
@@ -3666,7 +3666,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/downloaded-frameworks/mono/runtimes/osx-x64/native";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 2.3.3;
+				MARKETING_VERSION = 2.3.4;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = "$(inherited)";
@@ -3711,7 +3711,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/downloaded-frameworks/mono/runtimes/osx-x64/native";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 2.3.3;
+				MARKETING_VERSION = 2.3.4;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = net.hearthsim.hstracker;
