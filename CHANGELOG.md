@@ -1,3 +1,7 @@
+# 2.3.5
+## Fixes
+- Fix detection of decks containing signature cards
+
 # 2.3.4
 ## New
 - Updated for patch 25.0.4
