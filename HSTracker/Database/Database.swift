@@ -146,18 +146,26 @@ class Database {
                         if let overload = jsonCard["overload"] as? Int {
                             card.overload = overload
                         }
+                        if let collectible = jsonCard["collectible"] as? Bool {
+                            card.collectible = collectible
+                        }
                         if let race = jsonCard["race"] as? String,
                             let cardRace = Race(rawValue: race.lowercased()) {
                             card.race = cardRace
-                            if !Database.deckManagerRaces.contains(cardRace) {
+                            if card.collectible && !Database.deckManagerRaces.contains(cardRace) {
                                 Database.deckManagerRaces.append(cardRace)
+                            }
+                        }
+                        if let races = jsonCard["races"] as? [String] {
+                            card.races = races.compactMap { x in Race(rawValue: x.lowercased()) }
+                            for race in card.races {
+                                if card.collectible && !Database.deckManagerRaces.contains(race) {
+                                    Database.deckManagerRaces.append(race)
+                                }
                             }
                         }
                         if let flavor = jsonCard["flavor"] as? String {
                             card.flavor = flavor
-                        }
-                        if let collectible = jsonCard["collectible"] as? Bool {
-                            card.collectible = collectible
                         }
                         if let name = jsonCard["name"] as? String {
                             card.name = name
@@ -219,6 +227,13 @@ class Database {
             for card in Cards.battlegroundsMinions.array() {
                 if card.race != .invalid && card.race != .all && !Database.battlegroundRaces.contains(card.race) {
                     Database.battlegroundRaces.append(card.race)
+                }
+                if card.races.count > 0 && card.races[0] != .all {
+                    for race in card.races {
+                        if !Database.battlegroundRaces.contains(race) {
+                            Database.battlegroundRaces.append(race)
+                        }
+                    }
                 }
             }
             for card in Cards.battlegroundsMinions.filter({ x in x.race == .invalid }) {

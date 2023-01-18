@@ -1,3 +1,9 @@
+# 2.3.6
+## New
+- Updated for patch 25.2.0
+**Note:**
+- There are likely still issues with some new cards in Bob's Buddy. We will update these in the coming days.
+
 # 2.3.5
 ## Fixes
 - Fix detection of decks containing signature cards

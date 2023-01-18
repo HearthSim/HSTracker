@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="20037" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20037"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -29,10 +29,10 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView translatesAutoresizingMaskIntoConstraints="NO" id="c22-O7-iKe">
-            <rect key="frame" x="0.0" y="0.0" width="480" height="444"/>
+            <rect key="frame" x="0.0" y="0.0" width="480" height="446"/>
             <subviews>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="U9l-4H-26w" userLabel="Show Bob's Buddy">
-                    <rect key="frame" x="18" y="407" width="442" height="18"/>
+                    <rect key="frame" x="18" y="409" width="442" height="18"/>
                     <buttonCell key="cell" type="check" title="Show Bob's Buddy" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="i84-xc-QhF" userLabel="Show Bob'ss Buddy">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -42,7 +42,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="d7f-Kb-z3w" userLabel="Show Bob's Buddy during combat">
-                    <rect key="frame" x="18" y="381" width="442" height="18"/>
+                    <rect key="frame" x="18" y="383" width="442" height="18"/>
                     <buttonCell key="cell" type="check" title="Show Bob's Buddy during combat" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="QMN-RN-SBa" userLabel="Show Bob's Buddy during combat">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -52,7 +52,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="4bq-q8-4qp" userLabel="Show Bob's Buddy during shopping">
-                    <rect key="frame" x="18" y="355" width="442" height="18"/>
+                    <rect key="frame" x="18" y="357" width="442" height="18"/>
                     <buttonCell key="cell" type="check" title="Show Bob's Buddy during shopping" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="rPF-4f-O8s" userLabel="Show Bob's Buddy during shopping">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -62,7 +62,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="led-ON-LPz" userLabel="Show turn counter">
-                    <rect key="frame" x="18" y="329" width="442" height="18"/>
+                    <rect key="frame" x="18" y="331" width="442" height="18"/>
                     <buttonCell key="cell" type="check" title="Show turn counter" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="c2t-Sg-vNs" userLabel="Show turn counter">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -72,7 +72,7 @@
                     </connections>
                 </button>
                 <button verticalHuggingPriority="252" translatesAutoresizingMaskIntoConstraints="NO" id="K3g-MV-6WU">
-                    <rect key="frame" x="18" y="303" width="442" height="18"/>
+                    <rect key="frame" x="18" y="305" width="442" height="18"/>
                     <buttonCell key="cell" type="check" title="Always show average damage" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="LKm-DE-YdT">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -82,7 +82,7 @@
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4Xd-Cc-geO" userLabel="Show opponent warband">
-                    <rect key="frame" x="18" y="277" width="442" height="18"/>
+                    <rect key="frame" x="18" y="279" width="442" height="18"/>
                     <buttonCell key="cell" type="check" title="Show opponent warband" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="J07-pk-b78" userLabel="Show opponent warband">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -92,7 +92,7 @@
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="66r-fs-Jja" userLabel="Show tiers">
-                    <rect key="frame" x="18" y="251" width="442" height="18"/>
+                    <rect key="frame" x="18" y="253" width="442" height="18"/>
                     <buttonCell key="cell" type="check" title="Show tiers" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="4LE-h7-rfX">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -102,7 +102,7 @@
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5P3-yR-y70">
-                    <rect key="frame" x="18" y="225" width="442" height="18"/>
+                    <rect key="frame" x="18" y="227" width="442" height="18"/>
                     <buttonCell key="cell" type="check" title="Show tavern and triple history" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="nGc-Fs-IbI">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -112,7 +112,7 @@
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aHt-pi-28x" userLabel="Show hero comparison">
-                    <rect key="frame" x="18" y="199" width="442" height="18"/>
+                    <rect key="frame" x="18" y="201" width="442" height="18"/>
                     <buttonCell key="cell" type="check" title="Show hero comparision" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="oXq-kH-uaV">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -122,13 +122,13 @@
                     </connections>
                 </button>
                 <box identifier="BoxSessionRecap" borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="JUT-jb-jLx" userLabel="BoxSessionRecap">
-                    <rect key="frame" x="17" y="16" width="446" height="176"/>
+                    <rect key="frame" x="17" y="16" width="446" height="178"/>
                     <view key="contentView" id="Vce-sg-Njo">
-                        <rect key="frame" x="3" y="3" width="440" height="170"/>
+                        <rect key="frame" x="4" y="5" width="438" height="170"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pWH-DA-riq" userLabel="Show session recap">
-                                <rect key="frame" x="8" y="143" width="422" height="18"/>
+                                <rect key="frame" x="8" y="143" width="420" height="18"/>
                                 <buttonCell key="cell" type="check" title="Show session recap" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="ZsD-zG-uu2">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -138,7 +138,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3FV-db-KTS">
-                                <rect key="frame" x="8" y="117" width="422" height="18"/>
+                                <rect key="frame" x="8" y="117" width="420" height="18"/>
                                 <buttonCell key="cell" type="check" title="Show minions banned" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="7dm-kv-U4Y">
                                     <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -148,7 +148,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="EJB-eC-4bH">
-                                <rect key="frame" x="8" y="91" width="422" height="18"/>
+                                <rect key="frame" x="8" y="91" width="420" height="18"/>
                                 <buttonCell key="cell" type="check" title="Show MMR" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="PrW-hA-PZj">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -158,7 +158,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="881-Vl-JoU" userLabel="Start, Current">
-                                <rect key="frame" x="18" y="65" width="202" height="18"/>
+                                <rect key="frame" x="18" y="65" width="201" height="18"/>
                                 <buttonCell key="cell" type="radio" title="Start, Current" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="L5S-gI-Wxn">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -168,7 +168,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tg6-2M-ihk" userLabel="Current, Change">
-                                <rect key="frame" x="228" y="65" width="202" height="18"/>
+                                <rect key="frame" x="227" y="65" width="201" height="18"/>
                                 <buttonCell key="cell" type="radio" title="Current, Change" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="RCI-vA-mUx">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -178,7 +178,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uuN-eU-Idk">
-                                <rect key="frame" x="8" y="39" width="422" height="18"/>
+                                <rect key="frame" x="8" y="39" width="420" height="18"/>
                                 <buttonCell key="cell" type="check" title="Show latest games" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="hVL-iu-9SV">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>

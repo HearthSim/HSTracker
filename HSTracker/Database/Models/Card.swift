@@ -30,6 +30,7 @@ final class Card {
     var enText = ""
     var race: Race = .invalid
     var bgRace: Race = .invalid
+    var races: [Race] = []
     var type: CardType = .invalid
     var mechanics: [CardMechanic] = []
     var isStandard = false
@@ -195,6 +196,7 @@ extension Card: NSCopying {
         copy.battlegroundsPoolMinion = self.battlegroundsPoolMinion
         copy.deckListIndex = self.deckListIndex
         copy.battlegroundsSkinParentId = self.battlegroundsSkinParentId
+        copy.races = self.races
 
         return copy
     }

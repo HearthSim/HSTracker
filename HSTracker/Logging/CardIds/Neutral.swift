@@ -702,6 +702,8 @@ extension CardIds.NonCollectible {
         static let Chameleos_ShiftingEnchantment = "GIL_142e"
         static let QueenAzsharaBATTLEGROUNDS = "BG22_HERO_007"
         static let QueenAzshara_NagaQueenAzsharaToken = "BG22_HERO_007t"
+        static let EternalKnight_EternalKnightPlayerEnchant = "BG25_008pe"
+        static let NerubianDeathswarmer_UndeadBonusAttackPlayerEnchantDnt = "BG25_011pe"
     }
 }
 

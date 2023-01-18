@@ -39,7 +39,7 @@ class InputProxy: MonoHandle, MonoClassInitializer {
             InputProxy._setOpponentHeroPower = MonoHelper.getMethod(InputProxy._class, "SetOpponentHeroPower", 3)
             
             // fields
-            initializeFields(fields: [ "opponentSide", "playerSide", "PlayerSecrets", "OpponentSecrets", "DamageCap", "PlayerHeroPower", "OpponentHeroPower", "PlayerHeroPower", "PlayerQuests", "OpponentQuests" ])
+            initializeFields(fields: [ "opponentSide", "playerSide", "PlayerSecrets", "OpponentSecrets", "DamageCap", "PlayerHeroPower", "OpponentHeroPower", "PlayerHeroPower", "PlayerQuests", "OpponentQuests", "PlayerUndeadAttackBonus", "OpponentUndeadAttackBonus", "PlayerEternalKnightCounter", "OpponentEternalKnightCounter" ])
         }
     }
     
@@ -153,4 +153,16 @@ class InputProxy: MonoHandle, MonoClassInitializer {
 
     @MonoHandleField(field: "OpponentQuests", owner: InputProxy.self)
     var opponentQuests: MonoHandle
+    
+    @MonoPrimitiveField(field: "PlayerEternalKnightCounter", owner: InputProxy.self)
+    var playerEternalKnightCounter: Int32
+    
+    @MonoPrimitiveField(field: "OpponentEternalKnightCounter", owner: InputProxy.self)
+    var opponentEternalKnightCounter: Int32
+    
+    @MonoPrimitiveField(field: "PlayerUndeadAttackBonus", owner: InputProxy.self)
+    var playerUndeadAttackBonus: Int32
+    
+    @MonoPrimitiveField(field: "OpponentUndeadAttackBonus", owner: InputProxy.self)
+    var opponentUndeadAttackBonus: Int32
 }

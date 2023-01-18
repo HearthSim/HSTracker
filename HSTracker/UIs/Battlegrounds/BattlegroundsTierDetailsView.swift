@@ -62,23 +62,48 @@ class BattlegroundsTierDetailsView: NSStackView {
         }.map { inCard in
             let card = Card()
             
-            let cardBar = CardBar.factory()
             card.cost = -1
             card.id = inCard.id
             card.name = inCard.name
             card.race = inCard.race
-            if let count = counts[inCard.race] {
-                counts[inCard.race] = count + 1
-            } else {
-                counts[inCard.race] = 1
-            }
+            card.races = inCard.races
             card.count = 1
             card.rarity = inCard.rarity
-            cardBar.card = card
-            cardBar.isBattlegrounds = true
-            cardBar.setDelegate(self)
-            return cardBar
-        }
+            var cards = [CardBar]()
+            if card.races.count > 0 {
+                for race in card.races {
+                    if !(availableRaces?.contains(race) ?? false) {
+                        continue
+                    }
+                    if let count = counts[race] {
+                        counts[race] = count + 1
+                    } else {
+                        counts[race] = 1
+                    }
+                    let copy = card.copy()
+                    copy.race = race
+                    let cardBar = CardBar.factory()
+                    cardBar.card = copy
+                    cardBar.isBattlegrounds = true
+                    cardBar.setDelegate(self)
+                    cards.append(cardBar)
+                }
+            } else {
+                let cardBar = CardBar.factory()
+                cardBar.card = card
+                cardBar.isBattlegrounds = true
+                cardBar.setDelegate(self)
+                cards.append(cardBar)
+                let race = Race.invalid
+                if let count = counts[race] {
+                    counts[race] = count + 1
+                } else {
+                    counts[race] = 1
+                }
+
+            }
+            return cards
+        }.flatMap { x in x }
         
         let cardBar = CardBar.factory()
         let size = NSSize(width: cardBar.imageRectBG.width, height: cardBar.imageRectBG.height)
@@ -118,21 +143,23 @@ class BattlegroundsTierDetailsView: NSStackView {
             cardBar.playerType = .deckManager
             cardBars.append(cardBar)
 
-            let text = unavailable.compactMap({ race in NSLocalizedString(race.rawValue, comment: "")}).sorted().joined(separator: ", ")
-            cardBar = CardBar.factory()
-            cardBar.playerName = text
-            cardBar.playerRace = .blank
-            cardBar.backgroundImage = blackImage
-            cardBar.isBattlegrounds = true
-            cardBars.append(cardBar)
+            let unavailable = unavailable.compactMap({ race in NSLocalizedString(race.rawValue, comment: "")}).sorted().chunks(3)
+            for ur in unavailable {
+                cardBar = CardBar.factory()
+                cardBar.playerName = ur.joined(separator: ",")
+                cardBar.playerRace = .blank
+                cardBar.backgroundImage = blackImage
+                cardBar.isBattlegrounds = true
+                cardBars.append(cardBar)
+            }
         }
         cardBars = cardBars.sorted(by: {(a: CardBar, b: CardBar) -> Bool in
             var raceA: String
             var nameA: String
             var isTitleA: Int
-            if a.card?.race != nil {
-                raceA = a.card!.race.rawValue
-                nameA = a.card!.name
+            if let card = a.card {
+                raceA = card.race.rawValue
+                nameA = card.name
                 isTitleA = 1
             } else if a.playerRace == .blank && a.playerType != .deckManager {
                 raceA = a.playerRace!.rawValue
@@ -146,14 +173,14 @@ class BattlegroundsTierDetailsView: NSStackView {
             if raceA == "invalid" {
                 raceA = "neutral"
             } else if raceA == "blank" {
-                raceA = "unavailable"
+                raceA = "zzzzzzzzzzzzzz"
             }
             var raceB: String
             var nameB: String
             var isTitleB: Int
-            if b.card?.race != nil {
-                raceB = b.card!.race.rawValue
-                nameB = b.card!.name
+            if let card = b.card {
+                raceB = card.race.rawValue
+                nameB = card.name
                 isTitleB = 1
             } else if b.playerRace == .blank && b.playerType != .deckManager {
                 raceB = b.playerRace!.rawValue
@@ -167,7 +194,7 @@ class BattlegroundsTierDetailsView: NSStackView {
             if raceB == "invalid" {
                 raceB = "neutral"
             } else if raceB == "blank" {
-                raceB = "unavailable"
+                raceB = "zzzzzzzzzzzzzz"
             }
             return (raceA, isTitleA, nameA) > (raceB, isTitleB, nameB)
         })

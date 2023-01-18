@@ -16,6 +16,7 @@ class BattlegroundsSession: OverWindowController {
     @IBOutlet weak var tribe2: BattlegroundsTribe!
     @IBOutlet weak var tribe3: BattlegroundsTribe!
     @IBOutlet weak var tribe4: BattlegroundsTribe!
+    @IBOutlet weak var tribe5: BattlegroundsTribe!
     @IBOutlet weak var waitingForNext: NSTextField!
     
     @IBOutlet weak var mmrSection: NSStackView!
@@ -67,6 +68,7 @@ class BattlegroundsSession: OverWindowController {
         tribe2.isHidden = false
         tribe3.isHidden = false
         tribe4.isHidden = false
+        tribe5.isHidden = false
         waitingForNext.isHidden = true
     }
     
@@ -75,6 +77,7 @@ class BattlegroundsSession: OverWindowController {
         tribe2.isHidden = true
         tribe3.isHidden = true
         tribe4.isHidden = true
+        tribe5.isHidden = true
         waitingForNext.isHidden = false
     }
     
@@ -107,6 +110,12 @@ class BattlegroundsSession: OverWindowController {
             } else {
                 tribe4.isHidden = true
             }
+            if sorted.count > 4 {
+                tribe5.setRace(newRace: sorted[4])
+                tribe5.isHidden = false
+            } else {
+                tribe5.isHidden = true
+            }
             var font = tribe1.tribeLabel.font
             var minSize = tribe1.tribeLabel.font?.pointSize ?? 13.0
             if tribe2.tribeLabel.font?.pointSize ?? 13.0 < minSize {
@@ -121,16 +130,22 @@ class BattlegroundsSession: OverWindowController {
                 font = tribe4.tribeLabel.font
                 minSize = font?.pointSize ?? 13.0
             }
+            if tribe5.tribeLabel.font?.pointSize ?? 13.0 < minSize {
+                font = tribe5.tribeLabel.font
+                minSize = font?.pointSize ?? 13.0
+            }
             tribe1.tribeLabel.font = font
             tribe2.tribeLabel.font = font
             tribe3.tribeLabel.font = font
             tribe4.tribeLabel.font = font
+            tribe5.tribeLabel.font = font
             waitingForNext.isHidden = true
         } else {
             tribe1.isHidden = true
             tribe2.isHidden = true
             tribe3.isHidden = true
             tribe4.isHidden = true
+            tribe5.isHidden = true
             waitingForNext.isHidden = false
         }
         

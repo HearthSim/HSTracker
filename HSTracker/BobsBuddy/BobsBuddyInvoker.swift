@@ -698,6 +698,28 @@ class BobsBuddyInvoker {
         for m in opponentSide {
             MonoHelper.addToList(list: inputOpponentSide, element: m)
         }
+        
+        let playerAttached = BobsBuddyInvoker.getAttachedEntities(game: game, entityId: game.player.id)
+        let pEternalLegion = playerAttached.first { x in x.cardId == CardIds.NonCollectible.Neutral.EternalKnight_EternalKnightPlayerEnchant }
+        if let pEternalLegion {
+            input.playerEternalKnightCounter = Int32(pEternalLegion[.tag_script_data_num_1])
+        }
+        let pUndeadBonus = playerAttached.first { x in x.cardId == CardIds.NonCollectible.Neutral.NerubianDeathswarmer_UndeadBonusAttackPlayerEnchantDnt }
+        if let pUndeadBonus {
+            input.playerUndeadAttackBonus = Int32(pUndeadBonus[.tag_script_data_num_1])
+        }
+
+        let opponentAttached = BobsBuddyInvoker.getAttachedEntities(game: game, entityId: game.opponent.id)
+        let oEternalLegion = opponentAttached.first { x in x.cardId == CardIds.NonCollectible.Neutral.EternalKnight_EternalKnightPlayerEnchant }
+        if let oEternalLegion {
+            input.opponentEternalKnightCounter = Int32(oEternalLegion[.tag_script_data_num_1])
+        }
+        let oUndeadBonus = opponentAttached.first { x in x.cardId == CardIds.NonCollectible.Neutral.NerubianDeathswarmer_UndeadBonusAttackPlayerEnchantDnt }
+        if let oUndeadBonus {
+            input.opponentUndeadAttackBonus = Int32(oUndeadBonus[.tag_script_data_num_1])
+        }
+
+        logger.info("pEternal=\(input.playerEternalKnightCounter), pUndead=\(input.playerUndeadAttackBonus) | oEternal={\(input.opponentEternalKnightCounter), oUndead=\(input.opponentUndeadAttackBonus)");
 
         self.input = input
         self._turn = turn
