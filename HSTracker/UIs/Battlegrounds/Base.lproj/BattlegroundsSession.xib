@@ -142,7 +142,7 @@
                                                                 <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pvf-x6-O3V">
                                                                     <rect key="frame" x="8" y="8" width="40" height="56"/>
                                                                     <subviews>
-                                                                        <customView identifier="Tribe4" translatesAutoresizingMaskIntoConstraints="NO" id="yAN-oF-g1y" userLabel="Battlegrounds Tribe 5" customClass="BattlegroundsTribe" customModule="HSTracker" customModuleProvider="target">
+                                                                        <customView identifier="Tribe5" translatesAutoresizingMaskIntoConstraints="NO" id="yAN-oF-g1y" userLabel="Battlegrounds Tribe 5" customClass="BattlegroundsTribe" customModule="HSTracker" customModuleProvider="target">
                                                                             <rect key="frame" x="0.0" y="0.0" width="40" height="56"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="height" priority="750" constant="56" id="LPp-cU-4kh"/>
@@ -254,10 +254,10 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="200" height="51"/>
                                                     <subviews>
                                                         <stackView identifier="StackMMRA" distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DO9-Gg-Bsi" userLabel="StackMMRA">
-                                                            <rect key="frame" x="0.0" y="4" width="100" height="43"/>
+                                                            <rect key="frame" x="0.0" y="8" width="100" height="35"/>
                                                             <subviews>
                                                                 <textField identifier="LabelMMRA" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vT4-FW-x14" userLabel="LabelMMRA">
-                                                                    <rect key="frame" x="-2" y="29" width="104" height="14"/>
+                                                                    <rect key="frame" x="-2" y="21" width="104" height="14"/>
                                                                     <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" placeholderString="Label A" id="ha4-gL-nzv">
                                                                         <font key="font" metaFont="smallSystem"/>
                                                                         <color key="textColor" red="1" green="1" blue="1" alpha="0.55000000000000004" colorSpace="custom" customColorSpace="sRGB"/>
@@ -265,7 +265,7 @@
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <textField identifier="MMRFieldA" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1Gp-2D-Ot1" userLabel="MMRFieldA">
-                                                                    <rect key="frame" x="-2" y="8" width="104" height="21"/>
+                                                                    <rect key="frame" x="-2" y="0.0" width="104" height="21"/>
                                                                     <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="0" id="RZG-YG-Lt0">
                                                                         <font key="font" metaFont="system" size="18"/>
                                                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -274,12 +274,10 @@
                                                                 </textField>
                                                             </subviews>
                                                             <constraints>
-                                                                <constraint firstAttribute="bottom" secondItem="1Gp-2D-Ot1" secondAttribute="bottom" constant="8" id="YZC-Kd-SV6"/>
                                                                 <constraint firstItem="vT4-FW-x14" firstAttribute="leading" secondItem="DO9-Gg-Bsi" secondAttribute="leading" id="Yc9-Mw-gt4"/>
                                                                 <constraint firstItem="1Gp-2D-Ot1" firstAttribute="leading" secondItem="DO9-Gg-Bsi" secondAttribute="leading" id="c8F-LD-k6O"/>
                                                                 <constraint firstAttribute="trailing" secondItem="vT4-FW-x14" secondAttribute="trailing" id="eLQ-GK-3A4"/>
                                                                 <constraint firstAttribute="trailing" secondItem="1Gp-2D-Ot1" secondAttribute="trailing" id="ekw-Wq-1fS"/>
-                                                                <constraint firstItem="1Gp-2D-Ot1" firstAttribute="top" secondItem="vT4-FW-x14" secondAttribute="bottom" id="ufC-aD-4Z9"/>
                                                             </constraints>
                                                             <visibilityPriorities>
                                                                 <integer value="1000"/>
@@ -302,10 +300,10 @@
                                                             <color key="fillColor" red="0.29019607843137252" green="0.32156862745098036" blue="0.33725490196078434" alpha="1" colorSpace="deviceRGB"/>
                                                         </box>
                                                         <stackView identifier="StackMMRB" distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RX5-KE-lC7" userLabel="StackMMRB">
-                                                            <rect key="frame" x="101" y="0.0" width="99" height="51"/>
+                                                            <rect key="frame" x="101" y="8" width="99" height="35"/>
                                                             <subviews>
                                                                 <textField identifier="LabelMMRB" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="52x-No-Hbp" userLabel="LabelMMRB">
-                                                                    <rect key="frame" x="-2" y="37" width="103" height="14"/>
+                                                                    <rect key="frame" x="-2" y="21" width="103" height="14"/>
                                                                     <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" placeholderString="Label B" id="d8c-CA-Xnd">
                                                                         <font key="font" metaFont="smallSystem"/>
                                                                         <color key="textColor" red="1" green="1" blue="1" alpha="0.55000000000000004" colorSpace="custom" customColorSpace="sRGB"/>
@@ -313,7 +311,7 @@
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <textField identifier="MMRFieldB" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vhL-Yc-Yrh" userLabel="MMRFieldB">
-                                                                    <rect key="frame" x="-2" y="16" width="103" height="21"/>
+                                                                    <rect key="frame" x="-2" y="0.0" width="103" height="21"/>
                                                                     <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="0" id="5Iv-FD-3EE">
                                                                         <font key="font" metaFont="system" size="18"/>
                                                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -324,9 +322,7 @@
                                                             <constraints>
                                                                 <constraint firstItem="52x-No-Hbp" firstAttribute="leading" secondItem="RX5-KE-lC7" secondAttribute="leading" id="9qG-Lw-tiS"/>
                                                                 <constraint firstAttribute="trailing" secondItem="52x-No-Hbp" secondAttribute="trailing" id="BUZ-u2-2PW"/>
-                                                                <constraint firstAttribute="bottom" secondItem="vhL-Yc-Yrh" secondAttribute="bottom" constant="8" id="Ir3-oz-oXN"/>
                                                                 <constraint firstItem="vhL-Yc-Yrh" firstAttribute="leading" secondItem="RX5-KE-lC7" secondAttribute="leading" id="JI0-Ld-TWn"/>
-                                                                <constraint firstItem="vhL-Yc-Yrh" firstAttribute="top" secondItem="52x-No-Hbp" secondAttribute="bottom" id="ubc-d7-dPM"/>
                                                                 <constraint firstAttribute="trailing" secondItem="vhL-Yc-Yrh" secondAttribute="trailing" id="xY1-NF-RUQ"/>
                                                             </constraints>
                                                             <visibilityPriorities>

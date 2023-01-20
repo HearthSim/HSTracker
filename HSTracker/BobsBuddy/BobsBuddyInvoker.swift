@@ -533,6 +533,16 @@ class BobsBuddyInvoker {
         minion.tier = Int32(ent[GameTag.tech_level])
         minion.reborn = ent.has(tag: GameTag.reborn)
         
+        let dbfId = ent.card.dbfId
+        let m1 = ent[.modular_entity_part_1]
+        let m2 = ent[.modular_entity_part_2]
+        
+        if m1 > 0 && m2 > 0 && (m1 == dbfId || m2 == dbfId) {
+            if let modularCard = Cards.by(dbfId: m1 == dbfId ? m2 : m1, collectible: false) {
+                minion.attachModularEntity(cardId: modularCard.id)
+            }
+        }
+        
         if golden && (BobsBuddyInvoker.cardIdsWithoutPremiumImplementation.firstIndex(of: cardId) != nil) {
             minion.vanillaAttack *= 2
             minion.vanillaHealth *= 2
@@ -719,7 +729,7 @@ class BobsBuddyInvoker {
             input.opponentUndeadAttackBonus = Int32(oUndeadBonus[.tag_script_data_num_1])
         }
 
-        logger.info("pEternal=\(input.playerEternalKnightCounter), pUndead=\(input.playerUndeadAttackBonus) | oEternal={\(input.opponentEternalKnightCounter), oUndead=\(input.opponentUndeadAttackBonus)");
+        logger.info("pEternal=\(input.playerEternalKnightCounter), pUndead=\(input.playerUndeadAttackBonus) | oEternal={\(input.opponentEternalKnightCounter), oUndead=\(input.opponentUndeadAttackBonus)")
 
         self.input = input
         self._turn = turn

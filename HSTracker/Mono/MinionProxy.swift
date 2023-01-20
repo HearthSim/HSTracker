@@ -10,12 +10,15 @@ import Foundation
 
 class MinionProxy: MonoHandle, MonoClassInitializer {    
     internal static var _class: OpaquePointer?
+    internal static var _attachModularEntity: OpaquePointer!
     
     static var _members = [String: OpaquePointer]()
     
     static func initialize() {
         if MinionProxy._class == nil {
             MinionProxy._class = MonoHelper.loadClass(ns: "BobsBuddy", name: "Minion")
+            
+            MinionProxy._attachModularEntity = MonoHelper.getMethod(MinionProxy._class, "AttachModularEntity", 1)
             
             initializeFields(fields: ["minionName", "tier"])
             
@@ -94,5 +97,9 @@ class MinionProxy: MonoHandle, MonoClassInitializer {
             mono_runtime_invoke(method, obj, $0, nil)
         })
         params.deallocate()
+    }
+    
+    func attachModularEntity(cardId: String) {
+        _ = MonoHelper.invokeString(obj: self, method: MinionProxy._attachModularEntity, str: cardId)
     }
 }
