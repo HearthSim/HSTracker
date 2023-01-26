@@ -29,10 +29,27 @@ class BattlegroundsSession: OverWindowController {
     @IBOutlet weak var noGamesSection: NSView!
     @IBOutlet weak var lastGames: NSStackView!
     
+    @IBOutlet weak var sessionPanel: NSStackView!
+        
     private var sessionGames = [BattlegroundsLastGames.GameItem]()
+    
+    var visibility = false
         
     override func windowDidLoad() {
         super.windowDidLoad()
+    }
+        
+    func updateScaling() {
+        guard let window else {
+            return
+        }
+        let bounds = sessionPanel.bounds
+        let scale = Settings.battlegroundsSessionScaling
+        let sw = bounds.width * scale
+        let sh = bounds.height * scale
+        outerBox.frame = NSRect(x: 0, y: window.frame.height - sh, width: sw, height: sh)
+        outerBox.bounds = bounds
+        outerBox.needsDisplay = true
     }
     
     func onGameStart() {

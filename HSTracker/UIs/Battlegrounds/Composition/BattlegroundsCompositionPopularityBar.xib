@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="BattlegroundsCompositionPopularityBar" customModule="HSTracker" customModuleProvider="target">
+            <connections>
+                <outlet property="barRect" destination="IE3-ki-D0b" id="elh-AP-R94"/>
+                <outlet property="contentView" destination="c22-O7-iKe" id="4Du-qS-j6e"/>
+                <outlet property="widthConstraint" destination="yKa-FW-MCC" id="6wa-VS-IAb"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView translatesAutoresizingMaskIntoConstraints="NO" id="c22-O7-iKe">
+            <rect key="frame" x="0.0" y="0.0" width="10" height="24"/>
+            <subviews>
+                <box identifier="BarRect" boxType="custom" borderWidth="0.0" cornerRadius="2" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="IE3-ki-D0b" userLabel="BarRect">
+                    <rect key="frame" x="0.0" y="4" width="10" height="16"/>
+                    <view key="contentView" id="4fU-3R-seO">
+                        <rect key="frame" x="0.0" y="0.0" width="10" height="16"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    </view>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="16" id="Daz-UM-ggg"/>
+                        <constraint firstAttribute="width" constant="10" id="yKa-FW-MCC"/>
+                    </constraints>
+                    <color key="borderColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                    <color key="fillColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="deviceRGB"/>
+                </box>
+            </subviews>
+            <constraints>
+                <constraint firstItem="IE3-ki-D0b" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="ecz-0a-2we"/>
+                <constraint firstItem="IE3-ki-D0b" firstAttribute="centerY" secondItem="c22-O7-iKe" secondAttribute="centerY" id="vVS-KZ-C6s"/>
+                <constraint firstAttribute="height" constant="24" id="z0j-MI-rlV"/>
+            </constraints>
+            <point key="canvasLocation" x="64" y="62.5"/>
+        </customView>
+    </objects>
+</document>

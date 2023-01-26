@@ -380,6 +380,7 @@ enum GameTag: Int, WrappableEnum, CaseIterable, Codable {
     dredge = 2332,
     bacon_player_num_hero_buddies_gained = 2346,
     immolatestage = 2600,
+    bacon_card_dbid_reward = 2673,
     secret_locked = 2676,
     bacon_hero_quest_reward_database_id = 2713,
     bacon_hero_heropower_quest_reward_database_id = 2714,

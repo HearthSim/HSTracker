@@ -154,6 +154,9 @@ final class Player {
     }
 
     fileprivate(set) lazy var inDeckPredictions = [PredictedCard]()
+    
+    private let pastHPLock = UnfairLock()
+    var pastHeroPowers = Set<String>()
 
     var name: String?
     var tracker: Tracker?
@@ -179,6 +182,9 @@ final class Player {
         lastDrawnCardId = nil
         libramReductionCount = 0
         abyssalCurseCount = 0
+        pastHPLock.around {
+            pastHeroPowers.removeAll()
+        }
     }
     
     var currentMana: Int {
@@ -733,6 +739,9 @@ final class Player {
         if Settings.fullGameLog {
             logger.info("\(debugName) \(#function) \(entity)")
         }
+        if entity.isHeroPower {
+            heroPowerChanged(entity: entity)
+        }
     }
 
     func createInSecret(entity: Entity, turn: Int) {
@@ -800,6 +809,22 @@ final class Player {
     func shuffleDeck() {
         for card in deck {
             card.info.deckIndex = 0
+        }
+    }
+    
+    func heroPowerChanged(entity: Entity) {
+        if !isLocalPlayer {
+            return
+        }
+        let id = entity.info.latestCardId
+        if id == "" {
+            return
+        }
+        let added = pastHPLock.around {
+            pastHeroPowers.update(with: id)
+        }
+        if added != nil  && Settings.fullGameLog {
+            logger.info("\(debugName) \(#function) \(entity)")
         }
     }
 }

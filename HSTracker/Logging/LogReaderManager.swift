@@ -72,7 +72,7 @@ final class LogReaderManager {
         rachelle = LogReader(info: LogReaderInfo(name: .rachelle), logPath: logPath)
         arena = LogReader(info: LogReaderInfo(name: .arena), logPath: logPath)
         loadingScreen = LogReader(info: LogReaderInfo(name: .loadingScreen,
-                                                      startsWithFilters: ["LoadingScreen.OnSceneLoaded", "Gameplay"]),
+                                                      startsWithFilters: ["LoadingScreen.OnSceneLoaded", "Gameplay", "LoadingScreen.OnScenePreUnload"]),
                                   logPath: logPath)
     }
 

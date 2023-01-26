@@ -508,3 +508,67 @@ class QueueWatcher: Watcher {
         isRunning = false
     }
 }
+
+struct BaconEventArgs: Equatable {
+    let isShopOpen: Bool
+    let isJournalOpen: Bool
+    let isPopupShowing: Bool
+    let isFriendsListOpen: Bool
+    
+    init(_ isShopOpen: Bool, _ isJournalOpen: Bool, _ isPopupShowing: Bool, _ isFriendsListOpen: Bool) {
+        self.isShopOpen = isShopOpen
+        self.isJournalOpen = isJournalOpen
+        self.isPopupShowing = isPopupShowing
+        self.isFriendsListOpen = isFriendsListOpen
+    }
+    
+    func isAnyOpen() -> Bool {
+        return isShopOpen || isJournalOpen || isPopupShowing || isFriendsListOpen
+    }
+}
+
+class BaconWatcher: Watcher {
+    static var change: ((_ sender: BaconWatcher, _ args: BaconEventArgs) -> Void)?
+    var _watch: Bool = false
+    var _prev: BaconEventArgs?
+    
+    static let _instance = BaconWatcher()
+    
+    init(delay: TimeInterval = 0.200) {
+        super.init()
+        
+        refreshInterval = delay
+    }
+    
+    override func run() {
+        _watch = true
+        update()
+    }
+    
+    static func start() {
+        _instance.startWatching()
+    }
+    
+    static func stop() {
+        _instance._watch = false
+        _instance.stopWatching()
+    }
+    
+    private func update() {
+        isRunning = true
+        while _watch {
+            Thread.sleep(forTimeInterval: refreshInterval)
+            if !_watch {
+                break
+            }
+            let curr = BaconEventArgs(MirrorHelper.isShopOpen(), MirrorHelper.isJournalOpen(), MirrorHelper.isPopupShowing(), MirrorHelper.isFriendsListVisible())
+            if curr ==  _prev {
+                continue
+            }
+            BaconWatcher.change?(self, curr)
+            _prev = curr
+        }
+        _prev = nil
+        isRunning = false
+    }
+}

@@ -130,11 +130,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
         
         HSReplayAPI.oauthswift.renewAccessToken(withRefreshToken: credential.oauthRefreshToken, completionHandler: { result in
             switch result {
-            case .success(let (credential, _, _)):
+            case .success(let (credential, _, parameters)):
                 logger.debug("HSReplay: Refreshed OAuthToken")
                 Settings.hsReplayOAuthToken =  credential.oauthToken
                 Settings.hsReplayOAuthRefreshToken = credential.oauthRefreshToken
                 Settings.hsReplayOAuthTokenExpiration = credential.oauthTokenExpiresAt
+                Settings.hsReplayOAuthScope = parameters["scope"] as? String
                 HSReplayAPI.getAccount().done { result in
                     switch result {
                     case .failed:
@@ -589,6 +590,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
     
     @IBAction func openPreferences(_ sender: AnyObject) {
         preferences.show()
+    }
+    
+    func openPreferences(pane: Preferences.PaneIdentifier) {
+        preferences.show(preferencePane: pane)
     }
     
     @IBAction func lockWindows(_ sender: AnyObject) {

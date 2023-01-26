@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="BattlegroundsSingleHeroStats" customModule="HSTracker" customModuleProvider="target">
+            <connections>
+                <outlet property="armorTierLabel" destination="ocd-0X-qDy" id="f3w-tH-UBC"/>
+                <outlet property="armorTierTooltipRange" destination="ltz-0w-Isv" id="ZCa-Br-y9q"/>
+                <outlet property="battlegroundsHeroHeader" destination="dJn-dd-3p5" id="2M5-ai-Xdl"/>
+                <outlet property="compositions" destination="5q0-Cd-eRk" id="wMX-p5-ikQ"/>
+                <outlet property="contentView" destination="c22-O7-iKe" id="NUa-12-oO3"/>
+                <outlet property="heroPortraitContainer" destination="u1e-O1-gPf" id="uAr-60-nrV"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="c22-O7-iKe" userLabel="BattlegroundsSingleHero">
+            <rect key="frame" x="0.0" y="0.0" width="266" height="423"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="dJn-dd-3p5" customClass="BattlegroundsHeroHeader" customModule="HSTracker" customModuleProvider="target">
+                    <rect key="frame" x="15" y="363" width="236" height="60"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="236" id="6EJ-DD-qF4"/>
+                        <constraint firstAttribute="height" constant="60" id="V4j-aR-g3F"/>
+                    </constraints>
+                </customView>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="u1e-O1-gPf" userLabel="HeroPortraitContainer">
+                    <rect key="frame" x="15" y="132" width="236" height="231"/>
+                    <subviews>
+                        <box boxType="custom" cornerRadius="5" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="8wp-RW-7UV">
+                            <rect key="frame" x="85" y="52" width="106" height="25"/>
+                            <view key="contentView" id="AiW-BE-n3a">
+                                <rect key="frame" x="1" y="1" width="104" height="23"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="EgL-rE-BvX">
+                                        <rect key="frame" x="13" y="4" width="65" height="15"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Armor Tier" id="Emk-Rp-gHT">
+                                            <font key="font" metaFont="cellTitle"/>
+                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ocd-0X-qDy">
+                                        <rect key="frame" x="78" y="4" width="13" height="16"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" title="4" id="CbP-J2-cj6">
+                                            <font key="font" metaFont="systemBold"/>
+                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="ocd-0X-qDy" firstAttribute="centerY" secondItem="AiW-BE-n3a" secondAttribute="centerY" id="RDx-UA-sGV"/>
+                                    <constraint firstItem="EgL-rE-BvX" firstAttribute="top" secondItem="AiW-BE-n3a" secondAttribute="top" constant="4" id="Xgi-YC-fed"/>
+                                    <constraint firstAttribute="bottom" secondItem="EgL-rE-BvX" secondAttribute="bottom" constant="4" id="Ys8-CC-xpi"/>
+                                    <constraint firstAttribute="trailing" secondItem="ocd-0X-qDy" secondAttribute="trailing" constant="15" id="erp-jv-Ru4"/>
+                                    <constraint firstItem="EgL-rE-BvX" firstAttribute="leading" secondItem="AiW-BE-n3a" secondAttribute="leading" constant="15" id="fNT-qx-fXk"/>
+                                    <constraint firstItem="ocd-0X-qDy" firstAttribute="leading" secondItem="EgL-rE-BvX" secondAttribute="trailing" constant="4" id="oaE-Jg-ecG"/>
+                                </constraints>
+                            </view>
+                            <color key="borderColor" red="0.21176470589999999" green="0.086274509799999996" blue="0.2156862745" alpha="1" colorSpace="deviceRGB"/>
+                            <color key="fillColor" red="0.078431372550000003" green="0.086274509799999996" blue="0.090196078430000007" alpha="1" colorSpace="custom" customColorSpace="deviceRGB"/>
+                        </box>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="236" id="Evg-vn-ueL"/>
+                        <constraint firstAttribute="trailing" secondItem="8wp-RW-7UV" secondAttribute="trailing" constant="45" id="UZm-gL-IJd"/>
+                        <constraint firstAttribute="bottom" secondItem="8wp-RW-7UV" secondAttribute="bottom" constant="52" id="ilx-LY-VdE"/>
+                    </constraints>
+                </customView>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="5q0-Cd-eRk" userLabel="Compositions" customClass="BattlegroundsCompositionPopularity" customModule="HSTracker" customModuleProvider="target">
+                    <rect key="frame" x="15" y="30" width="236" height="72"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="236" id="3TF-VP-H0t"/>
+                        <constraint firstAttribute="height" constant="72" id="Aqz-dS-TZg"/>
+                    </constraints>
+                </customView>
+            </subviews>
+            <constraints>
+                <constraint firstItem="u1e-O1-gPf" firstAttribute="centerX" secondItem="c22-O7-iKe" secondAttribute="centerX" id="4OS-6c-dXT"/>
+                <constraint firstAttribute="bottom" secondItem="5q0-Cd-eRk" secondAttribute="bottom" constant="30" id="4Q9-X3-Y6x"/>
+                <constraint firstItem="dJn-dd-3p5" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="7eU-cz-Q3j"/>
+                <constraint firstItem="u1e-O1-gPf" firstAttribute="top" secondItem="dJn-dd-3p5" secondAttribute="bottom" id="8W4-E9-cXz"/>
+                <constraint firstItem="5q0-Cd-eRk" firstAttribute="top" secondItem="u1e-O1-gPf" secondAttribute="bottom" constant="30" id="JKg-9e-lw3"/>
+                <constraint firstItem="5q0-Cd-eRk" firstAttribute="centerX" secondItem="c22-O7-iKe" secondAttribute="centerX" id="Ju5-yE-tb1"/>
+                <constraint firstItem="dJn-dd-3p5" firstAttribute="centerX" secondItem="c22-O7-iKe" secondAttribute="centerX" id="op2-a7-Zmm"/>
+            </constraints>
+            <point key="canvasLocation" x="-45" y="127.5"/>
+        </customView>
+        <box boxType="custom" cornerRadius="4" title="Box" titlePosition="noTitle" id="ltz-0w-Isv" userLabel="ArmorTierTooltip">
+            <rect key="frame" x="0.0" y="0.0" width="171" height="88"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <view key="contentView" id="5pj-B1-4Wh">
+                <rect key="frame" x="1" y="1" width="169" height="86"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="5OH-eu-5bq">
+                        <rect key="frame" x="0.0" y="-2" width="169" height="88"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Z61-9S-dVs">
+                                <rect key="frame" x="6" y="62" width="157" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="22" id="Il1-tv-yoM"/>
+                                </constraints>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="left" title="Armor Tier" id="ILr-li-YE7">
+                                    <font key="font" metaFont="systemBold" size="12"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="0kR-WP-yxU">
+                                <rect key="frame" x="6" y="20" width="157" height="42"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="42" id="Dfo-yv-4Xz"/>
+                                </constraints>
+                                <textFieldCell key="cell" selectable="YES" title="Higher armor tier heroes are offered quests with easier completion requirements." id="emD-5M-gkW">
+                                    <font key="font" metaFont="system" size="10"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5hA-bl-Zuo" userLabel="ArmorTooltipRange">
+                                <rect key="frame" x="6" y="7" width="157" height="13"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="ArmorTooltipRange" id="yQO-8l-IQq">
+                                    <font key="font" metaFont="system" size="10"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="0kR-WP-yxU" secondAttribute="trailing" constant="8" id="6H8-FB-0It"/>
+                            <constraint firstItem="Z61-9S-dVs" firstAttribute="top" secondItem="5OH-eu-5bq" secondAttribute="top" constant="4" id="7Vk-ca-nAR"/>
+                            <constraint firstItem="0kR-WP-yxU" firstAttribute="top" secondItem="Z61-9S-dVs" secondAttribute="bottom" id="DYi-Yh-3Lv"/>
+                            <constraint firstAttribute="height" constant="88" id="EAW-ei-Fli"/>
+                            <constraint firstItem="0kR-WP-yxU" firstAttribute="leading" secondItem="5OH-eu-5bq" secondAttribute="leading" constant="8" id="X2C-ba-JPo"/>
+                            <constraint firstItem="5hA-bl-Zuo" firstAttribute="top" secondItem="0kR-WP-yxU" secondAttribute="bottom" id="ZOx-Cf-Nw4"/>
+                            <constraint firstAttribute="trailing" secondItem="Z61-9S-dVs" secondAttribute="trailing" constant="8" id="bXN-bT-0DH"/>
+                            <constraint firstAttribute="trailing" secondItem="5hA-bl-Zuo" secondAttribute="trailing" constant="8" id="cV4-IT-cUr"/>
+                            <constraint firstItem="Z61-9S-dVs" firstAttribute="leading" secondItem="5OH-eu-5bq" secondAttribute="leading" constant="8" id="f9Q-dt-YRJ"/>
+                            <constraint firstItem="5hA-bl-Zuo" firstAttribute="leading" secondItem="5OH-eu-5bq" secondAttribute="leading" constant="8" id="vCV-YB-ToY"/>
+                        </constraints>
+                    </customView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="5OH-eu-5bq" firstAttribute="leading" secondItem="5pj-B1-4Wh" secondAttribute="leading" id="cuO-Uy-VHM"/>
+                    <constraint firstItem="5OH-eu-5bq" firstAttribute="top" secondItem="5pj-B1-4Wh" secondAttribute="top" id="psV-V3-vhT"/>
+                    <constraint firstAttribute="trailing" secondItem="5OH-eu-5bq" secondAttribute="trailing" id="xQz-NL-dje"/>
+                </constraints>
+            </view>
+            <color key="borderColor" red="0.21176470589999999" green="0.086274509799999996" blue="0.2156862745" alpha="1" colorSpace="deviceRGB"/>
+            <color key="fillColor" red="0.078431372550000003" green="0.086274509799999996" blue="0.090196078430000007" alpha="1" colorSpace="custom" customColorSpace="deviceRGB"/>
+            <point key="canvasLocation" x="-112.5" y="-192.5"/>
+        </box>
+    </objects>
+</document>

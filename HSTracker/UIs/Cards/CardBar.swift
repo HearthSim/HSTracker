@@ -132,6 +132,8 @@ class CardBar: NSView, CardBarTheme {
     let countTextRect = NSRect(x: 198, y: 9, width: CGFloat.greatestFiniteMagnitude, height: 34)
     let costTextRect = NSRect(x: 0, y: 9, width: 34, height: 34)
     let arenaHelperRect = NSRect(x: 17, y: 0, width: 34, height: 34)
+    let tag1 = NSRect(x: 183, y: 0, width: 34, height: 34)
+    let tag2 = NSRect(x: 149, y: 0, width: 34, height: 34)
 
     var countTextColor: NSColor {
         return NSColor( red: 0.9221, green: 0.7215, blue: 0.2226, alpha: 1.0 )
@@ -306,7 +308,19 @@ class CardBar: NSView, CardBarTheme {
                 addCreatedIcon()
             }
             if (abs(card.count) <= 1 || playerType == .editDeck) && card.rarity == .legendary {
-                addLegendaryIcon()
+                if !isBattlegrounds {
+                    addLegendaryIcon()
+                }
+            }
+            if isBattlegrounds {
+                let hasBattleCry = card.mechanics.contains("BATTLECRY")
+                let hasDeathrattle = card.mechanics.contains("DEATHRATTLE")
+                if hasBattleCry {
+                    addBattlecryTag(position: hasDeathrattle ? 2 : 1)
+                }
+                if hasDeathrattle {
+                    addDeathrattleTag()
+                }
             }
         }
         if (isBattlegrounds && card != nil) || !isBattlegrounds {
@@ -482,6 +496,28 @@ class CardBar: NSView, CardBarTheme {
     func addLegendaryIcon(rect: NSRect) {
         if let icon = required[.legendaryIcon] {
             add(themeElement: icon, rect: rect)
+        }
+    }
+    
+    func addBattlecryTag(position: Int) {
+        let rect = position == 1 ? tag1 : tag2
+        if #available(macOS 11.0, *) {
+            var image = NSImage(systemSymbolName: "b.circle.fill", accessibilityDescription: nil)!
+            if #available(macOS 12.0, *) {
+                let config = NSImage.SymbolConfiguration(paletteColors: [ .white, .black ])
+                image = image.withSymbolConfiguration(config)!
+            }
+            add(image: image, rect: rect)
+        }
+    }
+    func addDeathrattleTag() {
+        if #available(macOS 11.0, *) {
+            var image = NSImage(systemSymbolName: "d.circle.fill", accessibilityDescription: nil)!
+            if #available(macOS 12.0, *) {
+                let config = NSImage.SymbolConfiguration(paletteColors: [ .white, .black ])
+                image = image.withSymbolConfiguration(config)!
+            }
+            add(image: image, rect: tag1)
         }
     }
 

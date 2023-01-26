@@ -63,9 +63,7 @@ class BattlegroundsGameView: NSView {
     static let placementHigh = NSColor(red: 236.0/255.0, green: 105.0/255.0, blue: 105.0/255.0, alpha: 1.0)
     static let mmrPositive = NSColor(red: 139.0/255.0, green: 210.0/255.0, blue: 134.0/255.0, alpha: 1.0)
     static let mmrNegative = NSColor(red: 236.0/255.0, green: 105.0/255.0, blue: 105.0/255.0, alpha: 1.0)
-    
-    var popover: NSPopover?
-    
+        
     var game: BattlegroundsLastGames.GameItem?
     
     override var intrinsicContentSize: NSSize {
@@ -123,15 +121,15 @@ class BattlegroundsGameView: NSView {
         let wm = AppDelegate.instance().coreManager.game.windowManager
         let fb = wm.battlegroundsFinalBoard
         fb.setBoard(board: minions, endTime: game?.endTime)
-        let sessionFrame = wm.battlegroundsSession.window!.frame
-        let outerFrame = wm.battlegroundsSession.outerBox.frame
+        let window = wm.battlegroundsSession.window!
+        let rect = convert(bounds, to: nil)
+        let screenRect = window.convertToScreen(rect)
         let size = NSSize(width: 378, height: 125)
-        var x: CGFloat = sessionFrame.maxX + 10
+        var x: CGFloat = rect.maxX + 10
         if let screenFrame = self.window?.screen?.frame ?? NSScreen.main?.frame, x + size.width >= screenFrame.maxX {
-            x = sessionFrame.minX - 10 - size.width
+            x = window.frame.minX - 10 - size.width
         }
-
-        AppDelegate.instance().coreManager.game.windowManager.show(controller: fb, show: true, frame: NSRect(x: x, y: sessionFrame.minY + outerFrame.minY + frame.minY, width: size.width, height: size.height), title: nil, overlay: true)
+        AppDelegate.instance().coreManager.game.windowManager.show(controller: fb, show: true, frame: NSRect(x: x, y: screenRect.minY, width: size.width, height: size.height), title: nil, overlay: true)
     }
     
     override func mouseExited(with event: NSEvent) {

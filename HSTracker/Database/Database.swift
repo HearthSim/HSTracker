@@ -184,8 +184,12 @@ class Database {
                         }
                         if let mechanics = jsonCard["mechanics"] as? [String] {
                             for mechanic in mechanics {
-                                let cardMechanic = CardMechanic(name: mechanic)
-                                card.mechanics.append(cardMechanic)
+                                card.mechanics.append(mechanic)
+                            }
+                        }
+                        if let referencedTags = jsonCard["referencedTags"] as? [String] {
+                            for tag in referencedTags {
+                                card.mechanics.append(tag)
                             }
                         }
                         if index < 0 {
@@ -218,6 +222,10 @@ class Database {
                         
                         if let mercenariesAbilityCooldown = jsonCard["mercenariesAbilityCooldown"] as? Int {
                             card.mercenariesAbilityCooldown = mercenariesAbilityCooldown
+                        }
+                        
+                        if let armorTier = jsonCard["battlegroundsArmorTier"] as? Int {
+                            card.battlegroundsArmorTier = armorTier
                         }
                         Cards.cards.insert(card, at: index)
                         Cards.cardsById[card.id] = card

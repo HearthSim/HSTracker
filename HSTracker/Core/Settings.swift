@@ -252,6 +252,8 @@ final class Settings {
     static var showOpponentWarband: Bool
     @UserDefault(key: Settings.show_tiers, defaultValue: true)
     static var showTiers: Bool
+    @UserDefault(key: Settings.show_battlecry_deathrattle_on_tiers, defaultValue: true)
+    static var showBattlecryDeathrattleOnTiers: Bool
     @UserDefault(key: Settings.show_tavern_triples, defaultValue: true)
     static var showTavernTriples: Bool
     @UserDefault(key: Settings.show_hero_toast, defaultValue: true)
@@ -268,6 +270,18 @@ final class Settings {
     static var showLatestGames: Bool
     @UserDefaultCustom(key: Settings.battlegrounds_session_frame, defaultValue: nil)
     static var battlegroundsSessionFrame: NSRect?
+    @UserDefault(key: Settings.enable_tier7_overlay, defaultValue: true)
+    static var enableTier7Overlay: Bool
+    @UserDefault(key: Settings.show_battlegrounds_tier7_prelobby, defaultValue: true)
+    static var showBattlegroundsTier7PreLobby: Bool
+    @UserDefault(key: Settings.show_battlegrounds_hero_picking, defaultValue: true)
+    static var showBattlegroundsHeroPicking: Bool
+    @UserDefault(key: Settings.show_battlegrounds_quest_picking, defaultValue: true)
+    static var showBattlegroundsQuestPicking: Bool
+    @UserDefault(key: Settings.show_battlegrounds_composition_stats, defaultValue: true)
+    static var showBattlegroundsCompositionStats: Bool
+    @UserDefault(key: Settings.battlegrounds_session_scaling, defaultValue: 1.0)
+    static var battlegroundsSessionScaling: Double
 
     @UserDefault(key: Settings.player_draw_chance, defaultValue: true)
     static var showPlayerDrawChance: Bool
@@ -447,6 +461,8 @@ final class Settings {
     static var hsReplayOAuthTokenExpiration: Date?
     @UserDefault(key: Settings.hsreplay_oauth_refresh_token, defaultValue: nil)
     static var hsReplayOAuthRefreshToken: String?
+    @UserDefault(key: Settings.hsreplay_oauth_scope, defaultValue: nil)
+    static var hsReplayOAuthScope: String?
     @UserDefault(key: Settings.hsreplay_username, defaultValue: nil)
     static var hsReplayUsername: String?
     @UserDefault(key: Settings.hsreplay_id, defaultValue: nil)
@@ -552,6 +568,7 @@ extension Settings {
     static let show_average_damage = "show_average_damage"
     static let show_opponent_warband = "show_opponent_warband"
     static let show_tiers = "show_tiers"
+    static let show_battlecry_deathrattle_on_tiers = "show_battlecry_deathrattle_on_tiers"
     static let show_tavern_triples = "show_tavern_triples"
     static let show_hero_toast = "show_hero_toast"
     static let show_session_recap = "show_session_recap"
@@ -560,7 +577,13 @@ extension Settings {
     static let show_mmr_start_current = "show_mmr_start_current"
     static let show_latest_games = "show_latest_games"
     static let battlegrounds_session_frame = "battlegrounds_session_frame"
-
+    static let enable_tier7_overlay = "enable_tier7_overlay"
+    static let show_battlegrounds_tier7_prelobby = "show_battlegrounds_tier7_prelobby"
+    static let show_battlegrounds_hero_picking = "show_battlegrounds_hero_picking"
+    static let show_battlegrounds_quest_picking = "show_battlegrounds_quest_picking"
+    static let show_battlegrounds_composition_stats = "show_battlegrounds_composition_stats"
+    static let battlegrounds_session_scaling = "battlegrounds_session_scaling"
+    
     static let player_draw_chance = "player_draw_chance"
     static let player_card_count = "player_card_count"
     static let opponent_card_count = "opponent_card_count"
@@ -650,6 +673,7 @@ extension Settings {
     static let hsreplay_oauth_token = "hsreplay_oauth_token"
     static let hsreplay_oauth_token_expiration = "hsreplay_oauth_token_expiration"
     static let hsreplay_oauth_refresh_token = "hsreplay_oauth_refresh_token"
+    static let hsreplay_oauth_scope = "hsreplay_oauth_scope"
     static let hsreplay_show_push_notification = "hsreplay_show_push_notification"
     static let hsreplay_auto_synchronize_matches = "hsreplay_auto_synchronize_matches"
     static let hsreplay_auto_synchronize_ranked_matches = "hsreplay_auto_synchronize_ranked_matches"

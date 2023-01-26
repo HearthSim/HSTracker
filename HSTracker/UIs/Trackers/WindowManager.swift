@@ -119,6 +119,18 @@ class WindowManager {
         return $0
     }(BattlegroundsFinalBoard(windowNibName: "BattlegroundsFinalBoard"))
     
+    var tier7PreLobby: Tier7PreLobby = {
+        return $0
+    }(Tier7PreLobby(windowNibName: "Tier7PreLobby"))
+    
+    var battlegroundsQuestPicking: BattlegroundsQuestPicking = {
+        return $0
+    }(BattlegroundsQuestPicking(windowNibName: "BattlegroundsQuestPicking"))
+    
+    var battlegroundsHeroPicking: BattlegroundsHeroPicking = {
+        return $0
+    }(BattlegroundsHeroPicking(windowNibName: "BattlegroundsHeroPicking"))
+    
     var flavorText: FlavorText = {
         return $0
     }(FlavorText(windowNibName: "FlavorText"))
@@ -369,7 +381,7 @@ class WindowManager {
                 // as a normal window otherwise
                 let level: Int
                 if overlay {
-                    level = Int(CGWindowLevelForKey(CGWindowLevelKey.screenSaverWindow)) - 1
+                    level = Int(CGWindowLevelForKey(CGWindowLevelKey.floatingWindow))
                 } else {
                     level = Int(CGWindowLevelForKey(CGWindowLevelKey.normalWindow))
                 }

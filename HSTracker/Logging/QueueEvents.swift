@@ -32,6 +32,19 @@ class QueueEvents {
             if let deck = AppDelegate.instance().coreManager.autoDetectDeck(mode: _game.currentMode ?? .invalid) {
                 _game.set(activeDeckId: deck.deckId, autoDetected: true)
             }
+            
+            if _game.currentMode == .bacon {
+                if #available(macOS 10.15, *) {
+                    _game.showTier7PreLobby(show: false, checkAccountStatus: false)
+                }
+            }
+        } else {
+            logger.info("No longer in queue")
+            if _game.currentMode == .bacon && e.previous != .SERVER_GAME_CONNECTING {
+                if #available(macOS 10.15, *) {
+                    _game.showTier7PreLobby(show: true, checkAccountStatus: false, delay: 0)
+                }
+            }
         }
     }
 

@@ -704,6 +704,7 @@ extension CardIds.NonCollectible {
         static let QueenAzshara_NagaQueenAzsharaToken = "BG22_HERO_007t"
         static let EternalKnight_EternalKnightPlayerEnchant = "BG25_008pe"
         static let NerubianDeathswarmer_UndeadBonusAttackPlayerEnchantDnt = "BG25_011pe"
+        static let DiscoverQuestRewardDnt = "BG24_QuestsPlayerEnch_t"
     }
 }
 

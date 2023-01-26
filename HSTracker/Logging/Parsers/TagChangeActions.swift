@@ -50,6 +50,7 @@ struct TagChangeActions {
         case .player_triples: return { self.playerTriples(eventHandler: eventHandler, id: id, value: value, previous: prevValue)}
         case .immolatestage: return { self.onImmolateStage(eventHandler: eventHandler, id: id, value: value)}
         case .resources_used: return { self.onResourcesUsedChange(eventHandler: eventHandler, id: id, value: value)}
+        case .quest_reward_database_id: return { eventHandler.handleQuestRewardDatabaseId(id: id, value: value)}
 
         case .bacon_player_num_hero_buddies_gained: return { self.playerBuddiesGained(eventHandler: eventHandler, id: id, value: value)}
         case .bacon_hero_heropower_quest_reward_database_id: return { self.playerHeroPowerQuestRewardDatabaseId(eventHandler: eventHandler, id: id, value: value)}
@@ -581,6 +582,9 @@ struct TagChangeActions {
                     }
                 }
             }
+            if entity.isBattlegroundsQuest {
+                eventHandler.handleBattlegroundsPlayerQuestPicked(entity: entity)
+            }
             
         case .setaside:
             if controller == eventHandler.player.id {
@@ -590,7 +594,12 @@ struct TagChangeActions {
             }
             
         case .removedfromgame:
-            break
+            if controller == eventHandler.player.id {
+                if entity.cardId == CardIds.NonCollectible.Neutral.DiscoverQuestRewardDnt {
+                    logger.debug("Quest Picker Removal")
+                    eventHandler.handleBattlegroundsPlayerQuestPickerRemoval(entity: entity)
+                }
+            }
         default:
             logger.warning("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
         }

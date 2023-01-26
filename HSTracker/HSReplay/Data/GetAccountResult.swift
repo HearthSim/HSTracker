@@ -35,6 +35,7 @@ struct AccountData: Decodable {
     var username: String
     var battletag: String
     var is_premium: Bool
+    var is_tier7: Bool
     var blizzard_accounts: [BlizzardAccount]
     var tokens: [String]
 }

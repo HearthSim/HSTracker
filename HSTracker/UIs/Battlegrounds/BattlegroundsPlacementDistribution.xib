@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="BattlegroundsPlacementDistribution" customModule="HSTracker" customModuleProvider="target">
+            <connections>
+                <outlet property="bar1st" destination="LXs-lU-WEY" id="5UK-C6-kmU"/>
+                <outlet property="bar2nd" destination="7Kd-eZ-7N6" id="Sra-dp-84q"/>
+                <outlet property="bar3rd" destination="u7e-rI-pxa" id="JCi-Qv-mHa"/>
+                <outlet property="bar4th" destination="IUF-fF-LlT" id="Ijx-gz-ZOA"/>
+                <outlet property="bar5th" destination="sn4-81-Ywk" id="2OQ-cv-Z6R"/>
+                <outlet property="bar6th" destination="0AP-P9-3UN" id="UcA-bR-pSH"/>
+                <outlet property="bar7th" destination="yDV-9g-EvB" id="74f-5V-Crb"/>
+                <outlet property="bar8th" destination="NDZ-ma-XXG" id="ybQ-Fb-1G1"/>
+                <outlet property="contentView" destination="c22-O7-iKe" id="MoO-KN-2nO"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="c22-O7-iKe" userLabel="BattlegroundsPlacementDistribution">
+            <rect key="frame" x="0.0" y="0.0" width="771" height="186"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <box identifier="PlacementBox" boxType="custom" cornerRadius="4" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="HhR-QB-e9l" userLabel="PlacementBox">
+                    <rect key="frame" x="0.0" y="0.0" width="771" height="186"/>
+                    <view key="contentView" id="OZx-lY-FVT">
+                        <rect key="frame" x="1" y="1" width="769" height="184"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <customView identifier="Bar1st" translatesAutoresizingMaskIntoConstraints="NO" id="LXs-lU-WEY" userLabel="Bar1st" customClass="BattlegroundsPlacementDistributionBar" customModule="HSTracker" customModuleProvider="target">
+                                <rect key="frame" x="2" y="16" width="96" height="168"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="placement">
+                                        <integer key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="highlight" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                            </customView>
+                            <customView identifier="Bar2nd" translatesAutoresizingMaskIntoConstraints="NO" id="7Kd-eZ-7N6" userLabel="Bar2nd" customClass="BattlegroundsPlacementDistributionBar" customModule="HSTracker" customModuleProvider="target">
+                                <rect key="frame" x="98" y="16" width="95" height="168"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="placement">
+                                        <integer key="value" value="2"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="highlight" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                            </customView>
+                            <customView identifier="Bar3rd" translatesAutoresizingMaskIntoConstraints="NO" id="u7e-rI-pxa" userLabel="Bar3rd" customClass="BattlegroundsPlacementDistributionBar" customModule="HSTracker" customModuleProvider="target">
+                                <rect key="frame" x="193" y="16" width="96" height="168"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="placement">
+                                        <integer key="value" value="3"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="highlight" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                            </customView>
+                            <customView identifier="Bar4th" translatesAutoresizingMaskIntoConstraints="NO" id="IUF-fF-LlT" userLabel="Bar4th" customClass="BattlegroundsPlacementDistributionBar" customModule="HSTracker" customModuleProvider="target">
+                                <rect key="frame" x="289" y="16" width="96" height="168"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="placement">
+                                        <integer key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="highlight" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                            </customView>
+                            <customView identifier="Bar5th" translatesAutoresizingMaskIntoConstraints="NO" id="sn4-81-Ywk" userLabel="Bar5th" customClass="BattlegroundsPlacementDistributionBar" customModule="HSTracker" customModuleProvider="target">
+                                <rect key="frame" x="385" y="16" width="95" height="168"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="placement">
+                                        <integer key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="highlight" value="NO"/>
+                                </userDefinedRuntimeAttributes>
+                            </customView>
+                            <customView identifier="Bar6th" translatesAutoresizingMaskIntoConstraints="NO" id="0AP-P9-3UN" userLabel="Bar6th" customClass="BattlegroundsPlacementDistributionBar" customModule="HSTracker" customModuleProvider="target">
+                                <rect key="frame" x="480" y="16" width="96" height="168"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="placement">
+                                        <integer key="value" value="6"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="highlight" value="NO"/>
+                                </userDefinedRuntimeAttributes>
+                            </customView>
+                            <customView identifier="Bar7th" translatesAutoresizingMaskIntoConstraints="NO" id="yDV-9g-EvB" userLabel="Bar7th" customClass="BattlegroundsPlacementDistributionBar" customModule="HSTracker" customModuleProvider="target">
+                                <rect key="frame" x="576" y="16" width="95" height="168"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="placement">
+                                        <integer key="value" value="7"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="highlight" value="NO"/>
+                                </userDefinedRuntimeAttributes>
+                            </customView>
+                            <customView identifier="Bar8th" translatesAutoresizingMaskIntoConstraints="NO" id="NDZ-ma-XXG" userLabel="Bar8th" customClass="BattlegroundsPlacementDistributionBar" customModule="HSTracker" customModuleProvider="target">
+                                <rect key="frame" x="671" y="16" width="96" height="168"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="placement">
+                                        <integer key="value" value="8"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="highlight" value="NO"/>
+                                </userDefinedRuntimeAttributes>
+                            </customView>
+                            <box verticalCompressionResistancePriority="1000" boxType="custom" borderType="none" borderWidth="0.0" cornerRadius="4" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="PTy-nm-sT6">
+                                <rect key="frame" x="0.0" y="0.0" width="769" height="16"/>
+                                <view key="contentView" id="X4I-fg-xHK">
+                                    <rect key="frame" x="0.0" y="0.0" width="769" height="16"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="x0e-ya-aYw">
+                                            <rect key="frame" x="42" y="0.0" width="16" height="16"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="16" id="QZk-QB-HHX"/>
+                                                <constraint firstAttribute="width" constant="16" id="WqH-93-juu"/>
+                                            </constraints>
+                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="bgs_crown" id="tDl-7O-CDh"/>
+                                        </imageView>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jzw-W3-naC" userLabel="L4th">
+                                            <rect key="frame" x="327" y="3" width="19" height="11"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="4th" id="lMR-UI-f7Y">
+                                                <font key="font" metaFont="system" size="9"/>
+                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pNT-TU-CgT" userLabel="L8th">
+                                            <rect key="frame" x="710" y="3" width="19" height="11"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="8th" id="gdh-jb-DCD">
+                                                <font key="font" metaFont="system" size="9"/>
+                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="x0e-ya-aYw" firstAttribute="centerY" secondItem="X4I-fg-xHK" secondAttribute="centerY" id="93n-BO-hOo"/>
+                                        <constraint firstItem="jzw-W3-naC" firstAttribute="centerY" secondItem="X4I-fg-xHK" secondAttribute="centerY" id="FTQ-3s-QpV"/>
+                                        <constraint firstItem="pNT-TU-CgT" firstAttribute="centerY" secondItem="X4I-fg-xHK" secondAttribute="centerY" id="obe-NL-41z"/>
+                                    </constraints>
+                                </view>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="16" id="NPk-Hv-buk"/>
+                                </constraints>
+                                <color key="borderColor" red="0.21176470589999999" green="0.086274509799999996" blue="0.2156862745" alpha="1" colorSpace="deviceRGB"/>
+                                <color key="fillColor" red="0.2901960784" green="0.32156862749999998" blue="0.33725490200000002" alpha="1" colorSpace="deviceRGB"/>
+                            </box>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="LXs-lU-WEY" firstAttribute="leading" secondItem="OZx-lY-FVT" secondAttribute="leading" constant="2" id="1zq-1R-IAc"/>
+                            <constraint firstItem="PTy-nm-sT6" firstAttribute="top" secondItem="0AP-P9-3UN" secondAttribute="bottom" id="2bS-V7-0vK"/>
+                            <constraint firstItem="0AP-P9-3UN" firstAttribute="leading" secondItem="sn4-81-Ywk" secondAttribute="trailing" id="5uY-hH-3v6"/>
+                            <constraint firstItem="u7e-rI-pxa" firstAttribute="width" secondItem="NDZ-ma-XXG" secondAttribute="width" id="CQG-Bh-gLT"/>
+                            <constraint firstItem="PTy-nm-sT6" firstAttribute="top" secondItem="sn4-81-Ywk" secondAttribute="bottom" id="D6p-kI-0CW"/>
+                            <constraint firstItem="7Kd-eZ-7N6" firstAttribute="top" secondItem="OZx-lY-FVT" secondAttribute="top" id="FIj-O7-4wZ"/>
+                            <constraint firstItem="sn4-81-Ywk" firstAttribute="leading" secondItem="IUF-fF-LlT" secondAttribute="trailing" id="Gww-03-a97"/>
+                            <constraint firstItem="NDZ-ma-XXG" firstAttribute="centerX" secondItem="pNT-TU-CgT" secondAttribute="centerX" id="HTr-ld-nXd"/>
+                            <constraint firstItem="PTy-nm-sT6" firstAttribute="top" secondItem="7Kd-eZ-7N6" secondAttribute="bottom" id="HtP-Fc-kbi"/>
+                            <constraint firstAttribute="bottom" secondItem="PTy-nm-sT6" secondAttribute="bottom" id="Hyw-ke-mof"/>
+                            <constraint firstItem="yDV-9g-EvB" firstAttribute="width" secondItem="NDZ-ma-XXG" secondAttribute="width" id="IDJ-hi-fhy"/>
+                            <constraint firstItem="IUF-fF-LlT" firstAttribute="leading" secondItem="u7e-rI-pxa" secondAttribute="trailing" id="JpN-hm-p3s"/>
+                            <constraint firstItem="x0e-ya-aYw" firstAttribute="centerX" secondItem="LXs-lU-WEY" secondAttribute="centerX" id="Kc9-nx-3C4"/>
+                            <constraint firstItem="0AP-P9-3UN" firstAttribute="width" secondItem="NDZ-ma-XXG" secondAttribute="width" id="Ldw-pb-4bi"/>
+                            <constraint firstItem="jzw-W3-naC" firstAttribute="centerX" secondItem="IUF-fF-LlT" secondAttribute="centerX" id="LoF-eb-k8d"/>
+                            <constraint firstItem="PTy-nm-sT6" firstAttribute="top" secondItem="u7e-rI-pxa" secondAttribute="bottom" id="P1V-Gi-Bhw"/>
+                            <constraint firstItem="yDV-9g-EvB" firstAttribute="top" secondItem="OZx-lY-FVT" secondAttribute="top" id="QFg-Gy-snd"/>
+                            <constraint firstItem="sn4-81-Ywk" firstAttribute="width" secondItem="NDZ-ma-XXG" secondAttribute="width" id="QXm-CG-4dg"/>
+                            <constraint firstItem="PTy-nm-sT6" firstAttribute="top" secondItem="yDV-9g-EvB" secondAttribute="bottom" id="Rc1-gi-H5g"/>
+                            <constraint firstItem="IUF-fF-LlT" firstAttribute="top" secondItem="OZx-lY-FVT" secondAttribute="top" id="T8d-9O-gFo"/>
+                            <constraint firstItem="NDZ-ma-XXG" firstAttribute="top" secondItem="OZx-lY-FVT" secondAttribute="top" id="ZWg-9t-r6x"/>
+                            <constraint firstAttribute="trailing" secondItem="PTy-nm-sT6" secondAttribute="trailing" id="Zz1-Qb-t6j"/>
+                            <constraint firstItem="NDZ-ma-XXG" firstAttribute="leading" secondItem="yDV-9g-EvB" secondAttribute="trailing" id="bha-vg-zue"/>
+                            <constraint firstItem="IUF-fF-LlT" firstAttribute="width" secondItem="NDZ-ma-XXG" secondAttribute="width" id="cU8-Pq-Ei0"/>
+                            <constraint firstItem="yDV-9g-EvB" firstAttribute="leading" secondItem="0AP-P9-3UN" secondAttribute="trailing" id="d9t-jt-spz"/>
+                            <constraint firstItem="PTy-nm-sT6" firstAttribute="top" secondItem="IUF-fF-LlT" secondAttribute="bottom" id="dqt-5h-jJW"/>
+                            <constraint firstItem="7Kd-eZ-7N6" firstAttribute="width" secondItem="NDZ-ma-XXG" secondAttribute="width" id="gdb-xE-cm8"/>
+                            <constraint firstItem="PTy-nm-sT6" firstAttribute="top" secondItem="NDZ-ma-XXG" secondAttribute="bottom" id="hz2-zT-5Oq"/>
+                            <constraint firstItem="7Kd-eZ-7N6" firstAttribute="leading" secondItem="LXs-lU-WEY" secondAttribute="trailing" id="id9-8z-Mq3"/>
+                            <constraint firstItem="LXs-lU-WEY" firstAttribute="top" secondItem="OZx-lY-FVT" secondAttribute="top" id="kK0-dW-76e"/>
+                            <constraint firstItem="0AP-P9-3UN" firstAttribute="top" secondItem="OZx-lY-FVT" secondAttribute="top" id="kvc-kX-ul4"/>
+                            <constraint firstItem="u7e-rI-pxa" firstAttribute="top" secondItem="OZx-lY-FVT" secondAttribute="top" id="mRm-20-2XO"/>
+                            <constraint firstItem="NDZ-ma-XXG" firstAttribute="trailing" secondItem="OZx-lY-FVT" secondAttribute="trailing" constant="-2" id="onc-dz-oGc"/>
+                            <constraint firstItem="PTy-nm-sT6" firstAttribute="leading" secondItem="OZx-lY-FVT" secondAttribute="leading" id="tcz-ml-K7k"/>
+                            <constraint firstItem="u7e-rI-pxa" firstAttribute="leading" secondItem="7Kd-eZ-7N6" secondAttribute="trailing" id="uBn-MA-EJJ"/>
+                            <constraint firstItem="PTy-nm-sT6" firstAttribute="top" secondItem="LXs-lU-WEY" secondAttribute="bottom" id="wDX-oI-tMS"/>
+                            <constraint firstItem="LXs-lU-WEY" firstAttribute="width" secondItem="NDZ-ma-XXG" secondAttribute="width" id="y2Q-ET-84S"/>
+                            <constraint firstItem="sn4-81-Ywk" firstAttribute="top" secondItem="OZx-lY-FVT" secondAttribute="top" id="zeG-gB-jlq"/>
+                        </constraints>
+                    </view>
+                    <color key="borderColor" red="0.21176470589999999" green="0.086274509799999996" blue="0.2156862745" alpha="1" colorSpace="deviceRGB"/>
+                    <color key="fillColor" red="0.078431372550000003" green="0.086274509799999996" blue="0.090196078430000007" alpha="1" colorSpace="custom" customColorSpace="deviceRGB"/>
+                </box>
+            </subviews>
+            <constraints>
+                <constraint firstItem="HhR-QB-e9l" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="Fn2-Gz-xAH"/>
+                <constraint firstItem="HhR-QB-e9l" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="PUm-IX-g1z"/>
+                <constraint firstAttribute="bottom" secondItem="HhR-QB-e9l" secondAttribute="bottom" id="mJF-LR-8ye"/>
+                <constraint firstAttribute="trailing" secondItem="HhR-QB-e9l" secondAttribute="trailing" id="vTZ-Bg-QSW"/>
+            </constraints>
+            <point key="canvasLocation" x="-236.5" y="121"/>
+        </customView>
+    </objects>
+    <resources>
+        <image name="bgs_crown" width="35" height="35"/>
+    </resources>
+</document>

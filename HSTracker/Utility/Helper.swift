@@ -30,4 +30,9 @@ struct Helper {
         return result
     }
 
+    static func toPrettyNumber(n: Int) -> Int {
+        let divisor = max(pow(10, (floor(log(Double(n))/log(10.0)) - 1)), 1)
+        let pn = floor(Double(n) / divisor) * divisor
+        return Int(pn)
+    }
 }

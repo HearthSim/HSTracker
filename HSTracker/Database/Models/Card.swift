@@ -32,7 +32,7 @@ final class Card {
     var bgRace: Race = .invalid
     var races: [Race] = []
     var type: CardType = .invalid
-    var mechanics: [CardMechanic] = []
+    var mechanics: [String] = []
     var isStandard = false
     var artist = ""
     var multiClassGroup: MultiClassGroup = .invalid
@@ -43,6 +43,7 @@ final class Card {
     var battlegroundsPoolMinion = false
     var deckListIndex = 0
     var battlegroundsSkinParentId = 0
+    var battlegroundsArmorTier = 0
     
     static let multiClassGroups: [MultiClassGroup: [CardClass]] = [
         .grimy_goons: [ .hunter, .paladin, .warrior ],
@@ -197,6 +198,7 @@ extension Card: NSCopying {
         copy.deckListIndex = self.deckListIndex
         copy.battlegroundsSkinParentId = self.battlegroundsSkinParentId
         copy.races = self.races
+        copy.battlegroundsArmorTier = self.battlegroundsArmorTier
 
         return copy
     }

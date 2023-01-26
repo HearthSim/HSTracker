@@ -33,18 +33,34 @@ struct LoadingScreenHandler: LogEventParser {
 		self.coreManager = coreManager
 	}
 
-    let GameModeRegex = Regex("prevMode=(\\w+).*currMode=(\\w+)")
+    let GameModeRegex = Regex(#"prevMode=(\w+).*currMode=(\w+)"#)
+    let NextGameModeRegex = Regex(#"prevMode=(\w+).*nextMode=(\w+)"#)
 
     func handle(logLine: LogLine) {
-        if GameModeRegex.match(logLine.line) {
-            let matches = GameModeRegex.matches(logLine.line)
-			let game = coreManager.game
+        let game = coreManager.game
+        var matches = NextGameModeRegex.matches(logLine.line)
+        if matches.count > 0 {
+            let prev = Mode(rawValue: matches[0].value.lowercased()) ?? .invalid
+            let next = Mode(rawValue: matches[1].value.lowercased()) ?? .invalid
+            
+            if prev == .bacon {
+                if next != .gameplay {
+                    game.showBattlegroundsSession(false, true)
+                }
+                if #available(macOS 10.15, *) {
+                    game.showTier7PreLobby(show: false, checkAccountStatus: false)
+                    BaconWatcher.stop()
+                }
+            }
+        }
+        matches = GameModeRegex.matches(logLine.line)
+        if matches.count > 0 {
             
             game.currentMode = Mode(rawValue: matches[1].value.lowercased()) ?? .invalid
             game.previousMode = Mode(rawValue: matches[0].value.lowercased()) ?? .invalid
 
-            logger.info("Game mode from \(String(describing: game.previousMode)) "
-                + "to \(String(describing: game.currentMode))")
+            logger.info("Game mode from \(game.previousMode ?? .invalid) "
+                        + "to \(game.currentMode ?? .invalid)")
 
             if logLine.time.timeIntervalSinceNow < 5 {
                 if let currentMode = game.currentMode, currentMode == .hub && !MirrorHelper.isInitialized() {
@@ -110,11 +126,19 @@ struct LoadingScreenHandler: LogEventParser {
             
             if game.currentMode == .bacon {
                 game.cacheBattlegroundRatingInfo()
-                game.updateBattlegroundsSessionOverlay()
-            }
-            
-            if game.previousMode == .bacon && game.currentMode != .gameplay {
-                game.updateBattlegroundsSessionOverlay()
+                game.showBattlegroundsSession(true, true)
+                if #available(macOS 10.15, *) {
+                    game.showTier7PreLobby(show: true, checkAccountStatus: true)
+                    BaconWatcher.start()
+                }
+            } else {
+                if game.currentMode != .gameplay {
+                    game.showBattlegroundsSession(false, true)
+                }
+                if #available(macOS 10.15, *) {
+                    game.showTier7PreLobby(show: false, checkAccountStatus: false)
+                    BaconWatcher.stop()
+                }
             }
             
             if game.currentMode == .lettuce_play {

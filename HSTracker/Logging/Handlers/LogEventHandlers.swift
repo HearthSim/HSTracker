@@ -241,4 +241,10 @@ protocol PowerEventHandler: AnyObject {
     var dredgeCounter: Int { get set }
     
     func handleOpponentSecretRemove(entity: Entity, cardId: String?, turn: Int)
+    
+    func handleQuestRewardDatabaseId(id: Int, value: Int)
+    
+    func handleBattlegroundsPlayerQuestPicked(entity: Entity)
+    
+    func handleBattlegroundsPlayerQuestPickerRemoval(entity: Entity)
 }

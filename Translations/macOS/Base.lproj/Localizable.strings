@@ -278,3 +278,21 @@
 /* Buttons */
 "Change" = "Change";
 "Delete" = "Delete";
+
+/* Tier7 */
+"BattlegroundsOverlayMessage_Error" = "Something went wrong :(";
+"BattlegroundsOverlayMessage_Loading" = "Loading...";
+"BattlegroundsOverlayMessage_MMR" = "All Stats From Top %d%% MMR (%d+)";
+"BattlegroundsPreLobby_Trial_ResetTimeRemaining_DaysHours" = "%dd %dh";
+"BattlegroundsPreLobby_Authenticated_Welcome" = "Wecome %@!";
+"BattlegroundsPreLobby_Authenticated_TrialsRemaining" = "Uses remaining this week: %d";
+"BattlegroundsPreLobby_Authenticated_TrialsResetsIn" = "Resets In %@";
+"BattlegroundsHeroPicking_Header_Tier1Tooltip_Title" = "Tier 1: Overperforming";
+"BattlegroundsHeroPicking_Header_Tier2Tooltip_Title" = "Tier 2: Winning";
+"BattlegroundsHeroPicking_Header_Tier3Tooltip_Title" = "Tier 3: Underperforming";
+"BattlegroundsHeroPicking_Header_Tier4Tooltip_Title" = "Tier 4: Losing";
+"BattlegroundsQuestPicking_Header_Tier1Tooltip_Desc" = "The best placing reward, and rewards with higher placements within one standard deviation of the best placing reward";
+"BattlegroundsQuestPicking_Header_Tier2Tooltip_Desc" = "Rewards with average placements better than or equal to 4.5";
+"BattlegroundsQuestPicking_Header_Tier3Tooltip_Desc" = "Rewards with average placements worse than 4.5 and within one standard deviation of the best reward in this tier";
+"BattlegroundsQuestPicking_Header_Tier4Tooltip_Desc" = "Rewards with average placements worse than one standard deviation from the best tier 3 reward";
+"BattlegroundsHeroPicking_Hero_ArmorTierTooltip_Range" = "Armor Range: %d - %d";

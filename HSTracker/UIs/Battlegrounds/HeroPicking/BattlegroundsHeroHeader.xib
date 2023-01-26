@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="BattlegroundsHeroHeader" customModule="HSTracker" customModuleProvider="target">
+            <connections>
+                <outlet property="avgPlacementLabel" destination="u9a-4k-vi7" id="wzh-1G-I7u"/>
+                <outlet property="avgPlacementTracker" destination="Hxl-js-04s" id="mNk-ch-hfE"/>
+                <outlet property="contentView" destination="c22-O7-iKe" id="Y3R-KU-gp1"/>
+                <outlet property="pickRateLabel" destination="bGw-ct-IIe" id="fAo-kP-qaf"/>
+                <outlet property="placementDistribution" destination="nv9-jx-tuS" id="h5g-WU-wSu"/>
+                <outlet property="tierBox" destination="hYy-2Z-X4u" id="Pj1-nn-82G"/>
+                <outlet property="tierLabel" destination="eT8-i1-nA5" id="V41-Fk-HD5"/>
+                <outlet property="tooltip" destination="AwG-6f-div" id="T6B-xi-afJ"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="c22-O7-iKe" userLabel="BattlegroundsHeroHeader">
+            <rect key="frame" x="0.0" y="0.0" width="243" height="60"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="Hxl-js-04s" userLabel="AvgPlacementTracker">
+                    <rect key="frame" x="0.0" y="0.0" width="92" height="60"/>
+                </customView>
+                <box boxType="custom" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="etG-eK-sEd" userLabel="HeaderAvgPlacement">
+                    <rect key="frame" x="0.0" y="38" width="92" height="22"/>
+                    <view key="contentView" id="rT0-2h-gJK">
+                        <rect key="frame" x="1" y="1" width="90" height="20"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="X6o-1F-VFN">
+                                <rect key="frame" x="-2" y="4" width="94" height="13"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Avg Placement" id="0De-jT-Gn4">
+                                    <font key="font" metaFont="system" size="10"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="X6o-1F-VFN" firstAttribute="leading" secondItem="rT0-2h-gJK" secondAttribute="leading" id="2Sd-Qb-HKc"/>
+                            <constraint firstItem="X6o-1F-VFN" firstAttribute="centerY" secondItem="rT0-2h-gJK" secondAttribute="centerY" id="qvP-wj-QOE"/>
+                            <constraint firstAttribute="trailing" secondItem="X6o-1F-VFN" secondAttribute="trailing" id="t2n-5x-BHa"/>
+                        </constraints>
+                    </view>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="22" id="5P6-nT-bum"/>
+                    </constraints>
+                    <color key="borderColor" red="0.21176470589999999" green="0.086274509799999996" blue="0.2156862745" alpha="1" colorSpace="deviceRGB"/>
+                    <color key="fillColor" red="0.21176470589999999" green="0.086274509799999996" blue="0.2156862745" alpha="1" colorSpace="deviceRGB"/>
+                </box>
+                <box boxType="custom" cornerRadius="4" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="hYy-2Z-X4u" userLabel="TierBox">
+                    <rect key="frame" x="96" y="8" width="52" height="52"/>
+                    <view key="contentView" id="ZOU-Rv-wzf">
+                        <rect key="frame" x="1" y="1" width="50" height="50"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="2" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0ca-w3-HRy">
+                                <rect key="frame" x="13" y="2" width="23" height="46"/>
+                                <subviews>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AlL-xZ-g8n">
+                                        <rect key="frame" x="-2" y="31" width="27" height="13"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Tier" id="oXD-F5-0fr">
+                                            <font key="font" metaFont="system" size="10"/>
+                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eT8-i1-nA5">
+                                        <rect key="frame" x="-2" y="2" width="27" height="27"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="1" id="QvM-1b-fZf">
+                                            <font key="font" size="26" name="ChunkFive-Roman"/>
+                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                </subviews>
+                                <edgeInsets key="edgeInsets" left="0.0" right="0.0" top="2" bottom="2"/>
+                                <constraints>
+                                    <constraint firstItem="eT8-i1-nA5" firstAttribute="centerX" secondItem="0ca-w3-HRy" secondAttribute="centerX" id="Vgd-BM-6h8"/>
+                                    <constraint firstItem="AlL-xZ-g8n" firstAttribute="centerX" secondItem="0ca-w3-HRy" secondAttribute="centerX" id="zbO-1n-Ml2"/>
+                                </constraints>
+                                <visibilityPriorities>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                </visibilityPriorities>
+                                <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                </customSpacing>
+                            </stackView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="0ca-w3-HRy" firstAttribute="centerX" secondItem="ZOU-Rv-wzf" secondAttribute="centerX" id="aTf-C7-Tpc"/>
+                            <constraint firstItem="0ca-w3-HRy" firstAttribute="centerY" secondItem="ZOU-Rv-wzf" secondAttribute="centerY" id="b3h-XZ-Ulp"/>
+                        </constraints>
+                    </view>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="52" id="jAm-5e-SrG"/>
+                        <constraint firstAttribute="height" constant="52" id="tBY-tn-GBJ"/>
+                    </constraints>
+                </box>
+                <box boxType="custom" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="Msi-gp-Vy7" userLabel="HeaderPickRate">
+                    <rect key="frame" x="152" y="38" width="91" height="22"/>
+                    <view key="contentView" id="qgW-6M-cQx">
+                        <rect key="frame" x="1" y="1" width="89" height="20"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cYp-ku-lit">
+                                <rect key="frame" x="-2" y="4" width="93" height="13"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Pick Rate" id="BLS-xp-JRH">
+                                    <font key="font" metaFont="system" size="10"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="cYp-ku-lit" firstAttribute="centerY" secondItem="qgW-6M-cQx" secondAttribute="centerY" id="13z-DT-7a4"/>
+                            <constraint firstAttribute="trailing" secondItem="cYp-ku-lit" secondAttribute="trailing" id="FyX-hM-Skb"/>
+                            <constraint firstItem="cYp-ku-lit" firstAttribute="leading" secondItem="qgW-6M-cQx" secondAttribute="leading" id="SoG-hf-yaB"/>
+                        </constraints>
+                    </view>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="22" id="wx2-6u-Vsa"/>
+                    </constraints>
+                    <color key="borderColor" red="0.21176470589999999" green="0.086274509799999996" blue="0.2156862745" alpha="1" colorSpace="deviceRGB"/>
+                    <color key="fillColor" red="0.21176470589999999" green="0.086274509799999996" blue="0.2156862745" alpha="1" colorSpace="deviceRGB"/>
+                </box>
+                <box boxType="custom" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="Eoj-hC-ZF6" userLabel="AvgPlacement">
+                    <rect key="frame" x="0.0" y="0.0" width="92" height="38"/>
+                    <view key="contentView" id="Hq0-O3-q0S">
+                        <rect key="frame" x="1" y="1" width="90" height="36"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="u9a-4k-vi7">
+                                <rect key="frame" x="-2" y="9" width="94" height="19"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="3.45" id="Mby-4M-5dd">
+                                    <numberFormatter key="formatter" formatterBehavior="custom10_4" positiveFormat="0.##" negativeFormat="-0.##" usesGroupingSeparator="NO" formatWidth="-1" roundingMode="halfUp" groupingSize="0" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" minimumFractionDigits="2" maximumFractionDigits="2" id="a37-TF-n0E"/>
+                                    <font key="font" size="19" name="ChunkFive-Roman"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="u9a-4k-vi7" firstAttribute="leading" secondItem="Hq0-O3-q0S" secondAttribute="leading" id="TqQ-eU-zfc"/>
+                            <constraint firstItem="u9a-4k-vi7" firstAttribute="centerY" secondItem="Hq0-O3-q0S" secondAttribute="centerY" id="lqw-aN-4u2"/>
+                            <constraint firstAttribute="trailing" secondItem="u9a-4k-vi7" secondAttribute="trailing" id="pIq-r7-eTf"/>
+                        </constraints>
+                    </view>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="38" id="mGH-pu-eXR"/>
+                    </constraints>
+                    <color key="borderColor" red="0.21176470589999999" green="0.086274509799999996" blue="0.2156862745" alpha="1" colorSpace="deviceRGB"/>
+                    <color key="fillColor" red="0.078431372550000003" green="0.086274509799999996" blue="0.090196078430000007" alpha="1" colorSpace="custom" customColorSpace="deviceRGB"/>
+                </box>
+                <box boxType="custom" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="wLf-Xw-TgY" userLabel="PickRate">
+                    <rect key="frame" x="152" y="0.0" width="91" height="38"/>
+                    <view key="contentView" id="AeT-93-Tah">
+                        <rect key="frame" x="1" y="1" width="89" height="36"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bGw-ct-IIe">
+                                <rect key="frame" x="-2" y="8" width="93" height="20"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="34.5%" id="beQ-OR-fAF">
+                                    <numberFormatter key="formatter" formatterBehavior="custom10_4" numberStyle="percent" formatWidth="-1" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" minimumFractionDigits="1" maximumFractionDigits="1" id="3uK-bR-6PQ">
+                                        <integer key="multiplier" value="100"/>
+                                    </numberFormatter>
+                                    <font key="font" size="20" name="ChunkFive-Roman"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="bGw-ct-IIe" firstAttribute="leading" secondItem="AeT-93-Tah" secondAttribute="leading" id="1ya-Hn-mWK"/>
+                            <constraint firstItem="bGw-ct-IIe" firstAttribute="centerY" secondItem="AeT-93-Tah" secondAttribute="centerY" id="ELN-HA-x3t"/>
+                            <constraint firstAttribute="trailing" secondItem="bGw-ct-IIe" secondAttribute="trailing" id="Nao-E3-2lC"/>
+                        </constraints>
+                    </view>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="38" id="MDa-Er-rpC"/>
+                    </constraints>
+                    <color key="borderColor" red="0.21176470589999999" green="0.086274509799999996" blue="0.2156862745" alpha="1" colorSpace="deviceRGB"/>
+                    <color key="fillColor" red="0.078431372550000003" green="0.086274509799999996" blue="0.090196078430000007" alpha="1" colorSpace="custom" customColorSpace="deviceRGB"/>
+                </box>
+                <customView hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nv9-jx-tuS" userLabel="PlacementDistribution" customClass="BattlegroundsPlacementDistribution" customModule="HSTracker" customModuleProvider="target">
+                    <rect key="frame" x="96" y="0.0" width="147" height="60"/>
+                </customView>
+            </subviews>
+            <constraints>
+                <constraint firstItem="Eoj-hC-ZF6" firstAttribute="top" secondItem="Msi-gp-Vy7" secondAttribute="bottom" id="0kP-tG-Hn3"/>
+                <constraint firstAttribute="trailing" secondItem="wLf-Xw-TgY" secondAttribute="trailing" id="16Z-8p-3dx"/>
+                <constraint firstItem="etG-eK-sEd" firstAttribute="trailing" secondItem="Hxl-js-04s" secondAttribute="trailing" id="2Zn-aZ-RHl"/>
+                <constraint firstItem="Msi-gp-Vy7" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="5sp-iS-r1n"/>
+                <constraint firstItem="Eoj-hC-ZF6" firstAttribute="width" secondItem="etG-eK-sEd" secondAttribute="width" id="Ha1-uy-deU"/>
+                <constraint firstItem="Eoj-hC-ZF6" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="Hzj-0T-DJK"/>
+                <constraint firstItem="wLf-Xw-TgY" firstAttribute="leading" secondItem="hYy-2Z-X4u" secondAttribute="trailing" constant="4" id="Mj5-js-mqe"/>
+                <constraint firstAttribute="bottom" secondItem="nv9-jx-tuS" secondAttribute="bottom" id="O1k-BP-aee"/>
+                <constraint firstItem="Msi-gp-Vy7" firstAttribute="width" secondItem="etG-eK-sEd" secondAttribute="width" id="OjW-v5-f9W"/>
+                <constraint firstItem="Msi-gp-Vy7" firstAttribute="leading" secondItem="hYy-2Z-X4u" secondAttribute="trailing" constant="4" id="OlF-7z-yA6"/>
+                <constraint firstItem="Eoj-hC-ZF6" firstAttribute="bottom" secondItem="Hxl-js-04s" secondAttribute="bottom" id="PZb-kC-LrN"/>
+                <constraint firstItem="nv9-jx-tuS" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="SuN-Bq-hZt"/>
+                <constraint firstItem="hYy-2Z-X4u" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="X4q-JM-wcM"/>
+                <constraint firstItem="hYy-2Z-X4u" firstAttribute="leading" secondItem="etG-eK-sEd" secondAttribute="trailing" constant="4" id="kka-zT-xaV"/>
+                <constraint firstItem="wLf-Xw-TgY" firstAttribute="width" secondItem="Msi-gp-Vy7" secondAttribute="width" id="kzj-VJ-7yh"/>
+                <constraint firstItem="Hxl-js-04s" firstAttribute="top" secondItem="etG-eK-sEd" secondAttribute="top" id="lWD-LV-PY4"/>
+                <constraint firstItem="etG-eK-sEd" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="mQ2-EI-GwY"/>
+                <constraint firstItem="nv9-jx-tuS" firstAttribute="trailing" secondItem="wLf-Xw-TgY" secondAttribute="trailing" id="mQM-zY-731"/>
+                <constraint firstItem="etG-eK-sEd" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="oR0-uV-Jjb"/>
+                <constraint firstAttribute="trailing" secondItem="Msi-gp-Vy7" secondAttribute="trailing" id="pF7-R3-D6f"/>
+                <constraint firstItem="wLf-Xw-TgY" firstAttribute="top" secondItem="Msi-gp-Vy7" secondAttribute="bottom" id="uIg-i2-QoA"/>
+                <constraint firstItem="nv9-jx-tuS" firstAttribute="leading" secondItem="hYy-2Z-X4u" secondAttribute="leading" id="uX7-37-Kab"/>
+                <constraint firstItem="Hxl-js-04s" firstAttribute="leading" secondItem="etG-eK-sEd" secondAttribute="leading" id="uvX-aO-gde"/>
+            </constraints>
+            <point key="canvasLocation" x="-141" y="116.5"/>
+        </customView>
+        <box boxType="custom" cornerRadius="4" title="Box" titlePosition="noTitle" id="AwG-6f-div" userLabel="AvgPlacementTooltip">
+            <rect key="frame" x="0.0" y="0.0" width="171" height="62"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <view key="contentView" id="VUb-NA-3g9">
+                <rect key="frame" x="1" y="1" width="169" height="60"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="CPH-59-9u6">
+                        <rect key="frame" x="0.0" y="0.0" width="169" height="60"/>
+                        <subviews>
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="6UR-Uf-fHO">
+                                <rect key="frame" x="6" y="-4" width="157" height="38"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="38" id="iXh-VY-ife"/>
+                                </constraints>
+                                <textFieldCell key="cell" selectable="YES" title="Percent of the time this hero is picked at the start of a game when presented as an option" id="som-Ch-uSl">
+                                    <font key="font" metaFont="system" size="10"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XGQ-Bw-gwn">
+                                <rect key="frame" x="6" y="34" width="157" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="22" id="0Aa-3t-SrW"/>
+                                </constraints>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="left" title="Average Placement" id="zyT-eG-UF8">
+                                    <font key="font" metaFont="systemBold" size="12"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="6UR-Uf-fHO" secondAttribute="trailing" constant="8" id="2d3-oG-4dS"/>
+                            <constraint firstItem="XGQ-Bw-gwn" firstAttribute="leading" secondItem="CPH-59-9u6" secondAttribute="leading" constant="8" id="JTY-Ik-4xU"/>
+                            <constraint firstItem="6UR-Uf-fHO" firstAttribute="top" secondItem="XGQ-Bw-gwn" secondAttribute="bottom" id="MNq-zF-ojd"/>
+                            <constraint firstItem="6UR-Uf-fHO" firstAttribute="leading" secondItem="CPH-59-9u6" secondAttribute="leading" constant="8" id="XDU-bL-B29"/>
+                            <constraint firstItem="XGQ-Bw-gwn" firstAttribute="top" secondItem="CPH-59-9u6" secondAttribute="top" constant="4" id="iA8-uo-UuN"/>
+                            <constraint firstAttribute="trailing" secondItem="XGQ-Bw-gwn" secondAttribute="trailing" constant="8" id="lqd-Gy-IGN"/>
+                            <constraint firstAttribute="height" constant="60" id="psM-qm-gmc"/>
+                        </constraints>
+                    </customView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="CPH-59-9u6" firstAttribute="top" secondItem="VUb-NA-3g9" secondAttribute="top" id="Tgj-oD-xvL"/>
+                    <constraint firstAttribute="trailing" secondItem="CPH-59-9u6" secondAttribute="trailing" id="Ysu-Dx-3Dw"/>
+                    <constraint firstItem="CPH-59-9u6" firstAttribute="leading" secondItem="VUb-NA-3g9" secondAttribute="leading" id="xIi-1d-tgZ"/>
+                </constraints>
+            </view>
+            <color key="borderColor" red="0.21176470589999999" green="0.086274509799999996" blue="0.2156862745" alpha="1" colorSpace="deviceRGB"/>
+            <color key="fillColor" red="0.078431372550000003" green="0.086274509799999996" blue="0.090196078430000007" alpha="1" colorSpace="custom" customColorSpace="deviceRGB"/>
+            <point key="canvasLocation" x="-219" y="-36"/>
+        </box>
+    </objects>
+</document>

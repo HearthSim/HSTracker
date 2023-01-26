@@ -34,9 +34,10 @@ extension NSColor {
         var theInt: UInt64 = 0
         let scanner = Scanner(string: cleanedString)
         scanner.scanHexInt64(&theInt)
+        let myAlpha = cleanedString.count == 8 ? CGFloat((theInt & 0xFF000000) >> 24) / 255.0 : alpha
         let red = CGFloat((theInt & 0xFF0000) >> 16) / 255.0
         let green = CGFloat((theInt & 0xFF00) >> 8) / 255.0
         let blue = CGFloat((theInt & 0xFF)) / 255.0
-        return NSColor(colorSpace: .deviceRGB, components: [red, green, blue, alpha], count: 4)
+        return NSColor(colorSpace: .deviceRGB, components: [red, green, blue, myAlpha], count: 4)
     }
 }

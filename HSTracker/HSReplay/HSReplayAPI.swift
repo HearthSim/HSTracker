@@ -29,7 +29,7 @@ class HSReplayAPI {
     static let oAuthClientSecret = "sk_live_20180308078UceCXo8qmoG72ExZxeqOW"//"sk_test_20180308Z5qWO7yiYpqi8qAmQY0PDzcJ"
     private static let defaultHeaders = ["Accept": "application/json", "Content-Type": "application/json"]
     static var accountData: AccountData?
-
+    
     static let tokenRenewalHandler: OAuthSwift.TokenRenewedHandler = { result in
         switch result {
         case .success(let credential):
@@ -50,7 +50,23 @@ class HSReplayAPI {
             responseType: "code"
         )
     }()
-
+    
+    private static let _requiredScopes = [ "fullaccess" ]
+    
+    static var isFullyAuthenticated: Bool {
+        return isAuthenticatedFor(_requiredScopes)
+    }
+    
+    static func isAuthenticatedFor(_ scopes: [String]) -> Bool {
+        guard let currentScopes = Settings.hsReplayOAuthScope?.components(separatedBy: " ") else {
+            return false
+        }
+        if currentScopes.contains("fullaccess") {
+            return true
+        }
+        return scopes.all({ x in currentScopes.contains(x) })
+    }
+    
     static func oAuthAuthorize(handle: @escaping () -> Void) {
         _ = oauthswift.authorize(
             withCallbackURL: URL(string: "hstracker://oauth-callback/hsreplay")!,
@@ -62,7 +78,7 @@ class HSReplayAPI {
                     logger.info("HSReplay: OAuth succeeded")
                     Settings.hsReplayOAuthToken = credential.oauthToken
                     Settings.hsReplayOAuthRefreshToken = credential.oauthRefreshToken
-
+                    
                     handle()
                 case .failure(let error):
                     // TODO: Better error handling
@@ -71,28 +87,29 @@ class HSReplayAPI {
             }
         )
     }
-
+    
     static func startAuthorizedRequest(_ url: String, method: OAuthSwiftHTTPRequest.Method, parameters: OAuthSwift.Parameters, headers: OAuthSwift.Headers? = nil, onTokenRenewal: OAuthSwift.TokenRenewedHandler? = nil, completionHandler completion: @escaping OAuthSwiftHTTPRequest.CompletionHandler) {
         
         if let expiration = Settings.hsReplayOAuthTokenExpiration {
             if expiration.timeIntervalSince(Date()) <= 0 {
                 logger.debug("OAuth token is expired, renewing")
-
+                
                 HSReplayAPI.oauthswift.renewAccessToken(withRefreshToken: HSReplayAPI.oauthswift.client.credential
-.oauthRefreshToken, completionHandler: { result in
-                    switch result {
-                    case .success(let (credential, _, _)):
-                        logger.debug("HSReplay: Refreshed OAuthToken")
-                        Settings.hsReplayOAuthToken =  credential.oauthToken
-                        Settings.hsReplayOAuthRefreshToken = credential.oauthRefreshToken
-                        Settings.hsReplayOAuthTokenExpiration = credential.oauthTokenExpiresAt
-                        oauthswift.client.requestWithAutomaticAccessTokenRenewal(url: URL(string: url)!, method: method, parameters: parameters, headers: headers, accessTokenUrl: HSReplay.oAuthTokenUrl, onTokenRenewal: onTokenRenewal, completionHandler: completion)
-                    case .failure(let error):
-                        logger.error(error)
-                        // try again, just in case
-                        oauthswift.client.requestWithAutomaticAccessTokenRenewal(url: URL(string: url)!, method: method, parameters: parameters, headers: headers, accessTokenUrl: HSReplay.oAuthTokenUrl, onTokenRenewal: onTokenRenewal, completionHandler: completion)
-                    }
-                })
+                    .oauthRefreshToken, completionHandler: { result in
+                        switch result {
+                        case .success(let (credential, _, parameters)):
+                            logger.debug("HSReplay: Refreshed OAuthToken")
+                            Settings.hsReplayOAuthToken =  credential.oauthToken
+                            Settings.hsReplayOAuthRefreshToken = credential.oauthRefreshToken
+                            Settings.hsReplayOAuthTokenExpiration = credential.oauthTokenExpiresAt
+                            Settings.hsReplayOAuthScope = parameters["scope"] as? String
+                            oauthswift.client.requestWithAutomaticAccessTokenRenewal(url: URL(string: url)!, method: method, parameters: parameters, headers: headers, accessTokenUrl: HSReplay.oAuthTokenUrl, onTokenRenewal: onTokenRenewal, completionHandler: completion)
+                        case .failure(let error):
+                            logger.error(error)
+                            // try again, just in case
+                            oauthswift.client.requestWithAutomaticAccessTokenRenewal(url: URL(string: url)!, method: method, parameters: parameters, headers: headers, accessTokenUrl: HSReplay.oAuthTokenUrl, onTokenRenewal: onTokenRenewal, completionHandler: completion)
+                        }
+                    })
                 return
             }
         }
@@ -108,65 +125,65 @@ class HSReplayAPI {
         http.json(method: .post,
                   parameters: ["api_token": apiKey],
                   headers: ["X-Api-Key": apiKey]) { json in
-                    if let json = json as? [String: Any],
-                        let key = json["key"] as? String {
-                        logger.info("HSReplay : Obtained new upload-token")
-                        Settings.hsReplayUploadToken = key
-                        handle(key)
-                    } else {
-                        logger.error("Failed to obtain upload token")
-                        handle("failed-token")
-                    }
+            if let json = json as? [String: Any],
+               let key = json["key"] as? String {
+                logger.info("HSReplay : Obtained new upload-token")
+                Settings.hsReplayUploadToken = key
+                handle(key)
+            } else {
+                logger.error("Failed to obtain upload token")
+                handle("failed-token")
+            }
         }
     }
-
-//    static func claimBlizzardAccount(account_hi: Int64, account_lo: Int64, battleTag: String) async -> ClaimBlizzardAccountResponse {
-//        await withCheckedContinuation { continuation in
-//            oauthswift.startAuthorizedRequest("\(HSReplay.claimBattleTagUrl)/\(account_hi)/\(account_lo)/", method: .POST,
-//                                              parameters: ["battletag": battleTag], headers: defaultHeaders,
-//                                              onTokenRenewal: tokenRenewalHandler,
-//                                              completionHandler: { result in
-//                                                  switch result {
-//                                                  case .success:
-//                                                      continuation.resume(returning: .success)
-//                                                      return
-//                                                  case .failure(let error):
-//                                                      logger.error(error)
-//                                                      if error.description.contains("account_already_claimed") {
-//                                                          continuation.resume(returning: .tokenAlreadyClaimed)
-//                                                          return
-//                                                      } else {
-//                                                          continuation.resume(returning: .error)
-//                                                          return
-//                                                      }
-//                                                  }
-//                                              }
-//                                          )
-//        }
-//    }
+    
+    //    static func claimBlizzardAccount(account_hi: Int64, account_lo: Int64, battleTag: String) async -> ClaimBlizzardAccountResponse {
+    //        await withCheckedContinuation { continuation in
+    //            oauthswift.startAuthorizedRequest("\(HSReplay.claimBattleTagUrl)/\(account_hi)/\(account_lo)/", method: .POST,
+    //                                              parameters: ["battletag": battleTag], headers: defaultHeaders,
+    //                                              onTokenRenewal: tokenRenewalHandler,
+    //                                              completionHandler: { result in
+    //                                                  switch result {
+    //                                                  case .success:
+    //                                                      continuation.resume(returning: .success)
+    //                                                      return
+    //                                                  case .failure(let error):
+    //                                                      logger.error(error)
+    //                                                      if error.description.contains("account_already_claimed") {
+    //                                                          continuation.resume(returning: .tokenAlreadyClaimed)
+    //                                                          return
+    //                                                      } else {
+    //                                                          continuation.resume(returning: .error)
+    //                                                          return
+    //                                                      }
+    //                                                  }
+    //                                              }
+    //                                          )
+    //        }
+    //    }
     
     static func claimBattleTag(account_hi: Int64, account_lo: Int64, battleTag: String) -> Promise<ClaimBlizzardAccountResponse> {
         return Promise<ClaimBlizzardAccountResponse> { seal in
             startAuthorizedRequest("\(HSReplay.claimBattleTagUrl)/\(account_hi)/\(account_lo)/", method: .POST,
-                parameters: ["battletag": battleTag], headers: defaultHeaders,
-                onTokenRenewal: tokenRenewalHandler,
-                completionHandler: { result in
-                    switch result {
-                    case .success:
-                        seal.fulfill(.success)
-                    case .failure(let error):
-                        logger.error(error)
-                        if error.description.contains("account_already_claimed") {
-                            seal.fulfill(.tokenAlreadyClaimed)
-                        } else {
-                            seal.fulfill(.error)
-                        }
+                                   parameters: ["battletag": battleTag], headers: defaultHeaders,
+                                   onTokenRenewal: tokenRenewalHandler,
+                                   completionHandler: { result in
+                switch result {
+                case .success:
+                    seal.fulfill(.success)
+                case .failure(let error):
+                    logger.error(error)
+                    if error.description.contains("account_already_claimed") {
+                        seal.fulfill(.tokenAlreadyClaimed)
+                    } else {
+                        seal.fulfill(.error)
                     }
                 }
+            }
             )
         }
     }
-
+    
     static func claimAccount() {
         guard let token = Settings.hsReplayUploadToken else {
             logger.error("Authorization token not set yet")
@@ -174,24 +191,24 @@ class HSReplayAPI {
         }
         
         logger.info("Getting claim url...")
-
+        
         let http = Http(url: HSReplay.claimAccountUrl)
         http.json(method: .post,
                   headers: [
                     "X-Api-Key": apiKey,
                     "Authorization": "Token \(token)"]) { json in
-            if let json = json as? [String: Any],
-                let url = json["url"] as? String {
-                logger.info("Opening browser to claim account...")
-
-                let url = URL(string: "\(HSReplay.baseUrl)\(url)")
-                NSWorkspace.shared.open(url!)
-            } else {
-
-            }
-        }
+                        if let json = json as? [String: Any],
+                           let url = json["url"] as? String {
+                            logger.info("Opening browser to claim account...")
+                            
+                            let url = URL(string: "\(HSReplay.baseUrl)\(url)")
+                            NSWorkspace.shared.open(url!)
+                        } else {
+                            
+                        }
+                    }
     }
-
+    
     static func updateAccountStatus(handle: @escaping (Bool) -> Void) {
         guard let token = Settings.hsReplayUploadToken else {
             logger.error("Authorization token not set yet")
@@ -199,58 +216,58 @@ class HSReplayAPI {
             return
         }
         logger.info("Checking account status...")
-
+        
         let http = Http(url: "\(HSReplay.tokensUrl)/\(token)/")
         http.json(method: .get,
                   headers: [
                     "X-Api-Key": apiKey,
                     "Authorization": "Token \(token)"
-        ]) { json in
-            if let json = json as? [String: Any],
-                let user = json["user"] as? [String: Any] {
-                if let username = user["username"] as? String {
-                    Settings.hsReplayUsername = username
-                }
-                Settings.hsReplayId = user["id"] as? Int ?? 0
-                logger.info("id=\(String(describing: Settings.hsReplayId)), Username=\(String(describing: Settings.hsReplayUsername))")
-                handle(true)
-            } else {
-                handle(false)
-            }
-        }
+                  ]) { json in
+                      if let json = json as? [String: Any],
+                         let user = json["user"] as? [String: Any] {
+                          if let username = user["username"] as? String {
+                              Settings.hsReplayUsername = username
+                          }
+                          Settings.hsReplayId = user["id"] as? Int ?? 0
+                          logger.info("id=\(String(describing: Settings.hsReplayId)), Username=\(String(describing: Settings.hsReplayUsername))")
+                          handle(true)
+                      } else {
+                          handle(false)
+                      }
+                  }
     }
     
-//    private static func getUploadCollectionToken(type: CollectionType) async throws -> String {
-//        guard let accountId = MirrorHelper.getAccountId() else {
-//            throw HSReplayError.missingAccount
-//        }
-//        return try await withCheckedThrowingContinuation { continuation in
-//            oauthswift.startAuthorizedRequest("\(HSReplay.collectionTokensUrl)", method: .GET, parameters: ["account_hi": accountId.hi, "account_lo": accountId.lo, "type": type == .constructed ? "CONSTRUCTED" : "MERCENARIES"], headers: defaultHeaders, onTokenRenewal: tokenRenewalHandler,
-//                                              completionHandler: { result in
-//                switch result {
-//                case .success(let response):
-//                    do {
-//                        guard let json = try response.jsonObject() as? [String: Any], let token = json["url"] as? String else {
-//                            logger.error("HSReplay: Unexpected JSON \(response.string ?? "")")
-//                            continuation.resume(throwing: HSReplayError.collectionUploadMissingURL)
-//                            return
-//                        }
-//                        logger.info("HSReplay: obtained new collection upload json: \(json)")
-//                        continuation.resume(returning: token)
-//                        return
-//                    } catch {
-//                        logger.error("HSReplay: unknown error get upload token: \(error)")
-//                        continuation.resume(throwing: HSReplayError.missingAccount)
-//                        return
-//                    }
-//                case .failure(let error):
-//                    logger.error(error)
-//                    continuation.resume(throwing: HSReplayError.authorizationTokenNotSet)
-//                    return
-//                }
-//            })
-//        }
-//    }
+    //    private static func getUploadCollectionToken(type: CollectionType) async throws -> String {
+    //        guard let accountId = MirrorHelper.getAccountId() else {
+    //            throw HSReplayError.missingAccount
+    //        }
+    //        return try await withCheckedThrowingContinuation { continuation in
+    //            oauthswift.startAuthorizedRequest("\(HSReplay.collectionTokensUrl)", method: .GET, parameters: ["account_hi": accountId.hi, "account_lo": accountId.lo, "type": type == .constructed ? "CONSTRUCTED" : "MERCENARIES"], headers: defaultHeaders, onTokenRenewal: tokenRenewalHandler,
+    //                                              completionHandler: { result in
+    //                switch result {
+    //                case .success(let response):
+    //                    do {
+    //                        guard let json = try response.jsonObject() as? [String: Any], let token = json["url"] as? String else {
+    //                            logger.error("HSReplay: Unexpected JSON \(response.string ?? "")")
+    //                            continuation.resume(throwing: HSReplayError.collectionUploadMissingURL)
+    //                            return
+    //                        }
+    //                        logger.info("HSReplay: obtained new collection upload json: \(json)")
+    //                        continuation.resume(returning: token)
+    //                        return
+    //                    } catch {
+    //                        logger.error("HSReplay: unknown error get upload token: \(error)")
+    //                        continuation.resume(throwing: HSReplayError.missingAccount)
+    //                        return
+    //                    }
+    //                case .failure(let error):
+    //                    logger.error(error)
+    //                    continuation.resume(throwing: HSReplayError.authorizationTokenNotSet)
+    //                    return
+    //                }
+    //            })
+    //        }
+    //    }
     
     private static func getUploadCollectionToken(collectionType: CollectionType) -> Promise<String> {
         return Promise<String> { seal in
@@ -259,64 +276,64 @@ class HSReplayAPI {
                 return
             }
             startAuthorizedRequest("\(HSReplay.collectionTokensUrl)", method: .POST, parameters: ["account_hi": accountId.hi, "account_lo": accountId.lo, "type": collectionType == .constructed ? "CONSTRUCTED" : "MERCENARIES"], headers: defaultHeaders, onTokenRenewal: tokenRenewalHandler,
-                                              completionHandler: { result in
-                                                switch result {
-                                                case .success(let response):
-                                                    do {
-                                                        guard let json = try response.jsonObject() as? [String: Any], let token = json["url"] as? String else {
-                                                            logger.error("HSReplay: Unexpected JSON \(String(describing: response.string))")
-                                                            seal.reject(HSReplayError.collectionUploadMissingURL)
-                                                            return
-                                                        }
-                                                        logger.info("HSReplay: obtained new collection upload json: \(json)")
-                                                        seal.fulfill(token)
-                                                    } catch {
-                                                        seal.reject(HSReplayError.missingAccount)
-                                                    }
-                                                case .failure(let error):
-                                                    logger.error(error)
-                                                    seal.reject(HSReplayError.authorizationTokenNotSet)
-                                                }
-                                              })
+                                   completionHandler: { result in
+                switch result {
+                case .success(let response):
+                    do {
+                        guard let json = try response.jsonObject() as? [String: Any], let token = json["url"] as? String else {
+                            logger.error("HSReplay: Unexpected JSON \(String(describing: response.string))")
+                            seal.reject(HSReplayError.collectionUploadMissingURL)
+                            return
+                        }
+                        logger.info("HSReplay: obtained new collection upload json: \(json)")
+                        seal.fulfill(token)
+                    } catch {
+                        seal.reject(HSReplayError.missingAccount)
+                    }
+                case .failure(let error):
+                    logger.error(error)
+                    seal.reject(HSReplayError.authorizationTokenNotSet)
+                }
+            })
         }
     }
     
-//    static func updateCollection(collection: Collection) async -> Bool {
-//        do {
-//            let token = try await getUploadCollectionToken(type: .constructed)
-//            let upload = Http(url: token)
-//            if let data = try? JSONEncoder().encode(collection) {
-//                if let result = await upload.uploadAsync(method: .put, data: data, headers: [ "Content-Type": "application/json" ]) {
-//                    logger.debug("Upload result: \(result)")
-//                }
-//                return true
-//            } else {
-//                logger.error("JSON conversion failed")
-//                return false
-//            }
-//        } catch {
-//            return false
-//        }
-//    }
-//
-//    static func updateMercenariesCollection(collection: MercenariesCollection) async -> Bool {
-//        do {
-//            let token = try await getUploadCollectionToken(type: .mercenaries)
-//            let upload = Http(url: token)
-//            if let data = try? JSONEncoder().encode(collection) {
-//                if let result = await upload.uploadAsync(method: .put, data: data, headers: [ "Content-Type": "application/json" ]) {
-//                    logger.debug("Upload result: \(result)")
-//                }
-//                return true
-//            } else {
-//                logger.error("JSON conversion failed")
-//                return false
-//            }
-//        } catch {
-//            return false
-//        }
-//    }
-
+    //    static func updateCollection(collection: Collection) async -> Bool {
+    //        do {
+    //            let token = try await getUploadCollectionToken(type: .constructed)
+    //            let upload = Http(url: token)
+    //            if let data = try? JSONEncoder().encode(collection) {
+    //                if let result = await upload.uploadAsync(method: .put, data: data, headers: [ "Content-Type": "application/json" ]) {
+    //                    logger.debug("Upload result: \(result)")
+    //                }
+    //                return true
+    //            } else {
+    //                logger.error("JSON conversion failed")
+    //                return false
+    //            }
+    //        } catch {
+    //            return false
+    //        }
+    //    }
+    //
+    //    static func updateMercenariesCollection(collection: MercenariesCollection) async -> Bool {
+    //        do {
+    //            let token = try await getUploadCollectionToken(type: .mercenaries)
+    //            let upload = Http(url: token)
+    //            if let data = try? JSONEncoder().encode(collection) {
+    //                if let result = await upload.uploadAsync(method: .put, data: data, headers: [ "Content-Type": "application/json" ]) {
+    //                    logger.debug("Upload result: \(result)")
+    //                }
+    //                return true
+    //            } else {
+    //                logger.error("JSON conversion failed")
+    //                return false
+    //            }
+    //        } catch {
+    //            return false
+    //        }
+    //    }
+    
     private static func uploadCollectionInternal(collection: CollectionBase, url: String, seal: Resolver<Bool>) {
         let upload = Http(url: url)
         let enc = JSONEncoder()
@@ -343,7 +360,18 @@ class HSReplayAPI {
             }
         }
     }
-
+    
+    static func parseResponse<T: Decodable>(data: Data, defaultValue: T) -> T {
+        let decoder = JSONDecoder()
+        do {
+            let bqs = try decoder.decode(T.self, from: data)
+            return bqs
+        } catch let error {
+            logger.error("Failed to parse response: \(error)")
+            return defaultValue
+        }
+    }
+    
     private static func parseAccountData(data: Data) -> AccountData? {
         let decoder = JSONDecoder()
         do {
@@ -353,7 +381,6 @@ class HSReplayAPI {
             logger.error("Failed to parse account response: \(error)")
             return nil
         }
-        
     }
     
     static func getAccount() -> Promise<GetAccountResult> {
@@ -372,6 +399,127 @@ class HSReplayAPI {
                     accountData = nil
                     logger.error(error)
                     seal.fulfill(.failed)
+                }
+            })
+        }
+    }
+    
+    @available(macOS 10.15.0, *)
+    static func getAccountAsync() async -> GetAccountResult {
+        await withCheckedContinuation { continuation in
+            _ = getAccount().map { result in
+                continuation.resume(returning: result)
+                return
+            }
+        }
+    }
+    
+    @available(macOS 10.15.0, *)
+    static func getTier7HeroPickStats(parameters: BattlegroundsHeroPickStatsParams) async -> [BattlegroundsSingleHeroPickStats]? {
+        return await withCheckedContinuation { continuation in
+            let encoder = JSONEncoder()
+            var body: Data?
+            do {
+                body = try encoder.encode(parameters)
+                if let body = body {
+                    logger.debug("Sending hero picks request: \(String(data: body, encoding: .utf8) ?? "ERROR")")
+                }
+            } catch {
+                logger.error(error)
+            }
+            oauthswift.client.request("\(HSReplay.tier7HeroPickStatsUrl)", method: .POST, headers: ["Content-Type": "application/json"], body: body, completionHandler: { result in
+                switch result {
+                case .success(let response):
+                    logger.debug("Response: \(String(data: response.data, encoding: .utf8) ?? "FAILED")")
+                    let bqs: [BattlegroundsSingleHeroPickStats]? = parseResponse(data: response.data, defaultValue: nil)
+                    continuation.resume(returning: bqs)
+                    return
+                case .failure(let error):
+                    logger.error(error)
+                    continuation.resume(returning: nil)
+                    return
+                }
+            })
+        }
+    }
+    
+    @available(macOS 10.15.0, *)
+    static func getTier7QuestStats(parameters: BattlegroundsQuestStatsParams) async -> [BattlegroundsQuestStats]? {
+        return await withCheckedContinuation { continuation in
+            let encoder = JSONEncoder()
+            var body: Data?
+            do {
+                body = try encoder.encode(parameters)
+                if let body = body {
+                    logger.debug("Sending quest rewards request: \(String(data: body, encoding: .utf8) ?? "ERROR")")
+                }
+            } catch {
+                logger.error(error)
+            }
+            oauthswift.client.request("\(HSReplay.tier7QuestStatsUrl)", method: .POST, headers: ["Content-Type": "application/json"], body: body, completionHandler: { result in
+                switch result {
+                case .success(let response):
+                    let bqs: [BattlegroundsQuestStats]? = parseResponse(data: response.data, defaultValue: nil)
+                    continuation.resume(returning: bqs)
+                    return
+                case .failure(let error):
+                    logger.error(error)
+                    continuation.resume(returning: nil)
+                    return
+                }
+            })
+        }
+    }
+    
+    @available(macOS 10.15.0, *)
+    static func getAllTimeBGsMMR(hi: Int64, lo: Int) async -> Tier7AllTime? {
+        return await withCheckedContinuation { continuation in
+            startAuthorizedRequest("\(HSReplay.tier7AllTimeMMR)", method: .GET, parameters: ["account_hi": hi, "account_lo": lo], completionHandler: { result in
+                switch result {
+                case .success(let response):
+                    let res: Tier7AllTime? = parseResponse(data: response.data, defaultValue: nil)
+                    continuation.resume(returning: res)
+                    return
+                case .failure(let error):
+                    logger.error(error)
+                    continuation.resume(returning: nil)
+                    return
+                }
+            })
+        }
+    }
+    
+    @available(macOS 10.15.0, *)
+    static func getTier7TrialStatus() async -> Tier7TrialStatus? {
+        return await withCheckedContinuation { continuation in
+            startAuthorizedRequest("\(HSReplay.tier7Trial)", method: .GET, parameters: [:], completionHandler: { result in
+                switch result {
+                case .success(let response):
+                    let res: Tier7TrialStatus? = parseResponse(data: response.data, defaultValue: nil)
+                    continuation.resume(returning: res)
+                    return
+                case .failure(let error):
+                    logger.error(error)
+                    continuation.resume(returning: nil)
+                    return
+                }
+            })
+        }
+    }
+
+    @available(macOS 10.15.0, *)
+    static func activateTier7Trial() async -> Tier7TrialActivation? {
+        return await withCheckedContinuation { continuation in
+            startAuthorizedRequest("\(HSReplay.tier7Trial)", method: .POST, parameters: [:], completionHandler: { result in
+                switch result {
+                case .success(let response):
+                    let res: Tier7TrialActivation? = parseResponse(data: response.data, defaultValue: nil)
+                    continuation.resume(returning: res)
+                    return
+                case .failure(let error):
+                    logger.error(error)
+                    continuation.resume(returning: nil)
+                    return
                 }
             })
         }

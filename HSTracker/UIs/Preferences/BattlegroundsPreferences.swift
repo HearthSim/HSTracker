@@ -16,6 +16,11 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
     
     var toolbarItemIcon = NSImage(named: "Mode_Battlegrounds_Dark")!
 
+    @IBOutlet weak var enableTier7Overlay: NSButton!
+    @IBOutlet weak var showTier7PreLobby: NSButton!
+    @IBOutlet weak var showHeroPicking: NSButton!
+    @IBOutlet weak var showQuestPicking: NSButton!
+    @IBOutlet weak var showCompositionStats: NSButton!
     @IBOutlet weak var showBobsBuddy: NSButton!
     @IBOutlet weak var showBobsBuddyDuringCombat: NSButton!
     @IBOutlet weak var showBobsBuddyDuringShopping: NSButton!
@@ -23,6 +28,7 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
     @IBOutlet weak var showAverageDamage: NSButton!
     @IBOutlet weak var showOpponentWarband: NSButton!
     @IBOutlet weak var showTiers: NSButton!
+    @IBOutlet weak var showBDonTiers: NSButton!
     @IBOutlet weak var showTavernTriples: NSButton!
     @IBOutlet weak var showHeroToast: NSButton!
     @IBOutlet weak var showSessionRecap: NSButton!
@@ -31,9 +37,16 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
     @IBOutlet weak var showMMRStartCurrent: NSButton!
     @IBOutlet weak var showMMRCurrentChange: NSButton!
     @IBOutlet weak var showLatestGames: NSButton!
+    @IBOutlet weak var scalingSlider: NSSlider!
+    @IBOutlet weak var scalingValue: NSTextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        enableTier7Overlay.state = Settings.enableTier7Overlay ? .on : .off
+        showTier7PreLobby.state = Settings.showBattlegroundsTier7PreLobby ? .on : .off
+        showHeroPicking.state = Settings.showBattlegroundsHeroPicking ? .on : .off
+        showQuestPicking.state = Settings.showBattlegroundsQuestPicking ? .on : .off
+        showCompositionStats.state = Settings.showBattlegroundsCompositionStats ? .on : .off
         showBobsBuddy.state = Settings.showBobsBuddy ? .on : .off
         showBobsBuddyDuringCombat.state = Settings.showBobsBuddyDuringCombat ? .on : .off
         showBobsBuddyDuringShopping.state = Settings.showBobsBuddyDuringShopping ? .on : .off
@@ -41,6 +54,7 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
         showAverageDamage.state = Settings.showAverageDamage ? .on : .off
         showOpponentWarband.state = Settings.showOpponentWarband ? .on : .off
         showTiers.state = Settings.showTiers ? .on : .off
+        showBDonTiers.state = Settings.showBattlecryDeathrattleOnTiers ? .on : .off
         showTavernTriples.state = Settings.showTavernTriples ? .on : .off
         showHeroToast.state = Settings.showHeroToast ? .on : .off
         showSessionRecap.state = Settings.showSessionRecap ? .on : .off
@@ -49,10 +63,13 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
         showLatestGames.state = Settings.showLatestGames ? .on : .off
         showMMRStartCurrent.state = Settings.showMMRStartCurrent ? .on : .off
         showMMRCurrentChange.state = Settings.showMMRStartCurrent ? .off : .on
-        updateSessionRecapEnablement()
+        scalingSlider.doubleValue = Settings.battlegroundsSessionScaling * 100.0
+        scalingValue.doubleValue = Settings.battlegroundsSessionScaling
+        updateEnablement()
     }
 
     @IBAction func checkboxClicked(_ sender: NSButton) {
+        let game = AppDelegate.instance().coreManager.game
         if sender == showBobsBuddy {
             Settings.showBobsBuddy = showBobsBuddy.state == .on
         } else if sender == showBobsBuddyDuringCombat {
@@ -67,18 +84,27 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
             Settings.showOpponentWarband = showOpponentWarband.state == .on
         } else if sender == showTiers {
             Settings.showTiers = showTiers.state == .on
+        } else if sender == showBDonTiers {
+            Settings.showBattlecryDeathrattleOnTiers = sender.state == .on
         } else if sender == showTavernTriples {
             Settings.showTavernTriples = showTavernTriples.state == .on
         } else if sender == showHeroToast {
             Settings.showHeroToast = showHeroToast.state == .on
         } else if sender == showSessionRecap {
             Settings.showSessionRecap = sender.state == .on
-            updateSessionRecapEnablement()
+            updateEnablement()
+            if game.isBattlegroundsMatch() || game.currentMode == .bacon {
+                if sender.state == .on {
+                    game.showBattlegroundsSession(true, true)
+                } else {
+                    game.showBattlegroundsSession(false, true)
+                }
+            }
         } else if sender == showBannedTribes {
             Settings.showBannedTribes = sender.state == .on
         } else if sender == showMMR {
             Settings.showMMR = sender.state == .on
-            updateSessionRecapEnablement()
+            updateEnablement()
         } else if sender == showLatestGames {
             Settings.showLatestGames = sender.state == .on
         } else if sender == showMMRStartCurrent {
@@ -89,10 +115,55 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
             Settings.showMMRStartCurrent = false
             showMMRStartCurrent.state = .off
             showMMRCurrentChange.state = .on
+        } else if sender == enableTier7Overlay {
+            Settings.enableTier7Overlay = sender.state == .on
+            updateEnablement()
+            if game.currentMode == .bacon {
+                if #available(macOS 10.15, *) {
+                    if sender.state == .on {
+                        game.showTier7PreLobby(show: true, checkAccountStatus: true)
+                    } else {
+                        game.showTier7PreLobby(show: false, checkAccountStatus: false)
+                    }
+                }
+            }
+        } else if sender == showTier7PreLobby {
+            Settings.showBattlegroundsTier7PreLobby = sender.state == .on
+            if game.currentMode == .bacon {
+                if #available(macOS 10.15, *) {
+                    if sender.state == .on {
+                        game.showTier7PreLobby(show: true, checkAccountStatus: true)
+                    } else {
+                        game.showTier7PreLobby(show: false, checkAccountStatus: false)
+                    }
+                }
+            }
+        } else if sender == showHeroPicking {
+            Settings.showBattlegroundsHeroPicking = sender.state == .on
+            if game.isBattlegroundsMatch() {
+                if #available(macOS 10.15, *) {
+                    game.windowManager.battlegroundsHeroPicking.viewModel.visibility = sender.state == .on
+                }
+            }
+
+        } else if sender == showQuestPicking {
+            Settings.showBattlegroundsQuestPicking = sender.state == .on
+            if game.isBattlegroundsMatch() {
+                if #available(macOS 10.15, *) {
+                    game.windowManager.battlegroundsQuestPicking.viewModel.visibility = sender.state == .on
+                }
+            }
+        } else if sender == showCompositionStats {
+            Settings.showBattlegroundsCompositionStats = sender.state == .on
         }
     }
     
-    private func updateSessionRecapEnablement() {
+    @IBAction func sliderChanged(_ sender: Any) {
+        Settings.battlegroundsSessionScaling = scalingSlider.doubleValue / 100.0
+        scalingValue.doubleValue = scalingSlider.doubleValue / 100.0
+    }
+    
+    private func updateEnablement() {
         var enabled = showSessionRecap.state == .on
         showBannedTribes.isEnabled = enabled
         showMMR.isEnabled = enabled
@@ -105,6 +176,11 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
             showMMRCurrentChange.isEnabled = enabled
         }
         
+        enabled = enableTier7Overlay.state == .on
+        showTier7PreLobby.isEnabled = enabled
+        showHeroPicking.isEnabled = enabled
+        showQuestPicking.isEnabled = enabled
+        showCompositionStats.isEnabled = enabled
     }
     
     @IBAction func reset(_ sender: NSButton) {
@@ -120,7 +196,7 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
         }
         
         BattlegroundsLastGames.instance.reset()
-        AppDelegate.instance().coreManager.game.updateBattlegroundsSessionOverlay()
+        AppDelegate.instance().coreManager.game.windowManager.battlegroundsSession.update()
 
     }
 }

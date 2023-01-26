@@ -55,6 +55,7 @@ class BattlegroundsTierDetailsView: NSStackView {
                 }
             }
         }
+        let showBD = Settings.showBattlecryDeathrattleOnTiers
         var cardBars: [CardBar] = bgMinions.filter {
             let race = $0.bgRace
             return ($0.techLevel == tier &&
@@ -67,6 +68,14 @@ class BattlegroundsTierDetailsView: NSStackView {
             card.name = inCard.name
             card.race = inCard.race
             card.races = inCard.races
+            if showBD {
+                card.mechanics = inCard.mechanics
+            }
+            if let count = counts[inCard.race] {
+                counts[inCard.race] = count + 1
+            } else {
+                counts[inCard.race] = 1
+            }
             card.count = 1
             card.rarity = inCard.rarity
             var cards = [CardBar]()

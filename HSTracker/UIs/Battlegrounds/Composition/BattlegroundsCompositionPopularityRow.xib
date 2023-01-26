@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="BattlegroundsCompositionPopularityRow" customModule="HSTracker" customModuleProvider="target">
+            <connections>
+                <outlet property="cardImage" destination="qxQ-7u-dA1" id="S6T-Ia-1Wv"/>
+                <outlet property="contentView" destination="c22-O7-iKe" id="eST-9X-1JV"/>
+                <outlet property="nameLabel" destination="j2z-lZ-M9g" id="fEc-3a-EaI"/>
+                <outlet property="popularityBar" destination="EkE-pv-iYi" id="2YY-gI-f5O"/>
+                <outlet property="popularityLabel" destination="zQY-Ec-GRh" id="WSr-MK-NY7"/>
+                <outlet property="tribeXImage" destination="lgj-0O-akz" id="NcI-fg-m8N"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView translatesAutoresizingMaskIntoConstraints="NO" id="c22-O7-iKe">
+            <rect key="frame" x="0.0" y="0.0" width="235" height="24"/>
+            <subviews>
+                <box boxType="custom" borderType="line" borderWidth="0.0" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="6cq-cm-eGN">
+                    <rect key="frame" x="0.0" y="0.0" width="235" height="24"/>
+                    <view key="contentView" id="8ZW-1P-mDt">
+                        <rect key="frame" x="0.0" y="0.0" width="235" height="24"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="H3t-WY-8HZ" userLabel="ImageDock">
+                                <rect key="frame" x="0.0" y="0.0" width="38" height="24"/>
+                                <subviews>
+                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qxQ-7u-dA1" userLabel="CardImage" customClass="NSImageViewScaleAspectFill" customModule="HSTracker" customModuleProvider="target">
+                                        <rect key="frame" x="-55" y="0.0" width="110" height="24"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="110" id="AyG-tz-GBV"/>
+                                            <constraint firstAttribute="height" constant="24" id="OH7-rn-kYl"/>
+                                        </constraints>
+                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" id="WeZ-bN-IgH"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="scaleAspectFill" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </imageView>
+                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lgj-0O-akz" userLabel="XImage">
+                                        <rect key="frame" x="6" y="2" width="20" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="20" id="6Iv-pn-sPS"/>
+                                            <constraint firstAttribute="height" constant="20" id="NoF-Q3-oVC"/>
+                                        </constraints>
+                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="tribes-x" id="XWp-9R-cfm"/>
+                                    </imageView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="D28-iF-O2g"/>
+                                    <constraint firstItem="lgj-0O-akz" firstAttribute="top" secondItem="H3t-WY-8HZ" secondAttribute="top" constant="2" id="DGS-XA-6kx"/>
+                                    <constraint firstItem="qxQ-7u-dA1" firstAttribute="leading" secondItem="H3t-WY-8HZ" secondAttribute="leading" constant="-55" id="Da2-WD-MLg"/>
+                                    <constraint firstItem="lgj-0O-akz" firstAttribute="leading" secondItem="H3t-WY-8HZ" secondAttribute="leading" constant="6" id="NoY-nz-qbT"/>
+                                    <constraint firstAttribute="bottom" secondItem="qxQ-7u-dA1" secondAttribute="bottom" id="rOS-t1-0oQ"/>
+                                    <constraint firstAttribute="width" constant="38" id="rvw-uR-qEb"/>
+                                    <constraint firstItem="qxQ-7u-dA1" firstAttribute="top" secondItem="H3t-WY-8HZ" secondAttribute="top" id="scV-4k-OqA"/>
+                                </constraints>
+                            </customView>
+                            <textField identifier="NameLabel" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j2z-lZ-M9g" userLabel="NameLabel">
+                                <rect key="frame" x="36" y="5" width="69" height="15"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="65" id="Hv8-Na-MUT"/>
+                                </constraints>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Name" id="7Vf-Oj-Lva">
+                                    <font key="font" metaFont="cellTitle"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <customView horizontalHuggingPriority="249" horizontalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="EkE-pv-iYi" userLabel="DistributionBar" customClass="BattlegroundsCompositionPopularityBar" customModule="HSTracker" customModuleProvider="target">
+                                <rect key="frame" x="111" y="0.0" width="86" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="TSb-Ux-J1l"/>
+                                </constraints>
+                            </customView>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zQY-Ec-GRh" userLabel="PopularityLabel">
+                                <rect key="frame" x="199" y="6" width="34" height="12"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="B9x-re-YXP"/>
+                                </constraints>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="35%" id="aWh-Nd-3F5">
+                                    <font key="font" size="12" name="ChunkFive-Roman"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="EkE-pv-iYi" firstAttribute="leading" secondItem="j2z-lZ-M9g" secondAttribute="trailing" constant="8" id="4iI-Vp-AhA"/>
+                            <constraint firstItem="zQY-Ec-GRh" firstAttribute="leading" secondItem="EkE-pv-iYi" secondAttribute="trailing" constant="4" id="66Z-rx-Rtd"/>
+                            <constraint firstItem="H3t-WY-8HZ" firstAttribute="leading" secondItem="8ZW-1P-mDt" secondAttribute="leading" id="AyC-vm-STC"/>
+                            <constraint firstItem="H3t-WY-8HZ" firstAttribute="centerY" secondItem="8ZW-1P-mDt" secondAttribute="centerY" id="HPH-3B-j0m"/>
+                            <constraint firstItem="EkE-pv-iYi" firstAttribute="centerY" secondItem="8ZW-1P-mDt" secondAttribute="centerY" id="OTX-Io-IGu"/>
+                            <constraint firstItem="j2z-lZ-M9g" firstAttribute="centerY" secondItem="8ZW-1P-mDt" secondAttribute="centerY" id="ifi-xK-TvE"/>
+                            <constraint firstItem="zQY-Ec-GRh" firstAttribute="centerY" secondItem="8ZW-1P-mDt" secondAttribute="centerY" id="lft-eM-8ZX"/>
+                            <constraint firstItem="j2z-lZ-M9g" firstAttribute="leading" secondItem="H3t-WY-8HZ" secondAttribute="trailing" id="u5e-gb-rS4"/>
+                            <constraint firstAttribute="trailing" secondItem="zQY-Ec-GRh" secondAttribute="trailing" constant="4" id="vpp-6t-zkp"/>
+                        </constraints>
+                    </view>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="24" id="yl9-B1-sKF"/>
+                    </constraints>
+                    <color key="borderColor" red="0.078431372550000003" green="0.086274509799999996" blue="0.090196078430000007" alpha="1" colorSpace="custom" customColorSpace="deviceRGB"/>
+                    <color key="fillColor" red="0.078431372549019607" green="0.086274509803921567" blue="0.090196078431372548" alpha="1" colorSpace="custom" customColorSpace="deviceRGB"/>
+                </box>
+            </subviews>
+            <constraints>
+                <constraint firstItem="6cq-cm-eGN" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="Cfo-Vu-HDx"/>
+                <constraint firstAttribute="trailing" secondItem="6cq-cm-eGN" secondAttribute="trailing" id="Cla-y8-1WN"/>
+                <constraint firstItem="6cq-cm-eGN" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="k0m-XY-30e"/>
+                <constraint firstAttribute="height" constant="24" id="rJP-k9-0d7"/>
+            </constraints>
+            <point key="canvasLocation" x="118.5" y="122"/>
+        </customView>
+    </objects>
+    <resources>
+        <image name="tribes-x" width="145" height="150"/>
+    </resources>
+</document>

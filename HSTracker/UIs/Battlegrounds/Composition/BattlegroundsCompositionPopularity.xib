@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="BattlegroundsCompositionPopularity" customModule="HSTracker" customModuleProvider="target">
+            <connections>
+                <outlet property="contentView" destination="c22-O7-iKe" id="SrF-W9-fpP"/>
+                <outlet property="items" destination="NVJ-fo-OpJ" id="6iU-Fz-ggN"/>
+                <outlet property="noDataLabel" destination="cc8-SP-iwM" id="3ve-Ln-sc3"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="c22-O7-iKe">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="272"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <box toolTip="Percentage of 1st place finishes" boxType="custom" cornerRadius="5" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="Kli-WA-RPw">
+                    <rect key="frame" x="0.0" y="0.0" width="480" height="272"/>
+                    <view key="contentView" id="GUS-44-ZGu">
+                        <rect key="frame" x="1" y="1" width="478" height="270"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NVJ-fo-OpJ" userLabel="Items">
+                                <rect key="frame" x="0.0" y="0.0" width="478" height="270"/>
+                            </stackView>
+                            <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cc8-SP-iwM" userLabel="NoCompData">
+                                <rect key="frame" x="-2" y="255" width="482" height="15"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="No composition data" id="q1z-Im-PoI">
+                                    <font key="font" metaFont="system" size="12"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="NVJ-fo-OpJ" secondAttribute="trailing" id="5ET-Iv-9lj"/>
+                            <constraint firstItem="cc8-SP-iwM" firstAttribute="leading" secondItem="GUS-44-ZGu" secondAttribute="leading" id="5Tf-Bf-w0t"/>
+                            <constraint firstAttribute="bottom" secondItem="NVJ-fo-OpJ" secondAttribute="bottom" id="6mK-yG-amo"/>
+                            <constraint firstItem="NVJ-fo-OpJ" firstAttribute="top" secondItem="GUS-44-ZGu" secondAttribute="top" id="ESA-Ai-Aog"/>
+                            <constraint firstItem="NVJ-fo-OpJ" firstAttribute="leading" secondItem="GUS-44-ZGu" secondAttribute="leading" id="eEt-3J-QnY"/>
+                            <constraint firstAttribute="trailing" secondItem="cc8-SP-iwM" secondAttribute="trailing" id="lBi-TM-YVi"/>
+                            <constraint firstItem="cc8-SP-iwM" firstAttribute="top" secondItem="GUS-44-ZGu" secondAttribute="top" id="sX5-66-9lL"/>
+                        </constraints>
+                    </view>
+                    <color key="borderColor" red="0.21176470588235294" green="0.086274509803921567" blue="0.21568627450980393" alpha="1" colorSpace="deviceRGB"/>
+                    <color key="fillColor" red="0.078431372549019607" green="0.086274509803921567" blue="0.090196078431372548" alpha="1" colorSpace="deviceRGB"/>
+                </box>
+            </subviews>
+            <constraints>
+                <constraint firstItem="Kli-WA-RPw" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="Ypb-0t-CSC"/>
+                <constraint firstAttribute="bottom" secondItem="Kli-WA-RPw" secondAttribute="bottom" id="aau-93-W0o"/>
+                <constraint firstAttribute="trailing" secondItem="Kli-WA-RPw" secondAttribute="trailing" id="d6L-5F-FOw"/>
+                <constraint firstItem="Kli-WA-RPw" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="n3w-3t-Dnh"/>
+            </constraints>
+            <point key="canvasLocation" x="-65" y="122"/>
+        </customView>
+    </objects>
+</document>

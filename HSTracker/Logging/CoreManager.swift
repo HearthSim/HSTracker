@@ -66,6 +66,13 @@ final class CoreManager: NSObject {
             self.game.queueEvents.handle(args)
         }
         
+        BaconWatcher.change = { _, args in
+            if #available(macOS 10.15, *) {
+                // TODO: hide BattlegroundsSession here
+                self.game.showTier7PreLobby(show: !args.isAnyOpen(), checkAccountStatus: false)
+            }
+        }
+        
         ExperienceWatcher.newExperienceHandler = { args in
             AppDelegate.instance().coreManager.game.experienceChangedAsync(experience: args.experience, experienceNeeded: args.experienceNeeded, level: args.level, levelChange: args.levelChange, animate: args.animate)
         }
@@ -262,7 +269,13 @@ final class CoreManager: NSObject {
 		logReaderManager.stop(eraseLogFile: !CoreManager.isHearthstoneRunning())
         DeckWatcher.stop()
         ArenaDeckWatcher.stop()
+        DungeonRunDeckWatcher.stop()
+        PVPDungeonRunWatcher.stop()
+        ExperienceWatcher.stop()
+        QueueWatcher.stop()
+        BaconWatcher.stop()
         MirrorHelper.destroy()
+        game.windowManager.battlegroundsQuestPicking.viewModel.reset()
     }
     
     var triggers: [NSObjectProtocol] = []

@@ -378,11 +378,6 @@
                                                                         <constraint firstAttribute="width" constant="83" id="T3M-O9-1ax"/>
                                                                         <constraint firstAttribute="height" constant="108" id="lq2-BR-2oz"/>
                                                                     </constraints>
-                                                                    <userDefinedRuntimeAttributes>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="tier">
-                                                                            <integer key="value" value="1"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                    </userDefinedRuntimeAttributes>
                                                                 </customView>
                                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="sOK-KT-fYq" userLabel="Quest2" customClass="BattlegroundsQuestView" customModule="HSTracker" customModuleProvider="target">
                                                                     <rect key="frame" x="88" y="16" width="83" height="108"/>
@@ -390,11 +385,6 @@
                                                                         <constraint firstAttribute="width" constant="83" id="Ebr-ha-Rd1"/>
                                                                         <constraint firstAttribute="height" constant="108" id="yCG-VY-VdL"/>
                                                                     </constraints>
-                                                                    <userDefinedRuntimeAttributes>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="tier">
-                                                                            <integer key="value" value="2"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                    </userDefinedRuntimeAttributes>
                                                                 </customView>
                                                             </subviews>
                                                             <visibilityPriorities>

@@ -380,4 +380,44 @@ struct MirrorHelper {
         }
         return result
     }
+    
+    static func getCardChoices() -> MirrorCardChoices? {
+        var result: MirrorCardChoices?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getCardChoices()
+        }
+        return result
+    }
+    
+    static func isShopOpen() -> Bool {
+        var result: Bool?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.isShopOpen()
+        }
+        return result ?? false
+    }
+    
+    static func isJournalOpen() -> Bool {
+        var result: Bool?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.isJournalOpen()
+        }
+        return result ?? false
+    }
+    
+    static func isPopupShowing() -> Bool {
+        var result: Bool?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.isPopupShowing()
+        }
+        return result ?? false
+    }
+    
+    static func isFriendsListVisible() -> Bool {
+        var result: Bool?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.isFriendsListVisible()
+        }
+        return result ?? false
+    }
 }

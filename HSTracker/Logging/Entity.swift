@@ -98,6 +98,9 @@ class Entity {
     var isQuestlinePart: Bool {
         return isQuestline && self[.questline_part] > 1
     }
+    var isBattlegroundsQuest: Bool {
+        return self.has(tag: .quest_reward_database_id)
+    }
     var isSideQuest: Bool {
         return has(tag: .sidequest)
     }

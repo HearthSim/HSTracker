@@ -68,9 +68,11 @@ class Game: NSObject, PowerEventHandler {
 				// delay update as game might not have a proper window
 				DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(1), execute: { [weak self] in
 					self?.updateTrackers()
+                    self?.updateBattlegroundsOverlays()
 				})
 			} else {
 				self.updateTrackers()
+                self.updateBattlegroundsOverlays()
 			}
 		}
 	}
@@ -178,7 +180,6 @@ class Game: NSObject, PowerEventHandler {
         self.updateExperienceOverlay()
         self.updateMercenariesTaskListButton()
         self.updateBoardOverlay()
-        self.updateBattlegroundsSessionOverlay()
 	}
 	
     // MARK: - GUI calls
@@ -485,6 +486,45 @@ class Game: NSObject, PowerEventHandler {
         }
     }
     
+    func updateBattlegroundsOverlays() {
+        DispatchQueue.main.async {
+            let hsActive = self.hearthstoneRunState.isActive
+            
+            if self.windowManager.battlegroundsSession.visibility {
+                if hsActive {
+                    self.windowManager.battlegroundsSession.updateSectionsVisibilities()
+                    self.windowManager.show(controller: self.windowManager.battlegroundsSession, show: true, frame: SizeHelper.battlegroundsSessionFrame(), overlay: true)
+                    self.windowManager.battlegroundsSession.updateScaling()
+                } else {
+                    self.windowManager.show(controller: self.windowManager.battlegroundsSession, show: false)
+                }
+            }
+            if self.windowManager.tier7PreLobby.viewModel.visibility {
+                if hsActive {
+                    self.windowManager.show(controller: self.windowManager.tier7PreLobby, show: true, frame: SizeHelper.tier7PreLobbyFrame(), overlay: true)
+                } else {
+                    self.windowManager.show(controller: self.windowManager.tier7PreLobby, show: false)
+                }
+            }
+            
+            if self.windowManager.battlegroundsHeroPicking.viewModel.visibility {
+                if hsActive {
+                    self.windowManager.show(controller: self.windowManager.battlegroundsHeroPicking, show: true, frame: SizeHelper.hearthstoneWindow.frame, overlay: true)
+                } else {
+                    self.windowManager.show(controller: self.windowManager.battlegroundsHeroPicking, show: false)
+                }
+            }
+            
+            if self.windowManager.battlegroundsQuestPicking.viewModel.visibility {
+                if hsActive {
+                    self.windowManager.show(controller: self.windowManager.battlegroundsQuestPicking, show: true, frame: SizeHelper.hearthstoneWindow.frame, overlay: true)
+                } else {
+                    self.windowManager.show(controller: self.windowManager.battlegroundsQuestPicking, show: false)
+                }
+            }
+        }
+    }
+    
     func updateBattlegroundsOverlay() {
         let rect = SizeHelper.battlegroundsOverlayFrame()
 
@@ -497,26 +537,6 @@ class Game: NSObject, PowerEventHandler {
                 self.windowManager.show(controller: self.windowManager.battlegroundsOverlay, show: true, frame: rect, title: nil, overlay: true)
             } else {
                 self.windowManager.show(controller: self.windowManager.battlegroundsOverlay, show: false)
-            }
-        }
-    }
-        
-    func updateBattlegroundsSessionOverlay() {
-        DispatchQueue.main.async {
-            let isBG = (self.isBattlegroundsMatch() && (self.currentMode == .bacon || self.currentMode == .gameplay)) || self.currentMode == .bacon
-
-            if isBG && Settings.showSessionRecap && self.isAnyBattlegroundsSessionSettingActive() && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground) {
-                self.windowManager.battlegroundsSession.show()
-
-                var rect = SizeHelper.battlegroundsSessionFrame()
-                if !Settings.autoPositionTrackers {
-                    if let savedRect = Settings.battlegroundsSessionFrame {
-                        rect = savedRect
-                    }
-                }
-                self.windowManager.show(controller: self.windowManager.battlegroundsSession, show: true, frame: rect, title: nil, overlay: true)
-            } else {
-                self.windowManager.show(controller: self.windowManager.battlegroundsSession, show: false)
             }
         }
     }
@@ -778,6 +798,72 @@ class Game: NSObject, PowerEventHandler {
             } else {
                 self.windowManager.show(controller: self.windowManager.mercenariesTaskListView, show: false)
                 self.windowManager.show(controller: merc, show: false)
+            }
+        }
+    }
+    
+    func showBattlegroundsSession(_ show: Bool, _ force: Bool = false) {
+        DispatchQueue.main.async {
+            if show {
+                self.windowManager.battlegroundsSession.update()
+                if !Settings.showSessionRecap || !self.isAnyBattlegroundsSessionSettingActive() {
+                    return
+                }
+                
+                self.windowManager.battlegroundsSession.show()
+
+                var rect = SizeHelper.battlegroundsSessionFrame()
+                if !Settings.autoPositionTrackers {
+                    if let savedRect = Settings.battlegroundsSessionFrame {
+                        rect = savedRect
+                    }
+                }
+                if self.hearthstoneRunState.isActive {
+                    self.windowManager.show(controller: self.windowManager.battlegroundsSession, show: true, frame: rect, title: nil, overlay: true)
+                }
+                self.windowManager.battlegroundsSession.visibility = true
+            } else {
+                self.windowManager.battlegroundsSession.visibility = false
+                self.windowManager.show(controller: self.windowManager.battlegroundsSession, show: false)
+            }
+        }
+    }
+        
+    @available(macOS 10.15, *)
+    func showTier7PreLobby(show: Bool, checkAccountStatus: Bool, delay: Int = 500) {
+        Task.init {
+            if await Debounce.wasCalledAgain(milliseconds: 50) {
+                return
+            }
+            
+            if show {
+                if !Settings.enableTier7Overlay {
+                    return
+                }
+                Task.init {
+                    _ = await windowManager.tier7PreLobby.viewModel.update(checkAccountStatus)
+                }
+                if Settings.showBattlegroundsTier7PreLobby || !(HSReplayAPI.accountData?.is_tier7 ?? false) {
+                    Task.init {
+                        _ = await windowManager.tier7PreLobby.viewModel.update(checkAccountStatus)
+                    }
+                }
+                do {
+                    try await Task.sleep(nanoseconds: UInt64(1_000_000 * delay))
+                } catch {
+                    logger.error(error)
+                }
+                DispatchQueue.main.async {
+                    self.windowManager.tier7PreLobby.viewModel.visibility = true
+                    if self.hearthstoneRunState.isActive {
+                        self.windowManager.show(controller: self.windowManager.tier7PreLobby, show: true, frame: SizeHelper.tier7PreLobbyFrame())
+                    }
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.windowManager.tier7PreLobby.viewModel.visibility = false
+                    self.windowManager.show(controller: self.windowManager.tier7PreLobby, show: false)
+                }
             }
         }
     }
@@ -1184,6 +1270,7 @@ class Game: NSObject, PowerEventHandler {
             SizeHelper.hearthstoneWindow.reload()
             if rect != SizeHelper.hearthstoneWindow.frame {
                 self.updateAllTrackers()
+                self.updateBattlegroundsOverlays()
             }
             self.counter = 0
         } else {
@@ -1527,12 +1614,43 @@ class Game: NSObject, PowerEventHandler {
         
         windowManager.linkOpponentDeckPanel.isFriendlyMatch = isFriendlyMatch
         
+        if isBattlegroundsMatch() && currentGameMode == .spectator {
+            showBattlegroundsSession(true)
+        }
+        
         if isFriendlyMatch {
             if !Settings.interactedWithLinkOpponentDeck {
                 windowManager.linkOpponentDeckPanel.autoShown = true
                 windowManager.linkOpponentDeckPanel.show()
             }
         }
+        
+//        DispatchQueue.main.async {
+//            self.windowManager.show(controller: self.windowManager.battlegroundsHeroPicking, show: true, overlay: true)
+//        }
+        
+        /*
+        let str = #"[{"reward_dbf_id":97452,"reward_card_dbf_id":null,"avg_final_placement_r":4.64,"fp_pick_rate_r":21.1,"first_place_comps":[{"id":1,"name":"Menagerie","popularity":27.78,"key_minions_top3":[92408,92438,86783],"is_valid":true},{"id":43,"name":"Naga","popularity":22.22,"key_minions_top3":[80769,80751,80768],"is_valid":true},{"id":2,"name":"Murlocs","popularity":11.11,"key_minions_top3":[72832,73011,92405],"is_valid":true}],"tier_r":2,"mmr_filter_value":"TOP_20_PERCENT","min_mmr":7298,"debug":[]},{"reward_dbf_id":95149,"reward_card_dbf_id":null,"avg_final_placement_r":3.466,"fp_pick_rate_r":11.0,"first_place_comps":[{"id":9,"name":"Demons","popularity":53.85,"key_minions_top3":[93385,72824,72067],"is_valid":true},{"id":1,"name":"Menagerie","popularity":23.08,"key_minions_top3":[92408,92438,86783],"is_valid":true},{"id":20,"name":"Dragons","popularity":7.69,"key_minions_top3":[60629,73453,60630],"is_valid":false}],"tier_r":1,"mmr_filter_value":"TOP_20_PERCENT","min_mmr":7298,"debug":[]},{"reward_dbf_id":90865,"reward_card_dbf_id":null,"avg_final_placement_r":5.486,"fp_pick_rate_r":12.9,"first_place_comps":[{"id":8,"name":"Mechs","popularity":42.86,"key_minions_top3":[61930,66618,72391],"is_valid":false},{"id":1,"name":"Menagerie","popularity":28.57,"key_minions_top3":[92408,92438,86783],"is_valid":true},{"id":41,"name":"Quilboar","popularity":7.14,"key_minions_top3":[86783,80756,90425],"is_valid":true}],"tier_r":4,"mmr_filter_value":"TOP_20_PERCENT","min_mmr":7298,"debug":[]}]"#
+        let quests: [BattlegroundsQuestStats] = HSReplayAPI.parseResponse(data: str.data(using: .utf8)!, defaultValue: [])
+        let actual = quests.compactMap { x in
+            return BattlegroundsSingleQuestViewModel(stats: x)
+        }
+        windowManager.battlegroundsQuestPicking.viewModel.visibility = true
+        DispatchQueue.main.async {
+            self.windowManager.battlegroundsQuestPicking.viewModel.quests = actual
+        }
+         */
+        /*
+        let str = #"[{"hero_dbf_id":71916,"mmr_filter_value":"TOP_5_PERCENT","min_mmr":8582,"total_games_all_heroes":2609829,"pick_rate":25.25,"first_place_comp_popularity":[{"id":1,"name":"Menagerie","popularity":31.87,"key_minions_top3":[92438,92408,86783],"is_valid":true},{"id":8,"name":"Mechs","popularity":10.99,"key_minions_top3":[61930,66618,59935],"is_valid":false},{"id":41,"name":"Quilboar","popularity":10.99,"key_minions_top3":[86783,90425,80774],"is_valid":false}],"avg_placement":4.5,"placement_distribution":[6.98,10.81,12.64,15.13,14.58,14.86,12.86,12.14],"tier":3},{"hero_dbf_id":62266,"mmr_filter_value":"TOP_5_PERCENT","min_mmr":8582,"total_games_all_heroes":2609829,"pick_rate":43.34,"first_place_comp_popularity":[{"id":1,"name":"Menagerie","popularity":29.96,"key_minions_top3":[92438,92408,86783],"is_valid":true},{"id":39,"name":"Elementals","popularity":16.88,"key_minions_top3":[64055,64054,76903],"is_valid":true},{"id":9,"name":"Demons","popularity":10.13,"key_minions_top3":[72824,93385,72067],"is_valid":true}],"avg_placement":5.017,"placement_distribution":[10.52,11.27,12.91,12.94,12.33,14.04,12.88,13.11],"tier":4},{"hero_dbf_id":58021,"mmr_filter_value":"TOP_5_PERCENT","min_mmr":8582,"total_games_all_heroes":2609829,"pick_rate":14.77,"first_place_comp_popularity":[{"id":2,"name":"Murlocs","popularity":20.0,"key_minions_top3":[87086,73011,86783],"is_valid":true},{"id":1,"name":"Menagerie","popularity":17.78,"key_minions_top3":[92438,92408,86783],"is_valid":true},{"id":39,"name":"Elementals","popularity":15.56,"key_minions_top3":[64055,64054,76903],"is_valid":true}],"avg_placement":4.727,"placement_distribution":[7.12,10.78,16.87,16.12,15.65,12.0,10.78,10.68],"tier":3},{"hero_dbf_id":95326,"mmr_filter_value":"TOP_5_PERCENT","min_mmr":8582,"total_games_all_heroes":2609829,"pick_rate":66.13,"first_place_comp_popularity":[{"id":1,"name":"Menagerie","popularity":36.67,"key_minions_top3":[92438,92408,86783],"is_valid":true},{"id":41,"name":"Quilboar","popularity":11.28,"key_minions_top3":[86783,90425,80774],"is_valid":false},{"id":39,"name":"Elementals","popularity":10.77,"key_minions_top3":[64055,64054,76903],"is_valid":true}],"avg_placement":4.543,"placement_distribution":[12.14,14.94,14.43,11.74,12.27,11.91,11.31,11.27],"tier":3}]"#
+        let quests: [BattlegroundsSingleHeroPickStats] = HSReplayAPI.parseResponse(data: str.data(using: .utf8)!, defaultValue: [])
+        let actual = quests.compactMap { x in
+            return BattlegroundsSingleHeroViewModel(stats: x, onPlacementHover: windowManager.battlegroundsHeroPicking.viewModel.setPlacementVisible)
+        }
+        DispatchQueue.main.async {
+            self.windowManager.battlegroundsHeroPicking.viewModel.heroStats = actual
+            self.windowManager.battlegroundsHeroPicking.viewModel.visibility = true
+        }
+         */
     }
 
     private func adventureRestart() {
@@ -1711,7 +1829,8 @@ class Game: NSObject, PowerEventHandler {
                 _battlegroundsRating = currentGameStats.battlegroundsRatingAfter
             }
             windowManager.battlegroundsSession.onGameEnd(gameStats: currentGameStats)
-            updateBattlegroundsSessionOverlay()
+            windowManager.battlegroundsHeroPicking.viewModel.reset()
+            windowManager.battlegroundsQuestPicking.viewModel.reset()
         }
 
         if let currentDeck = self.currentDeck {
@@ -2214,6 +2333,7 @@ class Game: NSObject, PowerEventHandler {
         if isBattlegroundsMatch() {
             battlegroundsMulliganHandled = true
             AppDelegate.instance().coreManager.toaster.hide()
+            windowManager.battlegroundsHeroPicking.viewModel.reset()
         } else if isConstructedMatch() {
             AppDelegate.instance().coreManager.toaster.hide()
         }
@@ -2355,7 +2475,8 @@ class Game: NSObject, PowerEventHandler {
             }
         } else {
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500), execute: {
-                let heroesArray = heroes.compactMap({ x in x.card.dbfId }).map({ x in String(x) })
+                let heroesArray = heroes.sorted(by: { (x, y) in x[GameTag.zone_position] < y[GameTag.zone_position] }).compactMap({ x in x.card.dbfId })
+                let heroesArrayStr = heroesArray.map({ x in String(x) })
                 logger.debug("Battlegrounds heroes: \(heroesArray), original count: \(heroes.count)")
 
                 DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3), execute: {
@@ -2364,10 +2485,21 @@ class Game: NSObject, PowerEventHandler {
                     view.clicked = {
                         AppDelegate.instance().coreManager.toaster.hide()
                     }
-                    view.heroes = heroesArray
+                    view.heroes = heroesArrayStr
+                    self.showBattlegroundsHeroPickingStats(heroes: heroesArray)
                     AppDelegate.instance().coreManager.toaster.displayToast(view: view, timeoutMillis: 0)
+                    self.windowManager.battlegroundsQuestPicking.viewModel.reset()
                 })
             })
+        }
+    }
+    
+    @MainActor
+    private func showBattlegroundsHeroPickingStats(heroes: [Int]) {
+        if #available(macOS 10.15, *) {
+            Task.init {
+                await windowManager.battlegroundsHeroPicking.viewModel.setHeroes(heroIds: heroes)
+            }
         }
     }
     
@@ -2382,6 +2514,7 @@ class Game: NSObject, PowerEventHandler {
         }
         DispatchQueue.main.async { [self] in
             self.windowManager.battlegroundsSession.onGameStart()
+            self.showBattlegroundsSession(true)
         }
     }
 
@@ -2720,6 +2853,36 @@ class Game: NSObject, PowerEventHandler {
             logger.info("Opponent Hero Power \(cardId) \(turn) ")
         }
         updateTrackers()
+    }
+        
+    func handleBattlegroundsPlayerQuestPicked(entity: Entity) {
+        if isBattlegroundsMatch() {
+            if #available(macOS 10.15, *) {
+                Task.init {
+                    windowManager.battlegroundsQuestPicking.viewModel.reset()
+                }
+            }
+        }
+    }
+
+    func handleBattlegroundsPlayerQuestPickerRemoval(entity: Entity) {
+        if isBattlegroundsMatch() {
+            if #available(macOS 10.15, *) {
+                Task.init {
+                    windowManager.battlegroundsQuestPicking.viewModel.reset()
+                }
+            }
+        }
+    }
+        
+    func handleQuestRewardDatabaseId(id: Int, value: Int) {
+        if isBattlegroundsMatch(), let entity = entities[id], entity.isControlled(by: player.id) {
+            if #available(macOS 10.15, *) {
+                Task.init {
+                    await windowManager.battlegroundsQuestPicking.viewModel.onBattlegroundsQuest(questEntity: entity)
+                }
+            }
+        }
     }
 
     // MARK: - Game actions

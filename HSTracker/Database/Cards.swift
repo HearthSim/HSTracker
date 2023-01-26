@@ -215,4 +215,12 @@ final class Cards {
 
         return cards.sortCardList()
     }
+    
+    static func getBattlegroundsHeroFromDbfid(dbfId: Int) -> Card? {
+        let hero = Cards.by(dbfId: dbfId, collectible: false)
+        if let parentSkinDbfid = hero?.battlegroundsSkinParentId, parentSkinDbfid > 0 {
+            return Cards.by(dbfId: parentSkinDbfid, collectible: false)
+        }
+        return hero
+    }
 }
