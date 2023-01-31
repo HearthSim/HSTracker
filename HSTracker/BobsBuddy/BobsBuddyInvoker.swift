@@ -709,7 +709,7 @@ class BobsBuddyInvoker {
             MonoHelper.addToList(list: inputOpponentSide, element: m)
         }
         
-        let playerAttached = BobsBuddyInvoker.getAttachedEntities(game: game, entityId: game.player.id)
+        let playerAttached = BobsBuddyInvoker.getAttachedEntities(game: game, entityId: game.playerEntity?.id ?? -1)
         let pEternalLegion = playerAttached.first { x in x.cardId == CardIds.NonCollectible.Neutral.EternalKnight_EternalKnightPlayerEnchant }
         if let pEternalLegion {
             input.playerEternalKnightCounter = Int32(pEternalLegion[.tag_script_data_num_1])
@@ -719,7 +719,7 @@ class BobsBuddyInvoker {
             input.playerUndeadAttackBonus = Int32(pUndeadBonus[.tag_script_data_num_1])
         }
 
-        let opponentAttached = BobsBuddyInvoker.getAttachedEntities(game: game, entityId: game.opponent.id)
+        let opponentAttached = BobsBuddyInvoker.getAttachedEntities(game: game, entityId: game.opponentEntity?.id ?? -1)
         let oEternalLegion = opponentAttached.first { x in x.cardId == CardIds.NonCollectible.Neutral.EternalKnight_EternalKnightPlayerEnchant }
         if let oEternalLegion {
             input.opponentEternalKnightCounter = Int32(oEternalLegion[.tag_script_data_num_1])
