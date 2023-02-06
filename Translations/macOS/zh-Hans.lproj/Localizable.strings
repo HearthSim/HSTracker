@@ -64,6 +64,11 @@
 "Delete cached images" = "删除缓存图像";
 "By clicking 'Delete' all locally cached images will be deleted. This may take a while" = "通过点击“删除”，所有本地缓存的图像都将被删除。这可能需要一些时间";
 
+/* Link Opponent Deck Panel */
+"LinkOpponentDeck_Dismiss" = "取消";
+"LinkOpponentDeck_Clear" = "清除";
+"LinkOpponentDeck_NoValidDeckOnClipboardMessage" = "在剪贴板中没有找到有效的卡组代码";
+
 /* notifications */
 "Your game begins" = "游戏开始";
 "Victory" = "胜利";
@@ -89,6 +94,7 @@
 "priest" = "牧师";
 "rogue" = "盗贼";
 "demonhunter" = "恶魔猎手";
+"deathknight" = "死亡骑士";
 "All classes" = "所有英雄";
 "Archived" = "已归档";
 
@@ -136,6 +142,8 @@
 "ALTERAC_VALLEY" = "奥特兰克的决裂";
 "THE_SUNKEN_CITY" = "探寻沉没之城";
 "REVENDRETH" = "纳斯利亚堡的悬案";
+"RETURN_OF_THE_LICH_KING" = "巫妖王的进军";
+"PATH_OF_ARTHAS" = "阿尔萨斯之路";
 
 /* card type */
 "all_types" = "所有";
@@ -157,6 +165,7 @@
 "unavailable" = "不可用";
 "quilboar" = "野猪人";
 "naga" = "纳迦";
+"undead" = "亡灵";
 
 /* sorting */
 "name" = "名字";
@@ -226,7 +235,6 @@
 "%d turn(s) ago" = "%d 回合以前";
 "You have not fought this opponent" = "你未与这名对手对战过";
 "Turn %d" = "回合 %d";
-"Battlegrounds" = "酒馆战棋";
 
 /* Crashes */
 "HSTracker Crashed" = "HSTracker 崩溃";
@@ -244,6 +252,10 @@
 "Task progress will update after the game" = "任务进度会在对战结束后更新";
 "Completed!" = "完成!";
 "Task %d: %@" = "任务 %d: %@";
+"%@ (Heroic)" = "%@ (英雄)";
+"BOUNTY_HEROIC" = "英雄";
+"BOUNTY_NORMAL" = "普通";
+"BOUNTY_NZ" = "%@ (%@)";
 
 /* Deck Lens - Dredge */
 "On Top" = "牌库顶";
