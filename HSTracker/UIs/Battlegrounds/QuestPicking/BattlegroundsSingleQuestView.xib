@@ -19,10 +19,10 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView translatesAutoresizingMaskIntoConstraints="NO" id="c22-O7-iKe">
-            <rect key="frame" x="0.0" y="0.0" width="252" height="880"/>
+            <rect key="frame" x="0.0" y="0.0" width="252" height="730"/>
             <subviews>
                 <box identifier="PlacementBox" horizontalHuggingPriority="249" boxType="custom" borderType="line" cornerRadius="4" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="Gg2-w2-brC" userLabel="PlacementBox">
-                    <rect key="frame" x="0.0" y="831" width="88" height="49"/>
+                    <rect key="frame" x="0.0" y="681" width="88" height="49"/>
                     <view key="contentView" id="kbo-cE-BtB">
                         <rect key="frame" x="1" y="1" width="86" height="47"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -78,7 +78,7 @@
                     <color key="fillColor" red="0.078431372549019607" green="0.086274509803921567" blue="0.090196078431372548" alpha="1" colorSpace="deviceRGB"/>
                 </box>
                 <box identifier="TierBox" horizontalHuggingPriority="249" boxType="custom" borderType="line" cornerRadius="4" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="BnX-Ye-JVV" userLabel="TierBox">
-                    <rect key="frame" x="92" y="831" width="68" height="49"/>
+                    <rect key="frame" x="92" y="681" width="68" height="49"/>
                     <view key="contentView" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IKY-7B-7pw">
                         <rect key="frame" x="1" y="1" width="66" height="47"/>
                         <subviews>
@@ -135,7 +135,7 @@
                     <color key="fillColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                 </box>
                 <box identifier="PickRateBox" horizontalHuggingPriority="251" boxType="custom" borderType="line" cornerRadius="4" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="c5l-pJ-Lgj" userLabel="PickRateBox">
-                    <rect key="frame" x="164" y="831" width="88" height="49"/>
+                    <rect key="frame" x="164" y="681" width="88" height="49"/>
                     <view key="contentView" id="PFq-WZ-Hnb">
                         <rect key="frame" x="1" y="1" width="86" height="47"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -198,7 +198,7 @@
                     <color key="fillColor" red="0.078431372550000003" green="0.086274509799999996" blue="0.090196078430000007" alpha="1" colorSpace="deviceRGB"/>
                 </box>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="lBs-1f-srT" customClass="BattlegroundsCompositionPopularity" customModule="HSTracker" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="153" width="252" height="88"/>
+                    <rect key="frame" x="0.0" y="0.0" width="252" height="88"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="88" id="xxc-yi-jgP"/>
                     </constraints>
@@ -207,9 +207,9 @@
             <constraints>
                 <constraint firstItem="Gg2-w2-brC" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="2nj-Il-3Op"/>
                 <constraint firstItem="BnX-Ye-JVV" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="4Fy-rd-3Vr"/>
-                <constraint firstItem="lBs-1f-srT" firstAttribute="top" secondItem="c5l-pJ-Lgj" secondAttribute="bottom" constant="590" id="EXc-Vq-T8u"/>
-                <constraint firstAttribute="height" constant="880" id="J7Y-7g-9dj"/>
+                <constraint firstAttribute="height" constant="730" id="J7Y-7g-9dj"/>
                 <constraint firstItem="c5l-pJ-Lgj" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="P5i-R2-HO5"/>
+                <constraint firstAttribute="bottom" secondItem="lBs-1f-srT" secondAttribute="bottom" id="PKP-c6-kbx"/>
                 <constraint firstItem="Gg2-w2-brC" firstAttribute="width" secondItem="c5l-pJ-Lgj" secondAttribute="width" id="PU6-FH-yBy"/>
                 <constraint firstItem="lBs-1f-srT" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="Re1-Vg-FBs"/>
                 <constraint firstAttribute="trailing" secondItem="c5l-pJ-Lgj" secondAttribute="trailing" id="Uhw-3F-pCu"/>
@@ -220,7 +220,7 @@
                 <constraint firstItem="BnX-Ye-JVV" firstAttribute="leading" secondItem="Gg2-w2-brC" secondAttribute="trailing" constant="4" id="tyQ-Pa-je2"/>
                 <constraint firstItem="Gg2-w2-brC" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="yol-7m-Oqm"/>
             </constraints>
-            <point key="canvasLocation" x="-9.5" y="123.5"/>
+            <point key="canvasLocation" x="-7" y="60"/>
         </customView>
     </objects>
 </document>

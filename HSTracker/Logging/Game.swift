@@ -492,8 +492,14 @@ class Game: NSObject, PowerEventHandler {
             
             if self.windowManager.battlegroundsSession.visibility {
                 if hsActive {
-                    self.windowManager.battlegroundsSession.updateSectionsVisibilities()
-                    self.windowManager.show(controller: self.windowManager.battlegroundsSession, show: true, frame: SizeHelper.battlegroundsSessionFrame(), overlay: true)
+                    var rect = SizeHelper.battlegroundsSessionFrame()
+                    if !Settings.autoPositionTrackers {
+                        if let savedRect = Settings.battlegroundsSessionFrame {
+                            rect = savedRect
+                        }
+                    }
+
+                    self.windowManager.show(controller: self.windowManager.battlegroundsSession, show: true, frame: rect, overlay: true)
                     self.windowManager.battlegroundsSession.updateScaling()
                 } else {
                     self.windowManager.show(controller: self.windowManager.battlegroundsSession, show: false)
@@ -805,26 +811,19 @@ class Game: NSObject, PowerEventHandler {
     func showBattlegroundsSession(_ show: Bool, _ force: Bool = false) {
         DispatchQueue.main.async {
             if show {
-                self.windowManager.battlegroundsSession.update()
                 if !Settings.showSessionRecap || !self.isAnyBattlegroundsSessionSettingActive() {
                     return
                 }
                 
                 self.windowManager.battlegroundsSession.show()
-
-                var rect = SizeHelper.battlegroundsSessionFrame()
-                if !Settings.autoPositionTrackers {
-                    if let savedRect = Settings.battlegroundsSessionFrame {
-                        rect = savedRect
-                    }
-                }
-                if self.hearthstoneRunState.isActive {
-                    self.windowManager.show(controller: self.windowManager.battlegroundsSession, show: true, frame: rect, title: nil, overlay: true)
-                }
                 self.windowManager.battlegroundsSession.visibility = true
             } else {
                 self.windowManager.battlegroundsSession.visibility = false
                 self.windowManager.show(controller: self.windowManager.battlegroundsSession, show: false)
+            }
+            self.updateBattlegroundsOverlays()
+            DispatchQueue.main.async {
+                self.updateBattlegroundsOverlays()
             }
         }
     }
@@ -1624,33 +1623,6 @@ class Game: NSObject, PowerEventHandler {
                 windowManager.linkOpponentDeckPanel.show()
             }
         }
-        
-//        DispatchQueue.main.async {
-//            self.windowManager.show(controller: self.windowManager.battlegroundsHeroPicking, show: true, overlay: true)
-//        }
-        
-        /*
-        let str = #"[{"reward_dbf_id":97452,"reward_card_dbf_id":null,"avg_final_placement_r":4.64,"fp_pick_rate_r":21.1,"first_place_comps":[{"id":1,"name":"Menagerie","popularity":27.78,"key_minions_top3":[92408,92438,86783],"is_valid":true},{"id":43,"name":"Naga","popularity":22.22,"key_minions_top3":[80769,80751,80768],"is_valid":true},{"id":2,"name":"Murlocs","popularity":11.11,"key_minions_top3":[72832,73011,92405],"is_valid":true}],"tier_r":2,"mmr_filter_value":"TOP_20_PERCENT","min_mmr":7298,"debug":[]},{"reward_dbf_id":95149,"reward_card_dbf_id":null,"avg_final_placement_r":3.466,"fp_pick_rate_r":11.0,"first_place_comps":[{"id":9,"name":"Demons","popularity":53.85,"key_minions_top3":[93385,72824,72067],"is_valid":true},{"id":1,"name":"Menagerie","popularity":23.08,"key_minions_top3":[92408,92438,86783],"is_valid":true},{"id":20,"name":"Dragons","popularity":7.69,"key_minions_top3":[60629,73453,60630],"is_valid":false}],"tier_r":1,"mmr_filter_value":"TOP_20_PERCENT","min_mmr":7298,"debug":[]},{"reward_dbf_id":90865,"reward_card_dbf_id":null,"avg_final_placement_r":5.486,"fp_pick_rate_r":12.9,"first_place_comps":[{"id":8,"name":"Mechs","popularity":42.86,"key_minions_top3":[61930,66618,72391],"is_valid":false},{"id":1,"name":"Menagerie","popularity":28.57,"key_minions_top3":[92408,92438,86783],"is_valid":true},{"id":41,"name":"Quilboar","popularity":7.14,"key_minions_top3":[86783,80756,90425],"is_valid":true}],"tier_r":4,"mmr_filter_value":"TOP_20_PERCENT","min_mmr":7298,"debug":[]}]"#
-        let quests: [BattlegroundsQuestStats] = HSReplayAPI.parseResponse(data: str.data(using: .utf8)!, defaultValue: [])
-        let actual = quests.compactMap { x in
-            return BattlegroundsSingleQuestViewModel(stats: x)
-        }
-        windowManager.battlegroundsQuestPicking.viewModel.visibility = true
-        DispatchQueue.main.async {
-            self.windowManager.battlegroundsQuestPicking.viewModel.quests = actual
-        }
-         */
-        /*
-        let str = #"[{"hero_dbf_id":71916,"mmr_filter_value":"TOP_5_PERCENT","min_mmr":8582,"total_games_all_heroes":2609829,"pick_rate":25.25,"first_place_comp_popularity":[{"id":1,"name":"Menagerie","popularity":31.87,"key_minions_top3":[92438,92408,86783],"is_valid":true},{"id":8,"name":"Mechs","popularity":10.99,"key_minions_top3":[61930,66618,59935],"is_valid":false},{"id":41,"name":"Quilboar","popularity":10.99,"key_minions_top3":[86783,90425,80774],"is_valid":false}],"avg_placement":4.5,"placement_distribution":[6.98,10.81,12.64,15.13,14.58,14.86,12.86,12.14],"tier":3},{"hero_dbf_id":62266,"mmr_filter_value":"TOP_5_PERCENT","min_mmr":8582,"total_games_all_heroes":2609829,"pick_rate":43.34,"first_place_comp_popularity":[{"id":1,"name":"Menagerie","popularity":29.96,"key_minions_top3":[92438,92408,86783],"is_valid":true},{"id":39,"name":"Elementals","popularity":16.88,"key_minions_top3":[64055,64054,76903],"is_valid":true},{"id":9,"name":"Demons","popularity":10.13,"key_minions_top3":[72824,93385,72067],"is_valid":true}],"avg_placement":5.017,"placement_distribution":[10.52,11.27,12.91,12.94,12.33,14.04,12.88,13.11],"tier":4},{"hero_dbf_id":58021,"mmr_filter_value":"TOP_5_PERCENT","min_mmr":8582,"total_games_all_heroes":2609829,"pick_rate":14.77,"first_place_comp_popularity":[{"id":2,"name":"Murlocs","popularity":20.0,"key_minions_top3":[87086,73011,86783],"is_valid":true},{"id":1,"name":"Menagerie","popularity":17.78,"key_minions_top3":[92438,92408,86783],"is_valid":true},{"id":39,"name":"Elementals","popularity":15.56,"key_minions_top3":[64055,64054,76903],"is_valid":true}],"avg_placement":4.727,"placement_distribution":[7.12,10.78,16.87,16.12,15.65,12.0,10.78,10.68],"tier":3},{"hero_dbf_id":95326,"mmr_filter_value":"TOP_5_PERCENT","min_mmr":8582,"total_games_all_heroes":2609829,"pick_rate":66.13,"first_place_comp_popularity":[{"id":1,"name":"Menagerie","popularity":36.67,"key_minions_top3":[92438,92408,86783],"is_valid":true},{"id":41,"name":"Quilboar","popularity":11.28,"key_minions_top3":[86783,90425,80774],"is_valid":false},{"id":39,"name":"Elementals","popularity":10.77,"key_minions_top3":[64055,64054,76903],"is_valid":true}],"avg_placement":4.543,"placement_distribution":[12.14,14.94,14.43,11.74,12.27,11.91,11.31,11.27],"tier":3}]"#
-        let quests: [BattlegroundsSingleHeroPickStats] = HSReplayAPI.parseResponse(data: str.data(using: .utf8)!, defaultValue: [])
-        let actual = quests.compactMap { x in
-            return BattlegroundsSingleHeroViewModel(stats: x, onPlacementHover: windowManager.battlegroundsHeroPicking.viewModel.setPlacementVisible)
-        }
-        DispatchQueue.main.async {
-            self.windowManager.battlegroundsHeroPicking.viewModel.heroStats = actual
-            self.windowManager.battlegroundsHeroPicking.viewModel.visibility = true
-        }
-         */
     }
 
     private func adventureRestart() {

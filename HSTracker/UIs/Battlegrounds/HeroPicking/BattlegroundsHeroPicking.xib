@@ -9,6 +9,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="BattlegroundsHeroPicking" customModule="HSTracker" customModuleProvider="target">
             <connections>
                 <outlet property="itemsStack" destination="tXz-n5-mIY" id="8Df-N2-QWo"/>
+                <outlet property="outerView" destination="TDf-wr-Sbh" id="RKA-Xd-Hpe"/>
                 <outlet property="overlayMessage" destination="33v-9k-sA9" id="uI0-dZ-5EG"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="S6k-Nc-gaF"/>
             </connections>
@@ -20,48 +21,60 @@
             <rect key="contentRect" x="196" y="240" width="480" height="270"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1025"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="738" height="320"/>
+                <rect key="frame" x="0.0" y="0.0" width="738" height="270"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <customView identifier="OuterView" translatesAutoresizingMaskIntoConstraints="NO" id="TDf-wr-Sbh" userLabel="OuterView">
-                        <rect key="frame" x="0.0" y="0.0" width="738" height="320"/>
+                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="pD1-7S-rTm">
+                        <rect key="frame" x="0.0" y="0.0" width="738" height="270"/>
                         <subviews>
-                            <customView identifier="ItemControl" translatesAutoresizingMaskIntoConstraints="NO" id="LZI-jD-dVM" userLabel="ItemControl">
-                                <rect key="frame" x="50" y="40" width="683" height="0.0"/>
+                            <customView identifier="OuterView" translatesAutoresizingMaskIntoConstraints="NO" id="TDf-wr-Sbh" userLabel="OuterView">
+                                <rect key="frame" x="0.0" y="0.0" width="738" height="270"/>
                                 <subviews>
-                                    <stackView identifier="ItemsStackView" distribution="equalSpacing" orientation="horizontal" alignment="top" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tXz-n5-mIY" userLabel="Items">
-                                        <rect key="frame" x="342" y="0.0" width="0.0" height="0.0"/>
-                                    </stackView>
+                                    <customView identifier="ItemControl" translatesAutoresizingMaskIntoConstraints="NO" id="LZI-jD-dVM" userLabel="ItemControl">
+                                        <rect key="frame" x="361" y="135" width="16" height="0.0"/>
+                                        <subviews>
+                                            <stackView identifier="ItemsStackView" distribution="equalSpacing" orientation="horizontal" alignment="centerY" spacing="16" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tXz-n5-mIY" userLabel="Items">
+                                                <rect key="frame" x="16" y="0.0" width="0.0" height="0.0"/>
+                                            </stackView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="tXz-n5-mIY" secondAttribute="trailing" id="JiO-GU-MME"/>
+                                            <constraint firstItem="tXz-n5-mIY" firstAttribute="leading" secondItem="LZI-jD-dVM" secondAttribute="leading" constant="16" id="OyD-QV-MbN"/>
+                                            <constraint firstAttribute="bottom" secondItem="tXz-n5-mIY" secondAttribute="bottom" id="emQ-6u-qEe"/>
+                                            <constraint firstItem="tXz-n5-mIY" firstAttribute="top" secondItem="LZI-jD-dVM" secondAttribute="top" id="soy-of-qZS"/>
+                                        </constraints>
+                                    </customView>
+                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="33v-9k-sA9" customClass="OverlayMessage" customModule="HSTracker" customModuleProvider="target">
+                                        <rect key="frame" x="738" y="13" width="0.0" height="27"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="27" id="LNC-yf-21A"/>
+                                        </constraints>
+                                    </customView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="tXz-n5-mIY" firstAttribute="centerX" secondItem="LZI-jD-dVM" secondAttribute="centerX" id="Ei7-ko-CXW"/>
-                                    <constraint firstItem="tXz-n5-mIY" firstAttribute="top" secondItem="LZI-jD-dVM" secondAttribute="top" id="SvO-4B-vhd"/>
-                                    <constraint firstAttribute="bottom" secondItem="tXz-n5-mIY" secondAttribute="bottom" id="jkY-V3-Gsu"/>
-                                </constraints>
-                            </customView>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="33v-9k-sA9" customClass="OverlayMessage" customModule="HSTracker" customModuleProvider="target">
-                                <rect key="frame" x="738" y="13" width="0.0" height="27"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="27" id="LNC-yf-21A"/>
+                                    <constraint firstAttribute="bottom" secondItem="33v-9k-sA9" secondAttribute="bottom" constant="13" id="43z-hM-JiS"/>
+                                    <constraint firstItem="LZI-jD-dVM" firstAttribute="centerX" secondItem="TDf-wr-Sbh" secondAttribute="centerX" id="B4e-dj-5JA"/>
+                                    <constraint firstItem="LZI-jD-dVM" firstAttribute="centerY" secondItem="TDf-wr-Sbh" secondAttribute="centerY" id="HE0-jP-F6G"/>
+                                    <constraint firstAttribute="trailing" secondItem="33v-9k-sA9" secondAttribute="trailing" id="Xzg-lG-ajI"/>
+                                    <constraint firstItem="33v-9k-sA9" firstAttribute="leading" secondItem="TDf-wr-Sbh" secondAttribute="leading" constant="738" id="fAm-Sz-lRd"/>
+                                    <constraint firstItem="LZI-jD-dVM" firstAttribute="centerY" secondItem="TDf-wr-Sbh" secondAttribute="centerY" id="tkO-Fc-cPs"/>
                                 </constraints>
                             </customView>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="33v-9k-sA9" secondAttribute="bottom" constant="13" id="43z-hM-JiS"/>
-                            <constraint firstItem="LZI-jD-dVM" firstAttribute="top" secondItem="TDf-wr-Sbh" secondAttribute="top" constant="280" id="7X8-rM-PV7"/>
-                            <constraint firstItem="33v-9k-sA9" firstAttribute="top" secondItem="LZI-jD-dVM" secondAttribute="bottom" id="PEo-VO-WWf"/>
-                            <constraint firstAttribute="trailing" secondItem="LZI-jD-dVM" secondAttribute="trailing" constant="5" id="WhQ-vP-v1X"/>
-                            <constraint firstAttribute="trailing" secondItem="33v-9k-sA9" secondAttribute="trailing" id="Xzg-lG-ajI"/>
-                            <constraint firstItem="33v-9k-sA9" firstAttribute="leading" secondItem="TDf-wr-Sbh" secondAttribute="leading" constant="738" id="fAm-Sz-lRd"/>
-                            <constraint firstItem="LZI-jD-dVM" firstAttribute="leading" secondItem="TDf-wr-Sbh" secondAttribute="leading" constant="50" id="gBU-Ad-zrr"/>
+                            <constraint firstItem="TDf-wr-Sbh" firstAttribute="top" secondItem="pD1-7S-rTm" secondAttribute="top" id="DNY-nx-WV9"/>
+                            <constraint firstItem="TDf-wr-Sbh" firstAttribute="leading" secondItem="pD1-7S-rTm" secondAttribute="leading" id="Dou-7O-OXS"/>
+                            <constraint firstAttribute="bottom" secondItem="TDf-wr-Sbh" secondAttribute="bottom" id="aq1-yD-rbs"/>
+                            <constraint firstAttribute="trailing" secondItem="TDf-wr-Sbh" secondAttribute="trailing" id="kE5-Jf-l6i"/>
                         </constraints>
+                        <accessibility identifier="ScaleView"/>
                     </customView>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="TDf-wr-Sbh" secondAttribute="bottom" id="YSB-uK-GeY"/>
-                    <constraint firstItem="TDf-wr-Sbh" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="geQ-d8-NOA"/>
-                    <constraint firstAttribute="trailing" secondItem="TDf-wr-Sbh" secondAttribute="trailing" id="lQY-f5-9hF"/>
-                    <constraint firstItem="TDf-wr-Sbh" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="z7X-fa-xlt"/>
+                    <constraint firstAttribute="bottom" secondItem="pD1-7S-rTm" secondAttribute="bottom" id="1bJ-b2-IR5"/>
+                    <constraint firstAttribute="trailing" secondItem="pD1-7S-rTm" secondAttribute="trailing" id="Z7v-ON-GlF"/>
+                    <constraint firstItem="pD1-7S-rTm" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="ahA-DW-5Fp"/>
+                    <constraint firstItem="pD1-7S-rTm" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="hiu-fX-E9S"/>
                 </constraints>
             </view>
             <point key="canvasLocation" x="-44" y="112"/>

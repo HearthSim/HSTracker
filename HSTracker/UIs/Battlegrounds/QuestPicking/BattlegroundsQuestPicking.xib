@@ -27,15 +27,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="738" height="270"/>
                         <subviews>
                             <customView identifier="ItemControl" translatesAutoresizingMaskIntoConstraints="NO" id="1zk-2p-cly" userLabel="ItemControl">
-                                <rect key="frame" x="0.0" y="40" width="733" height="58"/>
+                                <rect key="frame" x="369" y="111" width="0.0" height="0.0"/>
                                 <subviews>
-                                    <stackView identifier="ItemsStackView" distribution="equalCentering" orientation="horizontal" alignment="top" spacing="100" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cdJ-74-GcN" userLabel="Items">
-                                        <rect key="frame" x="367" y="0.0" width="0.0" height="58"/>
-                                    </stackView>
+                                    <stackView identifier="ItemsStackView" distribution="equalCentering" orientation="horizontal" alignment="top" spacing="100" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cdJ-74-GcN" userLabel="Items"/>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="cdJ-74-GcN" firstAttribute="centerX" secondItem="1zk-2p-cly" secondAttribute="centerX" id="7sG-kj-1d2"/>
                                     <constraint firstAttribute="bottom" secondItem="cdJ-74-GcN" secondAttribute="bottom" id="S2M-OU-Aec"/>
+                                    <constraint firstAttribute="trailing" secondItem="cdJ-74-GcN" secondAttribute="trailing" id="SHy-hR-dil"/>
+                                    <constraint firstItem="cdJ-74-GcN" firstAttribute="leading" secondItem="1zk-2p-cly" secondAttribute="leading" id="alp-lx-01B"/>
                                     <constraint firstItem="cdJ-74-GcN" firstAttribute="top" secondItem="1zk-2p-cly" secondAttribute="top" id="iMR-OD-yib"/>
                                 </constraints>
                             </customView>
@@ -48,12 +47,10 @@
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="26y-Oy-pQ0" secondAttribute="bottom" constant="13" id="1w8-Fc-4rx"/>
-                            <constraint firstAttribute="trailing" secondItem="1zk-2p-cly" secondAttribute="trailing" constant="5" id="ItL-0t-fXe"/>
-                            <constraint firstItem="1zk-2p-cly" firstAttribute="top" secondItem="TA9-EK-l7i" secondAttribute="top" constant="172" id="K7e-65-7cl"/>
+                            <constraint firstItem="1zk-2p-cly" firstAttribute="centerY" secondItem="TA9-EK-l7i" secondAttribute="centerY" constant="24" id="5ub-2I-vyH"/>
+                            <constraint firstItem="1zk-2p-cly" firstAttribute="centerX" secondItem="TA9-EK-l7i" secondAttribute="centerX" id="SWH-eW-wbu"/>
                             <constraint firstItem="26y-Oy-pQ0" firstAttribute="leading" secondItem="TA9-EK-l7i" secondAttribute="leading" constant="738" id="c3R-sW-axl"/>
                             <constraint firstAttribute="trailing" secondItem="26y-Oy-pQ0" secondAttribute="trailing" id="r27-S4-bjH"/>
-                            <constraint firstItem="26y-Oy-pQ0" firstAttribute="top" secondItem="1zk-2p-cly" secondAttribute="bottom" id="rRC-0F-eqO"/>
-                            <constraint firstItem="1zk-2p-cly" firstAttribute="leading" secondItem="TA9-EK-l7i" secondAttribute="leading" id="vy8-nx-Jep"/>
                         </constraints>
                     </customView>
                 </subviews>

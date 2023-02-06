@@ -12,6 +12,8 @@ class BattlegroundsHeroPicking: OverWindowController {
     
     @IBOutlet weak var itemsStack: NSStackView!
     @IBOutlet weak var overlayMessage: OverlayMessage!
+    @IBOutlet weak var outerView: NSView!
+    @IBOutlet weak var scaleView: NSView!
     
     let viewModel = BattlegroundsHeroPickingViewModel()
     

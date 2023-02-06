@@ -69,6 +69,7 @@ class BattlegroundsSession: OverWindowController {
         DispatchQueue.main.async {
             self.hideBannedTribes()
             self.update()
+            AppDelegate.instance().coreManager.game.updateBattlegroundsOverlays()
         }
     }
     
