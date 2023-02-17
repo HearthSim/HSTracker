@@ -18,6 +18,8 @@ class OverlayMessageViewModel: ViewModel {
             setProp(newValue)
             if newValue == nil {
                 visibility = false
+            } else {
+                visibility = true
             }
         }
     }

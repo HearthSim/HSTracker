@@ -618,6 +618,7 @@ extension CardIds.Collectible {
         static let AmbassadorFaelin = "TSC_067"
         static let PrinceRenathal = "REV_018"
         static let GrandArchivist = "LOOT_414"
+        static let RivendareWarrider = "NX2_034"
     }
 }
 
@@ -705,6 +706,11 @@ extension CardIds.NonCollectible {
         static let EternalKnight_EternalKnightPlayerEnchant = "BG25_008pe"
         static let NerubianDeathswarmer_UndeadBonusAttackPlayerEnchantDnt = "BG25_011pe"
         static let DiscoverQuestRewardDnt = "BG24_QuestsPlayerEnch_t"
+        static let RivendareWarrider_BlaumeauxFamineriderToken = "NX2_034t"
+        static let RivendareWarrider_KorthazzDeathriderToken = "NX2_034t1"
+        static let RivendareWarrider_ZeliekConquestriderToken = "NX2_034t2"
+        static let TeronGorefiend_RapidReanimation = "BG25_HERO_103p"
+        static let TeronGorefiend_ImpendingDeath = "BG25_HERO_103pe"
     }
 }
 

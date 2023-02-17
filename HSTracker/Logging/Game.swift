@@ -1091,11 +1091,11 @@ class Game: NSObject, PowerEventHandler {
     }
 
     var playerEntity: Entity? {
-        return entities.values.first { $0[.player_id] == self.player.id }
+        return entities.values.filter { $0[.player_id] == self.player.id }.sorted { $0.id < $1.id }.first
     }
 
     var opponentEntity: Entity? {
-        return entities.values.first { $0.has(tag: .player_id) && !$0.isPlayer(eventHandler: self) }
+        return entities.values.filter { $0.has(tag: .player_id) && !$0.isPlayer(eventHandler: self) }.sorted { $0.id < $1.id }.first
     }
 
     var gameEntity: Entity? {

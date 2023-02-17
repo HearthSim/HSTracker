@@ -363,7 +363,7 @@ class SecretTests: HSTrackerTests {
     func testSingleSecret_MinionPlayed() {
         game.playerMinionPlayed(entity: playerMinion1)
         verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All,
-                      triggered: [CardIds.Secrets.Hunter.Snipe])
+                      triggered: [CardIds.Secrets.Hunter.Snipe, CardIds.Secrets.Hunter.Zombeeees])
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
                       triggered: [CardIds.Secrets.Mage.ExplosiveRunes,
                                   CardIds.Secrets.Mage.MirrorEntity,
@@ -378,7 +378,7 @@ class SecretTests: HSTrackerTests {
     func testSingleSecret_DormantMinionPlayed() {
         playerMinion1[.dormant] = 1
         game.playerMinionPlayed(entity: playerMinion1)
-        verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All)
+        verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All, triggered: [CardIds.Secrets.Hunter.Zombeeees])
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All, triggered: [CardIds.Secrets.Mage.MirrorEntity, CardIds.Secrets.Mage.FrozenClone])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All)
         verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All, triggered: [CardIds.Secrets.Rogue.Ambush, CardIds.Secrets.Rogue.Kidnap])
@@ -675,7 +675,7 @@ class SecretTests: HSTrackerTests {
         game.playerMinionDeath(entity: playerMinion2)
         
         verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All,
-                      triggered: [CardIds.Secrets.Hunter.Snipe])
+                      triggered: [CardIds.Secrets.Hunter.Snipe, CardIds.Secrets.Hunter.Zombeeees])
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
                       triggered: [CardIds.Secrets.Mage.ExplosiveRunes,
                                   CardIds.Secrets.Mage.FrozenClone,

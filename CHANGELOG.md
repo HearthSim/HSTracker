@@ -1,3 +1,13 @@
+# 2.3.8
+## New
+- Updated for patch 24.4
+- Added Battlegrounds Session scaling
+- Added Tier 7 overlays for Hero and Quest picking
+- Added battlecry and deathrattle indicators into minions tier list
+- Updated zh-Zans translations (thanks @moonfruit)
+## Fixes
+- Fixed simulation errors not accounging for Eternal Knight/Undead bonuses
+
 # 2.3.7
 ## New
 - Updated for patch 25.2.2

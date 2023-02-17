@@ -630,11 +630,30 @@ class BobsBuddyInvoker {
         
         let playerHeroPower = game.player.board.first(where: { $0.isHeroPower })
         
-        input.setPlayerHeroPower(heroPowerCardId: playerHeroPower?.cardId ?? "", isActivated: wasHeroPowerUsed(heroPower: playerHeroPower), data: Int32(playerHeroPower?[.tag_script_data_num_1] ?? 0))
+        var pHpData = playerHeroPower?[.tag_script_data_num_1] ?? 0
+        
+        if playerHeroPower?.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_RapidReanimation {
+            let ench = game.player.playerEntities.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_ImpendingDeath && (x.isInPlay || x.isInSetAside) })
+            let target = ench?[.attached] ?? 0
+            if target > 0 {
+                pHpData = target
+            }
+        }
+        
+        input.setPlayerHeroPower(heroPowerCardId: playerHeroPower?.cardId ?? "", isActivated: wasHeroPowerUsed(heroPower: playerHeroPower), data: Int32(pHpData))
         
         let opponentHeroPower = game.opponent.board.first(where: { $0.isHeroPower })
         
-        input.setOpponentHeroPower(heroPowerCardId: opponentHeroPower?.cardId ?? "", isActivated: wasHeroPowerUsed(heroPower: opponentHeroPower), data: Int32(opponentHeroPower?[.tag_script_data_num_1] ?? 0))
+        var oHpData = opponentHeroPower?[.tag_script_data_num_1] ?? 0
+        
+        if opponentHeroPower?.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_RapidReanimation {
+            let ench = game.opponent.playerEntities.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_ImpendingDeath && (x.isInPlay || x.isInSetAside) })
+            let target = ench?[.attached] ?? 0
+            if target > 0 {
+                oHpData = target
+            }
+        }
+        input.setOpponentHeroPower(heroPowerCardId: opponentHeroPower?.cardId ?? "", isActivated: wasHeroPowerUsed(heroPower: opponentHeroPower), data: Int32(oHpData))
         
         let playerQuests = input.playerQuests
         for quest in game.player.quests {
@@ -679,6 +698,7 @@ class BobsBuddyInvoker {
         }
 
         input.setPlayerHandSize(value: Int32(game.player.handCount))
+        input.setOpponentHandSize(value: Int32(game.opponent.handCount))
         
         let secrets: [Int] = game.player.secrets.map({ $0.card.dbfId })
         
@@ -711,7 +731,7 @@ class BobsBuddyInvoker {
         
         let playerAttached = BobsBuddyInvoker.getAttachedEntities(game: game, entityId: game.playerEntity?.id ?? -1)
         let pEternalLegion = playerAttached.first { x in x.cardId == CardIds.NonCollectible.Neutral.EternalKnight_EternalKnightPlayerEnchant }
-        if let pEternalLegion {
+        if let pEternalLegion { 
             input.playerEternalKnightCounter = Int32(pEternalLegion[.tag_script_data_num_1])
         }
         let pUndeadBonus = playerAttached.first { x in x.cardId == CardIds.NonCollectible.Neutral.NerubianDeathswarmer_UndeadBonusAttackPlayerEnchantDnt }
@@ -729,7 +749,7 @@ class BobsBuddyInvoker {
             input.opponentUndeadAttackBonus = Int32(oUndeadBonus[.tag_script_data_num_1])
         }
 
-        logger.info("pEternal=\(input.playerEternalKnightCounter), pUndead=\(input.playerUndeadAttackBonus) | oEternal={\(input.opponentEternalKnightCounter), oUndead=\(input.opponentUndeadAttackBonus)")
+        logger.info("pEternal=\(input.playerEternalKnightCounter), pUndead=\(input.playerUndeadAttackBonus) | oEternal=\(input.opponentEternalKnightCounter), oUndead=\(input.opponentUndeadAttackBonus)")
 
         self.input = input
         self._turn = turn

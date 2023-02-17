@@ -315,6 +315,8 @@ class SecretsManager {
             exclude.append(CardIds.Secrets.Mage.MirrorEntity)
             saveSecret(secret: CardIds.Secrets.Rogue.Ambush)
             exclude.append(CardIds.Secrets.Rogue.Ambush)
+            saveSecret(secret: CardIds.Secrets.Hunter.Zombeeees)
+            exclude.append(CardIds.Secrets.Hunter.Zombeeees)
         }
 
         if freeSpaceInHand {

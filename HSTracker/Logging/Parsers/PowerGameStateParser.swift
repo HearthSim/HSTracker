@@ -596,6 +596,10 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Neutral.PiranhaSwarmer)
                         case CardIds.Collectible.Paladin.SinfulSousChef:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Paladin.SilverHandRecruitLegacyToken, count: 2)
+                        case CardIds.Collectible.Neutral.RivendareWarrider:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.RivendareWarrider_BlaumeauxFamineriderToken)
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.RivendareWarrider_KorthazzDeathriderToken)
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.RivendareWarrider_ZeliekConquestriderToken)
                         default: break
                         }
                     }

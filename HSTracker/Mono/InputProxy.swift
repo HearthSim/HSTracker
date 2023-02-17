@@ -17,6 +17,7 @@ class InputProxy: MonoHandle, MonoClassInitializer {
     static var _addSecretFromDbfid: OpaquePointer!
     static var _unitTest: OpaquePointer!
     static var _setPlayerHandSize: OpaquePointer!
+    static var _setOpponentHandSize: OpaquePointer!
     static var _setPlayerHeroPower: OpaquePointer!
     static var _setOpponentHeroPower: OpaquePointer!
     static var _playerQuests: OpaquePointer!
@@ -34,6 +35,7 @@ class InputProxy: MonoHandle, MonoClassInitializer {
             InputProxy._setTurn = MonoHelper.getMethod(InputProxy._class, "SetTurn", 1)
             InputProxy._addSecretFromDbfid = MonoHelper.getMethod(InputProxy._class, "AddSecretFromDbfid", 2)
             InputProxy._setPlayerHandSize = MonoHelper.getMethod(InputProxy._class, "SetPlayerHandSize", 1)
+            InputProxy._setOpponentHandSize = MonoHelper.getMethod(InputProxy._class, "SetOpponentHandSize", 1)
             InputProxy._unitTest = MonoHelper.getMethod(InputProxy._class, "UnitTestCopyableVersion", 0)
             InputProxy._setPlayerHeroPower = MonoHelper.getMethod(InputProxy._class, "SetPlayerHeroPower", 3)
             InputProxy._setOpponentHeroPower = MonoHelper.getMethod(InputProxy._class, "SetOpponentHeroPower", 3)
@@ -81,6 +83,10 @@ class InputProxy: MonoHandle, MonoClassInitializer {
         MonoHelper.setInt(obj: self, method: InputProxy._setPlayerHandSize, value: value)
     }
     
+    func setOpponentHandSize(value: Int32) {
+        MonoHelper.setInt(obj: self, method: InputProxy._setOpponentHandSize, value: value)
+    }
+
     func addAvailableRaces(races: [Race]) {
         let field = mono_class_get_field_from_name(InputProxy._class, "availableRaces")
         let inst = get()

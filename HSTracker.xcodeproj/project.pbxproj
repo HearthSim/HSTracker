@@ -509,6 +509,40 @@
 		B864AE3A25A4CC1200793F36 /* ImportingPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B864AE3925A4CC1200793F36 /* ImportingPreferences.xib */; };
 		B864AE3C25A4D15C00793F36 /* ImportingPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B864AE3B25A4D15C00793F36 /* ImportingPreferences.swift */; };
 		B86C9EAB27A17B3B00195C0A /* BrukanInvocationDeathrattles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86C9EAA27A17B3A00195C0A /* BrukanInvocationDeathrattles.swift */; };
+		B86FFA5E299C66730093689E /* Tier7PreLobby.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC35294444C300F74CD9 /* Tier7PreLobby.swift */; };
+		B86FFA5F299C667F0093689E /* BattlegroundsHeroPicking.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CE65D92950D78100E8D168 /* BattlegroundsHeroPicking.swift */; };
+		B86FFA60299C667F0093689E /* BattlegroundsQuestPicking.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83CF363294BB808003C9062 /* BattlegroundsQuestPicking.swift */; };
+		B86FFA61299C66CC0093689E /* QueueEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E76172293A3D010048E802 /* QueueEvents.swift */; };
+		B86FFA62299C67390093689E /* FindGameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E76170293A321A0048E802 /* FindGameState.swift */; };
+		B86FFA63299C67780093689E /* BattlegroundsQuestStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AC9A29293F9B120047F438 /* BattlegroundsQuestStats.swift */; };
+		B86FFA64299C67780093689E /* BattlegroundsQuestStatsParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = B812BCEC2947F928000C6513 /* BattlegroundsQuestStatsParams.swift */; };
+		B86FFA65299C67780093689E /* BattlegroundsSingleHeroPickStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D34D32294FADF900CACC5A /* BattlegroundsSingleHeroPickStats.swift */; };
+		B86FFA66299C67780093689E /* Tier7AllTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC2729429ED900F74CD9 /* Tier7AllTime.swift */; };
+		B86FFA67299C67780093689E /* Tier7TrialData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC292943626C00F74CD9 /* Tier7TrialData.swift */; };
+		B86FFA68299C67780093689E /* BattlegroundsPlacementDistribution.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CE65DB2950D80200E8D168 /* BattlegroundsPlacementDistribution.swift */; };
+		B86FFA69299C67780093689E /* BattlegroundsPlacementDistributionBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83CF36A294E2930003C9062 /* BattlegroundsPlacementDistributionBar.swift */; };
+		B86FFA6A299C67780093689E /* BattlegroundsQuestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EF1D7D2916857000AC4658 /* BattlegroundsQuestView.swift */; };
+		B86FFA6B299C67780093689E /* BattlegroundsCompositionPopularity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83CF378294E63C8003C9062 /* BattlegroundsCompositionPopularity.swift */; };
+		B86FFA6C299C67780093689E /* BattlegroundsCompositionPopularityBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83CF36C294E3CF2003C9062 /* BattlegroundsCompositionPopularityBar.swift */; };
+		B86FFA6D299C67780093689E /* BattlegroundsCompositionPopularityRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83CF372294E4E57003C9062 /* BattlegroundsCompositionPopularityRow.swift */; };
+		B86FFA6E299C67780093689E /* BattlegroundsCompositionPopularityRowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83CF374294E5048003C9062 /* BattlegroundsCompositionPopularityRowViewModel.swift */; };
+		B86FFA6F299C67780093689E /* BattlegroundsCompositionPopularityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC432946BACF00F74CD9 /* BattlegroundsCompositionPopularityViewModel.swift */; };
+		B86FFA70299C67780093689E /* BattlegroundsHeroHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CE65DF295295AD00E8D168 /* BattlegroundsHeroHeader.swift */; };
+		B86FFA71299C67780093689E /* BattlegroundsHeroHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D34D34294FB0C100CACC5A /* BattlegroundsHeroHeaderViewModel.swift */; };
+		B86FFA72299C67780093689E /* BattlegroundsHeroPickingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AC9A1B293CE3310047F438 /* BattlegroundsHeroPickingViewModel.swift */; };
+		B86FFA73299C67780093689E /* BattlegroundsSingleHeroStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C1F1C2295A42F6001E078C /* BattlegroundsSingleHeroStats.swift */; };
+		B86FFA74299C67780093689E /* BattlegroundsSingleHeroViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AC9A1D293CE51B0047F438 /* BattlegroundsSingleHeroViewModel.swift */; };
+		B86FFA75299C67780093689E /* BattlegroundsQuestPickingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AC9A25293F92530047F438 /* BattlegroundsQuestPickingViewModel.swift */; };
+		B86FFA76299C67780093689E /* BattlegroundsSingleQuestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83CF35F294A7C42003C9062 /* BattlegroundsSingleQuestView.swift */; };
+		B86FFA77299C67780093689E /* BattlegroundsSingleQuestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC4029468BEA00F74CD9 /* BattlegroundsSingleQuestViewModel.swift */; };
+		B86FFA78299C67780093689E /* StatsHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC3E2946882D00F74CD9 /* StatsHeaderViewModel.swift */; };
+		B86FFA79299C67780093689E /* OverlayMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AC9A22293D48E10047F438 /* OverlayMessage.swift */; };
+		B86FFA7A299C67780093689E /* OverlayMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC2329418CC200F74CD9 /* OverlayMessageViewModel.swift */; };
+		B86FFA7B299C67780093689E /* Tier7PreLobbyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC25294264D700F74CD9 /* Tier7PreLobbyViewModel.swift */; };
+		B86FFA7C299C67780093689E /* Tier7Trial.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC2B294362C800F74CD9 /* Tier7Trial.swift */; };
+		B86FFA7D299C67AE0093689E /* Debounce.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC2D29437AF500F74CD9 /* Debounce.swift */; };
+		B86FFA7E299C67B50093689E /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC382944B1DA00F74CD9 /* ViewModel.swift */; };
+		B86FFA7F299C68870093689E /* NSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC3C29462EA800F74CD9 /* NSButton.swift */; };
 		B8795EAC27516DBC00469B6E /* MercenariesTask.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8795EAB27516DBC00469B6E /* MercenariesTask.xib */; };
 		B8820CD025603FB00072ECBC /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8820CCF25603FB00072ECBC /* RemoteConfig.swift */; };
 		B8832DDA26057A5000646BA4 /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8832DD926057A5000646BA4 /* RepeatingTimer.swift */; };
@@ -1224,7 +1258,7 @@
 		B8BD8450284AB95100F4F224 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/BattlegroundsSession.strings"; sourceTree = "<group>"; };
 		B8BD8451284AB95300F4F224 /* th-TH */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "th-TH"; path = "th-TH.lproj/BattlegroundsSession.strings"; sourceTree = "<group>"; };
 		B8BD8452285D23C500F4F224 /* UnfairLock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnfairLock.swift; sourceTree = "<group>"; };
-		B8BD84542860058400F4F224 /* SynchronizedDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynchronizedDictionary.swift; sourceTree = "<group>"; };
+		B8BD84542860058400F4F224 /* SynchronizedDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynchronizedDictionary.swift; sourceTree = "<group>"; tabWidth = 3; };
 		B8BD84562861394100F4F224 /* Regex.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
 		B8C1F1BE295553F7001E078C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		B8C1F1C02958ED54001E078C /* BattlegroundsSingleHeroStats.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsSingleHeroStats.xib; sourceTree = "<group>"; };
@@ -2992,6 +3026,40 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B86FFA7F299C68870093689E /* NSButton.swift in Sources */,
+				B86FFA7E299C67B50093689E /* ViewModel.swift in Sources */,
+				B86FFA7D299C67AE0093689E /* Debounce.swift in Sources */,
+				B86FFA63299C67780093689E /* BattlegroundsQuestStats.swift in Sources */,
+				B86FFA64299C67780093689E /* BattlegroundsQuestStatsParams.swift in Sources */,
+				B86FFA65299C67780093689E /* BattlegroundsSingleHeroPickStats.swift in Sources */,
+				B86FFA66299C67780093689E /* Tier7AllTime.swift in Sources */,
+				B86FFA67299C67780093689E /* Tier7TrialData.swift in Sources */,
+				B86FFA68299C67780093689E /* BattlegroundsPlacementDistribution.swift in Sources */,
+				B86FFA69299C67780093689E /* BattlegroundsPlacementDistributionBar.swift in Sources */,
+				B86FFA6A299C67780093689E /* BattlegroundsQuestView.swift in Sources */,
+				B86FFA6B299C67780093689E /* BattlegroundsCompositionPopularity.swift in Sources */,
+				B86FFA6C299C67780093689E /* BattlegroundsCompositionPopularityBar.swift in Sources */,
+				B86FFA6D299C67780093689E /* BattlegroundsCompositionPopularityRow.swift in Sources */,
+				B86FFA6E299C67780093689E /* BattlegroundsCompositionPopularityRowViewModel.swift in Sources */,
+				B86FFA6F299C67780093689E /* BattlegroundsCompositionPopularityViewModel.swift in Sources */,
+				B86FFA70299C67780093689E /* BattlegroundsHeroHeader.swift in Sources */,
+				B86FFA71299C67780093689E /* BattlegroundsHeroHeaderViewModel.swift in Sources */,
+				B86FFA72299C67780093689E /* BattlegroundsHeroPickingViewModel.swift in Sources */,
+				B86FFA73299C67780093689E /* BattlegroundsSingleHeroStats.swift in Sources */,
+				B86FFA74299C67780093689E /* BattlegroundsSingleHeroViewModel.swift in Sources */,
+				B86FFA75299C67780093689E /* BattlegroundsQuestPickingViewModel.swift in Sources */,
+				B86FFA76299C67780093689E /* BattlegroundsSingleQuestView.swift in Sources */,
+				B86FFA77299C67780093689E /* BattlegroundsSingleQuestViewModel.swift in Sources */,
+				B86FFA78299C67780093689E /* StatsHeaderViewModel.swift in Sources */,
+				B86FFA79299C67780093689E /* OverlayMessage.swift in Sources */,
+				B86FFA7A299C67780093689E /* OverlayMessageViewModel.swift in Sources */,
+				B86FFA7B299C67780093689E /* Tier7PreLobbyViewModel.swift in Sources */,
+				B86FFA7C299C67780093689E /* Tier7Trial.swift in Sources */,
+				B86FFA62299C67390093689E /* FindGameState.swift in Sources */,
+				B86FFA61299C66CC0093689E /* QueueEvents.swift in Sources */,
+				B86FFA5F299C667F0093689E /* BattlegroundsHeroPicking.swift in Sources */,
+				B86FFA60299C667F0093689E /* BattlegroundsQuestPicking.swift in Sources */,
+				B86FFA5E299C66730093689E /* Tier7PreLobby.swift in Sources */,
 				B8BA17FB28F0CFED004D40ED /* Influx.swift in Sources */,
 				B8BA17FA28F0CFD4004D40ED /* ClipboardImporter.swift in Sources */,
 				B8BA17F928F0CFA1004D40ED /* RewardTrackType.swift in Sources */,
@@ -3850,7 +3918,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/downloaded-frameworks/mono/runtimes/osx-x64/native";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 2.3.7;
+				MARKETING_VERSION = 2.3.8;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = "$(inherited)";
@@ -3895,7 +3963,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/downloaded-frameworks/mono/runtimes/osx-x64/native";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 2.3.7;
+				MARKETING_VERSION = 2.3.8;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = net.hearthsim.hstracker;
