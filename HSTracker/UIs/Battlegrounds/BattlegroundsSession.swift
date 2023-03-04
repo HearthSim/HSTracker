@@ -77,8 +77,8 @@ class BattlegroundsSession: OverWindowController {
         if window?.occlusionState.contains(.visible) ?? false || AppDelegate.instance().coreManager.game.spectator {
             return
         }
-        update()
         updateSectionsVisibilities()
+        update()
     }
     
     private func showBannedTribes() {
@@ -115,6 +115,7 @@ class BattlegroundsSession: OverWindowController {
         let game = AppDelegate.instance().coreManager.game
         let unavail = game.unavailableRaces
         if !game.gameEnded, let races = unavail, races.count >= 3 {
+            logger.debug("Updating with \(races)")
             let sorted = races.sorted(by: { (a, b) in NSLocalizedString(a.rawValue, comment: "") < NSLocalizedString(b.rawValue, comment: "") })
             tribe1.setRace(newRace: sorted[0])
             tribe2.setRace(newRace: sorted[1])
@@ -157,14 +158,10 @@ class BattlegroundsSession: OverWindowController {
             tribe3.tribeLabel.font = font
             tribe4.tribeLabel.font = font
             tribe5.tribeLabel.font = font
-            waitingForNext.isHidden = true
+            showBannedTribes()
         } else {
-            tribe1.isHidden = true
-            tribe2.isHidden = true
-            tribe3.isHidden = true
-            tribe4.isHidden = true
-            tribe5.isHidden = true
-            waitingForNext.isHidden = false
+            logger.debug("Not enough races found: \(unavail ?? [Race]())")
+            hideBannedTribes()
         }
         
         let firstGame = updateLatestGames()

@@ -550,6 +550,7 @@
                                                 </stackView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="width" constant="200" id="66f-Tf-ZnN"/>
                                                 <constraint firstItem="PhO-YH-JqE" firstAttribute="leading" secondItem="22i-f0-cvw" secondAttribute="leading" id="7aJ-SN-28W"/>
                                                 <constraint firstAttribute="trailing" secondItem="PhO-YH-JqE" secondAttribute="trailing" id="A2Y-VS-lsN"/>
                                                 <constraint firstItem="yiA-Bi-KGf" firstAttribute="leading" secondItem="22i-f0-cvw" secondAttribute="leading" id="RQt-UI-m5M"/>

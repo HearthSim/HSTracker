@@ -516,6 +516,9 @@ class Game: NSObject, PowerEventHandler {
             if self.windowManager.battlegroundsHeroPicking.viewModel.visibility {
                 if hsActive {
                     self.windowManager.show(controller: self.windowManager.battlegroundsHeroPicking, show: true, frame: SizeHelper.hearthstoneWindow.frame, overlay: true)
+                    DispatchQueue.main.async {
+                        self.windowManager.battlegroundsHeroPicking.updateScaling()
+                    }
                 } else {
                     self.windowManager.show(controller: self.windowManager.battlegroundsHeroPicking, show: false)
                 }
@@ -524,6 +527,9 @@ class Game: NSObject, PowerEventHandler {
             if self.windowManager.battlegroundsQuestPicking.viewModel.visibility {
                 if hsActive {
                     self.windowManager.show(controller: self.windowManager.battlegroundsQuestPicking, show: true, frame: SizeHelper.hearthstoneWindow.frame, overlay: true)
+                    DispatchQueue.main.async {
+                        self.windowManager.battlegroundsQuestPicking.updateScaling()
+                    }
                 } else {
                     self.windowManager.show(controller: self.windowManager.battlegroundsQuestPicking, show: false)
                 }
@@ -2306,6 +2312,10 @@ class Game: NSObject, PowerEventHandler {
             battlegroundsMulliganHandled = true
             AppDelegate.instance().coreManager.toaster.hide()
             windowManager.battlegroundsHeroPicking.viewModel.reset()
+            DispatchQueue.main.async {
+                self.windowManager.battlegroundsSession.update()
+                self.windowManager.battlegroundsSession.updateScaling()
+            }
         } else if isConstructedMatch() {
             AppDelegate.instance().coreManager.toaster.hide()
         }
@@ -2485,6 +2495,8 @@ class Game: NSObject, PowerEventHandler {
             })
         }
         DispatchQueue.main.async { [self] in
+            OpponentDeadForTracker.resetOpponentDeadForTracker()
+            self.showBattlegroundsSession(true)
             self.windowManager.battlegroundsSession.onGameStart()
             self.showBattlegroundsSession(true)
         }

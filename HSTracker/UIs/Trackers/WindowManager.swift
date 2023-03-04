@@ -381,7 +381,7 @@ class WindowManager {
                 // as a normal window otherwise
                 let level: Int
                 if overlay {
-                    level = Int(CGWindowLevelForKey(CGWindowLevelKey.floatingWindow))
+                    level = Int(CGShieldingWindowLevel())
                 } else {
                     level = Int(CGWindowLevelForKey(CGWindowLevelKey.normalWindow))
                 }

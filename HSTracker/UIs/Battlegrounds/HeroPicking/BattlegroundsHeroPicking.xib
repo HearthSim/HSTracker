@@ -11,6 +11,7 @@
                 <outlet property="itemsStack" destination="tXz-n5-mIY" id="8Df-N2-QWo"/>
                 <outlet property="outerView" destination="TDf-wr-Sbh" id="RKA-Xd-Hpe"/>
                 <outlet property="overlayMessage" destination="33v-9k-sA9" id="uI0-dZ-5EG"/>
+                <outlet property="scaleView" destination="LZI-jD-dVM" id="kcc-6d-vL9"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="S6k-Nc-gaF"/>
             </connections>
         </customObject>
@@ -21,43 +22,43 @@
             <rect key="contentRect" x="196" y="240" width="480" height="270"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1025"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="738" height="270"/>
+                <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="pD1-7S-rTm">
-                        <rect key="frame" x="0.0" y="0.0" width="738" height="270"/>
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <subviews>
                             <customView identifier="OuterView" translatesAutoresizingMaskIntoConstraints="NO" id="TDf-wr-Sbh" userLabel="OuterView">
-                                <rect key="frame" x="0.0" y="0.0" width="738" height="270"/>
+                                <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                                 <subviews>
                                     <customView identifier="ItemControl" translatesAutoresizingMaskIntoConstraints="NO" id="LZI-jD-dVM" userLabel="ItemControl">
-                                        <rect key="frame" x="361" y="135" width="16" height="0.0"/>
+                                        <rect key="frame" x="232" y="135" width="16" height="0.0"/>
                                         <subviews>
                                             <stackView identifier="ItemsStackView" distribution="equalSpacing" orientation="horizontal" alignment="centerY" spacing="16" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tXz-n5-mIY" userLabel="Items">
-                                                <rect key="frame" x="16" y="0.0" width="0.0" height="0.0"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="16" height="0.0"/>
+                                                <edgeInsets key="edgeInsets" left="16" right="0.0" top="0.0" bottom="0.0"/>
                                             </stackView>
                                         </subviews>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="tXz-n5-mIY" secondAttribute="trailing" id="JiO-GU-MME"/>
-                                            <constraint firstItem="tXz-n5-mIY" firstAttribute="leading" secondItem="LZI-jD-dVM" secondAttribute="leading" constant="16" id="OyD-QV-MbN"/>
+                                            <constraint firstItem="tXz-n5-mIY" firstAttribute="leading" secondItem="LZI-jD-dVM" secondAttribute="leading" id="OyD-QV-MbN"/>
                                             <constraint firstAttribute="bottom" secondItem="tXz-n5-mIY" secondAttribute="bottom" id="emQ-6u-qEe"/>
                                             <constraint firstItem="tXz-n5-mIY" firstAttribute="top" secondItem="LZI-jD-dVM" secondAttribute="top" id="soy-of-qZS"/>
                                         </constraints>
                                     </customView>
                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="33v-9k-sA9" customClass="OverlayMessage" customModule="HSTracker" customModuleProvider="target">
-                                        <rect key="frame" x="738" y="13" width="0.0" height="27"/>
+                                        <rect key="frame" x="0.0" y="13" width="480" height="27"/>
                                         <constraints>
+                                            <constraint firstAttribute="width" constant="480" id="0ku-Ix-174"/>
                                             <constraint firstAttribute="height" constant="27" id="LNC-yf-21A"/>
                                         </constraints>
                                     </customView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="33v-9k-sA9" secondAttribute="bottom" constant="13" id="43z-hM-JiS"/>
-                                    <constraint firstItem="LZI-jD-dVM" firstAttribute="centerX" secondItem="TDf-wr-Sbh" secondAttribute="centerX" id="B4e-dj-5JA"/>
-                                    <constraint firstItem="LZI-jD-dVM" firstAttribute="centerY" secondItem="TDf-wr-Sbh" secondAttribute="centerY" id="HE0-jP-F6G"/>
-                                    <constraint firstAttribute="trailing" secondItem="33v-9k-sA9" secondAttribute="trailing" id="Xzg-lG-ajI"/>
-                                    <constraint firstItem="33v-9k-sA9" firstAttribute="leading" secondItem="TDf-wr-Sbh" secondAttribute="leading" constant="738" id="fAm-Sz-lRd"/>
-                                    <constraint firstItem="LZI-jD-dVM" firstAttribute="centerY" secondItem="TDf-wr-Sbh" secondAttribute="centerY" id="tkO-Fc-cPs"/>
+                                    <constraint firstItem="LZI-jD-dVM" firstAttribute="centerX" secondItem="TDf-wr-Sbh" secondAttribute="centerX" placeholder="YES" id="B4e-dj-5JA"/>
+                                    <constraint firstItem="33v-9k-sA9" firstAttribute="centerX" secondItem="TDf-wr-Sbh" secondAttribute="centerX" id="VDK-YJ-W4U"/>
+                                    <constraint firstItem="LZI-jD-dVM" firstAttribute="centerY" secondItem="TDf-wr-Sbh" secondAttribute="centerY" placeholder="YES" id="tkO-Fc-cPs"/>
                                 </constraints>
                             </customView>
                         </subviews>

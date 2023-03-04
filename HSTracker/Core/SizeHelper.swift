@@ -91,9 +91,10 @@ struct SizeHelper {
                     
                     if calculateFromFrame {
                         var fs = false
-                        if let scr = NSScreen.main {
+                        for scr in NSScreen.screens {
                             if scr.frame == frame {
                                 fs = true
+                                break
                             }
                         }
                         fullscreen = fs
@@ -514,20 +515,20 @@ struct SizeHelper {
         let hs = hearthstoneWindow.frame
         let w = 77.0
         let h = 50.0
-        return NSRect(x: getScaledXPos(86.5 / 100.0, width: hs.width, ratio: screenRatio), y: (hs.height * (100.0 - 18.5) / 100.0) - h, width: w, height: h)
+        return NSRect(x: hs.minX + getScaledXPos(86.5 / 100.0, width: hs.width, ratio: screenRatio), y: hs.minY + (hs.height * (100.0 - 18.5) / 100.0) - h, width: w, height: h)
     }
 
     static func playerWotogIconsFrame() -> NSRect {
         let hs = hearthstoneWindow.frame
         let w = 77.0
         let h = 50.0
-        return NSRect(x: getScaledXPos(86.8 / 100.0, width: hs.width, ratio: screenRatio), y: (hs.height * (100.0 - 68.5) / 100.0) - h, width: w, height: h)
+        return NSRect(x: hs.minX + getScaledXPos(86.8 / 100.0, width: hs.width, ratio: screenRatio), y: hs.minY + (hs.height * (100.0 - 68.5) / 100.0) - h, width: w, height: h)
     }
     
     static func tier7PreLobbyFrame() -> NSRect {
         let hs = hearthstoneWindow.frame
         let w = 763.0
         let h = 500.0
-        return NSRect(x: getScaledXPos(0.079, width: hs.width, ratio: screenRatio), y: (hs.height * (1.0 - 0.103) - h), width: w, height: h)
+        return NSRect(x: hs.minX + getScaledXPos(0.079, width: hs.width, ratio: screenRatio), y: hs.minY + (hs.height * (1.0 - 0.103) - h), width: w, height: h)
     }
 }

@@ -23,7 +23,7 @@ class BattlegroundsSingleQuestView: NSView {
     let viewModel: BattlegroundsSingleQuestViewModel
     
     override var intrinsicContentSize: NSSize {
-        return NSSize(width: 254, height: 730   )
+        return NSSize(width: 252, height: 778   )
     }
 
     required init?(coder: NSCoder) {

@@ -44,6 +44,29 @@ class BattlegroundsHeroPicking: OverWindowController {
         overlayMessage.viewModel = viewModel.message
     }
     
+    func updateScaling() {
+        guard let window, let heroes = viewModel.heroStats, heroes.count > 0 else {
+            logger.debug("Missing either window or heroes")
+            return
+        }
+        let cnt = heroes.count
+        let bounds = NSRect(x: 0, y: 0, width: 16 + 266 * cnt + 16 * (cnt - 1), height: 480)
+        logger.debug("bounds: \(bounds)")
+        let scale = SizeHelper.hearthstoneWindow.height / 1080
+        let sw = bounds.width * scale
+        let sh = bounds.height * scale
+        scaleView.frame = NSRect(x: (window.frame.width - sw) / 2, y: (window.frame.height - sh) / 2, width: sw, height: sh)
+        logger.debug("scaleView frame: \(scaleView.frame)")
+        scaleView.bounds = bounds
+        scaleView.needsDisplay = true
+//        var view = scaleView
+//        while let parent = view?.superview {
+//            logger.debug("Superview: \(parent.frame)")
+//            view = parent
+//        }
+//        logger.debug("Window: \(window.frame)")
+    }
+    
     func update(_ property: String?) {
         let all = property == nil
         
@@ -69,11 +92,12 @@ class BattlegroundsHeroPicking: OverWindowController {
             if viewModel.visibility {
                 let rect = SizeHelper.hearthstoneWindow.frame
                 AppDelegate.instance().coreManager.game.windowManager.show(controller: self, show: true, frame: rect, overlay: true)
+                updateScaling()
                 isVisible = true
                 if deferred {
                     DispatchQueue.main.async {
-                        self.update("heroStats")
-                        self.deferred = false
+                        self.update(nil)
+                        self.updateScaling()
                     }
                 }
             } else if isVisible {

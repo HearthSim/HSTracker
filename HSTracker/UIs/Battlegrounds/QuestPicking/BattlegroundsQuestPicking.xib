@@ -10,6 +10,7 @@
             <connections>
                 <outlet property="itemsStack" destination="cdJ-74-GcN" id="n7n-vW-5uO"/>
                 <outlet property="overlayMessage" destination="26y-Oy-pQ0" id="YEz-xZ-Kgr"/>
+                <outlet property="scaleView" destination="1zk-2p-cly" id="P6j-nh-sIP"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="rso-1V-xXK"/>
             </connections>
         </customObject>
@@ -20,16 +21,16 @@
             <rect key="contentRect" x="196" y="240" width="480" height="270"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1025"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="738" height="270"/>
+                <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <customView identifier="OuterView" translatesAutoresizingMaskIntoConstraints="NO" id="TA9-EK-l7i" userLabel="OuterView">
-                        <rect key="frame" x="0.0" y="0.0" width="738" height="270"/>
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <subviews>
                             <customView identifier="ItemControl" translatesAutoresizingMaskIntoConstraints="NO" id="1zk-2p-cly" userLabel="ItemControl">
-                                <rect key="frame" x="369" y="111" width="0.0" height="0.0"/>
+                                <rect key="frame" x="240" y="135" width="0.0" height="0.0"/>
                                 <subviews>
-                                    <stackView identifier="ItemsStackView" distribution="equalCentering" orientation="horizontal" alignment="top" spacing="100" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cdJ-74-GcN" userLabel="Items"/>
+                                    <stackView identifier="ItemsStackView" distribution="equalCentering" orientation="horizontal" alignment="top" spacing="130" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cdJ-74-GcN" userLabel="Items"/>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="cdJ-74-GcN" secondAttribute="bottom" id="S2M-OU-Aec"/>
@@ -39,18 +40,18 @@
                                 </constraints>
                             </customView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="26y-Oy-pQ0" customClass="OverlayMessage" customModule="HSTracker" customModuleProvider="target">
-                                <rect key="frame" x="738" y="13" width="0.0" height="27"/>
+                                <rect key="frame" x="0.0" y="13" width="480" height="27"/>
                                 <constraints>
+                                    <constraint firstAttribute="width" constant="480" placeholder="YES" id="53j-g4-q6x"/>
                                     <constraint firstAttribute="height" constant="27" id="wVd-9a-fUQ"/>
                                 </constraints>
                             </customView>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="26y-Oy-pQ0" secondAttribute="bottom" constant="13" id="1w8-Fc-4rx"/>
-                            <constraint firstItem="1zk-2p-cly" firstAttribute="centerY" secondItem="TA9-EK-l7i" secondAttribute="centerY" constant="24" id="5ub-2I-vyH"/>
-                            <constraint firstItem="1zk-2p-cly" firstAttribute="centerX" secondItem="TA9-EK-l7i" secondAttribute="centerX" id="SWH-eW-wbu"/>
-                            <constraint firstItem="26y-Oy-pQ0" firstAttribute="leading" secondItem="TA9-EK-l7i" secondAttribute="leading" constant="738" id="c3R-sW-axl"/>
-                            <constraint firstAttribute="trailing" secondItem="26y-Oy-pQ0" secondAttribute="trailing" id="r27-S4-bjH"/>
+                            <constraint firstItem="26y-Oy-pQ0" firstAttribute="bottom" secondItem="TA9-EK-l7i" secondAttribute="bottom" constant="-13" id="1w8-Fc-4rx"/>
+                            <constraint firstItem="26y-Oy-pQ0" firstAttribute="centerX" secondItem="TA9-EK-l7i" secondAttribute="centerX" id="1yI-ib-Clp"/>
+                            <constraint firstItem="1zk-2p-cly" firstAttribute="centerY" secondItem="TA9-EK-l7i" secondAttribute="centerY" placeholder="YES" id="5ub-2I-vyH"/>
+                            <constraint firstItem="1zk-2p-cly" firstAttribute="centerX" secondItem="TA9-EK-l7i" secondAttribute="centerX" placeholder="YES" id="SWH-eW-wbu"/>
                         </constraints>
                     </customView>
                 </subviews>

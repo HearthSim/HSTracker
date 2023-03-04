@@ -6,11 +6,10 @@
 //  Copyright © 2016 Benjamin Michotte. All rights reserved.
 //
 
-import Cocoa
+import AppKit
 import SwiftyBeaver
 let logger = SwiftyBeaver.self
 import Preferences
-//import HearthAssets
 import AppCenter
 import AppCenterAnalytics
 import AppCenterCrashes
@@ -88,6 +87,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
 
         AppCenter.start(withAppSecret: "2f0021b9-bb18-4282-9aa1-cfbbd85d3bed", services: [Analytics.self, Crashes.self])
         
+        let options = [
+            kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true as CFBoolean
+        ]
+        if !AXIsProcessTrustedWithOptions(options as CFDictionary) {
+            logger.debug("Accessibility permission not granted")
+        }
         // Migrate preferences from old bundle ID
         let oldPrefs = UserDefaults.standard.persistentDomain(forName: "be.michotte.hstracker")
         if let oldPrefs = oldPrefs, let bundleId = Bundle.main.bundleIdentifier {
