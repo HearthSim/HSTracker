@@ -1,6 +1,15 @@
+# 2.3.9
+## New
+- Updated for patch 25.4.3
+## Fixes
+- Fixed placement of overlays on external monitors
+- Added scaling to hero and quest picking overlays
+- Fixed clipping of some battlegrounds overlays in fullscreen
+- Improved checking for Hearhstone being fullscreen
+
 # 2.3.8
 ## New
-- Updated for patch 24.4
+- Updated for patch 25.4
 - Added Battlegrounds Session scaling
 - Added Tier 7 overlays for Hero and Quest picking
 - Added battlecry and deathrattle indicators into minions tier list
