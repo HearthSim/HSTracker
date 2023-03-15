@@ -36,6 +36,8 @@ extension CardIds.NonCollectible {
         static let HeroicDifficulty: String = "FB_LK_BossSetup001b"
         static let NormalDifficulty: String = "FB_LK_BossSetup001c"
         static let DiabolicalPowersTavernBrawl: String = "TB_SPT_DPromoHP"
+        static let ProfessorPutricide_Festergut1 = "BG25_HERO_100_Buddy"
+        static let ProfessorPutricide_Festergut2 = "BG25_HERO_100_Buddy_G"
     }
 }
 

@@ -67,6 +67,10 @@ class BattlegroundsHeroPicking: OverWindowController {
 //        logger.debug("Window: \(window.frame)")
     }
     
+    func setSelectedHeroDbfId(_ heroId: Int) {
+        viewModel.selectedHeroDbfId = heroId
+    }
+    
     func update(_ property: String?) {
         let all = property == nil
         
@@ -80,6 +84,7 @@ class BattlegroundsHeroPicking: OverWindowController {
                 if let heroes = viewModel.heroStats {
                     for hero in heroes {
                         let heroView = BattlegroundsSingleHeroStats(frame: NSRect(x: 0, y: 0, width: 266, height: 480), viewModel: hero)
+                        heroView.setSelectedHeroDbfIdCommand = setSelectedHeroDbfId
                         itemsStack.addArrangedSubview(heroView)
                     }
                 }

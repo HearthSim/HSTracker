@@ -502,6 +502,10 @@ class BobsBuddyInvoker {
         return e?.card.id == "unknown"
     }
     
+    func isUnsupportedCard(e: Entity?) -> Bool {
+        return e?.card.id == CardIds.NonCollectible.Invalid.ProfessorPutricide_Festergut1 || e?.card.id == CardIds.NonCollectible.Invalid.ProfessorPutricide_Festergut2
+    }
+    
     func wasHeroPowerUsed(heroPower: Entity?) -> Bool {
         return (heroPower?.has(tag: GameTag.exhausted) ?? false || heroPower?.has(tag: GameTag.bacon_hero_power_activated) ?? false)
     }
@@ -597,6 +601,12 @@ class BobsBuddyInvoker {
         if game.player.board.any(isUnknownCard) || game.opponent.board.any(isUnknownCard) {
             errorState = .unknownCards
             logger.error("Board has unknown cards. Exiting")
+            return
+        }
+        
+        if game.player.board.any(isUnsupportedCard) || game.opponent.board.any(isUnsupportedCard) {
+            errorState = .unsupportedCards
+            logger.debug("Board has unsupported cards. Exiting")
             return
         }
         

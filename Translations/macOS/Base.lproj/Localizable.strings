@@ -144,6 +144,7 @@
 "REVENDRETH" = "Murder at Castle Nathria";
 "RETURN_OF_THE_LICH_KING" = "March of the Lich King";
 "PATH_OF_ARTHAS" = "Path of Arthas";
+"BATTLE_OF_THE_BANDS" = "Festival of Legends";
 
 /* card type */
 "all_types" = "All";
@@ -228,6 +229,7 @@
 "Previous Combat" = "Previous Combat";
 "Show Previous Combat" = "Show Previous Combat";
 "Awaiting Shopping Phase" = "Awaiting Shopping Phase";
+"BobsBuddyStatusMessage_UnsupportedCards" = "Found unsupported cards";
 
 /* Battlegrounds */
 "Turn" = "Turn";

@@ -13,12 +13,13 @@ class BattlegroundsSingleHeroStats: NSView {
     
     @IBOutlet weak var battlegroundsHeroHeader: BattlegroundsHeroHeader!
     @IBOutlet weak var heroPortraitContainer: NSView!
-    @IBOutlet weak var armorTierLabel: NSTextField!
     @IBOutlet weak var compositions: BattlegroundsCompositionPopularity!
     
     @IBOutlet weak var armorTierTooltipRange: NSView!
     
     let viewModel: BattlegroundsSingleHeroViewModel
+    
+    var setSelectedHeroDbfIdCommand: ((_ heroId: Int) -> Void)?
     
     override var intrinsicContentSize: NSSize {
         return NSSize(width: 266, height: 480)
@@ -40,23 +41,41 @@ class BattlegroundsSingleHeroStats: NSView {
         contentView.translatesAutoresizingMaskIntoConstraints = true
         addSubview(contentView)
         contentView.frame = self.bounds
+        
+        viewModel.propertyChanged = { name in
+            DispatchQueue.main.async {
+                self.update(name)
+            }
+        }
 
 //        heroPortraitContainer.customToolTip = armorTierTooltipRange
         
+        let trackingArea = NSTrackingArea(rect: NSRect.zero,
+                                          options: [NSTrackingArea.Options.inVisibleRect, NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited],
+                                          owner: self,
+                                          userInfo: nil)
+        heroPortraitContainer.addTrackingArea(trackingArea)
+
         compositions.viewModel = viewModel.bgsCompsPopularityVM
         battlegroundsHeroHeader.viewModel = viewModel.bgsHeroHeaderVM
         
         update()
     }
     
-    func update() {
+    func update(_ property: String? = nil) {
         battlegroundsHeroHeader.isHidden =  !viewModel.heroPowerVisibility
-        if let armorTier = viewModel.armorTier {
-            armorTierLabel.intValue = Int32(armorTier)
-        } else {
-            armorTierLabel.stringValue = "—" // em dash
+        if property == nil {
+            compositions.update()
         }
-        compositions.update()
     }
     
+    override func mouseEntered(with event: NSEvent) {
+        if let id = viewModel.heroDbfId {
+            setSelectedHeroDbfIdCommand?(id)
+        }
+    }
+    
+    override func mouseExited(with event: NSEvent) {
+        setSelectedHeroDbfIdCommand?(0)
+    }
 }

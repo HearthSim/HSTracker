@@ -23,6 +23,8 @@ class StatusMessageConverter {
             case .monoNotFound:
                 return NSLocalizedString("Mono not found", comment: "")
             //case .updateRequired:
+            case .unsupportedCards:
+                return NSLocalizedString("Found unsupported cards", comment: "")
             default:
                 return NSLocalizedString("Unknown error", comment: "")
             }

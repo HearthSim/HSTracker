@@ -8,7 +8,6 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="BattlegroundsSingleHeroStats" customModule="HSTracker" customModuleProvider="target">
             <connections>
-                <outlet property="armorTierLabel" destination="ocd-0X-qDy" id="f3w-tH-UBC"/>
                 <outlet property="armorTierTooltipRange" destination="ltz-0w-Isv" id="ZCa-Br-y9q"/>
                 <outlet property="battlegroundsHeroHeader" destination="dJn-dd-3p5" id="2M5-ai-Xdl"/>
                 <outlet property="compositions" destination="5q0-Cd-eRk" id="wMX-p5-ikQ"/>
@@ -31,47 +30,8 @@
                 </customView>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="u1e-O1-gPf" userLabel="HeroPortraitContainer">
                     <rect key="frame" x="15" y="132" width="236" height="276"/>
-                    <subviews>
-                        <box boxType="custom" cornerRadius="5" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="8wp-RW-7UV">
-                            <rect key="frame" x="92" y="35" width="106" height="25"/>
-                            <view key="contentView" id="AiW-BE-n3a">
-                                <rect key="frame" x="1" y="1" width="104" height="23"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <subviews>
-                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="EgL-rE-BvX">
-                                        <rect key="frame" x="13" y="4" width="65" height="15"/>
-                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Armor Tier" id="Emk-Rp-gHT">
-                                            <font key="font" metaFont="cellTitle"/>
-                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
-                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                    </textField>
-                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ocd-0X-qDy">
-                                        <rect key="frame" x="78" y="4" width="13" height="16"/>
-                                        <textFieldCell key="cell" lineBreakMode="clipping" title="4" id="CbP-J2-cj6">
-                                            <font key="font" metaFont="systemBold"/>
-                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
-                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                    </textField>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="ocd-0X-qDy" firstAttribute="centerY" secondItem="AiW-BE-n3a" secondAttribute="centerY" id="RDx-UA-sGV"/>
-                                    <constraint firstItem="EgL-rE-BvX" firstAttribute="top" secondItem="AiW-BE-n3a" secondAttribute="top" constant="4" id="Xgi-YC-fed"/>
-                                    <constraint firstAttribute="bottom" secondItem="EgL-rE-BvX" secondAttribute="bottom" constant="4" id="Ys8-CC-xpi"/>
-                                    <constraint firstAttribute="trailing" secondItem="ocd-0X-qDy" secondAttribute="trailing" constant="15" id="erp-jv-Ru4"/>
-                                    <constraint firstItem="EgL-rE-BvX" firstAttribute="leading" secondItem="AiW-BE-n3a" secondAttribute="leading" constant="15" id="fNT-qx-fXk"/>
-                                    <constraint firstItem="ocd-0X-qDy" firstAttribute="leading" secondItem="EgL-rE-BvX" secondAttribute="trailing" constant="4" id="oaE-Jg-ecG"/>
-                                </constraints>
-                            </view>
-                            <color key="borderColor" red="0.21176470589999999" green="0.086274509799999996" blue="0.2156862745" alpha="1" colorSpace="deviceRGB"/>
-                            <color key="fillColor" red="0.078431372550000003" green="0.086274509799999996" blue="0.090196078430000007" alpha="1" colorSpace="custom" customColorSpace="deviceRGB"/>
-                        </box>
-                    </subviews>
                     <constraints>
                         <constraint firstAttribute="width" constant="236" id="Evg-vn-ueL"/>
-                        <constraint firstAttribute="trailing" secondItem="8wp-RW-7UV" secondAttribute="trailing" constant="38" id="UZm-gL-IJd"/>
-                        <constraint firstAttribute="bottom" secondItem="8wp-RW-7UV" secondAttribute="bottom" constant="35" id="ilx-LY-VdE"/>
                     </constraints>
                 </customView>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="5q0-Cd-eRk" userLabel="Compositions" customClass="BattlegroundsCompositionPopularity" customModule="HSTracker" customModuleProvider="target">
