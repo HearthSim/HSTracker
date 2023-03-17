@@ -1,3 +1,7 @@
+# 2.3.11
+## Fixes
+- Fixed deck detection not working properly (issue #1304)
+
 # 2.3.10
 ## New
 - Updated for patch 25.6.0
