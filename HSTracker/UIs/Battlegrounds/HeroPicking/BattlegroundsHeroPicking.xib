@@ -20,7 +20,7 @@
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" hasShadow="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g" userLabel="BattlegroundsHeroPicking" customClass="NSPanel">
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="480" height="270"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1025"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1175"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -31,8 +31,9 @@
                             <customView identifier="OuterView" translatesAutoresizingMaskIntoConstraints="NO" id="TDf-wr-Sbh" userLabel="OuterView">
                                 <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                                 <subviews>
-                                    <customView identifier="ItemControl" translatesAutoresizingMaskIntoConstraints="NO" id="LZI-jD-dVM" userLabel="ItemControl">
+                                    <customView identifier="ItemControl" autoresizesSubviews="NO" id="LZI-jD-dVM" userLabel="ItemControl">
                                         <rect key="frame" x="232" y="135" width="16" height="0.0"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <subviews>
                                             <stackView identifier="ItemsStackView" distribution="equalSpacing" orientation="horizontal" alignment="centerY" spacing="16" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tXz-n5-mIY" userLabel="Items">
                                                 <rect key="frame" x="0.0" y="0.0" width="16" height="0.0"/>
@@ -40,10 +41,10 @@
                                             </stackView>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="tXz-n5-mIY" secondAttribute="trailing" id="JiO-GU-MME"/>
-                                            <constraint firstItem="tXz-n5-mIY" firstAttribute="leading" secondItem="LZI-jD-dVM" secondAttribute="leading" id="OyD-QV-MbN"/>
-                                            <constraint firstAttribute="bottom" secondItem="tXz-n5-mIY" secondAttribute="bottom" id="emQ-6u-qEe"/>
-                                            <constraint firstItem="tXz-n5-mIY" firstAttribute="top" secondItem="LZI-jD-dVM" secondAttribute="top" id="soy-of-qZS"/>
+                                            <constraint firstAttribute="trailing" secondItem="tXz-n5-mIY" secondAttribute="trailing" placeholder="YES" id="JiO-GU-MME"/>
+                                            <constraint firstItem="tXz-n5-mIY" firstAttribute="leading" secondItem="LZI-jD-dVM" secondAttribute="leading" placeholder="YES" id="OyD-QV-MbN"/>
+                                            <constraint firstAttribute="bottom" secondItem="tXz-n5-mIY" secondAttribute="bottom" placeholder="YES" id="emQ-6u-qEe"/>
+                                            <constraint firstItem="tXz-n5-mIY" firstAttribute="top" secondItem="LZI-jD-dVM" secondAttribute="top" placeholder="YES" id="soy-of-qZS"/>
                                         </constraints>
                                     </customView>
                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="33v-9k-sA9" customClass="OverlayMessage" customModule="HSTracker" customModuleProvider="target">

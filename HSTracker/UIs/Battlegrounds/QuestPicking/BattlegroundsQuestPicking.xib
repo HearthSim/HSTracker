@@ -27,16 +27,17 @@
                     <customView identifier="OuterView" translatesAutoresizingMaskIntoConstraints="NO" id="TA9-EK-l7i" userLabel="OuterView">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <subviews>
-                            <customView identifier="ItemControl" translatesAutoresizingMaskIntoConstraints="NO" id="1zk-2p-cly" userLabel="ItemControl">
+                            <customView identifier="ItemControl" id="1zk-2p-cly" userLabel="ItemControl">
                                 <rect key="frame" x="240" y="135" width="0.0" height="0.0"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <stackView identifier="ItemsStackView" distribution="equalCentering" orientation="horizontal" alignment="top" spacing="130" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cdJ-74-GcN" userLabel="Items"/>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="cdJ-74-GcN" secondAttribute="bottom" id="S2M-OU-Aec"/>
-                                    <constraint firstAttribute="trailing" secondItem="cdJ-74-GcN" secondAttribute="trailing" id="SHy-hR-dil"/>
-                                    <constraint firstItem="cdJ-74-GcN" firstAttribute="leading" secondItem="1zk-2p-cly" secondAttribute="leading" id="alp-lx-01B"/>
-                                    <constraint firstItem="cdJ-74-GcN" firstAttribute="top" secondItem="1zk-2p-cly" secondAttribute="top" id="iMR-OD-yib"/>
+                                    <constraint firstAttribute="bottom" secondItem="cdJ-74-GcN" secondAttribute="bottom" placeholder="YES" id="S2M-OU-Aec"/>
+                                    <constraint firstAttribute="trailing" secondItem="cdJ-74-GcN" secondAttribute="trailing" placeholder="YES" id="SHy-hR-dil"/>
+                                    <constraint firstItem="cdJ-74-GcN" firstAttribute="leading" secondItem="1zk-2p-cly" secondAttribute="leading" placeholder="YES" id="alp-lx-01B"/>
+                                    <constraint firstItem="cdJ-74-GcN" firstAttribute="top" secondItem="1zk-2p-cly" secondAttribute="top" placeholder="YES" id="iMR-OD-yib"/>
                                 </constraints>
                             </customView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="26y-Oy-pQ0" customClass="OverlayMessage" customModule="HSTracker" customModuleProvider="target">
