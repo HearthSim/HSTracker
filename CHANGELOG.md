@@ -1,3 +1,7 @@
+# 2.3.12
+## Fixes
+- Fixed clipping of Hero/Quest picking Tier 7 overlays on high resolutons (issue #1303)
+
 # 2.3.11
 ## Fixes
 - Fixed deck detection not working properly (issue #1304)
