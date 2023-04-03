@@ -57,9 +57,9 @@ class BattlegroundsTierDetailsView: NSStackView {
         }
         let showBD = Settings.showBattlecryDeathrattleOnTiers
         var cardBars: [CardBar] = bgMinions.filter {
-            let race = $0.bgRace
+            let races = $0.bgRaces
             return ($0.techLevel == tier &&
-                        (race == .invalid || (availableRaces?.firstIndex(of: race) != nil)))
+                    (races.count == 0 || (availableRaces?.any(races.contains) ?? false)))
         }.map { inCard in
             let card = Card()
             

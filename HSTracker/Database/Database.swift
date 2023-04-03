@@ -204,7 +204,7 @@ class Database {
                         
                         if let techLevel = jsonCard["techLevel"] as? Int {
                             card.techLevel = techLevel
-                            card.bgRace = card.race
+                            card.bgRaces = card.races
                         }
                         
                         if let bgPool = jsonCard["isBattlegroundsPoolMinion"] as? Bool, !Database.battlegroundsExclusions.contains(cardId) {
@@ -247,7 +247,7 @@ class Database {
             for card in Cards.battlegroundsMinions.filter({ x in x.race == .invalid }) {
                 let race = Database.getRace(card: card)
                 if race != .invalid {
-                    card.bgRace = race
+                    card.bgRaces = [ race ]
                     logger.debug("Setting race for \"\(card.name)\" to \(race)")
                 }
             }
