@@ -1,3 +1,7 @@
+# 2.4.0
+## New
+- Updated for patch 26.0.0
+
 # 2.3.12
 ## Fixes
 - Fixed clipping of Hero/Quest picking Tier 7 overlays on high resolutons (issue #1303)
