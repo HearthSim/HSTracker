@@ -57,7 +57,8 @@ enum CardSet: String, CaseIterable {
     mercenaries_dev,
     return_of_the_lich_king,
     path_of_arthas,
-    battle_of_the_bands
+    battle_of_the_bands,
+    placeholder_202204
     
     static func deckManagerValidCardSets() -> [CardSet] {
         return [.all, .vanilla, .core, .basic, .expert1, .naxx, .gvg, .brm, .tgt,
@@ -77,7 +78,9 @@ enum CardSet: String, CaseIterable {
                 .gilneas, .boomsday, .troll,
                 .dalaran, .uldum, .dragons, .year_of_the_dragon, .demon_hunter_initiate,
                 .basic, .expert1, .legacy,
-                .black_temple, .scholomance, .darkmoon_faire]
+                .black_temple, .scholomance, .darkmoon_faire,
+                .the_barrens, .stormwind, .alterac_valley,
+                .placeholder_202204]
     }
     
     static func classicSets() -> [CardSet] {
@@ -142,5 +145,7 @@ public enum CardSetInt: Int {
     revendreth = 1691,
     mercenaries_dev = 1705,
     return_of_the_lich_king = 1776,
+    battle_of_bands = 1809,
+    placeholder_202204 = 1810,
     path_of_arthas = 1869
 }

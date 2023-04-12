@@ -1,3 +1,8 @@
+# 2.4.1
+## New
+- Updated for Year of the Wolf
+- Added support for the majority of new cards.
+
 # 2.4.0
 ## New
 - Updated for patch 26.0.0

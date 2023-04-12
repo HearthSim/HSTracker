@@ -150,6 +150,7 @@ extension CardIds.Collectible {
         static let JudgmentOfJustice = "WC_033"
         static let AzsharanMooncatcher = "TSC_644"
         static let SinfulSousChef = "REV_952"
+        static let TheCountess = "REV_951"
     }
 }
 
@@ -219,6 +220,7 @@ extension CardIds.NonCollectible {
         static let ConvictionRank1_ConvictionRank3Token = "BAR_880t2"
         static let AzsharanMooncatcher_SunkenMooncatcherToken = "TSC_644t"
         static let SilverHandRecruitLegacyToken = "CS2_101t"
+        static let TheCountess_LegendaryInvitationToken = "REV_951t"
     }
 }
 

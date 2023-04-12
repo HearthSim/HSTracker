@@ -619,6 +619,8 @@ extension CardIds.Collectible {
         static let PrinceRenathal = "REV_018"
         static let GrandArchivist = "LOOT_414"
         static let RivendareWarrider = "NX2_034"
+        static let PozzikAudioEngineer = "ETC_425"
+        static let LicensedAdventurer = "YOD_030"
     }
 }
 
@@ -711,6 +713,8 @@ extension CardIds.NonCollectible {
         static let RivendareWarrider_ZeliekConquestriderToken = "NX2_034t2"
         static let TeronGorefiend_RapidReanimation = "BG25_HERO_103p"
         static let TeronGorefiend_ImpendingDeath = "BG25_HERO_103pe"
+        static let PozzikAudioEngineer_AudioBotToken = "ETC_425t"
+        static let KingMukla_BananasToken = "EX1_014t"
     }
 }
 

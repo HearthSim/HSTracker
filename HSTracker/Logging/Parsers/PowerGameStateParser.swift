@@ -740,9 +740,8 @@ class PowerGameStateParser: LogEventParser {
                              CardIds.Collectible.Warrior.ClockworkGoblin:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Neutral.SeaforiumBomber_BombToken)
-                        //case Collectible.Rogue.Wanted: -- TODO
-                        //    AddKnownCardId(gameState, NonCollectible.Neutral.TheCoin);
-                        //    break;
+                        case CardIds.Collectible.Rogue.Wanted:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.TheCoinBasic)
                         //TODO: Hex Lord Malacrass
                         //TODO: Krag'wa, the Frog
                         case CardIds.Collectible.Hunter.HalazziTheLynx:
@@ -874,6 +873,26 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Mage.ArcaneBolt)
                         case CardIds.Collectible.Priest.SisterSvalna:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Priest.SisterSvalna_VisionOfDarknessToken)
+                        case CardIds.Collectible.Shaman.ColdStorage:
+                            if target != nil {
+                                addKnownCardId(eventHandler: eventHandler, cardId: target)
+                            }
+                        case CardIds.Collectible.Priest.PowerChordSynchronize:
+                            if target != nil {
+                                addKnownCardId(eventHandler: eventHandler, cardId: target)
+                            }
+                        case CardIds.Collectible.Neutral.PozzikAudioEngineer:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.PozzikAudioEngineer_AudioBotToken, count: 2)
+                        case CardIds.NonCollectible.Neutral.KingMukla_BananasToken:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.KingMukla_BananasToken, count: 10)
+                        case CardIds.Collectible.Shaman.SaxophoneSoloist:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Shaman.SaxophoneSoloist)
+                        case CardIds.Collectible.Paladin.TheCountess:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Paladin.TheCountess_LegendaryInvitationToken)
+                        case CardIds.Collectible.Neutral.LicensedAdventurer:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.TheCoinBasic)
+                        case CardIds.Collectible.Mage.SteamSurger:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Mage.FlameGeyser)
                         default:
                             if let card = Cards.any(byId: actionStartingCardId) {
                                 if (player != nil && player![.current_player] == 1

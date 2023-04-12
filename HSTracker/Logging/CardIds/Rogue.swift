@@ -156,6 +156,10 @@ extension CardIds.Collectible {
         static let Kidnap = "REV_828"
         static let StickySituation = "REV_827"
         static let Perjury = "MAW_018"
+        static let Wanted = "GIL_687"
+        static let AmbushInvalid = "CORE_BT_707"
+        static let CheatDeathInvalid = "CORE_LOOT_204"
+        static let PlagiarizeInvalid = "CORE_SCH_706"
     }
 }
 
@@ -240,12 +244,12 @@ extension CardIds.Secrets {
         static let All = [Ambush, Bamboozle, CheatDeath, DirtyTricks, Evasion, Plagiarize,
                           ShadowClone, Shenanigans, SuddenBetrayal, DoubleCross, Kidnap,
                           StickySituation, Perjury]
-        static let Ambush = MultiIdCard(CardIds.Collectible.Rogue.Ambush)
+        static let Ambush = MultiIdCard(CardIds.Collectible.Rogue.Ambush, CardIds.Collectible.Rogue.AmbushInvalid)
         static let Bamboozle = MultiIdCard(CardIds.Collectible.Rogue.Bamboozle)
-        static let CheatDeath = MultiIdCard(CardIds.Collectible.Rogue.CheatDeath)
+        static let CheatDeath = MultiIdCard(CardIds.Collectible.Rogue.CheatDeath, CardIds.Collectible.Rogue.CheatDeathInvalid)
         static let DirtyTricks = MultiIdCard(CardIds.Collectible.Rogue.DirtyTricks)
         static let Evasion = MultiIdCard(CardIds.Collectible.Rogue.Evasion)
-        static let Plagiarize = MultiIdCard(CardIds.Collectible.Rogue.Plagiarize)
+        static let Plagiarize = MultiIdCard(CardIds.Collectible.Rogue.Plagiarize, CardIds.Collectible.Rogue.PlagiarizeInvalid)
         static let ShadowClone = MultiIdCard(CardIds.Collectible.Rogue.ShadowClone)
         static let Shenanigans = MultiIdCard(CardIds.Collectible.Rogue.Shenanigans)
         static let SuddenBetrayal = MultiIdCard(CardIds.Collectible.Rogue.SuddenBetrayal)
