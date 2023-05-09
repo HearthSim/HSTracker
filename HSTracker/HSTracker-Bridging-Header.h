@@ -26,6 +26,9 @@
 #include <mono/metadata/mono-config.h>
 #include <mono/metadata/debug-helpers.h>
 #include <mono/jit/mono-private-unstable.h>
+#include <mono/metadata/object.h>
+#include <mono/metadata/class.h>
+#include <mono/metadata/appdomain.h>
 
 #include "MonoUtility.h"
 #endif /* HSTracker_Bridging_Header_h */
