@@ -252,30 +252,53 @@ class BobsBuddyInvoker {
                     
                     logger.debug("Running simulations with MaxIterations=\(self.Iterations) and ThreadCount=\(tc)...")
 
-                    let start = DispatchTime.now()
-                    
-                    let task = simulator.simulateMultiThreaded(input: inp, maxIterations: self.Iterations, threadCount: tc, maxDuration: at)
-                    
-                    let tinst = task.get()
-                    let c = mono_object_get_class(tinst)
+                    do {
+                        let start = DispatchTime.now()
+                        
+                        let task = simulator.simulateMultiThreaded(input: inp, maxIterations: self.Iterations, threadCount: tc, maxDuration: at)
+                        
+                        let tinst = task.get()
+                        let c = mono_object_get_class(tinst)
+                        
+                        let mw = MonoHelper.getMethod(c, "Wait", 0)
+                        
+                        let exc = UnsafeMutablePointer<UnsafeMutablePointer<MonoObject>?>.allocate(capacity: 1)
+                        exc[0] = nil
+                        
+                        _ = mono_runtime_invoke(mw, tinst, nil, exc)
 
-                    let mw = MonoHelper.getMethod(c, "Wait", 0)
-                    
-                    _ = mono_runtime_invoke(mw, tinst, nil, nil)
-                    
-                    let mr = MonoHelper.getMethod(c, "get_Result", 0)
-                    let output = mono_runtime_invoke(mr, tinst, nil, nil)
-                    
-                    let top = OutputProxy(obj: output)
-                    
-                    let ellapsed = (DispatchTime.now().uptimeNanoseconds - start.uptimeNanoseconds) / 1_000_000
-                    
-                    logger.debug("----- Simulation Output -----")
-                    logger.debug("Duration=\(ellapsed)ms, ExitCondition=\(top.getMyExitCondition()), Iterations = \(top.simulationCount)")
-                    logger.debug("WinRate=\(top.winRate * 100)% (Lethal=\(top.theirDeathRate * 100)%), TieRate=\(top.tieRate * 100)%, LossRate=\(top.lossRate * 100)% (Lethal=\(top.myDeathRate * 100)%)")
-                    logger.debug("----- End of Output -----")
-                    
-                    result = top
+                        if exc[0] != nil {
+                            let handle = MonoHandle(obj: exc[0])
+                            let str = MonoHelper.toString(obj: handle)
+                            exc.deallocate()
+                            if str.contains("BobsBuddy.UnsupportedInteractionException") {
+                                throw UnsupportedInteraction()
+                            }
+                        }
+                        exc.deallocate()
+                        
+                        let mr = MonoHelper.getMethod(c, "get_Result", 0)
+                        let output = mono_runtime_invoke(mr, tinst, nil, nil)
+                        
+                        let top = OutputProxy(obj: output)
+                        
+                        let ellapsed = (DispatchTime.now().uptimeNanoseconds - start.uptimeNanoseconds) / 1_000_000
+                        
+                        logger.debug("----- Simulation Output -----")
+                        logger.debug("Duration=\(ellapsed)ms, ExitCondition=\(top.getMyExitCondition()), Iterations = \(top.simulationCount)")
+                        logger.debug("WinRate=\(top.winRate * 100)% (Lethal=\(top.theirDeathRate * 100)%), TieRate=\(top.tieRate * 100)%, LossRate=\(top.lossRate * 100)% (Lethal=\(top.myDeathRate * 100)%)")
+                        logger.debug("----- End of Output -----")
+                        
+                        result = top
+                    } catch is UnsupportedInteraction {
+                        logger.debug("Unsupported interaction")
+                        BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .unsupportedInteraction)
+                        result = nil
+                    } catch {
+                        logger.error("Unknown error")
+                        BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .none)
+                        result = nil
+                    }
                 } else {
                     logger.error("No input")
                 }
@@ -528,6 +551,7 @@ class BobsBuddyInvoker {
             minion.cleave = true
         }
         minion.poisonous = ent.has(tag: GameTag.poisonous)
+        minion.venomous = ent.has(tag: GameTag.venomous)
         minion.windfury = ent.has(tag: GameTag.windfury)
         minion.megaWindfury = ent.has(tag: GameTag.mega_windfury) || cardIdsWithMegaWindfury.contains(cardId)
         minion.stealth = ent.has(tag: .stealth)
@@ -536,6 +560,7 @@ class BobsBuddyInvoker {
         minion.golden = golden
         minion.tier = Int32(ent[GameTag.tech_level])
         minion.reborn = ent.has(tag: GameTag.reborn)
+        minion.scriptDataNum1 = Int32(ent[.tag_script_data_num_1])
         
         let dbfId = ent.card.dbfId
         let m1 = ent[.modular_entity_part_1]
@@ -657,7 +682,8 @@ class BobsBuddyInvoker {
         var oHpData = opponentHeroPower?[.tag_script_data_num_1] ?? 0
         
         if opponentHeroPower?.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_RapidReanimation {
-            let ench = game.opponent.playerEntities.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_ImpendingDeath && (x.isInPlay || x.isInSetAside) })
+            // It appear this enchantment may be in the graveyard now in the opponents case
+            let ench = game.opponent.playerEntities.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_ImpendingDeath && (x.isInPlay || x.isInSetAside) }) ?? game.opponent.graveyard.last(where: { x in x.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_ImpendingDeath })
             let target = ench?[.attached] ?? 0
             if target > 0 {
                 oHpData = target
@@ -707,9 +733,6 @@ class BobsBuddyInvoker {
             MonoHelper.addToList(list: opponentQuests, element: questData)
         }
 
-        input.setPlayerHandSize(value: Int32(game.player.handCount))
-        input.setOpponentHandSize(value: Int32(game.opponent.handCount))
-        
         let secrets: [Int] = game.player.secrets.map({ $0.card.dbfId })
         
         let playerSecrets = input.playerSecrets
@@ -732,6 +755,20 @@ class BobsBuddyInvoker {
         for m in playerSide {
             MonoHelper.addToList(list: inputPlayerSide, element: m)
         }
+        
+        let playerHand = input.playerHand
+        
+        for e in game.player.hand {
+            if e.isMinion {
+                MonoHelper.addToList(list: playerHand, element: MinionCardEntityProxy(minion: BobsBuddyInvoker.getMinionFromEntity(minionFactory: factory, player: true, ent: e, attachedEntities: BobsBuddyInvoker.getAttachedEntities(game: game, entityId: e.id))))
+            } else if e.cardId == CardIds.NonCollectible.Neutral.BloodGem1 {
+                MonoHelper.addToList(list: playerHand, element: BloodGemProxy())
+            } else if e.isSpell {
+                MonoHelper.addToList(list: playerHand, element: SpellCardEntityProxy())
+            } else {
+                MonoHelper.addToList(list: playerHand, element: CardEntityProxy(id: e.cardId))
+            }
+        }
 
         let opponentSide = BobsBuddyInvoker.getOrderedMinions(board: game.opponent.board).filter { e in e.isControlled(by: game.opponent.id) }.map { BobsBuddyInvoker.getMinionFromEntity(minionFactory: factory, player: false, ent: $0, attachedEntities: BobsBuddyInvoker.getAttachedEntities(game: game, entityId: $0.id))}
         opponentMinions = opponentSide
@@ -739,6 +776,22 @@ class BobsBuddyInvoker {
             MonoHelper.addToList(list: inputOpponentSide, element: m)
         }
         
+        let opponentHand = input.opponentHand
+        
+        for e in game.opponent.hand {
+            if e.isMinion {
+                MonoHelper.addToList(list: opponentHand, element: MinionCardEntityProxy(minion: BobsBuddyInvoker.getMinionFromEntity(minionFactory: factory, player: true, ent: e, attachedEntities: BobsBuddyInvoker.getAttachedEntities(game: game, entityId: e.id))))
+            } else if e.cardId == CardIds.NonCollectible.Neutral.BloodGem1 {
+                MonoHelper.addToList(list: opponentHand, element: BloodGemProxy())
+            } else if e.isSpell {
+                MonoHelper.addToList(list: opponentHand, element: SpellCardEntityProxy())
+            } else if !e.cardId.isEmpty {
+                MonoHelper.addToList(list: opponentHand, element: CardEntityProxy(id: e.cardId))
+            } else {
+                MonoHelper.addToList(list: opponentHand, element: UnknownCardEntityProxy())
+            }
+        }
+
         let playerAttached = BobsBuddyInvoker.getAttachedEntities(game: game, entityId: game.playerEntity?.id ?? -1)
         let pEternalLegion = playerAttached.first { x in x.cardId == CardIds.NonCollectible.Neutral.EternalKnight_EternalKnightPlayerEnchant }
         if let pEternalLegion { 
@@ -760,7 +813,15 @@ class BobsBuddyInvoker {
         }
 
         logger.info("pEternal=\(input.playerEternalKnightCounter), pUndead=\(input.playerUndeadAttackBonus) | oEternal=\(input.opponentEternalKnightCounter), oUndead=\(input.opponentUndeadAttackBonus)")
+        
+        input.playerBloodGemAtkBuff = Int32(game.playerEntity?[.bacon_bloodgembuffatkvalue] ?? 0)
+        input.playerBloodGemHealthBuff = Int32(game.playerEntity?[.bacon_bloodgembuffhealthvalue] ?? 0)
+        input.opponentBloodGemAtkBuff = Int32(game.opponentEntity?[.bacon_bloodgembuffatkvalue] ?? 0)
+        input.opponentBloodGemHealthBuff = Int32(game.opponentEntity?[.bacon_bloodgembuffhealthvalue] ?? 0)
+        
+        logger.info("pBloodGem=+\(input.playerBloodGemAtkBuff)/+\(input.playerBloodGemHealthBuff), oBloodGem=\(input.opponentBloodGemAtkBuff)/+\(input.opponentBloodGemHealthBuff)");
 
+        
         self.input = input
         self._turn = turn
     }

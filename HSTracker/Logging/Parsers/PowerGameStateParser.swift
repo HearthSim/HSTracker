@@ -538,7 +538,7 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.FishyFlyer_SpectralFlyerToken)
                         case CardIds.Collectible.Neutral.SmugSenior:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.SmugSenior_SpectralSeniorToken)
-                        case CardIds.Collectible.Rogue.Plagiarize:
+                        case CardIds.Collectible.Rogue.Plagiarize, CardIds.Collectible.Rogue.PlagiarizeCore:
                             if let actionEntity = actionStartingEntity {
                                 let player = actionEntity.isControlled(by: eventHandler.player.id) ? eventHandler.opponent : eventHandler.player
                                 for card in player!.cardsPlayedThisTurn {
@@ -791,6 +791,9 @@ class PowerGameStateParser: LogEventParser {
                         case CardIds.Collectible.Druid.KiriChosenOfElune:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Druid.LunarEclipse)
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Druid.SolarEclipse)
+                        case CardIds.Collectible.Druid.KiriChosenOfEluneCore:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Druid.LunarEclipseCore)
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Druid.SolarEclipseCore)
                         case CardIds.NonCollectible.Neutral.CThuntheShattered_EyeOfCthunToken,
                              CardIds.NonCollectible.Neutral.CThuntheShattered_HeartOfCthunToken,
                              CardIds.NonCollectible.Neutral.CThuntheShattered_BodyOfCthunToken,

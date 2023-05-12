@@ -17,4 +17,5 @@ enum BobsBuddyErrorState: Int {
     case failedToLoad
     case monoNotFound
     case unsupportedCards
+    case unsupportedInteraction
 }

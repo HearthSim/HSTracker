@@ -74,7 +74,7 @@ class MinionFactoryProxy: MonoHandle, MonoClassInitializer {
 
         var arr: [String] = []
         
-        for i in 0...len-1 {
+        for i in 0 ..< len {
             let addr = mono_array_addr_with_size(opaque, 8, i)
             
             addr?.withMemoryRebound(to: UnsafeMutablePointer<MonoObject>.self, capacity: 1, {

@@ -135,6 +135,7 @@ extension CardIds.Collectible {
         static let Ambush = "BT_707"
         static let DirtyTricks = "BT_709"
         static let Plagiarize = "SCH_706"
+        static let PlagiarizeCore = "CORE_SCH_706"
         static let ShadowClone = "DMF_513"
         static let Waxadred = "DRG_036"
         static let Akama = "BT_713"

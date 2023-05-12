@@ -230,6 +230,7 @@
 "Show Previous Combat" = "Show Previous Combat";
 "Awaiting Shopping Phase" = "Awaiting Shopping Phase";
 "BobsBuddyStatusMessage_UnsupportedCards" = "Found unsupported cards";
+"BobsBuddyStatusMessage_UnsupportedInteraction" = "Unsupported Interaction";
 
 /* Battlegrounds */
 "Turn" = "Turn";

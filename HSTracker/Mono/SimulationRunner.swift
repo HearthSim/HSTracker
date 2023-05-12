@@ -8,6 +8,10 @@
 
 import Foundation
 
+struct UnsupportedInteraction: Error {
+    
+}
+
 class SimulationRunnerProxy: MonoHandle, MonoClassInitializer {
     static var _class: OpaquePointer?
     

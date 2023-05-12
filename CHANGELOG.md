@@ -1,7 +1,7 @@
 # 2.4.3
 ## New
 - Updated for patch 26.2
-**Notes**: BobsBuddy simulation is not integrated yet, so results will be incorrect until that gets fixed.
+**Notes**: BobsBuddy simulation still has some issues and unsupported interactions
 
 # 2.4.2
 ## New

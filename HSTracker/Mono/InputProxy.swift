@@ -16,8 +16,6 @@ class InputProxy: MonoHandle, MonoClassInitializer {
     static var _setTurn: OpaquePointer!
     static var _addSecretFromDbfid: OpaquePointer!
     static var _unitTest: OpaquePointer!
-    static var _setPlayerHandSize: OpaquePointer!
-    static var _setOpponentHandSize: OpaquePointer!
     static var _setPlayerHeroPower: OpaquePointer!
     static var _setOpponentHeroPower: OpaquePointer!
     static var _playerQuests: OpaquePointer!
@@ -34,14 +32,12 @@ class InputProxy: MonoHandle, MonoClassInitializer {
             InputProxy._setTiers = MonoHelper.getMethod(InputProxy._class, "SetTiers", 2)
             InputProxy._setTurn = MonoHelper.getMethod(InputProxy._class, "SetTurn", 1)
             InputProxy._addSecretFromDbfid = MonoHelper.getMethod(InputProxy._class, "AddSecretFromDbfid", 2)
-            InputProxy._setPlayerHandSize = MonoHelper.getMethod(InputProxy._class, "SetPlayerHandSize", 1)
-            InputProxy._setOpponentHandSize = MonoHelper.getMethod(InputProxy._class, "SetOpponentHandSize", 1)
             InputProxy._unitTest = MonoHelper.getMethod(InputProxy._class, "UnitTestCopyableVersion", 0)
             InputProxy._setPlayerHeroPower = MonoHelper.getMethod(InputProxy._class, "SetPlayerHeroPower", 3)
             InputProxy._setOpponentHeroPower = MonoHelper.getMethod(InputProxy._class, "SetOpponentHeroPower", 3)
             
             // fields
-            initializeFields(fields: [ "opponentSide", "playerSide", "PlayerSecrets", "OpponentSecrets", "DamageCap", "PlayerHeroPower", "OpponentHeroPower", "PlayerHeroPower", "PlayerQuests", "OpponentQuests", "PlayerUndeadAttackBonus", "OpponentUndeadAttackBonus", "PlayerEternalKnightCounter", "OpponentEternalKnightCounter" ])
+            initializeFields(fields: [ "opponentSide", "playerSide", "PlayerSecrets", "OpponentSecrets", "DamageCap", "PlayerHeroPower", "OpponentHeroPower", "PlayerHeroPower", "PlayerQuests", "OpponentQuests", "PlayerUndeadAttackBonus", "OpponentUndeadAttackBonus", "PlayerEternalKnightCounter", "OpponentEternalKnightCounter", "PlayerHand", "OpponentHand", "PlayerBloodGemAtkBuff", "PlayerBloodGemHealthBuff", "OpponentBloodGemAtkBuff", "OpponentBloodGemHealthBuff" ])
         }
     }
     
@@ -74,19 +70,11 @@ class InputProxy: MonoHandle, MonoClassInitializer {
     func setTiers(player: Int32, opponent: Int32) {
         MonoHelper.setIntInt(obj: self, method: InputProxy._setTiers, v1: player, v2: opponent)
     }
-
+    
     func setTurn(value: Int32) {
         MonoHelper.setInt(obj: self, method: InputProxy._setTurn, value: value)
     }
     
-    func setPlayerHandSize(value: Int32) {
-        MonoHelper.setInt(obj: self, method: InputProxy._setPlayerHandSize, value: value)
-    }
-    
-    func setOpponentHandSize(value: Int32) {
-        MonoHelper.setInt(obj: self, method: InputProxy._setOpponentHandSize, value: value)
-    }
-
     func addAvailableRaces(races: [Race]) {
         let field = mono_class_get_field_from_name(InputProxy._class, "availableRaces")
         let inst = get()
@@ -96,9 +84,9 @@ class InputProxy: MonoHandle, MonoClassInitializer {
         let method = mono_class_get_method_from_name(clazz, "Add", 1)
         
         let params = UnsafeMutablePointer<UnsafeMutablePointer<Int>>.allocate(capacity: 1)
-
+        
         let a = UnsafeMutablePointer<Int>.allocate(capacity: 1)
-
+        
         for i in 0..<races.count {
             let v = Race.allCases.firstIndex(of: races[i])
             
@@ -124,12 +112,12 @@ class InputProxy: MonoHandle, MonoClassInitializer {
     func setOpponentHeroPower(heroPowerCardId: String, isActivated: Bool, data: Int32) {
         MonoHelper.setStringBoolInt(obj: self, method: InputProxy._setOpponentHeroPower, v1: heroPowerCardId, v2: isActivated, v3: data)
     }
-
+    
     func unitestCopyableVersion() -> String {
         let inst = self.get()
-
+        
         let temp = MonoHandle(obj: mono_runtime_invoke(InputProxy._unitTest, inst, nil, nil))
-
+        
         return MonoHelper.toString(obj: temp)
     }
     
@@ -138,25 +126,25 @@ class InputProxy: MonoHandle, MonoClassInitializer {
     
     @MonoHandleField(field: "PlayerHeroPower", owner: InputProxy.self)
     var playerHeroPower: HeroPowerDataProxy
-
+    
     @MonoHandleField(field: "opponentSide", owner: InputProxy.self)
     var opponentSide: MonoHandle
-
+    
     @MonoHandleField(field: "playerSide", owner: InputProxy.self)
     var playerSide: MonoHandle
     
     @MonoPrimitiveField(field: "DamageCap", owner: InputProxy.self)
     var damageCap: Int32
-
+    
     @MonoHandleField(field: "PlayerSecrets", owner: InputProxy.self)
     var playerSecrets: MonoHandle
-
+    
     @MonoHandleField(field: "OpponentSecrets", owner: InputProxy.self)
     var opponentSecrets: MonoHandle
     
     @MonoHandleField(field: "PlayerQuests", owner: InputProxy.self)
     var playerQuests: MonoHandle
-
+    
     @MonoHandleField(field: "OpponentQuests", owner: InputProxy.self)
     var opponentQuests: MonoHandle
     
@@ -171,4 +159,22 @@ class InputProxy: MonoHandle, MonoClassInitializer {
     
     @MonoPrimitiveField(field: "OpponentUndeadAttackBonus", owner: InputProxy.self)
     var opponentUndeadAttackBonus: Int32
+    
+    @MonoHandleField(field: "OpponentHand", owner: InputProxy.self)
+    var opponentHand: MonoHandle
+    
+    @MonoHandleField(field: "PlayerHand", owner: InputProxy.self)
+    var playerHand: MonoHandle
+    
+    @MonoPrimitiveField(field: "PlayerBloodGemAtkBuff", owner: InputProxy.self)
+    var playerBloodGemAtkBuff: Int32
+    
+    @MonoPrimitiveField(field: "PlayerBloodGemHealthBuff", owner: InputProxy.self)
+    var playerBloodGemHealthBuff: Int32
+    
+    @MonoPrimitiveField(field: "OpponentBloodGemAtkBuff", owner: InputProxy.self)
+    var opponentBloodGemAtkBuff: Int32
+    
+    @MonoPrimitiveField(field: "OpponentBloodGemHealthBuff", owner: InputProxy.self)
+    var opponentBloodGemHealthBuff: Int32
 }

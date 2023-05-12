@@ -371,6 +371,7 @@ enum GameTag: Int, WrappableEnum, CaseIterable, Codable {
     fake_zone_position = 1703,
     tradeable = 1720,
     questline = 1725,
+    bacon_bloodgembuffatkvalue = 1844,
     lettuce_is_equipment = 1855,
     questline_part = 1993,
     dont_show_in_history = 2015,
@@ -385,7 +386,9 @@ enum GameTag: Int, WrappableEnum, CaseIterable, Codable {
     bacon_hero_quest_reward_database_id = 2713,
     bacon_hero_heropower_quest_reward_database_id = 2714,
     bacon_hero_quest_reward_completed = 2715,
-    bacon_hero_heropower_quest_reward_completed = 2716
+    bacon_hero_heropower_quest_reward_completed = 2716,
+    bacon_bloodgembuffhealthvalue = 2827,
+    venomous = 2853
 
     static var lookup = [String: GameTag]()
     

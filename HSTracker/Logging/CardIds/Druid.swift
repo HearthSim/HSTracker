@@ -141,6 +141,9 @@ extension CardIds.Collectible {
         static let VibrantSquirrel = "SW_439"
         static let AzsharanGardens = "TSC_927"
         static let Bottomfeeder = "TSC_653"
+        static let KiriChosenOfEluneCore = "CORE_DMF_733"
+        static let LunarEclipseCore = "CORE_DMF_057"
+        static let SolarEclipseCore = "CORE_DMF_058"
     }
 }
 

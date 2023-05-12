@@ -269,7 +269,12 @@ class MonoHelper {
                                                             QuestDataProxy.self,
                                                             ReplicatingMenace.self,
                                                             SimulatorProxy.self,
-                                                            SimulationRunnerProxy.self ]
+                                                            SimulationRunnerProxy.self,
+                                                            CardEntityProxy.self,
+                                                            BloodGemProxy.self,
+                                                            SpellCardEntityProxy.self,
+                                                            UnknownCardEntityProxy.self,
+                                                            MinionCardEntityProxy.self ]
     
     static func initialize() {
         for cl in monoClasses {
@@ -384,28 +389,29 @@ class MonoHelper {
             
             test.setOpponentHeroPower(heroPowerCardId: "TB_BaconShop_HP_061", isActivated: true, data: 0)
             test.setPlayerHeroPower(heroPowerCardId: "TB_BaconShop_HP_043", isActivated: false, data: 0)
-
+            
             let ps = test.playerSide
             let os = test.opponentSide
             let factory = sim.minionFactory
-
+            
             MonoHelper.addToList(list: ps, element: factory.createFromCardid(id: "UNG_073", player: true))
             MonoHelper.addToList(list: ps, element: factory.createFromCardid(id: "UNG_073", player: true))
             MonoHelper.addToList(list: ps, element: factory.createFromCardid(id: "EX1_506a", player: true))
             MonoHelper.addToList(list: ps, element: factory.createFromCardid(id: "EX1_506a", player: true))
-
-            MonoHelper.addToList(list: ps, element: factory.createFromCardid(id: "UNG_073", player: false))
-            MonoHelper.addToList(list: ps, element: factory.createFromCardid(id: "EX1_506", player: false))
+            
+            MonoHelper.addToList(list: os, element: factory.createFromCardid(id: "BG26_801", player: false))
+            MonoHelper.addToList(list: os, element: factory.createFromCardid(id: "UNG_073", player: false))
+            MonoHelper.addToList(list: os, element: factory.createFromCardid(id: "EX1_506", player: false))
             let murloc = factory.createFromCardid(id: "EX1_506a", player: false)
             murloc.poisonous = true
             logger.debug("Murloc poisonous property \(murloc.poisonous), name \(murloc.minionName)")
             MonoHelper.addToList(list: os, element: murloc)
-
+            
             let playerSecrets = test.playerSecrets
             test.addSecretFromDbfid(id: Int32(Cards.any(byId: "TB_Bacon_Secrets_12")?.dbfId ?? 0), target: playerSecrets)
             logger.debug("Opponent HP \(test.opponentHeroPower.cardId)")
-//            let oppSecrets = test.getOpponentSecrets()
-//            test.addSecretFromDbfid(id: Int32(Cards.any(byId: "TB_Bacon_Secrets_02")?.dbfId ?? 0), target: oppSecrets)
+            //            let oppSecrets = test.getOpponentSecrets()
+            //            test.addSecretFromDbfid(id: Int32(Cards.any(byId: "TB_Bacon_Secrets_02")?.dbfId ?? 0), target: oppSecrets)
             let races: [Race] = [ Race.beast, Race.mechanical, Race.dragon, Race.murloc ]
             
             test.addAvailableRaces(races: races)

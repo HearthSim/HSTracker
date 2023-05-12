@@ -715,6 +715,7 @@ extension CardIds.NonCollectible {
         static let TeronGorefiend_ImpendingDeath = "BG25_HERO_103pe"
         static let PozzikAudioEngineer_AudioBotToken = "ETC_425t"
         static let KingMukla_BananasToken = "EX1_014t"
+        static let BloodGem1 = "BG20_GEM"
     }
 }
 

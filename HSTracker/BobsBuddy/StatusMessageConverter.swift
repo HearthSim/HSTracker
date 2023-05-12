@@ -25,6 +25,8 @@ class StatusMessageConverter {
             //case .updateRequired:
             case .unsupportedCards:
                 return NSLocalizedString("Found unsupported cards", comment: "")
+            case .unsupportedInteraction:
+                return NSLocalizedString("BobsBuddyStatusMessage_UnsupportedInteraction", comment: "")
             default:
                 return NSLocalizedString("Unknown error", comment: "")
             }
