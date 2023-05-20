@@ -1,3 +1,7 @@
+# 2.4.4
+## New
+- Updated for path 26.2.2
+
 # 2.4.3
 ## New
 - Updated for patch 26.2
