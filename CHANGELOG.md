@@ -1,3 +1,12 @@
+# 2.4.5
+## New
+- Updated for Hearthstone 26.4.0
+
+## Bob's Buddy:
+
+- Added support for many Battlecry interactions with Rylak Metalhead
+- Fixed various issues related to cards and mechanics added with Hearthstone 26.2.0.
+
 # 2.4.4
 ## New
 - Updated for path 26.2.2

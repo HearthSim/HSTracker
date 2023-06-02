@@ -61,7 +61,7 @@ class BattlegroundsHeroPickingViewModel: ViewModel {
             if let selectedHeroIndex {
                 let direction = (selectedHeroIndex >= heroStats.count / 2) ? -1 : 1
                 for i in 0 ..< heroStats.count {
-                    heroStats[i].setHiddenByHeroPower(i == selectedHeroIndex + direction || i == selectedHeroIndex + 2 * direction)
+                    heroStats[i].setHiddenByHeroPower(i == selectedHeroIndex + direction)
                 }
             } else {
                 for i in 0 ..< heroStats.count {

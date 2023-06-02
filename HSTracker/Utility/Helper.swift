@@ -35,4 +35,27 @@ struct Helper {
         let pn = floor(Double(n) / divisor) * divisor
         return Int(pn)
     }
+    
+    static func ensureClientLogConfig() -> Bool {
+        let targetContent = "[Log]\nFileSizeLimit.Int=-1"
+        let path = "\(Settings.hearthstonePath)client.config"
+        if FileManager.default.fileExists(atPath: path) {
+            if let content = FileManager.default.contents(atPath: path), let utf = String(data: content, encoding: .utf8) {
+                if utf == targetContent {
+                    logger.info("client.config is up-to-date")
+                    return true
+                }
+            }
+        }
+
+        // This probably need to be more lenient in the future and allow other file content
+        logger.info("Updating client.config")
+        do {
+            try FileManager.default.removeItem(atPath: path)
+        }
+        catch {
+        }
+        FileManager.default.createFile(atPath: path, contents: targetContent.data(using: .utf8))
+        return false
+    }
 }

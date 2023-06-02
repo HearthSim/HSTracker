@@ -82,6 +82,8 @@
 "Failed to upload Mercenaries collection: %@" = "Failed to upload Mercenaries collection: %@";
 "A new update is available" = "A new update is available";
 "Version %@ is now available" = "Version %@ is now available";
+"Hearthstone restart required!" = "Hearthstone restart required!";
+"Please restart Hearthstone" = "Please restart Hearthstone";
 
 /* classes */
 "shaman" = "Shaman";

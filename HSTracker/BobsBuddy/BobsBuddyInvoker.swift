@@ -668,7 +668,7 @@ class BobsBuddyInvoker {
         var pHpData = playerHeroPower?[.tag_script_data_num_1] ?? 0
         
         if playerHeroPower?.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_RapidReanimation {
-            let ench = game.player.playerEntities.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_ImpendingDeath && (x.isInPlay || x.isInSetAside) })
+            let ench = game.player.playerEntities.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_ImpendingDeath && (x.isInPlay || x.isInSetAside) }) ?? game.player.graveyard.last(where: { x in x.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_ImpendingDeath })
             let target = ench?[.attached] ?? 0
             if target > 0 {
                 pHpData = target

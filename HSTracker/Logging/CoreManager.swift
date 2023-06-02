@@ -46,7 +46,14 @@ final class CoreManager: NSObject {
         self.game = Game(hearthstoneRunState: HearthstoneRunState(isRunning: CoreManager.isHearthstoneRunning(),
                                                                   isActive: CoreManager.isHearthstoneActive()))
         super.init()
-		logReaderManager = LogReaderManager(logPath: Settings.hearthstonePath, coreManager: self)
+        
+        let ok = Helper.ensureClientLogConfig()
+        if CoreManager.isHearthstoneRunning() && !ok {
+            NotificationManager.showNotification(type: .restartRequired)
+        }
+        
+        let logPath = MirrorHelper.getLogSessionDir()
+        logReaderManager = LogReaderManager(logPath: logPath, coreManager: self)
         
         self.toaster = Toaster(windowManager: game.windowManager)
         
@@ -260,6 +267,11 @@ final class CoreManager: NSObject {
         let time = DispatchTime.now() + .seconds(1)
         DispatchQueue.main.asyncAfter(deadline: time) { [unowned(unsafe) self] in
             logger.info("Start Tracking")
+            if self.logReaderManager.running {
+                self.logReaderManager.stop(eraseLogFile: !CoreManager.isHearthstoneRunning())
+            }
+            let logPath = MirrorHelper.getLogSessionDir()
+            self.logReaderManager = LogReaderManager(logPath: logPath, coreManager: self)
             self.logReaderManager.start()
         }
     }
@@ -310,6 +322,9 @@ final class CoreManager: NSObject {
         if let app = notification.userInfo!["NSWorkspaceApplicationKey"] as? NSRunningApplication,
             app.localizedName == CoreManager.applicationName {
             logger.verbose("Hearthstone is now launched")
+            if !Helper.ensureClientLogConfig() {
+                NotificationManager.showNotification(type: .restartRequired)
+            }
             self.startTracking()
             self.game.setHearthstoneRunning(flag: true)
             ExperienceWatcher._instance.startWatching()

@@ -19,7 +19,7 @@ class BrukanInvocationDeathrattles: MonoClassInitializer {
 
     static func initialize() {
         if BrukanInvocationDeathrattles._class == nil {
-            BrukanInvocationDeathrattles._class = MonoHelper.loadClass(ns: "BobsBuddy", name: "BrukanInvocationDeathrattleActions")
+            BrukanInvocationDeathrattles._class = MonoHelper.loadClass(ns: "BobsBuddy.HeroPowers", name: "BrukanInvocationDeathrattleActions")
             mono_class_init(BrukanInvocationDeathrattles._class)
             _earth = MonoHelper.getField(BrukanInvocationDeathrattles._class, "Earth")
             _fire = MonoHelper.getField(BrukanInvocationDeathrattles._class, "Fire")

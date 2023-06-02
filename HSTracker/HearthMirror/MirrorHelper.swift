@@ -48,8 +48,9 @@ struct MirrorHelper {
 		// waiting for mirror to be up and running
         var attempts = 0
 		while attempts < 3 {
-			if let battleTag = mirror.getBattleTag() {
+            if let battleTag = mirror.getBattleTag(), let logDir = mirror.getLogSessionDir(), !logDir.isEmpty {
 				logger.verbose("Getting BattleTag from HearthMirror : \(battleTag)")
+                logger.verbose("Log directory: \(logDir)")
 				return mirror
 			} else {
 				// mirror might be partially initialized, reset
@@ -419,5 +420,13 @@ struct MirrorHelper {
             result = mirror?.isFriendsListVisible()
         }
         return result ?? false
+    }
+    
+    static func getLogSessionDir() -> String {
+        var result: String?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getLogSessionDir()
+        }
+        return result ?? ""
     }
 }

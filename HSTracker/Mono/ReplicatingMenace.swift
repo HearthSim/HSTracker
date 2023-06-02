@@ -16,7 +16,7 @@ class ReplicatingMenace: MonoClassInitializer {
     
     static func initialize() {
         if ReplicatingMenace._class == nil {
-            ReplicatingMenace._class = MonoHelper.loadClass(ns: "BobsBuddy", name: "ReplicatingMenace")
+            ReplicatingMenace._class = MonoHelper.loadClass(ns: "BobsBuddy.Minions.Mech", name: "ReplicatingMenace")
             ReplicatingMenace._deathrattle = MonoHelper.getMethod(ReplicatingMenace._class, "Deathrattle", 1)
         }
     }
