@@ -261,18 +261,35 @@ final class CoreManager: NSObject {
 
         return true
     }
+    
+    private func internalStartTracking() {
+        var retry = true
+        if CoreManager.isHearthstoneRunning() {
+            let logPath = MirrorHelper.getLogSessionDir()
+            if !logPath.isEmpty {
+                logger.info("Starting log reader with path \(logPath)")
+                self.logReaderManager = LogReaderManager(logPath: logPath, coreManager: self)
+                self.logReaderManager.start()
+                retry = false
+            }
+        }
+        if retry {
+            let time = DispatchTime.now() + .seconds(1)
+            DispatchQueue.main.asyncAfter(deadline: time) {
+                self.internalStartTracking()
+            }
+        }
+    }
 
     func startTracking() {
 		// Starting logreaders after short delay is as game might be still in loading state
         let time = DispatchTime.now() + .seconds(1)
-        DispatchQueue.main.asyncAfter(deadline: time) { [unowned(unsafe) self] in
+        DispatchQueue.main.asyncAfter(deadline: time) {
             logger.info("Start Tracking")
             if self.logReaderManager.running {
                 self.logReaderManager.stop(eraseLogFile: !CoreManager.isHearthstoneRunning())
             }
-            let logPath = MirrorHelper.getLogSessionDir()
-            self.logReaderManager = LogReaderManager(logPath: logPath, coreManager: self)
-            self.logReaderManager.start()
+            self.internalStartTracking()
         }
     }
 

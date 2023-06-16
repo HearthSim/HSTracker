@@ -38,7 +38,7 @@ struct Helper {
     
     static func ensureClientLogConfig() -> Bool {
         let targetContent = "[Log]\nFileSizeLimit.Int=-1"
-        let path = "\(Settings.hearthstonePath)client.config"
+        let path = URL(fileURLWithPath: Settings.hearthstonePath).appendingPathComponent("client.config", isDirectory: false).path
         if FileManager.default.fileExists(atPath: path) {
             if let content = FileManager.default.contents(atPath: path), let utf = String(data: content, encoding: .utf8) {
                 if utf == targetContent {

@@ -1,3 +1,9 @@
+# 2.4.6
+## New
+- Updated for Hearthstone 26.4.3
+## Fixes
+- Improve handling of Hearthstone log directory
+
 # 2.4.5
 ## New
 - Updated for Hearthstone 26.4.0
