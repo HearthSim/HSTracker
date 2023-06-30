@@ -180,6 +180,8 @@ class DeckManager: NSWindowController {
             return !deck.isWildDeck
         case .classic:
             return deck.isClassicDeck
+        case .twist:
+            return deck.isTwistDeck
         }
     }
     

@@ -96,6 +96,10 @@ final class Card {
             cc == cardClass
         }) != nil
     }
+    
+    func isNeutral() -> Bool {
+        return playerClass == .neutral && multiClassGroup == .invalid
+    }
 
     static let pluralRegex = Regex("\\$(\\d+) \\|4\\((\\w+),(\\w+)\\)")
 

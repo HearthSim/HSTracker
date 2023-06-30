@@ -147,6 +147,7 @@
 "RETURN_OF_THE_LICH_KING" = "March of the Lich King";
 "PATH_OF_ARTHAS" = "Path of Arthas";
 "BATTLE_OF_THE_BANDS" = "Festival of Legends";
+"TITANS" = "Titans";
 
 /* card type */
 "all_types" = "All";
@@ -202,6 +203,7 @@
 "DeckType_dungeon"  = "Dungeon Run";
 "DeckType_duels"    = "Duels";
 "DeckType_classic"  = "Classic";
+"DeckType_twist"    = "Twist";
 
 /* Stats tabs */
 "Statistics" = "Statistics";

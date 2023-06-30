@@ -1700,13 +1700,17 @@ class Game: NSObject, PowerEventHandler {
 		if let matchInfo = self.matchInfo, self.currentGameMode == .ranked {
 			let wild = self.currentFormat == .wild
             let classic = self.currentFormat == .classic
-			
+            let twist = self.currentFormat == .twist
+            
             if wild {
                 result.playerMedalInfo = matchInfo.localPlayer.wildMedalInfo
                 result.opponentMedalInfo = matchInfo.opposingPlayer.wildMedalInfo
             } else if classic {
                 result.playerMedalInfo = matchInfo.localPlayer.classicMedalInfo
                 result.opponentMedalInfo = matchInfo.opposingPlayer.classicMedalInfo
+            } else if twist {
+                result.playerMedalInfo = matchInfo.localPlayer.twistMedalInfo;
+                result.opponentMedalInfo = matchInfo.opposingPlayer.twistMedalInfo;
             } else {
                 result.playerMedalInfo = matchInfo.localPlayer.standardMedalInfo
                 result.opponentMedalInfo = matchInfo.opposingPlayer.standardMedalInfo
@@ -2269,10 +2273,11 @@ class Game: NSObject, PowerEventHandler {
                     let hasCoin = player.hasCoin
                     let isWild = currentFormat == .wild
                     let isClassic = currentFormat == .classic
+                    let isTwist = currentFormat == .twist
                     var playerStarLevel = 0
                     if let matchInfo = matchInfo {
                         let localPlayer = matchInfo.localPlayer
-                        let playerInfo = isClassic ? localPlayer.classicMedalInfo : isWild ? localPlayer.wildMedalInfo : localPlayer.standardMedalInfo
+                        let playerInfo = isClassic ? localPlayer.classicMedalInfo : isWild ? localPlayer.wildMedalInfo : isTwist ? localPlayer.twistMedalInfo : localPlayer.standardMedalInfo
                         playerStarLevel = playerInfo.starLevel
                     }
                     let sid = ShortIdHelper.getShortId(deck: currentDeck)

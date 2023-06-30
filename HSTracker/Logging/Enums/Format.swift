@@ -13,7 +13,8 @@ enum Format: String {
     all,
     standard,
     wild,
-    classic
+    classic,
+    twist
 
     init(formatType: FormatType) {
         switch formatType {
@@ -23,6 +24,8 @@ enum Format: String {
             self = .standard
         case .ft_classic:
             self = .classic
+        case .ft_twist:
+            self = .twist
         default:
             self = .unknown
         }
@@ -36,6 +39,8 @@ enum Format: String {
             return .ft_wild
         case .classic:
             return .ft_classic
+        case .twist:
+            return .ft_twist
         default: return .ft_unknown
         }
     }

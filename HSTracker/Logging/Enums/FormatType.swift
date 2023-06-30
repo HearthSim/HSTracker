@@ -12,5 +12,6 @@ enum FormatType: Int {
     case ft_unknown = 0,
     ft_wild = 1,
     ft_standard = 2,
-    ft_classic = 3
+    ft_classic = 3,
+    ft_twist = 4
 }

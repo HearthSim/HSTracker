@@ -177,11 +177,14 @@ class SecretsManager {
                         remoteData.arena?.exclusive_secrets?.all { s in card != s } ?? true
                     })
                 }
-                if format == .standard {
+                switch format {
+                case .standard:
                     cards = cards.filter { card in card.isStandard }
-                } else if format == .classic {
+                case .classic:
                     cards = cards.filter { card in card.isClassic }
-                } else if format == .wild {
+                case .twist:
+                    cards = cards.filter { card in card.isTwist }
+                default:
                     cards = cards.filter { card in card.isWild }
                 }
             }

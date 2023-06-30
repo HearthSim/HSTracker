@@ -58,7 +58,8 @@ enum CardSet: String, CaseIterable {
     return_of_the_lich_king,
     path_of_arthas,
     battle_of_the_bands,
-    placeholder_202204
+    placeholder_202204,
+    titans
     
     static func deckManagerValidCardSets() -> [CardSet] {
         return [.all, .vanilla, .core, .basic, .expert1, .naxx, .gvg, .brm, .tgt,
@@ -67,7 +68,8 @@ enum CardSet: String, CaseIterable {
                 .dalaran, .uldum, .dragons, .year_of_the_dragon,
                 .black_temple, .demon_hunter_initiate, .scholomance, .darkmoon_faire,
                 .the_barrens, .wailing_caverns, .stormwind, .alterac_valley,
-                .the_sunken_city, .revendreth, .return_of_the_lich_king, .path_of_arthas, .battle_of_the_bands ]
+                .the_sunken_city, .revendreth, .return_of_the_lich_king, .path_of_arthas, .battle_of_the_bands,
+                .titans]
     }
     
     static func wildSets() -> [CardSet] {
@@ -85,6 +87,14 @@ enum CardSet: String, CaseIterable {
     
     static func classicSets() -> [CardSet] {
         return [ .vanilla ]
+    }
+    
+    static func twistSets() -> [CardSet] {
+        return [ .battle_of_the_bands, .return_of_the_lich_king, .path_of_arthas,
+                 .revendreth, .the_sunken_city, .core,
+                 .alterac_valley, .stormwind, .the_barrens,
+                 .darkmoon_faire, .scholomance, .demon_hunter_initiate,
+                 .black_temple]
     }
 }
 
@@ -147,5 +157,6 @@ public enum CardSetInt: Int {
     return_of_the_lich_king = 1776,
     battle_of_bands = 1809,
     placeholder_202204 = 1810,
+    titans = 1858,
     path_of_arthas = 1869
 }

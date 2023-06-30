@@ -148,6 +148,10 @@ class Deck: Object {
         return sortedCards.all { CardSet.classicSets().contains($0.set ?? .invalid) }
     }
     
+    var isTwistDeck: Bool {
+        return sortedCards.all { CardSet.twistSets().contains($0.set ?? .invalid) && !$0.isNeutral() }
+    }
+    
     /**
      * Compares the card content to the other deck
      */

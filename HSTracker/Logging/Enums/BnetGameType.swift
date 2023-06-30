@@ -41,7 +41,10 @@ enum BnetGameType: Int {
     bgt_ranked_classic = 58,
     bgt_casual_classic = 59,
     bgt_mercenaries_pve_coop = 60,
-    bgt_mercenaries_friendly = 61
+    bgt_mercenaries_friendly = 61,
+    bgt_battlegrounds_player_vs_ai = 62,
+    bgt_ranked_twist = 63,
+    bgt_casual_twist = 64
 
     static func getBnetGameType(gameType: GameType, format: Format?) -> BnetGameType {
         switch gameType {
