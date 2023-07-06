@@ -1,3 +1,7 @@
+# 2.4.8
+## New
+- Updated for Hearthstone 2.6.2
+
 # 2.4.7
 ## New
 - Updated for Hearthstone 26.6.0
