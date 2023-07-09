@@ -25,7 +25,7 @@ class MultiIdCard: Hashable, Equatable {
     var isWild: Bool { cards.any({ x in !CardSet.classicSets().contains(x.set ?? .invalid)})}
     var isClassic: Bool { cards.any({ x in CardSet.classicSets().contains(x.set ?? .invalid)})}
     var isStandard: Bool { cards.any({ x in !CardSet.wildSets().contains(x.set ?? .invalid) && !CardSet.classicSets().contains(x.set ?? .invalid)})}
-    var isTwist: Bool { cards.any({ x in !CardSet.twistSets().contains(x.set ?? .invalid) && !x.isNeutral()})}
+    var isTwist: Bool { cards.any({ x in CardSet.twistSets().contains(x.set ?? .invalid)})}
     
     func hasSet(set: CardSet) -> Bool {
         return cards.any { x in x.set == set }
@@ -51,6 +51,8 @@ class MultiIdCard: Hashable, Equatable {
             return getCardForFormat(format: .ft_standard)
         case .classic:
             return getCardForFormat(format: .ft_classic)
+        case .twist:
+            return getCardForFormat(format: .ft_twist)
         default:
             return nil
         }
