@@ -1,3 +1,8 @@
+# 2.4.9
+## Fixes
+- Fixed secrets not showing in Twist mode
+- Add support for Hidden Meaning
+
 # 2.4.8
 ## New
 - Updated for Hearthstone 2.6.2

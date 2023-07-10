@@ -159,6 +159,7 @@ extension CardIds.Collectible {
         static let MisterMukla = "ETC_836"
         static let CatTrickInvalid = "CORE_KAR_004"
         static let WanderingMonsterInvalid = "CORE_LOOT_079"
+        static let HiddenMeaning = "JAM_003"
     }
 }
 
@@ -238,7 +239,7 @@ extension CardIds.Secrets {
         static let All = [BearTrap, DartTrap, ExplosiveTrap, FreezingTrap,
                           HiddenCache, Misdirection, RatTrap, Snipe, SnakeTrap, CatTrick,
                           VenomstrikeTrap, WanderingMonster, PressurePlate, PackTactics,
-                          OpenTheCages, IceTrap, EmergencyManeuvers, MotionDenied]
+                          OpenTheCages, IceTrap, EmergencyManeuvers, MotionDenied, HiddenMeaning]
         static let BearTrap = MultiIdCard(CardIds.Collectible.Hunter.BearTrap)
         static let CatTrick = MultiIdCard(CardIds.Collectible.Hunter.CatTrick, CardIds.Collectible.Hunter.CatTrickInvalid)
         static let DartTrap = MultiIdCard(CardIds.Collectible.Hunter.DartTrap)
@@ -258,5 +259,6 @@ extension CardIds.Secrets {
         static let IceTrap = MultiIdCard(CardIds.Collectible.Hunter.IceTrap)
         static let MotionDenied = MultiIdCard(CardIds.Collectible.Hunter.MotionDenied)
         static let Zombeeees = MultiIdCard(CardIds.Collectible.Hunter.Zombeeees)
+        static let HiddenMeaning = MultiIdCard(CardIds.Collectible.Hunter.HiddenMeaning)
     }
 }

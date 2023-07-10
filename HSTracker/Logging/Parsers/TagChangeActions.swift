@@ -69,7 +69,7 @@ struct TagChangeActions {
             return
         }
         let available = playerEntity[.resources] + playerEntity[.temp_resources]
-        AppDelegate.instance().coreManager.game.secretsManager?.handleManaRemaining(mana: max(0, available - value))
+        AppDelegate.instance().coreManager.game.secretsManager?.handlePlayerManaRemaining(mana: max(0, available - value))
     }
     
     private func rebornChange(eventHandler: PowerEventHandler, id: Int, value: Int) {
@@ -260,9 +260,7 @@ struct TagChangeActions {
         guard eventHandler.setupDone && eventHandler.playerEntity != nil else { return }
         guard let playerEntity = eventHandler.playerEntity else { return }
 
-        let activePlayer: PlayerType = playerEntity.has(tag: .current_player) ? .player : .opponent
-        
-        if activePlayer == .player {
+        if playerEntity.has(tag: .current_player) {
             eventHandler.playerUsedHeroPower = false
         } else {
             eventHandler.opponentUsedHeroPower = false
@@ -274,6 +272,11 @@ struct TagChangeActions {
             eventHandler.handleBeginMulligan()
         }
         eventHandler.handleMercenariesStateChange()
+        if let playerEntity = eventHandler.playerEntity, playerEntity.has(tag: .current_player) && value == Step.main_cleanup.rawValue {
+            let remainingMana = playerEntity[.resources] + playerEntity[.temp_resources] - playerEntity[.resources_used]
+            
+            AppDelegate.instance().coreManager.game.secretsManager?.handlePlayerTurnEnded(mana: remainingMana)
+        }
         guard !eventHandler.setupDone && eventHandler.entities.first?.1.name == "GameEntity" else { return }
 
         logger.info("Game was already in progress.")

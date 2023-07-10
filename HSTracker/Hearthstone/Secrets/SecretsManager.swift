@@ -497,7 +497,13 @@ class SecretsManager {
         }
     }
     
-    func handleManaRemaining(mana: Int) {
+    func handlePlayerTurnEnded(mana: Int) {
+        if mana == 0 {
+            exclude(cardId: CardIds.Secrets.Hunter.HiddenMeaning)
+        }
+    }
+    
+    func handlePlayerManaRemaining(mana: Int) {
         if mana == 0 && freeSpaceInHand {
             exclude(cardId: CardIds.Secrets.Rogue.DoubleCross)
         }
