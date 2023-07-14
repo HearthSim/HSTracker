@@ -57,7 +57,15 @@ struct TagChangeActions {
         case .bacon_hero_heropower_quest_reward_completed: return { self.playerHeroPowerQuestRewardCompleted(eventHandler: eventHandler, id: id, value: value)}
         case .bacon_hero_quest_reward_database_id: return { self.playerHeroQuestRewardDatabaseId(eventHandler: eventHandler, id: id, value: value)}
         case .bacon_hero_quest_reward_completed: return { self.playerHeroQuestRewardCompleted(eventHandler: eventHandler, id: id, value: value)}
+        case .gametag_2022: return { self.onBattlegroundsSetupChange(eventHandler: eventHandler, id: id, value: value, prevValue: prevValue)}
         default: return nil
+        }
+    }
+    
+    private func onBattlegroundsSetupChange(eventHandler: PowerEventHandler, id: Int, value: Int, prevValue: Int) {
+        if prevValue == 1 && value == 0 {
+            eventHandler.snapshotBattlegroundsBoardState()
+            eventHandler.startCombat()
         }
     }
     

@@ -203,6 +203,8 @@ protocol PowerEventHandler: AnyObject {
     
     func startCombat()
     
+    func snapshotBattlegroundsBoardState()
+    
     var chameleosReveal: (Int, String)? { get set }
     
     func handlePlayerTechLevel(entity: Entity, techLevel: Int)

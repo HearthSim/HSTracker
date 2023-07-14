@@ -33,8 +33,8 @@ class InputProxy: MonoHandle, MonoClassInitializer {
             InputProxy._setTurn = MonoHelper.getMethod(InputProxy._class, "SetTurn", 1)
             InputProxy._addSecretFromDbfid = MonoHelper.getMethod(InputProxy._class, "AddSecretFromDbfid", 2)
             InputProxy._unitTest = MonoHelper.getMethod(InputProxy._class, "UnitTestCopyableVersion", 0)
-            InputProxy._setPlayerHeroPower = MonoHelper.getMethod(InputProxy._class, "SetPlayerHeroPower", 3)
-            InputProxy._setOpponentHeroPower = MonoHelper.getMethod(InputProxy._class, "SetOpponentHeroPower", 3)
+            InputProxy._setPlayerHeroPower = MonoHelper.getMethod(InputProxy._class, "SetPlayerHeroPower", 4)
+            InputProxy._setOpponentHeroPower = MonoHelper.getMethod(InputProxy._class, "SetOpponentHeroPower", 4)
             
             // fields
             initializeFields(fields: [ "opponentSide", "playerSide", "PlayerSecrets", "OpponentSecrets", "DamageCap", "PlayerHeroPower", "OpponentHeroPower", "PlayerHeroPower", "PlayerQuests", "OpponentQuests", "PlayerUndeadAttackBonus", "OpponentUndeadAttackBonus", "PlayerEternalKnightCounter", "OpponentEternalKnightCounter", "PlayerHand", "OpponentHand", "PlayerBloodGemAtkBuff", "PlayerBloodGemHealthBuff", "OpponentBloodGemAtkBuff", "OpponentBloodGemHealthBuff" ])
@@ -105,12 +105,12 @@ class InputProxy: MonoHandle, MonoClassInitializer {
         MonoHelper.setIntMonoHandle(obj: self, method: InputProxy._addSecretFromDbfid, v1: id, v2: target)
     }
     
-    func setPlayerHeroPower(heroPowerCardId: String, isActivated: Bool, data: Int32) {
-        MonoHelper.setStringBoolInt(obj: self, method: InputProxy._setPlayerHeroPower, v1: heroPowerCardId, v2: isActivated, v3: data)
+    func setPlayerHeroPower(heroPowerCardId: String, isActivated: Bool, data: Int32, data2: Int32) {
+        MonoHelper.setStringBoolIntInt(obj: self, method: InputProxy._setPlayerHeroPower, v1: heroPowerCardId, v2: isActivated, v3: data, v4: data2)
     }
     
-    func setOpponentHeroPower(heroPowerCardId: String, isActivated: Bool, data: Int32) {
-        MonoHelper.setStringBoolInt(obj: self, method: InputProxy._setOpponentHeroPower, v1: heroPowerCardId, v2: isActivated, v3: data)
+    func setOpponentHeroPower(heroPowerCardId: String, isActivated: Bool, data: Int32, data2: Int32) {
+        MonoHelper.setStringBoolIntInt(obj: self, method: InputProxy._setOpponentHeroPower, v1: heroPowerCardId, v2: isActivated, v3: data, v4: data2)
     }
     
     func unitestCopyableVersion() -> String {

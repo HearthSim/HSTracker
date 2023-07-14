@@ -1,3 +1,9 @@
+# 2.4.10
+## Bob's Buddy
+- Updated with support for the new Quests and Quest Rewards.
+- Fixed an issue where the initial board state used for simulations could be slightly incorrect in some cases.
+- We are actively investigating simulation issues and should have more improvements soon!
+
 # 2.4.9
 ## Fixes
 - Fixed secrets not showing in Twist mode

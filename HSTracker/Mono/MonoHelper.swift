@@ -387,8 +387,8 @@ class MonoHelper {
             
             test.setTiers(player: 3, opponent: 3)
             
-            test.setOpponentHeroPower(heroPowerCardId: "TB_BaconShop_HP_061", isActivated: true, data: 0)
-            test.setPlayerHeroPower(heroPowerCardId: "TB_BaconShop_HP_043", isActivated: false, data: 0)
+            test.setOpponentHeroPower(heroPowerCardId: "TB_BaconShop_HP_061", isActivated: true, data: 0, data2: 0)
+            test.setPlayerHeroPower(heroPowerCardId: "TB_BaconShop_HP_043", isActivated: false, data: 0, data2: 0)
             
             let ps = test.playerSide
             let os = test.opponentSide
@@ -649,18 +649,20 @@ class MonoHelper {
         params.deallocate()
     }
     
-    static func setStringBoolInt(obj: MonoHandle, method: OpaquePointer, v1: String, v2: Bool, v3: Int32) {
-        let params = UnsafeMutablePointer<OpaquePointer>.allocate(capacity: 3)
-        let ptrs = UnsafeMutablePointer<Int32>.allocate(capacity: 2)
+    static func setStringBoolIntInt(obj: MonoHandle, method: OpaquePointer, v1: String, v2: Bool, v3: Int32, v4: Int32) {
+        let params = UnsafeMutablePointer<OpaquePointer>.allocate(capacity: 4)
+        let ptrs = UnsafeMutablePointer<Int32>.allocate(capacity: 3)
         ptrs[0] = v2 ? 1 : 0
         ptrs[1] = v3
+        ptrs[2] = v4
         v1.withCString({
             params[0] = mono_string_new(MonoHelper._monoInstance, $0)
         })
         params[1] = OpaquePointer(ptrs.advanced(by: 0))
         params[2] = OpaquePointer(ptrs.advanced(by: 1))
+        params[3] = OpaquePointer(ptrs.advanced(by: 2))
         
-        params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 3, {
+        params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 4, {
             let inst = obj.get()
 
             mono_runtime_invoke(method, inst, $0, nil)

@@ -666,6 +666,7 @@ class BobsBuddyInvoker {
         let playerHeroPower = game.player.board.first(where: { $0.isHeroPower })
         
         var pHpData = playerHeroPower?[.tag_script_data_num_1] ?? 0
+        let pHpData2 = playerHeroPower?[.tag_script_data_num_2] ?? 0
         
         if playerHeroPower?.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_RapidReanimation {
             let ench = game.player.playerEntities.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_ImpendingDeath && (x.isInPlay || x.isInSetAside) }) ?? game.player.graveyard.last(where: { x in x.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_ImpendingDeath })
@@ -675,11 +676,12 @@ class BobsBuddyInvoker {
             }
         }
         
-        input.setPlayerHeroPower(heroPowerCardId: playerHeroPower?.cardId ?? "", isActivated: wasHeroPowerUsed(heroPower: playerHeroPower), data: Int32(pHpData))
+        input.setPlayerHeroPower(heroPowerCardId: playerHeroPower?.cardId ?? "", isActivated: wasHeroPowerUsed(heroPower: playerHeroPower), data: Int32(pHpData), data2: Int32(pHpData2))
         
         let opponentHeroPower = game.opponent.board.first(where: { $0.isHeroPower })
         
         var oHpData = opponentHeroPower?[.tag_script_data_num_1] ?? 0
+        var oHpData2 = opponentHeroPower?[.tag_script_data_num_2] ?? 0
         
         if opponentHeroPower?.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_RapidReanimation {
             // It appear this enchantment may be in the graveyard now in the opponents case
@@ -689,7 +691,7 @@ class BobsBuddyInvoker {
                 oHpData = target
             }
         }
-        input.setOpponentHeroPower(heroPowerCardId: opponentHeroPower?.cardId ?? "", isActivated: wasHeroPowerUsed(heroPower: opponentHeroPower), data: Int32(oHpData))
+        input.setOpponentHeroPower(heroPowerCardId: opponentHeroPower?.cardId ?? "", isActivated: wasHeroPowerUsed(heroPower: opponentHeroPower), data: Int32(oHpData), data2: Int32(oHpData2))
         
         let playerQuests = input.playerQuests
         for quest in game.player.quests {
