@@ -256,6 +256,7 @@ class SecretsManager {
             exclude.append(CardIds.Secrets.Hunter.ExplosiveTrap)
         } else {
             exclude.append(CardIds.Secrets.Rogue.Bamboozle)
+            exclude.append(CardIds.Secrets.Hunter.BaitAndSwitch)
             if !defender.has(tag: .divine_shield) {
                 exclude.append(CardIds.Secrets.Paladin.AutodefenseMatrix)
             }

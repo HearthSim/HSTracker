@@ -290,7 +290,8 @@ class SecretTests: HSTrackerTests {
                       triggered: [CardIds.Secrets.Hunter.FreezingTrap,
                                   CardIds.Secrets.Hunter.SnakeTrap,
                                   CardIds.Secrets.Hunter.VenomstrikeTrap,
-                                  CardIds.Secrets.Hunter.PackTactics])
+                                  CardIds.Secrets.Hunter.PackTactics,
+                                  CardIds.Secrets.Hunter.BaitAndSwitch])
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
                       triggered: [CardIds.Secrets.Mage.OasisAlly, CardIds.Secrets.Mage.SplittingImage])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
@@ -306,7 +307,8 @@ class SecretTests: HSTrackerTests {
         verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All,
                       triggered: [CardIds.Secrets.Hunter.SnakeTrap,
                                   CardIds.Secrets.Hunter.VenomstrikeTrap,
-                                  CardIds.Secrets.Hunter.PackTactics])
+                                  CardIds.Secrets.Hunter.PackTactics,
+                                  CardIds.Secrets.Hunter.BaitAndSwitch])
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
                       triggered: [CardIds.Secrets.Mage.OasisAlly, CardIds.Secrets.Mage.SplittingImage])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
@@ -321,7 +323,8 @@ class SecretTests: HSTrackerTests {
                       triggered: [CardIds.Secrets.Hunter.FreezingTrap,
                                   CardIds.Secrets.Hunter.SnakeTrap,
                                   CardIds.Secrets.Hunter.VenomstrikeTrap,
-                                  CardIds.Secrets.Hunter.PackTactics])
+                                  CardIds.Secrets.Hunter.PackTactics,
+                                  CardIds.Secrets.Hunter.BaitAndSwitch])
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
                       triggered: [CardIds.Secrets.Mage.OasisAlly, CardIds.Secrets.Mage.SplittingImage])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,

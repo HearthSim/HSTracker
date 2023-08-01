@@ -1,3 +1,7 @@
+# 2.5.0
+## New
+- Updated for Hearthstone 27.0.0
+
 # 2.4.10
 ## Bob's Buddy
 - Updated with support for the new Quests and Quest Rewards.
