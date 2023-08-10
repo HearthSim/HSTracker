@@ -2847,8 +2847,8 @@ class Game: NSObject, PowerEventHandler {
     func handleBattlegroundsPlayerQuestPicked(entity: Entity) {
         if isBattlegroundsMatch() {
             if #available(macOS 10.15, *) {
-                Task.init {
-                    windowManager.battlegroundsQuestPicking.viewModel.reset()
+                Task.detached {
+                    self.windowManager.battlegroundsQuestPicking.viewModel.reset()
                 }
             }
         }
@@ -2857,8 +2857,8 @@ class Game: NSObject, PowerEventHandler {
     func handleBattlegroundsPlayerQuestPickerRemoval(entity: Entity) {
         if isBattlegroundsMatch() {
             if #available(macOS 10.15, *) {
-                Task.init {
-                    windowManager.battlegroundsQuestPicking.viewModel.reset()
+                Task.detached {
+                    self.windowManager.battlegroundsQuestPicking.viewModel.reset()
                 }
             }
         }
@@ -2867,8 +2867,8 @@ class Game: NSObject, PowerEventHandler {
     func handleQuestRewardDatabaseId(id: Int, value: Int) {
         if isBattlegroundsMatch(), let entity = entities[id], entity.isControlled(by: player.id) {
             if #available(macOS 10.15, *) {
-                Task.init {
-                    await windowManager.battlegroundsQuestPicking.viewModel.onBattlegroundsQuest(questEntity: entity)
+                Task.detached {
+                    await self.windowManager.battlegroundsQuestPicking.viewModel.onBattlegroundsQuest(questEntity: entity)
                 }
             }
         }
