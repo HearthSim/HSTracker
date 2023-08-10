@@ -240,8 +240,8 @@ extension CardIds.Secrets {
         static let All = [BearTrap, DartTrap, ExplosiveTrap, FreezingTrap,
                           HiddenCache, Misdirection, RatTrap, Snipe, SnakeTrap, CatTrick,
                           VenomstrikeTrap, WanderingMonster, PressurePlate, PackTactics,
-                          OpenTheCages, IceTrap, EmergencyManeuvers, MotionDenied, HiddenMeaning,
-                          BaitAndSwitch]
+                          OpenTheCages, IceTrap, EmergencyManeuvers, MotionDenied, Zombeeees,
+                          HiddenMeaning, BaitAndSwitch]
         static let BearTrap = MultiIdCard(CardIds.Collectible.Hunter.BearTrap)
         static let CatTrick = MultiIdCard(CardIds.Collectible.Hunter.CatTrick, CardIds.Collectible.Hunter.CatTrickInvalid)
         static let DartTrap = MultiIdCard(CardIds.Collectible.Hunter.DartTrap)
