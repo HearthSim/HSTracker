@@ -659,6 +659,9 @@ class BobsBuddyInvoker {
         opponentCardId = oppHero.cardId
         playerCardId = playerHero.cardId
         
+        input.playerDamageTaken = Int32(playerHero[GameTag.damage])
+        input.opponentDamageTaken = Int32(oppHero[GameTag.damage])
+        
         let playerTechLevel = playerHero[GameTag.player_tech_level]
         let opponentTechLevel = oppHero[GameTag.player_tech_level]
         input.setTiers(player: Int32(playerTechLevel), opponent: Int32(opponentTechLevel))

@@ -20,6 +20,8 @@ class InputProxy: MonoHandle, MonoClassInitializer {
     static var _setOpponentHeroPower: OpaquePointer!
     static var _playerQuests: OpaquePointer!
     static var _opponentQuests: OpaquePointer!
+    static var _playerDamageTaken: OpaquePointer!
+    static var _opponentDamageTaken: OpaquePointer!
     
     static var _members = [String: OpaquePointer]()
     
@@ -37,7 +39,8 @@ class InputProxy: MonoHandle, MonoClassInitializer {
             InputProxy._setOpponentHeroPower = MonoHelper.getMethod(InputProxy._class, "SetOpponentHeroPower", 4)
             
             // fields
-            initializeFields(fields: [ "opponentSide", "playerSide", "PlayerSecrets", "OpponentSecrets", "DamageCap", "PlayerHeroPower", "OpponentHeroPower", "PlayerHeroPower", "PlayerQuests", "OpponentQuests", "PlayerUndeadAttackBonus", "OpponentUndeadAttackBonus", "PlayerEternalKnightCounter", "OpponentEternalKnightCounter", "PlayerHand", "OpponentHand", "PlayerBloodGemAtkBuff", "PlayerBloodGemHealthBuff", "OpponentBloodGemAtkBuff", "OpponentBloodGemHealthBuff" ])
+            initializeFields(fields: [ "opponentSide", "playerSide", "PlayerSecrets", "OpponentSecrets", "DamageCap", "PlayerHeroPower", "OpponentHeroPower", "PlayerHeroPower", "PlayerQuests", "OpponentQuests", "PlayerUndeadAttackBonus", "OpponentUndeadAttackBonus", "PlayerEternalKnightCounter", "OpponentEternalKnightCounter", "PlayerHand", "OpponentHand", "PlayerBloodGemAtkBuff", "PlayerBloodGemHealthBuff", "OpponentBloodGemAtkBuff", "OpponentBloodGemHealthBuff",
+                "PlayerDamageTaken", "OpponentDamageTaken" ])
         }
     }
     
@@ -177,4 +180,10 @@ class InputProxy: MonoHandle, MonoClassInitializer {
     
     @MonoPrimitiveField(field: "OpponentBloodGemHealthBuff", owner: InputProxy.self)
     var opponentBloodGemHealthBuff: Int32
+    
+    @MonoPrimitiveField(field: "PlayerDamageTaken", owner: InputProxy.self)
+    var playerDamageTaken: Int32
+    
+    @MonoPrimitiveField(field: "OpponentDamageTaken", owner: InputProxy.self)
+    var opponentDamageTaken: Int32
 }
