@@ -1,3 +1,11 @@
+# 2.5.1
+## New
+- Added support for HSReplay overall statistics
+## Fixes
+- Added missing Zombeees Hunter secret to list of available secrets
+## Bob's Buddy
+- Added support for Annihilan Battlemaster
+
 # 2.5.0
 ## New
 - Updated for Hearthstone 27.0.0
