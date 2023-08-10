@@ -32,9 +32,10 @@ class Collection: CollectionBase {
     let cardbacks: [Int]
     let favorite_cardback: Int
     let dust: Int
+    let player_records: [Int: [Int: [Int]]]
     
     private enum CodingKeys: String, CodingKey {
-        case collection, favorite_heroes, cardbacks, favorite_cardback, dust
+        case collection, favorite_heroes, cardbacks, favorite_cardback, dust, player_records
     }
     
     func hash() -> String {
@@ -85,6 +86,19 @@ class Collection: CollectionBase {
         self.cardbacks = collection.cardbacks.compactMap { x in x.intValue}.sorted()
         self.favorite_cardback = collection.favoriteCardback.intValue
         self.dust = collection.dust.intValue
+        var playerRecords = [Int: [Int: [Int]]]()
+        
+        for entry in collection.playerRecords {
+            let type = entry.type.intValue
+            let records = [ entry.wins.intValue, entry.losses.intValue, entry.ties.intValue ]
+            if var dict = playerRecords[type] {
+                dict[entry.data.intValue] = records
+                playerRecords[type] = dict
+            } else {
+                playerRecords[type] = [ entry.data.intValue: records]
+            }
+        }
+        self.player_records = playerRecords
         
         super.init(accountHi: accountHi, accountLo: accountLo, battleTag: battleTag)
     }
@@ -100,6 +114,7 @@ class Collection: CollectionBase {
         try container.encode(cardbacks, forKey: .cardbacks)
         try container.encode(favorite_cardback, forKey: .favorite_cardback)
         try container.encode(dust, forKey: .dust)
+        try container.encode(player_records, forKey: .player_records)
     }
 }
 

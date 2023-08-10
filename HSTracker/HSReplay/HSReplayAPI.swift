@@ -337,6 +337,7 @@ class HSReplayAPI {
     private static func uploadCollectionInternal(collection: CollectionBase, url: String, seal: Resolver<Bool>) {
         let upload = Http(url: url)
         let enc = JSONEncoder()
+        enc.outputFormatting = .sortedKeys
         if let data = try? enc.encode(collection) {
             upload.uploadPromise(method: .put, headers: [ "Content-Type": "application/json" ], data: data).done { data in
                 if data != nil {
