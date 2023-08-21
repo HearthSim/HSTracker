@@ -55,12 +55,11 @@ class BattlegroundsQuestPickingViewModel: ViewModel {
     @available(macOS 10.15.0, *)
     func onBattlegroundsQuest(questEntity: Entity) async {
         logger.debug("Quest: \(questEntity)")
-        guard let copy = questEntity.copy() as? Entity else {
-            return
-        }
-        _entities.append(copy)
+        _entities.append(questEntity)
         if _entities.count == expectedQuestCount() {
-            await update()
+            Task.init {
+                await update()
+            }
         }
     }
     

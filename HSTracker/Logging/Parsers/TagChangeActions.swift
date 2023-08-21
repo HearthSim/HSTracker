@@ -19,6 +19,9 @@ struct TagChangeActions {
     }
     
     func findAction(eventHandler: PowerEventHandler, tag: GameTag, id: Int, value: Int, prevValue: Int) -> (() -> Void)? {
+        if tag == .bacon_card_dbid_reward {
+            logger.debug("Tag change of reward: \(id): \(prevValue) -> \(value)")
+        }
         switch tag {
         case .zone: return { self.zoneChange(eventHandler: eventHandler, id: id, value: value, prevValue: prevValue) }
         case .playstate: return { self.playstateChange(eventHandler: eventHandler, id: id, value: value) }
