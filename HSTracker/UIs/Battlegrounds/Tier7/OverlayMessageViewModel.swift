@@ -51,6 +51,10 @@ class OverlayMessageViewModel: ViewModel {
         text = NSLocalizedString("BattlegroundsOverlayMessage_Loading", comment: "")
     }
     
+    func disabled() {
+        text = NSLocalizedString("BattlegroundsOverlayMessage_Disabled", comment: "")
+    }
+    
     private static let mmrPercentValues: [String: Int] = [
         "TOP_1_PERCENT": 1,
         "TOP_5_PERCENT": 5,

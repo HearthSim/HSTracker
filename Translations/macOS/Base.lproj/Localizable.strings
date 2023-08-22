@@ -303,3 +303,4 @@
 "BattlegroundsQuestPicking_Header_Tier3Tooltip_Desc" = "Rewards with average placements worse than 4.5 and within one standard deviation of the best reward in this tier";
 "BattlegroundsQuestPicking_Header_Tier4Tooltip_Desc" = "Rewards with average placements worse than one standard deviation from the best tier 3 reward";
 "BattlegroundsHeroPicking_Hero_ArmorTierTooltip_Range" = "Armor Range: %d - %d";
+"BattlegroundsOverlayMessage_Disabled" = "Temporarily disabled. We will be back soon!";

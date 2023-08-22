@@ -95,6 +95,11 @@ class BattlegroundsHeroPickingViewModel: ViewModel {
         if !HSReplayAPI.isFullyAuthenticated {
             return
         }
+        if RemoteConfig.data?.tier7?.diabled ?? false {
+            message.disabled()
+            visibility = false
+            return
+        }
         let userOwnsTier7 = HSReplayAPI.accountData?.is_tier7 ?? false
         
         if !userOwnsTier7 && (Tier7Trial.remainingTrials ?? 0) == 0 {

@@ -9,7 +9,7 @@
 import Foundation
 
 enum UserState: Int {
-    case loading, anonymous, authenticated, subscribed
+    case loading, anonymous, authenticated, subscribed, disabled
 }
 
 class Tier7PreLobbyViewModel: ViewModel {
@@ -30,6 +30,9 @@ class Tier7PreLobbyViewModel: ViewModel {
     
     var userState: UserState {
         get {
+            if RemoteConfig.data?.tier7?.diabled ?? false {
+                return .disabled
+            }
             return getProp(.loading)
         }
         set {
@@ -109,6 +112,9 @@ class Tier7PreLobbyViewModel: ViewModel {
     
     @available(macOS 10.15.0, *)
     func update(_ checkAccountStatus: Bool) async {
+        if userState == .disabled {
+            return
+        }
         if _isUpdatingAccount {
             // AccountDataUpdated event was likely trigger by the
             // UpdateAccountData request below. SKip this update

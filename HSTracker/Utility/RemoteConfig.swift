@@ -88,6 +88,10 @@ struct CardShortName: Codable {
     var short_name: String
 }
 
+struct Tier7Data: Codable {
+    var diabled: Bool
+}
+
 struct ConfigData: Codable {
     var news: NewsData?
     var collection_banner: CollectionBannerData?
@@ -96,6 +100,7 @@ struct ConfigData: Codable {
     var battlegrounds_short_names: [CardShortName]?
     var battlegrounds_tag_overrides: [TagOverride]?
     var bobs_buddy: BobsBuddyData?
+    var tier7: Tier7Data?
 }
 
 class RemoteConfig {
