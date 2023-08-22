@@ -1024,14 +1024,14 @@ class Game: NSObject, PowerEventHandler {
     
     var unavailableRaces: [Race]? {
         if _unavailableRaces == nil {
-            if let races = availableRaces {
+            if let races = availableRaces, races.count > 0 && races[0] != .invalid {
                 var newRaces = [Race]()
                 for race in Database.battlegroundRaces {
                     if !races.contains(race) {
                         newRaces.append(race)
                     }
                 }
-                if newRaces.count == 5 {
+                if newRaces.count > 0 {
                     logger.info("Battlegrounds unavailable races: \(newRaces) - all races \(races)")
                     _unavailableRaces = newRaces
                     return _unavailableRaces
@@ -1834,7 +1834,7 @@ class Game: NSObject, PowerEventHandler {
             }
         }
 		
-        if currentGameMode == .spectator && (currentGameStats.result == .none || currentGameStats.result == .unknown) {
+        if currentGameMode == .spectator && currentGameStats.result == .unknown {
             logger.info("Game was spectator mode without a game result."
                 + " Probably exited spectator mode early.")
             return
