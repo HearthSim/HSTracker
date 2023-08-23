@@ -19,11 +19,11 @@ class SpellCardEntityProxy: MonoHandle, MonoClassInitializer {
         if SpellCardEntityProxy._class == nil {
             SpellCardEntityProxy._class = MonoHelper.loadClass(ns: "BobsBuddy", name: "SpellCardEntity")
             
-            SpellCardEntityProxy._constructor = MonoHelper.getMethod(SpellCardEntityProxy._class, ".ctor", 1)
+            SpellCardEntityProxy._constructor = MonoHelper.getMethod(SpellCardEntityProxy._class, ".ctor", 2)
         }
     }
 
-    override init() {
+    init(simulator: SimulatorProxy) {
         super.init()
         
         let obj = MonoHelper.objectNew(clazz: SpellCardEntityProxy._class!)
@@ -31,8 +31,9 @@ class SpellCardEntityProxy: MonoHandle, MonoClassInitializer {
         
         let inst = self.get()
         
-        let params = UnsafeMutablePointer<UnsafeMutableRawPointer?>.allocate(capacity: 1)
+        let params = UnsafeMutablePointer<UnsafeMutableRawPointer?>.allocate(capacity: 2)
         params[0] = nil
+        params[1] = UnsafeMutableRawPointer(simulator.get())
         _ = mono_runtime_invoke(SpellCardEntityProxy._constructor, inst, params, nil)
         
         params.deallocate()

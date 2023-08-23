@@ -765,13 +765,13 @@ class BobsBuddyInvoker {
         
         for e in game.player.hand {
             if e.isMinion {
-                MonoHelper.addToList(list: playerHand, element: MinionCardEntityProxy(minion: BobsBuddyInvoker.getMinionFromEntity(minionFactory: factory, player: true, ent: e, attachedEntities: BobsBuddyInvoker.getAttachedEntities(game: game, entityId: e.id))))
+                MonoHelper.addToList(list: playerHand, element: MinionCardEntityProxy(minion: BobsBuddyInvoker.getMinionFromEntity(minionFactory: factory, player: true, ent: e, attachedEntities: BobsBuddyInvoker.getAttachedEntities(game: game, entityId: e.id)), simulator: simulator))
             } else if e.cardId == CardIds.NonCollectible.Neutral.BloodGem1 {
-                MonoHelper.addToList(list: playerHand, element: BloodGemProxy())
+                MonoHelper.addToList(list: playerHand, element: BloodGemProxy(simulator: simulator))
             } else if e.isSpell {
-                MonoHelper.addToList(list: playerHand, element: SpellCardEntityProxy())
+                MonoHelper.addToList(list: playerHand, element: SpellCardEntityProxy(simulator: simulator))
             } else {
-                MonoHelper.addToList(list: playerHand, element: CardEntityProxy(id: e.cardId))
+                MonoHelper.addToList(list: playerHand, element: CardEntityProxy(id: e.cardId, simulator: simulator))
             }
         }
 
@@ -785,15 +785,15 @@ class BobsBuddyInvoker {
         
         for e in game.opponent.hand {
             if e.isMinion {
-                MonoHelper.addToList(list: opponentHand, element: MinionCardEntityProxy(minion: BobsBuddyInvoker.getMinionFromEntity(minionFactory: factory, player: true, ent: e, attachedEntities: BobsBuddyInvoker.getAttachedEntities(game: game, entityId: e.id))))
+                MonoHelper.addToList(list: opponentHand, element: MinionCardEntityProxy(minion: BobsBuddyInvoker.getMinionFromEntity(minionFactory: factory, player: true, ent: e, attachedEntities: BobsBuddyInvoker.getAttachedEntities(game: game, entityId: e.id)), simulator: simulator))
             } else if e.cardId == CardIds.NonCollectible.Neutral.BloodGem1 {
-                MonoHelper.addToList(list: opponentHand, element: BloodGemProxy())
+                MonoHelper.addToList(list: opponentHand, element: BloodGemProxy(simulator: simulator))
             } else if e.isSpell {
-                MonoHelper.addToList(list: opponentHand, element: SpellCardEntityProxy())
+                MonoHelper.addToList(list: opponentHand, element: SpellCardEntityProxy(simulator: simulator))
             } else if !e.cardId.isEmpty {
-                MonoHelper.addToList(list: opponentHand, element: CardEntityProxy(id: e.cardId))
+                MonoHelper.addToList(list: opponentHand, element: CardEntityProxy(id: e.cardId, simulator: simulator))
             } else {
-                MonoHelper.addToList(list: opponentHand, element: UnknownCardEntityProxy())
+                MonoHelper.addToList(list: opponentHand, element: UnknownCardEntityProxy(simulator: simulator))
             }
         }
 

@@ -19,11 +19,11 @@ class CardEntityProxy: MonoHandle, MonoClassInitializer {
         if CardEntityProxy._class == nil {
             CardEntityProxy._class = MonoHelper.loadClass(ns: "BobsBuddy", name: "CardEntity")
             
-            CardEntityProxy._constructor = MonoHelper.getMethod(CardEntityProxy._class, ".ctor", 2)
+            CardEntityProxy._constructor = MonoHelper.getMethod(CardEntityProxy._class, ".ctor", 3)
         }
     }
 
-    required init(id: String) {
+    required init(id: String, simulator: SimulatorProxy) {
         super.init()
         
         let obj = MonoHelper.objectNew(clazz: CardEntityProxy._class!)
@@ -31,13 +31,14 @@ class CardEntityProxy: MonoHandle, MonoClassInitializer {
         
         let inst = self.get()
         
-        let params = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: 2)
+        let params = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: 3)
         id.withCString({
             params[0] = mono_string_new(MonoHelper._monoInstance, $0)
             params[1] = nil
+            params[2] = OpaquePointer(simulator.get())
         })
 
-        _ = params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 2, {
+        _ = params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 3, {
             mono_runtime_invoke(CardEntityProxy._constructor, inst, $0, nil)
         })
         

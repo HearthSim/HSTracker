@@ -19,11 +19,11 @@ class BloodGemProxy: MonoHandle, MonoClassInitializer {
         if BloodGemProxy._class == nil {
             BloodGemProxy._class = MonoHelper.loadClass(ns: "BobsBuddy", name: "BloodGem")
             
-            BloodGemProxy._constructor = MonoHelper.getMethod(BloodGemProxy._class, ".ctor", 1)
+            BloodGemProxy._constructor = MonoHelper.getMethod(BloodGemProxy._class, ".ctor", 2)
         }
     }
 
-    override init() {
+    init(simulator: SimulatorProxy) {
         super.init()
         
         let obj = MonoHelper.objectNew(clazz: BloodGemProxy._class!)
@@ -31,8 +31,9 @@ class BloodGemProxy: MonoHandle, MonoClassInitializer {
         
         let inst = self.get()
         
-        let params = UnsafeMutablePointer<UnsafeMutableRawPointer?>.allocate(capacity: 1)
+        let params = UnsafeMutablePointer<UnsafeMutableRawPointer?>.allocate(capacity: 2)
         params[0] = nil
+        params[1] = UnsafeMutableRawPointer(simulator.get())
         _ = mono_runtime_invoke(BloodGemProxy._constructor, inst, params, nil)
         
         params.deallocate()

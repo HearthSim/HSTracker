@@ -19,11 +19,11 @@ class MinionCardEntityProxy: MonoHandle, MonoClassInitializer {
         if MinionCardEntityProxy._class == nil {
             MinionCardEntityProxy._class = MonoHelper.loadClass(ns: "BobsBuddy", name: "MinionCardEntity")
             
-            MinionCardEntityProxy._constructor = MonoHelper.getMethod(MinionCardEntityProxy._class, ".ctor", 2)
+            MinionCardEntityProxy._constructor = MonoHelper.getMethod(MinionCardEntityProxy._class, ".ctor", 3)
         }
     }
 
-    init(minion: MinionProxy) {
+    init(minion: MinionProxy, simulator: SimulatorProxy) {
         super.init()
         
         let obj = MonoHelper.objectNew(clazz: MinionCardEntityProxy._class!)
@@ -31,9 +31,10 @@ class MinionCardEntityProxy: MonoHandle, MonoClassInitializer {
         
         let inst = self.get()
         let minionInst = minion.get()
-        let params = UnsafeMutablePointer<UnsafeMutableRawPointer?>.allocate(capacity: 2)
+        let params = UnsafeMutablePointer<UnsafeMutableRawPointer?>.allocate(capacity: 3)
         params[0] = UnsafeMutableRawPointer(minionInst)
         params[1] = nil
+        params[2] = UnsafeMutableRawPointer(simulator.get())
         _ = mono_runtime_invoke(MinionCardEntityProxy._constructor, inst, params, nil)
         
         params.deallocate()

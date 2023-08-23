@@ -19,11 +19,11 @@ class UnknownCardEntityProxy: MonoHandle, MonoClassInitializer {
         if UnknownCardEntityProxy._class == nil {
             UnknownCardEntityProxy._class = MonoHelper.loadClass(ns: "BobsBuddy", name: "UnknownCardEntity")
             
-            UnknownCardEntityProxy._constructor = MonoHelper.getMethod(UnknownCardEntityProxy._class, ".ctor", 1)
+            UnknownCardEntityProxy._constructor = MonoHelper.getMethod(UnknownCardEntityProxy._class, ".ctor", 2)
         }
     }
 
-    override init() {
+    init(simulator: SimulatorProxy) {
         super.init()
         
         let obj = MonoHelper.objectNew(clazz: UnknownCardEntityProxy._class!)
@@ -31,8 +31,9 @@ class UnknownCardEntityProxy: MonoHandle, MonoClassInitializer {
         
         let inst = self.get()
         
-        let params = UnsafeMutablePointer<UnsafeMutableRawPointer?>.allocate(capacity: 1)
+        let params = UnsafeMutablePointer<UnsafeMutableRawPointer?>.allocate(capacity: 2)
         params[0] = nil
+        params[1] = UnsafeMutableRawPointer(simulator.get())
         _ = mono_runtime_invoke(UnknownCardEntityProxy._constructor, inst, params, nil)
         
         params.deallocate()
