@@ -59,7 +59,8 @@ enum CardSet: String, CaseIterable {
     path_of_arthas,
     battle_of_the_bands,
     placeholder_202204,
-    titans
+    titans,
+    wonders
     
     static func deckManagerValidCardSets() -> [CardSet] {
         return [.all, .vanilla, .core, .basic, .expert1, .naxx, .gvg, .brm, .tgt,
@@ -69,7 +70,7 @@ enum CardSet: String, CaseIterable {
                 .black_temple, .demon_hunter_initiate, .scholomance, .darkmoon_faire,
                 .the_barrens, .wailing_caverns, .stormwind, .alterac_valley,
                 .the_sunken_city, .revendreth, .return_of_the_lich_king, .path_of_arthas, .battle_of_the_bands,
-                .titans]
+                .titans, .wonders]
     }
     
     static func wildSets() -> [CardSet] {
@@ -82,7 +83,7 @@ enum CardSet: String, CaseIterable {
                 .basic, .expert1, .legacy,
                 .black_temple, .scholomance, .darkmoon_faire,
                 .the_barrens, .stormwind, .alterac_valley,
-                .placeholder_202204]
+                .placeholder_202204, .wondders]
     }
     
     static func classicSets() -> [CardSet] {
@@ -158,5 +159,6 @@ public enum CardSetInt: Int {
     battle_of_bands = 1809,
     placeholder_202204 = 1810,
     titans = 1858,
-    path_of_arthas = 1869
+    path_of_arthas = 1869,
+    wonders = 1898
 }

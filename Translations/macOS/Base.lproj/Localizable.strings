@@ -148,6 +148,7 @@
 "PATH_OF_ARTHAS" = "Path of Arthas";
 "BATTLE_OF_THE_BANDS" = "Festival of Legends";
 "TITANS" = "Titans";
+"WONDERS" = "Caverns of Time";
 
 /* card type */
 "all_types" = "All";
