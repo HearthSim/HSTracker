@@ -59,6 +59,8 @@ struct CardIds {
     struct Collectible {}
 
     struct NonCollectible {}
+    
+    struct Invalid {}
 
     struct Secrets {}
 

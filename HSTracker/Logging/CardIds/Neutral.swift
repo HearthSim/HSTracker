@@ -716,6 +716,12 @@ extension CardIds.NonCollectible {
         static let PozzikAudioEngineer_AudioBotToken = "ETC_425t"
         static let KingMukla_BananasToken = "EX1_014t"
         static let BloodGem1 = "BG20_GEM"
+        static let BigLeague = "BG27_Anomaly_100"
+        static let LittleLeague = "BG27_Anomaly_800"
     }
+}
+
+extension CardIds.Invalid {
+    static let SecretsOfNorgannon = "BG27_Anomaly_504"
 }
 

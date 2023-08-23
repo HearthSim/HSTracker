@@ -89,7 +89,7 @@ struct CardShortName: Codable {
 }
 
 struct Tier7Data: Codable {
-    var diabled: Bool
+    var disabled: Bool
 }
 
 struct ConfigData: Codable {

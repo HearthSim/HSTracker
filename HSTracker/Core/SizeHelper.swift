@@ -381,7 +381,7 @@ struct SizeHelper {
     static func battlegroundsTierOverlayFrame() -> NSRect {
         let trackerFrame = playerTrackerFrame()
         let height = CGFloat(56)
-        let width = CGFloat(6 * 48 + 8)
+        let width = CGFloat(7 * 48 + 8)
         let x = hearthstoneWindow.frame.minX + hearthstoneWindow.frame.width - width
 
         return NSRect(x: x, y: trackerFrame.minY + trackerFrame.height - height, width: width, height: height)

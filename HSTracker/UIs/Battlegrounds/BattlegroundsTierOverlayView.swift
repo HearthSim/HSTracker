@@ -11,6 +11,8 @@ import Foundation
 class BattlegroundsTierOverlayView: NSView {
     var currentTier = 0
     var hoverTier = 0
+    var showing = false
+    var availableTiers: [Bool] = [false, false, false, false, false, false, false]
 
     init() {
         super.init(frame: NSRect.zero)
@@ -25,7 +27,19 @@ class BattlegroundsTierOverlayView: NSView {
     }
     
     func unhideTier() {
-        if currentTier >= 1 && currentTier <= 6 {
+        if !showing {
+            let anomalyDbfId =  AppDelegate.instance().coreManager.game.gameEntity?[.bacon_global_anomaly_dbid]
+            let anomalyCardId = Cards.by(dbfId: anomalyDbfId, collectible: false)?.id
+            let availableTiers = BattlegroundsUtils.getAvailableTiers(anomalyCardId: anomalyCardId)
+            for i in 1...7 {
+                self.availableTiers[i-1] = false
+            }
+            for tier in availableTiers {
+                self.availableTiers[tier-1] = true
+            }
+            showing = true
+        }
+        if currentTier >= 1 && currentTier <= 7 {
             let windowManager = AppDelegate.instance().coreManager.game.windowManager
             let controller = windowManager.battlegroundsTierDetailsWindowController
             let frame = SizeHelper.battlegroundsTierDetailFrame()
@@ -35,11 +49,12 @@ class BattlegroundsTierOverlayView: NSView {
     }
     
     func hideTier() {
-        if currentTier >= 1 && currentTier <= 6 {
+        if currentTier >= 1 && currentTier <= 7 {
             let windowManager = AppDelegate.instance().coreManager.game.windowManager
             let controller = windowManager.battlegroundsTierDetailsWindowController
             windowManager.show(controller: controller, show: false)
         }
+        showing = false
     }
     
     func reset() {
@@ -62,7 +77,7 @@ class BattlegroundsTierOverlayView: NSView {
 
         let rect = NSRect(x: x + 2, y: 10, width: 36, height: 36)
         if let image = NSImage(contentsOfFile: "\(rp)/Resources/Battlegrounds/tier-\(tier).png") {
-            image.draw(in: rect)
+            image.draw(in: rect, from: NSRect(origin: CGPoint(x: 0, y: 0), size: image.size), operation: .sourceOver, fraction: hoverTier == tier ? (availableTiers[tier - 1] ? 1.0 : 0.6) : (availableTiers[tier - 1] ? 1.0 : 0.3))
         }
     }
 
@@ -72,7 +87,7 @@ class BattlegroundsTierOverlayView: NSView {
         backgroundColor.set()
         dirtyRect.fill()
         
-        for i in 1...6 {
+        for i in 1...7 {
             drawTier(tier: i, x: 8 + (i - 1) * 48)
         }
     }
@@ -96,7 +111,7 @@ class BattlegroundsTierOverlayView: NSView {
             
             let windowManager = AppDelegate.instance().coreManager.game.windowManager
             let controller = windowManager.battlegroundsTierDetailsWindowController
-            if tier >= 1 && tier <= 6 {
+            if tier >= 1 && tier <= 7 {
                 let frame = SizeHelper.battlegroundsTierDetailFrame()
                 windowManager.show(controller: controller, show: true,
                                    frame: frame, overlay: true)
@@ -114,7 +129,7 @@ class BattlegroundsTierOverlayView: NSView {
         }
         let index = (Int(CGFloat(event.locationInWindow.x - 4.0))) / 48 + 1
         
-        if index >= 1 && index <= 6 {
+        if index >= 1 && index <= 7 {
             displayTier(tier: index == currentTier ? 0 : index)
         } else {
             displayTier(tier: 0)
@@ -128,7 +143,7 @@ class BattlegroundsTierOverlayView: NSView {
         }
         let index = (Int(CGFloat(event.locationInWindow.x - 4.0))) / 48 + 1
         
-        if index >= 1 && index <= 6 {
+        if index >= 1 && index <= 7 {
             hoverTier = index
         } else {
             hoverTier = 0

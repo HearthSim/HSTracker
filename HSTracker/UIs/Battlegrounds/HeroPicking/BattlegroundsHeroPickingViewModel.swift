@@ -95,7 +95,7 @@ class BattlegroundsHeroPickingViewModel: ViewModel {
         if !HSReplayAPI.isFullyAuthenticated {
             return
         }
-        if RemoteConfig.data?.tier7?.diabled ?? false {
+        if RemoteConfig.data?.tier7?.disabled ?? false {
             message.disabled()
             visibility = false
             return

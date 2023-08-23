@@ -31,4 +31,17 @@ class BattlegroundsUtils {
         }
         return result
     }
+    
+    static func getAvailableTiers(anomalyCardId: String?) -> [Int] {
+        switch anomalyCardId {
+        case CardIds.NonCollectible.Neutral.BigLeague:
+            return [3, 4, 5, 6]
+        case CardIds.NonCollectible.Neutral.LittleLeague:
+            return [1, 2, 3, 4]
+        case CardIds.Invalid.SecretsOfNorgannon:
+            return [1, 2, 3, 4, 5, 6, 7]
+        default:
+            return [1, 2, 3, 4, 5, 6]
+        }
+    }
 }

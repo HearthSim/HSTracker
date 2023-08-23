@@ -30,7 +30,7 @@ class Tier7PreLobbyViewModel: ViewModel {
     
     var userState: UserState {
         get {
-            if RemoteConfig.data?.tier7?.diabled ?? false {
+            if RemoteConfig.data?.tier7?.disabled ?? false {
                 return .disabled
             }
             return getProp(.loading)
