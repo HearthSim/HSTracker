@@ -40,7 +40,7 @@ class InputProxy: MonoHandle, MonoClassInitializer {
             
             // fields
             initializeFields(fields: [ "opponentSide", "playerSide", "PlayerSecrets", "OpponentSecrets", "DamageCap", "PlayerHeroPower", "OpponentHeroPower", "PlayerHeroPower", "PlayerQuests", "OpponentQuests", "PlayerUndeadAttackBonus", "OpponentUndeadAttackBonus", "PlayerEternalKnightCounter", "OpponentEternalKnightCounter", "PlayerHand", "OpponentHand", "PlayerBloodGemAtkBuff", "PlayerBloodGemHealthBuff", "OpponentBloodGemAtkBuff", "OpponentBloodGemHealthBuff",
-                "PlayerDamageTaken", "OpponentDamageTaken" ])
+                "PlayerDamageTaken", "OpponentDamageTaken", "Anomaly" ])
         }
     }
     
@@ -186,4 +186,7 @@ class InputProxy: MonoHandle, MonoClassInitializer {
     
     @MonoPrimitiveField(field: "OpponentDamageTaken", owner: InputProxy.self)
     var opponentDamageTaken: Int32
+    
+    @MonoHandleField(field: "Anomaly", owner: InputProxy.self)
+    var anomaly: AnomalyProxy
 }

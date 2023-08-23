@@ -274,7 +274,9 @@ class MonoHelper {
                                                             BloodGemProxy.self,
                                                             SpellCardEntityProxy.self,
                                                             UnknownCardEntityProxy.self,
-                                                            MinionCardEntityProxy.self ]
+                                                            MinionCardEntityProxy.self,
+                                                            AnomalyProxy.self,
+                                                            AnomalyFactoryProxy.self]
     
     static func initialize() {
         for cl in monoClasses {

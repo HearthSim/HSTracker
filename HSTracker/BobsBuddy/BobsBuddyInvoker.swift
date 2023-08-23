@@ -666,6 +666,11 @@ class BobsBuddyInvoker {
         let opponentTechLevel = oppHero[GameTag.player_tech_level]
         input.setTiers(player: Int32(playerTechLevel), opponent: Int32(opponentTechLevel))
         
+        let anomalyDbfId = game.gameEntity?[.bacon_global_anomaly_dbid]
+        if let anomalyCardId = Cards.by(dbfId: anomalyDbfId, collectible: false)?.id {
+            input.anomaly = simulator.anomalyFactory.create(id: anomalyCardId)
+        }
+        
         let playerHeroPower = game.player.board.first(where: { $0.isHeroPower })
         
         var pHpData = playerHeroPower?[.tag_script_data_num_1] ?? 0
@@ -684,7 +689,7 @@ class BobsBuddyInvoker {
         let opponentHeroPower = game.opponent.board.first(where: { $0.isHeroPower })
         
         var oHpData = opponentHeroPower?[.tag_script_data_num_1] ?? 0
-        var oHpData2 = opponentHeroPower?[.tag_script_data_num_2] ?? 0
+        let oHpData2 = opponentHeroPower?[.tag_script_data_num_2] ?? 0
         
         if opponentHeroPower?.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_RapidReanimation {
             // It appear this enchantment may be in the graveyard now in the opponents case
