@@ -83,7 +83,7 @@ enum CardSet: String, CaseIterable {
                 .basic, .expert1, .legacy,
                 .black_temple, .scholomance, .darkmoon_faire,
                 .the_barrens, .stormwind, .alterac_valley,
-                .placeholder_202204, .wondders]
+                .placeholder_202204, .wonders]
     }
     
     static func classicSets() -> [CardSet] {
