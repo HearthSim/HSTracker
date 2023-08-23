@@ -757,6 +757,16 @@ class MonoHelper {
         return getInt(obj: obj, method: meth)
     }
     
+    static func listClear(obj: MonoHandle) {
+        let inst = obj.get()
+        
+        let cl = mono_object_get_class(inst)
+        
+        let meth = mono_class_get_method_from_name(cl, "Clear", 0)
+        
+        _ = mono_runtime_invoke(meth, inst, nil, nil)
+    }
+    
     static func toString(obj: MonoHandle) -> String {
         let res = mono_object_to_string(obj.get(), nil)
         
@@ -786,5 +796,10 @@ class MonoHelper {
             mono_runtime_invoke(method, obj, $0, nil)
         })
         params.deallocate()
+    }
+    
+    static func isMinionCardEntity(obj: MonoHandle) -> Bool {
+        let _class = mono_object_get_class(obj.get())
+        return _class == MinionCardEntityProxy._class
     }
 }

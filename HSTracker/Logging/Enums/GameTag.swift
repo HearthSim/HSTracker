@@ -342,6 +342,7 @@ enum GameTag: Int, WrappableEnum, CaseIterable, Codable {
     hidden_choice = 813,
     zombeast = 823,
     modular = 849,
+    literally_unplayable = 1020,
     whizbang_deck_id = 1048,
     shrine = 1057,
     reborn = 1085,

@@ -116,10 +116,10 @@ class BobsBuddyPanel: OverWindowController {
         statusMessage = StatusMessageConverter.getStatusMessage(state: state, errorState: errorState, statsShown: showingResults)
     }
     
-    func setErrorState(error: BobsBuddyErrorState) {
+    func setErrorState(error: BobsBuddyErrorState, show: Bool = false) {
         errorState = error
-        //showResults(show: false)
         statusMessage = StatusMessageConverter.getStatusMessage(state: state, errorState: errorState, statsShown: showingResults)
+        showResults(show: show)
     }
     
     private func clearErrorState() {

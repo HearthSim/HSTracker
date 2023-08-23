@@ -52,6 +52,9 @@ class BobsBuddyInvoker {
     private var currentOpponentMinions: [Int: MinionProxy] = [:]
     
     private var currentOpponentSecrets: [Entity] = []
+    
+    private var opponentHand: [Entity] = []
+    private var opponentHandMap: [Entity: Entity] = [:]
         
     private var _turn: Int = 0
     
@@ -770,7 +773,9 @@ class BobsBuddyInvoker {
         
         for e in game.player.hand {
             if e.isMinion {
-                MonoHelper.addToList(list: playerHand, element: MinionCardEntityProxy(minion: BobsBuddyInvoker.getMinionFromEntity(minionFactory: factory, player: true, ent: e, attachedEntities: BobsBuddyInvoker.getAttachedEntities(game: game, entityId: e.id)), simulator: simulator))
+                let minionEntity = MinionCardEntityProxy(minion: BobsBuddyInvoker.getMinionFromEntity(minionFactory: factory, player: true, ent: e, attachedEntities: BobsBuddyInvoker.getAttachedEntities(game: game, entityId: e.id)), simulator: simulator)
+                minionEntity.canSummon = !e.has(tag: .literally_unplayable)
+                MonoHelper.addToList(list: playerHand, element: minionEntity)
             } else if e.cardId == CardIds.NonCollectible.Neutral.BloodGem1 {
                 MonoHelper.addToList(list: playerHand, element: BloodGemProxy(simulator: simulator))
             } else if e.isSpell {
@@ -786,7 +791,9 @@ class BobsBuddyInvoker {
             MonoHelper.addToList(list: inputOpponentSide, element: m)
         }
         
+        self.opponentHand = game.opponent.hand
         let opponentHand = input.opponentHand
+        MonoHelper.listClear(obj: opponentHand)
         
         for e in game.opponent.hand {
             if e.isMinion {
@@ -834,5 +841,67 @@ class BobsBuddyInvoker {
         
         self.input = input
         self._turn = turn
+    }
+    
+    private var reRunCount = 0
+    func updateOpponentHand(entity: Entity, copy: Entity) {
+        guard let input = input, state != .combat  else {
+            return
+        }
+        
+        // Only allow feathermane for now.
+        if copy.cardId != CardIds.NonCollectible.Neutral.FreeFlyingFeathermane && copy.cardId != CardIds.NonCollectible.Neutral.FreeFlyingFeathermane_FreeFlyingFeathermane {
+            return
+        }
+        
+        opponentHandMap[entity] = copy
+        
+        // Wait for attached entities to be logged. This should happen at the exact same timestamp.
+        //await _game.GameTime.WaitForDuration(1);
+        let simulator = SimulatorProxy()
+        let entities = getOpponentHandEntities(simulator: simulator, game: game)
+        // TODO: fix this
+//        if entities.filter { x in MonoHelper.isMinionCardEntity(obj: x)}.count <= input.o input.opponentHand.Count(x => x is MinionCardEntity)) {
+//            return
+//        }
+
+        MonoHelper.listClear(obj: input.opponentHand)
+        for ent in entities {
+            MonoHelper.addToList(list: input.opponentHand, element: ent)
+        }
+        
+        reRunCount += 1
+        if reRunCount < 3 {
+            logger.debug("Opponent hand changed, re-running simulation! (#\(reRunCount)");
+            if shouldRun() && !runSimulationAfterCombat  {
+                errorState = .none
+                BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .none, show: true)
+                _ = runAndDisplaySimulationAsync()
+            }
+        } else {
+            logger.debug("Opponent hand changed, but the simulation already re-ran twice")
+        }
+    }
+
+    private func getOpponentHandEntities(simulator: SimulatorProxy, game: Game) -> [MonoHandle] {
+        var result = [MonoHandle]()
+        for _e in opponentHand {
+            let e = opponentHandMap[_e] ?? _e
+            if e.isMinion {
+                let attached = BobsBuddyInvoker.getAttachedEntities(game: game, entityId: e.id)
+                let minion = MinionCardEntityProxy(minion: BobsBuddyInvoker.getMinionFromEntity(minionFactory: simulator.minionFactory, player: false, ent: e, attachedEntities: attached), simulator: simulator)
+                minion.canSummon = !e.has(tag: .literally_unplayable)
+                result.append(minion)
+            } else if e.cardId == CardIds.NonCollectible.Neutral.BloodGem1 {
+                result.append(BloodGemProxy(simulator: simulator))
+            } else if e.isSpell {
+                result.append(SpellCardEntityProxy(simulator: simulator))
+            } else if !e.cardId.isEmpty {
+                result.append(CardEntityProxy(id: e.cardId, simulator: simulator)) // Not Unknown
+            } else {
+                result.append(UnknownCardEntityProxy(simulator: simulator))
+            }
+        }
+        return result
     }
 }

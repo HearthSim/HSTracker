@@ -482,8 +482,16 @@ struct TagChangeActions {
                                     prevValue: prevValue, controller: controller,
                                     cardId: entity.cardId)
             }
+        case .setaside:
+            if value == Zone.play.rawValue && controller == eventHandler.opponent.id && eventHandler.currentGameMode == .battlegrounds {
+                let copiedFrom = entity[.copied_from_entity_id]
+                if copiedFrom > 0, let source = eventHandler.entities[copiedFrom], source.isInHand && !source.hasCardId {
+                    BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateOpponentHand(entity: source, copy: entity)
+                }
+                zoneChangeFromOther(eventHandler: eventHandler, id: id, rawValue: value, prevValue: prevValue, controller: controller, cardId: entity.info.latestCardId)
+            }
             
-        case .graveyard, .setaside, .removedfromgame:
+        case .graveyard, .removedfromgame:
             zoneChangeFromOther(eventHandler: eventHandler, id: id, rawValue: value, prevValue: prevValue,
                                 controller: controller, cardId: entity.cardId)
         }

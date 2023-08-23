@@ -613,6 +613,8 @@
 		B8BD8453285D23C500F4F224 /* UnfairLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD8452285D23C500F4F224 /* UnfairLock.swift */; };
 		B8BD84552860058400F4F224 /* SynchronizedDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD84542860058400F4F224 /* SynchronizedDictionary.swift */; };
 		B8BD84572861394100F4F224 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD84562861394100F4F224 /* Regex.swift */; };
+		B8BDF9062A9625D9000DA4ED /* AnomalyFactoryProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BDF9052A9625D9000DA4ED /* AnomalyFactoryProxy.swift */; };
+		B8BDF9082A9626A8000DA4ED /* AnomalyProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BDF9072A9626A8000DA4ED /* AnomalyProxy.swift */; };
 		B8C1F1BF295553F8001E078C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8C1F1BD295553F7001E078C /* MainMenu.xib */; };
 		B8C1F1C12958ED54001E078C /* BattlegroundsSingleHeroStats.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8C1F1C02958ED54001E078C /* BattlegroundsSingleHeroStats.xib */; };
 		B8C1F1C3295A42F6001E078C /* BattlegroundsSingleHeroStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C1F1C2295A42F6001E078C /* BattlegroundsSingleHeroStats.swift */; };
@@ -1270,6 +1272,8 @@
 		B8BD8452285D23C500F4F224 /* UnfairLock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnfairLock.swift; sourceTree = "<group>"; };
 		B8BD84542860058400F4F224 /* SynchronizedDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynchronizedDictionary.swift; sourceTree = "<group>"; tabWidth = 3; };
 		B8BD84562861394100F4F224 /* Regex.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
+		B8BDF9052A9625D9000DA4ED /* AnomalyFactoryProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnomalyFactoryProxy.swift; sourceTree = "<group>"; };
+		B8BDF9072A9626A8000DA4ED /* AnomalyProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnomalyProxy.swift; sourceTree = "<group>"; };
 		B8C1F1BE295553F7001E078C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		B8C1F1C02958ED54001E078C /* BattlegroundsSingleHeroStats.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsSingleHeroStats.xib; sourceTree = "<group>"; };
 		B8C1F1C2295A42F6001E078C /* BattlegroundsSingleHeroStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsSingleHeroStats.swift; sourceTree = "<group>"; };
@@ -2153,6 +2157,8 @@
 				B844D3692A0C3497001704E0 /* SpellCardEntityProxy.swift */,
 				B844D36B2A0C3510001704E0 /* UnknownCardEntityProxy.swift */,
 				B844D36D2A0C35A8001704E0 /* MinionCardEntityProxy.swift */,
+				B8BDF9052A9625D9000DA4ED /* AnomalyFactoryProxy.swift */,
+				B8BDF9072A9626A8000DA4ED /* AnomalyProxy.swift */,
 			);
 			path = Mono;
 			sourceTree = "<group>";
@@ -2948,10 +2954,12 @@
 				F79833971FFF324200D2893E /* Events.swift in Sources */,
 				43BDF0BC1DB7FB040081964A /* OverWindowController.swift in Sources */,
 				B804FC2C294362C800F74CD9 /* Tier7Trial.swift in Sources */,
+				B8BDF9062A9625D9000DA4ED /* AnomalyFactoryProxy.swift in Sources */,
 				439C7EB91C777F8900D29859 /* GameResult.swift in Sources */,
 				436F5D121CFD7E7500DEB9A1 /* DarkBar.swift in Sources */,
 				B8074B0228C83A96006E0133 /* RewardTrackType.swift in Sources */,
 				B8AFA40B2723310700B3470E /* BoardOverlay.swift in Sources */,
+				B8BDF9082A9626A8000DA4ED /* AnomalyProxy.swift in Sources */,
 				43C9EF291E9C1DED00D17F2A /* ArenaHelperSync.swift in Sources */,
 				B8AC9A23293D48E10047F438 /* OverlayMessage.swift in Sources */,
 				B8AF9330282D4A7C00864934 /* BattlegroundsSession.swift in Sources */,
@@ -3938,7 +3946,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/downloaded-frameworks/mono/runtimes/osx-x64/native";
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 2.5.1;
+				MARKETING_VERSION = 2.5.2;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = "$(inherited)";
@@ -3983,7 +3991,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/downloaded-frameworks/mono/runtimes/osx-x64/native";
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 2.5.1;
+				MARKETING_VERSION = 2.5.2;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = net.hearthsim.hstracker;

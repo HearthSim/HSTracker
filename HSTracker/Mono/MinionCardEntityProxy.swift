@@ -20,6 +20,8 @@ class MinionCardEntityProxy: MonoHandle, MonoClassInitializer {
             MinionCardEntityProxy._class = MonoHelper.loadClass(ns: "BobsBuddy", name: "MinionCardEntity")
             
             MinionCardEntityProxy._constructor = MonoHelper.getMethod(MinionCardEntityProxy._class, ".ctor", 3)
+            
+            initializeProperties(properties: ["CanSummon"])
         }
     }
 
@@ -43,4 +45,7 @@ class MinionCardEntityProxy: MonoHandle, MonoClassInitializer {
     required init(obj: UnsafeMutablePointer<MonoObject>?) {
         fatalError("init(obj:) has not been implemented")
     }
+    
+    @MonoPrimitiveProperty(property: "CanSummon", owner: MinionCardEntityProxy.self)
+    var canSummon: Bool
 }

@@ -718,6 +718,8 @@ extension CardIds.NonCollectible {
         static let BloodGem1 = "BG20_GEM"
         static let BigLeague = "BG27_Anomaly_100"
         static let LittleLeague = "BG27_Anomaly_800"
+        static let FreeFlyingFeathermane = "BG27_014"
+        static let FreeFlyingFeathermane_FreeFlyingFeathermane = "BG27_014_G"
     }
 }
 
