@@ -592,6 +592,10 @@ class BobsBuddyInvoker {
                 minion.addDeathrattle(deathrattle: GenericDeathrattles.plants())
             case CardIds.NonCollectible.Neutral.Sneed_Replicate:
                 minion.addDeathrattle(deathrattle: GenericDeathrattles.sneedHeroPower())
+            case CardIds.NonCollectible.Neutral.SurfnSurf_CrabRidingEnchantment:
+                minion.addDeathrattle(deathrattle: GenericDeathrattles.surfNSurfSpell())
+            case CardIds.NonCollectible.Neutral.SurfnSurf_CrabRiding:
+                minion.addDeathrattle(deathrattle: GenericDeathrattles.surfNSurfSpellGolden())
             case CardIds.NonCollectible.Neutral.Brukan_ElementEarth:
                 minion.addDeathrattle(deathrattle: GenericDeathrattles.earthInvocation())
             case CardIds.NonCollectible.Neutral.Brukan_EarthRecollection:

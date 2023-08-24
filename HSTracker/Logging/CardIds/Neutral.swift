@@ -720,6 +720,8 @@ extension CardIds.NonCollectible {
         static let LittleLeague = "BG27_Anomaly_800"
         static let FreeFlyingFeathermane = "BG27_014"
         static let FreeFlyingFeathermane_FreeFlyingFeathermane = "BG27_014_G"
+        static let SurfnSurf_CrabRidingEnchantment = "BG27_004e"
+        static let SurfnSurf_CrabRiding = "BG27_004_Ge"
     }
 }
 
