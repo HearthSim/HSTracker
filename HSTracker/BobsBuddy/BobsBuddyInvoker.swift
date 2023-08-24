@@ -58,9 +58,6 @@ class BobsBuddyInvoker {
         
     private var _turn: Int = 0
     
-    var opponentCardId = ""
-    var playerCardId = ""
-    
     private final let RebornRite = CardIds.NonCollectible.Neutral.RebornRitesTavernBrawl
     private final let RebornRiteEnchmantment = CardIds.NonCollectible.Neutral.RebornRites_RebornRiteEnchantmentTavernBrawl
     private final let KelThuzadPowerID = "kel'thuzad"
@@ -371,18 +368,11 @@ class BobsBuddyInvoker {
         guard let LastAttackingHero = LastAttackingHero else {
             return .tie
         }
-        let playerHero = game.entities.values.first { x in x.cardId == playerCardId }
-        let opponentHero = game.entities.values.first { x in x.cardId == opponentCardId }
-        
-        if let playerHero = playerHero, let opponentHero = opponentHero {
-            if LastAttackingHero.cardId == playerHero.cardId {
-                return .win
-            }
-            if LastAttackingHero.cardId == opponentHero.cardId {
-                return .loss
-            }
+        if LastAttackingHero.isControlled(by: game.player.id) {
+            return .win
+        } else {
+            return .loss
         }
-        return .invalid
     }
     
     private func getLastLethalResult() -> LethalResult {
@@ -666,12 +656,12 @@ class BobsBuddyInvoker {
 
         input.damageCap = Int32(game.gameEntity?[.bacon_combat_damage_cap] ?? 0)
         
-        var friendlyMurky = game.player.board.first { e in e.cardId == CardIds.NonCollectible.Neutral.Murky }
-        var friendlyMurkyBuff = friendlyMurky?[.tag_script_data_num_1] ?? 0
+        let friendlyMurky = game.player.board.first { e in e.cardId == CardIds.NonCollectible.Neutral.Murky }
+        let friendlyMurkyBuff = friendlyMurky?[.tag_script_data_num_1] ?? 0
         input.playerBattlecriesPlayed = Int32(friendlyMurky != nil && friendlyMurkyBuff > 0 ? friendlyMurkyBuff / (friendlyMurky!.has(tag: .premium) ? 2 : 1) - 1 : 0)
 
-        var opponentMurky = game.opponent.board.first { e in e.cardId == CardIds.NonCollectible.Neutral.Murky }
-        var opponentMurkyBuff = opponentMurky?[.tag_script_data_num_1] ?? 0
+        let opponentMurky = game.opponent.board.first { e in e.cardId == CardIds.NonCollectible.Neutral.Murky }
+        let opponentMurkyBuff = opponentMurky?[.tag_script_data_num_1] ?? 0
         input.opponentBattlecriesPlayed = Int32(opponentMurky != nil && opponentMurkyBuff > 0 ? opponentMurkyBuff / (opponentMurky!.has(tag: .premium) ? 2 : 1) - 1 : 0)
         
         guard let oppHero = game.opponent.board.first(where: { $0.isHero }), let playerHero = game.player.board.first(where: { $0.isHero}) else {
@@ -684,10 +674,6 @@ class BobsBuddyInvoker {
             oppHealth = 1000
         }
         input.setHealths(player: Int32(playerHero.health) + Int32(playerHero[.armor]), opponent: Int32(oppHealth) + Int32(oppHero[.armor]))
-        
-        //We set OpponentCardId and PlayerCardId here so that later we can do lookups for these entites without using _game.Opponent/Player, which might be innacurate or null depending on when they're accessed.
-        opponentCardId = oppHero.cardId
-        playerCardId = playerHero.cardId
         
         input.playerDamageTaken = Int32(playerHero[GameTag.damage])
         input.opponentDamageTaken = Int32(oppHero[GameTag.damage])
