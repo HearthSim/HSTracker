@@ -28,7 +28,7 @@ class BattlegroundsTierOverlayView: NSView {
     
     func unhideTier() {
         if !showing {
-            let anomalyDbfId =  AppDelegate.instance().coreManager.game.gameEntity?[.bacon_global_anomaly_dbid]
+            let anomalyDbfId =  BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: AppDelegate.instance().coreManager.game.gameEntity)
             let anomalyCardId = Cards.by(dbfId: anomalyDbfId, collectible: false)?.id
             let availableTiers = BattlegroundsUtils.getAvailableTiers(anomalyCardId: anomalyCardId)
             for i in 1...7 {

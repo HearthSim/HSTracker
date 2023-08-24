@@ -673,7 +673,7 @@ class BobsBuddyInvoker {
         let opponentTechLevel = oppHero[GameTag.player_tech_level]
         input.setTiers(player: Int32(playerTechLevel), opponent: Int32(opponentTechLevel))
         
-        let anomalyDbfId = game.gameEntity?[.bacon_global_anomaly_dbid]
+        let anomalyDbfId = BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: game.gameEntity)
         if let anomalyCardId = Cards.by(dbfId: anomalyDbfId, collectible: false)?.id {
             input.anomaly = simulator.anomalyFactory.create(id: anomalyCardId)
         }

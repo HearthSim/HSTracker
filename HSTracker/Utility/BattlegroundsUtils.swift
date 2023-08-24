@@ -25,7 +25,7 @@ class BattlegroundsUtils {
                 }
             }
         }
-
+        
         if let mapped = BattlegroundsUtils.transformableHeroCardidTable[result] {
             return mapped
         }
@@ -43,5 +43,13 @@ class BattlegroundsUtils {
         default:
             return [1, 2, 3, 4, 5, 6]
         }
+    }
+    
+    static func getBattlegroundsAnomalyDbfId(game: Entity?) -> Int? {
+        let anomalyDbfId = game?[.bacon_global_anomaly_dbid] ?? 0
+        if anomalyDbfId > 0 {
+            return anomalyDbfId
+        }
+        return nil
     }
 }
