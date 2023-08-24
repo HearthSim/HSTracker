@@ -651,6 +651,14 @@ class BobsBuddyInvoker {
 
         input.damageCap = Int32(game.gameEntity?[.bacon_combat_damage_cap] ?? 0)
         
+        var friendlyMurky = game.player.board.first { e in e.cardId == CardIds.NonCollectible.Neutral.Murky }
+        var friendlyMurkyBuff = friendlyMurky?[.tag_script_data_num_1] ?? 0
+        input.playerBattlecriesPlayed = Int32(friendlyMurky != nil && friendlyMurkyBuff > 0 ? friendlyMurkyBuff / (friendlyMurky!.has(tag: .premium) ? 2 : 1) - 1 : 0)
+
+        var opponentMurky = game.opponent.board.first { e in e.cardId == CardIds.NonCollectible.Neutral.Murky }
+        var opponentMurkyBuff = opponentMurky?[.tag_script_data_num_1] ?? 0
+        input.opponentBattlecriesPlayed = Int32(opponentMurky != nil && opponentMurkyBuff > 0 ? opponentMurkyBuff / (opponentMurky!.has(tag: .premium) ? 2 : 1) - 1 : 0)
+        
         guard let oppHero = game.opponent.board.first(where: { $0.isHero }), let playerHero = game.player.board.first(where: { $0.isHero}) else {
             logger.error("Hero(es) could not be found. Exiting.")
             return
