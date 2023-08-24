@@ -46,7 +46,10 @@ class BattlegroundsUtils {
     }
     
     static func getBattlegroundsAnomalyDbfId(game: Entity?) -> Int? {
-        let anomalyDbfId = game?[.bacon_global_anomaly_dbid] ?? 0
+        guard let game = game else {
+            return nil
+        }
+        let anomalyDbfId = game[.bacon_global_anomaly_dbid]
         if anomalyDbfId > 0 {
             return anomalyDbfId
         }
