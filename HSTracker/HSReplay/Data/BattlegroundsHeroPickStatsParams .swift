@@ -11,5 +11,6 @@ import Foundation
 struct BattlegroundsHeroPickStatsParams: Codable {
     var hero_dbf_ids: [Int]
     var minion_types: [Int]
+    var anomaly_dbf_id: Int?
     var game_language: String
 }

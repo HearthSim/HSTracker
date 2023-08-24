@@ -122,6 +122,10 @@ class BgHeroesToastView: NSView {
         if let mmr = mmr {
             url += "&mmr=\(mmr)"
         }
+        if let anomalyDbfId = BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: AppDelegate.instance().coreManager.game
+            .gameEntity) {
+            url += "&anomalyDbfId=\(anomalyDbfId)"
+        }
         NSWorkspace.shared.open(URL(string: url)!)
         if let clicked = self.clicked {
             clicked()

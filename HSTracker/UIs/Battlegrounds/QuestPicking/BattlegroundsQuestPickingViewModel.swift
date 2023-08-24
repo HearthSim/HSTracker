@@ -175,7 +175,7 @@ class BattlegroundsQuestPickingViewModel: ViewModel {
             return nil
         }
         
-        return BattlegroundsQuestStatsParams(hero_dbf_id: heroCard.dbfId, hero_power_dbf_ids: game.player.pastHeroPowers.compactMap({ x in Cards.any(byId: x)?.dbfId }), turn: game.turnNumber(), minion_types: availableRaces.compactMap { x in Int(Race.allCases.firstIndex(of: x)!) }, offered_rewards: getOfferedRewards(), game_language: "\(Settings.hearthstoneLanguage ?? .enUS)")
+        return BattlegroundsQuestStatsParams(hero_dbf_id: heroCard.dbfId, hero_power_dbf_ids: game.player.pastHeroPowers.compactMap({ x in Cards.any(byId: x)?.dbfId }), turn: game.turnNumber(), minion_types: availableRaces.compactMap { x in Int(Race.allCases.firstIndex(of: x)!) }, anomaly_dbf_id: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: game.gameEntity), offered_rewards: getOfferedRewards(), game_language: "\(Settings.hearthstoneLanguage ?? .enUS)")
     }
     
     private func getOfferedRewards() -> [BattlegroundsQuestStatsParams.OfferedReward] {

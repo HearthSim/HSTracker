@@ -13,6 +13,7 @@ struct BattlegroundsQuestStatsParams: Codable {
     var hero_power_dbf_ids: [Int]
     var turn: Int
     var minion_types: [Int]
+    var anomaly_dbf_id: Int?
     var offered_rewards: [OfferedReward]
     var game_language: String
     
