@@ -1,3 +1,8 @@
+# 2.5.3
+## New
+**Bob's Buddy**
+- Fixed further issues related to cards and mechanics added with Hearthstone 27.2.0.
+
 # 2.5.2
 ## New
 - Updated for patch 27.2.0
