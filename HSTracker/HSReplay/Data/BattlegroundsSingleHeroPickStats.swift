@@ -18,4 +18,5 @@ struct BattlegroundsSingleHeroPickStats: Decodable {
     var mmr_filter_value: String
     var min_mmr: Int
     var total_games_all_heroes: Int64
+    var anomaly_adjusted: Bool
 }

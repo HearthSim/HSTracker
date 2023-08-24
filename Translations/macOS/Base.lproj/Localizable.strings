@@ -291,6 +291,7 @@
 "BattlegroundsOverlayMessage_Error" = "Something went wrong :(";
 "BattlegroundsOverlayMessage_Loading" = "Loading...";
 "BattlegroundsOverlayMessage_MMR" = "All Stats From Top %d%% MMR (%d+)";
+"BattlegroundsOverlayMessage_MMR_AnomalyAdjusted" = "All Stats From Top %d%% MMR (%d+), Adjusted for Anomaly";
 "BattlegroundsPreLobby_Trial_ResetTimeRemaining_DaysHours" = "%dd %dh";
 "BattlegroundsPreLobby_Authenticated_Welcome" = "Wecome %@!";
 "BattlegroundsPreLobby_Authenticated_TrialsRemaining" = "Uses remaining this week: %d";

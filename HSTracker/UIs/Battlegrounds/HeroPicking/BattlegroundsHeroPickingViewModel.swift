@@ -134,7 +134,9 @@ class BattlegroundsHeroPickingViewModel: ViewModel {
             }
             return nil
         }
-        message.mmr(filterValue: stats[0].mmr_filter_value, minMMR: stats[0].min_mmr)
+        var anomalyAdjusted = stats.filter { heroData in heroData.anomaly_adjusted }.count > 0
+
+        message.mmr(filterValue: stats[0].mmr_filter_value, minMMR: stats[0].min_mmr, anomalyAdjusted: anomalyAdjusted)
         visibility = true
     }
     

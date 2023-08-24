@@ -17,5 +17,6 @@ struct BattlegroundsQuestStats: Decodable {
     var tier_r: Int?
     var mmr_filter_value: String
     var min_mmr: Int?
+    var anomaly_adjusted: Bool?
     var debug: [String] 
 }
