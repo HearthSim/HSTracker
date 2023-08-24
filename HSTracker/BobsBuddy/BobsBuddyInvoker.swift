@@ -647,6 +647,21 @@ class BobsBuddyInvoker {
             logger.error("Game has no available races. Exiting")
             return
         }
+        
+        guard game.gameEntity != nil else {
+            logger.debug("GameEntity could not be found. Exiting.")
+            return
+        }
+
+        guard game.playerEntity != nil else {
+            logger.debug("PlayerEntity could not be found. Exiting.")
+            return
+        }
+
+        guard game.opponentEntity != nil else {
+            logger.debug("OpponentEntity could not be found. Exiting.")
+            return
+        }
         input.addAvailableRaces(races: races)
 
         input.damageCap = Int32(game.gameEntity?[.bacon_combat_damage_cap] ?? 0)
