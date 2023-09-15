@@ -39,7 +39,7 @@ class InputProxy: MonoHandle, MonoClassInitializer {
             InputProxy._setOpponentHeroPower = MonoHelper.getMethod(InputProxy._class, "SetOpponentHeroPower", 4)
             
             // fields
-            initializeFields(fields: [ "opponentSide", "playerSide", "PlayerSecrets", "OpponentSecrets", "DamageCap", "PlayerHeroPower", "OpponentHeroPower", "PlayerHeroPower", "PlayerQuests", "OpponentQuests", "PlayerUndeadAttackBonus", "OpponentUndeadAttackBonus", "PlayerEternalKnightCounter", "OpponentEternalKnightCounter", "PlayerHand", "OpponentHand", "PlayerBloodGemAtkBuff", "PlayerBloodGemHealthBuff", "OpponentBloodGemAtkBuff", "OpponentBloodGemHealthBuff", "PlayerDamageTaken", "OpponentDamageTaken", "Anomaly", "PlayerBattlecriesPlayed", "OpponentBattlecriesPlayed" ])
+            initializeFields(fields: [ "opponentSide", "playerSide", "PlayerSecrets", "OpponentSecrets", "DamageCap", "PlayerHeroPower", "OpponentHeroPower", "PlayerHeroPower", "PlayerQuests", "OpponentQuests", "PlayerUndeadAttackBonus", "OpponentUndeadAttackBonus", "PlayerEternalKnightCounter", "OpponentEternalKnightCounter", "PlayerHand", "OpponentHand", "PlayerBloodGemAtkBuff", "PlayerBloodGemHealthBuff", "OpponentBloodGemAtkBuff", "OpponentBloodGemHealthBuff", "PlayerDamageTaken", "OpponentDamageTaken", "Anomaly", "PlayerBattlecriesPlayed", "OpponentBattlecriesPlayed", "PlayerElementalPlayCounter", "OpponentElementalPlayCounter" ])
         }
     }
     
@@ -194,4 +194,10 @@ class InputProxy: MonoHandle, MonoClassInitializer {
     
     @MonoPrimitiveField(field: "OpponentBattlecriesPlayed", owner: InputProxy.self)
     var opponentBattlecriesPlayed: Int32
+    
+    @MonoPrimitiveField(field: "PlayerElementalPlayCounter", owner: InputProxy.self)
+    var playerElementalPlayCounter: Int32
+
+    @MonoPrimitiveField(field: "OpponentElementalPlayCounter", owner: InputProxy.self)
+    var opponentElementalPlayCounter: Int32
 }

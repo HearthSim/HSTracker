@@ -831,6 +831,7 @@ class BobsBuddyInvoker {
         if let pUndeadBonus {
             input.playerUndeadAttackBonus = Int32(pUndeadBonus[.tag_script_data_num_1])
         }
+        input.playerElementalPlayCounter = Int32(game.playerEntity?[.gametag_2878] ?? 0)
 
         let opponentAttached = BobsBuddyInvoker.getAttachedEntities(game: game, entityId: game.opponentEntity?.id ?? -1)
         let oEternalLegion = opponentAttached.first { x in x.cardId == CardIds.NonCollectible.Neutral.EternalKnight_EternalKnightPlayerEnchant }
@@ -841,8 +842,9 @@ class BobsBuddyInvoker {
         if let oUndeadBonus {
             input.opponentUndeadAttackBonus = Int32(oUndeadBonus[.tag_script_data_num_1])
         }
+        input.opponentElementalPlayCounter = Int32(game.opponentEntity?[.gametag_2878] ?? 0)
 
-        logger.info("pEternal=\(input.playerEternalKnightCounter), pUndead=\(input.playerUndeadAttackBonus) | oEternal=\(input.opponentEternalKnightCounter), oUndead=\(input.opponentUndeadAttackBonus)")
+        logger.info("pEternal=\(input.playerEternalKnightCounter), pUndead=\(input.playerUndeadAttackBonus), pElemental=\(input.playerElementalPlayCounter) | oEternal=\(input.opponentEternalKnightCounter), oUndead=\(input.opponentUndeadAttackBonus), oElemental=\(input.opponentElementalPlayCounter)")
         
         input.playerBloodGemAtkBuff = Int32(game.playerEntity?[.bacon_bloodgembuffatkvalue] ?? 0)
         input.playerBloodGemHealthBuff = Int32(game.playerEntity?[.bacon_bloodgembuffhealthvalue] ?? 0)
