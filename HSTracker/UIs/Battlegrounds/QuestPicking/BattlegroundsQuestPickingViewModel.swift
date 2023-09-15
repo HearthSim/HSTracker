@@ -132,7 +132,7 @@ class BattlegroundsQuestPickingViewModel: ViewModel {
             return BattlegroundsSingleQuestViewModel(stats: data)
         }
         
-        var anomalyAdjusted = questData.filter { quest in quest.anomaly_adjusted ?? false }.count > 0
+        let anomalyAdjusted = questData.filter { quest in quest.anomaly_adjusted ?? false }.count > 0
         
         message.mmr(filterValue: questData[0].mmr_filter_value, minMMR: questData[0].min_mmr, anomalyAdjusted: anomalyAdjusted)
         if choices.isVisible {
