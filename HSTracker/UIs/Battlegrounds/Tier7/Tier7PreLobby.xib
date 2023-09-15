@@ -12,6 +12,7 @@
                 <outlet property="anonymous" destination="q0E-va-bQ0" id="PRK-tM-Z1n"/>
                 <outlet property="anonymousHover" destination="hmU-i1-fdw" id="AIu-jA-fsN"/>
                 <outlet property="authenticated" destination="Axu-rR-cbK" id="ACk-CC-qWc"/>
+                <outlet property="disabled" destination="bSj-3Z-jLf" id="hja-kR-mWf"/>
                 <outlet property="informationLabel" destination="BDn-M0-QVL" id="1Tw-W4-wsX"/>
                 <outlet property="loading" destination="aaD-OS-BwL" id="lLj-dh-m3d"/>
                 <outlet property="refreshAccount" destination="Efq-Fj-biL" id="fO2-pJ-H0k"/>

@@ -16,6 +16,7 @@ class Tier7PreLobby: OverWindowController {
     @IBOutlet weak var anonymous: NSStackView!
     @IBOutlet weak var authenticated: NSStackView!
     @IBOutlet weak var subscribed: NSStackView!
+    @IBOutlet weak var disabled: NSView!
     @IBOutlet weak var welcomeLabel: NSTextField!
     @IBOutlet weak var trialsRemainingLabel: NSTextField!
     @IBOutlet weak var trialTimeRemainingLabel: NSTextField!
@@ -69,6 +70,7 @@ class Tier7PreLobby: OverWindowController {
             loading.isHidden = userState != .loading
             authenticated.isHidden = userState != .authenticated
             subscribed.isHidden = userState != .subscribed
+            disabled.isHidden = userState != .disabled
         }
         if property == "allTimeHighMMR" || all {
             allTimeHighMMR.stringValue = viewModel.allTimeHighMMR ?? ""
