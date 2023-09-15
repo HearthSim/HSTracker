@@ -886,7 +886,7 @@ class BobsBuddyInvoker {
         }
         
         reRunCount += 1
-        if reRunCount < 3 {
+        if reRunCount < 11 {
             logger.debug("Opponent hand changed, re-running simulation! (#\(reRunCount)");
             if shouldRun() && !runSimulationAfterCombat  {
                 errorState = .none
