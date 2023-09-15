@@ -56,7 +56,10 @@ class BattlegroundsTierDetailsView: NSStackView {
                 }
             }
         }
-        let bannedMinions = BattlegroundsUtils.getMinionsBannedByAnomaly(anomalyDbfId: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: game.gameEntity)) ?? [String]()
+        let anomalyDbfId = BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: game.gameEntity)
+        let anomalyCardId = Cards.by(dbfId: anomalyDbfId, collectible: false)?.id
+        let availableTiers = BattlegroundsUtils.getAvailableTiers(anomalyCardId: anomalyCardId)
+        let bannedMinions = BattlegroundsUtils.getMinionsBannedByAnomaly(anomalyDbfId: anomalyDbfId) ?? [String]()
         let showBD = Settings.showBattlecryDeathrattleOnTiers
         var cardBars: [CardBar] = bgMinions.filter {
             let races = $0.bgRaces
@@ -79,7 +82,9 @@ class BattlegroundsTierDetailsView: NSStackView {
                 counts[inCard.race] = 1
             }
             card.count = 1
-            if bannedMinions.count > 0 {
+            if !availableTiers.contains(tier) {
+                card.count = 0
+            } else if bannedMinions.count > 0 {
                 if bannedMinions.contains(inCard.id) {
                     card.count = 0
                 }
