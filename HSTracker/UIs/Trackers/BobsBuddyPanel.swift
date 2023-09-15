@@ -102,13 +102,18 @@ class BobsBuddyPanel: OverWindowController {
             return
         }
         
+        let lastState = state
         state = st
                 
         if state == .combat {
             clearErrorState()
             showResults(show: Settings.showBobsBuddyDuringCombat)
         } else if state == .shopping {
-            showResults(show: Settings.showBobsBuddyDuringShopping)
+            if !Settings.showBobsBuddyDuringShopping {
+                // If the user has disabled the "Show During Shopping" setting we would usually hide Bob's Buddy here.
+                // However if simulation was delayed (e.g. due to a secret) AND the user left the panel expanded during combat, keep it expanded.
+                showResults(show: lastState == .combatWithoutSimulation)
+            }
         } else if state == .combatWithoutSimulation {
             showResults(show: false)
         }
