@@ -44,7 +44,8 @@ class BattlegroundsTierDetailsView: NSStackView {
     }
     
     func setTier(tier: Int) {
-        var availableRaces = AppDelegate.instance().coreManager.game.availableRaces
+        let game = AppDelegate.instance().coreManager.game
+        var availableRaces = game.availableRaces
         availableRaces?.append(Race.all)
         var counts = [Race: Int]()
         let bgMinions = Cards.battlegroundsMinions
@@ -55,6 +56,7 @@ class BattlegroundsTierDetailsView: NSStackView {
                 }
             }
         }
+        let bannedMinions = BattlegroundsUtils.getMinionsBannedByAnomaly(anomalyDbfId: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: game.gameEntity)) ?? [String]()
         let showBD = Settings.showBattlecryDeathrattleOnTiers
         var cardBars: [CardBar] = bgMinions.filter {
             let races = $0.bgRaces
@@ -77,6 +79,11 @@ class BattlegroundsTierDetailsView: NSStackView {
                 counts[inCard.race] = 1
             }
             card.count = 1
+            if bannedMinions.count > 0 {
+                if bannedMinions.contains(inCard.id) {
+                    card.count = 0
+                }
+            }
             card.rarity = inCard.rarity
             var cards = [CardBar]()
             if card.races.count > 0 {

@@ -103,12 +103,23 @@ struct ConfigData: Codable {
     var tier7: Tier7Data?
 }
 
+struct BattlegroundsAnomalyBans: Codable {
+    var anomaly_dbf_id: Int
+    var banned_minion_ids: [String]
+}
+
+struct BattlegroundsBans: Codable {
+    var by_anomaly: [BattlegroundsAnomalyBans]
+}
+
 class RemoteConfig {
     static var data: ConfigData?
     static var mercenaries: [Mercenary]?
+    static var battlegroundsBans: BattlegroundsBans?
     
     private static var url = "https://hsdecktracker.net/config.json"
     private static var mercsUrl = "https://api.hearthstonejson.com/v1/latest/enUS/mercenaries.json"
+    private static var bgBansUrl = "https://hsreplay.net/api/v1/battlegrounds/banned_minions/"
 
     static func checkRemoteConfig(splashscreen: Splashscreen) {
         DispatchQueue.main.async {
@@ -129,7 +140,14 @@ class RemoteConfig {
             }.done { mercs in
                 self.mercenaries = mercs
                 logger.info("Retrieved remote mercenaries configuration")
-                semaphore.signal()
+                let http3 = Http(url: RemoteConfig.bgBansUrl)
+                _ = http3.getPromise(method: .get).map { data in
+                    try JSONDecoder().decode(BattlegroundsBans.self, from: data!)
+                }.done { bans in
+                    self.battlegroundsBans = bans
+                    logger.info("Retrieved battlegrounds bans configuration")
+                    semaphore.signal()
+                }
             }.catch { error in
                 logger.error("Error parsing remote mercenaries config: \(error)")
                 semaphore.signal()
