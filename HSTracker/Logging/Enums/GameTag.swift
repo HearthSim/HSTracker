@@ -351,6 +351,7 @@ enum GameTag: Int, WrappableEnum, CaseIterable, Codable {
     sidequest = 1192,
     mega_windfury = 1207,
     creator_dbid = 1284,
+    bacon_dummy_player = 1349,
     allow_move_minion = 1356,
     next_opponent_player_id = 1360,
     invoke_counter = 1366,

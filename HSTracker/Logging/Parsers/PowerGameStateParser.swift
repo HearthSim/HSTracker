@@ -134,7 +134,7 @@ class PowerGameStateParser: LogEventParser {
                 var entity = eventHandler.entities.values
                     .first { $0.name == rawEntity }
 
-                if let entity = entity {
+                    if let entity = entity {
                     tagChangeHandler.tagChange(eventHandler: eventHandler, rawTag: tag,
                                                id: entity.id, rawValue: value)
                 } else {
@@ -167,6 +167,10 @@ class PowerGameStateParser: LogEventParser {
                             _tag == .current_player && tagValue == 0 {
                             entity = eventHandler.entities.values
                                 .first { $0.has(tag: .current_player) }
+                        } else if _tag == .hero_entity {
+                            if let bob = players.first(where: { x in x.has(tag: .bacon_dummy_player) }) {
+                                entity = bob
+                            }
                         }
 
                         if let entity = entity, let tmpEntity = tmpEntity {

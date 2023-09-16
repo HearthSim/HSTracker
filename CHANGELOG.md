@@ -1,3 +1,14 @@
+# 2.5.4
+## New
+- Updated for Hearthstone 27.2.2
+## Fixes
+- Fixed turn timer, card turn number, etc... not updating after previous change
+- Fixed Tier 7 pre lobby showing as disabled
+- Added missing Caverns of Time icon.
+## Bob's Buddy
+- Fixed an issue with a player having multiple Recurring Nightmares.
+- Fixed various card issues related to cards updated in Hearthstone 27.2.2.
+
 # 2.5.3
 ## New
 **Bob's Buddy**
