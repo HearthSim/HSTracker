@@ -46,14 +46,15 @@ extension Game {
 			.first { $0.cardId == CardIds.NonCollectible.Neutral.Cthun }
 	}
 	
-	var playerSeenCthun: Bool {
-		return self.playerEntity?.has(tag: .seen_cthun) ?? false
-	}
-	
-	var opponentSeenCthun: Bool {
-		return self.opponentEntity?.has(tag: .seen_cthun) ?? false
-	}
-	
+    var playerSeenCthun: Bool {
+        let cthun = playerCthun
+        return cthun != nil
+    }
+
+    var opponentSeenCthun: Bool {
+        return opponentCthun != nil
+    }
+    
 	var playerSeenJade: Bool {
 		return self.playerEntity?.has(tag: .jade_golem) ?? false
 	}

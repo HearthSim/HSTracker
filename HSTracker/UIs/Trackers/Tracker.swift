@@ -208,10 +208,12 @@ class Tracker: OverWindowController {
         
         recordTracker.message = recordTrackerMessage
         
+        let player = playerType == .player ? AppDelegate.instance().coreManager.game.playerEntity : AppDelegate.instance().coreManager.game.opponentEntity
+        
         wotogCounter.counterStyle = counterStyle
         wotogCounter.isHidden = wotogCounter.counterStyle.contains(.none)
-        wotogCounter.attack = proxy?.attack ?? 6
-        wotogCounter.health = proxy?.health ?? 6
+        wotogCounter.attack = player?.has(tag: .cthun_attack_buff) ?? false ? player![.cthun_attack_buff] + 6 : 6
+        wotogCounter.health = player?.has(tag: .cthun_health_buff) ?? false ? player![.cthun_health_buff] + 6 : 6
         wotogCounter.spell = spellsPlayedCount
         wotogCounter.deathrattle = deathrattlesPlayedCount
         wotogCounter.libram = libramReductionCount

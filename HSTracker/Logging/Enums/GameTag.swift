@@ -393,7 +393,9 @@ enum GameTag: Int, WrappableEnum, CaseIterable, Codable {
     bacon_bloodgembuffhealthvalue = 2827,
     venomous = 2853,
     gametag_2878 = 2878,
-    bacon_global_anomaly_dbid = 2897
+    bacon_global_anomaly_dbid = 2897,
+    cthun_health_buff = 3053,
+    cthun_attack_buff = 3054
 
     static var lookup = [String: GameTag]()
     
