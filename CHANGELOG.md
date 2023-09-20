@@ -1,3 +1,14 @@
+# 2.5.5
+## New
+- Updated for Hearthstone 27.4.0
+## Fixes
+- Fixed an issue where randomly cast cards with Dredge could unintentionally reveal the affected cards.
+- Fixed the C'Thun counter.
+## Bob's Buddy
+- Fixed an issue where Mannoroth and Murcules were not simulated correctly after being attacked.
+- Fixed an issue where Frostwolf Lieutenant was simulated according to outdated card text.
+- Fixed an issue where the Blessed or Blighted anomaly was not simulated correctly.
+
 # 2.5.4
 ## New
 - Updated for Hearthstone 27.2.2
