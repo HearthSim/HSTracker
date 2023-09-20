@@ -153,6 +153,9 @@ struct TagChangeActions {
         onDredge(eventHandler: eventHandler, entity: entity, target: targetEntity)
     }
     
+    static let _canCastDredge = [ CardIds.Collectible.Druid.ConvokeTheSpirits,
+                                  CardIds.Collectible.Mage.PuzzleBoxOfYoggSaron ]
+    
     private func onDredge(eventHandler: PowerEventHandler, entity: Entity, target: Entity) {
         guard entity[.linked_entity] == target.id && entity[.copied_from_entity_id] == target.id && entity.isControlled(by: eventHandler.player.id) else {
             return
@@ -169,6 +172,10 @@ struct TagChangeActions {
         }
         if currentBlock.dredgeCounter == 0 {
             eventHandler.dredgeCounter += 3
+        }
+        if TagChangeActions._canCastDredge.contains(currentBlock.parent?.cardId ?? "") {
+            // Dredge effect was automatically cast by another card. Not revealed to the player.
+            return
         }
         let index = eventHandler.dredgeCounter - currentBlock.dredgeCounter
         currentBlock.dredgeCounter += 1

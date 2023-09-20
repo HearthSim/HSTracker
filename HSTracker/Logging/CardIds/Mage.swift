@@ -155,6 +155,7 @@ extension CardIds.Collectible {
         static let FrozenTouch = "REV_601"
         static let ArcaneWyrm = "RLK_548"
         static let ArcaneBolt = "RLK_843"
+        static let PuzzleBoxOfYoggSaron = "ULD_216"
     }
 }
 
