@@ -383,7 +383,7 @@ class MonoHelper {
         let sim = SimulatorProxy()
         
         if sim.valid() {
-            let test = InputProxy(simulator: sim)
+            let test = InputProxy()
             
             test.setHealths(player: 4, opponent: 4)
             

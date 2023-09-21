@@ -1,3 +1,7 @@
+# 2.5.6
+## Fixes
+- Fixed crash on startup introduced by version 2.5.5 (issue #1324)
+
 # 2.5.5
 ## New
 - Updated for Hearthstone 27.4.0

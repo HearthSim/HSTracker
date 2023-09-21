@@ -618,7 +618,7 @@ class BobsBuddyInvoker {
         LastAttackingHero = nil
         
         let simulator = SimulatorProxy()
-        let input = InputProxy(simulator: simulator)
+        let input = InputProxy()
         
         if game.player.board.any(isUnknownCard) || game.opponent.board.any(isUnknownCard) {
             errorState = .unknownCards

@@ -29,7 +29,7 @@ class InputProxy: MonoHandle, MonoClassInitializer {
         if InputProxy._class == nil {
             InputProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Simulation", name: "Input")
             // methods
-            InputProxy._constructor = MonoHelper.getMethod(InputProxy._class, ".ctor", 1)
+            InputProxy._constructor = MonoHelper.getMethod(InputProxy._class, ".ctor", 0)
             InputProxy._setHealths = MonoHelper.getMethod(InputProxy._class, "SetHealths", 2)
             InputProxy._setTiers = MonoHelper.getMethod(InputProxy._class, "SetTiers", 2)
             InputProxy._setTurn = MonoHelper.getMethod(InputProxy._class, "SetTurn", 1)
@@ -43,7 +43,7 @@ class InputProxy: MonoHandle, MonoClassInitializer {
         }
     }
     
-    init(simulator: SimulatorProxy) {
+    override init() {
         super.init()
         
         let obj = MonoHelper.objectNew(clazz: InputProxy._class!)
@@ -51,14 +51,7 @@ class InputProxy: MonoHandle, MonoClassInitializer {
         
         let inst = self.get()
         
-        let simInst = simulator.get()
-        
-        let params = UnsafeMutablePointer<UnsafeMutableRawPointer?>.allocate(capacity: 1)
-        params[0] = UnsafeMutableRawPointer(simInst)
-        
-        mono_runtime_invoke(InputProxy._constructor, inst, params, nil)
-        
-        params.deallocate()
+        mono_runtime_invoke(InputProxy._constructor, inst, nil, nil)
     }
     
     required init(obj: UnsafeMutablePointer<MonoObject>?) {
