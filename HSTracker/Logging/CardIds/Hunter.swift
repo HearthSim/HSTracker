@@ -257,7 +257,7 @@ extension CardIds.Secrets {
         static let Snipe = MultiIdCard(CardIds.Collectible.Hunter.Snipe, CardIds.Collectible.Hunter.SnipeVanilla)
         static let SnakeTrap = MultiIdCard(CardIds.Collectible.Hunter.SnakeTrap, CardIds.Collectible.Hunter.SnakeTrapCore, CardIds.Collectible.Hunter.SnakeTrapVanilla)
         static let VenomstrikeTrap = MultiIdCard(CardIds.Collectible.Hunter.VenomstrikeTrap, CardIds.Collectible.Hunter.VenomstrikeTrapCore)
-        static let WanderingMonster = MultiIdCard(CardIds.Collectible.Hunter.WanderingMonster)
+        static let WanderingMonster = MultiIdCard(CardIds.Collectible.Hunter.WanderingMonster, CardIds.Collectible.Hunter.WanderingMonsterInvalid)
         static let IceTrap = MultiIdCard(CardIds.Collectible.Hunter.IceTrap)
         static let MotionDenied = MultiIdCard(CardIds.Collectible.Hunter.MotionDenied)
         static let Zombeeees = MultiIdCard(CardIds.Collectible.Hunter.Zombeeees)
