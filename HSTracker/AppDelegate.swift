@@ -304,6 +304,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
                 self.coreManager.game.windowManager.bobsBuddyPanel.setErrorState(error: .monoNotFound)
             }
             #endif
+            
+            // remove any old feed URL to fix users not getting notified of updates
+            UserDefaults.standard.removeObject(forKey: "SUFeedURL")
 
             DispatchQueue.main.async {
                 self.completeSetup()
