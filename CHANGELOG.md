@@ -1,3 +1,9 @@
+# 2.5.7
+## New
+- Updated for Hearthstone 27.4.2
+## Fixes
+- Added Core Set Wandering Monster to list of secrets (PR #1326, thanks @IAmAdamTaylor)
+
 # 2.5.6
 ## Fixes
 - Fixed crash on startup introduced by version 2.5.5 (issue #1324)
