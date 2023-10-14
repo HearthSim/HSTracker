@@ -495,9 +495,9 @@ struct TagChangeActions {
                 if copiedFrom > 0, let source = eventHandler.entities[copiedFrom], source.isInHand && !source.hasCardId {
                     BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateOpponentHand(entity: source, copy: entity)
                 }
-                zoneChangeFromOther(eventHandler: eventHandler, id: id, rawValue: value, prevValue: prevValue, controller: controller, cardId: entity.info.latestCardId)
             }
-            
+            zoneChangeFromOther(eventHandler: eventHandler, id: id, rawValue: value, prevValue: prevValue, controller: controller, cardId: entity.info.latestCardId)
+
         case .graveyard, .removedfromgame:
             zoneChangeFromOther(eventHandler: eventHandler, id: id, rawValue: value, prevValue: prevValue,
                                 controller: controller, cardId: entity.cardId)
