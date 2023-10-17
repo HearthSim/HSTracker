@@ -12,6 +12,18 @@ struct UnsupportedInteraction: Error {
     
 }
 
+struct RuntimeError: LocalizedError {
+    let description: String
+    
+    init(_ description: String) {
+        self.description = description
+    }
+    
+    var errorDescription: String? {
+        return description
+    }
+}
+
 class SimulationRunnerProxy: MonoHandle, MonoClassInitializer {
     static var _class: OpaquePointer?
     

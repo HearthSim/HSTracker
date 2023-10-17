@@ -375,6 +375,14 @@ class MonoHelper {
         fatalError("Property \(property) not found")
     }
     
+    static func createMinion(f: MinionFactoryProxy, id: String, player: Bool, attack: Int, health: Int) -> MinionProxy {
+        let m = f.createFromCardid(id: id, player: player)
+        m.baseAttack = Int32(attack)
+        m.baseHealth = Int32(health)
+        
+        return m
+    }
+    
     static func testSimulation() {
         let handle = mono_thread_attach(MonoHelper._monoInstance)
         
@@ -429,8 +437,19 @@ class MonoHelper {
 
             let mw = MonoHelper.getMethod(c, "Wait", 0)
 
-            _ = mono_runtime_invoke(mw, inst2, nil, nil)
-            
+            let exc = UnsafeMutablePointer<UnsafeMutablePointer<MonoObject>?>.allocate(capacity: 1)
+            exc[0] = nil
+            _ = mono_runtime_invoke(mw, inst2, nil, exc)
+            if exc[0] != nil {
+                let handle = MonoHandle(obj: exc[0])
+                let str = MonoHelper.toString(obj: handle)
+                exc.deallocate()
+                if str.contains("BobsBuddy.UnsupportedInteractionException") {
+                    abort()
+                }
+            }
+            exc.deallocate()
+
             let meth2 = MonoHelper.getMethod(c, "get_Result", 0)
             let output = mono_runtime_invoke(meth2, inst2, nil, nil)
             let top = OutputProxy(obj: output)

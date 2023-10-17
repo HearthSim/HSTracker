@@ -1,3 +1,10 @@
+# 2.5.8
+## Fixes
+- Fixed discovered secrets not being tracked (issue #1327)
+- Fixed crashes due to interaction with Rylak (issue #1316)
+**Bob's Buddy**
+- Fixed an issue where Choral Mrrrglr was not simulated correctly.
+
 # 2.5.7
 ## New
 - Updated for Hearthstone 27.4.2

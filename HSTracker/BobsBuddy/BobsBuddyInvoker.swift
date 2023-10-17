@@ -273,6 +273,8 @@ class BobsBuddyInvoker {
                             exc.deallocate()
                             if str.contains("BobsBuddy.UnsupportedInteractionException") {
                                 throw UnsupportedInteraction()
+                            } else {
+                                throw RuntimeError(str)
                             }
                         }
                         exc.deallocate()
