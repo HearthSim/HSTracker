@@ -60,6 +60,7 @@ enum CardSet: String, CaseIterable {
     battle_of_the_bands,
     placeholder_202204,
     titans,
+    wild_west,
     wonders
     
     static func deckManagerValidCardSets() -> [CardSet] {
@@ -70,7 +71,7 @@ enum CardSet: String, CaseIterable {
                 .black_temple, .demon_hunter_initiate, .scholomance, .darkmoon_faire,
                 .the_barrens, .wailing_caverns, .stormwind, .alterac_valley,
                 .the_sunken_city, .revendreth, .return_of_the_lich_king, .path_of_arthas, .battle_of_the_bands,
-                .titans, .wonders]
+                .titans, .wonders, .wild_west]
     }
     
     static func wildSets() -> [CardSet] {
@@ -160,5 +161,6 @@ public enum CardSetInt: Int {
     placeholder_202204 = 1810,
     titans = 1858,
     path_of_arthas = 1869,
+    wild_west = 1892,
     wonders = 1898
 }

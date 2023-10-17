@@ -149,6 +149,7 @@
 "BATTLE_OF_THE_BANDS" = "Festival of Legends";
 "TITANS" = "Titans";
 "WONDERS" = "Caverns of Time";
+"WILD_WEST" = "Showdown in the Badlands";
 
 /* card type */
 "all_types" = "All";

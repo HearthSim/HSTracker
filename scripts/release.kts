@@ -93,11 +93,28 @@ val buildCommand = object: CliktCommand(name = "build") {
 
 val notarizeCommand = object: CliktCommand(name = "notarize") {
     override fun run() {
-        Notarization.sendForNotarization(
-                bundleId = KintaEnv.getOrFail("BUNDLE_ID"),
-                itcProvider = KintaEnv.getOrFail("ITC_PROVIDER"),
-                file = File(hstrackerAppZipPath)
-        )
+        val password = password ?: KintaEnv.get(KintaEnv.Var.APPLE_PASSWORD)
+        val username = username ?: KintaEnv.get(KintaEnv.Var.APPLE_USERNAME)
+        val itcProvider = KintaEnv.getOrFail("ITC_PROVIDER")
+        val file = File(hstrackerAppZipPath)
+
+        val command = "xcrun notarytool --submit --apple-id $username --password $password --team-id $itcProvider ${file.absolutePath} --wait"
+
+        val result = CommandLine.output(command = command)
+
+        println("result: $result")
+
+        val id = result.lines().mapNotNull {
+            val regex = Regex("\s+id: (.*)")
+            val match = regex.matchEntire(it)
+            if (match != null) {
+                val requestId = match.groupValues[1]
+                System.out.println("Notarization Request: ${requestId}")
+                requestId
+            } else {
+              null
+            }
+        }.first()
     }
 }
 

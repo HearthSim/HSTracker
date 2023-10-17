@@ -1,3 +1,9 @@
+# 2.5.9
+## New
+- Updated for Hearthstone 27.6.0
+**Bob's Buddy**
+- There are likely still issues with some new cards in Bob's Buddy. We will update these in the coming days.
+
 # 2.5.8
 ## Fixes
 - Fixed discovered secrets not being tracked (issue #1327)
@@ -77,7 +83,7 @@
 
 # 2.4.8
 ## New
-- Updated for Hearthstone 2.6.2
+- Updated for Hearthstone 26.6.2
 
 # 2.4.7
 ## New
