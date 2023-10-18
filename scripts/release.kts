@@ -105,7 +105,7 @@ val notarizeCommand = object: CliktCommand(name = "notarize") {
         println("result: $result")
 
         val id = result.lines().mapNotNull {
-            val regex = Regex("\s+id: (.*)")
+            val regex = Regex("\\s+id: (.*)")
             val match = regex.matchEntire(it)
             if (match != null) {
                 val requestId = match.groupValues[1]
