@@ -93,12 +93,12 @@ val buildCommand = object: CliktCommand(name = "build") {
 
 val notarizeCommand = object: CliktCommand(name = "notarize") {
     override fun run() {
-        val password = password ?: KintaEnv.get(KintaEnv.Var.APPLE_PASSWORD)
-        val username = username ?: KintaEnv.get(KintaEnv.Var.APPLE_USERNAME)
+        val password = KintaEnv.get(KintaEnv.Var.APPLE_PASSWORD)
+        val username = KintaEnv.get(KintaEnv.Var.APPLE_USERNAME)
         val itcProvider = KintaEnv.getOrFail("ITC_PROVIDER")
         val file = File(hstrackerAppZipPath)
 
-        val command = "xcrun notarytool --submit --apple-id $username --password $password --team-id $itcProvider ${file.absolutePath} --wait"
+        val command = "xcrun notarytool submit --apple-id $username --password $password --team-id $itcProvider ${file.absolutePath} --wait"
 
         val result = CommandLine.output(command = command)
 
