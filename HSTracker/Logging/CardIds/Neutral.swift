@@ -723,6 +723,9 @@ extension CardIds.NonCollectible {
         static let SurfnSurf_CrabRidingEnchantment = "BG27_004e"
         static let SurfnSurf_CrabRiding = "BG27_004_Ge"
         static let Murky = "BG24_012"
+        static let HowToEven = "BG27_Anomaly_102"
+        static let ValuationInflation = "BG27_Anomaly_556"
+        static let WhatAreTheOdds = "BG27_Anomaly_101"
     }
 }
 

@@ -36,10 +36,16 @@ class BattlegroundsUtils {
         switch anomalyCardId {
         case CardIds.NonCollectible.Neutral.BigLeague:
             return [3, 4, 5, 6]
+        case CardIds.NonCollectible.Neutral.HowToEven:
+            return [2, 4, 6]
         case CardIds.NonCollectible.Neutral.LittleLeague:
             return [1, 2, 3, 4]
         case CardIds.Invalid.SecretsOfNorgannon:
             return [1, 2, 3, 4, 5, 6, 7]
+        case CardIds.NonCollectible.Neutral.ValuationInflation:
+            return [2, 3, 4, 5, 6]
+        case CardIds.NonCollectible.Neutral.WhatAreTheOdds:
+            return [1, 3, 5]
         default:
             return [1, 2, 3, 4, 5, 6]
         }
