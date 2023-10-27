@@ -390,12 +390,16 @@ enum GameTag: Int, WrappableEnum, CaseIterable, Codable {
     bacon_hero_heropower_quest_reward_database_id = 2714,
     bacon_hero_quest_reward_completed = 2715,
     bacon_hero_heropower_quest_reward_completed = 2716,
+    titan = 2772,
     bacon_bloodgembuffhealthvalue = 2827,
     venomous = 2853,
     gametag_2878 = 2878,
     bacon_global_anomaly_dbid = 2897,
     cthun_health_buff = 3053,
-    cthun_attack_buff = 3054
+    cthun_attack_buff = 3054,
+    titan_ability_used_1 = 3140,
+    titan_ability_used_2 = 3141,
+    titan_ability_used_3 = 3142
 
     static var lookup = [String: GameTag]()
     

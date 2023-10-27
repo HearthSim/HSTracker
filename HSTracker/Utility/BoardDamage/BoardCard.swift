@@ -31,6 +31,8 @@ class BoardCard: IBoardEntity {
     private(set) var attacksThisTurn = 0
     private(set) var exhausted = false
     private(set) var dormant = false
+    private(set) var titan = false
+    private(set) var titanAbilitiesUsed = 0
     
     private(set) var zone = ""
     
@@ -51,6 +53,18 @@ class BoardCard: IBoardEntity {
         windfury = entity[.windfury] == 1
         attacksThisTurn = entity[.num_attacks_this_turn]
         dormant = entity[.dormant] == 1
+        titan = entity[.titan] == 1
+        if titan {
+            if entity[.titan_ability_used_1] == 1 {
+                titanAbilitiesUsed += 1
+            }
+            if entity[.titan_ability_used_2] == 1 {
+                titanAbilitiesUsed += 1
+            }
+            if entity[.titan_ability_used_3] == 1 {
+                titanAbilitiesUsed += 1
+            }
+        }
         
         cardId = entity.cardId
         taunt = entity[.taunt] == 1
@@ -92,7 +106,7 @@ class BoardCard: IBoardEntity {
     private func isAbleToAttack(active: Bool, isWeapon: Bool) -> Bool {
         // TODO: if frozen on turn, may be able to attack next turn
         // don't include weapons if an active turn, count Hero instead
-        if _cantAttack || _frozen || (isWeapon && active) {
+        if _cantAttack || _frozen || (isWeapon && active) || dormant || (titan && titanAbilitiesUsed < 3) {
             return false
         }
         if !active {
