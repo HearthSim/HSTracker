@@ -1,3 +1,10 @@
+# 2.5.10
+## New
+- Updated for Hearthstone 27.6.2
+## Fixes
+- Fixed an issue where the attack counters were not correctly handling Titans.
+- Fixed an issue where Plagues were not correctly added back to the deck when Helya is in play.
+
 # 2.5.9
 ## New
 - Updated for Hearthstone 27.6.0
