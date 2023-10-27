@@ -1181,6 +1181,8 @@ class Game: NSObject, PowerEventHandler {
     }
 
     private(set) var currentFormat = Format(formatType: FormatType.ft_unknown)
+    
+    var lastPlagueDrawn: String?
 
 	// MARK: - Lifecycle
     private var observers: [NSObjectProtocol] = []

@@ -805,6 +805,9 @@ struct TagChangeActions {
 
         switch zoneValue {
         case .hand:
+            if cardId == CardIds.NonCollectible.Deathknight.DistressedKvaldir_FrostPlagueToken || cardId == CardIds.NonCollectible.Deathknight.DistressedKvaldir_BloodPlagueToken || cardId == CardIds.NonCollectible.Deathknight.DistressedKvaldir_UnholyPlagueToken {
+                eventHandler.lastPlagueDrawn = cardId
+            }
             if controller == eventHandler.player.id && cardId != "" {
                 eventHandler.playerDraw(entity: entity, cardId: cardId, turn: eventHandler.turnNumber())
             } else if controller == eventHandler.opponent.id {

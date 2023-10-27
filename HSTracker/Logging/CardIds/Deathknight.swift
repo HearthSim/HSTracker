@@ -35,3 +35,12 @@ extension CardIds.Collectible {
     }
 }
 
+extension CardIds.NonCollectible {
+    struct Deathknight {
+        static let Helya_PlightOfTheDeadEnchantment = "TTN_850e1"
+        static let DistressedKvaldir_FrostPlagueToken = "TTN_450t3"
+        static let DistressedKvaldir_BloodPlagueToken = "TTN_450t"
+        static let DistressedKvaldir_UnholyPlagueToken = "TTN_450t2"
+    }
+}
+
