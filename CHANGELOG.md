@@ -1,3 +1,9 @@
+# 2.5.11
+## New
+- Improve secret handling across different formats
+## Fixes
+- Fix crash on app start up on some Macs after Xcode 15 upgrade (issue #1328)
+
 # 2.5.10
 ## New
 - Updated for Hearthstone 27.6.2
