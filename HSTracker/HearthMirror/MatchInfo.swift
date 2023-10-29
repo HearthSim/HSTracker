@@ -61,7 +61,8 @@ struct MatchInfo {
     var missionId: Int
     var rankedSeasonId: Int
     var gameType: GameType
-    var formatType: Format
+    var format: Format
+    var formatType: FormatType
     var spectator: Bool
 
     init(info: MirrorMatchInfo) {
@@ -72,8 +73,8 @@ struct MatchInfo {
         missionId = info.missionId as? Int ?? 0
         rankedSeasonId = info.rankedSeasonId as? Int ?? 0
         gameType = GameType(rawValue: info.gameType as? Int ?? 0) ?? .gt_unknown
-        formatType = Format(formatType: FormatType(rawValue: info.formatType as? Int ?? 0)
-        ?? .ft_unknown)
+        formatType = FormatType(rawValue: info.formatType as? Int ?? 0) ?? .ft_unknown
+        format = Format(formatType: formatType)
         spectator = info.spectator
     }
 }

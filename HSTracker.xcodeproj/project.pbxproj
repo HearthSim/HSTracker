@@ -584,6 +584,8 @@
 		B8AF9336282FE46000864934 /* BattlegroundsGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AF9335282FE45F00864934 /* BattlegroundsGameView.swift */; };
 		B8AFA4092723306D00B3470E /* BoardOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8AFA4082723306C00B3470E /* BoardOverlay.xib */; };
 		B8AFA40B2723310700B3470E /* BoardOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AFA40A2723310700B3470E /* BoardOverlay.swift */; };
+		B8B61C222AEBEA9C00990359 /* AvailableSecretsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B61C212AEBEA9C00990359 /* AvailableSecretsProvider.swift */; };
+		B8B61C242AEBEB2C00990359 /* RemoteArenaSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B61C232AEBEB2C00990359 /* RemoteArenaSettings.swift */; };
 		B8B7CC1F253C721400033758 /* BattlegroundsPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B7CC1E253C721400033758 /* BattlegroundsPreferences.swift */; };
 		B8B7CC20253C74D100033758 /* BattlegroundsPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8B7CC22253C74D100033758 /* BattlegroundsPreferences.xib */; };
 		B8BA17D728E91C52004D40ED /* LinkOpponentDeckPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BA17D628E91C52004D40ED /* LinkOpponentDeckPanel.swift */; };
@@ -1214,6 +1216,8 @@
 		B8AF9335282FE45F00864934 /* BattlegroundsGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsGameView.swift; sourceTree = "<group>"; };
 		B8AFA4082723306C00B3470E /* BoardOverlay.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BoardOverlay.xib; sourceTree = "<group>"; };
 		B8AFA40A2723310700B3470E /* BoardOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardOverlay.swift; sourceTree = "<group>"; };
+		B8B61C212AEBEA9C00990359 /* AvailableSecretsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailableSecretsProvider.swift; sourceTree = "<group>"; };
+		B8B61C232AEBEB2C00990359 /* RemoteArenaSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteArenaSettings.swift; sourceTree = "<group>"; };
 		B8B7CC1E253C721400033758 /* BattlegroundsPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsPreferences.swift; sourceTree = "<group>"; };
 		B8B7CC21253C74D100033758 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/BattlegroundsPreferences.xib; sourceTree = "<group>"; };
 		B8B7CC24253C74DB00033758 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/BattlegroundsPreferences.strings; sourceTree = "<group>"; };
@@ -2016,6 +2020,8 @@
 				43B6955A1C9065AC00F4D0AC /* Secret.swift */,
 				43AFA0021FA11F11008ED490 /* SecretsManager.swift */,
 				B8832DDB26117FCE00646BA4 /* MultiIdCard.swift */,
+				B8B61C212AEBEA9C00990359 /* AvailableSecretsProvider.swift */,
+				B8B61C232AEBEB2C00990359 /* RemoteArenaSettings.swift */,
 			);
 			path = Secrets;
 			sourceTree = "<group>";
@@ -2850,6 +2856,7 @@
 				4C3E2D8A245ED13D00292349 /* ToastWindowController.swift in Sources */,
 				43E77EE21C949C7800C26950 /* TimerHud.swift in Sources */,
 				340AAC051D0544AD0015FE33 /* StringTracker.swift in Sources */,
+				B8B61C222AEBEA9C00990359 /* AvailableSecretsProvider.swift in Sources */,
 				B8AC9A26293F92540047F438 /* BattlegroundsQuestPickingViewModel.swift in Sources */,
 				B8DC11EE24E5A8360088A755 /* MonoHandle.swift in Sources */,
 				C99C0C9D1D0A608C000DD6FB /* StatsHelper.swift in Sources */,
@@ -2964,6 +2971,7 @@
 				B8AC9A23293D48E10047F438 /* OverlayMessage.swift in Sources */,
 				B8AF9330282D4A7C00864934 /* BattlegroundsSession.swift in Sources */,
 				43F4D0491EB7A23E006B4479 /* HeroPower.swift in Sources */,
+				B8B61C242AEBEB2C00990359 /* RemoteArenaSettings.swift in Sources */,
 				439DD8FA1DB236A4004EBE47 /* ThemeElement.swift in Sources */,
 				436DFAA31E6AE1D8001C8F34 /* PackWatcher.swift in Sources */,
 				1C17D24C1E82C81700ED4047 /* LogEventParser.swift in Sources */,
@@ -3949,7 +3957,10 @@
 				MARKETING_VERSION = 2.5.10;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_CODE_SIGN_FLAGS = "--deep";
-				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ld64",
+				);
 				OTHER_SWIFT_FLAGS = "-DDEBUG $(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = net.hearthsim.hstracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3993,7 +4004,10 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MARKETING_VERSION = 2.5.10;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
-				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ld64",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = net.hearthsim.hstracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

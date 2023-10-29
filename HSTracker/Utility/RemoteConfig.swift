@@ -112,14 +112,20 @@ struct BattlegroundsBans: Codable {
     var by_anomaly: [BattlegroundsAnomalyBans]
 }
 
+struct LiveSecrets: Codable {
+    var by_game_type_and_format_type: [String: Set<String>]
+}
+
 class RemoteConfig {
     static var data: ConfigData?
     static var mercenaries: [Mercenary]?
     static var battlegroundsBans: BattlegroundsBans?
+    static var liveSecrets: LiveSecrets?
     
     private static var url = "https://hsdecktracker.net/config.json"
     private static var mercsUrl = "https://api.hearthstonejson.com/v1/latest/enUS/mercenaries.json"
     private static var bgBansUrl = "https://hsreplay.net/api/v1/battlegrounds/banned_minions/"
+    private static var secretsUrl = "https://hsreplay.net/api/v1/live_secrets/"
 
     static func checkRemoteConfig(splashscreen: Splashscreen) {
         DispatchQueue.main.async {
@@ -146,7 +152,15 @@ class RemoteConfig {
                 }.done { bans in
                     self.battlegroundsBans = bans
                     logger.info("Retrieved battlegrounds bans configuration")
-                    semaphore.signal()
+                    let http4 = Http(url: RemoteConfig.secretsUrl)
+                    _ = http4.getPromise(method: .get).map { data in
+                        try JSONDecoder().decode(LiveSecrets.self, from: data!)
+                    }.done {
+                        secrets in
+                        self.liveSecrets = secrets
+                        logger.info("Retrieved live secrets configuration")
+                        semaphore.signal()
+                    }
                 }
             }.catch { error in
                 logger.error("Error parsing remote mercenaries config: \(error)")

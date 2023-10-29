@@ -62,7 +62,15 @@ struct CardIds {
     
     struct Invalid {}
 
-    struct Secrets {}
+    struct Secrets {
+        static var All: [MultiIdCard] {
+            var result = Hunter.All
+            result.append(contentsOf: Mage.All)
+            result.append(contentsOf: Paladin.All)
+            result.append(contentsOf: Rogue.All)
+            return result
+        }
+    }
 
     static let DeathrattleSummonCardIds: [String: Int] = [
         CardIds.Collectible.Druid.MountedRaptor: 1,

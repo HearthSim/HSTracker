@@ -20,6 +20,7 @@ class SecretsManager {
     private var entititesInHandOnMinionsPlayed: Set<Entity>  = Set<Entity>()
 
     private var game: Game
+    private var availableSecrets: AvailableSecretsProvider
     private(set) var secrets = SynchronizedArray<Secret>()
     private var _triggeredSecrets = SynchronizedArray<Entity>()
     private var opponentTookDamageDuringTurns = SynchronizedArray<Int>()
@@ -30,8 +31,9 @@ class SecretsManager {
 
     var onChanged: (([Card]) -> Void)?
 
-    init(game: Game) {
+    init(game: Game, availableSecrets: AvailableSecretsProvider) {
         self.game = game
+        self.availableSecrets = availableSecrets
     }
 
     private var freeSpaceOnBoard: Bool { return game.opponentBoardCount < 7 }
@@ -127,15 +129,40 @@ class SecretsManager {
             exclude(cardId: mcid, invokeCallback: false)
         }
     }
+    
+    func getAvailableSecrets(gameMode: GameType, format: FormatType) -> Set<String> {
+        if let byType = availableSecrets.byType {
+            if let gameModeSecrets = byType["\(gameMode)".uppercased()] {
+                return gameModeSecrets
+            }
+            if let formatSecrets = byType["\(format)".uppercased()] {
+                return formatSecrets
+            }
+        }
+        // Fallback in case query isn't available
+        return switch format {
+        case .ft_standard:
+            Set<String>(CardIds.Secrets.All.filter { x in x.isStandard }.map { x in x.ids[0] })
+        default:
+            Set<String>(CardIds.Secrets.All.filter { x in x.isWild }.map { x in x.ids[0] })
+        }
+    }
 
     func getSecretList() -> [Card] {
         let gameMode = game.currentGameType
+        let formatType = game.currentFormatType
         let format = game.currentFormat
+        
+        let gameModeHasCardLimit = switch gameMode {
+        case .gt_casual, .gt_ranked, .gt_vs_friend, .gt_vs_ai:
+            true
+        default:
+            false
+        }
 
         let opponentEntities = game.opponent.revealedEntities.filter {
             $0.id < 68 && $0.isSecret && $0.hasCardId
         }
-        let gameModeHasCardLimit = [GameType.gt_casual, GameType.gt_ranked, GameType.gt_vs_friend, GameType.gt_vs_ai].contains(gameMode)
 
         let createdSecrets = secrets
             .filter { $0.entity.info.created }
@@ -155,40 +182,9 @@ class SecretsManager {
             .compactMap { group in
                 QuantifiedMultiIdCard(baseCard: group.key, count: adjustCount(group.key.ids[0], group.value.filter { x in !x.value }.count))
         }
-        
-        if let remoteData = RemoteConfig.data {
-            if gameMode == .gt_arena {
-                let currentSets = remoteData.arena?.current_sets?.compactMap({ value in
-                    CardSet.allCases.first(where: { x in "\(x)".uppercased() == value })
-                })
-                
-                cards = cards.filter { card in
-                    (currentSets?.any { x in card.hasSet(set: x) } ?? false)
-                }
-                
-                if remoteData.arena?.banned_secrets?.count ?? 0 > 0 {
-                    cards = cards.filter({ card in
-                        !(remoteData.arena?.banned_secrets?.all { s in card != s } ?? false)
-                    })
-                }
-            } else {
-                if remoteData.arena?.exclusive_secrets?.count ?? 0 > 0 {
-                    cards = cards.filter({ card in
-                        remoteData.arena?.exclusive_secrets?.all { s in card != s } ?? true
-                    })
-                }
-                switch format {
-                case .standard:
-                    cards = cards.filter { card in card.isStandard }
-                case .classic:
-                    cards = cards.filter { card in card.isClassic }
-                case .twist:
-                    cards = cards.filter { card in card.isTwist }
-                default:
-                    cards = cards.filter { card in card.isWild }
-                }
-            }
-        }
+
+        let availableSecrets = getAvailableSecrets(gameMode: gameMode, format: formatType)
+        cards = cards.filter { x in x.ids.any { y in availableSecrets.contains(y) } }
 
         return cards.compactMap { x in
             if x.count == 0 {

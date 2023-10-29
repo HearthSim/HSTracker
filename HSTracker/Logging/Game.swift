@@ -1070,7 +1070,8 @@ class Game: NSObject, PowerEventHandler {
             self.player.id = matchInfo.localPlayer.playerId
             self.opponent.id = matchInfo.opposingPlayer.playerId
             self._currentGameType = matchInfo.gameType
-            self.currentFormat = matchInfo.formatType
+            self.currentFormat = matchInfo.format
+            self.currentFormatType = matchInfo.formatType
 
             let opponentStarLevel = matchInfo.opposingPlayer.standardMedalInfo.starLevel
             logger.info("LADDER opponentStarLevel=\(opponentStarLevel)")
@@ -1181,6 +1182,7 @@ class Game: NSObject, PowerEventHandler {
     }
 
     private(set) var currentFormat = Format(formatType: FormatType.ft_unknown)
+    private(set) var currentFormatType: FormatType = FormatType.ft_unknown
     
     var lastPlagueDrawn: String?
 
@@ -1193,7 +1195,7 @@ class Game: NSObject, PowerEventHandler {
         super.init()
 		player = Player(local: true, game: self)
         opponent = Player(local: false, game: self)
-        secretsManager = SecretsManager(game: self)
+        secretsManager = SecretsManager(game: self, availableSecrets: RemoteArenaSettings())
         secretsManager?.onChanged = { [weak self] cards in
             self?.updateSecretTracker(cards: cards)
         }
@@ -1308,6 +1310,7 @@ class Game: NSObject, PowerEventHandler {
         _matchInfo = nil
         _battlegroundsRating = nil
         currentFormat = Format(formatType: FormatType.ft_unknown)
+        currentFormatType = .ft_unknown
         _currentGameType = .gt_unknown
 		_currentGameMode = .none
         _serverInfo = nil
