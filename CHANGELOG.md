@@ -1,3 +1,7 @@
+# 2.5.12
+## Fixes
+- Fixed issue with corrupted battlegrounds opponent board on macOS Sonoma (issue #1329)
+
 # 2.5.11
 ## New
 - Improve secret handling across different formats

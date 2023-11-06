@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22155" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22155"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -18,7 +18,6 @@
                 <outlet property="minion6" destination="Ygh-q2-qZy" id="0Mr-29-3Fu"/>
                 <outlet property="minion7" destination="ra0-y4-fHg" id="Uhz-G8-rcH"/>
                 <outlet property="notFought" destination="MZH-Z9-69b" id="gHu-gc-jhK"/>
-                <outlet property="notFound" destination="MZH-Z9-69b" id="mp9-d4-kLa"/>
                 <outlet property="quest1" destination="qYs-87-hG2" id="ynW-mW-bNN"/>
                 <outlet property="quest2" destination="sOK-KT-fYq" id="HTo-3m-Nzg"/>
                 <outlet property="questView" destination="rsq-Zm-Bqr" id="R8p-EK-5oL"/>
@@ -37,7 +36,7 @@
             <windowStyleMask key="styleMask" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="1184" height="270"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1025"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1728" height="1079"/>
             <view key="contentView" autoresizesSubviews="NO" wantsLayer="YES" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="1184" height="270"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -132,7 +131,7 @@
                                                                         <real value="3.4028234663852886e+38"/>
                                                                     </customSpacing>
                                                                 </stackView>
-                                                                <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MZH-Z9-69b" userLabel="You have not fought this opponent">
+                                                                <textField hidden="YES" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MZH-Z9-69b" userLabel="You have not fought this opponent">
                                                                     <rect key="frame" x="48" y="63" width="494" height="22"/>
                                                                     <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="You have not fought this opponent" id="YP2-eO-eyd">
                                                                         <font key="font" metaFont="system" size="16"/>
@@ -140,7 +139,7 @@
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                 </textField>
-                                                                <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cox-jk-Otc" userLabel="No minions on board">
+                                                                <textField hidden="YES" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cox-jk-Otc" userLabel="No minions on board">
                                                                     <rect key="frame" x="48" y="63" width="494" height="22"/>
                                                                     <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="No minions on board" id="1xq-7w-9a2">
                                                                         <font key="font" metaFont="system" size="16"/>
@@ -185,7 +184,7 @@
                                                 <color key="borderColor" red="0.25098039215686274" green="0.2627450980392157" blue="0.27058823529411763" alpha="1" colorSpace="deviceRGB"/>
                                                 <color key="fillColor" red="0.13725490196078433" green="0.15294117647058825" blue="0.16470588235294117" alpha="0.90000000000000002" colorSpace="custom" customColorSpace="deviceRGB"/>
                                             </box>
-                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DKL-z7-u0X" userLabel="BoardAge">
+                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DKL-z7-u0X" userLabel="BoardAge">
                                                 <rect key="frame" x="-2" y="-5" width="596" height="19"/>
                                                 <shadow key="shadow" blurRadius="1">
                                                     <size key="offset" width="2" height="2"/>

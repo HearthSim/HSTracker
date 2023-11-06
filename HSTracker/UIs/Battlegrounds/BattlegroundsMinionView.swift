@@ -14,14 +14,17 @@ class BattlegroundsMinionView: NSView {
     
     init() {
         super.init(frame: NSRect.zero)
+        clipsToBounds = true
     }
     
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
+        clipsToBounds = true
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        clipsToBounds = true
     }
     
     override func draw(_ dirtyRect: NSRect) {
