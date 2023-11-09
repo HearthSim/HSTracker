@@ -1,3 +1,7 @@
+# 2.6.0
+## New
+- Updated for Hearthstone 28.0.0
+
 # 2.5.12
 ## Fixes
 - Fixed issue with corrupted battlegrounds opponent board on macOS Sonoma (issue #1329)
