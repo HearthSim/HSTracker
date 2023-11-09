@@ -529,6 +529,12 @@ class SecretsManager {
             }
         }
         
+        if entity[.num_turns_in_hand] == 1 {
+            if freeSpaceInHand {
+                exclude.append(CardIds.Secrets.Mage.AzeriteVein)
+            }
+        }
+        
         if entity.isSpell {
             if parentCardId == CardIds.Collectible.Rogue.SparkjoyCheat {
                 return

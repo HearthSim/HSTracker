@@ -156,6 +156,7 @@ extension CardIds.Collectible {
         static let ArcaneWyrm = "RLK_548"
         static let ArcaneBolt = "RLK_843"
         static let PuzzleBoxOfYoggSaron = "ULD_216"
+        static let AzeriteVein = "WW_422"
     }
 }
 
@@ -234,7 +235,8 @@ extension CardIds.Secrets {
         static let All = [Counterspell, Duplicate, Effigy, ExplosiveRunes, FrozenClone, IceBarrier,
                           IceBlock, ManaBind, MirrorEntity, OasisAlly, PotionOfPolymorph, Spellbender,
                           SplittingImage, Vaporize, FlameWard, NetherwindPortal, RiggedFaireGame,
-                          VengefulVisage, Objection]
+                          VengefulVisage, Objection, AzeriteVein]
+        static let AzeriteVein = MultiIdCard(CardIds.Collectible.Mage.AzeriteVein)
         static let Counterspell = MultiIdCard(CardIds.Collectible.Mage.Counterspell, CardIds.Collectible.Mage.CounterspellCore, CardIds.Collectible.Mage.CounterspellVanilla)
         static let Duplicate = MultiIdCard(CardIds.Collectible.Mage.Duplicate)
         static let Effigy = MultiIdCard(CardIds.Collectible.Mage.Effigy)

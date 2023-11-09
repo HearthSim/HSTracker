@@ -135,7 +135,7 @@ enum GameTag: Int, WrappableEnum, CaseIterable, Codable {
     cant_be_targeted_by_opponents = 270,
     num_turns_in_play = 271,
     num_turns_left = 272,
-    outgoing_damage_cap = 273,
+    num_turns_in_hand = 273,
     outgoing_damage_adjustment = 274,
     outgoing_damage_multiplier = 275,
     outgoing_healing_cap = 276,
