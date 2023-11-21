@@ -608,6 +608,16 @@ class PowerGameStateParser: LogEventParser {
                             if let lastPlagueDrawn = eventHandler.lastPlagueDrawn {
                                 addKnownCardId(eventHandler: eventHandler, cardId: lastPlagueDrawn)
                             }
+                        case CardIds.Collectible.Rogue.TombPillager, CardIds.Collectible.Rogue.TombPillagerPLACEHOLDER_202204, CardIds.Collectible.Rogue.TombPillagerWONDERS:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.TheCoinBasic, count: 2)
+                        case CardIds.Collectible.Rogue.LoanShark:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.TheCoinBasic, count: 2)
+                        case CardIds.Collectible.Rogue.CoppertailSnoop:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.TheCoinBasic)
+                        case CardIds.Collectible.Warlock.DisposalAssistant:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.TramMechanic_BarrelOfSludgeToken, count: 1, location: .bottom)
+                        case CardIds.Collectible.Warlock.SludgeOnWheels:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.TramMechanic_BarrelOfSludgeToken, count: 1, location: .bottom)
                         default: break
                         }
                     }
@@ -648,7 +658,11 @@ class PowerGameStateParser: LogEventParser {
                              CardIds.Collectible.Neutral.BalefulBanker,
                              CardIds.Collectible.Neutral.DollmasterDorian,
                              CardIds.Collectible.Priest.Seance,
-                             CardIds.Collectible.Druid.MarkOfTheSpikeshell:
+                             CardIds.Collectible.Druid.MarkOfTheSpikeshell,
+                             CardIds.Collectible.Neutral.DragonBreeder,
+                             CardIds.Collectible.Shaman.ColdStorage,
+                             CardIds.Collectible.Priest.PowerChordSynchronize,
+                             CardIds.Collectible.Rogue.Shadowcaster:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: target)
                         case CardIds.Collectible.Mage.ForgottenTorch:
@@ -790,8 +804,6 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.TheCoinBasic, count: 3)
                         case CardIds.Collectible.Neutral.Sathrovarr:
                             addKnownCardId(eventHandler: eventHandler, cardId: target, count: 3)
-                        case CardIds.Collectible.Neutral.DragonBreeder:
-                            addKnownCardId(eventHandler: eventHandler, cardId: target)
                         case CardIds.Collectible.Warlock.SchoolSpirits, CardIds.Collectible.Warlock.SoulShear, CardIds.Collectible.Warlock.SpiritJailer, CardIds.Collectible.DemonHunter.Marrowslicer:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Warlock.SchoolSpirits_SoulFragmentToken, count: 2)
                         case CardIds.Collectible.Mage.ConfectionCyclone:
@@ -884,14 +896,6 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Mage.ArcaneBolt)
                         case CardIds.Collectible.Priest.SisterSvalna:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Priest.SisterSvalna_VisionOfDarknessToken)
-                        case CardIds.Collectible.Shaman.ColdStorage:
-                            if target != nil {
-                                addKnownCardId(eventHandler: eventHandler, cardId: target)
-                            }
-                        case CardIds.Collectible.Priest.PowerChordSynchronize:
-                            if target != nil {
-                                addKnownCardId(eventHandler: eventHandler, cardId: target)
-                            }
                         case CardIds.Collectible.Neutral.PozzikAudioEngineer:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.PozzikAudioEngineer_AudioBotToken, count: 2)
                         case CardIds.NonCollectible.Neutral.KingMukla_BananasToken:
@@ -904,6 +908,18 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.TheCoinBasic)
                         case CardIds.Collectible.Mage.SteamSurger:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Mage.FlameGeyser)
+                        case CardIds.Collectible.Warrior.BoombossThogrun:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Warrior.BoombossThogrun_TNTToken, count: 3)
+                        case CardIds.Collectible.Rogue.DartThrow:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.TheCoinBasic)
+                        case CardIds.Collectible.Rogue.BountyWrangler:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.TheCoinBasic)
+                        case CardIds.Collectible.Neutral.GreedyPartner:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.TheCoinBasic)
+                        case CardIds.Collectible.Neutral.SnakeOilSeller:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.MiracleSalesman_SnakeOilToken, count: 2)
+                        case CardIds.Collectible.Warlock.DisposalAssistant:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.TramMechanic_BarrelOfSludgeToken, count: 1, location: .bottom)
                         default:
                             if let card = Cards.any(byId: actionStartingCardId) {
                                 if (player != nil && player![.current_player] == 1

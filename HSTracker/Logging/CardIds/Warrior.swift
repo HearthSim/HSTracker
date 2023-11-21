@@ -136,6 +136,7 @@ extension CardIds.Collectible {
         static let AzsharanTrident = "TSC_913"
         static let FromTheDepths = "TSC_940"
         static let SuspiciousPirate = "REV_006"
+        static let BoombossThogrun = "WW_372"
     }
 }
 
@@ -213,6 +214,7 @@ extension CardIds.NonCollectible {
         static let ConditioningRank1_ConditioningRank3Token = "BAR_842t2"
         static let Scrapsmith_ScrappyGruntToken = "AV_323t"
         static let AzsharanTrident_SunkenTridentToken = "TSC_913t"
+        static let BoombossThogrun_TNTToken = "WW_372t"
     }
 }
 

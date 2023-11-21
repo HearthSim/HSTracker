@@ -161,6 +161,11 @@ extension CardIds.Collectible {
         static let AmbushInvalid = "CORE_BT_707"
         static let CheatDeathInvalid = "CORE_LOOT_204"
         static let PlagiarizeInvalid = "CORE_SCH_706"
+        static let TombPillagerPLACEHOLDER_202204 = "CORE_LOE_012"
+        static let TombPillagerWONDERS = "WON_340"
+        static let CoppertailSnoop = "TTN_921"
+        static let DartThrow = "WW_006"
+        static let BountyWrangler = "WW_363"
     }
 }
 

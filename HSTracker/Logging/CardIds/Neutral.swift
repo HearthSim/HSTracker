@@ -621,6 +621,8 @@ extension CardIds.Collectible {
         static let RivendareWarrider = "NX2_034"
         static let PozzikAudioEngineer = "ETC_425"
         static let LicensedAdventurer = "YOD_030"
+        static let GreedyPartner = "WW_901"
+        static let SnakeOilSeller = "WW_332"
     }
 }
 
@@ -726,6 +728,8 @@ extension CardIds.NonCollectible {
         static let HowToEven = "BG27_Anomaly_102"
         static let ValuationInflation = "BG27_Anomaly_556"
         static let WhatAreTheOdds = "BG27_Anomaly_101"
+        static let TramMechanic_BarrelOfSludgeToken = "WW_044t"
+        static let MiracleSalesman_SnakeOilToken = "WW_331t"
     }
 }
 

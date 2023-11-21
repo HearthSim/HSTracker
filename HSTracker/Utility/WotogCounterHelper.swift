@@ -9,6 +9,14 @@
 import Foundation
 
 extension Game {
+    static let spellCounterCards = [
+        CardIds.Collectible.Neutral.YoggSaronHopesEnd,
+        CardIds.Collectible.Neutral.ArcaneGiant,
+        CardIds.Collectible.Priest.GraveHorror,
+        CardIds.Collectible.Druid.UmbralOwlDARKMOON_FAIRE,
+        CardIds.Collectible.Druid.UmbralOwlPLACEHOLDER_202204
+    ]
+    
 	var playerCthun: Entity? {
 		return self.player.playerEntities
 			.first { $0.cardId == CardIds.Collectible.Neutral.Cthun }
@@ -27,13 +35,6 @@ extension Game {
 	var playerNzoth: Entity? {
 		return self.player.playerEntities
 			.first { $0.cardId == CardIds.Collectible.Neutral.NzothTheCorruptor }
-	}
-	
-	var playerArcaneGiant: Entity? {
-		return self.player.playerEntities.first {
-				$0.cardId == CardIds.Collectible.Neutral.ArcaneGiant
-					&& $0.info.originalZone != nil
-			}
 	}
 	
 	var opponentCthun: Entity? {
@@ -81,14 +82,6 @@ extension Game {
 		return deckContains(cardId: CardIds.Collectible.Neutral.Cthun)
 	}
 	
-	var yoggInDeck: Bool {
-		return deckContains(cardId: CardIds.Collectible.Neutral.YoggSaronHopesEnd)
-	}
-	
-	var arcaneGiantInDeck: Bool {
-		return deckContains(cardId: CardIds.Collectible.Neutral.ArcaneGiant)
-	}
-	
 	var nzothInDeck: Bool {
 		return deckContains(cardId: CardIds.Collectible.Neutral.NzothTheCorruptor)
 	}
@@ -97,14 +90,13 @@ extension Game {
 		return Settings.showPlayerCthun && playerSeenCthun
 	}
 	
-	var showPlayerSpellsCounter: Bool {
-		guard Settings.showPlayerSpell else {
-			return false
-		}
+    var showPlayerSpellsCounter: Bool {
+        guard Settings.showPlayerSpell else {
+            return false
+        }
+        return true
+    }
 		
-		return (playerYogg != nil || yoggInDeck == true)
-			|| (playerArcaneGiant != nil || arcaneGiantInDeck == true)
-	}
 	
 	var showPlayerDeathrattleCounter: Bool {
 		return Settings.showPlayerDeathrattle
@@ -129,5 +121,11 @@ extension Game {
 
     var opponentLibramCounter: Int {
         return self.opponent.libramReductionCount
+    }
+
+    static private func inDeckOrKnown(cardId: String) -> Bool {
+        let game = AppDelegate.instance().coreManager.game
+        let contains = game.deckContains(cardId: cardId)
+        return  contains || game.player.playerEntities.first { x in x.cardId == cardId && x.info.originalZone != nil } != nil
     }
 }

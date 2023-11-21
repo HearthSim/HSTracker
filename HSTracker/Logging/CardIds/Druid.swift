@@ -145,6 +145,8 @@ extension CardIds.Collectible {
         static let LunarEclipseCore = "CORE_DMF_057"
         static let SolarEclipseCore = "CORE_DMF_058"
         static let ConvokeTheSpirits = "REV_365"
+        static let UmbralOwlDARKMOON_FAIRE = "DMF_060"
+        static let UmbralOwlPLACEHOLDER_202204 = "CORE_DMF_060"
     }
 }
 
