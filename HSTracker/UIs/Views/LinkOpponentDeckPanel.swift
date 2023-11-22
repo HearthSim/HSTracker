@@ -95,8 +95,10 @@ class LinkOpponentDeckPanel: OverWindowController, NSTextViewDelegate {
     
     func hide(_ force: Bool = false) {
         if force || !mouseIsOver {
-            let wm = AppDelegate.instance().coreManager.game.windowManager
-            wm.show(controller: wm.linkOpponentDeckPanel, show: false)
+            DispatchQueue.main.async {
+                let wm = AppDelegate.instance().coreManager.game.windowManager
+                wm.show(controller: wm.linkOpponentDeckPanel, show: false)
+            }
         }
         autoShown = false
         errorMessage = ""
@@ -109,13 +111,15 @@ class LinkOpponentDeckPanel: OverWindowController, NSTextViewDelegate {
     
     func show() {
         if isFriendlyMatch || Settings.enableLinkOpponentDeckInNonFriendly {
-            let wm = AppDelegate.instance().coreManager.game.windowManager
-            let rect = wm.opponentTracker.window?.frame
-            wm.show(controller: wm.linkOpponentDeckPanel, show: true,
-                    frame: NSRect(x: rect?.origin.x ?? 0,
-                                  y: (rect?.minY ?? 0) + wm.opponentTracker.bottomY - 125 - 10,
-                                  width: WindowManager.cardWidth,
-                                  height: 125))
+            DispatchQueue.main.async {
+                let wm = AppDelegate.instance().coreManager.game.windowManager
+                let rect = wm.opponentTracker.window?.frame
+                wm.show(controller: wm.linkOpponentDeckPanel, show: true,
+                        frame: NSRect(x: rect?.origin.x ?? 0,
+                                      y: (rect?.minY ?? 0) + wm.opponentTracker.bottomY - 125 - 10,
+                                      width: WindowManager.cardWidth,
+                                      height: 125))
+            }
         }
     }
     
