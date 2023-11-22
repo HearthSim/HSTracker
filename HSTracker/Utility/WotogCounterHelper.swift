@@ -17,6 +17,21 @@ extension Game {
         CardIds.Collectible.Druid.UmbralOwlPLACEHOLDER_202204
     ]
     
+    static let excavateCounterCards = [
+        CardIds.Collectible.Rogue.BloodrockCoShovel,
+        CardIds.Collectible.Warlock.Smokestack,
+        CardIds.Collectible.Mage.Cryopreservation,
+        CardIds.Collectible.Neutral.KoboldMiner,
+        CardIds.Collectible.Warrior.BlastCharge,
+        CardIds.Collectible.Deathknight.ReapWhatYouSow,
+        CardIds.Collectible.Warrior.ReinforcedPlating,
+        CardIds.Collectible.Rogue.DrillyTheKid,
+        CardIds.Collectible.Warlock.MoargDrillfist,
+        CardIds.Collectible.Deathknight.SkeletonCrew,
+        CardIds.Collectible.Neutral.BurrowBuster,
+        CardIds.Collectible.Mage.BlastmageMiner
+    ]
+    
 	var playerCthun: Entity? {
 		return self.player.playerEntities
 			.first { $0.cardId == CardIds.Collectible.Neutral.Cthun }
@@ -122,10 +137,29 @@ extension Game {
     var opponentLibramCounter: Int {
         return self.opponent.libramReductionCount
     }
+    
+    var showPlayerAbyssalCounter: Bool {
+        return !isInMenu && Settings.showPlayerAbyssalCounter && player.abyssalCurseCount > 0
+    }
+    
+    var showOpponentAbyssalCounter: Bool {
+        return !isInMenu && Settings.showOpponentAbyssalCounter && opponent.abyssalCurseCount > 0
+    }
+    
+    var showOpponentExcavateCounter: Bool {
+        return !isInMenu && Settings.showOpponentExcavateCounter && (opponentEntity?[.gametag_2822] ?? 0) > 0
+    }
+    
+    var showPlayerExcavateTier: Bool {
+        return !isInMenu && Settings.showPlayerExcavateTier && inDeckAndHand(cardIds: Game.excavateCounterCards)
+    }
+            
+    private func inDeckAndHand(cardIds: [String]) -> Bool {
+        return cardIds.any { x in inDeckOrKnown(cardId: x) }
+    }
 
-    static private func inDeckOrKnown(cardId: String) -> Bool {
-        let game = AppDelegate.instance().coreManager.game
-        let contains = game.deckContains(cardId: cardId)
-        return  contains || game.player.playerEntities.first { x in x.cardId == cardId && x.info.originalZone != nil } != nil
+    private func inDeckOrKnown(cardId: String) -> Bool {
+        let contains = deckContains(cardId: cardId)
+        return  contains || player.playerEntities.first { x in x.cardId == cardId && x.info.originalZone != nil } != nil
     }
 }

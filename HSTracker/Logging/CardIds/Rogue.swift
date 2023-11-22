@@ -166,6 +166,8 @@ extension CardIds.Collectible {
         static let CoppertailSnoop = "TTN_921"
         static let DartThrow = "WW_006"
         static let BountyWrangler = "WW_363"
+        static let BloodrockCoShovel = "WW_412"
+        static let DrillyTheKid = "WW_417"
     }
 }
 

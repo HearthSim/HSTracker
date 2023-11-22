@@ -157,6 +157,8 @@ extension CardIds.Collectible {
         static let ArcaneBolt = "RLK_843"
         static let PuzzleBoxOfYoggSaron = "ULD_216"
         static let AzeriteVein = "WW_422"
+        static let Cryopreservation = "WW_009"
+        static let BlastmageMiner = "WW_426"
     }
 }
 

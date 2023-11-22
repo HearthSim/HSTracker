@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21225" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22155" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21225"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22155"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="WotogCounter" customModule="HSTracker" customModuleProvider="target">
             <connections>
+                <outlet property="abyssalView" destination="QVZ-AG-SeJ" id="sbP-XU-oK3"/>
+                <outlet property="excavateView" destination="Gsg-BK-Jrd" id="AhL-gc-Wrt"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="hvk-0I-GZY"/>
             </connections>
         </customObject>
@@ -15,14 +17,14 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" hasShadow="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g" customClass="NSPanel">
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="77" height="50"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1025"/>
+            <rect key="contentRect" x="196" y="240" width="274" height="50"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1728" height="1079"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="77" height="50"/>
+                <rect key="frame" x="0.0" y="0.0" width="274" height="50"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <stackView distribution="equalSpacing" orientation="horizontal" alignment="top" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="l2M-3n-aSZ">
-                        <rect key="frame" x="0.0" y="0.0" width="77" height="50"/>
+                        <rect key="frame" x="0.0" y="0.0" width="274" height="50"/>
                         <subviews>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="QVZ-AG-SeJ" userLabel="AbyssalView">
                                 <rect key="frame" x="0.0" y="0.0" width="77" height="50"/>
@@ -31,7 +33,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="77" height="50"/>
                                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="icon-abyssal" id="Csy-c1-47U"/>
                                     </imageView>
-                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sK2-dF-1t1" userLabel="AbyssalCounter">
+                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sK2-dF-1t1" userLabel="AbyssalCounter">
                                         <rect key="frame" x="30" y="13" width="49" height="20"/>
                                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="0" id="FcM-Np-0cR">
                                             <font key="font" size="20" name="ChunkFive-Roman"/>
@@ -54,18 +56,105 @@
                                     <constraint firstItem="Ms1-Me-slS" firstAttribute="leading" secondItem="QVZ-AG-SeJ" secondAttribute="leading" id="hrW-QR-NGH"/>
                                     <constraint firstAttribute="width" constant="77" id="s6P-Bt-tLS"/>
                                 </constraints>
+                                <connections>
+                                    <binding destination="-2" name="hidden" keyPath="self.abyssalVisibility" id="vrW-5e-l4t">
+                                        <dictionary key="options">
+                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
+                            </customView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="Gsg-BK-Jrd" userLabel="ExcavateView">
+                                <rect key="frame" x="77" y="0.0" width="77" height="50"/>
+                                <subviews>
+                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Hfs-yt-QCH">
+                                        <rect key="frame" x="0.0" y="0.0" width="77" height="50"/>
+                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="icon-excavate" id="oAY-hz-Lv2"/>
+                                    </imageView>
+                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uje-bS-TbX" userLabel="ExcavateCounter">
+                                        <rect key="frame" x="30" y="13" width="49" height="20"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="0" id="4sl-Rw-0Ic">
+                                            <font key="font" size="20" name="ChunkFive-Roman"/>
+                                            <color key="textColor" red="0.2470588235" green="0.20392156859999999" blue="0.14117647059999999" alpha="1" colorSpace="deviceRGB"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <connections>
+                                            <binding destination="-2" name="value" keyPath="self.excavate" id="p7o-Mg-iQn"/>
+                                        </connections>
+                                    </textField>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="Hfs-yt-QCH" secondAttribute="bottom" id="8E0-ZV-Pvw"/>
+                                    <constraint firstAttribute="trailing" secondItem="uje-bS-TbX" secondAttribute="trailing" id="Nwm-VJ-QGZ"/>
+                                    <constraint firstAttribute="width" constant="77" id="TAl-fR-9gC"/>
+                                    <constraint firstAttribute="height" constant="50" id="TDS-CB-h0D"/>
+                                    <constraint firstItem="Hfs-yt-QCH" firstAttribute="top" secondItem="Gsg-BK-Jrd" secondAttribute="top" id="Xot-9F-uUB"/>
+                                    <constraint firstItem="uje-bS-TbX" firstAttribute="top" secondItem="Gsg-BK-Jrd" secondAttribute="top" constant="17" id="gio-NV-jqk"/>
+                                    <constraint firstAttribute="trailing" secondItem="Hfs-yt-QCH" secondAttribute="trailing" id="kci-W2-JcP"/>
+                                    <constraint firstItem="Hfs-yt-QCH" firstAttribute="leading" secondItem="Gsg-BK-Jrd" secondAttribute="leading" id="x9P-Xi-LW8"/>
+                                    <constraint firstItem="uje-bS-TbX" firstAttribute="leading" secondItem="Gsg-BK-Jrd" secondAttribute="leading" constant="32" id="zxp-sb-IPG"/>
+                                </constraints>
+                                <connections>
+                                    <binding destination="-2" name="hidden" keyPath="self.excavateVisibility" id="baG-Tf-3i9">
+                                        <dictionary key="options">
+                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
+                            </customView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="Nai-fA-fcA" userLabel="ExcavateTierView">
+                                <rect key="frame" x="154" y="0.0" width="120" height="50"/>
+                                <subviews>
+                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nET-uH-DBc">
+                                        <rect key="frame" x="0.0" y="0.0" width="120" height="50"/>
+                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="icon-excavate-tier" id="Wyl-yb-ODV"/>
+                                    </imageView>
+                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vFS-gJ-xas" userLabel="ExcavateTier">
+                                        <rect key="frame" x="39" y="15" width="69" height="12"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="left" title="Legendary" id="xZe-x8-7J7">
+                                            <font key="font" size="12" name="ChunkFive-Roman"/>
+                                            <color key="textColor" red="0.2470588235" green="0.20392156859999999" blue="0.14117647059999999" alpha="1" colorSpace="deviceRGB"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <connections>
+                                            <binding destination="-2" name="value" keyPath="self.excavateTierLabel" id="5sG-bB-BL7"/>
+                                        </connections>
+                                    </textField>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="vFS-gJ-xas" secondAttribute="trailing" constant="14" id="7WN-z1-biS"/>
+                                    <constraint firstAttribute="bottom" secondItem="nET-uH-DBc" secondAttribute="bottom" id="ObU-eK-eAa"/>
+                                    <constraint firstItem="vFS-gJ-xas" firstAttribute="leading" secondItem="Nai-fA-fcA" secondAttribute="leading" constant="41" id="RmZ-gC-qC6"/>
+                                    <constraint firstAttribute="trailing" secondItem="nET-uH-DBc" secondAttribute="trailing" id="Y3B-BV-lXv"/>
+                                    <constraint firstAttribute="height" constant="50" id="hjE-MR-PcY"/>
+                                    <constraint firstItem="nET-uH-DBc" firstAttribute="top" secondItem="Nai-fA-fcA" secondAttribute="top" id="lAB-hY-OTX"/>
+                                    <constraint firstItem="vFS-gJ-xas" firstAttribute="top" secondItem="Nai-fA-fcA" secondAttribute="top" constant="23" id="p9G-bF-xSo"/>
+                                    <constraint firstAttribute="width" constant="120" id="pr0-yQ-HzH"/>
+                                    <constraint firstItem="nET-uH-DBc" firstAttribute="leading" secondItem="Nai-fA-fcA" secondAttribute="leading" id="wOH-01-DoE"/>
+                                </constraints>
+                                <connections>
+                                    <binding destination="-2" name="hidden" keyPath="self.excavateTierVisibility" id="BhK-JI-Q2r">
+                                        <dictionary key="options">
+                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
                             </customView>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="Gsg-BK-Jrd" firstAttribute="top" secondItem="l2M-3n-aSZ" secondAttribute="top" id="1EN-HH-XTG"/>
                             <constraint firstAttribute="bottom" secondItem="QVZ-AG-SeJ" secondAttribute="bottom" id="1dy-RK-vV3"/>
-                            <constraint firstAttribute="trailing" secondItem="QVZ-AG-SeJ" secondAttribute="trailing" id="Z4A-oT-Z9r"/>
-                            <constraint firstItem="QVZ-AG-SeJ" firstAttribute="leading" secondItem="l2M-3n-aSZ" secondAttribute="leading" id="feW-P9-gwc"/>
+                            <constraint firstAttribute="bottom" secondItem="Gsg-BK-Jrd" secondAttribute="bottom" id="BCe-h0-YT1"/>
                             <constraint firstItem="QVZ-AG-SeJ" firstAttribute="top" secondItem="l2M-3n-aSZ" secondAttribute="top" id="hzK-BB-9GW"/>
                         </constraints>
                         <visibilityPriorities>
                             <integer value="1000"/>
+                            <integer value="1000"/>
+                            <integer value="1000"/>
                         </visibilityPriorities>
                         <customSpacing>
+                            <real value="3.4028234663852886e+38"/>
+                            <real value="3.4028234663852886e+38"/>
                             <real value="3.4028234663852886e+38"/>
                         </customSpacing>
                     </stackView>
@@ -74,14 +163,15 @@
                     <constraint firstAttribute="bottom" secondItem="l2M-3n-aSZ" secondAttribute="bottom" id="BRf-fS-uff"/>
                     <constraint firstAttribute="trailing" secondItem="l2M-3n-aSZ" secondAttribute="trailing" id="GDN-1C-oBn"/>
                     <constraint firstItem="l2M-3n-aSZ" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="de8-8c-Dt6"/>
-                    <constraint firstItem="l2M-3n-aSZ" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="f5y-Xa-82S"/>
                 </constraints>
             </view>
-            <point key="canvasLocation" x="-28.5" y="79"/>
+            <point key="canvasLocation" x="-93" y="80"/>
         </window>
         <userDefaultsController representsSharedInstance="YES" id="aUT-8E-iOx"/>
     </objects>
     <resources>
         <image name="icon-abyssal" width="250" height="170"/>
+        <image name="icon-excavate" width="250" height="170"/>
+        <image name="icon-excavate-tier" width="393" height="170"/>
     </resources>
 </document>

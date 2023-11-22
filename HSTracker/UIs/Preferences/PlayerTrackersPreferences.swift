@@ -34,6 +34,7 @@ class PlayerTrackersPreferences: NSViewController, PreferencePane {
     @IBOutlet weak var showGalakrondInvokeCounter: NSButton!
     @IBOutlet weak var showLibramCounter: NSButton!
     @IBOutlet weak var showAbyssalCounter: NSButton!
+    @IBOutlet weak var showExcavateTier: NSButton!
     @IBOutlet weak var showTopCards: NSButton!
     @IBOutlet weak var showBottomCards: NSButton!
 
@@ -58,6 +59,7 @@ class PlayerTrackersPreferences: NSViewController, PreferencePane {
         showGalakrondInvokeCounter.state = Settings.showPlayerGalakrondCounter ? .on : .off
         showLibramCounter.state = Settings.showPlayerLibramCounter ? .on : .off
         showAbyssalCounter.state = Settings.showPlayerAbyssalCounter ? .on : .off
+        showExcavateTier.state = Settings.showPlayerExcavateTier ? .on : .off
         showTopCards.state = Settings.showPlayerCardsTop ? .on : .off
         showBottomCards.state = Settings.showPlayerCardsBottom ? .on : .off
     }
@@ -108,6 +110,8 @@ class PlayerTrackersPreferences: NSViewController, PreferencePane {
             Settings.showPlayerLibramCounter = showLibramCounter.state == .on
         } else if sender == showAbyssalCounter {
             Settings.showPlayerAbyssalCounter = showAbyssalCounter.state == .on
+        } else if sender == showExcavateTier {
+            Settings.showPlayerExcavateTier = showExcavateTier.state == .on
         } else if sender == showTopCards {
             Settings.showPlayerCardsTop = showTopCards.state == .on
         } else if sender == showBottomCards {

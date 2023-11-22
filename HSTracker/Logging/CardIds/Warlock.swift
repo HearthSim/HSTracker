@@ -148,6 +148,8 @@ extension CardIds.Collectible {
         static let Zaqul = "TSC_959"
         static let DisposalAssistant = "WW_041"
         static let SludgeOnWheels = "WW_043"
+        static let Smokestack = "WW_378"
+        static let MoargDrillfist = "WW_442"
     }
 }
 

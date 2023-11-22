@@ -191,6 +191,10 @@ class Game: NSObject, PowerEventHandler {
                 !((Settings.hideAllWhenGameInBackground || Settings.hideAllWhenGameInBackground) && !self.hearthstoneRunState.isActive)
     }
     
+    var shouldShowTracker: Bool {
+        return ((Settings.hideAllTrackersWhenNotInGame && !self.gameEnded) || (!Settings.hideAllTrackersWhenNotInGame) || self.selfAppActive ) && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground || self.selfAppActive)
+    }
+    
     func updateTrackers(reset: Bool = false) {
         _queue.async {
             self.guiNeedsUpdate = true
@@ -280,13 +284,26 @@ class Game: NSObject, PowerEventHandler {
     
     func updateOpponentIcons() {
         DispatchQueue.main.async { [unowned(unsafe) self] in
-            if !self.isInMenu && (self.opponent.abyssalCurseCount > 0 && Settings.showOpponentAbyssalCounter) &&
-                ( (Settings.hideAllTrackersWhenNotInGame && !self.gameEnded)
-                    || (!Settings.hideAllTrackersWhenNotInGame) || self.selfAppActive ) &&
-                ((Settings.hideAllWhenGameInBackground &&
-                    self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground || self.selfAppActive) {
-                let frame = SizeHelper.opponentWotogIconsFrame()
+            var anyVisible = false
+            let showTracker = shouldShowTracker
+            if showOpponentAbyssalCounter && showTracker {
+                anyVisible = true
                 self.windowManager.opponentWotogIcons.abyssalCurse = "\(self.opponent.abyssalCurseCount)"
+                self.windowManager.opponentWotogIcons.abyssalVisibility = true
+            } else {
+                self.windowManager.opponentWotogIcons.abyssalVisibility = false
+            }
+            
+            if showOpponentExcavateCounter && showTracker {
+               anyVisible = true
+                self.windowManager.opponentWotogIcons.excavate = "\(opponentEntity?[.gametag_2822] ?? 0)"
+                self.windowManager.opponentWotogIcons.excavateVisibility = true
+            } else {
+                self.windowManager.opponentWotogIcons.excavateVisibility = false
+            }
+            
+            if anyVisible {
+                let frame = SizeHelper.opponentWotogIconsFrame()
                 self.windowManager.show(controller: self.windowManager.opponentWotogIcons, show: true,
                                         frame: frame, overlay: self.hearthstoneRunState.isActive)
             } else {
@@ -297,13 +314,26 @@ class Game: NSObject, PowerEventHandler {
 
     func updatePlayerIcons() {
         DispatchQueue.main.async { [unowned(unsafe) self] in
-            if !self.isInMenu && (self.player.abyssalCurseCount > 0 && Settings.showPlayerAbyssalCounter)  &&
-                ( (Settings.hideAllTrackersWhenNotInGame && !self.gameEnded)
-                    || (!Settings.hideAllTrackersWhenNotInGame) || self.selfAppActive ) &&
-                ((Settings.hideAllWhenGameInBackground &&
-                    self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground || self.selfAppActive) {
-                let frame = SizeHelper.playerWotogIconsFrame()
+            var anyVisible = false
+            let showTracker = shouldShowTracker
+            if showPlayerAbyssalCounter  && showTracker {
                 self.windowManager.playerWotogIcons.abyssalCurse = "\(self.player.abyssalCurseCount)"
+                self.windowManager.playerWotogIcons.abyssalVisibility = true
+                anyVisible = true
+            } else {
+                self.windowManager.playerWotogIcons.abyssalVisibility = false
+            }
+            
+            if showPlayerExcavateTier && showTracker {
+                anyVisible = true
+                self.windowManager.playerWotogIcons.excavateTier = playerEntity?[.current_excavate_tier] ?? 0
+                self.windowManager.playerWotogIcons.updateExcavateTierLabel()
+                self.windowManager.playerWotogIcons.excavateTierVisibility = true
+            } else {
+                self.windowManager.playerWotogIcons.excavateTierVisibility = false
+            }
+            if anyVisible {
+                let frame = SizeHelper.playerWotogIconsFrame()
                 self.windowManager.show(controller: self.windowManager.playerWotogIcons, show: true,
                                         frame: frame, overlay: self.hearthstoneRunState.isActive)
             } else {

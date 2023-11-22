@@ -288,6 +288,12 @@
 "Change" = "Change";
 "Delete" = "Delete";
 
+/* Wotog */
+"Counter_Excavate_Tier0" = "Common";
+"Counter_Excavate_Tier1" = "Rare";
+"Counter_Excavate_Tier2" = "Epic";
+"Counter_Excavate_Tier3" = "Legendary";
+
 /* Tier7 */
 "BattlegroundsOverlayMessage_Error" = "Something went wrong :(";
 "BattlegroundsOverlayMessage_Loading" = "Loading...";

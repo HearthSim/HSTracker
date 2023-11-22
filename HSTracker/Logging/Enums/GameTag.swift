@@ -391,6 +391,7 @@ enum GameTag: Int, WrappableEnum, CaseIterable, Codable {
     bacon_hero_quest_reward_completed = 2715,
     bacon_hero_heropower_quest_reward_completed = 2716,
     titan = 2772,
+    gametag_2822 = 2822,
     bacon_bloodgembuffhealthvalue = 2827,
     venomous = 2853,
     gametag_2878 = 2878,
@@ -399,7 +400,8 @@ enum GameTag: Int, WrappableEnum, CaseIterable, Codable {
     cthun_attack_buff = 3054,
     titan_ability_used_1 = 3140,
     titan_ability_used_2 = 3141,
-    titan_ability_used_3 = 3142
+    titan_ability_used_3 = 3142,
+    current_excavate_tier = 3249
 
     static var lookup = [String: GameTag]()
     

@@ -513,16 +513,16 @@ struct SizeHelper {
     
     static func opponentWotogIconsFrame() -> NSRect {
         let hs = hearthstoneWindow.frame
-        let w = 77.0
+        let w = 274.0
         let h = 50.0
-        return NSRect(x: hs.minX + getScaledXPos(86.5 / 100.0, width: hs.width, ratio: screenRatio), y: hs.minY + (hs.height * (100.0 - 18.5) / 100.0) - h, width: w, height: h)
+        return NSRect(x: hs.minX + getScaledXPos(86.5 / 100.0, width: hs.width, ratio: screenRatio) - (w - 77), y: hs.minY + (hs.height * (100.0 - 18.5) / 100.0) - h, width: w, height: h)
     }
 
     static func playerWotogIconsFrame() -> NSRect {
         let hs = hearthstoneWindow.frame
-        let w = 77.0
+        let w = 274.0
         let h = 50.0
-        return NSRect(x: hs.minX + getScaledXPos(86.8 / 100.0, width: hs.width, ratio: screenRatio), y: hs.minY + (hs.height * (100.0 - 68.5) / 100.0) - h, width: w, height: h)
+        return NSRect(x: hs.minX + getScaledXPos(86.8 / 100.0, width: hs.width, ratio: screenRatio)  - (w - 77), y: hs.minY + (hs.height * (100.0 - 68.5) / 100.0) - h, width: w, height: h)
     }
     
     static func tier7PreLobbyFrame() -> NSRect {

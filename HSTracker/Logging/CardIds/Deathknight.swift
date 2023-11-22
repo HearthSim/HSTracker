@@ -32,6 +32,8 @@ import Foundation
 extension CardIds.Collectible {
     struct Deathknight {
         static let TheLichKingHeroHeroSkins = "HERO_11"
+        static let ReapWhatYouSow = "WW_352"
+        static let SkeletonCrew = "WW_322"
     }
 }
 
