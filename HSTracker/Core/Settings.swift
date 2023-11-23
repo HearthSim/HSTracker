@@ -315,6 +315,10 @@ final class Settings {
     static var showOpponentAbyssalCounter: Bool
     @UserDefault(key: Settings.player_excavate_tier, defaultValue: true)
     static var showPlayerExcavateTier: Bool
+    @UserDefault(key: Settings.player_pogo_counter, defaultValue: true)
+    static var showPlayerPogoCounter: Bool
+    @UserDefault(key: Settings.opponent_pogo_counter, defaultValue: true)
+    static var showOpponentPogoCounter: Bool
     @UserDefault(key: Settings.opponent_excavate_counter, defaultValue: true)
     static var showOpponentExcavateCounter: Bool
     @UserDefault(key: Settings.opponent_galakrond_invoke_frame, defaultValue: true)
@@ -604,6 +608,7 @@ extension Settings {
     static let player_cards_bottom = "player_cards_botto"
     static let player_abyssal_counter = "player_abyssal_counter"
     static let player_excavate_tier = "player_excavate_tier"
+    static let player_pogo_counter = "player_pogo_counter"
     static let opponent_galakrond_invoke_frame = "opponent_galakrond_invoke_frame"
     static let opponent_cthun_frame = "opponent_cthun_frame"
     static let opponent_yogg_frame = "opponent_yogg_frame"
@@ -614,6 +619,7 @@ extension Settings {
     static let opponent_libram_counter = "opponent_libram_counter"
     static let opponent_abyssal_counter = "opponent_abyssal_counter"
     static let opponent_excavate_counter = "opponent_excavate_counter"
+    static let opponent_pogo_counter = "opponent_pogo_counter"
     static let interacted_with_link_opponentDeck = "interacted_with_link_opponentDeck"
     static let enable_link_opponent_deck = "enable_link_opponent_deck"
 

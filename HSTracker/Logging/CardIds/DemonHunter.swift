@@ -17,6 +17,7 @@ extension CardIds.Collectible {
         static let AzsharanDefector = "TSC_057"
         static let SightlessWatcherCore = "CORE_BT_323"
         static let SightlessWatcherLegacy = "BT_323"
+        static let SaroniteShambler = "YOG_521"
     }
 }
 

@@ -101,6 +101,7 @@ final class Player {
     var lastDrawnCardId: String?
     var libramReductionCount: Int = 0
     var abyssalCurseCount: Int = 0
+    var pogoHopperPlayedCount = 0
 
     var hasCoin: Bool {
         return hand.any { $0.cardId == CardIds.NonCollectible.Neutral.TheCoinBasic }
@@ -182,6 +183,7 @@ final class Player {
         lastDrawnCardId = nil
         libramReductionCount = 0
         abyssalCurseCount = 0
+        pogoHopperPlayedCount = 0
         pastHPLock.around {
             pastHeroPowers.removeAll()
         }
@@ -600,6 +602,10 @@ final class Player {
             switch cardType {
             case .token: entity.info.created = true
             case .spell: spellsPlayedCount += 1
+            case .minion:
+                if entity.cardId == CardIds.Collectible.Rogue.PogoHopper {
+                    pogoHopperPlayedCount += 1
+                }
             default: break
             }
         }

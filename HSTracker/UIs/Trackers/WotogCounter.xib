@@ -8,8 +8,6 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="WotogCounter" customModule="HSTracker" customModuleProvider="target">
             <connections>
-                <outlet property="abyssalView" destination="QVZ-AG-SeJ" id="sbP-XU-oK3"/>
-                <outlet property="excavateView" destination="Gsg-BK-Jrd" id="AhL-gc-Wrt"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="hvk-0I-GZY"/>
             </connections>
         </customObject>
@@ -17,17 +15,287 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" hasShadow="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g" customClass="NSPanel">
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="274" height="50"/>
+            <rect key="contentRect" x="196" y="240" width="651" height="50"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1728" height="1079"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="274" height="50"/>
+                <rect key="frame" x="0.0" y="0.0" width="651" height="50"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <stackView distribution="equalSpacing" orientation="horizontal" alignment="top" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="l2M-3n-aSZ">
-                        <rect key="frame" x="0.0" y="0.0" width="274" height="50"/>
+                        <rect key="frame" x="-85" y="0.0" width="736" height="50"/>
                         <subviews>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="QVZ-AG-SeJ" userLabel="AbyssalView">
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="x4y-pJ-inY" userLabel="JadeView">
                                 <rect key="frame" x="0.0" y="0.0" width="77" height="50"/>
+                                <subviews>
+                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nUs-mq-pQs">
+                                        <rect key="frame" x="0.0" y="0.0" width="77" height="50"/>
+                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="icon-jade" id="f49-xD-6HU"/>
+                                    </imageView>
+                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DM7-Fg-W0V" userLabel="JadeAttack">
+                                        <rect key="frame" x="22" y="23" width="57" height="19"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="1" id="b60-3f-YHH">
+                                            <font key="font" size="18" name="ChunkFive-Roman"/>
+                                            <color key="textColor" red="0.2470588235" green="0.20392156859999999" blue="0.14117647059999999" alpha="1" colorSpace="deviceRGB"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <connections>
+                                            <binding destination="-2" name="value" keyPath="self.jade" id="I3f-pb-URk"/>
+                                        </connections>
+                                    </textField>
+                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8R6-7g-2aX" userLabel="JadeHealth">
+                                        <rect key="frame" x="22" y="4" width="57" height="19"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="1" id="PkD-cj-paP">
+                                            <font key="font" size="18" name="ChunkFive-Roman"/>
+                                            <color key="textColor" red="0.2470588235" green="0.20392156859999999" blue="0.14117647059999999" alpha="1" colorSpace="deviceRGB"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <connections>
+                                            <binding destination="-2" name="value" keyPath="self.jade" id="dJP-6h-Eea"/>
+                                        </connections>
+                                    </textField>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="6TN-op-oex"/>
+                                    <constraint firstAttribute="bottom" secondItem="nUs-mq-pQs" secondAttribute="bottom" id="BaF-nN-8jX"/>
+                                    <constraint firstItem="DM7-Fg-W0V" firstAttribute="top" secondItem="x4y-pJ-inY" secondAttribute="top" constant="8" id="bNn-yH-EWQ"/>
+                                    <constraint firstAttribute="trailing" secondItem="DM7-Fg-W0V" secondAttribute="trailing" id="fVL-qL-4Wd"/>
+                                    <constraint firstItem="DM7-Fg-W0V" firstAttribute="leading" secondItem="x4y-pJ-inY" secondAttribute="leading" constant="24" id="nVE-IP-suC"/>
+                                    <constraint firstAttribute="trailing" secondItem="8R6-7g-2aX" secondAttribute="trailing" id="puE-5D-Z8w"/>
+                                    <constraint firstAttribute="width" constant="77" id="q0j-KK-4uy"/>
+                                    <constraint firstItem="nUs-mq-pQs" firstAttribute="top" secondItem="x4y-pJ-inY" secondAttribute="top" id="qTC-1p-HHi"/>
+                                    <constraint firstItem="8R6-7g-2aX" firstAttribute="leading" secondItem="x4y-pJ-inY" secondAttribute="leading" constant="24" id="rdb-of-iq8"/>
+                                    <constraint firstAttribute="trailing" secondItem="nUs-mq-pQs" secondAttribute="trailing" id="twc-5d-hHe"/>
+                                    <constraint firstItem="8R6-7g-2aX" firstAttribute="top" secondItem="x4y-pJ-inY" secondAttribute="top" constant="27" id="uTa-sf-9ff"/>
+                                    <constraint firstItem="nUs-mq-pQs" firstAttribute="leading" secondItem="x4y-pJ-inY" secondAttribute="leading" id="xXj-gm-7yw"/>
+                                </constraints>
+                                <connections>
+                                    <binding destination="-2" name="hidden" keyPath="self.jadeVisibility" id="CWO-lx-YxZ">
+                                        <dictionary key="options">
+                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
+                            </customView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="lJB-DI-eW8" userLabel="CthunView">
+                                <rect key="frame" x="77" y="0.0" width="77" height="50"/>
+                                <subviews>
+                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Y7S-Be-BbI">
+                                        <rect key="frame" x="0.0" y="0.0" width="77" height="50"/>
+                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="icon-cthun" id="qdA-7e-2Ue"/>
+                                    </imageView>
+                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Hpt-0s-7no" userLabel="CthunAttack">
+                                        <rect key="frame" x="22" y="23" width="57" height="19"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="6" id="3ue-xD-yau">
+                                            <font key="font" size="18" name="ChunkFive-Roman"/>
+                                            <color key="textColor" red="0.2470588235" green="0.20392156859999999" blue="0.14117647059999999" alpha="1" colorSpace="deviceRGB"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <connections>
+                                            <binding destination="-2" name="value" keyPath="self.cthunAttack" id="MA9-lb-xHH"/>
+                                        </connections>
+                                    </textField>
+                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8gQ-k3-RpQ" userLabel="CthunHealth">
+                                        <rect key="frame" x="22" y="4" width="57" height="19"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="6" id="eTt-X8-3i6">
+                                            <font key="font" size="18" name="ChunkFive-Roman"/>
+                                            <color key="textColor" red="0.2470588235" green="0.20392156859999999" blue="0.14117647059999999" alpha="1" colorSpace="deviceRGB"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <connections>
+                                            <binding destination="-2" name="value" keyPath="self.cthunHealth" id="VxZ-r0-LXH"/>
+                                        </connections>
+                                    </textField>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="8gQ-k3-RpQ" secondAttribute="trailing" id="7Jk-rp-hIL"/>
+                                    <constraint firstAttribute="height" constant="50" id="8vp-di-gsK"/>
+                                    <constraint firstAttribute="width" constant="77" id="Ixo-6T-ot9"/>
+                                    <constraint firstAttribute="trailing" secondItem="Y7S-Be-BbI" secondAttribute="trailing" id="Jah-jP-fZd"/>
+                                    <constraint firstItem="8gQ-k3-RpQ" firstAttribute="leading" secondItem="lJB-DI-eW8" secondAttribute="leading" constant="24" id="Jzi-1l-Roj"/>
+                                    <constraint firstItem="Hpt-0s-7no" firstAttribute="top" secondItem="lJB-DI-eW8" secondAttribute="top" constant="8" id="Lpl-QU-E4u"/>
+                                    <constraint firstItem="Hpt-0s-7no" firstAttribute="leading" secondItem="lJB-DI-eW8" secondAttribute="leading" constant="24" id="QAO-BD-8VH"/>
+                                    <constraint firstItem="8gQ-k3-RpQ" firstAttribute="top" secondItem="lJB-DI-eW8" secondAttribute="top" constant="27" id="Vo9-YD-5Fp"/>
+                                    <constraint firstItem="Y7S-Be-BbI" firstAttribute="leading" secondItem="lJB-DI-eW8" secondAttribute="leading" id="bSb-U6-xTw"/>
+                                    <constraint firstAttribute="trailing" secondItem="Hpt-0s-7no" secondAttribute="trailing" id="e0e-ed-VB2"/>
+                                    <constraint firstAttribute="bottom" secondItem="Y7S-Be-BbI" secondAttribute="bottom" id="mYM-Wc-Qdx"/>
+                                    <constraint firstItem="Y7S-Be-BbI" firstAttribute="top" secondItem="lJB-DI-eW8" secondAttribute="top" id="oTn-c7-kCd"/>
+                                </constraints>
+                                <connections>
+                                    <binding destination="-2" name="hidden" keyPath="self.cthunVisibility" id="P8j-R1-QkK">
+                                        <dictionary key="options">
+                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
+                            </customView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="W1l-Jw-Wf1" userLabel="SpellsView">
+                                <rect key="frame" x="154" y="0.0" width="77" height="50"/>
+                                <subviews>
+                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VaP-3G-gv4">
+                                        <rect key="frame" x="0.0" y="0.0" width="77" height="50"/>
+                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="icon-spells" id="AUc-0C-nH9"/>
+                                    </imageView>
+                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="CUh-JK-hQo" userLabel="SpellsCounter">
+                                        <rect key="frame" x="30" y="13" width="49" height="20"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="0" id="tXO-h1-kuj">
+                                            <font key="font" size="20" name="ChunkFive-Roman"/>
+                                            <color key="textColor" red="0.2470588235" green="0.20392156859999999" blue="0.14117647059999999" alpha="1" colorSpace="deviceRGB"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <connections>
+                                            <binding destination="-2" name="value" keyPath="self.spellsCounter" id="Qhi-OC-o0a"/>
+                                        </connections>
+                                    </textField>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="77" id="1OA-kd-YkH"/>
+                                    <constraint firstAttribute="bottom" secondItem="VaP-3G-gv4" secondAttribute="bottom" id="1aL-oZ-xAI"/>
+                                    <constraint firstItem="CUh-JK-hQo" firstAttribute="leading" secondItem="W1l-Jw-Wf1" secondAttribute="leading" constant="32" id="2ZS-3B-icD"/>
+                                    <constraint firstItem="VaP-3G-gv4" firstAttribute="leading" secondItem="W1l-Jw-Wf1" secondAttribute="leading" id="5KE-Zz-oLl"/>
+                                    <constraint firstItem="CUh-JK-hQo" firstAttribute="top" secondItem="W1l-Jw-Wf1" secondAttribute="top" constant="17" id="JR6-CP-L8O"/>
+                                    <constraint firstItem="VaP-3G-gv4" firstAttribute="top" secondItem="W1l-Jw-Wf1" secondAttribute="top" id="PJH-Aj-oKi"/>
+                                    <constraint firstAttribute="trailing" secondItem="VaP-3G-gv4" secondAttribute="trailing" id="Rw2-rJ-6VI"/>
+                                    <constraint firstAttribute="trailing" secondItem="CUh-JK-hQo" secondAttribute="trailing" id="Y84-bY-uYr"/>
+                                    <constraint firstAttribute="height" constant="50" id="dNv-1m-0vb"/>
+                                </constraints>
+                                <connections>
+                                    <binding destination="-2" name="hidden" keyPath="self.spellsVisibility" id="7ld-DY-f9l">
+                                        <dictionary key="options">
+                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
+                            </customView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="xjI-s9-rNw" userLabel="PogoView">
+                                <rect key="frame" x="231" y="0.0" width="77" height="50"/>
+                                <subviews>
+                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WsB-2h-9jQ">
+                                        <rect key="frame" x="0.0" y="0.0" width="77" height="50"/>
+                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="icon-pogo" id="Ded-EC-NB8"/>
+                                    </imageView>
+                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hyD-OT-yAh" userLabel="PogoAttack">
+                                        <rect key="frame" x="22" y="23" width="57" height="19"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="1" id="ALG-bI-e49">
+                                            <font key="font" size="18" name="ChunkFive-Roman"/>
+                                            <color key="textColor" red="0.2470588235" green="0.20392156859999999" blue="0.14117647059999999" alpha="1" colorSpace="deviceRGB"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <connections>
+                                            <binding destination="-2" name="value" keyPath="self.pogoCounter" id="NkJ-zI-Z3e"/>
+                                        </connections>
+                                    </textField>
+                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SeD-9O-EU2" userLabel="PogoHealth">
+                                        <rect key="frame" x="22" y="4" width="57" height="19"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="1" id="drn-nG-Jfg">
+                                            <font key="font" size="18" name="ChunkFive-Roman"/>
+                                            <color key="textColor" red="0.2470588235" green="0.20392156859999999" blue="0.14117647059999999" alpha="1" colorSpace="deviceRGB"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <connections>
+                                            <binding destination="-2" name="value" keyPath="self.pogoCounter" id="Qy0-Fl-uA0"/>
+                                        </connections>
+                                    </textField>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="77" id="IE1-Bu-c84"/>
+                                    <constraint firstAttribute="trailing" secondItem="hyD-OT-yAh" secondAttribute="trailing" id="VOO-mO-fxd"/>
+                                    <constraint firstAttribute="height" constant="50" id="ZuL-Kk-wxd"/>
+                                    <constraint firstItem="WsB-2h-9jQ" firstAttribute="top" secondItem="xjI-s9-rNw" secondAttribute="top" id="bbR-xf-YYd"/>
+                                    <constraint firstAttribute="trailing" secondItem="SeD-9O-EU2" secondAttribute="trailing" id="fHg-1y-T5c"/>
+                                    <constraint firstItem="WsB-2h-9jQ" firstAttribute="leading" secondItem="xjI-s9-rNw" secondAttribute="leading" id="hyM-Pt-Yh0"/>
+                                    <constraint firstAttribute="trailing" secondItem="WsB-2h-9jQ" secondAttribute="trailing" id="mOp-2B-aY9"/>
+                                    <constraint firstItem="SeD-9O-EU2" firstAttribute="leading" secondItem="xjI-s9-rNw" secondAttribute="leading" constant="24" id="mgp-s5-QVi"/>
+                                    <constraint firstItem="hyD-OT-yAh" firstAttribute="leading" secondItem="xjI-s9-rNw" secondAttribute="leading" constant="24" id="t9m-H0-ZbI"/>
+                                    <constraint firstAttribute="bottom" secondItem="WsB-2h-9jQ" secondAttribute="bottom" id="txm-kR-GPt"/>
+                                    <constraint firstItem="hyD-OT-yAh" firstAttribute="top" secondItem="xjI-s9-rNw" secondAttribute="top" constant="8" id="wxA-d9-Ucg"/>
+                                    <constraint firstItem="SeD-9O-EU2" firstAttribute="top" secondItem="xjI-s9-rNw" secondAttribute="top" constant="27" id="x7h-cJ-AeE"/>
+                                </constraints>
+                                <connections>
+                                    <binding destination="-2" name="hidden" keyPath="self.pogoVisibility" id="k5s-Tb-cta">
+                                        <dictionary key="options">
+                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
+                            </customView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="jM4-eH-WmB" userLabel="GalakrondView">
+                                <rect key="frame" x="308" y="0.0" width="77" height="50"/>
+                                <subviews>
+                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="F6p-1f-0Mp">
+                                        <rect key="frame" x="0.0" y="0.0" width="77" height="50"/>
+                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="icon-galakrond" id="eKd-le-57g"/>
+                                    </imageView>
+                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="X6a-PF-7Dx" userLabel="GalakrondCounter">
+                                        <rect key="frame" x="30" y="13" width="49" height="20"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="0" id="bB4-nx-hSM">
+                                            <font key="font" size="20" name="ChunkFive-Roman"/>
+                                            <color key="textColor" red="0.2470588235" green="0.20392156859999999" blue="0.14117647059999999" alpha="1" colorSpace="deviceRGB"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <connections>
+                                            <binding destination="-2" name="value" keyPath="self.galakrondCounter" id="ktQ-c1-ZQd"/>
+                                        </connections>
+                                    </textField>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="F6p-1f-0Mp" firstAttribute="leading" secondItem="jM4-eH-WmB" secondAttribute="leading" id="1oW-9C-zjK"/>
+                                    <constraint firstAttribute="bottom" secondItem="F6p-1f-0Mp" secondAttribute="bottom" id="7Sq-Zh-NeA"/>
+                                    <constraint firstItem="X6a-PF-7Dx" firstAttribute="top" secondItem="jM4-eH-WmB" secondAttribute="top" constant="17" id="7XX-qk-R0U"/>
+                                    <constraint firstAttribute="trailing" secondItem="F6p-1f-0Mp" secondAttribute="trailing" id="YLt-IJ-TZi"/>
+                                    <constraint firstAttribute="width" constant="77" id="acX-G0-meU"/>
+                                    <constraint firstItem="X6a-PF-7Dx" firstAttribute="leading" secondItem="jM4-eH-WmB" secondAttribute="leading" constant="32" id="eBh-0D-Uu1"/>
+                                    <constraint firstAttribute="trailing" secondItem="X6a-PF-7Dx" secondAttribute="trailing" id="gYS-zC-Jaj"/>
+                                    <constraint firstItem="F6p-1f-0Mp" firstAttribute="top" secondItem="jM4-eH-WmB" secondAttribute="top" id="kMB-lJ-MJh"/>
+                                    <constraint firstAttribute="height" constant="50" id="s8A-up-Mff"/>
+                                </constraints>
+                                <connections>
+                                    <binding destination="-2" name="hidden" keyPath="self.galakrondVisibility" id="ZKo-tS-jmY">
+                                        <dictionary key="options">
+                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
+                            </customView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="3dx-Vt-vFa" userLabel="LibramView">
+                                <rect key="frame" x="385" y="0.0" width="77" height="50"/>
+                                <subviews>
+                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="l9h-1u-CXy">
+                                        <rect key="frame" x="0.0" y="0.0" width="77" height="50"/>
+                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="icon-libram" id="JSr-Od-Hvl"/>
+                                    </imageView>
+                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7HB-1Y-0f4" userLabel="LibramCounter">
+                                        <rect key="frame" x="30" y="13" width="49" height="20"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="0" id="0i9-F9-lHF">
+                                            <font key="font" size="20" name="ChunkFive-Roman"/>
+                                            <color key="textColor" red="0.2470588235" green="0.20392156859999999" blue="0.14117647059999999" alpha="1" colorSpace="deviceRGB"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <connections>
+                                            <binding destination="-2" name="value" keyPath="self.libramCounter" id="lMm-N2-Jvc"/>
+                                        </connections>
+                                    </textField>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="l9h-1u-CXy" secondAttribute="trailing" id="3nx-9t-5S2"/>
+                                    <constraint firstAttribute="height" constant="50" id="4X2-jP-QyQ"/>
+                                    <constraint firstItem="l9h-1u-CXy" firstAttribute="leading" secondItem="3dx-Vt-vFa" secondAttribute="leading" id="HZ5-g4-j5g"/>
+                                    <constraint firstAttribute="bottom" secondItem="l9h-1u-CXy" secondAttribute="bottom" id="MCN-9z-tEU"/>
+                                    <constraint firstAttribute="trailing" secondItem="7HB-1Y-0f4" secondAttribute="trailing" id="Rmv-gp-wC1"/>
+                                    <constraint firstItem="7HB-1Y-0f4" firstAttribute="leading" secondItem="3dx-Vt-vFa" secondAttribute="leading" constant="32" id="Zpy-uL-KC4"/>
+                                    <constraint firstAttribute="width" constant="77" id="hMA-DT-rEB"/>
+                                    <constraint firstItem="l9h-1u-CXy" firstAttribute="top" secondItem="3dx-Vt-vFa" secondAttribute="top" id="jpf-D1-UVC"/>
+                                    <constraint firstItem="7HB-1Y-0f4" firstAttribute="top" secondItem="3dx-Vt-vFa" secondAttribute="top" constant="17" id="uc9-44-bew"/>
+                                </constraints>
+                                <connections>
+                                    <binding destination="-2" name="hidden" keyPath="self.libramVisibility" id="J3L-I2-1C6">
+                                        <dictionary key="options">
+                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
+                            </customView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="QVZ-AG-SeJ" userLabel="AbyssalView">
+                                <rect key="frame" x="462" y="0.0" width="77" height="50"/>
                                 <subviews>
                                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ms1-Me-slS">
                                         <rect key="frame" x="0.0" y="0.0" width="77" height="50"/>
@@ -65,7 +333,7 @@
                                 </connections>
                             </customView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="Gsg-BK-Jrd" userLabel="ExcavateView">
-                                <rect key="frame" x="77" y="0.0" width="77" height="50"/>
+                                <rect key="frame" x="539" y="0.0" width="77" height="50"/>
                                 <subviews>
                                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Hfs-yt-QCH">
                                         <rect key="frame" x="0.0" y="0.0" width="77" height="50"/>
@@ -103,7 +371,7 @@
                                 </connections>
                             </customView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="Nai-fA-fcA" userLabel="ExcavateTierView">
-                                <rect key="frame" x="154" y="0.0" width="120" height="50"/>
+                                <rect key="frame" x="616" y="0.0" width="120" height="50"/>
                                 <subviews>
                                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nET-uH-DBc">
                                         <rect key="frame" x="0.0" y="0.0" width="120" height="50"/>
@@ -151,8 +419,20 @@
                             <integer value="1000"/>
                             <integer value="1000"/>
                             <integer value="1000"/>
+                            <integer value="1000"/>
+                            <integer value="1000"/>
+                            <integer value="1000"/>
+                            <integer value="1000"/>
+                            <integer value="1000"/>
+                            <integer value="1000"/>
                         </visibilityPriorities>
                         <customSpacing>
+                            <real value="3.4028234663852886e+38"/>
+                            <real value="3.4028234663852886e+38"/>
+                            <real value="3.4028234663852886e+38"/>
+                            <real value="3.4028234663852886e+38"/>
+                            <real value="3.4028234663852886e+38"/>
+                            <real value="3.4028234663852886e+38"/>
                             <real value="3.4028234663852886e+38"/>
                             <real value="3.4028234663852886e+38"/>
                             <real value="3.4028234663852886e+38"/>
@@ -165,13 +445,19 @@
                     <constraint firstItem="l2M-3n-aSZ" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="de8-8c-Dt6"/>
                 </constraints>
             </view>
-            <point key="canvasLocation" x="-93" y="80"/>
+            <point key="canvasLocation" x="-281.5" y="80"/>
         </window>
         <userDefaultsController representsSharedInstance="YES" id="aUT-8E-iOx"/>
     </objects>
     <resources>
         <image name="icon-abyssal" width="250" height="170"/>
+        <image name="icon-cthun" width="250" height="170"/>
         <image name="icon-excavate" width="250" height="170"/>
         <image name="icon-excavate-tier" width="393" height="170"/>
+        <image name="icon-galakrond" width="250" height="170"/>
+        <image name="icon-jade" width="250" height="170"/>
+        <image name="icon-libram" width="250" height="170"/>
+        <image name="icon-pogo" width="250" height="170"/>
+        <image name="icon-spells" width="250" height="170"/>
     </resources>
 </document>

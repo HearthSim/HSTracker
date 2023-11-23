@@ -9,13 +9,23 @@
 import Foundation
 
 class WotogCounter: OverWindowController {
-    @IBOutlet var abyssalView: NSView!
-    @IBOutlet var excavateView: NSView!
-    
+    @objc dynamic var jadeVisibility = false
+    @objc dynamic var jade = 0
+    @objc dynamic var cthunVisibility = false
+    @objc dynamic var cthunAttack = 6
+    @objc dynamic var cthunHealth = 6
+    @objc dynamic var spellsVisibility = false
+    @objc dynamic var spellsCounter = 0
+    @objc dynamic var pogoVisibility = false
+    @objc dynamic var pogoCounter = 0
+    @objc dynamic var galakrondVisibility = false
+    @objc dynamic var galakrondCounter = 0
+    @objc dynamic var libramVisibility = false
+    @objc dynamic var libramCounter = 0
     @objc dynamic var abyssalVisibility = false
-    @objc dynamic var abyssalCurse = ""
+    @objc dynamic var abyssalCurse = 0
     @objc dynamic var excavateVisibility = false
-    @objc dynamic var excavate = ""
+    @objc dynamic var excavate = 0
     var excavateTier = 0
     @objc dynamic var excavateTierVisibility = false
     @objc dynamic var excavateTierLabel = ""

@@ -147,6 +147,7 @@ extension CardIds.Collectible {
         static let ConvokeTheSpirits = "REV_365"
         static let UmbralOwlDARKMOON_FAIRE = "DMF_060"
         static let UmbralOwlPLACEHOLDER_202204 = "CORE_DMF_060"
+        static let ContaminatedLasher = "YOG_528"
     }
 }
 

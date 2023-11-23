@@ -36,6 +36,7 @@ class OpponentTrackersPreferences: NSViewController, PreferencePane {
     @IBOutlet weak var showAbyssalCounter: NSButton!
     @IBOutlet weak var showExcavateCounter: NSButton!
     @IBOutlet weak var enableLinkOpponentDeckInNonFriendly: NSButton!
+    @IBOutlet weak var showPogoCounter: NSButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,6 +60,7 @@ class OpponentTrackersPreferences: NSViewController, PreferencePane {
         showLibramCounter.state = Settings.showOpponentLibramCounter ? .on : .off
         showAbyssalCounter.state = Settings.showOpponentAbyssalCounter ? .on : .off
         showExcavateCounter.state = Settings.showOpponentExcavateCounter ? .on : .off
+        showPogoCounter.state = Settings.showOpponentPogoCounter ? .on : .off
         enableLinkOpponentDeckInNonFriendly.state = Settings.enableLinkOpponentDeckInNonFriendly ? .on : .off
     }
 
@@ -106,6 +108,8 @@ class OpponentTrackersPreferences: NSViewController, PreferencePane {
             Settings.showOpponentAbyssalCounter = showAbyssalCounter.state == .on
         } else if sender == showExcavateCounter {
             Settings.showOpponentExcavateCounter = showExcavateCounter.state == .on
+        } else if sender == showPogoCounter {
+            Settings.showOpponentPogoCounter = showPogoCounter.state == .on
         } else if sender == enableLinkOpponentDeckInNonFriendly {
             Settings.enableLinkOpponentDeckInNonFriendly = enableLinkOpponentDeckInNonFriendly.state == .on
         }

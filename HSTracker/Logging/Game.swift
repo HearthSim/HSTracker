@@ -227,23 +227,15 @@ class Game: NSObject, PowerEventHandler {
 				                          hasCoin: self.opponent.hasCoin,
 				                          gameStarted: gameStarted)
 
-				tracker.showCthunCounter = self.showOpponentCthunCounter
-				tracker.showSpellCounter = Settings.showOpponentSpell
+				tracker.showCthunCounter = false
+				tracker.showSpellCounter = false
 				tracker.showDeathrattleCounter = Settings.showOpponentDeathrattle
 				tracker.showGraveyard = Settings.showOpponentGraveyard
-				tracker.showJadeCounter = self.showOpponentJadeCounter
-				tracker.proxy = self.opponentCthunProxy
-				tracker.nextJadeSize = self.opponentNextJadeGolem
+				tracker.showJadeCounter = false
 				tracker.fatigueCounter = self.opponent.fatigue
-				tracker.spellsPlayedCount = self.opponent.spellsPlayedCount
 				tracker.deathrattlesPlayedCount = self.opponent.deathrattlesPlayedCount
-                tracker.showLibramCounter = Settings.showOpponentLibramCounter
-                tracker.libramReductionCount = self.opponent.libramReductionCount
+                tracker.showLibramCounter = false
                 
-                if let opponentEntity = self.opponentEntity {
-                    tracker.galakrondInvokeCounter = opponentEntity.has(tag: GameTag.invoke_counter) ? opponentEntity[GameTag.invoke_counter] : 0
-                }
-				
                 if let fullname = self.opponent.name {
                     let names = fullname.components(separatedBy: "#")
                     tracker.playerName = names[0]
@@ -286,28 +278,55 @@ class Game: NSObject, PowerEventHandler {
         DispatchQueue.main.async { [unowned(unsafe) self] in
             var anyVisible = false
             let showTracker = shouldShowTracker
-            if showOpponentAbyssalCounter && showTracker {
+            let icons = self.windowManager.opponentWotogIcons
+            icons.jadeVisibility = showOpponentJadeCounter && showTracker
+            if icons.jadeVisibility {
                 anyVisible = true
-                self.windowManager.opponentWotogIcons.abyssalCurse = "\(self.opponent.abyssalCurseCount)"
-                self.windowManager.opponentWotogIcons.abyssalVisibility = true
-            } else {
-                self.windowManager.opponentWotogIcons.abyssalVisibility = false
+                icons.jade = opponentNextJadeGolem
             }
-            
-            if showOpponentExcavateCounter && showTracker {
-               anyVisible = true
-                self.windowManager.opponentWotogIcons.excavate = "\(opponentEntity?[.gametag_2822] ?? 0)"
-                self.windowManager.opponentWotogIcons.excavateVisibility = true
-            } else {
-                self.windowManager.opponentWotogIcons.excavateVisibility = false
+            icons.cthunVisibility = showOpponentCthunCounter && showTracker
+            if icons.cthunVisibility {
+                anyVisible = true
+                let player = opponentEntity
+                icons.cthunAttack = (player?.has(tag: .cthun_attack_buff) ?? false) ? (player?[.cthun_attack_buff] ?? 0) + 6 : 6
+                icons.cthunHealth = (player?.has(tag: .cthun_health_buff) ?? false) ? (player?[.cthun_health_buff] ?? 0) + 6 : 6
             }
-            
+            icons.spellsVisibility = showOpponentSpellsCounter && showTracker
+            if icons.spellsVisibility {
+                anyVisible = true
+                icons.spellsCounter = opponent.spellsPlayedCount
+            }
+            icons.pogoVisibility = showOpponentPogoHopperCounter && showTracker
+            if icons.pogoVisibility {
+                anyVisible = true
+                icons.pogoCounter = ((opponent.pogoHopperPlayedCount + 1) * 2) - 1
+            }
+            icons.galakrondVisibility = showOpponentGalakrondCounter && showTracker
+            if icons.galakrondVisibility {
+                anyVisible = true
+                icons.galakrondCounter = opponentGalakrondInvokeCounter
+            }
+            icons.libramVisibility = showOpponentLibramCounter && showTracker
+            if icons.libramVisibility {
+                anyVisible = true
+                icons.libramCounter = opponentLibramCounter
+            }
+            icons.abyssalVisibility = showOpponentAbyssalCounter && showTracker
+            if icons.abyssalVisibility {
+                anyVisible = true
+                icons.abyssalCurse = self.opponent.abyssalCurseCount
+            }
+            icons.excavateVisibility = showOpponentExcavateCounter && showTracker
+            if icons.excavateVisibility {
+                anyVisible = true
+                icons.excavate = opponentEntity?[.gametag_2822] ?? 0
+            }
             if anyVisible {
                 let frame = SizeHelper.opponentWotogIconsFrame()
-                self.windowManager.show(controller: self.windowManager.opponentWotogIcons, show: true,
+                self.windowManager.show(controller: icons, show: true,
                                         frame: frame, overlay: self.hearthstoneRunState.isActive)
             } else {
-                self.windowManager.show(controller: self.windowManager.opponentWotogIcons, show: false)
+                self.windowManager.show(controller: icons, show: false)
             }
         }
     }
@@ -316,28 +335,56 @@ class Game: NSObject, PowerEventHandler {
         DispatchQueue.main.async { [unowned(unsafe) self] in
             var anyVisible = false
             let showTracker = shouldShowTracker
-            if showPlayerAbyssalCounter  && showTracker {
-                self.windowManager.playerWotogIcons.abyssalCurse = "\(self.player.abyssalCurseCount)"
-                self.windowManager.playerWotogIcons.abyssalVisibility = true
+            let icons = self.windowManager.playerWotogIcons
+            icons.jadeVisibility = showPlayerJadeCounter && showTracker
+            if icons.jadeVisibility {
                 anyVisible = true
-            } else {
-                self.windowManager.playerWotogIcons.abyssalVisibility = false
+                icons.jade = playerNextJadeGolem
             }
-            
-            if showPlayerExcavateTier && showTracker {
+            icons.cthunVisibility = showPlayerCthunCounter && showTracker
+            if icons.cthunVisibility {
                 anyVisible = true
-                self.windowManager.playerWotogIcons.excavateTier = playerEntity?[.current_excavate_tier] ?? 0
-                self.windowManager.playerWotogIcons.updateExcavateTierLabel()
-                self.windowManager.playerWotogIcons.excavateTierVisibility = true
-            } else {
-                self.windowManager.playerWotogIcons.excavateTierVisibility = false
+                let player = playerEntity
+                icons.cthunAttack = (player?.has(tag: .cthun_attack_buff) ?? false) ? (player?[.cthun_attack_buff] ?? 0) + 6 : 6
+                icons.cthunHealth = (player?.has(tag: .cthun_health_buff) ?? false) ? (player?[.cthun_health_buff] ?? 0) + 6 : 6
+            }
+            icons.spellsVisibility = showPlayerSpellsCounter && showTracker
+            if icons.spellsVisibility {
+                anyVisible = true
+                icons.spellsCounter = player.spellsPlayedCount
+            }
+            icons.pogoVisibility = showPlayerPogoHopperCounter && showTracker
+            if icons.pogoVisibility {
+                anyVisible = true
+                icons.pogoCounter = ((player.pogoHopperPlayedCount + 1) * 2) - 1
+            }
+            icons.galakrondVisibility = showPlayerGalakrondCounter && showTracker
+            if icons.galakrondVisibility {
+                anyVisible = true
+                icons.galakrondCounter = playerGalakrondInvokeCounter
+            }
+            icons.libramVisibility = showPlayerLibramCounter && showTracker
+            if icons.libramVisibility {
+                anyVisible = true
+                icons.libramCounter = playerLibramCounter
+            }
+            icons.abyssalVisibility = showPlayerAbyssalCounter  && showTracker
+            if icons.abyssalVisibility {
+                anyVisible = true
+                icons.abyssalCurse = self.player.abyssalCurseCount
+            }
+            icons.excavateTierVisibility = showPlayerExcavateTier && showTracker
+            if icons.excavateTierVisibility {
+                anyVisible = true
+                icons.excavateTier = playerEntity?[.current_excavate_tier] ?? 0
+                icons.updateExcavateTierLabel()
             }
             if anyVisible {
                 let frame = SizeHelper.playerWotogIconsFrame()
-                self.windowManager.show(controller: self.windowManager.playerWotogIcons, show: true,
+                self.windowManager.show(controller: icons, show: true,
                                         frame: frame, overlay: self.hearthstoneRunState.isActive)
             } else {
-                self.windowManager.show(controller: self.windowManager.playerWotogIcons, show: false)
+                self.windowManager.show(controller: icons, show: false)
             }
         }
     }
@@ -378,24 +425,15 @@ class Game: NSObject, PowerEventHandler {
                                           hasCoin: self.player.hasCoin,
                                           gameStarted: gameStarted)
                 
-                tracker.showCthunCounter = self.showPlayerCthunCounter
-                tracker.showSpellCounter = Settings.showPlayerSpell
+                tracker.showCthunCounter = false
+                tracker.showSpellCounter = false
                 tracker.showDeathrattleCounter = self.showPlayerDeathrattleCounter
                 tracker.showGraveyard = Settings.showPlayerGraveyard
-                tracker.showJadeCounter = self.showPlayerJadeCounter
-                tracker.proxy = self.playerCthunProxy
-                tracker.nextJadeSize = self.playerNextJadeGolem
+                tracker.showJadeCounter = false
                 tracker.fatigueCounter = self.player.fatigue
-                tracker.spellsPlayedCount = self.player.spellsPlayedCount
                 tracker.deathrattlesPlayedCount = self.player.deathrattlesPlayedCount
-                tracker.showLibramCounter = Settings.showPlayerLibramCounter
-                tracker.libramReductionCount = self.player.libramReductionCount
-                
-                if let playerEntity = self.playerEntity {
-                    tracker.hasGalakrondProxy = playerEntity.has(tag: GameTag.proxy_galakrond)
-                    tracker.galakrondInvokeCounter = playerEntity.has(tag: GameTag.invoke_counter) ? playerEntity[GameTag.invoke_counter] : 0
-                }
-                
+                tracker.showLibramCounter = false
+                                
                 if let currentDeck = self.currentDeck {
                     if let deck = RealmHelper.getDeck(with: currentDeck.id) {
                         tracker.recordTrackerMessage = StatsHelper

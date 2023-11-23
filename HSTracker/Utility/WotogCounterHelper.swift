@@ -14,7 +14,12 @@ extension Game {
         CardIds.Collectible.Neutral.ArcaneGiant,
         CardIds.Collectible.Priest.GraveHorror,
         CardIds.Collectible.Druid.UmbralOwlDARKMOON_FAIRE,
-        CardIds.Collectible.Druid.UmbralOwlPLACEHOLDER_202204
+        CardIds.Collectible.Druid.UmbralOwlPLACEHOLDER_202204,
+        CardIds.Collectible.Neutral.YoggSaronMasterOfFate,
+        CardIds.Collectible.DemonHunter.SaroniteShambler,
+        CardIds.Collectible.Druid.ContaminatedLasher,
+        CardIds.Collectible.Mage.MeddlesomeServant,
+        CardIds.Collectible.Neutral.PrisonBreaker
     ]
     
     static let excavateCounterCards = [
@@ -41,7 +46,15 @@ extension Game {
 		return self.player.playerEntities
 			.first { $0.cardId == CardIds.NonCollectible.Neutral.Cthun }
 	}
-	
+    
+    var playerPogoHopper: Entity? {
+        return self.player.revealedEntities.first { x in x.cardId == CardIds.Collectible.Rogue.PogoHopper && x.info.originalZone != nil }
+    }
+
+    var opponentPogoHopper: Entity? {
+        return self.opponent.revealedEntities.first { x in x.cardId == CardIds.Collectible.Rogue.PogoHopper && x.info.originalZone != nil }
+    }
+
 	var playerYogg: Entity? {
 		return self.player.playerEntities
 			.first { $0.cardId == CardIds.Collectible.Neutral.YoggSaronHopesEnd }
@@ -92,6 +105,10 @@ extension Game {
 	private func deckContains(cardId: String) -> Bool {
 		return self.currentDeck?.cards.any({ $0.id == cardId }) ?? false
 	}
+    
+    var pogoHopperInDeck: Bool {
+        return deckContains(cardId: CardIds.Collectible.Rogue.PogoHopper)
+    }
 	
 	var cthunInDeck: Bool {
 		return deckContains(cardId: CardIds.Collectible.Neutral.Cthun)
@@ -106,13 +123,45 @@ extension Game {
 	}
 	
     var showPlayerSpellsCounter: Bool {
-        guard Settings.showPlayerSpell else {
-            return false
-        }
-        return true
+        return Settings.showPlayerSpell && inDeckAndHand(cardIds: Game.spellCounterCards) && player.spellsPlayedCount > 0
     }
-		
+    
+    var showOpponentSpellsCounter: Bool {
+        return Settings.showOpponentSpell && opponent.spellsPlayedCount > 0
+    }
+    
+    var showPlayerPogoHopperCounter: Bool {
+        return Settings.showPlayerPogoCounter && pogoHopperInDeck && playerPogoHopper != nil
+    }
 	
+    var showOpponentPogoHopperCounter: Bool {
+        return Settings.showOpponentPogoCounter && opponentPogoHopper != nil
+    }
+    
+    var playerGalakrondInvokeCounter: Int {
+        return playerEntity?[.invoke_counter] ?? 0
+    }
+    
+    var opponentGalakrondInvokeCounter: Int {
+        return opponentEntity?[.invoke_counter] ?? 0
+    }
+    
+    var showPlayerGalakrondCounter: Bool {
+        return Settings.showPlayerGalakrondCounter && (playerEntity?.has(tag: .proxy_galakrond) ?? false)
+    }
+
+    var showOpponentGalakrondCounter: Bool {
+        return Settings.showOpponentGalakrondCounter && (opponentEntity?.has(tag: .invoke_counter) ?? false)
+    }
+    
+    var showPlayerLibramCounter: Bool {
+        return Settings.showPlayerLibramCounter && player.libramReductionCount > 0
+    }
+    
+    var showOpponentLibramCounter: Bool {
+        return Settings.showOpponentLibramCounter && opponent.libramReductionCount > 0
+    }
+
 	var showPlayerDeathrattleCounter: Bool {
 		return Settings.showPlayerDeathrattle
 			&& (playerYogg != nil || nzothInDeck == true)
