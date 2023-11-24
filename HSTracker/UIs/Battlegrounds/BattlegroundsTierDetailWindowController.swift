@@ -15,10 +15,6 @@ class BattlegroundsTierDetailWindowController: OverWindowController {
         return true
     }
     
-    override func windowDidLoad() {
-        super.windowDidLoad()
-    }
-    
     func setTier(tier: Int) {
         detailsView?.setTier(tier: tier)
     }

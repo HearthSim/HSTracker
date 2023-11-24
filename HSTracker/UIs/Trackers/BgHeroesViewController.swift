@@ -10,9 +10,4 @@ import Cocoa
 
 class BgHeroesViewController: NSViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do view setup here.
-    }
-    
 }

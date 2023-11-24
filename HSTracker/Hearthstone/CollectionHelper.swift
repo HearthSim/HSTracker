@@ -12,7 +12,7 @@ class CollectionHelpers {
     static var hearthstone = CollectionHelper<Collection>(loadCollection: loadCollection)
     static var mercenaries = CollectionHelper<MercenariesCollection>(loadCollection: loadMercenariesCollection)
     
-    static private func loadCollection(key: String) /*async*/ -> Collection? {
+    static private func loadCollection(key: String) -> Collection? {
         let data = (collection: MirrorHelper.getCollection(), battletag: MirrorHelper.getBattleTag())
 
         let parts = key.split(separator: "-")
@@ -26,7 +26,7 @@ class CollectionHelpers {
         return nil
     }
 
-    static private func loadMercenariesCollection(key: String) /*async*/ -> MercenariesCollection? {
+    static private func loadMercenariesCollection(key: String) -> MercenariesCollection? {
         let data = (collection: MirrorHelper.getMercenariesCollection(), battletag: MirrorHelper.getBattleTag())
         
         let parts = key.split(separator: "-")
@@ -45,14 +45,14 @@ class CollectionHelper<T> {
     private var _lastUpdate: TimeInterval = 0.0
     private var _lastUsedKey: String?
     private var collections = SynchronizedDictionary<String, T>()
-    private let _loadCollection: (String) /*async*/ -> T?
+    private let _loadCollection: (String) -> T?
     var onCollectionChanged: (() -> Void)?
     
-    init(loadCollection: @escaping (String) /*async*/ -> T?) {
+    init(loadCollection: @escaping (String) -> T?) {
         _loadCollection = loadCollection
     }
     
-    func getCollection() /*async*/ -> T? {
+    func getCollection() -> T? {
         let key = /*await*/ getCurrentKey()
         var collection: T?
         if let key = key {
@@ -66,12 +66,12 @@ class CollectionHelper<T> {
         return collection
     }
     
-    func updateCollection() /*async*/ {
+    func updateCollection() {
         let key = /*await*/ getCurrentKey()
         _ = /*await*/ updateCollection(key: key, retry: false)
     }
     
-    private func updateCollection(key: String?, retry: Bool = false) /*async*/ -> Bool {
+    private func updateCollection(key: String?, retry: Bool = false) -> Bool {
         guard let key = key else {
             return false
         }
@@ -101,7 +101,7 @@ class CollectionHelper<T> {
         return false
     }
     
-    private func getCurrentKey(retry: Bool = true) /*async*/ -> String? {
+    private func getCurrentKey(retry: Bool = true) -> String? {
         if !AppDelegate.instance().coreManager.game
             .isRunning {
             return nil

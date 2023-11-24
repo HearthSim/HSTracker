@@ -35,10 +35,6 @@ class BattlegroundsSession: OverWindowController {
     
     var visibility = false
         
-    override func windowDidLoad() {
-        super.windowDidLoad()
-    }
-        
     func updateScaling() {
         guard let window else {
             return

@@ -60,11 +60,9 @@ final class LogReader {
         let lines: [String] = fileContent
                 .components(separatedBy: "\n")
                 .filter({ !$0.isBlank }).reversed()
-        for line in lines {
-            if choices.any({ line.range(of: $0) != nil }) {
-                logger.verbose("Found \(line)")
-				return LogLine(namespace: .power, line: line).time
-            }
+        for line in lines where choices.any({ line.range(of: $0) != nil }) {
+            logger.verbose("Found \(line)")
+            return LogLine(namespace: .power, line: line).time
         }
 
         return LogDate(date: Date.distantPast)

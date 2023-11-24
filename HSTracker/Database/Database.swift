@@ -237,10 +237,8 @@ class Database {
                     Database.battlegroundRaces.append(card.race)
                 }
                 if card.races.count > 0 && card.races[0] != .all {
-                    for race in card.races {
-                        if !Database.battlegroundRaces.contains(race) {
-                            Database.battlegroundRaces.append(race)
-                        }
+                    for race in card.races where !Database.battlegroundRaces.contains(race) {
+                        Database.battlegroundRaces.append(race)
                     }
                 }
             }

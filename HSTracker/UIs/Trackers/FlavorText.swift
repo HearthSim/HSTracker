@@ -11,8 +11,4 @@ import Foundation
 class FlavorText: OverWindowController {
     @IBOutlet weak var cardNameLabel: NSTextField!
     @IBOutlet weak var flavorTextLabel: NSTextField!
-    
-    override func windowDidLoad() {
-        super.windowDidLoad()
-    }
 }

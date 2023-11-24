@@ -91,11 +91,9 @@ struct SizeHelper {
                     
                     if calculateFromFrame {
                         var fs = false
-                        for scr in NSScreen.screens {
-                            if scr.frame == frame {
-                                fs = true
-                                break
-                            }
+                        for scr in NSScreen.screens where scr.frame == frame {
+                            fs = true
+                            break
                         }
                         fullscreen = fs
                     }

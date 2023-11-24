@@ -465,7 +465,7 @@ class HSReplayAPI {
                 return
             }
             let http = Http(url: "\(HSReplay.tier7HeroPickStatsUrl)")
-            _ = http.uploadPromise(method: .post, headers: ["Content-Type": "application/json", "Authorization" : "Bearer \(token)"], data: body).done { response in
+            _ = http.uploadPromise(method: .post, headers: ["Content-Type": "application/json", "Authorization": "Bearer \(token)"], data: body).done { response in
                 guard let data = response as? Data else {
                     continuation.resume(returning: nil)
                     return
@@ -529,7 +529,7 @@ class HSReplayAPI {
                 return
             }
             let http = Http(url: "\(HSReplay.tier7QuestStatsUrl)")
-            _ = http.uploadPromise(method: .post, headers: ["Content-Type": "application/json", "Authorization" : "Bearer \(token)"], data: body).done { response in
+            _ = http.uploadPromise(method: .post, headers: ["Content-Type": "application/json", "Authorization": "Bearer \(token)"], data: body).done { response in
                 guard let data = response as? Data else {
                     continuation.resume(returning: nil)
                     return

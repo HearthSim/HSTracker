@@ -52,8 +52,7 @@ struct Helper {
         logger.info("Updating client.config")
         do {
             try FileManager.default.removeItem(atPath: path)
-        }
-        catch {
+        } catch {
         }
         FileManager.default.createFile(atPath: path, contents: targetContent.data(using: .utf8))
         return false

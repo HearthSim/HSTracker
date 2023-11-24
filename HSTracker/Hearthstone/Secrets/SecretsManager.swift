@@ -221,9 +221,9 @@ class SecretsManager {
                     exclude.append(CardIds.Secrets.Hunter.BearTrap)
                 }
 
-                if (game.entities.values.first(where: { x in
+                if game.entities.values.first(where: { x in
                     x.isInPlay && (x.isHero || x.isMinion) && !x.has(tag: .immune) && x != attacker && x != defender
-                    }) != nil) {
+                    }) != nil {
                     exclude.append(CardIds.Secrets.Hunter.Misdirection)
                 }
 

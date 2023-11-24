@@ -454,12 +454,6 @@ struct QueueEventArgs {
     var isInQueue: Bool
     var current: FindGameState?
     var previous: FindGameState?
-    
-    init(isInQueue: Bool, current: FindGameState?, previous: FindGameState?) {
-        self.isInQueue = isInQueue
-        self.current = current
-        self.previous = previous
-    }
 }
 
 class QueueWatcher: Watcher {

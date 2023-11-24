@@ -11,11 +11,6 @@ import Foundation
 struct MercenaryCoinsEntry {
     var id: Int
     var coins: Int
-    
-    init(id: Int, coins: Int) {
-        self.id = id
-        self.coins = coins
-    }
 }
 
 class MercenariesCoins {

@@ -16,10 +16,6 @@ class BattlegroundsTierOverlay: OverWindowController {
         return true
     }
     
-    override func windowDidLoad() {
-        super.windowDidLoad()
-    }
-    
     override func updateFrames() {
     }
 }

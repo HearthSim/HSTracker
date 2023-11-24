@@ -569,8 +569,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
     }
     
     @IBAction func saveCurrentDeck(_ sender: AnyObject) {
-        // swiftlint:disable force_cast
-        switch (sender as! NSMenuItem).tag {
+        guard let sender = sender as? NSMenuItem else {
+            return
+        }
+        switch sender.tag {
         case 1: // Opponent
             saveDeck(coreManager.game.opponent)
         case 2: // Self

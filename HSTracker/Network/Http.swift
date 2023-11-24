@@ -12,10 +12,6 @@ import PromiseKit
 struct Http {
     let url: String
 
-    init(url: String) {
-        self.url = url
-    }
-
     func json(method: HttpMethod,
               parameters: [String: Any] = [:],
               headers: [String: String] = [:],

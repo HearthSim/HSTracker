@@ -29,7 +29,7 @@ extension NSBezierPath {
       case .closePath:
         path.closeSubpath()
 
-      @unknown default:
+      default:
         break
       }
     }

@@ -62,8 +62,7 @@ class BattlegroundsUtils {
         return nil
     }
     
-    static func getMinionsBannedByAnomaly(anomalyDbfId: Int?) -> [String]?
-    {
+    static func getMinionsBannedByAnomaly(anomalyDbfId: Int?) -> [String]? {
         guard let anomalyDbfId else {
             return nil
         }

@@ -155,8 +155,7 @@ class RemoteConfig {
                     let http4 = Http(url: RemoteConfig.secretsUrl)
                     _ = http4.getPromise(method: .get).map { data in
                         try JSONDecoder().decode(LiveSecrets.self, from: data!)
-                    }.done {
-                        secrets in
+                    }.done { secrets in
                         self.liveSecrets = secrets
                         logger.info("Retrieved live secrets configuration")
                         semaphore.signal()

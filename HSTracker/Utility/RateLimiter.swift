@@ -12,7 +12,7 @@ class RateLimiter {
     var _maxCount: Int
     var _lastRun: Deque<Date>
     var _timeSpan: TimeInterval
-    var _nextTask: (() /*async*/ -> Void)?
+    var _nextTask: (() -> Void)?
     var _running: Bool
     
     init(maxCount: Int, timeSpan: TimeInterval) {
@@ -22,7 +22,7 @@ class RateLimiter {
         _running = false
     }
     
-    func run(task: @escaping () /*async*/ -> Void, onThrottled: (() -> Void)? = nil) /*async*/ {
+    func run(task: @escaping () -> Void, onThrottled: (() -> Void)? = nil) {
         _nextTask = task
         if _running {
             return

@@ -179,6 +179,6 @@ final class LogReaderManager {
         case .arena: self.arenaHandler.handle(logLine: line)
         case .loadingScreen: self.loadingScreenHandler.handle(logLine: line)
         default: break
-		}
+        }
 	}
 }

@@ -266,11 +266,6 @@ class UploadMetaData {
     struct MercenaryReward {
         let mercenary_id: Int
         let coins: Int
-        
-        init(mercenary_id: Int, coins: Int) {
-            self.mercenary_id = mercenary_id
-            self.coins = coins
-        }
     }
 }
 extension UploadMetaData.Player: WrapCustomizable {

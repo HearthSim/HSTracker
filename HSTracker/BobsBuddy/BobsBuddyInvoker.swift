@@ -853,8 +853,7 @@ class BobsBuddyInvoker {
         input.opponentBloodGemAtkBuff = Int32(game.opponentEntity?[.bacon_bloodgembuffatkvalue] ?? 0)
         input.opponentBloodGemHealthBuff = Int32(game.opponentEntity?[.bacon_bloodgembuffhealthvalue] ?? 0)
         
-        logger.info("pBloodGem=+\(input.playerBloodGemAtkBuff)/+\(input.playerBloodGemHealthBuff), oBloodGem=\(input.opponentBloodGemAtkBuff)/+\(input.opponentBloodGemHealthBuff)");
-
+        logger.info("pBloodGem=+\(input.playerBloodGemAtkBuff)/+\(input.playerBloodGemHealthBuff), oBloodGem=\(input.opponentBloodGemAtkBuff)/+\(input.opponentBloodGemHealthBuff)")
         
         self.input = input
         self._turn = turn
@@ -889,8 +888,8 @@ class BobsBuddyInvoker {
         
         reRunCount += 1
         if reRunCount < 11 {
-            logger.debug("Opponent hand changed, re-running simulation! (#\(reRunCount)");
-            if shouldRun() && !runSimulationAfterCombat  {
+            logger.debug("Opponent hand changed, re-running simulation! (#\(reRunCount)")
+            if shouldRun() && !runSimulationAfterCombat {
                 errorState = .none
                 BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .none, show: true)
                 _ = runAndDisplaySimulationAsync()

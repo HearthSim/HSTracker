@@ -45,8 +45,8 @@ class ImageCompare {
         let withData: UnsafePointer<UInt8> = CFDataGetBytePtr(withPixelData)
         
         for _ in 0 ..< testablePixels {
-            let pixelX = Int(arc4random() % UInt32(original.size.width))
-            let pixelY = Int(arc4random() % UInt32(original.size.height))
+            let pixelX = Int(UInt32.random(in: 0...UInt32(original.size.width)))
+            let pixelY = Int(UInt32.random(in: 0...UInt32(original.size.height)))
             
             let origPixelInfo: Int = ((Int(origImage.width) * pixelY) + pixelX) * 4
             

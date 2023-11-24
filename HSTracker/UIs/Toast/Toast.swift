@@ -53,10 +53,8 @@ class Toast {
     private static func findScreen() -> NSScreen {
         let hsRect = SizeHelper.hearthstoneWindow.frame
         
-        for screen in NSScreen.screens {
-            if screen.frame.contains(hsRect) {
-                return screen
-            }
+        for screen in NSScreen.screens where screen.frame.contains(hsRect) {
+            return screen
         }
         return NSScreen.screens.first!
     }

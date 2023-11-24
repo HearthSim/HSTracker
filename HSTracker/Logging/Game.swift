@@ -131,12 +131,10 @@ class Game: NSObject, PowerEventHandler {
         lastKnownBattlegroundsBoardState[correctedHero] = board
         // pre-cache art
         DispatchQueue.global().async {
-            for entity in board.entities {
-                if ImageUtils.cachedArt(cardId: entity.cardId) == nil {
-                    ImageUtils.art(for: entity.cardId, completion: { _ in
-                        // nothing to do in the completion as we are only pre-caching it
-                    })
-                }
+            for entity in board.entities where ImageUtils.cachedArt(cardId: entity.cardId) == nil {
+                ImageUtils.art(for: entity.cardId, completion: { _ in
+                    // nothing to do in the completion as we are only pre-caching it
+                })
             }
         }
     }
@@ -1081,7 +1079,7 @@ class Game: NSObject, PowerEventHandler {
             if let races = MirrorHelper.getAvailableBattlegroundsRaces() {
                 let newRaces = races.compactMap({ x in x.intValue > 0 && x.intValue < Race.allCases.count ? Race.allCases[x.intValue] : nil })
                 logger.info("Battlegrounds available races: \(newRaces) - from mirror \(races)")
-                if newRaces.count > 0 && newRaces.count == races.count{
+                if newRaces.count > 0 && newRaces.count == races.count {
                     _availableRaces = newRaces
                     return _availableRaces
                 }
@@ -1094,10 +1092,8 @@ class Game: NSObject, PowerEventHandler {
         if _unavailableRaces == nil {
             if let races = availableRaces, races.count > 0 && races[0] != .invalid {
                 var newRaces = [Race]()
-                for race in Database.battlegroundRaces {
-                    if !races.contains(race) {
-                        newRaces.append(race)
-                    }
+                for race in Database.battlegroundRaces where !races.contains(race) {
+                    newRaces.append(race)
                 }
                 if newRaces.count > 0 {
                     logger.info("Battlegrounds unavailable races: \(newRaces) - all races \(races)")
@@ -1502,10 +1498,8 @@ class Game: NSObject, PowerEventHandler {
                 mandatoryCards[$0.cardId] = oldValue + 1
             }
             
-            for (cardId, count) in mandatoryCards {
-                if (mirrorDeck.cards.first(where: { $0.cardId == cardId })?.count.intValue ?? 0 < count) {
-                    return false
-                }
+            for (cardId, count) in mandatoryCards where mirrorDeck.cards.first(where: { $0.cardId == cardId })?.count.intValue ?? 0 < count {
+                return false
             }
             
             return true
@@ -1782,8 +1776,8 @@ class Game: NSObject, PowerEventHandler {
                 result.playerMedalInfo = matchInfo.localPlayer.classicMedalInfo
                 result.opponentMedalInfo = matchInfo.opposingPlayer.classicMedalInfo
             } else if twist {
-                result.playerMedalInfo = matchInfo.localPlayer.twistMedalInfo;
-                result.opponentMedalInfo = matchInfo.opposingPlayer.twistMedalInfo;
+                result.playerMedalInfo = matchInfo.localPlayer.twistMedalInfo
+                result.opponentMedalInfo = matchInfo.opposingPlayer.twistMedalInfo
             } else {
                 result.playerMedalInfo = matchInfo.localPlayer.standardMedalInfo
                 result.opponentMedalInfo = matchInfo.opposingPlayer.standardMedalInfo
