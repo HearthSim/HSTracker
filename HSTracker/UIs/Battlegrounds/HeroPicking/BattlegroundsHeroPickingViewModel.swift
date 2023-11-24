@@ -91,10 +91,6 @@ class BattlegroundsHeroPickingViewModel: ViewModel {
         if game.spectator {
             return
         }
-        // No Trials for anonymous users
-        if !HSReplayAPI.isFullyAuthenticated {
-            return
-        }
         if RemoteConfig.data?.tier7?.disabled ?? false {
             message.disabled()
             visibility = false
@@ -113,16 +109,22 @@ class BattlegroundsHeroPickingViewModel: ViewModel {
             message.error()
             return
         }
+        var token: String?
         if !userOwnsTier7 {
-            let trialActive = await Tier7Trial.activate()
-            if !trialActive {
+            let acc = MirrorHelper.getAccountId()
+            if let acc = acc {
+                token = await Tier7Trial.activate(hi: acc.hi.int64Value, lo: acc.lo.int64Value)
+            }
+            if token == nil {
                 message.error()
                 return
             }
         }
         
         // At this point the user either owns tier7 or has an active trial!
-        guard let stats = await HSReplayAPI.getTier7HeroPickStats(parameters: requestParams) else {
+        guard let stats = (token != nil && !userOwnsTier7) ?
+                await HSReplayAPI.getTier7HeroPickStats(token: token, parameters: requestParams) :
+                    await HSReplayAPI.getTier7HeroPickStats(parameters: requestParams) else {
             message.error()
             return
         }

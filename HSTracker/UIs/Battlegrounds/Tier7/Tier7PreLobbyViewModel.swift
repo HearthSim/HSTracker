@@ -9,7 +9,11 @@
 import Foundation
 
 enum UserState: Int {
-    case loading, anonymous, authenticated, subscribed, disabled
+    case loading, unknownPlayer, validPlayer, subscribed, disabled
+}
+
+enum RefreshSubscriptionState: Int {
+    case hidden, signIn, refresh
 }
 
 class Tier7PreLobbyViewModel: ViewModel {
@@ -34,6 +38,15 @@ class Tier7PreLobbyViewModel: ViewModel {
                 return .disabled
             }
             return getProp(.loading)
+        }
+        set {
+            setProp(newValue)
+        }
+    }
+    
+    var refreshSubscriptionState: RefreshSubscriptionState {
+        get {
+            return getProp(.hidden)
         }
         set {
             setProp(newValue)
@@ -131,48 +144,60 @@ class Tier7PreLobbyViewModel: ViewModel {
             return
         }
         
-        if !HSReplayAPI.isFullyAuthenticated || HSReplayAPI.accountData == nil {
-            userState = .anonymous
-            allTimeHighMMR = nil
-            trialTimeRemaining = nil
-            username = nil
-        }
-        
-        if checkAccountStatus {
-            // This will fire a HSReplayNetOAuth.AccountDataUpdated event. We
-            // set a flag for the duration of the update check to avoid
-            // infinite recursion here.
-            _isUpdatingAccount = true
-            // (Unrelativ to the event) If we want to cut down the request
-            // volume here in the future we can only make this request for
-            // tier7 subscribers (still need to happen right here, not below to
-            // handle the case where tier7 ran out).
-            _ = await HSReplayAPI.getAccountAsync()
-            _isUpdatingAccount = false
-        }
-        
-        if !(HSReplayAPI.accountData?.is_tier7 ?? false) {
-            if userState != .authenticated {
-                userState = .loading
+        var ownsTier7 = false
+        if HSReplayAPI.isFullyAuthenticated && HSReplayAPI.accountData != nil {
+            if checkAccountStatus {
+                // This will fire a HSReplayNetOAuth.AccountDataUpdated event. We
+                // set a flag for the duration of the update check to avoid
+                // infinite recursion here.
+                _isUpdatingAccount = true
+                // (Unrelativ to the event) If we want to cut down the request
+                // volume here in the future we can only make this request for
+                // tier7 subscribers (still need to happen right here, not below to
+                // handle the case where tier7 ran out).
+                _ = await HSReplayAPI.getAccountAsync()
+                _isUpdatingAccount = false
             }
+            isAuthenticated = true
+            ownsTier7 = HSReplayAPI.accountData?.is_tier7 ?? false
+            
+            // Update the Refresh button, as it's otherwise only updated after a click on GET PREMIUM
+            if ownsTier7 {
+                refreshSubscriptionState = .hidden
+            } else if refreshSubscriptionState == .signIn {
+                refreshSubscriptionState = .refresh
+            }
+        } else {
+            isAuthenticated = false
+            if refreshSubscriptionState == .refresh {
+                refreshSubscriptionState = .signIn
+            }
+        }
+        
+        let acc = MirrorHelper.getAccountId()
+        username = MirrorHelper.getBattleTag()?.components(separatedBy: "#")[0] ?? HSReplayAPI.accountData?.username ?? nil
+        if !ownsTier7 {
             allTimeHighMMR = nil
-            await Tier7Trial.update()
+            guard let acc = acc else {
+                // unable to get AccountHi/AccountLo, not eligible for trials
+                userState = .unknownPlayer
+                return
+            }
+            await Tier7Trial.update(hi: acc.hi.int64Value, lo: acc.lo.int64Value)
             trialTimeRemaining = Tier7Trial.timeRemaining
             trialUsesRemaining = Tier7Trial.remainingTrials ?? 0
-            username = MirrorHelper.getBattleTag()?.components(separatedBy: "#")[0] ?? HSReplayAPI.accountData?.username
-            userState = .authenticated
+            userState = .validPlayer
             return
         }
         
         if userState != .subscribed {
             userState = .loading
-            username = MirrorHelper.getBattleTag()?.components(separatedBy: "#")[0] ?? HSReplayAPI.accountData?.username
         }
         
         trialTimeRemaining = nil
         var allTimeFromApi: Int?
         
-        if let acc = MirrorHelper.getAccountId() {
+        if let acc = acc {
             allTimeFromApi = await HSReplayAPI.getAllTimeBGsMMR(hi: acc.hi.int64Value, lo: acc.lo.intValue)?.all_time_high_mmr
         }
         let currentMMR = AppDelegate.instance().coreManager.game.battlegroundsRating
@@ -188,6 +213,8 @@ class Tier7PreLobbyViewModel: ViewModel {
         allTimeHighMMRVisibility = allTimeHighMMR != nil
         userState = .subscribed
     }
+    
+    var isAuthenticated = false
     
     func reset() {
         userState = .loading

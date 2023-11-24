@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22155" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22155"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -17,7 +17,9 @@
                 <outlet property="loading" destination="aaD-OS-BwL" id="lLj-dh-m3d"/>
                 <outlet property="refreshAccount" destination="Efq-Fj-biL" id="fO2-pJ-H0k"/>
                 <outlet property="refreshButton" destination="chU-TE-gWo" id="W8h-7J-0Dx"/>
+                <outlet property="signInButton" destination="iL6-4N-ad8" id="POD-Cf-UVg"/>
                 <outlet property="subscribed" destination="LaV-gy-JF0" id="Cat-q8-ECv"/>
+                <outlet property="subscribedView" destination="nal-l5-OVA" id="aLC-tU-ij2"/>
                 <outlet property="trialTimeRemainingLabel" destination="nNw-Ao-7tL" id="0DT-pu-4zy"/>
                 <outlet property="trialsRemainingLabel" destination="cCs-il-vFH" id="bWP-2q-y8J"/>
                 <outlet property="welcomeLabel" destination="yzx-MW-J8j" id="OQ6-UV-z4i"/>
@@ -65,16 +67,16 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZIp-Nf-GR0" userLabel="MainStack">
-                                    <rect key="frame" x="0.0" y="0.0" width="307" height="134"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="292" height="134"/>
                                     <subviews>
                                         <box boxType="custom" cornerRadius="4" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="MC5-5O-hdB" userLabel="Header">
-                                            <rect key="frame" x="0.0" y="114" width="307" height="20"/>
+                                            <rect key="frame" x="0.0" y="114" width="292" height="20"/>
                                             <view key="contentView" id="0tk-fY-2i6">
-                                                <rect key="frame" x="1" y="1" width="305" height="18"/>
+                                                <rect key="frame" x="1" y="1" width="290" height="18"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <stackView distribution="fill" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2uc-ha-g1w" userLabel="HeaderStackView">
-                                                        <rect key="frame" x="0.0" y="0.0" width="305" height="18"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="290" height="18"/>
                                                         <subviews>
                                                             <imageView verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gYz-1A-C9e" userLabel="Tier7Logo">
                                                                 <rect key="frame" x="8" y="1" width="16" height="16"/>
@@ -84,8 +86,8 @@
                                                                 </constraints>
                                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="tier7-logo" id="Lfe-uT-DRZ"/>
                                                             </imageView>
-                                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vcx-4L-sDD">
-                                                                <rect key="frame" x="30" y="2" width="269" height="14"/>
+                                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vcx-4L-sDD">
+                                                                <rect key="frame" x="30" y="2" width="254" height="14"/>
                                                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="left" title="Tier7 Battlegrounds Overlay" id="2B8-QX-tfZ">
                                                                     <font key="font" metaFont="smallSystem"/>
                                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
@@ -118,10 +120,10 @@
                                             <color key="fillColor" red="0.21176470589999999" green="0.086274509799999996" blue="0.2156862745" alpha="1" colorSpace="deviceRGB"/>
                                         </box>
                                         <stackView hidden="YES" distribution="fill" orientation="vertical" alignment="centerX" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aaD-OS-BwL" userLabel="Loading">
-                                            <rect key="frame" x="0.0" y="82" width="307" height="32"/>
+                                            <rect key="frame" x="0.0" y="82" width="292" height="32"/>
                                             <subviews>
-                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wMZ-Tf-etb">
-                                                    <rect key="frame" x="120" y="8" width="68" height="16"/>
+                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wMZ-Tf-etb">
+                                                    <rect key="frame" x="112" y="8" width="68" height="16"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Loading..." id="7sX-rB-b2w">
                                                         <font key="font" usesAppearanceFont="YES"/>
                                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
@@ -137,7 +139,7 @@
                                                 <real value="3.4028234663852886e+38"/>
                                             </customSpacing>
                                         </stackView>
-                                        <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q0E-va-bQ0" userLabel="Anonymous">
+                                        <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q0E-va-bQ0" userLabel="UnknownPlayer">
                                             <rect key="frame" x="0.0" y="-151" width="200" height="265"/>
                                             <subviews>
                                                 <stackView distribution="equalCentering" orientation="vertical" alignment="centerX" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="I0F-xp-Czb">
@@ -153,7 +155,7 @@
                                                         <customView translatesAutoresizingMaskIntoConstraints="NO" id="btc-Ca-tuE">
                                                             <rect key="frame" x="25" y="58" width="151" height="15"/>
                                                             <subviews>
-                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="C6p-aj-sN9">
+                                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="C6p-aj-sN9">
                                                                     <rect key="frame" x="-2" y="0.0" width="134" height="15"/>
                                                                     <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Hover for more details" id="szU-ee-T8K">
                                                                         <font key="font" metaFont="cellTitle"/>
@@ -179,7 +181,7 @@
                                                                 <constraint firstItem="xkC-SM-mZC" firstAttribute="leading" secondItem="C6p-aj-sN9" secondAttribute="trailing" id="ml2-J1-oI1"/>
                                                             </constraints>
                                                         </customView>
-                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="whA-zQ-BhV">
+                                                        <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="whA-zQ-BhV">
                                                             <rect key="frame" x="-2" y="24" width="204" height="26"/>
                                                             <textFieldCell key="cell" alignment="center" title="Sign in to HSReplay.net to access Tier7 Stats directly in the overlay!" id="lTt-2C-94I">
                                                                 <font key="font" metaFont="system" size="10"/>
@@ -252,11 +254,11 @@
                                                 <real value="3.4028234663852886e+38"/>
                                             </customSpacing>
                                         </stackView>
-                                        <stackView distribution="fill" orientation="vertical" alignment="centerX" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Axu-rR-cbK" userLabel="Authenticated">
-                                            <rect key="frame" x="0.0" y="-40" width="307" height="154"/>
+                                        <stackView distribution="fill" orientation="vertical" alignment="centerX" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Axu-rR-cbK" userLabel="ValidPlayer">
+                                            <rect key="frame" x="0.0" y="-64" width="292" height="178"/>
                                             <subviews>
-                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yzx-MW-J8j">
-                                                    <rect key="frame" x="124" y="130" width="60" height="16"/>
+                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yzx-MW-J8j">
+                                                    <rect key="frame" x="116" y="154" width="60" height="16"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Welcome" id="UhQ-xL-PPZ">
                                                         <font key="font" usesAppearanceFont="YES"/>
                                                         <color key="textColor" red="1" green="0.69019607839999997" blue="0.050980392159999999" alpha="1" colorSpace="deviceRGB"/>
@@ -264,9 +266,9 @@
                                                     </textFieldCell>
                                                 </textField>
                                                 <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="4" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fqp-Ka-Ipy">
-                                                    <rect key="frame" x="72" y="104" width="163" height="18"/>
+                                                    <rect key="frame" x="65" y="128" width="163" height="18"/>
                                                     <subviews>
-                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cCs-il-vFH">
+                                                        <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cCs-il-vFH">
                                                             <rect key="frame" x="-2" y="2" width="145" height="14"/>
                                                             <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Uses remaining this week:" id="ASw-S6-O4T">
                                                                 <font key="font" metaFont="smallSystem"/>
@@ -280,8 +282,8 @@
                                                                 <rect key="frame" x="1" y="1" width="16" height="16"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <subviews>
-                                                                    <textField toolTip="You can use the Tier7 overlay for free twice each week." horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BDn-M0-QVL">
-                                                                        <rect key="frame" x="3" y="2" width="11" height="13"/>
+                                                                    <textField toolTip="You can use the Tier7 overlay for free twice each week." focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BDn-M0-QVL">
+                                                                        <rect key="frame" x="2" y="2" width="11" height="13"/>
                                                                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="i" id="qZl-mP-6CG">
                                                                             <font key="font" metaFont="system" size="10"/>
                                                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
@@ -311,16 +313,16 @@
                                                         <real value="3.4028234663852886e+38"/>
                                                     </customSpacing>
                                                 </stackView>
-                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nNw-Ao-7tL">
-                                                    <rect key="frame" x="124" y="80" width="60" height="16"/>
+                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nNw-Ao-7tL">
+                                                    <rect key="frame" x="116" y="104" width="60" height="16"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Resets In" id="XlY-Bp-rEE">
                                                         <font key="font" usesAppearanceFont="YES"/>
                                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                 </textField>
-                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="nt8-wz-bLQ">
-                                                    <rect key="frame" x="46" y="56" width="216" height="16"/>
+                                                <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="nt8-wz-bLQ">
+                                                    <rect key="frame" x="38" y="80" width="216" height="16"/>
                                                     <textFieldCell key="cell" selectable="YES" alignment="center" title="Join Tier7 to get unlimited access." id="ppo-5t-Ddw">
                                                         <font key="font" metaFont="system"/>
                                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
@@ -328,7 +330,7 @@
                                                     </textFieldCell>
                                                 </textField>
                                                 <button horizontalHuggingPriority="1000" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="D3O-UG-Z97" customClass="TextButton" customModule="HSTracker" customModuleProvider="target">
-                                                    <rect key="frame" x="98" y="32" width="111" height="16"/>
+                                                    <rect key="frame" x="91" y="56" width="111" height="16"/>
                                                     <buttonCell key="cell" type="bevel" title="SUBSCRIBE NOW" bezelStyle="rounded" alignment="center" imageScaling="proportionallyDown" inset="2" id="POu-NY-jFI">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                         <font key="font" metaFont="system"/>
@@ -356,10 +358,61 @@
                                                         <action selector="subscribeNowCommand:" target="-2" id="ZJg-Nc-AZu"/>
                                                     </connections>
                                                 </button>
-                                                <stackView distribution="equalCentering" orientation="horizontal" alignment="centerY" spacing="4" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" horizontalCompressionResistancePriority="250" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Efq-Fj-biL" userLabel="RefreshAccount">
-                                                    <rect key="frame" x="35" y="8" width="237" height="16"/>
+                                                <stackView distribution="equalCentering" orientation="horizontal" alignment="centerY" spacing="4" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" horizontalCompressionResistancePriority="250" ambiguous="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nal-l5-OVA" userLabel="SubscribedSignIn">
+                                                    <rect key="frame" x="83" y="32" width="126" height="16"/>
                                                     <subviews>
-                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IFF-tR-Hv9">
+                                                        <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qL8-B7-2kV">
+                                                            <rect key="frame" x="-2" y="0.0" width="80" height="16"/>
+                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" allowsUndo="NO" title="Subscribed?" id="Se9-Jv-Mrj">
+                                                                <font key="font" metaFont="system"/>
+                                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                        </textField>
+                                                        <button horizontalHuggingPriority="1000" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iL6-4N-ad8" userLabel="SignIn" customClass="TextButton" customModule="HSTracker" customModuleProvider="target">
+                                                            <rect key="frame" x="80" y="0.0" width="46" height="16"/>
+                                                            <buttonCell key="cell" type="bevel" title="Sign In" bezelStyle="rounded" alignment="center" imageScaling="proportionallyDown" inset="2" id="tPG-WB-eJh">
+                                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                <font key="font" metaFont="system"/>
+                                                                <userDefinedRuntimeAttributes>
+                                                                    <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                                                                        <color key="value" red="0.078431372550000003" green="0.086274509799999996" blue="0.090196078430000007" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                </userDefinedRuntimeAttributes>
+                                                            </buttonCell>
+                                                            <color key="contentTintColor" red="0.078431372550000003" green="0.086274509799999996" blue="0.090196078430000007" alpha="1" colorSpace="deviceRGB"/>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                                                    <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="horizontalPadding">
+                                                                    <real key="value" value="8"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="verticalPadding">
+                                                                    <real key="value" value="8"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="textSize">
+                                                                    <real key="value" value="12"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                            <connections>
+                                                                <action selector="signCommand:" target="-2" id="pOP-co-wAc"/>
+                                                            </connections>
+                                                        </button>
+                                                    </subviews>
+                                                    <visibilityPriorities>
+                                                        <integer value="1000"/>
+                                                        <integer value="1000"/>
+                                                    </visibilityPriorities>
+                                                    <customSpacing>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                    </customSpacing>
+                                                </stackView>
+                                                <stackView distribution="equalCentering" orientation="horizontal" alignment="centerY" spacing="4" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" horizontalCompressionResistancePriority="250" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Efq-Fj-biL" userLabel="RefreshAccount">
+                                                    <rect key="frame" x="35" y="8" width="222" height="16"/>
+                                                    <subviews>
+                                                        <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IFF-tR-Hv9">
                                                             <rect key="frame" x="-2" y="0.0" width="80" height="16"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" allowsUndo="NO" title="Subscribed?" id="QJY-Kf-K7G">
                                                                 <font key="font" metaFont="system"/>
@@ -368,7 +421,7 @@
                                                             </textFieldCell>
                                                         </textField>
                                                         <button horizontalHuggingPriority="1000" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="chU-TE-gWo" userLabel="Refresh" customClass="TextButton" customModule="HSTracker" customModuleProvider="target">
-                                                            <rect key="frame" x="186" y="0.0" width="51" height="16"/>
+                                                            <rect key="frame" x="171" y="0.0" width="51" height="16"/>
                                                             <buttonCell key="cell" type="bevel" title="Refresh" bezelStyle="rounded" alignment="center" imageScaling="proportionallyDown" inset="2" id="VSO-Ca-EVq">
                                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                 <font key="font" metaFont="system"/>
@@ -421,8 +474,10 @@
                                                 <integer value="1000"/>
                                                 <integer value="1000"/>
                                                 <integer value="1000"/>
+                                                <integer value="1000"/>
                                             </visibilityPriorities>
                                             <customSpacing>
+                                                <real value="3.4028234663852886e+38"/>
                                                 <real value="3.4028234663852886e+38"/>
                                                 <real value="3.4028234663852886e+38"/>
                                                 <real value="3.4028234663852886e+38"/>
@@ -432,10 +487,10 @@
                                             </customSpacing>
                                         </stackView>
                                         <stackView distribution="equalCentering" orientation="vertical" alignment="centerX" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LaV-gy-JF0" userLabel="Subscribed">
-                                            <rect key="frame" x="0.0" y="-17" width="307" height="131"/>
+                                            <rect key="frame" x="0.0" y="-17" width="292" height="131"/>
                                             <subviews>
-                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ue9-zJ-iNC">
-                                                    <rect key="frame" x="70" y="99" width="168" height="16"/>
+                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ue9-zJ-iNC">
+                                                    <rect key="frame" x="62" y="99" width="168" height="16"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="You're subscribed to Tier7!" id="qjI-jN-NyX">
                                                         <font key="font" usesAppearanceFont="YES"/>
                                                         <color key="textColor" red="1" green="0.69019607843137254" blue="0.050980392156862744" alpha="1" colorSpace="deviceRGB"/>
@@ -443,9 +498,9 @@
                                                     </textFieldCell>
                                                 </textField>
                                                 <stackView distribution="equalCentering" orientation="vertical" alignment="centerX" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="s4S-wd-scT">
-                                                    <rect key="frame" x="93" y="40" width="122" height="51"/>
+                                                    <rect key="frame" x="85" y="40" width="122" height="51"/>
                                                     <subviews>
-                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Lvp-k6-hl2">
+                                                        <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Lvp-k6-hl2">
                                                             <rect key="frame" x="-2" y="36" width="126" height="15"/>
                                                             <textFieldCell key="cell" lineBreakMode="clipping" title="All-time highest MMR" id="3mf-3j-fIo">
                                                                 <font key="font" metaFont="cellTitle"/>
@@ -453,8 +508,8 @@
                                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
                                                         </textField>
-                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9mj-rv-2nD" userLabel="AllTimeHighMMR">
-                                                            <rect key="frame" x="37" y="0.0" width="47" height="28"/>
+                                                        <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9mj-rv-2nD" userLabel="AllTimeHighMMR">
+                                                            <rect key="frame" x="38" y="0.0" width="47" height="28"/>
                                                             <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" placeholderString="N/A" id="adk-Hg-4k0">
                                                                 <font key="font" metaFont="system" size="24"/>
                                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
@@ -472,7 +527,7 @@
                                                     </customSpacing>
                                                 </stackView>
                                                 <button horizontalHuggingPriority="1000" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="vuz-a5-dOj" userLabel="GO TO MY STATS" customClass="TextButton" customModule="HSTracker" customModuleProvider="target">
-                                                    <rect key="frame" x="98" y="16" width="112" height="16"/>
+                                                    <rect key="frame" x="90" y="16" width="112" height="16"/>
                                                     <buttonCell key="cell" type="bevel" title="GO TO MY STATS" bezelStyle="rounded" alignment="center" imageScaling="proportionallyDown" inset="2" id="MsX-gV-E89">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                         <font key="font" metaFont="system"/>
@@ -514,13 +569,13 @@
                                             </customSpacing>
                                         </stackView>
                                         <box boxType="custom" cornerRadius="4" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="bSj-3Z-jLf" userLabel="Disabled">
-                                            <rect key="frame" x="0.0" y="0.0" width="307" height="114"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="292" height="114"/>
                                             <view key="contentView" id="e6K-Je-OZG">
-                                                <rect key="frame" x="1" y="1" width="305" height="112"/>
+                                                <rect key="frame" x="1" y="1" width="290" height="112"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <stackView distribution="fill" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="O32-Xe-IPh">
-                                                        <rect key="frame" x="0.0" y="0.0" width="305" height="112"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="290" height="112"/>
                                                         <subviews>
                                                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mey-l1-myb">
                                                                 <rect key="frame" x="0.0" y="48" width="17" height="17"/>
@@ -530,8 +585,8 @@
                                                                 </constraints>
                                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSCaution" id="xJM-6t-I7h"/>
                                                             </imageView>
-                                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Eli-jH-2pF">
-                                                                <rect key="frame" x="23" y="48" width="284" height="16"/>
+                                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Eli-jH-2pF">
+                                                                <rect key="frame" x="23" y="48" width="269" height="16"/>
                                                                 <textFieldCell key="cell" title="Temporarily disabled. We will be back soon!" id="aX8-bh-9h8">
                                                                     <font key="font" usesAppearanceFont="YES"/>
                                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>

@@ -22,6 +22,8 @@ class Tier7PreLobby: OverWindowController {
     @IBOutlet weak var trialTimeRemainingLabel: NSTextField!
     @IBOutlet weak var refreshAccount: NSStackView!
     @IBOutlet weak var refreshButton: NSButton!
+    @IBOutlet weak var subscribedView: NSStackView!
+    @IBOutlet weak var signInButton: NSButton!
     @IBOutlet weak var allTimeHighMMR: NSTextField!
     
     @IBOutlet weak var informationLabel: NSTextField!
@@ -53,7 +55,7 @@ class Tier7PreLobby: OverWindowController {
     }
     
     override func mouseEntered(with event: NSEvent) {
-        if viewModel.userState == .anonymous {
+        if viewModel.userState == .unknownPlayer {
             anonymousHover.isHidden = false
         }
     }
@@ -66,11 +68,14 @@ class Tier7PreLobby: OverWindowController {
         let all = property == nil
         if property == "userState" || all {
             let userState = viewModel.userState
-            anonymous.isHidden = userState != .anonymous
+            anonymous.isHidden = userState != .unknownPlayer
             loading.isHidden = userState != .loading
-            authenticated.isHidden = userState != .authenticated
+            authenticated.isHidden = userState != .validPlayer
             subscribed.isHidden = userState != .subscribed
             disabled.isHidden = userState != .disabled
+        }
+        if property == "refreshSubscriptionState" || all {
+            subscribedView.isHidden = viewModel.refreshSubscriptionState != .signIn
         }
         if property == "allTimeHighMMR" || all {
             allTimeHighMMR.stringValue = viewModel.allTimeHighMMR ?? ""
@@ -118,7 +123,7 @@ class Tier7PreLobby: OverWindowController {
         let url = "https://hsreplay.net/battlegrounds/tier7/?utm_source=hstracker&utm_medium=client&utm_campaign=bgs_lobby_subscribe"
 
         NSWorkspace.shared.open(URL(string: url)!)
-        viewModel.refreshAccountVisibility = true
+        viewModel.refreshSubscriptionState = viewModel.isAuthenticated ? .refresh : .signIn
     }
     
     @IBAction func refreshAccountCommand(_ sender: AnyObject) {

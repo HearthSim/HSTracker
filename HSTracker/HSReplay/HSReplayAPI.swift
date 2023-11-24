@@ -445,6 +445,42 @@ class HSReplayAPI {
     }
     
     @available(macOS 10.15.0, *)
+    static func getTier7HeroPickStats(token: String?, parameters: BattlegroundsHeroPickStatsParams) async -> [BattlegroundsSingleHeroPickStats]? {
+        guard let token = token else {
+            return nil
+        }
+        return await withCheckedContinuation { continuation in
+            let encoder = JSONEncoder()
+            var body: Data?
+            do {
+                body = try encoder.encode(parameters)
+                if let body = body {
+                    logger.debug("Sending hero picks request: \(String(data: body, encoding: .utf8) ?? "ERROR")")
+                }
+            } catch {
+                logger.error(error)
+            }
+            guard let body = body else {
+                continuation.resume(returning: nil)
+                return
+            }
+            let http = Http(url: "\(HSReplay.tier7HeroPickStatsUrl)")
+            _ = http.uploadPromise(method: .post, headers: ["Content-Type": "application/json", "Authorization" : "Bearer \(token)"], data: body).done { response in
+                guard let data = response as? Data else {
+                    continuation.resume(returning: nil)
+                    return
+                }
+                logger.debug("Response: \(String(data: data, encoding: .utf8) ?? "FAILED")")
+                let bqs: [BattlegroundsSingleHeroPickStats]? = parseResponse(data: data, defaultValue: nil)
+                continuation.resume(returning: bqs)
+            }.catch { error in
+                logger.error(error)
+                continuation.resume(returning: nil)
+            }
+        }
+    }
+
+    @available(macOS 10.15.0, *)
     static func getTier7QuestStats(parameters: BattlegroundsQuestStatsParams) async -> [BattlegroundsQuestStats]? {
         return await withCheckedContinuation { continuation in
             let encoder = JSONEncoder()
@@ -471,7 +507,43 @@ class HSReplayAPI {
             })
         }
     }
-    
+
+    @available(macOS 10.15.0, *)
+    static func getTier7QuestStats(token: String?, parameters: BattlegroundsQuestStatsParams) async -> [BattlegroundsQuestStats]? {
+        guard let token = token else {
+            return nil
+        }
+        return await withCheckedContinuation { continuation in
+            let encoder = JSONEncoder()
+            var body: Data?
+            do {
+                body = try encoder.encode(parameters)
+                if let body = body {
+                    logger.debug("Sending quest rewards request: \(String(data: body, encoding: .utf8) ?? "ERROR")")
+                }
+            } catch {
+                logger.error(error)
+            }
+            guard let body = body else {
+//                continuation.resume(returning: nil)
+                return
+            }
+            let http = Http(url: "\(HSReplay.tier7QuestStatsUrl)")
+            _ = http.uploadPromise(method: .post, headers: ["Content-Type": "application/json", "Authorization" : "Bearer \(token)"], data: body).done { response in
+                guard let data = response as? Data else {
+                    continuation.resume(returning: nil)
+                    return
+                }
+                logger.debug("Response: \(String(data: data, encoding: .utf8) ?? "FAILED")")
+                let bqs: [BattlegroundsQuestStats]? = parseResponse(data: data, defaultValue: nil)
+                continuation.resume(returning: bqs)
+            }.catch { error in
+                logger.error(error)
+                continuation.resume(returning: nil)
+            }
+        }
+    }
+
     @available(macOS 10.15.0, *)
     static func getAllTimeBGsMMR(hi: Int64, lo: Int) async -> Tier7AllTime? {
         return await withCheckedContinuation { continuation in
@@ -491,12 +563,12 @@ class HSReplayAPI {
     }
     
     @available(macOS 10.15.0, *)
-    static func getTier7TrialStatus() async -> Tier7TrialStatus? {
+    static func getPlayerTrialStatus(name: String, hi: Int64, lo: Int64) async -> PlayerTrialStatus? {
         return await withCheckedContinuation { continuation in
-            startAuthorizedRequest("\(HSReplay.tier7Trial)", method: .GET, parameters: [:], completionHandler: { result in
+            startAuthorizedRequest("\(HSReplay.playerTrial)\(name)/?account_hi=\(hi)&account_lo=\(lo)", method: .GET, parameters: [:], completionHandler: { result in
                 switch result {
                 case .success(let response):
-                    let res: Tier7TrialStatus? = parseResponse(data: response.data, defaultValue: nil)
+                    let res: PlayerTrialStatus? = parseResponse(data: response.data, defaultValue: nil)
                     continuation.resume(returning: res)
                     return
                 case .failure(let error):
@@ -509,12 +581,12 @@ class HSReplayAPI {
     }
 
     @available(macOS 10.15.0, *)
-    static func activateTier7Trial() async -> Tier7TrialActivation? {
+    static func activatePlayerTrial(name: String, hi: Int64, lo: Int64) async -> PlayerTrialActivation? {
         return await withCheckedContinuation { continuation in
-            startAuthorizedRequest("\(HSReplay.tier7Trial)", method: .POST, parameters: [:], completionHandler: { result in
+            startAuthorizedRequest("\(HSReplay.playerTrial)\(name)?account_hi=\(hi)&account_lo=\(lo)", method: .POST, parameters: [:], completionHandler: { result in
                 switch result {
                 case .success(let response):
-                    let res: Tier7TrialActivation? = parseResponse(data: response.data, defaultValue: nil)
+                    let res: PlayerTrialActivation? = parseResponse(data: response.data, defaultValue: nil)
                     continuation.resume(returning: res)
                     return
                 case .failure(let error):

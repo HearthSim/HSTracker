@@ -8,11 +8,13 @@
 
 import Foundation
 
-struct Tier7TrialStatus: Decodable {
+struct PlayerTrialStatus: Decodable {
     var trials_remaining: Int
     var hours_til_next_reset: Int?
 }
 
-struct Tier7TrialActivation: Decodable {
-    var msg: String
+struct PlayerTrialActivation: Decodable {
+    var trials_remaining: Int
+    var hours_til_next_reset: Int?
+    var token: String
 }

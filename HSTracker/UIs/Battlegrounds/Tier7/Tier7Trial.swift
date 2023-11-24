@@ -10,8 +10,8 @@ import Foundation
 
 @available(macOS 10.15.0, *)
 class Tier7Trial {
-    private static var _status: Tier7TrialStatus?
-    static private(set) var isActive: Bool = false
+    private static var _status: PlayerTrialStatus?
+    static private(set) var token: String?
     static var remainingTrials: Int? { return _status?.trials_remaining }
     static var timeRemaining: String? {
         guard let hours = _status?.hours_til_next_reset else {
@@ -19,27 +19,26 @@ class Tier7Trial {
         }
         return String(format: NSLocalizedString("BattlegroundsPreLobby_Trial_ResetTimeRemaining_DaysHours", comment: ""), hours / 24, hours % 24)
     }
-    static func activate() async -> Bool {
-        if isActive {
-            return true
+    static func activate(hi: Int64, lo: Int64) async -> String? {
+        if token != nil {
+            return nil
         }
         if _status == nil || _status?.trials_remaining == 0 {
-            return false
+            return nil
         }
-        let response = await HSReplayAPI.activateTier7Trial()
-        isActive = response != nil
-        return isActive
+        token = await HSReplayAPI.activatePlayerTrial(name: "tier7-overlay", hi: hi, lo: lo)?.token
+        return token
     }
     
-    static func update() async {
+    static func update(hi: Int64, lo: Int64) async {
         if _status?.hours_til_next_reset ?? 0 < 2 {
             _status = nil
         }
-        _status = await HSReplayAPI.getTier7TrialStatus()
+        _status = await HSReplayAPI.getPlayerTrialStatus(name: "tier7-overlay", hi: hi, lo: lo)
     }
     
     static func clear() {
         _status = nil
-        isActive = false
+        token = nil
     }
 }

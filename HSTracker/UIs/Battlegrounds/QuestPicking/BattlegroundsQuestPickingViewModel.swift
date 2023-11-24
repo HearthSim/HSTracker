@@ -86,7 +86,7 @@ class BattlegroundsQuestPickingViewModel: ViewModel {
         
         // The trial would have been activated at hero picking. If it is
         // not active we do not try to activate it here.
-        if !userOwnsTier7 && !Tier7Trial.isActive {
+        if !userOwnsTier7 && Tier7Trial.token == nil {
             return
         }
         
@@ -108,7 +108,9 @@ class BattlegroundsQuestPickingViewModel: ViewModel {
             return
         }
         
-        guard let questData = await HSReplayAPI.getTier7QuestStats(parameters: requestParams) else {
+        guard let questData = Tier7Trial.token != nil ?
+                await HSReplayAPI.getTier7QuestStats(token: Tier7Trial.token, parameters: requestParams) :
+                    await HSReplayAPI.getTier7QuestStats(parameters: requestParams) else {
             message.error()
             return
         }
