@@ -275,7 +275,7 @@ class Game: NSObject, PowerEventHandler {
     func updateOpponentIcons() {
         DispatchQueue.main.async { [unowned(unsafe) self] in
             var anyVisible = false
-            let showTracker = shouldShowTracker
+            let showTracker = shouldShowTracker && !isBattlegroundsMatch() && !isMercenariesMatch()
             let icons = self.windowManager.opponentWotogIcons
             icons.jadeVisibility = showOpponentJadeCounter && showTracker
             if icons.jadeVisibility {
@@ -332,7 +332,7 @@ class Game: NSObject, PowerEventHandler {
     func updatePlayerIcons() {
         DispatchQueue.main.async { [unowned(unsafe) self] in
             var anyVisible = false
-            let showTracker = shouldShowTracker
+            let showTracker = shouldShowTracker && !isBattlegroundsMatch() && !isMercenariesMatch()
             let icons = self.windowManager.playerWotogIcons
             icons.jadeVisibility = showPlayerJadeCounter && showTracker
             if icons.jadeVisibility {
