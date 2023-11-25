@@ -37,6 +37,9 @@ class HSReplayPreferences: NSViewController, PreferencePane {
     private var getAccountTimer: Timer?
     private var requests = 0
     private let maxRequests = 10
+    
+    @objc dynamic var statusIcon = ""
+    @objc dynamic var statusColor = NSColor.red
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -188,7 +191,47 @@ class HSReplayPreferences: NSViewController, PreferencePane {
         } else {
             oAuthAccount.title = NSLocalizedString("Login", comment: "")
         }
+        
+        statusIcon = hasSubscription ? "✔" : "✖"
+        statusColor = hasSubscription ? NSColor.green : NSColor.red
     }
+    
+    @objc dynamic var hasSubscription: Bool {
+        return subscriptions != SubscriptionStatus.none
+    }
+    
+    @objc dynamic var subscriptionStatusText: String {
+        return switch subscriptions {
+        case .premium:
+            NSLocalizedString("Options_HSReplay_Account_Subscription_Premium", comment: "")
+        case .tier7:
+            NSLocalizedString("Options_HSReplay_Account_Subscription_Tier7", comment: "")
+        case .bundle:
+            NSLocalizedString("Options_HSReplay_Account_Subscription_Bundle", comment: "")
+        default:
+            NSLocalizedString("Options_HSReplay_Account_Subscription_Generic", comment: "")
+        }
+    }
+    
+    var subscriptions: SubscriptionStatus {
+        let isPremium = HSReplayAPI.accountData?.is_premium ?? false
+        let isTier7 = HSReplayAPI.accountData?.is_tier7 ?? false
+            
+        if isPremium && isTier7 {
+            return .bundle
+        }
+        if isPremium {
+            return .premium
+        }
+        if isTier7 {
+            return .tier7
+        }
+        return .none
+    }
+}
+
+enum SubscriptionStatus {
+    case none, premium, tier7, bundle
 }
 
 // MARK: - Preferences
