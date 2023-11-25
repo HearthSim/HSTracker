@@ -242,7 +242,7 @@ class Game: NSObject, PowerEventHandler {
                 tracker.graveyard = self.opponent.graveyard
 				tracker.playerClassId = self.opponent.playerClassId
 				
-				tracker.currentFormat = self.currentFormat
+                tracker.currentFormat = self.currentFormat 
 				tracker.currentGameMode = self.currentGameMode
 				tracker.matchInfo = self.matchInfo
 				
@@ -451,7 +451,7 @@ class Game: NSObject, PowerEventHandler {
                 
                 tracker.graveyard = self.player.graveyard
                 
-                tracker.currentFormat = self.currentFormat
+                tracker.currentFormat = self.currentFormat 
                 tracker.currentGameMode = self.currentGameMode
                 tracker.matchInfo = self.matchInfo
                 
@@ -1134,8 +1134,6 @@ class Game: NSObject, PowerEventHandler {
             self.player.id = matchInfo.localPlayer.playerId
             self.opponent.id = matchInfo.opposingPlayer.playerId
             self._currentGameType = matchInfo.gameType
-            self.currentFormat = matchInfo.format
-            self.currentFormatType = matchInfo.formatType
 
             let opponentStarLevel = matchInfo.opposingPlayer.standardMedalInfo.starLevel
             logger.info("LADDER opponentStarLevel=\(opponentStarLevel)")
@@ -1245,8 +1243,16 @@ class Game: NSObject, PowerEventHandler {
         return opponent.board.first(where: { x in x.isHero })?[.health] ?? 0
     }
 
-    private(set) var currentFormat = Format(formatType: FormatType.ft_unknown)
-    private(set) var currentFormatType: FormatType = FormatType.ft_unknown
+    private var _currentFormatType = FormatType.ft_unknown
+    var currentFormatType: FormatType {
+        if _currentFormatType == .ft_unknown, let ft = FormatType(rawValue: MirrorHelper.getFormat() ?? 0) {
+            _currentFormatType =  ft
+        }
+        return _currentFormatType
+    }
+    var currentFormat: Format {
+        return Format(formatType: _currentFormatType) 
+    }
     
     var lastPlagueDrawn: String?
 
@@ -1373,8 +1379,7 @@ class Game: NSObject, PowerEventHandler {
 
         _matchInfo = nil
         _battlegroundsRating = nil
-        currentFormat = Format(formatType: FormatType.ft_unknown)
-        currentFormatType = .ft_unknown
+        _currentFormatType = .ft_unknown
         _currentGameType = .gt_unknown
 		_currentGameMode = .none
         _serverInfo = nil
