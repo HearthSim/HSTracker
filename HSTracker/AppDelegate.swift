@@ -291,17 +291,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
             self.operationQueue.addOperations(operations, waitUntilFinished: true)
             
             #if !HSTTEST
-            if isMonoAvailable() != 0 {
-                if MonoHelper.load() {
-                    MonoHelper.initialize()
-//                    DispatchQueue.global().async(qos: .userInitiated) {
-//                        MonoHelper.testSimulation()
-//                    }
-                } else {
-                    logger.error("Failed to load BobsBuddy")
-                }
+            if MonoHelper.load() {
+                MonoHelper.initialize()
+//                DispatchQueue.global().async(qos: .userInitiated) {
+//                    MonoHelper.testSimulation()
+//                }
             } else {
                 self.coreManager.game.windowManager.bobsBuddyPanel.setErrorState(error: .monoNotFound)
+                logger.error("Failed to load BobsBuddy")
             }
             #endif
             

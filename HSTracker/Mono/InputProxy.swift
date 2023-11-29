@@ -22,6 +22,7 @@ class InputProxy: MonoHandle, MonoClassInitializer {
     static var _opponentQuests: OpaquePointer!
     static var _playerDamageTaken: OpaquePointer!
     static var _opponentDamageTaken: OpaquePointer!
+    static var _nullableClass: OpaquePointer!
     
     static var _members = [String: OpaquePointer]()
     
@@ -33,7 +34,7 @@ class InputProxy: MonoHandle, MonoClassInitializer {
             InputProxy._setHealths = MonoHelper.getMethod(InputProxy._class, "SetHealths", 2)
             InputProxy._setTiers = MonoHelper.getMethod(InputProxy._class, "SetTiers", 2)
             InputProxy._setTurn = MonoHelper.getMethod(InputProxy._class, "SetTurn", 1)
-            InputProxy._addSecretFromDbfid = MonoHelper.getMethod(InputProxy._class, "AddSecretFromDbfid", 2)
+            InputProxy._addSecretFromDbfid = MonoHelper.getMethod(InputProxy._class, "AddSecretFromDbfIdHstracker", 2)
             InputProxy._unitTest = MonoHelper.getMethod(InputProxy._class, "UnitTestCopyableVersion", 0)
             InputProxy._setPlayerHeroPower = MonoHelper.getMethod(InputProxy._class, "SetPlayerHeroPower", 4)
             InputProxy._setOpponentHeroPower = MonoHelper.getMethod(InputProxy._class, "SetOpponentHeroPower", 4)

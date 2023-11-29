@@ -30,5 +30,4 @@
 #include <mono/metadata/class.h>
 #include <mono/metadata/appdomain.h>
 
-#include "MonoUtility.h"
 #endif /* HSTracker_Bridging_Header_h */
