@@ -161,6 +161,7 @@ extension CardIds.Collectible {
         static let WanderingMonsterInvalid = "CORE_LOOT_079"
         static let HiddenMeaning = "JAM_003"
         static let BaitAndSwitch = "TTN_504"
+        static let SnipeWONDERS = "WON_018"
     }
 }
 
@@ -254,7 +255,7 @@ extension CardIds.Secrets {
         static let PackTactics = MultiIdCard(CardIds.Collectible.Hunter.PackTactics)
         static let PressurePlate = MultiIdCard(CardIds.Collectible.Hunter.PressurePlate)
         static let RatTrap = MultiIdCard(CardIds.Collectible.Hunter.RatTrap)
-        static let Snipe = MultiIdCard(CardIds.Collectible.Hunter.Snipe, CardIds.Collectible.Hunter.SnipeVanilla)
+        static let Snipe = MultiIdCard(CardIds.Collectible.Hunter.Snipe, CardIds.Collectible.Hunter.SnipeVanilla, CardIds.Collectible.Hunter.SnipeWONDERS)
         static let SnakeTrap = MultiIdCard(CardIds.Collectible.Hunter.SnakeTrap, CardIds.Collectible.Hunter.SnakeTrapCore, CardIds.Collectible.Hunter.SnakeTrapVanilla)
         static let VenomstrikeTrap = MultiIdCard(CardIds.Collectible.Hunter.VenomstrikeTrap, CardIds.Collectible.Hunter.VenomstrikeTrapCore)
         static let WanderingMonster = MultiIdCard(CardIds.Collectible.Hunter.WanderingMonster, CardIds.Collectible.Hunter.WanderingMonsterInvalid)
