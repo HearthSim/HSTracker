@@ -2300,6 +2300,8 @@ class Game: NSObject, PowerEventHandler {
                 player.questPlayedFromHand(entity: entity, turn: turn)
             } else if entity.isSigil {
                 player.sigilPlayedFromHand(entity: entity, turn: turn)
+            } else if entity.isObjective {
+                player.objectivePlayedFromHand(entity: entity, turn: turn)
             }
             return
         }
@@ -2766,6 +2768,8 @@ class Game: NSObject, PowerEventHandler {
                 opponent.questPlayedFromHand(entity: entity, turn: turn)
             } else if entity.isSigil {
                 opponent.sigilPlayedFromHand(entity: entity, turn: turn)
+            } else if entity.isObjective {
+                opponent.objectivePlayedFromHand(entity: entity, turn: turn)
             }
             return
         }

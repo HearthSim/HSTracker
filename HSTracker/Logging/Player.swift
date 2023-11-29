@@ -716,6 +716,14 @@ final class Player {
         entity.info.turn = turn
         spellsPlayedCount += 1
     }
+    
+    func objectivePlayedFromHand(entity: Entity, turn: Int) {
+        entity.info.turn = turn
+        spellsPlayedCount += 1
+        // TODO: 
+        //if(entity.Tags.TryGetValue(GameTag.SPELL_SCHOOL, out var spellSchoolTag))
+        //  playedSpellSchools.Add((SpellSchool)spellSchoolTag);
+    }
 
     func playToGraveyard(entity: Entity, cardId: String?, turn: Int) {
         entity.info.turn = turn

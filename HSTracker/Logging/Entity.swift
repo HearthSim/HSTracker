@@ -107,6 +107,9 @@ class Entity {
     var isSigil: Bool {
         return has(tag: .sigil)
     }
+    var isObjective: Bool {
+        return has(tag: .objective)
+    }
     var isSpell: Bool {
         return self[.cardtype] == CardType.spell.rawValue
     }
