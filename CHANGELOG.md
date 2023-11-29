@@ -1,3 +1,15 @@
+# 2.6.1
+## New
+- Updated for Hearthstone 28.0.3
+- Added Excavate counters.
+- Added support for a number of older cards.
+## Fixes
+- Fixed an issue where Sigils were not treated as spells.
+- Fixed an issue where Snipe occasionally did not appear as a valid secret.
+- Fixed an issue where Love Everlasting and similar cards were not treated as spells.
+**Bob's Buddy**:
+- Fixed an issue where Admiral Eliza Goreblade was not simulated correctly.
+
 # 2.6.0
 ## New
 - Updated for Hearthstone 28.0.0
