@@ -2298,6 +2298,8 @@ class Game: NSObject, PowerEventHandler {
         if !entity.isSecret {
             if entity.isQuest  && !entity.isQuestlinePart || entity.isSideQuest {
                 player.questPlayedFromHand(entity: entity, turn: turn)
+            } else if entity.isSigil {
+                player.sigilPlayedFromHand(entity: entity, turn: turn)
             }
             return
         }
@@ -2762,6 +2764,8 @@ class Game: NSObject, PowerEventHandler {
         if !entity.isSecret {
             if entity.isQuest && !entity.isQuestlinePart || entity.isSideQuest {
                 opponent.questPlayedFromHand(entity: entity, turn: turn)
+            } else if entity.isSigil {
+                opponent.sigilPlayedFromHand(entity: entity, turn: turn)
             }
             return
         }

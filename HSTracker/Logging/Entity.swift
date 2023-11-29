@@ -104,6 +104,9 @@ class Entity {
     var isSideQuest: Bool {
         return has(tag: .sidequest)
     }
+    var isSigil: Bool {
+        return has(tag: .sigil)
+    }
     var isSpell: Bool {
         return self[.cardtype] == CardType.spell.rawValue
     }

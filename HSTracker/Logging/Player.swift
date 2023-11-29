@@ -711,6 +711,11 @@ final class Player {
             logger.info("\(debugName) \(#function) \(entity)")
         }
     }
+    
+    func sigilPlayedFromHand(entity: Entity, turn: Int) {
+        entity.info.turn = turn
+        spellsPlayedCount += 1
+    }
 
     func playToGraveyard(entity: Entity, cardId: String?, turn: Int) {
         entity.info.turn = turn

@@ -373,6 +373,7 @@ enum GameTag: Int, WrappableEnum, CaseIterable, Codable {
     fake_zone_position = 1703,
     tradeable = 1720,
     questline = 1725,
+    sigil = 1749,
     bacon_bloodgembuffatkvalue = 1844,
     lettuce_is_equipment = 1855,
     questline_part = 1993,
