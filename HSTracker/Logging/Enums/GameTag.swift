@@ -364,6 +364,7 @@ enum GameTag: Int, WrappableEnum, CaseIterable, Codable {
     bacon_hero_can_be_drafted = 1491,
     dormant = 1518,
     copied_from_entity_id = 1565,
+    spell_school = 1635,
     lettuce_controller = 1653,
     lettuce_ability_owner = 1654,
     lettuce_current_cooldown = 1670,

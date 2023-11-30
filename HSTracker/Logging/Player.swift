@@ -102,6 +102,7 @@ final class Player {
     var libramReductionCount: Int = 0
     var abyssalCurseCount: Int = 0
     var pogoHopperPlayedCount = 0
+    var playedSpellSchools = Set<SpellSchool>()
 
     var hasCoin: Bool {
         return hand.any { $0.cardId == CardIds.NonCollectible.Neutral.TheCoinBasic }
@@ -187,6 +188,7 @@ final class Player {
         pastHPLock.around {
             pastHeroPowers.removeAll()
         }
+        playedSpellSchools.removeAll()
     }
     
     var currentMana: Int {
@@ -601,7 +603,11 @@ final class Player {
         if let cardType = CardType(rawValue: entity[.cardtype]) {
             switch cardType {
             case .token: entity.info.created = true
-            case .spell: spellsPlayedCount += 1
+            case .spell: 
+                spellsPlayedCount += 1
+                if entity.has(tag: .spell_school), let spellSchool = SpellSchool(rawValue: entity[.spell_school]) {
+                    playedSpellSchools.insert(spellSchool)
+                }
             case .minion:
                 if entity.cardId == CardIds.Collectible.Rogue.PogoHopper {
                     pogoHopperPlayedCount += 1
@@ -639,6 +645,9 @@ final class Player {
     func secretPlayedFromHand(entity: Entity, turn: Int) {
         entity.info.turn = turn
         spellsPlayedCount += 1
+        if entity.has(tag: .spell_school), let spellSchool = SpellSchool(rawValue: entity[.spell_school]) {
+            playedSpellSchools.insert(spellSchool)
+        }
         if Settings.fullGameLog {
             logger.info("\(debugName) \(#function) \(entity)")
         }
@@ -715,14 +724,17 @@ final class Player {
     func sigilPlayedFromHand(entity: Entity, turn: Int) {
         entity.info.turn = turn
         spellsPlayedCount += 1
+        if entity.has(tag: .spell_school), let spellSchool = SpellSchool(rawValue: entity[.spell_school]) {
+            playedSpellSchools.insert(spellSchool)
+        }
     }
     
     func objectivePlayedFromHand(entity: Entity, turn: Int) {
         entity.info.turn = turn
         spellsPlayedCount += 1
-        // TODO: 
-        //if(entity.Tags.TryGetValue(GameTag.SPELL_SCHOOL, out var spellSchoolTag))
-        //  playedSpellSchools.Add((SpellSchool)spellSchoolTag);
+        if entity.has(tag: .spell_school), let spellSchool = SpellSchool(rawValue: entity[.spell_school]) {
+            playedSpellSchools.insert(spellSchool)
+        }
     }
 
     func playToGraveyard(entity: Entity, cardId: String?, turn: Int) {

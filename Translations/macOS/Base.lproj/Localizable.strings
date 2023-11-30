@@ -318,3 +318,14 @@
 "Options_HSReplay_Account_Subscription_Tier7" = "Subscribed to Tier7";
 "Options_HSReplay_Account_Subscription_Generic" = "Subscribed to HSReplay.net";
 "Options_HSReplay_Account_Subscription_Bundle" = "Subscribed to HSReplay.net";
+
+/* Spell Schools */
+"Counter_Spell_School_None" = "None";
+"Spell_School_Arcane" = "Arcane";
+"Spell_School_Fel" = "Fel";
+"Spell_School_Fire" = "Fire";
+"Spell_School_Frost" = "Frost";
+"Spell_School_Holy" = "Holy";
+"Spell_School_Nature" = "Nature";
+"Spell_School_Physical_Combat" = "Attack";
+"Spell_School_Shadow" = "Shadow";

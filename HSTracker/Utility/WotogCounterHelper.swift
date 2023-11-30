@@ -37,6 +37,17 @@ extension Game {
         CardIds.Collectible.Mage.BlastmageMiner
     ]
     
+    static let spellSchoolCounterCards = [
+        CardIds.Collectible.Mage.DiscoveryOfMagic,
+        CardIds.Collectible.Mage.InquisitiveCreation,
+        CardIds.Collectible.Neutral.Multicaster,
+        CardIds.Collectible.Shaman.CoralKeeper,
+        CardIds.Collectible.Mage.WisdomOfNorgannon,
+        CardIds.Collectible.Mage.Sif,
+        CardIds.Collectible.Mage.ElementalInspiration,
+        CardIds.Collectible.Mage.MagisterDawngrasp
+    ]
+    
 	var playerCthun: Entity? {
 		return self.player.playerEntities
 			.first { $0.cardId == CardIds.Collectible.Neutral.Cthun }
@@ -197,6 +208,14 @@ extension Game {
     
     var showOpponentExcavateCounter: Bool {
         return !isInMenu && Settings.showOpponentExcavateCounter && (opponentEntity?[.gametag_2822] ?? 0) > 0
+    }
+    
+    var showPlayerSpellSchoolsCounter: Bool {
+        return !isInMenu && Settings.showPlayerSpellSchoolsCounter && inDeckAndHand(cardIds: Game.spellSchoolCounterCards) && player.playedSpellSchools.count > 0
+    }
+    
+    var showOpponentSpellSchoolsCounter: Bool {
+        return !isInMenu && Settings.showOpponentSpellSchoolsCounter && opponent.playedSpellSchools.count > 0
     }
     
     var showPlayerExcavateTier: Bool {

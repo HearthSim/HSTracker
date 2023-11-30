@@ -303,6 +303,8 @@ final class Settings {
     static var showPlayerGraveyardDetails: Bool
     @UserDefault(key: Settings.player_jade_frame, defaultValue: true)
     static var showPlayerJadeCounter: Bool
+    @UserDefault(key: Settings.player_spell_schools_counter, defaultValue: true)
+    static var showPlayerSpellSchoolsCounter: Bool
     @UserDefault(key: Settings.player_cards_top, defaultValue: true)
     static var showPlayerCardsTop: Bool
     @UserDefault(key: Settings.player_cards_bottom, defaultValue: true)
@@ -335,6 +337,8 @@ final class Settings {
     static var showOpponentGraveyardDetails: Bool
     @UserDefault(key: Settings.opponent_jade_frame, defaultValue: true)
     static var showOpponentJadeCounter: Bool
+    @UserDefault(key: Settings.opponent_spell_schools_counter, defaultValue: true)
+    static var showOpponentSpellSchoolsCounter: Bool
     @UserDefault(key: Settings.remove_cards_from_deck, defaultValue: false)
     static var removeCardsFromDeck: Bool
     @UserDefault(key: Settings.highlight_last_drawn, defaultValue: true)
@@ -609,6 +613,7 @@ extension Settings {
     static let player_abyssal_counter = "player_abyssal_counter"
     static let player_excavate_tier = "player_excavate_tier"
     static let player_pogo_counter = "player_pogo_counter"
+    static let player_spell_schools_counter = "player_spell_school_counter"
     static let opponent_galakrond_invoke_frame = "opponent_galakrond_invoke_frame"
     static let opponent_cthun_frame = "opponent_cthun_frame"
     static let opponent_yogg_frame = "opponent_yogg_frame"
@@ -620,6 +625,7 @@ extension Settings {
     static let opponent_abyssal_counter = "opponent_abyssal_counter"
     static let opponent_excavate_counter = "opponent_excavate_counter"
     static let opponent_pogo_counter = "opponent_pogo_counter"
+    static let opponent_spell_schools_counter = "opponent_spell_school_counter"
     static let interacted_with_link_opponentDeck = "interacted_with_link_opponentDeck"
     static let enable_link_opponent_deck = "enable_link_opponent_deck"
 

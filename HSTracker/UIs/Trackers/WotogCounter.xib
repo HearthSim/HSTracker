@@ -15,14 +15,14 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" hasShadow="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g" customClass="NSPanel">
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="651" height="50"/>
+            <rect key="contentRect" x="196" y="240" width="903" height="50"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1728" height="1079"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="651" height="50"/>
+                <rect key="frame" x="0.0" y="0.0" width="903" height="50"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <stackView distribution="equalSpacing" orientation="horizontal" alignment="top" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="l2M-3n-aSZ">
-                        <rect key="frame" x="-85" y="0.0" width="736" height="50"/>
+                        <rect key="frame" x="17" y="0.0" width="886" height="50"/>
                         <subviews>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="x4y-pJ-inY" userLabel="JadeView">
                                 <rect key="frame" x="0.0" y="0.0" width="77" height="50"/>
@@ -379,7 +379,7 @@
                                     </imageView>
                                     <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vFS-gJ-xas" userLabel="ExcavateTier">
                                         <rect key="frame" x="39" y="15" width="69" height="12"/>
-                                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="left" title="Legendary" id="xZe-x8-7J7">
+                                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Legendary" id="xZe-x8-7J7">
                                             <font key="font" size="12" name="ChunkFive-Roman"/>
                                             <color key="textColor" red="0.2470588235" green="0.20392156859999999" blue="0.14117647059999999" alpha="1" colorSpace="deviceRGB"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -408,6 +408,45 @@
                                     </binding>
                                 </connections>
                             </customView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="uwC-KI-2gc" userLabel="SpellSchoollView">
+                                <rect key="frame" x="736" y="0.0" width="150" height="50"/>
+                                <subviews>
+                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="F1y-mJ-q8C">
+                                        <rect key="frame" x="0.0" y="0.0" width="150" height="50"/>
+                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="icon-spell-schools" id="tBC-sH-bTW"/>
+                                    </imageView>
+                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uU6-H1-75N" userLabel="SpellSchools">
+                                        <rect key="frame" x="42" y="0.0" width="98" height="50"/>
+                                        <textFieldCell key="cell" alignment="center" title="Schools" id="Zqf-Xo-uSl" customClass="VerticallyAlignedTextFieldCell" customModule="HSTracker" customModuleProvider="target">
+                                            <font key="font" size="12" name="ChunkFive-Roman"/>
+                                            <color key="textColor" red="0.2470588235" green="0.20392156859999999" blue="0.14117647059999999" alpha="1" colorSpace="deviceRGB"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <connections>
+                                            <binding destination="-2" name="value" keyPath="self.spellSchoolsLabel" id="Ygj-90-uZI"/>
+                                        </connections>
+                                    </textField>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="uU6-H1-75N" secondAttribute="trailing" constant="12" id="04Y-9s-y9C"/>
+                                    <constraint firstAttribute="height" constant="50" id="59d-Kv-b7i"/>
+                                    <constraint firstAttribute="bottom" secondItem="uU6-H1-75N" secondAttribute="bottom" id="9Eq-gC-Oa1"/>
+                                    <constraint firstItem="uU6-H1-75N" firstAttribute="leading" secondItem="uwC-KI-2gc" secondAttribute="leading" constant="44" id="Fze-iS-0N1"/>
+                                    <constraint firstItem="uU6-H1-75N" firstAttribute="top" secondItem="uwC-KI-2gc" secondAttribute="top" id="TPW-pJ-IYV"/>
+                                    <constraint firstItem="F1y-mJ-q8C" firstAttribute="leading" secondItem="uwC-KI-2gc" secondAttribute="leading" id="cCo-Hc-Ncc"/>
+                                    <constraint firstAttribute="bottom" secondItem="F1y-mJ-q8C" secondAttribute="bottom" id="iSz-XC-k9x"/>
+                                    <constraint firstAttribute="trailing" secondItem="F1y-mJ-q8C" secondAttribute="trailing" id="q9O-8U-jF0"/>
+                                    <constraint firstAttribute="width" constant="150" id="qbs-Kd-m0P"/>
+                                    <constraint firstItem="F1y-mJ-q8C" firstAttribute="top" secondItem="uwC-KI-2gc" secondAttribute="top" id="rxs-Ph-rMV"/>
+                                </constraints>
+                                <connections>
+                                    <binding destination="-2" name="hidden" keyPath="self.spellSchoolsVisibility" id="v83-ef-pl4">
+                                        <dictionary key="options">
+                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
+                            </customView>
                         </subviews>
                         <constraints>
                             <constraint firstItem="Gsg-BK-Jrd" firstAttribute="top" secondItem="l2M-3n-aSZ" secondAttribute="top" id="1EN-HH-XTG"/>
@@ -416,6 +455,7 @@
                             <constraint firstItem="QVZ-AG-SeJ" firstAttribute="top" secondItem="l2M-3n-aSZ" secondAttribute="top" id="hzK-BB-9GW"/>
                         </constraints>
                         <visibilityPriorities>
+                            <integer value="1000"/>
                             <integer value="1000"/>
                             <integer value="1000"/>
                             <integer value="1000"/>
@@ -436,6 +476,7 @@
                             <real value="3.4028234663852886e+38"/>
                             <real value="3.4028234663852886e+38"/>
                             <real value="3.4028234663852886e+38"/>
+                            <real value="3.4028234663852886e+38"/>
                         </customSpacing>
                     </stackView>
                 </subviews>
@@ -445,7 +486,7 @@
                     <constraint firstItem="l2M-3n-aSZ" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="de8-8c-Dt6"/>
                 </constraints>
             </view>
-            <point key="canvasLocation" x="-281.5" y="80"/>
+            <point key="canvasLocation" x="-407.5" y="80"/>
         </window>
         <userDefaultsController representsSharedInstance="YES" id="aUT-8E-iOx"/>
     </objects>
@@ -458,6 +499,7 @@
         <image name="icon-jade" width="250" height="170"/>
         <image name="icon-libram" width="250" height="170"/>
         <image name="icon-pogo" width="250" height="170"/>
+        <image name="icon-spell-schools" width="500" height="170"/>
         <image name="icon-spells" width="250" height="170"/>
     </resources>
 </document>

@@ -137,6 +137,7 @@ extension CardIds.Collectible {
         static let FarSightCore = "CORE_CS2_053"
         static let ColdStorage = "NX2_009"
         static let SaxophoneSoloist = "ETC_358"
+        static let CoralKeeper = "TSC_648"
     }
 }
 

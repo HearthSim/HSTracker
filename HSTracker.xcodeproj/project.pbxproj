@@ -478,6 +478,7 @@
 		B849674328A5830D00D90B30 /* libcoreclr.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B849674228A5830D00D90B30 /* libcoreclr.dylib */; };
 		B850AA33252CB0490031E8F2 /* TurnCounter.xib in Resources */ = {isa = PBXBuildFile; fileRef = B850AA32252CB0490031E8F2 /* TurnCounter.xib */; };
 		B850AA35252CB0FA0031E8F2 /* TurnCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */; };
+		B8591FEE2B1776FF00B907A4 /* SpellSchool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FED2B1776FF00B907A4 /* SpellSchool.swift */; };
 		B85A0D54272CDEFE006D2648 /* MercenariesPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85A0D53272CDEFE006D2648 /* MercenariesPreferences.swift */; };
 		B85A0D55272CE24A006D2648 /* MercenariesPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B85A0D51272CDDFB006D2648 /* MercenariesPreferences.xib */; };
 		B85A0D56272CE24B006D2648 /* MercenariesPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B85A0D51272CDDFB006D2648 /* MercenariesPreferences.xib */; };
@@ -1167,6 +1168,7 @@
 		B849674228A5830D00D90B30 /* libcoreclr.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcoreclr.dylib; path = "downloaded-frameworks/mono/runtimes/osx-x64/native/libcoreclr.dylib"; sourceTree = "<group>"; };
 		B850AA32252CB0490031E8F2 /* TurnCounter.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TurnCounter.xib; sourceTree = "<group>"; };
 		B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnCounter.swift; sourceTree = "<group>"; };
+		B8591FED2B1776FF00B907A4 /* SpellSchool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellSchool.swift; sourceTree = "<group>"; };
 		B85A0D52272CDDFB006D2648 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = HSTracker/UIs/Preferences/Base.lproj/MercenariesPreferences.xib; sourceTree = "<group>"; };
 		B85A0D53272CDEFE006D2648 /* MercenariesPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MercenariesPreferences.swift; sourceTree = "<group>"; };
 		B85F1AC8258A558200A6F8C3 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
@@ -1816,13 +1818,13 @@
 		439C7E901C777EE800D29859 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				F79833961FFF324200D2893E /* Events.swift */,
 				439C7EE71C777FCF00D29859 /* Extensions */,
+				43BE58BD1DC47C6D00B24A21 /* Paths.swift */,
+				4308EB7D1D76AFE6000897C8 /* ReleaseChannel.swift */,
 				439C7E911C777EFA00D29859 /* Settings.swift */,
 				43D307FA1C83159C00480488 /* SizeHelper.swift */,
-				4308EB7D1D76AFE6000897C8 /* ReleaseChannel.swift */,
 				4390FBB91DAA72E700AE71BB /* Version.swift */,
-				43BE58BD1DC47C6D00B24A21 /* Paths.swift */,
-				F79833961FFF324200D2893E /* Events.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -1887,6 +1889,7 @@
 				431AA0CC1D362ECB0030AD22 /* Race.swift */,
 				431719781C8C179D00F5988B /* Rarity.swift */,
 				B8074B0128C83A96006E0133 /* RewardTrackType.swift */,
+				B8591FED2B1776FF00B907A4 /* SpellSchool.swift */,
 				4387BED11CF4D7A00002ECBB /* State.swift */,
 				437B5BAB1CD1E6AF00DE0A41 /* Step.swift */,
 				439C7E9E1C777F8900D29859 /* TagClass.swift */,
@@ -2910,6 +2913,7 @@
 				B844D36E2A0C35A8001704E0 /* MinionCardEntityProxy.swift in Sources */,
 				4C19239D2392FA7E007EBB0F /* BattlegroundsDetailsWindow.swift in Sources */,
 				B8DC120524EC79370088A755 /* OutputProxy.swift in Sources */,
+				B8591FEE2B1776FF00B907A4 /* SpellSchool.swift in Sources */,
 				4CECFFD523C10C3E0093253E /* BattlegroundsTierDetailWindowController.swift in Sources */,
 				43AFA0031FA11F11008ED490 /* SecretsManager.swift in Sources */,
 				439C7EBF1C777F8900D29859 /* Game.swift in Sources */,

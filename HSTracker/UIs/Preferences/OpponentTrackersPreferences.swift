@@ -37,6 +37,7 @@ class OpponentTrackersPreferences: NSViewController, PreferencePane {
     @IBOutlet weak var showExcavateCounter: NSButton!
     @IBOutlet weak var enableLinkOpponentDeckInNonFriendly: NSButton!
     @IBOutlet weak var showPogoCounter: NSButton!
+    @IBOutlet weak var showSpellSchoolsCounter: NSButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,6 +63,7 @@ class OpponentTrackersPreferences: NSViewController, PreferencePane {
         showExcavateCounter.state = Settings.showOpponentExcavateCounter ? .on : .off
         showPogoCounter.state = Settings.showOpponentPogoCounter ? .on : .off
         enableLinkOpponentDeckInNonFriendly.state = Settings.enableLinkOpponentDeckInNonFriendly ? .on : .off
+        showSpellCounter.state = Settings.showOpponentSpellSchoolsCounter ? .on : .off
     }
 
     @IBAction func checkboxClicked(_ sender: NSButton) {
@@ -110,6 +112,8 @@ class OpponentTrackersPreferences: NSViewController, PreferencePane {
             Settings.showOpponentExcavateCounter = showExcavateCounter.state == .on
         } else if sender == showPogoCounter {
             Settings.showOpponentPogoCounter = showPogoCounter.state == .on
+        } else if sender == showSpellSchoolsCounter {
+            Settings.showOpponentSpellSchoolsCounter = showSpellSchoolsCounter.state == .on
         } else if sender == enableLinkOpponentDeckInNonFriendly {
             Settings.enableLinkOpponentDeckInNonFriendly = enableLinkOpponentDeckInNonFriendly.state == .on
         }

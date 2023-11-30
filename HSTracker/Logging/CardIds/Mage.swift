@@ -160,6 +160,12 @@ extension CardIds.Collectible {
         static let Cryopreservation = "WW_009"
         static let BlastmageMiner = "WW_426"
         static let MeddlesomeServant = "YOG_518"
+        static let DiscoveryOfMagic = "TTN_476"
+        static let InquisitiveCreation = "TTN_478"
+        static let WisdomOfNorgannon = "TTN_085"
+        static let Sif = "TTN_071"
+        static let ElementalInspiration = "TTN_480"
+        static let MagisterDawngrasp = "AV_200"
     }
 }
 

@@ -319,6 +319,11 @@ class Game: NSObject, PowerEventHandler {
                 anyVisible = true
                 icons.excavate = opponentEntity?[.gametag_2822] ?? 0
             }
+            icons.spellSchoolsVisibility = showOpponentSpellSchoolsCounter && showTracker
+            if icons.spellSchoolsVisibility {
+                anyVisible = true
+                icons.spellSchools = Array(opponent.playedSpellSchools)
+            }
             if anyVisible {
                 let frame = SizeHelper.opponentWotogIconsFrame()
                 self.windowManager.show(controller: icons, show: true,
@@ -376,6 +381,11 @@ class Game: NSObject, PowerEventHandler {
                 anyVisible = true
                 icons.excavateTier = playerEntity?[.current_excavate_tier] ?? 0
                 icons.updateExcavateTierLabel()
+            }
+            icons.spellSchoolsVisibility = showPlayerSpellSchoolsCounter && showTracker
+            if icons.spellSchoolsVisibility {
+                anyVisible = true
+                icons.spellSchools = Array(player.playedSpellSchools)
             }
             if anyVisible {
                 let frame = SizeHelper.playerWotogIconsFrame()

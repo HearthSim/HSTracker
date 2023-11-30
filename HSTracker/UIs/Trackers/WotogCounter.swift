@@ -29,6 +29,29 @@ class WotogCounter: OverWindowController {
     var excavateTier = 0
     @objc dynamic var excavateTierVisibility = false
     @objc dynamic var excavateTierLabel = ""
+    @objc dynamic var spellSchoolsVisibility = false
+    var _spellSchools = [SpellSchool]()
+    var spellSchools: [SpellSchool] {
+        get {
+            return _spellSchools
+        }
+        set {
+            if newValue == _spellSchools {
+                return
+            }
+            self.willChangeValue(for: \.spellSchoolsLabel)
+            _spellSchools = newValue
+            self.didChangeValue(for: \.spellSchoolsLabel)
+        }
+    }
+    @objc dynamic var spellSchoolsLabel: String {
+        if _spellSchools.count == 0 {
+            return NSLocalizedString("Counter_Spell_School_None", comment: "")
+        }
+        return _spellSchools.compactMap { x in
+            x.localizedText()
+        }.sorted { $0 < $1 }.joined(separator: ", ")
+    }
     
     func updateExcavateTierLabel() {
         var label = ""

@@ -627,6 +627,7 @@ extension CardIds.Collectible {
         static let BurrowBuster = "WW_002"
         static let YoggSaronMasterOfFate = "DMF_004"
         static let PrisonBreaker = "YOG_411"
+        static let Multicaster = "DED_524"
     }
 }
 

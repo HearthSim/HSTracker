@@ -38,6 +38,7 @@ class PlayerTrackersPreferences: NSViewController, PreferencePane {
     @IBOutlet weak var showTopCards: NSButton!
     @IBOutlet weak var showBottomCards: NSButton!
     @IBOutlet weak var showPogoCounter: NSButton!
+    @IBOutlet weak var showSpellSchoolsCounter: NSButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,6 +65,7 @@ class PlayerTrackersPreferences: NSViewController, PreferencePane {
         showTopCards.state = Settings.showPlayerCardsTop ? .on : .off
         showBottomCards.state = Settings.showPlayerCardsBottom ? .on : .off
         showPogoCounter.state = Settings.showPlayerPogoCounter ? .on : .off
+        showSpellCounter.state = Settings.showPlayerSpellSchoolsCounter ? .on : .off
     }
     
     @IBAction func colorChange(_ sender: NSColorWell) {
@@ -116,6 +118,8 @@ class PlayerTrackersPreferences: NSViewController, PreferencePane {
             Settings.showPlayerExcavateTier = showExcavateTier.state == .on
         } else if sender == showPogoCounter {
             Settings.showPlayerPogoCounter = showPogoCounter.state == .on
+        } else if sender == showSpellSchoolsCounter {
+            Settings.showPlayerSpellSchoolsCounter = showSpellSchoolsCounter.state == .on
         } else if sender == showTopCards {
             Settings.showPlayerCardsTop = showTopCards.state == .on
         } else if sender == showBottomCards {
