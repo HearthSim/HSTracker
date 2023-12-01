@@ -159,7 +159,13 @@ class RemoteConfig {
                         self.liveSecrets = secrets
                         logger.info("Retrieved live secrets configuration")
                         semaphore.signal()
+                    }.catch { error in
+                        logger.error("Error parsing live secrets configuration: \(error)")
+                        semaphore.signal()
                     }
+                }.catch { error in
+                    logger.error("Error parsing battlegrounds bans configuration: \(error)")
+                    semaphore.signal()
                 }
             }.catch { error in
                 logger.error("Error parsing remote mercenaries config: \(error)")

@@ -182,7 +182,7 @@ struct Http {
                                 parameters: [String: Any] = [:],
                                 headers: [String: String] = [:]) -> URLRequest? {
         var urlQuery = ""
-        if method == .get {
+        if method == .get && parameters.count > 0 {
             urlQuery = "?" + query(parameters: parameters)
         }
 
