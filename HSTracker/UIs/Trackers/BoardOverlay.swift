@@ -136,6 +136,7 @@ class BoardMinionView: NSView {
         str.addAttribute(.font, value: font12, range: NSRange(location: 0, length: str.length))
         flavorWindow.flavorTextLabel.cell = VerticallyAlignedTextFieldCell()
         flavorWindow.flavorTextLabel.attributedStringValue = str
+        flavorWindow.flavorTextLabel.textColor = .black
         let cardNameStr = NSMutableAttributedString(string: card.name, attributes: [NSAttributedString.Key.strokeWidth: -4.0, NSAttributedString.Key.strokeColor: NSColor.black, NSAttributedString.Key.foregroundColor: NSColor.white, NSAttributedString.Key.font: font, NSAttributedString.Key.paragraphStyle: style])
         flavorWindow.cardNameLabel.attributedStringValue = cardNameStr
         let rect = SizeHelper.flavorTextFrame()
