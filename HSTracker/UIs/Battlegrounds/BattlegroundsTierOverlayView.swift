@@ -26,6 +26,10 @@ class BattlegroundsTierOverlayView: NSView {
         super.init(coder: coder)
     }
     
+    func isTier7Available() -> Bool {
+        return availableTiers[6]
+    }
+    
     func unhideTier() {
         if !showing {
             let anomalyDbfId =  BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: AppDelegate.instance().coreManager.game.gameEntity)
@@ -87,7 +91,9 @@ class BattlegroundsTierOverlayView: NSView {
         backgroundColor.set()
         dirtyRect.fill()
         
-        for i in 1...7 {
+        let tiers = isTier7Available() ? 7 : 6
+        
+        for i in 1...tiers {
             drawTier(tier: i, x: 8 + (i - 1) * 48)
         }
     }
@@ -128,8 +134,8 @@ class BattlegroundsTierOverlayView: NSView {
             return
         }
         let index = (Int(CGFloat(event.locationInWindow.x - 4.0))) / 48 + 1
-        
-        if index >= 1 && index <= 7 {
+        let tiers = isTier7Available() ? 7 : 6
+        if index >= 1 && index <= tiers {
             displayTier(tier: index == currentTier ? 0 : index)
         } else {
             displayTier(tier: 0)
@@ -142,8 +148,9 @@ class BattlegroundsTierOverlayView: NSView {
             return
         }
         let index = (Int(CGFloat(event.locationInWindow.x - 4.0))) / 48 + 1
-        
-        if index >= 1 && index <= 7 {
+        let tiers = isTier7Available() ? 7 : 6
+
+        if index >= 1 && index <= tiers {
             hoverTier = index
         } else {
             hoverTier = 0
