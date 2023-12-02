@@ -228,7 +228,7 @@
                             <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="10" horizontalStackHuggingPriority="250" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9eA-zF-WLa" userLabel="CountersStack">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="234"/>
                                 <subviews>
-                                    <button ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fgd-bd-3lc">
+                                    <button translatesAutoresizingMaskIntoConstraints="NO" id="fgd-bd-3lc">
                                         <rect key="frame" x="3" y="212" width="406" height="18"/>
                                         <buttonCell key="cell" type="check" title="Show Jade Counter" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="MDW-Ea-Q6M">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -238,7 +238,7 @@
                                             <action selector="checkboxClicked:" target="-2" id="5mO-EK-yQS"/>
                                         </connections>
                                     </button>
-                                    <button ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SWg-Jw-fc8" userLabel="Show CThun counter">
+                                    <button translatesAutoresizingMaskIntoConstraints="NO" id="SWg-Jw-fc8" userLabel="Show CThun counter">
                                         <rect key="frame" x="3" y="186" width="406" height="18"/>
                                         <buttonCell key="cell" type="check" title="Show C'Thun counter" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Tex-bu-toa">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -248,7 +248,7 @@
                                             <action selector="checkboxClicked:" target="-2" id="acs-mY-MFo"/>
                                         </connections>
                                     </button>
-                                    <button ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kix-rG-uSl">
+                                    <button translatesAutoresizingMaskIntoConstraints="NO" id="kix-rG-uSl">
                                         <rect key="frame" x="3" y="160" width="406" height="18"/>
                                         <buttonCell key="cell" type="check" title="Show Spell counter" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="LGM-aC-rL6">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -258,7 +258,7 @@
                                             <action selector="checkboxClicked:" target="-2" id="eXa-wv-BeE"/>
                                         </connections>
                                     </button>
-                                    <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="glA-AF-Cpl">
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="glA-AF-Cpl">
                                         <rect key="frame" x="3" y="134" width="406" height="18"/>
                                         <buttonCell key="cell" type="check" title="Show Pogo-Hopper counter" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="n9s-Hs-kve">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -268,7 +268,7 @@
                                             <action selector="checkboxClicked:" target="-2" id="XqA-Ge-aBr"/>
                                         </connections>
                                     </button>
-                                    <button ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ri2-1B-HMG">
+                                    <button translatesAutoresizingMaskIntoConstraints="NO" id="Ri2-1B-HMG">
                                         <rect key="frame" x="3" y="108" width="406" height="18"/>
                                         <buttonCell key="cell" type="check" title="Show Galakrond invoke counter" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="hcz-Gp-orK">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -278,7 +278,7 @@
                                             <action selector="checkboxClicked:" target="-2" id="c54-uY-4PZ"/>
                                         </connections>
                                     </button>
-                                    <button ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2nU-bb-41N">
+                                    <button translatesAutoresizingMaskIntoConstraints="NO" id="2nU-bb-41N">
                                         <rect key="frame" x="3" y="82" width="406" height="18"/>
                                         <buttonCell key="cell" type="check" title="Show Libram counter" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="o5X-sj-pxz">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -288,7 +288,7 @@
                                             <action selector="checkboxClicked:" target="-2" id="XtH-Tg-ztG"/>
                                         </connections>
                                     </button>
-                                    <button ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iEX-Yp-rK9" userLabel="Show Abyssal counter">
+                                    <button translatesAutoresizingMaskIntoConstraints="NO" id="iEX-Yp-rK9" userLabel="Show Abyssal counter">
                                         <rect key="frame" x="3" y="56" width="406" height="18"/>
                                         <buttonCell key="cell" type="check" title="Show Abyssal counter" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="qgc-YT-DWf">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -298,7 +298,7 @@
                                             <action selector="checkboxClicked:" target="-2" id="5sr-t7-hhC"/>
                                         </connections>
                                     </button>
-                                    <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TTQ-3g-t1U">
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TTQ-3g-t1U">
                                         <rect key="frame" x="3" y="30" width="406" height="18"/>
                                         <buttonCell key="cell" type="check" title="Show Excavate tier" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="6KM-cW-rrk">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -308,7 +308,7 @@
                                             <action selector="checkboxClicked:" target="-2" id="WsJ-1a-kdP"/>
                                         </connections>
                                     </button>
-                                    <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Thx-nL-aQZ" userLabel="Show Spell School counter">
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Thx-nL-aQZ" userLabel="Show Spell School counter">
                                         <rect key="frame" x="3" y="4" width="406" height="18"/>
                                         <buttonCell key="cell" type="check" title="Show Spell School counter" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="qnv-9S-jzY">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -320,6 +320,26 @@
                                     </button>
                                 </subviews>
                                 <edgeInsets key="edgeInsets" left="5" right="5" top="5" bottom="5"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="Ri2-1B-HMG" secondAttribute="trailing" constant="5" id="1sk-kb-xK7"/>
+                                    <constraint firstAttribute="trailing" secondItem="glA-AF-Cpl" secondAttribute="trailing" constant="5" id="2O8-sp-oUK"/>
+                                    <constraint firstItem="fgd-bd-3lc" firstAttribute="leading" secondItem="9eA-zF-WLa" secondAttribute="leading" constant="5" id="5x5-dx-Wdm"/>
+                                    <constraint firstItem="Thx-nL-aQZ" firstAttribute="leading" secondItem="9eA-zF-WLa" secondAttribute="leading" constant="5" id="6Ne-Pf-Qkl"/>
+                                    <constraint firstAttribute="trailing" secondItem="fgd-bd-3lc" secondAttribute="trailing" constant="5" id="Icc-mH-bVW"/>
+                                    <constraint firstItem="SWg-Jw-fc8" firstAttribute="leading" secondItem="9eA-zF-WLa" secondAttribute="leading" constant="5" id="L71-R5-Usl"/>
+                                    <constraint firstAttribute="trailing" secondItem="kix-rG-uSl" secondAttribute="trailing" constant="5" id="Mev-1o-3b3"/>
+                                    <constraint firstAttribute="trailing" secondItem="2nU-bb-41N" secondAttribute="trailing" constant="5" id="O4y-Xw-ewt"/>
+                                    <constraint firstAttribute="trailing" secondItem="Thx-nL-aQZ" secondAttribute="trailing" constant="5" id="PYu-eq-hdz"/>
+                                    <constraint firstItem="glA-AF-Cpl" firstAttribute="leading" secondItem="9eA-zF-WLa" secondAttribute="leading" constant="5" id="Qlj-cA-FtT"/>
+                                    <constraint firstAttribute="trailing" secondItem="SWg-Jw-fc8" secondAttribute="trailing" constant="5" id="Qv1-sT-EmY"/>
+                                    <constraint firstAttribute="trailing" secondItem="TTQ-3g-t1U" secondAttribute="trailing" constant="5" id="SNa-Oe-xLs"/>
+                                    <constraint firstAttribute="trailing" secondItem="iEX-Yp-rK9" secondAttribute="trailing" constant="5" id="Xs5-Gl-2Kv"/>
+                                    <constraint firstItem="TTQ-3g-t1U" firstAttribute="leading" secondItem="9eA-zF-WLa" secondAttribute="leading" constant="5" id="Z0z-hX-7fi"/>
+                                    <constraint firstItem="kix-rG-uSl" firstAttribute="leading" secondItem="9eA-zF-WLa" secondAttribute="leading" constant="5" id="Z2A-4P-fH7"/>
+                                    <constraint firstItem="iEX-Yp-rK9" firstAttribute="leading" secondItem="9eA-zF-WLa" secondAttribute="leading" constant="5" id="aDQ-bM-s2n"/>
+                                    <constraint firstItem="Ri2-1B-HMG" firstAttribute="leading" secondItem="9eA-zF-WLa" secondAttribute="leading" constant="5" id="dHi-e6-KeS"/>
+                                    <constraint firstItem="2nU-bb-41N" firstAttribute="leading" secondItem="9eA-zF-WLa" secondAttribute="leading" constant="5" id="pbf-IR-yQH"/>
+                                </constraints>
                                 <visibilityPriorities>
                                     <integer value="1000"/>
                                     <integer value="1000"/>
