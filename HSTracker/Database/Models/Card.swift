@@ -36,6 +36,7 @@ final class Card {
     var isStandard = false
     var artist = ""
     var multiClassGroup: MultiClassGroup = .invalid
+    var classes: [CardClass] = []
     var techLevel = 0
     var jsonRepresentation: [String: Any] = [:]
     var hideStats = false
@@ -87,18 +88,11 @@ final class Card {
         if playerClass == cardClass {
             return true
         }
-        
-        if multiClassGroup == .invalid {
-            return false
-        }
-        
-        return Card.multiClassGroups[multiClassGroup]?.first(where: { cc in
-            cc == cardClass
-        }) != nil
+        return classes.contains(cardClass)
     }
     
     func isNeutral() -> Bool {
-        return playerClass == .neutral && multiClassGroup == .invalid
+        return playerClass == .neutral
     }
 
     static let pluralRegex = Regex("\\$(\\d+) \\|4\\((\\w+),(\\w+)\\)")

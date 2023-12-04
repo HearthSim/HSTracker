@@ -202,6 +202,16 @@ class Database {
                             }
                         }
                         
+                        if let classes = jsonCard["classes"] as? [String] {
+                            var res = [CardClass]()
+                            for clazz in classes {
+                                if let cl = CardClass(rawValue: clazz.lowercased()) {
+                                    res.append(cl)
+                                }
+                            }
+                            card.classes = res
+                        }
+                        
                         if let techLevel = jsonCard["techLevel"] as? Int {
                             card.techLevel = techLevel
                             card.bgRaces = card.races
