@@ -64,10 +64,15 @@ class OverlayMessageViewModel: ViewModel {
     ]
                                          
     func mmr(filterValue: String, minMMR: Int?, anomalyAdjusted: Bool) {
-        if let percent = OverlayMessageViewModel.mmrPercentValues[filterValue] {
-            let mmr = Helper.toPrettyNumber(n: minMMR ?? 0)
-            let format = NSLocalizedString("BattlegroundsOverlayMessage_MMR", comment: "")
-            text = String(format: format, percent, mmr)
+        if let percent = OverlayMessageViewModel.mmrPercentValues[filterValue], let minMmrInt = minMMR {
+            let mmr = Helper.toPrettyNumber(n: minMmrInt)
+            if anomalyAdjusted {
+                let format = NSLocalizedString("BattlegroundsOverlayMessage_MMR_AnomalyAdjusted", comment: "")
+                text = String(format: format, percent, mmr)
+            } else {
+                let format = NSLocalizedString("BattlegroundsOverlayMessage_MMR", comment: "")
+                text = String(format: format, percent, mmr)
+            }
         } else {
             clear()
         }

@@ -1,3 +1,16 @@
+# 2.6.2
+## New
+- Updated for Hearthstone 28.2.0
+- Added a spell school counter!
+## Fixes
+- Fix HSTracker stuck on splash screen if there is issue accessing remote config (issue #1332)
+- Make flavor text black again
+- The Battlegrounds minion overlay no longer shows minions from tavern tier 7 unless Secrets of Norgannon is active.
+- Fixed an issue that caused the deck builder to not show appropriate multi-class cards.
+## Bob's Buddy
+- Added support for Fairy Tale Caroler's Battlecry (with Rylak Metalhead).
+- There are likely still issues with some new cards in Bob's Buddy. We will update these in the coming days.
+
 # 2.6.1
 ## New
 - Updated for Hearthstone 28.0.3
