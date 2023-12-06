@@ -52,6 +52,7 @@ class BobsBuddyInvoker {
     private var currentOpponentMinions: [Int: MinionProxy] = [:]
     
     private var currentOpponentSecrets: [Entity] = []
+    private var opponentSecretMap: [Entity: Entity] = [:]
     
     private var opponentHand: [Entity] = []
     private var opponentHandMap: [Entity: Entity] = [:]
@@ -156,24 +157,17 @@ class BobsBuddyInvoker {
         }
         
         logger.debug("Setting UI state to combat...")
-        if runSimulationAfterCombat {
-            state = .combatWithoutSimulation
-            BobsBuddyInvoker.bobsBuddyDisplay.setState(st: .combatWithoutSimulation)
-        } else {
-            BobsBuddyInvoker.bobsBuddyDisplay.setState(st: .combat)
-        }
+        BobsBuddyInvoker.bobsBuddyDisplay.setState(st: .combat)
                 
         if let input = input, (input.playerHeroPower.cardId == RebornRite && input.playerHeroPower.isActivated) || (input.opponentHeroPower.cardId == RebornRite && input.opponentHeroPower.isActivated) {
             Thread.sleep(forTimeInterval: Double(LichKingDelay) / 1000.0)
         }
         
-        if !runSimulationAfterCombat {
-            _ = runAndDisplaySimulationAsync().catch({ error in
-            logger.error("Error running simulation: \(error.localizedDescription)")
-            BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .failedToLoad)
-            Analytics.trackEvent("runSimulation failed", withProperties: [ "error": error.localizedDescription])
-            })
-        }
+        _ = runAndDisplaySimulationAsync().catch({ error in
+        logger.error("Error running simulation: \(error.localizedDescription)")
+        BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .failedToLoad)
+        Analytics.trackEvent("runSimulation failed", withProperties: [ "error": error.localizedDescription])
+        })
     }
     
     func runAndDisplaySimulationAsync() -> Promise<Bool> {
@@ -229,14 +223,13 @@ class BobsBuddyInvoker {
                 var result: OutputProxy?
                 
                 if let inp = self.input {
-                    if self.runSimulationAfterCombat {
-                        let secrets: [Int] = self.currentOpponentSecrets.map({ $0.card.dbfId })
-                        let opponentSecrets = inp.opponentSecrets
-                        for i in 0..<secrets.count {
-                            inp.addSecretFromDbfid(id: Int32(secrets[i]), target: opponentSecrets)
-                        }
-                        logger.debug("Set opponent to Akazamarak with \(secrets.count) secrets.")
+                    let target = inp.opponentSecrets
+                    let secrets = self.currentOpponentSecrets.compactMap { x in
+                        !x.cardId.isEmpty ? x.card.dbfId : 0 }
+                    for secret in secrets {
+                        inp.addSecretFromDbfid(id: Int32(secret), target: target)
                     }
+                    logger.debug("Set opponent S. with \(secrets.count) S.")
                     logger.debug("----- Simulation Input -----")
                     let str = inp.unitestCopyableVersion()
                     
@@ -318,20 +311,8 @@ class BobsBuddyInvoker {
         }
         state = .shopping
         BobsBuddyInvoker.bobsBuddyDisplay.setState(st: .shopping)
-        if !runSimulationAfterCombat {
-            logger.debug("Setting UI state to shopping")
-            if validate {
-                validateSimulationResult()
-            }
-        } else {
-             _ = runAndDisplaySimulationAsync().done { _ in
-                 if validate {
-                     self.validateSimulationResult()
-                 }
-            }.catch { error in
-                logger.error(error)
-            }
-        }
+        logger.debug("Setting UI state to shopping")
+        validateSimulationResult()
     }
     
     func hasErrorState() -> Bool {
@@ -739,6 +720,11 @@ class BobsBuddyInvoker {
             questData.rewardCardId = reward.info.latestCardId
             MonoHelper.addToList(list: playerQuests, element: questData)
         }
+        
+        let target = input.playerSecrets
+        for secret in game.player.secrets {
+            input.addSecretFromDbfid(id: Int32(secret.id), target: target)
+        }
 
         let opponentQuests = input.opponentQuests
         for quest in game.opponent.quests {
@@ -860,6 +846,22 @@ class BobsBuddyInvoker {
     }
     
     private var reRunCount = 0
+    
+    func tryRerun() {
+        reRunCount += 1
+        if reRunCount <= 11 {
+            logger.debug("Input changed, re-running simulation! (\(reRunCount))")
+            if shouldRun() {
+                let expandAfterError = errorState == .none && Settings.showBobsBuddyDuringCombat
+                errorState = .none
+                BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .none, show: expandAfterError)
+                _ = runAndDisplaySimulationAsync()
+            }
+        } else {
+            logger.debug("Input changed, but the simulation already re-ran ten times")
+        }
+    }
+    
     func updateOpponentHand(entity: Entity, copy: Entity) {
         guard let input = input, state != .combat  else {
             return
@@ -877,7 +879,7 @@ class BobsBuddyInvoker {
         let simulator = SimulatorProxy()
         let entities = getOpponentHandEntities(simulator: simulator, game: game)
         // TODO: fix this
-//        if entities.filter { x in MonoHelper.isMinionCardEntity(obj: x)}.count <= input.o input.opponentHand.Count(x => x is MinionCardEntity)) {
+//        if entities.filter { x in x is MinionCardEntityProxy }.count <= input.opponentHand.filter { x in MonoHelper.isMinionCardEntity(obj: x) }.count {
 //            return
 //        }
 
@@ -886,17 +888,21 @@ class BobsBuddyInvoker {
             MonoHelper.addToList(list: input.opponentHand, element: ent)
         }
         
-        reRunCount += 1
-        if reRunCount < 11 {
-            logger.debug("Opponent hand changed, re-running simulation! (#\(reRunCount)")
-            if shouldRun() && !runSimulationAfterCombat {
-                errorState = .none
-                BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .none, show: true)
-                _ = runAndDisplaySimulationAsync()
-            }
-        } else {
-            logger.debug("Opponent hand changed, but the simulation already re-ran twice")
+        tryRerun()
+    }
+    
+    func updateSecret(entity: Entity) {
+        if let oldSecret = currentOpponentSecrets.first(where: { x in x.id == entity.id }) {
+            opponentSecretMap[oldSecret] = entity
         }
+        
+        currentOpponentSecrets = currentOpponentSecrets.compactMap { x in
+            if let retval = opponentSecretMap[x] {
+                return retval
+            }
+            return entity
+        }
+        tryRerun()
     }
 
     private func getOpponentHandEntities(simulator: SimulatorProxy, game: Game) -> [MonoHandle] {

@@ -2895,6 +2895,10 @@ class Game: NSObject, PowerEventHandler {
 
         opponent.secretTriggered(entity: entity, turn: turn)
         secretsManager?.removeSecret(entity: entity)
+        
+        if isBattlegroundsMatch() && Settings.showBobsBuddy {
+            BobsBuddyInvoker.instance(gameId: gameId, turn: turnNumber())?.updateSecret(entity: entity)
+        }
     }
 
     func opponentFatigue(value: Int) {
