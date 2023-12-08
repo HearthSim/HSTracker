@@ -43,6 +43,7 @@ class BattlegroundsTierDetailsView: NSStackView {
         var availableRaces = game.availableRaces
         availableRaces?.append(Race.all)
         var counts = [Race: Int]()
+        var spellCounts = 0
         let bgMinions = Cards.battlegroundsMinions
         if let overrides = RemoteConfig.data?.battlegrounds_tag_overrides {
             for over in overrides {
@@ -51,6 +52,18 @@ class BattlegroundsTierDetailsView: NSStackView {
                 }
             }
         }
+        var sortedRaces = [Race]()
+        var races = [Race: String]()
+        if let allRaces = availableRaces {
+            for race in allRaces {
+                races[race] = NSLocalizedString(race.rawValue, comment: "")
+            }
+        }
+        races[.invalid] = NSLocalizedString("neutral", comment: "")
+        sortedRaces = races.keys.sorted(by: { (a, b) -> Bool in
+            return races[a] ?? "" < races[b] ?? ""
+        })
+
         let anomalyDbfId = BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: game.gameEntity)
         let anomalyCardId = Cards.by(dbfId: anomalyDbfId, collectible: false)?.id
         let availableTiers = BattlegroundsUtils.getAvailableTiers(anomalyCardId: anomalyCardId)
@@ -68,6 +81,7 @@ class BattlegroundsTierDetailsView: NSStackView {
             card.name = inCard.name
             card.race = inCard.race
             card.races = inCard.races
+            card.type = inCard.type
             if showBD {
                 card.mechanics = inCard.mechanics
             }
@@ -102,6 +116,7 @@ class BattlegroundsTierDetailsView: NSStackView {
                     cardBar.card = copy
                     cardBar.isBattlegrounds = true
                     cardBar.setDelegate(self)
+                    cardBar.sortingGroup = (sortedRaces.firstIndex(of: race) ?? 0) * 1000 + 1
                     cards.append(cardBar)
                 }
             } else {
@@ -116,7 +131,7 @@ class BattlegroundsTierDetailsView: NSStackView {
                 } else {
                     counts[race] = 1
                 }
-
+                cardBar.sortingGroup = (sortedRaces.firstIndex(of: race) ?? 0) * 1000 + 1
             }
             return cards
         }.flatMap { x in x }
@@ -125,7 +140,7 @@ class BattlegroundsTierDetailsView: NSStackView {
         let size = NSSize(width: cardBar.imageRectBG.width, height: cardBar.imageRectBG.height)
         let blueBackground = NSImage(color: NSColor(red: 0x1d/255.0, green: 0x36/255.0, blue: 0x57/255.0, alpha: 1.0), size: size)
         let blackImage = NSImage(color: NSColor(red: 0x23/255.0, green: 0x27/255.0, blue: 0x2a/255.0, alpha: 1.0), size: size)
-
+        
         if let cnt = counts[.invalid], cnt > 0 {
             cardBar.playerName = NSLocalizedString("neutral", comment: "")
             let race = Race(rawValue: "invalid")
@@ -133,6 +148,7 @@ class BattlegroundsTierDetailsView: NSStackView {
             cardBar.backgroundImage = blueBackground
             cardBar.isBattlegrounds = true
             cardBar.playerType = .deckManager
+            cardBar.sortingGroup = (sortedRaces.firstIndex(of: Race.invalid) ?? 0) * 1000 + 0
             cardBars.append(cardBar)
         }
         if let availableRaces = availableRaces {
@@ -146,10 +162,48 @@ class BattlegroundsTierDetailsView: NSStackView {
                     cardBar.backgroundImage = blueBackground
                     cardBar.isBattlegrounds = true
                     cardBar.playerType = .deckManager
+                    cardBar.sortingGroup = (sortedRaces.firstIndex(of: availableRaces[i]) ?? 0) * 1000 + 0
                     cardBars.append(cardBar)
                 }
             }
         }
+        var spells: [CardBar] = Cards.battlegroundsSpells.filter {
+            return $0.techLevel == tier
+        }.map { inCard in
+            let card = Card()
+            
+            card.cost = -1
+            card.id = inCard.id
+            card.name = inCard.name
+            card.type = inCard.type
+            spellCounts += 1
+            card.count = 1
+            if !availableTiers.contains(tier) {
+                card.count = 0
+            }
+            let copy = card.copy()
+            let cardBar = CardBar.factory()
+            cardBar.card = copy
+            cardBar.isBattlegrounds = true
+            cardBar.setDelegate(self)
+            cardBar.sortingGroup = 1000 * 1000 + 1
+           return cardBar
+        }.compactMap { x in x }
+        
+        if spellCounts > 0 {
+            let cardBar = CardBar.factory()
+            
+            cardBar.playerName = NSLocalizedString("spells", comment: "")
+            cardBar.playerRace = .invalid
+            cardBar.backgroundImage = blueBackground
+            cardBar.isBattlegrounds = true
+            cardBar.playerType = .editDeck
+            cardBar.sortingGroup = 1000 * 1000 + 0
+            cardBars.append(cardBar)
+            
+            cardBars.append(contentsOf: spells)
+        }
+
         if let unavailable = AppDelegate.instance().coreManager.game.unavailableRaces {
             var cardBar = CardBar.factory()
             cardBar.playerName = NSLocalizedString("unavailable", comment: "")
@@ -157,6 +211,7 @@ class BattlegroundsTierDetailsView: NSStackView {
             cardBar.backgroundImage = blueBackground
             cardBar.isBattlegrounds = true
             cardBar.playerType = .deckManager
+            cardBar.sortingGroup = 1001 * 1000 + 0
             cardBars.append(cardBar)
 
             let unavailable = unavailable.compactMap({ race in NSLocalizedString(race.rawValue, comment: "")}).sorted().chunks(3)
@@ -166,53 +221,30 @@ class BattlegroundsTierDetailsView: NSStackView {
                 cardBar.playerRace = .blank
                 cardBar.backgroundImage = blackImage
                 cardBar.isBattlegrounds = true
+                cardBar.sortingGroup = 1001 * 1000 + 1
                 cardBars.append(cardBar)
             }
         }
         cardBars = cardBars.sorted(by: {(a: CardBar, b: CardBar) -> Bool in
-            var raceA: String
+            var groupA = a.sortingGroup
             var nameA: String
-            var isTitleA: Int
             if let card = a.card {
-                raceA = card.race.rawValue
                 nameA = card.name
-                isTitleA = 1
             } else if a.playerRace == .blank && a.playerType != .deckManager {
-                raceA = a.playerRace!.rawValue
                 nameA = a.playerName!
-                isTitleA = 1
             } else {
-                raceA = a.playerRace!.rawValue
                 nameA = a.playerName!
-                isTitleA = 0
             }
-            if raceA == "invalid" {
-                raceA = "neutral"
-            } else if raceA == "blank" {
-                raceA = "zzzzzzzzzzzzzz"
-            }
-            var raceB: String
+            var groupB = b.sortingGroup
             var nameB: String
-            var isTitleB: Int
             if let card = b.card {
-                raceB = card.race.rawValue
                 nameB = card.name
-                isTitleB = 1
             } else if b.playerRace == .blank && b.playerType != .deckManager {
-                raceB = b.playerRace!.rawValue
                 nameB = b.playerName!
-                isTitleB = 1
             } else {
-                raceB = b.playerRace!.rawValue
                 nameB = b.playerName!
-                isTitleB = 0
             }
-            if raceB == "invalid" {
-                raceB = "neutral"
-            } else if raceB == "blank" {
-                raceB = "zzzzzzzzzzzzzz"
-            }
-            return (raceA, isTitleA, nameA) > (raceB, isTitleB, nameB)
+            return (groupA, nameA) > (groupB, nameB)
         })
         while self.subviews.count > 0 {
             self.subviews[0].removeFromSuperviewWithoutNeedingDisplay()

@@ -68,6 +68,7 @@ class CardBar: NSView, CardBarTheme {
     var playerRace: Race?
     var backgroundImage: NSImage?
     var isBattlegrounds: Bool = false
+    var sortingGroup = 0
 
     var hasAllRequired: Bool {
         guard let rp = Bundle.main.resourcePath else {

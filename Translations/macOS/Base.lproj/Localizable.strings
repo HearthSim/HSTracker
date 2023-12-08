@@ -319,6 +319,8 @@
 "Options_HSReplay_Account_Subscription_Generic" = "Subscribed to HSReplay.net";
 "Options_HSReplay_Account_Subscription_Bundle" = "Subscribed to HSReplay.net";
 
+"spells" = "Spells";
+
 /* Spell Schools */
 "Counter_Spell_School_None" = "None";
 "Spell_School_Arcane" = "Arcane";
