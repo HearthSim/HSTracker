@@ -3060,7 +3060,13 @@ class Game: NSObject, PowerEventHandler {
     
     func handlePlayerSendChoices(choice: Choice) {
         if choice.choiceType == .mulligan {
-            snapshotMulliganChoices(choice: choice)
+            if isBattlegroundsMatch() {
+                self.windowManager.battlegroundsQuestPicking.viewModel.reset()
+            } else if isConstructedMatch() {
+                snapshotMulliganChoices(choice: choice)
+            }
+        } else if isBattlegroundsMatch() {
+            self.windowManager.battlegroundsQuestPicking.viewModel.reset()
         }
     }
     

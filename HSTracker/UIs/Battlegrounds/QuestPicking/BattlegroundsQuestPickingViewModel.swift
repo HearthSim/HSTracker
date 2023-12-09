@@ -67,7 +67,6 @@ class BattlegroundsQuestPickingViewModel: ViewModel {
         _entities.removeAll()
         quests = nil
         visibility = false
-        _watchChoices = false
         message.clear()
     }
     
@@ -139,30 +138,6 @@ class BattlegroundsQuestPickingViewModel: ViewModel {
         message.mmr(filterValue: questData[0].mmr_filter_value, minMMR: questData[0].min_mmr, anomalyAdjusted: anomalyAdjusted)
         if choices.isVisible {
             visibility = true
-        }
-        
-        Task.init {
-            await watchChoices()
-        }
-    }
-    
-    private var _watchChoices = false
-    
-    @available(macOS 10.15, *)
-    private func watchChoices() async {
-        _watchChoices = true
-        while _watchChoices {
-            do {
-                try await Task.sleep(nanoseconds: 200_000_000)
-            } catch {
-                logger.error(error)
-            }
-            guard let choices = MirrorHelper.getCardChoices() else {
-                _watchChoices = false
-                visibility = false
-                break
-            }
-            visibility = choices.isVisible
         }
     }
     
