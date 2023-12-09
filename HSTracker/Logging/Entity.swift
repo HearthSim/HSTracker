@@ -101,6 +101,9 @@ class Entity {
     var isBattlegroundsQuest: Bool {
         return self.has(tag: .quest_reward_database_id)
     }
+    var isBattlegroundsSpell: Bool {
+        return self[.cardtype] == CardType.battleground_spell.rawValue
+    }
     var isSideQuest: Bool {
         return has(tag: .sidequest)
     }
@@ -116,8 +119,8 @@ class Entity {
 	func isOpponent(eventHandler: PowerEventHandler) -> Bool {
 		return !isPlayer(eventHandler: eventHandler) && has(tag: .player_id)
     }
-    var isMinionOrLocation: Bool {
-        return isMinion || isLocation
+    var takesBoardSlot: Bool {
+        return isMinion || isLocation || isBattlegroundsSpell
     }
     var isMinion: Bool {
         return has(tag: .cardtype) && self[.cardtype] == CardType.minion.rawValue
@@ -126,7 +129,7 @@ class Entity {
         return self[.cardtype] == CardType.location.rawValue
     }
     var isPlayableCard: Bool {
-        return isMinionOrLocation || isSpell || isWeapon || isPlayableHero
+        return isMinion || isLocation || isSpell || isWeapon || isPlayableHero
     }
     var isWeapon: Bool {
         return has(tag: .cardtype) && self[.cardtype] == CardType.weapon.rawValue

@@ -234,7 +234,7 @@ class BoardOverlayView: NSView {
         }
         updated = Date()
         let game = AppDelegate.instance().coreManager.game
-        let board = player.board.filter({ x in x.isMinionOrLocation }).sorted(by: { (a, b) in a.zonePosition < b.zonePosition })
+        let board = player.board.filter({ x in x.takesBoardSlot }).sorted(by: { (a, b) in a.zonePosition < b.zonePosition })
 
         if game.isMercenariesMatch() && mousedOver && game.gameEntity?[.step] == Step.main_combat.rawValue {
             if mousedOver {

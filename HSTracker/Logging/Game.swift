@@ -1217,7 +1217,7 @@ class Game: NSObject, PowerEventHandler {
     
     var opponentBoardCount: Int {
         return entities.values
-            .filter { $0.isInPlay && $0.isMinionOrLocation
+            .filter { $0.isInPlay && $0.takesBoardSlot
                 && $0.isControlled(by: self.opponent.id) }.count
     }
 
@@ -1228,7 +1228,7 @@ class Game: NSObject, PowerEventHandler {
 
     var playerBoardCount: Int {
         return entities.values
-            .filter { $0.isInPlay && $0.isMinionOrLocation
+            .filter { $0.isInPlay && $0.takesBoardSlot
                 && $0.isControlled(by: self.player.id) }.count }
 
     var opponentHandCount: Int {
