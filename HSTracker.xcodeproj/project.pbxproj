@@ -479,6 +479,11 @@
 		B850AA33252CB0490031E8F2 /* TurnCounter.xib in Resources */ = {isa = PBXBuildFile; fileRef = B850AA32252CB0490031E8F2 /* TurnCounter.xib */; };
 		B850AA35252CB0FA0031E8F2 /* TurnCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */; };
 		B8591FEE2B1776FF00B907A4 /* SpellSchool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FED2B1776FF00B907A4 /* SpellSchool.swift */; };
+		B8591FF02B23CC7D00B907A4 /* ChoiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FEF2B23CC7D00B907A4 /* ChoiceType.swift */; };
+		B8591FF22B23CDC600B907A4 /* Choice.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FF12B23CDC600B907A4 /* Choice.swift */; };
+		B8591FF42B23D4D000B907A4 /* ChoicesHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FF32B23D4D000B907A4 /* ChoicesHandler.swift */; };
+		B8591FF62B23D98800B907A4 /* SendChoicesHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FF52B23D98800B907A4 /* SendChoicesHandler.swift */; };
+		B8591FF82B24919F00B907A4 /* MulliganState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FF72B24919F00B907A4 /* MulliganState.swift */; };
 		B85A0D54272CDEFE006D2648 /* MercenariesPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85A0D53272CDEFE006D2648 /* MercenariesPreferences.swift */; };
 		B85A0D55272CE24A006D2648 /* MercenariesPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B85A0D51272CDDFB006D2648 /* MercenariesPreferences.xib */; };
 		B85A0D56272CE24B006D2648 /* MercenariesPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B85A0D51272CDDFB006D2648 /* MercenariesPreferences.xib */; };
@@ -1169,6 +1174,11 @@
 		B850AA32252CB0490031E8F2 /* TurnCounter.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TurnCounter.xib; sourceTree = "<group>"; };
 		B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnCounter.swift; sourceTree = "<group>"; };
 		B8591FED2B1776FF00B907A4 /* SpellSchool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellSchool.swift; sourceTree = "<group>"; };
+		B8591FEF2B23CC7D00B907A4 /* ChoiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceType.swift; sourceTree = "<group>"; };
+		B8591FF12B23CDC600B907A4 /* Choice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Choice.swift; sourceTree = "<group>"; };
+		B8591FF32B23D4D000B907A4 /* ChoicesHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoicesHandler.swift; sourceTree = "<group>"; };
+		B8591FF52B23D98800B907A4 /* SendChoicesHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendChoicesHandler.swift; sourceTree = "<group>"; };
+		B8591FF72B24919F00B907A4 /* MulliganState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulliganState.swift; sourceTree = "<group>"; };
 		B85A0D52272CDDFB006D2648 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = HSTracker/UIs/Preferences/Base.lproj/MercenariesPreferences.xib; sourceTree = "<group>"; };
 		B85A0D53272CDEFE006D2648 /* MercenariesPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MercenariesPreferences.swift; sourceTree = "<group>"; };
 		B85F1AC8258A558200A6F8C3 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
@@ -1836,6 +1846,7 @@
 				1C132F811DBA24C1002B1BF2 /* AppHealth.swift */,
 				4345FE941DF54CA900E8936B /* Block.swift */,
 				432A07781E93B05D00921E34 /* CardIds */,
+				B8591FF12B23CDC600B907A4 /* Choice.swift */,
 				439C7EAC1C777F8900D29859 /* CoreManager.swift */,
 				61424BCA24701A3700877EE4 /* DecksReader.swift */,
 				439C7E951C777F8900D29859 /* Entity.swift */,
@@ -1850,6 +1861,7 @@
 				439C7EAF1C777F8900D29859 /* LogReader.swift */,
 				432A392E1CF0B0F80029F0EA /* LogReaderInfo.swift */,
 				439C7EB11C777F8900D29859 /* LogReaderManager.swift */,
+				B8591FF72B24919F00B907A4 /* MulliganState.swift */,
 				B8DC376025D06C2F00452A83 /* OpponentDeadForTracker.swift */,
 				1CCB4AE91E8A46F0003FD1AD /* Parsers */,
 				4359BF931D52142D00F61993 /* PlayedCard.swift */,
@@ -1871,6 +1883,7 @@
 				439C7E971C777F8900D29859 /* CardMark.swift */,
 				43C36D2B1D08623D00F6723C /* CardSet.swift */,
 				439C7E981C777F8900D29859 /* CardType.swift */,
+				B8591FEF2B23CC7D00B907A4 /* ChoiceType.swift */,
 				B864AE282599359400793F36 /* DeckType.swift */,
 				431AA0CA1D362DBA0030AD22 /* Faction.swift */,
 				B8E76170293A321A0048E802 /* FindGameState.swift */,
@@ -1902,10 +1915,12 @@
 			isa = PBXGroup;
 			children = (
 				439C7EA31C777F8900D29859 /* ArenaHandler.swift */,
+				B8591FF32B23D4D000B907A4 /* ChoicesHandler.swift */,
 				439C7EA61C777F8900D29859 /* LoadingScreenHandler.swift */,
 				1CCB4AEA1E8A4930003FD1AD /* LogEventHandlers.swift */,
 				439C7EA91C777F8900D29859 /* RachelleHandler.swift */,
 				4C3E2D8B245ED5AA00292349 /* Toaster.swift */,
+				B8591FF52B23D98800B907A4 /* SendChoicesHandler.swift */,
 			);
 			path = Handlers;
 			sourceTree = "<group>";
@@ -2781,6 +2796,7 @@
 				B82F4EB024E32C3000905024 /* SimulatorProxy.swift in Sources */,
 				4360329A1C7B6578005F1893 /* InitialConfiguration.swift in Sources */,
 				439C7EB71C777F8900D29859 /* CardType.swift in Sources */,
+				B8591FF42B23D4D000B907A4 /* ChoicesHandler.swift in Sources */,
 				B804FC4129468BEA00F74CD9 /* BattlegroundsSingleQuestViewModel.swift in Sources */,
 				432B60391CBF9AD700B05D19 /* ManaGemButton.swift in Sources */,
 				B864AE292599359500793F36 /* DeckType.swift in Sources */,
@@ -2795,6 +2811,7 @@
 				B804FC2429418CC200F74CD9 /* OverlayMessageViewModel.swift in Sources */,
 				437B5BAC1CD1E6AF00DE0A41 /* Step.swift in Sources */,
 				B8AC9A2A293F9B120047F438 /* BattlegroundsQuestStats.swift in Sources */,
+				B8591FF62B23D98800B907A4 /* SendChoicesHandler.swift in Sources */,
 				439C7E921C777EFA00D29859 /* Settings.swift in Sources */,
 				B864AE2025979E3400793F36 /* AdventureDbId.swift in Sources */,
 				B844D36C2A0C3510001704E0 /* UnknownCardEntityProxy.swift in Sources */,
@@ -2814,6 +2831,7 @@
 				B804FC392944B1DA00F74CD9 /* ViewModel.swift in Sources */,
 				B82AE60228BED413004A8FE0 /* QuestDataProxy.swift in Sources */,
 				B8D8859A24F4185200F2F0F2 /* BobsBuddyErrorState.swift in Sources */,
+				B8591FF02B23CC7D00B907A4 /* ChoiceType.swift in Sources */,
 				43B6954D1C9014FA00F4D0AC /* TagChangeActions.swift in Sources */,
 				B83CF373294E4E57003C9062 /* BattlegroundsCompositionPopularityRow.swift in Sources */,
 				B8DC11F424EACDB80088A755 /* SimulationRunner.swift in Sources */,
@@ -2876,6 +2894,7 @@
 				B850AA35252CB0FA0031E8F2 /* TurnCounter.swift in Sources */,
 				432AD9591DAD46AA00D8F959 /* HttpMethod.swift in Sources */,
 				B8BB7AB22831ABE0008239CA /* BattlegroundsLastGames.swift in Sources */,
+				B8591FF22B23CDC600B907A4 /* Choice.swift in Sources */,
 				B800FCAA2732FABD00AFBD51 /* MercenariesTaskListView.swift in Sources */,
 				436F5D101CFD79B500DEB9A1 /* ClassicBar.swift in Sources */,
 				431AA0CF1D3632BC0030AD22 /* CardClass.swift in Sources */,
@@ -2999,6 +3018,7 @@
 				439DD8F41DB23212004EBE47 /* PlayerTurn.swift in Sources */,
 				437B5BAE1CD1F76C00DE0A41 /* WotogCounterFrame.swift in Sources */,
 				B8D75B9325A9DD1300446923 /* ExperienceTracker.swift in Sources */,
+				B8591FF82B24919F00B907A4 /* MulliganState.swift in Sources */,
 				B8AB59962742FA5C00383EC8 /* Deque.swift in Sources */,
 				B8449A042781C7360094E5B3 /* ReplicatingMenace.swift in Sources */,
 				4349104A1D09545C00B22DB2 /* BoardCard.swift in Sources */,

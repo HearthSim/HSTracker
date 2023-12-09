@@ -61,6 +61,7 @@ class Game: NSObject, PowerEventHandler {
 	private let turnTimer: TurnTimer
     
     fileprivate var lastKnownBattlegroundsBoardState = SynchronizedDictionary<String, BoardSnapshot>()
+    private var mulliganState: MulliganState?
     
 	private var hearthstoneRunState: HearthstoneRunState {
 		didSet {
@@ -1151,6 +1152,24 @@ class Game: NSObject, PowerEventHandler {
         }
         return nil
     }
+    
+    var playerMedalInfo: MatchInfo.MedalInfo? {
+        guard let localPlayer = matchInfo?.localPlayer, currentGameType == .gt_ranked else {
+            return nil
+        }
+        switch currentFormat {
+        case .standard:
+            return localPlayer.standardMedalInfo
+        case .wild:
+            return localPlayer.wildMedalInfo
+        case .classic:
+            return localPlayer.classicMedalInfo
+        case .twist:
+            return localPlayer.twistMedalInfo
+        default:
+            return nil
+        }
+    }
 	
     var arenaInfo: ArenaInfo? {
         if let _arenaInfo = MirrorHelper.getArenaDeck() {
@@ -1279,6 +1298,7 @@ class Game: NSObject, PowerEventHandler {
         secretsManager?.onChanged = { [weak self] cards in
             self?.updateSecretTracker(cards: cards)
         }
+        mulliganState = MulliganState(game: self)
 		
 		windowManager.startManager()
         windowManager.playerTracker.window?.delegate = self
@@ -2351,21 +2371,15 @@ class Game: NSObject, PowerEventHandler {
 
                 // Wait for the game to fade in
                 Thread.sleep(forTimeInterval: 3)
+                
+                snapshotMulligan()
 
                 if let currentDeck = currentDeck {
                     let cards = player.playerEntities.filter { x in x.isInHand && !x.info.created }.compactMap({ x in x.card.dbfId})
                     let opponentClass = opponent.playerEntities.first( where: { x in x.isHero && x.isInPlay })?.card.playerClass ?? CardClass.invalid
                     
                     let hasCoin = player.hasCoin
-                    let isWild = currentFormat == .wild
-                    let isClassic = currentFormat == .classic
-                    let isTwist = currentFormat == .twist
-                    var playerStarLevel = 0
-                    if let matchInfo = matchInfo {
-                        let localPlayer = matchInfo.localPlayer
-                        let playerInfo = isClassic ? localPlayer.classicMedalInfo : isWild ? localPlayer.wildMedalInfo : isTwist ? localPlayer.twistMedalInfo : localPlayer.standardMedalInfo
-                        playerStarLevel = playerInfo.starLevel
-                    }
+                    let playerStarLevel = playerMedalInfo?.starLevel ?? 0
                     let sid = ShortIdHelper.getShortId(deck: currentDeck)
                     DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
                         let view = MulliganToastView(frame: NSRect.zero, sid: sid, ids: cards, opponent: opponentClass, coin: hasCoin, starLevel: playerStarLevel)
@@ -2409,6 +2423,7 @@ class Game: NSObject, PowerEventHandler {
             }
         } else if isConstructedMatch() {
             AppDelegate.instance().coreManager.toaster.hide()
+            snapshotOpeningHand()
         }
     }
     
@@ -3042,6 +3057,24 @@ class Game: NSObject, PowerEventHandler {
 		self.windowManager.arenaHelper.set(cards: cards)
 		self.updateArenaHelper()
 	}
+    
+    func handlePlayerSendChoices(choice: Choice) {
+        if choice.choiceType == .mulligan {
+            snapshotMulliganChoices(choice: choice)
+        }
+    }
+    
+    func snapshotOpeningHand() {
+        mulliganState?.snapshotOpeningHand()
+    }
+    
+    func snapshotMulliganChoices(choice: Choice) {
+        mulliganState?.snapshotMulliganChoices(choice: choice)
+    }
+    
+    func snapshotMulligan() {
+        mulliganState?.snapshotMulligan()
+    }
 }
 
 // MARK: NSWindowDelegate functions

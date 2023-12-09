@@ -167,7 +167,7 @@ class BattlegroundsTierDetailsView: NSStackView {
                 }
             }
         }
-        var spells: [CardBar] = Cards.battlegroundsSpells.filter {
+        let spells: [CardBar] = Cards.battlegroundsSpells.filter {
             return $0.techLevel == tier
         }.map { inCard in
             let card = Card()
@@ -226,7 +226,7 @@ class BattlegroundsTierDetailsView: NSStackView {
             }
         }
         cardBars = cardBars.sorted(by: {(a: CardBar, b: CardBar) -> Bool in
-            var groupA = a.sortingGroup
+            let groupA = a.sortingGroup
             var nameA: String
             if let card = a.card {
                 nameA = card.name
@@ -235,7 +235,7 @@ class BattlegroundsTierDetailsView: NSStackView {
             } else {
                 nameA = a.playerName!
             }
-            var groupB = b.sortingGroup
+            let groupB = b.sortingGroup
             var nameB: String
             if let card = b.card {
                 nameB = card.name

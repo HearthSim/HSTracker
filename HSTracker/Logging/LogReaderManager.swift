@@ -19,6 +19,7 @@ final class LogReaderManager {
     let rachelleHandler = RachelleHandler()
 	let arenaHandler: LogEventParser
 	let loadingScreenHandler: LogEventParser
+    let choicesHandler: ChoicesHandler
 
     private let powerLog: LogReader
     private let rachelle: LogReader
@@ -62,6 +63,7 @@ final class LogReaderManager {
 		loadingScreenHandler = LoadingScreenHandler(with: coreManager)
 		powerGameStateParser = PowerGameStateParser(with: coreManager.game)
 		arenaHandler = ArenaHandler(with: coreManager)
+        choicesHandler = ChoicesHandler(with: coreManager.game)
 		
         let plReader = LogReaderInfo(name: .power,
                                      startsWithFilters: ["PowerTaskList.DebugPrintPower", "GameState."],
@@ -172,6 +174,10 @@ final class LogReaderManager {
         case .power:
             if line.content.hasPrefix("GameState.") {
                 coreManager.game.add(powerLog: line)
+                if line.content.hasPrefix("GameState.SendChoices") ||
+                    line.content.hasPrefix("GameState.DebugPrintEntitiesChosen") {
+                    self.choicesHandler.handle(logLine: line)
+                }
             } else {
                 self.powerGameStateParser.handle(logLine: line)
             }
