@@ -21,6 +21,7 @@ class BoardCard: IBoardEntity {
     private(set) var taunt = false
     private(set) var charge = false
     private(set) var windfury = false
+    private(set) var megaWindfury = false
     private(set) var cardType = ""
     
     private(set) var name = ""
@@ -29,6 +30,14 @@ class BoardCard: IBoardEntity {
     private(set) var include = false
     
     private(set) var attacksThisTurn = 0
+    private var attacksPerTurn: Int {
+        if megaWindfury {
+            return 4
+        } else if windfury {
+            return 2
+        }
+        return 1
+    }
     private(set) var exhausted = false
     private(set) var dormant = false
     private(set) var titan = false
@@ -51,6 +60,7 @@ class BoardCard: IBoardEntity {
         _frozen = entity[.frozen] == 1
         charge = entity[.charge] == 1
         windfury = entity[.windfury] == 1
+        megaWindfury = (entity.cardId == CardIds.NonCollectible.Neutral.MimironsHead_V07Tr0NToken || entity.cardId == CardIds.Collectible.Shaman.WalkingMountain)
         attacksThisTurn = entity[.num_attacks_this_turn]
         dormant = entity[.dormant] == 1
         titan = entity[.titan] == 1
@@ -85,22 +95,13 @@ class BoardCard: IBoardEntity {
     }
     
     private func calculateAttack(active: Bool, isWeapon: Bool) -> Int {
-        // V-07-TR-0N is a special case Mega-Windfury
-        if !cardId.isBlank && cardId == "GVG_111t" {
-            return V07TRONAttack(active: active)
-        }
+        var remainingAttacks = max(attacksPerTurn - (active ? attacksThisTurn : 0), 0)
         
-        // for weapons check for windfury and number of hits left
         if isWeapon {
-            if windfury && health >= 2 && attacksThisTurn == 0 {
-                return _stdAttack * 2
-            }
+            // for weapons, clamp remaining attacks to health
+            remainingAttacks = min(remainingAttacks, health)
         }
-            // for minions with windfury that haven't already attacked, double attack
-        else if windfury && (!active || attacksThisTurn == 0) {
-            return _stdAttack * 2
-        }
-        return _stdAttack
+        return remainingAttacks * _stdAttack
     }
     
     private func isAbleToAttack(active: Bool, isWeapon: Bool) -> Bool {
@@ -123,18 +124,5 @@ class BoardCard: IBoardEntity {
             return (!windfury || attacksThisTurn < 2) && (windfury || attacksThisTurn < 1)
         }
         return true
-    }
-    
-    private func V07TRONAttack(active: Bool) -> Int {
-        guard active else {
-            return _stdAttack * 4
-        }
-    
-        switch attacksThisTurn {
-        case 0: return _stdAttack * 4
-        case 1: return _stdAttack * 3
-        case 2: return _stdAttack * 2
-        default: return _stdAttack
-        }
     }
 }

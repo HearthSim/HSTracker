@@ -735,6 +735,7 @@ extension CardIds.NonCollectible {
         static let WhatAreTheOdds = "BG27_Anomaly_101"
         static let TramMechanic_BarrelOfSludgeToken = "WW_044t"
         static let MiracleSalesman_SnakeOilToken = "WW_331t"
+        static let MimironsHead_V07Tr0NToken = "GVG_111t"
     }
 }
 
