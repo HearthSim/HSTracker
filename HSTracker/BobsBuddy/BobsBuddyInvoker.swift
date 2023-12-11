@@ -720,6 +720,14 @@ class BobsBuddyInvoker {
             questData.rewardCardId = reward.info.latestCardId
             MonoHelper.addToList(list: playerQuests, element: questData)
         }
+        let playerObjectives = input.playerObjectives
+        for objective in game.player.objectives {
+            MonoHelper.addToList(list: playerObjectives, element: simulator.objectiveFactory.create(cardId: objective.cardId, controlledByPlayer: true))
+        }
+        let opponentObjectives = input.opponentObjectives
+        for objective in game.opponent.objectives {
+            MonoHelper.addToList(list: opponentObjectives, element: simulator.objectiveFactory.create(cardId: objective.cardId, controlledByPlayer: false))
+        }
         
         let target = input.playerSecrets
         for secret in game.player.secrets {

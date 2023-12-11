@@ -11,14 +11,14 @@ import Foundation
 class SimulatorProxy: MonoHandle, MonoClassInitializer {
     static var _class: OpaquePointer?
     static var _minionFactory: OpaquePointer!
-
+    
     static var _members = [String: OpaquePointer]()
     
     static func initialize() {
         if SimulatorProxy._class == nil {
             SimulatorProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Simulation", name: "Simulator")
             
-            initializeFields(fields: [ "MinionFactory", "AnomalyFactory" ])
+            initializeFields(fields: [ "MinionFactory", "AnomalyFactory", "ObjectiveFactory" ])
         }
     }
     
@@ -36,10 +36,13 @@ class SimulatorProxy: MonoHandle, MonoClassInitializer {
     required init(obj: UnsafeMutablePointer<MonoObject>?) {
         fatalError("init(obj:) has not been implemented")
     }
-
+    
     @MonoHandleField(field: "MinionFactory", owner: SimulatorProxy.self)
     var minionFactory: MinionFactoryProxy
     
     @MonoHandleField(field: "AnomalyFactory", owner: SimulatorProxy.self)
     var anomalyFactory: AnomalyFactoryProxy
+    
+    @MonoHandleField(field: "ObjectiveFactory", owner: SimulatorProxy.self)
+    var objectiveFactory: ObjectiveFactoryProxy
 }

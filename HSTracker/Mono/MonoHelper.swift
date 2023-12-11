@@ -258,27 +258,27 @@ class MonoHelper {
     static var _monoInstance: OpaquePointer? // MonoDomain
     static var _assembly: OpaquePointer? // MonoClass
     static var _image: OpaquePointer? // MonoImage
+    
+    /// Invokes a given closure with a buffer containing all metaclasses known to the Obj-C
+    /// runtime. The buffer is only valid for the duration of the closure call.
+    static func withAllClasses<R>(
+      _ body: (UnsafeBufferPointer<AnyClass>) throws -> R
+    ) rethrows -> R {
 
-    static let monoClasses: [MonoClassInitializer.Type] = [ BrukanInvocationDeathrattles.self,
-                                                            GenericDeathrattles.self,
-                                                            HeroPowerDataProxy.self,
-                                                            InputProxy.self,
-                                                            MinionFactoryProxy.self,
-                                                            MinionProxy.self,
-                                                            OutputProxy.self,
-                                                            QuestDataProxy.self,
-                                                            ReplicatingMenace.self,
-                                                            SimulatorProxy.self,
-                                                            SimulationRunnerProxy.self,
-                                                            CardEntityProxy.self,
-                                                            BloodGemProxy.self,
-                                                            SpellCardEntityProxy.self,
-                                                            UnknownCardEntityProxy.self,
-                                                            MinionCardEntityProxy.self,
-                                                            AnomalyProxy.self,
-                                                            AnomalyFactoryProxy.self]
+      var count: UInt32 = 0
+      let classListPtr = objc_copyClassList(&count)
+      defer {
+        free(UnsafeMutableRawPointer(classListPtr))
+      }
+      let classListBuffer = UnsafeBufferPointer(
+        start: classListPtr, count: Int(count)
+      )
+
+      return try body(classListBuffer)
+    }
     
     static func initialize() {
+        let monoClasses = withAllClasses { $0.compactMap { $0 as? MonoClassInitializer.Type } }
         for cl in monoClasses {
             cl.initialize()
         }
@@ -421,7 +421,13 @@ class MonoHelper {
             test.addSecretFromDbfid(id: Int32(Cards.any(byId: "TB_Bacon_Secrets_12")?.dbfId ?? 0), target: playerSecrets)
             logger.debug("Opponent HP \(test.opponentHeroPower.cardId)")
             //            let oppSecrets = test.getOpponentSecrets()
-            //            test.addSecretFromDbfid(id: Int32(Cards.any(byId: "TB_Bacon_Secrets_02")?.dbfId ?? 0), target: oppSecrets)
+            //            test.addSecretFromDbfid(id: Int32(Cards.any(byId: "TB_Bacon_Secrets_02")?.dbfId ?? 0), target: oppSecrets)            
+//            let playerObjectives = test.playerObjectives
+//            for objective in ["BG28_509"] {
+//                let obj = sim.objectiveFactory.create(cardId: objective, controlledByPlayer: true)
+//                MonoHelper.addToList(list: playerObjectives, element: obj)
+//            }
+
             let races: [Race] = [ Race.beast, Race.mechanical, Race.dragon, Race.murloc ]
             
             test.addAvailableRaces(races: races)
