@@ -1,3 +1,16 @@
+# 2.6.3
+## New
+- Updated for Hearthstone 28.2.1
+- Added Battlegrounds spells to the Battlegrounds minion list overlay!
+## Fixes
+- Fixed hero picking overlay not working
+- Fixed an issue where the attack counters would not correctly handle Walking Mountain.
+## Bob's Buddy
+- Added support for spell triggers during combat (such as extra battlecries/deathrattles and start of combat effects).
+- Fixed an issue where Audacious Anchor could crash the simulation.
+- Fixed an issue where Battlecries from Rylak Metalhead were not simulated correctly after being triggered by Hawkstrider Herald.
+- Fixed various simulation issues related to recently introduced and updated cards.
+
 # 2.6.2
 ## New
 - Updated for Hearthstone 28.2.0
