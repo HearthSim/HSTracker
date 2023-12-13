@@ -381,6 +381,7 @@ enum GameTag: Int, WrappableEnum, CaseIterable, Codable {
     dont_show_in_history = 2015,
     gametag_2022 = 2022,
     bacon_skin = 2038,
+    gametag_2088 = 2088,
     bacon_combat_damage_cap = 2089,
     lettuce_show_opposing_fake_hand = 2224,
     objective = 2311,

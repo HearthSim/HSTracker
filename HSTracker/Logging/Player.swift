@@ -105,7 +105,7 @@ final class Player {
     var playedSpellSchools = Set<SpellSchool>()
 
     var hasCoin: Bool {
-        return hand.any { $0.cardId == CardIds.NonCollectible.Neutral.TheCoinBasic }
+        return hand.any { $0.isTheCoin }
     }
 
     var handCount: Int {

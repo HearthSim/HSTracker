@@ -63,6 +63,10 @@ class Entity {
         return has(tag: .current_player)
     }
     
+    var isTheCoin: Bool {
+        return cardId == CardIds.NonCollectible.Neutral.TheCoinBasic || (isSpell && self[.gametag_2088] == 1)
+    }
+    
     func isInZone(zone: Zone) -> Bool {
         if zone.rawValue < 0 {
             return false

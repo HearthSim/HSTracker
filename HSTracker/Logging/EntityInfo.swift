@@ -49,8 +49,7 @@ class EntityInfo {
             return .none
         }
 
-        if _entity.cardId == CardIds.NonCollectible.Neutral.TheCoinBasic || _entity.cardId ==
-            CardIds.NonCollectible.Neutral.TradePrinceGallywix_GallywixsCoinToken {
+        if _entity.isTheCoin {
             return .coin
         }
         if returned {
