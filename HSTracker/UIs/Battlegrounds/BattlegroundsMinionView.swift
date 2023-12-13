@@ -51,6 +51,7 @@ class BattlegroundsMinionView: NSView {
         let legendary = entity.card.rarity == Rarity.legendary
         let poisonous = entity.has(tag: GameTag.poisonous)
         let divineShield = entity.has(tag: GameTag.divine_shield)
+        let venomous = entity.has(tag: GameTag.venomous)
         
         if taunt, let tauntImage = NSImage(named: "taunt\(premium)") {
             tauntImage.draw(in: rect)
@@ -89,6 +90,10 @@ class BattlegroundsMinionView: NSView {
         
         if poisonous, let poisonousImage = NSImage(named: "poisonous") {
             poisonousImage.draw(in: rect)
+        }
+        
+        if venomous, let venomousImage = NSImage(named: "venomous") {
+            venomousImage.draw(in: rect)
         }
         
         if divineShield, let divineShieldImage = NSImage(named: "divine-shield") {
