@@ -55,6 +55,9 @@ class BattlegroundsQuestPickingViewModel: ViewModel {
     @available(macOS 10.15.0, *)
     func onBattlegroundsQuest(questEntity: Entity) async {
         logger.debug("Quest: \(questEntity)")
+        if !questEntity.hasCardId {
+            return
+        }
         _entities.append(questEntity)
         if _entities.count == expectedQuestCount() {
             Task.init {
