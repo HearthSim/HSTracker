@@ -2116,6 +2116,8 @@ class Game: NSObject, PowerEventHandler {
 
         if player == .player && !isInMenu {
             if isBattlegroundsMatch() {
+                windowManager.battlegroundsHeroPicking.viewModel.reset()
+                windowManager.show(controller: windowManager.battlegroundsHeroPicking, show: false)
                 OpponentDeadForTracker.shoppingStarted(game: self)
                 if playerTurn.turn > 1 {
                     BobsBuddyInvoker.instance(gameId: gameId, turn: turnNumber() - 1)?.startShopping()
