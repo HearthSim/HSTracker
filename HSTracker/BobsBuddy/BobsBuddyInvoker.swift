@@ -304,14 +304,26 @@ class BobsBuddyInvoker {
         }
     }
     
-    func startShopping(validate: Bool = true) {
+    func startShopping(isGameOver: Bool = true) {
+        if !shouldRun() {
+            return
+        }
+        logger.debug("\(_instanceKey)")
         if state == .shopping {
-            logger.debug("Already in shopping state. Exiting")
+            logger.debug("\(_instanceKey) already in shopping state. Exiting")
             return
         }
         state = .shopping
-        BobsBuddyInvoker.bobsBuddyDisplay.setState(st: .shopping)
-        logger.debug("Setting UI state to shopping")
+        if hasErrorState() {
+            return
+        }
+        if isGameOver {
+            BobsBuddyInvoker.bobsBuddyDisplay.setState(st: .gameOver)
+            logger.debug("Setting UI state to GameOver")
+        } else {
+            BobsBuddyInvoker.bobsBuddyDisplay.setState(st: .shopping)
+            logger.debug("Setting UI state to shopping")
+        }
         validateSimulationResult()
     }
     

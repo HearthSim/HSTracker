@@ -108,13 +108,17 @@ class BobsBuddyPanel: OverWindowController {
         if state == .combat {
             clearErrorState()
             showResults(show: Settings.showBobsBuddyDuringCombat)
-        } else if state == .shopping {
+        } else if state == .shopping || state == .gameOver {
             if !Settings.showBobsBuddyDuringShopping {
+                showResults(show: true)
+            } else if showingResults {
                 // If the user has disabled the "Show During Shopping" setting we would usually hide Bob's Buddy here.
-                // However if simulation was delayed (e.g. due to a secret) AND the user left the panel expanded during combat, keep it expanded.
-                showResults(show: lastState == .combatWithoutSimulation)
+                // However we want to keep the panel expanded if the user left it expanded during combat and either:
+                // - the game has ended (so we don't hide it again on the results screen), or
+                // - the previous simulation was deferred (so that the user can see the result).
+                showResults(show: state == .gameOver || lastState == .combatWithoutSimulation)
             }
-        } else if state == .combatWithoutSimulation {
+        } else {
             showResults(show: false)
         }
         

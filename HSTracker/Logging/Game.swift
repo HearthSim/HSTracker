@@ -1902,7 +1902,7 @@ class Game: NSObject, PowerEventHandler {
         updateTurnCounter(turn: 1)
         
         if isBattlegroundsMatch() {
-            BobsBuddyInvoker.instance(gameId: gameId, turn: turnNumber())?.startShopping(validate: !wasConceded)
+            BobsBuddyInvoker.instance(gameId: gameId, turn: turnNumber())?.startShopping(isGameOver: true)
             OpponentDeadForTracker.resetOpponentDeadForTracker()
             DispatchQueue.main.async {
                 self.windowManager.battlegroundsTierOverlay.tierOverlay.reset()
