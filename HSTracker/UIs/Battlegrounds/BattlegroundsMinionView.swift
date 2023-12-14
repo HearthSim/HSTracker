@@ -46,12 +46,15 @@ class BattlegroundsMinionView: NSView {
         
         let isPremium = entity.has(tag: GameTag.premium)
         let premium = isPremium ? "_premium" : ""
+        let reborn = entity.has(tag: GameTag.reborn)
         let taunt = entity.has(tag: GameTag.taunt)
         let deathrattle = entity.has(tag: GameTag.deathrattle)
         let legendary = entity.card.rarity == Rarity.legendary
         let poisonous = entity.has(tag: GameTag.poisonous)
         let divineShield = entity.has(tag: GameTag.divine_shield)
         let venomous = entity.has(tag: GameTag.venomous)
+        // always hide for now, seems like TRIGGER_VISUAL is a bit too common to be useful
+//        let trigger = entity.has(tag: GameTag.trigger_visual)
         
         if taunt, let tauntImage = NSImage(named: "taunt\(premium)") {
             tauntImage.draw(in: rect)
@@ -80,13 +83,21 @@ class BattlegroundsMinionView: NSView {
             borderImage.draw(in: rect)
         }
         
-        if deathrattle, let deathrattleImage = NSImage(named: "deathrattle") {
-            deathrattleImage.draw(in: rect)
+        if reborn, let rebornImage = NSImage(named: "reborn") {
+            rebornImage.draw(in: rect)
         }
         
         if legendary, let legendaryImage = NSImage(named: "legendary\(premium)") {
             legendaryImage.draw(in: rect)
         }
+        
+        if deathrattle, let deathrattleImage = NSImage(named: "deathrattle") {
+            deathrattleImage.draw(in: rect)
+        }
+        
+//        if trigger, let triggerImage = NSImage(named: "trigger") {
+//            triggerImage.draw(in: rect)
+//        }
         
         if poisonous, let poisonousImage = NSImage(named: "poisonous") {
             poisonousImage.draw(in: rect)
@@ -94,6 +105,10 @@ class BattlegroundsMinionView: NSView {
         
         if venomous, let venomousImage = NSImage(named: "venomous") {
             venomousImage.draw(in: rect)
+        }
+        
+        if let statsImage = NSImage(named: "stats\(premium)") {
+            statsImage.draw(in: rect)
         }
         
         if divineShield, let divineShieldImage = NSImage(named: "divine-shield") {
