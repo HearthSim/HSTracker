@@ -24,6 +24,6 @@ class TurnCounter: OverWindowController {
             return
         }
 
-        turnLabel = String(format: NSLocalizedString("Turn %d", comment: ""), turn)
+        turnLabel = String(format: NSLocalizedString("Turn %d", comment: ""), max(turn, 1))
     }
 }
