@@ -651,6 +651,10 @@ class Game: NSObject, PowerEventHandler {
             if isBG && Settings.showTurnCounter &&
                 ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
                  || !Settings.hideAllWhenGameInBackground) && !self.hideBattlegroundsTurn {
+                let turn = self.turnNumber()
+                if turn > 0 {
+                    self.windowManager.turnCounter.setTurnNumber(turn: turn)
+                }
                 self.windowManager.show(controller: self.windowManager.turnCounter, show: true, frame: rect, title: nil, overlay: true)
             } else {
                 self.windowManager.show(controller: self.windowManager.turnCounter, show: false)
@@ -1732,6 +1736,31 @@ class Game: NSObject, PowerEventHandler {
             }
         }
     }
+    
+    private var _lastReconnectStartTimestamp: Date = Date.distantPast
+    func handleGameReconnect(timestamp: Date) {
+        logger.info("Joined after mulligan, assuming reconnect.")
+
+        if DateInterval(start: _lastReconnectStartTimestamp, end: Date()).duration < 5.0 { // game already started
+            return
+        }
+        _lastReconnectStartTimestamp = timestamp
+
+        for _ in 0 ..< 20 where gameEntity == nil || currentMode != .gameplay {
+            Thread.sleep(forTimeInterval: 0.5)
+        }
+
+        if gameEntity == nil || currentMode != .gameplay {
+            return
+        }
+
+        if isBattlegroundsMatch() {
+            if (gameEntity?[.step] ?? 0) > Step.begin_mulligan.rawValue {
+                windowManager.battlegroundsSession.update()
+                updateBattlegroundsOverlays()
+            }
+        }
+    }
 
     private func adventureRestart() {
         // The game end is not logged in PowerTaskList
@@ -2116,11 +2145,13 @@ class Game: NSObject, PowerEventHandler {
 
         if player == .player && !isInMenu {
             if isBattlegroundsMatch() {
-                windowManager.battlegroundsHeroPicking.viewModel.reset()
-                windowManager.show(controller: windowManager.battlegroundsHeroPicking, show: false)
-                OpponentDeadForTracker.shoppingStarted(game: self)
-                if playerTurn.turn > 1 {
-                    BobsBuddyInvoker.instance(gameId: gameId, turn: turnNumber() - 1)?.startShopping()
+                DispatchQueue.main.async { [self] in
+                    self.windowManager.battlegroundsHeroPicking.viewModel.reset()
+                    self.windowManager.show(controller: self.windowManager.battlegroundsHeroPicking, show: false)
+                    OpponentDeadForTracker.shoppingStarted(game: self)
+                    if playerTurn.turn > 1 {
+                        BobsBuddyInvoker.instance(gameId: self.gameId, turn: self.turnNumber() - 1)?.startShopping()
+                    }
                 }
             }
 

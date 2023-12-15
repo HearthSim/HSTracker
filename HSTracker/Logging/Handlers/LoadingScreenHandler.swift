@@ -181,6 +181,8 @@ struct LoadingScreenHandler: LogEventParser {
         } else if logLine.line.contains("Gameplay.Start") {
             // uncommenting this line will prevent powerlog reader to work properly
             coreManager.game.reset()
+        } else if logLine.line.contains("MulliganManager.HandleGameStart") && logLine.line.contains("IsPastBeginPhase()=True") {
+            coreManager.game.handleGameReconnect(timestamp: logLine.time.date)
         }
     }
 }

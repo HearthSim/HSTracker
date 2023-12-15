@@ -110,9 +110,9 @@ class BattlegroundsSession: OverWindowController {
         }
         let game = AppDelegate.instance().coreManager.game
         let unavail = game.unavailableRaces
-        if !game.gameEnded, let races = unavail, races.count >= 3 {
-            logger.debug("Updating with \(races)")
-            let sorted = races.sorted(by: { (a, b) in NSLocalizedString(a.rawValue, comment: "") < NSLocalizedString(b.rawValue, comment: "") })
+        if !game.gameEnded, let unavailableRaces = unavail, unavailableRaces.count >= 5 && unavailableRaces.count != Database.battlegroundRaces.count {
+            logger.debug("Updating with \(unavailableRaces)")
+            let sorted = unavailableRaces.sorted(by: { (a, b) in NSLocalizedString(a.rawValue, comment: "") < NSLocalizedString(b.rawValue, comment: "") })
             tribe1.setRace(newRace: sorted[0])
             tribe2.setRace(newRace: sorted[1])
             tribe3.setRace(newRace: sorted[2])

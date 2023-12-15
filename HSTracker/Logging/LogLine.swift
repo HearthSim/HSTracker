@@ -40,7 +40,7 @@ class LogDateFormatter: DateFormatter {
 }
 
 struct LogDate: Comparable, Equatable, Hashable {
-	fileprivate let date: Date
+    let date: Date
 	let subseconds: Int
 	
 	var timeIntervalSinceNow: TimeInterval {
