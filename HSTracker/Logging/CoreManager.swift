@@ -721,4 +721,42 @@ final class CoreManager: NSObject {
 		logger.error("Auto-importing deck of \(mode) is not supported")
 		return nil
 	}
+    
+    func autoSelectTemplateDeckById(deckId: Int) {
+        if let selectedDeck = fromTemplateDeck(deckId: deckId) {
+            game.set(activeDeck: selectedDeck)
+            game.playerDeckAutodetected = true
+        }
+    }
+    
+    private func fromTemplateDeck(deckId: Int) -> Deck? {
+        let deck = getTemplateDeck(deckId: deckId)
+        return deck
+    }
+    
+    private func getTemplateDeck(deckId: Int) -> Deck? {
+        guard let deck = MirrorHelper.getTemplateDeckById(deckId: deckId) else {
+            return nil
+        }
+        
+        let hero = CardClass.allCases[deck.clazz.intValue]
+
+        var ret = Deck()
+        ret.name = deck.title
+        ret.heroId = CardClass.allCases[deck.clazz.intValue].defaultHeroCardId
+        
+        let tmpCards = Dictionary(grouping: deck.cards, by: { x in x }).compactMap { (key: NSNumber, value: [NSNumber]) -> RealmCard? in
+            guard let card = Cards.by(dbfId: key.intValue, collectible: false) else {
+                return nil
+            }
+            let res = RealmCard()
+            res.id = card.id
+            res.count = value.count
+            return res
+        }
+        for tmpCard in tmpCards {
+            ret.cards.append(tmpCard)
+        }
+        return ret
+    }
 }

@@ -31,20 +31,6 @@ struct RemoteConfigCard: Codable {
     var count: Int?
 }
 
-struct WhizbangDeck: Codable {
-    var title: String?
-    var card_class: Int?
-    var deck_id: Int?
-    var cards: [RemoteConfigCard]?
-    
-    enum CodingKeys: String, CodingKey {
-        case title
-        case card_class = "class"
-        case deck_id
-        case cards
-    }
-}
-
 struct TagOverride: Codable {
     var dbf_id: Int
     var tag: Int // not using GameTag as it is not 100% up to date
@@ -96,7 +82,6 @@ struct ConfigData: Codable {
     var news: NewsData?
     var collection_banner: CollectionBannerData?
     var arena: ArenaData?
-    var whizbang_decks: [WhizbangDeck]?
     var battlegrounds_short_names: [CardShortName]?
     var battlegrounds_tag_overrides: [TagOverride]?
     var bobs_buddy: BobsBuddyData?

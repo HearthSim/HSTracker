@@ -214,7 +214,7 @@ struct TagChangeActions {
         if !entity.isPlayer(eventHandler: eventHandler) {
             return
         }
-        //DeckManager.AutoSelectDeckById(game, value);
+        AppDelegate.instance().coreManager.autoSelectTemplateDeckById(deckId: value)
     }
     
     private func creatorChanged(eventHandler: PowerEventHandler, id: Int, value: Int) {

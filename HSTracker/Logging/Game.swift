@@ -749,8 +749,6 @@ class Game: NSObject, PowerEventHandler {
     }
 
     func updateCardHud() {
-        tryToDetectWhizbangDeck()
-
         DispatchQueue.main.async { [unowned(unsafe) self] in
             
             let tracker = self.windowManager.cardHudContainer
@@ -963,7 +961,7 @@ class Game: NSObject, PowerEventHandler {
     var currentTurn = 0
     var lastId = 0
     var gameTriggerCount = 0
-	private var playerDeckAutodetected: Bool = false
+    var playerDeckAutodetected: Bool = false
     private var hasValidDeck = false
     private var powerLog: [LogLine] = []
     func add(powerLog: LogLine) {
@@ -1500,67 +1498,6 @@ class Game: NSObject, PowerEventHandler {
         }
     }
 
-    private func tryToDetectWhizbangDeck() {
-        if hasValidDeck {
-            return
-        }
-        
-        guard let playerEntity = player.entity else {
-            return
-        }
-        
-        if playerEntity[.whizbang_deck_id] == 0 {
-            // player is not using a whizbang deck
-            return
-        }
-        
-        guard let candidates = MirrorHelper.getTemplateDecks() else {
-            return
-        }
-        
-        let mandatoryEntities = entities.values.filter({ e in
-            return !e.info.created
-                && (e.isMinion || e.isSpell || e.isWeapon)
-                && (e.info.originalController == player.id)
-        })
-        
-        if mandatoryEntities.count < 3 {
-            // mulligan has not happened yet, come back later
-            return
-        }
-
-        guard let templateDeck = candidates.first(where: { mirrorDeck in
-            var mandatoryCards: [String: Int] = [:]
-
-            mandatoryEntities.forEach {
-                let oldValue = mandatoryCards[$0.cardId] ?? 0
-                mandatoryCards[$0.cardId] = oldValue + 1
-            }
-            
-            for (cardId, count) in mandatoryCards where mirrorDeck.cards.first(where: { $0.cardId == cardId })?.count.intValue ?? 0 < count {
-                return false
-            }
-            
-            return true
-        }) else {
-            // looks like it's not a Whizbang deck... it shouldn't harm to come back later
-            // but I don't expect it to work way better...
-            return
-        }
-        
-        let deck = Deck()
-        templateDeck.cards.forEach {
-            let realmCard = RealmCard()
-            realmCard.id = $0.cardId
-            realmCard.count = $0.count.intValue
-            deck.cards.append(realmCard)
-        }
-        
-        set(activeDeck: deck)
-        playerDeckAutodetected = true
-        hasValidDeck = true
-        logger.info("has Valid Whizbang Deck")
-    }
 	func set(activeDeckId: String?, autoDetected: Bool) {
 		Settings.activeDeck = activeDeckId
 		playerDeckAutodetected = autoDetected
