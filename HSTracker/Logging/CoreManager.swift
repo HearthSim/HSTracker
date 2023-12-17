@@ -739,9 +739,7 @@ final class CoreManager: NSObject {
             return nil
         }
         
-        let hero = CardClass.allCases[deck.clazz.intValue]
-
-        var ret = Deck()
+        let ret = Deck()
         ret.name = deck.title
         ret.heroId = CardClass.allCases[deck.clazz.intValue].defaultHeroCardId
         
