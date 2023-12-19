@@ -736,6 +736,8 @@ extension CardIds.NonCollectible {
         static let TramMechanic_BarrelOfSludgeToken = "WW_044t"
         static let MiracleSalesman_SnakeOilToken = "WW_331t"
         static let MimironsHead_V07Tr0NToken = "GVG_111t"
+        static let RecurringNightmare_NightmareInsideEnchantment = "BG26_055e"
+        static let RecurringNightmare_NightmareInside = "BG26_055_Ge"
     }
 }
 

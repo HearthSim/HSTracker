@@ -486,6 +486,7 @@
 		B8591FF82B24919F00B907A4 /* MulliganState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FF72B24919F00B907A4 /* MulliganState.swift */; };
 		B8591FFA2B24F7C900B907A4 /* ObjectiveFactoryProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FF92B24F7C900B907A4 /* ObjectiveFactoryProxy.swift */; };
 		B8591FFC2B24F87C00B907A4 /* ObjectiveProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FFB2B24F87C00B907A4 /* ObjectiveProxy.swift */; };
+		B8591FFE2B31328A00B907A4 /* RecurringNightmare.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FFD2B31328900B907A4 /* RecurringNightmare.swift */; };
 		B85A0D54272CDEFE006D2648 /* MercenariesPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85A0D53272CDEFE006D2648 /* MercenariesPreferences.swift */; };
 		B85A0D55272CE24A006D2648 /* MercenariesPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B85A0D51272CDDFB006D2648 /* MercenariesPreferences.xib */; };
 		B85A0D56272CE24B006D2648 /* MercenariesPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B85A0D51272CDDFB006D2648 /* MercenariesPreferences.xib */; };
@@ -1183,6 +1184,7 @@
 		B8591FF72B24919F00B907A4 /* MulliganState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulliganState.swift; sourceTree = "<group>"; };
 		B8591FF92B24F7C900B907A4 /* ObjectiveFactoryProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectiveFactoryProxy.swift; sourceTree = "<group>"; };
 		B8591FFB2B24F87C00B907A4 /* ObjectiveProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectiveProxy.swift; sourceTree = "<group>"; };
+		B8591FFD2B31328900B907A4 /* RecurringNightmare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurringNightmare.swift; sourceTree = "<group>"; };
 		B85A0D52272CDDFB006D2648 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = HSTracker/UIs/Preferences/Base.lproj/MercenariesPreferences.xib; sourceTree = "<group>"; };
 		B85A0D53272CDEFE006D2648 /* MercenariesPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MercenariesPreferences.swift; sourceTree = "<group>"; };
 		B85F1AC8258A558200A6F8C3 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
@@ -2178,6 +2180,7 @@
 				B8591FFB2B24F87C00B907A4 /* ObjectiveProxy.swift */,
 				B8DC120424EC79370088A755 /* OutputProxy.swift */,
 				B82AE60128BED413004A8FE0 /* QuestDataProxy.swift */,
+				B8591FFD2B31328900B907A4 /* RecurringNightmare.swift */,
 				B8449A032781C7360094E5B3 /* ReplicatingMenace.swift */,
 				B8DC11F324EACDB80088A755 /* SimulationRunner.swift */,
 				B82F4EAF24E32C3000905024 /* SimulatorProxy.swift */,
@@ -2995,6 +2998,7 @@
 				43C9EF291E9C1DED00D17F2A /* ArenaHelperSync.swift in Sources */,
 				B8AC9A23293D48E10047F438 /* OverlayMessage.swift in Sources */,
 				B8AF9330282D4A7C00864934 /* BattlegroundsSession.swift in Sources */,
+				B8591FFE2B31328A00B907A4 /* RecurringNightmare.swift in Sources */,
 				43F4D0491EB7A23E006B4479 /* HeroPower.swift in Sources */,
 				B8B61C242AEBEB2C00990359 /* RemoteArenaSettings.swift in Sources */,
 				439DD8FA1DB236A4004EBE47 /* ThemeElement.swift in Sources */,

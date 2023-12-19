@@ -593,6 +593,10 @@ class BobsBuddyInvoker {
                 minion.addDeathrattle(deathrattle: BrukanInvocationDeathrattles.lightning())
             case CardIds.NonCollectible.Neutral.Wingmen_WingmenEnchantmentTavernBrawl:
                 minion.hasWingmen = true
+            case CardIds.NonCollectible.Neutral.RecurringNightmare_NightmareInsideEnchantment:
+                minion.addDeathrattle(deathrattle: RecurringNightmare.summonDeathrattle(golden: false))
+            case CardIds.NonCollectible.Neutral.RecurringNightmare_NightmareInside:
+                minion.addDeathrattle(deathrattle: RecurringNightmare.summonDeathrattle(golden: true))
             default:
                 break
             }
