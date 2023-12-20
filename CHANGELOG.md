@@ -1,3 +1,14 @@
+# 2.6.4
+## New
+- Updated for Hearthstone 28.2.3
+- Constructed: Improve importing of Whizbang decks
+- Battlegrounds: Added support for Venomous and Reborn to the Last Known Board and Final Board features.
+- Battlegrounds: Improved the behaviour of the Bob's Buddy panel at the end of a match.
+## Fixes
+- Constructed: Fixed an issue causing the popup with a link to the Mulligan guide sometimes incorrectly identifying the First/Coin state.
+- Battlegrounds: Fixed an issue causing the hero picking overlay and popup not disappearing when HDT was started during the hero picking phase.
+- Battlegrounds: Add missing Recurring Nightmare deathrattles for simulating combat results
+
 # 2.6.3
 ## New
 - Updated for Hearthstone 28.2.1
