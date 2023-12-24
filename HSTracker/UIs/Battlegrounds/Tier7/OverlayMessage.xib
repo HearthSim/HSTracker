@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22155" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22155"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -31,7 +31,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="98" height="25"/>
                                         <subviews>
                                             <box identifier="LogoBox" horizontalHuggingPriority="1000" boxType="custom" cornerRadius="4" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="999-OI-eGi" userLabel="LogoBox">
-                                                <rect key="frame" x="14" y="4" width="16" height="16"/>
+                                                <rect key="frame" x="0.0" y="4" width="16" height="16"/>
                                                 <view key="contentView" id="TAR-5O-UMt">
                                                     <rect key="frame" x="1" y="1" width="14" height="14"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -57,8 +57,8 @@
                                                 <color key="borderColor" red="0.21176470588235294" green="0.086274509803921567" blue="0.21568627450980393" alpha="1" colorSpace="custom" customColorSpace="deviceRGB"/>
                                                 <color key="fillColor" red="0.21176470588235294" green="0.086274509803921567" blue="0.21568627450980393" alpha="1" colorSpace="deviceRGB"/>
                                             </box>
-                                            <textField identifier="MessageLabel" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fvF-MB-w1W">
-                                                <rect key="frame" x="36" y="5" width="64" height="16"/>
+                                            <textField identifier="MessageLabel" focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fvF-MB-w1W">
+                                                <rect key="frame" x="22" y="5" width="78" height="16"/>
                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Loading..." id="P72-Yl-KOo">
                                                     <font key="font" usesAppearanceFont="YES"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
@@ -69,7 +69,6 @@
                                         <constraints>
                                             <constraint firstItem="999-OI-eGi" firstAttribute="top" secondItem="rp9-z1-sHr" secondAttribute="top" constant="5" id="EPT-mV-wrw"/>
                                             <constraint firstAttribute="bottom" secondItem="999-OI-eGi" secondAttribute="bottom" constant="4" id="QiH-YD-UGW"/>
-                                            <constraint firstItem="999-OI-eGi" firstAttribute="leading" secondItem="rp9-z1-sHr" secondAttribute="leading" constant="5" id="gEa-DE-1bW"/>
                                             <constraint firstItem="fvF-MB-w1W" firstAttribute="top" secondItem="rp9-z1-sHr" secondAttribute="top" constant="4" id="gZG-vh-SEf"/>
                                             <constraint firstAttribute="bottom" secondItem="fvF-MB-w1W" secondAttribute="bottom" constant="5" id="lnL-4K-HO3"/>
                                         </constraints>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22155" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22155"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -33,7 +33,7 @@
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g" customClass="NSPanel">
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="200" height="326"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1025"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1728" height="1079"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="200" height="326"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -59,7 +59,7 @@
                                                                 <rect key="frame" x="0.0" y="0.0" width="200" height="30"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <subviews>
-                                                                    <textField identifier="MinionsBanned" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gAn-M1-xQI" userLabel="Minions Banned">
+                                                                    <textField identifier="MinionsBanned" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gAn-M1-xQI" userLabel="Minions Banned">
                                                                         <rect key="frame" x="-2" y="6" width="204" height="18"/>
                                                                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Minions Banned" id="vrF-Hk-Z1q">
                                                                             <font key="font" metaFont="system"/>
@@ -172,7 +172,7 @@
                                                                         <real value="3.4028234663852886e+38"/>
                                                                     </customSpacing>
                                                                 </stackView>
-                                                                <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WfY-6P-It1">
+                                                                <textField hidden="YES" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WfY-6P-It1">
                                                                     <rect key="frame" x="17" y="59" width="167" height="19"/>
                                                                     <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Waiting for next game" id="Lsj-Uu-LT0">
                                                                         <font key="font" metaFont="system" size="16"/>
@@ -236,7 +236,7 @@
                                                                 <rect key="frame" x="1" y="1" width="198" height="28"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <subviews>
-                                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8yj-hs-1vo">
+                                                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8yj-hs-1vo">
                                                                         <rect key="frame" x="-2" y="6" width="202" height="16"/>
                                                                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="MMR" id="bGX-b0-wmd">
                                                                             <font key="font" metaFont="system"/>
@@ -260,7 +260,7 @@
                                                                 <stackView identifier="StackMMRA" distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a7j-tD-Dih" userLabel="StackMMRA">
                                                                     <rect key="frame" x="0.0" y="8" width="100" height="35"/>
                                                                     <subviews>
-                                                                        <textField identifier="LabelMMRA" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UlU-qf-Ucu" userLabel="LabelMMRA">
+                                                                        <textField identifier="LabelMMRA" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UlU-qf-Ucu" userLabel="LabelMMRA">
                                                                             <rect key="frame" x="-2" y="21" width="104" height="14"/>
                                                                             <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" placeholderString="Label A" id="LuU-FJ-jhe">
                                                                                 <font key="font" metaFont="smallSystem"/>
@@ -268,7 +268,7 @@
                                                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                             </textFieldCell>
                                                                         </textField>
-                                                                        <textField identifier="MMRFieldA" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3Fb-Zz-bUs" userLabel="MMRFieldA">
+                                                                        <textField identifier="MMRFieldA" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3Fb-Zz-bUs" userLabel="MMRFieldA">
                                                                             <rect key="frame" x="-2" y="0.0" width="104" height="21"/>
                                                                             <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="0" id="SEL-B1-bxP">
                                                                                 <font key="font" metaFont="system" size="18"/>
@@ -306,7 +306,7 @@
                                                                 <stackView identifier="StackMMRB" distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="afI-S2-o2l" userLabel="StackMMRB">
                                                                     <rect key="frame" x="101" y="8" width="99" height="35"/>
                                                                     <subviews>
-                                                                        <textField identifier="LabelMMRB" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1m0-eg-k4m" userLabel="LabelMMRB">
+                                                                        <textField identifier="LabelMMRB" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1m0-eg-k4m" userLabel="LabelMMRB">
                                                                             <rect key="frame" x="-2" y="21" width="103" height="14"/>
                                                                             <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" placeholderString="Label B" id="qMf-il-9Tt">
                                                                                 <font key="font" metaFont="smallSystem"/>
@@ -314,7 +314,7 @@
                                                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                             </textFieldCell>
                                                                         </textField>
-                                                                        <textField identifier="MMRFieldB" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QV0-e5-Fff" userLabel="MMRFieldB">
+                                                                        <textField identifier="MMRFieldB" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QV0-e5-Fff" userLabel="MMRFieldB">
                                                                             <rect key="frame" x="-2" y="0.0" width="103" height="21"/>
                                                                             <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="0" id="9K4-TV-luB">
                                                                                 <font key="font" metaFont="system" size="18"/>
@@ -383,7 +383,7 @@
                                                                 <rect key="frame" x="1" y="1" width="198" height="28"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <subviews>
-                                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="GSw-5J-Dfv">
+                                                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="GSw-5J-Dfv">
                                                                         <rect key="frame" x="-2" y="6" width="202" height="16"/>
                                                                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Latest Games" id="EHU-ML-UQu">
                                                                             <font key="font" metaFont="system"/>
@@ -500,7 +500,7 @@
                                                         <customView translatesAutoresizingMaskIntoConstraints="NO" id="QPM-sf-cHf" userLabel="GameEmptyState">
                                                             <rect key="frame" x="0.0" y="0.0" width="200" height="44"/>
                                                             <subviews>
-                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="geC-v5-KHP" userLabel="No games played this session.">
+                                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="geC-v5-KHP" userLabel="No games played this session.">
                                                                     <rect key="frame" x="2" y="22" width="196" height="14"/>
                                                                     <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="No games played this session." id="1mK-qe-hNf">
                                                                         <font key="font" metaFont="smallSystem"/>
@@ -508,7 +508,7 @@
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                 </textField>
-                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Byq-Yo-5Ah">
+                                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Byq-Yo-5Ah">
                                                                     <rect key="frame" x="2" y="8" width="196" height="14"/>
                                                                     <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Latest 10 games will appear here." id="laC-ik-fnr">
                                                                         <font key="font" metaFont="smallSystem"/>

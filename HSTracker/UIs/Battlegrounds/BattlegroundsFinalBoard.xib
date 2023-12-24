@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22155" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22155"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -24,7 +24,7 @@
         <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" hasShadow="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g" customClass="NSPanel">
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="378" height="125"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1025"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1728" height="1079"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="378" height="125"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -44,7 +44,7 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="376" height="25"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5kW-hS-wdJ">
+                                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5kW-hS-wdJ">
                                                         <rect key="frame" x="-2" y="4" width="380" height="17"/>
                                                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Final Board" id="1xn-s3-ScZ">
                                                             <font key="font" metaFont="system" size="14"/>
@@ -63,8 +63,8 @@
                                             <color key="borderColor" red="0.10980392156862745" green="0.12549019607843137" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="deviceRGB"/>
                                             <color key="fillColor" red="0.10980392160000001" green="0.12549019610000001" blue="0.1333333333" alpha="1" colorSpace="custom" customColorSpace="deviceRGB"/>
                                         </box>
-                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9Ih-3x-Bp7" userLabel="TimespanLabel">
-                                            <rect key="frame" x="16" y="79" width="354" height="15"/>
+                                        <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9Ih-3x-Bp7" userLabel="TimespanLabel">
+                                            <rect key="frame" x="16" y="75" width="57" height="15"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" alignment="left" title="Time ago" id="MKZ-vG-9yK">
                                                 <font key="font" metaFont="cellTitle"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
@@ -72,56 +72,91 @@
                                             </textFieldCell>
                                         </textField>
                                         <stackView identifier="MinionContainer" distribution="fill" orientation="horizontal" alignment="top" spacing="-10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GH8-fe-uyl" userLabel="MinionContainer">
-                                            <rect key="frame" x="0.0" y="0.0" width="376" height="74"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="376" height="67"/>
                                             <subviews>
                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="3Lm-w9-6sK" userLabel="minion1" customClass="BattlegroundsMinionView" customModule="HSTracker" customModuleProvider="target">
-                                                    <rect key="frame" x="8" y="8" width="60" height="66"/>
+                                                    <rect key="frame" x="8" y="1" width="60" height="66"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="60" id="RD6-8k-h9x"/>
                                                         <constraint firstAttribute="height" constant="66" id="W7O-WH-ON3"/>
                                                     </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="size" keyPath="myIntrinsicSize">
+                                                            <size key="value" width="60" height="66"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
                                                 </customView>
                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="eFM-RQ-BZ1" userLabel="minion2" customClass="BattlegroundsMinionView" customModule="HSTracker" customModuleProvider="target">
-                                                    <rect key="frame" x="58" y="8" width="60" height="66"/>
+                                                    <rect key="frame" x="58" y="1" width="60" height="66"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="66" id="Z3d-8V-OO9"/>
                                                         <constraint firstAttribute="width" constant="60" id="sw3-T6-0bd"/>
                                                     </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="size" keyPath="myIntrinsicSize">
+                                                            <size key="value" width="60" height="66"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
                                                 </customView>
                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="8j1-is-ha2" userLabel="minion3" customClass="BattlegroundsMinionView" customModule="HSTracker" customModuleProvider="target">
-                                                    <rect key="frame" x="108" y="8" width="60" height="66"/>
+                                                    <rect key="frame" x="108" y="1" width="60" height="66"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="60" id="JYf-4v-KoO"/>
                                                         <constraint firstAttribute="height" constant="66" id="Zca-nR-nxf"/>
                                                     </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="size" keyPath="myIntrinsicSize">
+                                                            <size key="value" width="60" height="66"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
                                                 </customView>
                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="CFh-w9-rNW" userLabel="minion4" customClass="BattlegroundsMinionView" customModule="HSTracker" customModuleProvider="target">
-                                                    <rect key="frame" x="158" y="8" width="60" height="66"/>
+                                                    <rect key="frame" x="158" y="1" width="60" height="66"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="66" id="DOw-Za-89a"/>
                                                         <constraint firstAttribute="width" constant="60" id="ML9-r3-5MF"/>
                                                     </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="size" keyPath="myIntrinsicSize">
+                                                            <size key="value" width="60" height="66"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
                                                 </customView>
                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="4On-Lw-10h" userLabel="minion5" customClass="BattlegroundsMinionView" customModule="HSTracker" customModuleProvider="target">
-                                                    <rect key="frame" x="208" y="8" width="60" height="66"/>
+                                                    <rect key="frame" x="208" y="1" width="60" height="66"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="66" id="1TE-iY-LYm"/>
                                                         <constraint firstAttribute="width" constant="60" id="h9H-HP-foa"/>
                                                     </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="size" keyPath="myIntrinsicSize">
+                                                            <size key="value" width="60" height="66"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
                                                 </customView>
                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="n9o-l6-pFm" userLabel="minion6" customClass="BattlegroundsMinionView" customModule="HSTracker" customModuleProvider="target">
-                                                    <rect key="frame" x="258" y="8" width="60" height="66"/>
+                                                    <rect key="frame" x="258" y="1" width="60" height="66"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="66" id="ewo-hi-H1r"/>
                                                         <constraint firstAttribute="width" constant="60" id="v6d-c8-Hyk"/>
                                                     </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="size" keyPath="myIntrinsicSize">
+                                                            <size key="value" width="60" height="66"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
                                                 </customView>
                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="w6F-l2-vdl" userLabel="minion7" customClass="BattlegroundsMinionView" customModule="HSTracker" customModuleProvider="target">
-                                                    <rect key="frame" x="308" y="8" width="60" height="66"/>
+                                                    <rect key="frame" x="308" y="1" width="60" height="66"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="60" id="5rd-BC-kkd"/>
                                                         <constraint firstAttribute="height" constant="66" id="tKi-36-uWm"/>
                                                     </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="size" keyPath="myIntrinsicSize">
+                                                            <size key="value" width="60" height="66"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
                                                 </customView>
                                             </subviews>
                                             <edgeInsets key="edgeInsets" left="8" right="8" top="0.0" bottom="8"/>
@@ -149,13 +184,8 @@
                                         <constraint firstItem="GH8-fe-uyl" firstAttribute="leading" secondItem="8bg-nT-9vt" secondAttribute="leading" id="ASo-d3-tHD"/>
                                         <constraint firstItem="9Ih-3x-Bp7" firstAttribute="leading" secondItem="8bg-nT-9vt" secondAttribute="leading" constant="18" id="Ccv-YW-M4D"/>
                                         <constraint firstAttribute="trailing" secondItem="GH8-fe-uyl" secondAttribute="trailing" id="GbF-RE-OQz"/>
-                                        <constraint firstItem="JRw-Ue-S6r" firstAttribute="top" secondItem="8bg-nT-9vt" secondAttribute="top" id="MRS-I2-DQy"/>
-                                        <constraint firstAttribute="bottom" secondItem="GH8-fe-uyl" secondAttribute="bottom" id="Sty-WB-qDO"/>
-                                        <constraint firstItem="9Ih-3x-Bp7" firstAttribute="top" secondItem="JRw-Ue-S6r" secondAttribute="bottom" constant="4" id="W5R-Tr-Rqx"/>
                                         <constraint firstItem="JRw-Ue-S6r" firstAttribute="leading" secondItem="8bg-nT-9vt" secondAttribute="leading" id="nuZ-hj-cd5"/>
-                                        <constraint firstAttribute="trailing" secondItem="9Ih-3x-Bp7" secondAttribute="trailing" constant="8" id="p9U-5R-xCa"/>
                                         <constraint firstAttribute="trailing" secondItem="JRw-Ue-S6r" secondAttribute="trailing" id="qNd-Yk-MHu"/>
-                                        <constraint firstItem="GH8-fe-uyl" firstAttribute="top" secondItem="9Ih-3x-Bp7" secondAttribute="bottom" constant="4" id="wRU-t0-CcC"/>
                                     </constraints>
                                     <visibilityPriorities>
                                         <integer value="1000"/>

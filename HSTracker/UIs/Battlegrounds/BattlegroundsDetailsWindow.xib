@@ -62,54 +62,61 @@
                                                                 <stackView distribution="fillEqually" orientation="horizontal" alignment="centerY" spacing="-20" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="c7p-gK-EOe" userLabel="BattlegroundsBoard">
                                                                     <rect key="frame" x="10" y="10" width="580" height="128"/>
                                                                     <subviews>
-                                                                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="veo-NA-so6" userLabel="BoardMinion1" customClass="BattlegroundsMinionView" customModule="HSTracker" customModuleProvider="target">
+                                                                        <customView placeholderIntrinsicWidth="100" placeholderIntrinsicHeight="110" translatesAutoresizingMaskIntoConstraints="NO" id="veo-NA-so6" userLabel="BoardMinion1" customClass="BattlegroundsMinionView" customModule="HSTracker" customModuleProvider="target">
                                                                             <rect key="frame" x="0.0" y="9" width="100" height="110"/>
-                                                                            <constraints>
-                                                                                <constraint firstAttribute="width" constant="100" id="14w-oO-Mpi"/>
-                                                                                <constraint firstAttribute="height" constant="110" id="hcG-Bt-qWF"/>
-                                                                            </constraints>
+                                                                            <userDefinedRuntimeAttributes>
+                                                                                <userDefinedRuntimeAttribute type="size" keyPath="myIntrinsicSize">
+                                                                                    <size key="value" width="100" height="110"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                            </userDefinedRuntimeAttributes>
                                                                         </customView>
-                                                                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="BGP-Dl-WHm" userLabel="BoardMinion2" customClass="BattlegroundsMinionView" customModule="HSTracker" customModuleProvider="target">
+                                                                        <customView placeholderIntrinsicWidth="100" placeholderIntrinsicHeight="110" translatesAutoresizingMaskIntoConstraints="NO" id="BGP-Dl-WHm" userLabel="BoardMinion2" customClass="BattlegroundsMinionView" customModule="HSTracker" customModuleProvider="target">
                                                                             <rect key="frame" x="80" y="9" width="100" height="110"/>
-                                                                            <constraints>
-                                                                                <constraint firstAttribute="width" constant="100" id="BJD-eO-BaG"/>
-                                                                                <constraint firstAttribute="height" constant="110" id="VJZ-Yk-G8f"/>
-                                                                            </constraints>
+                                                                            <userDefinedRuntimeAttributes>
+                                                                                <userDefinedRuntimeAttribute type="size" keyPath="myIntrinsicSize">
+                                                                                    <size key="value" width="100" height="110"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                            </userDefinedRuntimeAttributes>
                                                                         </customView>
-                                                                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="PeR-L6-KZD" userLabel="BoardMinion3" customClass="BattlegroundsMinionView" customModule="HSTracker" customModuleProvider="target">
+                                                                        <customView placeholderIntrinsicWidth="100" placeholderIntrinsicHeight="110" translatesAutoresizingMaskIntoConstraints="NO" id="PeR-L6-KZD" userLabel="BoardMinion3" customClass="BattlegroundsMinionView" customModule="HSTracker" customModuleProvider="target">
                                                                             <rect key="frame" x="160" y="9" width="100" height="110"/>
-                                                                            <constraints>
-                                                                                <constraint firstAttribute="height" constant="110" id="6d0-Lw-6fX"/>
-                                                                                <constraint firstAttribute="width" constant="100" id="HSC-yO-ujb"/>
-                                                                            </constraints>
+                                                                            <userDefinedRuntimeAttributes>
+                                                                                <userDefinedRuntimeAttribute type="size" keyPath="myIntrinsicSize">
+                                                                                    <size key="value" width="100" height="110"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                            </userDefinedRuntimeAttributes>
                                                                         </customView>
-                                                                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="tAq-HV-gME" userLabel="BoardMinion4" customClass="BattlegroundsMinionView" customModule="HSTracker" customModuleProvider="target">
+                                                                        <customView placeholderIntrinsicWidth="100" placeholderIntrinsicHeight="110" translatesAutoresizingMaskIntoConstraints="NO" id="tAq-HV-gME" userLabel="BoardMinion4" customClass="BattlegroundsMinionView" customModule="HSTracker" customModuleProvider="target">
                                                                             <rect key="frame" x="240" y="9" width="100" height="110"/>
-                                                                            <constraints>
-                                                                                <constraint firstAttribute="width" constant="100" id="Xo5-ce-LJh"/>
-                                                                                <constraint firstAttribute="height" constant="110" id="yVQ-Pf-iwH"/>
-                                                                            </constraints>
+                                                                            <userDefinedRuntimeAttributes>
+                                                                                <userDefinedRuntimeAttribute type="size" keyPath="myIntrinsicSize">
+                                                                                    <size key="value" width="100" height="110"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                            </userDefinedRuntimeAttributes>
                                                                         </customView>
-                                                                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="ego-Bw-yW8" userLabel="BoardMinion5" customClass="BattlegroundsMinionView" customModule="HSTracker" customModuleProvider="target">
+                                                                        <customView placeholderIntrinsicWidth="100" placeholderIntrinsicHeight="110" translatesAutoresizingMaskIntoConstraints="NO" id="ego-Bw-yW8" userLabel="BoardMinion5" customClass="BattlegroundsMinionView" customModule="HSTracker" customModuleProvider="target">
                                                                             <rect key="frame" x="320" y="9" width="100" height="110"/>
-                                                                            <constraints>
-                                                                                <constraint firstAttribute="width" constant="100" id="FOL-Ke-3bn"/>
-                                                                                <constraint firstAttribute="height" constant="110" id="Tgt-Rx-KSi"/>
-                                                                            </constraints>
+                                                                            <userDefinedRuntimeAttributes>
+                                                                                <userDefinedRuntimeAttribute type="size" keyPath="myIntrinsicSize">
+                                                                                    <size key="value" width="100" height="110"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                            </userDefinedRuntimeAttributes>
                                                                         </customView>
-                                                                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="Ygh-q2-qZy" userLabel="BoardMinion6" customClass="BattlegroundsMinionView" customModule="HSTracker" customModuleProvider="target">
+                                                                        <customView placeholderIntrinsicWidth="100" placeholderIntrinsicHeight="110" translatesAutoresizingMaskIntoConstraints="NO" id="Ygh-q2-qZy" userLabel="BoardMinion6" customClass="BattlegroundsMinionView" customModule="HSTracker" customModuleProvider="target">
                                                                             <rect key="frame" x="400" y="9" width="100" height="110"/>
-                                                                            <constraints>
-                                                                                <constraint firstAttribute="width" constant="100" id="Cno-vX-UVT"/>
-                                                                                <constraint firstAttribute="height" constant="110" id="oPV-XX-0eh"/>
-                                                                            </constraints>
+                                                                            <userDefinedRuntimeAttributes>
+                                                                                <userDefinedRuntimeAttribute type="size" keyPath="myIntrinsicSize">
+                                                                                    <size key="value" width="100" height="110"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                            </userDefinedRuntimeAttributes>
                                                                         </customView>
-                                                                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="ra0-y4-fHg" userLabel="BoardMinion7" customClass="BattlegroundsMinionView" customModule="HSTracker" customModuleProvider="target">
+                                                                        <customView placeholderIntrinsicWidth="100" placeholderIntrinsicHeight="110" translatesAutoresizingMaskIntoConstraints="NO" id="ra0-y4-fHg" userLabel="BoardMinion7" customClass="BattlegroundsMinionView" customModule="HSTracker" customModuleProvider="target">
                                                                             <rect key="frame" x="480" y="9" width="100" height="110"/>
-                                                                            <constraints>
-                                                                                <constraint firstAttribute="height" constant="110" id="he7-yz-MzX"/>
-                                                                                <constraint firstAttribute="width" constant="100" id="mP2-d4-QmD"/>
-                                                                            </constraints>
+                                                                            <userDefinedRuntimeAttributes>
+                                                                                <userDefinedRuntimeAttribute type="size" keyPath="myIntrinsicSize">
+                                                                                    <size key="value" width="100" height="110"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                            </userDefinedRuntimeAttributes>
                                                                         </customView>
                                                                     </subviews>
                                                                     <visibilityPriorities>
@@ -217,15 +224,14 @@
                                     </stackView>
                                     <box boxType="custom" cornerRadius="3" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="Mi5-ii-D2q">
                                         <rect key="frame" x="592" y="19" width="245" height="150"/>
-                                        <view key="contentView" id="gfh-O8-6go">
+                                        <view key="contentView" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gfh-O8-6go">
                                             <rect key="frame" x="1" y="1" width="243" height="148"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
-                                                <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="5" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qOD-72-onS" userLabel="TiersInfo">
-                                                    <rect key="frame" x="0.0" y="0.0" width="243" height="150"/>
+                                                <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qOD-72-onS" userLabel="TiersInfo">
+                                                    <rect key="frame" x="0.0" y="0.0" width="245" height="150"/>
                                                     <subviews>
-                                                        <stackView distribution="fillProportionally" orientation="horizontal" alignment="centerY" spacing="5" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Kz-hl-AhQ" userLabel="Tiers123">
-                                                            <rect key="frame" x="5" y="80" width="235" height="65"/>
+                                                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="jaA-Sb-11i" userLabel="Tiers123">
+                                                            <rect key="frame" x="5" y="75" width="235" height="70"/>
                                                             <subviews>
                                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="Af2-Gt-E2h" userLabel="Tier1" customClass="BattlegroundsTierTriples" customModule="HSTracker" customModuleProvider="target">
                                                                     <rect key="frame" x="0.0" y="0.0" width="75" height="65"/>
@@ -264,25 +270,27 @@
                                                                     </userDefinedRuntimeAttributes>
                                                                 </customView>
                                                             </subviews>
-                                                            <visibilityPriorities>
-                                                                <integer value="1000"/>
-                                                                <integer value="1000"/>
-                                                                <integer value="1000"/>
-                                                            </visibilityPriorities>
-                                                            <customSpacing>
-                                                                <real value="3.4028234663852886e+38"/>
-                                                                <real value="3.4028234663852886e+38"/>
-                                                                <real value="3.4028234663852886e+38"/>
-                                                            </customSpacing>
-                                                        </stackView>
-                                                        <stackView distribution="fillProportionally" orientation="horizontal" alignment="centerY" spacing="5" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PjC-6n-6YD" userLabel="Tiers456">
+                                                            <constraints>
+                                                                <constraint firstItem="FqW-TG-zSI" firstAttribute="leading" secondItem="KKz-d2-ifY" secondAttribute="trailing" constant="5" id="1jX-wd-bbf"/>
+                                                                <constraint firstItem="Af2-Gt-E2h" firstAttribute="leading" secondItem="jaA-Sb-11i" secondAttribute="leading" id="1mY-wX-i3e"/>
+                                                                <constraint firstItem="Af2-Gt-E2h" firstAttribute="top" secondItem="jaA-Sb-11i" secondAttribute="top" constant="5" id="ARd-BU-OEc"/>
+                                                                <constraint firstItem="KKz-d2-ifY" firstAttribute="leading" secondItem="Af2-Gt-E2h" secondAttribute="trailing" constant="5" id="BYo-tY-aPw"/>
+                                                                <constraint firstAttribute="bottom" secondItem="KKz-d2-ifY" secondAttribute="bottom" id="Bpm-kf-SKa"/>
+                                                                <constraint firstAttribute="bottom" secondItem="Af2-Gt-E2h" secondAttribute="bottom" id="Iwd-mi-zjA"/>
+                                                                <constraint firstItem="FqW-TG-zSI" firstAttribute="top" secondItem="jaA-Sb-11i" secondAttribute="top" constant="5" id="LkM-sU-lLj"/>
+                                                                <constraint firstAttribute="trailing" secondItem="FqW-TG-zSI" secondAttribute="trailing" id="TRB-PL-1lC"/>
+                                                                <constraint firstItem="KKz-d2-ifY" firstAttribute="top" secondItem="jaA-Sb-11i" secondAttribute="top" constant="5" id="Wsy-Wq-fMn"/>
+                                                                <constraint firstAttribute="bottom" secondItem="FqW-TG-zSI" secondAttribute="bottom" id="aYR-2U-4wC"/>
+                                                            </constraints>
+                                                        </customView>
+                                                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="alT-Eu-Ol9" userLabel="Tiers456">
                                                             <rect key="frame" x="5" y="5" width="235" height="70"/>
                                                             <subviews>
                                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="Xjr-uM-XI6" userLabel="Tier4" customClass="BattlegroundsTierTriples" customModule="HSTracker" customModuleProvider="target">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="75" height="70"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="75" height="65"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="75" id="9xR-4a-Xhj"/>
-                                                                        <constraint firstAttribute="height" constant="70" id="aOt-ze-DjV"/>
+                                                                        <constraint firstAttribute="height" constant="65" id="aOt-ze-DjV"/>
                                                                     </constraints>
                                                                     <userDefinedRuntimeAttributes>
                                                                         <userDefinedRuntimeAttribute type="number" keyPath="tier">
@@ -291,10 +299,10 @@
                                                                     </userDefinedRuntimeAttributes>
                                                                 </customView>
                                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="xDD-GJ-vai" userLabel="Tier5" customClass="BattlegroundsTierTriples" customModule="HSTracker" customModuleProvider="target">
-                                                                    <rect key="frame" x="80" y="0.0" width="75" height="70"/>
+                                                                    <rect key="frame" x="80" y="0.0" width="75" height="65"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="75" id="l8l-di-yuA"/>
-                                                                        <constraint firstAttribute="height" constant="70" id="zY6-LP-PAH"/>
+                                                                        <constraint firstAttribute="height" constant="65" id="zY6-LP-PAH"/>
                                                                     </constraints>
                                                                     <userDefinedRuntimeAttributes>
                                                                         <userDefinedRuntimeAttribute type="number" keyPath="tier">
@@ -303,9 +311,9 @@
                                                                     </userDefinedRuntimeAttributes>
                                                                 </customView>
                                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="Hf3-RU-cXj" userLabel="Tier6" customClass="BattlegroundsTierTriples" customModule="HSTracker" customModuleProvider="target">
-                                                                    <rect key="frame" x="160" y="0.0" width="75" height="70"/>
+                                                                    <rect key="frame" x="160" y="0.0" width="75" height="65"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="height" constant="70" id="Yg6-Hp-hGJ"/>
+                                                                        <constraint firstAttribute="height" constant="65" id="Yg6-Hp-hGJ"/>
                                                                         <constraint firstAttribute="width" constant="75" id="ru8-tw-bZi"/>
                                                                     </constraints>
                                                                     <userDefinedRuntimeAttributes>
@@ -315,17 +323,19 @@
                                                                     </userDefinedRuntimeAttributes>
                                                                 </customView>
                                                             </subviews>
-                                                            <visibilityPriorities>
-                                                                <integer value="1000"/>
-                                                                <integer value="1000"/>
-                                                                <integer value="1000"/>
-                                                            </visibilityPriorities>
-                                                            <customSpacing>
-                                                                <real value="3.4028234663852886e+38"/>
-                                                                <real value="3.4028234663852886e+38"/>
-                                                                <real value="3.4028234663852886e+38"/>
-                                                            </customSpacing>
-                                                        </stackView>
+                                                            <constraints>
+                                                                <constraint firstItem="xDD-GJ-vai" firstAttribute="leading" secondItem="Xjr-uM-XI6" secondAttribute="trailing" constant="5" id="9OE-Qc-o2K"/>
+                                                                <constraint firstAttribute="trailing" secondItem="Hf3-RU-cXj" secondAttribute="trailing" id="GrL-Ff-wPI"/>
+                                                                <constraint firstItem="Hf3-RU-cXj" firstAttribute="leading" secondItem="xDD-GJ-vai" secondAttribute="trailing" constant="5" id="MkS-i7-uqP"/>
+                                                                <constraint firstItem="Xjr-uM-XI6" firstAttribute="leading" secondItem="alT-Eu-Ol9" secondAttribute="leading" id="SIv-t4-OoE"/>
+                                                                <constraint firstItem="Xjr-uM-XI6" firstAttribute="top" secondItem="alT-Eu-Ol9" secondAttribute="top" constant="5" id="dEj-5E-57r"/>
+                                                                <constraint firstItem="xDD-GJ-vai" firstAttribute="top" secondItem="alT-Eu-Ol9" secondAttribute="top" constant="5" id="gr4-FG-GR9"/>
+                                                                <constraint firstAttribute="bottom" secondItem="xDD-GJ-vai" secondAttribute="bottom" id="mnP-ep-xkP"/>
+                                                                <constraint firstAttribute="bottom" secondItem="Hf3-RU-cXj" secondAttribute="bottom" id="p7S-Na-nKz"/>
+                                                                <constraint firstItem="Hf3-RU-cXj" firstAttribute="top" secondItem="alT-Eu-Ol9" secondAttribute="top" constant="5" id="vq7-gi-4bj"/>
+                                                                <constraint firstAttribute="bottom" secondItem="Xjr-uM-XI6" secondAttribute="bottom" id="ykl-uA-qjy"/>
+                                                            </constraints>
+                                                        </customView>
                                                     </subviews>
                                                     <edgeInsets key="edgeInsets" left="5" right="5" top="5" bottom="5"/>
                                                     <constraints>
@@ -371,19 +381,11 @@
                                                         <stackView distribution="fillProportionally" orientation="horizontal" alignment="centerY" spacing="5" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T11-IQ-tzY" userLabel="Quests">
                                                             <rect key="frame" x="5" y="5" width="171" height="140"/>
                                                             <subviews>
-                                                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="qYs-87-hG2" userLabel="Quest1" customClass="BattlegroundsQuestView" customModule="HSTracker" customModuleProvider="target">
+                                                                <customView placeholderIntrinsicWidth="83" placeholderIntrinsicHeight="108" translatesAutoresizingMaskIntoConstraints="NO" id="qYs-87-hG2" userLabel="Quest1" customClass="BattlegroundsQuestView" customModule="HSTracker" customModuleProvider="target">
                                                                     <rect key="frame" x="0.0" y="16" width="83" height="108"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" constant="83" id="T3M-O9-1ax"/>
-                                                                        <constraint firstAttribute="height" constant="108" id="lq2-BR-2oz"/>
-                                                                    </constraints>
                                                                 </customView>
-                                                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="sOK-KT-fYq" userLabel="Quest2" customClass="BattlegroundsQuestView" customModule="HSTracker" customModuleProvider="target">
+                                                                <customView placeholderIntrinsicWidth="83" placeholderIntrinsicHeight="108" translatesAutoresizingMaskIntoConstraints="NO" id="sOK-KT-fYq" userLabel="Quest2" customClass="BattlegroundsQuestView" customModule="HSTracker" customModuleProvider="target">
                                                                     <rect key="frame" x="88" y="16" width="83" height="108"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" constant="83" id="Ebr-ha-Rd1"/>
-                                                                        <constraint firstAttribute="height" constant="108" id="yCG-VY-VdL"/>
-                                                                    </constraints>
                                                                 </customView>
                                                             </subviews>
                                                             <visibilityPriorities>

@@ -11,6 +11,11 @@ import Foundation
 class BattlegroundsMinionView: NSView {
     var entity: Entity?
     var sourceCardImage: NSImage?
+    @IBInspectable var myIntrinsicSize: CGSize = CGSize(width: 100.0, height: 110.0)
+    
+    override var intrinsicContentSize: NSSize {
+        return myIntrinsicSize
+    }
     
     init() {
         super.init(frame: NSRect.zero)
