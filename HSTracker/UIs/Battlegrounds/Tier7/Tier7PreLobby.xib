@@ -140,13 +140,13 @@
                                             </customSpacing>
                                         </stackView>
                                         <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q0E-va-bQ0" userLabel="UnknownPlayer">
-                                            <rect key="frame" x="0.0" y="-151" width="200" height="265"/>
+                                            <rect key="frame" x="0.0" y="-159" width="200" height="273"/>
                                             <subviews>
-                                                <stackView distribution="equalCentering" orientation="vertical" alignment="centerX" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="I0F-xp-Czb">
-                                                    <rect key="frame" x="0.0" y="0.0" width="200" height="265"/>
+                                                <stackView distribution="fill" orientation="vertical" alignment="centerX" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="I0F-xp-Czb">
+                                                    <rect key="frame" x="0.0" y="0.0" width="200" height="273"/>
                                                     <subviews>
                                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="weq-sP-Nl3">
-                                                            <rect key="frame" x="0.0" y="73" width="200" height="192"/>
+                                                            <rect key="frame" x="0.0" y="81" width="200" height="192"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="192" id="jds-wP-BKV"/>
                                                             </constraints>
@@ -223,11 +223,8 @@
                                                     <constraints>
                                                         <constraint firstAttribute="trailing" secondItem="whA-zQ-BhV" secondAttribute="trailing" id="2RG-9B-RAd"/>
                                                         <constraint firstItem="btc-Ca-tuE" firstAttribute="centerX" secondItem="I0F-xp-Czb" secondAttribute="centerX" id="GyB-HH-xbB"/>
-                                                        <constraint firstItem="whA-zQ-BhV" firstAttribute="top" secondItem="btc-Ca-tuE" secondAttribute="bottom" constant="8" id="PXl-iD-dkf"/>
                                                         <constraint firstItem="whA-zQ-BhV" firstAttribute="leading" secondItem="I0F-xp-Czb" secondAttribute="leading" id="cnc-VE-0K5"/>
                                                         <constraint firstItem="weq-sP-Nl3" firstAttribute="centerX" secondItem="I0F-xp-Czb" secondAttribute="centerX" id="dme-dB-pS7"/>
-                                                        <constraint firstItem="btc-Ca-tuE" firstAttribute="top" secondItem="weq-sP-Nl3" secondAttribute="bottom" id="igQ-Vd-azY"/>
-                                                        <constraint firstItem="weq-sP-Nl3" firstAttribute="top" secondItem="I0F-xp-Czb" secondAttribute="top" id="xCJ-MJ-z7n"/>
                                                     </constraints>
                                                     <visibilityPriorities>
                                                         <integer value="1000"/>
@@ -358,54 +355,69 @@
                                                         <action selector="subscribeNowCommand:" target="-2" id="ZJg-Nc-AZu"/>
                                                     </connections>
                                                 </button>
-                                                <stackView distribution="equalCentering" orientation="horizontal" alignment="centerY" spacing="4" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" horizontalCompressionResistancePriority="250" ambiguous="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nal-l5-OVA" userLabel="SubscribedSignIn">
-                                                    <rect key="frame" x="83" y="32" width="126" height="16"/>
+                                                <stackView distribution="equalCentering" orientation="horizontal" alignment="centerY" spacing="4" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" horizontalCompressionResistancePriority="250" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nal-l5-OVA" userLabel="SubscribedSignIn">
+                                                    <rect key="frame" x="0.0" y="32" width="292" height="16"/>
                                                     <subviews>
-                                                        <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qL8-B7-2kV">
-                                                            <rect key="frame" x="-2" y="0.0" width="80" height="16"/>
-                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" allowsUndo="NO" title="Subscribed?" id="Se9-Jv-Mrj">
-                                                                <font key="font" metaFont="system"/>
-                                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
-                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                            </textFieldCell>
-                                                        </textField>
-                                                        <button horizontalHuggingPriority="1000" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iL6-4N-ad8" userLabel="SignIn" customClass="TextButton" customModule="HSTracker" customModuleProvider="target">
-                                                            <rect key="frame" x="80" y="0.0" width="46" height="16"/>
-                                                            <buttonCell key="cell" type="bevel" title="Sign In" bezelStyle="rounded" alignment="center" imageScaling="proportionallyDown" inset="2" id="tPG-WB-eJh">
-                                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                <font key="font" metaFont="system"/>
-                                                                <userDefinedRuntimeAttributes>
-                                                                    <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
-                                                                        <color key="value" red="0.078431372550000003" green="0.086274509799999996" blue="0.090196078430000007" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                    </userDefinedRuntimeAttribute>
-                                                                </userDefinedRuntimeAttributes>
-                                                            </buttonCell>
-                                                            <color key="contentTintColor" red="0.078431372550000003" green="0.086274509799999996" blue="0.090196078430000007" alpha="1" colorSpace="deviceRGB"/>
-                                                            <userDefinedRuntimeAttributes>
-                                                                <userDefinedRuntimeAttribute type="color" keyPath="textColor">
-                                                                    <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
-                                                                </userDefinedRuntimeAttribute>
-                                                                <userDefinedRuntimeAttribute type="number" keyPath="horizontalPadding">
-                                                                    <real key="value" value="8"/>
-                                                                </userDefinedRuntimeAttribute>
-                                                                <userDefinedRuntimeAttribute type="number" keyPath="verticalPadding">
-                                                                    <real key="value" value="8"/>
-                                                                </userDefinedRuntimeAttribute>
-                                                                <userDefinedRuntimeAttribute type="number" keyPath="textSize">
-                                                                    <real key="value" value="12"/>
-                                                                </userDefinedRuntimeAttribute>
-                                                            </userDefinedRuntimeAttributes>
-                                                            <connections>
-                                                                <action selector="signCommand:" target="-2" id="pOP-co-wAc"/>
-                                                            </connections>
-                                                        </button>
+                                                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="rnx-T2-eR3">
+                                                            <rect key="frame" x="81" y="0.0" width="130" height="16"/>
+                                                            <subviews>
+                                                                <textField focusRingType="none" horizontalHuggingPriority="1000" verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qL8-B7-2kV">
+                                                                    <rect key="frame" x="-2" y="0.0" width="80" height="16"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" allowsUndo="NO" title="Subscribed?" id="Se9-Jv-Mrj">
+                                                                        <font key="font" metaFont="system"/>
+                                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                                <button horizontalHuggingPriority="1000" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="iL6-4N-ad8" userLabel="SignIn" customClass="TextButton" customModule="HSTracker" customModuleProvider="target">
+                                                                    <rect key="frame" x="84" y="0.0" width="46" height="16"/>
+                                                                    <buttonCell key="cell" type="bevel" title="Sign In" bezelStyle="rounded" alignment="center" imageScaling="proportionallyDown" inset="2" id="tPG-WB-eJh">
+                                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                        <font key="font" metaFont="system"/>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                                                                                <color key="value" red="0.078431372550000003" green="0.086274509799999996" blue="0.090196078430000007" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                            </userDefinedRuntimeAttribute>
+                                                                        </userDefinedRuntimeAttributes>
+                                                                    </buttonCell>
+                                                                    <color key="contentTintColor" red="0.078431372550000003" green="0.086274509799999996" blue="0.090196078430000007" alpha="1" colorSpace="deviceRGB"/>
+                                                                    <userDefinedRuntimeAttributes>
+                                                                        <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                                                            <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                        <userDefinedRuntimeAttribute type="number" keyPath="horizontalPadding">
+                                                                            <real key="value" value="8"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                        <userDefinedRuntimeAttribute type="number" keyPath="verticalPadding">
+                                                                            <real key="value" value="8"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                        <userDefinedRuntimeAttribute type="number" keyPath="textSize">
+                                                                            <real key="value" value="12"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                    </userDefinedRuntimeAttributes>
+                                                                    <connections>
+                                                                        <action selector="signCommand:" target="-2" id="pOP-co-wAc"/>
+                                                                    </connections>
+                                                                </button>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="qL8-B7-2kV" firstAttribute="top" secondItem="rnx-T2-eR3" secondAttribute="top" id="ARv-OA-7do"/>
+                                                                <constraint firstItem="qL8-B7-2kV" firstAttribute="leading" secondItem="rnx-T2-eR3" secondAttribute="leading" id="D2s-Xn-x5a"/>
+                                                                <constraint firstAttribute="bottom" secondItem="iL6-4N-ad8" secondAttribute="bottom" id="KgG-aE-Wk2"/>
+                                                                <constraint firstItem="iL6-4N-ad8" firstAttribute="top" secondItem="rnx-T2-eR3" secondAttribute="top" id="PZY-Kf-MrF"/>
+                                                                <constraint firstItem="iL6-4N-ad8" firstAttribute="leading" secondItem="qL8-B7-2kV" secondAttribute="trailing" constant="8" id="RX2-GN-81R"/>
+                                                                <constraint firstAttribute="bottom" secondItem="qL8-B7-2kV" secondAttribute="bottom" id="ami-ul-h8H"/>
+                                                                <constraint firstAttribute="trailing" secondItem="iL6-4N-ad8" secondAttribute="trailing" id="oFo-fS-EOM"/>
+                                                            </constraints>
+                                                        </customView>
                                                     </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="rnx-T2-eR3" firstAttribute="centerX" secondItem="nal-l5-OVA" secondAttribute="centerX" id="hcS-K5-aut"/>
+                                                    </constraints>
                                                     <visibilityPriorities>
-                                                        <integer value="1000"/>
                                                         <integer value="1000"/>
                                                     </visibilityPriorities>
                                                     <customSpacing>
-                                                        <real value="3.4028234663852886e+38"/>
                                                         <real value="3.4028234663852886e+38"/>
                                                     </customSpacing>
                                                 </stackView>
@@ -464,7 +476,9 @@
                                             <edgeInsets key="edgeInsets" left="0.0" right="0.0" top="8" bottom="8"/>
                                             <constraints>
                                                 <constraint firstItem="Efq-Fj-biL" firstAttribute="centerX" secondItem="Axu-rR-cbK" secondAttribute="centerX" id="4O1-aG-Iwp"/>
+                                                <constraint firstAttribute="trailing" secondItem="nal-l5-OVA" secondAttribute="trailing" id="A9z-Qy-PYd"/>
                                                 <constraint firstItem="Fqp-Ka-Ipy" firstAttribute="centerX" secondItem="Axu-rR-cbK" secondAttribute="centerX" id="ecg-ny-38K"/>
+                                                <constraint firstItem="nal-l5-OVA" firstAttribute="leading" secondItem="Axu-rR-cbK" secondAttribute="leading" id="hhd-aJ-gdm"/>
                                                 <constraint firstItem="Efq-Fj-biL" firstAttribute="leading" secondItem="Axu-rR-cbK" secondAttribute="leading" constant="35" placeholder="YES" id="xME-h7-Q1H"/>
                                             </constraints>
                                             <visibilityPriorities>

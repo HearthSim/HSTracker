@@ -9,12 +9,12 @@
         <customObject id="-2" userLabel="File's Owner" customClass="BattlegroundsSession" customModule="HSTracker" customModuleProvider="target">
             <connections>
                 <outlet property="lastGames" destination="rzz-aP-9P7" id="0Tx-hP-GcS"/>
-                <outlet property="latestGamesSection" destination="yiA-Bi-KGf" id="aOX-s9-ycm"/>
+                <outlet property="latestGamesSection" destination="1xr-dy-wr8" id="WiQ-3U-UUd"/>
                 <outlet property="mmrFieldA" destination="3Fb-Zz-bUs" id="PfW-6n-WOZ"/>
                 <outlet property="mmrFieldB" destination="QV0-e5-Fff" id="Wu6-Z2-uQa"/>
                 <outlet property="mmrLabelA" destination="UlU-qf-Ucu" id="rIV-c9-gyh"/>
                 <outlet property="mmrLabelB" destination="1m0-eg-k4m" id="ZeV-Np-Kww"/>
-                <outlet property="mmrSection" destination="PhO-YH-JqE" id="C67-Wu-4iA"/>
+                <outlet property="mmrSection" destination="cHj-UO-mE7" id="fwU-Gp-ydj"/>
                 <outlet property="noGamesSection" destination="QPM-sf-cHf" id="1gN-iX-1iK"/>
                 <outlet property="outerBox" destination="di9-cn-IAb" id="5kl-G2-KdB"/>
                 <outlet property="sessionPanel" destination="22i-f0-cvw" id="NiB-Vg-Dvf"/>
@@ -23,7 +23,7 @@
                 <outlet property="tribe3" destination="HFr-5U-JUb" id="gtZ-yo-Ahc"/>
                 <outlet property="tribe4" destination="xM6-C5-wb6" id="3dG-KA-zDe"/>
                 <outlet property="tribe5" destination="fqB-ox-xOP" id="hHJ-Bm-0YF"/>
-                <outlet property="tribesSection" destination="g3p-nJ-meK" id="Vxj-wl-3GC"/>
+                <outlet property="tribesSection" destination="1Re-lE-02Z" id="pw4-Lc-aGv"/>
                 <outlet property="waitingForNext" destination="WfY-6P-It1" id="ey6-uz-uht"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="cGV-R5-rgS"/>
             </connections>
@@ -32,25 +32,24 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g" customClass="NSPanel">
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="200" height="326"/>
+            <rect key="contentRect" x="196" y="240" width="200" height="355"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1728" height="1079"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="200" height="326"/>
+                <rect key="frame" x="0.0" y="0.0" width="200" height="355"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="9A8-T4-iXL">
-                        <rect key="frame" x="0.0" y="0.0" width="200" height="326"/>
+                        <rect key="frame" x="0.0" y="0.0" width="200" height="355"/>
                         <subviews>
-                            <box identifier="OuterBox" boxType="custom" borderType="none" borderWidth="0.0" cornerRadius="5" titlePosition="noTitle" id="di9-cn-IAb" userLabel="OuterBox">
-                                <rect key="frame" x="0.0" y="-27" width="200" height="353"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                            <box identifier="OuterBox" boxType="custom" borderType="none" borderWidth="0.0" cornerRadius="5" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="di9-cn-IAb" userLabel="OuterBox">
+                                <rect key="frame" x="0.0" y="2" width="200" height="353"/>
                                 <view key="contentView" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mNS-e9-WtE">
                                     <rect key="frame" x="0.0" y="0.0" width="200" height="353"/>
                                     <subviews>
                                         <stackView identifier="BattlegroundsSessionPanel" distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="22i-f0-cvw" userLabel="BattlegroundsSessionPanel">
                                             <rect key="frame" x="0.0" y="0.0" width="200" height="353"/>
                                             <subviews>
-                                                <stackView identifier="BattlegroundsTribeSection" distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g3p-nJ-meK" userLabel="BgBannedTribesSection">
+                                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="1Re-lE-02Z" userLabel="BgBannedTribesSection">
                                                     <rect key="frame" x="0.0" y="185" width="200" height="168"/>
                                                     <subviews>
                                                         <box identifier="MinionsBannedBox" boxType="custom" borderType="none" cornerRadius="5" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="KR2-dj-GTv">
@@ -204,30 +203,22 @@
                                                         </box>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstAttribute="trailing" secondItem="P9V-JE-wLY" secondAttribute="trailing" id="2GP-aq-aMq"/>
-                                                        <constraint firstItem="eX9-x9-le4" firstAttribute="leading" secondItem="g3p-nJ-meK" secondAttribute="leading" id="3XI-tZ-UhB"/>
-                                                        <constraint firstItem="kSf-DZ-aPz" firstAttribute="leading" secondItem="g3p-nJ-meK" secondAttribute="leading" id="Awx-pu-kaX"/>
-                                                        <constraint firstAttribute="trailing" secondItem="eX9-x9-le4" secondAttribute="trailing" id="B9M-yO-PqC"/>
-                                                        <constraint firstAttribute="trailing" secondItem="KR2-dj-GTv" secondAttribute="trailing" id="BUg-5L-XEW"/>
-                                                        <constraint firstAttribute="trailing" secondItem="kSf-DZ-aPz" secondAttribute="trailing" id="Lwm-wJ-AGC"/>
-                                                        <constraint firstItem="KR2-dj-GTv" firstAttribute="leading" secondItem="g3p-nJ-meK" secondAttribute="leading" id="eAQ-E3-dlA"/>
-                                                        <constraint firstItem="KR2-dj-GTv" firstAttribute="top" secondItem="g3p-nJ-meK" secondAttribute="top" id="v8x-Ym-Itm"/>
-                                                        <constraint firstItem="P9V-JE-wLY" firstAttribute="leading" secondItem="g3p-nJ-meK" secondAttribute="leading" id="yEw-P5-9ox"/>
+                                                        <constraint firstAttribute="trailing" secondItem="P9V-JE-wLY" secondAttribute="trailing" id="0E8-Qm-pIS"/>
+                                                        <constraint firstItem="KR2-dj-GTv" firstAttribute="leading" secondItem="1Re-lE-02Z" secondAttribute="leading" id="5Un-zZ-7Sv"/>
+                                                        <constraint firstItem="kSf-DZ-aPz" firstAttribute="top" secondItem="KR2-dj-GTv" secondAttribute="bottom" id="7at-oe-Cd7"/>
+                                                        <constraint firstAttribute="bottom" secondItem="eX9-x9-le4" secondAttribute="bottom" id="9Tk-ON-sRt"/>
+                                                        <constraint firstAttribute="trailing" secondItem="KR2-dj-GTv" secondAttribute="trailing" id="FV8-ZS-nm0"/>
+                                                        <constraint firstItem="P9V-JE-wLY" firstAttribute="leading" secondItem="1Re-lE-02Z" secondAttribute="leading" id="HdQ-X1-9L6"/>
+                                                        <constraint firstItem="P9V-JE-wLY" firstAttribute="top" secondItem="kSf-DZ-aPz" secondAttribute="bottom" id="KaP-kL-yMu"/>
+                                                        <constraint firstAttribute="trailing" secondItem="eX9-x9-le4" secondAttribute="trailing" id="OdW-0G-Yr9"/>
+                                                        <constraint firstAttribute="trailing" secondItem="kSf-DZ-aPz" secondAttribute="trailing" id="Prj-mG-ubg"/>
+                                                        <constraint firstItem="kSf-DZ-aPz" firstAttribute="leading" secondItem="1Re-lE-02Z" secondAttribute="leading" id="UZD-Vx-bNN"/>
+                                                        <constraint firstItem="eX9-x9-le4" firstAttribute="leading" secondItem="1Re-lE-02Z" secondAttribute="leading" id="bPc-hB-jgJ"/>
+                                                        <constraint firstItem="eX9-x9-le4" firstAttribute="top" secondItem="P9V-JE-wLY" secondAttribute="bottom" id="hEg-ot-cY1"/>
+                                                        <constraint firstItem="KR2-dj-GTv" firstAttribute="top" secondItem="1Re-lE-02Z" secondAttribute="top" id="qTH-zU-AnN"/>
                                                     </constraints>
-                                                    <visibilityPriorities>
-                                                        <integer value="1000"/>
-                                                        <integer value="1000"/>
-                                                        <integer value="1000"/>
-                                                        <integer value="1000"/>
-                                                    </visibilityPriorities>
-                                                    <customSpacing>
-                                                        <real value="3.4028234663852886e+38"/>
-                                                        <real value="3.4028234663852886e+38"/>
-                                                        <real value="3.4028234663852886e+38"/>
-                                                        <real value="3.4028234663852886e+38"/>
-                                                    </customSpacing>
-                                                </stackView>
-                                                <stackView identifier="BattlegroundsCurrentMMRSection" distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PhO-YH-JqE" userLabel="BgCurrentMMRSection">
+                                                </customView>
+                                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="cHj-UO-mE7" userLabel="BgCurrentMMRSection">
                                                     <rect key="frame" x="0.0" y="104" width="200" height="81"/>
                                                     <subviews>
                                                         <box identifier="MMRBox" boxType="custom" cornerRadius="4" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="gFK-8v-4Yk">
@@ -359,22 +350,16 @@
                                                         </stackView>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstItem="gFK-8v-4Yk" firstAttribute="leading" secondItem="PhO-YH-JqE" secondAttribute="leading" id="1C3-wX-4Ff"/>
-                                                        <constraint firstAttribute="trailing" secondItem="gFK-8v-4Yk" secondAttribute="trailing" id="agL-a7-nWe"/>
-                                                        <constraint firstAttribute="trailing" secondItem="dcG-6F-KJd" secondAttribute="trailing" id="bqr-eN-rJO"/>
-                                                        <constraint firstItem="dcG-6F-KJd" firstAttribute="leading" secondItem="PhO-YH-JqE" secondAttribute="leading" id="ghY-qk-18G"/>
-                                                        <constraint firstItem="gFK-8v-4Yk" firstAttribute="top" secondItem="PhO-YH-JqE" secondAttribute="top" id="kuk-Px-lqj"/>
+                                                        <constraint firstItem="dcG-6F-KJd" firstAttribute="top" secondItem="gFK-8v-4Yk" secondAttribute="bottom" id="BNH-9M-po4"/>
+                                                        <constraint firstItem="dcG-6F-KJd" firstAttribute="leading" secondItem="cHj-UO-mE7" secondAttribute="leading" id="Eq4-ka-g0W"/>
+                                                        <constraint firstAttribute="trailing" secondItem="gFK-8v-4Yk" secondAttribute="trailing" id="a51-TJ-gM4"/>
+                                                        <constraint firstItem="gFK-8v-4Yk" firstAttribute="leading" secondItem="cHj-UO-mE7" secondAttribute="leading" id="dO8-Qp-DbT"/>
+                                                        <constraint firstAttribute="bottom" secondItem="dcG-6F-KJd" secondAttribute="bottom" id="im9-w6-k1o"/>
+                                                        <constraint firstItem="gFK-8v-4Yk" firstAttribute="top" secondItem="cHj-UO-mE7" secondAttribute="top" id="l3z-6L-sqh"/>
+                                                        <constraint firstAttribute="trailing" secondItem="dcG-6F-KJd" secondAttribute="trailing" id="wsh-1C-vTY"/>
                                                     </constraints>
-                                                    <visibilityPriorities>
-                                                        <integer value="1000"/>
-                                                        <integer value="1000"/>
-                                                    </visibilityPriorities>
-                                                    <customSpacing>
-                                                        <real value="3.4028234663852886e+38"/>
-                                                        <real value="3.4028234663852886e+38"/>
-                                                    </customSpacing>
-                                                </stackView>
-                                                <stackView identifier="BattlegroundsLastGamesSection" distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yiA-Bi-KGf" userLabel="BgLastGamesSection">
+                                                </customView>
+                                                <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1xr-dy-wr8" userLabel="BgLastGamesSection">
                                                     <rect key="frame" x="0.0" y="0.0" width="200" height="104"/>
                                                     <subviews>
                                                         <box identifier="BoxLatestGames" boxType="custom" cornerRadius="4" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="uD9-3Z-biG" userLabel="BoxLatestGames">
@@ -488,7 +473,6 @@
                                                             <constraints>
                                                                 <constraint firstAttribute="trailing" secondItem="j7Z-gy-CaE" secondAttribute="trailing" id="C7K-7H-2rK"/>
                                                                 <constraint firstItem="j7Z-gy-CaE" firstAttribute="leading" secondItem="rzz-aP-9P7" secondAttribute="leading" id="fXM-Ag-QJL"/>
-                                                                <constraint firstItem="j7Z-gy-CaE" firstAttribute="top" secondItem="rzz-aP-9P7" secondAttribute="top" id="uBZ-oH-Acv"/>
                                                             </constraints>
                                                             <visibilityPriorities>
                                                                 <integer value="1000"/>
@@ -529,13 +513,12 @@
                                                         </customView>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstAttribute="trailing" secondItem="uD9-3Z-biG" secondAttribute="trailing" id="2IJ-zr-0iX"/>
-                                                        <constraint firstAttribute="trailing" secondItem="QPM-sf-cHf" secondAttribute="trailing" id="DGf-n7-PwT"/>
-                                                        <constraint firstItem="uD9-3Z-biG" firstAttribute="top" secondItem="yiA-Bi-KGf" secondAttribute="top" id="Sl9-Uu-hiO"/>
-                                                        <constraint firstItem="rzz-aP-9P7" firstAttribute="leading" secondItem="yiA-Bi-KGf" secondAttribute="leading" id="ZB2-o9-4Nn"/>
-                                                        <constraint firstItem="QPM-sf-cHf" firstAttribute="leading" secondItem="yiA-Bi-KGf" secondAttribute="leading" id="fZ1-t5-rdk"/>
-                                                        <constraint firstAttribute="trailing" secondItem="rzz-aP-9P7" secondAttribute="trailing" id="rlr-jv-gBy"/>
-                                                        <constraint firstItem="uD9-3Z-biG" firstAttribute="leading" secondItem="yiA-Bi-KGf" secondAttribute="leading" id="yRR-mX-Cf0"/>
+                                                        <constraint firstItem="rzz-aP-9P7" firstAttribute="leading" secondItem="1xr-dy-wr8" secondAttribute="leading" id="8Oa-zZ-t34"/>
+                                                        <constraint firstItem="QPM-sf-cHf" firstAttribute="leading" secondItem="1xr-dy-wr8" secondAttribute="leading" id="V7I-Vv-NTB"/>
+                                                        <constraint firstAttribute="trailing" secondItem="QPM-sf-cHf" secondAttribute="trailing" id="aXr-yf-tnM"/>
+                                                        <constraint firstAttribute="trailing" secondItem="rzz-aP-9P7" secondAttribute="trailing" id="cpx-ce-KIO"/>
+                                                        <constraint firstAttribute="trailing" secondItem="uD9-3Z-biG" secondAttribute="trailing" id="pD9-Uq-Bvb"/>
+                                                        <constraint firstItem="uD9-3Z-biG" firstAttribute="leading" secondItem="1xr-dy-wr8" secondAttribute="leading" id="psX-KO-5ai"/>
                                                     </constraints>
                                                     <visibilityPriorities>
                                                         <integer value="1000"/>
@@ -551,16 +534,11 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="200" id="66f-Tf-ZnN"/>
-                                                <constraint firstItem="PhO-YH-JqE" firstAttribute="leading" secondItem="22i-f0-cvw" secondAttribute="leading" id="7aJ-SN-28W"/>
-                                                <constraint firstAttribute="trailing" secondItem="PhO-YH-JqE" secondAttribute="trailing" id="A2Y-VS-lsN"/>
-                                                <constraint firstItem="yiA-Bi-KGf" firstAttribute="leading" secondItem="22i-f0-cvw" secondAttribute="leading" id="RQt-UI-m5M"/>
-                                                <constraint firstItem="g3p-nJ-meK" firstAttribute="leading" secondItem="22i-f0-cvw" secondAttribute="leading" id="X9g-Ks-vkL"/>
-                                                <constraint firstAttribute="trailing" secondItem="yiA-Bi-KGf" secondAttribute="trailing" id="fBP-qI-LUj"/>
-                                                <constraint firstItem="g3p-nJ-meK" firstAttribute="top" secondItem="22i-f0-cvw" secondAttribute="top" id="fsu-1v-hWF"/>
-                                                <constraint firstAttribute="trailing" secondItem="g3p-nJ-meK" secondAttribute="trailing" id="gd0-Cg-kGc"/>
-                                                <constraint firstItem="PhO-YH-JqE" firstAttribute="top" secondItem="g3p-nJ-meK" secondAttribute="bottom" id="hvP-GJ-jwh"/>
-                                                <constraint firstAttribute="bottom" secondItem="yiA-Bi-KGf" secondAttribute="bottom" id="oIP-tW-aot"/>
-                                                <constraint firstItem="yiA-Bi-KGf" firstAttribute="top" secondItem="PhO-YH-JqE" secondAttribute="bottom" id="qXw-uq-IgD"/>
+                                                <constraint firstItem="cHj-UO-mE7" firstAttribute="leading" secondItem="22i-f0-cvw" secondAttribute="leading" id="OCs-lX-0cb"/>
+                                                <constraint firstItem="1Re-lE-02Z" firstAttribute="leading" secondItem="22i-f0-cvw" secondAttribute="leading" id="P95-Wq-Yhf"/>
+                                                <constraint firstAttribute="trailing" secondItem="1Re-lE-02Z" secondAttribute="trailing" id="ZkU-8j-Zry"/>
+                                                <constraint firstAttribute="trailing" secondItem="cHj-UO-mE7" secondAttribute="trailing" id="Zpe-90-7lf"/>
+                                                <constraint firstItem="uD9-3Z-biG" firstAttribute="width" secondItem="gFK-8v-4Yk" secondAttribute="width" id="bnO-RV-cCW"/>
                                             </constraints>
                                             <visibilityPriorities>
                                                 <integer value="1000"/>
@@ -583,14 +561,17 @@
                                 </view>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="UG2-T6-ctz"/>
+                                    <constraint firstItem="22i-f0-cvw" firstAttribute="height" secondItem="di9-cn-IAb" secondAttribute="height" id="gNz-FY-QQR"/>
                                 </constraints>
                                 <color key="borderColor" red="0.2901960784" green="0.32156862749999998" blue="0.33725490200000002" alpha="1" colorSpace="deviceRGB"/>
                                 <color key="fillColor" red="0.18039215689999999" green="0.1960784314" blue="0.20784313730000001" alpha="1" colorSpace="deviceRGB"/>
                             </box>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="di9-cn-IAb" firstAttribute="leading" secondItem="9A8-T4-iXL" secondAttribute="leading" id="0io-tQ-spr"/>
                             <constraint firstAttribute="width" constant="200" id="4KE-TP-waT"/>
-                            <constraint firstItem="di9-cn-IAb" firstAttribute="leading" secondItem="9A8-T4-iXL" secondAttribute="leading" id="Spr-c7-37N"/>
+                            <constraint firstItem="di9-cn-IAb" firstAttribute="top" secondItem="9A8-T4-iXL" secondAttribute="top" id="GmB-us-pIJ"/>
+                            <constraint firstAttribute="trailing" secondItem="di9-cn-IAb" secondAttribute="trailing" id="USu-fU-vcH"/>
                         </constraints>
                     </customView>
                 </subviews>
@@ -600,7 +581,7 @@
                     <constraint firstItem="9A8-T4-iXL" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="CxX-vh-DwF"/>
                 </constraints>
             </view>
-            <point key="canvasLocation" x="229" y="-28"/>
+            <point key="canvasLocation" x="229" y="-13.5"/>
         </window>
     </objects>
 </document>

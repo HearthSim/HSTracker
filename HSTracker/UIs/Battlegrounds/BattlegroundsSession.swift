@@ -11,7 +11,7 @@ import Foundation
 class BattlegroundsSession: OverWindowController {
     @IBOutlet weak var outerBox: NSBox!
     
-    @IBOutlet weak var tribesSection: NSStackView!
+    @IBOutlet weak var tribesSection: NSView!
     @IBOutlet weak var tribe1: BattlegroundsTribe!
     @IBOutlet weak var tribe2: BattlegroundsTribe!
     @IBOutlet weak var tribe3: BattlegroundsTribe!
@@ -19,13 +19,13 @@ class BattlegroundsSession: OverWindowController {
     @IBOutlet weak var tribe5: BattlegroundsTribe!
     @IBOutlet weak var waitingForNext: NSTextField!
     
-    @IBOutlet weak var mmrSection: NSStackView!
+    @IBOutlet weak var mmrSection: NSView!
     @IBOutlet weak var mmrLabelA: NSTextField!
     @IBOutlet weak var mmrFieldA: NSTextField!
     @IBOutlet weak var mmrLabelB: NSTextField!
     @IBOutlet weak var mmrFieldB: NSTextField!
     
-    @IBOutlet weak var latestGamesSection: NSStackView!
+    @IBOutlet weak var latestGamesSection: NSView!
     @IBOutlet weak var noGamesSection: NSView!
     @IBOutlet weak var lastGames: NSStackView!
     
