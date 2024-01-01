@@ -465,7 +465,7 @@ class HSReplayAPI {
                 return
             }
             let http = Http(url: "\(HSReplay.tier7HeroPickStatsUrl)")
-            _ = http.uploadPromise(method: .post, headers: ["Content-Type": "application/json", "Authorization": "Bearer \(token)"], data: body).done { response in
+            _ = http.uploadPromise(method: .post, headers: ["Content-Type": "application/json", "X-Trial-Token": token], data: body).done { response in
                 guard let data = response as? Data else {
                     continuation.resume(returning: nil)
                     return
@@ -529,7 +529,7 @@ class HSReplayAPI {
                 return
             }
             let http = Http(url: "\(HSReplay.tier7QuestStatsUrl)")
-            _ = http.uploadPromise(method: .post, headers: ["Content-Type": "application/json", "Authorization": "Bearer \(token)"], data: body).done { response in
+            _ = http.uploadPromise(method: .post, headers: ["Content-Type": "application/json", "X-Trial-Token": token], data: body).done { response in
                 guard let data = response as? Data else {
                     continuation.resume(returning: nil)
                     return
@@ -583,9 +583,12 @@ class HSReplayAPI {
     @available(macOS 10.15.0, *)
     static func activatePlayerTrial(name: String, hi: Int64, lo: Int64) async -> PlayerTrialActivation? {
         return await withCheckedContinuation { continuation in
-            startAuthorizedRequest("\(HSReplay.playerTrial)\(name)?account_hi=\(hi)&account_lo=\(lo)", method: .POST, parameters: [:], completionHandler: { result in
+            startAuthorizedRequest("\(HSReplay.playerTrial)\(name)/?account_hi=\(hi)&account_lo=\(lo)", method: .POST, parameters: [:], completionHandler: { result in
                 switch result {
                 case .success(let response):
+                    if let str = String(data: response.data, encoding: .utf8) {
+                        logger.debug("Response data: \(str)")
+                    }
                     let res: PlayerTrialActivation? = parseResponse(data: response.data, defaultValue: nil)
                     continuation.resume(returning: res)
                     return
