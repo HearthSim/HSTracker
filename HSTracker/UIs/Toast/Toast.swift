@@ -18,7 +18,7 @@ class Toast {
         w.hasShadow = false
         w.acceptsMouseMovedEvents = true
         w.styleMask = .borderless
-        w.level = .screenSaver
+        w.level = NSWindow.Level(rawValue: Int(CGShieldingWindowLevel()))
         w.backgroundColor = Color.clear
         
         w.orderFrontRegardless()
