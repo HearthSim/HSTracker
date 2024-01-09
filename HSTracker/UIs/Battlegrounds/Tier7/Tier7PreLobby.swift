@@ -49,8 +49,9 @@ class Tier7PreLobby: OverWindowController {
                                           userInfo: nil)
         anonymous.addTrackingArea(trackingArea)
         refreshButton.underlined()
-//        informationLabel.addCustomToolTip(from: informationLabel.toolTip ?? "")
+        informationLabel.addCustomToolTip(from: informationLabel.toolTip ?? "")
         informationLabel.toolTip = nil
+        informationLabel.updateTrackingAreas_CustomToolTip()
         update(nil)
     }
     

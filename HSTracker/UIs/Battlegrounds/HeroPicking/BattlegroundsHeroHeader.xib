@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22155" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22155"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="BattlegroundsHeroHeader" customModule="HSTracker" customModuleProvider="target">
             <connections>
                 <outlet property="avgPlacementLabel" destination="u9a-4k-vi7" id="wzh-1G-I7u"/>
+                <outlet property="avgPlacementTooltip" destination="AwG-6f-div" id="T6B-xi-afJ"/>
                 <outlet property="avgPlacementTracker" destination="Hxl-js-04s" id="mNk-ch-hfE"/>
                 <outlet property="contentView" destination="c22-O7-iKe" id="Y3R-KU-gp1"/>
                 <outlet property="pickRateLabel" destination="bGw-ct-IIe" id="fAo-kP-qaf"/>
+                <outlet property="pickRateTooltip" destination="S4D-XB-hm4" id="AL7-sU-suj"/>
+                <outlet property="pickRateTracker" destination="Jr8-KQ-MHf" id="4Zh-ur-b09"/>
                 <outlet property="placementDistribution" destination="nv9-jx-tuS" id="h5g-WU-wSu"/>
                 <outlet property="tierBox" destination="hYy-2Z-X4u" id="Pj1-nn-82G"/>
                 <outlet property="tierLabel" destination="eT8-i1-nA5" id="V41-Fk-HD5"/>
-                <outlet property="tooltip" destination="AwG-6f-div" id="T6B-xi-afJ"/>
+                <outlet property="tierTooltip" destination="QW4-5O-xtf" id="66Z-z1-TTg"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
@@ -33,7 +36,7 @@
                         <rect key="frame" x="1" y="1" width="90" height="20"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="X6o-1F-VFN">
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="X6o-1F-VFN">
                                 <rect key="frame" x="-2" y="4" width="94" height="13"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Avg Placement" id="0De-jT-Gn4">
                                     <font key="font" metaFont="system" size="10"/>
@@ -63,7 +66,7 @@
                             <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="2" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0ca-w3-HRy">
                                 <rect key="frame" x="13" y="2" width="23" height="46"/>
                                 <subviews>
-                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AlL-xZ-g8n">
+                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AlL-xZ-g8n">
                                         <rect key="frame" x="-2" y="31" width="27" height="13"/>
                                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Tier" id="oXD-F5-0fr">
                                             <font key="font" metaFont="system" size="10"/>
@@ -71,7 +74,7 @@
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
-                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eT8-i1-nA5">
+                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eT8-i1-nA5">
                                         <rect key="frame" x="-2" y="2" width="27" height="27"/>
                                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="1" id="QvM-1b-fZf">
                                             <font key="font" size="26" name="ChunkFive-Roman"/>
@@ -105,13 +108,16 @@
                         <constraint firstAttribute="height" constant="52" id="tBY-tn-GBJ"/>
                     </constraints>
                 </box>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="Jr8-KQ-MHf" userLabel="PickRateTracker">
+                    <rect key="frame" x="152" y="0.0" width="91" height="60"/>
+                </customView>
                 <box boxType="custom" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="Msi-gp-Vy7" userLabel="HeaderPickRate">
                     <rect key="frame" x="152" y="38" width="91" height="22"/>
                     <view key="contentView" id="qgW-6M-cQx">
                         <rect key="frame" x="1" y="1" width="89" height="20"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cYp-ku-lit">
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cYp-ku-lit">
                                 <rect key="frame" x="-2" y="4" width="93" height="13"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Pick Rate" id="BLS-xp-JRH">
                                     <font key="font" metaFont="system" size="10"/>
@@ -138,7 +144,7 @@
                         <rect key="frame" x="1" y="1" width="90" height="36"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="u9a-4k-vi7">
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="u9a-4k-vi7">
                                 <rect key="frame" x="-2" y="9" width="94" height="19"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="3.45" id="Mby-4M-5dd">
                                     <numberFormatter key="formatter" formatterBehavior="custom10_4" positiveFormat="0.##" negativeFormat="-0.##" usesGroupingSeparator="NO" formatWidth="-1" roundingMode="halfUp" groupingSize="0" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" minimumFractionDigits="2" maximumFractionDigits="2" id="a37-TF-n0E"/>
@@ -166,7 +172,7 @@
                         <rect key="frame" x="1" y="1" width="89" height="36"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bGw-ct-IIe">
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bGw-ct-IIe">
                                 <rect key="frame" x="-2" y="8" width="93" height="20"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="34.5%" id="beQ-OR-fAF">
                                     <numberFormatter key="formatter" formatterBehavior="custom10_4" numberStyle="percent" formatWidth="-1" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" minimumFractionDigits="1" maximumFractionDigits="1" id="3uK-bR-6PQ">
@@ -198,9 +204,12 @@
                 <constraint firstItem="Eoj-hC-ZF6" firstAttribute="top" secondItem="Msi-gp-Vy7" secondAttribute="bottom" id="0kP-tG-Hn3"/>
                 <constraint firstAttribute="trailing" secondItem="wLf-Xw-TgY" secondAttribute="trailing" id="16Z-8p-3dx"/>
                 <constraint firstItem="etG-eK-sEd" firstAttribute="trailing" secondItem="Hxl-js-04s" secondAttribute="trailing" id="2Zn-aZ-RHl"/>
+                <constraint firstItem="Jr8-KQ-MHf" firstAttribute="leading" secondItem="Msi-gp-Vy7" secondAttribute="leading" id="4iK-Dc-Oea"/>
                 <constraint firstItem="Msi-gp-Vy7" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="5sp-iS-r1n"/>
+                <constraint firstItem="Jr8-KQ-MHf" firstAttribute="top" secondItem="Msi-gp-Vy7" secondAttribute="top" id="7O7-Nt-avC"/>
                 <constraint firstItem="Eoj-hC-ZF6" firstAttribute="width" secondItem="etG-eK-sEd" secondAttribute="width" id="Ha1-uy-deU"/>
                 <constraint firstItem="Eoj-hC-ZF6" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="Hzj-0T-DJK"/>
+                <constraint firstItem="Jr8-KQ-MHf" firstAttribute="bottom" secondItem="wLf-Xw-TgY" secondAttribute="bottom" id="Iqa-og-l0h"/>
                 <constraint firstItem="wLf-Xw-TgY" firstAttribute="leading" secondItem="hYy-2Z-X4u" secondAttribute="trailing" constant="4" id="Mj5-js-mqe"/>
                 <constraint firstAttribute="bottom" secondItem="nv9-jx-tuS" secondAttribute="bottom" id="O1k-BP-aee"/>
                 <constraint firstItem="Msi-gp-Vy7" firstAttribute="width" secondItem="etG-eK-sEd" secondAttribute="width" id="OjW-v5-f9W"/>
@@ -208,6 +217,7 @@
                 <constraint firstItem="Eoj-hC-ZF6" firstAttribute="bottom" secondItem="Hxl-js-04s" secondAttribute="bottom" id="PZb-kC-LrN"/>
                 <constraint firstItem="nv9-jx-tuS" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="SuN-Bq-hZt"/>
                 <constraint firstItem="hYy-2Z-X4u" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="X4q-JM-wcM"/>
+                <constraint firstItem="Jr8-KQ-MHf" firstAttribute="trailing" secondItem="Msi-gp-Vy7" secondAttribute="trailing" id="jRU-hr-wx0"/>
                 <constraint firstItem="hYy-2Z-X4u" firstAttribute="leading" secondItem="etG-eK-sEd" secondAttribute="trailing" constant="4" id="kka-zT-xaV"/>
                 <constraint firstItem="wLf-Xw-TgY" firstAttribute="width" secondItem="Msi-gp-Vy7" secondAttribute="width" id="kzj-VJ-7yh"/>
                 <constraint firstItem="Hxl-js-04s" firstAttribute="top" secondItem="etG-eK-sEd" secondAttribute="top" id="lWD-LV-PY4"/>
@@ -231,7 +241,7 @@
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="CPH-59-9u6">
                         <rect key="frame" x="0.0" y="0.0" width="169" height="60"/>
                         <subviews>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="6UR-Uf-fHO">
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="6UR-Uf-fHO">
                                 <rect key="frame" x="6" y="-4" width="157" height="38"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="38" id="iXh-VY-ife"/>
@@ -242,12 +252,12 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XGQ-Bw-gwn">
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XGQ-Bw-gwn">
                                 <rect key="frame" x="6" y="34" width="157" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="22" id="0Aa-3t-SrW"/>
                                 </constraints>
-                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="left" title="Average Placement" id="zyT-eG-UF8">
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Average Placement" id="zyT-eG-UF8">
                                     <font key="font" metaFont="systemBold" size="12"/>
                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -273,7 +283,122 @@
             </view>
             <color key="borderColor" red="0.21176470589999999" green="0.086274509799999996" blue="0.2156862745" alpha="1" colorSpace="deviceRGB"/>
             <color key="fillColor" red="0.078431372550000003" green="0.086274509799999996" blue="0.090196078430000007" alpha="1" colorSpace="custom" customColorSpace="deviceRGB"/>
-            <point key="canvasLocation" x="-219" y="-36"/>
+            <point key="canvasLocation" x="-219.5" y="-36"/>
         </box>
+        <box boxType="custom" cornerRadius="4" title="Box" titlePosition="noTitle" id="S4D-XB-hm4" userLabel="PickRateTooltip">
+            <rect key="frame" x="0.0" y="0.0" width="171" height="62"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <view key="contentView" id="4pA-p4-wbq">
+                <rect key="frame" x="1" y="1" width="169" height="60"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="f20-uR-ooo">
+                        <rect key="frame" x="0.0" y="0.0" width="169" height="60"/>
+                        <subviews>
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="365-IK-ahs">
+                                <rect key="frame" x="6" y="-4" width="157" height="38"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="38" id="mcq-mJ-rx8"/>
+                                </constraints>
+                                <textFieldCell key="cell" selectable="YES" title="Percent of the time this hero is picked at the start of a game when presented as an option" id="6cl-WP-gt3">
+                                    <font key="font" metaFont="system" size="10"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vVz-aI-zj8">
+                                <rect key="frame" x="6" y="34" width="157" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="22" id="MT1-uf-xMK"/>
+                                </constraints>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Pick Rate" id="NvP-RX-Xvb">
+                                    <font key="font" metaFont="systemBold" size="12"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="365-IK-ahs" firstAttribute="top" secondItem="vVz-aI-zj8" secondAttribute="bottom" id="Lub-QQ-wop"/>
+                            <constraint firstItem="365-IK-ahs" firstAttribute="leading" secondItem="f20-uR-ooo" secondAttribute="leading" constant="8" id="Vih-hn-cXc"/>
+                            <constraint firstItem="vVz-aI-zj8" firstAttribute="leading" secondItem="f20-uR-ooo" secondAttribute="leading" constant="8" id="dOs-fy-Dwc"/>
+                            <constraint firstAttribute="height" constant="60" id="eWe-6j-eZh"/>
+                            <constraint firstAttribute="trailing" secondItem="365-IK-ahs" secondAttribute="trailing" constant="8" id="gq4-vD-Y85"/>
+                            <constraint firstItem="vVz-aI-zj8" firstAttribute="top" secondItem="f20-uR-ooo" secondAttribute="top" constant="4" id="mQh-ku-Nev"/>
+                            <constraint firstAttribute="trailing" secondItem="vVz-aI-zj8" secondAttribute="trailing" constant="8" id="umR-tf-Liv"/>
+                        </constraints>
+                    </customView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="f20-uR-ooo" secondAttribute="trailing" id="7At-EH-YX7"/>
+                    <constraint firstItem="f20-uR-ooo" firstAttribute="top" secondItem="4pA-p4-wbq" secondAttribute="top" id="Nro-UU-a86"/>
+                    <constraint firstItem="f20-uR-ooo" firstAttribute="leading" secondItem="4pA-p4-wbq" secondAttribute="leading" id="a95-6U-lGj"/>
+                </constraints>
+            </view>
+            <color key="borderColor" red="0.21176470589999999" green="0.086274509799999996" blue="0.2156862745" alpha="1" colorSpace="deviceRGB"/>
+            <color key="fillColor" red="0.078431372550000003" green="0.086274509799999996" blue="0.090196078430000007" alpha="1" colorSpace="custom" customColorSpace="deviceRGB"/>
+            <point key="canvasLocation" x="-441" y="19"/>
+        </box>
+        <box boxType="custom" cornerRadius="4" title="Box" titlePosition="noTitle" id="QW4-5O-xtf" userLabel="TierTooltip">
+            <rect key="frame" x="0.0" y="0.0" width="171" height="98"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <view key="contentView" id="wVs-AU-7eY">
+                <rect key="frame" x="1" y="1" width="169" height="96"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="IX7-rg-FlR">
+                        <rect key="frame" x="0.0" y="0.0" width="169" height="96"/>
+                        <subviews>
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="glT-VB-k5L">
+                                <rect key="frame" x="6" y="4" width="157" height="66"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="66" id="Xcd-nw-1wV"/>
+                                </constraints>
+                                <textFieldCell key="cell" selectable="YES" title="The best placing hero, and heroes with higher placement within one standard deviation of the best placing hero" id="hH0-1o-Hjo">
+                                    <font key="font" metaFont="system" size="10"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                                <connections>
+                                    <binding destination="-2" name="value" keyPath="self.tierTooltipText" id="ZEk-OO-pPr"/>
+                                </connections>
+                            </textField>
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="GAM-tB-yt5">
+                                <rect key="frame" x="6" y="70" width="157" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="22" id="pbd-dC-Pem"/>
+                                </constraints>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="TIER" id="rPL-X1-H5z">
+                                    <font key="font" metaFont="systemBold" size="12"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                                <connections>
+                                    <binding destination="-2" name="value" keyPath="self.tierTooltipTitle" id="nnn-xX-RDa"/>
+                                </connections>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="glT-VB-k5L" firstAttribute="top" secondItem="GAM-tB-yt5" secondAttribute="bottom" id="Det-2F-8u6"/>
+                            <constraint firstItem="glT-VB-k5L" firstAttribute="leading" secondItem="IX7-rg-FlR" secondAttribute="leading" constant="8" id="Izy-qg-QKN"/>
+                            <constraint firstItem="GAM-tB-yt5" firstAttribute="leading" secondItem="IX7-rg-FlR" secondAttribute="leading" constant="8" id="X2o-C5-J2E"/>
+                            <constraint firstItem="GAM-tB-yt5" firstAttribute="top" secondItem="IX7-rg-FlR" secondAttribute="top" constant="4" id="ZcC-eh-VXN"/>
+                            <constraint firstAttribute="trailing" secondItem="glT-VB-k5L" secondAttribute="trailing" constant="8" id="aQU-ap-U5Z"/>
+                            <constraint firstAttribute="trailing" secondItem="GAM-tB-yt5" secondAttribute="trailing" constant="8" id="mmZ-m9-SIV"/>
+                        </constraints>
+                    </customView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="IX7-rg-FlR" secondAttribute="bottom" id="Bhg-NO-RdT"/>
+                    <constraint firstItem="IX7-rg-FlR" firstAttribute="leading" secondItem="wVs-AU-7eY" secondAttribute="leading" id="HHF-iC-n0L"/>
+                    <constraint firstAttribute="trailing" secondItem="IX7-rg-FlR" secondAttribute="trailing" id="Vut-R7-HOZ"/>
+                    <constraint firstItem="IX7-rg-FlR" firstAttribute="top" secondItem="wVs-AU-7eY" secondAttribute="top" id="pRV-ws-TsI"/>
+                </constraints>
+            </view>
+            <color key="borderColor" red="0.21176470589999999" green="0.086274509799999996" blue="0.2156862745" alpha="1" colorSpace="deviceRGB"/>
+            <color key="fillColor" red="0.078431372550000003" green="0.086274509799999996" blue="0.090196078430000007" alpha="1" colorSpace="custom" customColorSpace="deviceRGB"/>
+            <point key="canvasLocation" x="-476.5" y="-113"/>
+        </box>
+        <userDefaultsController representsSharedInstance="YES" id="7fj-Io-pMQ"/>
     </objects>
 </document>

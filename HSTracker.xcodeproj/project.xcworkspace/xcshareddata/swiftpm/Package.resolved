@@ -28,6 +28,15 @@
       }
     },
     {
+      "identity" : "customtooltip",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/fmoraes74/CustomToolTip",
+      "state" : {
+        "branch" : "main",
+        "revision" : "e712cfd42d57c928f86614e77046e085de51394d"
+      }
+    },
+    {
       "identity" : "erik",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/phimage/Erik.git",

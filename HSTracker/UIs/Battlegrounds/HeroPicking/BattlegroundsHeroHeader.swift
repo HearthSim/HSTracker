@@ -7,16 +7,19 @@
 //
 
 import Foundation
-//import CustomToolTip
+import CustomToolTip
 
 class BattlegroundsHeroHeader: NSView {
     @IBOutlet weak var contentView: NSView!
-    @IBOutlet weak var tooltip: NSView!
+    @IBOutlet weak var avgPlacementTooltip: NSView!
+    @IBOutlet weak var pickRateTooltip: NSView!
+    @IBOutlet weak var tierTooltip: NSView!
     
     @IBOutlet weak var avgPlacementTracker: NSView!
     @IBOutlet weak var avgPlacementLabel: NSTextField!
     @IBOutlet weak var tierBox: NSBox!
     @IBOutlet weak var tierLabel: NSTextField!
+    @IBOutlet weak var pickRateTracker: NSView!
     @IBOutlet weak var pickRateLabel: NSTextField!
     
     @IBOutlet weak var placementDistribution: BattlegroundsPlacementDistribution!
@@ -34,6 +37,10 @@ class BattlegroundsHeroHeader: NSView {
         }
     }
     
+    @objc dynamic var tierTooltipTitle: String = ""
+
+    @objc dynamic var tierTooltipText: String = ""
+
     override init(frame: NSRect) {
         super.init(frame: frame)
         commonInit()
@@ -50,9 +57,22 @@ class BattlegroundsHeroHeader: NSView {
         contentView.translatesAutoresizingMaskIntoConstraints = true
         addSubview(contentView)
         contentView.frame = self.bounds
+        defaultBackgroundColor = .clear
         
-//        contentView.customToolTip = tooltip
-//        contentView.customToolTipMargins = CGSize(width: 0, height: 0)
+        avgPlacementTracker.customToolTip = avgPlacementTooltip
+        avgPlacementTracker.customToolTipMargins = CGSize(width: 0, height: 0)
+        avgPlacementTracker.customToolTipInsets = CGSize(width: 25, height: 0)
+        avgPlacementTooltip.updateTrackingAreas_CustomToolTip()
+        
+        tierBox.customToolTip = tierTooltip
+        tierBox.customToolTipMargins = CGSize(width: 0, height: 0)
+        tierBox.customToolTipInsets = CGSize(width: 25, height: 0)
+        tierTooltip.updateTrackingAreas_CustomToolTip()
+        
+        pickRateTracker.customToolTip = pickRateTooltip
+        pickRateTracker.customToolTipMargins = CGSize(width: 0, height: 0)
+        pickRateTracker.customToolTipInsets = CGSize(width: 25, height: 0)
+        pickRateTooltip.updateTrackingAreas_CustomToolTip()
         
         let trackingArea = NSTrackingArea(rect: NSRect.zero,
                                           options: [NSTrackingArea.Options.inVisibleRect, NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited],
@@ -111,5 +131,8 @@ class BattlegroundsHeroHeader: NSView {
         if viewModel?.placementDistributionVisibility ?? false, let values = viewModel?.placementDistribution {
             placementDistribution.values = values
         }
+        
+        tierTooltipTitle = viewModel?.tierTooltipTitle ?? ""
+        tierTooltipText = viewModel?.tierTooltipText ?? ""
     }
 }

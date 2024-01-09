@@ -487,6 +487,7 @@
 		B8591FFA2B24F7C900B907A4 /* ObjectiveFactoryProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FF92B24F7C900B907A4 /* ObjectiveFactoryProxy.swift */; };
 		B8591FFC2B24F87C00B907A4 /* ObjectiveProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FFB2B24F87C00B907A4 /* ObjectiveProxy.swift */; };
 		B8591FFE2B31328A00B907A4 /* RecurringNightmare.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FFD2B31328900B907A4 /* RecurringNightmare.swift */; };
+		B85920962B4C73B300B907A4 /* CustomToolTip in Frameworks */ = {isa = PBXBuildFile; productRef = B85920952B4C73B300B907A4 /* CustomToolTip */; };
 		B85A0D54272CDEFE006D2648 /* MercenariesPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85A0D53272CDEFE006D2648 /* MercenariesPreferences.swift */; };
 		B85A0D55272CE24A006D2648 /* MercenariesPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B85A0D51272CDDFB006D2648 /* MercenariesPreferences.xib */; };
 		B85A0D56272CE24B006D2648 /* MercenariesPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B85A0D51272CDDFB006D2648 /* MercenariesPreferences.xib */; };
@@ -1496,6 +1497,7 @@
 				B8D75BC325BD10B600446923 /* OAuthSwift in Frameworks */,
 				B8D75BD425BDD3A700446923 /* PromiseKit in Frameworks */,
 				4C68AF2B2447D35B00E52834 /* HearthMirror.framework in Frameworks */,
+				B85920962B4C73B300B907A4 /* CustomToolTip in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2376,6 +2378,7 @@
 				B8D75BEE25BDFE6D00446923 /* Gzip */,
 				B8D75BF625BE032500446923 /* Sparkle */,
 				B82E7B18262A88DB00C42EF0 /* BigInt */,
+				B85920952B4C73B300B907A4 /* CustomToolTip */,
 			);
 			productName = HSTracker;
 			productReference = 439C7E481C7772C000D29859 /* HSTracker.app */;
@@ -2477,6 +2480,7 @@
 				B8D75BED25BDFE6D00446923 /* XCRemoteSwiftPackageReference "GzipSwift" */,
 				B8D75BF525BE032500446923 /* XCRemoteSwiftPackageReference "Sparkle" */,
 				B82E7B17262A88DB00C42EF0 /* XCRemoteSwiftPackageReference "BigInt" */,
+				B85920942B4C73B300B907A4 /* XCRemoteSwiftPackageReference "CustomToolTip" */,
 			);
 			productRefGroup = 439C7E491C7772C000D29859 /* Products */;
 			projectDirPath = "";
@@ -4158,6 +4162,14 @@
 				minimumVersion = 5.2.1;
 			};
 		};
+		B85920942B4C73B300B907A4 /* XCRemoteSwiftPackageReference "CustomToolTip" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/fmoraes74/CustomToolTip";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		B8D75B9425B4799100446923 /* XCRemoteSwiftPackageReference "Preferences" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sindresorhus/Preferences";
@@ -4253,6 +4265,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B82E7B17262A88DB00C42EF0 /* XCRemoteSwiftPackageReference "BigInt" */;
 			productName = BigInt;
+		};
+		B85920952B4C73B300B907A4 /* CustomToolTip */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B85920942B4C73B300B907A4 /* XCRemoteSwiftPackageReference "CustomToolTip" */;
+			productName = CustomToolTip;
 		};
 		B887656926C304FA003D3629 /* BigInt */ = {
 			isa = XCSwiftPackageProductDependency;

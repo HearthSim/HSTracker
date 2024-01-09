@@ -7,20 +7,29 @@
 //
 
 import Foundation
+import CustomToolTip
 
 class BattlegroundsSingleQuestView: NSView {
     @IBOutlet weak var contentView: NSView!
     
+    @IBOutlet weak var avgPlacementBox: NSBox!
     @IBOutlet weak var avgPlacementLabel: NSTextField!
+    @IBOutlet weak var avgPlacementTooltip: NSView!
     
     @IBOutlet weak var tierBox: NSBox!
     @IBOutlet weak var tierLabel: NSTextField!
+    @IBOutlet weak var tierTooltip: NSView!
     
+    @IBOutlet weak var pickRateBox: NSBox!
     @IBOutlet weak var pickRateLabel: NSTextField!
+    @IBOutlet weak var pickRateTooltip: NSView!
     
     @IBOutlet weak var compositionView: BattlegroundsCompositionPopularity!
     
     let viewModel: BattlegroundsSingleQuestViewModel
+    
+    @objc dynamic var tierTooltipText = ""
+    @objc dynamic var tierTooltipTitle   = ""
     
     override var intrinsicContentSize: NSSize {
         return NSSize(width: 252, height: 778   )
@@ -47,6 +56,21 @@ class BattlegroundsSingleQuestView: NSView {
         
         update()
         
+        avgPlacementBox.customToolTip = avgPlacementTooltip
+        avgPlacementBox.customToolTipMargins = CGSize(width: 0, height: 0)
+        avgPlacementBox.customToolTipInsets = CGSize(width: 25, height: 0)
+        avgPlacementTooltip.updateTrackingAreas_CustomToolTip()
+        
+        tierBox.customToolTip = tierTooltip
+        tierBox.customToolTipMargins = CGSize(width: 0, height: 0)
+        tierBox.customToolTipInsets = CGSize(width: 25, height: 0)
+        tierTooltip.updateTrackingAreas_CustomToolTip()
+        
+        pickRateBox.customToolTip = pickRateTooltip
+        pickRateBox.customToolTipMargins = CGSize(width: 0, height: 0)
+        pickRateBox.customToolTipInsets = CGSize(width: 25, height: 0)
+        pickRateTooltip.updateTrackingAreas_CustomToolTip()
+        
         compositionView.update()
     }
     
@@ -71,5 +95,8 @@ class BattlegroundsSingleQuestView: NSView {
         } else {
             pickRateLabel.stringValue = "—" // em dash
         }
+        
+        tierTooltipTitle = viewModel.tierTooltipTitle
+        tierTooltipText = viewModel.tierTooltipText
     }
 }
