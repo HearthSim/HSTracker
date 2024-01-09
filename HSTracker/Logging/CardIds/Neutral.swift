@@ -738,6 +738,8 @@ extension CardIds.NonCollectible {
         static let MimironsHead_V07Tr0NToken = "GVG_111t"
         static let RecurringNightmare_NightmareInsideEnchantment = "BG26_055e"
         static let RecurringNightmare_NightmareInside = "BG26_055_Ge"
+        static let ThorimStormlord_ChooseYourChampion = "BG27_HERO_801p2"
+        static let ThorimStormlord_ThorimsChampion = "BG27_HERO_801p"
     }
 }
 

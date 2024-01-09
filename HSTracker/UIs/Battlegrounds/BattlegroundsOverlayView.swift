@@ -131,9 +131,7 @@ class BattlegroundsOverlayView: NSView {
     }
 
     func displayHero(at: Int) {
-        // swiftlint:disable force_cast
-        let windowManager = (NSApplication.shared.delegate as! AppDelegate).coreManager.game.windowManager
-        // swiftlint:enable force_cast
+        let windowManager = AppDelegate.instance().coreManager.game.windowManager
         
         let game = AppDelegate.instance().coreManager.game
         
@@ -141,6 +139,12 @@ class BattlegroundsOverlayView: NSView {
             let board = game.getSnapshot(opponentHeroCardId: hero.cardId)
             if let board = board {
                 windowManager.battlegroundsDetailsWindow.setBoard(board: board)
+                var heroPowers = game.player.board.filter { x in x.isHeroPower }.compactMap { x in x.cardId }
+                if heroPowers.count > 0 && game.gameEntity?[.step] ?? 0 <= Step.begin_mulligan.rawValue {
+                    let heroes = game.player.playerEntities.filter { x in x.isHero && (x.has(tag: .bacon_hero_can_be_drafted) || x.has(tag: .bacon_skin))}
+                    heroPowers = heroes.compactMap { x in Cards.by(dbfId: x[.hero_power], collectible: false)?.id }
+                }
+                windowManager.battlegroundsTierOverlay.tierOverlay.onHeroPowers(heroPowers: heroPowers)
                 let rect = SizeHelper.battlegroundsDetailsFrame()
                 windowManager.show(controller: windowManager.battlegroundsDetailsWindow, show: true,
                                    frame: rect, overlay: true)
@@ -168,7 +172,7 @@ class BattlegroundsOverlayView: NSView {
         let index = 7 - Int(CGFloat(event.locationInWindow.y / (frame.height/8)))
         let game = AppDelegate.instance().coreManager.game
 
-        if index != currentIndex, let hero = game.entities.values.first(where: { ent in ent[.player_leaderboard_place] == index + 1}) {
+        if index != currentIndex, let hero = game.entities.values.filter({ ent in ent[.player_leaderboard_place] == index + 1}).sorted(by: { $0.id < $1.id }).first {
             if hero.cardId != game.playerHeroId {
                 for i in 0 ..< leaderboardDeadForText.count {
                     leaderboardDeadForText[i].isHidden = false

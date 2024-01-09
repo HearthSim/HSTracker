@@ -13,6 +13,7 @@ class BattlegroundsTierOverlayView: NSView {
     var hoverTier = 0
     var showing = false
     var availableTiers: [Bool] = [false, false, false, false, false, false, false]
+    var isThorimRelevant = false
 
     init() {
         super.init(frame: NSRect.zero)
@@ -27,7 +28,7 @@ class BattlegroundsTierOverlayView: NSView {
     }
     
     func isTier7Available() -> Bool {
-        return availableTiers[6]
+        return availableTiers[6] || isThorimRelevant
     }
     
     func unhideTier() {
@@ -66,6 +67,7 @@ class BattlegroundsTierOverlayView: NSView {
         currentTier = 0
         hoverTier = 0
         needsDisplay = true
+        isThorimRelevant = false
     }
     
     func drawTier(tier: Int, x: Int) {
@@ -81,7 +83,8 @@ class BattlegroundsTierOverlayView: NSView {
 
         let rect = NSRect(x: x + 2, y: 10, width: 36, height: 36)
         if let image = NSImage(contentsOfFile: "\(rp)/Resources/Battlegrounds/tier-\(tier).png") {
-            image.draw(in: rect, from: NSRect(origin: CGPoint(x: 0, y: 0), size: image.size), operation: .sourceOver, fraction: hoverTier == tier ? (availableTiers[tier - 1] ? 1.0 : 0.6) : (availableTiers[tier - 1] ? 1.0 : 0.3))
+            let avail = availableTiers[tier - 1] || (tier == 7 && isThorimRelevant)
+            image.draw(in: rect, from: NSRect(origin: CGPoint(x: 0, y: 0), size: image.size), operation: .sourceOver, fraction: hoverTier == tier ? (avail ? 1.0 : 0.6) : (avail ? 1.0 : 0.3))
         }
     }
 
@@ -122,7 +125,7 @@ class BattlegroundsTierOverlayView: NSView {
                 windowManager.show(controller: controller, show: true,
                                    frame: frame, overlay: true)
                 controller.detailsView?.contentFrame = frame
-                controller.detailsView?.setTier(tier: tier)
+                controller.detailsView?.setTier(tier: tier, isThorimRelevant: isThorimRelevant)
             } else {
                 windowManager.show(controller: controller, show: false)
             }
@@ -161,5 +164,12 @@ class BattlegroundsTierOverlayView: NSView {
     override func mouseExited(with event: NSEvent) {
         hoverTier = 0
         needsDisplay = true
+    }
+    
+    func onHeroPowers(heroPowers: [String]) {
+        isThorimRelevant = heroPowers.any { x in x == CardIds.NonCollectible.Neutral.ThorimStormlord_ChooseYourChampion || x == CardIds.NonCollectible.Neutral.ThorimStormlord_ThorimsChampion }
+        DispatchQueue.main.async {
+            self.needsDisplay = true
+        }
     }
 }

@@ -2088,6 +2088,7 @@ class Game: NSObject, PowerEventHandler {
                     OpponentDeadForTracker.shoppingStarted(game: self)
                     if playerTurn.turn > 1 {
                         BobsBuddyInvoker.instance(gameId: self.gameId, turn: self.turnNumber() - 1)?.startShopping()
+                        windowManager.battlegroundsTierOverlay.tierOverlay.onHeroPowers(heroPowers: self.player.board.filter { x in x.isHeroPower }.compactMap { x in x.cardId })
                     }
                 }
             }
@@ -3031,6 +3032,11 @@ class Game: NSObject, PowerEventHandler {
     func handlePlayerSendChoices(choice: Choice) {
         if choice.choiceType == .mulligan {
             if isBattlegroundsMatch() {
+                let hero = choice.chosenEntities.first
+                let heroPower = Cards.by(dbfId: hero?[.hero_power], collectible: false)?.id
+                if let hp = heroPower {
+                    windowManager.battlegroundsTierOverlay.tierOverlay.onHeroPowers(heroPowers: [ hp ])
+                }
                 self.windowManager.battlegroundsQuestPicking.viewModel.reset()
             } else if isConstructedMatch() {
                 snapshotMulliganChoices(choice: choice)

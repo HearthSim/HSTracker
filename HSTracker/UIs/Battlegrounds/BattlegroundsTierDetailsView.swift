@@ -38,7 +38,7 @@ class BattlegroundsTierDetailsView: NSStackView {
         return Race.allCases.firstIndex { $0 == r } ?? 0
     }
     
-    func setTier(tier: Int) {
+    func setTier(tier: Int, isThorimRelevant: Bool) {
         let game = AppDelegate.instance().coreManager.game
         var availableRaces = game.availableRaces
         availableRaces?.append(Race.all)
@@ -66,7 +66,10 @@ class BattlegroundsTierDetailsView: NSStackView {
 
         let anomalyDbfId = BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: game.gameEntity)
         let anomalyCardId = Cards.by(dbfId: anomalyDbfId, collectible: false)?.id
-        let availableTiers = BattlegroundsUtils.getAvailableTiers(anomalyCardId: anomalyCardId)
+        var availableTiers = BattlegroundsUtils.getAvailableTiers(anomalyCardId: anomalyCardId)
+        if isThorimRelevant {
+            availableTiers.append(7)
+        }
         let bannedMinions = BattlegroundsUtils.getMinionsBannedByAnomaly(anomalyDbfId: anomalyDbfId) ?? [String]()
         let showBD = Settings.showBattlecryDeathrattleOnTiers
         var cardBars: [CardBar] = bgMinions.filter {
