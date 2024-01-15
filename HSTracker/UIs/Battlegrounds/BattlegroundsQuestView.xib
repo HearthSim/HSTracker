@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22155" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22155"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -27,8 +27,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="83" height="108"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yqf-Oe-MLN">
-                                <rect key="frame" x="3" y="6" width="80" height="98"/>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="xek-Hk-r5h">
+                                <rect key="frame" x="0.0" y="6" width="83" height="98"/>
                                 <subviews>
                                     <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="acU-7x-pT5" userLabel="Canvas">
                                         <rect key="frame" x="0.0" y="16" width="80" height="82"/>
@@ -57,7 +57,7 @@
                                                 </constraints>
                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="bacon_quest_exclamation" id="NJ0-bW-xsq"/>
                                             </imageView>
-                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6EL-y5-gnh">
+                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6EL-y5-gnh">
                                                 <rect key="frame" x="36" y="60" width="9" height="15"/>
                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="!" id="fjX-Y1-jcr">
                                                     <font key="font" size="15" name="ChunkFive-Roman"/>
@@ -79,8 +79,8 @@
                                             <constraint firstAttribute="width" constant="80" id="yWz-Vo-gMx"/>
                                         </constraints>
                                     </customView>
-                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ea4-m2-TdL">
-                                        <rect key="frame" x="0.0" y="0.0" width="82" height="16"/>
+                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ea4-m2-TdL">
+                                        <rect key="frame" x="0.0" y="0.0" width="85" height="16"/>
                                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Turn 1" id="Vny-6h-cSP">
                                             <font key="font" usesAppearanceFont="YES"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
@@ -89,27 +89,19 @@
                                     </textField>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="Ea4-m2-TdL" firstAttribute="leading" secondItem="yqf-Oe-MLN" secondAttribute="leading" constant="2" id="CJM-Xz-wHH"/>
-                                    <constraint firstAttribute="trailing" secondItem="Ea4-m2-TdL" secondAttribute="trailing" id="K2j-Fy-AFW"/>
-                                    <constraint firstItem="acU-7x-pT5" firstAttribute="top" secondItem="yqf-Oe-MLN" secondAttribute="top" id="VLP-KR-fhv"/>
-                                    <constraint firstItem="Ea4-m2-TdL" firstAttribute="top" secondItem="acU-7x-pT5" secondAttribute="bottom" id="oNp-9j-vhX"/>
-                                    <constraint firstAttribute="height" constant="98" id="vK7-ZL-CBG"/>
-                                    <constraint firstItem="acU-7x-pT5" firstAttribute="leading" secondItem="yqf-Oe-MLN" secondAttribute="leading" id="zNy-F2-PoP"/>
+                                    <constraint firstItem="Ea4-m2-TdL" firstAttribute="top" secondItem="acU-7x-pT5" secondAttribute="bottom" id="0xz-4V-78t"/>
+                                    <constraint firstItem="Ea4-m2-TdL" firstAttribute="leading" secondItem="xek-Hk-r5h" secondAttribute="leading" constant="2" id="SDl-M6-I4T"/>
+                                    <constraint firstItem="acU-7x-pT5" firstAttribute="leading" secondItem="xek-Hk-r5h" secondAttribute="leading" id="ZbI-cd-0JD"/>
+                                    <constraint firstAttribute="height" constant="98" id="Zjw-jm-694"/>
+                                    <constraint firstItem="acU-7x-pT5" firstAttribute="top" secondItem="xek-Hk-r5h" secondAttribute="top" id="cBj-xO-D74"/>
+                                    <constraint firstAttribute="trailing" secondItem="Ea4-m2-TdL" secondAttribute="trailing" id="d3z-P3-wCY"/>
                                 </constraints>
-                                <visibilityPriorities>
-                                    <integer value="1000"/>
-                                    <integer value="1000"/>
-                                </visibilityPriorities>
-                                <customSpacing>
-                                    <real value="3.4028234663852886e+38"/>
-                                    <real value="3.4028234663852886e+38"/>
-                                </customSpacing>
-                            </stackView>
+                            </customView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="yqf-Oe-MLN" firstAttribute="leading" secondItem="3Ef-y1-FOa" secondAttribute="leading" constant="3" id="aj3-Qm-0yN"/>
-                            <constraint firstAttribute="trailing" secondItem="yqf-Oe-MLN" secondAttribute="trailing" id="bFw-je-j8L"/>
-                            <constraint firstItem="yqf-Oe-MLN" firstAttribute="top" secondItem="3Ef-y1-FOa" secondAttribute="top" constant="4" id="q6l-TW-0gV"/>
+                            <constraint firstItem="xek-Hk-r5h" firstAttribute="leading" secondItem="3Ef-y1-FOa" secondAttribute="leading" id="HWu-aL-E4o"/>
+                            <constraint firstItem="xek-Hk-r5h" firstAttribute="top" secondItem="3Ef-y1-FOa" secondAttribute="top" constant="4" id="V1b-IY-IMf"/>
+                            <constraint firstAttribute="trailing" secondItem="xek-Hk-r5h" secondAttribute="trailing" id="b8O-yO-Gd9"/>
                         </constraints>
                     </view>
                     <color key="borderColor" red="0.2156862745" green="0.22352941179999999" blue="0.23529411759999999" alpha="1" colorSpace="deviceRGB"/>

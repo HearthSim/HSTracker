@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22155" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22155"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -31,11 +31,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="75" height="65"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fcV-wx-Hzy">
-                                <rect key="frame" x="3" y="3" width="72" height="58"/>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="yDK-uj-bWT" userLabel="WrappedView">
+                                <rect key="frame" x="0.0" y="0.0" width="75" height="65"/>
                                 <subviews>
                                     <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="atn-NH-gf7" userLabel="Canvas">
-                                        <rect key="frame" x="0.0" y="16" width="70" height="42"/>
+                                        <rect key="frame" x="0.0" y="23" width="70" height="42"/>
                                         <subviews>
                                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Hya-Ng-lTg" userLabel="BattlegroundTier">
                                                 <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
@@ -61,7 +61,7 @@
                                                 </constraints>
                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="triple-black" id="2e2-Na-ipT"/>
                                             </imageView>
-                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Twa-hB-fF0" userLabel="Quantity">
+                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Twa-hB-fF0" userLabel="Quantity">
                                                 <rect key="frame" x="38" y="18" width="14" height="17"/>
                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="0" id="Owq-42-qjx">
                                                     <font key="font" metaFont="systemBold" size="14"/>
@@ -84,8 +84,8 @@
                                             <constraint firstItem="Hya-Ng-lTg" firstAttribute="leading" secondItem="atn-NH-gf7" secondAttribute="leading" id="zZM-b1-QPV"/>
                                         </constraints>
                                     </customView>
-                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PwG-Rc-VGh">
-                                        <rect key="frame" x="0.0" y="0.0" width="74" height="16"/>
+                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PwG-Rc-VGh">
+                                        <rect key="frame" x="0.0" y="7" width="77" height="16"/>
                                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Turn 1" id="LcN-PQ-naB">
                                             <font key="font" usesAppearanceFont="YES"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
@@ -94,27 +94,19 @@
                                     </textField>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="atn-NH-gf7" firstAttribute="leading" secondItem="fcV-wx-Hzy" secondAttribute="leading" id="3xY-U8-rXb"/>
-                                    <constraint firstAttribute="height" constant="58" id="Akx-vj-Rdy"/>
-                                    <constraint firstItem="PwG-Rc-VGh" firstAttribute="top" secondItem="atn-NH-gf7" secondAttribute="bottom" id="DCs-PR-6Kj"/>
-                                    <constraint firstItem="PwG-Rc-VGh" firstAttribute="leading" secondItem="fcV-wx-Hzy" secondAttribute="leading" constant="2" id="eKM-NI-J2r"/>
-                                    <constraint firstItem="atn-NH-gf7" firstAttribute="top" secondItem="fcV-wx-Hzy" secondAttribute="top" id="rUU-UL-fxX"/>
-                                    <constraint firstAttribute="trailing" secondItem="PwG-Rc-VGh" secondAttribute="trailing" id="vKm-21-8gP"/>
+                                    <constraint firstAttribute="trailing" secondItem="PwG-Rc-VGh" secondAttribute="trailing" id="4L2-6n-rwc"/>
+                                    <constraint firstItem="atn-NH-gf7" firstAttribute="top" secondItem="yDK-uj-bWT" secondAttribute="top" id="BSF-oJ-aRl"/>
+                                    <constraint firstItem="PwG-Rc-VGh" firstAttribute="top" secondItem="atn-NH-gf7" secondAttribute="bottom" id="r3A-4b-srA"/>
+                                    <constraint firstItem="atn-NH-gf7" firstAttribute="leading" secondItem="yDK-uj-bWT" secondAttribute="leading" id="taS-tr-7Ib"/>
+                                    <constraint firstItem="PwG-Rc-VGh" firstAttribute="leading" secondItem="yDK-uj-bWT" secondAttribute="leading" constant="2" id="zvy-Ne-LUa"/>
                                 </constraints>
-                                <visibilityPriorities>
-                                    <integer value="1000"/>
-                                    <integer value="1000"/>
-                                </visibilityPriorities>
-                                <customSpacing>
-                                    <real value="3.4028234663852886e+38"/>
-                                    <real value="3.4028234663852886e+38"/>
-                                </customSpacing>
-                            </stackView>
+                            </customView>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="fcV-wx-Hzy" secondAttribute="trailing" id="BzX-4G-z8x"/>
-                            <constraint firstItem="fcV-wx-Hzy" firstAttribute="leading" secondItem="yTU-3x-OFf" secondAttribute="leading" constant="3" id="l02-vi-frx"/>
-                            <constraint firstItem="fcV-wx-Hzy" firstAttribute="top" secondItem="yTU-3x-OFf" secondAttribute="top" constant="4" id="lSF-v0-uFp"/>
+                            <constraint firstAttribute="trailing" secondItem="yDK-uj-bWT" secondAttribute="trailing" id="Wtj-bb-ESW"/>
+                            <constraint firstAttribute="bottom" secondItem="yDK-uj-bWT" secondAttribute="bottom" id="r5t-yi-rMK"/>
+                            <constraint firstItem="yDK-uj-bWT" firstAttribute="top" secondItem="yTU-3x-OFf" secondAttribute="top" id="wYO-w8-3wG"/>
+                            <constraint firstItem="yDK-uj-bWT" firstAttribute="leading" secondItem="yTU-3x-OFf" secondAttribute="leading" id="zAJ-5C-68J"/>
                         </constraints>
                     </view>
                     <color key="borderColor" red="0.21568627450980393" green="0.22352941176470587" blue="0.23529411764705882" alpha="1" colorSpace="deviceRGB"/>
