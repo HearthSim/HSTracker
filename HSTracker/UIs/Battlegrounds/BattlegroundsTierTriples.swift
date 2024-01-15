@@ -60,6 +60,6 @@ class BattlegroundsTierTriples: NSView {
         turnText.isHidden = tripleImage.isHidden
         tripleBlackImage.alphaValue = qty > 0 ? 0 : 0.2
         qtyText.stringValue = turn > 0 ? "\(qty)" : ""
-        turnText.stringValue = String(format: NSLocalizedString("Turn %d", comment: ""), turn)
+        turnText.stringValue = String(format: String.localizedString("Turn %d", comment: ""), turn)
     }
 }

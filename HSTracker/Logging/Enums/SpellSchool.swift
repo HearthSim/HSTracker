@@ -24,21 +24,21 @@ enum SpellSchool: Int {
         case .none:
             return nil
         case .arcane:
-            return NSLocalizedString("Spell_School_Arcane", comment: "")
+            return String.localizedString("Spell_School_Arcane", comment: "")
         case .fire:
-            return NSLocalizedString("Spell_School_Fire", comment: "")
+            return String.localizedString("Spell_School_Fire", comment: "")
         case .frost:
-            return NSLocalizedString("Spell_School_Frost", comment: "")
+            return String.localizedString("Spell_School_Frost", comment: "")
         case .nature:
-            return NSLocalizedString("Spell_School_Nature", comment: "")
+            return String.localizedString("Spell_School_Nature", comment: "")
         case .holy:
-            return NSLocalizedString("Spell_School_Holy", comment: "")
+            return String.localizedString("Spell_School_Holy", comment: "")
         case .shadow:
-            return NSLocalizedString("Spell_School_Shadow", comment: "")
+            return String.localizedString("Spell_School_Shadow", comment: "")
         case .fel:
-            return NSLocalizedString("Spell_School_Fel", comment: "")
+            return String.localizedString("Spell_School_Fel", comment: "")
         case .physical_combat:
-            return NSLocalizedString("Spell_School_Physical_Combat", comment: "")
+            return String.localizedString("Spell_School_Physical_Combat", comment: "")
         }
     }
 }

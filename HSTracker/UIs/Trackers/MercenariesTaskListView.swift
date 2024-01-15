@@ -53,7 +53,7 @@ struct MercenariesTaskViewModel {
         self.title = title
         self.description = description
         let completed = progress >= quota
-        progressText = completed ? NSLocalizedString("Completed!", comment: "") : "\(progress) / \(quota)"
+        progressText = completed ? String.localizedString("Completed!", comment: "") : "\(progress) / \(quota)"
         self.progress = 1.0 * Double(progress) / Double(quota)
     }
 }
@@ -177,7 +177,7 @@ class MercenariesTaskList: NSView {
         gameNotice.fillColor = NSColor.fromHexString(hex: "#221717")!
         gameNotice.translatesAutoresizingMaskIntoConstraints = false
         
-        let notice = NSLocalizedString("Task progress will update after the game", comment: "")
+        let notice = String.localizedString("Task progress will update after the game", comment: "")
         let noticeText = NSTextField(labelWithString: notice)
         noticeText.cell = VerticallyAlignedTextFieldCell()
         noticeText.cell?.title = notice
@@ -255,10 +255,10 @@ class MercenariesTaskList: NSView {
                 return nil
             }
             let titleStr = td.title.replacingOccurrences(of: "$owner_merc", with: task.visitorName)
-            let title = titleStr.contains(":") ? titleStr : String(format: NSLocalizedString("Task %d: %@", comment: ""), task.taskChainProgress.intValue + 1, titleStr)
+            let title = titleStr.contains(":") ? titleStr : String(format: String.localizedString("Task %d: %@", comment: ""), task.taskChainProgress.intValue + 1, titleStr)
             let additionalMercs = task.additionalMercenaries.joined(separator: ", ")
-            let bounty_nd = task.bountyHeroic ? String(format: NSLocalizedString("%@ (Heroic)", comment: ""), task.bountyName) : task.bountyName
-            let descStr = td.taskDescription.replacingOccurrences(of: "$bounty_nz", with: String(format: NSLocalizedString("BOUNTY_NZ", comment: ""), task.bountyName, task.bountySet)).replacingOccurrences(of: "$bounty_nd", with: bounty_nd).replacingOccurrences(of: "$bounty_n", with: task.bountyName).replacingOccurrences(of: "$bounty_set", with: task.bountySet).replacingOccurrences(of: "$bounty_diff", with: NSLocalizedString(task.bountyHeroic ? "BOUNTY_HEROIC" : "BOUNTY_NORMAL", comment: "")).replacingOccurrences(of: "$additional_mercs", with: additionalMercs)
+            let bounty_nd = task.bountyHeroic ? String(format: String.localizedString("%@ (Heroic)", comment: ""), task.bountyName) : task.bountyName
+            let descStr = td.taskDescription.replacingOccurrences(of: "$bounty_nz", with: String(format: String.localizedString("BOUNTY_NZ", comment: ""), task.bountyName, task.bountySet)).replacingOccurrences(of: "$bounty_nd", with: bounty_nd).replacingOccurrences(of: "$bounty_n", with: task.bountyName).replacingOccurrences(of: "$bounty_set", with: task.bountySet).replacingOccurrences(of: "$bounty_diff", with: String.localizedString(task.bountyHeroic ? "BOUNTY_HEROIC" : "BOUNTY_NORMAL", comment: "")).replacingOccurrences(of: "$additional_mercs", with: additionalMercs)
             let result = MercenariesTaskViewModel(mercCard: card, title: title, description: descStr, quota: td.quota.intValue, progress: task.progress.intValue)
             return result
         })

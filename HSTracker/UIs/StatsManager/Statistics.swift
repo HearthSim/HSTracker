@@ -35,11 +35,11 @@ class Statistics: NSWindowController {
         ladderTab!.guessRankAndUpdate()
         
         let statsTabView = NSTabViewItem(viewController: statsTab!)
-        statsTabView.label = NSLocalizedString("Statistics", comment: "")
+        statsTabView.label = String.localizedString("Statistics", comment: "")
         tabSizes[statsTabView] = statsTab!.view.frame.size
         
         let ladderTabView = NSTabViewItem(viewController: ladderTab!)
-        ladderTabView.label = NSLocalizedString("The Climb", comment: "")
+        ladderTabView.label = String.localizedString("The Climb", comment: "")
         tabSizes[ladderTabView] = ladderTab!.view.frame.size
         
         tabs.addTabViewItem(statsTabView)
@@ -101,7 +101,7 @@ class Statistics: NSWindowController {
 
     @IBAction func deleteStatistics(_ sender: AnyObject) {
         if let deck = deck {
-            let msg = String(format: NSLocalizedString("Are you sure you want to delete the "
+            let msg = String(format: String.localizedString("Are you sure you want to delete the "
                 + "statistics for the deck %@ ?", comment: ""), deck.name)
             NSAlert.show(style: .informational, message: msg, window: self.window!) {
                 RealmHelper.removeAllGameStats(from: deck)

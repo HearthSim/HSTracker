@@ -12,7 +12,7 @@ import Preferences
 class BattlegroundsPreferences: NSViewController, PreferencePane {
     var preferencePaneIdentifier = Preferences.PaneIdentifier.battlegrounds
     
-    var preferencePaneTitle = NSLocalizedString("Battlegrounds", comment: "")
+    var preferencePaneTitle = String.localizedString("Battlegrounds", comment: "")
     
     var toolbarItemIcon = NSImage(named: "Mode_Battlegrounds_Dark")!
 
@@ -186,10 +186,10 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
     @IBAction func reset(_ sender: NSButton) {
         let alert = NSAlert()
         alert.alertStyle = .informational
-        alert.messageText = NSLocalizedString("Resetting current Session", comment: "")
-        alert.informativeText = NSLocalizedString("By clicking 'Reset' you will clear your list of Latest Games and make your Start MMR the same as your current MMR.", comment: "")
-        alert.addButton(withTitle: NSLocalizedString("Reset", comment: ""))
-        alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
+        alert.messageText = String.localizedString("Resetting current Session", comment: "")
+        alert.informativeText = String.localizedString("By clicking 'Reset' you will clear your list of Latest Games and make your Start MMR the same as your current MMR.", comment: "")
+        alert.addButton(withTitle: String.localizedString("Reset", comment: ""))
+        alert.addButton(withTitle: String.localizedString("Cancel", comment: ""))
         
         if alert.runModal() != NSApplication.ModalResponse.alertFirstButtonReturn {
             return

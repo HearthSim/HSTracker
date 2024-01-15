@@ -15,11 +15,11 @@ enum LinkOpponentDeckState {
 class LinkOpponentDeckStateConverter {
     static func getLinkMessage(state: LinkOpponentDeckState) -> String {
         if !Settings.interactedWithLinkOpponentDeck {
-            return NSLocalizedString("LinkOpponentDeck_Dismiss", comment: "")
+            return String.localizedString("LinkOpponentDeck_Dismiss", comment: "")
         }
         switch state {
         case .inKnownDeckMode:
-            return NSLocalizedString("LinkOpponentDeck_Clear", comment: "")
+            return String.localizedString("LinkOpponentDeck_Clear", comment: "")
         default:
             return ""
         }
@@ -84,7 +84,7 @@ class LinkOpponentDeckPanel: OverWindowController, NSTextViewDelegate {
             AppDelegate.instance().coreManager.game.updateTrackers()
         } else {
             linkOpponentDeckState = .error
-            errorMessage = NSLocalizedString("LinkOpponentDeck_NoValidDeckOnClipboardMessage", comment: "")
+            errorMessage = String.localizedString("LinkOpponentDeck_NoValidDeckOnClipboardMessage", comment: "")
         }
     }
     

@@ -13,35 +13,35 @@ class StatusMessageConverter {
         if errorState != .none {
             switch errorState {
             case .notEnoughData:
-                return NSLocalizedString("Could not get accurate results", comment: "")
+                return String.localizedString("Could not get accurate results", comment: "")
             case .secretsNotSupported:
-                return NSLocalizedString("Secrets are not yet supported", comment: "")
+                return String.localizedString("Secrets are not yet supported", comment: "")
             case .unknownCards:
-                return NSLocalizedString("Found unknown cards", comment: "")
+                return String.localizedString("Found unknown cards", comment: "")
             case .failedToLoad:
-                return NSLocalizedString("Failed to load BobsBuddy", comment: "")
+                return String.localizedString("Failed to load BobsBuddy", comment: "")
             case .monoNotFound:
-                return NSLocalizedString("Mono not found", comment: "")
+                return String.localizedString("Mono not found", comment: "")
             //case .updateRequired:
             case .unsupportedCards:
-                return NSLocalizedString("Found unsupported cards", comment: "")
+                return String.localizedString("Found unsupported cards", comment: "")
             case .unsupportedInteraction:
-                return NSLocalizedString("BobsBuddyStatusMessage_UnsupportedInteraction", comment: "")
+                return String.localizedString("BobsBuddyStatusMessage_UnsupportedInteraction", comment: "")
             default:
-                return NSLocalizedString("Unknown error", comment: "")
+                return String.localizedString("Unknown error", comment: "")
             }
         }
         switch state {
         case .initial:
-            return NSLocalizedString("Waiting For Combat", comment: "")
+            return String.localizedString("Waiting For Combat", comment: "")
         case .combat:
-            return statsShown ? NSLocalizedString("Current Combat", comment: "") : NSLocalizedString("Show Current Combat", comment: "")
+            return statsShown ? String.localizedString("Current Combat", comment: "") : String.localizedString("Show Current Combat", comment: "")
         case .shopping:
-            return statsShown ? NSLocalizedString("Previous Combat", comment: "") : NSLocalizedString("Show Previous Combat", comment: "")
+            return statsShown ? String.localizedString("Previous Combat", comment: "") : String.localizedString("Show Previous Combat", comment: "")
         case .gameOver:
-            return statsShown ? NSLocalizedString("Final Combat", comment: "") : NSLocalizedString("Show Final Combat", comment: "")
+            return statsShown ? String.localizedString("Final Combat", comment: "") : String.localizedString("Show Final Combat", comment: "")
         case .combatWithoutSimulation:
-            return NSLocalizedString("Awaiting Shopping Phase", comment: "")
+            return String.localizedString("Awaiting Shopping Phase", comment: "")
         }
     }
 }

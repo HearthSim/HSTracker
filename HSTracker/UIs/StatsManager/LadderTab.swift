@@ -27,8 +27,8 @@ class LadderTab: NSViewController {
         super.viewDidLoad()
         
         // swiftlint:disable line_length
-        gamesTable.tableColumns[2].headerToolTip = NSLocalizedString("It is 90% certain that the true winrate falls between these values.", comment: "")
-        timeTable.tableColumns[2].headerToolTip  = NSLocalizedString("It is 90% certain that the true winrate falls between these values.", comment: "")
+        gamesTable.tableColumns[2].headerToolTip = String.localizedString("It is 90% certain that the true winrate falls between these values.", comment: "")
+        timeTable.tableColumns[2].headerToolTip  = String.localizedString("It is 90% certain that the true winrate falls between these values.", comment: "")
         // swiftlint:enable line_length
         
         for rank in (0...25).reversed() {

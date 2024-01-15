@@ -114,7 +114,7 @@ class RemoteConfig {
 
     static func checkRemoteConfig(splashscreen: Splashscreen) {
         DispatchQueue.main.async {
-            splashscreen.display(NSLocalizedString("Loading remote configuration", comment: ""),
+            splashscreen.display(String.localizedString("Loading remote configuration", comment: ""),
                                  indeterminate: true)
         }
 

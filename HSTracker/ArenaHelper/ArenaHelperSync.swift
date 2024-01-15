@@ -14,7 +14,7 @@ class ArenaHelperSync {
 
     static func checkTierList(splashscreen: Splashscreen) {
         DispatchQueue.main.async {
-            splashscreen.display(NSLocalizedString("Loading Arena card tiers", comment: ""),
+            splashscreen.display(String.localizedString("Loading Arena card tiers", comment: ""),
                                  indeterminate: true)
         }
 
@@ -61,7 +61,7 @@ class ArenaHelperSync {
 
         DispatchQueue.main.async {
             splashscreen.increment(String(format:
-                NSLocalizedString("Downloading %@", comment: ""),
+                String.localizedString("Downloading %@", comment: ""),
                                           "cardtier.json"))
         }
 

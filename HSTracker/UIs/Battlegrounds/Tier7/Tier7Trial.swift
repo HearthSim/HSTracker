@@ -17,7 +17,7 @@ class Tier7Trial {
         guard let hours = _status?.hours_til_next_reset else {
             return nil
         }
-        return String(format: NSLocalizedString("BattlegroundsPreLobby_Trial_ResetTimeRemaining_DaysHours", comment: ""), hours / 24, hours % 24)
+        return String(format: String.localizedString("BattlegroundsPreLobby_Trial_ResetTimeRemaining_DaysHours", comment: ""), hours / 24, hours % 24)
     }
     static func activate(hi: Int64, lo: Int64) async -> String? {
         if token != nil {

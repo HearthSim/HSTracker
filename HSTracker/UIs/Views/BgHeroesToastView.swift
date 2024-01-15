@@ -51,7 +51,7 @@ class BgHeroesToastView: NSView {
             .strokeColor(.black)
             .alignment(.center)
 
-        let message = NSLocalizedString("Compare heroes", comment: "")
+        let message = String.localizedString("Compare heroes", comment: "")
         text.attributedStringValue = NSAttributedString(string: message, attributes: attributes)
         text.isBezeled = false
         text.drawsBackground = false

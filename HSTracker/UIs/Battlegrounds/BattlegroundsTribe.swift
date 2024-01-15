@@ -43,7 +43,7 @@ class BattlegroundsTribe: NSView {
             } else {
                 contentView.isHidden = false
                 tribeImage.image = NSImage(named: "tribe_\(race)")
-                tribeLabel.stringValue = NSLocalizedString("\(race)", comment: "tribe")
+                tribeLabel.stringValue = String.localizedString("\(race)", comment: "tribe")
                 tribeLabel.fitTextToBounds()
             }
         }

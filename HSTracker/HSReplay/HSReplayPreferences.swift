@@ -172,24 +172,24 @@ class HSReplayPreferences: NSViewController, PreferencePane {
 
     private func updateStatus() {
         if Settings.hsReplayId != nil {
-            var information = NSLocalizedString("Connected", comment: "")
+            var information = String.localizedString("Connected", comment: "")
             if let username = Settings.hsReplayUsername {
-                information = String(format: NSLocalizedString("Connected as %@", comment: ""),
+                information = String(format: String.localizedString("Connected as %@", comment: ""),
                     username)
             }
             claimAccountButton.title = information
             claimAccountButton.isEnabled = false
             disconnectButton.isEnabled = true
         } else {
-            claimAccountButton.title = NSLocalizedString("Claim Account", comment: "")
+            claimAccountButton.title = String.localizedString("Claim Account", comment: "")
             claimAccountButton.isEnabled = true
             disconnectButton.isEnabled = false
         }
 
         if Settings.hsReplayOAuthRefreshToken != nil {
-            oAuthAccount.title = NSLocalizedString("Logout", comment: "")
+            oAuthAccount.title = String.localizedString("Logout", comment: "")
         } else {
-            oAuthAccount.title = NSLocalizedString("Login", comment: "")
+            oAuthAccount.title = String.localizedString("Login", comment: "")
         }
         
         statusIcon = hasSubscription ? "✔" : "✖"
@@ -203,13 +203,13 @@ class HSReplayPreferences: NSViewController, PreferencePane {
     @objc dynamic var subscriptionStatusText: String {
         return switch subscriptions {
         case .premium:
-            NSLocalizedString("Options_HSReplay_Account_Subscription_Premium", comment: "")
+            String.localizedString("Options_HSReplay_Account_Subscription_Premium", comment: "")
         case .tier7:
-            NSLocalizedString("Options_HSReplay_Account_Subscription_Tier7", comment: "")
+            String.localizedString("Options_HSReplay_Account_Subscription_Tier7", comment: "")
         case .bundle:
-            NSLocalizedString("Options_HSReplay_Account_Subscription_Bundle", comment: "")
+            String.localizedString("Options_HSReplay_Account_Subscription_Bundle", comment: "")
         default:
-            NSLocalizedString("Options_HSReplay_Account_Subscription_Generic", comment: "")
+            String.localizedString("Options_HSReplay_Account_Subscription_Generic", comment: "")
         }
     }
     

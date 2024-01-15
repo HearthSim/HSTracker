@@ -364,9 +364,9 @@ class WindowManager {
                 // add the window in the "windows menu"
                 if let title = title {
                     NSApp.addWindowsItem(window,
-                                         title: NSLocalizedString(title, comment: ""),
+                                         title: String.localizedString(title, comment: ""),
                                          filename: false)
-                    window.title = NSLocalizedString(title, comment: "")
+                    window.title = String.localizedString(title, comment: "")
                 }
 
                 // update gui elements

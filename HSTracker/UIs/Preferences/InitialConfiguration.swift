@@ -38,9 +38,9 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
 
             let alert = NSAlert()
             alert.alertStyle = .critical
-            alert.messageText = NSLocalizedString("Can't find Hearthstone, please select"
+            alert.messageText = String.localizedString("Can't find Hearthstone, please select"
                 + " the folder containing Hearthstone.app", comment: "")
-            alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
+            alert.addButton(withTitle: String.localizedString("OK", comment: ""))
             alert.beginSheetModal(for: self.window!, completionHandler: nil)
         }
     }
@@ -79,7 +79,7 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
         openDialog.allowsMultipleSelection = false
         openDialog.allowedFileTypes = ["app"]
         openDialog.nameFieldStringValue = "Hearthstone.app"
-        openDialog.title = NSLocalizedString("Please select your Hearthstone app", comment: "")
+        openDialog.title = String.localizedString("Please select your Hearthstone app", comment: "")
         if openDialog.runModal() == NSApplication.ModalResponse.OK {
             if let url = openDialog.urls.first {
                 let path = url.path

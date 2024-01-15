@@ -21,14 +21,14 @@ class BattlegroundsHeroHeaderViewModel: StatsHeaderViewModel {
     
     var tierTooltipTitle: String {
         if let tier = tier, tier >= 1 &&  tier <= 4 {
-            return NSLocalizedString("BattlegroundsHeroPicking_Header_Tier\(tier)Tooltip_Title", comment: "")
+            return String.localizedString("BattlegroundsHeroPicking_Header_Tier\(tier)Tooltip_Title", comment: "")
         }
         return ""
     }
     
     var tierTooltipText: String {
         if let tier = tier, tier >= 1 && tier <= 4 {
-            return NSLocalizedString("BattlegroundsQuestPicking_Header_Tier\(tier)Tooltip_Desc", comment: "")
+            return String.localizedString("BattlegroundsQuestPicking_Header_Tier\(tier)Tooltip_Desc", comment: "")
         }
         return ""
     }

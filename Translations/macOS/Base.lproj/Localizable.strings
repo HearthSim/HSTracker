@@ -40,6 +40,12 @@
 "Save Opponent's Deck" = "Save Opponent's Deck";
 "Save Current Deck" = "Save Current Deck";
 "Save Arena Deck" = "Save Arena Deck";
+"Save" = "Save";
+"Replays" = "Replays";
+"Last replays" = "Last replays";
+"Compare heroes" = "Compare heroes";
+"Loading Arena card tiers" = "Loading Arena card tiers";
+"Loading remote configuration" = "Loading remote configuration";
 "Are you sure you want to archive the deck %@ ?" = "Are you sure you want to archive the deck %@ ?";
 "Are you sure you want to unarchive the deck %@ ?" = "Are you sure you want to unarchive the deck %@ ?";
 "Add Card" = "Add Card";
@@ -84,6 +90,7 @@
 "Version %@ is now available" = "Version %@ is now available";
 "Hearthstone restart required!" = "Hearthstone restart required!";
 "Please restart Hearthstone" = "Please restart Hearthstone";
+"HSReplay" = "HSReplay";
 
 /* classes */
 "shaman" = "Shaman";

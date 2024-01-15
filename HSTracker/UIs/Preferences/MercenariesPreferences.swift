@@ -12,7 +12,7 @@ import Preferences
 class MercenariesPreferences: NSViewController, PreferencePane {
     var preferencePaneIdentifier = Preferences.PaneIdentifier.mercenaries
     
-    var preferencePaneTitle = NSLocalizedString("Mercenaries", comment: "")
+    var preferencePaneTitle = String.localizedString("Mercenaries", comment: "")
     
     var toolbarItemIcon = NSImage(named: "Mode_Mercenaries")!
 

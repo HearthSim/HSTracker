@@ -58,7 +58,7 @@ class StatsHelper {
                 dataRow.classIcon = againstClass.rawValue
             }
             dataRow.opponentClassName =
-                NSLocalizedString(againstClass.rawValue,
+                String.localizedString(againstClass.rawValue,
                                   comment: "").capitalized
             
             let record = getDeckRecord(deck: deck, againstClass: againstClass,

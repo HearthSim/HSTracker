@@ -25,8 +25,8 @@ class NotificationManager {
                 return
             }
 
-            show(title: NSLocalizedString("Hearthstone", comment: ""),
-                message: NSLocalizedString("Your game begins", comment: ""))
+            show(title: String.localizedString("Hearthstone", comment: ""),
+                message: String.localizedString("Your game begins", comment: ""))
 
         case .opponentConcede:
             guard Settings.notifyOpponentConcede else {
@@ -36,8 +36,8 @@ class NotificationManager {
                 return
             }
 
-            show(title: NSLocalizedString("Victory", comment: ""),
-                message: NSLocalizedString("Your opponent have conceded", comment: ""))
+            show(title: String.localizedString("Victory", comment: ""),
+                message: String.localizedString("Your opponent have conceded", comment: ""))
 
         case .turnStart:
             guard Settings.notifyTurnStart else {
@@ -47,50 +47,50 @@ class NotificationManager {
                 return
             }
 
-            show(title: NSLocalizedString("Hearthstone", comment: ""),
-                message: NSLocalizedString("It's your turn to play", comment: ""))
+            show(title: String.localizedString("Hearthstone", comment: ""),
+                message: String.localizedString("It's your turn to play", comment: ""))
 
         case .hsReplayPush(let replayId):
             guard Settings.showHSReplayPushNotification else {
                 return
             }
 
-            show(title: NSLocalizedString("HSReplay", comment: ""),
-                message: NSLocalizedString("Your replay has been uploaded to HSReplay.net",
+            show(title: String.localizedString("HSReplay", comment: ""),
+                message: String.localizedString("Your replay has been uploaded to HSReplay.net",
                     comment: "")) {
                 HSReplayManager.showReplay(replayId: replayId)
             }
 
         case .hsReplayUploadFailed(let error):
-            show(title: NSLocalizedString("HSReplay", comment: ""),
-                 message: String(format: NSLocalizedString("Failed to upload replay: %@", comment: ""), "\(error)"))
+            show(title: String.localizedString("HSReplay", comment: ""),
+                 message: String(format: String.localizedString("Failed to upload replay: %@", comment: ""), "\(error)"))
 
         case .hsReplayCollectionUploaded:
-            show(title: NSLocalizedString("HSReplay", comment: ""),
-                message: NSLocalizedString("Your collection has been uploaded to HSReplay.net",
+            show(title: String.localizedString("HSReplay", comment: ""),
+                message: String.localizedString("Your collection has been uploaded to HSReplay.net",
                     comment: ""))
 
         case .hsReplayCollectionUploadFailed(let error):
-            show(title: NSLocalizedString("HSReplay", comment: ""),
-                 message: String(format: NSLocalizedString("Failed to upload collection: %@", comment: ""), "\(error)"), duration: 10, fontSize: 8)
+            show(title: String.localizedString("HSReplay", comment: ""),
+                 message: String(format: String.localizedString("Failed to upload collection: %@", comment: ""), "\(error)"), duration: 10, fontSize: 8)
             
         case .hsReplayMercenariesCollectionUploaded:
-            show(title: NSLocalizedString("HSReplay", comment: ""),
-                message: NSLocalizedString("Your Mercenaries collection has been uploaded to HSReplay.net",
+            show(title: String.localizedString("HSReplay", comment: ""),
+                message: String.localizedString("Your Mercenaries collection has been uploaded to HSReplay.net",
                     comment: ""))
 
         case .hsReplayMercenariesCollectionUploadFailed(let error):
-            show(title: NSLocalizedString("HSReplay", comment: ""),
-                 message: String(format: NSLocalizedString("Failed to upload Mercenaries collection: %@", comment: ""), "\(error)"), duration: 10, fontSize: 8)
+            show(title: String.localizedString("HSReplay", comment: ""),
+                 message: String(format: String.localizedString("Failed to upload Mercenaries collection: %@", comment: ""), "\(error)"), duration: 10, fontSize: 8)
             
         case .updateAvailable(let version):
-            show(title: NSLocalizedString("A new update is available", comment: ""),
-                 message: String(format: NSLocalizedString("Version %@ is now available", comment: ""), version), duration: 30, action: {
+            show(title: String.localizedString("A new update is available", comment: ""),
+                 message: String(format: String.localizedString("Version %@ is now available", comment: ""), version), duration: 30, action: {
                 AppDelegate.instance().sparkleUpdater.checkForUpdates(nil)
             })
         case .restartRequired:
-            show(title: NSLocalizedString("Hearthstone restart required!", comment: ""),
-                 message: NSLocalizedString("Please restart Hearthstone", comment: ""), duration: 10)
+            show(title: String.localizedString("Hearthstone restart required!", comment: ""),
+                 message: String.localizedString("Please restart Hearthstone", comment: ""), duration: 10)
 
         }
     }
@@ -107,7 +107,7 @@ class NotificationManager {
             notification.informativeText = message
 
             if action != nil {
-                notification.actionButtonTitle = NSLocalizedString("Show", comment: "")
+                notification.actionButtonTitle = String.localizedString("Show", comment: "")
                 notification.hasActionButton = true
                 notificationDelegate.action = action
                 NSUserNotificationCenter.default.delegate = notificationDelegate

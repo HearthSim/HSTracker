@@ -112,7 +112,7 @@ class BattlegroundsSession: OverWindowController {
         let unavail = game.unavailableRaces
         if !game.gameEnded, let unavailableRaces = unavail, unavailableRaces.count >= 5 && unavailableRaces.count != Database.battlegroundRaces.count {
             logger.debug("Updating with \(unavailableRaces)")
-            let sorted = unavailableRaces.sorted(by: { (a, b) in NSLocalizedString(a.rawValue, comment: "") < NSLocalizedString(b.rawValue, comment: "") })
+            let sorted = unavailableRaces.sorted(by: { (a, b) in String.localizedString(a.rawValue, comment: "") < String.localizedString(b.rawValue, comment: "") })
             tribe1.setRace(newRace: sorted[0])
             tribe2.setRace(newRace: sorted[1])
             tribe3.setRace(newRace: sorted[2])
@@ -166,15 +166,15 @@ class BattlegroundsSession: OverWindowController {
         let ratingStart = firstGame?.rating ?? rating
         
         if Settings.showMMRStartCurrent {
-            mmrLabelA.stringValue = NSLocalizedString("Start", comment: "")
+            mmrLabelA.stringValue = String.localizedString("Start", comment: "")
             mmrFieldA.stringValue = formatRating(mmr: ratingStart)
-            mmrLabelB.stringValue = NSLocalizedString("Current", comment: "")
+            mmrLabelB.stringValue = String.localizedString("Current", comment: "")
             mmrFieldB.stringValue = formatRating(mmr: rating)
             mmrFieldB.textColor = NSColor.white
         } else {
-            mmrLabelA.stringValue = NSLocalizedString("Current", comment: "")
+            mmrLabelA.stringValue = String.localizedString("Current", comment: "")
             mmrFieldA.stringValue = formatRating(mmr: rating)
-            mmrLabelB.stringValue = NSLocalizedString("Change", comment: "")
+            mmrLabelB.stringValue = String.localizedString("Change", comment: "")
             let mmrDelta = rating - ratingStart
             mmrFieldB.stringValue = "\(mmrDelta > 0 ? "+" : "")\(formatRating(mmr: mmrDelta))"
             mmrFieldB.textColor = mmrDelta == 0 ? NSColor.white : mmrDelta > 0 ? BattlegroundsGameView.mmrPositive : BattlegroundsGameView.mmrNegative

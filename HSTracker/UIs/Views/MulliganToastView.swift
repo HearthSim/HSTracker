@@ -61,7 +61,7 @@ class MulliganToastView: NSView {
             .strokeColor(.white)
             .alignment(.center)
 
-        let message = NSLocalizedString("What should I keep?", comment: "")
+        let message = String.localizedString("What should I keep?", comment: "")
         text.attributedStringValue = NSAttributedString(string: message, attributes: attributes)
         text.isBezeled = false
         text.drawsBackground = false
@@ -77,7 +77,7 @@ class MulliganToastView: NSView {
             .strokeColor(.white)
             .alignment(.center)
 
-        let message2 = NSLocalizedString("HSReplay.net - Mulligan Guide", comment: "")
+        let message2 = String.localizedString("HSReplay.net - Mulligan Guide", comment: "")
         text2.attributedStringValue = NSAttributedString(string: message2, attributes: attributes2)
         text2.isBezeled = false
         text2.drawsBackground = false

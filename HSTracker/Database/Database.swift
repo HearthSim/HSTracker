@@ -69,7 +69,7 @@ class Database {
 
                 if let splashscreen = splashscreen {
                     DispatchQueue.main.async {
-                        let msg = String(format: NSLocalizedString("Loading %@ cards",
+                        let msg = String(format: String.localizedString("Loading %@ cards",
                                                                    comment: ""), lang.localizedString)
                         splashscreen.display(msg, total: Double(cards.count))
                     }

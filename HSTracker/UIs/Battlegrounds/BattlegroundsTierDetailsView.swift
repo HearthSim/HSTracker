@@ -56,10 +56,10 @@ class BattlegroundsTierDetailsView: NSStackView {
         var races = [Race: String]()
         if let allRaces = availableRaces {
             for race in allRaces {
-                races[race] = NSLocalizedString(race.rawValue, comment: "")
+                races[race] = String.localizedString(race.rawValue, comment: "")
             }
         }
-        races[.invalid] = NSLocalizedString("neutral", comment: "")
+        races[.invalid] = String.localizedString("neutral", comment: "")
         sortedRaces = races.keys.sorted(by: { (a, b) -> Bool in
             return races[a] ?? "" < races[b] ?? ""
         })
@@ -145,7 +145,7 @@ class BattlegroundsTierDetailsView: NSStackView {
         let blackImage = NSImage(color: NSColor(red: 0x23/255.0, green: 0x27/255.0, blue: 0x2a/255.0, alpha: 1.0), size: size)
         
         if let cnt = counts[.invalid], cnt > 0 {
-            cardBar.playerName = NSLocalizedString("neutral", comment: "")
+            cardBar.playerName = String.localizedString("neutral", comment: "")
             let race = Race(rawValue: "invalid")
             cardBar.playerRace = race
             cardBar.backgroundImage = blueBackground
@@ -159,7 +159,7 @@ class BattlegroundsTierDetailsView: NSStackView {
                 if let cnt = counts[availableRaces[i]], cnt > 0 {
                     let race: String = availableRaces[i].rawValue
                     let cardBar = CardBar.factory()
-                    cardBar.playerName = NSLocalizedString(race, comment: "")
+                    cardBar.playerName = String.localizedString(race, comment: "")
                     let cardRace = Race(rawValue: race)
                     cardBar.playerRace = cardRace
                     cardBar.backgroundImage = blueBackground
@@ -196,7 +196,7 @@ class BattlegroundsTierDetailsView: NSStackView {
         if spellCounts > 0 {
             let cardBar = CardBar.factory()
             
-            cardBar.playerName = NSLocalizedString("spells", comment: "")
+            cardBar.playerName = String.localizedString("spells", comment: "")
             cardBar.playerRace = .invalid
             cardBar.backgroundImage = blueBackground
             cardBar.isBattlegrounds = true
@@ -209,7 +209,7 @@ class BattlegroundsTierDetailsView: NSStackView {
 
         if let unavailable = AppDelegate.instance().coreManager.game.unavailableRaces {
             var cardBar = CardBar.factory()
-            cardBar.playerName = NSLocalizedString("unavailable", comment: "")
+            cardBar.playerName = String.localizedString("unavailable", comment: "")
             cardBar.playerRace = .blank
             cardBar.backgroundImage = blueBackground
             cardBar.isBattlegrounds = true
@@ -217,7 +217,7 @@ class BattlegroundsTierDetailsView: NSStackView {
             cardBar.sortingGroup = 1001 * 1000 + 0
             cardBars.append(cardBar)
 
-            let unavailable = unavailable.compactMap({ race in NSLocalizedString(race.rawValue, comment: "")}).sorted().chunks(3)
+            let unavailable = unavailable.compactMap({ race in String.localizedString(race.rawValue, comment: "")}).sorted().chunks(3)
             for ur in unavailable {
                 cardBar = CardBar.factory()
                 cardBar.playerName = ur.joined(separator: ",")

@@ -29,13 +29,13 @@ class StatsTab: NSViewController {
         }
         modePicker.selectItem(at: modePickerItems.firstIndex(of: .ranked)!)
         
-        seasonPicker.addItem(withTitle: NSLocalizedString("all_seasons", comment: ""))
+        seasonPicker.addItem(withTitle: String.localizedString("all_seasons", comment: ""))
         if let deck = self.deck {
             let seasons = Array(deck.gameStats).compactMap({ $0.season })
                 .sorted().reversed()
             for season in seasons {
                 seasonPicker.addItem(
-                    withTitle: String(format: NSLocalizedString("season", comment: ""),
+                    withTitle: String(format: String.localizedString("season", comment: ""),
                         NSNumber(value: season as Int)))
                 seasonPicker.lastItem?.tag = season
             }
@@ -58,7 +58,7 @@ class StatsTab: NSViewController {
         statsTable.tableColumns[3].sortDescriptorPrototype = descCI
         
         // swiftlint:disable line_length
-        statsTable.tableColumns[3].headerToolTip = NSLocalizedString("It is 90% certain that the true winrate falls between these values.", comment: "")
+        statsTable.tableColumns[3].headerToolTip = String.localizedString("It is 90% certain that the true winrate falls between these values.", comment: "")
         // swiftlint:enable line_length
         
         // We need to update the display when the

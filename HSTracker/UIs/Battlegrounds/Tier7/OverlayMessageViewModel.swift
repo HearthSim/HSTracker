@@ -38,7 +38,7 @@ class OverlayMessageViewModel: ViewModel {
     
     func error() {
         DispatchQueue.global().async {
-            let errorText = NSLocalizedString("BattlegroundsOverlayMessage_Error", comment: "")
+            let errorText = String.localizedString("BattlegroundsOverlayMessage_Error", comment: "")
             self.text = errorText
             Thread.sleep(forTimeInterval: 5.0)
             if self.text == errorText {
@@ -48,11 +48,11 @@ class OverlayMessageViewModel: ViewModel {
     }
     
     func loading() {
-        text = NSLocalizedString("BattlegroundsOverlayMessage_Loading", comment: "")
+        text = String.localizedString("BattlegroundsOverlayMessage_Loading", comment: "")
     }
     
     func disabled() {
-        text = NSLocalizedString("BattlegroundsOverlayMessage_Disabled", comment: "")
+        text = String.localizedString("BattlegroundsOverlayMessage_Disabled", comment: "")
     }
     
     private static let mmrPercentValues: [String: Int] = [
@@ -67,10 +67,10 @@ class OverlayMessageViewModel: ViewModel {
         if let percent = OverlayMessageViewModel.mmrPercentValues[filterValue], let minMmrInt = minMMR {
             let mmr = Helper.toPrettyNumber(n: minMmrInt)
             if anomalyAdjusted {
-                let format = NSLocalizedString("BattlegroundsOverlayMessage_MMR_AnomalyAdjusted", comment: "")
+                let format = String.localizedString("BattlegroundsOverlayMessage_MMR_AnomalyAdjusted", comment: "")
                 text = String(format: format, percent, mmr)
             } else {
-                let format = NSLocalizedString("BattlegroundsOverlayMessage_MMR", comment: "")
+                let format = String.localizedString("BattlegroundsOverlayMessage_MMR", comment: "")
                 text = String(format: format, percent, mmr)
             }
         } else {

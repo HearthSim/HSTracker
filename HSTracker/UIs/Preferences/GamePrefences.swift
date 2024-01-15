@@ -12,7 +12,7 @@ import Preferences
 class GamePreferences: NSViewController, PreferencePane {
     var preferencePaneIdentifier = Preferences.PaneIdentifier.game
     
-    var preferencePaneTitle = NSLocalizedString("Game", comment: "")
+    var preferencePaneTitle = String.localizedString("Game", comment: "")
     
     var toolbarItemIcon = NSImage(named: "game")!
 
@@ -37,8 +37,8 @@ class GamePreferences: NSViewController, PreferencePane {
 
             let alert = NSAlert()
             alert.alertStyle = .critical
-            alert.messageText = NSLocalizedString("Can't find Hearthstone, please select Hearthstone.app", comment: "")
-            alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
+            alert.messageText = String.localizedString("Can't find Hearthstone, please select Hearthstone.app", comment: "")
+            alert.addButton(withTitle: String.localizedString("OK", comment: ""))
             alert.runModal()
         }
 
@@ -64,7 +64,7 @@ class GamePreferences: NSViewController, PreferencePane {
             openDialog.allowsMultipleSelection = false
             openDialog.allowedFileTypes = ["app"]
             openDialog.nameFieldStringValue = "Hearthstone.app"
-            openDialog.title = NSLocalizedString("Please select your Hearthstone app", comment: "")
+            openDialog.title = String.localizedString("Please select your Hearthstone app", comment: "")
         }
 
         if openDialog.runModal() == NSApplication.ModalResponse.OK {

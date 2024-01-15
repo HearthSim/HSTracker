@@ -77,4 +77,20 @@ extension String {
             return nil
         }
     }
+    
+    static func localizedString(_ key: String, comment: String) -> String {
+        let message = NSLocalizedString(key, value: "!@#", comment: comment)
+        if message != "!@#" {
+            return message
+        }
+        
+        let language = "Base"
+        guard let path = Bundle.main.path(forResource: language, ofType: "lproj") else { return key }
+        let bundle = Bundle(path: path)
+        if let forcedString = bundle?.localizedString(forKey: key, value: nil, table: nil) {
+            return forcedString
+        } else {
+            return key
+        }
+    }
 }

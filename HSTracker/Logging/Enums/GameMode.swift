@@ -27,18 +27,18 @@ enum GameMode: Int, WrappableEnum {
     
     var userFacingName: String {
         switch self {
-        case .all: return NSLocalizedString("mode_all", comment: "")
-        case .ranked: return NSLocalizedString("mode_ranked", comment: "")
-        case .casual: return NSLocalizedString("mode_casual", comment: "")
-        case .arena: return NSLocalizedString("mode_arena", comment: "")
-        case .brawl: return NSLocalizedString("mode_brawl", comment: "")
-        case .friendly: return NSLocalizedString("mode_friendly", comment: "")
-        case .practice: return NSLocalizedString("mode_practice", comment: "")
-        case .spectator: return NSLocalizedString("mode_spectator", comment: "")
-        case .battlegrounds: return NSLocalizedString("mode_battlegrounds", comment: "")
-        case .duels: return NSLocalizedString("mode_duels", comment: "")
-        case .mercenaries: return NSLocalizedString("mode_mercenaries", comment: "")
-        case .none: return NSLocalizedString("mode_none", comment: "")
+        case .all: return String.localizedString("mode_all", comment: "")
+        case .ranked: return String.localizedString("mode_ranked", comment: "")
+        case .casual: return String.localizedString("mode_casual", comment: "")
+        case .arena: return String.localizedString("mode_arena", comment: "")
+        case .brawl: return String.localizedString("mode_brawl", comment: "")
+        case .friendly: return String.localizedString("mode_friendly", comment: "")
+        case .practice: return String.localizedString("mode_practice", comment: "")
+        case .spectator: return String.localizedString("mode_spectator", comment: "")
+        case .battlegrounds: return String.localizedString("mode_battlegrounds", comment: "")
+        case .duels: return String.localizedString("mode_duels", comment: "")
+        case .mercenaries: return String.localizedString("mode_mercenaries", comment: "")
+        case .none: return String.localizedString("mode_none", comment: "")
         }
     }
 

@@ -52,7 +52,7 @@ class BattlegroundsQuestView: NSView {
         turnText.isHidden = turn == 0
         questImage.alphaValue = turn > 0 ? 1 : 0.5
         questExclamationImage.image = turn > 0 ? NSImage(named: "bacon_quest_exclamation") : NSImage(named: "bacon_quest_locked")
-        turnText.stringValue = String(format: NSLocalizedString("Turn %d", comment: ""), turn)
+        turnText.stringValue = String(format: String.localizedString("Turn %d", comment: ""), turn)
         if let card = Cards.by(dbfId: dbfid, collectible: false) {
             if let artImg = ImageUtils.cachedArt(cardId: card.id) {
                 questImage.image = artImg

@@ -85,11 +85,11 @@ class Tier7PreLobby: OverWindowController {
             allTimeHighMMR.isHidden = !viewModel.allTimeHighMMRVisibility
         }
         if property == "username" || all {
-            welcomeLabel.stringValue = String(format: NSLocalizedString("BattlegroundsPreLobby_Authenticated_Welcome", comment: ""), viewModel.username ?? "")
+            welcomeLabel.stringValue = String(format: String.localizedString("BattlegroundsPreLobby_Authenticated_Welcome", comment: ""), viewModel.username ?? "")
         }
         
         if property == "trialUsesRemaining" || all {
-            trialsRemainingLabel.stringValue = String(format: NSLocalizedString("BattlegroundsPreLobby_Authenticated_TrialsRemaining", comment: ""), viewModel.trialUsesRemaining ?? 0)
+            trialsRemainingLabel.stringValue = String(format: String.localizedString("BattlegroundsPreLobby_Authenticated_TrialsRemaining", comment: ""), viewModel.trialUsesRemaining ?? 0)
         }
         
         if property == "resetTimeVisibility" || all {
@@ -97,7 +97,7 @@ class Tier7PreLobby: OverWindowController {
         }
         
         if property == "trialTimeRemaining" || all {
-            trialTimeRemainingLabel.stringValue = String(format: NSLocalizedString("BattlegroundsPreLobby_Authenticated_TrialsResetsIn", comment: ""), viewModel.trialTimeRemaining ?? "")
+            trialTimeRemainingLabel.stringValue = String(format: String.localizedString("BattlegroundsPreLobby_Authenticated_TrialsResetsIn", comment: ""), viewModel.trialTimeRemaining ?? "")
         }
         
         if property == "refreshAccountVisibility" || all {

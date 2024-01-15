@@ -89,12 +89,12 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
         if let playerClass = currentPlayerClass {
             classChooser.segmentCount = 2
-            classChooser.setLabel(NSLocalizedString(playerClass.rawValue.lowercased(),
+            classChooser.setLabel(String.localizedString(playerClass.rawValue.lowercased(),
                 comment: ""), forSegment: 0)
         } else {
             classChooser.segmentCount = 1
         }
-        classChooser.setLabel(NSLocalizedString("neutral", comment: ""), forSegment: 1)
+        classChooser.setLabel(String.localizedString("neutral", comment: ""), forSegment: 1)
         classChooser.setSelected(true, forSegment: 0)
 
         deckCardsView.reloadData()
@@ -116,7 +116,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         if let deck = self.currentDeck {
             let name = deck.name
             let playerClass = deck.playerClass.rawValue.lowercased()
-            self.window?.title = "\(NSLocalizedString(playerClass, comment: ""))"
+            self.window?.title = "\(String.localizedString(playerClass, comment: ""))"
                 + " - \(name)"
         }
 
@@ -284,9 +284,9 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
                                           object: card)
             
             if deckUndoManager?.isUndoing == true {
-                deckUndoManager?.setActionName(NSLocalizedString("Add Card", comment: ""))
+                deckUndoManager?.setActionName(String.localizedString("Add Card", comment: ""))
             } else {
-                deckUndoManager?.setActionName(NSLocalizedString("Remove Card", comment: ""))
+                deckUndoManager?.setActionName(String.localizedString("Remove Card", comment: ""))
             }
             
             remove(card: c)
@@ -305,9 +305,9 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
                                           object: card)
             
             if deckUndoManager?.isUndoing == true {
-                deckUndoManager?.setActionName(NSLocalizedString("Remove Card", comment: ""))
+                deckUndoManager?.setActionName(String.localizedString("Remove Card", comment: ""))
             } else {
-                deckUndoManager?.setActionName(NSLocalizedString("Add Card", comment: ""))
+                deckUndoManager?.setActionName(String.localizedString("Add Card", comment: ""))
             }
 
             add(card: c)
@@ -374,7 +374,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
                 continue
             }
             let popupMenuItem = NSMenuItem(title:
-                NSLocalizedString("\(set)".uppercased(), comment: ""),
+                String.localizedString("\(set)".uppercased(), comment: ""),
                                            action: #selector(EditDeck.changeSet(_:)),
                                            keyEquivalent: "")
             popupMenuItem.representedObject = set.rawValue
@@ -407,7 +407,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     private func loadCardTypes() {
         let popupMenu = NSMenu()
         for cardType in Database.deckManagerCardTypes {
-            let popupMenuItem = NSMenuItem(title: NSLocalizedString(cardType, comment: ""),
+            let popupMenuItem = NSMenuItem(title: String.localizedString(cardType, comment: ""),
                                            action: #selector(EditDeck.changeCardType(_:)),
                                            keyEquivalent: "")
             popupMenuItem.representedObject = cardType.lowercased()
@@ -430,14 +430,14 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     // MARK: - Races
     private func loadRaces() {
         let popupMenu = NSMenu()
-        let popupMenuItem = NSMenuItem(title: NSLocalizedString("all_races", comment: ""),
+        let popupMenuItem = NSMenuItem(title: String.localizedString("all_races", comment: ""),
                                        action: #selector(EditDeck.changeRace(_:)),
                                        keyEquivalent: "")
         popupMenuItem.representedObject = "all"
         popupMenu.addItem(popupMenuItem)
 
         for race in Database.deckManagerRaces {
-            let popupMenuItem = NSMenuItem(title: NSLocalizedString(race.rawValue,
+            let popupMenuItem = NSMenuItem(title: String.localizedString(race.rawValue,
                 comment: ""),
                                            action: #selector(EditDeck.changeRace(_:)),
                                            keyEquivalent: "")
@@ -465,7 +465,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         }
         
         let popupMenu = NSMenu()
-        let popupMenuItem = NSMenuItem(title: NSLocalizedString("all_rarities", comment: ""),
+        let popupMenuItem = NSMenuItem(title: String.localizedString("all_rarities", comment: ""),
                                        action: #selector(EditDeck.changeRarity(_:)),
                                        keyEquivalent: "")
         popupMenuItem.representedObject = "all"
@@ -555,10 +555,10 @@ extension EditDeck: NSWindowDelegate {
         
         let alert = NSAlert()
         alert.alertStyle = .informational
-        alert.messageText = NSLocalizedString("Are you sure you want to close this deck? "
+        alert.messageText = String.localizedString("Are you sure you want to close this deck? "
             + "Your changes will not be saved.", comment: "")
-        alert.addButton(withTitle: NSLocalizedString("Yes", comment: ""))
-        alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
+        alert.addButton(withTitle: String.localizedString("Yes", comment: ""))
+        alert.addButton(withTitle: String.localizedString("Cancel", comment: ""))
         
         return alert.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn
     }

@@ -102,7 +102,7 @@ class BattlegroundsOverlayView: NSView {
         for turn in turns {
             if index < leaderboardDeadForText.count && index < leaderboardDeadForTurnText.count && index >= 0 {
                 leaderboardDeadForText[index].stringValue = "\(turn)"
-                leaderboardDeadForTurnText[index].stringValue = turn == 1 ? NSLocalizedString("Turn", comment: "") : NSLocalizedString("Turns", comment: "")
+                leaderboardDeadForTurnText[index].stringValue = turn == 1 ? String.localizedString("Turn", comment: "") : String.localizedString("Turns", comment: "")
             }
             index -= 1
         }
@@ -131,11 +131,12 @@ class BattlegroundsOverlayView: NSView {
     }
 
     func displayHero(at: Int) {
+        logger.debug("Displaying heri at \(at)")
         let windowManager = AppDelegate.instance().coreManager.game.windowManager
         
         let game = AppDelegate.instance().coreManager.game
         
-        if Settings.showOpponentWarband, let hero = game.entities.values.first(where: { ent in ent.has(tag: .player_leaderboard_place) && ent[.player_leaderboard_place] == at + 1}) {
+        if Settings.showOpponentWarband, let hero = game.entities.values.filter({ ent in ent.has(tag: .player_leaderboard_place) && ent[.player_leaderboard_place] == at + 1}).first {
             let board = game.getSnapshot(opponentHeroCardId: hero.cardId)
             if let board = board {
                 windowManager.battlegroundsDetailsWindow.setBoard(board: board)

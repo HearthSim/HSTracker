@@ -12,7 +12,7 @@ import Preferences
 class GeneralPreferences: NSViewController, PreferencePane {
     var preferencePaneIdentifier = Preferences.PaneIdentifier.general
     
-    var preferencePaneTitle = NSLocalizedString("General", comment: "")
+    var preferencePaneTitle = String.localizedString("General", comment: "")
     
     var toolbarItemIcon = NSImage(named: NSImage.preferencesGeneralName)!
 

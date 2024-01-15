@@ -46,7 +46,7 @@ class WotogCounter: OverWindowController {
     }
     @objc dynamic var spellSchoolsLabel: String {
         if _spellSchools.count == 0 {
-            return NSLocalizedString("Counter_Spell_School_None", comment: "")
+            return String.localizedString("Counter_Spell_School_None", comment: "")
         }
         return _spellSchools.compactMap { x in
             x.localizedText()
@@ -57,13 +57,13 @@ class WotogCounter: OverWindowController {
         var label = ""
         switch excavateTier {
         case 0:
-            label =  NSLocalizedString("Counter_Excavate_Tier0", comment: "")
+            label = String.localizedString("Counter_Excavate_Tier0", comment: "")
         case 1:
-            label =  NSLocalizedString("Counter_Excavate_Tier1", comment: "")
+            label = String.localizedString("Counter_Excavate_Tier1", comment: "")
         case 2:
-            label =  NSLocalizedString("Counter_Excavate_Tier2", comment: "")
+            label = String.localizedString("Counter_Excavate_Tier2", comment: "")
         case 3:
-            label =  NSLocalizedString("Counter_Excavate_Tier3", comment: "")
+            label = String.localizedString("Counter_Excavate_Tier3", comment: "")
         default:
             label = "\(excavateTier + 1)"
         }

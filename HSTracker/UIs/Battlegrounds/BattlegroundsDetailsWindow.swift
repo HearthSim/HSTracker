@@ -108,7 +108,7 @@ class BattlegroundsDetailsWindow: OverWindowController {
             emptyBoard.isHidden = index != 0 || snapshot.turn == -1
             notFought.isHidden = snapshot.turn != -1
             
-            boardAge.stringValue = snapshot.turn != -1 ? String.localizedStringWithFormat(NSLocalizedString("%d turn(s) ago", comment: ""), AppDelegate.instance().coreManager.game.turnNumber() - snapshot.turn) : ""
+            boardAge.stringValue = snapshot.turn != -1 ? String.localizedStringWithFormat(String.localizedString("%d turn(s) ago", comment: ""), AppDelegate.instance().coreManager.game.turnNumber() - snapshot.turn) : ""
         } else {
             tier1.turn = 0
             tier1.qty = 0

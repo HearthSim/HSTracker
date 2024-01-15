@@ -64,11 +64,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
         Crashes.userConfirmationHandler = { (_: [ErrorReport]) in
             // Your code to present your UI to the user, e.g. an NSAlert.
             let alert: NSAlert = NSAlert()
-            alert.messageText = NSLocalizedString("HSTracker Crashed", comment: "")
-            alert.informativeText = NSLocalizedString("Do you want to send an anonymous crash report so we can try to fix the issue?", comment: "")
-            alert.addButton(withTitle: NSLocalizedString("Always send", comment: ""))
-            alert.addButton(withTitle: NSLocalizedString("Send", comment: ""))
-            alert.addButton(withTitle: NSLocalizedString("Don't send", comment: ""))
+            alert.messageText = String.localizedString("HSTracker Crashed", comment: "")
+            alert.informativeText = String.localizedString("Do you want to send an anonymous crash report so we can try to fix the issue?", comment: "")
+            alert.addButton(withTitle: String.localizedString("Always send", comment: ""))
+            alert.addButton(withTitle: String.localizedString("Send", comment: ""))
+            alert.addButton(withTitle: String.localizedString("Don't send", comment: ""))
             alert.alertStyle = .warning
 
             switch alert.runModal() {
@@ -104,9 +104,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
         // warn user about memory reading
         if Settings.showMemoryReadingWarning {
             let alert = NSAlert()
-            alert.addButton(withTitle: NSLocalizedString("I understand", comment: ""))
+            alert.addButton(withTitle: String.localizedString("I understand", comment: ""))
             // swiftlint:disable line_length
-            alert.messageText = NSLocalizedString("HSTracker needs elevated privileges to read data from Hearthstone's memory. If macOS asks you for your system password, do not be alarmed, no changes to your computer will be performed.", comment: "")
+            alert.messageText = String.localizedString("HSTracker needs elevated privileges to read data from Hearthstone's memory. If macOS asks you for your system password, do not be alarmed, no changes to your computer will be performed.", comment: "")
             // swiftlint:enable line_length
             alert.runModal()
             Settings.showMemoryReadingWarning = false
@@ -328,17 +328,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
             let canStart = try coreManager.setup()
             
             if !canStart {
-                message = NSLocalizedString("You must restart Hearthstone for logs to be used", comment: "")
+                message = String.localizedString("You must restart Hearthstone for logs to be used", comment: "")
                 alertStyle = .informational
             }
         } catch HearthstoneLogError.canNotCreateDir {
-            message = NSLocalizedString("Can not create Hearthstone config dir", comment: "")
+            message = String.localizedString("Can not create Hearthstone config dir", comment: "")
         } catch HearthstoneLogError.canNotReadFile {
-            message = NSLocalizedString("Can not read Hearthstone config file", comment: "")
+            message = String.localizedString("Can not read Hearthstone config file", comment: "")
         } catch HearthstoneLogError.canNotCreateFile {
-            message = NSLocalizedString("Can not write Hearthstone config file", comment: "")
+            message = String.localizedString("Can not write Hearthstone config file", comment: "")
         } catch {
-            message = NSLocalizedString("Unknown error", comment: "")
+            message = String.localizedString("Unknown error", comment: "")
         }
         
         if let message = message {
@@ -390,7 +390,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
     
     func languageChange() {
         NSAlert.show(style: .informational,
-                     message: NSLocalizedString("You must restart HSTracker for the language change to take effect", comment: ""))
+                     message: String.localizedString("You must restart HSTracker for the language change to take effect", comment: ""))
         
         appWillRestart = true
         NSApplication.shared.terminate(nil)
@@ -411,22 +411,22 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
             // build main menu
             // ---------------
             let mainMenu = NSApplication.shared.mainMenu
-            let deckMenu = mainMenu?.item(withTitle: NSLocalizedString("Decks", comment: ""))
+            let deckMenu = mainMenu?.item(withTitle: String.localizedString("Decks", comment: ""))
             deckMenu?.submenu?.removeAllItems()
-            deckMenu?.submenu?.addItem(withTitle: NSLocalizedString("Deck Manager", comment: ""),
+            deckMenu?.submenu?.addItem(withTitle: String.localizedString("Deck Manager", comment: ""),
                                        action: #selector(AppDelegate.openDeckManager(_:)),
                                        keyEquivalent: "d")
             let saveMenus = NSMenu()
-            saveMenus.addItem(withTitle: NSLocalizedString("Save Current Deck", comment: ""),
+            saveMenus.addItem(withTitle: String.localizedString("Save Current Deck", comment: ""),
                               action: #selector(AppDelegate.saveCurrentDeck(_:)),
                               keyEquivalent: "").tag = 2
-            saveMenus.addItem(withTitle: NSLocalizedString("Save Opponent's Deck", comment: ""),
+            saveMenus.addItem(withTitle: String.localizedString("Save Opponent's Deck", comment: ""),
                               action: #selector(AppDelegate.saveCurrentDeck(_:)),
                               keyEquivalent: "").tag = 1
-            deckMenu?.submenu?.addItem(withTitle: NSLocalizedString("Save", comment: ""),
+            deckMenu?.submenu?.addItem(withTitle: String.localizedString("Save", comment: ""),
                                        action: nil,
                                        keyEquivalent: "").submenu = saveMenus
-            deckMenu?.submenu?.addItem(withTitle: NSLocalizedString("Clear", comment: ""),
+            deckMenu?.submenu?.addItem(withTitle: String.localizedString("Clear", comment: ""),
                                        action: #selector(AppDelegate.clearTrackers(_:)),
                                        keyEquivalent: "R")
             
@@ -435,7 +435,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
             if let decksmenu = self.dockMenu.item(withTag: 1) {
                 decksmenu.submenu?.removeAllItems()
             } else {
-                let decksmenu = NSMenuItem(title: NSLocalizedString("Decks", comment: ""),
+                let decksmenu = NSMenuItem(title: String.localizedString("Decks", comment: ""),
                                            action: nil, keyEquivalent: "")
                 decksmenu.tag = 1
                 decksmenu.submenu = NSMenu()
@@ -444,7 +444,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
             
             if self.dockMenu.item(withTag: 2) == nil {
                 self.dockMenu.addItem(NSMenuItem.separator())
-                let deckmanager = NSMenuItem(title: NSLocalizedString("Deck Manager", comment: ""),
+                let deckmanager = NSMenuItem(title: String.localizedString("Deck Manager", comment: ""),
                                              action: #selector(AppDelegate.openDeckManager(_:)), keyEquivalent: "d")
                 deckmanager.tag = 2
                 self.dockMenu.addItem(deckmanager)
@@ -452,7 +452,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
             
             if self.dockMenu.item(withTag: 3) == nil {
                 self.dockMenu.addItem(NSMenuItem.separator())
-                let preferences = NSMenuItem(title: NSLocalizedString("Preferences", comment: ""),
+                let preferences = NSMenuItem(title: String.localizedString("Preferences", comment: ""),
                                              action: #selector(AppDelegate.openPreferences(_:)), keyEquivalent: "")
                 preferences.tag = 3
                 self.dockMenu.addItem(preferences)
@@ -464,10 +464,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
             // ------------------------------------
             deckMenu?.submenu?.addItem(NSMenuItem.separator())
             for (playerClass, _decks) in decks
-                .sorted(by: { NSLocalizedString($0.0.rawValue.lowercased(), comment: "")
-                            < NSLocalizedString($1.0.rawValue.lowercased(), comment: "") }) {
+                .sorted(by: { String.localizedString($0.0.rawValue.lowercased(), comment: "")
+                            < String.localizedString($1.0.rawValue.lowercased(), comment: "") }) {
                 // create menu item for all decks in this class
-                let classmenuitem = NSMenuItem(title: NSLocalizedString(
+                let classmenuitem = NSMenuItem(title: String.localizedString(
                                                 playerClass.rawValue.lowercased(),
                                                 comment: ""), action: nil, keyEquivalent: "")
                 let classsubMenu = NSMenu()
@@ -486,8 +486,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
                 }
             }
             
-            let replayMenu = mainMenu?.item(withTitle: NSLocalizedString("Replays", comment: ""))
-            let replaysMenu = replayMenu?.submenu?.item(withTitle: NSLocalizedString("Last replays",
+            let replayMenu = mainMenu?.item(withTitle: String.localizedString("Replays", comment: ""))
+            let replaysMenu = replayMenu?.submenu?.item(withTitle: String.localizedString("Last replays",
                                                                                      comment: ""))
             replaysMenu?.submenu?.removeAllItems()
             replaysMenu?.isEnabled = false
@@ -513,7 +513,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
                     }
                     name += " \(opponentName)"
                     if opponentClass != .neutral {
-                        name += " (\(NSLocalizedString(opponentClass.rawValue, comment: "")))"
+                        name += " (\(String.localizedString(opponentClass.rawValue, comment: "")))"
                     }
                     
                     if let item = replaysMenu?.submenu?
@@ -525,10 +525,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
                 }
             }
             
-            let windowMenu = mainMenu?.item(withTitle: NSLocalizedString("Window", comment: ""))
-            let item = windowMenu?.submenu?.item(withTitle: NSLocalizedString("Lock windows",
+            let windowMenu = mainMenu?.item(withTitle: String.localizedString("Window", comment: ""))
+            let item = windowMenu?.submenu?.item(withTitle: String.localizedString("Lock windows",
                                                                               comment: ""))
-            item?.title = NSLocalizedString(Settings.windowsLocked ?  "Unlock windows" : "Lock windows",
+            item?.title = String.localizedString(Settings.windowsLocked ?  "Unlock windows" : "Lock windows",
                                             comment: "")
         }
     }
@@ -605,11 +605,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
     
     @IBAction func lockWindows(_ sender: AnyObject) {
         let mainMenu = NSApplication.shared.mainMenu
-        let windowMenu = mainMenu?.item(withTitle: NSLocalizedString("Window", comment: ""))
+        let windowMenu = mainMenu?.item(withTitle: String.localizedString("Window", comment: ""))
         let text = Settings.windowsLocked ? "Unlock windows" : "Lock windows"
-        let item = windowMenu?.submenu?.item(withTitle: NSLocalizedString(text, comment: ""))
+        let item = windowMenu?.submenu?.item(withTitle: String.localizedString(text, comment: ""))
         Settings.windowsLocked = !Settings.windowsLocked
-        item?.title = NSLocalizedString(Settings.windowsLocked ?  "Unlock windows" : "Lock windows",
+        item?.title = String.localizedString(Settings.windowsLocked ?  "Unlock windows" : "Lock windows",
                                         comment: "")
     }
     
@@ -639,10 +639,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
     @IBAction func deleteCachedImages(_ sender: AnyObject) {
         let alert = NSAlert()
         alert.alertStyle = .informational
-        alert.messageText = NSLocalizedString("Delete cached images", comment: "")
-        alert.informativeText = NSLocalizedString("By clicking 'Delete' all locally cached images will be deleted. This may take a while", comment: "")
-        alert.addButton(withTitle: NSLocalizedString("Delete", comment: ""))
-        alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
+        alert.messageText = String.localizedString("Delete cached images", comment: "")
+        alert.informativeText = String.localizedString("By clicking 'Delete' all locally cached images will be deleted. This may take a while", comment: "")
+        alert.addButton(withTitle: String.localizedString("Delete", comment: ""))
+        alert.addButton(withTitle: String.localizedString("Cancel", comment: ""))
         
         if alert.runModal() != NSApplication.ModalResponse.alertFirstButtonReturn {
             return

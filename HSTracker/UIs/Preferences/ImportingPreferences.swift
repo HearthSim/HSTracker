@@ -12,7 +12,7 @@ import Preferences
 class ImportingPreferences: NSViewController, NSControlTextEditingDelegate, PreferencePane {
     let preferencePaneIdentifier = Preferences.PaneIdentifier.importing
     
-    let preferencePaneTitle = NSLocalizedString("Importing", comment: "")
+    let preferencePaneTitle = String.localizedString("Importing", comment: "")
     
     let toolbarItemIcon = NSImage(named: "import")!
 

@@ -34,7 +34,7 @@ class NewDeck: NSWindowController, NSControlTextEditingDelegate {
         super.windowDidLoad()
         
         classesPopUpMenu.addItems(withTitles: Cards.classes.map {
-            NSLocalizedString($0.rawValue.lowercased(), comment: "")
+            String.localizedString($0.rawValue.lowercased(), comment: "")
         })
         checkToEnableSave()
     }
@@ -94,7 +94,7 @@ class NewDeck: NSWindowController, NSControlTextEditingDelegate {
                     self._addDeck(deck)
                 }
             } else {
-                let msg = NSLocalizedString("Failed to import deck from the Clipboard", comment: "")
+                let msg = String.localizedString("Failed to import deck from the Clipboard", comment: "")
                 NSAlert.show(style: .critical,
                              message: msg)
                 return
@@ -117,7 +117,7 @@ class NewDeck: NSWindowController, NSControlTextEditingDelegate {
                         RealmHelper.add(deck: deck, with: cards)
                         self._addDeck(deck)
                     } else {
-                        let msg = NSLocalizedString("Failed to import deck from \n", comment: "")
+                        let msg = String.localizedString("Failed to import deck from \n", comment: "")
                         + filename.path
                         NSAlert.show(style: .critical,
                                      message: msg)

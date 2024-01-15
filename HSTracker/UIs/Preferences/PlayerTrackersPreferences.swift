@@ -12,7 +12,7 @@ import Preferences
 class PlayerTrackersPreferences: NSViewController, PreferencePane {
     var preferencePaneIdentifier = Preferences.PaneIdentifier.player_trackers
     
-    var preferencePaneTitle = NSLocalizedString("Player tracker", comment: "")
+    var preferencePaneTitle = String.localizedString("Player tracker", comment: "")
     
     var toolbarItemIcon = NSImage(named: "player")!
 

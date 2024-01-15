@@ -12,7 +12,7 @@ import Preferences
 class OpponentTrackersPreferences: NSViewController, PreferencePane {
     var preferencePaneIdentifier = Preferences.PaneIdentifier.opponent_trackers
     
-    var preferencePaneTitle = NSLocalizedString("Opponent tracker", comment: "")
+    var preferencePaneTitle = String.localizedString("Opponent tracker", comment: "")
     
     var toolbarItemIcon = NSImage(named: "opponent")!
 

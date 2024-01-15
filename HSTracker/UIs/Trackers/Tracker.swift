@@ -83,8 +83,8 @@ class Tracker: OverWindowController {
         cardsView.delegate = self
         playerBottom.setDelegate(delegate: self)
         playerTop.setDelegate(delegate: self)
-        playerTop.setLabel(label: NSLocalizedString("On Top", comment: ""))
-        playerBottom.setLabel(label: NSLocalizedString("On Bottom", comment: ""))
+        playerTop.setLabel(label: String.localizedString("On Top", comment: ""))
+        playerBottom.setLabel(label: String.localizedString("On Bottom", comment: ""))
         setOpacity()
         
         if playerType == .opponent {
@@ -174,13 +174,13 @@ class Tracker: OverWindowController {
         }
         
         if !fatigueTracker.isHidden {
-            fatigueTracker.message = "\(NSLocalizedString("Fatigue : ", comment: ""))"
+            fatigueTracker.message = "\(String.localizedString("Fatigue : ", comment: ""))"
                 + "\(fatigueCounter)"
             fatigueTracker.needsDisplay = true
         }
         
         if !galakrondCounter.isHidden {
-            galakrondCounter.message = "\(NSLocalizedString("Invoked : ", comment: ""))"
+            galakrondCounter.message = "\(String.localizedString("Invoked : ", comment: ""))"
                 + "\(galakrondInvokeCounter)"
             galakrondCounter.needsDisplay = true
         }

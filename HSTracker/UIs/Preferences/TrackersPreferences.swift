@@ -12,7 +12,7 @@ import Preferences
 class TrackersPreferences: NSViewController, PreferencePane {
     var preferencePaneIdentifier = Preferences.PaneIdentifier.trackers
     
-    var preferencePaneTitle = NSLocalizedString("Trackers", comment: "")
+    var preferencePaneTitle = String.localizedString("Trackers", comment: "")
     
     var toolbarItemIcon = NSImage(named: "gear")!
 
@@ -81,10 +81,10 @@ class TrackersPreferences: NSViewController, PreferencePane {
             if let value = cardSize.objectValueOfSelectedItem as? String {
                 let size: CardSize
                 switch value {
-                case NSLocalizedString("Tiny", comment: ""): size = .tiny
-                case NSLocalizedString("Small", comment: ""): size = .small
-                case NSLocalizedString("Big", comment: ""): size = .big
-                case NSLocalizedString("Huge", comment: ""): size = .huge
+                case String.localizedString("Tiny", comment: ""): size = .tiny
+                case String.localizedString("Small", comment: ""): size = .small
+                case String.localizedString("Big", comment: ""): size = .big
+                case String.localizedString("Huge", comment: ""): size = .huge
                 default: size = .medium
                 }
                 Settings.cardSize = size

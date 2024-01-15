@@ -303,7 +303,7 @@ class DeckManager: NSWindowController {
         let deckNameInput = NSTextField(frame: NSRect(x: 0, y: 0, width: 220, height: 24))
         deckNameInput.stringValue = deck.name
         NSAlert.show(style: .informational,
-                     message: NSLocalizedString("Deck name", comment: ""),
+                     message: String.localizedString("Deck name", comment: ""),
                      accessoryView: deckNameInput,
                      window: self.window) {
                         RealmHelper.rename(deck: deck, to: deckNameInput.stringValue)
@@ -385,7 +385,7 @@ class DeckManager: NSWindowController {
     }
 
     private func deleteDeck(_ deck: Deck) {
-        let message = String(format: NSLocalizedString("Are you sure you want to delete "
+        let message = String(format: String.localizedString("Are you sure you want to delete "
             + "the deck %@ ?", comment: ""), deck.name)
         
         NSAlert.show(style: .informational, message: message, window: self.window!) {
@@ -396,7 +396,7 @@ class DeckManager: NSWindowController {
     }
 
     private func deleteDecks(_ decks: IndexSet) {
-        let message = String(format: NSLocalizedString("Are you sure you want to delete "
+        let message = String(format: String.localizedString("Are you sure you want to delete "
                                                         + "the selected %d deck(s) ?", comment: ""), decks.count)
         
         NSAlert.show(style: .informational, message: message, window: self.window!) {
@@ -417,10 +417,10 @@ class DeckManager: NSWindowController {
         if let deck = currentDeck {
             let msg: String
             if deck.isActive {
-                msg = String(format: NSLocalizedString("Are you sure you want to archive "
+                msg = String(format: String.localizedString("Are you sure you want to archive "
                     + "the deck %@ ?", comment: ""), deck.name)
             } else {
-                msg = String(format: NSLocalizedString("Are you sure you want to unarchive "
+                msg = String(format: String.localizedString("Are you sure you want to unarchive "
                     + "the deck %@ ?", comment: ""), deck.name)
             }
 
@@ -448,13 +448,13 @@ class DeckManager: NSWindowController {
 
     private func loadClassesPopUp() {
         let popupMenu = NSMenu()
-        var popupMenuItem = NSMenuItem(title: NSLocalizedString("All classes", comment: ""),
+        var popupMenuItem = NSMenuItem(title: String.localizedString("All classes", comment: ""),
                                        action: #selector(filterClassesAction(_:)),
                                        keyEquivalent: "")
         popupMenuItem.representedObject = CardClass.neutral
         popupMenu.addItem(popupMenuItem)
         for playerClass in Cards.classes {
-            popupMenuItem = NSMenuItem(title: NSLocalizedString(playerClass.rawValue,
+            popupMenuItem = NSMenuItem(title: String.localizedString(playerClass.rawValue,
                                                                 comment: ""),
                                        action: #selector(filterClassesAction(_:)),
                                        keyEquivalent: "")
@@ -464,7 +464,7 @@ class DeckManager: NSWindowController {
         classesPopup.menu = popupMenu
 
         popupMenu.addItem(.separator())
-        popupMenuItem = NSMenuItem(title: NSLocalizedString("Archived", comment: ""),
+        popupMenuItem = NSMenuItem(title: String.localizedString("Archived", comment: ""),
                                    action: #selector(filterClassesAction(_:)),
                                    keyEquivalent: "")
         popupMenuItem.state = .off
@@ -475,7 +475,7 @@ class DeckManager: NSWindowController {
         let popupMenu = NSMenu()
         
         for criteria in criterias {
-            let popupMenuItem = NSMenuItem(title: NSLocalizedString(criteria, comment: ""),
+            let popupMenuItem = NSMenuItem(title: String.localizedString(criteria, comment: ""),
                 action: #selector(DeckManager.changeSort(_:)),
                 keyEquivalent: "")
             popupMenuItem.representedObject = criteria
@@ -485,17 +485,17 @@ class DeckManager: NSWindowController {
         popupMenu.addItem(NSMenuItem.separator())
         
         for order in orders {
-            let popupMenuItem = NSMenuItem(title: NSLocalizedString(order, comment: ""),
+            let popupMenuItem = NSMenuItem(title: String.localizedString(order, comment: ""),
                                            action: #selector(DeckManager.changeSort(_:)),
                                            keyEquivalent: "")
             popupMenuItem.representedObject = order
             popupMenu.addItem(popupMenuItem)
         }
         
-        popupMenu.item(withTitle: NSLocalizedString(sortCriteria, comment: ""))?.state = .on
-        popupMenu.item(withTitle: NSLocalizedString(sortOrder, comment: ""))?.state = .on
+        popupMenu.item(withTitle: String.localizedString(sortCriteria, comment: ""))?.state = .on
+        popupMenu.item(withTitle: String.localizedString(sortOrder, comment: ""))?.state = .on
         
-        let firstItemMenu = NSMenuItem(title: NSLocalizedString(sortCriteria, comment: ""),
+        let firstItemMenu = NSMenuItem(title: String.localizedString(sortCriteria, comment: ""),
                                        action: #selector(DeckManager.changeSort(_:)),
                                        keyEquivalent: "")
         firstItemMenu.representedObject = sortCriteria
@@ -508,7 +508,7 @@ class DeckManager: NSWindowController {
         let popupMenu = NSMenu()
         
         for mode in DeckType.allCases {
-            let popupMenuItem = NSMenuItem(title: NSLocalizedString("DeckType_\(mode)", comment: ""), action: #selector(DeckManager.filterDeckTypeAction(_:)), keyEquivalent: "")
+            let popupMenuItem = NSMenuItem(title: String.localizedString("DeckType_\(mode)", comment: ""), action: #selector(DeckManager.filterDeckTypeAction(_:)), keyEquivalent: "")
             popupMenuItem.representedObject = mode
             popupMenu.addItem(popupMenuItem)
         }
@@ -538,7 +538,7 @@ class DeckManager: NSWindowController {
             }
         }
         
-        let prevSelected = sortPopUp.menu?.item(withTitle: NSLocalizedString(previous, comment: ""))
+        let prevSelected = sortPopUp.menu?.item(withTitle: String.localizedString(previous, comment: ""))
         
         if sender.state != .on {
             self.refreshDecks()
@@ -552,7 +552,7 @@ class DeckManager: NSWindowController {
         guard let deck = currentDeck else { return }
         guard let string = DeckSerializer.serialize(deck: deck) else {
             NSAlert.show(style: .critical,
-                         message: NSLocalizedString("Can't create deck string.", comment: ""),
+                         message: String.localizedString("Can't create deck string.", comment: ""),
                          window: self.window!)
             return
         }
@@ -560,7 +560,7 @@ class DeckManager: NSWindowController {
         pasteboard.clearContents()
         pasteboard.writeObjects([string as NSString])
         NSAlert.show(style: .informational,
-                     message: NSLocalizedString("Deck string has been copied in your clipboard.", comment: ""),
+                     message: String.localizedString("Deck string has been copied in your clipboard.", comment: ""),
                      window: self.window!)
     }
 }
@@ -601,13 +601,13 @@ extension DeckManager: NSTableViewDelegate {
                         "\(formatter.string(from: deck.creationDate))"
                 case "wins":
                     cell.detailTextLabel.stringValue = "\(record.wins) " +
-                        NSLocalizedString("wins", comment: "").lowercased()
+                        String.localizedString("wins", comment: "").lowercased()
                 case "losses":
                     cell.detailTextLabel.stringValue = "\(record.losses) " +
-                        NSLocalizedString("losses", comment: "").lowercased()
+                        String.localizedString("losses", comment: "").lowercased()
                 case "games played":
                     cell.detailTextLabel.stringValue = "\(record.total) " +
-                        NSLocalizedString("games", comment: "").lowercased()
+                        String.localizedString("games", comment: "").lowercased()
                 default:
                     cell.detailTextLabel.stringValue = StatsHelper
                         .getDeckManagerRecordLabel(deck: deck, mode: .all)
@@ -657,7 +657,7 @@ extension DeckManager: NSTableViewDelegate {
         if let clickedRow = (notification.object as? NSTableView)?.selectedRow, clickedRow >= 0 {
             currentDeck = sortedFilteredDecks()[clickedRow]
             let labelName = currentDeck?.isActive == true ? "Archive" : "Unarchive"
-            self.archiveToolBarItem.label = NSLocalizedString(labelName, comment: "")
+            self.archiveToolBarItem.label = String.localizedString(labelName, comment: "")
             deckListTable.reloadData()
             curveView.deck = currentDeck
             updateStatsLabel()
