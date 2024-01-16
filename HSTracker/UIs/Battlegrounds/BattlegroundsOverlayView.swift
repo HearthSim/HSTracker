@@ -122,7 +122,6 @@ class BattlegroundsOverlayView: NSView {
                               userInfo: nil)
 
     override func updateTrackingAreas() {
-        logger.debug("update Tracking Area")
         super.updateTrackingAreas()
 
         if !self.trackingAreas.contains(trackingArea) {
@@ -131,7 +130,6 @@ class BattlegroundsOverlayView: NSView {
     }
 
     func displayHero(at: Int) {
-        logger.debug("Displaying heri at \(at)")
         let windowManager = AppDelegate.instance().coreManager.game.windowManager
         
         let game = AppDelegate.instance().coreManager.game
