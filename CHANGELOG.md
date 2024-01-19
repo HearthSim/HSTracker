@@ -1,3 +1,15 @@
+# 2.6.5
+## New
+- Updated for Hearthstone 28.4.0
+- Added tooltips for some battlegrounds overlays
+## Fixes
+- Fixed several ambiguous layouts
+- Fixed excavate/spell school counter showing non localized strings (issue #1335)
+- Fixed support for tier 7 trials
+## Bob's Buddy
+- Fixed an issue where Admiral Eliza Goreblade was not simulated correctly.
+- Added support for Murozond (via Rylak).
+
 # 2.6.4
 ## New
 - Updated for Hearthstone 28.2.3
