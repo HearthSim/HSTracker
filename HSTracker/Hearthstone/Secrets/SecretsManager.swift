@@ -464,6 +464,9 @@ class SecretsManager {
         if isCurrentPlayer && (turn > _lastStartOfTurnCheck) {
             _lastStartOfTurnCheck = turn
             exclude(cardId: CardIds.Secrets.Rogue.Perjury)
+            if game.opponentMinionCount >= 1 && freeSpaceOnBoard {
+                exclude(cardId: CardIds.Secrets.Mage.SummoningWard)
+            }
         }
         
         if isCurrentPlayer && (turn > _lastStartOfTurnMinionCheck) {

@@ -166,6 +166,7 @@ extension CardIds.Collectible {
         static let Sif = "TTN_071"
         static let ElementalInspiration = "TTN_480"
         static let MagisterDawngrasp = "AV_200"
+        static let SummoningWard = "DEEP_000"
     }
 }
 
@@ -244,7 +245,7 @@ extension CardIds.Secrets {
         static let All = [Counterspell, Duplicate, Effigy, ExplosiveRunes, FrozenClone, IceBarrier,
                           IceBlock, ManaBind, MirrorEntity, OasisAlly, PotionOfPolymorph, Spellbender,
                           SplittingImage, Vaporize, FlameWard, NetherwindPortal, RiggedFaireGame,
-                          VengefulVisage, Objection, AzeriteVein]
+                          VengefulVisage, Objection, AzeriteVein, SummoningWard]
         static let AzeriteVein = MultiIdCard(CardIds.Collectible.Mage.AzeriteVein)
         static let Counterspell = MultiIdCard(CardIds.Collectible.Mage.Counterspell, CardIds.Collectible.Mage.CounterspellCore, CardIds.Collectible.Mage.CounterspellVanilla)
         static let Duplicate = MultiIdCard(CardIds.Collectible.Mage.Duplicate)
@@ -265,5 +266,6 @@ extension CardIds.Secrets {
         static let Vaporize = MultiIdCard(CardIds.Collectible.Mage.Vaporize, CardIds.Collectible.Mage.VaporizeVanilla)
         static let VengefulVisage = MultiIdCard(CardIds.Collectible.Mage.VengefulVisage)
         static let Objection = MultiIdCard(CardIds.Collectible.Mage.Objection)
+        static let SummoningWard = MultiIdCard(CardIds.Collectible.Mage.SummoningWard)
     }
 }
