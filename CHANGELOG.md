@@ -1,3 +1,10 @@
+# 2.6.6
+## New
+- Updated for Hearthstone 28.4.1
+## Fixes
+- Fixed Summoning Ward not appearing in the Mage secret tracker.
+- Fixed an issue where the attack counter incorrectly accounted for Mega-Windfury despite Silence (e.g. a silenced Walking Mountain).
+
 # 2.6.5
 ## New
 - Updated for Hearthstone 28.4.0
