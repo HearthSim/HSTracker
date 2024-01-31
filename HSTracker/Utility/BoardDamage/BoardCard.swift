@@ -18,6 +18,7 @@ class BoardCard: IBoardEntity {
     private var _stdAttack = 0
     
     private(set) var cardId = ""
+    private(set) var silenced = false
     private(set) var taunt = false
     private(set) var charge = false
     private(set) var windfury = false
@@ -31,7 +32,7 @@ class BoardCard: IBoardEntity {
     
     private(set) var attacksThisTurn = 0
     private var attacksPerTurn: Int {
-        if megaWindfury {
+        if megaWindfury && !silenced {
             return 4
         } else if windfury {
             return 2
@@ -58,6 +59,7 @@ class BoardCard: IBoardEntity {
         exhausted = entity[.exhausted] == 1 || (entity[.num_turns_in_play] == 0 && !entity.isHero)
         _cantAttack = entity[.cant_attack] == 1
         _frozen = entity[.frozen] == 1
+        silenced = entity[.silenced] == 1
         charge = entity[.charge] == 1
         windfury = entity[.windfury] == 1
         megaWindfury = (entity.cardId == CardIds.NonCollectible.Neutral.MimironsHead_V07Tr0NToken || entity.cardId == CardIds.Collectible.Shaman.WalkingMountain)
