@@ -2154,7 +2154,18 @@ class Game: NSObject, PowerEventHandler {
     }
     
     func isMulliganDone() -> Bool {
-        return (gameEntity?[.step] ?? Step.main_start.rawValue) >= Step.main_start.rawValue
+        if isBattlegroundsMatch() {
+                return true
+        }
+        let player = entities.map { $0.1 }.first { $0.isPlayer(eventHandler: self) }
+        let opponent = entities.map { $0.1 }
+            .first { $0.has(tag: .player_id) && !$0.isPlayer(eventHandler: self) }
+
+        if let player = player, let opponent = opponent {
+            return player[.mulligan_state] == Mulligan.done.rawValue
+                && opponent[.mulligan_state] == Mulligan.done.rawValue
+        }
+        return false
     }
 
     func handleThaurissanCostReduction() {
