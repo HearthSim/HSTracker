@@ -1214,7 +1214,7 @@ class Game: NSObject, PowerEventHandler {
 
     var opponentMinionCount: Int {
         return entities.values
-            .filter { $0.isInPlay && $0.isMinion
+            .filter { $0.isInPlay && $0.isMinion && !$0.has(tag: .untouchable)
                 && $0.isControlled(by: self.opponent.id) }.count }
     
     var opponentBoardCount: Int {
