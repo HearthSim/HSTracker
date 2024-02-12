@@ -24,7 +24,6 @@ enum Mode: String {
     reset,
     adventure,
     tavern_brawl,
-    fireside_gathering,
     bacon,
     game_mode,
     pvp_dungeon_run,
@@ -37,5 +36,6 @@ enum Mode: String {
     lettuce_coop,
     lettuce_friendly,
     lettuce_bounty_team_select,
-    lettuce_pack_opening
+    lettuce_pack_opening,
+    lucky_draw
 }
