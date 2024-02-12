@@ -276,7 +276,7 @@ class Game: NSObject, PowerEventHandler {
     func updateOpponentIcons() {
         DispatchQueue.main.async { [unowned(unsafe) self] in
             var anyVisible = false
-            let showTracker = shouldShowTracker && !isBattlegroundsMatch() && !isMercenariesMatch()
+            let showTracker = shouldShowTracker && !isBattlegroundsMatch() && !isMercenariesMatch() && isMulliganDone()
             let icons = self.windowManager.opponentWotogIcons
             icons.jadeVisibility = showOpponentJadeCounter && showTracker
             if icons.jadeVisibility {
@@ -338,7 +338,7 @@ class Game: NSObject, PowerEventHandler {
     func updatePlayerIcons() {
         DispatchQueue.main.async { [unowned(unsafe) self] in
             var anyVisible = false
-            let showTracker = shouldShowTracker && !isBattlegroundsMatch() && !isMercenariesMatch()
+            let showTracker = shouldShowTracker && !isBattlegroundsMatch() && !isMercenariesMatch() && isMulliganDone()
             let icons = self.windowManager.playerWotogIcons
             icons.jadeVisibility = showPlayerJadeCounter && showTracker
             if icons.jadeVisibility {
@@ -779,7 +779,7 @@ class Game: NSObject, PowerEventHandler {
             
             var rect: NSRect?
             
-            if Settings.playerBoardDamage && self.shouldShowGUIElement && (self.currentGameMode != .battlegrounds && self.currentGameMode != .mercenaries) {
+            if Settings.playerBoardDamage && self.shouldShowGUIElement && (self.currentGameMode != .battlegrounds && self.currentGameMode != .mercenaries) && self.isMulliganDone() {
                 if !self.gameEnded {
                     var heroPowerDmg = 0
                     if let heroPower = board.player.heroPower, self.player.currentMana >= heroPower.cost {
