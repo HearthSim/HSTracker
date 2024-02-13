@@ -90,6 +90,7 @@ extension CardIds.Collectible {
         static let HungryDragon: String = "BRM_026"
         static let MajordomoExecutus: String = "BRM_027"
         static let EmperorThaurissan: String = "BRM_028"
+        static let EmperorThaurissanWONDERS = "WON_133"
         static let RendBlackhand: String = "BRM_029"
         static let Nefarian: String = "BRM_030"
         static let Chromaggus: String = "BRM_031"

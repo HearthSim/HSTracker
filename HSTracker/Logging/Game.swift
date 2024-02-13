@@ -2169,9 +2169,9 @@ class Game: NSObject, PowerEventHandler {
     }
 
     func handleThaurissanCostReduction() {
-        let thaurissans = opponent.board.filter({
-            $0.cardId == CardIds.Collectible.Neutral.EmperorThaurissan && !$0.has(tag: .silenced)
-        })
+        let thaurissans = opponent.board.filter { x in
+            (x.cardId == CardIds.Collectible.Neutral.EmperorThaurissan || x.cardId == CardIds.Collectible.Neutral.EmperorThaurissanWONDERS) && !x.has(tag: .silenced)
+        }
         if thaurissans.isEmpty {
             return
         }
