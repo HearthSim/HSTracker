@@ -354,6 +354,15 @@ class PowerGameStateParser: LogEventParser {
                         || currentBlock?.cardId == CardIds.NonCollectible.Neutral.KingTogwaggle_KingsRansomToken {
                         entity.info.hidden = true
                     }
+                    // Plagues are flagged here due to the following info leak:
+                    // 1. Plagues are created in the opponent's deck
+                    // 2. SHOW_ENTITY followed by HIDE_ENTITY
+                    // 3. Later on the card may enter hand in a way where it doesn't trigger (e.g. due to Sir Finley)
+                    // 4. When the hand updates, we exclude the card because the entity is now in the hand (this is the info leak).
+                    // By setting a GuessedCardState here we prevent the card from appearing as drawn.
+                    if entity.cardId == CardIds.NonCollectible.Deathknight.DistressedKvaldir_FrostPlagueToken || entity.cardId == CardIds.NonCollectible.Deathknight.DistressedKvaldir_BloodPlagueToken || entity.cardId == CardIds.NonCollectible.Deathknight.DistressedKvaldir_UnholyPlagueToken {
+                        entity.info.guessedCardState = GuessedCardState.guessed
+                    }
                     if let blockId = currentBlock?.id, let known = eventHandler.knownCardIds[blockId]?.first {
                         if entity.cardId == known.0 && known.1 != .unknown {
                             logger.info("Setting DeckLocation=\(known.1) for \(entity.description)")
