@@ -110,7 +110,7 @@ class RemoteConfig {
     private static var url = "https://hsdecktracker.net/config.json"
     private static var mercsUrl = "https://api.hearthstonejson.com/v1/latest/enUS/mercenaries.json"
     private static var bgBansUrl = "https://hsreplay.net/api/v1/battlegrounds/banned_minions/"
-    private static var secretsUrl = "https://hsreplay.net/api/v1/live_secrets/"
+    private static var secretsUrl = "https://hsreplay.net/api/v1/live/secrets/"
 
     static func checkRemoteConfig(splashscreen: Splashscreen) {
         DispatchQueue.main.async {
