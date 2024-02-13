@@ -158,6 +158,7 @@
 "TITANS" = "Titans";
 "WONDERS" = "Caverns of Time";
 "WILD_WEST" = "Showdown in the Badlands";
+"WHIZBANGS_WORKSHOP" = "Whizbang's Workshop";
 
 /* card type */
 "all_types" = "All";
