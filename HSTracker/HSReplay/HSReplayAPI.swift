@@ -26,13 +26,13 @@ enum ClaimBlizzardAccountResponse {
 class HSReplayAPI {
     static let apiKey = "f1c6965c-f5ee-43cb-ab42-768f23dd35e8"
     static let oAuthClientKey = "pk_live_IB0TiMMT8qrwIJ4G6eVHYaAi"//"pk_test_AUThiV1Ex9nKCbHSFchv7ybX"
-    static let oAuthClientSecret = "sk_live_20180308078UceCXo8qmoG72ExZxeqOW"//"sk_test_20180308Z5qWO7yiYpqi8qAmQY0PDzcJ"
     private static let defaultHeaders = ["Accept": "application/json", "Content-Type": "application/json"]
     static var accountData: AccountData?
     
     static let tokenRenewalHandler: OAuthSwift.TokenRenewedHandler = { result in
         switch result {
         case .success(let credential):
+            logger.debug("HSReplay: Refreshed OAuthToken")
             Settings.hsReplayOAuthToken = credential.oauthToken
             Settings.hsReplayOAuthRefreshToken = credential.oauthRefreshToken
             Settings.hsReplayOAuthTokenExpiration = credential.oauthTokenExpiresAt
@@ -44,7 +44,7 @@ class HSReplayAPI {
     static let oauthswift = {
         return OAuth2Swift(
             consumerKey: oAuthClientKey,
-            consumerSecret: oAuthClientSecret,
+            consumerSecret: "",
             authorizeUrl: HSReplay.oAuthAuthorizeUrl,
             accessTokenUrl: HSReplay.oAuthTokenUrl,
             responseType: "code"
@@ -113,7 +113,30 @@ class HSReplayAPI {
                 return
             }
         }
-        oauthswift.client.requestWithAutomaticAccessTokenRenewal(url: URL(string: url)!, method: method, parameters: parameters, headers: headers, accessTokenUrl: HSReplay.oAuthTokenUrl, onTokenRenewal: onTokenRenewal, completionHandler: completion)
+        oauthswift.client.request(url, method: method, parameters: parameters, headers: headers) { result in
+            switch result {
+            case .success(let response):
+                completion(.success(response))
+            case .failure(let error):
+                switch error {
+                case .tokenExpired:
+                    if let onTokenRenewal {
+                        oauthswift.renewAccessToken(withRefreshToken: HSReplayAPI.oauthswift.client.credential
+                            .oauthRefreshToken, completionHandler: { result in
+                                switch result {
+                                case .success(let (credential, _, _)):
+                                    onTokenRenewal(.success(credential))
+                                    startAuthorizedRequest(url, method: method, parameters: parameters, headers: headers, onTokenRenewal: nil, completionHandler: completion)
+                                case .failure(let error):
+                                    completion(.failure(.tokenExpired(error: error)))
+                                }
+                            })
+                    }
+                default:
+                    completion(.failure(.tokenExpired(error: nil)))
+                }
+            }
+        }
     }
     
     static func getUploadToken(handle: @escaping (String) -> Void) {
