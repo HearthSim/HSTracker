@@ -1,3 +1,13 @@
+# 2.6.7
+## New
+- Updated for Hearthstone 28.6.0
+- There are likely still issues with some new cards in Bob's Buddy. We will update these in the coming days.
+- The Battlegrounds Quest Picking Overlay will return as soon as there's enough data for quests.
+## Fixes
+- Fixed an issue where secrets would be incorrectly grayed out when dormant minions or portals were on the board.
+- Fixed an issue where Plagues moving into the opponent's hand through effects such as Sir Finley, Sea Guide were unintentionally revealed.
+- Fix authorization token automatic renewal not working and requiring a restart to solve
+
 # 2.6.6
 ## New
 - Updated for Hearthstone 28.4.1

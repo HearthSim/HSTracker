@@ -62,7 +62,9 @@ enum CardSet: String, CaseIterable {
     titans,
     wild_west,
     whizbangs_workshop,
-    wonders
+    wonders,
+    tutorial,
+    event
     
     static func deckManagerValidCardSets() -> [CardSet] {
         return [.all, .vanilla, .core, .basic, .expert1, .naxx, .gvg, .brm, .tgt,
@@ -85,7 +87,7 @@ enum CardSet: String, CaseIterable {
                 .basic, .expert1, .legacy,
                 .black_temple, .scholomance, .darkmoon_faire,
                 .the_barrens, .stormwind, .alterac_valley,
-                .placeholder_202204, .wonders, .whizbangs_workshop]
+                .placeholder_202204, .wonders]
     }
     
     static func classicSets() -> [CardSet] {
@@ -164,5 +166,7 @@ public enum CardSetInt: Int {
     path_of_arthas = 1869,
     wild_west = 1892,
     whizbangs_workshop = 1897,
-    wonders = 1898
+    wonders = 1898,
+    tutorial = 1904,
+    event = 1941
 }
