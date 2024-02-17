@@ -60,8 +60,8 @@ class BattlegroundsQuestPickingViewModel: ViewModel {
         }
         _entities.append(questEntity)
         if _entities.count == expectedQuestCount() {
-            Task.init {
-                await update()
+            Task.detached {
+                await self.update()
             }
         }
     }
@@ -117,11 +117,31 @@ class BattlegroundsQuestPickingViewModel: ViewModel {
             return
         }
 
-        guard let choices = MirrorHelper.getCardChoices() else {
+        var choices: MirrorCardChoices?
+        
+        for i in 0..<10 {
+            
+            choices = MirrorHelper.getCardChoices()
+            guard let choices else {
+                self.message.error()
+                return
+            }
+            logger.debug("Attempt \(i): \(choices)")
+            if choices.isVisible {
+                break
+            }
+            do {
+                try await Task.sleep(nanoseconds: 500_000_000)
+            } catch {
+                logger.error(error)
+            }
+        }
+        
+        guard let choices else {
             self.message.error()
             return
         }
-
+        
         let orderedEntries = choices.cards.compactMap { id in
             self._entities.first(where: { x in x.cardId == id })
         }
@@ -139,6 +159,7 @@ class BattlegroundsQuestPickingViewModel: ViewModel {
         let anomalyAdjusted = questData.filter { quest in quest.anomaly_adjusted ?? false }.count > 0
         
         message.mmr(filterValue: questData[0].mmr_filter_value, minMMR: questData[0].min_mmr, anomalyAdjusted: anomalyAdjusted)
+        logger.debug("Choices: \(choices)")
         if choices.isVisible {
             visibility = true
         }
