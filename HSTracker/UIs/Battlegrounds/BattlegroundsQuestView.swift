@@ -14,6 +14,10 @@ class BattlegroundsQuestView: NSView {
     @IBOutlet weak var questImage: NSImageView!
     @IBOutlet weak var questExclamationImage: NSImageView!
     @IBOutlet weak var turnText: NSTextField!
+    
+    override var intrinsicContentSize: NSSize {
+        return NSSize(width: 83, height: 108)
+    }
 
     var turn = 0
     var dbfid = 0
