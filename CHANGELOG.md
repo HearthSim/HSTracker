@@ -1,3 +1,9 @@
+# 2.6.8
+## New
+- Updated for Hearthstone 28.6.2
+## Bob's Buddy
+- Enable combat simulations for Diremuck Forager when the opponent's board is full.
+
 # 2.6.7
 ## New
 - Updated for Hearthstone 28.6.0
