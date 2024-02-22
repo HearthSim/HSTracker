@@ -19,19 +19,22 @@ class MulliganState {
         self.game = game
     }
     
-    func snapshotMulligan() {
+    func snapshotMulligan() -> [Entity] {
         offeredCards = game.player.playerEntities.filter { x in
-            x.isInHand && x.info.created }.sorted(by: { (a, b) -> Bool in
+            x.isInHand && !x.info.created }.sorted(by: { (a, b) -> Bool in
                 a.zonePosition < b.zonePosition })
+        return offeredCards
     }
     
-    func snapshotMulliganChoices(choice: Choice) {
+    func snapshotMulliganChoices(choice: Choice) -> [Entity] {
         keptCards = choice.chosenEntities
+        return keptCards
     }
     
-    func snapshotOpeningHand() {
-        finalCardsInHand = game.player.playerEntities.filter { x in x.isInHand && x.info.created }.sorted(by: { (a, b) -> Bool in
+    func snapshotOpeningHand() -> [Entity] {
+        finalCardsInHand = game.player.playerEntities.filter { x in x.isInHand && !x.info.created }.sorted(by: { (a, b) -> Bool in
             a.zonePosition < b.zonePosition
         })
+        return finalCardsInHand
     }
 }

@@ -270,6 +270,9 @@ final class CoreManager: NSObject {
                 logger.info("Starting log reader with path \(logPath)")
                 self.logReaderManager = LogReaderManager(logPath: logPath, coreManager: self)
                 self.logReaderManager.start()
+                if game.currentRegion == .unknown {
+                    game.currentRegion = Helper.getCurrentRegion()
+                }
                 retry = false
             }
         }
@@ -304,7 +307,9 @@ final class CoreManager: NSObject {
         QueueWatcher.stop()
         BaconWatcher.stop()
         MirrorHelper.destroy()
+        game.windowManager.battlegroundsHeroPicking.viewModel.reset()
         game.windowManager.battlegroundsQuestPicking.viewModel.reset()
+        game.currentRegion = .unknown
     }
     
     var triggers: [NSObjectProtocol] = []

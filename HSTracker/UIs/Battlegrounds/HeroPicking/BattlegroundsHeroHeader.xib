@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22155" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22155"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -36,7 +36,7 @@
                         <rect key="frame" x="1" y="1" width="90" height="20"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="X6o-1F-VFN">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="X6o-1F-VFN">
                                 <rect key="frame" x="-2" y="4" width="94" height="13"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Avg Placement" id="0De-jT-Gn4">
                                     <font key="font" metaFont="system" size="10"/>
@@ -66,7 +66,7 @@
                             <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="2" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0ca-w3-HRy">
                                 <rect key="frame" x="13" y="2" width="23" height="46"/>
                                 <subviews>
-                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AlL-xZ-g8n">
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AlL-xZ-g8n">
                                         <rect key="frame" x="-2" y="31" width="27" height="13"/>
                                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Tier" id="oXD-F5-0fr">
                                             <font key="font" metaFont="system" size="10"/>
@@ -74,7 +74,7 @@
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
-                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eT8-i1-nA5">
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eT8-i1-nA5">
                                         <rect key="frame" x="-2" y="2" width="27" height="27"/>
                                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="1" id="QvM-1b-fZf">
                                             <font key="font" size="26" name="ChunkFive-Roman"/>
@@ -117,7 +117,7 @@
                         <rect key="frame" x="1" y="1" width="89" height="20"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cYp-ku-lit">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cYp-ku-lit">
                                 <rect key="frame" x="-2" y="4" width="93" height="13"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Pick Rate" id="BLS-xp-JRH">
                                     <font key="font" metaFont="system" size="10"/>
@@ -144,7 +144,7 @@
                         <rect key="frame" x="1" y="1" width="90" height="36"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="u9a-4k-vi7">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="u9a-4k-vi7">
                                 <rect key="frame" x="-2" y="9" width="94" height="19"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="3.45" id="Mby-4M-5dd">
                                     <numberFormatter key="formatter" formatterBehavior="custom10_4" positiveFormat="0.##" negativeFormat="-0.##" usesGroupingSeparator="NO" formatWidth="-1" roundingMode="halfUp" groupingSize="0" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" minimumFractionDigits="2" maximumFractionDigits="2" id="a37-TF-n0E"/>
@@ -172,7 +172,7 @@
                         <rect key="frame" x="1" y="1" width="89" height="36"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bGw-ct-IIe">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bGw-ct-IIe">
                                 <rect key="frame" x="-2" y="8" width="93" height="20"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="34.5%" id="beQ-OR-fAF">
                                     <numberFormatter key="formatter" formatterBehavior="custom10_4" numberStyle="percent" formatWidth="-1" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" minimumFractionDigits="1" maximumFractionDigits="1" id="3uK-bR-6PQ">
@@ -241,7 +241,7 @@
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="CPH-59-9u6">
                         <rect key="frame" x="0.0" y="0.0" width="169" height="60"/>
                         <subviews>
-                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="6UR-Uf-fHO">
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="6UR-Uf-fHO">
                                 <rect key="frame" x="6" y="-4" width="157" height="38"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="38" id="iXh-VY-ife"/>
@@ -252,7 +252,7 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XGQ-Bw-gwn">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XGQ-Bw-gwn">
                                 <rect key="frame" x="6" y="34" width="157" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="22" id="0Aa-3t-SrW"/>
@@ -295,7 +295,7 @@
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="f20-uR-ooo">
                         <rect key="frame" x="0.0" y="0.0" width="169" height="60"/>
                         <subviews>
-                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="365-IK-ahs">
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="365-IK-ahs">
                                 <rect key="frame" x="6" y="-4" width="157" height="38"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="38" id="mcq-mJ-rx8"/>
@@ -306,7 +306,7 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vVz-aI-zj8">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vVz-aI-zj8">
                                 <rect key="frame" x="6" y="34" width="157" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="22" id="MT1-uf-xMK"/>
@@ -349,7 +349,7 @@
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="IX7-rg-FlR">
                         <rect key="frame" x="0.0" y="0.0" width="169" height="96"/>
                         <subviews>
-                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="glT-VB-k5L">
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="glT-VB-k5L">
                                 <rect key="frame" x="6" y="4" width="157" height="66"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="66" id="Xcd-nw-1wV"/>
@@ -363,7 +363,7 @@
                                     <binding destination="-2" name="value" keyPath="self.tierTooltipText" id="ZEk-OO-pPr"/>
                                 </connections>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="GAM-tB-yt5">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="GAM-tB-yt5">
                                 <rect key="frame" x="6" y="70" width="157" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="22" id="pbd-dC-Pem"/>

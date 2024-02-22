@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="ConstructedMulliganSingleCardStats" customModule="HSTracker" customModuleProvider="target">
+            <connections>
+                <outlet property="contentView" destination="c22-O7-iKe" id="H9T-ik-Wav"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="c22-O7-iKe">
+            <rect key="frame" x="0.0" y="0.0" width="212" height="400"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="6Y7-3d-X7a" customClass="ConstructedMulliganSingleCardHeader" customModule="HSTracker" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="347" width="212" height="53"/>
+                </customView>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="6Y7-3d-X7a" secondAttribute="trailing" id="XpV-HR-okx"/>
+                <constraint firstItem="6Y7-3d-X7a" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="az3-qN-uRH"/>
+                <constraint firstItem="6Y7-3d-X7a" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="g4g-tL-IJV"/>
+                <constraint firstAttribute="bottom" secondItem="6Y7-3d-X7a" secondAttribute="bottom" constant="347" id="mjp-Wf-890"/>
+            </constraints>
+            <point key="canvasLocation" x="10" y="104.5"/>
+        </customView>
+    </objects>
+</document>

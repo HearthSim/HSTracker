@@ -859,4 +859,15 @@ final class Player {
             logger.info("\(debugName) \(#function) \(entity)")
         }
     }
+    
+    private var _mulliganCardStats: [SingleCardStats]?
+    var mulliganCardStats: [SingleCardStats]? {
+        get {
+            return _mulliganCardStats
+        }
+        set {
+            _mulliganCardStats = newValue
+            AppDelegate.instance().coreManager.game.updatePlayerTracker()
+        }
+    }
 }

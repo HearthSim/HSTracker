@@ -342,3 +342,9 @@
 "Spell_School_Nature" = "Nature";
 "Spell_School_Physical_Combat" = "Attack";
 "Spell_School_Shadow" = "Shadow";
+
+/* Mulligan Guide */
+
+"ConstructedMulliganGuide_Header_HandRankTooltip_Desc" = "The #%@ best card to keep, from the %@ distinct cards in this deck.";
+"ConstructedMulliganGuide_VisibilityToggle_Hide" = "HIDE MULLIGAN GUIDE";
+"ConstructedMulliganGuide_VisibilityToggle_Show" = "SHOW MULLIGAN GUIDE";

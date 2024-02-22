@@ -131,6 +131,10 @@ class WindowManager {
         return $0
     }(BattlegroundsHeroPicking(windowNibName: "BattlegroundsHeroPicking"))
     
+    var constructedMulliganGuide: ConstructedMulliganGuide = {
+        return $0
+    }(ConstructedMulliganGuide(windowNibName: "ConstructedMulliganGuide"))
+    
     var flavorText: FlavorText = {
         return $0
     }(FlavorText(windowNibName: "FlavorText"))

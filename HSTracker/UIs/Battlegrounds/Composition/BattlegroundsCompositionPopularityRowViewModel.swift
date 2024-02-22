@@ -8,10 +8,7 @@
 
 import Foundation
 
-//swiftlint:disable type_name
 class BattlegroundsCompositionPopularityRowViewModel {
-//swiftlint:enable type_name
-
     private let _popularity: Double
     private let _maxPopularity: Double
     private let _available: Bool
