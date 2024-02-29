@@ -79,6 +79,9 @@ struct Tier7Data: Codable {
 }
 
 struct ConfigData: Codable {
+    struct MulliganGuideData: Codable {
+        var disabled: Bool
+    }
     var news: NewsData?
     var collection_banner: CollectionBannerData?
     var arena: ArenaData?
@@ -86,6 +89,7 @@ struct ConfigData: Codable {
     var battlegrounds_tag_overrides: [TagOverride]?
     var bobs_buddy: BobsBuddyData?
     var tier7: Tier7Data?
+    var mulligan_guide: MulliganGuideData?
 }
 
 struct BattlegroundsAnomalyBans: Codable {

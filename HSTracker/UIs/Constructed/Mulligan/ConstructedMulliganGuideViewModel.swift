@@ -27,6 +27,10 @@ class ConstructedMulliganGuideViewModel: ViewModel {
         }
     }
     
+    var visibilityToggleIcon: String {
+        return statsVisibility ? "eye_slash" : "eye"
+    }
+    
     var visibilityToggleText: String {
         return statsVisibility ? String.localizedString("ConstructedMulliganGuide_VisibilityToggle_Hide", comment: "") : String.localizedString("ConstructedMulliganGuide_VisibilityToggle_Show", comment: "")
     }
@@ -39,14 +43,11 @@ class ConstructedMulliganGuideViewModel: ViewModel {
             setProp(newValue)
         }
     }
-    
-    var message = OverlayMessageViewModel()
-    
+        
     func reset() {
         cardStats = nil
         visibility = false
         statsVisibility = false
-        message.clear()
     }
     
     var scaling: Double {

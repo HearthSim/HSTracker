@@ -26,7 +26,7 @@ class ConstructedMulliganSingleCardHeader: NSView {
         return NSSize(width: 212, height: 53)
     }
         
-    var viewModel: ConstructedStatsHeaderViewModel? {
+    dynamic var viewModel: ConstructedStatsHeaderViewModel? {
         didSet {
             viewModel?.propertyChanged = { _ in
                 DispatchQueue.main.async {
@@ -38,8 +38,10 @@ class ConstructedMulliganSingleCardHeader: NSView {
             }
         }
     }
-    
-    @objc dynamic var rankTooltipText: String = ""
+        
+    @objc dynamic var handRankTooltipText: String {
+        return viewModel?.handRankTooltipText ?? ""
+    }
 
     override init(frame: NSRect) {
         super.init(frame: frame)
@@ -53,8 +55,8 @@ class ConstructedMulliganSingleCardHeader: NSView {
 
     private func commonInit() {
         Bundle.main.loadNibNamed("ConstructedMulliganSingleCardHeader", owner: self, topLevelObjects: nil)
-        translatesAutoresizingMaskIntoConstraints = true
-        contentView.translatesAutoresizingMaskIntoConstraints = true
+        translatesAutoresizingMaskIntoConstraints = false
+        contentView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(contentView)
         contentView.frame = self.bounds
         defaultBackgroundColor = .clear
@@ -91,6 +93,9 @@ class ConstructedMulliganSingleCardHeader: NSView {
         } else {
             rankLabel.stringValue = "—" // em dash
         }
+        
+        willChangeValue(forKey: "handRankTooltipText")
+        didChangeValue(forKey: "handRankTooltipText")
         
         if let keepRate = viewModel?.keepRate {
             keepRateLabel.doubleValue = keepRate / 100.0

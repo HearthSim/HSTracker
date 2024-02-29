@@ -119,6 +119,7 @@ class CardBar: NSView, CardBarTheme {
     var createdIconOffset: CGFloat = -23
 
     var countFontSize: CGFloat = 17
+    var mulliganWinRateFontSize: CGFloat = 15
     var textFontSize: CGFloat = 15
     var costFontSize: CGFloat = 20
     var flashColor: NSColor {
@@ -128,6 +129,7 @@ class CardBar: NSView, CardBarTheme {
     let frameRect = NSRect(x: 0, y: 0, width: 217, height: 34)
     let gemRect = NSRect(x: 0, y: 0, width: 34, height: 34)
     let boxRect = NSRect(x: 183, y: 0, width: 34, height: 34)
+    let mulliganWinrateBoxRect = NSRect(x: 136, y: 4, width: 54, height: 26)
     let imageRect = NSRect(x: 83, y: 0, width: 134, height: 34)
     let imageRectBG = NSRect(x: 0, y: 0, width: 217, height: 34)
     let countTextRect = NSRect(x: 198, y: 9, width: CGFloat.greatestFiniteMagnitude, height: 34)
@@ -165,7 +167,9 @@ class CardBar: NSView, CardBarTheme {
             .badAsMultipleIcon: ThemeElementInfo(filename: "icon_bad_multiple.png",
                                                  rect: arenaHelperRect),
             .legendaryIcon: ThemeElementInfo(filename: "icon_legendary.png", rect: boxRect),
-            .flashFrame: ThemeElementInfo(filename: "frame_mask.png", rect: frameRect)
+            .flashFrame: ThemeElementInfo(filename: "frame_mask.png", rect: frameRect),
+            .defaultKeepRateBox: ThemeElementInfo(filename: "keeprate_box.png", rect: mulliganWinrateBoxRect),
+            .defaultKeepRateActiveBox: ThemeElementInfo(filename: "keeprate_active_box.png", rect: mulliganWinrateBoxRect)
         ]
     }
     var optionalFrame: [ThemeElement: ThemeElementInfo] {
@@ -346,6 +350,10 @@ class CardBar: NSView, CardBarTheme {
                 addDarken()
             }
         }
+        if card?.cardWinRates != nil {
+            addMulliganWinRate()
+            addMulliganWinRateText()
+        }
     }
 
     func addCardImage() {
@@ -469,6 +477,28 @@ class CardBar: NSView, CardBarTheme {
     func addBadAsMultipleIcon(rect: NSRect) {
         if let badAsMultipleIcon = required[.badAsMultipleIcon] {
             add(themeElement: badAsMultipleIcon, rect: rect)
+        }
+    }
+    
+    func addMulliganWinRate() {
+        if let card, let mulliganWinRateBox = required[card.isMulliganOption ? .defaultKeepRateActiveBox : .defaultKeepRateBox] {
+            add(themeElement: mulliganWinRateBox, rect: mulliganWinrateBoxRect)
+        }
+    }
+    
+    func addMulliganWinRateText() {
+        if let card {
+            var color = Color.white
+            var text = ""
+            if let winrate = card.cardWinRates?.mulliganWinRate {
+                let baseWinrate = card.cardWinRates?.baseWinrate
+                let delta = (winrate - (baseWinrate ?? 50.0))
+                let tmpcolor = Helper.getWinrateDeltaColorString(delta: delta, intensity: 75)
+                color = NSColor.fromHexString(hex: tmpcolor) ?? Color.white
+                text = String(format: "%.1f%%", winrate)
+            }
+            let textRect = NSRect(x: mulliganWinrateBoxRect.minX, y: mulliganWinrateBoxRect.minY + 8, width: mulliganWinrateBoxRect.width, height: mulliganWinrateBoxRect.height - 6)
+            add(text: text, fontSize: mulliganWinRateFontSize, rect: textRect, textColor: color, font: textFont, strokeThickness: -2.0, centered: true)
         }
     }
 
@@ -603,7 +633,8 @@ class CardBar: NSView, CardBarTheme {
     }
 
     func addCardName() {
-        var width = frameRect.width - (isBattlegrounds ? 14 : 38)
+        let keepWidth = card?.cardWinRates != nil ? mulliganWinrateBoxRect.width : 0
+        var width = frameRect.width - keepWidth - (isBattlegrounds ? 14 : 38)
         if let card = card {
             if abs(card.count) > 0 || card.rarity == .legendary {
                 width -= boxRect.width
@@ -636,10 +667,12 @@ class CardBar: NSView, CardBarTheme {
             if let font = NSFont(name: fontName, size: round(midFontSize / ratioHeight)) {
                 let attributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: font,
                                   NSAttributedString.Key.strokeWidth: -2.0]
-                let options: NSString.DrawingOptions = [.usesLineFragmentOrigin, .usesFontLeading]
-                let size = CGSize(width: constrainedSize.width, height: .greatestFiniteMagnitude)
+                let options: NSString.DrawingOptions = [ .usesFontLeading, .usesDeviceMetrics]
+                let size = CGSize(width: constrainedSize.width, height: constrainedSize.height)
                 let attributedString = NSAttributedString(string: str, attributes: attributes)
-                fittingSize = attributedString.boundingRect(with: size, options: options, context: nil).size
+                let context = NSStringDrawingContext()
+                context.minimumScaleFactor = 0.01
+                fittingSize = attributedString.boundingRect(with: size, options: options, context: context).size
 
                 if fittingSize.height <= constrainedSize.height && fittingSize.width <= constrainedSize.width {
                     minFontSize = midFontSize
@@ -691,7 +724,7 @@ class CardBar: NSView, CardBarTheme {
                      rect: NSRect, textColor: NSColor, font: String,
                      strokeThickness: CGFloat = -2.0, centered: Bool = false) {
 
-        if let font = NSFont(name: font, size: round(fontSize / ratioHeight)) {
+        if let font = NSFont(name: font, size: fontSize / ratioHeight) {
             let ratioRect = ratio(rect)
             var attributes: [NSAttributedString.Key: Any] = [
                 .font: font,
@@ -704,9 +737,12 @@ class CardBar: NSView, CardBarTheme {
                 paragraph.alignment = .center
                 attributes[.paragraphStyle] = paragraph
             }
+            let context = NSStringDrawingContext()
+            context.minimumScaleFactor = 0.001
             value.draw(with: ratioRect,
-                               options: NSString.DrawingOptions.truncatesLastVisibleLine,
-                               attributes: attributes)
+                       options: [.usesFontLeading],
+                       attributes: attributes,
+                       context: context)
         }
     }
 

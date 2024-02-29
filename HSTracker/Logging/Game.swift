@@ -71,10 +71,12 @@ class Game: NSObject, PowerEventHandler {
 				DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(1), execute: { [weak self] in
 					self?.updateTrackers()
                     self?.updateBattlegroundsOverlays()
+                    self?.updateConstructedMulliganOverlays()
 				})
 			} else {
 				self.updateTrackers()
                 self.updateBattlegroundsOverlays()
+                self.updateConstructedMulliganOverlays()
 			}
 		}
 	}
@@ -564,6 +566,23 @@ class Game: NSObject, PowerEventHandler {
         }
     }
     
+    func updateConstructedMulliganOverlays() {
+        DispatchQueue.main.async {
+            let hsActive = self.hearthstoneRunState.isActive
+            
+            if self.windowManager.constructedMulliganGuide.viewModel.visibility {
+                if hsActive {
+                    self.windowManager.show(controller: self.windowManager.constructedMulliganGuide, show: true, frame: SizeHelper.hearthstoneWindow.frame, overlay: true)
+                    DispatchQueue.main.async {
+                        self.windowManager.constructedMulliganGuide.updateScaling()
+                    }
+                } else {
+                    self.windowManager.show(controller: self.windowManager.constructedMulliganGuide, show: false)
+                }
+            }
+        }
+    }
+    
     func updateBattlegroundsOverlays() {
         DispatchQueue.main.async {
             let hsActive = self.hearthstoneRunState.isActive
@@ -810,7 +829,7 @@ class Game: NSObject, PowerEventHandler {
                 self.windowManager.show(controller: playerBoardDamage, show: false)
             }
             
-            if Settings.opponentBoardDamage && self.shouldShowGUIElement && (self.currentGameMode != .battlegrounds && self.currentGameMode != .mercenaries) {
+            if Settings.opponentBoardDamage && self.shouldShowGUIElement && (self.currentGameMode != .battlegrounds && self.currentGameMode != .mercenaries) && self.isMulliganDone() {
                 if !self.gameEnded {
                     var heroPowerDmg = 0
                     if let heroPower = board.opponent.heroPower {
@@ -1384,6 +1403,7 @@ class Game: NSObject, PowerEventHandler {
             if rect != SizeHelper.hearthstoneWindow.frame {
                 self.updateAllTrackers()
                 self.updateBattlegroundsOverlays()
+                self.updateConstructedMulliganOverlays()
             }
             self.counter = 0
         } else {
@@ -1890,6 +1910,13 @@ class Game: NSObject, PowerEventHandler {
             windowManager.battlegroundsHeroPicking.viewModel.reset()
             windowManager.battlegroundsQuestPicking.viewModel.reset()
         }
+        if isConstructedMatch() {
+//            Core.Overlay.HideMulliganToast(false);
+            player.mulliganCardStats = nil
+            DispatchQueue.main.async {
+                self.hideMulliganGuideStats()
+            }
+        }
 
         if let currentDeck = self.currentDeck {
             var skip = false
@@ -2089,6 +2116,12 @@ class Game: NSObject, PowerEventHandler {
         turnTimer.startTurn(for: player, timeout: timeout)
 
         if player == .player && !isInMenu {
+            // Clear some state that should never be active at the start of a turn in case another hiding mechanism fails
+            DispatchQueue.main.async {
+                self.hideMulliganGuideStats()
+            }
+            self.player.mulliganCardStats = nil
+            
             if isBattlegroundsMatch() {
                 DispatchQueue.main.async { [self] in
                     self.windowManager.battlegroundsHeroPicking.viewModel.reset()
@@ -2984,6 +3017,11 @@ class Game: NSObject, PowerEventHandler {
         windowManager.constructedMulliganGuide.viewModel.setMulliganData(stats: stats, maxRank: maxRank)
     }
     
+    @MainActor
+    func hideMulliganGuideStats() {
+        windowManager.constructedMulliganGuide.viewModel.reset()
+    }
+    
     func handleBeginMulligan() {
         if isBattlegroundsMatch() {
             handleBattlegroundsStart()
@@ -3001,7 +3039,7 @@ class Game: NSObject, PowerEventHandler {
             AppDelegate.instance().coreManager.toaster.hide()
             let openingHand = snapshotOpeningHand()
             
-            if let mulliganCardStats /* TODO: enable mulligan guide */ {
+            if let mulliganCardStats, Settings.enableMulliganGuide {
                 let numSwappedCards = getMulliganSwappedCards()?.count ?? 0
                 if numSwappedCards > 0 {
                     // show the updated cards
@@ -3024,7 +3062,9 @@ class Game: NSObject, PowerEventHandler {
                 // Wait for the mulligan to be complete (component or animation)
                 for _ in 0..<16*60*60 { // 2 minutes
                     if isInMenu || (gameEntity?[.step] ?? 0) > Step.begin_mulligan.rawValue {
-                        // TODO: hideMulliganGuideStats()
+                        DispatchQueue.main.async {
+                            self.hideMulliganGuideStats()
+                        }
                         player.mulliganCardStats = nil
                         return
                     }
@@ -3033,7 +3073,9 @@ class Game: NSObject, PowerEventHandler {
                     }
                     Thread.sleep(forTimeInterval: 0.016)
                 }
-                // TODO: hideMulliganGuideStats
+                DispatchQueue.main.async {
+                    self.hideMulliganGuideStats()
+                }
                 player.mulliganCardStats = nil
             }
         }
@@ -3059,9 +3101,9 @@ class Game: NSObject, PowerEventHandler {
     @available(macOS 10.15.0, *)
     private func internalHandleMulliganGuide(showToast: Bool, dbfIds: [Int]) async {
         var mulliganGuideData: MulliganGuideData?
-        // TODO: if Settings.enableMulliganGuide {
-        mulliganGuideData = await getMulliganGuideData()
-        // }
+        if Settings.enableMulliganGuide {
+            mulliganGuideData = await getMulliganGuideData()
+        }
         if let data = mulliganGuideData {
             // Show mulligan guide with parameters as selected by the API
             if showToast {
@@ -3113,7 +3155,7 @@ class Game: NSObject, PowerEventHandler {
             _ = snapshotMulligan()
             
             let showToast = Settings.showMulliganToast && !isArenaMatch
-            if showToast /* TODO: || Settings.enableMulliganGuide */ {
+            if showToast || Settings.enableMulliganGuide {
                 if let currentDeck = currentDeck {
                     // Show Mulligan Guide Elements (Overlay and/or Toast)
                     let shortId = currentDeck.shortid

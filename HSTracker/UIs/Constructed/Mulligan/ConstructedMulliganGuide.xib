@@ -6,13 +6,21 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner"/>
+        <customObject id="-2" userLabel="File's Owner" customClass="ConstructedMulliganGuide" customModule="HSTracker" customModuleProvider="target">
+            <connections>
+                <outlet property="itemsStack" destination="2Kp-0C-m2L" id="yqj-of-Uhu"/>
+                <outlet property="outerView" destination="mem-d6-nhU" id="eyd-NE-DRa"/>
+                <outlet property="scaleView" destination="5n4-wd-IOb" id="NWH-SM-8N5"/>
+                <outlet property="visibilityToggleBox" destination="Ehh-aG-pmj" id="oOq-LN-L4A"/>
+                <outlet property="window" destination="W7E-C0-OSf" id="tWO-ZH-8GG"/>
+            </connections>
+        </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" hasShadow="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="W7E-C0-OSf" userLabel="ConstructedMulliganGuide" customClass="NSPanel">
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="480" height="270"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1728" height="1079"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1496" height="933"/>
             <view key="contentView" wantsLayer="YES" id="k2h-tT-wy5">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -23,26 +31,91 @@
                             <customView identifier="OuterView" translatesAutoresizingMaskIntoConstraints="NO" id="mem-d6-nhU" userLabel="OuterView">
                                 <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                                 <subviews>
-                                    <customView identifier="ItemControl" autoresizesSubviews="NO" id="5n4-wd-IOb" userLabel="ItemControl">
-                                        <rect key="frame" x="232" y="135" width="16" height="0.0"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <customView identifier="ItemControl" autoresizesSubviews="NO" ambiguous="YES" id="5n4-wd-IOb" userLabel="ItemControl" colorLabel="IBBuiltInLabel-Green">
+                                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <subviews>
-                                            <stackView identifier="ItemsStackView" distribution="equalSpacing" orientation="horizontal" alignment="centerY" spacing="16" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Kp-0C-m2L" userLabel="Items">
-                                                <rect key="frame" x="0.0" y="0.0" width="16" height="0.0"/>
-                                                <edgeInsets key="edgeInsets" left="16" right="0.0" top="0.0" bottom="0.0"/>
+                                            <stackView identifier="ItemsStackView" distribution="fillEqually" orientation="horizontal" alignment="top" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" detachesHiddenViews="YES" id="2Kp-0C-m2L" userLabel="Items" colorLabel="IBBuiltInLabel-Red">
+                                                <rect key="frame" x="0.0" y="0.0" width="1016" height="480"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="480" placeholder="YES" id="0si-BX-YfQ"/>
+                                                    <constraint firstAttribute="width" constant="1016" placeholder="YES" id="RbU-E0-tut"/>
+                                                </constraints>
                                             </stackView>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstItem="2Kp-0C-m2L" firstAttribute="leading" secondItem="5n4-wd-IOb" secondAttribute="leading" placeholder="YES" id="9pU-io-ywL"/>
-                                            <constraint firstItem="2Kp-0C-m2L" firstAttribute="top" secondItem="5n4-wd-IOb" secondAttribute="top" placeholder="YES" id="U9B-Uz-ck3"/>
-                                            <constraint firstAttribute="bottom" secondItem="2Kp-0C-m2L" secondAttribute="bottom" placeholder="YES" id="Uyb-lN-Lb7"/>
-                                            <constraint firstAttribute="trailing" secondItem="2Kp-0C-m2L" secondAttribute="trailing" placeholder="YES" id="ltf-lD-Sjt"/>
+                                            <constraint firstItem="2Kp-0C-m2L" firstAttribute="centerY" secondItem="5n4-wd-IOb" secondAttribute="centerY" placeholder="YES" id="BU4-41-aAv"/>
+                                            <constraint firstItem="2Kp-0C-m2L" firstAttribute="centerX" secondItem="5n4-wd-IOb" secondAttribute="centerX" placeholder="YES" id="UW7-Ps-YiX"/>
                                         </constraints>
+                                        <connections>
+                                            <binding destination="-2" name="hidden" keyPath="self.statsVisibility" id="eXB-tN-YE3">
+                                                <dictionary key="options">
+                                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                </dictionary>
+                                            </binding>
+                                        </connections>
                                     </customView>
+                                    <box boxType="custom" borderType="none" cornerRadius="4" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="Ehh-aG-pmj" customClass="ClickableBox" customModule="HSTracker" customModuleProvider="target">
+                                        <rect key="frame" x="-636" y="213" width="180" height="26"/>
+                                        <view key="contentView" id="h6a-9a-NQf">
+                                            <rect key="frame" x="8" y="5" width="164" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="F2i-qC-wcA">
+                                                    <rect key="frame" x="0.0" y="0.0" width="164" height="16"/>
+                                                    <subviews>
+                                                        <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fEO-kz-z1I">
+                                                            <rect key="frame" x="-2" y="0.0" width="152" height="16"/>
+                                                            <textFieldCell key="cell" lineBreakMode="clipping" title="HIDE MULLIGAN GUIDE" id="1gL-7d-W3y">
+                                                                <font key="font" usesAppearanceFont="YES"/>
+                                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                            <connections>
+                                                                <binding destination="-2" name="value" keyPath="self.visibilityToggleText" id="zoQ-BG-KSc"/>
+                                                            </connections>
+                                                        </textField>
+                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1SZ-Ne-XdK">
+                                                            <rect key="frame" x="148" y="2" width="16" height="12"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="12" id="che-dC-c2p"/>
+                                                                <constraint firstAttribute="width" constant="16" id="yyO-xy-1jT"/>
+                                                            </constraints>
+                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="eye" id="Brd-HP-Yr8"/>
+                                                            <connections>
+                                                                <binding destination="-2" name="value" keyPath="self.visibilityToggleIcon" id="v2p-dd-hvp"/>
+                                                            </connections>
+                                                        </imageView>
+                                                    </subviews>
+                                                    <visibilityPriorities>
+                                                        <integer value="1000"/>
+                                                        <integer value="1000"/>
+                                                    </visibilityPriorities>
+                                                    <customSpacing>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                    </customSpacing>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="F2i-qC-wcA" firstAttribute="leading" secondItem="h6a-9a-NQf" secondAttribute="leading" id="Ht8-6L-Whe"/>
+                                                <constraint firstAttribute="bottom" secondItem="F2i-qC-wcA" secondAttribute="bottom" id="aMP-Ol-vJ1"/>
+                                                <constraint firstAttribute="trailing" secondItem="F2i-qC-wcA" secondAttribute="trailing" id="uy1-bb-Hs9"/>
+                                                <constraint firstItem="F2i-qC-wcA" firstAttribute="top" secondItem="h6a-9a-NQf" secondAttribute="top" id="vdH-XH-jc5"/>
+                                            </constraints>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="26" id="FA1-J3-fGM"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="180" id="RLh-6K-VVx"/>
+                                        </constraints>
+                                        <color key="fillColor" red="0.1137254902" green="0.21176470589999999" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="deviceRGB"/>
+                                        <size key="contentViewMargins" width="8" height="5"/>
+                                    </box>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="5n4-wd-IOb" firstAttribute="centerX" secondItem="mem-d6-nhU" secondAttribute="centerX" placeholder="YES" id="UoN-Ra-3SI"/>
-                                    <constraint firstItem="5n4-wd-IOb" firstAttribute="centerY" secondItem="mem-d6-nhU" secondAttribute="centerY" placeholder="YES" id="x0F-eU-FvJ"/>
+                                    <constraint firstAttribute="trailing" secondItem="Ehh-aG-pmj" secondAttribute="trailing" constant="936" id="UMs-pH-sAB"/>
+                                    <constraint firstAttribute="bottom" secondItem="Ehh-aG-pmj" secondAttribute="bottom" constant="213" id="pqN-mH-Rx1"/>
                                 </constraints>
                             </customView>
                         </subviews>
@@ -64,5 +137,9 @@
             </view>
             <point key="canvasLocation" x="-44" y="112"/>
         </window>
+        <userDefaultsController representsSharedInstance="YES" id="btk-ug-xth"/>
     </objects>
+    <resources>
+        <image name="eye" width="1152" height="1024"/>
+    </resources>
 </document>

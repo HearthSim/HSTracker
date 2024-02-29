@@ -10,11 +10,23 @@ import Foundation
 
 class ConstructedMulliganGuide: OverWindowController {
     @IBOutlet weak var itemsStack: NSStackView!
-    @IBOutlet weak var overlayMessage: OverlayMessage!
     @IBOutlet weak var outerView: NSView!
     @IBOutlet weak var scaleView: NSView!
+    @IBOutlet weak var visibilityToggleBox: ClickableBox!
     
     let viewModel = ConstructedMulliganGuideViewModel()
+    
+    @objc dynamic var statsVisibility: Bool {
+        return viewModel.statsVisibility
+    }
+    
+    @objc dynamic var visibilityToggleText: String {
+        return viewModel.visibilityToggleText
+    }
+    
+    @objc dynamic var visibilityToggleIcon: NSImage? {
+        return NSImage(named: viewModel.visibilityToggleIcon)
+    }
     
     private var isVisible = false
     private var deferred = false
@@ -38,19 +50,38 @@ class ConstructedMulliganGuide: OverWindowController {
             }
         }
     }
+    override func updateFrames() {
+//        self.window?.ignoresMouseEvents = false
+    }
+    
+    override func awakeFromNib() {
+        visibilityToggleBox.clicked = visibilityMouseUp
+    }
+    
+    func visibilityMouseUp(_ event: NSEvent) {
+        let newVisibility = viewModel.statsVisibility ? false : true
+        willChangeValue(forKey: "visibilityToggleText")
+        willChangeValue(forKey: "visibilityToggleIcon")
+        willChangeValue(forKey: "statsVisibility")
+        viewModel.statsVisibility = newVisibility
+        didChangeValue(forKey: "visibilityToggleText")
+        didChangeValue(forKey: "visibilityToggleIcon")
+        didChangeValue(forKey: "statsVisibility")
+    }
     
     func updateScaling() {
         guard let window, let cardStats = viewModel.cardStats, cardStats.count > 0 else {
             logger.debug("Missing either window or card stats")
             return
         }
-        let cnt = cardStats.count
-        let bounds = NSRect(x: 0, y: 0, width: 16 + 266 * cnt + 16 * (cnt - 1), height: 480)
+        let bounds = NSRect(x: 0, y: 0, width: 1016, height: 480)
         logger.debug("bounds: \(bounds)")
         let scale = SizeHelper.hearthstoneWindow.height / 1080
         let sw = bounds.width * scale
         let sh = bounds.height * scale
-        scaleView.frame = NSRect(x: (window.frame.width - sw) / 2, y: (window.frame.height - sh) / 2, width: sw, height: sh)
+        let dx = 6.0 * scale
+        let dy = 30.0 * scale
+        scaleView.frame = NSRect(x: dx + (window.frame.width - sw) / 2, y: dy + (window.frame.height - sh) / 2, width: sw, height: sh)
         logger.debug("scaleView frame: \(scaleView.frame)")
         scaleView.bounds = bounds
         scaleView.needsDisplay = true
@@ -67,8 +98,9 @@ class ConstructedMulliganGuide: OverWindowController {
                 }
                 
                 if let cardStats = viewModel.cardStats {
-                    for _ in cardStats {
-                        let view = ConstructedMulliganSingleCardStats(frame: NSRect(x: 0, y: 0, width: 266, height: 480))
+//                    var index = 0
+                    for vm in cardStats {
+                        let view = ConstructedMulliganSingleCardStats(frame: NSRect(x: 0, y: 0, width: 212, height: 480), viewModel: vm)
                         itemsStack.addArrangedSubview(view)
                     }
                 }

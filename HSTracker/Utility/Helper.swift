@@ -122,6 +122,6 @@ struct Helper {
         let g = (f(8) * 255)
         let b = (f(4) * 255)
 
-        return String(format: "#%2X%2X%2X", r, g, b)
+        return String(format: "#%2X%2X%2X", Int(r), Int(g), Int(b))
     }
 }

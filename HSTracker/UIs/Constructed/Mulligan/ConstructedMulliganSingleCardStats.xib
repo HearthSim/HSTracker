@@ -9,25 +9,28 @@
         <customObject id="-2" userLabel="File's Owner" customClass="ConstructedMulliganSingleCardStats" customModule="HSTracker" customModuleProvider="target">
             <connections>
                 <outlet property="contentView" destination="c22-O7-iKe" id="H9T-ik-Wav"/>
+                <outlet property="singleCardHeader" destination="6Y7-3d-X7a" id="uEa-3s-QG9"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView id="c22-O7-iKe">
-            <rect key="frame" x="0.0" y="0.0" width="212" height="400"/>
+            <rect key="frame" x="0.0" y="0.0" width="212" height="485"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="6Y7-3d-X7a" customClass="ConstructedMulliganSingleCardHeader" customModule="HSTracker" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="347" width="212" height="53"/>
+                    <rect key="frame" x="0.0" y="427" width="212" height="58"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="212" id="ZQX-6G-uIU"/>
+                    </constraints>
                 </customView>
             </subviews>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="6Y7-3d-X7a" secondAttribute="trailing" id="XpV-HR-okx"/>
                 <constraint firstItem="6Y7-3d-X7a" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="az3-qN-uRH"/>
-                <constraint firstItem="6Y7-3d-X7a" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="g4g-tL-IJV"/>
-                <constraint firstAttribute="bottom" secondItem="6Y7-3d-X7a" secondAttribute="bottom" constant="347" id="mjp-Wf-890"/>
+                <constraint firstItem="6Y7-3d-X7a" firstAttribute="centerX" secondItem="c22-O7-iKe" secondAttribute="centerX" id="im7-SL-nLo"/>
+                <constraint firstAttribute="bottom" secondItem="6Y7-3d-X7a" secondAttribute="bottom" constant="427" id="mjp-Wf-890"/>
             </constraints>
-            <point key="canvasLocation" x="10" y="104.5"/>
+            <point key="canvasLocation" x="10.5" y="142.5"/>
         </customView>
     </objects>
 </document>

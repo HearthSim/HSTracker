@@ -345,6 +345,6 @@
 
 /* Mulligan Guide */
 
-"ConstructedMulliganGuide_Header_HandRankTooltip_Desc" = "The #%@ best card to keep, from the %@ distinct cards in this deck.";
+"ConstructedMulliganGuide_Header_HandRankTooltip_Desc" = "The #%d best card to keep, from the %d distinct cards in this deck.";
 "ConstructedMulliganGuide_VisibilityToggle_Hide" = "HIDE MULLIGAN GUIDE";
 "ConstructedMulliganGuide_VisibilityToggle_Show" = "SHOW MULLIGAN GUIDE";
