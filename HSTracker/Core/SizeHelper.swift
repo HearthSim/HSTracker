@@ -15,7 +15,7 @@ struct SizeHelper {
      */
     static let BaseWidth: CGFloat = 1440.0
     static let BaseHeight: CGFloat = 922.0
-
+    
     class HearthstoneWindow {
         var _frame = NSRect.zero
         var windowId: CGWindowID?
@@ -23,7 +23,7 @@ struct SizeHelper {
         var fullscreen = false
         
         static var axErrorReported = false
-
+        
         init() {
             reload()
         }
@@ -31,14 +31,14 @@ struct SizeHelper {
         private func area(dict: NSDictionary) -> Int {
             let h = (dict["kCGWindowBounds"] as? NSDictionary)?["Height"] as? Int ?? 0
             let w = (dict["kCGWindowBounds"] as? NSDictionary)?["Width"] as? Int ?? 0
-
+            
             return w * h
         }
         
         func reload() {
             let options = CGWindowListOption(arrayLiteral: .excludeDesktopElements)
             let windowListInfo = CGWindowListCopyWindowInfo(options, CGWindowID(0))
-
+            
             if let info = (windowListInfo as? [NSDictionary])?.filter({dict in
                 dict["kCGWindowOwnerName"] as? String == CoreManager.applicationName && dict["kCGWindowLayer"] as? Int == 0
             }).sorted(by: {
@@ -47,12 +47,12 @@ struct SizeHelper {
                 if let id = info["kCGWindowNumber"] as? Int {
                     self.windowId = CGWindowID(id)
                 }
-
+                
                 let pid = info["kCGWindowOwnerPID"] as? pid_t ?? 0
                 
                 let appRef = AXUIElementCreateApplication(pid)
                 var window: CFTypeRef?
-
+                
                 let result: AXError = AXUIElementCopyAttributeValue(appRef, kAXFocusedWindowAttribute as CFString, &window)
                 var calculateFromFrame = false
                 if result == .success {
@@ -85,7 +85,7 @@ struct SizeHelper {
                         screenRect = screen.frame
                         frame.origin.y = screen.frame.maxY - rect.maxY
                     }
-
+                    
                     //logger.debug("HS Frame is : \(rect)")
                     self._frame = frame
                     
@@ -174,13 +174,13 @@ struct SizeHelper {
                 
                 return NSImage(cgImage: image,
                                size: NSSize(width: image.width,
-                                height: image.height))
+                                            height: image.height))
             }
             
             return nil
         }
     }
-
+    
     static let hearthstoneWindow = HearthstoneWindow()
     
     static var battlegroundsTileHeight: CGFloat {
@@ -206,14 +206,14 @@ struct SizeHelper {
     static var mercenariesMinionMargin: CGFloat {
         return hearthstoneWindow.width * screenRatio * 0.01
     }
-
+    
     static var minionMargin: CGFloat {
         return hearthstoneWindow.width * screenRatio * 0.0029
     }
-
+    
     static func overHearthstoneFrame() -> NSRect {
         let frame = hearthstoneWindow.frame
-
+        
         return hearthstoneWindow.relativeFrame(frame)
     }
     
@@ -240,12 +240,12 @@ struct SizeHelper {
                            height: max(100, hearthstoneWindow.frame.height - offset - yOffset))
         return hearthstoneWindow.relativeFrame(frame, relative: false)
     }
-
+    
     static func getScaledXPos(_ left: CGFloat, width: CGFloat,
                               ratio: CGFloat) -> CGFloat {
         return ((width) * ratio * left) + (width * (1 - ratio) / 2)
     }
-
+    
     static func searchLocation() -> NSPoint {
         let hsRect = hearthstoneWindow.frame
         let ratio = (4.0 / 3.0) / (hsRect.width / hsRect.height)
@@ -253,14 +253,14 @@ struct SizeHelper {
         let exportSearchBoxY: CGFloat = 0.915
         var loc = NSPoint(x: getScaledXPos(exportSearchBoxX, width: hsRect.width, ratio: ratio),
                           y: exportSearchBoxY * hsRect.height)
-
+        
         // correct location with window origin.
         loc.x += hsRect.origin.x
         loc.y += (
             hearthstoneWindow.screenRect.height - hsRect.origin.y - hsRect.size.height)
         return loc
     }
-
+    
     static func firstCardFrame() -> NSRect {
         let location = firstCardLocation()
         return NSRect(x: location.x - 100,
@@ -268,35 +268,35 @@ struct SizeHelper {
                       width: 300,
                       height: 100)
     }
-
+    
     static func firstCardLocation() -> NSPoint {
         let hsRect = hearthstoneWindow.frame
         let ratio = (4.0 / 3.0) / (hsRect.width / hsRect.height)
         let cardPosOffset: CGFloat = 50
         let exportCard1X: CGFloat = 0.04
         let exportCard1Y: CGFloat = 0.168
-
+        
         let cardPosX = getScaledXPos(exportCard1X, width: hsRect.width, ratio: ratio)
         let cardPosY = exportCard1Y * hsRect.height
         var loc = NSPoint(x: cardPosX + cardPosOffset, y: cardPosY + cardPosOffset)
-
+        
         // correct location with window origin.
         loc.x += hsRect.origin.x
         loc.y += (hearthstoneWindow.screenRect.height - hsRect.origin.y - hsRect.size.height)
         return loc
     }
-
+    
     static func secondCardLocation() -> NSPoint {
         var loc = firstCardLocation()
-
+        
         loc.x += 190
         return loc
     }
-
+    
     static func playerTrackerFrame() -> NSRect {
         return trackerFrame(xOffset: hearthstoneWindow.frame.width - trackerWidth)
     }
-
+    
     static func opponentTrackerFrame() -> NSRect {
         var yOffset: CGFloat = 0
         if Settings.preventOpponentNameCovering {
@@ -320,19 +320,19 @@ struct SizeHelper {
         //NSRect(x: hearthstoneWindow.frame.maxX  - 400, y: hearthstoneWindow.frame.origin.y, width: 150.0, height: 45.0)
         return hearthstoneWindow.relativeFrame(frame, keepRatio: true)
     }
-
+    
     static func arenaHelperFrame() -> NSRect {
         let height: CGFloat = 450
         let frame = NSRect(x: 0,
                            y: (hearthstoneWindow.frame.height / 2) - (height / 2),
                            width: trackerWidth, height: height)
-
+        
         return hearthstoneWindow.relativeFrame(frame)
     }
-
+    
     static func secretTrackerFrame(height: CGFloat) -> NSRect {
         let yOffset: CGFloat = hearthstoneWindow.isFullscreen() ? 0 : 50
-
+        
         let frame = NSRect(x: trackerWidth + 25,
                            y: hearthstoneWindow.frame.height - height - yOffset,
                            width: trackerWidth,
@@ -340,7 +340,7 @@ struct SizeHelper {
         
         return hearthstoneWindow.relativeFrame(frame, relative: false)
     }
-
+    
     static func timerHudFrame() -> NSRect {
         let frame = NSRect(x: 999.0, y: 423.0, width: 160.0, height: 115.0)
         return hearthstoneWindow.relativeFrame(frame)
@@ -356,22 +356,22 @@ struct SizeHelper {
     static func battlegroundsSessionFrame() -> NSRect {
         let bottom = hearthstoneWindow.frame.minY + 0.05 * hearthstoneWindow.height
         let top = hearthstoneWindow.frame.maxY - 0.15 * hearthstoneWindow.height
-                 
+        
         let left = hearthstoneWindow.frame.minX
-                 
+        
         let frame = NSRect(x: left, y: bottom, width: 200, height: top - bottom)
         return (frame)
     }
-
+    
     static func battlegroundsOverlayFrame() -> NSRect {
         let top = hearthstoneWindow.frame.minY + 0.85 * hearthstoneWindow.height
         let bottom = hearthstoneWindow.frame.minY + 0.15 * hearthstoneWindow.height
-                 
+        
         // Looks like the HS board ratio is 1.5, the rest is padding
         let boardWidth = hearthstoneWindow.height * 1.5
         let left = hearthstoneWindow.frame.minX + 0.05 * boardWidth + (hearthstoneWindow.width - boardWidth)/2
         let right = hearthstoneWindow.frame.minX + 0.133 * boardWidth + (hearthstoneWindow.width - boardWidth)/2
-                 
+        
         let frame = NSRect(x: left, y: bottom, width: right - left, height: top - bottom)
         return (frame)
     }
@@ -383,19 +383,19 @@ struct SizeHelper {
         let height = CGFloat(56)
         let width = CGFloat(tiers * 48 + 8)
         let x = hearthstoneWindow.frame.minX + hearthstoneWindow.frame.width - width
-
+        
         return NSRect(x: x, y: trackerFrame.minY + trackerFrame.height - height, width: width, height: height)
     }
-
+    
     static func bobsPanelOverlayFrame() -> NSRect {
         let trackerFrame = playerTrackerFrame()
         let height = CGFloat(52)
         let width = CGFloat(404)
         let x = hearthstoneWindow.frame.minX + (hearthstoneWindow.width - width) / 2
-
+        
         return NSRect(x: x, y: trackerFrame.minY + trackerFrame.height - height, width: width, height: height)
     }
-
+    
     static func battlegroundsTierDetailFrame() -> NSRect {
         let height = hearthstoneWindow.height - CGFloat(64)
         let width = trackerWidth
@@ -404,7 +404,7 @@ struct SizeHelper {
         
         return NSRect(x: x, y: y, width: width, height: height)
     }
-
+    
     static func battlegroundsDetailsFrame() -> NSRect {
         let w: CGFloat = 1184
         let h: CGFloat = 270
@@ -414,7 +414,7 @@ struct SizeHelper {
         let frame = NSRect(x: x, y: hearthstoneWindow.frame.maxY - h, width: w, height: h)
         return frame
     }
-
+    
     static func toastFrame() -> NSRect {
         let w: CGFloat = 240.0
         let h: CGFloat = 100.0
@@ -446,7 +446,7 @@ struct SizeHelper {
         let result = NSRect(x: frame.minX, y: frame.minY + height - (height / 2 - overlayHeight - opponentBoardOffset) - overlayHeight, width: width, height: overlayHeight + abilitySize() + margin)
         return result
     }
-
+    
     static func playerBoardOverlay() -> NSRect {
         let width = hearthstoneWindow.width
         let height = hearthstoneWindow.height
@@ -455,7 +455,7 @@ struct SizeHelper {
         let step = game.gameEntity?[.step] ?? 0
         let isMainAction = step == Step.main_action.rawValue || step == Step.main_post_action.rawValue || step == Step.main_pre_action.rawValue
         let mercsToNominate = game.gameEntity?.has(tag: .allow_move_minion) ?? false
-
+        
         let overlayHeight = boardOverlayHeight()
         let margin = overlayHeight * 0.14
         let playerBoardOffset = game.isMercenariesMatch() ? isMainAction && !mercsToNominate ? height * -0.09 : height * 0.003 : height * 0.03
@@ -480,7 +480,7 @@ struct SizeHelper {
         let frame = NSRect(x: right - w, y: bottom, width: w, height: h)
         return frame
     }
-
+    
     static func mercenariesTaskListView() -> NSRect {
         let frame = mercenariesTaskListButton()
         let height = hearthstoneWindow.height
@@ -492,7 +492,7 @@ struct SizeHelper {
     
     static func flavorTextFrame() -> NSRect {
         let hs = hearthstoneWindow.frame
-
+        
         let ft = AppDelegate.instance().coreManager.game.windowManager.flavorText.window?.frame ?? NSRect.zero
         let w = ft.width
         let h = ft.height
@@ -517,7 +517,7 @@ struct SizeHelper {
         let h = 50.0
         return NSRect(x: hs.minX + getScaledXPos(86.5 / 100.0, width: hs.width, ratio: screenRatio) - (w - 77.0), y: hs.minY + (hs.height * (100.0 - 18.5) / 100.0) - h, width: w, height: h)
     }
-
+    
     static func playerWotogIconsFrame() -> NSRect {
         let hs = hearthstoneWindow.frame
         let w = 736.0 + 150.0
@@ -530,5 +530,12 @@ struct SizeHelper {
         let w = 763.0
         let h = 500.0
         return NSRect(x: hs.minX + getScaledXPos(0.079, width: hs.width, ratio: screenRatio), y: hs.minY + (hs.height * (1.0 - 0.103) - h), width: w, height: h)
+    }
+    
+    static func constructedMulliganGuidePreLobbyFrame() -> NSRect {
+        let hs = SizeHelper.hearthstoneWindow.frame
+        let w = 238.0*3.0
+        let h = 224.0*3.0
+        return NSRect(x: hs.minX + SizeHelper.getScaledXPos(0.087, width: SizeHelper.hearthstoneWindow.width, ratio: SizeHelper.screenRatio), y: hs.minY + (hs.height * (1.0 - 0.217)) - h, width: w, height: h)
     }
 }

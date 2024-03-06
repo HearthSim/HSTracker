@@ -40,4 +40,5 @@ struct HSReplay {
     static let tier7AllTimeMMR = "\(baseApiUrl)/battlegrounds/alltime/"
     static let playerTrial = "\(baseApiUrl)/playertrials/"
     static let constructedMulliganGuide = "\(baseApiUrl)/mulligan/overlay/"
+    static let constructedMulliganGuideStatus = "\(baseApiUrl)/mulligan/status/"
 }

@@ -431,11 +431,19 @@ struct MirrorHelper {
     }
     
     static func getDeckPickerDecksOnPage() -> [MirrorCollectionDeckBoxVisual?] {
-        var result: [MirrorCollectionDeckBoxVisual?]?
+        var result = [MirrorCollectionDeckBoxVisual?]()
         MirrorHelper.accessQueue.sync {
-            result = mirror?.getDeckPickerDecksOnPage()
+            if let data = mirror?.getDeckPickerDecksOnPage() {
+                for x in data {
+                    if x is NSNull {
+                        result.append(nil)
+                    } else if let cbv = x as? MirrorCollectionDeckBoxVisual {
+                        result.append(cbv)
+                    }
+                }
+            }
         }
-        return result ?? [MirrorCollectionDeckBoxVisual?]()
+        return result
     }
     
     static func getDeckPickerState() -> MirrorDeckPickerState? {

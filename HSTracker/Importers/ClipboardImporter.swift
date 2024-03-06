@@ -9,7 +9,7 @@
 import Foundation
 
 class ClipboardImporter {
-    static func clipboardImport() -> DeckSerializer.SerializedDeck? {
+    static func clipboardImport() -> DeckSerializer.Deck? {
         if let string = NSPasteboard.general.string(forType: .string) {
             return DeckSerializer.deserialize(input: string)
         }

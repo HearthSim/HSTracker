@@ -135,6 +135,10 @@ class WindowManager {
         return $0
     }(ConstructedMulliganGuide(windowNibName: "ConstructedMulliganGuide"))
     
+    var constructedMulliganGuidePreLobby: ConstructedMulliganGuidePreLobby = {
+        return $0
+    }(ConstructedMulliganGuidePreLobby(windowNibName: "ConstructedMulliganGuidePreLobby"))
+    
     var flavorText: FlavorText = {
         return $0
     }(FlavorText(windowNibName: "FlavorText"))

@@ -79,6 +79,13 @@ final class CoreManager: NSObject {
                 self.game.showTier7PreLobby(show: !args.isAnyOpen(), checkAccountStatus: false)
             }
         }
+        DeckPickerWatcher.change = { _, args in
+            self.game.setDeckPickerState(args.selectedFormatType, args.decksOnPage, args.isModalOpen)
+        }
+        
+        SceneWatcher.change = { _, args in
+            SceneHandler.onSceneUpdate(prevMode: Mode.allCases[args.prevMode], mode: Mode.allCases[args.mode], sceneLoaded: args.sceneLoaded, transitioning: args.transitioning)
+        }
         
         ExperienceWatcher.newExperienceHandler = { args in
             AppDelegate.instance().coreManager.game.experienceChangedAsync(experience: args.experience, experienceNeeded: args.experienceNeeded, level: args.level, levelChange: args.levelChange, animate: args.animate)
@@ -306,6 +313,8 @@ final class CoreManager: NSObject {
         ExperienceWatcher.stop()
         QueueWatcher.stop()
         BaconWatcher.stop()
+        SceneWatcher.stop()
+        DeckPickerWatcher.stop()
         MirrorHelper.destroy()
         game.windowManager.battlegroundsHeroPicking.viewModel.reset()
         game.windowManager.battlegroundsQuestPicking.viewModel.reset()
@@ -316,6 +325,7 @@ final class CoreManager: NSObject {
 
     // MARK: - Events
     func startListeners() {
+        SceneWatcher.start()
         if self.triggers.count == 0 {
             let center = NSWorkspace.shared.notificationCenter
             let notifications = [

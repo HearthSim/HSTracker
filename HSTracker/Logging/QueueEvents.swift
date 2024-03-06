@@ -25,6 +25,9 @@ class QueueEvents {
         if !QueueEvents.modes.contains(_game.currentMode ?? Mode.invalid) && !QueueEvents.lettuceModes.contains(_game.currentMode ?? Mode.invalid) {
             return
         }
+        if _game.currentMode == .tournament {
+            _game.setConstructedQueue(e.isInQueue)
+        }
         if e.isInQueue {
             // _game.metadata.enqueueTime = Date.now()
             

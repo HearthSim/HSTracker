@@ -348,3 +348,6 @@
 "ConstructedMulliganGuide_Header_HandRankTooltip_Desc" = "The #%d best card to keep, from the %d distinct cards in this deck.";
 "ConstructedMulliganGuide_VisibilityToggle_Hide" = "HIDE MULLIGAN GUIDE";
 "ConstructedMulliganGuide_VisibilityToggle_Show" = "SHOW MULLIGAN GUIDE";
+"ConstructedMulliganGuidePreLobby_Status_Loading" = "Loading...";
+"ConstructedMulliganGuidePreLobby_Status_Ready" = "Mulligan Guide Ready";
+"ConstructedMulliganGuidePreLobby_Status_NoData" = "No Data";
