@@ -281,6 +281,7 @@ final class CoreManager: NSObject {
                     game.currentRegion = Helper.getCurrentRegion()
                 }
                 retry = false
+                SceneWatcher.start()
             }
         }
         if retry {
@@ -327,7 +328,6 @@ final class CoreManager: NSObject {
 
     // MARK: - Events
     func startListeners() {
-        SceneWatcher.start()
         if self.triggers.count == 0 {
             let center = NSWorkspace.shared.notificationCenter
             let notifications = [
