@@ -29,5 +29,7 @@ enum ThemeElement {
     badAsMultipleIcon,
     darkOverlay,
     fadeOverlay,
-    flashFrame
+    flashFrame,
+    defaultKeepRateBox,
+    defaultKeepRateActiveBox
 }

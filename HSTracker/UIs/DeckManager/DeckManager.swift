@@ -550,7 +550,7 @@ class DeckManager: NSWindowController {
 
     @IBAction func exportHSString(_ sender: Any?) {
         guard let deck = currentDeck else { return }
-        guard let string = DeckSerializer.serialize(deck: deck) else {
+        guard let string = DeckSerializer.serialize(deck: HearthDbConverter.toHearthDbDeck(deck: deck)) else {
             NSAlert.show(style: .critical,
                          message: String.localizedString("Can't create deck string.", comment: ""),
                          window: self.window!)

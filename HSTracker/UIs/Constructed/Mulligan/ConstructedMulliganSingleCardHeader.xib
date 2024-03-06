@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="ConstructedMulliganSingleCardHeader" customModule="HSTracker" customModuleProvider="target">
+            <connections>
+                <outlet property="contentView" destination="OKY-Xz-3c8" id="qfK-3B-GxM"/>
+                <outlet property="handRankTooltip" destination="tz2-Yx-ShF" id="PNk-m6-v2d"/>
+                <outlet property="keepRateLabel" destination="zpU-3T-Aoc" id="sJS-Zh-Bco"/>
+                <outlet property="keepRateTooltip" destination="wdi-Ed-hCv" id="MmJ-9J-EuW"/>
+                <outlet property="keepRateTracker" destination="5Zs-N9-4Sx" id="ixy-qx-MpS"/>
+                <outlet property="mulliganWrLabel" destination="BPz-yw-HFA" id="nO7-YG-cKh"/>
+                <outlet property="mulliganWrTooltip" destination="O08-00-L2V" id="06k-HZ-P0H"/>
+                <outlet property="mulliganWrTracker" destination="bga-tA-7Or" id="YLe-oc-i3g"/>
+                <outlet property="rankBox" destination="ziW-g8-pA8" id="ba1-Yc-zAt"/>
+                <outlet property="rankLabel" destination="mq5-RQ-KVx" id="zRt-Vm-ide"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView translatesAutoresizingMaskIntoConstraints="NO" id="OKY-Xz-3c8" userLabel="ConstructedMulliganSingleCardHeader">
+            <rect key="frame" x="0.0" y="0.0" width="212" height="53"/>
+            <subviews>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="bga-tA-7Or" userLabel="MulliganWRTracker">
+                    <rect key="frame" x="0.0" y="0.0" width="69" height="53"/>
+                </customView>
+                <box boxType="custom" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="Eb1-7R-OID" userLabel="HeaderMulliganWR">
+                    <rect key="frame" x="0.0" y="34" width="69" height="19"/>
+                    <view key="contentView" id="NE2-WZ-Qaz">
+                        <rect key="frame" x="1" y="1" width="67" height="17"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="EJ0-99-yXl">
+                                <rect key="frame" x="-2" y="2" width="71" height="13"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Mulligan WR" id="ONZ-Zu-Y63">
+                                    <font key="font" metaFont="system" size="10"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="EJ0-99-yXl" firstAttribute="leading" secondItem="NE2-WZ-Qaz" secondAttribute="leading" id="QjT-5H-POz"/>
+                            <constraint firstAttribute="trailing" secondItem="EJ0-99-yXl" secondAttribute="trailing" id="UEG-y2-YpN"/>
+                            <constraint firstItem="EJ0-99-yXl" firstAttribute="centerY" secondItem="NE2-WZ-Qaz" secondAttribute="centerY" id="dUk-Mt-MqE"/>
+                        </constraints>
+                    </view>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="19" id="K5h-VG-XrG"/>
+                    </constraints>
+                    <color key="borderColor" red="0.11372549019607843" green="0.21176470588235294" blue="0.3411764705882353" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="fillColor" red="0.11372549019607843" green="0.21176470588235294" blue="0.3411764705882353" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                </box>
+                <box boxType="custom" cornerRadius="4" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="ziW-g8-pA8" userLabel="HandRankBox">
+                    <rect key="frame" x="73" y="1" width="66" height="52"/>
+                    <view key="contentView" id="FI0-RD-Zmw">
+                        <rect key="frame" x="1" y="1" width="64" height="50"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="2" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qlb-tn-I8Q">
+                                <rect key="frame" x="6" y="4" width="53" height="43"/>
+                                <subviews>
+                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="OZs-h2-2yi" userLabel="HAND RANK">
+                                        <rect key="frame" x="-2" y="31" width="57" height="10"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="HAND RANK" id="IT9-UK-JW2">
+                                            <font key="font" metaFont="system" size="8"/>
+                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mq5-RQ-KVx">
+                                        <rect key="frame" x="-2" y="2" width="57" height="27"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="#1" id="YyZ-YQ-zVN">
+                                            <font key="font" size="26" name="ChunkFive-Roman"/>
+                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                </subviews>
+                                <edgeInsets key="edgeInsets" left="0.0" right="0.0" top="2" bottom="2"/>
+                                <constraints>
+                                    <constraint firstItem="OZs-h2-2yi" firstAttribute="centerX" secondItem="qlb-tn-I8Q" secondAttribute="centerX" id="HHU-C5-5wh"/>
+                                    <constraint firstItem="mq5-RQ-KVx" firstAttribute="centerX" secondItem="qlb-tn-I8Q" secondAttribute="centerX" id="Ico-Kg-MfR"/>
+                                </constraints>
+                                <visibilityPriorities>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                </visibilityPriorities>
+                                <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                </customSpacing>
+                            </stackView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="qlb-tn-I8Q" firstAttribute="centerX" secondItem="FI0-RD-Zmw" secondAttribute="centerX" id="DA9-7u-REH"/>
+                            <constraint firstItem="qlb-tn-I8Q" firstAttribute="centerY" secondItem="FI0-RD-Zmw" secondAttribute="centerY" id="UYy-uR-GSk"/>
+                        </constraints>
+                    </view>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="66" id="hYz-F4-5pM"/>
+                        <constraint firstAttribute="height" constant="52" id="pIv-nC-jZh"/>
+                    </constraints>
+                </box>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="5Zs-N9-4Sx" userLabel="KeepRateTracker">
+                    <rect key="frame" x="143" y="0.0" width="69" height="53"/>
+                </customView>
+                <box boxType="custom" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="IYT-Xp-IPd" userLabel="HeaderKeepRate">
+                    <rect key="frame" x="143" y="34" width="69" height="19"/>
+                    <view key="contentView" id="bBy-xx-uD1">
+                        <rect key="frame" x="1" y="1" width="67" height="17"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="CtA-Ru-s5X">
+                                <rect key="frame" x="-2" y="2" width="71" height="13"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Keep Rate" id="3OA-a4-zMX">
+                                    <font key="font" metaFont="system" size="10"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="CtA-Ru-s5X" firstAttribute="centerY" secondItem="bBy-xx-uD1" secondAttribute="centerY" id="0lW-G1-8Kp"/>
+                            <constraint firstAttribute="trailing" secondItem="CtA-Ru-s5X" secondAttribute="trailing" id="6OS-fZ-FFZ"/>
+                            <constraint firstItem="CtA-Ru-s5X" firstAttribute="leading" secondItem="bBy-xx-uD1" secondAttribute="leading" id="gG1-DP-shk"/>
+                        </constraints>
+                    </view>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="19" id="ATX-za-Qfn"/>
+                    </constraints>
+                    <color key="borderColor" red="0.11372549019607843" green="0.21176470588235294" blue="0.3411764705882353" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="fillColor" red="0.11372549019607843" green="0.21176470588235294" blue="0.3411764705882353" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                </box>
+                <box boxType="custom" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="ILF-Lz-dxL" userLabel="MulliganWR">
+                    <rect key="frame" x="0.0" y="0.0" width="69" height="34"/>
+                    <view key="contentView" id="abm-b7-FnK">
+                        <rect key="frame" x="1" y="1" width="67" height="32"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BPz-yw-HFA">
+                                <rect key="frame" x="-2" y="7" width="71" height="19"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="58.5%" id="h2V-sD-Uvx">
+                                    <numberFormatter key="formatter" formatterBehavior="custom10_4" positiveFormat="0.##" negativeFormat="-0.##" usesGroupingSeparator="NO" formatWidth="-1" roundingMode="halfUp" groupingSize="0" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" minimumFractionDigits="2" maximumFractionDigits="2" id="owh-zY-b3N"/>
+                                    <font key="font" size="19" name="ChunkFive-Roman"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="BPz-yw-HFA" secondAttribute="trailing" id="Mog-Nr-bmz"/>
+                            <constraint firstItem="BPz-yw-HFA" firstAttribute="centerY" secondItem="abm-b7-FnK" secondAttribute="centerY" id="QA5-Tu-eSI"/>
+                            <constraint firstItem="BPz-yw-HFA" firstAttribute="leading" secondItem="abm-b7-FnK" secondAttribute="leading" id="l5h-cK-f8X"/>
+                        </constraints>
+                    </view>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="34" id="cKe-n3-XNS"/>
+                    </constraints>
+                    <color key="borderColor" red="0.21176470589999999" green="0.086274509799999996" blue="0.2156862745" alpha="1" colorSpace="deviceRGB"/>
+                    <color key="fillColor" red="0.078431372550000003" green="0.086274509799999996" blue="0.090196078430000007" alpha="1" colorSpace="custom" customColorSpace="deviceRGB"/>
+                </box>
+                <box boxType="custom" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="ytO-cQ-wCA" userLabel="KeepRate">
+                    <rect key="frame" x="143" y="0.0" width="69" height="34"/>
+                    <view key="contentView" id="kc5-bn-Nx5">
+                        <rect key="frame" x="1" y="1" width="67" height="32"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zpU-3T-Aoc">
+                                <rect key="frame" x="-2" y="6" width="71" height="20"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="91.5%" id="NK4-hb-m2T">
+                                    <numberFormatter key="formatter" formatterBehavior="custom10_4" numberStyle="percent" formatWidth="-1" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" minimumFractionDigits="1" maximumFractionDigits="1" id="MkQ-ub-rLf">
+                                        <integer key="multiplier" value="100"/>
+                                    </numberFormatter>
+                                    <font key="font" size="20" name="ChunkFive-Roman"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="zpU-3T-Aoc" firstAttribute="leading" secondItem="kc5-bn-Nx5" secondAttribute="leading" id="Ykf-mG-9Jk"/>
+                            <constraint firstItem="zpU-3T-Aoc" firstAttribute="centerY" secondItem="kc5-bn-Nx5" secondAttribute="centerY" id="kDp-aV-28j"/>
+                            <constraint firstAttribute="trailing" secondItem="zpU-3T-Aoc" secondAttribute="trailing" id="pZy-Rc-5US"/>
+                        </constraints>
+                    </view>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="34" id="58V-Qv-KaA"/>
+                    </constraints>
+                    <color key="borderColor" red="0.21176470589999999" green="0.086274509799999996" blue="0.2156862745" alpha="1" colorSpace="deviceRGB"/>
+                    <color key="fillColor" red="0.078431372550000003" green="0.086274509799999996" blue="0.090196078430000007" alpha="1" colorSpace="custom" customColorSpace="deviceRGB"/>
+                </box>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="IYT-Xp-IPd" secondAttribute="trailing" id="083-Hd-EUf"/>
+                <constraint firstItem="bga-tA-7Or" firstAttribute="top" secondItem="Eb1-7R-OID" secondAttribute="top" id="0Hl-8b-cY4"/>
+                <constraint firstItem="ILF-Lz-dxL" firstAttribute="leading" secondItem="OKY-Xz-3c8" secondAttribute="leading" id="8Ek-ar-kWt"/>
+                <constraint firstItem="5Zs-N9-4Sx" firstAttribute="top" secondItem="IYT-Xp-IPd" secondAttribute="top" id="A8o-sI-VBa"/>
+                <constraint firstAttribute="bottom" secondItem="bga-tA-7Or" secondAttribute="bottom" id="EEc-Tl-YWi"/>
+                <constraint firstItem="5Zs-N9-4Sx" firstAttribute="trailing" secondItem="IYT-Xp-IPd" secondAttribute="trailing" id="LN9-is-wkt"/>
+                <constraint firstItem="ziW-g8-pA8" firstAttribute="top" secondItem="OKY-Xz-3c8" secondAttribute="top" id="LXZ-fL-dDE"/>
+                <constraint firstItem="IYT-Xp-IPd" firstAttribute="leading" secondItem="ziW-g8-pA8" secondAttribute="trailing" constant="4" id="OI2-L4-8WR"/>
+                <constraint firstItem="IYT-Xp-IPd" firstAttribute="top" secondItem="OKY-Xz-3c8" secondAttribute="top" id="Pan-v2-x91"/>
+                <constraint firstItem="Eb1-7R-OID" firstAttribute="trailing" secondItem="bga-tA-7Or" secondAttribute="trailing" id="Po7-3S-Z2U"/>
+                <constraint firstItem="Eb1-7R-OID" firstAttribute="leading" secondItem="OKY-Xz-3c8" secondAttribute="leading" id="ROh-ZN-alU"/>
+                <constraint firstItem="5Zs-N9-4Sx" firstAttribute="bottom" secondItem="ytO-cQ-wCA" secondAttribute="bottom" id="Rz1-Sl-CC5"/>
+                <constraint firstItem="ytO-cQ-wCA" firstAttribute="top" secondItem="IYT-Xp-IPd" secondAttribute="bottom" id="Te5-Zb-1Oz"/>
+                <constraint firstItem="ILF-Lz-dxL" firstAttribute="width" secondItem="Eb1-7R-OID" secondAttribute="width" id="V1n-NL-yPd"/>
+                <constraint firstItem="IYT-Xp-IPd" firstAttribute="width" secondItem="Eb1-7R-OID" secondAttribute="width" id="Xa1-rY-sYw"/>
+                <constraint firstItem="bga-tA-7Or" firstAttribute="leading" secondItem="Eb1-7R-OID" secondAttribute="leading" id="aWv-oO-XOk"/>
+                <constraint firstItem="ILF-Lz-dxL" firstAttribute="bottom" secondItem="bga-tA-7Or" secondAttribute="bottom" id="dy6-Im-NlC"/>
+                <constraint firstItem="ytO-cQ-wCA" firstAttribute="leading" secondItem="ziW-g8-pA8" secondAttribute="trailing" constant="4" id="fXO-7j-FC7"/>
+                <constraint firstItem="ILF-Lz-dxL" firstAttribute="top" secondItem="IYT-Xp-IPd" secondAttribute="bottom" id="gQ5-dR-FQz"/>
+                <constraint firstItem="ziW-g8-pA8" firstAttribute="leading" secondItem="Eb1-7R-OID" secondAttribute="trailing" constant="4" id="gXM-2I-OIC"/>
+                <constraint firstItem="5Zs-N9-4Sx" firstAttribute="leading" secondItem="IYT-Xp-IPd" secondAttribute="leading" id="ojz-pm-7D2"/>
+                <constraint firstItem="ytO-cQ-wCA" firstAttribute="width" secondItem="IYT-Xp-IPd" secondAttribute="width" id="rer-dI-zQO"/>
+                <constraint firstItem="Eb1-7R-OID" firstAttribute="top" secondItem="OKY-Xz-3c8" secondAttribute="top" id="t1f-4L-DaN"/>
+                <constraint firstAttribute="trailing" secondItem="ytO-cQ-wCA" secondAttribute="trailing" id="vX0-qR-pAY"/>
+            </constraints>
+            <point key="canvasLocation" x="-141" y="116.5"/>
+        </customView>
+        <box boxType="custom" cornerRadius="4" title="Box" titlePosition="noTitle" id="wdi-Ed-hCv" userLabel="KeepRateTooltip">
+            <rect key="frame" x="0.0" y="0.0" width="171" height="79"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <view key="contentView" id="AMh-ee-4fw">
+                <rect key="frame" x="1" y="1" width="169" height="77"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="Avx-Of-A09">
+                        <rect key="frame" x="0.0" y="17" width="169" height="60"/>
+                        <subviews>
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="RT7-TB-4mC">
+                                <rect key="frame" x="6" y="-23" width="157" height="57"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="57" id="nsl-01-m5i"/>
+                                </constraints>
+                                <textFieldCell key="cell" selectable="YES" title="Percent of the time this card is kept when presented during Mulligan." id="124-tp-2Pa">
+                                    <font key="font" metaFont="system" size="10"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BKn-sn-JKq">
+                                <rect key="frame" x="6" y="34" width="157" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="22" id="DpD-aS-7QA"/>
+                                </constraints>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Keep Rate" id="JYr-bh-ZW4">
+                                    <font key="font" metaFont="systemBold" size="12"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="RT7-TB-4mC" secondAttribute="trailing" constant="8" id="0b5-C7-gDb"/>
+                            <constraint firstItem="BKn-sn-JKq" firstAttribute="top" secondItem="Avx-Of-A09" secondAttribute="top" constant="4" id="CH9-EB-c6N"/>
+                            <constraint firstAttribute="height" constant="60" id="TJN-xX-PHT"/>
+                            <constraint firstItem="RT7-TB-4mC" firstAttribute="leading" secondItem="Avx-Of-A09" secondAttribute="leading" constant="8" id="Ycw-f2-jtu"/>
+                            <constraint firstAttribute="trailing" secondItem="BKn-sn-JKq" secondAttribute="trailing" constant="8" id="acX-pQ-aGy"/>
+                            <constraint firstItem="BKn-sn-JKq" firstAttribute="leading" secondItem="Avx-Of-A09" secondAttribute="leading" constant="8" id="sca-gZ-6Wn"/>
+                            <constraint firstItem="RT7-TB-4mC" firstAttribute="top" secondItem="BKn-sn-JKq" secondAttribute="bottom" id="tsL-02-akq"/>
+                        </constraints>
+                    </customView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="Avx-Of-A09" secondAttribute="trailing" id="3Nn-zv-CV9"/>
+                    <constraint firstItem="Avx-Of-A09" firstAttribute="leading" secondItem="AMh-ee-4fw" secondAttribute="leading" id="8vv-8m-yNh"/>
+                    <constraint firstItem="Avx-Of-A09" firstAttribute="top" secondItem="AMh-ee-4fw" secondAttribute="top" id="MKt-IJ-m9x"/>
+                </constraints>
+            </view>
+            <color key="borderColor" red="0.21176470589999999" green="0.086274509799999996" blue="0.2156862745" alpha="1" colorSpace="deviceRGB"/>
+            <color key="fillColor" red="0.078431372550000003" green="0.086274509799999996" blue="0.090196078430000007" alpha="1" colorSpace="custom" customColorSpace="deviceRGB"/>
+            <point key="canvasLocation" x="-441" y="19"/>
+        </box>
+        <box boxType="custom" cornerRadius="4" title="Box" titlePosition="noTitle" id="tz2-Yx-ShF" userLabel="HandRankTooltip">
+            <rect key="frame" x="0.0" y="0.0" width="171" height="79"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <view key="contentView" id="AoK-07-Vmb">
+                <rect key="frame" x="1" y="1" width="169" height="77"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="A5n-p3-oTG">
+                        <rect key="frame" x="0.0" y="0.0" width="169" height="77"/>
+                        <subviews>
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="ySI-BR-3Zb">
+                                <rect key="frame" x="6" y="-6" width="157" height="57"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="57" id="7w6-vW-inG"/>
+                                </constraints>
+                                <textFieldCell key="cell" selectable="YES" title="The #{0} best card to keep, from the {1} distinct cards in this deck." id="HWH-N6-bhw">
+                                    <font key="font" metaFont="system" size="10"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                                <connections>
+                                    <binding destination="-2" name="value" keyPath="self.handRankTooltipText" id="dzB-cG-T7p"/>
+                                </connections>
+                            </textField>
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MAj-rA-m9u">
+                                <rect key="frame" x="6" y="51" width="157" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="22" id="zCj-oJ-0vd"/>
+                                </constraints>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Hand Rank" id="hvq-xn-2uw">
+                                    <font key="font" metaFont="systemBold" size="12"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="ySI-BR-3Zb" firstAttribute="leading" secondItem="A5n-p3-oTG" secondAttribute="leading" constant="8" id="OHX-b2-ey2"/>
+                            <constraint firstAttribute="trailing" secondItem="ySI-BR-3Zb" secondAttribute="trailing" constant="8" id="SAT-Pe-sHX"/>
+                            <constraint firstItem="MAj-rA-m9u" firstAttribute="leading" secondItem="A5n-p3-oTG" secondAttribute="leading" constant="8" id="iJM-3H-gOX"/>
+                            <constraint firstAttribute="trailing" secondItem="MAj-rA-m9u" secondAttribute="trailing" constant="8" id="kwS-an-2ge"/>
+                            <constraint firstItem="ySI-BR-3Zb" firstAttribute="top" secondItem="MAj-rA-m9u" secondAttribute="bottom" id="mpe-w9-BUK"/>
+                            <constraint firstItem="MAj-rA-m9u" firstAttribute="top" secondItem="A5n-p3-oTG" secondAttribute="top" constant="4" id="x0O-BY-1t0"/>
+                        </constraints>
+                    </customView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="A5n-p3-oTG" secondAttribute="trailing" id="L70-yd-Tuy"/>
+                    <constraint firstItem="A5n-p3-oTG" firstAttribute="leading" secondItem="AoK-07-Vmb" secondAttribute="leading" id="Rq1-FN-muq"/>
+                    <constraint firstItem="A5n-p3-oTG" firstAttribute="top" secondItem="AoK-07-Vmb" secondAttribute="top" id="VyD-E0-WaJ"/>
+                    <constraint firstAttribute="bottom" secondItem="A5n-p3-oTG" secondAttribute="bottom" id="WKG-p9-RB3"/>
+                </constraints>
+            </view>
+            <color key="borderColor" red="0.21176470589999999" green="0.086274509799999996" blue="0.2156862745" alpha="1" colorSpace="deviceRGB"/>
+            <color key="fillColor" red="0.078431372550000003" green="0.086274509799999996" blue="0.090196078430000007" alpha="1" colorSpace="custom" customColorSpace="deviceRGB"/>
+            <point key="canvasLocation" x="-476.5" y="-113"/>
+        </box>
+        <box boxType="custom" cornerRadius="4" title="Box" titlePosition="noTitle" id="O08-00-L2V" userLabel="MulliganWRTooltip">
+            <rect key="frame" x="0.0" y="0.0" width="171" height="79"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <view key="contentView" id="5r1-HN-ZX4">
+                <rect key="frame" x="1" y="1" width="169" height="77"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="i0m-Td-Y2S">
+                        <rect key="frame" x="0.0" y="17" width="169" height="60"/>
+                        <subviews>
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="KpF-xo-yKm">
+                                <rect key="frame" x="6" y="-23" width="157" height="57"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="57" id="z06-xW-vSr"/>
+                                </constraints>
+                                <textFieldCell key="cell" selectable="YES" title="Average winrate of games where this card ends up in the opening hand." id="HNs-PT-wiV">
+                                    <font key="font" metaFont="system" size="10"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qoS-ib-ksX">
+                                <rect key="frame" x="6" y="34" width="157" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="22" id="b2E-d1-zNL"/>
+                                </constraints>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Mulligan Winrate" id="HBL-Xa-PkA">
+                                    <font key="font" metaFont="systemBold" size="12"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="qoS-ib-ksX" secondAttribute="trailing" constant="8" id="AVP-iq-fyv"/>
+                            <constraint firstAttribute="trailing" secondItem="KpF-xo-yKm" secondAttribute="trailing" constant="8" id="Ahy-Iq-IXp"/>
+                            <constraint firstItem="qoS-ib-ksX" firstAttribute="top" secondItem="i0m-Td-Y2S" secondAttribute="top" constant="4" id="FCp-xy-VQv"/>
+                            <constraint firstItem="KpF-xo-yKm" firstAttribute="top" secondItem="qoS-ib-ksX" secondAttribute="bottom" id="Gf9-ZG-SvZ"/>
+                            <constraint firstAttribute="height" constant="60" id="WlN-dX-cg0"/>
+                            <constraint firstItem="qoS-ib-ksX" firstAttribute="leading" secondItem="i0m-Td-Y2S" secondAttribute="leading" constant="8" id="mrl-WV-Mfq"/>
+                            <constraint firstItem="KpF-xo-yKm" firstAttribute="leading" secondItem="i0m-Td-Y2S" secondAttribute="leading" constant="8" id="xie-TB-eP9"/>
+                        </constraints>
+                    </customView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="i0m-Td-Y2S" firstAttribute="leading" secondItem="5r1-HN-ZX4" secondAttribute="leading" id="E5K-X8-Loc"/>
+                    <constraint firstAttribute="trailing" secondItem="i0m-Td-Y2S" secondAttribute="trailing" id="TI9-c2-BA8"/>
+                    <constraint firstItem="i0m-Td-Y2S" firstAttribute="top" secondItem="5r1-HN-ZX4" secondAttribute="top" id="n9A-DG-R8X"/>
+                </constraints>
+            </view>
+            <color key="borderColor" red="0.21176470589999999" green="0.086274509799999996" blue="0.2156862745" alpha="1" colorSpace="deviceRGB"/>
+            <color key="fillColor" red="0.078431372550000003" green="0.086274509799999996" blue="0.090196078430000007" alpha="1" colorSpace="custom" customColorSpace="deviceRGB"/>
+            <point key="canvasLocation" x="-219.5" y="-25"/>
+        </box>
+    </objects>
+</document>

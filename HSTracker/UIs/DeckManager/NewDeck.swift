@@ -85,7 +85,7 @@ class NewDeck: NSWindowController, NSControlTextEditingDelegate {
             if let serializedDeck = ClipboardImporter.clipboardImport() {
                 let deck = Deck()
                 let cards: [Card]?
-                deck.playerClass = serializedDeck.playerClass
+                deck.playerClass = serializedDeck.getHero()?.playerClass ?? .invalid
                 deck.name = serializedDeck.name
                 cards = serializedDeck.cards
                 

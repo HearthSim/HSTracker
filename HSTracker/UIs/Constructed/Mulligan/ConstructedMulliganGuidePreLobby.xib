@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="ConstructedMulliganGuidePreLobby" customModule="HSTracker" customModuleProvider="target">
+            <connections>
+                <outlet property="outerView" destination="RqJ-Xi-RZq" id="R61-lh-xcq"/>
+                <outlet property="scaleView" destination="1dn-rK-uQI" id="vST-F3-FPQ"/>
+                <outlet property="stack1" destination="U8Y-71-m5O" id="vvw-Pi-dc1"/>
+                <outlet property="stack2" destination="3PM-J0-iy8" id="gfZ-VJ-WKj"/>
+                <outlet property="stack3" destination="vxm-EC-c8f" id="Fmc-gS-TZz"/>
+                <outlet property="window" destination="QvC-M9-y7g" id="vCL-lB-ciA"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" hasShadow="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g" customClass="NSPanel">
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="196" y="240" width="800" height="630"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1496" height="933"/>
+            <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
+                <rect key="frame" x="0.0" y="0.0" width="800" height="630"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="7Dm-M8-F2q">
+                        <rect key="frame" x="0.0" y="0.0" width="800" height="630"/>
+                        <subviews>
+                            <customView identifier="OuterView" translatesAutoresizingMaskIntoConstraints="NO" id="RqJ-Xi-RZq" userLabel="OuterView">
+                                <rect key="frame" x="0.0" y="0.0" width="800" height="630"/>
+                                <subviews>
+                                    <customView identifier="ItemControl" autoresizesSubviews="NO" id="1dn-rK-uQI" userLabel="ItemControl" colorLabel="IBBuiltInLabel-Green">
+                                        <rect key="frame" x="0.0" y="0.0" width="800" height="630"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <stackView identifier="ItemsStackView" autoresizesSubviews="NO" distribution="equalSpacing" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q0a-mb-rQt" userLabel="Items" colorLabel="IBBuiltInLabel-Red">
+                                                <rect key="frame" x="0.0" y="0.0" width="714" height="672"/>
+                                                <subviews>
+                                                    <stackView identifier="Stack1" autoresizesSubviews="NO" distribution="equalSpacing" orientation="horizontal" alignment="top" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="U8Y-71-m5O" userLabel="Stack1">
+                                                        <rect key="frame" x="0.0" y="448" width="714" height="224"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="224" id="cFd-Jb-Ghm"/>
+                                                            <constraint firstAttribute="width" constant="714" id="lwh-HT-vR1"/>
+                                                        </constraints>
+                                                    </stackView>
+                                                    <stackView identifier="Stack2" autoresizesSubviews="NO" distribution="equalSpacing" orientation="horizontal" alignment="top" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3PM-J0-iy8" userLabel="Stack2">
+                                                        <rect key="frame" x="0.0" y="224" width="714" height="224"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="224" id="cSH-JF-aLH"/>
+                                                            <constraint firstAttribute="width" constant="714" id="mLV-Lw-Euf"/>
+                                                        </constraints>
+                                                    </stackView>
+                                                    <stackView identifier="Stack3" autoresizesSubviews="NO" distribution="equalSpacing" orientation="horizontal" alignment="top" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vxm-EC-c8f" userLabel="Stack3">
+                                                        <rect key="frame" x="0.0" y="0.0" width="714" height="224"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="224" id="2Az-GG-wxb"/>
+                                                            <constraint firstAttribute="width" constant="714" id="eY4-aT-KYW"/>
+                                                        </constraints>
+                                                    </stackView>
+                                                </subviews>
+                                                <visibilityPriorities>
+                                                    <integer value="1000"/>
+                                                    <integer value="1000"/>
+                                                    <integer value="1000"/>
+                                                </visibilityPriorities>
+                                                <customSpacing>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                </customSpacing>
+                                            </stackView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="Q0a-mb-rQt" secondAttribute="bottom" id="7dC-pw-nyv"/>
+                                            <constraint firstItem="Q0a-mb-rQt" firstAttribute="leading" secondItem="1dn-rK-uQI" secondAttribute="leading" id="Ms7-0n-xjH"/>
+                                        </constraints>
+                                    </customView>
+                                </subviews>
+                            </customView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="RqJ-Xi-RZq" secondAttribute="bottom" id="cSe-Zd-dLJ"/>
+                            <constraint firstItem="RqJ-Xi-RZq" firstAttribute="leading" secondItem="7Dm-M8-F2q" secondAttribute="leading" id="fv2-p9-zLo"/>
+                            <constraint firstItem="RqJ-Xi-RZq" firstAttribute="top" secondItem="7Dm-M8-F2q" secondAttribute="top" id="oKl-rH-MAS"/>
+                            <constraint firstAttribute="trailing" secondItem="RqJ-Xi-RZq" secondAttribute="trailing" id="qvT-b9-jaA"/>
+                        </constraints>
+                        <accessibility identifier="ScaleView"/>
+                    </customView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="7Dm-M8-F2q" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="6jt-S7-39b"/>
+                    <constraint firstAttribute="bottom" secondItem="7Dm-M8-F2q" secondAttribute="bottom" id="E7v-e4-Hrf"/>
+                    <constraint firstItem="7Dm-M8-F2q" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="Veo-PR-y9p"/>
+                    <constraint firstAttribute="trailing" secondItem="7Dm-M8-F2q" secondAttribute="trailing" id="wfF-Pr-fwR"/>
+                </constraints>
+            </view>
+            <point key="canvasLocation" x="-35" y="111"/>
+        </window>
+    </objects>
+</document>

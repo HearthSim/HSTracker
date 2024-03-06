@@ -566,3 +566,156 @@ class BaconWatcher: Watcher {
         isRunning = false
     }
 }
+
+enum VisualsFormatType: Int {
+    case vft_unknown,
+         vft_wild,
+         vft_standard,
+         vft_classic,
+         vft_casual,
+         vft_twist
+}
+
+class CollectionDeckBoxVisual: Equatable {
+    static func == (lhs: CollectionDeckBoxVisual, rhs: CollectionDeckBoxVisual) -> Bool {
+        return lhs === rhs || (lhs.deckid == rhs.deckid && lhs.isShowingInvalidCardCount == rhs.isShowingInvalidCardCount && lhs.isFocused == rhs.isFocused && lhs.isSelected == rhs.isSelected)
+    }
+    
+    let deckid: Int64
+    let isShowingInvalidCardCount: Bool
+    let isFocused: Bool
+    let isSelected: Bool
+    
+    init(deckid: Int64, isShowingInvalidCardCount: Bool, isFocused: Bool, isSelected: Bool) {
+        self.deckid = deckid
+        self.isShowingInvalidCardCount = isShowingInvalidCardCount
+        self.isFocused = isFocused
+        self.isSelected = isSelected
+    }
+}
+
+struct DeckPickerEventArgs: Equatable {
+    static func == (lhs: DeckPickerEventArgs, rhs: DeckPickerEventArgs) -> Bool {
+        return lhs.selectedFormatType == rhs.selectedFormatType && lhs.selectedDeck == rhs.selectedDeck && lhs.isModalOpen == rhs.isModalOpen && lhs.decksOnPage == rhs.decksOnPage
+    }
+    
+    let selectedFormatType: VisualsFormatType
+    let decksOnPage: [CollectionDeckBoxVisual?]
+    let selectedDeck: Int64
+    let isModalOpen: Bool
+}
+
+class DeckPickerWatcher: Watcher {
+    static var change: ((_ sender: DeckPickerWatcher, _ args: DeckPickerEventArgs) -> Void)?
+    
+    var _watch: Bool = false
+    var _prev: DeckPickerEventArgs?
+    
+    static let _instance = DeckPickerWatcher()
+    
+    init(delay: TimeInterval = 0.200) {
+        super.init()
+        
+        refreshInterval = delay
+    }
+    
+    override func run() {
+        _watch = true
+        update()
+    }
+    
+    static func start() {
+        _instance.startWatching()
+    }
+    
+    static func stop() {
+        _instance._watch = false
+        _instance.stopWatching()
+    }
+    
+    private func update() {
+        isRunning = true
+        while _watch {
+            Thread.sleep(forTimeInterval: refreshInterval)
+            if !_watch {
+                break
+            }
+            let decks = MirrorHelper.getDeckPickerDecksOnPage().map { x in
+                var res: CollectionDeckBoxVisual?
+                if let x {
+                    res = CollectionDeckBoxVisual(deckid: x.deckId.int64Value, isShowingInvalidCardCount: x.isShowingInvalidCardCount, isFocused: x.isFocused, isSelected: x.isSelected)
+                }
+                return res
+            }
+            let state = MirrorHelper.getDeckPickerState()
+            let curr = DeckPickerEventArgs(selectedFormatType: VisualsFormatType(rawValue: state?.visualsFormatType.intValue ?? 0) ?? VisualsFormatType.vft_unknown, decksOnPage: decks, selectedDeck: state?.selectedDeck?.int64Value ?? 0, isModalOpen: (state?.isModeSwitching ?? false) || MirrorHelper.isBlurActive())
+            if curr == _prev {
+                continue
+            }
+            DeckPickerWatcher.change?(self, curr)
+            _prev = curr
+        }
+        _prev = nil
+        isRunning = false
+    }
+}
+
+struct SceneEventArgs: Equatable {
+    static func == (lhs: SceneEventArgs, rhs: SceneEventArgs) -> Bool {
+        return lhs.prevMode == rhs.prevMode && lhs.mode == rhs.mode && lhs.sceneLoaded == rhs.sceneLoaded && lhs.transitioning == rhs.transitioning
+    }
+    
+    let prevMode: Int
+    let mode: Int
+    let sceneLoaded: Bool
+    let transitioning: Bool
+}
+
+class SceneWatcher: Watcher {
+    static var change: ((_ sender: SceneWatcher, _ args: SceneEventArgs) -> Void)?
+    
+    var _watch: Bool = false
+    var _prev: SceneEventArgs?
+    
+    static let _instance = SceneWatcher()
+    
+    init(delay: TimeInterval = 0.200) {
+        super.init()
+        
+        refreshInterval = delay
+    }
+    
+    override func run() {
+        _watch = true
+        update()
+    }
+    
+    static func start() {
+        _instance.startWatching()
+    }
+    
+    static func stop() {
+        _instance._watch = false
+        _instance.stopWatching()
+    }
+    
+    private func update() {
+        isRunning = true
+        while _watch {
+            Thread.sleep(forTimeInterval: refreshInterval)
+            if !_watch {
+                break
+            }
+            
+            let state = MirrorHelper.getSceneMgrState()
+            let curr = SceneEventArgs(prevMode: state?.prevMode.intValue ?? 0, mode: state?.mode.intValue ?? 0, sceneLoaded: state?.sceneLoaded ?? false, transitioning: state?.transitioning ?? false)
+            if curr == _prev {
+                continue
+            }
+            SceneWatcher.change?(self, curr)
+            _prev = curr
+        }
+        _prev = nil
+        isRunning = false
+    }
+}

@@ -8,9 +8,7 @@
 
 import Foundation
 
-//swiftlint:disable type_name
 class BattlegroundsCompositionPopularityViewModel {
-//swiftlint:enable type_name
     init(compsData: [BattlegroundsComposition]) {
         let top3Comps = compsData.take(3)
         let maxVal = Double.maximum(top3Comps[0].popularity, 40.0)

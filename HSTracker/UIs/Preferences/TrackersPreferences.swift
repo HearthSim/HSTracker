@@ -35,6 +35,8 @@ class TrackersPreferences: NSViewController, PreferencePane {
     @IBOutlet weak var showExperienceCounter: NSButton!
     @IBOutlet weak var showMulliganToast: NSButton!
     @IBOutlet weak var showFlavorText: NSButton!
+    @IBOutlet weak var enableMulliganGuide: NSButton!
+    @IBOutlet weak var showMulliganGuidePreLobby: NSButton!
     
     let themes = ["classic", "frost", "dark", "minimal"]
 
@@ -70,6 +72,8 @@ class TrackersPreferences: NSViewController, PreferencePane {
         hideAllWhenGameInBackground.state = Settings.hideAllWhenGameInBackground
             ? .on : .off
         disableTrackingInSpectatorMode.state = Settings.dontTrackWhileSpectating ? .on : .off
+        enableMulliganGuide.state = Settings.enableMulliganGuide ? .on : .off
+        showMulliganGuidePreLobby.state = Settings.showMulliganGuidePreLobby ? .on : .off
     }
 
     @IBAction func sliderChange(_ sender: AnyObject) {
@@ -139,6 +143,18 @@ class TrackersPreferences: NSViewController, PreferencePane {
             Settings.showMulliganToast = showMulliganToast.state == .on
         } else if sender == showFlavorText {
             Settings.showFlavorText = showFlavorText.state == .on
+        } else if sender == enableMulliganGuide {
+            Settings.enableMulliganGuide = enableMulliganGuide.state == .on
+            let game = AppDelegate.instance().coreManager.game
+            if enableMulliganGuide.state == .on {
+                game.hideMulliganGuideStats()
+                // Clear the Mulligan overlay if it's visible
+                game.player.mulliganCardStats = nil
+            }
+            game.updateMulliganGuidePreLobby()
+        } else if sender == showMulliganGuidePreLobby {
+            Settings.showMulliganGuidePreLobby = showMulliganGuidePreLobby.state == .on
+            AppDelegate.instance().coreManager.game.updateMulliganGuidePreLobby()
         }
     }
 }

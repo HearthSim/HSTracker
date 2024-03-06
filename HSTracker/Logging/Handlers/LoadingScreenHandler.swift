@@ -124,23 +124,6 @@ struct LoadingScreenHandler: LogEventParser {
                 game.cacheBrawlInfo()
             }
             
-            if game.currentMode == .bacon {
-                game.cacheBattlegroundRatingInfo()
-                game.showBattlegroundsSession(true, true)
-                if #available(macOS 10.15, *) {
-                    game.showTier7PreLobby(show: true, checkAccountStatus: true)
-                    BaconWatcher.start()
-                }
-            } else {
-                if game.currentMode != .gameplay {
-                    game.showBattlegroundsSession(false, true)
-                }
-                if #available(macOS 10.15, *) {
-                    game.showTier7PreLobby(show: false, checkAccountStatus: false)
-                    BaconWatcher.stop()
-                }
-            }
-            
             if game.currentMode == .lettuce_play {
                 game.cacheMercenariesRatingInfo()
             }

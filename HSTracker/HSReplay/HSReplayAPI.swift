@@ -88,7 +88,7 @@ class HSReplayAPI {
         )
     }
     
-    static func startAuthorizedRequest(_ url: String, method: OAuthSwiftHTTPRequest.Method, parameters: OAuthSwift.Parameters, headers: OAuthSwift.Headers? = nil, onTokenRenewal: OAuthSwift.TokenRenewedHandler? = nil, completionHandler completion: @escaping OAuthSwiftHTTPRequest.CompletionHandler) {
+    static func startAuthorizedRequest(_ url: String, method: OAuthSwiftHTTPRequest.Method, parameters: OAuthSwift.Parameters, headers: OAuthSwift.Headers? = nil, body: Data? = nil, onTokenRenewal: OAuthSwift.TokenRenewedHandler? = nil, completionHandler completion: @escaping OAuthSwiftHTTPRequest.CompletionHandler) {
         
         if let expiration = Settings.hsReplayOAuthTokenExpiration {
             if expiration.timeIntervalSince(Date()) <= 0 {
@@ -113,7 +113,7 @@ class HSReplayAPI {
                 return
             }
         }
-        oauthswift.client.request(url, method: method, parameters: parameters, headers: headers) { result in
+        oauthswift.client.request(url, method: method, parameters: parameters, headers: headers, body: body) { result in
             switch result {
             case .success(let response):
                 completion(.success(response))
@@ -126,7 +126,7 @@ class HSReplayAPI {
                                 switch result {
                                 case .success(let (credential, _, _)):
                                     onTokenRenewal(.success(credential))
-                                    startAuthorizedRequest(url, method: method, parameters: parameters, headers: headers, onTokenRenewal: nil, completionHandler: completion)
+                                    startAuthorizedRequest(url, method: method, parameters: parameters, headers: headers, body: body, onTokenRenewal: nil, completionHandler: completion)
                                 case .failure(let error):
                                     completion(.failure(.tokenExpired(error: error)))
                                 }
@@ -548,7 +548,7 @@ class HSReplayAPI {
                 logger.error(error)
             }
             guard let body = body else {
-//                continuation.resume(returning: nil)
+                continuation.resume(returning: nil)
                 return
             }
             let http = Http(url: "\(HSReplay.tier7QuestStatsUrl)")
@@ -614,6 +614,74 @@ class HSReplayAPI {
                     }
                     let res: PlayerTrialActivation? = parseResponse(data: response.data, defaultValue: nil)
                     continuation.resume(returning: res)
+                    return
+                case .failure(let error):
+                    logger.error(error)
+                    continuation.resume(returning: nil)
+                    return
+                }
+            })
+        }
+    }
+    
+    @available(macOS 10.15.0, *)
+    static func getMulliganGuideData(parameters: MulliganGuideParams) async -> MulliganGuideData? {
+        return await withCheckedContinuation { continuation in
+            let encoder = JSONEncoder()
+            var body: Data?
+            do {
+                body = try encoder.encode(parameters)
+                if let body = body {
+                    logger.debug("Sending mulligan guide data request: \(String(data: body, encoding: .utf8) ?? "ERROR")")
+                }
+            } catch {
+                logger.error(error)
+            }
+
+            oauthswift.client.request("\(HSReplay.constructedMulliganGuide)", method: .POST, parameters: [:], headers: ["Content-Type": "application/json"], body: body, completionHandler: { result in
+                switch result {
+                case .success(let response):
+                    if let str = String(data: response.data, encoding: .utf8) {
+                        logger.debug("Response data: \(str)")
+                        let bqs: MulliganGuideData? = parseResponse(data: response.data, defaultValue: nil)
+                        continuation.resume(returning: bqs)
+                    } else {
+                        continuation.resume(returning: nil)
+                    }
+                    return
+                case .failure(let error):
+                    logger.error(error)
+                    continuation.resume(returning: nil)
+                    return
+                }
+            })
+        }
+    }
+
+    @available(macOS 10.15.0, *)
+    static func getMulliganGuideStatus(parameters: MulliganGuideStatusParams) async -> MulliganGuideStatusData? {
+        return await withCheckedContinuation { continuation in
+            let encoder = JSONEncoder()
+            var body: Data?
+            do {
+                body = try encoder.encode(parameters)
+                if let body = body {
+                    logger.debug("Sending mulligan guide status request: \(String(data: body, encoding: .utf8) ?? "ERROR")")
+                }
+            } catch {
+                logger.error(error)
+            }
+
+            oauthswift.client.request("\(HSReplay.constructedMulliganGuideStatus)", method: .POST, parameters: [:], headers: ["Content-Type": "application/json"], body: body, completionHandler: { result in
+                switch result {
+                case .success(let response):
+                    if let str = String(data: response.data, encoding: .utf8) {
+                        logger.debug("Response data: \(str)")
+                        let bqs: MulliganGuideStatusData? = parseResponse(data: response.data, defaultValue: nil)
+                        continuation.resume(returning: bqs)
+                    } else {
+                        continuation.resume(returning: nil)
+                    }
                     return
                 case .failure(let error):
                     logger.error(error)

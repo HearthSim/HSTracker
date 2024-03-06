@@ -12,21 +12,27 @@ class DeckSerializer {
     enum DeckSerializerError: Error {
         case argumentError
     }
-
-    struct SerializedDeck {
-        let name: String
-        let playerClass: CardClass
-        let cards: [Card]
+    
+    class Deck {
+        var heroDbfId = 0
+        var cards = [Card]()
+        var format = FormatType.ft_unknown
+        var name = ""
+        var deckId = Int64(0)
+        
+        func getHero() -> Card? {
+            return Cards.by(dbfId: heroDbfId, collectible: false)
+        }
     }
 
-    class func deserialize(input: String) -> SerializedDeck? {
+    static func deserialize(input: String) -> Deck? {
         let lines = input.components(separatedBy: .newlines).map {
             $0.trim()
         }
 
+        var deck: Deck?
         var deckName: String?
-        var playerClass: CardClass?
-        var cards: [Card]?
+        var deckId: String?
 
         for line in lines {
             if line.isBlank { continue }
@@ -35,34 +41,32 @@ class DeckSerializer {
                 if line.hasPrefix("###") {
                     deckName = line.substring(from: 3).trim()
                 }
+                if line.hasPrefix("# Deck ID:") {
+                    deckId = line.substring(from: 10).trim()
+                }
 
                 continue
             }
 
-            if let (_cardClass, _cards) = deserializeDeckString(deckString: line) {
-                playerClass = _cardClass
-                cards = _cards
+            if deck == nil {
+                deck = deserializeDeckString(deckString: line)
             }
         }
         
-        if deckName == nil {
-            deckName = "Imported Deck"
+        if let deck {
+            deck.name = deckName ?? "Imported Deck"
+            deck.deckId = Int64(deckId ?? "0") ?? 0
         }
-
-        guard let _deckName = deckName,
-            let _playerClass = playerClass,
-            let _cards = cards else { return nil }
-
-        return SerializedDeck(name: _deckName,
-                              playerClass: _playerClass,
-                              cards: _cards)
+        return deck
     }
 
-    class func deserializeDeckString(deckString: String) -> (CardClass, [Card])? {
+    static func deserializeDeckString(deckString: String) -> Deck? {
         guard let data = Data(base64Encoded: deckString) else {
             logger.error("Can not decode \(deckString)")
             return nil
         }
+        
+        let deck = Deck()
 
         let bytes = [UInt8](data)
 
@@ -85,7 +89,11 @@ class DeckSerializer {
         _ = try? read()
 
         // Format - determined dynamically
-        _ = try? read()
+        guard let format = try? FormatType(rawValue: Int(read().toInt64())) else {
+            logger.error("cannot get format")
+            return nil
+        }
+        deck.format = format
 
         // Num Heroes - always 1
         _ = try? read()
@@ -94,12 +102,7 @@ class DeckSerializer {
             logger.error("Can not get heroId")
             return nil
         }
-        guard let heroCard = Cards.by(dbfId: Int(heroId.toInt64()), collectible: false) else {
-            logger.error("Can not get heroCard")
-            return nil
-        }
-        let cardClass = heroCard.playerClass
-        logger.verbose("Got class \(cardClass)")
+        deck.heroDbfId = Int(heroId.toInt64())
 
         var cards: [Card] = []
         func addCard(dbfId: Varint? = nil, count: Int = 1) {
@@ -136,17 +139,49 @@ class DeckSerializer {
             addCard(dbfId: dbfId, count: count)
         }
 
-        return (cardClass, cards)
+        return deck
+    }
+    
+    static func serialize(deck: Deck, includeComments: Bool) -> String? {
+        guard let deckString = serialize(deck: deck) else {
+            return nil
+        }
+        if !includeComments {
+            return deckString
+        }
+        let hero = "\(deck.getHero()?.playerClass ?? .invalid)".capitalized
+        var sb = "### \(deck.name.isEmpty ? hero + " Deck" : deck.name)\n"
+        sb.append("# Class: \(hero)\n")
+        sb.append("# Format: \("\(deck.format)".substring(from: 3).capitalized)\n")
+        sb.append("#\n")
+        for card in deck.cards.sortCardList() {
+            sb.append("# \(card.count)x (\(card.cost) \(card.name)")
+            // TODO: sideboards
+        }
+        sb.append("#\n")
+        sb.append("\(deckString)\n")
+        sb.append("#\n")
+        sb.append("# To use this deck, copy it to your clipboard and create a new deck in Hearthstone\n")
+        return sb
     }
 
-    class func serialize(deck: Deck) -> String? {
-        guard let hero = Cards.hero(byId: deck.heroId)
-            ?? Cards.hero(byPlayerClass: deck.playerClass) else {
-                logger.error("Deck has no hero")
-                return nil
+    static func serialize(deck: Deck?) -> String? {
+        guard let deck else {
+            logger.debug("Deck can not be null")
+            return nil
         }
-
-        let heroDbfId = hero.dbfId
+        guard deck.heroDbfId != 0 else {
+            logger.debug("HeroDbfId can not be zero")
+            return nil
+        }
+        guard deck.getHero()?.type == .hero else {
+            logger.debug("HeroDbfId does not represent a valid hero")
+            return nil
+        }
+        guard deck.format != .ft_unknown else {
+            logger.debug("Format can not be FT_UNKNOWN")
+            return nil
+        }
         var data = Data()
 
         func write(value: Int) {
@@ -156,10 +191,10 @@ class DeckSerializer {
 
         data.append(contentsOf: [0])
         write(value: 1)
-        write(value: deck.isWildDeck ? 1 : 2)
+        write(value: deck.format.rawValue)
         write(value: 1)
-        write(value: heroDbfId)
-        let cards = deck.sortedCards.sorted(by: {
+        write(value: deck.heroDbfId)
+        let cards = deck.cards.sorted(by: {
             return $0.dbfId < $1.dbfId
         })
         let singleCards = cards.filter({ $0.count == 1 })
@@ -181,6 +216,8 @@ class DeckSerializer {
             write(value: card.dbfId)
             write(value: card.count)
         }
+        
+        // TODO: sideboards
 
         return data.base64EncodedString()
     }

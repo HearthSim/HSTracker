@@ -330,18 +330,39 @@ final class Player {
             return (revealedCards + createdInHand
                 + knownCardsInDeck + getPredictedCardsInDeck(hidden: true)).sortCardList()
         }
+        let sorting = game.isMulliganDone() ? CardListSorting.cost : CardListSorting.mulliganWr
         let deckState = getDeckState()
         let inDeck = deckState.remainingInDeck
         let notInDeck = deckState.removedFromDeck.filter({ x in inDeck.all({ x.id != $0.id }) })
         let predictedInDeck = getPredictedCardsInDeck(hidden: false).filter({ x in inDeck.all { c in x.id != c.id } })
         if !Settings.removeCardsFromDeck {
-            return (inDeck + predictedInDeck + notInDeck + createdInHand).sortCardList()
+            return attachMulliganData(cards: (inDeck + predictedInDeck + notInDeck + createdInHand)).sortCardList(sorting)
         }
         if Settings.highlightCardsInHand {
-            return (inDeck + predictedInDeck + getHighlightedCardsInHand(cardsInDeck: inDeck)
-                + createdInHand).sortCardList()
+            return attachMulliganData(cards: (inDeck + predictedInDeck + getHighlightedCardsInHand(cardsInDeck: inDeck)
+                + createdInHand)).sortCardList(sorting)
         }
-        return (inDeck + predictedInDeck + createdInHand).sortCardList()
+        return attachMulliganData(cards: (inDeck + predictedInDeck + createdInHand)).sortCardList(sorting)
+    }
+    
+    private func attachMulliganData(cards: [Card]) -> [Card] {
+        guard let mulliganCardStats else {
+            return cards
+        }
+        return cards.compactMap { card in
+            guard let cardStats = mulliganCardStats.first(where: { x in x.dbf_id == card.dbfId }) else {
+                return card
+            }
+            let newCard = card.copy()
+            if let openingHandWinrate = cardStats.opening_hand_winrate {
+                let cardWinRates = CardWinrates()
+                cardWinRates.mulliganWinRate = openingHandWinrate
+                cardWinRates.baseWinrate = cardStats.baseWinRate
+                newCard.cardWinRates = cardWinRates
+            }
+            newCard.isMulliganOption = hand.any { x in x.card.dbfId == card.dbfId }
+            return newCard
+        }
     }
 
     var opponentCardList: [Card] {
@@ -857,6 +878,17 @@ final class Player {
         }
         if added != nil  && Settings.fullGameLog {
             logger.info("\(debugName) \(#function) \(entity)")
+        }
+    }
+    
+    private var _mulliganCardStats: [SingleCardStats]?
+    var mulliganCardStats: [SingleCardStats]? {
+        get {
+            return _mulliganCardStats
+        }
+        set {
+            _mulliganCardStats = newValue
+            AppDelegate.instance().coreManager.game.updatePlayerTracker(reset: true)
         }
     }
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum Mode: String {
+enum Mode: String, CaseIterable {
     case invalid,
     startup,
     login,

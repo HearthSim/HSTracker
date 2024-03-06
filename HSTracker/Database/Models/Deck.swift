@@ -152,6 +152,19 @@ class Deck: Object {
         return sortedCards.all { CardSet.twistSets().contains($0.set ?? .invalid) && !$0.isNeutral() }
     }
     
+    func guessFormatType() -> FormatType {
+        if isClassicDeck {
+            return .ft_classic
+        }
+        if isTwistDeck {
+            return .ft_twist
+        }
+        if isWildDeck {
+            return .ft_wild
+        }
+        return .ft_standard
+    }
+    
     /**
      * Compares the card content to the other deck
      */
