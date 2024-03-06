@@ -318,6 +318,8 @@ final class CoreManager: NSObject {
         MirrorHelper.destroy()
         game.windowManager.battlegroundsHeroPicking.viewModel.reset()
         game.windowManager.battlegroundsQuestPicking.viewModel.reset()
+        game.windowManager.constructedMulliganGuide.viewModel.reset()
+        game.windowManager.constructedMulliganGuidePreLobby.viewModel.reset()
         game.currentRegion = .unknown
     }
     
