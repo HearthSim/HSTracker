@@ -251,17 +251,15 @@ class ConstructedMulliganGuidePreLobbyViewModel: ViewModel {
     // MARK: -
     
     @available(macOS 10.15.0, *)
-    private static func loadMulliganGuideStatus(gameType: BnetGameType, starLevel: Int?, deckstrings: [String]) async -> [String: MulliganGuideStatusData.Status]? {
+    private static func loadMulliganGuideStatus(gameType: BnetGameType, starLevel: Int?, deckstrings: [String]) async -> [String: MulliganGuideStatusData.Status] {
         if deckstrings.count == 0 {
             return [String: MulliganGuideStatusData.Status]()
         }
         
         let parameters = MulliganGuideStatusParams(decks: deckstrings, game_type: gameType.rawValue, star_level: starLevel)
-        guard let result = await HSReplayAPI.getMulliganGuideStatus(parameters: parameters) else {
-            return nil
-        }
+        let result = await HSReplayAPI.getMulliganGuideStatus(parameters: parameters)
         return Dictionary(uniqueKeysWithValues: deckstrings.compactMap { x in
-            if let res = result.decks[x] {
+            if let res = result?.decks[x] {
                 return (x, MulliganGuideStatusData.Status(rawValue: res.status) ?? .NO_DATA)
             } else {
                 return (x, MulliganGuideStatusData.Status.NO_DATA)
@@ -335,7 +333,7 @@ class ConstructedMulliganGuidePreLobbyViewModel: ViewModel {
             // It's important to copy this out, because it can change while awaiting the mulligan guide status
             // => this would lead to a "miscache"
             let theGameType = gameType
-            let results = await ConstructedMulliganGuidePreLobbyViewModel.loadMulliganGuideStatus(gameType: theGameType, starLevel: starLevel, deckstrings: toLoad) ?? [String: MulliganGuideStatusData.Status]()
+            let results = await ConstructedMulliganGuidePreLobbyViewModel.loadMulliganGuideStatus(gameType: theGameType, starLevel: starLevel, deckstrings: toLoad)
             
             for result in results {
                 _deckStatusByDeckstring[theGameType]?[result.key] = switch result.value {
