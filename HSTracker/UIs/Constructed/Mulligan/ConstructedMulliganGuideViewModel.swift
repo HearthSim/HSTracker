@@ -66,6 +66,6 @@ class ConstructedMulliganGuideViewModel: ViewModel {
         //Message.Mmr(scoreData.SelectedParams. stats[0].MmrFilterValue, stats[0].MinMmr, anomalyAdjusted);
         
         visibility = true
-        statsVisibility =  true // FIXME: Config.Instance.ShowMulliganGuideAutomatically ? Visible : Collapsed;
+        statsVisibility =  Settings.autoShowMulliganGuide
     }
 }

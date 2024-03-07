@@ -240,6 +240,8 @@ final class Settings {
     static var enableMulliganGuide: Bool
     @UserDefault(key: Settings.show_mulligan_guide_pre_lobby, defaultValue: true)
     static var showMulliganGuidePreLobby: Bool
+    @UserDefault(key: Settings.auto_show_mulligan_guide, defaultValue: true)
+    static var autoShowMulliganGuide: Bool
     
     // MARK: - Battlegrounds
     @UserDefault(key: Settings.show_bobs_buddy, defaultValue: true)
@@ -576,7 +578,8 @@ extension Settings {
     static let show_mulligan_toast = "show_mulligan_toast"
     static let show_flavor_text = "show_flavor_text"
     static let enable_mulligan_guide = "enable_mulligan_guide"
-    static let show_mulligan_guide_pre_lobby = "show_mulligan_guide_ore_lobby"
+    static let show_mulligan_guide_pre_lobby = "show_mulligan_guide_pre_lobby"
+    static let auto_show_mulligan_guide = "auto_show_mulligan_guide"
     
     // MARK: Battlegrounds
     static let show_bobs_buddy = "show_bobs_buddy"

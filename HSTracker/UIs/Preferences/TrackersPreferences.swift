@@ -37,6 +37,7 @@ class TrackersPreferences: NSViewController, PreferencePane {
     @IBOutlet weak var showFlavorText: NSButton!
     @IBOutlet weak var enableMulliganGuide: NSButton!
     @IBOutlet weak var showMulliganGuidePreLobby: NSButton!
+    @IBOutlet weak var autoShowMulliganGuide: NSButton!
     
     let themes = ["classic", "frost", "dark", "minimal"]
 
@@ -74,6 +75,7 @@ class TrackersPreferences: NSViewController, PreferencePane {
         disableTrackingInSpectatorMode.state = Settings.dontTrackWhileSpectating ? .on : .off
         enableMulliganGuide.state = Settings.enableMulliganGuide ? .on : .off
         showMulliganGuidePreLobby.state = Settings.showMulliganGuidePreLobby ? .on : .off
+        autoShowMulliganGuide.state = Settings.autoShowMulliganGuide ? .on : .off
     }
 
     @IBAction func sliderChange(_ sender: AnyObject) {
@@ -155,6 +157,8 @@ class TrackersPreferences: NSViewController, PreferencePane {
         } else if sender == showMulliganGuidePreLobby {
             Settings.showMulliganGuidePreLobby = showMulliganGuidePreLobby.state == .on
             AppDelegate.instance().coreManager.game.updateMulliganGuidePreLobby()
+        } else if sender == autoShowMulliganGuide {
+            Settings.autoShowMulliganGuide = autoShowMulliganGuide.state == .on
         }
     }
 }

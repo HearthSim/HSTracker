@@ -10,6 +10,7 @@
             <connections>
                 <outlet property="allowFullscreen" destination="aO1-IW-r7y" id="Y7p-zj-Y0J"/>
                 <outlet property="autoPositionTrackers" destination="TNp-Jh-qS9" id="tWk-Iu-CQp"/>
+                <outlet property="autoShowMulliganGuide" destination="dj6-Ot-tpw" id="nEW-22-jgP"/>
                 <outlet property="cardSize" destination="oRs-V7-1J6" id="hMc-ok-6ju"/>
                 <outlet property="disableTrackingInSpectatorMode" destination="zka-3O-txd" id="LSN-Ma-O0H"/>
                 <outlet property="enableMulliganGuide" destination="nYX-fZ-Mny" id="j8E-p3-afF"/>
@@ -35,11 +36,11 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" id="51m-9V-RQO">
-            <rect key="frame" x="0.0" y="0.0" width="339" height="568"/>
+            <rect key="frame" x="0.0" y="0.0" width="339" height="594"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MOS-w7-D1d">
-                    <rect key="frame" x="18" y="541" width="301" height="18"/>
+                    <rect key="frame" x="18" y="567" width="301" height="18"/>
                     <buttonCell key="cell" type="check" title="Highlight cards in hand" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="hJI-dG-QeP">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -49,7 +50,7 @@
                     </buttonCell>
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PL6-uo-7RN">
-                    <rect key="frame" x="18" y="515" width="301" height="18"/>
+                    <rect key="frame" x="18" y="541" width="301" height="18"/>
                     <buttonCell key="cell" type="check" title="Highlight last drawn card" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="WKT-Hm-Z7h">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -59,7 +60,7 @@
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Q3s-94-J32">
-                    <rect key="frame" x="18" y="489" width="301" height="18"/>
+                    <rect key="frame" x="18" y="515" width="301" height="18"/>
                     <buttonCell key="cell" type="check" title="Remove cards if count is 0" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="s9w-5p-pJs">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -69,7 +70,7 @@
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1Ry-pR-4H6">
-                    <rect key="frame" x="18" y="463" width="301" height="18"/>
+                    <rect key="frame" x="18" y="489" width="301" height="18"/>
                     <buttonCell key="cell" type="check" title="Highlight discarded from deck" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="yeJ-ZI-Pca">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -79,7 +80,7 @@
                     </connections>
                 </button>
                 <stackView distribution="fillProportionally" orientation="horizontal" alignment="centerY" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WVi-zk-TFf">
-                    <rect key="frame" x="20" y="434" width="299" height="20"/>
+                    <rect key="frame" x="20" y="460" width="299" height="20"/>
                     <subviews>
                         <textField focusRingType="none" horizontalHuggingPriority="750" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="avV-MQ-3U6">
                             <rect key="frame" x="-2" y="2" width="93" height="16"/>
@@ -115,7 +116,7 @@
                     </customSpacing>
                 </stackView>
                 <stackView distribution="fillProportionally" orientation="horizontal" alignment="centerY" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bZq-Ov-ooE">
-                    <rect key="frame" x="20" y="404" width="299" height="20"/>
+                    <rect key="frame" x="20" y="430" width="299" height="20"/>
                     <subviews>
                         <textField focusRingType="none" horizontalHuggingPriority="750" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7tL-jS-waw">
                             <rect key="frame" x="-2" y="2" width="93" height="16"/>
@@ -160,7 +161,7 @@
                     </customSpacing>
                 </stackView>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TNp-Jh-qS9">
-                    <rect key="frame" x="18" y="377" width="301" height="18"/>
+                    <rect key="frame" x="18" y="403" width="301" height="18"/>
                     <buttonCell key="cell" type="check" title="Auto position trackers" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="5rZ-fg-pB4">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -170,7 +171,7 @@
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xW7-1C-T20">
-                    <rect key="frame" x="18" y="351" width="301" height="18"/>
+                    <rect key="frame" x="18" y="377" width="301" height="18"/>
                     <buttonCell key="cell" type="check" title="Show timer" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="x27-iz-7Sv">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -180,7 +181,7 @@
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jqc-dr-ATS">
-                    <rect key="frame" x="18" y="325" width="301" height="18"/>
+                    <rect key="frame" x="18" y="351" width="301" height="18"/>
                     <buttonCell key="cell" type="check" title="Show secret helper" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="ySU-4j-Jbh">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -190,7 +191,7 @@
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="HPM-az-sML">
-                    <rect key="frame" x="18" y="299" width="301" height="18"/>
+                    <rect key="frame" x="18" y="325" width="301" height="18"/>
                     <buttonCell key="cell" type="check" title="Show rarity colors" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="h5J-7C-d2f">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -200,7 +201,7 @@
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="o0k-Kb-VAL">
-                    <rect key="frame" x="18" y="273" width="301" height="18"/>
+                    <rect key="frame" x="18" y="299" width="301" height="18"/>
                     <buttonCell key="cell" type="check" title="Show card on tracker hover" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="HY0-s6-p7U">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -210,7 +211,7 @@
                     </connections>
                 </button>
                 <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="knx-a6-nzZ">
-                    <rect key="frame" x="20" y="244" width="299" height="20"/>
+                    <rect key="frame" x="20" y="270" width="299" height="20"/>
                     <subviews>
                         <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Pny-Gh-Hqe">
                             <rect key="frame" x="-2" y="2" width="93" height="16"/>
@@ -254,7 +255,7 @@
                     </customSpacing>
                 </stackView>
                 <button toolTip="HSTracker will be visible on all your workspace while playing" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aO1-IW-r7y">
-                    <rect key="frame" x="18" y="217" width="301" height="18"/>
+                    <rect key="frame" x="18" y="243" width="301" height="18"/>
                     <buttonCell key="cell" type="check" title="Allow HSTracker to run on fullscreen mode" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="6Gc-EJ-z7F">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -264,7 +265,7 @@
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dGD-b8-UwI">
-                    <rect key="frame" x="18" y="191" width="301" height="18"/>
+                    <rect key="frame" x="18" y="217" width="301" height="18"/>
                     <buttonCell key="cell" type="check" title="Hide all trackers if not in game" bezelStyle="regularSquare" imagePosition="left" inset="2" id="hvr-dD-qVr">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -274,7 +275,7 @@
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="GbU-Ts-Vje">
-                    <rect key="frame" x="18" y="165" width="301" height="18"/>
+                    <rect key="frame" x="18" y="191" width="301" height="18"/>
                     <buttonCell key="cell" type="check" title="Hide all trackers when game is in background" bezelStyle="regularSquare" imagePosition="left" inset="2" id="HEr-xo-koe">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -284,7 +285,7 @@
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zka-3O-txd">
-                    <rect key="frame" x="18" y="139" width="301" height="18"/>
+                    <rect key="frame" x="18" y="165" width="301" height="18"/>
                     <buttonCell key="cell" type="check" title="Disable tracking in spectator mode" bezelStyle="regularSquare" imagePosition="left" inset="2" id="6n7-a6-LsZ">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -294,7 +295,7 @@
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eYz-mj-UcC" userLabel="Show experience counter">
-                    <rect key="frame" x="18" y="113" width="301" height="18"/>
+                    <rect key="frame" x="18" y="139" width="301" height="18"/>
                     <buttonCell key="cell" type="check" title="Show experience counter" bezelStyle="regularSquare" imagePosition="left" inset="2" id="3i1-BX-ZbC" userLabel="Show experience counter">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -304,7 +305,7 @@
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JQv-VB-3MQ" userLabel="Show constructed mulligan">
-                    <rect key="frame" x="18" y="87" width="301" height="18"/>
+                    <rect key="frame" x="18" y="113" width="301" height="18"/>
                     <buttonCell key="cell" type="check" title="Show constructed mulligan" bezelStyle="regularSquare" imagePosition="left" inset="2" id="HeE-hK-rL7" userLabel="Show experience counter">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -314,13 +315,23 @@
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nYX-fZ-Mny" userLabel="Enable Mulligan Guide">
-                    <rect key="frame" x="18" y="61" width="301" height="18"/>
+                    <rect key="frame" x="18" y="87" width="301" height="18"/>
                     <buttonCell key="cell" type="check" title="Enable Mulligan Guide" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="bku-WW-nZc">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                     <connections>
                         <action selector="checkboxClicked:" target="-2" id="e2s-of-hkJ"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dj6-Ot-tpw" userLabel="Show Mulligan Overlay at start of game">
+                    <rect key="frame" x="18" y="61" width="301" height="18"/>
+                    <buttonCell key="cell" type="check" title="Show Mulligan Overlay at start of game" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="UXw-QE-lUP">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="Y88-mG-Kxu"/>
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VdV-Vo-AfO">
@@ -346,6 +357,7 @@
             </subviews>
             <edgeInsets key="edgeInsets" left="20" right="20" top="10" bottom="10"/>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="dj6-Ot-tpw" secondAttribute="trailing" constant="20" symbolic="YES" id="0jh-tg-Qbi"/>
                 <constraint firstAttribute="trailing" secondItem="7ps-Br-1Oh" secondAttribute="trailing" constant="20" symbolic="YES" id="1eg-U1-LOM"/>
                 <constraint firstItem="aO1-IW-r7y" firstAttribute="leading" secondItem="51m-9V-RQO" secondAttribute="leading" constant="20" symbolic="YES" id="4XI-4t-b2X"/>
                 <constraint firstItem="xW7-1C-T20" firstAttribute="leading" secondItem="51m-9V-RQO" secondAttribute="leading" constant="20" symbolic="YES" id="5qz-GS-mkz"/>
@@ -356,6 +368,7 @@
                 <constraint firstAttribute="trailing" secondItem="eYz-mj-UcC" secondAttribute="trailing" constant="20" symbolic="YES" id="FSd-fC-Hav"/>
                 <constraint firstItem="MOS-w7-D1d" firstAttribute="leading" secondItem="51m-9V-RQO" secondAttribute="leading" constant="20" symbolic="YES" id="Fde-6e-0wp"/>
                 <constraint firstAttribute="trailing" secondItem="xW7-1C-T20" secondAttribute="trailing" constant="20" symbolic="YES" id="GLz-ab-Dze"/>
+                <constraint firstItem="dj6-Ot-tpw" firstAttribute="leading" secondItem="51m-9V-RQO" secondAttribute="leading" constant="20" symbolic="YES" id="H6W-On-F2j"/>
                 <constraint firstAttribute="trailing" secondItem="WVi-zk-TFf" secondAttribute="trailing" constant="20" symbolic="YES" id="N2I-3Y-eKD"/>
                 <constraint firstItem="nYX-fZ-Mny" firstAttribute="leading" secondItem="51m-9V-RQO" secondAttribute="leading" constant="20" symbolic="YES" id="Ngw-M1-DvP"/>
                 <constraint firstItem="TNp-Jh-qS9" firstAttribute="leading" secondItem="51m-9V-RQO" secondAttribute="leading" constant="20" symbolic="YES" id="OfP-zq-Tiw"/>
@@ -411,8 +424,10 @@
                 <integer value="1000"/>
                 <integer value="1000"/>
                 <integer value="1000"/>
+                <integer value="1000"/>
             </visibilityPriorities>
             <customSpacing>
+                <real value="3.4028234663852886e+38"/>
                 <real value="3.4028234663852886e+38"/>
                 <real value="3.4028234663852886e+38"/>
                 <real value="3.4028234663852886e+38"/>

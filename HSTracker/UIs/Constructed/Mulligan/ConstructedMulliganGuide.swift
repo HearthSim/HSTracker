@@ -67,6 +67,7 @@ class ConstructedMulliganGuide: OverWindowController {
         didChangeValue(forKey: "visibilityToggleText")
         didChangeValue(forKey: "visibilityToggleIcon")
         didChangeValue(forKey: "statsVisibility")
+        Settings.autoShowMulliganGuide = newVisibility
     }
     
     func updateScaling() {
