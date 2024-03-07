@@ -18,7 +18,7 @@ class SingleCardStats: MulliganGuideData.CardStats {
     var baseWinRate: Double?
     
     static func groupCardStats(stats: [Int: MulliganGuideData.CardStats], baseWinRate: Double?) -> [Int: SingleCardStats] {
-        var rank = 0
+        var rank = 1
         let temp = stats.sorted(by: { (a, b) in a.value.opening_hand_winrate ?? 0.0 > b.value.opening_hand_winrate ?? 0.0 }).compactMap { x in
             let stats = x.value
             let res = SingleCardStats(dbf_id: x.key)
@@ -28,7 +28,7 @@ class SingleCardStats: MulliganGuideData.CardStats {
             if let kp = stats.keep_percentage {
                 res.keep_percentage = max(min(kp, 100.0), 0.0)
             }
-            res.rank = stats.keep_percentage != nil ? rank + 1 : nil
+            res.rank = stats.opening_hand_winrate != nil ? rank : nil
             rank += 1
             res.baseWinRate = baseWinRate
             return res
