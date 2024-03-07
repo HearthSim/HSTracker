@@ -16,6 +16,7 @@ struct BattlegroundsQuestStatsParams: Codable {
     var anomaly_dbf_id: Int?
     var offered_rewards: [OfferedReward]
     var game_language: String
+    var battlegrounds_rating: Int?
     
     struct OfferedReward: Codable {
         var reward_dbf_id: Int
