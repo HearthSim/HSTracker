@@ -237,7 +237,10 @@ class Database {
                         if let armorTier = jsonCard["battlegroundsArmorTier"] as? Int {
                             card.battlegroundsArmorTier = armorTier
                         }
-                        if card.type == .battleground_spell && card.techLevel > 0 {
+                        if let battlegroundsPoolSpell = jsonCard["isBattlegroundsPoolSpell"] as? Bool {
+                            card.battlegroundsPoolSpell = battlegroundsPoolSpell
+                        }
+                        if card.type == .battleground_spell && card.techLevel > 0 && card.battlegroundsPoolSpell {
                             Cards.battlegroundsSpells.append(card)
                         }
                         Cards.cards.insert(card, at: index)
