@@ -20,12 +20,6 @@ struct CollectionBannerData: Codable {
     var removal_id: Int?
 }
 
-struct ArenaData: Codable {
-    var current_sets: [String]?
-    var exclusive_secrets: [String]?
-    var banned_secrets: [String]?
-}
-
 struct RemoteConfigCard: Codable {
     var dbf_id: Int?
     var count: Int?
@@ -84,7 +78,6 @@ struct ConfigData: Codable {
     }
     var news: NewsData?
     var collection_banner: CollectionBannerData?
-    var arena: ArenaData?
     var battlegrounds_short_names: [CardShortName]?
     var battlegrounds_tag_overrides: [TagOverride]?
     var bobs_buddy: BobsBuddyData?
