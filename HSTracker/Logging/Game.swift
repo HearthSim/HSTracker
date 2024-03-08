@@ -931,6 +931,7 @@ class Game: NSObject, PowerEventHandler {
                     return
                 }
                 
+                self.windowManager.battlegroundsSession.update()
                 self.windowManager.battlegroundsSession.show()
                 self.windowManager.battlegroundsSession.visibility = true
             } else {
@@ -2144,7 +2145,7 @@ class Game: NSObject, PowerEventHandler {
                 self.player.mulliganCardStats = nil
                 
                 self.windowManager.battlegroundsHeroPicking.viewModel.reset()
-                self.windowManager.show(controller: self.windowManager.battlegroundsHeroPicking, show: false)
+                self.windowManager.battlegroundsSession.update()
             }
             
             if isBattlegroundsMatch() {
