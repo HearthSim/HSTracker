@@ -3107,10 +3107,14 @@ class Game: NSObject, PowerEventHandler {
     func handlePlayerSendChoices(choice: Choice) {
         if choice.choiceType == .mulligan {
             if isBattlegroundsMatch() {
-                let hero = choice.chosenEntities.first
-                let heroPower = Cards.by(dbfId: hero?[.hero_power], collectible: false)?.id
-                if let hp = heroPower {
-                    windowManager.battlegroundsTierOverlay.tierOverlay.onHeroPowers(heroPowers: [ hp ])
+                if choice.chosenEntities.count == 1 {
+                    let hero = choice.chosenEntities.first
+                    let heroPower = Cards.by(dbfId: hero?[.hero_power], collectible: false)?.id
+                    if let hp = heroPower {
+                        windowManager.battlegroundsTierOverlay.tierOverlay.onHeroPowers(heroPowers: [ hp ])
+                    }
+                } else {
+                    logger.error("Could not reliably determine Battlegrounds hero power. \(choice.chosenEntities.count) hero(es) chosen.")
                 }
                 self.windowManager.battlegroundsQuestPicking.viewModel.reset()
             } else if isConstructedMatch() || isFriendlyMatch || isArenaMatch {
