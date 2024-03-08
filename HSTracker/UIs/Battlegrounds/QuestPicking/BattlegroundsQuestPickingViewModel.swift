@@ -117,31 +117,12 @@ class BattlegroundsQuestPickingViewModel: ViewModel {
             return
         }
 
-        var choices: MirrorCardChoices?
-        
-        for i in 0..<10 {
-            
-            choices = MirrorHelper.getCardChoices()
-            guard let choices else {
-                self.message.error()
-                return
-            }
-            logger.debug("Attempt \(i): \(choices)")
-            if choices.isVisible {
-                break
-            }
-            do {
-                try await Task.sleep(nanoseconds: 500_000_000)
-            } catch {
-                logger.error(error)
-            }
-        }
-        
+        let choices = MirrorHelper.getCardChoices()
         guard let choices else {
             self.message.error()
             return
         }
-        
+
         let orderedEntries = choices.cards.compactMap { id in
             self._entities.first(where: { x in x.cardId == id })
         }
@@ -156,12 +137,21 @@ class BattlegroundsQuestPickingViewModel: ViewModel {
             return BattlegroundsSingleQuestViewModel(stats: data)
         }
         
-        let anomalyAdjusted = questData.filter { quest in quest.anomaly_adjusted ?? false }.count > 0
+        let anomalyAdjusted = questData.any { quest in quest.anomaly_adjusted ?? false }
         
         message.mmr(filterValue: questData[0].mmr_filter_value, minMMR: questData[0].min_mmr, anomalyAdjusted: anomalyAdjusted)
-        logger.debug("Choices: \(choices)")
-        if choices.isVisible {
-            visibility = true
+        // Watch choices until they're gone
+        for _ in 0 ..< 120 * (1000 / 32) { // max 120 seconds
+            guard let liveChoices = MirrorHelper.getCardChoices(), quests != nil else { // Quests is null once Reset is called
+                break
+            }
+            visibility = liveChoices.isVisible
+
+            do {
+                try await Task.sleep(nanoseconds: 32_000_000)
+            } catch {
+                logger.error(error)
+            }
         }
     }
     
