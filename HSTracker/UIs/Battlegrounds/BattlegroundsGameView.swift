@@ -67,7 +67,7 @@ class BattlegroundsGameView: NSView {
     var game: BattlegroundsLastGames.GameItem?
     
     override var intrinsicContentSize: NSSize {
-        return NSSize(width: 200, height: 34)
+        return NSSize(width: 240, height: 34)
     }
     
     required init?(coder: NSCoder) {

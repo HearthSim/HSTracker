@@ -11,7 +11,7 @@ import Foundation
 class BattlegroundsSession: OverWindowController {
     @IBOutlet weak var outerBox: NSBox!
     
-    @IBOutlet weak var tribesSection: NSView!
+    @IBOutlet weak var tribesSection: NSStackView!
     @IBOutlet weak var tribe1: BattlegroundsTribe!
     @IBOutlet weak var tribe2: BattlegroundsTribe!
     @IBOutlet weak var tribe3: BattlegroundsTribe!
@@ -19,13 +19,13 @@ class BattlegroundsSession: OverWindowController {
     @IBOutlet weak var tribe5: BattlegroundsTribe!
     @IBOutlet weak var waitingForNext: NSTextField!
     
-    @IBOutlet weak var mmrSection: NSView!
+    @IBOutlet weak var mmrSection: NSStackView!
     @IBOutlet weak var mmrLabelA: NSTextField!
     @IBOutlet weak var mmrFieldA: NSTextField!
     @IBOutlet weak var mmrLabelB: NSTextField!
     @IBOutlet weak var mmrFieldB: NSTextField!
     
-    @IBOutlet weak var latestGamesSection: NSView!
+    @IBOutlet weak var latestGamesSection: NSStackView!
     @IBOutlet weak var noGamesSection: NSView!
     @IBOutlet weak var lastGames: NSStackView!
     
@@ -221,7 +221,7 @@ class BattlegroundsSession: OverWindowController {
                 let diffMMR = g.rating - previousGameRatingAfter
                 let ratingReseted = g.rating < 500 && diffMMR < -500
                 
-                if ts / 3600 >= 6 || ratingReseted {
+                if ts / 3600 >= 46 || ratingReseted {
                     sessionStartTime = gStartTime
                 }
             }
@@ -242,7 +242,7 @@ class BattlegroundsSession: OverWindowController {
                 let sessionLastMMR = lastGame.ratingAfter
                 ratingResetedAfterLastGame = currentMMR < 500 && currentMMR - sessionLastMMR < -500
             }
-            if Date().timeIntervalSince(lastGame.endTime) >= 6 * 60 * 60 || ratingResetedAfterLastGame {
+            if Date().timeIntervalSince(lastGame.endTime) >= 46 * 60 * 60 || ratingResetedAfterLastGame {
                 return []
             }
         }
