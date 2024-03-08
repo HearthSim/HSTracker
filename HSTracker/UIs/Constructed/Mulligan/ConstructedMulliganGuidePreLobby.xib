@@ -20,20 +20,20 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" hasShadow="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g" customClass="NSPanel">
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="800" height="672"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1496" height="933"/>
+            <rect key="contentRect" x="196" y="240" width="714" height="672"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1728" height="1079"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="800" height="672"/>
+                <rect key="frame" x="0.0" y="0.0" width="714" height="672"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="7Dm-M8-F2q">
-                        <rect key="frame" x="0.0" y="0.0" width="800" height="672"/>
+                        <rect key="frame" x="0.0" y="0.0" width="714" height="672"/>
                         <subviews>
                             <customView identifier="OuterView" translatesAutoresizingMaskIntoConstraints="NO" id="RqJ-Xi-RZq" userLabel="OuterView">
-                                <rect key="frame" x="0.0" y="0.0" width="800" height="672"/>
+                                <rect key="frame" x="0.0" y="0.0" width="714" height="672"/>
                                 <subviews>
                                     <customView identifier="ItemControl" autoresizesSubviews="NO" id="1dn-rK-uQI" userLabel="ItemControl" colorLabel="IBBuiltInLabel-Green">
-                                        <rect key="frame" x="0.0" y="21" width="800" height="630"/>
+                                        <rect key="frame" x="-43" y="21" width="800" height="630"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <subviews>
                                             <stackView identifier="ItemsStackView" autoresizesSubviews="NO" distribution="equalSpacing" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q0a-mb-rQt" userLabel="Items" colorLabel="IBBuiltInLabel-Red">

@@ -3278,7 +3278,11 @@ class Game: NSObject, PowerEventHandler {
     @MainActor
     private func showMulliganGuidePreLobby() {
         windowManager.constructedMulliganGuidePreLobby.isVisible = true
-        windowManager.show(controller: windowManager.constructedMulliganGuidePreLobby, show: true)
+        let frame = SizeHelper.constructedMulliganGuidePreLobbyFrame()
+        windowManager.show(controller: windowManager.constructedMulliganGuidePreLobby, show: true, frame: frame)
+        DispatchQueue.main.async {
+            self.windowManager.constructedMulliganGuidePreLobby.updateScaling()
+        }
     }
     
     @MainActor
