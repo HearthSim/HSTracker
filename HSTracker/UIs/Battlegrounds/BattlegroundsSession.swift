@@ -221,7 +221,7 @@ class BattlegroundsSession: OverWindowController {
                 let diffMMR = g.rating - previousGameRatingAfter
                 let ratingReseted = g.rating < 500 && diffMMR < -500
                 
-                if ts / 3600 >= 46 || ratingReseted {
+                if ts / 3600 >= 6 || ratingReseted {
                     sessionStartTime = gStartTime
                 }
             }
@@ -242,7 +242,7 @@ class BattlegroundsSession: OverWindowController {
                 let sessionLastMMR = lastGame.ratingAfter
                 ratingResetedAfterLastGame = currentMMR < 500 && currentMMR - sessionLastMMR < -500
             }
-            if Date().timeIntervalSince(lastGame.endTime) >= 46 * 60 * 60 || ratingResetedAfterLastGame {
+            if Date().timeIntervalSince(lastGame.endTime) >= 6 * 60 * 60 || ratingResetedAfterLastGame {
                 return []
             }
         }
