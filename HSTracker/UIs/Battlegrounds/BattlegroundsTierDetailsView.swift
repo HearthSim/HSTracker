@@ -170,7 +170,11 @@ class BattlegroundsTierDetailsView: NSStackView {
                 }
             }
         }
+        let spellRaceMapping = BattlegroundsUtils.tavernSpellRaceMapping
         let spells: [CardBar] = Cards.battlegroundsSpells.filter {
+            if let availableRaces, let spellRace = spellRaceMapping[$0.id], !availableRaces.contains(spellRace) {
+                return false
+            }
             return $0.techLevel == tier
         }.map { inCard in
             let card = Card()

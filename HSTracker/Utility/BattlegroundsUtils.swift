@@ -73,4 +73,27 @@ class BattlegroundsUtils {
         }
         return nil
     }
+    
+    static let tavernSpellRaceMapping: [String: Race] = [
+        // Scavenge for Parts
+        "BG28_600": .mechanical,
+        // Cloning Conch
+        "BG28_601": .murloc,
+        // Guzzle the Goop
+        "BG28_602": .dragon,
+        // Boon of Beetles
+        "BG28_603": .beast,
+        // Butchering
+        "BG28_604": .undead,
+        // Suspicious Stimulant
+        "BG28_605": .elemental,
+        // Suspicious Stimulant
+        "BG28_606": .naga,
+        // Corrupted Cupcakes
+        "BG28_607": .demon,
+        // Plunder Seeker
+        "BG28_609": .pirate,
+        // Gem Confiscation
+        "BG28_698": .quilboar
+    ]
 }
