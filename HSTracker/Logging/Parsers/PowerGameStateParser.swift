@@ -728,7 +728,7 @@ class PowerGameStateParser: LogEventParser {
                         case CardIds.Collectible.Neutral.TheDarkness:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Neutral.TheDarknessDarknessCandleToken, count: 3)
-                        case CardIds.Collectible.Rogue.FaldoreiStrider:
+                        case CardIds.Collectible.Rogue.FaldoreiStrider, CardIds.Collectible.Rogue.FaldoreiStriderInvalid:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Rogue.FaldoreiStrider_SpiderAmbushEnchantment, count: 3)
                         case CardIds.Collectible.Neutral.KingTogwaggle:

@@ -82,8 +82,11 @@ struct CardIds {
         CardIds.Collectible.Rogue.JadeSwarmer: 1,
         CardIds.Collectible.Warlock.Dreadsteed: 1,
         CardIds.Collectible.Warlock.Voidcaller: 1, // false negative better than false positive
+        CardIds.Collectible.Warlock.VoidcallerInvalid: 1,
         CardIds.Collectible.Neutral.AyaBlackpaw: 1,
         CardIds.Collectible.Neutral.CairneBloodhoof: 1,
+        CardIds.Collectible.Neutral.CairneBloodhoofInvalid: 1,
+        CardIds.Collectible.Neutral.CairneBloodhoofVanilla: 1,
         CardIds.Collectible.Neutral.DevilsaurEgg: 1,
         CardIds.Collectible.Neutral.Eggnapper: 2,
         CardIds.Collectible.Neutral.HarvestGolem: 1,

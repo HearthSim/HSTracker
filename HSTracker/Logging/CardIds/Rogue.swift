@@ -169,6 +169,7 @@ extension CardIds.Collectible {
         static let BloodrockCoShovel = "WW_412"
         static let DrillyTheKid = "WW_417"
         static let PogoHopper = "BOT_283"
+        static let FaldoreiStriderInvalid = "CORE_LOOT_026"
     }
 }
 

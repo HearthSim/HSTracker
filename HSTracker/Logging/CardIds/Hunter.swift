@@ -162,6 +162,8 @@ extension CardIds.Collectible {
         static let HiddenMeaning = "JAM_003"
         static let BaitAndSwitch = "TTN_504"
         static let SnipeWONDERS = "WON_018"
+        static let IceTrapInvalid = "CORE_AV_226"
+        static let RatTrapInvalid = "CORE_GIL_577"
     }
 }
 
@@ -254,12 +256,12 @@ extension CardIds.Secrets {
         static let OpenTheCages = MultiIdCard(CardIds.Collectible.Hunter.OpenTheCages)
         static let PackTactics = MultiIdCard(CardIds.Collectible.Hunter.PackTactics)
         static let PressurePlate = MultiIdCard(CardIds.Collectible.Hunter.PressurePlate)
-        static let RatTrap = MultiIdCard(CardIds.Collectible.Hunter.RatTrap)
+        static let RatTrap = MultiIdCard(CardIds.Collectible.Hunter.RatTrap, CardIds.Collectible.Hunter.RatTrapInvalid)
         static let Snipe = MultiIdCard(CardIds.Collectible.Hunter.Snipe, CardIds.Collectible.Hunter.SnipeVanilla, CardIds.Collectible.Hunter.SnipeWONDERS)
         static let SnakeTrap = MultiIdCard(CardIds.Collectible.Hunter.SnakeTrap, CardIds.Collectible.Hunter.SnakeTrapCore, CardIds.Collectible.Hunter.SnakeTrapVanilla)
         static let VenomstrikeTrap = MultiIdCard(CardIds.Collectible.Hunter.VenomstrikeTrap, CardIds.Collectible.Hunter.VenomstrikeTrapCore)
         static let WanderingMonster = MultiIdCard(CardIds.Collectible.Hunter.WanderingMonster, CardIds.Collectible.Hunter.WanderingMonsterInvalid)
-        static let IceTrap = MultiIdCard(CardIds.Collectible.Hunter.IceTrap)
+        static let IceTrap = MultiIdCard(CardIds.Collectible.Hunter.IceTrap, CardIds.Collectible.Hunter.IceTrapInvalid)
         static let MotionDenied = MultiIdCard(CardIds.Collectible.Hunter.MotionDenied)
         static let Zombeeees = MultiIdCard(CardIds.Collectible.Hunter.Zombeeees)
         static let HiddenMeaning = MultiIdCard(CardIds.Collectible.Hunter.HiddenMeaning)

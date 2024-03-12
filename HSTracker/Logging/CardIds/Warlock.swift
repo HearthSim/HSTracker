@@ -150,6 +150,7 @@ extension CardIds.Collectible {
         static let SludgeOnWheels = "WW_043"
         static let Smokestack = "WW_378"
         static let MoargDrillfist = "WW_442"
+        static let VoidcallerInvalid = "CORE_FP1_022"
     }
 }
 
