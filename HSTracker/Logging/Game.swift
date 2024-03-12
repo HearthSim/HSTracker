@@ -2145,6 +2145,7 @@ class Game: NSObject, PowerEventHandler {
                 self.player.mulliganCardStats = nil
                 
                 self.windowManager.battlegroundsHeroPicking.viewModel.reset()
+                self.windowManager.battlegroundsQuestPicking.viewModel.reset()
                 self.windowManager.battlegroundsSession.update()
             }
             

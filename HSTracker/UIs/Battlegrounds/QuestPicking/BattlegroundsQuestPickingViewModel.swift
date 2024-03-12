@@ -167,6 +167,10 @@ class BattlegroundsQuestPickingViewModel: ViewModel {
         guard let availableRaces = game.availableRaces else {
             return nil
         }
+        let rewards = getOfferedRewards()
+        if rewards.count == 0 {
+            return nil
+        }
         
         return BattlegroundsQuestStatsParams(hero_dbf_id: heroCard.dbfId, hero_power_dbf_ids: game.player.pastHeroPowers.compactMap({ x in Cards.any(byId: x)?.dbfId }), turn: game.turnNumber(), minion_types: availableRaces.compactMap { x in Int(Race.allCases.firstIndex(of: x)!) }, anomaly_dbf_id: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: game.gameEntity), offered_rewards: getOfferedRewards(), game_language: "\(Settings.hearthstoneLanguage ?? .enUS)", battlegrounds_rating: game.battlegroundsRating)
     }
