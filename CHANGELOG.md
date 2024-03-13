@@ -1,3 +1,11 @@
+# 2.6.9
+## New
+- Updated for Hearthstone 29.0.0
+- Started using data more appropriate for the current MMR in the Tier7 quest and hero picking overlays.
+- Added an in-game Mulligan Guide for HSReplay.net Premium subscribers! This feature is available in Ranked, Casual, Friendly Challenge and Arena.
+## Fixes
+- Hide tavern spells based on available races
+
 # 2.6.8
 ## New
 - Updated for Hearthstone 28.6.2
