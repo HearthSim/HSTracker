@@ -776,7 +776,7 @@ class CardBar: NSView, CardBarTheme {
     }
 
     private var ratioWidth: CGFloat {
-        if let playerType = playerType, playerType == .deckManager || playerType == .editDeck {
+        if let playerType = playerType, !isBattlegrounds && (playerType == .deckManager || playerType == .editDeck) {
             return 1.0
         }
 
@@ -792,7 +792,7 @@ class CardBar: NSView, CardBarTheme {
     }
 
     private var ratioHeight: CGFloat {
-        if let playerType = playerType, playerType == .deckManager || playerType == .editDeck {
+        if let playerType = playerType, !isBattlegrounds && (playerType == .deckManager || playerType == .editDeck) {
             return ratioWidth
         }
 
