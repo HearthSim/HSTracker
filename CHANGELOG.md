@@ -1,3 +1,7 @@
+# 2.6.10
+## Fixes
+- Fixed an issue that could cause deck that are legal in Standard to appear in the Wild section.
+
 # 2.6.9
 ## New
 - Updated for Hearthstone 29.0.0
