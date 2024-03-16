@@ -382,8 +382,11 @@ class Tracker: OverWindowController {
             y -= playerTopHeight
             playerTop.frame = NSRect(x: 0, y: y, width: windowWidth, height: playerTopHeight)
             playerTop.updateFrames(frameHeight: smallFrameHeight)
+            playerTop.isHidden = false
         } else {
             playerTop.frame = NSRect.zero
+            playerTop.updateFrames(frameHeight: smallFrameHeight)
+            playerTop.isHidden = true
         }
 
         y -= cardViewHeight
@@ -398,8 +401,11 @@ class Tracker: OverWindowController {
             y -= playerBottomHeight
             playerBottom.frame = NSRect(x: 0, y: y, width: windowWidth, height: playerBottomHeight)
             playerBottom.updateFrames(frameHeight: smallFrameHeight)
+            playerBottom.isHidden = false
         } else {
             playerBottom.frame = NSRect.zero
+            playerBottom.updateFrames(frameHeight: smallFrameHeight)
+            playerBottom.isHidden = true
         }
         if !cardCounter.isHidden {
             y -= smallFrameHeight

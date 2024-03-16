@@ -64,6 +64,7 @@ class DeckLens: NSStackView {
             cards.updateFrames()
         } else {
             frame = NSRect.zero
+            cards.updateFrames()
         }
     }
     
