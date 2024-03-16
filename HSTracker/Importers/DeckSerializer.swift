@@ -139,6 +139,7 @@ class DeckSerializer {
             addCard(dbfId: dbfId, count: count)
         }
 
+        deck.cards = cards
         return deck
     }
     
