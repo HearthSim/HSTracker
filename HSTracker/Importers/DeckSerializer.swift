@@ -156,7 +156,7 @@ class DeckSerializer {
         sb.append("# Format: \("\(deck.format)".substring(from: 3).capitalized)\n")
         sb.append("#\n")
         for card in deck.cards.sortCardList() {
-            sb.append("# \(card.count)x (\(card.cost) \(card.name)")
+            sb.append("# \(card.count)x (\(card.cost)) \(card.name)\n")
             // TODO: sideboards
         }
         sb.append("#\n")

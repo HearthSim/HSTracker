@@ -2218,7 +2218,7 @@ class Game: NSObject, PowerEventHandler {
     }
     
     func isConstructedMatch() -> Bool {
-        return currentGameType == .gt_ranked || currentGameType == .gt_casual || currentGameType == .gt_vs_friend /*|| currentGameType == .gt_vs_ai */
+        return currentGameType == .gt_ranked || currentGameType == .gt_casual || currentGameType == .gt_vs_friend || currentGameType == .gt_vs_ai
     }
     
     func isMulliganDone() -> Bool {
@@ -3065,43 +3065,47 @@ class Game: NSObject, PowerEventHandler {
             let openingHand = snapshotOpeningHand()
             
             if let mulliganCardStats, Settings.enableMulliganGuide {
-                let numSwappedCards = getMulliganSwappedCards()?.count ?? 0
-                if numSwappedCards > 0 {
-                    // show the updated cards
-                    let dbfIds = openingHand.compactMap { x in x.card.dbfId }
-                    if dbfIds.count > 0 {
-                        DispatchQueue.main.async {
-                            self.showMulliganGuideStats(stats: dbfIds.compactMap { dbfId in
-                                if let l = mulliganCardStats[dbfId] {
-                                    return l
-                                } else {
-                                    return SingleCardStats(dbf_id: dbfId)
+                if #available(macOS 10.15, *) {
+                    Task.detached {
+                        let numSwappedCards = self.getMulliganSwappedCards()?.count ?? 0
+                        if numSwappedCards > 0 {
+                            // show the updated cards
+                            let dbfIds = openingHand.compactMap { x in x.card.dbfId }
+                            if dbfIds.count > 0 {
+                                DispatchQueue.main.async {
+                                    self.showMulliganGuideStats(stats: dbfIds.compactMap { dbfId in
+                                        if let l = mulliganCardStats[dbfId] {
+                                            return l
+                                        } else {
+                                            return SingleCardStats(dbf_id: dbfId)
+                                        }
+                                    }, maxRank: mulliganCardStats.count)
                                 }
-                            }, maxRank: mulliganCardStats.count)
+                            }
                         }
-                    }
-                }
-                // Delay until the cards fly away
-                Thread.sleep(forTimeInterval: 2.375 + (max(1.0, Double(numSwappedCards))) * 0.475)
-                
-                // Wait for the mulligan to be complete (component or animation)
-                for _ in 0..<16*60*60 { // 2 minutes
-                    if isInMenu || (gameEntity?[.step] ?? 0) > Step.begin_mulligan.rawValue {
+                        // Delay until the cards fly away
+                        try await Task.sleep(nanoseconds: 2_375_000_000 + UInt64(max(1, numSwappedCards)) * 475_000_000)
+                        
+                        // Wait for the mulligan to be complete (component or animation)
+                        for _ in 0..<7_500 { // 2 minutes
+                            if self.isInMenu || (self.gameEntity?[.step] ?? 0) > Step.begin_mulligan.rawValue {
+                                DispatchQueue.main.async {
+                                    self.hideMulliganGuideStats()
+                                    self.player.mulliganCardStats = nil
+                                }
+                                return
+                            }
+                            if (self.playerEntity?[.mulligan_state] ?? 0) >= Mulligan.done.rawValue && (self.opponentEntity?[.mulligan_state] ?? 0) >= Mulligan.done.rawValue {
+                                break
+                            }
+                            try await Task.sleep(nanoseconds: 16_000_000)
+                        }
                         DispatchQueue.main.async {
                             self.hideMulliganGuideStats()
+                            self.player.mulliganCardStats = nil
                         }
-                        player.mulliganCardStats = nil
-                        return
                     }
-                    if (playerEntity?[.mulligan_state] ?? 0) >= Mulligan.done.rawValue && (opponentEntity?[.mulligan_state] ?? 0) >= Mulligan.done.rawValue {
-                        break
-                    }
-                    Thread.sleep(forTimeInterval: 0.016)
                 }
-                DispatchQueue.main.async {
-                    self.hideMulliganGuideStats()
-                }
-                player.mulliganCardStats = nil
             }
         }
     }
