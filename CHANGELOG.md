@@ -1,3 +1,11 @@
+# 2.7.0
+## New
+- Initial support for Year of Pegasus
+## Fixes
+- Attempted to fix issues with mulligan overlay
+- Fixed import from deck strings
+- Fixed dredge top/bottom cards not resetting after game is over
+
 # 2.6.10
 ## Fixes
 - Fixed an issue that could cause deck that are legal in Standard to appear in the Wild section.
