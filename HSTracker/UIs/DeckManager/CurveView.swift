@@ -56,10 +56,10 @@ class CurveView: NSView {
             countCards()
         }
         if self.counts.isEmpty { return }
-
-        let barWidth: CGFloat = floor(rect.width / 8)
-        let padding: CGFloat = (rect.width - (barWidth * 8)) / 8
-        let barHeight: CGFloat = rect.height - (padding * 4) - 25
+        let frame = self.frame
+        let barWidth: CGFloat = floor(frame.width / 8)
+        let padding: CGFloat = (frame.width - (barWidth * 8)) / 8
+        let barHeight: CGFloat = frame.height - (padding * 4) - 25
         let manaHeight: CGFloat = 25
         var x: CGFloat = 0
 

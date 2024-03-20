@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="20037" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20037"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -26,7 +26,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="932" height="615"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1025"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1496" height="933"/>
             <value key="minFullScreenContentSize" type="size" width="850" height="600"/>
             <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="932" height="615"/>
@@ -41,7 +41,7 @@
                                     <constraint firstAttribute="height" constant="170" id="epD-bG-6uQ"/>
                                 </constraints>
                             </customView>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y6G-cK-9fE">
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y6G-cK-9fE">
                                 <rect key="frame" x="-2" y="178" width="244" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="pVI-Z2-CEC"/>
@@ -142,9 +142,8 @@
                                                             <rect key="frame" x="10" y="0.0" width="669" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="huI-54-Rdk">
+                                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="huI-54-Rdk">
                                                                     <rect key="frame" x="0.0" y="1" width="669" height="16"/>
-                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="tTs-vo-6id">
                                                                         <font key="font" usesAppearanceFont="YES"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -152,6 +151,11 @@
                                                                     </textFieldCell>
                                                                 </textField>
                                                             </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="huI-54-Rdk" firstAttribute="centerY" secondItem="dEA-B7-Zed" secondAttribute="centerY" id="3u4-MB-bUO"/>
+                                                                <constraint firstItem="huI-54-Rdk" firstAttribute="leading" secondItem="dEA-B7-Zed" secondAttribute="leading" constant="2" id="EBR-mm-esc"/>
+                                                                <constraint firstItem="huI-54-Rdk" firstAttribute="centerX" secondItem="dEA-B7-Zed" secondAttribute="centerX" id="yvg-N0-oSk"/>
+                                                            </constraints>
                                                             <connections>
                                                                 <outlet property="textField" destination="huI-54-Rdk" id="Gks-Ko-zos"/>
                                                             </connections>
@@ -196,7 +200,7 @@
                     <constraint firstItem="gGc-Yc-iuW" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="Rjb-72-9gX"/>
                 </constraints>
             </view>
-            <toolbar key="toolbar" implicitIdentifier="D4C446BD-5308-439F-B399-AD7BFF5D31CA" explicitIdentifier="export" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="small" id="UfZ-Rs-kI0">
+            <toolbar key="toolbar" implicitIdentifier="D4C446BD-5308-439F-B399-AD7BFF5D31CA" explicitIdentifier="export" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="UfZ-Rs-kI0">
                 <allowedToolbarItems>
                     <toolbarItem implicitItemIdentifier="NSToolbarShowColorsItem" id="zzP-9i-1ZV"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarShowFontsItem" id="T15-yg-NBA"/>
