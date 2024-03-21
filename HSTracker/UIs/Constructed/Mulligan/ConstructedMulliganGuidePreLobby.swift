@@ -54,10 +54,10 @@ class ConstructedMulliganGuidePreLobby: OverWindowController {
         let scale = SizeHelper.hearthstoneWindow.height / 1080
         let sw = bounds.width * scale
         let sh = bounds.height * scale
-        scaleView.frame = NSRect(x: 0, y: window.frame.height - sh - 16 * scale, width: sw, height: sh)
+        scaleView.frame = NSRect(x: 0, y: window.frame.height - sh, width: sw, height: sh)
         logger.debug("scaleView frame: \(scaleView.frame)")
         scaleView.bounds = bounds
-        logger.debug("scaleView frame: \(scaleView.frame)")
+        logger.debug("scaleView bounds: \(scaleView.bounds)")
         scaleView.needsDisplay = true
     }
     

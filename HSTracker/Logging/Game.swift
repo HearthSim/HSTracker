@@ -182,6 +182,7 @@ class Game: NSObject, PowerEventHandler {
         self.updateExperienceOverlay()
         self.updateMercenariesTaskListButton()
         self.updateBoardOverlay()
+        self.updateConstructedMulliganOverlays()
 	}
 	
     // MARK: - GUI calls
