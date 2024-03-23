@@ -9,10 +9,11 @@
 import Foundation
 
 enum Rarity: String, CaseIterable {
-    case free,
-        common,
-        rare,
-        epic,
-        legendary,
-        golden
+    case invalid,
+         common,
+         free,
+         rare,
+         epic,
+         legendary,
+         unknown_6
 }

@@ -24,12 +24,9 @@ final class Card {
     var dbfId = 0
     var collectible = false
     var cost = 0
-    var faction: Faction = .invalid
     var flavor = ""
     var health = 0
     var attack = 0
-    var overload = 0
-    var durability = 0
     var name = "unknown"
     var enName = ""
     var playerClass: CardClass = .neutral
@@ -43,9 +40,7 @@ final class Card {
     var type: CardType = .invalid
     var mechanics: [String] = []
     var isStandard = false
-    var artist = ""
     var multiClassGroup: MultiClassGroup = .invalid
-    var classes: [CardClass] = []
     var techLevel = 0
     var jsonRepresentation: [String: Any] = [:]
     var hideStats = false
@@ -54,7 +49,6 @@ final class Card {
     var battlegroundsPoolSpell = false
     var deckListIndex = 0
     var battlegroundsSkinParentId = 0
-    var battlegroundsArmorTier = 0
     var isMulliganOption = false
     var cardWinRates: CardWinrates?
     
@@ -62,16 +56,27 @@ final class Card {
         .grimy_goons: [ .hunter, .paladin, .warrior ],
         .jade_lotus: [ .druid, .rogue, .shaman ],
         .kabal: [ .mage, .priest, .warlock ],
+        .paladin_priest: [ .paladin, .priest ],
+        .priest_warlock: [ .priest, .warlock ],
+        .warlock_demonhunter: [ .warlock, .demonhunter ],
+        .hunter_demonhunter: [ .hunter, .demonhunter ],
         .druid_hunter: [ .druid, .hunter ],
         .druid_shaman: [ .druid, .shaman ],
-        .hunter_demonhunter: [ .hunter, .demonhunter ],
-        .mage_rogue: [ .mage, .rogue ],
         .mage_shaman: [ .mage, .shaman ],
-        .paladin_priest: [ .paladin, .priest ],
-        .paladin_warrior: [ .paladin, .warrior ],
-        .priest_warlock: [ .priest, .warlock ],
+        .mage_rogue: [ .mage, .rogue ],
         .rogue_warrior: [ .rogue, .warrior ],
-        .warlock_demonhunter: [ .warlock, .demonhunter ]
+        .paladin_warrior: [ .paladin, .warrior ],
+        .mage_hunter: [.mage, .hunter],
+        .hunter_deathknight: [.hunter, .deathknight],
+        .deathknight_paladin: [.deathknight, .paladin],
+        .paladin_shaman: [.paladin, .shaman],
+        .shaman_warrior: [.shaman, .warrior],
+        .warrior_demonhunter: [.warrior, .demonhunter],
+        .demonhunter_rogue: [.demonhunter, .rogue],
+        .rogue_priest: [.rogue, .priest],
+        .priest_druid: [.priest, .druid],
+        .druid_warlock: [.druid, .warlock],
+        .warlock_mage: [.warlock, .mage]
     ]
 
     // arena helper
@@ -100,7 +105,10 @@ final class Card {
         if playerClass == cardClass {
             return true
         }
-        return classes.contains(cardClass)
+        if let classes = Card.multiClassGroups[multiClassGroup] {
+            return classes.contains(cardClass)
+        }
+        return false
     }
     
     func isNeutral() -> Bool {
@@ -173,11 +181,9 @@ extension Card: NSCopying {
         copy.dbfId = self.dbfId
         copy.collectible = self.collectible
         copy.cost = self.cost
-        copy.faction = self.faction
         copy.flavor = self.flavor
         copy.health = self.health
         copy.attack = self.attack
-        copy.durability = self.durability
         copy.name = self.name
         copy.enName = self.enName
         copy.playerClass = self.playerClass
@@ -186,10 +192,8 @@ extension Card: NSCopying {
         copy.text = self.text
         copy.race = self.race
         copy.type = self.type
-        copy.overload = self.overload
         copy.mechanics = self.mechanics
         copy.isStandard = self.isStandard
-        copy.artist = self.artist
         copy.count = self.count
         copy.hasChanged = self.hasChanged
         copy.jousted = self.jousted
@@ -210,7 +214,6 @@ extension Card: NSCopying {
         copy.battlegroundsSkinParentId = self.battlegroundsSkinParentId
         copy.races = self.races
         copy.bgRaces = self.bgRaces
-        copy.battlegroundsArmorTier = self.battlegroundsArmorTier
 
         return copy
     }

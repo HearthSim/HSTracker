@@ -8,6 +8,9 @@
 
 import Foundation
 
-enum Faction: String {
-    case invalid, horde, alliance, neutral
+enum Faction: Int {
+    case invalid, // 0
+         horde,
+         alliance,
+         neutral
 }

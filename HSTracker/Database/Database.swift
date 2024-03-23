@@ -8,29 +8,45 @@
 
 import Foundation
 
-class Database {
+class Database: NSObject, XMLParserDelegate {
+    enum ElementName: String {
+        case None, Entity, Tag, deDE, enUS, esES, esMX, frFR, itIT, jaJP, koKR, plPL, ptBR, ruRU, thTH, zhCN, zhTW
+    }
+    
+    static let mechanics: [Int: String] = [
+        GameTag.windfury.rawValue: "WINDFURY",
+        GameTag.taunt.rawValue: "TAUNT",
+        GameTag.stealth.rawValue: "STEALTH",
+        GameTag.spellpower.rawValue: "SPELLPOWER",
+        GameTag.divine_shield.rawValue: "DIVINE_SHIELD",
+        GameTag.charge.rawValue: "CHARGE",
+        GameTag.freeze.rawValue: "FREEZE",
+        GameTag.enraged.rawValue: "ENRAGE",
+        GameTag.deathrattle.rawValue: "DEATHRATTLE",
+        GameTag.battlecry.rawValue: "BATTLECRY",
+        GameTag.secret.rawValue: "SECRET",
+        GameTag.combo.rawValue: "COMBO",
+        GameTag.silence.rawValue: "SILENCE",
+        GameTag.immunetospellpower.rawValue: "ImmuneToSpellpower",
+        GameTag.poisonous.rawValue: "POISONOUS",
+        GameTag.lifesteal.rawValue: "LIFESTEAL",
+        GameTag.outcast.rawValue: "OUTCAST",
+        GameTag.rush.rawValue: "RUSH",
+        GameTag.overkill.rawValue: "OVERKILL",
+        GameTag.trigger_visual.rawValue: "TRIGGER_VISUAL",
+        GameTag.honorable_kill.rawValue: "HONORABLE_KILL",
+        GameTag.immune.rawValue: "IMMUNE",
+        GameTag.dormant.rawValue: "DORMANT",
+        GameTag.discover.rawValue: "DISCOVER",
+        GameTag.recruit.rawValue: "RECRUIT",
+        GameTag.venomous.rawValue: "VENOMOUS"
+    ]
+    
     static let currentSeason: Int = {
         let today = Date()
         let dc = Calendar.current.dateComponents(in: TimeZone.current, from: today)
         return (dc.year! - 2014) * 12 - 3 + dc.month!
     }()
-
-    static func jsonFilesAreValid() -> Bool {
-        for locale in Language.Hearthstone.allCases {
-
-            let jsonFile = Paths.cardJson.appendingPathComponent("cardsDB.\(locale.rawValue).json")
-            guard let jsonData = try? Data(contentsOf: jsonFile) else {
-                logger.error("\(jsonFile) is not a valid file")
-                return false
-            }
-            if (((try? JSONSerialization
-                .jsonObject(with: jsonData, options: []) as? [[String: Any]]) as [[String: Any]]??)) == nil {
-                    logger.error("\(jsonFile) is not a valid file")
-                    return false
-            }
-        }
-        return true
-    }
     
     static let validCardSets = CardSet.allCases
 
@@ -41,212 +57,192 @@ class Database {
     static let battlegroundsExclusions: Set = [ "CORE_LOE_077" ]
     
     static var battlegroundRaces = [Race]()
+    
+    var cards = [Card]()
+    var currentElement = ElementName.None
+    var currentLanguage = ""
+    var currentCard: Card?
+    var currentTag: GameTag?
+    var currentText = ""
+    var mainLanguage = ""
+    var splashScreen: Splashscreen?
+    
+    func parserDidStartDocument(_ parser: XMLParser) {
+        cards.removeAll()
+        currentCard = nil
+    }
+    
+    func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String: String] = [:]) {
+        switch elementName {
+        case "Entity":
+            currentElement = .Entity
+            currentCard = Card()
+            currentCard?.id = attributeDict["CardID"] ?? ""
+            currentCard?.dbfId = Int(attributeDict["ID"] ?? "0") ?? 0
+        case "Tag":
+            currentElement = .Tag
+            currentTag = nil
+            if let enumID = attributeDict["enumID"], let id = Int(enumID) {
+                let intValue = Int(attributeDict["value"] ?? "0") ?? 0
+                switch id {
+                case GameTag.health.rawValue:
+                    currentCard?.health = intValue
+                case GameTag.atk.rawValue:
+                    currentCard?.attack = intValue
+                case GameTag.cost.rawValue:
+                    currentCard?.cost = intValue
+                case GameTag.rarity.rawValue:
+                    currentCard?.rarity = Rarity.allCases[intValue]
+                case GameTag.collectible.rawValue:
+                    currentCard?.collectible = intValue > 0
+                case GameTag.tech_level.rawValue:
+                    currentCard?.techLevel = intValue
+                case GameTag.is_bacon_pool_minion.rawValue:
+                    if !Database.battlegroundsExclusions.contains(currentCard?.id ?? "") {
+                        currentCard?.battlegroundsPoolMinion = intValue > 0
+                    }
+                case GameTag.bacon_skin_parent_id.rawValue:
+                    currentCard?.battlegroundsSkinParentId = intValue
+                case GameTag.hide_stats.rawValue:
+                    currentCard?.hideStats = intValue > 0
+                case GameTag.cardtype.rawValue:
+                    currentCard?.type = CardType(rawValue: intValue) ?? .invalid
+                case GameTag.class.rawValue:
+                    currentCard?.playerClass = CardClass.allCases[intValue]
+                case GameTag.cardrace.rawValue:
+                    let race = Race.allCases[intValue]
+                    currentCard?.race = race
+                    currentCard?.races.append(Race.allCases[intValue])
+                case GameTag.multi_class_group.rawValue:
+                    currentCard?.multiClassGroup = MultiClassGroup(rawValue: intValue) ?? .invalid
+                case GameTag.lettuce_cooldown_config.rawValue:
+                    currentCard?.mercenariesAbilityCooldown = intValue
+                case GameTag.card_set.rawValue:
+                    if let set = CardSetInt(rawValue: intValue) {
+                        if let realSet = CardSet(rawValue: "\(set)"), Database.validCardSets.contains(realSet) {
+                            currentCard?.set = realSet
+                            currentCard?.isStandard = !CardSet.wildSets().contains(realSet) && !CardSet.classicSets().contains(realSet)
+                        } else {
+                            currentCard = nil
+                        }
+                    } else {
+                        currentCard = nil
+                    }
+                case GameTag.cardname.rawValue:
+                    currentTag = GameTag.cardname
+                case GameTag.cardtext.rawValue:
+                    currentTag = .cardtext
+                case GameTag.flavortext.rawValue:
+                    currentTag = .flavortext
+                case 2524, 2525, 2526, 2527, 2528, 2529, 2530, 2531, 2532, 2533, 2534, 2536, 2537, 2538, 2539, 2540, 2541, 2542, 2543, 2544, 2522, 2523, 2545, 2546, 2547, 2548, 2549, 2550, 2551, 2552, 2553, 2554, 2555, 2556, 2584, 2585, 2586, 2587, 2588:
+                    if let race = RaceUtils.tagRaceMap[id] {
+                        currentCard?.races.append(race)
+                    }
+                case 3081:
+                    currentCard?.battlegroundsPoolSpell = intValue != 0
+                case GameTag.windfury.rawValue, GameTag.taunt.rawValue, GameTag.stealth.rawValue, GameTag.spellpower.rawValue, GameTag.divine_shield.rawValue, GameTag.charge.rawValue, GameTag.freeze.rawValue, GameTag.enraged.rawValue, GameTag.deathrattle.rawValue, GameTag.battlecry.rawValue, GameTag.secret.rawValue, GameTag.combo.rawValue, GameTag.silence.rawValue, GameTag.immunetospellpower.rawValue, GameTag.poisonous.rawValue, GameTag.lifesteal.rawValue, GameTag.outcast.rawValue, GameTag.rush.rawValue, GameTag.overkill.rawValue, GameTag.trigger_visual.rawValue, GameTag.honorable_kill.rawValue, GameTag.immune.rawValue, GameTag.dormant.rawValue, GameTag.discover.rawValue, GameTag.venomous.rawValue:
+                    if let mechanic = Database.mechanics[id] {
+                        currentCard?.mechanics.append(mechanic)
+                    }
+                default:
+                    break
+                }
+            }
+        case "ReferencedTag":
+            if let enumID = attributeDict["enumID"], let id = Int(enumID) {
+//                let intValue = Int(attributeDict["value"] ?? "0") ?? 0
+                if let mechanic = Database.mechanics[id] {
+                    currentCard?.mechanics.append(mechanic)
+                }
+            }
+        case "deDE", "enUS", "esES", "esMX", "frFR", "itIT", "jaJP", "koKR", "plPL", "ptBR", "ruRU", "thTH", "zhCN", "zhTW":
+            assert(currentElement == .Tag)
+            if elementName == mainLanguage {
+                currentLanguage = elementName
+            }
+        default:
+            break
+        }
+    }
+    
+    func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
+        switch elementName {
+        case "Entity":
+            if let card = currentCard, let set = card.set {
+                card.isStandard = !CardSet.wildSets().contains(set) && !CardSet.classicSets().contains(set)
+                cards.append(card)
+                if card.collectible && card.race != .invalid && card.race != .all && !Database.deckManagerRaces.contains(card.race) && CardSet.deckManagerValidCardSets().contains(card.set ?? .invalid) {
+                    Database.deckManagerRaces.append(card.race)
+                }
+                card.bgRaces = card.races
+                splashScreen?.increment()
+                let index = Cards.cards.endIndex //Cards.indexOf(id: card.id)
+//                if index < 0 {
+//                    index = -index - 1
+//                }
+                Cards.cards.insert(card, at: index)
+                Cards.cardsById[card.id] = card
+                if card.battlegroundsPoolMinion {
+                    Cards.battlegroundsMinions.append(card)
+                }
+                if card.type == .battleground_spell && card.techLevel > 0 && card.battlegroundsPoolSpell {
+                    Cards.battlegroundsSpells.append(card)
+                }
+            }
+            currentCard = nil
+            currentTag = nil
+        case "Tag":
+            currentTag = nil
+        case "deDE", "enUS", "esES", "esMX", "frFR", "itIT", "jaJP", "koKR", "plPL", "ptBR", "ruRU", "thTH", "zhCN", "zhTW":
+            if !currentLanguage.isEmpty {
+                if currentTag == .cardname {
+                    currentCard?.name = currentText
+                    if elementName == "enUS" {
+                        currentCard?.enName = currentText
+                    }
+                } else if currentTag == .cardtext {
+                    currentCard?.text = currentText
+                    if elementName == "enUS" {
+                        currentCard?.enText = currentText
+                    }
+                } else if currentTag == .flavortext {
+                    currentCard?.flavor = currentText
+                }
+                currentLanguage = ""
+                currentText = ""
+            }
+        default:
+            break
+        }
+    }
+    
+    func parser(_ parser: XMLParser, foundCharacters string: String) {
+        if !currentLanguage.isEmpty {
+            currentText += string
+        }
+    }
 
     func loadDatabase(splashscreen: Splashscreen?, withLanguages langs: [Language.Hearthstone]) {
         autoreleasepool {
-            for lang in langs {
-                let file = Bundle(for: type(of: self))
-                    .url(forResource: "Resources/Cards/cardsDB.\(lang.rawValue)",
-                        withExtension: "json")
+            guard let file = Bundle(for: type(of: self)).url(forResource: "Resources/Cards/CardDefs", withExtension: "xml") else {
+                logger.error("Can't find CardDefs.xml")
+                return
+            }
+            guard let data = try? Data(contentsOf: file) else {
+                logger.error("\(file) failed to get contents")
+                return
+            }
+            let parser = XMLParser(data: data)
+            parser.delegate = self
+            mainLanguage = langs[0].rawValue
+            let msg = String(format: String.localizedString("Loading %@ cards",
+                                                       comment: ""), mainLanguage)
+            splashscreen?.display(msg, indeterminate: true)
 
-                guard let jsonFile = file else {
-                    logger.error("Can't find cardsDB.\(lang.rawValue).json")
-                    continue
-                }
-
-                logger.verbose("json file : \(jsonFile)")
-
-                guard let jsonData = try? Data(contentsOf: jsonFile) else {
-                    logger.error("\(jsonFile) is not a valid file")
-                    continue
-                }
-                guard let jsonCards = ((try? JSONSerialization
-                        .jsonObject(with: jsonData, options: []) as? [[String: Any]]) as [[String: Any]]??),
-                    let cards = jsonCards else {
-                                        logger.error("\(jsonFile) is not a valid file")
-                    continue
-                }
-
-                if let splashscreen = splashscreen {
-                    DispatchQueue.main.async {
-                        let msg = String(format: String.localizedString("Loading %@ cards",
-                                                                   comment: ""), lang.localizedString)
-                        splashscreen.display(msg, total: Double(cards.count))
-                    }
-                }
-
-                for jsonCard: [String: Any] in cards {
-                    if let splashscreen = splashscreen {
-                        DispatchQueue.main.async {
-                            splashscreen.increment()
-                        }
-                    }
-
-                    guard let cardId = jsonCard["id"] as? String,
-                        let jsonSet = jsonCard["set"] as? String,
-                        let set = CardSet(rawValue: jsonSet.lowercased()),
-                        Database.validCardSets.contains(set) else { continue }
-
-                    var index = Cards.indexOf(id: cardId)
-                    
-                    if index >= 0,
-                        lang == .enUS && langs.count > 1 {
-                        if let name = jsonCard["name"] as? String {
-                            Cards.cards[index].enName = name
-                        }
-                        if (jsonCard["techLevel"] as? Int) != nil, let text = jsonCard["text"] as? String {
-                            Cards.cards[index].enText = text
-                        }
-                    } else {
-                        let card = Card()
-                        card.jsonRepresentation = jsonCard
-                        card.id = cardId
-                        if let dbfId = jsonCard["dbfId"] as? Int {
-                            card.dbfId = dbfId
-                        }
-
-                        card.isStandard = !CardSet.wildSets().contains(set) && !CardSet.classicSets().contains(set)
-
-                        if let cost = jsonCard["cost"] as? Int {
-                            card.cost = cost
-                        } else {
-                            card.cost = -1
-                        }
-
-                        if let cardRarity = jsonCard["rarity"] as? String,
-                            let rarity = Rarity(rawValue: cardRarity.lowercased()) {
-                            card.rarity = rarity
-                        }
-
-                        if let type = jsonCard["type"] as? String,
-                            let cardType = CardType(rawString: type.lowercased()) {
-                            card.type = cardType
-                        }
-
-                        if let cardClass = jsonCard["cardClass"] as? String,
-                            let cardPlayerClass = CardClass(rawValue: cardClass.lowercased()) {
-                            card.playerClass = cardPlayerClass
-                        }
-
-                        if let faction = jsonCard["faction"] as? String,
-                            let cardFaction = Faction(rawValue: faction.lowercased()) {
-                            card.faction = cardFaction
-                        }
-
-                        card.set = set
-                        if let health = jsonCard["health"] as? Int {
-                            card.health = health
-                        }
-                        if let attack = jsonCard["attack"] as? Int {
-                            card.attack = attack
-                        }
-                        if let durability = jsonCard["durability"] as? Int {
-                            card.durability = durability
-                        }
-                        if let overload = jsonCard["overload"] as? Int {
-                            card.overload = overload
-                        }
-                        if let collectible = jsonCard["collectible"] as? Bool {
-                            card.collectible = collectible
-                        }
-                        if let race = jsonCard["race"] as? String,
-                            let cardRace = Race(rawValue: race.lowercased()) {
-                            card.race = cardRace
-                            if card.collectible && !Database.deckManagerRaces.contains(cardRace) {
-                                Database.deckManagerRaces.append(cardRace)
-                            }
-                        }
-                        if let races = jsonCard["races"] as? [String] {
-                            card.races = races.compactMap { x in Race(rawValue: x.lowercased()) }
-                            for race in card.races {
-                                if card.collectible && !Database.deckManagerRaces.contains(race) {
-                                    Database.deckManagerRaces.append(race)
-                                }
-                            }
-                        }
-                        if let flavor = jsonCard["flavor"] as? String {
-                            card.flavor = flavor
-                        }
-                        if let name = jsonCard["name"] as? String {
-                            card.name = name
-                            if lang == .enUS && langs.count == 1 {
-                                card.enName = name
-                            }
-                        }
-                        if let text = jsonCard["text"] as? String {
-                            card.text = text
-                            if (jsonCard["techLevel"] as? Int) != nil, lang == .enUS && langs.count == 1 {
-                                card.enText = text
-                            }
-                        }
-                        if let artist = jsonCard["artist"] as? String {
-                            card.artist = artist
-                        }
-                        if let mechanics = jsonCard["mechanics"] as? [String] {
-                            for mechanic in mechanics {
-                                card.mechanics.append(mechanic)
-                            }
-                        }
-                        if let referencedTags = jsonCard["referencedTags"] as? [String] {
-                            for tag in referencedTags {
-                                card.mechanics.append(tag)
-                            }
-                        }
-                        if index < 0 {
-                            index = -index - 1
-                        }
-                        
-                        if let multiClassGroup = jsonCard["multiClassGroup"] as? String {
-                            if let group = MultiClassGroup(rawValue: multiClassGroup.lowercased()) {
-                                card.multiClassGroup = group
-                            }
-                        }
-                        
-                        if let classes = jsonCard["classes"] as? [String] {
-                            var res = [CardClass]()
-                            for clazz in classes {
-                                if let cl = CardClass(rawValue: clazz.lowercased()) {
-                                    res.append(cl)
-                                }
-                            }
-                            card.classes = res
-                        }
-                        
-                        if let techLevel = jsonCard["techLevel"] as? Int {
-                            card.techLevel = techLevel
-                            card.bgRaces = card.races
-                        }
-                        
-                        if let bgPool = jsonCard["isBattlegroundsPoolMinion"] as? Bool, !Database.battlegroundsExclusions.contains(cardId) {
-                            card.battlegroundsPoolMinion = bgPool
-                            Cards.battlegroundsMinions.append(card)
-                        }
-                        
-                        if let battlegroundsSkinParentId = jsonCard["battlegroundsSkinParentId"] as? Int {
-                            card.battlegroundsSkinParentId = battlegroundsSkinParentId
-                        }
-
-                        if let hideStats = jsonCard["hideStats"] as? Bool {
-                            card.hideStats = hideStats
-                        }
-                        
-                        if let mercenariesAbilityCooldown = jsonCard["mercenariesAbilityCooldown"] as? Int {
-                            card.mercenariesAbilityCooldown = mercenariesAbilityCooldown
-                        }
-                        
-                        if let armorTier = jsonCard["battlegroundsArmorTier"] as? Int {
-                            card.battlegroundsArmorTier = armorTier
-                        }
-                        if let battlegroundsPoolSpell = jsonCard["isBattlegroundsPoolSpell"] as? Bool {
-                            card.battlegroundsPoolSpell = battlegroundsPoolSpell
-                        }
-                        if card.type == .battleground_spell && card.techLevel > 0 && card.battlegroundsPoolSpell {
-                            Cards.battlegroundsSpells.append(card)
-                        }
-                        Cards.cards.insert(card, at: index)
-                        Cards.cardsById[card.id] = card
-                    }
-                }
+            self.splashScreen = splashscreen
+            guard parser.parse() else {
+                logger.error("Failed to parse contents. Error: \(parser.parserError?.localizedDescription ?? "unknown")")
+                return
             }
             for card in Cards.battlegroundsMinions.array() {
                 if card.race != .invalid && card.race != .all && !Database.battlegroundRaces.contains(card.race) {

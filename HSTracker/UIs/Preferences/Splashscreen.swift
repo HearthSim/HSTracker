@@ -21,6 +21,7 @@ class Splashscreen: NSWindowController {
             }
             self.information.stringValue = str
             self.progressBar.isIndeterminate = indeterminate
+            self.progressBar.startAnimation(nil)
         }
     }
 

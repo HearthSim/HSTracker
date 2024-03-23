@@ -5,7 +5,7 @@
 /.kinta
 /downloaded-frameworks
 # Downloaded cards
-HSTracker/Resources/Cards/*.json
+HSTracker/Resources/Cards/*.xml
 
 # Place where we store archives
 /archive

@@ -26,6 +26,12 @@ class SynchronizedArray<T> {
         }
     }
     
+    var endIndex: Int {
+        lock.around {
+            arr.endIndex
+        }
+    }
+    
     func removeAll() {
         lock.around {
             arr.removeAll()
