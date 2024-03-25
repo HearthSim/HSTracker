@@ -118,7 +118,10 @@ class ConstructedMulliganGuidePreLobbyViewModel: ViewModel {
             guard let x else {
                 return nil
             }
-            return !x.isShowingInvalidCardCount ? x : nil
+            if x.isShowingInvalidCardCount || x.invalidSideboardCardCount > 0 || x.missingSideboardCardCount > 0 {
+                return nil
+            }
+            return x
         }
     }
     

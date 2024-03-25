@@ -578,17 +578,21 @@ enum VisualsFormatType: Int {
 
 class CollectionDeckBoxVisual: Equatable {
     static func == (lhs: CollectionDeckBoxVisual, rhs: CollectionDeckBoxVisual) -> Bool {
-        return lhs === rhs || (lhs.deckid == rhs.deckid && lhs.isShowingInvalidCardCount == rhs.isShowingInvalidCardCount && lhs.isFocused == rhs.isFocused && lhs.isSelected == rhs.isSelected)
-    }
+        return lhs === rhs || (lhs.deckid == rhs.deckid && lhs.isShowingInvalidCardCount == rhs.isShowingInvalidCardCount && lhs.invalidSideboardCardCount == rhs.invalidSideboardCardCount && lhs.missingSideboardCardCount == rhs.missingSideboardCardCount && lhs.isFocused == rhs.isFocused && lhs.isSelected == rhs.isSelected)
+        }
     
     let deckid: Int64
     let isShowingInvalidCardCount: Bool
+    let invalidSideboardCardCount: Int
+    let missingSideboardCardCount: Int
     let isFocused: Bool
     let isSelected: Bool
     
-    init(deckid: Int64, isShowingInvalidCardCount: Bool, isFocused: Bool, isSelected: Bool) {
+    init(deckid: Int64, isShowingInvalidCardCount: Bool, invalidSideboardCardCount: Int, missingSideboardCardCount: Int, isFocused: Bool, isSelected: Bool) {
         self.deckid = deckid
         self.isShowingInvalidCardCount = isShowingInvalidCardCount
+        self.invalidSideboardCardCount = invalidSideboardCardCount
+        self.missingSideboardCardCount = missingSideboardCardCount
         self.isFocused = isFocused
         self.isSelected = isSelected
     }
@@ -643,7 +647,7 @@ class DeckPickerWatcher: Watcher {
             let decks = MirrorHelper.getDeckPickerDecksOnPage().map { x in
                 var res: CollectionDeckBoxVisual?
                 if let x {
-                    res = CollectionDeckBoxVisual(deckid: x.deckId.int64Value, isShowingInvalidCardCount: x.isShowingInvalidCardCount, isFocused: x.isFocused, isSelected: x.isSelected)
+                    res = CollectionDeckBoxVisual(deckid: x.deckId.int64Value, isShowingInvalidCardCount: x.isShowingInvalidCardCount, invalidSideboardCardCount: x.invalidSideboardCardCount.intValue, missingSideboardCardCount: x.missingSideboardCardCount.intValue, isFocused: x.isFocused, isSelected: x.isSelected)
                 }
                 return res
             }

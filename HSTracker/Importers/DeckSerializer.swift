@@ -162,8 +162,8 @@ class DeckSerializer {
         let hasSideboards = Int((try? read())?.toUInt64() ?? 0) > 0
         if hasSideboards {
             func addSideboardCard(_ dbfId: Int? = nil, count: Int = 1) {
-                var dbfId = dbfId ?? Int((try? read())?.toUInt64() ?? 0)
-                var ownerDbfId = Int((try? read())?.toUInt64() ?? 0)
+                let dbfId = dbfId ?? Int((try? read())?.toUInt64() ?? 0)
+                let ownerDbfId = Int((try? read())?.toUInt64() ?? 0)
                 if deck.sideboards[ownerDbfId] == nil {
                     deck.sideboards[ownerDbfId] = [Int: Int]()
                 }
