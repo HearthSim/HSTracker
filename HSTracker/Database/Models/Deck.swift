@@ -44,9 +44,11 @@ class Deck: Object {
     let gameStats = List<GameStats>()
     
     var tmpCards = [Card]()
+    
+    var sideboards = [RealmSideboard]()
 
     override static func ignoredProperties() -> [String] {
-        return [ "tmpCards" ]
+        return [ "tmpCards", "sideboards"    ]
     }
     
     override static func primaryKey() -> String? {
@@ -181,23 +183,34 @@ class Deck: Object {
         return true
     }
     
-    func diffTo(mirrorDeck: MirrorDeck) -> (cards: [Card], success: Bool) {
+    func diff(newDeck: MirrorDeck) -> [Card] {
+        return Deck.diffTo(cards: cards.compactMap { x in Card(fromRealCard: x) }, newCards: newDeck.cards.compactMap { x in Card(fromMirrorCard: x)})
+    }
+
+    func sideboardDiff(newDeck: MirrorDeck) -> [Card] {
+        let current = Array(sideboards.flatMap { x in x.cards }.compactMap { x in Card(fromRealCard: x) })
+        let new = Array(newDeck.sideboards.flatMap { x in x.value }.compactMap { x in Card(fromMirrorCard: x) })
+        return Deck.diffTo(cards: current, newCards: new)
+    }
+
+    static func diffTo(cards: [Card], newCards: [Card]) -> [Card] {
         var diffs = [Card]()
-        let mirrorCards = mirrorDeck.cards
         
-        for c in self.cards {
-            guard let othercard = mirrorCards.first(where: {$0.cardId == c.id}) else {
-                diffs.append(Card(fromRealCard: c))
+        for c in cards {
+            guard let othercard = newCards.first(where: {$0.id == c.id}) else {
+                diffs.append(c.copy())
                 continue
             }
-            if c.count != othercard.count.intValue {
-                let diffc = Card(fromRealCard: c)
-                diffc.count = abs(c.count - othercard.count.intValue)
+            if c.count != othercard.count {
+                let diffc = c.copy()
+                diffc.count = abs(c.count - othercard.count)
                 diffs.append(diffc)
             }
         }
-        
-        return (diffs, true)
+        for c in newCards where !cards.any({ x in x.id == c.id }) {
+            diffs.append(c)
+        }
+        return diffs
     }
     
     func incrementVersion(major: Int) {
@@ -206,5 +219,28 @@ class Deck: Object {
     
     func incrementVersion(minor: Int) {
         self.deckMinorVersion += minor
+    }
+}
+
+class RealmSideboard: EmbeddedObject {
+    @objc dynamic var ownerCardId: String
+    let cards = List<RealmCard>()
+
+    override init() {
+        ownerCardId = ""
+        super.init()
+    }
+
+    init(ownerCardId: String) {
+        self.ownerCardId = ownerCardId
+        super.init()
+    }
+
+    func add(card: Card) {
+        if card.count == 0 {
+            card.count = 1
+        }
+
+        self.cards.append(RealmCard(id: card.id, count: card.count))
     }
 }

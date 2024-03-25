@@ -124,4 +124,22 @@ struct Helper {
 
         return String(format: "#%2X%2X%2X", Int(r), Int(g), Int(b))
     }
+    
+    static func resolveZilliax3000(_ cards: [Card], _ sideboards: [Sideboard]) -> [Card] {
+        return cards.map { card in
+            var result = card
+            let cardId = card.id
+            if cardId == CardIds.Collectible.Neutral.ZilliaxDeluxe3000 {
+                if let sideboard = sideboards.first(where: { sb in sb.ownerCardId == cardId }), sideboard.cards.count > 0 {
+                    let modules = sideboard.cards.filter { module in module.zilliaxCustomizableFunctionalModule }
+                    // Clone Zilliax with new cost, attack and health
+                    result = card.copy()
+                    result.attack = modules.reduce(0, { $0 + $1.attack })
+                    result.health = modules.reduce(0, { $0 + $1.health })
+                    result.cost = modules.reduce(0, { $0 + $1.cost })
+                }
+            }
+            return result
+        }
+    }
 }

@@ -13,6 +13,11 @@ import RealmSwift
 import HearthMirror
 import AppCenterAnalytics
 
+struct Sideboard {
+    let ownerCardId: String
+    let cards: [Card]
+}
+
 struct PlayingDeck {
     let id: String
     let name: String
@@ -22,6 +27,7 @@ struct PlayingDeck {
     let cards: [Card]
     let isArena: Bool
     let shortid: String
+    let sideboards: [Sideboard]
 }
 
 class BoardSnapshot {
@@ -1534,11 +1540,8 @@ class Game: NSObject, PowerEventHandler {
     }
 
 	func set(activeDeckId: String?, autoDetected: Bool) {
-		Settings.activeDeck = activeDeckId
-		playerDeckAutodetected = autoDetected
-		
 		if let id = activeDeckId, let deck = RealmHelper.getDeck(with: id) {
-			set(activeDeck: deck)
+			set(activeDeck: deck, autoDetected: autoDetected)
             hasValidDeck = true
             logger.info("has Valid Mirror Deck: \(deck.cards.count) cards")
 		} else {
@@ -1549,7 +1552,9 @@ class Game: NSObject, PowerEventHandler {
 		}
 	}
 	
-    func set(activeDeck deck: Deck) {
+    func set(activeDeck deck: Deck, autoDetected: Bool) {
+        Settings.activeDeck = deck.deckId
+        playerDeckAutodetected = autoDetected
 		
         var cards: [Card] = []
         for deckCard in deck.cards {
@@ -1575,7 +1580,8 @@ class Game: NSObject, PowerEventHandler {
                                       heroId: heroId,
                                       cards: cards.sortCardList(),
                                       isArena: isArena,
-                                      shortid: shortid ?? ""
+                                      shortid: shortid ?? "",
+                                           sideboards: deck.sideboards.compactMap { x in Sideboard(ownerCardId: x.ownerCardId, cards: x.cards.map { y in Card(fromRealCard: y)})}
             )
             self.player.playerClass = self.currentDeck?.playerClass
             self.updateTrackers(reset: true)

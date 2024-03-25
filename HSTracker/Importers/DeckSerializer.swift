@@ -19,9 +19,27 @@ class DeckSerializer {
         var format = FormatType.ft_unknown
         var name = ""
         var deckId = Int64(0)
+        var sideboards = [Int: [Int: Int]]()
         
         func getHero() -> Card? {
             return Cards.by(dbfId: heroDbfId, collectible: false)
+        }
+        
+        func getSideboards() -> [String: [Card]] {
+            var res = [String: [Card]]()
+            for owner in sideboards.keys {
+                if let card = Cards.by(dbfId: owner), let sideboard = sideboards[owner] {
+                    var c = [Card]()
+                    for sc in sideboard {
+                        if let scard = Cards.by(dbfId: sc.key) {
+                            scard.count = sc.value
+                            c.append(scard)
+                        }
+                    }
+                    res[card.id] = c
+                }
+            }
+            return res
         }
     }
 
@@ -140,6 +158,36 @@ class DeckSerializer {
         }
 
         deck.cards = cards
+        
+        let hasSideboards = Int((try? read())?.toUInt64() ?? 0) > 0
+        if hasSideboards {
+            func addSideboardCard(_ dbfId: Int? = nil, count: Int = 1) {
+                var dbfId = dbfId ?? Int((try? read())?.toUInt64() ?? 0)
+                var ownerDbfId = Int((try? read())?.toUInt64() ?? 0)
+                if deck.sideboards[ownerDbfId] == nil {
+                    deck.sideboards[ownerDbfId] = [Int: Int]()
+                }
+                deck.sideboards[ownerDbfId]?[dbfId] = count
+            }
+            
+            let numSingleSideboardCards = Int((try? read())?.toUInt64() ?? 0)
+            logger.verbose("numSingleSideboardCards : \(numSingleSideboardCards)")
+            for _ in 0..<numSingleSideboardCards {
+                addSideboardCard()
+            }
+            let numDoubleSideboardCards = Int((try? read())?.toUInt64() ?? 0)
+            logger.verbose("numDoubleSideboardCards : \(numDoubleSideboardCards)")
+            for _ in 0..<numDoubleSideboardCards {
+                addSideboardCard(count: 2)
+            }
+            let numMultiSideboardCards = Int((try? read())?.toUInt64() ?? 0)
+            logger.verbose("numMultiSideboardCards : \(numMultiSideboardCards)")
+            for _ in 0..<numMultiSideboardCards {
+                let dbfId = Int((try? read())?.toUInt64() ?? 0)
+                let count = Int((try? read())?.toUInt64() ?? 0)
+                addSideboardCard(dbfId, count: count)
+            }
+        }
         return deck
     }
     
@@ -157,7 +205,11 @@ class DeckSerializer {
         sb.append("#\n")
         for card in deck.cards.sortCardList() {
             sb.append("# \(card.count)x (\(card.cost)) \(card.name)\n")
-            // TODO: sideboards
+            if let sideboard = deck.getSideboards()[card.id] {
+                for sideboardCard in sideboard {
+                    sb.append("#   \(sideboardCard.count)x (\(sideboardCard.cost) \(sideboardCard.name)\n")
+                }
+            }
         }
         sb.append("#\n")
         sb.append("\(deckString)\n")
@@ -218,8 +270,33 @@ class DeckSerializer {
             write(value: card.count)
         }
         
-        // TODO: sideboards
-
+        let hasSideboard = deck.sideboards.values.reduce(0, { $0 + $1.values.reduce(0, { $0 + $1 })}) > 0
+        write(value: hasSideboard ? 1 : 0)
+        if hasSideboard {
+            let sideboardCards = deck.sideboards.flatMap { s in s.value.compactMap { x in (owner: s.key, key: x.key, value: x.value) }}.sorted(by: { x, y in x.key < y.key })
+            let sideboardsSingleCopy = sideboardCards.filter { x in x.value == 1 }
+            let sideboardsDoubleCopy = sideboardCards.filter { x in x.value == 2 }
+            let sideboardsNCopy = sideboardCards.filter { x in x.value > 2 }
+            func writeSideboardCard(_ dbfId: Int, _ ownerDbfId: Int, _ qty: Int? = nil) {
+                write(value: dbfId)
+                write(value: ownerDbfId)
+                if let qty {
+                    write(value: qty)
+                }
+            }
+            write(value: sideboardsSingleCopy.count)
+            for card in sideboardsSingleCopy {
+                writeSideboardCard(card.key, card.owner)
+            }
+            write(value: sideboardsDoubleCopy.count)
+            for card in sideboardsDoubleCopy {
+                writeSideboardCard(card.key, card.owner)
+            }
+            write(value: sideboardsNCopy.count)
+            for card in sideboardsNCopy {
+                writeSideboardCard(card.key, card.owner, card.value)
+            }
+        }
         return data.base64EncodedString()
     }
 }

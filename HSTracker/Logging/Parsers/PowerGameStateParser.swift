@@ -1021,7 +1021,7 @@ class PowerGameStateParser: LogEventParser {
         if Settings.autoDeckDetection && !(Settings.dontTrackWhileSpectating && eventHandler.currentGameMode == .spectator) {
             let currentMode = eventHandler.currentMode ?? .invalid
             if let deck = AppDelegate._instance?.coreManager.autoDetectDeck(mode: currentMode, playerClass: self.eventHandler.player.playerClass) {
-                eventHandler.set(activeDeckId: deck.deckId, autoDetected: true)
+                eventHandler.set(activeDeck: deck, autoDetected: true)
             } else if currentMode != .adventure && currentMode != .pvp_dungeon_run {
                 logger.warning("could not autodetect deck, setting to empty deck")
                 eventHandler.set(activeDeckId: nil, autoDetected: false)

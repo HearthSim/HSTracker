@@ -412,7 +412,8 @@ enum GameTag: Int, WrappableEnum, CaseIterable, Codable {
     titan_ability_used_1 = 3140,
     titan_ability_used_2 = 3141,
     titan_ability_used_3 = 3142,
-    current_excavate_tier = 3249
+    current_excavate_tier = 3249,
+    zilliax_customizable_functionalmodule = 3377
 
     static var lookup = [String: GameTag]()
     

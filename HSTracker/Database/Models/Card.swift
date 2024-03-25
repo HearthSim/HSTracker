@@ -51,6 +51,7 @@ final class Card {
     var battlegroundsSkinParentId = 0
     var isMulliganOption = false
     var cardWinRates: CardWinrates?
+    var zilliaxCustomizableFunctionalModule = false
     
     static let multiClassGroups: [MultiClassGroup: [CardClass]] = [
         .grimy_goons: [ .hunter, .paladin, .warrior ],
@@ -159,6 +160,11 @@ final class Card {
         self.count = fromRealCard.count
     }
     
+    init(fromMirrorCard: MirrorCard) {
+        self.id = fromMirrorCard.cardId
+        self.count = fromMirrorCard.count.intValue
+    }
+    
     static func < (left: Card, right: Card) -> Bool {
         if left.cost == right.cost {
             return left.name < right.name
@@ -214,6 +220,7 @@ extension Card: NSCopying {
         copy.battlegroundsSkinParentId = self.battlegroundsSkinParentId
         copy.races = self.races
         copy.bgRaces = self.bgRaces
+        copy.zilliaxCustomizableFunctionalModule = self.zilliaxCustomizableFunctionalModule
 
         return copy
     }

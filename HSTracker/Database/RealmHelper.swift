@@ -195,9 +195,10 @@ struct RealmHelper {
 		// deck found, check if data needs to be updated
 		let nameDoesNotMatch = storedDeck.name != selectedDeck.name
 			|| storedDeck.heroId != selectedDeck.hero
-		let cardsDontMatch = storedDeck.diffTo(mirrorDeck: selectedDeck)
+        let cardsDontMatch = storedDeck.diff(newDeck: selectedDeck)
+        let sideboardsDontMatch = storedDeck.sideboardDiff(newDeck: selectedDeck)
 		
-		if nameDoesNotMatch || (cardsDontMatch.success && (cardsDontMatch.cards.count > 0)) {
+        if nameDoesNotMatch || cardsDontMatch.count > 0 || sideboardsDontMatch.count > 0 {
 			if nameDoesNotMatch {
 				logger.info("Deck \(selectedDeck.name) exists " +
 					"with an old name (\(storedDeck.name)), updating it.")
@@ -212,10 +213,10 @@ struct RealmHelper {
 						storedDeck.heroId = selectedDeck.hero
 					}
 					
-					let numDifferentCards: Int = cardsDontMatch.cards.reduce(0, {
+					var numDifferentCards: Int = cardsDontMatch.reduce(0, {
 						$0 + $1.count
 					})
-					if cardsDontMatch.success && numDifferentCards > 0 {
+					if numDifferentCards > 0 {
 						storedDeck.cards.removeAll()
 						let cards = selectedDeck.cards
 						for card in cards {
@@ -228,12 +229,27 @@ struct RealmHelper {
 						}
 						
 						// swapping 4 different cards yields to major update
-						if cardsDontMatch.cards.count > 4 {
+						if cardsDontMatch.count > 4 {
 							storedDeck.incrementVersion(major: 1)
 						} else {
 							storedDeck.incrementVersion(minor: 1)
 						}
 					}
+                    numDifferentCards = sideboardsDontMatch.reduce(0, {
+                        $0 + $1.count
+                    })
+                        if numDifferentCards > 0 {
+                        storedDeck.sideboards.removeAll()
+                        for sideboard in selectedDeck.sideboards {
+                            let owner = sideboard.key
+                            let s = RealmSideboard(ownerCardId: owner)
+//                            realm.add(s)
+                            for card in sideboard.value {
+                                s.add(card: Card(fromMirrorCard: card))
+                            }
+                            storedDeck.sideboards.append(s)
+                        }
+                    }
 				}
 			} catch {
 				logger.error("Can not import deck. Error : \(error)")

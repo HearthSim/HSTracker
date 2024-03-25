@@ -631,6 +631,7 @@ extension CardIds.Collectible {
         static let Multicaster = "DED_524"
         static let CairneBloodhoofVanilla = "VAN_EX1_110"
         static let CairneBloodhoofInvalid = "CORE_EX1_110"
+        static let ZilliaxDeluxe3000 = "TOY_330"
     }
 }
 

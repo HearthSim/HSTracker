@@ -161,7 +161,7 @@ public enum CardSetInt: Int {
     revendreth = 1691,
     mercenaries_dev = 1705,
     return_of_the_lich_king = 1776,
-    battle_of_bands = 1809,
+    battle_of_the_bands = 1809,
     placeholder_202204 = 1810,
     titans = 1858,
     path_of_arthas = 1869,

@@ -55,10 +55,14 @@ extension DynamicEntity: Hashable {
 class DeckState {
     fileprivate(set) var remainingInDeck: [Card]
     fileprivate(set) var removedFromDeck: [Card]
+    fileprivate(set) var remainingInSideboards: [String: [Card]]?
+    fileprivate(set) var removedFromSideboards: [String: [Card]]?
 
-    init(remainingInDeck: [Card], removedFromDeck: [Card]) {
+    init(remainingInDeck: [Card], removedFromDeck: [Card], remainingInSideboards: [String: [Card]]? = nil, removedFromSideboards: [String: [Card]]? = nil) {
         self.removedFromDeck = removedFromDeck
         self.remainingInDeck = remainingInDeck
+        self.remainingInSideboards = remainingInSideboards
+        self.removedFromSideboards = removedFromSideboards
     }
 }
 
@@ -336,19 +340,22 @@ final class Player {
         let notInDeck = deckState.removedFromDeck.filter({ x in inDeck.all({ x.id != $0.id }) })
         let predictedInDeck = getPredictedCardsInDeck(hidden: false).filter({ x in inDeck.all { c in x.id != c.id } })
         if !Settings.removeCardsFromDeck {
-            return attachMulliganData(cards: (inDeck + predictedInDeck + notInDeck + createdInHand)).sortCardList(sorting)
+            return annotateCards(cards: (inDeck + predictedInDeck + notInDeck + createdInHand)).sortCardList(sorting)
         }
         if Settings.highlightCardsInHand {
-            return attachMulliganData(cards: (inDeck + predictedInDeck + getHighlightedCardsInHand(cardsInDeck: inDeck)
+            return annotateCards(cards: (inDeck + predictedInDeck + getHighlightedCardsInHand(cardsInDeck: inDeck)
                 + createdInHand)).sortCardList(sorting)
         }
-        return attachMulliganData(cards: (inDeck + predictedInDeck + createdInHand)).sortCardList(sorting)
+        return annotateCards(cards: (inDeck + predictedInDeck + createdInHand)).sortCardList(sorting)
     }
     
-    private func attachMulliganData(cards: [Card]) -> [Card] {
+    private func annotateCards(cards: [Card]) -> [Card] {
+        // Override Zilliax 3000 cost
+        let cards = Helper.resolveZilliax3000(cards, playerSideboardsDict)
         guard let mulliganCardStats else {
             return cards
         }
+        // Attach Mulligan Card Data
         return cards.compactMap { card in
             guard let cardStats = mulliganCardStats.first(where: { x in x.dbf_id == card.dbfId }) else {
                 return card
@@ -363,6 +370,36 @@ final class Player {
             newCard.isMulliganOption = hand.any { x in x.card.dbfId == card.dbfId }
             return newCard
         }
+    }
+    
+    var playerSideboardsDict: [Sideboard] {
+        return getPlayerSideboards(Settings.removeCardsFromDeck)
+    }
+    
+    private func getPlayerSideboards(_ removeNotInSideboard: Bool) -> [Sideboard] {
+        let deckState = getDeckState()
+        var sideboardsDict = [String: [Card]]()
+        if let sideboards = deckState.remainingInSideboards {
+            for sideboard in sideboards {
+                sideboardsDict[sideboard.key] = sideboard.value
+            }
+        }
+        
+        if let sideboards = deckState.removedFromSideboards {
+            for sideboard in sideboards {
+                var currentSideboard = sideboardsDict[sideboard.key]
+                if currentSideboard != nil {
+                    currentSideboard?.append(contentsOf: sideboard.value)
+                } else {
+                    sideboardsDict[sideboard.key] = sideboard.value
+                }
+            }
+        }
+        var sideboards = [Sideboard]()
+        for sideboard in sideboardsDict {
+            sideboards.append(Sideboard(ownerCardId: sideboard.key, cards: sideboard.value))
+        }
+        return sideboards
     }
 
     var opponentCardList: [Card] {
@@ -439,9 +476,9 @@ final class Player {
                 }
             }
 
-        var originalCardsInDeck: [String] = []
+        var originalCardsInDeckIds: [String] = []
         if let deck = game.currentDeck {
-            originalCardsInDeck = deck.cards.flatMap {
+            originalCardsInDeckIds = deck.cards.flatMap {
                 Array(repeating: $0.id, count: $0.count)
                 }
                 .map({ $0 })
@@ -455,42 +492,87 @@ final class Player {
                 && !($0.info.hidden && ($0.isInDeck || $0.isInHand))
         }
 
-        var removedFromDeck = [String]()
+        var removedFromDeckIds = [String]()
         revealedNotInDeck.forEach({
-            originalCardsInDeck.remove($0.cardId)
+            originalCardsInDeckIds.remove($0.cardId)
             if !$0.info.stolen || $0.info.originalController == self.id {
-                removedFromDeck.append($0.cardId)
+                removedFromDeckIds.append($0.cardId)
             }
         })
+        
+        func toRemaingCard(_ g: (key: String, value: [String])) -> Card? {
+            if let card = Cards.by(cardId: g.key) {
+                card.count = g.value.count
+                if hand.any({ $0.cardId == g.key }) {
+                    card.highlightInHand = true
+                }
+                return card
+            } else {
+                return nil
+            }
+        }
+        
+        func toRemovedCard(_ g: (key: String, value: [String])) -> Card? {
+            if let card = Cards.by(cardId: g.key) {
+                card.count = 0
+                if hand.any({ e in e.cardId == g.key }) {
+                    card.highlightInHand = true
+                }
+                return card
+            } else {
+                return nil
+            }
+        }
 
-        let cardsInDeck: [Card] = createdCardsInDeck + (originalCardsInDeck
+        let remainingInDeck: [Card] = createdCardsInDeck + (originalCardsInDeckIds
             .group { (c: String) in c }
             .compactMap { g -> Card? in
-                if let card = Cards.by(cardId: g.key) {
-                    card.count = g.value.count
-                    if hand.any({ $0.cardId == g.key }) {
-                        card.highlightInHand = true
-                    }
-                    return card
-                } else {
-                    return nil
-                }
+                toRemaingCard(g)
             })
 
-        let cardsNotInDeck = removedFromDeck.group { (c: String) in c }
+        let removedFromDeck = removedFromDeckIds.group { (c: String) in c }
             .compactMap({ g -> Card? in
-                if let card = Cards.by(cardId: g.key) {
-                    card.count = 0
-                    if hand.any({ e in e.cardId == g.key }) {
-                        card.highlightInHand = true
-                    }
-                    return card
-                } else {
-                    return nil
-                }
+                toRemovedCard(g)
             })
+        
+        let originalSideboards = game.currentDeck?.sideboards
+        
+        let removedFromSideboardIds = revealedEntities.filter { x in x.hasCardId
+            && x.isPlayableCard
+            && x.info.originalController == id
+            && x.info.originalZone == .hand && x.info.hidden == false
+            && x[.copied_from_entity_id] > 0
+            && revealedEntities.first { c in
+                c.id == x[.copied_from_entity_id] &&
+                c.isInSetAside && x.info.createdInDeck == true
+            } != nil
+        }.compactMap { x in x.cardId }
+        var remainingInSideboard = [String: [Card]]()
+        var removedFromSideboard = [String: [Card]]()
+        
+        if let originalSideboards {
+            for sideboard in originalSideboards {
+                var remainingSideboardCards = [Card]()
+                var removedSideboardCards = [Card]()
+                for c in sideboard.cards {
+                    guard let card = Cards.by(cardId: c.id) else {
+                        continue
+                    }
+                    card.count = c.count - removedFromSideboardIds.filter { cardId in cardId == c.id }.count
+                    card.isCreated = false // Intentionally do not set cards as created to avoid gift icon
+                    card.highlightInHand = hand.any { ce in ce.cardId == card.id }
+                    if c.count > 0 {
+                        remainingSideboardCards.append(card)
+                    } else {
+                        removedSideboardCards.append(card)
+                    }
+                }
+                remainingInSideboard[sideboard.ownerCardId] = remainingSideboardCards
+                removedFromSideboard[sideboard.ownerCardId] = removedSideboardCards
+            }
+        }
 
-        return DeckState(remainingInDeck: cardsInDeck, removedFromDeck: cardsNotInDeck)
+        return DeckState(remainingInDeck: remainingInDeck, removedFromDeck: removedFromDeck, remainingInSideboards: remainingInSideboard, removedFromSideboards: removedFromSideboard)
     }
     
     private func getOpponentDeckState() -> DeckState {

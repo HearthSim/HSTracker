@@ -510,7 +510,7 @@ final class CoreManager: NSObject {
                     deck.name = hero.card.name
                 }
                 
-                core.game.set(activeDeck: deck)
+                core.game.set(activeDeck: deck, autoDetected: true)
                 return
             }
 
@@ -741,7 +741,7 @@ final class CoreManager: NSObject {
     
     func autoSelectTemplateDeckById(deckId: Int) {
         if let selectedDeck = fromTemplateDeck(deckId: deckId) {
-            game.set(activeDeck: selectedDeck)
+            game.set(activeDeck: selectedDeck, autoDetected: true)
             game.playerDeckAutodetected = true
         }
     }
