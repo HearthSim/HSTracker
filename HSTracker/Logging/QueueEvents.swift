@@ -34,6 +34,8 @@ class QueueEvents {
             logger.info("Now in queue")
             if let deck = AppDelegate.instance().coreManager.autoDetectDeck(mode: _game.currentMode ?? .invalid) {
                 _game.set(activeDeck: deck, autoDetected: true)
+            } else if Settings.autoDeckDetection {
+                _game.set(activeDeckId: nil, autoDetected: true)
             }
             
             if _game.currentMode == .bacon {

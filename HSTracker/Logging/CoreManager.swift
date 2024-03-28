@@ -704,6 +704,9 @@ final class CoreManager: NSObject {
 					logger.warning("No deck with id=\(selectedDeckId) found")
 					return nil
 				}
+                if Deck.isExactlyWhizbang(selectedDeck) {
+                    return nil // Cannot be imported here (will need to happen in the context of a game with a deck id)
+                }
                 logger.info("Found selected Mirror deck : \(selectedDeck.name) \(selectedDeck.id) \(selectedDeck.cards.count)")
 				
 				if let deck = RealmHelper.checkAndUpdateDeck(deckId: selectedDeckId, selectedDeck: selectedDeck) {

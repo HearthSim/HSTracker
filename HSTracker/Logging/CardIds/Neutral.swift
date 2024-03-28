@@ -632,6 +632,7 @@ extension CardIds.Collectible {
         static let CairneBloodhoofVanilla = "VAN_EX1_110"
         static let CairneBloodhoofInvalid = "CORE_EX1_110"
         static let ZilliaxDeluxe3000 = "TOY_330"
+        static let SplendiferousWhizbang = "TOY_700"
     }
 }
 

@@ -108,7 +108,15 @@ class Deck: Object {
 
     func isValid() -> Bool {
         let count = countCards()
-        return count == 30 || count == 40
+        return Deck.isExactlyWhizbang(self) || count == 30 || count == 40
+    }
+    
+    static func isExactlyWhizbang(_ deck: Deck) -> Bool {
+        return deck.cards.count == 1 && (deck.cards.first?.id == CardIds.Collectible.Neutral.WhizbangTheWonderful || deck.cards.first?.id == CardIds.Collectible.Neutral.SplendiferousWhizbang)
+    }
+    
+    static func isExactlyWhizbang(_ deck: MirrorDeck) -> Bool {
+        return deck.cards.count == 1 && (deck.cards.first?.cardId == CardIds.Collectible.Neutral.WhizbangTheWonderful || deck.cards.first?.cardId == CardIds.Collectible.Neutral.SplendiferousWhizbang)
     }
 
     func arenaFinished() -> Bool {
