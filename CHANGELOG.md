@@ -1,3 +1,11 @@
+# 2.7.1
+## New
+- Updated for Hearthstone 29.0.3
+- Added support for Zilliax Deluxe 3000's custom cost in the deck list.
+## Fixes
+- Fixed Deck Manager curve display and crash when resizing
+- Fixed Whizbang decks using previous deck
+
 # 2.7.0
 ## New
 - Initial support for Year of Pegasus
