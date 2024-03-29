@@ -130,6 +130,8 @@ class Database: NSObject, XMLParserDelegate {
                     }
                 case GameTag.zilliax_customizable_functionalmodule.rawValue:
                     currentCard?.zilliaxCustomizableFunctionalModule = intValue > 0
+                case GameTag.zilliax_customizable_cosmeticmodule.rawValue:
+                    currentCard?.zilliaxCustomizableCosmeticModule = intValue > 0
                 case GameTag.cardname.rawValue:
                     currentTag = GameTag.cardname
                 case GameTag.cardtext.rawValue:

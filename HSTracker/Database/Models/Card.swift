@@ -52,6 +52,7 @@ final class Card {
     var isMulliganOption = false
     var cardWinRates: CardWinrates?
     var zilliaxCustomizableFunctionalModule = false
+    var zilliaxCustomizableCosmeticModule = false
     
     static let multiClassGroups: [MultiClassGroup: [CardClass]] = [
         .grimy_goons: [ .hunter, .paladin, .warrior ],
@@ -221,6 +222,7 @@ extension Card: NSCopying {
         copy.races = self.races
         copy.bgRaces = self.bgRaces
         copy.zilliaxCustomizableFunctionalModule = self.zilliaxCustomizableFunctionalModule
+        copy.zilliaxCustomizableCosmeticModule = self.zilliaxCustomizableCosmeticModule
 
         return copy
     }

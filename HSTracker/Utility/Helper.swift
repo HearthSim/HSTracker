@@ -131,9 +131,10 @@ struct Helper {
             let cardId = card.id
             if cardId == CardIds.Collectible.Neutral.ZilliaxDeluxe3000 {
                 if let sideboard = sideboards.first(where: { sb in sb.ownerCardId == cardId }), sideboard.cards.count > 0 {
+                    let cosmetic = sideboard.cards.first { module in !module.zilliaxCustomizableFunctionalModule }
                     let modules = sideboard.cards.filter { module in module.zilliaxCustomizableFunctionalModule }
                     // Clone Zilliax with new cost, attack and health
-                    result = card.copy()
+                    result = cosmetic?.copy() ?? card.copy()
                     result.attack = modules.reduce(0, { $0 + $1.attack })
                     result.health = modules.reduce(0, { $0 + $1.health })
                     result.cost = modules.reduce(0, { $0 + $1.cost })

@@ -1581,7 +1581,11 @@ class Game: NSObject, PowerEventHandler {
                                       cards: cards.sortCardList(),
                                       isArena: isArena,
                                       shortid: shortid ?? "",
-                                           sideboards: deck.sideboards.compactMap { x in Sideboard(ownerCardId: x.ownerCardId, cards: x.cards.map { y in Card(fromRealCard: y)})}
+                                           sideboards: deck.sideboards.compactMap { x in Sideboard(ownerCardId: x.ownerCardId, cards: x.cards.compactMap { y in
+                var card = Cards.by(cardId: y.id)
+                card?.count = y.count
+                return card
+                })}
             )
             self.player.playerClass = self.currentDeck?.playerClass
             self.updateTrackers(reset: true)

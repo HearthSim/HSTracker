@@ -356,7 +356,8 @@ final class Player {
         }
         // Attach Mulligan Card Data
         return cards.compactMap { card in
-            guard let cardStats = mulliganCardStats.first(where: { x in x.dbf_id == card.dbfId }) else {
+            let dbfId = card.zilliaxCustomizableCosmeticModule ? 102983 : card.dbfId
+            guard let cardStats = mulliganCardStats.first(where: { x in x.dbf_id == dbfId }) else {
                 return card
             }
             let newCard = card.copy()
@@ -366,7 +367,7 @@ final class Player {
                 cardWinRates.baseWinrate = cardStats.baseWinRate
                 newCard.cardWinRates = cardWinRates
             }
-            newCard.isMulliganOption = hand.any { x in x.card.dbfId == card.dbfId }
+            newCard.isMulliganOption = hand.any { x in x.card.dbfId == dbfId }
             return newCard
         }
     }
@@ -491,18 +492,28 @@ final class Player {
                 && !($0.info.hidden && ($0.isInDeck || $0.isInHand))
         }
 
+        let originalSideboards = game.currentDeck?.sideboards
+        
         var removedFromDeckIds = [String]()
-        revealedNotInDeck.forEach({
-            originalCardsInDeckIds.remove($0.cardId)
-            if !$0.info.stolen || $0.info.originalController == self.id {
-                removedFromDeckIds.append($0.cardId)
+        let zilliaxCosmetic = originalSideboards?.first { s in s.ownerCardId == CardIds.Collectible.Neutral.ZilliaxDeluxe3000 }?.cards.first { c in c.zilliaxCustomizableCosmeticModule }
+        revealedNotInDeck.forEach({ e in
+            let cardId = e.cardId
+            if cardId.isEmpty {
+                return
+            }
+            if cardId == zilliaxCosmetic?.id {
+                originalCardsInDeckIds.remove(CardIds.Collectible.Neutral.ZilliaxDeluxe3000)
+            }
+            originalCardsInDeckIds.remove(cardId)
+            if !e.info.stolen || e.info.originalController == self.id {
+                removedFromDeckIds.append(cardId)
             }
         })
         
         func toRemaingCard(_ g: (key: String, value: [String])) -> Card? {
             if let card = Cards.by(cardId: g.key) {
                 card.count = g.value.count
-                if hand.any({ $0.cardId == g.key }) {
+                if hand.any({ $0.cardId == card.id }) {
                     card.highlightInHand = true
                 }
                 return card
@@ -514,7 +525,7 @@ final class Player {
         func toRemovedCard(_ g: (key: String, value: [String])) -> Card? {
             if let card = Cards.by(cardId: g.key) {
                 card.count = 0
-                if hand.any({ e in e.cardId == g.key }) {
+                if hand.any({ e in e.cardId == card.id }) {
                     card.highlightInHand = true
                 }
                 return card
@@ -523,18 +534,16 @@ final class Player {
             }
         }
 
-        let remainingInDeck: [Card] = createdCardsInDeck + (originalCardsInDeckIds
+        let remainingInDeck: [Card] = Helper.resolveZilliax3000(createdCardsInDeck + (originalCardsInDeckIds
             .group { (c: String) in c }
             .compactMap { g -> Card? in
                 toRemaingCard(g)
-            })
+            }), originalSideboards ?? [Sideboard]())
 
         let removedFromDeck = removedFromDeckIds.group { (c: String) in c }
             .compactMap({ g -> Card? in
                 toRemovedCard(g)
             })
-        
-        let originalSideboards = game.currentDeck?.sideboards
         
         let removedFromSideboardIds = revealedEntities.filter { x in x.hasCardId
             && x.isPlayableCard
