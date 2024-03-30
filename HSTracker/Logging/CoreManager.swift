@@ -356,6 +356,16 @@ final class CoreManager: NSObject {
         if let app = notification.userInfo!["NSWorkspaceApplicationKey"] as? NSRunningApplication,
             app.localizedName == CoreManager.applicationName {
             logger.verbose("Hearthstone is now launched")
+            game.buildNumber = 0
+            if let url = app.bundleURL, let dict = NSDictionary(contentsOf: url.appendingPathComponent("Contents/Info.plist")), let version = dict["CFBundleVersion"] as? String {
+                let split = version.split(separator: ".")
+                if split.count == 3 {
+                    let build = String(split[2])
+                    if let number = Int(build) {
+                        game.buildNumber = number
+                    }
+                }
+            }
             if !Helper.ensureClientLogConfig() {
                 NotificationManager.showNotification(type: .restartRequired)
             }
