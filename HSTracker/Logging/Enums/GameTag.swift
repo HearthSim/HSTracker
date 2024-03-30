@@ -9,9 +9,8 @@
  */
 
 import Foundation
-import Wrap
 
-enum GameTag: Int, WrappableEnum, CaseIterable, Codable {
+enum GameTag: Int, CaseIterable, Codable {
     case ignore_damage = 1,
     tag_script_data_num_1 = 2,
     tag_script_data_num_2 = 3,

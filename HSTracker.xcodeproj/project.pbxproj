@@ -557,6 +557,7 @@
 		B86FFA7D299C67AE0093689E /* Debounce.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC2D29437AF500F74CD9 /* Debounce.swift */; };
 		B86FFA7E299C67B50093689E /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC382944B1DA00F74CD9 /* ViewModel.swift */; };
 		B86FFA7F299C68870093689E /* NSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC3C29462EA800F74CD9 /* NSButton.swift */; };
+		B87765CB2BB717CD003BE49D /* TrackedCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87765CA2BB717CD003BE49D /* TrackedCard.swift */; };
 		B8795EAC27516DBC00469B6E /* MercenariesTask.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8795EAB27516DBC00469B6E /* MercenariesTask.xib */; };
 		B8820CD025603FB00072ECBC /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8820CCF25603FB00072ECBC /* RemoteConfig.swift */; };
 		B8832DDA26057A5000646BA4 /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8832DD926057A5000646BA4 /* RepeatingTimer.swift */; };
@@ -681,13 +682,11 @@
 		B8D75BAF25BCE68900446923 /* SwiftyBeaver in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BAE25BCE68900446923 /* SwiftyBeaver */; };
 		B8D75BB225BCE76500446923 /* AppCenterCrashes in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BB125BCE76500446923 /* AppCenterCrashes */; };
 		B8D75BB425BCE76500446923 /* AppCenterAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BB325BCE76500446923 /* AppCenterAnalytics */; };
-		B8D75BBA25BCE97000446923 /* Wrap in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BB925BCE97000446923 /* Wrap */; };
 		B8D75BBD25BCEACB00446923 /* TextAttributes in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BBC25BCEACB00446923 /* TextAttributes */; };
 		B8D75BC325BD10B600446923 /* OAuthSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BC225BD10B600446923 /* OAuthSwift */; };
 		B8D75BC525BDAF1300446923 /* SwiftyBeaver in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BC425BDAF1300446923 /* SwiftyBeaver */; };
 		B8D75BC725BDAF1300446923 /* AppCenterAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BC625BDAF1300446923 /* AppCenterAnalytics */; };
 		B8D75BC925BDAF1300446923 /* AppCenterCrashes in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BC825BDAF1300446923 /* AppCenterCrashes */; };
-		B8D75BCD25BDAF1300446923 /* Wrap in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BCC25BDAF1300446923 /* Wrap */; };
 		B8D75BCF25BDAF1300446923 /* TextAttributes in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BCE25BDAF1300446923 /* TextAttributes */; };
 		B8D75BD125BDAF1300446923 /* OAuthSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BD025BDAF1300446923 /* OAuthSwift */; };
 		B8D75BD425BDD3A700446923 /* PromiseKit in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BD325BDD3A700446923 /* PromiseKit */; };
@@ -1223,6 +1222,7 @@
 		B864AE3925A4CC1200793F36 /* ImportingPreferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImportingPreferences.xib; sourceTree = "<group>"; };
 		B864AE3B25A4D15C00793F36 /* ImportingPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportingPreferences.swift; sourceTree = "<group>"; };
 		B86C9EAA27A17B3A00195C0A /* BrukanInvocationDeathrattles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrukanInvocationDeathrattles.swift; sourceTree = "<group>"; };
+		B87765CA2BB717CD003BE49D /* TrackedCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackedCard.swift; sourceTree = "<group>"; };
 		B8795EAB27516DBC00469B6E /* MercenariesTask.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MercenariesTask.xib; sourceTree = "<group>"; };
 		B8820CCF25603FB00072ECBC /* RemoteConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfig.swift; sourceTree = "<group>"; };
 		B8832DD926057A5000646BA4 /* RepeatingTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatingTimer.swift; sourceTree = "<group>"; };
@@ -1533,7 +1533,6 @@
 				B8D75BEF25BDFE6D00446923 /* Gzip in Frameworks */,
 				B8D75B9625B4799200446923 /* Preferences in Frameworks */,
 				B8D75BEA25BDF92B00446923 /* RealmSwift in Frameworks */,
-				B8D75BBA25BCE97000446923 /* Wrap in Frameworks */,
 				B8D75BAF25BCE68900446923 /* SwiftyBeaver in Frameworks */,
 				B82E7B19262A88DB00C42EF0 /* BigInt in Frameworks */,
 				B8D75BB225BCE76500446923 /* AppCenterCrashes in Frameworks */,
@@ -1560,7 +1559,6 @@
 				1CCB4ACF1E84708A003FD1AD /* libz.tbd in Frameworks */,
 				B8D75BDB25BDD4BF00446923 /* FMDB in Frameworks */,
 				B8D75BD125BDAF1300446923 /* OAuthSwift in Frameworks */,
-				B8D75BCD25BDAF1300446923 /* Wrap in Frameworks */,
 				B8D75BC925BDAF1300446923 /* AppCenterCrashes in Frameworks */,
 				B8D75BF125BDFEDE00446923 /* Gzip in Frameworks */,
 				B8D75BCF25BDAF1300446923 /* TextAttributes in Frameworks */,
@@ -1873,6 +1871,7 @@
 				43E7BEB01DBB81B10057DC0C /* RealmCard.swift */,
 				435CD9081E1E3AB4000AF3DE /* GameStats.swift */,
 				435CD90A1E1E4447000AF3DE /* ServerInfo.swift */,
+				B87765CA2BB717CD003BE49D /* TrackedCard.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -2451,7 +2450,6 @@
 				B8D75BAE25BCE68900446923 /* SwiftyBeaver */,
 				B8D75BB125BCE76500446923 /* AppCenterCrashes */,
 				B8D75BB325BCE76500446923 /* AppCenterAnalytics */,
-				B8D75BB925BCE97000446923 /* Wrap */,
 				B8D75BBC25BCEACB00446923 /* TextAttributes */,
 				B8D75BC225BD10B600446923 /* OAuthSwift */,
 				B8D75BD325BDD3A700446923 /* PromiseKit */,
@@ -2487,7 +2485,6 @@
 				B8D75BC425BDAF1300446923 /* SwiftyBeaver */,
 				B8D75BC625BDAF1300446923 /* AppCenterAnalytics */,
 				B8D75BC825BDAF1300446923 /* AppCenterCrashes */,
-				B8D75BCC25BDAF1300446923 /* Wrap */,
 				B8D75BCE25BDAF1300446923 /* TextAttributes */,
 				B8D75BD025BDAF1300446923 /* OAuthSwift */,
 				B8D75BD525BDD3F000446923 /* PromiseKit */,
@@ -2553,7 +2550,6 @@
 				B8D75B9425B4799100446923 /* XCRemoteSwiftPackageReference "Preferences" */,
 				B8D75BAD25BCE68900446923 /* XCRemoteSwiftPackageReference "SwiftyBeaver" */,
 				B8D75BB025BCE76500446923 /* XCRemoteSwiftPackageReference "appcenter-sdk-apple" */,
-				B8D75BB825BCE97000446923 /* XCRemoteSwiftPackageReference "Wrap" */,
 				B8D75BBB25BCEACB00446923 /* XCRemoteSwiftPackageReference "TextAttributes" */,
 				B8D75BC125BD10B600446923 /* XCRemoteSwiftPackageReference "OAuthSwift" */,
 				B8D75BD225BDD3A700446923 /* XCRemoteSwiftPackageReference "PromiseKit" */,
@@ -2969,6 +2965,7 @@
 				B8B61C222AEBEA9C00990359 /* AvailableSecretsProvider.swift in Sources */,
 				B8AC9A26293F92540047F438 /* BattlegroundsQuestPickingViewModel.swift in Sources */,
 				B8DC11EE24E5A8360088A755 /* MonoHandle.swift in Sources */,
+				B87765CB2BB717CD003BE49D /* TrackedCard.swift in Sources */,
 				C99C0C9D1D0A608C000DD6FB /* StatsHelper.swift in Sources */,
 				43BE58BE1DC47C6D00B24A21 /* Paths.swift in Sources */,
 				43BF754F1ECC4EB7005827FF /* Varint.swift in Sources */,
@@ -4285,14 +4282,6 @@
 				minimumVersion = 4.4.1;
 			};
 		};
-		B8D75BB825BCE97000446923 /* XCRemoteSwiftPackageReference "Wrap" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Zeropointer11/Wrap";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 3.0.1;
-			};
-		};
 		B8D75BBB25BCEACB00446923 /* XCRemoteSwiftPackageReference "TextAttributes" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/delba/TextAttributes";
@@ -4392,11 +4381,6 @@
 			package = B8D75BB025BCE76500446923 /* XCRemoteSwiftPackageReference "appcenter-sdk-apple" */;
 			productName = AppCenterAnalytics;
 		};
-		B8D75BB925BCE97000446923 /* Wrap */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B8D75BB825BCE97000446923 /* XCRemoteSwiftPackageReference "Wrap" */;
-			productName = Wrap;
-		};
 		B8D75BBC25BCEACB00446923 /* TextAttributes */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B8D75BBB25BCEACB00446923 /* XCRemoteSwiftPackageReference "TextAttributes" */;
@@ -4421,11 +4405,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B8D75BB025BCE76500446923 /* XCRemoteSwiftPackageReference "appcenter-sdk-apple" */;
 			productName = AppCenterCrashes;
-		};
-		B8D75BCC25BDAF1300446923 /* Wrap */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B8D75BB825BCE97000446923 /* XCRemoteSwiftPackageReference "Wrap" */;
-			productName = Wrap;
 		};
 		B8D75BCE25BDAF1300446923 /* TextAttributes */ = {
 			isa = XCSwiftPackageProductDependency;

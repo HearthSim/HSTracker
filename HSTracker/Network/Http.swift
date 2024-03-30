@@ -14,10 +14,12 @@ struct Http {
 
     func json(method: HttpMethod,
               parameters: [String: Any] = [:],
+              data: Data? = nil,
               headers: [String: String] = [:],
               completion: @escaping (Any?) -> Void) {
         guard let urlRequest = prepareRequest(method: method,
                                               encoding: .json,
+                                              data: data,
                                               parameters: parameters,
                                               headers: headers) else {
                                                 completion(nil)
@@ -179,6 +181,7 @@ struct Http {
 
     private func prepareRequest(method: HttpMethod,
                                 encoding: HttpEncoding,
+                                data: Data? = nil,
                                 parameters: [String: Any] = [:],
                                 headers: [String: String] = [:]) -> URLRequest? {
         var urlQuery = ""
@@ -196,9 +199,13 @@ struct Http {
 
             if method != .get {
                 do {
-                    let bodyData = try JSONSerialization.data(withJSONObject: parameters,
-                                                              options: .prettyPrinted)
-                    request.httpBody = bodyData
+                    if let data {
+                        request.httpBody = data
+                    } else {
+                        let bodyData = try JSONSerialization.data(withJSONObject: parameters,
+                                                                  options: .prettyPrinted)
+                        request.httpBody = bodyData
+                    }
                 } catch let error {
                     logger.error("json converting : \(error)")
                     return nil

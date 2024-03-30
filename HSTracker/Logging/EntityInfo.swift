@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Wrap
 
 class EntityInfo {
     private unowned var _entity: Entity
@@ -115,15 +114,5 @@ extension EntityInfo: CustomStringConvertible {
         description += "]"
 
         return description
-    }
-}
-
-extension EntityInfo: WrapCustomizable {
-    func keyForWrapping(propertyNamed propertyName: String) -> String? {
-        if ["_entity", "description"].contains(propertyName) {
-            return nil
-        }
-
-        return propertyName.capitalized
     }
 }

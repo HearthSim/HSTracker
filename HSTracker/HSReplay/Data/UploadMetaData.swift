@@ -7,30 +7,57 @@
 //
 
 import Foundation
-import Wrap
 
-class UploadMetaData {
+class UploadMetaData: Encodable {
+    private enum CodingKeys: String, CodingKey {
+        case game_handle,
+             client_handle,
+             reconnecting,
+             resumable,
+             server_version,
+             match_start,
+             build,
+             game_type,
+             spectator_mode,
+             friendly_player,
+             scenario_id,
+             brawl_season,
+             ladder_season,
+             league_id,
+             format,
+             player1,
+             player2,
+             players,
+             battlegrounds_races,
+             mercenaries_bounty_run_id,
+             mercenaries_bounty_run_turns_taken,
+             mercenaries_bounty_run_completed_nodes,
+             mercenaries_rewards
+    }
+    
     private var statistic: InternalGameStats?
     private var game: Game?
     private var log: [String] = []
     var dateStart: Date?
     
-    var gameHandle: String?
-    var clientHandle: String?
-    var reconnected: String?
+    var game_handle: String?
+    var client_handle: String?
+    var reconnecting: Bool?
     var resumable: Bool?
-    var serverVersion: String?
-    var matchStart: String?
-    var hearthstoneBuild: Int?
-    var gameType: Int?
-    var spectatorMode: Bool?
-    var friendlyPlayerId: Int?
-    var ladderSeason: Int?
-    var brawlSeason: Int?
-    var scenarioId: Int?
-    var format: Int?
-    var players: [Player] = []
+    var server_version: String?
+    var match_start: String?
+    var build: Int?
+    var game_type: Int?
+    var spectator_mode: Bool?
+    var friendly_player: Int?
+    var scenario_id: Int?
+    var brawl_season: Int?
+    var ladder_season: Int?
     var league_id: Int?
+    var format: Int?
+    var player1: Player?
+    var player2: Player?
+    var players: [Player]?
     var battlegrounds_races: [Int]?
     var mercenaries_bounty_run_id: String?
     var mercenaries_bounty_run_turns_taken: Int?
@@ -43,76 +70,72 @@ class UploadMetaData {
         return formatter
     }()
 
-    static func generate(stats: InternalGameStats, buildNumber: Int, deck: PlayingDeck?) -> (UploadMetaData, String) {
+    static func generate(stats: InternalGameStats, buildNumber: Int, game: Game) -> (UploadMetaData, String) {
         let metaData = UploadMetaData()
-
-        metaData.league_id = stats.playerMedalInfo?.leagueId
         
-        metaData.players.append(getFriendlyPlayer(stats: stats, deck: deck))
-        metaData.players.append(getOpposingPlayer(stats: stats))
-        metaData.friendlyPlayerId = stats.friendlyPlayerId
+        let players = getPlayerInfo(stats: stats)
 
+        if players.count > 0 {
+            if stats.gameMode == .battlegrounds || stats.gameMode == .mercenaries {
+                metaData.players = players
+            } else {
+                metaData.player1 = players.first { x in x.player_id == 1 }
+                metaData.player2 = players.first { x in x.player_id == 2 }
+            }
+        }
         if let serverInfo = stats.serverInfo {
             if serverInfo.gameHandle > 0 {
-				metaData.gameHandle = "\(serverInfo.gameHandle)"
+                metaData.game_handle = "\(serverInfo.gameHandle)"
             }
             if serverInfo.clientHandle > 0 {
-				metaData.clientHandle = "\(serverInfo.clientHandle)"
+                metaData.client_handle = "\(serverInfo.clientHandle)"
             }
 
             if !serverInfo.version.isBlank {
-				metaData.serverVersion = serverInfo.version
+                metaData.server_version = serverInfo.version
             }
         }
-        
         if stats.startTime > Date.distantPast {
-            metaData.matchStart = UploadMetaData.iso8601StringFormatter.string(from: stats.startTime)
+            metaData.match_start = UploadMetaData.iso8601StringFormatter.string(from: stats.startTime)
         }
-        
-        metaData.gameType = stats.gameType != .gt_unknown
+        metaData.game_type = stats.gameType != .gt_unknown
             ? BnetGameType.getBnetGameType(gameType: stats.gameType,
                                            format: stats.format).rawValue
             : BnetGameType.getGameType(mode: stats.gameMode,
                                        format: stats.format).rawValue
-        
         if let format = stats.format {
             metaData.format = format.toFormatType().rawValue
         }
-        
-        if stats.brawlSeasonId > 0 {
-            metaData.brawlSeason = stats.brawlSeasonId
-        }
-        if stats.rankedSeasonId > 0 {
-            metaData.ladderSeason = stats.rankedSeasonId
-        }
-
-        metaData.spectatorMode = stats.gameMode == .spectator
-        //metaData.reconnected = gameMetaData?.reconnected ?? false
+        metaData.spectator_mode = stats.gameMode == .spectator
+        metaData.reconnecting = false //gameMetaData?.reconnected ?? false
         metaData.resumable = stats.serverInfo?.resumable ?? false
-
+        metaData.friendly_player = stats.friendlyPlayerId
         let scenarioId = stats.serverInfo?.mission ?? 0
         if scenarioId > 0 {
-            metaData.scenarioId = scenarioId
+            metaData.scenario_id = scenarioId
         }
-
-        metaData.hearthstoneBuild = buildNumber
-        
+        metaData.build = buildNumber
+        if stats.brawlSeasonId > 0 {
+            metaData.brawl_season = stats.brawlSeasonId
+        }
+        if stats.rankedSeasonId > 0 {
+            metaData.ladder_season = stats.rankedSeasonId
+        }
+        if stats.leagueId > 0 {
+            metaData.league_id = stats.leagueId
+        }
         if stats.gameMode == .battlegrounds {
             metaData.battlegrounds_races = stats.battlegroundsRaces
         }
-        
-        if stats.mercenariesBountyRunId.count > 0 {
-            metaData.mercenaries_bounty_run_id = stats.mercenariesBountyRunId
-            if stats.mercenariesBountyRunTurnsTaken > 0 {
-                metaData.mercenaries_bounty_run_turns_taken = stats.mercenariesBountyRunTurnsTaken
+        if stats.gameMode == .mercenaries {
+            if let mercenariesRewards = stats.mercenariesBountyRunRewards {
+                metaData.mercenaries_rewards = mercenariesRewards.compactMap { x in MercenaryReward(mercenary_id: x.id, coins: x.coins) }
             }
-            if stats.mercenariesBountyRunCompletedNodes > 0 {
+            if stats.mercenariesBountyRunId.count > 0 {
+                metaData.mercenaries_bounty_run_id = stats.mercenariesBountyRunId
+                metaData.mercenaries_bounty_run_turns_taken = stats.mercenariesBountyRunTurnsTaken
                 metaData.mercenaries_bounty_run_completed_nodes = stats.mercenariesBountyRunCompletedNodes
             }
-        }
-        
-        if let mercenariesRewards = stats.mercenariesBountyRunRewards {
-            metaData.mercenaries_rewards = mercenariesRewards.compactMap { x in MercenaryReward(mercenary_id: x.id, coins: x.coins) }
         }
 
         return (metaData, stats.statId)
@@ -129,22 +152,80 @@ class UploadMetaData {
         return nil
     }
 
-    static func getFriendlyPlayer(stats: InternalGameStats, deck: PlayingDeck?) -> Player {
-
+    private static func getPlayerInfo(stats: InternalGameStats) -> [Player] {
+        if stats.friendlyPlayerId == 0 {
+            return [Player]()
+        }
+        
         let friendly = Player()
-		
+        let opposing = Player()
+        
         friendly.player_id = stats.friendlyPlayerId
-        if let deck = deck {
-			friendly.add(deck: deck)
-		}
-
+        opposing.player_id = stats.opposingPlayerId
+        
         if stats.playerCardbackId > 0 {
-            friendly.cardBack = stats.playerCardbackId
+            friendly.cardback = stats.playerCardbackId
         }
-        if let hsDeckId = stats.hsDeckId, hsDeckId > 0 {
-            friendly.deckId = hsDeckId
+        
+        if stats.gameMode == .ranked {
+            if stats.rank > 0 {
+                friendly.rank = stats.rank
+            }
+            if stats.legendRank > 0 {
+                friendly.legend_rank = stats.legendRank
+            }
+            if stats.stars > 0 {
+                friendly.stars = stats.stars
+            }
+            if stats.starLevel > 0 {
+                friendly.star_level = stats.starLevel
+            }
+            if stats.starMultiplier > 0 {
+                friendly.star_multiplier = stats.starMultiplier
+            }
+            
+            if stats.starsAfter > 0 {
+                friendly.stars_after = stats.starsAfter
+            }
+            if stats.starLevelAfter > 0 {
+                friendly.star_level_after = stats.starLevelAfter
+            }
+            if stats.legendRankAfter > 0 {
+                friendly.legend_rank_after = stats.legendRankAfter
+            }
+            
+            if stats.opponentRank > 0 {
+                opposing.rank = stats.opponentRank
+            }
+            if stats.opponentLegendRank > 0 {
+                opposing.legend_rank = stats.opponentLegendRank
+            }
+            if stats.opponentStarLevel > 0 {
+                opposing.star_level = stats.opponentStarLevel
+            }
         }
-
+        let playerDeckSize = stats.playerCards.reduce(0, { $0 + $1.count })
+        if stats.gameMode == .battlegrounds {
+            if stats.battlegroundsRating > 0 {
+                friendly.battlegrounds_rating = stats.battlegroundsRating
+            }
+            if stats.battlegroundsRatingAfter > 0 {
+                friendly.battlegrounds_rating_after = stats.battlegroundsRatingAfter
+            }
+        } else if stats.gameMode == .mercenaries {
+            if stats.mercenariesRating > 0 {
+                friendly.mercenaries_rating = stats.mercenariesRating
+            }
+            if stats.mercenariesRatingAfter > 0 {
+                friendly.mercenaries_rating_after = stats.mercenariesRatingAfter
+            }
+        } else if playerDeckSize == 30 || playerDeckSize == 40 || stats.isPVPDungeonMatch || stats.isDungeonMatch && stats.deckId.count > 0 {
+            friendly.deck = stats.playerCards.filter { x in x.id?.count ?? 0 > 0 }.flatMap { x in repeatElement(x.id ?? "", count: x.count) }
+            // TODO: sideboard
+            if stats.hsDeckId ?? 0 > 0 {
+                friendly.deck_id = stats.hsDeckId
+            }
+        }
         if stats.gameMode == .arena {
             if stats.arenaWins > 0 {
                 friendly.wins = stats.arenaWins
@@ -159,149 +240,47 @@ class UploadMetaData {
             if stats.brawlLosses > 0 {
                 friendly.losses = stats.brawlLosses
             }
-        } else if stats.gameMode == .battlegrounds {
-            friendly.battlegrounds_rating = stats.battlegroundsRating
-
-            if let ratingsChange = retryWhileNull(f: MirrorHelper.getBattlegroundsRatingChange) {
-                friendly.battlegrounds_rating_after = ratingsChange.ratingNew as? Int
-            }
-            friendly.deckId = nil
-            friendly.deck = nil
-        } else if stats.gameMode == .mercenaries {
-            if stats.mercenariesRating > 0 {
-                friendly.mercenaries_rating = stats.mercenariesRating
-            }
-            if let ratingsChange = retryWhileNull(f: MirrorHelper.getMercenariesRatingChange) {
-                friendly.mercenaries_rating_after = ratingsChange.ratingNew as? Int
-            }
-        } else {
-            friendly.star_level = stats.playerMedalInfo?.starLevel
-            friendly.stars = stats.playerMedalInfo?.stars
-            friendly.star_multiplier = nil //stats.playerMedalInfo?.starMultiplier
-
-            if let medalData = retryWhileNull(f: MirrorHelper.getMedalData) {
-                let medalInfo: MirrorMedalInfo
-                if stats.format == .wild {
-                    medalInfo = medalData.wild
-                } else {
-                    medalInfo = medalData.standard
-                }
-                
-                friendly.star_level_after = medalInfo.starLevel as? Int ?? 0
-                friendly.stars_after = medalInfo.stars as? Int ?? 0
-                friendly.star_multiplier_after = nil //stats.playerMedalInfo?.starMultiplier
-            }
         }
-
-        return friendly
-    }
-
-    static func getOpposingPlayer(stats: InternalGameStats) -> Player {
-        let opposing = Player()
-        
-        opposing.player_id = stats.opposingPlayerId
-        opposing.star_level = stats.opponentMedalInfo?.starLevel
-        opposing.stars = nil //stats.opponentMedalInfo?.stars
-        opposing.star_multiplier = nil //stats.opponentMedalInfo?.starMultiplier
-
-        logger.info("LADDER opponentStarLevel=\(opposing.star_level ?? -1)")
-        
         if stats.opponentCardbackId > 0 {
-            opposing.cardBack = stats.opponentCardbackId
+            opposing.cardback = stats.opponentCardbackId
         }
-
-        return opposing
+        return [ friendly, opposing ]
     }
 
-    class Player {
+    class Player: Encodable {
         var player_id: Int?
+        var rank: Int?
         
         var star_level: Int?
         var star_level_after: Int?
 
+        var legend_rank: Int?
+        var legend_rank_after: Int?
+        
         var stars: Int?
         var stars_after: Int?
 
         var star_multiplier: Int?
-        var star_multiplier_after: Int?
         
-        var legend_rank: Int?
-        var legend_rank_after: Int?
+        var rating: Int?
+        var rating_after: Int?
         
+        var wins: Int?
+        var losses: Int?
+        var deck: [String]?
+        //var sideboards: [Sideboard]?
+        var deck_id: Int64?
+        var cardback: Int?
+
         var battlegrounds_rating: Int?
         var battlegrounds_rating_after: Int?
         
         var mercenaries_rating: Int?
         var mercenaries_rating_after: Int?
-
-        var wins: Int?
-        var losses: Int?
-        var deck: [String]?
-        var deckId: Int64?
-        var cardBack: Int?
-		
-		func add(deck: PlayingDeck) {
-			var cards = [String]()
-			for card in deck.cards {
-				for _ in 0 ..< card.count {
-					cards.append(card.id)
-				}
-			}
-			self.deck = cards
-		}
     }
 
-    struct PlayerInfo {
-        let player1: Player
-        let player2: Player
-        let friendlyPlayerId: Int
-
-        init(player1: Player, player2: Player, friendlyPlayerId: Int = -1) {
-            self.player1 = player1
-            self.player2 = player2
-            self.friendlyPlayerId = friendlyPlayerId
-        }
-    }
-    
-    struct MercenaryReward {
+    struct MercenaryReward: Encodable {
         let mercenary_id: Int
         let coins: Int
     }
 }
-extension UploadMetaData.Player: WrapCustomizable {
-    func keyForWrapping(propertyNamed propertyName: String) -> String? {
-        switch propertyName {
-        case "legendRank": return "legend_rank"
-        case "deckId": return "deck_id"
-        case "cardBack": return "cardback"
-        default: break
-        }
-        
-        return propertyName
-    }
-}
-extension UploadMetaData: WrapCustomizable {
-    func keyForWrapping(propertyNamed propertyName: String) -> String? {
-        switch propertyName {
-        case "gameHandle": return "game_handle"
-        case "clientHandle": return "client_handle"
-        case "reconnected": return "reconnecting"
-        case "serverVersion": return "server_version"
-        case "matchStart": return "match_start"
-        case "hearthstoneBuild": return "build"
-        case "gameType": return "game_type"
-        case "spectatorMode": return "spectator_mode"
-        case "friendlyPlayerId": return "friendly_player"
-        case "scenarioId": return "scenario_id"
-        case "ladderSeason": return "ladder_season"
-        case "brawlSeason": return "brawl_season"
-        case "statistic", "game",
-             "log", "gameStart":
-            return nil
-        default: break
-        }
-        
-        return propertyName
-    }
-}
-

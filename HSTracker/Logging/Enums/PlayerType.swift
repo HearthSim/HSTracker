@@ -7,8 +7,7 @@
 //
 
 import Foundation
-import Wrap
 
-enum PlayerType: Int, WrappableEnum {
+enum PlayerType: Int {
     case player, opponent, deckManager, secrets, cardList, hero, editDeck
 }

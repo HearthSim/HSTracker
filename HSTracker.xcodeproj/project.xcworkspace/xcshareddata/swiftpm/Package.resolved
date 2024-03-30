@@ -169,15 +169,6 @@
       "state" : {
         "revision" : "febe1d7fcdb6ba764d9392bee14a6d3086c907d1"
       }
-    },
-    {
-      "identity" : "wrap",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Zeropointer11/Wrap",
-      "state" : {
-        "revision" : "8085c925060b84a1fc0caef444c130da2c8154c3",
-        "version" : "3.0.1"
-      }
     }
   ],
   "version" : 2

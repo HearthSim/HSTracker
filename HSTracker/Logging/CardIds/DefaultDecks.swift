@@ -169,6 +169,13 @@ struct DefaultDecks {
                 return CardClass.invalid
             }
         }
+        
+        static func isDungeonBoss(_ cardId: String?) -> Bool {
+            guard let cardId else {
+                return false
+            }
+            return (cardId.contains("LOOT") || cardId.contains("GIL") || cardId.contains("TRL")) && cardId.contains("BOSS")
+        }
 
         static var rogue: [Card] = {
            return [

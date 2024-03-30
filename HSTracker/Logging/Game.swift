@@ -1582,7 +1582,7 @@ class Game: NSObject, PowerEventHandler {
                                       isArena: isArena,
                                       shortid: shortid ?? "",
                                            sideboards: deck.sideboards.compactMap { x in Sideboard(ownerCardId: x.ownerCardId, cards: x.cards.compactMap { y in
-                var card = Cards.by(cardId: y.id)
+                let card = Cards.by(cardId: y.id)
                 card?.count = y.count
                 return card
                 })}
@@ -1796,6 +1796,10 @@ class Game: NSObject, PowerEventHandler {
 		
 		result.playerHero = currentDeck?.playerClass ?? player.playerClass ?? .neutral
 		result.opponentHero = opponent.playerClass ?? .neutral
+        
+        let oppHero = entities.values.first(where: { x in x[.player_id] == opponent.id && x.isHero })
+
+        result.opponentHeroCardId = oppHero?.cardId
 		
 		result.wasConceded = self.wasConceded
 		result.result = self.gameResult
@@ -1826,19 +1830,22 @@ class Game: NSObject, PowerEventHandler {
             let classic = self.currentFormat == .classic
             let twist = self.currentFormat == .twist
             
-            if wild {
-                result.playerMedalInfo = matchInfo.localPlayer.wildMedalInfo
-                result.opponentMedalInfo = matchInfo.opposingPlayer.wildMedalInfo
-            } else if classic {
-                result.playerMedalInfo = matchInfo.localPlayer.classicMedalInfo
-                result.opponentMedalInfo = matchInfo.opposingPlayer.classicMedalInfo
-            } else if twist {
-                result.playerMedalInfo = matchInfo.localPlayer.twistMedalInfo
-                result.opponentMedalInfo = matchInfo.opposingPlayer.twistMedalInfo
-            } else {
-                result.playerMedalInfo = matchInfo.localPlayer.standardMedalInfo
-                result.opponentMedalInfo = matchInfo.opposingPlayer.standardMedalInfo
+            let localPlayer = matchInfo.localPlayer
+            let opposingPlayer = matchInfo.opposingPlayer
+            
+            let playerInfo = classic ? localPlayer.classicMedalInfo : wild ? localPlayer.wildMedalInfo : twist ? localPlayer.twistMedalInfo : localPlayer.standardMedalInfo
+            let opponentInfo = classic ? opposingPlayer.classicMedalInfo : wild ? opposingPlayer.wildMedalInfo : twist ? opposingPlayer.twistMedalInfo : opposingPlayer.standardMedalInfo
+            result.leagueId = playerInfo.leagueId
+            if playerInfo.leagueId < 5 {
+                result.rank = classic ? localPlayer.classicRank : wild ? localPlayer.wildRank : twist ? localPlayer.twistRank : localPlayer.standardRank
+                result.opponentRank = classic ? opposingPlayer.classicRank : wild ? opposingPlayer.wildRank : twist ? opposingPlayer.twistRank : opposingPlayer.standardRank
             }
+            result.starLevel = playerInfo.starLevel
+            result.starMultiplier = playerInfo.starMultiplier
+            result.stars = playerInfo.stars
+            result.opponentStarLevel = opponentInfo.starLevel
+            result.legendRank = playerInfo.legendRank
+            result.opponentLegendRank = opponentInfo.legendRank
 		} else if self.currentGameMode == .arena {
 			result.arenaLosses = self.arenaInfo?.losses ?? 0
 			result.arenaWins = self.arenaInfo?.wins ?? 0
@@ -1875,23 +1882,20 @@ class Game: NSObject, PowerEventHandler {
 		result.scenarioId = self.matchInfo?.missionId ?? 0
 		result.brawlSeasonId = self.matchInfo?.brawlSeasonId ?? 0
 		result.rankedSeasonId = self.matchInfo?.rankedSeasonId ?? 0
-		result.hsDeckId = self.currentDeck?.hsDeckId
-		
-		self.player.revealedCards.filter({
-			$0.collectible
-		}).forEach({
-			result.revealedCards.append($0)
-		})
-		
-		self.opponent.opponentCardList.filter({
-			!$0.isCreated
-		}).forEach({
-			result.opponentCards.append($0)
-		})
         
+        let confirmedCards = self.player.revealedCards.filter { x in x.collectible } + self.player.knownCardsInDeck.filter { x in x.collectible && !x.isCreated }
+        if let currentDeck, currentDeck.hsDeckId ?? 0 > 0 {
+            result.hsDeckId = self.currentDeck?.hsDeckId
+            result.setPlayerCards(currentDeck, confirmedCards)
+            // TODO: sideboard
+        }
+        result.setOpponentCards(opponent.opponentCardList.filter { x in !x.isCreated })
+		
         if currentGameType == .gt_battlegrounds || currentGameType == .gt_battlegrounds_friendly {
             result.battlegroundsRaces = self.availableRaces?.compactMap({ x in Race.allCases.firstIndex(of: x)}) ?? []
         }
+        
+        result.deckId = currentDeck?.id ?? ""
 		
 		return result
 	}
@@ -1922,6 +1926,10 @@ class Game: NSObject, PowerEventHandler {
         invalidateMatchInfoCache()
         // reset the turn counter
         updateTurnCounter(turn: 1)
+        
+        if isMercenariesMatch() {
+            updatePostGameMercenariesRating(gameStats: currentGameStats)
+        }
         
         if isBattlegroundsMatch() {
             BobsBuddyInvoker.instance(gameId: gameId, turn: turnNumber())?.startShopping(isGameOver: true)
@@ -1987,7 +1995,15 @@ class Game: NSObject, PowerEventHandler {
         }
     }
 
-	private func syncStats(logLines: [LogLine], stats: InternalGameStats) {
+    private func updatePostGameMercenariesRating(gameStats: InternalGameStats) {
+        if let data = UploadMetaData.retryWhileNull(f: MirrorHelper.getMercenariesRating) {
+            gameStats.mercenariesRating = data
+        } else {
+            logger.warning("Could not get mercenaries rating")
+        }
+    }
+
+    private func syncStats(logLines: [LogLine], stats: InternalGameStats) {
 
         guard currentGameMode != .practice && currentGameMode != .none && currentGameMode != .spectator else {
             logger.info("Game was in \(currentGameMode), don't send to third-party")
@@ -2016,7 +2032,7 @@ class Game: NSObject, PowerEventHandler {
             (stats.gameMode == .mercenaries && Settings.hsReplayUploadMercenariesMatches)) {
 			
             let (uploadMetaData, statId) = UploadMetaData.generate(stats: stats, buildNumber: self.buildNumber,
-				deck: self.playerDeckAutodetected && self.currentDeck != nil ? self.currentDeck : nil )
+                                                                   game: self )
 			
             let showUploadNotification = stats.gameMode == .practice || stats.gameMode == .arena || stats.gameMode == .brawl || stats.gameMode == .ranked || stats.gameMode == .friendly || stats.gameMode == .casual || stats.gameMode == .spectator || stats.gameMode == .duels
             HSReplayAPI.getUploadToken { _ in

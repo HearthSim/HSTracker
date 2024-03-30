@@ -9,7 +9,6 @@
  */
 
 import Foundation
-import Wrap
 
 class Entity {
     var id: Int
@@ -273,15 +272,5 @@ extension Entity: CustomStringConvertible {
                 + "name=\(String(describing: hide ? "" : name)), "
                 + "tags=(\(tags)), "
                 + "info=\(info)]"
-    }
-}
-
-extension Entity: WrapCustomizable {
-    func keyForWrapping(propertyNamed propertyName: String) -> String? {
-        if ["_cachedCard", "card", "description"].contains(propertyName) {
-            return nil
-        }
-
-        return propertyName.capitalized
     }
 }

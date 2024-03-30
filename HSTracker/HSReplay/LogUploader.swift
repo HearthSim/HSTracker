@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Wrap
 import Gzip
 import RealmSwift
 
@@ -63,14 +62,14 @@ class LogUploader {
         
         inProgress.append(item)
 
-        metaData?.metaData.hearthstoneBuild = buildNumber
+        metaData?.metaData.build = buildNumber
 
-        guard let wrappedMetaData: [String: Any] = try? wrap(metaData?.metaData) else {
+        guard let wrappedMetaData: Data = try? JSONEncoder().encode(metaData?.metaData) else {
             logger.warning("Can not encode to json game metadata")
             completion(.failed(error: "Can not encode to json game metadata"))
             return
         }
-//        logger.debug("Upload metadata: \(wrappedMetaData)")
+//        logger.debug("Upload metadata: \(String(data: wrappedMetaData, encoding: .utf8) ?? "")")
         logger.info("Uploading \(item.hash)")
 
         let headers = [
@@ -82,7 +81,7 @@ class LogUploader {
 
         let http = Http(url: HSReplay.uploadRequestUrl)
         http.json(method: .post,
-                  parameters: wrappedMetaData,
+                  data: wrappedMetaData,
                   headers: headers) { jsonData in
 
                     guard let json = jsonData as? [String: Any],
@@ -120,7 +119,7 @@ class LogUploader {
                     logger.info("\(item.hash) upload done: Success")
                     inProgress = inProgress.filter({ $0.hash == item.hash })
 
-                    let gt = metaData?.metaData.gameType
+                    let gt = metaData?.metaData.game_type
                     if gt != BnetGameType.bgt_battlegrounds.rawValue && gt != BnetGameType.bgt_battlegrounds_friendly.rawValue && gt != BnetGameType.bgt_mercenaries_pve.rawValue && gt != BnetGameType.bgt_mercenaries_pvp.rawValue && gt != BnetGameType.bgt_mercenaries_friendly.rawValue && gt != BnetGameType.bgt_mercenaries_pve_coop.rawValue {
                             guard let statId = statId,
                                 let existing = RealmHelper.getGameStat(with: statId)  else {

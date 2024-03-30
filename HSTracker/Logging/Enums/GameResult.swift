@@ -9,9 +9,8 @@
  */
 
 import Foundation
-import Wrap
 
-enum GameResult: Int, WrappableEnum {
+enum GameResult: Int {
     case unknown = 0,
     win,
     loss,

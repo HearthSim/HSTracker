@@ -23,8 +23,18 @@ class InternalGameStats {
     var playerName = ""
     var opponentName = ""
     var wasConceded = false
-    var playerMedalInfo: MatchInfo.MedalInfo?
-    var opponentMedalInfo: MatchInfo.MedalInfo?
+    var rank = 0
+    var opponentRank = 0
+    var leagueId = 0
+    var starLevel = 0
+    var starLevelAfter = 0
+    var starMultiplier = 0
+    var stars = 0
+    var starsAfter = 0
+    var opponentStarLevel = 0
+    var legendRank = 0
+    var legendRankAfter = 0
+    var opponentLegendRank = 0
     var hearthstoneBuild: Int?
     var playerCardbackId = -1
     var opponentCardbackId = -1
@@ -50,8 +60,12 @@ class InternalGameStats {
     var mercenariesBountyRunTurnsTaken = 0
     var mercenariesBountyRunCompletedNodes = 0
     var mercenariesBountyRunRewards: [MercenaryCoinsEntry]?
+    var playerCards = [TrackedCard]()
+    var opponentCards = [TrackedCard]()
+    var opponentHeroCardId: String?
+    var deckId = ""
     private var _format: Format?
-        
+    
     var format: Format? {
         get {
             return gameMode == .ranked || gameMode == .casual ? _format : nil
@@ -61,8 +75,52 @@ class InternalGameStats {
         }
     }
     var hsReplayId: String?
-    var opponentCards: [Card] = []
     var revealedCards: [Card] = []
+    
+    var isDungeonMatch: Bool {
+        return gameType == .gt_vs_ai && DefaultDecks.DungeonRun.isDungeonBoss(opponentHeroCardId)
+    }
+    var isPVPDungeonMatch: Bool {
+        return gameType == .gt_pvpdr || gameType == .gt_pvpdr_paid
+    }
+    
+    func setPlayerCards(_ deck: PlayingDeck?, _ revealedCards: [Card]) {
+        setPlayerCards(deck?.cards, revealedCards)
+    }
+    
+    func setPlayerCards(_ deck: [Card]?, _ revealedCards: [Card]) {
+        playerCards.removeAll()
+        for c in revealedCards {
+            let card = playerCards.first { x in x.id == c.id }
+            if let card {
+                card.count += 1
+            } else {
+                playerCards.append(TrackedCard(c.id, c.count))
+            }
+        }
+        if let deck {
+            for c in deck {
+                let e = playerCards.first { x in x.id == c.id }
+                if e == nil {
+                    playerCards.append(TrackedCard(c.id, c.count, c.count))
+                } else if let e, c.count > e.count {
+                    e.unconfirmed = c.count - e.count
+                    e.count = c.count
+                }
+            }
+        }
+    }
+    
+    func setOpponentCards(_ revealedCards: [Card]) {
+        opponentCards.removeAll()
+        for c in revealedCards {
+            if let card = opponentCards.first(where: { x in x.id == c.id }) {
+                card.count += 1
+            } else {
+                opponentCards.append(TrackedCard(c.id, c.count))
+            }
+        }
+    }
 
     func toGameStats() -> GameStats {
         let gameStats = GameStats()
@@ -73,10 +131,10 @@ class InternalGameStats {
         gameStats.opponentHero = opponentHero
         gameStats.friendlyPlayerId = friendlyPlayerId
         gameStats.opponentName = opponentName
-        gameStats.opponentLegendRank = opponentMedalInfo?.legendRank ?? 0
+        gameStats.opponentLegendRank = opponentLegendRank
         gameStats.playerName = playerName
-        gameStats.legendRank = playerMedalInfo?.legendRank ?? 0
-        gameStats.stars = playerMedalInfo?.stars ?? 0
+        gameStats.legendRank = legendRank
+        gameStats.stars = stars
         gameStats.wasConceded = wasConceded
         gameStats.turns = turns
         gameStats.scenarioId = scenarioId
@@ -94,12 +152,14 @@ class InternalGameStats {
         gameStats.format = format
         gameStats.hsReplayId = hsReplayId
         gameStats.result = result
-        opponentCards.forEach {
-            let card = RealmCard(id: $0.id, count: $0.count)
-            gameStats.opponentCards.append(card)
+        for c in opponentCards {
+            if let id = c.id {
+                let card = RealmCard(id: id, count: c.count)
+                gameStats.opponentCards.append(card)
+            }
         }
-        revealedCards.forEach {
-            let card = RealmCard(id: $0.id, count: $0.count)
+        for c in revealedCards {
+            let card = RealmCard(id: c.id, count: c.count)
             gameStats.revealedCards.append(card)
         }
         return gameStats

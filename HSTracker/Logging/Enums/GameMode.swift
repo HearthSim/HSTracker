@@ -9,9 +9,8 @@
  */
 
 import Foundation
-import Wrap
 
-enum GameMode: Int, WrappableEnum {
+enum GameMode: Int {
     case all, //for filtering @ deck stats
     ranked,
     casual,
