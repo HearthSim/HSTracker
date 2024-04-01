@@ -1889,7 +1889,7 @@ class Game: NSObject, PowerEventHandler {
         if let currentDeck, currentDeck.hsDeckId ?? 0 > 0 {
             result.hsDeckId = self.currentDeck?.hsDeckId
             result.setPlayerCards(currentDeck, confirmedCards)
-            // TODO: sideboard
+            result.setPlayerSideboards(currentDeck.sideboards)
         }
         result.setOpponentCards(opponent.opponentCardList.filter { x in !x.isCreated })
 		

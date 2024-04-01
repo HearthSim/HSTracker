@@ -221,7 +221,7 @@ class UploadMetaData: Encodable {
             }
         } else if playerDeckSize == 30 || playerDeckSize == 40 || stats.isPVPDungeonMatch || stats.isDungeonMatch && stats.deckId.count > 0 {
             friendly.deck = stats.playerCards.filter { x in x.id?.count ?? 0 > 0 }.flatMap { x in repeatElement(x.id ?? "", count: x.count) }
-            // TODO: sideboard
+            friendly.sideboards = stats.sideboards.compactMap { s in Sideboard(owner: s.ownerCardId, cards: s.cards.flatMap { c in Array(repeating: c.id, count: c.count) })}
             if stats.hsDeckId ?? 0 > 0 {
                 friendly.deck_id = stats.hsDeckId
             }
@@ -268,7 +268,7 @@ class UploadMetaData: Encodable {
         var wins: Int?
         var losses: Int?
         var deck: [String]?
-        //var sideboards: [Sideboard]?
+        var sideboards: [Sideboard]?
         var deck_id: Int64?
         var cardback: Int?
 
@@ -277,6 +277,11 @@ class UploadMetaData: Encodable {
         
         var mercenaries_rating: Int?
         var mercenaries_rating_after: Int?
+    }
+    
+    struct Sideboard: Encodable {
+        let owner: String
+        let cards: [String]
     }
 
     struct MercenaryReward: Encodable {

@@ -62,6 +62,7 @@ class InternalGameStats {
     var mercenariesBountyRunRewards: [MercenaryCoinsEntry]?
     var playerCards = [TrackedCard]()
     var opponentCards = [TrackedCard]()
+    var sideboards = [Sideboard]()
     var opponentHeroCardId: String?
     var deckId = ""
     private var _format: Format?
@@ -120,6 +121,10 @@ class InternalGameStats {
                 opponentCards.append(TrackedCard(c.id, c.count))
             }
         }
+    }
+    
+    func setPlayerSideboards(_ sideboards: [Sideboard]) {
+        self.sideboards = sideboards
     }
 
     func toGameStats() -> GameStats {
