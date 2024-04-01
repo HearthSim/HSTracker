@@ -633,6 +633,7 @@ extension CardIds.Collectible {
         static let CairneBloodhoofInvalid = "CORE_EX1_110"
         static let ZilliaxDeluxe3000 = "TOY_330"
         static let SplendiferousWhizbang = "TOY_700"
+        static let ETCBandManager = "ETC_080"
     }
 }
 

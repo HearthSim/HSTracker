@@ -315,6 +315,8 @@ final class Settings {
     static var showPlayerCardsTop: Bool
     @UserDefault(key: Settings.player_cards_bottom, defaultValue: true)
     static var showPlayerCardsBottom: Bool
+    @UserDefault(key: Settings.hide_player_sideboards, defaultValue: false)
+    static var hidePlayerSideboards: Bool
     @UserDefault(key: Settings.player_galakrond_invoke_frame, defaultValue: true)
     static var showPlayerGalakrondCounter: Bool
     @UserDefault(key: Settings.player_abyssal_counter, defaultValue: true)
@@ -619,6 +621,7 @@ extension Settings {
     static let player_libram_counter = "player_libram_counter"
     static let player_cards_top = "player_cards_top"
     static let player_cards_bottom = "player_cards_botto"
+    static let hide_player_sideboards = "hide_player_sideboards"
     static let player_abyssal_counter = "player_abyssal_counter"
     static let player_excavate_tier = "player_excavate_tier"
     static let player_pogo_counter = "player_pogo_counter"

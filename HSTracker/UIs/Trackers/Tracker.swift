@@ -27,6 +27,7 @@ class Tracker: OverWindowController {
     @IBOutlet weak private var jadeCounter: JadeCounter!
     @IBOutlet weak private var playerBottom: DeckLens!
     @IBOutlet weak private var playerTop: DeckLens!
+    @IBOutlet weak private var playerSideboards: DeckSideboards!
 
     private var hero: CardBar?
     private var heroCard: Card?
@@ -79,12 +80,14 @@ class Tracker: OverWindowController {
             cardsView.playerType = playerType
             playerBottom.setPlayerType(playerType: playerType)
             playerTop.setPlayerType(playerType: playerType)
+            playerSideboards.setPlayerType(playerType: playerType)
         }
         cardsView.delegate = self
         playerBottom.setDelegate(delegate: self)
         playerTop.setDelegate(delegate: self)
         playerTop.setLabel(label: String.localizedString("On Top", comment: ""))
         playerBottom.setLabel(label: String.localizedString("On Bottom", comment: ""))
+        playerSideboards.setDelegate(delegate: self)
         setOpacity()
         
         if playerType == .opponent {
@@ -126,10 +129,11 @@ class Tracker: OverWindowController {
     }
 
     // MARK: - Game
-    func update(cards: [Card], top: [Card], bottom: [Card], reset: Bool = false) {
+    func update(cards: [Card], top: [Card], bottom: [Card], sideboards: [Sideboard], reset: Bool = false) {
         cardsView.update(cards: cards, reset: reset)
         playerBottom.update(cards: bottom, reset: reset)
         playerTop.update(cards: top, reset: reset)
+        playerSideboards.update(sideboards: sideboards, reset: reset)
     }
     
     override func updateFrames() {
@@ -360,6 +364,10 @@ class Tracker: OverWindowController {
             offsetFrames += smallFrameHeight
             totalCards += playerTop.count
         }
+        if playerSideboards.count > 0 && !Settings.hidePlayerSideboards {
+            offsetFrames += smallFrameHeight
+            totalCards += playerSideboards.count
+        }
 
         var cardHeight: CGFloat
         switch Settings.cardSize {
@@ -406,6 +414,16 @@ class Tracker: OverWindowController {
             playerBottom.frame = NSRect.zero
             playerBottom.updateFrames(frameHeight: smallFrameHeight)
             playerBottom.isHidden = true
+        }
+        if playerSideboards.count > 0 && !Settings.hidePlayerSideboards {
+            let playerSideboardsHeight = CGFloat(playerSideboards.count) * cardHeight + smallFrameHeight + 5
+            y -= playerSideboardsHeight
+            playerSideboards.frame = NSRect(x: 0, y: y, width: windowWidth, height: playerSideboardsHeight)
+            playerSideboards.updateFrames(frameHeight: smallFrameHeight)
+        } else {
+            playerSideboards.frame = NSRect.zero
+            playerSideboards.updateFrames(frameHeight: smallFrameHeight)
+            playerSideboards.isHidden = true
         }
         if !cardCounter.isHidden {
             y -= smallFrameHeight

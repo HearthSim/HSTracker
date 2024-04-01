@@ -225,9 +225,9 @@ class Game: NSObject, PowerEventHandler {
 				
 				// update cards
                 if self.gameEnded && Settings.clearTrackersOnGameEnd {
-                    tracker.update(cards: [], top: [], bottom: [], reset: reset)
+                    tracker.update(cards: [], top: [], bottom: [], sideboards: [], reset: reset)
                 } else {
-                    tracker.update(cards: self.opponent.opponentCardList, top: [], bottom: [], reset: reset)
+                    tracker.update(cards: self.opponent.opponentCardList, top: [], bottom: [], sideboards: [], reset: reset)
                 }
 				
 				let gameStarted = !self.isInMenu && self.entities.count >= 67
@@ -435,7 +435,7 @@ class Game: NSObject, PowerEventHandler {
                     return card
                 }
 
-                tracker.update(cards: self.player.playerCardList, top: top, bottom: bottom, reset: reset)
+                tracker.update(cards: self.player.playerCardList, top: top, bottom: bottom, sideboards: self.player.playerSideboardsDict, reset: reset)
                 
                 // update card counter values
                 let gameStarted = !self.isInMenu && self.entities.count >= 67
@@ -1356,7 +1356,9 @@ class Game: NSObject, PowerEventHandler {
 		                                 Settings.player_cthun_frame, Settings.player_yogg_frame, Settings.player_deathrattle_frame,
 		                                 Settings.show_win_loss_ratio, Settings.player_in_hand_color, Settings.show_deck_name,
 		                                 Settings.player_graveyard_details_frame, Settings.player_graveyard_frame,
-                                         Settings.player_cards_top, Settings.player_cards_bottom, Settings.player_jade_frame, Settings.player_libram_counter, Settings.player_abyssal_counter]
+                                         Settings.player_cards_top, Settings.player_cards_bottom, Settings.player_jade_frame,
+                                         Settings.player_libram_counter, Settings.player_abyssal_counter, Settings.player_cards_top,
+                                         Settings.player_cards_bottom, Settings.hide_player_sideboards]
 		
 		// events that should update the opponent's tracker
 		let opponentTrackerUpdateEvents = [Settings.show_opponent_tracker, Settings.opponent_card_count, Settings.opponent_draw_chance,

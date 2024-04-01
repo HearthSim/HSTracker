@@ -351,3 +351,6 @@
 "ConstructedMulliganGuidePreLobby_Status_Loading" = "Loading...";
 "ConstructedMulliganGuidePreLobby_Status_Ready" = "Mulligan Guide Ready";
 "ConstructedMulliganGuidePreLobby_Status_NoData" = "No Data";
+
+/* Sideboards */
+"DeckSideboard_Label_ETCBand" = "E.T.C.'s Band";

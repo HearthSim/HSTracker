@@ -558,6 +558,7 @@
 		B86FFA7E299C67B50093689E /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC382944B1DA00F74CD9 /* ViewModel.swift */; };
 		B86FFA7F299C68870093689E /* NSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC3C29462EA800F74CD9 /* NSButton.swift */; };
 		B87765CB2BB717CD003BE49D /* TrackedCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87765CA2BB717CD003BE49D /* TrackedCard.swift */; };
+		B87765CD2BB9AE7F003BE49D /* DeckSideboards.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87765CC2BB9AE7F003BE49D /* DeckSideboards.swift */; };
 		B8795EAC27516DBC00469B6E /* MercenariesTask.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8795EAB27516DBC00469B6E /* MercenariesTask.xib */; };
 		B8820CD025603FB00072ECBC /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8820CCF25603FB00072ECBC /* RemoteConfig.swift */; };
 		B8832DDA26057A5000646BA4 /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8832DD926057A5000646BA4 /* RepeatingTimer.swift */; };
@@ -1223,6 +1224,7 @@
 		B864AE3B25A4D15C00793F36 /* ImportingPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportingPreferences.swift; sourceTree = "<group>"; };
 		B86C9EAA27A17B3A00195C0A /* BrukanInvocationDeathrattles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrukanInvocationDeathrattles.swift; sourceTree = "<group>"; };
 		B87765CA2BB717CD003BE49D /* TrackedCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackedCard.swift; sourceTree = "<group>"; };
+		B87765CC2BB9AE7F003BE49D /* DeckSideboards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckSideboards.swift; sourceTree = "<group>"; };
 		B8795EAB27516DBC00469B6E /* MercenariesTask.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MercenariesTask.xib; sourceTree = "<group>"; };
 		B8820CCF25603FB00072ECBC /* RemoteConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfig.swift; sourceTree = "<group>"; };
 		B8832DD926057A5000646BA4 /* RepeatingTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatingTimer.swift; sourceTree = "<group>"; };
@@ -2018,6 +2020,7 @@
 				4C3E2D91245F16B900292349 /* CollectionToastViewController.swift */,
 				4C3E2D92245F16B900292349 /* CollectionToastViewController.xib */,
 				B89C9895280C610C005E9315 /* DeckLens.swift */,
+				B87765CC2BB9AE7F003BE49D /* DeckSideboards.swift */,
 				B8D75B9025A9DCDE00446923 /* ExperienceOverlay.swift */,
 				B8D75B8E25A9DC9A00446923 /* ExperienceOverlay.xib */,
 				B88364FB275D746D0094D8E1 /* FlavorText.swift */,
@@ -2844,6 +2847,7 @@
 				B8D34D33294FADF900CACC5A /* BattlegroundsSingleHeroPickStats.swift in Sources */,
 				B8BA17D928EFAF73004D40ED /* ClipboardImporter.swift in Sources */,
 				432A077C1E93B0F100921E34 /* Secrets.swift in Sources */,
+				B87765CD2BB9AE7F003BE49D /* DeckSideboards.swift in Sources */,
 				4CED5D15243D1B27006D2E1F /* DemonHunter.swift in Sources */,
 				B8BD8453285D23C500F4F224 /* UnfairLock.swift in Sources */,
 				B8CE65DC2950D80200E8D168 /* BattlegroundsPlacementDistribution.swift in Sources */,
