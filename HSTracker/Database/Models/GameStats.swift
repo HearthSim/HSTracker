@@ -207,12 +207,8 @@ extension InternalGameStats: CustomStringConvertible {
     }
 }
 
-class GameStats: Object {
+class GameStats: EmbeddedObject {
     @objc dynamic var statId = ""
-
-    override static func primaryKey() -> String? {
-        return "statId"
-    }
 
     @objc private dynamic var _playerHero = CardClass.neutral.rawValue
     var playerHero: CardClass {

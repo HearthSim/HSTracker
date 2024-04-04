@@ -1571,6 +1571,16 @@ class Game: NSObject, PowerEventHandler {
         let playerClass = deck.playerClass
         let heroId = deck.heroId
         let isArena = deck.isArena
+        var sideboards = [Sideboard]()
+        
+        for sideboard in deck.sideboards {
+            let s = Sideboard(ownerCardId: sideboard.ownerCardId, cards: sideboard.cards.compactMap { y in
+                let card = Cards.by(cardId: y.id)
+                card?.count = y.count
+                return card
+            })
+            sideboards.append(s)
+        }
         
         let shortid = DeckSerializer.serialize(deck: HearthDbConverter.toHearthDbDeck(deck: deck))
         DispatchQueue.main.async {
@@ -1583,12 +1593,7 @@ class Game: NSObject, PowerEventHandler {
                                       cards: cards.sortCardList(),
                                       isArena: isArena,
                                       shortid: shortid ?? "",
-                                           sideboards: deck.sideboards.compactMap { x in Sideboard(ownerCardId: x.ownerCardId, cards: x.cards.compactMap { y in
-                let card = Cards.by(cardId: y.id)
-                card?.count = y.count
-                return card
-                })}
-            )
+                                      sideboards: sideboards)
             self.player.playerClass = self.currentDeck?.playerClass
             self.updateTrackers(reset: true)
         }
@@ -2591,8 +2596,8 @@ class Game: NSObject, PowerEventHandler {
     @MainActor
     private func showBattlegroundsHeroPickingStats(heroes: [Int]) {
         if #available(macOS 10.15, *) {
-            Task.init {
-                await windowManager.battlegroundsHeroPicking.viewModel.setHeroes(heroIds: heroes)
+            Task.detached {
+                await self.windowManager.battlegroundsHeroPicking.viewModel.setHeroes(heroIds: heroes)
             }
         }
     }

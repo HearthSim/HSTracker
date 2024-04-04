@@ -10,7 +10,7 @@ import Foundation
 import RealmSwift
 import HearthMirror
 
-class ServerInfo: Object {
+class ServerInfo: EmbeddedObject {
 
     @objc dynamic var address = ""
     @objc dynamic var auroraPassword = ""

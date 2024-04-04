@@ -9,7 +9,7 @@
 import Foundation
 import RealmSwift
 
-class RealmCard: Object {
+class RealmCard: EmbeddedObject {
     @objc dynamic var id = ""
     @objc dynamic var count = 0
 

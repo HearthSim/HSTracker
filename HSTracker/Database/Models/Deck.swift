@@ -45,10 +45,10 @@ class Deck: Object {
     
     var tmpCards = [Card]()
     
-    var sideboards = [RealmSideboard]()
+    var sideboards = List<RealmSideboard>()
 
     override static func ignoredProperties() -> [String] {
-        return [ "tmpCards", "sideboards"    ]
+        return [ "tmpCards" ]
     }
     
     override static func primaryKey() -> String? {

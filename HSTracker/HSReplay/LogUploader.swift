@@ -121,8 +121,8 @@ class LogUploader {
 
                     let gt = metaData?.metaData.game_type
                     if gt != BnetGameType.bgt_battlegrounds.rawValue && gt != BnetGameType.bgt_battlegrounds_friendly.rawValue && gt != BnetGameType.bgt_mercenaries_pve.rawValue && gt != BnetGameType.bgt_mercenaries_pvp.rawValue && gt != BnetGameType.bgt_mercenaries_friendly.rawValue && gt != BnetGameType.bgt_mercenaries_pve_coop.rawValue {
-                            guard let statId = statId,
-                                let existing = RealmHelper.getGameStat(with: statId)  else {
+                        guard let statId = statId, let deckId = metaData?.metaData.player1?.deck_id ?? metaData?.metaData.player2?.deck_id,
+                              let existing = RealmHelper.getGameStat(deckId: deckId, with: statId)  else {
                                         logger.error("Can not update statistic")
                                         completion(.failed(error: "Can not update statistic"))
                                         return

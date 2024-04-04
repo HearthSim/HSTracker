@@ -24,7 +24,7 @@ struct RealmHelper {
 	static func initRealm(destination: URL) {
 		let config = Realm.Configuration(
 			fileURL: destination.appendingPathComponent("hstracker.realm"),
-			schemaVersion: 7,
+			schemaVersion: 8,
 			migrationBlock: { migration, oldSchemaVersion in
 				// version == 1 : add hearthstoneId in Deck,
 				// automatically managed by realm, nothing to do here
@@ -207,50 +207,50 @@ struct RealmHelper {
 			}
 			
 			do {
-				try realm.write {
-					if nameDoesNotMatch {
-						storedDeck.name = selectedDeck.name
-						storedDeck.heroId = selectedDeck.hero
-					}
-					
-					var numDifferentCards: Int = cardsDontMatch.reduce(0, {
-						$0 + $1.count
-					})
-					if numDifferentCards > 0 {
-						storedDeck.cards.removeAll()
-						let cards = selectedDeck.cards
-						for card in cards {
-							guard let c = Cards.by(cardId: card.cardId as String)
-								else {
-									continue
-							}
-							c.count = card.count as? Int ?? 0
-							storedDeck.add(card: c)
-						}
-						
-						// swapping 4 different cards yields to major update
-						if cardsDontMatch.count > 4 {
-							storedDeck.incrementVersion(major: 1)
-						} else {
-							storedDeck.incrementVersion(minor: 1)
-						}
-					}
+                try realm.write {
+                    if nameDoesNotMatch {
+                        storedDeck.name = selectedDeck.name
+                        storedDeck.heroId = selectedDeck.hero
+                    }
+                    
+                    var numDifferentCards: Int = cardsDontMatch.reduce(0, {
+                        $0 + $1.count
+                    })
+                    if numDifferentCards > 0 {
+                        storedDeck.cards.removeAll()
+                        let cards = selectedDeck.cards
+                        for card in cards {
+                            guard let c = Cards.by(cardId: card.cardId as String)
+                            else {
+                                continue
+                            }
+                            c.count = card.count as? Int ?? 0
+                            storedDeck.add(card: c)
+                        }
+                        
+                        // swapping 4 different cards yields to major update
+                        if cardsDontMatch.count > 4 {
+                            storedDeck.incrementVersion(major: 1)
+                        } else {
+                            storedDeck.incrementVersion(minor: 1)
+                        }
+                    }
                     numDifferentCards = sideboardsDontMatch.reduce(0, {
                         $0 + $1.count
                     })
-                        if numDifferentCards > 0 {
+                    if numDifferentCards > 0 {
                         storedDeck.sideboards.removeAll()
                         for sideboard in selectedDeck.sideboards {
                             let owner = sideboard.key
                             let s = RealmSideboard(ownerCardId: owner)
-//                            realm.add(s)
+                            //                            realm.add(s)
                             for card in sideboard.value {
                                 s.add(card: Card(fromMirrorCard: card))
                             }
                             storedDeck.sideboards.append(s)
                         }
                     }
-				}
+                }
 			} catch {
 				logger.error("Can not import deck. Error : \(error)")
 			}
@@ -456,15 +456,18 @@ struct RealmHelper {
 	
 	// MARK: - Statistics
 	
-	static func getValidStatistics() -> Results<GameStats>? {
+	static func getValidStatistics() -> [GameStats]? {
 		guard let realm = try? Realm() else {
 			logger.error("Error accessing Realm database")
 			return nil
 		}
-		
-		return realm.objects(GameStats.self)
-			.filter("hsReplayId != nil")
-			.sorted(byKeyPath: "startTime", ascending: false)
+		var results = [GameStats]()
+        for deck in realm.objects(Deck.self) {
+            for stat in deck.gameStats where stat.hsReplayId != nil {
+                results.append(stat)
+            }
+        }
+        return results.sorted(by: { $0.startTime < $1.startTime })
 	}
 	
 	static func addStatistics(to deck: Deck, stats: GameStats) {
@@ -497,14 +500,14 @@ struct RealmHelper {
         }
     }
     
-    static func getGameStat(with statId: String) -> GameStats? {
+    static func getGameStat(deckId: Int64, with statId: String) -> GameStats? {
         guard let realm = try? Realm() else {
             logger.error("Error accessing Realm database")
             return nil
         }
         
-        return realm.objects(GameStats.self)
-            .filter("statId = '\(statId)'").first
+        return realm.objects(Deck.self)
+            .filter("hsDeckId = \(deckId)").first?.gameStats.first { x in x.statId == statId }
     }
     
     static func update(stat: GameStats, hsReplayId: String) {

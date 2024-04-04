@@ -37,7 +37,17 @@ class HearthDbConverter {
                 card?.count = x.count
                 return card
             }
-            // TODO: sideboards
+            for s in deck.sideboards {
+                if let owner = Cards.by(cardId: s.ownerCardId) {
+                    var dict = [Int: Int]()
+                    for c in s.cards {
+                        if let card = Cards.by(cardId: c.id) {
+                            dict[card.dbfId] = c.count
+                        }
+                    }
+                    result.sideboards[owner.dbfId] = dict
+                }
+            }
             return result
         }
         return nil
