@@ -31,7 +31,7 @@ class DeckSerializer {
                 if let card = Cards.by(dbfId: owner), let sideboard = sideboards[owner] {
                     var c = [Card]()
                     for sc in sideboard {
-                        if let scard = Cards.by(dbfId: sc.key) {
+                        if let scard = Cards.by(dbfId: sc.key, collectible: false) {
                             scard.count = sc.value
                             c.append(scard)
                         }
@@ -207,7 +207,7 @@ class DeckSerializer {
             sb.append("# \(card.count)x (\(card.cost)) \(card.name)\n")
             if let sideboard = deck.getSideboards()[card.id] {
                 for sideboardCard in sideboard {
-                    sb.append("#   \(sideboardCard.count)x (\(sideboardCard.cost) \(sideboardCard.name)\n")
+                    sb.append("#   \(sideboardCard.count)x (\(sideboardCard.cost)) \(sideboardCard.name)\n")
                 }
             }
         }

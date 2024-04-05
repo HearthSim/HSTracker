@@ -337,6 +337,37 @@ class DeckManager: NSWindowController {
             editDeck.showWindow(self)
         }
     }
+    
+    @IBAction func exportDeckWithComments(_ sender: AnyObject?) {
+        if let menuitem = sender as? NSMenuItem {
+            if let menu = menuitem.menu {
+                if let deckmenu = menu as? DeckContextMenu {
+                    if deckmenu.clickedrow >= 0 {
+                        exportDeckWithComments(sortedFilteredDecks()[deckmenu.clickedrow])
+                    }
+                }
+            }
+        } else {
+            if let deck = currentDeck {
+                exportDeckWithComments(deck)
+            }
+        }
+    }
+    
+    private func exportDeckWithComments(_ deck: Deck) {
+        guard let deck = HearthDbConverter.toHearthDbDeck(deck: deck), let string = DeckSerializer.serialize(deck: deck, includeComments: true) else {
+            NSAlert.show(style: .critical,
+                         message: String.localizedString("Can't create deck string.", comment: ""),
+                         window: self.window!)
+            return
+        }
+        let pasteboard = NSPasteboard.general
+        pasteboard.clearContents()
+        pasteboard.writeObjects([string as NSString])
+        NSAlert.show(style: .informational,
+                     message: String.localizedString("Deck string has been copied in your clipboard.", comment: ""),
+                     window: self.window!)
+    }
 
     @IBAction func useDeck(_ sender: Any?) {
         if sender as? NSToolbarItem != nil,

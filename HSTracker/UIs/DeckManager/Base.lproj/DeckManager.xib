@@ -26,14 +26,13 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="932" height="615"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1496" height="933"/>
-            <value key="minFullScreenContentSize" type="size" width="850" height="600"/>
-            <view key="contentView" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="932" height="615"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1728" height="1079"/>
+            <view key="contentView" misplaced="YES" id="EiT-Mj-1SZ" userLabel="ContentView">
+                <rect key="frame" x="0.0" y="0.0" width="932" height="614"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="sC0-7Z-f2H" userLabel="DeckView">
-                        <rect key="frame" x="692" y="0.0" width="240" height="615"/>
+                        <rect key="frame" x="692" y="0.0" width="240" height="593"/>
                         <subviews>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="gl3-d5-lam" customClass="CurveView" customModule="HSTracker" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="170"/>
@@ -53,13 +52,13 @@
                                 </textFieldCell>
                             </textField>
                             <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="17" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="XVZ-SC-VpB">
-                                <rect key="frame" x="0.0" y="206" width="240" height="409"/>
+                                <rect key="frame" x="0.0" y="206" width="240" height="387"/>
                                 <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="w6T-1v-BGO">
-                                    <rect key="frame" x="0.0" y="0.0" width="240" height="409"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="240" height="387"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView autoresizesSubviews="NO" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="fullWidth" selectionHighlightStyle="none" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" id="Znw-pX-Aav">
-                                            <rect key="frame" x="0.0" y="0.0" width="240" height="409"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="240" height="387"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
@@ -111,16 +110,16 @@
                         </constraints>
                     </customView>
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="gGc-Yc-iuW" userLabel="CartView">
-                        <rect key="frame" x="0.0" y="0.0" width="689" height="615"/>
+                        <rect key="frame" x="0.0" y="0.0" width="689" height="593"/>
                         <subviews>
                             <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="17" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="sQk-3F-woa">
-                                <rect key="frame" x="0.0" y="0.0" width="689" height="615"/>
+                                <rect key="frame" x="0.0" y="0.0" width="689" height="593"/>
                                 <clipView key="contentView" id="Nh9-JJ-D9x">
-                                    <rect key="frame" x="0.0" y="0.0" width="689" height="615"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="689" height="593"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnReordering="NO" columnResizing="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="Pdd-Yb-1af" customClass="DeckTable" customModule="HSTracker" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="689" height="615"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="689" height="593"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <tableViewGridLines key="gridStyleMask" vertical="YES"/>
@@ -207,59 +206,43 @@
                     <toolbarItem implicitItemIdentifier="NSToolbarPrintItem" id="LxM-0W-duh"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="SIs-XB-agx"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="I75-rt-at9"/>
-                    <toolbarItem implicitItemIdentifier="EBECF1E7-72BD-406F-B6A5-E29D93787ECC" explicitItemIdentifier="add" label="Add" paletteLabel="Add" tag="-1" image="plus" id="7FY-gv-qwP">
-                        <size key="minSize" width="22" height="22"/>
-                        <size key="maxSize" width="22" height="22"/>
+                    <toolbarItem implicitItemIdentifier="EBECF1E7-72BD-406F-B6A5-E29D93787ECC" explicitItemIdentifier="add" label="Add" paletteLabel="Add" tag="-1" image="plus" sizingBehavior="auto" id="7FY-gv-qwP">
                         <connections>
                             <action selector="addDeck:" target="-2" id="vwS-C5-2yS"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="AF6C9D32-A463-4FBC-9D95-D9A35EF1829C" explicitItemIdentifier="edit" label="Edit" paletteLabel="Edit" tag="-1" image="edit-deck" id="cbH-rI-BvP">
-                        <size key="minSize" width="22" height="22"/>
-                        <size key="maxSize" width="22" height="22"/>
+                    <toolbarItem implicitItemIdentifier="AF6C9D32-A463-4FBC-9D95-D9A35EF1829C" explicitItemIdentifier="edit" label="Edit" paletteLabel="Edit" tag="-1" image="edit-deck" sizingBehavior="auto" id="cbH-rI-BvP">
                         <connections>
                             <action selector="editDeck:" target="-2" id="VXP-sN-kLm"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="399CE4E4-A9EF-4863-AD24-05BF318AC87D" explicitItemIdentifier="use" label="Use" paletteLabel="Use" tag="-1" image="use-deck" id="3nu-q9-wC1">
-                        <size key="minSize" width="22" height="22"/>
-                        <size key="maxSize" width="22" height="22"/>
+                    <toolbarItem implicitItemIdentifier="399CE4E4-A9EF-4863-AD24-05BF318AC87D" explicitItemIdentifier="use" label="Use" paletteLabel="Use" tag="-1" image="use-deck" sizingBehavior="auto" id="3nu-q9-wC1">
                         <connections>
                             <action selector="useDeck:" target="-2" id="S2C-rH-wWU"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="1A67C377-19A4-4614-8F84-BFBDD179928D" explicitItemIdentifier="delete" label="Delete" paletteLabel="Delete" tag="-1" image="delete-deck" id="aaa-LK-buD">
-                        <size key="minSize" width="22" height="22"/>
-                        <size key="maxSize" width="22" height="22"/>
+                    <toolbarItem implicitItemIdentifier="1A67C377-19A4-4614-8F84-BFBDD179928D" explicitItemIdentifier="delete" label="Delete" paletteLabel="Delete" tag="-1" image="delete-deck" sizingBehavior="auto" id="aaa-LK-buD">
                         <connections>
                             <action selector="deleteDeck:" target="-2" id="nBq-Af-QbQ"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="7EA0A274-90CB-4F64-A438-801752BC414D" explicitItemIdentifier="rename" label="Rename" paletteLabel="Rename" tag="-1" image="rename-deck" id="Qp2-0h-Sid">
-                        <size key="minSize" width="22" height="22"/>
-                        <size key="maxSize" width="22" height="22"/>
+                    <toolbarItem implicitItemIdentifier="7EA0A274-90CB-4F64-A438-801752BC414D" explicitItemIdentifier="rename" label="Rename" paletteLabel="Rename" tag="-1" image="rename-deck" sizingBehavior="auto" id="Qp2-0h-Sid">
                         <connections>
                             <action selector="renameDeck:" target="-2" id="uFe-yj-DRI"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="45DF23CE-A826-4CB4-AEFF-09C01A34BF0D" explicitItemIdentifier="twitter" label="Twitter" paletteLabel="Twitter" tag="-1" image="twitter" id="d38-Pq-vZv">
-                        <size key="minSize" width="22" height="22"/>
-                        <size key="maxSize" width="22" height="22"/>
+                    <toolbarItem implicitItemIdentifier="45DF23CE-A826-4CB4-AEFF-09C01A34BF0D" explicitItemIdentifier="twitter" label="Twitter" paletteLabel="Twitter" tag="-1" image="twitter" sizingBehavior="auto" id="d38-Pq-vZv">
                         <connections>
                             <action selector="twitter:" target="-2" id="MFr-PO-0OR"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="3A56AE7E-7F31-476E-8958-F697125F53ED" explicitItemIdentifier="archive" label="Archive" paletteLabel="Archive" tag="-1" image="archive" id="Fe5-be-5CS">
-                        <size key="minSize" width="22" height="22"/>
-                        <size key="maxSize" width="22" height="22"/>
+                    <toolbarItem implicitItemIdentifier="3A56AE7E-7F31-476E-8958-F697125F53ED" explicitItemIdentifier="archive" label="Archive" paletteLabel="Archive" tag="-1" image="archive" sizingBehavior="auto" id="Fe5-be-5CS">
                         <connections>
                             <action selector="archiveDeck:" target="-2" id="ypI-Pe-P3H"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="8004B22B-F98D-4214-9261-255D430DC65D" label="Sort by" paletteLabel="Sort" title="Item 1" id="cu3-FG-2Cn">
+                    <toolbarItem implicitItemIdentifier="8004B22B-F98D-4214-9261-255D430DC65D" label="Sort by" paletteLabel="Sort" title="Item 1" sizingBehavior="auto" id="cu3-FG-2Cn">
                         <nil key="toolTip"/>
-                        <size key="minSize" width="100" height="27"/>
-                        <size key="maxSize" width="100" height="28"/>
                         <popUpButton key="view" verticalHuggingPriority="750" id="xO3-ES-jrX">
                             <rect key="frame" x="0.0" y="14" width="100" height="28"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -276,24 +259,18 @@
                             </popUpButtonCell>
                         </popUpButton>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="FBE926F0-EDEB-49B0-B1AE-DAB2EA7D69CF" explicitItemIdentifier="discord" label="Discord" paletteLabel="Discord" tag="-1" image="discord" id="0zG-7b-xsf">
-                        <size key="minSize" width="22" height="22"/>
-                        <size key="maxSize" width="22" height="22"/>
+                    <toolbarItem implicitItemIdentifier="FBE926F0-EDEB-49B0-B1AE-DAB2EA7D69CF" explicitItemIdentifier="discord" label="Discord" paletteLabel="Discord" tag="-1" image="discord" sizingBehavior="auto" id="0zG-7b-xsf">
                         <connections>
                             <action selector="discord:" target="-2" id="AN9-K7-7fI"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="BFDE5318-FCC7-464C-B272-87005FBA3E24" explicitItemIdentifier="statistics" label="Statistics" paletteLabel="Statistics" tag="-1" image="statistics" id="T0e-lu-Gfj">
-                        <size key="minSize" width="22" height="22"/>
-                        <size key="maxSize" width="22" height="22"/>
+                    <toolbarItem implicitItemIdentifier="BFDE5318-FCC7-464C-B272-87005FBA3E24" explicitItemIdentifier="statistics" label="Statistics" paletteLabel="Statistics" tag="-1" image="statistics" sizingBehavior="auto" id="T0e-lu-Gfj">
                         <connections>
                             <action selector="showStatistics:" target="-2" id="736-au-4Ld"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="1B935CB6-E06D-4C5B-A5B7-1F3225DA829D" label="Classes" paletteLabel="Classes" title="Item 1" id="Hyt-EI-Vfy">
+                    <toolbarItem implicitItemIdentifier="1B935CB6-E06D-4C5B-A5B7-1F3225DA829D" label="Classes" paletteLabel="Classes" title="Item 1" sizingBehavior="auto" id="Hyt-EI-Vfy">
                         <nil key="toolTip"/>
-                        <size key="minSize" width="100" height="27"/>
-                        <size key="maxSize" width="100" height="28"/>
                         <popUpButton key="view" verticalHuggingPriority="750" id="aIM-uG-j6C">
                             <rect key="frame" x="0.0" y="14" width="100" height="28"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -310,10 +287,8 @@
                             </popUpButtonCell>
                         </popUpButton>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="084A2C55-F45D-4934-AF47-B99FCC3A5D9B" label="Modes" paletteLabel="Modes" title="Item 1" id="BHN-1k-K8M">
+                    <toolbarItem implicitItemIdentifier="084A2C55-F45D-4934-AF47-B99FCC3A5D9B" label="Modes" paletteLabel="Modes" title="Item 1" sizingBehavior="auto" id="BHN-1k-K8M">
                         <nil key="toolTip"/>
-                        <size key="minSize" width="100" height="27"/>
-                        <size key="maxSize" width="100" height="28"/>
                         <popUpButton key="view" verticalHuggingPriority="750" id="WED-7k-rrO">
                             <rect key="frame" x="0.0" y="14" width="100" height="28"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -330,9 +305,7 @@
                             </popUpButtonCell>
                         </popUpButton>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="8C5F4916-09EC-48A6-BCA4-52605120A0E2" explicitItemIdentifier="export" label="Export" paletteLabel="Export" tag="-1" image="hearthstone" id="XUQ-ti-e6U">
-                        <size key="minSize" width="22" height="22"/>
-                        <size key="maxSize" width="22" height="22"/>
+                    <toolbarItem implicitItemIdentifier="8C5F4916-09EC-48A6-BCA4-52605120A0E2" explicitItemIdentifier="export" label="Export" paletteLabel="Export" tag="-1" image="hearthstone" sizingBehavior="auto" id="XUQ-ti-e6U">
                         <connections>
                             <action selector="exportHSString:" target="-2" id="rEc-ce-EQw"/>
                         </connections>
@@ -372,6 +345,12 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="editDeck:" target="-2" id="igk-6Z-sIZ"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Export with comments" id="CTB-Ls-Ryo" userLabel="Export with comments">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="exportDeckWithComments:" target="-2" id="frS-AB-cqV"/>
                     </connections>
                 </menuItem>
                 <menuItem title="Rename" id="YTC-HA-6U7">
