@@ -359,7 +359,7 @@ struct SizeHelper {
         
         let left = hearthstoneWindow.frame.minX
         
-        let frame = NSRect(x: left, y: bottom, width: 200, height: top - bottom)
+        let frame = NSRect(x: left, y: bottom, width: 400, height: top - bottom)
         return (frame)
     }
     

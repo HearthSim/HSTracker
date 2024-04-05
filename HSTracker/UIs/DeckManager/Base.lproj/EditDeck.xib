@@ -175,7 +175,6 @@
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="smallSystem"/>
                                 </buttonCell>
-                                <color key="bezelColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                 <color key="contentTintColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                 <connections>
                                     <action selector="standardWildChange:" target="-2" id="nMb-Um-P6J"/>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -344,7 +344,7 @@
                                             <stackView distribution="fillProportionally" orientation="horizontal" alignment="centerY" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="W5a-x8-hmJ" userLabel="StackViewScaling">
                                                 <rect key="frame" x="0.0" y="40" width="372" height="20"/>
                                                 <subviews>
-                                                    <textField horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="d1m-Xr-Juh" userLabel="Scaling">
+                                                    <textField focusRingType="none" horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="d1m-Xr-Juh" userLabel="Scaling">
                                                         <rect key="frame" x="-2" y="2" width="49" height="16"/>
                                                         <textFieldCell key="cell" lineBreakMode="clipping" title="Scaling" id="pzC-JZ-tcU">
                                                             <font key="font" usesAppearanceFont="YES"/>
@@ -354,12 +354,12 @@
                                                     </textField>
                                                     <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yDm-vs-KsG">
                                                         <rect key="frame" x="53" y="-6" width="281" height="28"/>
-                                                        <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="50" maxValue="100" doubleValue="100" tickMarkPosition="above" numberOfTickMarks="10" sliderType="linear" id="B8A-Nc-zxB"/>
+                                                        <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="50" maxValue="150" doubleValue="100" tickMarkPosition="above" numberOfTickMarks="10" sliderType="linear" id="B8A-Nc-zxB"/>
                                                         <connections>
                                                             <action selector="sliderChanged:" target="-2" id="Mu5-fB-D4L"/>
                                                         </connections>
                                                     </slider>
-                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Y61-iI-pCa" userLabel="Value">
+                                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Y61-iI-pCa" userLabel="Value">
                                                         <rect key="frame" x="340" y="3" width="34" height="14"/>
                                                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="100%" id="TFO-5v-fkw">
                                                             <numberFormatter key="formatter" formatterBehavior="custom10_4" positiveFormat="#%" numberStyle="percent" usesGroupingSeparator="NO" paddingCharacter=" " formatWidth="4" groupingSize="0" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" id="1qt-TJ-Tje">
