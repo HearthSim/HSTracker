@@ -9,7 +9,7 @@
 import Foundation
 
 extension NSImage {
-    convenience init?(named: String, size: NSSize) {
+    convenience init?(named: String, size: NSSize, tintColor: NSColor? = nil) {
         guard let image = NSImage(named: named) else { return nil }
         let newImage = NSImage(size: size)
 
@@ -18,6 +18,11 @@ extension NSImage {
                    from: NSRect.zero,
                    operation: .copy,
                    fraction: 1.0)
+        if let tintColor {
+            tintColor.setFill()
+        }
+        let imageRect = NSRect(origin: .zero, size: image.size)
+        imageRect.fill(using: .sourceIn)
 
         newImage.unlockFocus()
         newImage.size = size

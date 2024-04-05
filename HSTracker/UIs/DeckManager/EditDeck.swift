@@ -103,8 +103,8 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         curveView?.reload()
 
         standardOnlyCards.title = ""
-        standardOnlyCards.image = NSImage(named: "Mode_Standard_Dragon",
-                                          size: NSSize(width: 25, height: 25))
+        standardOnlyCards.image = NSImage(named: "Mode_Standard",
+                                          size: NSSize(width: 25, height: 25), tintColor: NSColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 1.0))
 
         countCards()
 
@@ -343,9 +343,9 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     @IBAction func standardWildChange(_ sender: NSButton) {
         standardOnly = sender.state == .on
 
-        let name = standardOnly ? "Mode_Standard_Dragon" : "Mode_Wild_Dark"
+        let name = standardOnly ? "Mode_Standard" : "Mode_Wild_Dark"
         standardOnlyCards.image = NSImage(named: name,
-                                          size: NSSize(width: 25, height: 25))
+                                          size: NSSize(width: 25, height: 25), tintColor: NSColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 1.0))
         reloadCards()
     }
 

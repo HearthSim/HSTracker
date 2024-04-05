@@ -38,7 +38,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="216" y="129" width="961" height="580"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1728" height="1079"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1496" height="933"/>
             <value key="minSize" type="size" width="960" height="580"/>
             <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="961" height="580"/>
@@ -170,13 +170,13 @@
                                 </connections>
                             </searchField>
                             <button horizontalHuggingPriority="249" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Z1I-mm-zAm">
-                                <rect key="frame" x="200" y="13" width="107" height="16"/>
-                                <buttonCell key="cell" type="check" bezelStyle="regularSquare" imagePosition="only" controlSize="small" state="on" inset="2" id="37M-wa-5DN">
+                                <rect key="frame" x="201" y="-51" width="105" height="144"/>
+                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="Mode_Standard" imagePosition="only" controlSize="small" state="on" imageScaling="proportionallyUpOrDown" inset="2" id="37M-wa-5DN">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="smallSystem"/>
                                 </buttonCell>
                                 <color key="bezelColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
-                                <color key="contentTintColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                <color key="contentTintColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                 <connections>
                                     <action selector="standardWildChange:" target="-2" id="nMb-Um-P6J"/>
                                 </connections>
@@ -613,6 +613,7 @@
         </window>
     </objects>
     <resources>
+        <image name="Mode_Standard" width="144" height="144"/>
         <image name="close" width="32" height="32"/>
         <image name="damage" width="50" height="50"/>
         <image name="delete" width="32" height="32"/>
