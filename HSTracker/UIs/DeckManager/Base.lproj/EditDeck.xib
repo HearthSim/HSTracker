@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -38,7 +38,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="216" y="129" width="961" height="580"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1025"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1728" height="1079"/>
             <value key="minSize" type="size" width="960" height="580"/>
             <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="961" height="580"/>
@@ -47,7 +47,7 @@
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="QeX-zg-mEf" userLabel="DeckView">
                         <rect key="frame" x="721" y="0.0" width="240" height="580"/>
                         <subviews>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gsP-ol-oef">
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gsP-ol-oef">
                                 <rect key="frame" x="-2" y="564" width="244" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" id="BnZ-82-qZv">
                                     <font key="font" metaFont="system"/>
@@ -90,7 +90,7 @@
                                                             <rect key="frame" x="11" y="1" width="217" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oOa-R9-jlt">
+                                                                <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oOa-R9-jlt">
                                                                     <rect key="frame" x="0.0" y="0.0" width="100" height="17"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="R90-PG-oAN">
@@ -155,7 +155,7 @@
                                     <action selector="changeClassTab:" target="-2" id="6qh-gD-eca"/>
                                 </connections>
                             </segmentedControl>
-                            <searchField wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ht0-2D-wE5">
+                            <searchField wantsLayer="YES" focusRingType="none" horizontalHuggingPriority="750" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ht0-2D-wE5">
                                 <rect key="frame" x="316" y="9" width="190" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="190" id="uWF-gm-boe"/>
@@ -175,15 +175,14 @@
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="smallSystem"/>
                                 </buttonCell>
+                                <color key="bezelColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                <color key="contentTintColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                 <connections>
                                     <action selector="standardWildChange:" target="-2" id="nMb-Um-P6J"/>
                                 </connections>
                             </button>
                             <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Dnd-ge-iq0">
                                 <rect key="frame" x="513" y="7" width="197" height="25"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="190" id="vdY-sC-fKQ"/>
-                                </constraints>
                                 <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="KK0-JD-9om" id="9Mh-RE-npJ">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
@@ -195,6 +194,9 @@
                                         </items>
                                     </menu>
                                 </popUpButtonCell>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="190" id="vdY-sC-fKQ"/>
+                                </constraints>
                             </popUpButton>
                         </subviews>
                         <constraints>
@@ -217,14 +219,14 @@
                         <subviews>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WWT-qq-QQA" userLabel="Mana Gem0" customClass="ManaGemButton" customModule="HSTracker" customModuleProvider="target">
                                 <rect key="frame" x="5" y="5" width="32" height="32"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="32" id="Pcf-Kd-Tgm"/>
-                                    <constraint firstAttribute="height" constant="32" id="wxV-GV-1xW"/>
-                                </constraints>
                                 <buttonCell key="cell" type="bevel" title="0" bezelStyle="rounded" image="mana-dark" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="nh4-xI-0ip" customClass="ManaGemButtonCell" customModule="HSTracker" customModuleProvider="target">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="20"/>
                                 </buttonCell>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="32" id="Pcf-Kd-Tgm"/>
+                                    <constraint firstAttribute="height" constant="32" id="wxV-GV-1xW"/>
+                                </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="textColor">
                                         <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -234,16 +236,16 @@
                                     <action selector="manaGemClicked:" target="-2" id="vOV-qV-M9k"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="glO-QH-q26" customClass="ManaGemButton" customModule="HSTracker" customModuleProvider="target">
+                            <button tag="1" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="glO-QH-q26" customClass="ManaGemButton" customModule="HSTracker" customModuleProvider="target">
                                 <rect key="frame" x="37" y="5" width="32" height="32"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="32" id="3NJ-JR-DA4"/>
-                                    <constraint firstAttribute="height" constant="32" id="S3m-cn-AkC"/>
-                                </constraints>
                                 <buttonCell key="cell" type="bevel" title="1" bezelStyle="rounded" image="mana-dark" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="y1h-hB-XLJ" customClass="ManaGemButtonCell" customModule="HSTracker" customModuleProvider="target">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="20"/>
                                 </buttonCell>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="32" id="3NJ-JR-DA4"/>
+                                    <constraint firstAttribute="height" constant="32" id="S3m-cn-AkC"/>
+                                </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="textColor">
                                         <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -253,16 +255,16 @@
                                     <action selector="manaGemClicked:" target="-2" id="DeW-tL-YCQ"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="3Om-vN-fak" customClass="ManaGemButton" customModule="HSTracker" customModuleProvider="target">
+                            <button tag="2" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3Om-vN-fak" customClass="ManaGemButton" customModule="HSTracker" customModuleProvider="target">
                                 <rect key="frame" x="69" y="5" width="32" height="32"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="32" id="EmG-DI-GQJ"/>
-                                    <constraint firstAttribute="width" constant="32" id="qDZ-uo-lE3"/>
-                                </constraints>
                                 <buttonCell key="cell" type="bevel" title="2" bezelStyle="rounded" image="mana-dark" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="Ozt-yZ-Bvj" customClass="ManaGemButtonCell" customModule="HSTracker" customModuleProvider="target">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="20"/>
                                 </buttonCell>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="32" id="EmG-DI-GQJ"/>
+                                    <constraint firstAttribute="width" constant="32" id="qDZ-uo-lE3"/>
+                                </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="textColor">
                                         <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -272,16 +274,16 @@
                                     <action selector="manaGemClicked:" target="-2" id="iIk-pg-zmT"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" tag="3" translatesAutoresizingMaskIntoConstraints="NO" id="0N3-8C-dNU" userLabel="Mana Gem3" customClass="ManaGemButton" customModule="HSTracker" customModuleProvider="target">
+                            <button tag="3" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0N3-8C-dNU" userLabel="Mana Gem3" customClass="ManaGemButton" customModule="HSTracker" customModuleProvider="target">
                                 <rect key="frame" x="101" y="5" width="32" height="32"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="32" id="QZC-lr-bVa"/>
-                                    <constraint firstAttribute="width" constant="32" id="fmW-ct-7ls"/>
-                                </constraints>
                                 <buttonCell key="cell" type="bevel" title="3" bezelStyle="rounded" image="mana-dark" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="qse-SY-u1g" customClass="ManaGemButtonCell" customModule="HSTracker" customModuleProvider="target">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="20"/>
                                 </buttonCell>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="32" id="QZC-lr-bVa"/>
+                                    <constraint firstAttribute="width" constant="32" id="fmW-ct-7ls"/>
+                                </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="textColor">
                                         <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -291,16 +293,16 @@
                                     <action selector="manaGemClicked:" target="-2" id="Xql-3V-xcZ"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" tag="4" translatesAutoresizingMaskIntoConstraints="NO" id="Aab-dS-Ezl" userLabel="Mana Gem4" customClass="ManaGemButton" customModule="HSTracker" customModuleProvider="target">
+                            <button tag="4" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Aab-dS-Ezl" userLabel="Mana Gem4" customClass="ManaGemButton" customModule="HSTracker" customModuleProvider="target">
                                 <rect key="frame" x="133" y="5" width="32" height="32"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="32" id="Tjx-99-KOU"/>
-                                    <constraint firstAttribute="height" constant="32" id="jFA-Ed-kgw"/>
-                                </constraints>
                                 <buttonCell key="cell" type="bevel" title="4" bezelStyle="rounded" image="mana-dark" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="DpA-dM-lQm" customClass="ManaGemButtonCell" customModule="HSTracker" customModuleProvider="target">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="20"/>
                                 </buttonCell>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="32" id="Tjx-99-KOU"/>
+                                    <constraint firstAttribute="height" constant="32" id="jFA-Ed-kgw"/>
+                                </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="textColor">
                                         <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -310,16 +312,16 @@
                                     <action selector="manaGemClicked:" target="-2" id="jAZ-Ip-D7u"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" tag="5" translatesAutoresizingMaskIntoConstraints="NO" id="qVw-gN-8Ob" userLabel="Mana Gem5" customClass="ManaGemButton" customModule="HSTracker" customModuleProvider="target">
+                            <button tag="5" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qVw-gN-8Ob" userLabel="Mana Gem5" customClass="ManaGemButton" customModule="HSTracker" customModuleProvider="target">
                                 <rect key="frame" x="165" y="5" width="32" height="32"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="32" id="6Te-KM-53j"/>
-                                    <constraint firstAttribute="height" constant="32" id="JVV-RC-yGP"/>
-                                </constraints>
                                 <buttonCell key="cell" type="bevel" title="5" bezelStyle="rounded" image="mana-dark" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="41a-Fy-s1b" customClass="ManaGemButtonCell" customModule="HSTracker" customModuleProvider="target">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="20"/>
                                 </buttonCell>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="32" id="6Te-KM-53j"/>
+                                    <constraint firstAttribute="height" constant="32" id="JVV-RC-yGP"/>
+                                </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="textColor">
                                         <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -329,16 +331,16 @@
                                     <action selector="manaGemClicked:" target="-2" id="rOP-Fp-8bF"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" tag="6" translatesAutoresizingMaskIntoConstraints="NO" id="KXp-z2-4ok" userLabel="Mana Gem6" customClass="ManaGemButton" customModule="HSTracker" customModuleProvider="target">
+                            <button tag="6" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KXp-z2-4ok" userLabel="Mana Gem6" customClass="ManaGemButton" customModule="HSTracker" customModuleProvider="target">
                                 <rect key="frame" x="197" y="5" width="32" height="32"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="32" id="6eH-gD-RB8"/>
-                                    <constraint firstAttribute="height" constant="32" id="ec0-8P-lh1"/>
-                                </constraints>
                                 <buttonCell key="cell" type="bevel" title="6" bezelStyle="rounded" image="mana-dark" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="Arp-VG-v1c" customClass="ManaGemButtonCell" customModule="HSTracker" customModuleProvider="target">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="20"/>
                                 </buttonCell>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="32" id="6eH-gD-RB8"/>
+                                    <constraint firstAttribute="height" constant="32" id="ec0-8P-lh1"/>
+                                </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="textColor">
                                         <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -348,16 +350,16 @@
                                     <action selector="manaGemClicked:" target="-2" id="eZv-cf-dzf"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" tag="7" translatesAutoresizingMaskIntoConstraints="NO" id="Vft-zR-ETv" userLabel="Mana Gem7+" customClass="ManaGemButton" customModule="HSTracker" customModuleProvider="target">
+                            <button tag="7" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vft-zR-ETv" userLabel="Mana Gem7+" customClass="ManaGemButton" customModule="HSTracker" customModuleProvider="target">
                                 <rect key="frame" x="229" y="5" width="32" height="32"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="32" id="M4f-wc-aGc"/>
-                                    <constraint firstAttribute="height" constant="32" id="j7g-BU-kc0"/>
-                                </constraints>
                                 <buttonCell key="cell" type="bevel" title="7" bezelStyle="rounded" image="mana-dark" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="6IG-XF-IZv" customClass="ManaGemButtonCell" customModule="HSTracker" customModuleProvider="target">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="20"/>
                                 </buttonCell>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="32" id="M4f-wc-aGc"/>
+                                    <constraint firstAttribute="height" constant="32" id="j7g-BU-kc0"/>
+                                </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="textColor">
                                         <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -375,7 +377,7 @@
                                 </constraints>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="damage" id="XWM-pd-pbV"/>
                             </imageView>
-                            <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XdO-sb-Lei">
+                            <textField focusRingType="none" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XdO-sb-Lei">
                                 <rect key="frame" x="315" y="10" width="30" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="30" id="QKY-0r-qQd"/>
@@ -398,7 +400,7 @@
                                 </constraints>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="health" id="fBR-qa-4gA"/>
                             </imageView>
-                            <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YXe-qt-7Cy">
+                            <textField focusRingType="none" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YXe-qt-7Cy">
                                 <rect key="frame" x="389" y="10" width="30" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="30" id="pbY-p1-9yW"/>
@@ -443,9 +445,6 @@
                             </popUpButton>
                             <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ugc-k4-3ze">
                                 <rect key="frame" x="633" y="7" width="77" height="25"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="70" id="trz-GZ-qvG"/>
-                                </constraints>
                                 <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="GKt-Mr-Jci" id="V5v-Bd-Vby">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
@@ -457,6 +456,9 @@
                                         </items>
                                     </menu>
                                 </popUpButtonCell>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="70" id="trz-GZ-qvG"/>
+                                </constraints>
                             </popUpButton>
                         </subviews>
                         <constraints>
@@ -522,7 +524,7 @@
                                                     <rect key="frame" x="11" y="1" width="688" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
-                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hw2-qS-oxW">
+                                                        <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hw2-qS-oxW">
                                                             <rect key="frame" x="0.0" y="0.0" width="688" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="bfQ-B1-uvC">
