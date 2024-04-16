@@ -54,6 +54,13 @@ final class Card {
     var zilliaxCustomizableFunctionalModule = false
     var zilliaxCustomizableCosmeticModule = false
     
+    var deckbuildingCard: Card {
+        if zilliaxCustomizableCosmeticModule {
+            return Cards.by(cardId: CardIds.Collectible.Neutral.ZilliaxDeluxe3000) ?? self
+        }
+        return self
+    }
+    
     static let multiClassGroups: [MultiClassGroup: [CardClass]] = [
         .grimy_goons: [ .hunter, .paladin, .warrior ],
         .jade_lotus: [ .druid, .rogue, .shaman ],

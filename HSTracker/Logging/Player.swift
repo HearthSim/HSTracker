@@ -356,7 +356,7 @@ final class Player {
         }
         // Attach Mulligan Card Data
         return cards.compactMap { card in
-            let dbfId = card.zilliaxCustomizableCosmeticModule ? 102983 : card.dbfId
+            let dbfId = card.deckbuildingCard.dbfId
             guard let cardStats = mulliganCardStats.first(where: { x in x.dbf_id == dbfId }) else {
                 return card
             }

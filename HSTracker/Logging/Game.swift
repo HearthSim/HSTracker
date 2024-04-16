@@ -3104,7 +3104,7 @@ class Game: NSObject, PowerEventHandler {
                         let numSwappedCards = self.getMulliganSwappedCards()?.count ?? 0
                         if numSwappedCards > 0 {
                             // show the updated cards
-                            let dbfIds = openingHand.compactMap { x in x.card.dbfId }
+                            let dbfIds = openingHand.compactMap { x in x.card.deckbuildingCard.dbfId }
                             if dbfIds.count > 0 {
                                 DispatchQueue.main.async {
                                     self.showMulliganGuideStats(stats: dbfIds.compactMap { dbfId in
@@ -3228,7 +3228,7 @@ class Game: NSObject, PowerEventHandler {
                     let shortId = currentDeck.shortid
                     if !shortId.isEmpty {
                         let cards = player.playerEntities.filter { x in x.isInHand && !x.info.created }
-                        let dbfIds = cards.sorted(by: { (a, b) in a.zonePosition < b.zonePosition }).compactMap { x in x.card.dbfId }
+                        let dbfIds = cards.sorted(by: { (a, b) in a.zonePosition < b.zonePosition }).compactMap { x in x.card.deckbuildingCard.dbfId }
                         let opponentClass = opponent.playerEntities.first( where: { x in x.isHero && x.isInPlay })?.card.playerClass ?? CardClass.invalid
                         let hasCoin = player.hasCoin
                         
