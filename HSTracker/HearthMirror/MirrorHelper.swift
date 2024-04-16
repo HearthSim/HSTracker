@@ -180,10 +180,10 @@ struct MirrorHelper {
         return result
     }
     
-    static func getBattlegroundsRating() -> Int? {
-        var result: Int?
+    static func getBattlegroundsRatingInfo() -> MirrorBattlegroundRatingInfo? {
+        var result: MirrorBattlegroundRatingInfo?
         MirrorHelper.accessQueue.sync {
-            result = mirror?.getBattlegroundsRating() as? Int? ?? nil
+            result = mirror?.getBattlegroundsRatingInfo()
         }
         return result
     }

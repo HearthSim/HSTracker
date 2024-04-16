@@ -162,7 +162,7 @@ class BattlegroundsSession: OverWindowController {
         
         let firstGame = updateLatestGames()
         
-        let rating = game.battlegroundsRating ?? 0
+        let rating = game.battlegroundsRatingInfo?.rating.intValue ?? 0
         let ratingStart = firstGame?.rating ?? rating
         
         if Settings.showMMRStartCurrent {
@@ -238,7 +238,7 @@ class BattlegroundsSession: OverWindowController {
         if sessionGames.count > 0, let lastGame = sessionGames.last {
             // Check for MMR reset on last game
             var ratingResetedAfterLastGame = false
-            if let currentMMR = AppDelegate.instance().coreManager.game.battlegroundsRating {
+            if let currentMMR = AppDelegate.instance().coreManager.game.battlegroundsRatingInfo?.rating.intValue {
                 let sessionLastMMR = lastGame.ratingAfter
                 ratingResetedAfterLastGame = currentMMR < 500 && currentMMR - sessionLastMMR < -500
             }

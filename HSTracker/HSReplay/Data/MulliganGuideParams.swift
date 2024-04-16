@@ -15,15 +15,17 @@ class MulliganGuideParams: Encodable {
     var opponent_class: String
     var player_initiative: String
     var player_star_level: Int?
+    var player_star_multiplier: Int?
     var player_region: String?
     
-    init(deckstring: String, game_type: Int, format_type: Int, opponent_class: String, player_initiative: String, player_star_level: Int? = nil, player_region: String? = nil) {
+    init(deckstring: String, game_type: Int, format_type: Int, opponent_class: String, player_initiative: String, player_star_level: Int? = nil, player_star_multiplier: Int? = nil, player_region: String? = nil) {
         self.deckstring = deckstring
         self.game_type = game_type
         self.format_type = format_type
         self.opponent_class = opponent_class
         self.player_initiative = player_initiative
         self.player_star_level = player_star_level
+        self.player_star_multiplier = player_star_multiplier
         self.player_region = player_region
     }
 }

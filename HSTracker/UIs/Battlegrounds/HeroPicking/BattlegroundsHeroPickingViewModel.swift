@@ -157,7 +157,7 @@ class BattlegroundsHeroPickingViewModel: ViewModel {
             return nil
         }
         
-        return BattlegroundsHeroPickStatsParams(hero_dbf_ids: heroIds, minion_types: availableRaces.compactMap { x in Int(Race.allCases.firstIndex(of: x)!) }, anomaly_dbf_id: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: game.gameEntity), game_language: "\(Settings.hearthstoneLanguage ?? .enUS)", battlegrounds_rating: game.battlegroundsRating)
+        return BattlegroundsHeroPickStatsParams(hero_dbf_ids: heroIds, minion_types: availableRaces.compactMap { x in Int(Race.allCases.firstIndex(of: x)!) }, anomaly_dbf_id: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: game.gameEntity), game_language: "\(Settings.hearthstoneLanguage ?? .enUS)", battlegrounds_rating: game.battlegroundsRatingInfo?.rating.intValue ?? 0)
 
     }
 }

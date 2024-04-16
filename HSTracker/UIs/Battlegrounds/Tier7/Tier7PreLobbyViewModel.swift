@@ -200,7 +200,7 @@ class Tier7PreLobbyViewModel: ViewModel {
         if let acc = acc {
             allTimeFromApi = await HSReplayAPI.getAllTimeBGsMMR(hi: acc.hi.int64Value, lo: acc.lo.intValue)?.all_time_high_mmr
         }
-        let currentMMR = AppDelegate.instance().coreManager.game.battlegroundsRating
+        let currentMMR = AppDelegate.instance().coreManager.game.battlegroundsRatingInfo?.rating.intValue
         if let api = allTimeFromApi, let curr = currentMMR {
             allTimeHighMMR = "\(max(api, curr))"
         } else if let api = allTimeFromApi {

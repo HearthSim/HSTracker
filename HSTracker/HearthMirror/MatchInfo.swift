@@ -18,14 +18,14 @@ struct MatchInfo {
         var leagueId: Int
         var stars: Int
         var legendRank: Int
-        var starMultiplier: Int
+        var starsPerWin: Int
         var starLevel: Int
         
         init(mirrorMedalInfo: MirrorMedalInfo) {
             self.leagueId = mirrorMedalInfo.leagueId as? Int ?? 0
             self.legendRank = mirrorMedalInfo.legendRank as? Int ?? 0
             self.stars = mirrorMedalInfo.stars as? Int ?? 0
-            self.starMultiplier = mirrorMedalInfo.starMultiplier as? Int ?? 0
+            self.starsPerWin = mirrorMedalInfo.starsPerWin as? Int ?? 0
             self.starLevel = mirrorMedalInfo.starLevel as? Int ?? 0
         }
     }

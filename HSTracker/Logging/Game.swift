@@ -1100,7 +1100,7 @@ class Game: NSObject, PowerEventHandler {
     private var _matchInfoCacheInvalid = true
     private var _matchInfo: MatchInfo?
     
-    private var _battlegroundsRating: Int?
+    private var _battlegroundsRatingInfo: MirrorBattlegroundRatingInfo?
     
     private var _mercenariesRating: Int?
     
@@ -1160,15 +1160,15 @@ class Game: NSObject, PowerEventHandler {
         return _unavailableRaces
     }
 
-    var battlegroundsRating: Int? {
-        if let rating = _battlegroundsRating {
-            return rating
+    var battlegroundsRatingInfo: MirrorBattlegroundRatingInfo? {
+        if let info = _battlegroundsRatingInfo {
+            return info
         }
         
-        _battlegroundsRating = MirrorHelper.getBattlegroundsRating()
+        _battlegroundsRatingInfo = MirrorHelper.getBattlegroundsRatingInfo()
         
-        logger.debug("Got battlegroundsRating=\(_battlegroundsRating ?? -1)")
-        return _battlegroundsRating
+        logger.debug("Got battlegroundsRatingInfo=\(_battlegroundsRatingInfo ?? MirrorBattlegroundRatingInfo())")
+        return _battlegroundsRatingInfo
     }
     
     var matchInfo: MatchInfo? {
@@ -1453,7 +1453,6 @@ class Game: NSObject, PowerEventHandler {
         gameTriggerCount = 0
 
         _matchInfo = nil
-        _battlegroundsRating = nil
         _currentFormatType = .ft_unknown
         _currentGameType = .gt_unknown
 		_currentGameMode = .none
@@ -1516,9 +1515,7 @@ class Game: NSObject, PowerEventHandler {
     }
     
     func cacheBattlegroundRatingInfo() {
-        if let rating = MirrorHelper.getBattlegroundsRating() {
-            _battlegroundsRating = rating
-        }
+        _battlegroundsRatingInfo = MirrorHelper.getBattlegroundsRatingInfo()
     }
     
     func cacheMercenariesRatingInfo() {
@@ -1848,7 +1845,7 @@ class Game: NSObject, PowerEventHandler {
                 result.opponentRank = classic ? opposingPlayer.classicRank : wild ? opposingPlayer.wildRank : twist ? opposingPlayer.twistRank : opposingPlayer.standardRank
             }
             result.starLevel = playerInfo.starLevel
-            result.starMultiplier = playerInfo.starMultiplier
+            result.starMultiplier = playerInfo.starsPerWin
             result.stars = playerInfo.stars
             result.opponentStarLevel = opponentInfo.starLevel
             result.legendRank = playerInfo.legendRank
@@ -1859,8 +1856,8 @@ class Game: NSObject, PowerEventHandler {
 		} else if let brawlInfo = self.brawlInfo, self.currentGameMode == .brawl {
 			result.brawlWins = brawlInfo.wins
 			result.brawlLosses = brawlInfo.losses
-        } else if isBattlegroundsMatch(), let rating = self.battlegroundsRating {
-            result.battlegroundsRating = rating
+        } else if isBattlegroundsMatch(), let rating = self.battlegroundsRatingInfo {
+            result.battlegroundsRating = rating.rating.intValue
         } else if isMercenariesMatch() {
             if isMercenariesPvpMatch(), let rating = self.mercenariesRating {
                 result.mercenariesRating = rating
@@ -1946,9 +1943,6 @@ class Game: NSObject, PowerEventHandler {
             }
             updatePostGameBattlegroundsRating(gameStats: currentGameStats)
             recordBattlegroundsGame(gameStats: currentGameStats)
-            if currentGameStats.battlegroundsRatingAfter != 0 {
-                _battlegroundsRating = currentGameStats.battlegroundsRatingAfter
-            }
             windowManager.battlegroundsSession.onGameEnd(gameStats: currentGameStats)
             windowManager.battlegroundsHeroPicking.viewModel.reset()
             windowManager.battlegroundsQuestPicking.viewModel.reset()
@@ -2580,7 +2574,7 @@ class Game: NSObject, PowerEventHandler {
 
                 DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3), execute: {
                     let view = BgHeroesToastView(frame: NSRect.zero)
-                    view.mmr = self.battlegroundsRating
+                    view.mmr = self.battlegroundsRatingInfo?.rating.intValue ?? 0
                     view.clicked = {
                         AppDelegate.instance().coreManager.toaster.hide()
                     }
@@ -3310,8 +3304,9 @@ class Game: NSObject, PowerEventHandler {
         }
         let opponentClass = opponent.playerEntities.first { x in x.isHero && x.isInPlay }?.card.playerClass
         let starMedal = playerMedalInfo?.starLevel ?? 0
+        let starsPerWin = playerMedalInfo?.starsPerWin ?? 0
         
-        return MulliganGuideParams(deckstring: activeDeck.shortid, game_type: BnetGameType.getBnetGameType(gameType: currentGameType, format: currentFormat).rawValue, format_type: currentFormatType.rawValue, opponent_class: opponentClass?.rawValue.uppercased() ?? CardClass.invalid.rawValue.uppercased(), player_initiative: player.hasCoin ? "COIN" : "FIRST", player_star_level: starMedal > 0 ? starMedal : 1, player_region: Region.toBnetRegion(region: currentRegion))
+        return MulliganGuideParams(deckstring: activeDeck.shortid, game_type: BnetGameType.getBnetGameType(gameType: currentGameType, format: currentFormat).rawValue, format_type: currentFormatType.rawValue, opponent_class: opponentClass?.rawValue.uppercased() ?? CardClass.invalid.rawValue.uppercased(), player_initiative: player.hasCoin ? "COIN" : "FIRST", player_star_level: starMedal > 0 ? starMedal : nil, player_star_multiplier: starsPerWin > 0 ? starsPerWin : nil, player_region: Region.toBnetRegion(region: currentRegion))
     }
     
     @MainActor
