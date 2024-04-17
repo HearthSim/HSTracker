@@ -177,7 +177,8 @@ class BattlegroundsTierDetailsView: NSStackView {
             if let availableRaces, let spellRace = spellRaceMapping[$0.id], !availableRaces.contains(spellRace) {
                 return false
             }
-            return $0.techLevel == tier
+            let exclude = !isDuos && $0.battlegroundsDuosExclusive
+            return $0.techLevel == tier && !exclude
         }.map { inCard in
             let card = Card()
             
