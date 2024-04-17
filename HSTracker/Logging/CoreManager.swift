@@ -75,8 +75,7 @@ final class CoreManager: NSObject {
         
         BaconWatcher.change = { _, args in
             if #available(macOS 10.15, *) {
-                // TODO: hide BattlegroundsSession here
-                self.game.showTier7PreLobby(show: !args.isAnyOpen(), checkAccountStatus: false)
+                self.game.setBaconState(args.selectedBattlegroundsGameMode, args.isAnyOpen())
             }
         }
         DeckPickerWatcher.change = { _, args in

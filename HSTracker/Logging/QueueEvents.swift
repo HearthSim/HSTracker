@@ -14,11 +14,15 @@ class QueueEvents {
     
     private let _game: Game
     
+    var isInQueue = false
+    
     init(game: Game) {
         _game = game
     }
     
     func handle(_ e: QueueEventArgs) {
+        isInQueue = e.isInQueue
+        
         if !_game.isInMenu {
             return
         }
@@ -27,6 +31,9 @@ class QueueEvents {
         }
         if _game.currentMode == .tournament {
             _game.setConstructedQueue(e.isInQueue)
+        }
+        if _game.currentMode == .bacon {
+            _game.setBaconQueue(e.isInQueue)
         }
         if e.isInQueue {
             // _game.metadata.enqueueTime = Date.now()
@@ -37,19 +44,8 @@ class QueueEvents {
             } else if Settings.autoDeckDetection {
                 _game.set(activeDeckId: nil, autoDetected: true)
             }
-            
-            if _game.currentMode == .bacon {
-                if #available(macOS 10.15, *) {
-                    _game.showTier7PreLobby(show: false, checkAccountStatus: false)
-                }
-            }
         } else {
             logger.info("No longer in queue")
-            if _game.currentMode == .bacon && e.previous != .SERVER_GAME_CONNECTING {
-                if #available(macOS 10.15, *) {
-                    _game.showTier7PreLobby(show: true, checkAccountStatus: false, delay: 0)
-                }
-            }
         }
     }
 

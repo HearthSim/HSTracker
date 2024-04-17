@@ -118,25 +118,13 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
         } else if sender == enableTier7Overlay {
             Settings.enableTier7Overlay = sender.state == .on
             updateEnablement()
-            if game.currentMode == .bacon {
-                if #available(macOS 10.15, *) {
-                    if sender.state == .on {
-                        game.showTier7PreLobby(show: true, checkAccountStatus: true)
-                    } else {
-                        game.showTier7PreLobby(show: false, checkAccountStatus: false)
-                    }
-                }
+            if #available(macOS 10.15, *) {
+                game.updateTier7PreLobbyVisibility()
             }
         } else if sender == showTier7PreLobby {
             Settings.showBattlegroundsTier7PreLobby = sender.state == .on
-            if game.currentMode == .bacon {
-                if #available(macOS 10.15, *) {
-                    if sender.state == .on {
-                        game.showTier7PreLobby(show: true, checkAccountStatus: true)
-                    } else {
-                        game.showTier7PreLobby(show: false, checkAccountStatus: false)
-                    }
-                }
+            if #available(macOS 10.15, *) {
+                game.updateTier7PreLobbyVisibility()
             }
         } else if sender == showHeroPicking {
             Settings.showBattlegroundsHeroPicking = sender.state == .on

@@ -47,10 +47,6 @@ struct LoadingScreenHandler: LogEventParser {
                 if next != .gameplay {
                     game.showBattlegroundsSession(false, true)
                 }
-                if #available(macOS 10.15, *) {
-                    game.showTier7PreLobby(show: false, checkAccountStatus: false)
-                    BaconWatcher.stop()
-                }
             }
         }
         matches = GameModeRegex.matches(logLine.line)

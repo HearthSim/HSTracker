@@ -30,11 +30,13 @@ class BattlegroundsSession: OverWindowController {
     @IBOutlet weak var lastGames: NSStackView!
     
     @IBOutlet weak var sessionPanel: NSStackView!
-        
+    
     private var sessionGames = [BattlegroundsLastGames.GameItem]()
     
     var visibility = false
-        
+    
+    var battlegroundsGameMode: SelectedBattlegroundsGameMode = .unknown
+    
     func updateScaling() {
         guard let window else {
             return
@@ -96,9 +98,11 @@ class BattlegroundsSession: OverWindowController {
     }
     
     func updateSectionsVisibilities() {
+        let game = AppDelegate.instance().coreManager.game
+        let isDuos = game.isInMenu ? battlegroundsGameMode == .duos : game.isBattlegroundsDuosMatch()
         tribesSection.isHidden = !Settings.showBannedTribes
-        mmrSection.isHidden = !Settings.showMMR
-        latestGamesSection.isHidden = !Settings.showLatestGames
+        mmrSection.isHidden = !Settings.showMMR || isDuos
+        latestGamesSection.isHidden = !Settings.showLatestGames || isDuos
     }
 
     func update() {

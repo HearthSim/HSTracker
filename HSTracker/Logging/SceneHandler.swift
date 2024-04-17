@@ -46,7 +46,9 @@ class SceneHandler {
                 game.showBattlegroundsSession(false, true)
             }
             if #available(macOS 10.15, *) {
-                game.showTier7PreLobby(show: false, checkAccountStatus: false)
+                DispatchQueue.main.async {
+                    game.updateTier7PreLobbyVisibility()
+                }
                 BaconWatcher.stop()
             }
         }
@@ -70,10 +72,19 @@ class SceneHandler {
             game.cacheBattlegroundRatingInfo()
             
             game.showBattlegroundsSession(true, true)
-            if #available(macOS 10.15, *) {
-                game.showTier7PreLobby(show: true, checkAccountStatus: true)
-                BaconWatcher.start()
+            DispatchQueue.main.async {
+                game.windowManager.battlegroundsSession.updateSectionsVisibilities()
+                if #available(macOS 10.15, *) {
+                    game.updateTier7PreLobbyVisibility()
+                    BaconWatcher.start()
+                }
             }
+        } else if to == .gameplay {
+            DispatchQueue.main.async {
+                game.windowManager.battlegroundsSession.updateSectionsVisibilities()
+            }
+        } else if from == .bacon {
+            game.windowManager.tier7PreLobby.viewModel.invalidateUserState()
         }
     }
 }

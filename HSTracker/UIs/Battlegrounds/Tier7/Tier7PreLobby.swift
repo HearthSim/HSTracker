@@ -131,6 +131,7 @@ class Tier7PreLobby: OverWindowController {
         if #available(macOS 10.15, *) {
             Task.init {
                 viewModel.refreshAccountEnabled = false
+                viewModel.invalidateUserState()
                 await withThrowingTaskGroup(of: Void.self, body: { group in
                     group.addTask {
                         _ = await HSReplayAPI.getAccountAsync()

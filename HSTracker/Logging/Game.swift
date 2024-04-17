@@ -951,42 +951,52 @@ class Game: NSObject, PowerEventHandler {
             }
         }
     }
+    
+    func setBaconState(_ mode: SelectedBattlegroundsGameMode, _ isAnyOpen: Bool) {
+        windowManager.tier7PreLobby.viewModel.battlegroundsGameMode = mode
+        windowManager.tier7PreLobby.viewModel.isModalOpen = !queueEvents.isInQueue && isAnyOpen
+        windowManager.battlegroundsSession.battlegroundsGameMode = mode
+        if #available(macOS 10.15, *) {
+            DispatchQueue.main.async {
+                self.updateTier7PreLobbyVisibility()
+            }
+        }
+    }
+    
+    func setBaconQueue(_ isAnyOpen: Bool) {
+        if #available(macOS 10.15, *) {
+            DispatchQueue.main.async {
+                self.updateTier7PreLobbyVisibility()
+            }
+        }
+    }
         
     @available(macOS 10.15, *)
-    func showTier7PreLobby(show: Bool, checkAccountStatus: Bool, delay: Int = 500) {
-        Task.init {
-            if await Debounce.wasCalledAgain(milliseconds: 50) {
+    @MainActor
+    func updateTier7PreLobbyVisibility() {
+        let show = isRunning && isInMenu && !queueEvents.isInQueue && SceneHandler.scene == .bacon && Settings.enableTier7Overlay && Settings.showBattlegroundsTier7PreLobby && windowManager.tier7PreLobby.viewModel.battlegroundsGameMode != .duos
+        if show {
+            if !Settings.enableTier7Overlay || isBattlegroundsDuosMatch() {
                 return
             }
-            
-            if show {
-                if !Settings.enableTier7Overlay || isBattlegroundsDuosMatch() {
-                    return
-                }
+            Task.init {
+                _ = await windowManager.tier7PreLobby.viewModel.update()
+            }
+            if Settings.showBattlegroundsTier7PreLobby || !(HSReplayAPI.accountData?.is_tier7 ?? false) {
                 Task.init {
-                    _ = await windowManager.tier7PreLobby.viewModel.update(checkAccountStatus)
+                    _ = await windowManager.tier7PreLobby.viewModel.update()
                 }
-                if Settings.showBattlegroundsTier7PreLobby || !(HSReplayAPI.accountData?.is_tier7 ?? false) {
-                    Task.init {
-                        _ = await windowManager.tier7PreLobby.viewModel.update(checkAccountStatus)
-                    }
+            }
+            DispatchQueue.main.async {
+                self.windowManager.tier7PreLobby.viewModel.visibility = true
+                if self.hearthstoneRunState.isActive {
+                    self.windowManager.show(controller: self.windowManager.tier7PreLobby, show: true, frame: SizeHelper.tier7PreLobbyFrame())
                 }
-                do {
-                    try await Task.sleep(nanoseconds: UInt64(1_000_000 * delay))
-                } catch {
-                    logger.error(error)
-                }
-                DispatchQueue.main.async {
-                    self.windowManager.tier7PreLobby.viewModel.visibility = true
-                    if self.hearthstoneRunState.isActive {
-                        self.windowManager.show(controller: self.windowManager.tier7PreLobby, show: true, frame: SizeHelper.tier7PreLobbyFrame())
-                    }
-                }
-            } else {
-                DispatchQueue.main.async {
-                    self.windowManager.tier7PreLobby.viewModel.visibility = false
-                    self.windowManager.show(controller: self.windowManager.tier7PreLobby, show: false)
-                }
+            }
+        } else {
+            DispatchQueue.main.async {
+                self.windowManager.tier7PreLobby.viewModel.visibility = false
+                self.windowManager.show(controller: self.windowManager.tier7PreLobby, show: false)
             }
         }
     }

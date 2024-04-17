@@ -32,6 +32,16 @@ class Tier7PreLobbyViewModel: ViewModel {
         }
     }
     
+    var isModalOpen: Bool {
+        get {
+            return getProp(false)
+        }
+        set {
+            setProp(newValue)
+            onPropertyChanged("visibility")
+        }
+    }
+    
     var visibility: Bool {
         get {
             return getProp(false)
@@ -39,6 +49,10 @@ class Tier7PreLobbyViewModel: ViewModel {
         set {
             setProp(newValue)
         }
+    }
+    
+    func invalidateUserState() {
+        userState = .loading
     }
     
     var userState: UserState {
@@ -133,7 +147,7 @@ class Tier7PreLobbyViewModel: ViewModel {
     private var _isUpdatingAccount = false
     
     @available(macOS 10.15.0, *)
-    func update(_ checkAccountStatus: Bool) async {
+    func update() async {
         if userState == .disabled {
             return
         }
@@ -155,7 +169,7 @@ class Tier7PreLobbyViewModel: ViewModel {
         
         var ownsTier7 = false
         if HSReplayAPI.isFullyAuthenticated && HSReplayAPI.accountData != nil {
-            if checkAccountStatus {
+            if userState == .loading {
                 // This will fire a HSReplayNetOAuth.AccountDataUpdated event. We
                 // set a flag for the duration of the update check to avoid
                 // infinite recursion here.
