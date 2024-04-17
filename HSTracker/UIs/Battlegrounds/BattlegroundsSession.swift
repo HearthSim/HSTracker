@@ -97,9 +97,12 @@ class BattlegroundsSession: OverWindowController {
         waitingForNext.isHidden = false
     }
     
-    func updateSectionsVisibilities() {
+    private var isDuos: Bool {
         let game = AppDelegate.instance().coreManager.game
-        let isDuos = game.isInMenu ? battlegroundsGameMode == .duos : game.isBattlegroundsDuosMatch()
+        return game.isInMenu ? battlegroundsGameMode == .duos : game.isBattlegroundsDuosMatch()
+    }
+    
+    func updateSectionsVisibilities() {
         tribesSection.isHidden = !Settings.showBannedTribes
         mmrSection.isHidden = !Settings.showMMR || isDuos
         latestGamesSection.isHidden = !Settings.showLatestGames || isDuos
