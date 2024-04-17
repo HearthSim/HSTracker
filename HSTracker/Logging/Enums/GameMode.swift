@@ -49,7 +49,7 @@ enum GameMode: Int {
             self = .friendly
         case .gt_arena:
             self = .arena
-        case .gt_battlegrounds, .gt_battlegrounds_friendly:
+        case .gt_battlegrounds, .gt_battlegrounds_friendly, .gt_battlegrounds_ai_vs_ai, .gt_battlegrounds_player_vs_ai, .gt_battlegrounds_duo, .gt_battlegrounds_duo_friendly, .gt_battlegrounds_duo_vs_ai, .gt_battlegrounds_duo_ai_vs_ai:
             self = .battlegrounds
         case .gt_ranked:
             self = .ranked

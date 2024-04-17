@@ -2238,7 +2238,7 @@ class Game: NSObject, PowerEventHandler {
     }
     
     func isBattlegroundsDuosMatch() -> Bool {
-        return currentGameType == .gt_battlegrounds_duo || currentGameType == .gt_battlegrounds_duo_vs_ai || currentGameType == .gt_battlegrounds_duo_friendly
+        return currentGameType == .gt_battlegrounds_duo || currentGameType == .gt_battlegrounds_duo_vs_ai || currentGameType == .gt_battlegrounds_duo_friendly || currentGameType == .gt_battlegrounds_duo_ai_vs_ai
     }
     
     var currentBattlegroundsRating: Int? {

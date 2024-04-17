@@ -37,5 +37,6 @@ enum GameType: Int {
     gt_battlegrounds_player_vs_ai = 36,
     gt_battlegrounds_duo = 37,
     gt_battlegrounds_duo_vs_ai = 38,
-    gt_battlegrounds_duo_friendly = 39
+    gt_battlegrounds_duo_friendly = 39,
+    gt_battlegrounds_duo_ai_vs_ai = 40
 }

@@ -44,7 +44,11 @@ enum BnetGameType: Int {
     bgt_mercenaries_friendly = 61,
     bgt_battlegrounds_player_vs_ai = 62,
     bgt_ranked_twist = 63,
-    bgt_casual_twist = 64
+    bgt_casual_twist = 64,
+    bgt_battlegrounds_duo = 65,
+    bgt_battlegrounds_duo_vs_ai = 66,
+    bgt_battlegrounds_duo_friendly = 67,
+    bgt_casual_standard_apprentice = 68
 
     static func getBnetGameType(gameType: GameType, format: Format?) -> BnetGameType {
         switch gameType {
@@ -80,6 +84,8 @@ enum BnetGameType: Int {
             return .bgt_battlegrounds
         case .gt_battlegrounds_friendly:
             return .bgt_battlegrounds_friendly
+        case .gt_battlegrounds_player_vs_ai:
+            return .bgt_battlegrounds_player_vs_ai
         case .gt_pvpdr:
             return .bgt_pvpdr
         case .gt_pvpdr_paid:
@@ -94,6 +100,12 @@ enum BnetGameType: Int {
             return .bgt_mercenaries_pvp
         case .gt_mercenaries_pve_coop:
             return .bgt_mercenaries_pve_coop
+        case .gt_battlegrounds_duo:
+            return .bgt_battlegrounds_duo
+        case .gt_battlegrounds_duo_vs_ai:
+            return .bgt_battlegrounds_duo_vs_ai
+        case .gt_battlegrounds_duo_friendly:
+            return .bgt_battlegrounds_duo_friendly
         default:
             return .bgt_unknown
         }
