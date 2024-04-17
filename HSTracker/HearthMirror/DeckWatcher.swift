@@ -503,21 +503,31 @@ class QueueWatcher: Watcher {
     }
 }
 
+enum SelectedBattlegroundsGameMode: Int {
+    case unknown = 0,
+         solo = 1,
+         duos = 2
+}
+
 struct BaconEventArgs: Equatable {
     let isShopOpen: Bool
     let isJournalOpen: Bool
     let isPopupShowing: Bool
     let isFriendsListOpen: Bool
+    let isBlurActive: Bool
+    let selectedBattlegroundsGameMode: SelectedBattlegroundsGameMode
     
-    init(_ isShopOpen: Bool, _ isJournalOpen: Bool, _ isPopupShowing: Bool, _ isFriendsListOpen: Bool) {
+    init(_ isShopOpen: Bool, _ isJournalOpen: Bool, _ isPopupShowing: Bool, _ isFriendsListOpen: Bool, _ isBlurActive: Bool, _ selectedBattlegroundsGameMode: SelectedBattlegroundsGameMode) {
         self.isShopOpen = isShopOpen
         self.isJournalOpen = isJournalOpen
         self.isPopupShowing = isPopupShowing
         self.isFriendsListOpen = isFriendsListOpen
+        self.isBlurActive = isBlurActive
+        self.selectedBattlegroundsGameMode = selectedBattlegroundsGameMode
     }
     
     func isAnyOpen() -> Bool {
-        return isShopOpen || isJournalOpen || isPopupShowing || isFriendsListOpen
+        return isShopOpen || isJournalOpen || isPopupShowing || isFriendsListOpen || isBlurActive
     }
 }
 
@@ -555,7 +565,7 @@ class BaconWatcher: Watcher {
             if !_watch {
                 break
             }
-            let curr = BaconEventArgs(MirrorHelper.isShopOpen(), MirrorHelper.isJournalOpen(), MirrorHelper.isPopupShowing(), MirrorHelper.isFriendsListVisible())
+            let curr = BaconEventArgs(MirrorHelper.isShopOpen(), MirrorHelper.isJournalOpen(), MirrorHelper.isPopupShowing(), MirrorHelper.isFriendsListVisible(), MirrorHelper.isBlurActive(), MirrorHelper.getSelectedBattlegroundsGameMode())
             if curr ==  _prev {
                 continue
             }

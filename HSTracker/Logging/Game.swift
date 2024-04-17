@@ -960,7 +960,7 @@ class Game: NSObject, PowerEventHandler {
             }
             
             if show {
-                if !Settings.enableTier7Overlay {
+                if !Settings.enableTier7Overlay || isBattlegroundsDuosMatch() {
                     return
                 }
                 Task.init {
@@ -1853,11 +1853,11 @@ class Game: NSObject, PowerEventHandler {
 		} else if self.currentGameMode == .arena {
 			result.arenaLosses = self.arenaInfo?.losses ?? 0
 			result.arenaWins = self.arenaInfo?.wins ?? 0
-		} else if let brawlInfo = self.brawlInfo, self.currentGameMode == .brawl {
+		} else if self.currentGameMode == .brawl, let brawlInfo = self.brawlInfo {
 			result.brawlWins = brawlInfo.wins
 			result.brawlLosses = brawlInfo.losses
-        } else if isBattlegroundsMatch(), let rating = self.battlegroundsRatingInfo {
-            result.battlegroundsRating = rating.rating.intValue
+        } else if isBattlegroundsMatch(), let rating = self.currentBattlegroundsRating {
+            result.battlegroundsRating = rating
         } else if isMercenariesMatch() {
             if isMercenariesPvpMatch(), let rating = self.mercenariesRating {
                 result.mercenariesRating = rating
@@ -2220,9 +2220,19 @@ class Game: NSObject, PowerEventHandler {
     }
 
     func isBattlegroundsMatch() -> Bool {
-        // TODO: remove
-        return currentGameType == .gt_battlegrounds || currentGameType == .gt_battlegrounds_friendly
-        //return true
+        return isBattlegroundsSoloMatch() || isBattlegroundsDuosMatch()
+    }
+    
+    func isBattlegroundsSoloMatch() -> Bool {
+        return currentGameType == .gt_battlegrounds || currentGameType == .gt_battlegrounds_friendly || currentGameType == .gt_battlegrounds_ai_vs_ai || currentGameType == .gt_battlegrounds_player_vs_ai
+    }
+    
+    func isBattlegroundsDuosMatch() -> Bool {
+        return currentGameType == .gt_battlegrounds_duo || currentGameType == .gt_battlegrounds_duo_vs_ai || currentGameType == .gt_battlegrounds_duo_friendly
+    }
+    
+    var currentBattlegroundsRating: Int? {
+        return isBattlegroundsMatch() ? isBattlegroundsDuosMatch() ? battlegroundsRatingInfo?.duosRating.intValue : battlegroundsRatingInfo?.rating.intValue : nil
     }
     
     var isFriendlyMatch: Bool { return currentGameType == .gt_vs_friend }
@@ -2597,7 +2607,7 @@ class Game: NSObject, PowerEventHandler {
     }
     
     private func handleBattlegroundsStart() {
-        if Settings.showHeroToast {
+        if Settings.showHeroToast && isBattlegroundsSoloMatch() {
             logger.debug("Start of battlegrounds match")
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500), execute: {
                 if !self.battlegroundsMulliganHandled {

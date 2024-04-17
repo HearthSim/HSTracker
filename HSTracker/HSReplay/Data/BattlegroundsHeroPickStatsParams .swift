@@ -14,4 +14,5 @@ struct BattlegroundsHeroPickStatsParams: Codable {
     var anomaly_dbf_id: Int?
     var game_language: String
     var battlegrounds_rating: Int?
+    var is_duos: Bool
 }

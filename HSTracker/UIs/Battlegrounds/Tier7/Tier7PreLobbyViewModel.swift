@@ -23,6 +23,15 @@ class Tier7PreLobbyViewModel: ViewModel {
         // FIXME: notifications
     }
     
+    var battlegroundsGameMode: SelectedBattlegroundsGameMode {
+        get {
+            return getProp(.unknown)
+        }
+        set {
+            setProp(newValue)
+        }
+    }
+    
     var visibility: Bool {
         get {
             return getProp(false)

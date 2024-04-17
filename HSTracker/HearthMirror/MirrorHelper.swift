@@ -478,4 +478,13 @@ struct MirrorHelper {
         }
         return result
     }
+    
+    static func getSelectedBattlegroundsGameMode() -> SelectedBattlegroundsGameMode {
+        var result = SelectedBattlegroundsGameMode.unknown
+        MirrorHelper.accessQueue.sync {
+            result = SelectedBattlegroundsGameMode(rawValue: mirror?.getSelectedBattlegroundsGameMode().intValue ?? 0) ?? .unknown
+        }
+        return result
+    }
 }
+

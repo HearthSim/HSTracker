@@ -170,6 +170,9 @@ class BattlegroundsOverlayView: NSView {
         
         let index = 7 - Int(CGFloat(event.locationInWindow.y / (frame.height/8)))
         let game = AppDelegate.instance().coreManager.game
+        if game.turnNumber() == 0 || game.isBattlegroundsDuosMatch() {
+            return
+        }
 
         if index != currentIndex, let hero = game.entities.values.filter({ ent in ent[.player_leaderboard_place] == index + 1}).sorted(by: { $0.id < $1.id }).first {
             if hero.cardId != game.playerHeroId {

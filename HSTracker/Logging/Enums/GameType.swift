@@ -32,5 +32,10 @@ enum GameType: Int {
     gt_mercenaries_pve = 31,
     gt_mercenaries_pve_coop = 32,
     gt_mercenaries_ai_vs_ai = 33,
-    gt_mercenaries_friendly = 34
+    gt_mercenaries_friendly = 34,
+    gt_battlegrounds_ai_vs_ai = 35,
+    gt_battlegrounds_player_vs_ai = 36,
+    gt_battlegrounds_duo = 37,
+    gt_battlegrounds_duo_vs_ai = 38,
+    gt_battlegrounds_duo_friendly = 39
 }
