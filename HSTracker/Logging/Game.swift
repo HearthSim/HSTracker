@@ -1303,15 +1303,15 @@ class Game: NSObject, PowerEventHandler {
     }
     
     var playerHeroId: String {
-        return player.board.first(where: { x in x.isHero })?.cardId ?? ""
+        return player.hero?.cardId ?? ""
     }
 
     var opponentHeroId: String {
-        return opponent.board.first(where: { x in x.isHero })?.cardId ?? ""
+        return opponent.hero?.cardId ?? ""
     }
     
     var opponentHeroHealth: Int {
-        return opponent.board.first(where: { x in x.isHero })?[.health] ?? 0
+        return opponent.hero?[.health] ?? 0
     }
 
     private var _currentFormatType = FormatType.ft_unknown

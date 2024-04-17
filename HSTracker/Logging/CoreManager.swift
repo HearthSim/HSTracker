@@ -483,7 +483,7 @@ final class CoreManager: NSObject {
         guard let core = AppDelegate.instance().coreManager else {
             return
         }
-        guard let boardHero = core.game.player.board.first(where: { x in x.isHero })?.card else {
+        guard let boardHero = core.game.player.hero?.card else {
             logger.info("Dungeon run started but player entity not found")
             return
         }

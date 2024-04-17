@@ -160,6 +160,9 @@ final class Player {
     }
 
     fileprivate(set) lazy var inDeckPredictions = [PredictedCard]()
+    var hero: Entity? {
+        return board.first { x in x.isHero }
+    }
     
     private let pastHPLock = UnfairLock()
     var pastHeroPowers = Set<String>()

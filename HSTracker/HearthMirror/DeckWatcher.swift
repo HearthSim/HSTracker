@@ -356,7 +356,7 @@ class PVPDungeonRunWatcher: Watcher {
             if shouldBreak {
                 return true
             }
-        } else if game.inPVPDungeonRunMatch && !game.opponentHeroId.isBlank && (AppDelegate.instance().coreManager.game.player.board.first(where: { x in x.isHero })?.card) != nil {
+        } else if game.inPVPDungeonRunMatch && !game.opponentHeroId.isBlank && (AppDelegate.instance().coreManager.game.player.hero?.card) != nil {
             PVPDungeonRunWatcher.pvpDungeonRunMatchStarted?(false, CardSet.darkmoon_faire)
             return true
         }

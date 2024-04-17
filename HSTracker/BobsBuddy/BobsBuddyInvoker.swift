@@ -663,7 +663,7 @@ class BobsBuddyInvoker {
         let opponentMurkyBuff = opponentMurky?[.tag_script_data_num_1] ?? 0
         input.opponentBattlecriesPlayed = Int32(opponentMurky != nil && opponentMurkyBuff > 0 ? opponentMurkyBuff / (opponentMurky!.has(tag: .premium) ? 2 : 1) - 1 : 0)
         
-        guard let oppHero = game.opponent.board.first(where: { $0.isHero }), let playerHero = game.player.board.first(where: { $0.isHero}) else {
+        guard let oppHero = game.opponent.hero, let playerHero = game.player.hero else {
             logger.error("Hero(es) could not be found. Exiting.")
             return
         }
