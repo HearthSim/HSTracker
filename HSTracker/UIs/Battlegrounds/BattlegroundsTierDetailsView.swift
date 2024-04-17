@@ -63,7 +63,7 @@ class BattlegroundsTierDetailsView: NSStackView {
         sortedRaces = races.keys.sorted(by: { (a, b) -> Bool in
             return races[a] ?? "" < races[b] ?? ""
         })
-
+        let isDuos = game.isBattlegroundsDuosMatch()
         let anomalyDbfId = BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: game.gameEntity)
         let anomalyCardId = Cards.by(dbfId: anomalyDbfId, collectible: false)?.id
         var availableTiers = BattlegroundsUtils.getAvailableTiers(anomalyCardId: anomalyCardId)
@@ -74,8 +74,10 @@ class BattlegroundsTierDetailsView: NSStackView {
         let showBD = Settings.showBattlecryDeathrattleOnTiers
         var cardBars: [CardBar] = bgMinions.filter {
             let races = $0.bgRaces
-            return ($0.techLevel == tier &&
+            let isBG = ($0.techLevel == tier &&
                     (races.count == 0 || (availableRaces?.any(races.contains) ?? false)))
+            let exclude = !isDuos && $0.battlegroundsDuosExclusive
+            return isBG && !exclude
         }.map { inCard in
             let card = Card()
             

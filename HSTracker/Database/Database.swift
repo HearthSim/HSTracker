@@ -101,6 +101,8 @@ class Database: NSObject, XMLParserDelegate {
                     if !Database.battlegroundsExclusions.contains(currentCard?.id ?? "") {
                         currentCard?.battlegroundsPoolMinion = intValue > 0
                     }
+                case GameTag.is_bacon_duos_exclusive.rawValue:
+                    currentCard?.battlegroundsDuosExclusive = intValue > 0
                 case GameTag.bacon_skin_parent_id.rawValue:
                     currentCard?.battlegroundsSkinParentId = intValue
                 case GameTag.hide_stats.rawValue:

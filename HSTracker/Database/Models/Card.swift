@@ -46,6 +46,7 @@ final class Card {
     var hideStats = false
     var mercenariesAbilityCooldown = 0
     var battlegroundsPoolMinion = false
+    var battlegroundsDuosExclusive = false
     var battlegroundsPoolSpell = false
     var deckListIndex = 0
     var battlegroundsSkinParentId = 0
@@ -224,6 +225,7 @@ extension Card: NSCopying {
         copy.mercenariesAbilityCooldown = self.mercenariesAbilityCooldown
         copy.battlegroundsPoolMinion = self.battlegroundsPoolMinion
         copy.battlegroundsPoolSpell = self.battlegroundsPoolSpell
+        copy.battlegroundsDuosExclusive = self.battlegroundsDuosExclusive
         copy.deckListIndex = self.deckListIndex
         copy.battlegroundsSkinParentId = self.battlegroundsSkinParentId
         copy.races = self.races
