@@ -1,3 +1,14 @@
+# 2.7.2
+## New
+- Updated for Hearthstone 29.2.0
+- Added support for E.T.C. sideboard
+- Better dark mode icons in the deck manager
+## Fixes
+- Fixed an issue causing the Mulligan Guide to not show data for Zilliax Deluxe 3000
+- Fixed Battlegrounds session scaling issue
+**Notes**:
+- Most Battlegrounds features are disabled in Duos right now. We'll be investigating what's possible in the coming days!
+
 # 2.7.1
 ## New
 - Updated for Hearthstone 29.0.3
