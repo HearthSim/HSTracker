@@ -30,11 +30,8 @@ final class CoreManager: NSObject {
     static let applicationName = "Hearthstone"
 
     var logReaderManager: LogReaderManager!
-    //static var assetGenerator: HearthAssets?
     
     // watchers
-    let packWatcher = PackWatcher()
-    
     let game: Game
     var toaster: Toaster!
     

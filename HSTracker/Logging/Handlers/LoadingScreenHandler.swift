@@ -110,12 +110,6 @@ struct LoadingScreenHandler: LogEventParser {
                 ArenaWatcher.stop()
             }
             
-            if game.currentMode == .packopening {
-                coreManager.packWatcher.startWatching()
-            } else {
-                coreManager.packWatcher.stopWatching()
-            }
-            
             if game.currentMode == .tavern_brawl {
                 game.cacheBrawlInfo()
             }
