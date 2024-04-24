@@ -478,6 +478,11 @@
 		B849674328A5830D00D90B30 /* libcoreclr.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B849674228A5830D00D90B30 /* libcoreclr.dylib */; };
 		B850AA33252CB0490031E8F2 /* TurnCounter.xib in Resources */ = {isa = PBXBuildFile; fileRef = B850AA32252CB0490031E8F2 /* TurnCounter.xib */; };
 		B850AA35252CB0FA0031E8F2 /* TurnCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */; };
+		B851C8F52BD29FF700B748C1 /* BattlegroundsCardsGroups.xib in Resources */ = {isa = PBXBuildFile; fileRef = B851C8F42BD29FF700B748C1 /* BattlegroundsCardsGroups.xib */; };
+		B851C8F72BD2BCDA00B748C1 /* BattlegroundsCardsGroups.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851C8F62BD2BCDA00B748C1 /* BattlegroundsCardsGroups.swift */; };
+		B851C8F92BD6821600B748C1 /* BattlegroundsDb.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851C8F82BD6821600B748C1 /* BattlegroundsDb.swift */; };
+		B851C8FB2BD886E300B748C1 /* BattlegroundsMinionTypesBox.xib in Resources */ = {isa = PBXBuildFile; fileRef = B851C8FA2BD886E300B748C1 /* BattlegroundsMinionTypesBox.xib */; };
+		B851C8FD2BD8953400B748C1 /* BattlegroundsMinionTypesBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851C8FC2BD8953400B748C1 /* BattlegroundsMinionTypesBox.swift */; };
 		B8591FEE2B1776FF00B907A4 /* SpellSchool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FED2B1776FF00B907A4 /* SpellSchool.swift */; };
 		B8591FF02B23CC7D00B907A4 /* ChoiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FEF2B23CC7D00B907A4 /* ChoiceType.swift */; };
 		B8591FF22B23CDC600B907A4 /* Choice.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FF12B23CDC600B907A4 /* Choice.swift */; };
@@ -1199,6 +1204,11 @@
 		B849674228A5830D00D90B30 /* libcoreclr.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcoreclr.dylib; path = "downloaded-frameworks/mono/runtimes/osx-x64/native/libcoreclr.dylib"; sourceTree = "<group>"; };
 		B850AA32252CB0490031E8F2 /* TurnCounter.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TurnCounter.xib; sourceTree = "<group>"; };
 		B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnCounter.swift; sourceTree = "<group>"; };
+		B851C8F42BD29FF700B748C1 /* BattlegroundsCardsGroups.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsCardsGroups.xib; sourceTree = "<group>"; };
+		B851C8F62BD2BCDA00B748C1 /* BattlegroundsCardsGroups.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsCardsGroups.swift; sourceTree = "<group>"; };
+		B851C8F82BD6821600B748C1 /* BattlegroundsDb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsDb.swift; sourceTree = "<group>"; };
+		B851C8FA2BD886E300B748C1 /* BattlegroundsMinionTypesBox.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsMinionTypesBox.xib; sourceTree = "<group>"; };
+		B851C8FC2BD8953400B748C1 /* BattlegroundsMinionTypesBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsMinionTypesBox.swift; sourceTree = "<group>"; };
 		B8591FED2B1776FF00B907A4 /* SpellSchool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellSchool.swift; sourceTree = "<group>"; };
 		B8591FEF2B23CC7D00B907A4 /* ChoiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceType.swift; sourceTree = "<group>"; };
 		B8591FF12B23CDC600B907A4 /* Choice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Choice.swift; sourceTree = "<group>"; };
@@ -1747,6 +1757,7 @@
 				B8FE1F9A28784ABF004C397C /* Analytics */,
 				434910481D09544200B22DB2 /* BoardDamage */,
 				BC78DD741E806B6F00DBA7C9 /* Algorithm.swift */,
+				B851C8F82BD6821600B748C1 /* BattlegroundsDb.swift */,
 				B8BB7AB32832F02D008239CA /* BattlegroundsUtils.swift */,
 				B804FC2D29437AF500F74CD9 /* Debounce.swift */,
 				B8AB59952742FA5C00383EC8 /* Deque.swift */,
@@ -2166,6 +2177,7 @@
 				B8AF9331282D797700864934 /* BattlegroundsTribe.xib */,
 				B804FC422946BAB200F74CD9 /* Composition */,
 				B8AC9A1A293CE31D0047F438 /* HeroPicking */,
+				B851C8F32BD29FDC00B748C1 /* Minions */,
 				B8AC9A24293F91FC0047F438 /* QuestPicking */,
 				B804FC3E2946882D00F74CD9 /* StatsHeaderViewModel.swift */,
 				B8AC9A1F293D42510047F438 /* Tier7 */,
@@ -2255,6 +2267,17 @@
 				B8D8859124F3034700F2F0F2 /* StatusMessageConverter.swift */,
 			);
 			path = BobsBuddy;
+			sourceTree = "<group>";
+		};
+		B851C8F32BD29FDC00B748C1 /* Minions */ = {
+			isa = PBXGroup;
+			children = (
+				B851C8F62BD2BCDA00B748C1 /* BattlegroundsCardsGroups.swift */,
+				B851C8F42BD29FF700B748C1 /* BattlegroundsCardsGroups.xib */,
+				B851C8FC2BD8953400B748C1 /* BattlegroundsMinionTypesBox.swift */,
+				B851C8FA2BD886E300B748C1 /* BattlegroundsMinionTypesBox.xib */,
+			);
+			path = Minions;
 			sourceTree = "<group>";
 		};
 		B89586422B804DF300989C13 /* Constructed */ = {
@@ -2626,7 +2649,9 @@
 				B83355AE24F807220025F644 /* BobsBuddyPanel.xib in Resources */,
 				B82AE5FF28BE8631004A8FE0 /* HearthMirror-version.txt in Resources */,
 				B895864D2B82614D00989C13 /* ConstructedMulliganSingleCardHeader.xib in Resources */,
+				B851C8FB2BD886E300B748C1 /* BattlegroundsMinionTypesBox.xib in Resources */,
 				432B5FBC1CB5373200B05D19 /* Splashscreen.xib in Resources */,
+				B851C8F52BD29FF700B748C1 /* BattlegroundsCardsGroups.xib in Resources */,
 				B8AFA4092723306D00B3470E /* BoardOverlay.xib in Resources */,
 				B8AF0C6D2B83AAAE00B65F63 /* ConstructedMulliganSingleCardStats.xib in Resources */,
 				B83CF36F294E3DC6003C9062 /* BattlegroundsCompositionPopularityBar.xib in Resources */,
@@ -2868,6 +2893,7 @@
 				B8AF0C792B91444200B65F63 /* ConstructedMulliganGuidePreLobbyViewModel.swift in Sources */,
 				43F204121E93C2E600E0BC4A /* Warlock.swift in Sources */,
 				B83CF364294BB808003C9062 /* BattlegroundsQuestPicking.swift in Sources */,
+				B851C8F72BD2BCDA00B748C1 /* BattlegroundsCardsGroups.swift in Sources */,
 				B8A9CB332571F160000071FC /* GuessedCardState.swift in Sources */,
 				43F204061E93C2E600E0BC4A /* Deathknight.swift in Sources */,
 				43F204091E93C2E600E0BC4A /* Hunter.swift in Sources */,
@@ -3085,12 +3111,14 @@
 				B804FC2C294362C800F74CD9 /* Tier7Trial.swift in Sources */,
 				B8BDF9062A9625D9000DA4ED /* AnomalyFactoryProxy.swift in Sources */,
 				439C7EB91C777F8900D29859 /* GameResult.swift in Sources */,
+				B851C8FD2BD8953400B748C1 /* BattlegroundsMinionTypesBox.swift in Sources */,
 				436F5D121CFD7E7500DEB9A1 /* DarkBar.swift in Sources */,
 				B8074B0228C83A96006E0133 /* RewardTrackType.swift in Sources */,
 				B8AFA40B2723310700B3470E /* BoardOverlay.swift in Sources */,
 				B8BDF9082A9626A8000DA4ED /* AnomalyProxy.swift in Sources */,
 				43C9EF291E9C1DED00D17F2A /* ArenaHelperSync.swift in Sources */,
 				B8AC9A23293D48E10047F438 /* OverlayMessage.swift in Sources */,
+				B851C8F92BD6821600B748C1 /* BattlegroundsDb.swift in Sources */,
 				B8AF9330282D4A7C00864934 /* BattlegroundsSession.swift in Sources */,
 				B8591FFE2B31328A00B907A4 /* RecurringNightmare.swift in Sources */,
 				43F4D0491EB7A23E006B4479 /* HeroPower.swift in Sources */,

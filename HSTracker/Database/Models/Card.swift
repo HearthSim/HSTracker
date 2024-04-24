@@ -35,7 +35,6 @@ final class Card {
     var text = ""
     var enText = ""
     var race: Race = .invalid
-    var bgRaces: [Race] = []
     var races: [Race] = []
     var type: CardType = .invalid
     var mechanics: [String] = []
@@ -229,7 +228,6 @@ extension Card: NSCopying {
         copy.deckListIndex = self.deckListIndex
         copy.battlegroundsSkinParentId = self.battlegroundsSkinParentId
         copy.races = self.races
-        copy.bgRaces = self.bgRaces
         copy.zilliaxCustomizableFunctionalModule = self.zilliaxCustomizableFunctionalModule
         copy.zilliaxCustomizableCosmeticModule = self.zilliaxCustomizableCosmeticModule
 

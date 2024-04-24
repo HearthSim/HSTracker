@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="BattlegroundsCardsGroups" customModule="HSTracker" customModuleProvider="target">
+            <connections>
+                <outlet property="box" destination="nPf-EK-di5" id="4f5-Ew-PdB"/>
+                <outlet property="cardsList" destination="oMw-hn-yYf" id="ONx-eD-EK1"/>
+                <outlet property="contentView" destination="c22-O7-iKe" id="ssa-PI-oeX"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="c22-O7-iKe">
+            <rect key="frame" x="0.0" y="0.0" width="267" height="210"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <box verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" placeholderIntrinsicWidth="240" placeholderIntrinsicHeight="30" boxType="custom" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="nPf-EK-di5">
+                    <rect key="frame" x="0.0" y="180" width="267" height="30"/>
+                    <view key="contentView" id="Ryb-du-y09">
+                        <rect key="frame" x="1" y="1" width="265" height="28"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oSn-JD-Hg6">
+                                <rect key="frame" x="5" y="5" width="43" height="15"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="left" title="Label" id="MfP-fr-eyE">
+                                    <font key="font" size="14" name="ChunkFive-Roman"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                                <connections>
+                                    <binding destination="-2" name="value" keyPath="self.title" id="Nnn-yI-of8"/>
+                                </connections>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="oSn-JD-Hg6" firstAttribute="centerY" secondItem="Ryb-du-y09" secondAttribute="centerY" constant="2" id="Ncn-QG-u9z"/>
+                            <constraint firstItem="oSn-JD-Hg6" firstAttribute="leading" secondItem="Ryb-du-y09" secondAttribute="leading" constant="7" id="xG7-2q-O9M"/>
+                        </constraints>
+                    </view>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="PvD-y0-48u"/>
+                    </constraints>
+                    <color key="borderColor" red="0.078431372549019607" green="0.086274509803921567" blue="0.090196078431372548" alpha="1" colorSpace="deviceRGB"/>
+                    <color key="fillColor" red="0.11372549019607843" green="0.21176470588235294" blue="0.3411764705882353" alpha="1" colorSpace="deviceRGB"/>
+                </box>
+                <customView verticalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="oMw-hn-yYf" customClass="AnimatedCardList" customModule="HSTracker" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="267" height="180"/>
+                </customView>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="nPf-EK-di5" secondAttribute="trailing" id="6wj-oR-rUP"/>
+                <constraint firstItem="nPf-EK-di5" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="GQC-3f-HcV"/>
+                <constraint firstItem="oMw-hn-yYf" firstAttribute="top" secondItem="nPf-EK-di5" secondAttribute="bottom" id="cPm-Ng-tn3"/>
+                <constraint firstAttribute="trailing" secondItem="oMw-hn-yYf" secondAttribute="trailing" id="grH-bC-RYU"/>
+                <constraint firstItem="oMw-hn-yYf" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="nKe-ds-VwV"/>
+                <constraint firstItem="nPf-EK-di5" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="nXc-aA-3ap"/>
+                <constraint firstAttribute="bottom" secondItem="oMw-hn-yYf" secondAttribute="bottom" id="tny-oy-jaN"/>
+            </constraints>
+            <point key="canvasLocation" x="-128.5" y="149"/>
+        </customView>
+    </objects>
+</document>

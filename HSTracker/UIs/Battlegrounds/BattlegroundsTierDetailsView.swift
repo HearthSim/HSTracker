@@ -13,45 +13,29 @@ struct BattlegroundMinion {
     let techLevel: Int
 }
 
-class BattlegroundsTierDetailsView: NSStackView {
+class BattlegroundsTierDetailsView: NSView {
     var contentFrame = NSRect.zero
+    lazy var _db = BattlegroundsDb()
     
     init() {
         super.init(frame: NSRect.zero)
-        self.orientation = .vertical
     }
 
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
-        self.orientation = .vertical
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        self.orientation = .vertical
     }
     
-    func score(race: Race?) -> Int {
-        guard let r = race else {
-            return 0
-        }
-        return Race.allCases.firstIndex { $0 == r } ?? 0
-    }
+    var groups = [BattlegroundsCardsGroups]()
+    var minionTypes: BattlegroundsMinionTypesBox?
     
     func setTier(tier: Int, isThorimRelevant: Bool) {
         let game = AppDelegate.instance().coreManager.game
         var availableRaces = game.availableRaces
         availableRaces?.append(Race.all)
-        var counts = [Race: Int]()
-        var spellCounts = 0
-        let bgMinions = Cards.battlegroundsMinions
-        if let overrides = RemoteConfig.data?.battlegrounds_tag_overrides {
-            for over in overrides {
-                if over.tag == GameTag.is_bacon_pool_minion.rawValue && over.value == 0, let card = Cards.by(dbfId: over.dbf_id, collectible: false) {
-                    bgMinions.remove(card)
-                }
-            }
-        }
         var sortedRaces = [Race]()
         var races = [Race: String]()
         if let allRaces = availableRaces {
@@ -72,217 +56,129 @@ class BattlegroundsTierDetailsView: NSStackView {
         }
         let bannedMinions = BattlegroundsUtils.getMinionsBannedByAnomaly(anomalyDbfId: anomalyDbfId) ?? [String]()
         let showBD = Settings.showBattlecryDeathrattleOnTiers
-        var cardBars: [CardBar] = bgMinions.filter {
-            let races = $0.bgRaces
-            let isBG = ($0.techLevel == tier &&
-                    (races.count == 0 || (availableRaces?.any(races.contains) ?? false)))
-            let exclude = !isDuos && $0.battlegroundsDuosExclusive
-            return isBG && !exclude
-        }.map { inCard in
-            let card = Card()
-            
-            card.cost = -1
-            card.id = inCard.id
-            card.name = inCard.name
-            card.race = inCard.race
-            card.races = inCard.races
-            card.type = inCard.type
-            if showBD {
-                card.mechanics = inCard.mechanics
+    
+        let isTierAvailable = availableTiers.contains(tier)
+        var groups = [BattlegroundsCardsGroups]()
+        for race in sortedRaces {
+            var cards = _db.getCards(tier, race, isDuos)
+            if cards.count == 0 {
+                continue
             }
-            if let count = counts[inCard.race] {
-                counts[inCard.race] = count + 1
-            } else {
-                counts[inCard.race] = 1
-            }
-            card.count = 1
-            if !availableTiers.contains(tier) {
-                card.count = 0
-            } else if bannedMinions.count > 0 {
-                if bannedMinions.contains(inCard.id) {
-                    card.count = 0
-                }
-            }
-            card.rarity = inCard.rarity
-            var cards = [CardBar]()
-            if card.races.count > 0 {
-                for race in card.races {
-                    if !(availableRaces?.contains(race) ?? false) {
-                        continue
+            if !isTierAvailable || bannedMinions.count > 0 {
+                cards = cards.compactMap { x in
+                    if isTierAvailable && !bannedMinions.contains(x.id) {
+                        return x
                     }
-                    if let count = counts[race] {
-                        counts[race] = count + 1
-                    } else {
-                        counts[race] = 1
-                    }
-                    let copy = card.copy()
-                    copy.race = race
-                    let cardBar = CardBar.factory()
-                    cardBar.card = copy
-                    cardBar.isBattlegrounds = true
-                    cardBar.setDelegate(self)
-                    cardBar.sortingGroup = (sortedRaces.firstIndex(of: race) ?? 0) * 1000 + 1
-                    cards.append(cardBar)
+                    let ret = x.copy()
+                    ret.count = -1
+                    return ret
                 }
-            } else {
-                let cardBar = CardBar.factory()
-                cardBar.card = card
-                cardBar.isBattlegrounds = true
-                cardBar.setDelegate(self)
-                cards.append(cardBar)
-                let race = Race.invalid
-                if let count = counts[race] {
-                    counts[race] = count + 1
-                } else {
-                    counts[race] = 1
-                }
-                cardBar.sortingGroup = (sortedRaces.firstIndex(of: race) ?? 0) * 1000 + 1
             }
-            return cards
-        }.flatMap { x in x }
-        
-        let cardBar = CardBar.factory()
-        let size = NSSize(width: cardBar.imageRectBG.width, height: cardBar.imageRectBG.height)
-        let blueBackground = NSImage(color: NSColor(red: 0x1d/255.0, green: 0x36/255.0, blue: 0x57/255.0, alpha: 1.0), size: size)
-        let blackImage = NSImage(color: NSColor(red: 0x23/255.0, green: 0x27/255.0, blue: 0x2a/255.0, alpha: 1.0), size: size)
-        
-        if let cnt = counts[.invalid], cnt > 0 {
-            cardBar.playerName = String.localizedString("neutral", comment: "")
-            let race = Race(rawValue: "invalid")
-            cardBar.playerRace = race
-            cardBar.backgroundImage = blueBackground
-            cardBar.isBattlegrounds = true
-            cardBar.playerType = .deckManager
-            cardBar.sortingGroup = (sortedRaces.firstIndex(of: Race.invalid) ?? 0) * 1000 + 0
-            cardBars.append(cardBar)
+            let group = BattlegroundsCardsGroups(frame: NSRect.zero)
+            group.cardsList.delegate = self
+            group.title = races[race] ?? "Unknown"
+            group.cards = cards.compactMap { x in
+                let ret = Card()
+                ret.cost = -1
+                ret.id = x.id
+                ret.name = x.name
+                ret.type = x.type
+                if showBD {
+                    ret.mechanics = x.mechanics
+                }
+                ret.count = x.count == -1 ? 0 : 1
+                return ret
+            }.sorted(by: { (a, b) -> Bool in
+                return a.name < b.name
+            })
+            group.setContentCompressionResistancePriority(NSLayoutConstraint.Priority(249.0), for: .vertical)
+            group.setContentHuggingPriority(.defaultHigh, for: .vertical)
+            groups.append(group)
         }
-        if let availableRaces = availableRaces {
-            for i in 0..<availableRaces.count {
-                if let cnt = counts[availableRaces[i]], cnt > 0 {
-                    let race: String = availableRaces[i].rawValue
-                    let cardBar = CardBar.factory()
-                    cardBar.playerName = String.localizedString(race, comment: "")
-                    let cardRace = Race(rawValue: race)
-                    cardBar.playerRace = cardRace
-                    cardBar.backgroundImage = blueBackground
-                    cardBar.isBattlegrounds = true
-                    cardBar.playerType = .deckManager
-                    cardBar.sortingGroup = (sortedRaces.firstIndex(of: availableRaces[i]) ?? 0) * 1000 + 0
-                    cardBars.append(cardBar)
-                }
-            }
-        }
-        let spellRaceMapping = BattlegroundsUtils.tavernSpellRaceMapping
-        let spells: [CardBar] = Cards.battlegroundsSpells.filter {
-            if let availableRaces, let spellRace = spellRaceMapping[$0.id], !availableRaces.contains(spellRace) {
-                return false
-            }
-            let exclude = !isDuos && $0.battlegroundsDuosExclusive
-            return $0.techLevel == tier && !exclude
-        }.map { inCard in
-            let card = Card()
-            
-            card.cost = -1
-            card.id = inCard.id
-            card.name = inCard.name
-            card.type = inCard.type
-            spellCounts += 1
-            card.count = 1
-            if !availableTiers.contains(tier) {
-                card.count = 0
-            }
-            let copy = card.copy()
-            let cardBar = CardBar.factory()
-            cardBar.card = copy
-            cardBar.isBattlegrounds = true
-            cardBar.setDelegate(self)
-            cardBar.sortingGroup = 1000 * 1000 + 1
-           return cardBar
-        }.compactMap { x in x }
         
-        if spellCounts > 0 {
-            let cardBar = CardBar.factory()
-            
-            cardBar.playerName = String.localizedString("spells", comment: "")
-            cardBar.playerRace = .invalid
-            cardBar.backgroundImage = blueBackground
-            cardBar.isBattlegrounds = true
-            cardBar.playerType = .editDeck
-            cardBar.sortingGroup = 1000 * 1000 + 0
-            cardBars.append(cardBar)
-            
-            cardBars.append(contentsOf: spells)
+        var spells = _db.getSpells(tier, isDuos)
+        if spells.count != 0 {
+            spells = spells.compactMap { x in
+                if isTierAvailable {
+                    return x
+                }
+                let ret = x.copy()
+                ret.count = -1
+                return ret
+            }
+            let group = BattlegroundsCardsGroups(frame: NSRect.zero)
+            group.cardsList.delegate = self
+            group.title = String.localizedString("spells", comment: "")
+            group.cards = spells.compactMap { x in
+                let ret = Card()
+                ret.cost = -1
+                ret.id = x.id
+                ret.name = x.name
+                ret.type = x.type
+                ret.count = x.count == -1 ? 0 : 1
+                return ret
+            }.sorted(by: { (a, b) -> Bool in
+                return a.name < b.name
+            })
+            group.setContentCompressionResistancePriority(NSLayoutConstraint.Priority(249.0), for: .vertical)
+            group.setContentHuggingPriority(.defaultHigh, for: .vertical)
+            groups.append(group)
         }
 
+        for view in subviews {
+            view.removeFromSuperview()
+        }
+
+        self.groups.removeAll()
+        for group in groups {
+            addSubview(group)
+            self.groups.append(group)
+        }
+        minionTypes = nil
         if let unavailable = AppDelegate.instance().coreManager.game.unavailableRaces {
-            var cardBar = CardBar.factory()
-            cardBar.playerName = String.localizedString("unavailable", comment: "")
-            cardBar.playerRace = .blank
-            cardBar.backgroundImage = blueBackground
-            cardBar.isBattlegrounds = true
-            cardBar.playerType = .deckManager
-            cardBar.sortingGroup = 1001 * 1000 + 0
-            cardBars.append(cardBar)
-
-            let unavailable = unavailable.compactMap({ race in String.localizedString(race.rawValue, comment: "")}).sorted().chunks(3)
-            for ur in unavailable {
-                cardBar = CardBar.factory()
-                cardBar.playerName = ur.joined(separator: ",")
-                cardBar.playerRace = .blank
-                cardBar.backgroundImage = blackImage
-                cardBar.isBattlegrounds = true
-                cardBar.sortingGroup = 1001 * 1000 + 1
-                cardBars.append(cardBar)
-            }
+            let types = BattlegroundsMinionTypesBox(frame: NSRect.zero)
+            types.minionTypes = unavailable
+            addSubview(types)
+            minionTypes = types
         }
-        cardBars = cardBars.sorted(by: {(a: CardBar, b: CardBar) -> Bool in
-            let groupA = a.sortingGroup
-            var nameA: String
-            if let card = a.card {
-                nameA = card.name
-            } else if a.playerRace == .blank && a.playerType != .deckManager {
-                nameA = a.playerName!
-            } else {
-                nameA = a.playerName!
-            }
-            let groupB = b.sortingGroup
-            var nameB: String
-            if let card = b.card {
-                nameB = card.name
-            } else if b.playerRace == .blank && b.playerType != .deckManager {
-                nameB = b.playerName!
-            } else {
-                nameB = b.playerName!
-            }
-            return (groupA, nameA) > (groupB, nameB)
-        })
-        while self.subviews.count > 0 {
-            self.subviews[0].removeFromSuperviewWithoutNeedingDisplay()
-        }
+        needsLayout = true
+    }
+    
+    override func layout() {
+        super.layout()
         
-        var cardHeight: CGFloat
-        switch Settings.cardSize {
-        case .tiny: cardHeight = CGFloat(kTinyRowHeight)
-        case .small: cardHeight = CGFloat(kSmallRowHeight)
-        case .medium: cardHeight = CGFloat(kMediumRowHeight)
-        case .huge: cardHeight = CGFloat(kHighRowHeight)
-        case .big: cardHeight = CGFloat(kRowHeight)
+        var cardHeight = switch Settings.cardSize {
+        case .tiny:
+            CGFloat(kTinyRowHeight)
+        case .small:
+            CGFloat(kSmallRowHeight)
+        case .medium:
+            CGFloat(kMediumRowHeight)
+        case .huge:
+            CGFloat(kHighRowFrameWidth)
+        case .big:
+            CGFloat(kRowHeight)
         }
-
-        var totalHeight = CGFloat(cardBars.count) * cardHeight
+        var totalCards = 0
+        for group in groups {
+            totalCards += group.cards.count
+        }
+        let typesSize = minionTypes?.intrinsicContentSize ?? NSSize(width: 0, height: 0)
+        var totalHeight = 30.0 * CGFloat(groups.count) + CGFloat(totalCards) * cardHeight + typesSize.height
         if totalHeight > contentFrame.height {
             totalHeight = contentFrame.height
-            cardHeight = totalHeight / CGFloat(cardBars.count)
+            cardHeight = (totalHeight - typesSize.height - 30.0 * CGFloat(groups.count)) / CGFloat(totalCards)
         }
-        
-        if cardBars.count > 0 {
-            for i in 0...(cardBars.count - 1) {
-                let y = CGFloat(i) * cardHeight + contentFrame.height - totalHeight
-                let cardBar = cardBars[i]
-                cardBar.frame = NSRect(x: 0, y: y, width: contentFrame.width, height: cardHeight)
-                self.addSubview(cardBar)
-            }
+        var y = contentFrame.height
+        for group in groups {
+            group.cardHeight = cardHeight
+            let h = 30.0 + CGFloat(group.cards.count) * cardHeight
+            y -= h
+            group.frame = NSRect(x: 0, y: y, width: frame.width, height: h)
+            group.cardsList.updateFrames()
         }
+        y -= typesSize.height
+        minionTypes?.frame = NSRect(x: 0, y: y, width: frame.width, height: typesSize.height)
     }
 }
 

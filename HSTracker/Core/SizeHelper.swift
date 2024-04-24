@@ -217,7 +217,7 @@ struct SizeHelper {
         return hearthstoneWindow.relativeFrame(frame)
     }
     
-    static fileprivate var trackerWidth: CGFloat {
+    static var trackerWidth: CGFloat {
         let width: Double
         switch Settings.cardSize {
         case .tiny: width = kTinyFrameWidth

@@ -17,10 +17,37 @@ class AnimatedCardList: NSView {
     
     let lock = UnfairLock()
     
+    var isBattlegrounds = false
+    
     var count: Int {
         lock.around {
             return animatedCards.count
         }
+    }
+    var cardCount = 0
+    
+    var cardHeight: CGFloat?
+    
+    private func internalIntrinsicContentSize(_ count: Int) -> NSSize {
+        let height = switch Settings.cardSize {
+        case .tiny:
+            CGFloat(kTinyRowHeight)
+        case .small:
+            CGFloat(kSmallRowHeight)
+        case .medium:
+            CGFloat(kMediumRowHeight)
+        case .huge:
+            CGFloat(kHighRowFrameWidth)
+        case .big:
+            CGFloat(kRowHeight)
+        }
+        let barHeight = cardHeight ?? height
+        let cnt = CGFloat(count)
+        return CGSize(width: SizeHelper.trackerWidth, height: barHeight * cnt)
+    }
+    
+    override var intrinsicContentSize: NSSize {
+        return internalIntrinsicContentSize(count)
     }
 
     @discardableResult func update(cards: [Card], reset: Bool) -> Bool {
@@ -28,6 +55,7 @@ class AnimatedCardList: NSView {
             if reset {
                 animatedCards.removeAll()
             }
+            cardCount = cards.count
 
             var newCards = [Card]()
             for card in cards {
@@ -63,6 +91,7 @@ class AnimatedCardList: NSView {
                 if let newCard = newCard {
                     let newAnimated = CardBar.factory()
                     newAnimated.playerType = self.playerType
+                    newAnimated.isBattlegrounds = isBattlegrounds
                     if let delegate = delegate {
                         newAnimated.setDelegate(delegate)
                     }
@@ -86,6 +115,7 @@ class AnimatedCardList: NSView {
                     newCard.setDelegate(delegate)
                 }
                 newCard.card = card
+                newCard.isBattlegrounds = isBattlegrounds
                 if let index = cards.firstIndex(of: card), index <= animatedCards.count {
                     animatedCards.insert(newCard, at: index)
                 } else {
@@ -93,6 +123,7 @@ class AnimatedCardList: NSView {
                 }
                 newCard.fadeIn(highlight: !reset)
             }
+
             return toRemove.count > 0
         }
     }
@@ -120,8 +151,9 @@ class AnimatedCardList: NSView {
     
     func updateFrames() {
         lock.around {
-            var y = frame.height
-            let cardHeight = frame.height / CGFloat(animatedCards.count)
+            let ics = internalIntrinsicContentSize(cardCount)
+            var y = ics.height
+            let cardHeight = cardHeight ?? ics.height / CGFloat(animatedCards.count)
             for view in subviews {
                 view.removeFromSuperview()
             }
