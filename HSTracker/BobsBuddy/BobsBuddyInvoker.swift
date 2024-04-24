@@ -602,7 +602,11 @@ class BobsBuddyInvoker {
             }
         }
         
-        minion.gameId = Int32(ent.id)
+        // As of 198037 the shop identity of the card is more important, because e.g. Teron Gorefiends hero power
+        // encodes the id from the shop. Luckily we have COPIED_FROM_ENTITY_ID for that.
+        let copiedFromId = ent[.copied_from_entity_id]
+        minion.gameId = Int32(copiedFromId > 0 ? copiedFromId : ent.id)
+        
         return minion
     }
     
