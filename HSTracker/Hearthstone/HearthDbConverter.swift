@@ -52,4 +52,22 @@ class HearthDbConverter {
         }
         return nil
     }
+    
+    static func fromHearthDbDeck(deck: DeckSerializer.Deck) -> PlayingDeck {
+        var sideboards = [Sideboard]()
+        
+        for sideboard in deck.sideboards {
+            let ownerCardId = Cards.by(dbfId: sideboard.key)!
+            let s = Sideboard(ownerCardId: ownerCardId.id, cards: sideboard.value.compactMap { y in
+                if let card = Cards.by(dbfId: y.0, collectible: false) {
+                    card.count = y.1
+                    return card
+                }
+                return nil
+            })
+            sideboards.append(s)
+        }
+        var deck = PlayingDeck(id: "", name: deck.name, hsDeckId: nil, playerClass: Cards.by(dbfId: deck.heroDbfId, collectible: false)?.playerClass ?? .invalid, heroId: "", cards: deck.cards, isArena: false, shortid: "", sideboards: sideboards)
+        return deck
+    }
 }

@@ -38,6 +38,15 @@ struct ShortIdHelper {
     private static let alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
     private static let alphabetLength = alphabet.count
 
+    private static func mapSideboardCardToId(_ card: Card) -> String {
+        // We always consider Zilliax Deluxe 3000 with his default cosmetic
+        if card.zilliaxCustomizableCosmeticModule {
+            return "TOY_330t5"
+        }
+
+        return card.id
+    }
+    
     static func getShortId(deck: PlayingDeck) -> String {
         if deck.cards.count == 0 {
             return ""
@@ -48,7 +57,15 @@ struct ShortIdHelper {
                 ids.append(c.id)
             }
         }
-        let idString = ids.sorted(by: utf8Comparer).joined(separator: ",")
+        var idString = ids.sorted(by: utf8Comparer).joined(separator: ",")
+        for sideboard in deck.sideboards.sorted(by: { (a, b) -> Bool in
+            return a.ownerCardId < b.ownerCardId
+        }) {
+            let sideboardIds = sideboard.cards.flatMap { c in repeatElement(mapSideboardCardToId(c), count: c.count) }
+            let sideboardCardsIdString = sideboardIds.sorted(by: utf8Comparer).joined(separator: ",")
+            idString += "/\(sideboard.ownerCardId):\(sideboardCardsIdString)"
+        }
+
         let hash = MD5(string: idString)
         let hex = hash.map { String(format: "%02hhx", $0) }.joined()
         var v = BigInt()
