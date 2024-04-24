@@ -288,6 +288,7 @@ extension CardIds.NonCollectible {
         static let LivingSeedRank1_LivingSeedRank3Token = "BAR_536t2"
         static let VibrantSquirrel_AcornToken = "SW_439t"
         static let AzsharanGardens_SunkenGardensToken = "TSC_927t"
+        static let JadeIdol_JadeStash = "CFM_602b"
     }
 }
 

@@ -702,7 +702,7 @@ class PowerGameStateParser: LogEventParser {
                         case CardIds.Collectible.Neutral.Doomcaller:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Neutral.Cthun)
-                        case CardIds.Collectible.Druid.JadeIdol:
+                        case CardIds.Collectible.Druid.JadeIdol, CardIds.NonCollectible.Druid.JadeIdol_JadeStash:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.Collectible.Druid.JadeIdol,
                                            count: 3)
