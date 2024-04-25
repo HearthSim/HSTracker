@@ -1,3 +1,16 @@
+# 2.7.3
+## New
+- Updated for Hearthstone 29.2.2
+- Added a new setting to show the available Minion Types in the Battlegrounds session panel!
+## Fixes
+- Fixed decks containing certain Zilliax Deluxe 3000 cosmetics not showing HSReplay.net statistics.
+- Fixed various crashes related to the Battlegrounds overlay.
+## Bob's Buddy
+- Fixed incorrect simulation results due to Pack Tactics.
+- Fixed incorrect simulation results due to Golden Goose.
+- Fixed incorrect simulation results due to Silithid Burrower.
+- Fixed incorrect simulation results due to Teron Gorefiend's hero power (Rapid Reanimation).
+
 # 2.7.2
 ## New
 - Updated for Hearthstone 29.2.0
