@@ -13,6 +13,7 @@ class BattlegroundsTribe: NSView {
     @IBOutlet weak var contentView: NSView!
     @IBOutlet weak var tribeImage: NSImageView!
     @IBOutlet weak var tribeLabel: NSTextField!
+    @IBOutlet weak var tribesX: NSImageView!
     private var race = Race.invalid
     
     required init?(coder: NSCoder) {
@@ -33,7 +34,7 @@ class BattlegroundsTribe: NSView {
         contentView.isHidden = true
     }
     
-    func setRace(newRace: Race) {
+    func setRace(newRace: Race, _ available: Bool) {
         if newRace != race {
             race = newRace
             if race == .invalid {
@@ -47,5 +48,6 @@ class BattlegroundsTribe: NSView {
                 tribeLabel.fitTextToBounds()
             }
         }
+        tribesX.isHidden = available
     }
 }

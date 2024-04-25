@@ -267,7 +267,9 @@ final class Settings {
     @UserDefault(key: Settings.show_session_recap, defaultValue: true)
     static var showSessionRecap: Bool
     @UserDefault(key: Settings.show_banned_tribes, defaultValue: true)
-    static var showBannedTribes: Bool
+    static var showMinionsSection: Bool
+    @UserDefault(key: Settings.show_minion_types, defaultValue: 0)
+    static var showMinionTypes: Int
     @UserDefault(key: Settings.show_mmr, defaultValue: true)
     static var showMMR: Bool
     @UserDefault(key: Settings.show_mmr_start_current, defaultValue: true)
@@ -596,6 +598,7 @@ extension Settings {
     static let show_hero_toast = "show_hero_toast"
     static let show_session_recap = "show_session_recap"
     static let show_banned_tribes = "show_banned_tribes"
+    static let show_minion_types = "show_minion_types"
     static let show_mmr = "show_mmr"
     static let show_mmr_start_current = "show_mmr_start_current"
     static let show_latest_games = "show_latest_games"

@@ -2250,7 +2250,7 @@ class Game: NSObject, PowerEventHandler {
     var isArenaMatch: Bool { return currentGameType == .gt_arena }
     
     func isAnyBattlegroundsSessionSettingActive() -> Bool {
-        return Settings.showBannedTribes || Settings.showMMR || Settings.showLatestGames
+        return Settings.showMinionsSection || Settings.showMMR || Settings.showLatestGames
     }
     
     func isMercenariesMatch() -> Bool {

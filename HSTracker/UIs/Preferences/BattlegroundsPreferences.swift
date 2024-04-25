@@ -32,7 +32,9 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
     @IBOutlet weak var showTavernTriples: NSButton!
     @IBOutlet weak var showHeroToast: NSButton!
     @IBOutlet weak var showSessionRecap: NSButton!
-    @IBOutlet weak var showBannedTribes: NSButton!
+    @IBOutlet weak var showMinionTypes: NSButton!
+    @IBOutlet weak var showAvailable: NSButton!
+    @IBOutlet weak var showBanned: NSButton!
     @IBOutlet weak var showMMR: NSButton!
     @IBOutlet weak var showMMRStartCurrent: NSButton!
     @IBOutlet weak var showMMRCurrentChange: NSButton!
@@ -58,7 +60,9 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
         showTavernTriples.state = Settings.showTavernTriples ? .on : .off
         showHeroToast.state = Settings.showHeroToast ? .on : .off
         showSessionRecap.state = Settings.showSessionRecap ? .on : .off
-        showBannedTribes.state = Settings.showBannedTribes ? .on : .off
+        showMinionTypes.state = Settings.showMinionsSection ? .on : .off
+        showAvailable.state = Settings.showMinionTypes != 0 ? .on : .off
+        showBanned.state = Settings.showMinionTypes == 0 ? .on : .off
         showMMR.state = Settings.showMMR ? .on : .off
         showLatestGames.state = Settings.showLatestGames ? .on : .off
         showMMRStartCurrent.state = Settings.showMMRStartCurrent ? .on : .off
@@ -100,8 +104,19 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
                     game.showBattlegroundsSession(false, true)
                 }
             }
-        } else if sender == showBannedTribes {
-            Settings.showBannedTribes = sender.state == .on
+        } else if sender == showMinionTypes {
+            Settings.showMinionsSection = sender.state == .on
+            updateEnablement()
+        } else if sender == showAvailable {
+            Settings.showMinionTypes = 1
+            showAvailable.state = .on
+            showBanned.state = .off
+            AppDelegate.instance().coreManager.game.windowManager.battlegroundsSession.update()
+        } else if sender == showBanned {
+            Settings.showMinionTypes = 0
+            showAvailable.state = .off
+            showBanned.state = .on
+            AppDelegate.instance().coreManager.game.windowManager.battlegroundsSession.update()
         } else if sender == showMMR {
             Settings.showMMR = sender.state == .on
             updateEnablement()
@@ -153,7 +168,7 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
     
     private func updateEnablement() {
         var enabled = showSessionRecap.state == .on
-        showBannedTribes.isEnabled = enabled
+        showMinionTypes.isEnabled = enabled
         showMMR.isEnabled = enabled
         showLatestGames.isEnabled = enabled
         showMMRStartCurrent.isEnabled = enabled
@@ -162,6 +177,10 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
             enabled = showMMR.state == .on
             showMMRStartCurrent.isEnabled = enabled
             showMMRCurrentChange.isEnabled = enabled
+            
+            enabled = showMinionTypes.state == .on
+            showAvailable.isEnabled = enabled
+            showBanned.isEnabled = enabled
         }
         
         enabled = enableTier7Overlay.state == .on

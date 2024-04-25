@@ -35,6 +35,8 @@ class BattlegroundsSession: OverWindowController {
     
     var visibility = false
     
+    @objc dynamic var minionsTypeHeader = ""
+    
     var battlegroundsGameMode: SelectedBattlegroundsGameMode = .unknown
     
     func updateScaling() {
@@ -55,7 +57,7 @@ class BattlegroundsSession: OverWindowController {
             return
         }
         DispatchQueue.main.async {
-            self.showBannedTribes()
+            self.showAvailableMinionTypes()
             self.update()
         }
     }
@@ -65,7 +67,7 @@ class BattlegroundsSession: OverWindowController {
             return
         }
         DispatchQueue.main.async {
-            self.hideBannedTribes()
+            self.hideAvailableMinionTypes()
             self.update()
             AppDelegate.instance().coreManager.game.updateBattlegroundsOverlays()
         }
@@ -79,7 +81,7 @@ class BattlegroundsSession: OverWindowController {
         update()
     }
     
-    private func showBannedTribes() {
+    private func showAvailableMinionTypes() {
         tribe1.isHidden = false
         tribe2.isHidden = false
         tribe3.isHidden = false
@@ -88,7 +90,7 @@ class BattlegroundsSession: OverWindowController {
         waitingForNext.isHidden = true
     }
     
-    private func hideBannedTribes() {
+    private func hideAvailableMinionTypes() {
         tribe1.isHidden = true
         tribe2.isHidden = true
         tribe3.isHidden = true
@@ -103,9 +105,13 @@ class BattlegroundsSession: OverWindowController {
     }
     
     func updateSectionsVisibilities() {
-        tribesSection.isHidden = !Settings.showBannedTribes
+        tribesSection.isHidden = !Settings.showMinionsSection
         mmrSection.isHidden = !Settings.showMMR || isDuos
         latestGamesSection.isHidden = !Settings.showLatestGames || isDuos
+    }
+    
+    func updateMinionsTypeLabel() {
+        minionsTypeHeader = String.localizedString(Settings.showMinionTypes == 0 ? "Battlegrounds_Session_Header_Label_Minions_Banned" : "Battlegrounds_Session_Header_Label_Minions_Available", comment: "")
     }
 
     func update() {
@@ -116,24 +122,26 @@ class BattlegroundsSession: OverWindowController {
             return
         }
         let game = AppDelegate.instance().coreManager.game
-        let unavail = game.unavailableRaces
-        if !game.gameEnded, let unavailableRaces = unavail, unavailableRaces.count >= 5 && unavailableRaces.count != Database.battlegroundRaces.count {
-            logger.debug("Updating with \(unavailableRaces)")
-            let sorted = unavailableRaces.sorted(by: { (a, b) in String.localizedString(a.rawValue, comment: "") < String.localizedString(b.rawValue, comment: "") })
-            tribe1.setRace(newRace: sorted[0])
-            tribe2.setRace(newRace: sorted[1])
-            tribe3.setRace(newRace: sorted[2])
+        let showAvailable = Settings.showMinionTypes != 0
+        let races = showAvailable ? game.availableRaces : game.unavailableRaces
+        updateMinionsTypeLabel()
+        if !game.gameEnded, let races, races.count >= 5 && races.count != Database.battlegroundRaces.count {
+            logger.debug("Updating with \(races)")
+            let sorted = races.sorted(by: { (a, b) in String.localizedString(a.rawValue, comment: "") < String.localizedString(b.rawValue, comment: "") })
+            tribe1.setRace(newRace: sorted[0], showAvailable)
+            tribe2.setRace(newRace: sorted[1], showAvailable)
+            tribe3.setRace(newRace: sorted[2], showAvailable)
             tribe1.isHidden = false
             tribe2.isHidden = false
             tribe3.isHidden = false
             if sorted.count > 3 {
-                tribe4.setRace(newRace: sorted[3])
+                tribe4.setRace(newRace: sorted[3], showAvailable)
                 tribe4.isHidden = false
             } else {
                 tribe4.isHidden = true
             }
             if sorted.count > 4 {
-                tribe5.setRace(newRace: sorted[4])
+                tribe5.setRace(newRace: sorted[4], showAvailable)
                 tribe5.isHidden = false
             } else {
                 tribe5.isHidden = true
@@ -161,10 +169,10 @@ class BattlegroundsSession: OverWindowController {
             tribe3.tribeLabel.font = font
             tribe4.tribeLabel.font = font
             tribe5.tribeLabel.font = font
-            showBannedTribes()
+            showAvailableMinionTypes()
         } else {
-            logger.debug("Not enough races found: \(unavail ?? [Race]())")
-            hideBannedTribes()
+            logger.debug("Not enough races found: \(races ?? [Race]())")
+            hideAvailableMinionTypes()
         }
         
         let firstGame = updateLatestGames()
