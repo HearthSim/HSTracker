@@ -1,3 +1,7 @@
+# 2.7.4
+## Fixes
+- Fixed incorrect card database for missing cards
+
 # 2.7.3
 ## New
 - Updated for Hearthstone 29.2.2
