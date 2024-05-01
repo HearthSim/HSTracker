@@ -96,7 +96,13 @@ class BattlegroundsTierDetailsView: NSView {
             groups.append(group)
         }
         
-        var spells = _db.getSpells(tier, isDuos)
+        let spellRaceMapping = BattlegroundsUtils.tavernSpellRaceMapping
+        var spells = _db.getSpells(tier, isDuos).filter { x in
+            if let availableRaces, let spellRace = spellRaceMapping[x.id], !availableRaces.contains(spellRace) {
+                return false
+            }
+            return true
+        }
         if spells.count != 0 {
             spells = spells.compactMap { x in
                 if isTierAvailable {
