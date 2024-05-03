@@ -398,6 +398,7 @@ class Tracker: OverWindowController {
         }
 
         y -= cardViewHeight
+        cardsView.cardHeight = cardHeight
         cardsView.frame = NSRect(x: 0,
                                  y: y,
                                  width: windowWidth,
