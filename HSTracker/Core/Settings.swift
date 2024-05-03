@@ -260,6 +260,8 @@ final class Settings {
     static var showTiers: Bool
     @UserDefault(key: Settings.show_battlecry_deathrattle_on_tiers, defaultValue: true)
     static var showBattlecryDeathrattleOnTiers: Bool
+    @UserDefault(key: Settings.show_tavern_spells, defaultValue: true)
+    static var showTavernSpells: Bool
     @UserDefault(key: Settings.show_tavern_triples, defaultValue: true)
     static var showTavernTriples: Bool
     @UserDefault(key: Settings.show_hero_toast, defaultValue: true)
@@ -594,6 +596,7 @@ extension Settings {
     static let show_opponent_warband = "show_opponent_warband"
     static let show_tiers = "show_tiers"
     static let show_battlecry_deathrattle_on_tiers = "show_battlecry_deathrattle_on_tiers"
+    static let show_tavern_spells = "show_tavern_spells"
     static let show_tavern_triples = "show_tavern_triples"
     static let show_hero_toast = "show_hero_toast"
     static let show_session_recap = "show_session_recap"

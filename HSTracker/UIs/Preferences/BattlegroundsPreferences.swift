@@ -29,6 +29,7 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
     @IBOutlet weak var showOpponentWarband: NSButton!
     @IBOutlet weak var showTiers: NSButton!
     @IBOutlet weak var showBDonTiers: NSButton!
+    @IBOutlet weak var showTavernSpells: NSButton!
     @IBOutlet weak var showTavernTriples: NSButton!
     @IBOutlet weak var showHeroToast: NSButton!
     @IBOutlet weak var showSessionRecap: NSButton!
@@ -57,6 +58,7 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
         showOpponentWarband.state = Settings.showOpponentWarband ? .on : .off
         showTiers.state = Settings.showTiers ? .on : .off
         showBDonTiers.state = Settings.showBattlecryDeathrattleOnTiers ? .on : .off
+        showTavernSpells.state = Settings.showTavernSpells ? .on : .off
         showTavernTriples.state = Settings.showTavernTriples ? .on : .off
         showHeroToast.state = Settings.showHeroToast ? .on : .off
         showSessionRecap.state = Settings.showSessionRecap ? .on : .off
@@ -90,6 +92,8 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
             Settings.showTiers = showTiers.state == .on
         } else if sender == showBDonTiers {
             Settings.showBattlecryDeathrattleOnTiers = sender.state == .on
+        } else if sender == showTavernSpells {
+            Settings.showTavernSpells = showTavernSpells.state == .on
         } else if sender == showTavernTriples {
             Settings.showTavernTriples = showTavernTriples.state == .on
         } else if sender == showHeroToast {

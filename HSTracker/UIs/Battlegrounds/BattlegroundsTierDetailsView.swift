@@ -97,12 +97,12 @@ class BattlegroundsTierDetailsView: NSView {
         }
         
         let spellRaceMapping = BattlegroundsUtils.tavernSpellRaceMapping
-        var spells = _db.getSpells(tier, isDuos).filter { x in
+        var spells = Settings.showTavernSpells ? _db.getSpells(tier, isDuos).filter { x in
             if let availableRaces, let spellRace = spellRaceMapping[x.id], !availableRaces.contains(spellRace) {
                 return false
             }
             return true
-        }
+        } : [Card]()
         if spells.count != 0 {
             spells = spells.compactMap { x in
                 if isTierAvailable {
