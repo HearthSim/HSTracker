@@ -57,9 +57,12 @@ class BattlegroundsCardsGroups: NSView {
         guard Bundle.main.loadNibNamed("BattlegroundsCardsGroups", owner: self, topLevelObjects: nil) else {
             return  
         }
-        translatesAutoresizingMaskIntoConstraints = false
+        translatesAutoresizingMaskIntoConstraints = true
         contentView.translatesAutoresizingMaskIntoConstraints = false
         cardsList.isBattlegrounds = true
         addSubview(contentView)
-    }
+        contentView.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        contentView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        contentView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        contentView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true    }
 }

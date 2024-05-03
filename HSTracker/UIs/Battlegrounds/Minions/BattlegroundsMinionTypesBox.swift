@@ -44,7 +44,12 @@ class BattlegroundsMinionTypesBox: NSView {
             return
         }
         translatesAutoresizingMaskIntoConstraints = true
-        contentView.translatesAutoresizingMaskIntoConstraints = true
+        contentView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(contentView)
+        contentView.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        // don't constrain the bottom so that the field only takes the minimal space it needs vertically
+//        contentView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        contentView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        contentView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
     }
 }
