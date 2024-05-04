@@ -414,7 +414,8 @@ enum GameTag: Int, CaseIterable, Codable {
     is_bacon_duos_exclusive = 3166,
     current_excavate_tier = 3249,
     zilliax_customizable_cosmeticmodule = 3376,
-    zilliax_customizable_functionalmodule = 3377
+    zilliax_customizable_functionalmodule = 3377,
+    bacon_combat_damage_cap_enabled = 3403
 
     static var lookup = [String: GameTag]()
     

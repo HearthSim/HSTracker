@@ -657,7 +657,9 @@ class BobsBuddyInvoker {
         }
         input.addAvailableRaces(races: races)
 
-        input.damageCap = Int32(game.gameEntity?[.bacon_combat_damage_cap] ?? 0)
+        if game.gameEntity?[.bacon_combat_damage_cap_enabled] ?? 0 > 0 {
+            input.damageCap = Int32(game.gameEntity?[.bacon_combat_damage_cap] ?? 0)
+        }
         
         let friendlyMurky = game.player.board.first { e in e.cardId == CardIds.NonCollectible.Neutral.Murky }
         let friendlyMurkyBuff = friendlyMurky?[.tag_script_data_num_1] ?? 0
