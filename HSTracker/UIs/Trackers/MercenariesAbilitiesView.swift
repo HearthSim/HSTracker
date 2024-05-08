@@ -49,7 +49,7 @@ class MercenariesAbilitiesView: NSView {
             view.removeFromSuperview()
         }
         let size = min(abilitySize, min(parentFrame.width / 3.0, parentFrame.height))
-        let frame = NSRect(x: (parentFrame.width - Double(newAbilities.count) * size) / 2, y: 0, width: size, height: parentFrame.height)
+        let frame = size > 0 ? NSRect(x: (parentFrame.width - Double(newAbilities.count) * size) / 2, y: 0, width: size, height: parentFrame.height) : NSRect.zero
         for i in 0 ..< newAbilities.count {
             let abilityView = MercenaryAbilityView(frame: frame.offsetBy(dx: CGFloat(i) * size, dy: 0), data: newAbilities[i])
             addSubview(abilityView)
