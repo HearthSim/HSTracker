@@ -11,6 +11,7 @@ import Foundation
 struct BattlegroundsSingleHeroPickStats: Decodable {
     var hero_dbf_id: Int
     var tier: Int?
+    var tier_v2: String?
     var pick_rate: Double
     var avg_placement: Double
     var placement_distribution: [Double]

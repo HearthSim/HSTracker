@@ -13,7 +13,7 @@ class BattlegroundsHeroHeaderViewModel: StatsHeaderViewModel {
     let placementDistribution: [Double]?
     let onPlacementHover: ((_ isVisible: Bool) -> Void)?
     
-    init(tier: Int?, avgPlacement: Double, pickRate: Double, placementDistribution: [Double], onPlacementHover: @escaping ((_ isVisible: Bool) -> Void)) {
+    init(tier: String?, avgPlacement: Double, pickRate: Double, placementDistribution: [Double], onPlacementHover: @escaping ((_ isVisible: Bool) -> Void)) {
         self.placementDistribution = placementDistribution
         self.onPlacementHover = onPlacementHover
         super.init(tier: tier, avgPlacement: avgPlacement, pickRate: pickRate)

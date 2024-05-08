@@ -40,4 +40,8 @@ extension NSColor {
         let blue = CGFloat((theInt & 0xFF)) / 255.0
         return NSColor(colorSpace: .deviceRGB, components: [red, green, blue, myAlpha], count: 4)
     }
+    
+    class func fromRgb(_ r: Int, _ g: Int, _ b: Int) -> NSColor {
+        return NSColor(colorSpace: .deviceRGB, components: [ CGFloat(r) / 255.0, CGFloat(g) / 255.0, CGFloat(b) / 255.0, 1.0 ], count: 4)
+    }
 }

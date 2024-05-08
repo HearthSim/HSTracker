@@ -114,8 +114,8 @@ class BattlegroundsHeroHeader: NSView {
         
         tierBox.wantsLayer = true
         tierBox.layer = viewModel?.tierGradient
-        if let tier = viewModel?.tier {
-            tierLabel.intValue = Int32(tier)
+        if let tier = viewModel?.tierChar {
+            tierLabel.stringValue = tier
         } else {
             tierLabel.stringValue = "—" // em dash
         }

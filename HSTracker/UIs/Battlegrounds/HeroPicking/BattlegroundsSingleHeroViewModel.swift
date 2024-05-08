@@ -16,7 +16,7 @@ class BattlegroundsSingleHeroViewModel: ViewModel {
         
     init(stats: BattlegroundsSingleHeroPickStats, onPlacementHover: @escaping ((_ isVisible: Bool) -> Void)) {
         heroDbfId = stats.hero_dbf_id
-        bgsHeroHeaderVM = BattlegroundsHeroHeaderViewModel(tier: stats.tier, avgPlacement: stats.avg_placement, pickRate: stats.pick_rate, placementDistribution: stats.placement_distribution, onPlacementHover: onPlacementHover)
+        bgsHeroHeaderVM = BattlegroundsHeroHeaderViewModel(tier: stats.tier_v2, avgPlacement: stats.avg_placement, pickRate: stats.pick_rate, placementDistribution: stats.placement_distribution, onPlacementHover: onPlacementHover)
         if stats.first_place_comp_popularity.count > 0 {
             bgsCompsPopularityVM = BattlegroundsCompositionPopularityViewModel(compsData: stats.first_place_comp_popularity)
         } else {
