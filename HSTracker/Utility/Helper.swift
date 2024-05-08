@@ -9,6 +9,10 @@
 import Foundation
 
 struct Helper {
+    enum ColorStringMode {
+        case DEFAULT, BATTLEGROUNDS
+    }
+    
     static func getCurrentRegion() -> Region {
         for _ in 0..<10 {
             if let accId = MirrorHelper.getAccountId() {
@@ -74,20 +78,34 @@ struct Helper {
         return false
     }
     
-    static func getWinrateDeltaColorString(delta: Double, intensity: Int) -> String {
+    static func getColorString(delta: Double, intensity: Int) -> String {
+        return getColorString(mode: ColorStringMode.DEFAULT, delta: delta, intensity: intensity)
+    }
+    
+    static func getColorString(mode: ColorStringMode, delta: Double, intensity: Int) -> String {
         // Adapted from HSReplay.net
         let colorWinrate = 50 + max(-50, min(50, 5 * delta))
         let severity = abs(0.5 - colorWinrate / 100) * 2
-
+        
         func  scale(_ x: Double, _ from: Double, _ to: Double) -> Double {
             return from + (to - from) * pow(x, 1.0 - Double(intensity) / 100.0)
         }
         func scaleTriple(_ x: Double, _ from: [Double], _ to: [Double]) -> [Double] {
             return [ scale(x, from[0], to[0]), scale(x, from[1], to[1]), scale(x, from[2], to[2]) ]
         }
-        let positive = [ 120.0, 70.0, 40.0 ]
-        let neutral = [ 90.0, 100.0, 30.0 ]
-        let negative = [ 0.0, 100.0, 65.7 ]
+        var positive = [ Double ]()
+        var neutral = [ Double ]()
+        var negative = [ Double ]()
+        switch mode {
+        case .DEFAULT:
+            positive = [ 120.0, 70.0, 40.0 ]
+            neutral = [ 90.0, 100.0, 30.0 ]
+            negative = [ 0.0, 100.0, 65.7 ]
+        case .BATTLEGROUNDS:
+            positive = [ 120.0, 32.0, 44.0 ]
+            neutral = [ 60.0, 32.0, 44.0 ]
+            negative = [ 0.0, 32.0, 44.0 ]
+        }
 
         let hsl = delta > 0
             ? scaleTriple(severity, neutral, positive)

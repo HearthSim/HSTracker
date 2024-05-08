@@ -84,17 +84,9 @@ class StatsHeaderViewModel: ViewModel {
     }
     
     var avgPlacementColor: String {
-        switch tier {
-        case 1:
-            return "#6BA036"
-        case 2:
-            return "#92A036"
-        case 3:
-            return "#A07C36"
-        case 4:
-            return "#B44646"
-        default:
-            return "#FFFFFF"
+        if let avgPlacement {
+            return Helper.getColorString(mode: .BATTLEGROUNDS, delta: (4.5 - avgPlacement) * 100.0 / 3.5, intensity: 75)
         }
+        return "#FFFFFF"
     }
 }

@@ -492,7 +492,7 @@ class CardBar: NSView, CardBarTheme {
             if let winrate = card.cardWinRates?.mulliganWinRate {
                 let baseWinrate = card.cardWinRates?.baseWinrate
                 let delta = (winrate - (baseWinrate ?? 50.0))
-                let tmpcolor = Helper.getWinrateDeltaColorString(delta: delta, intensity: 75)
+                let tmpcolor = Helper.getColorString(delta: delta, intensity: 75)
                 color = NSColor.fromHexString(hex: tmpcolor) ?? Color.white
                 text = String(format: "%.1f%%", winrate)
             }

@@ -51,7 +51,7 @@ class ConstructedStatsHeaderViewModel: ViewModel {
     
     var mulliganWrColor: String {
         if let mulliganWr {
-            return Helper.getWinrateDeltaColorString(delta: mulliganWr - (baseWinRate  ?? 50.0), intensity: 75)
+            return Helper.getColorString(delta: mulliganWr - (baseWinRate  ?? 50.0), intensity: 75)
         }
         return "#ffffff"
     }
