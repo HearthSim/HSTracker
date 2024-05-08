@@ -602,10 +602,7 @@ class BobsBuddyInvoker {
             }
         }
         
-        // As of 198037 the shop identity of the card is more important, because e.g. Teron Gorefiends hero power
-        // encodes the id from the shop. Luckily we have COPIED_FROM_ENTITY_ID for that.
-        let copiedFromId = ent[.copied_from_entity_id]
-        minion.gameId = Int32(copiedFromId > 0 ? copiedFromId : ent.id)
+        minion.gameId = Int32(ent.id)
         
         return minion
     }
@@ -698,10 +695,13 @@ class BobsBuddyInvoker {
         let pHpData2 = playerHeroPower?[.tag_script_data_num_2] ?? 0
         
         if playerHeroPower?.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_RapidReanimation {
-            let ench = game.player.playerEntities.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_ImpendingDeath && (x.isInPlay || x.isInSetAside) }) ?? game.player.graveyard.last(where: { x in x.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_ImpendingDeath })
-            let target = ench?[.attached] ?? 0
-            if target > 0 {
-                pHpData = target
+            let minionsInPlay = game.player.board.filter { e in e.isMinion && e.isControlled(by: game.player.id)}.compactMap { x in x.id }
+            let attachedToEntityId = game.player.playerEntities
+                .filter { x in x.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_ImpendingDeath && x.isInPlay }
+                .compactMap { x in x[.attached] }
+                .first { x in minionsInPlay.any { y in y == x } } ?? 0
+            if attachedToEntityId > 0 {
+                pHpData = attachedToEntityId
             }
         }
         
@@ -714,7 +714,7 @@ class BobsBuddyInvoker {
         
         if opponentHeroPower?.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_RapidReanimation {
             // It appear this enchantment may be in the graveyard now in the opponents case
-            let ench = game.opponent.playerEntities.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_ImpendingDeath && (x.isInPlay || x.isInSetAside) }) ?? game.opponent.graveyard.last(where: { x in x.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_ImpendingDeath })
+            let ench = game.opponent.playerEntities.first { x in x.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_ImpendingDeath && x.isInPlay } ?? game.opponent.playerEntities.last { x in x.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_ImpendingDeath && x.isInSetAside } ?? game.opponent.graveyard.last(where: { x in x.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_ImpendingDeath })
             let target = ench?[.attached] ?? 0
             if target > 0 {
                 oHpData = target
