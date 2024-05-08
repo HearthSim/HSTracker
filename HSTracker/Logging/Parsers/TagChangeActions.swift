@@ -40,6 +40,7 @@ struct TagChangeActions {
         case .state: return { self.stateChange(eventHandler: eventHandler, value: value) }
         case .transformed_from_card: return { self.transformedFromCardChange(eventHandler: eventHandler, id: id, value: value) }
         case .creator, .displayed_creator: return { self.creatorChanged(eventHandler: eventHandler, id: id, value: value)}
+        case .whizbang_deck_id: return { self.whizbangDeckIdChange(eventHandler: eventHandler, id: id, value: value)}
         case .mulligan_state: return { self.mulliganStateChange(eventHandler: eventHandler, id: id, value: value) }
         case .copied_from_entity_id: return { self.onCardCopy(eventHandler: eventHandler, id: id, value: value) }
         case .linked_entity: return { self.linkedEntity(eventHandler: eventHandler, id: id, value: value)}
@@ -198,6 +199,24 @@ struct TagChangeActions {
         }
     }
     
+    private func whizbangDeckIdChange(eventHandler: PowerEventHandler, id: Int, value: Int) {
+        if value == 0 {
+            return
+        }
+        guard let entity = eventHandler.entities[id] else {
+            return
+        }
+        if entity.isControlled(by: eventHandler.player.id) {
+            eventHandler.player.isPlayingWhizbang = true
+        } else if entity.isControlled(by: eventHandler.opponent.id) {
+            eventHandler.opponent.isPlayingWhizbang = true
+        }
+        if !entity.isPlayer(eventHandler: eventHandler) {
+            return
+        }
+        AppDelegate.instance().coreManager.autoSelectTemplateDeckById(deckId: value)
+    }
+    
     private func creatorChanged(eventHandler: PowerEventHandler, id: Int, value: Int) {
         if value == 0 {
             return
@@ -226,9 +245,15 @@ struct TagChangeActions {
                 return
             }
             // All cards created by Whizbang have a creator tag set
-            if let creator = eventHandler.entities[creatorId], creator.cardId == CardIds.Collectible.Neutral.WhizbangTheWonderful {
-                // The decks created by Whizbang used to have a creator tag set, but not anymore. Keep for safety.
-                return
+            if let creator = eventHandler.entities[creatorId] {
+                if creator.cardId == CardIds.Collectible.Neutral.WhizbangTheWonderful {
+                    return
+                }
+                let controller = creator[.controller]
+                let usingWhizbang = controller == eventHandler.player.id && eventHandler.player.isPlayingWhizbang || controller == eventHandler.opponent.id && eventHandler.opponent.isPlayingWhizbang
+                if usingWhizbang && creator.isInSetAside {
+                    return
+                }
             }
             entity.info.created = true
         }

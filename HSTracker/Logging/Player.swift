@@ -99,6 +99,7 @@ final class Player {
     var lastDiedMinionCardId: String?
     fileprivate(set) var spellsPlayedCount = 0
     fileprivate(set) var cardsPlayedThisTurn: [String] = []
+    var isPlayingWhizbang = false
     fileprivate(set) var deathrattlesPlayedCount = 0
 	private unowned(unsafe) let game: Game
     var lastDrawnCardId: String?
@@ -196,6 +197,7 @@ final class Player {
             pastHeroPowers.removeAll()
         }
         playedSpellSchools.removeAll()
+        isPlayingWhizbang = false
     }
     
     var currentMana: Int {
