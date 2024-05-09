@@ -178,7 +178,8 @@ class BattlegroundsGameView: NSView {
         let signal = mmrDelta > 0 ? "+" : ""
         mmrText.stringValue = "\(signal)\(mmrDelta)"
         crownImage.isHidden = game.placement != 1
-        placementText.textColor = game.placement <= 4 ?  BattlegroundsGameView.placementLow : BattlegroundsGameView.placementHigh
+        var win = game.duos ?? false ? game.placement <= 2 : game.placement <= 4
+        placementText.textColor = win ?  BattlegroundsGameView.placementLow : BattlegroundsGameView.placementHigh
         mmrText.textColor = mmrDelta == 0 ? NSColor.white : mmrDelta > 0 ? BattlegroundsGameView.mmrPositive : BattlegroundsGameView.mmrNegative
         
         if let superview = superview {

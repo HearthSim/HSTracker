@@ -10,6 +10,7 @@ import Foundation
 
 class BattlegroundsLastGames: Codable {
     struct GameItem: Codable {
+        var player: String?
         var startTime: Date
         var endTime: Date
         var hero: String
@@ -17,8 +18,10 @@ class BattlegroundsLastGames: Codable {
         var ratingAfter: Int
         var placement: Int
         var finalBoard: FinalBoardItem?
+        var friendlyGame: Bool?
+        var duos: Bool?
         
-        init(startTime: Date, endTime: Date, hero: String, rating: Int, ratingAfter: Int, placement: Int, finalBoard: [Entity]) {
+        init(startTime: Date, endTime: Date, hero: String, rating: Int, ratingAfter: Int, placement: Int, finalBoard: [Entity], friendlyGame: Bool, player: String, duos: Bool) {
             self.startTime = startTime
             self.endTime = endTime
             self.hero = hero
@@ -26,6 +29,9 @@ class BattlegroundsLastGames: Codable {
             self.ratingAfter = ratingAfter
             self.placement = placement
             self.finalBoard = FinalBoardItem(finalBoard: finalBoard)
+            self.friendlyGame = friendlyGame
+            self.player = player
+            self.duos = duos
         }
     }
     
@@ -92,9 +98,27 @@ class BattlegroundsLastGames: Codable {
         return BattlegroundsLastGames()
     }
     
-    func addGame(startTime: Date, endTime: Date, hero: String, rating: Int, ratingAfter: Int, placement: Int, finalBoard: [Entity], save: Bool = true) {
+    private func getPlayerId() -> String? {
+        if let accountId = MirrorHelper.getAccountId() {
+            return "\(accountId.hi.int64Value)_\(accountId.lo.intValue)"
+        }
+        return nil
+    }
+    
+    func getPlayerGames(duos: Bool) -> [GameItem] {
+        guard let playerId = getPlayerId() else {
+            return [GameItem]()
+        }
+        return games.filter { g in (g.player == nil || g.player == playerId) && (g.duos == duos || (g.duos == nil && !duos)) }
+    }
+    
+    func addGame(startTime: Date, endTime: Date, hero: String, rating: Int, ratingAfter: Int, placement: Int, finalBoard: [Entity], friendlyGame: Bool, duos: Bool, save: Bool = true) {
+        guard let playerId = getPlayerId() else {
+            logger.info("Unable to save the game. User account can not found...")
+            return
+        }
         removeGame(startTime: startTime, save: false)
-        games.append(GameItem(startTime: startTime, endTime: endTime, hero: hero, rating: rating, ratingAfter: ratingAfter, placement: placement, finalBoard: finalBoard))
+        games.append(GameItem(startTime: startTime, endTime: endTime, hero: hero, rating: rating, ratingAfter: ratingAfter, placement: placement, finalBoard: finalBoard, friendlyGame: friendlyGame, player: playerId, duos: duos))
         if save {
             self.save()
         }

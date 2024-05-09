@@ -37,7 +37,24 @@ class BattlegroundsSession: OverWindowController {
     
     @objc dynamic var minionsTypeHeader = ""
     
-    var battlegroundsGameMode: SelectedBattlegroundsGameMode = .unknown
+    private var _battlegroundsGameMode: SelectedBattlegroundsGameMode = .unknown
+    
+    var battlegroundsGameMode: SelectedBattlegroundsGameMode {
+        get {
+            return _battlegroundsGameMode
+        }
+        set {
+            let modified = _battlegroundsGameMode != newValue
+            _battlegroundsGameMode = newValue
+            if modified {
+                DispatchQueue.main.async {
+                    self.updateSectionsVisibilities()
+                    self.update()
+                    AppDelegate.instance().coreManager.game.updateBattlegroundsOverlays()
+                }
+            }
+        }
+    }
     
     func updateScaling() {
         guard let window else {
@@ -106,8 +123,8 @@ class BattlegroundsSession: OverWindowController {
     
     func updateSectionsVisibilities() {
         tribesSection.isHidden = !Settings.showMinionsSection
-        mmrSection.isHidden = !Settings.showMMR || isDuos
-        latestGamesSection.isHidden = !Settings.showLatestGames || isDuos
+        mmrSection.isHidden = !Settings.showMMR
+        latestGamesSection.isHidden = !Settings.showLatestGames
     }
     
     func updateMinionsTypeLabel() {
@@ -177,7 +194,7 @@ class BattlegroundsSession: OverWindowController {
         
         let firstGame = updateLatestGames()
         
-        let rating = game.battlegroundsRatingInfo?.rating.intValue ?? 0
+        let rating = isDuos ? game.battlegroundsRatingInfo?.duosRating.intValue ?? 0 :  game.battlegroundsRatingInfo?.rating.intValue ?? 0
         let ratingStart = firstGame?.rating ?? rating
         
         if Settings.showMMRStartCurrent {
@@ -198,7 +215,7 @@ class BattlegroundsSession: OverWindowController {
 
     private func updateLatestGames() -> BattlegroundsLastGames.GameItem? {
         sessionGames.removeAll()
-        let sortedGames = BattlegroundsLastGames.instance.games.sorted(by: { (a, b) in a.startTime < b.startTime })
+        let sortedGames = BattlegroundsLastGames.instance.getPlayerGames(duos: isDuos).sorted(by: { (a, b) in a.startTime < b.startTime })
         deleteOldGames(games: sortedGames)
         sessionGames = getSessionGames(sortedGames: sortedGames)
         let firstGame = sessionGames.first
@@ -234,9 +251,9 @@ class BattlegroundsSession: OverWindowController {
                 let gStartTime = g.startTime
                 let ts = gStartTime.timeIntervalSince(previousGameEndTime)
                 let diffMMR = g.rating - previousGameRatingAfter
-                let ratingReseted = g.rating < 500 && diffMMR < -500
+                let ratingReset = g.rating < 500 && diffMMR < -500
                 
-                if ts / 3600 >= 6 || ratingReseted {
+                if ts / 3600 >= 6 || ratingReset {
                     sessionStartTime = gStartTime
                 }
             }
@@ -252,12 +269,12 @@ class BattlegroundsSession: OverWindowController {
         }
         if sessionGames.count > 0, let lastGame = sessionGames.last {
             // Check for MMR reset on last game
-            var ratingResetedAfterLastGame = false
+            var ratingResetAfterLastGame = false
             if let currentMMR = AppDelegate.instance().coreManager.game.battlegroundsRatingInfo?.rating.intValue {
                 let sessionLastMMR = lastGame.ratingAfter
-                ratingResetedAfterLastGame = currentMMR < 500 && currentMMR - sessionLastMMR < -500
+                ratingResetAfterLastGame = currentMMR < 500 && currentMMR - sessionLastMMR < -500
             }
-            if Date().timeIntervalSince(lastGame.endTime) >= 6 * 60 * 60 || ratingResetedAfterLastGame {
+            if Date().timeIntervalSince(lastGame.endTime) >= 6 * 60 * 60 || ratingResetAfterLastGame {
                 return []
             }
         }
