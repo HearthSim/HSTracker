@@ -2935,7 +2935,7 @@ class Game: NSObject, PowerEventHandler {
         secretsManager?.removeSecret(entity: entity)
         
         if isBattlegroundsMatch() && Settings.showBobsBuddy {
-            BobsBuddyInvoker.instance(gameId: gameId, turn: turnNumber())?.updateSecret(entity: entity)
+            BobsBuddyInvoker.instance(gameId: gameId, turn: turnNumber())?.updateOpponentSecret(entity: entity)
         }
     }
 

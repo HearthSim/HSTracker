@@ -51,9 +51,6 @@ class BobsBuddyInvoker {
     
     private var currentOpponentMinions: [Int: MinionProxy] = [:]
     
-    private var currentOpponentSecrets: [Entity] = []
-    private var opponentSecretMap: [Entity: Entity] = [:]
-    
     private var opponentHand: [Entity] = []
     private var opponentHandMap: [Entity: Entity] = [:]
         
@@ -88,10 +85,6 @@ class BobsBuddyInvoker {
         _recentHDTLog.append(string)
     }
     
-    private var runSimulationAfterCombat: Bool {
-        return currentOpponentSecrets.count > 0
-    }
-        
     private static var _instances = SynchronizedDictionary<String, BobsBuddyInvoker>()
     private static var _currentGameId = ""
     
@@ -224,8 +217,17 @@ class BobsBuddyInvoker {
                 
                 if let inp = self.input {
                     let target = inp.opponentSecrets
-                    let secrets = self.currentOpponentSecrets.compactMap { x in
-                        !x.cardId.isEmpty ? x.card.dbfId : 0 }
+                    var secrets = [Int]()
+                    var seen = Set<Int>()
+                    for dbfid in self.game.opponent.secrets.compactMap({ x in
+                        !x.cardId.isEmpty ? x.card.dbfId : 0 }) {
+                        if dbfid == 0 {
+                            secrets.append(dbfid)
+                        } else if !seen.contains(dbfid) {
+                            secrets.append(dbfid)
+                            seen.insert(dbfid)
+                        }
+                    }
                     for secret in secrets {
                         inp.addSecretFromDbfid(id: Int32(secret), target: target)
                     }
@@ -788,8 +790,6 @@ class BobsBuddyInvoker {
         
         input.setTurn(value: Int32(turn))
         
-        currentOpponentSecrets = game.opponent.secrets
-        
         let inputPlayerSide = input.playerSide
         let inputOpponentSide = input.opponentSide
         let factory = simulator.minionFactory
@@ -921,17 +921,7 @@ class BobsBuddyInvoker {
         tryRerun()
     }
     
-    func updateSecret(entity: Entity) {
-        if let oldSecret = currentOpponentSecrets.first(where: { x in x.id == entity.id }) {
-            opponentSecretMap[oldSecret] = entity
-        }
-        
-        currentOpponentSecrets = currentOpponentSecrets.compactMap { x in
-            if let retval = opponentSecretMap[x] {
-                return retval
-            }
-            return entity
-        }
+    func updateOpponentSecret(entity: Entity) {
         tryRerun()
     }
 
