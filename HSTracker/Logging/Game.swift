@@ -1734,10 +1734,6 @@ class Game: NSObject, PowerEventHandler {
                 windowManager.linkOpponentDeckPanel.show()
             }
         }
-        
-        var cards = [SingleCardStats]()
-        
-        cards.append(SingleCardStats(dbf_id: 74988))
     }
     
     private var _lastReconnectStartTimestamp: Date = Date.distantPast
@@ -2086,8 +2082,10 @@ class Game: NSObject, PowerEventHandler {
         let finalBoard = entities.values.filter({ x in x.isMinion && x.isInZone(zone: .play) && x.isControlled(by: player.id)}).compactMap({ x in x.copy() as? Entity}).sorted(by: { x, y in
             x[.zone_position] < y[.zone_position]
         })
+        let friendlyGame = currentGameType == .gt_battlegrounds_friendly || currentGameType == .gt_battlegrounds_duo_friendly
+        let duos = isBattlegroundsDuosMatch()
         if let heroCardId = heroCardId, placement > 0 && placement <= 8 {
-            BattlegroundsLastGames.instance.addGame(startTime: gameStats.startTime, endTime: gameStats.endTime, hero: BattlegroundsUtils.getOriginalHeroId(heroId: heroCardId), rating: gameStats.battlegroundsRating, ratingAfter: gameStats.battlegroundsRatingAfter, placement: placement, finalBoard: finalBoard)
+            BattlegroundsLastGames.instance.addGame(startTime: gameStats.startTime, endTime: gameStats.endTime, hero: BattlegroundsUtils.getOriginalHeroId(heroId: heroCardId), rating: gameStats.battlegroundsRating, ratingAfter: gameStats.battlegroundsRatingAfter, placement: placement, finalBoard: finalBoard, friendlyGame: friendlyGame, duos: duos)
             windowManager.battlegroundsSession.update()
         } else {
             logger.error("Missing data while trying to record battleground game")

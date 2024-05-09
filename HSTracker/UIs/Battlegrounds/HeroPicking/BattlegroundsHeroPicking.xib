@@ -35,9 +35,8 @@
                                         <rect key="frame" x="232" y="135" width="16" height="0.0"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <subviews>
-                                            <stackView identifier="ItemsStackView" distribution="equalSpacing" orientation="horizontal" alignment="centerY" spacing="16" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tXz-n5-mIY" userLabel="Items">
+                                            <stackView identifier="ItemsStackView" distribution="equalSpacing" orientation="horizontal" alignment="centerY" spacing="74" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tXz-n5-mIY" userLabel="Items">
                                                 <rect key="frame" x="0.0" y="0.0" width="16" height="0.0"/>
-                                                <edgeInsets key="edgeInsets" left="16" right="0.0" top="0.0" bottom="0.0"/>
                                             </stackView>
                                         </subviews>
                                         <constraints>

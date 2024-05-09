@@ -50,7 +50,7 @@ class BattlegroundsHeroPicking: OverWindowController {
             return
         }
         let cnt = heroes.count
-        let bounds = NSRect(x: 0, y: 0, width: 16 + 266 * cnt + 16 * (cnt - 1), height: 480)
+        let bounds = NSRect(x: 0, y: 0, width: (266 + 37) * cnt + 37 * (cnt - 1) - 28, height: 480)
         logger.debug("bounds: \(bounds)")
         let scale = SizeHelper.hearthstoneWindow.height / 1080
         let sw = bounds.width * scale
