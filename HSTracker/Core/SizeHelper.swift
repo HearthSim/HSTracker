@@ -537,6 +537,6 @@ struct SizeHelper {
         let w = 238.0*3.0
         let h = 224.0*3.0
         let scale = hs.height / 1080
-        return NSRect(x: hs.minX + SizeHelper.getScaledXPos(0.087, width: SizeHelper.hearthstoneWindow.width, ratio: SizeHelper.screenRatio), y: hs.minY + (hs.height * (1.0 - 0.217)) - h - 16.0 * scale, width: w, height: h)
+        return NSRect(x: hs.minX + SizeHelper.getScaledXPos(0.087, width: SizeHelper.hearthstoneWindow.width, ratio: SizeHelper.screenRatio), y: hs.minY + (hs.height * (1.0 - 0.217)) - h - 16.0 * scale, width: w*2.0, height: h*2.0)
     }
 }

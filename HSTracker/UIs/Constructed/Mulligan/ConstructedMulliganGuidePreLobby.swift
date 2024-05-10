@@ -49,12 +49,12 @@ class ConstructedMulliganGuidePreLobby: OverWindowController {
             return
         }
         let rect = SizeHelper.constructedMulliganGuidePreLobbyFrame()
-        let bounds = NSRect(x: 0, y: 0, width: rect.width, height: rect.height)
+        let bounds = NSRect(x: 0, y: 0, width: rect.width/2.0, height: rect.height/2.0)
         logger.debug("bounds: \(bounds)")
         let scale = SizeHelper.hearthstoneWindow.height / 1080
         let sw = bounds.width * scale
         let sh = bounds.height * scale
-        scaleView.frame = NSRect(x: 0, y: window.frame.height - sh, width: sw, height: sh)
+        scaleView.frame = NSRect(x: 0, y: rect.height/2.0 - sh, width: sw, height: sh)
         logger.debug("scaleView frame: \(scaleView.frame)")
         scaleView.bounds = bounds
         logger.debug("scaleView bounds: \(scaleView.bounds)")
