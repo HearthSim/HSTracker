@@ -27,6 +27,13 @@ struct SizeHelper {
         init() {
             reload()
         }
+        
+        private func area(dict: NSDictionary) -> Int {
+            let h = (dict["kCGWindowBounds"] as? NSDictionary)?["Height"] as? Int ?? 0
+            let w = (dict["kCGWindowBounds"] as? NSDictionary)?["Width"] as? Int ?? 0
+
+            return w * h
+        }
 
         func reload() {
             let options = CGWindowListOption(arrayLiteral: .excludeDesktopElements)
@@ -34,6 +41,8 @@ struct SizeHelper {
             
             if let info = (windowListInfo as? [NSDictionary])?.filter({dict in
                 dict["kCGWindowOwnerName"] as? String == CoreManager.applicationName && dict["kCGWindowLayer"] as? Int == 0 && dict["kCGWindowIsOnscreen"] as? Int == 1
+            }).sorted(by: {
+                return area(dict: $1) > area(dict: $0)
             }).last {
                 if let id = info["kCGWindowNumber"] as? Int {
                     self.windowId = CGWindowID(id)
