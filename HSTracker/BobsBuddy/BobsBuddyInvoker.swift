@@ -715,11 +715,10 @@ class BobsBuddyInvoker {
         let oHpData2 = opponentHeroPower?[.tag_script_data_num_2] ?? 0
         
         if opponentHeroPower?.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_RapidReanimation {
-            // It appear this enchantment may be in the graveyard now in the opponents case
-            let ench = game.opponent.playerEntities.first { x in x.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_ImpendingDeath && x.isInPlay } ?? game.opponent.playerEntities.last { x in x.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_ImpendingDeath && x.isInSetAside } ?? game.opponent.graveyard.last(where: { x in x.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_ImpendingDeath })
-            let target = ench?[.attached] ?? 0
-            if target > 0 {
-                oHpData = target
+            let minionsInPlay = game.opponent.board.filter { e in e.isMinion && e.isControlled(by: game.opponent.id) }.compactMap { x in x.id }
+            let attachedToEntityId = game.opponent.playerEntities.filter { x in x.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_ImpendingDeath }.compactMap { x in x[.attached] }.first { x in minionsInPlay.any { y in y == x } } ?? 0
+            if attachedToEntityId > 0 {
+                oHpData = attachedToEntityId
             }
         }
         input.setOpponentHeroPower(heroPowerCardId: opponentHeroPower?.cardId ?? "", isActivated: wasHeroPowerUsed(heroPower: opponentHeroPower), data: Int32(oHpData), data2: Int32(oHpData2))
