@@ -3097,11 +3097,16 @@ class Game: NSObject, PowerEventHandler {
         if isBattlegroundsMatch() {
             handleBattlegroundsStart()
         } else if isConstructedMatch() || isFriendlyMatch || isArenaMatch {
-            handleHearthstoneMulliganPhase()
+            if #available(macOS 10.15, *) {
+                Task.detached {
+                    await self.handleHearthstoneMulliganPhase()
+                }
+            }
         }
     }
     
-    func handlePlayerMulliganDone() {
+    @available(macOS 10.15.0, *)
+    func handlePlayerMulliganDone() async {
         if isBattlegroundsMatch() {
             battlegroundsMulliganHandled = true
             AppDelegate.instance().coreManager.toaster.hide()
@@ -3111,45 +3116,43 @@ class Game: NSObject, PowerEventHandler {
             let openingHand = snapshotOpeningHand()
             
             if let mulliganCardStats, Settings.enableMulliganGuide {
-                if #available(macOS 10.15, *) {
-                    Task.detached {
-                        let numSwappedCards = self.getMulliganSwappedCards()?.count ?? 0
-                        if numSwappedCards > 0 {
-                            // show the updated cards
-                            let dbfIds = openingHand.compactMap { x in x.card.deckbuildingCard.dbfId }
-                            if dbfIds.count > 0 {
-                                DispatchQueue.main.async {
-                                    self.showMulliganGuideStats(stats: dbfIds.compactMap { dbfId in
-                                        if let l = mulliganCardStats[dbfId] {
-                                            return l
-                                        } else {
-                                            return SingleCardStats(dbf_id: dbfId)
-                                        }
-                                    }, maxRank: mulliganCardStats.count)
-                                }
+                Task.detached {
+                    let numSwappedCards = self.getMulliganSwappedCards()?.count ?? 0
+                    if numSwappedCards > 0 {
+                        // show the updated cards
+                        let dbfIds = openingHand.compactMap { x in x.card.deckbuildingCard.dbfId }
+                        if dbfIds.count > 0 {
+                            DispatchQueue.main.async {
+                                self.showMulliganGuideStats(stats: dbfIds.compactMap { dbfId in
+                                    if let l = mulliganCardStats[dbfId] {
+                                        return l
+                                    } else {
+                                        return SingleCardStats(dbf_id: dbfId)
+                                    }
+                                }, maxRank: mulliganCardStats.count)
                             }
                         }
-                        // Delay until the cards fly away
-                        try await Task.sleep(nanoseconds: 2_375_000_000 + UInt64(max(1, numSwappedCards)) * 475_000_000)
-                        
-                        // Wait for the mulligan to be complete (component or animation)
-                        for _ in 0..<7_500 { // 2 minutes
-                            if self.isInMenu || (self.gameEntity?[.step] ?? 0) > Step.begin_mulligan.rawValue {
-                                DispatchQueue.main.async {
-                                    self.hideMulliganGuideStats()
-                                    self.player.mulliganCardStats = nil
-                                }
-                                return
+                    }
+                    // Delay until the cards fly away
+                    try await Task.sleep(nanoseconds: 2_375_000_000 + UInt64(max(1, numSwappedCards)) * 475_000_000)
+                    
+                    // Wait for the mulligan to be complete (component or animation)
+                    for _ in 0..<7_500 { // 2 minutes
+                        if self.isInMenu || (self.gameEntity?[.step] ?? 0) > Step.begin_mulligan.rawValue {
+                            DispatchQueue.main.async {
+                                self.hideMulliganGuideStats()
+                                self.player.mulliganCardStats = nil
                             }
-                            if (self.playerEntity?[.mulligan_state] ?? 0) >= Mulligan.done.rawValue && (self.opponentEntity?[.mulligan_state] ?? 0) >= Mulligan.done.rawValue {
-                                break
-                            }
-                            try await Task.sleep(nanoseconds: 16_000_000)
+                            return
                         }
-                        DispatchQueue.main.async {
-                            self.hideMulliganGuideStats()
-                            self.player.mulliganCardStats = nil
+                        if (self.playerEntity?[.mulligan_state] ?? 0) >= Mulligan.done.rawValue && (self.opponentEntity?[.mulligan_state] ?? 0) >= Mulligan.done.rawValue {
+                            break
                         }
+                        try await Task.sleep(nanoseconds: 16_000_000)
+                    }
+                    DispatchQueue.main.async {
+                        self.hideMulliganGuideStats()
+                        self.player.mulliganCardStats = nil
                     }
                 }
             }
@@ -3217,9 +3220,14 @@ class Game: NSObject, PowerEventHandler {
         }
     }
     
-    func handleHearthstoneMulliganPhase() {
+    @available(macOS 10.15.0, *)
+    func handleHearthstoneMulliganPhase() async {
         for _ in 0 ..< 10 {
-            Thread.sleep(forTimeInterval: 0.5)
+            do {
+                try await Task.sleep(nanoseconds: 500_000_000)
+            } catch {
+                logger.error(error)
+            }
             let step = gameEntity?[.step] ?? 0
             if step == 0 {
                 continue
@@ -3229,7 +3237,11 @@ class Game: NSObject, PowerEventHandler {
             }
 
             // Wait for the game to fade in
-            Thread.sleep(forTimeInterval: 3)
+            do {
+                try await Task.sleep(nanoseconds: 3_000_000_000)
+            } catch {
+                logger.error(error)
+            }
             
             _ = snapshotMulligan()
             
@@ -3244,11 +3256,9 @@ class Game: NSObject, PowerEventHandler {
                         let opponentClass = opponent.playerEntities.first( where: { x in x.isHero && x.isInPlay })?.card.playerClass ?? CardClass.invalid
                         let hasCoin = player.hasCoin
                         
-                        if #available(macOS 10.15.0, *) {
-                            Task.detached {
-                                await self.internalHandleMulliganGuide(showToast: showToast, dbfIds: dbfIds)
-                            }
-                        } else {
+                        await self.internalHandleMulliganGuide(showToast: showToast, dbfIds: dbfIds)
+
+                        if showToast {
                             // Fallback on earlier versions
                             let playerStarLevel = playerMedalInfo?.starLevel ?? 0
                             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {

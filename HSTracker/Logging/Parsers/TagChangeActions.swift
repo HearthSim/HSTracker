@@ -195,7 +195,11 @@ struct TagChangeActions {
         }
 
         if entity.isPlayer(eventHandler: eventHandler) && Mulligan.done.rawValue == value {
-            eventHandler.handlePlayerMulliganDone()
+            if #available(macOS 10.15, *) {
+                Task.detached {
+                    await eventHandler.handlePlayerMulliganDone()
+                }
+            }
         }
     }
     
