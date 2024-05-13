@@ -444,12 +444,6 @@ class BobsBuddyInvoker {
         }
         
         if isIncorrectLethalResult(result: lethalResult) && !opposingKelThuzadDied(result: lethalResult) {
-            // Akazamzarak hero power - secrets are supported but not for lethal.
-            if input?.opponentHeroPower.cardId == CardIds.NonCollectible.Neutral.PrestidigitationTavernBrawl {
-                logger.debug("Opponent was Akazamarak. Currently not reporting lethal results. Exiting.")
-                return
-            }
-            
             // There should never be relevant lethals this early in the game.
             // These missed lethals are likely caused by some bug.
             if _turn <= 5 {
