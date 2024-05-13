@@ -603,6 +603,15 @@ class BobsBuddyInvoker {
         return minion
     }
     
+    static func getObjectiveFromEntity(factory: ObjectiveFactoryProxy, player: Bool, entity: Entity) -> ObjectiveProxy {
+        let objective = factory.create(cardId: entity.cardId, controlledByPlayer: player)
+        let scriptDataNum = entity[.tag_script_data_num_1]
+        if scriptDataNum > 0 {
+            objective.scriptDataNum1 = Int32(scriptDataNum)
+        }
+        return objective
+    }
+    
     static func getAttachedEntities(game: Game, entityId: Int) -> [Entity] {
         // swiftlint:disable force_cast
         return game.entities.values.filter({ $0.isAttachedTo(entityId: entityId) && ($0.isInPlay || $0.isInSetAside || $0.isInGraveyard) }).map({ $0.copy() as! Entity })
@@ -739,11 +748,11 @@ class BobsBuddyInvoker {
         }
         let playerObjectives = input.playerObjectives
         for objective in game.player.objectives {
-            MonoHelper.addToList(list: playerObjectives, element: simulator.objectiveFactory.create(cardId: objective.cardId, controlledByPlayer: true))
+            MonoHelper.addToList(list: playerObjectives, element: BobsBuddyInvoker.getObjectiveFromEntity(factory: simulator.objectiveFactory, player: true, entity: objective))
         }
         let opponentObjectives = input.opponentObjectives
         for objective in game.opponent.objectives {
-            MonoHelper.addToList(list: opponentObjectives, element: simulator.objectiveFactory.create(cardId: objective.cardId, controlledByPlayer: false))
+            MonoHelper.addToList(list: opponentObjectives, element: BobsBuddyInvoker.getObjectiveFromEntity(factory: simulator.objectiveFactory, player: false, entity: objective))
         }
         
         let target = input.playerSecrets

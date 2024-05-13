@@ -16,10 +16,15 @@ class ObjectiveProxy: MonoHandle, MonoClassInitializer {
     static func initialize() {
         if ObjectiveProxy._class == nil {
             ObjectiveProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Spells", name: "Objective")
+            initializeProperties(properties: ["ScriptDataNum1"])
+
         }
     }
     
     required init(obj: UnsafeMutablePointer<MonoObject>?) {
         super.init(obj: obj)
     }
+    
+    @MonoPrimitiveProperty(property: "ScriptDataNum1", owner: ObjectiveProxy.self)
+    var scriptDataNum1: Int32
 }
