@@ -67,7 +67,7 @@ class HearthDbConverter {
             })
             sideboards.append(s)
         }
-        var deck = PlayingDeck(id: "", name: deck.name, hsDeckId: nil, playerClass: Cards.by(dbfId: deck.heroDbfId, collectible: false)?.playerClass ?? .invalid, heroId: "", cards: deck.cards, isArena: false, shortid: "", sideboards: sideboards)
+        let deck = PlayingDeck(id: "", name: deck.name, hsDeckId: nil, playerClass: Cards.by(dbfId: deck.heroDbfId, collectible: false)?.playerClass ?? .invalid, heroId: "", cards: deck.cards, isArena: false, shortid: "", sideboards: sideboards)
         return deck
     }
 }

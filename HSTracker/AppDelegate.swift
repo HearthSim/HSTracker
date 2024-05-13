@@ -59,6 +59,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         AppDelegate._instance = self
         GameTag.initialize()
+        Race.initialize()
         //setenv("CFNETWORK_DIAGNOSTICS", "3", 1)
         
         Crashes.userConfirmationHandler = { (_: [ErrorReport]) in

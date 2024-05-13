@@ -26,19 +26,46 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oSn-JD-Hg6">
-                                <rect key="frame" x="5" y="5" width="43" height="15"/>
+                                <rect key="frame" x="5" y="5" width="43" height="14"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="left" title="Label" id="MfP-fr-eyE">
                                     <font key="font" size="14" name="ChunkFive-Roman"/>
                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                                 <connections>
+                                    <binding destination="-2" name="hidden" keyPath="self.titleVisibility" id="sRs-fu-P7s">
+                                        <dictionary key="options">
+                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                        </dictionary>
+                                    </binding>
                                     <binding destination="-2" name="value" keyPath="self.title" id="Nnn-yI-of8"/>
                                 </connections>
                             </textField>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="Qie-Mo-uHm">
+                                <rect key="frame" x="236" y="1" width="26" height="26"/>
+                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="appbar_filter_white" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="8JP-jh-fy6">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="26" id="eyS-Uj-H3l"/>
+                                    <constraint firstAttribute="width" constant="26" id="z34-6Y-PMJ"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="buttonClicked:" target="-2" id="zhi-4p-DRG"/>
+                                    <binding destination="-2" name="hidden" keyPath="self.btnFilterVisibility" id="bPG-FM-xOA">
+                                        <dictionary key="options">
+                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="Qie-Mo-uHm" firstAttribute="centerY" secondItem="Ryb-du-y09" secondAttribute="centerY" id="GHk-WH-KN7"/>
                             <constraint firstItem="oSn-JD-Hg6" firstAttribute="centerY" secondItem="Ryb-du-y09" secondAttribute="centerY" constant="2" id="Ncn-QG-u9z"/>
+                            <constraint firstAttribute="bottom" secondItem="oSn-JD-Hg6" secondAttribute="bottom" constant="5" id="Url-cq-YgK"/>
+                            <constraint firstAttribute="trailing" secondItem="Qie-Mo-uHm" secondAttribute="trailing" constant="3" id="VKh-eo-UMi"/>
                             <constraint firstItem="oSn-JD-Hg6" firstAttribute="leading" secondItem="Ryb-du-y09" secondAttribute="leading" constant="7" id="xG7-2q-O9M"/>
                         </constraints>
                     </view>
@@ -63,5 +90,9 @@
             </constraints>
             <point key="canvasLocation" x="-128.5" y="149"/>
         </customView>
+        <userDefaultsController representsSharedInstance="YES" id="WWI-Vi-avc"/>
     </objects>
+    <resources>
+        <image name="appbar_filter_white" width="76" height="76"/>
+    </resources>
 </document>

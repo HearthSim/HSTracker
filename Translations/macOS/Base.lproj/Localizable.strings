@@ -334,6 +334,9 @@
 
 "spells" = "Spells";
 
+"BattlegroundsMinions_TavernTier" = "Tavern Tier %d";
+"BattlegroundsMinions_TavernTierMinionType" = "Tavern Tier %d - %@";
+
 /* Spell Schools */
 "Counter_Spell_School_None" = "None";
 "Spell_School_Arcane" = "Arcane";

@@ -15,6 +15,9 @@ class BattlegroundsTierDetailWindowController: OverWindowController {
         return true
     }
     
+    override func updateFrames() {
+    }
+    
     func setTier(tier: Int, isThorimRelevant: Bool) {
         detailsView?.setTier(tier: tier, isThorimRelevant: isThorimRelevant)
     }

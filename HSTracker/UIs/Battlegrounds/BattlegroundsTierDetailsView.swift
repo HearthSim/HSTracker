@@ -8,12 +8,16 @@
 
 import Foundation
 
-struct BattlegroundMinion {
-    let cardId: String
-    let techLevel: Int
-}
-
 class BattlegroundsTierDetailsView: NSView {
+    
+    struct CardGroup {
+        var tier: Int
+        var minionType: Int
+        var raceName: String
+        var groupedByMinionType: Bool
+        var cards: [Card]
+    }
+    
     var contentFrame = NSRect.zero
     lazy var _db = BattlegroundsDb()
     
@@ -29,56 +33,153 @@ class BattlegroundsTierDetailsView: NSView {
         super.init(coder: coder)
     }
     
-    var groups = [BattlegroundsCardsGroups]()
+    private var internalGroups = [BattlegroundsCardsGroups]()
     var minionTypes: BattlegroundsMinionTypesBox?
     
-    func setTier(tier: Int, isThorimRelevant: Bool) {
-        let game = AppDelegate.instance().coreManager.game
-        var availableRaces = game.availableRaces
-        availableRaces?.append(Race.all)
-        var sortedRaces = [Race]()
-        var races = [Race: String]()
-        if let allRaces = availableRaces {
-            for race in allRaces {
-                races[race] = String.localizedString(race.rawValue, comment: "")
-            }
-        }
-        races[.invalid] = String.localizedString("neutral", comment: "")
-        sortedRaces = races.keys.sorted(by: { (a, b) -> Bool in
-            return races[a] ?? "" < races[b] ?? ""
-        })
-        let isDuos = game.isBattlegroundsDuosMatch()
-        let anomalyDbfId = BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: game.gameEntity)
-        let anomalyCardId = Cards.by(dbfId: anomalyDbfId, collectible: false)?.id
-        var availableTiers = BattlegroundsUtils.getAvailableTiers(anomalyCardId: anomalyCardId)
-        if isThorimRelevant {
-            availableTiers.append(7)
-        }
-        let bannedMinions = BattlegroundsUtils.getMinionsBannedByAnomaly(anomalyDbfId: anomalyDbfId) ?? [String]()
-        let showBD = Settings.showBattlecryDeathrattleOnTiers
+    var availableRaces: [Race]?
     
-        let isTierAvailable = availableTiers.contains(tier)
-        var groups = [BattlegroundsCardsGroups]()
-        for race in sortedRaces {
-            var cards = _db.getCards(tier, race, isDuos)
-            if cards.count == 0 {
-                continue
+    var unavailableRaces: [Race] {
+        if let availableRaces {
+            return _db.races.filter { x in !availableRaces.contains(x) && x != .invalid && x != .all }
+        }
+        return [Race]()
+    }
+    
+    var activeTier: Int?
+    
+    var activeMinionType: Int?
+    
+    var isDuos: Bool = false
+    
+    var anomaly: String?
+    
+    var isThorimRelevant: Bool = false
+    
+    var bannedMinions: [String]?
+    
+    var availableTiers: [Int] {
+        return BattlegroundsUtils.getAvailableTiers(anomalyCardId: anomaly)
+    }
+    
+    var groups: [CardGroup] {
+        var groups = [CardGroup]()
+        
+        if let tier = activeTier {
+            let isTierAvailable = availableTiers.contains(tier)
+            
+            for race in _db.races {
+                if let availableRaces, !availableRaces.contains(race) && race != .invalid {
+                    continue
+                }
+                
+                var cards = _db.getCards(tier, race, isDuos)
+                
+                if cards.count == 0 {
+                    continue
+                }
+                
+                if !isTierAvailable || (bannedMinions?.count ?? 0 > 0) {
+                    cards = cards.compactMap { x in
+                        if isTierAvailable && (bannedMinions == nil || !bannedMinions!.contains(x.id)) {
+                            return x
+                        }
+                        let ret = x.copy()
+                        ret.count = 0
+                        return ret
+                    }
+                }
+                
+                groups.append(CardGroup(tier: tier, minionType: Race.lookup(race), raceName: String.localizedString("\(race)", comment: ""), groupedByMinionType: false, cards: cards.sorted(by: { (a, b) -> Bool in a.name < b.name })))
             }
-            if !isTierAvailable || bannedMinions.count > 0 {
-                cards = cards.compactMap { x in
-                    if isTierAvailable && !bannedMinions.contains(x.id) {
+                
+            var spells = Settings.showTavernSpells ? _db.getSpells(tier, isDuos) : [Card]()
+            if spells.count > 0 {
+                spells = spells.compactMap { x in
+                    if isTierAvailable {
                         return x
                     }
                     let ret = x.copy()
-                    ret.count = -1
+                    ret.count = 0
                     return ret
                 }
+                
+                groups.append(CardGroup(tier: tier, minionType: -1, raceName: "", groupedByMinionType: false, cards: spells.sorted(by: { (a, b) -> Bool in
+                    a.cost == b.cost ? a.name < b.name : a.cost < b.cost
+                })))
             }
+            return groups.sorted(by: { (a, b) -> Bool in
+                let sort_a = switch a.minionType {
+                case 26: // all
+                    -1
+                case 0: // invalid - neutral
+                    1
+                case -1: // spells
+                    2
+                default:
+                    0
+                }
+                let sort_b = switch b.minionType {
+                case 26: // all
+                    -1
+                case 0: // invalid - neutral
+                    1
+                case -1: // spells
+                    2
+                default:
+                    0
+                }
+                return sort_a == sort_b ? a.raceName < b.raceName : sort_a < sort_b
+            })
+        } else if let minionType = activeMinionType {
+            for tierGroup in availableTiers {
+                let race = Race(rawValue: minionType)
+                let cards = minionType == -1 ? _db.getSpells(tierGroup, isDuos).sorted(by: { (a, b) -> Bool in a.cost < b.cost}).sorted(by: { (a, b) -> Bool in a.name < b.name }) : (_db.getCards(tierGroup, race ?? .invalid, isDuos) + (race != .all && race != .invalid ? _db.getCards(tierGroup, .all, isDuos) : [Card]())).sorted(by: { (a, b) -> Bool in a.name < b.name })
+                if cards.count == 0 {
+                    continue
+                }
+                groups.append(CardGroup(tier: tierGroup, minionType: minionType, raceName: "", groupedByMinionType: true, cards: cards))
+            }
+        }
+        return groups
+    }
+    
+    func setTier(tier: Int, isThorimRelevant: Bool) {
+        let game = AppDelegate.instance().coreManager.game
+        self.activeTier = tier
+        self.activeMinionType = nil
+        self.availableRaces = game.availableRaces
+        self.isThorimRelevant = isThorimRelevant
+        self.isDuos = game.isBattlegroundsDuosMatch()
+        let anomalyDbfId = BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: game.gameEntity)
+        self.anomaly = Cards.by(dbfId: anomalyDbfId, collectible: false)?.id
+        self.bannedMinions = BattlegroundsUtils.getMinionsBannedByAnomaly(anomalyDbfId: anomalyDbfId) ?? [String]()
+        
+        updateCardGroups()
+    }
+    
+    private func filterByMinionType(_ race: Race) {
+        self.activeTier = nil
+        self.activeMinionType = Race.lookup(race)
+        updateCardGroups()
+    }
+    
+    private func updateCardGroups() {
+        let cardGroups = self.groups
+
+        for view in subviews {
+            view.removeFromSuperview()
+        }
+        let showBD = Settings.showBattlecryDeathrattleOnTiers
+
+        self.internalGroups.removeAll()
+        for cg in cardGroups {
             let group = BattlegroundsCardsGroups(frame: NSRect.zero)
             group.cardsList.delegate = self
-            group.title = races[race] ?? "Unknown"
-            group.cards = cards.compactMap { x in
-                let ret = Card()
+            group.minionType = cg.minionType
+            group.tier = cg.tier
+            group.groupedByMinionType = cg.groupedByMinionType
+            group.cards = cg.cards.compactMap { x in
+                let ret = x.copy()
                 ret.cost = -1
                 ret.id = x.id
                 ret.name = x.name
@@ -88,60 +189,15 @@ class BattlegroundsTierDetailsView: NSView {
                 }
                 ret.count = x.count == -1 ? 0 : 1
                 return ret
-            }.sorted(by: { (a, b) -> Bool in
-                return a.name < b.name
-            })
+            }
+            group.clickMinionTypeCommand = filterByMinionType
             group.setContentCompressionResistancePriority(NSLayoutConstraint.Priority(249.0), for: .vertical)
             group.setContentHuggingPriority(.defaultHigh, for: .vertical)
-            groups.append(group)
-        }
-        
-        let spellRaceMapping = BattlegroundsUtils.tavernSpellRaceMapping
-        var spells = Settings.showTavernSpells ? _db.getSpells(tier, isDuos).filter { x in
-            if let availableRaces, let spellRace = spellRaceMapping[x.id], !availableRaces.contains(spellRace) {
-                return false
-            }
-            return true
-        } : [Card]()
-        if spells.count != 0 {
-            spells = spells.compactMap { x in
-                if isTierAvailable {
-                    return x
-                }
-                let ret = x.copy()
-                ret.count = -1
-                return ret
-            }
-            let group = BattlegroundsCardsGroups(frame: NSRect.zero)
-            group.cardsList.delegate = self
-            group.title = String.localizedString("spells", comment: "")
-            group.cards = spells.compactMap { x in
-                let ret = Card()
-                ret.cost = -1
-                ret.id = x.id
-                ret.name = x.name
-                ret.type = x.type
-                ret.count = x.count == -1 ? 0 : 1
-                return ret
-            }.sorted(by: { (a, b) -> Bool in
-                return a.name < b.name
-            })
-            group.setContentCompressionResistancePriority(NSLayoutConstraint.Priority(249.0), for: .vertical)
-            group.setContentHuggingPriority(.defaultHigh, for: .vertical)
-            groups.append(group)
-        }
-
-        for view in subviews {
-            view.removeFromSuperview()
-        }
-
-        self.groups.removeAll()
-        for group in groups {
             addSubview(group)
-            self.groups.append(group)
+            self.internalGroups.append(group)
         }
         minionTypes = nil
-        if let unavailable = AppDelegate.instance().coreManager.game.unavailableRaces {
+        if let unavailable = AppDelegate.instance().coreManager.game.unavailableRaces, activeTier != nil && activeMinionType == nil {
             let types = BattlegroundsMinionTypesBox(frame: NSRect.zero)
             types.minionTypes = unavailable
             addSubview(types)
@@ -166,7 +222,7 @@ class BattlegroundsTierDetailsView: NSView {
             CGFloat(kRowHeight)
         }
         var totalCards = 0
-        for group in groups {
+        for group in internalGroups {
             totalCards += group.cards.count
         }
         let typesSize = minionTypes?.intrinsicContentSize ?? NSSize(width: 0, height: 0)
@@ -176,7 +232,7 @@ class BattlegroundsTierDetailsView: NSView {
             cardHeight = (totalHeight - typesSize.height - 30.0 * CGFloat(groups.count)) / CGFloat(totalCards)
         }
         var y = contentFrame.height
-        for group in groups {
+        for group in internalGroups {
             group.cardHeight = cardHeight
             let h = 30.0 + CGFloat(group.cards.count) * cardHeight
             y -= h

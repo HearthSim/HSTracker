@@ -110,6 +110,33 @@ enum Race: String, CaseIterable {
     golem,
     harpy,
     vulpera
+    
+    static var lookup = [Int: Race]()
+    static var reverseLookup = [Race: Int]()
+    
+    static func initialize() {
+        var index = 0
+        for _enum in Race.allCases {
+            Race.lookup[index] = _enum
+            Race.reverseLookup[_enum] = index
+            index += 1
+        }
+    }
+    
+    static func lookup(_ race: Race) -> Int {
+        if let res = reverseLookup[race] {
+            return res
+        }
+        return -1
+    }
+    
+    init?(rawValue: Int) {
+        if let _enum = Race.lookup[rawValue] {
+            self = _enum
+            return
+        }
+        return nil
+    }
 }
 
 class RaceUtils {
