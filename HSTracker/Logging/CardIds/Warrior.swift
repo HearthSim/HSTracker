@@ -139,6 +139,7 @@ extension CardIds.Collectible {
         static let BoombossThogrun = "WW_372"
         static let BlastCharge = "WW_380"
         static let ReinforcedPlating = "WW_334"
+        static let SafetyExpert = "MIS_711"
     }
 }
 
