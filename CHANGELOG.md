@@ -1,3 +1,22 @@
+# 2.7.5
+## New
+- Updated for Hearthstone 29.4.0
+- Added Duos support to the Battlegrounds session recap.
+- Duos support for Bob's Buddy and the hero picking overlay are being worked on!
+- Added a button to filter the Battlegrounds minion list by minion type!
+- Switched the tiers shown in Battlegrounds hero picking overlay to a new and improved methodology.\
+  *Hero tiers are now one of S, A, B, C, D and F. The S and F tiers are very rare and will only appear for true outliers.*
+## Fixes
+- Fixed automatic deck importing for Whizbang the Wonderful.
+  * Whizbang the Splendiferous and Zayle, Shadow Cloak will follow in a future update.
+- Fixed positioning of the Battlegrounds Hero Picking overlay
+## Bob's Buddy
+- Fixed incorrect lethal rates due to an issue detecting the damage cap.
+- Fixed incorrect simulation results due to Fleeting Vigor.
+- Fixed incorrect simulation results due to Teron Gorefiend's hero power.
+- Added support for Boon of Beetles.
+- Fixed incorrect simulation results when the opponent had multiple secrets.
+
 # 2.7.4
 ## Fixes
 - Fixed incorrect card database for missing cards
