@@ -94,6 +94,8 @@ class BattlegroundsCardsGroups: NSView {
         }
     }
     
+    private var kvoToken: NSKeyValueObservation?
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         commonInit()
@@ -116,6 +118,11 @@ class BattlegroundsCardsGroups: NSView {
         contentView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         contentView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         contentView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        kvoToken = observe(\.headerBackground, changeHandler: { _, _ in self.updateHeaderBackground() })
+    }
+    
+    deinit {
+        kvoToken?.invalidate()
     }
     
     private lazy var trackingArea: NSTrackingArea = NSTrackingArea(rect: NSRect.zero,
@@ -145,5 +152,10 @@ class BattlegroundsCardsGroups: NSView {
         if !groupedByMinionType {
             clickMinionTypeCommand?(Race(rawValue: minionType) ?? .invalid)
         }
+    }
+    
+    @MainActor
+    private func updateHeaderBackground() {
+        box.fillColor = NSColor.fromHexString(hex: headerBackground) ?? .black
     }
 }
