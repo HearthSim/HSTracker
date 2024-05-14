@@ -887,6 +887,7 @@ class BobsBuddyInvoker {
                 let expandAfterError = errorState == .none && Settings.showBobsBuddyDuringCombat
                 errorState = .none
                 BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .none, show: expandAfterError)
+                output = nil
                 _ = runAndDisplaySimulationAsync()
             }
         } else {
