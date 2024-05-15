@@ -378,8 +378,7 @@ class Tracker: OverWindowController {
         case .big: cardHeight = CGFloat(kRowHeight)
         }
         if totalCards > 0 {
-            cardHeight = round(min(cardHeight,
-                                   (windowHeight - offsetFrames) / CGFloat(totalCards)))
+            cardHeight = min(cardHeight, (windowHeight - offsetFrames) / CGFloat(totalCards))
         }
         
         let cardViewHeight = CGFloat(cardsView.count) * cardHeight
@@ -417,9 +416,10 @@ class Tracker: OverWindowController {
             playerBottom.isHidden = true
         }
         if playerSideboards.count > 0 && !Settings.hidePlayerSideboards {
-            let playerSideboardsHeight = CGFloat(playerSideboards.count) * cardHeight + smallFrameHeight + 5
+            let playerSideboardsHeight = CGFloat(playerSideboards.count) * cardHeight + smallFrameHeight
             y -= playerSideboardsHeight
             playerSideboards.frame = NSRect(x: 0, y: y, width: windowWidth, height: playerSideboardsHeight)
+            playerSideboards.cards.cardHeight = cardHeight
             playerSideboards.updateFrames(frameHeight: smallFrameHeight)
         } else {
             playerSideboards.frame = NSRect.zero
