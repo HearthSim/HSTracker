@@ -286,6 +286,7 @@ struct RealmHelper {
 			deck.name = mirrorDeck.name
 		}
 		deck.playerClass = hero.playerClass
+		deck.heroId = mirrorDeck.hero
 		guard let hsDeckId = mirrorDeck.id as? Int64 else {
 			logger.error("Can not parse hs deck id")
 			return nil
