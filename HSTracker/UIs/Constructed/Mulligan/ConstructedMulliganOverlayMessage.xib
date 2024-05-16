@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="ConstructedMulliganOverlayMessage" customModule="HSTracker" customModuleProvider="target">
+            <connections>
+                <outlet property="contentView" destination="GxC-5q-AN8" id="P0I-1N-sKo"/>
+                <outlet property="messageField" destination="40p-T3-gNg" id="ca4-UB-rkB"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="gAe-ob-Yes">
+            <rect key="frame" x="0.0" y="0.0" width="100" height="27"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="GxC-5q-AN8" userLabel="ContentView">
+                    <rect key="frame" x="0.0" y="0.0" width="100" height="27"/>
+                    <subviews>
+                        <box identifier="OverlayBox" boxType="custom" cornerRadius="5" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="7rk-4S-VxU">
+                            <rect key="frame" x="0.0" y="0.0" width="100" height="27"/>
+                            <view key="contentView" id="G7G-va-sWY">
+                                <rect key="frame" x="1" y="1" width="98" height="25"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <stackView identifier="OverlayStackView" distribution="fill" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CZ4-xm-cfx">
+                                        <rect key="frame" x="0.0" y="0.0" width="98" height="25"/>
+                                        <subviews>
+                                            <box identifier="LogoBox" horizontalHuggingPriority="1000" boxType="custom" cornerRadius="4" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="PaN-Mg-KFI" userLabel="LogoBox">
+                                                <rect key="frame" x="0.0" y="4" width="16" height="16"/>
+                                                <view key="contentView" id="dfQ-Yf-bLk">
+                                                    <rect key="frame" x="1" y="1" width="14" height="14"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <subviews>
+                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Gkf-bS-yP3">
+                                                            <rect key="frame" x="0.0" y="-1" width="16" height="16"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="16" id="ivC-Cc-Cf4"/>
+                                                                <constraint firstAttribute="height" constant="16" id="pMh-I4-8vm"/>
+                                                            </constraints>
+                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="hsreplay_logo_white" id="MUC-uH-SGE"/>
+                                                        </imageView>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="Gkf-bS-yP3" firstAttribute="centerY" secondItem="dfQ-Yf-bLk" secondAttribute="centerY" id="78G-SH-XRe"/>
+                                                        <constraint firstItem="Gkf-bS-yP3" firstAttribute="leading" secondItem="dfQ-Yf-bLk" secondAttribute="leading" id="zF9-OD-QLp"/>
+                                                    </constraints>
+                                                </view>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="16" id="RXC-JC-9Mp"/>
+                                                    <constraint firstAttribute="width" constant="16" id="sz9-pP-FF6"/>
+                                                </constraints>
+                                                <color key="borderColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="deviceRGB"/>
+                                                <color key="fillColor" red="0.11372549019607843" green="0.21176470588235294" blue="0.3411764705882353" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </box>
+                                            <textField identifier="MessageLabel" focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="40p-T3-gNg">
+                                                <rect key="frame" x="22" y="5" width="78" height="16"/>
+                                                <textFieldCell key="cell" lineBreakMode="clipping" title="Loading..." id="5Wm-35-vqA">
+                                                    <font key="font" usesAppearanceFont="YES"/>
+                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="PaN-Mg-KFI" secondAttribute="bottom" constant="4" id="JEv-K2-Dwb"/>
+                                            <constraint firstItem="PaN-Mg-KFI" firstAttribute="top" secondItem="CZ4-xm-cfx" secondAttribute="top" constant="5" id="YOy-ap-SPV"/>
+                                            <constraint firstAttribute="bottom" secondItem="40p-T3-gNg" secondAttribute="bottom" constant="5" id="dwL-dM-tQq"/>
+                                            <constraint firstItem="40p-T3-gNg" firstAttribute="top" secondItem="CZ4-xm-cfx" secondAttribute="top" constant="4" id="vPj-c5-ysL"/>
+                                        </constraints>
+                                        <visibilityPriorities>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                        </visibilityPriorities>
+                                        <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                        </customSpacing>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="CZ4-xm-cfx" secondAttribute="bottom" id="9Ac-KZ-vJ6"/>
+                                    <constraint firstItem="CZ4-xm-cfx" firstAttribute="top" secondItem="G7G-va-sWY" secondAttribute="top" id="KG6-VB-2wp"/>
+                                    <constraint firstAttribute="trailing" secondItem="CZ4-xm-cfx" secondAttribute="trailing" id="SA2-lK-P5r"/>
+                                    <constraint firstItem="CZ4-xm-cfx" firstAttribute="leading" secondItem="G7G-va-sWY" secondAttribute="leading" id="eUA-KN-avv"/>
+                                </constraints>
+                            </view>
+                            <color key="borderColor" red="0.11372549019607843" green="0.21176470588235294" blue="0.3411764705882353" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="fillColor" red="0.078431372550000003" green="0.086274509799999996" blue="0.090196078430000007" alpha="1" colorSpace="custom" customColorSpace="deviceRGB"/>
+                        </box>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="7rk-4S-VxU" firstAttribute="top" secondItem="GxC-5q-AN8" secondAttribute="top" id="R9X-uR-W0p"/>
+                        <constraint firstAttribute="trailing" secondItem="7rk-4S-VxU" secondAttribute="trailing" id="YwL-wb-ikr"/>
+                        <constraint firstAttribute="bottom" secondItem="7rk-4S-VxU" secondAttribute="bottom" id="ZEq-In-ZG4"/>
+                        <constraint firstItem="7rk-4S-VxU" firstAttribute="leading" secondItem="GxC-5q-AN8" secondAttribute="leading" id="iCE-Rb-RlU"/>
+                    </constraints>
+                </customView>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="GxC-5q-AN8" secondAttribute="trailing" id="0la-Oj-YKL"/>
+                <constraint firstItem="GxC-5q-AN8" firstAttribute="leading" secondItem="gAe-ob-Yes" secondAttribute="leading" id="SoT-hx-spJ"/>
+                <constraint firstItem="GxC-5q-AN8" firstAttribute="top" secondItem="gAe-ob-Yes" secondAttribute="top" id="eKq-oQ-vyU"/>
+                <constraint firstAttribute="bottom" secondItem="GxC-5q-AN8" secondAttribute="bottom" id="vRP-f0-vqR"/>
+            </constraints>
+            <point key="canvasLocation" x="-38" y="122"/>
+        </customView>
+    </objects>
+    <resources>
+        <image name="hsreplay_logo_white" width="242" height="304"/>
+    </resources>
+</document>

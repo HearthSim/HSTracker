@@ -43,11 +43,14 @@ class ConstructedMulliganGuideViewModel: ViewModel {
             setProp(newValue)
         }
     }
+    
+    let overlayMesageViewModel = ConstructedMulliganOverlayMessageViewModel()
         
     func reset() {
         cardStats = nil
         visibility = false
         statsVisibility = false
+        overlayMesageViewModel.text = nil
     }
     
     var scaling: Double {
@@ -59,11 +62,23 @@ class ConstructedMulliganGuideViewModel: ViewModel {
         }
     }
     
-    func setMulliganData(stats: [SingleCardStats]?, maxRank: Int?) {
+    func setMulliganData(stats: [SingleCardStats]?, maxRank: Int?, selectedParams: [String: String?]?) {
         cardStats = stats?.compactMap { x in ConstructedMulliganSingleCardViewModel(stats: x, maxRank: maxRank) }
-        
-        // TODO values
-        //Message.Mmr(scoreData.SelectedParams. stats[0].MmrFilterValue, stats[0].MinMmr, anomalyAdjusted);
+
+        if let selectedParams {
+            var opponentClass: CardClass?
+            if let opponentClassString = selectedParams["opponent_class"] {
+                opponentClass = CardClass(rawValue: opponentClassString ?? "")
+                }
+            var initiative: ConstructedMulliganOverlayMessageViewModel.PlayerInitiative?
+            if let initiativeString = selectedParams["PlayerInitiative"] {
+                initiative = ConstructedMulliganOverlayMessageViewModel.PlayerInitiative(rawValue: initiativeString?.lowercased() ?? "")
+            }
+            
+            if let opponentClass, let initiative {
+                overlayMesageViewModel.scope(cardClass: opponentClass, initiative: initiative)
+            }
+        }
         
         visibility = true
         statsVisibility =  Settings.autoShowMulliganGuide

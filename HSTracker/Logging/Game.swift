@@ -3084,8 +3084,8 @@ class Game: NSObject, PowerEventHandler {
     // MARK: - Mulligan
     
     @MainActor
-    func showMulliganGuideStats(stats: [SingleCardStats], maxRank: Int) {
-        windowManager.constructedMulliganGuide.viewModel.setMulliganData(stats: stats, maxRank: maxRank)
+    func showMulliganGuideStats(stats: [SingleCardStats], maxRank: Int, selectedParams: [String: String?]?) {
+        windowManager.constructedMulliganGuide.viewModel.setMulliganData(stats: stats, maxRank: maxRank, selectedParams: selectedParams)
     }
     
     @MainActor
@@ -3129,7 +3129,7 @@ class Game: NSObject, PowerEventHandler {
                                     } else {
                                         return SingleCardStats(dbf_id: dbfId)
                                     }
-                                }, maxRank: mulliganCardStats.count)
+                                }, maxRank: mulliganCardStats.count, selectedParams: nil)
                             }
                         }
                     }
@@ -3216,7 +3216,7 @@ class Game: NSObject, PowerEventHandler {
                     return stats
                 }
                 return SingleCardStats(dbf_id: dbfId)
-            }, maxRank: cardStats.count)
+            }, maxRank: cardStats.count, selectedParams: data.selected_params)
         }
     }
     

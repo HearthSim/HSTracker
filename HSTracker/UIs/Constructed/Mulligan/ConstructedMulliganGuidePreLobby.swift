@@ -44,7 +44,7 @@ class ConstructedMulliganGuidePreLobby: OverWindowController {
     }
     
     func updateScaling() {
-        guard let window else {
+        guard window != nil else {
             logger.debug("Missing window")
             return
         }

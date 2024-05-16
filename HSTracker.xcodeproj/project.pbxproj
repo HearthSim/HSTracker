@@ -417,6 +417,9 @@
 		B8074B0228C83A96006E0133 /* RewardTrackType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8074B0128C83A96006E0133 /* RewardTrackType.swift */; };
 		B812BCED2947F929000C6513 /* BattlegroundsQuestStatsParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = B812BCEC2947F928000C6513 /* BattlegroundsQuestStatsParams.swift */; };
 		B812BCEF29495C3A000C6513 /* BattlegroundsSingleQuestView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B812BCEE29495C3A000C6513 /* BattlegroundsSingleQuestView.xib */; };
+		B81849232BF4D58E00F4EEE2 /* ConstructedMulliganOverlayMessage.xib in Resources */ = {isa = PBXBuildFile; fileRef = B81849222BF4D58E00F4EEE2 /* ConstructedMulliganOverlayMessage.xib */; };
+		B81849252BF4D5A700F4EEE2 /* ConstructedMulliganOverlayMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81849242BF4D5A700F4EEE2 /* ConstructedMulliganOverlayMessage.swift */; };
+		B81849272BF4D7C900F4EEE2 /* ConstructedMulliganOverlayMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81849262BF4D7C900F4EEE2 /* ConstructedMulliganOverlayMessageViewModel.swift */; };
 		B823E801275FB89400747CAF /* FlavorText.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88364FB275D746D0094D8E1 /* FlavorText.swift */; };
 		B823E802275FB89900747CAF /* FlavorText.xib in Resources */ = {isa = PBXBuildFile; fileRef = B88364F9275D6FE10094D8E1 /* FlavorText.xib */; };
 		B82AE5F028ADBC55004A8FE0 /* Influx.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82AE5EF28ADBC54004A8FE0 /* Influx.swift */; };
@@ -1158,6 +1161,9 @@
 		B8074B0128C83A96006E0133 /* RewardTrackType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardTrackType.swift; sourceTree = "<group>"; };
 		B812BCEC2947F928000C6513 /* BattlegroundsQuestStatsParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsQuestStatsParams.swift; sourceTree = "<group>"; };
 		B812BCEE29495C3A000C6513 /* BattlegroundsSingleQuestView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsSingleQuestView.xib; sourceTree = "<group>"; };
+		B81849222BF4D58E00F4EEE2 /* ConstructedMulliganOverlayMessage.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConstructedMulliganOverlayMessage.xib; sourceTree = "<group>"; };
+		B81849242BF4D5A700F4EEE2 /* ConstructedMulliganOverlayMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructedMulliganOverlayMessage.swift; sourceTree = "<group>"; };
+		B81849262BF4D7C900F4EEE2 /* ConstructedMulliganOverlayMessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructedMulliganOverlayMessageViewModel.swift; sourceTree = "<group>"; };
 		B81F069C253899FB00F319F1 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		B82AE5EF28ADBC54004A8FE0 /* Influx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Influx.swift; sourceTree = "<group>"; };
 		B82AE5F928BE8631004A8FE0 /* BobsBuddy-version.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "BobsBuddy-version.txt"; sourceTree = "<group>"; };
@@ -2285,6 +2291,9 @@
 				B8AF0C7A2B928AA400B65F63 /* ConstructedMulliganGuidePreLobby.xib */,
 				B8AF0C782B91444200B65F63 /* ConstructedMulliganGuidePreLobbyViewModel.swift */,
 				B8AF0C702B84347800B65F63 /* ConstructedMulliganGuideViewModel.swift */,
+				B81849242BF4D5A700F4EEE2 /* ConstructedMulliganOverlayMessage.swift */,
+				B81849222BF4D58E00F4EEE2 /* ConstructedMulliganOverlayMessage.xib */,
+				B81849262BF4D7C900F4EEE2 /* ConstructedMulliganOverlayMessageViewModel.swift */,
 				B8AF0C642B828A4A00B65F63 /* ConstructedMulliganSingleCardHeader.swift */,
 				B895864C2B82614D00989C13 /* ConstructedMulliganSingleCardHeader.xib */,
 				B895864A2B81460700989C13 /* ConstructedMulliganSingleCardHeaderViewModel.swift */,
@@ -2657,6 +2666,7 @@
 				B8795EAC27516DBC00469B6E /* MercenariesTask.xib in Resources */,
 				4C1923A12392FB3F007EBB0F /* BattlegroundsDetailsWindow.xib in Resources */,
 				B8FE1F9328693EDD004C397C /* WotogCounter.xib in Resources */,
+				B81849232BF4D58E00F4EEE2 /* ConstructedMulliganOverlayMessage.xib in Resources */,
 				434106A51C9868620045655A /* Classes.xcassets in Resources */,
 				B8C1F1BF295553F8001E078C /* MainMenu.xib in Resources */,
 				43E77EE01C949C6D00C26950 /* TimerHud.xib in Resources */,
@@ -3061,6 +3071,7 @@
 				B8DC11F024E6AF280088A755 /* BobsBuddyInvoker.swift in Sources */,
 				437E56F01DAAB81400FC0FC1 /* Array.swift in Sources */,
 				B8AF0C772B85625200B65F63 /* Region.swift in Sources */,
+				B81849252BF4D5A700F4EEE2 /* ConstructedMulliganOverlayMessage.swift in Sources */,
 				439C7EBE1C777F8900D29859 /* Zone.swift in Sources */,
 				437E56F11DAAB81400FC0FC1 /* Color.swift in Sources */,
 				43BF754C1ECC25F7005827FF /* DeckSerializer.swift in Sources */,
@@ -3127,6 +3138,7 @@
 				436F5D161CFD822600DEB9A1 /* MinimalBar.swift in Sources */,
 				B8BCC1E12739991600DA6474 /* VerticallyAlignedTextFieldCell.swift in Sources */,
 				B804FC3F2946882D00F74CD9 /* StatsHeaderViewModel.swift in Sources */,
+				B81849272BF4D7C900F4EEE2 /* ConstructedMulliganOverlayMessageViewModel.swift in Sources */,
 				433554391D5FABD600277B27 /* HSReplayPreferences.swift in Sources */,
 				439C7EBC1C777F8900D29859 /* PlayState.swift in Sources */,
 				B8E76171293A321A0048E802 /* FindGameState.swift in Sources */,

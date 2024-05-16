@@ -11,6 +11,7 @@ import Foundation
 class MulliganGuideData: Decodable {
     var deck_dbf_id_list: [CardStats]
     var base_winrate: Double?
+    var selected_params: [String: String?]?
     var toast: MulliganGuideToast?
     
     class CardStats: Decodable {

@@ -356,6 +356,9 @@
 "ConstructedMulliganGuidePreLobby_Status_Loading" = "Loading...";
 "ConstructedMulliganGuidePreLobby_Status_Ready" = "Mulligan Guide Ready";
 "ConstructedMulliganGuidePreLobby_Status_NoData" = "No Data";
+"ConstructedMulliganGuide_Message_Error" = "Something went wrong :(";
+"ConstructedMulliganGuide_Message_VsClass_GoingFirst" = "Mulligan Stats vs. %@, Going First";
+"ConstructedMulliganGuide_Message_VsClass_ExtraCard" = "Mulligan Stats vs. %@, On Coin";
 
 /* Sideboards */
 "DeckSideboard_Label_ETCBand" = "E.T.C.'s Band";

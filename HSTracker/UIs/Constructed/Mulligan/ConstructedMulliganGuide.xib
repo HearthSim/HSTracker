@@ -10,6 +10,7 @@
             <connections>
                 <outlet property="itemsStack" destination="2Kp-0C-m2L" id="yqj-of-Uhu"/>
                 <outlet property="outerView" destination="mem-d6-nhU" id="eyd-NE-DRa"/>
+                <outlet property="overlayMessage" destination="wjZ-pu-ubM" id="cZO-xT-vPW"/>
                 <outlet property="scaleView" destination="5n4-wd-IOb" id="NWH-SM-8N5"/>
                 <outlet property="visibilityToggleBox" destination="Ehh-aG-pmj" id="oOq-LN-L4A"/>
                 <outlet property="window" destination="W7E-C0-OSf" id="tWO-ZH-8GG"/>
@@ -112,10 +113,19 @@
                                         <color key="fillColor" red="0.1137254902" green="0.21176470589999999" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="deviceRGB"/>
                                         <size key="contentViewMargins" width="8" height="5"/>
                                     </box>
+                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="wjZ-pu-ubM" customClass="ConstructedMulliganOverlayMessage" customModule="HSTracker" customModuleProvider="target">
+                                        <rect key="frame" x="738" y="213" width="480" height="27"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="480" id="BKu-QH-yC7"/>
+                                            <constraint firstAttribute="height" constant="27" id="cVH-nE-R5L"/>
+                                        </constraints>
+                                    </customView>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="wjZ-pu-ubM" firstAttribute="leading" secondItem="mem-d6-nhU" secondAttribute="leading" constant="738" id="KYk-6D-pi9"/>
                                     <constraint firstAttribute="trailing" secondItem="Ehh-aG-pmj" secondAttribute="trailing" constant="936" id="UMs-pH-sAB"/>
                                     <constraint firstAttribute="bottom" secondItem="Ehh-aG-pmj" secondAttribute="bottom" constant="213" id="pqN-mH-Rx1"/>
+                                    <constraint firstItem="wjZ-pu-ubM" firstAttribute="bottom" secondItem="Ehh-aG-pmj" secondAttribute="bottom" id="rwK-iZ-uHZ"/>
                                 </constraints>
                             </customView>
                         </subviews>

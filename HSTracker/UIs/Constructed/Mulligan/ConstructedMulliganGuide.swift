@@ -13,6 +13,7 @@ class ConstructedMulliganGuide: OverWindowController {
     @IBOutlet weak var outerView: NSView!
     @IBOutlet weak var scaleView: NSView!
     @IBOutlet weak var visibilityToggleBox: ClickableBox!
+    @IBOutlet weak var overlayMessage: ConstructedMulliganOverlayMessage!
     
     let viewModel = ConstructedMulliganGuideViewModel()
     
@@ -56,6 +57,7 @@ class ConstructedMulliganGuide: OverWindowController {
     
     override func awakeFromNib() {
         visibilityToggleBox.clicked = visibilityMouseUp
+        overlayMessage.viewModel = viewModel.overlayMesageViewModel
     }
     
     func visibilityMouseUp(_ event: NSEvent) {
