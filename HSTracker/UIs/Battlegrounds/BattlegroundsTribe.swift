@@ -14,6 +14,8 @@ class BattlegroundsTribe: NSView {
     @IBOutlet weak var tribeImage: NSImageView!
     @IBOutlet weak var tribeLabel: NSTextField!
     @IBOutlet weak var tribesX: NSImageView!
+    @IBOutlet weak var tribeBox: NSBox!
+    
     private var race = Race.invalid
     
     required init?(coder: NSCoder) {
@@ -49,5 +51,10 @@ class BattlegroundsTribe: NSView {
             }
         }
         tribesX.isHidden = available
+        if available {
+            tribeBox.borderColor = NSColor.fromRgb(0x16, 0xd2, 0x20)
+        } else {
+            tribeBox.borderColor = NSColor.fromRgb(0xd4, 0x40, 0x40)
+        }
     }
 }

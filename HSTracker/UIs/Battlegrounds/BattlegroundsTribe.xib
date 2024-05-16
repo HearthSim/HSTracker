@@ -8,6 +8,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="BattlegroundsTribe" customModule="HSTracker" customModuleProvider="target">
             <connections>
                 <outlet property="contentView" destination="c22-O7-iKe" id="XdC-br-bve"/>
+                <outlet property="tribeBox" destination="Kv2-6J-bfM" id="Fc4-o5-7Jm"/>
                 <outlet property="tribeImage" destination="t8q-p6-Vyl" id="qWN-0R-rGL"/>
                 <outlet property="tribeLabel" destination="iwU-mU-PhF" id="eHw-vd-d4Z"/>
                 <outlet property="tribesX" destination="y6d-3c-dUc" id="ebC-Tj-HVu"/>
