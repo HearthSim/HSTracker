@@ -420,6 +420,7 @@
 		B81849232BF4D58E00F4EEE2 /* ConstructedMulliganOverlayMessage.xib in Resources */ = {isa = PBXBuildFile; fileRef = B81849222BF4D58E00F4EEE2 /* ConstructedMulliganOverlayMessage.xib */; };
 		B81849252BF4D5A700F4EEE2 /* ConstructedMulliganOverlayMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81849242BF4D5A700F4EEE2 /* ConstructedMulliganOverlayMessage.swift */; };
 		B81849272BF4D7C900F4EEE2 /* ConstructedMulliganOverlayMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81849262BF4D7C900F4EEE2 /* ConstructedMulliganOverlayMessageViewModel.swift */; };
+		B82238B82BF82BA500B405D4 /* PlayerProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82238B72BF82BA500B405D4 /* PlayerProxy.swift */; };
 		B823E801275FB89400747CAF /* FlavorText.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88364FB275D746D0094D8E1 /* FlavorText.swift */; };
 		B823E802275FB89900747CAF /* FlavorText.xib in Resources */ = {isa = PBXBuildFile; fileRef = B88364F9275D6FE10094D8E1 /* FlavorText.xib */; };
 		B82AE5F028ADBC55004A8FE0 /* Influx.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82AE5EF28ADBC54004A8FE0 /* Influx.swift */; };
@@ -1165,6 +1166,7 @@
 		B81849242BF4D5A700F4EEE2 /* ConstructedMulliganOverlayMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructedMulliganOverlayMessage.swift; sourceTree = "<group>"; };
 		B81849262BF4D7C900F4EEE2 /* ConstructedMulliganOverlayMessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructedMulliganOverlayMessageViewModel.swift; sourceTree = "<group>"; };
 		B81F069C253899FB00F319F1 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		B82238B72BF82BA500B405D4 /* PlayerProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerProxy.swift; sourceTree = "<group>"; };
 		B82AE5EF28ADBC54004A8FE0 /* Influx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Influx.swift; sourceTree = "<group>"; };
 		B82AE5F928BE8631004A8FE0 /* BobsBuddy-version.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "BobsBuddy-version.txt"; sourceTree = "<group>"; };
 		B82AE5FA28BE8631004A8FE0 /* cards-version.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "cards-version.txt"; sourceTree = "<group>"; };
@@ -2237,6 +2239,7 @@
 				B8591FF92B24F7C900B907A4 /* ObjectiveFactoryProxy.swift */,
 				B8591FFB2B24F87C00B907A4 /* ObjectiveProxy.swift */,
 				B8DC120424EC79370088A755 /* OutputProxy.swift */,
+				B82238B72BF82BA500B405D4 /* PlayerProxy.swift */,
 				B82AE60128BED413004A8FE0 /* QuestDataProxy.swift */,
 				B8591FFD2B31328900B907A4 /* RecurringNightmare.swift */,
 				B8449A032781C7360094E5B3 /* ReplicatingMenace.swift */,
@@ -2914,6 +2917,7 @@
 				B8591FF42B23D4D000B907A4 /* ChoicesHandler.swift in Sources */,
 				B804FC4129468BEA00F74CD9 /* BattlegroundsSingleQuestViewModel.swift in Sources */,
 				432B60391CBF9AD700B05D19 /* ManaGemButton.swift in Sources */,
+				B82238B82BF82BA500B405D4 /* PlayerProxy.swift in Sources */,
 				B864AE292599359500793F36 /* DeckType.swift in Sources */,
 				B83CF360294A7C42003C9062 /* BattlegroundsSingleQuestView.swift in Sources */,
 				43D308041C842DC000480488 /* GeneralPreferences.swift in Sources */,

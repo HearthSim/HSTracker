@@ -254,6 +254,44 @@ extension MonoClassInitializer {
         self.property = owner.getMember(name: property)
     }
 }
+
+@propertyWrapper struct MonoHandleProperty<T> where T: MonoHandle {
+    let property: OpaquePointer
+
+    public static subscript<EnclosingSelf>(
+      _enclosingInstance observed: EnclosingSelf,
+      wrapped wrappedKeyPath: ReferenceWritableKeyPath<EnclosingSelf, T>,
+      storage storageKeyPath: ReferenceWritableKeyPath<EnclosingSelf, Self>
+    ) -> T where EnclosingSelf: MonoHandle {
+      get {
+          let prop = observed[keyPath: storageKeyPath].property
+          
+          let inst = observed.get()
+          let obj = mono_property_get_value(prop, inst, nil, nil)
+          return T(obj: obj)
+      }
+        //swiftlint:disable unused_setter_value
+      set {
+//          let prop = observed[keyPath: storageKeyPath].property
+//          let inst = observed.get()
+//          mono_property_set_value(prop, inst, params, nil)
+          fatalError("Unimplemented MonoHandleProperty setter")
+      }
+        //swiftlint:enable unused_setter_value
+    }
+
+    public var wrappedValue: T {
+      get { fatalError("called wrappedValue getter") }
+        //swiftlint:disable unused_setter_value
+      set { fatalError("called wrappedValue setter") }
+        //swiftlint:enable unused_setter_value
+    }
+    
+    init(property: String, owner: MonoClassInitializer.Type) {
+        self.property = owner.getMember(name: property)
+    }
+}
+
 class MonoHelper {
     static var _monoInstance: OpaquePointer? // MonoDomain
     static var _assembly: OpaquePointer? // MonoClass
@@ -393,15 +431,19 @@ class MonoHelper {
         if sim.valid() {
             let test = InputProxy()
             
-            test.setHealths(player: 4, opponent: 4)
+            let player = test.player
+            let opponent = test.opponent
             
-            test.setTiers(player: 3, opponent: 3)
+            player.health = 4
+            player.tier = 3
+            player.setHeroPower(heroPowerCardId: "TB_BaconShop_HP_061", friendly: true, isActivated: true, data: 0, data2: 0)
+
+            opponent.health = 3
+            opponent.tier = 3
+            opponent.setHeroPower(heroPowerCardId: "TB_BaconShop_HP_043", friendly: false, isActivated: false, data: 0, data2: 0)
             
-            test.setOpponentHeroPower(heroPowerCardId: "TB_BaconShop_HP_061", isActivated: true, data: 0, data2: 0)
-            test.setPlayerHeroPower(heroPowerCardId: "TB_BaconShop_HP_043", isActivated: false, data: 0, data2: 0)
-            
-            let ps = test.playerSide
-            let os = test.opponentSide
+            let ps = player.side
+            let os = opponent.side
             let factory = sim.minionFactory
             
             MonoHelper.addToList(list: ps, element: factory.createFromCardid(id: "UNG_073", player: true))
@@ -412,14 +454,35 @@ class MonoHelper {
             MonoHelper.addToList(list: os, element: factory.createFromCardid(id: "BG26_801", player: false))
             MonoHelper.addToList(list: os, element: factory.createFromCardid(id: "UNG_073", player: false))
             MonoHelper.addToList(list: os, element: factory.createFromCardid(id: "EX1_506", player: false))
+            
+            let hand = test.opponent.hand
+            let e = Entity(id: 105)
+            e.info.latestCardId = "UNG_073"
+            e[.atk] = 5
+            e[.health] = 5
+            e[.tech_level] = 2
+            let minionEntity = MinionCardEntityProxy(minion: BobsBuddyInvoker.getMinionFromEntity(minionFactory: factory, player: false, ent: e, attachedEntities: [Entity]()), simulator: sim)
+            minionEntity.canSummon = true
+            MonoHelper.addToList(list: hand, element: minionEntity)
+            MonoHelper.addToList(list: hand, element: BloodGemProxy(simulator: sim))
+            
+            let items = MonoHelper.listItems(obj: hand)
+            for item in items {
+            if MonoHelper.isInstance(obj: item, klass: MinionCardEntityProxy._class!) {
+                    logger.debug("Item is instance")
+                } else {
+                    logger.debug("Item is not instance")
+                }
+            }
+            
             let murloc = factory.createFromCardid(id: "EX1_506a", player: false)
             murloc.poisonous = true
             logger.debug("Murloc poisonous property \(murloc.poisonous), name \(murloc.minionName)")
             MonoHelper.addToList(list: os, element: murloc)
             
-            let playerSecrets = test.playerSecrets
+            let playerSecrets = player.secrets
             test.addSecretFromDbfid(id: Int32(Cards.any(byId: "TB_Bacon_Secrets_12")?.dbfId ?? 0), target: playerSecrets)
-            logger.debug("Opponent HP \(test.opponentHeroPower.cardId)")
+            logger.debug("Opponent HP \(opponent.heroPower.cardId)")
             //            let oppSecrets = test.getOpponentSecrets()
             //            test.addSecretFromDbfid(id: Int32(Cards.any(byId: "TB_Bacon_Secrets_02")?.dbfId ?? 0), target: oppSecrets)            
 //            let playerObjectives = test.playerObjectives
@@ -699,6 +762,31 @@ class MonoHelper {
         params.deallocate()
     }
 
+    static func setStringBoolBoolIntInt(obj: MonoHandle, method: OpaquePointer, v1: String, v2: Bool, v3: Bool, v4: Int32, v5: Int32) {
+        let params = UnsafeMutablePointer<OpaquePointer>.allocate(capacity: 5)
+        let ptrs = UnsafeMutablePointer<Int32>.allocate(capacity: 4)
+        ptrs[0] = v2 ? 1 : 0
+        ptrs[1] = v3 ? 1 : 0
+        ptrs[2] = v4
+        ptrs[3] = v5
+        v1.withCString({
+            params[0] = mono_string_new(MonoHelper._monoInstance, $0)
+        })
+        params[1] = OpaquePointer(ptrs.advanced(by: 0))
+        params[2] = OpaquePointer(ptrs.advanced(by: 1))
+        params[3] = OpaquePointer(ptrs.advanced(by: 2))
+        params[4] = OpaquePointer(ptrs.advanced(by: 3))
+        
+        params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 5, {
+            let inst = obj.get()
+
+            mono_runtime_invoke(method, inst, $0, nil)
+        })
+        
+        ptrs.deallocate()
+        params.deallocate()
+    }
+
     static func setString(obj: MonoHandle, method: OpaquePointer, value: String) {
         let params = UnsafeMutablePointer<OpaquePointer>.allocate(capacity: 1)
         value.withCString({
@@ -792,6 +880,39 @@ class MonoHelper {
         _ = mono_runtime_invoke(meth, inst, nil, nil)
     }
     
+    static func listItem(obj: MonoHandle, index: Int32) -> MonoHandle {
+        let inst = obj.get()
+        
+        let cl = mono_object_get_class(inst)
+        
+        let prop = mono_class_get_property_from_name(cl, "Item")
+        
+        let params = UnsafeMutablePointer<UnsafeMutableRawPointer?>.allocate(capacity: 1)
+        let ptrs = UnsafeMutablePointer<Int32>.allocate(capacity: 1)
+        ptrs[0] = index
+        params[0] = UnsafeMutableRawPointer(ptrs.advanced(by: 0))
+
+        let res: UnsafeMutablePointer<MonoObject>? = params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 1, {
+
+            return mono_property_get_value(prop, inst, $0, nil)
+        })
+        ptrs.deallocate()
+        params.deallocate()
+        
+        return MonoHandle(obj: res)
+    }
+    
+    static func listItems(obj: MonoHandle) -> [MonoHandle] {
+        let count = MonoHelper.listCount(obj: obj)
+        
+        var res = [MonoHandle]()
+        
+        for i in 0 ..< count {
+            res.append(MonoHelper.listItem(obj: obj, index: Int32(i)))
+        }
+        return res
+    }
+    
     static func toString(obj: MonoHandle) -> String {
         let res = mono_object_to_string(obj.get(), nil)
         
@@ -823,8 +944,8 @@ class MonoHelper {
         params.deallocate()
     }
     
-    static func isMinionCardEntity(obj: MonoHandle) -> Bool {
-        let _class = mono_object_get_class(obj.get())
-        return _class == MinionCardEntityProxy._class
+    static func isInstance(obj: MonoHandle, klass: OpaquePointer) -> Bool {
+        let res = mono_object_isinst(obj.get(), klass)
+        return res != nil
     }
 }

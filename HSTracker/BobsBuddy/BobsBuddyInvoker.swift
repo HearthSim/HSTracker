@@ -46,9 +46,6 @@ class BobsBuddyInvoker {
     var input: InputProxy?
     var output: OutputProxy?
     
-    private var opponentMinions = [MinionProxy]()
-    private var playerMinions = [MinionProxy]()
-    
     private var currentOpponentMinions: [Int: MinionProxy] = [:]
     
     private var opponentHand: [Entity] = []
@@ -152,7 +149,7 @@ class BobsBuddyInvoker {
         logger.debug("Setting UI state to combat...")
         BobsBuddyInvoker.bobsBuddyDisplay.setState(st: .combat)
                 
-        if let input = input, (input.playerHeroPower.cardId == RebornRite && input.playerHeroPower.isActivated) || (input.opponentHeroPower.cardId == RebornRite && input.opponentHeroPower.isActivated) {
+        if let input = input, (input.player.heroPower.cardId == RebornRite && input.player.heroPower.isActivated) || (input.opponent.heroPower.cardId == RebornRite && input.opponent.heroPower.isActivated) {
             Thread.sleep(forTimeInterval: Double(LichKingDelay) / 1000.0)
         }
         
@@ -216,7 +213,7 @@ class BobsBuddyInvoker {
                 var result: OutputProxy?
                 
                 if let inp = self.input {
-                    let target = inp.opponentSecrets
+                    let target = inp.opponent.secrets
                     var secrets = [Int]()
                     var seen = Set<Int>()
                     for dbfid in self.game.opponent.secrets.compactMap({ x in
@@ -241,8 +238,8 @@ class BobsBuddyInvoker {
                     let tc = ProcessInfo.processInfo.activeProcessorCount / 2
                     let simulator = SimulationRunnerProxy()
                     
-                    let ps = inp.playerSide
-                    let os = inp.opponentSide
+                    let ps = inp.player.side
+                    let os = inp.opponent.side
                     let at = (MonoHelper.listCount(obj: ps) > 6 || MonoHelper.listCount(obj: os) > 6) ? self.MaxTimeForComplexBoards : self.MaxTime
                     
                     logger.debug("Running simulations with MaxIterations=\(self.Iterations) and ThreadCount=\(tc)...")
@@ -502,7 +499,7 @@ class BobsBuddyInvoker {
             return false
         }
 
-        return result == .opponentDied && input.opponentHeroPower.cardId == KelThuzadPowerID
+        return result == .opponentDied && input.opponent.heroPower.cardId == KelThuzadPowerID
     }
     
     func isUnknownCard(e: Entity?) -> Bool {
@@ -518,9 +515,7 @@ class BobsBuddyInvoker {
     }
     
     static func getOrderedMinions(board: [Entity]) -> [Entity] {
-        // swiftlint:disable force_cast
-        return board.filter({ $0.isMinion }).map({ $0.copy() as! Entity }).sorted(by: { $0[GameTag.zone_position] < $1[GameTag.zone_position]})
-        // swiftlint:enable force_cast
+        return board.filter({ $0.isMinion }).map({ $0.copy() }).sorted(by: { $0[GameTag.zone_position] < $1[GameTag.zone_position]})
     }
     
     static func getMinionFromEntity(minionFactory: MinionFactoryProxy, player: Bool, ent: Entity, attachedEntities: [Entity]) -> MinionProxy {
@@ -612,93 +607,48 @@ class BobsBuddyInvoker {
         return objective
     }
     
-    static func getAttachedEntities(game: Game, entityId: Int) -> [Entity] {
-        // swiftlint:disable force_cast
-        return game.entities.values.filter({ $0.isAttachedTo(entityId: entityId) && ($0.isInPlay || $0.isInSetAside || $0.isInGraveyard) }).map({ $0.copy() as! Entity })
-        // swiftlint:enable force_cast
+    func getAttachedEntities(entityId: Int) -> [Entity] {
+        return game.entities.values.filter({ $0.isAttachedTo(entityId: entityId) && ($0.isInPlay || $0.isInSetAside || $0.isInGraveyard) }).map({ $0.copy() })
     }
+    
+    private func setupInputPlayer(input: InputProxy, simulator: SimulatorProxy, gamePlayer: Player, inputPlayer: PlayerProxy, playerEntity: Entity?, friendly: Bool) throws {
+        let playerGameHero = gamePlayer.hero
 
-    func snapshotBoardState(turn: Int) {
-        logger.debug("Snapshotting board state...")
-        LastAttackingHero = nil
-        
-        let simulator = SimulatorProxy()
-        let input = InputProxy()
-        
-        if game.player.board.any(isUnknownCard) || game.opponent.board.any(isUnknownCard) {
-            errorState = .unknownCards
-            logger.error("Board has unknown cards. Exiting")
-            return
+        guard let playerEntity else {
+            throw "\(friendly ? "Player" : "Opponent") Entity could not be found. Exiting."
         }
         
-        if game.player.board.any(isUnsupportedCard) || game.opponent.board.any(isUnsupportedCard) {
+        if gamePlayer.board.any(isUnknownCard) {
+            errorState = .unknownCards
+            throw "Board has unknown cards. Exiting"
+        }
+        
+        if gamePlayer.board.any(isUnsupportedCard) {
             errorState = .unsupportedCards
-            logger.debug("Board has unsupported cards. Exiting")
-            return
-        }
-        
-        guard let races = game.availableRaces else {
-            errorState = .unknownCards
-            logger.error("Game has no available races. Exiting")
-            return
-        }
-        
-        guard game.gameEntity != nil else {
-            logger.debug("GameEntity could not be found. Exiting.")
-            return
+            throw "Board has unsupported cards. Exiting"
         }
 
-        guard game.playerEntity != nil else {
-            logger.debug("PlayerEntity could not be found. Exiting.")
-            return
+        guard let playerGameHero else {
+            throw "Hero(es) could not be found. Exiting."
+        }
+        
+        let murky = gamePlayer.board.first { e in e.cardId == CardIds.NonCollectible.Neutral.Murky }
+        let murkyBuff = murky?[.tag_script_data_num_1] ?? 0
+        inputPlayer.battlecriesPlayed = Int32(murky != nil && murkyBuff > 0 ? murkyBuff / (murky!.has(tag: .premium) ? 2 : 1) - 1 : 0)
+        
+        inputPlayer.health = Int32(playerGameHero.health + playerGameHero[.armor])
+        
+        if !friendly && inputPlayer.health <= 0 {
+            inputPlayer.health = 1000
         }
 
-        guard game.opponentEntity != nil else {
-            logger.debug("OpponentEntity could not be found. Exiting.")
-            return
-        }
-        input.addAvailableRaces(races: races)
-
-        if game.gameEntity?[.bacon_combat_damage_cap_enabled] ?? 0 > 0 {
-            input.damageCap = Int32(game.gameEntity?[.bacon_combat_damage_cap] ?? 0)
-        }
+        inputPlayer.damageTaken = Int32(playerGameHero[GameTag.damage])
+        inputPlayer.tier = Int32(playerGameHero[GameTag.player_tech_level])
         
-        let friendlyMurky = game.player.board.first { e in e.cardId == CardIds.NonCollectible.Neutral.Murky }
-        let friendlyMurkyBuff = friendlyMurky?[.tag_script_data_num_1] ?? 0
-        input.playerBattlecriesPlayed = Int32(friendlyMurky != nil && friendlyMurkyBuff > 0 ? friendlyMurkyBuff / (friendlyMurky!.has(tag: .premium) ? 2 : 1) - 1 : 0)
-
-        let opponentMurky = game.opponent.board.first { e in e.cardId == CardIds.NonCollectible.Neutral.Murky }
-        let opponentMurkyBuff = opponentMurky?[.tag_script_data_num_1] ?? 0
-        input.opponentBattlecriesPlayed = Int32(opponentMurky != nil && opponentMurkyBuff > 0 ? opponentMurkyBuff / (opponentMurky!.has(tag: .premium) ? 2 : 1) - 1 : 0)
-        
-        guard let oppHero = game.opponent.hero, let playerHero = game.player.hero else {
-            logger.error("Hero(es) could not be found. Exiting.")
-            return
-        }
-        
-        var oppHealth = oppHero.health
-        if oppHealth <= 0 {
-            oppHealth = 1000
-        }
-        input.setHealths(player: Int32(playerHero.health) + Int32(playerHero[.armor]), opponent: Int32(oppHealth) + Int32(oppHero[.armor]))
-        
-        input.playerDamageTaken = Int32(playerHero[GameTag.damage])
-        input.opponentDamageTaken = Int32(oppHero[GameTag.damage])
-        
-        let playerTechLevel = playerHero[GameTag.player_tech_level]
-        let opponentTechLevel = oppHero[GameTag.player_tech_level]
-        input.setTiers(player: Int32(playerTechLevel), opponent: Int32(opponentTechLevel))
-        
-        let anomalyDbfId = BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: game.gameEntity)
-        if let anomalyCardId = Cards.by(dbfId: anomalyDbfId, collectible: false)?.id {
-            input.anomaly = simulator.anomalyFactory.create(id: anomalyCardId)
-        }
-        
-        let playerHeroPower = game.player.board.first(where: { $0.isHeroPower })
+        let playerHeroPower = gamePlayer.board.first(where: { $0.isHeroPower })
         
         var pHpData = playerHeroPower?[.tag_script_data_num_1] ?? 0
         let pHpData2 = playerHeroPower?[.tag_script_data_num_2] ?? 0
-        
         if playerHeroPower?.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_RapidReanimation {
             let minionsInPlay = game.player.board.filter { e in e.isMinion && e.isControlled(by: game.player.id)}.compactMap { x in x.id }
             let attachedToEntityId = game.player.playerEntities
@@ -710,24 +660,10 @@ class BobsBuddyInvoker {
             }
         }
         
-        input.setPlayerHeroPower(heroPowerCardId: playerHeroPower?.cardId ?? "", isActivated: wasHeroPowerUsed(heroPower: playerHeroPower), data: Int32(pHpData), data2: Int32(pHpData2))
-        
-        let opponentHeroPower = game.opponent.board.first(where: { $0.isHeroPower })
-        
-        var oHpData = opponentHeroPower?[.tag_script_data_num_1] ?? 0
-        let oHpData2 = opponentHeroPower?[.tag_script_data_num_2] ?? 0
-        
-        if opponentHeroPower?.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_RapidReanimation {
-            let minionsInPlay = game.opponent.board.filter { e in e.isMinion && e.isControlled(by: game.opponent.id) }.compactMap { x in x.id }
-            let attachedToEntityId = game.opponent.playerEntities.filter { x in x.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_ImpendingDeath }.compactMap { x in x[.attached] }.first { x in minionsInPlay.any { y in y == x } } ?? 0
-            if attachedToEntityId > 0 {
-                oHpData = attachedToEntityId
-            }
-        }
-        input.setOpponentHeroPower(heroPowerCardId: opponentHeroPower?.cardId ?? "", isActivated: wasHeroPowerUsed(heroPower: opponentHeroPower), data: Int32(oHpData), data2: Int32(oHpData2))
-        
-        let playerQuests = input.playerQuests
-        for quest in game.player.quests {
+        inputPlayer.setHeroPower(heroPowerCardId: playerHeroPower?.cardId ?? "", friendly: friendly, isActivated: wasHeroPowerUsed(heroPower: playerHeroPower), data: Int32(pHpData), data2: Int32(pHpData2))
+
+        let playerQuests = inputPlayer.quests
+        for quest in gamePlayer.quests {
             let rewardDbfId = quest[.quest_reward_database_id]
             let reward = Cards.by(dbfId: rewardDbfId, collectible: false)
             let questData = QuestDataProxy()
@@ -738,7 +674,7 @@ class BobsBuddyInvoker {
             MonoHelper.addToList(list: playerQuests, element: questData)
         }
 
-        for reward in game.player.questRewards {
+        for reward in gamePlayer.questRewards {
             let questData = QuestDataProxy()
             questData.questProgress = Int32(0)
             questData.questProgressTotal = Int32(0)
@@ -746,135 +682,115 @@ class BobsBuddyInvoker {
             questData.rewardCardId = reward.info.latestCardId
             MonoHelper.addToList(list: playerQuests, element: questData)
         }
-        let playerObjectives = input.playerObjectives
+        let playerObjectives = inputPlayer.objectives
         for objective in game.player.objectives {
-            MonoHelper.addToList(list: playerObjectives, element: BobsBuddyInvoker.getObjectiveFromEntity(factory: simulator.objectiveFactory, player: true, entity: objective))
-        }
-        let opponentObjectives = input.opponentObjectives
-        for objective in game.opponent.objectives {
-            MonoHelper.addToList(list: opponentObjectives, element: BobsBuddyInvoker.getObjectiveFromEntity(factory: simulator.objectiveFactory, player: false, entity: objective))
+            // TODO: [Duos] Check if friendly translates to player correctly
+            MonoHelper.addToList(list: playerObjectives, element: BobsBuddyInvoker.getObjectiveFromEntity(factory: simulator.objectiveFactory, player: friendly, entity: objective))
         }
         
-        let target = input.playerSecrets
-        for secret in game.player.secrets {
-            input.addSecretFromDbfid(id: Int32(secret.id), target: target)
-        }
+        let minionFactory = simulator.minionFactory
 
-        let opponentQuests = input.opponentQuests
-        for quest in game.opponent.quests {
-            let rewardDbfId = quest[.quest_reward_database_id]
-            let reward = Cards.by(dbfId: rewardDbfId, collectible: false)
-            let questData = QuestDataProxy()
-            questData.questProgress = Int32(quest[.quest_progress])
-            questData.questProgressTotal = Int32(quest[.quest_progress_total])
-            questData.questCardId = quest.cardId
-            questData.rewardCardId = reward?.id ?? ""
-            MonoHelper.addToList(list: opponentQuests, element: questData)
-        }
-
-        for reward in game.opponent.questRewards {
-            let questData = QuestDataProxy()
-            questData.questProgress = Int32(0)
-            questData.questProgressTotal = Int32(0)
-            questData.questCardId = ""
-            questData.rewardCardId = reward.info.latestCardId
-            MonoHelper.addToList(list: opponentQuests, element: questData)
-        }
-
-        let secrets: [Int] = game.player.secrets.map({ $0.card.dbfId })
-        
-        let playerSecrets = input.playerSecrets
-        
-        for i in 0..<secrets.count {
-            // secret priority starts at 2
-            input.addSecretFromDbfid(id: Int32(secrets[i]), target: playerSecrets)
-        }
-        
-        input.setTurn(value: Int32(turn))
-        
-        let inputPlayerSide = input.playerSide
-        let inputOpponentSide = input.opponentSide
-        let factory = simulator.minionFactory
-        
-        let playerSide = BobsBuddyInvoker.getOrderedMinions(board: game.player.board).filter { e in e.isControlled(by: game.player.id) }.map { BobsBuddyInvoker.getMinionFromEntity(minionFactory: factory, player: true, ent: $0, attachedEntities: BobsBuddyInvoker.getAttachedEntities(game: game, entityId: $0.id))}
-        playerMinions = playerSide
+        let playerSide = BobsBuddyInvoker.getOrderedMinions(board: gamePlayer.board).filter { e in e.isControlled(by: gamePlayer.id) }.map { e in BobsBuddyInvoker.getMinionFromEntity(minionFactory: minionFactory, player: friendly, ent: e, attachedEntities: getAttachedEntities(entityId: e.id))}
+        let inputPlayerSide = inputPlayer.side
         for m in playerSide {
             MonoHelper.addToList(list: inputPlayerSide, element: m)
         }
         
-        let playerHand = input.playerHand
-        
-        for e in game.player.hand {
-            if e.isMinion {
-                let minionEntity = MinionCardEntityProxy(minion: BobsBuddyInvoker.getMinionFromEntity(minionFactory: factory, player: true, ent: e, attachedEntities: BobsBuddyInvoker.getAttachedEntities(game: game, entityId: e.id)), simulator: simulator)
-                minionEntity.canSummon = !e.has(tag: .literally_unplayable)
-                MonoHelper.addToList(list: playerHand, element: minionEntity)
-            } else if e.cardId == CardIds.NonCollectible.Neutral.BloodGem1 {
-                MonoHelper.addToList(list: playerHand, element: BloodGemProxy(simulator: simulator))
-            } else if e.isSpell {
-                MonoHelper.addToList(list: playerHand, element: SpellCardEntityProxy(simulator: simulator))
-            } else {
-                MonoHelper.addToList(list: playerHand, element: CardEntityProxy(id: e.cardId, simulator: simulator))
+        if friendly {
+            let target = inputPlayer.secrets
+            for secret in game.player.secrets {
+                input.addSecretFromDbfid(id: Int32(secret.id), target: target)
+            }
+            
+            let playerHand = inputPlayer.hand
+            
+            for e in gamePlayer.hand {
+                if e.isMinion {
+                    let minionEntity = MinionCardEntityProxy(minion: BobsBuddyInvoker.getMinionFromEntity(minionFactory: minionFactory, player: true, ent: e, attachedEntities: getAttachedEntities(entityId: e.id)), simulator: simulator)
+                    minionEntity.canSummon = !e.has(tag: .literally_unplayable)
+                    MonoHelper.addToList(list: playerHand, element: minionEntity)
+                } else if e.cardId == CardIds.NonCollectible.Neutral.BloodGem1 {
+                    MonoHelper.addToList(list: playerHand, element: BloodGemProxy(simulator: simulator))
+                } else if e.isSpell {
+                    MonoHelper.addToList(list: playerHand, element: SpellCardEntityProxy(simulator: simulator))
+                } else {
+                    MonoHelper.addToList(list: playerHand, element: CardEntityProxy(id: e.cardId, simulator: simulator))
+                }
+            }
+        } else {
+            // TODO: [Duos] refactor
+            self.opponentHand = gamePlayer.hand
+            let opponentHand = inputPlayer.hand
+            MonoHelper.listClear(obj: opponentHand)
+            
+            let opponentHandEntities = getOpponentHandEntities(simulator: simulator)
+            for e in opponentHandEntities {
+                MonoHelper.addToList(list: opponentHand, element: e)
             }
         }
-
-        let opponentSide = BobsBuddyInvoker.getOrderedMinions(board: game.opponent.board).filter { e in e.isControlled(by: game.opponent.id) }.map { BobsBuddyInvoker.getMinionFromEntity(minionFactory: factory, player: false, ent: $0, attachedEntities: BobsBuddyInvoker.getAttachedEntities(game: game, entityId: $0.id))}
-        opponentMinions = opponentSide
-        for m in opponentSide {
-            MonoHelper.addToList(list: inputOpponentSide, element: m)
-        }
         
-        self.opponentHand = game.opponent.hand
-        let opponentHand = input.opponentHand
-        MonoHelper.listClear(obj: opponentHand)
-        
-        for e in game.opponent.hand {
-            if e.isMinion {
-                MonoHelper.addToList(list: opponentHand, element: MinionCardEntityProxy(minion: BobsBuddyInvoker.getMinionFromEntity(minionFactory: factory, player: true, ent: e, attachedEntities: BobsBuddyInvoker.getAttachedEntities(game: game, entityId: e.id)), simulator: simulator))
-            } else if e.cardId == CardIds.NonCollectible.Neutral.BloodGem1 {
-                MonoHelper.addToList(list: opponentHand, element: BloodGemProxy(simulator: simulator))
-            } else if e.isSpell {
-                MonoHelper.addToList(list: opponentHand, element: SpellCardEntityProxy(simulator: simulator))
-            } else if !e.cardId.isEmpty {
-                MonoHelper.addToList(list: opponentHand, element: CardEntityProxy(id: e.cardId, simulator: simulator))
-            } else {
-                MonoHelper.addToList(list: opponentHand, element: UnknownCardEntityProxy(simulator: simulator))
-            }
-        }
-
-        let playerAttached = BobsBuddyInvoker.getAttachedEntities(game: game, entityId: game.playerEntity?.id ?? -1)
+        let playerAttached = getAttachedEntities(entityId: playerEntity.id)
         let pEternalLegion = playerAttached.first { x in x.cardId == CardIds.NonCollectible.Neutral.EternalKnight_EternalKnightPlayerEnchant }
-        if let pEternalLegion { 
-            input.playerEternalKnightCounter = Int32(pEternalLegion[.tag_script_data_num_1])
+        if let pEternalLegion {
+            inputPlayer.eternalKnightCounter = Int32(pEternalLegion[.tag_script_data_num_1])
         }
         let pUndeadBonus = playerAttached.first { x in x.cardId == CardIds.NonCollectible.Neutral.NerubianDeathswarmer_UndeadBonusAttackPlayerEnchantDnt }
         if let pUndeadBonus {
-            input.playerUndeadAttackBonus = Int32(pUndeadBonus[.tag_script_data_num_1])
+            inputPlayer.undeadAttackBonus = Int32(pUndeadBonus[.tag_script_data_num_1])
         }
-        input.playerElementalPlayCounter = Int32(game.playerEntity?[.gametag_2878] ?? 0)
+        inputPlayer.elementalPlayCounter = Int32(game.playerEntity?[.gametag_2878] ?? 0)
 
-        let opponentAttached = BobsBuddyInvoker.getAttachedEntities(game: game, entityId: game.opponentEntity?.id ?? -1)
-        let oEternalLegion = opponentAttached.first { x in x.cardId == CardIds.NonCollectible.Neutral.EternalKnight_EternalKnightPlayerEnchant }
-        if let oEternalLegion {
-            input.opponentEternalKnightCounter = Int32(oEternalLegion[.tag_script_data_num_1])
-        }
-        let oUndeadBonus = opponentAttached.first { x in x.cardId == CardIds.NonCollectible.Neutral.NerubianDeathswarmer_UndeadBonusAttackPlayerEnchantDnt }
-        if let oUndeadBonus {
-            input.opponentUndeadAttackBonus = Int32(oUndeadBonus[.tag_script_data_num_1])
-        }
-        input.opponentElementalPlayCounter = Int32(game.opponentEntity?[.gametag_2878] ?? 0)
+        logger.info("pEternal=\(inputPlayer.eternalKnightCounter), pUndead=\(inputPlayer.undeadAttackBonus), pElemental=\(inputPlayer.elementalPlayCounter), friendly=\(friendly)")
+        
+        inputPlayer.bloodGemAtkBuff = Int32(playerEntity[.bacon_bloodgembuffatkvalue])
+        inputPlayer.bloodGemHealthBuff = Int32(playerEntity[.bacon_bloodgembuffhealthvalue])
+        
+        logger.info("pBloodGem=+\(inputPlayer.bloodGemAtkBuff)/+\(inputPlayer.bloodGemHealthBuff), friendly=\(friendly)")
+    }
 
-        logger.info("pEternal=\(input.playerEternalKnightCounter), pUndead=\(input.playerUndeadAttackBonus), pElemental=\(input.playerElementalPlayCounter) | oEternal=\(input.opponentEternalKnightCounter), oUndead=\(input.opponentUndeadAttackBonus), oElemental=\(input.opponentElementalPlayCounter)")
+    func snapshotBoardState(turn: Int) {
+        logger.debug("Snapshotting board state...")
+        LastAttackingHero = nil
         
-        input.playerBloodGemAtkBuff = Int32(game.playerEntity?[.bacon_bloodgembuffatkvalue] ?? 0)
-        input.playerBloodGemHealthBuff = Int32(game.playerEntity?[.bacon_bloodgembuffhealthvalue] ?? 0)
-        input.opponentBloodGemAtkBuff = Int32(game.opponentEntity?[.bacon_bloodgembuffatkvalue] ?? 0)
-        input.opponentBloodGemHealthBuff = Int32(game.opponentEntity?[.bacon_bloodgembuffhealthvalue] ?? 0)
+        let simulator = SimulatorProxy()
+        let input = InputProxy()
         
-        logger.info("pBloodGem=+\(input.playerBloodGemAtkBuff)/+\(input.playerBloodGemHealthBuff), oBloodGem=\(input.opponentBloodGemAtkBuff)/+\(input.opponentBloodGemHealthBuff)")
+        guard let gameEntity = game.gameEntity else {
+            logger.debug("GameEntity could not be found. Exiting")
+            return
+        }
+                
+        guard let races = game.availableRaces else {
+            errorState = .unknownCards
+            logger.error("Game has no available races. Exiting")
+            return
+        }
         
+        input.addAvailableRaces(races: races)
+
+        if gameEntity[.bacon_combat_damage_cap_enabled] > 0 {
+            input.damageCap = Int32(gameEntity[.bacon_combat_damage_cap])
+        }
+        
+        do {
+            try setupInputPlayer(input: input, simulator: simulator, gamePlayer: game.player, inputPlayer: input.player, playerEntity: game.playerEntity, friendly: true)
+            try setupInputPlayer(input: input, simulator: simulator, gamePlayer: game.opponent, inputPlayer: input.opponent, playerEntity: game.opponentEntity, friendly: false)
+        } catch {
+            logger.error(error)
+            return
+        }
+                        
+        let anomalyDbfId = BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: game.gameEntity)
+        if let anomalyCardId = Cards.by(dbfId: anomalyDbfId, collectible: false)?.id {
+            input.anomaly = simulator.anomalyFactory.create(id: anomalyCardId)
+        }
+        
+        input.setTurn(value: Int32(turn))
+                
         self.input = input
         self._turn = turn
+        
+        logger.debug("Successfully snapshotted board state")
     }
     
     private var reRunCount = 0
@@ -896,7 +812,7 @@ class BobsBuddyInvoker {
     }
     
     func updateOpponentHand(entity: Entity, copy: Entity) {
-        guard let input = input, state != .combat  else {
+        guard let input, state != .combat  else {
             return
         }
         
@@ -910,15 +826,14 @@ class BobsBuddyInvoker {
         // Wait for attached entities to be logged. This should happen at the exact same timestamp.
         //await _game.GameTime.WaitForDuration(1);
         let simulator = SimulatorProxy()
-        let entities = getOpponentHandEntities(simulator: simulator, game: game)
-        // TODO: fix this
-//        if entities.filter { x in x is MinionCardEntityProxy }.count <= input.opponentHand.filter { x in MonoHelper.isMinionCardEntity(obj: x) }.count {
-//            return
-//        }
+        let entities = getOpponentHandEntities(simulator: simulator)
+        if let _class = MinionCardEntityProxy._class, entities.filter({ x in MonoHelper.isInstance(obj: x, klass: _class) }).count <= MonoHelper.listItems(obj: input.opponent.hand).filter({ x in MonoHelper.isInstance(obj: x, klass: _class) }).count {
+            return
+        }
 
-        MonoHelper.listClear(obj: input.opponentHand)
+        MonoHelper.listClear(obj: input.opponent.hand)
         for ent in entities {
-            MonoHelper.addToList(list: input.opponentHand, element: ent)
+            MonoHelper.addToList(list: input.opponent.hand, element: ent)
         }
         
         tryRerun()
@@ -928,12 +843,12 @@ class BobsBuddyInvoker {
         tryRerun()
     }
 
-    private func getOpponentHandEntities(simulator: SimulatorProxy, game: Game) -> [MonoHandle] {
+    private func getOpponentHandEntities(simulator: SimulatorProxy) -> [MonoHandle] {
         var result = [MonoHandle]()
         for _e in opponentHand {
             let e = opponentHandMap[_e] ?? _e
             if e.isMinion {
-                let attached = BobsBuddyInvoker.getAttachedEntities(game: game, entityId: e.id)
+                let attached = getAttachedEntities(entityId: e.id)
                 let minion = MinionCardEntityProxy(minion: BobsBuddyInvoker.getMinionFromEntity(minionFactory: simulator.minionFactory, player: false, ent: e, attachedEntities: attached), simulator: simulator)
                 minion.canSummon = !e.has(tag: .literally_unplayable)
                 result.append(minion)
