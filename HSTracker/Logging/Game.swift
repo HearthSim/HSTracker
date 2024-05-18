@@ -30,30 +30,6 @@ struct PlayingDeck {
     let sideboards: [Sideboard]
 }
 
-class BoardSnapshot {
-    let entities: [Entity]
-    let turn: Int
-    var buddiesGained: Int
-    var techLevel: [Int]
-    var triples: [Int]
-    var questHP: Int
-    var questHPTurn: Int
-    var quest: Int
-    var questTurn: Int
-    
-    init(entities: [Entity], turn: Int, previous: BoardSnapshot? = nil) {
-        self.entities = entities
-        self.turn = turn
-        self.buddiesGained = previous?.buddiesGained ?? 0
-        self.techLevel = previous?.techLevel ?? [ 0, 0, 0, 0, 0, 0 ]
-        self.triples = previous?.triples ?? [ 0, 0, 0, 0, 0, 0 ]
-        self.questHP = previous?.questHP ?? 0
-        self.questHPTurn = previous?.questHPTurn ?? 0
-        self.quest = previous?.quest ?? 0
-        self.questTurn = previous?.questTurn ?? 0
-    }
-}
-
 /**
  * Game object represents the current state of the tracker
  */
@@ -67,7 +43,6 @@ class Game: NSObject, PowerEventHandler {
 	
 	private let turnTimer: TurnTimer
     
-    fileprivate var lastKnownBattlegroundsBoardState = SynchronizedDictionary<Int, BoardSnapshot>()
     private var mulliganState: MulliganState!
     
 	private var hearthstoneRunState: HearthstoneRunState {
@@ -108,11 +83,8 @@ class Game: NSObject, PowerEventHandler {
         self.updateTrackers()
 	}
     
-    func getSnapshot(entityId: Int) -> BoardSnapshot? {
-        guard let entity = entities[entityId], let state = lastKnownBattlegroundsBoardState[entity[.player_id]]  else {
-            return nil
-        }
-        return state
+    func getBattlegroundsBoardStateFor(id: Int) -> BoardSnapshot? {
+        return _battlegroundsBoardState.getSnapshot(entityId: id)
     }
     
     var gameId = ""
@@ -122,31 +94,7 @@ class Game: NSObject, PowerEventHandler {
         return entities.values.filter { x in x.isHero && x.isInSetAside && (x.has(tag: .bacon_hero_can_be_drafted) || x.has(tag: .bacon_skin) || x.has(tag: .player_tech_level)) }.count + 1 }
     
     func snapshotBattlegroundsBoardState() {
-        guard let opponentHero = entities.values.first(where: { x in x.isHero && x.isInZone(zone: .play) && x.isControlled(by: opponent.id)}), !opponentHero.cardId.isEmpty else {
-            return
-        }
-        
-        let playerId = opponentHero[.player_id]
-        guard playerId > 0 else {
-            return
-        }
-
-        let entities = self.entities.values.filter({ x in x.isMinion && x.isInZone(zone: .play) && x.isControlled(by: opponent.id)}).map({ x in x.copy() }).sorted(by: { x, y in
-            x[.zone_position] < y[.zone_position]
-        })
-
-        logger.info("Snapshotting board state for \(opponentHero.card.name) with player id \(playerId) (\(entities.count) entities)")
-        let current = lastKnownBattlegroundsBoardState[playerId]
-        let board = BoardSnapshot(entities: entities, turn: turnNumber(), previous: current)
-        lastKnownBattlegroundsBoardState[playerId] = board
-        // pre-cache art
-        DispatchQueue.global().async {
-            for entity in board.entities where ImageUtils.cachedArt(cardId: entity.cardId) == nil {
-                ImageUtils.art(for: entity.cardId, completion: { _ in
-                    // nothing to do in the completion as we are only pre-caching it
-                })
-            }
-        }
+        _battlegroundsBoardState.snapshotCurrentBoard()
     }
 	
 	// MARK: - PowerEventHandler protocol
@@ -1024,6 +972,7 @@ class Game: NSObject, PowerEventHandler {
     var opponent: Player!
     var currentMode: Mode? = .invalid
     var previousMode: Mode? = .invalid
+    private var _battlegroundsBoardState: BattlegroundsBoardState!
     
     private var _brawlInfo: BrawlInfo?
 	
@@ -1344,6 +1293,7 @@ class Game: NSObject, PowerEventHandler {
         self.hearthstoneRunState = hearthstoneRunState
 		turnTimer = TurnTimer(gui: windowManager.timerHud)
         super.init()
+        _battlegroundsBoardState = BattlegroundsBoardState(game: self)
 		player = Player(local: true, game: self)
         opponent = Player(local: false, game: self)
         secretsManager = SecretsManager(game: self, availableSecrets: RemoteArenaSettings())
@@ -1503,7 +1453,7 @@ class Game: NSObject, PowerEventHandler {
         _availableRaces = nil
         _unavailableRaces = nil
         _brawlInfo = nil
-        lastKnownBattlegroundsBoardState.removeAll()
+        _battlegroundsBoardState.reset()
         windowManager.battlegroundsDetailsWindow.reset()
         windowManager.bobsBuddyPanel.resetDisplays()
         updateTurnCounter(turn: 1)
@@ -2454,15 +2404,10 @@ class Game: NSObject, PowerEventHandler {
     func handlePlayerTechLevel(entity: Entity, techLevel: Int) {
         guard techLevel >= 1 && techLevel <= 6 else { return }
         
-        var snapshot = lastKnownBattlegroundsBoardState[entity.id]
+        let playerId = entity[.player_id]
         
-        if snapshot == nil {
-            snapshot = BoardSnapshot(entities: [], turn: -1)
-            lastKnownBattlegroundsBoardState[entity.id] = snapshot
-        }
-        
-        if let snapshot = snapshot {
-            snapshot.techLevel[techLevel - 1] = turnNumber()
+        if playerId > 0 {
+            _battlegroundsBoardState.handlePlayerTechLevel(playerId, techLevel)
         }
     }
     
@@ -2471,95 +2416,60 @@ class Game: NSObject, PowerEventHandler {
         let techLevel = entity[.player_tech_level]
         guard techLevel >= 1 && techLevel <= 6 else { return }
         
-        var snapshot = lastKnownBattlegroundsBoardState[entity.id]
+        let playerId = entity[.player_id]
         
-        if snapshot == nil {
-            snapshot = BoardSnapshot(entities: [], turn: -1)
-            lastKnownBattlegroundsBoardState[entity.id] = snapshot
-        }
-        
-        if let snapshot = snapshot {
-            snapshot.triples[techLevel - 1] += triples
+        if playerId > 0 {
+            _battlegroundsBoardState.handlePlayerTriples(playerId, techLevel, triples)
         }
     }
     
     func handlePlayerBuddiesGained(entity: Entity, num: Int) {
         guard num > 0 else { return }
         
-        var snapshot = lastKnownBattlegroundsBoardState[entity.id]
+        let playerId = entity[.player_id]
         
-        if snapshot == nil {
-            snapshot = BoardSnapshot(entities: [], turn: -1)
-            lastKnownBattlegroundsBoardState[entity.id] = snapshot
-        }
-        
-        if let snapshot = snapshot {
-            if num == 1 {
-                snapshot.buddiesGained = 1
-            } else if num == 2 {
-                snapshot.buddiesGained = 3
-            }
+        if playerId > 0 {
+            _battlegroundsBoardState.handlePlayerBuddiesGained(playerId, num)
         }
     }
     
     func handlePlayerHeroPowerQuestRewardDatabaseId(entity: Entity, num: Int) {
         guard num > 0 else { return }
+
+        let playerId = entity[.player_id]
         
-        var snapshot = lastKnownBattlegroundsBoardState[entity.id]
-        
-        if snapshot == nil {
-            snapshot = BoardSnapshot(entities: [], turn: -1)
-            lastKnownBattlegroundsBoardState[entity.id] = snapshot
-        }
-        
-        if let snapshot = snapshot {
-            snapshot.questHP = num
+        if playerId > 0 {
+            _battlegroundsBoardState.handlePlayerHeroPowerQuestRewardDatabaseId(playerId, num)
         }
     }
     
     func handlePlayerHeroPowerQuestRewardCompleted(entity: Entity, num: Int) {
         guard num > 0 else { return }
-        
-        var snapshot = lastKnownBattlegroundsBoardState[entity.id]
-        
-        if snapshot == nil {
-            snapshot = BoardSnapshot(entities: [], turn: -1)
-            lastKnownBattlegroundsBoardState[entity.id] = snapshot
-        }
-        
-        if let snapshot = snapshot {
-            snapshot.questHPTurn = turnNumber()
-        }
 
+        let playerId = entity[.player_id]
+
+        if playerId > 0 {
+            _battlegroundsBoardState.handlePlayerHeroPowerQuestRewardCompleted(playerId)
+        }
     }
     
     func handlePlayerHeroQuestRewardDatabaseId(entity: Entity, num: Int) {
         guard num > 0 else { return }
         
-        var snapshot = lastKnownBattlegroundsBoardState[entity.id]
+        let playerId = entity[.player_id]
         
-        if snapshot == nil {
-            snapshot = BoardSnapshot(entities: [], turn: -1)
-            lastKnownBattlegroundsBoardState[entity.id] = snapshot
-        }
-        
-        if let snapshot = snapshot {
-            snapshot.quest = num
+        if playerId > 0 {
+            _battlegroundsBoardState.handlePlayerHeroQuestRewardDatabaseId(playerId, num)
         }
     }
     
     func handlePlayerHeroQuestRewardCompleted(entity: Entity, num: Int) {
         guard num > 0 else { return }
         
-        var snapshot = lastKnownBattlegroundsBoardState[entity.id]
+        let playerId = entity[.player_id]
         
-        if snapshot == nil {
-            snapshot = BoardSnapshot(entities: [], turn: -1)
-            lastKnownBattlegroundsBoardState[entity.id] = snapshot
-        }
-        
-        if let snapshot = snapshot {
-            snapshot.questTurn = turnNumber()
+        if playerId > 0 {
+            _battlegroundsBoardState.handlePlayerHeroQuestRewardCompleted(playerId)
         }
     }
     

@@ -421,6 +421,8 @@
 		B81849252BF4D5A700F4EEE2 /* ConstructedMulliganOverlayMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81849242BF4D5A700F4EEE2 /* ConstructedMulliganOverlayMessage.swift */; };
 		B81849272BF4D7C900F4EEE2 /* ConstructedMulliganOverlayMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81849262BF4D7C900F4EEE2 /* ConstructedMulliganOverlayMessageViewModel.swift */; };
 		B82238B82BF82BA500B405D4 /* PlayerProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82238B72BF82BA500B405D4 /* PlayerProxy.swift */; };
+		B82238BA2BF948B000B405D4 /* BoardSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82238B92BF948B000B405D4 /* BoardSnapshot.swift */; };
+		B82238BC2BF948E600B405D4 /* BattlegroundsBoardState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82238BB2BF948E600B405D4 /* BattlegroundsBoardState.swift */; };
 		B823E801275FB89400747CAF /* FlavorText.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88364FB275D746D0094D8E1 /* FlavorText.swift */; };
 		B823E802275FB89900747CAF /* FlavorText.xib in Resources */ = {isa = PBXBuildFile; fileRef = B88364F9275D6FE10094D8E1 /* FlavorText.xib */; };
 		B82AE5F028ADBC55004A8FE0 /* Influx.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82AE5EF28ADBC54004A8FE0 /* Influx.swift */; };
@@ -1167,6 +1169,8 @@
 		B81849262BF4D7C900F4EEE2 /* ConstructedMulliganOverlayMessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructedMulliganOverlayMessageViewModel.swift; sourceTree = "<group>"; };
 		B81F069C253899FB00F319F1 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		B82238B72BF82BA500B405D4 /* PlayerProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerProxy.swift; sourceTree = "<group>"; };
+		B82238B92BF948B000B405D4 /* BoardSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardSnapshot.swift; sourceTree = "<group>"; };
+		B82238BB2BF948E600B405D4 /* BattlegroundsBoardState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsBoardState.swift; sourceTree = "<group>"; };
 		B82AE5EF28ADBC54004A8FE0 /* Influx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Influx.swift; sourceTree = "<group>"; };
 		B82AE5F928BE8631004A8FE0 /* BobsBuddy-version.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "BobsBuddy-version.txt"; sourceTree = "<group>"; };
 		B82AE5FA28BE8631004A8FE0 /* cards-version.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "cards-version.txt"; sourceTree = "<group>"; };
@@ -2083,12 +2087,14 @@
 		43B695551C90653A00F4D0AC /* Hearthstone */ = {
 			isa = PBXGroup;
 			children = (
+				B82238B92BF948B000B405D4 /* BoardSnapshot.swift */,
 				B8AB59992744145B00383EC8 /* Collection.swift */,
 				B8AB59972744139700383EC8 /* CollectionHelper.swift */,
 				B8E868842B940EB7005B1315 /* HearthDbConverter.swift */,
 				F7D7A3A52011B67D00E3A5F0 /* Hearthstone.swift */,
 				B8C33FB0273EF851006DA79E /* MercenariesCoins.swift */,
 				43B695561C90655C00F4D0AC /* Secrets */,
+				B82238BB2BF948E600B405D4 /* BattlegroundsBoardState.swift */,
 			);
 			path = Hearthstone;
 			sourceTree = "<group>";
@@ -2997,6 +3003,7 @@
 				B8B61C222AEBEA9C00990359 /* AvailableSecretsProvider.swift in Sources */,
 				B8AC9A26293F92540047F438 /* BattlegroundsQuestPickingViewModel.swift in Sources */,
 				B8DC11EE24E5A8360088A755 /* MonoHandle.swift in Sources */,
+				B82238BC2BF948E600B405D4 /* BattlegroundsBoardState.swift in Sources */,
 				B87765CB2BB717CD003BE49D /* TrackedCard.swift in Sources */,
 				C99C0C9D1D0A608C000DD6FB /* StatsHelper.swift in Sources */,
 				43BE58BE1DC47C6D00B24A21 /* Paths.swift in Sources */,
@@ -3212,6 +3219,7 @@
 				435CD9091E1E3AB4000AF3DE /* GameStats.swift in Sources */,
 				435CD90B1E1E4447000AF3DE /* ServerInfo.swift in Sources */,
 				64C117C8D3B76359080E750A /* ArenaWatcher.swift in Sources */,
+				B82238BA2BF948B000B405D4 /* BoardSnapshot.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
