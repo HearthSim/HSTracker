@@ -486,5 +486,13 @@ struct MirrorHelper {
         }
         return result
     }
+    
+    static func getBattlegroundsLeaderboardHoveredEntityId() -> Int? {
+        var result: Int?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getBattlegroundsLeaderboardHoveredEntityId()?.intValue
+        }
+        return result
+    }
 }
 

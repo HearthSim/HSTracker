@@ -733,3 +733,57 @@ class SceneWatcher: Watcher {
         isRunning = false
     }
 }
+
+struct BattlegroundsLeaderboardArgs: Equatable {
+    let hoveredEntityId: Int?
+}
+
+class BattlegroundsLeaderboardWatcher: Watcher {
+    static var change: ((_ sender: BattlegroundsLeaderboardWatcher, _ args: BattlegroundsLeaderboardArgs) -> Void)?
+    
+    var _watch: Bool = false
+    var _prev: BattlegroundsLeaderboardArgs?
+    
+    static let _instance = BattlegroundsLeaderboardWatcher()
+    
+    init(delay: TimeInterval = 0.016) {
+        super.init()
+        
+        refreshInterval = delay
+    }
+    
+    override func run() {
+        _watch = true
+        update()
+    }
+    
+    static func start() {
+        _instance.startWatching()
+    }
+    
+    static func stop() {
+        _instance._watch = false
+        _instance.stopWatching()
+    }
+    
+    private func update() {
+        isRunning = true
+        while _watch {
+            Thread.sleep(forTimeInterval: refreshInterval)
+            if !_watch {
+                break
+            }
+            
+            let value = MirrorHelper.getBattlegroundsLeaderboardHoveredEntityId()
+            let curr = BattlegroundsLeaderboardArgs(hoveredEntityId: value)
+            if curr == _prev {
+                continue
+            }
+            BattlegroundsLeaderboardWatcher.change?(self, curr)
+            _prev = curr
+        }
+        _prev = nil
+        isRunning = false
+    }
+}
+

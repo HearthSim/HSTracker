@@ -135,7 +135,7 @@ class BattlegroundsOverlayView: NSView {
         let game = AppDelegate.instance().coreManager.game
         
         if Settings.showOpponentWarband, let hero = game.entities.values.filter({ ent in ent.has(tag: .player_leaderboard_place) && ent[.player_leaderboard_place] == at + 1}).first {
-            let board = game.getSnapshot(opponentHeroCardId: hero.cardId)
+            let board = game.getSnapshot(entityId: hero.id)
             if let board = board {
                 windowManager.battlegroundsDetailsWindow.setBoard(board: board)
                 var heroPowers = game.player.board.filter { x in x.isHeroPower }.compactMap { x in x.cardId }

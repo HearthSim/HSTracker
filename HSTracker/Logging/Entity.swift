@@ -227,6 +227,12 @@ class Entity {
 }
 
 extension Entity: NSCopying {
+    func copy() -> Entity {
+        // swiftlint:disable force_cast
+        return copy(with: nil) as! Entity
+        // swiftlint:enable force_cast
+    }
+    
     func copy(with zone: NSZone? = nil) -> Any {
         let e = Entity(id: id)
         e.cardId = cardId
