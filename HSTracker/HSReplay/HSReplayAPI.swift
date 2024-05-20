@@ -439,7 +439,7 @@ class HSReplayAPI {
     }
     
     @available(macOS 10.15.0, *)
-    static func getTier7HeroPickStats(parameters: BattlegroundsHeroPickStatsParams) async -> [BattlegroundsSingleHeroPickStats]? {
+    static func getTier7HeroPickStats(parameters: BattlegroundsHeroPickStatsParams) async -> BattlegroundsHeroPickStats? {
         return await withCheckedContinuation { continuation in
             let encoder = JSONEncoder()
             var body: Data?
@@ -455,7 +455,7 @@ class HSReplayAPI {
                 switch result {
                 case .success(let response):
                     logger.debug("Response: \(String(data: response.data, encoding: .utf8) ?? "FAILED")")
-                    let bqs: [BattlegroundsSingleHeroPickStats]? = parseResponse(data: response.data, defaultValue: nil)
+                    let bqs: BattlegroundsHeroPickStats? = parseResponse(data: response.data, defaultValue: nil)
                     continuation.resume(returning: bqs)
                     return
                 case .failure(let error):
@@ -468,7 +468,7 @@ class HSReplayAPI {
     }
     
     @available(macOS 10.15.0, *)
-    static func getTier7HeroPickStats(token: String?, parameters: BattlegroundsHeroPickStatsParams) async -> [BattlegroundsSingleHeroPickStats]? {
+    static func getTier7HeroPickStats(token: String?, parameters: BattlegroundsHeroPickStatsParams) async -> BattlegroundsHeroPickStats? {
         guard let token = token else {
             return nil
         }
@@ -494,7 +494,7 @@ class HSReplayAPI {
                     return
                 }
                 logger.debug("Response: \(String(data: data, encoding: .utf8) ?? "FAILED")")
-                let bqs: [BattlegroundsSingleHeroPickStats]? = parseResponse(data: data, defaultValue: nil)
+                let bqs: BattlegroundsHeroPickStats? = parseResponse(data: data, defaultValue: nil)
                 continuation.resume(returning: bqs)
             }.catch { error in
                 logger.error(error)

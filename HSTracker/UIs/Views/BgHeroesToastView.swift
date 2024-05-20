@@ -11,9 +11,9 @@ import TextAttributes
 
 class BgHeroesToastView: NSView {
 
-    var heroes = [String]()
-    var mmr: Int?
-    var clicked: (() -> Void)?
+    var heroIds: [Int]?
+    var anomalyDbfId: Int?
+    var parameters: [String: String]?
     
     private lazy var trackingArea: NSTrackingArea = NSTrackingArea(rect: NSRect.zero,
                               options: [.inVisibleRect, .activeAlways, .mouseEnteredAndExited],
@@ -111,25 +111,10 @@ class BgHeroesToastView: NSView {
     }
     
     override func mouseUp(with: NSEvent) {
-        var url = "https://hsreplay.net/battlegrounds/heroes?utm_source=hstracker&utm_medium=client&utm_campaign=bgs_toast#heroes=" + heroes.joined(separator: ",")
-        if let availableRaces = AppDelegate.instance().coreManager.game.availableRaces {
-            if availableRaces.count > 0 {
-                let races = availableRaces.compactMap({ x in Int(Race.allCases.firstIndex(of: x)! )}).sorted()
-                let tmpRaces = races.compactMap({ x in String(x) }).joined(separator: ",")
-                url += "&minionTypes=" + tmpRaces
-            }
+        if let heroIds {
+            Helper.openBattlegroundsHeroPicker(heroIds: heroIds, anomalyDbfId: anomalyDbfId, parameters: parameters)
         }
-        if let mmr = mmr {
-            url += "&mmr=\(mmr)"
-        }
-        if let anomalyDbfId = BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: AppDelegate.instance().coreManager.game
-            .gameEntity) {
-            url += "&anomalyDbfId=\(anomalyDbfId)"
-        }
-        NSWorkspace.shared.open(URL(string: url)!)
-        if let clicked = self.clicked {
-            clicked()
-        }
+        AppDelegate.instance().coreManager.game.hideBattlegroundsHeroPanel()
     }
     
     override func mouseEntered(with event: NSEvent) {

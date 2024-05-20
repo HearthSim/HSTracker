@@ -69,6 +69,8 @@ class Game: NSObject, PowerEventHandler {
     private var selfAppActive: Bool = true
     
     lazy var queueEvents: QueueEvents = QueueEvents(game: self)
+    
+    var _mulliganGuideParams: MulliganGuideParams?
 	
     func setHearthstoneRunning(flag: Bool) {
         hearthstoneRunState.isRunning = flag
@@ -1048,7 +1050,6 @@ class Game: NSObject, PowerEventHandler {
     private var awaitingAvenge = false
     var isInMenu = true
     private var handledGameEnd = false
-    private var battlegroundsMulliganHandled = false
     
 	var enqueueTime = LogDate(date: Date.distantPast)
     private var lastTurnStart: [Int] = [0, 0]
@@ -1439,7 +1440,6 @@ class Game: NSObject, PowerEventHandler {
         avengeDeathRattleCount = 0
         awaitingAvenge = false
         lastTurnStart = [0, 0]
-        battlegroundsMulliganHandled = false
 
         player.reset()
         if let currentdeck = self.currentDeck {
@@ -1454,6 +1454,9 @@ class Game: NSObject, PowerEventHandler {
         _unavailableRaces = nil
         _brawlInfo = nil
         _battlegroundsBoardState.reset()
+        _battlegroundsHeroPickStatsParams = nil
+        _battlegroundsHeroPickState = nil
+        _mulliganGuideParams = nil
         windowManager.battlegroundsDetailsWindow.reset()
         windowManager.bobsBuddyPanel.resetDisplays()
         updateTurnCounter(turn: 1)
@@ -1903,19 +1906,15 @@ class Game: NSObject, PowerEventHandler {
             windowManager.battlegroundsSession.onGameEnd(gameStats: currentGameStats)
             windowManager.battlegroundsHeroPicking.viewModel.reset()
             windowManager.battlegroundsQuestPicking.viewModel.reset()
+            hideBattlegroundsHeroPanel()
         }
         if isConstructedMatch() {
-//            Core.Overlay.HideMulliganToast(false);
+            hideMulliganToast()
             DispatchQueue.main.async {
                 self.player.mulliganCardStats = nil
                 self.hideMulliganGuideStats()
             }
         }
-
-        // TODO: add
-//        if isConstructedMatch() || isFriendlyMatch || isArenaMatch {
-//            capturemMulliganGuideFeedback()
-//        }
 
         if let currentDeck = self.currentDeck {
             var skip = false
@@ -2133,6 +2132,7 @@ class Game: NSObject, PowerEventHandler {
                 
                 self.windowManager.battlegroundsHeroPicking.viewModel.reset()
                 self.windowManager.battlegroundsQuestPicking.viewModel.reset()
+                self.hideBattlegroundsHeroPanel()
                 self.windowManager.battlegroundsSession.update()
             }
             
@@ -2473,54 +2473,191 @@ class Game: NSObject, PowerEventHandler {
         }
     }
     
-    private func internalHandleBGStart(count: Int) {
-        let heroes = player.playerEntities.filter({ x in x.isHero && (x.has(tag: .bacon_hero_can_be_drafted) || x.has(tag: .bacon_skin))})
-        if heroes.count < 2 {
-            logger.debug("Not enough heroes, attempt #\(count), heroes count \(heroes.count)")
-            if count < 30 {
-                DispatchQueue.global().asyncAfter(deadline: .now() + .milliseconds(1000), execute: {
-                    self.internalHandleBGStart(count: count + 1)
-                })
-            }
-        } else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500), execute: {
-                let heroesArray = heroes.sorted(by: { (x, y) in x[GameTag.zone_position] < y[GameTag.zone_position] }).compactMap({ x in x.card.dbfId })
-                let heroesArrayStr = heroesArray.map({ x in String(x) })
-                logger.debug("Battlegrounds heroes: \(heroesArray), original count: \(heroes.count)")
-
-                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3), execute: {
-                    let view = BgHeroesToastView(frame: NSRect.zero)
-                    view.mmr = self.battlegroundsRatingInfo?.rating.intValue ?? 0
-                    view.clicked = {
-                        AppDelegate.instance().coreManager.toaster.hide()
-                    }
-                    view.heroes = heroesArrayStr
-                    self.showBattlegroundsHeroPickingStats(heroes: heroesArray)
-                    AppDelegate.instance().coreManager.toaster.displayToast(view: view, timeoutMillis: 0)
-                    self.windowManager.battlegroundsQuestPicking.viewModel.reset()
-                })
-            })
+    @available(macOS 10.15.0, *)
+    private func getBattlegroundsHeroPickStats() async -> BattlegroundsHeroPickStats? {
+        if spectator {
+            return nil
         }
+
+        if !Settings.enableTier7Overlay {
+            return nil
+        }
+
+        if RemoteConfig.data?.tier7?.disabled ?? false {
+            // TODO: fix me
+            //throw new HeroPickingDisabledException("Hero picking remotely disabled")
+            return nil
+        }
+
+        let userOwnsTier7 = HSReplayAPI.accountData?.is_tier7 ?? false
+        if !userOwnsTier7 && (Tier7Trial.remainingTrials ?? 0) == 0 {
+            return nil
+        }
+
+        let parameters = getBattlegroundsHeroPickParams()
+
+        // Avoid using a trial when we can't get the api params anyway.
+        guard let parameters else {
+            // FIXME: todo 
+            //throw new HeroPickingException("Unable to get API parameters")
+            return nil
+        }
+
+        // Use a trial if we can
+        var token: String?
+        if !userOwnsTier7 {
+            if let acc = MirrorHelper.getAccountId() {
+                token = await Tier7Trial.activate(hi: acc.hi.int64Value, lo: acc.lo.int64Value)
+            }
+            if token == nil {
+                // FIXME: add
+                //throw new HeroPickingException("Unable to get trial token")
+                return nil
+            }
+        }
+
+#if(DEBUG)
+        logger.debug("Fetching Battlegrounds Hero Pick stats with parameters=\(parameters)...")
+#endif
+
+        // At this point the user either owns tier7 or has an active trial!
+
+        let stats = (token != nil && !userOwnsTier7) ?
+        await HSReplayAPI.getTier7HeroPickStats(token: token, parameters: parameters) :
+            await HSReplayAPI.getTier7HeroPickStats(parameters: parameters)
+
+        if stats == nil {
+            // FIXME: add
+            //throw new HeroPickingException("Invalid server response")
+        }
+
+        return stats
+    }
+    
+    private var _battlegroundsHeroPickStatsParams: BattlegroundsHeroPickStatsParams?
+    
+    func cacheBattlegroundsHeroPickParams() {
+        if _battlegroundsHeroPickStatsParams != nil {
+            return
+        }
+
+        guard let availableRaces else {
+            return
+        }
+
+        guard let heroDbfIds = battlegroundsHeroPickState.offeredHeroDbfIds else {
+            return
+        }
+
+        _battlegroundsHeroPickStatsParams = BattlegroundsHeroPickStatsParams(hero_dbf_ids: heroDbfIds, minion_types: availableRaces.compactMap { x in Int(Race.allCases.firstIndex(of: x)!) }, anomaly_dbf_id: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: gameEntity), game_language: "\(Settings.hearthstoneLanguage ?? .enUS)", battlegrounds_rating: battlegroundsRatingInfo?.rating.intValue)
+    }
+    
+    private func getBattlegroundsHeroPickParams() -> BattlegroundsHeroPickStatsParams? {
+        return _battlegroundsHeroPickStatsParams
+    }
+    
+    private var _battlegroundsHeroPickState: BattlegroundsHeroPickState?
+    private var battlegroundsHeroPickState: BattlegroundsHeroPickState {
+        if let state = _battlegroundsHeroPickState {
+            return state
+        }
+        let state = BattlegroundsHeroPickState(self)
+        _battlegroundsHeroPickState = state
+
+        return state
+    }
+    
+    func snapshotBattlegroundsOfferedHeroes(_ heroes: [Entity]) {
+        _ = battlegroundsHeroPickState.snapshotOfferedHeroes(heroes)
+    }
+    func snapshotBattlegroundsHeroPick() {
+        _ = battlegroundsHeroPickState.snapshotPickedHero()
     }
     
     @MainActor
-    private func showBattlegroundsHeroPickingStats(heroes: [Int]) {
+    private func showBattlegroundsHeroPickingStats(_ heroStats: [BattlegroundsHeroPickStats.BattlegroundsSingleHeroPickStats], _ parameters: [String: String]?, _ minMmr: Int?, _ anomalyAdjusted: Bool) {
         if #available(macOS 10.15, *) {
             Task.detached {
-                await self.windowManager.battlegroundsHeroPicking.viewModel.setHeroes(heroIds: heroes)
+                await self.windowManager.battlegroundsHeroPicking.viewModel.setHeroStats(stats: heroStats, parameters: parameters, minMmr: minMmr, anomalyadjusted: anomalyAdjusted)
             }
         }
     }
     
-    private func handleBattlegroundsStart() {
-//        BattlegroundsLeaderboardWatcher.start()
-        if Settings.showHeroToast && isBattlegroundsSoloMatch() {
-            logger.debug("Start of battlegrounds match")
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500), execute: {
-                if !self.battlegroundsMulliganHandled {
-                    self.internalHandleBGStart(count: 0)
+    @available(macOS 10.15.0, *)
+    private func waitForMulliganStart(_ timeout: Int = 60) async {
+        for _ in 0 ..< 16*60*timeout {
+            if isInMenu || (gameEntity?[.step] ?? 0) > Step.begin_mulligan.rawValue {
+                return
+            }
+            if MirrorHelper.isMulliganWaitingForUserInput() {
+                break
+            }
+            do {
+                try await Task.sleep(nanoseconds: 16_000_000)
+            } catch {
+                logger.error(error)
+            }
+        }
+    }
+    
+    @available(macOS 10.15.0, *)
+    private func handleBattlegroundsStart() async {
+        if isBattlegroundsSoloMatch() {
+            for _ in 0 ..< 10 {
+                do {
+                    try await Task.sleep(nanoseconds: 500_000_000)
+                } catch {
+                    logger.error(error)
                 }
-            })
+                
+                let heroes = player.playerEntities.filter { x in x.isHero && (x.has(tag: .bacon_hero_can_be_drafted) || x.has(tag: .bacon_skin))}
+                if heroes.count < 2 {
+                    continue
+                }
+                do {
+                    try await Task.sleep(nanoseconds: 500_000_000)
+                } catch {
+                    logger.error(error)
+                }
+                
+                if gameEntity?[.step] != Step.begin_mulligan.rawValue {
+                    break
+                }
+                
+                snapshotBattlegroundsOfferedHeroes(heroes)
+                cacheBattlegroundsHeroPickParams()
+                
+                let heroIds = heroes.sorted(by: { (a, b) -> Bool in a.zonePosition < b.zonePosition }).compactMap { x in x.card.dbfId }
+                                
+                var battlegroundsHeroPickStats: BattlegroundsHeroPickStats?
+
+                do {
+                    logger.debug("Staring tasks)")
+                    async let statsTask = getBattlegroundsHeroPickStats()
+                    async let waitAndAppear: () = Task.sleep(nanoseconds: 500_000_000)
+                    let (finalResults, _) = try await (statsTask, waitAndAppear)
+                    logger.debug("Tasks completed")
+                    battlegroundsHeroPickStats = finalResults
+                } catch {
+                    logger.error(error)
+                }
+                
+                var toastParams: [String: String]?
+                
+                if let stats = battlegroundsHeroPickStats {
+                    toastParams = stats.toast.parameters
+                    DispatchQueue.main.async {
+                        self.showBattlegroundsHeroPickingStats(heroIds.compactMap { dbfId in stats.data.first { x in x.hero_dbf_id == dbfId }}, stats.toast.parameters, stats.toast.min_mmr, stats.toast.anomaly_adjusted ?? false)
+                    }
+                }
+                
+                if Settings.showHeroToast {
+                    showBattlegroundsHeroPanel(heroIds, toastParams)
+                }
+                break
+            }
+        } else {
+           // Duos...
         }
         DispatchQueue.main.async { [self] in
             OpponentDeadForTracker.resetOpponentDeadForTracker()
@@ -2994,7 +3131,11 @@ class Game: NSObject, PowerEventHandler {
     
     func handleBeginMulligan() {
         if isBattlegroundsMatch() {
-            handleBattlegroundsStart()
+            if #available(macOS 10.15, *) {
+                Task.detached {
+                    await self.handleBattlegroundsStart()
+                }
+            }
         } else if isConstructedMatch() || isFriendlyMatch || isArenaMatch {
             if #available(macOS 10.15, *) {
                 Task.detached {
@@ -3007,52 +3148,59 @@ class Game: NSObject, PowerEventHandler {
     @available(macOS 10.15.0, *)
     func handlePlayerMulliganDone() async {
         if isBattlegroundsMatch() {
-            battlegroundsMulliganHandled = true
-            AppDelegate.instance().coreManager.toaster.hide()
+            snapshotBattlegroundsHeroPick()
+            hideBattlegroundsHeroPanel()
             windowManager.battlegroundsHeroPicking.viewModel.reset()
         } else if isConstructedMatch() || isFriendlyMatch || isArenaMatch {
-            AppDelegate.instance().coreManager.toaster.hide()
+            hideMulliganToast()
+            
             let openingHand = snapshotOpeningHand()
             
             if let mulliganCardStats, Settings.enableMulliganGuide {
-                Task.detached {
-                    let numSwappedCards = self.getMulliganSwappedCards()?.count ?? 0
-                    if numSwappedCards > 0 {
-                        // show the updated cards
-                        let dbfIds = openingHand.compactMap { x in x.card.deckbuildingCard.dbfId }
-                        if dbfIds.count > 0 {
-                            DispatchQueue.main.async {
-                                self.showMulliganGuideStats(stats: dbfIds.compactMap { dbfId in
-                                    if let l = mulliganCardStats[dbfId] {
-                                        return l
-                                    } else {
-                                        return SingleCardStats(dbf_id: dbfId)
-                                    }
-                                }, maxRank: mulliganCardStats.count, selectedParams: nil)
-                            }
+                let numSwappedCards = self.getMulliganSwappedCards()?.count ?? 0
+                if numSwappedCards > 0 {
+                    // show the updated cards
+                    let dbfIds = openingHand.compactMap { x in x.card.deckbuildingCard.dbfId }
+                    if dbfIds.count > 0 {
+                        DispatchQueue.main.async {
+                            self.showMulliganGuideStats(stats: dbfIds.compactMap { dbfId in
+                                if let l = mulliganCardStats[dbfId] {
+                                    return l
+                                } else {
+                                    return SingleCardStats(dbf_id: dbfId)
+                                }
+                            }, maxRank: mulliganCardStats.count, selectedParams: nil)
                         }
                     }
-                    // Delay until the cards fly away
+                }
+                // Delay until the cards fly away
+                do {
                     try await Task.sleep(nanoseconds: 2_375_000_000 + UInt64(max(1, numSwappedCards)) * 475_000_000)
-                    
-                    // Wait for the mulligan to be complete (component or animation)
-                    for _ in 0..<7_500 { // 2 minutes
-                        if self.isInMenu || (self.gameEntity?[.step] ?? 0) > Step.begin_mulligan.rawValue {
-                            DispatchQueue.main.async {
-                                self.hideMulliganGuideStats()
-                                self.player.mulliganCardStats = nil
-                            }
-                            return
+                } catch {
+                    logger.error(error)
+                }
+                
+                // Wait for the mulligan to be complete (component or animation)
+                for _ in 0 ..< 7_500 { // 2 minutes
+                    if isInMenu || (gameEntity?[.step] ?? 0) > Step.begin_mulligan.rawValue {
+                        DispatchQueue.main.async {
+                            self.hideMulliganGuideStats()
+                            self.player.mulliganCardStats = nil
                         }
-                        if (self.playerEntity?[.mulligan_state] ?? 0) >= Mulligan.done.rawValue && (self.opponentEntity?[.mulligan_state] ?? 0) >= Mulligan.done.rawValue {
-                            break
-                        }
+                        return
+                    }
+                    if (playerEntity?[.mulligan_state] ?? 0) >= Mulligan.done.rawValue && (opponentEntity?[.mulligan_state] ?? 0) >= Mulligan.done.rawValue {
+                        break
+                    }
+                    do {
                         try await Task.sleep(nanoseconds: 16_000_000)
+                    } catch {
+                        logger.error(error)
                     }
-                    DispatchQueue.main.async {
-                        self.hideMulliganGuideStats()
-                        self.player.mulliganCardStats = nil
-                    }
+                }
+                DispatchQueue.main.async {
+                    self.hideMulliganGuideStats()
+                    self.player.mulliganCardStats = nil
                 }
             }
         }
@@ -3075,47 +3223,7 @@ class Game: NSObject, PowerEventHandler {
                 _ = snapshotMulliganChoices(choice: choice)
             }
         } else if isBattlegroundsMatch() {
-            self.windowManager.battlegroundsQuestPicking.viewModel.reset()
-        }
-    }
-    
-    @available(macOS 10.15.0, *)
-    private func internalHandleMulliganGuide(showToast: Bool, dbfIds: [Int]) async {
-        var mulliganGuideData: MulliganGuideData?
-        if Settings.enableMulliganGuide {
-            mulliganGuideData = await getMulliganGuideData()
-        }
-        if let data = mulliganGuideData {
-            // Show mulligan guide with parameters as selected by the API
-            if showToast {
-                // TODO: Core.Overlay.ShowMulliganToast(shortId!, dbfIds, data.Toast?.Parameters, true);
-            }
-            // Wait for the mulligan to be ready
-            for _ in 0 ..< 16*60*60 {
-                if isInMenu || (gameEntity?[.step] ?? 0) > Step.begin_mulligan.rawValue {
-                    return
-                }
-                if MirrorHelper.isMulliganWaitingForUserInput() {
-                    break
-                }
-                do {
-                    try await Task.sleep(nanoseconds: 16_000_000)
-                } catch {
-                    logger.error(error)
-                }
-            }
-                
-            // GroupBy before ToDictionary to deal with (unsupported) dbfId duplicates from the server
-            let grouped = Dictionary(uniqueKeysWithValues: data.deck_dbf_id_list.group { x in x.dbf_id }.compactMap { x in (x.key, x.value[0]) })
-            let cardStats = SingleCardStats.groupCardStats(stats: grouped, baseWinRate: data.base_winrate)
-            mulliganCardStats = cardStats
-            player.mulliganCardStats = Array(cardStats.values)
-            await showMulliganGuideStats(stats: dbfIds.compactMap { dbfId in
-                if let stats = cardStats[dbfId] {
-                    return stats
-                }
-                return SingleCardStats(dbf_id: dbfId)
-            }, maxRank: cardStats.count, selectedParams: data.selected_params)
+            windowManager.battlegroundsQuestPicking.viewModel.reset()
         }
     }
     
@@ -3134,17 +3242,11 @@ class Game: NSObject, PowerEventHandler {
             if step > Step.begin_mulligan.rawValue {
                 break
             }
-
-            // Wait for the game to fade in
-            do {
-                try await Task.sleep(nanoseconds: 3_000_000_000)
-            } catch {
-                logger.error(error)
-            }
             
             _ = snapshotMulligan()
+            cacheMulliganGuideParams()
             
-            let showToast = Settings.showMulliganToast && !isArenaMatch
+            var showToast = Settings.showMulliganToast && !isArenaMatch
             if showToast || Settings.enableMulliganGuide {
                 if let currentDeck = currentDeck {
                     // Show Mulligan Guide Elements (Overlay and/or Toast)
@@ -3152,27 +3254,65 @@ class Game: NSObject, PowerEventHandler {
                     if !shortId.isEmpty {
                         let cards = player.playerEntities.filter { x in x.isInHand && !x.info.created }
                         let dbfIds = cards.sorted(by: { (a, b) in a.zonePosition < b.zonePosition }).compactMap { x in x.card.deckbuildingCard.dbfId }
-                        let opponentClass = opponent.playerEntities.first( where: { x in x.isHero && x.isInPlay })?.card.playerClass ?? CardClass.invalid
-                        let hasCoin = player.hasCoin
+                        var mulliganGuideData: MulliganGuideData?
                         
-                        await self.internalHandleMulliganGuide(showToast: showToast, dbfIds: dbfIds)
-
-                        if showToast {
-                            // Fallback on earlier versions
-                            let playerStarLevel = playerMedalInfo?.starLevel ?? 0
-                            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
-                                let view = MulliganToastView(frame: NSRect.zero, sid: shortId, ids: dbfIds, opponent: opponentClass, coin: hasCoin, starLevel: playerStarLevel)
-                                view.clicked = {
-                                    AppDelegate.instance().coreManager.toaster.hide()
+                        if Settings.enableMulliganGuide {
+                            mulliganGuideData = await getMulliganGuideData()
+                        }
+                        
+                        if let data = mulliganGuideData {
+                            // Show mulligan guide with parameters as selected by the API
+                            if showToast {
+                                showMulliganToast(shortId, dbfIds, data.toast?.parameters, true)
+                                showToast = false
+                            }
+                            
+                            await waitForMulliganStart()
+                            
+                            var cardStats: [Int: SingleCardStats]?
+                            // GroupBy before ToDictionary to deal with (unsupported) dbfId duplicates from the server
+                            let grouped = Dictionary(uniqueKeysWithValues: data.deck_dbf_id_list.group({ x in x.dbf_id }).compactMap { x in (x.key, x.value[0])})
+                            
+                            cardStats = SingleCardStats.groupCardStats(stats: grouped, baseWinRate: data.base_winrate)
+                            if let cardStats {
+                                mulliganCardStats = cardStats
+                                player.mulliganCardStats = Array(cardStats.values)
+                                DispatchQueue.main.async {
+                                    self.showMulliganGuideStats(stats: dbfIds.compactMap({ dbfId in
+                                        if let stats = cardStats[dbfId] {
+                                            return stats
+                                        }
+                                        return SingleCardStats(dbf_id: dbfId)
+                                    }), maxRank: cardStats.count, selectedParams: data.selected_params)
                                 }
-                                AppDelegate.instance().coreManager.toaster.displayToast(view: view, timeoutMillis: 10000)
-                            })
+                            }
+                            // Something went wrong generating the card stats, continue to locally generated toast (if enabled)
+                        }
+                        
+                        if showToast {
+                            var parameters: [String: String]?
+                            if !shortId.isEmpty {
+                                let opponentClass = opponent.playerEntities.first { x in x.isHero && x.isInPlay }?.card.playerClass ?? CardClass.invalid
+                                let isFirst = playerEntity?[.first_player] == 1
+                                // Show mulligan toast with locally sourced parameters
+                                parameters = [
+                                    "opponentClasses": opponentClass.rawValue.uppercased(),
+                                    "playerInitiative": isFirst ? "FIRST" : "COIN"
+                                ]
+                                
+                                let playerStarLevel = playerMedalInfo?.starLevel ?? 0
+                                if playerStarLevel > 0 {
+                                    parameters?["mulliganPlayerStarLevel"] = String(playerStarLevel)
+                                }
+                                // Let the website do it's thing and fallback for non-Premium users
+                                parameters?["mulliganAutoFilter"] = "yes"
+                            }
+                            showMulliganToast(shortId, dbfIds, parameters)
                         }
                     }
                 }
-                
-                break
             }
+            break
         }
     }
     
@@ -3203,6 +3343,22 @@ class Game: NSObject, PowerEventHandler {
         return mulliganState.snapshotMulligan()
     }
     
+    func cacheMulliganGuideParams() {
+        if _mulliganGuideParams != nil {
+            return
+        }
+        
+        guard let activeDeck = currentDeck else {
+            return
+        }
+
+        let opponentClass = opponent.playerEntities.first { x in x.isHero && x.isInPlay }?.card.playerClass ?? CardClass.invalid
+        let starLevel = playerMedalInfo?.starLevel ?? 0
+        let starsPerWin = playerMedalInfo?.starsPerWin ?? 0
+
+        _mulliganGuideParams = MulliganGuideParams(deckstring: activeDeck.shortid, game_type: BnetGameType.getBnetGameType(gameType: currentGameType, format: currentFormat).rawValue, format_type: currentFormatType.rawValue, opponent_class: opponentClass.rawValue.uppercased(), player_initiative: playerEntity?[.first_player] == 1 ? "FIRST" : "COIN", player_star_level: starLevel > 0 ? starLevel : nil, player_star_multiplier: starsPerWin > 0 ? starsPerWin : nil, player_region: Region.toBnetRegion(region: currentRegion))
+    }
+    
     @available(macOS 10.15.0, *)
     func getMulliganGuideData() async -> MulliganGuideData? {
         if spectator {
@@ -3226,14 +3382,7 @@ class Game: NSObject, PowerEventHandler {
     }
     
     private func getMulliganGuideParams() -> MulliganGuideParams? {
-        guard let activeDeck = currentDeck else {
-            return nil
-        }
-        let opponentClass = opponent.playerEntities.first { x in x.isHero && x.isInPlay }?.card.playerClass
-        let starMedal = playerMedalInfo?.starLevel ?? 0
-        let starsPerWin = playerMedalInfo?.starsPerWin ?? 0
-        
-        return MulliganGuideParams(deckstring: activeDeck.shortid, game_type: BnetGameType.getBnetGameType(gameType: currentGameType, format: currentFormat).rawValue, format_type: currentFormatType.rawValue, opponent_class: opponentClass?.rawValue.uppercased() ?? CardClass.invalid.rawValue.uppercased(), player_initiative: player.hasCoin ? "COIN" : "FIRST", player_star_level: starMedal > 0 ? starMedal : nil, player_star_multiplier: starsPerWin > 0 ? starsPerWin : nil, player_region: Region.toBnetRegion(region: currentRegion))
+        return _mulliganGuideParams
     }
     
     @MainActor
@@ -3280,6 +3429,39 @@ class Game: NSObject, PowerEventHandler {
     
     func setConstructedQueue(_ inQueue: Bool) {
         windowManager.constructedMulliganGuidePreLobby.viewModel.isInQueue = inQueue
+    }
+    
+    private let _mulliganToast = MulliganToastView(frame: NSRect.zero)
+    func showMulliganToast(_ shortId: String, _ dbfIds: [Int], _ parameters: [String: String]?, _ showingMulliganStats: Bool = false) {
+        DispatchQueue.main.async {
+            self._mulliganToast.update(shortId, dbfIds, parameters, showingMulliganStats: showingMulliganStats)
+            if self._mulliganToast.shouldShow() {
+                AppDelegate.instance().coreManager.toaster.displayToast(view: self._mulliganToast, timeoutMillis: 0)
+            }
+        }
+    }
+    
+    func showBattlegroundsHeroPanel(_ heroIds: [Int], _ parameters: [String: String]?) {
+        DispatchQueue.main.async {
+            let toast = BgHeroesToastView(frame: NSRect.zero)
+            toast.heroIds = heroIds
+            toast.anomalyDbfId = BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: self.gameEntity)
+            toast.parameters = parameters
+            
+            AppDelegate.instance().coreManager.toaster.displayToast(view: toast, timeoutMillis: 0)
+        }
+    }
+    
+    func hideBattlegroundsHeroPanel() {
+        DispatchQueue.main.async {
+            AppDelegate.instance().coreManager.toaster.hide()
+        }
+    }
+    
+    func hideMulliganToast() {
+        DispatchQueue.main.async {
+            AppDelegate.instance().coreManager.toaster.hide()
+        }
     }
 }
 

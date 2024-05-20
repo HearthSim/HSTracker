@@ -161,4 +161,54 @@ struct Helper {
             return result
         }
     }
+    
+    static func urlEncode(_ str: String) -> String {
+        var allowedQueryParamAndKey = CharacterSet.urlQueryAllowed
+        allowedQueryParamAndKey.remove(charactersIn: ";/?:@&=+$, ")
+        return str.addingPercentEncoding(withAllowedCharacters: allowedQueryParamAndKey) ?? str
+    }
+    
+    static func buildHsReplayNetUrl(_ path: String, _ campaign: String, _ queryParams: [String]?  = nil, _ fragmentParams: [String]? = nil) -> String {
+        var url = "https://hsreplay.net"
+        if !path.starts(with: "/") {
+            url += "/"
+        }
+        url += path
+        if url.last != "/" {
+            url += "/"
+        }
+        return url + Helper.getHsReplayNetUrlParams(campaign, queryParams, fragmentParams)
+    }
+
+    static func getHsReplayNetUrlParams(_ campaign: String, _ queryParams: [String]? = nil, _ fragmentParams: [String]? = nil) -> String {
+        var query = [
+            "utm_source=hdt",
+            "utm_medium=client"
+        ]
+        if !campaign.isBlank {
+            query.append("utm_campaign=\(campaign)")
+        }
+        if let queryParams {
+            query.append(contentsOf: queryParams)
+        }
+        var urlParams = "?" + query.joined(separator: "&")
+        if let fragments = fragmentParams, fragments.count > 0 {
+            urlParams += "#\(fragments.joined(separator: "&"))"
+        }
+        return urlParams
+    }
+
+    static func openBattlegroundsHeroPicker(heroIds: [Int], anomalyDbfId: Int?, parameters: [String: String]?) {
+        let queryParams = parameters?.compactMap { kv in "\(Helper.urlEncode(kv.key))=\(Helper.urlEncode(kv.value))"} ?? [String]()
+        var fragmentParams = [ "heroes=\(heroIds.compactMap({ x in String(x)}).joined(separator: ","))" ]
+        if let anomalyDbfId {
+            fragmentParams.append("anomalyDbfId=\(anomalyDbfId)")
+        }
+        if let availableRaces = AppDelegate.instance().coreManager.game.availableRaces, availableRaces.count > 0 {
+            let availableRacesAsList = availableRaces.compactMap { x in Int(Race.allCases.firstIndex(of: x)!) }.sorted(by: { (a, b) -> Bool in a < b }).compactMap { x in String(x) }
+            fragmentParams.append("minionTypes=\(Helper.urlEncode(availableRacesAsList.joined(separator: ",")))")
+        }
+        let url = Helper.buildHsReplayNetUrl("/battlegrounds/heroes/", "bgs_toast", queryParams, fragmentParams)
+        NSWorkspace.shared.open(URL(string: url)!)
+    }
 }

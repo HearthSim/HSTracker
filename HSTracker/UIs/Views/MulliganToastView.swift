@@ -10,32 +10,23 @@ import Foundation
 import TextAttributes
 
 class MulliganToastView: NSView {
-    var shortId: String
-    var dbfIds: [Int]
-    var opponent: CardClass
-    var hasData: Bool = false
-    var hasCoin: Bool = false
-    var playerStarLevel: Int = 0
+    private var imageView: FillImageView!
+    private var text: NSTextField!
     
-    var clicked: (() -> Void)?
+    var _shortId: String?
+    var _dbfIds: [Int]?
+    var _parameters: [String: String]?
+    var _showingMulliganStats: Bool = false
     
     private lazy var trackingArea: NSTrackingArea = NSTrackingArea(rect: NSRect.zero,
                               options: [.inVisibleRect, .activeAlways, .mouseEnteredAndExited],
                               owner: self,
                               userInfo: nil)
 
-    init(frame frameRect: NSRect, sid: String, ids: [Int], opponent: CardClass, coin: Bool, starLevel: Int) {
-        shortId = sid
-        dbfIds = ids
-        self.opponent = opponent
-        hasCoin = coin
-        playerStarLevel = starLevel
-        
-        hasData = true
-
+    override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
         
-        let imageView = FillImageView(frame: frameRect)
+        imageView = FillImageView(frame: frameRect)
         if let image = NSImage(named: "mulligan-toast-bg") {
             imageView.image = image
         }
@@ -46,7 +37,7 @@ class MulliganToastView: NSView {
         
         let frameView = FrameView()
         let icon = NSImageView()
-        let text = NSTextField()
+        text = NSTextField()
         let stack = NSStackView()
         let text2 = NSTextField()
 
@@ -140,19 +131,59 @@ class MulliganToastView: NSView {
         }
     }
     
+    var hasData: Bool {
+        return !(_shortId ?? "").isEmpty && _parameters != nil
+    }
+    
+    var noDataLabel: String {
+        return String.localizedString(_showingMulliganStats ? "Toast_Mulligan_NotOnWebsite" : "Toast_Mulligan_Unavailable", comment: "")
+    }
+    
+    func update(_ shortId: String, _ dbfIds: [Int], _ parameters: [String: String]?, showingMulliganStats: Bool = false) {
+        _shortId = shortId
+        _dbfIds = dbfIds
+        _parameters = parameters
+        if hasData {
+            if let image = NSImage(named: "mulligan-toast-bg") {
+                imageView.image = image
+            }
+            text.stringValue = String.localizedString("What should I keep?", comment: "")
+        } else {
+            if let image = NSImage(named: "mulligan-toast-bg-grey.jpg") {
+                imageView.image = image
+            }
+            text.stringValue = noDataLabel
+        }
+    }
+    
     override func mouseUp(with: NSEvent) {
-        guard hasData else {
+        guard hasData, let dbfIds = _dbfIds, let shortId = _shortId else {
             return
         }
-        let ids = "mulliganIds=\(dbfIds.compactMap({ x in String(x)}).joined(separator: "%2C"))"
-        let opponent = "mulliganOpponent=\(self.opponent.rawValue.uppercased())"
-        let playerInitiative = "mulliganPlayerInitiative=\(hasCoin ? "COIN" : "FIRST")"
-        let playerStarLevel = "mulliganPlayerStarLevel=\(playerStarLevel)"
-        let url = "https://hsreplay.net/decks/\(shortId)?utm_source=hstracker&utm_medium=client&utm_campaign=mulligan_toast#\(ids)&\(opponent)&\(playerInitiative)&\(playerStarLevel)"
-        NSWorkspace.shared.open(URL(string: url)!)
-        if let clicked = self.clicked {
-            clicked()
+        var fragmentParams = _parameters?.compactMap { kv in "\(Helper.urlEncode(kv.key))=\(Helper.urlEncode(kv.value))" } ?? [String]()
+        fragmentParams.append("mulliganIds=\(dbfIds.compactMap { x in String(x)}.joined(separator: ","))")
+        if let url = URL(string: Helper.buildHsReplayNetUrl("/decks/\(shortId)", "mulligan_toast", nil, fragmentParams)) {
+            NSWorkspace.shared.open(url)
         }
+        AppDelegate.instance().coreManager.game.hideMulliganToast()
+    }
+    
+    private var _noDataShown = Set<String>()
+    func shouldShow() -> Bool {
+        guard let shortId = _shortId else {
+            return false
+        }
+        if shortId.isEmpty {
+            return false
+        }
+        if hasData {
+            return true
+        }
+        if _noDataShown.contains(shortId) {
+            return false
+        }
+        _noDataShown.insert(shortId)
+        return true
     }
     
     override func mouseEntered(with event: NSEvent) {

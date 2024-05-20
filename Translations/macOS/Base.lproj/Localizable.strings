@@ -266,6 +266,8 @@
 /* Mulligan toast */
 "What should I keep?" = "What should I keep?";
 "HSReplay.net - Mulligan Guide" = "HSReplay.net - Mulligan Guide";
+"Toast_Mulligan_NotOnWebsite" = "Not on website";
+"Toast_Mulligan_Unavailable" = "No data for this deck";
 
 /* Mercenaries */
 "Mercenaries" = "Mercenaries";
