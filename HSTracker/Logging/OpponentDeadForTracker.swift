@@ -9,7 +9,7 @@
 import Foundation
 
 class OpponentDeadForTracker {
-    private static var _uniqueDeadHeroes = [String]()
+    private static var _uniqueDeadPlayers = [Int]()
     private static var _deadTracker = [Int]()
     
     static let KelThuzadCardId = "KelThuzad"
@@ -17,9 +17,11 @@ class OpponentDeadForTracker {
     
     static func resetOpponentDeadForTracker() {
         logger.debug("Resetting dead heroes")
-        _uniqueDeadHeroes.removeAll()
+        _uniqueDeadPlayers.removeAll()
         _deadTracker.removeAll()
-        AppDelegate.instance().coreManager.game.windowManager.battlegroundsOverlay.view.resetNextOpponentLeaderboardPosition()
+        DispatchQueue.main.async {
+            AppDelegate.instance().coreManager.game.windowManager.battlegroundsOverlay.view.updateOpponentDeadForTurns(turns: _deadTracker)
+        }
     }
     
     static func shoppingStarted(game: Game) {
@@ -32,10 +34,10 @@ class OpponentDeadForTracker {
         let deadHeroes = game.entities.values.filter { x in x.isHero && x.health <= 0 }
         logger.debug("Dead heroes: \(deadHeroes.compactMap({ x in x.cardId}))")
         for hero in deadHeroes {
-            let id: String = BattlegroundsUtils.getOriginalHeroId(heroId: hero.cardId)
-            if !id.contains(KelThuzadCardId) && !_uniqueDeadHeroes.contains(id) {
+            let playerId = hero[.player_id]
+            if playerId > 0 && !_uniqueDeadPlayers.contains(playerId) {
                 _deadTracker.append(0)
-                _uniqueDeadHeroes.append(id)
+                _uniqueDeadPlayers.append(playerId)
             }
         }
         _deadTracker.sort(by: { x, y in return y < x })
