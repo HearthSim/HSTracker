@@ -2602,68 +2602,57 @@ class Game: NSObject, PowerEventHandler {
     
     @available(macOS 10.15.0, *)
     private func handleBattlegroundsStart() async {
-        if isBattlegroundsSoloMatch() {
-            for _ in 0 ..< 10 {
-                do {
-                    try await Task.sleep(nanoseconds: 500_000_000)
-                } catch {
-                    logger.error(error)
-                }
-                
-                let heroes = player.playerEntities.filter { x in x.isHero && (x.has(tag: .bacon_hero_can_be_drafted) || x.has(tag: .bacon_skin))}
-                if heroes.count < 2 {
-                    continue
-                }
-                do {
-                    try await Task.sleep(nanoseconds: 500_000_000)
-                } catch {
-                    logger.error(error)
-                }
-                
-                if gameEntity?[.step] != Step.begin_mulligan.rawValue {
-                    break
-                }
-                
-                snapshotBattlegroundsOfferedHeroes(heroes)
-                cacheBattlegroundsHeroPickParams()
-                
-                let heroIds = heroes.sorted(by: { (a, b) -> Bool in a.zonePosition < b.zonePosition }).compactMap { x in x.card.dbfId }
-                                
-                var battlegroundsHeroPickStats: BattlegroundsHeroPickStats?
-
-                do {
-                    logger.debug("Staring tasks)")
-                    async let statsTask = getBattlegroundsHeroPickStats()
-                    async let waitAndAppear: () = Task.sleep(nanoseconds: 500_000_000)
-                    let (finalResults, _) = try await (statsTask, waitAndAppear)
-                    logger.debug("Tasks completed")
-                    battlegroundsHeroPickStats = finalResults
-                } catch {
-                    logger.error(error)
-                }
-                
-                var toastParams: [String: String]?
-                
-                if let stats = battlegroundsHeroPickStats {
-                    toastParams = stats.toast.parameters
-                    DispatchQueue.main.async {
-                        self.showBattlegroundsHeroPickingStats(heroIds.compactMap { dbfId in stats.data.first { x in x.hero_dbf_id == dbfId }}, stats.toast.parameters, stats.toast.min_mmr, stats.toast.anomaly_adjusted ?? false)
-                    }
-                }
-                
-                if Settings.showHeroToast {
-                    showBattlegroundsHeroPanel(heroIds, toastParams)
-                }
+        OpponentDeadForTracker.resetOpponentDeadForTracker()
+        var heroes = [Entity]()
+        for _ in 0 ..< 10 {
+            await Task.sleep(seconds: 500)
+            heroes = player.playerEntities.filter { x in x.isHero && (x.has(tag: .bacon_hero_can_be_drafted) || x.has(tag: .bacon_skin))}
+            if heroes.count >= 2 {
                 break
+            }
+        }
+
+        await Task.sleep(seconds: 500)
+        
+        await windowManager.battlegroundsSession.update()
+        
+        if gameEntity?[.step] != Step.begin_mulligan.rawValue {
+            return
+        }
+
+        snapshotBattlegroundsOfferedHeroes(heroes)
+        cacheBattlegroundsHeroPickParams()
+
+        if isBattlegroundsSoloMatch() {
+            let heroIds = heroes.sorted(by: { (a, b) -> Bool in a.zonePosition < b.zonePosition }).compactMap { x in x.card.dbfId }
+            
+            async let statsTask = getBattlegroundsHeroPickStats()
+                    
+            // Wait for the mulligan to be ready
+            await waitForMulliganStart()
+            
+            async let waitAndAppear: () = Task.sleep(seconds: 500)
+            
+            var battlegroundsHeroPickStats: BattlegroundsHeroPickStats?
+            
+            let (finalResults, _) = await (statsTask, waitAndAppear)
+            battlegroundsHeroPickStats = finalResults
+                
+            var toastParams: [String: String]?
+                
+            if let stats = battlegroundsHeroPickStats {
+                toastParams = stats.toast.parameters
+                DispatchQueue.main.async {
+                    self.showBattlegroundsHeroPickingStats(heroIds.compactMap { dbfId in stats.data.first { x in x.hero_dbf_id == dbfId }}, stats.toast.parameters, stats.toast.min_mmr, stats.toast.anomaly_adjusted ?? false)
+                }
+            }
+            // TODO: handle errors, exceptions
+                
+            if Settings.showHeroToast {
+                showBattlegroundsHeroPanel(heroIds, toastParams)
             }
         } else {
            // Duos...
-        }
-        DispatchQueue.main.async { [self] in
-            OpponentDeadForTracker.resetOpponentDeadForTracker()
-            self.showBattlegroundsSession(true)
-            self.windowManager.battlegroundsSession.onGameStart()
-            self.showBattlegroundsSession(true)
         }
     }
 

@@ -425,6 +425,7 @@
 		B82238BC2BF948E600B405D4 /* BattlegroundsBoardState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82238BB2BF948E600B405D4 /* BattlegroundsBoardState.swift */; };
 		B82238BE2BF96C6000B405D4 /* BattlegroundsHeroPickStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82238BD2BF96C5F00B405D4 /* BattlegroundsHeroPickStats.swift */; };
 		B82238C02BF9891200B405D4 /* BattlegroundsHeroPickState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82238BF2BF9891200B405D4 /* BattlegroundsHeroPickState.swift */; };
+		B82238C22BFD399300B405D4 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82238C12BFD399300B405D4 /* Task.swift */; };
 		B823E801275FB89400747CAF /* FlavorText.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88364FB275D746D0094D8E1 /* FlavorText.swift */; };
 		B823E802275FB89900747CAF /* FlavorText.xib in Resources */ = {isa = PBXBuildFile; fileRef = B88364F9275D6FE10094D8E1 /* FlavorText.xib */; };
 		B82AE5F028ADBC55004A8FE0 /* Influx.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82AE5EF28ADBC54004A8FE0 /* Influx.swift */; };
@@ -1173,6 +1174,7 @@
 		B82238BB2BF948E600B405D4 /* BattlegroundsBoardState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsBoardState.swift; sourceTree = "<group>"; };
 		B82238BD2BF96C5F00B405D4 /* BattlegroundsHeroPickStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsHeroPickStats.swift; sourceTree = "<group>"; };
 		B82238BF2BF9891200B405D4 /* BattlegroundsHeroPickState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsHeroPickState.swift; sourceTree = "<group>"; };
+		B82238C12BFD399300B405D4 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		B82AE5EF28ADBC54004A8FE0 /* Influx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Influx.swift; sourceTree = "<group>"; };
 		B82AE5F928BE8631004A8FE0 /* BobsBuddy-version.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "BobsBuddy-version.txt"; sourceTree = "<group>"; };
 		B82AE5FA28BE8631004A8FE0 /* cards-version.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "cards-version.txt"; sourceTree = "<group>"; };
@@ -2081,6 +2083,7 @@
 				437E56EF1DAAB81400FC0FC1 /* String.swift */,
 				43BF754E1ECC4EB7005827FF /* Varint.swift */,
 				B804FC3C29462EA800F74CD9 /* NSButton.swift */,
+				B82238C12BFD399300B405D4 /* Task.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2886,6 +2889,7 @@
 				B8CE65DC2950D80200E8D168 /* BattlegroundsPlacementDistribution.swift in Sources */,
 				43F2040F1E93C2E600E0BC4A /* Priest.swift in Sources */,
 				43F204071E93C2E600E0BC4A /* DreamCards.swift in Sources */,
+				B82238C22BFD399300B405D4 /* Task.swift in Sources */,
 				B804FC442946BACF00F74CD9 /* BattlegroundsCompositionPopularityViewModel.swift in Sources */,
 				43F2040E1E93C2E600E0BC4A /* Paladin.swift in Sources */,
 				B844D3682A0C33AB001704E0 /* BloodGemProxy.swift in Sources */,
