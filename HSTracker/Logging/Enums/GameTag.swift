@@ -408,6 +408,7 @@ enum GameTag: Int, CaseIterable, Codable {
     bacon_global_anomaly_dbid = 2897,
     cthun_health_buff = 3053,
     cthun_attack_buff = 3054,
+    bacon_duo_team_id = 3095,
     titan_ability_used_1 = 3140,
     titan_ability_used_2 = 3141,
     titan_ability_used_3 = 3142,
@@ -415,7 +416,8 @@ enum GameTag: Int, CaseIterable, Codable {
     current_excavate_tier = 3249,
     zilliax_customizable_cosmeticmodule = 3376,
     zilliax_customizable_functionalmodule = 3377,
-    bacon_combat_damage_cap_enabled = 3403
+    bacon_combat_damage_cap_enabled = 3403,
+    gametag_3533 = 3533
 
     static var lookup = [String: GameTag]()
     

@@ -311,7 +311,7 @@ final class CoreManager: NSObject {
         QueueWatcher.stop()
         BaconWatcher.stop()
         SceneWatcher.stop()
-        //BattlegroundsLeaderboardWatcher.stop()
+        BattlegroundsLeaderboardWatcher.stop()
         DeckPickerWatcher.stop()
         MirrorHelper.destroy()
         game.windowManager.battlegroundsHeroPicking.viewModel.reset()

@@ -61,6 +61,8 @@ struct TagChangeActions {
         case .bacon_hero_quest_reward_database_id: return { self.playerHeroQuestRewardDatabaseId(eventHandler: eventHandler, id: id, value: value)}
         case .bacon_hero_quest_reward_completed: return { self.playerHeroQuestRewardCompleted(eventHandler: eventHandler, id: id, value: value)}
         case .gametag_2022: return { self.onBattlegroundsSetupChange(eventHandler: eventHandler, id: id, value: value, prevValue: prevValue)}
+        case .gametag_3533: return { self.onBattlegroundsCombatSetupChange(eventHandler: eventHandler, value: value, prevValue: prevValue )}
+        case .hero_entity: return { self.onHeroEntityChange(eventHandler: eventHandler, playerEntityId: id, heroEntityId: value)}
         default: return nil
         }
     }
@@ -72,6 +74,30 @@ struct TagChangeActions {
         }
     }
     
+    private func onBattlegroundsCombatSetupChange(eventHandler: PowerEventHandler, value: Int, prevValue: Int) {
+        if prevValue == 0 && value == 1 {
+            eventHandler.duosResetHeroTracking()
+        }
+
+        if prevValue == 1 && value == 0 {
+            if eventHandler.isBattlegroundsSoloMatch() {
+                eventHandler.snapshotBattlegroundsBoardState()
+            } else if eventHandler.duosWasOpponentHeroModified {
+                eventHandler.snapshotBattlegroundsBoardState()
+            }
+        }
+    }
+
+    private func onHeroEntityChange(eventHandler: PowerEventHandler, playerEntityId: Int, heroEntityId: Int) {
+        if eventHandler.isBattlegroundsDuosMatch() {
+            if playerEntityId == eventHandler.playerEntity?.id {
+                eventHandler.duosSetHeroModified(true)
+            } else if playerEntityId == eventHandler.opponentEntity?.id {
+                eventHandler.duosSetHeroModified(false)
+            }
+        }
+    }
+
     private func onResourcesUsedChange(eventHandler: PowerEventHandler, id: Int, value: Int) {
         guard let playerEntity = eventHandler.playerEntity else {
             return

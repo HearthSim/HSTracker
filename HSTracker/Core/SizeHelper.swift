@@ -191,6 +191,15 @@ struct SizeHelper {
         return hearthstoneWindow.height * 0.078
     }
     
+    static let battlegroundsDuosTileToSpacingRatio = 0.137
+    
+    static var battlegroundsDuosTileHeight: CGFloat {
+        return hearthstoneWindow.height * 0.69 * (1.0 - battlegroundsDuosTileToSpacingRatio) / 8
+    }
+    static var battlegroundsDuosSpacingHeight: CGFloat {
+        return hearthstoneWindow.height * 0.69 * battlegroundsDuosTileToSpacingRatio / 3
+    }
+
     static var hearthstoneBoardWidth: CGFloat {
         return hearthstoneWindow.height * 1.5
     }

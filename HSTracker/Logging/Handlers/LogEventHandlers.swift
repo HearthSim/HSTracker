@@ -255,4 +255,14 @@ protocol PowerEventHandler: AnyObject {
     var gameId: String { get }
     
     var lastPlagueDrawn: String? { get set }
+    
+    func isBattlegroundsSoloMatch() -> Bool
+    
+    func isBattlegroundsDuosMatch() -> Bool
+    
+    func duosResetHeroTracking()
+    
+    func duosSetHeroModified(_ isPlayer: Bool)
+    
+    var duosWasOpponentHeroModified: Bool { get }
 }
