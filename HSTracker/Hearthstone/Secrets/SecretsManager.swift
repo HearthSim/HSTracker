@@ -298,6 +298,8 @@ class SecretsManager {
         _lastPlayedMinionId = entity.id
 
         if !entity.has(tag: .dormant) {
+            saveSecret(secret: CardIds.Secrets.Hunter.BargainBin)
+            exclude.append(CardIds.Secrets.Hunter.BargainBin)
             saveSecret(secret: CardIds.Secrets.Hunter.Snipe)
             exclude.append(CardIds.Secrets.Hunter.Snipe)
             saveSecret(secret: CardIds.Secrets.Mage.ExplosiveRunes)
@@ -560,6 +562,8 @@ class SecretsManager {
                 self.exclude(cardIds: [CardIds.Secrets.Hunter.IceTrap])
                 return
             }
+            
+            exclude.append(CardIds.Secrets.Hunter.BargainBin)
 
             exclude.append(CardIds.Secrets.Paladin.OhMyYogg)
             
@@ -590,6 +594,10 @@ class SecretsManager {
             }
         } else if entity.isMinion && game.playerMinionCount > 3 {
             exclude.append(CardIds.Secrets.Paladin.SacredTrial)
+        }
+        
+        if entity.isWeapon {
+            exclude.append(CardIds.Secrets.Hunter.BargainBin)
         }
         self.exclude(cardIds: exclude)
     }

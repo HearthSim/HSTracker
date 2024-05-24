@@ -164,6 +164,7 @@ extension CardIds.Collectible {
         static let SnipeWONDERS = "WON_018"
         static let IceTrapCore = "CORE_AV_226"
         static let RatTrapCore = "CORE_GIL_577"
+        static let BargainBin = "MIS_105"
     }
 }
 
@@ -244,7 +245,7 @@ extension CardIds.Secrets {
                           HiddenCache, Misdirection, RatTrap, Snipe, SnakeTrap, CatTrick,
                           VenomstrikeTrap, WanderingMonster, PressurePlate, PackTactics,
                           OpenTheCages, IceTrap, EmergencyManeuvers, MotionDenied, Zombeeees,
-                          HiddenMeaning, BaitAndSwitch]
+                          HiddenMeaning, BaitAndSwitch, BargainBin]
         static let BearTrap = MultiIdCard(CardIds.Collectible.Hunter.BearTrap)
         static let CatTrick = MultiIdCard(CardIds.Collectible.Hunter.CatTrick, CardIds.Collectible.Hunter.CatTrickInvalid)
         static let DartTrap = MultiIdCard(CardIds.Collectible.Hunter.DartTrap)
@@ -266,5 +267,6 @@ extension CardIds.Secrets {
         static let Zombeeees = MultiIdCard(CardIds.Collectible.Hunter.Zombeeees)
         static let HiddenMeaning = MultiIdCard(CardIds.Collectible.Hunter.HiddenMeaning)
         static let BaitAndSwitch = MultiIdCard(CardIds.Collectible.Hunter.BaitAndSwitch)
+        static let BargainBin = MultiIdCard(CardIds.Collectible.Hunter.BargainBin)
     }
 }
