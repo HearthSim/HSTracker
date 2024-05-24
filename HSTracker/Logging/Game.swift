@@ -1468,7 +1468,7 @@ class Game: NSObject, PowerEventHandler {
         adventureOpponentId = nil
         dredgeCounter = 0
         
-        OpponentDeadForTracker.resetOpponentDeadForTracker()
+        OpponentDeadForTracker.reset()
     }
     
     func cacheBrawlInfo() {
@@ -1897,7 +1897,7 @@ class Game: NSObject, PowerEventHandler {
         
         if isBattlegroundsMatch() {
             BobsBuddyInvoker.instance(gameId: gameId, turn: turnNumber())?.startShopping(isGameOver: true)
-            OpponentDeadForTracker.resetOpponentDeadForTracker()
+            OpponentDeadForTracker.reset()
             DispatchQueue.main.async {
                 self.windowManager.battlegroundsTierOverlay.tierOverlay.reset()
             }
@@ -2603,7 +2603,7 @@ class Game: NSObject, PowerEventHandler {
     @available(macOS 10.15.0, *)
     private func handleBattlegroundsStart() async {
         BattlegroundsLeaderboardWatcher.start()
-        OpponentDeadForTracker.resetOpponentDeadForTracker()
+        OpponentDeadForTracker.reset()
         var heroes = [Entity]()
         for _ in 0 ..< 10 {
             await Task.sleep(seconds: 500)

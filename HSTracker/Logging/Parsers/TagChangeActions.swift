@@ -63,6 +63,7 @@ struct TagChangeActions {
         case .gametag_2022: return { self.onBattlegroundsSetupChange(eventHandler: eventHandler, id: id, value: value, prevValue: prevValue)}
         case .gametag_3533: return { self.onBattlegroundsCombatSetupChange(eventHandler: eventHandler, value: value, prevValue: prevValue )}
         case .hero_entity: return { self.onHeroEntityChange(eventHandler: eventHandler, playerEntityId: id, heroEntityId: value)}
+        case .next_opponent_player_id: return { self.onNextOpponentPlayerId(eventHandler: eventHandler, id: id, value: value)}
         default: return nil
         }
     }
@@ -961,6 +962,13 @@ struct TagChangeActions {
         if value == 4, let entity = game.entities[id], entity.cardId != CardIds.NonCollectible.Neutral.TheCoinBasic {
             entity.clearCardId()
         }
+    }
+    
+    private func onNextOpponentPlayerId(eventHandler: PowerEventHandler, id: Int, value: Int) {
+        if id != eventHandler.playerEntity?.id {
+            return
+        }
+        OpponentDeadForTracker.setNextOpponentPlayerId(id)
     }
 
     private func playerTechLevel(eventHandler: PowerEventHandler, id: Int, value: Int, previous: Int) {

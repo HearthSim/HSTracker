@@ -9,8 +9,6 @@
 import Foundation
 
 class BattlegroundsOverlayView: NSView {
-    var _nextOpponentLeaderboardPosition = -1
-    
     var leaderboardDeadForText = [NSTextField]()
     var leaderboardDeadForTurnText = [NSTextField]()
     
@@ -59,15 +57,7 @@ class BattlegroundsOverlayView: NSView {
         }
     }
     
-    func resetNextOpponentLeaderboardPosition() {
-        _nextOpponentLeaderboardPosition = -1
-    }
-    
-    func positionDeadForText(nextOpponentLeaderboardPosition: Int = 0) {
-        if nextOpponentLeaderboardPosition > 0 {
-            _nextOpponentLeaderboardPosition = nextOpponentLeaderboardPosition
-        }
-        
+    func positionDeadForText(nextOpponentLeaderboardPosition: Int) {
         let game = AppDelegate.instance().coreManager.game
         
         if game.isBattlegroundsDuosMatch() {

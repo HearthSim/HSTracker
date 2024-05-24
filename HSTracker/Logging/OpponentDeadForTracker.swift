@@ -12,21 +12,9 @@ class OpponentDeadForTracker {
     private static var _uniqueDeadPlayers = [Int]()
     private static var _deadTracker = [Int]()
     
-    static let KelThuzadCardId = "KelThuzad"
-    static let NextOpponentCheckDelay = 0.500
-    
-    static func resetOpponentDeadForTracker() {
-        logger.debug("Resetting dead heroes")
-        _uniqueDeadPlayers.removeAll()
-        _deadTracker.removeAll()
-        DispatchQueue.main.async {
-            AppDelegate.instance().coreManager.game.windowManager.battlegroundsOverlay.view.updateOpponentDeadForTurns(turns: _deadTracker)
-        }
-    }
-    
     static func shoppingStarted(game: Game) {
         if game.turnNumber() <= 1 {
-            resetOpponentDeadForTracker()
+            reset()
         }
         for i in 0..<_deadTracker.count {
             _deadTracker[i] += 1
@@ -44,24 +32,27 @@ class OpponentDeadForTracker {
         DispatchQueue.main.async {
             AppDelegate.instance().coreManager.game.windowManager.battlegroundsOverlay.view.updateOpponentDeadForTurns(turns: _deadTracker)
         }
-        let currentPlayer = game.entities.values.first(where: { x in x.isCurrentPlayer })
-        //We loop because the next opponent tag is set slightly after the start of shopping (when this function is called).
-        var prev = -1
-        for _ in 0 ..< 5 {
-            if let currentPlayer = currentPlayer, currentPlayer.has(tag: GameTag.next_opponent_player_id) {
-                let nextOpponent = game.entities.values.first(where: { x in x[GameTag.player_id] == currentPlayer[GameTag.next_opponent_player_id] })
-                if let nextOpponent = nextOpponent {
-                    let leaderboardPlace = nextOpponent[GameTag.player_leaderboard_place]
-                    if leaderboardPlace > 0 && leaderboardPlace <= 8 && leaderboardPlace != prev {
-                        prev = leaderboardPlace
-                        logger.debug("Updating dead tracker with \(leaderboardPlace), id=\(nextOpponent[.entity_id]), player_id=\(nextOpponent[.player_id])")
-                        DispatchQueue.main.async {
-                            AppDelegate.instance().coreManager.game.windowManager.battlegroundsOverlay.view.positionDeadForText(nextOpponentLeaderboardPosition: leaderboardPlace)
-                        }
-                    }
-                }
+    }
+    
+    static func setNextOpponentPlayerId(_ playerId: Int) {
+        let game = AppDelegate.instance().coreManager.game
+        guard let nextOpponent = game.entities.values.first(where: { x in x[GameTag.player_id] == playerId }) else {
+            return
+        }
+        let leaderboardPlace = nextOpponent[GameTag.player_leaderboard_place]
+        if leaderboardPlace > 0 && leaderboardPlace <= 8 {
+            logger.debug("Updating dead tracker with \(leaderboardPlace), id=\(nextOpponent[.entity_id]), player_id=\(playerId)")
+            DispatchQueue.main.async {
+                AppDelegate.instance().coreManager.game.windowManager.battlegroundsOverlay.view.positionDeadForText(nextOpponentLeaderboardPosition: leaderboardPlace)
             }
-            Thread.sleep(forTimeInterval: NextOpponentCheckDelay)
+        }
+    }
+    
+    static func reset() {
+        _uniqueDeadPlayers.removeAll()
+        _deadTracker.removeAll()
+        DispatchQueue.main.async {
+            AppDelegate.instance().coreManager.game.windowManager.battlegroundsOverlay.view.updateOpponentDeadForTurns(turns: _deadTracker)
         }
     }
 }
