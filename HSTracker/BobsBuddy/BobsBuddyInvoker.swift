@@ -46,6 +46,8 @@ class BobsBuddyInvoker {
     var input: InputProxy?
     var output: OutputProxy?
     
+    var doNotReport = true
+    
     private var currentOpponentMinions: [Int: MinionProxy] = [:]
     
     private var opponentHand: [Entity] = []
@@ -278,6 +280,7 @@ class BobsBuddyInvoker {
                         
                         let ellapsed = (DispatchTime.now().uptimeNanoseconds - start.uptimeNanoseconds) / 1_000_000
                         
+                        self.doNotReport = false
                         logger.debug("----- Simulation Output -----")
                         logger.debug("Duration=\(ellapsed)ms, ExitCondition=\(top.getMyExitCondition()), Iterations = \(top.simulationCount)")
                         logger.debug("WinRate=\(top.winRate * 100)% (Lethal=\(top.theirDeathRate * 100)%), TieRate=\(top.tieRate * 100)%, LossRate=\(top.lossRate * 100)% (Lethal=\(top.myDeathRate * 100)%)")
@@ -399,7 +402,11 @@ class BobsBuddyInvoker {
         }
         logger.debug("Validating results...")
         guard let output = output else {
-            logger.debug("_lastSimulationResult is null. Exiting")
+            logger.debug("Output is null. Exiting")
+            return
+        }
+        if doNotReport {
+            logger.debug("Output was invalidated. Exiting")
             return
         }
         if output.simulationCount < MinimumSimulationsToReportSentry {
@@ -840,6 +847,7 @@ class BobsBuddyInvoker {
     }
     
     func updateOpponentSecret(entity: Entity) {
+        doNotReport = true
         tryRerun()
     }
 
