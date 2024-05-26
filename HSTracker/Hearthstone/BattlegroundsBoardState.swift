@@ -18,7 +18,7 @@ class BattlegroundsBoardState {
     }
     
     func snapshotCurrentBoard() {
-        guard let opponentHero = game.entities.values.first(where: { x in x.isHero && x.isInZone(zone: Zone.play) && x.isControlled(by: game.opponent.id) }) else {
+        guard let opponentHero = game.entities.values.filter({ x in x.isHero && x.isInZone(zone: Zone.play) && x.isControlled(by: game.opponent.id) }).sorted(by: { $0.id < $1.id }).first else {
             return
         }
         if opponentHero.cardId.isEmpty {

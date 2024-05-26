@@ -134,12 +134,12 @@ class PowerGameStateParser: LogEventParser {
                 var entity = eventHandler.entities.values
                     .first { $0.name == rawEntity }
 
-                    if let entity = entity {
+                if let entity = entity {
                     tagChangeHandler.tagChange(eventHandler: eventHandler, rawTag: tag,
                                                id: entity.id, rawValue: value)
                 } else {
                     let players = eventHandler.entities.values
-                        .filter { $0.has(tag: .player_id) }
+                        .filter { $0.has(tag: .player_id) }.sorted(by: { $0.id < $1.id })
                         .take(2)
                     let unnamedPlayers = players.filter { $0.name.isBlank }
                     let unknownHumanPlayer = players

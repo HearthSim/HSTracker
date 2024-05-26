@@ -1687,26 +1687,28 @@ class Game: NSObject, PowerEventHandler {
     
     private var _lastReconnectStartTimestamp: Date = Date.distantPast
     func handleGameReconnect(timestamp: Date) {
-        logger.info("Joined after mulligan, assuming reconnect.")
-
-        if DateInterval(start: _lastReconnectStartTimestamp, end: Date()).duration < 5.0 { // game already started
-            return
-        }
-        _lastReconnectStartTimestamp = timestamp
-
-        for _ in 0 ..< 20 where gameEntity == nil || currentMode != .gameplay {
-            Thread.sleep(forTimeInterval: 0.5)
-        }
-
-        if gameEntity == nil || currentMode != .gameplay {
-            return
-        }
-
-        if isBattlegroundsMatch() {
-            if (gameEntity?[.step] ?? 0) > Step.begin_mulligan.rawValue {
-                windowManager.battlegroundsSession.update()
-                BattlegroundsLeaderboardWatcher.start()
-                updateBattlegroundsOverlays()
+        DispatchQueue.global().async {
+            logger.info("Joined after mulligan, assuming reconnect.")
+            
+            if DateInterval(start: self._lastReconnectStartTimestamp, end: Date()).duration < 5.0 { // game already started
+                return
+            }
+            self._lastReconnectStartTimestamp = timestamp
+            
+            for _ in 0 ..< 20 where self.gameEntity == nil || self.currentMode != .gameplay {
+                Thread.sleep(forTimeInterval: 0.5)
+            }
+            
+            if self.gameEntity == nil || self.currentMode != .gameplay {
+                return
+            }
+            
+            if self.isBattlegroundsMatch() {
+                if (self.gameEntity?[.step] ?? 0) > Step.begin_mulligan.rawValue {
+                    self.windowManager.battlegroundsSession.update()
+                    BattlegroundsLeaderboardWatcher.start()
+                    self.updateBattlegroundsOverlays()
+                }
             }
         }
     }
@@ -2907,11 +2909,12 @@ class Game: NSObject, PowerEventHandler {
             opponentMinionDeath(entity: entity, turn: turn)
         }
         if !playersTurn && entity.info.wasTransformed {
-            Thread.sleep(forTimeInterval: 3.0)
-            if let transformedSecret = secretsManager?.secrets.filter({ x in x.entity.id == entity.id }).first {
-                secretsManager?.removeSecret(entity: transformedSecret.entity)
+            DispatchQueue.global().async {
+                Thread.sleep(forTimeInterval: 3.0)
+                if let transformedSecret = self.secretsManager?.secrets.filter({ x in x.entity.id == entity.id }).first {
+                    self.secretsManager?.removeSecret(entity: transformedSecret.entity)
+                }
             }
-            
         }
         updateTrackers()
     }

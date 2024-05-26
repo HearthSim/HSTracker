@@ -60,7 +60,7 @@ struct TagChangeActions {
         case .bacon_hero_heropower_quest_reward_completed: return { self.playerHeroPowerQuestRewardCompleted(eventHandler: eventHandler, id: id, value: value)}
         case .bacon_hero_quest_reward_database_id: return { self.playerHeroQuestRewardDatabaseId(eventHandler: eventHandler, id: id, value: value)}
         case .bacon_hero_quest_reward_completed: return { self.playerHeroQuestRewardCompleted(eventHandler: eventHandler, id: id, value: value)}
-        case .gametag_2022: return { self.onBattlegroundsSetupChange(eventHandler: eventHandler, id: id, value: value, prevValue: prevValue)}
+        case .gametag_2022: return { self.onBattlegroundsSetupChange(eventHandler: eventHandler, value: value, prevValue: prevValue)}
         case .gametag_3533: return { self.onBattlegroundsCombatSetupChange(eventHandler: eventHandler, value: value, prevValue: prevValue )}
         case .hero_entity: return { self.onHeroEntityChange(eventHandler: eventHandler, playerEntityId: id, heroEntityId: value)}
         case .next_opponent_player_id: return { self.onNextOpponentPlayerId(eventHandler: eventHandler, id: id, value: value)}
@@ -68,9 +68,8 @@ struct TagChangeActions {
         }
     }
     
-    private func onBattlegroundsSetupChange(eventHandler: PowerEventHandler, id: Int, value: Int, prevValue: Int) {
+    private func onBattlegroundsSetupChange(eventHandler: PowerEventHandler, value: Int, prevValue: Int) {
         if prevValue == 1 && value == 0 {
-            eventHandler.snapshotBattlegroundsBoardState()
             eventHandler.startCombat()
         }
     }
@@ -83,8 +82,10 @@ struct TagChangeActions {
         if prevValue == 1 && value == 0 {
             if eventHandler.isBattlegroundsSoloMatch() {
                 eventHandler.snapshotBattlegroundsBoardState()
-            } else if eventHandler.duosWasOpponentHeroModified {
-                eventHandler.snapshotBattlegroundsBoardState()
+            } else {
+                if eventHandler.duosWasOpponentHeroModified {
+                    eventHandler.snapshotBattlegroundsBoardState()
+                }
             }
         }
     }
