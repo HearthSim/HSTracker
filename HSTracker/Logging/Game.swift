@@ -2026,13 +2026,13 @@ class Game: NSObject, PowerEventHandler {
         }
         let hero = entities.values.first(where: { x in x[.player_id] == player.id && x.isHero })
         let heroCardId = hero?.cardId
-        let placement = hero?[.player_leaderboard_place] ?? 0
         let finalBoard = entities.values.filter({ x in x.isMinion && x.isInZone(zone: .play) && x.isControlled(by: player.id)}).compactMap({ x in x.copy() }).sorted(by: { x, y in
             x[.zone_position] < y[.zone_position]
         })
         let friendlyGame = currentGameType == .gt_battlegrounds_friendly || currentGameType == .gt_battlegrounds_duo_friendly
         let duos = isBattlegroundsDuosMatch()
-        if let heroCardId = heroCardId, placement > 0 && placement <= 8 {
+        let placement = min(hero?[.player_leaderboard_place] ?? 0, duos ? 4 : 8)
+        if let heroCardId = heroCardId, placement > 0 {
             BattlegroundsLastGames.instance.addGame(startTime: gameStats.startTime, endTime: gameStats.endTime, hero: BattlegroundsUtils.getOriginalHeroId(heroId: heroCardId), rating: gameStats.battlegroundsRating, ratingAfter: gameStats.battlegroundsRatingAfter, placement: placement, finalBoard: finalBoard, friendlyGame: friendlyGame, duos: duos)
             windowManager.battlegroundsSession.update()
         } else {
