@@ -1,3 +1,18 @@
+# 2.7.6
+## New
+- Updated for Hearthstone 29.4.2
+- Start tracking the last known board state in Battlegrounds Duos!
+  Hover over heroes on the leaderboard as usual to see the last board you encountered.
+## Fixes
+- Fixed ETC sideboard sizing issue
+- Fixes mulligan overlay not showing for new decks
+- Fixed Bargain Bin not appearing as a possible secret.
+- Fixed an issue causing the last known board state in Battlegrounds sometimes showing a board from the wrong hero.
+- Fixed an issue causing the death counter in Battlegrounds to sometimes be misaligned.
+## Bob's Buddy
+- Fixed opposing Boon of Beetles not being simulated correctly.
+- Fixed various minor simulation issues.
+
 # 2.7.5
 ## New
 - Updated for Hearthstone 29.4.0
