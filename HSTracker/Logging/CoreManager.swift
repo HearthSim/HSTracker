@@ -314,10 +314,24 @@ final class CoreManager: NSObject {
         BattlegroundsLeaderboardWatcher.stop()
         DeckPickerWatcher.stop()
         MirrorHelper.destroy()
-        game.windowManager.battlegroundsHeroPicking.viewModel.reset()
-        game.windowManager.battlegroundsQuestPicking.viewModel.reset()
-        game.windowManager.constructedMulliganGuide.viewModel.reset()
-        game.windowManager.constructedMulliganGuidePreLobby.viewModel.reset()
+        let wm = game.windowManager
+        wm.battlegroundsHeroPicking.viewModel.reset()
+        wm.battlegroundsQuestPicking.viewModel.reset()
+        wm.constructedMulliganGuide.viewModel.reset()
+        wm.constructedMulliganGuidePreLobby.viewModel.reset()
+        if wm.battlegroundsSession.visibility {
+            DispatchQueue.main.async {
+                wm.battlegroundsSession.visibility = false
+                wm.show(controller: wm.battlegroundsSession, show: false)
+            }
+        }
+        if wm.tier7PreLobby.viewModel.visibility {
+            DispatchQueue.main.async {
+                wm.tier7PreLobby.viewModel.visibility = false
+                wm.show(controller: wm.tier7PreLobby, show: false)
+            }
+        }
+        game.updateBattlegroundsOverlays()
         game.currentRegion = .unknown
     }
     
