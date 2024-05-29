@@ -58,7 +58,7 @@ class BobsBuddyPanel: OverWindowController {
         self.boxAverageDamageGiven.clicked = self.averageDamage_mouseDown
         self.boxAverageDamageTaken.clicked = self.averageDamage_mouseDown
         
-        statusMessage = StatusMessageConverter.getStatusMessage(state: state, errorState: errorState, statsShown: showingResults)
+        statusMessage = StatusMessageConverter.getStatusMessage(state: state, errorState: errorState, statsShown: showingResults, errorMessage: nil)
     }
     
     func formatPercent(p: Float) -> String {
@@ -122,12 +122,12 @@ class BobsBuddyPanel: OverWindowController {
             showResults(show: false)
         }
         
-        statusMessage = StatusMessageConverter.getStatusMessage(state: state, errorState: errorState, statsShown: showingResults)
+        statusMessage = StatusMessageConverter.getStatusMessage(state: state, errorState: errorState, statsShown: showingResults, errorMessage: nil)
     }
     
-    func setErrorState(error: BobsBuddyErrorState, show: Bool = false) {
+    func setErrorState(error: BobsBuddyErrorState, message: String? = nil, show: Bool = false) {
         errorState = error
-        statusMessage = StatusMessageConverter.getStatusMessage(state: state, errorState: errorState, statsShown: showingResults)
+        statusMessage = StatusMessageConverter.getStatusMessage(state: state, errorState: errorState, statsShown: showingResults, errorMessage: message)
         showResults(show: show)
     }
     

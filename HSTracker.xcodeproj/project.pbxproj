@@ -570,6 +570,9 @@
 		B86FFA7F299C68870093689E /* NSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC3C29462EA800F74CD9 /* NSButton.swift */; };
 		B87765CB2BB717CD003BE49D /* TrackedCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87765CA2BB717CD003BE49D /* TrackedCard.swift */; };
 		B87765CD2BB9AE7F003BE49D /* DeckSideboards.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87765CC2BB9AE7F003BE49D /* DeckSideboards.swift */; };
+		B87856DE2C04B958004C2C40 /* AggregateExceptionProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87856DD2C04B958004C2C40 /* AggregateExceptionProxy.swift */; };
+		B87856E02C04BA7F004C2C40 /* UnsupportedInteractionProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87856DF2C04BA7F004C2C40 /* UnsupportedInteractionProxy.swift */; };
+		B87856E22C04BB2D004C2C40 /* EntityProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87856E12C04BB2D004C2C40 /* EntityProxy.swift */; };
 		B8795EAC27516DBC00469B6E /* MercenariesTask.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8795EAB27516DBC00469B6E /* MercenariesTask.xib */; };
 		B8820CD025603FB00072ECBC /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8820CCF25603FB00072ECBC /* RemoteConfig.swift */; };
 		B8832DDA26057A5000646BA4 /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8832DD926057A5000646BA4 /* RepeatingTimer.swift */; };
@@ -1248,6 +1251,9 @@
 		B86C9EAA27A17B3A00195C0A /* BrukanInvocationDeathrattles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrukanInvocationDeathrattles.swift; sourceTree = "<group>"; };
 		B87765CA2BB717CD003BE49D /* TrackedCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackedCard.swift; sourceTree = "<group>"; };
 		B87765CC2BB9AE7F003BE49D /* DeckSideboards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckSideboards.swift; sourceTree = "<group>"; };
+		B87856DD2C04B958004C2C40 /* AggregateExceptionProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AggregateExceptionProxy.swift; sourceTree = "<group>"; };
+		B87856DF2C04BA7F004C2C40 /* UnsupportedInteractionProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsupportedInteractionProxy.swift; sourceTree = "<group>"; };
+		B87856E12C04BB2D004C2C40 /* EntityProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityProxy.swift; sourceTree = "<group>"; };
 		B8795EAB27516DBC00469B6E /* MercenariesTask.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MercenariesTask.xib; sourceTree = "<group>"; };
 		B8820CCF25603FB00072ECBC /* RemoteConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfig.swift; sourceTree = "<group>"; };
 		B8832DD926057A5000646BA4 /* RepeatingTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatingTimer.swift; sourceTree = "<group>"; };
@@ -2234,11 +2240,13 @@
 		B82F4EA924E3020800905024 /* Mono */ = {
 			isa = PBXGroup;
 			children = (
+				B87856DD2C04B958004C2C40 /* AggregateExceptionProxy.swift */,
 				B8BDF9052A9625D9000DA4ED /* AnomalyFactoryProxy.swift */,
 				B8BDF9072A9626A8000DA4ED /* AnomalyProxy.swift */,
 				B844D3672A0C33AB001704E0 /* BloodGemProxy.swift */,
 				B86C9EAA27A17B3A00195C0A /* BrukanInvocationDeathrattles.swift */,
 				B844D3652A0C3026001704E0 /* CardEntityProxy.swift */,
+				B87856E12C04BB2D004C2C40 /* EntityProxy.swift */,
 				B8449A052781CB6F0094E5B3 /* GenericDeathrattles.swift */,
 				B836821D27873B40007D5740 /* HeroPowerDataProxy.swift */,
 				B82F4EAD24E3229200905024 /* InputProxy.swift */,
@@ -2258,6 +2266,7 @@
 				B82F4EAF24E32C3000905024 /* SimulatorProxy.swift */,
 				B844D3692A0C3497001704E0 /* SpellCardEntityProxy.swift */,
 				B844D36B2A0C3510001704E0 /* UnknownCardEntityProxy.swift */,
+				B87856DF2C04BA7F004C2C40 /* UnsupportedInteractionProxy.swift */,
 			);
 			path = Mono;
 			sourceTree = "<group>";
@@ -2889,6 +2898,7 @@
 				B8CE65DC2950D80200E8D168 /* BattlegroundsPlacementDistribution.swift in Sources */,
 				43F2040F1E93C2E600E0BC4A /* Priest.swift in Sources */,
 				43F204071E93C2E600E0BC4A /* DreamCards.swift in Sources */,
+				B87856DE2C04B958004C2C40 /* AggregateExceptionProxy.swift in Sources */,
 				B82238C22BFD399300B405D4 /* Task.swift in Sources */,
 				B804FC442946BACF00F74CD9 /* BattlegroundsCompositionPopularityViewModel.swift in Sources */,
 				43F2040E1E93C2E600E0BC4A /* Paladin.swift in Sources */,
@@ -2941,6 +2951,7 @@
 				B804FC2429418CC200F74CD9 /* OverlayMessageViewModel.swift in Sources */,
 				B8E868852B940EB7005B1315 /* HearthDbConverter.swift in Sources */,
 				437B5BAC1CD1E6AF00DE0A41 /* Step.swift in Sources */,
+				B87856E22C04BB2D004C2C40 /* EntityProxy.swift in Sources */,
 				B8AC9A2A293F9B120047F438 /* BattlegroundsQuestStats.swift in Sources */,
 				B8591FF62B23D98800B907A4 /* SendChoicesHandler.swift in Sources */,
 				439C7E921C777EFA00D29859 /* Settings.swift in Sources */,
@@ -3057,6 +3068,7 @@
 				BC78DD751E806B6F00DBA7C9 /* Algorithm.swift in Sources */,
 				434D1CAF1D0C500300222B8E /* ImageUtilities.swift in Sources */,
 				B8591FFA2B24F7C900B907A4 /* ObjectiveFactoryProxy.swift in Sources */,
+				B87856E02C04BA7F004C2C40 /* UnsupportedInteractionProxy.swift in Sources */,
 				F719B88A200ACAE3004F5E36 /* DefaultDecks.swift in Sources */,
 				431719791C8C179D00F5988B /* Rarity.swift in Sources */,
 				437E56F61DAAB81400FC0FC1 /* String.swift in Sources */,

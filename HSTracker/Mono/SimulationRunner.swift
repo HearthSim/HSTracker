@@ -9,7 +9,7 @@
 import Foundation
 
 struct UnsupportedInteraction: Error {
-    
+    let message: String
 }
 
 struct RuntimeError: LocalizedError {

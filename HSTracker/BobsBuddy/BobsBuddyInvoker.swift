@@ -259,19 +259,44 @@ class BobsBuddyInvoker {
                         let exc = UnsafeMutablePointer<UnsafeMutablePointer<MonoObject>?>.allocate(capacity: 1)
                         exc[0] = nil
                         
+                        defer {
+                            exc.deallocate()
+                        }
+                        
                         _ = mono_runtime_invoke(mw, tinst, nil, exc)
 
-                        if exc[0] != nil {
-                            let handle = MonoHandle(obj: exc[0])
-                            let str = MonoHelper.toString(obj: handle)
-                            exc.deallocate()
-                            if str.contains("BobsBuddy.UnsupportedInteractionException") {
-                                throw UnsupportedInteraction()
-                            } else {
-                                throw RuntimeError(str)
+                        if let exc = exc[0] {
+                            var ae: AggregateExceptionProxy! = AggregateExceptionProxy(obj: exc)
+                            var ex: UnsupportedInteractionExceptionProxy?
+                            while let aggregate = ae, MonoHelper.isInstance(obj: aggregate, klass: AggregateExceptionProxy._class!) {
+                                let inner = aggregate.innerException
+                                if let class_ = UnsupportedInteractionExceptionProxy._class, MonoHelper.isInstance(obj: inner, klass: class_) {
+                                    ex = UnsupportedInteractionExceptionProxy(obj: inner.get())
+                                    break
+                                } else if let class_ = AggregateExceptionProxy._class, MonoHelper.isInstance(obj: aggregate, klass: class_) {
+                                    ae = AggregateExceptionProxy(obj: inner.get())
+                                } else {
+                                    break
+                                }
                             }
+                            if let ex {
+                                let entity = ex.entity
+                                var str = ""
+                                var cardName: String?
+                                if entity.get() != nil {
+                                    str = MonoHelper.toString(obj: entity)
+                                    cardName = Cards.by(cardId: entity.cardID)?.name
+                                }
+                                logger.debug("Unsupported interaction: \(str): \(ex.message)")
+                                logger.error(MonoHelper.toString(obj: ex))
+                                let message = "\(cardName ?? ""): \(ex.message)"
+                                throw UnsupportedInteraction(message: message)
+                            }
+                            let exception = MonoHandle(obj: exc)
+                            let str = MonoHelper.toString(obj: exception)
+                            logger.debug(str)
+                            throw RuntimeError(str)
                         }
-                        exc.deallocate()
                         
                         let mr = MonoHelper.getMethod(c, "get_Result", 0)
                         let output = mono_runtime_invoke(mr, tinst, nil, nil)
@@ -287,9 +312,8 @@ class BobsBuddyInvoker {
                         logger.debug("----- End of Output -----")
                         
                         result = top
-                    } catch is UnsupportedInteraction {
-                        logger.debug("Unsupported interaction")
-                        BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .unsupportedInteraction)
+                    } catch let error as UnsupportedInteraction {
+                        BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .unsupportedInteraction, message: error.message)
                         result = nil
                     } catch {
                         logger.error("Unknown error")

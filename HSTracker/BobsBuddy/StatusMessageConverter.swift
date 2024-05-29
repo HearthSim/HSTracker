@@ -9,8 +9,11 @@
 import Foundation
 
 class StatusMessageConverter {
-    static func getStatusMessage(state: BobsBuddyState, errorState: BobsBuddyErrorState, statsShown: Bool) -> String {
+    static func getStatusMessage(state: BobsBuddyState, errorState: BobsBuddyErrorState, statsShown: Bool, errorMessage: String?) -> String {
         if errorState != .none {
+            if let errorMessage {
+                return errorMessage
+            }
             switch errorState {
             case .notEnoughData:
                 return String.localizedString("Could not get accurate results", comment: "")
