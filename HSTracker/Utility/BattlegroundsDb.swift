@@ -24,8 +24,12 @@ class BattlegroundsDb {
         let baconCards = Cards.battlegroundsMinions
         if let overrides = tagOverrides {
             for over in overrides {
-                if over.tag == GameTag.is_bacon_pool_minion.rawValue && over.value == 0, let card = Cards.by(dbfId: over.dbf_id, collectible: false) {
-                    baconCards.remove(card)
+                if over.tag == GameTag.is_bacon_pool_minion.rawValue, let card = Cards.by(dbfId: over.dbf_id, collectible: false) {
+                    if over.value == 0 {
+                        baconCards.removeAll(where: { x in x.dbfId == card.dbfId })
+                    } else if over.value == 1 {
+                        baconCards.append(card)
+                    }
                 }
             }
         }
