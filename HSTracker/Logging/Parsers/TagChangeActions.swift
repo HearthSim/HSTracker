@@ -969,7 +969,7 @@ struct TagChangeActions {
         if id != eventHandler.playerEntity?.id {
             return
         }
-        OpponentDeadForTracker.setNextOpponentPlayerId(id)
+        OpponentDeadForTracker.setNextOpponentPlayerId(value)
     }
 
     private func playerTechLevel(eventHandler: PowerEventHandler, id: Int, value: Int, previous: Int) {

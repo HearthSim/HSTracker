@@ -378,7 +378,7 @@ struct SizeHelper {
         
         // Looks like the HS board ratio is 1.5, the rest is padding
         let boardWidth = hearthstoneWindow.height * 1.5
-        let left = hearthstoneWindow.frame.minX + 0.05 * boardWidth + (hearthstoneWindow.width - boardWidth)/2
+        let left = hearthstoneWindow.frame.minX
         let right = hearthstoneWindow.frame.minX + 0.133 * boardWidth + (hearthstoneWindow.width - boardWidth)/2
         
         let frame = NSRect(x: left, y: bottom, width: right - left, height: top - bottom)
