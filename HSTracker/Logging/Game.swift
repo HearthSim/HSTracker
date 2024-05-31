@@ -547,6 +547,8 @@ class Game: NSObject, PowerEventHandler {
                 } else {
                     self.windowManager.show(controller: self.windowManager.constructedMulliganGuidePreLobby, show: false)
                 }
+            } else {
+                self.windowManager.show(controller: self.windowManager.constructedMulliganGuidePreLobby, show: false)
             }
         }
     }
@@ -570,12 +572,14 @@ class Game: NSObject, PowerEventHandler {
                     self.windowManager.show(controller: self.windowManager.battlegroundsSession, show: false)
                 }
             }
-            if self.windowManager.tier7PreLobby.viewModel.visibility {
+            if self.windowManager.tier7PreLobby.isVisible {
                 if hsActive {
                     self.windowManager.show(controller: self.windowManager.tier7PreLobby, show: true, frame: SizeHelper.tier7PreLobbyFrame(), overlay: true)
                 } else {
                     self.windowManager.show(controller: self.windowManager.tier7PreLobby, show: false)
                 }
+            } else if self.windowManager.tier7PreLobby.window?.isVisible ?? false {
+                self.windowManager.show(controller: self.windowManager.tier7PreLobby, show: false)
             }
             
             if self.windowManager.battlegroundsHeroPicking.viewModel.visibility {
@@ -920,11 +924,8 @@ class Game: NSObject, PowerEventHandler {
     @available(macOS 10.15, *)
     @MainActor
     func updateTier7PreLobbyVisibility() {
-        let show = isRunning && isInMenu && !queueEvents.isInQueue && SceneHandler.scene == .bacon && Settings.enableTier7Overlay && Settings.showBattlegroundsTier7PreLobby && windowManager.tier7PreLobby.viewModel.battlegroundsGameMode != .duos
+        let show = isRunning && isInMenu && !queueEvents.isInQueue && SceneHandler.scene == .bacon && Settings.enableTier7Overlay && Settings.showBattlegroundsTier7PreLobby && windowManager.tier7PreLobby.viewModel.battlegroundsGameMode != .duos && windowManager.tier7PreLobby.viewModel.visibility
         if show {
-            if !Settings.enableTier7Overlay || isBattlegroundsDuosMatch() {
-                return
-            }
             Task.init {
                 _ = await windowManager.tier7PreLobby.viewModel.update()
             }
@@ -933,17 +934,13 @@ class Game: NSObject, PowerEventHandler {
                     _ = await windowManager.tier7PreLobby.viewModel.update()
                 }
             }
-            DispatchQueue.main.async {
-                self.windowManager.tier7PreLobby.viewModel.visibility = true
-                if self.hearthstoneRunState.isActive {
-                    self.windowManager.show(controller: self.windowManager.tier7PreLobby, show: true, frame: SizeHelper.tier7PreLobbyFrame())
-                }
+            if self.hearthstoneRunState.isActive {
+                self.windowManager.tier7PreLobby.isVisible = true
+                self.windowManager.show(controller: self.windowManager.tier7PreLobby, show: true, frame: SizeHelper.tier7PreLobbyFrame())
             }
         } else {
-            DispatchQueue.main.async {
-                self.windowManager.tier7PreLobby.viewModel.visibility = false
-                self.windowManager.show(controller: self.windowManager.tier7PreLobby, show: false)
-            }
+            self.windowManager.tier7PreLobby.isVisible = false
+            self.windowManager.show(controller: self.windowManager.tier7PreLobby, show: false)
         }
     }
 

@@ -28,6 +28,8 @@ class Tier7PreLobby: OverWindowController {
     
     @IBOutlet weak var informationLabel: NSTextField!
     
+    var isVisible = false
+    
     var viewModel = Tier7PreLobbyViewModel()
     
     override var alwaysLocked: Bool {
@@ -106,6 +108,12 @@ class Tier7PreLobby: OverWindowController {
         
         if property == "refreshAccountEnabled" || all {
             refreshButton.isEnabled = viewModel.refreshAccountEnabled
+        }
+        
+        if property == "visibility" {
+            isVisible = viewModel.visibility
+            
+            AppDelegate.instance().coreManager.game.updateBattlegroundsOverlays()
         }
     }
     

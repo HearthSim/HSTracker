@@ -95,24 +95,13 @@ class ConstructedMulliganGuidePreLobby: OverWindowController {
                     }
                     rowIndex += 1
                 }
-//                if viewModel.visibility {
-//                    let rect = SizeHelper.constructedMulliganGuidePreLobbyFrame()
-//                    AppDelegate.instance().coreManager.game.windowManager.show(controller: self, show: true, frame: rect, overlay: true)
-//                    updateScaling()
-//                    isVisible = true
-//                    if deferred {
-//                        DispatchQueue.main.async {
-//                            self.update(nil)
-//                            self.updateScaling()
-//                        }
-//                    }
-//                } else if isVisible {
-//                    AppDelegate.instance().coreManager.game.windowManager.show(controller: self, show: false)
-//                    isVisible = false
-//                }
             } else {
                 deferred = true
             }
+        }
+        if property == "visibility" || all {
+            isVisible = viewModel.visibility
+            AppDelegate.instance().coreManager.game.updateConstructedMulliganOverlays()
         }
     }
 }

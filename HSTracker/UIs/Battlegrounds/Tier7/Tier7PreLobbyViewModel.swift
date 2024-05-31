@@ -43,12 +43,7 @@ class Tier7PreLobbyViewModel: ViewModel {
     }
     
     var visibility: Bool {
-        get {
-            return getProp(false)
-        }
-        set {
-            setProp(newValue)
-        }
+        return isModalOpen ? false : true
     }
     
     func invalidateUserState() {

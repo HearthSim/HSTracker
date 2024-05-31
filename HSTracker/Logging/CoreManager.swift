@@ -327,7 +327,6 @@ final class CoreManager: NSObject {
         }
         if wm.tier7PreLobby.viewModel.visibility {
             DispatchQueue.main.async {
-                wm.tier7PreLobby.viewModel.visibility = false
                 wm.show(controller: wm.tier7PreLobby, show: false)
             }
         }
