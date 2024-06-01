@@ -662,7 +662,7 @@ class DeckPickerWatcher: Watcher {
                 return res
             }
             let state = MirrorHelper.getDeckPickerState()
-            let curr = DeckPickerEventArgs(selectedFormatType: VisualsFormatType(rawValue: state?.visualsFormatType.intValue ?? 0) ?? VisualsFormatType.vft_unknown, decksOnPage: decks, selectedDeck: state?.selectedDeck?.int64Value ?? 0, isModalOpen: (state?.isModeSwitching ?? false) || MirrorHelper.isBlurActive())
+            let curr = DeckPickerEventArgs(selectedFormatType: VisualsFormatType(rawValue: state?.visualsFormatType.intValue ?? 0) ?? VisualsFormatType.vft_unknown, decksOnPage: decks, selectedDeck: state?.selectedDeck?.int64Value ?? 0, isModalOpen: (state?.isModeSwitching ?? false) || MirrorHelper.isBlurActive() || (state?.setRotationOpen ?? false))
             if curr == _prev {
                 continue
             }
