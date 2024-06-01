@@ -64,9 +64,6 @@ class BattlegroundsOverlayView: NSView {
             let battlegroundsDuosTileHeight = SizeHelper.battlegroundsDuosTileHeight
             let battlegroundsDuosTileWidth = SizeHelper.battlegroundsTileWidth
             let h = battlegroundsDuosTileHeight / 4.0
-            let w = SizeHelper.hearthstoneBoardWidth
-            let la = BattlegroundsOverlayView.leftAdjust
-            let lo = BattlegroundsOverlayView.leftOffset
             for i in 0 ..< leaderboardDeadForText.count {
                 let j = i / 2
                 var left = CGFloat(((leaderboardDeadForText.count / 2) - i)) * BattlegroundsOverlayView.leftAdjust
