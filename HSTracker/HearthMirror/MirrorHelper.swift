@@ -108,7 +108,9 @@ struct MirrorHelper {
     static func getTemplateDeckById(deckId: Int) -> MirrorTemplateDeck? {
         var result: MirrorTemplateDeck?
         MirrorHelper.accessQueue.sync {
-            result = mirror?.getTemplateDeck(byId: Int32(deckId))
+            if let templateDeckId = mirror?.findDeckTemplateId(forDeckIdInternal: Int32(deckId)) {
+                result = mirror?.getTemplateDeck(byDeckTemplateId: templateDeckId.int32Value)
+            }
         }
         return result
     }

@@ -701,45 +701,36 @@ final class CoreManager: NSObject {
             }
 			
 			logger.info("Trying to import deck from Hearthstone")
-			
-			var selectedDeckId: Int64 = 0
-			if let selectedId = MirrorHelper.getSelectedDeck() {
-				selectedDeckId = selectedId
-                logger.info("Found selected deck id via mirror: \(selectedDeckId)")
-			} else {
-				selectedDeckId = DeckWatcher.selectedDeckId
-                logger.info("Found selected deck id via watcher: \(selectedDeckId)")
-			}
-			
-			if selectedDeckId <= 0 {
-				if mode != .tavern_brawl {
-					return nil
-                } else {
-                    selectedDeckId = MirrorHelper.getEditedDeck()?.id.int64Value ?? 0
+
+            var deckId = getSelectedDeckId(mode: mode)
+            
+            if let deckId {
+                if deckId > 0 {
+                    if let decks = MirrorHelper.getDecks() {
+                        guard let selectedDeck = decks.first(where: { $0.id as? Int64 ?? 0 == deckId }) else {
+                            logger.warning("No deck with id=\(deckId) found")
+                            return nil
+                        }
+                        if Deck.isExactlyWhizbang(selectedDeck) {
+                            return nil // Cannot be imported here (will need to happen in the context of a game with a deck id)
+                        }
+                        logger.info("Found selected Mirror deck : \(selectedDeck.name) \(selectedDeck.id) \(selectedDeck.cards.count)")
+                        
+                        if let deck = RealmHelper.checkAndUpdateDeck(deckId: deckId, selectedDeck: selectedDeck) {
+                            return deck
+                        }
+                        
+                        // deck does not exist, add it
+                        return RealmHelper.add(mirrorDeck: selectedDeck)
+                    } else {
+                        logger.warning("Mirror returned no decks")
+                        return nil
+                    }
+                } else if deckId < 0 {
+                    return AppDelegate.instance().coreManager.autoSelectTemplateDeckByDeckId(deckId: Int(-deckId))
                 }
-			}
-			
-			if let decks = MirrorHelper.getDecks() {
-                guard let selectedDeck = decks.first(where: { $0.id as? Int64 ?? 0 == selectedDeckId }) else {
-					logger.warning("No deck with id=\(selectedDeckId) found")
-					return nil
-				}
-                if Deck.isExactlyWhizbang(selectedDeck) {
-                    return nil // Cannot be imported here (will need to happen in the context of a game with a deck id)
-                }
-                logger.info("Found selected Mirror deck : \(selectedDeck.name) \(selectedDeck.id) \(selectedDeck.cards.count)")
-				
-				if let deck = RealmHelper.checkAndUpdateDeck(deckId: selectedDeckId, selectedDeck: selectedDeck) {
-					return deck
-				}
-				
-				// deck does not exist, add it
-				return RealmHelper.add(mirrorDeck: selectedDeck)
-			} else {
-                logger.warning("Mirror returned no decks")
-				return nil
-			}
-			
+            }
+            return nil
 		} else if mode == .draft {
 			logger.info("Trying to import arena deck from Hearthstone")
 			
@@ -762,11 +753,13 @@ final class CoreManager: NSObject {
 		return nil
 	}
     
-    func autoSelectTemplateDeckById(deckId: Int) {
+    func autoSelectTemplateDeckByDeckId(deckId: Int) -> Deck? {
         if let selectedDeck = fromTemplateDeck(deckId: deckId) {
             game.set(activeDeck: selectedDeck, autoDetected: true)
             game.playerDeckAutodetected = true
+            return selectedDeck
         }
+        return nil
     }
     
     private func fromTemplateDeck(deckId: Int) -> Deck? {
@@ -796,5 +789,20 @@ final class CoreManager: NSObject {
             ret.cards.append(tmpCard)
         }
         return ret
+    }
+    
+    private static func getSelectedDeckId(mode: Mode) -> Int64? {
+        let deckPickerState = MirrorHelper.getDeckPickerState()
+        
+        if let selectedDeckId = deckPickerState?.selectedDeck {
+            return selectedDeckId.int64Value
+        }
+        if let selectedTemplateDeck = deckPickerState?.selectedTemplateDeck {
+            return -selectedTemplateDeck.int64Value
+        }
+        if mode == .tavern_brawl {
+            return MirrorHelper.getEditedDeck()?.id.int64Value
+        }
+        return nil
     }
 }

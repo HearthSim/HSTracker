@@ -296,10 +296,10 @@ class ConstructedMulliganGuidePreLobbyViewModel: ViewModel {
                 return
             }
             for box in validDecksOnPage {
-                guard let box else {
+                guard let box, let deckId = box.deckid else {
                     continue
                 }
-                if let deckData = deckboxes[box.deckid], _deckStatusByDeckstring[gameType]?[deckData.deckstring] == nil {
+                if let deckData = deckboxes[deckId], _deckStatusByDeckstring[gameType]?[deckData.deckstring] == nil {
                     toLoad.append(deckData.deckstring)
                     _deckStatusByDeckstring[gameType]?[deckData.deckstring] = .loading
                 }
@@ -357,7 +357,7 @@ class ConstructedMulliganGuidePreLobbyViewModel: ViewModel {
             return [SingleDeckStatus]()
         }
         return validDecksOnPage.compactMap { x in
-            if let box = x, let deckData = deckMap[box.deckid] {
+            if let box = x, let deckId = box.deckid, let deckData = deckMap[deckId] {
                 // At this point we know the deck is valid for this format, so either fetch the API status or show NO_DATA
                 if let state = allDecks[deckData.deckstring] {
                     return SingleDeckStatus(state: state, cardClass: deckData.cardClass, isFocused: box.isFocused || box.isSelected)
