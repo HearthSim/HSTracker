@@ -25,7 +25,6 @@ final class LogReaderManager {
     private let rachelle: LogReader
     private let arena: LogReader
     private let loadingScreen: LogReader
-    private let decksReader = DecksReader()
 
     private var readers: [LogReader] {
         return [powerLog, rachelle, arena, loadingScreen]
@@ -104,7 +103,6 @@ final class LogReaderManager {
         for reader in readers {
             reader.start(manager: self, entryPoint: entryPoint)
         }
-        decksReader.start()
         
         while !stopped {
             autoreleasepool {
@@ -148,7 +146,6 @@ final class LogReaderManager {
         for reader in readers {
 			reader.stop(eraseLogFile: eraseLogFile)
         }
-        decksReader.stop()
     }
 
 	func restart(eraseLogFile: Bool = false) {
