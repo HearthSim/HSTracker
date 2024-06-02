@@ -28,7 +28,7 @@ class BattlegroundsBoardState {
         if playerId == 0 {
             return
         }
-        let entities = game.entities.values.filter { x in x.isMinion && x.isInZone(zone: .play) && x.isControlled(by: game.opponent.id) }.compactMap { x in x.copy() }
+        let entities = game.entities.values.filter { x in x.isMinion && x.isInZone(zone: .play) && x.isControlled(by: game.opponent.id) }.sorted(by: { (a, b) -> Bool in a[.zone_position] < b[.zone_position] }).compactMap { x in x.copy() }
         logger.info("Snapshotting board state for \(opponentHero.card.name) with player id \(playerId) (\(entities.count) entities)")
         let current = lastKnownBattlegroundsBoardState[playerId]
         let board = BoardSnapshot(entities: entities, turn: game.turnNumber(), previous: current)
