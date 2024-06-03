@@ -247,7 +247,7 @@ struct TagChangeActions {
             return
         }
         if Settings.autoDeckDetection {
-            AppDelegate.instance().coreManager.autoSelectTemplateDeckByDeckId(deckId: value)
+            _ = AppDelegate.instance().coreManager.autoSelectTemplateDeckByDeckId(deckId: value)
         }
     }
     

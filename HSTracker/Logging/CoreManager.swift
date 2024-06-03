@@ -325,8 +325,9 @@ final class CoreManager: NSObject {
                 wm.show(controller: wm.battlegroundsSession, show: false)
             }
         }
-        if wm.tier7PreLobby.viewModel.visibility {
+        if wm.tier7PreLobby.isVisible {
             DispatchQueue.main.async {
+                wm.tier7PreLobby.isVisible = false
                 wm.show(controller: wm.tier7PreLobby, show: false)
             }
         }
@@ -702,7 +703,7 @@ final class CoreManager: NSObject {
 			
 			logger.info("Trying to import deck from Hearthstone")
 
-            var deckId = getSelectedDeckId(mode: mode)
+            let deckId = getSelectedDeckId(mode: mode)
             
             if let deckId {
                 if deckId > 0 {

@@ -216,19 +216,19 @@ class BobsBuddyInvoker {
                 
                 if let inp = self.input {
                     let target = inp.opponent.secrets
-                    var secrets = [Int]()
+                    var secrets = [Int?]()
                     var seen = Set<Int>()
                     for dbfid in self.game.opponent.secrets.compactMap({ x in
-                        !x.cardId.isEmpty ? x.card.dbfId : 0 }) {
+                        !x.cardId.isEmpty ? x.card.dbfId : nil }) {
                         if dbfid == 0 {
-                            secrets.append(dbfid)
+                            secrets.append(nil)
                         } else if !seen.contains(dbfid) {
                             secrets.append(dbfid)
                             seen.insert(dbfid)
                         }
                     }
                     for secret in secrets {
-                        inp.addSecretFromDbfid(id: Int32(secret), target: target)
+                        inp.addSecretFromDbfid(id: secret, target: target)
                     }
                     logger.debug("Set opponent S. with \(secrets.count) S.")
                     logger.debug("----- Simulation Input -----")
@@ -730,7 +730,7 @@ class BobsBuddyInvoker {
         if friendly {
             let target = inputPlayer.secrets
             for secret in game.player.secrets {
-                input.addSecretFromDbfid(id: Int32(secret.id), target: target)
+                input.addSecretFromDbfid(id: secret.id, target: target)
             }
             
             let playerHand = inputPlayer.hand

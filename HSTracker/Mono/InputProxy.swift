@@ -15,6 +15,8 @@ class InputProxy: MonoHandle, MonoClassInitializer {
     static var _addSecretFromDbfid: OpaquePointer!
     static var _unitTest: OpaquePointer!
     
+    static var _nullable_i32_class: OpaquePointer!
+    
     static var _members = [String: OpaquePointer]()
     
     static func initialize() {
@@ -23,7 +25,7 @@ class InputProxy: MonoHandle, MonoClassInitializer {
             // methods
             InputProxy._constructor = MonoHelper.getMethod(InputProxy._class, ".ctor", 0)
             InputProxy._setTurn = MonoHelper.getMethod(InputProxy._class, "SetTurn", 1)
-            InputProxy._addSecretFromDbfid = MonoHelper.getMethod(InputProxy._class, "AddSecretFromDbfIdHstracker", 2)
+            InputProxy._addSecretFromDbfid = MonoHelper.getMethod(InputProxy._class, "AddSecretFromDbfid", 2)
             InputProxy._unitTest = MonoHelper.getMethod(InputProxy._class, "UnitTestCopyableVersion", 0)
             
             // fields
@@ -31,6 +33,12 @@ class InputProxy: MonoHandle, MonoClassInitializer {
             
             // properties
             initializeProperties(properties: [ "Player", "Opponent" ])
+            
+            let cl = mono_class_from_name(MonoHelper._image, "BobsBuddy.Utils", "SafeRandom")
+            
+            let field = mono_class_get_field_from_name(cl, "_nextBaseSeed")
+            let type = mono_field_get_type(field)
+            InputProxy._nullable_i32_class = mono_class_from_mono_type(type)
         }
     }
     
@@ -79,8 +87,19 @@ class InputProxy: MonoHandle, MonoClassInitializer {
         params.deallocate()
     }
     
-    func addSecretFromDbfid(id: Int32, target: MonoHandle) {
-        MonoHelper.setIntMonoHandle(obj: self, method: InputProxy._addSecretFromDbfid, v1: id, v2: target)
+    func addSecretFromDbfid(id: Int?, target: MonoHandle) {
+        let i32c = mono_get_int32_class()
+        var obj: UnsafeMutablePointer<MonoObject>?
+        if let id {
+            let params = UnsafeMutablePointer<Int32>.allocate(capacity: 1)
+            params.pointee = Int32(id)
+
+            obj = mono_value_box(MonoHelper._monoInstance, i32c, params)
+            
+            params.deallocate()
+        }
+        
+        MonoHelper.setIntOptMonoHandle(obj: self, method: InputProxy._addSecretFromDbfid, v1: obj, v2: target)
     }
     
     func unitestCopyableVersion() -> String {

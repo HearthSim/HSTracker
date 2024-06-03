@@ -481,7 +481,7 @@ class MonoHelper {
             MonoHelper.addToList(list: os, element: murloc)
             
             let playerSecrets = player.secrets
-            test.addSecretFromDbfid(id: Int32(Cards.any(byId: "TB_Bacon_Secrets_12")?.dbfId ?? 0), target: playerSecrets)
+            test.addSecretFromDbfid(id: Cards.any(byId: "TB_Bacon_Secrets_12")?.dbfId, target: playerSecrets)
             logger.debug("Opponent HP \(opponent.heroPower.cardId)")
             //            let oppSecrets = test.getOpponentSecrets()
             //            test.addSecretFromDbfid(id: Int32(Cards.any(byId: "TB_Bacon_Secrets_02")?.dbfId ?? 0), target: oppSecrets)            
@@ -701,16 +701,13 @@ class MonoHelper {
         params.deallocate()
     }
     
-    static func setIntMonoHandle(obj: MonoHandle, method: OpaquePointer, v1: Int32, v2: MonoHandle) {
+    static func setIntOptMonoHandle(obj: MonoHandle, method: OpaquePointer, v1: UnsafeMutableRawPointer?, v2: MonoHandle) {
         let params = UnsafeMutablePointer<UnsafeMutableRawPointer?>.allocate(capacity: 2)
-        let ptrs = UnsafeMutablePointer<Int32>.allocate(capacity: 1)
-        ptrs[0] = v1
-        params[0] = UnsafeMutableRawPointer(ptrs.advanced(by: 0))
+        params[0] = UnsafeMutableRawPointer(v1)
         params[1] = UnsafeMutableRawPointer(v2.get())
         
         mono_runtime_invoke(method, obj.get(), params, nil)
         
-        ptrs.deallocate()
         params.deallocate()
     }
 
