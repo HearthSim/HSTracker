@@ -70,7 +70,9 @@ struct TagChangeActions {
     
     private func onBattlegroundsSetupChange(eventHandler: PowerEventHandler, value: Int, prevValue: Int) {
         if prevValue == 1 && value == 0 {
-            eventHandler.startCombat()
+            if eventHandler.isBattlegroundsSoloMatch() {
+                eventHandler.startCombat()
+            }
         }
     }
     
@@ -80,12 +82,11 @@ struct TagChangeActions {
         }
 
         if prevValue == 1 && value == 0 {
-            if eventHandler.isBattlegroundsSoloMatch() {
+            if !eventHandler.isBattlegroundsDuosMatch() || eventHandler.duosWasOpponentHeroModified {
                 eventHandler.snapshotBattlegroundsBoardState()
-            } else {
-                if eventHandler.duosWasOpponentHeroModified {
-                    eventHandler.snapshotBattlegroundsBoardState()
-                }
+            }
+            if eventHandler.isBattlegroundsDuosMatch() {
+                BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.startCombat()
             }
         }
     }
@@ -358,6 +359,10 @@ struct TagChangeActions {
         }
         if entity.isHero {
             logger.debug("Saw hero attack from \(entity.cardId)")
+
+            if eventHandler.isBattlegroundsDuosMatch() {
+                _ = BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.maybeRunDuosPartialCombat()
+            }
         }
         eventHandler.handleProposedAttackerChange(entity: entity)
     }

@@ -105,10 +105,10 @@ class BobsBuddyPanel: OverWindowController {
         let lastState = state
         state = st
                 
-        if state == .combat {
+        if state == .combat || state == .combatPartial {
             clearErrorState()
             showResults(show: Settings.showBobsBuddyDuringCombat)
-        } else if state == .shopping || state == .gameOver {
+        } else if state == .shopping || state == .shoppingAfterPartial || state == .gameOver || state == .gameOverAfterPartial {
             if !Settings.showBobsBuddyDuringShopping {
                 showResults(show: true)
             } else if showingResults {
@@ -116,9 +116,12 @@ class BobsBuddyPanel: OverWindowController {
                 // However we want to keep the panel expanded if the user left it expanded during combat and either:
                 // - the game has ended (so we don't hide it again on the results screen), or
                 // - the previous simulation was deferred (so that the user can see the result).
-                showResults(show: state == .gameOver || lastState == .combatWithoutSimulation)
+                showResults(show: state == .gameOver || state == .gameOverAfterPartial || lastState == .combatWithoutSimulation)
             }
-        } else {
+        } else if state == .combatWithoutSimulation {
+            showResults(show: false)
+        } else if state == .waitingForTeammates {
+            clearErrorState()
             showResults(show: false)
         }
         
@@ -137,56 +140,87 @@ class BobsBuddyPanel: OverWindowController {
         }
     }
     
+    @MainActor
     func resetDisplays() {
-        DispatchQueue.main.async {
-            self.winRateDisplay = "-"
-            self.lossRateDisplay = "-"
-            self.tieRateDisplay = "-"
-            self.averageDamageGivenDisplay = "-"
-            self.averageDamageTakenDisplay = "-"
-            self.lethalRateDisplay = "-"
-            self.lethalRateStack.alphaValue = 0.3
-            self.opponentLethalRateDisplay = "-"
-            self.opponentLethalRateStack.alphaValue = 0.3
-            self.setState(st: .initial)
-            self.clearErrorState()
-            self.showResults(show: false)
-            self.showPercentagesHideSpinners()
-        }
+        resetText()
+        lethalRateStack.alphaValue = 0.3
+        opponentLethalRateStack.alphaValue = 0.3
+        setState(st: .initial)
+        clearErrorState()
+        showResults(show: false)
+        showPercentagesHideSpinners()
+    }
+
+    @MainActor
+    func resetText() {
+        winRateDisplay = "-"
+        lossRateDisplay = "-"
+        tieRateDisplay = "-"
+        lethalRateDisplay = "-"
+        opponentLethalRateDisplay = "-"
+        averageDamageGivenDisplay = "-"
+        averageDamageTakenDisplay = "-"
     }
     
+    @MainActor
     func showPercentagesHideSpinners() {
-        DispatchQueue.main.async {
-            self.spinnerVisibility = false
-            self.percentagesVisibility = true
-            self.spinner.stopAnimation(nil)
-            //self.window!.ignoresMouseEvents = false
-        }
+        spinnerVisibility = false
+        percentagesVisibility = true
+        spinner.stopAnimation(nil)
+        //self.window!.ignoresMouseEvents = false
     }
     
+    @MainActor
     func hidePercentagesShowSpinners() {
-        DispatchQueue.main.async {
-            self.spinnerVisibility = true
-            self.percentagesVisibility = false
-            self.spinner.startAnimation(nil)
-            //self.window!.ignoresMouseEvents = false
-        }
+        spinnerVisibility = true
+        percentagesVisibility = false
+        spinner.startAnimation(nil)
+        //self.window!.ignoresMouseEvents = false
     }
     
+    @MainActor
     func showCompletedSimulation(winRate: Float, tieRate: Float, lossRate: Float, playerLethal: Float, opponentLethal: Float, possibleResults: [Int32]) {
         showPercentagesHideSpinners()
         
-        DispatchQueue.main.async {
-            self.setAverageDamage(possibleResults: possibleResults)
-            self.winRateDisplay = self.formatPercent(p: winRate)
-            self.tieRateDisplay = self.formatPercent(p: tieRate)
-            self.lossRateDisplay = self.formatPercent(p: lossRate)
-            self.lethalRateDisplay = self.formatPercent(p: playerLethal)
-            self.opponentLethalRateDisplay = self.formatPercent(p: opponentLethal)
-            self.lethalRateStack.alphaValue = playerLethal > 0 ? 1 : 0.3
-            self.opponentLethalRateStack.alphaValue = opponentLethal > 0 ? 1 : 0.3
-            self.window!.ignoresMouseEvents = false
+        setAverageDamage(possibleResults: possibleResults)
+        winRateDisplay = formatPercent(p: winRate)
+        tieRateDisplay = formatPercent(p: tieRate)
+        lossRateDisplay = formatPercent(p: lossRate)
+        lethalRateDisplay = formatPercent(p: playerLethal)
+        opponentLethalRateDisplay = formatPercent(p: opponentLethal)
+        lethalRateStack.alphaValue = playerLethal > 0 ? 1 : 0.3
+        opponentLethalRateStack.alphaValue = opponentLethal > 0 ? 1 : 0.3
+        window?.ignoresMouseEvents = false
+    }
+    
+    @MainActor
+    func showPartialDuosSimulation(winRate: Float, tieRate: Float, lossRate: Float, playerLethal: Float, opponentLethal: Float, possibleResults: [Int32], friendlyWon: Bool, playerCanDie: Bool, opponentCanDie: Bool) {
+        resetText()
+
+        if winRate == 1 || lossRate == 1 {
+            winRateDisplay = formatPercent(p: winRate)
+            tieRateDisplay = formatPercent(p: tieRate)
+            lossRateDisplay = formatPercent(p: lossRate)
+        } else if friendlyWon {
+            winRateDisplay = formatPercent(p: winRate)
+        } else {
+            lossRateDisplay = formatPercent(p: lossRate)
         }
+
+        opponentLethalRateDisplay = "0%"
+        opponentLethalRateStack.alphaValue = 0.3
+        lethalRateDisplay = "0%"
+        lethalRateStack.alphaValue = 0.3
+
+        if opponentCanDie {
+            opponentLethalRateDisplay = "\(opponentLethal == 1 ? "" : "≥")\(formatPercent(p: opponentLethal))"
+            opponentLethalRateStack.alphaValue = opponentLethal > 0 ? 1 : 0.3
+        }
+        if playerCanDie {
+            lethalRateDisplay = "\(playerLethal == 1 ? "" : "≥")\(formatPercent(p: playerLethal))"
+            lethalRateStack.alphaValue = playerLethal > 0 ? 1 : 0.3
+        }
+        showPercentagesHideSpinners()
     }
     
     private func setAverageDamage(possibleResults: [Int32]) {

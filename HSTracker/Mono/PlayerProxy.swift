@@ -30,6 +30,7 @@ class PlayerProxy: MonoHandle, MonoClassInitializer {
         if PlayerProxy._class == nil {
             PlayerProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Simulation", name: "Player")
             // methods
+            PlayerProxy._constructor = MonoHelper.getMethod(PlayerProxy._class, ".ctor", 1)
             PlayerProxy._setPlayerHeroPower = MonoHelper.getMethod(PlayerProxy._class, "SetHeroPower", 5)
             
             // fields
@@ -39,6 +40,26 @@ class PlayerProxy: MonoHandle, MonoClassInitializer {
     
     required init(obj: UnsafeMutablePointer<MonoObject>?) {
         super.init(obj: obj)
+    }
+    
+    init(input: InputProxy?) {
+        super.init()
+        
+        let obj = MonoHelper.objectNew(clazz: PlayerProxy._class!)
+        set(obj: obj)
+        
+        let inst = self.get()
+        
+        let params = UnsafeMutablePointer<UnsafeMutableRawPointer?>.allocate(capacity: 1)
+        if let input {
+            params[0] = UnsafeMutableRawPointer(input.get())
+        } else {
+            params[0] = nil
+        }
+        _ = mono_runtime_invoke(PlayerProxy._constructor, inst, params, nil)
+        
+        params.deallocate()
+
     }
     
     func setHeroPower(heroPowerCardId: String, friendly: Bool, isActivated: Bool, data: Int32, data2: Int32) {

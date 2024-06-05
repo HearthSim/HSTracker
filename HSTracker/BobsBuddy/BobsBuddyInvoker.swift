@@ -74,6 +74,11 @@ class BobsBuddyInvoker {
     private static var _recentHDTLog = SynchronizedArray<String>()
     private static let _debugLinesToIgnore = Regex("(Player|Opponent|TagChangeActions)\\.")
     
+    private var duosInputPlayer: PlayerProxy
+    private var duosInputOpponent: PlayerProxy
+    private var duosInputPlayerTeammate: PlayerProxy?
+    private var duosInputOpponentTeammate: PlayerProxy?
+    
     fileprivate static func addHDTLogLine(_ string: String) {
         if _debugLinesToIgnore.match(string) {
             return
@@ -92,6 +97,14 @@ class BobsBuddyInvoker {
     private init(key: String) {
         _instanceKey = key
         game = AppDelegate.instance().coreManager.game
+        
+        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        
+        defer {
+            mono_thread_detach(opaque)
+        }
+        duosInputPlayer = PlayerProxy(input: nil)
+        duosInputOpponent = PlayerProxy(input: nil)
     }
     
     static func instance(gameId: String, turn: Int, createInstanceIfNoneFound: Bool = true) -> BobsBuddyInvoker? {
@@ -114,7 +127,7 @@ class BobsBuddyInvoker {
     }
     
     func shouldRun() -> Bool {
-        if !Settings.showBobsBuddy || !game.isBattlegroundsSoloMatch() {
+        if !Settings.showBobsBuddy {
             return false
         }
         return true
@@ -124,17 +137,32 @@ class BobsBuddyInvoker {
         if !shouldRun() {
             return
         }
-        if state == .combat {
-            logger.debug("Already in \(state) state. Exiting")
-            return
-        }
-        logger.info("State is now combat")
-        state = .combat
         let opaque = mono_thread_attach(MonoHelper._monoInstance)
         
         defer {
             mono_thread_detach(opaque)
         }
+
+        if game.isBattlegroundsDuosMatch() {
+            snapshotBoardState(turn: game.turnNumber())
+            BobsBuddyInvoker.bobsBuddyDisplay.setState(st: .waitingForTeammates)
+            DispatchQueue.main.async {
+                BobsBuddyInvoker.bobsBuddyDisplay.resetText()
+            }
+            if input != nil && (duosInputPlayerTeammate == nil || duosInputOpponentTeammate == nil) {
+                logger.debug("Waiting Teammates. Exiting.")
+                return
+            }
+        }
+        
+        if state.rawValue >= BobsBuddyState.combat.rawValue {
+            logger.debug("Already in \(state) state. Exiting")
+            return
+        } else {
+            snapshotBoardState(turn: game.turnNumber())
+        }
+        logger.info("State is now combat")
+        state = .combat
         
         snapshotBoardState(turn: game.turnNumber())
         
@@ -162,13 +190,49 @@ class BobsBuddyInvoker {
         })
     }
     
+    func maybeRunDuosPartialCombat() -> Promise<Bool> {
+        return Promise<Bool> { seal in
+            if input != nil && !(duosInputPlayerTeammate == nil || duosInputOpponentTeammate == nil) {
+                logger.debug("No need to run patial combat, all teammates found. Exiting.")
+                seal.fulfill(false)
+                return
+            }
+            if !shouldRun() {
+                seal.fulfill(false)
+                return
+            }
+            
+            if hasErrorState() {
+                seal.fulfill(false)
+                return
+            }
+            
+            state = .combatPartial
+            logger.debug("Setting UI state to combat...")
+            
+            BobsBuddyInvoker.bobsBuddyDisplay.setState(st: .combatPartial)
+            DispatchQueue.main.async {
+                BobsBuddyInvoker.bobsBuddyDisplay.resetText()
+            }
+            
+            _ = runAndDisplaySimulationAsync().done { _ in
+                seal.fulfill(true)
+            }.catch { error in
+                logger.debug(error)
+                seal.fulfill(false)
+            }
+        }
+    }
+    
     func runAndDisplaySimulationAsync() -> Promise<Bool> {
         return Promise<Bool> { seal in
             currentOpponentMinions.removeAll()
             logger.debug("Running simulation...")
-            BobsBuddyInvoker.bobsBuddyDisplay.hidePercentagesShowSpinners()
+            DispatchQueue.main.async {
+                BobsBuddyInvoker.bobsBuddyDisplay.hidePercentagesShowSpinners()
+            }
             _ = runSimulation().done { (result) in
-                guard let top = result else {
+                guard let top = result, let input = self.input else {
                     logger.debug("Simulation returned no result. Exiting")
                     seal.fulfill(false)
                     return
@@ -184,6 +248,11 @@ class BobsBuddyInvoker {
                     logger.debug("Could not perform enough simulations. Displaying error state and exiting.")
                     self.errorState = .notEnoughData
                     BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .notEnoughData)
+                } else if self.state == .combatPartial {
+                    logger.debug("Displaying partial simulation results")
+                    DispatchQueue.main.async {
+                        BobsBuddyInvoker.bobsBuddyDisplay.showPartialDuosSimulation(winRate: top.winRate, tieRate: top.tieRate, lossRate: top.lossRate, playerLethal: top.theirDeathRate, opponentLethal: top.myDeathRate, possibleResults: top.getResultDamage(), friendlyWon: self.duosInputPlayerTeammate == nil, playerCanDie: input.player.health <= input.damageCap, opponentCanDie: input.opponent.health <= input.damageCap)
+                    }
                 } else {
                     logger.debug("Displaying simulation results")
                     let winRate = top.winRate
@@ -193,7 +262,9 @@ class BobsBuddyInvoker {
                     let theirDeathRate = top.theirDeathRate
                     let possibleResults = top.getResultDamage()
                     
-                    BobsBuddyInvoker.bobsBuddyDisplay.showCompletedSimulation(winRate: winRate, tieRate: tieRate, lossRate: lossRate, playerLethal: theirDeathRate, opponentLethal: myDeathRate, possibleResults: possibleResults)
+                    DispatchQueue.main.async {
+                        BobsBuddyInvoker.bobsBuddyDisplay.showCompletedSimulation(winRate: winRate, tieRate: tieRate, lossRate: lossRate, playerLethal: theirDeathRate, opponentLethal: myDeathRate, possibleResults: possibleResults)
+                    }
                 }
                 self.output = top
                 seal.fulfill(true)
@@ -335,19 +406,20 @@ class BobsBuddyInvoker {
             return
         }
         logger.debug("\(_instanceKey)")
-        if state == .shopping {
+        if state == .shopping || state == .shoppingAfterPartial {
             logger.debug("\(_instanceKey) already in shopping state. Exiting")
             return
         }
-        state = .shopping
+        let wasPreviousStateParcial = state == .combatPartial
+        state = wasPreviousStateParcial ? .shoppingAfterPartial : .shopping
         if hasErrorState() {
             return
         }
         if isGameOver {
-            BobsBuddyInvoker.bobsBuddyDisplay.setState(st: .gameOver)
+            BobsBuddyInvoker.bobsBuddyDisplay.setState(st: wasPreviousStateParcial ? .gameOverAfterPartial : .gameOver)
             logger.debug("Setting UI state to GameOver")
         } else {
-            BobsBuddyInvoker.bobsBuddyDisplay.setState(st: .shopping)
+            BobsBuddyInvoker.bobsBuddyDisplay.setState(st: wasPreviousStateParcial ? .shoppingAfterPartial : .shopping)
             logger.debug("Setting UI state to shopping")
         }
         validateSimulationResult()
@@ -507,6 +579,7 @@ class BobsBuddyInvoker {
             Sentry.queueBobsBuddyTerminalCase(type: "BobsBuddy_TerminalCase", message: "BobsBuddy Terminal Case", properties: [
                 "turn": "\(_turn)",
                 "result": "\(result)",
+                "is_duos": "\(game.isBattlegroundsDuosMatch())",
                 "threadCount": "\(ProcessInfo.processInfo.activeProcessorCount / 2)",
                 "iterations": "\(output.simulationCount)",
                 "exitCondition": "\(output.getMyExitCondition())",
@@ -642,7 +715,7 @@ class BobsBuddyInvoker {
         return game.entities.values.filter({ $0.isAttachedTo(entityId: entityId) && ($0.isInPlay || $0.isInSetAside || $0.isInGraveyard) }).map({ $0.copy() })
     }
     
-    private func setupInputPlayer(input: InputProxy, simulator: SimulatorProxy, gamePlayer: Player, inputPlayer: PlayerProxy, playerEntity: Entity?, friendly: Bool) throws {
+    private func setupInputPlayer(simulator: SimulatorProxy, gamePlayer: Player, inputPlayer: PlayerProxy, playerEntity: Entity?, friendly: Bool) throws {
         let playerGameHero = gamePlayer.hero
 
         guard let playerEntity else {
@@ -691,6 +764,14 @@ class BobsBuddyInvoker {
             }
         }
         
+        if playerHeroPower?.cardId == CardIds.NonCollectible.Neutral.FlobbidinousFloop_GloriousGloop {
+            let minionsInPlay = gamePlayer.board.filter { e in e.isMinion && e.isControlled(by: gamePlayer.id) }.compactMap { x in x.id }
+            let attachedToEntityId = gamePlayer.playerEntities.filter { x in x.cardId == CardIds.NonCollectible.Neutral.FlobbidinousFloop_InTheGloop && (!friendly || (x.isInPlay && friendly)) }.compactMap { x in x[.attached] }.first { x in minionsInPlay.any { y in y == x } } ?? 0
+            if attachedToEntityId > 0 {
+                pHpData = attachedToEntityId
+            }
+        }
+        
         inputPlayer.setHeroPower(heroPowerCardId: playerHeroPower?.cardId ?? "", friendly: friendly, isActivated: wasHeroPowerUsed(heroPower: playerHeroPower), data: Int32(pHpData), data2: Int32(pHpData2))
 
         let playerQuests = inputPlayer.quests
@@ -730,7 +811,7 @@ class BobsBuddyInvoker {
         if friendly {
             let target = inputPlayer.secrets
             for secret in game.player.secrets {
-                input.addSecretFromDbfid(id: secret.id, target: target)
+                input?.addSecretFromDbfid(id: secret.id, target: target)
             }
             
             let playerHand = inputPlayer.hand
@@ -804,8 +885,30 @@ class BobsBuddyInvoker {
         }
         
         do {
-            try setupInputPlayer(input: input, simulator: simulator, gamePlayer: game.player, inputPlayer: input.player, playerEntity: game.playerEntity, friendly: true)
-            try setupInputPlayer(input: input, simulator: simulator, gamePlayer: game.opponent, inputPlayer: input.opponent, playerEntity: game.opponentEntity, friendly: false)
+            if self.input == nil {
+                try setupInputPlayer(simulator: simulator, gamePlayer: game.player, inputPlayer: input.player, playerEntity: game.playerEntity, friendly: true)
+                try setupInputPlayer(simulator: simulator, gamePlayer: game.opponent, inputPlayer: input.opponent, playerEntity: game.opponentEntity, friendly: false)
+                duosInputPlayer = input.player
+                duosInputOpponent = input.opponent
+                duosInputPlayerTeammate = nil
+                duosInputOpponentTeammate = nil
+            } else {
+                if game.duosWasPlayerHeroModified && duosInputPlayerTeammate == nil {
+                    try setupInputPlayer(simulator: simulator, gamePlayer: game.player, inputPlayer: input.playerTeammate, playerEntity: game.playerEntity, friendly: true)
+                    duosInputPlayerTeammate = input.playerTeammate
+                }
+                if game.duosWasOpponentHeroModified && duosInputOpponentTeammate == nil {
+                    try setupInputPlayer(simulator: simulator, gamePlayer: game.opponent, inputPlayer: input.opponentTeammate, playerEntity: game.opponentEntity, friendly: false)
+                    duosInputOpponentTeammate = input.opponentTeammate
+                }
+                if game.isBattlegroundsDuosMatch() {
+                    input.isDuos = true
+                    input.player = duosInputPlayer
+                    input.opponent = duosInputOpponent
+                    input.playerTeammate = duosInputPlayerTeammate ?? input.playerTeammate
+                    input.opponentTeammate = duosInputOpponentTeammate ?? input.opponentTeammate
+                }
+            }
         } catch {
             logger.error(error)
             return
@@ -872,7 +975,9 @@ class BobsBuddyInvoker {
     
     func updateOpponentSecret(entity: Entity) {
         doNotReport = true
-        tryRerun()
+        if !game.isBattlegroundsDuosMatch() {
+            tryRerun()
+        }
     }
 
     private func getOpponentHandEntities(simulator: SimulatorProxy) -> [MonoHandle] {

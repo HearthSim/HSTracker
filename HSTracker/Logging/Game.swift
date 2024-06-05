@@ -1451,7 +1451,9 @@ class Game: NSObject, PowerEventHandler {
         _battlegroundsHeroPickState = nil
         _mulliganGuideParams = nil
         windowManager.battlegroundsDetailsWindow.reset()
-        windowManager.bobsBuddyPanel.resetDisplays()
+        DispatchQueue.main.async {
+            self.windowManager.bobsBuddyPanel.resetDisplays()
+        }
         updateTurnCounter(turn: 1)
         
         hideBobsBuddy = false

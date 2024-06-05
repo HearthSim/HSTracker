@@ -746,6 +746,8 @@ extension CardIds.NonCollectible {
         static let RecurringNightmare_NightmareInside = "BG26_055_Ge"
         static let ThorimStormlord_ChooseYourChampion = "BG27_HERO_801p2"
         static let ThorimStormlord_ThorimsChampion = "BG27_HERO_801p"
+        static let FlobbidinousFloop_GloriousGloop = "BGDUO_HERO_101p"
+        static let FlobbidinousFloop_InTheGloop = "BGDUO_HERO_101pe2"
     }
 }
 

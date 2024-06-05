@@ -14,4 +14,8 @@ enum BobsBuddyState: Int {
     case shopping
     case combatWithoutSimulation
     case gameOver
+    case waitingForTeammates
+    case combatPartial
+    case shoppingAfterPartial
+    case gameOverAfterPartial
 }

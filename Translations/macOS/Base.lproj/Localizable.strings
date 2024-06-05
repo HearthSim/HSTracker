@@ -248,6 +248,13 @@
 "BobsBuddyStatusMessage_UnsupportedInteraction" = "Unsupported Interaction";
 "Final Combat" = "Final Combat";
 "Show Final Combat" = "Show Final Combat";
+"BobsBuddyStatusMessage_WaitingForTeammates" = "Waiting For Teammates...";
+"BobsBuddyStatusMessage_CurrentCombatPartial" = "Current Combat (1 Player Not Seen)";
+"BobsBuddyStatusMessage_ShowCurrentCombatPartial" = "Show Current Combat (1 Player Not Seen)";
+"BobsBuddyStatusMessage_PreviousCombatPartial" = "Previous Combat (1 Player Not Seen)";
+"BobsBuddyStatusMessage_ShowPreviousCombatPartial" = "Show Previous Combat (1 Player Not Seen)";
+"BobsBuddyStatusMessage_FinalCombatPartial" = "Final Combat (1 Player Not Seen)";
+"BobsBuddyStatusMessage_ShowFinalCombatPartial" = "Show Final Combat (1 Player Not Seen)";
 
 /* Battlegrounds */
 "Turn" = "Turn";

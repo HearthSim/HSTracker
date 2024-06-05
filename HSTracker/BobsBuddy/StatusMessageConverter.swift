@@ -37,12 +37,20 @@ class StatusMessageConverter {
         switch state {
         case .initial:
             return String.localizedString("Waiting For Combat", comment: "")
+        case .waitingForTeammates:
+            return String.localizedString("BobsBuddyStatusMessage_WaitingForTeammates", comment: "")
         case .combat:
             return statsShown ? String.localizedString("Current Combat", comment: "") : String.localizedString("Show Current Combat", comment: "")
         case .shopping:
             return statsShown ? String.localizedString("Previous Combat", comment: "") : String.localizedString("Show Previous Combat", comment: "")
         case .gameOver:
             return statsShown ? String.localizedString("Final Combat", comment: "") : String.localizedString("Show Final Combat", comment: "")
+        case .combatPartial:
+            return String.localizedString(statsShown ? "BobsBuddyStatusMessage_CurrentCombatPartial" : "BobsBuddyStatusMessage_ShowCurrentCombatPartial", comment: "")
+        case .shoppingAfterPartial:
+            return String.localizedString(statsShown ? "BobsBuddyStatusMessage_PreviousCombatPartial" : "BobsBuddyStatusMessage_ShowPreviousCombatPartial", comment: "")
+        case .gameOverAfterPartial:
+            return String.localizedString(statsShown ? "BobsBuddyStatusMessage_FinalCombatPartial" : "BobsBuddyStatusMessage_ShowFinalCombatPartial", comment: "")
         case .combatWithoutSimulation:
             return String.localizedString("Awaiting Shopping Phase", comment: "")
         }

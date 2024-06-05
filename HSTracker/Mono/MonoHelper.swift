@@ -270,14 +270,13 @@ extension MonoClassInitializer {
           let obj = mono_property_get_value(prop, inst, nil, nil)
           return T(obj: obj)
       }
-        //swiftlint:disable unused_setter_value
       set {
-//          let prop = observed[keyPath: storageKeyPath].property
-//          let inst = observed.get()
-//          mono_property_set_value(prop, inst, params, nil)
-          fatalError("Unimplemented MonoHandleProperty setter")
+          let prop = observed[keyPath: storageKeyPath].property
+          let inst = observed.get()
+          let params = UnsafeMutablePointer<UnsafeMutableRawPointer?>.allocate(capacity: 1)
+          params[0] = UnsafeMutableRawPointer(newValue.get())
+          mono_property_set_value(prop, inst, params, nil)
       }
-        //swiftlint:enable unused_setter_value
     }
 
     public var wrappedValue: T {

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class InputProxy: MonoHandle, MonoClassInitializer {    
+class InputProxy: MonoHandle, MonoClassInitializer {
     static var _class: OpaquePointer?
     static var _constructor: OpaquePointer!
     static var _setTurn: OpaquePointer!
@@ -29,10 +29,10 @@ class InputProxy: MonoHandle, MonoClassInitializer {
             InputProxy._unitTest = MonoHelper.getMethod(InputProxy._class, "UnitTestCopyableVersion", 0)
             
             // fields
-            initializeFields(fields: [ "DamageCap", "Anomaly" ])
+            initializeFields(fields: [ "DamageCap", "Anomaly", "isDuos" ])
             
             // properties
-            initializeProperties(properties: [ "Player", "Opponent" ])
+            initializeProperties(properties: [ "Player", "Opponent", "PlayerTeammate", "OpponentTeammate" ])
             
             let cl = mono_class_from_name(MonoHelper._image, "BobsBuddy.Utils", "SafeRandom")
             
@@ -93,7 +93,7 @@ class InputProxy: MonoHandle, MonoClassInitializer {
         if let id {
             let params = UnsafeMutablePointer<Int32>.allocate(capacity: 1)
             params.pointee = Int32(id)
-
+            
             obj = mono_value_box(MonoHelper._monoInstance, i32c, params)
             
             params.deallocate()
@@ -110,6 +110,9 @@ class InputProxy: MonoHandle, MonoClassInitializer {
         return MonoHelper.toString(obj: temp)
     }
     
+    @MonoPrimitiveField(field: "isDuos", owner: InputProxy.self)
+    var isDuos: Bool
+    
     @MonoPrimitiveField(field: "DamageCap", owner: InputProxy.self)
     var damageCap: Int32
     
@@ -121,4 +124,10 @@ class InputProxy: MonoHandle, MonoClassInitializer {
     
     @MonoHandleProperty(property: "Opponent", owner: InputProxy.self)
     var opponent: PlayerProxy
+    
+    @MonoHandleProperty(property: "PlayerTeammate", owner: InputProxy.self)
+    var playerTeammate: PlayerProxy
+    
+    @MonoHandleProperty(property: "OpponentTeammate", owner: InputProxy.self)
+    var opponentTeammate: PlayerProxy
 }
