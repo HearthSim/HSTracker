@@ -1,3 +1,16 @@
+# 2.7.7
+## New
+- Added automatic deck importing for the new Twist season!
+- Added automatic deck importing for Loaner decks!
+ Added Tier7 Hero Picking stats in Duos!
+- Added Bob's Buddy in Duos!\
+  *You may occasionally see a partial result, in case where we don't see one of the teammates.*
+## Fixes
+- Fixed an issue where the session recap would show really bad Duos losses as 5th place.
+- Hide some Battlegrounds overlays when quitting Hearthstone
+- Improved positioning for Battlegrounds dead opponent tracking
+- Fixed Rat Pack and Lil' Rage missing from Battlegrounds minion list
+
 # 2.7.6
 ## New
 - Updated for Hearthstone 29.4.2
