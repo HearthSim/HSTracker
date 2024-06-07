@@ -1,3 +1,7 @@
+# 2 7.8
+## Fixes
+- Fixed Bob's Buddy showing ties on all combats on Solo Battlegrounds
+
 # 2.7.7
 ## New
 - Added automatic deck importing for the new Twist season!
