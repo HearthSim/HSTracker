@@ -924,7 +924,7 @@ class Game: NSObject, PowerEventHandler {
     @available(macOS 10.15, *)
     @MainActor
     func updateTier7PreLobbyVisibility() {
-        let show = isRunning && isInMenu && !queueEvents.isInQueue && SceneHandler.scene == .bacon && Settings.enableTier7Overlay && Settings.showBattlegroundsTier7PreLobby && windowManager.tier7PreLobby.viewModel.battlegroundsGameMode != .duos && windowManager.tier7PreLobby.viewModel.visibility
+        let show = isRunning && isInMenu && !queueEvents.isInQueue && SceneHandler.scene == .bacon && Settings.enableTier7Overlay && Settings.showBattlegroundsTier7PreLobby && (windowManager.tier7PreLobby.viewModel.battlegroundsGameMode == .solo || windowManager.tier7PreLobby.viewModel.battlegroundsGameMode == .duos) && windowManager.tier7PreLobby.viewModel.visibility
         if show {
             Task.init {
                 _ = await windowManager.tier7PreLobby.viewModel.update()
@@ -1706,6 +1706,9 @@ class Game: NSObject, PowerEventHandler {
                 if (self.gameEntity?[.step] ?? 0) > Step.begin_mulligan.rawValue {
                     self.windowManager.battlegroundsSession.update()
                     BattlegroundsLeaderboardWatcher.start()
+                    if self.isBattlegroundsDuosMatch() {
+                        BattlegroundsTeammateBoardStateWatcher.start()
+                    }
                     self.updateBattlegroundsOverlays()
                 }
             }
@@ -2519,9 +2522,13 @@ class Game: NSObject, PowerEventHandler {
 
         // At this point the user either owns tier7 or has an active trial!
 
+        let isDuos = isBattlegroundsDuosMatch()
+        
         let stats = (token != nil && !userOwnsTier7) ?
-        await HSReplayAPI.getTier7HeroPickStats(token: token, parameters: parameters) :
-            await HSReplayAPI.getTier7HeroPickStats(parameters: parameters)
+            // trial
+            isDuos ? await HSReplayAPI.getTier7DuosHeroPickStats(token: token, parameters: parameters) : await HSReplayAPI.getTier7HeroPickStats(token: token, parameters: parameters) :
+            // tier 7
+            isDuos ? await HSReplayAPI.getTier7DuosHeroPickStats(parameters: parameters) : await HSReplayAPI.getTier7HeroPickStats(parameters: parameters)
 
         if stats == nil {
             // FIXME: add
@@ -2614,6 +2621,10 @@ class Game: NSObject, PowerEventHandler {
         
         await windowManager.battlegroundsSession.update()
         
+        if isBattlegroundsDuosMatch() {
+            BattlegroundsTeammateBoardStateWatcher.start()
+        }
+        
         if gameEntity?[.step] != Step.begin_mulligan.rawValue {
             return
         }
@@ -2621,36 +2632,32 @@ class Game: NSObject, PowerEventHandler {
         snapshotBattlegroundsOfferedHeroes(heroes)
         cacheBattlegroundsHeroPickParams()
 
-        if isBattlegroundsSoloMatch() {
-            let heroIds = heroes.sorted(by: { (a, b) -> Bool in a.zonePosition < b.zonePosition }).compactMap { x in x.card.dbfId }
+        let heroIds = heroes.sorted(by: { (a, b) -> Bool in a.zonePosition < b.zonePosition }).compactMap { x in x.card.dbfId }
             
-            async let statsTask = getBattlegroundsHeroPickStats()
-                    
-            // Wait for the mulligan to be ready
-            await waitForMulliganStart()
-            
-            async let waitAndAppear: () = Task.sleep(seconds: 500)
-            
-            var battlegroundsHeroPickStats: BattlegroundsHeroPickStats?
-            
-            let (finalResults, _) = await (statsTask, waitAndAppear)
-            battlegroundsHeroPickStats = finalResults
+        async let statsTask = getBattlegroundsHeroPickStats()
                 
-            var toastParams: [String: String]?
-                
-            if let stats = battlegroundsHeroPickStats {
-                toastParams = stats.toast.parameters
-                DispatchQueue.main.async {
-                    self.showBattlegroundsHeroPickingStats(heroIds.compactMap { dbfId in stats.data.first { x in x.hero_dbf_id == dbfId }}, stats.toast.parameters, stats.toast.min_mmr, stats.toast.anomaly_adjusted ?? false)
-                }
+        // Wait for the mulligan to be ready
+        await waitForMulliganStart()
+        
+        async let waitAndAppear: () = Task.sleep(seconds: 500)
+        
+        var battlegroundsHeroPickStats: BattlegroundsHeroPickStats?
+        
+        let (finalResults, _) = await (statsTask, waitAndAppear)
+        battlegroundsHeroPickStats = finalResults
+            
+        var toastParams: [String: String]?
+            
+        if let stats = battlegroundsHeroPickStats {
+            toastParams = stats.toast.parameters
+            DispatchQueue.main.async {
+                self.showBattlegroundsHeroPickingStats(heroIds.compactMap { dbfId in stats.data.first { x in x.hero_dbf_id == dbfId }}, stats.toast.parameters, stats.toast.min_mmr, stats.toast.anomaly_adjusted ?? false)
             }
-            // TODO: handle errors, exceptions
-                
-            if Settings.showHeroToast {
-                showBattlegroundsHeroPanel(heroIds, toastParams)
-            }
-        } else {
-           // Duos...
+        }
+        // TODO: handle errors, exceptions
+            
+        if Settings.showHeroToast {
+            showBattlegroundsHeroPanel(heroIds, isBattlegroundsDuosMatch(), toastParams)
         }
     }
 
@@ -3429,10 +3436,11 @@ class Game: NSObject, PowerEventHandler {
         }
     }
     
-    func showBattlegroundsHeroPanel(_ heroIds: [Int], _ parameters: [String: String]?) {
+    func showBattlegroundsHeroPanel(_ heroIds: [Int], _ duos: Bool, _ parameters: [String: String]?) {
         DispatchQueue.main.async {
             let toast = BgHeroesToastView(frame: NSRect.zero)
             toast.heroIds = heroIds
+            toast.duos = duos
             toast.anomalyDbfId = BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: self.gameEntity)
             toast.parameters = parameters
             

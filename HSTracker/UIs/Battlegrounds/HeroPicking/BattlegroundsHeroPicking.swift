@@ -8,7 +8,7 @@
 
 import Foundation
 
-class BattlegroundsHeroPicking: OverWindowController {
+@objc class BattlegroundsHeroPicking: OverWindowController {
     
     @IBOutlet weak var itemsStack: NSStackView!
     @IBOutlet weak var overlayMessage: OverlayMessage!
@@ -19,6 +19,12 @@ class BattlegroundsHeroPicking: OverWindowController {
     
     private var isVisible = false
     private var deferred = false
+    
+    @objc dynamic var statsVisibility: Bool {
+        return viewModel.statsVisibility
+    }
+    
+    @objc dynamic var visibility = false
     
     override init(window: NSWindow?) {
         super.init(window: window)
@@ -110,6 +116,7 @@ class BattlegroundsHeroPicking: OverWindowController {
                 isVisible = false
             }
         }
+        visibility = viewModel.visibility
     }
 
 }

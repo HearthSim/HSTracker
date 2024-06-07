@@ -12,6 +12,7 @@ import TextAttributes
 class BgHeroesToastView: NSView {
 
     var heroIds: [Int]?
+    var duos = false
     var anomalyDbfId: Int?
     var parameters: [String: String]?
     
@@ -112,7 +113,7 @@ class BgHeroesToastView: NSView {
     
     override func mouseUp(with: NSEvent) {
         if let heroIds {
-            Helper.openBattlegroundsHeroPicker(heroIds: heroIds, anomalyDbfId: anomalyDbfId, parameters: parameters)
+            Helper.openBattlegroundsHeroPicker(heroIds: heroIds, duos: duos, anomalyDbfId: anomalyDbfId, parameters: parameters)
         }
         AppDelegate.instance().coreManager.game.hideBattlegroundsHeroPanel()
     }

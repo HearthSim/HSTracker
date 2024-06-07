@@ -21,6 +21,10 @@ class BattlegroundsSingleHeroStats: NSView {
     
     var setSelectedHeroDbfIdCommand: ((_ heroId: Int) -> Void)?
     
+    @objc dynamic var compositionsVisibility: Bool {
+        return viewModel.compositionsVisibility
+    }
+    
     override var intrinsicContentSize: NSSize {
         return NSSize(width: 266, height: 480)
     }

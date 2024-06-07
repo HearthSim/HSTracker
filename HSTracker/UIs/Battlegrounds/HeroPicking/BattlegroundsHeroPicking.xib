@@ -69,6 +69,13 @@
                             <constraint firstAttribute="trailing" secondItem="TDf-wr-Sbh" secondAttribute="trailing" id="kE5-Jf-l6i"/>
                         </constraints>
                         <accessibility identifier="ScaleView"/>
+                        <connections>
+                            <binding destination="-2" name="hidden" keyPath="self.statsVisibility" id="KUU-Lx-Iur">
+                                <dictionary key="options">
+                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                </dictionary>
+                            </binding>
+                        </connections>
                     </customView>
                 </subviews>
                 <constraints>
@@ -78,7 +85,11 @@
                     <constraint firstItem="pD1-7S-rTm" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="hiu-fX-E9S"/>
                 </constraints>
             </view>
+            <connections>
+                <binding destination="-2" name="visible" keyPath="self.visibility" id="FGC-eb-d5Y"/>
+            </connections>
             <point key="canvasLocation" x="-44" y="112"/>
         </window>
+        <userDefaultsController representsSharedInstance="YES" id="zz4-Cb-qMt"/>
     </objects>
 </document>

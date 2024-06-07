@@ -39,18 +39,21 @@ class SceneHandler {
             }
             DeckPickerWatcher.stop()
             game.windowManager.constructedMulliganGuidePreLobby.viewModel.invlidateAllDecks()
-        }
-        
-        if from == .bacon {
-            if to != .gameplay {
-                game.showBattlegroundsSession(false, true)
-            }
+        } else if from == .bacon {
+            game.showBattlegroundsSession(false, true)
             if #available(macOS 10.15, *) {
                 DispatchQueue.main.async {
                     game.updateTier7PreLobbyVisibility()
                 }
-                BaconWatcher.stop()
             }
+            BaconWatcher.stop()
+        } else if from == .gameplay {
+            if #available(macOS 10.15, *) {
+                DispatchQueue.main.async {
+                    game.updateTier7PreLobbyVisibility()
+                }
+            }
+            BattlegroundsTeammateBoardStateWatcher.stop()
         }
     }
     
@@ -67,8 +70,7 @@ class SceneHandler {
             DispatchQueue.main.async {
                 game.updateMulliganGuidePreLobby()
             }
-        }
-        if to == .bacon {
+        } else if to == .bacon {
             game.cacheBattlegroundRatingInfo()
             
             game.showBattlegroundsSession(true, true)
@@ -76,9 +78,9 @@ class SceneHandler {
                 game.windowManager.battlegroundsSession.updateSectionsVisibilities()
                 if #available(macOS 10.15, *) {
                     game.updateTier7PreLobbyVisibility()
-                    BaconWatcher.start()
                 }
             }
+            BaconWatcher.start()
         } else if to == .gameplay {
             DispatchQueue.main.async {
                 game.windowManager.battlegroundsSession.updateSectionsVisibilities()

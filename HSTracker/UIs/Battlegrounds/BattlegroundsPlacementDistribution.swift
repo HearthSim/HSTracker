@@ -87,13 +87,15 @@ class BattlegroundsPlacementDistribution: NSView {
         bar3rd.value = values[2]
         bar4th.maxValue = maxValue
         bar4th.value = values[3]
-        bar5th.maxValue = maxValue
-        bar5th.value = values[4]
-        bar6th.maxValue = maxValue
-        bar6th.value = values[5]
-        bar7th.maxValue = maxValue
-        bar7th.value = values[6]
-        bar8th.maxValue = maxValue
-        bar8th.value = values[7]
+        if values.count > 4 {
+            bar5th.maxValue = maxValue
+            bar5th.value = values[4]
+            bar6th.maxValue = maxValue
+            bar6th.value = values[5]
+            bar7th.maxValue = maxValue
+            bar7th.value = values[6]
+            bar8th.maxValue = maxValue
+            bar8th.value = values[7]
+        }
     }
 }

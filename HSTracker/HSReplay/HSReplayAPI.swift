@@ -504,6 +504,71 @@ class HSReplayAPI {
     }
 
     @available(macOS 10.15.0, *)
+    static func getTier7DuosHeroPickStats(parameters: BattlegroundsHeroPickStatsParams) async -> BattlegroundsHeroPickStats? {
+        return await withCheckedContinuation { continuation in
+            let encoder = JSONEncoder()
+            var body: Data?
+            do {
+                body = try encoder.encode(parameters)
+                if let body = body {
+                    logger.debug("Sending hero picks request: \(String(data: body, encoding: .utf8) ?? "ERROR")")
+                }
+            } catch {
+                logger.error(error)
+            }
+            oauthswift.client.request("\(HSReplay.tier7DuosHeroPickStatsUrl)", method: .POST, headers: ["Content-Type": "application/json"], body: body, completionHandler: { result in
+                switch result {
+                case .success(let response):
+                    logger.debug("Response: \(String(data: response.data, encoding: .utf8) ?? "FAILED")")
+                    let bqs: BattlegroundsHeroPickStats? = parseResponse(data: response.data, defaultValue: nil)
+                    continuation.resume(returning: bqs)
+                    return
+                case .failure(let error):
+                    logger.error(error)
+                    continuation.resume(returning: nil)
+                    return
+                }
+            })
+        }
+    }
+    
+    @available(macOS 10.15.0, *)
+    static func getTier7DuosHeroPickStats(token: String?, parameters: BattlegroundsHeroPickStatsParams) async -> BattlegroundsHeroPickStats? {
+        guard let token = token else {
+            return nil
+        }
+        return await withCheckedContinuation { continuation in
+            let encoder = JSONEncoder()
+            var body: Data?
+            do {
+                body = try encoder.encode(parameters)
+                if let body = body {
+                    logger.debug("Sending hero picks request: \(String(data: body, encoding: .utf8) ?? "ERROR")")
+                }
+            } catch {
+                logger.error(error)
+            }
+            guard let body = body else {
+                continuation.resume(returning: nil)
+                return
+            }
+            let http = Http(url: "\(HSReplay.tier7DuosHeroPickStatsUrl)")
+            _ = http.uploadPromise(method: .post, headers: ["Content-Type": "application/json", "X-Trial-Token": token], data: body).done { response in
+                guard let data = response as? Data else {
+                    continuation.resume(returning: nil)
+                    return
+                }
+                logger.debug("Response: \(String(data: data, encoding: .utf8) ?? "FAILED")")
+                let bqs: BattlegroundsHeroPickStats? = parseResponse(data: data, defaultValue: nil)
+                continuation.resume(returning: bqs)
+            }.catch { error in
+                logger.error(error)
+                continuation.resume(returning: nil)
+            }
+        }
+    }
+
+    @available(macOS 10.15.0, *)
     static func getTier7QuestStats(parameters: BattlegroundsQuestStatsParams) async -> [BattlegroundsQuestStats]? {
         return await withCheckedContinuation { continuation in
             let encoder = JSONEncoder()

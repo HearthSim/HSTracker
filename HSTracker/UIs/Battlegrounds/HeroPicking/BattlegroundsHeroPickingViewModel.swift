@@ -9,15 +9,31 @@
 import Foundation
 
 class BattlegroundsHeroPickingViewModel: ViewModel {
-    var visibility: Bool {
+    var isViewingTeammate: Bool {
         get {
-            if !Settings.showBattlegroundsHeroPicking {
-                return false
-            }
+            getProp(false)
+        }
+        set {
+            setProp(newValue)
+            onPropertyChanged("visibility")
+        }
+    }
+    
+    var visibility: Bool {
+        if !Settings.showBattlegroundsHeroPicking || isViewingTeammate {
+            return false
+        }
+        return heroStats != nil ? true : false
+    }
+    
+    var statsVisibility: Bool {
+        get {
             return getProp(false)
         }
         set {
             setProp(newValue)
+//            onPropertyChanged("visibilityToggleIcon")
+//            onPropertyChanged("visibilityToggleText")
         }
     }
     
@@ -27,6 +43,7 @@ class BattlegroundsHeroPickingViewModel: ViewModel {
         }
         set {
             setProp(newValue)
+            onPropertyChanged("visibility")
         }
     }
     
@@ -34,7 +51,8 @@ class BattlegroundsHeroPickingViewModel: ViewModel {
     
     func reset() {
         heroStats = nil
-        visibility = false
+        isViewingTeammate = false
+        statsVisibility = false
         message.clear()
     }
     
@@ -87,8 +105,7 @@ class BattlegroundsHeroPickingViewModel: ViewModel {
         
         message.mmr(filterValue: filterValue, minMMR: minMmr, anomalyAdjusted: anomalyadjusted)
         
-        visibility = true
-        // TODO: statsVisibility
+        statsVisibility = Settings.showBattlegroundsHeroPicking ? true : false
     }
     
     func setPlacementVisible(_ isVisible: Bool) {

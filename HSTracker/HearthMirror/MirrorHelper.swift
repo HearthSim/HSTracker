@@ -496,5 +496,13 @@ struct MirrorHelper {
         }
         return result
     }
+    
+    static func getBattlegroundsTeammateBoardState() -> MirrorBattlegroundsTeammateBoardState? {
+        var result: MirrorBattlegroundsTeammateBoardState?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getBattlegroundsTeammateBoardState()
+        }
+        return result
+    }
 }
 

@@ -84,8 +84,11 @@ class StatsHeaderViewModel: ViewModel {
     }
     
     var avgPlacementColor: String {
+        let game = AppDelegate.instance().coreManager.game
+        let pivot = game.isBattlegroundsDuosMatch() ? 2.5 : 4.5
+        let factor = game.isBattlegroundsDuosMatch() ? 0.5 : 1.0
         if let avgPlacement {
-            return Helper.getColorString(mode: .BATTLEGROUNDS, delta: (4.5 - avgPlacement) * 100.0 / 3.5, intensity: 75)
+            return Helper.getColorString(mode: .BATTLEGROUNDS, delta: (pivot - avgPlacement) * 100.0 / 3.5 * factor, intensity: 75)
         }
         return "#FFFFFF"
     }

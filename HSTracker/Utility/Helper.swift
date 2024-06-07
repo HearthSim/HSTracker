@@ -198,7 +198,7 @@ struct Helper {
         return urlParams
     }
 
-    static func openBattlegroundsHeroPicker(heroIds: [Int], anomalyDbfId: Int?, parameters: [String: String]?) {
+    static func openBattlegroundsHeroPicker(heroIds: [Int], duos: Bool, anomalyDbfId: Int?, parameters: [String: String]?) {
         let queryParams = parameters?.compactMap { kv in "\(Helper.urlEncode(kv.key))=\(Helper.urlEncode(kv.value))"} ?? [String]()
         var fragmentParams = [ "heroes=\(heroIds.compactMap({ x in String(x)}).joined(separator: ","))" ]
         if let anomalyDbfId {
@@ -208,7 +208,7 @@ struct Helper {
             let availableRacesAsList = availableRaces.compactMap { x in Int(Race.allCases.firstIndex(of: x)!) }.sorted(by: { (a, b) -> Bool in a < b }).compactMap { x in String(x) }
             fragmentParams.append("minionTypes=\(Helper.urlEncode(availableRacesAsList.joined(separator: ",")))")
         }
-        let url = Helper.buildHsReplayNetUrl("/battlegrounds/heroes/", "bgs_toast", queryParams, fragmentParams)
+        let url = Helper.buildHsReplayNetUrl(duos ? "/battlegrounds/duos/heroes/" : "/battlegrounds/heroes/", "bgs_toast", queryParams, fragmentParams)
         NSWorkspace.shared.open(URL(string: url)!)
     }
 }

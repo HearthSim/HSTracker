@@ -787,3 +787,74 @@ class BattlegroundsLeaderboardWatcher: Watcher {
     }
 }
 
+struct BattlegroundsTeammateBoardStateEntity: Equatable {
+    var cardId: String
+    var tags: [Int: Int]
+    
+    init(entity: MirrorBattlegroundsTeammateBoardStateEntity) {
+        cardId = entity.cardId
+        tags = Dictionary(uniqueKeysWithValues: entity.tags.compactMap { x in (x.key.intValue, x.value.intValue) })
+    }
+}
+
+struct BattlegroundsTeammateBoardStateArgs: Equatable {
+    var isViewingTeammate: Bool
+    var mulliganHeroes: [String]
+    var entities: [BattlegroundsTeammateBoardStateEntity]
+    
+    init(boardState: MirrorBattlegroundsTeammateBoardState?) {
+        isViewingTeammate = boardState?.viewingTeammate ?? false
+        mulliganHeroes = boardState?.mulliganHeroes ?? [String]()
+        entities = boardState?.entities.compactMap { be in BattlegroundsTeammateBoardStateEntity(entity: be) } ?? [BattlegroundsTeammateBoardStateEntity]()
+    }
+}
+
+class BattlegroundsTeammateBoardStateWatcher: Watcher {
+    static var change: ((_ sender: BattlegroundsTeammateBoardStateWatcher, _ args: BattlegroundsTeammateBoardStateArgs) -> Void)?
+    
+    var _watch: Bool = false
+    var _prev: BattlegroundsTeammateBoardStateArgs?
+    
+    static let _instance = BattlegroundsTeammateBoardStateWatcher()
+    
+    init(delay: TimeInterval = 0.200) {
+        super.init()
+        
+        refreshInterval = delay
+    }
+    
+    override func run() {
+        _watch = true
+        update()
+    }
+    
+    static func start() {
+        _instance.startWatching()
+    }
+    
+    static func stop() {
+        _instance._watch = false
+        _instance.stopWatching()
+    }
+    
+    private func update() {
+        isRunning = true
+        while _watch {
+            Thread.sleep(forTimeInterval: refreshInterval)
+            if !_watch {
+                break
+            }
+            
+            let value = MirrorHelper.getBattlegroundsTeammateBoardState()
+            let curr = BattlegroundsTeammateBoardStateArgs(boardState: value)
+            if curr == _prev {
+                continue
+            }
+            BattlegroundsTeammateBoardStateWatcher.change?(self, curr)
+            _prev = curr
+        }
+        _prev = nil
+        isRunning = false
+    }
+}
+

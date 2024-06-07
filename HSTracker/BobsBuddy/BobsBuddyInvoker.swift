@@ -193,7 +193,7 @@ class BobsBuddyInvoker {
     func maybeRunDuosPartialCombat() -> Promise<Bool> {
         return Promise<Bool> { seal in
             if input != nil && !(duosInputPlayerTeammate == nil || duosInputOpponentTeammate == nil) {
-                logger.debug("No need to run patial combat, all teammates found. Exiting.")
+                logger.debug("No need to run partial combat, all teammates found. Exiting.")
                 seal.fulfill(false)
                 return
             }
@@ -250,8 +250,18 @@ class BobsBuddyInvoker {
                     BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .notEnoughData)
                 } else if self.state == .combatPartial {
                     logger.debug("Displaying partial simulation results")
+                    let winRate = top.winRate
+                    let tieRate = top.tieRate
+                    let lossRate = top.lossRate
+                    let myDeathRate = top.myDeathRate
+                    let theirDeathRate = top.theirDeathRate
+                    let possibleResults = top.getResultDamage()
+                    let friendlyWon = self.duosInputPlayerTeammate == nil
+                    let playerCanDie = input.player.health <= input.damageCap
+                    let opponentCanDie = input.opponent.health <= input.damageCap
+                    
                     DispatchQueue.main.async {
-                        BobsBuddyInvoker.bobsBuddyDisplay.showPartialDuosSimulation(winRate: top.winRate, tieRate: top.tieRate, lossRate: top.lossRate, playerLethal: top.theirDeathRate, opponentLethal: top.myDeathRate, possibleResults: top.getResultDamage(), friendlyWon: self.duosInputPlayerTeammate == nil, playerCanDie: input.player.health <= input.damageCap, opponentCanDie: input.opponent.health <= input.damageCap)
+                        BobsBuddyInvoker.bobsBuddyDisplay.showPartialDuosSimulation(winRate: winRate, tieRate: tieRate, lossRate: lossRate, playerLethal: theirDeathRate, opponentLethal: myDeathRate, possibleResults: possibleResults, friendlyWon: friendlyWon, playerCanDie: playerCanDie, opponentCanDie: opponentCanDie)
                     }
                 } else {
                     logger.debug("Displaying simulation results")
@@ -410,18 +420,20 @@ class BobsBuddyInvoker {
             logger.debug("\(_instanceKey) already in shopping state. Exiting")
             return
         }
-        let wasPreviousStateParcial = state == .combatPartial
-        state = wasPreviousStateParcial ? .shoppingAfterPartial : .shopping
+        let wasPreviousStatePartial = state == .combatPartial
+        if isGameOver {
+            if state != .initial {
+                logger.debug("Setting UI state to GameOver")
+                state = wasPreviousStatePartial ? .gameOverAfterPartial : .gameOver
+            }
+        } else {
+            logger.debug("Setting UI state to shopping")
+            state = wasPreviousStatePartial ? .shoppingAfterPartial : .shopping
+        }
         if hasErrorState() {
             return
         }
-        if isGameOver {
-            BobsBuddyInvoker.bobsBuddyDisplay.setState(st: wasPreviousStateParcial ? .gameOverAfterPartial : .gameOver)
-            logger.debug("Setting UI state to GameOver")
-        } else {
-            BobsBuddyInvoker.bobsBuddyDisplay.setState(st: wasPreviousStateParcial ? .shoppingAfterPartial : .shopping)
-            logger.debug("Setting UI state to shopping")
-        }
+        BobsBuddyInvoker.bobsBuddyDisplay.setState(st: wasPreviousStatePartial ? .gameOverAfterPartial : .gameOver)
         validateSimulationResult()
     }
     

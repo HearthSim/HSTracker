@@ -83,6 +83,11 @@ final class CoreManager: NSObject {
             SceneHandler.onSceneUpdate(prevMode: Mode.allCases[args.prevMode], mode: Mode.allCases[args.mode], sceneLoaded: args.sceneLoaded, transitioning: args.transitioning)
         }
         
+        BattlegroundsTeammateBoardStateWatcher.change = { _, args in
+            self.game.windowManager.battlegroundsHeroPicking.viewModel.isViewingTeammate = args.isViewingTeammate
+            // rest is not used
+        }
+        
         ExperienceWatcher.newExperienceHandler = { args in
             AppDelegate.instance().coreManager.game.experienceChangedAsync(experience: args.experience, experienceNeeded: args.experienceNeeded, level: args.level, levelChange: args.levelChange, animate: args.animate)
         }
@@ -312,6 +317,7 @@ final class CoreManager: NSObject {
         BaconWatcher.stop()
         SceneWatcher.stop()
         BattlegroundsLeaderboardWatcher.stop()
+        BattlegroundsTeammateBoardStateWatcher.stop()
         DeckPickerWatcher.stop()
         MirrorHelper.destroy()
         let wm = game.windowManager

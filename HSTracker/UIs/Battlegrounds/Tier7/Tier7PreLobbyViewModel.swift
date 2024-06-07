@@ -29,6 +29,7 @@ class Tier7PreLobbyViewModel: ViewModel {
         }
         set {
             setProp(newValue)
+            onPropertyChanged("allTimeHighMMRVisibility")
         }
     }
     
@@ -86,16 +87,15 @@ class Tier7PreLobbyViewModel: ViewModel {
         }
         set {
             setProp(newValue)
+            onPropertyChanged("allTimeHighMMRVisibility")
         }
     }
     
     var allTimeHighMMRVisibility: Bool {
-        get {
-            return getProp(false)
+        if allTimeHighMMR == nil || battlegroundsGameMode != .solo {
+            return false
         }
-        set {
-            setProp(newValue)
-        }
+        return true
     }
     
     var trialTimeRemaining: String? {
@@ -228,7 +228,6 @@ class Tier7PreLobbyViewModel: ViewModel {
         } else {
             allTimeHighMMR = nil
         }
-        allTimeHighMMRVisibility = allTimeHighMMR != nil
         userState = .subscribed
     }
     

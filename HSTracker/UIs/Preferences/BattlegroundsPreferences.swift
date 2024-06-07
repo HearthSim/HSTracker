@@ -147,12 +147,6 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
             }
         } else if sender == showHeroPicking {
             Settings.showBattlegroundsHeroPicking = sender.state == .on
-            if game.isBattlegroundsMatch() {
-                if #available(macOS 10.15, *) {
-                    game.windowManager.battlegroundsHeroPicking.viewModel.visibility = sender.state == .on
-                }
-            }
-
         } else if sender == showQuestPicking {
             Settings.showBattlegroundsQuestPicking = sender.state == .on
             if game.isBattlegroundsMatch() {
