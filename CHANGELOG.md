@@ -1,4 +1,4 @@
-# 2 7.8
+# 2.7.8
 ## Fixes
 - Fixed Bob's Buddy showing ties on all combats on Solo Battlegrounds
 
