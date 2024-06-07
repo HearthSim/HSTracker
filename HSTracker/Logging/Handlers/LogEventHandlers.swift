@@ -203,8 +203,6 @@ protocol PowerEventHandler: AnyObject {
 	
 	func opponentHeroPower(cardId: String, turn: Int)
     
-    func startCombat()
-    
     func snapshotBattlegroundsBoardState()
     
     var chameleosReveal: (Int, String)? { get set }

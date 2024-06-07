@@ -71,7 +71,7 @@ struct TagChangeActions {
     private func onBattlegroundsSetupChange(eventHandler: PowerEventHandler, value: Int, prevValue: Int) {
         if prevValue == 1 && value == 0 {
             if eventHandler.isBattlegroundsSoloMatch() {
-                eventHandler.startCombat()
+                BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.startCombat()
             }
         }
     }

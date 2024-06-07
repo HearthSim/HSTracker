@@ -3097,12 +3097,6 @@ class Game: NSObject, PowerEventHandler {
         }
     }
 
-    func startCombat() {
-        snapshotBattlegroundsBoardState()
-        
-        BobsBuddyInvoker.instance(gameId: gameId, turn: turnNumber())?.startCombat()
-    }
-    
     var chameleosReveal: (Int, String)?
 	
 	// MARK: - Arena

@@ -137,57 +137,57 @@ class BobsBuddyInvoker {
         if !shouldRun() {
             return
         }
-        let opaque = mono_thread_attach(MonoHelper._monoInstance)
-        
-        defer {
-            mono_thread_detach(opaque)
-        }
-
-        if game.isBattlegroundsDuosMatch() {
-            snapshotBoardState(turn: game.turnNumber())
-            BobsBuddyInvoker.bobsBuddyDisplay.setState(st: .waitingForTeammates)
-            DispatchQueue.main.async {
-                BobsBuddyInvoker.bobsBuddyDisplay.resetText()
+        DispatchQueue.global().async { [self] in
+            let opaque = mono_thread_attach(MonoHelper._monoInstance)
+            
+            defer {
+                mono_thread_detach(opaque)
             }
-            if input != nil && (duosInputPlayerTeammate == nil || duosInputOpponentTeammate == nil) {
-                logger.debug("Waiting Teammates. Exiting.")
+            
+            if game.isBattlegroundsDuosMatch() {
+                snapshotBoardState(turn: game.turnNumber())
+                BobsBuddyInvoker.bobsBuddyDisplay.setState(st: .waitingForTeammates)
+                DispatchQueue.main.async {
+                    BobsBuddyInvoker.bobsBuddyDisplay.resetText()
+                }
+                if input != nil && (duosInputPlayerTeammate == nil || duosInputOpponentTeammate == nil) {
+                    logger.debug("Waiting Teammates. Exiting.")
+                    return
+                }
+            }
+            
+            if state.rawValue >= BobsBuddyState.combat.rawValue {
+                logger.debug("Already in \(state) state. Exiting")
+                return
+            } else {
+                snapshotBoardState(turn: game.turnNumber())
+            }
+            logger.info("State is now combat")
+            state = .combat
+            
+            Thread.sleep(forTimeInterval: Double(StateChangeDelay) / 1_000.0)
+            
+            if state != .combat {
+                logger.debug("No longer in combat: State=\(state). Exiting")
                 return
             }
+            if hasErrorState() {
+                return
+            }
+            
+            logger.debug("Setting UI state to combat...")
+            BobsBuddyInvoker.bobsBuddyDisplay.setState(st: .combat)
+            
+            if let input = input, (input.player.heroPower.cardId == RebornRite && input.player.heroPower.isActivated) || (input.opponent.heroPower.cardId == RebornRite && input.opponent.heroPower.isActivated) {
+                Thread.sleep(forTimeInterval: Double(LichKingDelay) / 1000.0)
+            }
+            
+            _ = runAndDisplaySimulationAsync().catch({ error in
+                logger.error("Error running simulation: \(error.localizedDescription)")
+                BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .failedToLoad)
+                Analytics.trackEvent("runSimulation failed", withProperties: [ "error": error.localizedDescription])
+            })
         }
-        
-        if state.rawValue >= BobsBuddyState.combat.rawValue {
-            logger.debug("Already in \(state) state. Exiting")
-            return
-        } else {
-            snapshotBoardState(turn: game.turnNumber())
-        }
-        logger.info("State is now combat")
-        state = .combat
-        
-        snapshotBoardState(turn: game.turnNumber())
-        
-        Thread.sleep(forTimeInterval: Double(StateChangeDelay) / 1_000.0)
-        
-        if state != .combat {
-            logger.debug("No longer in combat: State=\(state). Exiting")
-            return
-        }
-        if hasErrorState() {
-            return
-        }
-        
-        logger.debug("Setting UI state to combat...")
-        BobsBuddyInvoker.bobsBuddyDisplay.setState(st: .combat)
-                
-        if let input = input, (input.player.heroPower.cardId == RebornRite && input.player.heroPower.isActivated) || (input.opponent.heroPower.cardId == RebornRite && input.opponent.heroPower.isActivated) {
-            Thread.sleep(forTimeInterval: Double(LichKingDelay) / 1000.0)
-        }
-        
-        _ = runAndDisplaySimulationAsync().catch({ error in
-        logger.error("Error running simulation: \(error.localizedDescription)")
-        BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .failedToLoad)
-        Analytics.trackEvent("runSimulation failed", withProperties: [ "error": error.localizedDescription])
-        })
     }
     
     func maybeRunDuosPartialCombat() -> Promise<Bool> {
