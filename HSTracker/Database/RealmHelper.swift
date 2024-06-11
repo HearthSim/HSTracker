@@ -458,11 +458,11 @@ struct RealmHelper {
 	// MARK: - Statistics
 	
 	static func getValidStatistics() -> [GameStats]? {
-		guard let realm = try? Realm() else {
-			logger.error("Error accessing Realm database")
-			return nil
-		}
-		var results = [GameStats]()
+        guard let realm = try? Realm() else {
+            logger.error("Error accessing Realm database")
+            return nil
+        }
+        var results = [GameStats]()
         for deck in realm.objects(Deck.self) {
             for stat in deck.gameStats where stat.hsReplayId != nil {
                 results.append(stat)
