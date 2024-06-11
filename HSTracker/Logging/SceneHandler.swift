@@ -40,9 +40,9 @@ class SceneHandler {
             DeckPickerWatcher.stop()
             game.windowManager.constructedMulliganGuidePreLobby.viewModel.invlidateAllDecks()
         } else if from == .bacon {
-            game.showBattlegroundsSession(false, true)
-            if #available(macOS 10.15, *) {
-                DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                game.windowManager.battlegroundsSession.updateSectionsVisibilities()
+                if #available(macOS 10.15, *) {
                     game.updateTier7PreLobbyVisibility()
                 }
             }
