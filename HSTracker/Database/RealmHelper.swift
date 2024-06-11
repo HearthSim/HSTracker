@@ -468,7 +468,7 @@ struct RealmHelper {
                 results.append(stat)
             }
         }
-        return results.sorted(by: { $0.startTime < $1.startTime })
+        return results.sorted(by: { $0.startTime > $1.startTime })
 	}
 	
 	static func addStatistics(to deck: Deck, stats: GameStats) {
