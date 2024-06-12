@@ -152,6 +152,10 @@ extension CardIds.Collectible {
         static let MoargDrillfist = "WW_442"
         static let VoidcallerInvalid = "CORE_FP1_022"
         static let MassProduction = "MIS_707"
+        static let BaritoneImp = "ETC_068"
+        static let CrazedConductor = "ETC_070"
+        static let Crescendo = "ETC_069"
+        static let EncroachingInsanity = "YOG_301"
     }
 }
 

@@ -48,6 +48,20 @@ extension Game {
         CardIds.Collectible.Mage.MagisterDawngrasp
     ]
     
+    static let playerFatigueCounterCards = [
+        CardIds.Collectible.Warlock.BaritoneImp,
+        CardIds.Collectible.Warlock.CrazedConductor,
+        CardIds.Collectible.Warlock.Crescendo,
+        CardIds.Collectible.Warlock.EncroachingInsanity,
+        CardIds.NonCollectible.Warlock.CurseofAgony_AgonyToken
+    ]
+    
+    static let opponentFatigueCounterCards = [
+        // Note: this is inspecting the friendly deck, not the opposing deck
+        CardIds.Collectible.Warlock.EncroachingInsanity,
+        CardIds.Collectible.Warlock.CurseOfAgony
+    ]
+    
 	var playerCthun: Entity? {
 		return self.player.playerEntities
 			.first { $0.cardId == CardIds.Collectible.Neutral.Cthun }
@@ -134,7 +148,7 @@ extension Game {
 	}
 	
     var showPlayerSpellsCounter: Bool {
-        return Settings.showPlayerSpell && inDeckAndHand(cardIds: Game.spellCounterCards) && player.spellsPlayedCount > 0
+        return Settings.showPlayerSpell && inDeckOrKnown(cardIds: Game.spellCounterCards) && player.spellsPlayedCount > 0
     }
     
     var showOpponentSpellsCounter: Bool {
@@ -211,7 +225,7 @@ extension Game {
     }
     
     var showPlayerSpellSchoolsCounter: Bool {
-        return !isInMenu && Settings.showPlayerSpellSchoolsCounter && inDeckAndHand(cardIds: Game.spellSchoolCounterCards) && player.playedSpellSchools.count > 0
+        return !isInMenu && Settings.showPlayerSpellSchoolsCounter && inDeckOrKnown(cardIds: Game.spellSchoolCounterCards) && player.playedSpellSchools.count > 0
     }
     
     var showOpponentSpellSchoolsCounter: Bool {
@@ -219,10 +233,18 @@ extension Game {
     }
     
     var showPlayerExcavateTier: Bool {
-        return !isInMenu && Settings.showPlayerExcavateTier && inDeckAndHand(cardIds: Game.excavateCounterCards)
+        return !isInMenu && Settings.showPlayerExcavateTier && inDeckOrKnown(cardIds: Game.excavateCounterCards)
+    }
+    
+    var showPlayerFatigueCounter: Bool {
+        return inDeckOrKnown(cardIds: Game.playerFatigueCounterCards)
+    }
+    
+    var showOpponentFatigueCounter: Bool {
+        return inDeckOrKnown(cardIds: Game.opponentFatigueCounterCards)
     }
             
-    private func inDeckAndHand(cardIds: [String]) -> Bool {
+    private func inDeckOrKnown(cardIds: [String]) -> Bool {
         return cardIds.any { x in inDeckOrKnown(cardId: x) }
     }
 

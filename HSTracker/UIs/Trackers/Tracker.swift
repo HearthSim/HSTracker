@@ -169,7 +169,9 @@ class Tracker: OverWindowController {
             galakrondCounter.isHidden = !(Settings.showPlayerGalakrondCounter && hasGalakrondProxy)
         }
         
-        fatigueTracker.isHidden = !(Settings.fatigueIndicator && (fatigueCounter > 0))
+        let game = AppDelegate.instance().coreManager.game
+        let showFatigueCounter = Settings.fatigueIndicator && (cardCounter?.deckCount ?? 0 <= 0 || fatigueCounter > 1 || playerType == .player ? game.showPlayerFatigueCounter : game.showOpponentFatigueCounter)
+        fatigueTracker.isHidden = !showFatigueCounter
         graveyardCounter.isHidden = !showGraveyard
         jadeCounter.isHidden = !showJadeCounter
         
