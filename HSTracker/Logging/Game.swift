@@ -78,6 +78,9 @@ class Game: NSObject, PowerEventHandler {
     
     func setHearthstoneActived(flag: Bool) {
         hearthstoneRunState.isActive = flag
+        if flag && currentMode == .bacon {
+            windowManager.tier7PreLobby.viewModel.onFocus()
+        }
     }
 	
 	func setSelfActivated(flag: Bool) {

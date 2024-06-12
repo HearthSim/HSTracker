@@ -63,13 +63,25 @@ class Tier7PreLobbyViewModel: ViewModel {
         }
     }
     
-    var refreshSubscriptionState: RefreshSubscriptionState {
+    func onFocus() {
+        possiblySubscribed = true
+    }
+    
+    var possiblySubscribed: Bool {
         get {
-            return getProp(.hidden)
+            return getProp(false)
         }
         set {
             setProp(newValue)
+            onPropertyChanged("refreshSubscriptionState")
         }
+    }
+    
+    var refreshSubscriptionState: RefreshSubscriptionState {
+        if (trialUsesRemaining ?? 0 > 0 && !possiblySubscribed) || isAuthenticated == nil {
+            return .hidden
+        }
+        return isAuthenticated == true ? .refresh : .signIn
     }
     
     var trialUsesRemaining: Int? {
@@ -78,6 +90,7 @@ class Tier7PreLobbyViewModel: ViewModel {
         }
         set {
             setProp(newValue)
+            onPropertyChanged("refreshSubscriptionState")
         }
     }
     
@@ -178,18 +191,8 @@ class Tier7PreLobbyViewModel: ViewModel {
             }
             isAuthenticated = true
             ownsTier7 = HSReplayAPI.accountData?.is_tier7 ?? false
-            
-            // Update the Refresh button, as it's otherwise only updated after a click on GET PREMIUM
-            if ownsTier7 {
-                refreshSubscriptionState = .hidden
-            } else if refreshSubscriptionState == .signIn {
-                refreshSubscriptionState = .refresh
-            }
         } else {
             isAuthenticated = false
-            if refreshSubscriptionState == .refresh {
-                refreshSubscriptionState = .signIn
-            }
         }
         
         let acc = MirrorHelper.getAccountId()
@@ -231,7 +234,15 @@ class Tier7PreLobbyViewModel: ViewModel {
         userState = .subscribed
     }
     
-    var isAuthenticated = false
+    var isAuthenticated: Bool? {
+        get {
+            return getProp(nil)
+        }
+        set {
+            setProp(newValue)
+            onPropertyChanged("refreshSubscriptionState")
+        }
+    }
     
     func reset() {
         userState = .loading

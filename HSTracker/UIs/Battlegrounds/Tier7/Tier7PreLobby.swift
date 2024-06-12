@@ -132,7 +132,7 @@ class Tier7PreLobby: OverWindowController {
         let url = "https://hsreplay.net/battlegrounds/tier7/?utm_source=hstracker&utm_medium=client&utm_campaign=bgs_lobby_subscribe"
 
         NSWorkspace.shared.open(URL(string: url)!)
-        viewModel.refreshSubscriptionState = viewModel.isAuthenticated ? .refresh : .signIn
+        viewModel.possiblySubscribed = true
     }
     
     @IBAction func refreshAccountCommand(_ sender: AnyObject) {

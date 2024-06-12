@@ -411,7 +411,7 @@ final class CoreManager: NSObject {
     }
 
     func appActivated(_ notification: Notification) {
-        if let app = notification.userInfo!["NSWorkspaceApplicationKey"] as? NSRunningApplication {
+        if let app = notification.userInfo?["NSWorkspaceApplicationKey"] as? NSRunningApplication {
 			
 			if app.localizedName == CoreManager.applicationName {
                 NotificationCenter.default.post(name: Notification.Name(rawValue: Events.hearthstone_active), object: nil)
