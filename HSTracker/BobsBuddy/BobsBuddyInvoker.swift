@@ -52,6 +52,7 @@ class BobsBuddyInvoker {
     
     private var opponentHand: [Entity] = []
     private var opponentHandMap: [Entity: Entity] = [:]
+    private var opponentSecrets: [Entity] = []
         
     private var _turn: Int = 0
     
@@ -134,6 +135,9 @@ class BobsBuddyInvoker {
     }
     
     func startCombat() {
+        opponentHand = [Entity]()
+        opponentSecrets = [Entity]()
+        
         if !shouldRun() {
             return
         }
@@ -842,7 +846,23 @@ class BobsBuddyInvoker {
                 }
             }
         } else {
-            // TODO: [Duos] refactor
+            let secrets = gamePlayer.secrets
+            opponentSecrets = secrets
+            var secretsToAdd = [Int?]()
+            var seen = Set<Int>()
+            for dbfid in self.game.opponent.secrets.compactMap({ x in
+                !x.cardId.isEmpty ? x.card.dbfId : nil }) {
+                if dbfid == 0 {
+                    secretsToAdd.append(nil)
+                } else if !seen.contains(dbfid) {
+                    secretsToAdd.append(dbfid)
+                    seen.insert(dbfid)
+                }
+            }
+            MonoHelper.listClear(obj: inputPlayer.secrets)
+            for secret in secretsToAdd {
+                input?.addSecretFromDbfid(id: secret, target: inputPlayer.secrets)
+            }
             self.opponentHand = gamePlayer.hand
             let opponentHand = inputPlayer.hand
             MonoHelper.listClear(obj: opponentHand)
@@ -986,10 +1006,26 @@ class BobsBuddyInvoker {
     }
     
     func updateOpponentSecret(entity: Entity) {
-        doNotReport = true
-        if !game.isBattlegroundsDuosMatch() {
-            tryRerun()
+        guard let input, state == .combat && game.isBattlegroundsDuosMatch() else {
+            return
         }
+        var secretsToAdd = [Int?]()
+        var seen = Set<Int>()
+        for dbfid in opponentSecrets.compactMap({ x in
+            !x.cardId.isEmpty ? x.card.dbfId : nil }) {
+            if dbfid == 0 {
+                secretsToAdd.append(nil)
+            } else if !seen.contains(dbfid) {
+                secretsToAdd.append(dbfid)
+                seen.insert(dbfid)
+            }
+        }
+        let oppSecrets = input.opponent.secrets
+        MonoHelper.listClear(obj: oppSecrets)
+        for secret in secretsToAdd {
+            input.addSecretFromDbfid(id: secret, target: oppSecrets)
+        }
+        tryRerun()
     }
 
     private func getOpponentHandEntities(simulator: SimulatorProxy) -> [MonoHandle] {
