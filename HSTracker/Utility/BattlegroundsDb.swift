@@ -27,7 +27,7 @@ class BattlegroundsDb {
                 if over.tag == GameTag.is_bacon_pool_minion.rawValue, let card = Cards.by(dbfId: over.dbf_id, collectible: false) {
                     if over.value == 0 {
                         baconCards.removeAll(where: { x in x.dbfId == card.dbfId })
-                    } else if over.value == 1 {
+                    } else if over.value == 1 && !baconCards.contains(card) {
                         baconCards.append(card)
                     }
                 }

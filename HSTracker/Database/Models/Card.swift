@@ -251,15 +251,3 @@ extension Card: Hashable {
         return lhs.id == rhs.id
     }
 }
-
-/*extension HearthAssets {
-    func generate(card: Card,
-                  completed: @escaping ((NSImage?, HearthAssets.AssetError?) -> Void)) {
-        generate(card: card.jsonRepresentation, completed: completed)
-    }
-
-    func tile(card: Card,
-              completed: @escaping ((NSImage?, HearthAssets.AssetError?) -> Void)) {
-        tile(card: card.jsonRepresentation, completed: completed)
-    }
-}*/

@@ -187,7 +187,7 @@ class Database: NSObject, XMLParserDelegate {
 //                }
                 Cards.cards.insert(card, at: index)
                 Cards.cardsById[card.id] = card
-                if card.battlegroundsPoolMinion {
+                if card.battlegroundsPoolMinion && !Cards.battlegroundsMinions.contains(card) {
                     Cards.battlegroundsMinions.append(card)
                 }
                 if card.type == .battleground_spell && card.techLevel > 0 && card.battlegroundsPoolSpell {
