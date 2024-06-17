@@ -159,6 +159,7 @@
 "WONDERS" = "Caverns of Time";
 "WILD_WEST" = "Showdown in the Badlands";
 "WHIZBANGS_WORKSHOP" = "Whizbang's Workshop";
+"ISLAND_VACATION" = "Perils in Paradise";
 
 /* card type */
 "all_types" = "All";
