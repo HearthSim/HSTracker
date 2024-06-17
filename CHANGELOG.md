@@ -1,3 +1,14 @@
+# 2.7.9
+## New
+- Updated for Hearthstone 29.6.0
+- Show Fatigue Counter in more circumstances (such as when playing Insanity Warlock).
+## Fixes
+- Better constract of set icons in the Edit Deck dialog
+- Fixed BG session hiding incorrectly during the start of a game
+- Fixed duplicate minions on the BG minions list
+- Fixed an issue where Bob's Buddy would not update after an Akazamzarak secret was revealed.
+- Fixed an issue where Bob's Buddy would enter an invalid state when conceding during hero selection.
+
 # 2.7.8
 ## Fixes
 - Fixed Bob's Buddy showing ties on all combats on Solo Battlegrounds
