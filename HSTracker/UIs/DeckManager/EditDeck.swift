@@ -381,7 +381,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
             let setName = "\(set)".uppercased()
             let imageName = "Set_\(setName)"
             popupMenuItem.image = NSImage(named: imageName,
-                size: NSSize(width: 15, height: 15))
+                size: NSSize(width: 15, height: 15), tintColor: NSColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 1.0))
             popupMenu.addItem(popupMenuItem)
         }
         sets.menu = popupMenu
