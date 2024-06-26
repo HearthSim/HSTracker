@@ -2613,14 +2613,20 @@ class Game: NSObject, PowerEventHandler {
         OpponentDeadForTracker.reset()
         var heroes = [Entity]()
         for _ in 0 ..< 10 {
-            await Task.sleep(seconds: 500)
+            await Task.sleep(milliseconds: 500)
             heroes = player.playerEntities.filter { x in x.isHero && (x.has(tag: .bacon_hero_can_be_drafted) || x.has(tag: .bacon_skin))}
             if heroes.count >= 2 {
                 break
             }
         }
 
-        await Task.sleep(seconds: 500)
+        await Task.sleep(milliseconds: 500)
+        
+        var counter = 0
+        while availableRaces == nil && counter < 5 {
+            await Task.sleep(milliseconds: 500)
+            counter += 1
+        }
         
         await windowManager.battlegroundsSession.update()
         
@@ -2642,7 +2648,7 @@ class Game: NSObject, PowerEventHandler {
         // Wait for the mulligan to be ready
         await waitForMulliganStart()
         
-        async let waitAndAppear: () = Task.sleep(seconds: 500)
+        async let waitAndAppear: () = Task.sleep(milliseconds: 500)
         
         var battlegroundsHeroPickStats: BattlegroundsHeroPickStats?
         

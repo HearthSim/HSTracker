@@ -10,9 +10,9 @@ import Foundation
 
 @available(macOS 10.15, *)
 extension Task<Never, Never> {
-    static func sleep(seconds: UInt64) async {
+    static func sleep(milliseconds: UInt64) async {
         do {
-            try await Task.sleep(nanoseconds: seconds * 1_000_000)
+            try await Task.sleep(nanoseconds: milliseconds * 1_000_000)
         } catch {
             logger.error(error)
         }
