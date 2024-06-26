@@ -24,7 +24,7 @@ class UnsupportedInteractionExceptionProxy: MonoHandle, MonoClassInitializer {
         super.init(obj: obj)
     }
     
-    @MonoStringProperty(property: "Message", owner: AggregateExceptionProxy.self)
+    @MonoStringProperty(property: "Message", owner: UnsupportedInteractionExceptionProxy.self)
     var message: String
     
     @MonoHandleProperty(property: "Entity", owner: UnsupportedInteractionExceptionProxy.self)
