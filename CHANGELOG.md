@@ -1,3 +1,19 @@
+# 2.7.10
+## New
+- Updated for Hearthstone 29.6.2
+## Fixes
+- Fixed secret handling in Battlegrounds
+- Fixed crash when Bob's Buddy hit an unsupported interaction
+## Bobs Buddy
+- Fixed incorrect simulation results due to Tarecgosa.
+- Fixed incorrect simulation results due to Golden Persistent Poet.
+- Fixed incorrect simulation results due to Sky Pirate (Scallywag's summon).
+- Fixed incorrect simulation results due to Teron Gorefiend's hero power (Rapid Reanimation).
+- Fixed incorrect simulation results in Duos due to minions being unable to attack.
+- Fixed incorrect simulation results due to Teron Gorefiend's hero power (Rapid Reanimation).
+- Fixed incorrect simulation results due to Sky Pirate (Scallywag's summon).
+- Fixed incorrect simulation results due to Sr. Tomb Diver.
+
 # 2.7.9
 ## New
 - Updated for Hearthstone 29.6.0
