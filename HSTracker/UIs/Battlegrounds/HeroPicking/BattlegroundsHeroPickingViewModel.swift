@@ -75,11 +75,12 @@ class BattlegroundsHeroPickingViewModel: ViewModel {
                 return
             }
             let selectedHeroIndex = heroStats.firstIndex { x in x.heroDbfId == newValue }
+            let game = AppDelegate.instance().coreManager.game
             
             if let selectedHeroIndex {
                 let direction = (selectedHeroIndex >= heroStats.count / 2) ? -1 : 1
                 for i in 0 ..< heroStats.count {
-                    heroStats[i].setHiddenByHeroPower(i == selectedHeroIndex + direction)
+                    heroStats[i].setHiddenByHeroPower(i == selectedHeroIndex + direction || game.battlegroundsBuddiesEnabled && i == selectedHeroIndex + 2 * direction)
                 }
             } else {
                 for i in 0 ..< heroStats.count {

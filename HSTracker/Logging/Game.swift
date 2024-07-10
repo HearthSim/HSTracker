@@ -101,6 +101,10 @@ class Game: NSObject, PowerEventHandler {
     func snapshotBattlegroundsBoardState() {
         _battlegroundsBoardState.snapshotCurrentBoard()
     }
+    
+    var battlegroundsBuddiesEnabled: Bool {
+        return gameEntity?[.bacon_buddy_enabled] ?? 0 > 0
+    }
 	
 	// MARK: - PowerEventHandler protocol
 	
