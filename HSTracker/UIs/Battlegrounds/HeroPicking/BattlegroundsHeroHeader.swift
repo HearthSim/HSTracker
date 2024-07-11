@@ -13,7 +13,6 @@ class BattlegroundsHeroHeader: NSView {
     @IBOutlet weak var contentView: NSView!
     @IBOutlet weak var avgPlacementTooltip: NSView!
     @IBOutlet weak var pickRateTooltip: NSView!
-    @IBOutlet weak var tierTooltip: NSView!
     
     @IBOutlet weak var avgPlacementTracker: NSView!
     @IBOutlet weak var avgPlacementLabel: NSTextField!
@@ -64,10 +63,8 @@ class BattlegroundsHeroHeader: NSView {
         avgPlacementTracker.customToolTipInsets = CGSize(width: 25, height: 0)
         avgPlacementTooltip.updateTrackingAreas_CustomToolTip()
         
-        tierBox.customToolTip = tierTooltip
         tierBox.customToolTipMargins = CGSize(width: 0, height: 0)
         tierBox.customToolTipInsets = CGSize(width: 25, height: 0)
-        tierTooltip.updateTrackingAreas_CustomToolTip()
         
         pickRateTracker.customToolTip = pickRateTooltip
         pickRateTracker.customToolTipMargins = CGSize(width: 0, height: 0)
