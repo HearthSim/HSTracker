@@ -63,9 +63,6 @@ class BattlegroundsHeroHeader: NSView {
         avgPlacementTracker.customToolTipInsets = CGSize(width: 25, height: 0)
         avgPlacementTooltip.updateTrackingAreas_CustomToolTip()
         
-        tierBox.customToolTipMargins = CGSize(width: 0, height: 0)
-        tierBox.customToolTipInsets = CGSize(width: 25, height: 0)
-        
         pickRateTracker.customToolTip = pickRateTooltip
         pickRateTracker.customToolTipMargins = CGSize(width: 0, height: 0)
         pickRateTracker.customToolTipInsets = CGSize(width: 25, height: 0)
