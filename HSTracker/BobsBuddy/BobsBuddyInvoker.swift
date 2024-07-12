@@ -219,6 +219,14 @@ class BobsBuddyInvoker {
                 BobsBuddyInvoker.bobsBuddyDisplay.resetText()
             }
             
+            // Enforce input teammate to be null if teammate was not snapshot
+            if input != nil && duosInputPlayerTeammate == nil {
+                input?.playerTeammate = PlayerProxy(obj: nil)
+            }
+            if input != nil && duosInputOpponentTeammate == nil {
+                input?.opponentTeammate = PlayerProxy(obj: nil)
+            }
+            
             _ = runAndDisplaySimulationAsync().done { _ in
                 seal.fulfill(true)
             }.catch { error in
@@ -935,11 +943,11 @@ class BobsBuddyInvoker {
                 duosInputPlayerTeammate = nil
                 duosInputOpponentTeammate = nil
             } else {
-                if game.duosWasPlayerHeroModified && duosInputPlayerTeammate == nil {
+                if game.duosWasPlayerHeroModified && duosInputPlayerTeammate == nil && input.playerTeammate.get() != nil {
                     try setupInputPlayer(simulator: simulator, gamePlayer: game.player, inputPlayer: input.playerTeammate, playerEntity: game.playerEntity, friendly: true)
                     duosInputPlayerTeammate = input.playerTeammate
                 }
-                if game.duosWasOpponentHeroModified && duosInputOpponentTeammate == nil {
+                if game.duosWasOpponentHeroModified && duosInputOpponentTeammate == nil && input.opponentTeammate.get() != nil {
                     try setupInputPlayer(simulator: simulator, gamePlayer: game.opponent, inputPlayer: input.opponentTeammate, playerEntity: game.opponentEntity, friendly: false)
                     duosInputOpponentTeammate = input.opponentTeammate
                 }
