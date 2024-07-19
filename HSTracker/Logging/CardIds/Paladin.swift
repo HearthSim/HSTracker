@@ -151,6 +151,8 @@ extension CardIds.Collectible {
         static let AzsharanMooncatcher = "TSC_644"
         static let SinfulSousChef = "REV_952"
         static let TheCountess = "REV_951"
+        static let FossilizedKaleidosaur = "DEEP_033"
+        static let Shroomscavate = "DEEP_018"
     }
 }
 

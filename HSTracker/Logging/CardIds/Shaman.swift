@@ -139,6 +139,7 @@ extension CardIds.Collectible {
         static let SaxophoneSoloist = "ETC_358"
         static let CoralKeeper = "TSC_648"
         static let WalkingMountain = "WW_382"
+        static let DiggingStraightDown = "DEEP_009"
     }
 }
 
