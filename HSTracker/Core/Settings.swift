@@ -270,7 +270,7 @@ final class Settings {
     static var showSessionRecap: Bool
     @UserDefault(key: Settings.show_banned_tribes, defaultValue: true)
     static var showMinionsSection: Bool
-    @UserDefault(key: Settings.show_minion_types, defaultValue: 0)
+    @UserDefault(key: Settings.show_minion_types, defaultValue: 1)
     static var showMinionTypes: Int
     @UserDefault(key: Settings.show_mmr, defaultValue: true)
     static var showMMR: Bool
