@@ -1,3 +1,15 @@
+# 3.0.0
+## New
+- Updated for Hearthstone 30.0.0
+- Added initial deck tracking support for Perils in Paradise cards. More to come soon!
+- Hide Hero Picking overlay covering up buddies.
+- Added Tier7 Composition Stats!
+## Fixes
+- Fixed the Excavate counter not appearing for all Excavate cards.
+## Bob's Buddy
+- Fixed incorrect simulation results in Duos due to partial combat.
+- Fixed an issue where minions exclusive to Duos would prevent simulations even when not playing Duos.
+
 # 2.7.10
 ## New
 - Updated for Hearthstone 29.6.2
