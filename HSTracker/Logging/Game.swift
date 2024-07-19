@@ -1668,6 +1668,12 @@ class Game: NSObject, PowerEventHandler {
         if isMercenariesPveMatch() {
             _ = MercenariesCoins.update()
         }
+        
+        if isBattlegroundsMatch() {
+            DispatchQueue.main.async {
+                self.windowManager.battlegroundsSession.update()
+            }
+        }
 		
         updateTrackers(reset: true)
 
@@ -3153,6 +3159,7 @@ class Game: NSObject, PowerEventHandler {
             snapshotBattlegroundsHeroPick()
             hideBattlegroundsHeroPanel()
             windowManager.battlegroundsHeroPicking.viewModel.reset()
+            await windowManager.battlegroundsSession.hideCompStatsOnError()
         } else if isConstructedMatch() || isFriendlyMatch || isArenaMatch {
             hideMulliganToast()
             

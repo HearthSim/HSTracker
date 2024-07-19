@@ -29,6 +29,11 @@ class BattlegroundsSession: OverWindowController {
     @IBOutlet weak var noGamesSection: NSView!
     @IBOutlet weak var lastGames: NSStackView!
     
+    @IBOutlet weak var compositions: NSStackView!
+    @IBOutlet weak var compositionsItems: NSStackView!
+    @IBOutlet weak var compositionsWaiting: NSTextField!
+    @IBOutlet weak var compositionsError: NSTextField!
+    
     @IBOutlet weak var sessionPanel: NSStackView!
     
     private var sessionGames = [BattlegroundsLastGames.GameItem]()
@@ -38,6 +43,8 @@ class BattlegroundsSession: OverWindowController {
     @objc dynamic var minionsTypeHeader = ""
     
     private var _battlegroundsGameMode: SelectedBattlegroundsGameMode = .unknown
+    
+    private let _updateCompStatsSemaphore = UnfairLock()
     
     var battlegroundsGameMode: SelectedBattlegroundsGameMode {
         get {
@@ -49,8 +56,13 @@ class BattlegroundsSession: OverWindowController {
             if modified {
                 DispatchQueue.main.async {
                     self.updateSectionsVisibilities()
+                    if #available(macOS 10.15, *) {
+                        Task.detached {
+                            await self.updateCompositionStatsVisibility()
+                        }
+                    }
                     self.update()
-                    AppDelegate.instance().coreManager.game.updateBattlegroundsOverlays()
+                    self.updateScaling()
                 }
             }
         }
@@ -76,6 +88,7 @@ class BattlegroundsSession: OverWindowController {
         DispatchQueue.main.async {
             self.showAvailableMinionTypes()
             self.update()
+            self.updateScaling()
         }
     }
     
@@ -86,16 +99,18 @@ class BattlegroundsSession: OverWindowController {
         DispatchQueue.main.async {
             self.hideAvailableMinionTypes()
             self.update()
-            AppDelegate.instance().coreManager.game.updateBattlegroundsOverlays()
+            self.updateScaling()
         }
     }
     
+    @MainActor
     func show() {
         if window?.occlusionState.contains(.visible) ?? false || AppDelegate.instance().coreManager.game.spectator {
             return
         }
         updateSectionsVisibilities()
         update()
+        updateScaling()
     }
     
     private func showAvailableMinionTypes() {
@@ -123,6 +138,7 @@ class BattlegroundsSession: OverWindowController {
     
     func updateSectionsVisibilities() {
         tribesSection.isHidden = !Settings.showMinionsSection
+        compositions.isHidden = !Settings.showBattlegroundsTier7SessionCompStats
         mmrSection.isHidden = !Settings.showMMR
         latestGamesSection.isHidden = !Settings.showLatestGames
     }
@@ -192,6 +208,20 @@ class BattlegroundsSession: OverWindowController {
             hideAvailableMinionTypes()
         }
         
+        // Update method might be called multiple times.
+        // We need to prevent multiple calls to UpdateCompositionStatsIfNeeded to happen at the same time.
+        // This also ensures only one API call is made.
+        
+        if #available(macOS 10.15.0, *) {
+            _updateCompStatsSemaphore.lock()
+            defer {
+                _updateCompStatsSemaphore.unlock()
+            }
+            Task.init {
+                await updateCompositionStatsIfNeeded()
+            }
+        }
+                
         let firstGame = updateLatestGames()
         
         let rating = isDuos ? game.battlegroundsRatingInfo?.duosRating.intValue ?? 0 :  game.battlegroundsRatingInfo?.rating.intValue ?? 0
@@ -211,6 +241,206 @@ class BattlegroundsSession: OverWindowController {
             mmrFieldB.stringValue = "\(mmrDelta > 0 ? "+" : "")\(formatRating(mmr: mmrDelta))"
             mmrFieldB.textColor = mmrDelta == 0 ? NSColor.white : mmrDelta > 0 ? BattlegroundsGameView.mmrPositive : BattlegroundsGameView.mmrNegative
         }
+        
+        sessionPanel.needsLayout = true
+    }
+    
+    @available(macOS 10.15, *)
+    private func updateCompositionStatsVisibility() async {
+        let userOwnsTier7 = HSReplayAPI.accountData?.is_tier7 ?? false
+        
+        if let acc = MirrorHelper.getAccountId() {
+            if !userOwnsTier7 {
+                await Tier7Trial.update(hi: acc.hi.int64Value, lo: acc.lo.int64Value)
+            }
+        }
+        if isDuos || !Settings.showBattlegroundsTier7SessionCompStats {
+            availableCompStatsSectionVisibility = false
+        } else {
+            availableCompStatsSectionVisibility = userOwnsTier7 || Tier7Trial.remainingTrials ?? 0 > 0 || compositionStats != nil
+        }
+    }
+    
+    private func setBattlegroundsCompositionStatsViewModel(_ compData: [BattlegroundsCompStats.LobbyComp]) {
+        for subview in compositionsItems.subviews.reversed() where subview as? BattlegroundsCompositionStatsRow != nil {
+            subview.removeFromSuperview()
+        }
+        
+        let compStatsOrdered = compData.sorted(by: { (a, b) -> Bool in a.popularity > b.popularity })
+        
+        if compStatsOrdered.count > 0 {
+            let max = max(ceil(compStatsOrdered[0].popularity), 40.0)
+            
+            let vms = compStatsOrdered.filter { comp in comp.id != -1 && comp.name != nil }.compactMap { comp in
+                let minionDbfId = comp.key_minions_top3 == nil || comp.key_minions_top3?.count == 0 ? 59201 : comp.key_minions_top3?[0] ?? 59201
+                return BattlegroundsCompositionStatsRowViewModel(comp.name ?? "", minionDbfId, comp.popularity, comp.avg_final_placement, max)
+            }
+            
+            for vm in vms {
+                let comp = BattlegroundsCompositionStatsRow(viewModel: vm)
+                compositionsItems.addArrangedSubview(comp)
+            }
+        }
+    }
+    
+    @available(macOS 10.15.0, *)
+    private func getBattlegroundsCompStats() async throws -> BattlegroundsCompStats? {
+        if isDuos {
+            return nil
+        }
+        
+        let game = AppDelegate.instance().coreManager.game
+        
+        if game.spectator {
+            return nil
+        }
+        
+        if !Settings.enableTier7Overlay {
+            return nil
+        }
+        
+        if RemoteConfig.data?.tier7?.disabled ?? false {
+            // FIXME
+            return nil
+        }
+        
+        let userOwnsTier7 = HSReplayAPI.accountData?.is_tier7 ?? false
+        
+        var counter = 0
+        while game.availableRaces == nil && counter < 5 {
+            await Task.sleep(milliseconds: 500)
+            counter += 1
+        }
+        guard let availableRaces = game.availableRaces else {
+            throw CompositionStatsException("Unable to get available races")
+        }
+        
+        let compParams = BattlegroundsCompStatsParams(minion_types: availableRaces.compactMap { x in Race.allCases.firstIndex(of: x) }, game_language: Settings.hearthstoneLanguage?.rawValue ?? "enUS")
+        
+        var token: String?
+        
+        if !userOwnsTier7 {
+            let acc = MirrorHelper.getAccountId()
+            
+            if let acc {
+                token = await Tier7Trial.activate(hi: acc.hi.int64Value, lo: acc.lo.int64Value)
+                
+                if token == nil {
+                    throw CompositionStatsException("Unable to get trial token")
+                }
+            }
+        }
+        
+        // At this point the user either owns tier7 or has an active trial!
+
+        var compStats: BattlegroundsCompStats?
+        if let token {
+            compStats = await HSReplayAPI.getTier7CompStats(token: token, parameters: compParams)
+        } else {
+            compStats = await HSReplayAPI.getTier7CompStats(parameters: compParams)
+        }
+
+        if compStats == nil || compStats?.data.first_place_comps_lobby_races.count == 0 {
+            throw CompositionStatsException("Invalid server response")
+        }
+
+        return compStats
+    }
+    
+    private var compositionStats: [BattlegroundsCompositionStatsRowViewModel]?
+    private var compStatsBodyVisibility = false
+    private var compStatsWaitingMsgVisibility = false
+    private var compStatsErrorVisibility = false
+    private var availableCompStatsSectionVisibility = false
+    
+    @MainActor
+    private func updateCompositionsVisibilities() {
+        compositionsWaiting.isHidden = !compStatsWaitingMsgVisibility
+        compositionsError.isHidden = !compStatsErrorVisibility
+        compositionsItems.isHidden = !compStatsBodyVisibility
+    }
+    
+    @MainActor
+    private func clearCompositionStats() {
+        compositionStats = nil
+        for subview in compositionsItems.subviews.reversed() {
+            subview.removeFromSuperview()
+        }
+        compStatsBodyVisibility = false
+        compStatsWaitingMsgVisibility = true
+        compStatsErrorVisibility = false
+        
+        updateCompositionsVisibilities()
+    }
+    
+    @MainActor
+    private func showCompositionStats() {
+        compStatsBodyVisibility = true
+        compStatsWaitingMsgVisibility = false
+        compStatsErrorVisibility = false
+        
+        updateCompositionsVisibilities()
+        
+        AppDelegate.instance().coreManager.game.updateBattlegroundsOverlays()
+    }
+    
+    @available(macOS 10.15.0, *)
+    private func updateCompositionStatsIfNeeded() async {
+        let game = AppDelegate.instance().coreManager.game
+        
+        if game.currentMode != .gameplay || SceneHandler.scene != .gameplay {
+            clearCompositionStats()
+            return
+        }
+        
+        // Ensures data was already fetched and no more API calls are needed
+        if ((compositionStats != nil && compositionStats?.count != 0) || compStatsErrorVisibility)  && (game.currentMode == .gameplay || SceneHandler.scene == .gameplay) {
+            return
+        }
+
+        await trySetCompStats()
+    }
+    
+    @available(macOS 10.15.0, *)
+    private func trySetCompStats() async {
+        do {
+            if let compStats = try await getBattlegroundsCompStats() {
+                setBattlegroundsCompositionStatsViewModel(compStats.data.first_place_comps_lobby_races)
+                showCompositionStats()
+            }
+        } catch {
+            handleCompStatsError(error)
+        }
+    }
+    
+    func hideCompStatsOnError() {
+        if compStatsErrorVisibility {
+            availableCompStatsSectionVisibility = false
+            DispatchQueue.main.async {
+                self.updateCompositionsVisibilities()
+            }
+        }
+    }
+
+    private func handleCompStatsError(_ error: Error) {
+        logger.error(error)
+        
+        let game = AppDelegate.instance().coreManager.game
+        
+        let beforeHeroPicked = (game.gameEntity?[GameTag.step] ?? 0) <= Step.begin_mulligan.rawValue
+        if !beforeHeroPicked {
+            if #available(macOS 10.15, *) {
+                Task.detached {
+                    // Ensure update after 20 seconds
+                    await Task.sleep(milliseconds: 20_000)
+                    await self.hideCompStatsOnError()
+                }
+            }
+        }
+
+        compStatsErrorVisibility = true
+        compStatsBodyVisibility = false
+        compStatsWaitingMsgVisibility = false
     }
 
     private func updateLatestGames() -> BattlegroundsLastGames.GameItem? {

@@ -8,6 +8,10 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="BattlegroundsSession" customModule="HSTracker" customModuleProvider="target">
             <connections>
+                <outlet property="compositions" destination="Uaz-4H-Fr2" id="PHg-GN-vOl"/>
+                <outlet property="compositionsError" destination="Zpf-0u-LZO" id="YoD-Uj-8mo"/>
+                <outlet property="compositionsItems" destination="UEZ-lC-wOq" id="PBB-87-sNJ"/>
+                <outlet property="compositionsWaiting" destination="lhp-3L-tdE" id="VMG-Ks-RU5"/>
                 <outlet property="lastGames" destination="rzz-aP-9P7" id="0Tx-hP-GcS"/>
                 <outlet property="latestGamesSection" destination="yiA-Bi-KGf" id="aOX-s9-ycm"/>
                 <outlet property="mmrFieldA" destination="3Fb-Zz-bUs" id="PfW-6n-WOZ"/>
@@ -48,10 +52,10 @@
                                     <rect key="frame" x="0.0" y="0.0" width="240" height="286"/>
                                     <subviews>
                                         <stackView identifier="BattlegroundsSessionPanel" distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="22i-f0-cvw" userLabel="BattlegroundsSessionPanel">
-                                            <rect key="frame" x="0.0" y="0.0" width="240" height="289"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="240" height="465"/>
                                             <subviews>
                                                 <stackView identifier="BattlegroundsTribeSection" distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g3p-nJ-meK" userLabel="BgBannedTribesSection">
-                                                    <rect key="frame" x="0.0" y="185" width="240" height="104"/>
+                                                    <rect key="frame" x="0.0" y="361" width="240" height="104"/>
                                                     <subviews>
                                                         <box identifier="MinionsBannedBox" boxType="custom" borderType="none" cornerRadius="5" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="KR2-dj-GTv">
                                                             <rect key="frame" x="0.0" y="74" width="240" height="30"/>
@@ -203,8 +207,164 @@
                                                         <constraint firstAttribute="trailing" secondItem="KR2-dj-GTv" secondAttribute="trailing" id="BUg-5L-XEW"/>
                                                         <constraint firstAttribute="trailing" secondItem="kSf-DZ-aPz" secondAttribute="trailing" id="Lwm-wJ-AGC"/>
                                                         <constraint firstItem="KR2-dj-GTv" firstAttribute="leading" secondItem="g3p-nJ-meK" secondAttribute="leading" id="eAQ-E3-dlA"/>
-                                                        <constraint firstItem="KR2-dj-GTv" firstAttribute="top" secondItem="g3p-nJ-meK" secondAttribute="top" id="v8x-Ym-Itm"/>
                                                         <constraint firstItem="P9V-JE-wLY" firstAttribute="leading" secondItem="g3p-nJ-meK" secondAttribute="leading" id="yEw-P5-9ox"/>
+                                                    </constraints>
+                                                    <visibilityPriorities>
+                                                        <integer value="1000"/>
+                                                        <integer value="1000"/>
+                                                        <integer value="1000"/>
+                                                        <integer value="1000"/>
+                                                    </visibilityPriorities>
+                                                    <customSpacing>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                    </customSpacing>
+                                                </stackView>
+                                                <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Uaz-4H-Fr2" userLabel="CompositionStats">
+                                                    <rect key="frame" x="0.0" y="185" width="240" height="176"/>
+                                                    <subviews>
+                                                        <box boxType="custom" borderType="bezel" cornerRadius="4" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="0au-4g-w3d">
+                                                            <rect key="frame" x="0.0" y="146" width="240" height="30"/>
+                                                            <view key="contentView" id="2Oo-FY-CNd">
+                                                                <rect key="frame" x="1" y="1" width="238" height="28"/>
+                                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                <subviews>
+                                                                    <stackView orientation="horizontal" alignment="centerY" spacing="6" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="i8R-cc-vUS">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="238" height="28"/>
+                                                                        <middleViews>
+                                                                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="f0P-Hk-d1j">
+                                                                                <rect key="frame" x="49" y="6" width="16" height="16"/>
+                                                                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="tier7-logo" id="Bp6-4v-Gbp"/>
+                                                                            </imageView>
+                                                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="751" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zg8-RK-ENA">
+                                                                                <rect key="frame" x="69" y="6" width="121" height="16"/>
+                                                                                <textFieldCell key="cell" lineBreakMode="clipping" title="Composition Stats" id="dfB-qF-lgY">
+                                                                                    <font key="font" metaFont="system"/>
+                                                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                                </textFieldCell>
+                                                                            </textField>
+                                                                        </middleViews>
+                                                                        <visibilityPriorities>
+                                                                            <integer value="1000"/>
+                                                                            <integer value="1000"/>
+                                                                        </visibilityPriorities>
+                                                                        <customSpacing>
+                                                                            <real value="3.4028234663852886e+38"/>
+                                                                            <real value="3.4028234663852886e+38"/>
+                                                                        </customSpacing>
+                                                                    </stackView>
+                                                                </subviews>
+                                                                <constraints>
+                                                                    <constraint firstItem="i8R-cc-vUS" firstAttribute="top" secondItem="2Oo-FY-CNd" secondAttribute="top" id="NPZ-3o-3bJ"/>
+                                                                    <constraint firstItem="i8R-cc-vUS" firstAttribute="leading" secondItem="2Oo-FY-CNd" secondAttribute="leading" id="j57-N6-Byr"/>
+                                                                    <constraint firstItem="i8R-cc-vUS" firstAttribute="centerY" secondItem="2Oo-FY-CNd" secondAttribute="centerY" id="wv7-dJ-czG"/>
+                                                                    <constraint firstAttribute="bottom" secondItem="i8R-cc-vUS" secondAttribute="bottom" id="yGG-ah-C3l"/>
+                                                                    <constraint firstAttribute="trailing" secondItem="i8R-cc-vUS" secondAttribute="trailing" id="zcs-xI-9o1"/>
+                                                                </constraints>
+                                                            </view>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="30" id="Aes-fl-P7v"/>
+                                                            </constraints>
+                                                            <color key="fillColor" red="0.10980392156862745" green="0.12549019607843137" blue="0.13333333333333333" alpha="1" colorSpace="deviceRGB"/>
+                                                        </box>
+                                                        <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="1000" verticalStackHuggingPriority="250" horizontalHuggingPriority="1000" verticalCompressionResistancePriority="250" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UEZ-lC-wOq" userLabel="CompositionItems">
+                                                            <rect key="frame" x="0.0" y="116" width="240" height="30"/>
+                                                            <subviews>
+                                                                <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="USG-JT-UWE">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="240" height="30"/>
+                                                                    <subviews>
+                                                                        <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3Jn-cN-ufF">
+                                                                            <rect key="frame" x="-2" y="8" width="94" height="14"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="width" constant="90" id="CZC-o0-bmK"/>
+                                                                            </constraints>
+                                                                            <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Composition" id="56B-oE-mHO">
+                                                                                <font key="font" metaFont="system" size="11"/>
+                                                                                <color key="textColor" red="1" green="1" blue="1" alpha="0.55000000000000004" colorSpace="deviceRGB"/>
+                                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
+                                                                        </textField>
+                                                                        <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bey-K0-x9f">
+                                                                            <rect key="frame" x="88" y="8" width="74" height="14"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="width" constant="70" id="OTh-Xa-9pk"/>
+                                                                            </constraints>
+                                                                            <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="First Place" id="uLh-zR-aZ2">
+                                                                                <font key="font" metaFont="system" size="11"/>
+                                                                                <color key="textColor" red="1" green="1" blue="1" alpha="0.55000000000000004" colorSpace="deviceRGB"/>
+                                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
+                                                                        </textField>
+                                                                        <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bd8-gr-w6Q">
+                                                                            <rect key="frame" x="158" y="8" width="84" height="14"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="width" constant="80" id="xO9-Bb-V8B"/>
+                                                                            </constraints>
+                                                                            <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Avg Place" id="lbg-ag-AUz">
+                                                                                <font key="font" metaFont="system" size="11"/>
+                                                                                <color key="textColor" red="1" green="1" blue="1" alpha="0.55000000000000004" colorSpace="deviceRGB"/>
+                                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
+                                                                        </textField>
+                                                                    </subviews>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="30" id="dsc-5a-MzF"/>
+                                                                    </constraints>
+                                                                    <visibilityPriorities>
+                                                                        <integer value="1000"/>
+                                                                        <integer value="1000"/>
+                                                                        <integer value="1000"/>
+                                                                    </visibilityPriorities>
+                                                                    <customSpacing>
+                                                                        <real value="3.4028234663852886e+38"/>
+                                                                        <real value="3.4028234663852886e+38"/>
+                                                                        <real value="3.4028234663852886e+38"/>
+                                                                    </customSpacing>
+                                                                </stackView>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" relation="lessThanOrEqual" priority="250" constant="170" id="fuk-7p-bWK"/>
+                                                            </constraints>
+                                                            <visibilityPriorities>
+                                                                <integer value="1000"/>
+                                                            </visibilityPriorities>
+                                                            <customSpacing>
+                                                                <real value="3.4028234663852886e+38"/>
+                                                            </customSpacing>
+                                                        </stackView>
+                                                        <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lhp-3L-tdE">
+                                                            <rect key="frame" x="-2" y="58" width="244" height="58"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="240" id="F0C-c1-Tq4"/>
+                                                                <constraint firstAttribute="height" constant="58" id="UyM-5x-ifA"/>
+                                                            </constraints>
+                                                            <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Waiting for next game" id="Ljq-si-cSB" customClass="VerticallyAlignedTextFieldCell" customModule="HSTracker" customModuleProvider="target">
+                                                                <font key="font" metaFont="system" size="16"/>
+                                                                <color key="textColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                        </textField>
+                                                        <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Zpf-0u-LZO">
+                                                            <rect key="frame" x="-2" y="0.0" width="244" height="58"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="240" id="6Ce-IQ-b27"/>
+                                                                <constraint firstAttribute="height" constant="58" id="OWG-m7-M63"/>
+                                                            </constraints>
+                                                            <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Failed to load compositions" id="QQx-oQ-X0l" customClass="VerticallyAlignedTextFieldCell" customModule="HSTracker" customModuleProvider="target">
+                                                                <font key="font" metaFont="system" size="16"/>
+                                                                <color key="textColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                        </textField>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="0au-4g-w3d" firstAttribute="leading" secondItem="Uaz-4H-Fr2" secondAttribute="leading" id="GWf-0B-wjU"/>
+                                                        <constraint firstAttribute="trailing" secondItem="UEZ-lC-wOq" secondAttribute="trailing" id="HwA-Nj-fpi"/>
+                                                        <constraint firstAttribute="trailing" secondItem="0au-4g-w3d" secondAttribute="trailing" id="J5l-J8-C5t"/>
+                                                        <constraint firstItem="UEZ-lC-wOq" firstAttribute="leading" secondItem="Uaz-4H-Fr2" secondAttribute="leading" id="wHr-ZN-Ifo"/>
                                                     </constraints>
                                                     <visibilityPriorities>
                                                         <integer value="1000"/>
@@ -355,7 +515,6 @@
                                                         <constraint firstAttribute="trailing" secondItem="gFK-8v-4Yk" secondAttribute="trailing" id="agL-a7-nWe"/>
                                                         <constraint firstAttribute="trailing" secondItem="dcG-6F-KJd" secondAttribute="trailing" id="bqr-eN-rJO"/>
                                                         <constraint firstItem="dcG-6F-KJd" firstAttribute="leading" secondItem="PhO-YH-JqE" secondAttribute="leading" id="ghY-qk-18G"/>
-                                                        <constraint firstItem="gFK-8v-4Yk" firstAttribute="top" secondItem="PhO-YH-JqE" secondAttribute="top" id="kuk-Px-lqj"/>
                                                     </constraints>
                                                     <visibilityPriorities>
                                                         <integer value="1000"/>
@@ -523,7 +682,6 @@
                                                     <constraints>
                                                         <constraint firstAttribute="trailing" secondItem="uD9-3Z-biG" secondAttribute="trailing" id="2IJ-zr-0iX"/>
                                                         <constraint firstAttribute="trailing" secondItem="QPM-sf-cHf" secondAttribute="trailing" id="DGf-n7-PwT"/>
-                                                        <constraint firstItem="uD9-3Z-biG" firstAttribute="top" secondItem="yiA-Bi-KGf" secondAttribute="top" id="Sl9-Uu-hiO"/>
                                                         <constraint firstItem="rzz-aP-9P7" firstAttribute="leading" secondItem="yiA-Bi-KGf" secondAttribute="leading" id="ZB2-o9-4Nn"/>
                                                         <constraint firstItem="QPM-sf-cHf" firstAttribute="leading" secondItem="yiA-Bi-KGf" secondAttribute="leading" id="fZ1-t5-rdk"/>
                                                         <constraint firstAttribute="trailing" secondItem="rzz-aP-9P7" secondAttribute="trailing" id="rlr-jv-gBy"/>
@@ -544,22 +702,22 @@
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="240" id="66f-Tf-ZnN"/>
                                                 <constraint firstItem="PhO-YH-JqE" firstAttribute="leading" secondItem="22i-f0-cvw" secondAttribute="leading" id="7aJ-SN-28W"/>
+                                                <constraint firstAttribute="trailing" secondItem="Uaz-4H-Fr2" secondAttribute="trailing" id="7ak-Xp-svy"/>
                                                 <constraint firstAttribute="trailing" secondItem="PhO-YH-JqE" secondAttribute="trailing" id="A2Y-VS-lsN"/>
                                                 <constraint firstItem="yiA-Bi-KGf" firstAttribute="leading" secondItem="22i-f0-cvw" secondAttribute="leading" id="RQt-UI-m5M"/>
+                                                <constraint firstItem="Uaz-4H-Fr2" firstAttribute="leading" secondItem="22i-f0-cvw" secondAttribute="leading" id="WXF-cf-g2k"/>
                                                 <constraint firstItem="g3p-nJ-meK" firstAttribute="leading" secondItem="22i-f0-cvw" secondAttribute="leading" id="X9g-Ks-vkL"/>
                                                 <constraint firstAttribute="trailing" secondItem="yiA-Bi-KGf" secondAttribute="trailing" id="fBP-qI-LUj"/>
-                                                <constraint firstItem="g3p-nJ-meK" firstAttribute="top" secondItem="22i-f0-cvw" secondAttribute="top" id="fsu-1v-hWF"/>
                                                 <constraint firstAttribute="trailing" secondItem="g3p-nJ-meK" secondAttribute="trailing" id="gd0-Cg-kGc"/>
-                                                <constraint firstItem="PhO-YH-JqE" firstAttribute="top" secondItem="g3p-nJ-meK" secondAttribute="bottom" id="hvP-GJ-jwh"/>
-                                                <constraint firstAttribute="bottom" secondItem="yiA-Bi-KGf" secondAttribute="bottom" id="oIP-tW-aot"/>
-                                                <constraint firstItem="yiA-Bi-KGf" firstAttribute="top" secondItem="PhO-YH-JqE" secondAttribute="bottom" id="qXw-uq-IgD"/>
                                             </constraints>
                                             <visibilityPriorities>
                                                 <integer value="1000"/>
                                                 <integer value="1000"/>
                                                 <integer value="1000"/>
+                                                <integer value="1000"/>
                                             </visibilityPriorities>
                                             <customSpacing>
+                                                <real value="3.4028234663852886e+38"/>
                                                 <real value="3.4028234663852886e+38"/>
                                                 <real value="3.4028234663852886e+38"/>
                                                 <real value="3.4028234663852886e+38"/>
@@ -595,4 +753,7 @@
             <point key="canvasLocation" x="229" y="-28"/>
         </window>
     </objects>
+    <resources>
+        <image name="tier7-logo" width="16" height="16"/>
+    </resources>
 </document>

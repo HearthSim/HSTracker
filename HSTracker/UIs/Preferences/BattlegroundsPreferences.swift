@@ -42,6 +42,7 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
     @IBOutlet weak var showLatestGames: NSButton!
     @IBOutlet weak var scalingSlider: NSSlider!
     @IBOutlet weak var scalingValue: NSTextField!
+    @IBOutlet weak var showBattlegroundsCompStats: NSButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,6 +72,7 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
         showMMRCurrentChange.state = Settings.showMMRStartCurrent ? .off : .on
         scalingSlider.doubleValue = Settings.battlegroundsSessionScaling * 100.0
         scalingValue.doubleValue = Settings.battlegroundsSessionScaling
+        showBattlegroundsCompStats.state = Settings.showBattlegroundsTier7SessionCompStats ? .on : .off
         updateEnablement()
     }
 
@@ -156,6 +158,8 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
             }
         } else if sender == showCompositionStats {
             Settings.showBattlegroundsCompositionStats = sender.state == .on
+        } else if sender == showBattlegroundsCompStats {
+            Settings.showBattlegroundsTier7SessionCompStats = sender.state == .on
         }
     }
     
@@ -184,6 +188,7 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
         enabled = enableTier7Overlay.state == .on
         showTier7PreLobby.isEnabled = enabled
         showHeroPicking.isEnabled = enabled
+        showBattlegroundsCompStats.isEnabled = enabled
         showQuestPicking.isEnabled = enabled
         showCompositionStats.isEnabled = enabled
     }

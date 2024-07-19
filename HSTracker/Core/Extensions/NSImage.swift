@@ -32,16 +32,13 @@ extension NSImage {
     }
 
     func resized(to size: NSSize) -> NSImage? {
-        let newImage = NSImage(size: size)
-
-        newImage.lockFocus()
-        draw(in: NSRect(x: 0, y: 0, width: size.width, height: size.height),
-             from: NSRect.zero,
-             operation: .copy,
-             fraction: 1.0)
-
-        newImage.unlockFocus()
-        newImage.size = size
+        let newImage = NSImage(size: size, flipped: false, drawingHandler: { (rect) -> Bool in
+            self.draw(in: rect,
+                 from: NSRect.zero,
+                 operation: .copy,
+                 fraction: 1.0)
+            return true
+        })
 
         return newImage
     }

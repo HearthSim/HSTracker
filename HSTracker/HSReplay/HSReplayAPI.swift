@@ -756,4 +756,68 @@ class HSReplayAPI {
             })
         }
     }
+    
+    @available(macOS 10.15.0, *)
+    static func getTier7CompStats(parameters: BattlegroundsCompStatsParams) async -> BattlegroundsCompStats? {
+        return await withCheckedContinuation { continuation in
+            let encoder = JSONEncoder()
+            var body: Data?
+            do {
+                body = try encoder.encode(parameters)
+                if let body = body {
+                    logger.debug("Sending quest rewards request: \(String(data: body, encoding: .utf8) ?? "ERROR")")
+                }
+            } catch {
+                logger.error(error)
+            }
+            oauthswift.client.request("\(HSReplay.tier7CompStatsUrl)", method: .POST, headers: ["Content-Type": "application/json"], body: body, completionHandler: { result in
+                switch result {
+                case .success(let response):
+                    let bqs: BattlegroundsCompStats? = parseResponse(data: response.data, defaultValue: nil)
+                    continuation.resume(returning: bqs)
+                    return
+                case .failure(let error):
+                    logger.error(error)
+                    continuation.resume(returning: nil)
+                    return
+                }
+            })
+        }
+    }
+
+    @available(macOS 10.15.0, *)
+    static func getTier7CompStats(token: String?, parameters: BattlegroundsCompStatsParams) async -> BattlegroundsCompStats? {
+        guard let token = token else {
+            return nil
+        }
+        return await withCheckedContinuation { continuation in
+            let encoder = JSONEncoder()
+            var body: Data?
+            do {
+                body = try encoder.encode(parameters)
+                if let body = body {
+                    logger.debug("Sending quest rewards request: \(String(data: body, encoding: .utf8) ?? "ERROR")")
+                }
+            } catch {
+                logger.error(error)
+            }
+            guard let body = body else {
+                continuation.resume(returning: nil)
+                return
+            }
+            let http = Http(url: "\(HSReplay.tier7CompStatsUrl)")
+            _ = http.uploadPromise(method: .post, headers: ["Content-Type": "application/json", "X-Trial-Token": token], data: body).done { response in
+                guard let data = response as? Data else {
+                    continuation.resume(returning: nil)
+                    return
+                }
+                logger.debug("Response: \(String(data: data, encoding: .utf8) ?? "FAILED")")
+                let bqs: BattlegroundsCompStats? = parseResponse(data: data, defaultValue: nil)
+                continuation.resume(returning: bqs)
+            }.catch { error in
+                logger.error(error)
+                continuation.resume(returning: nil)
+            }
+        }
+    }
 }

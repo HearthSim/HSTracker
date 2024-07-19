@@ -78,11 +78,16 @@ struct Helper {
         return false
     }
     
+    static func adjustSaturation(_ originalSaturation: Double, _ multiplier: Double) -> Double {
+        let adjustedSaturation = originalSaturation * multiplier
+        return min(adjustedSaturation, 100) // Ensure saturation does not exceed 100%
+    }
+    
     static func getColorString(delta: Double, intensity: Int) -> String {
         return getColorString(mode: ColorStringMode.DEFAULT, delta: delta, intensity: intensity)
     }
     
-    static func getColorString(mode: ColorStringMode, delta: Double, intensity: Int) -> String {
+    static func getColorString(mode: ColorStringMode, delta: Double, intensity: Int, saturationMultiplier: Double = 1.0) -> String {
         // Adapted from HSReplay.net
         let colorWinrate = 50 + max(-50, min(50, 5 * delta))
         let severity = abs(0.5 - colorWinrate / 100) * 2
@@ -91,20 +96,24 @@ struct Helper {
             return from + (to - from) * pow(x, 1.0 - Double(intensity) / 100.0)
         }
         func scaleTriple(_ x: Double, _ from: [Double], _ to: [Double]) -> [Double] {
-            return [ scale(x, from[0], to[0]), scale(x, from[1], to[1]), scale(x, from[2], to[2]) ]
+            return [
+                scale(x, from[0], to[0]),
+                scale(x, from[1], to[1]),
+                scale(x, from[2], to[2])
+            ]
         }
         var positive = [ Double ]()
         var neutral = [ Double ]()
         var negative = [ Double ]()
         switch mode {
         case .DEFAULT:
-            positive = [ 120.0, 70.0, 40.0 ]
-            neutral = [ 90.0, 100.0, 30.0 ]
-            negative = [ 0.0, 100.0, 65.7 ]
+            positive = [ 120.0, adjustSaturation(70.0, saturationMultiplier), 40.0 ]
+            neutral = [ 90.0, adjustSaturation(100.0, saturationMultiplier), 30.0 ]
+            negative = [ 0.0, adjustSaturation(100.0, saturationMultiplier), 65.7 ]
         case .BATTLEGROUNDS:
-            positive = [ 120.0, 32.0, 44.0 ]
-            neutral = [ 60.0, 32.0, 44.0 ]
-            negative = [ 0.0, 32.0, 44.0 ]
+            positive = [ 120.0, adjustSaturation(32.0, saturationMultiplier), 44.0 ]
+            neutral = [ 60.0, adjustSaturation(32.0, saturationMultiplier), 44.0 ]
+            negative = [ 0.0, adjustSaturation(32.0, saturationMultiplier), 44.0 ]
         }
 
         let hsl = delta > 0

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="BattlegroundsCompositionStatsBar">
+            <connections>
+                <outlet property="contentView" destination="fqI-C1-5mE" id="e6Z-0F-Mx7"/>
+                <outlet property="percentageText" destination="Js8-ts-bwM" id="L3O-CZ-zzh"/>
+                <outlet property="progressBar" destination="PN6-i0-8nW" id="PEG-Bw-QHc"/>
+                <outlet property="widthConstraint" destination="ZN4-Rw-NJb" id="br9-ml-nVt"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView translatesAutoresizingMaskIntoConstraints="NO" id="fqI-C1-5mE">
+            <rect key="frame" x="0.0" y="0.0" width="70" height="22"/>
+            <subviews>
+                <box boxType="custom" borderType="none" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="BC2-Mr-TbB">
+                    <rect key="frame" x="0.0" y="0.0" width="70" height="22"/>
+                    <view key="contentView" id="89m-Ew-hkZ">
+                        <rect key="frame" x="0.0" y="0.0" width="70" height="22"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <box identifier="BarRect" boxType="custom" borderType="none" borderWidth="0.0" cornerRadius="3" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="PN6-i0-8nW" userLabel="ProgressBar">
+                                <rect key="frame" x="0.0" y="2" width="68" height="20"/>
+                                <view key="contentView" id="eYz-V0-xvH">
+                                    <rect key="frame" x="0.0" y="0.0" width="68" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="68" id="ZN4-Rw-NJb"/>
+                                    <constraint firstAttribute="height" constant="20" id="Zvx-s9-QJR"/>
+                                </constraints>
+                                <color key="borderColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                                <color key="fillColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                            </box>
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Js8-ts-bwM">
+                                <rect key="frame" x="20" y="3" width="31" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="0%" id="dV2-CS-ER9">
+                                    <numberFormatter key="formatter" formatterBehavior="custom10_4" positiveFormat="#.##%" negativeFormat="-#.##%" numberStyle="decimal" usesGroupingSeparator="NO" formatWidth="-1" groupingSize="0" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="1" id="zcv-a2-Sni">
+                                        <integer key="multiplier" value="100"/>
+                                        <real key="minimum" value="0.0"/>
+                                        <real key="maximum" value="100"/>
+                                    </numberFormatter>
+                                    <font key="font" metaFont="systemBold"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="PN6-i0-8nW" firstAttribute="leading" secondItem="89m-Ew-hkZ" secondAttribute="leading" id="IZR-p4-Tad"/>
+                            <constraint firstItem="Js8-ts-bwM" firstAttribute="centerX" secondItem="89m-Ew-hkZ" secondAttribute="centerX" id="Iph-ki-Xsm"/>
+                            <constraint firstItem="PN6-i0-8nW" firstAttribute="top" secondItem="89m-Ew-hkZ" secondAttribute="top" id="bj7-cy-CfP"/>
+                            <constraint firstItem="Js8-ts-bwM" firstAttribute="centerY" secondItem="89m-Ew-hkZ" secondAttribute="centerY" id="bx5-zY-YfT"/>
+                        </constraints>
+                    </view>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="70" id="OZg-Zz-g0c"/>
+                        <constraint firstAttribute="height" constant="22" id="wZ8-vz-kXq"/>
+                    </constraints>
+                    <color key="fillColor" red="0.13725490196078433" green="0.14509803921568626" blue="0.14901960784313725" alpha="1" colorSpace="deviceRGB"/>
+                </box>
+            </subviews>
+            <constraints>
+                <constraint firstItem="BC2-Mr-TbB" firstAttribute="leading" secondItem="fqI-C1-5mE" secondAttribute="leading" id="N6s-gz-Jl9"/>
+                <constraint firstAttribute="width" constant="70" id="b5u-8m-Okq"/>
+                <constraint firstAttribute="height" constant="22" id="dLs-8r-0GG"/>
+                <constraint firstItem="BC2-Mr-TbB" firstAttribute="top" secondItem="fqI-C1-5mE" secondAttribute="top" id="n82-Pg-mQU"/>
+            </constraints>
+            <point key="canvasLocation" x="94" y="60.5"/>
+        </customView>
+    </objects>
+</document>

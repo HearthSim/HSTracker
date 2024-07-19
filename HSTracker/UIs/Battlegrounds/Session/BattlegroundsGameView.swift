@@ -168,7 +168,7 @@ class BattlegroundsGameView: NSView {
         }
         ImageUtils.tile(for: heroCard.id, completion: { image in
             DispatchQueue.main.async {
-                self.heroImage.image = image
+                self.heroImage.image = image?.crop(rect: CGRect(x: 80.0, y: 5, width: 256.0 - 80.0, height: 59.0 - 5.0))
             }
         })
         let heroShortNameMap = RemoteConfig.data?.battlegrounds_short_names?.first(where: { x in x.dbf_id == heroCard.dbfId })
