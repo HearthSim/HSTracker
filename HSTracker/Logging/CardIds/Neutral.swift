@@ -634,6 +634,9 @@ extension CardIds.Collectible {
         static let ZilliaxDeluxe3000 = "TOY_330"
         static let SplendiferousWhizbang = "TOY_700"
         static let ETCBandManager = "ETC_080"
+        static let AdaptiveAmalgam = "VAC_958"
+        static let Incindius = "VAC_321"
+        static let Mixologist = "VAC_523"
     }
 }
 
@@ -748,6 +751,8 @@ extension CardIds.NonCollectible {
         static let ThorimStormlord_ThorimsChampion = "BG27_HERO_801p"
         static let FlobbidinousFloop_GloriousGloop = "BGDUO_HERO_101p"
         static let FlobbidinousFloop_InTheGloop = "BGDUO_HERO_101pe2"
+        static let Incindius_EruptionToken = "VAC_321t"
+        static let Mixologist_MixologistsSpecialToken = "VAC_523t"
     }
 }
 

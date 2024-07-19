@@ -627,6 +627,10 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.TramMechanic_BarrelOfSludgeToken, count: 1, location: .bottom)
                         case CardIds.Collectible.Warlock.SludgeOnWheels:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.TramMechanic_BarrelOfSludgeToken, count: 1, location: .bottom)
+                        case CardIds.Collectible.Neutral.AdaptiveAmalgam:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Neutral.AdaptiveAmalgam, count: 1)
+                        case CardIds.Collectible.DemonHunter.PatchesThePilot:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.DemonHunter.PatchesthePilot_ParachuteToken, count: 6)
                         default: break
                         }
                     }
@@ -933,6 +937,10 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Warlock.MassProduction, count: 2)
                         case CardIds.Collectible.Warrior.SafetyExpert:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.SeaforiumBomber_BombToken, count: 3)
+                        case CardIds.Collectible.Neutral.Incindius:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.Incindius_EruptionToken, count: 5)
+                        case CardIds.Collectible.Neutral.Mixologist:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.Mixologist_MixologistsSpecialToken)
                         default:
                             if let card = Cards.any(byId: actionStartingCardId) {
                                 if (player != nil && player![.current_player] == 1
