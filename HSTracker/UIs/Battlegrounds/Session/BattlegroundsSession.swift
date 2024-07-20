@@ -280,6 +280,8 @@ class BattlegroundsSession: OverWindowController {
                 let comp = BattlegroundsCompositionStatsRow(viewModel: vm)
                 compositionsItems.addArrangedSubview(comp)
             }
+            
+            compositionStats = vms
         }
     }
     
