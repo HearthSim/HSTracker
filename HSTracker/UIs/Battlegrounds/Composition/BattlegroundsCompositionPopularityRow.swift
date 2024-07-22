@@ -63,7 +63,9 @@ class BattlegroundsCompositionPopularityRow: NSView {
         tribeXImage.isHidden = !viewModel.compositionUnavailableVisibility
         ImageUtils.tile(for: viewModel.cardImage, completion: { img in
             DispatchQueue.main.async {
-                self.cardImage.image = img
+                if let img = img?.copy() as? NSImage {
+                    self.cardImage.image = img
+                }
             }
         })
         cardImage.alphaValue = viewModel.opacity

@@ -365,7 +365,7 @@ class BattlegroundsSession: OverWindowController {
     @MainActor
     private func clearCompositionStats() {
         compositionStats = nil
-        for subview in compositionsItems.subviews.reversed() {
+        for subview in compositionsItems.subviews.reversed() where subview as? BattlegroundsCompositionStatsRow != nil {
             subview.removeFromSuperview()
         }
         compStatsBodyVisibility = false

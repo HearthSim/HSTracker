@@ -49,6 +49,7 @@ class BattlegroundsCompositionStatsRow: NSView {
         gradient.endPoint = NSPoint(x: 1, y: 0)
         gradient.frame = cardImage.frame
         cardImage.wantsLayer = true
+        cardImage.layer?.contentsGravity = CALayerContentsGravity.resizeAspectFill
         cardImage.layer?.mask = gradient
     }
 
@@ -58,7 +59,7 @@ class BattlegroundsCompositionStatsRow: NSView {
         }
         ImageUtils.tile(for: card.id, completion: { image in
             DispatchQueue.main.async {
-                if let image {
+                if let image = image?.copy() as? NSImage {
                     let r = image.size
                     self.cardImage.image = image.crop(rect: CGRect(x: 80.0, y: 5, width: r.width - 80.0, height: r.height - 5.0))
                 }
