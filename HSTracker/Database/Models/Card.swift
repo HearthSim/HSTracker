@@ -53,6 +53,7 @@ final class Card {
     var cardWinRates: CardWinrates?
     var zilliaxCustomizableFunctionalModule = false
     var zilliaxCustomizableCosmeticModule = false
+    var tourist = 0
     
     var deckbuildingCard: Card {
         if zilliaxCustomizableCosmeticModule {
@@ -87,6 +88,20 @@ final class Card {
         .druid_warlock: [.druid, .warlock],
         .warlock_mage: [.warlock, .mage]
     ]
+    
+//    static let touristMap: [GameTag: CardClass] = [
+//        .mage_tourist: .mage,
+//        .paladin_tourist: .paladin,
+//        .warrior_tourist: .warrior,
+//        .hunter_tourist: .hunter,
+//        .rogue_tourist: .rogue,
+//        .druid_tourist: .druid,
+//        .shaman_tourist: .shaman,
+//        .warlock_tourist: .warlock,
+//        .priest_tourist: .priest,
+//        .demon_hunter_tourist: .demonhunter,
+//        .death_knight_tourist: .deathknight
+//    ]
 
     // arena helper
     var isBadAsMultiple = false
@@ -122,6 +137,21 @@ final class Card {
     
     func isNeutral() -> Bool {
         return playerClass == .neutral
+    }
+    
+    var isTourist: Bool {
+        return tourist > 0
+    }
+    
+    var canBeVisitedByTourist: Bool {
+        return !isTourist && set == .island_vacation
+    }
+    
+    func getTouristClass() -> CardClass? {
+        if !isTourist {
+            return nil
+        }
+        return CardClass.allCases[tourist]
     }
 
     static let pluralRegex = Regex("\\$(\\d+) \\|4\\((\\w+),(\\w+)\\)")

@@ -81,21 +81,31 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         }
         isSaved = true
     }
+    
+    private func reloadClassChooser() {
+        if let playerClass = currentPlayerClass {
+            let tourist = cards.first(where: { $0.isTourist })?.getTouristClass()
+
+            classChooser.segmentCount = tourist != nil ? 3 : 2
+            classChooser.setLabel(String.localizedString(playerClass.rawValue.lowercased(),
+                comment: ""), forSegment: 0)
+            
+            if let tourist {
+                classChooser.setLabel(String.localizedString(tourist.rawValue.lowercased(), comment: ""), forSegment: 2)
+            }
+        } else {
+            classChooser.segmentCount = 1
+        }
+        classChooser.setLabel(String.localizedString("neutral", comment: ""), forSegment: 1)
+        classChooser.setSelected(true, forSegment: 0)
+    }
 
     override func windowDidLoad() {
         super.windowDidLoad()
 
         reloadCards()
 
-        if let playerClass = currentPlayerClass {
-            classChooser.segmentCount = 2
-            classChooser.setLabel(String.localizedString(playerClass.rawValue.lowercased(),
-                comment: ""), forSegment: 0)
-        } else {
-            classChooser.segmentCount = 1
-        }
-        classChooser.setLabel(String.localizedString("neutral", comment: ""), forSegment: 1)
-        classChooser.setSelected(true, forSegment: 0)
+        reloadClassChooser()
 
         deckCardsView.reloadData()
 
@@ -213,6 +223,11 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
             health: currentHealth,
             type: currentCardType,
             race: currentRace)
+        
+        // tourist class
+        if classChooser.selectedSegment == 2, let tourist = cards.first(where: { x in x.isTourist })?.getTouristClass() {
+            currentClassCards = currentClassCards.filter { c in c.isClass(cardClass: tourist) && c.canBeVisitedByTourist }
+        }
 
         cardsTableView.reloadData()
     }
@@ -221,6 +236,10 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         let count = cards.countCards()
         let deckSize = cards.any { x in x.id == CardIds.Collectible.Neutral.PrinceRenathal } ? 40 : 30
         countLabel.stringValue = "\(count) / \(deckSize)"
+    }
+    
+    func hasTourist() -> Bool {
+        return cards.any { x in x.isTourist }
     }
 
     func updateTheme() {
@@ -233,7 +252,11 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         if sender.selectedSegment == 0 {
             selectedClass = currentPlayerClass
         } else {
-            selectedClass = .neutral
+            if hasTourist() && sender.selectedSegment == 2, let touristClass = cards.first(where: { x in x.getTouristClass() != nil })?.getTouristClass() {
+                selectedClass = touristClass
+            } else {
+                selectedClass = .neutral
+            }
         }
         reloadCards()
     }
@@ -253,6 +276,10 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
             if cardCanBeAdded(card) {
                 //cell.flash()
                 addCardToDeck(card)
+                
+                if card.isTourist {
+                    reloadClassChooser()
+                }
 
                 if let deckCard = cards.filter({ $0.id == card.id }).first {
                     card.count = deckCard.count
@@ -290,6 +317,10 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
             }
             
             remove(card: c)
+            if c.isTourist {
+                reloadClassChooser()
+                reloadCards()
+            }
             curveView.reload()
             deckCardsView.reloadData()
             cardsTableView.reloadData()
@@ -311,6 +342,9 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
             }
 
             add(card: c)
+            if c.isTourist {
+                reloadClassChooser()
+            }
             curveView.reload()
             deckCardsView.reloadData()
             cardsTableView.reloadData()

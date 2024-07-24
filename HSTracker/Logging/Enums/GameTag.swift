@@ -414,11 +414,23 @@ enum GameTag: Int, CaseIterable, Codable {
     titan_ability_used_2 = 3141,
     titan_ability_used_3 = 3142,
     is_bacon_duos_exclusive = 3166,
+    tourist = 3228,
     current_excavate_tier = 3249,
     zilliax_customizable_cosmeticmodule = 3376,
     zilliax_customizable_functionalmodule = 3377,
     bacon_combat_damage_cap_enabled = 3403,
-    gametag_3533 = 3533
+    gametag_3533 = 3533,
+    rogue_tourist = 3597,
+    warlock_tourist = 3598,
+    death_knight_tourist = 3599,
+    shaman_tourist = 3600,
+    demon_hunter_tourist = 3601,
+    priest_tourist = 3602,
+    hunter_tourist = 3603,
+    warrior_tourist = 3604,
+    druid_tourist = 3605,
+    mage_tourist = 3606,
+    paladin_tourist = 3607
 
     static var lookup = [String: GameTag]()
     

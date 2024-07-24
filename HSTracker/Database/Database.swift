@@ -119,6 +119,8 @@ class Database: NSObject, XMLParserDelegate {
                     currentCard?.multiClassGroup = MultiClassGroup(rawValue: intValue) ?? .invalid
                 case GameTag.lettuce_cooldown_config.rawValue:
                     currentCard?.mercenariesAbilityCooldown = intValue
+                case GameTag.tourist.rawValue:
+                    currentCard?.tourist = intValue
                 case GameTag.card_set.rawValue:
                     if let set = CardSetInt(rawValue: intValue) {
                         if let realSet = CardSet(rawValue: "\(set)"), Database.validCardSets.contains(realSet) {

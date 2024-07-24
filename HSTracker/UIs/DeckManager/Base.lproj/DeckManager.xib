@@ -28,11 +28,11 @@
             <rect key="contentRect" x="196" y="240" width="932" height="615"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1728" height="1079"/>
             <view key="contentView" misplaced="YES" id="EiT-Mj-1SZ" userLabel="ContentView">
-                <rect key="frame" x="0.0" y="0.0" width="932" height="614"/>
+                <rect key="frame" x="0.0" y="0.0" width="932" height="615"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="sC0-7Z-f2H" userLabel="DeckView">
-                        <rect key="frame" x="692" y="0.0" width="240" height="593"/>
+                        <rect key="frame" x="692" y="0.0" width="240" height="587"/>
                         <subviews>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="gl3-d5-lam" customClass="CurveView" customModule="HSTracker" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="170"/>
@@ -52,13 +52,13 @@
                                 </textFieldCell>
                             </textField>
                             <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="17" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="XVZ-SC-VpB">
-                                <rect key="frame" x="0.0" y="206" width="240" height="387"/>
+                                <rect key="frame" x="0.0" y="206" width="240" height="381"/>
                                 <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="w6T-1v-BGO">
-                                    <rect key="frame" x="0.0" y="0.0" width="240" height="387"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="240" height="381"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView autoresizesSubviews="NO" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="fullWidth" selectionHighlightStyle="none" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" id="Znw-pX-Aav">
-                                            <rect key="frame" x="0.0" y="0.0" width="240" height="387"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="240" height="381"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
@@ -110,16 +110,16 @@
                         </constraints>
                     </customView>
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="gGc-Yc-iuW" userLabel="CartView">
-                        <rect key="frame" x="0.0" y="0.0" width="689" height="593"/>
+                        <rect key="frame" x="0.0" y="0.0" width="689" height="587"/>
                         <subviews>
                             <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="17" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="sQk-3F-woa">
-                                <rect key="frame" x="0.0" y="0.0" width="689" height="593"/>
+                                <rect key="frame" x="0.0" y="0.0" width="689" height="587"/>
                                 <clipView key="contentView" id="Nh9-JJ-D9x">
-                                    <rect key="frame" x="0.0" y="0.0" width="689" height="593"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="689" height="587"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnReordering="NO" columnResizing="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="Pdd-Yb-1af" customClass="DeckTable" customModule="HSTracker" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="689" height="593"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="689" height="587"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <tableViewGridLines key="gridStyleMask" vertical="YES"/>
@@ -244,8 +244,8 @@
                     <toolbarItem implicitItemIdentifier="8004B22B-F98D-4214-9261-255D430DC65D" label="Sort by" paletteLabel="Sort" title="Item 1" sizingBehavior="auto" id="cu3-FG-2Cn">
                         <nil key="toolTip"/>
                         <popUpButton key="view" verticalHuggingPriority="750" id="xO3-ES-jrX">
-                            <rect key="frame" x="0.0" y="14" width="100" height="28"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <rect key="frame" x="0.0" y="14" width="72" height="25"/>
+                            <autoresizingMask key="autoresizingMask"/>
                             <popUpButtonCell key="cell" type="roundTextured" title="Item 1" bezelStyle="texturedRounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" allowsMixedState="YES" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="cCu-vJ-U3L" id="DqI-gA-1iM">
                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                                 <font key="font" metaFont="menu"/>
@@ -272,8 +272,8 @@
                     <toolbarItem implicitItemIdentifier="1B935CB6-E06D-4C5B-A5B7-1F3225DA829D" label="Classes" paletteLabel="Classes" title="Item 1" sizingBehavior="auto" id="Hyt-EI-Vfy">
                         <nil key="toolTip"/>
                         <popUpButton key="view" verticalHuggingPriority="750" id="aIM-uG-j6C">
-                            <rect key="frame" x="0.0" y="14" width="100" height="28"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <rect key="frame" x="0.0" y="14" width="74" height="25"/>
+                            <autoresizingMask key="autoresizingMask"/>
                             <popUpButtonCell key="cell" type="roundTextured" title="Item 1" bezelStyle="texturedRounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="0XN-R3-wDb" id="bzn-bj-qNJ">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="menu"/>
@@ -290,8 +290,8 @@
                     <toolbarItem implicitItemIdentifier="084A2C55-F45D-4934-AF47-B99FCC3A5D9B" label="Modes" paletteLabel="Modes" title="Item 1" sizingBehavior="auto" id="BHN-1k-K8M">
                         <nil key="toolTip"/>
                         <popUpButton key="view" verticalHuggingPriority="750" id="WED-7k-rrO">
-                            <rect key="frame" x="0.0" y="14" width="100" height="28"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <rect key="frame" x="0.0" y="14" width="74" height="25"/>
+                            <autoresizingMask key="autoresizingMask"/>
                             <popUpButtonCell key="cell" type="roundTextured" title="Item 1" bezelStyle="texturedRounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="1yl-XR-j42" id="Ovj-By-uVK">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="menu"/>
@@ -323,7 +323,6 @@
                     <toolbarItem reference="cu3-FG-2Cn"/>
                     <toolbarItem reference="Hyt-EI-Vfy"/>
                     <toolbarItem reference="BHN-1k-K8M"/>
-                    <toolbarItem reference="I75-rt-at9"/>
                     <toolbarItem reference="d38-Pq-vZv"/>
                     <toolbarItem reference="0zG-7b-xsf"/>
                 </defaultToolbarItems>
