@@ -9,7 +9,9 @@
 import Foundation
 
 class SceneHandler {
+    static private(set) var lastScene: Mode?
     static private(set) var scene: Mode?
+    static private(set) var nextScene: Mode?
     
     static private var transitioning: Bool?
     
@@ -25,34 +27,29 @@ class SceneHandler {
     }
     
     private static func onSceneTransitionStart(from: Mode, to: Mode) {
+        SceneHandler.lastScene = from
+        SceneHandler.nextScene = to
         SceneHandler.scene = nil
         
-        guard let core = AppDelegate.instance().coreManager else {
-            return
-        }
-        let game = core.game
+        let game = AppDelegate.instance().coreManager.game
         
         if from == .tournament {
             
             DispatchQueue.main.async {
                 game.updateMulliganGuidePreLobby()
             }
-            DeckPickerWatcher.stop()
             game.windowManager.constructedMulliganGuidePreLobby.viewModel.invlidateAllDecks()
+            DeckPickerWatcher.stop()
         } else if from == .bacon {
             DispatchQueue.main.async {
-                game.windowManager.battlegroundsSession.updateSectionsVisibilities()
+                game.updateBattlegroundsSessionVisibility()
                 if #available(macOS 10.15, *) {
                     game.updateTier7PreLobbyVisibility()
                 }
             }
             BaconWatcher.stop()
         } else if from == .gameplay {
-            if #available(macOS 10.15, *) {
-                DispatchQueue.main.async {
-                    game.updateTier7PreLobbyVisibility()
-                }
-            }
+            game.updateBattlegroundsSessionVisibility()
             BattlegroundsTeammateBoardStateWatcher.stop()
         }
     }
@@ -73,18 +70,15 @@ class SceneHandler {
         } else if to == .bacon {
             game.cacheBattlegroundRatingInfo()
             
-            game.showBattlegroundsSession(true, true)
             DispatchQueue.main.async {
-                game.windowManager.battlegroundsSession.updateSectionsVisibilities()
+                game.updateBattlegroundsSessionVisibility()
                 if #available(macOS 10.15, *) {
                     game.updateTier7PreLobbyVisibility()
                 }
             }
             BaconWatcher.start()
         } else if to == .gameplay {
-            DispatchQueue.main.async {
-                game.windowManager.battlegroundsSession.updateSectionsVisibilities()
-            }
+            game.updateBattlegroundsSessionVisibility()
         } else if from == .bacon {
             game.windowManager.tier7PreLobby.viewModel.invalidateUserState()
         }

@@ -68,6 +68,7 @@ class BattlegroundsSession: OverWindowController {
         }
     }
     
+    @MainActor
     func updateScaling() {
         guard let window else {
             return
@@ -136,6 +137,7 @@ class BattlegroundsSession: OverWindowController {
         return game.isInMenu ? battlegroundsGameMode == .duos : game.isBattlegroundsDuosMatch()
     }
     
+    @MainActor
     func updateSectionsVisibilities() {
         tribesSection.isHidden = !Settings.showMinionsSection
         compositions.isHidden = !Settings.showBattlegroundsTier7SessionCompStats
@@ -246,7 +248,7 @@ class BattlegroundsSession: OverWindowController {
     }
     
     @available(macOS 10.15, *)
-    private func updateCompositionStatsVisibility() async {
+    public func updateCompositionStatsVisibility() async {
         let userOwnsTier7 = HSReplayAPI.accountData?.is_tier7 ?? false
         
         if let acc = MirrorHelper.getAccountId() {

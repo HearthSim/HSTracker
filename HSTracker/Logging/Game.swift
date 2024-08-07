@@ -78,8 +78,9 @@ class Game: NSObject, PowerEventHandler {
     
     func setHearthstoneActived(flag: Bool) {
         hearthstoneRunState.isActive = flag
-        if flag && currentMode == .bacon {
+        if flag && currentMode == .bacon || isBattlegroundsMatch() {
             windowManager.tier7PreLobby.viewModel.onFocus()
+            updateBattlegroundsSessionVisibility()
         }
     }
 	
@@ -887,28 +888,7 @@ class Game: NSObject, PowerEventHandler {
             }
         }
     }
-    
-    func showBattlegroundsSession(_ show: Bool, _ force: Bool = false) {
-        DispatchQueue.main.async {
-            if show {
-                if !Settings.showSessionRecap || !self.isAnyBattlegroundsSessionSettingActive() {
-                    return
-                }
-                
-                self.windowManager.battlegroundsSession.update()
-                self.windowManager.battlegroundsSession.show()
-                self.windowManager.battlegroundsSession.visibility = true
-            } else {
-                self.windowManager.battlegroundsSession.visibility = false
-                self.windowManager.show(controller: self.windowManager.battlegroundsSession, show: false)
-            }
-            self.updateBattlegroundsOverlays()
-            DispatchQueue.main.async {
-                self.updateBattlegroundsOverlays()
-            }
-        }
-    }
-    
+        
     func setBaconState(_ mode: SelectedBattlegroundsGameMode, _ isAnyOpen: Bool) {
         windowManager.tier7PreLobby.viewModel.battlegroundsGameMode = mode
         windowManager.tier7PreLobby.viewModel.isModalOpen = !queueEvents.isInQueue && isAnyOpen
@@ -948,6 +928,56 @@ class Game: NSObject, PowerEventHandler {
         } else {
             self.windowManager.tier7PreLobby.isVisible = false
             self.windowManager.show(controller: self.windowManager.tier7PreLobby, show: false)
+        }
+    }
+    
+    func updateVisibilities() {
+        updateBattlegroundsSessionVisibility()
+        if #available(macOS 10.15, *) {
+            DispatchQueue.main.async {
+                self.updateTier7PreLobbyVisibility()
+            }
+        }
+//        updateMulliganGuidePreLobbyVisibility()
+    }
+    
+    func updateBattlegroundsSessionVisibility() {
+        let show = isRunning && hearthstoneRunState.isActive && Settings.showSessionRecap
+                && (
+                    (
+                        // Scene is not transitioning
+                        SceneHandler.scene != nil &&
+                        (SceneHandler.scene == .bacon || (SceneHandler.scene == .gameplay && isBattlegroundsMatch()))
+                    )
+                    || (
+                        // Scene is transitioning - do not check for IsBattlegroundsMatch because that might not be set yet/still
+                        SceneHandler.scene == nil &&
+                        (
+                            // Start of Match
+                            (SceneHandler.lastScene == .bacon && SceneHandler.nextScene == .gameplay)
+                            // End of Match
+                            || (SceneHandler.lastScene == .gameplay && SceneHandler.nextScene == .bacon)
+                        )
+                    )
+                )
+
+        if show {
+            var rect = SizeHelper.battlegroundsSessionFrame()
+            if !Settings.autoPositionTrackers {
+                if let savedRect = Settings.battlegroundsSessionFrame {
+                    rect = savedRect
+                }
+            }
+            DispatchQueue.main.async {
+                self.windowManager.battlegroundsSession.update()
+                self.windowManager.show(controller: self.windowManager.battlegroundsSession, show: true, frame: rect)
+                self.windowManager.battlegroundsSession.updateSectionsVisibilities()
+                self.windowManager.battlegroundsSession.updateScaling()
+            }
+        } else {
+            DispatchQueue.main.async {
+                self.windowManager.show(controller: self.windowManager.battlegroundsSession, show: false)
+            }
         }
     }
 
@@ -1672,6 +1702,7 @@ class Game: NSObject, PowerEventHandler {
         if isBattlegroundsMatch() {
             DispatchQueue.main.async {
                 self.windowManager.battlegroundsSession.update()
+                self.windowManager.battlegroundsSession.updateScaling()
             }
         }
 		
@@ -1686,13 +1717,22 @@ class Game: NSObject, PowerEventHandler {
         windowManager.linkOpponentDeckPanel.isFriendlyMatch = isFriendlyMatch
         
         if isBattlegroundsMatch() && currentGameMode == .spectator {
-            showBattlegroundsSession(true)
+            windowManager.tier7PreLobby.viewModel.reset()
         }
         
         if isFriendlyMatch {
             if !Settings.interactedWithLinkOpponentDeck {
                 windowManager.linkOpponentDeckPanel.autoShown = true
                 windowManager.linkOpponentDeckPanel.show()
+            }
+        }
+        
+        if isBattlegroundsMatch() {
+            windowManager.battlegroundsSession.update()
+            if #available(macOS 10.15, *) {
+                Task.detached {
+                    await self.windowManager.battlegroundsSession.updateCompositionStatsVisibility()
+                }
             }
         }
     }
@@ -1718,6 +1758,7 @@ class Game: NSObject, PowerEventHandler {
             if self.isBattlegroundsMatch() {
                 if (self.gameEntity?[.step] ?? 0) > Step.begin_mulligan.rawValue {
                     self.windowManager.battlegroundsSession.update()
+                    self.windowManager.battlegroundsSession.updateScaling()
                     BattlegroundsLeaderboardWatcher.start()
                     if self.isBattlegroundsDuosMatch() {
                         BattlegroundsTeammateBoardStateWatcher.start()
@@ -2049,7 +2090,10 @@ class Game: NSObject, PowerEventHandler {
         let placement = min(hero?[.player_leaderboard_place] ?? 0, duos ? 4 : 8)
         if let heroCardId = heroCardId, placement > 0 {
             BattlegroundsLastGames.instance.addGame(startTime: gameStats.startTime, endTime: gameStats.endTime, hero: BattlegroundsUtils.getOriginalHeroId(heroId: heroCardId), rating: gameStats.battlegroundsRating, ratingAfter: gameStats.battlegroundsRatingAfter, placement: placement, finalBoard: finalBoard, friendlyGame: friendlyGame, duos: duos)
-            windowManager.battlegroundsSession.update()
+            DispatchQueue.main.async {
+                self.windowManager.battlegroundsSession.update()
+                self.windowManager.battlegroundsSession.updateScaling()
+            }
         } else {
             logger.error("Missing data while trying to record battleground game")
         }
@@ -2147,6 +2191,7 @@ class Game: NSObject, PowerEventHandler {
                 self.windowManager.battlegroundsQuestPicking.viewModel.reset()
                 self.hideBattlegroundsHeroPanel()
                 self.windowManager.battlegroundsSession.update()
+                self.windowManager.battlegroundsSession.updateScaling()
             }
             
             if isBattlegroundsMatch() {
@@ -2639,6 +2684,7 @@ class Game: NSObject, PowerEventHandler {
         }
         
         await windowManager.battlegroundsSession.update()
+        await windowManager.battlegroundsSession.updateScaling()
         
         if isBattlegroundsDuosMatch() {
             BattlegroundsTeammateBoardStateWatcher.start()

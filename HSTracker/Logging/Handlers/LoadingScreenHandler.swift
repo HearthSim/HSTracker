@@ -38,18 +38,7 @@ struct LoadingScreenHandler: LogEventParser {
 
     func handle(logLine: LogLine) {
         let game = coreManager.game
-        var matches = NextGameModeRegex.matches(logLine.line)
-        if matches.count > 0 {
-            let prev = Mode(rawValue: matches[0].value.lowercased()) ?? .invalid
-            let next = Mode(rawValue: matches[1].value.lowercased()) ?? .invalid
-            
-            if prev == .bacon {
-                if next != .gameplay {
-                    game.showBattlegroundsSession(false, true)
-                }
-            }
-        }
-        matches = GameModeRegex.matches(logLine.line)
+        let matches = GameModeRegex.matches(logLine.line)
         if matches.count > 0 {
             
             game.currentMode = Mode(rawValue: matches[1].value.lowercased()) ?? .invalid

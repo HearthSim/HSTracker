@@ -105,9 +105,9 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
             updateEnablement()
             if game.isBattlegroundsMatch() || game.currentMode == .bacon {
                 if sender.state == .on {
-                    game.showBattlegroundsSession(true, true)
+                    game.updateBattlegroundsSessionVisibility()
                 } else {
-                    game.showBattlegroundsSession(false, true)
+                    game.updateBattlegroundsSessionVisibility()
                 }
             }
         } else if sender == showMinionTypes {

@@ -363,6 +363,7 @@ class WindowManager {
     }
 
     // MARK: - Utility functions
+    @MainActor
     func show(controller: OverWindowController, show: Bool,
               frame: NSRect? = nil, title: String? = nil, overlay: Bool = true) {
         guard let window = controller.window else { return }
