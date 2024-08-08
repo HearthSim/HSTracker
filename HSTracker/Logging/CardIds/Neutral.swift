@@ -637,6 +637,7 @@ extension CardIds.Collectible {
         static let AdaptiveAmalgam = "VAC_958"
         static let Incindius = "VAC_321"
         static let Mixologist = "VAC_523"
+        static let CelestialProjectionist = "TTN_742"
     }
 }
 

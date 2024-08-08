@@ -941,6 +941,10 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.Incindius_EruptionToken, count: 5)
                         case CardIds.Collectible.Neutral.Mixologist:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.Mixologist_MixologistsSpecialToken)
+                        case CardIds.Collectible.Neutral.CelestialProjectionist:
+                            if let target {
+                                addKnownCardId(eventHandler: eventHandler, cardId: target)
+                            }
                         default:
                             if let card = Cards.any(byId: actionStartingCardId) {
                                 if (player != nil && player![.current_player] == 1
