@@ -45,6 +45,8 @@ extension Game {
         CardIds.Collectible.Mage.InquisitiveCreation,
         CardIds.Collectible.Neutral.Multicaster,
         CardIds.Collectible.Shaman.CoralKeeper,
+        CardIds.Collectible.Shaman.RazzleDazzler,
+        CardIds.Collectible.Shaman.SirenSong,
         CardIds.Collectible.Mage.WisdomOfNorgannon,
         CardIds.Collectible.Mage.Sif,
         CardIds.Collectible.Mage.ElementalInspiration,

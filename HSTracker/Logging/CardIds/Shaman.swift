@@ -140,6 +140,8 @@ extension CardIds.Collectible {
         static let CoralKeeper = "TSC_648"
         static let WalkingMountain = "WW_382"
         static let DiggingStraightDown = "DEEP_009"
+        static let RazzleDazzler = "VAC_301"
+        static let SirenSong = "VAC_308"
     }
 }
 
