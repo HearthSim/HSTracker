@@ -153,11 +153,13 @@ extension CardIds.Collectible {
         static let TheCountess = "REV_951"
         static let FossilizedKaleidosaur = "DEEP_033"
         static let Shroomscavate = "DEEP_018"
+        static let LifesavingAura = "VAC_922"
     }
 }
 
 extension CardIds.NonCollectible {
     struct Paladin {
+        static let Grillmaster_SunscreenToken = "VAC_917t"
         static let BlessingofMight_BlessingOfMightEnchantment: String = "CS2_087e"
         static let BlessingofKings_BlessingOfKingsEnchantment: String = "CS2_092e"
         static let Reinforce: String = "CS2_101"

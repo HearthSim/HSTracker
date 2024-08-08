@@ -140,12 +140,14 @@ extension CardIds.Collectible {
         static let BlastCharge = "WW_380"
         static let ReinforcedPlating = "WW_334"
         static let SafetyExpert = "MIS_711"
+        static let TheRyecleaver = "VAC_525"
     }
 }
 
 // MARK: - NonCollectible
 extension CardIds.NonCollectible {
     struct Warrior {
+        static let TheRyecleaver_SliceOfBreadToken = "VAC_525t1"
         static let ArmorUp: String = "CS2_102"
         static let Charge_ChargeEnchantment: String = "CS2_103e2"
         static let HeroicStrike_HeroicStrikeEnchantment: String = "CS2_105e"

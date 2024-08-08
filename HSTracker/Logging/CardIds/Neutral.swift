@@ -641,12 +641,15 @@ extension CardIds.Collectible {
         static let WhelpWrangler = "WW_827"
         static let Gorgonzormu = "VAC_955"
         static let MiracleSalesman = "WW_331"
+        static let ChaoticTendril = "YOG_514"
+        static let CarryOnGrub = "VAC_935"
     }
 }
 
 // MARK: - NonCollectible
 extension CardIds.NonCollectible {
     struct Neutral {
+        static let CarryOnGrub_CarryOnSuitcaseToken1 = "VAC_935t"
         static let TheCoinBasic = "GAME_005"
         static let KingTogwaggle_KingsRansomToken = "LOOT_541t"
         static let HakkartheSoulflayer_CorruptedBloodToken = "TRL_541t"

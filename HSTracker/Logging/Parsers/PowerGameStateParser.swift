@@ -637,6 +637,16 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Hunter.RangerGilly_IslandCrocoliskToken)
                         case CardIds.Collectible.Neutral.MiracleSalesman:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.MiracleSalesman_SnakeOilToken)
+                        case CardIds.Collectible.Hunter.Starshooter:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Hunter.ArcaneShotCore)
+                        case CardIds.Collectible.Priest.PuppetTheatre:
+                            if let target {
+                                addKnownCardId(eventHandler: eventHandler, cardId: target)
+                            }
+                        case CardIds.Collectible.Paladin.LifesavingAura:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Paladin.Grillmaster_SunscreenToken)
+                        case CardIds.Collectible.Rogue.MetalDetector:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.TheCoinBasic)
                         default: break
                         }
                     }
@@ -953,6 +963,17 @@ class PowerGameStateParser: LogEventParser {
                             }
                         case CardIds.Collectible.Neutral.Gorgonzormu:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.Gorgonzormu_DeliciousCheeseToken)
+                        case CardIds.Collectible.Rogue.TentacleGrip:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Neutral.ChaoticTendril)
+                        case CardIds.Collectible.Rogue.DigForTreasure:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.TheCoinBasic)
+                        case CardIds.Collectible.Rogue.OhManager:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.TheCoinBasic)
+                        case CardIds.Collectible.Neutral.CarryOnGrub:
+                            // TODO Token2 if only one card is left
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.CarryOnGrub_CarryOnSuitcaseToken1)
+                        case CardIds.Collectible.Warrior.TheRyecleaver:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Warrior.TheRyecleaver_SliceOfBreadToken)
                         default:
                             if let card = Cards.any(byId: actionStartingCardId) {
                                 if (player != nil && player![.current_player] == 1

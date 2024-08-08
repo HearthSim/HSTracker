@@ -166,6 +166,8 @@ extension CardIds.Collectible {
         static let RatTrapCore = "CORE_GIL_577"
         static let BargainBin = "MIS_105"
         static let RangerGilly = "VAC_413"
+        static let Starshooter = "WW_813"
+        static let ArcaneShotCore = "CORE_DS1_185"
     }
 }
 

@@ -170,6 +170,10 @@ extension CardIds.Collectible {
         static let DrillyTheKid = "WW_417"
         static let PogoHopper = "BOT_283"
         static let FaldoreiStriderInvalid = "CORE_LOOT_026"
+        static let MetalDetector = "VAC_330"
+        static let TentacleGrip = "YOG_526"
+        static let DigForTreasure = "TOY_510"
+        static let OhManager = "VAC_460"
     }
 }
 

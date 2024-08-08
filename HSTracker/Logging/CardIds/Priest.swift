@@ -139,6 +139,7 @@ extension CardIds.Collectible {
         static let SisterSvalna = "RLK_816"
         static let PowerChordSynchronize = "ETC_338"
         static let GraveHorror = "TRL_408"
+        static let PuppetTheatre = "MIS_919"
     }
 }
 
