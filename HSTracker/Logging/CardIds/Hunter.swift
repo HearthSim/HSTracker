@@ -165,6 +165,7 @@ extension CardIds.Collectible {
         static let IceTrapCore = "CORE_AV_226"
         static let RatTrapCore = "CORE_GIL_577"
         static let BargainBin = "MIS_105"
+        static let RangerGilly = "VAC_413"
     }
 }
 
@@ -236,6 +237,7 @@ extension CardIds.NonCollectible {
         static let TameBeastRank1_TameBeastRank2Token = "BAR_034t"
         static let TameBeastRank1_TameBeastRank3Token = "BAR_034t2"
         static let AzsharanSaber_SunkenSaberToken = "TSC_945t"
+        static let RangerGilly_IslandCrocoliskToken = "VAC_413t"
     }
 }
 

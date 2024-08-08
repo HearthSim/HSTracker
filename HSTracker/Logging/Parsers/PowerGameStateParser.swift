@@ -632,7 +632,9 @@ class PowerGameStateParser: LogEventParser {
                         case CardIds.Collectible.DemonHunter.PatchesThePilot:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.DemonHunter.PatchesthePilot_ParachuteToken, count: 6)
                         case CardIds.Collectible.Neutral.WhelpWrangler:
-                            addKnownCardId(eventHandler: eventHandler, cardId:  CardIds.NonCollectible.Neutral.TaketotheSkies_HappyWhelpToken)
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.TaketotheSkies_HappyWhelpToken)
+                        case CardIds.Collectible.Hunter.RangerGilly:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Hunter.RangerGilly_IslandCrocoliskToken)
                         default: break
                         }
                     }
@@ -948,7 +950,7 @@ class PowerGameStateParser: LogEventParser {
                                 addKnownCardId(eventHandler: eventHandler, cardId: target)
                             }
                         case CardIds.Collectible.Neutral.Gorgonzormu:
-                            addKnownCardId(eventHandler: eventHandler, cardId:  CardIds.NonCollectible.Neutral.Gorgonzormu_DeliciousCheeseToken)
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.Gorgonzormu_DeliciousCheeseToken)
                         default:
                             if let card = Cards.any(byId: actionStartingCardId) {
                                 if (player != nil && player![.current_player] == 1
