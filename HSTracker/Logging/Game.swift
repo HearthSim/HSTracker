@@ -2870,8 +2870,10 @@ class Game: NSObject, PowerEventHandler {
     }
     
     func opponentHandToDeck(entity: Entity, cardId: String?, turn: Int) {
-        if cardId != nil && cardId != "" && entity.has(tag: .tradeable) {
-            opponent.predictUniqueCardInDeck(cardId: cardId ?? "", isCreated: false)
+        if cardId != nil && cardId != "" && entity.has(tag: .is_using_trade_option) {
+            opponent.predictUniqueCardInDeck(cardId: cardId ?? "", isCreated: entity.info.created)
+            entity.info.guessedCardState = .none
+            entity.info.hidden = true
         }
         opponent.handToDeck(entity: entity, turn: turn)
         updateTrackers()

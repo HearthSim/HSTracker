@@ -387,6 +387,7 @@ enum GameTag: Int, CaseIterable, Codable {
     gametag_2022 = 2022,
     bacon_skin = 2038,
     bacon_skin_parent_id = 2039,
+    is_using_trade_option = 2045,
     gametag_2088 = 2088,
     bacon_combat_damage_cap = 2089,
     lettuce_show_opposing_fake_hand = 2224,
