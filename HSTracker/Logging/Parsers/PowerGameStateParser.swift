@@ -939,6 +939,8 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Mage.FlameGeyser)
                         case CardIds.Collectible.Warrior.BoombossThogrun:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Warrior.BoombossThogrun_TNTToken, count: 3)
+                        case CardIds.NonCollectible.Neutral.KoboldMiner_PouchOfCoinsToken:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.TheCoinBasic, count: 2)
                         case CardIds.Collectible.Rogue.DartThrow:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.TheCoinBasic)
                         case CardIds.Collectible.Rogue.BountyWrangler:

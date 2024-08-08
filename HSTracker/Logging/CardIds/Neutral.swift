@@ -649,6 +649,7 @@ extension CardIds.Collectible {
 // MARK: - NonCollectible
 extension CardIds.NonCollectible {
     struct Neutral {
+        static let KoboldMiner_PouchOfCoinsToken = "WW_001t18"
         static let CarryOnGrub_CarryOnSuitcaseToken1 = "VAC_935t"
         static let TheCoinBasic = "GAME_005"
         static let KingTogwaggle_KingsRansomToken = "LOOT_541t"
