@@ -640,6 +640,7 @@ extension CardIds.Collectible {
         static let CelestialProjectionist = "TTN_742"
         static let WhelpWrangler = "WW_827"
         static let Gorgonzormu = "VAC_955"
+        static let MiracleSalesman = "WW_331"
     }
 }
 

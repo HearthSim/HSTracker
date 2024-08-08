@@ -635,6 +635,8 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.TaketotheSkies_HappyWhelpToken)
                         case CardIds.Collectible.Hunter.RangerGilly:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Hunter.RangerGilly_IslandCrocoliskToken)
+                        case CardIds.Collectible.Neutral.MiracleSalesman:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.MiracleSalesman_SnakeOilToken)
                         default: break
                         }
                     }
