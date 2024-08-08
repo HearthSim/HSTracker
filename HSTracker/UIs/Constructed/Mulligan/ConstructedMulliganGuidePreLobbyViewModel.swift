@@ -18,23 +18,23 @@ enum SingleDeckState {
 class SingleDeckStatus {
     private(set) var visibility: Bool
     private(set) var state: SingleDeckState
-    private(set) var cardClass: CardClass
+    private(set) var hasRunes: Bool
     private(set) var isFocused: Bool
     var padding: Int {
-        return cardClass == .deathknight ? 29 : 15
+        return hasRunes ? 29 : 15
     }
     
     init() {
         visibility = false
         state = .invalid
-        cardClass = .invalid
+        hasRunes = false
         isFocused = false
     }
     
-    init(state: SingleDeckState, cardClass: CardClass, isFocused: Bool) {
+    init(state: SingleDeckState, hasRunes: Bool, isFocused: Bool) {
         self.visibility = true
         self.state = state
-        self.cardClass = cardClass
+        self.hasRunes = hasRunes
         self.isFocused = isFocused
     }
     
@@ -128,8 +128,8 @@ class ConstructedMulliganGuidePreLobbyViewModel: ViewModel {
     // MARK: - Deckstrings
     
     struct DeckData {
-        var cardClass: CardClass
         var deckstring: String
+        var hasRunes: Bool
     }
     
     private var _decksByFormatAndDeckId = [FormatType: [Int64: DeckData]]()
@@ -164,7 +164,7 @@ class ConstructedMulliganGuidePreLobbyViewModel: ViewModel {
             guard let hearthDbDeck = HearthDbConverter.toHearthDbDeck(deck: deck, format: formatType) else {
                 continue
             }
-            let deckData = DeckData(cardClass: hearthDbDeck.getHero()?.playerClass ?? .invalid, deckstring: DeckSerializer.serialize(deck: hearthDbDeck) ?? "")
+            let deckData = DeckData(deckstring: DeckSerializer.serialize(deck: hearthDbDeck) ?? "", hasRunes: hearthDbDeck.getHero()?.playerClass == .deathknight || hearthDbDeck.cards.any { x in x.tourist == CardClass.allCases.firstIndex(of: .deathknight) })
             cache[deck.id.int64Value] = deckData
         }
         return cache
@@ -360,9 +360,9 @@ class ConstructedMulliganGuidePreLobbyViewModel: ViewModel {
             if let box = x, let deckId = box.deckid, let deckData = deckMap[deckId] {
                 // At this point we know the deck is valid for this format, so either fetch the API status or show NO_DATA
                 if let state = allDecks[deckData.deckstring] {
-                    return SingleDeckStatus(state: state, cardClass: deckData.cardClass, isFocused: box.isFocused || box.isSelected)
+                    return SingleDeckStatus(state: state, hasRunes: deckData.hasRunes, isFocused: box.isFocused || box.isSelected)
                 }
-                return SingleDeckStatus(state: .no_data, cardClass: deckData.cardClass, isFocused: box.isSelected)
+                return SingleDeckStatus(state: .no_data, hasRunes: deckData.hasRunes, isFocused: box.isSelected)
             }
             return SingleDeckStatus()
         }

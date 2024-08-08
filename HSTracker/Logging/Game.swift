@@ -1757,8 +1757,10 @@ class Game: NSObject, PowerEventHandler {
             
             if self.isBattlegroundsMatch() {
                 if (self.gameEntity?[.step] ?? 0) > Step.begin_mulligan.rawValue {
-                    self.windowManager.battlegroundsSession.update()
-                    self.windowManager.battlegroundsSession.updateScaling()
+                    DispatchQueue.main.async {
+                        self.windowManager.battlegroundsSession.update()
+                        self.windowManager.battlegroundsSession.updateScaling()
+                    }
                     BattlegroundsLeaderboardWatcher.start()
                     if self.isBattlegroundsDuosMatch() {
                         BattlegroundsTeammateBoardStateWatcher.start()
