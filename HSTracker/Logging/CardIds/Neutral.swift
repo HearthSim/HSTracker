@@ -638,6 +638,7 @@ extension CardIds.Collectible {
         static let Incindius = "VAC_321"
         static let Mixologist = "VAC_523"
         static let CelestialProjectionist = "TTN_742"
+        static let WhelpWrangler = "WW_827"
     }
 }
 
@@ -754,6 +755,7 @@ extension CardIds.NonCollectible {
         static let FlobbidinousFloop_InTheGloop = "BGDUO_HERO_101pe2"
         static let Incindius_EruptionToken = "VAC_321t"
         static let Mixologist_MixologistsSpecialToken = "VAC_523t"
+        static let TaketotheSkies_HappyWhelpToken = "WW_816t"
     }
 }
 

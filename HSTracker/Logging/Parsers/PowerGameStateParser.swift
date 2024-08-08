@@ -631,6 +631,8 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Neutral.AdaptiveAmalgam, count: 1)
                         case CardIds.Collectible.DemonHunter.PatchesThePilot:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.DemonHunter.PatchesthePilot_ParachuteToken, count: 6)
+                        case CardIds.Collectible.Neutral.WhelpWrangler:
+                            addKnownCardId(eventHandler: eventHandler, cardId:  CardIds.NonCollectible.Neutral.TaketotheSkies_HappyWhelpToken)
                         default: break
                         }
                     }
