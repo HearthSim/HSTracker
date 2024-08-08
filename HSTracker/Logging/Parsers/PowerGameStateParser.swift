@@ -947,6 +947,8 @@ class PowerGameStateParser: LogEventParser {
                             if let target {
                                 addKnownCardId(eventHandler: eventHandler, cardId: target)
                             }
+                        case CardIds.Collectible.Neutral.Gorgonzormu:
+                            addKnownCardId(eventHandler: eventHandler, cardId:  CardIds.NonCollectible.Neutral.Gorgonzormu_DeliciousCheeseToken)
                         default:
                             if let card = Cards.any(byId: actionStartingCardId) {
                                 if (player != nil && player![.current_player] == 1
