@@ -1,3 +1,15 @@
+# 3.0.1
+## New
+- Updated for Hearthstone 30.0.3
+- Added Tourist support to deck editor
+## Fixes
+- Fixed a number of recent cards not showing what the opponent added to their hand.
+- Fixed Snake Oil appearing twice in the opponent's deck list after trading.
+- Fixed the spell school counter not automatically appearing for Shaman decks with Razzle-Dazzler.
+- Fixed an issue causing the Mulligan Guide box to be misaligned in the deck picker for Warlock decks with runes (from Tourist).
+- Fixed composition stats background shrinking
+- Fixed composition labels being unreadable depending on theme
+
 # 3.0.0
 ## New
 - Updated for Hearthstone 30.0.0
