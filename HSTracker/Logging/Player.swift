@@ -152,6 +152,7 @@ final class Player {
     var graveyard: [Entity] { return playerEntities.filter({ $0.isInGraveyard }) }
     var secrets: [Entity] { return playerEntities.filter({ $0.isInSecret && $0.isSecret }) }
     var quests: [Entity] { return playerEntities.filter({ $0.isInSecret && $0.isQuest }) }
+    var trinkets: [Entity] { return board.filter({ x in x.isBattlegroundsTrinket}) }
     var questRewards: [Entity] { return board.filter({ $0.isBgsQuestReward }) }
     var objectives: [Entity] { return playerEntities.filter({ x in x.isInSecret && x.isObjective })}
     var setAside: [Entity] { return playerEntities.filter({ $0.isInSetAside }) }

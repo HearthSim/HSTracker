@@ -479,6 +479,9 @@ class MonoHelper {
             logger.debug("Murloc poisonous property \(murloc.poisonous), name \(murloc.minionName)")
             MonoHelper.addToList(list: os, element: murloc)
             
+            let trinket = sim.trinketFactory.create(id: "BG30_MagicItem_880", friendly: true)
+            MonoHelper.addToList(list: player.trinkets, element: trinket)
+            
             let playerSecrets = player.secrets
             test.addSecretFromDbfid(id: Cards.any(byId: "TB_Bacon_Secrets_12")?.dbfId, target: playerSecrets)
             logger.debug("Opponent HP \(opponent.heroPower.cardId)")

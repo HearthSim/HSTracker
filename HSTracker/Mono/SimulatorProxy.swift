@@ -18,7 +18,7 @@ class SimulatorProxy: MonoHandle, MonoClassInitializer {
         if SimulatorProxy._class == nil {
             SimulatorProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Simulation", name: "Simulator")
             
-            initializeFields(fields: [ "MinionFactory", "AnomalyFactory", "ObjectiveFactory" ])
+            initializeFields(fields: [ "MinionFactory", "TrinketFactory", "AnomalyFactory", "ObjectiveFactory" ])
         }
     }
     
@@ -39,7 +39,10 @@ class SimulatorProxy: MonoHandle, MonoClassInitializer {
     
     @MonoHandleField(field: "MinionFactory", owner: SimulatorProxy.self)
     var minionFactory: MinionFactoryProxy
-    
+
+    @MonoHandleField(field: "TrinketFactory", owner: SimulatorProxy.self)
+    var trinketFactory: TrinketFactoryProxy
+
     @MonoHandleField(field: "AnomalyFactory", owner: SimulatorProxy.self)
     var anomalyFactory: AnomalyFactoryProxy
     

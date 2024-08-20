@@ -415,6 +415,8 @@
 		B804FC442946BACF00F74CD9 /* BattlegroundsCompositionPopularityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC432946BACF00F74CD9 /* BattlegroundsCompositionPopularityViewModel.swift */; };
 		B8074B0228C83A96006E0133 /* RewardTrackType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8074B0128C83A96006E0133 /* RewardTrackType.swift */; };
 		B80B5B2F2C49BF9D005F4321 /* CompositionStatsException.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80B5B2E2C49BF9D005F4321 /* CompositionStatsException.swift */; };
+		B80B5B312C750895005F4321 /* TrinketProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80B5B302C750895005F4321 /* TrinketProxy.swift */; };
+		B80B5B332C7508BF005F4321 /* TrinketFactoryProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80B5B322C7508BF005F4321 /* TrinketFactoryProxy.swift */; };
 		B812BCED2947F929000C6513 /* BattlegroundsQuestStatsParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = B812BCEC2947F928000C6513 /* BattlegroundsQuestStatsParams.swift */; };
 		B812BCEF29495C3A000C6513 /* BattlegroundsSingleQuestView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B812BCEE29495C3A000C6513 /* BattlegroundsSingleQuestView.xib */; };
 		B81849232BF4D58E00F4EEE2 /* ConstructedMulliganOverlayMessage.xib in Resources */ = {isa = PBXBuildFile; fileRef = B81849222BF4D58E00F4EEE2 /* ConstructedMulliganOverlayMessage.xib */; };
@@ -1172,6 +1174,8 @@
 		B804FC432946BACF00F74CD9 /* BattlegroundsCompositionPopularityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsCompositionPopularityViewModel.swift; sourceTree = "<group>"; };
 		B8074B0128C83A96006E0133 /* RewardTrackType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardTrackType.swift; sourceTree = "<group>"; };
 		B80B5B2E2C49BF9D005F4321 /* CompositionStatsException.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositionStatsException.swift; sourceTree = "<group>"; };
+		B80B5B302C750895005F4321 /* TrinketProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrinketProxy.swift; sourceTree = "<group>"; };
+		B80B5B322C7508BF005F4321 /* TrinketFactoryProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrinketFactoryProxy.swift; sourceTree = "<group>"; };
 		B812BCEC2947F928000C6513 /* BattlegroundsQuestStatsParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsQuestStatsParams.swift; sourceTree = "<group>"; };
 		B812BCEE29495C3A000C6513 /* BattlegroundsSingleQuestView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsSingleQuestView.xib; sourceTree = "<group>"; };
 		B81849222BF4D58E00F4EEE2 /* ConstructedMulliganOverlayMessage.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConstructedMulliganOverlayMessage.xib; sourceTree = "<group>"; };
@@ -2273,6 +2277,8 @@
 				B8DC11F324EACDB80088A755 /* SimulationRunner.swift */,
 				B82F4EAF24E32C3000905024 /* SimulatorProxy.swift */,
 				B844D3692A0C3497001704E0 /* SpellCardEntityProxy.swift */,
+				B80B5B322C7508BF005F4321 /* TrinketFactoryProxy.swift */,
+				B80B5B302C750895005F4321 /* TrinketProxy.swift */,
 				B844D36B2A0C3510001704E0 /* UnknownCardEntityProxy.swift */,
 				B87856DF2C04BA7F004C2C40 /* UnsupportedInteractionProxy.swift */,
 			);
@@ -2924,6 +2930,7 @@
 				432A077C1E93B0F100921E34 /* Secrets.swift in Sources */,
 				B87765CD2BB9AE7F003BE49D /* DeckSideboards.swift in Sources */,
 				4CED5D15243D1B27006D2E1F /* DemonHunter.swift in Sources */,
+				B80B5B332C7508BF005F4321 /* TrinketFactoryProxy.swift in Sources */,
 				B8BD8453285D23C500F4F224 /* UnfairLock.swift in Sources */,
 				B8CE65DC2950D80200E8D168 /* BattlegroundsPlacementDistribution.swift in Sources */,
 				43F2040F1E93C2E600E0BC4A /* Priest.swift in Sources */,
@@ -3263,6 +3270,7 @@
 				B82E7B16262A798000C42EF0 /* ShortIdHelper.swift in Sources */,
 				BC90FD0B1D97F81B00BAFC0D /* GraveyardCounter.swift in Sources */,
 				F7D7A3A62011B67D00E3A5F0 /* Hearthstone.swift in Sources */,
+				B80B5B312C750895005F4321 /* TrinketProxy.swift in Sources */,
 				4323C5F71E1BE28800C97896 /* BrawlInfo.swift in Sources */,
 				BCA70F2A1E2C16DD00038A6C /* FileUtils.m in Sources */,
 				434D1CB11D0C507900222B8E /* ImageCompare.swift in Sources */,

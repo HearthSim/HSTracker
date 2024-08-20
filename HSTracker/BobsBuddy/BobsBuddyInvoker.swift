@@ -818,6 +818,9 @@ class BobsBuddyInvoker {
             questData.rewardCardId = reward.info.latestCardId
             MonoHelper.addToList(list: playerQuests, element: questData)
         }
+        for trinket in gamePlayer.trinkets where !trinket.cardId.isEmpty {
+            MonoHelper.addToList(list: inputPlayer.trinkets, element: simulator.trinketFactory.create(id: trinket.cardId, friendly: friendly))
+        }
         let playerObjectives = inputPlayer.objectives
         for objective in game.player.objectives {
             // TODO: [Duos] Check if friendly translates to player correctly

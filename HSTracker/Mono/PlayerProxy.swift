@@ -34,7 +34,7 @@ class PlayerProxy: MonoHandle, MonoClassInitializer {
             PlayerProxy._setPlayerHeroPower = MonoHelper.getMethod(PlayerProxy._class, "SetHeroPower", 5)
             
             // fields
-            initializeProperties(properties: [ "Side", "HeroPower", "Quests", "Objectives", "Secrets", "Hand", "EternalKnightCounter", "UndeadAttackBonus", "ElementalPlayCounter", "BloodGemAtkBuff", "BloodGemHealthBuff", "TavernSpellCounter", "WonLastCombat", "BattlecriesPlayed", "Health", "DamageTaken", "Tier" ])
+            initializeProperties(properties: [ "Side", "HeroPower", "Quests", "Objectives", "Trinkets", "Secrets", "Hand", "EternalKnightCounter", "UndeadAttackBonus", "ElementalPlayCounter", "BloodGemAtkBuff", "BloodGemHealthBuff", "TavernSpellCounter", "WonLastCombat", "BattlecriesPlayed", "Health", "DamageTaken", "Tier" ])
         }
     }
     
@@ -75,6 +75,9 @@ class PlayerProxy: MonoHandle, MonoClassInitializer {
     @MonoHandleProperty(property: "Quests", owner: PlayerProxy.self)
     var quests: MonoHandle
     
+    @MonoHandleProperty(property: "Trinkets", owner: PlayerProxy.self)
+    var trinkets: MonoHandle
+
     @MonoHandleProperty(property: "Objectives", owner: PlayerProxy.self)
     var objectives: MonoHandle
     

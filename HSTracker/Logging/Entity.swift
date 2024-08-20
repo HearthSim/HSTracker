@@ -107,6 +107,9 @@ class Entity {
     var isBattlegroundsSpell: Bool {
         return self[.cardtype] == CardType.battleground_spell.rawValue
     }
+    var isBattlegroundsTrinket: Bool {
+        return self.has(tag: .bacon_trinket)
+    }
     var isSideQuest: Bool {
         return has(tag: .sidequest)
     }
