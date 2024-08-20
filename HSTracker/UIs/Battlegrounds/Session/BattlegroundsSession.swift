@@ -453,8 +453,8 @@ class BattlegroundsSession: OverWindowController {
         deleteOldGames(games: sortedGames)
         sessionGames = getSessionGames(sortedGames: sortedGames)
         let firstGame = sessionGames.first
-        if sessionGames.count > 10 {
-            sessionGames.removeSubrange(0 ..< sessionGames.count - 10)
+        if sessionGames.count > 8 {
+            sessionGames.removeSubrange(0 ..< sessionGames.count - 8)
         }
         sessionGames = sessionGames.sorted(by: { (a, b) in a.startTime > b.startTime })
         for subview in lastGames.subviews.reversed() where subview as? BattlegroundsGameView != nil {
