@@ -1,3 +1,11 @@
+# 3.0.2
+## New
+- Updated for Hearthstone 30.2.0
+- Slightly reduced the number of games shown in the session recap from 10 to 8 to free up some vertical screen space.
+## Bob's Buddy
+- Added over 70 implementations for the new trinkets and new or updated cards.\
+  *We'll be monitoring the simulation accuracy and will likely issue another update within the coming days.*
+
 # 3.0.1
 ## New
 - Updated for Hearthstone 30.0.3
