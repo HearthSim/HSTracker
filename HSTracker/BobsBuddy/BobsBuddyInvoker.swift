@@ -903,6 +903,10 @@ class BobsBuddyInvoker {
         if let pUndeadBonus {
             inputPlayer.undeadAttackBonus = Int32(pUndeadBonus[.tag_script_data_num_1])
         }
+        
+        if let pAncestralAutomaton = playerAttached.first(where: { x in x.cardId == CardIds.Invalid.AncestralAutomaton_AncestralAutomatonPlayerEnchantDnt }) {
+            inputPlayer.ancestralAutomatonCounter = Int32( pAncestralAutomaton[.tag_script_data_num_1])
+        }
         inputPlayer.elementalPlayCounter = Int32(game.playerEntity?[.gametag_2878] ?? 0)
 
         logger.info("pEternal=\(inputPlayer.eternalKnightCounter), pUndead=\(inputPlayer.undeadAttackBonus), pElemental=\(inputPlayer.elementalPlayCounter), friendly=\(friendly)")
