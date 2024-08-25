@@ -14,6 +14,7 @@ class BattlegroundsTierOverlayView: NSView {
     var showing = false
     var availableTiers: [Bool] = [false, false, false, false, false, false, false]
     var isThorimRelevant = false
+    var isPageFishingRodRelevant = false
 
     init() {
         super.init(frame: NSRect.zero)
@@ -27,10 +28,10 @@ class BattlegroundsTierOverlayView: NSView {
         super.init(coder: coder)
     }
     
-    func isTier7Available() -> Bool {
-        return availableTiers[6] || isThorimRelevant
+    var showTavernTier7: Bool {
+        return Settings.alwaysShowTier7 || isThorimRelevant || isPageFishingRodRelevant
     }
-    
+
     func unhideTier() {
         if !showing {
             let anomalyDbfId =  BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: AppDelegate.instance().coreManager.game.gameEntity)
@@ -68,6 +69,7 @@ class BattlegroundsTierOverlayView: NSView {
         hoverTier = 0
         needsDisplay = true
         isThorimRelevant = false
+        isPageFishingRodRelevant = false
     }
     
     func drawTier(tier: Int, x: Int) {
@@ -94,7 +96,7 @@ class BattlegroundsTierOverlayView: NSView {
         backgroundColor.set()
         dirtyRect.fill()
         
-        let tiers = isTier7Available() ? 7 : 6
+        let tiers = showTavernTier7 ? 7 : 6
         
         for i in 1...tiers {
             drawTier(tier: i, x: 8 + (i - 1) * 48)
@@ -137,7 +139,7 @@ class BattlegroundsTierOverlayView: NSView {
             return
         }
         let index = (Int(CGFloat(event.locationInWindow.x - 4.0))) / 48 + 1
-        let tiers = isTier7Available() ? 7 : 6
+        let tiers = showTavernTier7 ? 7 : 6
         if index >= 1 && index <= tiers {
             displayTier(tier: index == currentTier ? 0 : index)
         } else {
@@ -151,7 +153,7 @@ class BattlegroundsTierOverlayView: NSView {
             return
         }
         let index = (Int(CGFloat(event.locationInWindow.x - 4.0))) / 48 + 1
-        let tiers = isTier7Available() ? 7 : 6
+        let tiers = showTavernTier7 ? 7 : 6
 
         if index >= 1 && index <= tiers {
             hoverTier = index
@@ -171,5 +173,9 @@ class BattlegroundsTierOverlayView: NSView {
         DispatchQueue.main.async {
             self.needsDisplay = true
         }
+    }
+    
+    func onTrinkets(trinkets: [String]) {
+        isPageFishingRodRelevant = trinkets.contains(CardIds.NonCollectible.Neutral.PaglesFishingRod)
     }
 }

@@ -2202,6 +2202,7 @@ class Game: NSObject, PowerEventHandler {
                     if playerTurn.turn > 1 {
                         BobsBuddyInvoker.instance(gameId: self.gameId, turn: self.turnNumber() - 1)?.startShopping()
                         windowManager.battlegroundsTierOverlay.tierOverlay.onHeroPowers(heroPowers: self.player.board.filter { x in x.isHeroPower }.compactMap { x in x.cardId })
+                        windowManager.battlegroundsTierOverlay.tierOverlay.onTrinkets(trinkets: self.player.trinkets.compactMap({ x in x.cardId }))
                     }
                 }
             }
@@ -3283,6 +3284,7 @@ class Game: NSObject, PowerEventHandler {
             }
         } else if isBattlegroundsMatch() {
             windowManager.battlegroundsQuestPicking.viewModel.reset()
+            windowManager.battlegroundsTierOverlay.tierOverlay.onTrinkets(trinkets: self.player.trinkets.compactMap({ x in x.cardId }))
         }
     }
     

@@ -43,6 +43,7 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
     @IBOutlet weak var scalingSlider: NSSlider!
     @IBOutlet weak var scalingValue: NSTextField!
     @IBOutlet weak var showBattlegroundsCompStats: NSButton!
+    @IBOutlet weak var alwaysShowTavernTier7: NSButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,6 +74,7 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
         scalingSlider.doubleValue = Settings.battlegroundsSessionScaling * 100.0
         scalingValue.doubleValue = Settings.battlegroundsSessionScaling
         showBattlegroundsCompStats.state = Settings.showBattlegroundsTier7SessionCompStats ? .on : .off
+        alwaysShowTavernTier7.state = Settings.alwaysShowTier7 ? .on : .off
         updateEnablement()
     }
 
@@ -160,6 +162,8 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
             Settings.showBattlegroundsCompositionStats = sender.state == .on
         } else if sender == showBattlegroundsCompStats {
             Settings.showBattlegroundsTier7SessionCompStats = sender.state == .on
+        } else if sender == alwaysShowTavernTier7 {
+            Settings.alwaysShowTier7 = sender.state == .on
         }
     }
     

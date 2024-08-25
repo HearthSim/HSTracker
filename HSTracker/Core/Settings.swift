@@ -294,6 +294,8 @@ final class Settings {
     static var battlegroundsSessionScaling: Double
     @UserDefault(key: Settings.show_battlegrounds_tier7_session_comp_stats, defaultValue: true)
     static var showBattlegroundsTier7SessionCompStats: Bool
+    @UserDefault(key: Settings.always_show_tier_7, defaultValue: false)
+    static var alwaysShowTier7
 
     @UserDefault(key: Settings.player_draw_chance, defaultValue: true)
     static var showPlayerDrawChance: Bool
@@ -615,6 +617,7 @@ extension Settings {
     static let show_battlegrounds_composition_stats = "show_battlegrounds_composition_stats"
     static let battlegrounds_session_scaling = "battlegrounds_session_scaling"
     static let show_battlegrounds_tier7_session_comp_stats = "show_battlegrounds_tier7_session_comp_stats"
+    static let always_show_tier_7 = "always_show_tier_7"
     
     static let player_draw_chance = "player_draw_chance"
     static let player_card_count = "player_card_count"

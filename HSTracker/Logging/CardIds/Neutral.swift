@@ -763,6 +763,7 @@ extension CardIds.NonCollectible {
         static let Mixologist_MixologistsSpecialToken = "VAC_523t"
         static let TaketotheSkies_HappyWhelpToken = "WW_816t"
         static let Gorgonzormu_DeliciousCheeseToken = "VAC_955t"
+        static let PaglesFishingRod = "BG30_MagicItem_993"
     }
 }
 
