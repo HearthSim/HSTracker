@@ -316,9 +316,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
             #if !HSTTEST
             if MonoHelper.load() {
                 MonoHelper.initialize()
-//                DispatchQueue.global().async(qos: .userInitiated) {
-//                    MonoHelper.testSimulation()
-//                }
+                DispatchQueue.global().async(qos: .userInitiated) {
+                    MonoHelper.testSimulation()
+                }
             } else {
                 self.coreManager.game.windowManager.bobsBuddyPanel.setErrorState(error: .monoNotFound)
                 logger.error("Failed to load BobsBuddy")

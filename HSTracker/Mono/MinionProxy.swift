@@ -11,6 +11,7 @@ import Foundation
 class MinionProxy: MonoHandle, MonoClassInitializer {    
     internal static var _class: OpaquePointer?
     internal static var _attachModularEntity: OpaquePointer!
+    internal static var _setBloodGemStats: OpaquePointer!
     
     static var _members = [String: OpaquePointer]()
     
@@ -19,6 +20,7 @@ class MinionProxy: MonoHandle, MonoClassInitializer {
             MinionProxy._class = MonoHelper.loadClass(ns: "BobsBuddy", name: "Minion")
             
             MinionProxy._attachModularEntity = MonoHelper.getMethod(MinionProxy._class, "AttachModularEntity", 1)
+            MinionProxy._setBloodGemStats = MonoHelper.getMethod(MinionProxy._class, "SetBloodGemStats", 2)
             
             initializeFields(fields: ["minionName", "tier"])
             
@@ -107,5 +109,9 @@ class MinionProxy: MonoHandle, MonoClassInitializer {
     
     func attachModularEntity(cardId: String) {
         _ = MonoHelper.invokeString(obj: self, method: MinionProxy._attachModularEntity, str: cardId)
+    }
+    
+    func setBloodGemStats(_ attack: Int, _ health: Int) {
+        MonoHelper.setIntInt(obj: self, method: MinionProxy._setBloodGemStats, v1: Int32(attack), v2: Int32(health))
     }
 }

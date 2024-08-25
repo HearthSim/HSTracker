@@ -716,6 +716,10 @@ class BobsBuddyInvoker {
                 minion.addDeathrattle(deathrattle: RecurringNightmare.summonDeathrattle(golden: false))
             case CardIds.NonCollectible.Neutral.RecurringNightmare_NightmareInside:
                 minion.addDeathrattle(deathrattle: RecurringNightmare.summonDeathrattle(golden: true))
+            case CardIds.NonCollectible.Neutral.BloodGem2:
+                let atk = ent[.tag_script_data_num_1]
+                let health = ent[.tag_script_data_num_2]
+                minion.setBloodGemStats(atk, health)
             default:
                 break
             }
