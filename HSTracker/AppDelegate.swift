@@ -71,7 +71,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
             alert.addButton(withTitle: String.localizedString("Send", comment: ""))
             alert.addButton(withTitle: String.localizedString("Don't send", comment: ""))
             alert.alertStyle = .warning
-
+            
             switch alert.runModal() {
             case .alertFirstButtonReturn:
                 Crashes.notify(with: .always)
@@ -82,10 +82,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
             default:
                 break
             }
-
+            
             return true // Return true if the SDK should await user confirmation, otherwise return false.
         }
-
+        
         AppCenter.start(withAppSecret: "2f0021b9-bb18-4282-9aa1-cfbbd85d3bed", services: [Analytics.self, Crashes.self])
         
         let options = [
@@ -134,28 +134,50 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
             credential.oauthTokenExpiresAt = expiration
         }
         
-        HSReplayAPI.oauthswift.renewAccessToken(withRefreshToken: credential.oauthRefreshToken, completionHandler: { result in
-            switch result {
-            case .success(let (credential, _, parameters)):
-                logger.debug("HSReplay: Refreshed OAuthToken")
-                Settings.hsReplayOAuthToken =  credential.oauthToken
-                Settings.hsReplayOAuthRefreshToken = credential.oauthRefreshToken
-                Settings.hsReplayOAuthTokenExpiration = credential.oauthTokenExpiresAt
-                Settings.hsReplayOAuthScope = parameters["scope"] as? String
-                HSReplayAPI.getAccount().done { result in
-                    switch result {
-                    case .failed:
-                        logger.error("Failed to retrieve account data")
-                    case .success(account: let data):
-                        logger.info("Successfully retrieved account data: Username: \(data.username), battletag: \(data.battletag)")
+        var refresh = false
+        if let expiration = Settings.hsReplayOAuthTokenExpiration {
+            if expiration.timeIntervalSince(Date()) <= 0 {
+                refresh = true
+            }
+        } else {
+            refresh = true
+        }
+        
+        if refresh {
+            logger.debug("OAuth token is expired, renewing")
+            
+            HSReplayAPI.oauthswift.renewAccessToken(withRefreshToken: credential.oauthRefreshToken, completionHandler: { result in
+                switch result {
+                case .success(let (credential, _, parameters)):
+                    logger.debug("HSReplay: Refreshed OAuthToken")
+                    Settings.hsReplayOAuthToken =  credential.oauthToken
+                    Settings.hsReplayOAuthRefreshToken = credential.oauthRefreshToken
+                    Settings.hsReplayOAuthTokenExpiration = credential.oauthTokenExpiresAt
+                    Settings.hsReplayOAuthScope = parameters["scope"] as? String
+                    HSReplayAPI.getAccount().done { result in
+                        switch result {
+                        case .failed:
+                            logger.error("Failed to retrieve account data")
+                        case .success(account: let data):
+                            logger.info("Successfully retrieved account data: Username: \(data.username), battletag: \(data.battletag)")
+                        }
+                    }.catch { error in
+                        logger.error(error)
                     }
-                }.catch { error in
+                case .failure(let error):
                     logger.error(error)
                 }
-            case .failure(let error):
-                logger.error(error)
+            })
+        } else {
+            _ = HSReplayAPI.getAccount().done { result in
+                switch result {
+                case .failed:
+                    logger.error("Failed to retrieve account data")
+                case .success(account: let data):
+                    logger.info("Successfully retrieved account data: Username: \(data.username), battletag: \(data.battletag)")
+                }
             }
-        })
+        }
         
         // init debug loggers
         #if DEBUG

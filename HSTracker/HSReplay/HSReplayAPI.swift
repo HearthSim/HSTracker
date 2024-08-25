@@ -88,7 +88,7 @@ class HSReplayAPI {
         )
     }
     
-    static func startAuthorizedRequest(_ url: String, method: OAuthSwiftHTTPRequest.Method, parameters: OAuthSwift.Parameters, headers: OAuthSwift.Headers? = nil, body: Data? = nil, onTokenRenewal: OAuthSwift.TokenRenewedHandler? = nil, completionHandler completion: @escaping OAuthSwiftHTTPRequest.CompletionHandler) {
+    static func startAuthorizedRequest(_ url: String, method: OAuthSwiftHTTPRequest.Method, parameters: OAuthSwift.Parameters = [:], headers: OAuthSwift.Headers? = nil, body: Data? = nil, onTokenRenewal: OAuthSwift.TokenRenewedHandler? = nil, completionHandler completion: @escaping OAuthSwiftHTTPRequest.CompletionHandler) {
         
         if let expiration = Settings.hsReplayOAuthTokenExpiration {
             if expiration.timeIntervalSince(Date()) <= 0 {
@@ -451,7 +451,7 @@ class HSReplayAPI {
             } catch {
                 logger.error(error)
             }
-            oauthswift.client.request("\(HSReplay.tier7HeroPickStatsUrl)", method: .POST, headers: ["Content-Type": "application/json"], body: body, completionHandler: { result in
+            startAuthorizedRequest("\(HSReplay.tier7HeroPickStatsUrl)", method: .POST, headers: ["Content-Type": "application/json"], body: body, completionHandler: { result in
                 switch result {
                 case .success(let response):
                     logger.debug("Response: \(String(data: response.data, encoding: .utf8) ?? "FAILED")")
@@ -516,7 +516,7 @@ class HSReplayAPI {
             } catch {
                 logger.error(error)
             }
-            oauthswift.client.request("\(HSReplay.tier7DuosHeroPickStatsUrl)", method: .POST, headers: ["Content-Type": "application/json"], body: body, completionHandler: { result in
+            startAuthorizedRequest("\(HSReplay.tier7DuosHeroPickStatsUrl)", method: .POST, headers: ["Content-Type": "application/json"], body: body, completionHandler: { result in
                 switch result {
                 case .success(let response):
                     logger.debug("Response: \(String(data: response.data, encoding: .utf8) ?? "FAILED")")
@@ -581,7 +581,7 @@ class HSReplayAPI {
             } catch {
                 logger.error(error)
             }
-            oauthswift.client.request("\(HSReplay.tier7QuestStatsUrl)", method: .POST, headers: ["Content-Type": "application/json"], body: body, completionHandler: { result in
+            startAuthorizedRequest("\(HSReplay.tier7QuestStatsUrl)", method: .POST, headers: ["Content-Type": "application/json"], body: body, completionHandler: { result in
                 switch result {
                 case .success(let response):
                     let bqs: [BattlegroundsQuestStats]? = parseResponse(data: response.data, defaultValue: nil)
@@ -703,7 +703,7 @@ class HSReplayAPI {
                 logger.error(error)
             }
 
-            oauthswift.client.request("\(HSReplay.constructedMulliganGuide)", method: .POST, parameters: [:], headers: ["Content-Type": "application/json"], body: body, completionHandler: { result in
+            startAuthorizedRequest("\(HSReplay.constructedMulliganGuide)", method: .POST, parameters: [:], headers: ["Content-Type": "application/json"], body: body, completionHandler: { result in
                 switch result {
                 case .success(let response):
                     if let str = String(data: response.data, encoding: .utf8) {
@@ -737,7 +737,7 @@ class HSReplayAPI {
                 logger.error(error)
             }
 
-            oauthswift.client.request("\(HSReplay.constructedMulliganGuideStatus)", method: .POST, parameters: [:], headers: ["Content-Type": "application/json"], body: body, completionHandler: { result in
+            startAuthorizedRequest("\(HSReplay.constructedMulliganGuideStatus)", method: .POST, parameters: [:], headers: ["Content-Type": "application/json"], body: body, completionHandler: { result in
                 switch result {
                 case .success(let response):
                     if let str = String(data: response.data, encoding: .utf8) {
@@ -770,7 +770,7 @@ class HSReplayAPI {
             } catch {
                 logger.error(error)
             }
-            oauthswift.client.request("\(HSReplay.tier7CompStatsUrl)", method: .POST, headers: ["Content-Type": "application/json"], body: body, completionHandler: { result in
+            startAuthorizedRequest("\(HSReplay.tier7CompStatsUrl)", method: .POST, headers: ["Content-Type": "application/json"], body: body, completionHandler: { result in
                 switch result {
                 case .success(let response):
                     let bqs: BattlegroundsCompStats? = parseResponse(data: response.data, defaultValue: nil)
