@@ -474,6 +474,8 @@ class MonoHelper {
                 }
             }
             
+            let golden = MinionFactoryProxy.tryGetPremiumIdFromNormal("BG29_888")
+            
             let murloc = factory.createFromCardid(id: "EX1_506a", player: false)
             murloc.poisonous = true
             logger.debug("Murloc poisonous property \(murloc.poisonous), name \(murloc.minionName)")
@@ -815,6 +817,32 @@ class MonoHelper {
         
         let temp = mono_runtime_invoke(method, inst, nil, nil)
         
+        if temp == nil {
+            return ""
+        }
+        
+        let res = mono_object_to_string(temp, nil)
+        
+        let str = mono_string_to_utf8(res)
+        
+        let cstr = String(cString: str!)
+        
+        str?.deallocate()
+        
+        return cstr
+    }
+    
+    static func getString(obj: MonoHandle, method: OpaquePointer, str: String) -> String {
+        let params = UnsafeMutablePointer<OpaquePointer>.allocate(capacity: 1)
+        str.withCString({
+            params[0] = mono_string_new(MonoHelper._monoInstance, $0)
+        })
+        let temp: UnsafeMutablePointer<MonoObject>? = params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 1, {
+            let inst = obj.get()
+
+            return mono_runtime_invoke(method, inst, $0, nil)
+        })
+        params.deallocate()
         if temp == nil {
             return ""
         }

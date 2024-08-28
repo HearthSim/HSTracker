@@ -17,6 +17,7 @@ class MinionFactoryProxy: MonoHandle, MonoClassInitializer {
     private static var _cardIdsWithoutPremiumImplementations: OpaquePointer!
     private static var _cardIdsWithCleave: OpaquePointer!
     private static var _cardIdsWithMegaWindfury: OpaquePointer!
+    private static var _tryGetPremiumIdFromNormal: OpaquePointer!
     
     static var _members = [String: OpaquePointer]()
     
@@ -30,6 +31,8 @@ class MinionFactoryProxy: MonoHandle, MonoClassInitializer {
         _cardIdsWithoutPremiumImplementations = MonoHelper.getField(_class, "cardIdsWithoutPremiumImplementations")
         _cardIdsWithCleave = MonoHelper.getField(_class, "cardIDsWithCleave")
         _cardIdsWithMegaWindfury = MonoHelper.getField(_class, "cardIdsWithMegaWindfury")
+        
+        _tryGetPremiumIdFromNormal = MonoHelper.getMethod(MinionFactoryProxy._class, "TryGetPremiumIdFromNormal", 1)
 
         _classVT = mono_class_vtable(MonoHelper._monoInstance, mono_field_get_parent(_cardIdsWithoutPremiumImplementations))
     }
@@ -100,5 +103,9 @@ class MinionFactoryProxy: MonoHandle, MonoClassInitializer {
 
     static func getCardIdsWithMegaWindfury() -> [String] {
         return getStringArrayField(field: _cardIdsWithMegaWindfury)
+    }
+    
+    static func tryGetPremiumIdFromNormal(_ normalId: String) -> String {
+        return MonoHelper.getString(obj: MonoHandle(), method: MinionFactoryProxy._tryGetPremiumIdFromNormal, str: normalId)
     }
 }

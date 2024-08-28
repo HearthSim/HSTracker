@@ -99,14 +99,15 @@ struct ImageUtils {
         loadImage(type: .cardArt, cardId: cardId, completion: completion)
     }
     
-    static func cardArtBG(for cardId: String, completion: @escaping ((NSImage?) -> Void)) {
-        let image = cacheCardArtBG[cardId]
+    static func cardArtBG(for cardId: String, baconTriple: Bool, completion: @escaping ((NSImage?) -> Void)) {
+        let finalCardId = "\(cardId)\(baconTriple ? "_triple" : "")"
+        let image = cacheCardArtBG[finalCardId]
         
         if let image = image {
             completion(image)
             return
         }
-        loadImage(type: .cardArtBG, cardId: cardId, completion: completion)
+        loadImage(type: .cardArtBG, cardId: finalCardId, completion: completion)
     }
 
     static func cachedArt(cardId: String) -> NSImage? {

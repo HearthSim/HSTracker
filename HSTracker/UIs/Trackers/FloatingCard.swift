@@ -27,9 +27,9 @@ class FloatingCard: OverWindowController {
     }
 
     private func reload() {
-        if let cardId = self.card?.id {
+        if let cardId = self.card?.id, let baconTriple = card?.baconTriple {
             if isBattlegrounds {
-                ImageUtils.cardArtBG(for: cardId, completion: { image in
+                ImageUtils.cardArtBG(for: cardId, baconTriple: baconTriple, completion: { image in
                     DispatchQueue.main.async {
                         self.imageView.image = image
                     }

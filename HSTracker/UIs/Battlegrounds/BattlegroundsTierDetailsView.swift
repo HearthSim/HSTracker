@@ -8,7 +8,7 @@
 
 import Foundation
 
-class BattlegroundsTierDetailsView: NSView {
+@objc class BattlegroundsTierDetailsView: NSView {
     
     struct CardGroup {
         var tier: Int
@@ -143,6 +143,8 @@ class BattlegroundsTierDetailsView: NSView {
         return groups
     }
     
+    private var hoverTimer: Timer?
+    
     func setTier(tier: Int, isThorimRelevant: Bool) {
         let game = AppDelegate.instance().coreManager.game
         self.activeTier = tier
@@ -272,6 +274,9 @@ extension BattlegroundsTierDetailsView: CardCellHover {
         }
 
         let frame = [x, y - hoverFrame.height / 2.0, hoverFrame.width, hoverFrame.height]
+        DispatchQueue.main.async {
+            self.hoverTimer = Timer.scheduledTimer(timeInterval: 0.8, target: self, selector: #selector(self.hoverGolden), userInfo: ["frame": frame, "cardId": card.id ], repeats: false)
+        }
 
         NotificationCenter.default
             .post(name: Notification.Name(rawValue: Events.show_floating_card),
@@ -285,11 +290,48 @@ extension BattlegroundsTierDetailsView: CardCellHover {
     }
 
     func out(card: Card) {
+        hoverTimer?.invalidate()
+        
         let userinfo = [
             "card": card
             ] as [String: Any]
 
         NotificationCenter.default
             .post(name: Notification.Name(rawValue: Events.hide_floating_card), object: nil, userInfo: userinfo)
+    }
+    
+    @objc func hoverGolden(_ timer: Timer) {
+        if let dict = timer.userInfo as? [String: Any] {
+            
+            guard let cardId = dict["cardId"] as? String, let frame = dict["frame"] as? [CGFloat] else {
+                return
+            }
+            
+            let opaque = mono_thread_attach(MonoHelper._monoInstance)
+            
+            defer {
+                mono_thread_detach(opaque)
+            }
+            
+            let goldenCardId = MinionFactoryProxy.tryGetPremiumIdFromNormal(cardId)
+            
+            guard let card = Cards.any(byId: goldenCardId) else {
+                return
+            }
+            
+            card.baconTriple = true
+
+            NotificationCenter.default
+                .post(name: Notification.Name(rawValue: Events.show_floating_card),
+                                      object: nil,
+                                      userInfo: [
+                                        "card": card,
+                                        "frame": [ frame[0] - frame[2] - 22, frame[1], frame[2], frame[3] ],
+                                        "battlegrounds": true,
+                                        "useFrame": true,
+                                        "index": 2
+                    ])
+
+        }
     }
 }

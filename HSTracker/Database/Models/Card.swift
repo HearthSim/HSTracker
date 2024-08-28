@@ -54,6 +54,7 @@ final class Card {
     var zilliaxCustomizableFunctionalModule = false
     var zilliaxCustomizableCosmeticModule = false
     var tourist = 0
+    var baconTriple = false
     
     var deckbuildingCard: Card {
         if zilliaxCustomizableCosmeticModule {
