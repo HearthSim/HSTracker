@@ -433,7 +433,8 @@ enum GameTag: Int, CaseIterable, Codable {
     warrior_tourist = 3604,
     druid_tourist = 3605,
     mage_tourist = 3606,
-    paladin_tourist = 3607
+    paladin_tourist = 3607,
+    bacon_is_potential_trinket = 3705
 
     static var lookup = [String: GameTag]()
     

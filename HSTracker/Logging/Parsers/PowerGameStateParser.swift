@@ -286,7 +286,7 @@ class PowerGameStateParser: LogEventParser {
                     eventHandler.entities[entityId] = entity
                 }
                 let entity = eventHandler.entities[entityId]!
-                if entity.cardId.isBlank || entity.has(tag: .bacon_is_magic_item_discover) {
+                if entity.cardId.isBlank || entity.has(tag: .bacon_is_potential_trinket) || entity.has(tag: .bacon_trinket) {
                     entity.cardId = cardId
                 }
                 entity.info.latestCardId = cardId
