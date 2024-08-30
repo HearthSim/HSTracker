@@ -1,3 +1,20 @@
+# 3.0.3
+## New
+- Updated for Hearthstone 30.2.2
+- Automatically show Tavern Tier 7 in the Battlegrounds minion browser when you have Pagle's Fishing Rod.
+- Added a setting to always show Tavern Tier 7 in the Battlegrounds minion browser.
+  You'll find this setting under Preferences > Battlegrounds > Always show Tavern Tier 7.
+- Added golden cards to the Battlegrounds minion browser: hover over the cards for a little longer to see the golden version.
+## Fixes
+- Fixed color of Composition Stats header in light theme
+## Bob's Buddy
+- Fixed a simulation crash that could cause the odds to spin forever.
+- Added support for the Blood Golem Sticker trinket.
+- Fixed a major simulation issue with the Bronze Timepiece trinket.
+- Fixed trinkets from Souvenir Stand not being incorporated into the simulations.
+- Fixed a simulation issue when Flourishing Frostling triggers Moss of the Schloss.
+- Fixed a simulation crash when the Boom Controller trinket was present.
+
 # 3.0.2
 ## New
 - Updated for Hearthstone 30.2.0
