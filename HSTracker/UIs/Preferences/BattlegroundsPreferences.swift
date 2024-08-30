@@ -94,6 +94,7 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
             Settings.showOpponentWarband = showOpponentWarband.state == .on
         } else if sender == showTiers {
             Settings.showTiers = showTiers.state == .on
+            updateEnablement()
         } else if sender == showBDonTiers {
             Settings.showBattlecryDeathrattleOnTiers = sender.state == .on
         } else if sender == showTavernSpells {
@@ -195,6 +196,7 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
         showBattlegroundsCompStats.isEnabled = enabled
         showQuestPicking.isEnabled = enabled
         showCompositionStats.isEnabled = enabled
+        alwaysShowTavernTier7.isEnabled = showTiers.state == .on
     }
     
     @IBAction func reset(_ sender: NSButton) {
