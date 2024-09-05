@@ -473,9 +473,7 @@ class MonoHelper {
                     logger.debug("Item is not instance")
                 }
             }
-            
-            let golden = MinionFactoryProxy.tryGetPremiumIdFromNormal("BG29_888")
-            
+                        
             let murloc = factory.createFromCardid(id: "EX1_506a", player: false)
             murloc.poisonous = true
             logger.debug("Murloc poisonous property \(murloc.poisonous), name \(murloc.minionName)")
