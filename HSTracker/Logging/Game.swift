@@ -3284,7 +3284,12 @@ class Game: NSObject, PowerEventHandler {
             }
         } else if isBattlegroundsMatch() {
             windowManager.battlegroundsQuestPicking.viewModel.reset()
-            windowManager.battlegroundsTierOverlay.tierOverlay.onTrinkets(trinkets: self.player.trinkets.compactMap({ x in x.cardId }))
+            
+            let chosen = choice.chosenEntities
+            
+            if chosen.all({ x in x.isBattlegroundsTrinket }) {
+                windowManager.battlegroundsTierOverlay.tierOverlay.onTrinkets(trinkets: (self.player.trinkets + chosen).compactMap({ x in x.cardId }))
+            }
         }
     }
     

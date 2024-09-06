@@ -177,5 +177,8 @@ class BattlegroundsTierOverlayView: NSView {
     
     func onTrinkets(trinkets: [String]) {
         isPageFishingRodRelevant = trinkets.contains(CardIds.NonCollectible.Neutral.PaglesFishingRod)
+        DispatchQueue.main.async {
+            AppDelegate.instance().coreManager.game.updateBattlegroundsTierOverlay(reset: false)
+        }
     }
 }
