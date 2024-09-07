@@ -20,6 +20,7 @@ final class LogReaderManager {
 	let arenaHandler: LogEventParser
 	let loadingScreenHandler: LogEventParser
     let choicesHandler: ChoicesHandler
+    let gameInfoHandler: GameInfoHandler
 
     private let powerLog: LogReader
     private let rachelle: LogReader
@@ -75,6 +76,7 @@ final class LogReaderManager {
         loadingScreen = LogReader(info: LogReaderInfo(name: .loadingScreen,
                                                       startsWithFilters: ["LoadingScreen.OnSceneLoaded", "Gameplay", "LoadingScreen.OnScenePreUnload", "MulliganManager.HandleGameStart"]),
                                   logPath: logPath)
+        gameInfoHandler = GameInfoHandler()
     }
 
     func start() {
@@ -174,6 +176,9 @@ final class LogReaderManager {
                 if line.content.hasPrefix("GameState.SendChoices") ||
                     line.content.hasPrefix("GameState.DebugPrintEntitiesChosen") {
                     self.choicesHandler.handle(logLine: line)
+                }
+                if line.content.hasPrefix("GameState.DebugPrintGame") {
+                    gameInfoHandler.handle(logLine: line)
                 }
             } else {
                 self.powerGameStateParser.handle(logLine: line)

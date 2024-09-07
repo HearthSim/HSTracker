@@ -428,6 +428,7 @@
 		B82238BE2BF96C6000B405D4 /* BattlegroundsHeroPickStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82238BD2BF96C5F00B405D4 /* BattlegroundsHeroPickStats.swift */; };
 		B82238C02BF9891200B405D4 /* BattlegroundsHeroPickState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82238BF2BF9891200B405D4 /* BattlegroundsHeroPickState.swift */; };
 		B82238C22BFD399300B405D4 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82238C12BFD399300B405D4 /* Task.swift */; };
+		B8230B912C8A84A5008CBEEB /* GameInfoHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8230B902C8A84A5008CBEEB /* GameInfoHandler.swift */; };
 		B823E801275FB89400747CAF /* FlavorText.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88364FB275D746D0094D8E1 /* FlavorText.swift */; };
 		B823E802275FB89900747CAF /* FlavorText.xib in Resources */ = {isa = PBXBuildFile; fileRef = B88364F9275D6FE10094D8E1 /* FlavorText.xib */; };
 		B82AE5F028ADBC55004A8FE0 /* Influx.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82AE5EF28ADBC54004A8FE0 /* Influx.swift */; };
@@ -1188,6 +1189,7 @@
 		B82238BD2BF96C5F00B405D4 /* BattlegroundsHeroPickStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsHeroPickStats.swift; sourceTree = "<group>"; };
 		B82238BF2BF9891200B405D4 /* BattlegroundsHeroPickState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsHeroPickState.swift; sourceTree = "<group>"; };
 		B82238C12BFD399300B405D4 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		B8230B902C8A84A5008CBEEB /* GameInfoHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameInfoHandler.swift; sourceTree = "<group>"; };
 		B82AE5EF28ADBC54004A8FE0 /* Influx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Influx.swift; sourceTree = "<group>"; };
 		B82AE5F928BE8631004A8FE0 /* BobsBuddy-version.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "BobsBuddy-version.txt"; sourceTree = "<group>"; };
 		B82AE5FA28BE8631004A8FE0 /* cards-version.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "cards-version.txt"; sourceTree = "<group>"; };
@@ -2008,11 +2010,12 @@
 			children = (
 				439C7EA31C777F8900D29859 /* ArenaHandler.swift */,
 				B8591FF32B23D4D000B907A4 /* ChoicesHandler.swift */,
+				B8230B902C8A84A5008CBEEB /* GameInfoHandler.swift */,
 				439C7EA61C777F8900D29859 /* LoadingScreenHandler.swift */,
 				1CCB4AEA1E8A4930003FD1AD /* LogEventHandlers.swift */,
 				439C7EA91C777F8900D29859 /* RachelleHandler.swift */,
-				4C3E2D8B245ED5AA00292349 /* Toaster.swift */,
 				B8591FF52B23D98800B907A4 /* SendChoicesHandler.swift */,
+				4C3E2D8B245ED5AA00292349 /* Toaster.swift */,
 			);
 			path = Handlers;
 			sourceTree = "<group>";
@@ -3064,6 +3067,7 @@
 				B8832DDC26117FCF00646BA4 /* MultiIdCard.swift in Sources */,
 				B8C2F90F261F530700C31E6A /* GetAccountResult.swift in Sources */,
 				B8BD3BAE2C43507D001E85B7 /* BattlegroundsCompositionStatsRowViewModel.swift in Sources */,
+				B8230B912C8A84A5008CBEEB /* GameInfoHandler.swift in Sources */,
 				437B5BC21CD2568100DE0A41 /* TrackersPreferences.swift in Sources */,
 				439C7EC61C777F8900D29859 /* RachelleHandler.swift in Sources */,
 				434C2F2C1C7F122A001D1D91 /* NewDeck.swift in Sources */,

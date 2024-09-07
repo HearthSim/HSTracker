@@ -985,6 +985,7 @@ class Game: NSObject, PowerEventHandler {
     
     var buildNumber: Int = 0
     var playerIDNameMapping: [Int: String] = [:]
+    var playerIdsByPlayerName: [String: Int] = [:]
     
 	var startTime: Date?
     var currentTurn = 0
@@ -1470,6 +1471,9 @@ class Game: NSObject, PowerEventHandler {
         avengeDeathRattleCount = 0
         awaitingAvenge = false
         lastTurnStart = [0, 0]
+        
+        playerIDNameMapping.removeAll()
+        playerIdsByPlayerName.removeAll()
 
         player.reset()
         if let currentdeck = self.currentDeck {
