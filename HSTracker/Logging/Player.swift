@@ -420,7 +420,17 @@ final class Player {
                     || e.isInHand || e.isInDeck)
                 && !CardIds.hiddenCardidPrefixes.any({ y in e.cardId.starts(with: y) })
                 && !entityIsRemovedFromGamePassive(entity: e)
-                && !(e.info.created && e.isInSetAside && e.info.guessedCardState != GuessedCardState.guessed)
+                && !(e.info.created && e.isInSetAside &&
+                     (e.info.guessedCardState != GuessedCardState.guessed
+                        // Plagues go to setaside when they are drawn. We only want to keep tracking of the ones that are still in the deck,
+                        // so we hide them here
+                        || (e.info.guessedCardState == .guessed &&
+                            (e.cardId == CardIds.NonCollectible.Deathknight.DistressedKvaldir_FrostPlagueToken ||
+                             e.cardId == CardIds.NonCollectible.Deathknight.DistressedKvaldir_BloodPlagueToken ||
+                             e.cardId == CardIds.NonCollectible.Deathknight.DistressedKvaldir_UnholyPlagueToken)
+                           )
+                        )
+                     )
             }).map({ (e: Entity) -> (DynamicEntity) in
                 DynamicEntity(cardId: e.info.wasTransformed ? e.info.originalCardId ?? e.cardId : e.cardId,
                               hidden: (e.isInHand || e.isInDeck || (e.isInSetAside && e.info.guessedCardState == GuessedCardState.guessed)) && e.isControlled(by: self.id),

@@ -39,6 +39,10 @@ public class Stack<T> {
         }
         return data.removeLast()
     }
+    
+    public func clear() {
+        data.removeAll()
+    }
 }
 
 /// Node for linked list containers

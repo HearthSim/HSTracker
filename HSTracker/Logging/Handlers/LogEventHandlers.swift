@@ -252,7 +252,7 @@ protocol PowerEventHandler: AnyObject {
     
     var gameId: String { get }
     
-    var lastPlagueDrawn: String? { get set }
+    var lastPlagueDrawn: Stack<String> { get }
     
     func isBattlegroundsSoloMatch() -> Bool
     

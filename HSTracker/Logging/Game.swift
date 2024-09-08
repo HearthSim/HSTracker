@@ -1319,7 +1319,7 @@ class Game: NSObject, PowerEventHandler {
         return Format(formatType: _currentFormatType) 
     }
     
-    var lastPlagueDrawn: String?
+    var lastPlagueDrawn = Stack<String>()
 
 	// MARK: - Lifecycle
     private var observers: [NSObjectProtocol] = []
@@ -1457,6 +1457,7 @@ class Game: NSObject, PowerEventHandler {
         tmpEntities.removeAll()
         knownCardIds.removeAll()
         joustReveals = 0
+        lastPlagueDrawn.clear()
 		
         lastCardPlayed = nil
         

@@ -618,7 +618,7 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.RivendareWarrider_KorthazzDeathriderToken)
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.RivendareWarrider_ZeliekConquestriderToken)
                         case CardIds.NonCollectible.Deathknight.Helya_PlightOfTheDeadEnchantment:
-                            if let lastPlagueDrawn = eventHandler.lastPlagueDrawn {
+                            if eventHandler.lastPlagueDrawn.count > 0, let lastPlagueDrawn = eventHandler.lastPlagueDrawn.pop() {
                                 addKnownCardId(eventHandler: eventHandler, cardId: lastPlagueDrawn)
                             }
                         case CardIds.Collectible.Rogue.TombPillager, CardIds.Collectible.Rogue.TombPillagerPLACEHOLDER_202204, CardIds.Collectible.Rogue.TombPillagerWONDERS:
