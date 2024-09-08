@@ -136,8 +136,6 @@ class ChoicesHandler: LogEventParser {
         _tmpChoice = nil
     }
 
-
-    
     private protocol IChoiceWithId {
         var id: Int { get }
     }
@@ -179,9 +177,9 @@ class ChoicesHandler: LogEventParser {
         var playerId: Int
         var choiceType: ChoiceType
         let sourceEntityId: Int
-        let offeredEntityIds: [Int]
+        let offeredEntityIds: [Int]?
 
-        init(id: Int, taskList: Int?, playerId: Int, choiceType: ChoiceType, sourceEntityId: Int, offeredEntityIds: [Int]) {
+        init(id: Int, taskList: Int?, playerId: Int, choiceType: ChoiceType, sourceEntityId: Int, offeredEntityIds: [Int]?) {
             self.id = id
             self.taskList = taskList
             self.playerId = playerId
@@ -211,7 +209,7 @@ class ChoicesHandler: LogEventParser {
     private class CompletedChoice: OfferedChoice, IHsCompletedChoice {
         let chosenEntityIds: [Int]?
 
-        init(id: Int, taskList: Int?, playerId: Int, choiceType: ChoiceType, sourceEntityId: Int, offeredEntityIds: [Int], chosenEntityIds: [Int]) {
+        init(id: Int, taskList: Int?, playerId: Int, choiceType: ChoiceType, sourceEntityId: Int, offeredEntityIds: [Int]?, chosenEntityIds: [Int]) {
             self.chosenEntityIds = chosenEntityIds
             super.init(id: id, taskList: taskList, playerId: playerId, choiceType: choiceType, sourceEntityId: sourceEntityId, offeredEntityIds: offeredEntityIds)
         }

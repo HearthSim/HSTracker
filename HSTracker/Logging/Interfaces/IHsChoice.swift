@@ -12,7 +12,7 @@ public protocol IHsChoice {
     var id: Int { get }
     var choiceType: ChoiceType { get }
     var sourceEntityId: Int { get }
-    var offeredEntityIds: [Int] { get }
+    var offeredEntityIds: [Int]? { get }
 }
 
 public protocol IHsCompletedChoice: IHsChoice {

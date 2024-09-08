@@ -3276,7 +3276,13 @@ class Game: NSObject, PowerEventHandler {
     }
     
     func handlePlayerEntityChoices(choice: IHsChoice) {
-        
+        if choice.choiceType == ChoiceType.general && isBattlegroundsMatch() {
+            if let source = entities[choice.sourceEntityId], source[.bacon_is_magic_item_discover] > 0 {
+                let offered = choice.offeredEntityIds?.compactMap { id in entities[id] }.filter({ x in x.isBattlegroundsTrinket }) ?? [Entity]()
+                let existingTrinkets = player.trinkets.compactMap { x in x.card.id }
+                windowManager.battlegroundsTierOverlay.tierOverlay.onTrinkets(trinkets: existingTrinkets + offered.compactMap { x in x.card.id })
+            }
+        }
     }
 
     func handlePlayerEntitiesChosen(choice: IHsCompletedChoice) {
