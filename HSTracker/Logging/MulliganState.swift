@@ -26,8 +26,8 @@ class MulliganState {
         return offeredCards
     }
     
-    func snapshotMulliganChoices(choice: Choice) -> [Entity] {
-        keptCards = choice.chosenEntities
+    func snapshotMulliganChoices(choice: IHsCompletedChoice) -> [Entity] {
+        keptCards = choice.chosenEntityIds?.compactMap { id in game.entities[id] } ?? [Entity]()
         return keptCards
     }
     

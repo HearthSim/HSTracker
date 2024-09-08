@@ -66,7 +66,7 @@ final class LogReaderManager {
         choicesHandler = ChoicesHandler(with: coreManager.game)
 		
         let plReader = LogReaderInfo(name: .power,
-                                     startsWithFilters: ["PowerTaskList.DebugPrintPower", "GameState."],
+                                     startsWithFilters: ["PowerTaskList.DebugPrintPower", "GameState.", "PowerProcessor.EndCurrentTaskList"],
                                      containsFilters: ["Begin Spectating", "Start Spectator",
                                                        "End Spectator"])
         powerLog = LogReader(info: plReader, logPath: logPath)
@@ -173,15 +173,22 @@ final class LogReaderManager {
         case .power:
             if line.content.hasPrefix("GameState.") {
                 coreManager.game.add(powerLog: line)
-                if line.content.hasPrefix("GameState.SendChoices") ||
+                if line.content.hasPrefix("GameState.DebugPrintEntityChoices") ||
                     line.content.hasPrefix("GameState.DebugPrintEntitiesChosen") {
                     self.choicesHandler.handle(logLine: line)
+                }
+                else
+                {
+                    self.choicesHandler.flush()
                 }
                 if line.content.hasPrefix("GameState.DebugPrintGame") {
                     gameInfoHandler.handle(logLine: line)
                 }
+            } else if line.content.hasPrefix("PowerProcessor.EndCurrentTaskList") {
+                choicesHandler.handle(logLine: line)
             } else {
                 self.powerGameStateParser.handle(logLine: line)
+                choicesHandler.flush()
             }
         case .rachelle: self.rachelleHandler.handle(logLine: line)
         case .arena: self.arenaHandler.handle(logLine: line)

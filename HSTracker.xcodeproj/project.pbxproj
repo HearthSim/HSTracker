@@ -429,6 +429,7 @@
 		B82238C02BF9891200B405D4 /* BattlegroundsHeroPickState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82238BF2BF9891200B405D4 /* BattlegroundsHeroPickState.swift */; };
 		B82238C22BFD399300B405D4 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82238C12BFD399300B405D4 /* Task.swift */; };
 		B8230B912C8A84A5008CBEEB /* GameInfoHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8230B902C8A84A5008CBEEB /* GameInfoHandler.swift */; };
+		B8230B942C8BE125008CBEEB /* IHsChoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8230B932C8BE125008CBEEB /* IHsChoice.swift */; };
 		B823E801275FB89400747CAF /* FlavorText.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88364FB275D746D0094D8E1 /* FlavorText.swift */; };
 		B823E802275FB89900747CAF /* FlavorText.xib in Resources */ = {isa = PBXBuildFile; fileRef = B88364F9275D6FE10094D8E1 /* FlavorText.xib */; };
 		B82AE5F028ADBC55004A8FE0 /* Influx.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82AE5EF28ADBC54004A8FE0 /* Influx.swift */; };
@@ -495,9 +496,7 @@
 		B851C8FD2BD8953400B748C1 /* BattlegroundsMinionTypesBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851C8FC2BD8953400B748C1 /* BattlegroundsMinionTypesBox.swift */; };
 		B8591FEE2B1776FF00B907A4 /* SpellSchool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FED2B1776FF00B907A4 /* SpellSchool.swift */; };
 		B8591FF02B23CC7D00B907A4 /* ChoiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FEF2B23CC7D00B907A4 /* ChoiceType.swift */; };
-		B8591FF22B23CDC600B907A4 /* Choice.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FF12B23CDC600B907A4 /* Choice.swift */; };
 		B8591FF42B23D4D000B907A4 /* ChoicesHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FF32B23D4D000B907A4 /* ChoicesHandler.swift */; };
-		B8591FF62B23D98800B907A4 /* SendChoicesHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FF52B23D98800B907A4 /* SendChoicesHandler.swift */; };
 		B8591FF82B24919F00B907A4 /* MulliganState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FF72B24919F00B907A4 /* MulliganState.swift */; };
 		B8591FFA2B24F7C900B907A4 /* ObjectiveFactoryProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FF92B24F7C900B907A4 /* ObjectiveFactoryProxy.swift */; };
 		B8591FFC2B24F87C00B907A4 /* ObjectiveProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FFB2B24F87C00B907A4 /* ObjectiveProxy.swift */; };
@@ -1190,6 +1189,7 @@
 		B82238BF2BF9891200B405D4 /* BattlegroundsHeroPickState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsHeroPickState.swift; sourceTree = "<group>"; };
 		B82238C12BFD399300B405D4 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		B8230B902C8A84A5008CBEEB /* GameInfoHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameInfoHandler.swift; sourceTree = "<group>"; };
+		B8230B932C8BE125008CBEEB /* IHsChoice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IHsChoice.swift; sourceTree = "<group>"; };
 		B82AE5EF28ADBC54004A8FE0 /* Influx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Influx.swift; sourceTree = "<group>"; };
 		B82AE5F928BE8631004A8FE0 /* BobsBuddy-version.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "BobsBuddy-version.txt"; sourceTree = "<group>"; };
 		B82AE5FA28BE8631004A8FE0 /* cards-version.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "cards-version.txt"; sourceTree = "<group>"; };
@@ -1239,9 +1239,7 @@
 		B851C8FC2BD8953400B748C1 /* BattlegroundsMinionTypesBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsMinionTypesBox.swift; sourceTree = "<group>"; };
 		B8591FED2B1776FF00B907A4 /* SpellSchool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellSchool.swift; sourceTree = "<group>"; };
 		B8591FEF2B23CC7D00B907A4 /* ChoiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceType.swift; sourceTree = "<group>"; };
-		B8591FF12B23CDC600B907A4 /* Choice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Choice.swift; sourceTree = "<group>"; };
 		B8591FF32B23D4D000B907A4 /* ChoicesHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoicesHandler.swift; sourceTree = "<group>"; };
-		B8591FF52B23D98800B907A4 /* SendChoicesHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendChoicesHandler.swift; sourceTree = "<group>"; };
 		B8591FF72B24919F00B907A4 /* MulliganState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulliganState.swift; sourceTree = "<group>"; };
 		B8591FF92B24F7C900B907A4 /* ObjectiveFactoryProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectiveFactoryProxy.swift; sourceTree = "<group>"; };
 		B8591FFB2B24F87C00B907A4 /* ObjectiveProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectiveProxy.swift; sourceTree = "<group>"; };
@@ -1939,7 +1937,6 @@
 				1C132F811DBA24C1002B1BF2 /* AppHealth.swift */,
 				4345FE941DF54CA900E8936B /* Block.swift */,
 				432A07781E93B05D00921E34 /* CardIds */,
-				B8591FF12B23CDC600B907A4 /* Choice.swift */,
 				439C7EAC1C777F8900D29859 /* CoreManager.swift */,
 				439C7E951C777F8900D29859 /* Entity.swift */,
 				439DD8FB1DB237C0004EBE47 /* EntityInfo.swift */,
@@ -1947,6 +1944,7 @@
 				439C7EA11C777F8900D29859 /* Game.swift */,
 				B8A9CB322571F160000071FC /* GuessedCardState.swift */,
 				439C7EA21C777F8900D29859 /* Handlers */,
+				B8230B922C8BE112008CBEEB /* Interfaces */,
 				439C7EAD1C777F8900D29859 /* LogLine.swift */,
 				43C567E61D5D0F2E00451B6F /* LogLineNamespace.swift */,
 				43C567E81D5D0F5700451B6F /* LogLineZone.swift */,
@@ -2014,7 +2012,6 @@
 				439C7EA61C777F8900D29859 /* LoadingScreenHandler.swift */,
 				1CCB4AEA1E8A4930003FD1AD /* LogEventHandlers.swift */,
 				439C7EA91C777F8900D29859 /* RachelleHandler.swift */,
-				B8591FF52B23D98800B907A4 /* SendChoicesHandler.swift */,
 				4C3E2D8B245ED5AA00292349 /* Toaster.swift */,
 			);
 			path = Handlers;
@@ -2250,6 +2247,14 @@
 				B804FC432946BACF00F74CD9 /* BattlegroundsCompositionPopularityViewModel.swift */,
 			);
 			path = Composition;
+			sourceTree = "<group>";
+		};
+		B8230B922C8BE112008CBEEB /* Interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				B8230B932C8BE125008CBEEB /* IHsChoice.swift */,
+			);
+			path = Interfaces;
 			sourceTree = "<group>";
 		};
 		B82F4EA924E3020800905024 /* Mono */ = {
@@ -2993,7 +2998,6 @@
 				437B5BAC1CD1E6AF00DE0A41 /* Step.swift in Sources */,
 				B87856E22C04BB2D004C2C40 /* EntityProxy.swift in Sources */,
 				B8AC9A2A293F9B120047F438 /* BattlegroundsQuestStats.swift in Sources */,
-				B8591FF62B23D98800B907A4 /* SendChoicesHandler.swift in Sources */,
 				439C7E921C777EFA00D29859 /* Settings.swift in Sources */,
 				B864AE2025979E3400793F36 /* AdventureDbId.swift in Sources */,
 				B844D36C2A0C3510001704E0 /* UnknownCardEntityProxy.swift in Sources */,
@@ -3084,7 +3088,6 @@
 				B850AA35252CB0FA0031E8F2 /* TurnCounter.swift in Sources */,
 				432AD9591DAD46AA00D8F959 /* HttpMethod.swift in Sources */,
 				B8BB7AB22831ABE0008239CA /* BattlegroundsLastGames.swift in Sources */,
-				B8591FF22B23CDC600B907A4 /* Choice.swift in Sources */,
 				B800FCAA2732FABD00AFBD51 /* MercenariesTaskListView.swift in Sources */,
 				436F5D101CFD79B500DEB9A1 /* ClassicBar.swift in Sources */,
 				431AA0CF1D3632BC0030AD22 /* CardClass.swift in Sources */,
@@ -3138,6 +3141,7 @@
 				B8BCC1E3273B0AE600DA6474 /* MercenariesAbilityView.swift in Sources */,
 				B82AE5F028ADBC55004A8FE0 /* Influx.swift in Sources */,
 				B8AF0C652B828A4A00B65F63 /* ConstructedMulliganSingleCardHeader.swift in Sources */,
+				B8230B942C8BE125008CBEEB /* IHsChoice.swift in Sources */,
 				43883F1E1DA382BA00A7B79C /* Language.swift in Sources */,
 				B8DC11F024E6AF280088A755 /* BobsBuddyInvoker.swift in Sources */,
 				437E56F01DAAB81400FC0FC1 /* Array.swift in Sources */,

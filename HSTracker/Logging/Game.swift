@@ -984,8 +984,11 @@ class Game: NSObject, PowerEventHandler {
     // MARK: - Vars
     
     var buildNumber: Int = 0
-    var playerIDNameMapping: [Int: String] = [:]
-    var playerIdsByPlayerName: [String: Int] = [:]
+    var playerIDNameMapping = SynchronizedDictionary<Int, String>()
+    var playerIdsByPlayerName = SynchronizedDictionary<String, Int>()
+    
+    var choicesById = SynchronizedDictionary<Int, IHsChoice>()
+    var choicesByTaskList = SynchronizedDictionary<Int, [IHsChoice]>()
     
 	var startTime: Date?
     var currentTurn = 0
@@ -1474,6 +1477,8 @@ class Game: NSObject, PowerEventHandler {
         
         playerIDNameMapping.removeAll()
         playerIdsByPlayerName.removeAll()
+        choicesById.removeAll()
+        choicesByTaskList.removeAll()
 
         player.reset()
         if let currentdeck = self.currentDeck {
@@ -3269,31 +3274,39 @@ class Game: NSObject, PowerEventHandler {
             }
         }
     }
+    
+    func handlePlayerEntityChoices(choice: IHsChoice) {
+        
+    }
 
-    func handlePlayerSendChoices(choice: Choice) {
-        if choice.choiceType == .mulligan {
+    func handlePlayerEntitiesChosen(choice: IHsCompletedChoice) {
+        let chosen = choice.chosenEntityIds?.compactMap { id in entities[id] } ?? [Entity]()
+        let source = entities[choice.sourceEntityId]
+        switch choice.choiceType {
+        case ChoiceType.mulligan:
             if isBattlegroundsMatch() {
-                if choice.chosenEntities.count == 1 {
-                    let hero = choice.chosenEntities.first
+                if chosen.count == 1 {
+                    let hero = chosen.first
                     let heroPower = Cards.by(dbfId: hero?[.hero_power], collectible: false)?.id
                     if let hp = heroPower {
                         windowManager.battlegroundsTierOverlay.tierOverlay.onHeroPowers(heroPowers: [ hp ])
                     }
                 } else {
-                    logger.error("Could not reliably determine Battlegrounds hero power. \(choice.chosenEntities.count) hero(es) chosen.")
+                    logger.error("Could not reliably determine Battlegrounds hero power. \(chosen.count) hero(es) chosen.")
                 }
                 self.windowManager.battlegroundsQuestPicking.viewModel.reset()
             } else if isConstructedMatch() || isFriendlyMatch || isArenaMatch {
                 _ = snapshotMulliganChoices(choice: choice)
             }
-        } else if isBattlegroundsMatch() {
-            windowManager.battlegroundsQuestPicking.viewModel.reset()
-            
-            let chosen = choice.chosenEntities
-            
-            if chosen.all({ x in x.isBattlegroundsTrinket }) {
-                windowManager.battlegroundsTierOverlay.tierOverlay.onTrinkets(trinkets: (self.player.trinkets + chosen).compactMap({ x in x.cardId }))
+        case ChoiceType.general:
+            if isBattlegroundsMatch() {
+                windowManager.battlegroundsQuestPicking.viewModel.reset()
+                
+                if source?[.bacon_is_magic_item_discover] ?? 0 > 0 {
+                    windowManager.battlegroundsTierOverlay.tierOverlay.onTrinkets(trinkets: (self.player.trinkets + chosen).compactMap({ x in x.cardId }))
+                }
             }
+        default: break
         }
     }
     
@@ -3405,7 +3418,7 @@ class Game: NSObject, PowerEventHandler {
         return mulliganState.snapshotOpeningHand()
     }
     
-    func snapshotMulliganChoices(choice: Choice) -> [Entity] {
+    func snapshotMulliganChoices(choice: IHsCompletedChoice) -> [Entity] {
         return mulliganState.snapshotMulliganChoices(choice: choice)
     }
     

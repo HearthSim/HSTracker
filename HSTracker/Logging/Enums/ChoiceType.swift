@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum ChoiceType: Int, CaseIterable {
+public enum ChoiceType: Int, CaseIterable {
     case invalid = 0,
     mulligan = 1,
     general = 2,
