@@ -54,7 +54,7 @@ import Foundation
     var anomaly: String?
     
     var isThorimRelevant: Bool = false
-        
+            
     var availableTiers: [Int] {
         return BattlegroundsUtils.getAvailableTiers(anomalyCardId: anomaly)
     }
@@ -70,7 +70,7 @@ import Foundation
                     continue
                 }
                 
-                var cards = _db.getCards(tier, race, isDuos)
+                let cards = _db.getCards(tier, race, isDuos)
                 
                 if cards.count == 0 {
                     continue
@@ -118,7 +118,11 @@ import Foundation
                 return sort_a == sort_b ? a.raceName < b.raceName : sort_a < sort_b
             })
         } else if let minionType = activeMinionType {
-            for tierGroup in availableTiers {
+            var tiers = availableTiers
+            if AppDelegate.instance().coreManager.game.windowManager.battlegroundsTierOverlay.tierOverlay.showTavernTier7 {
+                tiers.append(7)
+            }
+            for tierGroup in tiers {
                 let race = Race(rawValue: minionType)
                 let cards = minionType == -1 ? _db.getSpells(tierGroup, isDuos).sorted(by: { (a, b) -> Bool in a.cost < b.cost}).sorted(by: { (a, b) -> Bool in a.name < b.name }) : (_db.getCards(tierGroup, race ?? .invalid, isDuos) + (race != .all && race != .invalid ? _db.getCards(tierGroup, .all, isDuos) : [Card]())).sorted(by: { (a, b) -> Bool in a.name < b.name })
                 if cards.count == 0 {
