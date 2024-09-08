@@ -85,15 +85,6 @@ struct ConfigData: Codable {
     var mulligan_guide: MulliganGuideData?
 }
 
-struct BattlegroundsAnomalyBans: Codable {
-    var anomaly_dbf_id: Int
-    var banned_minion_ids: [String]
-}
-
-struct BattlegroundsBans: Codable {
-    var by_anomaly: [BattlegroundsAnomalyBans]
-}
-
 struct LiveSecrets: Codable {
     var by_game_type_and_format_type: [String: Set<String>]
 }
@@ -101,12 +92,10 @@ struct LiveSecrets: Codable {
 class RemoteConfig {
     static var data: ConfigData?
     static var mercenaries: [Mercenary]?
-    static var battlegroundsBans: BattlegroundsBans?
     static var liveSecrets: LiveSecrets?
     
     private static var url = "https://hsdecktracker.net/config.json"
     private static var mercsUrl = "https://api.hearthstonejson.com/v1/latest/enUS/mercenaries.json"
-    private static var bgBansUrl = "https://hsreplay.net/api/v1/battlegrounds/banned_minions/"
     private static var secretsUrl = "https://hsreplay.net/api/v1/live/secrets/"
 
     static func checkRemoteConfig(splashscreen: Splashscreen) {
@@ -128,25 +117,15 @@ class RemoteConfig {
             }.done { mercs in
                 self.mercenaries = mercs
                 logger.info("Retrieved remote mercenaries configuration")
-                let http3 = Http(url: RemoteConfig.bgBansUrl)
-                _ = http3.getPromise(method: .get).map { data in
-                    try JSONDecoder().decode(BattlegroundsBans.self, from: data!)
-                }.done { bans in
-                    self.battlegroundsBans = bans
-                    logger.info("Retrieved battlegrounds bans configuration")
-                    let http4 = Http(url: RemoteConfig.secretsUrl)
-                    _ = http4.getPromise(method: .get).map { data in
-                        try JSONDecoder().decode(LiveSecrets.self, from: data!)
-                    }.done { secrets in
-                        self.liveSecrets = secrets
-                        logger.info("Retrieved live secrets configuration")
-                        semaphore.signal()
-                    }.catch { error in
-                        logger.error("Error parsing live secrets configuration: \(error)")
-                        semaphore.signal()
-                    }
+                let http4 = Http(url: RemoteConfig.secretsUrl)
+                _ = http4.getPromise(method: .get).map { data in
+                    try JSONDecoder().decode(LiveSecrets.self, from: data!)
+                }.done { secrets in
+                    self.liveSecrets = secrets
+                    logger.info("Retrieved live secrets configuration")
+                    semaphore.signal()
                 }.catch { error in
-                    logger.error("Error parsing battlegrounds bans configuration: \(error)")
+                    logger.error("Error parsing live secrets configuration: \(error)")
                     semaphore.signal()
                 }
             }.catch { error in

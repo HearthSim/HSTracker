@@ -54,9 +54,7 @@ import Foundation
     var anomaly: String?
     
     var isThorimRelevant: Bool = false
-    
-    var bannedMinions: [String]?
-    
+        
     var availableTiers: [Int] {
         return BattlegroundsUtils.getAvailableTiers(anomalyCardId: anomaly)
     }
@@ -76,17 +74,6 @@ import Foundation
                 
                 if cards.count == 0 {
                     continue
-                }
-                
-                if !isTierAvailable || (bannedMinions?.count ?? 0 > 0) {
-                    cards = cards.compactMap { x in
-                        if isTierAvailable && (bannedMinions == nil || !bannedMinions!.contains(x.id)) {
-                            return x
-                        }
-                        let ret = x.copy()
-                        ret.count = 0
-                        return ret
-                    }
                 }
                 
                 groups.append(CardGroup(tier: tier, minionType: Race.lookup(race), raceName: String.localizedString("\(race)", comment: ""), groupedByMinionType: false, cards: cards.sorted(by: { (a, b) -> Bool in a.name < b.name })))
@@ -154,7 +141,6 @@ import Foundation
         self.isDuos = game.isBattlegroundsDuosMatch()
         let anomalyDbfId = BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: game.gameEntity)
         self.anomaly = Cards.by(dbfId: anomalyDbfId, collectible: false)?.id
-        self.bannedMinions = BattlegroundsUtils.getMinionsBannedByAnomaly(anomalyDbfId: anomalyDbfId) ?? [String]()
         
         updateCardGroups()
     }

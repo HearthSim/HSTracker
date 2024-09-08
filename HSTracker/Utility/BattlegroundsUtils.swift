@@ -61,19 +61,7 @@ class BattlegroundsUtils {
         }
         return nil
     }
-    
-    static func getMinionsBannedByAnomaly(anomalyDbfId: Int?) -> [String]? {
-        guard let anomalyDbfId else {
-            return nil
-        }
-
-        let allAnomalies = RemoteConfig.battlegroundsBans?.by_anomaly ?? [BattlegroundsAnomalyBans]()
-        if let anomalyData = allAnomalies.first(where: { x in x.anomaly_dbf_id == anomalyDbfId }) {
-            return anomalyData.banned_minion_ids
-        }
-        return nil
-    }
-    
+        
     static let tavernSpellRaceMapping: [String: Race] = [
         // Scavenge for Parts
         "BG28_600": .mechanical,
