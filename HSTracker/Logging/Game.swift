@@ -3278,10 +3278,15 @@ class Game: NSObject, PowerEventHandler {
     
     func handlePlayerEntityChoices(choice: IHsChoice) {
         if choice.choiceType == ChoiceType.general && isBattlegroundsMatch() {
-            if let source = entities[choice.sourceEntityId], source[.bacon_is_magic_item_discover] > 0 {
-                let offered = choice.offeredEntityIds?.compactMap { id in entities[id] }.filter({ x in x.isBattlegroundsTrinket }) ?? [Entity]()
-                let existingTrinkets = player.trinkets.compactMap { x in x.card.id }
-                windowManager.battlegroundsTierOverlay.tierOverlay.onTrinkets(trinkets: existingTrinkets + offered.compactMap { x in x.card.id })
+            let offeredEntities = choice.offeredEntityIds?.compactMap { id in entities[id] } ?? [Entity]()
+
+            if let source = entities[choice.sourceEntityId], source[.bacon_is_magic_item_discover] > 0 && offeredEntities.all({ x in x.isBattlegroundsTrinket }) {
+                let offered = offeredEntities.filter { x in x.isBattlegroundsTrinket }
+                windowManager.battlegroundsTierOverlay.tierOverlay.onTrinkets(trinkets: (player.trinkets + offered).compactMap({ x in x.card.id }))
+            }
+            if offeredEntities.all({ x in x.isHeroPower }) {
+                let offered = offeredEntities.filter { x in x.isHeroPower }
+                windowManager.battlegroundsTierOverlay.tierOverlay.onHeroPowers(heroPowers: (player.board.filter({ x in x.isHeroPower }) + offered).compactMap({ x in x.card.id }))
             }
         }
     }
@@ -3312,6 +3317,7 @@ class Game: NSObject, PowerEventHandler {
                 if source?[.bacon_is_magic_item_discover] ?? 0 > 0 {
                     windowManager.battlegroundsTierOverlay.tierOverlay.onTrinkets(trinkets: (self.player.trinkets + chosen).compactMap({ x in x.cardId }))
                 }
+                windowManager.battlegroundsTierOverlay.tierOverlay.onHeroPowers(heroPowers: player.board.filter({ x in x.isHeroPower }).compactMap({ x in x.card.id }))
             }
         default: break
         }
