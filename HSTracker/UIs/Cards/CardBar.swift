@@ -131,7 +131,7 @@ class CardBar: NSView, CardBarTheme {
     let mulliganWinrateBoxRect = NSRect(x: 136, y: 4, width: 54, height: 26)
     let imageRect = NSRect(x: 83, y: 0, width: 134, height: 34)
     let imageRectBG = NSRect(x: 0, y: 0, width: 217, height: 34)
-    let countTextRect = NSRect(x: 198, y: 9, width: CGFloat.greatestFiniteMagnitude, height: 34)
+    let countTextRect = NSRect(x: 196, y: 9, width: 14, height: 34)
     let costTextRect = NSRect(x: 0, y: 9, width: 34, height: 34)
     let arenaHelperRect = NSRect(x: 17, y: 0, width: 34, height: 34)
     let tag1 = NSRect(x: 183, y: 0, width: 34, height: 34)
@@ -457,15 +457,7 @@ class CardBar: NSView, CardBarTheme {
         let  count = abs(card.count)
         guard count > 1 else { return }
 
-        add(text: min(count, 9), fontSize: countFontSize,
-                rect: rect, textColor: countTextColor, font: numbersFont)
-        if count > 9 {
-            add(text: "+", fontSize: 13,
-                    rect: NSRect(x: rect.origin.x + 5, y: 3,
-                        width: CGFloat.greatestFiniteMagnitude,
-                        height: CGFloat.greatestFiniteMagnitude),
-                    textColor: countTextColor, font: textFont)
-        }
+        add(text: count, fontSize: countFontSize, rect: rect, textColor: countTextColor, font: numbersFont, centered: true)
     }
 
     func addBadAsMultipleIcon() {
