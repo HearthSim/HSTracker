@@ -29,6 +29,7 @@ class BobsBuddyInvoker {
     let Iterations: Int = 10_000
     let MaxTime: Int = 1_500
     let MaxTimeForComplexBoards = 3_000
+    let MaxTimeForLeapfrogger = 5_000
     let MinimumSimulationsToReportSentry = 2500
     let StateChangeDelay = 500
     let LichKingDelay = 2000
@@ -333,13 +334,35 @@ class BobsBuddyInvoker {
                     let tc = ProcessInfo.processInfo.activeProcessorCount / 2
                     let simulator = SimulationRunnerProxy()
                     
-                    let ps = inp.player.side
-                    let os = inp.opponent.side
-                    let at = (MonoHelper.listCount(obj: ps) > 6 || MonoHelper.listCount(obj: os) > 6) ? self.MaxTimeForComplexBoards : self.MaxTime
+                    var at = self.MaxTime
                     
                     logger.debug("Running simulations with MaxIterations=\(self.Iterations) and ThreadCount=\(tc)...")
 
                     do {
+                        func isLeapFroggerCombo(_ side: MonoHandle) -> Bool {
+                            guard side.get() != nil else {
+                                return false
+                            }
+                            let cnt = MonoHelper.listCount(obj: side)
+                            if cnt < 3 {
+                                return false
+                            }
+                            for i in 0 ..< cnt {
+                                let item = MonoHelper.listItem(obj: side, index: Int32(i))
+                                if item.get() != nil {
+                                    let minion = MinionProxy(obj: item.get())
+                                    if minion.cardId == CardIds.NonCollectible.Neutral.Leapfrogger {
+                                        return true
+                                    }
+                                }
+                            }
+                            return false
+                        }
+                        if isLeapFroggerCombo(inp.player.side) || isLeapFroggerCombo(inp.playerTeammate.side) || isLeapFroggerCombo(inp.opponent.side) || isLeapFroggerCombo(inp.opponentTeammate.side) {
+                            at = self.MaxTimeForLeapfrogger
+                        } else if MonoHelper.listCount(obj: inp.player.side) >= 6 || MonoHelper.listCount(obj: inp.opponent.side) >= 6 {
+                            at = self.MaxTimeForComplexBoards
+                        }
                         let start = DispatchTime.now()
                         
                         let task = simulator.simulateMultiThreaded(input: inp, maxIterations: self.Iterations, threadCount: tc, maxDuration: at)

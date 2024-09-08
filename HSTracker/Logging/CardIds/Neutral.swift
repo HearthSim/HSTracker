@@ -765,6 +765,7 @@ extension CardIds.NonCollectible {
         static let Gorgonzormu_DeliciousCheeseToken = "VAC_955t"
         static let PaglesFishingRod = "BG30_MagicItem_993"
         static let BloodGem2 = "BG20_GEMe"
+        static let Leapfrogger = "BG21_000"
     }
 }
 
