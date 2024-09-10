@@ -941,7 +941,7 @@ class Game: NSObject, PowerEventHandler {
 //        updateMulliganGuidePreLobbyVisibility()
     }
     
-    func updateBattlegroundsSessionVisibility() {
+    func updateBattlegroundsSessionVisibility(_ isFriendsListOpen: Bool = false) {
         let show = isRunning && hearthstoneRunState.isActive && Settings.showSessionRecap
                 && (
                     (
@@ -959,7 +959,7 @@ class Game: NSObject, PowerEventHandler {
                             || (SceneHandler.lastScene == .gameplay && SceneHandler.nextScene == .bacon)
                         )
                     )
-                )
+                ) && !isFriendsListOpen
 
         if show {
             var rect = SizeHelper.battlegroundsSessionFrame()

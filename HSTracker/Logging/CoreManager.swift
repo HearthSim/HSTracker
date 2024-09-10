@@ -73,6 +73,7 @@ final class CoreManager: NSObject {
         BaconWatcher.change = { _, args in
             if #available(macOS 10.15, *) {
                 self.game.setBaconState(args.selectedBattlegroundsGameMode, args.isAnyOpen())
+                self.game.updateBattlegroundsSessionVisibility(args.isFriendsListOpen)
             }
         }
         DeckPickerWatcher.change = { _, args in
