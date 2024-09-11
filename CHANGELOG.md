@@ -1,3 +1,15 @@
+# 3.0.4
+## New
+- Updated for Hearthstone 30.4.0
+- Show exact card counts, even when there's more than 9 cards in the deck.
+- Automatically show Tavern Tier 7 in the Battlegrounds minion browser when Pagle's Fishing Rod or Thorim's Hero Power is offered.
+## Fixes
+- Fixed Plagues not being tracked correctly after playing Helya.
+- Fixed Plagues not being removed from the deck list when playing Steamcleaner.
+- Fixed minions from Tavern Tier 7 not appearing when filtering for a specific minion type
+## Bob's Buddy
+- Increased the maximum simulation time when Leapfroggers are present.
+
 # 3.0.3
 ## New
 - Updated for Hearthstone 30.2.2
