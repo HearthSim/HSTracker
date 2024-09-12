@@ -269,14 +269,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
         coreManager = CoreManager()
         
         DispatchQueue.global().async {
-            // load card tier via http request
-            let cardTierOperation = BlockOperation {
-                ArenaHelperSync.checkTierList(splashscreen: splashscreen)
-                if ArenaHelperSync.isOutdated() || !ArenaHelperSync.jsonFilesAreValid() {
-                    ArenaHelperSync.downloadTierList(splashscreen: splashscreen)
-                }
-            }
-            
             let remoteConfigOperation = BlockOperation {
                 RemoteConfig.checkRemoteConfig(splashscreen: splashscreen)
             }
@@ -302,10 +294,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
             
             menuOperation.addDependency(databaseOperation)
             remoteConfigOperation.addDependency(menuOperation)
-            cardTierOperation.addDependency(menuOperation)
             
             var operations = [Operation]()
-            operations.append(cardTierOperation)
             operations.append(remoteConfigOperation)
             operations.append(databaseOperation)
             operations.append(menuOperation)

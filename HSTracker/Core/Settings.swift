@@ -391,8 +391,6 @@ final class Settings {
     static var showCardHuds: Bool
     @UserDefault(key: Settings.show_secret_helper, defaultValue: true)
     static var showSecretHelper: Bool
-    @UserDefault(key: Settings.show_arena_helper, defaultValue: true)
-    static var showArenaHelper: Bool
     @UserDefault(key: Settings.show_win_loss_ratio, defaultValue: false)
     static var showWinLossRatio: Bool
     static var playerInHandColor: NSColor {
@@ -667,7 +665,6 @@ extension Settings {
     static let timer_hud_frame = "timer_hud_frame"
     static let show_card_huds = "show_card_huds"
     static let show_secret_helper = "show_secret_helper"
-    static let show_arena_helper = "show_arena_helper"
     static let show_win_loss_ratio = "show_win_loss_ratio"
     static let player_in_hand_color = "player_in_hand_color"
     static let show_apphealth = "show_apphealth"

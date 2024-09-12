@@ -23,7 +23,6 @@ class GeneralPreferences: NSViewController, PreferencePane {
     @IBOutlet weak var saveReplays: NSButton!
     @IBOutlet weak var enableDockBadge: NSButton!
     @IBOutlet weak var preferGoldenCards: NSButton!
-    @IBOutlet weak var useArenaHelper: NSButton!
     @IBOutlet weak var useToastNotifications: NSButton!
 	
     override func viewDidLoad() {
@@ -36,7 +35,6 @@ class GeneralPreferences: NSViewController, PreferencePane {
         saveReplays.state = Settings.saveReplays ? .on : .off
         enableDockBadge.state = Settings.showAppHealth ? .on : .off
         preferGoldenCards.state = Settings.preferGoldenCards ? .on : .off
-        useArenaHelper.state = Settings.showArenaHelper ? .on : .off
 		useToastNotifications.state = Settings.useToastNotification ? .on : .off
     }
 
@@ -56,8 +54,6 @@ class GeneralPreferences: NSViewController, PreferencePane {
             AppHealth.instance.updateBadge()
         } else if sender == preferGoldenCards {
             Settings.preferGoldenCards = preferGoldenCards.state == .on
-        } else if sender == useArenaHelper {
-            Settings.showArenaHelper = useArenaHelper.state == .on
 		} else if sender == useToastNotifications {
 			Settings.useToastNotification = useToastNotifications.state == .on
 		}

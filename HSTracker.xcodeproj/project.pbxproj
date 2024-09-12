@@ -168,7 +168,6 @@
 		43C1C9FB1E96CCE9008C20B1 /* StatsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94596811D174FBA008CD47A /* StatsTests.swift */; };
 		43C1C9FD1E96CCE9008C20B1 /* DatabaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439B1DF51E86CC280098BBBC /* DatabaseTests.swift */; };
 		43C1C9FE1E96CCE9008C20B1 /* PowerParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCB4AE71E8A41E3003FD1AD /* PowerParserTests.swift */; };
-		43C1C9FF1E96CD6F008C20B1 /* ArenaWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C117F078373147EF731146 /* ArenaWatcher.swift */; };
 		43C1CA011E96CD6F008C20B1 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438B04F81E6F55720071594B /* Date.swift */; };
 		43C1CA021E96CD6F008C20B1 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56E91DAAB81400FC0FC1 /* Array.swift */; };
 		43C1CA031E96CD6F008C20B1 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56EA1DAAB81400FC0FC1 /* Color.swift */; };
@@ -338,7 +337,6 @@
 		43C568011D5E584F00451B6F /* LogUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C568001D5E584F00451B6F /* LogUploader.swift */; };
 		43C568031D5E59E500451B6F /* UploadResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C568021D5E59E500451B6F /* UploadResult.swift */; };
 		43C568051D5E5BFF00451B6F /* UploadMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C568041D5E5BFF00451B6F /* UploadMetaData.swift */; };
-		43C9EF291E9C1DED00D17F2A /* ArenaHelperSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C9EF281E9C1DED00D17F2A /* ArenaHelperSync.swift */; };
 		43D307FB1C83159C00480488 /* SizeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D307FA1C83159C00480488 /* SizeHelper.swift */; };
 		43D308041C842DC000480488 /* GeneralPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D308031C842DC000480488 /* GeneralPreferences.swift */; };
 		43D308061C842DC900480488 /* GamePrefences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D308051C842DC900480488 /* GamePrefences.swift */; };
@@ -393,7 +391,6 @@
 		4CFF95AB23C0C3B3006AB461 /* BattlegroundsTierOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFF95AA23C0C3B3006AB461 /* BattlegroundsTierOverlay.swift */; };
 		4CFF95AD23C0C48E006AB461 /* BattlegroundsTierOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CFF95AC23C0C48E006AB461 /* BattlegroundsTierOverlay.xib */; };
 		4CFF95AF23C0C56A006AB461 /* BattlegroundsTierOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFF95AE23C0C56A006AB461 /* BattlegroundsTierOverlayView.swift */; };
-		64C117C8D3B76359080E750A /* ArenaWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C117F078373147EF731146 /* ArenaWatcher.swift */; };
 		B800FCA42732AA7C00AFBD51 /* MercenariesTaskListButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = B800FCA32732AA7C00AFBD51 /* MercenariesTaskListButton.xib */; };
 		B800FCA62732AA9100AFBD51 /* MercenariesTaskListButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B800FCA52732AA9100AFBD51 /* MercenariesTaskListButton.swift */; };
 		B800FCAA2732FABD00AFBD51 /* MercenariesTaskListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B800FCA92732FABD00AFBD51 /* MercenariesTaskListView.swift */; };
@@ -789,7 +786,6 @@
 		BCA70F2A1E2C16DD00038A6C /* FileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA70F291E2C16DD00038A6C /* FileUtils.m */; };
 		BCCCDB9E1EA54FF800C328D0 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCCDB9D1EA54FF800C328D0 /* NotificationManager.swift */; };
 		BCCCDB9F1EA55B0C00C328D0 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCCDB9D1EA54FF800C328D0 /* NotificationManager.swift */; };
-		BCFC60991EA29DE6005B879F /* ArenaHelperSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C9EF281E9C1DED00D17F2A /* ArenaHelperSync.swift */; };
 		C92C680E1D1F225F009030DC /* StatsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92C680C1D1F225F009030DC /* StatsTab.swift */; };
 		C92C68121D1F3FC4009030DC /* LadderTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92C68101D1F3FC4009030DC /* LadderTab.swift */; };
 		C92C68181D1F74CE009030DC /* LadderGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92C68171D1F74CE009030DC /* LadderGrid.swift */; };
@@ -1098,7 +1094,6 @@
 		43C568001D5E584F00451B6F /* LogUploader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogUploader.swift; sourceTree = "<group>"; };
 		43C568021D5E59E500451B6F /* UploadResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadResult.swift; sourceTree = "<group>"; };
 		43C568041D5E5BFF00451B6F /* UploadMetaData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadMetaData.swift; sourceTree = "<group>"; };
-		43C9EF281E9C1DED00D17F2A /* ArenaHelperSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArenaHelperSync.swift; sourceTree = "<group>"; };
 		43D307FA1C83159C00480488 /* SizeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SizeHelper.swift; sourceTree = "<group>"; };
 		43D308031C842DC000480488 /* GeneralPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralPreferences.swift; sourceTree = "<group>"; };
 		43D308051C842DC900480488 /* GamePrefences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GamePrefences.swift; sourceTree = "<group>"; };
@@ -1153,7 +1148,6 @@
 		4CFF95AC23C0C48E006AB461 /* BattlegroundsTierOverlay.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsTierOverlay.xib; sourceTree = "<group>"; };
 		4CFF95AE23C0C56A006AB461 /* BattlegroundsTierOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsTierOverlayView.swift; sourceTree = "<group>"; };
 		5B0AB88C2313083700654A03 /* HSTracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HSTracker.entitlements; sourceTree = "<group>"; };
-		64C117F078373147EF731146 /* ArenaWatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArenaWatcher.swift; sourceTree = "<group>"; };
 		B800FCA32732AA7C00AFBD51 /* MercenariesTaskListButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MercenariesTaskListButton.xib; sourceTree = "<group>"; };
 		B800FCA52732AA9100AFBD51 /* MercenariesTaskListButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MercenariesTaskListButton.swift; sourceTree = "<group>"; };
 		B800FCA92732FABD00AFBD51 /* MercenariesTaskListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MercenariesTaskListView.swift; sourceTree = "<group>"; };
@@ -1853,7 +1847,6 @@
 				B82F4EAC24E3221D00905024 /* BobsBuddy */,
 				B82F4EA924E3020800905024 /* Mono */,
 				5B0AB88C2313083700654A03 /* HSTracker.entitlements */,
-				64C115E3AADB89B1C02BC1D0 /* ArenaHelper */,
 				434106A01C9868620045655A /* Assets */,
 				439C7E901C777EE800D29859 /* Core */,
 				439C7E7A1C777CC000D29859 /* Database */,
@@ -2223,15 +2216,6 @@
 				B8BCC1E02739991600DA6474 /* VerticallyAlignedTextFieldCell.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		64C115E3AADB89B1C02BC1D0 /* ArenaHelper */ = {
-			isa = PBXGroup;
-			children = (
-				64C117F078373147EF731146 /* ArenaWatcher.swift */,
-				43C9EF281E9C1DED00D17F2A /* ArenaHelperSync.swift */,
-			);
-			path = ArenaHelper;
 			sourceTree = "<group>";
 		};
 		B804FC422946BAB200F74CD9 /* Composition */ = {
@@ -3190,7 +3174,6 @@
 				B8074B0228C83A96006E0133 /* RewardTrackType.swift in Sources */,
 				B8AFA40B2723310700B3470E /* BoardOverlay.swift in Sources */,
 				B8BDF9082A9626A8000DA4ED /* AnomalyProxy.swift in Sources */,
-				43C9EF291E9C1DED00D17F2A /* ArenaHelperSync.swift in Sources */,
 				B8AC9A23293D48E10047F438 /* OverlayMessage.swift in Sources */,
 				B851C8F92BD6821600B748C1 /* BattlegroundsDb.swift in Sources */,
 				B8AF9330282D4A7C00864934 /* BattlegroundsSession.swift in Sources */,
@@ -3288,7 +3271,6 @@
 				435CD9091E1E3AB4000AF3DE /* GameStats.swift in Sources */,
 				B8BD3BAC2C41C524001E85B7 /* BattlegroundsCompositionStatsBar.swift in Sources */,
 				435CD90B1E1E4447000AF3DE /* ServerInfo.swift in Sources */,
-				64C117C8D3B76359080E750A /* ArenaWatcher.swift in Sources */,
 				B82238BA2BF948B000B405D4 /* BoardSnapshot.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3413,12 +3395,10 @@
 				F723404420014D3E00E4587A /* Events.swift in Sources */,
 				43C1CAC11E96CE4E008C20B1 /* GlowFilter.m in Sources */,
 				43C1CAC01E96CE3C008C20B1 /* FileUtils.m in Sources */,
-				43C1C9FF1E96CD6F008C20B1 /* ArenaWatcher.swift in Sources */,
 				43C1CA011E96CD6F008C20B1 /* Date.swift in Sources */,
 				43C1CA021E96CD6F008C20B1 /* Array.swift in Sources */,
 				B8643D0C2759822C00B2D708 /* NSBezierPath.swift in Sources */,
 				43C1CA031E96CD6F008C20B1 /* Color.swift in Sources */,
-				BCFC60991EA29DE6005B879F /* ArenaHelperSync.swift in Sources */,
 				43C1CA061E96CD6F008C20B1 /* String.swift in Sources */,
 				43C1CA071E96CD6F008C20B1 /* NSAlert.swift in Sources */,
 				43C1CA081E96CD6F008C20B1 /* Settings.swift in Sources */,

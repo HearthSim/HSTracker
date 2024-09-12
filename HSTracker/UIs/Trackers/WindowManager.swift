@@ -47,10 +47,6 @@ class WindowManager {
         return $0
     }(CardList(windowNibName: "CardList"))
 	
-	var arenaHelper: CardList = {
-		return $0
-	}(CardList(windowNibName: "CardList"))
-	
     var playerBoardDamage: BoardDamage = {
         $0.player = .player
         return $0
@@ -250,7 +246,6 @@ class WindowManager {
 		// TODO: use not defered gui instead
         DispatchQueue.main.async { [weak self] in
             self?.secretTracker.window?.orderOut(nil)
-			self?.arenaHelper.window?.orderOut(nil)
             self?.timerHud.window?.orderOut(nil)
             self?.playerBoardDamage.window?.orderOut(nil)
             self?.opponentBoardDamage.window?.orderOut(nil)

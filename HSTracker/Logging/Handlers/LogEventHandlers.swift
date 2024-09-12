@@ -45,8 +45,6 @@ protocol PowerEventHandler: AnyObject {
 	
 	func determinedPlayers() -> Bool
 	
-	func setArenaOptions(cards: [Card])
-	
 	var wasInProgress: Bool { get set }
 	
 	var lastCardPlayed: Int? { get set }

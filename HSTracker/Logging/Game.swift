@@ -134,7 +134,6 @@ class Game: NSObject, PowerEventHandler {
         self.updateCardHud()
         self.updateTurnTimer()
         self.updateBoardStateTrackers()
-		self.updateArenaHelper()
         self.updateSecretTracker()
         self.updateBattlegroundsOverlay()
         self.updateBattlegroundsTierOverlay(reset: guiUpdateResets)
@@ -838,26 +837,6 @@ class Game: NSObject, PowerEventHandler {
         }
     }
 	
-	func updateArenaHelper() {
-		DispatchQueue.main.async {
-			
-			let tracker = self.windowManager.arenaHelper
-			
-			if Settings.showArenaHelper && ArenaWatcher.isRunning() &&
-                !(Settings.dontTrackWhileSpectating && self.spectator) &&
-				self.windowManager.arenaHelper.cardCount() == 3 &&
-				((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
-					|| !Settings.hideAllWhenGameInBackground ) {
-                tracker.setWindowSizes()
-                self.windowManager.arenaHelper.table?.reloadData()
-				self.windowManager.show(controller: tracker, show: true, frame: SizeHelper.arenaHelperFrame(),
-                                        title: nil, overlay: self.hearthstoneRunState.isActive)
-			} else {
-				self.windowManager.show(controller: tracker, show: false)
-			}
-		}
-	}
-    
     func updateBoardOverlay() {
         DispatchQueue.main.async {
             let oppTracker = self.windowManager.opponentBoardOverlay
@@ -3179,13 +3158,6 @@ class Game: NSObject, PowerEventHandler {
 
     var chameleosReveal: (Int, String)?
 	
-	// MARK: - Arena
-	
-	func setArenaOptions(cards: [Card]) {
-		self.windowManager.arenaHelper.set(cards: cards)
-		self.updateArenaHelper()
-	}
-    
     // MARK: - Mulligan
     
     @MainActor
