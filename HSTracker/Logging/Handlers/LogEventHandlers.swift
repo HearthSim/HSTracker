@@ -244,10 +244,6 @@ protocol PowerEventHandler: AnyObject {
     
     func handleQuestRewardDatabaseId(id: Int, value: Int)
     
-    func handleBattlegroundsPlayerQuestPicked(entity: Entity)
-    
-    func handleBattlegroundsPlayerQuestPickerRemoval(entity: Entity)
-    
     var gameId: String { get }
     
     var lastPlagueDrawn: Stack<String> { get }

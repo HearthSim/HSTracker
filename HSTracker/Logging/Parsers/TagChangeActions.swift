@@ -649,9 +649,6 @@ struct TagChangeActions {
                     }
                 }
             }
-            if entity.isBattlegroundsQuest {
-                eventHandler.handleBattlegroundsPlayerQuestPicked(entity: entity)
-            }
             
         case .setaside:
             if controller == eventHandler.player.id {
@@ -660,13 +657,6 @@ struct TagChangeActions {
                 eventHandler.opponentCreateInSetAside(entity: entity, turn: eventHandler.turnNumber())
             }
             
-        case .removedfromgame:
-            if controller == eventHandler.player.id {
-                if entity.cardId == CardIds.NonCollectible.Neutral.DiscoverQuestRewardDnt {
-                    logger.debug("Quest Picker Removal")
-                    eventHandler.handleBattlegroundsPlayerQuestPickerRemoval(entity: entity)
-                }
-            }
         default:
             logger.warning("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
         }

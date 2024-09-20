@@ -3065,27 +3065,7 @@ class Game: NSObject, PowerEventHandler {
         }
         updateTrackers()
     }
-        
-    func handleBattlegroundsPlayerQuestPicked(entity: Entity) {
-        if isBattlegroundsMatch() {
-            if #available(macOS 10.15, *) {
-                Task.detached {
-                    self.windowManager.battlegroundsQuestPicking.viewModel.reset()
-                }
-            }
-        }
-    }
-
-    func handleBattlegroundsPlayerQuestPickerRemoval(entity: Entity) {
-        if isBattlegroundsMatch() {
-            if #available(macOS 10.15, *) {
-                Task.detached {
-                    self.windowManager.battlegroundsQuestPicking.viewModel.reset()
-                }
-            }
-        }
-    }
-        
+    
     func handleQuestRewardDatabaseId(id: Int, value: Int) {
         if isBattlegroundsMatch(), let entity = entities[id], entity.isControlled(by: player.id) {
             if #available(macOS 10.15, *) {
