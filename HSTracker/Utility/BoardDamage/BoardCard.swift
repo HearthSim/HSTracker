@@ -62,7 +62,7 @@ class BoardCard: IBoardEntity {
         silenced = entity[.silenced] == 1
         charge = entity[.charge] == 1
         windfury = entity[.windfury] == 1
-        megaWindfury = (entity.cardId == CardIds.NonCollectible.Neutral.MimironsHead_V07Tr0NToken || entity.cardId == CardIds.Collectible.Shaman.WalkingMountain)
+        megaWindfury = entity[.mega_windfury] == 1 || entity[.windfury] == 3
         attacksThisTurn = entity[.num_attacks_this_turn]
         dormant = entity[.dormant] == 1
         titan = entity[.titan] == 1
@@ -119,6 +119,9 @@ class BoardCard: IBoardEntity {
         if exhausted {
             // newly played card could be given charge
             return charge && attacksThisTurn == 0
+        }
+        if attacksThisTurn == attacksPerTurn {
+            return false
         }
         // sometimes cards seem to be in wrong zone while in play,
         // these cards don't become exhausted, so check attacks.

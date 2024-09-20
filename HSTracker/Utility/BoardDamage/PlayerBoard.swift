@@ -39,8 +39,15 @@ class PlayerBoard {
     
     func getWeapon(list: [Entity]) -> Entity? {
         let weapons = list.filter { $0.isWeapon }
-        return weapons.count == 1 ? weapons.first :
-            list.first { $0.has(tag: .just_played) && $0[.just_played] == 1 }
+        if weapons.count == 0 {
+            return nil
+        }
+        
+        if weapons.count == 1 {
+            return weapons[0]
+        }
+        
+        return list.first { $0.has(tag: .just_played) && $0[.just_played] == 1 }
     }
     
     private func filter(cards: [Entity]) -> [Entity] {

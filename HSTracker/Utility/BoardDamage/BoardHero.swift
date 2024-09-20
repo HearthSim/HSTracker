@@ -46,13 +46,17 @@ class BoardHero: IBoardEntity {
     
     private func attackWithWeapon() -> Int {
         // weapon is equipped
-        if let weapon = _weapon, include {
-            // windfury weapon, with more than 2 chages
-            // and hero hasn't attacked yet this turn.
-            // better to check weapon for durability in
-            // case of windfury, instead of heros exhausted
-            if weapon.windfury && weapon.health >= 2 && _hero.attacksThisTurn == 0 {
-                // double the hero attack value
+        if include {
+            if let weapon = _weapon {
+                if (_hero.windfury || weapon.windfury) && weapon.health >= 2 && _hero.attacksThisTurn == 0 {
+                    // double the hero attack value
+                    return _baseAttack * 2
+                }
+                if _hero.windfury && !weapon.windfury && weapon.health == 1 {
+                    return _baseAttack * 2 - weapon.attack
+                }
+            } else if _hero.windfury && _hero.attacksThisTurn == 0 {
+                // Hero got windfury from other means (Inara, Sand Art Elemental)
                 return _baseAttack * 2
             }
         }
