@@ -22,6 +22,8 @@ class Block {
     var hasFullEntityHeroPackets = false
     
     var entityDiscardedByArchivist: Entity?
+    
+    var entitiesCreatedInDeck = [(entity: Entity, ids: Set<Int>)]()
    
     init(parent: Block?, id: Int, type: String?, cardId: String?, target: String?) {
         self.parent = parent

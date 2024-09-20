@@ -254,6 +254,10 @@ class PowerGameStateParser: LogEventParser {
                 }
                 eventHandler.entities[id] = entity
                 
+                if let currentBlock, zone == .deck {
+                    currentBlock.entitiesCreatedInDeck.append((entity: entity, ids: Set<Int>()))
+                }
+                
                 if let currentBlock = currentBlock, entity.cardId.uppercased().contains("HERO") {
                     currentBlock.hasFullEntityHeroPackets = true
                 }
@@ -458,14 +462,6 @@ class PowerGameStateParser: LogEventParser {
                     actionStartingCardId = cardId
                 }
                 
-                if blockType == "TRIGGER" && actionStartingCardId == CardIds.Collectible.Neutral.AugmentedElekk {
-                    if currentBlock?.parent != nil {
-                        actionStartingCardId = currentBlock?.parent?.cardId
-                        blockType = currentBlock?.parent?.type
-                        target = currentBlock?.parent?.target
-                    }
-                }
-
                 if blockType == "TRIGGER" {
                     if let actionStartingCardId = actionStartingCardId {
                         
@@ -663,6 +659,20 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Paladin.Grillmaster_SunscreenToken)
                         case CardIds.Collectible.Rogue.MetalDetector:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.TheCoinBasic)
+                        case CardIds.Collectible.Neutral.AugmentedElekk:
+                            if let currentBlock, let parent = currentBlock.parent {
+                                if let index = currentBlock.parent?.entitiesCreatedInDeck.lastIndex(where: { x in !x.ids.contains(currentBlock.sourceEntityId)}) {
+                                    let value = currentBlock.parent?.entitiesCreatedInDeck[index]
+                                    if let entity = value?.entity, let ids = value?.ids {
+                                        if !entity.cardId.isBlank {
+                                            currentBlock.parent?.entitiesCreatedInDeck.remove(at: index)
+                                            var ids = Set<Int>(ids)
+                                            ids.insert(currentBlock.sourceEntityId)
+                                            currentBlock.parent?.entitiesCreatedInDeck.insert((entity: entity, ids: ids), at: index)
+                                        }
+                                    }
+                                }
+                            }
                         default: break
                         }
                     }
