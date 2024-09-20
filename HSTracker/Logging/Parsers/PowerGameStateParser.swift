@@ -265,6 +265,18 @@ class PowerGameStateParser: LogEventParser {
             }
             eventHandler.currentEntityHasCardId = !cardId.isBlank
             eventHandler.currentEntityZone = zone
+            
+            // For tourists, a different entity of the Tourist card is created by the TouristEnchantment, and that entity is REMOVEDFROMGAME.
+            // we can predict, then, that there is a real entity of that cardId on the opponents deck.
+            if zone == Zone.removedfromgame, let currentBlock, let cardId {
+                if let actionStartingEntity = eventHandler.entities[currentBlock.sourceEntityId] {
+                    if actionStartingEntity.cardId == CardIds.NonCollectible.Neutral.TouristVfxEnchantmentEnchantment && actionStartingEntity.isControlled(by: eventHandler.opponent.id) {
+                        eventHandler.opponent.predictUniqueCardInDeck(cardId: cardId, isCreated: false)
+                        AppDelegate.instance().coreManager.game.updateTrackers()
+                    }
+                }
+
+            }
             return
         } else if UpdatingEntityRegex.match(logLine.line) {
             let matches = UpdatingEntityRegex.matches(logLine.line)
