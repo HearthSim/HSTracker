@@ -427,7 +427,9 @@ final class Player {
                         || (e.info.guessedCardState == .guessed &&
                             (e.cardId == CardIds.NonCollectible.Deathknight.DistressedKvaldir_FrostPlagueToken ||
                              e.cardId == CardIds.NonCollectible.Deathknight.DistressedKvaldir_BloodPlagueToken ||
-                             e.cardId == CardIds.NonCollectible.Deathknight.DistressedKvaldir_UnholyPlagueToken)
+                             e.cardId == CardIds.NonCollectible.Deathknight.DistressedKvaldir_UnholyPlagueToken ||
+                             e.cardId == CardIds.NonCollectible.Neutral.Incindius_EruptionToken ||
+                             e.cardId == CardIds.NonCollectible.Neutral.SeaforiumBomber_BombToken)
                            )
                         )
                      )

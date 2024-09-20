@@ -643,6 +643,7 @@ extension CardIds.Collectible {
         static let MiracleSalesman = "WW_331"
         static let ChaoticTendril = "YOG_514"
         static let CarryOnGrub = "VAC_935"
+        static let Explodineer = "MIS_308"
     }
 }
 

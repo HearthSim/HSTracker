@@ -528,7 +528,7 @@ class PowerGameStateParser: LogEventParser {
                         //TODO: Gral, the Shark?
                         case CardIds.Collectible.Paladin.ImmortalPrelate:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Paladin.ImmortalPrelate)
-                        case CardIds.Collectible.Warrior.Wrenchcalibur:
+                        case CardIds.Collectible.Neutral.Explodineer, CardIds.Collectible.Warrior.Wrenchcalibur:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Neutral.SeaforiumBomber_BombToken)
                         case CardIds.Collectible.Priest.SpiritOfTheDead:
