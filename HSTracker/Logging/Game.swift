@@ -3231,16 +3231,24 @@ class Game: NSObject, PowerEventHandler {
     func handlePlayerEntityChoices(choice: IHsChoice) {
         if choice.choiceType == ChoiceType.general && isBattlegroundsMatch() {
             let offeredEntities = choice.offeredEntityIds?.compactMap { id in entities[id] } ?? [Entity]()
-
+            
+            // trinket picking
             if let source = entities[choice.sourceEntityId], source[.bacon_is_magic_item_discover] > 0 && offeredEntities.all({ x in x.isBattlegroundsTrinket }) {
-                let offered = offeredEntities.filter { x in x.isBattlegroundsTrinket }
-                windowManager.battlegroundsTierOverlay.tierOverlay.onTrinkets(trinkets: (player.trinkets + offered).compactMap({ x in x.card.id }))
-            }
-            if offeredEntities.all({ x in x.isHeroPower }) {
+                handleBattlegroundsTrinketChoice(choice: choice)
+            } else if offeredEntities.all({ x in x.isHeroPower }) { // hero power choice
                 let offered = offeredEntities.filter { x in x.isHeroPower }
                 windowManager.battlegroundsTierOverlay.tierOverlay.onHeroPowers(heroPowers: (player.board.filter({ x in x.isHeroPower }) + offered).compactMap({ x in x.card.id }))
             }
         }
+    }
+    
+    func handleBattlegroundsTrinketChoice(choice: IHsChoice) {
+        let offeredEntities = choice.offeredEntityIds?.compactMap { id in entities[id] } ?? [Entity]()
+
+        let offered = offeredEntities.filter { x in x.isBattlegroundsTrinket }
+        windowManager.battlegroundsTierOverlay.tierOverlay.onTrinkets(trinkets: (player.trinkets + offered).compactMap({ x in x.card.id }))
+
+//        Core.Game.SnapshotOfferedTrinkets(choice)
     }
 
     func handlePlayerEntitiesChosen(choice: IHsCompletedChoice) {
