@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22689"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="BattlegroundsPreferences" customModule="HSTracker" customModuleProvider="target">
             <connections>
                 <outlet property="alwaysShowTavernTier7" destination="nIZ-ZN-jaR" id="iEg-JX-ghJ"/>
+                <outlet property="autoShowBattlegroundsTrinketPicking" destination="k99-WS-d2I" id="OVM-yB-3dy"/>
                 <outlet property="enableTier7Overlay" destination="3Ts-2S-wmU" id="lDs-De-84w"/>
                 <outlet property="scalingSlider" destination="yDm-vs-KsG" id="3zJ-df-F0h"/>
                 <outlet property="scalingValue" destination="Y61-iI-pCa" id="scw-Aq-1M0"/>
@@ -42,22 +43,22 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView translatesAutoresizingMaskIntoConstraints="NO" id="c22-O7-iKe">
-            <rect key="frame" x="0.0" y="0.0" width="414" height="822"/>
+            <rect key="frame" x="0.0" y="0.0" width="414" height="848"/>
             <subviews>
                 <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PgR-kc-NQ2">
-                    <rect key="frame" x="0.0" y="0.0" width="414" height="822"/>
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="848"/>
                     <subviews>
                         <box title="Tier7" translatesAutoresizingMaskIntoConstraints="NO" id="kdX-CA-zhQ">
-                            <rect key="frame" x="7" y="616" width="400" height="186"/>
+                            <rect key="frame" x="7" y="616" width="400" height="212"/>
                             <view key="contentView" id="FaQ-JU-XUN">
-                                <rect key="frame" x="4" y="5" width="392" height="166"/>
+                                <rect key="frame" x="4" y="5" width="392" height="192"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NeY-J8-nXG">
-                                        <rect key="frame" x="10" y="0.0" width="372" height="166"/>
+                                        <rect key="frame" x="10" y="0.0" width="372" height="192"/>
                                         <subviews>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3Ts-2S-wmU">
-                                                <rect key="frame" x="-2" y="139" width="151" height="18"/>
+                                                <rect key="frame" x="-2" y="165" width="151" height="18"/>
                                                 <buttonCell key="cell" type="check" title="Enable Tier7 Overlay" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="fts-jC-w9N">
                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                     <font key="font" metaFont="system"/>
@@ -67,7 +68,7 @@
                                                 </connections>
                                             </button>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0rS-5z-pRa">
-                                                <rect key="frame" x="-2" y="113" width="272" height="18"/>
+                                                <rect key="frame" x="-2" y="139" width="272" height="18"/>
                                                 <buttonCell key="cell" type="check" title="Show Tier7 menu Overlay (MMR &amp; Stats)" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Xmc-n4-oyS">
                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                     <font key="font" metaFont="system"/>
@@ -77,7 +78,7 @@
                                                 </connections>
                                             </button>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bM5-OJ-VEP">
-                                                <rect key="frame" x="-2" y="87" width="264" height="18"/>
+                                                <rect key="frame" x="-2" y="113" width="264" height="18"/>
                                                 <buttonCell key="cell" type="check" title="Show Battlegrounds Hero Picking Stats" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="gkM-fC-BN7">
                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                     <font key="font" metaFont="system"/>
@@ -87,7 +88,7 @@
                                                 </connections>
                                             </button>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="a9x-CF-17c">
-                                                <rect key="frame" x="-2" y="61" width="263" height="18"/>
+                                                <rect key="frame" x="-2" y="87" width="263" height="18"/>
                                                 <buttonCell key="cell" type="check" title="Show Battlegrounds Composition Stats" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="lpI-SE-51A">
                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                     <font key="font" metaFont="system"/>
@@ -97,7 +98,7 @@
                                                 </connections>
                                             </button>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QeJ-mI-bjv">
-                                                <rect key="frame" x="-2" y="35" width="270" height="18"/>
+                                                <rect key="frame" x="-2" y="61" width="270" height="18"/>
                                                 <buttonCell key="cell" type="check" title="Show Battlegrounds Quest Picking Stats" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="po8-Pv-EE8">
                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                     <font key="font" metaFont="system"/>
@@ -107,13 +108,23 @@
                                                 </connections>
                                             </button>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WNs-L3-3NJ">
-                                                <rect key="frame" x="-2" y="9" width="223" height="18"/>
+                                                <rect key="frame" x="-2" y="35" width="223" height="18"/>
                                                 <buttonCell key="cell" type="check" title="Show Reward Composition Stats" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="tBZ-Tg-1hx">
                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                     <font key="font" metaFont="system"/>
                                                 </buttonCell>
                                                 <connections>
                                                     <action selector="checkboxClicked:" target="-2" id="lIL-d1-r0X"/>
+                                                </connections>
+                                            </button>
+                                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="k99-WS-d2I">
+                                                <rect key="frame" x="-2" y="9" width="185" height="18"/>
+                                                <buttonCell key="cell" type="check" title="Show Trinket picking stats" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="be4-8p-MhH">
+                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                    <font key="font" metaFont="system"/>
+                                                </buttonCell>
+                                                <connections>
+                                                    <action selector="checkboxClicked:" target="-2" id="flv-Aq-gPm"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -125,8 +136,10 @@
                                             <integer value="1000"/>
                                             <integer value="1000"/>
                                             <integer value="1000"/>
+                                            <integer value="1000"/>
                                         </visibilityPriorities>
                                         <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
                                             <real value="3.4028234663852886e+38"/>
                                             <real value="3.4028234663852886e+38"/>
                                             <real value="3.4028234663852886e+38"/>
@@ -415,7 +428,7 @@
                                             <stackView distribution="fillProportionally" orientation="horizontal" alignment="centerY" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="W5a-x8-hmJ" userLabel="StackViewScaling">
                                                 <rect key="frame" x="0.0" y="40" width="372" height="20"/>
                                                 <subviews>
-                                                    <textField focusRingType="none" horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="d1m-Xr-Juh" userLabel="Scaling">
+                                                    <textField horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="d1m-Xr-Juh" userLabel="Scaling">
                                                         <rect key="frame" x="-2" y="2" width="49" height="16"/>
                                                         <textFieldCell key="cell" lineBreakMode="clipping" title="Scaling" id="pzC-JZ-tcU">
                                                             <font key="font" usesAppearanceFont="YES"/>
@@ -430,7 +443,7 @@
                                                             <action selector="sliderChanged:" target="-2" id="Mu5-fB-D4L"/>
                                                         </connections>
                                                     </slider>
-                                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Y61-iI-pCa" userLabel="Value">
+                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Y61-iI-pCa" userLabel="Value">
                                                         <rect key="frame" x="340" y="3" width="34" height="14"/>
                                                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="100%" id="TFO-5v-fkw">
                                                             <numberFormatter key="formatter" formatterBehavior="custom10_4" positiveFormat="#%" numberStyle="percent" usesGroupingSeparator="NO" paddingCharacter=" " formatWidth="4" groupingSize="0" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" id="1qt-TJ-Tje">

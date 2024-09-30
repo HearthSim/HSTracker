@@ -52,6 +52,7 @@ class SceneHandler {
             game.updateBattlegroundsSessionVisibility()
             BattlegroundsTeammateBoardStateWatcher.stop()
             BaconWatcher.stop()
+            ChoicesWatcher.stop()
         }
     }
     
@@ -80,8 +81,11 @@ class SceneHandler {
             BaconWatcher.start()
         } else if to == .gameplay {
             game.updateBattlegroundsSessionVisibility()
+            ChoicesWatcher.start()
             BaconWatcher.start()
-        } else if from == .bacon {
+        }
+        
+        if from == .bacon {
             game.windowManager.tier7PreLobby.viewModel.invalidateUserState()
         }
     }

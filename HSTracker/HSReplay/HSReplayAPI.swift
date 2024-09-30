@@ -502,7 +502,7 @@ class HSReplayAPI {
             }
         }
     }
-
+    
     @available(macOS 10.15.0, *)
     static func getTier7DuosHeroPickStats(parameters: BattlegroundsHeroPickStatsParams) async -> BattlegroundsHeroPickStats? {
         return await withCheckedContinuation { continuation in
@@ -567,7 +567,7 @@ class HSReplayAPI {
             }
         }
     }
-
+    
     @available(macOS 10.15.0, *)
     static func getTier7QuestStats(parameters: BattlegroundsQuestStatsParams) async -> [BattlegroundsQuestStats]? {
         return await withCheckedContinuation { continuation in
@@ -595,7 +595,7 @@ class HSReplayAPI {
             })
         }
     }
-
+    
     @available(macOS 10.15.0, *)
     static func getTier7QuestStats(token: String?, parameters: BattlegroundsQuestStatsParams) async -> [BattlegroundsQuestStats]? {
         guard let token = token else {
@@ -631,7 +631,7 @@ class HSReplayAPI {
             }
         }
     }
-
+    
     @available(macOS 10.15.0, *)
     static func getAllTimeBGsMMR(hi: Int64, lo: Int) async -> Tier7AllTime? {
         return await withCheckedContinuation { continuation in
@@ -667,7 +667,7 @@ class HSReplayAPI {
             })
         }
     }
-
+    
     @available(macOS 10.15.0, *)
     static func activatePlayerTrial(name: String, hi: Int64, lo: Int64) async -> PlayerTrialActivation? {
         return await withCheckedContinuation { continuation in
@@ -702,7 +702,7 @@ class HSReplayAPI {
             } catch {
                 logger.error(error)
             }
-
+            
             startAuthorizedRequest("\(HSReplay.constructedMulliganGuide)", method: .POST, parameters: [:], headers: ["Content-Type": "application/json"], body: body, completionHandler: { result in
                 switch result {
                 case .success(let response):
@@ -722,7 +722,7 @@ class HSReplayAPI {
             })
         }
     }
-
+    
     @available(macOS 10.15.0, *)
     static func getMulliganGuideStatus(parameters: MulliganGuideStatusParams) async -> MulliganGuideStatusData? {
         return await withCheckedContinuation { continuation in
@@ -736,7 +736,7 @@ class HSReplayAPI {
             } catch {
                 logger.error(error)
             }
-
+            
             startAuthorizedRequest("\(HSReplay.constructedMulliganGuideStatus)", method: .POST, parameters: [:], headers: ["Content-Type": "application/json"], body: body, completionHandler: { result in
                 switch result {
                 case .success(let response):
@@ -773,6 +773,7 @@ class HSReplayAPI {
             startAuthorizedRequest("\(HSReplay.tier7CompStatsUrl)", method: .POST, headers: ["Content-Type": "application/json"], body: body, completionHandler: { result in
                 switch result {
                 case .success(let response):
+                    logger.debug("Response: \(String(data: response.data, encoding: .utf8) ?? "FAILED")")
                     let bqs: BattlegroundsCompStats? = parseResponse(data: response.data, defaultValue: nil)
                     continuation.resume(returning: bqs)
                     return
@@ -784,7 +785,7 @@ class HSReplayAPI {
             })
         }
     }
-
+    
     @available(macOS 10.15.0, *)
     static func getTier7CompStats(token: String?, parameters: BattlegroundsCompStatsParams) async -> BattlegroundsCompStats? {
         guard let token = token else {
@@ -820,4 +821,68 @@ class HSReplayAPI {
             }
         }
     }
-}
+    
+    @available(macOS 10.15.0, *)
+    static func getTier7TrinketPickStats(parameters: BattlegroundsTrinketPickParams) async -> BattlegroundsTrinketPickStats? {
+        return await withCheckedContinuation { continuation in
+            let encoder = JSONEncoder()
+            var body: Data?
+            do {
+                body = try encoder.encode(parameters)
+                if let body = body {
+                    logger.debug("Sending trinket pick request: \(String(data: body, encoding: .utf8) ?? "ERROR")")
+                }
+            } catch {
+                logger.error(error)
+            }
+            startAuthorizedRequest("\(HSReplay.tier7TrinketPickStats)", method: .POST, headers: ["Content-Type": "application/json"], body: body, completionHandler: { result in
+                switch result {
+                case .success(let response):
+                    logger.debug("Response: \(String(data: response.data, encoding: .utf8) ?? "FAILED")")
+                    let bqs: BattlegroundsTrinketPickStats? = parseResponse(data: response.data, defaultValue: nil)
+                    continuation.resume(returning: bqs)
+                    return
+                case .failure(let error):
+                    logger.error(error)
+                    continuation.resume(returning: nil)
+                    return
+                }
+            })
+        }
+    }
+
+    @available(macOS 10.15.0, *)
+    static func getTier7TrinketPickStats(token: String?, parameters: BattlegroundsTrinketPickParams) async -> BattlegroundsTrinketPickStats? {
+        guard let token = token else {
+            return nil
+        }
+        return await withCheckedContinuation { continuation in
+            let encoder = JSONEncoder()
+            var body: Data?
+            do {
+                body = try encoder.encode(parameters)
+                if let body = body {
+                    logger.debug("Sending trinket pick request: \(String(data: body, encoding: .utf8) ?? "ERROR")")
+                }
+            } catch {
+                logger.error(error)
+            }
+            guard let body = body else {
+                continuation.resume(returning: nil)
+                return
+            }
+            let http = Http(url: "\(HSReplay.tier7TrinketPickStats)")
+            _ = http.uploadPromise(method: .post, headers: ["Content-Type": "application/json", "X-Trial-Token": token], data: body).done { response in
+                guard let data = response as? Data else {
+                    continuation.resume(returning: nil)
+                    return
+                }
+                logger.debug("Response: \(String(data: data, encoding: .utf8) ?? "FAILED")")
+                let bqs: BattlegroundsTrinketPickStats? = parseResponse(data: data, defaultValue: nil)
+                continuation.resume(returning: bqs)
+            }.catch { error in
+                logger.error(error)
+                continuation.resume(returning: nil)
+            }
+        }
+    }}

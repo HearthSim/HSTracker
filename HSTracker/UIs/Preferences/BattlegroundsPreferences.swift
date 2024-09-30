@@ -44,9 +44,10 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
     @IBOutlet weak var scalingValue: NSTextField!
     @IBOutlet weak var showBattlegroundsCompStats: NSButton!
     @IBOutlet weak var alwaysShowTavernTier7: NSButton!
+    @IBOutlet weak var autoShowBattlegroundsTrinketPicking: NSButton!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear() {
+        super.viewWillAppear()
         enableTier7Overlay.state = Settings.enableTier7Overlay ? .on : .off
         showTier7PreLobby.state = Settings.showBattlegroundsTier7PreLobby ? .on : .off
         showHeroPicking.state = Settings.showBattlegroundsHeroPicking ? .on : .off
@@ -75,6 +76,7 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
         scalingValue.doubleValue = Settings.battlegroundsSessionScaling
         showBattlegroundsCompStats.state = Settings.showBattlegroundsTier7SessionCompStats ? .on : .off
         alwaysShowTavernTier7.state = Settings.alwaysShowTier7 ? .on : .off
+        autoShowBattlegroundsTrinketPicking.state = Settings.autoShowBattlegroundsTrinketPicking ? .on : .off
         updateEnablement()
     }
 
@@ -165,6 +167,9 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
             Settings.showBattlegroundsTier7SessionCompStats = sender.state == .on
         } else if sender == alwaysShowTavernTier7 {
             Settings.alwaysShowTier7 = sender.state == .on
+        } else if sender == autoShowBattlegroundsTrinketPicking {
+            Settings.autoShowBattlegroundsTrinketPicking = sender.state == .on
+            AppDelegate.instance().coreManager.game.windowManager.battlegroundsTrinketPicking.viewModel.statsVisibility = Settings.autoShowBattlegroundsTrinketPicking
         }
     }
     

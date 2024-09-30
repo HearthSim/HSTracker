@@ -658,7 +658,8 @@ struct TagChangeActions {
             }
             
         default:
-            logger.warning("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
+            break
+//            logger.warning("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
         }
     }
 
@@ -688,7 +689,8 @@ struct TagChangeActions {
             }
             
         default:
-            logger.warning("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
+            break
+//            logger.warning("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
         }
     }
 
@@ -738,7 +740,8 @@ struct TagChangeActions {
             break
             
         default:
-            logger.warning("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
+            break
+//            logger.warning("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
         }
     }
 
@@ -813,7 +816,8 @@ struct TagChangeActions {
             }
             
         default:
-            logger.warning("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
+            break
+//            logger.warning("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
         }
     }
 
@@ -904,7 +908,8 @@ struct TagChangeActions {
             }
             
         default:
-            logger.warning("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
+            break
+//            logger.warning("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
         }
     }
 

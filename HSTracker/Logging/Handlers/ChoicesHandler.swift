@@ -75,12 +75,11 @@ class ChoicesHandler: LogEventParser {
                 return
             }
 
-            var id = Int(matches[1].value) ?? 0
+            let id = Int(matches[1].value) ?? 0
 
             if let cb = _tmpChoice as? ChoiceBuilder {
                 cb.attachOfferedEntity(entityId: id)
-            }
-            else if let tc = _tmpChoice as? OfferedChoice {
+            } else if let tc = _tmpChoice as? OfferedChoice {
                 tc.attachChosenEntity(entityId: id)
             }
         }
@@ -90,7 +89,7 @@ class ChoicesHandler: LogEventParser {
                 flush()
             }
             
-            var taskList = Int(matches[0].value) ?? 0
+            let taskList = Int(matches[0].value) ?? 0
             if let choices = game.choicesByTaskList[taskList] {
                 for choice in choices {
                     if let tc = choice as? OfferedChoice {

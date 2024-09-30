@@ -138,6 +138,10 @@ class WindowManager {
     var flavorText: FlavorText = {
         return $0
     }(FlavorText(windowNibName: "FlavorText"))
+    
+    var battlegroundsTrinketPicking: BattlegroundsTrinketPicking = {
+        return $0
+    }(BattlegroundsTrinketPicking(windowNibName: "BattlegroundsTrinketPicking"))
 
     var toastWindowController = ToastWindowController()
 

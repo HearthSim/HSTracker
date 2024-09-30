@@ -93,6 +93,10 @@ final class CoreManager: NSObject {
             AppDelegate.instance().coreManager.game.experienceChangedAsync(experience: args.experience, experienceNeeded: args.experienceNeeded, level: args.level, levelChange: args.levelChange, animate: args.animate)
         }
         
+        ChoicesWatcher.change = { _, args in
+            AppDelegate.instance().coreManager.game.setChoicesVisible(args.currentChoice?.isVisible ?? false)
+        }
+        
         timer.eventHandler = {
             logger.debug(self.formattedMemoryFootprint())
         }
@@ -320,10 +324,12 @@ final class CoreManager: NSObject {
         BattlegroundsLeaderboardWatcher.stop()
         BattlegroundsTeammateBoardStateWatcher.stop()
         DeckPickerWatcher.stop()
+        ChoicesWatcher.stop()
         MirrorHelper.destroy()
         let wm = game.windowManager
         wm.battlegroundsHeroPicking.viewModel.reset()
         wm.battlegroundsQuestPicking.viewModel.reset()
+        wm.battlegroundsTrinketPicking.viewModel.reset()
         wm.constructedMulliganGuide.viewModel.reset()
         wm.constructedMulliganGuidePreLobby.viewModel.reset()
         if wm.battlegroundsSession.visibility {

@@ -45,6 +45,8 @@ class Game: NSObject, PowerEventHandler {
     
     private var mulliganState: MulliganState!
     
+    private var battlegroundsTrinketPickStates = [BattlegroundsTrinketPickState]()
+    
 	private var hearthstoneRunState: HearthstoneRunState {
 		didSet {
 			if hearthstoneRunState.isRunning {
@@ -608,6 +610,17 @@ class Game: NSObject, PowerEventHandler {
                     }
                 } else {
                     self.windowManager.show(controller: self.windowManager.battlegroundsQuestPicking, show: false)
+                }
+            }
+
+            if self.windowManager.battlegroundsTrinketPicking.viewModel.visibility {
+                if hsActive {
+                    self.windowManager.show(controller: self.windowManager.battlegroundsTrinketPicking, show: true, frame: SizeHelper.hearthstoneWindow.frame, overlay: true)
+                    DispatchQueue.main.async {
+                        self.windowManager.battlegroundsTrinketPicking.updateScaling()
+                    }
+                } else {
+                    self.windowManager.show(controller: self.windowManager.battlegroundsTrinketPicking, show: false)
                 }
             }
         }
@@ -1951,6 +1964,7 @@ class Game: NSObject, PowerEventHandler {
             windowManager.battlegroundsSession.onGameEnd(gameStats: currentGameStats)
             windowManager.battlegroundsHeroPicking.viewModel.reset()
             windowManager.battlegroundsQuestPicking.viewModel.reset()
+            windowManager.battlegroundsTrinketPicking.viewModel.reset()
             hideBattlegroundsHeroPanel()
         }
         if isConstructedMatch() {
@@ -2180,6 +2194,7 @@ class Game: NSObject, PowerEventHandler {
                 
                 self.windowManager.battlegroundsHeroPicking.viewModel.reset()
                 self.windowManager.battlegroundsQuestPicking.viewModel.reset()
+                self.windowManager.battlegroundsTrinketPicking.viewModel.reset()
                 self.hideBattlegroundsHeroPanel()
                 self.windowManager.battlegroundsSession.update()
                 self.windowManager.battlegroundsSession.updateScaling()
@@ -3234,7 +3249,11 @@ class Game: NSObject, PowerEventHandler {
             
             // trinket picking
             if let source = entities[choice.sourceEntityId], source[.bacon_is_magic_item_discover] > 0 && offeredEntities.all({ x in x.isBattlegroundsTrinket }) {
-                handleBattlegroundsTrinketChoice(choice: choice)
+                if #available(macOS 10.15.0, *) {
+                    Task.detached {
+                        await self.handleBattlegroundsTrinketChoice(choice: choice)
+                    }
+                }
             } else if offeredEntities.all({ x in x.isHeroPower }) { // hero power choice
                 let offered = offeredEntities.filter { x in x.isHeroPower }
                 windowManager.battlegroundsTierOverlay.tierOverlay.onHeroPowers(heroPowers: (player.board.filter({ x in x.isHeroPower }) + offered).compactMap({ x in x.card.id }))
@@ -3242,13 +3261,107 @@ class Game: NSObject, PowerEventHandler {
         }
     }
     
-    func handleBattlegroundsTrinketChoice(choice: IHsChoice) {
+    @available(macOS 10.15.0, *)
+    func handleBattlegroundsTrinketChoice(choice: IHsChoice) async {
         let offeredEntities = choice.offeredEntityIds?.compactMap { id in entities[id] } ?? [Entity]()
 
         let offered = offeredEntities.filter { x in x.isBattlegroundsTrinket }
-        windowManager.battlegroundsTierOverlay.tierOverlay.onTrinkets(trinkets: (player.trinkets + offered).compactMap({ x in x.card.id }))
-
-//        Core.Game.SnapshotOfferedTrinkets(choice)
+        let trinkets = (player.trinkets + offered).compactMap({ x in x.card.id })
+        await windowManager.battlegroundsTierOverlay.tierOverlay.onTrinkets(trinkets: trinkets)
+        
+        let result = await getTrinketPickStats(choice: choice)
+        if let result, !isTrinketChoiceComplete(choiceId: choice.id) {
+            let data = offeredEntities.compactMap({ entity in result.data?.first { x in x.trinket_dbf_id == entity.card.dbfId }})
+            windowManager.battlegroundsTrinketPicking.viewModel.setTrinketStats(data)
+        }
+    }
+    
+    func isTrinketChoiceComplete(choiceId: Int) -> Bool {
+        guard let state = battlegroundsTrinketPickStates.last else {
+            return false
+        }
+        
+        if choiceId > state.choiceId {
+            return false
+        }
+        if choiceId < state.choiceId {
+            return true
+        }
+        return state.chosenTrinketDbfId != nil
+    }
+    
+    @available(macOS 10.15.0, *)
+    private func getTrinketPickStats(choice: IHsChoice) async -> BattlegroundsTrinketPickStats? {
+        if spectator {
+            return nil
+        }
+        
+        if !Settings.enableTier7Overlay {
+            return nil
+        }
+        
+        if RemoteConfig.data?.tier7?.disabled ?? false {
+            return nil
+        }
+        
+        guard let requestParams = snapshotOfferedTrinkets(choice: choice) else {
+            return nil
+        }
+        
+        let userOwnsTier7 = HSReplayAPI.accountData?.is_tier7 ?? false
+        if !userOwnsTier7 && Tier7Trial.token == nil {
+            return nil
+        }
+        
+        if let token = Tier7Trial.token {
+            return await HSReplayAPI.getTier7TrinketPickStats(token: token, parameters: requestParams)
+        } else {
+            return await HSReplayAPI.getTier7TrinketPickStats(parameters: requestParams)
+        }
+    }
+    
+    func snapshotOfferedTrinkets(choice: IHsChoice) -> BattlegroundsTrinketPickParams? {
+        guard let availableRaces else {
+            return nil
+        }
+        
+        let hero = entities.values.first(where: { $0.isHero })
+        let heroCardId = hero?.cardId != nil ? BattlegroundsUtils.getOriginalHeroId(heroId: hero?.cardId ?? "") : nil
+        guard let heroCard = heroCardId != nil ? Cards.by(cardId: heroCardId ?? "") : nil else {
+            return nil
+        }
+        
+        guard let sourceEntity = entities[choice.sourceEntityId] else {
+            return nil
+        }
+        
+        let offeredTrinkets = choice.offeredEntityIds?.compactMap({ id in entities[id] }).compactMap({ entity in BattlegroundsTrinketPickParams.OfferedTrinket(trinket_dbf_id: entity.card.dbfId, extra_data: entity[.tag_script_data_num_1])}) ?? [BattlegroundsTrinketPickParams.OfferedTrinket]()
+        if offeredTrinkets.count == 0 {
+            return nil
+        }
+        
+        let parameters = BattlegroundsTrinketPickParams(hero_dbf_id: heroCard.dbfId, hero_power_dbf_ids: player.pastHeroPowers.compactMap({ x in Cards.by(cardId: x)?.dbfId }), minion_types: availableRaces.compactMap { x in Int(Race.allCases.firstIndex(of: x)!) }, anomaly_dbf_id: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: gameEntity), turn: turnNumber(), source_dbf_id: sourceEntity.card.dbfId, offered_trinkets: offeredTrinkets, game_language: "\(Settings.hearthstoneLanguage ?? .enUS)", battlegrounds_rating: currentBattlegroundsRating)
+        return parameters
+    }
+    
+    func snapshotChosenTrinket(choice: IHsCompletedChoice) {
+        guard let state = battlegroundsTrinketPickStates.last else {
+            return
+        }
+        
+        if state.choiceId != choice.id {
+            return
+        }
+        
+        guard choice.chosenEntityIds?.count == 1, let chosen = entities[choice.chosenEntityIds?[0] ?? 0] else {
+            return
+        }
+        
+        state.pickTrinket(trinket: chosen)
+    }
+    
+    func setChoicesVisible(_ choicesVisible: Bool) {
+        windowManager.battlegroundsTrinketPicking.viewModel.choicesVisible = choicesVisible
     }
 
     func handlePlayerEntitiesChosen(choice: IHsCompletedChoice) {
@@ -3273,7 +3386,7 @@ class Game: NSObject, PowerEventHandler {
         case ChoiceType.general:
             if isBattlegroundsMatch() {
                 windowManager.battlegroundsQuestPicking.viewModel.reset()
-                
+                windowManager.battlegroundsTrinketPicking.viewModel.reset()
                 if source?[.bacon_is_magic_item_discover] ?? 0 > 0 {
                     windowManager.battlegroundsTierOverlay.tierOverlay.onTrinkets(trinkets: (self.player.trinkets + chosen).compactMap({ x in x.cardId }))
                 }

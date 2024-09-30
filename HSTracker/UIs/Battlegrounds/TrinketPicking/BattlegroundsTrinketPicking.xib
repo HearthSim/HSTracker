@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22689"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="BattlegroundsTrinketPicking" customModule="HSTracker" customModuleProvider="target">
+            <connections>
+                <outlet property="itemsStack" destination="WBY-0s-1SQ" id="FUr-nM-LaA"/>
+                <outlet property="outerView" destination="LKZ-EY-SKz" id="EhG-Iv-rGb"/>
+                <outlet property="overlayMessage" destination="cSz-IS-EhB" id="AYo-C7-Tc3"/>
+                <outlet property="scaleView" destination="eod-y2-wif" id="TsS-tU-uNu"/>
+                <outlet property="visibilityToggleBox" destination="SL8-3v-AGO" id="TZl-v5-46g"/>
+                <outlet property="window" destination="e01-Nw-iyc" id="Vvz-Pz-1jt"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" hasShadow="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="e01-Nw-iyc" customClass="NSPanel">
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="145" y="91" width="653" height="378"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1728" height="1079"/>
+            <view key="contentView" id="FgH-vi-im6">
+                <rect key="frame" x="0.0" y="0.0" width="653" height="378"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="eod-y2-wif">
+                        <rect key="frame" x="0.0" y="0.0" width="653" height="378"/>
+                        <subviews>
+                            <customView identifier="OuterView" translatesAutoresizingMaskIntoConstraints="NO" id="LKZ-EY-SKz" userLabel="OuterView">
+                                <rect key="frame" x="0.0" y="0.0" width="653" height="378"/>
+                                <subviews>
+                                    <customView identifier="ItemControl" autoresizesSubviews="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ej2-wg-Qx3" userLabel="ItemControl" colorLabel="IBBuiltInLabel-Green">
+                                        <rect key="frame" x="349" y="282" width="25" height="0.0"/>
+                                        <subviews>
+                                            <stackView identifier="ItemsStackView" distribution="fillEqually" orientation="horizontal" alignment="top" spacing="0.0" horizontalStackHuggingPriority="250" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WBY-0s-1SQ" userLabel="Items" colorLabel="IBBuiltInLabel-Red">
+                                                <rect key="frame" x="0.0" y="0.0" width="25" height="0.0"/>
+                                                <edgeInsets key="edgeInsets" left="12.5" right="12.5" top="0.0" bottom="0.0"/>
+                                            </stackView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="WBY-0s-1SQ" secondAttribute="trailing" id="1yb-ie-jbX"/>
+                                            <constraint firstAttribute="bottom" secondItem="WBY-0s-1SQ" secondAttribute="bottom" id="ukU-Lf-bGS"/>
+                                            <constraint firstItem="WBY-0s-1SQ" firstAttribute="top" secondItem="Ej2-wg-Qx3" secondAttribute="top" id="wHY-Jd-BFV"/>
+                                            <constraint firstItem="WBY-0s-1SQ" firstAttribute="leading" secondItem="Ej2-wg-Qx3" secondAttribute="leading" id="woC-vS-9kn"/>
+                                        </constraints>
+                                        <connections>
+                                            <binding destination="-2" name="hidden" keyPath="self.statsVisibility" id="4sp-qe-3JY">
+                                                <dictionary key="options">
+                                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                </dictionary>
+                                            </binding>
+                                        </connections>
+                                    </customView>
+                                    <box boxType="custom" borderType="none" cornerRadius="4" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="SL8-3v-AGO" customClass="ClickableBox" customModule="HSTracker" customModuleProvider="target">
+                                        <rect key="frame" x="-463" y="213" width="180" height="26"/>
+                                        <view key="contentView" id="eBn-hk-VEF">
+                                            <rect key="frame" x="8" y="5" width="164" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jYe-xE-R3Q">
+                                                    <rect key="frame" x="0.0" y="0.0" width="164" height="16"/>
+                                                    <subviews>
+                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pdO-EP-vVg" userLabel="HIDE TRINKET STATS">
+                                                            <rect key="frame" x="-2" y="0.0" width="152" height="16"/>
+                                                            <textFieldCell key="cell" lineBreakMode="clipping" title="HIDE TRINKET STATS" id="VmR-SD-QON" userLabel="HIDE TRINKET STATS">
+                                                                <font key="font" usesAppearanceFont="YES"/>
+                                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                            <connections>
+                                                                <binding destination="-2" name="value" keyPath="self.visibilityToggleText" id="Dn0-MJ-wdA"/>
+                                                            </connections>
+                                                        </textField>
+                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6p3-CA-71B">
+                                                            <rect key="frame" x="148" y="2" width="16" height="12"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="16" id="ZB8-zL-WFr"/>
+                                                                <constraint firstAttribute="height" constant="12" id="ZcE-ev-Jvx"/>
+                                                            </constraints>
+                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="eye" id="CzK-Qn-h2i"/>
+                                                            <connections>
+                                                                <binding destination="-2" name="value" keyPath="self.visibilityToggleIcon" id="4Nb-L9-TtM"/>
+                                                            </connections>
+                                                        </imageView>
+                                                    </subviews>
+                                                    <visibilityPriorities>
+                                                        <integer value="1000"/>
+                                                        <integer value="1000"/>
+                                                    </visibilityPriorities>
+                                                    <customSpacing>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                    </customSpacing>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="jYe-xE-R3Q" firstAttribute="leading" secondItem="eBn-hk-VEF" secondAttribute="leading" id="1p5-g3-5R8"/>
+                                                <constraint firstItem="jYe-xE-R3Q" firstAttribute="top" secondItem="eBn-hk-VEF" secondAttribute="top" id="5YK-Kn-ceD"/>
+                                                <constraint firstAttribute="bottom" secondItem="jYe-xE-R3Q" secondAttribute="bottom" id="IFl-vp-jDI"/>
+                                                <constraint firstAttribute="trailing" secondItem="jYe-xE-R3Q" secondAttribute="trailing" id="T6O-1N-dXl"/>
+                                            </constraints>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="180" id="BtA-xe-TSj"/>
+                                            <constraint firstAttribute="height" constant="26" id="Gfb-ha-Ju2"/>
+                                        </constraints>
+                                        <color key="fillColor" red="0.1137254902" green="0.21176470589999999" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="deviceRGB"/>
+                                        <size key="contentViewMargins" width="8" height="5"/>
+                                    </box>
+                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="cSz-IS-EhB" customClass="OverlayMessage" customModule="HSTracker" customModuleProvider="target">
+                                        <rect key="frame" x="738" y="213" width="480" height="27"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="480" id="0tA-zb-HOz"/>
+                                            <constraint firstAttribute="height" constant="27" id="iRN-7F-oI2"/>
+                                        </constraints>
+                                        <connections>
+                                            <binding destination="-2" name="hidden" keyPath="self.statsVisibility" id="wbk-sl-nnF">
+                                                <dictionary key="options">
+                                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                </dictionary>
+                                            </binding>
+                                        </connections>
+                                    </customView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="cSz-IS-EhB" firstAttribute="bottom" secondItem="SL8-3v-AGO" secondAttribute="bottom" id="0PF-7w-ozf"/>
+                                    <constraint firstItem="Ej2-wg-Qx3" firstAttribute="centerX" secondItem="LKZ-EY-SKz" secondAttribute="centerX" constant="35" id="3Jb-Ml-STW"/>
+                                    <constraint firstAttribute="trailing" secondItem="SL8-3v-AGO" secondAttribute="trailing" constant="936" id="Gmn-d8-HOI"/>
+                                    <constraint firstItem="Ej2-wg-Qx3" firstAttribute="centerY" secondItem="LKZ-EY-SKz" secondAttribute="centerY" constant="-92.5" id="NLk-nG-1U0"/>
+                                    <constraint firstAttribute="bottom" secondItem="SL8-3v-AGO" secondAttribute="bottom" constant="213" id="Ohe-PV-iEM"/>
+                                    <constraint firstItem="cSz-IS-EhB" firstAttribute="leading" secondItem="LKZ-EY-SKz" secondAttribute="leading" constant="738" id="s33-Jo-OcD"/>
+                                </constraints>
+                            </customView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="LKZ-EY-SKz" firstAttribute="top" secondItem="eod-y2-wif" secondAttribute="top" id="8zB-RO-IqV"/>
+                            <constraint firstAttribute="bottom" secondItem="LKZ-EY-SKz" secondAttribute="bottom" id="GL2-oU-Ays"/>
+                            <constraint firstItem="LKZ-EY-SKz" firstAttribute="leading" secondItem="eod-y2-wif" secondAttribute="leading" id="dmo-I1-CNU"/>
+                            <constraint firstAttribute="trailing" secondItem="LKZ-EY-SKz" secondAttribute="trailing" id="yIB-j7-rlt"/>
+                        </constraints>
+                        <accessibility identifier="ScaleView"/>
+                    </customView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="eod-y2-wif" secondAttribute="trailing" id="7Xo-df-a72"/>
+                    <constraint firstItem="eod-y2-wif" firstAttribute="leading" secondItem="FgH-vi-im6" secondAttribute="leading" id="MHu-fz-asf"/>
+                    <constraint firstAttribute="bottom" secondItem="eod-y2-wif" secondAttribute="bottom" id="bh8-YZ-1eY"/>
+                    <constraint firstItem="eod-y2-wif" firstAttribute="top" secondItem="FgH-vi-im6" secondAttribute="top" id="dwV-Rj-uE3"/>
+                </constraints>
+            </view>
+            <point key="canvasLocation" x="327.5" y="149"/>
+        </window>
+    </objects>
+    <resources>
+        <image name="eye" width="1152" height="1024"/>
+    </resources>
+</document>

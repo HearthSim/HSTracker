@@ -858,3 +858,71 @@ class BattlegroundsTeammateBoardStateWatcher: Watcher {
     }
 }
 
+struct ChoicesWatcherArgs: Equatable {
+    var currentChoice: MirrorCardChoices?
+    
+    init(choice: MirrorCardChoices?) {
+        currentChoice = choice
+    }
+    
+    static func ==(lhs: ChoicesWatcherArgs, rhs: ChoicesWatcherArgs) -> Bool {
+        if lhs.currentChoice == nil && rhs.currentChoice == nil {
+            return true
+        }
+        
+        guard let lcc = lhs.currentChoice, let rcc = rhs.currentChoice else {
+            return false
+        }
+        
+        return lcc.isVisible == rcc.isVisible && lcc.cards == rcc.cards
+    }
+}
+
+class ChoicesWatcher: Watcher {
+    static var change: ((_ sender: ChoicesWatcher, _ args: ChoicesWatcherArgs) -> Void)?
+    
+    var _watch: Bool = false
+    var _prev: ChoicesWatcherArgs?
+    
+    static let _instance = ChoicesWatcher()
+    
+    init(delay: TimeInterval = 0.016) {
+        super.init()
+        
+        refreshInterval = delay
+    }
+    
+    override func run() {
+        _watch = true
+        update()
+    }
+    
+    static func start() {
+        _instance.startWatching()
+    }
+    
+    static func stop() {
+        _instance._watch = false
+        _instance.stopWatching()
+    }
+    
+    private func update() {
+        isRunning = true
+        while _watch {
+            Thread.sleep(forTimeInterval: refreshInterval)
+            if !_watch {
+                break
+            }
+            
+            let value = MirrorHelper.getCardChoices()
+            let curr = ChoicesWatcherArgs(choice: value)
+            if curr == _prev {
+                continue
+            }
+            ChoicesWatcher.change?(self, curr)
+            _prev = curr
+        }
+        _prev = nil
+        isRunning = false
+    }
+}
