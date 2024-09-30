@@ -739,6 +739,20 @@ class BobsBuddyInvoker {
                 minion.addDeathrattle(deathrattle: RecurringNightmare.summonDeathrattle(golden: false))
             case CardIds.NonCollectible.Neutral.RecurringNightmare_NightmareInside:
                 minion.addDeathrattle(deathrattle: RecurringNightmare.summonDeathrattle(golden: true))
+            case CardIds.NonCollectible.Neutral.SkyPirateFlagbearer_FlagbearingEnchantment:
+                minion.addDeathrattle(deathrattle: Scallywag.deathrattle(golden: false))
+            case CardIds.NonCollectible.Neutral.SkyPirateFlagbearer_Flagbearing:
+                minion.addDeathrattle(deathrattle: Scallywag.deathrattle(golden: true))
+            case CardIds.NonCollectible.Neutral.Leapfrogger_LeapfrogginEnchantment:
+                minion.addDeathrattle(deathrattle: Leapfrogger.deathrattle(golden: false))
+            case CardIds.NonCollectible.Neutral.Leapfrogger_Leapfroggin:
+                minion.addDeathrattle(deathrattle: Leapfrogger.deathrattle(golden: true))
+            case CardIds.NonCollectible.Neutral.RustyTrident_TridentsTreasureEnchantment:
+                minion.addDeathrattle(deathrattle: RustyTrident.deathrattle())
+            case CardIds.NonCollectible.Neutral.HoggyBank_GemInTheBankEnchantment:
+                minion.addDeathrattle(deathrattle: HoggyBank.deathrattle())
+            case CardIds.NonCollectible.Neutral.JarredFrostling_FrostyGlobeEnchantment:
+                minion.addDeathrattle(deathrattle: JarredFrostling.deathrattle())
             case CardIds.NonCollectible.Neutral.BloodGem2:
                 let atk = ent[.tag_script_data_num_1]
                 let health = ent[.tag_script_data_num_2]

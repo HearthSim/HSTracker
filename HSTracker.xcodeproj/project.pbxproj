@@ -595,6 +595,11 @@
 		B89899512CA4BC650011B184 /* BattlegroundsTrinketPicking.xib in Resources */ = {isa = PBXBuildFile; fileRef = B89899502CA4BC650011B184 /* BattlegroundsTrinketPicking.xib */; };
 		B89899532CA5F0180011B184 /* BattlegroundsSingleTrinket.xib in Resources */ = {isa = PBXBuildFile; fileRef = B89899522CA5F0180011B184 /* BattlegroundsSingleTrinket.xib */; };
 		B89899552CA5F0290011B184 /* BattlegroundsSingleTrinket.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89899542CA5F0290011B184 /* BattlegroundsSingleTrinket.swift */; };
+		B89899572CAA30D20011B184 /* Scallywag.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89899562CAA30D20011B184 /* Scallywag.swift */; };
+		B89899592CAA31CA0011B184 /* Leapfrogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89899582CAA31CA0011B184 /* Leapfrogger.swift */; };
+		B898995B2CAA32B10011B184 /* RustyTrident.swift in Sources */ = {isa = PBXBuildFile; fileRef = B898995A2CAA32B10011B184 /* RustyTrident.swift */; };
+		B898995D2CAA33710011B184 /* HoggyBank.swift in Sources */ = {isa = PBXBuildFile; fileRef = B898995C2CAA33710011B184 /* HoggyBank.swift */; };
+		B898995F2CAA33CF0011B184 /* JarredFrostling.swift in Sources */ = {isa = PBXBuildFile; fileRef = B898995E2CAA33CF0011B184 /* JarredFrostling.swift */; };
 		B89C9894280A113A005E9315 /* AnimatedCardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89C9893280A113A005E9315 /* AnimatedCardList.swift */; };
 		B89C9896280C610C005E9315 /* DeckLens.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89C9895280C610C005E9315 /* DeckLens.swift */; };
 		B8A70C152841494D004D054C /* BattlegroundsTierTriples.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8A70C142841494D004D054C /* BattlegroundsTierTriples.xib */; };
@@ -1286,6 +1291,11 @@
 		B89899502CA4BC650011B184 /* BattlegroundsTrinketPicking.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsTrinketPicking.xib; sourceTree = "<group>"; };
 		B89899522CA5F0180011B184 /* BattlegroundsSingleTrinket.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsSingleTrinket.xib; sourceTree = "<group>"; };
 		B89899542CA5F0290011B184 /* BattlegroundsSingleTrinket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsSingleTrinket.swift; sourceTree = "<group>"; };
+		B89899562CAA30D20011B184 /* Scallywag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scallywag.swift; sourceTree = "<group>"; };
+		B89899582CAA31CA0011B184 /* Leapfrogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Leapfrogger.swift; sourceTree = "<group>"; };
+		B898995A2CAA32B10011B184 /* RustyTrident.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RustyTrident.swift; sourceTree = "<group>"; };
+		B898995C2CAA33710011B184 /* HoggyBank.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoggyBank.swift; sourceTree = "<group>"; };
+		B898995E2CAA33CF0011B184 /* JarredFrostling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JarredFrostling.swift; sourceTree = "<group>"; };
 		B89C9893280A113A005E9315 /* AnimatedCardList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedCardList.swift; sourceTree = "<group>"; };
 		B89C9895280C610C005E9315 /* DeckLens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckLens.swift; sourceTree = "<group>"; };
 		B8A70C142841494D004D054C /* BattlegroundsTierTriples.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsTierTriples.xib; sourceTree = "<group>"; };
@@ -2271,7 +2281,10 @@
 				B87856E12C04BB2D004C2C40 /* EntityProxy.swift */,
 				B8449A052781CB6F0094E5B3 /* GenericDeathrattles.swift */,
 				B836821D27873B40007D5740 /* HeroPowerDataProxy.swift */,
+				B898995C2CAA33710011B184 /* HoggyBank.swift */,
 				B82F4EAD24E3229200905024 /* InputProxy.swift */,
+				B898995E2CAA33CF0011B184 /* JarredFrostling.swift */,
+				B89899582CAA31CA0011B184 /* Leapfrogger.swift */,
 				B844D36D2A0C35A8001704E0 /* MinionCardEntityProxy.swift */,
 				B82F4EB124E4088500905024 /* MinionFactoryProxy.swift */,
 				B82F4EB324E40B9F00905024 /* MinionProxy.swift */,
@@ -2284,6 +2297,8 @@
 				B82AE60128BED413004A8FE0 /* QuestDataProxy.swift */,
 				B8591FFD2B31328900B907A4 /* RecurringNightmare.swift */,
 				B8449A032781C7360094E5B3 /* ReplicatingMenace.swift */,
+				B898995A2CAA32B10011B184 /* RustyTrident.swift */,
+				B89899562CAA30D20011B184 /* Scallywag.swift */,
 				B8DC11F324EACDB80088A755 /* SimulationRunner.swift */,
 				B82F4EAF24E32C3000905024 /* SimulatorProxy.swift */,
 				B844D3692A0C3497001704E0 /* SpellCardEntityProxy.swift */,
@@ -3022,6 +3037,7 @@
 				B844D36C2A0C3510001704E0 /* UnknownCardEntityProxy.swift in Sources */,
 				4C3E2D8C245ED5AA00292349 /* Toaster.swift in Sources */,
 				43EECB961C7DE3BA0077AC1B /* DeckCellView.swift in Sources */,
+				B89899592CAA31CA0011B184 /* Leapfrogger.swift in Sources */,
 				B804FC2829429ED900F74CD9 /* Tier7AllTime.swift in Sources */,
 				43A8A0F11E0BC08F00AF34FD /* JadeCounter.swift in Sources */,
 				B8E868832B93AF04005B1315 /* SceneHandler.swift in Sources */,
@@ -3094,6 +3110,7 @@
 				437B5BC21CD2568100DE0A41 /* TrackersPreferences.swift in Sources */,
 				439C7EC61C777F8900D29859 /* RachelleHandler.swift in Sources */,
 				434C2F2C1C7F122A001D1D91 /* NewDeck.swift in Sources */,
+				B898995F2CAA33CF0011B184 /* JarredFrostling.swift in Sources */,
 				43A8A0F91E15596000AF34FD /* GameType.swift in Sources */,
 				439C7ECA1C777F8900D29859 /* LogReader.swift in Sources */,
 				B89586472B81400A00989C13 /* ConstructedMulliganSingleCardViewModel.swift in Sources */,
@@ -3222,6 +3239,8 @@
 				B8D8859824F40D4E00F2F0F2 /* ClickableBox.swift in Sources */,
 				432C11AB1CCF6B460067C5FE /* Format.swift in Sources */,
 				436789BF1CACF8C900C962D1 /* PlayerDrawChance.swift in Sources */,
+				B898995B2CAA32B10011B184 /* RustyTrident.swift in Sources */,
+				B898995D2CAA33710011B184 /* HoggyBank.swift in Sources */,
 				B8AF9336282FE46000864934 /* BattlegroundsGameView.swift in Sources */,
 				4C1923992392E18E007EBB0F /* BattlegroundsOverlayView.swift in Sources */,
 				B82F4EAE24E3229200905024 /* InputProxy.swift in Sources */,
@@ -3280,6 +3299,7 @@
 				431AA0CD1D362ECB0030AD22 /* Race.swift in Sources */,
 				1C132F821DBA24C1002B1BF2 /* AppHealth.swift in Sources */,
 				439C7EC31C777F8900D29859 /* LoadingScreenHandler.swift in Sources */,
+				B89899572CAA30D20011B184 /* Scallywag.swift in Sources */,
 				43EECB9C1C7E4EA20077AC1B /* CurveView.swift in Sources */,
 				434910541D097B0500B22DB2 /* EntityHelper.swift in Sources */,
 				B82E7B14262A533F00C42EF0 /* MulliganToastView.swift in Sources */,

@@ -768,6 +768,13 @@ extension CardIds.NonCollectible {
         static let BloodGem2 = "BG20_GEMe"
         static let Leapfrogger = "BG21_000"
         static let TouristVfxEnchantmentEnchantment = "VAC_422e"
+        static let SkyPirateFlagbearer_FlagbearingEnchantment = "BG30_119e"
+        static let SkyPirateFlagbearer_Flagbearing = "BG30_119_Ge"
+        static let Leapfrogger_LeapfrogginEnchantment = "BG21_000e"
+        static let Leapfrogger_Leapfroggin = "BG21_000_Ge"
+        static let RustyTrident_TridentsTreasureEnchantment = "BG30_MagicItem_917e"
+        static let HoggyBank_GemInTheBankEnchantment = "BG30_MagicItem_411e"
+        static let JarredFrostling_FrostyGlobeEnchantment = "BG30_MagicItem_952e"
     }
 }
 
