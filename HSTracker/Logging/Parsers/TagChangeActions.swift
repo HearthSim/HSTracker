@@ -48,7 +48,7 @@ struct TagChangeActions {
         case .reborn: return { self.rebornChange(eventHandler: eventHandler, id: id, value: value)}
         case .damage: return { self.damageChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue) }
         case .armor: return { self.armorChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue)}
-        case .forge_revealed: { self.onForgeRevealed(eventHandler: eventHandler, id: id, value: value, previous: prevValue) }
+        case .forge_revealed: return { self.onForgeRevealed(eventHandler: eventHandler, id: id, value: value, previous: prevValue) }
         case .lettuce_ability_tile_visual_all_visible, .lettuce_ability_tile_visual_self_only, .fake_zone, .fake_zone_position: return { eventHandler.handleMercenariesStateChange() }
         case .player_tech_level: return { self.playerTechLevel(eventHandler: eventHandler, id: id, value: value, previous: prevValue)}
         case .player_triples: return { self.playerTriples(eventHandler: eventHandler, id: id, value: value, previous: prevValue)}
