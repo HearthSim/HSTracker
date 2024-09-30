@@ -41,8 +41,8 @@ class HSReplayPreferences: NSViewController, PreferencePane {
     @objc dynamic var statusIcon = ""
     @objc dynamic var statusColor = NSColor.red
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear() {
+        super.viewWillAppear()
 
         showPushNotification.state = Settings.showHSReplayPushNotification ? .on : .off
         synchronizeMatches.state = Settings.hsReplaySynchronizeMatches ? .on : .off

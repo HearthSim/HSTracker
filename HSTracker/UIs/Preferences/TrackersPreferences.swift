@@ -41,8 +41,8 @@ class TrackersPreferences: NSViewController, PreferencePane {
     
     let themes = ["classic", "frost", "dark", "minimal"]
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear() {
+        super.viewWillAppear()
                 
         highlightCardsInHand.state = Settings.highlightCardsInHand ? .on : .off
         highlightLastDrawn.state = Settings.highlightLastDrawn ? .on : .off

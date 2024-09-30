@@ -23,8 +23,8 @@ class ImportingPreferences: NSViewController, NSControlTextEditingDelegate, Pref
     @IBOutlet weak var duelsTemplate: NSTextField!
     @IBOutlet weak var duelsTemplatePreview: NSTextField!
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear() {
+        super.viewWillAppear()
         dungeonIncludePassives.state = Settings.importDungeonIncludePassives ? .on : .off
         dungeonTemplate.stringValue = Settings.importDungeonTemplate
         duelsTemplate.stringValue = Settings.importDuelsTemplate

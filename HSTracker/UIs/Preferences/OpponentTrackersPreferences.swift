@@ -39,8 +39,8 @@ class OpponentTrackersPreferences: NSViewController, PreferencePane {
     @IBOutlet weak var showPogoCounter: NSButton!
     @IBOutlet weak var showSpellSchoolsCounter: NSButton!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear() {
+        super.viewWillAppear()
         showOpponentTracker.state = Settings.showOpponentTracker ? .on : .off
         showCardHuds.state = Settings.showCardHuds ? .on : .off
         clearTrackersOnGameEnd.state = Settings.clearTrackersOnGameEnd ? .on : .off

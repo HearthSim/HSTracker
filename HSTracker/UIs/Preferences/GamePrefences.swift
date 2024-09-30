@@ -24,8 +24,8 @@ class GamePreferences: NSViewController, PreferencePane {
     @IBOutlet weak var autoArchiveArenaDeck: NSButton!
     @IBOutlet weak var autoSelectDecks: NSButton!
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear() {
+        super.viewWillAppear()
 
         if CoreManager.validatedHearthstonePath() {
             hearthstonePath.stringValue = Settings.hearthstonePath

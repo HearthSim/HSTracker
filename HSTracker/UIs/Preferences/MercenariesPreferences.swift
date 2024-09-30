@@ -22,8 +22,8 @@ class MercenariesPreferences: NSViewController, PreferencePane {
     @IBOutlet weak var showMercsOpponentAbilities: NSButton!
     @IBOutlet weak var showMercsPlayerAbilities: NSButton!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear() {
+        super.viewWillAppear()
         showMercsOpponentHover.state = Settings.showBobsBuddy ? .on : .off
         showMercsPlayerHover.state = Settings.showBobsBuddyDuringCombat ? .on : .off
         showMercsTasks.state = Settings.showMercsTasks ? .on : .off

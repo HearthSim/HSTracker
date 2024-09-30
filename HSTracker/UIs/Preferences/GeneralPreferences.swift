@@ -25,8 +25,8 @@ class GeneralPreferences: NSViewController, PreferencePane {
     @IBOutlet weak var preferGoldenCards: NSButton!
     @IBOutlet weak var useToastNotifications: NSButton!
 	
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear() {
+        super.viewWillAppear()
 
         notifyGameStart.state = Settings.notifyGameStart ? .on : .off
         notifyTurnStart.state = Settings.notifyTurnStart ? .on : .off
