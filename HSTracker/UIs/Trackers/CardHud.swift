@@ -68,6 +68,7 @@ class CardHud: NSView {
             case .mulliganed: image = "mulliganed"
             case .returned: image = "returned"
             case .created: image = "created"
+            case .forged: image = "card-icon-forged"
             default: break
             }
             cost = entity.info.costReduction

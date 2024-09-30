@@ -38,6 +38,7 @@ class EntityInfo {
     }
     var deckIndex = 0
     var inGraveyardAtStartOfGame = false
+    var forged = false
 
     init(entity: Entity) {
         _entity = entity
@@ -109,6 +110,9 @@ extension EntityInfo: CustomStringConvertible {
         }
         if deckIndex > 0 {
             description += ", deckIndex=\(deckIndex)"
+        }
+        if forged {
+            description += ", forged=true"
         }
         description += ", inGraveyardAtStartOfGame=\(inGraveyardAtStartOfGame)"
         description += "]"

@@ -16,5 +16,6 @@ enum CardMark: Int {
     returned,
     mulliganed,
     created,
-    kept
+    kept,
+    forged
 }

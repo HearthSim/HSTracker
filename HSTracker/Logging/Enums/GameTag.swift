@@ -410,6 +410,7 @@ enum GameTag: Int, CaseIterable, Codable {
     bacon_global_anomaly_dbid = 2897,
     cthun_health_buff = 3053,
     cthun_attack_buff = 3054,
+    forge_revealed = 3070,
     bacon_duo_team_id = 3095,
     titan_ability_used_1 = 3140,
     titan_ability_used_2 = 3141,
