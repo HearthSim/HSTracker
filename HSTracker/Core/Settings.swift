@@ -288,8 +288,6 @@ final class Settings {
     static var showBattlegroundsHeroPicking: Bool
     @UserDefault(key: Settings.show_battlegrounds_quest_picking, defaultValue: true)
     static var showBattlegroundsQuestPicking: Bool
-    @UserDefault(key: Settings.show_battlegrounds_composition_stats, defaultValue: true)
-    static var showBattlegroundsCompositionStats: Bool
     @UserDefault(key: Settings.battlegrounds_session_scaling, defaultValue: 1.0)
     static var battlegroundsSessionScaling: Double
     @UserDefault(key: Settings.show_battlegrounds_tier7_session_comp_stats, defaultValue: true)
@@ -614,7 +612,6 @@ extension Settings {
     static let show_battlegrounds_tier7_prelobby = "show_battlegrounds_tier7_prelobby"
     static let show_battlegrounds_hero_picking = "show_battlegrounds_hero_picking"
     static let show_battlegrounds_quest_picking = "show_battlegrounds_quest_picking"
-    static let show_battlegrounds_composition_stats = "show_battlegrounds_composition_stats"
     static let battlegrounds_session_scaling = "battlegrounds_session_scaling"
     static let show_battlegrounds_tier7_session_comp_stats = "show_battlegrounds_tier7_session_comp_stats"
     static let always_show_tier_7 = "always_show_tier_7"

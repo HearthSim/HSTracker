@@ -17,7 +17,6 @@
                 <outlet property="showAverageDamage" destination="K3g-MV-6WU" id="714-Iw-hGS"/>
                 <outlet property="showBDonTiers" destination="3HM-F3-XZP" id="Gbu-PG-3Sc"/>
                 <outlet property="showBanned" destination="1TJ-xA-4cD" id="oX6-NF-aFW"/>
-                <outlet property="showBattlegroundsCompStats" destination="a9x-CF-17c" id="IkT-3u-IZW"/>
                 <outlet property="showBobsBuddy" destination="U9l-4H-26w" id="3He-F4-nTp"/>
                 <outlet property="showBobsBuddyDuringCombat" destination="d7f-Kb-z3w" id="dK5-ys-CtC"/>
                 <outlet property="showBobsBuddyDuringShopping" destination="4bq-q8-4qp" id="IUB-xU-y7P"/>
@@ -49,16 +48,16 @@
                     <rect key="frame" x="0.0" y="0.0" width="414" height="848"/>
                     <subviews>
                         <box title="Tier7" translatesAutoresizingMaskIntoConstraints="NO" id="kdX-CA-zhQ">
-                            <rect key="frame" x="7" y="616" width="400" height="212"/>
+                            <rect key="frame" x="7" y="642" width="400" height="186"/>
                             <view key="contentView" id="FaQ-JU-XUN">
-                                <rect key="frame" x="4" y="5" width="392" height="192"/>
+                                <rect key="frame" x="4" y="5" width="392" height="166"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NeY-J8-nXG">
-                                        <rect key="frame" x="10" y="0.0" width="372" height="192"/>
+                                        <rect key="frame" x="10" y="0.0" width="372" height="166"/>
                                         <subviews>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3Ts-2S-wmU">
-                                                <rect key="frame" x="-2" y="165" width="151" height="18"/>
+                                                <rect key="frame" x="-2" y="139" width="151" height="18"/>
                                                 <buttonCell key="cell" type="check" title="Enable Tier7 Overlay" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="fts-jC-w9N">
                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                     <font key="font" metaFont="system"/>
@@ -68,7 +67,7 @@
                                                 </connections>
                                             </button>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0rS-5z-pRa">
-                                                <rect key="frame" x="-2" y="139" width="272" height="18"/>
+                                                <rect key="frame" x="-2" y="113" width="272" height="18"/>
                                                 <buttonCell key="cell" type="check" title="Show Tier7 menu Overlay (MMR &amp; Stats)" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Xmc-n4-oyS">
                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                     <font key="font" metaFont="system"/>
@@ -78,23 +77,13 @@
                                                 </connections>
                                             </button>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bM5-OJ-VEP">
-                                                <rect key="frame" x="-2" y="113" width="264" height="18"/>
+                                                <rect key="frame" x="-2" y="87" width="264" height="18"/>
                                                 <buttonCell key="cell" type="check" title="Show Battlegrounds Hero Picking Stats" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="gkM-fC-BN7">
                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                     <font key="font" metaFont="system"/>
                                                 </buttonCell>
                                                 <connections>
                                                     <action selector="checkboxClicked:" target="-2" id="fvH-1S-IrF"/>
-                                                </connections>
-                                            </button>
-                                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="a9x-CF-17c">
-                                                <rect key="frame" x="-2" y="87" width="263" height="18"/>
-                                                <buttonCell key="cell" type="check" title="Show Battlegrounds Composition Stats" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="lpI-SE-51A">
-                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                    <font key="font" metaFont="system"/>
-                                                </buttonCell>
-                                                <connections>
-                                                    <action selector="checkboxClicked:" target="-2" id="Fsi-pe-qdW"/>
                                                 </connections>
                                             </button>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QeJ-mI-bjv">
@@ -136,10 +125,8 @@
                                             <integer value="1000"/>
                                             <integer value="1000"/>
                                             <integer value="1000"/>
-                                            <integer value="1000"/>
                                         </visibilityPriorities>
                                         <customSpacing>
-                                            <real value="3.4028234663852886e+38"/>
                                             <real value="3.4028234663852886e+38"/>
                                             <real value="3.4028234663852886e+38"/>
                                             <real value="3.4028234663852886e+38"/>
@@ -158,7 +145,7 @@
                             </view>
                         </box>
                         <box borderType="line" title="Bob's Buddy" translatesAutoresizingMaskIntoConstraints="NO" id="9TS-9T-RQV">
-                            <rect key="frame" x="7" y="502" width="400" height="108"/>
+                            <rect key="frame" x="7" y="528" width="400" height="108"/>
                             <view key="contentView" id="Iur-rY-hSn">
                                 <rect key="frame" x="4" y="5" width="392" height="88"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -219,7 +206,7 @@
                             </view>
                         </box>
                         <button translatesAutoresizingMaskIntoConstraints="NO" id="led-ON-LPz" userLabel="Show turn counter">
-                            <rect key="frame" x="8" y="479" width="138" height="18"/>
+                            <rect key="frame" x="8" y="479" width="138" height="44"/>
                             <buttonCell key="cell" type="check" title="Show turn counter" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="c2t-Sg-vNs" userLabel="Show turn counter">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>

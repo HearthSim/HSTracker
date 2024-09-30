@@ -20,7 +20,6 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
     @IBOutlet weak var showTier7PreLobby: NSButton!
     @IBOutlet weak var showHeroPicking: NSButton!
     @IBOutlet weak var showQuestPicking: NSButton!
-    @IBOutlet weak var showCompositionStats: NSButton!
     @IBOutlet weak var showBobsBuddy: NSButton!
     @IBOutlet weak var showBobsBuddyDuringCombat: NSButton!
     @IBOutlet weak var showBobsBuddyDuringShopping: NSButton!
@@ -52,7 +51,6 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
         showTier7PreLobby.state = Settings.showBattlegroundsTier7PreLobby ? .on : .off
         showHeroPicking.state = Settings.showBattlegroundsHeroPicking ? .on : .off
         showQuestPicking.state = Settings.showBattlegroundsQuestPicking ? .on : .off
-        showCompositionStats.state = Settings.showBattlegroundsCompositionStats ? .on : .off
         showBobsBuddy.state = Settings.showBobsBuddy ? .on : .off
         showBobsBuddyDuringCombat.state = Settings.showBobsBuddyDuringCombat ? .on : .off
         showBobsBuddyDuringShopping.state = Settings.showBobsBuddyDuringShopping ? .on : .off
@@ -161,8 +159,6 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
                     game.windowManager.battlegroundsQuestPicking.viewModel.visibility = sender.state == .on
                 }
             }
-        } else if sender == showCompositionStats {
-            Settings.showBattlegroundsCompositionStats = sender.state == .on
         } else if sender == showBattlegroundsCompStats {
             Settings.showBattlegroundsTier7SessionCompStats = sender.state == .on
         } else if sender == alwaysShowTavernTier7 {
@@ -200,7 +196,6 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
         showHeroPicking.isEnabled = enabled
         showBattlegroundsCompStats.isEnabled = enabled
         showQuestPicking.isEnabled = enabled
-        showCompositionStats.isEnabled = enabled
         alwaysShowTavernTier7.isEnabled = showTiers.state == .on
     }
     

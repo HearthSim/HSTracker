@@ -16,7 +16,7 @@ class BattlegroundsSingleQuestViewModel: StatsHeaderViewModel {
         
         logger.debug("QUEST Tier: \(tier ?? 0), placement: \(avgPlacement ?? 0.0), pick rate: \(pickRate ?? 0.0)")
         
-        if let stats = stats, stats.first_place_comps.count > 0, Settings.showBattlegroundsCompositionStats {
+        if let stats = stats, stats.first_place_comps.count > 0 {
             compVM = BattlegroundsCompositionPopularityViewModel(compsData: stats.first_place_comps)
         }
     }
