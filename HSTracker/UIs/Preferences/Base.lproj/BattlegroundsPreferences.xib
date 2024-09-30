@@ -96,24 +96,24 @@
                                                     <action selector="checkboxClicked:" target="-2" id="t3R-xg-4tr"/>
                                                 </connections>
                                             </button>
-                                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WNs-L3-3NJ">
-                                                <rect key="frame" x="-2" y="35" width="223" height="18"/>
-                                                <buttonCell key="cell" type="check" title="Show Reward Composition Stats" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="tBZ-Tg-1hx">
-                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                    <font key="font" metaFont="system"/>
-                                                </buttonCell>
-                                                <connections>
-                                                    <action selector="checkboxClicked:" target="-2" id="lIL-d1-r0X"/>
-                                                </connections>
-                                            </button>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="k99-WS-d2I">
-                                                <rect key="frame" x="-2" y="9" width="185" height="18"/>
+                                                <rect key="frame" x="-2" y="35" width="185" height="18"/>
                                                 <buttonCell key="cell" type="check" title="Show Trinket picking stats" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="be4-8p-MhH">
                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                     <font key="font" metaFont="system"/>
                                                 </buttonCell>
                                                 <connections>
                                                     <action selector="checkboxClicked:" target="-2" id="flv-Aq-gPm"/>
+                                                </connections>
+                                            </button>
+                                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WNs-L3-3NJ">
+                                                <rect key="frame" x="-2" y="9" width="243" height="18"/>
+                                                <buttonCell key="cell" type="check" title="Show Comp stats (in session recap)" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="tBZ-Tg-1hx">
+                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                    <font key="font" metaFont="system"/>
+                                                </buttonCell>
+                                                <connections>
+                                                    <action selector="checkboxClicked:" target="-2" id="lIL-d1-r0X"/>
                                                 </connections>
                                             </button>
                                         </subviews>
