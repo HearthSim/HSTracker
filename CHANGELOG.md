@@ -1,3 +1,17 @@
+# 3.0.5
+## New
+- Updated for Hearthstone 30.4.3
+- Added card mark for Forged cards in the opponent's hand
+- Show the tourist in the opponent's deck list when they play a tourist card.
+- Added Battlegrounds Trinket picking stats to the overlay!\
+  *Try this feature for free with your weekly Tier7 trials and subscribe to Tier7 for unlimited access.*\
+  *Note that overlay positioning will be fixed in the versions*
+## Fixes
+- Fixed the attack counter sometimes ignoring Windfury and Mega-Windfury.
+- Fixed the deck list not correctly updating for plagues with Augmented Elekk.
+## Bob's Buddy
+- Fixed various simulation interactions between Persistent Poet and All minions.
+
 # 3.0.4
 ## New
 - Updated for Hearthstone 30.4.0
