@@ -274,7 +274,7 @@ class PowerGameStateParser: LogEventParser {
             // we can predict, then, that there is a real entity of that cardId on the opponents deck.
             if zone == Zone.removedfromgame, let currentBlock, let cardId {
                 if let actionStartingEntity = eventHandler.entities[currentBlock.sourceEntityId] {
-                    if actionStartingEntity.cardId == CardIds.NonCollectible.Neutral.TouristVfxEnchantmentEnchantment && actionStartingEntity.isControlled(by: eventHandler.opponent.id) {
+                    if actionStartingEntity.cardId == CardIds.NonCollectible.Neutral.TouristVfxEnchantmentEnchantment && actionStartingEntity.isControlled(by: eventHandler.opponent.id) && eventHandler.opponent.revealedCards.all({ c in c.id != cardId }){
                         eventHandler.opponent.predictUniqueCardInDeck(cardId: cardId, isCreated: false)
                         AppDelegate.instance().coreManager.game.updateTrackers()
                     }
