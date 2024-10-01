@@ -19,6 +19,7 @@
 /*#import <UnityPack/UnityPack-Swift.h>*/
 
 #import "FileUtils.h"
+#import "ExceptionCatcher.h"
 
 #include <mono/jit/jit.h>
 #include <mono/metadata/assembly.h>

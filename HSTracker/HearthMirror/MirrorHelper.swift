@@ -387,7 +387,15 @@ struct MirrorHelper {
     static func getCardChoices() -> MirrorCardChoices? {
         var result: MirrorCardChoices?
         MirrorHelper.accessQueue.sync {
-            result = mirror?.getCardChoices()
+            do {
+                try ExceptionCatcher.catchException {
+                    result = mirror?.getCardChoices()
+                }
+            }
+            catch {
+                print("An error ocurred from getCardChoices: \(error)")
+            }
+            
         }
         return result
     }
