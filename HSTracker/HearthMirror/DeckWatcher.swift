@@ -865,7 +865,7 @@ struct ChoicesWatcherArgs: Equatable {
         currentChoice = choice
     }
     
-    static func ==(lhs: ChoicesWatcherArgs, rhs: ChoicesWatcherArgs) -> Bool {
+    static func == (lhs: ChoicesWatcherArgs, rhs: ChoicesWatcherArgs) -> Bool {
         if lhs.currentChoice == nil && rhs.currentChoice == nil {
             return true
         }
