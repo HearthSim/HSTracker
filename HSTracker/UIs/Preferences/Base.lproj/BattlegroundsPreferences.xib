@@ -17,10 +17,10 @@
                 <outlet property="showAverageDamage" destination="K3g-MV-6WU" id="714-Iw-hGS"/>
                 <outlet property="showBDonTiers" destination="3HM-F3-XZP" id="Gbu-PG-3Sc"/>
                 <outlet property="showBanned" destination="1TJ-xA-4cD" id="oX6-NF-aFW"/>
+                <outlet property="showBattlegroundsCompStats" destination="WNs-L3-3NJ" id="YFG-l3-C7k"/>
                 <outlet property="showBobsBuddy" destination="U9l-4H-26w" id="3He-F4-nTp"/>
                 <outlet property="showBobsBuddyDuringCombat" destination="d7f-Kb-z3w" id="dK5-ys-CtC"/>
                 <outlet property="showBobsBuddyDuringShopping" destination="4bq-q8-4qp" id="IUB-xU-y7P"/>
-                <outlet property="showCompositionStats" destination="WNs-L3-3NJ" id="TsD-Zd-IJh"/>
                 <outlet property="showHeroPicking" destination="bM5-OJ-VEP" id="H7W-2S-JKc"/>
                 <outlet property="showHeroToast" destination="aHt-pi-28x" id="Dmb-Gx-6YB"/>
                 <outlet property="showLatestGames" destination="uuN-eU-Idk" id="7Gx-fg-fEj"/>
