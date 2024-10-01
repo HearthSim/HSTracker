@@ -78,6 +78,7 @@ class HSReplayAPI {
                     logger.info("HSReplay: OAuth succeeded")
                     Settings.hsReplayOAuthToken = credential.oauthToken
                     Settings.hsReplayOAuthRefreshToken = credential.oauthRefreshToken
+                    Settings.hsReplayOAuthTokenExpiration = credential.oauthTokenExpiresAt
                     
                     handle()
                 case .failure(let error):
@@ -86,6 +87,19 @@ class HSReplayAPI {
                 }
             }
         )
+    }
+    
+    static func updateOAuthCredential() {
+        let credential = HSReplayAPI.oauthswift.client.credential
+        if let refreshToken = Settings.hsReplayOAuthRefreshToken {
+            credential.oauthRefreshToken = refreshToken
+        }
+        if let oauthToken = Settings.hsReplayOAuthToken {
+            credential.oauthToken = oauthToken
+        }
+        if let expiration = Settings.hsReplayOAuthTokenExpiration {
+            credential.oauthTokenExpiresAt = expiration
+        }
     }
     
     static func startAuthorizedRequest(_ url: String, method: OAuthSwiftHTTPRequest.Method, parameters: OAuthSwift.Parameters = [:], headers: OAuthSwift.Headers? = nil, body: Data? = nil, onTokenRenewal: OAuthSwift.TokenRenewedHandler? = nil, completionHandler completion: @escaping OAuthSwiftHTTPRequest.CompletionHandler) {
@@ -103,6 +117,7 @@ class HSReplayAPI {
                             Settings.hsReplayOAuthRefreshToken = credential.oauthRefreshToken
                             Settings.hsReplayOAuthTokenExpiration = credential.oauthTokenExpiresAt
                             Settings.hsReplayOAuthScope = parameters["scope"] as? String
+                            updateOAuthCredential()
                             oauthswift.client.requestWithAutomaticAccessTokenRenewal(url: URL(string: url)!, method: method, parameters: parameters, headers: headers, accessTokenUrl: HSReplay.oAuthTokenUrl, onTokenRenewal: onTokenRenewal, completionHandler: completion)
                         case .failure(let error):
                             logger.error(error)

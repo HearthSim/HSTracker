@@ -154,6 +154,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
                     Settings.hsReplayOAuthRefreshToken = credential.oauthRefreshToken
                     Settings.hsReplayOAuthTokenExpiration = credential.oauthTokenExpiresAt
                     Settings.hsReplayOAuthScope = parameters["scope"] as? String
+                    HSReplayAPI.updateOAuthCredential()
                     HSReplayAPI.getAccount().done { result in
                         switch result {
                         case .failed:
