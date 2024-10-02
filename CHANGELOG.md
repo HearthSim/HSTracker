@@ -1,3 +1,8 @@
+# 3.0.6
+## Fixes
+- Fixed crash when opening Battlegrounds preferences pane
+- Fixed crash when opponent discovers a card
+
 # 3.0.5
 ## New
 - Updated for Hearthstone 30.4.3
