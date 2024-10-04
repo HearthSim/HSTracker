@@ -83,8 +83,8 @@ class BattlegroundsTrinketPicking: OverWindowController {
         let scale = SizeHelper.hearthstoneWindow.height / 1080
         let sw = bounds.width * scale
         let sh = bounds.height * scale
-        let dx = 20.0 * scale
-        let dy = -165.0 * scale
+        let dx = 0 * scale
+        let dy = 82.5 * scale
         scaleView.frame = NSRect(x: dx + (window.frame.width - sw) / 2, y: dy + (window.frame.height - sh) / 2, width: sw, height: sh)
         logger.debug("scaleView frame: \(scaleView.frame)")
         scaleView.bounds = bounds

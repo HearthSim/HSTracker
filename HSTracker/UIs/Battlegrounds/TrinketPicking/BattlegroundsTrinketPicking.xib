@@ -11,7 +11,7 @@
                 <outlet property="itemsStack" destination="WBY-0s-1SQ" id="FUr-nM-LaA"/>
                 <outlet property="outerView" destination="LKZ-EY-SKz" id="EhG-Iv-rGb"/>
                 <outlet property="overlayMessage" destination="cSz-IS-EhB" id="AYo-C7-Tc3"/>
-                <outlet property="scaleView" destination="eod-y2-wif" id="TsS-tU-uNu"/>
+                <outlet property="scaleView" destination="Ej2-wg-Qx3" id="og7-Ed-e5k"/>
                 <outlet property="visibilityToggleBox" destination="SL8-3v-AGO" id="TZl-v5-46g"/>
                 <outlet property="window" destination="e01-Nw-iyc" id="Vvz-Pz-1jt"/>
             </connections>
@@ -24,7 +24,7 @@
             <rect key="screenRect" x="0.0" y="0.0" width="1728" height="1079"/>
             <view key="contentView" id="FgH-vi-im6">
                 <rect key="frame" x="0.0" y="0.0" width="653" height="378"/>
-                <autoresizingMask key="autoresizingMask"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="eod-y2-wif">
                         <rect key="frame" x="0.0" y="0.0" width="653" height="378"/>
@@ -32,19 +32,23 @@
                             <customView identifier="OuterView" translatesAutoresizingMaskIntoConstraints="NO" id="LKZ-EY-SKz" userLabel="OuterView">
                                 <rect key="frame" x="0.0" y="0.0" width="653" height="378"/>
                                 <subviews>
-                                    <customView identifier="ItemControl" autoresizesSubviews="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ej2-wg-Qx3" userLabel="ItemControl" colorLabel="IBBuiltInLabel-Green">
-                                        <rect key="frame" x="349" y="282" width="25" height="0.0"/>
+                                    <customView identifier="ItemControl" autoresizesSubviews="NO" id="Ej2-wg-Qx3" userLabel="ItemControl" colorLabel="IBBuiltInLabel-Green">
+                                        <rect key="frame" x="0.0" y="0.0" width="1108" height="430"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <subviews>
-                                            <stackView identifier="ItemsStackView" distribution="fillEqually" orientation="horizontal" alignment="top" spacing="0.0" horizontalStackHuggingPriority="250" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WBY-0s-1SQ" userLabel="Items" colorLabel="IBBuiltInLabel-Red">
-                                                <rect key="frame" x="0.0" y="0.0" width="25" height="0.0"/>
+                                            <stackView identifier="ItemsStackView" distribution="fillEqually" orientation="horizontal" alignment="top" spacing="0.0" horizontalStackHuggingPriority="250" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" detachesHiddenViews="YES" id="WBY-0s-1SQ" userLabel="Items" colorLabel="IBBuiltInLabel-Red">
+                                                <rect key="frame" x="0.0" y="0.0" width="1108" height="430"/>
+                                                <autoresizingMask key="autoresizingMask"/>
                                                 <edgeInsets key="edgeInsets" left="12.5" right="12.5" top="0.0" bottom="0.0"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="1108" placeholder="YES" id="ESR-a4-e60"/>
+                                                    <constraint firstAttribute="height" constant="430" placeholder="YES" id="TXg-T2-6nN"/>
+                                                </constraints>
                                             </stackView>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="WBY-0s-1SQ" secondAttribute="trailing" id="1yb-ie-jbX"/>
-                                            <constraint firstAttribute="bottom" secondItem="WBY-0s-1SQ" secondAttribute="bottom" id="ukU-Lf-bGS"/>
-                                            <constraint firstItem="WBY-0s-1SQ" firstAttribute="top" secondItem="Ej2-wg-Qx3" secondAttribute="top" id="wHY-Jd-BFV"/>
-                                            <constraint firstItem="WBY-0s-1SQ" firstAttribute="leading" secondItem="Ej2-wg-Qx3" secondAttribute="leading" id="woC-vS-9kn"/>
+                                            <constraint firstItem="WBY-0s-1SQ" firstAttribute="centerY" secondItem="Ej2-wg-Qx3" secondAttribute="centerY" placeholder="YES" id="GM2-57-mx9"/>
+                                            <constraint firstItem="WBY-0s-1SQ" firstAttribute="centerX" secondItem="Ej2-wg-Qx3" secondAttribute="centerX" placeholder="YES" id="V3z-46-2oY"/>
                                         </constraints>
                                         <connections>
                                             <binding destination="-2" name="hidden" keyPath="self.statsVisibility" id="4sp-qe-3JY">
@@ -127,9 +131,7 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="cSz-IS-EhB" firstAttribute="bottom" secondItem="SL8-3v-AGO" secondAttribute="bottom" id="0PF-7w-ozf"/>
-                                    <constraint firstItem="Ej2-wg-Qx3" firstAttribute="centerX" secondItem="LKZ-EY-SKz" secondAttribute="centerX" constant="35" id="3Jb-Ml-STW"/>
                                     <constraint firstAttribute="trailing" secondItem="SL8-3v-AGO" secondAttribute="trailing" constant="936" id="Gmn-d8-HOI"/>
-                                    <constraint firstItem="Ej2-wg-Qx3" firstAttribute="centerY" secondItem="LKZ-EY-SKz" secondAttribute="centerY" constant="-92.5" id="NLk-nG-1U0"/>
                                     <constraint firstAttribute="bottom" secondItem="SL8-3v-AGO" secondAttribute="bottom" constant="213" id="Ohe-PV-iEM"/>
                                     <constraint firstItem="cSz-IS-EhB" firstAttribute="leading" secondItem="LKZ-EY-SKz" secondAttribute="leading" constant="738" id="s33-Jo-OcD"/>
                                 </constraints>
