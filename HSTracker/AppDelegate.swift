@@ -223,10 +223,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
     
     func applicationWillTerminate(_ notification: Notification) {
         Analytics.trackEvent("app_exit")
-        if coreManager != nil {
-            // we are in the initial configuration, do not crash
-            coreManager.stopTracking()
-        }
+
+        coreManager?.stopTracking()
         if appWillRestart {
             let appPath = Bundle.main.bundlePath
             let task = Process()
@@ -266,9 +264,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
         splashscreen.showWindow(self)
         
         logger.info("Opening trackers")
-        
-        coreManager = CoreManager()
-        
+                
         DispatchQueue.global().async {
             let remoteConfigOperation = BlockOperation {
                 RemoteConfig.checkRemoteConfig(splashscreen: splashscreen)
@@ -311,7 +307,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
 //                    MonoHelper.testSimulation()
 //                }
             } else {
-                self.coreManager.game.windowManager.bobsBuddyPanel.setErrorState(error: .monoNotFound)
                 logger.error("Failed to load BobsBuddy")
             }
             #endif
@@ -338,8 +333,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
         SizeHelper.HearthstoneWindow.titlebarHeight = computeTitlebarHeight()
         var message: String?
         var alertStyle = NSAlert.Style.critical
+        coreManager = CoreManager()
         do {
-            let canStart = try coreManager.setup()
+            let canStart = try coreManager?.setup() ?? false
             
             if !canStart {
                 message = String.localizedString("You must restart Hearthstone for logs to be used", comment: "")
@@ -368,8 +364,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
                          forceFront: true)
             return
         }
-        
-        coreManager.start()
+                
+        coreManager?.start()
         
         if triggers.count == 0 {
             let events = [
@@ -385,7 +381,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
             }
         }
         if let activeDeck = Settings.activeDeck {
-            self.coreManager.game.set(activeDeckId: activeDeck, autoDetected: false)
+            coreManager?.game.set(activeDeckId: activeDeck, autoDetected: false)
         }
         
         splashscreen?.close()
@@ -560,7 +556,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
     @objc func playDeck(_ sender: NSMenuItem) {
         if let deck = sender.representedObject as? Deck {
             let deckId = deck.deckId
-            self.coreManager.game.set(activeDeckId: deckId, autoDetected: false)
+            self.coreManager?.game.set(activeDeckId: deckId, autoDetected: false)
         }
     }
     
@@ -576,11 +572,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
     }
     
     @IBAction func clearTrackers(_ sender: AnyObject) {
-        coreManager.game.removeActiveDeck()
+        coreManager?.game.removeActiveDeck()
     }
     
     @IBAction func saveCurrentDeck(_ sender: AnyObject) {
-        guard let sender = sender as? NSMenuItem else {
+        guard let sender = sender as? NSMenuItem, let coreManager else {
             return
         }
         switch sender.tag {
@@ -630,7 +626,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
     #if DEBUG
     var windowMove: WindowMove?
     @IBAction func openDebugPositions(_ sender: AnyObject) {
-        if windowMove == nil {
+        if windowMove == nil, let coreManager {
             windowMove = WindowMove(windowNibName: "WindowMove", windowManager: coreManager.game.windowManager)
         }
         windowMove?.showWindow(self)
