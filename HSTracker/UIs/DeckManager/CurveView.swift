@@ -78,7 +78,9 @@ class CurveView: NSView {
         ]
 
         // get the biggest value
-        let biggest: Int = counts.map({ $0.1.count }).max(by: { $0 < $1 })!
+        guard let biggest: Int = counts.map({ $0.1.count }).max(by: { $0 < $1 }), biggest > 0 else {
+            return
+        }
         // and get a unit based on this value
         let oneUnit = Int(barHeight) / biggest
 
