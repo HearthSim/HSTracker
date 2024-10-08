@@ -884,7 +884,7 @@ class BobsBuddyInvoker {
             
             for secret in game.player.secrets {
                 var obj: UnsafeMutablePointer<MonoObject>?
-                params.pointee = Int32(secret.id)
+                params.pointee = Int32(secret.card.dbfId)
                     
                 obj = mono_value_box(MonoHelper._monoInstance, i32c, params)
                     
