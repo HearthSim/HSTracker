@@ -176,9 +176,7 @@ final class LogReaderManager {
                 if line.content.hasPrefix("GameState.DebugPrintEntityChoices") ||
                     line.content.hasPrefix("GameState.DebugPrintEntitiesChosen") {
                     self.choicesHandler.handle(logLine: line)
-                }
-                else
-                {
+                } else {
                     self.choicesHandler.flush()
                 }
                 if line.content.hasPrefix("GameState.DebugPrintGame") {

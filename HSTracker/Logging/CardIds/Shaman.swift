@@ -142,6 +142,12 @@ extension CardIds.Collectible {
         static let DiggingStraightDown = "DEEP_009"
         static let RazzleDazzler = "VAC_301"
         static let SirenSong = "VAC_308"
+        static let Conductivity = "YOG_522"
+        static let FlashOfLightning = "TTN_830"
+        static let Inzah = "ETC_371"
+        static let JazzBass = "ETC_813"
+        static let Melomania = "ETC_367"
+        static let Shudderblock = "TOY_501"
     }
 }
 
@@ -200,6 +206,11 @@ extension CardIds.NonCollectible {
         static let ChainLightningRank1_ChainLightningRank2Token = "BAR_044t"
         static let ChainLightningRank1_ChainLightningRank3Token = "BAR_044t2"
         static let AzsharanScroll_SunkenScrollToken = "TSC_772t"
+        static let Conductivity_ConductiveEnchantment = "YOG_522e"
+        static let Inzah_SuperCoolEnchantment1 = "ETC_371e1"
+        static let JazzBass_ElectricSlideEnchantment1 = "ETC_813e"
+        static let Melomania_MelomaniaEnchantment = "ETC_367e"
+        static let Shudderblock_ReadyForActionEnchantment = "TOY_501e"
     }
 }
 

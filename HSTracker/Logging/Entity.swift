@@ -125,6 +125,9 @@ class Entity {
 	func isOpponent(eventHandler: PowerEventHandler) -> Bool {
 		return !isPlayer(eventHandler: eventHandler) && has(tag: .player_id)
     }
+    var isEnchantment: Bool {
+        return self[.cardtype] == CardType.enchantment.rawValue
+    }
     var takesBoardSlot: Bool {
         return isMinion || isLocation || isBattlegroundsSpell
     }

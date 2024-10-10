@@ -315,13 +315,17 @@ struct SizeHelper {
     }
     
     static func playerBoardDamageFrame() -> NSRect {
-        let frame = NSRect(x: 923.0, y: 225.0, width: 50.0, height: 50.0)
-        return hearthstoneWindow.relativeFrame(frame)
+        let hs = hearthstoneWindow.frame
+        let w = 50.0
+        let h = 50.0
+        return NSRect(x: hs.minX + getScaledXPos(25.5 / 100.0, width: hs.width, ratio: screenRatio), y: hs.minY + (hs.height * (100.0 - 67.62) / 100.0) - h, width: w, height: h)
     }
     
     static func opponentBoardDamageFrame() -> NSRect {
-        let frame = NSRect(x: 915.0, y: 667.0, width: 50.0, height: 50.0)
-        return hearthstoneWindow.relativeFrame(frame)
+        let hs = hearthstoneWindow.frame
+        let w = 50.0
+        let h = 50.0
+        return NSRect(x: hs.minX + getScaledXPos(25.5 / 100.0, width: hs.width, ratio: screenRatio), y: hs.minY + (hs.height * (100.0 - 22.39) / 100.0) - h, width: w, height: h)
     }
     
     static func experienceOverlayFrame() -> NSRect {
@@ -524,7 +528,21 @@ struct SizeHelper {
         let h = 50.0
         return NSRect(x: hs.minX + getScaledXPos(86.8 / 100.0, width: hs.width, ratio: screenRatio)  - (w - 77.0), y: hs.minY + (hs.height * (100.0 - 68.5) / 100.0) - h, width: w, height: h)
     }
+
+    static func opponentActiveEffectsFrame() -> NSRect {
+        let hs = hearthstoneWindow.frame
+        let w = 244.0
+        let h = 122.0
+        return NSRect(x: hs.minX + getScaledXPos(66.8 / 100.0, width: hs.width, ratio: screenRatio), y: hs.minY + (hs.height * (100.0 - 31.4) / 100.0), width: w, height: h)
+    }
     
+    static func playerActiveEffectsFrame() -> NSRect {
+        let hs = hearthstoneWindow.frame
+        let w = 244.0
+        let h = 122.0
+        return NSRect(x: hs.minX + getScaledXPos(66.8 / 100.0, width: hs.width, ratio: screenRatio), y: hs.minY + (hs.height * (100.0 - 68.6) / 100.0) - h, width: w, height: h)
+    }
+
     static func tier7PreLobbyFrame() -> NSRect {
         let hs = hearthstoneWindow.frame
         let w = 763.0

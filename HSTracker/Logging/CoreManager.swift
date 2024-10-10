@@ -97,6 +97,13 @@ final class CoreManager: NSObject {
             AppDelegate.instance().coreManager.game.setChoicesVisible(args.currentChoice?.isVisible ?? false)
         }
         
+        game.windowManager.playerActiveEffectsOverlay.setActiveEffects(game.activeEffects)
+        game.windowManager.opponentActiveEffectsOverlay.setActiveEffects(game.activeEffects)
+        game.activeEffects.effectsChanged = {
+            self.game.windowManager.playerActiveEffectsOverlay.updateVisibleEffects()
+            self.game.windowManager.opponentActiveEffectsOverlay.updateVisibleEffects()
+        }
+        
         timer.eventHandler = {
             logger.debug(self.formattedMemoryFootprint())
         }

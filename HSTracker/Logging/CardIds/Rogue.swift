@@ -174,6 +174,14 @@ extension CardIds.Collectible {
         static let TentacleGrip = "YOG_526"
         static let DigForTreasure = "TOY_510"
         static let OhManager = "VAC_460"
+        static let CloakOfShadows = "DMF_512"
+        static let PreparationCore = "CORE_EX1_145"
+        static let SandboxScoundrel = "TOY_521"
+        static let SeaShill = "VAC_332"
+        static let SecretPassage = "SCH_305"
+        static let TarSlick = "TTN_726"
+        static let TheCrystalCove = "TOY_512"
+        static let ValeeraTheHollowICECROWN = "ICC_827"
     }
 }
 
@@ -250,6 +258,13 @@ extension CardIds.NonCollectible {
         static let WickedStabRank1_WickedStabRank3Token = "BAR_319t2"
         static let Garrote_BleedToken = "SW_311t"
         static let AzsharanVessel_SunkenVesselToken = "TSC_912t"
+        static let CamouflagedDirigible_CamouflagedEnchantment = "DRG_074e"
+        static let CloakofShadows_SneakyEnchantment = "DMF_512e"
+        static let Preparation_PreparationEnchantment2 = "EX1_145o"
+        static let SandboxScoundrel_OnSaleEnchantment = "TOY_521e"
+        static let SeaShill_SeaShillEnchantment = "VAC_332e"
+        static let SecretPassage_SecretEntranceEnchantment = "SCH_305e2"
+        static let TheCrystalCove_TreasuresBelowEnchantment = "TOY_512e1"
     }
 }
 

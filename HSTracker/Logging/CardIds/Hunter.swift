@@ -168,6 +168,11 @@ extension CardIds.Collectible {
         static let RangerGilly = "VAC_413"
         static let Starshooter = "WW_813"
         static let ArcaneShotCore = "CORE_DS1_185"
+        static let CarrionStudies = "SCH_300"
+        static let CelestialShot = "YOG_082"
+        static let HodirFatherOfGiants = "TTN_752"
+        static let ParrotSanctuary = "VAC_409"
+        static let ThornmantleMusician = "ETC_831"
     }
 }
 
@@ -240,6 +245,9 @@ extension CardIds.NonCollectible {
         static let TameBeastRank1_TameBeastRank3Token = "BAR_034t2"
         static let AzsharanSaber_SunkenSaberToken = "TSC_945t"
         static let RangerGilly_IslandCrocoliskToken = "VAC_413t"
+        static let CelestialShot_CelestialEmbraceEnchantment = "YOG_082e"
+        static let HodirFatherofGiants_GiantizeEnchantment = "TTN_752e"
+        static let ThornmantleMusician_ThornmantlesMuseEnchantment1 = "ETC_831e"
     }
 }
 

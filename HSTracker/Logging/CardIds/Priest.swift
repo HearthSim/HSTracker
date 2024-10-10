@@ -140,6 +140,10 @@ extension CardIds.Collectible {
         static let PowerChordSynchronize = "ETC_338"
         static let GraveHorror = "TRL_408"
         static let PuppetTheatre = "MIS_919"
+        static let DraconicStudies = "SCH_233"
+        static let LoveEverlasting = "ETC_335"
+        static let RazaTheResealed = "TOY_383"
+        static let ShadowtouchedKvaldir = "YOG_300"
     }
 }
 
@@ -193,6 +197,11 @@ extension CardIds.NonCollectible {
         static let MidaPureLight_FragmentOfMidaToken = "ONY_028t"
         static let AzsharanRitual_SunkenRitualToken = "TSC_775t"
         static let SisterSvalna_VisionOfDarknessToken = "RLK_816t3"
+        static let ElizaGoreblade_VitalityShiftEnchantment = "VAC_426e"
+        static let WaveofApathy_ApatheticEnchantment = "SCH_250e"
+        static let DraconicStudies_DraconicStudiesEnchantment = "SCH_233e"
+        static let LoveEverlasting_EverlastingLoveEnchantment = "ETC_335e"
+        static let RazatheResealed_RazaResealedEnchantEnchantment = "TOY_383e"
     }
 }
 

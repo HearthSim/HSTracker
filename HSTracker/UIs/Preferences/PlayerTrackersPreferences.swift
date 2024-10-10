@@ -40,6 +40,7 @@ class PlayerTrackersPreferences: NSViewController, PreferencePane {
     @IBOutlet weak var showPlayerSideboards: NSButton!
     @IBOutlet weak var showPogoCounter: NSButton!
     @IBOutlet weak var showSpellSchoolsCounter: NSButton!
+    @IBOutlet weak var showActiveEffects: NSButton!
 
     override func viewWillAppear() {
         super.viewWillAppear()
@@ -68,6 +69,7 @@ class PlayerTrackersPreferences: NSViewController, PreferencePane {
         showPogoCounter.state = Settings.showPlayerPogoCounter ? .on : .off
         showSpellCounter.state = Settings.showPlayerSpellSchoolsCounter ? .on : .off
         showPlayerSideboards.state = Settings.hidePlayerSideboards ? .off : .on
+        showActiveEffects.state = Settings.showPlayerActiveEffects ? .on : .off
     }
     
     @IBAction func colorChange(_ sender: NSColorWell) {
@@ -128,6 +130,8 @@ class PlayerTrackersPreferences: NSViewController, PreferencePane {
             Settings.showPlayerCardsBottom = showBottomCards.state == .on
         } else if sender == showPlayerSideboards {
             Settings.hidePlayerSideboards = showPlayerSideboards.state == .off
+        } else if sender == showActiveEffects {
+            Settings.showPlayerActiveEffects = showActiveEffects.state == .on
         }
     }
 }

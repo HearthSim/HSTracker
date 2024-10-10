@@ -429,6 +429,12 @@ final class Settings {
     
     @UserDefault(key: Settings.show_fatigue, defaultValue: true)
     static var fatigueIndicator: Bool
+    
+    @UserDefault(key: Settings.show_opponent_active_effects, defaultValue: true)
+    static var showOpponentActiveEffects: Bool
+
+    @UserDefault(key: Settings.show_player_active_effects, defaultValue: true)
+    static var showPlayerActiveEffects: Bool
 
     // MARK: - Notifications
     @UserDefault(key: Settings.use_toast_notification, defaultValue: true)
@@ -675,6 +681,8 @@ extension Settings {
     static let opponent_board_damage = "opponent_board_damage"
     static let opponent_board_damage_frame = "opponent_board_damage_frame"
     static let show_fatigue = "show_fatigue"
+    static let show_opponent_active_effects = "show_opponent_active_effects"
+    static let show_player_active_effects = "show_player_active_effects"
     
     // MARK: - Notifications related preferences
     static let use_toast_notification = "useToastNotification"

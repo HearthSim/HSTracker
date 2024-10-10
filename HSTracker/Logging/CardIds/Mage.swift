@@ -167,6 +167,13 @@ extension CardIds.Collectible {
         static let ElementalInspiration = "TTN_480"
         static let MagisterDawngrasp = "AV_200"
         static let SummoningWard = "DEEP_000"
+        static let AquaArchivist = "TTN_095"
+        static let DaringFireEater = "TRL_390"
+        static let ElementalEvocation = "TRL_310"
+        static let HotStreak = "SW_462"
+        static let KingTide = "VAC_524"
+        static let SolidAlibi = "REV_504"
+        static let Surfalopod = "VAC_443"
     }
 }
 
@@ -237,6 +244,11 @@ extension CardIds.NonCollectible {
         static let BuildaSnowman_BuildASnowbruteToken = "AV_282t2"
         static let AzsharanSweeper_SunkenSweeperToken = "TSC_776t"
         static let FrozenTouch_FrozenTouchToken = "REV_601t"
+        static let ElementalEvocation_ElementalEvocationEnchantment = "TRL_310e"
+        static let HotStreak_HotStreakEnchantment = "SW_462e"
+        static let KingTide_WaveridingEnchantment = "VAC_524e"
+        static let SolidAlibi_SolidAlibiEnchantment = "REV_504e"
+        static let Surfalopod_RideTheWaveEnchantment = "VAC_443e"
     }
 }
 

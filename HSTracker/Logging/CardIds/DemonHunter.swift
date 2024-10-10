@@ -19,6 +19,15 @@ extension CardIds.Collectible {
         static let SightlessWatcherLegacy = "BT_323"
         static let SaroniteShambler = "YOG_521"
         static let PatchesThePilot = "VAC_933"
+        static let FierceOutsider = "RLK_207"
+        static let IllidariStudies = "YOP_001"
+        static let JotunTheEternal = "TTN_842"
+        static let LoadTheChamber = "WW_409"
+        static let ManaBurn = "BT_753"
+        static let PocketSand = "WW_403"
+        static let ProsecutorMeltranix = "MAW_014"
+        static let RagingFelscreamerCore = "CORE_BT_416"
+        static let SigilOfSilence = "BAR_705"
     }
 }
 
@@ -28,5 +37,12 @@ extension CardIds.NonCollectible {
         static let FuryRank1_FuryRank3Token = "BAR_891t2"
         static let AzsharanDefector_SunkenDefectorToken = "TSC_057t"
         static let PatchesthePilot_ParachuteToken = "VAC_933t"
+        static let FierceOutsider_IntrovertedEnchantment = "RLK_207e"
+        static let JotuntheEternal_JotunsSwiftnessToken = "TTN_842t1"
+        static let LoadtheChamber_LoadedNagaEnchantment = "WW_409e"
+        static let ManaBurn_ManaBurnedEnchantment = "BT_753e"
+        static let PocketSand_SandInYourEyesEnchantment = "WW_403e"
+        static let ProsecutorMeltranix_LiterallyUnplayableEnchantment = "MAW_014e2"
+        static let RagingFelscreamer_FelscreamEnchantmentDEMON_HUNTER_INITIATE1 = "BT_416e"
     }
 }

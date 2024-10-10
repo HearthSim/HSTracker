@@ -141,6 +141,13 @@ extension CardIds.Collectible {
         static let ReinforcedPlating = "WW_334"
         static let SafetyExpert = "MIS_711"
         static let TheRyecleaver = "VAC_525"
+        static let AthleticStudies = "SCH_237"
+        static let BloodsailDeckhandLegacy = "CS3_008"
+        static let DeepminerBrann = "DEEP_020"
+        static let FrozenBuckler = "AV_109"
+        static let OdynPrimeDesignate = "TTN_811"
+        static let PartScrapper = "MIS_902"
+        static let PunchCard = "WORK_022"
     }
 }
 
@@ -220,6 +227,13 @@ extension CardIds.NonCollectible {
         static let Scrapsmith_ScrappyGruntToken = "AV_323t"
         static let AzsharanTrident_SunkenTridentToken = "TSC_913t"
         static let BoombossThogrun_TNTToken = "WW_372t"
+        static let AthleticStudies_AthleticStudiesEnchantment = "SCH_237e"
+        static let BloodsailDeckhand_ToArrrmsCoreEnchantment = "CS3_008e"
+        static let DeepminerBrann_DeepminingEnchantment = "DEEP_020e"
+        static let FrozenBuckler_ChillyEnchantment = "AV_109e"
+        static let OdynPrimeDesignate_ImpenetrableEnchantment = "TTN_811e"
+        static let PartScrapper_ScrappedPartsEnchantment = "MIS_902e"
+        static let PunchCard_PunchedInEnchantment = "WORK_022e"
     }
 }
 

@@ -34,6 +34,12 @@ extension CardIds.Collectible {
         static let TheLichKingHeroHeroSkins = "HERO_11"
         static let ReapWhatYouSow = "WW_352"
         static let SkeletonCrew = "WW_322"
+        static let ColdFeet = "JAM_006"
+        static let ElizaGoreblade = "VAC_426"
+        static let FrozenOver = "TTN_744"
+        static let HarrowingOx = "WW_356"
+        static let Helya = "TTN_850"
+        static let PileOfBones = "WW_324"
     }
 }
 
@@ -43,6 +49,10 @@ extension CardIds.NonCollectible {
         static let DistressedKvaldir_FrostPlagueToken = "TTN_450t3"
         static let DistressedKvaldir_BloodPlagueToken = "TTN_450t"
         static let DistressedKvaldir_UnholyPlagueToken = "TTN_450t2"
+        static let FrozenOver_FrozenSolidEnchantment = "TTN_744e1"
+        static let HarrowingOx_OxChillEnchantment = "WW_356e"
+        static let Helya_HelyaEnchantment = "TTN_850e1"
+        static let PileofBones_PileOfBonesEnchantment = "WW_324e"
     }
 }
 

@@ -156,6 +156,11 @@ extension CardIds.Collectible {
         static let CrazedConductor = "ETC_070"
         static let Crescendo = "ETC_069"
         static let EncroachingInsanity = "YOG_301"
+        static let CommanderUlthok = "TID_719"
+        static let CurseOfFlesh = "YOG_503"
+        static let CurseOfWeakness = "GIL_665"
+        static let DemonicStudiesCore = "CORE_SCH_158"
+        static let FelfireBonfire = "VAC_952"
     }
 }
 
@@ -221,6 +226,10 @@ extension CardIds.NonCollectible {
         static let CurseofAgony_AgonyToken = "ONY_034t"
         static let SirakessCultist_AbyssalCurseToken = "TSC_955t"
         static let AzsharanScavenger_SunkenScavengerToken = "TSC_039t"
+        static let CommanderUlthok_BloodSqueezeEnchantment = "TID_719e"
+        static let CurseofFlesh_CurseOfFleshEnchantment = "YOG_503e1"
+        static let DemonicStudies_DemonicStudiesEnchantment = "SCH_158e"
+        static let FelfireBonfire_AmpleOfferingEnchantment = "VAC_952e"
     }
 }
 

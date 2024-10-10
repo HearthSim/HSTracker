@@ -350,7 +350,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
         } catch {
             message = String.localizedString("Unknown error", comment: "")
         }
-        
+                
         if let message = message {
             splashscreen?.close()
             splashscreen = nil
@@ -621,6 +621,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
         Settings.windowsLocked = !Settings.windowsLocked
         item?.title = String.localizedString(Settings.windowsLocked ?  "Unlock windows" : "Lock windows",
                                         comment: "")
+        let game = coreManager.game
+        if Settings.windowsLocked {
+            game.windowManager.playerActiveEffectsOverlay.forceHideExampleEffects()
+        } else {
+            game.windowManager.playerActiveEffectsOverlay.forceShowExampleEffects(true)
+        }
     }
     
     #if DEBUG

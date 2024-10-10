@@ -148,6 +148,14 @@ extension CardIds.Collectible {
         static let UmbralOwlDARKMOON_FAIRE = "DMF_060"
         static let UmbralOwlPLACEHOLDER_202204 = "CORE_DMF_060"
         static let ContaminatedLasher = "YOG_528"
+        static let CenarionHold = "WON_015"
+        static let ChitinousPlating = "RLK_656"
+        static let DiscipleOfEonar = "TTN_503"
+        static let MagicalDollhouse = "TOY_850"
+        static let NatureStudies = "SCH_333"
+        static let PopularPixie = "JAM_026"
+        static let SparklingPhial = "TOY_800"
+        static let TrailMix = "VAC_508"
     }
 }
 
@@ -289,6 +297,11 @@ extension CardIds.NonCollectible {
         static let VibrantSquirrel_AcornToken = "SW_439t"
         static let AzsharanGardens_SunkenGardensToken = "TSC_927t"
         static let JadeIdol_JadeStash = "CFM_602b"
+        static let CenarionHold_CenariOnHoldEnchantment = "WON_015e"
+        static let ChitinousPlating_MoltingEnchantment = "RLK_656e"
+        static let MagicalDollhouse_MagicalHarvestEnchantment = "TOY_850e"
+        static let NatureStudies_NatureStudiesEnchantment = "SCH_333e"
+        static let SparklingPhial_SparklingEnchantment = "TOY_800e1"
     }
 }
 

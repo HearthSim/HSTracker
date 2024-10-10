@@ -142,6 +142,16 @@ class WindowManager {
     var battlegroundsTrinketPicking: BattlegroundsTrinketPicking = {
         return $0
     }(BattlegroundsTrinketPicking(windowNibName: "BattlegroundsTrinketPicking"))
+    
+    var playerActiveEffectsOverlay: ActiveEffectsOverlay = {
+        $0.isPlayer = true
+        return $0
+    }(ActiveEffectsOverlay(windowNibName: "ActiveEffectsOverlay"))
+
+    var opponentActiveEffectsOverlay: ActiveEffectsOverlay = {
+        $0.isPlayer = false
+        return $0
+    }(ActiveEffectsOverlay(windowNibName: "ActiveEffectsOverlay"))
 
     var toastWindowController = ToastWindowController()
 

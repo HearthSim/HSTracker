@@ -274,7 +274,7 @@ class PowerGameStateParser: LogEventParser {
             // we can predict, then, that there is a real entity of that cardId on the opponents deck.
             if zone == Zone.removedfromgame, let currentBlock, let cardId {
                 if let actionStartingEntity = eventHandler.entities[currentBlock.sourceEntityId] {
-                    if actionStartingEntity.cardId == CardIds.NonCollectible.Neutral.TouristVfxEnchantmentEnchantment && actionStartingEntity.isControlled(by: eventHandler.opponent.id) && eventHandler.opponent.revealedCards.all({ c in c.id != cardId }){
+                    if actionStartingEntity.cardId == CardIds.NonCollectible.Neutral.TouristVfxEnchantmentEnchantment && actionStartingEntity.isControlled(by: eventHandler.opponent.id) && eventHandler.opponent.revealedCards.all({ c in c.id != cardId }) {
                         eventHandler.opponent.predictUniqueCardInDeck(cardId: cardId, isCreated: false)
                         AppDelegate.instance().coreManager.game.updateTrackers()
                     }
@@ -415,7 +415,7 @@ class PowerGameStateParser: LogEventParser {
             if matches.count > 3 {
                 cardId = matches[3].value
             }
-            var target = getTargetCardId(matches: matches)
+            let target = getTargetCardId(matches: matches)
             var correspondPlayer: Int?
             if matches.count > 4 {
                 if let v = Int(matches[4].value) {
@@ -660,7 +660,7 @@ class PowerGameStateParser: LogEventParser {
                         case CardIds.Collectible.Rogue.MetalDetector:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.TheCoinBasic)
                         case CardIds.Collectible.Neutral.AugmentedElekk:
-                            if let currentBlock, let parent = currentBlock.parent {
+                            if let currentBlock, currentBlock.parent != nil {
                                 if let index = currentBlock.parent?.entitiesCreatedInDeck.lastIndex(where: { x in !x.ids.contains(currentBlock.sourceEntityId)}) {
                                     let value = currentBlock.parent?.entitiesCreatedInDeck[index]
                                     if let entity = value?.entity, let ids = value?.ids {

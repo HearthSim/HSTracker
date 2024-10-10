@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22689"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="ActiveEffectsOverlay" customModule="HSTracker" customModuleProvider="target">
+            <connections>
+                <outlet property="grid" destination="aNd-cn-PJP" id="eUW-eu-6d3"/>
+                <outlet property="window" destination="QvC-M9-y7g" id="Zd5-Wd-eTe"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" hasShadow="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g" customClass="NSPanel">
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="196" y="240" width="244" height="122"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1496" height="933"/>
+            <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
+                <rect key="frame" x="0.0" y="0.0" width="244" height="122"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <gridView xPlacement="fill" yPlacement="fill" rowAlignment="none" rowSpacing="0.0" columnSpacing="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="aNd-cn-PJP">
+                        <rect key="frame" x="0.0" y="0.0" width="244" height="122"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="122" id="0Rr-My-pRR"/>
+                            <constraint firstAttribute="width" constant="244" id="JEf-Ag-GYh"/>
+                        </constraints>
+                        <rows>
+                            <gridRow height="61" id="I1h-EB-yui"/>
+                            <gridRow height="61" id="zkL-cW-Yl4"/>
+                        </rows>
+                        <columns>
+                            <gridColumn width="61" id="rme-u0-2bh"/>
+                            <gridColumn width="61" id="4Kr-Ks-c3A"/>
+                            <gridColumn width="61" id="kzQ-O7-aB2"/>
+                            <gridColumn width="61" id="HX9-Pg-F1G"/>
+                        </columns>
+                        <gridCells>
+                            <gridCell row="I1h-EB-yui" column="rme-u0-2bh" id="URe-uy-7KG"/>
+                            <gridCell row="I1h-EB-yui" column="4Kr-Ks-c3A" id="p8a-oR-ajh"/>
+                            <gridCell row="I1h-EB-yui" column="kzQ-O7-aB2" id="lT8-zP-lsg"/>
+                            <gridCell row="I1h-EB-yui" column="HX9-Pg-F1G" id="dzW-sD-den"/>
+                            <gridCell row="zkL-cW-Yl4" column="rme-u0-2bh" id="MHy-v5-Nmc"/>
+                            <gridCell row="zkL-cW-Yl4" column="4Kr-Ks-c3A" id="l9W-Ti-Rne"/>
+                            <gridCell row="zkL-cW-Yl4" column="kzQ-O7-aB2" id="10h-7w-aq4"/>
+                            <gridCell row="zkL-cW-Yl4" column="HX9-Pg-F1G" id="rCI-dZ-bSQ"/>
+                        </gridCells>
+                    </gridView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="aNd-cn-PJP" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="dBH-zU-UbD"/>
+                    <constraint firstItem="aNd-cn-PJP" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="oLe-18-44q"/>
+                </constraints>
+            </view>
+            <connections>
+                <binding destination="-2" name="visible" keyPath="self.visibility" id="5n7-dD-D96"/>
+            </connections>
+            <point key="canvasLocation" x="-18" y="111"/>
+        </window>
+        <userDefaultsController representsSharedInstance="YES" id="mFH-Af-cV8"/>
+    </objects>
+</document>

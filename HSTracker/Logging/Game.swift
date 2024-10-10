@@ -55,11 +55,13 @@ class Game: NSObject, PowerEventHandler {
 					self?.updateTrackers()
                     self?.updateBattlegroundsOverlays()
                     self?.updateConstructedMulliganOverlays()
+                    self?.updateActiveEffects()
 				})
 			} else {
 				self.updateTrackers()
                 self.updateBattlegroundsOverlays()
                 self.updateConstructedMulliganOverlays()
+                self.updateActiveEffects()
 			}
 		}
 	}
@@ -73,6 +75,8 @@ class Game: NSObject, PowerEventHandler {
     lazy var queueEvents: QueueEvents = QueueEvents(game: self)
     
     var _mulliganGuideParams: MulliganGuideParams?
+    
+    let activeEffects: ActiveEffects
 	
     func setHearthstoneRunning(flag: Bool) {
         hearthstoneRunState.isRunning = flag
@@ -148,6 +152,7 @@ class Game: NSObject, PowerEventHandler {
         self.updateMercenariesTaskListButton()
         self.updateBoardOverlay()
         self.updateConstructedMulliganOverlays()
+        self.updateActiveEffects()
 	}
 	
     // MARK: - GUI calls
@@ -529,6 +534,39 @@ class Game: NSObject, PowerEventHandler {
             } else {
                 self.windowManager.show(controller: tracker, show: false)
             }
+        }
+    }
+    
+    func updateActiveEffects() {
+        DispatchQueue.main.async { [self] in
+            let hsActive = hearthstoneRunState.isActive
+
+            if isInMenu || !isMulliganDone() || isBattlegroundsMatch() {
+                windowManager.playerActiveEffectsOverlay.visibility = false
+                windowManager.opponentActiveEffectsOverlay.visibility = false
+            } else {
+                windowManager.playerActiveEffectsOverlay.visibility = Settings.showPlayerActiveEffects
+                windowManager.opponentActiveEffectsOverlay.visibility = Settings.showOpponentActiveEffects
+            }
+            
+            if windowManager.playerActiveEffectsOverlay.visibility && windowManager.playerActiveEffectsOverlay.visibleEffects.count > 0 {
+                if hsActive {
+                    windowManager.show(controller: windowManager.playerActiveEffectsOverlay, show: true, frame: SizeHelper.playerActiveEffectsFrame(), overlay: true)
+                    windowManager.playerActiveEffectsOverlay.updateGrid()
+                } else {
+                    windowManager.show(controller: windowManager.playerActiveEffectsOverlay, show: false)
+                }
+            }
+
+            if windowManager.opponentActiveEffectsOverlay.visibility && windowManager.opponentActiveEffectsOverlay.visibleEffects.count > 0 {
+                if hsActive {
+                    windowManager.show(controller: windowManager.opponentActiveEffectsOverlay, show: true, frame: SizeHelper.opponentActiveEffectsFrame(), overlay: true)
+                    windowManager.opponentActiveEffectsOverlay.updateGrid()
+                } else {
+                    windowManager.show(controller: windowManager.opponentActiveEffectsOverlay, show: false)
+                }
+            }
+
         }
     }
     
@@ -1319,6 +1357,7 @@ class Game: NSObject, PowerEventHandler {
     init(hearthstoneRunState: HearthstoneRunState) {
         self.hearthstoneRunState = hearthstoneRunState
 		turnTimer = TurnTimer(gui: windowManager.timerHud)
+        activeEffects = ActiveEffects()
         super.init()
         _battlegroundsBoardState = BattlegroundsBoardState(game: self)
 		player = Player(local: true, game: self)
@@ -1412,6 +1451,7 @@ class Game: NSObject, PowerEventHandler {
                 self.updateAllTrackers()
                 self.updateBattlegroundsOverlays()
                 self.updateConstructedMulliganOverlays()
+                self.updateActiveEffects()
             }
             self.counter = 0
         } else {
@@ -1478,6 +1518,7 @@ class Game: NSObject, PowerEventHandler {
             player.playerClass = currentdeck.playerClass
         }
         opponent.reset()
+        activeEffects.reset()
         updateSecretTracker(cards: [])
         windowManager.hideGameTrackers()
 		
@@ -2001,6 +2042,8 @@ class Game: NSObject, PowerEventHandler {
         }
 
 		self.syncStats(logLines: self.powerLog, stats: currentGameStats)
+        
+        activeEffects.reset()
     }
     
     private func updatePostGameBattlegroundsRating(gameStats: InternalGameStats) {
@@ -2771,6 +2814,9 @@ class Game: NSObject, PowerEventHandler {
     }
 
     func playerPlayToGraveyard(entity: Entity, cardId: String?, turn: Int, playersTurn: Bool) {
+        if entity.isEnchantment {
+            activeEffects.tryRemoveEffect(sourceEntity: entity, controlledByPlayer: true)
+        }
         player.playToGraveyard(entity: entity, cardId: cardId, turn: turn)
         if playersTurn && entity.isMinion {
             playerMinionDeath(entity: entity)
@@ -2798,6 +2844,9 @@ class Game: NSObject, PowerEventHandler {
     }
 
     func playerCreateInPlay(entity: Entity, cardId: String?, turn: Int) {
+        if entity.isEnchantment {
+            activeEffects.tryAddEffect(sourceEntity: entity, controlledByPlayer: true)
+        }
         player.createInPlay(entity: entity, turn: turn)
     }
 
@@ -2827,6 +2876,9 @@ class Game: NSObject, PowerEventHandler {
     }
 
     func playerRemoveFromPlay(entity: Entity, turn: Int) {
+        if entity.isEnchantment {
+            activeEffects.tryRemoveEffect(sourceEntity: entity, controlledByPlayer: true)
+        }
         player.removeFromPlay(entity: entity, turn: turn)
     }
 
@@ -2984,6 +3036,9 @@ class Game: NSObject, PowerEventHandler {
 
     func opponentPlayToGraveyard(entity: Entity, cardId: String?,
                                  turn: Int, playersTurn: Bool) {
+        if entity.isEnchantment {
+            activeEffects.tryRemoveEffect(sourceEntity: entity, controlledByPlayer: false)
+        }
         opponent.playToGraveyard(entity: entity, cardId: cardId, turn: turn)
         if playersTurn && entity.isMinion {
             opponentMinionDeath(entity: entity, turn: turn)
@@ -3050,6 +3105,9 @@ class Game: NSObject, PowerEventHandler {
     }
 
     func opponentCreateInPlay(entity: Entity, cardId: String?, turn: Int) {
+        if entity.isEnchantment {
+            activeEffects.tryAddEffect(sourceEntity: entity, controlledByPlayer: false)
+        }
         if isMaestraHero(entity: entity) {
             OpponentIsDisguisedRogue()
         }
@@ -3066,6 +3124,9 @@ class Game: NSObject, PowerEventHandler {
     }
 
     func opponentRemoveFromPlay(entity: Entity, turn: Int) {
+        if entity.isEnchantment {
+            activeEffects.tryRemoveEffect(sourceEntity: entity, controlledByPlayer: false)
+        }
         player.removeFromPlay(entity: entity, turn: turn)
     }
 

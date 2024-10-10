@@ -154,6 +154,17 @@ extension CardIds.Collectible {
         static let FossilizedKaleidosaur = "DEEP_033"
         static let Shroomscavate = "DEEP_018"
         static let LifesavingAura = "VAC_922"
+        static let CrusaderAuraCore = "TTN_908"
+        static let DeputizationAura = "WW_341"
+        static let HolyCowboy = "WW_335"
+        static let InventorsAura = "TTN_854"
+        static let Lifeguard = "VAC_919"
+        static let Rebuke = "GIL_203"
+        static let ResistanceAuraCore = "TTN_851"
+        static let StarlightGroove = "ETC_330"
+        static let TimeOut = "TRL_302"
+        static let Timewarden = "RLK_527"
+        static let WaveOfApathy = "SCH_250"
     }
 }
 
@@ -225,6 +236,14 @@ extension CardIds.NonCollectible {
         static let AzsharanMooncatcher_SunkenMooncatcherToken = "TSC_644t"
         static let SilverHandRecruitLegacyToken = "CS2_101t"
         static let TheCountess_LegendaryInvitationToken = "REV_951t"
+        static let DeputizationAura_MyFavoriteDeputyEnchantment = "WW_341e"
+        static let HolyCowboy_HolyCowboyEnchantment = "WW_335e"
+        static let InventorsAura_EmpoweredWorkshopEnchantment = "TTN_854e"
+        static let Lifeguard_ProtectionEnchantment = "VAC_919e"
+        static let Timewarden_FromTheFutureEnchantment = "RLK_527e2"
+        static let TimeOut_TimeOutEnchantment = "TRL_302e"
+        static let StarlightGroove_FeelingTheGrooveEnchantment = "ETC_330e1"
+        static let ResistanceAura_ResistanceCoreEnchantment = "TTN_851e"
     }
 }
 
