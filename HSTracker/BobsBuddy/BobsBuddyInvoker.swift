@@ -800,11 +800,7 @@ class BobsBuddyInvoker {
         guard let playerGameHero else {
             throw "Hero(es) could not be found. Exiting."
         }
-        
-        let murky = gamePlayer.board.first { e in e.cardId == CardIds.NonCollectible.Neutral.Murky }
-        let murkyBuff = murky?[.tag_script_data_num_1] ?? 0
-        inputPlayer.battlecriesPlayed = Int32(murky != nil && murkyBuff > 0 ? murkyBuff / (murky!.has(tag: .premium) ? 2 : 1) - 1 : 0)
-        
+                
         inputPlayer.health = Int32(playerGameHero.health + playerGameHero[.armor])
         
         if !friendly && inputPlayer.health <= 0 {
@@ -949,6 +945,8 @@ class BobsBuddyInvoker {
             inputPlayer.ancestralAutomatonCounter = Int32( pAncestralAutomaton[.tag_script_data_num_1])
         }
         inputPlayer.elementalPlayCounter = Int32(game.playerEntity?[.gametag_2878] ?? 0)
+        
+        inputPlayer.piratesSummonCounter = Int32(game.playerEntity?[.gametag_2358] ?? 0)
 
         logger.info("pEternal=\(inputPlayer.eternalKnightCounter), pUndead=\(inputPlayer.undeadAttackBonus), pElemental=\(inputPlayer.elementalPlayCounter), friendly=\(friendly)")
         
