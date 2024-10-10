@@ -160,6 +160,7 @@
 "WILD_WEST" = "Showdown in the Badlands";
 "WHIZBANGS_WORKSHOP" = "Whizbang's Workshop";
 "ISLAND_VACATION" = "Perils in Paradise";
+"SPACE" = "Great Dark Beyond";
 
 /* card type */
 "all_types" = "All";
