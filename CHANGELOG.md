@@ -1,3 +1,11 @@
+# 3.0.7
+## New
+- Updated for Hearthstone 30.6.0
+- New Active Effects Indicator: Added a visual indicator to the overlay to show when game effects are present.
+## Fixes
+- Improved trinket overlay positioning
+- Fixed some crashes during start up
+
 # 3.0.6
 ## Fixes
 - Fixed crash when opening Battlegrounds preferences pane
