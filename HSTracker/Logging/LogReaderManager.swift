@@ -15,7 +15,7 @@ final class LogReaderManager {
     // lower update times result in faster operation but higher CPU usage
 	static let updateDelay: TimeInterval = 0.05
 	
-    let powerGameStateParser: LogEventParser
+    let powerGameStateParser: PowerGameStateParser
     let rachelleHandler = RachelleHandler()
 	let arenaHandler: LogEventParser
 	let loadingScreenHandler: LogEventParser

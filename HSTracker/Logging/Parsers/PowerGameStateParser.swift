@@ -66,7 +66,7 @@ class PowerGameStateParser: LogEventParser {
     }
 
     private var maxBlockId: Int = 0
-    private var currentBlock: Block?
+    var currentBlock: Block?
     
     func getCurrentBlock() -> Block? {
         return self.currentBlock

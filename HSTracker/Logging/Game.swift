@@ -2931,6 +2931,9 @@ class Game: NSObject, PowerEventHandler {
             opponent.predictUniqueCardInDeck(cardId: cardId ?? "", isCreated: entity.info.created)
             entity.info.guessedCardState = .none
             entity.info.hidden = true
+            if let currentBlock = AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock {
+                currentBlock.isTradeableAction = true
+            }
         }
         opponent.handToDeck(entity: entity, turn: turn)
         updateTrackers()

@@ -856,7 +856,7 @@ struct TagChangeActions {
             } else if controller == eventHandler.opponent.id {
                 let drawerCardId = currentBlockCardId
                 var drawerId: Int?
-                if drawerCardId != "" {
+                if drawerCardId != "", let currentBlock = powerGameStateParser?.currentBlock, currentBlock.parent == nil || !(currentBlock.parent?.isTradeableAction ?? false) {
                     drawerId = eventHandler.entities.first { (_, value) in value.cardId == drawerCardId }?.1.id
                 }
                 eventHandler.opponentDraw(entity: entity, turn: eventHandler.turnNumber(), cardId: cardId ?? "", drawerId: drawerId)
