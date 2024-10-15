@@ -176,8 +176,10 @@ class Database: NSObject, XMLParserDelegate {
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         switch elementName {
         case "Entity":
-            if let card = currentCard, let set = card.set {
-                card.isStandard = !CardSet.wildSets().contains(set) && !CardSet.classicSets().contains(set)
+            if let card = currentCard {
+                if let set = card.set {
+                    card.isStandard = !CardSet.wildSets().contains(set) && !CardSet.classicSets().contains(set)
+                }
                 cards.append(card)
                 if card.collectible && card.race != .invalid && card.race != .all && !Database.deckManagerRaces.contains(card.race) && CardSet.deckManagerValidCardSets().contains(card.set ?? .invalid) {
                     Database.deckManagerRaces.append(card.race)
