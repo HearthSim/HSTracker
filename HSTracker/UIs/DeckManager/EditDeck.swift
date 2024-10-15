@@ -234,7 +234,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
     func countCards() {
         let count = cards.countCards()
-        let deckSize = cards.any { x in x.id == CardIds.Collectible.Neutral.PrinceRenathal } ? 40 : 30
+        let deckSize = cards.any { x in x.id == CardIds.Collectible.Neutral.PrinceRenathal || x.id == CardIds.Collectible.Neutral.PrinceRenathalInvalid } ? 40 : 30
         countLabel.stringValue = "\(count) / \(deckSize)"
     }
     

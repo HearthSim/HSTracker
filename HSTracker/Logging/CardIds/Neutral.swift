@@ -657,6 +657,7 @@ extension CardIds.Collectible {
         static let PrimordialStudies = "SCH_270"
         static let SpeakerStomper = "JAM_034"
         static let SpellwardJeweler = "DAL_081"
+        static let PrinceRenathalInvalid = "CORE_REV_018"
     }
 }
 
