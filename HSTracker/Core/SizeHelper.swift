@@ -382,7 +382,7 @@ struct SizeHelper {
     
     static func battlegroundsTierOverlayFrame() -> NSRect {
         let trackerFrame = playerTrackerFrame()
-        let tierOverlay = AppDelegate.instance().coreManager.game.windowManager.battlegroundsTierOverlay.tierOverlay
+        let tierOverlay = AppDelegate.instance().coreManager?.game.windowManager.battlegroundsTierOverlay.tierOverlay
         let tiers = (tierOverlay?.showTavernTier7 ?? false) ? 7 : 6
         let height = CGFloat(56)
         let width = CGFloat(tiers * 48 + 8)
