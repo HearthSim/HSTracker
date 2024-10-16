@@ -10,8 +10,10 @@ import Foundation
 import TextAttributes
 
 class CardHud: NSView {
-    var entity: Entity?
-    var card: Card?
+    var cardAge: Int?
+    var costReduction: Int?
+    var cardMark: CardMark = .none
+    var icon: String?
     var sourceCardImage: NSImage?
     var sourceCard: Card?
     
@@ -25,7 +27,7 @@ class CardHud: NSView {
     private let cardMarkerFrame = NSRect(x: 1, y: 12, width: 32, height: 32)
     private let iconFrame = NSRect(x: 20, y: 3, width: 16, height: 16)
     private let costReductionFrame = NSRect(x: 0, y: 30, width: 37, height: 26)
-    private let turnFrame = NSRect(x: 1, y: 18, width: 33, height: 31)
+    private let turnFrame = NSRect(x: 1, y: 16, width: 33, height: 27)
     private let sourceCardFrame = NSRect(x: 10, y: 0, width: 16, height: 16)
     private let cropRect = NSRect(x: 55, y: 0, width: 34, height: 55)
     
@@ -49,77 +51,87 @@ class CardHud: NSView {
         self.layer!.backgroundColor = NSColor.clear.cgColor
     }
     
+    func updateIcon(_ mark: CardMark) {
+        switch mark {
+        case .coin: icon = "coin"
+        case .kept: icon = "kept"
+        case .mulliganed: icon = "mulliganed"
+        case .returned: icon = "returned"
+        case .created: icon = "created"
+        case .forged: icon = "card-icon-forged"
+        default: icon = nil
+        }
+    }
+    
+    func updateCardAge(_ cardAge: Int?) {
+        if let cardAge {
+            self.cardAge = cardAge
+        } else {
+            self.cardAge = nil
+        }
+    }
+    
+    func updateCostReduction(_ costReduction: Int) {
+        if costReduction > 0 {
+            self.costReduction = -costReduction
+        } else {
+            self.costReduction = nil
+        }
+    }
+    
+    func updateSourceCard(_ card: Card?) {
+        if card == sourceCard {
+            return
+        }
+        sourceCard = card
+        if let card {
+            ImageUtils.tile(for: card.id, completion: { img in
+                self.sourceCardImage = img?.crop(rect: self.cropRect)
+                DispatchQueue.main.async {
+                    self.needsDisplay = true
+                }
+            })
+        } else {
+            sourceCardImage = nil
+        }
+    }
+    
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
         addImage(filename: "card-marker", rect: cardMarkerFrame)
         
-        var text = ""
-        var image: String?
-        var cost = 0
-        card = nil
-        
-        if let entity = entity {
-            text = "\(entity.info.turn)"
-            
-            switch entity.info.cardMark {
-            case .coin: image = "coin"
-            case .kept: image = "kept"
-            case .mulliganed: image = "mulliganed"
-            case .returned: image = "returned"
-            case .created: image = "created"
-            case .forged: image = "card-icon-forged"
-            default: break
-            }
-            cost = entity.info.costReduction
-            
-            if entity.info.cardMark == .coin {
-                card = Cards.any(byId: CardIds.NonCollectible.Neutral.TheCoinBasic)
-                
-            } else if !entity.cardId.isBlank && !entity.info.hidden {
-                image = "small-card"
-                card = Cards.by(cardId: entity.cardId)
-            }
-
-            if entity.info.cardMark == .created {
-                let creatorId = entity.creatorId
-                let game = AppDelegate.instance().coreManager.game
-                if creatorId > 0, let creator = game.entities[creatorId] {
-                    sourceCard = creator.card
-                    ImageUtils.tile(for: creator.card.id, completion: { img in
-                        if let src = img {
-                            let cropped = src.crop(rect: self.cropRect)
-                            self.addImage(image: cropped, rect: self.sourceCardFrame)
-                            let path = NSBezierPath(rect: self.sourceCardFrame)
-                            let color = NSColor(red: 0x14/0x100, green: 0x16/0x100, blue: 0x17/0x100, alpha: 1.0)
-                            color.set()
-                            path.stroke()
-                        }
-                    })
-                }
-            }
+        if let icon {
+            addImage(filename: icon, rect: iconFrame)
         }
-        if let image = image {
-            addImage(filename: image, rect: iconFrame)
-        }
-                
-        let attributes = TextAttributes()
-            .font(NSFont(name: "Belwe Bd BT", size: 20))
-            .foregroundColor(.white)
-            .strokeWidth(-2)
-            .strokeColor(.black)
-            .alignment(.center)
-        NSAttributedString(string: text, attributes: attributes)
-            .draw(in: turnFrame)
         
-        if cost > 0 {
+        if let cardAge {
+            let attributes = TextAttributes()
+                .font(NSFont(name: "Belwe Bd BT", size: 20))
+                .foregroundColor(.white)
+                .strokeWidth(-2)
+                .strokeColor(.black)
+                .alignment(.center)
+            NSAttributedString(string: "\(cardAge)", attributes: attributes)
+                .draw(in: turnFrame)
+        }
+        
+        if let costReduction {
             let costReductionAttributes = TextAttributes()
                 .font(NSFont(name: "Belwe Bd BT", size: 16))
                 .foregroundColor(Color(red: 0.117, green: 0.56, blue: 1, alpha: 1))
                 .strokeWidth(-2)
                 .strokeColor(.black)
-            NSAttributedString(string: "-\(cost)", attributes: costReductionAttributes)
+            NSAttributedString(string: "\(costReduction)", attributes: costReductionAttributes)
                 .draw(in: costReductionFrame)
+        }
+        
+        if let sourceCardImage {
+            self.addImage(image: sourceCardImage, rect: sourceCardFrame)
+            let path = NSBezierPath(rect: sourceCardFrame)
+            let color = NSColor(red: 0x14/0x100, green: 0x16/0x100, blue: 0x17/0x100, alpha: 1.0)
+            color.set()
+            path.stroke()
         }
     }
     
@@ -142,7 +154,7 @@ class CardHud: NSView {
     }
 
     override func mouseEntered(with event: NSEvent) {
-        guard let card = self.card ?? self.sourceCard else { return }
+        guard let card = self.sourceCard else { return }
         guard let rect = self.superview?.convert(self.frame, to: nil) else { return }
         guard let frame = self.superview?.window?.convertToScreen(rect) else { return }
 
@@ -166,9 +178,10 @@ class CardHud: NSView {
     }
 
     override func mouseExited(with event: NSEvent) {
-        guard card != nil else { return }
+        guard let sourceCard else { return }
  
         NotificationCenter.default
-            .post(name: Notification.Name(rawValue: Events.hide_floating_card), object: nil)
+            .post(name: Notification.Name(rawValue: Events.hide_floating_card), object: nil, userInfo: [
+                "card": sourceCard ])
     }
 }

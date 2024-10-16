@@ -189,21 +189,7 @@ class Entity {
     var hasDredge: Bool {
         return has(tag: .dredge) || cardId == CardIds.Collectible.Warrior.FromTheDepths
     }
-    
-    var creatorId: Int {
-        // TODO: add hidden support
-        /*
-        if isHidden {
-            return 0
-        }
-        */
-        var creatorId = self[.displayed_creator]
-        if creatorId == 0 {
-            creatorId = self[.creator]
-        }
-        return creatorId
-    }
-    
+        
     func clearCardId() {
         cardId = ""
         info.clearCardId()
@@ -258,6 +244,7 @@ extension Entity: NSCopying {
         e.info.latestCardId = info.latestCardId
         e.info.storedCardIds = info.storedCardIds
         e.info.forged = info.forged
+        e.info.drawerId = info.drawerId
 
         return e
     }

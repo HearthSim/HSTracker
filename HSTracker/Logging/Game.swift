@@ -805,7 +805,7 @@ class Game: NSObject, PowerEventHandler {
             
             if Settings.showCardHuds && self.shouldShowGUIElement && !self.gameEnded && !self.isBattlegroundsMatch() {
                 tracker.update(entities: self.opponent.hand,
-                                        cardCount: self.opponent.handCount)
+                               cardCount: self.opponent.handCount, game: self)
                 self.windowManager.show(controller: tracker, show: true,
                      frame: SizeHelper.cardHudContainerFrame(), title: nil,
                      overlay: self.hearthstoneRunState.isActive)

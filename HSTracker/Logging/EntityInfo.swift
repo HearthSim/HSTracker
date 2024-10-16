@@ -58,10 +58,28 @@ class EntityInfo {
         if created || stolen {
             return .created
         }
+        if drawnByEntity {
+            return .drawnByEntity
+        }
         if mulliganed {
             return .mulliganed
         }
         return .none
+    }
+    
+    func getCreatorId() -> Int {
+        if hidden {
+            return 0
+        }
+        var creatorId = _entity[.displayed_creator]
+        if creatorId == 0 {
+            creatorId = _entity[.creator]
+        }
+        return creatorId
+    }
+    
+    func getDrawerId() -> Int? {
+        return drawerId
     }
 
     func set(originalCardId dbfId: Int) {
@@ -73,6 +91,10 @@ class EntityInfo {
     func clearCardId() {
         originalCardId = nil
         _latestCardId = nil
+    }
+    
+    var drawnByEntity: Bool {
+        return drawerId != nil
     }
 }
 

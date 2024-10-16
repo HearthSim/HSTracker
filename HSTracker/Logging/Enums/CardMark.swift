@@ -16,6 +16,7 @@ enum CardMark: Int {
     returned,
     mulliganed,
     created,
+    drawnByEntity,
     kept,
     forged
 }

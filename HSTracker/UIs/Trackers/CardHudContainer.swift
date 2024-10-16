@@ -13,6 +13,7 @@ class CardHudContainer: OverWindowController {
     
     var positions: [Int: [NSPoint]] = [:]
     var huds: [CardHud] = []
+    var drawDisallowList = [Int]()
     
     @IBOutlet weak var container: NSView!
     
@@ -123,13 +124,12 @@ class CardHudContainer: OverWindowController {
         }
     }
     
-    func update(entities: [Entity], cardCount: Int) {
+    func update(entities: [Entity], cardCount: Int, game: Game) {
         for (i, hud) in huds.enumerated() {
             var hide = true
             if let entity = entities.first(where: { $0[.zone_position] == i + 1 }) {
-                hud.entity = entity
-                
                 var pos: NSPoint?
+                
                 if let points = positions[cardCount], points.count > i {
                     pos = points[i]
                     
@@ -140,6 +140,38 @@ class CardHudContainer: OverWindowController {
                                           width: 36,
                                           height: 50)
                         
+                        hud.updateCardAge(entity.info.turn)
+                        
+                        if entity.hasCardId && !entity.info.hidden && entity.info.cardMark != .coin {
+                            hud.updateSourceCard(entity.card)
+                            if entity.info.cardMark == .returned {
+                                hud.updateIcon(entity.info.cardMark)
+                            }
+                        } else {
+                            hud.updateIcon(entity.info.cardMark)
+                            if entity.info.cardMark == .created {
+                                let creatorId = entity.info.getCreatorId()
+                                if creatorId > 0, let creator = game.entities[creatorId] {
+                                    hud.updateSourceCard(creator.card)
+                                } else {
+                                    hud.updateSourceCard(nil)
+                                }
+                            } else if let drawerId = entity.info.getDrawerId() {
+                                if drawerId > 0, let drawer = game.entities[drawerId] {
+                                    let disallowList = getDrawDisallowList()
+                                    if !disallowList.contains(drawer.card.dbfId) {
+                                        hud.updateSourceCard(drawer.card)
+                                    } else {
+                                        hud.updateIcon(.none)
+                                    }
+                                } else {
+                                    hud.updateSourceCard(nil)
+                                }
+                            } else {
+                                hud.updateSourceCard(nil)
+                            }
+                            hud.updateCostReduction(entity.info.costReduction)
+                        }
                         hud.needsDisplay = true
                         
                         // this will avoid a weird move
@@ -163,5 +195,12 @@ class CardHudContainer: OverWindowController {
                     }, completionHandler: nil)
             }
         }
+    }
+    
+    private func getDrawDisallowList() -> [Int] {
+        if let list = RemoteConfig.data?.draw_card_blacklist, drawDisallowList.count == 0 {
+            drawDisallowList = list.compactMap({ obj in obj.dbf_id })
+        }
+        return drawDisallowList
     }
 }

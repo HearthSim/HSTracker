@@ -803,9 +803,8 @@ final class Player {
         } else {
             if game.opponentEntity?[.mulligan_state] == Mulligan.dealing.rawValue {
                 entity.info.mulliganed = true
-            } else {
-                entity.info.hidden = true
             }
+            entity.info.hidden = true
         }
         entity.info.turn = turn
         lastDrawnCardId = entity.cardId

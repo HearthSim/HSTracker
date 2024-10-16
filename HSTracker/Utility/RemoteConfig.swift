@@ -72,6 +72,12 @@ struct Tier7Data: Codable {
     var disabled: Bool
 }
 
+struct CardInfo: Codable {
+    var dbf_id: Int
+    var name: String?
+    var card_id: String?
+}
+
 struct ConfigData: Codable {
     struct MulliganGuideData: Codable {
         var disabled: Bool
@@ -83,6 +89,9 @@ struct ConfigData: Codable {
     var bobs_buddy: BobsBuddyData?
     var tier7: Tier7Data?
     var mulligan_guide: MulliganGuideData?
+    //swiftlint:disable inclusive_language
+    var draw_card_blacklist: [CardInfo]?
+    //swiftlint:enable inclusive_language
 }
 
 struct LiveSecrets: Codable {
