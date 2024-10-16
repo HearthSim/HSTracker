@@ -195,6 +195,7 @@ extension CardList: CardCellHover {
 
     func out(card: Card) {
         NotificationCenter.default
-            .post(name: Notification.Name(rawValue: Events.hide_floating_card), object: nil)
+            .post(name: Notification.Name(rawValue: Events.hide_floating_card), object: nil, userInfo: [
+                "card": card ])
     }
 }
