@@ -393,6 +393,7 @@ struct TagChangeActions {
         
         if entity.isControlled(by: eventHandler.opponent.id) && entity.isInZone(zone: .hand) {
             entity.info.forged = true
+            entity.info.hidden = false
         }
     }
     

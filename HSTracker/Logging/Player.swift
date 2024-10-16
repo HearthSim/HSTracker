@@ -712,6 +712,8 @@ final class Player {
     func handToDeck(entity: Entity, turn: Int) {
         entity.info.turn = turn
         entity.info.returned = true
+        entity.info.drawerId = nil
+        entity.info.hidden = true
         if Settings.fullGameLog {
             logger.info("\(debugName) \(#function) \(entity)")
         }
