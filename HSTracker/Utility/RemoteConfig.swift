@@ -74,8 +74,6 @@ struct Tier7Data: Codable {
 
 struct CardInfo: Codable {
     var dbf_id: Int
-    var name: String?
-    var card_id: String?
 }
 
 struct ConfigData: Codable {

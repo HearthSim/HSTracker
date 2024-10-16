@@ -59,6 +59,7 @@ class CardHud: NSView {
         case .returned: icon = "returned"
         case .created: icon = "created"
         case .forged: icon = "card-icon-forged"
+        case .drawnByEntity: icon = "card-icon-drawn"
         default: icon = nil
         }
     }
@@ -101,10 +102,6 @@ class CardHud: NSView {
         
         addImage(filename: "card-marker", rect: cardMarkerFrame)
         
-        if let icon {
-            addImage(filename: icon, rect: iconFrame)
-        }
-        
         if let cardAge {
             let attributes = TextAttributes()
                 .font(NSFont(name: "Belwe Bd BT", size: 20))
@@ -132,6 +129,10 @@ class CardHud: NSView {
             let color = NSColor(red: 0x14/0x100, green: 0x16/0x100, blue: 0x17/0x100, alpha: 1.0)
             color.set()
             path.stroke()
+        }
+
+        if let icon {
+            addImage(filename: icon, rect: iconFrame)
         }
     }
     

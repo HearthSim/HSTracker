@@ -45,10 +45,15 @@ class EntityInfo {
     }
 
     var cardMark: CardMark {
+        if forged {
+            return .forged
+        }
+        if drawnByEntity {
+            return .drawnByEntity
+        }
         if hidden {
             return .none
         }
-
         if _entity.isTheCoin {
             return .coin
         }
@@ -57,9 +62,6 @@ class EntityInfo {
         }
         if created || stolen {
             return .created
-        }
-        if drawnByEntity {
-            return .drawnByEntity
         }
         if mulliganed {
             return .mulliganed
