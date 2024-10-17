@@ -1,3 +1,12 @@
+# 3.0.8
+## New
+- Updated for Hearthstone 30.6.2
+- Added a new icon to the opponents hand to better differentiate a card's identity from the identity of the card that drew it.
+## Fixes
+- Fixed tracking of decks using Prince Renathal
+- Fixed an info leak related to forged cards that where shuffled into the opponents deck and drawn again later.
+- Fixed crash during start up
+
 # 3.0.7
 ## New
 - Updated for Hearthstone 30.6.0
