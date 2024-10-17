@@ -49,7 +49,7 @@ class EntityInfo {
             return .drawnByEntity
         }
         if hidden {
-            return .none
+            return mulliganed ? .mulliganed : .none
         }
         if forged {
             return .forged

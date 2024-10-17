@@ -314,6 +314,11 @@ class PowerGameStateParser: LogEventParser {
                     let entity = eventHandler.entities[entityId]
                     if entity?.info.guessedCardState != GuessedCardState.none {
                         entity?.info.guessedCardState = GuessedCardState.revealed
+                        if entity?.cardId == CardIds.Collectible.Neutral.PrinceRenathal || entity?.cardId == CardIds.Collectible.Neutral.PrinceRenathalInvalid {
+                            entity?.info.guessedCardState = .revealed
+                            
+                            AppDelegate.instance().coreManager?.game.updateTrackers()
+                        }
                     }
                     if entity?.info.deckIndex ?? 0 < 0, let currentBlock = currentBlock, currentBlock.sourceEntityId != 0 {
                         if let source = eventHandler.entities[currentBlock.sourceEntityId], source.hasDredge {

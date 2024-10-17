@@ -768,6 +768,9 @@ struct TagChangeActions {
         }
 
         let currentBlockCardId = powerGameStateParser?.getCurrentBlock()?.cardId ?? ""
+        // When a card is moved from hand it is not relevant if it was mulliganed.
+        // If not cleared, we may display mulliganed mark to cards if they return to hand.
+        entity.info.mulliganed = false
         switch zoneValue {
         case .play:
             eventHandler.lastCardPlayed = id
