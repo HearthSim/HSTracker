@@ -55,7 +55,7 @@
 		<string>Chunkfive.otf</string>
 	</array>
 	<key>NSPrincipalClass</key>
-	<string>NSApplication</string>
+	<string>SentryCrashExceptionApplication</string>
 	<key>SUAutomaticallyUpdate</key>
 	<false/>
 	<key>SUEnableAutomaticChecks</key>

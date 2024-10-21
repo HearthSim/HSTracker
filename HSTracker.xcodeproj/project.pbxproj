@@ -419,6 +419,7 @@
 		B81849232BF4D58E00F4EEE2 /* ConstructedMulliganOverlayMessage.xib in Resources */ = {isa = PBXBuildFile; fileRef = B81849222BF4D58E00F4EEE2 /* ConstructedMulliganOverlayMessage.xib */; };
 		B81849252BF4D5A700F4EEE2 /* ConstructedMulliganOverlayMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81849242BF4D5A700F4EEE2 /* ConstructedMulliganOverlayMessage.swift */; };
 		B81849272BF4D7C900F4EEE2 /* ConstructedMulliganOverlayMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81849262BF4D7C900F4EEE2 /* ConstructedMulliganOverlayMessageViewModel.swift */; };
+		B8196F112CC1BB58007C0371 /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = B8196F102CC1BB58007C0371 /* Sentry */; };
 		B82238B82BF82BA500B405D4 /* PlayerProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82238B72BF82BA500B405D4 /* PlayerProxy.swift */; };
 		B82238BA2BF948B000B405D4 /* BoardSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82238B92BF948B000B405D4 /* BoardSnapshot.swift */; };
 		B82238BC2BF948E600B405D4 /* BattlegroundsBoardState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82238BB2BF948E600B405D4 /* BattlegroundsBoardState.swift */; };
@@ -820,13 +821,9 @@
 		B8D75BA425BA21C900446923 /* Preferences in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BA325BA21C900446923 /* Preferences */; };
 		B8D75BA525BA22B900446923 /* BattlegroundsTierOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CFF95AC23C0C48E006AB461 /* BattlegroundsTierOverlay.xib */; };
 		B8D75BAF25BCE68900446923 /* SwiftyBeaver in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BAE25BCE68900446923 /* SwiftyBeaver */; };
-		B8D75BB225BCE76500446923 /* AppCenterCrashes in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BB125BCE76500446923 /* AppCenterCrashes */; };
-		B8D75BB425BCE76500446923 /* AppCenterAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BB325BCE76500446923 /* AppCenterAnalytics */; };
 		B8D75BBD25BCEACB00446923 /* TextAttributes in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BBC25BCEACB00446923 /* TextAttributes */; };
 		B8D75BC325BD10B600446923 /* OAuthSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BC225BD10B600446923 /* OAuthSwift */; };
 		B8D75BC525BDAF1300446923 /* SwiftyBeaver in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BC425BDAF1300446923 /* SwiftyBeaver */; };
-		B8D75BC725BDAF1300446923 /* AppCenterAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BC625BDAF1300446923 /* AppCenterAnalytics */; };
-		B8D75BC925BDAF1300446923 /* AppCenterCrashes in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BC825BDAF1300446923 /* AppCenterCrashes */; };
 		B8D75BCF25BDAF1300446923 /* TextAttributes in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BCE25BDAF1300446923 /* TextAttributes */; };
 		B8D75BD125BDAF1300446923 /* OAuthSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BD025BDAF1300446923 /* OAuthSwift */; };
 		B8D75BD425BDD3A700446923 /* PromiseKit in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BD325BDD3A700446923 /* PromiseKit */; };
@@ -1816,12 +1813,11 @@
 				B8D75BEA25BDF92B00446923 /* RealmSwift in Frameworks */,
 				B8D75BAF25BCE68900446923 /* SwiftyBeaver in Frameworks */,
 				B82E7B19262A88DB00C42EF0 /* BigInt in Frameworks */,
-				B8D75BB225BCE76500446923 /* AppCenterCrashes in Frameworks */,
-				B8D75BB425BCE76500446923 /* AppCenterAnalytics in Frameworks */,
 				B8D75BC325BD10B600446923 /* OAuthSwift in Frameworks */,
 				B8D75BD425BDD3A700446923 /* PromiseKit in Frameworks */,
 				4C68AF2B2447D35B00E52834 /* HearthMirror.framework in Frameworks */,
 				B85920962B4C73B300B907A4 /* CustomToolTip in Frameworks */,
+				B8196F112CC1BB58007C0371 /* Sentry in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1834,13 +1830,11 @@
 				4345E9DD1CB45122002D0F23 /* Cocoa.framework in Frameworks */,
 				B887656A26C304FA003D3629 /* BigInt in Frameworks */,
 				B8D75BA425BA21C900446923 /* Preferences in Frameworks */,
-				B8D75BC725BDAF1300446923 /* AppCenterAnalytics in Frameworks */,
 				B8D75BD625BDD3F000446923 /* PromiseKit in Frameworks */,
 				4345E9DE1CB45122002D0F23 /* Foundation.framework in Frameworks */,
 				1CCB4ACF1E84708A003FD1AD /* libz.tbd in Frameworks */,
 				B8D75BDB25BDD4BF00446923 /* FMDB in Frameworks */,
 				B8D75BD125BDAF1300446923 /* OAuthSwift in Frameworks */,
-				B8D75BC925BDAF1300446923 /* AppCenterCrashes in Frameworks */,
 				B8D75BF125BDFEDE00446923 /* Gzip in Frameworks */,
 				B8D75BCF25BDAF1300446923 /* TextAttributes in Frameworks */,
 				B8D75BC525BDAF1300446923 /* SwiftyBeaver in Frameworks */,
@@ -3024,8 +3018,6 @@
 			packageProductDependencies = (
 				B8D75B9525B4799200446923 /* Preferences */,
 				B8D75BAE25BCE68900446923 /* SwiftyBeaver */,
-				B8D75BB125BCE76500446923 /* AppCenterCrashes */,
-				B8D75BB325BCE76500446923 /* AppCenterAnalytics */,
 				B8D75BBC25BCEACB00446923 /* TextAttributes */,
 				B8D75BC225BD10B600446923 /* OAuthSwift */,
 				B8D75BD325BDD3A700446923 /* PromiseKit */,
@@ -3035,6 +3027,7 @@
 				B8D75BF625BE032500446923 /* Sparkle */,
 				B82E7B18262A88DB00C42EF0 /* BigInt */,
 				B85920952B4C73B300B907A4 /* CustomToolTip */,
+				B8196F102CC1BB58007C0371 /* Sentry */,
 			);
 			productName = HSTracker;
 			productReference = 439C7E481C7772C000D29859 /* HSTracker.app */;
@@ -3059,8 +3052,6 @@
 			packageProductDependencies = (
 				B8D75BA325BA21C900446923 /* Preferences */,
 				B8D75BC425BDAF1300446923 /* SwiftyBeaver */,
-				B8D75BC625BDAF1300446923 /* AppCenterAnalytics */,
-				B8D75BC825BDAF1300446923 /* AppCenterCrashes */,
 				B8D75BCE25BDAF1300446923 /* TextAttributes */,
 				B8D75BD025BDAF1300446923 /* OAuthSwift */,
 				B8D75BD525BDD3F000446923 /* PromiseKit */,
@@ -3125,7 +3116,6 @@
 			packageReferences = (
 				B8D75B9425B4799100446923 /* XCRemoteSwiftPackageReference "Preferences" */,
 				B8D75BAD25BCE68900446923 /* XCRemoteSwiftPackageReference "SwiftyBeaver" */,
-				B8D75BB025BCE76500446923 /* XCRemoteSwiftPackageReference "appcenter-sdk-apple" */,
 				B8D75BBB25BCEACB00446923 /* XCRemoteSwiftPackageReference "TextAttributes" */,
 				B8D75BC125BD10B600446923 /* XCRemoteSwiftPackageReference "OAuthSwift" */,
 				B8D75BD225BDD3A700446923 /* XCRemoteSwiftPackageReference "PromiseKit" */,
@@ -3135,6 +3125,7 @@
 				B8D75BF525BE032500446923 /* XCRemoteSwiftPackageReference "Sparkle" */,
 				B82E7B17262A88DB00C42EF0 /* XCRemoteSwiftPackageReference "BigInt" */,
 				B85920942B4C73B300B907A4 /* XCRemoteSwiftPackageReference "CustomToolTip" */,
+				B8196F0F2CC1BB58007C0371 /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
 			);
 			productRefGroup = 439C7E491C7772C000D29859 /* Products */;
 			projectDirPath = "";
@@ -4789,7 +4780,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/downloaded-frameworks/mono/runtimes/osx-x64/native";
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 3.0.8;
+				MARKETING_VERSION = 3.0.9;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = (
@@ -4837,7 +4828,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/downloaded-frameworks/mono/runtimes/osx-x64/native";
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 3.0.8;
+				MARKETING_VERSION = 3.0.9;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -4956,6 +4947,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		B8196F0F2CC1BB58007C0371 /* XCRemoteSwiftPackageReference "sentry-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/getsentry/sentry-cocoa.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.38.0;
+			};
+		};
 		B82E7B17262A88DB00C42EF0 /* XCRemoteSwiftPackageReference "BigInt" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/attaswift/BigInt";
@@ -4986,14 +4985,6 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 1.9.6;
-			};
-		};
-		B8D75BB025BCE76500446923 /* XCRemoteSwiftPackageReference "appcenter-sdk-apple" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/microsoft/appcenter-sdk-apple";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.4.1;
 			};
 		};
 		B8D75BBB25BCEACB00446923 /* XCRemoteSwiftPackageReference "TextAttributes" */ = {
@@ -5055,6 +5046,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		B8196F102CC1BB58007C0371 /* Sentry */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8196F0F2CC1BB58007C0371 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
+			productName = Sentry;
+		};
 		B82E7B18262A88DB00C42EF0 /* BigInt */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B82E7B17262A88DB00C42EF0 /* XCRemoteSwiftPackageReference "BigInt" */;
@@ -5085,16 +5081,6 @@
 			package = B8D75BAD25BCE68900446923 /* XCRemoteSwiftPackageReference "SwiftyBeaver" */;
 			productName = SwiftyBeaver;
 		};
-		B8D75BB125BCE76500446923 /* AppCenterCrashes */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B8D75BB025BCE76500446923 /* XCRemoteSwiftPackageReference "appcenter-sdk-apple" */;
-			productName = AppCenterCrashes;
-		};
-		B8D75BB325BCE76500446923 /* AppCenterAnalytics */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B8D75BB025BCE76500446923 /* XCRemoteSwiftPackageReference "appcenter-sdk-apple" */;
-			productName = AppCenterAnalytics;
-		};
 		B8D75BBC25BCEACB00446923 /* TextAttributes */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B8D75BBB25BCEACB00446923 /* XCRemoteSwiftPackageReference "TextAttributes" */;
@@ -5109,16 +5095,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B8D75BAD25BCE68900446923 /* XCRemoteSwiftPackageReference "SwiftyBeaver" */;
 			productName = SwiftyBeaver;
-		};
-		B8D75BC625BDAF1300446923 /* AppCenterAnalytics */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B8D75BB025BCE76500446923 /* XCRemoteSwiftPackageReference "appcenter-sdk-apple" */;
-			productName = AppCenterAnalytics;
-		};
-		B8D75BC825BDAF1300446923 /* AppCenterCrashes */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B8D75BB025BCE76500446923 /* XCRemoteSwiftPackageReference "appcenter-sdk-apple" */;
-			productName = AppCenterCrashes;
 		};
 		B8D75BCE25BDAF1300446923 /* TextAttributes */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -8,9 +8,8 @@
 
 import Foundation
 import PromiseKit
-import AppCenterAnalytics
-import AppCenterCrashes
 import SwiftyBeaver
+import Sentry
 
 class BobsBuddyDestination: BaseDestination {
     
@@ -190,7 +189,7 @@ class BobsBuddyInvoker {
             _ = runAndDisplaySimulationAsync().catch({ error in
                 logger.error("Error running simulation: \(error.localizedDescription)")
                 BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .failedToLoad)
-                Analytics.trackEvent("runSimulation failed", withProperties: [ "error": error.localizedDescription])
+                Influx.sendEvent(eventName: "runSimulation failed", withProperties: [ "error": error.localizedDescription])
             })
         }
     }
@@ -294,7 +293,7 @@ class BobsBuddyInvoker {
             }.catch({ error in
                 logger.error("Error running simulation: \(error.localizedDescription)")
                 BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .failedToLoad)
-                Analytics.trackEvent("runSimulation failed", withProperties: [ "error": error.localizedDescription])
+                Influx.sendEvent(eventName: "runSimulation failed", withProperties: [ "error": error.localizedDescription])
                 seal.fulfill(false)
             })
         }
@@ -304,6 +303,8 @@ class BobsBuddyInvoker {
         logger.info("Starting simulation")
         return Promise<OutputProxy?> { seal in
             DispatchQueue.global().async {
+                Influx.breadcrumb(eventName: "running_simulation", withProperties: ["turn": "\(self.game.turnNumber())"])
+
                 let opaque = mono_thread_attach(MonoHelper._monoInstance)
                 
                 var result: OutputProxy?
@@ -428,10 +429,13 @@ class BobsBuddyInvoker {
                         logger.debug("----- End of Output -----")
                         
                         result = top
+                        
+                        Influx.breadcrumb(eventName: "simulation_complete", withProperties: ["turn": "\(self.game.turnNumber())"])
                     } catch let error as UnsupportedInteraction {
                         BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .unsupportedInteraction, message: error.message)
                         result = nil
                     } catch {
+                        SentrySDK.capture(error: error)
                         logger.error("Unknown error")
                         BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .none)
                         result = nil

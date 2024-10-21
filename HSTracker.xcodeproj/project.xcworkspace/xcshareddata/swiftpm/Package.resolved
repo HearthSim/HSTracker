@@ -1,14 +1,6 @@
 {
+  "originHash" : "faeb62fdba7773267974e6ccb127065f416df7459d907c4a0afa993b3aacfb30",
   "pins" : [
-    {
-      "identity" : "appcenter-sdk-apple",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/microsoft/appcenter-sdk-apple",
-      "state" : {
-        "revision" : "b84bc8a39ff04bc8d5ae7b4d230c171c562891aa",
-        "version" : "4.4.1"
-      }
-    },
     {
       "identity" : "bigint",
       "kind" : "remoteSourceControl",
@@ -91,15 +83,6 @@
       }
     },
     {
-      "identity" : "plcrashreporter",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/microsoft/PLCrashReporter.git",
-      "state" : {
-        "revision" : "6b27393cad517c067dceea85fadf050e70c4ceaa",
-        "version" : "1.10.1"
-      }
-    },
-    {
       "identity" : "preferences",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sindresorhus/Preferences",
@@ -133,6 +116,15 @@
       "state" : {
         "revision" : "3c4b86da569368c4ee5ccca2a112d511cc6fa936",
         "version" : "12.11.0"
+      }
+    },
+    {
+      "identity" : "sentry-cocoa",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/getsentry/sentry-cocoa.git",
+      "state" : {
+        "revision" : "54cc2e3e4fcbf9d4c7708ce00d3b6eee29aecbb1",
+        "version" : "8.38.0"
       }
     },
     {
@@ -171,5 +163,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }

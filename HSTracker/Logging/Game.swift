@@ -11,7 +11,6 @@
 import Foundation
 import RealmSwift
 import HearthMirror
-import AppCenterAnalytics
 
 struct Sideboard {
     let ownerCardId: String
@@ -1753,9 +1752,9 @@ class Game: NSObject, PowerEventHandler {
 
         self.startTime = Date()
         
-        Analytics.trackEvent("match_start", withProperties: ["gameMode": "\(self.currentGameMode)",
-                                                             "gameType": "\(self.currentGameType)",
-                                                             "spectator": "\(self.spectator)"])
+        Influx.breadcrumb(eventName: "match_start", withProperties: ["gameMode": "\(self.currentGameMode)",
+                                                                     "gameType": "\(self.currentGameType)",
+                                                                     "spectator": "\(self.spectator)"], level: .info)
         
         windowManager.linkOpponentDeckPanel.isFriendlyMatch = isFriendlyMatch
         
@@ -1825,6 +1824,7 @@ class Game: NSObject, PowerEventHandler {
 
     func gameEnd() {
         logger.info("----- Game End -----")
+        Influx.breadcrumb(eventName: "match_ended")
         AppHealth.instance.setHearthstoneGameRunning(flag: false)
 		
         handleEndGame()

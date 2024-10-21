@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import AppCenterAnalytics
+import Sentry
 
 class Influx {
     private static let lock = UnfairLock()
@@ -22,7 +22,33 @@ class Influx {
             return false
         }
         if send {
-            Analytics.trackEvent(eventName, withProperties: withProperties)
+            if withProperties.count > 0 {
+                SentrySDK.capture(message: eventName, block: { scope in
+                    scope.setContext(value: withProperties, key: "properties")
+                })
+            } else {
+                SentrySDK.capture(message: eventName)
+            }
         }
+    }
+    
+    static func sendEvent(eventName: String, withProperties: [String: String] = [:], level: SentryLevel = .error) {
+        if withProperties.count > 0 {
+            SentrySDK.capture(message: eventName, block: { scope in
+                scope.setContext(value: withProperties, key: "properties")
+                scope.setLevel(level)
+            })
+        } else {
+            SentrySDK.capture(message: eventName)
+        }
+    }
+    
+    static func breadcrumb(eventName: String, message: String? = nil, withProperties: [String: String]? = nil, level: SentryLevel = .info) {
+        let crumb = Breadcrumb()
+        crumb.category = eventName
+        crumb.level = level
+        crumb.data = withProperties
+        crumb.message = message
+        SentrySDK.addBreadcrumb(crumb)
     }
 }

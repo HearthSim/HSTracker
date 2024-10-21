@@ -10,10 +10,8 @@ import AppKit
 import SwiftyBeaver
 let logger = SwiftyBeaver.self
 import Preferences
-import AppCenter
-import AppCenterAnalytics
-import AppCenterCrashes
 import Sparkle
+import Sentry
 
 import OAuthSwift
 
@@ -62,31 +60,18 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
         Race.initialize()
         //setenv("CFNETWORK_DIAGNOSTICS", "3", 1)
         
-        Crashes.userConfirmationHandler = { (_: [ErrorReport]) in
-            // Your code to present your UI to the user, e.g. an NSAlert.
-            let alert: NSAlert = NSAlert()
-            alert.messageText = String.localizedString("HSTracker Crashed", comment: "")
-            alert.informativeText = String.localizedString("Do you want to send an anonymous crash report so we can try to fix the issue?", comment: "")
-            alert.addButton(withTitle: String.localizedString("Always send", comment: ""))
-            alert.addButton(withTitle: String.localizedString("Send", comment: ""))
-            alert.addButton(withTitle: String.localizedString("Don't send", comment: ""))
-            alert.alertStyle = .warning
-            
-            switch alert.runModal() {
-            case .alertFirstButtonReturn:
-                Crashes.notify(with: .always)
-            case .alertSecondButtonReturn:
-                Crashes.notify(with: .send)
-            case .alertThirdButtonReturn:
-                Crashes.notify(with: .dontSend)
-            default:
-                break
-            }
-            
-            return true // Return true if the SDK should await user confirmation, otherwise return false.
+        SentrySDK.start { options in
+            options.dsn = "https://254d50452b94680e7ac7968694d1de3a@o35918.ingest.us.sentry.io/92505"
+            options.debug = true // Enabled debug when first installing is always helpful
+
+            // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
+            // We recommend adjusting this value in production.
+            options.tracesSampleRate = 1.0
+
+            // Sample rate for profiling, applied on top of TracesSampleRate.
+            // We recommend adjusting this value in production.
+            options.profilesSampleRate = 1.0
         }
-        
-        AppCenter.start(withAppSecret: "2f0021b9-bb18-4282-9aa1-cfbbd85d3bed", services: [Analytics.self, Crashes.self])
         
         let options = [
             kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true as CFBoolean
@@ -217,13 +202,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
         } else {
             logger.warning("Failed to obtain bundle resource path")
         }
-        
-        Analytics.trackEvent("app_start", withProperties: ["version": Version.buildVersion])
     }
     
     func applicationWillTerminate(_ notification: Notification) {
-        Analytics.trackEvent("app_exit")
-
         coreManager?.stopTracking()
         if appWillRestart {
             let appPath = Bundle.main.bundlePath

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import AppCenterCrashes
+import Sentry
 
 class Sentry {
     struct BobsBuddyEvent {
@@ -43,7 +43,12 @@ class Sentry {
                 e.properties["shortId"] = shortId
                 e.properties["replay"] = "https://hsreplay.net/replay_debug/\(shortId)#turn=\(e.properties["turn"] ?? "0")b"
             }
-            Crashes.trackException(ExceptionModel.init(withType: e.type, exceptionMessage: e.message, stackTrace: []), properties: e.properties, attachments: [ErrorAttachmentLog.init(filename: "input.cs", attachmentText: e.input), ErrorAttachmentLog.init(filename: "log.txt", attachmentText: e.log)])
+            let error = NSException(name: NSExceptionName(rawValue: e.type), reason: e.message)
+            SentrySDK.capture(exception: error, block: { scope in
+                scope.setContext(value: e.properties, key: "properties")
+                scope.addAttachment(Attachment(data: e.input.data(using: .utf8) ?? Data(), filename: "input.cs"))
+                scope.addAttachment(Attachment(data: e.log.data(using: .utf8) ?? Data(), filename: "log.txt"))
+            })
             bobsBuddyEventsSent += 1
         }
     }

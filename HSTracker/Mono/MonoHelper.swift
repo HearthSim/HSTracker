@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import AppCenterCrashes
 
 protocol MonoClassInitializer {
     static var _class: OpaquePointer? { get }
