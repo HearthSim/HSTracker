@@ -161,6 +161,10 @@ extension CardIds.Collectible {
         static let CurseOfWeakness = "GIL_665"
         static let DemonicStudiesCore = "CORE_SCH_158"
         static let FelfireBonfire = "VAC_952"
+        static let GalakrondTheWretched = "DRG_600"
+        static let PartyPlannerVona = "VAC_945"
+        static let ImprisonedHorror = "TTN_462"
+        static let WheelOfDeath = "TOY_529"
     }
 }
 
@@ -230,6 +234,8 @@ extension CardIds.NonCollectible {
         static let CurseofFlesh_CurseOfFleshEnchantment = "YOG_503e1"
         static let DemonicStudies_DemonicStudiesEnchantment = "SCH_158e"
         static let FelfireBonfire_AmpleOfferingEnchantment = "VAC_952e"
+        static let KoboldMiner_TheAzeriteSnakeToken = "WW_001t25"
+        static let WheelofDEATH_WheelOfDeathCounterEnchantment = "TOY_529e1"
     }
 }
 

@@ -604,8 +604,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
         let game = coreManager.game
         if Settings.windowsLocked {
             game.windowManager.playerActiveEffectsOverlay.forceHideExampleEffects()
+            game.windowManager.playerActiveEffectsOverlay.updateGrid()
+            
+            game.windowManager.playerCountersOverlay.forceHideExampleCounters()
         } else {
             game.windowManager.playerActiveEffectsOverlay.forceShowExampleEffects(true)
+            game.windowManager.playerActiveEffectsOverlay.updateGrid()
+            
+            game.windowManager.playerCountersOverlay.forceShowExampleCounters()
         }
     }
     

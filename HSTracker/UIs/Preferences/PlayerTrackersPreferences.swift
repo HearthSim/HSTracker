@@ -41,6 +41,8 @@ class PlayerTrackersPreferences: NSViewController, PreferencePane {
     @IBOutlet weak var showPogoCounter: NSButton!
     @IBOutlet weak var showSpellSchoolsCounter: NSButton!
     @IBOutlet weak var showActiveEffects: NSButton!
+    @IBOutlet weak var showWotogCounters: NSButton!
+    @IBOutlet weak var showCounters: NSButton!
 
     override func viewWillAppear() {
         super.viewWillAppear()
@@ -70,6 +72,9 @@ class PlayerTrackersPreferences: NSViewController, PreferencePane {
         showSpellCounter.state = Settings.showPlayerSpellSchoolsCounter ? .on : .off
         showPlayerSideboards.state = Settings.hidePlayerSideboards ? .off : .on
         showActiveEffects.state = Settings.showPlayerActiveEffects ? .on : .off
+        showWotogCounters.state = Settings.showPlayerWotogCounters ? .on : .off
+        showCounters.state = Settings.showPlayerCounters ? .on : .off
+        updateEnablement()
     }
     
     @IBAction func colorChange(_ sender: NSColorWell) {
@@ -132,7 +137,25 @@ class PlayerTrackersPreferences: NSViewController, PreferencePane {
             Settings.hidePlayerSideboards = showPlayerSideboards.state == .off
         } else if sender == showActiveEffects {
             Settings.showPlayerActiveEffects = showActiveEffects.state == .on
+        } else if sender == showWotogCounters {
+            Settings.showPlayerWotogCounters = showWotogCounters.state == .on
+            updateEnablement()
+        } else if sender == showCounters {
+            Settings.showPlayerCounters = showCounters.state == .on
         }
+    }
+    
+    func updateEnablement() {
+        let enabled = showWotogCounters.state == .on
+        showJadeCounter.isEnabled = enabled
+        showCthunCounter.isEnabled = enabled
+        showSpellCounter.isEnabled = enabled
+        showPogoCounter.isEnabled = enabled
+        showGalakrondInvokeCounter.isEnabled = enabled
+        showLibramCounter.isEnabled = enabled
+        showAbyssalCounter.isEnabled = enabled
+        showExcavateTier.isEnabled = enabled
+        showSpellSchoolsCounter.isEnabled = enabled
     }
 }
 

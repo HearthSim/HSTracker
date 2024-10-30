@@ -174,6 +174,8 @@ extension CardIds.Collectible {
         static let KingTide = "VAC_524"
         static let SolidAlibi = "REV_504"
         static let Surfalopod = "VAC_443"
+        static let ElementalAllies = "DRG_324"
+        static let OverflowSurger = "WW_424"
     }
 }
 
@@ -249,6 +251,7 @@ extension CardIds.NonCollectible {
         static let KingTide_WaveridingEnchantment = "VAC_524e"
         static let SolidAlibi_SolidAlibiEnchantment = "REV_504e"
         static let Surfalopod_RideTheWaveEnchantment = "VAC_443e"
+        static let KoboldMiner_TheAzeriteHawkToken = "WW_001t24"
     }
 }
 

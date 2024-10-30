@@ -156,6 +156,9 @@ extension CardIds.Collectible {
         static let PopularPixie = "JAM_026"
         static let SparklingPhial = "TOY_800"
         static let TrailMix = "VAC_508"
+        static let JadeDisplay = "TOY_803"
+        static let JadeBehemothWONDERS = "WON_303"
+        static let FyeTheSettingSun = "WW_825"
     }
 }
 
@@ -302,6 +305,7 @@ extension CardIds.NonCollectible {
         static let MagicalDollhouse_MagicalHarvestEnchantment = "TOY_850e"
         static let NatureStudies_NatureStudiesEnchantment = "SCH_333e"
         static let SparklingPhial_SparklingEnchantment = "TOY_800e1"
+        static let JadeDisplay_JadeSalesEnchantment = "TOY_803e"
     }
 }
 

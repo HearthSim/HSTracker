@@ -148,6 +148,10 @@ extension CardIds.Collectible {
         static let JazzBass = "ETC_813"
         static let Melomania = "ETC_367"
         static let Shudderblock = "TOY_501"
+        static let SkarrTheCatastrophe = "WW_026"
+        static let GalakrondTheTempest = "DRG_620"
+        static let JadeLightningWONDERS = "WON_082"
+        static let JadeChieftainWONDERS = "WON_084"
     }
 }
 
@@ -211,6 +215,7 @@ extension CardIds.NonCollectible {
         static let JazzBass_ElectricSlideEnchantment1 = "ETC_813e"
         static let Melomania_MelomaniaEnchantment = "ETC_367e"
         static let Shudderblock_ReadyForActionEnchantment = "TOY_501e"
+        static let TheAzeriteMurlocToken = "DEEP_999t5"
     }
 }
 

@@ -153,6 +153,16 @@ class WindowManager {
         return $0
     }(ActiveEffectsOverlay(windowNibName: "ActiveEffectsOverlay"))
 
+    var playerCountersOverlay: CountersOverlay = {
+        $0.isPlayer = true
+        return $0
+    }(CountersOverlay(windowNibName: "CountersOverlay"))
+
+    var opponentCountersOverlay: CountersOverlay = {
+        $0.isPlayer = false
+        return $0
+    }(CountersOverlay(windowNibName: "CountersOverlay"))
+
     var toastWindowController = ToastWindowController()
 
     var floatingCard: FloatingCard = {
@@ -271,6 +281,8 @@ class WindowManager {
             self?.playerBoardOverlay.window?.orderOut(nil)
             self?.opponentBoardOverlay.window?.orderOut(nil)
             self?.flavorText.window?.orderOut(nil)
+            self?.playerActiveEffectsOverlay.window?.orderOut(nil)
+            self?.opponentActiveEffectsOverlay.window?.orderOut(nil)
         }
     }
 

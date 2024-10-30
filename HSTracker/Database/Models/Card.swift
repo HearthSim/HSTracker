@@ -56,6 +56,21 @@ final class Card {
     var tourist = 0
     var baconTriple = false
     
+    func hasRace(_ race: Race) -> Bool {
+        if races.count == 0 {
+            return false
+        }
+        return races[0] == race || (races.count > 1 && races[1] == race)
+    }
+    
+    func isDragon() -> Bool {
+        return hasRace(.dragon)
+    }
+    
+    func isElemental() -> Bool {
+        return hasRace(.elemental)
+    }
+    
     var deckbuildingCard: Card {
         if zilliaxCustomizableCosmeticModule {
             return Cards.by(cardId: CardIds.Collectible.Neutral.ZilliaxDeluxe3000) ?? self
@@ -103,6 +118,18 @@ final class Card {
 //        .demon_hunter_tourist: .demonhunter,
 //        .death_knight_tourist: .deathknight
 //    ]
+    static let touristVisitMap: [CardClass: CardClass] = [
+        .rogue: .paladin,
+        .warlock: .rogue,
+        .deathknight: .warlock,
+        .shaman: .deathknight,
+        .demonhunter: .shaman,
+        .priest: .demonhunter,
+        .hunter: .priest,
+        .warrior: .hunter,
+        .druid: .warrior,
+        .mage: .druid
+    ]
 
     // arena helper
     var isBadAsMultiple = false
@@ -153,6 +180,14 @@ final class Card {
             return nil
         }
         return CardClass.allCases[tourist]
+    }
+    
+    func getTouristVistClass() -> CardClass? {
+        if !canBeVisitedByTourist {
+            return nil
+        }
+        
+        return Card.touristVisitMap[playerClass]
     }
 
     static let pluralRegex = Regex("\\$(\\d+) \\|4\\((\\w+),(\\w+)\\)")

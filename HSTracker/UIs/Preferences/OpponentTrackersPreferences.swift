@@ -39,6 +39,8 @@ class OpponentTrackersPreferences: NSViewController, PreferencePane {
     @IBOutlet weak var showPogoCounter: NSButton!
     @IBOutlet weak var showSpellSchoolsCounter: NSButton!
     @IBOutlet weak var showActiveEffects: NSButton!
+    @IBOutlet weak var showWotogCounters: NSButton!
+    @IBOutlet weak var showCounters: NSButton!
     
     override func viewWillAppear() {
         super.viewWillAppear()
@@ -66,6 +68,9 @@ class OpponentTrackersPreferences: NSViewController, PreferencePane {
         enableLinkOpponentDeckInNonFriendly.state = Settings.enableLinkOpponentDeckInNonFriendly ? .on : .off
         showSpellCounter.state = Settings.showOpponentSpellSchoolsCounter ? .on : .off
         showActiveEffects.state = Settings.showOpponentActiveEffects ? .on : .off
+        showWotogCounters.state = Settings.showOpponentWotogCounters ? .on : .off
+        showCounters.state = Settings.showOpponentCounters ? .on : .off
+        updateEnablement()
     }
 
     @IBAction func checkboxClicked(_ sender: NSButton) {
@@ -120,7 +125,25 @@ class OpponentTrackersPreferences: NSViewController, PreferencePane {
             Settings.enableLinkOpponentDeckInNonFriendly = enableLinkOpponentDeckInNonFriendly.state == .on
         } else if sender == showActiveEffects {
             Settings.showOpponentActiveEffects = showActiveEffects.state == .on
+        } else if sender == showWotogCounters {
+            Settings.showOpponentWotogCounters = showWotogCounters.state == .on
+            updateEnablement()
+        } else if sender == showCounters {
+            Settings.showOpponentCounters = showCounters.state == .on
         }
+    }
+    
+    func updateEnablement() {
+        let enabled = showWotogCounters.state == .on
+        showJadeCounter.isEnabled = enabled
+        showCthunCounter.isEnabled = enabled
+        showSpellCounter.isEnabled = enabled
+        showPogoCounter.isEnabled = enabled
+        showGalakrondInvokeCounter.isEnabled = enabled
+        showLibramCounter.isEnabled = enabled
+        showAbyssalCounter.isEnabled = enabled
+        showExcavateCounter.isEnabled = enabled
+        showSpellSchoolsCounter.isEnabled = enabled
     }
 }
 

@@ -244,6 +244,7 @@ extension CardIds.NonCollectible {
         static let TimeOut_TimeOutEnchantment = "TRL_302e"
         static let StarlightGroove_FeelingTheGrooveEnchantment = "ETC_330e1"
         static let ResistanceAura_ResistanceCoreEnchantment = "TTN_851e"
+        static let TheAzeriteDragonToken = "DEEP_999t4"
     }
 }
 

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22689"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="CounterView" customModule="HSTracker" customModuleProvider="target">
+            <connections>
+                <outlet property="circleView" destination="KbR-NS-rBW" id="omD-yo-fcd"/>
+                <outlet property="contentView" destination="c22-O7-iKe" id="pxd-Ww-A7F"/>
+                <outlet property="image" destination="wKB-cw-Vvy" id="m1G-Rc-2l7"/>
+                <outlet property="text" destination="W2O-1D-hPX" id="bYP-XJ-v86"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView translatesAutoresizingMaskIntoConstraints="NO" id="c22-O7-iKe">
+            <rect key="frame" x="0.0" y="0.0" width="84" height="51"/>
+            <subviews>
+                <box clipsToBounds="YES" boxType="custom" borderWidth="2" cornerRadius="20" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="eTB-vZ-uft" userLabel="OuterBorder">
+                    <rect key="frame" x="5" y="5" width="74" height="41"/>
+                    <view key="contentView" clipsToBounds="YES" id="uev-T5-yPO">
+                        <rect key="frame" x="2" y="2" width="70" height="37"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <customView clipsToBounds="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w7X-U8-Hbs" userLabel="Numeric Counter">
+                                <rect key="frame" x="0.0" y="0.0" width="70" height="37"/>
+                                <subviews>
+                                    <customView clipsToBounds="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KbR-NS-rBW">
+                                        <rect key="frame" x="0.0" y="0.0" width="37" height="37"/>
+                                        <subviews>
+                                            <imageView clipsToBounds="YES" autoresizesSubviews="NO" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wKB-cw-Vvy" userLabel="Numeric Image">
+                                                <rect key="frame" x="-10" y="-11" width="56" height="55"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="55.5" id="3s1-qo-MJU"/>
+                                                    <constraint firstAttribute="width" constant="55.5" id="MeW-nc-wzO"/>
+                                                </constraints>
+                                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="coin" id="AVl-4G-wOg"/>
+                                                <connections>
+                                                    <binding destination="-2" name="value" keyPath="self.cardImage" id="T28-ct-PIn"/>
+                                                </connections>
+                                            </imageView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="37" id="6gY-Mm-sp2"/>
+                                            <constraint firstAttribute="width" constant="37" id="OUj-dK-JVD"/>
+                                            <constraint firstItem="wKB-cw-Vvy" firstAttribute="leading" secondItem="KbR-NS-rBW" secondAttribute="leading" constant="-10" id="pH6-v6-KEr"/>
+                                            <constraint firstItem="wKB-cw-Vvy" firstAttribute="top" secondItem="KbR-NS-rBW" secondAttribute="top" constant="-7" id="xUL-yW-jKn"/>
+                                        </constraints>
+                                    </customView>
+                                    <textField autoresizesSubviews="NO" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="W2O-1D-hPX" userLabel="Counter Text">
+                                        <rect key="frame" x="45" y="11" width="17" height="15"/>
+                                        <textFieldCell key="cell" alignment="center" title="0" usesSingleLineMode="YES" id="SfV-as-6lD">
+                                            <font key="font" size="15" name="ChunkFive-Roman"/>
+                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <connections>
+                                            <binding destination="-2" name="value" keyPath="self.counterValue" id="2Pc-S1-UPk"/>
+                                        </connections>
+                                    </textField>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="KbR-NS-rBW" firstAttribute="leading" secondItem="w7X-U8-Hbs" secondAttribute="leading" id="5Nr-6n-ewD"/>
+                                    <constraint firstItem="W2O-1D-hPX" firstAttribute="centerY" secondItem="w7X-U8-Hbs" secondAttribute="centerY" id="PQi-io-KZ6"/>
+                                    <constraint firstAttribute="trailing" secondItem="W2O-1D-hPX" secondAttribute="trailing" constant="10" id="kIX-P1-H9C"/>
+                                    <constraint firstItem="W2O-1D-hPX" firstAttribute="leading" secondItem="KbR-NS-rBW" secondAttribute="trailing" constant="10" id="l4g-uv-YeN"/>
+                                    <constraint firstItem="KbR-NS-rBW" firstAttribute="top" secondItem="w7X-U8-Hbs" secondAttribute="top" id="nEZ-lI-JV1"/>
+                                    <constraint firstAttribute="bottom" secondItem="KbR-NS-rBW" secondAttribute="bottom" id="oRa-8E-Llk"/>
+                                </constraints>
+                            </customView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="w7X-U8-Hbs" firstAttribute="leading" secondItem="uev-T5-yPO" secondAttribute="leading" id="7Mp-ed-Yz7"/>
+                            <constraint firstItem="w7X-U8-Hbs" firstAttribute="top" secondItem="uev-T5-yPO" secondAttribute="top" id="HbT-aR-LXe"/>
+                        </constraints>
+                    </view>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="41" id="UOV-CR-jN5"/>
+                    </constraints>
+                    <color key="borderColor" red="0.078431372549019607" green="0.086274509803921567" blue="0.090196078431372548" alpha="1" colorSpace="custom" customColorSpace="deviceRGB"/>
+                    <color key="fillColor" red="0.18238574266433716" green="0.20314627885818481" blue="0.21783864498138428" alpha="0.75" colorSpace="deviceRGB"/>
+                </box>
+            </subviews>
+            <constraints>
+                <constraint firstItem="eTB-vZ-uft" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="5" id="555-WL-L7M"/>
+                <constraint firstAttribute="trailing" secondItem="eTB-vZ-uft" secondAttribute="trailing" constant="5" id="RTd-Gt-23P"/>
+                <constraint firstAttribute="bottom" secondItem="eTB-vZ-uft" secondAttribute="bottom" constant="5" id="dUh-ou-4PI"/>
+                <constraint firstItem="eTB-vZ-uft" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="5" id="kC1-DM-mpg"/>
+            </constraints>
+            <point key="canvasLocation" x="-206" y="9.5"/>
+        </customView>
+    </objects>
+    <resources>
+        <image name="coin" width="16" height="16"/>
+    </resources>
+</document>

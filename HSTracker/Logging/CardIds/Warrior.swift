@@ -148,6 +148,7 @@ extension CardIds.Collectible {
         static let OdynPrimeDesignate = "TTN_811"
         static let PartScrapper = "MIS_902"
         static let PunchCard = "WORK_022"
+        static let GalakrondTheUnbreakable = "DRG_650"
     }
 }
 
@@ -234,6 +235,7 @@ extension CardIds.NonCollectible {
         static let OdynPrimeDesignate_ImpenetrableEnchantment = "TTN_811e"
         static let PartScrapper_ScrappedPartsEnchantment = "MIS_902e"
         static let PunchCard_PunchedInEnchantment = "WORK_022e"
+        static let KoboldMiner_TheAzeriteOxToken = "WW_001t27"
     }
 }
 

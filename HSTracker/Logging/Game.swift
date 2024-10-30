@@ -55,12 +55,14 @@ class Game: NSObject, PowerEventHandler {
                     self?.updateBattlegroundsOverlays()
                     self?.updateConstructedMulliganOverlays()
                     self?.updateActiveEffects()
+                    self?.updateCounters()
 				})
 			} else {
 				self.updateTrackers()
                 self.updateBattlegroundsOverlays()
                 self.updateConstructedMulliganOverlays()
                 self.updateActiveEffects()
+                self.updateCounters()
 			}
 		}
 	}
@@ -76,6 +78,7 @@ class Game: NSObject, PowerEventHandler {
     var _mulliganGuideParams: MulliganGuideParams?
     
     let activeEffects: ActiveEffects
+    let counterManager: CounterManager
 	
     func setHearthstoneRunning(flag: Bool) {
         hearthstoneRunState.isRunning = flag
@@ -152,6 +155,7 @@ class Game: NSObject, PowerEventHandler {
         self.updateBoardOverlay()
         self.updateConstructedMulliganOverlays()
         self.updateActiveEffects()
+        self.updateCounters()
 	}
 	
     // MARK: - GUI calls
@@ -249,7 +253,7 @@ class Game: NSObject, PowerEventHandler {
     func updateOpponentIcons() {
         DispatchQueue.main.async { [unowned(unsafe) self] in
             var anyVisible = false
-            let showTracker = shouldShowTracker && !isBattlegroundsMatch() && !isMercenariesMatch() && isMulliganDone()
+            let showTracker = shouldShowTracker && !isBattlegroundsMatch() && !isMercenariesMatch() && isMulliganDone() && Settings.showOpponentWotogCounters
             let icons = self.windowManager.opponentWotogIcons
             icons.jadeVisibility = showOpponentJadeCounter && showTracker
             if icons.jadeVisibility {
@@ -311,7 +315,7 @@ class Game: NSObject, PowerEventHandler {
     func updatePlayerIcons() {
         DispatchQueue.main.async { [unowned(unsafe) self] in
             var anyVisible = false
-            let showTracker = shouldShowTracker && !isBattlegroundsMatch() && !isMercenariesMatch() && isMulliganDone()
+            let showTracker = shouldShowTracker && !isBattlegroundsMatch() && !isMercenariesMatch() && isMulliganDone() && Settings.showPlayerWotogCounters
             let icons = self.windowManager.playerWotogIcons
             icons.jadeVisibility = showPlayerJadeCounter && showTracker
             if icons.jadeVisibility {
@@ -563,6 +567,47 @@ class Game: NSObject, PowerEventHandler {
                     windowManager.opponentActiveEffectsOverlay.updateGrid()
                 } else {
                     windowManager.show(controller: windowManager.opponentActiveEffectsOverlay, show: false)
+                }
+            }
+
+        }
+    }
+    
+    func updateCounters() {
+        DispatchQueue.main.async { [self] in
+            let hsActive = hearthstoneRunState.isActive
+
+            if isInMenu || !isMulliganDone() || !shouldShowTracker {
+                windowManager.playerCountersOverlay.visibility = false
+                windowManager.opponentCountersOverlay.visibility = false
+            } else {
+                windowManager.playerCountersOverlay.visibility = Settings.showPlayerCounters
+                windowManager.opponentCountersOverlay.visibility = Settings.showOpponentCounters
+            }
+            
+            if windowManager.playerCountersOverlay.visibility && windowManager.playerCountersOverlay.visibleCounters.count > 0 {
+                if hsActive {
+                    windowManager.show(controller: windowManager.playerCountersOverlay, show: true, frame: SizeHelper.playerCountersFrame(), overlay: true)
+                    if windowManager.playerCountersOverlay.needsUpdate() {
+                        DispatchQueue.main.async {
+                            self.windowManager.playerCountersOverlay.update()
+                        }
+                    }
+                } else {
+                    windowManager.show(controller: windowManager.playerCountersOverlay, show: false)
+                }
+            }
+
+            if windowManager.opponentCountersOverlay.visibility && windowManager.opponentCountersOverlay.visibleCounters.count > 0 {
+                if hsActive {
+                    windowManager.show(controller: windowManager.opponentCountersOverlay, show: true, frame: SizeHelper.opponentCountersFrame(), overlay: true)
+                    if windowManager.opponentCountersOverlay.needsUpdate() {
+                        DispatchQueue.main.async {
+                            self.windowManager.opponentCountersOverlay.update()
+                        }
+                    }
+                } else {
+                    windowManager.show(controller: windowManager.opponentCountersOverlay, show: false)
                 }
             }
 
@@ -1038,6 +1083,7 @@ class Game: NSObject, PowerEventHandler {
     var currentMode: Mode? = .invalid
     var previousMode: Mode? = .invalid
     private var _battlegroundsBoardState: BattlegroundsBoardState!
+    var primaryPlayerId = 0
     
     private var _brawlInfo: BrawlInfo?
 	
@@ -1357,7 +1403,9 @@ class Game: NSObject, PowerEventHandler {
         self.hearthstoneRunState = hearthstoneRunState
 		turnTimer = TurnTimer(gui: windowManager.timerHud)
         activeEffects = ActiveEffects()
+        counterManager = CounterManager()
         super.init()
+        counterManager.initialize(game: self)
         _battlegroundsBoardState = BattlegroundsBoardState(game: self)
 		player = Player(local: true, game: self)
         opponent = Player(local: false, game: self)
@@ -1731,6 +1779,8 @@ class Game: NSObject, PowerEventHandler {
         if Settings.showTimer {
             self.turnTimer.start()
         }
+        
+        counterManager.reset()
 		
 		// update spectator information
         if spectator || currentGameMode == .mercenaries { // no deck for mercenaries
@@ -1831,9 +1881,9 @@ class Game: NSObject, PowerEventHandler {
         self.powerLog = []
 
         secretsManager?.reset()
-        updateTrackers(reset: true)
         windowManager.hideGameTrackers()
         turnTimer.stop()
+        updateTrackers(reset: true)
     }
 
     func inMenu() {
@@ -2044,6 +2094,7 @@ class Game: NSObject, PowerEventHandler {
 		self.syncStats(logLines: self.powerLog, stats: currentGameStats)
         
         activeEffects.reset()
+        counterManager.reset()
     }
     
     private func updatePostGameBattlegroundsRating(gameStats: InternalGameStats) {
@@ -2247,6 +2298,7 @@ class Game: NSObject, PowerEventHandler {
                 DispatchQueue.main.async { [self] in
                     OpponentDeadForTracker.shoppingStarted(game: self)
                     if playerTurn.turn > 1 {
+                        self.primaryPlayerId = self.player.id
                         BobsBuddyInvoker.instance(gameId: self.gameId, turn: self.turnNumber() - 1)?.startShopping()
                         windowManager.battlegroundsTierOverlay.tierOverlay.onHeroPowers(heroPowers: self.player.board.filter { x in x.isHeroPower }.compactMap { x in x.cardId })
                         windowManager.battlegroundsTierOverlay.tierOverlay.onTrinkets(trinkets: self.player.trinkets.compactMap({ x in x.cardId }))
@@ -2296,6 +2348,10 @@ class Game: NSObject, PowerEventHandler {
     
     func isBattlegroundsDuosMatch() -> Bool {
         return currentGameType == .gt_battlegrounds_duo || currentGameType == .gt_battlegrounds_duo_vs_ai || currentGameType == .gt_battlegrounds_duo_friendly || currentGameType == .gt_battlegrounds_duo_ai_vs_ai
+    }
+    
+    var isTraditionalHearthstoneMatch: Bool {
+        return !isBattlegroundsMatch() && !isMercenariesMatch()
     }
     
     var currentBattlegroundsRating: Int? {

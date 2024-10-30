@@ -144,6 +144,9 @@ extension CardIds.Collectible {
         static let LoveEverlasting = "ETC_335"
         static let RazaTheResealed = "TOY_383"
         static let ShadowtouchedKvaldir = "YOG_300"
+        static let AstralAutomaton = "TTN_401"
+        static let GalakrondTheUnspeakable = "DRG_660"
+        static let TimewinderZarimi = "TOY_385"
     }
 }
 

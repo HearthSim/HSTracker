@@ -658,6 +658,10 @@ extension CardIds.Collectible {
         static let SpeakerStomper = "JAM_034"
         static let SpellwardJeweler = "DAL_081"
         static let PrinceRenathalInvalid = "CORE_REV_018"
+        static let Lamplighter = "VAC_442"
+        static let AzeriteGiant = "WW_025"
+        static let JadeSpiritWONDERS = "WON_118"
+        static let AyaBlackpawWONDERS = "WON_136"
     }
 }
 
@@ -821,6 +825,27 @@ extension CardIds.NonCollectible {
         static let TarSlick_OilyEnchantment = "TTN_726e"
         static let FlashofLightning_FlashOfLightningEnchantment = "TTN_830e"
         static let CurseofWeakness_CurseOfWeaknessEnchantment = "GIL_665e"
+        static let AstralAutomaton_DefenseMatrixOnlineEnchantment = "TTN_401e"
+        static let KoboldMiner_EscapingTroggToken = "WW_001t4"
+        static let KoboldMiner_FoolsAzeriteToken = "WW_001t3"
+        static let HeartblossomToken1 = "DEEP_999t1"
+        static let KoboldMiner_RockToken = "WW_001t"
+        static let KoboldMiner_WaterSourceToken = "WW_001t2"
+        static let KoboldMiner_AzeriteChunkToken = "WW_001t9"
+        static let KoboldMiner_CanaryToken = "WW_001t7"
+        static let DeepholmGeodeToken = "DEEP_999t2"
+        static let KoboldMiner_FallingStalactiteToken = "WW_001t5"
+        static let KoboldMiner_GlowingGlyphToken1 = "WW_001t8"
+        static let KoboldMiner_LivingStoneToken = "WW_001t16"
+        static let KoboldMiner_AzeriteGemToken = "WW_001t14"
+        static let KoboldMiner_CollapseToken = "WW_001t12"
+        static let KoboldMiner_MotherlodeDrakeToken = "WW_001t17"
+        static let KoboldMiner_OgrefistBoulderToken = "WW_001t11"
+        static let KoboldMiner_SteelhideMoleToken = "WW_001t13"
+        static let WorldPillarFragmentToken = "DEEP_999t3"
+        static let SkullOfGuldanSTORMWIND1 = "Story_10_SkullofGuldan"
+        static let JadeGolem1 = "CFM_712_t01"
+        static let AldorTruthseeker_AldorTruthseekerEnchantment = "BT_026e"
     }
 }
 

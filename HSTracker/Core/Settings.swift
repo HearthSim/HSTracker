@@ -335,6 +335,10 @@ final class Settings {
     static var showPlayerExcavateTier: Bool
     @UserDefault(key: Settings.player_pogo_counter, defaultValue: true)
     static var showPlayerPogoCounter: Bool
+    @UserDefault(key: Settings.player_wotog_counters, defaultValue: false)
+    static var showPlayerWotogCounters: Bool
+    @UserDefault(key: Settings.player_counters, defaultValue: true)
+    static var showPlayerCounters: Bool
     @UserDefault(key: Settings.opponent_pogo_counter, defaultValue: true)
     static var showOpponentPogoCounter: Bool
     @UserDefault(key: Settings.opponent_excavate_counter, defaultValue: true)
@@ -355,6 +359,10 @@ final class Settings {
     static var showOpponentJadeCounter: Bool
     @UserDefault(key: Settings.opponent_spell_schools_counter, defaultValue: true)
     static var showOpponentSpellSchoolsCounter: Bool
+    @UserDefault(key: Settings.opponent_wotog_counters, defaultValue: false)
+    static var showOpponentWotogCounters: Bool
+    @UserDefault(key: Settings.opponent_counters, defaultValue: true)
+    static var showOpponentCounters: Bool
     @UserDefault(key: Settings.remove_cards_from_deck, defaultValue: false)
     static var removeCardsFromDeck: Bool
     @UserDefault(key: Settings.highlight_last_drawn, defaultValue: true)
@@ -642,6 +650,8 @@ extension Settings {
     static let player_excavate_tier = "player_excavate_tier"
     static let player_pogo_counter = "player_pogo_counter"
     static let player_spell_schools_counter = "player_spell_school_counter"
+    static let player_wotog_counters = "player_wotog_counters"
+    static let player_counters = "player_counters"
     static let opponent_galakrond_invoke_frame = "opponent_galakrond_invoke_frame"
     static let opponent_cthun_frame = "opponent_cthun_frame"
     static let opponent_yogg_frame = "opponent_yogg_frame"
@@ -654,6 +664,8 @@ extension Settings {
     static let opponent_excavate_counter = "opponent_excavate_counter"
     static let opponent_pogo_counter = "opponent_pogo_counter"
     static let opponent_spell_schools_counter = "opponent_spell_school_counter"
+    static let opponent_wotog_counters = "opponent_wotog_counters"
+    static let opponent_counters = "opponent_counters"
     static let interacted_with_link_opponentDeck = "interacted_with_link_opponentDeck"
     static let enable_link_opponent_deck = "enable_link_opponent_deck"
 

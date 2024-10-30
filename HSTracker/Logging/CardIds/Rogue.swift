@@ -182,6 +182,10 @@ extension CardIds.Collectible {
         static let TarSlick = "TTN_726"
         static let TheCrystalCove = "TOY_512"
         static let ValeeraTheHollowICECROWN = "ICC_827"
+        static let GalakrondTheNightmare = "DRG_610"
+        static let JadeSwarmerWONDERS = "WON_067"
+        static let JadeTelegram = "WON_078"
+        static let JadeShurikenWONDERS = "WON_070"
     }
 }
 
@@ -265,6 +269,7 @@ extension CardIds.NonCollectible {
         static let SeaShill_SeaShillEnchantment = "VAC_332e"
         static let SecretPassage_SecretEntranceEnchantment = "SCH_305e2"
         static let TheCrystalCove_TreasuresBelowEnchantment = "TOY_512e1"
+        static let KoboldMiner_TheAzeriteScorpionToken = "WW_001t23"
     }
 }
 

@@ -22,50 +22,94 @@ struct TagChangeActions {
         if tag == .bacon_card_dbid_reward {
             logger.debug("Tag change of reward: \(id): \(prevValue) -> \(value)")
         }
-        switch tag {
-        case .zone: return { self.zoneChange(eventHandler: eventHandler, id: id, value: value, prevValue: prevValue) }
-        case .playstate: return { self.playstateChange(eventHandler: eventHandler, id: id, value: value) }
-        case .cardtype: return { self.cardTypeChange(eventHandler: eventHandler, id: id, value: value) }
-        case .defending: return { self.defendingChange(eventHandler: eventHandler, id: id, value: value) }
-        case .attacking: return { self.attackingChange(eventHandler: eventHandler, id: id, value: value) }
-        case .proposed_defender: return { self.proposedDefenderChange(eventHandler: eventHandler, value: value) }
-        case .proposed_attacker: return { self.proposedAttackerChange(eventHandler: eventHandler, value: value) }
-        case .predamage: return { self.predamageChange(eventHandler: eventHandler, id: id, value: value) }
-        case .num_turns_in_play: return { self.numTurnsInPlayChange(eventHandler: eventHandler, id: id, value: value) }
-        case .controller:
-            return { self.controllerChange(eventHandler: eventHandler, id: id, prevValue: prevValue, value: value) }
-        case .fatigue: return { self.fatigueChange(eventHandler: eventHandler, value: value, id: id) }
-        case .step: return { self.stepChange(eventHandler: eventHandler, value: value) }
-        case .turn: return { self.turnChange(eventHandler: eventHandler) }
-        case .state: return { self.stateChange(eventHandler: eventHandler, value: value) }
-        case .transformed_from_card: return { self.transformedFromCardChange(eventHandler: eventHandler, id: id, value: value) }
-        case .creator, .displayed_creator: return { self.creatorChanged(eventHandler: eventHandler, id: id, value: value)}
-        case .whizbang_deck_id: return { self.whizbangDeckIdChange(eventHandler: eventHandler, id: id, value: value)}
-        case .mulligan_state: return { self.mulliganStateChange(eventHandler: eventHandler, id: id, value: value) }
-        case .copied_from_entity_id: return { self.onCardCopy(eventHandler: eventHandler, id: id, value: value) }
-        case .linked_entity: return { self.linkedEntity(eventHandler: eventHandler, id: id, value: value)}
-        case .tag_script_data_num_1: return { self.tagScriptDataNum1(eventHandler: eventHandler, id: id, value: value) }
-        case .reborn: return { self.rebornChange(eventHandler: eventHandler, id: id, value: value)}
-        case .damage: return { self.damageChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue) }
-        case .armor: return { self.armorChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue)}
-        case .forge_revealed: return { self.onForgeRevealed(eventHandler: eventHandler, id: id, value: value, previous: prevValue) }
-        case .lettuce_ability_tile_visual_all_visible, .lettuce_ability_tile_visual_self_only, .fake_zone, .fake_zone_position: return { eventHandler.handleMercenariesStateChange() }
-        case .player_tech_level: return { self.playerTechLevel(eventHandler: eventHandler, id: id, value: value, previous: prevValue)}
-        case .player_triples: return { self.playerTriples(eventHandler: eventHandler, id: id, value: value, previous: prevValue)}
-        case .immolatestage: return { self.onImmolateStage(eventHandler: eventHandler, id: id, value: value)}
-        case .resources_used: return { self.onResourcesUsedChange(eventHandler: eventHandler, id: id, value: value)}
-        case .quest_reward_database_id: return { eventHandler.handleQuestRewardDatabaseId(id: id, value: value)}
-
-        case .bacon_player_num_hero_buddies_gained: return { self.playerBuddiesGained(eventHandler: eventHandler, id: id, value: value)}
-        case .bacon_hero_heropower_quest_reward_database_id: return { self.playerHeroPowerQuestRewardDatabaseId(eventHandler: eventHandler, id: id, value: value)}
-        case .bacon_hero_heropower_quest_reward_completed: return { self.playerHeroPowerQuestRewardCompleted(eventHandler: eventHandler, id: id, value: value)}
-        case .bacon_hero_quest_reward_database_id: return { self.playerHeroQuestRewardDatabaseId(eventHandler: eventHandler, id: id, value: value)}
-        case .bacon_hero_quest_reward_completed: return { self.playerHeroQuestRewardCompleted(eventHandler: eventHandler, id: id, value: value)}
-        case .gametag_2022: return { self.onBattlegroundsSetupChange(eventHandler: eventHandler, value: value, prevValue: prevValue)}
-        case .gametag_3533: return { self.onBattlegroundsCombatSetupChange(eventHandler: eventHandler, value: value, prevValue: prevValue )}
-        case .hero_entity: return { self.onHeroEntityChange(eventHandler: eventHandler, playerEntityId: id, heroEntityId: value)}
-        case .next_opponent_player_id: return { self.onNextOpponentPlayerId(eventHandler: eventHandler, id: id, value: value)}
-        default: return nil
+        return {
+            switch tag {
+            case .zone: 
+                self.zoneChange(eventHandler: eventHandler, id: id, value: value, prevValue: prevValue)
+            case .playstate: 
+                self.playstateChange(eventHandler: eventHandler, id: id, value: value)
+            case .cardtype: 
+                self.cardTypeChange(eventHandler: eventHandler, id: id, value: value)
+            case .defending: 
+                self.defendingChange(eventHandler: eventHandler, id: id, value: value)
+            case .attacking: 
+                self.attackingChange(eventHandler: eventHandler, id: id, value: value)
+            case .proposed_defender: 
+                self.proposedDefenderChange(eventHandler: eventHandler, value: value)
+            case .proposed_attacker:
+                self.proposedAttackerChange(eventHandler: eventHandler, value: value)
+            case .predamage:
+                self.predamageChange(eventHandler: eventHandler, id: id, value: value)
+            case .num_turns_in_play:
+                self.numTurnsInPlayChange(eventHandler: eventHandler, id: id, value: value)
+            case .controller:
+                self.controllerChange(eventHandler: eventHandler, id: id, prevValue: prevValue, value: value)
+            case .fatigue:
+                self.fatigueChange(eventHandler: eventHandler, value: value, id: id)
+            case .step:
+                self.stepChange(eventHandler: eventHandler, value: value)
+            case .turn:
+                self.turnChange(eventHandler: eventHandler)
+            case .state:
+                self.stateChange(eventHandler: eventHandler, value: value)
+            case .transformed_from_card:
+                self.transformedFromCardChange(eventHandler: eventHandler, id: id, value: value)
+            case .creator, .displayed_creator:
+                self.creatorChanged(eventHandler: eventHandler, id: id, value: value)
+            case .whizbang_deck_id:
+                self.whizbangDeckIdChange(eventHandler: eventHandler, id: id, value: value)
+            case .mulligan_state:
+                self.mulliganStateChange(eventHandler: eventHandler, id: id, value: value)
+            case .copied_from_entity_id:
+                self.onCardCopy(eventHandler: eventHandler, id: id, value: value)
+            case .linked_entity:
+                self.linkedEntity(eventHandler: eventHandler, id: id, value: value)
+            case .tag_script_data_num_1:
+                self.tagScriptDataNum1(eventHandler: eventHandler, id: id, value: value)
+            case .reborn:
+                self.rebornChange(eventHandler: eventHandler, id: id, value: value)
+            case .damage:
+                self.damageChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue)
+            case .armor:
+                self.armorChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue)
+            case .forge_revealed:
+                self.onForgeRevealed(eventHandler: eventHandler, id: id, value: value, previous: prevValue)
+            case .lettuce_ability_tile_visual_all_visible, .lettuce_ability_tile_visual_self_only, .fake_zone, .fake_zone_position:
+                eventHandler.handleMercenariesStateChange()
+            case .player_tech_level:
+                self.playerTechLevel(eventHandler: eventHandler, id: id, value: value, previous: prevValue)
+            case .player_triples:
+                self.playerTriples(eventHandler: eventHandler, id: id, value: value, previous: prevValue)
+            case .immolatestage:
+                self.onImmolateStage(eventHandler: eventHandler, id: id, value: value)
+            case .resources_used:
+                self.onResourcesUsedChange(eventHandler: eventHandler, id: id, value: value)
+            case .quest_reward_database_id:
+                eventHandler.handleQuestRewardDatabaseId(id: id, value: value)
+            case .bacon_player_num_hero_buddies_gained:
+                self.playerBuddiesGained(eventHandler: eventHandler, id: id, value: value)
+            case .bacon_hero_heropower_quest_reward_database_id:
+                self.playerHeroPowerQuestRewardDatabaseId(eventHandler: eventHandler, id: id, value: value)
+            case .bacon_hero_heropower_quest_reward_completed:
+                self.playerHeroPowerQuestRewardCompleted(eventHandler: eventHandler, id: id, value: value)
+            case .bacon_hero_quest_reward_database_id:
+                self.playerHeroQuestRewardDatabaseId(eventHandler: eventHandler, id: id, value: value)
+            case .bacon_hero_quest_reward_completed:
+                self.playerHeroQuestRewardCompleted(eventHandler: eventHandler, id: id, value: value)
+            case .gametag_2022:
+                self.onBattlegroundsSetupChange(eventHandler: eventHandler, value: value, prevValue: prevValue)
+            case .gametag_3533:
+                self.onBattlegroundsCombatSetupChange(eventHandler: eventHandler, value: value, prevValue: prevValue )
+            case .hero_entity:
+                self.onHeroEntityChange(eventHandler: eventHandler, playerEntityId: id, heroEntityId: value)
+            case .next_opponent_player_id:
+                self.onNextOpponentPlayerId(eventHandler: eventHandler, id: id, value: value)
+            default:
+                break
+            }
+            if let game = eventHandler as? Game {
+                game.counterManager.handleTagChange(tag: tag, id: id, value: value, prevValue: prevValue)
+            }
         }
     }
     

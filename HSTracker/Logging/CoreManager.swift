@@ -99,6 +99,8 @@ final class CoreManager: NSObject {
         
         game.windowManager.playerActiveEffectsOverlay.setActiveEffects(game.activeEffects)
         game.windowManager.opponentActiveEffectsOverlay.setActiveEffects(game.activeEffects)
+        game.windowManager.playerCountersOverlay.setCounters(game.counterManager)
+        game.windowManager.opponentCountersOverlay.setCounters(game.counterManager)
         game.activeEffects.effectsChanged = {
             self.game.windowManager.playerActiveEffectsOverlay.updateVisibleEffects()
             self.game.windowManager.opponentActiveEffectsOverlay.updateVisibleEffects()
