@@ -1,3 +1,11 @@
+# 3.0.9
+## New
+- Updated for Hearthstone 31.0.0
+- Added new-style counters! They will automatically pop up when they're relevant in a game and feature rich tooltips appropriate to the current game state.\
+  *We're still working on making them individually configurable but wanted to share our current progress with you. The old counters are still but are disabled by default.*
+## Fixes
+- Added code to prevent a crash during start up
+
 # 3.0.8
 ## New
 - Updated for Hearthstone 30.6.2

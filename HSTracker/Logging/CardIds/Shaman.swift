@@ -152,6 +152,8 @@ extension CardIds.Collectible {
         static let GalakrondTheTempest = "DRG_620"
         static let JadeLightningWONDERS = "WON_082"
         static let JadeChieftainWONDERS = "WON_084"
+        static let MoorabiCorePlaceholder = "CORE_ICC_289"
+        static let PlanetaryNavigator = "GDB_444"
     }
 }
 
@@ -216,6 +218,7 @@ extension CardIds.NonCollectible {
         static let Melomania_MelomaniaEnchantment = "ETC_367e"
         static let Shudderblock_ReadyForActionEnchantment = "TOY_501e"
         static let TheAzeriteMurlocToken = "DEEP_999t5"
+        static let PlanetaryNavigator_PlanetaryNavigatorFutureBuffEnchantment = "GDB_444e"
     }
 }
 

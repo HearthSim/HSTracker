@@ -176,6 +176,8 @@ extension CardIds.Collectible {
         static let Surfalopod = "VAC_443"
         static let ElementalAllies = "DRG_324"
         static let OverflowSurger = "WW_424"
+        static let GhastlyConjurerCorePlaceholder = "CORE_ICC_069"
+        static let IngeniousArtificer = "GDB_135"
     }
 }
 
@@ -252,6 +254,7 @@ extension CardIds.NonCollectible {
         static let SolidAlibi_SolidAlibiEnchantment = "REV_504e"
         static let Surfalopod_RideTheWaveEnchantment = "VAC_443e"
         static let KoboldMiner_TheAzeriteHawkToken = "WW_001t24"
+        static let IngeniousArtificer_IngeniousArtficerFutureBuffEnchantment = "GDB_135e"
     }
 }
 

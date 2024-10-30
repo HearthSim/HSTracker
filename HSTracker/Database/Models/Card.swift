@@ -63,6 +63,10 @@ final class Card {
         return races[0] == race || (races.count > 1 && races[1] == race)
     }
     
+    func isDraenei() -> Bool {
+        return hasRace(.draenei)
+    }
+    
     func isDragon() -> Bool {
         return hasRace(.dragon)
     }

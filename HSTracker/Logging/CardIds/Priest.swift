@@ -147,6 +147,7 @@ extension CardIds.Collectible {
         static let AstralAutomaton = "TTN_401"
         static let GalakrondTheUnspeakable = "DRG_660"
         static let TimewinderZarimi = "TOY_385"
+        static let Askara = "GDB_455"
     }
 }
 
@@ -205,6 +206,7 @@ extension CardIds.NonCollectible {
         static let DraconicStudies_DraconicStudiesEnchantment = "SCH_233e"
         static let LoveEverlasting_EverlastingLoveEnchantment = "ETC_335e"
         static let RazatheResealed_RazaResealedEnchantEnchantment = "TOY_383e"
+        static let Askara_AskaraFutureBuffEnchantment = "GDB_455e"
     }
 }
 

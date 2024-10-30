@@ -313,6 +313,8 @@
 "Delete" = "Delete";
 
 /* Wotog / Counters */
+"Counter_AsteroidDamage" = "Asteroid Damage";
+"Counter_AsteroidDamage_Damage" = "Asteroid Damage";
 "Counter_ExcavateTier" = "Excavate Tier";
 "Counter_Excavate_Tier0" = "Common";
 "Counter_Excavate_Tier1" = "Rare";

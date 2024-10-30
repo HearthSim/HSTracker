@@ -662,6 +662,14 @@ extension CardIds.Collectible {
         static let AzeriteGiant = "WW_025"
         static let JadeSpiritWONDERS = "WON_118"
         static let AyaBlackpawWONDERS = "WON_136"
+        static let AstralVigilant = "GDB_461"
+        static let Kiljaeden = "GDB_145"
+        static let AceWayfinder = "GDB_450"
+        static let Astrobiologist = "GDB_874"
+        static let SpacePirate = "GDB_333"
+        static let StarlightWanderer = "GDB_720"
+        static let StrandedSpaceman = "GDB_861"
+        
     }
 }
 
@@ -846,6 +854,14 @@ extension CardIds.NonCollectible {
         static let SkullOfGuldanSTORMWIND1 = "Story_10_SkullofGuldan"
         static let JadeGolem1 = "CFM_712_t01"
         static let AldorTruthseeker_AldorTruthseekerEnchantment = "BT_026e"
+        static let Asteroid = "GDB_430"
+        static let Kiljaeden_KiljaedensPortalEnchantment = "GDB_145e"
+        static let AceWayfinder_AceWayfinderFutureBuffEnchantment = "GDB_450e"
+        static let Astrobiologist_AstrobiologistEnchantment = "GDB_874e"
+        static let SpacePirate_SpacePiracyEnchantment = "GDB_333e"
+        static let StarlightWanderer_StarlightWandererFutureBuffEnchantment = "GDB_720e"
+        static let StrandedSpaceman_StrandedSpacemanFutureBuffEnchantment = "GDB_861e"
+        static let UnyieldingVindicator_UnyieldingVindicatorFutureBuffEnchantment = "GDB_232e"
     }
 }
 

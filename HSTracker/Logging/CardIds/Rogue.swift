@@ -186,6 +186,10 @@ extension CardIds.Collectible {
         static let JadeSwarmerWONDERS = "WON_067"
         static let JadeTelegram = "WON_078"
         static let JadeShurikenWONDERS = "WON_070"
+        static let Talgath = "GDB_472"
+        static let BackstabCore = "CORE_CS2_072"
+        static let LuckyComet = "GDB_873"
+        static let SpacerockCollector = "GDB_875"
     }
 }
 
@@ -270,6 +274,8 @@ extension CardIds.NonCollectible {
         static let SecretPassage_SecretEntranceEnchantment = "SCH_305e2"
         static let TheCrystalCove_TreasuresBelowEnchantment = "TOY_512e1"
         static let KoboldMiner_TheAzeriteScorpionToken = "WW_001t23"
+        static let LuckyComet_ComboCometEnchantment = "GDB_873e"
+        static let SpacerockCollector_RockCollectionEnchantment = "GDB_875e"
     }
 }
 

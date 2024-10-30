@@ -20,14 +20,20 @@ class LibramCostReductionCounter: NumericCounter {
     
     override var relatedCards: [String] {
         return [
-            CardIds.Collectible.Paladin.AldorAttendant,
-            CardIds.Collectible.Paladin.AldorTruthseeker
+            CardIds.Collectible.Paladin.LibramOfWisdom,
+            CardIds.Collectible.Paladin.LibramOfClarity,
+            CardIds.Collectible.Paladin.LibramOfDivinity,
+            CardIds.Collectible.Paladin.LibramOfJustice,
+            CardIds.Collectible.Paladin.LibramOfFaith,
+            CardIds.Collectible.Paladin.LibramOfJudgment,
+            CardIds.Collectible.Paladin.LibramOfHope
         ]
     }
     
     private static let enchantLibramDict: [String: Int] = [
         CardIds.NonCollectible.Neutral.AldorAttendant_AldorAttendantEnchantment: 1,
-        CardIds.NonCollectible.Neutral.AldorTruthseeker_AldorTruthseekerEnchantment: 2
+        CardIds.NonCollectible.Neutral.AldorTruthseeker_AldorTruthseekerEnchantment: 2,
+        CardIds.NonCollectible.Paladin.InterstellarStarslicer_InterstellarLibramEnchantmentEnchantment: 1
     ]
 
     required init(controlledByPlayer: Bool, game: Game) {

@@ -314,7 +314,7 @@ class PowerGameStateParser: LogEventParser {
                     let entity = eventHandler.entities[entityId]
                     if entity?.info.guessedCardState != GuessedCardState.none {
                         entity?.info.guessedCardState = GuessedCardState.revealed
-                        if entity?.cardId == CardIds.Collectible.Neutral.PrinceRenathal || entity?.cardId == CardIds.Collectible.Neutral.PrinceRenathalInvalid {
+                        if entity?.cardId == CardIds.Collectible.Neutral.PrinceRenathal || entity?.cardId == CardIds.Collectible.Neutral.PrinceRenathalInvalid || entity?.cardId == CardIds.Collectible.Warrior.SporeEmpressMoldara || entity?.cardId == CardIds.NonCollectible.Warrior.SporeEmpressMoldara_ReplicatingSporeToken {
                             entity?.info.guessedCardState = .revealed
                             
                             AppDelegate.instance().coreManager?.game.updateTrackers()
@@ -499,11 +499,11 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Warrior
                                             .DirehornHatchling_DirehornMatriarchToken)
-                        case CardIds.Collectible.Mage.FrozenClone:
+                        case CardIds.Collectible.Mage.FrozenClone, CardIds.Collectible.Mage.FrozenCloneCore:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: target,
                                            count: 2)
-                        case CardIds.Collectible.Shaman.Moorabi, CardIds.Collectible.Rogue.SonyaShadowdancer:
+                        case CardIds.Collectible.Shaman.Moorabi, CardIds.Collectible.Shaman.MoorabiCorePlaceholder, CardIds.Collectible.Rogue.SonyaShadowdancer:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: target)
                         case CardIds.Collectible.Neutral.HoardingDragon:
@@ -766,7 +766,7 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Neutral
                                             .ElisetheTrailblazer_UngoroPackToken)
-                        case CardIds.Collectible.Mage.GhastlyConjurer:
+                        case CardIds.Collectible.Mage.GhastlyConjurer, CardIds.Collectible.Mage.GhastlyConjurerCorePlaceholder:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.Collectible.Mage.MirrorImage)
                         case CardIds.Collectible.Druid.ThorngrowthSentries:
@@ -1007,6 +1007,15 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.CarryOnGrub_CarryOnSuitcaseToken1)
                         case CardIds.Collectible.Warrior.TheRyecleaver:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Warrior.TheRyecleaver_SliceOfBreadToken)
+                        case CardIds.Collectible.DemonHunter.XortothBreakerOfStars:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.DemonHunter.XortothBreakerofStars_StarOfOriginationToken)
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.DemonHunter.XortothBreakerofStars_StarOfConclusionToken)
+                        case CardIds.Collectible.Rogue.Talgath:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Rogue.BackstabCore)
+                        case CardIds.Collectible.Neutral.AstralVigilant:
+                            if let last = eventHandler.opponent.cardsPlayedThisMatch.compactMap({ entity in Cards.by(cardId: entity.cardId) }).filter({ card in card.mechanics.count > 0 && card.isDraenei() }).compactMap({ card in card.id }).last {
+                                addKnownCardId(eventHandler: eventHandler, cardId: last)
+                            }
                         default:
                             if let card = Cards.any(byId: actionStartingCardId) {
                                 if (player != nil && player![.current_player] == 1

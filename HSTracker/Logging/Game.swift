@@ -2873,7 +2873,7 @@ class Game: NSObject, PowerEventHandler {
         if entity.isEnchantment {
             activeEffects.tryRemoveEffect(sourceEntity: entity, controlledByPlayer: true)
         }
-        player.playToGraveyard(entity: entity, cardId: cardId, turn: turn)
+        player.playToGraveyard(entity: entity, turn: turn)
         if playersTurn && entity.isMinion {
             playerMinionDeath(entity: entity)
         }
@@ -3098,7 +3098,7 @@ class Game: NSObject, PowerEventHandler {
         if entity.isEnchantment {
             activeEffects.tryRemoveEffect(sourceEntity: entity, controlledByPlayer: false)
         }
-        opponent.playToGraveyard(entity: entity, cardId: cardId, turn: turn)
+        opponent.playToGraveyard(entity: entity, turn: turn)
         if playersTurn && entity.isMinion {
             opponentMinionDeath(entity: entity, turn: turn)
         }

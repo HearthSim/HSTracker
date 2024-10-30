@@ -165,6 +165,8 @@ extension CardIds.Collectible {
         static let PartyPlannerVona = "VAC_945"
         static let ImprisonedHorror = "TTN_462"
         static let WheelOfDeath = "TOY_529"
+        static let ForebodingFlame = "GDB_121"
+        static let InfernalStratagem = "GDB_122"
     }
 }
 
@@ -236,6 +238,8 @@ extension CardIds.NonCollectible {
         static let FelfireBonfire_AmpleOfferingEnchantment = "VAC_952e"
         static let KoboldMiner_TheAzeriteSnakeToken = "WW_001t25"
         static let WheelofDEATH_WheelOfDeathCounterEnchantment = "TOY_529e1"
+        static let ForebodingFlame_BurningLegionsBoonEnchantment = "GDB_121e"
+        static let InfernalStratagem_StrategicInfernoEnchantment = "GDB_122e2"
     }
 }
 

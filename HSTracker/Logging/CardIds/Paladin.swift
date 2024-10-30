@@ -165,6 +165,13 @@ extension CardIds.Collectible {
         static let TimeOut = "TRL_302"
         static let Timewarden = "RLK_527"
         static let WaveOfApathy = "SCH_250"
+        static let LibramOfWisdom = "BT_025"
+        static let LibramOfClarity = "GDB_137"
+        static let LibramOfDivinity = "GDB_138"
+        static let LibramOfFaith = "GDB_139"
+        static let LibramOfJustice = "BT_011"
+        static let LibramOfJudgment = "YOP_011"
+        static let LibramOfHope = "BT_024"
     }
 }
 
@@ -245,6 +252,7 @@ extension CardIds.NonCollectible {
         static let StarlightGroove_FeelingTheGrooveEnchantment = "ETC_330e1"
         static let ResistanceAura_ResistanceCoreEnchantment = "TTN_851e"
         static let TheAzeriteDragonToken = "DEEP_999t4"
+        static let InterstellarStarslicer_InterstellarLibramEnchantmentEnchantment = "GDB_726e"
     }
 }
 

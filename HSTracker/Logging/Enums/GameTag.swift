@@ -424,6 +424,7 @@ enum GameTag: Int, CaseIterable, Codable {
     bacon_combat_damage_cap_enabled = 3403,
     bacon_trinket = 3407,
     gametag_3533 = 3533,
+    gametag_3559 = 3559,
     bacon_is_magic_item_discover = 3565,
     rogue_tourist = 3597,
     warlock_tourist = 3598,
@@ -436,7 +437,8 @@ enum GameTag: Int, CaseIterable, Codable {
     druid_tourist = 3605,
     mage_tourist = 3606,
     paladin_tourist = 3607,
-    bacon_is_potential_trinket = 3705
+    bacon_is_potential_trinket = 3705,
+    demon_portal_deck = 3808
 
     static var lookup = [String: GameTag]()
     

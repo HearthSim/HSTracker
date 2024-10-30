@@ -98,6 +98,7 @@ final class Player {
     var heroPowerCount = 0
     var lastDiedMinionCardId: String?
     fileprivate(set) var spellsPlayedCount = 0
+    fileprivate(set) var cardsPlayedThisMatch = [Entity]()
     fileprivate(set) var cardsPlayedThisTurn: [String] = []
     var isPlayingWhizbang = false
     fileprivate(set) var deathrattlesPlayedCount = 0
@@ -189,6 +190,8 @@ final class Player {
         heroPowerCount = 0
 
         inDeckPredictions.removeAll()
+        cardsPlayedThisTurn.removeAll()
+        cardsPlayedThisMatch.removeAll()
         
         lastDrawnCardId = nil
         libramReductionCount = 0
@@ -473,7 +476,7 @@ final class Player {
     }
     
     fileprivate func getDeckState() -> DeckState {
-        let createdCardsInDeck: [Card] = deck.filter({
+        var createdCardsInDeck: [Card] = deck.filter({
             $0.hasCardId && ($0.info.created || $0.info.stolen)
         })
             .map({ (e: Entity) -> (DynamicEntity) in
@@ -493,7 +496,10 @@ final class Player {
                     return nil
                 }
             }
-
+        
+        if let hero, hero[.demon_portal_deck] != 0 {
+            createdCardsInDeck = [Card]()
+        }
         var originalCardsInDeckIds: [String] = []
         if let deck = game.currentDeck {
             originalCardsInDeckIds = deck.cards.flatMap {
@@ -749,7 +755,11 @@ final class Player {
         }
         entity.info.hidden = false
         entity.info.turn = turn
-        cardsPlayedThisTurn.append(entity.cardId)
+        if !entity.cardId.isBlank {
+            cardsPlayedThisTurn.append(entity.cardId)
+            cardsPlayedThisMatch.append(entity)
+        }
+        
         if Settings.fullGameLog {
             logger.info("\(debugName) \(#function) \(entity)")
         }
@@ -868,14 +878,14 @@ final class Player {
         }
     }
 
-    func playToGraveyard(entity: Entity, cardId: String?, turn: Int) {
+    func playToGraveyard(entity: Entity, turn: Int) {
         entity.info.turn = turn
         if entity.isMinion && entity.has(tag: .deathrattle) {
             deathrattlesPlayedCount += 1
         }
         
         if entity.isMinion {
-            lastDiedMinionCardId = cardId
+            lastDiedMinionCardId = entity.cardId
         }
         
         if Settings.fullGameLog {

@@ -28,6 +28,7 @@ extension CardIds.Collectible {
         static let ProsecutorMeltranix = "MAW_014"
         static let RagingFelscreamerCore = "CORE_BT_416"
         static let SigilOfSilence = "BAR_705"
+        static let XortothBreakerOfStars = "GDB_118"
     }
 }
 
@@ -44,5 +45,7 @@ extension CardIds.NonCollectible {
         static let PocketSand_SandInYourEyesEnchantment = "WW_403e"
         static let ProsecutorMeltranix_LiterallyUnplayableEnchantment = "MAW_014e2"
         static let RagingFelscreamer_FelscreamEnchantmentDEMON_HUNTER_INITIATE1 = "BT_416e"
+        static let XortothBreakerofStars_StarOfOriginationToken = "GDB_118t"
+        static let XortothBreakerofStars_StarOfConclusionToken = "GDB_118t2"
     }
 }

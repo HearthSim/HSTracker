@@ -149,6 +149,9 @@ extension CardIds.Collectible {
         static let PartScrapper = "MIS_902"
         static let PunchCard = "WORK_022"
         static let GalakrondTheUnbreakable = "DRG_650"
+        static let SporeEmpressMoldara = "GDB_234"
+        static let ExpeditionSergeant = "GDB_229"
+        static let UnyieldingVindicator = "GDB_232"
     }
 }
 
@@ -236,6 +239,8 @@ extension CardIds.NonCollectible {
         static let PartScrapper_ScrappedPartsEnchantment = "MIS_902e"
         static let PunchCard_PunchedInEnchantment = "WORK_022e"
         static let KoboldMiner_TheAzeriteOxToken = "WW_001t27"
+        static let SporeEmpressMoldara_ReplicatingSporeToken = "GDB_234t"
+        static let ExpeditionSergeant_ExpeditionSergeantFutureBuffEnchantment = "GDB_229e"
     }
 }
 
