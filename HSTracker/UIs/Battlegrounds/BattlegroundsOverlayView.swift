@@ -57,6 +57,14 @@ class BattlegroundsOverlayView: NSView {
         }
     }
     
+    func checkForValidRect(_ rect: CGRect) -> CGRect {
+        if rect.origin.x.isFinite && rect.origin.y.isFinite && rect.size.width.isFinite && rect.size.height.isFinite {
+            return rect
+        }
+        Influx.sendSingleEvent(eventName: "Invalid_rect", withProperties: [ "rect": "\(rect)" ])
+        return CGRect.zero
+    }
+    
     func positionDeadForText(nextOpponentLeaderboardPosition: Int) {
         let game = AppDelegate.instance().coreManager.game
         
@@ -72,8 +80,8 @@ class BattlegroundsOverlayView: NSView {
                 }
                 left = SizeHelper.getScaledXPos(left, width: SizeHelper.hearthstoneWindow.width, ratio: SizeHelper.screenRatio)
                 let r = NSRect(x: 0.0, y: CGFloat((3 - i)) * battlegroundsDuosTileHeight + CGFloat(3 - j) * SizeHelper.battlegroundsDuosSpacingHeight, width: battlegroundsDuosTileWidth, height: h)
-                leaderboardDeadForText[i].frame = r.offsetBy(dx: left, dy: 2.0 * h + h/2)
-                leaderboardDeadForTurnText[i].frame = r.offsetBy(dx: left, dy: h + h/2)
+                leaderboardDeadForText[i].frame = checkForValidRect(r.offsetBy(dx: left, dy: 2.0 * h + h/2))
+                leaderboardDeadForTurnText[i].frame = checkForValidRect(r.offsetBy(dx: left, dy: h + h/2))
             }
         } else {
             let battlegroundsTileHeight = SizeHelper.battlegroundsTileHeight
@@ -86,8 +94,8 @@ class BattlegroundsOverlayView: NSView {
                 }
                 left = SizeHelper.getScaledXPos(left, width: SizeHelper.hearthstoneWindow.width, ratio: SizeHelper.screenRatio)
                 let r = NSRect(x: 0.0, y: CGFloat((7 - i)) * battlegroundsTileHeight, width: battlegroundsTileWidth, height: h)
-                leaderboardDeadForText[i].frame = r.offsetBy(dx: left, dy: 2.0 * h + h/2)
-                leaderboardDeadForTurnText[i].frame = r.offsetBy(dx: left, dy: h + h/2)
+                leaderboardDeadForText[i].frame = checkForValidRect(r.offsetBy(dx: left, dy: 2.0 * h + h/2))
+                leaderboardDeadForTurnText[i].frame = checkForValidRect(r.offsetBy(dx: left, dy: h + h/2))
             }
         }
     }
