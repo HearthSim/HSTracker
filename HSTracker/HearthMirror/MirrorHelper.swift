@@ -152,6 +152,9 @@ struct MirrorHelper {
     // MARK: - game mode
     static func isSpectating() -> Bool? {
         var result: Bool?
+        if MirrorHelper._mirror == nil {
+            return false
+        }
         MirrorHelper.accessQueue.sync {
             result = mirror?.isSpectating()
         }
