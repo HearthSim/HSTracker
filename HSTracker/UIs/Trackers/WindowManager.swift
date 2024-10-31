@@ -404,7 +404,9 @@ class WindowManager {
                 
                 // show window and set size
                 if let frame = frame {
-                    window.setFrame(frame, display: true, animate: false)
+                    if frame.origin.x.isFinite && frame.origin.y.isFinite && frame.size.width.isFinite && frame.size.height.isFinite {
+                        window.setFrame(frame, display: true, animate: false)
+                    }
                 }
 
                 // set the level of the window : over all if hearthstone is active
