@@ -62,15 +62,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
         
         SentrySDK.start { options in
             options.dsn = "https://254d50452b94680e7ac7968694d1de3a@o35918.ingest.us.sentry.io/92505"
-            options.debug = true // Enabled debug when first installing is always helpful
+            options.debug = false // Enabled debug when first installing is always helpful
+            options.appHangTimeoutInterval = 60.0
 
             // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
             // We recommend adjusting this value in production.
-            options.tracesSampleRate = 1.0
+            options.tracesSampleRate = 0.0
 
             // Sample rate for profiling, applied on top of TracesSampleRate.
             // We recommend adjusting this value in production.
-            options.profilesSampleRate = 1.0
+            options.profilesSampleRate = 0.0
         }
         
         let options = [
