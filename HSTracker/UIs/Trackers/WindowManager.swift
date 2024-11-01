@@ -236,6 +236,10 @@ class WindowManager {
     var playerWotogIcons: WotogCounter = {
         return $0
     }(WotogCounter(windowNibName: "WotogCounter"))
+    
+    var tooltipGridCards: GridCardImages = {
+        return $0
+    }(GridCardImages(windowNibName: "GridCardImages"))
 
     private var lastCardsUpdateRequest = Date.distantPast.timeIntervalSince1970
 

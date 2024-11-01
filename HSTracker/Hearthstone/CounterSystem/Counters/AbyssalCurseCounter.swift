@@ -42,7 +42,7 @@ class AbyssalCurseCounter: NumericCounter {
         if isPlayerCounter {
             return getCardsInDeckOrKnown(cardIds: relatedCards)
         } else {
-            return filterCardsByClassAndFormat(cardIds: relatedCards, playerClass: game.opponent.playerClass)
+            return [CardIds.NonCollectible.Warlock.SirakessCultist_AbyssalCurseToken]
         }
     }
     

@@ -140,47 +140,37 @@ class CounterView: NSView {
     }
 
     override func mouseEntered(with event: NSEvent) {
-        if let cardId = counter.cardIdToShowInUI, let card = Cards.by(cardId: cardId) {
-            let windowRect = self.window!.frame
-
-            let hoverFrame = NSRect(x: 0, y: 0, width: 256, height: 388)
-
-            var x: CGFloat
-            if windowRect.origin.x < hoverFrame.size.width {
-                x = windowRect.origin.x + windowRect.size.width
-            } else {
-                x = windowRect.origin.x - hoverFrame.size.width
-            }
-
-            let cellFrameRelativeToWindow = self.convert(self.bounds, to: nil)
-            let cellFrameRelativeToScreen = self.window?.convertToScreen(cellFrameRelativeToWindow)
-
-            let y: CGFloat = cellFrameRelativeToScreen!.origin.y
-            
-            let frame: [CGFloat] = [x, y - hoverFrame.height / 2.0, hoverFrame.width, hoverFrame.height]
-            NotificationCenter.default
-                .post(name: Notification.Name(rawValue: Events.show_floating_card),
-                                      object: nil,
-                                      userInfo: [
-                                        "card": card,
-                                        "frame": frame,
-                                        "useFrame": true
-                    ])
+        guard let window else {
+            return
         }
+        let cardsToDisplay = counter.getCardsToDisplay().compactMap({ cardId in Cards.by(cardId: cardId) })
+        if cardsToDisplay.count == 0 {
+            return
+        }
+        let windowRect = window.frame
+
+        let cardImages = counter.game.windowManager.tooltipGridCards
+        cardImages.setTitle(counter.localizedName)
+        cardImages.setCardIdsFromCards(cardsToDisplay)
+
+        let hoverFrame = NSRect(x: 0, y: 0, width: cardImages.gridWidth, height: cardImages.gridHeight)
+
+        var x: CGFloat
+        if windowRect.origin.x < hoverFrame.size.width {
+            x = windowRect.origin.x + windowRect.size.width
+        } else {
+            x = windowRect.origin.x - hoverFrame.size.width
+        }
+
+        let cellFrameRelativeToWindow = self.convert(self.bounds, to: nil)
+        let cellFrameRelativeToScreen = window.convertToScreen(cellFrameRelativeToWindow)
+
+        let y: CGFloat = cellFrameRelativeToScreen.origin.y
+
+        counter.game.windowManager.show(controller: cardImages, show: true, frame: NSRect(x: x, y: y, width: hoverFrame.width, height: hoverFrame.height))
     }
 
     override func mouseExited(with event: NSEvent) {
-        guard let cardId = counter.cardIdToShowInUI, let card = Cards.by(cardId: cardId) else {
-            return
-        }
-        
-        let userinfo = [
-            "card": card
-        ] as [String: Any]
-        
-        NotificationCenter.default.post(name: Notification.Name(rawValue: Events.hide_floating_card),
-                                        object: nil,
-                                        userInfo: userinfo)
+        counter.game.windowManager.show(controller: counter.game.windowManager.tooltipGridCards, show: false)
     }
-
 }

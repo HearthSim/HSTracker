@@ -447,6 +447,10 @@
 		B820294B2CD2D31F00C19A8C /* InfernalStratagemEnchantment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B820294A2CD2D31F00C19A8C /* InfernalStratagemEnchantment.swift */; };
 		B820294D2CD2D38800C19A8C /* ExpeditionSergeantEnchantment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B820294C2CD2D38800C19A8C /* ExpeditionSergeantEnchantment.swift */; };
 		B820294F2CD2D3F000C19A8C /* UnyieldingVindicatorEnchantment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B820294E2CD2D3F000C19A8C /* UnyieldingVindicatorEnchantment.swift */; };
+		B82029512CD4548C00C19A8C /* GridCardImages.xib in Resources */ = {isa = PBXBuildFile; fileRef = B82029502CD4548C00C19A8C /* GridCardImages.xib */; };
+		B82029542CD459E800C19A8C /* GridCardImageItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = B82029532CD459E800C19A8C /* GridCardImageItem.xib */; };
+		B82029552CD459E800C19A8C /* GridCardImageItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82029522CD459E800C19A8C /* GridCardImageItem.swift */; };
+		B82029572CD4658100C19A8C /* GridCardImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82029562CD4658100C19A8C /* GridCardImages.swift */; };
 		B82238B82BF82BA500B405D4 /* PlayerProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82238B72BF82BA500B405D4 /* PlayerProxy.swift */; };
 		B82238BA2BF948B000B405D4 /* BoardSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82238B92BF948B000B405D4 /* BoardSnapshot.swift */; };
 		B82238BC2BF948E600B405D4 /* BattlegroundsBoardState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82238BB2BF948E600B405D4 /* BattlegroundsBoardState.swift */; };
@@ -746,7 +750,6 @@
 		B8B790102C974E8700DD33EC /* SaboteurEnchantment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B7900F2C974E8700DD33EC /* SaboteurEnchantment.swift */; };
 		B8B790122C974F0F00DD33EC /* SpeakerStomperEnchantment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B790112C974F0F00DD33EC /* SpeakerStomperEnchantment.swift */; };
 		B8B790142C974F8100DD33EC /* SpellwardJewelerEnchantment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B790132C974F8100DD33EC /* SpellwardJewelerEnchantment.swift */; };
-		B8B790172C97502000DD33EC /* AldorAttendantEnchantment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B790162C97502000DD33EC /* AldorAttendantEnchantment.swift */; };
 		B8B790192C9750EC00DD33EC /* CrusaderAura.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B790182C9750EC00DD33EC /* CrusaderAura.swift */; };
 		B8B7901B2C97540D00DD33EC /* DeputizationAuraEnchantment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B7901A2C97540D00DD33EC /* DeputizationAuraEnchantment.swift */; };
 		B8B7901D2C97546500DD33EC /* HolyCowboyEnchantment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B7901C2C97546500DD33EC /* HolyCowboyEnchantment.swift */; };
@@ -1362,6 +1365,10 @@
 		B820294A2CD2D31F00C19A8C /* InfernalStratagemEnchantment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfernalStratagemEnchantment.swift; sourceTree = "<group>"; };
 		B820294C2CD2D38800C19A8C /* ExpeditionSergeantEnchantment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpeditionSergeantEnchantment.swift; sourceTree = "<group>"; };
 		B820294E2CD2D3F000C19A8C /* UnyieldingVindicatorEnchantment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnyieldingVindicatorEnchantment.swift; sourceTree = "<group>"; };
+		B82029502CD4548C00C19A8C /* GridCardImages.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GridCardImages.xib; sourceTree = "<group>"; };
+		B82029522CD459E800C19A8C /* GridCardImageItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCardImageItem.swift; sourceTree = "<group>"; };
+		B82029532CD459E800C19A8C /* GridCardImageItem.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GridCardImageItem.xib; sourceTree = "<group>"; };
+		B82029562CD4658100C19A8C /* GridCardImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCardImages.swift; sourceTree = "<group>"; };
 		B82238B72BF82BA500B405D4 /* PlayerProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerProxy.swift; sourceTree = "<group>"; };
 		B82238B92BF948B000B405D4 /* BoardSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardSnapshot.swift; sourceTree = "<group>"; };
 		B82238BB2BF948E600B405D4 /* BattlegroundsBoardState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsBoardState.swift; sourceTree = "<group>"; };
@@ -1584,7 +1591,6 @@
 		B8B7900F2C974E8700DD33EC /* SaboteurEnchantment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaboteurEnchantment.swift; sourceTree = "<group>"; };
 		B8B790112C974F0F00DD33EC /* SpeakerStomperEnchantment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeakerStomperEnchantment.swift; sourceTree = "<group>"; };
 		B8B790132C974F8100DD33EC /* SpellwardJewelerEnchantment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellwardJewelerEnchantment.swift; sourceTree = "<group>"; };
-		B8B790162C97502000DD33EC /* AldorAttendantEnchantment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AldorAttendantEnchantment.swift; sourceTree = "<group>"; };
 		B8B790182C9750EC00DD33EC /* CrusaderAura.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrusaderAura.swift; sourceTree = "<group>"; };
 		B8B7901A2C97540D00DD33EC /* DeputizationAuraEnchantment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeputizationAuraEnchantment.swift; sourceTree = "<group>"; };
 		B8B7901C2C97546500DD33EC /* HolyCowboyEnchantment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolyCowboyEnchantment.swift; sourceTree = "<group>"; };
@@ -2337,7 +2343,15 @@
 				43EECB971C7DEF7F0077AC1B /* ClassColor.swift */,
 				B8D8859724F40D4E00F2F0F2 /* ClickableBox.swift */,
 				B89586422B804DF300989C13 /* Constructed */,
+				B8196F282CCD416F007C0371 /* CountersOverlay.swift */,
+				B8196F262CCD4135007C0371 /* CountersOverlay.xib */,
+				B8196F242CCB246C007C0371 /* CounterView.swift */,
+				B8196F222CCB0F00007C0371 /* CounterView.xib */,
 				4360329E1C7D0113005F1893 /* DeckManager */,
+				B82029522CD459E800C19A8C /* GridCardImageItem.swift */,
+				B82029532CD459E800C19A8C /* GridCardImageItem.xib */,
+				B82029562CD4658100C19A8C /* GridCardImages.swift */,
+				B82029502CD4548C00C19A8C /* GridCardImages.xib */,
 				439C7ECF1C777FA900D29859 /* ImageUtils.swift */,
 				B8C1F1BD295553F7001E078C /* MainMenu.xib */,
 				436032991C7B4C34005F1893 /* Preferences */,
@@ -2346,10 +2360,6 @@
 				433554591D65940300277B27 /* Toast */,
 				439C7ED41C777FA900D29859 /* Trackers */,
 				4C3E2D9F245F86A300292349 /* Views */,
-				B8196F222CCB0F00007C0371 /* CounterView.xib */,
-				B8196F242CCB246C007C0371 /* CounterView.swift */,
-				B8196F262CCD4135007C0371 /* CountersOverlay.xib */,
-				B8196F282CCD416F007C0371 /* CountersOverlay.swift */,
 			);
 			path = UIs;
 			sourceTree = "<group>";
@@ -2917,7 +2927,6 @@
 		B8B790152C97500A00DD33EC /* Paladin */ = {
 			isa = PBXGroup;
 			children = (
-				B8B790162C97502000DD33EC /* AldorAttendantEnchantment.swift */,
 				B8B790182C9750EC00DD33EC /* CrusaderAura.swift */,
 				B8B7901A2C97540D00DD33EC /* DeputizationAuraEnchantment.swift */,
 				B8B7901C2C97546500DD33EC /* HolyCowboyEnchantment.swift */,
@@ -3301,6 +3310,7 @@
 				B812BCEF29495C3A000C6513 /* BattlegroundsSingleQuestView.xib in Resources */,
 				432B5FB91CB5372C00B05D19 /* GeneralPreferences.xib in Resources */,
 				43050C621E6B484D007600EA /* Hearthstone.xcassets in Resources */,
+				B82029512CD4548C00C19A8C /* GridCardImages.xib in Resources */,
 				B8BD3BB02C435CA7001E85B7 /* BattlegroundsCompositionStatsRow.xib in Resources */,
 				B8B7CC20253C74D100033758 /* BattlegroundsPreferences.xib in Resources */,
 				B8196F232CCB0F00007C0371 /* CounterView.xib in Resources */,
@@ -3369,6 +3379,7 @@
 				B850AA33252CB0490031E8F2 /* TurnCounter.xib in Resources */,
 				B8196F272CCD4135007C0371 /* CountersOverlay.xib in Resources */,
 				B89899682CB5F94C0011B184 /* ActiveEffectsOverlay.xib in Resources */,
+				B82029542CD459E800C19A8C /* GridCardImageItem.xib in Resources */,
 				F7D7A3AE2017B51300E3A5F0 /* dsa_pub.pem in Resources */,
 				B83CF371294E4379003C9062 /* BattlegroundsCompositionPopularityRow.xib in Resources */,
 			);
@@ -3587,7 +3598,6 @@
 				B8B7905D2C9784C900DD33EC /* CurseOfFleshEnchantment.swift in Sources */,
 				B8FE1F992875BD15004C397C /* SynchronizedArray.swift in Sources */,
 				B8AF0C812B92C5E800B65F63 /* ConstructedMulliganGuidePreLobby.swift in Sources */,
-				B8B790172C97502000DD33EC /* AldorAttendantEnchantment.swift in Sources */,
 				B812BCED2947F929000C6513 /* BattlegroundsQuestStatsParams.swift in Sources */,
 				B800FCA62732AA9100AFBD51 /* MercenariesTaskListButton.swift in Sources */,
 				B8B78FFA2C970A8A00DD33EC /* CamouflagedDirigibleEnchantment.swift in Sources */,
@@ -3597,6 +3607,7 @@
 				B8AF0C792B91444200B65F63 /* ConstructedMulliganGuidePreLobbyViewModel.swift in Sources */,
 				43F204121E93C2E600E0BC4A /* Warlock.swift in Sources */,
 				B83CF364294BB808003C9062 /* BattlegroundsQuestPicking.swift in Sources */,
+				B82029552CD459E800C19A8C /* GridCardImageItem.swift in Sources */,
 				B8B7900E2C974E1300DD33EC /* PrimordialStudiesEnchantment.swift in Sources */,
 				B851C8F72BD2BCDA00B748C1 /* BattlegroundsCardsGroups.swift in Sources */,
 				B8A9CB332571F160000071FC /* GuessedCardState.swift in Sources */,
@@ -3861,6 +3872,7 @@
 				B8AF0C652B828A4A00B65F63 /* ConstructedMulliganSingleCardHeader.swift in Sources */,
 				B8230B942C8BE125008CBEEB /* IHsChoice.swift in Sources */,
 				B8196F1D2CC871A6007C0371 /* AstralAutomatonCounter.swift in Sources */,
+				B82029572CD4658100C19A8C /* GridCardImages.swift in Sources */,
 				B8B78FB12C93CA9700DD33EC /* HelyaEnchantment.swift in Sources */,
 				43883F1E1DA382BA00A7B79C /* Language.swift in Sources */,
 				B8DC11F024E6AF280088A755 /* BobsBuddyInvoker.swift in Sources */,
