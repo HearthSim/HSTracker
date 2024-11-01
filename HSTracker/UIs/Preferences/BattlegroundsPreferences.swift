@@ -47,6 +47,10 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
     
     override func viewWillAppear() {
         super.viewWillAppear()
+        
+        guard enableTier7Overlay != nil else {
+            return
+        }
         enableTier7Overlay.state = Settings.enableTier7Overlay ? .on : .off
         showTier7PreLobby.state = Settings.showBattlegroundsTier7PreLobby ? .on : .off
         showHeroPicking.state = Settings.showBattlegroundsHeroPicking ? .on : .off

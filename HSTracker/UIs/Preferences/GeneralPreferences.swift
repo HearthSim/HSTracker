@@ -27,6 +27,10 @@ class GeneralPreferences: NSViewController, PreferencePane {
 	
     override func viewWillAppear() {
         super.viewWillAppear()
+        
+        guard notifyGameStart != nil else {
+            return
+        }
 
         notifyGameStart.state = Settings.notifyGameStart ? .on : .off
         notifyTurnStart.state = Settings.notifyTurnStart ? .on : .off

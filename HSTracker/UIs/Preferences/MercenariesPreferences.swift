@@ -24,6 +24,10 @@ class MercenariesPreferences: NSViewController, PreferencePane {
     
     override func viewWillAppear() {
         super.viewWillAppear()
+        
+        guard showMercsOpponentHover != nil else {
+            return
+        }
         showMercsOpponentHover.state = Settings.showBobsBuddy ? .on : .off
         showMercsPlayerHover.state = Settings.showBobsBuddyDuringCombat ? .on : .off
         showMercsTasks.state = Settings.showMercsTasks ? .on : .off

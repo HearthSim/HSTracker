@@ -43,6 +43,10 @@ class TrackersPreferences: NSViewController, PreferencePane {
 
     override func viewWillAppear() {
         super.viewWillAppear()
+        
+        guard highlightCardsInHand != nil else {
+            return
+        }
                 
         highlightCardsInHand.state = Settings.highlightCardsInHand ? .on : .off
         highlightLastDrawn.state = Settings.highlightLastDrawn ? .on : .off

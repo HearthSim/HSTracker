@@ -44,6 +44,11 @@ class OpponentTrackersPreferences: NSViewController, PreferencePane {
     
     override func viewWillAppear() {
         super.viewWillAppear()
+        
+        guard showOpponentTracker != nil else {
+            return
+        }
+        
         showOpponentTracker.state = Settings.showOpponentTracker ? .on : .off
         showCardHuds.state = Settings.showCardHuds ? .on : .off
         clearTrackersOnGameEnd.state = Settings.clearTrackersOnGameEnd ? .on : .off

@@ -25,6 +25,11 @@ class ImportingPreferences: NSViewController, NSControlTextEditingDelegate, Pref
 
     override func viewWillAppear() {
         super.viewWillAppear()
+        
+        guard dungeonIncludePassives != nil else {
+            return
+        }
+        
         dungeonIncludePassives.state = Settings.importDungeonIncludePassives ? .on : .off
         dungeonTemplate.stringValue = Settings.importDungeonTemplate
         duelsTemplate.stringValue = Settings.importDuelsTemplate

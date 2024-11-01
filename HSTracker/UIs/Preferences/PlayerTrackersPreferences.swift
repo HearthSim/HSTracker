@@ -46,6 +46,11 @@ class PlayerTrackersPreferences: NSViewController, PreferencePane {
 
     override func viewWillAppear() {
         super.viewWillAppear()
+        
+        guard showPlayerTracker != nil else {
+            return
+        }
+        
         showPlayerTracker.state = Settings.showPlayerTracker ? .on : .off
         showPlayerCardCount.state = Settings.showPlayerCardCount ? .on : .off
         showPlayerDrawChance.state = Settings.showPlayerDrawChance ? .on : .off

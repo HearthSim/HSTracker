@@ -26,6 +26,10 @@ class GamePreferences: NSViewController, PreferencePane {
 
     override func viewWillAppear() {
         super.viewWillAppear()
+        
+        guard hearthstonePath != nil else {
+            return
+        }
 
         if CoreManager.validatedHearthstonePath() {
             hearthstonePath.stringValue = Settings.hearthstonePath
