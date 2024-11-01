@@ -189,7 +189,11 @@ class BobsBuddyInvoker {
             _ = runAndDisplaySimulationAsync().catch({ error in
                 logger.error("Error running simulation: \(error.localizedDescription)")
                 BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .failedToLoad)
-                Influx.sendEvent(eventName: "runSimulation failed", withProperties: [ "error": error.localizedDescription])
+                var inputString = ""
+                if let input = self.input {
+                    inputString = input.unitestCopyableVersion()
+                }
+                Influx.sendEvent(eventName: "runSimulation failed", withProperties: [ "error": error.localizedDescription, "input": inputString ])
             })
         }
     }
