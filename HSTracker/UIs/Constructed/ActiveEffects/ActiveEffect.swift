@@ -90,8 +90,8 @@ class ActiveEffect: NSView {
     }
 
     override func mouseEntered(with event: NSEvent) {
-        if let card = effect.cardToShowInUI {
-            let windowRect = self.window!.frame
+        if let card = effect.cardToShowInUI, let window {
+            let windowRect = window.frame
 
             let hoverFrame = NSRect(x: 0, y: 0, width: 256, height: 388)
 
@@ -103,9 +103,9 @@ class ActiveEffect: NSView {
             }
 
             let cellFrameRelativeToWindow = self.convert(self.bounds, to: nil)
-            let cellFrameRelativeToScreen = self.window?.convertToScreen(cellFrameRelativeToWindow)
+            let cellFrameRelativeToScreen = window.convertToScreen(cellFrameRelativeToWindow)
 
-            let y: CGFloat = cellFrameRelativeToScreen!.origin.y
+            let y: CGFloat = cellFrameRelativeToScreen.origin.y
             
             let frame: [CGFloat] = [x, y - hoverFrame.height / 2.0, hoverFrame.width, hoverFrame.height]
             NotificationCenter.default
