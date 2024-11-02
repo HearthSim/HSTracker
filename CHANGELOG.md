@@ -1,3 +1,9 @@
+# 3.1.0
+## New
+- Improved related cards shown for counters
+## Fixes
+- Fixed some rare crashes
+
 # 3.0.9
 ## New
 - Updated for Hearthstone 31.0.0
