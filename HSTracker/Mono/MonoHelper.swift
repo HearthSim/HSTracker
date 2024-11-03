@@ -339,12 +339,12 @@ class MonoHelper {
             let props = UnsafeMutablePointer<UnsafePointer<CChar>?>.allocate(capacity: 1)
             "TRUSTED_PLATFORM_ASSEMBLIES".withCString {
                 props.pointee = $0
+                let values = UnsafeMutablePointer<UnsafePointer<CChar>?>.allocate(capacity: 1)
+                libs.joined(separator: ":").withCString {
+                    values.pointee = $0
+                    monovm_initialize(1, props, values)
+                }
             }
-            let values = UnsafeMutablePointer<UnsafePointer<CChar>?>.allocate(capacity: 1)
-            libs.joined(separator: ":").withCString {
-                values.pointee = $0
-            }
-            monovm_initialize(1, props, values)
         } else {
             logger.debug("Failed to resolve urls for managed assemblies")
             return false
