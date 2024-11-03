@@ -166,7 +166,7 @@ import Foundation
         self.internalGroups.removeAll()
         for cg in cardGroups {
             let group = BattlegroundsCardsGroups(frame: NSRect.zero)
-            group.cardsList.delegate = self
+            group.cardsList?.delegate = self
             group.minionType = cg.minionType
             group.tier = cg.tier
             group.groupedByMinionType = cg.groupedByMinionType
