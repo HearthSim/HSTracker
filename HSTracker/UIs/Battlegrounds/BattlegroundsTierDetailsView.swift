@@ -239,7 +239,9 @@ import Foundation
 // MARK: - CardCellHover
 extension BattlegroundsTierDetailsView: CardCellHover {
     func hover(cell: CardBar, card: Card) {
-        let windowRect = self.window!.frame
+        guard let windowRect = self.window?.frame else {
+            return
+        }
 
         let hoverFrame = NSRect(x: 0, y: 0, width: 256, height: 388)
 
@@ -256,7 +258,7 @@ extension BattlegroundsTierDetailsView: CardCellHover {
         let cellFrameRelativeToWindow = cell.convert(cell.bounds, to: nil)
         let cellFrameRelativeToScreen = cell.window?.convertToScreen(cellFrameRelativeToWindow)
 
-        var y: CGFloat = cellFrameRelativeToScreen!.origin.y
+        var y: CGFloat = cellFrameRelativeToScreen?.origin.y ?? 0
         if (y + hoverFrame.height/2) >= tierFrame.minY {
             y = tierFrame.minY - hoverFrame.height/2
         } else if (y - hoverFrame.height/2) < 0 {
