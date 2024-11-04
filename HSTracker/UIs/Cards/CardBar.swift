@@ -457,7 +457,8 @@ class CardBar: NSView, CardBarTheme {
         let  count = abs(card.count)
         guard count > 1 else { return }
 
-        add(text: count, fontSize: countFontSize, rect: rect, textColor: countTextColor, font: numbersFont, centered: true)
+        let fontSize = fitFontForSize(ratio(rect).size, str: "\(count)", fontName: textFont, maxFontSize: countFontSize, minFontSize: 1.0)
+        add(text: count, fontSize: fontSize, rect: rect, textColor: countTextColor, font: numbersFont, centered: true)
     }
 
     func addBadAsMultipleIcon() {
