@@ -9,7 +9,7 @@
 import Foundation
 
 class EntityInfo {
-    private unowned var _entity: Entity
+    private var _entity: Entity
     private var _latestCardId: String?
     var drawerId: Int?
     var discarded = false

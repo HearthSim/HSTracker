@@ -293,7 +293,10 @@ class WindowManager {
     // MARK: - Floating card
     var closeRequestTimer: Timer?
     func showFloatingCard(_ notification: Notification) {
-        DispatchQueue.main.async { [unowned(unsafe) self] in
+        DispatchQueue.main.async { [weak self] in
+            guard let self else {
+                return
+            }
             guard Settings.showFloatingCard else { return }
             
             guard let card = notification.userInfo?["card"] as? Card,
@@ -378,7 +381,10 @@ class WindowManager {
     }
     
     @objc func forceHideFloatingCard() {
-        DispatchQueue.main.async { [unowned(unsafe) self] in
+        DispatchQueue.main.async { [weak self] in
+            guard let self else {
+                return
+            }
             self.floatingCard.window?.orderOut(self)
             self.floatingCard2.window?.orderOut(self)
             self.floatingCard3.window?.orderOut(self)

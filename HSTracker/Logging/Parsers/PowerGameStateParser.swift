@@ -32,7 +32,7 @@ class PowerGameStateParser: LogEventParser {
     var tagChangeHandler = TagChangeHandler()
     var currentEntity: Entity?
 
-	private unowned(unsafe) let eventHandler: PowerEventHandler
+	private let eventHandler: PowerEventHandler
 
 	init(with eventHandler: PowerEventHandler) {
 		self.eventHandler = eventHandler

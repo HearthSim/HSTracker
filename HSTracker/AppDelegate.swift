@@ -394,8 +394,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
      Builds the menu and its items.
      */
     func buildMenu() {
-        DispatchQueue.main.async { [unowned(unsafe) self] in
-            guard let decks = RealmHelper.getActiveDecks() else {
+        DispatchQueue.main.async { [weak self] in
+            guard let self, let decks = RealmHelper.getActiveDecks() else {
                 return
             }
             

@@ -23,8 +23,7 @@ class Entity {
      * locking the semaphore every time.
      */
 	
-    lazy var info: EntityInfo = { [unowned(unsafe) self] in
-        return EntityInfo(entity: self) }()
+    lazy var info: EntityInfo = EntityInfo(entity: self)
 
     init() {
         self.id = -1

@@ -179,67 +179,70 @@ class Game: NSObject, PowerEventHandler {
     }
 	
 	@objc fileprivate func updateOpponentTracker(reset: Bool = false) {
-		DispatchQueue.main.async { [unowned(unsafe) self] in
+        DispatchQueue.main.async { [weak self] in
+            guard let self else {
+                return
+            }
 			
-			let tracker = self.windowManager.opponentTracker
-			if Settings.showOpponentTracker &&
+            let tracker = self.windowManager.opponentTracker
+            if Settings.showOpponentTracker &&
                 (!self.isBattlegroundsMatch() && !self.isMercenariesMatch() && self.currentGameType != .gt_unknown) &&
             !(Settings.dontTrackWhileSpectating && self.spectator) &&
-				((Settings.hideAllTrackersWhenNotInGame && !self.gameEnded)
-					|| (!Settings.hideAllTrackersWhenNotInGame) || self.selfAppActive ) &&
-				((Settings.hideAllWhenGameInBackground &&
-					self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground || self.selfAppActive) {
-				
-				// update cards
+                ((Settings.hideAllTrackersWhenNotInGame && !self.gameEnded)
+                    || (!Settings.hideAllTrackersWhenNotInGame) || self.selfAppActive ) &&
+                ((Settings.hideAllWhenGameInBackground &&
+                    self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground || self.selfAppActive) {
+                
+                // update cards
                 if self.gameEnded && Settings.clearTrackersOnGameEnd {
                     tracker.update(cards: [], top: [], bottom: [], sideboards: [], reset: reset)
                 } else {
                     tracker.update(cards: self.opponent.opponentCardList, top: [], bottom: [], sideboards: [], reset: reset)
                 }
-				
-				let gameStarted = !self.isInMenu && self.entities.count >= 67
+                
+                let gameStarted = !self.isInMenu && self.entities.count >= 67
                 tracker.updateCardCounter(deckCount: !gameStarted || !isMulliganDone() ? 30 - self.opponent.handCount : self.opponent.deckCount,
-				                          handCount: !gameStarted ? 0 : self.opponent.handCount,
-				                          hasCoin: self.opponent.hasCoin,
-				                          gameStarted: gameStarted)
+                                          handCount: !gameStarted ? 0 : self.opponent.handCount,
+                                          hasCoin: self.opponent.hasCoin,
+                                          gameStarted: gameStarted)
 
-				tracker.showCthunCounter = false
-				tracker.showSpellCounter = false
-				tracker.showDeathrattleCounter = Settings.showOpponentDeathrattle
-				tracker.showGraveyard = Settings.showOpponentGraveyard
-				tracker.showJadeCounter = false
-				tracker.fatigueCounter = self.opponent.fatigue
-				tracker.deathrattlesPlayedCount = self.opponent.deathrattlesPlayedCount
+                tracker.showCthunCounter = false
+                tracker.showSpellCounter = false
+                tracker.showDeathrattleCounter = Settings.showOpponentDeathrattle
+                tracker.showGraveyard = Settings.showOpponentGraveyard
+                tracker.showJadeCounter = false
+                tracker.fatigueCounter = self.opponent.fatigue
+                tracker.deathrattlesPlayedCount = self.opponent.deathrattlesPlayedCount
                 tracker.showLibramCounter = false
                 
                 if let fullname = self.opponent.name {
                     let names = fullname.components(separatedBy: "#")
                     tracker.playerName = names[0]
                 }
-				
+                
                 tracker.graveyard = self.opponent.graveyard
-				tracker.playerClassId = self.opponent.playerClassId
-				
-                tracker.currentFormat = self.currentFormat 
-				tracker.currentGameMode = self.currentGameMode
-				tracker.matchInfo = self.matchInfo
-				
-				tracker.setWindowSizes()
-				var rect: NSRect?
-				
-				if Settings.autoPositionTrackers && self.hearthstoneRunState.isRunning {
-					rect = SizeHelper.opponentTrackerFrame()
-				} else {
-					rect = Settings.opponentTrackerFrame
-					if rect == nil {
-						let x = WindowManager.screenFrame.origin.x + 50
-						rect = NSRect(x: x,
-						              y: WindowManager.top + WindowManager.screenFrame.origin.y,
-						              width: WindowManager.cardWidth,
-						              height: WindowManager.top)
-					}
-				}
-				tracker.hasValidFrame = true
+                tracker.playerClassId = self.opponent.playerClassId
+                
+                tracker.currentFormat = self.currentFormat
+                tracker.currentGameMode = self.currentGameMode
+                tracker.matchInfo = self.matchInfo
+                
+                tracker.setWindowSizes()
+                var rect: NSRect?
+                
+                if Settings.autoPositionTrackers && self.hearthstoneRunState.isRunning {
+                    rect = SizeHelper.opponentTrackerFrame()
+                } else {
+                    rect = Settings.opponentTrackerFrame
+                    if rect == nil {
+                        let x = WindowManager.screenFrame.origin.x + 50
+                        rect = NSRect(x: x,
+                                      y: WindowManager.top + WindowManager.screenFrame.origin.y,
+                                      width: WindowManager.cardWidth,
+                                      height: WindowManager.top)
+                    }
+                }
+                tracker.hasValidFrame = true
                 self.windowManager.show(controller: tracker, show: true,
                                         frame: rect, title: "Opponent tracker",
                                         overlay: self.hearthstoneRunState.isActive)
@@ -251,7 +254,10 @@ class Game: NSObject, PowerEventHandler {
 	}
     
     func updateOpponentIcons() {
-        DispatchQueue.main.async { [unowned(unsafe) self] in
+        DispatchQueue.main.async { [weak self] in
+            guard let self else {
+                return
+            }
             var anyVisible = false
             let showTracker = shouldShowTracker && !isBattlegroundsMatch() && !isMercenariesMatch() && isMulliganDone() && Settings.showOpponentWotogCounters
             let icons = self.windowManager.opponentWotogIcons
@@ -313,7 +319,10 @@ class Game: NSObject, PowerEventHandler {
     }
 
     func updatePlayerIcons() {
-        DispatchQueue.main.async { [unowned(unsafe) self] in
+        DispatchQueue.main.async { [weak self] in
+            guard let self else {
+                return
+            }
             var anyVisible = false
             let showTracker = shouldShowTracker && !isBattlegroundsMatch() && !isMercenariesMatch() && isMulliganDone() && Settings.showPlayerWotogCounters
             let icons = self.windowManager.playerWotogIcons
@@ -376,8 +385,10 @@ class Game: NSObject, PowerEventHandler {
     }
 
     @objc func updatePlayerTracker(reset: Bool = false) {
-        DispatchQueue.main.async { [unowned(unsafe) self] in
-			
+        DispatchQueue.main.async { [weak self] in
+            guard let self else {
+                return
+            }
             let tracker = self.windowManager.playerTracker
             if Settings.showPlayerTracker &&
                 !(Settings.dontTrackWhileSpectating && self.spectator) &&
@@ -471,7 +482,10 @@ class Game: NSObject, PowerEventHandler {
     }
     
     func updateTurnCounter(turn: Int) {
-        DispatchQueue.main.async { [unowned(unsafe) self] in
+        DispatchQueue.main.async { [weak self] in
+            guard let self else {
+                return
+            }
             self.windowManager.turnCounter.setTurnNumber(turn: turn)
 
             let isBG = self.isBattlegroundsMatch() && !self.gameEnded
@@ -486,8 +500,10 @@ class Game: NSObject, PowerEventHandler {
     }
 
     func updateTurnTimer() {
-        DispatchQueue.main.async { [unowned(unsafe) self] in
-
+        DispatchQueue.main.async { [weak self] in
+            guard let self else {
+                return
+            }
             if Settings.showTimer && !self.gameEnded && self.shouldShowGUIElement && !isBattlegroundsMatch() && !isMercenariesMatch() {
                 var rect: NSRect?
                 if Settings.autoPositionTrackers {
@@ -517,7 +533,10 @@ class Game: NSObject, PowerEventHandler {
     }
     
     func updateSecretTracker() {
-        DispatchQueue.main.async { [unowned(unsafe) self] in
+        DispatchQueue.main.async { [weak self] in
+            guard let self else {
+                return
+            }
             
             let tracker = self.windowManager.secretTracker
             
@@ -843,7 +862,10 @@ class Game: NSObject, PowerEventHandler {
     }
 
     func updateCardHud() {
-        DispatchQueue.main.async { [unowned(unsafe) self] in
+        DispatchQueue.main.async { [weak self] in
+            guard let self else {
+                return
+            }
             
             let tracker = self.windowManager.cardHudContainer
             

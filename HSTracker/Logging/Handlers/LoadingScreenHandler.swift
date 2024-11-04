@@ -12,7 +12,7 @@ import Foundation
 
 struct LoadingScreenHandler: LogEventParser {
 	
-	private unowned(unsafe) let coreManager: CoreManager
+	private let coreManager: CoreManager
     
     private let showExperienceDuringMode = [ Mode.hub, Mode.game_mode, Mode.tournament, Mode.bacon, Mode.draft, Mode.pvp_dungeon_run ]
     private let lettuceModes = [

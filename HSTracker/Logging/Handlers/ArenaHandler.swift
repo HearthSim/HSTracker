@@ -15,7 +15,7 @@ struct ArenaHandler: LogEventParser {
     let HeroRegex = Regex("Draft Deck ID: (\\d+), Hero Card = (HERO_\\w+)")
     let ClientChoosesRegex = Regex("Client chooses: .* \\((\\w*)\\)")
 
-	private unowned(unsafe) let coreManager: CoreManager
+	private let coreManager: CoreManager
 	
 	init(with coreManager: CoreManager) {
 		self.coreManager = coreManager

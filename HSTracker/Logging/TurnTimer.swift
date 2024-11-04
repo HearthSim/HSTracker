@@ -77,7 +77,10 @@ import Foundation
                 opponentSeconds += 1
             }
         }*/
-		DispatchQueue.main.async { [unowned(unsafe) self] in
+		DispatchQueue.main.async { [weak self] in
+            guard let self else {
+                return
+            }
 			self.timerHud?.tick(seconds: self.seconds,
                     playerSeconds: self.playerSeconds,
                     opponentSeconds: self.opponentSeconds)
