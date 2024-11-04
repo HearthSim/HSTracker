@@ -229,10 +229,10 @@ class PowerGameStateParser: LogEventParser {
                             guessedLocation = known.1
                             logger.verbose("Found data for entity=\(id): CardId=\(cardId ?? ""), location=\(guessedLocation)")
                             var v = eventHandler.knownCardIds[blockId]
-                            v?.removeAll(where: { x in
-                                x == known
-                            })
-                            eventHandler.knownCardIds[blockId] = v
+                            if let index = v?.firstIndex(where: { x in x == known }) {
+                                v?.remove(at: index)
+                                eventHandler.knownCardIds[blockId] = v
+                            }
                             guessedCardId = true
                         }
                     }
