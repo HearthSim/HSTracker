@@ -62,7 +62,7 @@ class JadeGolemCounter: NumericCounter {
     override func handleTagChange(tag: GameTag, entity: Entity, value: Int, prevValue: Int) {
         guard game.isTraditionalHearthstoneMatch else { return }
 
-        if tag == .jade_golem, value > 0 {
+        if tag == .jade_golem, entity[.cardtype] == CardType.player.rawValue && value > 0 {
             let controller = entity[.controller]
             if (controller == game.player.id && isPlayerCounter) || (controller == game.opponent.id && !isPlayerCounter) {
                 counter = value
