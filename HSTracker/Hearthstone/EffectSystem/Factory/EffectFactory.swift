@@ -11,7 +11,7 @@ import Foundation
 class EffectFactory: DynamicFactory<EntityBasedEffect> {
     func createFromEntity(entity: Entity, controlledByPlayer: Bool) -> EntityBasedEffect? {
         if !entity.cardId.isEmpty, let ctor = constructors[entity.cardId] {
-            return ctor.init(entityId: entity.id, isControlledByPlayer: controlledByPlayer) as? EntityBasedEffect
+            return ctor.init(entityId: entity.id, isControlledByPlayer: controlledByPlayer)
         }
 
         return nil

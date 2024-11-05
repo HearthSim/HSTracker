@@ -8,7 +8,7 @@
 
 import Foundation
 
-class BaseCounter: NSObject, DynamicCounter {
+class BaseCounter: NSObject {
     let game: Game
     let isPlayerCounter: Bool
 

@@ -938,6 +938,7 @@
 		B8F778772805CE00006348B4 /* LethalResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B836822127888B4D007D5740 /* LethalResult.swift */; };
 		B8F778782805CE54006348B4 /* CombatResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B836821F27888B12007D5740 /* CombatResult.swift */; };
 		B8F778792805CE59006348B4 /* ReplicatingMenace.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8449A032781C7360094E5B3 /* ReplicatingMenace.swift */; };
+		B8FDE9272CD99D840093BFF7 /* ReflectionHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FDE9262CD99D840093BFF7 /* ReflectionHelper.swift */; };
 		B8FE1F9328693EDD004C397C /* WotogCounter.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8FE1F9228693EDD004C397C /* WotogCounter.xib */; };
 		B8FE1F9528694F44004C397C /* WotogCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FE1F9428694F44004C397C /* WotogCounter.swift */; };
 		B8FE1F992875BD15004C397C /* SynchronizedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FE1F982875BD15004C397C /* SynchronizedArray.swift */; };
@@ -1736,6 +1737,7 @@
 		B8E868842B940EB7005B1315 /* HearthDbConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HearthDbConverter.swift; sourceTree = "<group>"; };
 		B8EF1D7B291681EA00AC4658 /* BattlegroundsQuestView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsQuestView.xib; sourceTree = "<group>"; };
 		B8EF1D7D2916857000AC4658 /* BattlegroundsQuestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsQuestView.swift; sourceTree = "<group>"; };
+		B8FDE9262CD99D840093BFF7 /* ReflectionHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReflectionHelper.swift; sourceTree = "<group>"; };
 		B8FE1F9228693EDD004C397C /* WotogCounter.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WotogCounter.xib; sourceTree = "<group>"; };
 		B8FE1F9428694F44004C397C /* WotogCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WotogCounter.swift; sourceTree = "<group>"; };
 		B8FE1F982875BD15004C397C /* SynchronizedArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynchronizedArray.swift; sourceTree = "<group>"; };
@@ -2114,6 +2116,7 @@
 				434D1CAE1D0C500300222B8E /* ImageUtilities.swift */,
 				BCCCDB9D1EA54FF800C328D0 /* NotificationManager.swift */,
 				B8AB59932742F94900383EC8 /* RateLimiter.swift */,
+				B8FDE9262CD99D840093BFF7 /* ReflectionHelper.swift */,
 				B8BD84562861394100F4F224 /* Regex.swift */,
 				B8820CCF25603FB00072ECBC /* RemoteConfig.swift */,
 				B8832DD926057A5000646BA4 /* RepeatingTimer.swift */,
@@ -3760,6 +3763,7 @@
 				B8BD84552860058400F4F224 /* SynchronizedDictionary.swift in Sources */,
 				B8B78FDC2C96337900DD33EC /* CelestialShotEnchantment.swift in Sources */,
 				4C3E2D8A245ED13D00292349 /* ToastWindowController.swift in Sources */,
+				B8FDE9272CD99D840093BFF7 /* ReflectionHelper.swift in Sources */,
 				43E77EE21C949C7800C26950 /* TimerHud.swift in Sources */,
 				340AAC051D0544AD0015FE33 /* StringTracker.swift in Sources */,
 				B8B61C222AEBEA9C00990359 /* AvailableSecretsProvider.swift in Sources */,

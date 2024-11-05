@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class EntityBasedEffect: IShowInGlobalEffectList, DynamicObject {
+public class EntityBasedEffect: IShowInGlobalEffectList {
     
     let entityId: Int
     let isControlledByPlayer: Bool

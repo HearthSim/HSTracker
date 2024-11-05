@@ -246,16 +246,20 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
         splashscreen.showWindow(self)
         
         logger.info("Opening trackers")
-                
+
         DispatchQueue.global().async {
 #if !HSTTEST
-            if MonoHelper.load() {
-                MonoHelper.initialize()
-            //                DispatchQueue.global().async(qos: .userInitiated) {
-            //                    MonoHelper.testSimulation()
-            //                }
-            } else {
-                logger.error("Failed to load BobsBuddy")
+            let classesOperation = BlockOperation {
+                ReflectionHelper.initialize()
+
+                if MonoHelper.load() {
+                    MonoHelper.initialize()
+//                    DispatchQueue.global().async(qos: .userInitiated) {
+//                        MonoHelper.testSimulation()
+//                    }
+                } else {
+                    logger.error("Failed to load BobsBuddy")
+                }
             }
 #endif
 
@@ -286,6 +290,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
             remoteConfigOperation.addDependency(menuOperation)
             
             var operations = [Operation]()
+#if !HSTTEST
+            operations.append(classesOperation)
+#endif
             operations.append(remoteConfigOperation)
             operations.append(databaseOperation)
             operations.append(menuOperation)

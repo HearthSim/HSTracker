@@ -8,10 +8,6 @@
 
 import Foundation
 
-protocol DynamicCounter {
-    init(controlledByPlayer: Bool, game: Game)
-}
-
 class CounterManager {
     private var game: Game!
     private(set) var playerCounters: [BaseCounter] = []
@@ -26,18 +22,16 @@ class CounterManager {
     func initialize(game: Game) {
         self.game = game
         
-        let counterTypes = getCounterTypes()
+        let counterTypes = ReflectionHelper.getCounterClasses()
         
         for type in counterTypes {
-            if let playerCounter = type.init(controlledByPlayer: true, game: game) as? BaseCounter {
-                playerCounter.counterChanged = { [weak self] in self?.notifyCountersChanged() }
-                playerCounters.append(playerCounter)
-            }
+            let playerCounter = type.init(controlledByPlayer: true, game: game)
+            playerCounter.counterChanged = { [weak self] in self?.notifyCountersChanged() }
+            playerCounters.append(playerCounter)
 
-            if let opponentCounter = type.init(controlledByPlayer: false, game: game) as? BaseCounter {
-                opponentCounter.counterChanged = { [weak self] in self?.notifyCountersChanged() }
-                opponentCounters.append(opponentCounter)
-            }
+            let opponentCounter = type.init(controlledByPlayer: false, game: game)
+            opponentCounter.counterChanged = { [weak self] in self?.notifyCountersChanged() }
+            opponentCounters.append(opponentCounter)
         }
     }
 
@@ -84,24 +78,5 @@ class CounterManager {
         for listener in countersChanged {
             listener()
         }
-    }
-    
-    private var _counterTypes: [DynamicCounter.Type]?
-    
-    private func getCounterTypes() -> [DynamicCounter.Type] {
-        if let _counterTypes {
-            return _counterTypes
-        }
-        let counterTypes: [DynamicCounter.Type] = MonoHelper.withAllClasses({ x in x.compactMap { c in
-            if let t = c as? DynamicCounter.Type {
-                let s = String(cString: class_getName(c))
-                if s != "HSTracker.BaseCounter" && s != "HSTracker.NumericCounter" && s != "HSTracker.StatsCounter" {
-                    return t
-                }
-            }
-            return nil
-        }})
-        _counterTypes = counterTypes
-        return counterTypes
     }
 }

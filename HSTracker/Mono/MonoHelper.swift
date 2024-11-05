@@ -294,28 +294,9 @@ class MonoHelper {
     static var _monoInstance: OpaquePointer? // MonoDomain
     static var _assembly: OpaquePointer? // MonoClass
     static var _image: OpaquePointer? // MonoImage
-    
-    /// Invokes a given closure with a buffer containing all metaclasses known to the Obj-C
-    /// runtime. The buffer is only valid for the duration of the closure call.
-    static func withAllClasses<R>(
-      _ body: (UnsafeBufferPointer<AnyClass>) throws -> R
-    ) rethrows -> R {
-
-      var count: UInt32 = 0
-      let classListPtr = objc_copyClassList(&count)
-      defer {
-        free(UnsafeMutableRawPointer(classListPtr))
-      }
-      let classListBuffer = UnsafeBufferPointer(
-        start: classListPtr, count: Int(count)
-      )
-
-      return try body(classListBuffer)
-    }
-    
+        
     static func initialize() {
-        let monoClasses = withAllClasses { $0.compactMap { $0 as? MonoClassInitializer.Type } }
-        for cl in monoClasses {
+        for cl in ReflectionHelper.getMonoClasses() {
             cl.initialize()
         }
     }
@@ -421,9 +402,7 @@ class MonoHelper {
     
     static func testSimulation() {
         let handle = mono_thread_attach(MonoHelper._monoInstance)
-        
-        initialize()
-        
+                
         let sim = SimulatorProxy()
         
         if sim.valid() {
