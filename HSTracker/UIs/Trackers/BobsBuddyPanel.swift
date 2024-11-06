@@ -80,17 +80,17 @@ class BobsBuddyPanel: OverWindowController {
             if sh {
                 NSAnimationContext.runAnimationGroup({context in
                     context.duration = duration
-                    self.boxMainHeightConstraint.constant = 32
-                    self.boxAverageDamageGivenHeightConstraint.constant = avgDmgH
-                    self.boxAverageDamageTakenHeightConstraint.constant = avgDmgH
+                    self.boxMainHeightConstraint?.constant = 32
+                    self.boxAverageDamageGivenHeightConstraint?.constant = avgDmgH
+                    self.boxAverageDamageTakenHeightConstraint?.constant = avgDmgH
                     context.allowsImplicitAnimation = true
                 })
             } else {
                 NSAnimationContext.runAnimationGroup({context in
                     context.duration = duration
-                    self.boxMainHeightConstraint.constant = 0
-                    self.boxAverageDamageGivenHeightConstraint.constant = 0
-                    self.boxAverageDamageTakenHeightConstraint.constant = 0
+                    self.boxMainHeightConstraint?.constant = 0
+                    self.boxAverageDamageGivenHeightConstraint?.constant = 0
+                    self.boxAverageDamageTakenHeightConstraint?.constant = 0
                     context.allowsImplicitAnimation = true
                 })
             }
@@ -143,8 +143,8 @@ class BobsBuddyPanel: OverWindowController {
     @MainActor
     func resetDisplays() {
         resetText()
-        lethalRateStack.alphaValue = 0.3
-        opponentLethalRateStack.alphaValue = 0.3
+        lethalRateStack?.alphaValue = 0.3
+        opponentLethalRateStack?.alphaValue = 0.3
         setState(st: .initial)
         clearErrorState()
         showResults(show: false)
@@ -166,7 +166,7 @@ class BobsBuddyPanel: OverWindowController {
     func showPercentagesHideSpinners() {
         spinnerVisibility = false
         percentagesVisibility = true
-        spinner.stopAnimation(nil)
+        spinner?.stopAnimation(nil)
         //self.window!.ignoresMouseEvents = false
     }
     
@@ -174,7 +174,7 @@ class BobsBuddyPanel: OverWindowController {
     func hidePercentagesShowSpinners() {
         spinnerVisibility = true
         percentagesVisibility = false
-        spinner.startAnimation(nil)
+        spinner?.startAnimation(nil)
         //self.window!.ignoresMouseEvents = false
     }
     
