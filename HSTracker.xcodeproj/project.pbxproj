@@ -528,6 +528,7 @@
 		B85462072CDD3FE30083BB31 /* TessGreymaneCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85462062CDD3FE30083BB31 /* TessGreymaneCore.swift */; };
 		B854620B2CDD42420083BB31 /* Shudderwock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B854620A2CDD42420083BB31 /* Shudderwock.swift */; };
 		B854620D2CDD42AD0083BB31 /* InventorBoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = B854620C2CDD42AD0083BB31 /* InventorBoom.swift */; };
+		B854620F2CDE721F0083BB31 /* Playerside.swift in Sources */ = {isa = PBXBuildFile; fileRef = B854620E2CDE721F0083BB31 /* Playerside.swift */; };
 		B8591FEE2B1776FF00B907A4 /* SpellSchool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FED2B1776FF00B907A4 /* SpellSchool.swift */; };
 		B8591FF02B23CC7D00B907A4 /* ChoiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FEF2B23CC7D00B907A4 /* ChoiceType.swift */; };
 		B8591FF42B23D4D000B907A4 /* ChoicesHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FF32B23D4D000B907A4 /* ChoicesHandler.swift */; };
@@ -1451,6 +1452,7 @@
 		B85462062CDD3FE30083BB31 /* TessGreymaneCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TessGreymaneCore.swift; sourceTree = "<group>"; };
 		B854620A2CDD42420083BB31 /* Shudderwock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shudderwock.swift; sourceTree = "<group>"; };
 		B854620C2CDD42AD0083BB31 /* InventorBoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventorBoom.swift; sourceTree = "<group>"; };
+		B854620E2CDE721F0083BB31 /* Playerside.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playerside.swift; sourceTree = "<group>"; };
 		B8591FED2B1776FF00B907A4 /* SpellSchool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellSchool.swift; sourceTree = "<group>"; };
 		B8591FEF2B23CC7D00B907A4 /* ChoiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceType.swift; sourceTree = "<group>"; };
 		B8591FF32B23D4D000B907A4 /* ChoicesHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoicesHandler.swift; sourceTree = "<group>"; };
@@ -2351,17 +2353,18 @@
 				43F0002F1C81BAE8000F2F8F /* Mode.swift */,
 				439C7E9C1C777F8900D29859 /* Mulligan.swift */,
 				439212141DEF5A5E0017AAE5 /* MultiClassGroup.swift */,
+				B854620E2CDE721F0083BB31 /* Playerside.swift */,
 				433554551D62EE1200277B27 /* PlayerType.swift */,
 				439C7E9D1C777F8900D29859 /* PlayState.swift */,
 				431AA0CC1D362ECB0030AD22 /* Race.swift */,
 				431719781C8C179D00F5988B /* Rarity.swift */,
+				B8AF0C762B85625200B65F63 /* Region.swift */,
 				B8074B0128C83A96006E0133 /* RewardTrackType.swift */,
 				B8591FED2B1776FF00B907A4 /* SpellSchool.swift */,
 				4387BED11CF4D7A00002ECBB /* State.swift */,
 				437B5BAB1CD1E6AF00DE0A41 /* Step.swift */,
 				439C7E9E1C777F8900D29859 /* TagClass.swift */,
 				439C7E9F1C777F8900D29859 /* Zone.swift */,
-				B8AF0C762B85625200B65F63 /* Region.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -3905,6 +3908,7 @@
 				B8B790302C975A3600DD33EC /* DraconicStudiesEnchantment.swift in Sources */,
 				4349104C1D09739C00B22DB2 /* BoardHero.swift in Sources */,
 				1CF204F91E83B74300037A42 /* MirrorHelper.swift in Sources */,
+				B854620F2CDE721F0083BB31 /* Playerside.swift in Sources */,
 				43D307FB1C83159C00480488 /* SizeHelper.swift in Sources */,
 				B82029312CD2C4D700C19A8C /* AsteroidExtraDamageCounter.swift in Sources */,
 				B8B790272C9756A400DD33EC /* StarlightGrooveEnchantment.swift in Sources */,

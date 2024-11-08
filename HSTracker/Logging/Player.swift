@@ -765,6 +765,13 @@ final class Player {
                     if entity.has(tag: .card_target), let target = game.entities[entity[.card_target]], target.isControlled(by: id) {
                         spellsPlayedInFriendlyCharacters.append(entity.cardId)
                     }
+                    let activeMistahVistahs = playerEntities.filter { e in e.cardId == CardIds.NonCollectible.Druid.MistahVistah_ScenicVistaToken && (e.isInZone(zone: Zone.play) || e.isInZone(zone: Zone.secret)) }
+
+                    if activeMistahVistahs.count > 0 {
+                        for mistahVistah in activeMistahVistahs {
+                            mistahVistah.info.storedCardIds.append(entity.cardId)
+                        }
+                    }
                 }
                 if entity.has(tag: .spell_school), let spellSchool = SpellSchool(rawValue: entity[.spell_school]) {
                     playedSpellSchools.insert(spellSchool)

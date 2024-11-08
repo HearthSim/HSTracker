@@ -3834,6 +3834,7 @@ class Game: NSObject, PowerEventHandler {
     @MainActor
     private func updateTooltips() {
         if let hoveredCard {
+            // player hand
             if hoveredCard.isHand {
                 let relatedCards = getRelatedCards(player: player, cardId: hoveredCard.cardId, inHand: true, handPosition: hoveredCard.zonePosition)
                 if relatedCards.count > 0 && Settings.showPlayerRelatedCards {
@@ -3853,7 +3854,7 @@ class Game: NSObject, PowerEventHandler {
                     let offsetXScale = hoveredCard.zoneSize > 3 ? Double(cardTotal / hoveredCard.zoneSize) * 0.037 : 0.098
                     let offsetX = baseOffsetX + relativePosition * offsetXScale
                     let correctedOffsetX = SizeHelper.getScaledXPos(offsetX, width: frame.width, ratio: SizeHelper.screenRatio)
-
+                    
                     // find the center of the card
                     let cardHeight = 0.5
                     let cardHeightInPixels = cardHeight * frame.height
@@ -3862,6 +3863,70 @@ class Game: NSObject, PowerEventHandler {
                     windowManager.show(controller: tooltipGridCards, show: true, frame: NSRect(x: Int(x), y: Int(y), width: tooltipGridCards.gridWidth, height: tooltipGridCards.gridHeight))
                 } else {
                     windowManager.show(controller: windowManager.tooltipGridCards, show: false)
+                }
+            // player secrets/objective zone
+            } else if hoveredCard.zonePosition > 0 && hoveredCard.isHand == false && hoveredCard.side == PlayerSide.friendly.rawValue {
+                var relatedCards = [Card]()
+                if let entity = hoveredCard.zonePosition <= player.objectives.count ? player.objectives[hoveredCard.zonePosition - 1] : nil, entity.cardId == hoveredCard.cardId {
+                    relatedCards.append(contentsOf: entity.info.storedCardIds.compactMap { cardId in Cards.by(cardId: cardId) })
+                }
+                if relatedCards.count > 0 && Settings.showPlayerRelatedCards {
+                    let tooltipGridCards = windowManager.tooltipGridCards
+                    tooltipGridCards.title = String.localizedString("Related_Cards", comment: "")
+                    tooltipGridCards.setCardIdsFromCards(relatedCards, 470)
+                    
+                    let frame = SizeHelper.hearthstoneWindow.frame
+                    let y = frame.maxY - 480
+                    
+                    // find the left of the card
+                    let baseOffsetX = 0.57
+                    let leftOffsetXByLayer =  [ 0.0, 0.037, 0.062 ]
+                    let rightOffsetXByLayer =  [ 0.0, 0.034, 0.059 ]
+                    let relativePosition = hoveredCard.zonePosition
+                    let isLeftSide = relativePosition % 2 != 0
+                    let layer = Int(ceil(Double(relativePosition) / 2.0))
+                    let offsetX = isLeftSide ? baseOffsetX - leftOffsetXByLayer[layer] : baseOffsetX + rightOffsetXByLayer[layer]
+                    let correctedOffsetX = SizeHelper.getScaledXPos(offsetX, width: frame.width, ratio: SizeHelper.screenRatio)
+                    
+                    // find the center of the card
+                    let cardHeight = 0.43
+                    let cardHeightInPixels = cardHeight * frame.height
+                    let cardWidth = cardHeightInPixels * 31 / (cardHeight * 100)
+                    
+                    let x = correctedOffsetX + cardWidth / 2 - Double(tooltipGridCards.gridWidth) / 2.0
+                    windowManager.show(controller: tooltipGridCards, show: true, frame: NSRect(x: Int(x), y: Int(y), width: tooltipGridCards.gridWidth, height: tooltipGridCards.gridHeight))
+                }
+            // opponent secrets/objective zone
+            } else if hoveredCard.zonePosition > 0 && hoveredCard.isHand == false && hoveredCard.side != PlayerSide.friendly.rawValue {
+                var relatedCards = [Card]()
+                if let entity = hoveredCard.zonePosition <= opponent.objectives.count ? opponent.objectives[hoveredCard.zonePosition - 1] : nil, entity.cardId == hoveredCard.cardId {
+                    relatedCards.append(contentsOf: entity.info.storedCardIds.compactMap { cardId in Cards.by(cardId: cardId) })
+                }
+                if relatedCards.count > 0 && Settings.showPlayerRelatedCards {
+                    let tooltipGridCards = windowManager.tooltipGridCards
+                    tooltipGridCards.title = String.localizedString("Related_Cards", comment: "")
+                    tooltipGridCards.setCardIdsFromCards(relatedCards, 470)
+                    
+                    let frame = SizeHelper.hearthstoneWindow.frame
+                    let y = frame.maxY - 480
+                    
+                    // find the left of the card
+                    let baseOffsetX = 0.57
+                    let leftOffsetXByLayer =  [ 0.0, 0.037, 0.062 ]
+                    let rightOffsetXByLayer =  [ 0.0, 0.034, 0.059 ]
+                    let relativePosition = hoveredCard.zonePosition
+                    let isLeftSide = relativePosition % 2 != 0
+                    let layer = Int(ceil(Double(relativePosition) / 2.0))
+                    let offsetX = isLeftSide ? baseOffsetX - leftOffsetXByLayer[layer] : baseOffsetX + rightOffsetXByLayer[layer]
+                    let correctedOffsetX = SizeHelper.getScaledXPos(offsetX, width: frame.width, ratio: SizeHelper.screenRatio)
+                    
+                    // find the center of the card
+                    let cardHeight = 0.43
+                    let cardHeightInPixels = cardHeight * frame.height
+                    let cardWidth = cardHeightInPixels * 31 / (cardHeight * 100)
+                    
+                    let x = correctedOffsetX + cardWidth / 2 - Double(tooltipGridCards.gridWidth) / 2.0
+                    windowManager.show(controller: tooltipGridCards, show: true, frame: NSRect(x: Int(x), y: Int(y), width: tooltipGridCards.gridWidth, height: tooltipGridCards.gridHeight))
                 }
             } else {
                 windowManager.show(controller: windowManager.tooltipGridCards, show: false)
