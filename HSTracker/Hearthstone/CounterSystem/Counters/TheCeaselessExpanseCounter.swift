@@ -68,9 +68,6 @@ class TheCeaselessExpanseCounter: NumericCounter {
         case Zone.play.rawValue where value == Zone.graveyard.rawValue && (entity.isMinion || entity.isWeapon || entity.isLocation):
             counter += 1
             return
-        case Zone.secret.rawValue where value == Zone.graveyard.rawValue:
-            counter += 1
-            return
         default:
             return
         }
