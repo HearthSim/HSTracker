@@ -22,9 +22,9 @@ class Product9: ICardWithRelatedCards {
     }
 
     func getRelatedCards(player: Player) -> [Card?] {
-        return player.secretsTriggeredCardIds
+        return player.secretsTriggeredCards
+            .compactMap { Cards.by(cardId: $0.cardId) }
             .unique()
-            .compactMap { Cards.by(cardId: $0) }
             .sorted { $0.cost > $1.cost }
     }
 

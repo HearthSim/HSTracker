@@ -175,6 +175,7 @@ extension CardIds.Collectible {
         static let LadyLiadrinCore = "CORE_BT_334"
         static let Tyr = "TTN_857"
         static let TyrsTears_TyrsTearsToken = "TTN_855t"
+        static let YrelBeaconOfHope = "GDB_141"
     }
 }
 

@@ -23,7 +23,7 @@ class Sasquawk: ICardWithRelatedCards {
 
     func getRelatedCards(player: Player) -> [Card?] {
         return player.cardsPlayedLastTurn
-            .compactMap { Cards.by(cardId: $0) }
+            .compactMap { Cards.by(cardId: $0.cardId) }
             .sorted { $0.cost > $1.cost }
     }
 

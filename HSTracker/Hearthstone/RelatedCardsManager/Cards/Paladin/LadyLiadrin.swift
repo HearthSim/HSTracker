@@ -21,6 +21,7 @@ class LadyLiadrin: ICardWithRelatedCards {
     }
 
     public func getRelatedCards(player: Player) -> [Card?] {
-        return player.spellsPlayedInFriendlyCharacters.map { id in Cards.by(cardId: id) }
+        return player
+            .spellsPlayedInFriendlyCharacters.map { entity in Cards.by(cardId: entity.cardId) }
     }
 }

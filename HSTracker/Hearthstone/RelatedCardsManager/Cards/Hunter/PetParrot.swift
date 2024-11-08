@@ -23,7 +23,7 @@ class PetParrot: ICardWithRelatedCards {
 
     func getRelatedCards(player: Player) -> [Card?] {
         let lastCost1 = player.cardsPlayedThisMatch
-            .compactMap { Cards.by(cardId: $0) }
+            .compactMap { Cards.by(cardId: $0.cardId) }
             .last(where: { $0.cost == 1 })
         
         return lastCost1 != nil ? [lastCost1] : []

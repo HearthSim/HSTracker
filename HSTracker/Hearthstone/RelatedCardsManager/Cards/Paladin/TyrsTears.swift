@@ -22,9 +22,9 @@ class TyrsTears: ICardWithRelatedCards {
     }
 
     func getRelatedCards(player: Player) -> [Card?] {
-        return player.deadMinionsCardIds
+        return player.deadMinionsCards
+            .compactMap { Cards.by(cardId: $0.cardId) }
             .unique()
-            .compactMap { Cards.by(cardId: $0) }
             .filter { $0.isClass(cardClass: player.playerClass ?? .invalid) }
             .sorted { $0.cost < $1.cost }
     }

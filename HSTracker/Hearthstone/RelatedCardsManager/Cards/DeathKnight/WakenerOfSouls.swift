@@ -1,15 +1,17 @@
 //
-//  TyrsTearsForged.swift
+//  WakenerOfSouls.swift
 //  HSTracker
 //
-//  Created by Francisco Moraes on 11/7/24.
+//  Created by Francisco Moraes on 11/8/24.
 //  Copyright © 2024 Benjamin Michotte. All rights reserved.
 //
 
-class TyrsTearsForged: ICardWithRelatedCards {
+import Foundation
+
+class WakenerOfSouls: ICardWithRelatedCards {
     
     func getCardId() -> String {
-        return CardIds.NonCollectible.Paladin.TyrsTears
+        return CardIds.Collectible.Deathknight.WakenerOfSouls
     }
 
     func shouldShowForOpponent(opponent: Player) -> Bool {
@@ -20,8 +22,8 @@ class TyrsTearsForged: ICardWithRelatedCards {
         return player.deadMinionsCards
             .compactMap { Cards.by(cardId: $0.cardId) }
             .unique()
-            .filter { $0.isClass(cardClass: player.playerClass ?? .invalid) }
-            .sorted { $0.cost < $1.cost }
+            .filter { $0.mechanics.contains("DEATHRATTLE") == true && $0.id != CardIds.Collectible.Deathknight.WakenerOfSouls }
+            .sorted(by: { $0.cost > $1.cost })
     }
 
     required init() {

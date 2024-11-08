@@ -22,9 +22,9 @@ class TheGalacticProjectionOrb: ICardWithRelatedCards {
     }
 
     func getRelatedCards(player: Player) -> [Card?] {
-        return player.spellsPlayedCardIds
+        return player.spellsPlayedCards
+            .compactMap { Cards.by(cardId: $0.cardId) }
             .unique()
-            .compactMap { Cards.by(cardId: $0) }
             .sorted { $0.cost < $1.cost }
     }
 

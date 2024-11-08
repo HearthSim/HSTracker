@@ -22,7 +22,12 @@ class ReturnPolicy: ICardWithRelatedCards {
     }
     
     func getRelatedCards(player: Player) -> [Card?] {
-        return player.cardsPlayedThisTurn.unique().compactMap { Cards.by(cardId: $0) }.filter { $0?.mechanics.firstIndex(of: "DEATHRATTLE") != nil }.sorted(by: { ($0?.cost ?? 0) > ($1?.cost ?? 0) })
+        return player
+            .cardsPlayedThisTurn
+            .compactMap { Cards.by(cardId: $0.cardId) }
+            .unique()
+            .filter { $0.mechanics.firstIndex(of: "DEATHRATTLE") != nil }
+            .sorted(by: { $0.cost > $1.cost })
     }
 
     required init() {

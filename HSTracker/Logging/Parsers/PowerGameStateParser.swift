@@ -557,10 +557,10 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Neutral.SeaforiumBomber_BombToken)
                         case CardIds.Collectible.Priest.SpiritOfTheDead:
-                            if correspondPlayer == eventHandler.player.id {
-                                addKnownCardId(eventHandler: eventHandler, cardId: eventHandler.player.lastDiedMinionCardId)
-                            } else if correspondPlayer == eventHandler.opponent.id {
-                                addKnownCardId(eventHandler: eventHandler, cardId: eventHandler.opponent.lastDiedMinionCardId)
+                            if correspondPlayer == eventHandler.player.id, let cardId = eventHandler.player.lastDiedMinionCard?.cardId {
+                                addKnownCardId(eventHandler: eventHandler, cardId: cardId)
+                            } else if correspondPlayer == eventHandler.opponent.id, let cardId = eventHandler.opponent.lastDiedMinionCard?.cardId {
+                                addKnownCardId(eventHandler: eventHandler, cardId: cardId)
                             }
                         case CardIds.Collectible.Druid.SecureTheDeck:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Druid.Claw, count: 3)
@@ -594,9 +594,10 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.SmugSenior_SpectralSeniorToken)
                         case CardIds.Collectible.Rogue.Plagiarize, CardIds.Collectible.Rogue.PlagiarizeCore:
                             if let actionEntity = actionStartingEntity {
-                                let player = actionEntity.isControlled(by: eventHandler.player.id) ? eventHandler.opponent : eventHandler.player
-                                for card in player!.cardsPlayedThisTurn {
-                                    addKnownCardId(eventHandler: eventHandler, cardId: card)
+                                if let player = actionEntity.isControlled(by: eventHandler.player.id) ? eventHandler.opponent : eventHandler.player {
+                                    for card in player.cardsPlayedThisTurn {
+                                        addKnownCardId(eventHandler: eventHandler, cardId: card.cardId)
+                                    }
                                 }
                             }
                         case CardIds.Collectible.Rogue.EfficientOctoBot:
@@ -1061,7 +1062,7 @@ class PowerGameStateParser: LogEventParser {
                         case CardIds.Collectible.Rogue.Talgath:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Rogue.BackstabCore)
                         case CardIds.Collectible.Neutral.AstralVigilant:
-                            if let last = eventHandler.opponent.cardsPlayedThisMatch.compactMap({ cardId in Cards.by(cardId: cardId) }).filter({ card in card.mechanics.count > 0 && card.isDraenei() }).compactMap({ card in card.id }).last {
+                            if let last = eventHandler.opponent.cardsPlayedThisMatch.compactMap({ entity in Cards.by(cardId: entity.cardId) }).filter({ card in card.mechanics.count > 0 && card.isDraenei() }).compactMap({ card in card.id }).last {
                                 addKnownCardId(eventHandler: eventHandler, cardId: last)
                             }
                         default:

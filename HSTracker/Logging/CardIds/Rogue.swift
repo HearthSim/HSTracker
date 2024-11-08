@@ -192,6 +192,9 @@ extension CardIds.Collectible {
         static let SpacerockCollector = "GDB_875"
         static let TessGreymane = "GIL_598"
         static let TessGreymaneCore = "CORE_GIL_598"
+        static let TheGravitationalDisplacer = "GDB_466"
+        static let ScroungingShipwright = "GDB_876"
+        static let StarshipSchematic = "GDB_102"
     }
 }
 

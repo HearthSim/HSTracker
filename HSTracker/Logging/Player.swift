@@ -97,13 +97,13 @@ final class Player {
     var fatigue = 0
     var heroPowerCount = 0
     var spellsPlayedCount: Int {
-        return spellsPlayedCardIds.count
+        return spellsPlayedCards.count
     }
-    fileprivate(set) var spellsPlayedCardIds = [String]()
-    fileprivate(set) var spellsPlayedInFriendlyCharacters = [String]()
-    fileprivate(set) var cardsPlayedThisMatch = [String]()
-    fileprivate(set) var cardsPlayedThisTurn = [String]()
-    fileprivate(set) var cardsPlayedLastTurn = [String]()
+    fileprivate(set) var spellsPlayedCards = [Entity]()
+    fileprivate(set) var spellsPlayedInFriendlyCharacters = [Entity]()
+    fileprivate(set) var cardsPlayedThisMatch = [Entity]()
+    fileprivate(set) var cardsPlayedThisTurn = [Entity]()
+    fileprivate(set) var cardsPlayedLastTurn = [Entity]()
     var isPlayingWhizbang = false
     fileprivate(set) var deathrattlesPlayedCount = 0
 	private let game: Game
@@ -112,11 +112,11 @@ final class Player {
     var abyssalCurseCount: Int = 0
     var pogoHopperPlayedCount = 0
     var playedSpellSchools = Set<SpellSchool>()
-    var lastDiedMinionCardId: String? {
-        return deadMinionsCardIds.last
+    var lastDiedMinionCard: Entity? {
+        return deadMinionsCards.last
     }
-    var deadMinionsCardIds = [String]()
-    var secretsTriggeredCardIds = [String]()
+    var deadMinionsCards = [Entity]()
+    var secretsTriggeredCards = [Entity]()
 
     var hasCoin: Bool {
         return hand.any { $0.isTheCoin }
@@ -194,13 +194,13 @@ final class Player {
         name = ""
         playerClass = nil
         fatigue = 0
-        spellsPlayedCardIds.removeAll()
+        spellsPlayedCards.removeAll()
         spellsPlayedInFriendlyCharacters.removeAll()
         cardsPlayedThisTurn.removeAll()
         cardsPlayedLastTurn.removeAll()
         cardsPlayedThisMatch.removeAll()
-        secretsTriggeredCardIds.removeAll()
-        deadMinionsCardIds.removeAll()
+        secretsTriggeredCards.removeAll()
+        deadMinionsCards.removeAll()
         deathrattlesPlayedCount = 0
         heroPowerCount = 0
 
@@ -761,9 +761,9 @@ final class Player {
             case .token: entity.info.created = true
             case .spell: 
                 if !entity.cardId.isBlank {
-                    spellsPlayedCardIds.append(entity.cardId)
+                    spellsPlayedCards.append(entity)
                     if entity.has(tag: .card_target), let target = game.entities[entity[.card_target]], target.isControlled(by: id) {
-                        spellsPlayedInFriendlyCharacters.append(entity.cardId)
+                        spellsPlayedInFriendlyCharacters.append(entity)
                     }
                     let activeMistahVistahs = playerEntities.filter { e in e.cardId == CardIds.NonCollectible.Druid.MistahVistah_ScenicVistaToken && (e.isInZone(zone: Zone.play) || e.isInZone(zone: Zone.secret)) }
 
@@ -790,8 +790,8 @@ final class Player {
             entity.info.storedCardIds.removeAll()
         }
         if !entity.cardId.isBlank {
-            cardsPlayedThisTurn.append(entity.cardId)
-            cardsPlayedThisMatch.append(entity.cardId)
+            cardsPlayedThisTurn.append(entity)
+            cardsPlayedThisMatch.append(entity)
         }
         
         if Settings.fullGameLog {
@@ -821,7 +821,7 @@ final class Player {
     func secretPlayedFromHand(entity: Entity, turn: Int) {
         entity.info.turn = turn
         if !entity.cardId.isBlank {
-            spellsPlayedCardIds.append(entity.cardId)
+            spellsPlayedCards.append(entity)
         }
         if entity.has(tag: .spell_school), let spellSchool = SpellSchool(rawValue: entity[.spell_school]) {
             playedSpellSchools.insert(spellSchool)
@@ -834,7 +834,7 @@ final class Player {
     func questPlayedFromHand(entity: Entity, turn: Int) {
         entity.info.turn = turn
         if !entity.cardId.isBlank {
-            spellsPlayedCardIds.append(entity.cardId)
+            spellsPlayedCards.append(entity)
         }
         if Settings.fullGameLog {
             logger.info("\(debugName) \(#function) \(entity)")
@@ -904,7 +904,7 @@ final class Player {
     func sigilPlayedFromHand(entity: Entity, turn: Int) {
         entity.info.turn = turn
         if !entity.cardId.isBlank {
-            spellsPlayedCardIds.append(entity.cardId)
+            spellsPlayedCards.append(entity)
         }
         if entity.has(tag: .spell_school), let spellSchool = SpellSchool(rawValue: entity[.spell_school]) {
             playedSpellSchools.insert(spellSchool)
@@ -914,7 +914,7 @@ final class Player {
     func objectivePlayedFromHand(entity: Entity, turn: Int) {
         entity.info.turn = turn
         if !entity.cardId.isBlank {
-            spellsPlayedCardIds.append(entity.cardId)
+            spellsPlayedCards.append(entity)
         }
         if entity.has(tag: .spell_school), let spellSchool = SpellSchool(rawValue: entity[.spell_school]) {
             playedSpellSchools.insert(spellSchool)
@@ -928,7 +928,7 @@ final class Player {
         }
         
         if entity.isMinion {
-            deadMinionsCardIds.append(entity.cardId)
+            deadMinionsCards.append(entity)
         }
         
         if Settings.fullGameLog {
@@ -991,7 +991,7 @@ final class Player {
 
     func secretTriggered(entity: Entity, turn: Int) {
         if !entity.cardId.isBlank {
-            secretsTriggeredCardIds.append(entity.cardId)
+            secretsTriggeredCards.append(entity)
         }
     }
     

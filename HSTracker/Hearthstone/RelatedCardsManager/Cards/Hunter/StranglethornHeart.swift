@@ -22,8 +22,8 @@ class StranglethornHeart: ICardWithRelatedCards {
     }
 
     func getRelatedCards(player: Player) -> [Card?] {
-        return player.deadMinionsCardIds
-            .compactMap { Cards.by(cardId: $0) }
+        return player.deadMinionsCards
+            .compactMap { Cards.by(cardId: $0.cardId) }
             .filter { $0.isBeast() && $0.cost > 4 }
             .sorted { $0.cost > $1.cost }
     }

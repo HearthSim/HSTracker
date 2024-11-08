@@ -40,6 +40,9 @@ extension CardIds.Collectible {
         static let HarrowingOx = "WW_356"
         static let Helya = "TTN_850"
         static let PileOfBones = "WW_324"
+        static let WakenerOfSouls = "GDB_468"
+        static let GuidingFigure = "GDB_106"
+        static let SoulboundSpire = "GDB_112"
     }
 }
 

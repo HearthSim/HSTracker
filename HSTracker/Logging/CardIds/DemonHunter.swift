@@ -30,6 +30,12 @@ extension CardIds.Collectible {
         static let SigilOfSilence = "BAR_705"
         static let XortothBreakerOfStars = "GDB_118"
         static let ReturnPolicy = "MIS_102"
+        static let DirdraRebelCaptain = "GDB_117"
+        static let EmergencyMeeting = "GDB_119"
+        static let Headhunt = "GDB_473"
+        static let VoroneiRecruiter = "GDB_471"
+        static let ShattershardTurret = "GDB_105"
+        static let FelfusedBattery = "GDB_110"
     }
 }
 
@@ -48,5 +54,13 @@ extension CardIds.NonCollectible {
         static let RagingFelscreamer_FelscreamEnchantmentDEMON_HUNTER_INITIATE1 = "BT_416e"
         static let XortothBreakerofStars_StarOfOriginationToken = "GDB_118t"
         static let XortothBreakerofStars_StarOfConclusionToken = "GDB_118t2"
+        static let VoroneiRecruiter_EngineCrewmateToken = "GDB_471t";
+        static let VoroneiRecruiter_TacticalCrewmateToken = "GDB_471t2"
+        static let VoroneiRecruiter_GunnerCrewmateToken = "GDB_471t3"
+        static let VoroneiRecruiter_HelmCrewmateToken = "GDB_471t4"
+        static let VoroneiRecruiter_ReconCrewmateToken = "GDB_471t5"
+        static let VoroneiRecruiter_ResearchCrewmateToken = "GDB_471t6"
+        static let VoroneiRecruiter_MedicalCrewmateToken = "GDB_471t7"
+        static let VoroneiRecruiter_AdminCrewmateToken = "GDB_471t8"
     }
 }

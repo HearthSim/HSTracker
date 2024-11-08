@@ -167,6 +167,9 @@ extension CardIds.Collectible {
         static let WheelOfDeath = "TOY_529"
         static let ForebodingFlame = "GDB_121"
         static let InfernalStratagem = "GDB_122"
+        static let FelfireThrusters = "GDB_104"
+        static let HeartOfTheLegion = "GDB_109"
+        static let Archimonde = "GDB_128"
     }
 }
 
