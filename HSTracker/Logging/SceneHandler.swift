@@ -52,6 +52,7 @@ class SceneHandler {
             game.updateBattlegroundsSessionVisibility()
             BattlegroundsTeammateBoardStateWatcher.stop()
             BaconWatcher.stop()
+            BigCardWatcher.stop()
             ChoicesWatcher.stop()
         }
     }
@@ -81,6 +82,7 @@ class SceneHandler {
             BaconWatcher.start()
         } else if to == .gameplay {
             game.updateBattlegroundsSessionVisibility()
+            BigCardWatcher.start()
             ChoicesWatcher.start()
             BaconWatcher.start()
         }

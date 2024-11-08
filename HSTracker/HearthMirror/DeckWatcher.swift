@@ -926,3 +926,83 @@ class ChoicesWatcher: Watcher {
         isRunning = false
     }
 }
+
+struct BigCardArgs: Equatable {
+    var tooltipHeights: [Float]
+    var enchantmentHeights: [Float]
+    var cardId: String
+    var zonePosition: Int
+    var zoneSize: Int
+    var side: Int
+    var isHand: Bool
+    
+    init(value: MirrorBigCardState?) {
+        if let value {
+            tooltipHeights = value.tooltipHeights.compactMap { $0.floatValue }
+            enchantmentHeights = value.enchantmentHeights.compactMap { $0.floatValue }
+            cardId = value.cardId
+            zonePosition = value.zonePosition.intValue
+            zoneSize = value.zoneSize.intValue
+            side = value.side.intValue
+            isHand = value.isHand
+        } else {
+            tooltipHeights = [Float]()
+            enchantmentHeights = [Float]()
+            cardId = ""
+            zonePosition = 0
+            zoneSize = 0
+            side = 0
+            isHand = false
+        }
+    }
+}
+
+class BigCardWatcher: Watcher {
+    static var change: ((_ sender: BigCardWatcher, _ args: BigCardArgs) -> Void)?
+    
+    var _watch: Bool = false
+    var _prev: BigCardArgs?
+    
+    static let _instance = BigCardWatcher()
+    
+    init(delay: TimeInterval = 0.016) {
+        super.init()
+        
+        refreshInterval = delay
+    }
+    
+    override func run() {
+        _watch = true
+        update()
+    }
+    
+    static func start() {
+        _instance.startWatching()
+    }
+    
+    static func stop() {
+        _instance._watch = false
+        _instance.stopWatching()
+    }
+    
+    private func update() {
+        isRunning = true
+        while _watch {
+            Thread.sleep(forTimeInterval: refreshInterval)
+            if !_watch {
+                break
+            }
+            
+            let value = MirrorHelper.getBigCardState()
+            let curr = BigCardArgs(value: value)
+            if curr == _prev {
+                continue
+            }
+            BigCardWatcher.change?(self, curr)
+            _prev = curr
+        }
+        _prev = nil
+        isRunning = false
+    }
+
+}

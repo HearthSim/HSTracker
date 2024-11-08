@@ -41,6 +41,7 @@ class OpponentTrackersPreferences: NSViewController, PreferencePane {
     @IBOutlet weak var showActiveEffects: NSButton!
     @IBOutlet weak var showWotogCounters: NSButton!
     @IBOutlet weak var showCounters: NSButton!
+    @IBOutlet weak var showPlayerRelatedCards: NSButton!
     
     override func viewWillAppear() {
         super.viewWillAppear()
@@ -75,6 +76,7 @@ class OpponentTrackersPreferences: NSViewController, PreferencePane {
         showActiveEffects.state = Settings.showOpponentActiveEffects ? .on : .off
         showWotogCounters.state = Settings.showOpponentWotogCounters ? .on : .off
         showCounters.state = Settings.showOpponentCounters ? .on : .off
+        showPlayerRelatedCards.state = Settings.showOpponentRelatedCards ? .on : .off
         updateEnablement()
     }
 
@@ -135,6 +137,8 @@ class OpponentTrackersPreferences: NSViewController, PreferencePane {
             updateEnablement()
         } else if sender == showCounters {
             Settings.showOpponentCounters = showCounters.state == .on
+        } else if sender == showPlayerRelatedCards {
+            Settings.showOpponentRelatedCards = showPlayerRelatedCards.state == .on
         }
     }
     

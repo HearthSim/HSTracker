@@ -390,6 +390,7 @@ class WindowManager {
             self.floatingCard3.window?.orderOut(self)
             self.closeRequestTimer?.invalidate()
             self.closeRequestTimer = nil
+            self.tooltipGridCards.window?.orderOut(self)
         }
     }
 

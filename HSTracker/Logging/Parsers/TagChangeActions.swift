@@ -734,6 +734,10 @@ struct TagChangeActions {
             if controller == eventHandler.opponent.id {
                 eventHandler.opponentSecretTrigger(entity: entity, cardId: cardId,
                                            turn: eventHandler.turnNumber(), otherId: id)
+            } else {
+                if !entity.cardId.isEmpty {
+                    eventHandler.playerSecretTrigger(entity: entity, cardId: cardId, turn: eventHandler.turnNumber(), otherId: id)
+                }
             }
             
         case .setaside:

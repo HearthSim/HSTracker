@@ -32,6 +32,7 @@ class EntityInfo {
     var originalEntityWasCreated: Bool?
     var guessedCardState: GuessedCardState = GuessedCardState.none
     var storedCardIds: [String] = []
+    var copyOfCardId: String?
     var latestCardId: String {
         get { _latestCardId ?? _entity.cardId }
         set { _latestCardId = newValue }
@@ -137,6 +138,9 @@ extension EntityInfo: CustomStringConvertible {
         }
         if forged {
             description += ", forged=true"
+        }
+        if let copyOfCardId {
+            description += ", copyOf=\(copyOfCardId)"
         }
         description += ", inGraveyardAtStartOfGame=\(inGraveyardAtStartOfGame)"
         description += "]"

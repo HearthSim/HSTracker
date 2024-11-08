@@ -17,7 +17,7 @@
         <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" hasShadow="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g" customClass="NSPanel">
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="480" height="270"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1728" height="1079"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1496" height="933"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -57,7 +57,7 @@
                                 </box>
                                 <scrollView wantsLayer="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LTR-cA-Tac">
                                     <rect key="frame" x="0.0" y="0.0" width="480" height="235"/>
-                                    <clipView key="contentView" id="GTh-6P-mAK">
+                                    <clipView key="contentView" copiesOnScroll="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GTh-6P-mAK">
                                         <rect key="frame" x="0.0" y="0.0" width="480" height="235"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
@@ -73,11 +73,11 @@
                                         <edgeInsets key="contentInsets" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                                     </clipView>
                                     <edgeInsets key="contentInsets" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
-                                    <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="hbX-rX-lRg">
+                                    <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="hbX-rX-lRg" customClass="HiddenScroller" customModule="HSTracker" customModuleProvider="target">
                                         <rect key="frame" x="-100" y="-100" width="233" height="15"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </scroller>
-                                    <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="EWg-VI-1DF">
+                                    <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="EWg-VI-1DF" customClass="HiddenScroller" customModule="HSTracker" customModuleProvider="target">
                                         <rect key="frame" x="-100" y="-100" width="15" height="143"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </scroller>

@@ -96,10 +96,14 @@ final class Player {
     var id = -1
     var fatigue = 0
     var heroPowerCount = 0
-    var lastDiedMinionCardId: String?
-    fileprivate(set) var spellsPlayedCount = 0
-    fileprivate(set) var cardsPlayedThisMatch = [Entity]()
-    fileprivate(set) var cardsPlayedThisTurn: [String] = []
+    var spellsPlayedCount: Int {
+        return spellsPlayedCardIds.count
+    }
+    fileprivate(set) var spellsPlayedCardIds = [String]()
+    fileprivate(set) var spellsPlayedInFriendlyCharacters = [String]()
+    fileprivate(set) var cardsPlayedThisMatch = [String]()
+    fileprivate(set) var cardsPlayedThisTurn = [String]()
+    fileprivate(set) var cardsPlayedLastTurn = [String]()
     var isPlayingWhizbang = false
     fileprivate(set) var deathrattlesPlayedCount = 0
 	private let game: Game
@@ -108,6 +112,11 @@ final class Player {
     var abyssalCurseCount: Int = 0
     var pogoHopperPlayedCount = 0
     var playedSpellSchools = Set<SpellSchool>()
+    var lastDiedMinionCardId: String? {
+        return deadMinionsCardIds.last
+    }
+    var deadMinionsCardIds = [String]()
+    var secretsTriggeredCardIds = [String]()
 
     var hasCoin: Bool {
         return hand.any { $0.isTheCoin }
@@ -185,7 +194,13 @@ final class Player {
         name = ""
         playerClass = nil
         fatigue = 0
-        spellsPlayedCount = 0
+        spellsPlayedCardIds.removeAll()
+        spellsPlayedInFriendlyCharacters.removeAll()
+        cardsPlayedThisTurn.removeAll()
+        cardsPlayedLastTurn.removeAll()
+        cardsPlayedThisMatch.removeAll()
+        secretsTriggeredCardIds.removeAll()
+        deadMinionsCardIds.removeAll()
         deathrattlesPlayedCount = 0
         heroPowerCount = 0
 
@@ -720,6 +735,9 @@ final class Player {
         entity.info.returned = true
         entity.info.drawerId = nil
         entity.info.hidden = true
+        if entity.cardId != CardIds.NonCollectible.Neutral.PhotographerFizzle_FizzlesSnapshotToken {
+            entity.info.storedCardIds.removeAll()
+        }
         if Settings.fullGameLog {
             logger.info("\(debugName) \(#function) \(entity)")
         }
@@ -742,7 +760,12 @@ final class Player {
             switch cardType {
             case .token: entity.info.created = true
             case .spell: 
-                spellsPlayedCount += 1
+                if !entity.cardId.isBlank {
+                    spellsPlayedCardIds.append(entity.cardId)
+                    if entity.has(tag: .card_target), let target = game.entities[entity[.card_target]], target.isControlled(by: id) {
+                        spellsPlayedInFriendlyCharacters.append(entity.cardId)
+                    }
+                }
                 if entity.has(tag: .spell_school), let spellSchool = SpellSchool(rawValue: entity[.spell_school]) {
                     playedSpellSchools.insert(spellSchool)
                 }
@@ -755,9 +778,13 @@ final class Player {
         }
         entity.info.hidden = false
         entity.info.turn = turn
+        entity.info.costReduction = 0
+        if entity.cardId != CardIds.NonCollectible.Neutral.PhotographerFizzle_FizzlesSnapshotToken {
+            entity.info.storedCardIds.removeAll()
+        }
         if !entity.cardId.isBlank {
             cardsPlayedThisTurn.append(entity.cardId)
-            cardsPlayedThisMatch.append(entity)
+            cardsPlayedThisMatch.append(entity.cardId)
         }
         
         if Settings.fullGameLog {
@@ -786,7 +813,9 @@ final class Player {
 
     func secretPlayedFromHand(entity: Entity, turn: Int) {
         entity.info.turn = turn
-        spellsPlayedCount += 1
+        if !entity.cardId.isBlank {
+            spellsPlayedCardIds.append(entity.cardId)
+        }
         if entity.has(tag: .spell_school), let spellSchool = SpellSchool(rawValue: entity[.spell_school]) {
             playedSpellSchools.insert(spellSchool)
         }
@@ -797,7 +826,9 @@ final class Player {
 
     func questPlayedFromHand(entity: Entity, turn: Int) {
         entity.info.turn = turn
-        spellsPlayedCount += 1
+        if !entity.cardId.isBlank {
+            spellsPlayedCardIds.append(entity.cardId)
+        }
         if Settings.fullGameLog {
             logger.info("\(debugName) \(#function) \(entity)")
         }
@@ -851,6 +882,7 @@ final class Player {
     }
     
     func onTurnStart() {
+        cardsPlayedLastTurn = cardsPlayedThisTurn
         cardsPlayedThisTurn.removeAll()
     }
 
@@ -864,7 +896,9 @@ final class Player {
     
     func sigilPlayedFromHand(entity: Entity, turn: Int) {
         entity.info.turn = turn
-        spellsPlayedCount += 1
+        if !entity.cardId.isBlank {
+            spellsPlayedCardIds.append(entity.cardId)
+        }
         if entity.has(tag: .spell_school), let spellSchool = SpellSchool(rawValue: entity[.spell_school]) {
             playedSpellSchools.insert(spellSchool)
         }
@@ -872,7 +906,9 @@ final class Player {
     
     func objectivePlayedFromHand(entity: Entity, turn: Int) {
         entity.info.turn = turn
-        spellsPlayedCount += 1
+        if !entity.cardId.isBlank {
+            spellsPlayedCardIds.append(entity.cardId)
+        }
         if entity.has(tag: .spell_school), let spellSchool = SpellSchool(rawValue: entity[.spell_school]) {
             playedSpellSchools.insert(spellSchool)
         }
@@ -885,7 +921,7 @@ final class Player {
         }
         
         if entity.isMinion {
-            lastDiedMinionCardId = entity.cardId
+            deadMinionsCardIds.append(entity.cardId)
         }
         
         if Settings.fullGameLog {
@@ -947,6 +983,12 @@ final class Player {
     }
 
     func secretTriggered(entity: Entity, turn: Int) {
+        if !entity.cardId.isBlank {
+            secretsTriggeredCardIds.append(entity.cardId)
+        }
+    }
+    
+    func opponentSecretTriggered(entity: Entity, turn: Int) {
         entity.info.turn = turn
         game.secretsManager?.secretTriggered(entity: entity)
         if Settings.fullGameLog {

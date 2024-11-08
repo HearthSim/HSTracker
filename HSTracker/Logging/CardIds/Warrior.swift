@@ -152,6 +152,7 @@ extension CardIds.Collectible {
         static let SporeEmpressMoldara = "GDB_234"
         static let ExpeditionSergeant = "GDB_229"
         static let UnyieldingVindicator = "GDB_232"
+        static let InventorBoom = "TOY_607"
     }
 }
 

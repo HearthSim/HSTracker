@@ -383,3 +383,6 @@
 
 /* Sideboards */
 "DeckSideboard_Label_ETCBand" = "E.T.C.'s Band";
+
+/* Related Cards */
+"Related_Cards" = "Related Cards";

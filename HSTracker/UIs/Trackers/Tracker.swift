@@ -28,6 +28,7 @@ class Tracker: OverWindowController {
     @IBOutlet weak private var playerBottom: DeckLens!
     @IBOutlet weak private var playerTop: DeckLens!
     @IBOutlet weak private var playerSideboards: DeckSideboards!
+    @IBOutlet weak private var opponentRelatedCards: DeckLens!
 
     private var hero: CardBar?
     private var heroCard: Card?
@@ -81,6 +82,7 @@ class Tracker: OverWindowController {
             playerBottom.setPlayerType(playerType: playerType)
             playerTop.setPlayerType(playerType: playerType)
             playerSideboards.setPlayerType(playerType: playerType)
+            opponentRelatedCards.setPlayerType(playerType: playerType)
         }
         cardsView.delegate = self
         playerBottom.setDelegate(delegate: self)
@@ -88,6 +90,8 @@ class Tracker: OverWindowController {
         playerTop.setLabel(label: String.localizedString("On Top", comment: ""))
         playerBottom.setLabel(label: String.localizedString("On Bottom", comment: ""))
         playerSideboards.setDelegate(delegate: self)
+        opponentRelatedCards.setDelegate(delegate: self)
+        opponentRelatedCards.setLabel(label: String.localizedString("Related_Cards", comment: ""))
         setOpacity()
         
         if playerType == .opponent {
@@ -102,7 +106,6 @@ class Tracker: OverWindowController {
     }
     
     override func mouseEntered(with event: NSEvent) {
-        logger.debug("ME: \(window?.mouseLocationOutsideOfEventStream ?? CGPoint(x: 0, y: 0)), bottom Y \(bottomY)")
         if window?.mouseLocationOutsideOfEventStream.y ?? 0 >= bottomY {
             AppDelegate.instance().coreManager.game.windowManager.linkOpponentDeckPanel.showByOpponentStack()
         }
@@ -129,11 +132,12 @@ class Tracker: OverWindowController {
     }
 
     // MARK: - Game
-    func update(cards: [Card], top: [Card], bottom: [Card], sideboards: [Sideboard], reset: Bool = false) {
+    func update(cards: [Card], top: [Card], bottom: [Card], sideboards: [Sideboard], relatedCards: [Card], reset: Bool = false) {
         cardsView.update(cards: cards, reset: reset)
         playerBottom.update(cards: bottom, reset: reset)
         playerTop.update(cards: top, reset: reset)
         playerSideboards.update(sideboards: sideboards, reset: reset)
+        opponentRelatedCards.update(cards: relatedCards, reset: reset)
     }
     
     override func updateFrames() {
@@ -370,6 +374,10 @@ class Tracker: OverWindowController {
             offsetFrames += smallFrameHeight
             totalCards += playerSideboards.count
         }
+        if opponentRelatedCards.count > 0 && Settings.showOpponentRelatedCards {
+            offsetFrames += smallFrameHeight
+            totalCards += opponentRelatedCards.count
+        }
 
         var cardHeight: CGFloat
         switch Settings.cardSize {
@@ -445,6 +453,17 @@ class Tracker: OverWindowController {
                                             y: y,
                                             width: windowWidth,
                                             height: smallFrameHeight)
+        }
+        if opponentRelatedCards.count > 0 && Settings.showOpponentRelatedCards {
+            let opponentRelatedCardsHeight = CGFloat(opponentRelatedCards.count) * cardHeight + smallFrameHeight + 5
+            y -= opponentRelatedCardsHeight
+            opponentRelatedCards.frame = NSRect(x: 0, y: y, width: windowWidth, height: opponentRelatedCardsHeight)
+            opponentRelatedCards.updateFrames(frameHeight: smallFrameHeight)
+            opponentRelatedCards.isHidden = false
+        } else {
+            opponentRelatedCards.frame = NSRect.zero
+            opponentRelatedCards.updateFrames(frameHeight: smallFrameHeight)
+            opponentRelatedCards.isHidden = true
         }
         if showCthunCounter || showSpellCounter || showDeathrattleCounter || showLibram {
             var height: CGFloat = 0
@@ -574,8 +593,70 @@ class Tracker: OverWindowController {
 
 // MARK: - CardCellHover
 extension Tracker: CardCellHover {
+    enum HoveredComponent {
+        case playerTop,
+             playerBottom,
+             playerSideboards,
+             playerCardView,
+             opponentRelatedCards,
+             opponentCardView,
+             other
+    }
+    
+    private func getHoverComponent(_ cell: CardBar) -> HoveredComponent {
+        var view: NSView? = cell
+        while view != nil {
+            if view == playerTop {
+                return .playerTop
+            } else if view == playerBottom {
+                return .playerBottom
+            } else if view == playerSideboards {
+                return .playerSideboards
+            } else if view == opponentRelatedCards {
+                return .opponentRelatedCards
+            } else if view == cardsView {
+                if playerType == .player {
+                    return .playerCardView
+                } else {
+                    return .opponentCardView
+                }
+            }
+            view = view?.superview
+        }
+        return .other
+    }
+    
+    func setRelatedCardsTooltip(_ player: Player, _ cardId: String, _ rect: NSRect) {
+        let game = AppDelegate.instance().coreManager.game
+        let relatedCards = game.getRelatedCards(player: player, cardId: cardId)
+        
+        let hearthstoneRect = SizeHelper.hearthstoneWindow.frame
+        let tooltipGridCards = game.windowManager.tooltipGridCards
+        if relatedCards.count > 0 {
+            let nonNullableRelatedCards = relatedCards.compactMap { $0 }
+            
+            tooltipGridCards.setCardIdsFromCards(nonNullableRelatedCards)
+            tooltipGridCards.title = String.localizedString("Related_Cards", comment: "")
+            let screen = NSScreen.screens.first { s in s.frame.contains(rect) } ?? NSScreen.main
+            var y = rect.minY
+            if rect.minY + CGFloat(tooltipGridCards.gridHeight) > screen?.frame.height ?? hearthstoneRect.height {
+                y = hearthstoneRect.maxY - CGFloat(tooltipGridCards.gridHeight)
+            }
+            
+            var x: CGFloat = 0.0
+            if rect.minX < hearthstoneRect.width / 2 {
+                x = rect.maxX
+            } else {
+                x = rect.minX - CGFloat(tooltipGridCards.gridWidth)
+            }
+            
+            game.windowManager.show(controller: tooltipGridCards, show: true, frame: NSRect(x: x, y: y, width: CGFloat(tooltipGridCards.gridWidth), height: CGFloat(tooltipGridCards.gridHeight)))
+        } else {
+            game.windowManager.show(controller: tooltipGridCards, show: false)
+        }
+    }
+        
     func hover(cell: CardBar, card: Card) {
-
         let windowRect = self.window!.frame
 
         let hoverFrame = NSRect(x: 0, y: 0, width: 256, height: 388)
@@ -605,6 +686,20 @@ extension Tracker: CardCellHover {
             .post(name: Notification.Name(rawValue: Events.show_floating_card),
                                   object: nil,
                                   userInfo: userinfo)
+        
+        let hoverLocation = getHoverComponent(cell)
+        switch hoverLocation {
+        case .opponentRelatedCards, .opponentCardView:
+            if Settings.showOpponentRelatedCards {
+                setRelatedCardsTooltip(AppDelegate.instance().coreManager.game.opponent, card.id, NSRect(x: frame[0], y: frame[1], width: frame[2], height: frame[3]))
+            }
+        case .playerTop, .playerBottom, .playerSideboards, .playerCardView:
+            if Settings.showPlayerRelatedCards {
+                setRelatedCardsTooltip(AppDelegate.instance().coreManager.game.player, card.id, NSRect(x: frame[0], y: frame[1], width: frame[2], height: frame[3]))
+            }
+        default:
+            break
+        }
     }
 
     func out(card: Card) {
@@ -614,5 +709,7 @@ extension Tracker: CardCellHover {
         NotificationCenter.default.post(name: Notification.Name(rawValue: Events.hide_floating_card),
                                         object: nil,
                                         userInfo: userinfo)
+        
+        AppDelegate.instance().coreManager.game.windowManager.show(controller: AppDelegate.instance().coreManager.game.windowManager.tooltipGridCards, show: false)
     }
 }

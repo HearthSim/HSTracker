@@ -173,6 +173,10 @@ extension CardIds.Collectible {
         static let HodirFatherOfGiants = "TTN_752"
         static let ParrotSanctuary = "VAC_409"
         static let ThornmantleMusician = "ETC_831"
+        static let PetParrot = "VAC_961"
+        static let Product9 = "MIS_914"
+        static let Sasquawk = "VAC_415"
+        static let StranglethornHeart = "ETC_208"
     }
 }
 

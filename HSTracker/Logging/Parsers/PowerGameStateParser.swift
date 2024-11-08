@@ -219,22 +219,20 @@ class PowerGameStateParser: LogEventParser {
             var guessedCardId = false
             var guessedLocation = DeckLocation.unknown
             var cardId: String? = ensureValidCardID(cardId: matches[2].value)
+            var copyOfCardId: String?
 
             if eventHandler.entities[id] == nil {
                 if cardId.isBlank && zone != .setaside {
                     if let blockId = currentBlock?.id,
                        let known = eventHandler.knownCardIds[blockId]?.first {
                         cardId = known.0
+                        copyOfCardId = known.2
                         if !cardId.isBlank {
                             guessedLocation = known.1
                             logger.verbose("Found data for entity=\(id): CardId=\(cardId ?? ""), location=\(guessedLocation)")
-                            var v = eventHandler.knownCardIds[blockId]
-                            if let index = v?.firstIndex(where: { x in x == known }) {
-                                v?.remove(at: index)
-                                eventHandler.knownCardIds[blockId] = v
-                            }
                             guessedCardId = true
                         }
+                        eventHandler.knownCardIds[blockId]?.remove(at: 0)
                     }
                 }
 
@@ -252,6 +250,7 @@ class PowerGameStateParser: LogEventParser {
                 if let cid = cardId {
                     entity.cardId = cid
                 }
+                entity.info.copyOfCardId = copyOfCardId
                 eventHandler.entities[id] = entity
                 
                 if let currentBlock, zone == .deck {
@@ -329,7 +328,32 @@ class PowerGameStateParser: LogEventParser {
                             eventHandler.handlePlayerDredge()
                         }
                     }
+                    
+                    if entity?.cardId == CardIds.NonCollectible.Neutral.PhotographerFizzle_FizzlesSnapshotToken
+                       && currentBlock?.cardId == CardIds.Collectible.Neutral.PhotographerFizzle {
+                        if entity?.isControlled(by: eventHandler.player.id) ?? false {
+                            entity?.info.storedCardIds.append(contentsOf: eventHandler.player.hand.sorted(by: { $0.zonePosition < $1.zonePosition }).compactMap { e in e.card.id })
+                        } else if entity?.isControlled(by: eventHandler.opponent.id) ?? false {
+                            entity?.info.storedCardIds.append(contentsOf: eventHandler.opponent.hand.sorted(by: { $0.zonePosition < $1.zonePosition }).compactMap { e in
+                                if e.hasCardId && !e.info.hidden {
+                                    return e.card.id
+                                }
+                                return String(e.id)
+                            })
+                        }
+                    }
+
                 }
+
+                let fizzleSnapshots = eventHandler.opponent.playerEntities.filter { e in e.cardId == CardIds.NonCollectible.Neutral.PhotographerFizzle_FizzlesSnapshotToken }
+
+                for fizzle in fizzleSnapshots where fizzle.info.storedCardIds.contains(String(entity.id)) {
+                    if let index = fizzle.info.storedCardIds.firstIndex(of: String(entity.id)) {
+                        fizzle.info.storedCardIds[index] = entity.card.id
+                    }
+                }
+
+                handleCopiedCard(eventHandler: eventHandler, entity: entity)
 
                 if type == "CHANGE_ENTITY" {
                     let entity = eventHandler.entities[entityId]!
@@ -664,6 +688,13 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Paladin.Grillmaster_SunscreenToken)
                         case CardIds.Collectible.Rogue.MetalDetector:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.TheCoinBasic)
+                        case CardIds.Collectible.Mage.CommanderSivara, CardIds.Collectible.Neutral.TidepoolPupil:
+                            if let cardId = currentBlock?.parent?.cardId, Cards.by(cardId: cardId)?.type == .spell, let actionStartingEntity {
+                                let maxCards = 3
+                                if actionStartingEntity.info.storedCardIds.count < maxCards {
+                                    actionStartingEntity.info.storedCardIds.append(cardId)
+                                }
+                            }
                         case CardIds.Collectible.Neutral.AugmentedElekk:
                             if let currentBlock, currentBlock.parent != nil {
                                 if let index = currentBlock.parent?.entitiesCreatedInDeck.lastIndex(where: { x in !x.ids.contains(currentBlock.sourceEntityId)}) {
@@ -1007,13 +1038,30 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.CarryOnGrub_CarryOnSuitcaseToken1)
                         case CardIds.Collectible.Warrior.TheRyecleaver:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Warrior.TheRyecleaver_SliceOfBreadToken)
+                        case CardIds.NonCollectible.Neutral.PhotographerFizzle_FizzlesSnapshotToken:
+                            for card in actionStartingEntity?.info.storedCardIds ?? [String]() {
+                                // When the opponent plays the "Fizzle" card, a snapshot of the game state is captured.
+                                // Some cards are revealed, providing their exact cardId, while others we only know the entityId.
+                                // We handle these cases differently based on the information available:
+                                //
+                                // 1. If the revealed identifier is a number, it represents an entityId
+                                //    In this case, we link the created card to the existing entity.
+                                //
+                                // 2. If the revealed identifier is not a number, it represents a cardId
+                                //    Here, we create a new card using the known cardId.
+                                if Int(card) != nil {
+                                    addKnownCardId(eventHandler: eventHandler, cardId: "", copyOfCardId: card)
+                                } else {
+                                    addKnownCardId(eventHandler: eventHandler, cardId: card)
+                                }
+                            }
                         case CardIds.Collectible.DemonHunter.XortothBreakerOfStars:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.DemonHunter.XortothBreakerofStars_StarOfOriginationToken)
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.DemonHunter.XortothBreakerofStars_StarOfConclusionToken)
                         case CardIds.Collectible.Rogue.Talgath:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Rogue.BackstabCore)
                         case CardIds.Collectible.Neutral.AstralVigilant:
-                            if let last = eventHandler.opponent.cardsPlayedThisMatch.compactMap({ entity in Cards.by(cardId: entity.cardId) }).filter({ card in card.mechanics.count > 0 && card.isDraenei() }).compactMap({ card in card.id }).last {
+                            if let last = eventHandler.opponent.cardsPlayedThisMatch.compactMap({ cardId in Cards.by(cardId: cardId) }).filter({ card in card.mechanics.count > 0 && card.isDraenei() }).compactMap({ card in card.id }).last {
                                 addKnownCardId(eventHandler: eventHandler, cardId: last)
                             }
                         default:
@@ -1102,6 +1150,21 @@ class PowerGameStateParser: LogEventParser {
         }
     }
     
+    private func handleCopiedCard(eventHandler: PowerEventHandler, entity: Entity) {
+        let copyOfCard = eventHandler.opponent.playerEntities.first { e in e.info.copyOfCardId == String(entity.id) }
+
+        if let copyOfCard {
+            copyOfCard.cardId = entity.cardId
+        }
+
+        if entity.info.copyOfCardId != nil {
+            if let matchingEntity = eventHandler.opponent.playerEntities.first(where: { e in String(e.id) == entity.info.copyOfCardId }) {
+                matchingEntity.cardId = entity.cardId
+                matchingEntity.info.hidden = false
+            }
+        }
+    }
+    
     private func ensureValidCardID(cardId: String) -> String {
         if cardId.starts(with: PowerGameStateParser.TransferStudentToken) && !cardId.hasSuffix("e") {
             return CardIds.Collectible.Neutral.TransferStudent
@@ -1126,7 +1189,7 @@ class PowerGameStateParser: LogEventParser {
         return cardIdMatch.first?.value.trim()
     }
 
-    private func addKnownCardId(eventHandler: PowerEventHandler, cardId: String?, count: Int = 1, location: DeckLocation = .unknown) {
+    private func addKnownCardId(eventHandler: PowerEventHandler, cardId: String?, count: Int = 1, location: DeckLocation = .unknown, copyOfCardId: String? = nil) {
         guard let cardId = cardId else { return }
 
         if let blockId = currentBlock?.id {
@@ -1135,7 +1198,7 @@ class PowerGameStateParser: LogEventParser {
                     eventHandler.knownCardIds[blockId] = []
                 }
 
-                eventHandler.knownCardIds[blockId]?.append((cardId, location))
+                eventHandler.knownCardIds[blockId]?.append((cardId, location, copyOfCardId))
             }
         }
     }

@@ -507,5 +507,13 @@ struct MirrorHelper {
         }
         return result
     }
+    
+    static func getBigCardState() -> MirrorBigCardState? {
+        var result: MirrorBigCardState?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getBigCardState()
+        }
+        return result
+    }
 }
 

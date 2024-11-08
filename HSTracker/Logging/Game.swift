@@ -79,6 +79,7 @@ class Game: NSObject, PowerEventHandler {
     
     let activeEffects: ActiveEffects
     let counterManager: CounterManager
+    let relatedCardsManager: RelatedCardsManager
 	
     func setHearthstoneRunning(flag: Bool) {
         hearthstoneRunState.isRunning = flag
@@ -195,9 +196,13 @@ class Game: NSObject, PowerEventHandler {
                 
                 // update cards
                 if self.gameEnded && Settings.clearTrackersOnGameEnd {
-                    tracker.update(cards: [], top: [], bottom: [], sideboards: [], reset: reset)
+                    tracker.update(cards: [], top: [], bottom: [], sideboards: [], relatedCards: [], reset: reset)
                 } else {
-                    tracker.update(cards: self.opponent.opponentCardList, top: [], bottom: [], sideboards: [], reset: reset)
+                    let cardWithRelatedCards = relatedCardsManager.getCardsOpponentMayHave(opponent)
+                    cardWithRelatedCards.forEach({
+                        $0.count = 1
+                    })
+                    tracker.update(cards: self.opponent.opponentCardList, top: [], bottom: [], sideboards: [], relatedCards: cardWithRelatedCards, reset: reset)
                 }
                 
                 let gameStarted = !self.isInMenu && self.entities.count >= 67
@@ -413,7 +418,7 @@ class Game: NSObject, PowerEventHandler {
                     return card
                 }
 
-                tracker.update(cards: self.player.playerCardList, top: top, bottom: bottom, sideboards: self.player.playerSideboardsDict, reset: reset)
+                tracker.update(cards: self.player.playerCardList, top: top, bottom: bottom, sideboards: self.player.playerSideboardsDict, relatedCards: [], reset: reset)
                 
                 // update card counter values
                 let gameStarted = !self.isInMenu && self.entities.count >= 67
@@ -1155,7 +1160,10 @@ class Game: NSObject, PowerEventHandler {
 
 	var entities =  SynchronizedDictionary<Int, Entity>()
     var tmpEntities = SynchronizedArray<Entity>()
-    var knownCardIds = SynchronizedDictionary<Int, [(String, DeckLocation)]>()
+    
+    // swiftlint:disable large_tuple
+    var knownCardIds = SynchronizedDictionary<Int, [(String, DeckLocation, String?)]>()
+    // swiftlint:enable large_tuple
     var joustReveals = 0
     var dredgeCounter = 0
 
@@ -1426,6 +1434,7 @@ class Game: NSObject, PowerEventHandler {
 		turnTimer = TurnTimer(gui: windowManager.timerHud)
         activeEffects = ActiveEffects()
         counterManager = CounterManager()
+        relatedCardsManager = RelatedCardsManager()
         super.init()
         counterManager.initialize(game: self)
         _battlegroundsBoardState = BattlegroundsBoardState(game: self)
@@ -1460,7 +1469,7 @@ class Game: NSObject, PowerEventHandler {
 		                                   Settings.opponent_cthun_frame, Settings.opponent_yogg_frame, Settings.opponent_deathrattle_frame,
 		                                   Settings.show_opponent_class, Settings.opponent_graveyard_frame,
 		                                   Settings.opponent_graveyard_details_frame,
-                                           Settings.opponent_jade_frame, Settings.opponent_libram_counter, Settings.opponent_abyssal_counter]
+                                           Settings.opponent_jade_frame, Settings.opponent_libram_counter, Settings.opponent_abyssal_counter, Settings.opponent_related_cards]
 		
 		// events that should update all trackers
 		let allTrackerUpdateEvents = [Settings.rarity_colors, Events.reload_decks, Settings.window_locked, Settings.auto_position_trackers,
@@ -1588,6 +1597,7 @@ class Game: NSObject, PowerEventHandler {
         }
         opponent.reset()
         activeEffects.reset()
+        relatedCardsManager.reset()
         updateSecretTracker(cards: [])
         windowManager.hideGameTrackers()
 		
@@ -2535,6 +2545,14 @@ class Game: NSObject, PowerEventHandler {
         secretsManager?.handleCardPlayed(entity: entity, parentCardId: parentCardId)
         updateTrackers()
     }
+    
+    func playerSecretTrigger(entity: Entity, cardId: String?, turn: Int, otherId: Int) {
+        if !entity.isSecret {
+            return
+        }
+        player.secretTriggered(entity: entity, turn: turn)
+        updateTrackers()
+    }
 
     func playerHandDiscard(entity: Entity, cardId: String?, turn: Int) {
         if cardId.isBlank {
@@ -3172,7 +3190,7 @@ class Game: NSObject, PowerEventHandler {
     func opponentSecretTrigger(entity: Entity, cardId: String?, turn: Int, otherId: Int) {
         if !entity.isSecret { return }
 
-        opponent.secretTriggered(entity: entity, turn: turn)
+        opponent.opponentSecretTriggered(entity: entity, turn: turn)
         secretsManager?.removeSecret(entity: entity)
         
         if isBattlegroundsMatch() && Settings.showBobsBuddy {
@@ -3790,6 +3808,74 @@ class Game: NSObject, PowerEventHandler {
     func duosResetHeroTracking() {
         duosWasPlayerHeroModified = false
         duosWasOpponentHeroModified = false
+    }
+    
+    func getRelatedCards(player: Player, cardId: String, inHand: Bool = false, handPosition: Int? = nil) -> [Card?] {
+        var relatedCards = relatedCardsManager.getCardWithRelatedCards(cardId).getRelatedCards(player: player)
+        // Get related cards from Entity
+        if relatedCards.count == 0 {
+            var entities = [Entity]()
+            if inHand {
+                entities = handPosition != nil ? player.hand.filter { e in e.zonePosition == handPosition } : player.hand.filter { e in e.cardId == cardId }
+            } else {
+                entities = player.deck.filter { e in e.cardId == cardId }
+            }
+            
+            for entity in entities {
+                relatedCards.append(contentsOf: entity.info.storedCardIds.compactMap { id in Cards.by(cardId: id) })
+            }
+        }
+
+        return relatedCards
+    }
+    
+    private(set) var hoveredCard: BigCardArgs?
+    
+    @MainActor
+    private func updateTooltips() {
+        if let hoveredCard {
+            if hoveredCard.isHand {
+                let relatedCards = getRelatedCards(player: player, cardId: hoveredCard.cardId, inHand: true, handPosition: hoveredCard.zonePosition)
+                if relatedCards.count > 0 && Settings.showPlayerRelatedCards {
+                    let nonNullableRelatedCards = relatedCards.compactMap { x in x }
+                    
+                    let tooltipGridCards = windowManager.tooltipGridCards
+                    tooltipGridCards.title = String.localizedString("Related_Cards", comment: "")
+                    tooltipGridCards.setCardIdsFromCards(nonNullableRelatedCards, 470)
+                    
+                    let frame = SizeHelper.hearthstoneWindow.frame
+                    let y = frame.maxY - 480
+                    // find the left of the card
+                    let cardTotal = hoveredCard.zoneSize > 10 ? hoveredCard.zoneSize : 10
+                    let baseOffsetX = 0.34
+                    let centerPosition = Double(hoveredCard.zoneSize + 1) / 2.0
+                    let relativePosition = Double(hoveredCard.zonePosition) - centerPosition
+                    let offsetXScale = hoveredCard.zoneSize > 3 ? Double(cardTotal / hoveredCard.zoneSize) * 0.037 : 0.098
+                    let offsetX = baseOffsetX + relativePosition * offsetXScale
+                    let correctedOffsetX = SizeHelper.getScaledXPos(offsetX, width: frame.width, ratio: SizeHelper.screenRatio)
+
+                    // find the center of the card
+                    let cardHeight = 0.5
+                    let cardHeightInPixels = cardHeight * frame.height
+                    let cardWidth = cardHeightInPixels * 34 / (cardHeight * 100)
+                    let x = correctedOffsetX + cardWidth / 2 - Double(tooltipGridCards.gridWidth) / 2.0
+                    windowManager.show(controller: tooltipGridCards, show: true, frame: NSRect(x: Int(x), y: Int(y), width: tooltipGridCards.gridWidth, height: tooltipGridCards.gridHeight))
+                } else {
+                    windowManager.show(controller: windowManager.tooltipGridCards, show: false)
+                }
+            } else {
+                windowManager.show(controller: windowManager.tooltipGridCards, show: false)
+            }
+        } else {
+            windowManager.show(controller: windowManager.tooltipGridCards, show: false)
+        }
+    }
+    
+    func onBigCardChange(_ state: BigCardArgs) {
+        hoveredCard = state
+        DispatchQueue.main.async {
+            self.updateTooltips()
+        }
     }
 }
 

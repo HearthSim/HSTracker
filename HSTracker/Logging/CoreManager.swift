@@ -97,6 +97,10 @@ final class CoreManager: NSObject {
             AppDelegate.instance().coreManager.game.setChoicesVisible(args.currentChoice?.isVisible ?? false)
         }
         
+        BigCardWatcher.change = { _, args in
+            AppDelegate.instance().coreManager.game.onBigCardChange(args)
+        }
+        
         game.windowManager.playerActiveEffectsOverlay.setActiveEffects(game.activeEffects)
         game.windowManager.opponentActiveEffectsOverlay.setActiveEffects(game.activeEffects)
         game.windowManager.playerCountersOverlay.setCounters(game.counterManager)
@@ -334,6 +338,7 @@ final class CoreManager: NSObject {
         BattlegroundsTeammateBoardStateWatcher.stop()
         DeckPickerWatcher.stop()
         ChoicesWatcher.stop()
+        BigCardWatcher.stop()
         MirrorHelper.destroy()
         let wm = game.windowManager
         wm.battlegroundsHeroPicking.viewModel.reset()

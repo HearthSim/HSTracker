@@ -190,6 +190,8 @@ extension CardIds.Collectible {
         static let BackstabCore = "CORE_CS2_072"
         static let LuckyComet = "GDB_873"
         static let SpacerockCollector = "GDB_875"
+        static let TessGreymane = "GIL_598"
+        static let TessGreymaneCore = "CORE_GIL_598"
     }
 }
 

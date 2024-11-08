@@ -12,6 +12,7 @@ class ReflectionHelper {
     private static var cacheMonoClassList = [MonoClassInitializer.Type]()
     private static var cacheActiveEffectClassList = [EntityBasedEffect.Type]()
     private static var cacheCounterClassList = [BaseCounter.Type]()
+    private static var cacheRelatedClassList = [ICardWithRelatedCards.Type]()
 
     static func initialize() {
         var count: UInt32 = 0
@@ -37,6 +38,8 @@ class ReflectionHelper {
                 cacheActiveEffectClassList.append(aecl)
             } else if let dccl = cl as? BaseCounter.Type, cl != BaseCounter.self && cl != StatsCounter.self && cl != NumericCounter.self {
                 cacheCounterClassList.append(dccl)
+            } else if let rccl = cl as? ICardWithRelatedCards.Type {
+                cacheRelatedClassList.append(rccl)
             }
         }
     }
@@ -51,5 +54,9 @@ class ReflectionHelper {
     
     static func getCounterClasses() -> [BaseCounter.Type] {
         return cacheCounterClassList
+    }
+    
+    static func getRelatedClases() -> [ICardWithRelatedCards.Type] {
+        return cacheRelatedClassList
     }
 }

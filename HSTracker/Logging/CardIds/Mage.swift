@@ -178,6 +178,9 @@ extension CardIds.Collectible {
         static let OverflowSurger = "WW_424"
         static let GhastlyConjurerCorePlaceholder = "CORE_ICC_069"
         static let IngeniousArtificer = "GDB_135"
+        static let CommanderSivara = "TSC_087"
+        static let Rewind = "ETC_532"
+        static let TheGalacticProjectionOrb = "TOY_378"
     }
 }
 

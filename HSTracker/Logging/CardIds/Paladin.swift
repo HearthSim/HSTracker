@@ -86,7 +86,7 @@ extension CardIds.Collectible {
         static let BolvarFordragon: String = "GVG_063"
         static let ScarletPurifier: String = "GVG_101"
         static let UtherLightbringer: String = "HERO_04"
-        static let LadyLiadrin: String = "HERO_04a"
+        static let LadyLiadrin: String = "BT_334"
         static let PrinceArthas: String = "HERO_04b"
         static let ArrogantCrusader: String = "ICC_034"
         static let RighteousProtector: String = "ICC_038"
@@ -172,6 +172,9 @@ extension CardIds.Collectible {
         static let LibramOfJustice = "BT_011"
         static let LibramOfJudgment = "YOP_011"
         static let LibramOfHope = "BT_024"
+        static let LadyLiadrinCore = "CORE_BT_334"
+        static let Tyr = "TTN_857"
+        static let TyrsTears_TyrsTearsToken = "TTN_855t"
     }
 }
 
@@ -253,6 +256,7 @@ extension CardIds.NonCollectible {
         static let ResistanceAura_ResistanceCoreEnchantment = "TTN_851e"
         static let TheAzeriteDragonToken = "DEEP_999t4"
         static let InterstellarStarslicer_InterstellarLibramEnchantmentEnchantment = "GDB_726e"
+        static let TyrsTears = "TTN_855"
     }
 }
 

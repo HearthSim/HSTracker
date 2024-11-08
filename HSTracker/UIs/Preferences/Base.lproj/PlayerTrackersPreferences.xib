@@ -27,6 +27,7 @@
                 <outlet property="showPlayerCardCount" destination="zkd-LR-z4k" id="miU-C7-KDt"/>
                 <outlet property="showPlayerDrawChance" destination="xcN-Th-tgi" id="r2o-AX-9gH"/>
                 <outlet property="showPlayerGet" destination="FGp-0L-JIH" id="XBG-PR-2dV"/>
+                <outlet property="showPlayerRelatedCards" destination="ImA-1u-yg7" id="lEp-SE-GlR"/>
                 <outlet property="showPlayerSideboards" destination="9lC-T5-lQq" id="Pfy-y9-rNE"/>
                 <outlet property="showPlayerTracker" destination="AVh-I0-Pfw" id="sYo-ig-vb8"/>
                 <outlet property="showPogoCounter" destination="glA-AF-Cpl" id="uks-B0-hi3"/>
@@ -41,11 +42,11 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <stackView distribution="equalSpacing" orientation="vertical" alignment="leading" spacing="10" horizontalStackHuggingPriority="250" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" id="XxF-gV-LnW">
-            <rect key="frame" x="0.0" y="0.0" width="461" height="718"/>
+            <rect key="frame" x="0.0" y="0.0" width="461" height="744"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="AVh-I0-Pfw">
-                    <rect key="frame" x="18" y="691" width="423" height="18"/>
+                    <rect key="frame" x="18" y="717" width="423" height="18"/>
                     <buttonCell key="cell" type="check" title="Show player tracker" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="MiE-Lr-Vdi">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -55,7 +56,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="zkd-LR-z4k">
-                    <rect key="frame" x="18" y="665" width="423" height="18"/>
+                    <rect key="frame" x="18" y="691" width="423" height="18"/>
                     <buttonCell key="cell" type="check" title="Show player card count" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="TmO-9A-Ffe">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -65,7 +66,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="xcN-Th-tgi">
-                    <rect key="frame" x="18" y="639" width="423" height="18"/>
+                    <rect key="frame" x="18" y="665" width="423" height="18"/>
                     <buttonCell key="cell" type="check" title="Show player draw chance" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="acK-XF-6wQ">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -75,7 +76,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="FGp-0L-JIH">
-                    <rect key="frame" x="18" y="613" width="423" height="18"/>
+                    <rect key="frame" x="18" y="639" width="423" height="18"/>
                     <buttonCell key="cell" type="check" title="Include obtained cards" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="r3h-Qd-YPW">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -85,7 +86,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="E5o-tN-vdV">
-                    <rect key="frame" x="18" y="587" width="423" height="18"/>
+                    <rect key="frame" x="18" y="613" width="423" height="18"/>
                     <buttonCell key="cell" type="check" title="Show Deathrattle counter" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="IPf-hF-E74">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -95,7 +96,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="UDp-f2-KNr">
-                    <rect key="frame" x="18" y="561" width="423" height="18"/>
+                    <rect key="frame" x="18" y="587" width="423" height="18"/>
                     <buttonCell key="cell" type="check" title="Flash on card draw" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="gpo-Wo-m50">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -105,7 +106,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="oIi-8e-cCP">
-                    <rect key="frame" x="18" y="535" width="423" height="18"/>
+                    <rect key="frame" x="18" y="561" width="423" height="18"/>
                     <buttonCell key="cell" type="check" title="Show win-loss ratio" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Ro2-NC-xMD">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -115,7 +116,7 @@
                     </connections>
                 </button>
                 <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="20" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JpE-eO-815" userLabel="ColorStack">
-                    <rect key="frame" x="20" y="502" width="421" height="24"/>
+                    <rect key="frame" x="20" y="528" width="421" height="24"/>
                     <subviews>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mRM-Lj-SBH">
                             <rect key="frame" x="-2" y="4" width="86" height="16"/>
@@ -151,7 +152,7 @@
                     </customSpacing>
                 </stackView>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ch7-2L-q2U">
-                    <rect key="frame" x="18" y="475" width="423" height="18"/>
+                    <rect key="frame" x="18" y="501" width="423" height="18"/>
                     <buttonCell key="cell" type="check" title="Show active effects" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Zrq-qH-h4q">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -161,13 +162,23 @@
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sgy-13-dsa">
-                    <rect key="frame" x="18" y="449" width="423" height="18"/>
+                    <rect key="frame" x="18" y="475" width="423" height="18"/>
                     <buttonCell key="cell" type="check" title="Show counters" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="frU-cb-GPA">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                     <connections>
                         <action selector="checkboxClicked:" target="-2" id="QVP-hB-bvN"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ImA-1u-yg7">
+                    <rect key="frame" x="18" y="449" width="423" height="18"/>
+                    <buttonCell key="cell" type="check" title="Show related cards tooltip" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="IQb-Gf-HMS">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="JZY-Ql-zAM"/>
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="MtK-l1-SKk">
@@ -421,6 +432,7 @@
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="9lC-T5-lQq" secondAttribute="trailing" constant="20" symbolic="YES" id="0A9-iR-L12"/>
                 <constraint firstItem="sgy-13-dsa" firstAttribute="leading" secondItem="XxF-gV-LnW" secondAttribute="leading" constant="20" symbolic="YES" id="3nH-NS-gqd"/>
+                <constraint firstAttribute="trailing" secondItem="ImA-1u-yg7" secondAttribute="trailing" constant="20" symbolic="YES" id="8VM-6m-mHp"/>
                 <constraint firstItem="xPH-sG-hVe" firstAttribute="leading" secondItem="XxF-gV-LnW" secondAttribute="leading" constant="20" symbolic="YES" id="8sT-gh-vSO"/>
                 <constraint firstItem="mw3-8S-Qfd" firstAttribute="leading" secondItem="XxF-gV-LnW" secondAttribute="leading" constant="20" symbolic="YES" id="969-bu-r07"/>
                 <constraint firstAttribute="trailing" secondItem="MtK-l1-SKk" secondAttribute="trailing" constant="20" symbolic="YES" id="AMB-tm-Y0b"/>
@@ -454,6 +466,7 @@
                 <constraint firstAttribute="trailing" secondItem="ch7-2L-q2U" secondAttribute="trailing" constant="20" symbolic="YES" id="rx3-Uj-fPh"/>
                 <constraint firstAttribute="trailing" secondItem="AVh-I0-Pfw" secondAttribute="trailing" constant="20" symbolic="YES" id="u7P-F0-HGM"/>
                 <constraint firstAttribute="trailing" secondItem="KOv-IE-Hhy" secondAttribute="trailing" constant="20" symbolic="YES" id="xH2-GF-cR4"/>
+                <constraint firstItem="ImA-1u-yg7" firstAttribute="leading" secondItem="XxF-gV-LnW" secondAttribute="leading" constant="20" symbolic="YES" id="xsb-lj-Mus"/>
                 <constraint firstItem="MtK-l1-SKk" firstAttribute="leading" secondItem="XxF-gV-LnW" secondAttribute="leading" constant="20" symbolic="YES" id="yUB-lN-g73"/>
             </constraints>
             <visibilityPriorities>
@@ -475,8 +488,10 @@
                 <integer value="1000"/>
                 <integer value="1000"/>
                 <integer value="1000"/>
+                <integer value="1000"/>
             </visibilityPriorities>
             <customSpacing>
+                <real value="3.4028234663852886e+38"/>
                 <real value="3.4028234663852886e+38"/>
                 <real value="3.4028234663852886e+38"/>
                 <real value="3.4028234663852886e+38"/>

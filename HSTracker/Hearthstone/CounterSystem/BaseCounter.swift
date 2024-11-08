@@ -86,50 +86,10 @@ class BaseCounter: NSObject {
     }
 
     func filterCardsByClassAndFormat(cardIds: [String], playerClass: CardClass?, ignoreNeutral: Bool = false) -> [String] {
-        let filteredByFormat = filterCardsByFormat(cardIds: cardIds)
-
-        return filteredByFormat.compactMap { cardId in
-            if let card = Cards.by(cardId: cardId),
-               card.playerClass == playerClass || (card.getTouristVistClass() == playerClass) || (!ignoreNeutral && card.playerClass == .neutral) {
-                return card.id
-            }
-            return nil
-        }
-    }
-
-    private func filterCardsByFormat(cardIds: [String]) -> [String] {
-        switch game.currentFormat {
-        case .classic:
-            return cardIds.compactMap { cardId in
-                if let card = Cards.by(cardId: cardId) {
-                    return CardSet.classicSets().contains(card.set ?? .invalid) ? card.id : nil
-                }
-                return nil
-            }
-        case .wild:
-            return cardIds.compactMap { cardId in
-                if let card = Cards.by(cardId: cardId) {
-                    return !CardSet.classicSets().contains(card.set ?? .invalid) ? card.id : nil
-                }
-                return nil
-            }
-        case .standard:
-            return cardIds.compactMap { cardId in
-                if let card = Cards.by(cardId: cardId) {
-                    return !CardSet.wildSets().contains(card.set ?? .invalid) && !CardSet.classicSets().contains(card.set ?? .invalid) ? card.id : nil
-                }
-                return nil
-            }
-        case .twist:
-            return cardIds.compactMap { cardId in
-                if let card = Cards.by(cardId: cardId) {
-                    return CardSet.twistSets().contains(card.set ?? .invalid) ? card.id : nil
-                }
-                return nil
-            }
-        default:
-            return cardIds
-        }
+        return cardIds.compactMap({ cardId in Cards.by(cardId: cardId )})
+            .filterCardsByFormat(format: game.currentFormat)
+            .filterCardsByPlayerClass(playerClass: playerClass, ignoreNeutral: ignoreNeutral)
+            .compactMap({ card in card.id })
     }
 
     // Event handling in Swift

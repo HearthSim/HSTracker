@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22689"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -14,6 +14,7 @@
                 <outlet property="graveyardCounter" destination="aFR-AO-2Vy" id="ukz-pX-hST"/>
                 <outlet property="jadeCounter" destination="Ze5-XI-jWd" id="v7n-Xu-qv5"/>
                 <outlet property="opponentDrawChance" destination="Slp-Ya-S9h" id="R3r-Tb-bap"/>
+                <outlet property="opponentRelatedCards" destination="m3p-pH-JLu" id="Aze-Ou-n51"/>
                 <outlet property="playerBottom" destination="HpB-sw-IQc" id="11c-Ym-bcE"/>
                 <outlet property="playerClass" destination="YeM-kJ-hCT" id="xGi-5X-mTq"/>
                 <outlet property="playerDrawChance" destination="UC5-o5-y78" id="9EG-lm-GA7"/>
@@ -39,15 +40,19 @@
                         <rect key="frame" x="0.0" y="574" width="217" height="40"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
-                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pOh-Wx-amx" userLabel="PlayerTop" customClass="DeckLens" customModule="HSTracker" customModuleProvider="target">
+                    <customView identifier="PlayerTop" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pOh-Wx-amx" userLabel="PlayerTop" customClass="DeckLens" customModule="HSTracker" customModuleProvider="target">
                         <rect key="frame" x="27" y="264" width="163" height="96"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
-                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="naK-zt-rPm" customClass="AnimatedCardList" customModule="HSTracker" customModuleProvider="target">
+                    <customView identifier="OpponentRelatedCards" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m3p-pH-JLu" userLabel="Opponent Related Cards" customClass="DeckLens" customModule="HSTracker" customModuleProvider="target">
+                        <rect key="frame" x="27" y="264" width="163" height="96"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    </customView>
+                    <customView identifier="AnimatedCardList" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="naK-zt-rPm" customClass="AnimatedCardList" customModule="HSTracker" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="470" width="217" height="96"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
-                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HpB-sw-IQc" userLabel="PlayerBottom" customClass="DeckLens" customModule="HSTracker" customModuleProvider="target">
+                    <customView identifier="PlayerBottom" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HpB-sw-IQc" userLabel="PlayerBottom" customClass="DeckLens" customModule="HSTracker" customModuleProvider="target">
                         <rect key="frame" x="27" y="264" width="163" height="96"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>

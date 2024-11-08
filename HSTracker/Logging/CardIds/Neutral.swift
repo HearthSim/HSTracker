@@ -669,7 +669,8 @@ extension CardIds.Collectible {
         static let SpacePirate = "GDB_333"
         static let StarlightWanderer = "GDB_720"
         static let StrandedSpaceman = "GDB_861"
-        
+        static let PhotographerFizzle = "ETC_113"
+        static let TidepoolPupil = "VAC_304"
     }
 }
 
@@ -862,6 +863,7 @@ extension CardIds.NonCollectible {
         static let StarlightWanderer_StarlightWandererFutureBuffEnchantment = "GDB_720e"
         static let StrandedSpaceman_StrandedSpacemanFutureBuffEnchantment = "GDB_861e"
         static let UnyieldingVindicator_UnyieldingVindicatorFutureBuffEnchantment = "GDB_232e"
+        static let PhotographerFizzle_FizzlesSnapshotToken = "ETC_113t"
     }
 }
 

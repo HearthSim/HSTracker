@@ -63,6 +63,10 @@ final class Card {
         return races[0] == race || (races.count > 1 && races[1] == race)
     }
     
+    func isBeast() -> Bool {
+        return hasRace(.beast)
+    }
+    
     func isDraenei() -> Bool {
         return hasRace(.draenei)
     }
@@ -73,6 +77,10 @@ final class Card {
     
     func isElemental() -> Bool {
         return hasRace(.elemental)
+    }
+    
+    func isMech() -> Bool {
+        return hasRace(.mechanical)
     }
     
     var deckbuildingCard: Card {
@@ -186,7 +194,7 @@ final class Card {
         return CardClass.allCases[tourist]
     }
     
-    func getTouristVistClass() -> CardClass? {
+    func getTouristVisitClass() -> CardClass? {
         if !canBeVisitedByTourist {
             return nil
         }

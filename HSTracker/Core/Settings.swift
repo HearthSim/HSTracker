@@ -339,6 +339,8 @@ final class Settings {
     static var showPlayerWotogCounters: Bool
     @UserDefault(key: Settings.player_counters, defaultValue: true)
     static var showPlayerCounters: Bool
+    @UserDefault(key: Settings.player_related_cards, defaultValue: true)
+    static var showPlayerRelatedCards
     @UserDefault(key: Settings.opponent_pogo_counter, defaultValue: true)
     static var showOpponentPogoCounter: Bool
     @UserDefault(key: Settings.opponent_excavate_counter, defaultValue: true)
@@ -391,6 +393,8 @@ final class Settings {
     static var interactedWithLinkOpponentDeck: Bool
     @UserDefault(key: Settings.enable_link_opponent_deck, defaultValue: false)
     static var enableLinkOpponentDeckInNonFriendly: Bool
+    @UserDefault(key: Settings.opponent_related_cards, defaultValue: true)
+    static var showOpponentRelatedCards
 
     @UserDefaultCustom(key: Settings.timer_hud_frame, defaultValue: nil)
     static var timerHudFrame: NSRect?
@@ -652,6 +656,7 @@ extension Settings {
     static let player_spell_schools_counter = "player_spell_school_counter"
     static let player_wotog_counters = "player_wotog_counters"
     static let player_counters = "player_counters"
+    static let player_related_cards = "player_related_cards"
     static let opponent_galakrond_invoke_frame = "opponent_galakrond_invoke_frame"
     static let opponent_cthun_frame = "opponent_cthun_frame"
     static let opponent_yogg_frame = "opponent_yogg_frame"
@@ -668,6 +673,7 @@ extension Settings {
     static let opponent_counters = "opponent_counters"
     static let interacted_with_link_opponentDeck = "interacted_with_link_opponentDeck"
     static let enable_link_opponent_deck = "enable_link_opponent_deck"
+    static let opponent_related_cards = "opponent_related_cards"
 
     static let remove_cards_from_deck = "remove_cards_from_deck"
     static let highlight_last_drawn = "highlight_last_drawn"

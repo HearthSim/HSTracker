@@ -159,6 +159,7 @@ extension CardIds.Collectible {
         static let JadeDisplay = "TOY_803"
         static let JadeBehemothWONDERS = "WON_303"
         static let FyeTheSettingSun = "WW_825"
+        static let HydrationStation = "VAC_948"
     }
 }
 

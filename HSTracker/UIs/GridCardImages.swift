@@ -8,6 +8,15 @@
 
 import Foundation
 
+class HiddenScroller: NSScroller {
+
+    // @available(macOS 10.7, *)
+    // let NSScroller tell NSScrollView that its own width is 0, so that it will not really occupy the drawing area.
+    override class func scrollerWidth(for controlSize: ControlSize, scrollerStyle: Style) -> CGFloat {
+        0
+    }
+}
+
 class GridCardImages: OverWindowController, NSCollectionViewDataSource {
     @IBOutlet weak var collectionView: NSCollectionView!
     
@@ -36,8 +45,17 @@ class GridCardImages: OverWindowController, NSCollectionViewDataSource {
         }
     }
     
+    private var _previousCards: [Card]?
     func setCardIdsFromCards(_ cards: [Card]?, _ maxGridHeight: Int? = nil) {
         guard let cards else {
+            return
+        }
+        
+        if let previousCards = _previousCards, previousCards.elementsEqual(cards) {
+            if maxGridHeight != nil && maxGridHeight != _maxGridHeight || maxGridHeight == nil && gridHeight != _maxGridHeight {
+                _maxGridHeight = maxGridHeight ?? gridHeight
+                cardsCollectionChanged(_maxGridHeight)
+            }
             return
         }
         
@@ -48,6 +66,7 @@ class GridCardImages: OverWindowController, NSCollectionViewDataSource {
             
             self.cards.append(cardWithImage)
         }
+        _previousCards = cards
         
         cardsCollectionChanged(maxGridHeight)
     }
@@ -84,11 +103,14 @@ class GridCardImages: OverWindowController, NSCollectionViewDataSource {
         gridHeight = rows * self.cardHeight + 35
         
         DispatchQueue.main.async {
-            if let flow = self.collectionView.collectionViewLayout as? NSCollectionViewFlowLayout {
+            guard let collectionView = self.collectionView else {
+                return
+            }
+            if let flow = collectionView.collectionViewLayout as? NSCollectionViewFlowLayout {
                 flow.itemSize = NSSize(width: self.cardWidth, height: self.cardHeight)
             }
             
-            self.collectionView.reloadData()
+            collectionView.reloadData()
         }
     }
     
@@ -112,6 +134,8 @@ class GridCardImages: OverWindowController, NSCollectionViewDataSource {
 
     private static let MaxCardWidth = 256 * 0.7
     private static let MaxCardHeight = 388 * 0.7
+    
+    private var _maxGridHeight = GridHeight
 
     private let CardAspectRatio = MaxCardWidth / MaxCardHeight
     
@@ -130,10 +154,6 @@ class GridCardImages: OverWindowController, NSCollectionViewDataSource {
  
     func numberOfSections(in collectionView: NSCollectionView) -> Int {
         return 1
-    }
-    
-    func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> NSSize {
-        return NSSize(width: cardWidth, height: cardHeight)
     }
     
     func collectionView(_ collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {

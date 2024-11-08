@@ -36,9 +36,11 @@ protocol PowerEventHandler: AnyObject {
 	var gameTriggerCount: Int { get set }
 	
 	var lastId: Int { get set }
-	
-    var knownCardIds: SynchronizedDictionary<Int, [(String, DeckLocation)]> { get set }
-	
+    
+    // swiftlint:disable large_tuple
+    var knownCardIds: SynchronizedDictionary<Int, [(String, DeckLocation, String?)]> { get set }
+    // swiftlint:enable large_tuple
+
 	var currentEntityHasCardId: Bool { get set }
 	
 	var currentEntityZone: Zone { get set }
@@ -141,6 +143,8 @@ protocol PowerEventHandler: AnyObject {
 	func playerStolen(entity: Entity, cardId: String?, turn: Int)
 	
     func playerSecretPlayed(entity: Entity, cardId: String?, turn: Int, fromZone: Zone, parentCardId: String)
+    
+    func playerSecretTrigger(entity: Entity, cardId: String?, turn: Int, otherId: Int)
 	
 	func playerBackToHand(entity: Entity, cardId: String?, turn: Int)
 	

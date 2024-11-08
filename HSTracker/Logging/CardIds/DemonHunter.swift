@@ -29,6 +29,7 @@ extension CardIds.Collectible {
         static let RagingFelscreamerCore = "CORE_BT_416"
         static let SigilOfSilence = "BAR_705"
         static let XortothBreakerOfStars = "GDB_118"
+        static let ReturnPolicy = "MIS_102"
     }
 }
 
