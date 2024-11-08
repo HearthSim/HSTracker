@@ -23,7 +23,7 @@ class Rewind: ICardWithRelatedCards {
 
     func getRelatedCards(player: Player) -> [Card?] {
         return player.spellsPlayedCards
-            .compactMap { Cards.by(cardId: $0.cardId) }
+            .compactMap { CardUtils.getProcessedCardFromCardId($0.cardId, player) }
             .unique()
             .filter { $0.id != CardIds.Collectible.Mage.Rewind }
             .sorted { $0.cost > $1.cost }

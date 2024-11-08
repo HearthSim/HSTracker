@@ -23,7 +23,7 @@ class Shudderwock: ICardWithRelatedCards {
 
     func getRelatedCards(player: Player) -> [Card?] {
         return player.cardsPlayedThisMatch
-            .compactMap { Cards.by(cardId: $0.cardId) }
+            .compactMap { CardUtils.getProcessedCardFromCardId($0.cardId, player) }
             .filter { $0.mechanics.contains("BATTLECRY") == true }
     }
 

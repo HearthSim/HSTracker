@@ -23,7 +23,7 @@ class Tyr: ICardWithRelatedCards {
 
     func getRelatedCards(player: Player) -> [Card?] {
         return player.deadMinionsCards
-            .compactMap { Cards.by(cardId: $0.cardId) }
+            .compactMap { CardUtils.getProcessedCardFromCardId($0.cardId, player) }
             .unique()
             .filter { $0.isClass(cardClass: player.playerClass ?? .invalid) && $0.attack > 1 && $0.attack < 5 }
             .sorted { $0.cost < $1.cost }

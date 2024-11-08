@@ -24,7 +24,7 @@ class Archimonde: ICardWithRelatedCards {
     func getRelatedCards(player: Player) -> [Card?] {
         return player.cardsPlayedThisMatch
             .filter { $0.info.created }
-            .compactMap { Cards.by(cardId: $0.cardId) }
+            .compactMap { CardUtils.getProcessedCardFromCardId($0.cardId, player) }
             .unique()
             .filter { card in
                 card.isDemon()

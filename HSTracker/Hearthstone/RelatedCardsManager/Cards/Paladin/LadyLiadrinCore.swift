@@ -23,7 +23,7 @@ class LadyLiadrinCore: ICardWithRelatedCards {
 
     func getRelatedCards(player: Player) -> [Card?] {
         return player.spellsPlayedInFriendlyCharacters
-            .compactMap { Cards.by(cardId: $0.cardId) }
+            .compactMap { CardUtils.getProcessedCardFromCardId($0.cardId, player) }
     }
 
     required init() {
