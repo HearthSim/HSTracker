@@ -672,6 +672,7 @@ extension CardIds.Collectible {
         static let PhotographerFizzle = "ETC_113"
         static let TidepoolPupil = "VAC_304"
         static let VelenLeaderOfTheExiled = "GDB_131"
+        static let TheCeaselessExpanse = "GDB_142"
     }
 }
 

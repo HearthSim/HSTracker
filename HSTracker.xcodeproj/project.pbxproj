@@ -540,6 +540,7 @@
 		B85462232CDEBE390083BB31 /* ScroungingShipwright.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85462222CDEBE390083BB31 /* ScroungingShipwright.swift */; };
 		B85462252CDEBFC30083BB31 /* StarshipSchematic.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85462242CDEBFC30083BB31 /* StarshipSchematic.swift */; };
 		B85462282CDEC0A00083BB31 /* Archimonde.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85462272CDEC0A00083BB31 /* Archimonde.swift */; };
+		B854622A2CDED2FE0083BB31 /* TheCeaselessExpanseCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85462292CDED2FE0083BB31 /* TheCeaselessExpanseCounter.swift */; };
 		B8591FEE2B1776FF00B907A4 /* SpellSchool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FED2B1776FF00B907A4 /* SpellSchool.swift */; };
 		B8591FF02B23CC7D00B907A4 /* ChoiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FEF2B23CC7D00B907A4 /* ChoiceType.swift */; };
 		B8591FF42B23D4D000B907A4 /* ChoicesHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FF32B23D4D000B907A4 /* ChoicesHandler.swift */; };
@@ -1475,6 +1476,7 @@
 		B85462222CDEBE390083BB31 /* ScroungingShipwright.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScroungingShipwright.swift; sourceTree = "<group>"; };
 		B85462242CDEBFC30083BB31 /* StarshipSchematic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarshipSchematic.swift; sourceTree = "<group>"; };
 		B85462272CDEC0A00083BB31 /* Archimonde.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Archimonde.swift; sourceTree = "<group>"; };
+		B85462292CDED2FE0083BB31 /* TheCeaselessExpanseCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheCeaselessExpanseCounter.swift; sourceTree = "<group>"; };
 		B8591FED2B1776FF00B907A4 /* SpellSchool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellSchool.swift; sourceTree = "<group>"; };
 		B8591FEF2B23CC7D00B907A4 /* ChoiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceType.swift; sourceTree = "<group>"; };
 		B8591FF32B23D4D000B907A4 /* ChoicesHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoicesHandler.swift; sourceTree = "<group>"; };
@@ -2675,6 +2677,7 @@
 				B89343352CCFD3BE009A8727 /* PogoHopperCounter.swift */,
 				B89343492CD120C7009A8727 /* SelfDamageCounter.swift */,
 				B893434B2CD122C3009A8727 /* SummonedDragonsCounter.swift */,
+				B85462292CDED2FE0083BB31 /* TheCeaselessExpanseCounter.swift */,
 				B893434D2CD1320F009A8727 /* WheelOfDeathTurnsCounter.swift */,
 			);
 			path = Counters;
@@ -4190,6 +4193,7 @@
 				B8B790492C97789E00DD33EC /* ValeeraTheHollowEnchantment.swift in Sources */,
 				436789BF1CACF8C900C962D1 /* PlayerDrawChance.swift in Sources */,
 				B898995B2CAA32B10011B184 /* RustyTrident.swift in Sources */,
+				B854622A2CDED2FE0083BB31 /* TheCeaselessExpanseCounter.swift in Sources */,
 				B898995D2CAA33710011B184 /* HoggyBank.swift in Sources */,
 				B8AF9336282FE46000864934 /* BattlegroundsGameView.swift in Sources */,
 				4C1923992392E18E007EBB0F /* BattlegroundsOverlayView.swift in Sources */,
