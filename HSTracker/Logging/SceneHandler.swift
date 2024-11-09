@@ -47,12 +47,12 @@ class SceneHandler {
                     game.updateTier7PreLobbyVisibility()
                 }
             }
-            BaconWatcher.stop()
+            Watchers.baconWatcher.stop()
         } else if from == .gameplay {
             game.updateBattlegroundsSessionVisibility()
             BattlegroundsTeammateBoardStateWatcher.stop()
-            BaconWatcher.stop()
-            BigCardWatcher.stop()
+            Watchers.baconWatcher.stop()
+            Watchers.bigCardWatcher.stop()
             ChoicesWatcher.stop()
         }
     }
@@ -79,12 +79,12 @@ class SceneHandler {
                     game.updateTier7PreLobbyVisibility()
                 }
             }
-            BaconWatcher.start()
+            Watchers.baconWatcher.run()
         } else if to == .gameplay {
             game.updateBattlegroundsSessionVisibility()
-            BigCardWatcher.start()
+            Watchers.bigCardWatcher.run()
             ChoicesWatcher.start()
-            BaconWatcher.start()
+            Watchers.baconWatcher.run()
         }
         
         if from == .bacon {
