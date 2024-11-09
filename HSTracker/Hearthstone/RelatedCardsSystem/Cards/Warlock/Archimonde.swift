@@ -16,7 +16,7 @@ class Archimonde: ICardWithRelatedCards {
 
     func shouldShowForOpponent(opponent: Player) -> Bool {
         if let card = Cards.by(cardId: getCardId()) {
-            return CardUtils.mayCardBeRelevant(card: card, format: AppDelegate.instance().coreManager.game.currentFormat, playerClass: opponent.playerClass) && getRelatedCards(player: opponent).count > 1
+            return CardUtils.mayCardBeRelevant(card: card, format: AppDelegate.instance().coreManager.game.currentFormat, playerClass: opponent.originalClass) && getRelatedCards(player: opponent).count > 1
         }
         return false
     }

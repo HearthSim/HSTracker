@@ -18,7 +18,7 @@ class ReturnPolicy: ICardWithRelatedCards {
         guard let card = Cards.by(cardId: getCardId()) else {
             return false
         }
-        return CardUtils.mayCardBeRelevant(card: card, format: AppDelegate.instance().coreManager.game.currentFormat, playerClass: opponent.playerClass) && getRelatedCards(player: opponent).count > 1
+        return CardUtils.mayCardBeRelevant(card: card, format: AppDelegate.instance().coreManager.game.currentFormat, playerClass: opponent.originalClass) && getRelatedCards(player: opponent).count > 1
     }
     
     func getRelatedCards(player: Player) -> [Card?] {

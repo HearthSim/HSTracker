@@ -1,5 +1,5 @@
 //
-//  TessGreymaneCore.swift
+//  TheGalacticProjectionOrb.swift
 //  HSTracker
 //
 //  Created by Francisco Moraes on 11/7/24.
@@ -8,27 +8,26 @@
 
 import Foundation
 
-class TessGreymaneCore: ICardWithRelatedCards {
+class TheGalacticProjectionOrb: ICardWithRelatedCards {
     
     func getCardId() -> String {
-        return CardIds.Collectible.Rogue.TessGreymaneCore
+        return CardIds.Collectible.Mage.TheGalacticProjectionOrb
     }
 
     func shouldShowForOpponent(opponent: Player) -> Bool {
         guard let card = Cards.by(cardId: getCardId()) else {
             return false
         }
-        return CardUtils.mayCardBeRelevant(card: card, format: AppDelegate.instance().coreManager.game.currentFormat, playerClass: opponent.playerClass) && getRelatedCards(player: opponent).count > 2
+        return CardUtils.mayCardBeRelevant(card: card, format: AppDelegate.instance().coreManager.game.currentFormat, playerClass: opponent.originalClass) && getRelatedCards(player: opponent).count > 1
     }
 
     func getRelatedCards(player: Player) -> [Card?] {
-        return player.cardsPlayedThisMatch
+        return player.spellsPlayedCards
             .compactMap { CardUtils.getProcessedCardFromEntity($0, player) }
-            .filter { $0.isClass(cardClass: player.playerClass ?? .invalid) == false && $0.isNeutral() == false }
+            .unique()
             .sorted { $0.cost < $1.cost }
     }
 
     required init() {
     }
 }
-

@@ -256,6 +256,8 @@ protocol PowerEventHandler: AnyObject {
     
     func isBattlegroundsDuosMatch() -> Bool
     
+    var isTraditionalHearthstoneMatch: Bool { get }
+    
     func duosResetHeroTracking()
     
     func duosSetHeroModified(_ isPlayer: Bool)

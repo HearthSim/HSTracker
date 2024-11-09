@@ -40,6 +40,7 @@ final class Card {
     var mechanics: [String] = []
     var isStandard = false
     var multiClassGroup: MultiClassGroup = .invalid
+    var multipleClasses = 0
     var techLevel = 0
     var jsonRepresentation: [String: Any] = [:]
     var hideStats = false
@@ -180,7 +181,28 @@ final class Card {
     }
     
     func isNeutral() -> Bool {
-        return playerClass == .neutral
+        return playerClass == .neutral && multipleClasses == 0
+    }
+    
+    func getClasses() -> [CardClass] {
+        var classes = [CardClass]()
+        
+        if multipleClasses == 0 {
+            classes.append(playerClass)
+            return classes
+        }
+        
+        var cardClass = 1
+        var multipleClasses = self.multipleClasses
+        while multipleClasses != 0 {
+            if 1 == (multipleClasses & 1) {
+                let cardClass = CardClass.allCases[cardClass]
+                classes.append(cardClass)
+            }
+            multipleClasses >>= 1
+            cardClass += 1
+        }
+        return classes
     }
     
     var isTourist: Bool {

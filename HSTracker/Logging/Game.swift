@@ -1593,7 +1593,8 @@ class Game: NSObject, PowerEventHandler {
 
         player.reset()
         if let currentdeck = self.currentDeck {
-            player.playerClass = currentdeck.playerClass
+            player.originalClass = currentdeck.playerClass
+            player.currentClass = player.originalClass
         }
         opponent.reset()
         activeEffects.reset()
@@ -1661,9 +1662,10 @@ class Game: NSObject, PowerEventHandler {
             hasValidDeck = true
             logger.info("has Valid Mirror Deck: \(deck.cards.count) cards")
 		} else {
-			currentDeck = nil
-			player.playerClass = nil
-			updateTrackers(reset: true)
+            currentDeck = nil
+            player.originalClass = nil
+            player.currentClass = nil
+            updateTrackers(reset: true)
             logger.info("no Valid Mirror Deck")
 		}
 	}
@@ -1708,7 +1710,8 @@ class Game: NSObject, PowerEventHandler {
                                       isArena: isArena,
                                       shortid: shortid ?? "",
                                       sideboards: sideboards)
-            self.player.playerClass = self.currentDeck?.playerClass
+            self.player.originalClass = self.currentDeck?.playerClass
+            self.player.currentClass = self.player.originalClass
             self.updateTrackers(reset: true)
         }
     }
@@ -1939,8 +1942,8 @@ class Game: NSObject, PowerEventHandler {
 		result.startTime = self.startTime ?? Date()
 		result.endTime = Date()
 		
-		result.playerHero = currentDeck?.playerClass ?? player.playerClass ?? .neutral
-		result.opponentHero = opponent.playerClass ?? .neutral
+		result.playerHero = currentDeck?.playerClass ?? player.originalClass ?? .neutral
+		result.opponentHero = opponent.originalClass ?? .neutral
         
         let oppHero = entities.values.first(where: { x in x[.player_id] == opponent.id && x.isHero })
 
@@ -2496,7 +2499,8 @@ class Game: NSObject, PowerEventHandler {
     // MARK: - player
     func set(playerHero cardId: String) {
         if let card = Cards.hero(byId: cardId) {
-            player.playerClass = card.playerClass
+            player.originalClass = card.playerClass
+            player.currentClass = player.originalClass
             player.playerClassId = cardId
             if Settings.fullGameLog {
                 logger.info("Player class is \(card) ")
@@ -2957,12 +2961,12 @@ class Game: NSObject, PowerEventHandler {
                 className = className.lowercased()
                 heroClass = CardClass(rawValue: className)
                 if heroClass == .none {
-                    if let playerClass = opponent.playerClass {
+                    if let playerClass = opponent.originalClass {
                         heroClass = playerClass
                     }
                 }
             } else {
-                if let playerClass = opponent.playerClass {
+                if let playerClass = opponent.originalClass {
                     heroClass = playerClass
                 }
             }
@@ -2994,7 +2998,8 @@ class Game: NSObject, PowerEventHandler {
     // MARK: - Opponent actions
     func set(opponentHero cardId: String) {
         if let card = Cards.hero(byId: cardId) {
-            opponent.playerClass = card.playerClass
+            opponent.originalClass = card.playerClass
+            opponent.currentClass = opponent.originalClass
             opponent.playerClassId = cardId
             updateTrackers()
             if Settings.fullGameLog {
@@ -3092,14 +3097,14 @@ class Game: NSObject, PowerEventHandler {
             heroClass = tagClass.cardClassValue
         } else if let _heroClass = CardClass(rawValue: className), !className.isBlank {
             heroClass = _heroClass
-        } else if let playerClass = opponent.playerClass {
+        } else if let playerClass = opponent.originalClass {
             heroClass = playerClass
         }
 
         if Settings.fullGameLog {
             logger.info("Secret played by \(entity[.class])"
                 + " -> \(String(describing: heroClass)) "
-                + "-> \(String(describing: opponent.playerClass))")
+                + "-> \(String(describing: opponent.originalClass))")
         }
         if heroClass != nil {
             secretsManager?.newSecret(entity: entity)

@@ -82,7 +82,7 @@ class BaseCounter: NSObject {
     }
 
     func opponentMayHaveRelevantCards(ignoreNeutral: Bool = false) -> Bool {
-        return filterCardsByClassAndFormat(cardIds: relatedCards, playerClass: game.opponent.playerClass, ignoreNeutral: ignoreNeutral).count > 0
+        return filterCardsByClassAndFormat(cardIds: relatedCards, playerClass: game.opponent.originalClass, ignoreNeutral: ignoreNeutral).count > 0
     }
 
     func filterCardsByClassAndFormat(cardIds: [String], playerClass: CardClass?, ignoreNeutral: Bool = false) -> [String] {

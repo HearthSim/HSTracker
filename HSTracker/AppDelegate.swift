@@ -578,7 +578,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
     }
     
     private func saveDeck(_ player: Player) {
-        if let playerClass = player.playerClass {
+        if let playerClass = player.originalClass {
             if deckManager == nil {
                 deckManager = DeckManager(windowNibName: "DeckManager")
             }

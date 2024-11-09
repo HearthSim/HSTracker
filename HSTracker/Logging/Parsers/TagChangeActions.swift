@@ -145,6 +145,20 @@ struct TagChangeActions {
             } else if playerEntityId == eventHandler.opponentEntity?.id {
                 eventHandler.duosSetHeroModified(false)
             }
+        } else if eventHandler.isTraditionalHearthstoneMatch {
+            if let entity = eventHandler.entities[heroEntityId] {
+                let hero = Cards.by(cardId: entity.cardId)
+                
+                guard let heroName = hero?.getClasses().first else {
+                    return
+                }
+                
+                if playerEntityId == eventHandler.playerEntity?.id {
+                    eventHandler.player.currentClass = heroName
+                } else if playerEntityId == eventHandler.opponentEntity?.id {
+                    eventHandler.opponent.currentClass = heroName
+                }
+            }
         }
     }
 
@@ -1005,7 +1019,7 @@ struct TagChangeActions {
                 logger.info("Found PlayerEntity")
             }
 
-            if eventHandler.player.playerClass == nil, let playerEntity = eventHandler.playerEntity, id == playerEntity[.hero_entity] {
+            if eventHandler.player.originalClass == nil, let playerEntity = eventHandler.playerEntity, id == playerEntity[.hero_entity] {
                 guard let entity = eventHandler.entities[id] else { return }
                 if entity.cardId != entity.info.latestCardId {
                     logger.warning("CardId Mismatch \(entity.cardId) vs \(entity.info.latestCardId)")
@@ -1021,7 +1035,7 @@ struct TagChangeActions {
                 }
                 logger.info("Found OpponentEntity")
             }
-            if eventHandler.opponent.playerClass == nil, let opponentEntity = eventHandler.opponentEntity, id == opponentEntity[.hero_entity] {
+            if eventHandler.opponent.originalClass == nil, let opponentEntity = eventHandler.opponentEntity, id == opponentEntity[.hero_entity] {
                 guard let entity = eventHandler.entities[id] else { return }
 
                 if entity.cardId != entity.info.latestCardId {

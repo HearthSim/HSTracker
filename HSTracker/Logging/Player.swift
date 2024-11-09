@@ -90,7 +90,8 @@ extension PredictedCard: Hashable {
 }
 
 final class Player {
-    var playerClass: CardClass?
+    var originalClass: CardClass?
+    var currentClass: CardClass?
     var playerClassId: String?
     var isLocalPlayer: Bool
     var id = -1
@@ -192,7 +193,8 @@ final class Player {
     func reset() {
         id = -1
         name = ""
-        playerClass = nil
+        originalClass = .invalid
+        currentClass = .invalid
         fatigue = 0
         spellsPlayedCards.removeAll()
         spellsPlayedInFriendlyCharacters.removeAll()

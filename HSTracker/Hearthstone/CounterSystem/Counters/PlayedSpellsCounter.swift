@@ -51,7 +51,7 @@ class PlayedSpellsCounter: NumericCounter {
         if isPlayerCounter {
             return getCardsInDeckOrKnown(cardIds: relatedCards)
         } else {
-            return filterCardsByClassAndFormat(cardIds: relatedCards, playerClass: game.opponent.playerClass)
+            return filterCardsByClassAndFormat(cardIds: relatedCards, playerClass: game.opponent.originalClass)
         }
     }
 

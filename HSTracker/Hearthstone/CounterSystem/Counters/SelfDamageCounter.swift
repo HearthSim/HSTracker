@@ -44,7 +44,7 @@ class SelfDamageCounter: NumericCounter {
         if isPlayerCounter {
             return getCardsInDeckOrKnown(cardIds: relatedCards)
         }
-        return filterCardsByClassAndFormat(cardIds: relatedCards, playerClass: game.opponent.playerClass)
+        return filterCardsByClassAndFormat(cardIds: relatedCards, playerClass: game.opponent.originalClass)
     }
 
     override func valueToShow() -> String {

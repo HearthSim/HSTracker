@@ -1,15 +1,17 @@
 //
-//  TyrsTearsForged.swift
+//  TessGreymane.swift
 //  HSTracker
 //
 //  Created by Francisco Moraes on 11/7/24.
 //  Copyright © 2024 Benjamin Michotte. All rights reserved.
 //
 
-class TyrsTearsForged: ICardWithRelatedCards {
+import Foundation
+
+class TessGreymane: ICardWithRelatedCards {
     
     func getCardId() -> String {
-        return CardIds.NonCollectible.Paladin.TyrsTears
+        return CardIds.Collectible.Rogue.TessGreymane
     }
 
     func shouldShowForOpponent(opponent: Player) -> Bool {
@@ -17,10 +19,9 @@ class TyrsTearsForged: ICardWithRelatedCards {
     }
 
     func getRelatedCards(player: Player) -> [Card?] {
-        return player.deadMinionsCards
+        return player.cardsPlayedThisMatch
             .compactMap { CardUtils.getProcessedCardFromEntity($0, player) }
-            .unique()
-            .filter { $0.isClass(cardClass: player.playerClass ?? .invalid) }
+            .filter { $0.isClass(cardClass: player.currentClass ?? .invalid) == false && $0.isNeutral() == false }
             .sorted { $0.cost < $1.cost }
     }
 

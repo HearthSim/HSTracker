@@ -35,7 +35,7 @@ class TheCeaselessExpanseCounter: NumericCounter {
     override func getCardsToDisplay() -> [String] {
         return isPlayerCounter ?
         getCardsInDeckOrKnown(cardIds: relatedCards) :
-        filterCardsByClassAndFormat(cardIds: relatedCards, playerClass: game.opponent.playerClass)
+        filterCardsByClassAndFormat(cardIds: relatedCards, playerClass: game.opponent.originalClass)
     }
     
     override func valueToShow() -> String {

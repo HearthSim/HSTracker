@@ -152,6 +152,8 @@ class Database: NSObject, XMLParserDelegate {
                     if let mechanic = Database.mechanics[id] {
                         currentCard?.mechanics.append(mechanic)
                     }
+                case GameTag.multiple_classes.rawValue:
+                    currentCard?.multipleClasses = intValue
                 default:
                     break
                 }

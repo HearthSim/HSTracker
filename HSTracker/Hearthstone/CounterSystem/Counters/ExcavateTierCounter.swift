@@ -108,7 +108,7 @@ class ExcavateTierCounter: NumericCounter {
     }
 
     override func getCardsToDisplay() -> [String] {
-        return isPlayerCounter ? filterCardsByClassAndFormat(cardIds: getExcavateRewards(), playerClass: game.player.playerClass) : filterCardsByClassAndFormat(cardIds: getExcavateRewards(), playerClass: game.opponent.playerClass)
+        return isPlayerCounter ? filterCardsByClassAndFormat(cardIds: getExcavateRewards(), playerClass: game.player.originalClass) : filterCardsByClassAndFormat(cardIds: getExcavateRewards(), playerClass: game.opponent.originalClass)
     }
 
     override func valueToShow() -> String {

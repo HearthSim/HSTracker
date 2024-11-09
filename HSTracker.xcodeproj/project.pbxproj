@@ -2523,7 +2523,7 @@
 				B8E868842B940EB7005B1315 /* HearthDbConverter.swift */,
 				F7D7A3A52011B67D00E3A5F0 /* Hearthstone.swift */,
 				B8C33FB0273EF851006DA79E /* MercenariesCoins.swift */,
-				B8FDE9282CDAF93B0093BFF7 /* RelatedCardsManager */,
+				B8FDE9282CDAF93B0093BFF7 /* RelatedCardsSystem */,
 				43B695561C90655C00F4D0AC /* Secrets */,
 			);
 			path = Hearthstone;
@@ -3197,14 +3197,14 @@
 			path = Data;
 			sourceTree = "<group>";
 		};
-		B8FDE9282CDAF93B0093BFF7 /* RelatedCardsManager */ = {
+		B8FDE9282CDAF93B0093BFF7 /* RelatedCardsSystem */ = {
 			isa = PBXGroup;
 			children = (
 				B8FDE92D2CDAFE6F0093BFF7 /* Cards */,
 				B8FDE9292CDAF96A0093BFF7 /* ICardWithRelatedCards.swift */,
 				B8FDE92B2CDAF9D10093BFF7 /* RelatedCardsManager.swift */,
 			);
-			path = RelatedCardsManager;
+			path = RelatedCardsSystem;
 			sourceTree = "<group>";
 		};
 		B8FDE92D2CDAFE6F0093BFF7 /* Cards */ = {

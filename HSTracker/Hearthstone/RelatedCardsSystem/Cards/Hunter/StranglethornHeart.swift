@@ -1,5 +1,5 @@
 //
-//  Shudderwock.swift
+//  StranglethornHeart.swift
 //  HSTracker
 //
 //  Created by Francisco Moraes on 11/7/24.
@@ -8,23 +8,24 @@
 
 import Foundation
 
-class Shudderwock: ICardWithRelatedCards {
+class StranglethornHeart: ICardWithRelatedCards {
     
     func getCardId() -> String {
-        return CardIds.Collectible.Shaman.Shudderwock
+        return CardIds.Collectible.Hunter.StranglethornHeart
     }
 
     func shouldShowForOpponent(opponent: Player) -> Bool {
         guard let card = Cards.by(cardId: getCardId()) else {
             return false
         }
-        return CardUtils.mayCardBeRelevant(card: card, format: AppDelegate.instance().coreManager.game.currentFormat, playerClass: opponent.playerClass) && getRelatedCards(player: opponent).count > 3
+        return CardUtils.mayCardBeRelevant(card: card, format: AppDelegate.instance().coreManager.game.currentFormat, playerClass: opponent.originalClass) && getRelatedCards(player: opponent).count > 1
     }
 
     func getRelatedCards(player: Player) -> [Card?] {
-        return player.cardsPlayedThisMatch
+        return player.deadMinionsCards
             .compactMap { CardUtils.getProcessedCardFromEntity($0, player) }
-            .filter { $0.mechanics.contains("BATTLECRY") == true }
+            .filter { $0.isBeast() && $0.cost > 4 }
+            .sorted { $0.cost > $1.cost }
     }
 
     required init() {

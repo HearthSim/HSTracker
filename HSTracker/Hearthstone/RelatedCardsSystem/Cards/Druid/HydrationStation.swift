@@ -1,5 +1,5 @@
 //
-//  StranglethornHeart.swift
+//  HydrationStation.swift
 //  HSTracker
 //
 //  Created by Francisco Moraes on 11/7/24.
@@ -8,26 +8,28 @@
 
 import Foundation
 
-class StranglethornHeart: ICardWithRelatedCards {
+class HydrationStation: ICardWithRelatedCards {
     
     func getCardId() -> String {
-        return CardIds.Collectible.Hunter.StranglethornHeart
+        return CardIds.Collectible.Druid.HydrationStation
     }
 
     func shouldShowForOpponent(opponent: Player) -> Bool {
         guard let card = Cards.by(cardId: getCardId()) else {
             return false
         }
-        return CardUtils.mayCardBeRelevant(card: card, format: AppDelegate.instance().coreManager.game.currentFormat, playerClass: opponent.playerClass) && getRelatedCards(player: opponent).count > 1
+        return CardUtils.mayCardBeRelevant(card: card, format: AppDelegate.instance().coreManager.game.currentFormat, playerClass: opponent.originalClass) && getRelatedCards(player: opponent).count > 1
     }
 
     func getRelatedCards(player: Player) -> [Card?] {
         return player.deadMinionsCards
             .compactMap { CardUtils.getProcessedCardFromEntity($0, player) }
-            .filter { $0.isBeast() && $0.cost > 4 }
+            .unique()
+            .filter { $0.mechanics.contains("Taunt") == true }
             .sorted { $0.cost > $1.cost }
     }
 
     required init() {
+        
     }
 }

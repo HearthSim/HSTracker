@@ -1,5 +1,5 @@
 //
-//  TheGalacticProjectionOrb.swift
+//  LadyLiadrinCore.swift
 //  HSTracker
 //
 //  Created by Francisco Moraes on 11/7/24.
@@ -8,24 +8,22 @@
 
 import Foundation
 
-class TheGalacticProjectionOrb: ICardWithRelatedCards {
+class LadyLiadrinCore: ICardWithRelatedCards {
     
     func getCardId() -> String {
-        return CardIds.Collectible.Mage.TheGalacticProjectionOrb
+        return CardIds.Collectible.Paladin.LadyLiadrinCore
     }
 
     func shouldShowForOpponent(opponent: Player) -> Bool {
         guard let card = Cards.by(cardId: getCardId()) else {
             return false
         }
-        return CardUtils.mayCardBeRelevant(card: card, format: AppDelegate.instance().coreManager.game.currentFormat, playerClass: opponent.playerClass) && getRelatedCards(player: opponent).count > 1
+        return CardUtils.mayCardBeRelevant(card: card, format: AppDelegate.instance().coreManager.game.currentFormat, playerClass: opponent.originalClass) && getRelatedCards(player: opponent).count > 2
     }
 
     func getRelatedCards(player: Player) -> [Card?] {
-        return player.spellsPlayedCards
+        return player.spellsPlayedInFriendlyCharacters
             .compactMap { CardUtils.getProcessedCardFromEntity($0, player) }
-            .unique()
-            .sorted { $0.cost < $1.cost }
     }
 
     required init() {

@@ -1,5 +1,5 @@
 //
-//  ScroungingShipwright.swift
+//  StarshipSchematic.swift
 //  HSTracker
 //
 //  Created by Francisco Moraes on 11/8/24.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ScroungingShipwright: ICardWithRelatedCards {
+class StarshipSchematic: ICardWithRelatedCards {
 
     private let starshipPieces: [Card?] = [
         Cards.by(cardId: CardIds.Collectible.Rogue.TheGravitationalDisplacer),
@@ -25,7 +25,7 @@ class ScroungingShipwright: ICardWithRelatedCards {
     ]
 
     func getCardId() -> String {
-        return CardIds.Collectible.Rogue.ScroungingShipwright
+        return CardIds.Collectible.Rogue.StarshipSchematic
     }
 
     func shouldShowForOpponent(opponent: Player) -> Bool {
@@ -34,8 +34,8 @@ class ScroungingShipwright: ICardWithRelatedCards {
 
     func getRelatedCards(player: Player) -> [Card?] {
         return starshipPieces.filter { card in
-            if let card {
-                return !card.isClass(cardClass: player.playerClass ?? .invalid)
+            if let card, let playerClass = player.currentClass {
+                return !card.isClass(cardClass: playerClass)
             }
             return false
         }
