@@ -57,6 +57,7 @@ extension CardIds.NonCollectible {
         static let Helya_HelyaEnchantment = "TTN_850e1"
         static let PileofBones_PileOfBonesEnchantment = "WW_324e"
         static let KoboldMiner_TheAzeriteRatToken = "WW_001t26"
+        static let ArkoniteDefenseCrystal_TheSpiritsPassageToken = "GDB_100t4"
     }
 }
 

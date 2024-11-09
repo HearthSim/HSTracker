@@ -243,6 +243,7 @@ extension CardIds.NonCollectible {
         static let WheelofDEATH_WheelOfDeathCounterEnchantment = "TOY_529e1"
         static let ForebodingFlame_BurningLegionsBoonEnchantment = "GDB_121e"
         static let InfernalStratagem_StrategicInfernoEnchantment = "GDB_122e2"
+        static let ArkoniteDefenseCrystal_TheNethersEyeToken = "GDB_100t9"
     }
 }
 

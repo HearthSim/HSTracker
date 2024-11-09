@@ -310,6 +310,7 @@ extension CardIds.NonCollectible {
         static let SparklingPhial_SparklingEnchantment = "TOY_800e1"
         static let JadeDisplay_JadeSalesEnchantment = "TOY_803e"
         static let MistahVistah_ScenicVistaToken = "VAC_519t3"
+        static let ArkoniteDefenseCrystal_TheCelestialArchiveToken = "GDB_100t6"
     }
 }
 

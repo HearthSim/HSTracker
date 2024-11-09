@@ -32,12 +32,54 @@ class CardUtils {
     static func mayCardBeRelevant(card: Card, format: Format?, playerClass: CardClass?, ignoreNeutral: Bool = false) -> Bool {
         return isCardFromFormat(card: card, format: format) && isCardFromPlayerClass(card: card, playerClass: playerClass, ignoreNeutral: ignoreNeutral)
     }
-        
-    static func getProcessedCardFromCardId(_ cardId: String?, _ player: Player) -> Card? {
-        guard let card = Cards.by(cardId: cardId) else { return nil }
-        return card.handleZilliax3000(player: player)
-    }
+    
+    private static let _starshipIds = [
+        CardIds.NonCollectible.Neutral.ArkoniteDefenseCrystal_TheExilesHopeToken,
+        CardIds.NonCollectible.Deathknight.ArkoniteDefenseCrystal_TheSpiritsPassageToken,
+        CardIds.NonCollectible.DemonHunter.ArkoniteDefenseCrystal_TheLegionsBaneToken,
+        CardIds.NonCollectible.Druid.ArkoniteDefenseCrystal_TheCelestialArchiveToken,
+        CardIds.NonCollectible.Hunter.ArkoniteDefenseCrystal_TheAstralCompassToken,
+        CardIds.NonCollectible.Rogue.ArkoniteDefenseCrystal_TheScavengersWillToken,
+        CardIds.NonCollectible.Warlock.ArkoniteDefenseCrystal_TheNethersEyeToken
+    ]
 
+    public static func isStarship(_ cardId: String) -> Bool {
+        return _starshipIds.contains(cardId)
+    }
+        
+    static func getProcessedCardFromEntity(_ entity: Entity, _ player: Player) -> Card? {
+        if isStarship(entity.cardId) {
+            return entity.handleStarship(player)
+        }
+        let card = Cards.by(cardId: entity.cardId)
+        return card?.handleZilliax3000(player: player)
+    }
+}
+
+extension Entity {
+    func handleStarship(_ player: Player) -> Card? {
+        // Clone the card and get the starship pieces
+        let card = card.copy()
+
+        let starshipPieces = info.storedCardIds
+            .compactMap { Cards.by(cardId: $0) }
+
+        // Create a set of mechanics from all the starship pieces
+        var mechanics = Set<String>()
+        for piece in starshipPieces {
+            for mechanic in piece.mechanics {
+                mechanics.insert(mechanic)
+            }
+        }
+
+        // Set the mechanics, stats, and cost
+        card.mechanics = mechanics.compactMap { $0 }
+        card.attack = starshipPieces.reduce(0, { $0 + $1.attack })
+        card.health = starshipPieces.reduce(0, { $0 + $1.health })
+        card.cost = max(10, starshipPieces.reduce(0, { $0 + $1.cost }))
+
+        return card
+    }
 }
 
 extension Card {

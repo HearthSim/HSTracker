@@ -281,6 +281,7 @@ extension CardIds.NonCollectible {
         static let KoboldMiner_TheAzeriteScorpionToken = "WW_001t23"
         static let LuckyComet_ComboCometEnchantment = "GDB_873e"
         static let SpacerockCollector_RockCollectionEnchantment = "GDB_875e"
+        static let ArkoniteDefenseCrystal_TheScavengersWillToken = "GDB_100t8"
     }
 }
 

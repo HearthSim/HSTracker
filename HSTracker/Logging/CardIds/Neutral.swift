@@ -866,6 +866,7 @@ extension CardIds.NonCollectible {
         static let StrandedSpaceman_StrandedSpacemanFutureBuffEnchantment = "GDB_861e"
         static let UnyieldingVindicator_UnyieldingVindicatorFutureBuffEnchantment = "GDB_232e"
         static let PhotographerFizzle_FizzlesSnapshotToken = "ETC_113t"
+        static let ArkoniteDefenseCrystal_TheExilesHopeToken = "GDB_100t2"
     }
 }
 

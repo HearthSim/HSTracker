@@ -1063,7 +1063,7 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Rogue.BackstabCore)
                         case CardIds.Collectible.Neutral.AstralVigilant:
                             if let last = eventHandler.opponent.cardsPlayedThisMatch
-                                .compactMap({ entity in CardUtils.getProcessedCardFromCardId(entity.cardId, eventHandler.opponent) })
+                                .compactMap({ entity in CardUtils.getProcessedCardFromEntity(entity, eventHandler.opponent) })
                                 .filter({ card in card.mechanics.count > 0 && card.isDraenei() })
                                 .compactMap({ card in card.id }).last {
                                 addKnownCardId(eventHandler: eventHandler, cardId: last)

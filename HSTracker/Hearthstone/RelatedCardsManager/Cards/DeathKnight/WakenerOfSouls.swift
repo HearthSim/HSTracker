@@ -20,7 +20,7 @@ class WakenerOfSouls: ICardWithRelatedCards {
 
     func getRelatedCards(player: Player) -> [Card?] {
         return player.deadMinionsCards
-            .compactMap { CardUtils.getProcessedCardFromCardId($0.cardId, player) }
+            .compactMap { CardUtils.getProcessedCardFromEntity($0, player) }
             .unique()
             .filter { $0.mechanics.contains("DEATHRATTLE") == true && $0.id != CardIds.Collectible.Deathknight.WakenerOfSouls }
             .sorted(by: { $0.cost > $1.cost })

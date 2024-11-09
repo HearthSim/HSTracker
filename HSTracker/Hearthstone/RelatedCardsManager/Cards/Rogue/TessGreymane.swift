@@ -20,7 +20,7 @@ class TessGreymane: ICardWithRelatedCards {
 
     func getRelatedCards(player: Player) -> [Card?] {
         return player.cardsPlayedThisMatch
-            .compactMap { CardUtils.getProcessedCardFromCardId($0.cardId, player) }
+            .compactMap { CardUtils.getProcessedCardFromEntity($0, player) }
             .filter { $0.isClass(cardClass: player.playerClass ?? .invalid) == false && $0.isNeutral() == false }
             .sorted { $0.cost < $1.cost }
     }

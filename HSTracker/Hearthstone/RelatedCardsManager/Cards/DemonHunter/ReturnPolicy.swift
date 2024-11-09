@@ -24,7 +24,7 @@ class ReturnPolicy: ICardWithRelatedCards {
     func getRelatedCards(player: Player) -> [Card?] {
         return player
             .cardsPlayedThisTurn
-            .compactMap { CardUtils.getProcessedCardFromCardId($0.cardId, player) }
+            .compactMap { CardUtils.getProcessedCardFromEntity($0, player) }
             .unique()
             .filter { $0.mechanics.firstIndex(of: "DEATHRATTLE") != nil }
             .sorted(by: { $0.cost > $1.cost })

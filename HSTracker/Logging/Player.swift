@@ -735,7 +735,7 @@ final class Player {
         entity.info.returned = true
         entity.info.drawerId = nil
         entity.info.hidden = true
-        if entity.cardId != CardIds.NonCollectible.Neutral.PhotographerFizzle_FizzlesSnapshotToken {
+        if entity.cardId != CardIds.NonCollectible.Neutral.PhotographerFizzle_FizzlesSnapshotToken && !CardUtils.isStarship(entity.cardId) {
             entity.info.storedCardIds.removeAll()
         }
         if Settings.fullGameLog {
@@ -786,7 +786,7 @@ final class Player {
         entity.info.hidden = false
         entity.info.turn = turn
         entity.info.costReduction = 0
-        if entity.cardId != CardIds.NonCollectible.Neutral.PhotographerFizzle_FizzlesSnapshotToken {
+        if entity.cardId != CardIds.NonCollectible.Neutral.PhotographerFizzle_FizzlesSnapshotToken && !CardUtils.isStarship(entity.cardId) {
             entity.info.storedCardIds.removeAll()
         }
         if !entity.cardId.isBlank {

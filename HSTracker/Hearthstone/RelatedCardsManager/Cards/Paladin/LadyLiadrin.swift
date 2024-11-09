@@ -23,6 +23,6 @@ class LadyLiadrin: ICardWithRelatedCards {
     public func getRelatedCards(player: Player) -> [Card?] {
         return player
             .spellsPlayedInFriendlyCharacters
-            .compactMap { CardUtils.getProcessedCardFromCardId($0.cardId, player) }
+            .compactMap { CardUtils.getProcessedCardFromEntity($0, player) }
     }
 }

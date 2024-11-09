@@ -74,6 +74,8 @@ struct TagChangeActions {
                 self.armorChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue)
             case .forge_revealed:
                 self.onForgeRevealed(eventHandler: eventHandler, id: id, value: value, previous: prevValue)
+            case .parent_card:
+                self.onParentCardChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue)
             case .lettuce_ability_tile_visual_all_visible, .lettuce_ability_tile_visual_self_only, .fake_zone, .fake_zone_position:
                 eventHandler.handleMercenariesStateChange()
             case .player_tech_level:
@@ -438,6 +440,21 @@ struct TagChangeActions {
         if entity.isControlled(by: eventHandler.opponent.id) && entity.isInZone(zone: .hand) {
             entity.info.forged = true
             entity.info.hidden = false
+        }
+    }
+    
+    private func onParentCardChange(eventHandler: PowerEventHandler, id: Int, value: Int, previous: Int) {
+        guard let entity = eventHandler.entities[id] else {
+            return
+        }
+
+        // when a starship is launched it changes the value to 0, but we want to keep the parent stored cards
+        guard let parentEntity = eventHandler.entities[value] else {
+            return
+        }
+
+        if !entity.cardId.isBlank {
+            parentEntity.info.storedCardIds.append(entity.cardId)
         }
     }
     

@@ -254,6 +254,7 @@ extension CardIds.NonCollectible {
         static let CelestialShot_CelestialEmbraceEnchantment = "YOG_082e"
         static let HodirFatherofGiants_GiantizeEnchantment = "TTN_752e"
         static let ThornmantleMusician_ThornmantlesMuseEnchantment1 = "ETC_831e"
+        static let ArkoniteDefenseCrystal_TheAstralCompassToken = "GDB_100t7"
     }
 }
 

@@ -23,7 +23,7 @@ class VelenLeaderOfTheExiled: ICardWithRelatedCards {
 
     func getRelatedCards(player: Player) -> [Card?] {
         return player.cardsPlayedThisMatch
-            .compactMap { CardUtils.getProcessedCardFromCardId($0.cardId, player) }
+            .compactMap { CardUtils.getProcessedCardFromEntity($0, player) }
             .filter { card in
                 card.isDraenei() && card.id != getCardId() &&
                 (card.mechanics.contains("BATTLECRY") || card.mechanics.contains("DEATHRATTLE"))
