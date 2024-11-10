@@ -39,7 +39,10 @@ class HSReplayNetHelper {
             _ = Account.save()
             return
         }
-        /*await*/ HSReplayNetHelper.collectionSyncLimiter.run(task: {
+        /*await*/ HSReplayNetHelper.collectionSyncLimiter.run(task: { [weak collection] in
+            guard let collection else {
+                return
+            }
             do {
                 if !(HSReplayAPI.accountData?.blizzard_accounts.any { x in x.account_hi == hi && x.account_lo == lo } ?? false) {
                     let response = /*await*/ try HSReplayAPI.claimBattleTag(account_hi: hi, account_lo: lo, battleTag: collection.battleTag).wait()
@@ -89,7 +92,10 @@ class HSReplayNetHelper {
             _ = Account.save()
             return
         }
-        /*await*/ HSReplayNetHelper.mercenariesCollectionSyncLimiter.run(task: {
+        /*await*/ HSReplayNetHelper.mercenariesCollectionSyncLimiter.run(task: { [weak collection] in
+            guard let collection else {
+                return
+            }
             do {
                 if !(HSReplayAPI.accountData?.blizzard_accounts.any { x in x.account_hi == hi && x.account_lo == lo } ?? false) {
                     let response = /*await*/ try HSReplayAPI.claimBattleTag(account_hi: hi, account_lo: lo, battleTag: collection.battleTag).wait()
