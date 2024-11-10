@@ -251,6 +251,9 @@ class Game: NSObject, PowerEventHandler {
                 self.windowManager.show(controller: tracker, show: true,
                                         frame: rect, title: "Opponent tracker",
                                         overlay: self.hearthstoneRunState.isActive)
+                if self.windowManager.linkOpponentDeckPanel.isShowing {
+                    self.windowManager.linkOpponentDeckPanel.show()
+                }
             } else {
                 self.windowManager.show(controller: tracker, show: false)
                 self.windowManager.show(controller: self.windowManager.linkOpponentDeckPanel, show: false)

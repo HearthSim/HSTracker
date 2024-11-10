@@ -47,6 +47,8 @@ class LinkOpponentDeckPanel: OverWindowController, NSTextViewDelegate {
     var autoShown = false
     var hasLinkedDeck = false
     
+    var isShowing = false
+    
     private lazy var trackingArea: NSTrackingArea = NSTrackingArea(rect: NSRect.zero,
                                                                    options: [.inVisibleRect, .activeAlways, .mouseEnteredAndExited],
                           owner: self,
@@ -96,6 +98,7 @@ class LinkOpponentDeckPanel: OverWindowController, NSTextViewDelegate {
     func hide(_ force: Bool = false) {
         if force || !mouseIsOver {
             DispatchQueue.main.async {
+                self.isShowing = false
                 let wm = AppDelegate.instance().coreManager.game.windowManager
                 wm.show(controller: wm.linkOpponentDeckPanel, show: false)
             }
@@ -112,6 +115,7 @@ class LinkOpponentDeckPanel: OverWindowController, NSTextViewDelegate {
     func show() {
         if isFriendlyMatch || Settings.enableLinkOpponentDeckInNonFriendly {
             DispatchQueue.main.async {
+                self.isShowing = true
                 let wm = AppDelegate.instance().coreManager.game.windowManager
                 let rect = wm.opponentTracker.window?.frame
                 wm.show(controller: wm.linkOpponentDeckPanel, show: true,
