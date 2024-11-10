@@ -58,18 +58,18 @@ class MultiIdCard: Hashable, Equatable {
         }
     }
     
-    func getCardForFormat(format: FormatType) -> Card {
+    func getCardForFormat(format: FormatType) -> Card? {
         switch format {
         case .ft_wild:
-            return cards.first { x in !CardSet.classicSets().contains(x.set ?? .invalid) } ?? cards[0]
+            return (cards.first { x in !CardSet.classicSets().contains(x.set ?? .invalid) } ?? cards.first)?.copy()
         case .ft_classic:
-            return cards.first { x in CardSet.classicSets().contains(x.set ?? .invalid) } ?? cards[0]
+            return (cards.first { x in CardSet.classicSets().contains(x.set ?? .invalid) } ?? cards.first)?.copy()
         case .ft_standard:
-            return cards.first { x in !CardSet.wildSets().contains(x.set ?? .invalid) && !CardSet.classicSets().contains(x.set ?? .invalid) } ?? cards[0]
+            return (cards.first { x in !CardSet.wildSets().contains(x.set ?? .invalid) && !CardSet.classicSets().contains(x.set ?? .invalid) } ?? cards.first)?.copy()
         case .ft_twist:
-            return cards.first { x in CardSet.twistSets().contains(x.set ?? .invalid) } ?? cards[0]
+            return (cards.first { x in CardSet.twistSets().contains(x.set ?? .invalid) } ?? cards.first)?.copy()
         case .ft_unknown:
-            return cards[0]
+            return cards.first?.copy()
         }
     }
     
