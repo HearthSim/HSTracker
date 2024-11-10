@@ -93,7 +93,6 @@
 		436F5D141CFD803C00DEB9A1 /* FrostBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436F5D131CFD803C00DEB9A1 /* FrostBar.swift */; };
 		436F5D161CFD822600DEB9A1 /* MinimalBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436F5D151CFD822600DEB9A1 /* MinimalBar.swift */; };
 		437B5BAC1CD1E6AF00DE0A41 /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437B5BAB1CD1E6AF00DE0A41 /* Step.swift */; };
-		437B5BAE1CD1F76C00DE0A41 /* WotogCounterFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437B5BAD1CD1F76C00DE0A41 /* WotogCounterFrame.swift */; };
 		437B5BB51CD2558500DE0A41 /* OpponentTrackersPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437B5BB41CD2558500DE0A41 /* OpponentTrackersPreferences.swift */; };
 		437B5BB81CD2559300DE0A41 /* OpponentTrackersPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 437B5BB61CD2559300DE0A41 /* OpponentTrackersPreferences.xib */; };
 		437B5BC21CD2568100DE0A41 /* TrackersPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437B5BC11CD2568100DE0A41 /* TrackersPreferences.swift */; };
@@ -304,7 +303,6 @@
 		43C1CAA51E96CD6F008C20B1 /* OpponentDrawChance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4317197C1C8C54FF00F5988B /* OpponentDrawChance.swift */; };
 		43C1CAA61E96CD6F008C20B1 /* PlayerDrawChance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436789BE1CACF8C900C962D1 /* PlayerDrawChance.swift */; };
 		43C1CAA71E96CD6F008C20B1 /* FloatingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B60321CB69FA600B05D19 /* FloatingCard.swift */; };
-		43C1CAA81E96CD6F008C20B1 /* WotogCounterFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437B5BAD1CD1F76C00DE0A41 /* WotogCounterFrame.swift */; };
 		43C1CAA91E96CD6F008C20B1 /* StringTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340AAC041D0544AD0015FE33 /* StringTracker.swift */; };
 		43C1CAAA1E96CD6F008C20B1 /* BoardDamage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434910461D09505E00B22DB2 /* BoardDamage.swift */; };
 		43C1CAAB1E96CD6F008C20B1 /* CardHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE51C94B4B400C26950 /* CardHud.swift */; };
@@ -1204,7 +1202,6 @@
 		436F5D131CFD803C00DEB9A1 /* FrostBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrostBar.swift; sourceTree = "<group>"; };
 		436F5D151CFD822600DEB9A1 /* MinimalBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MinimalBar.swift; sourceTree = "<group>"; };
 		437B5BAB1CD1E6AF00DE0A41 /* Step.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
-		437B5BAD1CD1F76C00DE0A41 /* WotogCounterFrame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WotogCounterFrame.swift; sourceTree = "<group>"; };
 		437B5BB21CD2439800DE0A41 /* WotogCounterHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WotogCounterHelper.swift; sourceTree = "<group>"; };
 		437B5BB41CD2558500DE0A41 /* OpponentTrackersPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpponentTrackersPreferences.swift; sourceTree = "<group>"; };
 		437B5BB71CD2559300DE0A41 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/OpponentTrackersPreferences.xib; sourceTree = "<group>"; };
@@ -2509,7 +2506,6 @@
 				43BDF0BD1DB89A830081964A /* WindowManager.swift */,
 				B8FE1F9428694F44004C397C /* WotogCounter.swift */,
 				B8FE1F9228693EDD004C397C /* WotogCounter.xib */,
-				437B5BAD1CD1F76C00DE0A41 /* WotogCounterFrame.swift */,
 			);
 			path = Trackers;
 			sourceTree = "<group>";
@@ -4279,7 +4275,6 @@
 				4C3E2D93245F16B900292349 /* CollectionToastViewController.swift in Sources */,
 				439DD8F41DB23212004EBE47 /* PlayerTurn.swift in Sources */,
 				B8B790452C9777E400DD33EC /* TarSlickEnchantment.swift in Sources */,
-				437B5BAE1CD1F76C00DE0A41 /* WotogCounterFrame.swift in Sources */,
 				B8D75B9325A9DD1300446923 /* ExperienceTracker.swift in Sources */,
 				B89343442CD11C13009A8727 /* JadeDisplayCounter.swift in Sources */,
 				B8B78FD32C96133D00DD33EC /* ProsecutorMeltranixEnchantment.swift in Sources */,
@@ -4662,7 +4657,6 @@
 				43C1CAA61E96CD6F008C20B1 /* PlayerDrawChance.swift in Sources */,
 				B8643D082759816000B2D708 /* MercenariesAbilityView.swift in Sources */,
 				43C1CAA71E96CD6F008C20B1 /* FloatingCard.swift in Sources */,
-				43C1CAA81E96CD6F008C20B1 /* WotogCounterFrame.swift in Sources */,
 				43C1CAA91E96CD6F008C20B1 /* StringTracker.swift in Sources */,
 				BCCCDB9F1EA55B0C00C328D0 /* NotificationManager.swift in Sources */,
 				43C1CAAA1E96CD6F008C20B1 /* BoardDamage.swift in Sources */,

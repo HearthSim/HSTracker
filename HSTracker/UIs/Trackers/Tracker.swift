@@ -14,21 +14,18 @@ import RealmSwift
 class Tracker: OverWindowController {
 
     // UI elements
-    @IBOutlet weak private var cardsView: AnimatedCardList!
-    @IBOutlet weak private var cardCounter: CardCounter!
-    @IBOutlet weak private var playerDrawChance: PlayerDrawChance!
-    @IBOutlet weak private var opponentDrawChance: OpponentDrawChance!
-    @IBOutlet weak private var wotogCounter: WotogCounterFrame!
-    @IBOutlet weak private var playerClass: NSView!
-    @IBOutlet weak private var recordTracker: StringTracker!
-    @IBOutlet weak private var fatigueTracker: StringTracker!
-    @IBOutlet weak private var galakrondCounter: StringTracker!
-    @IBOutlet weak private var graveyardCounter: GraveyardCounter!
-    @IBOutlet weak private var jadeCounter: JadeCounter!
-    @IBOutlet weak private var playerBottom: DeckLens!
-    @IBOutlet weak private var playerTop: DeckLens!
-    @IBOutlet weak private var playerSideboards: DeckSideboards!
-    @IBOutlet weak private var opponentRelatedCards: DeckLens!
+    @IBOutlet private var cardsView: AnimatedCardList!
+    @IBOutlet private var cardCounter: CardCounter!
+    @IBOutlet private var playerDrawChance: PlayerDrawChance!
+    @IBOutlet private var opponentDrawChance: OpponentDrawChance!
+    @IBOutlet private var playerClass: NSView!
+    @IBOutlet private var recordTracker: StringTracker!
+    @IBOutlet private var fatigueTracker: StringTracker!
+    @IBOutlet private var graveyardCounter: GraveyardCounter!
+    @IBOutlet private var playerBottom: DeckLens!
+    @IBOutlet private var playerTop: DeckLens!
+    @IBOutlet private var playerSideboards: DeckSideboards!
+    @IBOutlet private var opponentRelatedCards: DeckLens!
 
     private var hero: CardBar?
     private var heroCard: Card?
@@ -38,21 +35,10 @@ class Tracker: OverWindowController {
     var hasValidFrame = false
     
     var playerType: PlayerType?
-    var showCthunCounter: Bool = false
-    var showSpellCounter: Bool = false
-    var showDeathrattleCounter: Bool = false
-    var showJadeCounter: Bool = false
-    var showLibramCounter: Bool = false
     var showGraveyard: Bool = false
     var proxy: Entity?
-    var nextJadeSize: Int = 1
     var fatigueCounter: Int = 0
-    var hasGalakrondProxy: Bool = false
-    var galakrondInvokeCounter: Int = 0
     var graveyard: [Entity]?
-    var spellsPlayedCount = 0
-    var deathrattlesPlayedCount = 0
-    var libramReductionCount = 0
     
     var playerClassId: String?
     var playerName: String?
@@ -162,22 +148,18 @@ class Tracker: OverWindowController {
             playerDrawChance.isHidden = true
             playerClass.isHidden = !Settings.showOpponentClassInTracker
             recordTracker.isHidden = true
-            galakrondCounter.isHidden = !(Settings.showOpponentGalakrondCounter && (galakrondInvokeCounter > 0))
         } else {
             cardCounter.isHidden = !Settings.showPlayerCardCount
             opponentDrawChance.isHidden = true
             playerDrawChance.isHidden = !Settings.showPlayerDrawChance
-            
             playerClass.isHidden = !Settings.showDeckNameInTracker
             recordTracker.isHidden = !Settings.showWinLossRatio
-            galakrondCounter.isHidden = !(Settings.showPlayerGalakrondCounter && hasGalakrondProxy)
         }
         
         let game = AppDelegate.instance().coreManager.game
         let showFatigueCounter = Settings.fatigueIndicator && (cardCounter?.deckCount ?? 0 <= 0 || fatigueCounter > 1 || playerType == .player ? game.showPlayerFatigueCounter : game.showOpponentFatigueCounter)
         fatigueTracker.isHidden = !showFatigueCounter
         graveyardCounter.isHidden = !showGraveyard
-        jadeCounter.isHidden = !showJadeCounter
         
         if !recordTracker.isHidden {
             recordTracker.needsDisplay = true
@@ -189,50 +171,8 @@ class Tracker: OverWindowController {
             fatigueTracker.needsDisplay = true
         }
         
-        if !galakrondCounter.isHidden {
-            galakrondCounter.message = "\(String.localizedString("Invoked : ", comment: ""))"
-                + "\(galakrondInvokeCounter)"
-            galakrondCounter.needsDisplay = true
-        }
-        let showLibram = showLibramCounter  && libramReductionCount > 0
-        var counterStyle: [WotogCounterStyle] = []
-        if showCthunCounter && showSpellCounter && showDeathrattleCounter && showLibram {
-            counterStyle.append(.full)
-        } else if !showCthunCounter && !showSpellCounter && !showDeathrattleCounter  && !showLibram {
-            counterStyle.append(.none)
-        } else {
-            if showDeathrattleCounter {
-                counterStyle.append(.deathrattles)
-            }
-            if showSpellCounter {
-                counterStyle.append(.spells)
-            }
-            if showCthunCounter {
-                counterStyle.append(.cthun)
-            }
-            
-            if showLibram {
-                counterStyle.append(.libram)
-            }
-        }
-        
         recordTracker.message = recordTrackerMessage
-        
-        let player = playerType == .player ? AppDelegate.instance().coreManager.game.playerEntity : AppDelegate.instance().coreManager.game.opponentEntity
-        
-        wotogCounter.counterStyle = counterStyle
-        wotogCounter.isHidden = wotogCounter.counterStyle.contains(.none)
-        wotogCounter.attack = player?.has(tag: .cthun_attack_buff) ?? false ? player![.cthun_attack_buff] + 6 : 6
-        wotogCounter.health = player?.has(tag: .cthun_health_buff) ?? false ? player![.cthun_health_buff] + 6 : 6
-        wotogCounter.spell = spellsPlayedCount
-        wotogCounter.deathrattle = deathrattlesPlayedCount
-        wotogCounter.libram = libramReductionCount
-        
-        if !jadeCounter.isHidden {
-            jadeCounter.nextJade = nextJadeSize
-            jadeCounter.needsDisplay = true
-        }
-        
+                
         // map entitiy to card [count]
         var minionmap: [Card: Int] = [:]
         var minions: Int = 0
@@ -332,31 +272,13 @@ class Tracker: OverWindowController {
         if !cardCounter.isHidden {
             offsetFrames += smallFrameHeight
         }
-        if showSpellCounter {
-            offsetFrames += smallFrameHeight
-        }
-        if showCthunCounter {
-            offsetFrames += smallFrameHeight
-        }
-        if showDeathrattleCounter {
-            offsetFrames += smallFrameHeight
-        }
         if showGraveyard {
-            offsetFrames += smallFrameHeight
-        }
-        if showJadeCounter {
             offsetFrames += smallFrameHeight
         }
         if !recordTracker.isHidden {
             offsetFrames += smallFrameHeight
         }
         if !fatigueTracker.isHidden {
-            offsetFrames += smallFrameHeight
-        }
-        if !galakrondCounter.isHidden {
-            offsetFrames += smallFrameHeight
-        }
-        if showLibram {
             offsetFrames += smallFrameHeight
         }
         
@@ -465,25 +387,6 @@ class Tracker: OverWindowController {
             opponentRelatedCards.updateFrames(frameHeight: smallFrameHeight)
             opponentRelatedCards.isHidden = true
         }
-        if showCthunCounter || showSpellCounter || showDeathrattleCounter || showLibram {
-            var height: CGFloat = 0
-            if showCthunCounter {
-                height += smallFrameHeight
-            }
-            if showDeathrattleCounter {
-                height += smallFrameHeight
-            }
-            if showSpellCounter {
-                height += smallFrameHeight
-            }
-            if showLibram {
-                height += smallFrameHeight
-            }
-            y -= height
-            
-            wotogCounter?.frame = NSRect(x: 0, y: y, width: windowWidth, height: height)
-            wotogCounter?.needsDisplay = true
-        }
         if !graveyardCounter.isHidden {
             y -= smallFrameHeight
             graveyardCounter?.frame = NSRect(x: 0,
@@ -511,20 +414,6 @@ class Tracker: OverWindowController {
                                           y: y,
                                           width: windowWidth,
                                           height: smallFrameHeight)
-        }
-        if !galakrondCounter.isHidden {
-            y -= smallFrameHeight
-            galakrondCounter.frame = NSRect(x: 0,
-                                          y: y,
-                                          width: windowWidth,
-                                          height: smallFrameHeight)
-        }
-        if !jadeCounter.isHidden {
-            y -= smallFrameHeight
-            jadeCounter.frame = NSRect(x: 0,
-                                       y: y,
-                                       width: windowWidth,
-                                       height: smallFrameHeight)
         }
         
         bottomY = y

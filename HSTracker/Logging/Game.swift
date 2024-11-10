@@ -211,14 +211,8 @@ class Game: NSObject, PowerEventHandler {
                                           hasCoin: self.opponent.hasCoin,
                                           gameStarted: gameStarted)
 
-                tracker.showCthunCounter = false
-                tracker.showSpellCounter = false
-                tracker.showDeathrattleCounter = Settings.showOpponentDeathrattle
                 tracker.showGraveyard = Settings.showOpponentGraveyard
-                tracker.showJadeCounter = false
                 tracker.fatigueCounter = self.opponent.fatigue
-                tracker.deathrattlesPlayedCount = self.opponent.deathrattlesPlayedCount
-                tracker.showLibramCounter = false
                 
                 if let fullname = self.opponent.name {
                     let names = fullname.components(separatedBy: "#")
@@ -430,14 +424,8 @@ class Game: NSObject, PowerEventHandler {
                                           hasCoin: self.player.hasCoin,
                                           gameStarted: gameStarted)
                 
-                tracker.showCthunCounter = false
-                tracker.showSpellCounter = false
-                tracker.showDeathrattleCounter = self.showPlayerDeathrattleCounter
                 tracker.showGraveyard = Settings.showPlayerGraveyard
-                tracker.showJadeCounter = false
                 tracker.fatigueCounter = self.player.fatigue
-                tracker.deathrattlesPlayedCount = self.player.deathrattlesPlayedCount
-                tracker.showLibramCounter = false
                                 
                 if let currentDeck = self.currentDeck {
                     if let deck = RealmHelper.getDeck(with: currentDeck.id) {
