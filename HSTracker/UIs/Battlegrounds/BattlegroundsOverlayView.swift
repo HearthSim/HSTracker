@@ -25,10 +25,6 @@ class BattlegroundsOverlayView: NSView {
         super.init(frame: NSRect.zero)
         
         initLeaderboardDeadFor()
-        
-        BattlegroundsLeaderboardWatcher.change = { _, args in
-            self.setHoveredBattlegroundsEntityId(args.hoveredEntityId)
-        }
     }
     
     required init?(coder: NSCoder) {
@@ -126,7 +122,7 @@ class BattlegroundsOverlayView: NSView {
         dirtyRect.fill()
     }
 
-    private func setHoveredBattlegroundsEntityId(_ entityId: Int?) {
+    func setHoveredBattlegroundsEntityId(_ entityId: Int?) {
         _leaderboardHoveredEntityId = entityId
         DispatchQueue.main.async {
             self.update()

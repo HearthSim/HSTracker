@@ -39,7 +39,7 @@ class SceneHandler {
                 game.updateMulliganGuidePreLobby()
             }
             game.windowManager.constructedMulliganGuidePreLobby.viewModel.invlidateAllDecks()
-            DeckPickerWatcher.stop()
+            Watchers.deckPickerWatcher.stop()
         } else if from == .bacon {
             DispatchQueue.main.async {
                 game.updateBattlegroundsSessionVisibility()
@@ -50,10 +50,10 @@ class SceneHandler {
             Watchers.baconWatcher.stop()
         } else if from == .gameplay {
             game.updateBattlegroundsSessionVisibility()
-            BattlegroundsTeammateBoardStateWatcher.stop()
+            Watchers.battlegroundsTeammateBoardStateWatcher.stop()
             Watchers.baconWatcher.stop()
             Watchers.bigCardWatcher.stop()
-            ChoicesWatcher.stop()
+            Watchers.choicesWatcher.stop()
         }
     }
     
@@ -66,7 +66,7 @@ class SceneHandler {
         let game = core.game
 
         if to == .tournament {
-            DeckPickerWatcher.start()
+            Watchers.deckPickerWatcher.run()
             DispatchQueue.main.async {
                 game.updateMulliganGuidePreLobby()
             }
@@ -83,7 +83,7 @@ class SceneHandler {
         } else if to == .gameplay {
             game.updateBattlegroundsSessionVisibility()
             Watchers.bigCardWatcher.run()
-            ChoicesWatcher.start()
+            Watchers.choicesWatcher.run()
             Watchers.baconWatcher.run()
         }
         

@@ -1888,9 +1888,9 @@ class Game: NSObject, PowerEventHandler {
                         self.windowManager.battlegroundsSession.update()
                         self.windowManager.battlegroundsSession.updateScaling()
                     }
-                    BattlegroundsLeaderboardWatcher.start()
+                    Watchers.battlegroundsLeaderboardWatcher.run()
                     if self.isBattlegroundsDuosMatch() {
-                        BattlegroundsTeammateBoardStateWatcher.start()
+                        Watchers.battlegroundsTeammateBoardStateWatcher.run()
                     }
                     self.updateBattlegroundsOverlays()
                 }
@@ -2814,7 +2814,7 @@ class Game: NSObject, PowerEventHandler {
     
     @available(macOS 10.15.0, *)
     private func handleBattlegroundsStart() async {
-        BattlegroundsLeaderboardWatcher.start()
+        Watchers.battlegroundsLeaderboardWatcher.run()
         OpponentDeadForTracker.reset()
         var heroes = [Entity]()
         for _ in 0 ..< 10 {
@@ -2837,7 +2837,7 @@ class Game: NSObject, PowerEventHandler {
         await windowManager.battlegroundsSession.updateScaling()
         
         if isBattlegroundsDuosMatch() {
-            BattlegroundsTeammateBoardStateWatcher.start()
+            Watchers.battlegroundsTeammateBoardStateWatcher.run()
         }
         
         if gameEntity?[.step] != Step.begin_mulligan.rawValue {

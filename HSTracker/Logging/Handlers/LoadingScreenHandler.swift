@@ -50,8 +50,9 @@ struct LoadingScreenHandler: LogEventParser {
             if logLine.time.timeIntervalSinceNow < 5 {
                 if let currentMode = game.currentMode, currentMode == .hub && !MirrorHelper.isInitialized() {
                     DispatchQueue.global().async {
-                        if MirrorHelper.getAccountId() != nil {
-                            ExperienceWatcher._instance.startWatching()
+                        if !MirrorHelper.isInitialized() {
+                            Watchers.experienceWatcher.run()
+                            _ = MirrorHelper.getAccountId()
                         }
                     }
                 }
@@ -83,17 +84,11 @@ struct LoadingScreenHandler: LogEventParser {
                 }
             }
             
-            if game.currentMode == Mode.tournament {
-                DeckWatcher.start()
-            } else {
-                DeckWatcher.stop()
-            }
-
             if game.currentMode == .draft {
-                ArenaDeckWatcher.start()
+                Watchers.arenaDeckWatcher.run()
 
             } else {
-                ArenaDeckWatcher.stop()
+                Watchers.arenaDeckWatcher.stop()
             }
             
             if game.currentMode == .tavern_brawl {
@@ -117,21 +112,21 @@ struct LoadingScreenHandler: LogEventParser {
             }
         
             if game.currentMode == .adventure || game.previousMode == Mode.adventure && game.currentMode == .gameplay {
-                DungeonRunDeckWatcher.start()
+                Watchers.dungeonRunDeckWatcher.run()
             } else {
-                DungeonRunDeckWatcher.stop()
+                Watchers.dungeonRunDeckWatcher.stop()
             }
             
             if game.currentMode == Mode.pvp_dungeon_run || game.previousMode == Mode.pvp_dungeon_run && game.currentMode == Mode.gameplay {
-                PVPDungeonRunWatcher.start()
+                Watchers.pvpDungeonRunWatcher.run()
             } else {
-                PVPDungeonRunWatcher.stop()
+                Watchers.pvpDungeonRunWatcher.stop()
             }
             
             if !ignoredModes.contains(game.currentMode ?? .invalid) {
-                QueueWatcher.start()
+                Watchers.queueWatcher.run()
             } else {
-                QueueWatcher.stop()
+                Watchers.queueWatcher.stop()
             }
             
             if game.previousMode != .gameplay && game.currentMode == .gameplay {

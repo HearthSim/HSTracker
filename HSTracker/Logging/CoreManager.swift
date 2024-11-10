@@ -54,53 +54,6 @@ final class CoreManager: NSObject {
         
         self.toaster = Toaster(windowManager: game.windowManager)
         
-        DungeonRunDeckWatcher.dungeonRunMatchStarted = { newrun, set in CoreManager.dungeonRunMatchStarted(newRun: newrun, set: set, isPVPDR: false)
-        }
-        DungeonRunDeckWatcher.dungeonInfoChanged = { info in
-            CoreManager.updateDungeonRunDeck(info: info, isPVPDR: false)
-        }
-        PVPDungeonRunWatcher.pvpDungeonRunMatchStarted = { newrun, set in
-            CoreManager.dungeonRunMatchStarted(newRun: newrun, set: set, isPVPDR: true)
-        }
-        PVPDungeonRunWatcher.pvpDungeonInfoChanged = { info in
-            CoreManager.updateDungeonRunDeck(info: info, isPVPDR: true)
-        }
-        
-        QueueWatcher.inQueueChanged = { _, args in
-            self.game.queueEvents.handle(args)
-        }
-        
-        BaconWatcher.change = { _, args in
-            if #available(macOS 10.15, *) {
-                self.game.setBaconState(args.selectedBattlegroundsGameMode, args.isAnyOpen())
-                self.game.updateBattlegroundsSessionVisibility(args.isFriendsListOpen)
-            }
-        }
-        DeckPickerWatcher.change = { _, args in
-            self.game.setDeckPickerState(args.selectedFormatType, args.decksOnPage, args.isModalOpen)
-        }
-        
-        SceneWatcher.change = { _, args in
-            SceneHandler.onSceneUpdate(prevMode: Mode.allCases[args.prevMode], mode: Mode.allCases[args.mode], sceneLoaded: args.sceneLoaded, transitioning: args.transitioning)
-        }
-        
-        BattlegroundsTeammateBoardStateWatcher.change = { _, args in
-            self.game.windowManager.battlegroundsHeroPicking.viewModel.isViewingTeammate = args.isViewingTeammate
-            // rest is not used
-        }
-        
-        ExperienceWatcher.newExperienceHandler = { args in
-            AppDelegate.instance().coreManager.game.experienceChangedAsync(experience: args.experience, experienceNeeded: args.experienceNeeded, level: args.level, levelChange: args.levelChange, animate: args.animate)
-        }
-        
-        ChoicesWatcher.change = { _, args in
-            AppDelegate.instance().coreManager.game.setChoicesVisible(args.currentChoice?.isVisible ?? false)
-        }
-        
-        BigCardWatcher.change = { _, args in
-            AppDelegate.instance().coreManager.game.onBigCardChange(args)
-        }
-        
         game.windowManager.playerActiveEffectsOverlay.setActiveEffects(game.activeEffects)
         game.windowManager.opponentActiveEffectsOverlay.setActiveEffects(game.activeEffects)
         game.windowManager.playerCountersOverlay.setCounters(game.counterManager)
@@ -157,9 +110,10 @@ final class CoreManager: NSObject {
     // MARK: - Initialisation
     func start() {
         startListeners()
+        Watchers.initialize()
         if CoreManager.isHearthstoneRunning() {
             logger.info("Hearthstone is running, starting trackers now.")
-            ExperienceWatcher._instance.startWatching()
+            Watchers.experienceWatcher.run()
             startTracking()
         }
     }
@@ -300,7 +254,7 @@ final class CoreManager: NSObject {
                     game.currentRegion = Helper.getCurrentRegion()
                 }
                 retry = false
-                SceneWatcher.start()
+                Watchers.sceneWatcher.run()
             }
         }
         if retry {
@@ -326,19 +280,7 @@ final class CoreManager: NSObject {
     func stopTracking() {
         logger.info("Stop Tracking")
 		logReaderManager.stop(eraseLogFile: !CoreManager.isHearthstoneRunning())
-        DeckWatcher.stop()
-        ArenaDeckWatcher.stop()
-        DungeonRunDeckWatcher.stop()
-        PVPDungeonRunWatcher.stop()
-        ExperienceWatcher.stop()
-        QueueWatcher.stop()
-        BaconWatcher.stop()
-        SceneWatcher.stop()
-        BattlegroundsLeaderboardWatcher.stop()
-        BattlegroundsTeammateBoardStateWatcher.stop()
-        DeckPickerWatcher.stop()
-        ChoicesWatcher.stop()
-        BigCardWatcher.stop()
+        Watchers.stop()
         MirrorHelper.destroy()
         let wm = game.windowManager
         wm.battlegroundsHeroPicking.viewModel.reset()
@@ -409,7 +351,7 @@ final class CoreManager: NSObject {
             }
             self.startTracking()
             self.game.setHearthstoneRunning(flag: true)
-            ExperienceWatcher._instance.startWatching()
+            Watchers.experienceWatcher.run()
             NotificationCenter.default.post(name: Notification.Name(rawValue: Events.hearthstone_running), object: nil)
         }
     }
@@ -422,7 +364,7 @@ final class CoreManager: NSObject {
             
             self.game.setHearthstoneRunning(flag: false)
             AppHealth.instance.setHearthstoneRunning(flag: false)
-            ExperienceWatcher._instance.stopWatching()
+            Watchers.experienceWatcher.stop()
             if Settings.quitWhenHearthstoneCloses {
                 NSApplication.shared.terminate(self)
             } else {
@@ -530,8 +472,8 @@ final class CoreManager: NSObject {
             core.game.adventureOpponentId = opponentId
         }
         let playerClass = set == CardSet.uldum ? DefaultDecks.DungeonRun.getUldumHeroPlayerClass(playerClass: boardHero.playerClass) : boardHero.playerClass
-        let adventureId = DungeonRunDeckWatcher.currentAdventure?.adventureId ?? .invalid
-        let modeId = DungeonRunDeckWatcher.currentAdventure?.adventureModeId ?? .invalid
+        let adventureId = Watchers.dungeonRunDeckWatcher.currentAdventure?.adventureId ?? .invalid
+        let modeId = Watchers.dungeonRunDeckWatcher.currentAdventure?.adventureModeId ?? .invalid
         if adventureId != AdventureDbId.boh && adventureId != AdventureDbId.bom && (playerClass == .invalid || playerClass == .neutral) {
             logger.info("Dungeon run started but player class is invalid")
             return
@@ -539,7 +481,7 @@ final class CoreManager: NSObject {
         
         if !isPVPDR && ((adventureId == AdventureDbId.boh || adventureId == AdventureDbId.bom) || modeId == .linear || modeId == .linear_heroic) {
             logger.info("Book of Heroes/Mercenaries/Linear match started with playerClass \(playerClass)")
-            let cards = DungeonRunDeckWatcher.dungeonRunDeck
+            let cards = Watchers.dungeonRunDeckWatcher.dungeonRunDeck
             
             if cards.count > 0 {
                 let deck = Deck()
@@ -573,7 +515,7 @@ final class CoreManager: NSObject {
             if newRun {
 //                let hero = core.game.opponent.playerEntities.first(where: { x in x.isHero })?.cardId
                 if set == CardSet.dalaran || set == CardSet.uldum {
-                    _ = DungeonRunDeckWatcher._instance.updateDungeonInfo(key: DungeonRunDeckWatcher.saveKey)
+                    _ = Watchers.dungeonRunDeckWatcher.updateDungeonInfo(key: Watchers.dungeonRunDeckWatcher.saveKey)
                     if !recursive {
                         dungeonRunMatchStarted(newRun: newRun, set: set, isPVPDR: isPVPDR, recursive: true)
                         return
@@ -724,7 +666,7 @@ final class CoreManager: NSObject {
             
             // Try dungeon run deck
             if mode == .gameplay && AppDelegate.instance().coreManager.game.previousMode == .adventure
-                && (DungeonRunDeckWatcher.currentModeId == .dungeon_crawl || DungeonRunDeckWatcher.currentModeId == .dungeon_crawl_heroic) {
+                && (Watchers.dungeonRunDeckWatcher.currentModeId == .dungeon_crawl || Watchers.dungeonRunDeckWatcher.currentModeId == .dungeon_crawl_heroic) {
                 return nil
             }
 			
@@ -766,7 +708,7 @@ final class CoreManager: NSObject {
 			if let mDeck = MirrorHelper.getArenaDeck()?.deck {
 				hsMirrorDeck = mDeck
 			} else {
-				hsMirrorDeck = ArenaDeckWatcher.selectedDeck
+                hsMirrorDeck = Watchers.arenaDeckWatcher.selectedDeck
 			}
 			
 			guard let hsDeck = hsMirrorDeck else {
