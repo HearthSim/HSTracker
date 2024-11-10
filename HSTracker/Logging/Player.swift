@@ -193,8 +193,8 @@ final class Player {
     func reset() {
         id = -1
         name = ""
-        originalClass = .invalid
-        currentClass = .invalid
+        originalClass = nil
+        currentClass = nil
         fatigue = 0
         spellsPlayedCards.removeAll()
         spellsPlayedInFriendlyCharacters.removeAll()
