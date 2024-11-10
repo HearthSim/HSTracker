@@ -9,12 +9,12 @@
 import Foundation
 
 class BattlegroundsPlacementDistributionBar: NSView {
-    @IBOutlet weak var contentView: NSView!
+    @IBOutlet var contentView: NSView!
     
-    @IBOutlet weak var stackView: NSStackView!
-    @IBOutlet weak var barRect: NSBox!
+    @IBOutlet var stackView: NSStackView!
+    @IBOutlet var barRect: NSBox!
     
-    @IBOutlet weak var barRectHeight: NSLayoutConstraint!
+    @IBOutlet var barRectHeight: NSLayoutConstraint!
     
     private var _placement: Int = 1
     @IBInspectable var placement: Int {

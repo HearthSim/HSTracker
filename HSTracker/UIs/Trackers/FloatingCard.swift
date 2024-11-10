@@ -16,7 +16,7 @@ enum FloatingCardStyle: String {
 
 class FloatingCard: OverWindowController {
 
-    @IBOutlet weak var imageView: NSImageView!
+    @IBOutlet var imageView: NSImageView!
 
     var card: Card?
     var isBattlegrounds = false

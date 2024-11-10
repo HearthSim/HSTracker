@@ -9,6 +9,6 @@
 import Foundation
 
 class FlavorText: OverWindowController {
-    @IBOutlet weak var cardNameLabel: NSTextField!
-    @IBOutlet weak var flavorTextLabel: NSTextField!
+    @IBOutlet var cardNameLabel: NSTextField!
+    @IBOutlet var flavorTextLabel: NSTextField!
 }

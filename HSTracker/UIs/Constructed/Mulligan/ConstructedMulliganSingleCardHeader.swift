@@ -10,17 +10,17 @@ import Foundation
 import CustomToolTip
 
 class ConstructedMulliganSingleCardHeader: NSView {
-    @IBOutlet weak var contentView: NSView!
-    @IBOutlet weak var mulliganWrTooltip: NSView!
-    @IBOutlet weak var keepRateTooltip: NSView!
-    @IBOutlet weak var handRankTooltip: NSView!
+    @IBOutlet var contentView: NSView!
+    @IBOutlet var mulliganWrTooltip: NSView!
+    @IBOutlet var keepRateTooltip: NSView!
+    @IBOutlet var handRankTooltip: NSView!
     
-    @IBOutlet weak var mulliganWrTracker: NSView!
-    @IBOutlet weak var mulliganWrLabel: NSTextField!
-    @IBOutlet weak var rankBox: NSBox!
-    @IBOutlet weak var rankLabel: NSTextField!
-    @IBOutlet weak var keepRateTracker: NSView!
-    @IBOutlet weak var keepRateLabel: NSTextField!
+    @IBOutlet var mulliganWrTracker: NSView!
+    @IBOutlet var mulliganWrLabel: NSTextField!
+    @IBOutlet var rankBox: NSBox!
+    @IBOutlet var rankLabel: NSTextField!
+    @IBOutlet var keepRateTracker: NSView!
+    @IBOutlet var keepRateLabel: NSTextField!
     
     override var intrinsicContentSize: NSSize {
         return NSSize(width: 212, height: 53)

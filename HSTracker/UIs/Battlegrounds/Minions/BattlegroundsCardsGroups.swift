@@ -9,9 +9,9 @@
 import Foundation
 
 class BattlegroundsCardsGroups: NSView {
-    @IBOutlet weak var contentView: NSView!
-    @IBOutlet weak var cardsList: AnimatedCardList!
-    @IBOutlet weak var box: NSBox!
+    @IBOutlet var contentView: NSView!
+    @IBOutlet var cardsList: AnimatedCardList!
+    @IBOutlet var box: NSBox!
     
     var _cardHeight: CGFloat = 34.0
     var cardHeight: CGFloat {

@@ -16,12 +16,12 @@ class ImportingPreferences: NSViewController, NSControlTextEditingDelegate, Pref
     
     let toolbarItemIcon = NSImage(named: "import")!
 
-    @IBOutlet weak var dungeonIncludePassives: NSButton!
-    @IBOutlet weak var dungeonAdventure: NSComboBox!
-    @IBOutlet weak var dungeonTemplate: NSTextField!
-    @IBOutlet weak var dungeonTemplatePreview: NSTextField!
-    @IBOutlet weak var duelsTemplate: NSTextField!
-    @IBOutlet weak var duelsTemplatePreview: NSTextField!
+    @IBOutlet var dungeonIncludePassives: NSButton!
+    @IBOutlet var dungeonAdventure: NSComboBox!
+    @IBOutlet var dungeonTemplate: NSTextField!
+    @IBOutlet var dungeonTemplatePreview: NSTextField!
+    @IBOutlet var duelsTemplate: NSTextField!
+    @IBOutlet var duelsTemplatePreview: NSTextField!
 
     override func viewWillAppear() {
         super.viewWillAppear()

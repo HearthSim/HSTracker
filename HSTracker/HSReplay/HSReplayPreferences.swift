@@ -16,24 +16,24 @@ class HSReplayPreferences: NSViewController, PreferencePane {
     
     var toolbarItemIcon = NSImage(named: "hsreplay_icon")!
     
-    @IBOutlet weak var synchronizeMatches: NSButton!
-    @IBOutlet weak var gameTypeSelector: NSView!
-    @IBOutlet weak var uploadRankedGames: NSButton!
-    @IBOutlet weak var uploadCasualGames: NSButton!
-    @IBOutlet weak var uploadArenaGames: NSButton!
-    @IBOutlet weak var uploadBrawlGames: NSButton!
-    @IBOutlet weak var uploadFriendlyGames: NSButton!
-    @IBOutlet weak var uploadAdventureGames: NSButton!
-    @IBOutlet weak var uploadSpectatorGames: NSButton!
-    @IBOutlet weak var uploadBattlegroundsGames: NSButton!
-    @IBOutlet weak var uploadDuelsGames: NSButton!
-    @IBOutlet weak var uploadMercenariesGames: NSButton!
+    @IBOutlet var synchronizeMatches: NSButton!
+    @IBOutlet var gameTypeSelector: NSView!
+    @IBOutlet var uploadRankedGames: NSButton!
+    @IBOutlet var uploadCasualGames: NSButton!
+    @IBOutlet var uploadArenaGames: NSButton!
+    @IBOutlet var uploadBrawlGames: NSButton!
+    @IBOutlet var uploadFriendlyGames: NSButton!
+    @IBOutlet var uploadAdventureGames: NSButton!
+    @IBOutlet var uploadSpectatorGames: NSButton!
+    @IBOutlet var uploadBattlegroundsGames: NSButton!
+    @IBOutlet var uploadDuelsGames: NSButton!
+    @IBOutlet var uploadMercenariesGames: NSButton!
 
-    @IBOutlet weak var claimAccountButton: NSButtonCell!
-    @IBOutlet weak var claimAccountInfo: NSTextField!
-    @IBOutlet weak var disconnectButton: NSButton!
-    @IBOutlet weak var showPushNotification: NSButton!
-    @IBOutlet weak var oAuthAccount: NSButton!
+    @IBOutlet var claimAccountButton: NSButtonCell!
+    @IBOutlet var claimAccountInfo: NSTextField!
+    @IBOutlet var disconnectButton: NSButton!
+    @IBOutlet var showPushNotification: NSButton!
+    @IBOutlet var oAuthAccount: NSButton!
     private var getAccountTimer: Timer?
     private var requests = 0
     private let maxRequests = 10

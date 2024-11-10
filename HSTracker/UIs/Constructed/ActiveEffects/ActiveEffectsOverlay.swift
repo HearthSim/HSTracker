@@ -10,7 +10,7 @@ import Foundation
 
 class ActiveEffectsOverlay: OverWindowController {
     
-    @IBOutlet weak var grid: NSGridView!
+    @IBOutlet var grid: NSGridView!
     
     private(set) var _activeEffects: ActiveEffects!
     private(set) var visibleEffects = [ActiveEffect]()

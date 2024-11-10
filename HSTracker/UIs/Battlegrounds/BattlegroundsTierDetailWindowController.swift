@@ -9,7 +9,7 @@
 import Foundation
 
 class BattlegroundsTierDetailWindowController: OverWindowController {
-    @IBOutlet weak var detailsView: BattlegroundsTierDetailsView?
+    @IBOutlet var detailsView: BattlegroundsTierDetailsView?
     
     override var alwaysLocked: Bool {
         return true

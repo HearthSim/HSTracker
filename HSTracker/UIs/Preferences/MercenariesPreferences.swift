@@ -16,11 +16,11 @@ class MercenariesPreferences: NSViewController, PreferencePane {
     
     var toolbarItemIcon = NSImage(named: "Mode_Mercenaries")!
 
-    @IBOutlet weak var showMercsOpponentHover: NSButton!
-    @IBOutlet weak var showMercsPlayerHover: NSButton!
-    @IBOutlet weak var showMercsTasks: NSButton!
-    @IBOutlet weak var showMercsOpponentAbilities: NSButton!
-    @IBOutlet weak var showMercsPlayerAbilities: NSButton!
+    @IBOutlet var showMercsOpponentHover: NSButton!
+    @IBOutlet var showMercsPlayerHover: NSButton!
+    @IBOutlet var showMercsTasks: NSButton!
+    @IBOutlet var showMercsOpponentAbilities: NSButton!
+    @IBOutlet var showMercsPlayerAbilities: NSButton!
     
     override func viewWillAppear() {
         super.viewWillAppear()

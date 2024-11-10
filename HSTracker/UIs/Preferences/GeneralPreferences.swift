@@ -16,14 +16,14 @@ class GeneralPreferences: NSViewController, PreferencePane {
     
     var toolbarItemIcon = NSImage(named: NSImage.preferencesGeneralName)!
 
-    @IBOutlet weak var notifyGameStart: NSButton!
-    @IBOutlet weak var notifyTurnStart: NSButton!
-    @IBOutlet weak var notifyOpponentConcede: NSButton!
-    @IBOutlet weak var closeTrackerWhenHSCloses: NSButton!
-    @IBOutlet weak var saveReplays: NSButton!
-    @IBOutlet weak var enableDockBadge: NSButton!
-    @IBOutlet weak var preferGoldenCards: NSButton!
-    @IBOutlet weak var useToastNotifications: NSButton!
+    @IBOutlet var notifyGameStart: NSButton!
+    @IBOutlet var notifyTurnStart: NSButton!
+    @IBOutlet var notifyOpponentConcede: NSButton!
+    @IBOutlet var closeTrackerWhenHSCloses: NSButton!
+    @IBOutlet var saveReplays: NSButton!
+    @IBOutlet var enableDockBadge: NSButton!
+    @IBOutlet var preferGoldenCards: NSButton!
+    @IBOutlet var useToastNotifications: NSButton!
 	
     override func viewWillAppear() {
         super.viewWillAppear()

@@ -10,9 +10,9 @@ import Foundation
 
 class BattlegroundsQuestPicking: OverWindowController {
     
-    @IBOutlet weak var scaleView: NSView!
-    @IBOutlet weak var itemsStack: NSStackView!
-    @IBOutlet weak var overlayMessage: OverlayMessage!
+    @IBOutlet var scaleView: NSView!
+    @IBOutlet var itemsStack: NSStackView!
+    @IBOutlet var overlayMessage: OverlayMessage!
     
     let viewModel = BattlegroundsQuestPickingViewModel()
     

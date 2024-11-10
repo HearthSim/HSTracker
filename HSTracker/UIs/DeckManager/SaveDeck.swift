@@ -17,7 +17,7 @@ protocol SaveDeckDelegate: AnyObject {
 
 class SaveDeck: NSWindowController {
 
-    @IBOutlet weak var deckName: NSTextField!
+    @IBOutlet var deckName: NSTextField!
 
     var deck: Deck?
     var cards: [Card]?

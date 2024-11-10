@@ -10,16 +10,16 @@ import Foundation
 
 class BattlegroundsPlacementDistribution: NSView {
     
-    @IBOutlet weak var contentView: NSView!
+    @IBOutlet var contentView: NSView!
     
-    @IBOutlet weak var bar1st: BattlegroundsPlacementDistributionBar!
-    @IBOutlet weak var bar2nd: BattlegroundsPlacementDistributionBar!
-    @IBOutlet weak var bar3rd: BattlegroundsPlacementDistributionBar!
-    @IBOutlet weak var bar4th: BattlegroundsPlacementDistributionBar!
-    @IBOutlet weak var bar5th: BattlegroundsPlacementDistributionBar!
-    @IBOutlet weak var bar6th: BattlegroundsPlacementDistributionBar!
-    @IBOutlet weak var bar7th: BattlegroundsPlacementDistributionBar!
-    @IBOutlet weak var bar8th: BattlegroundsPlacementDistributionBar!
+    @IBOutlet var bar1st: BattlegroundsPlacementDistributionBar!
+    @IBOutlet var bar2nd: BattlegroundsPlacementDistributionBar!
+    @IBOutlet var bar3rd: BattlegroundsPlacementDistributionBar!
+    @IBOutlet var bar4th: BattlegroundsPlacementDistributionBar!
+    @IBOutlet var bar5th: BattlegroundsPlacementDistributionBar!
+    @IBOutlet var bar6th: BattlegroundsPlacementDistributionBar!
+    @IBOutlet var bar7th: BattlegroundsPlacementDistributionBar!
+    @IBOutlet var bar8th: BattlegroundsPlacementDistributionBar!
     
     override init(frame: NSRect) {
         super.init(frame: frame)

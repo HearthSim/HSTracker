@@ -10,18 +10,18 @@ import Foundation
 import CustomToolTip
 
 class BattlegroundsHeroHeader: NSView {
-    @IBOutlet weak var contentView: NSView!
-    @IBOutlet weak var avgPlacementTooltip: NSView!
-    @IBOutlet weak var pickRateTooltip: NSView!
+    @IBOutlet var contentView: NSView!
+    @IBOutlet var avgPlacementTooltip: NSView!
+    @IBOutlet var pickRateTooltip: NSView!
     
-    @IBOutlet weak var avgPlacementTracker: NSView!
-    @IBOutlet weak var avgPlacementLabel: NSTextField!
-    @IBOutlet weak var tierBox: NSBox!
-    @IBOutlet weak var tierLabel: NSTextField!
-    @IBOutlet weak var pickRateTracker: NSView!
-    @IBOutlet weak var pickRateLabel: NSTextField!
+    @IBOutlet var avgPlacementTracker: NSView!
+    @IBOutlet var avgPlacementLabel: NSTextField!
+    @IBOutlet var tierBox: NSBox!
+    @IBOutlet var tierLabel: NSTextField!
+    @IBOutlet var pickRateTracker: NSView!
+    @IBOutlet var pickRateLabel: NSTextField!
     
-    @IBOutlet weak var placementDistribution: BattlegroundsPlacementDistribution!
+    @IBOutlet var placementDistribution: BattlegroundsPlacementDistribution!
     
     var viewModel: BattlegroundsHeroHeaderViewModel? {
         didSet {

@@ -10,21 +10,21 @@ import Foundation
 import CustomToolTip
 
 class BattlegroundsSingleQuestView: NSView {
-    @IBOutlet weak var contentView: NSView!
+    @IBOutlet var contentView: NSView!
     
-    @IBOutlet weak var avgPlacementBox: NSBox!
-    @IBOutlet weak var avgPlacementLabel: NSTextField!
-    @IBOutlet weak var avgPlacementTooltip: NSView!
+    @IBOutlet var avgPlacementBox: NSBox!
+    @IBOutlet var avgPlacementLabel: NSTextField!
+    @IBOutlet var avgPlacementTooltip: NSView!
     
-    @IBOutlet weak var tierBox: NSBox!
-    @IBOutlet weak var tierLabel: NSTextField!
-    @IBOutlet weak var tierTooltip: NSView!
+    @IBOutlet var tierBox: NSBox!
+    @IBOutlet var tierLabel: NSTextField!
+    @IBOutlet var tierTooltip: NSView!
     
-    @IBOutlet weak var pickRateBox: NSBox!
-    @IBOutlet weak var pickRateLabel: NSTextField!
-    @IBOutlet weak var pickRateTooltip: NSView!
+    @IBOutlet var pickRateBox: NSBox!
+    @IBOutlet var pickRateLabel: NSTextField!
+    @IBOutlet var pickRateTooltip: NSView!
     
-    @IBOutlet weak var compositionView: BattlegroundsCompositionPopularity!
+    @IBOutlet var compositionView: BattlegroundsCompositionPopularity!
     
     let viewModel: BattlegroundsSingleQuestViewModel
     

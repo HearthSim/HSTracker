@@ -62,7 +62,7 @@ class CountersView: NSView {
 }
 
 class CountersOverlay: OverWindowController {
-    @IBOutlet weak var countersView: CountersView!
+    @IBOutlet var countersView: CountersView!
     
     private(set) var _counters: CounterManager!
     var isPlayer = false

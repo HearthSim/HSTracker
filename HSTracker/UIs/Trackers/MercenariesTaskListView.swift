@@ -68,14 +68,14 @@ class MercenariesTask: NSView, NibLoadable {
 @IBDesignable
 class MercenariesTaskView: NSView {
     var task: MercenariesTaskViewModel?
-    @IBOutlet weak var titleLabel: NSTextField!
-    @IBOutlet weak var descriptionLabel: NSTextField!
-    @IBOutlet weak var progressTextLabel: NSTextField!
-    @IBOutlet weak var ellipseView: NSView!
+    @IBOutlet var titleLabel: NSTextField!
+    @IBOutlet var descriptionLabel: NSTextField!
+    @IBOutlet var progressTextLabel: NSTextField!
+    @IBOutlet var ellipseView: NSView!
     
-    @IBOutlet weak var progressBar: NSBox!
-    @IBOutlet weak var actualBar: NSBox!
-    @IBOutlet weak var mercenaryImageView: NSImageView!
+    @IBOutlet var progressBar: NSBox!
+    @IBOutlet var actualBar: NSBox!
+    @IBOutlet var mercenaryImageView: NSImageView!
     
     override init(frame: NSRect) {
         super.init(frame: frame)

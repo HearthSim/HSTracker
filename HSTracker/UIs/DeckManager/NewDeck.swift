@@ -18,14 +18,14 @@ protocol NewDeckDelegate: AnyObject {
 
 class NewDeck: NSWindowController, NSControlTextEditingDelegate {
     
-    @IBOutlet weak var hstrackerDeckBuilder: NSButton!
-    @IBOutlet weak var fromAFile: NSButton!
-    @IBOutlet weak var fromDeckString: NSButton!
-    @IBOutlet weak var classesPopUpMenu: NSPopUpButton!
-    @IBOutlet weak var chooseFile: NSButton!
-    @IBOutlet weak var okButton: NSButton!
-    @IBOutlet weak var arenaDeck: NSButton!
-    @IBOutlet weak var loader: NSProgressIndicator!
+    @IBOutlet var hstrackerDeckBuilder: NSButton!
+    @IBOutlet var fromAFile: NSButton!
+    @IBOutlet var fromDeckString: NSButton!
+    @IBOutlet var classesPopUpMenu: NSPopUpButton!
+    @IBOutlet var chooseFile: NSButton!
+    @IBOutlet var okButton: NSButton!
+    @IBOutlet var arenaDeck: NSButton!
+    @IBOutlet var loader: NSProgressIndicator!
 
     weak var delegate: NewDeckDelegate?
     var defaultClass: CardClass?

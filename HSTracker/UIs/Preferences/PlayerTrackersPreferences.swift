@@ -16,34 +16,34 @@ class PlayerTrackersPreferences: NSViewController, PreferencePane {
     
     var toolbarItemIcon = NSImage(named: "player")!
 
-    @IBOutlet weak var showPlayerTracker: NSButton!
-    @IBOutlet weak var showPlayerCardCount: NSButton!
-    @IBOutlet weak var showPlayerDrawChance: NSButton!
-    @IBOutlet weak var showPlayerGet: NSButton!
-    @IBOutlet weak var showCthunCounter: NSButton!
-    @IBOutlet weak var showSpellCounter: NSButton!
-    @IBOutlet weak var showDeathrattleCounter: NSButton!
-    @IBOutlet weak var flashOnDraw: NSButton!
-    @IBOutlet weak var showRecord: NSButton!
-    @IBOutlet weak var inHandColor: NSColorWell!
-    @IBOutlet weak var showBoardDamage: NSButton!
-    @IBOutlet weak var showDeckName: NSButton!
-    @IBOutlet weak var showGraveyard: NSButton!
-    @IBOutlet weak var showGraveyardDetails: NSButton!
-    @IBOutlet weak var showJadeCounter: NSButton!
-    @IBOutlet weak var showGalakrondInvokeCounter: NSButton!
-    @IBOutlet weak var showLibramCounter: NSButton!
-    @IBOutlet weak var showAbyssalCounter: NSButton!
-    @IBOutlet weak var showExcavateTier: NSButton!
-    @IBOutlet weak var showTopCards: NSButton!
-    @IBOutlet weak var showBottomCards: NSButton!
-    @IBOutlet weak var showPlayerSideboards: NSButton!
-    @IBOutlet weak var showPogoCounter: NSButton!
-    @IBOutlet weak var showSpellSchoolsCounter: NSButton!
-    @IBOutlet weak var showActiveEffects: NSButton!
-    @IBOutlet weak var showWotogCounters: NSButton!
-    @IBOutlet weak var showCounters: NSButton!
-    @IBOutlet weak var showPlayerRelatedCards: NSButton!
+    @IBOutlet var showPlayerTracker: NSButton!
+    @IBOutlet var showPlayerCardCount: NSButton!
+    @IBOutlet var showPlayerDrawChance: NSButton!
+    @IBOutlet var showPlayerGet: NSButton!
+    @IBOutlet var showCthunCounter: NSButton!
+    @IBOutlet var showSpellCounter: NSButton!
+    @IBOutlet var showDeathrattleCounter: NSButton!
+    @IBOutlet var flashOnDraw: NSButton!
+    @IBOutlet var showRecord: NSButton!
+    @IBOutlet var inHandColor: NSColorWell!
+    @IBOutlet var showBoardDamage: NSButton!
+    @IBOutlet var showDeckName: NSButton!
+    @IBOutlet var showGraveyard: NSButton!
+    @IBOutlet var showGraveyardDetails: NSButton!
+    @IBOutlet var showJadeCounter: NSButton!
+    @IBOutlet var showGalakrondInvokeCounter: NSButton!
+    @IBOutlet var showLibramCounter: NSButton!
+    @IBOutlet var showAbyssalCounter: NSButton!
+    @IBOutlet var showExcavateTier: NSButton!
+    @IBOutlet var showTopCards: NSButton!
+    @IBOutlet var showBottomCards: NSButton!
+    @IBOutlet var showPlayerSideboards: NSButton!
+    @IBOutlet var showPogoCounter: NSButton!
+    @IBOutlet var showSpellSchoolsCounter: NSButton!
+    @IBOutlet var showActiveEffects: NSButton!
+    @IBOutlet var showWotogCounters: NSButton!
+    @IBOutlet var showCounters: NSButton!
+    @IBOutlet var showPlayerRelatedCards: NSButton!
 
     override func viewWillAppear() {
         super.viewWillAppear()

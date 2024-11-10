@@ -10,8 +10,8 @@ import Cocoa
 
 class GridCardImageItem: NSCollectionViewItem {
     
-    @IBOutlet weak var leftConstraint: NSLayoutConstraint!
-    @IBOutlet weak var rightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var topConstraint: NSLayoutConstraint!
-    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!    
+    @IBOutlet var leftConstraint: NSLayoutConstraint!
+    @IBOutlet var rightConstraint: NSLayoutConstraint!
+    @IBOutlet var topConstraint: NSLayoutConstraint!
+    @IBOutlet var bottomConstraint: NSLayoutConstraint!    
 }

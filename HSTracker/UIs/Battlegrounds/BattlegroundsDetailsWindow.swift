@@ -10,28 +10,28 @@ import Foundation
 import TextAttributes
 
 class BattlegroundsDetailsWindow: OverWindowController {
-    @IBOutlet weak var boardAge: NSTextField!
-    @IBOutlet weak var notFought: NSTextField!
-    @IBOutlet weak var emptyBoard: NSTextField!
+    @IBOutlet var boardAge: NSTextField!
+    @IBOutlet var notFought: NSTextField!
+    @IBOutlet var emptyBoard: NSTextField!
     
-    @IBOutlet weak var minion1: BattlegroundsMinionView!
-    @IBOutlet weak var minion2: BattlegroundsMinionView!
-    @IBOutlet weak var minion3: BattlegroundsMinionView!
-    @IBOutlet weak var minion4: BattlegroundsMinionView!
-    @IBOutlet weak var minion5: BattlegroundsMinionView!
-    @IBOutlet weak var minion6: BattlegroundsMinionView!
-    @IBOutlet weak var minion7: BattlegroundsMinionView!
+    @IBOutlet var minion1: BattlegroundsMinionView!
+    @IBOutlet var minion2: BattlegroundsMinionView!
+    @IBOutlet var minion3: BattlegroundsMinionView!
+    @IBOutlet var minion4: BattlegroundsMinionView!
+    @IBOutlet var minion5: BattlegroundsMinionView!
+    @IBOutlet var minion6: BattlegroundsMinionView!
+    @IBOutlet var minion7: BattlegroundsMinionView!
 
-    @IBOutlet weak var tier1: BattlegroundsTierTriples!
-    @IBOutlet weak var tier2: BattlegroundsTierTriples!
-    @IBOutlet weak var tier3: BattlegroundsTierTriples!
-    @IBOutlet weak var tier4: BattlegroundsTierTriples!
-    @IBOutlet weak var tier5: BattlegroundsTierTriples!
-    @IBOutlet weak var tier6: BattlegroundsTierTriples!
+    @IBOutlet var tier1: BattlegroundsTierTriples!
+    @IBOutlet var tier2: BattlegroundsTierTriples!
+    @IBOutlet var tier3: BattlegroundsTierTriples!
+    @IBOutlet var tier4: BattlegroundsTierTriples!
+    @IBOutlet var tier5: BattlegroundsTierTriples!
+    @IBOutlet var tier6: BattlegroundsTierTriples!
     
-    @IBOutlet weak var questView: NSBox!
-    @IBOutlet weak var quest1: BattlegroundsQuestView!
-    @IBOutlet weak var quest2: BattlegroundsQuestView!
+    @IBOutlet var questView: NSBox!
+    @IBOutlet var quest1: BattlegroundsQuestView!
+    @IBOutlet var quest2: BattlegroundsQuestView!
     
     var snapshot: BoardSnapshot?
     

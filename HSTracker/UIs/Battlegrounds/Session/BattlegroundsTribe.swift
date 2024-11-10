@@ -10,11 +10,11 @@ import Foundation
 
 class BattlegroundsTribe: NSView {
     
-    @IBOutlet weak var contentView: NSView!
-    @IBOutlet weak var tribeImage: NSImageView!
-    @IBOutlet weak var tribeLabel: NSTextField!
-    @IBOutlet weak var tribesX: NSImageView!
-    @IBOutlet weak var tribeBox: NSBox!
+    @IBOutlet var contentView: NSView!
+    @IBOutlet var tribeImage: NSImageView!
+    @IBOutlet var tribeLabel: NSTextField!
+    @IBOutlet var tribesX: NSImageView!
+    @IBOutlet var tribeBox: NSBox!
     
     private var race = Race.invalid
     

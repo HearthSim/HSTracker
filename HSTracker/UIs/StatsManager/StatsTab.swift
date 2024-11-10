@@ -10,9 +10,9 @@ import Cocoa
 
 class StatsTab: NSViewController {
 
-    @IBOutlet weak var modePicker: NSPopUpButton!
-    @IBOutlet weak var statsTable: NSTableView!
-    @IBOutlet weak var seasonPicker: NSPopUpButton!
+    @IBOutlet var modePicker: NSPopUpButton!
+    @IBOutlet var statsTable: NSTableView!
+    @IBOutlet var seasonPicker: NSPopUpButton!
     
     var deck: Deck? 
     

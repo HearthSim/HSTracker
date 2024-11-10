@@ -10,16 +10,16 @@ import Foundation
 import CoreImage
 
 class BattlegroundsCompositionPopularityRow: NSView {
-    @IBOutlet weak var contentView: NSView!
+    @IBOutlet var contentView: NSView!
     
-    @IBOutlet weak var cardImage: NSImageView!
-    @IBOutlet weak var tribeXImage: NSImageView!
+    @IBOutlet var cardImage: NSImageView!
+    @IBOutlet var tribeXImage: NSImageView!
     
-    @IBOutlet weak var nameLabel: NSTextField!
+    @IBOutlet var nameLabel: NSTextField!
     
-    @IBOutlet weak var popularityBar: BattlegroundsCompositionPopularityBar!
+    @IBOutlet var popularityBar: BattlegroundsCompositionPopularityBar!
     
-    @IBOutlet weak var popularityLabel: NSTextField!
+    @IBOutlet var popularityLabel: NSTextField!
     
     let viewModel: BattlegroundsCompositionPopularityRowViewModel
     

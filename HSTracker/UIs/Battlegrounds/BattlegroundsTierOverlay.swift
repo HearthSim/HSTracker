@@ -10,7 +10,7 @@ import Foundation
 
 class BattlegroundsTierOverlay: OverWindowController {
     
-    @IBOutlet weak var tierOverlay: BattlegroundsTierOverlayView!
+    @IBOutlet var tierOverlay: BattlegroundsTierOverlayView!
     
     override var alwaysLocked: Bool {
         return true

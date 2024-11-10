@@ -9,10 +9,10 @@
 import Foundation
 
 class BattlegroundsCompositionPopularityBar: NSView {
-    @IBOutlet weak var contentView: NSView!
+    @IBOutlet var contentView: NSView!
     
-    @IBOutlet weak var widthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var barRect: NSBox!
+    @IBOutlet var widthConstraint: NSLayoutConstraint!
+    @IBOutlet var barRect: NSBox!
     
     var borderColor: NSColor {
         return highlight ? NSColor.fromHexString(hex: "#66FFFFFF")! : NSColor.fromHexString(hex: "#28FFFFFF")!

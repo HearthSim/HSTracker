@@ -11,12 +11,12 @@ import AppKit
 
 class DeckCellView: NSTableCellView {
 
-    @IBOutlet weak var image: NSImageView!
-    @IBOutlet weak var arenaImage: NSImageView!
-    @IBOutlet weak var label: NSTextField!
-    @IBOutlet weak var detailTextLabel: NSTextField!
-    @IBOutlet weak var wildImage: NSImageView!
-    @IBOutlet weak var useButton: NSButton!
+    @IBOutlet var image: NSImageView!
+    @IBOutlet var arenaImage: NSImageView!
+    @IBOutlet var label: NSTextField!
+    @IBOutlet var detailTextLabel: NSTextField!
+    @IBOutlet var wildImage: NSImageView!
+    @IBOutlet var useButton: NSButton!
     var selected = true
     var row = -1
 

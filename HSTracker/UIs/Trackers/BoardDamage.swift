@@ -11,7 +11,7 @@ import TextAttributes
 
 class BoardDamage: OverWindowController {
     
-    @IBOutlet weak var damage: NSTextField!
+    @IBOutlet var damage: NSTextField!
     let attributes = TextAttributes()
     var player: PlayerType?
     

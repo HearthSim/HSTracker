@@ -30,7 +30,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
     var splashscreen: Splashscreen?
     var initalConfig: InitialConfiguration?
     var deckManager: DeckManager?
-    @IBOutlet weak var sparkleUpdater: SPUStandardUpdaterController!
+    @IBOutlet var sparkleUpdater: SPUStandardUpdaterController!
     var operationQueue: OperationQueue!
     
     var dockMenu = NSMenu(title: "DockMenu")

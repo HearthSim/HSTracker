@@ -10,25 +10,25 @@ import Foundation
 
 class WindowMove: NSWindowController {
 
-    @IBOutlet weak var windowChooser: NSComboBox!
-    @IBOutlet weak var _up: NSButton!
-    @IBOutlet weak var _down: NSButton!
-    @IBOutlet weak var _left: NSButton!
-    @IBOutlet weak var _right: NSButton!
-    @IBOutlet weak var _fup: NSButton!
-    @IBOutlet weak var _fdown: NSButton!
-    @IBOutlet weak var _ffup: NSButton!
-    @IBOutlet weak var _ffdown: NSButton!
-    @IBOutlet weak var _fleft: NSButton!
-    @IBOutlet weak var _fright: NSButton!
-    @IBOutlet weak var _show: NSButton!
-    @IBOutlet weak var _hide: NSButton!
+    @IBOutlet var windowChooser: NSComboBox!
+    @IBOutlet var _up: NSButton!
+    @IBOutlet var _down: NSButton!
+    @IBOutlet var _left: NSButton!
+    @IBOutlet var _right: NSButton!
+    @IBOutlet var _fup: NSButton!
+    @IBOutlet var _fdown: NSButton!
+    @IBOutlet var _ffup: NSButton!
+    @IBOutlet var _ffdown: NSButton!
+    @IBOutlet var _fleft: NSButton!
+    @IBOutlet var _fright: NSButton!
+    @IBOutlet var _show: NSButton!
+    @IBOutlet var _hide: NSButton!
     @IBOutlet var textbox: NSTextView!
-    @IBOutlet weak var screenshot: NSImageView!
-    @IBOutlet weak var screenX: NSTextField!
-    @IBOutlet weak var screenY: NSTextField!
-    @IBOutlet weak var screenWidth: NSTextField!
-    @IBOutlet weak var screenHeight: NSTextField!
+    @IBOutlet var screenshot: NSImageView!
+    @IBOutlet var screenX: NSTextField!
+    @IBOutlet var screenY: NSTextField!
+    @IBOutlet var screenWidth: NSTextField!
+    @IBOutlet var screenHeight: NSTextField!
 	
 	private weak var windowManager: WindowManager!
     override var windowNibName: NSNib.Name? {

@@ -9,11 +9,11 @@
 import Foundation
 
 class ConstructedMulliganSingleDeckStatus: NSView {
-    @IBOutlet weak var contentView: NSView!
+    @IBOutlet var contentView: NSView!
     
-    @IBOutlet weak var padding: NSLayoutConstraint!
+    @IBOutlet var padding: NSLayoutConstraint!
     
-    @IBOutlet weak var box: NSBox!
+    @IBOutlet var box: NSBox!
             
     let status: SingleDeckStatus
     

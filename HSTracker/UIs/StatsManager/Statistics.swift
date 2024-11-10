@@ -10,10 +10,10 @@ import Cocoa
 import RealmSwift
 
 class Statistics: NSWindowController {
-    @IBOutlet weak var selectedDeckIcon: NSImageView!
-    @IBOutlet weak var selectedDeckName: NSTextField!
+    @IBOutlet var selectedDeckIcon: NSImageView!
+    @IBOutlet var selectedDeckName: NSTextField!
     
-    @IBOutlet weak var tabs: NSTabView!
+    @IBOutlet var tabs: NSTabView!
     
     var deck: Deck?
     var statsTab: StatsTab?

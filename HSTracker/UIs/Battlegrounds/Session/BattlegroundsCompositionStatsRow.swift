@@ -11,10 +11,10 @@ import Foundation
 class BattlegroundsCompositionStatsRow: NSView {
     @IBOutlet var contentView: NSView!
     
-    @IBOutlet weak var cardImage: NSImageView!
-    @IBOutlet weak var nameLabel: NSTextField!
-    @IBOutlet weak var statsBar: BattlegroundsCompositionStatsBar!
-    @IBOutlet weak var avgPlacemetLabel: NSTextField!
+    @IBOutlet var cardImage: NSImageView!
+    @IBOutlet var nameLabel: NSTextField!
+    @IBOutlet var statsBar: BattlegroundsCompositionStatsBar!
+    @IBOutlet var avgPlacemetLabel: NSTextField!
     
     let viewModel: BattlegroundsCompositionStatsRowViewModel
     

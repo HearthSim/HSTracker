@@ -9,8 +9,8 @@
 import Foundation
 
 class ConstructedMulliganOverlayMessage: NSView {
-    @IBOutlet weak var contentView: NSView!
-    @IBOutlet weak var messageField: NSTextField!
+    @IBOutlet var contentView: NSView!
+    @IBOutlet var messageField: NSTextField!
     
     var viewModel: ConstructedMulliganOverlayMessageViewModel? {
         didSet {

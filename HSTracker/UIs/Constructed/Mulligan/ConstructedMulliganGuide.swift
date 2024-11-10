@@ -9,11 +9,11 @@
 import Foundation
 
 class ConstructedMulliganGuide: OverWindowController {
-    @IBOutlet weak var itemsStack: NSStackView!
-    @IBOutlet weak var outerView: NSView!
-    @IBOutlet weak var scaleView: NSView!
-    @IBOutlet weak var visibilityToggleBox: ClickableBox!
-    @IBOutlet weak var overlayMessage: ConstructedMulliganOverlayMessage!
+    @IBOutlet var itemsStack: NSStackView!
+    @IBOutlet var outerView: NSView!
+    @IBOutlet var scaleView: NSView!
+    @IBOutlet var visibilityToggleBox: ClickableBox!
+    @IBOutlet var overlayMessage: ConstructedMulliganOverlayMessage!
     
     let viewModel = ConstructedMulliganGuideViewModel()
     

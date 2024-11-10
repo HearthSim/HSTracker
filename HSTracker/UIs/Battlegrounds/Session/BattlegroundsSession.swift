@@ -9,32 +9,32 @@
 import Foundation
 
 class BattlegroundsSession: OverWindowController {
-    @IBOutlet weak var outerBox: NSBox!
+    @IBOutlet var outerBox: NSBox!
     
-    @IBOutlet weak var tribesSection: NSStackView!
-    @IBOutlet weak var tribe1: BattlegroundsTribe!
-    @IBOutlet weak var tribe2: BattlegroundsTribe!
-    @IBOutlet weak var tribe3: BattlegroundsTribe!
-    @IBOutlet weak var tribe4: BattlegroundsTribe!
-    @IBOutlet weak var tribe5: BattlegroundsTribe!
-    @IBOutlet weak var waitingForNext: NSTextField!
+    @IBOutlet var tribesSection: NSStackView!
+    @IBOutlet var tribe1: BattlegroundsTribe!
+    @IBOutlet var tribe2: BattlegroundsTribe!
+    @IBOutlet var tribe3: BattlegroundsTribe!
+    @IBOutlet var tribe4: BattlegroundsTribe!
+    @IBOutlet var tribe5: BattlegroundsTribe!
+    @IBOutlet var waitingForNext: NSTextField!
     
-    @IBOutlet weak var mmrSection: NSStackView!
-    @IBOutlet weak var mmrLabelA: NSTextField!
-    @IBOutlet weak var mmrFieldA: NSTextField!
-    @IBOutlet weak var mmrLabelB: NSTextField!
-    @IBOutlet weak var mmrFieldB: NSTextField!
+    @IBOutlet var mmrSection: NSStackView!
+    @IBOutlet var mmrLabelA: NSTextField!
+    @IBOutlet var mmrFieldA: NSTextField!
+    @IBOutlet var mmrLabelB: NSTextField!
+    @IBOutlet var mmrFieldB: NSTextField!
     
-    @IBOutlet weak var latestGamesSection: NSStackView!
-    @IBOutlet weak var noGamesSection: NSView!
-    @IBOutlet weak var lastGames: NSStackView!
+    @IBOutlet var latestGamesSection: NSStackView!
+    @IBOutlet var noGamesSection: NSView!
+    @IBOutlet var lastGames: NSStackView!
     
-    @IBOutlet weak var compositions: NSStackView!
-    @IBOutlet weak var compositionsItems: NSStackView!
-    @IBOutlet weak var compositionsWaiting: NSTextField!
-    @IBOutlet weak var compositionsError: NSTextField!
+    @IBOutlet var compositions: NSStackView!
+    @IBOutlet var compositionsItems: NSStackView!
+    @IBOutlet var compositionsWaiting: NSTextField!
+    @IBOutlet var compositionsError: NSTextField!
     
-    @IBOutlet weak var sessionPanel: NSStackView!
+    @IBOutlet var sessionPanel: NSStackView!
     
     private var sessionGames = [BattlegroundsLastGames.GameItem]()
     

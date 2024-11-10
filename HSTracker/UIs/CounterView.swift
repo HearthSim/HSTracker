@@ -9,11 +9,11 @@
 import Foundation
 
 class CounterView: NSView {
-    @IBOutlet weak var contentView: NSView!
+    @IBOutlet var contentView: NSView!
     
-    @IBOutlet weak var text: NSTextField!
-    @IBOutlet weak var image: NSImageView!
-    @IBOutlet weak var circleView: NSView!
+    @IBOutlet var text: NSTextField!
+    @IBOutlet var image: NSImageView!
+    @IBOutlet var circleView: NSView!
     
     let counter: BaseCounter
     

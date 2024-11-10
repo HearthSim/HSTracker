@@ -16,34 +16,34 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
     
     var toolbarItemIcon = NSImage(named: "Mode_Battlegrounds_Dark")!
 
-    @IBOutlet weak var enableTier7Overlay: NSButton!
-    @IBOutlet weak var showTier7PreLobby: NSButton!
-    @IBOutlet weak var showHeroPicking: NSButton!
-    @IBOutlet weak var showQuestPicking: NSButton!
-    @IBOutlet weak var showBobsBuddy: NSButton!
-    @IBOutlet weak var showBobsBuddyDuringCombat: NSButton!
-    @IBOutlet weak var showBobsBuddyDuringShopping: NSButton!
-    @IBOutlet weak var showTurnCounter: NSButton!
-    @IBOutlet weak var showAverageDamage: NSButton!
-    @IBOutlet weak var showOpponentWarband: NSButton!
-    @IBOutlet weak var showTiers: NSButton!
-    @IBOutlet weak var showBDonTiers: NSButton!
-    @IBOutlet weak var showTavernSpells: NSButton!
-    @IBOutlet weak var showTavernTriples: NSButton!
-    @IBOutlet weak var showHeroToast: NSButton!
-    @IBOutlet weak var showSessionRecap: NSButton!
-    @IBOutlet weak var showMinionTypes: NSButton!
-    @IBOutlet weak var showAvailable: NSButton!
-    @IBOutlet weak var showBanned: NSButton!
-    @IBOutlet weak var showMMR: NSButton!
-    @IBOutlet weak var showMMRStartCurrent: NSButton!
-    @IBOutlet weak var showMMRCurrentChange: NSButton!
-    @IBOutlet weak var showLatestGames: NSButton!
-    @IBOutlet weak var scalingSlider: NSSlider!
-    @IBOutlet weak var scalingValue: NSTextField!
-    @IBOutlet weak var showBattlegroundsCompStats: NSButton!
-    @IBOutlet weak var alwaysShowTavernTier7: NSButton!
-    @IBOutlet weak var autoShowBattlegroundsTrinketPicking: NSButton!
+    @IBOutlet var enableTier7Overlay: NSButton!
+    @IBOutlet var showTier7PreLobby: NSButton!
+    @IBOutlet var showHeroPicking: NSButton!
+    @IBOutlet var showQuestPicking: NSButton!
+    @IBOutlet var showBobsBuddy: NSButton!
+    @IBOutlet var showBobsBuddyDuringCombat: NSButton!
+    @IBOutlet var showBobsBuddyDuringShopping: NSButton!
+    @IBOutlet var showTurnCounter: NSButton!
+    @IBOutlet var showAverageDamage: NSButton!
+    @IBOutlet var showOpponentWarband: NSButton!
+    @IBOutlet var showTiers: NSButton!
+    @IBOutlet var showBDonTiers: NSButton!
+    @IBOutlet var showTavernSpells: NSButton!
+    @IBOutlet var showTavernTriples: NSButton!
+    @IBOutlet var showHeroToast: NSButton!
+    @IBOutlet var showSessionRecap: NSButton!
+    @IBOutlet var showMinionTypes: NSButton!
+    @IBOutlet var showAvailable: NSButton!
+    @IBOutlet var showBanned: NSButton!
+    @IBOutlet var showMMR: NSButton!
+    @IBOutlet var showMMRStartCurrent: NSButton!
+    @IBOutlet var showMMRCurrentChange: NSButton!
+    @IBOutlet var showLatestGames: NSButton!
+    @IBOutlet var scalingSlider: NSSlider!
+    @IBOutlet var scalingValue: NSTextField!
+    @IBOutlet var showBattlegroundsCompStats: NSButton!
+    @IBOutlet var alwaysShowTavernTier7: NSButton!
+    @IBOutlet var autoShowBattlegroundsTrinketPicking: NSButton!
     
     override func viewWillAppear() {
         super.viewWillAppear()

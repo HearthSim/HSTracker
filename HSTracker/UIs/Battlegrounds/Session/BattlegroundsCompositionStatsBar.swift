@@ -9,11 +9,11 @@
 import Foundation
 
 class BattlegroundsCompositionStatsBar: NSView {
-    @IBOutlet weak var contentView: NSView!
+    @IBOutlet var contentView: NSView!
     
-    @IBOutlet weak var widthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var progressBar: NSBox!
-    @IBOutlet weak var percentageText: NSTextField!
+    @IBOutlet var widthConstraint: NSLayoutConstraint!
+    @IBOutlet var progressBar: NSBox!
+    @IBOutlet var percentageText: NSTextField!
     
     override var intrinsicContentSize: NSSize {
         return NSSize(width: 70, height: 22)

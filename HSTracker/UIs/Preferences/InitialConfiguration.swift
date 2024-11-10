@@ -13,12 +13,12 @@ import Cocoa
 class InitialConfiguration: NSWindowController, NSComboBoxDataSource,
 NSComboBoxDelegate, NSOpenSavePanelDelegate {
 
-    @IBOutlet weak var hstrackerLanguage: NSComboBox!
-    @IBOutlet weak var hearthstoneLanguage: NSComboBox!
+    @IBOutlet var hstrackerLanguage: NSComboBox!
+    @IBOutlet var hearthstoneLanguage: NSComboBox!
     @IBOutlet var saveButton: NSButton!
     @IBOutlet var hearthstonePath: NSTextField!
-    @IBOutlet weak var choosePath: NSButton!
-    @IBOutlet weak var checkImage: NSImageView!
+    @IBOutlet var choosePath: NSButton!
+    @IBOutlet var checkImage: NSImageView!
 
     var completionHandler: (() -> Void)?
 

@@ -16,28 +16,28 @@ class TrackersPreferences: NSViewController, PreferencePane {
     
     var toolbarItemIcon = NSImage(named: "gear")!
 
-    @IBOutlet weak var highlightCardsInHand: NSButton!
-    @IBOutlet weak var highlightLastDrawn: NSButton!
-    @IBOutlet weak var removeCards: NSButton!
-    @IBOutlet weak var highlightDiscarded: NSButton!
-    @IBOutlet weak var opacity: NSSlider!
-    @IBOutlet weak var cardSize: NSComboBox!
-    @IBOutlet weak var showTimer: NSButton!
-    @IBOutlet weak var autoPositionTrackers: NSButton!
-    @IBOutlet weak var showSecretHelper: NSButton!
-    @IBOutlet weak var showRarityColors: NSButton!
-    @IBOutlet weak var showFloatingCard: NSButton!
-    @IBOutlet weak var theme: NSComboBox!
-    @IBOutlet weak var allowFullscreen: NSButton!
-    @IBOutlet weak var hideAllWhenNotInGame: NSButton!
-    @IBOutlet weak var hideAllWhenGameInBackground: NSButton!
-    @IBOutlet weak var disableTrackingInSpectatorMode: NSButton!
-    @IBOutlet weak var showExperienceCounter: NSButton!
-    @IBOutlet weak var showMulliganToast: NSButton!
-    @IBOutlet weak var showFlavorText: NSButton!
-    @IBOutlet weak var enableMulliganGuide: NSButton!
-    @IBOutlet weak var showMulliganGuidePreLobby: NSButton!
-    @IBOutlet weak var autoShowMulliganGuide: NSButton!
+    @IBOutlet var highlightCardsInHand: NSButton!
+    @IBOutlet var highlightLastDrawn: NSButton!
+    @IBOutlet var removeCards: NSButton!
+    @IBOutlet var highlightDiscarded: NSButton!
+    @IBOutlet var opacity: NSSlider!
+    @IBOutlet var cardSize: NSComboBox!
+    @IBOutlet var showTimer: NSButton!
+    @IBOutlet var autoPositionTrackers: NSButton!
+    @IBOutlet var showSecretHelper: NSButton!
+    @IBOutlet var showRarityColors: NSButton!
+    @IBOutlet var showFloatingCard: NSButton!
+    @IBOutlet var theme: NSComboBox!
+    @IBOutlet var allowFullscreen: NSButton!
+    @IBOutlet var hideAllWhenNotInGame: NSButton!
+    @IBOutlet var hideAllWhenGameInBackground: NSButton!
+    @IBOutlet var disableTrackingInSpectatorMode: NSButton!
+    @IBOutlet var showExperienceCounter: NSButton!
+    @IBOutlet var showMulliganToast: NSButton!
+    @IBOutlet var showFlavorText: NSButton!
+    @IBOutlet var enableMulliganGuide: NSButton!
+    @IBOutlet var showMulliganGuidePreLobby: NSButton!
+    @IBOutlet var autoShowMulliganGuide: NSButton!
     
     let themes = ["classic", "frost", "dark", "minimal"]
 

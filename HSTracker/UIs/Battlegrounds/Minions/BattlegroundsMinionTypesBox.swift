@@ -9,7 +9,7 @@
 import Foundation
 
 class BattlegroundsMinionTypesBox: NSView {
-    @IBOutlet weak var contentView: NSView!
+    @IBOutlet var contentView: NSView!
     
     override var intrinsicContentSize: NSSize {
         return NSSize(width: SizeHelper.trackerWidth, height: 72.0)

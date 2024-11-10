@@ -16,13 +16,13 @@ class GamePreferences: NSViewController, PreferencePane {
     
     var toolbarItemIcon = NSImage(named: "game")!
 
-    @IBOutlet weak var hearthstonePath: NSTextField!
-    @IBOutlet weak var chooseHearthstonePath: NSButton!
-    @IBOutlet weak var hstrackerLanguage: NSComboBox!
-    @IBOutlet weak var hearthstoneLanguage: NSComboBox!
-    @IBOutlet weak var checkImage: NSImageView!
-    @IBOutlet weak var autoArchiveArenaDeck: NSButton!
-    @IBOutlet weak var autoSelectDecks: NSButton!
+    @IBOutlet var hearthstonePath: NSTextField!
+    @IBOutlet var chooseHearthstonePath: NSButton!
+    @IBOutlet var hstrackerLanguage: NSComboBox!
+    @IBOutlet var hearthstoneLanguage: NSComboBox!
+    @IBOutlet var checkImage: NSImageView!
+    @IBOutlet var autoArchiveArenaDeck: NSButton!
+    @IBOutlet var autoSelectDecks: NSButton!
 
     override func viewWillAppear() {
         super.viewWillAppear()

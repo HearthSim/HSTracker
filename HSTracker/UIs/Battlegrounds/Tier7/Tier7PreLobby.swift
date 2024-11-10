@@ -11,22 +11,22 @@ import Preferences
 
 class Tier7PreLobby: OverWindowController {
     
-    @IBOutlet weak var anonymousHover: NSBox!
-    @IBOutlet weak var loading: NSStackView!
-    @IBOutlet weak var anonymous: NSStackView!
-    @IBOutlet weak var authenticated: NSStackView!
-    @IBOutlet weak var subscribed: NSStackView!
-    @IBOutlet weak var disabled: NSView!
-    @IBOutlet weak var welcomeLabel: NSTextField!
-    @IBOutlet weak var trialsRemainingLabel: NSTextField!
-    @IBOutlet weak var trialTimeRemainingLabel: NSTextField!
-    @IBOutlet weak var refreshAccount: NSStackView!
-    @IBOutlet weak var refreshButton: NSButton!
-    @IBOutlet weak var subscribedView: NSStackView!
-    @IBOutlet weak var signInButton: NSButton!
-    @IBOutlet weak var allTimeHighMMR: NSTextField!
+    @IBOutlet var anonymousHover: NSBox!
+    @IBOutlet var loading: NSStackView!
+    @IBOutlet var anonymous: NSStackView!
+    @IBOutlet var authenticated: NSStackView!
+    @IBOutlet var subscribed: NSStackView!
+    @IBOutlet var disabled: NSView!
+    @IBOutlet var welcomeLabel: NSTextField!
+    @IBOutlet var trialsRemainingLabel: NSTextField!
+    @IBOutlet var trialTimeRemainingLabel: NSTextField!
+    @IBOutlet var refreshAccount: NSStackView!
+    @IBOutlet var refreshButton: NSButton!
+    @IBOutlet var subscribedView: NSStackView!
+    @IBOutlet var signInButton: NSButton!
+    @IBOutlet var allTimeHighMMR: NSTextField!
     
-    @IBOutlet weak var informationLabel: NSTextField!
+    @IBOutlet var informationLabel: NSTextField!
     
     var isVisible = false
     

@@ -29,18 +29,18 @@ class DeckTable: NSTableView {
 
 class DeckManager: NSWindowController {
 
-    @IBOutlet weak var decksTable: NSTableView!
-    @IBOutlet weak var deckListTable: NSTableView!
-    @IBOutlet weak var curveView: CurveView!
-    @IBOutlet weak var statsLabel: NSTextField!
-    @IBOutlet weak var progressView: NSView!
-    @IBOutlet weak var progressIndicator: NSProgressIndicator!
-    @IBOutlet weak var archiveToolBarItem: NSToolbarItem!
-    @IBOutlet weak var sortPopUp: NSPopUpButton!
-    @IBOutlet weak var deckTypePopup: NSPopUpButton!
+    @IBOutlet var decksTable: NSTableView!
+    @IBOutlet var deckListTable: NSTableView!
+    @IBOutlet var curveView: CurveView!
+    @IBOutlet var statsLabel: NSTextField!
+    @IBOutlet var progressView: NSView!
+    @IBOutlet var progressIndicator: NSProgressIndicator!
+    @IBOutlet var archiveToolBarItem: NSToolbarItem!
+    @IBOutlet var sortPopUp: NSPopUpButton!
+    @IBOutlet var deckTypePopup: NSPopUpButton!
 
-    @IBOutlet weak var classesPopup: NSPopUpButton!
-    @IBOutlet weak var toolbar: NSToolbar!
+    @IBOutlet var classesPopup: NSPopUpButton!
+    @IBOutlet var toolbar: NSToolbar!
 
     var editDeck: EditDeck?
     var newDeck: NewDeck?

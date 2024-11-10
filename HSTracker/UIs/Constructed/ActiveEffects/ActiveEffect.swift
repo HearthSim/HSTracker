@@ -10,10 +10,10 @@ import Foundation
 
 class ActiveEffect: NSView {
     
-    @IBOutlet weak var contentView: NSView!
+    @IBOutlet var contentView: NSView!
     
-    @IBOutlet weak var outerBorder: NSBox!
-    @IBOutlet weak var innerBorder: NSBox!
+    @IBOutlet var outerBorder: NSBox!
+    @IBOutlet var innerBorder: NSBox!
     
     let effect: EntityBasedEffect
     @objc dynamic var count: NSNumber?

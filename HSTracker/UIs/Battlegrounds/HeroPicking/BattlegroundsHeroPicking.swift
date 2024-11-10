@@ -10,10 +10,10 @@ import Foundation
 
 @objc class BattlegroundsHeroPicking: OverWindowController {
     
-    @IBOutlet weak var itemsStack: NSStackView!
-    @IBOutlet weak var overlayMessage: OverlayMessage!
-    @IBOutlet weak var outerView: NSView!
-    @IBOutlet weak var scaleView: NSView!
+    @IBOutlet var itemsStack: NSStackView!
+    @IBOutlet var overlayMessage: OverlayMessage!
+    @IBOutlet var outerView: NSView!
+    @IBOutlet var scaleView: NSView!
     
     let viewModel = BattlegroundsHeroPickingViewModel()
     

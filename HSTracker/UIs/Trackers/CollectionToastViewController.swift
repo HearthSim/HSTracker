@@ -15,7 +15,7 @@ class CollectionToastViewController: NSViewController {
     var loading = false
     private let attributes = TextAttributes()
 
-    @IBOutlet weak var frameView: FrameView!
+    @IBOutlet var frameView: FrameView!
     @IBOutlet weak private var textField: NSTextField!
     @IBOutlet weak private var progress: NSProgressIndicator!
     

@@ -15,7 +15,7 @@ class CardHudContainer: OverWindowController {
     var huds: [CardHud] = []
     var drawDisallowList = [Int]()
     
-    @IBOutlet weak var container: NSView!
+    @IBOutlet var container: NSView!
     
     override func windowDidLoad() {
         super.windowDidLoad()

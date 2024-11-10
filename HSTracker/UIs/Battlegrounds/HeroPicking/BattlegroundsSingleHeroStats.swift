@@ -9,13 +9,13 @@
 import Foundation
 
 class BattlegroundsSingleHeroStats: NSView {
-    @IBOutlet weak var contentView: NSView!
+    @IBOutlet var contentView: NSView!
     
-    @IBOutlet weak var battlegroundsHeroHeader: BattlegroundsHeroHeader!
-    @IBOutlet weak var heroPortraitContainer: NSView!
-    @IBOutlet weak var compositions: BattlegroundsCompositionPopularity!
+    @IBOutlet var battlegroundsHeroHeader: BattlegroundsHeroHeader!
+    @IBOutlet var heroPortraitContainer: NSView!
+    @IBOutlet var compositions: BattlegroundsCompositionPopularity!
     
-    @IBOutlet weak var armorTierTooltipRange: NSView!
+    @IBOutlet var armorTierTooltipRange: NSView!
     
     let viewModel: BattlegroundsSingleHeroViewModel
     

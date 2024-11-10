@@ -11,9 +11,9 @@ import TextAttributes
 
 class TimerHud: OverWindowController {
 
-    @IBOutlet weak var opponentLabel: NSTextField!
-    @IBOutlet weak var turnLabel: NSTextField!
-    @IBOutlet weak var playerLabel: NSTextField!
+    @IBOutlet var opponentLabel: NSTextField!
+    @IBOutlet var turnLabel: NSTextField!
+    @IBOutlet var playerLabel: NSTextField!
     var currentPlayer: PlayerType?
     let attributes = TextAttributes()
     let largeAttributes = TextAttributes()

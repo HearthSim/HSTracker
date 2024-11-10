@@ -9,11 +9,11 @@
 import Foundation
 
 class ConstructedMulliganGuidePreLobby: OverWindowController {
-    @IBOutlet weak var stack1: NSStackView!
-    @IBOutlet weak var stack2: NSStackView!
-    @IBOutlet weak var stack3: NSStackView!
-    @IBOutlet weak var outerView: NSView!
-    @IBOutlet weak var scaleView: NSView!
+    @IBOutlet var stack1: NSStackView!
+    @IBOutlet var stack2: NSStackView!
+    @IBOutlet var stack3: NSStackView!
+    @IBOutlet var outerView: NSView!
+    @IBOutlet var scaleView: NSView!
     
     let viewModel = ConstructedMulliganGuidePreLobbyViewModel()
     

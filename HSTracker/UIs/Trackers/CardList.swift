@@ -11,7 +11,7 @@ import AppKit
 
 class CardList: OverWindowController {
 
-    @IBOutlet weak var table: NSTableView?
+    @IBOutlet var table: NSTableView?
 
     fileprivate var animatedCards: [CardBar] = []
     let lock = UnfairLock()

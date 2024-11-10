@@ -11,8 +11,8 @@
 import Cocoa
 
 class Splashscreen: NSWindowController {
-    @IBOutlet weak var information: NSTextField!
-    @IBOutlet weak var progressBar: NSProgressIndicator!
+    @IBOutlet var information: NSTextField!
+    @IBOutlet var progressBar: NSProgressIndicator!
 
     func display(_ str: String, indeterminate: Bool) {
         DispatchQueue.main.async { [weak self] in

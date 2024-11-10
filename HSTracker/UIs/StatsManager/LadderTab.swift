@@ -12,11 +12,11 @@ import Cocoa
 
 class LadderTab: NSViewController {
 
-    @IBOutlet weak var gamesTable: NSTableView!
-    @IBOutlet weak var timeTable: NSTableView!
-    @IBOutlet weak var rankPicker: NSPopUpButton!
-    @IBOutlet weak var starsPicker: NSPopUpButton!
-    @IBOutlet weak var streakButton: NSButton!
+    @IBOutlet var gamesTable: NSTableView!
+    @IBOutlet var timeTable: NSTableView!
+    @IBOutlet var rankPicker: NSPopUpButton!
+    @IBOutlet var starsPicker: NSPopUpButton!
+    @IBOutlet var streakButton: NSButton!
     
     var ladderTableItems = [LadderTableRow]()
     var observer: NSObjectProtocol?

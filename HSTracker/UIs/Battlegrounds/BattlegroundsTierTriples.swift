@@ -9,15 +9,15 @@
 import Foundation
 
 class BattlegroundsTierTriples: NSView {
-    @IBOutlet weak var contentView: NSView!
-    @IBOutlet weak var box: NSBox!
-    @IBOutlet weak var tierImage: NSImageView!
-    @IBOutlet weak var tripleLeftConstraint: NSLayoutConstraint!
-    @IBOutlet weak var tripleTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var tripleImage: NSImageView!
-    @IBOutlet weak var tripleBlackImage: NSImageView!
-    @IBOutlet weak var qtyText: NSTextField!
-    @IBOutlet weak var turnText: NSTextField!
+    @IBOutlet var contentView: NSView!
+    @IBOutlet var box: NSBox!
+    @IBOutlet var tierImage: NSImageView!
+    @IBOutlet var tripleLeftConstraint: NSLayoutConstraint!
+    @IBOutlet var tripleTopConstraint: NSLayoutConstraint!
+    @IBOutlet var tripleImage: NSImageView!
+    @IBOutlet var tripleBlackImage: NSImageView!
+    @IBOutlet var qtyText: NSTextField!
+    @IBOutlet var turnText: NSTextField!
 
     @IBInspectable var tier: Int = 1
     var turn = 0

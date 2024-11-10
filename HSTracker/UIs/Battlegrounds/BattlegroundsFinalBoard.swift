@@ -12,15 +12,15 @@ import AppKit
 class BattlegroundsFinalBoard: OverWindowController {
     override var alwaysLocked: Bool { true }
     
-    @IBOutlet weak var minion1: BattlegroundsMinionView!
-    @IBOutlet weak var minion2: BattlegroundsMinionView!
-    @IBOutlet weak var minion3: BattlegroundsMinionView!
-    @IBOutlet weak var minion4: BattlegroundsMinionView!
-    @IBOutlet weak var minion5: BattlegroundsMinionView!
-    @IBOutlet weak var minion6: BattlegroundsMinionView!
-    @IBOutlet weak var minion7: BattlegroundsMinionView!
+    @IBOutlet var minion1: BattlegroundsMinionView!
+    @IBOutlet var minion2: BattlegroundsMinionView!
+    @IBOutlet var minion3: BattlegroundsMinionView!
+    @IBOutlet var minion4: BattlegroundsMinionView!
+    @IBOutlet var minion5: BattlegroundsMinionView!
+    @IBOutlet var minion6: BattlegroundsMinionView!
+    @IBOutlet var minion7: BattlegroundsMinionView!
     
-    @IBOutlet weak var timespanLabel: NSTextField!
+    @IBOutlet var timespanLabel: NSTextField!
 
     var board: [Entity] = []
     var endTime: Date?

@@ -9,10 +9,10 @@
 import Foundation
 
 class BattlegroundsCompositionPopularity: NSView {
-    @IBOutlet weak var contentView: NSView!
+    @IBOutlet var contentView: NSView!
     
-    @IBOutlet weak var items: NSStackView!
-    @IBOutlet weak var noDataLabel: NSTextField!
+    @IBOutlet var items: NSStackView!
+    @IBOutlet var noDataLabel: NSTextField!
     
     var viewModel: BattlegroundsCompositionPopularityViewModel?
     

@@ -12,28 +12,28 @@ import TextAttributes
 @IBDesignable
 class BobsBuddyPanel: OverWindowController {
     
-    @IBOutlet weak var lethalRateStack: NSStackView!
+    @IBOutlet var lethalRateStack: NSStackView!
     @objc dynamic var lethalRateDisplay: String = "-"
     @objc dynamic var winRateDisplay: String = "-"
     @objc dynamic var tieRateDisplay: String = "-"
     @objc dynamic var lossRateDisplay: String = "-"
-    @IBOutlet weak var opponentLethalRateStack: NSStackView!
+    @IBOutlet var opponentLethalRateStack: NSStackView!
     @objc dynamic var opponentLethalRateDisplay: String = "-"
-    @IBOutlet weak var spinner: NSProgressIndicator!
+    @IBOutlet var spinner: NSProgressIndicator!
     @objc dynamic var percentagesVisibility: Bool = true
     @objc dynamic var spinnerVisibility: Bool = false
     @objc dynamic var warningIconVisibility: Bool = false
     @objc dynamic var statusMessage: String = "-"
     @objc dynamic var averageDamageGivenDisplay: String = "-"
-    @IBOutlet weak var averageDamageGivenView: NSView!
+    @IBOutlet var averageDamageGivenView: NSView!
     @objc dynamic var averageDamageTakenDisplay: String = "-"
-    @IBOutlet weak var averageDamageTakenView: NSView!
-    @IBOutlet weak var boxMainHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var boxAverageDamageGivenHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var boxAverageDamageTakenHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var boxStatus: ClickableBox!
-    @IBOutlet weak var boxAverageDamageGiven: ClickableBox!
-    @IBOutlet weak var boxAverageDamageTaken: ClickableBox!
+    @IBOutlet var averageDamageTakenView: NSView!
+    @IBOutlet var boxMainHeightConstraint: NSLayoutConstraint!
+    @IBOutlet var boxAverageDamageGivenHeightConstraint: NSLayoutConstraint!
+    @IBOutlet var boxAverageDamageTakenHeightConstraint: NSLayoutConstraint!
+    @IBOutlet var boxStatus: ClickableBox!
+    @IBOutlet var boxAverageDamageGiven: ClickableBox!
+    @IBOutlet var boxAverageDamageTaken: ClickableBox!
     
     var state: BobsBuddyState = .initial
     var _errorState: BobsBuddyErrorState = .none

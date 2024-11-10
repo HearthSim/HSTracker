@@ -18,7 +18,7 @@ class HiddenScroller: NSScroller {
 }
 
 class GridCardImages: OverWindowController, NSCollectionViewDataSource {
-    @IBOutlet weak var collectionView: NSCollectionView!
+    @IBOutlet var collectionView: NSCollectionView!
     
     struct CardWithImage {
         var card: Card

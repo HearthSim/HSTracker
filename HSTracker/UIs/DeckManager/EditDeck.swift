@@ -12,32 +12,32 @@ import AppKit
 
 class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
-    @IBOutlet weak var cardsTableView: NSTableView!
-    @IBOutlet weak var countLabel: NSTextField!
-    @IBOutlet weak var classChooser: NSSegmentedControl!
-    @IBOutlet weak var deckCardsView: NSTableView!
-    @IBOutlet weak var searchField: NSSearchField!
-    @IBOutlet weak var curveView: CurveView!
-    @IBOutlet weak var standardOnlyCards: NSButton!
-    @IBOutlet weak var sets: NSPopUpButton!
+    @IBOutlet var cardsTableView: NSTableView!
+    @IBOutlet var countLabel: NSTextField!
+    @IBOutlet var classChooser: NSSegmentedControl!
+    @IBOutlet var deckCardsView: NSTableView!
+    @IBOutlet var searchField: NSSearchField!
+    @IBOutlet var curveView: CurveView!
+    @IBOutlet var standardOnlyCards: NSButton!
+    @IBOutlet var sets: NSPopUpButton!
 
-    @IBOutlet weak var manaGem0: ManaGemButton!
-    @IBOutlet weak var manaGem1: ManaGemButton!
-    @IBOutlet weak var manaGem2: ManaGemButton!
-    @IBOutlet weak var manaGem3: ManaGemButton!
-    @IBOutlet weak var manaGem4: ManaGemButton!
-    @IBOutlet weak var manaGem5: ManaGemButton!
-    @IBOutlet weak var manaGem6: ManaGemButton!
-    @IBOutlet weak var manaGem7: ManaGemButton!
+    @IBOutlet var manaGem0: ManaGemButton!
+    @IBOutlet var manaGem1: ManaGemButton!
+    @IBOutlet var manaGem2: ManaGemButton!
+    @IBOutlet var manaGem3: ManaGemButton!
+    @IBOutlet var manaGem4: ManaGemButton!
+    @IBOutlet var manaGem5: ManaGemButton!
+    @IBOutlet var manaGem6: ManaGemButton!
+    @IBOutlet var manaGem7: ManaGemButton!
 
-    @IBOutlet weak var damage: NSTextField!
-    @IBOutlet weak var health: NSTextField!
+    @IBOutlet var damage: NSTextField!
+    @IBOutlet var health: NSTextField!
 
-    @IBOutlet weak var cardType: NSPopUpButton!
-    @IBOutlet weak var rarity: NSPopUpButton!
-    @IBOutlet weak var races: NSPopUpButton!
+    @IBOutlet var cardType: NSPopUpButton!
+    @IBOutlet var rarity: NSPopUpButton!
+    @IBOutlet var races: NSPopUpButton!
 
-    //@IBOutlet weak var zoom: NSSlider!
+    //@IBOutlet var zoom: NSSlider!
 
     var isSaved: Bool = false
     weak var delegate: NewDeckDelegate?

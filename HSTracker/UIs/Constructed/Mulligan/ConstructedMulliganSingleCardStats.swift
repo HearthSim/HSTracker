@@ -9,9 +9,9 @@
 import Foundation
 
 class ConstructedMulliganSingleCardStats: NSView {
-    @IBOutlet weak var contentView: NSView!
+    @IBOutlet var contentView: NSView!
     
-    @IBOutlet weak var singleCardHeader: ConstructedMulliganSingleCardHeader!
+    @IBOutlet var singleCardHeader: ConstructedMulliganSingleCardHeader!
     
     let viewModel: ConstructedMulliganSingleCardViewModel
 //    var index = 0

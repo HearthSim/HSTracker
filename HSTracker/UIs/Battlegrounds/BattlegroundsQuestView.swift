@@ -9,11 +9,11 @@
 import Foundation
 
 class BattlegroundsQuestView: NSView {
-    @IBOutlet weak var contentView: NSView!
-    @IBOutlet weak var box: NSBox!
-    @IBOutlet weak var questImage: NSImageView!
-    @IBOutlet weak var questExclamationImage: NSImageView!
-    @IBOutlet weak var turnText: NSTextField!
+    @IBOutlet var contentView: NSView!
+    @IBOutlet var box: NSBox!
+    @IBOutlet var questImage: NSImageView!
+    @IBOutlet var questExclamationImage: NSImageView!
+    @IBOutlet var turnText: NSTextField!
     
     override var intrinsicContentSize: NSSize {
         return NSSize(width: 83, height: 108)

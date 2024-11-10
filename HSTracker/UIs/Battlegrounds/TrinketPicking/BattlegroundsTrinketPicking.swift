@@ -9,11 +9,11 @@
 import Foundation
 
 class BattlegroundsTrinketPicking: OverWindowController {
-    @IBOutlet weak var itemsStack: NSStackView!
-    @IBOutlet weak var outerView: NSView!
-    @IBOutlet weak var scaleView: NSView!
-    @IBOutlet weak var visibilityToggleBox: ClickableBox!
-    @IBOutlet weak var overlayMessage: OverlayMessage!
+    @IBOutlet var itemsStack: NSStackView!
+    @IBOutlet var outerView: NSView!
+    @IBOutlet var scaleView: NSView!
+    @IBOutlet var visibilityToggleBox: ClickableBox!
+    @IBOutlet var overlayMessage: OverlayMessage!
 
     let viewModel = BattlegroundsTrinketPickingViewModel()
     
