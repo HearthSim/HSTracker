@@ -36,7 +36,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="1108" height="430"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <subviews>
-                                            <stackView identifier="ItemsStackView" distribution="fillEqually" orientation="horizontal" alignment="top" spacing="0.0" horizontalStackHuggingPriority="250" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" detachesHiddenViews="YES" id="WBY-0s-1SQ" userLabel="Items" colorLabel="IBBuiltInLabel-Red">
+                                            <stackView identifier="ItemsStackView" distribution="fillEqually" orientation="horizontal" alignment="top" spacing="25" horizontalStackHuggingPriority="250" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" detachesHiddenViews="YES" id="WBY-0s-1SQ" userLabel="Items" colorLabel="IBBuiltInLabel-Red">
                                                 <rect key="frame" x="0.0" y="0.0" width="1108" height="430"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <edgeInsets key="edgeInsets" left="12.5" right="12.5" top="0.0" bottom="0.0"/>
