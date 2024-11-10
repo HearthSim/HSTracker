@@ -17,7 +17,7 @@
         <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" hasShadow="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g" customClass="NSPanel">
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="480" height="270"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1496" height="933"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1728" height="1079"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -57,7 +57,7 @@
                                 </box>
                                 <scrollView wantsLayer="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LTR-cA-Tac">
                                     <rect key="frame" x="0.0" y="0.0" width="480" height="235"/>
-                                    <clipView key="contentView" copiesOnScroll="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GTh-6P-mAK">
+                                    <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GTh-6P-mAK">
                                         <rect key="frame" x="0.0" y="0.0" width="480" height="235"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
@@ -67,9 +67,10 @@
                                                 <collectionViewFlowLayout key="collectionViewLayout" id="MO6-gU-ahj">
                                                     <size key="itemSize" width="50" height="50"/>
                                                 </collectionViewFlowLayout>
-                                                <color key="primaryBackgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="primaryBackgroundColor" red="0.18039215689999999" green="0.1960784314" blue="0.20784313730000001" alpha="0.75" colorSpace="deviceRGB"/>
                                             </collectionView>
                                         </subviews>
+                                        <color key="backgroundColor" red="0.18039215689999999" green="0.1960784314" blue="0.20784313730000001" alpha="0.75" colorSpace="deviceRGB"/>
                                         <edgeInsets key="contentInsets" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                                     </clipView>
                                     <edgeInsets key="contentInsets" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
