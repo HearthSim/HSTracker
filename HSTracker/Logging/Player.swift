@@ -107,7 +107,7 @@ final class Player {
     fileprivate(set) var cardsPlayedLastTurn = [Entity]()
     var isPlayingWhizbang = false
     fileprivate(set) var deathrattlesPlayedCount = 0
-	private let game: Game
+    private let game: Game
     var lastDrawnCardId: String?
     var libramReductionCount: Int = 0
     var abyssalCurseCount: Int = 0
