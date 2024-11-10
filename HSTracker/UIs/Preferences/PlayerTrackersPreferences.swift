@@ -86,7 +86,7 @@ class PlayerTrackersPreferences: NSViewController, PreferencePane {
     
     @IBAction func colorChange(_ sender: NSColorWell) {
         if sender == inHandColor {
-            Settings.playerInHandColor = inHandColor.color
+            Settings.playerInHandColor = inHandColor.color.usingColorSpace(.sRGB) ?? NSColor(red: 0.678, green: 1, blue: 0.184, alpha: 1)
         }
     }
 
