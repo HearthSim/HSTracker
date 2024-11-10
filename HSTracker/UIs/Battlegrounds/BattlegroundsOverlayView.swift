@@ -57,7 +57,6 @@ class BattlegroundsOverlayView: NSView {
         if rect.origin.x.isFinite && rect.origin.y.isFinite && rect.size.width.isFinite && rect.size.height.isFinite {
             return rect
         }
-        Influx.sendSingleEvent(eventName: "Invalid_rect", withProperties: [ "rect": "\(rect)" ])
         return CGRect.zero
     }
     
