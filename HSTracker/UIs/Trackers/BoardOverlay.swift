@@ -143,7 +143,12 @@ class BoardMinionView: NSView {
         game.windowManager.show(controller: flavorWindow, show: true, frame: rect, title: nil, overlay: true)
     }
     
-    override func mouseEntered(with event: NSEvent) {
+    var delayedTooltip: DelayedTooltip?
+    
+    private func tooltipDisplay(_ userInfo: Any?) {
+        defer {
+            delayedTooltip = nil
+        }
         if let entity = entity {
             let game = AppDelegate.instance().coreManager.game
             
@@ -202,7 +207,15 @@ class BoardMinionView: NSView {
         }
     }
     
+    override func mouseEntered(with event: NSEvent) {
+        delayedTooltip?.cancel()
+        delayedTooltip = DelayedTooltip(handler: tooltipDisplay(_:), 0.250, nil)
+    }
+    
     override func mouseExited(with event: NSEvent) {
+        delayedTooltip?.cancel()
+        delayedTooltip = nil
+        
         parent.mousedOver = false
         parent.clearAbilitiesVisibility()
         clearMercHover()
