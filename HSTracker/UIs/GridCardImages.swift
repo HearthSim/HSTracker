@@ -39,7 +39,7 @@ class GridCardImages: OverWindowController, NSCollectionViewDataSource {
         case .minion:
             return "loading_minion"
         case .weapon:
-            return "loeading_weapon"
+            return "loading_weapon"
         default:
             return "loading_spell"
         }
