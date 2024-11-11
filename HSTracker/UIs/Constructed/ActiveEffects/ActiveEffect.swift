@@ -88,34 +88,12 @@ class ActiveEffect: NSView {
             self.addTrackingArea(trackingArea)
         }
     }
+    
+    var delayedTooltip: DelayedTooltip?
 
     override func mouseEntered(with event: NSEvent) {
-        if let card = effect.cardToShowInUI, let window {
-            let windowRect = window.frame
-
-            let hoverFrame = NSRect(x: 0, y: 0, width: 256, height: 388)
-
-            var x: CGFloat
-            if windowRect.origin.x < hoverFrame.size.width {
-                x = windowRect.origin.x + windowRect.size.width
-            } else {
-                x = windowRect.origin.x - hoverFrame.size.width
-            }
-
-            let cellFrameRelativeToWindow = self.convert(self.bounds, to: nil)
-            let cellFrameRelativeToScreen = window.convertToScreen(cellFrameRelativeToWindow)
-
-            let y: CGFloat = cellFrameRelativeToScreen.origin.y
-            
-            let frame: [CGFloat] = [x, y - hoverFrame.height / 2.0, hoverFrame.width, hoverFrame.height]
-            NotificationCenter.default
-                .post(name: Notification.Name(rawValue: Events.show_floating_card),
-                                      object: nil,
-                                      userInfo: [
-                                        "card": card,
-                                        "frame": frame,
-                                        "useFrame": true
-                    ])
+        if let card = effect.cardToShowInUI, window != nil {
+            delayedTooltip = DelayedTooltip(handler: tooltipDisplay, 0.400, card)
         }
     }
 
@@ -123,6 +101,8 @@ class ActiveEffect: NSView {
         guard let card = effect.cardToShowInUI else {
             return
         }
+        delayedTooltip?.cancel()
+        delayedTooltip = nil
         
         let userinfo = [
             "card": card
@@ -131,5 +111,35 @@ class ActiveEffect: NSView {
         NotificationCenter.default.post(name: Notification.Name(rawValue: Events.hide_floating_card),
                                         object: nil,
                                         userInfo: userinfo)
+    }
+    
+    private func tooltipDisplay(_ userInfo: Any?) {
+        if let window, let card = userInfo as? Card {
+            let windowRect = window.frame
+            
+            let hoverFrame = NSRect(x: 0, y: 0, width: 256, height: 388)
+            
+            var x: CGFloat
+            if windowRect.origin.x < hoverFrame.size.width {
+                x = windowRect.origin.x + windowRect.size.width
+            } else {
+                x = windowRect.origin.x - hoverFrame.size.width
+            }
+            
+            let cellFrameRelativeToWindow = self.convert(self.bounds, to: nil)
+            let cellFrameRelativeToScreen = window.convertToScreen(cellFrameRelativeToWindow)
+            
+            let y: CGFloat = cellFrameRelativeToScreen.origin.y
+            
+            let frame: [CGFloat] = [x, y - hoverFrame.height / 2.0, hoverFrame.width, hoverFrame.height]
+            NotificationCenter.default
+                .post(name: Notification.Name(rawValue: Events.show_floating_card),
+                      object: nil,
+                      userInfo: [
+                        "card": card,
+                        "frame": frame,
+                        "useFrame": true
+                      ])
+        }
     }
 }

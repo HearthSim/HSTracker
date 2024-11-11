@@ -138,8 +138,22 @@ class CounterView: NSView {
             self.addTrackingArea(trackingArea)
         }
     }
+    
+    var delayedTooltip: DelayedTooltip?
 
     override func mouseEntered(with event: NSEvent) {
+        if window != nil {
+            delayedTooltip = DelayedTooltip(handler: tooltipDisplay, 0.400, nil)
+        }
+    }
+
+    override func mouseExited(with event: NSEvent) {
+        delayedTooltip?.cancel()
+        delayedTooltip = nil
+        counter.game.windowManager.show(controller: counter.game.windowManager.tooltipGridCards, show: false)
+    }
+    
+    private func tooltipDisplay(_ userInfo: Any?) {
         guard let window else {
             return
         }
@@ -168,9 +182,6 @@ class CounterView: NSView {
         let y: CGFloat = cellFrameRelativeToScreen.origin.y
 
         counter.game.windowManager.show(controller: cardImages, show: true, frame: NSRect(x: x, y: y, width: hoverFrame.width, height: hoverFrame.height))
-    }
-
-    override func mouseExited(with event: NSEvent) {
-        counter.game.windowManager.show(controller: counter.game.windowManager.tooltipGridCards, show: false)
+        delayedTooltip = nil
     }
 }

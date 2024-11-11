@@ -3827,8 +3827,21 @@ class Game: NSObject, PowerEventHandler {
     
     private(set) var hoveredCard: BigCardArgs?
     
+    private var delayedTooltip: DelayedTooltip?
+    
     @MainActor
     private func updateTooltips() {
+        delayedTooltip?.cancel()
+        if hoveredCard != nil {
+            delayedTooltip = DelayedTooltip(handler: tooltipDisplay, 0.400, nil)
+        } else {
+            delayedTooltip = nil
+            windowManager.show(controller: windowManager.tooltipGridCards, show: false)
+        }
+    }
+    
+    @MainActor 
+    private func tooltipDisplay(_ userInfo: Any?) {
         if let hoveredCard {
             // player hand
             if hoveredCard.isHand {
@@ -3860,7 +3873,7 @@ class Game: NSObject, PowerEventHandler {
                 } else {
                     windowManager.show(controller: windowManager.tooltipGridCards, show: false)
                 }
-            // player secrets/objective zone
+                // player secrets/objective zone
             } else if hoveredCard.zonePosition > 0 && hoveredCard.isHand == false && hoveredCard.side == PlayerSide.friendly.rawValue {
                 var relatedCards = [Card]()
                 if let entity = hoveredCard.zonePosition <= player.objectives.count ? player.objectives[hoveredCard.zonePosition - 1] : nil, entity.cardId == hoveredCard.cardId {
@@ -3892,7 +3905,7 @@ class Game: NSObject, PowerEventHandler {
                     let x = correctedOffsetX + cardWidth / 2 - Double(tooltipGridCards.gridWidth) / 2.0
                     windowManager.show(controller: tooltipGridCards, show: true, frame: NSRect(x: Int(x), y: Int(y), width: tooltipGridCards.gridWidth, height: tooltipGridCards.gridHeight))
                 }
-            // opponent secrets/objective zone
+                // opponent secrets/objective zone
             } else if hoveredCard.zonePosition > 0 && hoveredCard.isHand == false && hoveredCard.side != PlayerSide.friendly.rawValue {
                 var relatedCards = [Card]()
                 if let entity = hoveredCard.zonePosition <= opponent.objectives.count ? opponent.objectives[hoveredCard.zonePosition - 1] : nil, entity.cardId == hoveredCard.cardId {
@@ -3930,6 +3943,7 @@ class Game: NSObject, PowerEventHandler {
         } else {
             windowManager.show(controller: windowManager.tooltipGridCards, show: false)
         }
+        delayedTooltip = nil
     }
     
     func onBigCardChange(_ state: BigCardArgs) {

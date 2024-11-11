@@ -11,7 +11,7 @@
 import Cocoa
 import RealmSwift
 
-class Tracker: OverWindowController {
+class Tracker: OverWindowController, CardCellHover {
 
     // UI elements
     @IBOutlet private var cardsView: AnimatedCardList!
@@ -478,10 +478,10 @@ class Tracker: OverWindowController {
             playerDrawChance?.needsDisplay = true
         }
     }
-}
-
-// MARK: - CardCellHover
-extension Tracker: CardCellHover {
+    
+    private var delayedTooltip: DelayedTooltip?
+    
+    // MARK: - CardCellHover
     enum HoveredComponent {
         case playerTop,
              playerBottom,
@@ -546,52 +546,62 @@ extension Tracker: CardCellHover {
     }
         
     func hover(cell: CardBar, card: Card) {
-        let windowRect = self.window!.frame
-
-        let hoverFrame = NSRect(x: 0, y: 0, width: 256, height: 388)
-
-        var x: CGFloat
-        // decide if the popup window should on the left or right side of the tracker
-        if windowRect.origin.x < hoverFrame.size.width {
-            x = windowRect.origin.x + windowRect.size.width
-        } else {
-            x = windowRect.origin.x - hoverFrame.size.width
-        }
-
-        let cellFrameRelativeToWindow = cell.convert(cell.bounds, to: nil)
-        let cellFrameRelativeToScreen = cell.window?.convertToScreen(cellFrameRelativeToWindow)
-
-        let y: CGFloat = cellFrameRelativeToScreen!.origin.y - hoverFrame.height / 2.0
-
-        let frame = [x, y, hoverFrame.width, hoverFrame.height]
-
-        let userinfo = [
-            "card": card,
-            "frame": frame,
-            "useFrame": true
-        ] as [String: Any]
-
-        NotificationCenter.default
-            .post(name: Notification.Name(rawValue: Events.show_floating_card),
-                                  object: nil,
-                                  userInfo: userinfo)
-        
-        let hoverLocation = getHoverComponent(cell)
-        switch hoverLocation {
-        case .opponentRelatedCards, .opponentCardView:
-            if Settings.showOpponentRelatedCards {
-                setRelatedCardsTooltip(AppDelegate.instance().coreManager.game.opponent, card.id, NSRect(x: frame[0], y: frame[1], width: frame[2], height: frame[3]))
+        delayedTooltip?.cancel()
+        delayedTooltip = DelayedTooltip(handler: tooltipDisplay, 0.400, ["cell": cell, "card": card])
+    }
+    
+    private func tooltipDisplay(_ userInfo: Any?) {
+        if let window, let dict = userInfo as? [String: Any?], let cell = dict["cell"] as? CardBar, let card = dict["card"] as? Card {
+            let windowRect = window.frame
+            
+            let hoverFrame = NSRect(x: 0, y: 0, width: 256, height: 388)
+            
+            var x: CGFloat
+            // decide if the popup window should on the left or right side of the tracker
+            if windowRect.origin.x < hoverFrame.size.width {
+                x = windowRect.origin.x + windowRect.size.width
+            } else {
+                x = windowRect.origin.x - hoverFrame.size.width
             }
-        case .playerTop, .playerBottom, .playerSideboards, .playerCardView:
-            if Settings.showPlayerRelatedCards {
-                setRelatedCardsTooltip(AppDelegate.instance().coreManager.game.player, card.id, NSRect(x: frame[0], y: frame[1], width: frame[2], height: frame[3]))
+            
+            let cellFrameRelativeToWindow = cell.convert(cell.bounds, to: nil)
+            let cellFrameRelativeToScreen = cell.window?.convertToScreen(cellFrameRelativeToWindow)
+            
+            let y: CGFloat = cellFrameRelativeToScreen!.origin.y - hoverFrame.height / 2.0
+            
+            let frame = [x, y, hoverFrame.width, hoverFrame.height]
+            
+            let userinfo = [
+                "card": card,
+                "frame": frame,
+                "useFrame": true
+            ] as [String: Any]
+            
+            NotificationCenter.default
+                .post(name: Notification.Name(rawValue: Events.show_floating_card),
+                      object: nil,
+                      userInfo: userinfo)
+            
+            let hoverLocation = getHoverComponent(cell)
+            switch hoverLocation {
+            case .opponentRelatedCards, .opponentCardView:
+                if Settings.showOpponentRelatedCards {
+                    setRelatedCardsTooltip(AppDelegate.instance().coreManager.game.opponent, card.id, NSRect(x: frame[0], y: frame[1], width: frame[2], height: frame[3]))
+                }
+            case .playerTop, .playerBottom, .playerSideboards, .playerCardView:
+                if Settings.showPlayerRelatedCards {
+                    setRelatedCardsTooltip(AppDelegate.instance().coreManager.game.player, card.id, NSRect(x: frame[0], y: frame[1], width: frame[2], height: frame[3]))
+                }
+            default:
+                break
             }
-        default:
-            break
         }
+        delayedTooltip = nil
     }
 
     func out(card: Card) {
+        delayedTooltip?.cancel()
+        delayedTooltip = nil
         let userinfo = [
             "card": card
             ] as [String: Any]

@@ -8,7 +8,7 @@
 
 import Foundation
 
-@objc class BattlegroundsTierDetailsView: NSView {
+@objc class BattlegroundsTierDetailsView: NSView, CardCellHover {
     
     struct CardGroup {
         var tier: Int
@@ -24,11 +24,11 @@ import Foundation
     init() {
         super.init(frame: NSRect.zero)
     }
-
+    
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
     }
-
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
@@ -54,7 +54,7 @@ import Foundation
     var anomaly: String?
     
     var isThorimRelevant: Bool = false
-            
+    
     var availableTiers: [Int] {
         return BattlegroundsUtils.getAvailableTiers(anomalyCardId: anomaly)
     }
@@ -78,7 +78,7 @@ import Foundation
                 
                 groups.append(CardGroup(tier: tier, minionType: Race.lookup(race), raceName: String.localizedString("\(race)", comment: ""), groupedByMinionType: false, cards: cards.sorted(by: { (a, b) -> Bool in a.name < b.name })))
             }
-                
+            
             var spells = Settings.showTavernSpells ? _db.getSpells(tier, isDuos) : [Card]()
             if spells.count > 0 {
                 spells = spells.compactMap { x in
@@ -157,12 +157,12 @@ import Foundation
     
     private func updateCardGroups() {
         let cardGroups = self.groups
-
+        
         for view in subviews {
             view.removeFromSuperview()
         }
         let showBD = Settings.showBattlecryDeathrattleOnTiers
-
+        
         self.internalGroups.removeAll()
         for cg in cardGroups {
             let group = BattlegroundsCardsGroups(frame: NSRect.zero)
@@ -234,10 +234,10 @@ import Foundation
         y -= typesSize.height
         minionTypes?.frame = NSRect(x: 0, y: y, width: frame.width, height: typesSize.height)
     }
-}
+    
+    var delayedTooltip: DelayedTooltip?
 
-// MARK: - CardCellHover
-extension BattlegroundsTierDetailsView: CardCellHover {
+    // MARK: - CardCellHover
     func hover(cell: CardBar, card: Card) {
         guard let windowRect = self.window?.frame else {
             return
@@ -266,9 +266,7 @@ extension BattlegroundsTierDetailsView: CardCellHover {
         }
 
         let frame = [x, y - hoverFrame.height / 2.0, hoverFrame.width, hoverFrame.height]
-        DispatchQueue.main.async {
-            self.hoverTimer = Timer.scheduledTimer(timeInterval: 0.8, target: self, selector: #selector(self.hoverGolden), userInfo: ["frame": frame, "cardId": card.id ], repeats: false)
-        }
+        delayedTooltip = DelayedTooltip(handler: hoverGolden, 0.8, ["frame": frame, "cardId": card.id ])
 
         NotificationCenter.default
             .post(name: Notification.Name(rawValue: Events.show_floating_card),
@@ -282,7 +280,8 @@ extension BattlegroundsTierDetailsView: CardCellHover {
     }
 
     func out(card: Card) {
-        hoverTimer?.invalidate()
+        delayedTooltip?.cancel()
+        delayedTooltip = nil
         
         let userinfo = [
             "card": card
@@ -292,9 +291,8 @@ extension BattlegroundsTierDetailsView: CardCellHover {
             .post(name: Notification.Name(rawValue: Events.hide_floating_card), object: nil, userInfo: userinfo)
     }
     
-    @objc func hoverGolden(_ timer: Timer) {
-        if let dict = timer.userInfo as? [String: Any] {
-            
+    func hoverGolden(_ userInfo: Any?) {
+        if let dict = userInfo as? [String: Any] {
             guard let cardId = dict["cardId"] as? String, let frame = dict["frame"] as? [CGFloat] else {
                 return
             }
@@ -323,7 +321,6 @@ extension BattlegroundsTierDetailsView: CardCellHover {
                                         "useFrame": true,
                                         "index": 2
                     ])
-
         }
     }
 }

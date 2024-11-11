@@ -551,6 +551,7 @@
 		B85462412CE01FCD0083BB31 /* ExperienceWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85462402CE01FCD0083BB31 /* ExperienceWatcher.swift */; };
 		B85462432CE021FF0083BB31 /* PVPDungeonRunWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85462422CE021FF0083BB31 /* PVPDungeonRunWatcher.swift */; };
 		B85462452CE023D20083BB31 /* DungeonRunWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85462442CE023D20083BB31 /* DungeonRunWatcher.swift */; };
+		B85462472CE18BDF0083BB31 /* DelayedTooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85462462CE18BDF0083BB31 /* DelayedTooltip.swift */; };
 		B8591FEE2B1776FF00B907A4 /* SpellSchool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FED2B1776FF00B907A4 /* SpellSchool.swift */; };
 		B8591FF02B23CC7D00B907A4 /* ChoiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FEF2B23CC7D00B907A4 /* ChoiceType.swift */; };
 		B8591FF42B23D4D000B907A4 /* ChoicesHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FF32B23D4D000B907A4 /* ChoicesHandler.swift */; };
@@ -1498,6 +1499,7 @@
 		B85462402CE01FCD0083BB31 /* ExperienceWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExperienceWatcher.swift; sourceTree = "<group>"; };
 		B85462422CE021FF0083BB31 /* PVPDungeonRunWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPDungeonRunWatcher.swift; sourceTree = "<group>"; };
 		B85462442CE023D20083BB31 /* DungeonRunWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DungeonRunWatcher.swift; sourceTree = "<group>"; };
+		B85462462CE18BDF0083BB31 /* DelayedTooltip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DelayedTooltip.swift; sourceTree = "<group>"; };
 		B8591FED2B1776FF00B907A4 /* SpellSchool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellSchool.swift; sourceTree = "<group>"; };
 		B8591FEF2B23CC7D00B907A4 /* ChoiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceType.swift; sourceTree = "<group>"; };
 		B8591FF32B23D4D000B907A4 /* ChoicesHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoicesHandler.swift; sourceTree = "<group>"; };
@@ -2196,6 +2198,7 @@
 				B80B5B2E2C49BF9D005F4321 /* CompositionStatsException.swift */,
 				B804FC2D29437AF500F74CD9 /* Debounce.swift */,
 				B8AB59952742FA5C00383EC8 /* Deque.swift */,
+				B85462462CE18BDF0083BB31 /* DelayedTooltip.swift */,
 				BCA70F281E2C16DD00038A6C /* FileUtils.h */,
 				BCA70F291E2C16DD00038A6C /* FileUtils.m */,
 				B85F1AC8258A558200A6F8C3 /* Helper.swift */,
@@ -4342,6 +4345,7 @@
 				B8B790022C974B9B00DD33EC /* ForensicDusterEnchantment.swift in Sources */,
 				B85462332CE016B80083BB31 /* ArenaDeckWatcher.swift in Sources */,
 				B8CE65E0295295AD00E8D168 /* BattlegroundsHeroHeader.swift in Sources */,
+				B85462472CE18BDF0083BB31 /* DelayedTooltip.swift in Sources */,
 				432B60331CB69FA600B05D19 /* FloatingCard.swift in Sources */,
 				B82F4EAB24E3021D00905024 /* MonoHelper.swift in Sources */,
 				4390FBBA1DAA72E700AE71BB /* Version.swift in Sources */,
