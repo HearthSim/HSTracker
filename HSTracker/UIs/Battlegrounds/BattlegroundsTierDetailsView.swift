@@ -266,7 +266,7 @@ import Foundation
         }
 
         let frame = [x, y - hoverFrame.height / 2.0, hoverFrame.width, hoverFrame.height]
-        delayedTooltip = DelayedTooltip(handler: hoverGolden, 0.8, ["frame": frame, "cardId": card.id ])
+        delayedTooltip = DelayedTooltip(handler: hoverGolden, 0.8, ["frame": frame, "card": card ])
 
         NotificationCenter.default
             .post(name: Notification.Name(rawValue: Events.show_floating_card),
@@ -293,29 +293,21 @@ import Foundation
     
     func hoverGolden(_ userInfo: Any?) {
         if let dict = userInfo as? [String: Any] {
-            guard let cardId = dict["cardId"] as? String, let frame = dict["frame"] as? [CGFloat] else {
+            guard let card = dict["card"] as? Card, let frame = dict["frame"] as? [CGFloat], card.baconTripleUpgradeMinionId != 0 else {
                 return
             }
             
-            let opaque = mono_thread_attach(MonoHelper._monoInstance)
-            
-            defer {
-                mono_thread_detach(opaque)
-            }
-            
-            let goldenCardId = MinionFactoryProxy.tryGetPremiumIdFromNormal(cardId)
-            
-            guard let card = Cards.any(byId: goldenCardId) else {
+            guard let golden = Cards.by(dbfId: card.baconTripleUpgradeMinionId, collectible: false) else {
                 return
             }
             
-            card.baconTriple = true
+            golden.baconTriple = true
 
             NotificationCenter.default
                 .post(name: Notification.Name(rawValue: Events.show_floating_card),
                                       object: nil,
                                       userInfo: [
-                                        "card": card,
+                                        "card": golden,
                                         "frame": [ frame[0] - frame[2] - 22, frame[1], frame[2], frame[3] ],
                                         "battlegrounds": true,
                                         "useFrame": true,

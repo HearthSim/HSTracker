@@ -154,6 +154,8 @@ class Database: NSObject, XMLParserDelegate {
                     }
                 case GameTag.multiple_classes.rawValue:
                     currentCard?.multipleClasses = intValue
+                case GameTag.bacon_triple_upgrade_minion_id.rawValue:
+                    currentCard?.baconTripleUpgradeMinionId = intValue
                 default:
                     break
                 }
@@ -256,6 +258,7 @@ class Database: NSObject, XMLParserDelegate {
                 return
             }
             for card in Cards.battlegroundsMinions.array() {
+                logger.debug("Card: \(card) -> \(String(describing: Cards.by(dbfId: card.baconTripleUpgradeMinionId, collectible: false)))")
                 if card.race != .invalid && card.race != .all && !Database.battlegroundRaces.contains(card.race) {
                     Database.battlegroundRaces.append(card.race)
                 }

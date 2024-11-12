@@ -361,6 +361,7 @@ enum GameTag: Int, CaseIterable, Codable {
     player_leaderboard_place = 1373,
     player_tech_level = 1377,
     bacon_hero_power_activated = 1398,
+    bacon_triple_upgrade_minion_id = 1429,
     tech_level = 1440,
     player_triples = 1447,
     is_bacon_pool_minion = 1456,

@@ -56,6 +56,7 @@ final class Card {
     var zilliaxCustomizableCosmeticModule = false
     var tourist = 0
     var baconTriple = false
+    var baconTripleUpgradeMinionId = 0
     
     func hasRace(_ race: Race) -> Bool {
         if races.count == 0 {
@@ -334,6 +335,8 @@ extension Card: NSCopying {
         copy.races = self.races
         copy.zilliaxCustomizableFunctionalModule = self.zilliaxCustomizableFunctionalModule
         copy.zilliaxCustomizableCosmeticModule = self.zilliaxCustomizableCosmeticModule
+        copy.multipleClasses = self.multipleClasses
+        copy.baconTripleUpgradeMinionId = self.baconTripleUpgradeMinionId
 
         return copy
     }
