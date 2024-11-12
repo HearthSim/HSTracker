@@ -74,6 +74,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
             options.profilesSampleRate = 0.0
         }
         
+        SentrySDK.configureScope { scope in
+            if let cm = AppDelegate.instance().coreManager {
+                let usedBytes: UInt64? = UInt64(cm.memoryFootprint() ?? 0)
+                let usedMB = Double(usedBytes ?? 0) / 1024 / 1024
+                scope.setTag(value: "AppMemoryUsed", key: "\(String(format: "%.2f", usedMB))MB")
+            }
+        }
+        
         let options = [
             kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true as CFBoolean
         ]
