@@ -1828,9 +1828,12 @@ class Game: NSObject, PowerEventHandler {
 
         self.startTime = Date()
         
-        Influx.breadcrumb(eventName: "match_start", withProperties: ["gameMode": "\(self.currentGameMode)",
-                                                                     "gameType": "\(self.currentGameType)",
-                                                                     "spectator": "\(self.spectator)"], level: .info)
+        Influx.breadcrumb(eventName: "match_start", 
+                          withProperties: ["gameMode": "\(self.currentGameMode)",
+                                           "gameType": "\(self.currentGameType)",
+                                           "spectator": "\(self.spectator)",
+                                           "duos": "\(isBattlegroundsDuosMatch())"],
+                          level: .info)
         
         windowManager.linkOpponentDeckPanel.isFriendlyMatch = isFriendlyMatch
         

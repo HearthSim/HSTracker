@@ -98,9 +98,12 @@ final class CoreManager: NSObject {
     func formattedMemoryFootprint() -> String {
         let usedBytes: UInt64? = UInt64(self.memoryFootprint() ?? 0)
         let usedMB = Double(usedBytes ?? 0) / 1024 / 1024
-        let usedMBAsString: String = "Memory Used by App: \(String(format: "%.2f", usedMB))MB"
-        return usedMBAsString
+        
+        let memoryUsedString = "\(String(format: "%.2f", usedMB))MB"
+        Influx.breadcrumb(eventName: "MemoryUsage", withProperties: ["MemoryInUse": memoryUsedString])
+        return "Memory Used by App: \(memoryUsedString)"
     }
+    
     static func validatedHearthstonePath(_ path: String = "\(Settings.hearthstonePath)/Hearthstone.app") -> Bool {
         let exists = FileManager.default.fileExists(atPath: path)
         AppHealth.instance.setHSInstalled(flag: exists)
