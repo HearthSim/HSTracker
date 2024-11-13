@@ -83,6 +83,7 @@ final class LogReader {
             let sp = LogReaderManager.fullDateStringFormatter.string(from: startingPoint)
             logger.verbose("\(info.name) has queue \(queueName) starting at \(sp)")
             queue.async {
+                Thread.current.name = "\(self.info.name)"
                 self.readFile()
             }
         }
