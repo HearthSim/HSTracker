@@ -565,9 +565,12 @@ class Tracker: OverWindowController, CardCellHover {
             }
             
             let cellFrameRelativeToWindow = cell.convert(cell.bounds, to: nil)
-            let cellFrameRelativeToScreen = cell.window?.convertToScreen(cellFrameRelativeToWindow)
+            guard let cellFrameRelativeToScreen = cell.window?.convertToScreen(cellFrameRelativeToWindow) else {
+                delayedTooltip = nil
+                return
+            }
             
-            let y: CGFloat = cellFrameRelativeToScreen!.origin.y - hoverFrame.height / 2.0
+            let y: CGFloat = cellFrameRelativeToScreen.origin.y - hoverFrame.height / 2.0
             
             let frame = [x, y, hoverFrame.width, hoverFrame.height]
             
