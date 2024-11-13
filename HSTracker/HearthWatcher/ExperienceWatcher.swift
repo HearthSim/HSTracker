@@ -34,7 +34,7 @@ class ExperienceWatcher {
             return
         }
         if queue == nil {
-            queue = DispatchQueue(label: "net.hearthsim.hstracker.watchers.\(type(of: self))",
+            queue = DispatchQueue(label: "\(type(of: self))",
                                   attributes: [])
         }
         if let queue = queue {
