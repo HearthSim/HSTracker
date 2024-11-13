@@ -439,7 +439,15 @@ class BobsBuddyInvoker {
                         BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .unsupportedInteraction, message: error.message)
                         result = nil
                     } catch {
-                        SentrySDK.capture(error: error)
+                        var inputString = ""
+                        if let input = self.input {
+                            inputString = input.unitestCopyableVersion()
+                        }
+                        SentrySDK.capture(error: error, block: { scope in
+                            if inputString.count != 0 {
+                                scope.setTag(value: "input", key: inputString)
+                            }
+                        })
                         logger.error("Unknown error")
                         BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .none)
                         result = nil
