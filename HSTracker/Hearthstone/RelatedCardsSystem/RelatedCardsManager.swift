@@ -27,7 +27,7 @@ class RelatedCardsManager {
     }
 
     public func getCardWithRelatedCards(_ cardId: String) -> ICardWithRelatedCards {
-        return cards[cardId] ?? cards[""]!
+        return cards[cardId] ?? cards[""] ?? DefaultCard()
     }
 
     public func getCardsOpponentMayHave(_ opponent: Player) -> [Card] {
