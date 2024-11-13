@@ -1,3 +1,19 @@
+# 3.1.1
+## New
+- Added counter for The Ceaseless Expanse.
+- Added support for cards that will be recasted by Mistah Vistah effect
+- Added a delay to most tooltip displays
+- Added tooltips for related cards.
+Hovering over cards in hand or deck now shows their related cards. These tooltips will automatically appear for opponents when relevant.
+## Fixes
+- Fixed several crashes due to early object releases
+- Fixed crash when attempting to display a golden BG minion
+- Fixed Jade Idol counter resetting to 1 when drawing Jade Spirit or Aya
+- Fixed deck card counter display when showing more than 9 cards
+- Fixed crash when setting in hand color using a non RGB colorspace
+- Fixed initial location of link opponent deck panel
+- Improved position of trinket picking overlay
+
 # 3.1.0
 ## New
 - Improved related cards shown for counters
