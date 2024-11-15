@@ -40,7 +40,8 @@ class BattlegroundsSingleHeroStats: NSView {
     }
     
     func commonInit() {
-        Bundle.main.loadNibNamed("BattlegroundsSingleHeroStats", owner: self, topLevelObjects: nil)
+        NibHelper.loadNib(Self.self, self)
+        
         translatesAutoresizingMaskIntoConstraints = true
         contentView.translatesAutoresizingMaskIntoConstraints = true
         addSubview(contentView)

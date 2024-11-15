@@ -107,9 +107,8 @@ class BattlegroundsCardsGroups: NSView {
     }
     
     private func commonInit() {
-        guard Bundle.main.loadNibNamed("BattlegroundsCardsGroups", owner: self, topLevelObjects: nil) else {
-            return
-        }
+        NibHelper.loadNib(Self.self, self)
+        
         translatesAutoresizingMaskIntoConstraints = true
         contentView.translatesAutoresizingMaskIntoConstraints = false
         cardsList.isBattlegrounds = true

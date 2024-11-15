@@ -22,7 +22,8 @@ class BattlegroundsCompositionPopularity: NSView {
     }
     
     private func commonInit() {
-        Bundle.main.loadNibNamed("BattlegroundsCompositionPopularity", owner: self, topLevelObjects: nil)
+        NibHelper.loadNib(Self.self, self)
+        
         translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(contentView)

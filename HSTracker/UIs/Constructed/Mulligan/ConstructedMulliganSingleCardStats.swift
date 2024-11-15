@@ -27,7 +27,8 @@ class ConstructedMulliganSingleCardStats: NSView {
     }
 
     private func commonInit() {
-        Bundle.main.loadNibNamed("ConstructedMulliganSingleCardStats", owner: self, topLevelObjects: nil)
+        NibHelper.loadNib(Self.self, self)
+        
         translatesAutoresizingMaskIntoConstraints = true
         contentView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(contentView)

@@ -57,7 +57,8 @@ class BattlegroundsCompositionPopularityBar: NSView {
     }
     
     private func commonInit() {
-        Bundle.main.loadNibNamed("BattlegroundsCompositionPopularityBar", owner: self, topLevelObjects: nil)
+        NibHelper.loadNib(Self.self, self)
+        
         translatesAutoresizingMaskIntoConstraints = true
         contentView.translatesAutoresizingMaskIntoConstraints = false
         barRect.translatesAutoresizingMaskIntoConstraints = false

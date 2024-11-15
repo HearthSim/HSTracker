@@ -59,7 +59,8 @@ class ActiveEffect: NSView {
     }
     
     private func commonInit() {
-        Bundle.main.loadNibNamed("ActiveEffect", owner: self, topLevelObjects: nil)
+        NibHelper.loadNib(Self.self, self)
+        
         translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(contentView)

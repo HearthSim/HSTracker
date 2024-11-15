@@ -46,7 +46,8 @@ class BattlegroundsSingleQuestView: NSView {
     }
     
     private func commonInit() {
-        Bundle.main.loadNibNamed("BattlegroundsSingleQuestView", owner: self, topLevelObjects: nil)
+        NibHelper.loadNib(Self.self, self)
+        
         translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(contentView)

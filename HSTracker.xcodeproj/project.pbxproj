@@ -428,6 +428,7 @@
 		B8196F252CCB246C007C0371 /* CounterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8196F242CCB246C007C0371 /* CounterView.swift */; };
 		B8196F272CCD4135007C0371 /* CountersOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8196F262CCD4135007C0371 /* CountersOverlay.xib */; };
 		B8196F292CCD416F007C0371 /* CountersOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8196F282CCD416F007C0371 /* CountersOverlay.swift */; };
+		B81EEABB2CE69AF300B32448 /* NibHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81EEABA2CE69AF300B32448 /* NibHelper.swift */; };
 		B82029312CD2C4D700C19A8C /* AsteroidExtraDamageCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82029302CD2C4D700C19A8C /* AsteroidExtraDamageCounter.swift */; };
 		B82029332CD2C65D00C19A8C /* KiljaedenCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82029322CD2C65D00C19A8C /* KiljaedenCounter.swift */; };
 		B82029352CD2CD9F00C19A8C /* IngeniousArtificerEnchantment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82029342CD2CD9F00C19A8C /* IngeniousArtificerEnchantment.swift */; };
@@ -1392,6 +1393,7 @@
 		B8196F242CCB246C007C0371 /* CounterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterView.swift; sourceTree = "<group>"; };
 		B8196F262CCD4135007C0371 /* CountersOverlay.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CountersOverlay.xib; sourceTree = "<group>"; };
 		B8196F282CCD416F007C0371 /* CountersOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountersOverlay.swift; sourceTree = "<group>"; };
+		B81EEABA2CE69AF300B32448 /* NibHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NibHelper.swift; sourceTree = "<group>"; };
 		B81F069C253899FB00F319F1 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		B82029302CD2C4D700C19A8C /* AsteroidExtraDamageCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsteroidExtraDamageCounter.swift; sourceTree = "<group>"; };
 		B82029322CD2C65D00C19A8C /* KiljaedenCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KiljaedenCounter.swift; sourceTree = "<group>"; };
@@ -2204,6 +2206,7 @@
 				B85F1AC8258A558200A6F8C3 /* Helper.swift */,
 				434D1CB01D0C507900222B8E /* ImageCompare.swift */,
 				434D1CAE1D0C500300222B8E /* ImageUtilities.swift */,
+				B81EEABA2CE69AF300B32448 /* NibHelper.swift */,
 				BCCCDB9D1EA54FF800C328D0 /* NotificationManager.swift */,
 				B8AB59932742F94900383EC8 /* RateLimiter.swift */,
 				B8FDE9262CD99D840093BFF7 /* ReflectionHelper.swift */,
@@ -4233,6 +4236,7 @@
 				B8B61C242AEBEB2C00990359 /* RemoteArenaSettings.swift in Sources */,
 				439DD8FA1DB236A4004EBE47 /* ThemeElement.swift in Sources */,
 				1C17D24C1E82C81700ED4047 /* LogEventParser.swift in Sources */,
+				B81EEABB2CE69AF300B32448 /* NibHelper.swift in Sources */,
 				B8B78FCB2C960AFB00DD33EC /* JotunTheEternalEnchantment.swift in Sources */,
 				B85462232CDEBE390083BB31 /* ScroungingShipwright.swift in Sources */,
 				B85462212CDEBDC80083BB31 /* YrelBeaconOfHope.swift in Sources */,

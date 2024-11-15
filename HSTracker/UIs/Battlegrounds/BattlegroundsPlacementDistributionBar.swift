@@ -85,7 +85,8 @@ class BattlegroundsPlacementDistributionBar: NSView {
     }
 
     private func commonInit() {
-        Bundle.main.loadNibNamed("BattlegroundsPlacementDistributionBar", owner: self, topLevelObjects: nil)
+        NibHelper.loadNib(Self.self, self)
+        
         autoresizingMask = [ .width, .height ]
         contentView.autoresizingMask = [ .width, .height ]
         addSubview(contentView)

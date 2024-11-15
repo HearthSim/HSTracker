@@ -36,7 +36,8 @@ class OverlayMessage: NSView {
     }
     
     private func commonInit() {
-        Bundle.main.loadNibNamed("OverlayMessage", owner: self, topLevelObjects: nil)
+        NibHelper.loadNib(Self.self, self)
+        
         translatesAutoresizingMaskIntoConstraints = false
         addSubview(contentView)
         contentView.frame = self.bounds

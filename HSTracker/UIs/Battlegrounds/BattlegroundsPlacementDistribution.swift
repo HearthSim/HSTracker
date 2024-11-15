@@ -32,7 +32,8 @@ class BattlegroundsPlacementDistribution: NSView {
     }
 
     private func commonInit() {
-        Bundle.main.loadNibNamed("BattlegroundsPlacementDistribution", owner: self, topLevelObjects: nil)
+        NibHelper.loadNib(Self.self, self)
+        
         translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = true
         addSubview(contentView)

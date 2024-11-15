@@ -29,7 +29,8 @@ class BattlegroundsTribe: NSView {
     }
     
     private func commonInit() {
-        Bundle.main.loadNibNamed("BattlegroundsTribe", owner: self, topLevelObjects: nil)
+        NibHelper.loadNib(Self.self, self)
+
         translatesAutoresizingMaskIntoConstraints = false
         addSubview(contentView)
         contentView.frame = self.bounds

@@ -40,9 +40,8 @@ class BattlegroundsMinionTypesBox: NSView {
     }
     
     private func commonInit() {
-        guard Bundle.main.loadNibNamed("BattlegroundsMinionTypesBox", owner: self, topLevelObjects: nil) else {
-            return
-        }
+        NibHelper.loadNib(Self.self, self)
+        
         translatesAutoresizingMaskIntoConstraints = true
         contentView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(contentView)

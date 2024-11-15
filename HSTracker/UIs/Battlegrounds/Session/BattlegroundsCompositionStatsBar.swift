@@ -54,7 +54,8 @@ class BattlegroundsCompositionStatsBar: NSView {
     }
     
     private func commonInit() {
-        Bundle.main.loadNibNamed("BattlegroundsCompositionStatsBar", owner: self, topLevelObjects: nil)
+        NibHelper.loadNib(Self.self, self)
+        
         translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
         progressBar.translatesAutoresizingMaskIntoConstraints = false

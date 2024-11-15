@@ -36,9 +36,8 @@ class BattlegroundsCompositionStatsRow: NSView {
     }
     
     private func commonInit() {
-        guard Bundle.main.loadNibNamed("BattlegroundsCompositionStatsRow", owner: self, topLevelObjects: nil) else {
-            return
-        }
+        NibHelper.loadNib(Self.self, self)
+        
         translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
         contentView.frame = NSRect(x: 0, y: 0, width: 240, height: 34)

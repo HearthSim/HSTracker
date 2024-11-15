@@ -48,7 +48,8 @@ class ConstructedMulliganSingleDeckStatus: NSView {
     }
 
     private func commonInit() {
-        Bundle.main.loadNibNamed("ConstructedMulliganSingleDeckStatus", owner: self, topLevelObjects: nil)
+        NibHelper.loadNib(Self.self, self)
+        
         translatesAutoresizingMaskIntoConstraints = true
         contentView.translatesAutoresizingMaskIntoConstraints = true
         addSubview(contentView)

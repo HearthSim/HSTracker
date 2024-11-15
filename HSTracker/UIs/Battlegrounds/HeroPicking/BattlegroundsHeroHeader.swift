@@ -51,7 +51,8 @@ class BattlegroundsHeroHeader: NSView {
     }
 
     private func commonInit() {
-        Bundle.main.loadNibNamed("BattlegroundsHeroHeader", owner: self, topLevelObjects: nil)
+        NibHelper.loadNib(Self.self, self)
+        
         translatesAutoresizingMaskIntoConstraints = true
         contentView.translatesAutoresizingMaskIntoConstraints = true
         addSubview(contentView)

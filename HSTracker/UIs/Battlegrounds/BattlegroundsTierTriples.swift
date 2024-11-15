@@ -34,7 +34,8 @@ class BattlegroundsTierTriples: NSView {
     }
     
     private func commonInit() {
-        Bundle.main.loadNibNamed("BattlegroundsTierTriples", owner: self, topLevelObjects: nil)
+        NibHelper.loadNib(Self.self, self)
+        
         translatesAutoresizingMaskIntoConstraints = false
         addSubview(contentView)
         contentView.frame = self.bounds
