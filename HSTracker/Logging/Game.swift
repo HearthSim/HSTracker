@@ -1831,8 +1831,7 @@ class Game: NSObject, PowerEventHandler {
         Influx.breadcrumb(eventName: "match_start", 
                           withProperties: ["gameMode": "\(self.currentGameMode)",
                                            "gameType": "\(self.currentGameType)",
-                                           "spectator": "\(self.spectator)",
-                                           "duos": "\(isBattlegroundsDuosMatch())"],
+                                           "spectator": "\(self.spectator)"],
                           level: .info)
         
         windowManager.linkOpponentDeckPanel.isFriendlyMatch = isFriendlyMatch
