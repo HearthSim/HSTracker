@@ -3533,7 +3533,7 @@ class Game: NSObject, PowerEventHandler {
                     let hero = chosen.first
                     let heroPower = Cards.by(dbfId: hero?[.hero_power], collectible: false)?.id
                     if let hp = heroPower {
-                        windowManager.battlegroundsTierOverlay.tierOverlay.onHeroPowers(heroPowers: [ hp ])
+                        windowManager.battlegroundsTierOverlay.tierOverlay?.onHeroPowers(heroPowers: [ hp ])
                     }
                 } else {
                     logger.error("Could not reliably determine Battlegrounds hero power. \(chosen.count) hero(es) chosen.")
@@ -3547,9 +3547,9 @@ class Game: NSObject, PowerEventHandler {
                 windowManager.battlegroundsQuestPicking.viewModel.reset()
                 windowManager.battlegroundsTrinketPicking.viewModel.reset()
                 if source?[.bacon_is_magic_item_discover] ?? 0 > 0 {
-                    windowManager.battlegroundsTierOverlay.tierOverlay.onTrinkets(trinkets: (self.player.trinkets + chosen).compactMap({ x in x.cardId }))
+                    windowManager.battlegroundsTierOverlay.tierOverlay?.onTrinkets(trinkets: (self.player.trinkets + chosen).compactMap({ x in x.cardId }))
                 }
-                windowManager.battlegroundsTierOverlay.tierOverlay.onHeroPowers(heroPowers: player.board.filter({ x in x.isHeroPower }).compactMap({ x in x.card.id }))
+                windowManager.battlegroundsTierOverlay.tierOverlay?.onHeroPowers(heroPowers: player.board.filter({ x in x.isHeroPower }).compactMap({ x in x.card.id }))
             }
         default: break
         }
