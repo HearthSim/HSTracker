@@ -3878,7 +3878,7 @@ class Game: NSObject, PowerEventHandler {
                 // player secrets/objective zone
             } else if hoveredCard.zonePosition > 0 && hoveredCard.isHand == false && hoveredCard.side == PlayerSide.friendly.rawValue {
                 var relatedCards = [Card]()
-                if let entity = hoveredCard.zonePosition <= player.objectives.count ? player.objectives[hoveredCard.zonePosition - 1] : nil, entity.cardId == hoveredCard.cardId {
+                if let entity = hoveredCard.zonePosition >= 0 && hoveredCard.zonePosition - 1 < player.objectives.count ? player.objectives[hoveredCard.zonePosition - 1] : nil, entity.cardId == hoveredCard.cardId {
                     relatedCards.append(contentsOf: entity.info.storedCardIds.compactMap { cardId in Cards.by(cardId: cardId) })
                 }
                 if relatedCards.count > 0 && Settings.showPlayerRelatedCards {
@@ -3910,7 +3910,7 @@ class Game: NSObject, PowerEventHandler {
                 // opponent secrets/objective zone
             } else if hoveredCard.zonePosition > 0 && hoveredCard.isHand == false && hoveredCard.side != PlayerSide.friendly.rawValue {
                 var relatedCards = [Card]()
-                if let entity = hoveredCard.zonePosition <= opponent.objectives.count ? opponent.objectives[hoveredCard.zonePosition - 1] : nil, entity.cardId == hoveredCard.cardId {
+                if let entity = hoveredCard.zonePosition >= 0 && hoveredCard.zonePosition - 1 < opponent.objectives.count ? opponent.objectives[hoveredCard.zonePosition - 1] : nil, entity.cardId == hoveredCard.cardId {
                     relatedCards.append(contentsOf: entity.info.storedCardIds.compactMap { cardId in Cards.by(cardId: cardId) })
                 }
                 if relatedCards.count > 0 && Settings.showPlayerRelatedCards {
