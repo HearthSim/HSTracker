@@ -1,3 +1,8 @@
+# 3.1.2
+## Fixes
+- Fixed some crashes related to related cards manager
+- Added code to prevent several other crashes
+
 # 3.1.1
 ## New
 - Added counter for The Ceaseless Expanse.
