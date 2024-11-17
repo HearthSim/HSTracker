@@ -609,17 +609,18 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
         Settings.windowsLocked = !Settings.windowsLocked
         item?.title = String.localizedString(Settings.windowsLocked ?  "Unlock windows" : "Lock windows",
                                         comment: "")
-        let game = coreManager.game
-        if Settings.windowsLocked {
-            game.windowManager.playerActiveEffectsOverlay.forceHideExampleEffects()
-            game.windowManager.playerActiveEffectsOverlay.updateGrid()
-            
-            game.windowManager.playerCountersOverlay.forceHideExampleCounters()
-        } else {
-            game.windowManager.playerActiveEffectsOverlay.forceShowExampleEffects(true)
-            game.windowManager.playerActiveEffectsOverlay.updateGrid()
-            
-            game.windowManager.playerCountersOverlay.forceShowExampleCounters()
+        if let game = coreManager?.game {
+            if Settings.windowsLocked {
+                game.windowManager.playerActiveEffectsOverlay.forceHideExampleEffects()
+                game.windowManager.playerActiveEffectsOverlay.updateGrid()
+                
+                game.windowManager.playerCountersOverlay.forceHideExampleCounters()
+            } else {
+                game.windowManager.playerActiveEffectsOverlay.forceShowExampleEffects(true)
+                game.windowManager.playerActiveEffectsOverlay.updateGrid()
+                
+                game.windowManager.playerCountersOverlay.forceShowExampleCounters()
+            }
         }
     }
     
