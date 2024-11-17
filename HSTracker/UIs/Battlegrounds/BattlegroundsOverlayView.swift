@@ -133,11 +133,11 @@ class BattlegroundsOverlayView: NSView {
         
         let game = AppDelegate.instance().coreManager.game
         
-        if Settings.showOpponentWarband, let entityId, let hero = game.entities[entityId], let board = game.getBattlegroundsBoardStateFor(id: hero.id) {
+        if Settings.showOpponentWarband, let entityId, let hero = game.entities[entityId], let board = game.getBattlegroundsBoardStateFor(id: hero.id), let player = game.player {
             windowManager.battlegroundsDetailsWindow.setBoard(board: board)
-            var heroPowers = game.player.board.filter { x in x.isHeroPower }.compactMap { x in x.cardId }
+            var heroPowers = player.board.filter { x in x.isHeroPower }.compactMap { x in x.cardId }
             if heroPowers.count > 0 && game.gameEntity?[.step] ?? 0 <= Step.begin_mulligan.rawValue {
-                let heroes = game.player.playerEntities.filter { x in x.isHero && (x.has(tag: .bacon_hero_can_be_drafted) || x.has(tag: .bacon_skin))}
+                let heroes = player.playerEntities.filter { x in x.isHero && (x.has(tag: .bacon_hero_can_be_drafted) || x.has(tag: .bacon_skin))}
                 heroPowers = heroes.compactMap { x in Cards.by(dbfId: x[.hero_power], collectible: false)?.id }
             }
             windowManager.battlegroundsTierOverlay.tierOverlay.onHeroPowers(heroPowers: heroPowers)
