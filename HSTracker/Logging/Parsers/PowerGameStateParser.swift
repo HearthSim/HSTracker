@@ -232,7 +232,14 @@ class PowerGameStateParser: LogEventParser {
                             logger.verbose("Found data for entity=\(id): CardId=\(cardId ?? ""), location=\(guessedLocation)")
                             guessedCardId = true
                         }
-                        eventHandler.knownCardIds[blockId]?.remove(at: 0)
+                        if eventHandler.knownCardIds[blockId]?.count ?? 0 > 0 {
+                            eventHandler.knownCardIds[blockId]?.removeFirst()
+                        } else {
+                            Influx.sendSingleEvent(eventName: "PowerGameStateParser_knownCardIds_failed",
+                                                   withProperties: ["blockId": "\(blockId)",
+                                                                    "known": "\(known)",
+                                                                    "logLine": logLine.line ])
+                        }
                     }
                 }
 
