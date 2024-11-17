@@ -12,10 +12,14 @@ class NibHelper {
     static func loadNib(_ type: AnyClass, _ owner: Any?) {
         guard let resource = NSNib(nibNamed: String(describing: type),
                                    bundle: Bundle(for: type)) else {
-            fatalError("Failed to load NIB \(String(describing: type))")
+            let message = "Failed to load NIB \(String(describing: type))"
+            Influx.breadcrumb(eventName: "NibLoader_NsNib", message: message)
+            fatalError(message)
         }
         guard resource.instantiate(withOwner: owner, topLevelObjects: nil) else {
-            fatalError("Failed to instantiate resouce from NIB")
+            let message = "Failed to instantiate resouce from NIB"
+            Influx.breadcrumb(eventName: "NibLoader_instantiate", message: message)
+            fatalError(message)
         }
     }
 }
