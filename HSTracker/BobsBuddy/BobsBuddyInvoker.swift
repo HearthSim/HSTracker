@@ -891,18 +891,10 @@ class BobsBuddyInvoker {
         if friendly {
             let target = inputPlayer.secrets
             MonoHelper.listClear(obj: target)
-            let params = UnsafeMutablePointer<Int32>.allocate(capacity: 1)
-            let i32c = mono_get_int32_class()
             
             for secret in game.player.secrets {
-                var obj: UnsafeMutablePointer<MonoObject>?
-                params.pointee = Int32(secret.card.dbfId)
-                    
-                obj = mono_value_box(MonoHelper._monoInstance, i32c, params)
-                    
-                MonoHelper.addToList(list: target, element: MonoHandle(obj: obj))
+                input?.addSecretFromDbfid(id: secret.card.dbfId, target: target)
             }
-            params.deallocate()
 
             let playerHand = inputPlayer.hand
             

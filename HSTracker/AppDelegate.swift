@@ -248,20 +248,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
         logger.info("Opening trackers")
 
         DispatchQueue.global().async {
-#if !HSTTEST
             let classesOperation = BlockOperation {
                 ReflectionHelper.initialize()
-
-                if MonoHelper.load() {
-                    MonoHelper.initialize()
-//                    DispatchQueue.global().async(qos: .userInitiated) {
-//                        MonoHelper.testSimulation()
-//                    }
-                } else {
-                    logger.error("Failed to load BobsBuddy")
-                }
             }
-#endif
 
             let remoteConfigOperation = BlockOperation {
                 RemoteConfig.checkRemoteConfig(splashscreen: splashscreen)
@@ -290,9 +279,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
             remoteConfigOperation.addDependency(menuOperation)
             
             var operations = [Operation]()
-#if !HSTTEST
             operations.append(classesOperation)
-#endif
             operations.append(remoteConfigOperation)
             operations.append(databaseOperation)
             operations.append(menuOperation)
@@ -301,6 +288,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
             self.operationQueue.addOperations(operations, waitUntilFinished: true)
                         // remove any old feed URL to fix users not getting notified of updates
             UserDefaults.standard.removeObject(forKey: "SUFeedURL")
+            
+#if !HSTTEST
+            if MonoHelper.load() {
+                MonoHelper.initialize()
+                DispatchQueue.global().async(qos: .userInitiated) {
+                    MonoHelper.testSimulation()
+                }
+            } else {
+                logger.error("Failed to load BobsBuddy")
+            }
+#endif
 
             DispatchQueue.main.async {
                 self.completeSetup()
