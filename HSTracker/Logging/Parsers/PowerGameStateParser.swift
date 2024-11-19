@@ -349,7 +349,14 @@ class PowerGameStateParser: LogEventParser {
                             })
                         }
                     }
-
+                    
+                    if currentBlock?.cardId == CardIds.Collectible.Shaman.Triangulate && !(entity?.cardId.isBlank ?? true) {
+                        if entity?.isControlled(by: eventHandler.player.id) ?? false {
+                            addKnownCardId(eventHandler: eventHandler, cardId: entity?.cardId, count: 3)
+                        } else if entity?.isControlled(by: eventHandler.opponent.id) ?? false {
+                            eventHandler.triangulatePlayed = true
+                        }
+                    }
                 }
 
                 let fizzleSnapshots = eventHandler.opponent.playerEntities.filter { e in e.cardId == CardIds.NonCollectible.Neutral.PhotographerFizzle_FizzlesSnapshotToken }
@@ -398,6 +405,20 @@ class PowerGameStateParser: LogEventParser {
             tagChangeHandler.tagChange(eventHandler: eventHandler, rawTag: tag, id: currentEntityId,
                                        rawValue: value, isCreationTag: true)
             creationTag = true
+            if eventHandler.triangulatePlayed, let tag = GameTag(rawString: tag) {
+                if tag == GameTag.linked_entity {
+                    addKnownCardId(eventHandler: eventHandler, cardId: "", count: 3, copyOfCardId: value)
+                    eventHandler.triangulatePlayed = false
+                } else if tag == GameTag.casts_when_drawn && Int(value) == 1, let gameEntity =
+                            eventHandler.entities[currentEntityId] {
+                    let cardId = gameEntity.cardId
+                    if !cardId.isEmpty {
+                        removeKnownCardId(eventHandler: eventHandler, count: 3)
+                        addKnownCardId(eventHandler: eventHandler, cardId: cardId, count: 3)
+                    }
+                    eventHandler.triangulatePlayed = false
+                }
+            }
         } else if logLine.line.contains("HIDE_ENTITY") {
             let match = HideEntityRegex.matches(logLine.line)
             if match.count > 0 {
@@ -1162,16 +1183,20 @@ class PowerGameStateParser: LogEventParser {
     }
     
     private func handleCopiedCard(eventHandler: PowerEventHandler, entity: Entity) {
-        let copyOfCard = eventHandler.opponent.playerEntities.first { e in e.info.copyOfCardId == String(entity.id) }
+        let copiesOfCard = eventHandler.opponent.playerEntities.filter { e in e.info.copyOfCardId == String(entity.id) }
 
-        if let copyOfCard {
-            copyOfCard.cardId = entity.cardId
+        for copy in copiesOfCard {
+            copy.cardId = entity.cardId
+            copy.info.guessedCardState = .guessed
         }
 
         if entity.info.copyOfCardId != nil {
-            if let matchingEntity = eventHandler.opponent.playerEntities.first(where: { e in String(e.id) == entity.info.copyOfCardId }) {
+            let matchingEntities = eventHandler.opponent.playerEntities.filter({ e in String(e.id) == entity.info.copyOfCardId || e.info.copyOfCardId == entity.info.copyOfCardId })
+
+            for matchingEntity in matchingEntities {
                 matchingEntity.cardId = entity.cardId
                 matchingEntity.info.hidden = false
+                matchingEntity.info.guessedCardState = .guessed
             }
         }
     }
@@ -1198,6 +1223,21 @@ class PowerGameStateParser: LogEventParser {
 
         let cardIdMatch = CardIdRegex.matches(target)
         return cardIdMatch.first?.value.trim()
+    }
+    
+    private func removeKnownCardId(eventHandler: PowerEventHandler, count: Int = 1) {
+        guard let currentBlock else {
+            return
+        }
+        let blockId = currentBlock.id
+        for _ in 0 ..< count {
+            if !eventHandler.knownCardIds.containsKey(blockId) {
+                break
+            }
+            if let count = eventHandler.knownCardIds[blockId]?.count, count > 0 {
+                eventHandler.knownCardIds[blockId]?.removeLast()
+            }
+        }
     }
 
     private func addKnownCardId(eventHandler: PowerEventHandler, cardId: String?, count: Int = 1, location: DeckLocation = .unknown, copyOfCardId: String? = nil) {

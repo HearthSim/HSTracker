@@ -1082,6 +1082,8 @@ class Game: NSObject, PowerEventHandler {
     var choicesById = SynchronizedDictionary<Int, IHsChoice>()
     var choicesByTaskList = SynchronizedDictionary<Int, [IHsChoice]>()
     
+    var triangulatePlayed = false
+    
 	var startTime: Date?
     var currentTurn = 0
     var lastId = 0
@@ -1613,6 +1615,8 @@ class Game: NSObject, PowerEventHandler {
         
         adventureOpponentId = nil
         dredgeCounter = 0
+        
+        triangulatePlayed = false
         
         OpponentDeadForTracker.reset()
     }

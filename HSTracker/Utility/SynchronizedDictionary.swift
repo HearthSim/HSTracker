@@ -84,4 +84,10 @@ class SynchronizedDictionary<Key: Hashable, Value> {
             return dictionary.compactMap(transform)
         }
     }
+    
+    func containsKey(_ other: Key) -> Bool {
+        return lock.around {
+            return dictionary.keys.contains(other)
+        }
+    }
 }

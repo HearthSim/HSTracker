@@ -263,4 +263,6 @@ protocol PowerEventHandler: AnyObject {
     func duosSetHeroModified(_ isPlayer: Bool)
     
     var duosWasOpponentHeroModified: Bool { get }
+    
+    var triangulatePlayed: Bool { get set }
 }

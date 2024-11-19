@@ -347,6 +347,7 @@ enum GameTag: Int, CaseIterable, Codable {
     literally_unplayable = 1020,
     whizbang_deck_id = 1048,
     shrine = 1057,
+    casts_when_drawn = 1077,
     reborn = 1085,
     quest_reward_database_id = 1089,
     proxy_galakrond = 1190,
