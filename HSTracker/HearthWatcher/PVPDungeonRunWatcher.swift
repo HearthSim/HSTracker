@@ -7,13 +7,14 @@
 //
 
 import Foundation
+import Atomics
 
 class PVPDungeonRunWatcher {
     var pvpDungeonInfoChanged: ((_ dungeonInfo: MirrorDungeonInfo) -> Void)?
     var pvpDungeonRunMatchStarted: ((_ newRun: Bool, _ cardSet: CardSet) -> Void)?
     private let delay: TimeInterval
-    private var _running = false
-    private var _watch = false
+    private var _running = ManagedAtomic<Bool>(false)
+    private var _watch = ManagedAtomic<Bool>(false)
     private var _prevCards: [Int]?
     private var _prevLootChoice: Int?
     private var _prevTreasureChoice: Int?
@@ -24,8 +25,8 @@ class PVPDungeonRunWatcher {
     }
     
     func run() {
-        _watch = true
-        if _running {
+        _watch.store(true, ordering: .sequentiallyConsistent)
+        if _running.load(ordering: .sequentiallyConsistent) {
             return
         }
         if queue == nil {
@@ -41,24 +42,24 @@ class PVPDungeonRunWatcher {
     }
     
     func stop() {
-        _watch = false
+        _watch.store(false, ordering: .sequentiallyConsistent)
     }
     
     private func watch() {
-        _running = true
+        _running.store(true, ordering: .sequentiallyConsistent)
         _prevCards = nil
         _prevLootChoice = nil
         _prevTreasureChoice = nil
-        while _watch {
+        while _watch.load(ordering: .sequentiallyConsistent) {
             Thread.sleep(forTimeInterval: delay)
-            if !_watch {
+            if !_watch.load(ordering: .sequentiallyConsistent) {
                 break
             }
             if update() {
                 break
             }
         }
-        _running = false
+        _running.store(false, ordering: .sequentiallyConsistent)
     }
     
     private func update() -> Bool {

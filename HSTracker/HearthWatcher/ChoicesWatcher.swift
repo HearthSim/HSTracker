@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Atomics
 
 struct ChoicesWatcherArgs: Equatable {
     var currentChoice: MirrorCardChoices?
@@ -32,8 +33,8 @@ class ChoicesWatcher {
     let delay: TimeInterval
     var change: ((_ sender: ChoicesWatcher, _ args: ChoicesWatcherArgs) -> Void)?
     
-    private var _running = false
-    private var _watch = false
+    private var _running = ManagedAtomic<Bool>(false)
+    private var _watch = ManagedAtomic<Bool>(false)
     private var _prev: ChoicesWatcherArgs?
     internal var queue: DispatchQueue?
 
@@ -42,8 +43,8 @@ class ChoicesWatcher {
     }
     
     func run() {
-        _watch = true
-        if _running {
+        _watch.store(true, ordering: .sequentiallyConsistent)
+        if _running.load(ordering: .sequentiallyConsistent) {
             return
         }
         if queue == nil {
@@ -59,14 +60,14 @@ class ChoicesWatcher {
     }
     
     func stop() {
-        _watch = false
+        _watch.store(false, ordering: .sequentiallyConsistent)
     }
 
     private func update() {
-        _running = true
-        while _watch {
+        _running.store(true, ordering: .sequentiallyConsistent)
+        while _watch.load(ordering: .sequentiallyConsistent) {
             Thread.sleep(forTimeInterval: delay)
-            if !_watch {
+            if !_watch.load(ordering: .sequentiallyConsistent) {
                 break
             }
             
@@ -79,6 +80,6 @@ class ChoicesWatcher {
             _prev = curr
         }
         _prev = nil
-        _running = false
+        _running.store(false, ordering: .sequentiallyConsistent)
     }
 }

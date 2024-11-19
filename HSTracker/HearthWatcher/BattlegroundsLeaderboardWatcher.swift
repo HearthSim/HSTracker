@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Atomics
 
 struct BattlegroundsLeaderboardArgs: Equatable {
     let hoveredEntityId: Int?
@@ -15,8 +16,8 @@ struct BattlegroundsLeaderboardArgs: Equatable {
 class BattlegroundsLeaderboardWatcher {
     var change: ((_ sender: BattlegroundsLeaderboardWatcher, _ args: BattlegroundsLeaderboardArgs) -> Void)?
     private let delay: TimeInterval
-    private var _running = false
-    private var _watch = false
+    private var _running = ManagedAtomic<Bool>(false)
+    private var _watch = ManagedAtomic<Bool>(false)
     private var _prev: BattlegroundsLeaderboardArgs?
     internal var queue: DispatchQueue?
 
@@ -25,8 +26,8 @@ class BattlegroundsLeaderboardWatcher {
     }
     
     func run() {
-        _watch = true
-        if _running {
+        _watch.store(true, ordering: .sequentiallyConsistent)
+        if _running.load(ordering: .sequentiallyConsistent) {
             return
         }
         if queue == nil {
@@ -42,14 +43,14 @@ class BattlegroundsLeaderboardWatcher {
     }
     
     func stop() {
-        _watch = false
+        _watch.store(false, ordering: .sequentiallyConsistent)
     }
 
     private func update() {
-        _running = true
-        while _watch {
+        _running.store(true, ordering: .sequentiallyConsistent)
+        while _watch.load(ordering: .sequentiallyConsistent) {
             Thread.sleep(forTimeInterval: delay)
-            if !_watch {
+            if !_watch.load(ordering: .sequentiallyConsistent) {
                 break
             }
             
@@ -62,6 +63,6 @@ class BattlegroundsLeaderboardWatcher {
             _prev = curr
         }
         _prev = nil
-        _running = false
+        _running.store(false, ordering: .sequentiallyConsistent)
     }
 }

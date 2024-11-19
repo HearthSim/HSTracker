@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Atomics
 
 struct QueueEventArgs {
     var isInQueue: Bool
@@ -18,8 +19,8 @@ class QueueWatcher {
     private let delay: TimeInterval
     internal var queue: DispatchQueue?
     var inQueueChanged: ((_ sender: QueueWatcher, _ args: QueueEventArgs) -> Void)?
-    private var _running = false
-    private var _watch = false
+    private var _running = ManagedAtomic<Bool>(false)
+    private var _watch = ManagedAtomic<Bool>(false)
     private var _prev: FindGameState?
         
     init(delay: TimeInterval = 0.200) {
@@ -28,8 +29,8 @@ class QueueWatcher {
     }
     
     func run() {
-        _watch = true
-        if _running {
+        _watch.store(true, ordering: .sequentiallyConsistent)
+        if _running.load(ordering: .sequentiallyConsistent) {
             return
         }
         if queue == nil {
@@ -45,14 +46,14 @@ class QueueWatcher {
     }
     
     func stop() {
-        _watch = false
+        _watch.store(false, ordering: .sequentiallyConsistent)
     }
 
     private func update() {
-        _running = true
-        while _watch {
+        _running.store(true, ordering: .sequentiallyConsistent)
+        while _watch.load(ordering: .sequentiallyConsistent) {
             Thread.sleep(forTimeInterval: delay)
-            if !_watch {
+            if !_watch.load(ordering: .sequentiallyConsistent) {
                 break
             }
             let state = MirrorHelper.getFindGameState()
@@ -64,6 +65,6 @@ class QueueWatcher {
             _prev = state
         }
         _prev = nil
-        _running = false
+        _running.store(false, ordering: .sequentiallyConsistent)
     }
 }

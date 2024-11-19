@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Atomics
 
 struct ExperienceEvent {
     var experience: Int
@@ -19,8 +20,8 @@ struct ExperienceEvent {
 class ExperienceWatcher {
     var newExperienceHandler: ((_ sender: ExperienceWatcher, _ args: ExperienceEvent) -> Void)?
     private let delay: TimeInterval
-    private var _running = false
-    private var _watch = false
+    private var _running = ManagedAtomic<Bool>(false)
+    private var _watch = ManagedAtomic<Bool>(false)
     var _rewardTrackData: MirrorRewardTrackData?
     internal var queue: DispatchQueue?
     
@@ -29,8 +30,8 @@ class ExperienceWatcher {
     }
     
     func run() {
-        _watch = true
-        if _running {
+        _watch.store(true, ordering: .sequentiallyConsistent)
+        if _running.load(ordering: .sequentiallyConsistent) {
             return
         }
         if queue == nil {
@@ -46,15 +47,15 @@ class ExperienceWatcher {
     }
     
     func stop() {
-        _watch = false
+        _watch.store(false, ordering: .sequentiallyConsistent)
     }
     
     private func update() {
-        _running = true
-        while _watch {
+        _running.store(true, ordering: .sequentiallyConsistent)
+        while _watch.load(ordering: .sequentiallyConsistent) {
             Thread.sleep(forTimeInterval: delay)
 
-            if !_watch {
+            if !_watch.load(ordering: .sequentiallyConsistent) {
                 break
             }
             
@@ -73,6 +74,6 @@ class ExperienceWatcher {
                 }
             }
         }
-        _running = false
+        _running.store(false, ordering: .sequentiallyConsistent)
     }
 }

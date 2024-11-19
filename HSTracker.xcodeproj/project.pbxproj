@@ -643,6 +643,7 @@
 		B887656726C3049F003D3629 /* ShortIdHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E7B15262A798000C42EF0 /* ShortIdHelper.swift */; };
 		B887656826C304A5003D3629 /* MulliganToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E7B13262A533F00C42EF0 /* MulliganToastView.swift */; };
 		B887656A26C304FA003D3629 /* BigInt in Frameworks */ = {isa = PBXBuildFile; productRef = B887656926C304FA003D3629 /* BigInt */; };
+		B889F6092CEC1CFB001506F4 /* Atomics in Frameworks */ = {isa = PBXBuildFile; productRef = B889F6082CEC1CFB001506F4 /* Atomics */; settings = {ATTRIBUTES = (Required, ); }; };
 		B89343342CCFAF7E009A8727 /* PlayedSpellsCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89343332CCFAF7E009A8727 /* PlayedSpellsCounter.swift */; };
 		B89343362CCFD3BE009A8727 /* PogoHopperCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89343352CCFD3BE009A8727 /* PogoHopperCounter.swift */; };
 		B89343382CD00858009A8727 /* ChaoticTendrilCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89343372CD00858009A8727 /* ChaoticTendrilCounter.swift */; };
@@ -1994,6 +1995,7 @@
 				433554331D5F6B4400277B27 /* libz.tbd in Frameworks */,
 				B8D75BEF25BDFE6D00446923 /* Gzip in Frameworks */,
 				B8D75B9625B4799200446923 /* Preferences in Frameworks */,
+				B889F6092CEC1CFB001506F4 /* Atomics in Frameworks */,
 				B8D75BEA25BDF92B00446923 /* RealmSwift in Frameworks */,
 				B8D75BAF25BCE68900446923 /* SwiftyBeaver in Frameworks */,
 				B82E7B19262A88DB00C42EF0 /* BigInt in Frameworks */,
@@ -3433,6 +3435,7 @@
 				B82E7B18262A88DB00C42EF0 /* BigInt */,
 				B85920952B4C73B300B907A4 /* CustomToolTip */,
 				B8196F102CC1BB58007C0371 /* Sentry */,
+				B889F6082CEC1CFB001506F4 /* Atomics */,
 			);
 			productName = HSTracker;
 			productReference = 439C7E481C7772C000D29859 /* HSTracker.app */;
@@ -3531,6 +3534,7 @@
 				B82E7B17262A88DB00C42EF0 /* XCRemoteSwiftPackageReference "BigInt" */,
 				B85920942B4C73B300B907A4 /* XCRemoteSwiftPackageReference "CustomToolTip" */,
 				B8196F0F2CC1BB58007C0371 /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
+				B889F6072CEC1CFB001506F4 /* XCRemoteSwiftPackageReference "swift-atomics" */,
 			);
 			productRefGroup = 439C7E491C7772C000D29859 /* Products */;
 			projectDirPath = "";
@@ -5467,6 +5471,14 @@
 				kind = branch;
 			};
 		};
+		B889F6072CEC1CFB001506F4 /* XCRemoteSwiftPackageReference "swift-atomics" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-atomics.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
 		B8D75B9425B4799100446923 /* XCRemoteSwiftPackageReference "Preferences" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sindresorhus/Preferences";
@@ -5561,6 +5573,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B82E7B17262A88DB00C42EF0 /* XCRemoteSwiftPackageReference "BigInt" */;
 			productName = BigInt;
+		};
+		B889F6082CEC1CFB001506F4 /* Atomics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B889F6072CEC1CFB001506F4 /* XCRemoteSwiftPackageReference "swift-atomics" */;
+			productName = Atomics;
 		};
 		B8D75B9525B4799200446923 /* Preferences */ = {
 			isa = XCSwiftPackageProductDependency;

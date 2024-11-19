@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Atomics
 
 class ArenaDeckWatcher {
     private let delay: TimeInterval
@@ -14,8 +15,8 @@ class ArenaDeckWatcher {
     private(set) var selectedDeck: MirrorDeck?
     private(set) var selectedDeckId: Int64 = 0
     
-    private var _running = false
-    private var _watch = false
+    private var _running = ManagedAtomic<Bool>(false)
+    private var _watch = ManagedAtomic<Bool>(false)
     internal var queue: DispatchQueue?
 
     init(delay: TimeInterval = 0.500) {
@@ -23,8 +24,8 @@ class ArenaDeckWatcher {
     }
     
     func run() {
-        _watch = true
-        if _running {
+        _watch.store(true, ordering: .sequentiallyConsistent)
+        if _running.load(ordering: .sequentiallyConsistent) {
             return
         }
         if queue == nil {
@@ -40,12 +41,12 @@ class ArenaDeckWatcher {
     }
     
     func stop() {
-        _watch = false
+        _watch.store(false, ordering: .sequentiallyConsistent)
     }
 
     func update() {
-        _running = true
-        while _watch {
+        _running.store(true, ordering: .sequentiallyConsistent)
+        while _watch.load(ordering: .sequentiallyConsistent) {
             guard let arenaInfo = MirrorHelper.getArenaDeck() else {
                 Thread.sleep(forTimeInterval: delay)
                 continue
@@ -55,6 +56,6 @@ class ArenaDeckWatcher {
 
             Thread.sleep(forTimeInterval: delay)
         }
-        _running = false
+        _running .store(false, ordering: .sequentiallyConsistent)
     }
 }

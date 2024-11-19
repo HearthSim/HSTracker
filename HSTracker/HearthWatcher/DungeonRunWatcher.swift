@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Atomics
 
 class DungeonRunDeckWatcher {
     private(set) var dungeonRunDeck: [Card] = []
@@ -16,8 +17,8 @@ class DungeonRunDeckWatcher {
     var dungeonRunMatchStarted: ((_ newRun: Bool, _ set: CardSet) -> Void)?
     
     private let delay: TimeInterval
-    private var _running = false
-    private var _watch = false
+    private var _running = ManagedAtomic<Bool>(false)
+    private var _watch = ManagedAtomic<Bool>(false)
     var _prevCards: [Int]?
     var _prevLootChoice = 0
     var _prevTreasureChoice = 0
@@ -31,8 +32,8 @@ class DungeonRunDeckWatcher {
     }
     
     func run() {
-        _watch = true
-        if _running {
+        _watch.store(true, ordering: .sequentiallyConsistent)
+        if _running.load(ordering: .sequentiallyConsistent) {
             return
         }
         if queue == nil {
@@ -48,7 +49,7 @@ class DungeonRunDeckWatcher {
     }
     
     func stop() {
-        _watch = false
+        _watch.store(false, ordering: .sequentiallyConsistent)
     }
 
     static var initialOpponents: [String] =  [
@@ -77,23 +78,24 @@ class DungeonRunDeckWatcher {
     var saveKey: GameSaveKeyId = .invalid
     
     private func watch() {
+        _running.store(true, ordering: .sequentiallyConsistent)
         _prevCards = nil
         _prevLootChoice = 0
         _prevTreasureChoice = 0
         dungeonRunDeck.removeAll()
         
-        while _watch {
+        while _watch.load(ordering: .sequentiallyConsistent) {
             Thread.sleep(forTimeInterval: delay)
-            if !_watch {
+            if !_watch.load(ordering: .sequentiallyConsistent) {
                 break
             }
             if update() {
                 break
             }
         }
-        _running = false
         dungeonRunDeck.removeAll()
         saveKey = .invalid
+        _running.store(false, ordering: .sequentiallyConsistent)
     }
     
     private func update() -> Bool {
