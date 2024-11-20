@@ -645,6 +645,7 @@
 		B887656A26C304FA003D3629 /* BigInt in Frameworks */ = {isa = PBXBuildFile; productRef = B887656926C304FA003D3629 /* BigInt */; };
 		B889F6092CEC1CFB001506F4 /* Atomics in Frameworks */ = {isa = PBXBuildFile; productRef = B889F6082CEC1CFB001506F4 /* Atomics */; settings = {ATTRIBUTES = (Required, ); }; };
 		B889F60B2CED5D26001506F4 /* CardsDrawnThisGameCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B889F60A2CED5D26001506F4 /* CardsDrawnThisGameCounter.swift */; };
+		B889F60D2CED6151001506F4 /* CardsDrawnThisTurnCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B889F60C2CED6151001506F4 /* CardsDrawnThisTurnCounter.swift */; };
 		B89343342CCFAF7E009A8727 /* PlayedSpellsCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89343332CCFAF7E009A8727 /* PlayedSpellsCounter.swift */; };
 		B89343362CCFD3BE009A8727 /* PogoHopperCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89343352CCFD3BE009A8727 /* PogoHopperCounter.swift */; };
 		B89343382CD00858009A8727 /* ChaoticTendrilCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89343372CD00858009A8727 /* ChaoticTendrilCounter.swift */; };
@@ -1538,6 +1539,7 @@
 		B88364F9275D6FE10094D8E1 /* FlavorText.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FlavorText.xib; sourceTree = "<group>"; };
 		B88364FB275D746D0094D8E1 /* FlavorText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlavorText.swift; sourceTree = "<group>"; };
 		B889F60A2CED5D26001506F4 /* CardsDrawnThisGameCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsDrawnThisGameCounter.swift; sourceTree = "<group>"; };
+		B889F60C2CED6151001506F4 /* CardsDrawnThisTurnCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsDrawnThisTurnCounter.swift; sourceTree = "<group>"; };
 		B89343332CCFAF7E009A8727 /* PlayedSpellsCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayedSpellsCounter.swift; sourceTree = "<group>"; };
 		B89343352CCFD3BE009A8727 /* PogoHopperCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PogoHopperCounter.swift; sourceTree = "<group>"; };
 		B89343372CD00858009A8727 /* ChaoticTendrilCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChaoticTendrilCounter.swift; sourceTree = "<group>"; };
@@ -2693,6 +2695,7 @@
 				B8196F1C2CC871A6007C0371 /* AstralAutomatonCounter.swift */,
 				B8196F1E2CC87293007C0371 /* BloodGemCounter.swift */,
 				B889F60A2CED5D26001506F4 /* CardsDrawnThisGameCounter.swift */,
+				B889F60C2CED6151001506F4 /* CardsDrawnThisTurnCounter.swift */,
 				B89343372CD00858009A8727 /* ChaoticTendrilCounter.swift */,
 				B89343392CD008DF009A8727 /* CthunCounter.swift */,
 				B893433B2CD0372A009A8727 /* ElementalTurnSequenceCounter.swift */,
@@ -4249,6 +4252,7 @@
 				B85462232CDEBE390083BB31 /* ScroungingShipwright.swift in Sources */,
 				B85462212CDEBDC80083BB31 /* YrelBeaconOfHope.swift in Sources */,
 				B8D8859824F40D4E00F2F0F2 /* ClickableBox.swift in Sources */,
+				B889F60D2CED6151001506F4 /* CardsDrawnThisTurnCounter.swift in Sources */,
 				B8FDE9442CDD1AD20093BFF7 /* StranglethornHeart.swift in Sources */,
 				432C11AB1CCF6B460067C5FE /* Format.swift in Sources */,
 				B8B790492C97789E00DD33EC /* ValeeraTheHollowEnchantment.swift in Sources */,

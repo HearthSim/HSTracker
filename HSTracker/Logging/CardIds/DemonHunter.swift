@@ -36,6 +36,11 @@ extension CardIds.Collectible {
         static let VoroneiRecruiter = "GDB_471"
         static let ShattershardTurret = "GDB_105"
         static let FelfusedBattery = "GDB_110"
+        static let IreboundBrute = "SW_037"
+        static let LionsFrenzy = "SW_454"
+        static let Momentum = "TTN_841"
+        static let ArguniteGolem = "TTN_844"
+        static let Mindbender = "YOG_402"
     }
 }
 
