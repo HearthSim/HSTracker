@@ -644,6 +644,7 @@
 		B887656826C304A5003D3629 /* MulliganToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E7B13262A533F00C42EF0 /* MulliganToastView.swift */; };
 		B887656A26C304FA003D3629 /* BigInt in Frameworks */ = {isa = PBXBuildFile; productRef = B887656926C304FA003D3629 /* BigInt */; };
 		B889F6092CEC1CFB001506F4 /* Atomics in Frameworks */ = {isa = PBXBuildFile; productRef = B889F6082CEC1CFB001506F4 /* Atomics */; settings = {ATTRIBUTES = (Required, ); }; };
+		B889F60B2CED5D26001506F4 /* CardsDrawnThisGameCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B889F60A2CED5D26001506F4 /* CardsDrawnThisGameCounter.swift */; };
 		B89343342CCFAF7E009A8727 /* PlayedSpellsCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89343332CCFAF7E009A8727 /* PlayedSpellsCounter.swift */; };
 		B89343362CCFD3BE009A8727 /* PogoHopperCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89343352CCFD3BE009A8727 /* PogoHopperCounter.swift */; };
 		B89343382CD00858009A8727 /* ChaoticTendrilCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89343372CD00858009A8727 /* ChaoticTendrilCounter.swift */; };
@@ -1536,6 +1537,7 @@
 		B8832DDB26117FCE00646BA4 /* MultiIdCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiIdCard.swift; sourceTree = "<group>"; };
 		B88364F9275D6FE10094D8E1 /* FlavorText.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FlavorText.xib; sourceTree = "<group>"; };
 		B88364FB275D746D0094D8E1 /* FlavorText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlavorText.swift; sourceTree = "<group>"; };
+		B889F60A2CED5D26001506F4 /* CardsDrawnThisGameCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsDrawnThisGameCounter.swift; sourceTree = "<group>"; };
 		B89343332CCFAF7E009A8727 /* PlayedSpellsCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayedSpellsCounter.swift; sourceTree = "<group>"; };
 		B89343352CCFD3BE009A8727 /* PogoHopperCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PogoHopperCounter.swift; sourceTree = "<group>"; };
 		B89343372CD00858009A8727 /* ChaoticTendrilCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChaoticTendrilCounter.swift; sourceTree = "<group>"; };
@@ -2690,6 +2692,7 @@
 				B82029302CD2C4D700C19A8C /* AsteroidExtraDamageCounter.swift */,
 				B8196F1C2CC871A6007C0371 /* AstralAutomatonCounter.swift */,
 				B8196F1E2CC87293007C0371 /* BloodGemCounter.swift */,
+				B889F60A2CED5D26001506F4 /* CardsDrawnThisGameCounter.swift */,
 				B89343372CD00858009A8727 /* ChaoticTendrilCounter.swift */,
 				B89343392CD008DF009A8727 /* CthunCounter.swift */,
 				B893433B2CD0372A009A8727 /* ElementalTurnSequenceCounter.swift */,
@@ -3971,6 +3974,7 @@
 				B82029392CD2CECB00C19A8C /* AstrobiologistEnchantment.swift in Sources */,
 				B8DC11F424EACDB80088A755 /* SimulationRunner.swift in Sources */,
 				432AD95D1DAD81B500D8F959 /* HttpEncoding.swift in Sources */,
+				B889F60B2CED5D26001506F4 /* CardsDrawnThisGameCounter.swift in Sources */,
 				439C7EC51C777F8900D29859 /* PowerGameStateParser.swift in Sources */,
 				43C567FD1D5E448200451B6F /* HSReplayManager.swift in Sources */,
 				B804FC3D29462EA800F74CD9 /* NSButton.swift in Sources */,
