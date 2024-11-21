@@ -51,7 +51,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
             ImportingPreferences(nibName: "ImportingPreferences", bundle: nil),
             HSReplayPreferences(nibName: "HSReplayPreferences", bundle: nil)
         ]
-        return PreferencesWindowController(preferencePanes: panes, style: .toolbarItems, animated: true)
+        return PreferencesWindowController(preferencePanes: panes, style: .toolbarItems, animated: false)
     }()
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
