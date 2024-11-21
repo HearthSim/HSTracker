@@ -20,7 +20,6 @@ class ElementalTurnSequenceCounter: NumericCounter {
     
     override var relatedCards: [String] {
         return [
-            CardIds.Collectible.Neutral.Lamplighter,
             CardIds.Collectible.Neutral.AzeriteGiant,
             CardIds.Collectible.Mage.ElementalAllies,
             CardIds.Collectible.Mage.OverflowSurger,
@@ -41,11 +40,11 @@ class ElementalTurnSequenceCounter: NumericCounter {
         
         if isPlayerCounter {
             return inPlayerDeckOrKnown(cardIds: relatedCards)
-        } else if counter > 2 && opponentMayHaveRelevantCards() {
+        } else if counter > 2 && opponentMayHaveRelevantCards(ignoreNeutral: true) {
             shownBefore = true
         }
         
-        return (counter > 2 && opponentMayHaveRelevantCards()) || shownBefore
+        return (counter > 2 && opponentMayHaveRelevantCards(ignoreNeutral: true)) || shownBefore
     }
 
     override func getCardsToDisplay() -> [String] {
