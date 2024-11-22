@@ -1,3 +1,12 @@
+# 3.1.3
+## New
+- Updated for Hearthstone 31.0.3
+- Added support for Triangulate
+- Added counters for Playhouse Giant and cards drawn this turn
+## Fixes
+- Fixed incorrect secrets being passed to BobsBuddy
+- Miscelaneous crash fixes
+
 # 3.1.2
 ## Fixes
 - Fixed some crashes related to related cards manager
