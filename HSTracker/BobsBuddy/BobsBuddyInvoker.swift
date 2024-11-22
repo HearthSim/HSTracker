@@ -445,7 +445,7 @@ class BobsBuddyInvoker {
                         }
                         SentrySDK.capture(error: error, block: { scope in
                             if inputString.count != 0 {
-                                scope.setTag(value: "input", key: inputString)
+                                scope.addAttachment(Attachment(data: inputString.data(using: .utf8) ?? Data(), filename: "input.cs", contentType: "application/text"))
                             }
                         })
                         logger.error("Unknown error")

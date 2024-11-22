@@ -1764,6 +1764,13 @@ class Game: NSObject, PowerEventHandler {
         logger.info("\(pname) [PlayerId=\(player.id)] vs \(oname) [PlayerId=\(opponent.id)]")
     }
     
+    private func getCurrentDeckIdIfAppropriate() -> String {
+        if isTraditionalHearthstoneMatch {
+            return currentDeck?.shortid ?? ""
+        }
+        return ""
+    }
+    
     private var lastGameStart = Date.distantPast
     func gameStart(at timestamp: LogDate) {
         invalidateMatchInfoCache()
@@ -1835,7 +1842,8 @@ class Game: NSObject, PowerEventHandler {
         Influx.breadcrumb(eventName: "match_start", 
                           withProperties: ["gameMode": "\(self.currentGameMode)",
                                            "gameType": "\(self.currentGameType)",
-                                           "spectator": "\(self.spectator)"],
+                                           "spectator": "\(self.spectator)",
+                                           "deckId": "\(self.getCurrentDeckIdIfAppropriate())"],
                           level: .info)
         
         windowManager.linkOpponentDeckPanel.isFriendlyMatch = isFriendlyMatch

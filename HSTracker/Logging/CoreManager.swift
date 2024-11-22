@@ -64,7 +64,8 @@ final class CoreManager: NSObject {
         }
         
         timer.eventHandler = {
-            logger.debug(self.formattedMemoryFootprint())
+            let str = self.formattedMemoryFootprint()
+            logger.debug(str)
         }
         timer.resume()
     }
