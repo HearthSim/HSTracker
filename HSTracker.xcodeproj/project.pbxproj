@@ -640,6 +640,7 @@
 		B8832DDC26117FCF00646BA4 /* MultiIdCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8832DDB26117FCE00646BA4 /* MultiIdCard.swift */; };
 		B88364FA275D6FE10094D8E1 /* FlavorText.xib in Resources */ = {isa = PBXBuildFile; fileRef = B88364F9275D6FE10094D8E1 /* FlavorText.xib */; };
 		B88364FC275D746D0094D8E1 /* FlavorText.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88364FB275D746D0094D8E1 /* FlavorText.swift */; };
+		B88595B72CEFDB9900769275 /* libswift_Concurrency.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B88595B62CEFDB9900769275 /* libswift_Concurrency.tbd */; settings = {ATTRIBUTES = (Weak, ); }; };
 		B887656726C3049F003D3629 /* ShortIdHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E7B15262A798000C42EF0 /* ShortIdHelper.swift */; };
 		B887656826C304A5003D3629 /* MulliganToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E7B13262A533F00C42EF0 /* MulliganToastView.swift */; };
 		B887656A26C304FA003D3629 /* BigInt in Frameworks */ = {isa = PBXBuildFile; productRef = B887656926C304FA003D3629 /* BigInt */; };
@@ -1538,6 +1539,7 @@
 		B8832DDB26117FCE00646BA4 /* MultiIdCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiIdCard.swift; sourceTree = "<group>"; };
 		B88364F9275D6FE10094D8E1 /* FlavorText.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FlavorText.xib; sourceTree = "<group>"; };
 		B88364FB275D746D0094D8E1 /* FlavorText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlavorText.swift; sourceTree = "<group>"; };
+		B88595B62CEFDB9900769275 /* libswift_Concurrency.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libswift_Concurrency.tbd; path = usr/lib/swift/libswift_Concurrency.tbd; sourceTree = SDKROOT; };
 		B889F60A2CED5D26001506F4 /* CardsDrawnThisGameCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsDrawnThisGameCounter.swift; sourceTree = "<group>"; };
 		B889F60C2CED6151001506F4 /* CardsDrawnThisTurnCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsDrawnThisTurnCounter.swift; sourceTree = "<group>"; };
 		B89343332CCFAF7E009A8727 /* PlayedSpellsCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayedSpellsCounter.swift; sourceTree = "<group>"; };
@@ -1990,6 +1992,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B88595B72CEFDB9900769275 /* libswift_Concurrency.tbd in Frameworks */,
 				B849674328A5830D00D90B30 /* libcoreclr.dylib in Frameworks */,
 				B8D75BF725BE032500446923 /* Sparkle in Frameworks */,
 				B8D75BBD25BCEACB00446923 /* TextAttributes in Frameworks */,
@@ -3392,6 +3395,7 @@
 		F997FED720A990D7DB50C540 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B88595B62CEFDB9900769275 /* libswift_Concurrency.tbd */,
 				B849674228A5830D00D90B30 /* libcoreclr.dylib */,
 				B83355B324F84F200025F644 /* libiconv.2.dylib */,
 				B83355B124F84CBF0025F644 /* libmonosgen-2.0.a */,
@@ -5286,9 +5290,12 @@
 					"@executable_path/../Frameworks",
 					"$(FRAMEWORK_SEARCH_PATHS)",
 				);
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/downloaded-frameworks/mono/runtimes/osx-x64/native";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/downloaded-frameworks/mono/runtimes/osx-x64/native",
+					"$(SDKROOT)/usr/lib/swift",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 3.1.2;
+				MARKETING_VERSION = 3.1.3;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = (
@@ -5334,9 +5341,12 @@
 					"@executable_path/../Frameworks",
 					"$(FRAMEWORK_SEARCH_PATHS)",
 				);
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/downloaded-frameworks/mono/runtimes/osx-x64/native";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/downloaded-frameworks/mono/runtimes/osx-x64/native",
+					"$(SDKROOT)/usr/lib/swift",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 3.1.2;
+				MARKETING_VERSION = 3.1.3;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
