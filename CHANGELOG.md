@@ -1,3 +1,7 @@
+# 3.1.4
+## Fixes
+- Fixed crash on MacOS 11.7
+
 # 3.1.3
 ## New
 - Updated for Hearthstone 31.0.3
