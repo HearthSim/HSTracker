@@ -717,6 +717,8 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Paladin.Grillmaster_SunscreenToken)
                         case CardIds.Collectible.Rogue.MetalDetector:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.TheCoinBasic)
+                        case CardIds.NonCollectible.Paladin.LibramofDivinity_LibramOfDivinityEnchantment:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Paladin.LibramOfDivinity)
                         case CardIds.Collectible.Mage.CommanderSivara, CardIds.Collectible.Neutral.TidepoolPupil:
                             if let cardId = currentBlock?.parent?.cardId, Cards.by(cardId: cardId)?.type == .spell, let actionStartingEntity {
                                 let maxCards = 3

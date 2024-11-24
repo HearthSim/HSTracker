@@ -258,6 +258,7 @@ extension CardIds.NonCollectible {
         static let TheAzeriteDragonToken = "DEEP_999t4"
         static let InterstellarStarslicer_InterstellarLibramEnchantmentEnchantment = "GDB_726e"
         static let TyrsTears = "TTN_855"
+        static let LibramofDivinity_LibramOfDivinityEnchantment = "GDB_138e2"
     }
 }
 
