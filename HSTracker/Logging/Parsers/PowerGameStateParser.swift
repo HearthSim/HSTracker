@@ -347,6 +347,7 @@ class PowerGameStateParser: LogEventParser {
                                 }
                                 return String(e.id)
                             })
+                            entity?.info.guessedCardState = .guessed
                         }
                     }
                     
