@@ -23,11 +23,6 @@ class HolyCowboyEnchantment: EntityBasedEffect {
         super.init(entityId: entityId, isControlledByPlayer: isControlledByPlayer)
     }
 
-    // Computed properties
-    override var effectTarget: EffectTarget {
-        return .enemy
-    }
-
     override var effectDuration: EffectDuration {
         return .conditional
     }
