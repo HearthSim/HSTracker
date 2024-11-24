@@ -868,6 +868,9 @@ extension CardIds.NonCollectible {
         static let UnyieldingVindicator_UnyieldingVindicatorFutureBuffEnchantment = "GDB_232e"
         static let PhotographerFizzle_FizzlesSnapshotToken = "ETC_113t"
         static let ArkoniteDefenseCrystal_TheExilesHopeToken = "GDB_100t2"
+        static let ProGamer_Rock = "MIS_916a"
+        static let ProGamer_Paper = "MIS_916b"
+        static let ProGamer_Scissors = "MIS_916c"
     }
 }
 

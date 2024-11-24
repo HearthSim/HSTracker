@@ -942,7 +942,7 @@ final class Player {
         entity.info.turn = turn
         if let card = inDeckPredictions.first(where: { $0.cardId == entity.cardId }) {
             card.turn = turn
-        } else {
+        } else if entity.cardId != CardIds.NonCollectible.Neutral.ProGamer_Rock && entity.cardId != CardIds.NonCollectible.Neutral.ProGamer_Paper && entity.cardId != CardIds.NonCollectible.Neutral.ProGamer_Scissors {
             inDeckPredictions.append(PredictedCard(cardId: entity.cardId, turn: turn))
         }
         if Settings.fullGameLog {
