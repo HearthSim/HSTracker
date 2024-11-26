@@ -16,24 +16,24 @@ class Splashscreen: NSWindowController {
 
     func display(_ str: String, indeterminate: Bool) {
         DispatchQueue.main.async { [weak self] in
-            guard let self = self else {
+            guard let self = self, let information, let progressBar else {
                 return
             }
-            self.information.stringValue = str
-            self.progressBar.isIndeterminate = indeterminate
-            self.progressBar.startAnimation(nil)
+            information.stringValue = str
+            progressBar.isIndeterminate = indeterminate
+            progressBar.startAnimation(nil)
         }
     }
 
     func display(_ str: String, total: Double) {
         DispatchQueue.main.async { [weak self] in
-            guard let self = self else {
+            guard let self = self, let information, let progressBar else {
                 return
             }
-            self.progressBar.isIndeterminate = false
-            self.information.stringValue = str
-            self.progressBar.maxValue = total
-            self.progressBar.doubleValue = 0
+            progressBar.isIndeterminate = false
+            information.stringValue = str
+            progressBar.maxValue = total
+            progressBar.doubleValue = 0
         }
         
     }
