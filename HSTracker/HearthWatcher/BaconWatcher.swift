@@ -59,9 +59,9 @@ class BaconWatcher {
                                   attributes: [])
         }
         if let queue = queue {
-            queue.async { [weak self] in
+            queue.async {
                 Thread.current.name = queue.label
-                self?.update()
+                self.update()
             }
         }
     }

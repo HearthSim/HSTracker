@@ -41,9 +41,9 @@ class DungeonRunDeckWatcher {
                                   attributes: [])
         }
         if let queue = queue {
-            queue.async { [weak self] in
+            queue.async {
                 Thread.current.name = queue.label
-                self?.watch()
+                self.watch()
             }
         }
     }
