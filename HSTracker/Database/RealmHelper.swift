@@ -356,6 +356,7 @@ struct RealmHelper {
         
         do {
             try realm.write {
+                Influx.breadcrumb(eventName: "realm_add_deck", withProperties: ["name": deck.name, "id": deck.deckId])
                 if update {
                     realm.add(deck, update: .all)
                 } else {
@@ -375,6 +376,7 @@ struct RealmHelper {
 		
 		do {
 			try realm.write {
+                Influx.breadcrumb(eventName: "realm_update_deck", withProperties: ["name": deck.name, "id": deck.deckId])
 				deck.cards.removeAll()
 				for card in cards {
 					deck.add(card: card)
@@ -398,6 +400,7 @@ struct RealmHelper {
 		
 		do {
 			try realm.write {
+                Influx.breadcrumb(eventName: "realm_add_deck_with_cards", withProperties: ["name": deck.name, "id": deck.deckId])
 				realm.add(deck)
 				for card in cards {
 					deck.add(card: card)
@@ -416,6 +419,7 @@ struct RealmHelper {
 		
 		do {
 			try realm.write {
+                Influx.breadcrumb(eventName: "realm_delete_deck", withProperties: ["name": deck.name, "id": deck.deckId])
 				realm.delete(deck)
 			}
 		} catch {
@@ -448,6 +452,7 @@ struct RealmHelper {
         
         do {
             try realm.write {
+                Influx.breadcrumb(eventName: "realm_rename_deck", withProperties: ["name": deck.name, "id": deck.deckId, "newName": name])
                 deck.name = name
             }
         } catch {
