@@ -99,7 +99,7 @@ class Game: NSObject, PowerEventHandler {
 	}
     
     func getBattlegroundsBoardStateFor(id: Int) -> BoardSnapshot? {
-        return _battlegroundsBoardState.getSnapshot(entityId: id)
+        return _battlegroundsBoardState?.getSnapshot(entityId: id)
     }
     
     var gameId = ""
@@ -109,7 +109,7 @@ class Game: NSObject, PowerEventHandler {
         return entities.values.filter { x in x.isHero && x.isInSetAside && (x.has(tag: .bacon_hero_can_be_drafted) || x.has(tag: .bacon_skin) || x.has(tag: .player_tech_level)) }.count + 1 }
     
     func snapshotBattlegroundsBoardState() {
-        _battlegroundsBoardState.snapshotCurrentBoard()
+        _battlegroundsBoardState?.snapshotCurrentBoard()
     }
     
     var battlegroundsBuddiesEnabled: Bool {
@@ -1102,7 +1102,7 @@ class Game: NSObject, PowerEventHandler {
     var opponent: Player!
     var currentMode: Mode? = .invalid
     var previousMode: Mode? = .invalid
-    private var _battlegroundsBoardState: BattlegroundsBoardState!
+    private var _battlegroundsBoardState: BattlegroundsBoardState?
     var primaryPlayerId = 0
     
     private var _brawlInfo: BrawlInfo?
@@ -1599,7 +1599,7 @@ class Game: NSObject, PowerEventHandler {
         _availableRaces = nil
         _unavailableRaces = nil
         _brawlInfo = nil
-        _battlegroundsBoardState.reset()
+        _battlegroundsBoardState?.reset()
         _battlegroundsHeroPickStatsParams = nil
         _battlegroundsHeroPickState = nil
         _mulliganGuideParams = nil
@@ -2620,7 +2620,7 @@ class Game: NSObject, PowerEventHandler {
         let playerId = entity[.player_id]
         
         if playerId > 0 {
-            _battlegroundsBoardState.handlePlayerTechLevel(playerId, techLevel)
+            _battlegroundsBoardState?.handlePlayerTechLevel(playerId, techLevel)
         }
     }
     
@@ -2632,7 +2632,7 @@ class Game: NSObject, PowerEventHandler {
         let playerId = entity[.player_id]
         
         if playerId > 0 {
-            _battlegroundsBoardState.handlePlayerTriples(playerId, techLevel, triples)
+            _battlegroundsBoardState?.handlePlayerTriples(playerId, techLevel, triples)
         }
     }
     
@@ -2642,7 +2642,7 @@ class Game: NSObject, PowerEventHandler {
         let playerId = entity[.player_id]
         
         if playerId > 0 {
-            _battlegroundsBoardState.handlePlayerBuddiesGained(playerId, num)
+            _battlegroundsBoardState?.handlePlayerBuddiesGained(playerId, num)
         }
     }
     
@@ -2652,7 +2652,7 @@ class Game: NSObject, PowerEventHandler {
         let playerId = entity[.player_id]
         
         if playerId > 0 {
-            _battlegroundsBoardState.handlePlayerHeroPowerQuestRewardDatabaseId(playerId, num)
+            _battlegroundsBoardState?.handlePlayerHeroPowerQuestRewardDatabaseId(playerId, num)
         }
     }
     
@@ -2662,7 +2662,7 @@ class Game: NSObject, PowerEventHandler {
         let playerId = entity[.player_id]
 
         if playerId > 0 {
-            _battlegroundsBoardState.handlePlayerHeroPowerQuestRewardCompleted(playerId)
+            _battlegroundsBoardState?.handlePlayerHeroPowerQuestRewardCompleted(playerId)
         }
     }
     
@@ -2672,7 +2672,7 @@ class Game: NSObject, PowerEventHandler {
         let playerId = entity[.player_id]
         
         if playerId > 0 {
-            _battlegroundsBoardState.handlePlayerHeroQuestRewardDatabaseId(playerId, num)
+            _battlegroundsBoardState?.handlePlayerHeroQuestRewardDatabaseId(playerId, num)
         }
     }
     
@@ -2682,7 +2682,7 @@ class Game: NSObject, PowerEventHandler {
         let playerId = entity[.player_id]
         
         if playerId > 0 {
-            _battlegroundsBoardState.handlePlayerHeroQuestRewardCompleted(playerId)
+            _battlegroundsBoardState?.handlePlayerHeroQuestRewardCompleted(playerId)
         }
     }
     
