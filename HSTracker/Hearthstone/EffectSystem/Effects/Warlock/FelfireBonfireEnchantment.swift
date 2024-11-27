@@ -21,10 +21,6 @@ class FelfireBonfireEnchantment: EntityBasedEffect {
         super.init(entityId: entityId, isControlledByPlayer: isControlledByPlayer)
     }
 
-    override var effectTarget: EffectTarget {
-        return .enemy
-    }
-
     override var effectDuration: EffectDuration {
         return .conditional
     }
