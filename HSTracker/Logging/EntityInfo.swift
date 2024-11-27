@@ -46,14 +46,17 @@ class EntityInfo {
     }
 
     var cardMark: CardMark {
-        if drawnByEntity {
-            return .drawnByEntity
-        }
         if hidden {
+            if drawnByEntity {
+                return .drawnByEntity
+            }
             return mulliganed ? .mulliganed : .none
         }
         if forged {
             return .forged
+        }
+        if drawnByEntity {
+            return .drawnByEntity
         }
         if _entity.isTheCoin {
             return .coin

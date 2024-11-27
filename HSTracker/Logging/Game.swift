@@ -3123,7 +3123,14 @@ class Game: NSObject, PowerEventHandler {
     }
 
     func opponentDraw(entity: Entity, turn: Int, cardId: String, drawerId: Int?) {
-        entity.info.drawerId = drawerId
+        //swiftlint:disable inclusive_language
+        let blacklist = RemoteConfig.data?.draw_card_blacklist?.compactMap({ obj in obj.dbf_id}) ?? [Int]()
+        //swiftlint:enable inclusive_language
+        if drawerId ?? 0 > 0, let drawer = entities[drawerId ?? 0] {
+            if !blacklist.contains(drawer.card.dbfId) {
+                entity.info.drawerId = drawerId
+            }
+        }
         opponent.draw(entity: entity, turn: turn)
         updateTrackers()
     }
