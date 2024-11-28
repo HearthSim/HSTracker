@@ -258,7 +258,6 @@ class Database: NSObject, XMLParserDelegate {
                 return
             }
             for card in Cards.battlegroundsMinions.array() {
-                logger.debug("Card: \(card) -> \(String(describing: Cards.by(dbfId: card.baconTripleUpgradeMinionId, collectible: false)))")
                 if card.race != .invalid && card.race != .all && !Database.battlegroundRaces.contains(card.race) {
                     Database.battlegroundRaces.append(card.race)
                 }
