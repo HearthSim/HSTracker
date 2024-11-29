@@ -1,6 +1,14 @@
 {
-  "originHash" : "e819159568436f49a8c2b0c6a590da7dad4e4f3d109d37f2ec6938774dc787f8",
+  "originHash" : "bc5c4f0923a2c383b03aabb48af9df8ed818455e31db6510bb89c39c30825260",
   "pins" : [
+    {
+      "identity" : "appmover",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/iamcalledrob/AppMover",
+      "state" : {
+        "revision" : "b4fe228937e6c752322998c705c6897a39b7f036"
+      }
+    },
     {
       "identity" : "bigint",
       "kind" : "remoteSourceControl",

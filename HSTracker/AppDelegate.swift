@@ -12,6 +12,7 @@ let logger = SwiftyBeaver.self
 import Preferences
 import Sparkle
 import Sentry
+import AppMover
 
 import OAuthSwift
 
@@ -53,6 +54,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
         ]
         return PreferencesWindowController(preferencePanes: panes, style: .toolbarItems, animated: false)
     }()
+    
+    func applicationWillFinishLaunching(_ notification: Notification) {
+        do {
+            try AppMover.moveApp()
+        } catch {
+            NSLog("Moving app failed: \(error)")
+        }
+    }
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         AppDelegate._instance = self

@@ -955,6 +955,7 @@
 		B8DEDCE22547C65700DF524B /* FillImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2D9D245F85C700292349 /* FillImageView.swift */; };
 		B8DEDCE32547CE8300DF524B /* Mono.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B864A14224F58539005EA2A0 /* Mono.framework */; };
 		B8DEDCEB2547CFF200DF524B /* HearthMirror.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4C68AF2A2447D35A00E52834 /* HearthMirror.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B8E1E5A32CF94FB900383975 /* AppMover in Frameworks */ = {isa = PBXBuildFile; productRef = B8E1E5A22CF94FB900383975 /* AppMover */; };
 		B8E76171293A321A0048E802 /* FindGameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E76170293A321A0048E802 /* FindGameState.swift */; };
 		B8E76173293A3D010048E802 /* QueueEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E76172293A3D010048E802 /* QueueEvents.swift */; };
 		B8E868832B93AF04005B1315 /* SceneHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E868822B93AF04005B1315 /* SceneHandler.swift */; };
@@ -1996,6 +1997,7 @@
 				B8D75BBD25BCEACB00446923 /* TextAttributes in Frameworks */,
 				4367899F1CAC05DD00C962D1 /* Cocoa.framework in Frameworks */,
 				B8D75BD925BDD47A00446923 /* FMDB in Frameworks */,
+				B8E1E5A32CF94FB900383975 /* AppMover in Frameworks */,
 				436789D11CAE484000C962D1 /* Foundation.framework in Frameworks */,
 				433554331D5F6B4400277B27 /* libz.tbd in Frameworks */,
 				B8D75BEF25BDFE6D00446923 /* Gzip in Frameworks */,
@@ -3444,6 +3446,7 @@
 				B85920952B4C73B300B907A4 /* CustomToolTip */,
 				B8196F102CC1BB58007C0371 /* Sentry */,
 				B889F6082CEC1CFB001506F4 /* Atomics */,
+				B8E1E5A22CF94FB900383975 /* AppMover */,
 			);
 			productName = HSTracker;
 			productReference = 439C7E481C7772C000D29859 /* HSTracker.app */;
@@ -3543,6 +3546,7 @@
 				B85920942B4C73B300B907A4 /* XCRemoteSwiftPackageReference "CustomToolTip" */,
 				B8196F0F2CC1BB58007C0371 /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
 				B889F6072CEC1CFB001506F4 /* XCRemoteSwiftPackageReference "swift-atomics" */,
+				B8E1E5A12CF94F2A00383975 /* XCRemoteSwiftPackageReference "AppMover" */,
 			);
 			productRefGroup = 439C7E491C7772C000D29859 /* Products */;
 			projectDirPath = "";
@@ -5567,6 +5571,14 @@
 				minimumVersion = 2.6.4;
 			};
 		};
+		B8E1E5A12CF94F2A00383975 /* XCRemoteSwiftPackageReference "AppMover" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/iamcalledrob/AppMover";
+			requirement = {
+				kind = revision;
+				revision = b4fe228937e6c752322998c705c6897a39b7f036;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -5679,6 +5691,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B8D75BF525BE032500446923 /* XCRemoteSwiftPackageReference "Sparkle" */;
 			productName = Sparkle;
+		};
+		B8E1E5A22CF94FB900383975 /* AppMover */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8E1E5A12CF94F2A00383975 /* XCRemoteSwiftPackageReference "AppMover" */;
+			productName = AppMover;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
