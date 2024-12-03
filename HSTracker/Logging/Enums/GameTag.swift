@@ -420,6 +420,7 @@ enum GameTag: Int, CaseIterable, Codable {
     titan_ability_used_3 = 3142,
     is_bacon_duos_exclusive = 3166,
     tourist = 3228,
+    gametag_3236 = 3236,
     current_excavate_tier = 3249,
     zilliax_customizable_cosmeticmodule = 3376,
     zilliax_customizable_functionalmodule = 3377,

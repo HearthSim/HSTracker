@@ -953,9 +953,15 @@ class BobsBuddyInvoker {
         if let pAncestralAutomaton = playerAttached.first(where: { x in x.cardId == CardIds.Invalid.AncestralAutomaton_AncestralAutomatonPlayerEnchantDnt }) {
             inputPlayer.ancestralAutomatonCounter = Int32( pAncestralAutomaton[.tag_script_data_num_1])
         }
+        if let pBeetle = playerAttached.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.RunedProgenitor_BeetleArmyPlayerEnchantDnt }) {
+            inputPlayer.beetlesAtkBuff = Int32(pBeetle[.tag_script_data_num_1])
+            inputPlayer.beetlesHealthBuff = Int32(pBeetle[.tag_script_data_num_2])
+        }
         inputPlayer.elementalPlayCounter = Int32(game.playerEntity?[.gametag_2878] ?? 0)
         
         inputPlayer.piratesSummonCounter = Int32(game.playerEntity?[.gametag_2358] ?? 0)
+        
+        inputPlayer.battlecryCounter = Int32(game.playerEntity?[.gametag_3236] ?? 0)
 
         logger.info("pEternal=\(inputPlayer.eternalKnightCounter), pUndead=\(inputPlayer.undeadAttackBonus), pElemental=\(inputPlayer.elementalPlayCounter), friendly=\(friendly)")
         

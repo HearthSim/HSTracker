@@ -872,6 +872,7 @@ extension CardIds.NonCollectible {
         static let ProGamer_Paper = "MIS_916b"
         static let ProGamer_Scissors = "MIS_916c"
         static let Corpsicle_CorpsicleEnchantment = "VAC_427e"
+        static let RunedProgenitor_BeetleArmyPlayerEnchantDnt = "BG31_808pe"
     }
 }
 
