@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22689"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -18,23 +18,23 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView id="c22-O7-iKe" userLabel="BattlegroundsSingleHero">
-            <rect key="frame" x="0.0" y="0.0" width="266" height="480"/>
+            <rect key="frame" x="0.0" y="0.0" width="266" height="568"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="dJn-dd-3p5" customClass="BattlegroundsHeroHeader" customModule="HSTracker" customModuleProvider="target">
-                    <rect key="frame" x="15" y="408" width="236" height="72"/>
+                    <rect key="frame" x="15" y="496" width="236" height="72"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="236" id="6EJ-DD-qF4"/>
                         <constraint firstAttribute="height" constant="72" id="V4j-aR-g3F"/>
                     </constraints>
                 </customView>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="u1e-O1-gPf" userLabel="HeroPortraitContainer">
-                    <rect key="frame" x="15" y="132" width="236" height="276"/>
+                    <rect key="frame" x="15" y="132" width="236" height="364"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="236" id="Evg-vn-ueL"/>
                     </constraints>
                 </customView>
-                <customView translatesAutoresizingMaskIntoConstraints="NO" id="5q0-Cd-eRk" userLabel="Compositions" customClass="BattlegroundsCompositionPopularity" customModule="HSTracker" customModuleProvider="target">
+                <customView hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5q0-Cd-eRk" userLabel="Compositions" customClass="BattlegroundsCompositionPopularity" customModule="HSTracker" customModuleProvider="target">
                     <rect key="frame" x="15" y="0.0" width="236" height="72"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="236" id="3TF-VP-H0t"/>
@@ -70,7 +70,7 @@
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="5OH-eu-5bq">
                         <rect key="frame" x="0.0" y="-2" width="169" height="88"/>
                         <subviews>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Z61-9S-dVs">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Z61-9S-dVs">
                                 <rect key="frame" x="6" y="62" width="157" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="22" id="Il1-tv-yoM"/>
@@ -81,7 +81,7 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="0kR-WP-yxU">
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="0kR-WP-yxU">
                                 <rect key="frame" x="6" y="20" width="157" height="42"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="42" id="Dfo-yv-4Xz"/>
@@ -92,7 +92,7 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5hA-bl-Zuo" userLabel="ArmorTooltipRange">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5hA-bl-Zuo" userLabel="ArmorTooltipRange">
                                 <rect key="frame" x="6" y="7" width="157" height="13"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="ArmorTooltipRange" id="yQO-8l-IQq">
                                     <font key="font" metaFont="system" size="10"/>

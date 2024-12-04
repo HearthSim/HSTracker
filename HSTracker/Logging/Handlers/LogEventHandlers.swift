@@ -265,4 +265,6 @@ protocol PowerEventHandler: AnyObject {
     var duosWasOpponentHeroModified: Bool { get }
     
     var triangulatePlayed: Bool { get set }
+    
+    func handleBattlegroundsHeroReroll(id: Int, cardId: String)
 }

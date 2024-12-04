@@ -2751,6 +2751,57 @@ class Game: NSObject, PowerEventHandler {
         return stats
     }
     
+    private var battlegroundsHeroPickingLatch = 0
+    
+    @available(macOS 10.15.0, *)
+    private func refreshBattlegroundsHeroPickStats() async {
+        let heroes = player.playerEntities.filter { x in x.isHero && (x.has(tag: .bacon_hero_can_be_drafted) || x.has(tag: .bacon_skin)) }
+
+        // refresh the offered heroes
+        snapshotBattlegroundsOfferedHeroes(heroes)
+        cacheBattlegroundsHeroPickParams()
+
+        guard getBattlegroundsHeroPickParams() != nil else {
+            return
+        }
+
+        defer {
+            battlegroundsHeroPickingLatch -= 1
+        }
+        
+        battlegroundsHeroPickingLatch += 1
+        let latchOut = battlegroundsHeroPickingLatch
+        var battlegroundsHeroPickStats: BattlegroundsHeroPickStats?
+        battlegroundsHeroPickStats = await getBattlegroundsHeroPickStats()
+
+        // another task has updated them since (fast reroll)
+        if latchOut != battlegroundsHeroPickingLatch {
+            return
+        }
+
+        // the stats are no longer relevant
+        if gameEntity?[.step] ?? 0 > Step.begin_mulligan.rawValue || isInMenu || windowManager.battlegroundsHeroPicking.viewModel.heroStats == nil {
+            return
+        }
+
+        if let stats = battlegroundsHeroPickStats {
+            let heroIds = heroes.sorted(by: { (a, b) -> Bool in return a.zonePosition < b.zonePosition }).compactMap { x in x.card.dbfId }
+            DispatchQueue.main.async {
+                self.showBattlegroundsHeroPickingStats(heroIds.compactMap({ dbfId in stats.data.first { x in x.hero_dbf_id == dbfId }}), stats.toast.parameters, stats.toast.min_mmr, stats.toast.anomaly_adjusted ?? false)
+            }
+        }
+    }
+    
+    public func handleBattlegroundsHeroReroll(id: Int, cardId: String) {
+        if isBattlegroundsMatch() {
+            if #available(macOS 10.15, *) {
+                Task.detached {
+                    await self.refreshBattlegroundsHeroPickStats()
+                }
+            }
+        }
+    }
+    
     private var _battlegroundsHeroPickStatsParams: BattlegroundsHeroPickStatsParams?
     
     func cacheBattlegroundsHeroPickParams() {

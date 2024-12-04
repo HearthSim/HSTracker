@@ -312,7 +312,9 @@ class PowerGameStateParser: LogEventParser {
                     // placeholders and Fantastic Treasure (Marin's hero power)
                     entity.has(tag: .bacon_is_magic_item_discover) ||
                     // Souvenir Stand
-                    entity.has(tag: .bacon_trinket) {
+                    entity.has(tag: .bacon_trinket) ||
+                    // Heroes during Battlegrounds reroll
+                    entity.has(tag: .bacon_hero_can_be_drafted) {
                     entity.cardId = cardId
                 }
                 entity.info.latestCardId = cardId
@@ -377,6 +379,10 @@ class PowerGameStateParser: LogEventParser {
                     }
                     if entity[.transformed_from_card] == 46706 {
                         eventHandler.chameleosReveal = (entityId, cardId)
+                    }
+                    // Battlegrounds hero reroll
+                    if entity.has(tag: .bacon_hero_can_be_drafted) && (eventHandler.gameEntity?[.step] ?? Step.invalid.rawValue) <= Step.begin_mulligan.rawValue {
+                        eventHandler.handleBattlegroundsHeroReroll(id: entity.id, cardId: cardId)
                     }
                 }
                 
