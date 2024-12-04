@@ -2805,7 +2805,13 @@ class Game: NSObject, PowerEventHandler {
     private var _battlegroundsHeroPickStatsParams: BattlegroundsHeroPickStatsParams?
     
     func cacheBattlegroundsHeroPickParams() {
-        if _battlegroundsHeroPickStatsParams != nil {
+        if let _battlegroundsHeroPickStatsParams {
+            // Already set? Probably a reroll - just update the hero dbf ids
+            guard let newHeroDbfIds = battlegroundsHeroPickState.offeredHeroDbfIds else {
+                return
+            }
+
+            self._battlegroundsHeroPickStatsParams = BattlegroundsHeroPickStatsParams(hero_dbf_ids: newHeroDbfIds, minion_types: _battlegroundsHeroPickStatsParams.minion_types, anomaly_dbf_id: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: gameEntity), game_language: "\(Settings.hearthstoneLanguage ?? .enUS)", battlegrounds_rating: battlegroundsRatingInfo?.rating.intValue)
             return
         }
 

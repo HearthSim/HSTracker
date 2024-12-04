@@ -1,3 +1,16 @@
+# 3.1.5
+## New
+- Updated for Hearthstone 31.2.0
+## Hearthstone
+- Added card icons for cards that return to hand at the end of the turn (Corpsicle, Libram of Divinity).
+- Fixed forge icon not appearing when the forged card was drawn by another card.
+- Fixed The Ceaseless Expanse counter not increasing when fracking is played.
+- Fixed some active effects appearing on the wrong side.
+- Fixed Pro gamer's Rock, Paper and Scissors cards appearing in the decklist.
+## Battlegrounds
+- Update tier 7 hero picking overlay for hero reroll.\
+  *They might take a time to load or may not be quite working yet, be patient*
+
 # 3.1.4
 ## Fixes
 - Fixed crash on MacOS 11.7
