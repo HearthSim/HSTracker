@@ -54,7 +54,7 @@ class BattlegroundsMinionView: NSView {
         let reborn = entity.has(tag: GameTag.reborn)
         let taunt = entity.has(tag: GameTag.taunt)
         let deathrattle = entity.has(tag: GameTag.deathrattle)
-        let legendary = entity.card.rarity == Rarity.legendary
+//        let legendary = entity.card.rarity == Rarity.legendary
         let poisonous = entity.has(tag: GameTag.poisonous)
         let divineShield = entity.has(tag: GameTag.divine_shield)
         let venomous = entity.has(tag: GameTag.venomous)
@@ -92,9 +92,9 @@ class BattlegroundsMinionView: NSView {
             rebornImage.draw(in: rect)
         }
         
-        if legendary, let legendaryImage = NSImage(named: "legendary\(premium)") {
-            legendaryImage.draw(in: rect)
-        }
+//        if legendary, let legendaryImage = NSImage(named: "legendary\(premium)") {
+//            legendaryImage.draw(in: rect)
+//        }
         
         if deathrattle, let deathrattleImage = NSImage(named: "deathrattle") {
             deathrattleImage.draw(in: rect)
