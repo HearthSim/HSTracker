@@ -314,7 +314,8 @@ class PowerGameStateParser: LogEventParser {
                     // Souvenir Stand
                     entity.has(tag: .bacon_trinket) ||
                     // Heroes during Battlegrounds reroll
-                    entity.has(tag: .bacon_hero_can_be_drafted) {
+                    entity.has(tag: .bacon_hero_can_be_drafted) ||
+                    entity.has(tag: .bacon_skin) {
                     entity.cardId = cardId
                 }
                 entity.info.latestCardId = cardId
@@ -381,7 +382,7 @@ class PowerGameStateParser: LogEventParser {
                         eventHandler.chameleosReveal = (entityId, cardId)
                     }
                     // Battlegrounds hero reroll
-                    if entity.has(tag: .bacon_hero_can_be_drafted) && (eventHandler.gameEntity?[.step] ?? Step.invalid.rawValue) <= Step.begin_mulligan.rawValue {
+                    if (entity.has(tag: .bacon_hero_can_be_drafted) || entity.has(tag: .bacon_skin)) && (eventHandler.gameEntity?[.step] ?? Step.invalid.rawValue) <= Step.begin_mulligan.rawValue {
                         eventHandler.handleBattlegroundsHeroReroll(id: entity.id, cardId: cardId)
                     }
                 }
