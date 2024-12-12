@@ -3922,7 +3922,7 @@ class Game: NSObject, PowerEventHandler {
     private func tooltipDisplay(_ userInfo: Any?) {
         if let hoveredCard {
             // player hand
-            if hoveredCard.isHand {
+            if hoveredCard.isHand && isTraditionalHearthstoneMatch {
                 let relatedCards = getRelatedCards(player: player, cardId: hoveredCard.cardId, inHand: true, handPosition: hoveredCard.zonePosition)
                 if relatedCards.count > 0 && Settings.showPlayerRelatedCards {
                     let nonNullableRelatedCards = relatedCards.compactMap { x in x }
