@@ -382,7 +382,7 @@ class PowerGameStateParser: LogEventParser {
                         eventHandler.chameleosReveal = (entityId, cardId)
                     }
                     // Battlegrounds hero reroll
-                    if (entity.has(tag: .bacon_hero_can_be_drafted) || entity.has(tag: .bacon_skin)) && (eventHandler.gameEntity?[.step] ?? Step.invalid.rawValue) <= Step.begin_mulligan.rawValue {
+                    if entity.isHero && entity.isControlled(by: eventHandler.player.id) && (eventHandler.gameEntity?[.step] ?? Step.invalid.rawValue) <= Step.begin_mulligan.rawValue {
                         eventHandler.handleBattlegroundsHeroReroll(id: entity.id, cardId: cardId)
                     }
                 }
