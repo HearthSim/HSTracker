@@ -460,8 +460,7 @@ class MonoHelper {
             let trinket = sim.trinketFactory.create(id: "BG30_MagicItem_880", friendly: true)
             MonoHelper.addToList(list: player.trinkets, element: trinket)
             
-            let playerSecrets = player.secrets
-            test.addSecretFromDbfid(id: Cards.any(byId: "TB_Bacon_Secrets_12")?.dbfId, target: playerSecrets)
+            player.setSecrets(secrets: [ Cards.any(byId: "TB_Bacon_Secrets_15")?.dbfId ?? 0 ])
             logger.debug("Opponent HP \(opponent.heroPower.cardId)")
             //            let oppSecrets = test.getOpponentSecrets()
             //            test.addSecretFromDbfid(id: Int32(Cards.any(byId: "TB_Bacon_Secrets_02")?.dbfId ?? 0), target: oppSecrets)            

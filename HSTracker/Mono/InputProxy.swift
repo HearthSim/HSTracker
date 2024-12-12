@@ -25,7 +25,7 @@ class InputProxy: MonoHandle, MonoClassInitializer {
             // methods
             InputProxy._constructor = MonoHelper.getMethod(InputProxy._class, ".ctor", 0)
             InputProxy._setTurn = MonoHelper.getMethod(InputProxy._class, "SetTurn", 1)
-            InputProxy._addSecretFromDbfid = MonoHelper.getMethod(InputProxy._class, "AddSecretFromDbfid", 2)
+            InputProxy._addSecretFromDbfid = MonoHelper.getMethod(InputProxy._class, "AddSecretFromDbfIdHstracker", 2)
             InputProxy._unitTest = MonoHelper.getMethod(InputProxy._class, "UnitTestCopyableVersion", 0)
             
             // fields

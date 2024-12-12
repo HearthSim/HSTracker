@@ -893,9 +893,7 @@ class BobsBuddyInvoker {
             let target = inputPlayer.secrets
             MonoHelper.listClear(obj: target)
             
-            for secret in game.player.secrets {
-                input?.addSecretFromDbfid(id: secret.card.dbfId, target: target)
-            }
+            inputPlayer.setSecrets(secrets: gamePlayer.secrets.compactMap { s in s.card.dbfId })
 
             let playerHand = inputPlayer.hand
             
@@ -915,21 +913,19 @@ class BobsBuddyInvoker {
         } else {
             let secrets = gamePlayer.secrets
             opponentSecrets = secrets
-            var secretsToAdd = [Int?]()
+            var secretsToAdd = [Int]()
             var seen = Set<Int>()
-            for dbfid in self.game.opponent.secrets.compactMap({ x in
+            for dbfid in secrets.compactMap({ x in
                 !x.cardId.isEmpty ? x.card.dbfId : nil }) {
                 if dbfid == 0 {
-                    secretsToAdd.append(nil)
+                    secretsToAdd.append(0)
                 } else if !seen.contains(dbfid) {
                     secretsToAdd.append(dbfid)
                     seen.insert(dbfid)
                 }
             }
-            MonoHelper.listClear(obj: inputPlayer.secrets)
-            for secret in secretsToAdd {
-                input?.addSecretFromDbfid(id: secret, target: inputPlayer.secrets)
-            }
+            inputPlayer.setSecrets(secrets: secretsToAdd)
+
             self.opponentHand = gamePlayer.hand
             let opponentHand = inputPlayer.hand
             MonoHelper.listClear(obj: opponentHand)

@@ -11,18 +11,8 @@ import Foundation
 class PlayerProxy: MonoHandle, MonoClassInitializer {
     static var _class: OpaquePointer?
     static var _constructor: OpaquePointer!
-    static var _setHealths: OpaquePointer!
-    static var _setTiers: OpaquePointer!
-    static var _setTurn: OpaquePointer!
-    static var _addSecretFromDbfid: OpaquePointer!
-    static var _unitTest: OpaquePointer!
+    static var _setSecrets: OpaquePointer!
     static var _setPlayerHeroPower: OpaquePointer!
-    static var _setOpponentHeroPower: OpaquePointer!
-    static var _playerQuests: OpaquePointer!
-    static var _opponentQuests: OpaquePointer!
-    static var _playerDamageTaken: OpaquePointer!
-    static var _opponentDamageTaken: OpaquePointer!
-    static var _nullableClass: OpaquePointer!
     
     static var _members = [String: OpaquePointer]()
     
@@ -32,6 +22,7 @@ class PlayerProxy: MonoHandle, MonoClassInitializer {
             // methods
             PlayerProxy._constructor = MonoHelper.getMethod(PlayerProxy._class, ".ctor", 1)
             PlayerProxy._setPlayerHeroPower = MonoHelper.getMethod(PlayerProxy._class, "SetHeroPower", 5)
+            PlayerProxy._setSecrets = MonoHelper.getMethod(PlayerProxy._class, "SetSecretsHstracker", 1)
             
             // fields
             initializeProperties(properties: [ "Side", "HeroPower", "Quests", "Objectives", "Trinkets", "Secrets", "Hand", "EternalKnightCounter", "AncestralAutomatonCounter", "UndeadAttackBonus", "ElementalPlayCounter", "BloodGemAtkBuff", "BloodGemHealthBuff", "TavernSpellCounter", "PiratesSummonCounter", "BeetlesAtkBuff", "BeetlesHealthBuff", "BattlecryCounter", "WonLastCombat", "BattlecriesPlayed", "Health", "DamageTaken", "Tier" ])
@@ -64,6 +55,24 @@ class PlayerProxy: MonoHandle, MonoClassInitializer {
     
     func setHeroPower(heroPowerCardId: String, friendly: Bool, isActivated: Bool, data: Int32, data2: Int32) {
         MonoHelper.setStringBoolBoolIntInt(obj: self, method: PlayerProxy._setPlayerHeroPower, v1: heroPowerCardId, v2: friendly, v3: isActivated, v4: data, v5: data2)
+    }
+    
+    func setSecrets(secrets: [Int]) {
+        let params = UnsafeMutablePointer<UnsafeMutableRawPointer?>.allocate(capacity: 1)
+        
+        let arr = mono_array_new(MonoHelper._monoInstance, mono_get_int32_class(), UInt(secrets.count))
+        for index in 0 ..< secrets.count {
+            let addr = mono_array_addr_with_size(arr, Int32(MemoryLayout<Int32>.size), UInt(index))
+            addr?.withMemoryRebound(to: Int32.self, capacity: 1, {
+                $0.pointee = Int32(secrets[index])
+            })
+        }
+        
+        params[0] = UnsafeMutableRawPointer(arr)
+
+        _ = mono_runtime_invoke(PlayerProxy._setSecrets, self.get(), params, nil)
+        
+        params.deallocate()
     }
     
     @MonoHandleProperty(property: "Side", owner: PlayerProxy.self)
