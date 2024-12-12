@@ -2759,11 +2759,7 @@ class Game: NSObject, PowerEventHandler {
 
         // refresh the offered heroes
         snapshotBattlegroundsOfferedHeroes(heroes)
-        cacheBattlegroundsHeroPickParams()
-
-        guard getBattlegroundsHeroPickParams() != nil else {
-            return
-        }
+        cacheBattlegroundsHeroPickParams(true)
 
         defer {
             battlegroundsHeroPickingLatch -= 1
@@ -2804,14 +2800,14 @@ class Game: NSObject, PowerEventHandler {
     
     private var _battlegroundsHeroPickStatsParams: BattlegroundsHeroPickStatsParams?
     
-    func cacheBattlegroundsHeroPickParams() {
+    func cacheBattlegroundsHeroPickParams(_ isReroll: Bool) {
         if let _battlegroundsHeroPickStatsParams {
             // Already set? Probably a reroll - just update the hero dbf ids
             guard let newHeroDbfIds = battlegroundsHeroPickState.offeredHeroDbfIds else {
                 return
             }
 
-            self._battlegroundsHeroPickStatsParams = BattlegroundsHeroPickStatsParams(hero_dbf_ids: newHeroDbfIds, minion_types: _battlegroundsHeroPickStatsParams.minion_types, anomaly_dbf_id: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: gameEntity), game_language: "\(Settings.hearthstoneLanguage ?? .enUS)", battlegrounds_rating: battlegroundsRatingInfo?.rating.intValue)
+            self._battlegroundsHeroPickStatsParams = BattlegroundsHeroPickStatsParams(hero_dbf_ids: newHeroDbfIds, minion_types: _battlegroundsHeroPickStatsParams.minion_types, anomaly_dbf_id: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: gameEntity), game_language: "\(Settings.hearthstoneLanguage ?? .enUS)", battlegrounds_rating: battlegroundsRatingInfo?.rating.intValue, is_reroll: isReroll)
             return
         }
 
@@ -2823,7 +2819,7 @@ class Game: NSObject, PowerEventHandler {
             return
         }
 
-        _battlegroundsHeroPickStatsParams = BattlegroundsHeroPickStatsParams(hero_dbf_ids: heroDbfIds, minion_types: availableRaces.compactMap { x in Int(Race.allCases.firstIndex(of: x)!) }, anomaly_dbf_id: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: gameEntity), game_language: "\(Settings.hearthstoneLanguage ?? .enUS)", battlegrounds_rating: battlegroundsRatingInfo?.rating.intValue)
+        _battlegroundsHeroPickStatsParams = BattlegroundsHeroPickStatsParams(hero_dbf_ids: heroDbfIds, minion_types: availableRaces.compactMap { x in Int(Race.allCases.firstIndex(of: x)!) }, anomaly_dbf_id: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: gameEntity), game_language: "\(Settings.hearthstoneLanguage ?? .enUS)", battlegrounds_rating: battlegroundsRatingInfo?.rating.intValue, is_reroll: isReroll)
     }
     
     private func getBattlegroundsHeroPickParams() -> BattlegroundsHeroPickStatsParams? {
@@ -2907,7 +2903,7 @@ class Game: NSObject, PowerEventHandler {
         }
 
         snapshotBattlegroundsOfferedHeroes(heroes)
-        cacheBattlegroundsHeroPickParams()
+        cacheBattlegroundsHeroPickParams(false)
 
         let heroIds = heroes.sorted(by: { (a, b) -> Bool in a.zonePosition < b.zonePosition }).compactMap { x in x.card.dbfId }
             

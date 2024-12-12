@@ -15,4 +15,5 @@ struct BattlegroundsHeroPickStatsParams: Codable {
     var game_language: String
     var battlegrounds_rating: Int?
     var include_toast = true
+    var is_reroll: Bool
 }
