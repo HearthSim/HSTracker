@@ -2755,7 +2755,7 @@ class Game: NSObject, PowerEventHandler {
     
     @available(macOS 10.15.0, *)
     private func refreshBattlegroundsHeroPickStats() async {
-        let heroes = player.playerEntities.filter { x in x.isHero && (x.has(tag: .bacon_hero_can_be_drafted) || x.has(tag: .bacon_skin)) }
+        let heroes = player.playerEntities.filter { x in x.isHero && (x.has(tag: .bacon_hero_can_be_drafted) || x.has(tag: .bacon_skin)) && !x.has(tag: .bacon_locked_mulligan_hero) }
 
         // refresh the offered heroes
         snapshotBattlegroundsOfferedHeroes(heroes)
@@ -2881,7 +2881,7 @@ class Game: NSObject, PowerEventHandler {
         var heroes = [Entity]()
         for _ in 0 ..< 10 {
             await Task.sleep(milliseconds: 500)
-            heroes = player.playerEntities.filter { x in x.isHero && (x.has(tag: .bacon_hero_can_be_drafted) || x.has(tag: .bacon_skin))}
+            heroes = player.playerEntities.filter { x in x.isHero && (x.has(tag: .bacon_hero_can_be_drafted) || x.has(tag: .bacon_skin)) && !x.has(tag: .bacon_locked_mulligan_hero)}
             if heroes.count >= 2 {
                 break
             }
