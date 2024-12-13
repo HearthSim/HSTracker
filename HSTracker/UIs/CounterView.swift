@@ -158,7 +158,11 @@ class CounterView: NSView {
         guard let window else {
             return
         }
-        let cardsToDisplay = counter.getCardsToDisplay().compactMap({ cardId in Cards.by(cardId: cardId) })
+        let cardsToDisplay = counter.getCardsToDisplay().compactMap({ cardId in
+            let card = Cards.by(cardId: cardId)
+            card?.baconCard = counter.isBattlegroundsCounter
+            return card
+        })
         if cardsToDisplay.count == 0 {
             return
         }

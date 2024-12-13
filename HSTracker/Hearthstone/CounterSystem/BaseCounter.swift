@@ -40,6 +40,10 @@ class BaseCounter: NSObject {
     var relatedCards: [String] {
         fatalError("Must override relatedCards")
     }
+    
+    var isBattlegroundsCounter: Bool {
+        return false
+    }
 
     func shouldShow() -> Bool {
         fatalError("Must override shouldShow()")

@@ -329,6 +329,7 @@
 "Counter_PlayedSpells" = "Played Spells";
 "Counter_SelfDamage" = "Self Damage";
 "Counter_SummonedDragons" = "Summoned Dragons";
+"Counter_UndeadAttackBonus" = "Undead Attack Bonus";
 
 /* Tier7 */
 "BattlegroundsOverlayMessage_Error" = "Something went wrong :(";

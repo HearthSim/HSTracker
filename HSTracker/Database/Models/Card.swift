@@ -57,6 +57,7 @@ final class Card {
     var tourist = 0
     var baconTriple = false
     var baconTripleUpgradeMinionId = 0
+    var baconCard = false
     
     func hasRace(_ race: Race) -> Bool {
         if races.count == 0 {
@@ -87,6 +88,10 @@ final class Card {
     
     func isMech() -> Bool {
         return hasRace(.mechanical)
+    }
+    
+    func isUndead() -> Bool {
+        return hasRace(.undead)
     }
     
     var deckbuildingCard: Card {

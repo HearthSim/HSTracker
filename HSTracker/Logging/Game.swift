@@ -2782,8 +2782,9 @@ class Game: NSObject, PowerEventHandler {
 
         if let stats = battlegroundsHeroPickStats {
             let heroIds = heroes.sorted(by: { (a, b) -> Bool in return a.zonePosition < b.zonePosition }).compactMap { x in x.card.dbfId }
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [self] in
                 self.showBattlegroundsHeroPickingStats(heroIds.compactMap({ dbfId in stats.data.first { x in x.hero_dbf_id == dbfId }}), stats.toast.parameters, stats.toast.min_mmr, stats.toast.anomaly_adjusted ?? false)
+                self.showBattlegroundsHeroPanel(heroIds, self.isBattlegroundsDuosMatch(), stats.toast.parameters)
             }
         }
     }

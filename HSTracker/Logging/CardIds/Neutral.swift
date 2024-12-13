@@ -873,6 +873,20 @@ extension CardIds.NonCollectible {
         static let ProGamer_Scissors = "MIS_916c"
         static let Corpsicle_CorpsicleEnchantment = "VAC_427e"
         static let RunedProgenitor_BeetleArmyPlayerEnchantDnt = "BG31_808pe"
+        static let BoonofBeetles_BeetleToken1 = "BG28_603t"
+        static let BuzzingVermin = "BG31_803"
+        static let ForestRover = "BG31_801"
+        static let TurquoiseSkitterer = "BG31_809"
+        static let RunedProgenitor = "BG31_808"
+        static let NestSwarmer = "BG31_807"
+        static let Thaumaturgist = "BG31_924"
+        static let ArcaneCannoneer = "BG31_928"
+        static let ShowyCyclist = "BG31_925"
+        static let Groundbreaker = "BG31_035"
+        static let NerubianDeathswarmer = "BG25_011"
+        static let AnubarakNerubianKing = "BG25_007"
+        static let ChampionOfThePrimus = "BG27_029"
+        static let Butchering = "BG28_604"
     }
 }
 

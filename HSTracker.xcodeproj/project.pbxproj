@@ -956,6 +956,9 @@
 		B8DEDCE32547CE8300DF524B /* Mono.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B864A14224F58539005EA2A0 /* Mono.framework */; };
 		B8DEDCEB2547CFF200DF524B /* HearthMirror.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4C68AF2A2447D35A00E52834 /* HearthMirror.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B8E1E5A32CF94FB900383975 /* AppMover in Frameworks */ = {isa = PBXBuildFile; productRef = B8E1E5A22CF94FB900383975 /* AppMover */; };
+		B8E1E5A62D0B873E00383975 /* BeetlesSizeCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5A52D0B873E00383975 /* BeetlesSizeCounter.swift */; };
+		B8E1E5A82D0B883100383975 /* SpellsPlayedForNagasCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5A72D0B883100383975 /* SpellsPlayedForNagasCounter.swift */; };
+		B8E1E5AA2D0B891F00383975 /* UndeadAttackBonusCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5A92D0B891F00383975 /* UndeadAttackBonusCounter.swift */; };
 		B8E76171293A321A0048E802 /* FindGameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E76170293A321A0048E802 /* FindGameState.swift */; };
 		B8E76173293A3D010048E802 /* QueueEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E76172293A3D010048E802 /* QueueEvents.swift */; };
 		B8E868832B93AF04005B1315 /* SceneHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E868822B93AF04005B1315 /* SceneHandler.swift */; };
@@ -1815,6 +1818,9 @@
 		B8DC11FF24EC5F990088A755 /* BobsBuddyPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BobsBuddyPanel.swift; sourceTree = "<group>"; };
 		B8DC120424EC79370088A755 /* OutputProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutputProxy.swift; sourceTree = "<group>"; };
 		B8DC376025D06C2F00452A83 /* OpponentDeadForTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpponentDeadForTracker.swift; sourceTree = "<group>"; };
+		B8E1E5A52D0B873E00383975 /* BeetlesSizeCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeetlesSizeCounter.swift; sourceTree = "<group>"; };
+		B8E1E5A72D0B883100383975 /* SpellsPlayedForNagasCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellsPlayedForNagasCounter.swift; sourceTree = "<group>"; };
+		B8E1E5A92D0B891F00383975 /* UndeadAttackBonusCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UndeadAttackBonusCounter.swift; sourceTree = "<group>"; };
 		B8E76170293A321A0048E802 /* FindGameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindGameState.swift; sourceTree = "<group>"; };
 		B8E76172293A3D010048E802 /* QueueEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueEvents.swift; sourceTree = "<group>"; };
 		B8E868822B93AF04005B1315 /* SceneHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneHandler.swift; sourceTree = "<group>"; };
@@ -2696,7 +2702,7 @@
 				B8196F1A2CC87060007C0371 /* AbyssalCurseCounter.swift */,
 				B82029302CD2C4D700C19A8C /* AsteroidExtraDamageCounter.swift */,
 				B8196F1C2CC871A6007C0371 /* AstralAutomatonCounter.swift */,
-				B8196F1E2CC87293007C0371 /* BloodGemCounter.swift */,
+				B8E1E5A42D0B867B00383975 /* BgCounters */,
 				B889F60A2CED5D26001506F4 /* CardsDrawnThisGameCounter.swift */,
 				B889F60C2CED6151001506F4 /* CardsDrawnThisTurnCounter.swift */,
 				B89343372CD00858009A8727 /* ChaoticTendrilCounter.swift */,
@@ -3251,6 +3257,17 @@
 				43C568021D5E59E500451B6F /* UploadResult.swift */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		B8E1E5A42D0B867B00383975 /* BgCounters */ = {
+			isa = PBXGroup;
+			children = (
+				B8E1E5A52D0B873E00383975 /* BeetlesSizeCounter.swift */,
+				B8196F1E2CC87293007C0371 /* BloodGemCounter.swift */,
+				B8E1E5A72D0B883100383975 /* SpellsPlayedForNagasCounter.swift */,
+				B8E1E5A92D0B891F00383975 /* UndeadAttackBonusCounter.swift */,
+			);
+			path = BgCounters;
 			sourceTree = "<group>";
 		};
 		B8FDE9282CDAF93B0093BFF7 /* RelatedCardsSystem */ = {
@@ -3991,6 +4008,7 @@
 				B854623D2CE01DF50083BB31 /* SceneWatcher.swift in Sources */,
 				B8196F142CC850BB007C0371 /* BaseCounter.swift in Sources */,
 				43D308061C842DC900480488 /* GamePrefences.swift in Sources */,
+				B8E1E5AA2D0B891F00383975 /* UndeadAttackBonusCounter.swift in Sources */,
 				B8DC376125D06C2F00452A83 /* OpponentDeadForTracker.swift in Sources */,
 				43A8A0F71E1557C900AF34FD /* FormatType.swift in Sources */,
 				B8B78FCF2C960FF200DD33EC /* ManaBurnEnchantment.swift in Sources */,
@@ -4100,6 +4118,7 @@
 				431AA0CF1D3632BC0030AD22 /* CardClass.swift in Sources */,
 				43D308081C84410000480488 /* PlayerTrackersPreferences.swift in Sources */,
 				B854622D2CE008360083BB31 /* BaconWatcher.swift in Sources */,
+				B8E1E5A62D0B873E00383975 /* BeetlesSizeCounter.swift in Sources */,
 				43C567E91D5D0F5700451B6F /* LogLineZone.swift in Sources */,
 				B8B790102C974E8700DD33EC /* SaboteurEnchantment.swift in Sources */,
 				B864AE272597DD9400793F36 /* GameSaveKeyId.swift in Sources */,
@@ -4224,6 +4243,7 @@
 				439C7EBD1C777F8900D29859 /* TagClass.swift in Sources */,
 				B804FC36294444C300F74CD9 /* Tier7PreLobby.swift in Sources */,
 				43E77EE41C94A19700C26950 /* TurnTimer.swift in Sources */,
+				B8E1E5A82D0B883100383975 /* SpellsPlayedForNagasCounter.swift in Sources */,
 				B8CE65DA2950D78100E8D168 /* BattlegroundsHeroPicking.swift in Sources */,
 				B8196F212CC9A203007C0371 /* CounterManager.swift in Sources */,
 				C92C68121D1F3FC4009030DC /* LadderTab.swift in Sources */,

@@ -9,6 +9,9 @@
 import Foundation
 
 class BloodGemCounter: StatsCounter {
+    override var isBattlegroundsCounter: Bool {
+        return true
+    }
 
     override var cardIdToShowInUI: String? {
         return CardIds.NonCollectible.Neutral.BloodGem1
