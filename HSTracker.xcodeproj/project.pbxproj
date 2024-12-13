@@ -959,6 +959,7 @@
 		B8E1E5A62D0B873E00383975 /* BeetlesSizeCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5A52D0B873E00383975 /* BeetlesSizeCounter.swift */; };
 		B8E1E5A82D0B883100383975 /* SpellsPlayedForNagasCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5A72D0B883100383975 /* SpellsPlayedForNagasCounter.swift */; };
 		B8E1E5AA2D0B891F00383975 /* UndeadAttackBonusCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5A92D0B891F00383975 /* UndeadAttackBonusCounter.swift */; };
+		B8E1E5AC2D0C708900383975 /* GrandMagisterRommath.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5AB2D0C708900383975 /* GrandMagisterRommath.swift */; };
 		B8E76171293A321A0048E802 /* FindGameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E76170293A321A0048E802 /* FindGameState.swift */; };
 		B8E76173293A3D010048E802 /* QueueEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E76172293A3D010048E802 /* QueueEvents.swift */; };
 		B8E868832B93AF04005B1315 /* SceneHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E868822B93AF04005B1315 /* SceneHandler.swift */; };
@@ -1821,6 +1822,7 @@
 		B8E1E5A52D0B873E00383975 /* BeetlesSizeCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeetlesSizeCounter.swift; sourceTree = "<group>"; };
 		B8E1E5A72D0B883100383975 /* SpellsPlayedForNagasCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellsPlayedForNagasCounter.swift; sourceTree = "<group>"; };
 		B8E1E5A92D0B891F00383975 /* UndeadAttackBonusCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UndeadAttackBonusCounter.swift; sourceTree = "<group>"; };
+		B8E1E5AB2D0C708900383975 /* GrandMagisterRommath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrandMagisterRommath.swift; sourceTree = "<group>"; };
 		B8E76170293A321A0048E802 /* FindGameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindGameState.swift; sourceTree = "<group>"; };
 		B8E76172293A3D010048E802 /* QueueEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueEvents.swift; sourceTree = "<group>"; };
 		B8E868822B93AF04005B1315 /* SceneHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneHandler.swift; sourceTree = "<group>"; };
@@ -3347,6 +3349,7 @@
 		B8FDE9452CDD1DB50093BFF7 /* Mage */ = {
 			isa = PBXGroup;
 			children = (
+				B8E1E5AB2D0C708900383975 /* GrandMagisterRommath.swift */,
 				B8FDE9462CDD1DC40093BFF7 /* Rewind.swift */,
 				B8FDE9482CDD22640093BFF7 /* TheGalacticProjectionOrb.swift */,
 			);
@@ -4225,6 +4228,7 @@
 				C99C0C991D0A6079000DD6FB /* Statistics.swift in Sources */,
 				439C7EB61C777F8900D29859 /* CardMark.swift in Sources */,
 				B89343462CD11D03009A8727 /* JadeGolemCounter.swift in Sources */,
+				B8E1E5AC2D0C708900383975 /* GrandMagisterRommath.swift in Sources */,
 				B8B790212C97550600DD33EC /* LifeguardEnchantment.swift in Sources */,
 				B83CF36B294E2930003C9062 /* BattlegroundsPlacementDistributionBar.swift in Sources */,
 				B8B78FBE2C952AD200DD33EC /* NatureStudiesEnchantment.swift in Sources */,
