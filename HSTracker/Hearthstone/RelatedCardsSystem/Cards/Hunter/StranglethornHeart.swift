@@ -8,24 +8,18 @@
 
 import Foundation
 
-class StranglethornHeart: ICardWithRelatedCards {
+class StranglethornHeart: ResurrectionCard {
     
-    func getCardId() -> String {
+    override func getCardId() -> String {
         return CardIds.Collectible.Hunter.StranglethornHeart
     }
 
-    func shouldShowForOpponent(opponent: Player) -> Bool {
-        guard let card = Cards.by(cardId: getCardId()) else {
-            return false
-        }
-        return CardUtils.mayCardBeRelevant(card: card, format: AppDelegate.instance().coreManager.game.currentFormat, playerClass: opponent.originalClass) && getRelatedCards(player: opponent).count > 1
+    override func filterCard(card: Card) -> Bool {
+        return card.isBeast() && card.cost >= 5
     }
 
-    func getRelatedCards(player: Player) -> [Card?] {
-        return player.deadMinionsCards
-            .compactMap { CardUtils.getProcessedCardFromEntity($0, player) }
-            .filter { $0.isBeast() && $0.cost > 4 }
-            .sorted { $0.cost > $1.cost }
+    override func resurrectsMultipleCards() -> Bool {
+        return true
     }
 
     required init() {

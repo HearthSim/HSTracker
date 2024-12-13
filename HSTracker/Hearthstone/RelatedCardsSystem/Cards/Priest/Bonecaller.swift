@@ -8,24 +8,20 @@
 
 import Foundation
 
-class Bonecaller: ICardWithRelatedCards {
+class Bonecaller: ResurrectionCard {
     required init() {
         
     }
     
-    func getCardId() -> String {
+    override func getCardId() -> String {
         return CardIds.Collectible.Priest.Bonecaller
     }
 
-    func shouldShowForOpponent(opponent: Player) -> Bool {
-        return false
+    override func filterCard(card: Card) -> Bool {
+        return card.isUndead()
     }
 
-    func getRelatedCards(player: Player) -> [Card?] {
-        return player.deadMinionsCards
-            .compactMap { CardUtils.getProcessedCardFromEntity($0, player) }
-            .filter { $0.isUndead() }
-            .unique() // Ensures uniqueness
-            .sorted { $0.cost > $1.cost }
+    override func resurrectsMultipleCards() -> Bool {
+        return false
     }
 }

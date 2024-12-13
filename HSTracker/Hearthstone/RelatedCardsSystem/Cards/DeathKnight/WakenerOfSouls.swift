@@ -8,22 +8,18 @@
 
 import Foundation
 
-class WakenerOfSouls: ICardWithRelatedCards {
+class WakenerOfSouls: ResurrectionCard {
     
-    func getCardId() -> String {
+    override func getCardId() -> String {
         return CardIds.Collectible.Deathknight.WakenerOfSouls
     }
 
-    func shouldShowForOpponent(opponent: Player) -> Bool {
-        return false
+    override func filterCard(card: Card) -> Bool {
+        return card.mechanics.contains("DEATHRATTLE") && card.id != CardIds.Collectible.Deathknight.WakenerOfSouls
     }
 
-    func getRelatedCards(player: Player) -> [Card?] {
-        return player.deadMinionsCards
-            .compactMap { CardUtils.getProcessedCardFromEntity($0, player) }
-            .unique()
-            .filter { $0.mechanics.contains("DEATHRATTLE") == true && $0.id != CardIds.Collectible.Deathknight.WakenerOfSouls }
-            .sorted(by: { $0.cost > $1.cost })
+    override func resurrectsMultipleCards() -> Bool {
+        return false
     }
 
     required init() {

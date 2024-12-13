@@ -8,23 +8,20 @@
 
 import Foundation
 
-class Psychopomp: ICardWithRelatedCards {
+class Psychopomp: ResurrectionCard {
     required init() {
         
     }
     
-    func getCardId() -> String {
+    override func getCardId() -> String {
         return CardIds.Collectible.Priest.Psychopomp
     }
 
-    func shouldShowForOpponent(opponent: Player) -> Bool {
-        return false
+    override func filterCard(card: Card) -> Bool {
+        return true
     }
-
-    func getRelatedCards(player: Player) -> [Card?] {
-        return player.deadMinionsCards
-            .compactMap { CardUtils.getProcessedCardFromEntity($0, player) }
-            .unique() // Remove duplicate cards
-            .sorted { $0.cost > $1.cost } // Sort by cost in descending order
+    
+    override func resurrectsMultipleCards() -> Bool {
+        return false
     }
 }

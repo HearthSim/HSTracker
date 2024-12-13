@@ -69,5 +69,6 @@ extension CardIds.NonCollectible {
         static let VoroneiRecruiter_MedicalCrewmateToken = "GDB_471t7"
         static let VoroneiRecruiter_AdminCrewmateToken = "GDB_471t8"
         static let ArkoniteDefenseCrystal_TheLegionsBaneToken = "GDB_100t5"
+        static let AllFelBreaksLoose_AllFelBreaksLooseToken = "MAW_012t"
     }
 }

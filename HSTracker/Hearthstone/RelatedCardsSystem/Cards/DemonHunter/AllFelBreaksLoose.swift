@@ -8,23 +8,20 @@
 
 import Foundation
 
-class AllFelBreaksLoose: ICardWithRelatedCards {
+class AllFelBreaksLoose: ResurrectionCard {
     required init() {
         
     }
     
-    func getCardId() -> String {
+    override func getCardId() -> String {
         return CardIds.Collectible.DemonHunter.AllFelBreaksLoose
     }
-
-    func shouldShowForOpponent(opponent: Player) -> Bool {
-        return false
+    
+    override func filterCard(card: Card) -> Bool {
+        return card.isDemon()
     }
-
-    func getRelatedCards(player: Player) -> [Card?] {
-        return player.deadMinionsCards
-            .compactMap { CardUtils.getProcessedCardFromEntity($0, player) }
-            .filter { $0?.isDemon() == true }
-            .sorted { ($0?.cost ?? 0) > ($1?.cost ?? 0) }
+    
+    override func resurrectsMultipleCards() -> Bool {
+        return false
     }
 }

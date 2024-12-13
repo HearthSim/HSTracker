@@ -8,25 +8,25 @@
 
 import Foundation
 
-class InventorBoom: ICardWithRelatedCards {
+class InventorBoom: ResurrectionCard {
     
-    func getCardId() -> String {
+    override func getCardId() -> String {
         return CardIds.Collectible.Warrior.InventorBoom
     }
 
-    func shouldShowForOpponent(opponent: Player) -> Bool {
+    override func shouldShowForOpponent(opponent: Player) -> Bool {
         guard let card = Cards.by(cardId: getCardId()) else {
             return false
         }
         return CardUtils.mayCardBeRelevant(card: card, format: AppDelegate.instance().coreManager.game.currentFormat, playerClass: opponent.originalClass) && getRelatedCards(player: opponent).count > 0
     }
 
-    func getRelatedCards(player: Player) -> [Card?] {
-        return player.deadMinionsCards
-            .compactMap { CardUtils.getProcessedCardFromEntity($0, player) }
-            .unique()
-            .filter { $0.isMech() == true && $0.cost > 4 }
-            .sorted { $0.cost < $1.cost }
+    override func filterCard(card: Card) -> Bool {
+        return card.isMech() && card.cost >= 5
+    }
+    
+    override func resurrectsMultipleCards() -> Bool {
+        return true
     }
 
     required init() { }

@@ -974,6 +974,8 @@
 		B8E1E5C52D0C8A9F00383975 /* Psychopomp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5C42D0C8A9F00383975 /* Psychopomp.swift */; };
 		B8E1E5C72D0C8B6700383975 /* Resurrect.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5C62D0C8B6700383975 /* Resurrect.swift */; };
 		B8E1E5C92D0C8BCF00383975 /* BloodreaverGuldan.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5C82D0C8BCF00383975 /* BloodreaverGuldan.swift */; };
+		B8E1E5CB2D0C8CF900383975 /* ResurrectionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5CA2D0C8CF900383975 /* ResurrectionCard.swift */; };
+		B8E1E5CD2D0C8EDC00383975 /* AllFelBreaksLooseInfused.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5CC2D0C8EDC00383975 /* AllFelBreaksLooseInfused.swift */; };
 		B8E76171293A321A0048E802 /* FindGameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E76170293A321A0048E802 /* FindGameState.swift */; };
 		B8E76173293A3D010048E802 /* QueueEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E76172293A3D010048E802 /* QueueEvents.swift */; };
 		B8E868832B93AF04005B1315 /* SceneHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E868822B93AF04005B1315 /* SceneHandler.swift */; };
@@ -1851,6 +1853,8 @@
 		B8E1E5C42D0C8A9F00383975 /* Psychopomp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Psychopomp.swift; sourceTree = "<group>"; };
 		B8E1E5C62D0C8B6700383975 /* Resurrect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resurrect.swift; sourceTree = "<group>"; };
 		B8E1E5C82D0C8BCF00383975 /* BloodreaverGuldan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BloodreaverGuldan.swift; sourceTree = "<group>"; };
+		B8E1E5CA2D0C8CF900383975 /* ResurrectionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResurrectionCard.swift; sourceTree = "<group>"; };
+		B8E1E5CC2D0C8EDC00383975 /* AllFelBreaksLooseInfused.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllFelBreaksLooseInfused.swift; sourceTree = "<group>"; };
 		B8E76170293A321A0048E802 /* FindGameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindGameState.swift; sourceTree = "<group>"; };
 		B8E76172293A3D010048E802 /* QueueEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueEvents.swift; sourceTree = "<group>"; };
 		B8E868822B93AF04005B1315 /* SceneHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneHandler.swift; sourceTree = "<group>"; };
@@ -3338,6 +3342,7 @@
 				B854621D2CDEBCA80083BB31 /* Neutral */,
 				B8FDE9362CDBB33B0093BFF7 /* Paladin */,
 				B8E1E5B92D0C884400383975 /* Priest */,
+				B8E1E5CA2D0C8CF900383975 /* ResurrectionCard.swift */,
 				B85462032CDD3E250083BB31 /* Rogue */,
 				B85462082CDD422E0083BB31 /* Shaman */,
 				B85462262CDEC08E0083BB31 /* Warlock */,
@@ -3350,6 +3355,7 @@
 			isa = PBXGroup;
 			children = (
 				B8E1E5AD2D0C719300383975 /* AllFelBreaksLoose.swift */,
+				B8E1E5CC2D0C8EDC00383975 /* AllFelBreaksLooseInfused.swift */,
 				B85462132CDEB9FF0083BB31 /* CrewmateGenerator.swift */,
 				B85462152CDEBAC20083BB31 /* DirdraRebelCaptain.swift */,
 				B85462172CDEBB2E0083BB31 /* EmergencyMeeting.swift */,
@@ -4254,6 +4260,7 @@
 				B8230B942C8BE125008CBEEB /* IHsChoice.swift in Sources */,
 				B8196F1D2CC871A6007C0371 /* AstralAutomatonCounter.swift in Sources */,
 				B82029572CD4658100C19A8C /* GridCardImages.swift in Sources */,
+				B8E1E5CD2D0C8EDC00383975 /* AllFelBreaksLooseInfused.swift in Sources */,
 				B8B78FB12C93CA9700DD33EC /* HelyaEnchantment.swift in Sources */,
 				43883F1E1DA382BA00A7B79C /* Language.swift in Sources */,
 				B8DC11F024E6AF280088A755 /* BobsBuddyInvoker.swift in Sources */,
@@ -4396,6 +4403,7 @@
 				4349104A1D09545C00B22DB2 /* BoardCard.swift in Sources */,
 				43C567EC1D5E314500451B6F /* HSReplay.swift in Sources */,
 				B85A0D54272CDEFE006D2648 /* MercenariesPreferences.swift in Sources */,
+				B8E1E5CB2D0C8CF900383975 /* ResurrectionCard.swift in Sources */,
 				B8E1E5BF2D0C893D00383975 /* MassResurrection.swift in Sources */,
 				4345FE951DF54CA900E8936B /* Block.swift in Sources */,
 				1CB43A151E8317A800E42181 /* WotogCounterHelper.swift in Sources */,

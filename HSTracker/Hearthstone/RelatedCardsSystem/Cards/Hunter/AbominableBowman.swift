@@ -8,24 +8,20 @@
 
 import Foundation
 
-class AbominableBowman: ICardWithRelatedCards {
+class AbominableBowman: ResurrectionCard {
     required init() {
         
     }
     
-    func getCardId() -> String {
+    override func getCardId() -> String {
         return CardIds.Collectible.Hunter.AbominableBowman
     }
 
-    func shouldShowForOpponent(opponent: Player) -> Bool {
-        return false
+    override func filterCard(card: Card) -> Bool {
+        return card.isBeast()
     }
 
-    func getRelatedCards(player: Player) -> [Card?] {
-        return player.deadMinionsCards
-            .compactMap { CardUtils.getProcessedCardFromEntity($0, player) }
-            .filter { $0.isBeast() == true }
-            .unique()
-            .sorted { $0.cost > $1.cost }
+    override func resurrectsMultipleCards() -> Bool {
+        return false
     }
 }

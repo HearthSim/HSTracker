@@ -1,5 +1,5 @@
 //
-//  RevivePet.swift
+//  AllFelBreaksLooseInfused.swift
 //  HSTracker
 //
 //  Created by Francisco Moraes on 12/13/24.
@@ -8,20 +8,17 @@
 
 import Foundation
 
-class RevivePet: ResurrectionCard {
-    required init() {
-        
-    }
+class AllFelBreaksLooseInfused: ResurrectionCard {
     
     override func getCardId() -> String {
-        return CardIds.Collectible.Hunter.RevivePet
+        return CardIds.NonCollectible.DemonHunter.AllFelBreaksLoose_AllFelBreaksLooseToken
     }
 
     override func filterCard(card: Card) -> Bool {
-        return card.isBeast()
+        return card.isDemon()
     }
 
     override func resurrectsMultipleCards() -> Bool {
-        return false
+        return true
     }
 }

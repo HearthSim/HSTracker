@@ -8,22 +8,20 @@
 
 import Foundation
 
-class MassResurrection: ICardWithRelatedCards {
+class MassResurrection: ResurrectionCard {
     required init() {
         
     }
     
-    func getCardId() -> String {
+    override func getCardId() -> String {
         return CardIds.Collectible.Priest.MassResurrection
     }
 
-    func shouldShowForOpponent(opponent: Player) -> Bool {
-        return false
+    override func filterCard(card: Card) -> Bool {
+        return true
     }
-
-    func getRelatedCards(player: Player) -> [Card?] {
-        return player.deadMinionsCards
-            .compactMap { CardUtils.getProcessedCardFromEntity($0, player) }
-            .sorted { $0.cost > $1.cost }
+    
+    override func resurrectsMultipleCards() -> Bool {
+        return true
     }
 }

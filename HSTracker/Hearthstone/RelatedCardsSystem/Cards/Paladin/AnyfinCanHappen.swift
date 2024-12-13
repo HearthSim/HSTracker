@@ -8,23 +8,20 @@
 
 import Foundation
 
-class AnyfinCanHappen: ICardWithRelatedCards {
+class AnyfinCanHappen: ResurrectionCard {
     required init() {
         
     }
     
-    func getCardId() -> String {
+    override func getCardId() -> String {
         return CardIds.Collectible.Paladin.AnyfinCanHappen
     }
 
-    func shouldShowForOpponent(opponent: Player) -> Bool {
-        return false
+    override func filterCard(card: Card) -> Bool {
+        return card.isMurloc()
     }
 
-    func getRelatedCards(player: Player) -> [Card?] {
-        return player.deadMinionsCards
-            .compactMap { CardUtils.getProcessedCardFromEntity($0, player) }
-            .filter { $0.isMurloc() }
-            .sorted { $0.cost > $1.cost }
+    override func resurrectsMultipleCards() -> Bool {
+        return true
     }
 }

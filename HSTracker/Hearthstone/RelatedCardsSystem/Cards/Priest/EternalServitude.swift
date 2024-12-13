@@ -8,23 +8,20 @@
 
 import Foundation
 
-class EternalServitude: ICardWithRelatedCards {
+class EternalServitude: ResurrectionCard {
     required init() {
         
     }
     
-    func getCardId() -> String {
+    override func getCardId() -> String {
         return CardIds.Collectible.Priest.EternalServitude
     }
-
-    func shouldShowForOpponent(opponent: Player) -> Bool {
-        return false
+    
+    override func filterCard(card: Card) -> Bool {
+        return true
     }
-
-    func getRelatedCards(player: Player) -> [Card?] {
-        return player.deadMinionsCards
-            .compactMap { CardUtils.getProcessedCardFromEntity($0, player) }
-            .unique() // Ensures uniqueness
-            .sorted { $0.cost > $1.cost }
+    
+    override func resurrectsMultipleCards() -> Bool {
+        return false
     }
 }
