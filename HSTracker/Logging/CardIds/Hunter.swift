@@ -179,6 +179,7 @@ extension CardIds.Collectible {
         static let StranglethornHeart = "ETC_208"
         static let SpecimenClaw = "GDB_107"
         static let Biopod = "GDB_111"
+        static let RevivePet = "AV_333"
     }
 }
 

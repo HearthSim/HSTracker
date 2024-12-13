@@ -41,6 +41,7 @@ extension CardIds.Collectible {
         static let Momentum = "TTN_841"
         static let ArguniteGolem = "TTN_844"
         static let Mindbender = "YOG_402"
+        static let AllFelBreaksLoose = "MAW_012"
     }
 }
 

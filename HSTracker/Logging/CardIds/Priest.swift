@@ -148,6 +148,10 @@ extension CardIds.Collectible {
         static let GalakrondTheUnspeakable = "DRG_660"
         static let TimewinderZarimi = "TOY_385"
         static let Askara = "GDB_455"
+        static let Bonecaller = "RLK_813"
+        static let MassResurrection = "DAL_724"
+        static let OnyxBishopWONDERS = "WON_057"
+        static let Psychopomp = "ULD_268"
     }
 }
 

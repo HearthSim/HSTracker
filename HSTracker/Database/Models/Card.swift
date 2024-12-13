@@ -90,6 +90,10 @@ final class Card {
         return hasRace(.mechanical)
     }
     
+    func isMurloc() -> Bool {
+        return hasRace(.murloc)
+    }
+    
     func isUndead() -> Bool {
         return hasRace(.undead)
     }

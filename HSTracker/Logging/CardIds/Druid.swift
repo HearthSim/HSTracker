@@ -162,6 +162,7 @@ extension CardIds.Collectible {
         static let HydrationStation = "VAC_948"
         static let ShatariCloakfield = "GDB_103"
         static let StarlightReactor = "GDB_108"
+        static let WitchingHour = "GIL_571"
     }
 }
 

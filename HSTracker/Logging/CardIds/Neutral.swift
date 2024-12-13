@@ -674,6 +674,7 @@ extension CardIds.Collectible {
         static let VelenLeaderOfTheExiled = "GDB_131"
         static let TheCeaselessExpanse = "GDB_142"
         static let PlayhouseGiant = "TOY_530"
+        static let BodyWrapper = "ULD_727"
     }
 }
 
