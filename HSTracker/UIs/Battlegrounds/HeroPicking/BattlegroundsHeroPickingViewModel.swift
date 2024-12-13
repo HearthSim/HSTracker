@@ -109,6 +109,10 @@ class BattlegroundsHeroPickingViewModel: ViewModel {
         statsVisibility = Settings.showBattlegroundsHeroPicking ? true : false
     }
     
+    func invalidateSingleHeroStats(_ dbfId: Int) {
+        heroStats = heroStats?.compactMap { x in x.heroDbfId == dbfId ? BattlegroundsSingleHeroViewModel(stats: nil, onPlacementHover: setPlacementVisible) : x }
+    }
+    
     func setPlacementVisible(_ isVisible: Bool) {
         guard let heroStats else {
             return

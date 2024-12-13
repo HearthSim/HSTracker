@@ -2789,10 +2789,13 @@ class Game: NSObject, PowerEventHandler {
         }
     }
     
-    public func handleBattlegroundsHeroReroll(id: Int, cardId: String) {
+    public func handleBattlegroundsHeroReroll(entity: Entity, oldCardId: String?) {
         if isBattlegroundsMatch() {
             if #available(macOS 10.15, *) {
                 Task.detached {
+                    if let cardId = oldCardId, let theDbfId = Cards.by(cardId: cardId)?.dbfId {
+                        self.windowManager.battlegroundsHeroPicking.viewModel.invalidateSingleHeroStats(theDbfId)
+                    }
                     await self.refreshBattlegroundsHeroPickStats()
                 }
             }

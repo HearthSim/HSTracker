@@ -308,6 +308,7 @@ class PowerGameStateParser: LogEventParser {
                     eventHandler.entities[entityId] = entity
                 }
                 let entity = eventHandler.entities[entityId]!
+                let oldCardId = entity.cardId
                 if entity.cardId.isBlank ||
                     // placeholders and Fantastic Treasure (Marin's hero power)
                     entity.has(tag: .bacon_is_magic_item_discover) ||
@@ -383,7 +384,7 @@ class PowerGameStateParser: LogEventParser {
                     }
                     // Battlegrounds hero reroll
                     if entity.isHero && entity.isControlled(by: eventHandler.player.id) && (eventHandler.gameEntity?[.step] ?? Step.invalid.rawValue) <= Step.begin_mulligan.rawValue {
-                        eventHandler.handleBattlegroundsHeroReroll(id: entity.id, cardId: cardId)
+                        eventHandler.handleBattlegroundsHeroReroll(entity: entity, oldCardId: oldCardId)
                     }
                 }
                 
