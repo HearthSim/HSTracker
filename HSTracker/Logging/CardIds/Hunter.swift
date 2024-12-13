@@ -180,6 +180,8 @@ extension CardIds.Collectible {
         static let SpecimenClaw = "GDB_107"
         static let Biopod = "GDB_111"
         static let RevivePet = "AV_333"
+        static let DefenseAttorneyNathanos = "MAW_011"
+        static let JewelOfNzoth = "DMF_084"
     }
 }
 

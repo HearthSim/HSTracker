@@ -675,6 +675,10 @@ extension CardIds.Collectible {
         static let TheCeaselessExpanse = "GDB_142"
         static let PlayhouseGiant = "TOY_530"
         static let BodyWrapper = "ULD_727"
+        static let Rally = "YOP_009"
+        static let DaUndatakah = "TRL_537"
+        static let NzothGodOfTheDeep = "DMF_002"
+        static let Vectus = "SCH_162"
     }
 }
 

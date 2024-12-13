@@ -8,20 +8,8 @@
 
 import Foundation
 
-class OnyxBishopWONDERS: ResurrectionCard {
-    required init() {
-        
-    }
-    
-    override func getCardId() -> String {
+class OnyxBishopWONDERS: OnyxBishopKARA {
+   override func getCardId() -> String {
         return CardIds.Collectible.Priest.OnyxBishopWONDERS
-    }
-
-    override func filterCard(card: Card) -> Bool {
-        return true
-    }
-    
-    override func resurrectsMultipleCards() -> Bool {
-        return false
     }
 }

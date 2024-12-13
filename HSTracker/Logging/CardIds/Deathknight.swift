@@ -44,6 +44,7 @@ extension CardIds.Collectible {
         static let GuidingFigure = "GDB_106"
         static let SoulboundSpire = "GDB_112"
         static let Corpsicle = "VAC_427"
+        static let Boneshredder = "ETC_428"
     }
 }
 

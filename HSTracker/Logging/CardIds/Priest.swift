@@ -152,6 +152,15 @@ extension CardIds.Collectible {
         static let MassResurrection = "DAL_724"
         static let OnyxBishopWONDERS = "WON_057"
         static let Psychopomp = "ULD_268"
+        static let RaiseDead = "SCH_514"
+        static let AmuletOfUndying = "DED_512"
+        static let AnimateDead = "RLK_812"
+        static let CatrinaMuerte = "DAL_721"
+        static let CatrinaMuerteCore = "CORE_DAL_721"
+        static let LesserDiamondSpellstone = "LOOT_507"
+        static let LesserDiamondSpellstoneCore = "CORE_LOOT_507"
+        static let TwilightsCall = "LOOT_187"
+        static let XyrellaTheDevout = "AV_207"
     }
 }
 
@@ -211,6 +220,8 @@ extension CardIds.NonCollectible {
         static let LoveEverlasting_EverlastingLoveEnchantment = "ETC_335e"
         static let RazatheResealed_RazaResealedEnchantEnchantment = "TOY_383e"
         static let Askara_AskaraFutureBuffEnchantment = "GDB_455e"
+        static let LesserDiamondSpellstone_DiamondSpellstoneToken = "LOOT_507t"
+        static let LesserDiamondSpellstone_GreaterDiamondSpellstoneToken = "LOOT_507t2"
     }
 }
 

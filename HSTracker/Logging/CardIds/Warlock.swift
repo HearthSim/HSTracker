@@ -170,6 +170,9 @@ extension CardIds.Collectible {
         static let FelfireThrusters = "GDB_104"
         static let HeartOfTheLegion = "GDB_109"
         static let Archimonde = "GDB_128"
+        static let HabeasCorpses = "MAW_002"
+        static let InfantryReanimator = "RLK_531"
+        static let TamsinsPhylactery = "AV_317"
     }
 }
 

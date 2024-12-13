@@ -163,6 +163,7 @@ extension CardIds.Collectible {
         static let ShatariCloakfield = "GDB_103"
         static let StarlightReactor = "GDB_108"
         static let WitchingHour = "GIL_571"
+        static let UnendingSwarm = "RLK_652"
     }
 }
 

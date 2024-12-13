@@ -976,6 +976,32 @@
 		B8E1E5C92D0C8BCF00383975 /* BloodreaverGuldan.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5C82D0C8BCF00383975 /* BloodreaverGuldan.swift */; };
 		B8E1E5CB2D0C8CF900383975 /* ResurrectionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5CA2D0C8CF900383975 /* ResurrectionCard.swift */; };
 		B8E1E5CD2D0C8EDC00383975 /* AllFelBreaksLooseInfused.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5CC2D0C8EDC00383975 /* AllFelBreaksLooseInfused.swift */; };
+		B8E1E5CF2D0C943D00383975 /* Boneshredder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5CE2D0C943D00383975 /* Boneshredder.swift */; };
+		B8E1E5D12D0C94E000383975 /* Hadronox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5D02D0C94E000383975 /* Hadronox.swift */; };
+		B8E1E5D32D0C952000383975 /* UnendingSwarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5D22D0C952000383975 /* UnendingSwarm.swift */; };
+		B8E1E5D62D0C958300383975 /* RaiseDead.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5D52D0C958300383975 /* RaiseDead.swift */; };
+		B8E1E5D82D0C95D400383975 /* Rally.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5D72D0C95D400383975 /* Rally.swift */; };
+		B8E1E5DA2D0C964000383975 /* DefenseAttorneyNathanos.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5D92D0C964000383975 /* DefenseAttorneyNathanos.swift */; };
+		B8E1E5DC2D0C96A300383975 /* JewelOfNzoth.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5DB2D0C96A300383975 /* JewelOfNzoth.swift */; };
+		B8E1E5DE2D0C9CFE00383975 /* DaUndatakah.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5DD2D0C9CFE00383975 /* DaUndatakah.swift */; };
+		B8E1E5E02D0C9D5F00383975 /* NzothGodOfTheDeep.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5DF2D0C9D5F00383975 /* NzothGodOfTheDeep.swift */; };
+		B8E1E5E22D0C9DA100383975 /* NzothTheCorruptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5E12D0C9DA100383975 /* NzothTheCorruptor.swift */; };
+		B8E1E5E42D0C9DD400383975 /* TombLurker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5E32D0C9DD400383975 /* TombLurker.swift */; };
+		B8E1E5E62D0C9E0600383975 /* Vectus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5E52D0C9E0600383975 /* Vectus.swift */; };
+		B8E1E5E82D0C9E5500383975 /* AmuletOfUndying.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5E72D0C9E5500383975 /* AmuletOfUndying.swift */; };
+		B8E1E5EA2D0C9EB600383975 /* AnimateDead.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5E92D0C9EB600383975 /* AnimateDead.swift */; };
+		B8E1E5EC2D0C9EF900383975 /* CatrinaMuerte.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5EB2D0C9EF900383975 /* CatrinaMuerte.swift */; };
+		B8E1E5EE2D0C9F5500383975 /* CatrinaMuerteCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5ED2D0C9F5500383975 /* CatrinaMuerteCore.swift */; };
+		B8E1E5F02D0C9F9000383975 /* DiamondSpellstone.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5EF2D0C9F9000383975 /* DiamondSpellstone.swift */; };
+		B8E1E5F22D0C9FA900383975 /* LesserDiamondSpellstone.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5F12D0C9FA900383975 /* LesserDiamondSpellstone.swift */; };
+		B8E1E5F42D0CA02B00383975 /* GreaterDiamondSpellstone.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5F32D0CA02B00383975 /* GreaterDiamondSpellstone.swift */; };
+		B8E1E5F62D0CA07500383975 /* LesserDiamondSpellstoneCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5F52D0CA07500383975 /* LesserDiamondSpellstoneCore.swift */; };
+		B8E1E5F82D0CA0E300383975 /* TwilightsCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5F72D0CA0E300383975 /* TwilightsCall.swift */; };
+		B8E1E5FA2D0CA12D00383975 /* XyrellaTheDevout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5F92D0CA12D00383975 /* XyrellaTheDevout.swift */; };
+		B8E1E5FC2D0CA17600383975 /* CounterfeitBlade.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5FB2D0CA17600383975 /* CounterfeitBlade.swift */; };
+		B8E1E5FE2D0CA1CD00383975 /* HabeasCorpses.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5FD2D0CA1CD00383975 /* HabeasCorpses.swift */; };
+		B8E1E6002D0CA21C00383975 /* InfantryReanimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5FF2D0CA21C00383975 /* InfantryReanimator.swift */; };
+		B8E1E6022D0CA25700383975 /* TamsinsPhylactery.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E6012D0CA25700383975 /* TamsinsPhylactery.swift */; };
 		B8E76171293A321A0048E802 /* FindGameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E76170293A321A0048E802 /* FindGameState.swift */; };
 		B8E76173293A3D010048E802 /* QueueEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E76172293A3D010048E802 /* QueueEvents.swift */; };
 		B8E868832B93AF04005B1315 /* SceneHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E868822B93AF04005B1315 /* SceneHandler.swift */; };
@@ -1855,6 +1881,32 @@
 		B8E1E5C82D0C8BCF00383975 /* BloodreaverGuldan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BloodreaverGuldan.swift; sourceTree = "<group>"; };
 		B8E1E5CA2D0C8CF900383975 /* ResurrectionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResurrectionCard.swift; sourceTree = "<group>"; };
 		B8E1E5CC2D0C8EDC00383975 /* AllFelBreaksLooseInfused.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllFelBreaksLooseInfused.swift; sourceTree = "<group>"; };
+		B8E1E5CE2D0C943D00383975 /* Boneshredder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Boneshredder.swift; sourceTree = "<group>"; };
+		B8E1E5D02D0C94E000383975 /* Hadronox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hadronox.swift; sourceTree = "<group>"; };
+		B8E1E5D22D0C952000383975 /* UnendingSwarm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnendingSwarm.swift; sourceTree = "<group>"; };
+		B8E1E5D52D0C958300383975 /* RaiseDead.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaiseDead.swift; sourceTree = "<group>"; };
+		B8E1E5D72D0C95D400383975 /* Rally.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rally.swift; sourceTree = "<group>"; };
+		B8E1E5D92D0C964000383975 /* DefenseAttorneyNathanos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefenseAttorneyNathanos.swift; sourceTree = "<group>"; };
+		B8E1E5DB2D0C96A300383975 /* JewelOfNzoth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JewelOfNzoth.swift; sourceTree = "<group>"; };
+		B8E1E5DD2D0C9CFE00383975 /* DaUndatakah.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaUndatakah.swift; sourceTree = "<group>"; };
+		B8E1E5DF2D0C9D5F00383975 /* NzothGodOfTheDeep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NzothGodOfTheDeep.swift; sourceTree = "<group>"; };
+		B8E1E5E12D0C9DA100383975 /* NzothTheCorruptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NzothTheCorruptor.swift; sourceTree = "<group>"; };
+		B8E1E5E32D0C9DD400383975 /* TombLurker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TombLurker.swift; sourceTree = "<group>"; };
+		B8E1E5E52D0C9E0600383975 /* Vectus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vectus.swift; sourceTree = "<group>"; };
+		B8E1E5E72D0C9E5500383975 /* AmuletOfUndying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmuletOfUndying.swift; sourceTree = "<group>"; };
+		B8E1E5E92D0C9EB600383975 /* AnimateDead.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimateDead.swift; sourceTree = "<group>"; };
+		B8E1E5EB2D0C9EF900383975 /* CatrinaMuerte.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatrinaMuerte.swift; sourceTree = "<group>"; };
+		B8E1E5ED2D0C9F5500383975 /* CatrinaMuerteCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatrinaMuerteCore.swift; sourceTree = "<group>"; };
+		B8E1E5EF2D0C9F9000383975 /* DiamondSpellstone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiamondSpellstone.swift; sourceTree = "<group>"; };
+		B8E1E5F12D0C9FA900383975 /* LesserDiamondSpellstone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LesserDiamondSpellstone.swift; sourceTree = "<group>"; };
+		B8E1E5F32D0CA02B00383975 /* GreaterDiamondSpellstone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreaterDiamondSpellstone.swift; sourceTree = "<group>"; };
+		B8E1E5F52D0CA07500383975 /* LesserDiamondSpellstoneCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LesserDiamondSpellstoneCore.swift; sourceTree = "<group>"; };
+		B8E1E5F72D0CA0E300383975 /* TwilightsCall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilightsCall.swift; sourceTree = "<group>"; };
+		B8E1E5F92D0CA12D00383975 /* XyrellaTheDevout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XyrellaTheDevout.swift; sourceTree = "<group>"; };
+		B8E1E5FB2D0CA17600383975 /* CounterfeitBlade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterfeitBlade.swift; sourceTree = "<group>"; };
+		B8E1E5FD2D0CA1CD00383975 /* HabeasCorpses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabeasCorpses.swift; sourceTree = "<group>"; };
+		B8E1E5FF2D0CA21C00383975 /* InfantryReanimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfantryReanimator.swift; sourceTree = "<group>"; };
+		B8E1E6012D0CA25700383975 /* TamsinsPhylactery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TamsinsPhylactery.swift; sourceTree = "<group>"; };
 		B8E76170293A321A0048E802 /* FindGameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindGameState.swift; sourceTree = "<group>"; };
 		B8E76172293A3D010048E802 /* QueueEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueEvents.swift; sourceTree = "<group>"; };
 		B8E868822B93AF04005B1315 /* SceneHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneHandler.swift; sourceTree = "<group>"; };
@@ -2838,6 +2890,7 @@
 		B85462032CDD3E250083BB31 /* Rogue */ = {
 			isa = PBXGroup;
 			children = (
+				B8E1E5FB2D0CA17600383975 /* CounterfeitBlade.swift */,
 				B85462222CDEBE390083BB31 /* ScroungingShipwright.swift */,
 				B85462242CDEBFC30083BB31 /* StarshipSchematic.swift */,
 				B85462042CDD3EDA0083BB31 /* TessGreymane.swift */,
@@ -2865,6 +2918,7 @@
 		B85462102CDE8BF80083BB31 /* DeathKnight */ = {
 			isa = PBXGroup;
 			children = (
+				B8E1E5CE2D0C943D00383975 /* Boneshredder.swift */,
 				B85462112CDE8C080083BB31 /* WakenerOfSouls.swift */,
 			);
 			path = DeathKnight;
@@ -2874,6 +2928,11 @@
 			isa = PBXGroup;
 			children = (
 				B8E1E5B52D0C870F00383975 /* BodyWrapper.swift */,
+				B8E1E5DD2D0C9CFE00383975 /* DaUndatakah.swift */,
+				B8E1E5DF2D0C9D5F00383975 /* NzothGodOfTheDeep.swift */,
+				B8E1E5E12D0C9DA100383975 /* NzothTheCorruptor.swift */,
+				B8E1E5E32D0C9DD400383975 /* TombLurker.swift */,
+				B8E1E5E52D0C9E0600383975 /* Vectus.swift */,
 				B854621E2CDEBCB60083BB31 /* VelenLeaderOfTheExiled.swift */,
 			);
 			path = Neutral;
@@ -2884,6 +2943,9 @@
 			children = (
 				B85462272CDEC0A00083BB31 /* Archimonde.swift */,
 				B8E1E5C82D0C8BCF00383975 /* BloodreaverGuldan.swift */,
+				B8E1E5FD2D0CA1CD00383975 /* HabeasCorpses.swift */,
+				B8E1E5FF2D0CA21C00383975 /* InfantryReanimator.swift */,
+				B8E1E6012D0CA25700383975 /* TamsinsPhylactery.swift */,
 			);
 			path = Warlock;
 			sourceTree = "<group>";
@@ -3309,15 +3371,34 @@
 		B8E1E5B92D0C884400383975 /* Priest */ = {
 			isa = PBXGroup;
 			children = (
+				B8E1E5E72D0C9E5500383975 /* AmuletOfUndying.swift */,
+				B8E1E5E92D0C9EB600383975 /* AnimateDead.swift */,
 				B8E1E5BA2D0C885300383975 /* Bonecaller.swift */,
+				B8E1E5EB2D0C9EF900383975 /* CatrinaMuerte.swift */,
+				B8E1E5ED2D0C9F5500383975 /* CatrinaMuerteCore.swift */,
+				B8E1E5EF2D0C9F9000383975 /* DiamondSpellstone.swift */,
 				B8E1E5BC2D0C88D600383975 /* EternalServitude.swift */,
+				B8E1E5F32D0CA02B00383975 /* GreaterDiamondSpellstone.swift */,
+				B8E1E5F12D0C9FA900383975 /* LesserDiamondSpellstone.swift */,
+				B8E1E5F52D0CA07500383975 /* LesserDiamondSpellstoneCore.swift */,
 				B8E1E5BE2D0C893D00383975 /* MassResurrection.swift */,
 				B8E1E5C02D0C89CC00383975 /* OnyxBishopKARA.swift */,
 				B8E1E5C22D0C8A4900383975 /* OnyxBishopWONDERS.swift */,
 				B8E1E5C42D0C8A9F00383975 /* Psychopomp.swift */,
 				B8E1E5C62D0C8B6700383975 /* Resurrect.swift */,
+				B8E1E5F72D0CA0E300383975 /* TwilightsCall.swift */,
+				B8E1E5F92D0CA12D00383975 /* XyrellaTheDevout.swift */,
 			);
 			path = Priest;
+			sourceTree = "<group>";
+		};
+		B8E1E5D42D0C957600383975 /* Dual */ = {
+			isa = PBXGroup;
+			children = (
+				B8E1E5D52D0C958300383975 /* RaiseDead.swift */,
+				B8E1E5D72D0C95D400383975 /* Rally.swift */,
+			);
+			path = Dual;
 			sourceTree = "<group>";
 		};
 		B8FDE9282CDAF93B0093BFF7 /* RelatedCardsSystem */ = {
@@ -3337,6 +3418,7 @@
 				B8FDE92E2CDAFE820093BFF7 /* DefaultCard.swift */,
 				B8FDE9302CDAFF340093BFF7 /* DemonHunter */,
 				B8FDE9392CDD15F60093BFF7 /* Druid */,
+				B8E1E5D42D0C957600383975 /* Dual */,
 				B8FDE93C2CDD17800093BFF7 /* Hunter */,
 				B8FDE9452CDD1DB50093BFF7 /* Mage */,
 				B854621D2CDEBCA80083BB31 /* Neutral */,
@@ -3383,7 +3465,9 @@
 		B8FDE9392CDD15F60093BFF7 /* Druid */ = {
 			isa = PBXGroup;
 			children = (
+				B8E1E5D02D0C94E000383975 /* Hadronox.swift */,
 				B8FDE93A2CDD16030093BFF7 /* HydrationStation.swift */,
+				B8E1E5D22D0C952000383975 /* UnendingSwarm.swift */,
 				B8E1E5AF2D0C854000383975 /* WitchingHour.swift */,
 			);
 			path = Druid;
@@ -3393,6 +3477,8 @@
 			isa = PBXGroup;
 			children = (
 				B8E1E5B12D0C860B00383975 /* AbominableBowman.swift */,
+				B8E1E5D92D0C964000383975 /* DefenseAttorneyNathanos.swift */,
+				B8E1E5DB2D0C96A300383975 /* JewelOfNzoth.swift */,
 				B8FDE93D2CDD17930093BFF7 /* PetParrot.swift */,
 				B8FDE93F2CDD188E0093BFF7 /* Product9.swift */,
 				B8E1E5B32D0C86A200383975 /* RevivePet.swift */,
@@ -3964,6 +4050,7 @@
 				B83CF364294BB808003C9062 /* BattlegroundsQuestPicking.swift in Sources */,
 				B82029552CD459E800C19A8C /* GridCardImageItem.swift in Sources */,
 				B8B7900E2C974E1300DD33EC /* PrimordialStudiesEnchantment.swift in Sources */,
+				B8E1E5EC2D0C9EF900383975 /* CatrinaMuerte.swift in Sources */,
 				B851C8F72BD2BCDA00B748C1 /* BattlegroundsCardsGroups.swift in Sources */,
 				B8A9CB332571F160000071FC /* GuessedCardState.swift in Sources */,
 				B8B790722C97A2AA00DD33EC /* PunchCardEnchantment.swift in Sources */,
@@ -3989,10 +4076,13 @@
 				43EBA3A31D1299AC0093B1C2 /* CardHudContainer.swift in Sources */,
 				B8B790322C975B0200DD33EC /* LoveEverlastingEnchantment.swift in Sources */,
 				4361D8341DC8A21800D831CF /* BnetGameType.swift in Sources */,
+				B8E1E5FE2D0CA1CD00383975 /* HabeasCorpses.swift in Sources */,
 				B8AF0C6B2B83A7AD00B65F63 /* MulliganGuideParams.swift in Sources */,
 				B82F4EB024E32C3000905024 /* SimulatorProxy.swift in Sources */,
 				B8E1E5B02D0C854000383975 /* WitchingHour.swift in Sources */,
+				B8E1E5E62D0C9E0600383975 /* Vectus.swift in Sources */,
 				B8E1E5BD2D0C88D600383975 /* EternalServitude.swift in Sources */,
+				B8E1E5F22D0C9FA900383975 /* LesserDiamondSpellstone.swift in Sources */,
 				B8B78FE22C9634AF00DD33EC /* ThornmantleMusicianEnchantment.swift in Sources */,
 				B8196F1B2CC87060007C0371 /* AbyssalCurseCounter.swift in Sources */,
 				B89586452B804E2000989C13 /* ConstructedStatsHeaderViewModel.swift in Sources */,
@@ -4017,6 +4107,7 @@
 				B8621F1A2746A785004DD0E9 /* Account.swift in Sources */,
 				4323C5E81E16963200C97896 /* MatchInfo.swift in Sources */,
 				B83CF36D294E3CF2003C9062 /* BattlegroundsCompositionPopularityBar.swift in Sources */,
+				B8E1E5F62D0CA07500383975 /* LesserDiamondSpellstoneCore.swift in Sources */,
 				B8E1E5C32D0C8A4900383975 /* OnyxBishopWONDERS.swift in Sources */,
 				439C7E891C777CFC00D29859 /* Card.swift in Sources */,
 				B8D75B9125A9DCDE00446923 /* ExperienceOverlay.swift in Sources */,
@@ -4048,6 +4139,7 @@
 				C92C680E1D1F225F009030DC /* StatsTab.swift in Sources */,
 				B8B78FA02C93C41100DD33EC /* EffectTarget.swift in Sources */,
 				B804FC2E29437AF500F74CD9 /* Debounce.swift in Sources */,
+				B8E1E5E82D0C9E5500383975 /* AmuletOfUndying.swift in Sources */,
 				B8A70C17284152DC004D054C /* BattlegroundsTierTriples.swift in Sources */,
 				B836821E27873B40007D5740 /* HeroPowerDataProxy.swift in Sources */,
 				B8B78FE52C9676B500DD33EC /* AquaArchivistEnchantment.swift in Sources */,
@@ -4081,6 +4173,7 @@
 				B8E1E5C92D0C8BCF00383975 /* BloodreaverGuldan.swift in Sources */,
 				B8AF0C712B84347800B65F63 /* ConstructedMulliganGuideViewModel.swift in Sources */,
 				B83682242789F812007D5740 /* ExitConditions.swift in Sources */,
+				B8E1E5EA2D0C9EB600383975 /* AnimateDead.swift in Sources */,
 				B8B78FAB2C93C83E00DD33EC /* ElizaGorebladeEnchantment.swift in Sources */,
 				B8B78FD52C96188100DD33EC /* RagingFelscreamerEnchantment.swift in Sources */,
 				B8B78FD12C96118F00DD33EC /* PocketSandEnchantment.swift in Sources */,
@@ -4201,7 +4294,9 @@
 				B85462182CDEBB2E0083BB31 /* EmergencyMeeting.swift in Sources */,
 				434910521D09773D00B22DB2 /* IBoardEntity.swift in Sources */,
 				43BDF0BE1DB89A830081964A /* WindowManager.swift in Sources */,
+				B8E1E5EE2D0C9F5500383975 /* CatrinaMuerteCore.swift in Sources */,
 				B8B78F9D2C93C39000DD33EC /* IShowInGlobalEffectList.swift in Sources */,
+				B8E1E6002D0CA21C00383975 /* InfantryReanimator.swift in Sources */,
 				436789B71CACF64600C962D1 /* CardCounter.swift in Sources */,
 				B89C9896280C610C005E9315 /* DeckLens.swift in Sources */,
 				B820294F2CD2D3F000C19A8C /* UnyieldingVindicatorEnchantment.swift in Sources */,
@@ -4221,6 +4316,7 @@
 				434D1CAF1D0C500300222B8E /* ImageUtilities.swift in Sources */,
 				B8591FFA2B24F7C900B907A4 /* ObjectiveFactoryProxy.swift in Sources */,
 				B87856E02C04BA7F004C2C40 /* UnsupportedInteractionProxy.swift in Sources */,
+				B8E1E6022D0CA25700383975 /* TamsinsPhylactery.swift in Sources */,
 				B8B78FD72C96193500DD33EC /* SigilOfSilenceEnchantment.swift in Sources */,
 				F719B88A200ACAE3004F5E36 /* DefaultDecks.swift in Sources */,
 				B8B790002C970E1000DD33EC /* DryscaleDeputyEnchantment.swift in Sources */,
@@ -4244,6 +4340,7 @@
 				B8AF0C672B83A65E00B65F63 /* MulliganGuideStatusData.swift in Sources */,
 				B8B790342C975BCB00DD33EC /* RazaTheResealedEnchantment.swift in Sources */,
 				B82029432CD2D14200C19A8C /* LuckyComentEnchantment.swift in Sources */,
+				B8E1E5E42D0C9DD400383975 /* TombLurker.swift in Sources */,
 				B8DC120524EC79370088A755 /* OutputProxy.swift in Sources */,
 				B8591FEE2B1776FF00B907A4 /* SpellSchool.swift in Sources */,
 				B8E1E5C12D0C89CC00383975 /* OnyxBishopKARA.swift in Sources */,
@@ -4255,6 +4352,7 @@
 				B82F4EB224E4088500905024 /* MinionFactoryProxy.swift in Sources */,
 				B893434A2CD120C7009A8727 /* SelfDamageCounter.swift in Sources */,
 				B8BCC1E3273B0AE600DA6474 /* MercenariesAbilityView.swift in Sources */,
+				B8E1E5F02D0C9F9000383975 /* DiamondSpellstone.swift in Sources */,
 				B82AE5F028ADBC55004A8FE0 /* Influx.swift in Sources */,
 				B8AF0C652B828A4A00B65F63 /* ConstructedMulliganSingleCardHeader.swift in Sources */,
 				B8230B942C8BE125008CBEEB /* IHsChoice.swift in Sources */,
@@ -4278,6 +4376,7 @@
 				439DD8FC1DB237C0004EBE47 /* EntityInfo.swift in Sources */,
 				439C7ECC1C777F8900D29859 /* Player.swift in Sources */,
 				B864A13E24F54E1F005EA2A0 /* MinionHeroPowerTrigger.swift in Sources */,
+				B8E1E5DC2D0C96A300383975 /* JewelOfNzoth.swift in Sources */,
 				B8FDE9382CDBB34D0093BFF7 /* LadyLiadrin.swift in Sources */,
 				437B5BB51CD2558500DE0A41 /* OpponentTrackersPreferences.swift in Sources */,
 				B8B78FAD2C93C8E400DD33EC /* FrozenOverEnchantment.swift in Sources */,
@@ -4295,6 +4394,7 @@
 				C99C0C991D0A6079000DD6FB /* Statistics.swift in Sources */,
 				439C7EB61C777F8900D29859 /* CardMark.swift in Sources */,
 				B89343462CD11D03009A8727 /* JadeGolemCounter.swift in Sources */,
+				B8E1E5F82D0CA0E300383975 /* TwilightsCall.swift in Sources */,
 				B8E1E5AC2D0C708900383975 /* GrandMagisterRommath.swift in Sources */,
 				B8B790212C97550600DD33EC /* LifeguardEnchantment.swift in Sources */,
 				B83CF36B294E2930003C9062 /* BattlegroundsPlacementDistributionBar.swift in Sources */,
@@ -4339,6 +4439,7 @@
 				B893433A2CD008DF009A8727 /* CthunCounter.swift in Sources */,
 				B8BD3BA82C4159EA001E85B7 /* BattlegroundsCompStats.swift in Sources */,
 				B8591FFE2B31328A00B907A4 /* RecurringNightmare.swift in Sources */,
+				B8E1E5D62D0C958300383975 /* RaiseDead.swift in Sources */,
 				43F4D0491EB7A23E006B4479 /* HeroPower.swift in Sources */,
 				B8B790082C974CB200DD33EC /* KindlingElementalEnchantment.swift in Sources */,
 				B8B61C242AEBEB2C00990359 /* RemoteArenaSettings.swift in Sources */,
@@ -4366,11 +4467,13 @@
 				B8B78FC02C952B4F00DD33EC /* PopularPixieEnchantment.swift in Sources */,
 				B893433E2CD06762009A8727 /* ExcavateTierCounter.swift in Sources */,
 				4308EB7E1D76AFE6000897C8 /* ReleaseChannel.swift in Sources */,
+				B8E1E5DA2D0C964000383975 /* DefenseAttorneyNathanos.swift in Sources */,
 				B8EF1D7E2916857000AC4658 /* BattlegroundsQuestView.swift in Sources */,
 				439C7EC91C777F8900D29859 /* LogLine.swift in Sources */,
 				B82029412CD2D09100C19A8C /* AskaraEnchantment.swift in Sources */,
 				B8B78FA92C93C59E00DD33EC /* ColdFeetEnchantment.swift in Sources */,
 				436F5D161CFD822600DEB9A1 /* MinimalBar.swift in Sources */,
+				B8E1E5F42D0CA02B00383975 /* GreaterDiamondSpellstone.swift in Sources */,
 				B8BCC1E12739991600DA6474 /* VerticallyAlignedTextFieldCell.swift in Sources */,
 				B804FC3F2946882D00F74CD9 /* StatsHeaderViewModel.swift in Sources */,
 				B8B790662C97860600DD33EC /* AthleticStudiesEnchantment.swift in Sources */,
@@ -4397,6 +4500,7 @@
 				B8591FF82B24919F00B907A4 /* MulliganState.swift in Sources */,
 				B898994F2CA4514E0011B184 /* BattlegroundsTrinketPickParams.swift in Sources */,
 				B89899552CA5F0290011B184 /* BattlegroundsSingleTrinket.swift in Sources */,
+				B8E1E5FC2D0CA17600383975 /* CounterfeitBlade.swift in Sources */,
 				B8AB59962742FA5C00383EC8 /* Deque.swift in Sources */,
 				B8449A042781C7360094E5B3 /* ReplicatingMenace.swift in Sources */,
 				B898994B2CA445E40011B184 /* BattlegroundsTrinketPicking.swift in Sources */,
@@ -4424,6 +4528,7 @@
 				434910471D09505E00B22DB2 /* BoardDamage.swift in Sources */,
 				B82238BE2BF96C6000B405D4 /* BattlegroundsHeroPickStats.swift in Sources */,
 				B86C9EAB27A17B3B00195C0A /* BrukanInvocationDeathrattles.swift in Sources */,
+				B8E1E5D12D0C94E000383975 /* Hadronox.swift in Sources */,
 				B8C33FB1273EF851006DA79E /* MercenariesCoins.swift in Sources */,
 				B83CF379294E63C9003C9062 /* BattlegroundsCompositionPopularity.swift in Sources */,
 				B8B78FB82C94612400DD33EC /* ChitinousPlatingEnchantment.swift in Sources */,
@@ -4431,6 +4536,7 @@
 				B8AF0C732B8439A800B65F63 /* ConstructedMulliganGuide.swift in Sources */,
 				B85462162CDEBAC20083BB31 /* DirdraRebelCaptain.swift in Sources */,
 				B89899492CA254B10011B184 /* BattlegroundsTrinketPickStats.swift in Sources */,
+				B8E1E5E02D0C9D5F00383975 /* NzothGodOfTheDeep.swift in Sources */,
 				B820293D2CD2CFB400C19A8C /* StarlightWandererEnchantment.swift in Sources */,
 				B8B78FBA2C95298A00DD33EC /* DiscipleOfEonarEnchantment.swift in Sources */,
 				B80B5B2F2C49BF9D005F4321 /* CompositionStatsException.swift in Sources */,
@@ -4449,7 +4555,9 @@
 				439C7EE31C777FA900D29859 /* Tracker.swift in Sources */,
 				B8D8859224F3034700F2F0F2 /* StatusMessageConverter.swift in Sources */,
 				B8AF0C692B83A77100B65F63 /* MulliganGuideStatusParams.swift in Sources */,
+				B8E1E5DE2D0C9CFE00383975 /* DaUndatakah.swift in Sources */,
 				B8D34D37294FE74700CACC5A /* BattlegroundsHeroPickStatsParams .swift in Sources */,
+				B8E1E5D82D0C95D400383975 /* Rally.swift in Sources */,
 				43C567E71D5D0F2E00451B6F /* LogLineNamespace.swift in Sources */,
 				B85462432CE021FF0083BB31 /* PVPDungeonRunWatcher.swift in Sources */,
 				B854623F2CE01ECF0083BB31 /* DeckPickerWatcher.swift in Sources */,
@@ -4461,6 +4569,7 @@
 				B8B790022C974B9B00DD33EC /* ForensicDusterEnchantment.swift in Sources */,
 				B85462332CE016B80083BB31 /* ArenaDeckWatcher.swift in Sources */,
 				B8CE65E0295295AD00E8D168 /* BattlegroundsHeroHeader.swift in Sources */,
+				B8E1E5D32D0C952000383975 /* UnendingSwarm.swift in Sources */,
 				B85462472CE18BDF0083BB31 /* DelayedTooltip.swift in Sources */,
 				432B60331CB69FA600B05D19 /* FloatingCard.swift in Sources */,
 				B82F4EAB24E3021D00905024 /* MonoHelper.swift in Sources */,
@@ -4471,6 +4580,7 @@
 				B8E1E5BB2D0C885300383975 /* Bonecaller.swift in Sources */,
 				B89343382CD00858009A8727 /* ChaoticTendrilCounter.swift in Sources */,
 				439C7E4C1C7772C000D29859 /* AppDelegate.swift in Sources */,
+				B8E1E5E22D0C9DA100383975 /* NzothTheCorruptor.swift in Sources */,
 				B8FDE92C2CDAF9D10093BFF7 /* RelatedCardsManager.swift in Sources */,
 				B82029452CD2D1BE00C19A8C /* SpacerockCollectorEnchantment.swift in Sources */,
 				C92C681A1D1F8E27009030DC /* Ranks.swift in Sources */,
@@ -4490,12 +4600,14 @@
 				B893433C2CD0372A009A8727 /* ElementalTurnSequenceCounter.swift in Sources */,
 				E30590BB21174FC900679D66 /* UploadCollectionData.swift in Sources */,
 				B8BD84572861394100F4F224 /* Regex.swift in Sources */,
+				B8E1E5FA2D0CA12D00383975 /* XyrellaTheDevout.swift in Sources */,
 				435CD9091E1E3AB4000AF3DE /* GameStats.swift in Sources */,
 				B8FDE9422CDD1A160093BFF7 /* Sasquawk.swift in Sources */,
 				B8B7904E2C977A9B00DD33EC /* FlashOfLightningEnchantment.swift in Sources */,
 				B8B790042C974C1000DD33EC /* FrequencyOscillatorEnchantment.swift in Sources */,
 				B8BD3BAC2C41C524001E85B7 /* BattlegroundsCompositionStatsBar.swift in Sources */,
 				B8B790542C97802A00DD33EC /* MelomaniaEnchantment.swift in Sources */,
+				B8E1E5CF2D0C943D00383975 /* Boneshredder.swift in Sources */,
 				435CD90B1E1E4447000AF3DE /* ServerInfo.swift in Sources */,
 				B82238BA2BF948B000B405D4 /* BoardSnapshot.swift in Sources */,
 				B85462372CE019FE0083BB31 /* ChoicesWatcher.swift in Sources */,

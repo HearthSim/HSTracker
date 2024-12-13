@@ -109,6 +109,14 @@ extension Card {
         
         return self
     }
+    
+    func hasDeathrattle() -> Bool {
+        return mechanics.contains("DEATHRATTLE")
+    }
+    
+    func hasTaunt() -> Bool {
+        return mechanics.contains("TAUNT")
+    }
 }
 
 extension Array where Element: Card {
