@@ -38,7 +38,7 @@ class ReflectionHelper {
                 cacheActiveEffectClassList.append(aecl)
             } else if let dccl = cl as? BaseCounter.Type, cl != BaseCounter.self && cl != StatsCounter.self && cl != NumericCounter.self {
                 cacheCounterClassList.append(dccl)
-            } else if let rccl = cl as? ICardWithRelatedCards.Type {
+            } else if let rccl = cl as? ICardWithRelatedCards.Type, rccl != ResurrectionCard.self {
                 cacheRelatedClassList.append(rccl)
             }
         }
