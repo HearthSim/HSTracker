@@ -29,8 +29,6 @@ final class Cards {
     static var cardsById = SynchronizedDictionary<String, Card>()
     // battlegrounds miniona only
     static var battlegroundsMinions = SynchronizedArray<Card>()
-    // battlegrounds spells only
-    static var battlegroundsSpells = SynchronizedArray<Card>()
 
     static func hero(byId cardId: String) -> Card? {
         if let card = cardsById[cardId] {

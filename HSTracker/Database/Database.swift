@@ -101,8 +101,9 @@ class Database: NSObject, XMLParserDelegate {
                     if !Database.battlegroundsExclusions.contains(currentCard?.id ?? "") {
                         currentCard?.battlegroundsPoolMinion = intValue > 0
                     }
+                    currentCard?.isBaconPoolMinion = intValue > 0
                 case GameTag.is_bacon_duos_exclusive.rawValue:
-                    currentCard?.battlegroundsDuosExclusive = intValue > 0
+                    currentCard?.isBaconDuosExclusive = intValue
                 case GameTag.bacon_skin_parent_id.rawValue:
                     currentCard?.battlegroundsSkinParentId = intValue
                 case GameTag.hide_stats.rawValue:
@@ -146,8 +147,8 @@ class Database: NSObject, XMLParserDelegate {
                     if let race = RaceUtils.tagRaceMap[id] {
                         currentCard?.races.append(race)
                     }
-                case 3081:
-                    currentCard?.battlegroundsPoolSpell = intValue != 0
+                case GameTag.is_bacon_pool_spell.rawValue:
+                    currentCard?.isBaconPoolSpell = intValue != 0
                 case GameTag.windfury.rawValue, GameTag.taunt.rawValue, GameTag.stealth.rawValue, GameTag.spellpower.rawValue, GameTag.divine_shield.rawValue, GameTag.charge.rawValue, GameTag.freeze.rawValue, GameTag.enraged.rawValue, GameTag.deathrattle.rawValue, GameTag.battlecry.rawValue, GameTag.secret.rawValue, GameTag.combo.rawValue, GameTag.silence.rawValue, GameTag.immunetospellpower.rawValue, GameTag.poisonous.rawValue, GameTag.lifesteal.rawValue, GameTag.outcast.rawValue, GameTag.rush.rawValue, GameTag.overkill.rawValue, GameTag.trigger_visual.rawValue, GameTag.honorable_kill.rawValue, GameTag.immune.rawValue, GameTag.dormant.rawValue, GameTag.discover.rawValue, GameTag.venomous.rawValue:
                     if let mechanic = Database.mechanics[id] {
                         currentCard?.mechanics.append(mechanic)
@@ -197,9 +198,6 @@ class Database: NSObject, XMLParserDelegate {
                 Cards.cardsById[card.id] = card
                 if card.battlegroundsPoolMinion && !Cards.battlegroundsMinions.contains(card) {
                     Cards.battlegroundsMinions.append(card)
-                }
-                if card.type == .battleground_spell && card.techLevel > 0 && card.battlegroundsPoolSpell {
-                    Cards.battlegroundsSpells.append(card)
                 }
             }
             currentCard = nil
