@@ -174,11 +174,19 @@ class GridCardImages: OverWindowController, NSCollectionViewDataSource {
         item.topConstraint.constant = insets.top
         item.bottomConstraint.constant = insets.bottom
         item.imageView?.image = NSImage(named: card.loadingImageSource)
-        ImageUtils.cardArt(for: card.card.id, completion: { img in
-            DispatchQueue.main.async {
-                item.imageView?.image = img
-            }
-        })
+        if card.card.baconCard {
+            ImageUtils.cardArtBG(for: card.card.id, baconTriple: false, completion: { img in
+                DispatchQueue.main.async {
+                    item.imageView?.image = img
+                }
+            })
+        } else {
+            ImageUtils.cardArt(for: card.card.id, completion: { img in
+                DispatchQueue.main.async {
+                    item.imageView?.image = img
+                }
+            })
+        }
         return item
     }
 }

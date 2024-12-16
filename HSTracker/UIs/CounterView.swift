@@ -159,7 +159,7 @@ class CounterView: NSView {
             return
         }
         let cardsToDisplay = counter.getCardsToDisplay().compactMap({ cardId in
-            let card = Cards.by(cardId: cardId)
+            let card = Cards.any(byId: cardId)
             card?.baconCard = counter.isBattlegroundsCounter
             return card
         })
@@ -167,6 +167,7 @@ class CounterView: NSView {
             return
         }
         let windowRect = window.frame
+        let hsFrame = SizeHelper.hearthstoneWindow.frame
 
         let cardImages = counter.game.windowManager.tooltipGridCards
         cardImages.setTitle(counter.localizedName)
@@ -184,7 +185,11 @@ class CounterView: NSView {
         let cellFrameRelativeToWindow = self.convert(self.bounds, to: nil)
         let cellFrameRelativeToScreen = window.convertToScreen(cellFrameRelativeToWindow)
 
-        let y: CGFloat = cellFrameRelativeToScreen.origin.y
+        var y: CGFloat = cellFrameRelativeToScreen.origin.y
+
+        if y + hoverFrame.height > hsFrame.maxY {
+            y = hsFrame.maxY - hoverFrame.height
+        }
 
         counter.game.windowManager.show(controller: cardImages, show: true, frame: NSRect(x: x, y: y, width: hoverFrame.width, height: hoverFrame.height))
         delayedTooltip = nil
