@@ -17,6 +17,7 @@ struct BattlegroundsTrinketPickParams: Codable {
     var source_dbf_id: Int
     var offered_trinkets: [OfferedTrinket]
     var game_language: String
+    var game_type: Int
     var battlegrounds_rating: Int?
     
     struct OfferedTrinket: Codable {

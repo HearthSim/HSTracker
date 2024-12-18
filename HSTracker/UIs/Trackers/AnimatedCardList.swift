@@ -148,7 +148,7 @@ class AnimatedCardList: NSView {
     }
 
     fileprivate func areEqualForList(_ c1: Card, _ c2: Card) -> Bool {
-        var ei = (c1.extraInfo as? IncindiusCounter) == (c2.extraInfo as? IncindiusCounter)
+        let ei = (c1.extraInfo as? IncindiusCounter) == (c2.extraInfo as? IncindiusCounter)
         return c1.id == c2.id && c1.jousted == c2.jousted && c1.isCreated == c2.isCreated
         && (!Settings.highlightDiscarded || c1.wasDiscarded == c2.wasDiscarded) && c1.deckListIndex == c2.deckListIndex && ei
     }

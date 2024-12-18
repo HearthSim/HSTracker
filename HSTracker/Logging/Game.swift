@@ -3611,7 +3611,7 @@ class Game: NSObject, PowerEventHandler {
             return nil
         }
         
-        let parameters = BattlegroundsTrinketPickParams(hero_dbf_id: heroCard.dbfId, hero_power_dbf_ids: player.pastHeroPowers.compactMap({ x in Cards.by(cardId: x)?.dbfId }), minion_types: availableRaces.compactMap { x in Int(Race.allCases.firstIndex(of: x)!) }, anomaly_dbf_id: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: gameEntity), turn: turnNumber(), source_dbf_id: sourceEntity.card.dbfId, offered_trinkets: offeredTrinkets, game_language: "\(Settings.hearthstoneLanguage ?? .enUS)", battlegrounds_rating: currentBattlegroundsRating)
+        let parameters = BattlegroundsTrinketPickParams(hero_dbf_id: heroCard.dbfId, hero_power_dbf_ids: player.pastHeroPowers.compactMap({ x in Cards.by(cardId: x)?.dbfId }), minion_types: availableRaces.compactMap { x in Int(Race.allCases.firstIndex(of: x)!) }, anomaly_dbf_id: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: gameEntity), turn: turnNumber(), source_dbf_id: sourceEntity.card.dbfId, offered_trinkets: offeredTrinkets, game_language: "\(Settings.hearthstoneLanguage ?? .enUS)", game_type: currentGameType.rawValue, battlegrounds_rating: currentBattlegroundsRating)
         return parameters
     }
     
