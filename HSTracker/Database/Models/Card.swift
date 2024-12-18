@@ -170,6 +170,7 @@ final class Card {
     var isStolen = false
     var isCreated = false
     var wasDiscarded = false
+    var extraInfo: (any ICardExtraInfo)?
     var highlightDraw = false
     var highlightInHand = false
     var highlightFrame = false

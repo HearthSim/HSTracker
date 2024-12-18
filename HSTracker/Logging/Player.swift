@@ -15,9 +15,11 @@ class DynamicEntity {
     var stolen, hidden, created, isInHand, discarded: Bool
     var cardMark: CardMark
     var entity: Entity?
+    var extraInfo: (any ICardExtraInfo)?
 
     init(cardId: String, hidden: Bool = false, created: Bool = false,
          cardMark: CardMark = .none, discarded: Bool = false,
+         extraInfo: (any ICardExtraInfo)? = nil,
          stolen: Bool = false, isInHand: Bool = false, entity: Entity? = nil) {
         self.cardId = cardId
         self.hidden = hidden
@@ -278,7 +280,8 @@ final class Player {
         return deck.filter({ $0.hasCardId })
             .map({ (e: Entity) -> (DynamicEntity) in
                 DynamicEntity(cardId: e.cardId,
-                    created: e.info.created || e.info.stolen)
+                              created: e.info.created || e.info.stolen,
+                              extraInfo: e.info.extraInfo)
             })
             .group { (d: DynamicEntity) in d }
             .compactMap { g -> Card? in
@@ -286,6 +289,7 @@ final class Player {
                     card.count = g.value.count
                     card.isCreated = g.key.created
                     card.jousted = true
+                    card.extraInfo = g.key.extraInfo?.copy() as? (any ICardExtraInfo)
                     return card
                 } else {
                     return nil
@@ -458,7 +462,8 @@ final class Player {
                               hidden: (e.isInHand || e.isInDeck || (e.isInSetAside && e.info.guessedCardState == GuessedCardState.guessed)) && e.isControlled(by: self.id),
                               created: e.info.created ||
                               (e.info.stolen && e.info.originalController != self.id),
-                              discarded: e.info.discarded && Settings.highlightDiscarded
+                              discarded: e.info.discarded && Settings.highlightDiscarded,
+                              extraInfo: e.info.extraInfo
                 )
             }).group { (d: DynamicEntity) in d }
                 .compactMap { g -> Card? in
@@ -467,6 +472,7 @@ final class Player {
                         card.jousted = g.key.hidden
                         card.isCreated = g.key.created
                         card.wasDiscarded = g.key.discarded
+                        card.extraInfo = g.key.extraInfo?.copy() as? (any ICardExtraInfo)
                         return card
                     } else {
                         return nil
@@ -498,8 +504,9 @@ final class Player {
         })
             .map({ (e: Entity) -> (DynamicEntity) in
                 DynamicEntity(cardId: e.cardId,
-                    created: e.info.created || e.info.stolen,
-                    discarded: e.info.discarded
+                              created: e.info.created || e.info.stolen,
+                              discarded: e.info.discarded, 
+                              extraInfo: e.info.extraInfo
                 )
             })
             .group { (d: DynamicEntity) in d }
@@ -508,6 +515,7 @@ final class Player {
                     card.count = g.value.count
                     card.isCreated = g.key.created
                     card.highlightInHand = hand.any({ $0.cardId == g.key.cardId })
+                    card.extraInfo = g.key.extraInfo?.copy() as? (any ICardExtraInfo)
                     return card
                 } else {
                     return nil
@@ -630,8 +638,9 @@ final class Player {
         })
             .map({ (e: Entity) -> (DynamicEntity) in
                 DynamicEntity(cardId: e.cardId,
-                    created: e.info.created || e.info.stolen,
-                    discarded: e.info.discarded
+                              created: e.info.created || e.info.stolen,
+                              discarded: e.info.discarded,
+                              extraInfo: e.info.extraInfo
                 )
             })
             .group { (d: DynamicEntity) in d }
@@ -640,6 +649,7 @@ final class Player {
                     card.count = g.value.count
                     card.isCreated = g.key.created
                     card.highlightInHand = hand.any({ $0.cardId == g.key.cardId })
+                    card.extraInfo =  g.key.extraInfo?.copy() as? (any ICardExtraInfo)
                     return card
                 } else {
                     return nil

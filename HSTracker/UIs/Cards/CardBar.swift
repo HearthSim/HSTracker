@@ -685,6 +685,9 @@ class CardBar: NSView, CardBarTheme {
             name = playerName
         } else if let card = card {
             name = card.name
+            if let _name = name, let suffix = card.extraInfo?.cardNameSuffix {
+                name = "\(_name) \(suffix)"
+            }
             textColor = card.textColor()
         }
 

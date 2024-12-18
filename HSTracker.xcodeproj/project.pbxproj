@@ -428,6 +428,8 @@
 		B8196F252CCB246C007C0371 /* CounterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8196F242CCB246C007C0371 /* CounterView.swift */; };
 		B8196F272CCD4135007C0371 /* CountersOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8196F262CCD4135007C0371 /* CountersOverlay.xib */; };
 		B8196F292CCD416F007C0371 /* CountersOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8196F282CCD416F007C0371 /* CountersOverlay.swift */; };
+		B81B3D632D10CDE900DC9EB0 /* ICardExtraInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81B3D622D10CDE900DC9EB0 /* ICardExtraInfo.swift */; };
+		B81B3D652D10CE1300DC9EB0 /* IncidiusCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81B3D642D10CE1300DC9EB0 /* IncidiusCounter.swift */; };
 		B81EEABB2CE69AF300B32448 /* NibHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81EEABA2CE69AF300B32448 /* NibHelper.swift */; };
 		B82029312CD2C4D700C19A8C /* AsteroidExtraDamageCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82029302CD2C4D700C19A8C /* AsteroidExtraDamageCounter.swift */; };
 		B82029332CD2C65D00C19A8C /* KiljaedenCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82029322CD2C65D00C19A8C /* KiljaedenCounter.swift */; };
@@ -1443,6 +1445,8 @@
 		B8196F242CCB246C007C0371 /* CounterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterView.swift; sourceTree = "<group>"; };
 		B8196F262CCD4135007C0371 /* CountersOverlay.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CountersOverlay.xib; sourceTree = "<group>"; };
 		B8196F282CCD416F007C0371 /* CountersOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountersOverlay.swift; sourceTree = "<group>"; };
+		B81B3D622D10CDE900DC9EB0 /* ICardExtraInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ICardExtraInfo.swift; sourceTree = "<group>"; };
+		B81B3D642D10CE1300DC9EB0 /* IncidiusCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidiusCounter.swift; sourceTree = "<group>"; };
 		B81EEABA2CE69AF300B32448 /* NibHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NibHelper.swift; sourceTree = "<group>"; };
 		B81F069C253899FB00F319F1 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		B82029302CD2C4D700C19A8C /* AsteroidExtraDamageCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsteroidExtraDamageCounter.swift; sourceTree = "<group>"; };
@@ -2638,6 +2642,7 @@
 		43B695551C90653A00F4D0AC /* Hearthstone */ = {
 			isa = PBXGroup;
 			children = (
+				B81B3D612D10CDD400DC9EB0 /* CardExtraInfo */,
 				B82238BB2BF948E600B405D4 /* BattlegroundsBoardState.swift */,
 				B82238BF2BF9891200B405D4 /* BattlegroundsHeroPickState.swift */,
 				B82238B92BF948B000B405D4 /* BoardSnapshot.swift */,
@@ -2810,6 +2815,15 @@
 				B893434D2CD1320F009A8727 /* WheelOfDeathTurnsCounter.swift */,
 			);
 			path = Counters;
+			sourceTree = "<group>";
+		};
+		B81B3D612D10CDD400DC9EB0 /* CardExtraInfo */ = {
+			isa = PBXGroup;
+			children = (
+				B81B3D622D10CDE900DC9EB0 /* ICardExtraInfo.swift */,
+				B81B3D642D10CE1300DC9EB0 /* IncidiusCounter.swift */,
+			);
+			path = CardExtraInfo;
 			sourceTree = "<group>";
 		};
 		B8230B922C8BE112008CBEEB /* Interfaces */ = {
@@ -4350,6 +4364,7 @@
 				439C7EB81C777F8900D29859 /* GameMode.swift in Sources */,
 				432A392F1CF0B0F80029F0EA /* LogReaderInfo.swift in Sources */,
 				B82F4EB224E4088500905024 /* MinionFactoryProxy.swift in Sources */,
+				B81B3D632D10CDE900DC9EB0 /* ICardExtraInfo.swift in Sources */,
 				B893434A2CD120C7009A8727 /* SelfDamageCounter.swift in Sources */,
 				B8BCC1E3273B0AE600DA6474 /* MercenariesAbilityView.swift in Sources */,
 				B8E1E5F02D0C9F9000383975 /* DiamondSpellstone.swift in Sources */,
@@ -4478,6 +4493,7 @@
 				B804FC3F2946882D00F74CD9 /* StatsHeaderViewModel.swift in Sources */,
 				B8B790662C97860600DD33EC /* AthleticStudiesEnchantment.swift in Sources */,
 				B81849272BF4D7C900F4EEE2 /* ConstructedMulliganOverlayMessageViewModel.swift in Sources */,
+				B81B3D652D10CE1300DC9EB0 /* IncidiusCounter.swift in Sources */,
 				B8B78FA22C93C49A00DD33EC /* EffectDuration.swift in Sources */,
 				433554391D5FABD600277B27 /* HSReplayPreferences.swift in Sources */,
 				439C7EBC1C777F8900D29859 /* PlayState.swift in Sources */,

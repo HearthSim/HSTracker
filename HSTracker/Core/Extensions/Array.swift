@@ -25,6 +25,9 @@ extension Array where Element: Card {
         if sorting == .cost {
             return sorted {
                 if $0.cost == $1.cost {
+                    if $0.name == $1.name {
+                        return $0.extraInfo?.cardNameSuffix ?? "" > $0.extraInfo?.cardNameSuffix ?? ""
+                    }
                     return $0.name < $1.name
                 }
                 return $0.cost < $1.cost

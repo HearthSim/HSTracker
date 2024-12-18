@@ -2298,10 +2298,11 @@ class Game: NSObject, PowerEventHandler {
         }
 
         if player == .player {
+            handleOpponentEndOfTurn(playerTurn.turn - 1)
             self.player.onTurnStart()
-            handleThaurissanCostReduction()
             secretsManager?.handlePlayerTurnStart()
         } else {
+            handlePlayerEndOfTurn(playerTurn.turn - 1)
             opponent.onTurnStart()
             secretsManager?.handleOpponentTurnStart()
         }
@@ -2352,6 +2353,53 @@ class Game: NSObject, PowerEventHandler {
         updateTurnCounter(turn: turnNumber())
         
         updateTrackers()
+    }
+    
+    private func handlePlayerEndOfTurn(_ turn: Int) {
+        handleIncidiusEndOfTurn(isOpponent: false, turn: turn)
+    }
+    
+    private func handleOpponentEndOfTurn(_  turn: Int) {
+        handleThaurissanCostReduction()
+        handleIncidiusEndOfTurn(isOpponent: true, turn: turn)
+    }
+    
+    func handleThaurissanCostReduction() {
+        let thaurissans = opponent.board.filter { x in
+            (x.cardId == CardIds.Collectible.Neutral.EmperorThaurissan || x.cardId == CardIds.Collectible.Neutral.EmperorThaurissanWONDERS) && !x.has(tag: .silenced)
+        }
+        if thaurissans.isEmpty {
+            return
+        }
+
+        handleOpponentHandCostReduction(value: thaurissans.count)
+    }
+    
+    private func handleIncidiusEndOfTurn(isOpponent: Bool, turn: Int) {
+        let player = isOpponent ? opponent : player
+        guard let incidiusEntities = player?.board.filter({ x in x.cardId == CardIds.Collectible.Neutral.Incindius }), incidiusEntities.count > 0 else {
+            return
+        }
+        
+        guard let eruptions = player?.deck.filter({ x in x.cardId == CardIds.NonCollectible.Neutral.Incindius_EruptionToken }), eruptions.count > 0 else {
+            return
+        }
+        
+        for _ in incidiusEntities {
+            for entity in eruptions {
+                if let counter = entity.info.extraInfo as? IncindiusCounter {
+                    counter.counter += 1
+                } else {
+                    entity.info.extraInfo = IncindiusCounter(turn)
+                }
+            }
+        }
+        
+        if isOpponent {
+            updateOpponentTracker()
+        } else {
+            updatePlayerTracker()
+        }
     }
 
     func concede() {
@@ -2437,17 +2485,6 @@ class Game: NSObject, PowerEventHandler {
         return false
     }
 
-    func handleThaurissanCostReduction() {
-        let thaurissans = opponent.board.filter { x in
-            (x.cardId == CardIds.Collectible.Neutral.EmperorThaurissan || x.cardId == CardIds.Collectible.Neutral.EmperorThaurissanWONDERS) && !x.has(tag: .silenced)
-        }
-        if thaurissans.isEmpty {
-            return
-        }
-
-        handleOpponentHandCostReduction(value: thaurissans.count)
-    }
-    
     func handlePlayerDredge() {
         updatePlayerTracker()
     }

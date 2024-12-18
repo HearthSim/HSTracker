@@ -39,6 +39,7 @@ class EntityInfo {
     }
     var deckIndex = 0
     var inGraveyardAtStartOfGame = false
+    var extraInfo: (any ICardExtraInfo)?
     var forged = false
 
     init(entity: Entity) {
@@ -144,6 +145,9 @@ extension EntityInfo: CustomStringConvertible {
         }
         if let copyOfCardId {
             description += ", copyOf=\(copyOfCardId)"
+        }
+        if let extraInfo, let suffix = extraInfo.cardNameSuffix {
+            description += ", extraInfo=\(suffix)"
         }
         description += ", inGraveyardAtStartOfGame=\(inGraveyardAtStartOfGame)"
         description += "]"
