@@ -17,7 +17,7 @@ jobs:
       - name: Download release asset
         uses: dsaltares/fetch-gh-release-asset@1.1.2
         with:
-          version: ${{ github.ref }}
+          version: tags/${{ github.ref_name }}
           file: 'HSTracker.app.zip'
 
       - name: Configure AWS Credentials
@@ -27,4 +27,4 @@ jobs:
           aws-region: ap-east-1
 
       - name: Publish
-        run: aws s3 sync HSTracker.app.zip "s3://${{ secrets.AWS_S3_BUCKET }}/hstracker/HSTracker.app.zip"
+        run: aws s3 cp HSTracker.app.zip "s3://${{ secrets.AWS_S3_BUCKET }}/hstracker/HSTracker.app.zip"
