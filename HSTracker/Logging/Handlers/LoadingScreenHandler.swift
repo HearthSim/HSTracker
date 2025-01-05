@@ -14,7 +14,7 @@ struct LoadingScreenHandler: LogEventParser {
 	
 	private let coreManager: CoreManager
     
-    private let showExperienceDuringMode = [ Mode.hub, Mode.game_mode, Mode.tournament, Mode.bacon, Mode.draft, Mode.pvp_dungeon_run ]
+    private let showExperienceDuringMode = [ Mode.hub, Mode.game_mode, Mode.tournament, Mode.draft, Mode.pvp_dungeon_run ]
     private let lettuceModes = [
         Mode.lettuce_village,
         Mode.lettuce_bounty_board,
