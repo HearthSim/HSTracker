@@ -172,7 +172,7 @@ import Foundation
             group.groupedByMinionType = cg.groupedByMinionType
             group.cards = cg.cards.compactMap { x in
                 let ret = x.copy()
-                ret.cost = -1
+                ret.cost = x.type == .battleground_spell ? x.cost : -1
                 ret.id = x.id
                 ret.name = x.name
                 ret.type = x.type

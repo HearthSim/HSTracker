@@ -136,6 +136,8 @@ class CardBar: NSView, CardBarTheme {
     let arenaHelperRect = NSRect(x: 17, y: 0, width: 34, height: 34)
     let tag1 = NSRect(x: 183, y: 0, width: 34, height: 34)
     let tag2 = NSRect(x: 149, y: 0, width: 34, height: 34)
+    let coinRect = NSRect(x: 217-25, y: 4, width: 25, height: 25)
+    let coinCostRect = NSRect(x: 217-25, y: 12, width: 25, height: 25)
 
     var countTextColor: NSColor {
         return NSColor( red: 0.9221, green: 0.7215, blue: 0.2226, alpha: 1.0 )
@@ -316,7 +318,7 @@ class CardBar: NSView, CardBarTheme {
                     addLegendaryIcon()
                 }
             }
-            if isBattlegrounds {
+            if isBattlegrounds && card.type != .battleground_spell {
                 let hasBattleCry = card.mechanics.contains("BATTLECRY")
                 let hasDeathrattle = card.mechanics.contains("DEATHRATTLE")
                 if hasBattleCry {
@@ -326,12 +328,15 @@ class CardBar: NSView, CardBarTheme {
                     addDeathrattleTag()
                 }
             }
+            if card.type == .battleground_spell {
+                addCoinCost()
+            }
         }
         if (isBattlegrounds && card != nil) || !isBattlegrounds {
             addFrame()
         }
 
-        if card != nil {
+        if card != nil && card?.type != .battleground_spell {
             addGem()
             addCost()
         }
@@ -541,6 +546,23 @@ class CardBar: NSView, CardBarTheme {
                 image = image.withSymbolConfiguration(config)!
             }
             add(image: image, rect: tag1)
+        }
+    }
+    
+    func addCoinCost(_ rect: NSRect) {
+        guard let card = card else { return }
+
+        let cost = card.cost
+        guard cost > 0 else { return }
+
+        let fontSize = fitFontForSize(ratio(rect).size, str: "\(cost)", fontName: textFont, maxFontSize: countFontSize, minFontSize: 1.0)
+        add(text: cost, fontSize: fontSize, rect: rect, textColor: .white, font: numbersFont, centered: true)
+    }
+
+    func addCoinCost() {
+        if let image = NSImage(named: "coin-cost") {
+            add(image: image, rect: coinRect)
+            addCoinCost(coinCostRect)
         }
     }
 
