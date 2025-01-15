@@ -400,59 +400,64 @@ class WindowManager {
               frame: NSRect? = nil, title: String? = nil, overlay: Bool = true) {
         guard let window = controller.window else { return }
 
-        DispatchQueue.main.async {
-            if show {
-                // add the window in the "windows menu"
-                if let title = title {
-                    NSApp.addWindowsItem(window,
-                                         title: String.localizedString(title, comment: ""),
-                                         filename: false)
-                    window.title = String.localizedString(title, comment: "")
-                }
-
-                // update gui elements
-                controller.updateFrames()
-                
-                // show window and set size
-                if let frame = frame {
-                    if frame.origin.x.isFinite && frame.origin.y.isFinite && frame.size.width.isFinite && frame.size.height.isFinite {
-                        window.setFrame(frame, display: true, animate: false)
-                    }
-                }
-
-                // set the level of the window : over all if hearthstone is active
-                // as a normal window otherwise
-                let level: Int
-                if overlay {
-                    level = Int(CGShieldingWindowLevel())
-                } else {
-                    level = Int(CGWindowLevelForKey(CGWindowLevelKey.normalWindow))
-                }
-                window.level = NSWindow.Level(rawValue: level)
-
-                // if the setting is on, set the window behavior to join all workspaces
-                if Settings.canJoinFullscreen {
-                    window.collectionBehavior = [NSWindow.CollectionBehavior.canJoinAllSpaces, NSWindow.CollectionBehavior.fullScreenAuxiliary]
-                } else {
-                    window.collectionBehavior = []
-                }
-
-                let locked = Settings.windowsLocked || controller.alwaysLocked
-                if locked {
-                    window.styleMask = [.borderless, .nonactivatingPanel]
-                } else {
-                    window.styleMask = [.titled, .miniaturizable,
-                                        .resizable, .borderless,
-                                        .nonactivatingPanel]
-                }
-
-                window.orderFront(nil)
-            } else {
-                if title != nil {
-                    NSApp.removeWindowsItem(window)
-                }
-                window.orderOut(nil)
+        if !Thread.isMainThread {
+            DispatchQueue.main.async {
+                self.show(controller: controller, show: show, frame: frame, title: title, overlay: overlay)
             }
+            return
+        }
+        
+        if show {
+            // add the window in the "windows menu"
+            if let title = title {
+                NSApp.addWindowsItem(window,
+                                     title: String.localizedString(title, comment: ""),
+                                     filename: false)
+                window.title = String.localizedString(title, comment: "")
+            }
+
+            // update gui elements
+            controller.updateFrames()
+            
+            // show window and set size
+            if let frame = frame {
+                if frame.origin.x.isFinite && frame.origin.y.isFinite && frame.size.width.isFinite && frame.size.height.isFinite {
+                    window.setFrame(frame, display: true, animate: false)
+                }
+            }
+
+            // set the level of the window : over all if hearthstone is active
+            // as a normal window otherwise
+            let level: Int
+            if overlay {
+                level = Int(CGShieldingWindowLevel())
+            } else {
+                level = Int(CGWindowLevelForKey(CGWindowLevelKey.normalWindow))
+            }
+            window.level = NSWindow.Level(rawValue: level)
+
+            // if the setting is on, set the window behavior to join all workspaces
+            if Settings.canJoinFullscreen {
+                window.collectionBehavior = [NSWindow.CollectionBehavior.canJoinAllSpaces, NSWindow.CollectionBehavior.fullScreenAuxiliary]
+            } else {
+                window.collectionBehavior = []
+            }
+
+            let locked = Settings.windowsLocked || controller.alwaysLocked
+            if locked {
+                window.styleMask = [.borderless, .nonactivatingPanel]
+            } else {
+                window.styleMask = [.titled, .miniaturizable,
+                                    .resizable, .borderless,
+                                    .nonactivatingPanel]
+            }
+
+            window.orderFront(nil)
+        } else {
+            if title != nil {
+                NSApp.removeWindowsItem(window)
+            }
+            window.orderOut(nil)
         }
     }
 }
