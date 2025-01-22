@@ -3301,6 +3301,7 @@ class Game: NSObject, PowerEventHandler {
     func opponentSecretTrigger(entity: Entity, cardId: String?, turn: Int, otherId: Int) {
         if !entity.isSecret { return }
 
+        opponent.secretTriggered(entity: entity, turn: turn)
         opponent.opponentSecretTriggered(entity: entity, turn: turn)
         secretsManager?.removeSecret(entity: entity)
         

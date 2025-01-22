@@ -17,7 +17,7 @@ enum DeckLocation: Int {
 class PowerGameStateParser: LogEventParser {
     static let TransferStudentToken = CardIds.Collectible.Neutral.TransferStudent + "t"
     
-    let BlockStartRegex = Regex(".*BLOCK_START.*BlockType=(\\w+).*id=(\\d*).*(cardId=(\\w*)).*player=(\\d*).*EffectCardId=(.*)\\sEffectIndex=.*Target=(.+).*SubOption=(.+)")
+    let BlockStartRegex = Regex(".*BLOCK_START.*BlockType=(\\w+).*id=(\\d*).*(cardId=(\\w*)).*player=(\\d*).*EffectCardId=(.*)\\sEffectIndex=.*Target=(.+).*SubOption=([^T]+)(?:TriggerKeyword=\\w+)?")
     let CardIdRegex = Regex("cardId=(\\w+)")
     let CreationRegex = Regex("FULL_ENTITY - Updating.*id=(\\d+).*zone=(\\w+).*CardID=(\\w*)")
     let CreationTagRegex = Regex("tag=(\\w+) value=(\\w+)")
@@ -496,6 +496,10 @@ class PowerGameStateParser: LogEventParser {
                     correspondPlayer = v
                 }
             }
+            var triggerKeyword: String?
+            if matches.count > 5 {
+                triggerKeyword = matches[5].value
+            }
             
             blockStart(type: blockType, cardId: cardId, target: target)
 
@@ -760,6 +764,15 @@ class PowerGameStateParser: LogEventParser {
                                 }
                             }
                         default: break
+                        }
+                    }
+                    if triggerKeyword == "SECRET" {
+                        if let actionStartingEntity {
+                            if actionStartingEntity.isControlled(by: eventHandler.player.id) {
+                                eventHandler.playerSecretTrigger(entity: actionStartingEntity, cardId: cardId, turn: eventHandler.turnNumber(), otherId: actionStartingEntityId)
+                            } else {
+                                eventHandler.opponentSecretTrigger(entity: actionStartingEntity, cardId: cardId, turn: eventHandler.turnNumber(), otherId: actionStartingEntityId)
+                            }
                         }
                     }
                 } else { // type == "POWER"

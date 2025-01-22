@@ -2138,8 +2138,8 @@
 			children = (
 				1C17D24B1E82C81700ED4047 /* LogEventParser.swift */,
 				439C7EA81C777F8900D29859 /* PowerGameStateParser.swift */,
-				439C7EAA1C777F8900D29859 /* TagChangeHandler.swift */,
 				43B6954C1C9014FA00F4D0AC /* TagChangeActions.swift */,
+				439C7EAA1C777F8900D29859 /* TagChangeHandler.swift */,
 			);
 			path = Parsers;
 			sourceTree = "<group>";

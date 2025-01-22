@@ -763,12 +763,11 @@ struct TagChangeActions {
         switch zoneValue {
         case .secret, .graveyard:
             if controller == eventHandler.opponent.id {
-                eventHandler.opponentSecretTrigger(entity: entity, cardId: cardId,
-                                           turn: eventHandler.turnNumber(), otherId: id)
-            } else {
-                if !entity.cardId.isEmpty {
-                    eventHandler.playerSecretTrigger(entity: entity, cardId: cardId, turn: eventHandler.turnNumber(), otherId: id)
+                guard let entity = eventHandler.entities[id], let game = eventHandler as? Game else {
+                    return
                 }
+                game.secretsManager?.removeSecret(entity: entity)
+                game.updateTrackers()
             }
             
         case .setaside:
