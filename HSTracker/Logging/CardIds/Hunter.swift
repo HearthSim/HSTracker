@@ -182,6 +182,7 @@ extension CardIds.Collectible {
         static let RevivePet = "AV_333"
         static let DefenseAttorneyNathanos = "MAW_011"
         static let JewelOfNzoth = "DMF_084"
+        static let ChattyMacaw = "VAC_407"
     }
 }
 

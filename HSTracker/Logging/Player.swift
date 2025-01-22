@@ -104,6 +104,7 @@ final class Player {
     }
     fileprivate(set) var spellsPlayedCards = [Entity]()
     fileprivate(set) var spellsPlayedInFriendlyCharacters = [Entity]()
+    fileprivate(set) var spellsPlayedInOpponentCharacters = [Entity]()
     fileprivate(set) var cardsPlayedThisMatch = [Entity]()
     fileprivate(set) var cardsPlayedThisTurn = [Entity]()
     fileprivate(set) var cardsPlayedLastTurn = [Entity]()
@@ -200,6 +201,7 @@ final class Player {
         fatigue = 0
         spellsPlayedCards.removeAll()
         spellsPlayedInFriendlyCharacters.removeAll()
+        spellsPlayedInOpponentCharacters.removeAll()
         cardsPlayedThisTurn.removeAll()
         cardsPlayedLastTurn.removeAll()
         cardsPlayedThisMatch.removeAll()
@@ -774,8 +776,12 @@ final class Player {
             case .spell: 
                 if !entity.cardId.isBlank {
                     spellsPlayedCards.append(entity)
-                    if entity.has(tag: .card_target), let target = game.entities[entity[.card_target]], target.isControlled(by: id) {
-                        spellsPlayedInFriendlyCharacters.append(entity)
+                    if entity.has(tag: .card_target), let target = game.entities[entity[.card_target]] {
+                        if target.isControlled(by: id) {
+                            spellsPlayedInFriendlyCharacters.append(entity)
+                        } else if target.isControlled(by: game.opponent.id) {
+                            spellsPlayedInOpponentCharacters.append(entity)
+                        }
                     }
                     let activeMistahVistahs = playerEntities.filter { e in e.cardId == CardIds.NonCollectible.Druid.MistahVistah_ScenicVistaToken && (e.isInZone(zone: Zone.play) || e.isInZone(zone: Zone.secret)) }
 

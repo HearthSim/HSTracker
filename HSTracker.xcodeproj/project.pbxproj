@@ -430,6 +430,7 @@
 		B8196F292CCD416F007C0371 /* CountersOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8196F282CCD416F007C0371 /* CountersOverlay.swift */; };
 		B81B3D632D10CDE900DC9EB0 /* ICardExtraInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81B3D622D10CDE900DC9EB0 /* ICardExtraInfo.swift */; };
 		B81B3D652D10CE1300DC9EB0 /* IncidiusCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81B3D642D10CE1300DC9EB0 /* IncidiusCounter.swift */; };
+		B81B3D892D4094E900DC9EB0 /* ChattyMacaw.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81B3D882D4094E900DC9EB0 /* ChattyMacaw.swift */; };
 		B81EEABB2CE69AF300B32448 /* NibHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81EEABA2CE69AF300B32448 /* NibHelper.swift */; };
 		B82029312CD2C4D700C19A8C /* AsteroidExtraDamageCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82029302CD2C4D700C19A8C /* AsteroidExtraDamageCounter.swift */; };
 		B82029332CD2C65D00C19A8C /* KiljaedenCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82029322CD2C65D00C19A8C /* KiljaedenCounter.swift */; };
@@ -1447,6 +1448,7 @@
 		B8196F282CCD416F007C0371 /* CountersOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountersOverlay.swift; sourceTree = "<group>"; };
 		B81B3D622D10CDE900DC9EB0 /* ICardExtraInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ICardExtraInfo.swift; sourceTree = "<group>"; };
 		B81B3D642D10CE1300DC9EB0 /* IncidiusCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidiusCounter.swift; sourceTree = "<group>"; };
+		B81B3D882D4094E900DC9EB0 /* ChattyMacaw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChattyMacaw.swift; sourceTree = "<group>"; };
 		B81EEABA2CE69AF300B32448 /* NibHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NibHelper.swift; sourceTree = "<group>"; };
 		B81F069C253899FB00F319F1 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		B82029302CD2C4D700C19A8C /* AsteroidExtraDamageCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsteroidExtraDamageCounter.swift; sourceTree = "<group>"; };
@@ -3491,6 +3493,7 @@
 			isa = PBXGroup;
 			children = (
 				B8E1E5B12D0C860B00383975 /* AbominableBowman.swift */,
+				B81B3D882D4094E900DC9EB0 /* ChattyMacaw.swift */,
 				B8E1E5D92D0C964000383975 /* DefenseAttorneyNathanos.swift */,
 				B8E1E5DB2D0C96A300383975 /* JewelOfNzoth.swift */,
 				B8FDE93D2CDD17930093BFF7 /* PetParrot.swift */,
@@ -4338,6 +4341,7 @@
 				437E56F61DAAB81400FC0FC1 /* String.swift in Sources */,
 				4C3E2DA1245F86C400292349 /* BgHeroesToastView.swift in Sources */,
 				B8B790432C97777300DD33EC /* SecretPassageEnchantment.swift in Sources */,
+				B81B3D892D4094E900DC9EB0 /* ChattyMacaw.swift in Sources */,
 				B8BCC1DF2739987600DA6474 /* NSBezierPath.swift in Sources */,
 				4305CA471CF434E30048E7EC /* Cards.swift in Sources */,
 				B8196F292CCD416F007C0371 /* CountersOverlay.swift in Sources */,
