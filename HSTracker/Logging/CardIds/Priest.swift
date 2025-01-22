@@ -161,6 +161,8 @@ extension CardIds.Collectible {
         static let LesserDiamondSpellstoneCore = "CORE_LOOT_507"
         static let TwilightsCall = "LOOT_187"
         static let XyrellaTheDevout = "AV_207"
+        static let RaDen = "TTN_481"
+        static let TramHeist = "WW_053"
     }
 }
 

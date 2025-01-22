@@ -2299,11 +2299,11 @@ class Game: NSObject, PowerEventHandler {
 
         if player == .player {
             handleOpponentEndOfTurn(playerTurn.turn - 1)
-            self.player.onTurnStart()
+            opponent.onTurnEnd()
             secretsManager?.handlePlayerTurnStart()
         } else {
             handlePlayerEndOfTurn(playerTurn.turn - 1)
-            opponent.onTurnStart()
+            self.player.onTurnEnd()
             secretsManager?.handleOpponentTurnStart()
         }
 

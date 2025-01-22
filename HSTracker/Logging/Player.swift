@@ -910,6 +910,11 @@ final class Player {
         cardsPlayedLastTurn = cardsPlayedThisTurn
         cardsPlayedThisTurn.removeAll()
     }
+    
+    func onTurnEnd() {
+        cardsPlayedLastTurn = cardsPlayedThisTurn
+        cardsPlayedThisTurn.removeAll()
+    }
 
     func deckToPlay(entity: Entity, turn: Int) {
         updateKnownEntitesInDeck(cardId: entity.cardId)
