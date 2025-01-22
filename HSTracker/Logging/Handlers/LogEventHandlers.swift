@@ -38,7 +38,7 @@ protocol PowerEventHandler: AnyObject {
 	var lastId: Int { get set }
     
     // swiftlint:disable large_tuple
-    var knownCardIds: SynchronizedDictionary<Int, [(String, DeckLocation, String?)]> { get set }
+    var knownCardIds: SynchronizedDictionary<Int, [(String, DeckLocation, String?, EntityInfo?)]> { get set }
     // swiftlint:enable large_tuple
 
 	var currentEntityHasCardId: Bool { get set }

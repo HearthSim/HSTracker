@@ -220,6 +220,7 @@ class PowerGameStateParser: LogEventParser {
             var guessedLocation = DeckLocation.unknown
             var cardId: String? = ensureValidCardID(cardId: matches[2].value)
             var copyOfCardId: String?
+            var entityInfo: EntityInfo?
 
             if eventHandler.entities[id] == nil {
                 if cardId.isBlank && zone != .setaside {
@@ -227,6 +228,7 @@ class PowerGameStateParser: LogEventParser {
                        let known = eventHandler.knownCardIds[blockId]?.first {
                         cardId = known.0
                         copyOfCardId = known.2
+                        entityInfo = known.3
                         if !cardId.isBlank {
                             guessedLocation = known.1
                             logger.verbose("Found data for entity=\(id): CardId=\(cardId ?? ""), location=\(guessedLocation)")
@@ -245,6 +247,12 @@ class PowerGameStateParser: LogEventParser {
 
                 let entity = Entity(id: id)
                 entity.cardId = cardId ?? ""
+                if let entityInfo {
+                    entity.info.forged = entityInfo.forged
+                    entity.info.costReduction = entityInfo.costReduction
+                    entity.info.extraInfo = entityInfo.extraInfo
+                    entity.info.storedCardIds = entityInfo.storedCardIds
+                }
                 if guessedCardId {
                     entity.info.guessedCardState = GuessedCardState.guessed
                 }
@@ -357,7 +365,7 @@ class PowerGameStateParser: LogEventParser {
                     
                     if currentBlock?.cardId == CardIds.Collectible.Shaman.Triangulate && !(entity?.cardId.isBlank ?? true) {
                         if entity?.isControlled(by: eventHandler.player.id) ?? false {
-                            addKnownCardId(eventHandler: eventHandler, cardId: entity?.cardId, count: 3)
+                            addKnownCardId(eventHandler: eventHandler, cardId: entity?.cardId, count: 3, info: entity?.info)
                         } else if entity?.isControlled(by: eventHandler.opponent.id) ?? false {
                             eventHandler.triangulatePlayed = true
                         }
@@ -423,7 +431,7 @@ class PowerGameStateParser: LogEventParser {
                     let cardId = gameEntity.cardId
                     if !cardId.isEmpty {
                         removeKnownCardId(eventHandler: eventHandler, count: 3)
-                        addKnownCardId(eventHandler: eventHandler, cardId: cardId, count: 3)
+                        addKnownCardId(eventHandler: eventHandler, cardId: cardId, count: 3, info: gameEntity.info)
                     }
                     eventHandler.triangulatePlayed = false
                 }
@@ -1253,7 +1261,7 @@ class PowerGameStateParser: LogEventParser {
         }
     }
 
-    private func addKnownCardId(eventHandler: PowerEventHandler, cardId: String?, count: Int = 1, location: DeckLocation = .unknown, copyOfCardId: String? = nil) {
+    private func addKnownCardId(eventHandler: PowerEventHandler, cardId: String?, count: Int = 1, location: DeckLocation = .unknown, copyOfCardId: String? = nil, info: EntityInfo? = nil) {
         guard let cardId = cardId else { return }
 
         if let blockId = currentBlock?.id {
@@ -1262,7 +1270,7 @@ class PowerGameStateParser: LogEventParser {
                     eventHandler.knownCardIds[blockId] = []
                 }
 
-                eventHandler.knownCardIds[blockId]?.append((cardId, location, copyOfCardId))
+                eventHandler.knownCardIds[blockId]?.append((cardId, location, copyOfCardId, info))
             }
         }
     }

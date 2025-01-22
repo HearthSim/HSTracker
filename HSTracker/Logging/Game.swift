@@ -1155,7 +1155,7 @@ class Game: NSObject, PowerEventHandler {
     var tmpEntities = SynchronizedArray<Entity>()
     
     // swiftlint:disable large_tuple
-    var knownCardIds = SynchronizedDictionary<Int, [(String, DeckLocation, String?)]>()
+    var knownCardIds = SynchronizedDictionary<Int, [(String, DeckLocation, String?, EntityInfo?)]>()
     // swiftlint:enable large_tuple
     var joustReveals = 0
     var dredgeCounter = 0
