@@ -892,6 +892,16 @@ extension CardIds.NonCollectible {
         static let AnubarakNerubianKing = "BG25_007"
         static let ChampionOfThePrimus = "BG27_029"
         static let Butchering = "BG28_604"
+        static let BuzzingVermin_BuzzingVermin = "BG31_803_G"
+        static let ForestRover_ForestRover = "BG31_801_G"
+        static let TurquoiseSkitterer_TurquoiseSkitterer = "BG31_809_G"
+        static let RunedProgenitor_RunedProgenitor = "BG31_808_G"
+        static let NestSwarmer_NestSwarmer = "BG31_807_G"
+        static let Thaumaturgist_Thaumaturgist = "BG31_924_G"
+        static let ArcaneCannoneer_ArcaneCannoneer = "BG31_928_G"
+        static let ShowyCyclist_ShowyCyclist = "BG31_925_G"
+        static let Groundbreaker_Groundbreaker = "BG31_035_G"
+        
     }
 }
 

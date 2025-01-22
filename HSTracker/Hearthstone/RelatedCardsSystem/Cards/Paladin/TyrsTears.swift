@@ -15,10 +15,7 @@ class TyrsTears: ICardWithRelatedCards {
     }
 
     func shouldShowForOpponent(opponent: Player) -> Bool {
-        guard let card = Cards.by(cardId: getCardId()) else {
-            return false
-        }
-        return CardUtils.mayCardBeRelevant(card: card, format: AppDelegate.instance().coreManager.game.currentFormat, playerClass: opponent.originalClass) && getRelatedCards(player: opponent).count > 1
+        return false
     }
 
     func getRelatedCards(player: Player) -> [Card?] {

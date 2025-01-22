@@ -21,6 +21,13 @@ class StranglethornHeart: ResurrectionCard {
     override func resurrectsMultipleCards() -> Bool {
         return true
     }
+    
+    override func shouldShowForOpponent(opponent: Player) -> Bool {
+        guard let card = Cards.by(cardId: getCardId()) else {
+            return false
+        }
+        return CardUtils.mayCardBeRelevant(card: card, format: AppDelegate.instance().coreManager.game.currentFormat, playerClass: opponent.originalClass) && getRelatedCards(player: opponent).count > 1
+    }
 
     required init() {
     }
