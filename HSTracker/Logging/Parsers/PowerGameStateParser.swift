@@ -17,7 +17,7 @@ enum DeckLocation: Int {
 class PowerGameStateParser: LogEventParser {
     static let TransferStudentToken = CardIds.Collectible.Neutral.TransferStudent + "t"
     
-    let BlockStartRegex = Regex(".*BLOCK_START.*BlockType=(\\w+).*id=(\\d*).*(cardId=(\\w*)).*player=(\\d*).*EffectCardId=(.*)\\sEffectIndex=.*Target=(.+).*SubOption=([^T]+)(?:TriggerKeyword=\\w+)?")
+    let BlockStartRegex = Regex(".*BLOCK_START.*BlockType=(\\w+).*id=(\\d*).*(cardId=(\\w*)).*player=(\\d*).*EffectCardId=(.*)\\sEffectIndex=.*Target=(.+).*SubOption=([^\\s]*)(?:\\sTriggerKeyword=\\w+)?")
     let CardIdRegex = Regex("cardId=(\\w+)")
     let CreationRegex = Regex("FULL_ENTITY - Updating.*id=(\\d+).*zone=(\\w+).*CardID=(\\w*)")
     let CreationTagRegex = Regex("tag=(\\w+) value=(\\w+)")
