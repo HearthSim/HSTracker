@@ -434,6 +434,7 @@
 		B81B3D8B2D4098CE00DC9EB0 /* RaDen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81B3D8A2D4098CE00DC9EB0 /* RaDen.swift */; };
 		B81B3D8D2D4099B000DC9EB0 /* TramHeist.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81B3D8C2D4099B000DC9EB0 /* TramHeist.swift */; };
 		B81B3D8F2D409B0A00DC9EB0 /* JoymancerJepetto.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81B3D8E2D409B0A00DC9EB0 /* JoymancerJepetto.swift */; };
+		B81B3D912D409C2C00DC9EB0 /* Mixtape.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81B3D902D409C2C00DC9EB0 /* Mixtape.swift */; };
 		B81EEABB2CE69AF300B32448 /* NibHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81EEABA2CE69AF300B32448 /* NibHelper.swift */; };
 		B82029312CD2C4D700C19A8C /* AsteroidExtraDamageCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82029302CD2C4D700C19A8C /* AsteroidExtraDamageCounter.swift */; };
 		B82029332CD2C65D00C19A8C /* KiljaedenCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82029322CD2C65D00C19A8C /* KiljaedenCounter.swift */; };
@@ -1455,6 +1456,7 @@
 		B81B3D8A2D4098CE00DC9EB0 /* RaDen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaDen.swift; sourceTree = "<group>"; };
 		B81B3D8C2D4099B000DC9EB0 /* TramHeist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TramHeist.swift; sourceTree = "<group>"; };
 		B81B3D8E2D409B0A00DC9EB0 /* JoymancerJepetto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoymancerJepetto.swift; sourceTree = "<group>"; };
+		B81B3D902D409C2C00DC9EB0 /* Mixtape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mixtape.swift; sourceTree = "<group>"; };
 		B81EEABA2CE69AF300B32448 /* NibHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NibHelper.swift; sourceTree = "<group>"; };
 		B81F069C253899FB00F319F1 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		B82029302CD2C4D700C19A8C /* AsteroidExtraDamageCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsteroidExtraDamageCounter.swift; sourceTree = "<group>"; };
@@ -2913,6 +2915,7 @@
 			isa = PBXGroup;
 			children = (
 				B8E1E5FB2D0CA17600383975 /* CounterfeitBlade.swift */,
+				B81B3D902D409C2C00DC9EB0 /* Mixtape.swift */,
 				B85462222CDEBE390083BB31 /* ScroungingShipwright.swift */,
 				B85462242CDEBFC30083BB31 /* StarshipSchematic.swift */,
 				B85462042CDD3EDA0083BB31 /* TessGreymane.swift */,
@@ -4138,6 +4141,7 @@
 				B8E1E5C32D0C8A4900383975 /* OnyxBishopWONDERS.swift in Sources */,
 				439C7E891C777CFC00D29859 /* Card.swift in Sources */,
 				B8D75B9125A9DCDE00446923 /* ExperienceOverlay.swift in Sources */,
+				B81B3D912D409C2C00DC9EB0 /* Mixtape.swift in Sources */,
 				B8D34D35294FB0C100CACC5A /* BattlegroundsHeroHeaderViewModel.swift in Sources */,
 				B804FC2429418CC200F74CD9 /* OverlayMessageViewModel.swift in Sources */,
 				B8B7900C2C974D5900DD33EC /* MillhouseManastormEnchantment.swift in Sources */,

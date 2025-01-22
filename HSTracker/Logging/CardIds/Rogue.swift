@@ -197,6 +197,7 @@ extension CardIds.Collectible {
         static let StarshipSchematic = "GDB_102"
         static let EverythingMustGo = "TOY_519"
         static let CounterfeitBlade = "SW_310"
+        static let Mixtape = "ETC_074"
     }
 }
 
