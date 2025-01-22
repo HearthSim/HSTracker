@@ -1,5 +1,5 @@
 //
-//  RaDen.swift
+//  JoymancerJepetto.swift
 //  HSTracker
 //
 //  Created by Francisco Moraes on 1/21/25.
@@ -8,13 +8,14 @@
 
 import Foundation
 
-class RaDen: ICardWithRelatedCards {
+class JoymancerJepetto: ICardWithRelatedCards {
+    
     required init() {
         
     }
 
     func getCardId() -> String {
-        return CardIds.Collectible.Priest.RaDen
+        return CardIds.Collectible.Neutral.JoymancerJepetto
     }
 
     func shouldShowForOpponent(opponent: Player) -> Bool {
@@ -23,9 +24,7 @@ class RaDen: ICardWithRelatedCards {
 
     func getRelatedCards(player: Player) -> [Card?] {
         return player.cardsPlayedThisMatch
-            .filter { $0.info.created && $0.cardId != getCardId() }
             .compactMap { CardUtils.getProcessedCardFromEntity($0, player) }
-            .filter { $0.type == .minion }
-            .sorted { $0.cost > $1.cost }
+            .filter { $0.type == .minion && ($0.attack == 1 || $0.health == 1) }
     }
 }
