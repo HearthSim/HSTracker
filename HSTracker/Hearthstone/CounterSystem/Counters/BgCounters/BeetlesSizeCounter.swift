@@ -21,7 +21,9 @@ class BeetlesSizeCounter: StatsCounter {
             CardIds.NonCollectible.Neutral.NestSwarmer
         ]
     }
-
+    
+    lazy var relatedCardsWithTriples: [String] = (self.relatedCards + self.relatedCards.compactMap({ card in Cards.by(cardId: Cards.by(cardId: card)?.id ?? "")?.id }))
+    
     private let beetleBaseAttack: Int
     private let beetleBaseHealth: Int
 
@@ -36,7 +38,7 @@ class BeetlesSizeCounter: StatsCounter {
         guard game.isBattlegroundsMatch() else { return false }
         return (attackCounter > beetleBaseAttack || healthCounter > beetleBaseHealth)
             && game.player.board.contains { entity in
-                relatedCards.contains(entity.cardId)
+                relatedCardsWithTriples.contains(entity.cardId)
             }
     }
 

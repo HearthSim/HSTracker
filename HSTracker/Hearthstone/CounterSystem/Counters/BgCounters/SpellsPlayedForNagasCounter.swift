@@ -21,6 +21,8 @@ class SpellsPlayedForNagasCounter: NumericCounter {
         ]
     }
 
+    lazy var relatedCardsWithTriples: [String] = (self.relatedCards + self.relatedCards.compactMap({ card in Cards.by(cardId: Cards.by(cardId: card)?.id ?? "")?.id }))
+
     required init(controlledByPlayer: Bool, game: Game) {
         super.init(controlledByPlayer: controlledByPlayer, game: game)
     }
@@ -29,7 +31,7 @@ class SpellsPlayedForNagasCounter: NumericCounter {
         guard game.isBattlegroundsMatch() else { return false }
         return counter > 1 &&
             game.player.board.contains { entity in
-                relatedCards.contains(entity.cardId)
+                relatedCardsWithTriples.contains(entity.cardId)
             }
     }
 
