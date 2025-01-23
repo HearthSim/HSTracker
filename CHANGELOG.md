@@ -1,3 +1,15 @@
+# 3.1.7
+## New
+- Updated for Hearthstone 31.4.0
+- Added related card tooltips to Chatty Macaw, Ra-Den, Tram Heist, Joymancer Jepetto, Mixtape, Fate Splitter. \
+  *We will continue adding more tooltips in the coming updates*
+- Changed when Sasquawk related cards are updated, now it updates when the turn ends so you can have the information to plan your next turn.
+## Fixes
+- Fixed some related cards appearing when they are not relevant.
+- Fixed Eruptions created by Triangulate not displaying the correct damage buff.
+## Battlegrounds
+- Fixed counters not appearing when the corresponding cards are golden.
+
 # 3.1.6
 ## New
 - Updated for Hearthstone 31.2.2

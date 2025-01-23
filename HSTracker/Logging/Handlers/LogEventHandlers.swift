@@ -267,4 +267,6 @@ protocol PowerEventHandler: AnyObject {
     var triangulatePlayed: Bool { get set }
     
     func handleBattlegroundsHeroReroll(entity: Entity, oldCardId: String?)
+    
+    var starshipLaunchBlockIds: SynchronizedArray<Int?> { get }
 }

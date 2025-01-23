@@ -21,7 +21,10 @@ class ScroungingShipwright: ICardWithRelatedCards {
         Cards.by(cardId: CardIds.Collectible.Warlock.FelfireThrusters),
         Cards.by(cardId: CardIds.Collectible.Warlock.HeartOfTheLegion),
         Cards.by(cardId: CardIds.Collectible.Hunter.Biopod),
-        Cards.by(cardId: CardIds.Collectible.Hunter.SpecimenClaw)
+        Cards.by(cardId: CardIds.Collectible.Hunter.SpecimenClaw),
+        Cards.by(cardId: CardIds.Collectible.Shaman.MissilePod),
+        Cards.by(cardId: CardIds.Collectible.Paladin.UltraCapacitor),
+        Cards.by(cardId: CardIds.Collectible.Warrior.YamatoCannon)
     ]
 
     func getCardId() -> String {
@@ -38,7 +41,7 @@ class ScroungingShipwright: ICardWithRelatedCards {
                 return !card.isClass(cardClass: player.currentClass ?? .invalid)
             }
             return false
-        }
+        }.sorted(by: { ($0?.cost ?? 0) < ($1?.cost ?? 0) })
     }
 
     required init() {

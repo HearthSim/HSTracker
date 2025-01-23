@@ -40,7 +40,8 @@ class CardUtils {
         CardIds.NonCollectible.Druid.ArkoniteDefenseCrystal_TheCelestialArchiveToken,
         CardIds.NonCollectible.Hunter.ArkoniteDefenseCrystal_TheAstralCompassToken,
         CardIds.NonCollectible.Rogue.ArkoniteDefenseCrystal_TheScavengersWillToken,
-        CardIds.NonCollectible.Warlock.ArkoniteDefenseCrystal_TheNethersEyeToken
+        CardIds.NonCollectible.Warlock.ArkoniteDefenseCrystal_TheNethersEyeToken,
+        CardIds.NonCollectible.Invalid.BattlecruiserToken
     ]
 
     public static func isStarship(_ cardId: String) -> Bool {

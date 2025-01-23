@@ -681,6 +681,7 @@ extension CardIds.Collectible {
         static let Vectus = "SCH_162"
         static let JoymancerJepetto = "TOY_960"
         static let FateSplitter = "TTN_859"
+        static let TheExodar = "GDB_120"
     }
 }
 
@@ -903,7 +904,8 @@ extension CardIds.NonCollectible {
         static let ArcaneCannoneer_ArcaneCannoneer = "BG31_928_G"
         static let ShowyCyclist_ShowyCyclist = "BG31_925_G"
         static let Groundbreaker_Groundbreaker = "BG31_035_G"
-        
+        static let LaunchStarship = "GDB_905"
+        static let AbortLaunch = "GDB_906"
     }
 }
 

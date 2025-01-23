@@ -45,6 +45,7 @@ extension CardIds.Collectible {
         static let SoulboundSpire = "GDB_112"
         static let Corpsicle = "VAC_427"
         static let Boneshredder = "ETC_428"
+        static let Infestor = "SC_002"
     }
 }
 
@@ -60,6 +61,7 @@ extension CardIds.NonCollectible {
         static let PileofBones_PileOfBonesEnchantment = "WW_324e"
         static let KoboldMiner_TheAzeriteRatToken = "WW_001t26"
         static let ArkoniteDefenseCrystal_TheSpiritsPassageToken = "GDB_100t4"
+        static let Infestor_ForTheSwarmEnchantment1 = "SC_002e"
     }
 }
 

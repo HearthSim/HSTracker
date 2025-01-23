@@ -103,6 +103,8 @@ class Game: NSObject, PowerEventHandler {
     }
     
     var gameId = ""
+    
+    var starshipLaunchBlockIds = SynchronizedArray<Int?>()
         
     //We do count+1 because the friendly hero is not in setaside
     func battlegroundsHeroCount() -> Int {
@@ -1619,6 +1621,8 @@ class Game: NSObject, PowerEventHandler {
         triangulatePlayed = false
         
         OpponentDeadForTracker.reset()
+        
+        starshipLaunchBlockIds.removeAll()
     }
     
     func cacheBrawlInfo() {

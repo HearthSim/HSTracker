@@ -182,6 +182,8 @@ extension CardIds.Collectible {
         static let Rewind = "ETC_532"
         static let TheGalacticProjectionOrb = "TOY_378"
         static let GrandMagisterRommath = "RLK_803"
+        static let Colossus = "SC_758"
+        static let ResonanceCoil = "SC_760"
     }
 }
 

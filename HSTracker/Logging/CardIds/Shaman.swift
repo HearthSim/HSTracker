@@ -155,6 +155,7 @@ extension CardIds.Collectible {
         static let MoorabiCorePlaceholder = "CORE_ICC_289"
         static let PlanetaryNavigator = "GDB_444"
         static let Triangulate = "GDB_451"
+        static let MissilePod = "SC_409"
     }
 }
 

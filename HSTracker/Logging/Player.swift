@@ -108,6 +108,7 @@ final class Player {
     fileprivate(set) var cardsPlayedThisMatch = [Entity]()
     fileprivate(set) var cardsPlayedThisTurn = [Entity]()
     fileprivate(set) var cardsPlayedLastTurn = [Entity]()
+    fileprivate(set) var launchedStarships = SynchronizedArray<String?>()
     var isPlayingWhizbang = false
     fileprivate(set) var deathrattlesPlayedCount = 0
     private let game: Game
@@ -205,6 +206,7 @@ final class Player {
         cardsPlayedThisTurn.removeAll()
         cardsPlayedLastTurn.removeAll()
         cardsPlayedThisMatch.removeAll()
+        launchedStarships.removeAll()
         secretsTriggeredCards.removeAll()
         deadMinionsCards.removeAll()
         deathrattlesPlayedCount = 0

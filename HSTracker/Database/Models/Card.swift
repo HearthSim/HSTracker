@@ -59,6 +59,7 @@ final class Card {
     var baconTriple = false
     var baconTripleUpgradeMinionId = 0
     var baconCard = false
+    var faction: GameTag?
     
     func hasRace(_ race: Race) -> Bool {
         if races.count == 0 {
@@ -349,6 +350,7 @@ extension Card: NSCopying {
         copy.zilliaxCustomizableCosmeticModule = self.zilliaxCustomizableCosmeticModule
         copy.multipleClasses = self.multipleClasses
         copy.baconTripleUpgradeMinionId = self.baconTripleUpgradeMinionId
+        copy.faction = self.faction
 
         return copy
     }

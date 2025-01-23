@@ -157,6 +157,10 @@ class Database: NSObject, XMLParserDelegate {
                     currentCard?.multipleClasses = intValue
                 case GameTag.bacon_triple_upgrade_minion_id.rawValue:
                     currentCard?.baconTripleUpgradeMinionId = intValue
+                case GameTag.kabal.rawValue, GameTag.grimy_goons.rawValue, GameTag.jade_lotus.rawValue, GameTag.protoss.rawValue, GameTag.terran.rawValue, GameTag.zerg.rawValue:
+                    if intValue > 0 {
+                        currentCard?.faction = GameTag(rawValue: id)
+                    }
                 default:
                     break
                 }

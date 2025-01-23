@@ -56,6 +56,12 @@ class SynchronizedArray<T> {
         }
     }
     
+    func append(contentsOf elements: [T]) {
+        lock.around {
+            arr.append(contentsOf: elements)
+        }
+    }
+    
     func removeFirst() -> T {
         return lock.around {
             return arr.removeFirst()

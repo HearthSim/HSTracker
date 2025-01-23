@@ -29,6 +29,14 @@
 
 import Foundation
 
+extension CardIds.Collectible {
+    struct Invalid {
+        static let JimRaynor = "SC_400"
+        static let LiftOff = "SC_410"
+        static let Starport = "SC_403"
+    }
+}
+
 extension CardIds.NonCollectible {
     struct Invalid {
         static let InnkeeperHealthSet: String = "FB_LK_BossSetup001"
@@ -38,6 +46,12 @@ extension CardIds.NonCollectible {
         static let DiabolicalPowersTavernBrawl: String = "TB_SPT_DPromoHP"
         static let ProfessorPutricide_Festergut1 = "BG25_HERO_100_Buddy"
         static let ProfessorPutricide_Festergut2 = "BG25_HERO_100_Buddy_G"
+        static let BattlecruiserToken = "SC_999t"
+        static let Starport_Viking = "SC_403a"
+        static let Starport_Liberator = "SC_403b"
+        static let Starport_Raven2 = "SC_403c"
+        static let Starport_Banshee2 = "SC_403d"
+        static let Starport_Medivac2 = "SC_403f"
     }
 }
 

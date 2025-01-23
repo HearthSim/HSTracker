@@ -462,13 +462,41 @@ struct TagChangeActions {
             return
         }
 
-        // when a starship is launched it changes the value to 0, but we want to keep the parent stored cards
-        guard let parentEntity = eventHandler.entities[value] else {
-            return
-        }
+        // when a starship is launched it sets the value to 0
+        // otherwise it sets to the parent starship id
+        if let parentEntity = eventHandler.entities[value] {
+            if !entity.cardId.isBlank {
+                parentEntity.info.storedCardIds.append(entity.cardId)
+            }
+        } else {
+            let currentBlock = powerGameStateParser?.getCurrentBlock()
 
-        if !entity.cardId.isBlank {
-            parentEntity.info.storedCardIds.append(entity.cardId)
+            // every piece sets the parent to 0, we only need to get 1 of them
+            if eventHandler.starshipLaunchBlockIds.contains(currentBlock?.id) {
+                return
+            }
+
+            if currentBlock?.type != "POWER" ||
+                !(CardUtils.isStarship(currentBlock?.cardId ?? "") || currentBlock?.cardId == CardIds.Collectible.Neutral.TheExodar) {
+                return
+            }
+
+            guard let starshipToken = eventHandler.entities[previous] else {
+                return
+            }
+
+            let player: Player! = entity.isControlled(by: eventHandler.player.id) ? eventHandler.player : eventHandler.opponent
+            eventHandler.starshipLaunchBlockIds.append(currentBlock?.id)
+            player.launchedStarships.append(starshipToken.cardId)
+
+            let excludedPieces = [
+                CardIds.NonCollectible.Neutral.LaunchStarship,
+                CardIds.NonCollectible.Neutral.AbortLaunch,
+            ]
+
+            let starshipPieces = starshipToken.info.storedCardIds.filter { cardId in !excludedPieces.contains(cardId) }
+            player.launchedStarships.append(contentsOf: starshipPieces)
+            return
         }
     }
     
@@ -756,7 +784,7 @@ struct TagChangeActions {
             logger.warning("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
             return
         }
-        guard let entity = eventHandler.entities[id] else {
+        guard eventHandler.entities[id] != nil else {
             return
         }
         
