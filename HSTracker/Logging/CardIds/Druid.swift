@@ -164,6 +164,7 @@ extension CardIds.Collectible {
         static let StarlightReactor = "GDB_108"
         static let WitchingHour = "GIL_571"
         static let UnendingSwarm = "RLK_652"
+        static let ConstructPylons = "SC_755"
     }
 }
 
@@ -313,6 +314,7 @@ extension CardIds.NonCollectible {
         static let JadeDisplay_JadeSalesEnchantment = "TOY_803e"
         static let MistahVistah_ScenicVistaToken = "VAC_519t3"
         static let ArkoniteDefenseCrystal_TheCelestialArchiveToken = "GDB_100t6"
+        static let ConstructPylons_PsionicMatrixEnchantment = "SC_755e2"
     }
 }
 

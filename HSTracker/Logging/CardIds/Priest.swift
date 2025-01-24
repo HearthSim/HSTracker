@@ -164,6 +164,7 @@ extension CardIds.Collectible {
         static let RaDen = "TTN_481"
         static let TramHeist = "WW_053"
         static let Mothership = "SC_762"
+        static let Sentry = "SC_764"
     }
 }
 

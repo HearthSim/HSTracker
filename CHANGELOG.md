@@ -1,7 +1,9 @@
 # 3.1.8
 ## New
-- Added counter for Alien Encounters.
-- Added related cards for Starlight Whelp
+- Added counters to Protoss minions cost reduction and Alien Encounters.
+- Added related card tooltips to Starlight Whelp. \
+  *We will continue adding more tooltips in the coming updates*
+- Added active effects to Warp Gate, Shield Battery and Construct Pylons.
 
 # 3.1.7
 ## New

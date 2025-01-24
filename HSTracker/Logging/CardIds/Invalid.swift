@@ -33,7 +33,10 @@ extension CardIds.Collectible {
     struct Invalid {
         static let JimRaynor = "SC_400"
         static let LiftOff = "SC_410"
+        static let PhotonCannon = "SC_753"
         static let Starport = "SC_403"
+        static let Artanis = "SC_754"
+        static let WarpGate = "SC_751"
     }
 }
 

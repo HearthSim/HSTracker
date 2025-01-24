@@ -327,6 +327,7 @@
 "Counter_LibramCostReduction" = "Libram Cost Reduction";
 "Counter_PlayedSpellSchools" = "Played Spell Schools";
 "Counter_PlayedSpells" = "Played Spells";
+"Counter_ProtossMinionCostReduction" = "Protoss Minions Cost Reduction";
 "Counter_SelfDamage" = "Self Damage";
 "Counter_SummonedDragons" = "Summoned Dragons";
 "Counter_UndeadAttackBonus" = "Undead Attack Bonus";

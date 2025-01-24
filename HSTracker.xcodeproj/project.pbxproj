@@ -445,6 +445,10 @@
 		B81B3DA12D419B5200DC9EB0 /* Mothership.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81B3DA02D419B5200DC9EB0 /* Mothership.swift */; };
 		B81B3DA32D4434C000DC9EB0 /* DiscoversThisGameCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81B3DA22D4434C000DC9EB0 /* DiscoversThisGameCounter.swift */; };
 		B81B3DA52D4439FD00DC9EB0 /* StarlightWhelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81B3DA42D4439FD00DC9EB0 /* StarlightWhelp.swift */; };
+		B81B3DA72D444C9C00DC9EB0 /* ProtossMinionCostReductionCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81B3DA62D444C9C00DC9EB0 /* ProtossMinionCostReductionCounter.swift */; };
+		B81B3DA92D444F0100DC9EB0 /* ConstructPylonsEnchantment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81B3DA82D444F0100DC9EB0 /* ConstructPylonsEnchantment.swift */; };
+		B81B3DAB2D444F8600DC9EB0 /* ShieldBatteryEnchantment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81B3DAA2D444F8600DC9EB0 /* ShieldBatteryEnchantment.swift */; };
+		B81B3DAD2D44502400DC9EB0 /* WarpGateEnchantment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81B3DAC2D44502400DC9EB0 /* WarpGateEnchantment.swift */; };
 		B81EEABB2CE69AF300B32448 /* NibHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81EEABA2CE69AF300B32448 /* NibHelper.swift */; };
 		B82029312CD2C4D700C19A8C /* AsteroidExtraDamageCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82029302CD2C4D700C19A8C /* AsteroidExtraDamageCounter.swift */; };
 		B82029332CD2C65D00C19A8C /* KiljaedenCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82029322CD2C65D00C19A8C /* KiljaedenCounter.swift */; };
@@ -1477,6 +1481,10 @@
 		B81B3DA02D419B5200DC9EB0 /* Mothership.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mothership.swift; sourceTree = "<group>"; };
 		B81B3DA22D4434C000DC9EB0 /* DiscoversThisGameCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoversThisGameCounter.swift; sourceTree = "<group>"; };
 		B81B3DA42D4439FD00DC9EB0 /* StarlightWhelp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarlightWhelp.swift; sourceTree = "<group>"; };
+		B81B3DA62D444C9C00DC9EB0 /* ProtossMinionCostReductionCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtossMinionCostReductionCounter.swift; sourceTree = "<group>"; };
+		B81B3DA82D444F0100DC9EB0 /* ConstructPylonsEnchantment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructPylonsEnchantment.swift; sourceTree = "<group>"; };
+		B81B3DAA2D444F8600DC9EB0 /* ShieldBatteryEnchantment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShieldBatteryEnchantment.swift; sourceTree = "<group>"; };
+		B81B3DAC2D44502400DC9EB0 /* WarpGateEnchantment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarpGateEnchantment.swift; sourceTree = "<group>"; };
 		B81EEABA2CE69AF300B32448 /* NibHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NibHelper.swift; sourceTree = "<group>"; };
 		B81F069C253899FB00F319F1 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		B82029302CD2C4D700C19A8C /* AsteroidExtraDamageCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsteroidExtraDamageCounter.swift; sourceTree = "<group>"; };
@@ -2841,6 +2849,7 @@
 				B893434F2CD1520E009A8727 /* PlayedSpellSchoolsCounter.swift */,
 				B89343332CCFAF7E009A8727 /* PlayedSpellsCounter.swift */,
 				B89343352CCFD3BE009A8727 /* PogoHopperCounter.swift */,
+				B81B3DA62D444C9C00DC9EB0 /* ProtossMinionCostReductionCounter.swift */,
 				B89343492CD120C7009A8727 /* SelfDamageCounter.swift */,
 				B893434B2CD122C3009A8727 /* SummonedDragonsCounter.swift */,
 				B85462292CDED2FE0083BB31 /* TheCeaselessExpanseCounter.swift */,
@@ -3183,6 +3192,7 @@
 			children = (
 				B8B78FB52C94604400DD33EC /* CenarionHoldEnchantment.swift */,
 				B8B78FB72C94612400DD33EC /* ChitinousPlatingEnchantment.swift */,
+				B81B3DA82D444F0100DC9EB0 /* ConstructPylonsEnchantment.swift */,
 				B8B78FB92C95298A00DD33EC /* DiscipleOfEonarEnchantment.swift */,
 				B8B78FBB2C952A4C00DD33EC /* MagicalDollhouseEnchantment.swift */,
 				B8B78FBD2C952AD200DD33EC /* NatureStudiesEnchantment.swift */,
@@ -3230,6 +3240,7 @@
 				B8B78FEA2C967A7900DD33EC /* HotStreakEnchantment.swift */,
 				B82029342CD2CD9F00C19A8C /* IngeniousArtificerEnchantment.swift */,
 				B8B78FEC2C96FC8400DD33EC /* KingTideEnchantment.swift */,
+				B81B3DAA2D444F8600DC9EB0 /* ShieldBatteryEnchantment.swift */,
 				B8B78FF02C96FD4500DD33EC /* SolidAlibiEnchantment.swift */,
 				B8B78FF22C96FD9800DD33EC /* SurfalopodEnchantment.swift */,
 			);
@@ -3260,6 +3271,7 @@
 				B8B790132C974F8100DD33EC /* SpellwardJewelerEnchantment.swift */,
 				B820293C2CD2CFB400C19A8C /* StarlightWandererEnchantment.swift */,
 				B820293E2CD2D01300C19A8C /* StrandedSpacemanEnchantment.swift */,
+				B81B3DAC2D44502400DC9EB0 /* WarpGateEnchantment.swift */,
 			);
 			path = Neutral;
 			sourceTree = "<group>";
@@ -4291,6 +4303,7 @@
 				340AAC051D0544AD0015FE33 /* StringTracker.swift in Sources */,
 				B8B61C222AEBEA9C00990359 /* AvailableSecretsProvider.swift in Sources */,
 				B8AC9A26293F92540047F438 /* BattlegroundsQuestPickingViewModel.swift in Sources */,
+				B81B3DA92D444F0100DC9EB0 /* ConstructPylonsEnchantment.swift in Sources */,
 				B8DC11EE24E5A8360088A755 /* MonoHandle.swift in Sources */,
 				B8B78FF62C9708CA00DD33EC /* AshenElementalEnchantment.swift in Sources */,
 				B82238BC2BF948E600B405D4 /* BattlegroundsBoardState.swift in Sources */,
@@ -4334,6 +4347,7 @@
 				B8FDE92A2CDAF96A0093BFF7 /* ICardWithRelatedCards.swift in Sources */,
 				B850AA35252CB0FA0031E8F2 /* TurnCounter.swift in Sources */,
 				B8B78FB32C93CB9800DD33EC /* PileOfBonesEnchantment.swift in Sources */,
+				B81B3DAD2D44502400DC9EB0 /* WarpGateEnchantment.swift in Sources */,
 				432AD9591DAD46AA00D8F959 /* HttpMethod.swift in Sources */,
 				B8BB7AB22831ABE0008239CA /* BattlegroundsLastGames.swift in Sources */,
 				B800FCAA2732FABD00AFBD51 /* MercenariesTaskListView.swift in Sources */,
@@ -4482,6 +4496,7 @@
 				439C7EBD1C777F8900D29859 /* TagClass.swift in Sources */,
 				B804FC36294444C300F74CD9 /* Tier7PreLobby.swift in Sources */,
 				43E77EE41C94A19700C26950 /* TurnTimer.swift in Sources */,
+				B81B3DAB2D444F8600DC9EB0 /* ShieldBatteryEnchantment.swift in Sources */,
 				B8E1E5A82D0B883100383975 /* SpellsPlayedForNagasCounter.swift in Sources */,
 				B8CE65DA2950D78100E8D168 /* BattlegroundsHeroPicking.swift in Sources */,
 				B8196F212CC9A203007C0371 /* CounterManager.swift in Sources */,
@@ -4609,6 +4624,7 @@
 				B8AF0C732B8439A800B65F63 /* ConstructedMulliganGuide.swift in Sources */,
 				B85462162CDEBAC20083BB31 /* DirdraRebelCaptain.swift in Sources */,
 				B89899492CA254B10011B184 /* BattlegroundsTrinketPickStats.swift in Sources */,
+				B81B3DA72D444C9C00DC9EB0 /* ProtossMinionCostReductionCounter.swift in Sources */,
 				B8E1E5E02D0C9D5F00383975 /* NzothGodOfTheDeep.swift in Sources */,
 				B820293D2CD2CFB400C19A8C /* StarlightWandererEnchantment.swift in Sources */,
 				B8B78FBA2C95298A00DD33EC /* DiscipleOfEonarEnchantment.swift in Sources */,

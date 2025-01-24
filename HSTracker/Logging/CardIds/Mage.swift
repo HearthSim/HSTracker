@@ -184,6 +184,7 @@ extension CardIds.Collectible {
         static let GrandMagisterRommath = "RLK_803"
         static let Colossus = "SC_758"
         static let ResonanceCoil = "SC_760"
+        static let ShieldBattery = "SC_759"
     }
 }
 

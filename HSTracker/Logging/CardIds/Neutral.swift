@@ -907,6 +907,9 @@ extension CardIds.NonCollectible {
         static let Groundbreaker_Groundbreaker = "BG31_035_G"
         static let LaunchStarship = "GDB_905"
         static let AbortLaunch = "GDB_906"
+        static let ConstructPylons_PsionicPowerEnchantment = "SC_755e"
+        static let ShieldBattery_KhalaiIngenuityEnchantment = "SC_759e"
+        static let WarpGate_WarpConduitEnchantment = "SC_751e"
     }
 }
 
