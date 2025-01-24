@@ -109,6 +109,7 @@ final class Player {
     fileprivate(set) var cardsPlayedThisTurn = [Entity]()
     fileprivate(set) var cardsPlayedLastTurn = [Entity]()
     fileprivate(set) var launchedStarships = SynchronizedArray<String?>()
+    fileprivate(set) var startingHand = [Entity]()
     var isPlayingWhizbang = false
     fileprivate(set) var deathrattlesPlayedCount = 0
     private let game: Game
@@ -207,6 +208,7 @@ final class Player {
         cardsPlayedLastTurn.removeAll()
         cardsPlayedThisMatch.removeAll()
         launchedStarships.removeAll()
+        startingHand.removeAll()
         secretsTriggeredCards.removeAll()
         deadMinionsCards.removeAll()
         deathrattlesPlayedCount = 0
@@ -862,6 +864,8 @@ final class Player {
     }
 
     func mulligan(entity: Entity) {
+        startingHand.remove(entity)
+        
         if Settings.fullGameLog {
             logger.info("\(debugName) \(#function) \(entity)")
         }
@@ -878,6 +882,11 @@ final class Player {
         }
         entity.info.turn = turn
         lastDrawnCardId = entity.cardId
+        
+        if turn == 0 {
+            startingHand.append(entity)
+        }
+        
         if Settings.fullGameLog {
             logger.info("\(debugName) \(#function) \(entity)")
         }
