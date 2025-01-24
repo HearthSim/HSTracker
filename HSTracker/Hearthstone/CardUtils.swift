@@ -25,7 +25,10 @@ class CardUtils {
     }
     
     static func isCardFromPlayerClass(card: Card, playerClass: CardClass?, ignoreNeutral: Bool = false) -> Bool {
-        return (card.playerClass == playerClass || card.getTouristVisitClass() == playerClass ||
+        guard let playerClass else {
+            return false
+        }
+        return (card.isClass(cardClass: playerClass) || card.getTouristVisitClass() == playerClass ||
              (!ignoreNeutral && card.playerClass == .neutral))
     }
 
