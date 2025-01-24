@@ -56,6 +56,16 @@ class CounterManager {
             opponentCounter.handleTagChange(tag: tag, entity: entity, value: value, prevValue: prevValue)
         }
     }
+    
+    func handleChoicePicked(choice: IHsCompletedChoice) {
+        for playerCounter in playerCounters {
+            playerCounter.handleChoicePicked(choice: choice)
+        }
+        
+        for opponentCounter in opponentCounters {
+            opponentCounter.handleChoicePicked(choice: choice)
+        }
+    }
 
     func reset() {
         for counter in playerCounters {

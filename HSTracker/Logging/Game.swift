@@ -3640,6 +3640,12 @@ class Game: NSObject, PowerEventHandler {
         windowManager.battlegroundsTrinketPicking.viewModel.choicesVisible = choicesVisible
     }
 
+    func handleOpponentEntitiesChosen(choice: IHsCompletedChoice) {
+        if choice.choiceType == .general {
+            counterManager.handleChoicePicked(choice: choice)
+        }
+    }
+    
     func handlePlayerEntitiesChosen(choice: IHsCompletedChoice) {
         let chosen = choice.chosenEntityIds?.compactMap { id in entities[id] } ?? [Entity]()
         let source = entities[choice.sourceEntityId]
@@ -3660,6 +3666,7 @@ class Game: NSObject, PowerEventHandler {
                 _ = snapshotMulliganChoices(choice: choice)
             }
         case ChoiceType.general:
+            counterManager.handleChoicePicked(choice: choice)
             if isBattlegroundsMatch() {
                 windowManager.battlegroundsQuestPicking.viewModel.reset()
                 windowManager.battlegroundsTrinketPicking.viewModel.reset()

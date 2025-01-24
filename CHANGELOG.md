@@ -1,3 +1,7 @@
+# 3.1.8
+## New
+- Added counter for Alien Encounters.
+
 # 3.1.7
 ## New
 - Updated for Hearthstone 31.4.0

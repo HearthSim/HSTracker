@@ -131,6 +131,9 @@ class ChoicesHandler: LogEventParser {
             if choice.playerId == game.player.id {
                 game.handlePlayerEntitiesChosen(choice: choice)
             }
+            if choice.playerId == game.opponent.id {
+                game.handleOpponentEntitiesChosen(choice: choice)
+            }
         }
         _tmpChoice = nil
     }

@@ -60,6 +60,10 @@ class BaseCounter: NSObject {
     func handleTagChange(tag: GameTag, entity: Entity, value: Int, prevValue: Int) {
         // Empty by default, can be overridden
     }
+    
+    func handleChoicePicked(choice: IHsCompletedChoice) {
+        
+    }
 
     required init(controlledByPlayer: Bool, game: Game) {
         self.isPlayerCounter = controlledByPlayer
