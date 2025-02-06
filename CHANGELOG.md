@@ -1,5 +1,6 @@
 # 3.1.8
 ## New
+- Updated for Hearthstone 31.4.2
 - Added counters to Protoss minions cost reduction and Alien Encounters.
 - Added related card tooltips to Starlight Whelp. \
   *We will continue adding more tooltips in the coming updates*
