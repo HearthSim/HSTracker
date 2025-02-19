@@ -66,7 +66,8 @@ enum CardSet: String, CaseIterable {
     tutorial,
     event,
     island_vacation,
-    space
+    space,
+    emerald_dream
     
     static func deckManagerValidCardSets() -> [CardSet] {
         return [.all, .vanilla, .core, .basic, .expert1, .naxx, .gvg, .brm, .tgt,
@@ -77,7 +78,8 @@ enum CardSet: String, CaseIterable {
                 .the_barrens, .wailing_caverns, .stormwind, .alterac_valley,
                 .the_sunken_city, .revendreth, .return_of_the_lich_king, .path_of_arthas,
                 .battle_of_the_bands, .titans, .wonders, .wild_west,
-                .whizbangs_workshop, .island_vacation, .space]
+                .whizbangs_workshop, .island_vacation, .space,
+                .emerald_dream]
     }
     
     static func wildSets() -> [CardSet] {
@@ -173,5 +175,6 @@ public enum CardSetInt: Int {
     tutorial = 1904,
     event = 1941,
     island_vacation = 1905,
-    space = 1935
+    space = 1935,
+    emerald_dream = 1946
 }

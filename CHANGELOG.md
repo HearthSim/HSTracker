@@ -1,3 +1,8 @@
+# 3.1.9
+## New
+- Updated for Hearthstone 31.6.2
+- Improved how unknown cards are handled after a Hearthstone update.\
+
 # 3.1.8
 ## New
 - Updated for Hearthstone 31.4.2
