@@ -670,7 +670,7 @@ class BobsBuddyInvoker {
     }
     
     func isUnknownCard(e: Entity?) -> Bool {
-        return e?.card.id == "unknown"
+        return e?.card.id == "unknown" || e?.cardId.isEmpty ?? false
     }
     
     func isUnsupportedCard(e: Entity?) -> Bool {
