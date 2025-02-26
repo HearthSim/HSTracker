@@ -413,11 +413,11 @@ class MonoHelper {
             
             player.health = 4
             player.tier = 3
-            player.setHeroPower(heroPowerCardId: "TB_BaconShop_HP_061", friendly: true, isActivated: true, data: 0, data2: 0)
+            player.addHeroPower(heroPowerCardId: "TB_BaconShop_HP_061", friendly: true, isActivated: true, data: 0, data2: 0)
 
             opponent.health = 3
             opponent.tier = 3
-            opponent.setHeroPower(heroPowerCardId: "TB_BaconShop_HP_043", friendly: false, isActivated: false, data: 0, data2: 0)
+            opponent.addHeroPower(heroPowerCardId: "TB_BaconShop_HP_043", friendly: false, isActivated: false, data: 0, data2: 0)
             
             let ps = player.side
             let os = opponent.side
@@ -461,7 +461,7 @@ class MonoHelper {
             MonoHelper.addToList(list: player.trinkets, element: trinket)
             
             player.setSecrets(secrets: [ Cards.any(byId: "TB_Bacon_Secrets_15")?.dbfId ?? 0 ])
-            logger.debug("Opponent HP \(opponent.heroPower.cardId)")
+//            logger.debug("Opponent HP \(opponent.heroPower.cardId)")
             //            let oppSecrets = test.getOpponentSecrets()
             //            test.addSecretFromDbfid(id: Int32(Cards.any(byId: "TB_Bacon_Secrets_02")?.dbfId ?? 0), target: oppSecrets)            
 //            let playerObjectives = test.playerObjectives

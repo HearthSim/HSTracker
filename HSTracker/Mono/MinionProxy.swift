@@ -22,9 +22,9 @@ class MinionProxy: MonoHandle, MonoClassInitializer {
             MinionProxy._attachModularEntity = MonoHelper.getMethod(MinionProxy._class, "AttachModularEntity", 1)
             MinionProxy._setBloodGemStats = MonoHelper.getMethod(MinionProxy._class, "SetBloodGemStats", 2)
             
-            initializeFields(fields: ["minionName", "tier", "cardID"])
-            
-            initializeProperties(properties: ["HasWingmen", "baseAttack", "baseHealth", "cleave", "div", "game_id", "golden", "megaWindfury", "poisonous", "reborn", "stealth", "taunt", "vanillaAttack", "vanillaHealth", "windfury", "ScriptDataNum1", "ScriptDataNum2", "venomous"])
+            initializeFields(fields: ["minionName", "tier"])
+
+            initializeProperties(properties: ["CardID", "HasWingmen", "baseAttack", "baseHealth", "cleave", "div", "game_id", "golden", "megaWindfury", "poisonous", "reborn", "stealth", "taunt", "vanillaAttack", "vanillaHealth", "windfury", "ScriptDataNum1", "ScriptDataNum2", "venomous"])
         }
     }
     
@@ -32,8 +32,8 @@ class MinionProxy: MonoHandle, MonoClassInitializer {
         super.init(obj: obj)
     }
     
-    @MonoStringField(field: "cardID", owner: MinionProxy.self)
-    var cardId: String
+    @MonoStringProperty(property: "CardID", owner: MinionProxy.self)
+    var cardID: String
 
     @MonoPrimitiveProperty(property: "baseAttack", owner: MinionProxy.self)
     var baseAttack: Int32

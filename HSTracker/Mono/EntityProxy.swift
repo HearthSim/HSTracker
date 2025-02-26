@@ -16,7 +16,7 @@ class EntityProxy: MonoHandle, MonoClassInitializer {
         if EntityProxy._class == nil {
             EntityProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Simulation", name: "Entity")
             
-            initializeFields(fields: [ "cardID" ])
+            initializeProperties(properties: [ "CardID" ])
         }
     }
 
@@ -24,6 +24,6 @@ class EntityProxy: MonoHandle, MonoClassInitializer {
         super.init(obj: obj)
     }
     
-    @MonoStringField(field: "cardID", owner: EntityProxy.self)
+    @MonoStringProperty(property: "CardID", owner: EntityProxy.self)
     var cardID: String
 }

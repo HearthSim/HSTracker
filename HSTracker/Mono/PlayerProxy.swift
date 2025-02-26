@@ -21,11 +21,11 @@ class PlayerProxy: MonoHandle, MonoClassInitializer {
             PlayerProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Simulation", name: "Player")
             // methods
             PlayerProxy._constructor = MonoHelper.getMethod(PlayerProxy._class, ".ctor", 1)
-            PlayerProxy._setPlayerHeroPower = MonoHelper.getMethod(PlayerProxy._class, "SetHeroPower", 5)
+            PlayerProxy._setPlayerHeroPower = MonoHelper.getMethod(PlayerProxy._class, "AddHeroPower", 5)
             PlayerProxy._setSecrets = MonoHelper.getMethod(PlayerProxy._class, "SetSecretsHstracker", 1)
             
             // fields
-            initializeProperties(properties: [ "Side", "HeroPower", "Quests", "Objectives", "Trinkets", "Secrets", "Hand", "EternalKnightCounter", "AncestralAutomatonCounter", "UndeadAttackBonus", "ElementalPlayCounter", "BloodGemAtkBuff", "BloodGemHealthBuff", "TavernSpellCounter", "PiratesSummonCounter", "BeetlesAtkBuff", "BeetlesHealthBuff", "BattlecryCounter", "WonLastCombat", "BattlecriesPlayed", "Health", "DamageTaken", "Tier" ])
+            initializeProperties(properties: [ "Side", "HeroPowers", "Quests", "Objectives", "Trinkets", "Secrets", "Hand", "EternalKnightCounter", "AncestralAutomatonCounter", "UndeadAttackBonus", "ElementalPlayCounter", "BloodGemAtkBuff", "BloodGemHealthBuff", "TavernSpellCounter", "PiratesSummonCounter", "BeastsSummonCounter", "BeetlesAtkBuff", "BeetlesHealthBuff", "BattlecryCounter", "WonLastCombat", "BattlecriesPlayed", "Health", "DamageTaken", "Tier" ])
         }
     }
     
@@ -53,7 +53,7 @@ class PlayerProxy: MonoHandle, MonoClassInitializer {
 
     }
     
-    func setHeroPower(heroPowerCardId: String, friendly: Bool, isActivated: Bool, data: Int32, data2: Int32) {
+    func addHeroPower(heroPowerCardId: String, friendly: Bool, isActivated: Bool, data: Int32, data2: Int32) {
         MonoHelper.setStringBoolBoolIntInt(obj: self, method: PlayerProxy._setPlayerHeroPower, v1: heroPowerCardId, v2: friendly, v3: isActivated, v4: data, v5: data2)
     }
     
@@ -78,8 +78,8 @@ class PlayerProxy: MonoHandle, MonoClassInitializer {
     @MonoHandleProperty(property: "Side", owner: PlayerProxy.self)
     var side: MonoHandle
     
-    @MonoHandleProperty(property: "HeroPower", owner: PlayerProxy.self)
-    var heroPower: HeroPowerDataProxy
+    @MonoHandleProperty(property: "HeroPowers", owner: PlayerProxy.self)
+    var heroPowers: MonoHandle
     
     @MonoHandleProperty(property: "Quests", owner: PlayerProxy.self)
     var quests: MonoHandle
@@ -119,6 +119,9 @@ class PlayerProxy: MonoHandle, MonoClassInitializer {
     
     @MonoPrimitiveProperty(property: "PiratesSummonCounter", owner: PlayerProxy.self)
     var piratesSummonCounter: Int32
+    
+    @MonoPrimitiveProperty(property: "BeastsSummonCounter", owner: PlayerProxy.self)
+    var beastsSummonCounter: Int32
 
     @MonoPrimitiveProperty(property: "BeetlesAtkBuff", owner: PlayerProxy.self)
     var beetlesAtkBuff: Int32

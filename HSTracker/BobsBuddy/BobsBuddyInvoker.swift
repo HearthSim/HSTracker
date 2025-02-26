@@ -182,7 +182,17 @@ class BobsBuddyInvoker {
             logger.debug("Setting UI state to combat...")
             BobsBuddyInvoker.bobsBuddyDisplay.setState(st: .combat)
             
-            if let input = input, (input.player.heroPower.cardId == RebornRite && input.player.heroPower.isActivated) || (input.opponent.heroPower.cardId == RebornRite && input.opponent.heroPower.isActivated) {
+            func hpAny(_ list: MonoHandle) -> Bool {
+                let heroPowers = MonoHelper.listItems(obj: list)
+                
+                return heroPowers.any { obj in
+                    let hp = HeroPowerDataProxy(obj: obj.get())
+                    
+                    return hp.cardId == RebornRite && hp.isActivated
+                }
+            }
+            
+            if let input = input, hpAny(input.player.heroPowers) || hpAny(input.opponent.heroPowers) {
                 Thread.sleep(forTimeInterval: Double(LichKingDelay) / 1000.0)
             }
             
@@ -356,7 +366,7 @@ class BobsBuddyInvoker {
                                 let item = MonoHelper.listItem(obj: side, index: Int32(i))
                                 if item.get() != nil {
                                     let minion = MinionProxy(obj: item.get())
-                                    if minion.cardId == CardIds.NonCollectible.Neutral.Leapfrogger {
+                                    if minion.cardID == CardIds.NonCollectible.Neutral.Leapfrogger {
                                         return true
                                     }
                                 }
@@ -662,11 +672,14 @@ class BobsBuddyInvoker {
     }
     
     private func opposingKelThuzadDied(result: LethalResult) -> Bool {
-        guard let input = input else {
+        guard let input = input, result == .opponentDied else {
             return false
         }
 
-        return result == .opponentDied && input.opponent.heroPower.cardId == KelThuzadPowerID
+        return MonoHelper.listItems(obj: input.opponent.heroPowers).any { obj in
+            let hp = HeroPowerDataProxy(obj: obj.get())
+            return hp.cardId == KelThuzadPowerID
+        }
     }
     
     func isUnknownCard(e: Entity?) -> Bool {
@@ -677,7 +690,7 @@ class BobsBuddyInvoker {
         return e?.card.id == CardIds.NonCollectible.Invalid.ProfessorPutricide_Festergut1 || e?.card.id == CardIds.NonCollectible.Invalid.ProfessorPutricide_Festergut2
     }
     
-    func wasHeroPowerUsed(heroPower: Entity?) -> Bool {
+    func wasHeroPowerActivated(heroPower: Entity?) -> Bool {
         return (heroPower?.has(tag: GameTag.exhausted) ?? false || heroPower?.has(tag: GameTag.bacon_hero_power_activated) ?? false)
     }
     
@@ -827,30 +840,32 @@ class BobsBuddyInvoker {
         inputPlayer.damageTaken = Int32(playerGameHero[GameTag.damage])
         inputPlayer.tier = Int32(playerGameHero[GameTag.player_tech_level])
         
-        let playerHeroPower = gamePlayer.board.first(where: { $0.isHeroPower })
+        let playerHeroPowers = gamePlayer.board.filter({ $0.isHeroPower }).take(2)
         
-        var pHpData = playerHeroPower?[.tag_script_data_num_1] ?? 0
-        let pHpData2 = playerHeroPower?[.tag_script_data_num_2] ?? 0
-        if playerHeroPower?.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_RapidReanimation {
-            let minionsInPlay = game.player.board.filter { e in e.isMinion && e.isControlled(by: game.player.id)}.compactMap { x in x.id }
-            let attachedToEntityId = game.player.playerEntities
-                .filter { x in x.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_ImpendingDeath && x.isInPlay }
-                .compactMap { x in x[.attached] }
-                .first { x in minionsInPlay.any { y in y == x } } ?? 0
-            if attachedToEntityId > 0 {
-                pHpData = attachedToEntityId
+        for heroPower in playerHeroPowers {
+            var pHpData = heroPower[.tag_script_data_num_1]
+            let pHpData2 = heroPower[.tag_script_data_num_2]
+            if heroPower.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_RapidReanimation {
+                let minionsInPlay = game.player.board.filter { e in e.isMinion && e.isControlled(by: game.player.id)}.compactMap { x in x.id }
+                let attachedToEntityId = game.player.playerEntities
+                    .filter { x in x.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_ImpendingDeath && x.isInPlay }
+                    .compactMap { x in x[.attached] }
+                    .first { x in minionsInPlay.any { y in y == x } } ?? 0
+                if attachedToEntityId > 0 {
+                    pHpData = attachedToEntityId
+                }
             }
-        }
-        
-        if playerHeroPower?.cardId == CardIds.NonCollectible.Neutral.FlobbidinousFloop_GloriousGloop {
-            let minionsInPlay = gamePlayer.board.filter { e in e.isMinion && e.isControlled(by: gamePlayer.id) }.compactMap { x in x.id }
-            let attachedToEntityId = gamePlayer.playerEntities.filter { x in x.cardId == CardIds.NonCollectible.Neutral.FlobbidinousFloop_InTheGloop && (!friendly || (x.isInPlay && friendly)) }.compactMap { x in x[.attached] }.first { x in minionsInPlay.any { y in y == x } } ?? 0
-            if attachedToEntityId > 0 {
-                pHpData = attachedToEntityId
+            
+            if heroPower.cardId == CardIds.NonCollectible.Neutral.FlobbidinousFloop_GloriousGloop {
+                let minionsInPlay = gamePlayer.board.filter { e in e.isMinion && e.isControlled(by: gamePlayer.id) }.compactMap { x in x.id }
+                let attachedToEntityId = gamePlayer.playerEntities.filter { x in x.cardId == CardIds.NonCollectible.Neutral.FlobbidinousFloop_InTheGloop && (!friendly || (x.isInPlay && friendly)) }.compactMap { x in x[.attached] }.first { x in minionsInPlay.any { y in y == x } } ?? 0
+                if attachedToEntityId > 0 {
+                    pHpData = attachedToEntityId
+                }
             }
+            
+            inputPlayer.addHeroPower(heroPowerCardId: heroPower.cardId, friendly: friendly, isActivated: wasHeroPowerActivated(heroPower: heroPower), data: Int32(pHpData), data2: Int32(pHpData2))
         }
-        
-        inputPlayer.setHeroPower(heroPowerCardId: playerHeroPower?.cardId ?? "", friendly: friendly, isActivated: wasHeroPowerUsed(heroPower: playerHeroPower), data: Int32(pHpData), data2: Int32(pHpData2))
 
         let playerQuests = inputPlayer.quests
         for quest in gamePlayer.quests {
@@ -956,6 +971,8 @@ class BobsBuddyInvoker {
         inputPlayer.elementalPlayCounter = Int32(game.playerEntity?[.gametag_2878] ?? 0)
         
         inputPlayer.piratesSummonCounter = Int32(game.playerEntity?[.gametag_2358] ?? 0)
+        
+        inputPlayer.beastsSummonCounter = Int32(game.playerEntity?[.gametag_3962] ?? 0)
         
         inputPlayer.battlecryCounter = Int32(game.playerEntity?[.gametag_3236] ?? 0)
 
