@@ -682,7 +682,7 @@ class BobsBuddyInvoker {
         }
     }
     
-    func isUnknownCard(e: Entity?) -> Bool {
+    func    isUnknownCard(e: Entity?) -> Bool {
         return e?.card.id == "unknown" || e?.cardId.isEmpty ?? false
     }
     
@@ -698,9 +698,9 @@ class BobsBuddyInvoker {
         return board.filter({ $0.isMinion }).map({ $0.copy() }).sorted(by: { $0[GameTag.zone_position] < $1[GameTag.zone_position]})
     }
     
-    static func getMinionFromEntity(minionFactory: MinionFactoryProxy, player: Bool, ent: Entity, attachedEntities: [Entity]) -> MinionProxy {
+    static func getMinionFromEntity(sim: SimulatorProxy, player: Bool, ent: Entity, attachedEntities: [Entity]) -> MinionProxy {
         let cardId = ent.info.latestCardId
-        let minion = minionFactory.createFromCardid(id: cardId, player: player)
+        let minion = sim.minionFactory.createFromCardid(id: cardId, player: player)
         
         minion.baseAttack = Int32(ent[GameTag.atk])
         minion.baseHealth = Int32(ent[GameTag.health])
@@ -737,8 +737,8 @@ class BobsBuddyInvoker {
             minion.vanillaHealth *= 2
         }
         
-        for ent in attachedEntities {
-            switch ent.cardId {
+        for attached in attachedEntities {
+            switch attached.cardId {
             case CardIds.NonCollectible.Neutral.RebornRitesTavernBrawl:
                 minion.reborn = true
             case CardIds.NonCollectible.Neutral.ReplicatingMenace_ReplicatingMenaceEnchantment:
@@ -784,11 +784,18 @@ class BobsBuddyInvoker {
             case CardIds.NonCollectible.Neutral.JarredFrostling_FrostyGlobeEnchantment:
                 minion.addDeathrattle(deathrattle: JarredFrostling.deathrattle())
             case CardIds.NonCollectible.Neutral.BloodGem2:
-                let atk = ent[.tag_script_data_num_1]
-                let health = ent[.tag_script_data_num_2]
+                let atk = attached[.tag_script_data_num_1]
+                let health = attached[.tag_script_data_num_2]
                 minion.setBloodGemStats(atk, health)
             default:
-                break
+                if attached.card.type == .enchantment && !attached.cardId.isEmpty {
+                    let enchantment = sim.enchantmentFactory.create(cardId: attached.cardId, controlledByPlayer: minion.controlledByPlayer)
+                    if enchantment.get() != nil {
+                        enchantment.scriptDataNum1 = Int32(attached[.tag_script_data_num_1])
+                        enchantment.scriptDataNum2 = Int32(attached[.tag_script_data_num_2])
+                        minion.attachEnchantment(enchantment: enchantment)
+                    }
+                }
             }
         }
         
@@ -898,7 +905,7 @@ class BobsBuddyInvoker {
         
         let minionFactory = simulator.minionFactory
 
-        let playerSide = BobsBuddyInvoker.getOrderedMinions(board: gamePlayer.board).filter { e in e.isControlled(by: gamePlayer.id) }.map { e in BobsBuddyInvoker.getMinionFromEntity(minionFactory: minionFactory, player: friendly, ent: e, attachedEntities: getAttachedEntities(entityId: e.id))}
+        let playerSide = BobsBuddyInvoker.getOrderedMinions(board: gamePlayer.board).filter { e in e.isControlled(by: gamePlayer.id) }.map { e in BobsBuddyInvoker.getMinionFromEntity(sim: simulator, player: friendly, ent: e, attachedEntities: getAttachedEntities(entityId: e.id))}
         let inputPlayerSide = inputPlayer.side
         for m in playerSide {
             MonoHelper.addToList(list: inputPlayerSide, element: m)
@@ -914,7 +921,7 @@ class BobsBuddyInvoker {
             
             for e in gamePlayer.hand {
                 if e.isMinion {
-                    let minionEntity = MinionCardEntityProxy(minion: BobsBuddyInvoker.getMinionFromEntity(minionFactory: minionFactory, player: true, ent: e, attachedEntities: getAttachedEntities(entityId: e.id)), simulator: simulator)
+                    let minionEntity = MinionCardEntityProxy(minion: BobsBuddyInvoker.getMinionFromEntity(sim: simulator, player: true, ent: e, attachedEntities: getAttachedEntities(entityId: e.id)), simulator: simulator)
                     minionEntity.canSummon = !e.has(tag: .literally_unplayable)
                     MonoHelper.addToList(list: playerHand, element: minionEntity)
                 } else if e.cardId == CardIds.NonCollectible.Neutral.BloodGem1 {
@@ -1126,7 +1133,7 @@ class BobsBuddyInvoker {
             let e = opponentHandMap[_e] ?? _e
             if e.isMinion {
                 let attached = getAttachedEntities(entityId: e.id)
-                let minion = MinionCardEntityProxy(minion: BobsBuddyInvoker.getMinionFromEntity(minionFactory: simulator.minionFactory, player: false, ent: e, attachedEntities: attached), simulator: simulator)
+                let minion = MinionCardEntityProxy(minion: BobsBuddyInvoker.getMinionFromEntity(sim: simulator, player: false, ent: e, attachedEntities: attached), simulator: simulator)
                 minion.canSummon = !e.has(tag: .literally_unplayable)
                 result.append(minion)
             } else if e.cardId == CardIds.NonCollectible.Neutral.BloodGem1 {

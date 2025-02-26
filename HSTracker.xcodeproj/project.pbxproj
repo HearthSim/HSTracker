@@ -688,6 +688,8 @@
 		B89586492B81411400989C13 /* MulliganGuideData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89586482B81411400989C13 /* MulliganGuideData.swift */; };
 		B895864B2B81460700989C13 /* ConstructedMulliganSingleCardHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B895864A2B81460700989C13 /* ConstructedMulliganSingleCardHeaderViewModel.swift */; };
 		B895864D2B82614D00989C13 /* ConstructedMulliganSingleCardHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = B895864C2B82614D00989C13 /* ConstructedMulliganSingleCardHeader.xib */; };
+		B89865322D6EA36B00BA5649 /* EnchantmentFactoryProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89865312D6EA36B00BA5649 /* EnchantmentFactoryProxy.swift */; };
+		B89865342D6EA3C900BA5649 /* EnchantmentProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89865332D6EA3C900BA5649 /* EnchantmentProxy.swift */; };
 		B89899452CA252330011B184 /* BattlegroundsTrinketPickingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89899442CA252330011B184 /* BattlegroundsTrinketPickingViewModel.swift */; };
 		B89899492CA254B10011B184 /* BattlegroundsTrinketPickStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89899482CA254B10011B184 /* BattlegroundsTrinketPickStats.swift */; };
 		B898994B2CA445E40011B184 /* BattlegroundsTrinketPicking.swift in Sources */ = {isa = PBXBuildFile; fileRef = B898994A2CA445E40011B184 /* BattlegroundsTrinketPicking.swift */; };
@@ -1651,6 +1653,8 @@
 		B89586482B81411400989C13 /* MulliganGuideData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulliganGuideData.swift; sourceTree = "<group>"; };
 		B895864A2B81460700989C13 /* ConstructedMulliganSingleCardHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructedMulliganSingleCardHeaderViewModel.swift; sourceTree = "<group>"; };
 		B895864C2B82614D00989C13 /* ConstructedMulliganSingleCardHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConstructedMulliganSingleCardHeader.xib; sourceTree = "<group>"; };
+		B89865312D6EA36B00BA5649 /* EnchantmentFactoryProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnchantmentFactoryProxy.swift; sourceTree = "<group>"; };
+		B89865332D6EA3C900BA5649 /* EnchantmentProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnchantmentProxy.swift; sourceTree = "<group>"; };
 		B89899442CA252330011B184 /* BattlegroundsTrinketPickingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsTrinketPickingViewModel.swift; sourceTree = "<group>"; };
 		B89899482CA254B10011B184 /* BattlegroundsTrinketPickStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsTrinketPickStats.swift; sourceTree = "<group>"; };
 		B898994A2CA445E40011B184 /* BattlegroundsTrinketPicking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsTrinketPicking.swift; sourceTree = "<group>"; };
@@ -2884,6 +2888,8 @@
 				B844D3672A0C33AB001704E0 /* BloodGemProxy.swift */,
 				B86C9EAA27A17B3A00195C0A /* BrukanInvocationDeathrattles.swift */,
 				B844D3652A0C3026001704E0 /* CardEntityProxy.swift */,
+				B89865312D6EA36B00BA5649 /* EnchantmentFactoryProxy.swift */,
+				B89865332D6EA3C900BA5649 /* EnchantmentProxy.swift */,
 				B87856E12C04BB2D004C2C40 /* EntityProxy.swift */,
 				B8449A052781CB6F0094E5B3 /* GenericDeathrattles.swift */,
 				B836821D27873B40007D5740 /* HeroPowerDataProxy.swift */,
@@ -4107,6 +4113,7 @@
 				B8FDE9402CDD188E0093BFF7 /* Product9.swift in Sources */,
 				B89343482CD11E7A009A8727 /* LibramCostReductionCounter.swift in Sources */,
 				B8B7905D2C9784C900DD33EC /* CurseOfFleshEnchantment.swift in Sources */,
+				B89865342D6EA3C900BA5649 /* EnchantmentProxy.swift in Sources */,
 				B854623B2CE01C5F0083BB31 /* BattlegroundsLeaderboardWatcher.swift in Sources */,
 				B8FE1F992875BD15004C397C /* SynchronizedArray.swift in Sources */,
 				B8AF0C812B92C5E800B65F63 /* ConstructedMulliganGuidePreLobby.swift in Sources */,
@@ -4417,6 +4424,7 @@
 				B844D36E2A0C35A8001704E0 /* MinionCardEntityProxy.swift in Sources */,
 				B8AF0C7F2B92B76700B65F63 /* ConstructedMulliganSingleDeckStatus.swift in Sources */,
 				4C19239D2392FA7E007EBB0F /* BattlegroundsDetailsWindow.swift in Sources */,
+				B89865322D6EA36B00BA5649 /* EnchantmentFactoryProxy.swift in Sources */,
 				B8AF0C672B83A65E00B65F63 /* MulliganGuideStatusData.swift in Sources */,
 				B8B790342C975BCB00DD33EC /* RazaTheResealedEnchantment.swift in Sources */,
 				B82029432CD2D14200C19A8C /* LuckyComentEnchantment.swift in Sources */,

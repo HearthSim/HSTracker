@@ -12,6 +12,7 @@ class MinionProxy: MonoHandle, MonoClassInitializer {
     internal static var _class: OpaquePointer?
     internal static var _attachModularEntity: OpaquePointer!
     internal static var _setBloodGemStats: OpaquePointer!
+    internal static var _attachEnchantment: OpaquePointer!
     
     static var _members = [String: OpaquePointer]()
     
@@ -21,10 +22,11 @@ class MinionProxy: MonoHandle, MonoClassInitializer {
             
             MinionProxy._attachModularEntity = MonoHelper.getMethod(MinionProxy._class, "AttachModularEntity", 1)
             MinionProxy._setBloodGemStats = MonoHelper.getMethod(MinionProxy._class, "SetBloodGemStats", 2)
+            MinionProxy._attachEnchantment = MonoHelper.getMethod(MinionProxy._class, "AttachEnchantment", 1)
             
             initializeFields(fields: ["minionName", "tier"])
 
-            initializeProperties(properties: ["CardID", "HasWingmen", "baseAttack", "baseHealth", "cleave", "div", "game_id", "golden", "megaWindfury", "poisonous", "reborn", "stealth", "taunt", "vanillaAttack", "vanillaHealth", "windfury", "ScriptDataNum1", "ScriptDataNum2", "venomous"])
+            initializeProperties(properties: ["CardID", "ControlledByPlayer", "HasWingmen", "baseAttack", "baseHealth", "cleave", "div", "game_id", "golden", "megaWindfury", "poisonous", "reborn", "stealth", "taunt", "vanillaAttack", "vanillaHealth", "windfury", "ScriptDataNum1", "ScriptDataNum2", "venomous"])
         }
     }
     
@@ -34,6 +36,9 @@ class MinionProxy: MonoHandle, MonoClassInitializer {
     
     @MonoStringProperty(property: "CardID", owner: MinionProxy.self)
     var cardID: String
+    
+    @MonoPrimitiveProperty(property: "ControlledByPlayer", owner: MinionProxy.self)
+    var controlledByPlayer: Bool
 
     @MonoPrimitiveProperty(property: "baseAttack", owner: MinionProxy.self)
     var baseAttack: Int32
@@ -119,5 +124,13 @@ class MinionProxy: MonoHandle, MonoClassInitializer {
     
     func setBloodGemStats(_ attack: Int, _ health: Int) {
         MonoHelper.setIntInt(obj: self, method: MinionProxy._setBloodGemStats, v1: Int32(attack), v2: Int32(health))
+    }
+    
+    func attachEnchantment(enchantment: EnchantmentProxy) {
+        let params = UnsafeMutablePointer<UnsafeMutablePointer<MonoObject>>.allocate(capacity: 1)
+        params[0] = enchantment.get()!
+        _ = params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 1, {
+            mono_runtime_invoke(MinionProxy._attachEnchantment, self.get(), $0, nil)
+        })
     }
 }
