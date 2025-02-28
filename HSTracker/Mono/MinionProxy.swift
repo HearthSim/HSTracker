@@ -26,7 +26,7 @@ class MinionProxy: MonoHandle, MonoClassInitializer {
             
             initializeFields(fields: ["minionName", "tier"])
 
-            initializeProperties(properties: ["CardID", "ControlledByPlayer", "HasWingmen", "baseAttack", "baseHealth", "cleave", "div", "game_id", "golden", "megaWindfury", "poisonous", "reborn", "stealth", "taunt", "vanillaAttack", "vanillaHealth", "windfury", "ScriptDataNum1", "ScriptDataNum2", "venomous"])
+            initializeProperties(properties: ["CardID", "ControlledByPlayer", "HasWingmen", "PrimaryRace", "baseAttack", "baseHealth", "cleave", "div", "game_id", "golden", "megaWindfury", "poisonous", "reborn", "stealth", "taunt", "vanillaAttack", "vanillaHealth", "windfury", "ScriptDataNum1", "ScriptDataNum2", "venomous"])
         }
     }
     
@@ -39,6 +39,9 @@ class MinionProxy: MonoHandle, MonoClassInitializer {
     
     @MonoPrimitiveProperty(property: "ControlledByPlayer", owner: MinionProxy.self)
     var controlledByPlayer: Bool
+    
+    @MonoPrimitiveProperty(property: "PrimaryRace", owner: MinionProxy.self)
+    var primaryRace: Int32
 
     @MonoPrimitiveProperty(property: "baseAttack", owner: MinionProxy.self)
     var baseAttack: Int32

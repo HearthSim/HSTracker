@@ -702,6 +702,7 @@ class BobsBuddyInvoker {
         let cardId = ent.info.latestCardId
         let minion = sim.minionFactory.createFromCardid(id: cardId, player: player)
         
+        minion.primaryRace = Int32(ent[.cardrace])
         minion.baseAttack = Int32(ent[GameTag.atk])
         minion.baseHealth = Int32(ent[GameTag.health])
         minion.taunt = ent.has(tag: GameTag.taunt)
