@@ -825,16 +825,21 @@ class BobsBuddyInvoker {
             throw "\(friendly ? "Player" : "Opponent") Entity could not be found. Exiting."
         }
         
-        if gamePlayer.board.any(isUnknownCard) {
-            errorState = .unknownCards
-            throw "Board has unknown cards. Exiting"
+        for entity in gamePlayer.board where !entity.cardId.isBlank {
+            if isUnknownCard(e: entity) {
+                errorState = .unknownCards
+                throw "Board has unknown cards. Exiting."
+            }
+            
+            // SupportedCards.VerifyCardIsSupported currently only works with TECH_LEVEL > 0.
+            // TODO: as this is implemented in BB and would require a call via Mono
+            
+            if isUnsupportedCard(e: entity) {
+                errorState = .unsupportedCards
+                throw "Board has unsupported cards. Exiting."
+            }
         }
         
-        if gamePlayer.board.any(isUnsupportedCard) {
-            errorState = .unsupportedCards
-            throw "Board has unsupported cards. Exiting"
-        }
-
         guard let playerGameHero else {
             throw "Hero(es) could not be found. Exiting."
         }

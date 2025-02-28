@@ -50,7 +50,7 @@ class EnchantmentProxy: MonoHandle, MonoClassInitializer {
     }
     
     required init(obj: UnsafeMutablePointer<MonoObject>?) {
-        fatalError("init(obj:) has not been implemented")
+        super.init(obj: obj)
     }
     
     @MonoPrimitiveProperty(property: "ScriptDataNum1", owner: EnchantmentProxy.self)
