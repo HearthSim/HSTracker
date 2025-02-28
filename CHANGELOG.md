@@ -1,6 +1,16 @@
-# 3.1.9
+# 3.1.10
 ## New
 - Updated for Hearthstone 31.6.2
+## Battlegrounds
+- Add Bob's Buddy support for Incubation Mutation Anomaly.
+- Add Bob's Buddy support for Battlecruiser.
+- Fixed an issue with opponent's board state not showing.
+- Add Bob's Buddy support for: \
+  *Cosmic Duality, Bellowing Tyrant, Colossus and Carrier.*
+
+# 3.1.9
+## New
+- Updated for Hearthstone 31.6.0
 - Improved how unknown cards are handled after a Hearthstone update.\
 
 # 3.1.8
