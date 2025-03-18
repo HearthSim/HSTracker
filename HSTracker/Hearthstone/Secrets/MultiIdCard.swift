@@ -35,10 +35,6 @@ class MultiIdCard: Hashable, Equatable {
         self.ids = ids
     }
     
-    init(_ id: String) {
-        self.ids = [id]
-    }
-    
     init(_ ids: [String]) {
         self.ids = ids
     }

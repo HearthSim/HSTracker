@@ -87,7 +87,9 @@ class SecretsManager {
         }
 
         if entity.hasCardId {
-            exclude(cardId: MultiIdCard(entity.cardId))
+            if let secretMultiIdCard = CardIds.Secrets.getSecretMultiIdCard(entity.cardId) {
+                exclude(cardId: secretMultiIdCard, invokeCallback: false)
+            }
         }
         do {
             let secret = try Secret(entity: entity)
@@ -112,9 +114,10 @@ class SecretsManager {
         handleFastCombat(entity: entity)
         secrets.remove(secret)
         if secret.entity.hasCardId {
-            let mcid = MultiIdCard(secret.entity.cardId)
-            exclude(cardId: mcid, invokeCallback: false)
-            savedSecrets.remove(mcid)
+            if let secretMultiIdCard = CardIds.Secrets.getSecretMultiIdCard(secret.entity.cardId) {
+                exclude(cardId: secretMultiIdCard, invokeCallback: false)
+                savedSecrets.remove(secretMultiIdCard)
+            }
         }
         onChanged?(getSecretList())
         return true
@@ -170,18 +173,22 @@ class SecretsManager {
             .filter { !$0.value }
             .map { $0.key }
             .unique()
-        let hasPlayedTwoOf: ((_ cardId: String) -> Bool) = { cardId in
-            opponentEntities.filter { $0.cardId == cardId && !$0.info.created }.count >= 2
+        let hasPlayedTwoOf: ((_ card: MultiIdCard) -> Bool) = { card in
+            opponentEntities.filter { card == $0.cardId && !$0.info.created }.count >= 2
         }
-        let adjustCount: ((_ cardId: String, _ count: Int) -> Int) = { cardId, count in
-            gameModeHasCardLimit && hasPlayedTwoOf(cardId) && !createdSecrets.contains(MultiIdCard(cardId)) ? 0 : count
+        let adjustCount: ((_ card: MultiIdCard, _ count: Int) -> Int) = { card, count in
+            gameModeHasCardLimit && hasPlayedTwoOf(card) && !createdSecrets.contains(card) ? 0 : count
         }
         
         var cards = secrets.array().flatMap { $0.excluded }
             .group { $0.key }
             .compactMap { group in
-                QuantifiedMultiIdCard(baseCard: group.key, count: adjustCount(group.key.ids[0], group.value.filter { x in !x.value }.count))
-        }
+                if let multiIdCard = CardIds.Secrets.getSecretMultiIdCard(group.key.ids[0]) {
+                    return QuantifiedMultiIdCard(baseCard: group.key, count: adjustCount(multiIdCard, group.value.filter { x in !x.value }.count))
+                } else {
+                    return QuantifiedMultiIdCard(baseCard: group.key, count: 0)
+                }
+            }
 
         let availableSecrets = getAvailableSecrets(gameMode: gameMode, format: formatType)
         cards = cards.filter { x in x.ids.any { y in availableSecrets.contains(y) } }
@@ -281,7 +288,10 @@ class SecretsManager {
         if !entity.hasCardId || game.proposedAttacker == 0 || game.proposedDefender == 0 {
             return
         }
-        if !CardIds.Secrets.fastCombat.contains(MultiIdCard(entity.cardId)) {
+        guard let multiIdCard = CardIds.Secrets.getSecretMultiIdCard(entity.cardId) else {
+            return
+        }
+        if !CardIds.Secrets.fastCombat.contains(multiIdCard) {
             return
         }
         if let attacker = game.entities[game.proposedAttacker],

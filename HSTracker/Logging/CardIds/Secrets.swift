@@ -45,4 +45,10 @@ extension CardIds.Secrets {
         Paladin.NobleSacrifice,
         Mage.Vaporize
     ]
+    
+    static let all = Hunter.All + Mage.All + Paladin.All + Rogue.All
+    
+    static func getSecretMultiIdCard(_ id: String) -> MultiIdCard? {
+        all.first(where: { m in m.ids.contains(id) })
+    }
 }
