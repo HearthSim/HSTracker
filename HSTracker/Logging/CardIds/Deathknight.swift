@@ -46,6 +46,7 @@ extension CardIds.Collectible {
         static let Corpsicle = "VAC_427"
         static let Boneshredder = "ETC_428"
         static let Infestor = "SC_002"
+        static let ReskaThePitBoss = "WW_373"
     }
 }
 

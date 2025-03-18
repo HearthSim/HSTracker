@@ -1,7 +1,10 @@
 # 3.2.0
-## Fixes
+## Hearthstone
+- Added counter for Reska, the Pit Boss.
 - Changed opponent's The Ceaseless Expanse Counter to start appearing when it costs 50.
 - Fixed Sasquawk related cards appearing when they are not relevant.
+## Fixes
+- Added missing Russian to HSTracker language selection
 
 # 3.1.10
 ## New

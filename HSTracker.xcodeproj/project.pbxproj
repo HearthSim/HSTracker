@@ -690,6 +690,7 @@
 		B895864D2B82614D00989C13 /* ConstructedMulliganSingleCardHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = B895864C2B82614D00989C13 /* ConstructedMulliganSingleCardHeader.xib */; };
 		B89865322D6EA36B00BA5649 /* EnchantmentFactoryProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89865312D6EA36B00BA5649 /* EnchantmentFactoryProxy.swift */; };
 		B89865342D6EA3C900BA5649 /* EnchantmentProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89865332D6EA3C900BA5649 /* EnchantmentProxy.swift */; };
+		B89865362D8A343600BA5649 /* MinionsDiedThisGameCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89865352D8A343600BA5649 /* MinionsDiedThisGameCounter.swift */; };
 		B89899452CA252330011B184 /* BattlegroundsTrinketPickingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89899442CA252330011B184 /* BattlegroundsTrinketPickingViewModel.swift */; };
 		B89899492CA254B10011B184 /* BattlegroundsTrinketPickStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89899482CA254B10011B184 /* BattlegroundsTrinketPickStats.swift */; };
 		B898994B2CA445E40011B184 /* BattlegroundsTrinketPicking.swift in Sources */ = {isa = PBXBuildFile; fileRef = B898994A2CA445E40011B184 /* BattlegroundsTrinketPicking.swift */; };
@@ -1655,6 +1656,7 @@
 		B895864C2B82614D00989C13 /* ConstructedMulliganSingleCardHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConstructedMulliganSingleCardHeader.xib; sourceTree = "<group>"; };
 		B89865312D6EA36B00BA5649 /* EnchantmentFactoryProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnchantmentFactoryProxy.swift; sourceTree = "<group>"; };
 		B89865332D6EA3C900BA5649 /* EnchantmentProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnchantmentProxy.swift; sourceTree = "<group>"; };
+		B89865352D8A343600BA5649 /* MinionsDiedThisGameCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinionsDiedThisGameCounter.swift; sourceTree = "<group>"; };
 		B89899442CA252330011B184 /* BattlegroundsTrinketPickingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsTrinketPickingViewModel.swift; sourceTree = "<group>"; };
 		B89899482CA254B10011B184 /* BattlegroundsTrinketPickStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsTrinketPickStats.swift; sourceTree = "<group>"; };
 		B898994A2CA445E40011B184 /* BattlegroundsTrinketPicking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsTrinketPicking.swift; sourceTree = "<group>"; };
@@ -2850,6 +2852,7 @@
 				B89343452CD11D03009A8727 /* JadeGolemCounter.swift */,
 				B82029322CD2C65D00C19A8C /* KiljaedenCounter.swift */,
 				B89343472CD11E7A009A8727 /* LibramCostReductionCounter.swift */,
+				B89865352D8A343600BA5649 /* MinionsDiedThisGameCounter.swift */,
 				B893434F2CD1520E009A8727 /* PlayedSpellSchoolsCounter.swift */,
 				B89343332CCFAF7E009A8727 /* PlayedSpellsCounter.swift */,
 				B89343352CCFD3BE009A8727 /* PogoHopperCounter.swift */,
@@ -4085,6 +4088,7 @@
 				B8E1E5B62D0C870F00383975 /* BodyWrapper.swift in Sources */,
 				B8BA17D928EFAF73004D40ED /* ClipboardImporter.swift in Sources */,
 				432A077C1E93B0F100921E34 /* Secrets.swift in Sources */,
+				B89865362D8A343600BA5649 /* MinionsDiedThisGameCounter.swift in Sources */,
 				B87765CD2BB9AE7F003BE49D /* DeckSideboards.swift in Sources */,
 				4CED5D15243D1B27006D2E1F /* DemonHunter.swift in Sources */,
 				B8FDE93B2CDD16030093BFF7 /* HydrationStation.swift in Sources */,
