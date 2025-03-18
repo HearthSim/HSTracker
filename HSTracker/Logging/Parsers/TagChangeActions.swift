@@ -597,7 +597,6 @@ struct TagChangeActions {
         
         let controller = entity[.controller]
         guard let zoneValue = Zone(rawValue: prevValue) else {
-            logger.warning("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
             return
         }
         
@@ -701,7 +700,6 @@ struct TagChangeActions {
     private func zoneChangeFromOther(eventHandler: PowerEventHandler, id: Int, rawValue: Int,
                                      prevValue: Int, controller: Int, cardId: String?) {
         guard let value = Zone(rawValue: rawValue) else {
-            logger.warning("unhandled zone change (id=\(id)): \(prevValue) -> \(rawValue)")
             return
         }
         guard let entity = eventHandler.entities[id] else { return }
@@ -774,14 +772,12 @@ struct TagChangeActions {
             
         default:
             break
-//            logger.warning("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
         }
     }
 
     private func zoneChangeFromSecret(eventHandler: PowerEventHandler, id: Int, value: Int,
                                       prevValue: Int, controller: Int, cardId: String?) {
         guard let zoneValue = Zone(rawValue: value) else {
-            logger.warning("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
             return
         }
         guard eventHandler.entities[id] != nil else {
@@ -808,14 +804,12 @@ struct TagChangeActions {
             
         default:
             break
-//            logger.warning("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
         }
     }
 
     private func zoneChangeFromPlay(eventHandler: PowerEventHandler, id: Int, value: Int,
                                     prevValue: Int, controller: Int, cardId: String?) {
         guard let zoneValue = Zone(rawValue: value) else {
-            logger.warning("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
             return
         }
         guard let entity = eventHandler.entities[id] else {
@@ -859,14 +853,12 @@ struct TagChangeActions {
             
         default:
             break
-//            logger.warning("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
         }
     }
 
     private func zoneChangeFromHand(eventHandler: PowerEventHandler, id: Int, value: Int,
                                     prevValue: Int, controller: Int, cardId: String?) {
         guard let zoneValue = Zone(rawValue: value) else {
-            logger.warning("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
             return
         }
         guard let entity = eventHandler.entities[id] else {
@@ -938,14 +930,12 @@ struct TagChangeActions {
             
         default:
             break
-//            logger.warning("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
         }
     }
 
     private func zoneChangeFromDeck(eventHandler: PowerEventHandler, id: Int, value: Int,
                                     prevValue: Int, controller: Int, cardId: String?) {
         guard let zoneValue = Zone(rawValue: value) else {
-            logger.warning("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
             return
         }
         guard let entity = eventHandler.entities[id] else {
@@ -1030,7 +1020,6 @@ struct TagChangeActions {
             
         default:
             break
-//            logger.warning("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
         }
     }
 
