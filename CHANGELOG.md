@@ -1,5 +1,6 @@
 # 3.2.0
 ## Fixes
+- Changed opponent's The Ceaseless Expanse Counter to start appearing when it costs 50.
 - Fixed Sasquawk related cards appearing when they are not relevant.
 
 # 3.1.10

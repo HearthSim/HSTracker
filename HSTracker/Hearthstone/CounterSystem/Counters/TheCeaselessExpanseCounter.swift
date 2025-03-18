@@ -29,7 +29,7 @@ class TheCeaselessExpanseCounter: NumericCounter {
         if isPlayerCounter {
             return inPlayerDeckOrKnown(cardIds: relatedCards)
         }
-        return !inPlayerDeckOrKnown(cardIds: relatedCards) && counter >= 80 && opponentMayHaveRelevantCards()
+        return !inPlayerDeckOrKnown(cardIds: relatedCards) && counter >= 50 && opponentMayHaveRelevantCards()
     }
     
     override func getCardsToDisplay() -> [String] {
