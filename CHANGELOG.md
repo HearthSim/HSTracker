@@ -1,3 +1,7 @@
+# 3.2.0
+## Fixes
+- Fixed Sasquawk related cards appearing when they are not relevant.
+
 # 3.1.10
 ## New
 - Updated for Hearthstone 31.6.2
