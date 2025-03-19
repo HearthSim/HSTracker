@@ -37,6 +37,11 @@ extension CardIds.NonCollectible {
         static let Dream: String = "DREAM_04"
         static let Nightmare: String = "DREAM_05"
         static let RepurposedEnchantmentTavernBrawl: String = "TB_MP_02e"
+        static let Shaladrassil_CorruptedNightmareToken = "EDR_846t1"
+        static let Shaladrassil_CorruptedDreamToken = "EDR_846t2"
+        static let Shaladrassil_CorruptedLaughingSisterToken = "EDR_846t3"
+        static let Shaladrassil_CorruptedAwakeningToken = "EDR_846t4"
+        static let Shaladrassil_CorruptedDrakeToken = "EDR_846t5"
     }
 }
 

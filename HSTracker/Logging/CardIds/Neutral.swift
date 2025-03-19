@@ -683,6 +683,8 @@ extension CardIds.Collectible {
         static let FateSplitter = "TTN_859"
         static let TheExodar = "GDB_120"
         static let StarlightWhelp = "TTN_718"
+        static let Meadowstrider = "EDR_978"
+        static let Shaladrassil = "EDR_846"
     }
 }
 

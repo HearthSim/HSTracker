@@ -165,6 +165,7 @@ extension CardIds.Collectible {
         static let WitchingHour = "GIL_571"
         static let UnendingSwarm = "RLK_652"
         static let ConstructPylons = "SC_755"
+        static let MoonfireCorePlaceholder = "Core_CS2_008"
     }
 }
 

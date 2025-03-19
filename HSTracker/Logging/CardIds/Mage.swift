@@ -185,6 +185,8 @@ extension CardIds.Collectible {
         static let Colossus = "SC_758"
         static let ResonanceCoil = "SC_760"
         static let ShieldBattery = "SC_759"
+        static let StellarBalance = "EDR_874"
+        static let SpiritGatherer = "EDR_871"
     }
 }
 
@@ -262,6 +264,7 @@ extension CardIds.NonCollectible {
         static let Surfalopod_RideTheWaveEnchantment = "VAC_443e"
         static let KoboldMiner_TheAzeriteHawkToken = "WW_001t24"
         static let IngeniousArtificer_IngeniousArtficerFutureBuffEnchantment = "GDB_135e"
+        static let WispTokenEMERALD_DREAM = "EDR_851t"
     }
 }
 

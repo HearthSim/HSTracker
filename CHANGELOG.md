@@ -6,6 +6,11 @@
 - Fixed an issue with Freezing Trap not being marked as excluded.
 ## Fixes
 - Added missing Russian to HSTracker language selection
+## Battlegrounds
+- Fixed incorrect simulation results due to Illidan and Gorefiend interaction.
+- Fixed incorrect simulation results due to Gentle Stag.
+- Fixed incorrect simulation results due to Gemsplitter.
+- Add Bob's Buddy support for Incubation Mutation Anomaly.
 
 # 3.1.10
 ## New
