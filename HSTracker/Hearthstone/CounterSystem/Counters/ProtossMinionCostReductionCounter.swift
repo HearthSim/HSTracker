@@ -16,6 +16,8 @@ class ProtossMinionCostReductionCounter: NumericCounter {
     override var cardIdToShowInUI: String? {
         return CardIds.Collectible.Invalid.PhotonCannon
     }
+    
+    private lazy var _protossMinions: [String] = Cards.collectible().filter({ c in c.faction == .protoss }).compactMap({ c in c.id })
 
     override var relatedCards: [String] {
         return [
@@ -41,7 +43,7 @@ class ProtossMinionCostReductionCounter: NumericCounter {
             return false
         }
         if isPlayerCounter {
-            return counter > 0 || inPlayerDeckOrKnown(cardIds: relatedCards)
+            return counter > 0 || inPlayerDeckOrKnown(cardIds: _protossMinions)
         }
         return counter > 0 && opponentMayHaveRelevantCards()
     }
