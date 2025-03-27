@@ -12,7 +12,6 @@ class BoardCard: IBoardEntity {
     private var _armor = 0
     private var _cantAttack = false
     private var _damageTaken = 0
-    private var _durability = 0
     private var _frozen = false
     private var _health = 0
     private var _stdAttack = 0
@@ -54,7 +53,6 @@ class BoardCard: IBoardEntity {
         _stdAttack = entity.has(tag: .hide_stats) ? 0 : entity[.atk]
         _health = entity.has(tag: .hide_stats) ? 0 : entity[.health]
         _armor = entity[.armor]
-        _durability = entity[.durability]
         _damageTaken = entity[.damage]
         exhausted = entity[.exhausted] == 1 || (entity[.num_turns_in_play] == 0 && !entity.isHero)
         _cantAttack = entity[.cant_attack] == 1
@@ -92,8 +90,9 @@ class BoardCard: IBoardEntity {
         include = isAbleToAttack(active: active, isWeapon: entity.isWeapon)
     }
     
+    /// since patch 32.0, weapons use HEALTH instead of DURABILITY
     private func calculateHealth(isWeapon: Bool) -> Int {
-        return isWeapon ? _durability - _damageTaken : _health + _armor - _damageTaken
+        return isWeapon ? _health - _damageTaken : _health + _armor - _damageTaken
     }
     
     private func calculateAttack(active: Bool, isWeapon: Bool) -> Int {

@@ -22,6 +22,7 @@
   *We will continuing adding more highlights in the coming updates.*
 - Made the new Fatigue counter appear more appropriately for the opponent.
 - Changed when Player's Protoss minions discount counter is shown, now it won't appear if there is no minion to benefit from it.
+- Fixed board attack displaying negative values.
 
 # 3.2.0
 ## Hearthstone
