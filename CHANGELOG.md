@@ -20,6 +20,7 @@
   Plucky Paintfin, Therazane, Thunderbringer, Tram Operator, Troubled Mechanic, Weapons Attendant.*\
 \
   *We will continuing adding more highlights in the coming updates.*
+- Made the new Fatigue counter appear more appropriately for the opponent.
 
 # 3.2.0
 ## Hearthstone

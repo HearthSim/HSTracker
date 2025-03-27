@@ -8,6 +8,7 @@
 
 import Foundation
 
+//swiftlint:disable inclusive_language
 class GameMasterNemsy: ICardWithHighlight {
     required init() {}
     
@@ -19,3 +20,4 @@ class GameMasterNemsy: ICardWithHighlight {
         return HighlightColorHelper.getHighlightColor(card.isDemon())
     }
 }
+//swiftlint:enable inclusive_language

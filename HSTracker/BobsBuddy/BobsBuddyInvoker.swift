@@ -909,8 +909,6 @@ class BobsBuddyInvoker {
             MonoHelper.addToList(list: playerObjectives, element: BobsBuddyInvoker.getObjectiveFromEntity(factory: simulator.objectiveFactory, player: friendly, entity: objective))
         }
         
-        let minionFactory = simulator.minionFactory
-
         let playerSide = BobsBuddyInvoker.getOrderedMinions(board: gamePlayer.board).filter { e in e.isControlled(by: gamePlayer.id) }.map { e in BobsBuddyInvoker.getMinionFromEntity(sim: simulator, player: friendly, ent: e, attachedEntities: getAttachedEntities(entityId: e.id))}
         let inputPlayerSide = inputPlayer.side
         for m in playerSide {

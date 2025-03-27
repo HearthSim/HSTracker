@@ -8,6 +8,7 @@
 
 import Foundation
 
+//swiftlint:disable inclusive_language
 class MastersCall: ICardWithHighlight {
     required init() {}
     
@@ -25,4 +26,5 @@ class MastersCallCore: MastersCall {
         return CardIds.Collectible.Hunter.MastersCallCore
     }
 }
+//swiftlint:enable inclusive_language
 

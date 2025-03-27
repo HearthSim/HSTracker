@@ -1137,7 +1137,7 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Druid.MoonfireCorePlaceholder)
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Druid.Starfire)
                         case CardIds.Collectible.Mage.SpiritGatherer:
-                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Mage.WispTokenEMERALD_DREAM);
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Mage.WispTokenEMERALD_DREAM)
                         default:
                             if let card = Cards.any(byId: actionStartingCardId) {
                                 if (player != nil && player![.current_player] == 1

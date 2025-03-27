@@ -30,7 +30,6 @@ class TyrsTears: ICardWithRelatedCards {
     }
 }
 
-
 class TyrsTearsForged: ICardWithRelatedCards {
     
     func getCardId() -> String {

@@ -491,7 +491,7 @@ struct TagChangeActions {
 
             let excludedPieces = [
                 CardIds.NonCollectible.Neutral.LaunchStarship,
-                CardIds.NonCollectible.Neutral.AbortLaunch,
+                CardIds.NonCollectible.Neutral.AbortLaunch
             ]
 
             let starshipPieces = starshipToken.info.storedCardIds.filter { cardId in !excludedPieces.contains(cardId) }
