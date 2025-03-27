@@ -27,6 +27,14 @@ class FatigueCounter: NumericCounter {
             CardIds.NonCollectible.Warlock.CurseofAgony_AgonyToken
         ]
     }
+    
+    /**
+     * If these cards are in the *friendly* deck they should show the *opponent's* counter.
+     */
+    public var relatedCardsForOpponent = [
+        CardIds.Collectible.Warlock.EncroachingInsanity,
+        CardIds.Collectible.Warlock.CurseOfAgony
+    ]
 
     required init(controlledByPlayer: Bool, game: Game) {
         super.init(controlledByPlayer: controlledByPlayer, game: game)
@@ -38,11 +46,11 @@ class FatigueCounter: NumericCounter {
         if isPlayerCounter {
             return counter > 0 || inPlayerDeckOrKnown(cardIds: relatedCards)
         }
-        return counter > 0
+        return counter > 0 || inPlayerDeckOrKnown(cardIds: relatedCardsForOpponent)
     }
 
     override func getCardsToDisplay() -> [String] {
-        return isPlayerCounter ? getCardsInDeckOrKnown(cardIds: relatedCards) : filterCardsByClassAndFormat(cardIds: relatedCards, playerClass: game.opponent.originalClass)
+        return isPlayerCounter ? getCardsInDeckOrKnown(cardIds: relatedCards) : getCardsInDeckOrKnown(cardIds: relatedCardsForOpponent) +  filterCardsByClassAndFormat(cardIds: relatedCards, playerClass: game.opponent.originalClass)
     }
 
     override func valueToShow() -> String {
