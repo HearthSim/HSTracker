@@ -341,6 +341,8 @@ final class Settings {
     static var showPlayerCounters: Bool
     @UserDefault(key: Settings.player_related_cards, defaultValue: true)
     static var showPlayerRelatedCards
+    @UserDefault(key: Settings.player_highlight_synergies, defaultValue: true)
+    static var showPlayerHighlightSynergies
     @UserDefault(key: Settings.opponent_pogo_counter, defaultValue: true)
     static var showOpponentPogoCounter: Bool
     @UserDefault(key: Settings.opponent_excavate_counter, defaultValue: true)
@@ -657,6 +659,7 @@ extension Settings {
     static let player_wotog_counters = "player_wotog_counters"
     static let player_counters = "player_counters"
     static let player_related_cards = "player_related_cards"
+    static let player_highlight_synergies = "player_highlight_synergies"
     static let opponent_galakrond_invoke_frame = "opponent_galakrond_invoke_frame"
     static let opponent_cthun_frame = "opponent_cthun_frame"
     static let opponent_yogg_frame = "opponent_yogg_frame"

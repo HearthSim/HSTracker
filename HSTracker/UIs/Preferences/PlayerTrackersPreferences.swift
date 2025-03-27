@@ -44,6 +44,7 @@ class PlayerTrackersPreferences: NSViewController, PreferencePane {
     @IBOutlet var showWotogCounters: NSButton!
     @IBOutlet var showCounters: NSButton!
     @IBOutlet var showPlayerRelatedCards: NSButton!
+    @IBOutlet var showPlayerHighlightSynergies: NSButton!
 
     override func viewWillAppear() {
         super.viewWillAppear()
@@ -81,6 +82,7 @@ class PlayerTrackersPreferences: NSViewController, PreferencePane {
         showWotogCounters.state = Settings.showPlayerWotogCounters ? .on : .off
         showCounters.state = Settings.showPlayerCounters ? .on : .off
         showPlayerRelatedCards.state = Settings.showPlayerRelatedCards ? .on : .off
+        showPlayerHighlightSynergies.state = Settings.showPlayerHighlightSynergies ? .on : .off
         updateEnablement()
     }
     
@@ -151,6 +153,8 @@ class PlayerTrackersPreferences: NSViewController, PreferencePane {
             Settings.showPlayerCounters = showCounters.state == .on
         } else if sender == showPlayerRelatedCards {
             Settings.showPlayerRelatedCards = showPlayerRelatedCards.state == .on
+        } else if sender == showPlayerHighlightSynergies {
+            Settings.showPlayerHighlightSynergies = showPlayerHighlightSynergies.state == .on
         }
     }
     

@@ -154,6 +154,12 @@ extension CardIds.Collectible {
         static let UnyieldingVindicator = "GDB_232"
         static let InventorBoom = "TOY_607"
         static let YamatoCannon = "SC_406"
+        static let BlackrockNRoll = "ETC_417"
+        static let ChorusRiff = "ETC_364"
+        static let QualityAssurance = "TOY_605"
+        static let SteamGuardian = "TTN_468"
+        static let TownCrier = "GIL_580"
+        static let TownCrierCore = "CORE_GIL_580"
     }
 }
 

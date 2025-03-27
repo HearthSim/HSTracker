@@ -184,6 +184,17 @@ extension CardIds.Collectible {
         static let JewelOfNzoth = "DMF_084"
         static let ChattyMacaw = "VAC_407"
         static let AlienEncounters = "GDB_237"
+        static let Banjosaur = "ETC_840"
+        static let BarakKodobane = "BAR_551"
+        static let BarakKodobaneCore = "CORE_BAR_551"
+        static let Birdwatching = "VAC_408"
+        static let Fetch = "TOY_352"
+        static let MastersCall = "TRL_339"
+        static let MastersCallCore = "CORE_TRL_339"
+        static let MessengerBuzzard = "WW_807"
+        static let MysteryEgg = "TOY_351"
+        static let TenGallonHat = "WW_811"
+        static let TrustyFishingRod = "VAC_960"
     }
 }
 
@@ -260,6 +271,7 @@ extension CardIds.NonCollectible {
         static let HodirFatherofGiants_GiantizeEnchantment = "TTN_752e"
         static let ThornmantleMusician_ThornmantlesMuseEnchantment1 = "ETC_831e"
         static let ArkoniteDefenseCrystal_TheAstralCompassToken = "GDB_100t7"
+        static let MysteryEgg_MysteryEggToken = "TOY_351t"
     }
 }
 

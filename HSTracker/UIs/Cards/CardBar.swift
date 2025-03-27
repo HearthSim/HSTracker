@@ -170,7 +170,10 @@ class CardBar: NSView, CardBarTheme {
             .legendaryIcon: ThemeElementInfo(filename: "icon_legendary.png", rect: boxRect),
             .flashFrame: ThemeElementInfo(filename: "frame_mask.png", rect: frameRect),
             .defaultKeepRateBox: ThemeElementInfo(filename: "keeprate_box.png", rect: mulliganWinrateBoxRect),
-            .defaultKeepRateActiveBox: ThemeElementInfo(filename: "keeprate_active_box.png", rect: mulliganWinrateBoxRect)
+            .defaultKeepRateActiveBox: ThemeElementInfo(filename: "keeprate_active_box.png", rect: mulliganWinrateBoxRect),
+            .highlightTeal: ThemeElementInfo(filename: "highlight_teal.png", rect: frameRect),
+            .highlightOrange: ThemeElementInfo(filename: "highlight_orange.png", rect: frameRect),
+            .highlightGreen: ThemeElementInfo(filename: "highlight_green.png", rect: frameRect)
         ]
     }
     var optionalFrame: [ThemeElement: ThemeElementInfo] {
@@ -340,6 +343,9 @@ class CardBar: NSView, CardBarTheme {
             addGem()
             addCost()
         }
+        if let highlightColor = card?.highlightColor {
+            addHighlightColor(highlightColor)
+        }
         addCardName()
         if let card = card, card.isBadAsMultiple {
             addBadAsMultipleIcon()
@@ -474,6 +480,21 @@ class CardBar: NSView, CardBarTheme {
     func addBadAsMultipleIcon(rect: NSRect) {
         if let badAsMultipleIcon = required[.badAsMultipleIcon] {
             add(themeElement: badAsMultipleIcon, rect: rect)
+        }
+    }
+    
+    func addHighlightColor(_ highlightColor: HighlightColor) {
+        if let themeElement = switch highlightColor {
+        case .green:
+            required[.highlightGreen]
+        case .teal:
+            required[.highlightTeal]
+        case .orange:
+            required[.highlightOrange]
+        default:
+            nil
+        } {
+            add(themeElement: themeElement, rect: frameRect)
         }
     }
     

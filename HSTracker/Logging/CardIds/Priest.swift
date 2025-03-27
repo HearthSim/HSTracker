@@ -165,6 +165,12 @@ extension CardIds.Collectible {
         static let TramHeist = "WW_053"
         static let Mothership = "SC_762"
         static let Sentry = "SC_764"
+        static let PendantOfEarth = "DEEP_026"
+        static let BenevolentBanker = "WW_384"
+        static let ChalkArtist = "TOY_388"
+        static let CreationProtocol = "TTN_430"
+        static let ScaleReplica = "TOY_387"
+        static let ThriveInTheShadowsCore = "CS3_028"
     }
 }
 

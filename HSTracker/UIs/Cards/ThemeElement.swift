@@ -31,5 +31,8 @@ enum ThemeElement {
     fadeOverlay,
     flashFrame,
     defaultKeepRateBox,
-    defaultKeepRateActiveBox
+    defaultKeepRateActiveBox,
+    highlightTeal,
+    highlightOrange,
+    highlightGreen
 }

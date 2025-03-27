@@ -42,6 +42,12 @@ extension CardIds.Collectible {
         static let ArguniteGolem = "TTN_844"
         static let Mindbender = "YOG_402"
         static let AllFelBreaksLoose = "MAW_012"
+        static let BartendOBot = "WW_408"
+        static let BlindeyeSharpshooter = "WW_402"
+        static let CliffDive = "VAC_926"
+        static let GuitarSoloist = "ETC_026"
+        static let RushTheStage = "ETC_200"
+        static let UmpiresGrasp = "TOY_641"
     }
 }
 

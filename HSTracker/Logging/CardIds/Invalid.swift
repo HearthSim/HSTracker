@@ -37,6 +37,8 @@ extension CardIds.Collectible {
         static let Starport = "SC_403"
         static let Artanis = "SC_754"
         static let WarpGate = "SC_751"
+        static let ChronoBoost = "SC_750"
+        static let NydusWorm = "SC_015"
     }
 }
 

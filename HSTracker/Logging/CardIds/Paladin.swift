@@ -177,6 +177,13 @@ extension CardIds.Collectible {
         static let TyrsTears_TyrsTearsToken = "TTN_855t"
         static let YrelBeaconOfHope = "GDB_141"
         static let UltraCapacitor = "SC_405"
+        static let AlarmedSecuritybot = "YOG_510"
+        static let BoogieDown = "ETC_318"
+        static let CardboardGolem = "TOY_809"
+        static let HiHoSilverwing = "WW_344"
+        static let InterstellarResearcher = "GDB_728"
+        static let PipsiPainthoof = "TOY_812"
+        static let TrinketArtist = "TOY_882"
     }
 }
 

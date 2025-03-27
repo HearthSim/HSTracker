@@ -47,6 +47,8 @@ extension CardIds.Collectible {
         static let Boneshredder = "ETC_428"
         static let Infestor = "SC_002"
         static let ReskaThePitBoss = "WW_373"
+        static let HarbingerOfWinterCore = "RLK_511"
+        static let NorthernNavigation = "TTN_735"
     }
 }
 
@@ -63,6 +65,7 @@ extension CardIds.NonCollectible {
         static let KoboldMiner_TheAzeriteRatToken = "WW_001t26"
         static let ArkoniteDefenseCrystal_TheSpiritsPassageToken = "GDB_100t4"
         static let Infestor_ForTheSwarmEnchantment1 = "SC_002e"
+        static let HarbingerOfWinterCore = "RLK_Prologue_RLK_511"
     }
 }
 

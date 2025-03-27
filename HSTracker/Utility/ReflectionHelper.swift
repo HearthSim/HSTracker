@@ -13,6 +13,7 @@ class ReflectionHelper {
     private static var cacheActiveEffectClassList = [EntityBasedEffect.Type]()
     private static var cacheCounterClassList = [BaseCounter.Type]()
     private static var cacheRelatedClassList = [ICardWithRelatedCards.Type]()
+    private static var cacheHighlightClassList = [ICardWithHighlight.Type]()
 
     static func initialize() {
         var count: UInt32 = 0
@@ -40,6 +41,8 @@ class ReflectionHelper {
                 cacheCounterClassList.append(dccl)
             } else if let rccl = cl as? ICardWithRelatedCards.Type, rccl != ResurrectionCard.self {
                 cacheRelatedClassList.append(rccl)
+            } else if let hccl = cl as? ICardWithHighlight.Type {
+                cacheHighlightClassList.append(hccl)
             }
         }
     }
@@ -58,5 +61,9 @@ class ReflectionHelper {
     
     static func getRelatedClases() -> [ICardWithRelatedCards.Type] {
         return cacheRelatedClassList
+    }
+    
+    static func getHighlightClasses() -> [ICardWithHighlight.Type] {
+        return cacheHighlightClassList
     }
 }

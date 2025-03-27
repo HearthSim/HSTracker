@@ -60,6 +60,8 @@ final class Card {
     var baconTripleUpgradeMinionId = 0
     var baconCard = false
     var faction: GameTag?
+    var spellSchool: SpellSchool = .none
+    var highlightColor = HighlightColor.none
     
     func hasRace(_ race: Race) -> Bool {
         if races.count == 0 {
@@ -94,6 +96,14 @@ final class Card {
     
     func isMurloc() -> Bool {
         return hasRace(.murloc)
+    }
+    
+    func isNaga() -> Bool {
+        return hasRace(.naga)
+    }
+    
+    func isPirate() -> Bool {
+        return hasRace(.pirate)
     }
     
     func isUndead() -> Bool {
@@ -351,6 +361,7 @@ extension Card: NSCopying {
         copy.multipleClasses = self.multipleClasses
         copy.baconTripleUpgradeMinionId = self.baconTripleUpgradeMinionId
         copy.faction = self.faction
+        copy.spellSchool = self.spellSchool
 
         return copy
     }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class LiftOff: ICardWithRelatedCards {
+class LiftOff: ICardWithRelatedCards, ICardWithHighlight {
     private let starshipPieces: [Card?] = [
         Cards.any(byId: CardIds.NonCollectible.Invalid.Starport_Viking),
         Cards.any(byId: CardIds.NonCollectible.Invalid.Starport_Liberator),
@@ -31,5 +31,9 @@ class LiftOff: ICardWithRelatedCards {
 
     func getRelatedCards(player: Player) -> [Card?] {
         return starshipPieces
+    }
+    
+    func shouldHighlight(card: Card) -> HighlightColor {
+        return HighlightColorHelper.getHighlightColor(card.faction == .terran)
     }
 }

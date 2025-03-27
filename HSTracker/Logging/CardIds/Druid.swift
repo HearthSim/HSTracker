@@ -166,6 +166,16 @@ extension CardIds.Collectible {
         static let UnendingSwarm = "RLK_652"
         static let ConstructPylons = "SC_755"
         static let MoonfireCorePlaceholder = "Core_CS2_008"
+        static let ArkoniteRevelation = "GDB_852"
+        static let ChiaDrake = "TOY_801"
+        static let EmbraceOfNature = "TTN_951"
+        static let OakenSummons = "LOOT_309"
+        static let OakenSummonsCore = "CORE_LOOT_309"
+        static let PeacefulPiper = "ETC_375"
+        static let SummerFlowerchild = "ETC_376"
+        static let TakeToTheSkies = "WW_816"
+        static let TortollanTraveler = "VAC_518"
+        static let UngoroBrochure = "WORK_050"
     }
 }
 
@@ -316,6 +326,8 @@ extension CardIds.NonCollectible {
         static let MistahVistah_ScenicVistaToken = "VAC_519t3"
         static let ArkoniteDefenseCrystal_TheCelestialArchiveToken = "GDB_100t6"
         static let ConstructPylons_PsionicMatrixEnchantment = "SC_755e2"
+        static let ChiaDrake_ChiaDrakeToken = "TOY_801t"
+        static let UnGoroBrochure_DalaranBrochureToken = "WORK_050t"
     }
 }
 

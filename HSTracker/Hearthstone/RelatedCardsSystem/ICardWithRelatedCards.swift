@@ -8,10 +8,8 @@
 
 import Foundation
 
-protocol ICardWithRelatedCards {
+protocol ICardWithRelatedCards: ICard {
     init()
-    func getCardId() -> String
     func shouldShowForOpponent(opponent: Player) -> Bool
     func getRelatedCards(player: Player) -> [Card?]
-
 }

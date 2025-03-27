@@ -430,6 +430,7 @@ enum GameTag: Int, CaseIterable, Codable {
     zilliax_customizable_functionalmodule = 3377,
     bacon_combat_damage_cap_enabled = 3403,
     bacon_trinket = 3407,
+    paladin_aura = 3429,
     gametag_3533 = 3533,
     gametag_3559 = 3559,
     bacon_is_magic_item_discover = 3565,

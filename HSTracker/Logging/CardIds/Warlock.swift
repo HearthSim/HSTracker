@@ -173,6 +173,11 @@ extension CardIds.Collectible {
         static let HabeasCorpses = "MAW_002"
         static let InfantryReanimator = "RLK_531"
         static let TamsinsPhylactery = "AV_317"
+        static let CraneGame = "TOY_884"
+        static let DirgeOfDespair = "ETC_082"
+        static let GameMasterNemsy = "TOY_524"
+        static let LokenJailerOfYoggSaron = "TTN_487"
+        static let SketchArtist = "TOY_916"
     }
 }
 
@@ -247,6 +252,8 @@ extension CardIds.NonCollectible {
         static let ForebodingFlame_BurningLegionsBoonEnchantment = "GDB_121e"
         static let InfernalStratagem_StrategicInfernoEnchantment = "GDB_122e2"
         static let ArkoniteDefenseCrystal_TheNethersEyeToken = "GDB_100t9"
+        static let SymphonyofSins_MovementOfGluttonyToken = "ETC_085t4"
+        static let SymphonyofSins_MovementOfPrideToken = "ETC_085t2"
     }
 }
 

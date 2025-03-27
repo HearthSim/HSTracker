@@ -39,7 +39,10 @@ class Database: NSObject, XMLParserDelegate {
         GameTag.dormant.rawValue: "DORMANT",
         GameTag.discover.rawValue: "DISCOVER",
         GameTag.recruit.rawValue: "RECRUIT",
-        GameTag.venomous.rawValue: "VENOMOUS"
+        GameTag.venomous.rawValue: "VENOMOUS",
+        GameTag.choose_one.rawValue: "CHOOSE_ONE",
+        GameTag.protoss.rawValue: "PROTOSS",
+        GameTag.paladin_aura.rawValue: "PALADIN_AURA"
     ]
     
     static let currentSeason: Int = {
@@ -149,7 +152,7 @@ class Database: NSObject, XMLParserDelegate {
                     }
                 case GameTag.is_bacon_pool_spell.rawValue:
                     currentCard?.isBaconPoolSpell = intValue != 0
-                case GameTag.windfury.rawValue, GameTag.taunt.rawValue, GameTag.stealth.rawValue, GameTag.spellpower.rawValue, GameTag.divine_shield.rawValue, GameTag.charge.rawValue, GameTag.freeze.rawValue, GameTag.enraged.rawValue, GameTag.deathrattle.rawValue, GameTag.battlecry.rawValue, GameTag.secret.rawValue, GameTag.combo.rawValue, GameTag.silence.rawValue, GameTag.immunetospellpower.rawValue, GameTag.poisonous.rawValue, GameTag.lifesteal.rawValue, GameTag.outcast.rawValue, GameTag.rush.rawValue, GameTag.overkill.rawValue, GameTag.trigger_visual.rawValue, GameTag.honorable_kill.rawValue, GameTag.immune.rawValue, GameTag.dormant.rawValue, GameTag.discover.rawValue, GameTag.venomous.rawValue:
+                case GameTag.windfury.rawValue, GameTag.taunt.rawValue, GameTag.stealth.rawValue, GameTag.spellpower.rawValue, GameTag.divine_shield.rawValue, GameTag.charge.rawValue, GameTag.freeze.rawValue, GameTag.enraged.rawValue, GameTag.deathrattle.rawValue, GameTag.battlecry.rawValue, GameTag.secret.rawValue, GameTag.combo.rawValue, GameTag.silence.rawValue, GameTag.immunetospellpower.rawValue, GameTag.poisonous.rawValue, GameTag.lifesteal.rawValue, GameTag.outcast.rawValue, GameTag.rush.rawValue, GameTag.overkill.rawValue, GameTag.trigger_visual.rawValue, GameTag.honorable_kill.rawValue, GameTag.immune.rawValue, GameTag.dormant.rawValue, GameTag.discover.rawValue, GameTag.venomous.rawValue, GameTag.choose_one.rawValue, GameTag.paladin_aura.rawValue:
                     if let mechanic = Database.mechanics[id] {
                         currentCard?.mechanics.append(mechanic)
                     }
@@ -161,6 +164,8 @@ class Database: NSObject, XMLParserDelegate {
                     if intValue > 0 {
                         currentCard?.faction = GameTag(rawValue: id)
                     }
+                case GameTag.spell_school.rawValue:
+                    currentCard?.spellSchool = SpellSchool(rawValue: intValue) ?? .none
                 default:
                     break
                 }

@@ -198,6 +198,13 @@ extension CardIds.Collectible {
         static let EverythingMustGo = "TOY_519"
         static let CounterfeitBlade = "SW_310"
         static let Mixtape = "ETC_074"
+        static let Blink = "SC_761"
+        static let ElvenMinstrel = "LOOT_211"
+        static let ElvenMinstrelCore = "CORE_LOOT_211"
+        static let PitStop = "TTN_728"
+        static let RaidingParty = "TRL_124"
+        static let RaidingPartyCore = "CORE_TRL_124"
+        
     }
 }
 

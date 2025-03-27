@@ -685,6 +685,19 @@ extension CardIds.Collectible {
         static let StarlightWhelp = "TTN_718"
         static let Meadowstrider = "EDR_978"
         static let Shaladrassil = "EDR_846"
+        static let CaricatureArtist = "TOY_391"
+        static let CattleRustler = "WW_351"
+        static let ColiferoTheArtist = "TOY_703"
+        static let EtherealOracle = "GDB_310"
+        static let InstrumentTech = "ETC_418"
+        static let MagathaBaneOfMusic = "JAM_036"
+        static let MalygosTheSpellweaverCore = "CS3_034"
+        static let PluckyPaintfin = "TOY_517"
+        static let Therazane = "DEEP_036"
+        static let Thunderbringer = "WW_440"
+        static let TramOperator = "TTN_723"
+        static let TroubledMechanic = "GDB_463"
+        static let WeaponsAttendant = "VAC_924"
     }
 }
 

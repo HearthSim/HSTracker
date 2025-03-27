@@ -28,3 +28,9 @@ class TessGreymane: ICardWithRelatedCards {
     required init() {
     }
 }
+
+class TessGreymaneCore: TessGreymane {
+    override func getCardId() -> String {
+        return CardIds.Collectible.Rogue.TessGreymaneCore
+    }
+}

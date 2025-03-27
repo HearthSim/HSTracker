@@ -544,8 +544,22 @@ class Tracker: OverWindowController, CardCellHover {
             game.windowManager.show(controller: tooltipGridCards, show: false)
         }
     }
+    
+    func highlightPlayerDeckCards(highlightSourceCardId: String?) {
+        guard let highlightSourceCardId, !highlightSourceCardId.isEmpty, Settings.showPlayerHighlightSynergies else {
+            cardsView?.shouldHighlightCard = nil
+            return
+        }
+        
+        let game = AppDelegate.instance().coreManager.game
+        let highlightSourceCard = game.relatedCardsManager.getCardWithHighlight(highlightSourceCardId)
+        cardsView?.shouldHighlightCard = highlightSourceCard?.shouldHighlight
+    }
         
     func hover(cell: CardBar, card: Card) {
+        if playerType == .player {
+            highlightPlayerDeckCards(highlightSourceCardId: card.id)
+        }
         delayedTooltip?.cancel()
         delayedTooltip = DelayedTooltip(handler: tooltipDisplay, 0.400, ["cell": cell, "card": card])
     }
@@ -603,6 +617,9 @@ class Tracker: OverWindowController, CardCellHover {
     }
 
     func out(card: Card) {
+        if playerType == .player {
+            highlightPlayerDeckCards(highlightSourceCardId: nil)
+        }
         delayedTooltip?.cancel()
         delayedTooltip = nil
         let userinfo = [

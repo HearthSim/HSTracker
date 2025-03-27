@@ -3936,7 +3936,7 @@ class Game: NSObject, PowerEventHandler {
     }
     
     func getRelatedCards(player: Player, cardId: String, inHand: Bool = false, handPosition: Int? = nil) -> [Card?] {
-        var relatedCards = relatedCardsManager.getCardWithRelatedCards(cardId).getRelatedCards(player: player)
+        var relatedCards = relatedCardsManager.getCardWithRelatedCards(cardId)?.getRelatedCards(player: player) ?? [Card?]()
         // Get related cards from Entity
         if relatedCards.count == 0 {
             var entities = [Entity]()
@@ -4078,6 +4078,9 @@ class Game: NSObject, PowerEventHandler {
     func onBigCardChange(_ state: BigCardArgs) {
         hoveredCard = state
         DispatchQueue.main.async {
+            if self.isTraditionalHearthstoneMatch {
+                self.windowManager.playerTracker.highlightPlayerDeckCards(highlightSourceCardId: self.hoveredCard?.cardId)
+            }
             self.updateTooltips()
         }
     }

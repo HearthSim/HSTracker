@@ -25,3 +25,18 @@ class AllFelBreaksLoose: ResurrectionCard {
         return false
     }
 }
+
+class AllFelBreaksLooseInfused: ResurrectionCard {
+    
+    override func getCardId() -> String {
+        return CardIds.NonCollectible.DemonHunter.AllFelBreaksLoose_AllFelBreaksLooseToken
+    }
+
+    override func filterCard(card: Card) -> Bool {
+        return card.isDemon()
+    }
+
+    override func resurrectsMultipleCards() -> Bool {
+        return true
+    }
+}

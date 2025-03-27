@@ -25,3 +25,9 @@ class CatrinaMuerte: ResurrectionCard {
         return false
     }
 }
+
+class CatrinaMuerteCore: CatrinaMuerte {
+    override func getCardId() -> String {
+        return CardIds.Collectible.Priest.CatrinaMuerteCore
+    }
+}

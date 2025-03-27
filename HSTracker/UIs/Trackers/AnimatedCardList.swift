@@ -28,6 +28,31 @@ class AnimatedCardList: NSView {
     
     var cardHeight: CGFloat?
     
+    private var _shouldHighlightCard: ((Card) -> HighlightColor)?
+    
+    var shouldHighlightCard: ((Card) -> HighlightColor)? {
+        get {
+            return _shouldHighlightCard
+        }
+        set {
+            _shouldHighlightCard = newValue
+            lock.around {
+                for animatedCard in animatedCards {
+                    guard let card = animatedCard.card else {
+                        continue
+                    }
+                    if card.count <= 0 || card.jousted {
+                        animatedCard.card?.highlightColor = .none
+                        animatedCard.needsDisplay = true
+                        continue
+                    }
+                    animatedCard.card?.highlightColor = newValue?(card) ?? .none
+                    animatedCard.needsDisplay = true
+                }
+            }
+        }
+    }
+    
     private func internalIntrinsicContentSize(_ count: Int) -> NSSize {
         let height = switch Settings.cardSize {
         case .tiny:
@@ -84,6 +109,7 @@ class AnimatedCardList: NSView {
             var toUpdate = [CardBar]()
             for c in animatedCards {
                 if let card = c.card, !cards.any({ self.areEqualForList($0, card) }) {
+                    card.highlightColor = shouldHighlightCard?(card) ?? .none
                     toUpdate.append(c)
                 }
             }
@@ -119,6 +145,7 @@ class AnimatedCardList: NSView {
                 }
                 newCard.card = card
                 newCard.isBattlegrounds = isBattlegrounds
+                newCard.card?.highlightColor = shouldHighlightCard?(card) ?? .none
                 if let index = cards.firstIndex(of: card), index <= animatedCards.count {
                     animatedCards.insert(newCard, at: index)
                 } else {

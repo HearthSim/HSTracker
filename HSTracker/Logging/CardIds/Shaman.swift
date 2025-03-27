@@ -156,6 +156,12 @@ extension CardIds.Collectible {
         static let PlanetaryNavigator = "GDB_444"
         static let Triangulate = "GDB_451"
         static let MissilePod = "SC_409"
+        static let CactusCutter = "WW_327"
+        static let Cosmonaut = "GDB_443"
+        static let FairyTaleForest = "TOY_507"
+        static let Flowrider = "ETC_359"
+        static let HagathaTheFabled = "TOY_504"
+        static let Turbulus = "WORK_013"
     }
 }
 

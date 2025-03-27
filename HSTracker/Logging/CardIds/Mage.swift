@@ -187,6 +187,14 @@ extension CardIds.Collectible {
         static let ShieldBattery = "SC_759"
         static let StellarBalance = "EDR_874"
         static let SpiritGatherer = "EDR_871"
+        static let CostumedSinger = "JAM_001"
+        static let ArcanologistCore = "CORE_UNG_020"
+        static let BlazingAccretion = "GDB_302"
+        static let MesaduneTheFractured = "WW_429"
+        static let Saruun = "GDB_304"
+        static let UnderTheSea = "VAC_431"
+        static let VolumeUp = "ETC_205"
+        static let WatercolorArtist = "TOY_376"
     }
 }
 

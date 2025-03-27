@@ -10,7 +10,7 @@ import Foundation
 
 class CrewmateGenerator {
     
-    private let crewmates: [Card?] = [
+    internal let crewmates: [Card?] = [
         Cards.by(cardId: CardIds.NonCollectible.DemonHunter.VoroneiRecruiter_AdminCrewmateToken),
         Cards.by(cardId: CardIds.NonCollectible.DemonHunter.VoroneiRecruiter_EngineCrewmateToken),
         Cards.by(cardId: CardIds.NonCollectible.DemonHunter.VoroneiRecruiter_HelmCrewmateToken),

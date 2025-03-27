@@ -26,3 +26,9 @@ class LadyLiadrin: ICardWithRelatedCards {
             .compactMap { CardUtils.getProcessedCardFromEntity($0, player) }
     }
 }
+
+class LadyLiadrinCore: LadyLiadrin {
+    override func getCardId() -> String {
+        return CardIds.Collectible.Paladin.LadyLiadrinCore
+    }
+}
