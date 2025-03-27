@@ -1138,10 +1138,6 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Druid.Starfire)
                         case CardIds.Collectible.Mage.SpiritGatherer:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Mage.WispTokenEMERALD_DREAM);
-                        case CardIds.Collectible.Neutral.Shaladrassil:
-                            if let actionStartingEntity {
-                                eventHandler.pendingShaladrassils.append(actionStartingEntityId)
-                            }
                         default:
                             if let card = Cards.any(byId: actionStartingCardId) {
                                 if (player != nil && player![.current_player] == 1
@@ -1216,27 +1212,6 @@ class PowerGameStateParser: LogEventParser {
                 }
             }
             blockEnd()
-        } else if SubSpellStartRegex.match(logLine.line) {
-            let match = SubSpellStartRegex.matches(logLine.line)
-            var spellPrefabGuid = match[0].value
-            if spellPrefabGuid.hasPrefix("EDRFX_Shaladrassil_PortalFX") {
-                if let parentBlockSourceId = currentBlock?.sourceEntityId, eventHandler.pendingShaladrassils.contains(parentBlockSourceId) {
-                    if spellPrefabGuid.hasPrefix("EDRFX_Shaladrassil_PortalFX_Corrupted") {
-                        addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.DreamCards.Shaladrassil_CorruptedNightmareToken)
-                        addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.DreamCards.Shaladrassil_CorruptedDreamToken)
-                        addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.DreamCards.Shaladrassil_CorruptedLaughingSisterToken)
-                        addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.DreamCards.Shaladrassil_CorruptedAwakeningToken)
-                        addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.DreamCards.Shaladrassil_CorruptedDrakeToken)
-                    } else {
-                        addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.DreamCards.Nightmare)
-                        addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.DreamCards.Dream)
-                        addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.DreamCards.LaughingSister)
-                        addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.DreamCards.YseraAwakens)
-                        addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.DreamCards.EmeraldDrake)
-                    }
-                    eventHandler.pendingShaladrassils.remove(parentBlockSourceId)
-                }
-            }
         }
 
         if eventHandler.isInMenu { return }

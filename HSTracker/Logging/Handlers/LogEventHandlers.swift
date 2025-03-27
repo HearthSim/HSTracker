@@ -269,6 +269,4 @@ protocol PowerEventHandler: AnyObject {
     func handleBattlegroundsHeroReroll(entity: Entity, oldCardId: String?)
     
     var starshipLaunchBlockIds: SynchronizedArray<Int?> { get }
-    
-    var pendingShaladrassils: SynchronizedArray<Int> { get }
 }
