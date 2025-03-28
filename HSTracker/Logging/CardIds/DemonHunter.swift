@@ -48,6 +48,14 @@ extension CardIds.Collectible {
         static let GuitarSoloist = "ETC_026"
         static let RushTheStage = "ETC_200"
         static let UmpiresGrasp = "TOY_641"
+        static let DreadsoulCorrupter = "EDR_841"
+        static let FerociousFelbat = "EDR_892"
+        static let GrimHarvest = "EDR_840"
+        static let RavenousFelhunter = "EDR_891"
+        static let Tuskpiercer = "BAR_330"
+        static let TuskpiercerCore = "CORE_BAR_330"
+        static let WyvernsSlumber = "EDR_820"
+        static let Omen = "EDR_421"
     }
 }
 
@@ -76,5 +84,8 @@ extension CardIds.NonCollectible {
         static let VoroneiRecruiter_AdminCrewmateToken = "GDB_471t8"
         static let ArkoniteDefenseCrystal_TheLegionsBaneToken = "GDB_100t5"
         static let AllFelBreaksLoose_AllFelBreaksLooseToken = "MAW_012t"
+        static let GrimHarvest_CrowDreadseedToken = "EDR_840t1"
+        static let GrimHarvest_HoundDreadseedToken = "EDR_840t"
+        static let GrimHarvest_SerpentDreadseedToken = "EDR_840t2"
     }
 }

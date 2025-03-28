@@ -195,6 +195,8 @@ extension CardIds.Collectible {
         static let UnderTheSea = "VAC_431"
         static let VolumeUp = "ETC_205"
         static let WatercolorArtist = "TOY_376"
+        static let Aessina = "EDR_430"
+        static let Starsurge = "EDR_941"
     }
 }
 

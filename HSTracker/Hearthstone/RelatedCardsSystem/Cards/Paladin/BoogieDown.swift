@@ -15,7 +15,7 @@ class BoogieDown: ICardWithHighlight {
         return CardIds.Collectible.Paladin.BoogieDown
     }
     
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(card.type == .minion && card.cost == 1)
     }
 }

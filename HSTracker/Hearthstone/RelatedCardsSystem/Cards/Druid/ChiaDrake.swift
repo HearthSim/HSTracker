@@ -17,7 +17,7 @@ class ChiaDrake: ICardWithHighlight {
         return CardIds.Collectible.Druid.ChiaDrake
     }
 
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(card.type == CardType.spell)
     }
 }

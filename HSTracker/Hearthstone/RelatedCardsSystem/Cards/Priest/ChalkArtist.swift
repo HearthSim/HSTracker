@@ -15,7 +15,7 @@ class ChalkArtist: ICardWithHighlight {
         return CardIds.Collectible.Priest.ChalkArtist
     }
     
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(card.type == .minion)
     }
 }

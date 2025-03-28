@@ -15,7 +15,7 @@ class WeaponsAttendant: ICardWithHighlight {
         return CardIds.Collectible.Neutral.WeaponsAttendant
     }
     
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(card.type == .weapon, card.isPirate())
     }
 }

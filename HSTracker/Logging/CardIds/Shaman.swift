@@ -162,6 +162,11 @@ extension CardIds.Collectible {
         static let Flowrider = "ETC_359"
         static let HagathaTheFabled = "TOY_504"
         static let Turbulus = "WORK_013"
+        static let GlowrootLure = "EDR_477"
+        static let Ohnahra = "EDR_031"
+        static let KragwaTheFrog = "TRL_345"
+        static let KragwaTheFrogCore = "CORE_TRL_345"
+        static let Merithra = "EDR_238"
     }
 }
 

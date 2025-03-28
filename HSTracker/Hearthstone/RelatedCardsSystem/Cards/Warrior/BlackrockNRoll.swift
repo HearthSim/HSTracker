@@ -15,7 +15,7 @@ class BlackrockNRoll: ICardWithHighlight {
         return CardIds.Collectible.Warrior.BlackrockNRoll
     }
     
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(card.type == .minion)
     }
 }

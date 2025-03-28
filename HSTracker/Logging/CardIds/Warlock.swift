@@ -178,6 +178,11 @@ extension CardIds.Collectible {
         static let GameMasterNemsy = "TOY_524"
         static let LokenJailerOfYoggSaron = "TTN_487"
         static let SketchArtist = "TOY_916"
+        static let Agamaggan = "EDR_489"
+        static let FracturedPower = "EDR_483"
+        static let RottenApple = "EDR_482"
+        static let ArchdruidOfThorns = "EDR_491"
+        static let RotheartDryad = "EDR_485"
     }
 }
 
@@ -254,6 +259,8 @@ extension CardIds.NonCollectible {
         static let ArkoniteDefenseCrystal_TheNethersEyeToken = "GDB_100t9"
         static let SymphonyofSins_MovementOfGluttonyToken = "ETC_085t4"
         static let SymphonyofSins_MovementOfPrideToken = "ETC_085t2"
+        static let FracturedPower_DelayedManaEnchantment = "EDR_483e"
+        static let RottenApple_FractureEnchantment = "EDR_482e"
     }
 }
 

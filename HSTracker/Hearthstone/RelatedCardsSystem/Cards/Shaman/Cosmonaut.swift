@@ -15,7 +15,7 @@ class Cosmonaut: ICardWithHighlight {
         return CardIds.Collectible.Shaman.Cosmonaut
     }
     
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(card.type == .spell)
     }
 }

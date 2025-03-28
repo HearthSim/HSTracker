@@ -11,7 +11,7 @@ class BarakKodobane: ICardWithHighlight {
         return CardIds.Collectible.Hunter.BarakKodobane
     }
 
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(
             (card.type == CardType.spell && card.cost == 1),
             (card.type == CardType.spell && card.cost == 2),

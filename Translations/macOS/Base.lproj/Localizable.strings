@@ -332,6 +332,8 @@
 "Counter_SelfDamage" = "Self Damage";
 "Counter_SummonedDragons" = "Summoned Dragons";
 "Counter_UndeadAttackBonus" = "Undead Attack Bonus";
+"Counter_FriendlyMinionsDiedThisGame" = "Friendly Minions That Died";
+"Counter_PlayedDragons" = "Played Dragons";
 
 /* Tier7 */
 "BattlegroundsOverlayMessage_Error" = "Something went wrong :(";

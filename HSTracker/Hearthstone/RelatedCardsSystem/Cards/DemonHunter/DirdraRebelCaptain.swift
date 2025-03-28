@@ -18,7 +18,7 @@ class DirdraRebelCaptain: CrewmateGenerator, ICardWithRelatedCards, ICardWithHig
         return false
     }
     
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         HighlightColorHelper.getHighlightColor(crewmates.any({ c in c?.id == card.id }))
     }
 

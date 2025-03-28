@@ -184,6 +184,14 @@ extension CardIds.Collectible {
         static let InterstellarResearcher = "GDB_728"
         static let PipsiPainthoof = "TOY_812"
         static let TrinketArtist = "TOY_882"
+        static let Anachronos = "RLK_919"
+        static let Ursol = "EDR_259"
+        static let DragonscaleArmaments = "EDR_251"
+        static let Dreamwarden = "EDR_256"
+        static let Grillmaster = "VAC_917"
+        static let RedscaleDragontamer = "DMF_194"
+        static let RedscaleDragontamerCore = "CORE_DMF_194"
+        static let UrsineMaul = "EDR_253"
     }
 }
 
@@ -267,6 +275,7 @@ extension CardIds.NonCollectible {
         static let InterstellarStarslicer_InterstellarLibramEnchantmentEnchantment = "GDB_726e"
         static let TyrsTears = "TTN_855"
         static let LibramofDivinity_LibramOfDivinityEnchantment = "GDB_138e2"
+        static let Anachronos_TimeTravelEnchantment = "RLK_919e"
     }
 }
 

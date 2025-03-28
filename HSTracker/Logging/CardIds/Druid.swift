@@ -176,6 +176,11 @@ extension CardIds.Collectible {
         static let TakeToTheSkies = "WW_816"
         static let TortollanTraveler = "VAC_518"
         static let UngoroBrochure = "WORK_050"
+        static let DreamboundDisciple = "EDR_847"
+        static let FandralStaghelmCore = "CORE_OG_044"
+        static let GroveShaper = "EDR_271"
+        static let Reforestation = "EDR_843"
+        static let ForestLordCenarius = "EDR_209"
     }
 }
 
@@ -328,6 +333,8 @@ extension CardIds.NonCollectible {
         static let ConstructPylons_PsionicMatrixEnchantment = "SC_755e2"
         static let ChiaDrake_ChiaDrakeToken = "TOY_801t"
         static let UnGoroBrochure_DalaranBrochureToken = "WORK_050t"
+        static let DreamboundDisciple_DreamboundEnchantment = "EDR_847e"
+        static let Reforestation_ReforestationToken = "EDR_843t1"
     }
 }
 

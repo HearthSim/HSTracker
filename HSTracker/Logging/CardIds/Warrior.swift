@@ -160,6 +160,9 @@ extension CardIds.Collectible {
         static let SteamGuardian = "TTN_468"
         static let TownCrier = "GIL_580"
         static let TownCrierCore = "CORE_GIL_580"
+        static let Ysondre = "EDR_465"
+        static let Tortolla = "EDR_471"
+        static let SuccumbToMadness = "EDR_455"
     }
 }
 

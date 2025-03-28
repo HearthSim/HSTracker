@@ -49,6 +49,12 @@ extension CardIds.Collectible {
         static let ReskaThePitBoss = "WW_373"
         static let HarbingerOfWinterCore = "RLK_511"
         static let NorthernNavigation = "TTN_735"
+        static let FalricCore = "CORE_EDR_003"
+        static let HideousHusk = "EDR_810"
+        static let InfestedBreath = "EDR_814"
+        static let Nythendra = "EDR_818"
+        static let SanguineInfestation = "EDR_817"
+        static let Ursoc = "EDR_819"
     }
 }
 
@@ -66,6 +72,8 @@ extension CardIds.NonCollectible {
         static let ArkoniteDefenseCrystal_TheSpiritsPassageToken = "GDB_100t4"
         static let Infestor_ForTheSwarmEnchantment1 = "SC_002e"
         static let HarbingerOfWinterCore = "RLK_Prologue_RLK_511"
+        static let HideousHusk_BloatedLeechToken = "EDR_810t"
+        static let Nythendra_NythendricBeetleToken = "EDR_818t"
     }
 }
 

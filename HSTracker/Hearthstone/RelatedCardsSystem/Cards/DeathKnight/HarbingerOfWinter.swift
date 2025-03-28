@@ -17,7 +17,7 @@ class HarbingerOfWinter: ICardWithHighlight {
         return CardIds.Collectible.Deathknight.HarbingerOfWinterCore
     }
 
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         let isFrostSpell = card.spellSchool == SpellSchool.frost
         return HighlightColorHelper.getHighlightColor(isFrostSpell)
     }

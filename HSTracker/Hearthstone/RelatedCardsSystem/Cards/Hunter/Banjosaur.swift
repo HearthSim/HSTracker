@@ -11,7 +11,7 @@ class Banjosaur: ICardWithHighlight {
         return CardIds.Collectible.Hunter.Banjosaur
     }
 
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(card.isBeast())
     }
 

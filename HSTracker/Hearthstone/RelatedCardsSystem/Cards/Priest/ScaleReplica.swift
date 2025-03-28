@@ -8,15 +8,22 @@
 
 import Foundation
 
-class ScaleReplica: ICardWithHighlight {
-    required init() {}
+public class ScaleReplica: ICardWithHighlight {
     
-    func getCardId() -> String {
+    public required init() { }
+    
+    public func getCardId() -> String {
         return CardIds.Collectible.Priest.ScaleReplica
     }
     
-    // TODO: Use deck state to get highest and lowest cost
-    func shouldHighlight(card: Card) -> HighlightColor {
-        return HighlightColorHelper.getHighlightColor(card.isDragon())
+    // TODO: use deck state to get highest and lowest cost
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
+        let dragons = deck.filter { $0.isDragon() }
+        let lowestCost = dragons.min { $0.cost < $1.cost }?.cost ?? 0
+        let highestCost = dragons.max { $0.cost < $1.cost }?.cost ?? 0
+        return HighlightColorHelper.getHighlightColor(
+            card.isDragon() && card.cost == highestCost,
+            card.isDragon() && card.cost == lowestCost
+        )
     }
 }

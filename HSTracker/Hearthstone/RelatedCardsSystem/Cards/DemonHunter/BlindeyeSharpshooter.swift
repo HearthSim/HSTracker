@@ -17,7 +17,7 @@ class BlindeyeSharpshooter: ICardWithHighlight {
         return CardIds.Collectible.DemonHunter.BlindeyeSharpshooter
     }
 
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         let isNaga = card.isNaga()
         let isSpell = card.type == CardType.spell
         return HighlightColorHelper.getHighlightColor(isNaga, isSpell)

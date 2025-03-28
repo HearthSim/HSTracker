@@ -17,7 +17,7 @@ class SummerFlowerchild: ICardWithHighlight {
         return CardIds.Collectible.Druid.SummerFlowerchild
     }
 
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(card.cost >= 6)
     }
 }

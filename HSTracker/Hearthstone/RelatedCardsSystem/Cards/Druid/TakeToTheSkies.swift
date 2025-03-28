@@ -17,7 +17,7 @@ class TakeToTheSkies: ICardWithHighlight {
         return CardIds.Collectible.Druid.TakeToTheSkies
     }
 
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(card.isDragon())
     }
 }

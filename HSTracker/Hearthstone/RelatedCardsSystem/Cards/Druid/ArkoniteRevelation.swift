@@ -17,7 +17,7 @@ class ArkoniteRevelation: ICardWithHighlight {
         return CardIds.Collectible.Druid.ArkoniteRevelation
     }
 
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(card.type == CardType.spell)
     }
 }

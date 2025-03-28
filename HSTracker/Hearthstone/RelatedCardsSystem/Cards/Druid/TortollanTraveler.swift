@@ -17,7 +17,7 @@ class TortollanTraveler: ICardWithHighlight {
         return CardIds.Collectible.Druid.TortollanTraveler
     }
 
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(card.hasTaunt() && card.id != getCardId())
     }
 }

@@ -11,7 +11,7 @@ class UngoroBrochure: ICardWithHighlight {
         return CardIds.Collectible.Druid.UngoroBrochure
     }
 
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(card.type == CardType.minion)
     }
 
@@ -23,7 +23,7 @@ class UngoroBrochureSpell: ICardWithHighlight {
         return CardIds.NonCollectible.Druid.UnGoroBrochure_DalaranBrochureToken
     }
 
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(card.type == CardType.spell)
     }
 

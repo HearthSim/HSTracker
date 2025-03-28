@@ -171,6 +171,10 @@ extension CardIds.Collectible {
         static let CreationProtocol = "TTN_430"
         static let ScaleReplica = "TOY_387"
         static let ThriveInTheShadowsCore = "CS3_028"
+        static let AvianaElunesChosen = "EDR_895"
+        static let Tyrande = "EDR_464"
+        static let SpiritGuide = "AV_328"
+        static let SpiritGuideCore = "CORE_AV_328"
     }
 }
 
@@ -232,6 +236,8 @@ extension CardIds.NonCollectible {
         static let Askara_AskaraFutureBuffEnchantment = "GDB_455e"
         static let LesserDiamondSpellstone_DiamondSpellstoneToken = "LOOT_507t"
         static let LesserDiamondSpellstone_GreaterDiamondSpellstoneToken = "LOOT_507t2"
+        static let AvianaElunesChosen_MoonCycleToken = "EDR_895t"
+        static let Tyrande_PullOfTheMoonEnchantment = "EDR_464e2"
     }
 }
 

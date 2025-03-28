@@ -195,6 +195,9 @@ extension CardIds.Collectible {
         static let MysteryEgg = "TOY_351"
         static let TenGallonHat = "WW_811"
         static let TrustyFishingRod = "VAC_960"
+        static let BrollBearmantle = "EDR_853"
+        static let ExoticHoundmaster = "EDR_226"
+        static let Goldrinn = "EDR_480"
     }
 }
 

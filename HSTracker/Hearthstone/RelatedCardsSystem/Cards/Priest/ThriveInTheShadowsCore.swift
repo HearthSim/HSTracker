@@ -15,7 +15,7 @@ class ThriveInTheShadowsCore: ICardWithHighlight {
         return CardIds.Collectible.Priest.ThriveInTheShadowsCore
     }
     
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(card.type == .spell)
     }
 }

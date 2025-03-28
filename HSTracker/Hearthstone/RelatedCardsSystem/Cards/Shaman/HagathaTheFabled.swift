@@ -15,7 +15,7 @@ class HagathaTheFabled: ICardWithHighlight {
         return CardIds.Collectible.Shaman.HagathaTheFabled
     }
     
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(card.type == .spell && card.cost >= 5)
     }
 }

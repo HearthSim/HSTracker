@@ -15,7 +15,7 @@ class Turbulus: ICardWithHighlight {
         return CardIds.Collectible.Shaman.Turbulus
     }
     
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(card.mechanics.contains("BATTLECRY"))
     }
 }

@@ -15,7 +15,7 @@ class WatercolorArtist: ICardWithHighlight {
         return CardIds.Collectible.Mage.WatercolorArtist
     }
     
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(
             card.spellSchool == SpellSchool.frost
         )

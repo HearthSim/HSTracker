@@ -15,7 +15,7 @@ class Triangulate: ICardWithHighlight {
         return CardIds.Collectible.Shaman.Triangulate
     }
     
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(card.type == .spell && card.id != getCardId())
     }
 }

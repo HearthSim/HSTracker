@@ -15,7 +15,7 @@ class TroubledMechanic: ICardWithHighlight {
         return CardIds.Collectible.Neutral.TroubledMechanic
     }
     
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(card.isDraenei())
     }
 }

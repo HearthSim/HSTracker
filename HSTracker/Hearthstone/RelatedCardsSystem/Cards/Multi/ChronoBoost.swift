@@ -15,7 +15,7 @@ class ChronoBoost: ICardWithHighlight {
         return CardIds.Collectible.Invalid.ChronoBoost
     }
     
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(card.faction == .protoss)
     }
 }

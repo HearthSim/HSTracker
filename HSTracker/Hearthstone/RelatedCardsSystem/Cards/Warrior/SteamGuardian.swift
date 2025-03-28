@@ -18,7 +18,7 @@ public class SteamGuardian: ICardWithHighlight {
         return CardIds.Collectible.Warrior.SteamGuardian
     }
     
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(
             card.spellSchool == SpellSchool.fire,
             card.type == .spell

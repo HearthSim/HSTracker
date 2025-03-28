@@ -15,7 +15,7 @@ class RaidingParty: ICardWithHighlight {
         return CardIds.Collectible.Rogue.RaidingParty
     }
     
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(card.isPirate(), card.type == .weapon)
     }
 }

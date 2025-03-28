@@ -15,7 +15,7 @@ class HiHoSilverwing: ICardWithHighlight {
         return CardIds.Collectible.Paladin.HiHoSilverwing
     }
     
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(
             card.spellSchool == SpellSchool.holy
         )

@@ -15,7 +15,7 @@ class CraneGame: ICardWithHighlight {
         return CardIds.Collectible.Warlock.CraneGame
     }
     
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(card.isDemon())
     }
 }

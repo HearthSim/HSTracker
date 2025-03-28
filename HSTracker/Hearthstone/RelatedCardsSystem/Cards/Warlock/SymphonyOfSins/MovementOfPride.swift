@@ -15,7 +15,10 @@ class MovementOfPride: ICardWithHighlight {
         return CardIds.NonCollectible.Warlock.SymphonyofSins_MovementOfPrideToken
     }
     
-    func shouldHighlight(card: Card) -> HighlightColor {
-        return HighlightColorHelper.getHighlightColor(card.type == .minion)
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
+        let highestCost = deck.filter { $0.type == .minion }.max { $0.cost < $1.cost }?.cost ?? 0
+        return HighlightColorHelper.getHighlightColor(
+            card.type == .minion && card.cost == highestCost
+        )
     }
 }

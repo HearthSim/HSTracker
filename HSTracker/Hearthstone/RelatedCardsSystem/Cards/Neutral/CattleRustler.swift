@@ -15,7 +15,7 @@ class CattleRustler: ICardWithHighlight {
         return CardIds.Collectible.Neutral.CattleRustler
     }
     
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(card.isBeast())
     }
 }

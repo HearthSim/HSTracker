@@ -15,7 +15,7 @@ class TrinketArtist: ICardWithHighlight {
         return CardIds.Collectible.Paladin.TrinketArtist
     }
     
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(
             card.mechanics.contains("PALADIN_AURA"),
             card.mechanics.contains("DIVINE_SHIELD")

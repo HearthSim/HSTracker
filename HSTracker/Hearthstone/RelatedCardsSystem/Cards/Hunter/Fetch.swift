@@ -15,7 +15,7 @@ class Fetch: ICardWithHighlight {
         return CardIds.Collectible.Hunter.Fetch
     }
     
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(
             card.isBeast(),
             card.type == .minion,

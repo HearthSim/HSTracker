@@ -15,7 +15,7 @@ class DigForTreasure: ICardWithHighlight {
         return CardIds.Collectible.Rogue.DigForTreasure
     }
     
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(card.isPirate(), card.type == .minion)
     }
 }

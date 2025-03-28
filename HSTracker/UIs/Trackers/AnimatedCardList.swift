@@ -28,15 +28,16 @@ class AnimatedCardList: NSView {
     
     var cardHeight: CGFloat?
     
-    private var _shouldHighlightCard: ((Card) -> HighlightColor)?
+    private var _shouldHighlightCard: ((Card, [Card]) -> HighlightColor)?
     
-    var shouldHighlightCard: ((Card) -> HighlightColor)? {
+    var shouldHighlightCard: ((Card, [Card]) -> HighlightColor)? {
         get {
             return _shouldHighlightCard
         }
         set {
             _shouldHighlightCard = newValue
             lock.around {
+                let cards = animatedCards.filter { ac in ac.card?.count ?? 0 > 0 }.compactMap({ ac in ac.card })
                 for animatedCard in animatedCards {
                     guard let card = animatedCard.card else {
                         continue
@@ -46,7 +47,7 @@ class AnimatedCardList: NSView {
                         animatedCard.needsDisplay = true
                         continue
                     }
-                    animatedCard.card?.highlightColor = newValue?(card) ?? .none
+                    animatedCard.card?.highlightColor = newValue?(card, cards) ?? .none
                     animatedCard.needsDisplay = true
                 }
             }
@@ -109,7 +110,6 @@ class AnimatedCardList: NSView {
             var toUpdate = [CardBar]()
             for c in animatedCards {
                 if let card = c.card, !cards.any({ self.areEqualForList($0, card) }) {
-                    card.highlightColor = shouldHighlightCard?(card) ?? .none
                     toUpdate.append(c)
                 }
             }
@@ -119,6 +119,7 @@ class AnimatedCardList: NSView {
                 toRemove[card] = newCard == nil
                 if let newCard = newCard {
                     let newAnimated = CardBar.factory()
+                    newCard.highlightColor = shouldHighlightCard?(newCard, animatedCards.filter({ ac in ac.card?.count ?? 0 > 0 }).compactMap({ ac in ac.card })) ?? .none
                     newAnimated.playerType = self.playerType
                     newAnimated.isBattlegrounds = isBattlegrounds
                     if let delegate = delegate {
@@ -145,7 +146,7 @@ class AnimatedCardList: NSView {
                 }
                 newCard.card = card
                 newCard.isBattlegrounds = isBattlegrounds
-                newCard.card?.highlightColor = shouldHighlightCard?(card) ?? .none
+                newCard.card?.highlightColor = shouldHighlightCard?(card, animatedCards.filter({ ac in ac.card?.count ?? 0 > 0 }).compactMap({ ac in ac.card })) ?? .none
                 if let index = cards.firstIndex(of: card), index <= animatedCards.count {
                     animatedCards.insert(newCard, at: index)
                 } else {

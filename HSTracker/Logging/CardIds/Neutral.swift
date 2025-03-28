@@ -698,6 +698,18 @@ extension CardIds.Collectible {
         static let TramOperator = "TTN_723"
         static let TroubledMechanic = "GDB_463"
         static let WeaponsAttendant = "VAC_924"
+        static let EnvoyOfTheGlade = "EDR_873"
+        static let FaeTrickster = "EDR_571"
+        static let FinjaTheFlyingStarCore = "CORE_CFM_344"
+        static let MalorneTheWaywatcher = "EDR_888"
+        static let NaralexHeraldOfTheFlights = "EDR_844"
+        static let NightmareLordXavius = "EDR_856"
+        static let SharpEyedSeeker = "TTN_712"
+        static let Steamcleaner = "REV_946"
+        static let SteamcleanerCore = "CORE_REV_946"
+        static let TaelanFordringCore = "CS3_024"
+        static let TheCuratorCore = "CORE_KAR_061"
+        static let TormentedDreadwing = "EDR_572"
     }
 }
 
@@ -925,11 +937,6 @@ extension CardIds.NonCollectible {
         static let ConstructPylons_PsionicPowerEnchantment = "SC_755e"
         static let ShieldBattery_KhalaiIngenuityEnchantment = "SC_759e"
         static let WarpGate_WarpConduitEnchantment = "SC_751e"
+        static let Agamaggan_CorruptedThornsEnchantment1 = "EDR_489e2";
     }
 }
-
-extension CardIds.Invalid {
-    static let SecretsOfNorgannon = "BG27_Anomaly_504"
-    static let AncestralAutomaton_AncestralAutomatonPlayerEnchantDnt = "BG_TTN_401pe"
-}
-

@@ -15,7 +15,7 @@ class AlarmedSecuritybot: ICardWithHighlight {
         return CardIds.Collectible.Paladin.AlarmedSecuritybot
     }
     
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(
             card.type == .minion && card.id != getCardId()
         )

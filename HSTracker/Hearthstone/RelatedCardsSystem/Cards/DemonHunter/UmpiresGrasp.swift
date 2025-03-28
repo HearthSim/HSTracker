@@ -17,7 +17,7 @@ class UmpiresGrasp: ICardWithHighlight {
         return CardIds.Collectible.DemonHunter.UmpiresGrasp
     }
 
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(card.isDemon())
     }
 }

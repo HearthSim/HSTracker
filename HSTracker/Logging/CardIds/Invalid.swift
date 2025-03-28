@@ -60,3 +60,7 @@ extension CardIds.NonCollectible {
     }
 }
 
+extension CardIds.Invalid {
+    static let SecretsOfNorgannon = "BG27_Anomaly_504"
+    static let AncestralAutomaton_AncestralAutomatonPlayerEnchantDnt = "BG_TTN_401pe"
+}

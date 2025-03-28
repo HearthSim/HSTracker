@@ -14,7 +14,7 @@ class SummonedDragonsCounter: NumericCounter {
     }
     
     override var cardIdToShowInUI: String? {
-        return CardIds.Collectible.Priest.TimewinderZarimi
+        return CardIds.Collectible.Druid.FyeTheSettingSun
     }
     
     override var relatedCards: [String] {

@@ -18,8 +18,18 @@
   Blackrock 'n' Roll, Chorus Riff, Quality Assurance, Steam Guardian, Town Crier, Caricature Artist, Cattle Rustler,
   Colifero the Artist, Ethereal Oracle, Instrument Tech, Magatha Bane of Music, Malygos the Spellweaver,
   Plucky Paintfin, Therazane, Thunderbringer, Tram Operator, Troubled Mechanic, Weapons Attendant.*\
-\
-  *We will continuing adding more highlights in the coming updates.*
+  *Falric, Tuskpiercer, Reforestation, Grove Shaper, Broll Bearmantle, Exotic Houndmaster,
+  Redscale Dragontamer, Draconscale Armaments, Dreamwardem, Ursine Maul, Spirit Guide,
+  Rotheart Dryad, Steamcleaner, Finja the Flying Star, The Curator,  Nightmare Lord Xavius,
+  Fae Trickster, Tormented Dreadwing, Naralex Herald of the Flights*
+- Added Counters for *Into the Emerald Dream* and new Core cards: \
+  *Aessina, Tyrande, Aviana Elune's Chosem, Glowroot Lure, Ysondre*
+- Added Related Card tooltips for *Into the Emerald Dream* and new Core cards: \
+  *Nythendra, Sanguine Infestation, Infested Breath, Hideous Husk, Grim Haverst,
+  Ravenous Felhunter, Ferocious Felbat, Wyvern's Slumber, Dreadsoul Corrupter,
+  Broll Bearmantle, Spirit Gatherer, Raza the Released, Krag'wa the Frog, Merithra,
+  Archdruid of Throns, Succumb to Madness, Malorne The Waywatcher*
+- Added a widget that shows which minions will be back from Anachronos' effect.  *We will continuing adding more highlights in the coming updates.*
 - Made the new Fatigue counter appear more appropriately for the opponent.
 - Changed when Player's Protoss minions discount counter is shown, now it won't appear if there is no minion to benefit from it.
 - Fixed board attack displaying negative values.

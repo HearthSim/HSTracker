@@ -15,7 +15,7 @@ class MovementOfGluttony: ICardWithHighlight {
         return CardIds.NonCollectible.Warlock.SymphonyofSins_MovementOfGluttonyToken
     }
     
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(card.type == .minion)
     }
 }

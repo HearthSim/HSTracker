@@ -11,7 +11,7 @@ class BargainBin: ICardWithHighlight {
         return CardIds.Collectible.Hunter.BargainBin
     }
 
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(
             card.type == CardType.spell,
             card.type == CardType.minion,

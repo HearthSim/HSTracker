@@ -17,7 +17,7 @@ class GuitarSoloist: ICardWithHighlight {
         return CardIds.Collectible.DemonHunter.GuitarSoloist
     }
 
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(
             card.type == CardType.spell,
             card.type == CardType.minion,

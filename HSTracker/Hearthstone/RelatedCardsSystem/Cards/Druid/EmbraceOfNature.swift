@@ -17,7 +17,7 @@ class EmbraceOfNature: ICardWithHighlight {
         return CardIds.Collectible.Druid.EmbraceOfNature
     }
 
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(card.mechanics.contains("CHOOSE_ONE"))
     }
 }

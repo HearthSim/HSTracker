@@ -62,6 +62,7 @@ final class Card {
     var faction: GameTag?
     var spellSchool: SpellSchool = .none
     var highlightColor = HighlightColor.none
+    var tag4058 = 0
     
     func hasRace(_ race: Race) -> Bool {
         if races.count == 0 {
@@ -362,6 +363,7 @@ extension Card: NSCopying {
         copy.baconTripleUpgradeMinionId = self.baconTripleUpgradeMinionId
         copy.faction = self.faction
         copy.spellSchool = self.spellSchool
+        copy.tag4058 = self.tag4058
 
         return copy
     }

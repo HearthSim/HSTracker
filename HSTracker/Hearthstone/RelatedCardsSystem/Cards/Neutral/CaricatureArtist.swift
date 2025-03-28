@@ -15,7 +15,7 @@ class CaricatureArtist: ICardWithHighlight {
         return CardIds.Collectible.Neutral.CaricatureArtist
     }
     
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(card.type == .minion && card.cost >= 5)
     }
 }

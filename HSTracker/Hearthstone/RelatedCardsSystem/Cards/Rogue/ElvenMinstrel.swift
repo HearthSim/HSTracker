@@ -15,7 +15,7 @@ class ElvenMinstrel: ICardWithHighlight {
         return CardIds.Collectible.Rogue.ElvenMinstrel
     }
     
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(card.type == .minion)
     }
 }

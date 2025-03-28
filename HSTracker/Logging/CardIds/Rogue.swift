@@ -204,6 +204,8 @@ extension CardIds.Collectible {
         static let PitStop = "TTN_728"
         static let RaidingParty = "TRL_124"
         static let RaidingPartyCore = "CORE_TRL_124"
+        static let FoxyFraud = "DMF_511"
+        static let Ashamane = "EDR_527"
         
     }
 }
@@ -292,6 +294,7 @@ extension CardIds.NonCollectible {
         static let LuckyComet_ComboCometEnchantment = "GDB_873e"
         static let SpacerockCollector_RockCollectionEnchantment = "GDB_875e"
         static let ArkoniteDefenseCrystal_TheScavengersWillToken = "GDB_100t8"
+        static let FoxyFraud_EnablingEnchantment = "DMF_511e"
     }
 }
 

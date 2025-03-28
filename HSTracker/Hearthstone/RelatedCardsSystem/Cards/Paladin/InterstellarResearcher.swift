@@ -25,7 +25,7 @@ class InterstellarResearcher: ICardWithHighlight {
         return CardIds.Collectible.Paladin.InterstellarResearcher
     }
     
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(
             libramCardIds.contains(card.id)
         )

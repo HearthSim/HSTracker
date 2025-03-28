@@ -15,7 +15,7 @@ class CardboardGolem: ICardWithHighlight {
         return CardIds.Collectible.Paladin.CardboardGolem
     }
     
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(card.mechanics.contains("PALADIN_AURA"))
     }
 }

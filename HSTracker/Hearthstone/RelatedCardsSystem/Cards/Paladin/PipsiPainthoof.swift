@@ -15,7 +15,7 @@ class PipsiPainthoof: ICardWithHighlight {
         return CardIds.Collectible.Paladin.PipsiPainthoof
     }
     
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(
             card.mechanics.contains("DIVINE_SHIELD"),
             card.mechanics.contains("RUSH"),

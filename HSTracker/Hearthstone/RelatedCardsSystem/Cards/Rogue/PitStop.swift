@@ -15,7 +15,7 @@ class PitStop: ICardWithHighlight {
         return CardIds.Collectible.Rogue.PitStop
     }
     
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(card.isMech())
     }
 }

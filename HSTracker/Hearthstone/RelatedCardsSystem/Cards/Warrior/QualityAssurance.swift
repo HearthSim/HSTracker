@@ -15,7 +15,7 @@ class QualityAssurance: ICardWithHighlight {
         return CardIds.Collectible.Warrior.QualityAssurance
     }
 
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(card.type == .minion && card.mechanics.contains("TAUNT"))
     }
 }

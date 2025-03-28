@@ -15,7 +15,7 @@ class Therazane: ICardWithHighlight {
         return CardIds.Collectible.Neutral.Therazane
     }
     
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(card.isElemental())
     }
 }

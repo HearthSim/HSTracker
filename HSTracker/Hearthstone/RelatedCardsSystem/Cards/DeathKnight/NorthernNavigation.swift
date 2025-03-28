@@ -17,7 +17,7 @@ class NorthernNavigation: ICardWithHighlight {
         return CardIds.Collectible.Deathknight.NorthernNavigation
     }
 
-    func shouldHighlight(card: Card) -> HighlightColor {
+    func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         let isFrostSpell = card.spellSchool == SpellSchool.frost
         let isSpell = card.type == CardType.spell
         return HighlightColorHelper.getHighlightColor(isFrostSpell, isSpell)
