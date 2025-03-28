@@ -20,7 +20,6 @@ class Tracker: OverWindowController, CardCellHover {
     @IBOutlet private var opponentDrawChance: OpponentDrawChance!
     @IBOutlet private var playerClass: NSView!
     @IBOutlet private var recordTracker: StringTracker!
-    @IBOutlet private var fatigueTracker: StringTracker!
     @IBOutlet private var graveyardCounter: GraveyardCounter!
     @IBOutlet private var playerBottom: DeckLens!
     @IBOutlet private var playerTop: DeckLens!
@@ -37,7 +36,6 @@ class Tracker: OverWindowController, CardCellHover {
     var playerType: PlayerType?
     var showGraveyard: Bool = false
     var proxy: Entity?
-    var fatigueCounter: Int = 0
     var graveyard: [Entity]?
     
     var playerClassId: String?
@@ -156,19 +154,10 @@ class Tracker: OverWindowController, CardCellHover {
             recordTracker.isHidden = !Settings.showWinLossRatio
         }
         
-        let game = AppDelegate.instance().coreManager.game
-        let showFatigueCounter = Settings.fatigueIndicator && (cardCounter?.deckCount ?? 0 <= 0 || fatigueCounter > 1 || playerType == .player ? game.showPlayerFatigueCounter : game.showOpponentFatigueCounter)
-        fatigueTracker.isHidden = !showFatigueCounter
         graveyardCounter.isHidden = !showGraveyard
         
         if !recordTracker.isHidden {
             recordTracker.needsDisplay = true
-        }
-        
-        if !fatigueTracker.isHidden {
-            fatigueTracker.message = "\(String.localizedString("Fatigue : ", comment: ""))"
-                + "\(fatigueCounter)"
-            fatigueTracker.needsDisplay = true
         }
         
         recordTracker.message = recordTrackerMessage
@@ -278,10 +267,7 @@ class Tracker: OverWindowController, CardCellHover {
         if !recordTracker.isHidden {
             offsetFrames += smallFrameHeight
         }
-        if !fatigueTracker.isHidden {
-            offsetFrames += smallFrameHeight
-        }
-        
+
         var totalCards = cardsView.count
 
         if playerBottom.count > 0 && Settings.showPlayerCardsBottom {
@@ -407,13 +393,6 @@ class Tracker: OverWindowController, CardCellHover {
                                          y: y,
                                          width: windowWidth,
                                          height: smallFrameHeight)
-        }
-        if !fatigueTracker.isHidden {
-            y -= smallFrameHeight
-            fatigueTracker.frame = NSRect(x: 0,
-                                          y: y,
-                                          width: windowWidth,
-                                          height: smallFrameHeight)
         }
         
         bottomY = y

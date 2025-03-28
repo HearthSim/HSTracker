@@ -214,7 +214,6 @@ class Game: NSObject, PowerEventHandler {
                                           gameStarted: gameStarted)
 
                 tracker.showGraveyard = Settings.showOpponentGraveyard
-                tracker.fatigueCounter = self.opponent.fatigue
                 
                 if let fullname = self.opponent.name {
                     let names = fullname.components(separatedBy: "#")
@@ -427,7 +426,6 @@ class Game: NSObject, PowerEventHandler {
                                           gameStarted: gameStarted)
                 
                 tracker.showGraveyard = Settings.showPlayerGraveyard
-                tracker.fatigueCounter = self.player.fatigue
                                 
                 if let currentDeck = self.currentDeck {
                     if let deck = RealmHelper.getDeck(with: currentDeck.id) {

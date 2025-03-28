@@ -9,7 +9,6 @@
             <connections>
                 <outlet property="cardCounter" destination="fDJ-yZ-50f" id="nBu-Cf-pye"/>
                 <outlet property="cardsView" destination="naK-zt-rPm" id="SQk-kS-AJ7"/>
-                <outlet property="fatigueTracker" destination="5Jh-EI-M0W" id="ygD-EJ-ZeH"/>
                 <outlet property="graveyardCounter" destination="aFR-AO-2Vy" id="ukz-pX-hST"/>
                 <outlet property="opponentDrawChance" destination="Slp-Ya-S9h" id="R3r-Tb-bap"/>
                 <outlet property="opponentRelatedCards" destination="m3p-pH-JLu" id="Aze-Ou-n51"/>
@@ -67,10 +66,6 @@
                     </customView>
                     <customView hidden="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fgq-EG-nDe" customClass="StringTracker" customModule="HSTracker" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="201" width="217" height="40"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    </customView>
-                    <customView hidden="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Jh-EI-M0W" customClass="StringTracker" customModule="HSTracker" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="150" width="217" height="40"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aFR-AO-2Vy" customClass="GraveyardCounter" customModule="HSTracker" customModuleProvider="target">

@@ -52,21 +52,7 @@ extension Game {
         CardIds.Collectible.Mage.ElementalInspiration,
         CardIds.Collectible.Mage.MagisterDawngrasp
     ]
-    
-    static let playerFatigueCounterCards = [
-        CardIds.Collectible.Warlock.BaritoneImp,
-        CardIds.Collectible.Warlock.CrazedConductor,
-        CardIds.Collectible.Warlock.Crescendo,
-        CardIds.Collectible.Warlock.EncroachingInsanity,
-        CardIds.NonCollectible.Warlock.CurseofAgony_AgonyToken
-    ]
-    
-    static let opponentFatigueCounterCards = [
-        // Note: this is inspecting the friendly deck, not the opposing deck
-        CardIds.Collectible.Warlock.EncroachingInsanity,
-        CardIds.Collectible.Warlock.CurseOfAgony
-    ]
-    
+        
 	var playerCthun: Entity? {
 		return self.player.playerEntities
 			.first { $0.cardId == CardIds.Collectible.Neutral.Cthun }
@@ -241,14 +227,6 @@ extension Game {
         return !isInMenu && Settings.showPlayerExcavateTier && inDeckOrKnown(cardIds: Game.excavateCounterCards)
     }
     
-    var showPlayerFatigueCounter: Bool {
-        return inDeckOrKnown(cardIds: Game.playerFatigueCounterCards)
-    }
-    
-    var showOpponentFatigueCounter: Bool {
-        return inDeckOrKnown(cardIds: Game.opponentFatigueCounterCards)
-    }
-            
     private func inDeckOrKnown(cardIds: [String]) -> Bool {
         return cardIds.any { x in inDeckOrKnown(cardId: x) }
     }
