@@ -3109,6 +3109,7 @@
 			children = (
 				B8196F132CC850BB007C0371 /* BaseCounter.swift */,
 				B8196F202CC9A203007C0371 /* CounterManager.swift */,
+				B8E1E5A42D0B867B00383975 /* BgCounters */,
 				B8196F192CC87054007C0371 /* Counters */,
 				B8196F152CC86FB3007C0371 /* NumericCounter.swift */,
 				B8196F172CC87021007C0371 /* StatsCounter.swift */,
@@ -3124,7 +3125,6 @@
 				B82029302CD2C4D700C19A8C /* AsteroidExtraDamageCounter.swift */,
 				B8196F1C2CC871A6007C0371 /* AstralAutomatonCounter.swift */,
 				B89865F32D95915E00BA5649 /* AvianaElunesChosenTurnCounter.swift */,
-				B8E1E5A42D0B867B00383975 /* BgCounters */,
 				B889F60A2CED5D26001506F4 /* CardsDrawnThisGameCounter.swift */,
 				B889F60C2CED6151001506F4 /* CardsDrawnThisTurnCounter.swift */,
 				B89343372CD00858009A8727 /* ChaoticTendrilCounter.swift */,

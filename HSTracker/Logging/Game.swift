@@ -4164,7 +4164,7 @@ class Game: NSObject, PowerEventHandler {
 
             DispatchQueue.main.async {
                 vm.setCardIdsFromCards(relatedCards.compactMap({ $0 }))
-                self.windowManager.show(controller: self.windowManager.tooltipGridCards, show: true, frame: NSRect(x: left, y: top, width: width, height: height))
+                self.windowManager.show(controller: self.windowManager.tooltipGridCards, show: true, frame: NSRect(x: left, y: frame.height - top - CGFloat(vm.gridHeight), width: CGFloat(vm.gridWidth), height: CGFloat(vm.gridHeight)))
             }
         }
     }
