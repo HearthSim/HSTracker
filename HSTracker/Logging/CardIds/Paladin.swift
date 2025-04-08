@@ -276,6 +276,7 @@ extension CardIds.NonCollectible {
         static let TyrsTears = "TTN_855"
         static let LibramofDivinity_LibramOfDivinityEnchantment = "GDB_138e2"
         static let Anachronos_TimeTravelEnchantment = "RLK_919e"
+        static let BlessingOfTheDragon = "EDR_445p"
     }
 }
 

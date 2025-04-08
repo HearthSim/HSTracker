@@ -275,6 +275,7 @@ extension CardIds.NonCollectible {
         static let KoboldMiner_TheAzeriteHawkToken = "WW_001t24"
         static let IngeniousArtificer_IngeniousArtficerFutureBuffEnchantment = "GDB_135e"
         static let WispTokenEMERALD_DREAM = "EDR_851t"
+        static let BlessingOfTheWisp = "EDR_851p"
     }
 }
 

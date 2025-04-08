@@ -335,6 +335,7 @@ extension CardIds.NonCollectible {
         static let UnGoroBrochure_DalaranBrochureToken = "WORK_050t"
         static let DreamboundDisciple_DreamboundEnchantment = "EDR_847e"
         static let Reforestation_ReforestationToken = "EDR_843t1"
+        static let DreamboundDisciple_BlessingOfTheGolem = "EDR_847p"
     }
 }
 

@@ -1,6 +1,7 @@
 # 3.2.2
 ## New
-- - Made card highlights, counters and related cards work during discover.
+- Made card highlights, counters and related cards work during discover.
+- Added Imbue counter.
 ## Fixes
 - Fixed Return Policy related cards
 

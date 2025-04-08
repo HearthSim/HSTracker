@@ -3534,7 +3534,9 @@ class Game: NSObject, PowerEventHandler {
             }
         }
         player.offeredEntityIds = choice.offeredEntityIds ?? [Int]()
-        windowManager.playerCountersOverlay.updateVisibleCounters()
+        DispatchQueue.main.async {
+            self.windowManager.playerCountersOverlay.updateVisibleCounters()
+        }
     }
     
     @available(macOS 10.15.0, *)

@@ -334,6 +334,7 @@
 "Counter_UndeadAttackBonus" = "Undead Attack Bonus";
 "Counter_FriendlyMinionsDiedThisGame" = "Friendly Minions That Died";
 "Counter_PlayedDragons" = "Played Dragons";
+"Counter_Imbue" = "Imbue";
 
 /* Tier7 */
 "BattlegroundsOverlayMessage_Error" = "Something went wrong :(";

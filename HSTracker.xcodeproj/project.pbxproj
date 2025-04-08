@@ -716,6 +716,7 @@
 		B887656A26C304FA003D3629 /* BigInt in Frameworks */ = {isa = PBXBuildFile; productRef = B887656926C304FA003D3629 /* BigInt */; };
 		B8889C1B2D9DC6ED0053DD57 /* DiscoverStateWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8889C1A2D9DC6ED0053DD57 /* DiscoverStateWatcher.swift */; };
 		B8889C1D2DA067D90053DD57 /* PlacementMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8889C1C2DA067D90053DD57 /* PlacementMode.swift */; };
+		B8889C1F2DA4AAEB0053DD57 /* ImbueCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8889C1E2DA4AAEB0053DD57 /* ImbueCounter.swift */; };
 		B889F6092CEC1CFB001506F4 /* Atomics in Frameworks */ = {isa = PBXBuildFile; productRef = B889F6082CEC1CFB001506F4 /* Atomics */; settings = {ATTRIBUTES = (Required, ); }; };
 		B889F60B2CED5D26001506F4 /* CardsDrawnThisGameCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B889F60A2CED5D26001506F4 /* CardsDrawnThisGameCounter.swift */; };
 		B889F60D2CED6151001506F4 /* CardsDrawnThisTurnCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B889F60C2CED6151001506F4 /* CardsDrawnThisTurnCounter.swift */; };
@@ -1825,6 +1826,7 @@
 		B88595B62CEFDB9900769275 /* libswift_Concurrency.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libswift_Concurrency.tbd; path = usr/lib/swift/libswift_Concurrency.tbd; sourceTree = SDKROOT; };
 		B8889C1A2D9DC6ED0053DD57 /* DiscoverStateWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverStateWatcher.swift; sourceTree = "<group>"; };
 		B8889C1C2DA067D90053DD57 /* PlacementMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacementMode.swift; sourceTree = "<group>"; };
+		B8889C1E2DA4AAEB0053DD57 /* ImbueCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImbueCounter.swift; sourceTree = "<group>"; };
 		B889F60A2CED5D26001506F4 /* CardsDrawnThisGameCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsDrawnThisGameCounter.swift; sourceTree = "<group>"; };
 		B889F60C2CED6151001506F4 /* CardsDrawnThisTurnCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsDrawnThisTurnCounter.swift; sourceTree = "<group>"; };
 		B89343332CCFAF7E009A8727 /* PlayedSpellsCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayedSpellsCounter.swift; sourceTree = "<group>"; };
@@ -3137,6 +3139,7 @@
 				B86D89C12D95A04200AB65A5 /* FriendlyMinionsDiedThisGameCounter.swift */,
 				B89343412CD0791C009A8727 /* GalakrondCounter.swift */,
 				B86D89C32D95A24F00AB65A5 /* HeroPowersThisGameCounter.swift */,
+				B8889C1E2DA4AAEB0053DD57 /* ImbueCounter.swift */,
 				B89343432CD11C13009A8727 /* JadeDisplayCounter.swift */,
 				B89343452CD11D03009A8727 /* JadeGolemCounter.swift */,
 				B82029322CD2C65D00C19A8C /* KiljaedenCounter.swift */,
@@ -4957,6 +4960,7 @@
 				B86D89D82D95C31E00AB65A5 /* HideousHusk.swift in Sources */,
 				B89865662D8E15D000BA5649 /* Banjosaur.swift in Sources */,
 				B86D89C82D95A48F00AB65A5 /* TyrandeSpellsPlayedCounter.swift in Sources */,
+				B8889C1F2DA4AAEB0053DD57 /* ImbueCounter.swift in Sources */,
 				4C19239D2392FA7E007EBB0F /* BattlegroundsDetailsWindow.swift in Sources */,
 				B89865322D6EA36B00BA5649 /* EnchantmentFactoryProxy.swift in Sources */,
 				B8AF0C672B83A65E00B65F63 /* MulliganGuideStatusData.swift in Sources */,

@@ -238,6 +238,7 @@ extension CardIds.NonCollectible {
         static let LesserDiamondSpellstone_GreaterDiamondSpellstoneToken = "LOOT_507t2"
         static let AvianaElunesChosen_MoonCycleToken = "EDR_895t"
         static let Tyrande_PullOfTheMoonEnchantment = "EDR_464e2"
+        static let LunarwingMessenger_BlessingOfTheMoon = "EDR_449p"
     }
 }
 

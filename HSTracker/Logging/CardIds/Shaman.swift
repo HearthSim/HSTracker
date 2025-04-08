@@ -232,6 +232,7 @@ extension CardIds.NonCollectible {
         static let Shudderblock_ReadyForActionEnchantment = "TOY_501e"
         static let TheAzeriteMurlocToken = "DEEP_999t5"
         static let PlanetaryNavigator_PlanetaryNavigatorFutureBuffEnchantment = "GDB_444e"
+        static let BlessingOfTheWind = "EDR_448p"
     }
 }
 

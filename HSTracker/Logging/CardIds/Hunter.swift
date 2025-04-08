@@ -275,6 +275,7 @@ extension CardIds.NonCollectible {
         static let ThornmantleMusician_ThornmantlesMuseEnchantment1 = "ETC_831e"
         static let ArkoniteDefenseCrystal_TheAstralCompassToken = "GDB_100t7"
         static let MysteryEgg_MysteryEggToken = "TOY_351t"
+        static let BlessingOfTheWolf = "EDR_850p"
     }
 }
 
