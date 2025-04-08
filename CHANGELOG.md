@@ -1,4 +1,6 @@
 # 3.2.2
+## New
+- - Made card highlights, counters and related cards work during discover.
 ## Fixes
 - Fixed Return Policy related cards
 

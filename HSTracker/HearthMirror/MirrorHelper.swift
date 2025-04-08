@@ -515,5 +515,13 @@ struct MirrorHelper {
         }
         return result
     }
+    
+    static func getDiscoverState() -> MirrorDiscoverState? {
+        var result: MirrorDiscoverState?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getDiscoverState()
+        }
+        return result
+    }
 }
 

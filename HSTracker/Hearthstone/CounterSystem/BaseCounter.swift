@@ -72,13 +72,17 @@ class BaseCounter: NSObject {
 
     // Helper methods
     private func inDeckOrKnown(cardId: String) -> Bool {
-        guard let activeDeck = game.currentDeck else {
-            return false
+        let deckContains = game.currentDeck?.cards.any { x in x.id == cardId } ?? false
+        
+        let playerEntitiesContains = game.player.playerEntities.any { x in
+            x.cardId == cardId &&
+            x.info.originalZone != nil &&
+            !x.isInSetAside
         }
+        
+        let discoverEntitiesContains = game.player.offeredEntities.any { x in x.cardId == cardId }
 
-        let contains = activeDeck.cards.contains { $0.id == cardId }
-
-        return contains || game.player.playerEntities.contains { $0.cardId == cardId && $0.info.originalZone != nil }
+        return deckContains || playerEntitiesContains || discoverEntitiesContains
     }
 
     func inPlayerDeckOrKnown(cardIds: [String]) -> Bool {

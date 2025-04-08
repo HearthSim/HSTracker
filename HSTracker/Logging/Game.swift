@@ -3533,6 +3533,8 @@ class Game: NSObject, PowerEventHandler {
                 windowManager.battlegroundsTierOverlay.tierOverlay.onHeroPowers(heroPowers: (player.board.filter({ x in x.isHeroPower }) + offered).compactMap({ x in x.card.id }))
             }
         }
+        player.offeredEntityIds = choice.offeredEntityIds ?? [Int]()
+        windowManager.playerCountersOverlay.updateVisibleCounters()
     }
     
     @available(macOS 10.15.0, *)
@@ -3548,6 +3550,9 @@ class Game: NSObject, PowerEventHandler {
             let data = offeredEntities.compactMap({ entity in result.data?.first { x in x.trinket_dbf_id == entity.card.dbfId }})
             windowManager.battlegroundsTrinketPicking.viewModel.setTrinketStats(data)
         }
+        player.offeredEntityIds = choice.offeredEntityIds ?? [Int]()
+        await windowManager.playerCountersOverlay.updateVisibleCounters()
+
     }
     
     func isTrinketChoiceComplete(choiceId: Int) -> Bool {
@@ -4078,6 +4083,89 @@ class Game: NSObject, PowerEventHandler {
                 self.windowManager.playerTracker.highlightPlayerDeckCards(highlightSourceCardId: self.hoveredCard?.cardId)
             }
             self.updateTooltips()
+        }
+    }
+    
+    func setRelatedCardsTrigger(_ state: DiscoverStateArgs) {
+        // Note: To debug behavior here and/or implement new triggers set a translucent
+        // Background (e.g. #40FF0000) on the RelatedCardsTrigger Grid in Overlay.xaml.
+
+        let vm = windowManager.tooltipGridCards
+        if state.cardId == "" {
+            if vm.cards.count > 0 {
+                DispatchQueue.main.async {
+                    self.windowManager.show(controller: vm, show: false)
+                }
+            }
+            return
+        }
+
+        // Not ideal. Maybe we re-position the tooltip on size change and canvas.top/left change?
+
+        if Settings.showPlayerRelatedCards {
+            guard let relatedCards = relatedCardsManager.getCardWithRelatedCards(state.cardId)?.getRelatedCards(player: player), relatedCards.count > 0  else {
+                return
+            }
+            
+            vm.title = String.localizedString("Related_Cards", comment: "")
+            
+            let frame = SizeHelper.hearthstoneWindow.frame
+            
+            let top = frame.height * 0.2
+            let height = frame.height * 0.53
+            let width = frame.height * 0.3
+            var left = 0.0
+            var tooltipPlacement = PlacementMode.right
+            
+            switch state.zoneSize {
+            case 4:
+                left = (0.116 + Double(state.zonePosition) * 0.2) * frame.width
+                tooltipPlacement = state.zonePosition < 2 ? PlacementMode.right : PlacementMode.left
+            case 3:
+                let centerPosition = 1
+                let offsetXScale = 0.2
+                
+                let relativePosition = state.zonePosition - centerPosition
+                let offsetX = 0.5 - 0.088 + Double(relativePosition) * offsetXScale
+                left = offsetX * frame.width
+                tooltipPlacement = PlacementMode.right
+            case 2:
+                left = state.zonePosition == 0 ? 0.318 * frame.width : 0.518 * frame.width
+                tooltipPlacement = state.zonePosition == 0 ? PlacementMode.left : PlacementMode.right
+            case 1:
+                left = (0.5 - 0.088) * frame.width
+                tooltipPlacement = PlacementMode.left
+            default:
+                break
+            }
+            
+            let tooltipWidth = CGFloat(vm.gridWidth)
+            let tooltipHeight = CGFloat(vm.gridHeight)
+            
+            // Correct placement if tooltip would go outside of window, and it fit on the other side
+            switch tooltipPlacement {
+            case PlacementMode.top:
+                if top - tooltipHeight < 0.0 && top + height + tooltipHeight <= frame.height {
+                    tooltipPlacement = PlacementMode.bottom
+                }
+            case PlacementMode.bottom:
+                if top + height + tooltipHeight > frame.height && top - tooltipHeight >= 0.0 {
+                    tooltipPlacement = PlacementMode.top
+                }
+            case PlacementMode.left:
+                if left - tooltipWidth < 0.0 && left + width + tooltipWidth <= frame.width {
+                    tooltipPlacement = PlacementMode.right
+                }
+            case PlacementMode.right:
+                if left + width + tooltipWidth > frame.width && left - tooltipWidth >= 0.0 {
+                    tooltipPlacement = PlacementMode.left
+                }
+            }
+
+            DispatchQueue.main.async {
+                vm.setCardIdsFromCards(relatedCards.compactMap({ $0 }))
+                self.windowManager.show(controller: self.windowManager.tooltipGridCards, show: true, frame: NSRect(x: left, y: top, width: width, height: height))
+            }
         }
     }
 }

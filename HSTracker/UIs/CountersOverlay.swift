@@ -96,7 +96,7 @@ class CountersOverlay: OverWindowController {
         }
     }
     
-    private func updateVisibleCounters() {
+    func updateVisibleCounters() {
         let visibleCounters = _counters.getVisibleCounters(controlledByPlayer: isPlayer)
         
         var changed = false

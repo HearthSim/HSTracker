@@ -136,6 +136,12 @@ final class Player {
     var deckCount: Int {
         return deck.filter({ $0.isControlled(by: self.id) }).count
     }
+    
+    var offeredEntityIds = [Int]()
+    
+    var offeredEntities: [Entity] {
+        return playerEntities.filter { x in offeredEntityIds.contains(x.id) }
+    }
 
     var playerEntities: [Entity] {
         return game.entities.values.filter({
@@ -213,6 +219,7 @@ final class Player {
         deadMinionsCards.removeAll()
         deathrattlesPlayedCount = 0
         heroPowerCount = 0
+        offeredEntityIds.removeAll()
 
         inDeckPredictions.removeAll()
         cardsPlayedThisTurn.removeAll()

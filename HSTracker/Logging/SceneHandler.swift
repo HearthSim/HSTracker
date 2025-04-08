@@ -53,6 +53,7 @@ class SceneHandler {
             Watchers.battlegroundsTeammateBoardStateWatcher.stop()
             Watchers.baconWatcher.stop()
             Watchers.bigCardWatcher.stop()
+            Watchers.discoverStateWatcher.stop()
             Watchers.choicesWatcher.stop()
         }
     }
@@ -84,6 +85,7 @@ class SceneHandler {
             game.updateBattlegroundsSessionVisibility()
             Watchers.bigCardWatcher.run()
             Watchers.choicesWatcher.run()
+            Watchers.discoverStateWatcher.run()
             Watchers.baconWatcher.run()
         }
         

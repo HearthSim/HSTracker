@@ -16,6 +16,7 @@ class Watchers {
     static let bigCardWatcher = BigCardWatcher()
     static let choicesWatcher = ChoicesWatcher()
     static let deckPickerWatcher = DeckPickerWatcher()
+    static let discoverStateWatcher = DiscoverStateWatcher()
     static let dungeonRunDeckWatcher = DungeonRunDeckWatcher()
     static let experienceWatcher = ExperienceWatcher()
     static let pvpDungeonRunWatcher = PVPDungeonRunWatcher()
@@ -35,7 +36,8 @@ class Watchers {
             AppDelegate.instance().coreManager.game.setChoicesVisible(args.currentChoice?.isVisible ?? false)
         }
         deckPickerWatcher.change = onDeckPickerChange
-        dungeonRunDeckWatcher.dungeonRunMatchStarted = { newrun, set in 
+        discoverStateWatcher.change = onDiscoverStateChange
+        dungeonRunDeckWatcher.dungeonRunMatchStarted = { newrun, set in
             CoreManager.dungeonRunMatchStarted(newRun: newrun, set: set, isPVPDR: false)
         }
         dungeonRunDeckWatcher.dungeonInfoChanged = { info in
@@ -66,6 +68,7 @@ class Watchers {
         bigCardWatcher.stop()
         choicesWatcher.stop()
         deckPickerWatcher.stop()
+        discoverStateWatcher.stop()
         dungeonRunDeckWatcher.stop()
         experienceWatcher.stop()
         pvpDungeonRunWatcher.stop()
@@ -92,5 +95,13 @@ class Watchers {
     
     private static func onDeckPickerChange(_ sender: DeckPickerWatcher, _ args: DeckPickerEventArgs) {
         AppDelegate.instance().coreManager.game.setDeckPickerState(args.selectedFormatType, args.decksOnPage, args.isModalOpen)
+    }
+    
+    private static func onDiscoverStateChange(_ sender: DiscoverStateWatcher, _ args: DiscoverStateArgs) {
+        let game = AppDelegate.instance().coreManager.game
+        game.setRelatedCardsTrigger(args)
+        if game.isTraditionalHearthstoneMatch {
+            game.windowManager.playerTracker.highlightPlayerDeckCards(highlightSourceCardId: args.cardId)
+        }
     }
 }
