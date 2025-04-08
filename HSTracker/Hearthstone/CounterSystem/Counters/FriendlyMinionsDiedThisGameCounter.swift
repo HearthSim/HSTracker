@@ -33,13 +33,27 @@ class FriendlyMinionsDiedThisGameCounter: NumericCounter {
         if isPlayerCounter {
             return inPlayerDeckOrKnown(cardIds: relatedCards)
         }
-        return opponentMayHaveRelevantCards() && counter >= 10
+        let couldBeGenerated = game.opponent.playerEntities.contains { entity in
+            guard entity.isInHand || entity.isInPlay || entity.isInDeck else { return false }
+            guard entity.info.created else { return false }
+            guard entity.hasCardId && entity.cardId == CardIds.Collectible.Mage.Aessina else { return false }
+            
+            let creatorId = entity.info.getCreatorId()
+            guard creatorId > 0, let creator = game.entities[creatorId] else { return false }
+            
+            return creator.cardId == CardIds.Collectible.Neutral.MalorneTheWaywatcher
+        }
+
+        return (opponentMayHaveRelevantCards() && counter >= 10) || couldBeGenerated
     }
 
     override func getCardsToDisplay() -> [String] {
-        return isPlayerCounter ?
-        getCardsInDeckOrKnown(cardIds: relatedCards) :
-        filterCardsByClassAndFormat(cardIds: relatedCards, playerClass: game.opponent.originalClass)
+        if isPlayerCounter {
+            return getCardsInDeckOrKnown(cardIds: relatedCards)
+        }
+
+        let cardsFilteredByClassAndFormat = filterCardsByClassAndFormat(cardIds: relatedCards, playerClass: game.opponent.originalClass)
+        return cardsFilteredByClassAndFormat.isEmpty ? [CardIds.Collectible.Mage.Aessina] : cardsFilteredByClassAndFormat
     }
 
     override func valueToShow() -> String {
