@@ -1,3 +1,7 @@
+# 3.2.2
+## Fixes
+- Fixed Return Policy related cards
+
 # 3.2.1
 ## Hearthstone
 - Add card highlights for cards that will be drawn or summoned.\
