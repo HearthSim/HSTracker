@@ -4,6 +4,7 @@
 - Added Imbue counter.
 ## Fixes
 - Fixed Return Policy related cards
+- Fixed an issue causing Oasis Ally to not appear in the secret tracker.
 
 # 3.2.1
 ## Hearthstone

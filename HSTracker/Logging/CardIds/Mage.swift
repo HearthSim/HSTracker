@@ -197,6 +197,7 @@ extension CardIds.Collectible {
         static let WatercolorArtist = "TOY_376"
         static let Aessina = "EDR_430"
         static let Starsurge = "EDR_941"
+        static let OasisAllyCore = "CORE_BAR_812"
     }
 }
 
@@ -297,7 +298,7 @@ extension CardIds.Secrets {
         static let ManaBind = MultiIdCard(CardIds.Collectible.Mage.ManaBind)
         static let MirrorEntity = MultiIdCard(CardIds.Collectible.Mage.MirrorEntity, CardIds.Collectible.Mage.MirrorEntityVanilla)
         static let NetherwindPortal = MultiIdCard(CardIds.Collectible.Mage.NetherwindPortal)
-        static let OasisAlly = MultiIdCard(CardIds.Collectible.Mage.OasisAlly)
+        static let OasisAlly = MultiIdCard(CardIds.Collectible.Mage.OasisAlly), CardIds.Collectible.Mage.OasisAllyCore
         static let PotionOfPolymorph = MultiIdCard(CardIds.Collectible.Mage.PotionOfPolymorph)
         static let RiggedFaireGame = MultiIdCard(CardIds.Collectible.Mage.RiggedFaireGame)
         static let Spellbender = MultiIdCard(CardIds.Collectible.Mage.Spellbender, CardIds.Collectible.Mage.SpellbenderVanilla)
