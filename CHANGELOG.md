@@ -1,10 +1,13 @@
 # 3.2.2
 ## New
+- **Updated for Hearthstone 32.0.3**
 - Made card highlights, counters and related cards work during discover.
 - Added Imbue counter.
 ## Fixes
 - Fixed Return Policy related cards
 - Fixed an issue causing Oasis Ally to not appear in the secret tracker.
+- Changed Aessina counter to show when opponent generated a Wild God from Malorne the Waywatcher.
+- Fixed an issue with Flavor Text not appearing in full screen mode
 
 # 3.2.1
 ## Hearthstone
