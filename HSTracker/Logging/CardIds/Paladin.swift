@@ -192,6 +192,8 @@ extension CardIds.Collectible {
         static let RedscaleDragontamer = "DMF_194"
         static let RedscaleDragontamerCore = "CORE_DMF_194"
         static let UrsineMaul = "EDR_253"
+        static let FlickeringLightbot = "MIS_918"
+        static let SeaShanty = "VAC_558"
     }
 }
 

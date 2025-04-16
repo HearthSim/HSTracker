@@ -700,6 +700,9 @@
 		B86FFA7D299C67AE0093689E /* Debounce.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC2D29437AF500F74CD9 /* Debounce.swift */; };
 		B86FFA7E299C67B50093689E /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC382944B1DA00F74CD9 /* ViewModel.swift */; };
 		B86FFA7F299C68870093689E /* NSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC3C29462EA800F74CD9 /* NSButton.swift */; };
+		B872E0D72DB059470023B24B /* HolySpellsPlayedCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B872E0D62DB059410023B24B /* HolySpellsPlayedCounter.swift */; };
+		B872E0D92DB05ADA0023B24B /* SpellsPlayedInCharactersCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B872E0D82DB05ADA0023B24B /* SpellsPlayedInCharactersCounter.swift */; };
+		B872E0DB2DB05C950023B24B /* TwistedWebweaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B872E0DA2DB05C950023B24B /* TwistedWebweaver.swift */; };
 		B87765CB2BB717CD003BE49D /* TrackedCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87765CA2BB717CD003BE49D /* TrackedCard.swift */; };
 		B87765CD2BB9AE7F003BE49D /* DeckSideboards.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87765CC2BB9AE7F003BE49D /* DeckSideboards.swift */; };
 		B87856DE2C04B958004C2C40 /* AggregateExceptionProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87856DD2C04B958004C2C40 /* AggregateExceptionProxy.swift */; };
@@ -1812,6 +1815,9 @@
 		B86D8A232D95FFDA00AB65A5 /* ArchdruidOfThorns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchdruidOfThorns.swift; sourceTree = "<group>"; };
 		B86D8A252D96005500AB65A5 /* RotheartDryad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotheartDryad.swift; sourceTree = "<group>"; };
 		B86D8A272D9600E400AB65A5 /* SuccumbToMadness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccumbToMadness.swift; sourceTree = "<group>"; };
+		B872E0D62DB059410023B24B /* HolySpellsPlayedCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolySpellsPlayedCounter.swift; sourceTree = "<group>"; };
+		B872E0D82DB05ADA0023B24B /* SpellsPlayedInCharactersCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellsPlayedInCharactersCounter.swift; sourceTree = "<group>"; };
+		B872E0DA2DB05C950023B24B /* TwistedWebweaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwistedWebweaver.swift; sourceTree = "<group>"; };
 		B87765CA2BB717CD003BE49D /* TrackedCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackedCard.swift; sourceTree = "<group>"; };
 		B87765CC2BB9AE7F003BE49D /* DeckSideboards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckSideboards.swift; sourceTree = "<group>"; };
 		B87856DD2C04B958004C2C40 /* AggregateExceptionProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AggregateExceptionProxy.swift; sourceTree = "<group>"; };
@@ -3139,6 +3145,7 @@
 				B86D89C12D95A04200AB65A5 /* FriendlyMinionsDiedThisGameCounter.swift */,
 				B89343412CD0791C009A8727 /* GalakrondCounter.swift */,
 				B86D89C32D95A24F00AB65A5 /* HeroPowersThisGameCounter.swift */,
+				B872E0D62DB059410023B24B /* HolySpellsPlayedCounter.swift */,
 				B8889C1E2DA4AAEB0053DD57 /* ImbueCounter.swift */,
 				B89343432CD11C13009A8727 /* JadeDisplayCounter.swift */,
 				B89343452CD11D03009A8727 /* JadeGolemCounter.swift */,
@@ -3151,6 +3158,7 @@
 				B89343352CCFD3BE009A8727 /* PogoHopperCounter.swift */,
 				B81B3DA62D444C9C00DC9EB0 /* ProtossMinionCostReductionCounter.swift */,
 				B89343492CD120C7009A8727 /* SelfDamageCounter.swift */,
+				B872E0D82DB05ADA0023B24B /* SpellsPlayedInCharactersCounter.swift */,
 				B893434B2CD122C3009A8727 /* SummonedDragonsCounter.swift */,
 				B85462292CDED2FE0083BB31 /* TheCeaselessExpanseCounter.swift */,
 				B86D89C72D95A48F00AB65A5 /* TyrandeSpellsPlayedCounter.swift */,
@@ -3259,6 +3267,7 @@
 				B85462222CDEBE390083BB31 /* ScroungingShipwright.swift */,
 				B85462242CDEBFC30083BB31 /* StarshipSchematic.swift */,
 				B85462042CDD3EDA0083BB31 /* TessGreymane.swift */,
+				B872E0DA2DB05C950023B24B /* TwistedWebweaver.swift */,
 			);
 			path = Rogue;
 			sourceTree = "<group>";
@@ -4651,6 +4660,7 @@
 				B89865B72D91EF0100BA5649 /* BenevolentBanker.swift in Sources */,
 				B82238B82BF82BA500B405D4 /* PlayerProxy.swift in Sources */,
 				B8B7903F2C9776EB00DD33EC /* SandboxScoundrelEnchantment.swift in Sources */,
+				B872E0D72DB059470023B24B /* HolySpellsPlayedCounter.swift in Sources */,
 				B893434C2CD122C3009A8727 /* SummonedDragonsCounter.swift in Sources */,
 				B8B790682C978EC100DD33EC /* BloodsailDeckhandsEnchantment.swift in Sources */,
 				B854620D2CDD42AD0083BB31 /* InventorBoom.swift in Sources */,
@@ -4694,6 +4704,7 @@
 				B85F1AC9258A558200A6F8C3 /* Helper.swift in Sources */,
 				B8B78FCD2C960D7600DD33EC /* LoadTheChamber.swift in Sources */,
 				B86D8A202D95FEE200AB65A5 /* KragwaTheFrog.swift in Sources */,
+				B872E0DB2DB05C950023B24B /* TwistedWebweaver.swift in Sources */,
 				43873CC31CA6E6CD00F01CB4 /* WindowMove.swift in Sources */,
 				C92C680E1D1F225F009030DC /* StatsTab.swift in Sources */,
 				B8B78FA02C93C41100DD33EC /* EffectTarget.swift in Sources */,
@@ -4985,6 +4996,7 @@
 				B8AF0C652B828A4A00B65F63 /* ConstructedMulliganSingleCardHeader.swift in Sources */,
 				B8230B942C8BE125008CBEEB /* IHsChoice.swift in Sources */,
 				B8196F1D2CC871A6007C0371 /* AstralAutomatonCounter.swift in Sources */,
+				B872E0D92DB05ADA0023B24B /* SpellsPlayedInCharactersCounter.swift in Sources */,
 				B89865562D8C920500BA5649 /* OakenSummons.swift in Sources */,
 				B89865972D91D1A400BA5649 /* MagathaBaneOfMusic.swift in Sources */,
 				B82029572CD4658100C19A8C /* GridCardImages.swift in Sources */,

@@ -206,7 +206,7 @@ extension CardIds.Collectible {
         static let RaidingPartyCore = "CORE_TRL_124"
         static let FoxyFraud = "DMF_511"
         static let Ashamane = "EDR_527"
-        
+        static let TwistedWebweaver = "EDR_540"
     }
 }
 

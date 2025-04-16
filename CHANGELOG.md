@@ -1,3 +1,8 @@
+# 3.2.3
+## New
+- Added counters for Flickering Lightbot and SeaShanty.
+- Added Related Cards Tooltips to Twisted Webweaver.
+
 # 3.2.2
 ## New
 - **Updated for Hearthstone 32.0.3**
