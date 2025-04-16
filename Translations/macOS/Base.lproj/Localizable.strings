@@ -316,7 +316,7 @@
 
 /* Wotog / Counters */
 "Counter_AsteroidDamage" = "Asteroid Damage";
-"Counter_AsteroidDamage_Damage" = "Asteroid Damage";
+"Counter_AsteroidDamage_Damage" = "%@ Damage";
 "Counter_CardsDrawnThisTurn" = "Cards Drawn This Turn";
 "Counter_ExcavateTier" = "Excavate Tier";
 "Counter_Excavate_Tier0" = "Common";

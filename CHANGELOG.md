@@ -2,6 +2,8 @@
 ## New
 - Added counters for Flickering Lightbot and SeaShanty.
 - Added Related Cards Tooltips to Twisted Webweaver.
+## Fixes
+- Fixed incorrect display for the Colossus and Asteroid Damage counters
 
 # 3.2.2
 ## New
