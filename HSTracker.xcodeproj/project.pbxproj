@@ -543,6 +543,7 @@
 		B851C8FB2BD886E300B748C1 /* BattlegroundsMinionTypesBox.xib in Resources */ = {isa = PBXBuildFile; fileRef = B851C8FA2BD886E300B748C1 /* BattlegroundsMinionTypesBox.xib */; };
 		B851C8FD2BD8953400B748C1 /* BattlegroundsMinionTypesBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851C8FC2BD8953400B748C1 /* BattlegroundsMinionTypesBox.swift */; };
 		B852D8042DC1704000884B26 /* BrilliantMacaw.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D8032DC1704000884B26 /* BrilliantMacaw.swift */; };
+		B852D8062DC171A500884B26 /* ContrabandStash.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D8052DC171A500884B26 /* ContrabandStash.swift */; };
 		B85462052CDD3EDA0083BB31 /* TessGreymane.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85462042CDD3EDA0083BB31 /* TessGreymane.swift */; };
 		B854620B2CDD42420083BB31 /* Shudderwock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B854620A2CDD42420083BB31 /* Shudderwock.swift */; };
 		B854620D2CDD42AD0083BB31 /* InventorBoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = B854620C2CDD42AD0083BB31 /* InventorBoom.swift */; };
@@ -1713,6 +1714,7 @@
 		B851C8FA2BD886E300B748C1 /* BattlegroundsMinionTypesBox.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsMinionTypesBox.xib; sourceTree = "<group>"; };
 		B851C8FC2BD8953400B748C1 /* BattlegroundsMinionTypesBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsMinionTypesBox.swift; sourceTree = "<group>"; };
 		B852D8032DC1704000884B26 /* BrilliantMacaw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrilliantMacaw.swift; sourceTree = "<group>"; };
+		B852D8052DC171A500884B26 /* ContrabandStash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContrabandStash.swift; sourceTree = "<group>"; };
 		B85462042CDD3EDA0083BB31 /* TessGreymane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TessGreymane.swift; sourceTree = "<group>"; };
 		B854620A2CDD42420083BB31 /* Shudderwock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shudderwock.swift; sourceTree = "<group>"; };
 		B854620C2CDD42AD0083BB31 /* InventorBoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventorBoom.swift; sourceTree = "<group>"; };
@@ -3260,6 +3262,7 @@
 			isa = PBXGroup;
 			children = (
 				B89865C02D91FF9600BA5649 /* Blink.swift */,
+				B852D8052DC171A500884B26 /* ContrabandStash.swift */,
 				B8E1E5FB2D0CA17600383975 /* CounterfeitBlade.swift */,
 				B89865C22D9200CB00BA5649 /* DigForTreasure.swift */,
 				B89865C42D92010C00BA5649 /* ElvenMinstrel.swift */,
@@ -4836,6 +4839,7 @@
 				43BE58BE1DC47C6D00B24A21 /* Paths.swift in Sources */,
 				43BF754F1ECC4EB7005827FF /* Varint.swift in Sources */,
 				B8832DDC26117FCF00646BA4 /* MultiIdCard.swift in Sources */,
+				B852D8062DC171A500884B26 /* ContrabandStash.swift in Sources */,
 				B8C2F90F261F530700C31E6A /* GetAccountResult.swift in Sources */,
 				B8BD3BAE2C43507D001E85B7 /* BattlegroundsCompositionStatsRowViewModel.swift in Sources */,
 				B8B790522C977D9A00DD33EC /* JazzBassEnchantment.swift in Sources */,
