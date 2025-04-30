@@ -54,12 +54,16 @@ class TheCeaselessExpanseCounter: NumericCounter {
         if tag != GameTag.zone {
             return
         }
+        
+        let currentBlock = AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock
 
         switch prevValue {
         case Zone.deck.rawValue where value == Zone.hand.rawValue:
             counter += 1
             return
-        case Zone.hand.rawValue where value == Zone.play.rawValue:
+            // card was played.
+            // Need to check the block type because a card can go from hand to play by other means (dirty rat, voidcaller, ...)
+        case Zone.hand.rawValue where value == Zone.play.rawValue && currentBlock?.type == "PLAY":
             counter += 1
             return
         case Zone.hand.rawValue where value == Zone.secret.rawValue:
@@ -69,6 +73,10 @@ class TheCeaselessExpanseCounter: NumericCounter {
             counter += 1
             return
         case Zone.deck.rawValue where value == Zone.graveyard.rawValue && entity.info.guessedCardState != .none:
+            counter += 1
+            return
+            // paladin auras count as destroyed when they expire
+        case Zone.secret.rawValue where value == Zone.graveyard.rawValue && currentBlock?.type == "TRIGGER" && !entity.isSecret:
             counter += 1
             return
         default:
