@@ -1607,6 +1607,7 @@ class Game: NSObject, PowerEventHandler {
         _battlegroundsHeroPickStatsParams = nil
         _battlegroundsHeroPickState = nil
         _mulliganGuideParams = nil
+        mulliganCardStats = nil
         windowManager.battlegroundsDetailsWindow.reset()
         DispatchQueue.main.async {
             self.windowManager.bobsBuddyPanel.resetDisplays()
