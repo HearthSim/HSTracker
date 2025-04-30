@@ -333,7 +333,7 @@ class PowerGameStateParser: LogEventParser {
                     let entity = eventHandler.entities[entityId]
                     if entity?.info.guessedCardState != GuessedCardState.none {
                         entity?.info.guessedCardState = GuessedCardState.revealed
-                        if AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock?.cardId == CardIds.Collectible.Warlock.WheelOfDeath {
+                        if AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock?.hideShowEntities ?? false {
                             entity?.info.hidden = true
                         } else {
                             entity?.info.hidden = false
@@ -489,6 +489,8 @@ class PowerGameStateParser: LogEventParser {
                 eventHandler.player.shuffleDeck()
                 eventHandler.handlePlayerDredge()
             }
+        } else if logLine.line.contains("META_DATA - Meta=OVERRIDE_HISTORY") {
+            AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock?.hideShowEntities = true
         }
         if logLine.line.contains("End Spectator") && eventHandler.isInMenu {
             eventHandler.gameEnded = true

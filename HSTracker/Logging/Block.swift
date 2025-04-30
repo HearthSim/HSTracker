@@ -26,6 +26,8 @@ class Block {
     var entitiesCreatedInDeck = [(entity: Entity, ids: Set<Int>)]()
     
     var isTradeableAction = false
+    
+    var hideShowEntities = false
    
     init(parent: Block?, id: Int, type: String?, cardId: String?, target: String?) {
         self.parent = parent
