@@ -1,9 +1,14 @@
 # 3.2.3
 ## New
+- **Updated for Hearthstone 32.2.0**
+- Added tracking for Repackage Box.
+- Added related card tooltips for Brillant Macaw and Contraband Stash.
 - Added counters for Flickering Lightbot and SeaShanty.
 - Added Related Cards Tooltips to Twisted Webweaver.
 ## Fixes
 - Fixed incorrect display for the Colossus and Asteroid Damage counters
+- Fixed an issue where cards destroyed by Wheel of Death!!! and The 8 Hands from Beyond appeared on opponent's decklist.
+- Fixed The Ceaseless Expanse counter not being accurate in some edge cases (Paladin Auras and Dirty Rat).
 
 # 3.2.2
 ## New
