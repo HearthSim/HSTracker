@@ -333,6 +333,11 @@ class PowerGameStateParser: LogEventParser {
                     let entity = eventHandler.entities[entityId]
                     if entity?.info.guessedCardState != GuessedCardState.none {
                         entity?.info.guessedCardState = GuessedCardState.revealed
+                        if AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock?.cardId == CardIds.Collectible.Warlock.WheelOfDeath {
+                            entity?.info.hidden = true
+                        } else {
+                            entity?.info.hidden = false
+                        }
                         if entity?.cardId == CardIds.Collectible.Neutral.PrinceRenathal || entity?.cardId == CardIds.Collectible.Neutral.PrinceRenathalInvalid || entity?.cardId == CardIds.Collectible.Warrior.SporeEmpressMoldara || entity?.cardId == CardIds.NonCollectible.Warrior.SporeEmpressMoldara_ReplicatingSporeToken {
                             entity?.info.guessedCardState = .revealed
                             

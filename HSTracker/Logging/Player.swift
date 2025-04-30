@@ -448,7 +448,7 @@ final class Player {
     var opponentCardList: [Card] {
         if Player.knownOpponentDeck == nil {
             return (revealedEntities.filter({ (e: Entity) in
-                !(e.info.guessedCardState == GuessedCardState.none && e.info.hidden && (e.isInDeck || e.isInHand))
+                !(e.info.guessedCardState == GuessedCardState.none && e.info.hidden)
                 && (e.isPlayableCard || !e.has(tag: .cardtype))
                 && (e[.creator] == 1
                     || ((!e.info.created || (Settings.showOpponentCreated
@@ -551,7 +551,7 @@ final class Player {
                 && $0.isPlayableCard
                 && (!$0.isInDeck || $0.info.stolen)
                 && $0.info.originalController == self.id
-                && !($0.info.hidden && ($0.isInDeck || $0.isInHand))
+                && !$0.info.hidden
         }
 
         let originalSideboards = game.currentDeck?.sideboards
@@ -682,7 +682,7 @@ final class Player {
                 && $0.isPlayableCard
                 && (!$0.isInDeck || $0.info.stolen)
                 && $0.info.originalController == self.id
-                && !($0.info.hidden && ($0.isInDeck || $0.isInHand))
+                && !$0.info.hidden
         }
 
         var removedFromDeck = [String]()
