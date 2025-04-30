@@ -333,7 +333,7 @@ class PowerGameStateParser: LogEventParser {
                     let entity = eventHandler.entities[entityId]
                     if entity?.info.guessedCardState != GuessedCardState.none {
                         entity?.info.guessedCardState = GuessedCardState.revealed
-                        if AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock?.hideShowEntities ?? false {
+                        if AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock?.hideShowEntities ?? false && !(entity?.has(tag: .displayed_creator) ?? true) {
                             entity?.info.hidden = true
                         } else {
                             entity?.info.hidden = false
