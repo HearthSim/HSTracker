@@ -269,4 +269,8 @@ protocol PowerEventHandler: AnyObject {
     func handleBattlegroundsHeroReroll(entity: Entity, oldCardId: String?)
     
     var starshipLaunchBlockIds: SynchronizedArray<Int?> { get }
+    
+    var minionsInPlay: SynchronizedArray<String> { get }
+    
+    var minionsInPlayByPlayer: SynchronizedDictionary<Int, SynchronizedArray<String>> { get }
 }

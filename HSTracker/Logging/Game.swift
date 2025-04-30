@@ -105,6 +105,10 @@ class Game: NSObject, PowerEventHandler {
     var gameId = ""
     
     var starshipLaunchBlockIds = SynchronizedArray<Int?>()
+    
+    var minionsInPlay = SynchronizedArray<String>()
+    
+    var minionsInPlayByPlayer = SynchronizedDictionary<Int, SynchronizedArray<String>>()
         
     //We do count+1 because the friendly hero is not in setaside
     func battlegroundsHeroCount() -> Int {
@@ -1621,6 +1625,9 @@ class Game: NSObject, PowerEventHandler {
         OpponentDeadForTracker.reset()
         
         starshipLaunchBlockIds.removeAll()
+        
+        minionsInPlay.removeAll()
+        minionsInPlayByPlayer.removeAll()
     }
     
     func cacheBrawlInfo() {

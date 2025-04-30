@@ -654,6 +654,20 @@ struct TagChangeActions {
             zoneChangeFromOther(eventHandler: eventHandler, id: id, rawValue: value, prevValue: prevValue,
                                 controller: controller, cardId: entity.cardId)
         }
+        
+        if value == Zone.play.rawValue {
+            if let e = eventHandler.entities[id], e.isMinion {
+                eventHandler.minionsInPlay.append(e.cardId)
+                
+                if let minions = eventHandler.minionsInPlayByPlayer[e[.controller]] {
+                    minions.append(e.cardId)
+                } else {
+                    let arr = SynchronizedArray<String>()
+                    arr.append(e.cardId)
+                    eventHandler.minionsInPlayByPlayer[e[.controller]] = arr
+                }
+            }
+        }
     }
 
     // The last heropower is created after the last hero, therefore +1

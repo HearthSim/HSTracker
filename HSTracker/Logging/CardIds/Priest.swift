@@ -175,6 +175,7 @@ extension CardIds.Collectible {
         static let Tyrande = "EDR_464"
         static let SpiritGuide = "AV_328"
         static let SpiritGuideCore = "CORE_AV_328"
+        static let Repackage = "TOY_879"
     }
 }
 
@@ -239,6 +240,7 @@ extension CardIds.NonCollectible {
         static let AvianaElunesChosen_MoonCycleToken = "EDR_895t"
         static let Tyrande_PullOfTheMoonEnchantment = "EDR_464e2"
         static let LunarwingMessenger_BlessingOfTheMoon = "EDR_449p"
+        static let Repackage_RepackagedBoxToken = "TOY_879t"
     }
 }
 

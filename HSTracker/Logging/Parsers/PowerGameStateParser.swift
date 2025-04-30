@@ -371,6 +371,14 @@ class PowerGameStateParser: LogEventParser {
                             eventHandler.triangulatePlayed = true
                         }
                     }
+                    
+                    if currentBlock?.cardId == CardIds.Collectible.Priest.Repackage && entity?.cardId == CardIds.NonCollectible.Priest.Repackage_RepackagedBoxToken {
+                        entity?.info.storedCardIds.append(contentsOf: eventHandler.minionsInPlay.array())
+                        
+                        if entity?.isControlled(by: eventHandler.opponent.id) ?? false {
+                            entity?.info.guessedCardState = .guessed
+                        }
+                    }
                 }
 
                 let fizzleSnapshots = eventHandler.opponent.playerEntities.filter { e in e.cardId == CardIds.NonCollectible.Neutral.PhotographerFizzle_FizzlesSnapshotToken }
@@ -1120,6 +1128,10 @@ class PowerGameStateParser: LogEventParser {
                                 } else {
                                     addKnownCardId(eventHandler: eventHandler, cardId: card)
                                 }
+                            }
+                        case CardIds.NonCollectible.Priest.Repackage_RepackagedBoxToken:
+                            for card in actionStartingEntity?.info.storedCardIds ?? [String]() {
+                                addKnownCardId(eventHandler: eventHandler, cardId: card)
                             }
                         case CardIds.Collectible.DemonHunter.XortothBreakerOfStars:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.DemonHunter.XortothBreakerofStars_StarOfOriginationToken)
