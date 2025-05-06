@@ -938,6 +938,8 @@ extension CardIds.NonCollectible {
         static let ConstructPylons_PsionicPowerEnchantment = "SC_755e"
         static let ShieldBattery_KhalaiIngenuityEnchantment = "SC_759e"
         static let WarpGate_WarpConduitEnchantment = "SC_751e"
-        static let Agamaggan_CorruptedThornsEnchantment1 = "EDR_489e2";
+        static let Agamaggan_CorruptedThornsEnchantment1 = "EDR_489e2"
+        static let FlightyScout = "BG32_330"
+        static let FlightyScout_FlightyScout = "BG32_330_G"
     }
 }

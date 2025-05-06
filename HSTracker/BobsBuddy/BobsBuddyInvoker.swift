@@ -1085,8 +1085,8 @@ class BobsBuddyInvoker {
             return
         }
         
-        // Only allow feathermane for now.
-        if copy.cardId != CardIds.NonCollectible.Neutral.FreeFlyingFeathermane && copy.cardId != CardIds.NonCollectible.Neutral.FreeFlyingFeathermane_FreeFlyingFeathermane {
+        // Only allow feathermane and Flighty Scout for now.
+        if copy.cardId != CardIds.NonCollectible.Neutral.FreeFlyingFeathermane && copy.cardId != CardIds.NonCollectible.Neutral.FreeFlyingFeathermane_FreeFlyingFeathermane && copy.cardId != CardIds.NonCollectible.Neutral.FlightyScout && copy.cardId != CardIds.NonCollectible.Neutral.FlightyScout_FlightyScout {
             return
         }
         
