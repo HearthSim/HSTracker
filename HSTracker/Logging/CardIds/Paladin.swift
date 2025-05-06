@@ -194,6 +194,7 @@ extension CardIds.Collectible {
         static let UrsineMaul = "EDR_253"
         static let FlickeringLightbot = "MIS_918"
         static let SeaShanty = "VAC_558"
+        static let SearingReflection = "FIR_941"
     }
 }
 

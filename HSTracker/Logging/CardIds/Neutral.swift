@@ -710,6 +710,7 @@ extension CardIds.Collectible {
         static let TaelanFordringCore = "CS3_024"
         static let TheCuratorCore = "CORE_KAR_061"
         static let TormentedDreadwing = "EDR_572"
+        static let LivingFlame = "FIR_929"
     }
 }
 

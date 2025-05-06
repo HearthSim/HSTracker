@@ -544,6 +544,8 @@
 		B851C8FD2BD8953400B748C1 /* BattlegroundsMinionTypesBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851C8FC2BD8953400B748C1 /* BattlegroundsMinionTypesBox.swift */; };
 		B852D8042DC1704000884B26 /* BrilliantMacaw.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D8032DC1704000884B26 /* BrilliantMacaw.swift */; };
 		B852D8062DC171A500884B26 /* ContrabandStash.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D8052DC171A500884B26 /* ContrabandStash.swift */; };
+		B852D8082DCAA05D00884B26 /* LivingFlame.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D8072DCAA05D00884B26 /* LivingFlame.swift */; };
+		B852D80A2DCAA28400884B26 /* SearingReflection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D8092DCAA28400884B26 /* SearingReflection.swift */; };
 		B85462052CDD3EDA0083BB31 /* TessGreymane.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85462042CDD3EDA0083BB31 /* TessGreymane.swift */; };
 		B854620B2CDD42420083BB31 /* Shudderwock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B854620A2CDD42420083BB31 /* Shudderwock.swift */; };
 		B854620D2CDD42AD0083BB31 /* InventorBoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = B854620C2CDD42AD0083BB31 /* InventorBoom.swift */; };
@@ -1715,6 +1717,8 @@
 		B851C8FC2BD8953400B748C1 /* BattlegroundsMinionTypesBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsMinionTypesBox.swift; sourceTree = "<group>"; };
 		B852D8032DC1704000884B26 /* BrilliantMacaw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrilliantMacaw.swift; sourceTree = "<group>"; };
 		B852D8052DC171A500884B26 /* ContrabandStash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContrabandStash.swift; sourceTree = "<group>"; };
+		B852D8072DCAA05D00884B26 /* LivingFlame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LivingFlame.swift; sourceTree = "<group>"; };
+		B852D8092DCAA28400884B26 /* SearingReflection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearingReflection.swift; sourceTree = "<group>"; };
 		B85462042CDD3EDA0083BB31 /* TessGreymane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TessGreymane.swift; sourceTree = "<group>"; };
 		B854620A2CDD42420083BB31 /* Shudderwock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shudderwock.swift; sourceTree = "<group>"; };
 		B854620C2CDD42AD0083BB31 /* InventorBoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventorBoom.swift; sourceTree = "<group>"; };
@@ -3341,6 +3345,7 @@
 				B86D89FF2D95F3A700AB65A5 /* FinjaTheFlyingStar.swift */,
 				B89865942D91D17100BA5649 /* InstrumentTech.swift */,
 				B81B3D8E2D409B0A00DC9EB0 /* JoymancerJepetto.swift */,
+				B852D8072DCAA05D00884B26 /* LivingFlame.swift */,
 				B89865962D91D1A400BA5649 /* MagathaBaneOfMusic.swift */,
 				B86D8A012D95F5C000AB65A5 /* MalorneTheWaywatcher.swift */,
 				B89865982D91D1DA00BA5649 /* MalygosTheSpellweaverCore.swift */,
@@ -3959,6 +3964,7 @@
 				B89865B02D91D78900BA5649 /* LibramOfClarity.swift */,
 				B89865B22D91D7AE00BA5649 /* PipsiPainthoof.swift */,
 				B86D8A172D95FB2100AB65A5 /* RedscaleDragontamer.swift */,
+				B852D8092DCAA28400884B26 /* SearingReflection.swift */,
 				B89865B42D91D80600BA5649 /* TrinketArtist.swift */,
 				B8FDE94C2CDD26340093BFF7 /* Tyr.swift */,
 				B8FDE94E2CDD26A20093BFF7 /* TyrsTears.swift */,
@@ -4902,6 +4908,7 @@
 				B8B790102C974E8700DD33EC /* SaboteurEnchantment.swift in Sources */,
 				B89865A12D91D2B500BA5649 /* TramOperator.swift in Sources */,
 				B86D89DC2D95C40500AB65A5 /* InfestedBreath.swift in Sources */,
+				B852D8082DCAA05D00884B26 /* LivingFlame.swift in Sources */,
 				B864AE272597DD9400793F36 /* GameSaveKeyId.swift in Sources */,
 				B898656C2D8E175400BA5649 /* Birdwatching.swift in Sources */,
 				B8BCC1E5273B168300DA6474 /* MercenariesAbilitiesView.swift in Sources */,
@@ -5275,6 +5282,7 @@
 				432B60331CB69FA600B05D19 /* FloatingCard.swift in Sources */,
 				B82F4EAB24E3021D00905024 /* MonoHelper.swift in Sources */,
 				4390FBBA1DAA72E700AE71BB /* Version.swift in Sources */,
+				B852D80A2DCAA28400884B26 /* SearingReflection.swift in Sources */,
 				436789BB1CACF79800C962D1 /* TrackerFrame.swift in Sources */,
 				B8FDE94D2CDD26340093BFF7 /* Tyr.swift in Sources */,
 				B893434E2CD1320F009A8727 /* WheelOfDeathTurnsCounter.swift in Sources */,

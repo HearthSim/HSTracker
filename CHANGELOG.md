@@ -1,3 +1,8 @@
+# 3.2.4
+## New
+- Add card highlights for *Embers of the World Tree* Mini-Set cards: \
+   *Living Flame, Searing Reflection*
+
 # 3.2.3
 ## New
 - **Updated for Hearthstone 32.2.0**
