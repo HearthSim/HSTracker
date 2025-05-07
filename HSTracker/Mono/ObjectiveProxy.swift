@@ -16,7 +16,7 @@ class ObjectiveProxy: MonoHandle, MonoClassInitializer {
     static func initialize() {
         if ObjectiveProxy._class == nil {
             ObjectiveProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Spells", name: "Objective")
-            initializeProperties(properties: ["ScriptDataNum1"])
+            initializeProperties(properties: ["ScriptDataNum1", "ScriptDataNum2"])
 
         }
     }
@@ -27,4 +27,6 @@ class ObjectiveProxy: MonoHandle, MonoClassInitializer {
     
     @MonoPrimitiveProperty(property: "ScriptDataNum1", owner: ObjectiveProxy.self)
     var scriptDataNum1: Int32
+    @MonoPrimitiveProperty(property: "ScriptDataNum2", owner: ObjectiveProxy.self)
+    var scriptDataNum2: Int32
 }

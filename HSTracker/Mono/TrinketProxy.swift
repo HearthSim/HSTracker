@@ -16,10 +16,15 @@ class TrinketProxy: MonoHandle, MonoClassInitializer {
     static func initialize() {
         if TrinketProxy._class == nil {
             TrinketProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Trinkets", name: "Trinket")
+            initializeProperties(properties: ["ScriptDataNum1", "ScriptDataNum2"])
         }
     }
     
     required init(obj: UnsafeMutablePointer<MonoObject>?) {
         super.init(obj: obj)
     }
-}
+    
+    @MonoPrimitiveProperty(property: "ScriptDataNum1", owner: TrinketProxy.self)
+    var scriptDataNum1: Int32
+    @MonoPrimitiveProperty(property: "ScriptDataNum2", owner: TrinketProxy.self)
+    var scriptDataNum2: Int32}

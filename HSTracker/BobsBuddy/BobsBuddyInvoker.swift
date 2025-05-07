@@ -807,11 +807,28 @@ class BobsBuddyInvoker {
     
     static func getObjectiveFromEntity(factory: ObjectiveFactoryProxy, player: Bool, entity: Entity) -> ObjectiveProxy {
         let objective = factory.create(cardId: entity.cardId, controlledByPlayer: player)
-        let scriptDataNum = entity[.tag_script_data_num_1]
-        if scriptDataNum > 0 {
-            objective.scriptDataNum1 = Int32(scriptDataNum)
+        let scriptDataNum1 = entity[.tag_script_data_num_1]
+        let scriptDataNum2 = objective.scriptDataNum2
+        if scriptDataNum1 > 0 {
+            objective.scriptDataNum1 = Int32(scriptDataNum1)
+        }
+        if scriptDataNum1 > 0 {
+            objective.scriptDataNum2 = Int32(scriptDataNum2)
         }
         return objective
+    }
+    
+    static func getTrinketFromEntity(factory: TrinketFactoryProxy, player: Bool, entity: Entity) -> TrinketProxy {
+        let trinket = factory.create(id: entity.cardId, friendly: player)
+        let scriptDataNum1 = entity[.tag_script_data_num_1]
+        let scriptDataNum2 = trinket.scriptDataNum2
+        if scriptDataNum1 > 0 {
+            trinket.scriptDataNum1 = Int32(scriptDataNum1)
+        }
+        if scriptDataNum2 > 0 {
+            trinket.scriptDataNum2 = Int32(scriptDataNum2)
+        }
+        return trinket
     }
     
     func getAttachedEntities(entityId: Int) -> [Entity] {
@@ -900,8 +917,8 @@ class BobsBuddyInvoker {
             questData.rewardCardId = reward.info.latestCardId
             MonoHelper.addToList(list: playerQuests, element: questData)
         }
-        for trinket in gamePlayer.trinkets where !trinket.cardId.isEmpty {
-            MonoHelper.addToList(list: inputPlayer.trinkets, element: simulator.trinketFactory.create(id: trinket.cardId, friendly: friendly))
+        for trinket in gamePlayer.trinkets {
+            MonoHelper.addToList(list: inputPlayer.trinkets, element: BobsBuddyInvoker.getTrinketFromEntity(factory: simulator.trinketFactory, player: friendly, entity: trinket))
         }
         let playerObjectives = inputPlayer.objectives
         for objective in game.player.objectives {
