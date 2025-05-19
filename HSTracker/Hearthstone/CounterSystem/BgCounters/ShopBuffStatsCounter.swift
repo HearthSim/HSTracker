@@ -66,7 +66,7 @@ class ShopBuffStatsCounter: StatsCounter {
         }
         
         if tag == .zone,
-           (value == Zone.play.rawValue || (value == Zone.setaside.rawValue && prevValue == Zone.play.rawValue)),
+           value == Zone.play.rawValue || (value == Zone.setaside.rawValue && prevValue == Zone.play.rawValue),
            relatedCards.contains(entity.cardId) {
             onCounterChanged()
         }
