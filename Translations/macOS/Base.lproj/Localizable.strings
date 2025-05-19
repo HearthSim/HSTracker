@@ -339,6 +339,7 @@
 "Counter_ElementalTavernBuff" = "Elemental Tavern Buff";
 "Counter_FreeRefresh" = "Free Refreshes";
 "Counter_GoldNextTurn" = "Extra Gold Next Turn";
+"Counter_TavernSpellsBuff" = "Spells Extra Buff";
 
 /* Tier7 */
 "BattlegroundsOverlayMessage_Error" = "Something went wrong :(";

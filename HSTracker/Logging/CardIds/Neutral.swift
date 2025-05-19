@@ -970,5 +970,11 @@ extension CardIds.NonCollectible {
         static let GraceFarsailBATTLEGROUNDS = "BG31_825"
         static let AccordOTron = "BG26_147"
         static let RecordSmuggler = "BG26_812"
+        static let ShinyRing = "BG28_168"
+        static let IntrepidBotanist = "BG32_237"
+        static let TranquilMeditative = "BG32_835"
+        static let ShoalfinMystic = "BG32_860"
+        static let Humongozz = "BG32_341"
+        static let FelfireConjurer = "BG32_821"
     }
 }
