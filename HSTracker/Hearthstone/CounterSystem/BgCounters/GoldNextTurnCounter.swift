@@ -106,7 +106,7 @@ class GoldNextTurnCounter: StatsCounter {
     }
 
     private func handleGraceFarsail(tag: GameTag, entity: Entity, value: Int, prevValue: Int) {
-        if tag == .tag_script_data_num_1 && value == 1 {
+        if tag == .tag_script_data_num_2 && value == 1 {
             goldSureAmount += entity[.tag_script_data_num_1]
             onCounterChanged()
         } else if tag == .tag_script_data_num_2 && prevValue == 1 {
