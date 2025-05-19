@@ -338,8 +338,9 @@ class PowerGameStateParser: LogEventParser {
                         } else {
                             entity?.info.hidden = false
                         }
-                        if entity?.cardId == CardIds.Collectible.Neutral.PrinceRenathal || entity?.cardId == CardIds.Collectible.Neutral.PrinceRenathalInvalid || entity?.cardId == CardIds.Collectible.Warrior.SporeEmpressMoldara || entity?.cardId == CardIds.NonCollectible.Warrior.SporeEmpressMoldara_ReplicatingSporeToken {
+                        if entity?.cardId == CardIds.Collectible.Neutral.PrinceRenathal || entity?.cardId == CardIds.Collectible.Neutral.PrinceRenathalInvalid || entity?.cardId == CardIds.Collectible.Neutral.YseraEmeraldAspect || entity?.cardId == CardIds.Collectible.Priest.DarkbishopBenedictus  || entity?.cardId == CardIds.Collectible.Priest.DarkbishopBenedictusCorePlaceholder || entity?.cardId == CardIds.Collectible.Warrior.SporeEmpressMoldara || entity?.cardId == CardIds.NonCollectible.Warrior.SporeEmpressMoldara_ReplicatingSporeToken {
                             entity?.info.guessedCardState = .revealed
+                            entity?.info.hidden = true
                             
                             AppDelegate.instance().coreManager?.game.updateTrackers()
                         }

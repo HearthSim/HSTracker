@@ -176,6 +176,8 @@ extension CardIds.Collectible {
         static let SpiritGuide = "AV_328"
         static let SpiritGuideCore = "CORE_AV_328"
         static let Repackage = "TOY_879"
+        static let DarkbishopBenedictus = "SW_448"
+        static let DarkbishopBenedictusCorePlaceholder = "CORE_SW_448"
     }
 }
 
