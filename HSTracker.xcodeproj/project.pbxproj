@@ -548,6 +548,7 @@
 		B852D80A2DCAA28400884B26 /* SearingReflection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D8092DCAA28400884B26 /* SearingReflection.swift */; };
 		B852D80F2DDAB97100884B26 /* ElementalsExtraStatsCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D80E2DDAB97100884B26 /* ElementalsExtraStatsCounter.swift */; };
 		B852D8112DDABB8800884B26 /* ShopBuffStatsCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D8102DDABB8800884B26 /* ShopBuffStatsCounter.swift */; };
+		B852D8132DDABE1E00884B26 /* FreeRefreshCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D8122DDABE1E00884B26 /* FreeRefreshCounter.swift */; };
 		B85462052CDD3EDA0083BB31 /* TessGreymane.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85462042CDD3EDA0083BB31 /* TessGreymane.swift */; };
 		B854620B2CDD42420083BB31 /* Shudderwock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B854620A2CDD42420083BB31 /* Shudderwock.swift */; };
 		B854620D2CDD42AD0083BB31 /* InventorBoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = B854620C2CDD42AD0083BB31 /* InventorBoom.swift */; };
@@ -1723,6 +1724,7 @@
 		B852D8092DCAA28400884B26 /* SearingReflection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearingReflection.swift; sourceTree = "<group>"; };
 		B852D80E2DDAB97100884B26 /* ElementalsExtraStatsCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementalsExtraStatsCounter.swift; sourceTree = "<group>"; };
 		B852D8102DDABB8800884B26 /* ShopBuffStatsCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopBuffStatsCounter.swift; sourceTree = "<group>"; };
+		B852D8122DDABE1E00884B26 /* FreeRefreshCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeRefreshCounter.swift; sourceTree = "<group>"; };
 		B85462042CDD3EDA0083BB31 /* TessGreymane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TessGreymane.swift; sourceTree = "<group>"; };
 		B854620A2CDD42420083BB31 /* Shudderwock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shudderwock.swift; sourceTree = "<group>"; };
 		B854620C2CDD42AD0083BB31 /* InventorBoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventorBoom.swift; sourceTree = "<group>"; };
@@ -3840,6 +3842,7 @@
 				B8E1E5A52D0B873E00383975 /* BeetlesSizeCounter.swift */,
 				B8196F1E2CC87293007C0371 /* BloodGemCounter.swift */,
 				B852D80E2DDAB97100884B26 /* ElementalsExtraStatsCounter.swift */,
+				B852D8122DDABE1E00884B26 /* FreeRefreshCounter.swift */,
 				B852D8102DDABB8800884B26 /* ShopBuffStatsCounter.swift */,
 				B8E1E5A72D0B883100383975 /* SpellsPlayedForNagasCounter.swift */,
 				B8E1E5A92D0B891F00383975 /* UndeadAttackBonusCounter.swift */,
@@ -4748,6 +4751,7 @@
 				B82029392CD2CECB00C19A8C /* AstrobiologistEnchantment.swift in Sources */,
 				B8E1E5B42D0C86A200383975 /* RevivePet.swift in Sources */,
 				B86D89F62D95EFF700AB65A5 /* BrollBearmantle.swift in Sources */,
+				B852D8132DDABE1E00884B26 /* FreeRefreshCounter.swift in Sources */,
 				B898656E2D8E17CF00BA5649 /* Fetch.swift in Sources */,
 				B8DC11F424EACDB80088A755 /* SimulationRunner.swift in Sources */,
 				432AD95D1DAD81B500D8F959 /* HttpEncoding.swift in Sources */,

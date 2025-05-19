@@ -337,6 +337,7 @@
 "Counter_Imbue" = "Imbue";
 "Counter_ElementalExtraStats" = "Elemental Extra Buff";
 "Counter_ElementalTavernBuff" = "Elemental Tavern Buff";
+"Counter_FreeRefresh" = "Free Refreshes";
 
 /* Tier7 */
 "BattlegroundsOverlayMessage_Error" = "Something went wrong :(";

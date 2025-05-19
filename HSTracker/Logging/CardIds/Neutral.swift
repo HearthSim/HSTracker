@@ -959,5 +959,7 @@ extension CardIds.NonCollectible {
         static let DuneDweller = "BG31_815"
         static let BlazingGreasefire = "BG32_843"
         static let AlignTheElements = "BG32_814"
+        static let RefreshingAnomaly = "BGS_116"
+        static let RefreshingAnomaly_RefreshCosts0Enchantment = "BGS_116e"
     }
 }
