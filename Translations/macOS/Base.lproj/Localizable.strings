@@ -336,6 +336,7 @@
 "Counter_PlayedDragons" = "Played Dragons";
 "Counter_Imbue" = "Imbue";
 "Counter_ElementalExtraStats" = "Elemental Extra Buff";
+"Counter_ElementalTavernBuff" = "Elemental Tavern Buff";
 
 /* Tier7 */
 "BattlegroundsOverlayMessage_Error" = "Something went wrong :(";
