@@ -8,6 +8,13 @@
 
 import Foundation
 
+class BattlegroundsDbSingleton {
+    static let instance: BattlegroundsDb = {
+        let result = BattlegroundsDb.init()
+        return result
+    }()
+}
+
 class BattlegroundsDb {
     private var _cardsByTier = [Int: [Race: [Card]]]()
     private var _solosExclusiveCardsByTier = [Int: [Race: [Card]]]()
@@ -18,7 +25,7 @@ class BattlegroundsDb {
     
     var races = Set<Race>()
     
-    init() {
+    fileprivate init() {
         update(RemoteConfig.data?.battlegrounds_tag_overrides)
     }
     
@@ -152,6 +159,43 @@ class BattlegroundsDb {
             exclusiveCards = theExclusiveCards
         }
         return cards + exclusiveCards
+    }
+    
+    func getCardsByRaces(_ races: [Race], _ isDuos: Bool) -> [Card] {
+        var cards = [Card]()
+        
+        for tier in _cardsByTier.values {
+            for race in races {
+                if let tierCards = tier[race] {
+                    cards.append(contentsOf: tierCards)
+                }
+            }
+        }
+        
+        for tier in isDuos ? _duosExclusiveCardsByTier.values : _solosExclusiveCardsByTier.values {
+            for race in races {
+                if let exclusiveCards = tier[race] {
+                    cards.append(contentsOf: exclusiveCards)
+                }
+            }
+        }
+        
+        return cards
+    }
+    
+    func getSpells(_ isDuos: Bool) -> [Card] {
+        var allSpells = [Card]()
+        
+        for tierEntry in _spellsByTier {
+            allSpells.append(contentsOf: tierEntry.value)
+        }
+        
+        let exclusiveSpellsDict = isDuos ? _duosExclusiveSpellsByTier : _solosExclusiveSpellsByTier
+        for tierEntry in exclusiveSpellsDict {
+            allSpells.append(contentsOf: tierEntry.value)
+        }
+        
+        return allSpells
     }
     
     func getSpells(_ tier: Int, _ isDuos: Bool) -> [Card] {

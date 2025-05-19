@@ -103,7 +103,37 @@ class BaseCounter: NSObject {
             .filterCardsByPlayerClass(playerClass: playerClass, ignoreNeutral: ignoreNeutral)
             .compactMap({ card in card.id })
     }
+    
+    final let _alwaysAvailableCards = [ CardIds.NonCollectible.Neutral.BoonofBeetles_BeetleToken1, CardIds.NonCollectible.Neutral.BloodGem1 ]
 
+    private var _availableCardIds: Set<Int>?
+    
+    private func getAvailableCardIds() -> Set<Int> {
+        if let availableCardIds = _availableCardIds {
+            return availableCardIds
+        }
+        let availableRaces = game.availableRaces ?? [Race]()
+        let currentRaces = Set<Race>(availableRaces) + [ .all, .invalid ]
+        let availableCards = BattlegroundsDbSingleton.instance.getCardsByRaces(currentRaces, game.isBattlegroundsDuosMatch()) + BattlegroundsDbSingleton.instance.getSpells(game.isBattlegroundsDuosMatch())
+        
+        let availableCardIds = Set<Int>(availableCards.compactMap({ $0.dbfId }))
+        _availableCardIds = availableCardIds
+        return availableCardIds
+    }
+    
+    var cardsToDisplay: [Card] {
+        return getCardsToDisplay().compactMap({ cardId in
+            if let card = Cards.by(cardId: cardId) {
+                if isBattlegroundsCounter && !getAvailableCardIds().contains(card.dbfId) && !_alwaysAvailableCards.contains(where: {$0 == cardId }) {
+                    return nil
+                }
+                card.baconCard = isBattlegroundsCounter
+                return card
+            }
+            return nil
+        })
+    }
+    
     // Event handling in Swift
     var counterChanged: (() -> Void)?
     var propertyChanged: ((String?) -> Void)?

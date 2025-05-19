@@ -19,7 +19,6 @@ import Foundation
     }
     
     var contentFrame = NSRect.zero
-    lazy var _db = BattlegroundsDb()
     
     init() {
         super.init(frame: NSRect.zero)
@@ -40,7 +39,7 @@ import Foundation
     
     var unavailableRaces: [Race] {
         if let availableRaces {
-            return _db.races.filter { x in !availableRaces.contains(x) && x != .invalid && x != .all }
+            return BattlegroundsDbSingleton.instance.races.filter { x in !availableRaces.contains(x) && x != .invalid && x != .all }
         }
         return [Race]()
     }
@@ -65,12 +64,12 @@ import Foundation
         if let tier = activeTier {
             let isTierAvailable = availableTiers.contains(tier)
             
-            for race in _db.races {
+            for race in BattlegroundsDbSingleton.instance.races {
                 if let availableRaces, !availableRaces.contains(race) && race != .invalid {
                     continue
                 }
                 
-                let cards = _db.getCards(tier, race, isDuos)
+                let cards = BattlegroundsDbSingleton.instance.getCards(tier, race, isDuos)
                 
                 if cards.count == 0 {
                     continue
@@ -79,7 +78,7 @@ import Foundation
                 groups.append(CardGroup(tier: tier, minionType: Race.lookup(race), raceName: String.localizedString("\(race)", comment: ""), groupedByMinionType: false, cards: cards.sorted(by: { (a, b) -> Bool in a.name < b.name })))
             }
             
-            var spells = Settings.showTavernSpells ? _db.getSpells(tier, isDuos) : [Card]()
+            var spells = Settings.showTavernSpells ? BattlegroundsDbSingleton.instance.getSpells(tier, isDuos) : [Card]()
             if spells.count > 0 {
                 spells = spells.compactMap { x in
                     if isTierAvailable {
@@ -124,7 +123,7 @@ import Foundation
             }
             for tierGroup in tiers {
                 let race = Race(rawValue: minionType)
-                let cards = minionType == -1 ? _db.getSpells(tierGroup, isDuos).sorted(by: { (a, b) -> Bool in a.cost < b.cost}).sorted(by: { (a, b) -> Bool in a.name < b.name }) : (_db.getCards(tierGroup, race ?? .invalid, isDuos) + (race != .all && race != .invalid ? _db.getCards(tierGroup, .all, isDuos) : [Card]())).sorted(by: { (a, b) -> Bool in a.name < b.name })
+                let cards = minionType == -1 ? BattlegroundsDbSingleton.instance.getSpells(tierGroup, isDuos).sorted(by: { (a, b) -> Bool in a.cost < b.cost}).sorted(by: { (a, b) -> Bool in a.name < b.name }) : (BattlegroundsDbSingleton.instance.getCards(tierGroup, race ?? .invalid, isDuos) + (race != .all && race != .invalid ? BattlegroundsDbSingleton.instance.getCards(tierGroup, .all, isDuos) : [Card]())).sorted(by: { (a, b) -> Bool in a.name < b.name })
                 if cards.count == 0 {
                     continue
                 }
