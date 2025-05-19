@@ -549,6 +549,7 @@
 		B852D80F2DDAB97100884B26 /* ElementalsExtraStatsCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D80E2DDAB97100884B26 /* ElementalsExtraStatsCounter.swift */; };
 		B852D8112DDABB8800884B26 /* ShopBuffStatsCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D8102DDABB8800884B26 /* ShopBuffStatsCounter.swift */; };
 		B852D8132DDABE1E00884B26 /* FreeRefreshCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D8122DDABE1E00884B26 /* FreeRefreshCounter.swift */; };
+		B852D8152DDABEE400884B26 /* GoldNextTurnCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D8142DDABEE400884B26 /* GoldNextTurnCounter.swift */; };
 		B85462052CDD3EDA0083BB31 /* TessGreymane.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85462042CDD3EDA0083BB31 /* TessGreymane.swift */; };
 		B854620B2CDD42420083BB31 /* Shudderwock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B854620A2CDD42420083BB31 /* Shudderwock.swift */; };
 		B854620D2CDD42AD0083BB31 /* InventorBoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = B854620C2CDD42AD0083BB31 /* InventorBoom.swift */; };
@@ -1725,6 +1726,7 @@
 		B852D80E2DDAB97100884B26 /* ElementalsExtraStatsCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementalsExtraStatsCounter.swift; sourceTree = "<group>"; };
 		B852D8102DDABB8800884B26 /* ShopBuffStatsCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopBuffStatsCounter.swift; sourceTree = "<group>"; };
 		B852D8122DDABE1E00884B26 /* FreeRefreshCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeRefreshCounter.swift; sourceTree = "<group>"; };
+		B852D8142DDABEE400884B26 /* GoldNextTurnCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoldNextTurnCounter.swift; sourceTree = "<group>"; };
 		B85462042CDD3EDA0083BB31 /* TessGreymane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TessGreymane.swift; sourceTree = "<group>"; };
 		B854620A2CDD42420083BB31 /* Shudderwock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shudderwock.swift; sourceTree = "<group>"; };
 		B854620C2CDD42AD0083BB31 /* InventorBoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventorBoom.swift; sourceTree = "<group>"; };
@@ -3843,6 +3845,7 @@
 				B8196F1E2CC87293007C0371 /* BloodGemCounter.swift */,
 				B852D80E2DDAB97100884B26 /* ElementalsExtraStatsCounter.swift */,
 				B852D8122DDABE1E00884B26 /* FreeRefreshCounter.swift */,
+				B852D8142DDABEE400884B26 /* GoldNextTurnCounter.swift */,
 				B852D8102DDABB8800884B26 /* ShopBuffStatsCounter.swift */,
 				B8E1E5A72D0B883100383975 /* SpellsPlayedForNagasCounter.swift */,
 				B8E1E5A92D0B891F00383975 /* UndeadAttackBonusCounter.swift */,
@@ -4640,6 +4643,7 @@
 				B89865912D91D10300BA5649 /* ColiferoTheArtist.swift in Sources */,
 				4C1923942392DF8A007EBB0F /* BattlegroundsOverlay.swift in Sources */,
 				B8B78FF32C96FD9800DD33EC /* SurfalopodEnchantment.swift in Sources */,
+				B852D8152DDABEE400884B26 /* GoldNextTurnCounter.swift in Sources */,
 				B898653A2D8B57E000BA5649 /* ICard.swift in Sources */,
 				B8B7906C2C97914200DD33EC /* FrozenBucklerEnchantment.swift in Sources */,
 				B86D89E42D95C8B100AB65A5 /* DreadsoulCorrupter.swift in Sources */,

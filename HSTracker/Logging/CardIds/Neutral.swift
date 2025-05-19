@@ -961,5 +961,14 @@ extension CardIds.NonCollectible {
         static let AlignTheElements = "BG32_814"
         static let RefreshingAnomaly = "BGS_116"
         static let RefreshingAnomaly_RefreshCosts0Enchantment = "BGS_116e"
+        static let CarefulInvestment = "BG28_800"
+        static let SouthseaBusker_ExtraGoldNextTurnDntEnchantment = "BG26_135e"
+        static let Overconfidence_OverconfidentDntEnchantment = "BG28_884e"
+        static let GraceFarsail_ExtraGoldIn2TurnsDntEnchantment = "BG31_825e2"
+        static let SouthseaBusker = "BG26_135"
+        static let Overconfidence = "BG28_884"
+        static let GraceFarsailBATTLEGROUNDS = "BG31_825"
+        static let AccordOTron = "BG26_147"
+        static let RecordSmuggler = "BG26_812"
     }
 }
