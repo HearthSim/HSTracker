@@ -335,6 +335,7 @@
 "Counter_FriendlyMinionsDiedThisGame" = "Friendly Minions That Died";
 "Counter_PlayedDragons" = "Played Dragons";
 "Counter_Imbue" = "Imbue";
+"Counter_ElementalExtraStats" = "Elemental Extra Buff";
 
 /* Tier7 */
 "BattlegroundsOverlayMessage_Error" = "Something went wrong :(";

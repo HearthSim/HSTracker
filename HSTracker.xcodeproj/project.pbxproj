@@ -546,6 +546,7 @@
 		B852D8062DC171A500884B26 /* ContrabandStash.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D8052DC171A500884B26 /* ContrabandStash.swift */; };
 		B852D8082DCAA05D00884B26 /* LivingFlame.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D8072DCAA05D00884B26 /* LivingFlame.swift */; };
 		B852D80A2DCAA28400884B26 /* SearingReflection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D8092DCAA28400884B26 /* SearingReflection.swift */; };
+		B852D80F2DDAB97100884B26 /* ElementalsExtraStatsCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D80E2DDAB97100884B26 /* ElementalsExtraStatsCounter.swift */; };
 		B85462052CDD3EDA0083BB31 /* TessGreymane.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85462042CDD3EDA0083BB31 /* TessGreymane.swift */; };
 		B854620B2CDD42420083BB31 /* Shudderwock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B854620A2CDD42420083BB31 /* Shudderwock.swift */; };
 		B854620D2CDD42AD0083BB31 /* InventorBoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = B854620C2CDD42AD0083BB31 /* InventorBoom.swift */; };
@@ -1719,6 +1720,7 @@
 		B852D8052DC171A500884B26 /* ContrabandStash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContrabandStash.swift; sourceTree = "<group>"; };
 		B852D8072DCAA05D00884B26 /* LivingFlame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LivingFlame.swift; sourceTree = "<group>"; };
 		B852D8092DCAA28400884B26 /* SearingReflection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearingReflection.swift; sourceTree = "<group>"; };
+		B852D80E2DDAB97100884B26 /* ElementalsExtraStatsCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementalsExtraStatsCounter.swift; sourceTree = "<group>"; };
 		B85462042CDD3EDA0083BB31 /* TessGreymane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TessGreymane.swift; sourceTree = "<group>"; };
 		B854620A2CDD42420083BB31 /* Shudderwock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shudderwock.swift; sourceTree = "<group>"; };
 		B854620C2CDD42AD0083BB31 /* InventorBoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventorBoom.swift; sourceTree = "<group>"; };
@@ -3835,6 +3837,7 @@
 			children = (
 				B8E1E5A52D0B873E00383975 /* BeetlesSizeCounter.swift */,
 				B8196F1E2CC87293007C0371 /* BloodGemCounter.swift */,
+				B852D80E2DDAB97100884B26 /* ElementalsExtraStatsCounter.swift */,
 				B8E1E5A72D0B883100383975 /* SpellsPlayedForNagasCounter.swift */,
 				B8E1E5A92D0B891F00383975 /* UndeadAttackBonusCounter.swift */,
 			);
@@ -4601,6 +4604,7 @@
 				B8B78FFA2C970A8A00DD33EC /* CamouflagedDirigibleEnchantment.swift in Sources */,
 				B844D36A2A0C3497001704E0 /* SpellCardEntityProxy.swift in Sources */,
 				B898657C2D91AFC600BA5649 /* BlazingAccretion.swift in Sources */,
+				B852D80F2DDAB97100884B26 /* ElementalsExtraStatsCounter.swift in Sources */,
 				B8B790252C9755F200DD33EC /* ResistanceAuraEnchantment.swift in Sources */,
 				B8DC120024EC5F9A0088A755 /* BobsBuddyPanel.swift in Sources */,
 				B8AF0C792B91444200B65F63 /* ConstructedMulliganGuidePreLobbyViewModel.swift in Sources */,

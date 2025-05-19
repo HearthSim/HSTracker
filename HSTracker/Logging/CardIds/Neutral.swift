@@ -941,5 +941,8 @@ extension CardIds.NonCollectible {
         static let Agamaggan_CorruptedThornsEnchantment1 = "EDR_489e2"
         static let FlightyScout = "BG32_330"
         static let FlightyScout_FlightyScout = "BG32_330_G"
+        static let SandSwirler = "BG32_841"
+        static let GlowingCinder = "BG32_842"
+        static let AmplifyingLightspawn = "BG32_845"
     }
 }

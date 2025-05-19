@@ -450,7 +450,9 @@ enum GameTag: Int, CaseIterable, Codable {
     demon_portal_deck = 3808,
     gametag_3809 = 3809,
     bacon_locked_mulligan_hero = 3877,
-    gametag_3962 = 3962
+    gametag_3962 = 3962,
+    bacon_elemental_buffhealthvalue = 4001,
+    bacon_elemental_buffatkvalue = 4002
 
     static var lookup = [String: GameTag]()
     
