@@ -1,3 +1,18 @@
+# 3.2.5
+## New
+- Added related card tooltips for Shaladrassil.
+- Fixed an issue where cards with a "Start of the Game" effect were sometimes revealed in the opponent's hand.
+## Battlegrounds
+- Added a counter for Tavern Spell Buffs.
+- Added a counter for Extra Gold Next Turn.
+- Added a counter for Free Refreshes.
+- Added a counter for Elementals Tavern Buffs.
+- Added a counter for Elementals Extra Stats.
+- Improved the Counter system to filter unavailable cards.
+## Bob's Buddy
+- Fixed incorrect simulation results in Duos due to Flighty Scout.
+- Fixed incorrect simulation results due to Runed Progenitor.
+
 # 3.2.4
 ## New
 - Add card highlights for *Embers of the World Tree* Mini-Set cards: \
