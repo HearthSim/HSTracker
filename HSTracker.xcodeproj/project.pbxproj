@@ -552,6 +552,7 @@
 		B852D8152DDABEE400884B26 /* GoldNextTurnCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D8142DDABEE400884B26 /* GoldNextTurnCounter.swift */; };
 		B852D8172DDAC91A00884B26 /* TavernSpellsBuffCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D8162DDAC91A00884B26 /* TavernSpellsBuffCounter.swift */; };
 		B852D8192DDACAAF00884B26 /* Shaladrassil.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D8182DDACAAF00884B26 /* Shaladrassil.swift */; };
+		B852D81B2DDD669400884B26 /* TheAzeriteRat.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D81A2DDD669400884B26 /* TheAzeriteRat.swift */; };
 		B85462052CDD3EDA0083BB31 /* TessGreymane.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85462042CDD3EDA0083BB31 /* TessGreymane.swift */; };
 		B854620B2CDD42420083BB31 /* Shudderwock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B854620A2CDD42420083BB31 /* Shudderwock.swift */; };
 		B854620D2CDD42AD0083BB31 /* InventorBoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = B854620C2CDD42AD0083BB31 /* InventorBoom.swift */; };
@@ -1731,6 +1732,7 @@
 		B852D8142DDABEE400884B26 /* GoldNextTurnCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoldNextTurnCounter.swift; sourceTree = "<group>"; };
 		B852D8162DDAC91A00884B26 /* TavernSpellsBuffCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TavernSpellsBuffCounter.swift; sourceTree = "<group>"; };
 		B852D8182DDACAAF00884B26 /* Shaladrassil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shaladrassil.swift; sourceTree = "<group>"; };
+		B852D81A2DDD669400884B26 /* TheAzeriteRat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheAzeriteRat.swift; sourceTree = "<group>"; };
 		B85462042CDD3EDA0083BB31 /* TessGreymane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TessGreymane.swift; sourceTree = "<group>"; };
 		B854620A2CDD42420083BB31 /* Shudderwock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shudderwock.swift; sourceTree = "<group>"; };
 		B854620C2CDD42AD0083BB31 /* InventorBoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventorBoom.swift; sourceTree = "<group>"; };
@@ -3337,6 +3339,7 @@
 				B89865412D8B63A700BA5649 /* NorthernNavigation.swift */,
 				B86D89DD2D95C46200AB65A5 /* Nythendra.swift */,
 				B86D89DF2D95C4CD00AB65A5 /* SanguineInfestation.swift */,
+				B852D81A2DDD669400884B26 /* TheAzeriteRat.swift */,
 				B85462112CDE8C080083BB31 /* WakenerOfSouls.swift */,
 			);
 			path = DeathKnight;
@@ -4686,6 +4689,7 @@
 				B8591FF42B23D4D000B907A4 /* ChoicesHandler.swift in Sources */,
 				B8B790562C97806B00DD33EC /* ShudderblockEnchantment.swift in Sources */,
 				B804FC4129468BEA00F74CD9 /* BattlegroundsSingleQuestViewModel.swift in Sources */,
+				B852D81B2DDD669400884B26 /* TheAzeriteRat.swift in Sources */,
 				B8B78FB62C94604400DD33EC /* CenarionHoldEnchantment.swift in Sources */,
 				432B60391CBF9AD700B05D19 /* ManaGemButton.swift in Sources */,
 				B8B790632C9785A300DD33EC /* FelfireBonfireEnchantment.swift in Sources */,

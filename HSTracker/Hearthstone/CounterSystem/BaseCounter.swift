@@ -143,6 +143,7 @@ class BaseCounter: NSObject {
         DispatchQueue.main.async {
             self.counterChanged?()
             self.onPropertyChanged("counterValue")
+            self.onPropertyChanged("cardsToDisplay")
         }
     }
 
