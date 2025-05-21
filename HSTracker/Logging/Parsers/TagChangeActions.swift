@@ -74,6 +74,8 @@ struct TagChangeActions {
                 self.armorChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue)
             case .forge_revealed:
                 self.onForgeRevealed(eventHandler: eventHandler, id: id, value: value, previous: prevValue)
+            case .revealed:
+                self.onRevealed(eventHandler: eventHandler, id: id, value: value, previous: prevValue)
             case .parent_card:
                 self.onParentCardChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue)
             case .lettuce_ability_tile_visual_all_visible, .lettuce_ability_tile_visual_self_only, .fake_zone, .fake_zone_position:
@@ -455,6 +457,14 @@ struct TagChangeActions {
             entity.info.forged = true
             entity.info.hidden = false
         }
+    }
+    
+    private func onRevealed(eventHandler: PowerEventHandler, id: Int, value: Int, previous: Int) {
+        guard let entity = eventHandler.entities[id] else {
+            return
+        }
+        
+        entity.info.hidden = value <= 0
     }
     
     private func onParentCardChange(eventHandler: PowerEventHandler, id: Int, value: Int, previous: Int) {
