@@ -246,6 +246,8 @@ extension Entity: NSCopying {
         e.info.drawerId = info.drawerId
         e.info.copyOfCardId = info.copyOfCardId
         e.info.extraInfo = e.info.extraInfo
+        e.info.costReduction = info.costReduction
+        e.info.revealedOnHistory = info.revealedOnHistory
 
         return e
     }

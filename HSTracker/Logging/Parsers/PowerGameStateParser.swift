@@ -17,21 +17,23 @@ enum DeckLocation: Int {
 class PowerGameStateParser: LogEventParser {
     static let TransferStudentToken = CardIds.Collectible.Neutral.TransferStudent + "t"
     
-    let BlockStartRegex = Regex(".*BLOCK_START.*BlockType=(\\w+).*id=(\\d*).*(cardId=(\\w*)).*player=(\\d*).*EffectCardId=(.*)\\sEffectIndex=.*Target=(.+).*SubOption=([^\\s]*)(?:\\sTriggerKeyword=\\w+)?")
-    let CardIdRegex = Regex("cardId=(\\w+)")
-    let CreationRegex = Regex("FULL_ENTITY - Updating.*id=(\\d+).*zone=(\\w+).*CardID=(\\w*)")
-    let CreationTagRegex = Regex("tag=(\\w+) value=(\\w+)")
-    let GameEntityRegex = Regex("GameEntity EntityID=(\\d+)")
-    let PlayerEntityRegex = Regex("Player EntityID=(\\d+) PlayerID=(\\d+) GameAccountId=(.+)")
-    let PlayerIDRegex = Regex("\\[hi\\=(\\d+)\\slo=(\\d+)")
-    let PlayerNameRegex = Regex("id=(\\d) Player=(.+) TaskList=(\\d)")
-    let TagChangeRegex = Regex("TAG_CHANGE Entity=(.+) tag=(\\w+) value=(\\w+)")
-    let UpdatingEntityRegex = Regex("(SHOW_ENTITY|CHANGE_ENTITY) - Updating Entity=(.+) CardID=(\\w*)")
-    let HideEntityRegex = Regex("HIDE_ENTITY\\ -\\ .* id=(?<id>(\\d+))")
-    let ShuffleRegex = Regex("SHUFFLE_DECK\\ PlayerID=(?<id>(\\d+))")
-    let SubSpellStartRegex = Regex("SUB_SPELL_START - SpellPrefabGUID=(.*) Source=(\\d+)")
+    final let BlockStartRegex = Regex(".*BLOCK_START.*BlockType=(\\w+).*id=(\\d*).*(cardId=(\\w*)).*player=(\\d*).*EffectCardId=(.*)\\sEffectIndex=.*Target=(.+).*SubOption=([^\\s]*)(?:\\sTriggerKeyword=\\w+)?")
+    final let CardIdRegex = Regex("cardId=(\\w+)")
+    final let CreationRegex = Regex("FULL_ENTITY - Updating.*id=(\\d+).*zone=(\\w+).*CardID=(\\w*)")
+    final let CreationTagRegex = Regex("tag=(\\w+) value=(\\w+)")
+    final let GameEntityRegex = Regex("GameEntity EntityID=(\\d+)")
+    final let PlayerEntityRegex = Regex("Player EntityID=(\\d+) PlayerID=(\\d+) GameAccountId=(.+)")
+    final let PlayerIDRegex = Regex("\\[hi\\=(\\d+)\\slo=(\\d+)")
+    final let PlayerNameRegex = Regex("id=(\\d) Player=(.+) TaskList=(\\d)")
+    final let TagChangeRegex = Regex("TAG_CHANGE Entity=(.+) tag=(\\w+) value=(\\w+)")
+    final let UpdatingEntityRegex = Regex("(SHOW_ENTITY|CHANGE_ENTITY) - Updating Entity=(.+) CardID=(\\w*)")
+    final let HideEntityRegex = Regex("HIDE_ENTITY\\ -\\ .* id=(?<id>(\\d+))")
+    final let ShuffleRegex = Regex("SHUFFLE_DECK\\ PlayerID=(?<id>(\\d+))")
+    final let SubSpellStartRegex = Regex("SUB_SPELL_START - SpellPrefabGUID=(.*) Source=(\\d+)")
+    final let MetaInfoRegex = Regex("Info\\[\\d+\\]\\s*=\\s*(?:.*\\bid=(\\d+).*]|\\b(\\d+)\\b)")
     var tagChangeHandler = TagChangeHandler()
     var currentEntity: Entity?
+    var gameStateIsInsideMetaDataHistoryTarget = false
 
 	private let eventHandler: PowerEventHandler
 
@@ -77,6 +79,7 @@ class PowerGameStateParser: LogEventParser {
 
     func handle(logLine: LogLine) {
         var creationTag = false
+        var isInsideMetaDataHistoryTarget = false
 
         // current game
         if GameEntityRegex.match(logLine.line) {
@@ -333,7 +336,7 @@ class PowerGameStateParser: LogEventParser {
                     let entity = eventHandler.entities[entityId]
                     if entity?.info.guessedCardState != GuessedCardState.none {
                         entity?.info.guessedCardState = GuessedCardState.revealed
-                        if AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock?.hideShowEntities ?? false && !(entity?.has(tag: .displayed_creator) ?? true) {
+                        if AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock?.hideShowEntities ?? false && !(entity?.info.revealedOnHistory ?? false) && !(entity?.has(tag: .displayed_creator) ?? true) {
                             entity?.info.hidden = true
                         } else {
                             entity?.info.hidden = false
@@ -492,7 +495,19 @@ class PowerGameStateParser: LogEventParser {
             }
         } else if logLine.line.contains("META_DATA - Meta=OVERRIDE_HISTORY") {
             AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock?.hideShowEntities = true
+        } else if logLine.line.contains("META_DATA - Meta=HISTORY_TARGET") {
+            gameStateIsInsideMetaDataHistoryTarget = true
+            isInsideMetaDataHistoryTarget = true
+        } else if MetaInfoRegex.match(logLine.line) {
+            if gameStateIsInsideMetaDataHistoryTarget {
+                let match = MetaInfoRegex.matches(logLine.line)
+                if let entityId = Int(match[1].value.count > 0 ? match[1].value : match[2].value), let entity = eventHandler.entities[entityId] {
+                    entity.info.hidden = false
+                }
+                isInsideMetaDataHistoryTarget = true
+            }
         }
+        gameStateIsInsideMetaDataHistoryTarget = isInsideMetaDataHistoryTarget
         if logLine.line.contains("End Spectator") && eventHandler.isInMenu {
             eventHandler.gameEnded = true
             eventHandler.gameEnd()

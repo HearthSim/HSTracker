@@ -24,6 +24,7 @@ class EntityInfo {
     var hidden = false
     var turn = 0
     var costReduction = 0
+    var revealedOnHistory = false
     var originalZone: Zone?
     var createdInDeck: Bool { return originalZone == .deck }
     var createdInHand: Bool { return originalZone == .hand }
