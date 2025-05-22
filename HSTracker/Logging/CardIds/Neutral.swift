@@ -712,7 +712,18 @@ extension CardIds.Collectible {
         static let TormentedDreadwing = "EDR_572"
         static let LivingFlame = "FIR_929"
         static let YseraEmeraldAspect = "EDR_000"
-        
+        static let FrostwolfWarmaster = "AV_134"
+        static let ArchdruidNaralex = "WC_035"
+        static let CrushclawEnforcer = "TSC_826"
+        static let HopefulDryad = "EDR_001"
+        static let KingpinPud = "WW_421"
+        static let OgreGangOutlaw = "WW_418"
+        static let OgreGangRider = "WW_419"
+        static let OgreGangAce = "WW_420"
+        static let BoulderfistOgreCore = "Core_CS2_200"
+        static let BoulderfistOgreLegacy = "CS2_200"
+        static let BoulderfistOgreVanilla = "VAN_CS2_200"
+        static let PrimordialProtector = "BAR_042"
     }
 }
 

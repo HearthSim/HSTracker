@@ -56,6 +56,9 @@ extension CardIds.Collectible {
         static let TuskpiercerCore = "CORE_BAR_330"
         static let WyvernsSlumber = "EDR_820"
         static let Omen = "EDR_421"
+        static let DeathSpeakerBlackthorn = "BAR_329"
+        static let DoubleJump = "SCH_422"
+        static let VengefulSpirit = "BAR_328"
     }
 }
 

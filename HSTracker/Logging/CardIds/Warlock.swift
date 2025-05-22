@@ -183,6 +183,8 @@ extension CardIds.Collectible {
         static let RottenApple = "EDR_482"
         static let ArchdruidOfThorns = "EDR_491"
         static let RotheartDryad = "EDR_485"
+        static let ApothecarysCaravan = "BAR_912"
+        static let ArchwitchWillow = "SCH_181"
     }
 }
 

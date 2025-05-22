@@ -195,6 +195,11 @@ extension CardIds.Collectible {
         static let FlickeringLightbot = "MIS_918"
         static let SeaShanty = "VAC_558"
         static let SearingReflection = "FIR_941"
+        static let Commencement = "SCH_533"
+        static let HighAbbessAlura = "SCH_141"
+        static let KnightOfAnointment = "BAR_873"
+        static let NorthwatchCommander = "BAR_876"
+        static let SwordOfTheFallen = "BAR_875"
     }
 }
 

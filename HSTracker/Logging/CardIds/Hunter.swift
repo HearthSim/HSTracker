@@ -198,6 +198,9 @@ extension CardIds.Collectible {
         static let BrollBearmantle = "EDR_853"
         static let ExoticHoundmaster = "EDR_226"
         static let Goldrinn = "EDR_480"
+        static let GuardianAnimals = "SCH_610"
+        static let TavishStormpike = "BAR_038"
+        static let WarsongWrangler = "BAR_037"
     }
 }
 

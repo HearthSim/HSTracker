@@ -208,6 +208,17 @@ extension CardIds.Collectible {
         static let Ashamane = "EDR_527"
         static let TwistedWebweaver = "EDR_540"
         static let ContrabandStash = "AV_405"
+        static let EdwinVancleefVanilla = "VAN_EX1_613"
+        static let PrizePlunderer = "DMF_519"
+        static let SinstoneGraveyard = "REV_750"
+        static let SinstoneGraveyardCorePlaceholder = "CORE_REV_750"
+        static let ShadowSculptor = "YOD_017"
+        static let EverburningPhoenix = "FIR_919"
+        static let NecrolordDraka = "REV_940"
+        static let NecrolordDrakaCorePlaceholder = "CORE_REV_940"
+        static let SpectralPillagerCorePlaceholder = "CORE_ICC_910"
+        static let ScribblingStenographer = "MAW_020"
+        static let ScribblingStenographerCorePlaceholder = "CORE_MAW_020"
     }
 }
 

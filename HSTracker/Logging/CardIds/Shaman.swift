@@ -168,6 +168,7 @@ extension CardIds.Collectible {
         static let KragwaTheFrogCore = "CORE_TRL_345"
         static let Merithra = "EDR_238"
         static let BrilliantMacaw = "DED_509"
+        static let TinyfinsCaravan = "BAR_043"
     }
 }
 

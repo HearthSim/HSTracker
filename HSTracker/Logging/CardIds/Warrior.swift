@@ -163,6 +163,7 @@ extension CardIds.Collectible {
         static let Ysondre = "EDR_465"
         static let Tortolla = "EDR_471"
         static let SuccumbToMadness = "EDR_455"
+        static let OverlordSaurfang = "BAR_334"
     }
 }
 
