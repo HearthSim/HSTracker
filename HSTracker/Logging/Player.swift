@@ -933,10 +933,23 @@ final class Player {
         cardsPlayedLastTurn = cardsPlayedThisTurn
         cardsPlayedThisTurn.removeAll()
     }
+    
+    // Used when a card goes from Hand to Play Zone without being played by the player.
+    // (e.g. Dirty Rat, Summon when Drawn)
+    func handToPlay(entity: Entity, turn: Int) {
+        if !entity.cardId.isEmpty {
+            updateKnownEntitesInDeck(cardId: entity.cardId)
+        }
+        entity.info.hidden = false
+        entity.info.turn = turn
+        entity.info.costReduction = 0
+    }
 
     func deckToPlay(entity: Entity, turn: Int) {
         updateKnownEntitesInDeck(cardId: entity.cardId)
+        entity.info.hidden = false
         entity.info.turn = turn
+        entity.info.costReduction = 0
         if Settings.fullGameLog {
             logger.info("\(debugName) \(#function) \(entity)")
         }

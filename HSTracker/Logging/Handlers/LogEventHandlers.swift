@@ -273,4 +273,8 @@ protocol PowerEventHandler: AnyObject {
     var minionsInPlay: SynchronizedArray<String> { get }
     
     var minionsInPlayByPlayer: SynchronizedDictionary<Int, SynchronizedArray<String>> { get }
+    
+    func handlePlayerHandToPlay(entity: Entity, cardId: String?, turn: Int)
+    
+    func handleOpponentHandToPlay(entity: Entity, cardId: String?, turn: Int)
 }

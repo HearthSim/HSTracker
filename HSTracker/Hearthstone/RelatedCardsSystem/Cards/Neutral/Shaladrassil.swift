@@ -18,7 +18,7 @@ class Shaladrassil: ICardWithRelatedCards {
         Cards.any(byId: CardIds.NonCollectible.DreamCards.Nightmare),
         Cards.any(byId: CardIds.NonCollectible.DreamCards.YseraAwakens),
         Cards.any(byId: CardIds.NonCollectible.DreamCards.LaughingSister),
-        Cards.any(byId:CardIds.NonCollectible.DreamCards.EmeraldDrake),
+        Cards.any(byId: CardIds.NonCollectible.DreamCards.EmeraldDrake),
         Cards.any(byId: CardIds.NonCollectible.DreamCards.Shaladrassil_CorruptedDreamToken),
         Cards.any(byId: CardIds.NonCollectible.DreamCards.Shaladrassil_CorruptedNightmareToken),
         Cards.any(byId: CardIds.NonCollectible.DreamCards.Shaladrassil_CorruptedAwakeningToken),

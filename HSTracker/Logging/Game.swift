@@ -3021,6 +3021,16 @@ class Game: NSObject, PowerEventHandler {
         player.deckToPlay(entity: entity, turn: turn)
         updateTrackers()
     }
+    
+    func handlePlayerHandToPlay(entity: Entity, cardId: String?, turn: Int) {
+        player.handToPlay(entity: entity, turn: turn)
+        updateTrackers()
+    }
+    
+    func handleOpponentHandToPlay(entity: Entity, cardId: String?, turn: Int) {
+        opponent.handToPlay(entity: entity, turn: turn)
+        updateTrackers()
+    }
 
     func playerPlayToGraveyard(entity: Entity, cardId: String?, turn: Int, playersTurn: Bool) {
         if entity.isEnchantment {

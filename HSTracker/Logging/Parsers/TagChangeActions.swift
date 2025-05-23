@@ -464,7 +464,7 @@ struct TagChangeActions {
             return
         }
         
-        entity.info.hidden = value <= 0
+        entity.info.hidden = false
     }
     
     private func onParentCardChange(eventHandler: PowerEventHandler, id: Int, value: Int, previous: Int) {
@@ -890,11 +890,13 @@ struct TagChangeActions {
         }
 
         let currentBlockCardId = powerGameStateParser?.getCurrentBlock()?.cardId ?? ""
+        let currentBlockType = powerGameStateParser?.getCurrentBlock()?.type ?? ""
+
         // When a card is moved from hand it is not relevant if it was mulliganed.
         // If not cleared, we may display mulliganed mark to cards if they return to hand.
         entity.info.mulliganed = false
         switch zoneValue {
-        case .play:
+        case .play where currentBlockType == "PLAY":
             eventHandler.lastCardPlayed = id
             if controller == eventHandler.player.id {
                 if cardId != "" {
@@ -914,6 +916,16 @@ struct TagChangeActions {
             } else if controller == eventHandler.opponent.id {
                 eventHandler.opponentPlay(entity: entity, cardId: cardId, from: entity[.zone_position],
                                   turn: eventHandler.turnNumber())
+            }
+            
+        case .play where currentBlockType != "PLAY":
+            if controller == eventHandler.player.id
+            {
+                eventHandler.handlePlayerHandToPlay(entity: entity, cardId: cardId, turn: eventHandler.turnNumber())
+            }
+            else if controller == eventHandler.opponent.id
+            {
+                eventHandler.handleOpponentHandToPlay(entity: entity, cardId: cardId, turn: eventHandler.turnNumber())
             }
             
         case .removedfromgame, .setaside, .graveyard:

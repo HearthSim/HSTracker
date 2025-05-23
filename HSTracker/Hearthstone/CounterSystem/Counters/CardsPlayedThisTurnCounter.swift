@@ -74,7 +74,7 @@ class CardsPlayedThisTurnCounter: NumericCounter {
             return
         }
 
-        if (value == Zone.play.rawValue || value == Zone.secret.rawValue),
+        if value == Zone.play.rawValue || value == Zone.secret.rawValue,
            AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock?.type == "PLAY" {
             counter += 1
         }
