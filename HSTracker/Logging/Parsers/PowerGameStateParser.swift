@@ -501,7 +501,7 @@ class PowerGameStateParser: LogEventParser {
         } else if MetaInfoRegex.match(logLine.line) {
             if gameStateIsInsideMetaDataHistoryTarget {
                 let match = MetaInfoRegex.matches(logLine.line)
-                if let entityId = Int(match[1].value.count > 0 ? match[1].value : match[2].value), let entity = eventHandler.entities[entityId] {
+                if let entityId = Int(match.count > 1 ? match[1].value : match[0].value), let entity = eventHandler.entities[entityId] {
                     entity.info.hidden = false
                 }
                 isInsideMetaDataHistoryTarget = true

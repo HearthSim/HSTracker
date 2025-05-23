@@ -1,3 +1,7 @@
+# 3.2.7
+## Fixes
+- Fixed crash when playing certain cards that don't show up in the history
+
 # 3.2.6
 ## New
 - Updated Bob's Buddy for Hearthstone 32.2.2.
