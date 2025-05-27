@@ -38,7 +38,7 @@ class AsteroidExtraDamageCounter: NumericCounter {
     }
 
     override func valueToShow() -> String {
-        return String(format: String.localizedString("Counter_AsteroidDamage_Damage", comment: ""), 2 + counter)
+        return String(format: String.localizedString("Counter_AsteroidDamage_Damage", comment: ""), NSNumber(value: 2 + counter))
     }
 
     override func handleTagChange(tag: GameTag, entity: Entity, value: Int, prevValue: Int) {
