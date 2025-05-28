@@ -67,19 +67,26 @@ class PlayedSpellSchoolsCounter: NumericCounter {
 
     override func handleTagChange(tag: GameTag, entity: Entity, value: Int, prevValue: Int) {
         guard game.isTraditionalHearthstoneMatch else { return }
+        let controller = entity[.controller]
+        if !(controller == game.player.id && isPlayerCounter) || (controller == game.opponent.id && !isPlayerCounter) {
+            return
+        }
+        if discountIfCantPlay(tag: tag, value: value, entity: entity) {
+            if let schoolTag = SpellSchool(rawValue: entity[.spell_school]) {
+                playedSpellSchools.remove(schoolTag)
+            }
+            return
+        }
         guard tag == .zone else { return }
         guard value == Zone.play.rawValue || value == Zone.secret.rawValue else { return }
         guard AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock?.type == "PLAY" else { return }
         guard entity.isSpell else { return }
 
-        let controller = entity[.controller]
         let spellSchoolTag = entity[.spell_school]
         if spellSchoolTag > 0, let spellSchool = SpellSchool(rawValue: spellSchoolTag) {
-            if (controller == game.player.id && isPlayerCounter) ||
-                (controller == game.opponent.id && !isPlayerCounter) {
-                playedSpellSchools.insert(spellSchool)
-                counter = playedSpellSchools.count
-            }
+            playedSpellSchools.insert(spellSchool)
+            lastEntityToCount = entity
+            counter = playedSpellSchools.count
         }
     }
 }

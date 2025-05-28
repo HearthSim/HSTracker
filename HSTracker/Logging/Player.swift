@@ -102,11 +102,11 @@ final class Player {
     var spellsPlayedCount: Int {
         return spellsPlayedCards.count
     }
-    fileprivate(set) var spellsPlayedCards = [Entity]()
-    fileprivate(set) var spellsPlayedInFriendlyCharacters = [Entity]()
-    fileprivate(set) var spellsPlayedInOpponentCharacters = [Entity]()
-    fileprivate(set) var cardsPlayedThisMatch = [Entity]()
-    fileprivate(set) var cardsPlayedThisTurn = [Entity]()
+    var spellsPlayedCards = [Entity]()
+    var spellsPlayedInFriendlyCharacters = [Entity]()
+    var spellsPlayedInOpponentCharacters = [Entity]()
+    var cardsPlayedThisMatch = [Entity]()
+    var cardsPlayedThisTurn = [Entity]()
     fileprivate(set) var cardsPlayedLastTurn = [Entity]()
     fileprivate(set) var launchedStarships = SynchronizedArray<String?>()
     fileprivate(set) var startingHand = [Entity]()

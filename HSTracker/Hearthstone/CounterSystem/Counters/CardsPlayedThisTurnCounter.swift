@@ -60,6 +60,10 @@ class CardsPlayedThisTurnCounter: NumericCounter {
         if entity.isControlled(by: game.player.id) != isPlayerCounter {
             return
         }
+        
+        if discountIfCantPlay(tag: tag, value: value, entity: entity) {
+            return
+        }
 
         if tag == .num_turns_in_play {
             counter = 0
@@ -76,6 +80,7 @@ class CardsPlayedThisTurnCounter: NumericCounter {
 
         if value == Zone.play.rawValue || value == Zone.secret.rawValue,
            AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock?.type == "PLAY" {
+            lastEntityToCount = entity
             counter += 1
         }
     }

@@ -56,6 +56,10 @@ class TheCeaselessExpanseCounter: NumericCounter {
         }
         
         let currentBlock = AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock
+        
+        if discountIfCantPlay(tag: tag, value: value, entity: entity) {
+            return
+        }
 
         switch prevValue {
         case Zone.deck.rawValue where value == Zone.hand.rawValue:
@@ -64,9 +68,11 @@ class TheCeaselessExpanseCounter: NumericCounter {
             // card was played.
             // Need to check the block type because a card can go from hand to play by other means (dirty rat, voidcaller, ...)
         case Zone.hand.rawValue where value == Zone.play.rawValue && currentBlock?.type == "PLAY":
+            lastEntityToCount = entity
             counter += 1
             return
         case Zone.hand.rawValue where value == Zone.secret.rawValue:
+            lastEntityToCount = entity
             counter += 1
             return
         case Zone.play.rawValue where value == Zone.graveyard.rawValue && (entity.isMinion || entity.isWeapon || entity.isLocation):

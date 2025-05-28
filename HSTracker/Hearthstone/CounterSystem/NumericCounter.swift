@@ -32,4 +32,14 @@ class NumericCounter: BaseCounter {
     override func valueToShow() -> String {
         return String(counter)
     }
+    
+    var lastEntityToCount: Entity?
+    
+    func discountIfCantPlay(tag: GameTag, value: Int, entity: Entity) -> Bool {
+        if lastEntityToCount == nil || entity.id != lastEntityToCount?.id || tag != .cant_play || value <= 0 {
+            return false
+        }
+        counter -= 1
+        return true
+    }
 }
