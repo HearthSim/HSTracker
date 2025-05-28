@@ -1,3 +1,8 @@
+# 3.2.8
+## Fixes
+- Fixed crash when playing Bolide Behemoth (issue #1371)
+- Fixed an issue where spells countered by Counterspell were being counted for Counters and Related Card Tooltips.
+
 # 3.2.7
 ## Fixes
 - Fixed crash when playing certain cards that don't show up in the history
