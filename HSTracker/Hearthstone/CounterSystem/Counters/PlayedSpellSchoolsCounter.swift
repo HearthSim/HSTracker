@@ -68,7 +68,7 @@ class PlayedSpellSchoolsCounter: NumericCounter {
     override func handleTagChange(tag: GameTag, entity: Entity, value: Int, prevValue: Int) {
         guard game.isTraditionalHearthstoneMatch else { return }
         let controller = entity[.controller]
-        if !(controller == game.player.id && isPlayerCounter) || (controller == game.opponent.id && !isPlayerCounter) {
+        if !((controller == game.player.id && isPlayerCounter) || (controller == game.opponent.id && !isPlayerCounter)) {
             return
         }
         if discountIfCantPlay(tag: tag, value: value, entity: entity) {

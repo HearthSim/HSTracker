@@ -26,7 +26,7 @@ class ColossusCounter: NumericCounter {
         if isPlayerCounter {
             return inPlayerDeckOrKnown(cardIds: relatedCards)
         }
-        return counter > 2 && opponentMayHaveRelevantCards()
+        return counter > 1 && opponentMayHaveRelevantCards()
     }
 
     override func getCardsToDisplay() -> [String] {
@@ -43,7 +43,7 @@ class ColossusCounter: NumericCounter {
     override func handleTagChange(tag: GameTag, entity: Entity, value: Int, prevValue: Int) {
         guard game.isTraditionalHearthstoneMatch else { return }
         let controller = entity[.controller]
-        if !(controller == game.player.id && isPlayerCounter) || (controller == game.opponent.id && !isPlayerCounter) {
+        if !((controller == game.player.id && isPlayerCounter) || (controller == game.opponent.id && !isPlayerCounter)) {
             return
         }
         

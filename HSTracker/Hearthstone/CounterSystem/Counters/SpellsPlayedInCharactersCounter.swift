@@ -45,7 +45,7 @@ class SpellsPlayedInCharactersCounter: NumericCounter {
         guard game.isTraditionalHearthstoneMatch else { return }
         
         let controller = entity[.controller]
-        if !(controller == game.player.id && isPlayerCounter) || (controller == game.opponent.id && !isPlayerCounter) {
+        if !((controller == game.player.id && isPlayerCounter) || (controller == game.opponent.id && !isPlayerCounter)) {
             return
         }
         
