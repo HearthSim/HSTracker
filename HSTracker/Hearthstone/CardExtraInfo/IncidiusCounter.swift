@@ -22,7 +22,7 @@ class IncindiusCounter: ICardExtraInfo, Equatable {
     }
     
     static func == (lhs: IncindiusCounter, rhs: IncindiusCounter) -> Bool {
-        return lhs.turnPlayed == rhs.turnPlayed
+        return lhs.turnPlayed == rhs.turnPlayed && lhs.counter == rhs.counter
     }
     
     func copy(with zone: NSZone? = nil) -> Any {
