@@ -724,6 +724,7 @@ extension CardIds.Collectible {
         static let BoulderfistOgreLegacy = "CS2_200"
         static let BoulderfistOgreVanilla = "VAN_CS2_200"
         static let PrimordialProtector = "BAR_042"
+        static let Overplanner = "VAC_444"
     }
 }
 

@@ -764,6 +764,12 @@ struct TagChangeActions {
             
         case .deck:
             if controller == eventHandler.player.id && cardId != "" {
+                if currentBlockCardId == CardIds.Collectible.Neutral.Overplanner {
+                    eventHandler.dredgeCounter += 1
+                    let newIndex = eventHandler.dredgeCounter
+                    entity.info.deckIndex = newIndex
+                }
+                
                 if eventHandler.joustReveals > 0 {
                     break
                 }

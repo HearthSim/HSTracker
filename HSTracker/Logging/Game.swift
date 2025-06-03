@@ -3001,9 +3001,8 @@ class Game: NSObject, PowerEventHandler {
         
         if AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock?.cardId == CardIds.Collectible.Neutral.SirFinleySeaGuide {
             dredgeCounter += 1
-            var newIndex = dredgeCounter
+            let newIndex = dredgeCounter
             entity.info.deckIndex = -newIndex
-            logger.info(entity.cardId)
         }
 
         updateTrackers()
