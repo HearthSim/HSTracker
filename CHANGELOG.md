@@ -1,3 +1,11 @@
+# 3.2.9
+## New
+- Updated for Hearthstone 32.4
+- Added cards chosen by Overplanner to the top of the deck and cards shuffled by Sir Finley, Sea Guide to the bottom of the deck.
+## Fixes
+- Fixed an issue where some of the opponent's counters were not appearing.
+- Fixed an issue where Incindius' eruptions were not upgrading in the decklist.Add commentMore actions
+
 # 3.2.8
 ## Fixes
 - Fixed crash when playing Bolide Behemoth (issue #1371)
