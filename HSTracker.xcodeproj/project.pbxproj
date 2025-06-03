@@ -742,6 +742,7 @@
 		B87856E02C04BA7F004C2C40 /* UnsupportedInteractionProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87856DF2C04BA7F004C2C40 /* UnsupportedInteractionProxy.swift */; };
 		B87856E22C04BB2D004C2C40 /* EntityProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87856E12C04BB2D004C2C40 /* EntityProxy.swift */; };
 		B8795EAC27516DBC00469B6E /* MercenariesTask.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8795EAB27516DBC00469B6E /* MercenariesTask.xib */; };
+		B87DFF872DEF38AE006F39CF /* EndbringerUmbra.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87DFF862DEF38AE006F39CF /* EndbringerUmbra.swift */; };
 		B8820CD025603FB00072ECBC /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8820CCF25603FB00072ECBC /* RemoteConfig.swift */; };
 		B8832DDA26057A5000646BA4 /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8832DD926057A5000646BA4 /* RepeatingTimer.swift */; };
 		B8832DDC26117FCF00646BA4 /* MultiIdCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8832DDB26117FCE00646BA4 /* MultiIdCard.swift */; };
@@ -1890,6 +1891,7 @@
 		B87856DF2C04BA7F004C2C40 /* UnsupportedInteractionProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsupportedInteractionProxy.swift; sourceTree = "<group>"; };
 		B87856E12C04BB2D004C2C40 /* EntityProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityProxy.swift; sourceTree = "<group>"; };
 		B8795EAB27516DBC00469B6E /* MercenariesTask.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MercenariesTask.xib; sourceTree = "<group>"; };
+		B87DFF862DEF38AE006F39CF /* EndbringerUmbra.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndbringerUmbra.swift; sourceTree = "<group>"; };
 		B8820CCF25603FB00072ECBC /* RemoteConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfig.swift; sourceTree = "<group>"; };
 		B8832DD926057A5000646BA4 /* RepeatingTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatingTimer.swift; sourceTree = "<group>"; };
 		B8832DDB26117FCE00646BA4 /* MultiIdCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiIdCard.swift; sourceTree = "<group>"; };
@@ -3402,6 +3404,7 @@
 				B89865902D91D10300BA5649 /* ColiferoTheArtist.swift */,
 				B852D8322DDFB92C00884B26 /* CrushclawEnforcer.swift */,
 				B8E1E5DD2D0C9CFE00383975 /* DaUndatakah.swift */,
+				B87DFF862DEF38AE006F39CF /* EndbringerUmbra.swift */,
 				B86D89FB2D95F29100AB65A5 /* EnvoyOfTheGlade.swift */,
 				B89865922D91D13B00BA5649 /* EtherealOracle.swift */,
 				B86D89FD2D95F31700AB65A5 /* FaeTrickster.swift */,
@@ -5171,6 +5174,7 @@
 				B86D89EE2D95EDBE00AB65A5 /* WyvernsSlumber.swift in Sources */,
 				B86D8A242D95FFDA00AB65A5 /* ArchdruidOfThorns.swift in Sources */,
 				B8E1E5AC2D0C708900383975 /* GrandMagisterRommath.swift in Sources */,
+				B87DFF872DEF38AE006F39CF /* EndbringerUmbra.swift in Sources */,
 				B898658D2D91D00E00BA5649 /* CaricatureArtist.swift in Sources */,
 				B852D8172DDAC91A00884B26 /* TavernSpellsBuffCounter.swift in Sources */,
 				B8B790212C97550600DD33EC /* LifeguardEnchantment.swift in Sources */,
