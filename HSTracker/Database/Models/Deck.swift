@@ -121,7 +121,12 @@ class Deck: Object {
 
     func arenaFinished() -> Bool {
         if !isArena { return false }
+        
+        let isUnderground = checkIfUndergroundArena()
 
+        let maxWins = isUnderground ? 12 : 5
+        let maxLosses = isUnderground ? 3 : 2
+        
         var win = 0
         var loss = 0
         for stat in gameStats {
@@ -131,7 +136,11 @@ class Deck: Object {
                 win += 1
             }
         }
-        return win == 12 || loss == 3
+        return win == maxWins || loss == maxLosses
+    }
+    
+    private func checkIfUndergroundArena() -> Bool {
+        return gameStats.count > 0 && gameStats.allSatisfy({ $0.gameType == .gt_underground_arena })
     }
     
     func isDungeonRunCompleted() -> Bool {

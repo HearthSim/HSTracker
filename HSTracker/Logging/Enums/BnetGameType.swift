@@ -48,7 +48,8 @@ enum BnetGameType: Int {
     bgt_battlegrounds_duo = 65,
     bgt_battlegrounds_duo_vs_ai = 66,
     bgt_battlegrounds_duo_friendly = 67,
-    bgt_casual_standard_apprentice = 68
+    bgt_casual_standard_apprentice = 68,
+    bgt_underground_arena = 73
 
     static func getBnetGameType(gameType: GameType, format: Format?) -> BnetGameType {
         switch gameType {
@@ -58,7 +59,7 @@ enum BnetGameType: Int {
             return .bgt_friends
         case .gt_tutorial:
             return .bgt_tutorial
-        case .gt_arena:
+        case .gt_arena, .gt_underground_arena:
             return .bgt_arena
         case .gt_test:
             return .bgt_test1
