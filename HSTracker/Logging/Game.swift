@@ -2993,6 +2993,21 @@ class Game: NSObject, PowerEventHandler {
         player.mulligan(entity: entity)
         updateTrackers()
     }
+    
+    func handlePlayerHandToDeck(entity: Entity, cardId: String?) {
+        if cardId.isBlank {
+            return
+        }
+        
+        if AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock?.cardId == CardIds.Collectible.Neutral.SirFinleySeaGuide {
+            dredgeCounter += 1
+            var newIndex = dredgeCounter
+            entity.info.deckIndex = -newIndex
+            logger.info(entity.cardId)
+        }
+
+        updateTrackers()
+    }
 
     func playerDraw(entity: Entity, cardId: String?, turn: Int) {
         if cardId.isBlank {

@@ -814,7 +814,6 @@ class PowerGameStateParser: LogEventParser {
                         switch actionStartingCardId {
                         case CardIds.Collectible.DemonHunter.SightlessWatcherCore,
                             CardIds.Collectible.DemonHunter.SightlessWatcherLegacy,
-                            CardIds.Collectible.Neutral.SirFinleySeaGuide,
                             CardIds.Collectible.Neutral.AmbassadorFaelin:
                             // These are tricky to implement correctly, so
                             // until the are, we will just reset the state

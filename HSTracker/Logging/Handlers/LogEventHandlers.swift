@@ -277,4 +277,6 @@ protocol PowerEventHandler: AnyObject {
     func handlePlayerHandToPlay(entity: Entity, cardId: String?, turn: Int)
     
     func handleOpponentHandToPlay(entity: Entity, cardId: String?, turn: Int)
+    
+    func handlePlayerHandToDeck(entity: Entity, cardId: String?)
 }
