@@ -17,7 +17,6 @@
 import com.dailymotion.kinta.KintaEnv
 import com.dailymotion.kinta.Logger
 import com.dailymotion.kinta.helper.okHttpLoggingLevel
-import com.dailymotion.kinta.integration.appcenter.AppCenter
 import com.dailymotion.kinta.integration.commandline.CommandLine
 import com.dailymotion.kinta.integration.github.GithubIntegration
 import com.dailymotion.kinta.integration.xcode.Notarization
@@ -189,185 +188,6 @@ val releaseCommand = object: CliktCommand(name = "release") {
         return list
     }
 
-    fun uploadApp(
-            token: String? = null,
-            organization: String? = null,
-            appId: String,
-            destinationName: String,
-            file: File,
-            changelog: String?) {
-
-        val json = Json {
-            ignoreUnknownKeys = true
-        }
-
-        val token = token ?: KintaEnv.getOrFail(KintaEnv.Var.APPCENTER_TOKEN)
-        val organisation = organization ?: KintaEnv.getOrFail(KintaEnv.Var.APPCENTER_ORGANIZATION)
-
-        val request = Request.Builder()
-                .header("Content-Type", "application/json")
-                .header("Accept", "application/json")
-                .header("X-API-Token", token)
-                .post(RequestBody.create(null, ByteArray(0)))
-                .url("https://api.appcenter.ms/v0.1/apps/$organisation/$appId/uploads/releases")
-                .build()
-
-        Logger.i("Getting AppCenter upload url...")
-        val response = request.executeOrFail()
-
-        var resstr = response.string()
-        println("Response $resstr")
-        val uploadUrlData = json.parseToJsonElement(resstr).jsonObject
-        var file_size_bytes = file.length()
-        println("File size is $file_size_bytes")
-
-        var releases_id = uploadUrlData["id"]?.jsonPrimitive?.content ?: error("cannot find id")
-        var package_asset_id = uploadUrlData["package_asset_id"]?.jsonPrimitive?.content ?: error("cannot find package_asset_id")
-        var url_encoded_token =  uploadUrlData["url_encoded_token"]?.jsonPrimitive?.content ?: error("cannot find url_encoded_token")
-
-        Logger.i("Creating metadata")
-        
-        var meta_request = Request.Builder()
-                .header("Content-Type", "application/json")
-                .header("Accept", "application/json")
-                .header("X-API-Token", token)
-                .post(RequestBody.create(null, ByteArray(0)))
-                .url("https://file.appcenter.ms/upload/set_metadata/$package_asset_id?file_name=$appId.app.zip&file_size=$file_size_bytes&token=$url_encoded_token&content_type=application/octet-stream")
-                .build()
-
-        var response2 = meta_request.executeOrFail()
-        var metastr = response2.string()
-        var meta_response = json.parseToJsonElement(metastr).jsonObject
-
-        println("Response for chunks is $metastr")
-
-        var chunk_size = meta_response["chunk_size"]?.jsonPrimitive?.content?.toInt() ?: error("cannot find chunk_size")
-
-        Logger.i("Chunk size $chunk_size")
-
-        var content = file.readBytes()
-
-        Logger.i("Uploading chunked binary")
-
-        var remaining = file_size_bytes
-
-        var block_number = 1
-        var offset = 0
-        while (remaining > 0)
-        {
-                println("start uploading chunk $block_number")
-                var size = if (remaining > chunk_size) chunk_size else remaining
-                var chunk_request = Request.Builder()
-                    .header("Content-Length", size.toString())
-                    .header("Content-Type", "application/octet-stream")
-                    .post(RequestBody.create(null, content, offset, size.toInt()))
-                    .url("https://file.appcenter.ms/upload/upload_chunk/$package_asset_id?token=$url_encoded_token&block_number=$block_number")
-                    .build()
-                val chunk_response = chunk_request.executeOrFail()
-                block_number = block_number + 1
-                offset = offset + chunk_size
-                remaining -= chunk_size
-        }
-
-        Logger.i("Finalizing upload")
-
-        var final_request = Request.Builder()
-            .header("Content-Type", "application/json")
-            .header("Accept", "application/json")
-            .header("X-API-Token", token)
-            .post(RequestBody.create(null, ByteArray(0)))
-            .url("https://file.appcenter.ms/upload/finished/$package_asset_id?token=$url_encoded_token")
-            .build()
-
-        var final_response = final_request.executeOrFail()
-
-        Logger.i("Committing release")
-
-        var commit_url = "https://api.appcenter.ms/v0.1/apps/$organisation/$appId/uploads/releases/$releases_id"
-        var commit_request = Request.Builder()
-            .header("Content-Type", "application/json")
-            .header("Accept", "application/json")
-            .header("X-API-Token", token)
-            .patch(RequestBody.create(null, "{\"upload_status\": \"uploadFinished\", \"id\": \"$releases_id\"}"))
-            .url(commit_url)
-            .build()
-
-         var commit_response = commit_request.executeOrFail()
-
-         Logger.i("Polling for release ID")
-
-         var counter = 0
-         var release_id: String? = null
-         while (release_id == null && counter < 15)
-         {
-                var poll_request = Request.Builder()
-                    .header("Content-Type", "application/json")
-                    .header("Accept", "application/json")
-                    .header("X-API-Token", token)
-                    .url(commit_url)
-                    .get()
-                    .build()
-                var poll_response = poll_request.executeOrFail()
-                var pollStr = poll_response.string()
-                println("Poll response $pollStr")
-                var release_response = json.parseToJsonElement(pollStr).jsonObject
-
-                release_id = release_response["release_distinct_id"]?.jsonPrimitive?.content
-
-                if(release_id != null) break
-
-                counter = counter + 1
-                try {
-                    Thread.sleep(3000)
-                } catch(e: InterruptedException) {}
-         }
-
-         if (release_id == null) error("Failed to get release id")
-         val changelog = getChangelog()
-
-         if (changelog.isEmpty()) {
-            throw Exception("Changelog is empty :-/")
-         }
-
-         val changelogVersion = changelog.first().version
-
-         println("changelogVersion=$changelogVersion")
-         println("plistVersion=$marketingVersion")
-
-         if (changelogVersion != marketingVersion) {
-            throw Exception("versions do not match, either update the CHANGELOG.md or Info.plist")
-         }
-
-         Logger.i("Distributing build")
-
-
-         var postData = JsonObject(mapOf(
-                  "destinations" to JsonArray(listOf(JsonObject(mapOf("name" to JsonPrimitive("All-users-of-HSTracker"))))),
-                  "notify_testers" to JsonPrimitive(true),
-                  "release_notes" to JsonPrimitive(changelog.first().markdown)
-                  )
-         ).toString()
- 
-         var distribute_url = "https://api.appcenter.ms/v0.1/apps/$organisation/$appId/releases/$release_id"
-
-         println("Distribute url $distribute_url, post data $postData")
-
-         var distribute_request = Request.Builder()
-            .header("Content-Type", "application/json")
-            .header("Accept", "application/json")
-            .header("X-API-Token", token)
-            .patch(RequestBody.create(null, postData))
-            .url(distribute_url)
-            .build()
-
-         var distribute_response = distribute_request.executeOrFail()
-         println("Distribute execute done")
-         var dist_str = distribute_response.string()
-         println("Distribute response $dist_str")
-
-         Logger.i("Completed AppCenter release")
-    }
-
     override fun run() {
         println("Releasing HSTracker")
 
@@ -387,20 +207,8 @@ val releaseCommand = object: CliktCommand(name = "release") {
         }
 
         println("uploading $hstrackerDSYMZipPath")
-
-        AppCenter.uploadDsym(
-                appId = "HSTracker",
-                dsymFile = File(hstrackerDSYMZipPath)
-        )
-
-        println("uploading $hstrackerAppZipPath")
-
-        uploadApp(
-                appId = "HSTracker",
-                file = File(hstrackerAppZipPath),
-                changelog = changelog.first().markdown,
-                destinationName = "All-users-of-HSTracker"
-        )
+        
+        CommandLine.executeOrFail(File(hstracker_dir), "sentry-cli debug-files upload --auth-token ${KintaEnv.getOrFail("SENTRY_TOKEN")} --include-sources --org hearthsim --project hstracker archive/${changelogVersion}/HSTracker.dSYMs.zip")
 
         GithubIntegration.createRelease(
                 tagName = changelogVersion,
@@ -425,16 +233,6 @@ val releaseCommand = object: CliktCommand(name = "release") {
         updateAppCast(marketingVersion, changelog.first().markdown)    }
 }
 
-val testCommand = object : CliktCommand(name = "test") {
-    override fun run() {
-
-        println("uploading $hstrackerDSYMZipPath")
-        AppCenter.uploadDsym(
-                appId = "HSTracker",
-                dsymFile = File(hstrackerDSYMZipPath)
-        )
-    }
-}
 fun main(args: Array<String>) {
     Logger.level = Logger.LEVEL_INFO
     okHttpLoggingLevel = HttpLoggingInterceptor.Level.NONE
@@ -447,7 +245,6 @@ fun main(args: Array<String>) {
             buildCommand,
             notarizeCommand,
             releaseCommand,
-            testCommand
     ).main(args)
 }
 

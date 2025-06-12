@@ -1,3 +1,7 @@
+# 3.2.10
+## New
+- Updated Bob's Buddy for Hearthstone 32.4.2.
+
 # 3.2.9
 ## New
 - Updated for Hearthstone 32.4
