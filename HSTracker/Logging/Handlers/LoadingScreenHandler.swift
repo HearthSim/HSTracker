@@ -85,10 +85,10 @@ struct LoadingScreenHandler: LogEventParser {
             }
             
             if game.currentMode == .draft {
-                Watchers.arenaDeckWatcher.run()
+                Watchers.arenaWatcher.run()
 
             } else {
-                Watchers.arenaDeckWatcher.stop()
+                Watchers.arenaWatcher.stop()
             }
             
             if game.currentMode == .tavern_brawl {

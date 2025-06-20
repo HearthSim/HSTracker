@@ -1310,7 +1310,7 @@ class Game: NSObject, PowerEventHandler {
     }
 	
     var arenaInfo: ArenaInfo? {
-        if let _arenaInfo = MirrorHelper.getArenaDeck() {
+        if let _arenaInfo = MirrorHelper.getArenaInfo() {
             return ArenaInfo(info: _arenaInfo)
         }
         return nil

@@ -495,6 +495,8 @@ final class Settings {
     static var importTombsOfTerrorTemplate: String
     @UserDefault(key: Settings.import_duels_template, defaultValue: "Duels Run {Date dd-MM HH:mm}")
     static var importDuelsTemplate: String
+    @UserDefault(key: Settings.import_arena_template, defaultValue: "Arena {Date dd-MM HH:mm}")
+    static var importArenaDeckNameTemplate: String
 
     // MARK: - HSReplay.net
     @UserDefault(key: Settings.save_replays, defaultValue: false)
@@ -726,6 +728,7 @@ extension Settings {
     static let import_dalaran_heist_template = "import_dalaran_heist_template"
     static let import_tombs_of_terror_template = "import_tombs_of_terror_template"
     static let import_duels_template = "import_duels_template"
+    static let import_arena_template = "import_arena_template"
     
     // MARK: - Mercenaries
     static let show_mercs_opponent_hover = "show_mercs_opponent_hover"

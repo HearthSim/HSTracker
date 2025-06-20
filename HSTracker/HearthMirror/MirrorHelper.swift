@@ -123,7 +123,7 @@ struct MirrorHelper {
         return result
     }
     
-    static func getArenaDeck() -> MirrorArenaInfo? {
+    static func getArenaInfo() -> MirrorArenaInfo? {
         var result: MirrorArenaInfo?
         MirrorHelper.accessQueue.sync {
             result = mirror?.getArenaDeck()
@@ -219,8 +219,8 @@ struct MirrorHelper {
     
     // MARK: - arena
     
-    static func getArenaDraftChoices() -> [MirrorCard]? {
-        var result: [MirrorCard]?
+    static func getArenaDraftChoices() -> MirrorDraftChoices? {
+        var result: MirrorDraftChoices?
         MirrorHelper.accessQueue.sync {
             result = mirror?.getArenaDraftChoices()
         }

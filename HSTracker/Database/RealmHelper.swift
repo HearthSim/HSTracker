@@ -325,28 +325,91 @@ struct RealmHelper {
 		return deck
 	}
 	
-	static func checkOrCreateArenaDeck(mirrorDeck: MirrorDeck) -> Deck? {
-		
-		guard let realm = try? Realm() else {
-			logger.error("Error accessing Realm database")
-			return nil
-		}
-        guard let hsDeckId = mirrorDeck.id as? Int64 else {
-            logger.error("Can not parse hs deck id")
+    static func autoImportArena(_ info: MirrorArenaInfo? = nil) -> Deck? {
+        guard let realm = try? Realm() else {
+            logger.error("Error accessing Realm database")
             return nil
         }
-		
-		if let deck = realm.objects(Deck.self)
-			.filter("hsDeckId = \(hsDeckId)").first {
-			logger.info("Arena deck \(hsDeckId) exists, using it.")
-			return deck
-		}
-		
-		logger.info("Arena deck does not exists, creating it.")
-		
-		return RealmHelper.add(mirrorDeck: mirrorDeck, name: "Arena \(mirrorDeck.name)")
-	}
-	
+
+        guard let deck = info ?? DeckImporter.fromArena(), deck.deck.cards.reduce(into: 0, { $0 += $1.count.intValue }) == 30 else {
+            return nil
+        }
+        
+        logger.info("Found new complete \(deck.deck.hero) arena deck!")
+        
+        if let matchingHsId = realm.objects(Deck.self).filter("hsDeckId = \(deck.deck.id)").first, matchingHsId.isArena {
+            // update NOOOOOO! cards after expansion release
+            logger.info("...but we already know that id. Checking for changes...")
+
+            if matchingHsId.cards.allSatisfy({ c in deck.deck.cards.any({ c2 in c.id == c2.cardId && c.count == c2.count.intValue })}) {
+                logger.info("No changes found")
+                return matchingHsId
+            }
+            
+            logger.info("Updating deck with new cards...")
+            do {
+                try realm.write {
+                    matchingHsId.cards.removeAll()
+                    let cards: [Card] = deck.deck.cards.compactMap({ x in
+                        guard let card = Cards.by(cardId: x.cardId) else {
+                            return nil
+                        }
+                        card.count = x.count.intValue
+                        return card
+                    })
+                    for card in cards {
+                        matchingHsId.add(card: card)
+                    }
+                    
+//                    DeckList.Instance.ActiveDeck = matchingHsId
+                    // setting current deck will happen via caller
+                    return matchingHsId
+                }
+            } catch {
+                logger.error("Can not import deck. Error : \(error)")
+            }
+            return nil
+        }
+        
+        return importArenaDeck(deck.deck)
+    }
+    
+    static func importArenaDeck(_ deck: MirrorDeck) -> Deck? {
+        guard let realm = try? Realm() else {
+            logger.error("Error accessing Realm database")
+            return nil
+        }
+        
+        let hero = Cards.any(byId: deck.hero)
+        let arenaDeck = Deck()
+        arenaDeck.playerClass = hero?.playerClass ?? .neutral
+        arenaDeck.heroId = deck.hero
+        arenaDeck.hsDeckId.value = deck.id.int64Value
+        arenaDeck.isArena = true
+        arenaDeck.name = Helper.parseDeckNameTemplate(template: Settings.importArenaDeckNameTemplate, deck: arenaDeck)
+        
+        logger.info("Saving new arena deck: \(arenaDeck.name) (\(arenaDeck.hsDeckId.value ?? -1))")
+        
+        do {
+            try realm.write {
+                realm.add(arenaDeck)
+                for card in deck.cards.compactMap({ c in
+                    if let res = Cards.any(byId: c.cardId) {
+                        res.count = c.count.intValue
+                        return res
+                    }
+                    return nil
+                }) {
+                    arenaDeck.add(card: card)
+                }
+            }
+            return arenaDeck
+        } catch {
+            logger.error("Can not import deck. Error : \(error)")
+        }
+        return nil
+    }
+    	
 	static func add(deck: Deck, update: Bool = false) {
         
         guard let realm = try? Realm() else {

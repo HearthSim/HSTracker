@@ -707,20 +707,15 @@ final class CoreManager: NSObject {
             return nil
 		} else if mode == .draft {
 			logger.info("Trying to import arena deck from Hearthstone")
-			
-			var hsMirrorDeck: MirrorDeck?
-			if let mDeck = MirrorHelper.getArenaDeck()?.deck {
-				hsMirrorDeck = mDeck
-			} else {
-                hsMirrorDeck = Watchers.arenaDeckWatcher.selectedDeck
-			}
-			
-			guard let hsDeck = hsMirrorDeck else {
-				logger.warning("Can't get arena deck")
-				return nil
-			}
-			
-			return RealmHelper.checkOrCreateArenaDeck(mirrorDeck: hsDeck)
+
+            if let deck = RealmHelper.autoImportArena() {
+                AppDelegate.instance().coreManager.game.set(activeDeck: deck, autoDetected: true)
+                return deck
+            } else {
+                logger.info("Arena deck not found. Setting to incremental deck")
+                AppDelegate.instance().coreManager.game.set(activeDeckId: nil, autoDetected: true)
+                return nil
+            }
 		}
 		
 		logger.error("Auto-importing deck of \(mode) is not supported")

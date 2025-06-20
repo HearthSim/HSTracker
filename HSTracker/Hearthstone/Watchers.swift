@@ -9,7 +9,7 @@
 import Foundation
 
 class Watchers {
-    static let arenaDeckWatcher = ArenaDeckWatcher()
+    static let arenaWatcher = ArenaWatcher()
     static let baconWatcher = BaconWatcher()
     static let battlegroundsLeaderboardWatcher = BattlegroundsLeaderboardWatcher()
     static let battlegroundsTeammateBoardStateWatcher = BattlegroundsTeammateBoardStateWatcher()
@@ -24,6 +24,7 @@ class Watchers {
     static let sceneWatcher = SceneWatcher()
     
     static func initialize() {
+        arenaWatcher.onCompleteDeck = onDeckCompleted
         baconWatcher.change = onBaconChange
         battlegroundsLeaderboardWatcher.change = { _, args in
             let game = AppDelegate.instance().coreManager.game
@@ -61,7 +62,7 @@ class Watchers {
     }
     
     static func stop() {
-        arenaDeckWatcher.stop()
+        arenaWatcher.stop()
         baconWatcher.stop()
         battlegroundsLeaderboardWatcher.stop()
         battlegroundsTeammateBoardStateWatcher.stop()
@@ -74,6 +75,13 @@ class Watchers {
         pvpDungeonRunWatcher.stop()
         queueWatcher.stop()
         sceneWatcher.stop()
+    }
+    
+    private static func onDeckCompleted(_ sender: ArenaWatcher, _ args: CompleteDeckEventArgs) {
+        if let deck = RealmHelper.autoImportArena(args.info) {
+            AppDelegate.instance().coreManager.game.set(activeDeck: deck, autoDetected: true)
+        }
+        // TODO: _currentArenaDraftInfo.remove(args.info.deck.id)
     }
     
     private static func onBaconChange(_ sender: BaconWatcher, _ args: BaconEventArgs) {

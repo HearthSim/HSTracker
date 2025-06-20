@@ -22,6 +22,8 @@ class ImportingPreferences: NSViewController, NSControlTextEditingDelegate, Pref
     @IBOutlet var dungeonTemplatePreview: NSTextField!
     @IBOutlet var duelsTemplate: NSTextField!
     @IBOutlet var duelsTemplatePreview: NSTextField!
+    @IBOutlet var arenaTemplate: NSTextField!
+    @IBOutlet var arenaTemplatePreview: NSTextField!
 
     override func viewWillAppear() {
         super.viewWillAppear()
@@ -33,9 +35,11 @@ class ImportingPreferences: NSViewController, NSControlTextEditingDelegate, Pref
         dungeonIncludePassives.state = Settings.importDungeonIncludePassives ? .on : .off
         dungeonTemplate.stringValue = Settings.importDungeonTemplate
         duelsTemplate.stringValue = Settings.importDuelsTemplate
+        arenaTemplate.stringValue = Settings.importArenaDeckNameTemplate
         dungeonAdventure.selectItem(at: 0)
         updateTemplatePreview(textField: dungeonTemplatePreview, template: dungeonTemplate.stringValue)
         updateTemplatePreview(textField: duelsTemplatePreview, template: duelsTemplate.stringValue)
+        updateTemplatePreview(textField: arenaTemplatePreview, template: arenaTemplate.stringValue)
     }
 
     @IBAction func checkboxClicked(_ sender: NSButton) {
@@ -97,6 +101,9 @@ class ImportingPreferences: NSViewController, NSControlTextEditingDelegate, Pref
             } else if textField == duelsTemplate {
                 Settings.importDuelsTemplate = textField.stringValue
                 updateTemplatePreview(textField: duelsTemplatePreview, template: textField.stringValue)
+            } else if textField == arenaTemplate {
+                Settings.importArenaDeckNameTemplate = textField.stringValue
+                updateTemplatePreview(textField: arenaTemplatePreview, template: textField.stringValue)
             }
         }
     }
