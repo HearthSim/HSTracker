@@ -1,3 +1,12 @@
+# 3.2.11
+## New
+- Added an Arena deck name template to the Importing preferences
+## Fixes
+- Fixed issue with Arena game tracking with Underground Arena and deck import
+## Bob's Buddy
+- Fixed incorrect simulation results due to Fire-forged Evoker.
+- Fixed incorrect simulation results due to Rapid Reanimation.
+
 # 3.2.10
 ## New
 - Updated Bob's Buddy for Hearthstone 32.4.2.
