@@ -436,6 +436,7 @@ enum GameTag: Int, CaseIterable, Codable {
     gametag_3533 = 3533,
     gametag_3559 = 3559,
     bacon_is_magic_item_discover = 3565,
+    is_nightmare_bonus = 3567,
     rogue_tourist = 3597,
     warlock_tourist = 3598,
     death_knight_tourist = 3599,

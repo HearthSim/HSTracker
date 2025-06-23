@@ -553,6 +553,7 @@
 		B846CC6A2E09F03300552F9C /* TheLichKing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC692E09F03300552F9C /* TheLichKing.swift */; };
 		B846CC6C2E09F16700552F9C /* ImpKingRafaam.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC6B2E09F16700552F9C /* ImpKingRafaam.swift */; };
 		B846CC6E2E09F31500552F9C /* LadyDarkvein.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC6D2E09F31500552F9C /* LadyDarkvein.swift */; };
+		B846CC702E0A05F600552F9C /* WallowTheWretched.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC6F2E0A05F600552F9C /* WallowTheWretched.swift */; };
 		B8496731289A0CEB00D90B30 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD84562861394100F4F224 /* Regex.swift */; };
 		B8496732289A0CF300D90B30 /* SynchronizedDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD84542860058400F4F224 /* SynchronizedDictionary.swift */; };
 		B8496733289A0CF300D90B30 /* SynchronizedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FE1F982875BD15004C397C /* SynchronizedArray.swift */; };
@@ -1807,6 +1808,7 @@
 		B846CC692E09F03300552F9C /* TheLichKing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheLichKing.swift; sourceTree = "<group>"; };
 		B846CC6B2E09F16700552F9C /* ImpKingRafaam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImpKingRafaam.swift; sourceTree = "<group>"; };
 		B846CC6D2E09F31500552F9C /* LadyDarkvein.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LadyDarkvein.swift; sourceTree = "<group>"; };
+		B846CC6F2E0A05F600552F9C /* WallowTheWretched.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallowTheWretched.swift; sourceTree = "<group>"; };
 		B849674228A5830D00D90B30 /* libcoreclr.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcoreclr.dylib; path = "downloaded-frameworks/mono/runtimes/osx-x64/native/libcoreclr.dylib"; sourceTree = "<group>"; };
 		B850AA32252CB0490031E8F2 /* TurnCounter.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TurnCounter.xib; sourceTree = "<group>"; };
 		B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnCounter.swift; sourceTree = "<group>"; };
@@ -3546,6 +3548,7 @@
 				B89865E02D920D2700BA5649 /* SketchArtist.swift */,
 				B89865E22D920D7E00BA5649 /* SymphonyOfSins */,
 				B8E1E6012D0CA25700383975 /* TamsinsPhylactery.swift */,
+				B846CC6F2E0A05F600552F9C /* WallowTheWretched.swift */,
 			);
 			path = Warlock;
 			sourceTree = "<group>";
@@ -5155,6 +5158,7 @@
 				B898656C2D8E175400BA5649 /* Birdwatching.swift in Sources */,
 				B8BCC1E5273B168300DA6474 /* MercenariesAbilitiesView.swift in Sources */,
 				439C7EC71C777F8900D29859 /* TagChangeHandler.swift in Sources */,
+				B846CC702E0A05F600552F9C /* WallowTheWretched.swift in Sources */,
 				B8B790612C97854B00DD33EC /* DemonicStudiesEnchantment.swift in Sources */,
 				B89865EA2D920E5100BA5649 /* ChorusRiff.swift in Sources */,
 				B852D82D2DDFB82D00884B26 /* TavishStormpike.swift in Sources */,
