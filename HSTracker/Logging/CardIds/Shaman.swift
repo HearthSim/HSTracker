@@ -169,6 +169,8 @@ extension CardIds.Collectible {
         static let Merithra = "EDR_238"
         static let BrilliantMacaw = "DED_509"
         static let TinyfinsCaravan = "BAR_043"
+        static let PebblyPage = "WON_090"
+        static let Prescience = "RLK_553"
     }
 }
 

@@ -178,6 +178,7 @@ extension CardIds.Collectible {
         static let Repackage = "TOY_879"
         static let DarkbishopBenedictus = "SW_448"
         static let DarkbishopBenedictusCorePlaceholder = "CORE_SW_448"
+        static let Insight = "DMF_054"
     }
 }
 
@@ -243,6 +244,7 @@ extension CardIds.NonCollectible {
         static let Tyrande_PullOfTheMoonEnchantment = "EDR_464e2"
         static let LunarwingMessenger_BlessingOfTheMoon = "EDR_449p"
         static let Repackage_RepackagedBoxToken = "TOY_879t"
+        static let Insight_InsightToken = "DMF_054t"
     }
 }
 

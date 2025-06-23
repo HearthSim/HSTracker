@@ -726,6 +726,9 @@ extension CardIds.Collectible {
         static let PrimordialProtector = "BAR_042"
         static let Overplanner = "VAC_444"
         static let EndbringerUmbra = "TLC_106"
+        static let CaptainsParrotLegacy = "NEW1_016"
+        static let CaptainsParrotVanilla = "VAN_NEW1_016"
+        static let ClawMachine = "DMF_069"
     }
 }
 

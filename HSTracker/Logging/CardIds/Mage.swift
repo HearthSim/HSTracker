@@ -198,6 +198,12 @@ extension CardIds.Collectible {
         static let Aessina = "EDR_430"
         static let Starsurge = "EDR_941"
         static let OasisAllyCore = "CORE_BAR_812"
+        static let BalindaStonehearth = "AV_284"
+        static let DeepwaterEvoker = "DED_516"
+        static let FrostweaveDungeoneer = "WC_805"
+        static let IcebloodTower = "AV_290"
+        static let SeafloorGateway = "TSC_055"
+        static let Stargazing = "WW_425"
     }
 }
 

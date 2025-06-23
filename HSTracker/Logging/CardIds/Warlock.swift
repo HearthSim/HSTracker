@@ -185,6 +185,7 @@ extension CardIds.Collectible {
         static let RotheartDryad = "EDR_485"
         static let ApothecarysCaravan = "BAR_912"
         static let ArchwitchWillow = "SCH_181"
+        static let DarkbombWONDERS = "WON_095"
     }
 }
 

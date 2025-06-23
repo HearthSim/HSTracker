@@ -201,6 +201,13 @@ extension CardIds.Collectible {
         static let GuardianAnimals = "SCH_610"
         static let TavishStormpike = "BAR_038"
         static let WarsongWrangler = "BAR_037"
+        static let PetCollector = "ONY_009"
+        static let PhaseStalker = "DRG_252"
+        static let SelectiveBreederCorePlaceholder = "CS3_015"
+        static let SpringTheTrap = "AV_224"
+        static let SelectiveBreederLegacy = "LEG_CS3_015"
+        static let TrialOfTheJormungars = "WON_028"
+        static let TrinketTracker = "NX2_014"
     }
 }
 

@@ -200,6 +200,8 @@ extension CardIds.Collectible {
         static let KnightOfAnointment = "BAR_873"
         static let NorthwatchCommander = "BAR_876"
         static let SwordOfTheFallen = "BAR_875"
+        static let AllianceBannerman = "SW_315"
+        static let CallToArms = "LOOT_093"
     }
 }
 

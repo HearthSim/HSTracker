@@ -219,6 +219,8 @@ extension CardIds.Collectible {
         static let SpectralPillagerCorePlaceholder = "CORE_ICC_910"
         static let ScribblingStenographer = "MAW_020"
         static let ScribblingStenographerCorePlaceholder = "CORE_MAW_020"
+        static let ScourgeIllusionist = "RLK_217"
+        static let Swindle = "DMF_515"
     }
 }
 
