@@ -60,6 +60,7 @@ extension CardIds.Collectible {
         static let DoubleJump = "SCH_422"
         static let VengefulSpirit = "BAR_328"
         static let Felgorger = "SW_043"
+        static let JaceDarkweaver = "SW_044"
     }
 }
 

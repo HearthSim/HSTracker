@@ -384,6 +384,7 @@ enum GameTag: Int, CaseIterable, Codable {
     bacon_bloodgembuffatkvalue = 1844,
     lettuce_is_equipment = 1855,
     honorable_kill = 1920,
+    imp = 1965,
     questline_part = 1993,
     dont_show_in_history = 2015,
     gametag_2022 = 2022,

@@ -729,6 +729,7 @@ extension CardIds.Collectible {
         static let CaptainsParrotLegacy = "NEW1_016"
         static let CaptainsParrotVanilla = "VAN_NEW1_016"
         static let ClawMachine = "DMF_069"
+        static let Kazakusan = "ONY_005"
     }
 }
 

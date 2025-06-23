@@ -208,6 +208,7 @@ extension CardIds.Collectible {
         static let SelectiveBreederLegacy = "LEG_CS3_015"
         static let TrialOfTheJormungars = "WON_028"
         static let TrinketTracker = "NX2_014"
+        static let NineLives = "DAL_377"
     }
 }
 

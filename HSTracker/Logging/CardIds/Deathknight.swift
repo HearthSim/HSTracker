@@ -74,6 +74,14 @@ extension CardIds.NonCollectible {
         static let HarbingerOfWinterCore = "RLK_Prologue_RLK_511"
         static let HideousHusk_BloatedLeechToken = "EDR_810t"
         static let Nythendra_NythendricBeetleToken = "EDR_818t"
+        static let TheLichKing_DeathCoilToken = "ICC_314t5"
+        static let TheLichKing_ObliterateToken = "ICC_314t6"
+        static let TheLichKing_DeathGripToken = "ICC_314t4"
+        static let TheLichKing_DeathAndDecayToken = "ICC_314t8"
+        static let TheLichKing_AntiMagicShellToken2 = "ICC_314t7"
+        static let TheLichKing_DoomPactToken = "ICC_314t3"
+        static let TheLichKing_ArmyOfTheFrozenThroneToken = "ICC_314t2"
+        static let TheLichKing_FrostmourneToken = "ICC_314t1"
     }
 }
 

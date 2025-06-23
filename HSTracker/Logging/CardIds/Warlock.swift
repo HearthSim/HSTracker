@@ -186,6 +186,10 @@ extension CardIds.Collectible {
         static let ApothecarysCaravan = "BAR_912"
         static let ArchwitchWillow = "SCH_181"
         static let DarkbombWONDERS = "WON_095"
+        static let ImpKingRafaam = "REV_835"
+        static let ImpKingRafaamCorePlaceholder = "CORE_REV_835"
+        static let LadyDarkvein = "REV_373"
+        static let LadyDarkveinCorePlaceholder = "CORE_REV_373"
     }
 }
 
@@ -264,6 +268,7 @@ extension CardIds.NonCollectible {
         static let SymphonyofSins_MovementOfPrideToken = "ETC_085t2"
         static let FracturedPower_DelayedManaEnchantment = "EDR_483e"
         static let RottenApple_FractureEnchantment = "EDR_482e"
+        static let ImpKingRafaam_ImpKingRafaamToken = "REV_835t"
     }
 }
 

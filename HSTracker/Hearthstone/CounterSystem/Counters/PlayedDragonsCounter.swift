@@ -18,7 +18,7 @@ class PlayedDragonsCounter: NumericCounter {
     }
     
     override var relatedCards: [String] {
-        return [ CardIds.Collectible.Priest.TimewinderZarimi ]
+        return [ CardIds.Collectible.Priest.TimewinderZarimi, CardIds.Collectible.Neutral.Kazakusan ]
     }
     
     required init(controlledByPlayer: Bool, game: Game) {
