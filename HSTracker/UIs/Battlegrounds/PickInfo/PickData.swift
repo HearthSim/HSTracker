@@ -14,7 +14,7 @@ struct PickDataContainerRight: Shape {
 
     func path(in rect: CGRect) -> Path {
         Path { path in
-            let curveOffset: CGFloat = 25
+            let curveOffset: CGFloat = 22
             let controlOffset: CGFloat = 22
             path.move(to: CGPoint(
                 x: rect.maxX - (portraitCurve ? curveOffset + 12 : curveOffset + 8),
@@ -43,7 +43,7 @@ struct PickDataContainerLeft: Shape {
 
     func path(in rect: CGRect) -> Path {
         Path { path in
-            let curveOffset: CGFloat = 25
+            let curveOffset: CGFloat = 22
             let controlOffset: CGFloat = 22
             path.move(to: CGPoint(
                 x: rect.minX + (portraitCurve ? curveOffset + 12 : curveOffset + 8),
@@ -98,29 +98,29 @@ struct PickData: View {
             if clipSide == .RightIcon || clipSide == .RightPortrait {
                 PickDataContainerRight(portraitCurve: clipSide == .RightPortrait)
                     .foregroundColor(Color("TrackerBackground"))
-                    .frame(width: 100, height: 75)
+                    .frame(width: 100, height: 60)
             } else if clipSide == .LeftIcon || clipSide == .LeftPortrait {
                 PickDataContainerLeft(portraitCurve: clipSide == .LeftPortrait)
                     .foregroundColor(Color("TrackerBackground"))
-                    .frame(width: 100, height: 75)
+                    .frame(width: 100, height: 60)
             } else {
                 Rectangle()
                     .foregroundColor(Color("TrackerBackground"))
-                    .frame(width: 100, height: 75)
+                    .frame(width: 100, height: 60)
             }
             VStack(spacing: 0, content: {
                 Text(title)
                     .font(Font.system(size: 11))
                     .foregroundColor(Color.white)
-                    .frame(width: 100, height: 25)
+                    .frame(width: 100, height: 20)
                     .background(Color("PickHeader"))
                 Text(value)
                     .foregroundColor(color)
-                    .frame(width: 100, height: 50)
+                    .frame(width: 100, height: 40)
                     .font(Font.system(size: 20, weight: .bold))
             })
         }
-        .frame(width: 100, height: 75)
+        .frame(width: 100, height: 60)
         .cornerRadius(5)
     }
 }

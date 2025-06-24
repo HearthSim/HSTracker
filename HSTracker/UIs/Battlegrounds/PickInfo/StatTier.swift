@@ -62,10 +62,10 @@ struct StatTier: View {
             Text("TIER")
                 .font(Font.system(size: 11, weight: .light))
             Text(tier.rawValue)
-                .font(Font.system(size: 22, weight: .bold))
+                .font(Font.system(size: 24, weight: .bold))
         })
         .foregroundColor(Color.white)
-        .frame(width: 60, height: 60)
+        .frame(width: 50, height: 50)
         .background(LinearGradient(gradient: tier.gradient, startPoint: .top, endPoint: .bottom))
         .cornerRadius(5)
     }
