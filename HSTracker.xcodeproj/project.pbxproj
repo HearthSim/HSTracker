@@ -17,6 +17,10 @@
 		1CCB4AEB1E8A4930003FD1AD /* LogEventHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCB4AEA1E8A4930003FD1AD /* LogEventHandlers.swift */; };
 		1CF204F91E83B74300037A42 /* MirrorHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF204F81E83B74300037A42 /* MirrorHelper.swift */; };
 		340AAC051D0544AD0015FE33 /* StringTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340AAC041D0544AD0015FE33 /* StringTracker.swift */; };
+		3C44E25B2E0B3F0700BB7316 /* BattlegroundsStatsPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C44E25A2E0B3F0700BB7316 /* BattlegroundsStatsPicker.swift */; };
+		3C44E25D2E0B3F3D00BB7316 /* StatTier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C44E25C2E0B3F3D00BB7316 /* StatTier.swift */; };
+		3C44E25F2E0B437400BB7316 /* PickData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C44E25E2E0B437400BB7316 /* PickData.swift */; };
+		3C44E2612E0B457700BB7316 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C44E2602E0B457700BB7316 /* Colors.xcassets */; };
 		43050C621E6B484D007600EA /* Hearthstone.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43050C611E6B484D007600EA /* Hearthstone.xcassets */; };
 		4305CA471CF434E30048E7EC /* Cards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4305CA461CF434E30048E7EC /* Cards.swift */; };
 		4308EB7E1D76AFE6000897C8 /* ReleaseChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4308EB7D1D76AFE6000897C8 /* ReleaseChannel.swift */; };
@@ -1314,6 +1318,10 @@
 		1CF1B58B1E815810007DCBF2 /* LogReaderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogReaderTests.swift; sourceTree = "<group>"; };
 		1CF204F81E83B74300037A42 /* MirrorHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MirrorHelper.swift; sourceTree = "<group>"; };
 		340AAC041D0544AD0015FE33 /* StringTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTracker.swift; sourceTree = "<group>"; };
+		3C44E25A2E0B3F0700BB7316 /* BattlegroundsStatsPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsStatsPicker.swift; sourceTree = "<group>"; };
+		3C44E25C2E0B3F3D00BB7316 /* StatTier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatTier.swift; sourceTree = "<group>"; };
+		3C44E25E2E0B437400BB7316 /* PickData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickData.swift; sourceTree = "<group>"; };
+		3C44E2602E0B457700BB7316 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		43050C601E6B2C0E007600EA /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/TrackersPreferences.strings; sourceTree = "<group>"; };
 		43050C611E6B484D007600EA /* Hearthstone.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Hearthstone.xcassets; sourceTree = "<group>"; };
 		4305CA461CF434E30048E7EC /* Cards.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cards.swift; sourceTree = "<group>"; };
@@ -2548,6 +2556,16 @@
 			path = Parsers;
 			sourceTree = "<group>";
 		};
+		3C44E2592E0B3ED700BB7316 /* PickInfo */ = {
+			isa = PBXGroup;
+			children = (
+				3C44E25A2E0B3F0700BB7316 /* BattlegroundsStatsPicker.swift */,
+				3C44E25C2E0B3F3D00BB7316 /* StatTier.swift */,
+				3C44E25E2E0B437400BB7316 /* PickData.swift */,
+			);
+			path = PickInfo;
+			sourceTree = "<group>";
+		};
 		4323C5E31E1695DD00C97896 /* HearthMirror */ = {
 			isa = PBXGroup;
 			children = (
@@ -2607,6 +2625,7 @@
 				434106A11C9868620045655A /* Assets.xcassets */,
 				434106A21C9868620045655A /* Classes.xcassets */,
 				43050C611E6B484D007600EA /* Hearthstone.xcassets */,
+				3C44E2602E0B457700BB7316 /* Colors.xcassets */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -3115,6 +3134,7 @@
 		4C1923972392E174007EBB0F /* Battlegrounds */ = {
 			isa = PBXGroup;
 			children = (
+				3C44E2592E0B3ED700BB7316 /* PickInfo */,
 				4C19239C2392FA7E007EBB0F /* BattlegroundsDetailsWindow.swift */,
 				4C1923A02392FB3F007EBB0F /* BattlegroundsDetailsWindow.xib */,
 				B8BB7ABB28369C9F008239CA /* BattlegroundsFinalBoard.swift */,
@@ -4406,6 +4426,7 @@
 				439C7EE41C777FA900D29859 /* Tracker.xib in Resources */,
 				43873CC11CA6E6C200F01CB4 /* WindowMove.xib in Resources */,
 				43B695651C920BD500F4D0AC /* CardList.xib in Resources */,
+				3C44E2612E0B457700BB7316 /* Colors.xcassets in Resources */,
 				C9BDB3C81D20BC4C00886A11 /* StatsTab.xib in Resources */,
 				434106A41C9868620045655A /* Assets.xcassets in Resources */,
 				B8BD3BAA2C41C50F001E85B7 /* BattlegroundsCompositionStatsBar.xib in Resources */,
@@ -4736,6 +4757,7 @@
 				43EBA3A31D1299AC0093B1C2 /* CardHudContainer.swift in Sources */,
 				B8B790322C975B0200DD33EC /* LoveEverlastingEnchantment.swift in Sources */,
 				B81B3D8D2D4099B000DC9EB0 /* TramHeist.swift in Sources */,
+				3C44E25B2E0B3F0700BB7316 /* BattlegroundsStatsPicker.swift in Sources */,
 				4361D8341DC8A21800D831CF /* BnetGameType.swift in Sources */,
 				B8E1E5FE2D0CA1CD00383975 /* HabeasCorpses.swift in Sources */,
 				B8AF0C6B2B83A7AD00B65F63 /* MulliganGuideParams.swift in Sources */,
@@ -4826,6 +4848,7 @@
 				B8B78FE52C9676B500DD33EC /* AquaArchivistEnchantment.swift in Sources */,
 				B8B78FBC2C952A4C00DD33EC /* MagicalDollhouseEnchantment.swift in Sources */,
 				B81B3D9D2D4129F000DC9EB0 /* LiftOff.swift in Sources */,
+				3C44E25D2E0B3F3D00BB7316 /* StatTier.swift in Sources */,
 				B804FC392944B1DA00F74CD9 /* ViewModel.swift in Sources */,
 				B8B78FC42C952C5600DD33EC /* TrailMixEnchantment.swift in Sources */,
 				B8B790592C97841400DD33EC /* CommanderUlthokEnchantment.swift in Sources */,
@@ -4980,6 +5003,7 @@
 				439212151DEF5A5E0017AAE5 /* MultiClassGroup.swift in Sources */,
 				434EAC961DBCD3E8009C7636 /* NSAlert.swift in Sources */,
 				B8B78FFC2C970B7500DD33EC /* CoilfangConstrictorEnchantment.swift in Sources */,
+				3C44E25F2E0B437400BB7316 /* PickData.swift in Sources */,
 				434910501D09770000B22DB2 /* PlayerBoard.swift in Sources */,
 				B89865642D8E157600BA5649 /* PendantOfEarth.swift in Sources */,
 				B898994D2CA450720011B184 /* BattlegroundsTrinketPickState.swift in Sources */,
