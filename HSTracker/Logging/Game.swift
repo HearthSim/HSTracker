@@ -2229,7 +2229,7 @@ class Game: NSObject, PowerEventHandler {
         if spectator {
             return
         }
-        let hero = entities.values.first(where: { x in x[.player_id] == player.id && x.isHero })
+        let hero = entities.values.first(where: { x in x.isHero && x.isControlled(by: player.id) })
         let heroCardId = hero?.cardId
         let finalBoard = entities.values.filter({ x in x.isMinion && x.isInZone(zone: .play) && x.isControlled(by: player.id)}).compactMap({ x in x.copy() }).sorted(by: { x, y in
             x[.zone_position] < y[.zone_position]
@@ -3638,7 +3638,7 @@ class Game: NSObject, PowerEventHandler {
             return nil
         }
         
-        let hero = entities.values.first(where: { $0.isHero })
+        let hero = entities.values.first(where: { $0.isHero && $0.isControlled(by: player.id) })
         let heroCardId = hero?.cardId != nil ? BattlegroundsUtils.getOriginalHeroId(heroId: hero?.cardId ?? "") : nil
         guard let heroCard = heroCardId != nil ? Cards.by(cardId: heroCardId ?? "") : nil else {
             return nil

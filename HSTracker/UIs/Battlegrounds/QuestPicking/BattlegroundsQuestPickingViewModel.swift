@@ -157,7 +157,7 @@ class BattlegroundsQuestPickingViewModel: ViewModel {
     
     private func getApiParams() -> BattlegroundsQuestStatsParams? {
         let game = AppDelegate.instance().coreManager.game
-        guard let hero = game.entities.values.first(where: { x in x.isPlayer(eventHandler: game) && x.isHero }) else {
+        guard let hero = game.entities.values.first(where: { x in x.isHero && x.isControlled(by: game.player.id) }) else {
             return nil
         }
         let heroCardId = BattlegroundsUtils.getOriginalHeroId(heroId: hero.cardId)
