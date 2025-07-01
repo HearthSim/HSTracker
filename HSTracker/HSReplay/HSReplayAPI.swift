@@ -584,7 +584,7 @@ class HSReplayAPI {
     }
     
     @available(macOS 10.15.0, *)
-    static func getTier7QuestStats(parameters: BattlegroundsQuestStatsParams) async -> [BattlegroundsQuestStats]? {
+    static func getTier7QuestStats(parameters: BattlegroundsQuestPickParams) async -> [BattlegroundsQuestStats]? {
         return await withCheckedContinuation { continuation in
             let encoder = JSONEncoder()
             var body: Data?
@@ -612,7 +612,7 @@ class HSReplayAPI {
     }
     
     @available(macOS 10.15.0, *)
-    static func getTier7QuestStats(token: String?, parameters: BattlegroundsQuestStatsParams) async -> [BattlegroundsQuestStats]? {
+    static func getTier7QuestStats(token: String?, parameters: BattlegroundsQuestPickParams) async -> [BattlegroundsQuestStats]? {
         guard let token = token else {
             return nil
         }

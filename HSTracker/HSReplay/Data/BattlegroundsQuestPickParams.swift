@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct BattlegroundsQuestStatsParams: Codable {
+struct BattlegroundsQuestPickParams: Codable {
     var hero_dbf_id: Int
     var hero_power_dbf_ids: [Int]
     var turn: Int

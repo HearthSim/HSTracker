@@ -155,7 +155,7 @@ class BattlegroundsQuestPickingViewModel: ViewModel {
         }
     }
     
-    private func getApiParams() -> BattlegroundsQuestStatsParams? {
+    private func getApiParams() -> BattlegroundsQuestPickParams? {
         let game = AppDelegate.instance().coreManager.game
         guard let hero = game.entities.values.first(where: { x in x.isHero && x.isControlled(by: game.player.id) }) else {
             return nil
@@ -172,11 +172,11 @@ class BattlegroundsQuestPickingViewModel: ViewModel {
             return nil
         }
         
-        return BattlegroundsQuestStatsParams(hero_dbf_id: heroCard.dbfId, hero_power_dbf_ids: game.player.pastHeroPowers.compactMap({ x in Cards.any(byId: x)?.dbfId }), turn: game.turnNumber(), minion_types: availableRaces.compactMap { x in Int(Race.allCases.firstIndex(of: x)!) }, anomaly_dbf_id: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: game.gameEntity), offered_rewards: getOfferedRewards(), game_language: "\(Settings.hearthstoneLanguage ?? .enUS)", game_type: BnetGameType.getGameType(mode: game.currentGameMode, format: game.currentFormat).rawValue, battlegrounds_rating: game.currentBattlegroundsRating)
+        return BattlegroundsQuestPickParams(hero_dbf_id: heroCard.dbfId, hero_power_dbf_ids: game.player.pastHeroPowers.compactMap({ x in Cards.any(byId: x)?.dbfId }), turn: game.turnNumber(), minion_types: availableRaces.compactMap { x in Int(Race.allCases.firstIndex(of: x)!) }, anomaly_dbf_id: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: game.gameEntity), offered_rewards: getOfferedRewards(), game_language: "\(Settings.hearthstoneLanguage ?? .enUS)", game_type: BnetGameType.getGameType(mode: game.currentGameMode, format: game.currentFormat).rawValue, battlegrounds_rating: game.currentBattlegroundsRating)
     }
     
-    private func getOfferedRewards() -> [BattlegroundsQuestStatsParams.OfferedReward] {
-        var result = [BattlegroundsQuestStatsParams.OfferedReward]()
+    private func getOfferedRewards() -> [BattlegroundsQuestPickParams.OfferedReward] {
+        var result = [BattlegroundsQuestPickParams.OfferedReward]()
         let quests = _entities.array()
         for quest in quests {
             if !quest.hasCardId {
@@ -185,7 +185,7 @@ class BattlegroundsQuestPickingViewModel: ViewModel {
             let rewardCardDbfId = quest[.bacon_card_dbid_reward]
             let optRewardCardDbfId: Int? = rewardCardDbfId != 0 ? rewardCardDbfId : nil
             
-            result.append(BattlegroundsQuestStatsParams.OfferedReward(reward_dbf_id: quest[.quest_reward_database_id], reward_card_dbf_id: optRewardCardDbfId))
+            result.append(BattlegroundsQuestPickParams.OfferedReward(reward_dbf_id: quest[.quest_reward_database_id], reward_card_dbf_id: optRewardCardDbfId))
         }
         return result
     }

@@ -411,7 +411,7 @@
 		B80B5B2F2C49BF9D005F4321 /* CompositionStatsException.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80B5B2E2C49BF9D005F4321 /* CompositionStatsException.swift */; };
 		B80B5B312C750895005F4321 /* TrinketProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80B5B302C750895005F4321 /* TrinketProxy.swift */; };
 		B80B5B332C7508BF005F4321 /* TrinketFactoryProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80B5B322C7508BF005F4321 /* TrinketFactoryProxy.swift */; };
-		B812BCED2947F929000C6513 /* BattlegroundsQuestStatsParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = B812BCEC2947F928000C6513 /* BattlegroundsQuestStatsParams.swift */; };
+		B812BCED2947F929000C6513 /* BattlegroundsQuestPickParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = B812BCEC2947F928000C6513 /* BattlegroundsQuestPickParams.swift */; };
 		B812BCEF29495C3A000C6513 /* BattlegroundsSingleQuestView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B812BCEE29495C3A000C6513 /* BattlegroundsSingleQuestView.xib */; };
 		B81849232BF4D58E00F4EEE2 /* ConstructedMulliganOverlayMessage.xib in Resources */ = {isa = PBXBuildFile; fileRef = B81849222BF4D58E00F4EEE2 /* ConstructedMulliganOverlayMessage.xib */; };
 		B81849252BF4D5A700F4EEE2 /* ConstructedMulliganOverlayMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81849242BF4D5A700F4EEE2 /* ConstructedMulliganOverlayMessage.swift */; };
@@ -742,7 +742,7 @@
 		B86FFA61299C66CC0093689E /* QueueEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E76172293A3D010048E802 /* QueueEvents.swift */; };
 		B86FFA62299C67390093689E /* FindGameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E76170293A321A0048E802 /* FindGameState.swift */; };
 		B86FFA63299C67780093689E /* BattlegroundsQuestStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AC9A29293F9B120047F438 /* BattlegroundsQuestStats.swift */; };
-		B86FFA64299C67780093689E /* BattlegroundsQuestStatsParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = B812BCEC2947F928000C6513 /* BattlegroundsQuestStatsParams.swift */; };
+		B86FFA64299C67780093689E /* BattlegroundsQuestPickParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = B812BCEC2947F928000C6513 /* BattlegroundsQuestPickParams.swift */; };
 		B86FFA66299C67780093689E /* Tier7AllTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC2729429ED900F74CD9 /* Tier7AllTime.swift */; };
 		B86FFA67299C67780093689E /* PlayerTrialData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC292943626C00F74CD9 /* PlayerTrialData.swift */; };
 		B86FFA68299C67780093689E /* BattlegroundsPlacementDistribution.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CE65DB2950D80200E8D168 /* BattlegroundsPlacementDistribution.swift */; };
@@ -1669,7 +1669,7 @@
 		B80B5B2E2C49BF9D005F4321 /* CompositionStatsException.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositionStatsException.swift; sourceTree = "<group>"; };
 		B80B5B302C750895005F4321 /* TrinketProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrinketProxy.swift; sourceTree = "<group>"; };
 		B80B5B322C7508BF005F4321 /* TrinketFactoryProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrinketFactoryProxy.swift; sourceTree = "<group>"; };
-		B812BCEC2947F928000C6513 /* BattlegroundsQuestStatsParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsQuestStatsParams.swift; sourceTree = "<group>"; };
+		B812BCEC2947F928000C6513 /* BattlegroundsQuestPickParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsQuestPickParams.swift; sourceTree = "<group>"; };
 		B812BCEE29495C3A000C6513 /* BattlegroundsSingleQuestView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsSingleQuestView.xib; sourceTree = "<group>"; };
 		B81849222BF4D58E00F4EEE2 /* ConstructedMulliganOverlayMessage.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConstructedMulliganOverlayMessage.xib; sourceTree = "<group>"; };
 		B81849242BF4D5A700F4EEE2 /* ConstructedMulliganOverlayMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructedMulliganOverlayMessage.swift; sourceTree = "<group>"; };
@@ -3982,7 +3982,7 @@
 				B82238BD2BF96C5F00B405D4 /* BattlegroundsHeroPickStats.swift */,
 				B8D34D36294FE74700CACC5A /* BattlegroundsHeroPickStatsParams .swift */,
 				B8AC9A29293F9B120047F438 /* BattlegroundsQuestStats.swift */,
-				B812BCEC2947F928000C6513 /* BattlegroundsQuestStatsParams.swift */,
+				B812BCEC2947F928000C6513 /* BattlegroundsQuestPickParams.swift */,
 				B898994E2CA4514E0011B184 /* BattlegroundsTrinketPickParams.swift */,
 				B89899482CA254B10011B184 /* BattlegroundsTrinketPickStats.swift */,
 				B8C2F90E261F530700C31E6A /* GetAccountResult.swift */,
@@ -4808,7 +4808,7 @@
 				B8FE1F992875BD15004C397C /* SynchronizedArray.swift in Sources */,
 				B8AF0C812B92C5E800B65F63 /* ConstructedMulliganGuidePreLobby.swift in Sources */,
 				B89865952D91D17100BA5649 /* InstrumentTech.swift in Sources */,
-				B812BCED2947F929000C6513 /* BattlegroundsQuestStatsParams.swift in Sources */,
+				B812BCED2947F929000C6513 /* BattlegroundsQuestPickParams.swift in Sources */,
 				B800FCA62732AA9100AFBD51 /* MercenariesTaskListButton.swift in Sources */,
 				B8B78FFA2C970A8A00DD33EC /* CamouflagedDirigibleEnchantment.swift in Sources */,
 				B844D36A2A0C3497001704E0 /* SpellCardEntityProxy.swift in Sources */,
@@ -5614,7 +5614,7 @@
 				B86FFA7E299C67B50093689E /* ViewModel.swift in Sources */,
 				B86FFA7D299C67AE0093689E /* Debounce.swift in Sources */,
 				B86FFA63299C67780093689E /* BattlegroundsQuestStats.swift in Sources */,
-				B86FFA64299C67780093689E /* BattlegroundsQuestStatsParams.swift in Sources */,
+				B86FFA64299C67780093689E /* BattlegroundsQuestPickParams.swift in Sources */,
 				B86FFA66299C67780093689E /* Tier7AllTime.swift in Sources */,
 				B86FFA67299C67780093689E /* PlayerTrialData.swift in Sources */,
 				B86FFA68299C67780093689E /* BattlegroundsPlacementDistribution.swift in Sources */,
