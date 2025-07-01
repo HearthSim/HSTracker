@@ -20,8 +20,6 @@ class PlayerTrackersPreferences: NSViewController, PreferencePane {
     @IBOutlet var showPlayerCardCount: NSButton!
     @IBOutlet var showPlayerDrawChance: NSButton!
     @IBOutlet var showPlayerGet: NSButton!
-    @IBOutlet var showCthunCounter: NSButton!
-    @IBOutlet var showSpellCounter: NSButton!
     @IBOutlet var showDeathrattleCounter: NSButton!
     @IBOutlet var flashOnDraw: NSButton!
     @IBOutlet var showRecord: NSButton!
@@ -30,18 +28,10 @@ class PlayerTrackersPreferences: NSViewController, PreferencePane {
     @IBOutlet var showDeckName: NSButton!
     @IBOutlet var showGraveyard: NSButton!
     @IBOutlet var showGraveyardDetails: NSButton!
-    @IBOutlet var showJadeCounter: NSButton!
-    @IBOutlet var showGalakrondInvokeCounter: NSButton!
-    @IBOutlet var showLibramCounter: NSButton!
-    @IBOutlet var showAbyssalCounter: NSButton!
-    @IBOutlet var showExcavateTier: NSButton!
     @IBOutlet var showTopCards: NSButton!
     @IBOutlet var showBottomCards: NSButton!
     @IBOutlet var showPlayerSideboards: NSButton!
-    @IBOutlet var showPogoCounter: NSButton!
-    @IBOutlet var showSpellSchoolsCounter: NSButton!
     @IBOutlet var showActiveEffects: NSButton!
-    @IBOutlet var showWotogCounters: NSButton!
     @IBOutlet var showCounters: NSButton!
     @IBOutlet var showPlayerRelatedCards: NSButton!
     @IBOutlet var showPlayerHighlightSynergies: NSButton!
@@ -57,8 +47,6 @@ class PlayerTrackersPreferences: NSViewController, PreferencePane {
         showPlayerCardCount.state = Settings.showPlayerCardCount ? .on : .off
         showPlayerDrawChance.state = Settings.showPlayerDrawChance ? .on : .off
         showPlayerGet.state = Settings.showPlayerGet ? .on : .off
-        showCthunCounter.state = Settings.showPlayerCthun ? .on : .off
-        showSpellCounter.state = Settings.showPlayerSpell ? .on : .off
         showDeathrattleCounter.state = Settings.showPlayerDeathrattle ? .on : .off
         flashOnDraw.state = Settings.flashOnDraw ? .on : .off
         showRecord.state = Settings.showWinLossRatio ? .on : .off
@@ -68,22 +56,13 @@ class PlayerTrackersPreferences: NSViewController, PreferencePane {
         showGraveyard.state = Settings.showPlayerGraveyard ? .on : .off
         showGraveyardDetails.state = Settings.showPlayerGraveyardDetails ? .on : .off
         showGraveyardDetails.isEnabled = showGraveyard.state == .on
-        showJadeCounter.state = Settings.showPlayerJadeCounter ? .on : .off
-        showGalakrondInvokeCounter.state = Settings.showPlayerGalakrondCounter ? .on : .off
-        showLibramCounter.state = Settings.showPlayerLibramCounter ? .on : .off
-        showAbyssalCounter.state = Settings.showPlayerAbyssalCounter ? .on : .off
-        showExcavateTier.state = Settings.showPlayerExcavateTier ? .on : .off
         showTopCards.state = Settings.showPlayerCardsTop ? .on : .off
         showBottomCards.state = Settings.showPlayerCardsBottom ? .on : .off
-        showPogoCounter.state = Settings.showPlayerPogoCounter ? .on : .off
-        showSpellCounter.state = Settings.showPlayerSpellSchoolsCounter ? .on : .off
         showPlayerSideboards.state = Settings.hidePlayerSideboards ? .off : .on
         showActiveEffects.state = Settings.showPlayerActiveEffects ? .on : .off
-        showWotogCounters.state = Settings.showPlayerWotogCounters ? .on : .off
         showCounters.state = Settings.showPlayerCounters ? .on : .off
         showPlayerRelatedCards.state = Settings.showPlayerRelatedCards ? .on : .off
         showPlayerHighlightSynergies.state = Settings.showPlayerHighlightSynergies ? .on : .off
-        updateEnablement()
     }
     
     @IBAction func colorChange(_ sender: NSColorWell) {
@@ -101,10 +80,6 @@ class PlayerTrackersPreferences: NSViewController, PreferencePane {
             Settings.showPlayerCardCount = showPlayerCardCount.state == .on
         } else if sender == showPlayerDrawChance {
             Settings.showPlayerDrawChance = showPlayerDrawChance.state == .on
-        } else if sender == showCthunCounter {
-            Settings.showPlayerCthun = showCthunCounter.state == .on
-        } else if sender == showSpellCounter {
-            Settings.showPlayerSpell = showSpellCounter.state == .on
         } else if sender == showDeathrattleCounter {
             Settings.showPlayerDeathrattle = showDeathrattleCounter.state == .on
         } else if sender == flashOnDraw {
@@ -124,20 +99,6 @@ class PlayerTrackersPreferences: NSViewController, PreferencePane {
             }
         } else if sender == showGraveyardDetails {
             Settings.showPlayerGraveyardDetails = showGraveyardDetails.state == .on
-        } else if sender == showJadeCounter {
-            Settings.showPlayerJadeCounter = showJadeCounter.state == .on
-        } else if sender == showGalakrondInvokeCounter {
-            Settings.showPlayerGalakrondCounter = showGalakrondInvokeCounter.state == .on
-        } else if sender == showLibramCounter {
-            Settings.showPlayerLibramCounter = showLibramCounter.state == .on
-        } else if sender == showAbyssalCounter {
-            Settings.showPlayerAbyssalCounter = showAbyssalCounter.state == .on
-        } else if sender == showExcavateTier {
-            Settings.showPlayerExcavateTier = showExcavateTier.state == .on
-        } else if sender == showPogoCounter {
-            Settings.showPlayerPogoCounter = showPogoCounter.state == .on
-        } else if sender == showSpellSchoolsCounter {
-            Settings.showPlayerSpellSchoolsCounter = showSpellSchoolsCounter.state == .on
         } else if sender == showTopCards {
             Settings.showPlayerCardsTop = showTopCards.state == .on
         } else if sender == showBottomCards {
@@ -146,9 +107,6 @@ class PlayerTrackersPreferences: NSViewController, PreferencePane {
             Settings.hidePlayerSideboards = showPlayerSideboards.state == .off
         } else if sender == showActiveEffects {
             Settings.showPlayerActiveEffects = showActiveEffects.state == .on
-        } else if sender == showWotogCounters {
-            Settings.showPlayerWotogCounters = showWotogCounters.state == .on
-            updateEnablement()
         } else if sender == showCounters {
             Settings.showPlayerCounters = showCounters.state == .on
         } else if sender == showPlayerRelatedCards {
@@ -156,19 +114,6 @@ class PlayerTrackersPreferences: NSViewController, PreferencePane {
         } else if sender == showPlayerHighlightSynergies {
             Settings.showPlayerHighlightSynergies = showPlayerHighlightSynergies.state == .on
         }
-    }
-    
-    func updateEnablement() {
-        let enabled = showWotogCounters.state == .on
-        showJadeCounter.isEnabled = enabled
-        showCthunCounter.isEnabled = enabled
-        showSpellCounter.isEnabled = enabled
-        showPogoCounter.isEnabled = enabled
-        showGalakrondInvokeCounter.isEnabled = enabled
-        showLibramCounter.isEnabled = enabled
-        showAbyssalCounter.isEnabled = enabled
-        showExcavateTier.isEnabled = enabled
-        showSpellSchoolsCounter.isEnabled = enabled
     }
 }
 

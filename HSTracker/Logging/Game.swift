@@ -155,8 +155,6 @@ class Game: NSObject, PowerEventHandler {
         self.updateBobsBuddyOverlay()
         self.updateTurnCounterOverlay()
         self.updateToaster()
-        self.updateOpponentIcons()
-        self.updatePlayerIcons()
         self.updateExperienceOverlay()
         self.updateMercenariesTaskListButton()
         self.updateBoardOverlay()
@@ -260,137 +258,6 @@ class Game: NSObject, PowerEventHandler {
 		}
 	}
     
-    func updateOpponentIcons() {
-        DispatchQueue.main.async { [weak self] in
-            guard let self else {
-                return
-            }
-            var anyVisible = false
-            let showTracker = shouldShowTracker && !isBattlegroundsMatch() && !isMercenariesMatch() && isMulliganDone() && Settings.showOpponentWotogCounters
-            let icons = self.windowManager.opponentWotogIcons
-            icons.jadeVisibility = showOpponentJadeCounter && showTracker
-            if icons.jadeVisibility {
-                anyVisible = true
-                icons.jade = opponentNextJadeGolem
-            }
-            icons.cthunVisibility = showOpponentCthunCounter && showTracker
-            if icons.cthunVisibility {
-                anyVisible = true
-                let player = opponentEntity
-                icons.cthunAttack = (player?.has(tag: .cthun_attack_buff) ?? false) ? (player?[.cthun_attack_buff] ?? 0) + 6 : 6
-                icons.cthunHealth = (player?.has(tag: .cthun_health_buff) ?? false) ? (player?[.cthun_health_buff] ?? 0) + 6 : 6
-            }
-            icons.spellsVisibility = showOpponentSpellsCounter && showTracker
-            if icons.spellsVisibility {
-                anyVisible = true
-                icons.spellsCounter = opponent.spellsPlayedCount
-            }
-            icons.pogoVisibility = showOpponentPogoHopperCounter && showTracker
-            if icons.pogoVisibility {
-                anyVisible = true
-                icons.pogoCounter = ((opponent.pogoHopperPlayedCount + 1) * 2) - 1
-            }
-            icons.galakrondVisibility = showOpponentGalakrondCounter && showTracker
-            if icons.galakrondVisibility {
-                anyVisible = true
-                icons.galakrondCounter = opponentGalakrondInvokeCounter
-            }
-            icons.libramVisibility = showOpponentLibramCounter && showTracker
-            if icons.libramVisibility {
-                anyVisible = true
-                icons.libramCounter = opponentLibramCounter
-            }
-            icons.abyssalVisibility = showOpponentAbyssalCounter && showTracker
-            if icons.abyssalVisibility {
-                anyVisible = true
-                icons.abyssalCurse = self.opponent.abyssalCurseCount
-            }
-            icons.excavateVisibility = showOpponentExcavateCounter && showTracker
-            if icons.excavateVisibility {
-                anyVisible = true
-                icons.excavate = opponentEntity?[.gametag_2822] ?? 0
-            }
-            icons.spellSchoolsVisibility = showOpponentSpellSchoolsCounter && showTracker
-            if icons.spellSchoolsVisibility {
-                anyVisible = true
-                icons.spellSchools = Array(opponent.playedSpellSchools)
-            }
-            if anyVisible {
-                let frame = SizeHelper.opponentWotogIconsFrame()
-                self.windowManager.show(controller: icons, show: true,
-                                        frame: frame, overlay: self.hearthstoneRunState.isActive)
-            } else {
-                self.windowManager.show(controller: icons, show: false)
-            }
-        }
-    }
-
-    func updatePlayerIcons() {
-        DispatchQueue.main.async { [weak self] in
-            guard let self else {
-                return
-            }
-            var anyVisible = false
-            let showTracker = shouldShowTracker && !isBattlegroundsMatch() && !isMercenariesMatch() && isMulliganDone() && Settings.showPlayerWotogCounters
-            let icons = self.windowManager.playerWotogIcons
-            icons.jadeVisibility = showPlayerJadeCounter && showTracker
-            if icons.jadeVisibility {
-                anyVisible = true
-                icons.jade = playerNextJadeGolem
-            }
-            icons.cthunVisibility = showPlayerCthunCounter && showTracker
-            if icons.cthunVisibility {
-                anyVisible = true
-                let player = playerEntity
-                icons.cthunAttack = (player?.has(tag: .cthun_attack_buff) ?? false) ? (player?[.cthun_attack_buff] ?? 0) + 6 : 6
-                icons.cthunHealth = (player?.has(tag: .cthun_health_buff) ?? false) ? (player?[.cthun_health_buff] ?? 0) + 6 : 6
-            }
-            icons.spellsVisibility = showPlayerSpellsCounter && showTracker
-            if icons.spellsVisibility {
-                anyVisible = true
-                icons.spellsCounter = player.spellsPlayedCount
-            }
-            icons.pogoVisibility = showPlayerPogoHopperCounter && showTracker
-            if icons.pogoVisibility {
-                anyVisible = true
-                icons.pogoCounter = ((player.pogoHopperPlayedCount + 1) * 2) - 1
-            }
-            icons.galakrondVisibility = showPlayerGalakrondCounter && showTracker
-            if icons.galakrondVisibility {
-                anyVisible = true
-                icons.galakrondCounter = playerGalakrondInvokeCounter
-            }
-            icons.libramVisibility = showPlayerLibramCounter && showTracker
-            if icons.libramVisibility {
-                anyVisible = true
-                icons.libramCounter = playerLibramCounter
-            }
-            icons.abyssalVisibility = showPlayerAbyssalCounter  && showTracker
-            if icons.abyssalVisibility {
-                anyVisible = true
-                icons.abyssalCurse = self.player.abyssalCurseCount
-            }
-            icons.excavateTierVisibility = showPlayerExcavateTier && showTracker
-            if icons.excavateTierVisibility {
-                anyVisible = true
-                icons.excavateTier = playerEntity?[.current_excavate_tier] ?? 0
-                icons.updateExcavateTierLabel()
-            }
-            icons.spellSchoolsVisibility = showPlayerSpellSchoolsCounter && showTracker
-            if icons.spellSchoolsVisibility {
-                anyVisible = true
-                icons.spellSchools = Array(player.playedSpellSchools)
-            }
-            if anyVisible {
-                let frame = SizeHelper.playerWotogIconsFrame()
-                self.windowManager.show(controller: icons, show: true,
-                                        frame: frame, overlay: self.hearthstoneRunState.isActive)
-            } else {
-                self.windowManager.show(controller: icons, show: false)
-            }
-        }
-    }
-
     @objc func updatePlayerTracker(reset: Bool = false) {
         DispatchQueue.main.async { [weak self] in
             guard let self else {
@@ -1454,19 +1321,18 @@ class Game: NSObject, PowerEventHandler {
 		let playerTrackerUpdateEvents = [Settings.show_player_tracker, Settings.rarity_colors, Settings.remove_cards_from_deck,
 		                                 Settings.highlight_last_drawn, Settings.highlight_cards_in_hand, Settings.highlight_discarded,
 		                                 Settings.show_player_get, Settings.player_draw_chance, Settings.player_card_count,
-		                                 Settings.player_cthun_frame, Settings.player_yogg_frame, Settings.player_deathrattle_frame,
+                                         Settings.player_deathrattle_frame,
 		                                 Settings.show_win_loss_ratio, Settings.player_in_hand_color, Settings.show_deck_name,
 		                                 Settings.player_graveyard_details_frame, Settings.player_graveyard_frame,
-                                         Settings.player_cards_top, Settings.player_cards_bottom, Settings.player_jade_frame,
-                                         Settings.player_libram_counter, Settings.player_abyssal_counter, Settings.player_cards_top,
+                                         Settings.player_cards_top, Settings.player_cards_bottom, Settings.player_cards_top,
                                          Settings.player_cards_bottom, Settings.hide_player_sideboards]
 		
 		// events that should update the opponent's tracker
 		let opponentTrackerUpdateEvents = [Settings.show_opponent_tracker, Settings.opponent_card_count, Settings.opponent_draw_chance,
-		                                   Settings.opponent_cthun_frame, Settings.opponent_yogg_frame, Settings.opponent_deathrattle_frame,
+		                                   Settings.opponent_deathrattle_frame,
 		                                   Settings.show_opponent_class, Settings.opponent_graveyard_frame,
 		                                   Settings.opponent_graveyard_details_frame,
-                                           Settings.opponent_jade_frame, Settings.opponent_libram_counter, Settings.opponent_abyssal_counter, Settings.opponent_related_cards]
+                                           Settings.opponent_related_cards]
 		
 		// events that should update all trackers
 		let allTrackerUpdateEvents = [Settings.rarity_colors, Events.reload_decks, Settings.window_locked, Settings.auto_position_trackers,

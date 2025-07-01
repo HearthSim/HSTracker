@@ -11,7 +11,6 @@
 		1C17D24C1E82C81700ED4047 /* LogEventParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C17D24B1E82C81700ED4047 /* LogEventParser.swift */; };
 		1C17D2521E82DEE700ED4047 /* RealmHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C17D2511E82DEE700ED4047 /* RealmHelper.swift */; };
 		1C561C991EC1EC6600007A46 /* ReplayUploadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C561C981EC1EC6600007A46 /* ReplayUploadTests.swift */; };
-		1CB43A151E8317A800E42181 /* WotogCounterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437B5BB21CD2439800DE0A41 /* WotogCounterHelper.swift */; };
 		1CB623A71DD37C890045E0CF /* GlowFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CB623A61DD37C890045E0CF /* GlowFilter.m */; };
 		1CCB4ACF1E84708A003FD1AD /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 433554321D5F6B4400277B27 /* libz.tbd */; };
 		1CCB4AEB1E8A4930003FD1AD /* LogEventHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCB4AEA1E8A4930003FD1AD /* LogEventHandlers.swift */; };
@@ -319,7 +318,6 @@
 		43C1CAB61E96CD6F008C20B1 /* PlayerBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4349104F1D09770000B22DB2 /* PlayerBoard.swift */; };
 		43C1CAB71E96CD6F008C20B1 /* IBoardEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434910511D09773D00B22DB2 /* IBoardEntity.swift */; };
 		43C1CAB81E96CD6F008C20B1 /* EntityHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434910531D097B0500B22DB2 /* EntityHelper.swift */; };
-		43C1CAB91E96CD6F008C20B1 /* WotogCounterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437B5BB21CD2439800DE0A41 /* WotogCounterHelper.swift */; };
 		43C1CABA1E96CD6F008C20B1 /* ImageUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434D1CAE1D0C500300222B8E /* ImageUtilities.swift */; };
 		43C1CABB1E96CD6F008C20B1 /* ImageCompare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434D1CB01D0C507900222B8E /* ImageCompare.swift */; };
 		43C1CABF1E96CD6F008C20B1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E4B1C7772C000D29859 /* AppDelegate.swift */; };
@@ -560,7 +558,6 @@
 		B8496734289A0D8F00D90B30 /* UnfairLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD8452285D23C500F4F224 /* UnfairLock.swift */; };
 		B8496735289A0DA900D90B30 /* BattlegroundsTierTriples.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A70C16284152DC004D054C /* BattlegroundsTierTriples.swift */; };
 		B8496736289A0DB600D90B30 /* BattlegroundsSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AF932F282D4A7C00864934 /* BattlegroundsSession.swift */; };
-		B8496737289A0DBC00D90B30 /* WotogCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FE1F9428694F44004C397C /* WotogCounter.swift */; };
 		B8496738289A0DC500D90B30 /* DeckLens.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89C9895280C610C005E9315 /* DeckLens.swift */; };
 		B8496739289A0DCF00D90B30 /* AnimatedCardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89C9893280A113A005E9315 /* AnimatedCardList.swift */; };
 		B849673A289A0DD800D90B30 /* Sentry.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FE1F9B28784ACE004C397C /* Sentry.swift */; };
@@ -1277,8 +1274,6 @@
 		B8FDE9492CDD22640093BFF7 /* TheGalacticProjectionOrb.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FDE9482CDD22640093BFF7 /* TheGalacticProjectionOrb.swift */; };
 		B8FDE94D2CDD26340093BFF7 /* Tyr.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FDE94C2CDD26340093BFF7 /* Tyr.swift */; };
 		B8FDE94F2CDD26A20093BFF7 /* TyrsTears.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FDE94E2CDD26A20093BFF7 /* TyrsTears.swift */; };
-		B8FE1F9328693EDD004C397C /* WotogCounter.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8FE1F9228693EDD004C397C /* WotogCounter.xib */; };
-		B8FE1F9528694F44004C397C /* WotogCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FE1F9428694F44004C397C /* WotogCounter.swift */; };
 		B8FE1F992875BD15004C397C /* SynchronizedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FE1F982875BD15004C397C /* SynchronizedArray.swift */; };
 		B8FE1F9C28784ACE004C397C /* Sentry.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FE1F9B28784ACE004C397C /* Sentry.swift */; };
 		BC78DD751E806B6F00DBA7C9 /* Algorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC78DD741E806B6F00DBA7C9 /* Algorithm.swift */; };
@@ -1496,7 +1491,6 @@
 		436F5D131CFD803C00DEB9A1 /* FrostBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrostBar.swift; sourceTree = "<group>"; };
 		436F5D151CFD822600DEB9A1 /* MinimalBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MinimalBar.swift; sourceTree = "<group>"; };
 		437B5BAB1CD1E6AF00DE0A41 /* Step.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
-		437B5BB21CD2439800DE0A41 /* WotogCounterHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WotogCounterHelper.swift; sourceTree = "<group>"; };
 		437B5BB41CD2558500DE0A41 /* OpponentTrackersPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpponentTrackersPreferences.swift; sourceTree = "<group>"; };
 		437B5BB71CD2559300DE0A41 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/OpponentTrackersPreferences.xib; sourceTree = "<group>"; };
 		437B5BBC1CD255B200DE0A41 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/OpponentTrackersPreferences.strings; sourceTree = "<group>"; };
@@ -2411,8 +2405,6 @@
 		B8FDE9482CDD22640093BFF7 /* TheGalacticProjectionOrb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheGalacticProjectionOrb.swift; sourceTree = "<group>"; };
 		B8FDE94C2CDD26340093BFF7 /* Tyr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tyr.swift; sourceTree = "<group>"; };
 		B8FDE94E2CDD26A20093BFF7 /* TyrsTears.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TyrsTears.swift; sourceTree = "<group>"; };
-		B8FE1F9228693EDD004C397C /* WotogCounter.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WotogCounter.xib; sourceTree = "<group>"; };
-		B8FE1F9428694F44004C397C /* WotogCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WotogCounter.swift; sourceTree = "<group>"; };
 		B8FE1F982875BD15004C397C /* SynchronizedArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynchronizedArray.swift; sourceTree = "<group>"; };
 		B8FE1F9B28784ACE004C397C /* Sentry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sentry.swift; sourceTree = "<group>"; };
 		BC78DD741E806B6F00DBA7C9 /* Algorithm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Algorithm.swift; sourceTree = "<group>"; };
@@ -2802,7 +2794,6 @@
 				B8BD84542860058400F4F224 /* SynchronizedDictionary.swift */,
 				B8BD8452285D23C500F4F224 /* UnfairLock.swift */,
 				B804FC382944B1DA00F74CD9 /* ViewModel.swift */,
-				437B5BB21CD2439800DE0A41 /* WotogCounterHelper.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -3096,8 +3087,6 @@
 				B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */,
 				B850AA32252CB0490031E8F2 /* TurnCounter.xib */,
 				43BDF0BD1DB89A830081964A /* WindowManager.swift */,
-				B8FE1F9428694F44004C397C /* WotogCounter.swift */,
-				B8FE1F9228693EDD004C397C /* WotogCounter.xib */,
 			);
 			path = Trackers;
 			sourceTree = "<group>";
@@ -4550,7 +4539,6 @@
 				432B5FBF1CB5373500B05D19 /* InitialConfiguration.xib in Resources */,
 				B8795EAC27516DBC00469B6E /* MercenariesTask.xib in Resources */,
 				4C1923A12392FB3F007EBB0F /* BattlegroundsDetailsWindow.xib in Resources */,
-				B8FE1F9328693EDD004C397C /* WotogCounter.xib in Resources */,
 				B81849232BF4D58E00F4EEE2 /* ConstructedMulliganOverlayMessage.xib in Resources */,
 				434106A51C9868620045655A /* Classes.xcassets in Resources */,
 				B89F51EA2C9CF8D600E31195 /* ActiveEffect.xib in Resources */,
@@ -5019,7 +5007,6 @@
 				B852D83B2DDFBD4400884B26 /* KnightOfAnointment.swift in Sources */,
 				B8B790122C974F0F00DD33EC /* SpeakerStomperEnchantment.swift in Sources */,
 				B854621C2CDEBBC40083BB31 /* VoroneiRecruiter.swift in Sources */,
-				B8FE1F9528694F44004C397C /* WotogCounter.swift in Sources */,
 				439C7E8D1C777D1C00D29859 /* Database.swift in Sources */,
 				B8AB599A2744145B00383EC8 /* Collection.swift in Sources */,
 				B86D8A002D95F3A700AB65A5 /* FinjaTheFlyingStar.swift in Sources */,
@@ -5467,7 +5454,6 @@
 				B846CC6C2E09F16700552F9C /* ImpKingRafaam.swift in Sources */,
 				B8E1E5BF2D0C893D00383975 /* MassResurrection.swift in Sources */,
 				4345FE951DF54CA900E8936B /* Block.swift in Sources */,
-				1CB43A151E8317A800E42181 /* WotogCounterHelper.swift in Sources */,
 				B898658B2D91CF2100BA5649 /* NydusWorm.swift in Sources */,
 				B8C1F1C3295A42F6001E078C /* BattlegroundsSingleHeroStats.swift in Sources */,
 				43C568051D5E5BFF00451B6F /* UploadMetaData.swift in Sources */,
@@ -5657,7 +5643,6 @@
 				B849673A289A0DD800D90B30 /* Sentry.swift in Sources */,
 				B8496739289A0DCF00D90B30 /* AnimatedCardList.swift in Sources */,
 				B8496738289A0DC500D90B30 /* DeckLens.swift in Sources */,
-				B8496737289A0DBC00D90B30 /* WotogCounter.swift in Sources */,
 				B8496736289A0DB600D90B30 /* BattlegroundsSession.swift in Sources */,
 				B8496735289A0DA900D90B30 /* BattlegroundsTierTriples.swift in Sources */,
 				B8496734289A0D8F00D90B30 /* UnfairLock.swift in Sources */,
@@ -5906,7 +5891,6 @@
 				43C1CAB61E96CD6F008C20B1 /* PlayerBoard.swift in Sources */,
 				43C1CAB71E96CD6F008C20B1 /* IBoardEntity.swift in Sources */,
 				43C1CAB81E96CD6F008C20B1 /* EntityHelper.swift in Sources */,
-				43C1CAB91E96CD6F008C20B1 /* WotogCounterHelper.swift in Sources */,
 				43C1CABA1E96CD6F008C20B1 /* ImageUtilities.swift in Sources */,
 				43C1CABB1E96CD6F008C20B1 /* ImageCompare.swift in Sources */,
 				43C1CABF1E96CD6F008C20B1 /* AppDelegate.swift in Sources */,

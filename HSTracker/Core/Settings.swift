@@ -305,66 +305,30 @@ final class Settings {
     static var showOpponentCardCount: Bool
     @UserDefault(key: Settings.opponent_draw_chance, defaultValue: true)
     static var showOpponentDrawChance: Bool
-    @UserDefault(key: Settings.player_cthun_frame, defaultValue: true)
-    static var showPlayerCthun: Bool
     @UserDefault(key: Settings.player_deathrattle_frame, defaultValue: false)
     static var showPlayerDeathrattle: Bool
-    @UserDefault(key: Settings.player_yogg_frame, defaultValue: true)
-    static var showPlayerSpell: Bool
     @UserDefault(key: Settings.player_graveyard_frame, defaultValue: true)
     static var showPlayerGraveyard: Bool
     @UserDefault(key: Settings.player_graveyard_details_frame, defaultValue: true)
     static var showPlayerGraveyardDetails: Bool
-    @UserDefault(key: Settings.player_jade_frame, defaultValue: true)
-    static var showPlayerJadeCounter: Bool
-    @UserDefault(key: Settings.player_spell_schools_counter, defaultValue: true)
-    static var showPlayerSpellSchoolsCounter: Bool
     @UserDefault(key: Settings.player_cards_top, defaultValue: true)
     static var showPlayerCardsTop: Bool
     @UserDefault(key: Settings.player_cards_bottom, defaultValue: true)
     static var showPlayerCardsBottom: Bool
     @UserDefault(key: Settings.hide_player_sideboards, defaultValue: false)
     static var hidePlayerSideboards: Bool
-    @UserDefault(key: Settings.player_galakrond_invoke_frame, defaultValue: true)
-    static var showPlayerGalakrondCounter: Bool
-    @UserDefault(key: Settings.player_abyssal_counter, defaultValue: true)
-    static var showPlayerAbyssalCounter: Bool
-    @UserDefault(key: Settings.opponent_abyssal_counter, defaultValue: true)
-    static var showOpponentAbyssalCounter: Bool
-    @UserDefault(key: Settings.player_excavate_tier, defaultValue: true)
-    static var showPlayerExcavateTier: Bool
-    @UserDefault(key: Settings.player_pogo_counter, defaultValue: true)
-    static var showPlayerPogoCounter: Bool
-    @UserDefault(key: Settings.player_wotog_counters, defaultValue: false)
-    static var showPlayerWotogCounters: Bool
     @UserDefault(key: Settings.player_counters, defaultValue: true)
     static var showPlayerCounters: Bool
     @UserDefault(key: Settings.player_related_cards, defaultValue: true)
     static var showPlayerRelatedCards
     @UserDefault(key: Settings.player_highlight_synergies, defaultValue: true)
     static var showPlayerHighlightSynergies
-    @UserDefault(key: Settings.opponent_pogo_counter, defaultValue: true)
-    static var showOpponentPogoCounter: Bool
-    @UserDefault(key: Settings.opponent_excavate_counter, defaultValue: true)
-    static var showOpponentExcavateCounter: Bool
-    @UserDefault(key: Settings.opponent_galakrond_invoke_frame, defaultValue: true)
-    static var showOpponentGalakrondCounter: Bool
-    @UserDefault(key: Settings.opponent_cthun_frame, defaultValue: true)
-    static var showOpponentCthun: Bool
-    @UserDefault(key: Settings.opponent_yogg_frame, defaultValue: true)
-    static var showOpponentSpell: Bool
     @UserDefault(key: Settings.opponent_deathrattle_frame, defaultValue: false)
     static var showOpponentDeathrattle: Bool
     @UserDefault(key: Settings.opponent_graveyard_frame, defaultValue: true)
     static var showOpponentGraveyard: Bool
     @UserDefault(key: Settings.opponent_graveyard_details_frame, defaultValue: true)
     static var showOpponentGraveyardDetails: Bool
-    @UserDefault(key: Settings.opponent_jade_frame, defaultValue: true)
-    static var showOpponentJadeCounter: Bool
-    @UserDefault(key: Settings.opponent_spell_schools_counter, defaultValue: true)
-    static var showOpponentSpellSchoolsCounter: Bool
-    @UserDefault(key: Settings.opponent_wotog_counters, defaultValue: false)
-    static var showOpponentWotogCounters: Bool
     @UserDefault(key: Settings.opponent_counters, defaultValue: true)
     static var showOpponentCounters: Bool
     @UserDefault(key: Settings.remove_cards_from_deck, defaultValue: false)
@@ -387,10 +351,6 @@ final class Settings {
     static var showOpponentTracker: Bool
     @UserDefault(key: Settings.show_timer, defaultValue: false)
     static var showTimer: Bool
-    @UserDefault(key: Settings.player_libram_counter, defaultValue: true)
-    static var showPlayerLibramCounter: Bool
-    @UserDefault(key: Settings.opponent_libram_counter, defaultValue: true)
-    static var showOpponentLibramCounter: Bool
     @UserDefault(key: Settings.interacted_with_link_opponentDeck, defaultValue: false)
     static var interactedWithLinkOpponentDeck: Bool
     @UserDefault(key: Settings.enable_link_opponent_deck, defaultValue: false)
@@ -643,38 +603,18 @@ extension Settings {
     static let player_card_count = "player_card_count"
     static let opponent_card_count = "opponent_card_count"
     static let opponent_draw_chance = "opponent_draw_chance"
-    static let player_cthun_frame = "player_cthun_frame"
     static let player_deathrattle_frame = "player_deathrattle_frame"
-    static let player_yogg_frame = "player_yogg_frame"
     static let player_graveyard_frame = "player_graveyard_frame"
     static let player_graveyard_details_frame = "player_graveyard_details_frame"
-    static let player_jade_frame = "player_jade_frame"
-    static let player_galakrond_invoke_frame = "player_galakrond_invoke_frame"
-    static let player_libram_counter = "player_libram_counter"
     static let player_cards_top = "player_cards_top"
     static let player_cards_bottom = "player_cards_botto"
     static let hide_player_sideboards = "hide_player_sideboards"
-    static let player_abyssal_counter = "player_abyssal_counter"
-    static let player_excavate_tier = "player_excavate_tier"
-    static let player_pogo_counter = "player_pogo_counter"
-    static let player_spell_schools_counter = "player_spell_school_counter"
-    static let player_wotog_counters = "player_wotog_counters"
     static let player_counters = "player_counters"
     static let player_related_cards = "player_related_cards"
     static let player_highlight_synergies = "player_highlight_synergies"
-    static let opponent_galakrond_invoke_frame = "opponent_galakrond_invoke_frame"
-    static let opponent_cthun_frame = "opponent_cthun_frame"
-    static let opponent_yogg_frame = "opponent_yogg_frame"
     static let opponent_deathrattle_frame = "opponent_deathrattle_frame"
     static let opponent_graveyard_frame = "opponent_graveyard_frame"
     static let opponent_graveyard_details_frame = "opponent_graveyard_details_frame"
-    static let opponent_jade_frame = "opponent_jade_frame"
-    static let opponent_libram_counter = "opponent_libram_counter"
-    static let opponent_abyssal_counter = "opponent_abyssal_counter"
-    static let opponent_excavate_counter = "opponent_excavate_counter"
-    static let opponent_pogo_counter = "opponent_pogo_counter"
-    static let opponent_spell_schools_counter = "opponent_spell_school_counter"
-    static let opponent_wotog_counters = "opponent_wotog_counters"
     static let opponent_counters = "opponent_counters"
     static let interacted_with_link_opponentDeck = "interacted_with_link_opponentDeck"
     static let enable_link_opponent_deck = "enable_link_opponent_deck"
