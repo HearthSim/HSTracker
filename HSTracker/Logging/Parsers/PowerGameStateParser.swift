@@ -54,10 +54,10 @@ class PowerGameStateParser: LogEventParser {
     }
 
     // MARK: - blocks
-    func blockStart(type: String?, cardId: String?, target: String?) {
+    func blockStart(type: String?, cardId: String?, target: String?, trigger: String?) {
         maxBlockId += 1
         let blockId = maxBlockId
-        currentBlock = currentBlock?.createChild(blockId: blockId, type: type, cardId: cardId, target: target) ?? Block(parent: nil, id: blockId, type: type, cardId: cardId, target: target)
+        currentBlock = currentBlock?.createChild(blockId: blockId, type: type, cardId: cardId, target: target, trigger: trigger) ?? Block(parent: nil, id: blockId, type: type, cardId: cardId, target: target, trigger: trigger)
         AppDelegate.instance().coreManager.game.secretsManager?.onNewBlock()
     }
 
@@ -341,12 +341,6 @@ class PowerGameStateParser: LogEventParser {
                         } else {
                             entity?.info.hidden = false
                         }
-                        if entity?.cardId == CardIds.Collectible.Neutral.PrinceRenathal || entity?.cardId == CardIds.Collectible.Neutral.PrinceRenathalInvalid || entity?.cardId == CardIds.Collectible.Neutral.YseraEmeraldAspect || entity?.cardId == CardIds.Collectible.Priest.DarkbishopBenedictus  || entity?.cardId == CardIds.Collectible.Priest.DarkbishopBenedictusCorePlaceholder || entity?.cardId == CardIds.Collectible.Warrior.SporeEmpressMoldara || entity?.cardId == CardIds.NonCollectible.Warrior.SporeEmpressMoldara_ReplicatingSporeToken {
-                            entity?.info.guessedCardState = .revealed
-                            entity?.info.hidden = true
-                            
-                            AppDelegate.instance().coreManager?.game.updateTrackers()
-                        }
                     }
                     if entity?.info.deckIndex ?? 0 < 0, let currentBlock = currentBlock, currentBlock.sourceEntityId != 0 {
                         if let source = eventHandler.entities[currentBlock.sourceEntityId], source.hasDredge {
@@ -533,7 +527,7 @@ class PowerGameStateParser: LogEventParser {
                 triggerKeyword = matches[5].value
             }
             
-            blockStart(type: blockType, cardId: cardId, target: target)
+            blockStart(type: blockType, cardId: cardId, target: target, trigger: triggerKeyword)
 
             if matches.count > 0 && (blockType == "TRIGGER" || blockType == "POWER") {
                 let player = eventHandler.entities.values

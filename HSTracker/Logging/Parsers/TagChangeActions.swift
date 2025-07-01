@@ -465,8 +465,15 @@ struct TagChangeActions {
         guard let entity = eventHandler.entities[id] else {
             return
         }
+    
+        let isStartOfTheGameEffect = powerGameStateParser?.currentBlock?.triggerKeyword == "START_OF_GAME_KEYWORK"
+        entity.info.hidden = isStartOfTheGameEffect
         
-        entity.info.hidden = false
+        if isStartOfTheGameEffect {
+            entity.info.guessedCardState = .revealed
+            
+            AppDelegate.instance().coreManager.game.updateTrackers()
+        }
     }
     
     private func cantPlayChange(eventHandler: PowerEventHandler, id: Int, value: Int, previous: Int) {

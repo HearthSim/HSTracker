@@ -16,6 +16,8 @@ class Block {
     let cardId: String?
     let target: String?
     
+    let triggerKeyword: String?
+    
     var sourceEntityId = 0
     var dredgeCounter = 0
     
@@ -29,16 +31,17 @@ class Block {
     
     var hideShowEntities = false
    
-    init(parent: Block?, id: Int, type: String?, cardId: String?, target: String?) {
+    init(parent: Block?, id: Int, type: String?, cardId: String?, target: String?, trigger: String?) {
         self.parent = parent
         self.children = []
         self.id = id
         self.type = type
         self.cardId = cardId
         self.target = target
+        self.triggerKeyword = trigger
     }
 
-    func createChild(blockId: Int, type: String?, cardId: String?, target: String?) -> Block {
-        return Block(parent: self, id: blockId, type: type, cardId: cardId, target: target)
+    func createChild(blockId: Int, type: String?, cardId: String?, target: String?, trigger: String?) -> Block {
+        return Block(parent: self, id: blockId, type: type, cardId: cardId, target: target, trigger: trigger)
     }
 }
