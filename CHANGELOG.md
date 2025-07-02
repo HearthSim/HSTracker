@@ -1,3 +1,15 @@
+# 3.3.0
+## New
+- Updated for Hearthstone 33.0.0 (card highlights, counters, etc... will be added later)
+- Added related cards for Wallow the Wretched.
+- Added Card Highlights to many cards available in Arena.
+- Added Related Card Tooltips to many cards available in Arena.
+- Removed the counters with the old layout as these have been fully replaced by the new-style counters.Add commentMore actions
+## Fixes
+- Fixed an issue where some cards with a "Start of the Game" effect were revealed in the opponent's hand.
+## Battlegrounds
+- Fixed the final placement not being detected correctly.
+
 # 3.2.11
 ## New
 - Added an Arena deck name template to the Importing preferences
