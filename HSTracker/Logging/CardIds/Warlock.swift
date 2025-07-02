@@ -192,6 +192,7 @@ extension CardIds.Collectible {
         static let LadyDarkveinCorePlaceholder = "CORE_REV_373"
         static let WallowTheWretched = "EDR_487"
         static let CursedCatacombs = "TLC_451"
+        static let DeathrotMaw = "TLC_479"
     }
 }
 
@@ -271,6 +272,9 @@ extension CardIds.NonCollectible {
         static let FracturedPower_DelayedManaEnchantment = "EDR_483e"
         static let RottenApple_FractureEnchantment = "EDR_482e"
         static let ImpKingRafaam_ImpKingRafaamToken = "REV_835t"
+        static let EscapetheUnderfel_FelscreamerToken = "TLC_446t2"
+        static let EscapetheUnderfel_FelraptorToken = "TLC_446t3"
+        static let EscapetheUnderfel_FelhornToken = "TLC_446t4"
     }
 }
 

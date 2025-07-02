@@ -730,6 +730,7 @@ extension CardIds.Collectible {
         static let CaptainsParrotVanilla = "VAN_NEW1_016"
         static let ClawMachine = "DMF_069"
         static let Kazakusan = "ONY_005"
+        static let PterrordaxEgg = "TLC_831"
     }
 }
 
@@ -995,5 +996,6 @@ extension CardIds.NonCollectible {
         static let ShoalfinMystic = "BG32_860"
         static let Humongozz = "BG32_341"
         static let FelfireConjurer = "BG32_821"
+        static let PterrordaxEgg_JuvenilePterrordaxToken = "TLC_831t"
     }
 }

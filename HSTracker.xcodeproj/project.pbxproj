@@ -561,6 +561,9 @@
 		B846CC7E2E157C4D00552F9C /* FlightOfTheFirehawk.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC7D2E157C4D00552F9C /* FlightOfTheFirehawk.swift */; };
 		B846CC802E157CA600552F9C /* VolcanicThrasher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC7F2E157CA600552F9C /* VolcanicThrasher.swift */; };
 		B846CC822E157D3E00552F9C /* CursedCatacombs.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC812E157D3E00552F9C /* CursedCatacombs.swift */; };
+		B846CC842E15B6FC00552F9C /* PterrordaxEgg.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC832E15B6FC00552F9C /* PterrordaxEgg.swift */; };
+		B846CC862E15B7A600552F9C /* CreatureOfTheSacredCave.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC852E15B7A600552F9C /* CreatureOfTheSacredCave.swift */; };
+		B846CC882E15B80600552F9C /* DeathrotMaw.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC872E15B80600552F9C /* DeathrotMaw.swift */; };
 		B8496731289A0CEB00D90B30 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD84562861394100F4F224 /* Regex.swift */; };
 		B8496732289A0CF300D90B30 /* SynchronizedDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD84542860058400F4F224 /* SynchronizedDictionary.swift */; };
 		B8496733289A0CF300D90B30 /* SynchronizedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FE1F982875BD15004C397C /* SynchronizedArray.swift */; };
@@ -1821,6 +1824,9 @@
 		B846CC7D2E157C4D00552F9C /* FlightOfTheFirehawk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightOfTheFirehawk.swift; sourceTree = "<group>"; };
 		B846CC7F2E157CA600552F9C /* VolcanicThrasher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolcanicThrasher.swift; sourceTree = "<group>"; };
 		B846CC812E157D3E00552F9C /* CursedCatacombs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CursedCatacombs.swift; sourceTree = "<group>"; };
+		B846CC832E15B6FC00552F9C /* PterrordaxEgg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PterrordaxEgg.swift; sourceTree = "<group>"; };
+		B846CC852E15B7A600552F9C /* CreatureOfTheSacredCave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatureOfTheSacredCave.swift; sourceTree = "<group>"; };
+		B846CC872E15B80600552F9C /* DeathrotMaw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeathrotMaw.swift; sourceTree = "<group>"; };
 		B849674228A5830D00D90B30 /* libcoreclr.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcoreclr.dylib; path = "downloaded-frameworks/mono/runtimes/osx-x64/native/libcoreclr.dylib"; sourceTree = "<group>"; };
 		B850AA32252CB0490031E8F2 /* TurnCounter.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TurnCounter.xib; sourceTree = "<group>"; };
 		B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnCounter.swift; sourceTree = "<group>"; };
@@ -3518,6 +3524,7 @@
 				B8E1E5E12D0C9DA100383975 /* NzothTheCorruptor.swift */,
 				B898659A2D91D21400BA5649 /* PluckyPaintfin.swift */,
 				B852D8382DDFBA4E00884B26 /* PrimordialProtector.swift */,
+				B846CC832E15B6FC00552F9C /* PterrordaxEgg.swift */,
 				B852D8182DDACAAF00884B26 /* Shaladrassil.swift */,
 				B86D8A072D95F80B00AB65A5 /* SharpEyedSeeker.swift */,
 				B81B3DA42D4439FD00DC9EB0 /* StarlightWhelp.swift */,
@@ -3549,6 +3556,7 @@
 				B89865D82D920C5300BA5649 /* CraneGame.swift */,
 				B846CC812E157D3E00552F9C /* CursedCatacombs.swift */,
 				B846CC612E09DD7C00552F9C /* Darkbomb.swift */,
+				B846CC872E15B80600552F9C /* DeathrotMaw.swift */,
 				B89865DA2D920C8900BA5649 /* DirgeOfDespair.swift */,
 				B89865DC2D920CBD00BA5649 /* GameMasterNemsy.swift */,
 				B8E1E5FD2D0CA1CD00383975 /* HabeasCorpses.swift */,
@@ -4154,6 +4162,7 @@
 				B89865A82D91D59E00BA5649 /* BoogieDown.swift */,
 				B846CC532E09DB5600552F9C /* CallToArms.swift */,
 				B89865AA2D91D5D400BA5649 /* CardboardGolem.swift */,
+				B846CC852E15B7A600552F9C /* CreatureOfTheSacredCave.swift */,
 				B86D8A112D95FA7500AB65A5 /* DragonscaleArmaments.swift */,
 				B86D8A132D95FAB400AB65A5 /* Dreamwarden.swift */,
 				B86D8A152D95FAE000AB65A5 /* Grillmaster.swift */,
@@ -4968,6 +4977,7 @@
 				43873CC31CA6E6CD00F01CB4 /* WindowMove.swift in Sources */,
 				C92C680E1D1F225F009030DC /* StatsTab.swift in Sources */,
 				B8B78FA02C93C41100DD33EC /* EffectTarget.swift in Sources */,
+				B846CC882E15B80600552F9C /* DeathrotMaw.swift in Sources */,
 				B89865932D91D13B00BA5649 /* EtherealOracle.swift in Sources */,
 				B804FC2E29437AF500F74CD9 /* Debounce.swift in Sources */,
 				B8E1E5E82D0C9E5500383975 /* AmuletOfUndying.swift in Sources */,
@@ -5052,6 +5062,7 @@
 				B89865AF2D91D6D300BA5649 /* InterstellarResearcher.swift in Sources */,
 				B8621F1C2746AF5E004DD0E9 /* HSReplayNetHelper.swift in Sources */,
 				439C7ECB1C777F8900D29859 /* LogReaderManager.swift in Sources */,
+				B846CC862E15B7A600552F9C /* CreatureOfTheSacredCave.swift in Sources */,
 				B852D8392DDFBA4E00884B26 /* PrimordialProtector.swift in Sources */,
 				B8591FFC2B24F87C00B907A4 /* ObjectiveProxy.swift in Sources */,
 				B8BB7ABC28369C9F008239CA /* BattlegroundsFinalBoard.swift in Sources */,
@@ -5094,6 +5105,7 @@
 				B8AC9A26293F92540047F438 /* BattlegroundsQuestPickingViewModel.swift in Sources */,
 				B898658F2D91D06300BA5649 /* CattleRustler.swift in Sources */,
 				B81B3DA92D444F0100DC9EB0 /* ConstructPylonsEnchantment.swift in Sources */,
+				B846CC842E15B6FC00552F9C /* PterrordaxEgg.swift in Sources */,
 				B89865E62D920DDC00BA5649 /* MovementOfPride.swift in Sources */,
 				B8DC11EE24E5A8360088A755 /* MonoHandle.swift in Sources */,
 				B8B78FF62C9708CA00DD33EC /* AshenElementalEnchantment.swift in Sources */,
