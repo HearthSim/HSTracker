@@ -181,6 +181,7 @@ extension CardIds.Collectible {
         static let GroveShaper = "EDR_271"
         static let Reforestation = "EDR_843"
         static let ForestLordCenarius = "EDR_209"
+        static let StoryOfBarnabus = "TLC_231"
     }
 }
 

@@ -55,6 +55,8 @@ extension CardIds.Collectible {
         static let Nythendra = "EDR_818"
         static let SanguineInfestation = "EDR_817"
         static let Ursoc = "EDR_819"
+        static let DreadRaptor = "TLC_432"
+        static let HighCultistHerenn = "TLC_810"
     }
 }
 

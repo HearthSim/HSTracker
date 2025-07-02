@@ -71,6 +71,19 @@ final class Card {
         return races[0] == race || (races.count > 1 && races[1] == race)
     }
     
+    func isEmptyRace() -> Bool {
+        switch races.count {
+        case 0:
+            return race == .invalid
+        case 1:
+            return races[0] == .invalid
+        case 2:
+            return races[0] == .invalid && races[1] == .invalid
+        default:
+            return false
+        }
+    }
+    
     func isBeast() -> Bool {
         return hasRace(.beast)
     }

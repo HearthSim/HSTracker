@@ -179,6 +179,7 @@ extension CardIds.Collectible {
         static let DarkbishopBenedictus = "SW_448"
         static let DarkbishopBenedictusCorePlaceholder = "CORE_SW_448"
         static let Insight = "DMF_054"
+        static let Resuscitate = "TLC_818"
     }
 }
 

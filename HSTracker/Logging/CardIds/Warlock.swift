@@ -191,6 +191,7 @@ extension CardIds.Collectible {
         static let LadyDarkvein = "REV_373"
         static let LadyDarkveinCorePlaceholder = "CORE_REV_373"
         static let WallowTheWretched = "EDR_487"
+        static let CursedCatacombs = "TLC_451"
     }
 }
 

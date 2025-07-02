@@ -204,6 +204,7 @@ extension CardIds.Collectible {
         static let IcebloodTower = "AV_290"
         static let SeafloorGateway = "TSC_055"
         static let Stargazing = "WW_425"
+        static let ConjuredBookkeeper = "TLC_226"
     }
 }
 

@@ -202,6 +202,7 @@ extension CardIds.Collectible {
         static let SwordOfTheFallen = "BAR_875"
         static let AllianceBannerman = "SW_315"
         static let CallToArms = "LOOT_093"
+        static let VioletTreasuregill = "TLC_438"
     }
 }
 
