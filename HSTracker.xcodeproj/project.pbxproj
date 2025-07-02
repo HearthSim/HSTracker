@@ -564,6 +564,9 @@
 		B846CC842E15B6FC00552F9C /* PterrordaxEgg.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC832E15B6FC00552F9C /* PterrordaxEgg.swift */; };
 		B846CC862E15B7A600552F9C /* CreatureOfTheSacredCave.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC852E15B7A600552F9C /* CreatureOfTheSacredCave.swift */; };
 		B846CC882E15B80600552F9C /* DeathrotMaw.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC872E15B80600552F9C /* DeathrotMaw.swift */; };
+		B846CC8A2E15C3C100552F9C /* Cinderfin.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC892E15C3C100552F9C /* Cinderfin.swift */; };
+		B846CC8C2E15C43300552F9C /* SizzlingSwarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC8B2E15C43300552F9C /* SizzlingSwarm.swift */; };
+		B846CC8E2E15C47300552F9C /* Slagclaw.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC8D2E15C47300552F9C /* Slagclaw.swift */; };
 		B8496731289A0CEB00D90B30 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD84562861394100F4F224 /* Regex.swift */; };
 		B8496732289A0CF300D90B30 /* SynchronizedDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD84542860058400F4F224 /* SynchronizedDictionary.swift */; };
 		B8496733289A0CF300D90B30 /* SynchronizedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FE1F982875BD15004C397C /* SynchronizedArray.swift */; };
@@ -1827,6 +1830,9 @@
 		B846CC832E15B6FC00552F9C /* PterrordaxEgg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PterrordaxEgg.swift; sourceTree = "<group>"; };
 		B846CC852E15B7A600552F9C /* CreatureOfTheSacredCave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatureOfTheSacredCave.swift; sourceTree = "<group>"; };
 		B846CC872E15B80600552F9C /* DeathrotMaw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeathrotMaw.swift; sourceTree = "<group>"; };
+		B846CC892E15C3C100552F9C /* Cinderfin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cinderfin.swift; sourceTree = "<group>"; };
+		B846CC8B2E15C43300552F9C /* SizzlingSwarm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizzlingSwarm.swift; sourceTree = "<group>"; };
+		B846CC8D2E15C47300552F9C /* Slagclaw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slagclaw.swift; sourceTree = "<group>"; };
 		B849674228A5830D00D90B30 /* libcoreclr.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcoreclr.dylib; path = "downloaded-frameworks/mono/runtimes/osx-x64/native/libcoreclr.dylib"; sourceTree = "<group>"; };
 		B850AA32252CB0490031E8F2 /* TurnCounter.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TurnCounter.xib; sourceTree = "<group>"; };
 		B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnCounter.swift; sourceTree = "<group>"; };
@@ -3438,6 +3444,7 @@
 			children = (
 				B852D8032DC1704000884B26 /* BrilliantMacaw.swift */,
 				B89865CA2D9206A800BA5649 /* CactusCutter.swift */,
+				B846CC892E15C3C100552F9C /* Cinderfin.swift */,
 				B89865CC2D9206D100BA5649 /* Cosmonaut.swift */,
 				B89865CE2D92070500BA5649 /* FairyTaleForest.swift */,
 				B846CC7D2E157C4D00552F9C /* FlightOfTheFirehawk.swift */,
@@ -3448,6 +3455,8 @@
 				B846CC5D2E09DD0200552F9C /* PebblyPage.swift */,
 				B846CC5F2E09DD4800552F9C /* Prescience.swift */,
 				B854620A2CDD42420083BB31 /* Shudderwock.swift */,
+				B846CC8B2E15C43300552F9C /* SizzlingSwarm.swift */,
+				B846CC8D2E15C47300552F9C /* Slagclaw.swift */,
 				B852D8402DDFBE2000884B26 /* TinyfinsCaravan.swift */,
 				B89865D42D9207E000BA5649 /* Triangulate.swift */,
 				B89865D62D92080500BA5649 /* Turbulus.swift */,
@@ -4923,6 +4932,7 @@
 				B8B7903F2C9776EB00DD33EC /* SandboxScoundrelEnchantment.swift in Sources */,
 				B872E0D72DB059470023B24B /* HolySpellsPlayedCounter.swift in Sources */,
 				B893434C2CD122C3009A8727 /* SummonedDragonsCounter.swift in Sources */,
+				B846CC8C2E15C43300552F9C /* SizzlingSwarm.swift in Sources */,
 				B8B790682C978EC100DD33EC /* BloodsailDeckhandsEnchantment.swift in Sources */,
 				B854620D2CDD42AD0083BB31 /* InventorBoom.swift in Sources */,
 				B864AE292599359500793F36 /* DeckType.swift in Sources */,
@@ -5107,6 +5117,7 @@
 				B81B3DA92D444F0100DC9EB0 /* ConstructPylonsEnchantment.swift in Sources */,
 				B846CC842E15B6FC00552F9C /* PterrordaxEgg.swift in Sources */,
 				B89865E62D920DDC00BA5649 /* MovementOfPride.swift in Sources */,
+				B846CC8A2E15C3C100552F9C /* Cinderfin.swift in Sources */,
 				B8DC11EE24E5A8360088A755 /* MonoHandle.swift in Sources */,
 				B8B78FF62C9708CA00DD33EC /* AshenElementalEnchantment.swift in Sources */,
 				B82238BC2BF948E600B405D4 /* BattlegroundsBoardState.swift in Sources */,
@@ -5510,6 +5521,7 @@
 				436F5D0E1CFD64A300DEB9A1 /* ThemeElementInfo.swift in Sources */,
 				B8BD3BA62C41596C001E85B7 /* BattlegroundsCompStatsParams.swift in Sources */,
 				B8B790472C97782E00DD33EC /* TheCrystalCoveEnchantment.swift in Sources */,
+				B846CC8E2E15C47300552F9C /* Slagclaw.swift in Sources */,
 				1CB623A71DD37C890045E0CF /* GlowFilter.m in Sources */,
 				B8196F182CC87021007C0371 /* StatsCounter.swift in Sources */,
 				4349104E1D09757800B22DB2 /* BoardState.swift in Sources */,

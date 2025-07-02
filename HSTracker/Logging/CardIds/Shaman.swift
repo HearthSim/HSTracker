@@ -173,6 +173,9 @@ extension CardIds.Collectible {
         static let Prescience = "RLK_553"
         static let FlightOfTheFirehawk = "TLC_222"
         static let VolcanicThrasher = "TLC_223"
+        static let Cinderfin = "TLC_225"
+        static let SizzlingSwarm = "TLC_221"
+        static let Slagclaw = "TLC_482"
     }
 }
 

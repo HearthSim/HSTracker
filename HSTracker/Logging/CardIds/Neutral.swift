@@ -731,6 +731,7 @@ extension CardIds.Collectible {
         static let ClawMachine = "DMF_069"
         static let Kazakusan = "ONY_005"
         static let PterrordaxEgg = "TLC_831"
+        static let SizzlingCinder = "TLC_249"
     }
 }
 
