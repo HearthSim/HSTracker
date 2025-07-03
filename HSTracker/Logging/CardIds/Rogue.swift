@@ -221,6 +221,7 @@ extension CardIds.Collectible {
         static let ScribblingStenographerCorePlaceholder = "CORE_MAW_020"
         static let ScourgeIllusionist = "RLK_217"
         static let Swindle = "DMF_515"
+        static let AmbushPredators = "TLC_519"
     }
 }
 
@@ -309,6 +310,7 @@ extension CardIds.NonCollectible {
         static let SpacerockCollector_RockCollectionEnchantment = "GDB_875e"
         static let ArkoniteDefenseCrystal_TheScavengersWillToken = "GDB_100t8"
         static let FoxyFraud_EnablingEnchantment = "DMF_511e"
+        static let AmbushPredators_VenomousSpitterToken = "TLC_519t"
     }
 }
 
