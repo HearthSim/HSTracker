@@ -567,6 +567,9 @@
 		B846CC8A2E15C3C100552F9C /* Cinderfin.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC892E15C3C100552F9C /* Cinderfin.swift */; };
 		B846CC8C2E15C43300552F9C /* SizzlingSwarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC8B2E15C43300552F9C /* SizzlingSwarm.swift */; };
 		B846CC8E2E15C47300552F9C /* Slagclaw.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC8D2E15C47300552F9C /* Slagclaw.swift */; };
+		B846CC902E16C10000552F9C /* EternalBloodpetal.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC8F2E16C10000552F9C /* EternalBloodpetal.swift */; };
+		B846CC922E16C17200552F9C /* RavenousFlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC912E16C17200552F9C /* RavenousFlock.swift */; };
+		B846CC942E16C1F800552F9C /* SkyscreamerEggs.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC932E16C1F800552F9C /* SkyscreamerEggs.swift */; };
 		B8496731289A0CEB00D90B30 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD84562861394100F4F224 /* Regex.swift */; };
 		B8496732289A0CF300D90B30 /* SynchronizedDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD84542860058400F4F224 /* SynchronizedDictionary.swift */; };
 		B8496733289A0CF300D90B30 /* SynchronizedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FE1F982875BD15004C397C /* SynchronizedArray.swift */; };
@@ -1833,6 +1836,9 @@
 		B846CC892E15C3C100552F9C /* Cinderfin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cinderfin.swift; sourceTree = "<group>"; };
 		B846CC8B2E15C43300552F9C /* SizzlingSwarm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizzlingSwarm.swift; sourceTree = "<group>"; };
 		B846CC8D2E15C47300552F9C /* Slagclaw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slagclaw.swift; sourceTree = "<group>"; };
+		B846CC8F2E16C10000552F9C /* EternalBloodpetal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EternalBloodpetal.swift; sourceTree = "<group>"; };
+		B846CC912E16C17200552F9C /* RavenousFlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RavenousFlock.swift; sourceTree = "<group>"; };
+		B846CC932E16C1F800552F9C /* SkyscreamerEggs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkyscreamerEggs.swift; sourceTree = "<group>"; };
 		B849674228A5830D00D90B30 /* libcoreclr.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcoreclr.dylib; path = "downloaded-frameworks/mono/runtimes/osx-x64/native/libcoreclr.dylib"; sourceTree = "<group>"; };
 		B850AA32252CB0490031E8F2 /* TurnCounter.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TurnCounter.xib; sourceTree = "<group>"; };
 		B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnCounter.swift; sourceTree = "<group>"; };
@@ -4201,6 +4207,7 @@
 				B898654F2D8B83AF00BA5649 /* ArkoniteRevelation.swift */,
 				B89865512D8C6FCB00BA5649 /* ChiaDrake.swift */,
 				B89865532D8C704F00BA5649 /* EmbraceOfNature.swift */,
+				B846CC8F2E16C10000552F9C /* EternalBloodpetal.swift */,
 				B86D89EF2D95EE5F00AB65A5 /* FandralStaghelm.swift */,
 				B86D89F12D95EED700AB65A5 /* GroveShaper.swift */,
 				B8E1E5D02D0C94E000383975 /* Hadronox.swift */,
@@ -4208,7 +4215,9 @@
 				B852D8242DDEC52B00884B26 /* LivingSeed.swift */,
 				B89865552D8C920500BA5649 /* OakenSummons.swift */,
 				B89865572D8C92A300BA5649 /* PeacefulPiper.swift */,
+				B846CC912E16C17200552F9C /* RavenousFlock.swift */,
 				B86D89F32D95EF2900AB65A5 /* Reforestation.swift */,
+				B846CC932E16C1F800552F9C /* SkyscreamerEggs.swift */,
 				B846CC752E157B2400552F9C /* StoryOfBarnabus.swift */,
 				B89865592D8C92F200BA5649 /* SummerFlowerchild.swift */,
 				B898655B2D8C934A00BA5649 /* TakeToTheSkies.swift */,
@@ -5067,6 +5076,7 @@
 				B8AF932C282D41D500864934 /* BattlegroundsTribe.swift in Sources */,
 				B898656A2D8E16EE00BA5649 /* BargainBin.swift in Sources */,
 				B86D89E22D95C7DF00AB65A5 /* DormantDreadseedsGenerator.swift in Sources */,
+				B846CC942E16C1F800552F9C /* SkyscreamerEggs.swift in Sources */,
 				B86D89E82D95EC8F00AB65A5 /* GrimHarvest.swift in Sources */,
 				1C17D2521E82DEE700ED4047 /* RealmHelper.swift in Sources */,
 				B89865AF2D91D6D300BA5649 /* InterstellarResearcher.swift in Sources */,
@@ -5109,6 +5119,7 @@
 				B846CC5C2E09DC9000552F9C /* Swindle.swift in Sources */,
 				B8FDE9272CD99D840093BFF7 /* ReflectionHelper.swift in Sources */,
 				43E77EE21C949C7800C26950 /* TimerHud.swift in Sources */,
+				B846CC902E16C10000552F9C /* EternalBloodpetal.swift in Sources */,
 				B846CC682E09EFDD00552F9C /* NineLives.swift in Sources */,
 				340AAC051D0544AD0015FE33 /* StringTracker.swift in Sources */,
 				B8B61C222AEBEA9C00990359 /* AvailableSecretsProvider.swift in Sources */,
@@ -5371,6 +5382,7 @@
 				B8B78FBE2C952AD200DD33EC /* NatureStudiesEnchantment.swift in Sources */,
 				43A12C871CA3D24800090BFE /* SaveDeck.swift in Sources */,
 				B8FE1F9C28784ACE004C397C /* Sentry.swift in Sources */,
+				B846CC922E16C17200552F9C /* RavenousFlock.swift in Sources */,
 				435907EC1CB13835008D4363 /* FileImporter.swift in Sources */,
 				B8B78FC72C952D0000DD33EC /* FierceOutsiderEnchantment.swift in Sources */,
 				431719711C84911300F5988B /* EditDeck.swift in Sources */,

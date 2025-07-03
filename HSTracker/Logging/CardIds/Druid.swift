@@ -182,6 +182,9 @@ extension CardIds.Collectible {
         static let Reforestation = "EDR_843"
         static let ForestLordCenarius = "EDR_209"
         static let StoryOfBarnabus = "TLC_231"
+        static let EternalBloodpetal = "TLC_234"
+        static let RavenousFlock = "TLC_232"
+        static let SkyscreamerEggs = "TLC_237"
     }
 }
 
@@ -337,6 +340,8 @@ extension CardIds.NonCollectible {
         static let DreamboundDisciple_DreamboundEnchantment = "EDR_847e"
         static let Reforestation_ReforestationToken = "EDR_843t1"
         static let DreamboundDisciple_BlessingOfTheGolem = "EDR_847p"
+        static let EternalBloodpetal_EternalSeedlingToken = "TLC_234t"
+        static let SkyscreamerEggs_SkyscreamerHatchlingToken = "TLC_237t"
     }
 }
 
