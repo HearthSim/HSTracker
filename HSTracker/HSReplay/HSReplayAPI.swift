@@ -80,6 +80,10 @@ class HSReplayAPI {
                     Settings.hsReplayOAuthRefreshToken = credential.oauthRefreshToken
                     Settings.hsReplayOAuthTokenExpiration = credential.oauthTokenExpiresAt
                     
+                    HSReplayAPI.getUploadToken { _ in
+                        HSReplayAPI.claimAccount()
+                    }
+
                     handle()
                 case .failure(let error):
                     // TODO: Better error handling
@@ -147,6 +151,8 @@ class HSReplayAPI {
                                 }
                             })
                     }
+                case .requestError:
+                    completion(.failure(error))
                 default:
                     completion(.failure(.tokenExpired(error: nil)))
                 }
@@ -228,23 +234,27 @@ class HSReplayAPI {
             return
         }
         
-        logger.info("Getting claim url...")
+        logger.info("Claiming account...")
         
-        let http = Http(url: HSReplay.claimAccountUrl)
-        http.json(method: .post,
-                  headers: [
-                    "X-Api-Key": apiKey,
-                    "Authorization": "Token \(token)"]) { json in
-                        if let json = json as? [String: Any],
-                           let url = json["url"] as? String {
-                            logger.info("Opening browser to claim account...")
-                            
-                            let url = URL(string: "\(HSReplay.baseUrl)\(url)")
-                            NSWorkspace.shared.open(url!)
-                        } else {
-                            
-                        }
+        startAuthorizedRequest(
+            HSReplay.claimAccountUrl,
+            method: .POST,
+            parameters: ["token": token],
+            headers: defaultHeaders,
+            onTokenRenewal: tokenRenewalHandler,
+            completionHandler: { result in
+                switch result {
+                case .success:
+                    logger.info("Account Successfully Claimed")
+                case .failure(let error):
+                    switch error {
+                        case .requestError(let error, _):
+                            logger.error("\(error.localizedDescription)")
+                        default:
+                            logger.error("Failed to claim account: \(error)")
                     }
+                }
+            })
     }
     
     static func updateAccountStatus(handle: @escaping (Bool) -> Void) {

@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22155" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="23727" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22155"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="23727"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="HSReplayPreferences" customModule="HSTracker" customModuleProvider="target">
             <connections>
-                <outlet property="claimAccountButton" destination="PFc-eW-dQG" id="Bqf-Yw-BgV"/>
-                <outlet property="claimAccountInfo" destination="UdW-1g-XMj" id="pTI-6q-VjX"/>
-                <outlet property="disconnectButton" destination="y6L-Kw-KFY" id="hfI-ch-HrT"/>
                 <outlet property="gameTypeSelector" destination="ZEB-hT-h8U" id="f5g-mQ-bSX"/>
+                <outlet property="myAccountMessage" destination="8vg-lb-UfO" id="0pb-44-ulg"/>
                 <outlet property="oAuthAccount" destination="akc-iW-uso" id="5Dd-hV-mDG"/>
                 <outlet property="showPushNotification" destination="R7X-Vo-NSU" id="SUS-j2-fRy"/>
                 <outlet property="synchronizeMatches" destination="zU2-86-n1Q" id="Zxz-8w-y7c"/>
@@ -28,12 +26,12 @@
                 <outlet property="view" destination="aRU-mo-f3r" id="bxs-Qg-1OD"/>
             </connections>
         </customObject>
-        <stackView distribution="equalSpacing" orientation="vertical" alignment="leading" spacing="5" horizontalStackHuggingPriority="250" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" id="aRU-mo-f3r">
-            <rect key="frame" x="0.0" y="0.0" width="440" height="680"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+        <stackView distribution="equalSpacing" orientation="vertical" alignment="leading" spacing="10" horizontalStackHuggingPriority="250" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" id="aRU-mo-f3r">
+            <rect key="frame" x="0.0" y="0.0" width="440" height="640"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="R7X-Vo-NSU">
-                    <rect key="frame" x="18" y="653" width="402" height="18"/>
+                    <rect key="frame" x="18" y="613" width="402" height="18"/>
                     <buttonCell key="cell" type="check" title="Show upload notification" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="a4D-nA-Vqz">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -42,8 +40,8 @@
                         <action selector="checkboxClicked:" target="-2" id="pHL-Ks-v6p"/>
                     </connections>
                 </button>
-                <button translatesAutoresizingMaskIntoConstraints="NO" id="zU2-86-n1Q">
-                    <rect key="frame" x="18" y="622" width="402" height="18"/>
+                <button ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zU2-86-n1Q">
+                    <rect key="frame" x="18" y="567" width="422" height="18"/>
                     <buttonCell key="cell" type="check" title="Upload replays automatically" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="aAI-Yn-Z1P">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -53,7 +51,7 @@
                     </connections>
                 </button>
                 <box title="Upload game modes" translatesAutoresizingMaskIntoConstraints="NO" id="qvg-bJ-3rk">
-                    <rect key="frame" x="17" y="316" width="406" height="291"/>
+                    <rect key="frame" x="17" y="246" width="406" height="291"/>
                     <view key="contentView" id="ZEB-hT-h8U">
                         <rect key="frame" x="4" y="5" width="398" height="270"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -196,60 +194,10 @@
                     <font key="titleFont" metaFont="cellTitle"/>
                 </box>
                 <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="UbW-mX-Jca">
-                    <rect key="frame" x="0.0" y="302" width="440" height="5"/>
+                    <rect key="frame" x="0.0" y="217" width="440" height="5"/>
                 </box>
-                <box title="Replay Uploads" translatesAutoresizingMaskIntoConstraints="NO" id="VPW-70-gcw">
-                    <rect key="frame" x="17" y="185" width="406" height="104"/>
-                    <view key="contentView" id="gCe-Dr-Ihu">
-                        <rect key="frame" x="4" y="5" width="398" height="82"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cYC-b2-h3Y">
-                                <rect key="frame" x="3" y="45" width="122" height="32"/>
-                                <buttonCell key="cell" type="push" title="Claim Account" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="PFc-eW-dQG">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="claimAccount:" target="-2" id="qbd-Vw-8qY"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="y6L-Kw-KFY">
-                                <rect key="frame" x="121" y="45" width="264" height="32"/>
-                                <buttonCell key="cell" type="push" title="Disconnect from HSReplay.net" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Wij-ky-VUj">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="disconnectAccount:" target="-2" id="EOQ-kX-3wk"/>
-                                </connections>
-                            </button>
-                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UdW-1g-XMj">
-                                <rect key="frame" x="8" y="10" width="382" height="32"/>
-                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Log in with your Battle.net credentials on HSReplay.net to claim your existing replays. This will open your web browser." id="alf-8N-P9t">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                        </subviews>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="y6L-Kw-KFY" secondAttribute="trailing" constant="20" id="GT4-G8-7wx"/>
-                            <constraint firstItem="y6L-Kw-KFY" firstAttribute="leading" secondItem="cYC-b2-h3Y" secondAttribute="trailing" constant="10" id="IXs-g5-XvM"/>
-                            <constraint firstItem="UdW-1g-XMj" firstAttribute="top" secondItem="y6L-Kw-KFY" secondAttribute="bottom" constant="10" id="S8n-dQ-VeW"/>
-                            <constraint firstItem="cYC-b2-h3Y" firstAttribute="leading" secondItem="gCe-Dr-Ihu" secondAttribute="leading" constant="10" id="UWz-EW-Vwy"/>
-                            <constraint firstItem="y6L-Kw-KFY" firstAttribute="top" secondItem="gCe-Dr-Ihu" secondAttribute="top" constant="10" id="gGh-EK-DkD"/>
-                            <constraint firstAttribute="bottom" secondItem="UdW-1g-XMj" secondAttribute="bottom" constant="10" id="gaa-ii-Kyb"/>
-                            <constraint firstAttribute="trailing" secondItem="UdW-1g-XMj" secondAttribute="trailing" constant="10" id="lgd-D4-APF"/>
-                            <constraint firstItem="cYC-b2-h3Y" firstAttribute="top" secondItem="gCe-Dr-Ihu" secondAttribute="top" constant="10" id="lzy-HJ-wxW"/>
-                            <constraint firstItem="UdW-1g-XMj" firstAttribute="leading" secondItem="gCe-Dr-Ihu" secondAttribute="leading" constant="10" id="nqQ-VP-1d2"/>
-                            <constraint firstItem="UdW-1g-XMj" firstAttribute="top" secondItem="cYC-b2-h3Y" secondAttribute="bottom" constant="10" id="z1N-Dl-V1o"/>
-                        </constraints>
-                    </view>
-                    <font key="titleFont" metaFont="system"/>
-                </box>
-                <box title="Collection Uploads" translatesAutoresizingMaskIntoConstraints="NO" id="KV0-Rl-jeI">
-                    <rect key="frame" x="17" y="69" width="406" height="104"/>
+                <box title="My Account" translatesAutoresizingMaskIntoConstraints="NO" id="KV0-Rl-jeI">
+                    <rect key="frame" x="17" y="84" width="406" height="104"/>
                     <view key="contentView" id="AhW-KI-qup">
                         <rect key="frame" x="4" y="5" width="398" height="82"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -266,7 +214,7 @@
                             </button>
                             <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8vg-lb-UfO">
                                 <rect key="frame" x="18" y="10" width="362" height="32"/>
-                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="After connecting with HSReplay, open your collection and the uploading will begin automatically." id="zQQ-GF-3Lg">
+                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Login to claim your replays and enable all HSReplay.net features." id="zQQ-GF-3Lg">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -391,15 +339,12 @@
                 <constraint firstItem="qvg-bJ-3rk" firstAttribute="leading" secondItem="aRU-mo-f3r" secondAttribute="leading" constant="20" id="2bP-pn-8xm"/>
                 <constraint firstItem="pY7-IO-Y3U" firstAttribute="leading" secondItem="aRU-mo-f3r" secondAttribute="leading" constant="20" id="CPQ-3i-iiG"/>
                 <constraint firstItem="KV0-Rl-jeI" firstAttribute="leading" secondItem="aRU-mo-f3r" secondAttribute="leading" constant="20" id="Kvp-TS-mWd"/>
-                <constraint firstAttribute="trailing" secondItem="zU2-86-n1Q" secondAttribute="trailing" constant="20" id="LVP-uc-kkf"/>
                 <constraint firstItem="R7X-Vo-NSU" firstAttribute="leading" secondItem="aRU-mo-f3r" secondAttribute="leading" constant="20" id="Lm1-2h-BCc"/>
                 <constraint firstAttribute="trailing" secondItem="R7X-Vo-NSU" secondAttribute="trailing" constant="20" id="M4P-kV-0I9"/>
-                <constraint firstAttribute="trailing" secondItem="VPW-70-gcw" secondAttribute="trailing" constant="20" id="MOt-AE-hTF"/>
                 <constraint firstAttribute="trailing" secondItem="qvg-bJ-3rk" secondAttribute="trailing" constant="20" id="VVi-Q0-cWu"/>
                 <constraint firstAttribute="trailing" secondItem="KV0-Rl-jeI" secondAttribute="trailing" constant="20" id="XNk-3k-EDP"/>
                 <constraint firstItem="zU2-86-n1Q" firstAttribute="leading" secondItem="aRU-mo-f3r" secondAttribute="leading" constant="20" id="iI2-cj-7M6"/>
                 <constraint firstAttribute="trailing" secondItem="pY7-IO-Y3U" secondAttribute="trailing" constant="20" id="sc5-3c-S5m"/>
-                <constraint firstItem="VPW-70-gcw" firstAttribute="leading" secondItem="aRU-mo-f3r" secondAttribute="leading" constant="20" id="yOY-4q-MYH"/>
             </constraints>
             <visibilityPriorities>
                 <integer value="1000"/>
@@ -408,10 +353,8 @@
                 <integer value="1000"/>
                 <integer value="1000"/>
                 <integer value="1000"/>
-                <integer value="1000"/>
             </visibilityPriorities>
             <customSpacing>
-                <real value="3.4028234663852886e+38"/>
                 <real value="3.4028234663852886e+38"/>
                 <real value="3.4028234663852886e+38"/>
                 <real value="3.4028234663852886e+38"/>

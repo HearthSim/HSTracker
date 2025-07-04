@@ -29,11 +29,9 @@ class HSReplayPreferences: NSViewController, PreferencePane {
     @IBOutlet var uploadDuelsGames: NSButton!
     @IBOutlet var uploadMercenariesGames: NSButton!
 
-    @IBOutlet var claimAccountButton: NSButtonCell!
-    @IBOutlet var claimAccountInfo: NSTextField!
-    @IBOutlet var disconnectButton: NSButton!
     @IBOutlet var showPushNotification: NSButton!
     @IBOutlet var oAuthAccount: NSButton!
+    @IBOutlet var myAccountMessage: NSTextField!
     private var getAccountTimer: Timer?
     private var requests = 0
     private let maxRequests = 10
@@ -122,31 +120,11 @@ class HSReplayPreferences: NSViewController, PreferencePane {
         }
     }
 
-    @IBAction func disconnectAccount(_ sender: AnyObject) {
-        Settings.hsReplayUsername = nil
-        Settings.hsReplayId = nil
-        Settings.hsReplayUploadToken = nil
-        updateStatus()
-    }
-
-    @IBAction func claimAccount(_ sender: AnyObject) {
-        claimAccountButton.isEnabled = false
-        requests = 0
-        HSReplayAPI.getUploadToken { _ in
-            HSReplayAPI.claimAccount()
-            self.getAccountTimer?.invalidate()
-            self.getAccountTimer = Timer.scheduledTimer(timeInterval: 5,
-                target: self,
-                selector: #selector(self.checkAccountInfo),
-                userInfo: nil,
-                repeats: true)
-        }
-    }
-
     @IBAction func oauthAccount(_ sender: AnyObject) {
         if Settings.hsReplayOAuthRefreshToken != nil {
             Settings.hsReplayOAuthRefreshToken = nil
             Settings.hsReplayOAuthToken = nil
+            Settings.hsReplayUploadToken = nil
             updateStatus()
         } else {
             HSReplayAPI.oAuthAuthorize {
@@ -171,25 +149,12 @@ class HSReplayPreferences: NSViewController, PreferencePane {
     }
 
     private func updateStatus() {
-        if Settings.hsReplayId != nil {
-            var information = String.localizedString("Connected", comment: "")
-            if let username = Settings.hsReplayUsername {
-                information = String(format: String.localizedString("Connected as %@", comment: ""),
-                    username)
-            }
-            claimAccountButton.title = information
-            claimAccountButton.isEnabled = false
-            disconnectButton.isEnabled = true
-        } else {
-            claimAccountButton.title = String.localizedString("Claim Account", comment: "")
-            claimAccountButton.isEnabled = true
-            disconnectButton.isEnabled = false
-        }
-
         if Settings.hsReplayOAuthRefreshToken != nil {
             oAuthAccount.title = String.localizedString("Logout", comment: "")
+            myAccountMessage.stringValue = String.localizedString("Logged in to HSReplay.net. Open your collection and the uploading will begin automatically.", comment: "")
         } else {
-            oAuthAccount.title = String.localizedString("Login", comment: "")
+            oAuthAccount.title = String.localizedString("Login to HSReplay.net", comment: "")
+            myAccountMessage.stringValue = String.localizedString("Login to claim your replays and enable all HSReplay.net features.",  comment: "")
         }
         
         statusIcon = hasSubscription ? "✔" : "✖"
