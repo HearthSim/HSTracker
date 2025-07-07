@@ -25,7 +25,7 @@ class LatorviusGazeOfTheCity: ICardWithRelatedCards {
             Cards.any(byId: CardIds.NonCollectible.Hunter.TheMarshQueen_QueenCarnassaToken),
             Cards.any(byId: CardIds.NonCollectible.Mage.OpentheWaygate_TimeWarpToken),
             Cards.any(byId: CardIds.NonCollectible.Paladin.TheLastKaleidosaur_GalvadonToken),
-            Cards.any(byId: CardIds.NonCollectible.Priest.AwakentheMakers_WardedByHopeToken),
+            Cards.any(byId: CardIds.NonCollectible.Priest.AwakentheMakers_AmaraWardenOfHopeToken),
             Cards.any(byId: CardIds.NonCollectible.Rogue.TheCavernsBelow_CrystalCoreToken),
             Cards.any(byId: CardIds.NonCollectible.Shaman.UnitetheMurlocs_MegafinToken),
             Cards.any(byId: CardIds.NonCollectible.Warlock.LakkariSacrifice_NetherPortalToken1),
