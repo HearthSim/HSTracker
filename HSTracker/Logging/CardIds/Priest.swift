@@ -246,6 +246,7 @@ extension CardIds.NonCollectible {
         static let LunarwingMessenger_BlessingOfTheMoon = "EDR_449p"
         static let Repackage_RepackagedBoxToken = "TOY_879t"
         static let Insight_InsightToken = "DMF_054t"
+        static let AwakentheMakers_WardedByHopeToken = "UNG_940t8e"
     }
 }
 

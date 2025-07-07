@@ -575,6 +575,7 @@
 		B846CC9A2E1C20ED00552F9C /* GorishiWasp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC992E1C20ED00552F9C /* GorishiWasp.swift */; };
 		B846CC9C2E1C213400552F9C /* Infestation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC9B2E1C213400552F9C /* Infestation.swift */; };
 		B846CC9E2E1C217E00552F9C /* InsectClaw.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC9D2E1C217E00552F9C /* InsectClaw.swift */; };
+		B846CCA02E1C221E00552F9C /* LatorviusGazeOfTheCity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC9F2E1C221E00552F9C /* LatorviusGazeOfTheCity.swift */; };
 		B8496731289A0CEB00D90B30 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD84562861394100F4F224 /* Regex.swift */; };
 		B8496732289A0CF300D90B30 /* SynchronizedDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD84542860058400F4F224 /* SynchronizedDictionary.swift */; };
 		B8496733289A0CF300D90B30 /* SynchronizedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FE1F982875BD15004C397C /* SynchronizedArray.swift */; };
@@ -1849,6 +1850,7 @@
 		B846CC992E1C20ED00552F9C /* GorishiWasp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GorishiWasp.swift; sourceTree = "<group>"; };
 		B846CC9B2E1C213400552F9C /* Infestation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Infestation.swift; sourceTree = "<group>"; };
 		B846CC9D2E1C217E00552F9C /* InsectClaw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsectClaw.swift; sourceTree = "<group>"; };
+		B846CC9F2E1C221E00552F9C /* LatorviusGazeOfTheCity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatorviusGazeOfTheCity.swift; sourceTree = "<group>"; };
 		B849674228A5830D00D90B30 /* libcoreclr.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcoreclr.dylib; path = "downloaded-frameworks/mono/runtimes/osx-x64/native/libcoreclr.dylib"; sourceTree = "<group>"; };
 		B850AA32252CB0490031E8F2 /* TurnCounter.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TurnCounter.xib; sourceTree = "<group>"; };
 		B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnCounter.swift; sourceTree = "<group>"; };
@@ -3489,6 +3491,7 @@
 				B89865E92D920E5100BA5649 /* ChorusRiff.swift */,
 				B854620C2CDD42AD0083BB31 /* InventorBoom.swift */,
 				B846CC632E09DDF600552F9C /* LastStand.swift */,
+				B846CC9F2E1C221E00552F9C /* LatorviusGazeOfTheCity.swift */,
 				B852D8462DDFBEF300884B26 /* OverlordSaurfang.swift */,
 				B89865EB2D920E8100BA5649 /* QualityAssurance.swift */,
 				B89865ED2D920F3200BA5649 /* SteamGuardian.swift */,
@@ -4880,6 +4883,7 @@
 				B86D8A062D95F77B00AB65A5 /* NightmareLordXavius.swift in Sources */,
 				43F204121E93C2E600E0BC4A /* Warlock.swift in Sources */,
 				B83CF364294BB808003C9062 /* BattlegroundsQuestPicking.swift in Sources */,
+				B846CCA02E1C221E00552F9C /* LatorviusGazeOfTheCity.swift in Sources */,
 				B82029552CD459E800C19A8C /* GridCardImageItem.swift in Sources */,
 				B8B7900E2C974E1300DD33EC /* PrimordialStudiesEnchantment.swift in Sources */,
 				B89865DF2D920CF500BA5649 /* LokenJailerOfYoggSaron.swift in Sources */,

@@ -254,6 +254,7 @@ extension CardIds.NonCollectible {
         static let KoboldMiner_TheAzeriteOxToken = "WW_001t27"
         static let SporeEmpressMoldara_ReplicatingSporeToken = "GDB_234t"
         static let ExpeditionSergeant_ExpeditionSergeantFutureBuffEnchantment = "GDB_229e"
+        static let EntertheLostCity_LatorviusGazeOfTheCityToken = "TLC_602t"
     }
 }
 
