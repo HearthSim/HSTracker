@@ -586,6 +586,7 @@
 		B846CCB02E1C3B8600552F9C /* HotSpringGliderEnchantment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CCAF2E1C3B8600552F9C /* HotSpringGliderEnchantment.swift */; };
 		B846CCB22E1C3C0A00552F9C /* SpelunkerEnchantPlayerEnchantment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CCB12E1C3C0A00552F9C /* SpelunkerEnchantPlayerEnchantment.swift */; };
 		B846CCB42E1C3C7300552F9C /* WayOfTheShellHeroic.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CCB32E1C3C7300552F9C /* WayOfTheShellHeroic.swift */; };
+		B846CCB62E1C44A700552F9C /* AshalonRidgeGuardianCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CCB52E1C44A700552F9C /* AshalonRidgeGuardianCounter.swift */; };
 		B8496731289A0CEB00D90B30 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD84562861394100F4F224 /* Regex.swift */; };
 		B8496732289A0CF300D90B30 /* SynchronizedDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD84542860058400F4F224 /* SynchronizedDictionary.swift */; };
 		B8496733289A0CF300D90B30 /* SynchronizedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FE1F982875BD15004C397C /* SynchronizedArray.swift */; };
@@ -1871,6 +1872,7 @@
 		B846CCAF2E1C3B8600552F9C /* HotSpringGliderEnchantment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotSpringGliderEnchantment.swift; sourceTree = "<group>"; };
 		B846CCB12E1C3C0A00552F9C /* SpelunkerEnchantPlayerEnchantment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpelunkerEnchantPlayerEnchantment.swift; sourceTree = "<group>"; };
 		B846CCB32E1C3C7300552F9C /* WayOfTheShellHeroic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WayOfTheShellHeroic.swift; sourceTree = "<group>"; };
+		B846CCB52E1C44A700552F9C /* AshalonRidgeGuardianCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AshalonRidgeGuardianCounter.swift; sourceTree = "<group>"; };
 		B849674228A5830D00D90B30 /* libcoreclr.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcoreclr.dylib; path = "downloaded-frameworks/mono/runtimes/osx-x64/native/libcoreclr.dylib"; sourceTree = "<group>"; };
 		B850AA32252CB0490031E8F2 /* TurnCounter.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TurnCounter.xib; sourceTree = "<group>"; };
 		B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnCounter.swift; sourceTree = "<group>"; };
@@ -3331,6 +3333,7 @@
 			children = (
 				B8196F1A2CC87060007C0371 /* AbyssalCurseCounter.swift */,
 				B89865F12D95514900BA5649 /* AnachronosTurnCounter.swift */,
+				B846CCB52E1C44A700552F9C /* AshalonRidgeGuardianCounter.swift */,
 				B82029302CD2C4D700C19A8C /* AsteroidExtraDamageCounter.swift */,
 				B8196F1C2CC871A6007C0371 /* AstralAutomatonCounter.swift */,
 				B89865F32D95915E00BA5649 /* AvianaElunesChosenTurnCounter.swift */,
@@ -5463,6 +5466,7 @@
 				B8CE65DA2950D78100E8D168 /* BattlegroundsHeroPicking.swift in Sources */,
 				B8196F212CC9A203007C0371 /* CounterManager.swift in Sources */,
 				C92C68121D1F3FC4009030DC /* LadderTab.swift in Sources */,
+				B846CCB62E1C44A700552F9C /* AshalonRidgeGuardianCounter.swift in Sources */,
 				43EECB981C7DEF7F0077AC1B /* ClassColor.swift in Sources */,
 				F79833971FFF324200D2893E /* Events.swift in Sources */,
 				43BDF0BC1DB7FB040081964A /* OverWindowController.swift in Sources */,

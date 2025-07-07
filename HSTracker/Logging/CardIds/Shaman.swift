@@ -242,6 +242,8 @@ extension CardIds.NonCollectible {
         static let TheAzeriteMurlocToken = "DEEP_999t5"
         static let PlanetaryNavigator_PlanetaryNavigatorFutureBuffEnchantment = "GDB_444e"
         static let BlessingOfTheWind = "EDR_448p"
+        static let SpiritoftheMountain_AshalonRidgeGuardianToken = "TLC_229t14"
+        static let SpiritoftheMountain_PerfectEvolutionToken = "TLC_229t14e"
     }
 }
 

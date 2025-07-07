@@ -685,6 +685,8 @@ struct TagChangeActions {
         case .graveyard, .removedfromgame:
             zoneChangeFromOther(eventHandler: eventHandler, id: id, rawValue: value, prevValue: prevValue,
                                 controller: controller, cardId: entity.cardId)
+        default:
+            break
         }
         
         if value == Zone.play.rawValue {
