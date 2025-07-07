@@ -571,6 +571,10 @@
 		B846CC922E16C17200552F9C /* RavenousFlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC912E16C17200552F9C /* RavenousFlock.swift */; };
 		B846CC942E16C1F800552F9C /* SkyscreamerEggs.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC932E16C1F800552F9C /* SkyscreamerEggs.swift */; };
 		B846CC962E16C40100552F9C /* AmbushPredators.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC952E16C40100552F9C /* AmbushPredators.swift */; };
+		B846CC982E1C205B00552F9C /* GorishiStinger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC972E1C205B00552F9C /* GorishiStinger.swift */; };
+		B846CC9A2E1C20ED00552F9C /* GorishiWasp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC992E1C20ED00552F9C /* GorishiWasp.swift */; };
+		B846CC9C2E1C213400552F9C /* Infestation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC9B2E1C213400552F9C /* Infestation.swift */; };
+		B846CC9E2E1C217E00552F9C /* InsectClaw.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC9D2E1C217E00552F9C /* InsectClaw.swift */; };
 		B8496731289A0CEB00D90B30 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD84562861394100F4F224 /* Regex.swift */; };
 		B8496732289A0CF300D90B30 /* SynchronizedDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD84542860058400F4F224 /* SynchronizedDictionary.swift */; };
 		B8496733289A0CF300D90B30 /* SynchronizedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FE1F982875BD15004C397C /* SynchronizedArray.swift */; };
@@ -1841,6 +1845,10 @@
 		B846CC912E16C17200552F9C /* RavenousFlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RavenousFlock.swift; sourceTree = "<group>"; };
 		B846CC932E16C1F800552F9C /* SkyscreamerEggs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkyscreamerEggs.swift; sourceTree = "<group>"; };
 		B846CC952E16C40100552F9C /* AmbushPredators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmbushPredators.swift; sourceTree = "<group>"; };
+		B846CC972E1C205B00552F9C /* GorishiStinger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GorishiStinger.swift; sourceTree = "<group>"; };
+		B846CC992E1C20ED00552F9C /* GorishiWasp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GorishiWasp.swift; sourceTree = "<group>"; };
+		B846CC9B2E1C213400552F9C /* Infestation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Infestation.swift; sourceTree = "<group>"; };
+		B846CC9D2E1C217E00552F9C /* InsectClaw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsectClaw.swift; sourceTree = "<group>"; };
 		B849674228A5830D00D90B30 /* libcoreclr.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcoreclr.dylib; path = "downloaded-frameworks/mono/runtimes/osx-x64/native/libcoreclr.dylib"; sourceTree = "<group>"; };
 		B850AA32252CB0490031E8F2 /* TurnCounter.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TurnCounter.xib; sourceTree = "<group>"; };
 		B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnCounter.swift; sourceTree = "<group>"; };
@@ -4155,9 +4163,13 @@
 				B85462172CDEBB2E0083BB31 /* EmergencyMeeting.swift */,
 				B846CC312E05F67700552F9C /* Felgorger.swift */,
 				B86D89E52D95EC4D00AB65A5 /* FerociousFelbat.swift */,
+				B846CC972E1C205B00552F9C /* GorishiStinger.swift */,
+				B846CC992E1C20ED00552F9C /* GorishiWasp.swift */,
 				B86D89E72D95EC8F00AB65A5 /* GrimHarvest.swift */,
 				B89865492D8B6DCA00BA5649 /* GuitarSoloist.swift */,
 				B85462192CDEBB6D0083BB31 /* Headhunt.swift */,
+				B846CC9B2E1C213400552F9C /* Infestation.swift */,
+				B846CC9D2E1C217E00552F9C /* InsectClaw.swift */,
 				B846CC652E09EF2600552F9C /* JaceDarkweaver.swift */,
 				B86D89E92D95ECF000AB65A5 /* RavenousFelhunter.swift */,
 				B8FDE9312CDAFF470093BFF7 /* ReturnPolicy.swift */,
@@ -5226,6 +5238,7 @@
 				B85462052CDD3EDA0083BB31 /* TessGreymane.swift in Sources */,
 				4387BED21CF4D7A00002ECBB /* State.swift in Sources */,
 				B85462182CDEBB2E0083BB31 /* EmergencyMeeting.swift in Sources */,
+				B846CC9E2E1C217E00552F9C /* InsectClaw.swift in Sources */,
 				434910521D09773D00B22DB2 /* IBoardEntity.swift in Sources */,
 				43BDF0BE1DB89A830081964A /* WindowManager.swift in Sources */,
 				B89865C52D92010C00BA5649 /* ElvenMinstrel.swift in Sources */,
@@ -5342,6 +5355,7 @@
 				437E56F11DAAB81400FC0FC1 /* Color.swift in Sources */,
 				B8B790362C975C3900DD33EC /* ShadowtouchedKvaldirEnchantment.swift in Sources */,
 				B82029472CD2D26300C19A8C /* PlanetaryNavigatorEnchantment.swift in Sources */,
+				B846CC9C2E1C213400552F9C /* Infestation.swift in Sources */,
 				B8B78FDA2C9632D500DD33EC /* CarrionStudiesEnchantment.swift in Sources */,
 				43BF754C1ECC25F7005827FF /* DeckSerializer.swift in Sources */,
 				B83CF375294E5048003C9062 /* BattlegroundsCompositionPopularityRowViewModel.swift in Sources */,
@@ -5574,6 +5588,7 @@
 				439C7EC31C777F8900D29859 /* LoadingScreenHandler.swift in Sources */,
 				B89865DD2D920CBD00BA5649 /* GameMasterNemsy.swift in Sources */,
 				B86D89C22D95A04200AB65A5 /* FriendlyMinionsDiedThisGameCounter.swift in Sources */,
+				B846CC9A2E1C20ED00552F9C /* GorishiWasp.swift in Sources */,
 				B81B3D9B2D4128DB00DC9EB0 /* JimRaynor.swift in Sources */,
 				B89899572CAA30D20011B184 /* Scallywag.swift in Sources */,
 				43EECB9C1C7E4EA20077AC1B /* CurveView.swift in Sources */,
@@ -5606,6 +5621,7 @@
 				B8E1E5D32D0C952000383975 /* UnendingSwarm.swift in Sources */,
 				B85462472CE18BDF0083BB31 /* DelayedTooltip.swift in Sources */,
 				B81B3D952D41238100DC9EB0 /* ColossusCounter.swift in Sources */,
+				B846CC982E1C205B00552F9C /* GorishiStinger.swift in Sources */,
 				432B60331CB69FA600B05D19 /* FloatingCard.swift in Sources */,
 				B82F4EAB24E3021D00905024 /* MonoHelper.swift in Sources */,
 				4390FBBA1DAA72E700AE71BB /* Version.swift in Sources */,

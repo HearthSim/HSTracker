@@ -61,6 +61,9 @@ extension CardIds.Collectible {
         static let VengefulSpirit = "BAR_328"
         static let Felgorger = "SW_043"
         static let JaceDarkweaver = "SW_044"
+        static let GorishiWasp = "TLC_630"
+        static let Infestation = "TLC_902"
+        static let InsectClaw = "TLC_833"
     }
 }
 
@@ -92,5 +95,7 @@ extension CardIds.NonCollectible {
         static let GrimHarvest_CrowDreadseedToken = "EDR_840t1"
         static let GrimHarvest_HoundDreadseedToken = "EDR_840t"
         static let GrimHarvest_SerpentDreadseedToken = "EDR_840t2"
+        static let GorishiWasp_GorishiStingerToken = "TLC_630t"
+        static let SilithidQueen_SilithidGrubToken = "TLC_903t"
     }
 }
