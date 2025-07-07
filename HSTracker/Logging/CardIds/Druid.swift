@@ -186,6 +186,7 @@ extension CardIds.Collectible {
         static let RavenousFlock = "TLC_232"
         static let SkyscreamerEggs = "TLC_237"
         static let LohTheLivingLegend = "TLC_257"
+        static let Hybridization = "TLC_236"
     }
 }
 

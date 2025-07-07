@@ -587,6 +587,7 @@
 		B846CCB22E1C3C0A00552F9C /* SpelunkerEnchantPlayerEnchantment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CCB12E1C3C0A00552F9C /* SpelunkerEnchantPlayerEnchantment.swift */; };
 		B846CCB42E1C3C7300552F9C /* WayOfTheShellHeroic.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CCB32E1C3C7300552F9C /* WayOfTheShellHeroic.swift */; };
 		B846CCB62E1C44A700552F9C /* AshalonRidgeGuardianCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CCB52E1C44A700552F9C /* AshalonRidgeGuardianCounter.swift */; };
+		B846CCB82E1C5C9100552F9C /* Hybridization.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CCB72E1C5C9100552F9C /* Hybridization.swift */; };
 		B8496731289A0CEB00D90B30 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD84562861394100F4F224 /* Regex.swift */; };
 		B8496732289A0CF300D90B30 /* SynchronizedDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD84542860058400F4F224 /* SynchronizedDictionary.swift */; };
 		B8496733289A0CF300D90B30 /* SynchronizedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FE1F982875BD15004C397C /* SynchronizedArray.swift */; };
@@ -1873,6 +1874,7 @@
 		B846CCB12E1C3C0A00552F9C /* SpelunkerEnchantPlayerEnchantment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpelunkerEnchantPlayerEnchantment.swift; sourceTree = "<group>"; };
 		B846CCB32E1C3C7300552F9C /* WayOfTheShellHeroic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WayOfTheShellHeroic.swift; sourceTree = "<group>"; };
 		B846CCB52E1C44A700552F9C /* AshalonRidgeGuardianCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AshalonRidgeGuardianCounter.swift; sourceTree = "<group>"; };
+		B846CCB72E1C5C9100552F9C /* Hybridization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hybridization.swift; sourceTree = "<group>"; };
 		B849674228A5830D00D90B30 /* libcoreclr.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcoreclr.dylib; path = "downloaded-frameworks/mono/runtimes/osx-x64/native/libcoreclr.dylib"; sourceTree = "<group>"; };
 		B850AA32252CB0490031E8F2 /* TurnCounter.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TurnCounter.xib; sourceTree = "<group>"; };
 		B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnCounter.swift; sourceTree = "<group>"; };
@@ -4262,6 +4264,7 @@
 				B86D89EF2D95EE5F00AB65A5 /* FandralStaghelm.swift */,
 				B86D89F12D95EED700AB65A5 /* GroveShaper.swift */,
 				B8E1E5D02D0C94E000383975 /* Hadronox.swift */,
+				B846CCB72E1C5C9100552F9C /* Hybridization.swift */,
 				B8FDE93A2CDD16030093BFF7 /* HydrationStation.swift */,
 				B852D8242DDEC52B00884B26 /* LivingSeed.swift */,
 				B89865552D8C920500BA5649 /* OakenSummons.swift */,
@@ -5680,6 +5683,7 @@
 				B852D8332DDFB92C00884B26 /* CrushclawEnforcer.swift in Sources */,
 				B89343382CD00858009A8727 /* ChaoticTendrilCounter.swift in Sources */,
 				439C7E4C1C7772C000D29859 /* AppDelegate.swift in Sources */,
+				B846CCB82E1C5C9100552F9C /* Hybridization.swift in Sources */,
 				B852D82B2DDFB7DA00884B26 /* HighAbbessAlura.swift in Sources */,
 				B86D8A282D9600E400AB65A5 /* SuccumbToMadness.swift in Sources */,
 				B846CC5E2E09DD0200552F9C /* PebblyPage.swift in Sources */,
