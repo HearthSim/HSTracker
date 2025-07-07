@@ -94,6 +94,9 @@ class Entity {
     var isQuest: Bool {
         return has(tag: .quest) || isQuestline
     }
+    var isInCosmetic: Bool {
+        return isInZone(zone: .cosmetic)
+    }
     var isQuestline: Bool {
         return has(tag: .questline)
     }

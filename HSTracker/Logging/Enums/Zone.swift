@@ -18,7 +18,9 @@ enum Zone: Int, CaseIterable {
     graveyard = 4,
     removedfromgame = 5,
     setaside = 6,
-    secret = 7
+    secret = 7,
+    lettuce_ability = 8,
+    cosmetic = 9
 
     init?(rawString: String) {
         let string = rawString.lowercased()

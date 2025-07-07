@@ -450,6 +450,7 @@ final class Player {
             return (revealedEntities.filter({ (e: Entity) in
                 !(e.info.guessedCardState == GuessedCardState.none && e.info.hidden)
                 && (e.isPlayableCard || !e.has(tag: .cardtype))
+                && !e.isInCosmetic
                 && (e[.creator] == 1
                     || ((!e.info.created || (Settings.showOpponentCreated
                                              && (e.info.createdInDeck || e.info.createdInHand)))
@@ -680,6 +681,7 @@ final class Player {
         let revealedNotInDeck = revealedEntities.filter {
             (!$0.info.created || $0.info.originalEntityWasCreated == false)
                 && $0.isPlayableCard
+                && !$0.isInCosmetic
                 && (!$0.isInDeck || $0.info.stolen)
                 && $0.info.originalController == self.id
                 && !$0.info.hidden
