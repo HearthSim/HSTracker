@@ -311,6 +311,7 @@ extension CardIds.NonCollectible {
         static let ArkoniteDefenseCrystal_TheScavengersWillToken = "GDB_100t8"
         static let FoxyFraud_EnablingEnchantment = "DMF_511e"
         static let AmbushPredators_VenomousSpitterToken = "TLC_519t"
+        static let WayOfTheShellHeroic = "TLC_513hp"
     }
 }
 

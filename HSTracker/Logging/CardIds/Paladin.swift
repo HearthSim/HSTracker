@@ -204,6 +204,7 @@ extension CardIds.Collectible {
         static let CallToArms = "LOOT_093"
         static let VioletTreasuregill = "TLC_438"
         static let CreatureOfTheSacredCave = "TLC_430"
+        static let HotSpringGlider = "TLC_428"
     }
 }
 
@@ -289,6 +290,7 @@ extension CardIds.NonCollectible {
         static let LibramofDivinity_LibramOfDivinityEnchantment = "GDB_138e2"
         static let Anachronos_TimeTravelEnchantment = "RLK_919e"
         static let BlessingOfTheDragon = "EDR_445p"
+        static let HotSpringGlider_WeeeeeEnchantment = "TLC_428e"
     }
 }
 

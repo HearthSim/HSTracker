@@ -97,5 +97,7 @@ extension CardIds.NonCollectible {
         static let GrimHarvest_SerpentDreadseedToken = "EDR_840t2"
         static let GorishiWasp_GorishiStingerToken = "TLC_630t"
         static let SilithidQueen_SilithidGrubToken = "TLC_903t"
+        static let UnleashtheColossus_GorishisFavorEnchantment = "TLC_631e"
+        static let UnleashtheColossus_GorishiColossusToken = "TLC_631t"
     }
 }

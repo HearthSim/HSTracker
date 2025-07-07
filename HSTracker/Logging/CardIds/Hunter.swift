@@ -209,6 +209,7 @@ extension CardIds.Collectible {
         static let TrialOfTheJormungars = "WON_028"
         static let TrinketTracker = "NX2_014"
         static let NineLives = "DAL_377"
+        static let CowerInFear = "TLC_823"
     }
 }
 
@@ -287,6 +288,7 @@ extension CardIds.NonCollectible {
         static let ArkoniteDefenseCrystal_TheAstralCompassToken = "GDB_100t7"
         static let MysteryEgg_MysteryEggToken = "TOY_351t"
         static let BlessingOfTheWolf = "EDR_850p"
+        static let CowerinFear_CowerInFearPlayerEnchantEnchantment = "TLC_823e1"
     }
 }
 

@@ -57,6 +57,7 @@ extension CardIds.Collectible {
         static let Ursoc = "EDR_819"
         static let DreadRaptor = "TLC_432"
         static let HighCultistHerenn = "TLC_810"
+        static let WaveOfTar = "TLC_439"
     }
 }
 
@@ -84,6 +85,7 @@ extension CardIds.NonCollectible {
         static let TheLichKing_DoomPactToken = "ICC_314t3"
         static let TheLichKing_ArmyOfTheFrozenThroneToken = "ICC_314t2"
         static let TheLichKing_FrostmourneToken = "ICC_314t1"
+        static let WaveofTar_StuckEnchantment = "TLC_439e2"
     }
 }
 

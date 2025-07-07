@@ -193,6 +193,7 @@ extension CardIds.Collectible {
         static let WallowTheWretched = "EDR_487"
         static let CursedCatacombs = "TLC_451"
         static let DeathrotMaw = "TLC_479"
+        static let Spelunker = "TLC_450"
     }
 }
 
@@ -275,6 +276,7 @@ extension CardIds.NonCollectible {
         static let EscapetheUnderfel_FelscreamerToken = "TLC_446t2"
         static let EscapetheUnderfel_FelraptorToken = "TLC_446t3"
         static let EscapetheUnderfel_FelhornToken = "TLC_446t4"
+        static let Spelunker_SpelunkerEnchantPlayerEnchantment = "TLC_450e"
     }
 }
 

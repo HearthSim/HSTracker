@@ -733,6 +733,8 @@ extension CardIds.Collectible {
         static let PterrordaxEgg = "TLC_831"
         static let SizzlingCinder = "TLC_249"
         static let EternalBloodpetal = "TLC_234"
+        static let CraterGator = "TLC_250"
+        static let PrimalfinChallenger = "TLC_251"
     }
 }
 
@@ -999,5 +1001,7 @@ extension CardIds.NonCollectible {
         static let Humongozz = "BG32_341"
         static let FelfireConjurer = "BG32_821"
         static let PterrordaxEgg_JuvenilePterrordaxToken = "TLC_831t"
+        static let CraterGator_CraterGatorPlayerEnchantEnchantment = "TLC_250e"
+        static let PrimalfinChallenger_ChallengersEnchantmentEnchantment = "TLC_251e"
     }
 }

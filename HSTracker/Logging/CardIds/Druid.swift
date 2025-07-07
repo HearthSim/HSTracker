@@ -185,6 +185,7 @@ extension CardIds.Collectible {
         static let EternalBloodpetal = "TLC_234"
         static let RavenousFlock = "TLC_232"
         static let SkyscreamerEggs = "TLC_237"
+        static let LohTheLivingLegend = "TLC_257"
     }
 }
 
@@ -342,6 +343,8 @@ extension CardIds.NonCollectible {
         static let DreamboundDisciple_BlessingOfTheGolem = "EDR_847p"
         static let EternalBloodpetal_EternalSeedlingToken = "TLC_234t"
         static let SkyscreamerEggs_SkyscreamerHatchlingToken = "TLC_237t"
+        static let LohtheLivingLegend_LivingLegendEnchantment = "TLC_257e1"
+        static let RavenousFlock_RavenousFlockPlayerEnchantEnchantment = "TLC_232e"
     }
 }
 
