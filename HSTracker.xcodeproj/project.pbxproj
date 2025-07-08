@@ -588,6 +588,7 @@
 		B846CCB42E1C3C7300552F9C /* WayOfTheShellHeroic.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CCB32E1C3C7300552F9C /* WayOfTheShellHeroic.swift */; };
 		B846CCB62E1C44A700552F9C /* AshalonRidgeGuardianCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CCB52E1C44A700552F9C /* AshalonRidgeGuardianCounter.swift */; };
 		B846CCB82E1C5C9100552F9C /* Hybridization.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CCB72E1C5C9100552F9C /* Hybridization.swift */; };
+		B846CCBA2E1C5D6500552F9C /* Torga.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CCB92E1C5D6500552F9C /* Torga.swift */; };
 		B8496731289A0CEB00D90B30 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD84562861394100F4F224 /* Regex.swift */; };
 		B8496732289A0CF300D90B30 /* SynchronizedDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD84542860058400F4F224 /* SynchronizedDictionary.swift */; };
 		B8496733289A0CF300D90B30 /* SynchronizedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FE1F982875BD15004C397C /* SynchronizedArray.swift */; };
@@ -1875,6 +1876,7 @@
 		B846CCB32E1C3C7300552F9C /* WayOfTheShellHeroic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WayOfTheShellHeroic.swift; sourceTree = "<group>"; };
 		B846CCB52E1C44A700552F9C /* AshalonRidgeGuardianCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AshalonRidgeGuardianCounter.swift; sourceTree = "<group>"; };
 		B846CCB72E1C5C9100552F9C /* Hybridization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hybridization.swift; sourceTree = "<group>"; };
+		B846CCB92E1C5D6500552F9C /* Torga.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Torga.swift; sourceTree = "<group>"; };
 		B849674228A5830D00D90B30 /* libcoreclr.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcoreclr.dylib; path = "downloaded-frameworks/mono/runtimes/osx-x64/native/libcoreclr.dylib"; sourceTree = "<group>"; };
 		B850AA32252CB0490031E8F2 /* TurnCounter.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TurnCounter.xib; sourceTree = "<group>"; };
 		B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnCounter.swift; sourceTree = "<group>"; };
@@ -3591,6 +3593,7 @@
 				B898659E2D91D28300BA5649 /* Thunderbringer.swift */,
 				B8E1E5E32D0C9DD400383975 /* TombLurker.swift */,
 				B86D8A0F2D95F94200AB65A5 /* TormentedDreadwing.swift */,
+				B846CCB92E1C5D6500552F9C /* Torga.swift */,
 				B89865A02D91D2B500BA5649 /* TramOperator.swift */,
 				B89865A22D91D2DF00BA5649 /* TroubledMechanic.swift */,
 				B8E1E5E52D0C9E0600383975 /* Vectus.swift */,
@@ -5628,6 +5631,7 @@
 				B820293D2CD2CFB400C19A8C /* StarlightWandererEnchantment.swift in Sources */,
 				B8B78FBA2C95298A00DD33EC /* DiscipleOfEonarEnchantment.swift in Sources */,
 				B846CC6A2E09F03300552F9C /* TheLichKing.swift in Sources */,
+				B846CCBA2E1C5D6500552F9C /* Torga.swift in Sources */,
 				B80B5B2F2C49BF9D005F4321 /* CompositionStatsException.swift in Sources */,
 				B86D8A182D95FB2100AB65A5 /* RedscaleDragontamer.swift in Sources */,
 				431AA0CD1D362ECB0030AD22 /* Race.swift in Sources */,
