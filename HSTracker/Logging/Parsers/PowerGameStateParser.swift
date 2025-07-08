@@ -884,7 +884,7 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Hunter
                                             .TheMarshQueen_CarnassasBroodToken,
-                                           count: 15)
+                                           count: 20)
                         case CardIds.Collectible.Neutral.EliseTheTrailblazer:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Neutral
