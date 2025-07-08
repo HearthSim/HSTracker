@@ -7,11 +7,12 @@
 //
 
 import Foundation
+import SwiftUI
 
 class BattlegroundsSingleHeroStats: NSView {
     @IBOutlet var contentView: NSView!
     
-    @IBOutlet var battlegroundsHeroHeader: BattlegroundsHeroHeader!
+    @IBOutlet var battlegroundsHeroHeader: NSView!
     @IBOutlet var heroPortraitContainer: NSView!
     @IBOutlet var compositions: BattlegroundsCompositionPopularity!
     
@@ -62,7 +63,17 @@ class BattlegroundsSingleHeroStats: NSView {
         heroPortraitContainer.addTrackingArea(trackingArea)
 
         compositions.viewModel = viewModel.bgsCompsPopularityVM
-        battlegroundsHeroHeader.viewModel = viewModel.bgsHeroHeaderVM
+        
+        let heroStatFrame = NSRect(x: 28, y: 470, width: 236, height: 72);
+        if #available(macOS 10.15, *) {
+            battlegroundsHeroHeader = NSHostingView(rootView: BattlegroundsStatsPicker(viewModel: viewModel.bgsHeroHeaderVM))
+            battlegroundsHeroHeader.frame = heroStatFrame
+        } else {
+            let view = BattlegroundsHeroHeader(frame: heroStatFrame)
+            view.viewModel = viewModel.bgsHeroHeaderVM
+            battlegroundsHeroHeader = view
+        }
+        addSubview(battlegroundsHeroHeader)
         
         update()
     }
