@@ -589,6 +589,7 @@
 		B846CCB62E1C44A700552F9C /* AshalonRidgeGuardianCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CCB52E1C44A700552F9C /* AshalonRidgeGuardianCounter.swift */; };
 		B846CCB82E1C5C9100552F9C /* Hybridization.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CCB72E1C5C9100552F9C /* Hybridization.swift */; };
 		B846CCBA2E1C5D6500552F9C /* Torga.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CCB92E1C5D6500552F9C /* Torga.swift */; };
+		B846CCBC2E1D9ECB00552F9C /* CrystalCoreEnchantment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CCBB2E1D9ECB00552F9C /* CrystalCoreEnchantment.swift */; };
 		B8496731289A0CEB00D90B30 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD84562861394100F4F224 /* Regex.swift */; };
 		B8496732289A0CF300D90B30 /* SynchronizedDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD84542860058400F4F224 /* SynchronizedDictionary.swift */; };
 		B8496733289A0CF300D90B30 /* SynchronizedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FE1F982875BD15004C397C /* SynchronizedArray.swift */; };
@@ -1877,6 +1878,7 @@
 		B846CCB52E1C44A700552F9C /* AshalonRidgeGuardianCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AshalonRidgeGuardianCounter.swift; sourceTree = "<group>"; };
 		B846CCB72E1C5C9100552F9C /* Hybridization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hybridization.swift; sourceTree = "<group>"; };
 		B846CCB92E1C5D6500552F9C /* Torga.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Torga.swift; sourceTree = "<group>"; };
+		B846CCBB2E1D9ECB00552F9C /* CrystalCoreEnchantment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrystalCoreEnchantment.swift; sourceTree = "<group>"; };
 		B849674228A5830D00D90B30 /* libcoreclr.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcoreclr.dylib; path = "downloaded-frameworks/mono/runtimes/osx-x64/native/libcoreclr.dylib"; sourceTree = "<group>"; };
 		B850AA32252CB0490031E8F2 /* TurnCounter.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TurnCounter.xib; sourceTree = "<group>"; };
 		B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnCounter.swift; sourceTree = "<group>"; };
@@ -3969,6 +3971,7 @@
 			children = (
 				B8B790382C9775D200DD33EC /* CloakofShadowsEnchantment.swift */,
 				B8B7903A2C97764500DD33EC /* ConcealEnchantment.swift */,
+				B846CCBB2E1D9ECB00552F9C /* CrystalCoreEnchantment.swift */,
 				B86D89CD2D95BE3D00AB65A5 /* FoxyFraudEnchantment.swift */,
 				B82029422CD2D14200C19A8C /* LuckyComentEnchantment.swift */,
 				B8B7903C2C97769200DD33EC /* PreparationEnchantment.swift */,
@@ -5563,6 +5566,7 @@
 				B8BA17D728E91C52004D40ED /* LinkOpponentDeckPanel.swift in Sources */,
 				43E77EE61C94B4B400C26950 /* CardHud.swift in Sources */,
 				B864AE3C25A4D15C00793F36 /* ImportingPreferences.swift in Sources */,
+				B846CCBC2E1D9ECB00552F9C /* CrystalCoreEnchantment.swift in Sources */,
 				B804FC26294264D700F74CD9 /* Tier7PreLobbyViewModel.swift in Sources */,
 				4C3E2D93245F16B900292349 /* CollectionToastViewController.swift in Sources */,
 				439DD8F41DB23212004EBE47 /* PlayerTurn.swift in Sources */,

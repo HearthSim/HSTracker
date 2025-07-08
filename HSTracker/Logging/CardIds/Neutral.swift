@@ -1004,5 +1004,6 @@ extension CardIds.NonCollectible {
         static let PterrordaxEgg_JuvenilePterrordaxToken = "TLC_831t"
         static let CraterGator_CraterGatorPlayerEnchantEnchantment = "TLC_250e"
         static let PrimalfinChallenger_ChallengersEnchantmentEnchantment = "TLC_251e"
+        static let TheCavernsBelow_CrystallizedTokenUNGORO1 = "UNG_067t1e"
     }
 }

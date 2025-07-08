@@ -312,6 +312,7 @@ extension CardIds.NonCollectible {
         static let FoxyFraud_EnablingEnchantment = "DMF_511e"
         static let AmbushPredators_VenomousSpitterToken = "TLC_519t"
         static let WayOfTheShellHeroic = "TLC_513hp"
+        static let TheCavernsBelow_CrystalCoreTokenUNGORO = "UNG_067t1"
     }
 }
 
