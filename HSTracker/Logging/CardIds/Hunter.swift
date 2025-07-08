@@ -210,6 +210,7 @@ extension CardIds.Collectible {
         static let TrinketTracker = "NX2_014"
         static let NineLives = "DAL_377"
         static let CowerInFear = "TLC_823"
+        static let StoryOfCarnassa = "TLC_826"
     }
 }
 
