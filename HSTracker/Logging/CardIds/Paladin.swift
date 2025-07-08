@@ -205,6 +205,7 @@ extension CardIds.Collectible {
         static let VioletTreasuregill = "TLC_438"
         static let CreatureOfTheSacredCave = "TLC_430"
         static let HotSpringGlider = "TLC_428"
+        static let IdoOfTheThreshfleet = "TLC_241"
     }
 }
 
@@ -291,6 +292,7 @@ extension CardIds.NonCollectible {
         static let Anachronos_TimeTravelEnchantment = "RLK_919e"
         static let BlessingOfTheDragon = "EDR_445p"
         static let HotSpringGlider_WeeeeeEnchantment = "TLC_428e"
+        static let IdooftheThreshfleet_CallTheThreshfleetToken = "TLC_241t"
     }
 }
 
