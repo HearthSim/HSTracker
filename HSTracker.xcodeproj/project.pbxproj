@@ -591,6 +591,7 @@
 		B846CCBA2E1C5D6500552F9C /* Torga.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CCB92E1C5D6500552F9C /* Torga.swift */; };
 		B846CCBC2E1D9ECB00552F9C /* CrystalCoreEnchantment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CCBB2E1D9ECB00552F9C /* CrystalCoreEnchantment.swift */; };
 		B846CCBE2E1DA08800552F9C /* StoryOfCarnassa.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CCBD2E1DA08800552F9C /* StoryOfCarnassa.swift */; };
+		B846CCC02E1DABA700552F9C /* DiveTheGolakkaDepthsBuffCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CCBF2E1DABA700552F9C /* DiveTheGolakkaDepthsBuffCounter.swift */; };
 		B8496731289A0CEB00D90B30 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD84562861394100F4F224 /* Regex.swift */; };
 		B8496732289A0CF300D90B30 /* SynchronizedDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD84542860058400F4F224 /* SynchronizedDictionary.swift */; };
 		B8496733289A0CF300D90B30 /* SynchronizedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FE1F982875BD15004C397C /* SynchronizedArray.swift */; };
@@ -1881,6 +1882,7 @@
 		B846CCB92E1C5D6500552F9C /* Torga.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Torga.swift; sourceTree = "<group>"; };
 		B846CCBB2E1D9ECB00552F9C /* CrystalCoreEnchantment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrystalCoreEnchantment.swift; sourceTree = "<group>"; };
 		B846CCBD2E1DA08800552F9C /* StoryOfCarnassa.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryOfCarnassa.swift; sourceTree = "<group>"; };
+		B846CCBF2E1DABA700552F9C /* DiveTheGolakkaDepthsBuffCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiveTheGolakkaDepthsBuffCounter.swift; sourceTree = "<group>"; };
 		B849674228A5830D00D90B30 /* libcoreclr.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcoreclr.dylib; path = "downloaded-frameworks/mono/runtimes/osx-x64/native/libcoreclr.dylib"; sourceTree = "<group>"; };
 		B850AA32252CB0490031E8F2 /* TurnCounter.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TurnCounter.xib; sourceTree = "<group>"; };
 		B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnCounter.swift; sourceTree = "<group>"; };
@@ -3352,6 +3354,7 @@
 				B81B3D942D41238100DC9EB0 /* ColossusCounter.swift */,
 				B89343392CD008DF009A8727 /* CthunCounter.swift */,
 				B81B3DA22D4434C000DC9EB0 /* DiscoversThisGameCounter.swift */,
+				B846CCBF2E1DABA700552F9C /* DiveTheGolakkaDepthsBuffCounter.swift */,
 				B893433B2CD0372A009A8727 /* ElementalTurnSequenceCounter.swift */,
 				B893433D2CD06762009A8727 /* ExcavateTierCounter.swift */,
 				B893433F2CD07836009A8727 /* FatigueCounter.swift */,
@@ -4984,6 +4987,7 @@
 				B8196F1B2CC87060007C0371 /* AbyssalCurseCounter.swift in Sources */,
 				B89865A92D91D59E00BA5649 /* BoogieDown.swift in Sources */,
 				B86D8A102D95F94200AB65A5 /* TormentedDreadwing.swift in Sources */,
+				B846CCC02E1DABA700552F9C /* DiveTheGolakkaDepthsBuffCounter.swift in Sources */,
 				B846CC482E06366600552F9C /* IcebloodTower.swift in Sources */,
 				B89865CD2D9206D100BA5649 /* Cosmonaut.swift in Sources */,
 				B89586452B804E2000989C13 /* ConstructedStatsHeaderViewModel.swift in Sources */,
