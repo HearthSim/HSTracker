@@ -244,6 +244,12 @@ struct TagChangeActions {
         guard let targetEntity = eventHandler.entities[value] else {
             return
         }
+        if let currentBlock = AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock, currentBlock.type == "POWER", let actionStartingEntity = eventHandler.entities[currentBlock.sourceEntityId], actionStartingEntity.cardId == CardIds.Collectible.Rogue.EyesInTheSky, let linkingEntity = eventHandler.entities[id], let linkedEntity = eventHandler.entities[value], !linkedEntity.cardId.isEmpty && linkedEntity.cardId.isEmpty {
+            linkedEntity.cardId = linkingEntity.cardId
+            linkedEntity.info.guessedCardState = .guessed
+            
+            AppDelegate.instance().coreManager.game.updateTrackers()
+        }
         onDredge(eventHandler: eventHandler, entity: entity, target: targetEntity)
     }
     

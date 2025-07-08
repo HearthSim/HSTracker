@@ -222,6 +222,7 @@ extension CardIds.Collectible {
         static let ScourgeIllusionist = "RLK_217"
         static let Swindle = "DMF_515"
         static let AmbushPredators = "TLC_519"
+        static let EyesInTheSky = "TLC_521"
     }
 }
 
