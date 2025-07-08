@@ -1166,6 +1166,20 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Druid.Starfire)
                         case CardIds.Collectible.Mage.SpiritGatherer:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Mage.WispTokenEMERALD_DREAM)
+                        case CardIds.NonCollectible.Warrior.EntertheLostCity_LatorviusGazeOfTheCityToken:
+                            if actionStartingEntity?.isControlled(by: eventHandler.opponent.id) ?? false {
+                                for id in [ CardIds.NonCollectible.Druid.JungleGiants_BarnabusTheStomperToken,
+                                            CardIds.NonCollectible.Hunter.TheMarshQueen_QueenCarnassaToken,
+                                            CardIds.NonCollectible.Mage.OpentheWaygate_TimeWarpToken,
+                                            CardIds.NonCollectible.Paladin.TheLastKaleidosaur_GalvadonToken,
+                                            CardIds.NonCollectible.Priest.AwakentheMakers_AmaraWardenOfHopeToken,
+                                            CardIds.NonCollectible.Rogue.TheCavernsBelow_CrystalCoreToken,
+                                            CardIds.NonCollectible.Shaman.UnitetheMurlocs_MegafinToken,
+                                            CardIds.NonCollectible.Warlock.LakkariSacrifice_NetherPortalToken1,
+                                            CardIds.NonCollectible.Warrior.FirePlumesHeart_SulfurasToken ] {
+                                    eventHandler.opponent.predictUniqueCardInDeck(cardId: id, isCreated: true)
+                                }
+                            }
                         default:
                             if let card = Cards.any(byId: actionStartingCardId) {
                                 if (player != nil && player![.current_player] == 1
