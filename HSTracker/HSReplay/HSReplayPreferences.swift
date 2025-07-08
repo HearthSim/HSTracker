@@ -154,7 +154,7 @@ class HSReplayPreferences: NSViewController, PreferencePane {
             myAccountMessage.stringValue = String.localizedString("Logged in to HSReplay.net. Open your collection and the uploading will begin automatically.", comment: "")
         } else {
             oAuthAccount.title = String.localizedString("Login to HSReplay.net", comment: "")
-            myAccountMessage.stringValue = String.localizedString("Login to claim your replays and enable all HSReplay.net features.",  comment: "")
+            myAccountMessage.stringValue = String.localizedString("Login to claim your replays and enable all HSReplay.net features.", comment: "")
         }
         
         statusIcon = hasSubscription ? "✔" : "✖"

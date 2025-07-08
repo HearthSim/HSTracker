@@ -248,10 +248,10 @@ class HSReplayAPI {
                     logger.info("Account Successfully Claimed")
                 case .failure(let error):
                     switch error {
-                        case .requestError(let error, _):
-                            logger.error("\(error.localizedDescription)")
-                        default:
-                            logger.error("Failed to claim account: \(error)")
+                    case .requestError(let error, _):
+                        logger.error("\(error.localizedDescription)")
+                    default:
+                        logger.error("Failed to claim account: \(error)")
                     }
                 }
             })
