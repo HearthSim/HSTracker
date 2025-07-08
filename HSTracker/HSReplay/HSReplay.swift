@@ -16,7 +16,7 @@ struct HSReplay {
     private static let baseApi = "/api/v1"
     private static let uploadRequestApi = "/replay/upload/request"
     private static let tokensApi = "/tokens"
-    private static let claimAccountApi = "/claim_account"
+    private static let claimAccountApi = "/account/claim_token"
     private static let claimBattleTagApi = "/blizzard_accounts"
     private static let authorizeApi = "/authorize/"
     private static let tokenApi = "/token/"
