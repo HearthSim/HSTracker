@@ -45,12 +45,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
             GeneralPreferences(nibName: "GeneralPreferences", bundle: nil),
             GamePreferences(nibName: "GamePreferences", bundle: nil),
             TrackersPreferences(nibName: "TrackersPreferences", bundle: nil),
+            HSReplayPreferences(nibName: "HSReplayPreferences", bundle: nil),
             PlayerTrackersPreferences(nibName: "PlayerTrackersPreferences", bundle: nil),
             OpponentTrackersPreferences(nibName: "OpponentTrackersPreferences", bundle: nil),
             BattlegroundsPreferences(nibName: "BattlegroundsPreferences", bundle: nil),
             MercenariesPreferences(nibName: "MercenariesPreferences", bundle: nil),
-            ImportingPreferences(nibName: "ImportingPreferences", bundle: nil),
-            HSReplayPreferences(nibName: "HSReplayPreferences", bundle: nil)
+            ImportingPreferences(nibName: "ImportingPreferences", bundle: nil)
         ]
         return PreferencesWindowController(preferencePanes: panes, style: .toolbarItems, animated: false)
     }()

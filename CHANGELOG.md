@@ -1,3 +1,8 @@
+# 3.3.1
+## New
+- Added counter for murloc buffs from Paladin Quest.
+- Added multiple Counters, Related Cards, and Card Highlights for cards from The Lost of Un'Goro.
+
 # 3.3.0
 ## New
 - Updated for Hearthstone 33.0.0 (card highlights, counters, etc... will be added later)
