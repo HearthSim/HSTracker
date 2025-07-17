@@ -18,7 +18,8 @@ class BeetlesSizeCounter: StatsCounter {
             CardIds.NonCollectible.Neutral.ForestRover,
             CardIds.NonCollectible.Neutral.TurquoiseSkitterer,
             CardIds.NonCollectible.Neutral.RunedProgenitor,
-            CardIds.NonCollectible.Neutral.NestSwarmer
+            CardIds.NonCollectible.Neutral.NestSwarmer,
+            CardIds.NonCollectible.Neutral.SilkyShimmermoth
         ]
     }
     
