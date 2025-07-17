@@ -17,7 +17,7 @@ class DreadRaptor: ICardWithHighlight {
 
     func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         HighlightColorHelper.getHighlightColor(
-            card.hasDeathrattle() && card.cost < 3 && card.type == .minion
+            card.hasDeathrattle() && card.cost <= 3 && card.type == .minion
         )
     }
 }
