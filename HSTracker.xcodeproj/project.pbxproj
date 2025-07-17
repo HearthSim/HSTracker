@@ -592,6 +592,7 @@
 		B846CCBC2E1D9ECB00552F9C /* CrystalCoreEnchantment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CCBB2E1D9ECB00552F9C /* CrystalCoreEnchantment.swift */; };
 		B846CCBE2E1DA08800552F9C /* StoryOfCarnassa.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CCBD2E1DA08800552F9C /* StoryOfCarnassa.swift */; };
 		B846CCC02E1DABA700552F9C /* DiveTheGolakkaDepthsBuffCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CCBF2E1DABA700552F9C /* DiveTheGolakkaDepthsBuffCounter.swift */; };
+		B846CCC22E29A79700552F9C /* PaladinCardsPlayedCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CCC12E29A79700552F9C /* PaladinCardsPlayedCounter.swift */; };
 		B8496731289A0CEB00D90B30 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD84562861394100F4F224 /* Regex.swift */; };
 		B8496732289A0CF300D90B30 /* SynchronizedDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD84542860058400F4F224 /* SynchronizedDictionary.swift */; };
 		B8496733289A0CF300D90B30 /* SynchronizedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FE1F982875BD15004C397C /* SynchronizedArray.swift */; };
@@ -1883,6 +1884,7 @@
 		B846CCBB2E1D9ECB00552F9C /* CrystalCoreEnchantment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrystalCoreEnchantment.swift; sourceTree = "<group>"; };
 		B846CCBD2E1DA08800552F9C /* StoryOfCarnassa.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryOfCarnassa.swift; sourceTree = "<group>"; };
 		B846CCBF2E1DABA700552F9C /* DiveTheGolakkaDepthsBuffCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiveTheGolakkaDepthsBuffCounter.swift; sourceTree = "<group>"; };
+		B846CCC12E29A79700552F9C /* PaladinCardsPlayedCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaladinCardsPlayedCounter.swift; sourceTree = "<group>"; };
 		B849674228A5830D00D90B30 /* libcoreclr.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcoreclr.dylib; path = "downloaded-frameworks/mono/runtimes/osx-x64/native/libcoreclr.dylib"; sourceTree = "<group>"; };
 		B850AA32252CB0490031E8F2 /* TurnCounter.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TurnCounter.xib; sourceTree = "<group>"; };
 		B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnCounter.swift; sourceTree = "<group>"; };
@@ -3368,6 +3370,7 @@
 				B82029322CD2C65D00C19A8C /* KiljaedenCounter.swift */,
 				B89343472CD11E7A009A8727 /* LibramCostReductionCounter.swift */,
 				B89865352D8A343600BA5649 /* MinionsDiedThisGameCounter.swift */,
+				B846CCC12E29A79700552F9C /* PaladinCardsPlayedCounter.swift */,
 				B86D89C52D95A2FF00AB65A5 /* PlayedDragonsCounter.swift */,
 				B893434F2CD1520E009A8727 /* PlayedSpellSchoolsCounter.swift */,
 				B89343332CCFAF7E009A8727 /* PlayedSpellsCounter.swift */,
@@ -4868,6 +4871,7 @@
 				B82F4EB424E40B9F00905024 /* MinionProxy.swift in Sources */,
 				432A07B21E93B6E200921E34 /* CardIds.swift in Sources */,
 				B898654C2D8B714E00BA5649 /* RushTheStage.swift in Sources */,
+				B846CCC22E29A79700552F9C /* PaladinCardsPlayedCounter.swift in Sources */,
 				B846CC5A2E09DC4F00552F9C /* ScourgeIllusionist.swift in Sources */,
 				B846CC522E09DB1200552F9C /* AllianceBannerman.swift in Sources */,
 				4CFF95AF23C0C56A006AB461 /* BattlegroundsTierOverlayView.swift in Sources */,
