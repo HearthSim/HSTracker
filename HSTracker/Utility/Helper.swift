@@ -220,4 +220,17 @@ struct Helper {
         let url = Helper.buildHsReplayNetUrl(duos ? "/battlegrounds/duos/heroes/" : "/battlegrounds/heroes/", "bgs_toast", queryParams, fragmentParams)
         NSWorkspace.shared.open(URL(string: url)!)
     }
+    
+    static func getAge(_ time: Date) -> String {
+        if #available(macOS 10.15, *) {
+            let formatter = RelativeDateTimeFormatter()
+            return formatter.localizedString(fromTimeInterval: time.timeIntervalSinceNow)
+        } else {
+            let formatter = DateComponentsFormatter()
+            formatter.unitsStyle = .full
+            formatter.allowedUnits = [ .hour, .minute ]
+            formatter.maximumUnitCount = 1
+            return formatter.string(from: Date().timeIntervalSince(time)) ?? ""
+        }
+    }
 }

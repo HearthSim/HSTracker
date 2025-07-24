@@ -875,7 +875,7 @@ class HSReplayAPI {
             })
         }
     }
-
+    
     @available(macOS 10.15.0, *)
     static func getTier7TrinketPickStats(token: String?, parameters: BattlegroundsTrinketPickParams) async -> BattlegroundsTrinketPickStats? {
         guard let token = token else {
@@ -910,4 +910,28 @@ class HSReplayAPI {
                 continuation.resume(returning: nil)
             }
         }
-    }}
+    }
+    
+    @available(macOS 10.15.0, *)
+    static func getCompsGuides(gameLanguage: String) async -> [BattlegroundsCompGuide] {
+        return await withCheckedContinuation { continuation in
+            startAuthorizedRequest("\(HSReplay.battlegroundsCompGuides)?game_language=\(gameLanguage)", method: .GET, completionHandler: { result in
+                switch result {
+                case .success(let response):
+                    logger.debug("Response: \(String(data: response.data, encoding: .utf8) ?? "FAILED")")
+                    if let bqs: [BattlegroundsCompGuide] = parseResponse(data: response.data, defaultValue: nil) {
+                        continuation.resume(returning: bqs)
+                    } else {
+                        continuation.resume(returning: [BattlegroundsCompGuide]())
+                    }
+                    return
+                case .failure(let error):
+                    logger.error(error)
+                    continuation.resume(returning: [BattlegroundsCompGuide]())
+                    return
+                }
+            })
+        }
+    }
+
+}

@@ -9,7 +9,6 @@
 import Foundation
 
 class BattlegroundsCompsGuidesViewModel: ViewModel {
-    lazy var _db = BattlegroundsDb()
     
     var comps: [BattlegroundsCompGuideViewModel]? {
         get {
@@ -120,10 +119,82 @@ class BattlegroundsCompsGuidesViewModel: ViewModel {
         }
     }
     
-    // private func getTierColor(_ tier: Int) -> CALayer
+    private func getTierColor(_ tier: Int) -> CALayer {
+        func createLinearGradient(_ color1: NSColor, _ color2: NSColor) -> CALayer {
+            let brush = CAGradientLayer()
+            brush.startPoint = CGPoint(x: 0.0, y: 0.5)
+            brush.endPoint = CGPoint(x: 1.0, y: 0.5)
+            brush.colors = [ color1.cgColor, color2.cgColor ]
+            return brush
+        }
+        return switch tier {
+        case 1:
+            createLinearGradient(NSColor.fromRgb(64, 138, 191), NSColor.fromRgb(56, 95, 122))
+        case 2:
+            createLinearGradient(NSColor.fromRgb(107, 160, 54), NSColor.fromRgb(88, 121, 55))
+        case 3:
+            createLinearGradient(NSColor.fromRgb(146, 160, 54), NSColor.fromRgb(104, 121, 55))
+        case 4:
+            createLinearGradient(NSColor.fromRgb(160, 124, 54), NSColor.fromRgb(121, 95, 55))
+        case 5:
+            createLinearGradient(NSColor.fromRgb(160, 72, 54), NSColor.fromRgb(121, 66, 55))
+        default:
+            createLinearGradient(NSColor.fromRgb(112, 112, 112), NSColor.fromRgb(64, 64, 64))
+        }
+    }
     
     @available(macOS 10.15.0, *)
     private func trySetTier7View() async {
+        let game = AppDelegate.instance().coreManager.game
+        let gameId = game.serverInfo?.gameHandle.intValue
+        let userOwnsTier7 = HSReplayAPI.accountData?.is_tier7 ?? false
+//        let userHasTrials = Tier7Trial.remainingTrials ?? 0 > 0
+
+        if !userOwnsTier7 && gameId == nil {
+            return
+        }
+
+//        if !userOwnsTier7 && !(userHasTrials || Tier7Trial.isTrialForCurrentGameActive(gameId)) {
+//            return
+//        }
+
+        // Use a trial if we can
+        var token: String?
+        if !userOwnsTier7 {
+            let acc = MirrorHelper.getAccountId()
+            if let acc {
+                token = await Tier7Trial.activate(hi: acc.hi.int64Value, lo: acc.lo.int64Value)
+                if !((game.gameEntity?[.step] ?? 0) <= Step.begin_mulligan.rawValue) && token == nil {
+                    return
+                }
+                
+                if token == nil {
+                    return
+                }
+            }
+        }
+            
+        let availableRaces = game.availableRaces
         
+        // Filter compositions by core cards based on available races
+        if let comps {
+            var filteredComps = comps
+
+            if let availableRaces {
+                let currentRaces = availableRaces + [ .invalid ]
+                let availableCards = BattlegroundsDbSingleton.instance.getCardsByRaces(currentRaces, false)
+                let availableCardIds = Set<Int>(availableCards.compactMap { card in card.dbfId })
+                filteredComps = comps.filter { comp in comp.coreCards.all { card in availableCardIds.contains(card.dbfId) } }
+            }
+
+            compsByTier = filteredComps.group({ comp in comp.compGuide.tier }).compactMapValues({ comps in TieredComps(tierLetter: getCompText(comps[0].compGuide.tier), tierColor: getTierColor(comps[0].compGuide.tier), comps: comps)})
+        }
+    }
+    
+    var tier7FeatureVisibility: Bool {
+        return compsByTier != nil
+    }
+    var baseFeatureVisibility: Bool {
+        return compsByTier == nil
     }
 }

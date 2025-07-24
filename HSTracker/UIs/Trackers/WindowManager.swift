@@ -162,6 +162,10 @@ class WindowManager {
         $0.isPlayer = false
         return $0
     }(CountersOverlay(windowNibName: "CountersOverlay"))
+    
+    var guidesTab: GuidesTab = {
+        return $0
+    }(GuidesTab(windowNibName: "GuidesTab"))
 
     var toastWindowController = ToastWindowController()
 

@@ -552,11 +552,13 @@ class Game: NSObject, PowerEventHandler {
             if self.windowManager.tier7PreLobby.isVisible {
                 if hsActive {
                     self.windowManager.show(controller: self.windowManager.tier7PreLobby, show: true, frame: SizeHelper.tier7PreLobbyFrame(), overlay: true)
+                    self.windowManager.show(controller: self.windowManager.guidesTab, show: true, frame: SizeHelper.battlegroundsCompGuidesTab(), overlay: true)
                 } else {
                     self.windowManager.show(controller: self.windowManager.tier7PreLobby, show: false)
                 }
             } else if self.windowManager.tier7PreLobby.window?.isVisible ?? false {
                 self.windowManager.show(controller: self.windowManager.tier7PreLobby, show: false)
+                self.windowManager.show(controller: self.windowManager.guidesTab, show: false)
             }
             
             if self.windowManager.battlegroundsHeroPicking.viewModel.visibility {
@@ -878,6 +880,7 @@ class Game: NSObject, PowerEventHandler {
         if show {
             Task.init {
                 _ = await windowManager.tier7PreLobby.viewModel.update()
+                _ = await windowManager.guidesTab.compsGuides?.viewModel.update()
             }
             if Settings.showBattlegroundsTier7PreLobby || !(HSReplayAPI.accountData?.is_tier7 ?? false) {
                 Task.init {
@@ -887,10 +890,12 @@ class Game: NSObject, PowerEventHandler {
             if self.hearthstoneRunState.isActive {
                 self.windowManager.tier7PreLobby.isVisible = true
                 self.windowManager.show(controller: self.windowManager.tier7PreLobby, show: true, frame: SizeHelper.tier7PreLobbyFrame())
+                self.windowManager.show(controller: self.windowManager.guidesTab, show: true, frame: SizeHelper.battlegroundsCompGuidesTab())
             }
         } else {
             self.windowManager.tier7PreLobby.isVisible = false
             self.windowManager.show(controller: self.windowManager.tier7PreLobby, show: false)
+            self.windowManager.show(controller: self.windowManager.guidesTab, show: false)
         }
     }
     
@@ -1091,6 +1096,7 @@ class Game: NSObject, PowerEventHandler {
     var hideBattlegroundsTurn = false
     
     var availableRaces: [Race]? {
+//        return [.mechanical, .elemental, .quilboar, .murloc, .dragon]
         if _availableRaces == nil {
             if let races = MirrorHelper.getAvailableBattlegroundsRaces() {
                 let newRaces = races.compactMap({ x in x.intValue > 0 && x.intValue < Race.allCases.count ? Race.allCases[x.intValue] : nil })

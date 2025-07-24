@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22689"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner"/>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView wantsLayer="YES" id="c22-O7-iKe" customClass="CompGuideGroupHeader" customModule="HSTracker" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="240" height="40"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="yi0-z2-VVO">
+                    <rect key="frame" x="0.0" y="0.0" width="240" height="40"/>
+                    <subviews>
+                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7Ls-Zc-9UV">
+                            <rect key="frame" x="6" y="12" width="18" height="16"/>
+                            <textFieldCell key="cell" lineBreakMode="clipping" title="A" id="xcm-my-6bN">
+                                <font key="font" size="16" name="ChunkFive-Roman"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                            </textFieldCell>
+                        </textField>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="7Ls-Zc-9UV" firstAttribute="leading" secondItem="yi0-z2-VVO" secondAttribute="leading" constant="8" id="Pin-fU-YFL"/>
+                        <constraint firstItem="7Ls-Zc-9UV" firstAttribute="centerY" secondItem="yi0-z2-VVO" secondAttribute="centerY" id="gY3-yA-P3s"/>
+                    </constraints>
+                </customView>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="yi0-z2-VVO" secondAttribute="bottom" id="Jhr-zK-CrQ"/>
+                <constraint firstItem="yi0-z2-VVO" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="cjT-AU-sBD"/>
+                <constraint firstAttribute="trailing" secondItem="yi0-z2-VVO" secondAttribute="trailing" id="hOx-Yt-zui"/>
+                <constraint firstItem="yi0-z2-VVO" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="k6g-6y-qTk"/>
+            </constraints>
+            <connections>
+                <outlet property="background" destination="yi0-z2-VVO" id="irj-G4-kXX"/>
+                <outlet property="tier" destination="7Ls-Zc-9UV" id="mQu-fF-wXZ"/>
+            </connections>
+            <point key="canvasLocation" x="-51" y="129"/>
+        </customView>
+    </objects>
+</document>

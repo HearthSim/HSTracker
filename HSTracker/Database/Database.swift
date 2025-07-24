@@ -168,6 +168,8 @@ class Database: NSObject, XMLParserDelegate {
                     }
                 case GameTag.spell_school.rawValue:
                     currentCard?.spellSchool = SpellSchool(rawValue: intValue) ?? .none
+                case GameTag.bacon_hero_can_be_drafted.rawValue:
+                    currentCard?.baconHeroCanBeDrafted = intValue != 0
                 default:
                     break
                 }

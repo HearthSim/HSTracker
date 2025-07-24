@@ -63,6 +63,7 @@ final class Card {
     var spellSchool: SpellSchool = .none
     var highlightColor = HighlightColor.none
     var tag4058 = 0
+    var baconHeroCanBeDrafted = false
     
     func hasRace(_ race: Race) -> Bool {
         if races.count == 0 {
@@ -377,6 +378,7 @@ extension Card: NSCopying {
         copy.faction = self.faction
         copy.spellSchool = self.spellSchool
         copy.tag4058 = self.tag4058
+        copy.baconHeroCanBeDrafted = self.baconHeroCanBeDrafted
 
         return copy
     }

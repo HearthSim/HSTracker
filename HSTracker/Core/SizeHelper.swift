@@ -557,4 +557,14 @@ struct SizeHelper {
         let scale = hs.height / 1080
         return NSRect(x: hs.minX + SizeHelper.getScaledXPos(0.087, width: SizeHelper.hearthstoneWindow.width, ratio: SizeHelper.screenRatio), y: hs.minY + (hs.height * (1.0 - 0.217)) - h - 16.0 * scale, width: w*2.0, height: h*2.0)
     }
+    
+    static func battlegroundsCompGuidesTab() -> NSRect {
+        let height = hearthstoneWindow.height - CGFloat(64)
+        let width = 249.0
+        let x = hearthstoneWindow.frame.minX + hearthstoneWindow.frame.width - width
+        let y = hearthstoneWindow.frame.minY
+        
+        return NSRect(x: x, y: y, width: width, height: height)
+    }
+
 }
