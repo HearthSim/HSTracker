@@ -331,6 +331,9 @@ class MonoHelper {
             return false
         }
 
+        // chain signals so that Sentry can capture them
+        mono_set_crash_chaining(1)
+        
         if let version = mono_get_runtime_build_info() {
             let str = String(cString: version)
             logger.debug("Loading mono version \(str)")
