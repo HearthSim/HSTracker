@@ -63,7 +63,8 @@ final class ArenaWatcher {
                                   attributes: [])
         }
         if let queue = queue {
-            queue.async {
+            queue.async { [weak self] in
+                guard let self else { return }
                 Thread.current.name = queue.label
                 self.watch()
             }
