@@ -247,6 +247,8 @@ extension CardIds.NonCollectible {
         static let Repackage_RepackagedBoxToken = "TOY_879t"
         static let Insight_InsightToken = "DMF_054t"
         static let AwakentheMakers_WardedByHopeToken = "UNG_940t8e"
+        static let ReachEquilibrium_CleanseTheShadowToken = "TLC_817t"
+        static let ReachEquilibrium_CorruptTheLightToken = "TLC_817t2"
     }
 }
 

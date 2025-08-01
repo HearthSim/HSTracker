@@ -32,6 +32,12 @@ class PlayedSpellsCounter: NumericCounter {
             CardIds.Collectible.Neutral.PrisonBreaker
         ]
     }
+    
+    private let _ignoredCards: Set<String> = [
+        // ReachEquilibrium quest intantly casts those 2 other quests, but only count as 1 spell
+        CardIds.NonCollectible.Priest.ReachEquilibrium_CorruptTheLightToken,
+        CardIds.NonCollectible.Priest.ReachEquilibrium_CleanseTheShadowToken,
+    ]
 
     required init(controlledByPlayer: Bool, game: Game) {
         super.init(controlledByPlayer: controlledByPlayer, game: game)
@@ -65,6 +71,8 @@ class PlayedSpellsCounter: NumericCounter {
         guard value == Zone.play.rawValue || value == Zone.secret.rawValue else { return }
         guard AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock?.type == "PLAY" else { return }
         guard entity.isSpell else { return }
+        
+        guard !_ignoredCards.contains(entity.cardId) else { return }
 
         let controller = entity[GameTag.controller]
         if (controller == game.player.id && isPlayerCounter) || (controller == game.opponent.id && !isPlayerCounter) {
