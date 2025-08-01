@@ -223,6 +223,8 @@ extension CardIds.Collectible {
         static let Swindle = "DMF_515"
         static let AmbushPredators = "TLC_519"
         static let EyesInTheSky = "TLC_521"
+        static let DustBunny = "MIS_706"
+        static let WebOfDeception = "EDR_523"
     }
 }
 
@@ -314,6 +316,8 @@ extension CardIds.NonCollectible {
         static let AmbushPredators_VenomousSpitterToken = "TLC_519t"
         static let WayOfTheShellHeroic = "TLC_513hp"
         static let TheCavernsBelow_CrystalCoreTokenUNGORO = "UNG_067t1"
+        static let WickedKnifeLegacy = "CS2_082"
+        static let WebofDeception_SkitteringSpiderlingToken = "EDR_523t"
     }
 }
 

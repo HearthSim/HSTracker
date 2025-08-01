@@ -205,6 +205,10 @@ extension CardIds.Collectible {
         static let SeafloorGateway = "TSC_055"
         static let Stargazing = "WW_425"
         static let ConjuredBookkeeper = "TLC_226"
+        static let ArchmageAntonidasCore = "CORE_EX1_559"
+        static let FireballCore = "CORE_CS2_029"
+        static let VioletSpellwing = "DRG_107"
+        static let ArcaneMissilesLegacy = "EX1_277"
     }
 }
 
