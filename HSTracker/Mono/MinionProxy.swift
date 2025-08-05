@@ -121,6 +121,24 @@ class MinionProxy: MonoHandle, MonoClassInitializer {
         params.deallocate()
     }
     
+    func addAdditionalRally(rally: MonoHandle) {
+        let field = mono_class_get_field_from_name(MinionProxy._class, "AdditionalRallies")
+        let inst = get()
+        let obj = mono_field_get_value_object(MonoHelper._monoInstance, field, inst)
+        
+        let clazz = mono_object_get_class(obj)
+        let method = mono_class_get_method_from_name(clazz, "Add", 1)
+        
+        let params = UnsafeMutablePointer<UnsafeMutablePointer<MonoObject>>.allocate(capacity: 1)
+
+        params[0] = rally.get()!
+            
+        _ = params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 1, {
+            mono_runtime_invoke(method, obj, $0, nil)
+        })
+        params.deallocate()
+    }
+
     func attachModularEntity(cardId: String) {
         _ = MonoHelper.invokeString(obj: self, method: MinionProxy._attachModularEntity, str: cardId)
     }

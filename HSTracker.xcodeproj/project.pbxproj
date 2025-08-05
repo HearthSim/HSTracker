@@ -415,6 +415,7 @@
 		B80B690A2E3C3ECD00197FA5 /* DustBunny.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80B69092E3C3ECD00197FA5 /* DustBunny.swift */; };
 		B80B690C2E3C3F5A00197FA5 /* WebOfDeception.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80B690B2E3C3F5A00197FA5 /* WebOfDeception.swift */; };
 		B80B690E2E3C3FC800197FA5 /* Sleetbreaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80B690D2E3C3FC800197FA5 /* Sleetbreaker.swift */; };
+		B81189252E429A510091B4D6 /* WhirringProtector.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81189242E429A510091B4D6 /* WhirringProtector.swift */; };
 		B812BCED2947F929000C6513 /* BattlegroundsQuestPickParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = B812BCEC2947F928000C6513 /* BattlegroundsQuestPickParams.swift */; };
 		B812BCEF29495C3A000C6513 /* BattlegroundsSingleQuestView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B812BCEE29495C3A000C6513 /* BattlegroundsSingleQuestView.xib */; };
 		B81849232BF4D58E00F4EEE2 /* ConstructedMulliganOverlayMessage.xib in Resources */ = {isa = PBXBuildFile; fileRef = B81849222BF4D58E00F4EEE2 /* ConstructedMulliganOverlayMessage.xib */; };
@@ -691,7 +692,6 @@
 		B8591FF82B24919F00B907A4 /* MulliganState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FF72B24919F00B907A4 /* MulliganState.swift */; };
 		B8591FFA2B24F7C900B907A4 /* ObjectiveFactoryProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FF92B24F7C900B907A4 /* ObjectiveFactoryProxy.swift */; };
 		B8591FFC2B24F87C00B907A4 /* ObjectiveProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FFB2B24F87C00B907A4 /* ObjectiveProxy.swift */; };
-		B8591FFE2B31328A00B907A4 /* RecurringNightmare.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FFD2B31328900B907A4 /* RecurringNightmare.swift */; };
 		B85920962B4C73B300B907A4 /* CustomToolTip in Frameworks */ = {isa = PBXBuildFile; productRef = B85920952B4C73B300B907A4 /* CustomToolTip */; };
 		B85A0D54272CDEFE006D2648 /* MercenariesPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85A0D53272CDEFE006D2648 /* MercenariesPreferences.swift */; };
 		B85A0D55272CE24A006D2648 /* MercenariesPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B85A0D51272CDDFB006D2648 /* MercenariesPreferences.xib */; };
@@ -1716,6 +1716,7 @@
 		B80B69092E3C3ECD00197FA5 /* DustBunny.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DustBunny.swift; sourceTree = "<group>"; };
 		B80B690B2E3C3F5A00197FA5 /* WebOfDeception.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebOfDeception.swift; sourceTree = "<group>"; };
 		B80B690D2E3C3FC800197FA5 /* Sleetbreaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sleetbreaker.swift; sourceTree = "<group>"; };
+		B81189242E429A510091B4D6 /* WhirringProtector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhirringProtector.swift; sourceTree = "<group>"; };
 		B812BCEC2947F928000C6513 /* BattlegroundsQuestPickParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsQuestPickParams.swift; sourceTree = "<group>"; };
 		B812BCEE29495C3A000C6513 /* BattlegroundsSingleQuestView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsSingleQuestView.xib; sourceTree = "<group>"; };
 		B81849222BF4D58E00F4EEE2 /* ConstructedMulliganOverlayMessage.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConstructedMulliganOverlayMessage.xib; sourceTree = "<group>"; };
@@ -1974,7 +1975,6 @@
 		B8591FF72B24919F00B907A4 /* MulliganState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulliganState.swift; sourceTree = "<group>"; };
 		B8591FF92B24F7C900B907A4 /* ObjectiveFactoryProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectiveFactoryProxy.swift; sourceTree = "<group>"; };
 		B8591FFB2B24F87C00B907A4 /* ObjectiveProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectiveProxy.swift; sourceTree = "<group>"; };
-		B8591FFD2B31328900B907A4 /* RecurringNightmare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurringNightmare.swift; sourceTree = "<group>"; };
 		B85A0D52272CDDFB006D2648 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = HSTracker/UIs/Preferences/Base.lproj/MercenariesPreferences.xib; sourceTree = "<group>"; };
 		B85A0D53272CDEFE006D2648 /* MercenariesPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MercenariesPreferences.swift; sourceTree = "<group>"; };
 		B85F1AC8258A558200A6F8C3 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
@@ -3444,7 +3444,6 @@
 				B8DC120424EC79370088A755 /* OutputProxy.swift */,
 				B82238B72BF82BA500B405D4 /* PlayerProxy.swift */,
 				B82AE60128BED413004A8FE0 /* QuestDataProxy.swift */,
-				B8591FFD2B31328900B907A4 /* RecurringNightmare.swift */,
 				B8449A032781C7360094E5B3 /* ReplicatingMenace.swift */,
 				B898995A2CAA32B10011B184 /* RustyTrident.swift */,
 				B89899562CAA30D20011B184 /* Scallywag.swift */,
@@ -3455,6 +3454,7 @@
 				B80B5B302C750895005F4321 /* TrinketProxy.swift */,
 				B844D36B2A0C3510001704E0 /* UnknownCardEntityProxy.swift */,
 				B87856DF2C04BA7F004C2C40 /* UnsupportedInteractionProxy.swift */,
+				B81189242E429A510091B4D6 /* WhirringProtector.swift */,
 			);
 			path = Mono;
 			sourceTree = "<group>";
@@ -5392,6 +5392,7 @@
 				B89865622D8E14C700BA5649 /* CostumedSinger.swift in Sources */,
 				B898654E2D8B71CE00BA5649 /* UmpiresGrasp.swift in Sources */,
 				B86D89D82D95C31E00AB65A5 /* HideousHusk.swift in Sources */,
+				B81189252E429A510091B4D6 /* WhirringProtector.swift in Sources */,
 				B89865662D8E15D000BA5649 /* Banjosaur.swift in Sources */,
 				B86D89C82D95A48F00AB65A5 /* TyrandeSpellsPlayedCounter.swift in Sources */,
 				B8889C1F2DA4AAEB0053DD57 /* ImbueCounter.swift in Sources */,
@@ -5537,7 +5538,6 @@
 				B86D8A042D95F72D00AB65A5 /* NaralexHeraldOfTheFlights.swift in Sources */,
 				B89865602D8C941300BA5649 /* UngoroBrochure.swift in Sources */,
 				B8BD3BA82C4159EA001E85B7 /* BattlegroundsCompStats.swift in Sources */,
-				B8591FFE2B31328A00B907A4 /* RecurringNightmare.swift in Sources */,
 				B8E1E5D62D0C958300383975 /* RaiseDead.swift in Sources */,
 				B89865842D91B0AA00BA5649 /* VolumeUp.swift in Sources */,
 				43F4D0491EB7A23E006B4479 /* HeroPower.swift in Sources */,
@@ -6672,7 +6672,7 @@
 					"$(SDKROOT)/usr/lib/swift",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 3.3.2;
+				MARKETING_VERSION = 3.3.3;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = (
@@ -6723,7 +6723,7 @@
 					"$(SDKROOT)/usr/lib/swift",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 3.3.2;
+				MARKETING_VERSION = 3.3.3;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = (
 					"$(inherited)",

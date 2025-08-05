@@ -406,6 +406,7 @@ enum GameTag: Int, CaseIterable, Codable {
     bacon_hero_heropower_quest_reward_database_id = 2714,
     bacon_hero_quest_reward_completed = 2715,
     bacon_hero_heropower_quest_reward_completed = 2716,
+    gametag_2717 = 2717,
     titan = 2772,
     gametag_2822 = 2822,
     bacon_bloodgembuffhealthvalue = 2827,

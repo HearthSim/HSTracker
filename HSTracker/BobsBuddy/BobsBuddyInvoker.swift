@@ -65,6 +65,9 @@ class BobsBuddyInvoker {
     var LastAttackingHero: Entity?
     var LastAttackingHeroAttack: Int = 0
     
+    static private let WhirringProtector_Normal = CardIds.NonCollectible.Neutral.WhirringProtector
+    static private let WhirringProtector_Golden = CardIds.NonCollectible.Neutral.WhirringProtector_WhirringProtector1
+    
     var _instanceKey = ""
     let game: Game
     
@@ -746,14 +749,14 @@ class BobsBuddyInvoker {
                 minion.addDeathrattle(deathrattle: ReplicatingMenace.deathrattle(golden: false))
             case CardIds.NonCollectible.Neutral.ReplicatingMenace_ReplicatingMenaceEnchantmentTavernBrawl:
                 minion.addDeathrattle(deathrattle: ReplicatingMenace.deathrattle(golden: true))
+            case BobsBuddyInvoker.WhirringProtector_Normal:
+                minion.addAdditionalRally(rally: WhirringProtector.rally(golden: false))
+            case BobsBuddyInvoker.WhirringProtector_Golden:
+                minion.addAdditionalRally(rally: WhirringProtector.rally(golden: true))
             case CardIds.NonCollectible.Neutral.LivingSporesToken2:
                 minion.addDeathrattle(deathrattle: GenericDeathrattles.plants())
             case CardIds.NonCollectible.Neutral.Sneed_Replicate:
                 minion.addDeathrattle(deathrattle: GenericDeathrattles.sneedHeroPower())
-            case CardIds.NonCollectible.Neutral.SurfnSurf_CrabRidingEnchantment:
-                minion.addDeathrattle(deathrattle: GenericDeathrattles.surfNSurfSpell())
-            case CardIds.NonCollectible.Neutral.SurfnSurf_CrabRiding:
-                minion.addDeathrattle(deathrattle: GenericDeathrattles.surfNSurfSpellGolden())
             case CardIds.NonCollectible.Neutral.Brukan_ElementEarth:
                 minion.addDeathrattle(deathrattle: GenericDeathrattles.earthInvocation())
             case CardIds.NonCollectible.Neutral.Brukan_EarthRecollection:
@@ -766,10 +769,6 @@ class BobsBuddyInvoker {
                 minion.addDeathrattle(deathrattle: BrukanInvocationDeathrattles.lightning())
             case CardIds.NonCollectible.Neutral.Wingmen_WingmenEnchantmentTavernBrawl:
                 minion.hasWingmen = true
-            case CardIds.NonCollectible.Neutral.RecurringNightmare_NightmareInsideEnchantment:
-                minion.addDeathrattle(deathrattle: RecurringNightmare.summonDeathrattle(golden: false))
-            case CardIds.NonCollectible.Neutral.RecurringNightmare_NightmareInside:
-                minion.addDeathrattle(deathrattle: RecurringNightmare.summonDeathrattle(golden: true))
             case CardIds.NonCollectible.Neutral.SkyPirateFlagbearer_FlagbearingEnchantment:
                 minion.addDeathrattle(deathrattle: Scallywag.deathrattle(golden: false))
             case CardIds.NonCollectible.Neutral.SkyPirateFlagbearer_Flagbearing:
@@ -997,14 +996,18 @@ class BobsBuddyInvoker {
             inputPlayer.beetlesHealthBuff = Int32(pBeetle[.tag_script_data_num_2])
         }
         inputPlayer.elementalPlayCounter = Int32(game.playerEntity?[.gametag_2878] ?? 0)
-        
+
+        logger.info("pEternal=\(inputPlayer.eternalKnightCounter), pUndead=\(inputPlayer.undeadAttackBonus), pElemental=\(inputPlayer.elementalPlayCounter), friendly=\(friendly)")
+
         inputPlayer.piratesSummonCounter = Int32(game.playerEntity?[.gametag_2358] ?? 0)
         
         inputPlayer.beastsSummonCounter = Int32(game.playerEntity?[.gametag_3962] ?? 0)
         
+        inputPlayer.friendlyMinionsDeadLastCombatCounter = Int32(game.playerEntity?[.gametag_2717] ?? 0)
+        
         inputPlayer.battlecryCounter = Int32(game.playerEntity?[.gametag_3236] ?? 0)
-
-        logger.info("pEternal=\(inputPlayer.eternalKnightCounter), pUndead=\(inputPlayer.undeadAttackBonus), pElemental=\(inputPlayer.elementalPlayCounter), friendly=\(friendly)")
+        
+        logger.info("pPirates=\(inputPlayer.piratesSummonCounter), pBeasts=\(inputPlayer.beastsSummonCounter), pDeadLastCombat=\(inputPlayer.friendlyMinionsDeadLastCombatCounter), pBattlecry=\(inputPlayer.battlecryCounter), friendly=\(friendly)");
         
         inputPlayer.bloodGemAtkBuff = Int32(playerEntity[.bacon_bloodgembuffatkvalue])
         inputPlayer.bloodGemHealthBuff = Int32(playerEntity[.bacon_bloodgembuffhealthvalue])

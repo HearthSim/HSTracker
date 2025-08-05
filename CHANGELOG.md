@@ -1,3 +1,9 @@
+# 3.3.3
+## New
+- Updated for Hearthstone 33.2.0
+## Fixes
+- Fixed an issue where Reach Equilibrium (Priest's Quest) would count as 3 spells in the spell counter.
+
 # 3.3.2
 ## New
 - Updated for Hearthstone 33.0.3
