@@ -2,7 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22689"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22690"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -37,7 +37,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <subviews>
                                             <stackView identifier="ItemsStackView" distribution="fillEqually" orientation="horizontal" alignment="top" spacing="25" horizontalStackHuggingPriority="250" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" detachesHiddenViews="YES" id="WBY-0s-1SQ" userLabel="Items" colorLabel="IBBuiltInLabel-Red">
-                                                <rect key="frame" x="0.0" y="0.0" width="1108" height="430"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="1104" height="430"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <edgeInsets key="edgeInsets" left="12.5" right="12.5" top="0.0" bottom="0.0"/>
                                                 <constraints>
@@ -67,7 +67,7 @@
                                                 <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jYe-xE-R3Q">
                                                     <rect key="frame" x="0.0" y="0.0" width="164" height="16"/>
                                                     <subviews>
-                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pdO-EP-vVg" userLabel="HIDE TRINKET STATS">
+                                                        <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pdO-EP-vVg" userLabel="HIDE TRINKET STATS">
                                                             <rect key="frame" x="-2" y="0.0" width="152" height="16"/>
                                                             <textFieldCell key="cell" lineBreakMode="clipping" title="HIDE TRINKET STATS" id="VmR-SD-QON" userLabel="HIDE TRINKET STATS">
                                                                 <font key="font" usesAppearanceFont="YES"/>
