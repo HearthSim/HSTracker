@@ -12,15 +12,15 @@ class QuestDataProxy: MonoHandle, MonoClassInitializer {
     static var _class: OpaquePointer?
     
     static var _members = [String: OpaquePointer]()
-
+    
     static func initialize() {
         if QuestDataProxy._class == nil {
             QuestDataProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Simulation", name: "QuestData")
             
-            initializeProperties(properties: ["QuestCardId", "RewardCardId", "QuestProgress", "QuestProgressTotal"])
+            initializeProperties(properties: ["QuestCardId", "RewardCardId", "QuestProgress", "QuestProgressTotal", "RewardScriptDataNum1", "RewardScriptDataNum2"])
         }
     }
-
+    
     override init() {
         super.init()
         
@@ -35,16 +35,22 @@ class QuestDataProxy: MonoHandle, MonoClassInitializer {
     required init(obj: UnsafeMutablePointer<MonoObject>?) {
         fatalError("init(obj:) has not been implemented")
     }
-
+    
     @MonoStringProperty(property: "QuestCardId", owner: QuestDataProxy.self)
     var questCardId: String
-
+    
     @MonoStringProperty(property: "RewardCardId", owner: QuestDataProxy.self)
     var rewardCardId: String
-
+    
     @MonoPrimitiveProperty(property: "QuestProgress", owner: QuestDataProxy.self)
     var questProgress: Int32
-
+    
     @MonoPrimitiveProperty(property: "QuestProgressTotal", owner: QuestDataProxy.self)
     var questProgressTotal: Int32
+    
+    @MonoPrimitiveProperty(property: "RewardScriptDataNum1", owner: QuestDataProxy.self)
+    var rewardScriptDataNum1: Int32
+    
+    @MonoPrimitiveProperty(property: "RewardScriptDataNum2", owner: QuestDataProxy.self)
+    var rewardScriptDataNum2: Int32
 }

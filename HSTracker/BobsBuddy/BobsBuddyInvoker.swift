@@ -914,6 +914,8 @@ class BobsBuddyInvoker {
             questData.questProgressTotal = Int32(0)
             questData.questCardId = ""
             questData.rewardCardId = reward.info.latestCardId
+            questData.rewardScriptDataNum1 = Int32(reward[.tag_script_data_num_1])
+            questData.rewardScriptDataNum2 = Int32(reward[.tag_script_data_num_2])
             MonoHelper.addToList(list: playerQuests, element: questData)
         }
         for trinket in gamePlayer.trinkets {
@@ -1007,7 +1009,7 @@ class BobsBuddyInvoker {
         
         inputPlayer.battlecryCounter = Int32(game.playerEntity?[.gametag_3236] ?? 0)
         
-        logger.info("pPirates=\(inputPlayer.piratesSummonCounter), pBeasts=\(inputPlayer.beastsSummonCounter), pDeadLastCombat=\(inputPlayer.friendlyMinionsDeadLastCombatCounter), pBattlecry=\(inputPlayer.battlecryCounter), friendly=\(friendly)");
+        logger.info("pPirates=\(inputPlayer.piratesSummonCounter), pBeasts=\(inputPlayer.beastsSummonCounter), pDeadLastCombat=\(inputPlayer.friendlyMinionsDeadLastCombatCounter), pBattlecry=\(inputPlayer.battlecryCounter), friendly=\(friendly)")
         
         inputPlayer.bloodGemAtkBuff = Int32(playerEntity[.bacon_bloodgembuffatkvalue])
         inputPlayer.bloodGemHealthBuff = Int32(playerEntity[.bacon_bloodgembuffhealthvalue])

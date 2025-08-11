@@ -1,3 +1,11 @@
+# 3.3.4
+## Fixes
+- Added potential fix for crash after Arena Underground loss
+## Bob's Buddy
+- Fixed incorrect simulation results due to Glim Guardian.
+- Added support for Orc-estra Conductor
+- Added support for Tumbling Disaster
+
 # 3.3.3
 ## New
 - Updated for Hearthstone 33.2.0

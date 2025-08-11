@@ -226,7 +226,7 @@ struct TagChangeActions {
         }
 
         if targetEntity.cardId == "" {
-            targetEntity.cardId = entity.cardId
+            targetEntity.cardId = entity.info.latestCardId
             targetEntity.info.guessedCardState = GuessedCardState.guessed
 
             if entity[.creator_dbid] == CardIds.keyMasterAlabasterDbfId {
@@ -576,15 +576,15 @@ struct TagChangeActions {
         
         if value == eventHandler.player.id {
             if entity.isInZone(zone: .secret) {
-                eventHandler.opponentStolen(entity: entity, cardId: entity.cardId, turn: eventHandler.turnNumber())
+                eventHandler.opponentStolen(entity: entity, cardId: entity.info.latestCardId, turn: eventHandler.turnNumber())
             } else if entity.isInZone(zone: .play) {
-                eventHandler.opponentStolen(entity: entity, cardId: entity.cardId, turn: eventHandler.turnNumber())
+                eventHandler.opponentStolen(entity: entity, cardId: entity.info.latestCardId, turn: eventHandler.turnNumber())
             }
         } else if value == eventHandler.opponent.id {
             if entity.isInZone(zone: .secret) {
-                eventHandler.playerStolen(entity: entity, cardId: entity.cardId, turn: eventHandler.turnNumber())
+                eventHandler.playerStolen(entity: entity, cardId: entity.info.latestCardId, turn: eventHandler.turnNumber())
             } else if entity.isInZone(zone: .play) {
-                eventHandler.playerStolen(entity: entity, cardId: entity.cardId, turn: eventHandler.turnNumber())
+                eventHandler.playerStolen(entity: entity, cardId: entity.info.latestCardId, turn: eventHandler.turnNumber())
             }
         }
     }
@@ -643,22 +643,22 @@ struct TagChangeActions {
             zoneChangeFromDeck(eventHandler: eventHandler, id: id, value: value,
                                prevValue: prevValue,
                                controller: controller,
-                               cardId: entity.cardId)
+                               cardId: entity.info.latestCardId)
             
         case .hand:
             zoneChangeFromHand(eventHandler: eventHandler, id: id, value: value,
                                prevValue: prevValue, controller: controller,
-                               cardId: entity.cardId)
+                               cardId: entity.info.latestCardId)
             
         case .play:
             zoneChangeFromPlay(eventHandler: eventHandler, id: id, value: value,
                                prevValue: prevValue, controller: controller,
-                               cardId: entity.cardId)
+                               cardId: entity.info.latestCardId)
             
         case .secret:
             zoneChangeFromSecret(eventHandler: eventHandler, id: id, value: value,
                                  prevValue: prevValue, controller: controller,
-                                 cardId: entity.cardId)
+                                 cardId: entity.info.latestCardId)
             
         case .invalid:
             if !eventHandler.setupDone && value == Zone.graveyard.rawValue {
@@ -673,11 +673,11 @@ struct TagChangeActions {
                     && entity[.zone_position] < 5) {
                 entity.info.originalZone = .deck
                 simulateZoneChangesFromDeck(eventHandler: eventHandler, id: id, value: value,
-                                            cardId: entity.cardId, maxId: maxId)
+                                            cardId: entity.info.latestCardId, maxId: maxId)
             } else {
                 zoneChangeFromOther(eventHandler: eventHandler, id: id, rawValue: value,
                                     prevValue: prevValue, controller: controller,
-                                    cardId: entity.cardId)
+                                    cardId: entity.info.latestCardId)
             }
         case .setaside:
             if value == Zone.play.rawValue && controller == eventHandler.opponent.id && eventHandler.currentGameMode == .battlegrounds {
@@ -690,7 +690,7 @@ struct TagChangeActions {
 
         case .graveyard, .removedfromgame:
             zoneChangeFromOther(eventHandler: eventHandler, id: id, rawValue: value, prevValue: prevValue,
-                                controller: controller, cardId: entity.cardId)
+                                controller: controller, cardId: entity.info.latestCardId)
         default:
             break
         }
@@ -828,6 +828,10 @@ struct TagChangeActions {
                 eventHandler.playerCreateInSetAside(entity: entity, turn: eventHandler.turnNumber())
             } else if controller == eventHandler.opponent.id {
                 eventHandler.opponentCreateInSetAside(entity: entity, turn: eventHandler.turnNumber())
+                let currentBlock = powerGameStateParser?.currentBlock
+                if currentBlock?.cardId == CardIds.Collectible.Neutral.GrandArchivist && currentBlock?.entityDiscardedByArchivist?.cardId != nil {
+                    currentBlock?.entityDiscardedByArchivist?.cardId = entity.info.latestCardId
+                }
             }
             
         default:
