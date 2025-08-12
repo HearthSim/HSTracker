@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="23727" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22689"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="23727"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -25,7 +25,7 @@
                         <customView translatesAutoresizingMaskIntoConstraints="NO" id="014-2a-QIh" userLabel="Tier">
                             <rect key="frame" x="95" y="48" width="52" height="52"/>
                             <subviews>
-                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4ta-8t-KFq">
+                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4ta-8t-KFq">
                                     <rect key="frame" x="-2" y="30" width="56" height="22"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="52" id="K8y-go-XAh"/>
@@ -33,11 +33,11 @@
                                     </constraints>
                                     <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="TIER" id="jX7-XC-fvS" customClass="VerticallyAlignedTextFieldCell" customModule="HSTracker" customModuleProvider="target">
                                         <font key="font" size="10" name="ChunkFive-Roman"/>
-                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="deviceRGB"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2oe-XO-tF3">
+                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2oe-XO-tF3">
                                     <rect key="frame" x="-2" y="0.0" width="56" height="30"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="30" id="0mv-aF-4LP"/>
@@ -45,7 +45,7 @@
                                     </constraints>
                                     <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="A" id="WEI-Rq-jCw" customClass="VerticallyAlignedTextFieldCell" customModule="HSTracker" customModuleProvider="target">
                                         <font key="font" size="28" name="ChunkFive-Roman"/>
-                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
@@ -62,22 +62,22 @@
                         <customView translatesAutoresizingMaskIntoConstraints="NO" id="aet-Qj-eQ5" userLabel="Avg Placement">
                             <rect key="frame" x="0.0" y="0.0" width="89" height="61"/>
                             <subviews>
-                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="g5y-TP-qMX">
+                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="g5y-TP-qMX">
                                     <rect key="frame" x="-2" y="39" width="93" height="22"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="22" id="6pP-Ij-fld"/>
                                     </constraints>
                                     <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Avg placement" id="MML-kN-Q97" customClass="VerticallyAlignedTextFieldCell" customModule="HSTracker" customModuleProvider="target">
                                         <font key="font" size="10" name="ChunkFive-Roman"/>
-                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="deviceRGB"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7eE-3H-Z8b">
+                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7eE-3H-Z8b">
                                     <rect key="frame" x="-2" y="10" width="93" height="20"/>
                                     <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="4.5" id="YRs-ms-hOU">
                                         <font key="font" size="20" name="ChunkFive-Roman"/>
-                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="deviceRGB"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
@@ -96,18 +96,18 @@
                         <customView translatesAutoresizingMaskIntoConstraints="NO" id="C9v-A1-4xb" userLabel="Pick Rate">
                             <rect key="frame" x="162" y="0.0" width="90" height="61"/>
                             <subviews>
-                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uIL-fO-p0S" userLabel="Pick rate">
+                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uIL-fO-p0S" userLabel="Pick rate">
                                     <rect key="frame" x="-2" y="39" width="94" height="22"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="22" id="7d2-yK-5IO"/>
                                     </constraints>
                                     <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Pick Rate" id="SeB-tO-Fwm" customClass="VerticallyAlignedTextFieldCell" customModule="HSTracker" customModuleProvider="target">
                                         <font key="font" size="10" name="ChunkFive-Roman"/>
-                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="deviceRGB"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SyR-0d-jSR">
+                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SyR-0d-jSR">
                                     <rect key="frame" x="-2" y="10" width="94" height="20"/>
                                     <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="4.5" id="hCG-da-jE5">
                                         <numberFormatter key="formatter" formatterBehavior="custom10_4" positiveFormat="#.0%" negativeFormat="#.0%" numberStyle="percent" usesGroupingSeparator="NO" formatWidth="-1" roundingMode="halfUp" groupingSize="0" minimumIntegerDigits="0" maximumIntegerDigits="2000000000" minimumFractionDigits="1" maximumFractionDigits="1" id="jtL-NH-LYt">
@@ -116,7 +116,7 @@
                                             <real key="maximum" value="100"/>
                                         </numberFormatter>
                                         <font key="font" size="20" name="ChunkFive-Roman"/>
-                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
@@ -151,7 +151,7 @@
                 <constraint firstItem="c22-O7-iKe" firstAttribute="leading" secondItem="Xql-kQ-X7E" secondAttribute="leading" constant="12.5" id="d4L-vb-oeC"/>
                 <constraint firstAttribute="width" constant="277" id="occ-9c-oQM"/>
             </constraints>
-            <point key="canvasLocation" x="92" y="58"/>
+            <point key="canvasLocation" x="91.5" y="58"/>
         </customView>
     </objects>
 </document>
