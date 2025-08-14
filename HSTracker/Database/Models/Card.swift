@@ -304,6 +304,10 @@ final class Card {
     init() {
     }
     
+    init(id: String) {
+        self.id = id
+    }
+    
     init(fromRealCard: RealmCard) {
         self.id = fromRealCard.id
         self.count = fromRealCard.count

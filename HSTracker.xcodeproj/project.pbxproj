@@ -405,6 +405,7 @@
 		B804FC3F2946882D00F74CD9 /* StatsHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC3E2946882D00F74CD9 /* StatsHeaderViewModel.swift */; };
 		B804FC4129468BEA00F74CD9 /* BattlegroundsSingleQuestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC4029468BEA00F74CD9 /* BattlegroundsSingleQuestViewModel.swift */; };
 		B804FC442946BACF00F74CD9 /* BattlegroundsCompositionPopularityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC432946BACF00F74CD9 /* BattlegroundsCompositionPopularityViewModel.swift */; };
+		B805C28C2E4D73A300ECF220 /* RestInPeace.swift in Sources */ = {isa = PBXBuildFile; fileRef = B805C28B2E4D73A300ECF220 /* RestInPeace.swift */; };
 		B8074B0228C83A96006E0133 /* RewardTrackType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8074B0128C83A96006E0133 /* RewardTrackType.swift */; };
 		B80B5B2F2C49BF9D005F4321 /* CompositionStatsException.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80B5B2E2C49BF9D005F4321 /* CompositionStatsException.swift */; };
 		B80B5B312C750895005F4321 /* TrinketProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80B5B302C750895005F4321 /* TrinketProxy.swift */; };
@@ -1706,6 +1707,7 @@
 		B804FC3E2946882D00F74CD9 /* StatsHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsHeaderViewModel.swift; sourceTree = "<group>"; };
 		B804FC4029468BEA00F74CD9 /* BattlegroundsSingleQuestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsSingleQuestViewModel.swift; sourceTree = "<group>"; };
 		B804FC432946BACF00F74CD9 /* BattlegroundsCompositionPopularityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsCompositionPopularityViewModel.swift; sourceTree = "<group>"; };
+		B805C28B2E4D73A300ECF220 /* RestInPeace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestInPeace.swift; sourceTree = "<group>"; };
 		B8074B0128C83A96006E0133 /* RewardTrackType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardTrackType.swift; sourceTree = "<group>"; };
 		B80B5B2E2C49BF9D005F4321 /* CompositionStatsException.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositionStatsException.swift; sourceTree = "<group>"; };
 		B80B5B302C750895005F4321 /* TrinketProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrinketProxy.swift; sourceTree = "<group>"; };
@@ -4131,6 +4133,7 @@
 		B8E1E5B92D0C884400383975 /* Priest */ = {
 			isa = PBXGroup;
 			children = (
+				B805C28B2E4D73A300ECF220 /* RestInPeace.swift */,
 				B8E1E5E72D0C9E5500383975 /* AmuletOfUndying.swift */,
 				B8E1E5E92D0C9EB600383975 /* AnimateDead.swift */,
 				B89865B62D91EF0100BA5649 /* BenevolentBanker.swift */,
@@ -5425,6 +5428,7 @@
 				B872E0D92DB05ADA0023B24B /* SpellsPlayedInCharactersCounter.swift in Sources */,
 				B89865562D8C920500BA5649 /* OakenSummons.swift in Sources */,
 				B89865972D91D1A400BA5649 /* MagathaBaneOfMusic.swift in Sources */,
+				B805C28C2E4D73A300ECF220 /* RestInPeace.swift in Sources */,
 				B82029572CD4658100C19A8C /* GridCardImages.swift in Sources */,
 				B8B78FB12C93CA9700DD33EC /* HelyaEnchantment.swift in Sources */,
 				43883F1E1DA382BA00A7B79C /* Language.swift in Sources */,
