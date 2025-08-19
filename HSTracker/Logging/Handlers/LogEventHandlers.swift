@@ -49,7 +49,9 @@ protocol PowerEventHandler: AnyObject {
 	
 	var wasInProgress: Bool { get set }
 	
-	var lastCardPlayed: Int? { get set }
+	var lastCardPlayed: Int { get set }
+    
+    var lastEntityChosenOnDiscover: Int { get set }
 	
 	var playerUsedHeroPower: Bool { get set }
 	

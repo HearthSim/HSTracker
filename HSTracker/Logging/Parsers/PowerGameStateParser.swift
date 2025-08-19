@@ -578,8 +578,7 @@ class PowerGameStateParser: LogEventParser {
                                 eventHandler.handlePlayerUnknownCardAddedToDeck()
                             }
                         case CardIds.Collectible.Rogue.TradePrinceGallywix:
-                            if let lastCardPlayed = eventHandler.lastCardPlayed,
-                                let entity = eventHandler.entities[lastCardPlayed] {
+                            if let entity = eventHandler.entities[eventHandler.lastCardPlayed] {
                                 let cardId = entity.cardId
                                 addKnownCardId(eventHandler: eventHandler, cardId: cardId)
                             }
@@ -690,12 +689,12 @@ class PowerGameStateParser: LogEventParser {
                                     for card in actionEntity.info.storedCardIds {
                                         addKnownCardId(eventHandler: eventHandler, cardId: card)
                                     }
-                                } else if let lastCardPlayed = eventHandler.lastCardPlayed, let lastPlayedEntity = eventHandler.entities[lastCardPlayed] {
+                                } else if let lastPlayedEntity = eventHandler.entities[eventHandler.lastCardPlayed] {
                                         actionEntity.info.storedCardIds.append(lastPlayedEntity.cardId)
                                 }
                             }
                         case CardIds.Collectible.Shaman.DiligentNotetaker:
-                            if let lastCardPlayed = eventHandler.lastCardPlayed, let lastPlayedEntity1 = eventHandler.entities[lastCardPlayed] {
+                            if let lastPlayedEntity1 = eventHandler.entities[eventHandler.lastCardPlayed] {
                                 addKnownCardId(eventHandler: eventHandler, cardId: lastPlayedEntity1.cardId)
                             }
                         case CardIds.Collectible.Neutral.CthunTheShattered:
@@ -793,6 +792,16 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Neutral.Meadowstrider, count: 1, location: DeckLocation.bottom)
                         case CardIds.Collectible.Paladin.IdoOfTheThreshfleet:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Paladin.IdooftheThreshfleet_CallTheThreshfleetToken)
+                        case CardIds.Collectible.Hunter.RangariScout:
+                            // discover options often are copies of other entities
+                            // when they are discovered, they are still not created on game.Entities
+                            // here we check if they are a copy of other entity, if they are we use the original entity id
+                            let chosenId = eventHandler.lastEntityChosenOnDiscover
+                            let chosenEntity = eventHandler.entities[chosenId]
+                            let isCopiedEntity = chosenEntity?[.copied_from_entity_id] ?? 0 > 0
+                            eventHandler.lastEntityChosenOnDiscover = isCopiedEntity ? chosenEntity?[.copied_from_entity_id] ?? chosenId : chosenId
+
+                            addKnownCardId(eventHandler: eventHandler, cardId: "", copyOfCardId: "\(eventHandler.lastEntityChosenOnDiscover)")
                         default: break
                         }
                     }
@@ -1282,6 +1291,7 @@ class PowerGameStateParser: LogEventParser {
             for matchingEntity in matchingEntities {
                 matchingEntity.cardId = entity.cardId
                 matchingEntity.info.hidden = false
+                matchingEntity.info.copyOfCardId = "\(entity.id)"
                 matchingEntity.info.guessedCardState = .guessed
             }
         }

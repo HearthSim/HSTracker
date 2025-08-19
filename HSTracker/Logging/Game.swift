@@ -1031,7 +1031,8 @@ class Game: NSObject, PowerEventHandler {
     var joustReveals = 0
     var dredgeCounter = 0
 
-    var lastCardPlayed: Int?
+    var lastCardPlayed = 0
+    var lastEntityChosenOnDiscover = 0
     var gameEnded = true
     internal private(set) var currentDeck: PlayingDeck?
 
@@ -1432,7 +1433,8 @@ class Game: NSObject, PowerEventHandler {
         joustReveals = 0
         lastPlagueDrawn.clear()
 		
-        lastCardPlayed = nil
+        lastCardPlayed = 0
+        lastEntityChosenOnDiscover = 0
         
         currentEntityHasCardId = false
         playerUsedHeroPower = false
@@ -3546,6 +3548,7 @@ class Game: NSObject, PowerEventHandler {
     func handleOpponentEntitiesChosen(choice: IHsCompletedChoice) {
         if choice.choiceType == .general {
             counterManager.handleChoicePicked(choice: choice)
+            lastEntityChosenOnDiscover = choice.chosenEntityIds?.first ?? 0
         }
     }
     

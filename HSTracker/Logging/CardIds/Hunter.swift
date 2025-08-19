@@ -211,6 +211,7 @@ extension CardIds.Collectible {
         static let NineLives = "DAL_377"
         static let CowerInFear = "TLC_823"
         static let StoryOfCarnassa = "TLC_826"
+        static let RangariScout = "GDB_841"
     }
 }
 

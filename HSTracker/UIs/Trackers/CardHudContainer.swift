@@ -146,6 +146,8 @@ class CardHudContainer: OverWindowController {
                             hud.updateSourceCard(entity.card)
                             if entity.info.cardMark == .returned {
                                 hud.updateIcon(entity.info.cardMark)
+                            } else if entity.info.copyOfCardId != nil {
+                                hud.updateIcon(.none)
                             }
                         } else {
                             hud.updateIcon(entity.info.cardMark)
@@ -170,8 +172,8 @@ class CardHudContainer: OverWindowController {
                             } else {
                                 hud.updateSourceCard(nil)
                             }
-                            hud.updateCostReduction(entity.info.costReduction)
                         }
+                        hud.updateCostReduction(entity.info.costReduction)
                         hud.needsDisplay = true
                         
                         // this will avoid a weird move
