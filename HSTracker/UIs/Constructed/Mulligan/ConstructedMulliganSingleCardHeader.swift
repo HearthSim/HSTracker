@@ -66,15 +66,18 @@ class ConstructedMulliganSingleCardHeader: NSView {
         mulliganWrTracker.customToolTipMargins = CGSize(width: 0, height: 0)
         mulliganWrTracker.customToolTipInsets = CGSize(width: 25, height: 0)
         mulliganWrTooltip.updateTrackingAreas_CustomToolTip()
+        mulliganWrLabel.chunkFive()
         
         rankBox.customToolTip = handRankTooltip
         rankBox.customToolTipMargins = CGSize(width: 0, height: 0)
         rankBox.customToolTipInsets = CGSize(width: 25, height: 0)
+        rankLabel.chunkFive()
         handRankTooltip.updateTrackingAreas_CustomToolTip()
         
         keepRateTracker.customToolTip = keepRateTooltip
         keepRateTracker.customToolTipMargins = CGSize(width: 0, height: 0)
         keepRateTracker.customToolTipInsets = CGSize(width: 25, height: 0)
+        keepRateLabel.chunkFive()
         keepRateTooltip.updateTrackingAreas_CustomToolTip()
     }
 

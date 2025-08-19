@@ -16,6 +16,7 @@ class BattlegroundsMinionTypesBox: NSView {
     }
     
     @objc dynamic var minionTypesText = ""
+    @IBOutlet var unavailableLabel: NSTextField!
     
     private var _minionTypes = [Race]()
     
@@ -50,5 +51,6 @@ class BattlegroundsMinionTypesBox: NSView {
 //        contentView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         contentView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         contentView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        unavailableLabel.chunkFive()
     }
 }

@@ -52,6 +52,8 @@ class BattlegroundsCardsGroups: NSView {
         return String(format: String.localizedString("BattlegroundsMinions_TavernTierMinionType", comment: ""), tier, minionTypeName)
     }
     
+    @IBOutlet var titleLabel: NSTextField!
+    
     @objc class func keyPathsForValuesAffectingTitle() -> Set<String> {
         return [ #keyPath(groupedByMinionType), #keyPath(tier), #keyPath(minionType) ]
     }
@@ -118,6 +120,8 @@ class BattlegroundsCardsGroups: NSView {
         contentView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         contentView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         kvoToken = observe(\.headerBackground, changeHandler: { _, _ in self.updateHeaderBackground() })
+        
+        titleLabel.chunkFive()
     }
     
     deinit {

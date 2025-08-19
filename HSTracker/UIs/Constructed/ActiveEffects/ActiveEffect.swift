@@ -17,6 +17,7 @@ class ActiveEffect: NSView {
     
     let effect: EntityBasedEffect
     @objc dynamic var count: NSNumber?
+    @IBOutlet var countLabel: NSTextField!
     var isPlayer: Bool
     
     private var _image: NSImage?
@@ -72,6 +73,8 @@ class ActiveEffect: NSView {
         
         outerBorder.borderColor = isControlledByPlayer ? NSColor.fromHexString(hex: "#29293d")! : NSColor.fromHexString(hex: "#e39d91")!
         innerBorder.borderColor = isControlledByPlayer ? NSColor.fromHexString(hex: "#8c7ca3")! : NSColor.fromHexString(hex: "#671e14")!
+        
+        countLabel.chunkFive()
     }
     
     private lazy var trackingArea: NSTrackingArea = {

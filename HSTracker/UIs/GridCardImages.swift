@@ -30,6 +30,7 @@ class GridCardImages: OverWindowController, NSCollectionViewDataSource {
     override func awakeFromNib() {
         collectionView.register(NSNib(nibNamed: "GridCardImageItem", bundle: nil), forItemWithIdentifier: cardImageItemIdentifier)
         collectionView.dataSource = self
+        titleLabel.chunkFive()
     }
     
     private func getLoadingImagePath(_ card: Card) -> String {
@@ -148,6 +149,7 @@ class GridCardImages: OverWindowController, NSCollectionViewDataSource {
     var gridHeight = 750
     
     @objc dynamic var title = ""
+    @IBOutlet var titleLabel: NSTextField!
     
     // MARK: - Collection View
     let cardImageItemIdentifier = NSUserInterfaceItemIdentifier(rawValue: "cardImageItemIdentifier")

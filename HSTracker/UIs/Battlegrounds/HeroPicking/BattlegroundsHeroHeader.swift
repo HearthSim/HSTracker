@@ -59,15 +59,19 @@ class BattlegroundsHeroHeader: NSView {
         contentView.frame = self.bounds
         defaultBackgroundColor = .clear
         
+        avgPlacementLabel.chunkFive()
         avgPlacementTracker.customToolTip = avgPlacementTooltip
         avgPlacementTracker.customToolTipMargins = CGSize(width: 0, height: 0)
         avgPlacementTracker.customToolTipInsets = CGSize(width: 25, height: 0)
         avgPlacementTooltip.updateTrackingAreas_CustomToolTip()
         
+        pickRateLabel.chunkFive()
         pickRateTracker.customToolTip = pickRateTooltip
         pickRateTracker.customToolTipMargins = CGSize(width: 0, height: 0)
         pickRateTracker.customToolTipInsets = CGSize(width: 25, height: 0)
         pickRateTooltip.updateTrackingAreas_CustomToolTip()
+        
+        tierLabel.chunkFive()
         
         let trackingArea = NSTrackingArea(rect: NSRect.zero,
                                           options: [NSTrackingArea.Options.inVisibleRect, NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited],

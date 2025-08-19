@@ -378,7 +378,6 @@
 		4C3E2DA52460C82900292349 /* FrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2DA42460C82800292349 /* FrameView.swift */; };
 		4C68AF2B2447D35B00E52834 /* HearthMirror.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C68AF2A2447D35A00E52834 /* HearthMirror.framework */; };
 		4C68AF2C2447D37000E52834 /* HearthMirror.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4C68AF2A2447D35A00E52834 /* HearthMirror.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		4CE0C73623C0E0CC0014045C /* Resources in Resources */ = {isa = PBXBuildFile; fileRef = 439C7E8E1C777D6C00D29859 /* Resources */; };
 		4CECFFD523C10C3E0093253E /* BattlegroundsTierDetailWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CECFFD423C10C3D0093253E /* BattlegroundsTierDetailWindowController.swift */; };
 		4CECFFD723C10C570093253E /* BattlegroundsTierDetailWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CECFFD623C10C570093253E /* BattlegroundsTierDetailWindowController.xib */; };
 		4CECFFD923C111AA0093253E /* BattlegroundsTierDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CECFFD823C111AA0093253E /* BattlegroundsTierDetailsView.swift */; };
@@ -700,6 +699,7 @@
 		B85A0D5727303709006D2648 /* BoardOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AFA40A2723310700B3470E /* BoardOverlay.swift */; };
 		B85A0D582730370D006D2648 /* BoardOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8AFA4082723306C00B3470E /* BoardOverlay.xib */; };
 		B85F1AC9258A558200A6F8C3 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85F1AC8258A558200A6F8C3 /* Helper.swift */; };
+		B85FE9C52E53CACA001865FC /* Resources in Resources */ = {isa = PBXBuildFile; fileRef = 439C7E8E1C777D6C00D29859 /* Resources */; };
 		B8621F1A2746A785004DD0E9 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8621F192746A785004DD0E9 /* Account.swift */; };
 		B8621F1C2746AF5E004DD0E9 /* HSReplayNetHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8621F1B2746AF5E004DD0E9 /* HSReplayNetHelper.swift */; };
 		B8643D012759814800B2D708 /* MercenariesCoins.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C33FB0273EF851006DA79E /* MercenariesCoins.swift */; };
@@ -4612,7 +4612,6 @@
 			files = (
 				B804FC3029437E0300F74CD9 /* Tier7PreLobby.xib in Resources */,
 				B8EF1D7C291681EA00AC4658 /* BattlegroundsQuestView.xib in Resources */,
-				4CE0C73623C0E0CC0014045C /* Resources in Resources */,
 				49930DD41DFA859F008C8CD4 /* .swiftlint.yml in Resources */,
 				B8BA17DA28EFC8F8004D40ED /* LinkOpponentDeckPanel.xib in Resources */,
 				4CFF95AD23C0C48E006AB461 /* BattlegroundsTierOverlay.xib in Resources */,
@@ -4671,6 +4670,7 @@
 				B83CF36F294E3DC6003C9062 /* BattlegroundsCompositionPopularityBar.xib in Resources */,
 				B82AE5FD28BE8631004A8FE0 /* BobsBuddy-version.txt in Resources */,
 				43EECB9A1C7E3F620077AC1B /* DeckCellView.xib in Resources */,
+				B85FE9C52E53CACA001865FC /* Resources in Resources */,
 				B800FCAC273318DA00AFBD51 /* MercenariesTaskListView.xib in Resources */,
 				437B5BC51CD2568E00DE0A41 /* TrackersPreferences.xib in Resources */,
 				4C1923962392DFA5007EBB0F /* BattlegroundsOverlay.xib in Resources */,

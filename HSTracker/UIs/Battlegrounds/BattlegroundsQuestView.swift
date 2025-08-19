@@ -49,6 +49,7 @@ class BattlegroundsQuestView: NSView {
             art.layer?.mask = clipLayer
         }
         
+        turnText.chunkFive()
         update()
     }
 

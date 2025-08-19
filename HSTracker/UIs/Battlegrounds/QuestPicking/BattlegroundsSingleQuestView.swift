@@ -57,16 +57,19 @@ class BattlegroundsSingleQuestView: NSView {
         
         update()
         
+        avgPlacementLabel.chunkFive()
         avgPlacementBox.customToolTip = avgPlacementTooltip
         avgPlacementBox.customToolTipMargins = CGSize(width: 0, height: 0)
         avgPlacementBox.customToolTipInsets = CGSize(width: 25, height: 0)
         avgPlacementTooltip.updateTrackingAreas_CustomToolTip()
         
+        tierLabel.chunkFive()
         tierBox.customToolTip = tierTooltip
         tierBox.customToolTipMargins = CGSize(width: 0, height: 0)
         tierBox.customToolTipInsets = CGSize(width: 25, height: 0)
         tierTooltip.updateTrackingAreas_CustomToolTip()
         
+        pickRateLabel.chunkFive()
         pickRateBox.customToolTip = pickRateTooltip
         pickRateBox.customToolTipMargins = CGSize(width: 0, height: 0)
         pickRateBox.customToolTipInsets = CGSize(width: 25, height: 0)

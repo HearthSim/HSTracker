@@ -63,4 +63,12 @@ extension NSTextField {
 
     return attribs
   }
+    
+    func chunkFive() {
+        if let font {
+            self.font = NSFont(name: "ChunkFive", size: font.pointSize)
+        } else {
+            self.font = NSFont(name: "ChunkFive", size: 16.0)
+        }
+    }
 }

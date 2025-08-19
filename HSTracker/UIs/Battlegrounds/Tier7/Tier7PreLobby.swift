@@ -54,6 +54,7 @@ class Tier7PreLobby: OverWindowController {
         informationLabel.addCustomToolTip(from: informationLabel.toolTip ?? "")
         informationLabel.toolTip = nil
         informationLabel.updateTrackingAreas_CustomToolTip()
+        allTimeHighMMR.chunkFive()
         update(nil)
     }
     

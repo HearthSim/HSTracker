@@ -54,6 +54,8 @@ class BattlegroundsCompositionPopularityRow: NSView {
         gradient.frame = cardImage.bounds
         cardImage.wantsLayer = true
         cardImage.layer?.mask = gradient
+        
+        popularityLabel.chunkFive()
     }
     
     required init?(coder: NSCoder) {

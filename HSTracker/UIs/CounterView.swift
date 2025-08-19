@@ -129,6 +129,7 @@ class CounterView: NSView {
             clipLayer.path = clipPath.cgPath
             image.layer?.mask = clipLayer
         }
+        text.chunkFive()
     }
 
     // MARK: - mouse hover

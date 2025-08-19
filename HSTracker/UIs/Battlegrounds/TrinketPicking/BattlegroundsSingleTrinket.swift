@@ -231,6 +231,11 @@ class BattlegroundsSingleTrinket: NSView {
         
         translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
+        
+        avgPlacementLabel.chunkFive()
+        pickRateLabel.chunkFive()
+        tierLabel.chunkFive()
+        
         addSubview(contentView)
         contentView.frame = self.bounds
                 
