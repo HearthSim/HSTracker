@@ -37,7 +37,7 @@ struct HSReplay {
 
     static let tier7HeroPickStatsUrl = "\(baseApiUrl)/battlegrounds/hero_pick/"
     static let tier7DuosHeroPickStatsUrl = "\(baseApiUrl)/battlegrounds/duos/hero_pick/"
-    static let tier7QuestStatsUrl = "\(baseApiUrl)/battlegrounds/quest_stats/"
+    static let tier7QuestStatsUrl = "\(baseApiUrl)/battlegrounds/quest_pick/"
     static let tier7AllTimeMMR = "\(baseApiUrl)/battlegrounds/alltime/"
     static let tier7CompStatsUrl = "\(baseApiUrl)/battlegrounds/first_place_comps/"
     static let playerTrial = "\(baseApiUrl)/playertrials/"
