@@ -1,3 +1,19 @@
+# 3.3.5
+## New
+- Updated for Hearthstone 33.2.2
+- Added hand tracking for cards copied by Rangari Scout and Tolin's Goblet.
+- Added related cards for Rest in Peace.
+- Added hand tracking for cards copied by Bottomless Toy Chest.
+- Changed Colossus Damage Counter to appear when opponent generated Protoss minions from Mothership.
+## Fixes
+- Refined conditions for displaying the Blood Gem Counter.
+- Fixed Careful Investment being miscounted in the Gold Next Turn counter.
+## Bob's Buddy
+- Fixed incorrect simulation results due to Haunted Carapace.
+- Fixed incorrect simulation results due to Blue Whelp.
+- Fixed incorrect simulation results due to Roaring Recruiter.
+- Fixed incorrect simulation results due to Roaring Hydralisk.
+
 # 3.3.4
 ## Fixes
 - Added potential fix for crash after Arena Underground loss
