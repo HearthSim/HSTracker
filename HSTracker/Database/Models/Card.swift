@@ -120,6 +120,10 @@ final class Card {
         return hasRace(.pirate)
     }
     
+    func isQuillboar() -> Bool {
+        return hasRace(.quilboar)
+    }
+    
     func isUndead() -> Bool {
         return hasRace(.undead)
     }

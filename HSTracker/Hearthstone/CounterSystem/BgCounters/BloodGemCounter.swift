@@ -26,7 +26,7 @@ class BloodGemCounter: StatsCounter {
     }
 
     override func shouldShow() -> Bool {
-        return game.isBattlegroundsMatch() && (attackCounter > 3 || healthCounter > 3)
+        return game.isBattlegroundsMatch() && (attackCounter > 3 || healthCounter > 3 || game.player.board.contains(where: { e in e.card.isQuillboar() }))
     }
 
     override func getCardsToDisplay() -> [String] {
@@ -48,6 +48,8 @@ class BloodGemCounter: StatsCounter {
             if tag == .bacon_bloodgembuffhealthvalue {
                 healthCounter = value + 1
             }
+            
+            onCounterChanged()
         }
     }
 }
