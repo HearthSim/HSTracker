@@ -1,3 +1,7 @@
+# 3.3.7
+## Fixes
+- Fixed start up crash
+
 # 3.3.6
 ## Fixes
 - Fixed crash introduced in 3.3.5
