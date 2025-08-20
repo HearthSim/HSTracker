@@ -505,6 +505,20 @@ class PowerGameStateParser: LogEventParser {
                 }
                 isInsideMetaDataHistoryTarget = true
             }
+        } else if SubSpellStartRegex.match(logLine.line) {
+            let match = SubSpellStartRegex.matches(logLine.line)
+            if let sourceId = Int(match[1].value) {
+                if let entity = eventHandler.entities[sourceId] {
+                    if entity.cardId == CardIds.Collectible.Druid.BottomlessToyChest {
+                        let lastCardDrawnId = eventHandler.opponent.hand.sorted(by: { $0.zonePosition > $1.zonePosition}).first?.id ?? -1
+                        let lastCardDrawnEntity = eventHandler.entities[lastCardDrawnId]
+                        let copyOfCardId = lastCardDrawnEntity?.info.copyOfCardId ?? "\(lastCardDrawnId)"
+                        addKnownCardId(eventHandler: eventHandler, cardId: "", copyOfCardId: copyOfCardId)
+                    }
+                }
+            } else {
+                logger.info("Invalid source id: \(match[1].value)")
+            }
         }
         gameStateIsInsideMetaDataHistoryTarget = isInsideMetaDataHistoryTarget
         if logLine.line.contains("End Spectator") && eventHandler.isInMenu {
