@@ -29,8 +29,26 @@ class GoldNextTurnCounter: StatsCounter {
         ]
     }
 
-    private var overconfidence = 0
-    private var goldSureAmount = 0
+    private var _overconfidence = 0
+    private var overconfidence: Int {
+        get {
+            return _overconfidence
+        }
+        set {
+            _overconfidence = max(0, newValue)
+        }
+    }
+    
+    private var _goldSureAmount = 0
+    private var goldSureAmount: Int {
+        get {
+            return _goldSureAmount
+        }
+        set {
+            _goldSureAmount = max(0, newValue)
+        }
+    }
+    
     private var extraGoldFromOverconfidence: Int {
         return overconfidence * 3
     }
@@ -62,7 +80,9 @@ class GoldNextTurnCounter: StatsCounter {
     }
 
     override func handleTagChange(tag: GameTag, entity: Entity, value: Int, prevValue: Int) {
-        guard game.isBattlegroundsMatch() else { return }
+        if !game.isBattlegroundsMatch() {
+            return
+        }
 
         if entity.isControlled(by: game.player.id) != isPlayerCounter {
             return
@@ -70,52 +90,58 @@ class GoldNextTurnCounter: StatsCounter {
 
         if relatedCards.contains(entity.cardId) {
             if entity.cardId == CardIds.NonCollectible.Neutral.Overconfidence_OverconfidentDntEnchantment {
-                handleOverconfidence(tag: tag, value: value, prevValue: prevValue)
+                if tag == .zone && value == Zone.play.rawValue && prevValue != Zone.play.rawValue {
+                    overconfidence += 1
+                    onCounterChanged()
+                } else if tag == .zone && value != Zone.play.rawValue && prevValue == Zone.play.rawValue {
+                    overconfidence -= 1
+                    onCounterChanged()
+                }
             } else if entity.cardId == CardIds.NonCollectible.Neutral.SouthseaBusker_ExtraGoldNextTurnDntEnchantment {
-                handleSouthseaBusker(tag: tag, entity: entity, value: value, prevValue: prevValue)
+                if tag == .tag_script_data_num_1 {
+                    if entity[.zone] == Zone.play.rawValue {
+                        goldSureAmount += value - prevValue
+                        onCounterChanged()
+                    }
+                } else if tag == .zone {
+                    if value == Zone.play.rawValue && prevValue != Zone.play.rawValue {
+                        goldSureAmount += entity[.tag_script_data_num_1]
+                        onCounterChanged()
+                    } else if value != Zone.play.rawValue && prevValue == Zone.play.rawValue {
+                        goldSureAmount -= entity[.tag_script_data_num_1]
+                        onCounterChanged()
+                    }
+                }
             } else if entity.cardId == CardIds.NonCollectible.Neutral.GraceFarsail_ExtraGoldIn2TurnsDntEnchantment {
-                handleGraceFarsail(tag: tag, entity: entity, value: value, prevValue: prevValue)
+                if tag == .tag_script_data_num_2 && value == 1 {
+                    goldSureAmount += entity[.tag_script_data_num_1]
+                    onCounterChanged()
+                } else if tag == .tag_script_data_num_2 && prevValue == 1 {
+                    goldSureAmount -= entity[.tag_script_data_num_1]
+                    onCounterChanged()
+                }
+            } else if entity.cardId == CardIds.NonCollectible.Neutral.CarefulInvestment {
+                if tag == .zone && value == Zone.play.rawValue && prevValue != Zone.play.rawValue {
+                    goldSureAmount += 2
+                    onCounterChanged()
+                } else if value == Zone.removedfromgame.rawValue && prevValue == Zone.graveyard.rawValue {
+                    goldSureAmount -= 2
+                    onCounterChanged()
+                }
             }
+            return
         }
 
-        if tag != .zone || entity.cardId.isEmpty { return }
-
-        let goldValue = getGoldForMinion(cardId: entity.cardId, isGolden: entity.has(tag: .premium))
-        if goldValue > 0 {
-            adjustGoldAmount(tag: tag, value: value, prevValue: prevValue, goldValue: goldValue)
+        if tag != .zone || entity.cardId == "" {
+            return
         }
-    }
 
-    private func handleOverconfidence(tag: GameTag, value: Int, prevValue: Int) {
-        if tag == .zone && value == Zone.play.rawValue && prevValue != Zone.play.rawValue {
-            overconfidence += 1
-            onCounterChanged()
-        } else if tag == .zone && value != Zone.play.rawValue && prevValue == Zone.play.rawValue {
-            overconfidence -= 1
-            onCounterChanged()
+        let goldValue = GoldNextTurnCounter.getGoldFromCard(cardId: entity.cardId, golden: entity[.premium] != 0)
+
+        if goldValue <= 0 {
+            return
         }
-    }
 
-    private func handleSouthseaBusker(tag: GameTag, entity: Entity, value: Int, prevValue: Int) {
-        if tag == .tag_script_data_num_1 && entity[.zone] == Zone.play.rawValue {
-            goldSureAmount += (value - prevValue)
-            onCounterChanged()
-        } else if tag == .zone {
-            adjustGoldAmount(tag: tag, value: value, prevValue: prevValue, goldValue: entity[.tag_script_data_num_1])
-        }
-    }
-
-    private func handleGraceFarsail(tag: GameTag, entity: Entity, value: Int, prevValue: Int) {
-        if tag == .tag_script_data_num_2 && value == 1 {
-            goldSureAmount += entity[.tag_script_data_num_1]
-            onCounterChanged()
-        } else if tag == .tag_script_data_num_2 && prevValue == 1 {
-            goldSureAmount -= entity[.tag_script_data_num_2]
-            onCounterChanged()
-        }
-    }
-
-    private func adjustGoldAmount(tag: GameTag, value: Int, prevValue: Int, goldValue: Int) {
         if value == Zone.play.rawValue && prevValue != Zone.play.rawValue {
             goldSureAmount += goldValue
             onCounterChanged()
@@ -125,14 +151,11 @@ class GoldNextTurnCounter: StatsCounter {
         }
     }
 
-    private func getGoldForMinion(cardId: String, isGolden: Bool) -> Int {
+    private static func getGoldFromCard(cardId: String, golden: Bool) -> Int {
         switch cardId {
-        case CardIds.NonCollectible.Neutral.AccordOTron:
-            return isGolden ? 2 : 1
-        case CardIds.NonCollectible.Neutral.RecordSmuggler:
-            return isGolden ? 2 : 4
-        default:
-            return 0
+        case CardIds.NonCollectible.Neutral.AccordOTron: return golden ? 2 : 1
+        case CardIds.NonCollectible.Neutral.RecordSmuggler: return golden ? 2 : 4
+        default: return 0
         }
     }
 }
