@@ -9,6 +9,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="BattlegroundsMinionTypesBox" customModule="HSTracker" customModuleProvider="target">
             <connections>
                 <outlet property="contentView" destination="c22-O7-iKe" id="U39-2T-Ybr"/>
+                <outlet property="unavailableLabel" destination="1YR-8G-V5b" id="WYU-SV-8Z6"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
@@ -30,9 +31,9 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1YR-8G-V5b">
-                                            <rect key="frame" x="5" y="5" width="88" height="15"/>
+                                            <rect key="frame" x="5" y="4" width="73" height="17"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Unavailable" id="stv-0c-4eL">
-                                                <font key="font" size="14" name="ChunkFive-Roman"/>
+                                                <font key="font" size="14" name="Impact"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="deviceRGB"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>

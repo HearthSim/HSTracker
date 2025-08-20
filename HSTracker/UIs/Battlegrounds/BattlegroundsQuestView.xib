@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22155" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="23727" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22155"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="23727"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -58,9 +58,9 @@
                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="bacon_quest_exclamation" id="NJ0-bW-xsq"/>
                                             </imageView>
                                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6EL-y5-gnh">
-                                                <rect key="frame" x="36" y="60" width="9" height="15"/>
+                                                <rect key="frame" x="36" y="56" width="9" height="19"/>
                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="!" id="fjX-Y1-jcr">
-                                                    <font key="font" size="15" name="ChunkFive-Roman"/>
+                                                    <font key="font" metaFont="system" size="15"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
@@ -82,7 +82,7 @@
                                     <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ea4-m2-TdL">
                                         <rect key="frame" x="0.0" y="0.0" width="85" height="16"/>
                                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Turn 1" id="Vny-6h-cSP">
-                                            <font key="font" usesAppearanceFont="YES"/>
+                                            <font key="font" size="13" name="Impact"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>

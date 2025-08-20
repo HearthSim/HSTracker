@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="23727" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="23727"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -62,10 +62,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="2" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qlb-tn-I8Q">
-                                <rect key="frame" x="6" y="4" width="53" height="43"/>
+                                <rect key="frame" x="6" y="2" width="53" height="47"/>
                                 <subviews>
                                     <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="OZs-h2-2yi" userLabel="HAND RANK">
-                                        <rect key="frame" x="-2" y="31" width="57" height="10"/>
+                                        <rect key="frame" x="-2" y="35" width="57" height="10"/>
                                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="HAND RANK" id="IT9-UK-JW2">
                                             <font key="font" metaFont="system" size="8"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -73,9 +73,9 @@
                                         </textFieldCell>
                                     </textField>
                                     <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mq5-RQ-KVx">
-                                        <rect key="frame" x="-2" y="2" width="57" height="27"/>
+                                        <rect key="frame" x="-2" y="2" width="57" height="31"/>
                                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="#1" id="YyZ-YQ-zVN">
-                                            <font key="font" size="26" name="ChunkFive-Roman"/>
+                                            <font key="font" size="26" name="Impact"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
@@ -143,10 +143,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BPz-yw-HFA">
-                                <rect key="frame" x="-2" y="7" width="71" height="19"/>
+                                <rect key="frame" x="-2" y="5" width="71" height="23"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="58.5%" id="h2V-sD-Uvx">
                                     <numberFormatter key="formatter" formatterBehavior="custom10_4" positiveFormat="0.##" negativeFormat="-0.##" usesGroupingSeparator="NO" formatWidth="-1" roundingMode="halfUp" groupingSize="0" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" minimumFractionDigits="2" maximumFractionDigits="2" id="owh-zY-b3N"/>
-                                    <font key="font" size="19" name="ChunkFive-Roman"/>
+                                    <font key="font" size="19" name="Impact"/>
                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
@@ -171,12 +171,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zpU-3T-Aoc">
-                                <rect key="frame" x="-2" y="6" width="71" height="20"/>
+                                <rect key="frame" x="-2" y="4" width="71" height="24"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="91.5%" id="NK4-hb-m2T">
                                     <numberFormatter key="formatter" formatterBehavior="custom10_4" numberStyle="percent" formatWidth="-1" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" minimumFractionDigits="1" maximumFractionDigits="1" id="MkQ-ub-rLf">
                                         <integer key="multiplier" value="100"/>
                                     </numberFormatter>
-                                    <font key="font" size="20" name="ChunkFive-Roman"/>
+                                    <font key="font" size="20" name="Impact"/>
                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>

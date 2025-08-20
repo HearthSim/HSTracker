@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="23727" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22689"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="23727"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="GridCardImages" customModule="HSTracker" customModuleProvider="target">
             <connections>
                 <outlet property="collectionView" destination="fG3-Ao-6Cz" id="q9W-3U-bLE"/>
+                <outlet property="titleLabel" destination="zOX-hc-cw8" id="wJN-yR-gcz"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="3wt-TQ-92u"/>
             </connections>
         </customObject>
@@ -17,7 +18,7 @@
         <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" hasShadow="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g" customClass="NSPanel">
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="480" height="270"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1728" height="1079"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1496" height="933"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -29,15 +30,15 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <box boxType="custom" borderWidth="0.0" cornerRadius="10" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="KkF-Ek-CWb">
-                                    <rect key="frame" x="0.0" y="235" width="480" height="35"/>
+                                    <rect key="frame" x="0.0" y="232" width="480" height="38"/>
                                     <view key="contentView" id="Qoz-wL-Vge">
-                                        <rect key="frame" x="0.0" y="0.0" width="480" height="35"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="480" height="38"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
-                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zOX-hc-cw8">
-                                                <rect key="frame" x="8" y="10" width="464" height="15"/>
+                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zOX-hc-cw8">
+                                                <rect key="frame" x="8" y="10" width="464" height="18"/>
                                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Title" id="aVZ-by-o8N">
-                                                    <font key="font" size="15" name="ChunkFive-Roman"/>
+                                                    <font key="font" size="15" name="Impact"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
@@ -55,14 +56,14 @@
                                     </view>
                                     <color key="fillColor" red="0.14568057656288147" green="0.16740256547927856" blue="0.1778506338596344" alpha="1" colorSpace="deviceRGB"/>
                                 </box>
-                                <scrollView wantsLayer="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LTR-cA-Tac">
-                                    <rect key="frame" x="0.0" y="0.0" width="480" height="235"/>
+                                <scrollView wantsLayer="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LTR-cA-Tac">
+                                    <rect key="frame" x="0.0" y="0.0" width="480" height="232"/>
                                     <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GTh-6P-mAK">
-                                        <rect key="frame" x="0.0" y="0.0" width="480" height="235"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="465" height="232"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <collectionView id="fG3-Ao-6Cz">
-                                                <rect key="frame" x="0.0" y="0.0" width="480" height="158"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="465" height="232"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                                 <collectionViewFlowLayout key="collectionViewLayout" id="MO6-gU-ahj">
                                                     <size key="itemSize" width="50" height="50"/>
@@ -78,8 +79,8 @@
                                         <rect key="frame" x="-100" y="-100" width="233" height="15"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </scroller>
-                                    <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="EWg-VI-1DF" customClass="HiddenScroller" customModule="HSTracker" customModuleProvider="target">
-                                        <rect key="frame" x="-100" y="-100" width="15" height="143"/>
+                                    <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="EWg-VI-1DF" customClass="HiddenScroller" customModule="HSTracker" customModuleProvider="target">
+                                        <rect key="frame" x="465" y="0.0" width="15" height="232"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </scroller>
                                 </scrollView>

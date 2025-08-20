@@ -1,3 +1,7 @@
+# 3.3.6
+## Fixes
+- Fixed crash introduced in 3.3.5
+
 # 3.3.5
 ## New
 - Updated for Hearthstone 33.2.2

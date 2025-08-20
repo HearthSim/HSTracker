@@ -11,17 +11,11 @@ import Foundation
 class BattlegroundsSingleTrinket: NSView {
     @IBOutlet var contentView: NSView!
     
-    @IBOutlet var avgPlacementBox: NSBox!
     @IBOutlet var avgPlacementLabel: NSTextField!
-    @IBOutlet var avgPlacementTooltip: NSView!
     
-    @IBOutlet var tierBox: NSBox!
     @IBOutlet var tierLabel: NSTextField!
-    @IBOutlet var tierTooltip: NSView!
     
-    @IBOutlet var pickRateBox: NSBox!
     @IBOutlet var pickRateLabel: NSTextField!
-    @IBOutlet var pickRateTooltip: NSView!
         
     let viewModel: StatsHeaderViewModel
     

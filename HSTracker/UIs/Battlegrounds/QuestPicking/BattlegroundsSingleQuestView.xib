@@ -63,10 +63,10 @@
                                 <rect key="frame" x="0.0" y="0.0" width="86" height="39"/>
                                 <subviews>
                                     <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Qm7-B0-bL1">
-                                        <rect key="frame" x="-2" y="10" width="90" height="20"/>
+                                        <rect key="frame" x="-2" y="8" width="90" height="24"/>
                                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="2.40" id="V7a-kW-Yuc">
                                             <numberFormatter key="formatter" formatterBehavior="custom10_4" positiveFormat="#.00" negativeFormat="#.00" numberStyle="currencyAccounting" usesGroupingSeparator="NO" formatWidth="-1" roundingMode="halfUp" groupingSize="0" minimumIntegerDigits="0" maximumIntegerDigits="1" minimumFractionDigits="2" maximumFractionDigits="2" id="d9E-Pc-sZ2"/>
-                                            <font key="font" size="20" name="ChunkFive-Roman"/>
+                                            <font key="font" size="20" name="Impact"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
@@ -104,7 +104,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="66" height="58"/>
                                 <subviews>
                                     <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="YmG-qH-H9t" userLabel="TIER">
-                                        <rect key="frame" x="18" y="32" width="30" height="18"/>
+                                        <rect key="frame" x="18" y="37" width="30" height="13"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" alignment="center" title="TIER" id="SFK-TU-hOI">
                                             <font key="font" metaFont="system" size="10"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
@@ -112,9 +112,9 @@
                                         </textFieldCell>
                                     </textField>
                                     <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="U1t-dO-eJ1" userLabel="1">
-                                        <rect key="frame" x="22" y="2" width="22" height="28"/>
+                                        <rect key="frame" x="24" y="2" width="19" height="33"/>
                                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="1" id="gbB-Tr-0XY">
-                                            <font key="font" size="28" name="ChunkFive-Roman"/>
+                                            <font key="font" size="28" name="Impact"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
@@ -182,14 +182,14 @@
                                 <rect key="frame" x="0.0" y="0.0" width="86" height="39"/>
                                 <subviews>
                                     <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gjV-gN-WLe" userLabel="34.5%">
-                                        <rect key="frame" x="-2" y="10" width="90" height="20"/>
+                                        <rect key="frame" x="-2" y="8" width="90" height="24"/>
                                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="34.5%" id="OWN-Dl-aXc">
                                             <numberFormatter key="formatter" formatterBehavior="custom10_4" positiveFormat="#.0%" negativeFormat="#.0%" numberStyle="percent" usesGroupingSeparator="NO" formatWidth="-1" roundingMode="halfUp" groupingSize="0" minimumIntegerDigits="0" maximumIntegerDigits="2000000000" minimumFractionDigits="1" maximumFractionDigits="1" id="oNw-Y3-3AP">
                                                 <integer key="multiplier" value="100"/>
                                                 <real key="minimum" value="0.0"/>
                                                 <real key="maximum" value="100"/>
                                             </numberFormatter>
-                                            <font key="font" size="20" name="ChunkFive-Roman"/>
+                                            <font key="font" size="20" name="Impact"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>

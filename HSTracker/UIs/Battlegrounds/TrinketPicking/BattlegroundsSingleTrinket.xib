@@ -32,7 +32,7 @@
                                         <constraint firstAttribute="height" constant="22" id="Zdp-Vd-TR8"/>
                                     </constraints>
                                     <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="TIER" id="jX7-XC-fvS" customClass="VerticallyAlignedTextFieldCell" customModule="HSTracker" customModuleProvider="target">
-                                        <font key="font" size="10" name="ChunkFive-Roman"/>
+                                        <font key="font" size="10" name="Impact"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="deviceRGB"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
@@ -44,7 +44,7 @@
                                         <constraint firstAttribute="width" constant="52" id="Rj8-6e-eRC"/>
                                     </constraints>
                                     <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="A" id="WEI-Rq-jCw" customClass="VerticallyAlignedTextFieldCell" customModule="HSTracker" customModuleProvider="target">
-                                        <font key="font" size="28" name="ChunkFive-Roman"/>
+                                        <font key="font" size="28" name="Impact"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
@@ -68,15 +68,15 @@
                                         <constraint firstAttribute="height" constant="22" id="6pP-Ij-fld"/>
                                     </constraints>
                                     <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Avg placement" id="MML-kN-Q97" customClass="VerticallyAlignedTextFieldCell" customModule="HSTracker" customModuleProvider="target">
-                                        <font key="font" size="10" name="ChunkFive-Roman"/>
+                                        <font key="font" size="10" name="Impact"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="deviceRGB"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7eE-3H-Z8b">
-                                    <rect key="frame" x="-2" y="10" width="93" height="20"/>
+                                    <rect key="frame" x="-2" y="6" width="93" height="24"/>
                                     <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="4.5" id="YRs-ms-hOU">
-                                        <font key="font" size="20" name="ChunkFive-Roman"/>
+                                        <font key="font" size="20" name="Impact"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="deviceRGB"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
@@ -102,20 +102,20 @@
                                         <constraint firstAttribute="height" constant="22" id="7d2-yK-5IO"/>
                                     </constraints>
                                     <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Pick Rate" id="SeB-tO-Fwm" customClass="VerticallyAlignedTextFieldCell" customModule="HSTracker" customModuleProvider="target">
-                                        <font key="font" size="10" name="ChunkFive-Roman"/>
+                                        <font key="font" size="10" name="Impact"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="deviceRGB"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SyR-0d-jSR">
-                                    <rect key="frame" x="-2" y="10" width="94" height="20"/>
+                                    <rect key="frame" x="-2" y="6" width="94" height="24"/>
                                     <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="4.5" id="hCG-da-jE5">
                                         <numberFormatter key="formatter" formatterBehavior="custom10_4" positiveFormat="#.0%" negativeFormat="#.0%" numberStyle="percent" usesGroupingSeparator="NO" formatWidth="-1" roundingMode="halfUp" groupingSize="0" minimumIntegerDigits="0" maximumIntegerDigits="2000000000" minimumFractionDigits="1" maximumFractionDigits="1" id="jtL-NH-LYt">
                                             <integer key="multiplier" value="100"/>
                                             <real key="minimum" value="0.0"/>
                                             <real key="maximum" value="100"/>
                                         </numberFormatter>
-                                        <font key="font" size="20" name="ChunkFive-Roman"/>
+                                        <font key="font" size="20" name="Impact"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
