@@ -736,6 +736,7 @@ extension CardIds.Collectible {
         static let CraterGator = "TLC_250"
         static let PrimalfinChallenger = "TLC_251"
         static let Torga = "TLC_102"
+        static let MarinTheManager = "VAC_702"
     }
 }
 
@@ -1008,5 +1009,10 @@ extension CardIds.NonCollectible {
         static let SilkyShimmermoth = "BG32_204"
         static let WhirringProtector = "BG33_807"
         static let WhirringProtector_WhirringProtector1 = "BG33_807_G"
+        static let MarintheManager_TolinsGobletToken = "VAC_702t2"
+        static let TolinsGobletHeroic = "LOOT_998h"
+        static let MarintheManager_GoldenKoboldToken = "VAC_702t4"
+        static let MarintheManager_WondrousWandToken = "VAC_702t3"
+        static let MarintheManager_ZarogsCrownToken = "VAC_702t"
     }
 }

@@ -246,6 +246,11 @@ class PowerGameStateParser: LogEventParser {
                                                                     "known": "\(known)",
                                                                     "logLine": logLine.line ])
                         }
+                    } else if currentBlock?.cardId == CardIds.NonCollectible.Neutral.MarintheManager_TolinsGobletToken || currentBlock?.cardId == CardIds.NonCollectible.Neutral.TolinsGobletHeroic {
+                        cardId = ""
+                        let lastCardDrawnId = eventHandler.opponent.hand.sorted(by: { $0.zonePosition > $1.zonePosition }).first?.id ?? -1
+                        let lastCardDrawnEntity = eventHandler.entities[lastCardDrawnId]
+                        copyOfCardId = lastCardDrawnEntity?.info.copyOfCardId ?? "\(lastCardDrawnId)"
                     }
                 }
 
@@ -1163,6 +1168,17 @@ class PowerGameStateParser: LogEventParser {
                         case CardIds.Collectible.DemonHunter.XortothBreakerOfStars:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.DemonHunter.XortothBreakerofStars_StarOfOriginationToken)
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.DemonHunter.XortothBreakerofStars_StarOfConclusionToken)
+                        case CardIds.Collectible.Neutral.MarinTheManager:
+                            if actionStartingEntity?.isControlled(by: eventHandler.opponent.id) == true {
+                                for id in [
+                                    CardIds.NonCollectible.Neutral.MarintheManager_TolinsGobletToken,
+                                    CardIds.NonCollectible.Neutral.MarintheManager_GoldenKoboldToken,
+                                    CardIds.NonCollectible.Neutral.MarintheManager_WondrousWandToken,
+                                    CardIds.NonCollectible.Neutral.MarintheManager_ZarogsCrownToken
+                                ] {
+                                    eventHandler.opponent.predictUniqueCardInDeck(cardId: id, isCreated: true)
+                                }
+                            }
                         case CardIds.Collectible.Rogue.Talgath:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Rogue.BackstabCore)
                         case CardIds.Collectible.Neutral.AstralVigilant:
@@ -1289,6 +1305,7 @@ class PowerGameStateParser: LogEventParser {
             let matchingEntities = eventHandler.opponent.playerEntities.filter({ e in String(e.id) == entity.info.copyOfCardId || e.info.copyOfCardId == entity.info.copyOfCardId })
 
             for matchingEntity in matchingEntities {
+                if matchingEntity.id == entity.id { continue }
                 matchingEntity.cardId = entity.cardId
                 matchingEntity.info.hidden = false
                 matchingEntity.info.copyOfCardId = "\(entity.id)"
