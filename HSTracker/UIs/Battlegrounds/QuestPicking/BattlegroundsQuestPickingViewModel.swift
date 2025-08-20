@@ -105,6 +105,12 @@ class BattlegroundsQuestPickingViewModel: ViewModel {
             logger.error(error)
         }
         
+        let choices = MirrorHelper.getCardChoices()
+        guard let choices else {
+            self.message.error()
+            return
+        }
+
         guard let requestParams = getApiParams() else {
             message.error()
             return
@@ -114,12 +120,6 @@ class BattlegroundsQuestPickingViewModel: ViewModel {
                 await HSReplayAPI.getTier7QuestStats(token: Tier7Trial.token, parameters: requestParams) :
                     await HSReplayAPI.getTier7QuestStats(parameters: requestParams) else {
             message.error()
-            return
-        }
-
-        let choices = MirrorHelper.getCardChoices()
-        guard let choices else {
-            self.message.error()
             return
         }
 
