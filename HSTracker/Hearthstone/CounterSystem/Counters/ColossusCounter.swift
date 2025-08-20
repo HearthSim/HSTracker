@@ -26,7 +26,28 @@ class ColossusCounter: NumericCounter {
         if isPlayerCounter {
             return inPlayerDeckOrKnown(cardIds: relatedCards)
         }
-        return counter > 1 && opponentMayHaveRelevantCards()
+        let couldBeGenerated = game.opponent.playerEntities.contains { e in
+            if !e.isInHand && !e.isInPlay && !e.isInDeck {
+                return false
+            }
+
+            if !e.info.created {
+                return false
+            }
+
+            if e.hasCardId && e.cardId != CardIds.Collectible.Mage.Colossus {
+                return false
+            }
+
+            let creatorId = e.info.getCreatorId()
+            guard creatorId > 0, let creator = game.entities[creatorId] else {
+                return false
+            }
+
+            return creator.cardId == CardIds.Collectible.Priest.Mothership
+        }
+
+        return (counter > 1 && opponentMayHaveRelevantCards()) || couldBeGenerated
     }
 
     override func getCardsToDisplay() -> [String] {
