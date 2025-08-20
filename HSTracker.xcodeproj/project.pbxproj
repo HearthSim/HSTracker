@@ -567,7 +567,6 @@
 		B846CC7C2E157BF500552F9C /* Resuscitate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC7B2E157BF500552F9C /* Resuscitate.swift */; };
 		B846CC7E2E157C4D00552F9C /* FlightOfTheFirehawk.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC7D2E157C4D00552F9C /* FlightOfTheFirehawk.swift */; };
 		B846CC802E157CA600552F9C /* VolcanicThrasher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC7F2E157CA600552F9C /* VolcanicThrasher.swift */; };
-		B846CC822E157D3E00552F9C /* CursedCatacombs.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC812E157D3E00552F9C /* CursedCatacombs.swift */; };
 		B846CC842E15B6FC00552F9C /* PterrordaxEgg.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC832E15B6FC00552F9C /* PterrordaxEgg.swift */; };
 		B846CC862E15B7A600552F9C /* CreatureOfTheSacredCave.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC852E15B7A600552F9C /* CreatureOfTheSacredCave.swift */; };
 		B846CC882E15B80600552F9C /* DeathrotMaw.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC872E15B80600552F9C /* DeathrotMaw.swift */; };
@@ -1867,7 +1866,6 @@
 		B846CC7B2E157BF500552F9C /* Resuscitate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resuscitate.swift; sourceTree = "<group>"; };
 		B846CC7D2E157C4D00552F9C /* FlightOfTheFirehawk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightOfTheFirehawk.swift; sourceTree = "<group>"; };
 		B846CC7F2E157CA600552F9C /* VolcanicThrasher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolcanicThrasher.swift; sourceTree = "<group>"; };
-		B846CC812E157D3E00552F9C /* CursedCatacombs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CursedCatacombs.swift; sourceTree = "<group>"; };
 		B846CC832E15B6FC00552F9C /* PterrordaxEgg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PterrordaxEgg.swift; sourceTree = "<group>"; };
 		B846CC852E15B7A600552F9C /* CreatureOfTheSacredCave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatureOfTheSacredCave.swift; sourceTree = "<group>"; };
 		B846CC872E15B80600552F9C /* DeathrotMaw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeathrotMaw.swift; sourceTree = "<group>"; };
@@ -3639,7 +3637,6 @@
 				B852D8442DDFBEBB00884B26 /* ArchwitchWillow.swift */,
 				B8E1E5C82D0C8BCF00383975 /* BloodreaverGuldan.swift */,
 				B89865D82D920C5300BA5649 /* CraneGame.swift */,
-				B846CC812E157D3E00552F9C /* CursedCatacombs.swift */,
 				B846CC612E09DD7C00552F9C /* Darkbomb.swift */,
 				B846CC872E15B80600552F9C /* DeathrotMaw.swift */,
 				B89865DA2D920C8900BA5649 /* DirgeOfDespair.swift */,
@@ -5058,7 +5055,6 @@
 				B852D8272DDFB70200884B26 /* Commencement.swift in Sources */,
 				B852D82F2DDFB87500884B26 /* WarsongWrangler.swift in Sources */,
 				B852D83D2DDFBD8800884B26 /* NorthwatchCommander.swift in Sources */,
-				B846CC822E157D3E00552F9C /* CursedCatacombs.swift in Sources */,
 				B8D34D35294FB0C100CACC5A /* BattlegroundsHeroHeaderViewModel.swift in Sources */,
 				B898653C2D8B580900BA5649 /* HighlightColor.swift in Sources */,
 				B804FC2429418CC200F74CD9 /* OverlayMessageViewModel.swift in Sources */,
