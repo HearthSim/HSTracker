@@ -6,7 +6,6 @@
 //  Copyright © 2025 Benjamin Michotte. All rights reserved.
 //
 
-
 import Foundation
 
 class RestInPeace: ICardWithRelatedCards {

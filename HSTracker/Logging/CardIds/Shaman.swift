@@ -178,6 +178,7 @@ extension CardIds.Collectible {
         static let Slagclaw = "TLC_482"
         static let Sleetbreaker = "AV_260"
         static let Windchill = "AV_266"
+        static let GolgannethTheThunderer = "TTN_800"
     }
 }
 

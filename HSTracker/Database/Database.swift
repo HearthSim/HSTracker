@@ -96,6 +96,8 @@ class Database: NSObject, XMLParserDelegate {
                     currentCard?.attack = intValue
                 case GameTag.cost.rawValue:
                     currentCard?.cost = intValue
+                case GameTag.overload.rawValue:
+                    currentCard?.overload = intValue
                 case GameTag.rarity.rawValue:
                     currentCard?.rarity = Rarity.allCases[intValue]
                 case GameTag.collectible.rawValue:

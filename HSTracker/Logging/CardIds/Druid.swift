@@ -188,6 +188,8 @@ extension CardIds.Collectible {
         static let LohTheLivingLegend = "TLC_257"
         static let Hybridization = "TLC_236"
         static let BottomlessToyChest = "TOY_851"
+        static let WidowbloomSeedsman = "REV_318"
+        static let WidowbloomSeedsmanCorePlaceholder = "CORE_REV_318"
     }
 }
 

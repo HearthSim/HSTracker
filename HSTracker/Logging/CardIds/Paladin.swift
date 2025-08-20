@@ -208,6 +208,7 @@ extension CardIds.Collectible {
         static let IdoOfTheThreshfleet = "TLC_241"
         static let DiveTheGolakkaDepths = "TLC_426"
         static let Lightray = "TID_077"
+        static let AmitusThePeacekeeper = "TTN_858"
     }
 }
 

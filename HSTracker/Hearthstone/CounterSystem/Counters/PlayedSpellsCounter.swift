@@ -36,7 +36,7 @@ class PlayedSpellsCounter: NumericCounter {
     private let _ignoredCards: Set<String> = [
         // ReachEquilibrium quest intantly casts those 2 other quests, but only count as 1 spell
         CardIds.NonCollectible.Priest.ReachEquilibrium_CorruptTheLightToken,
-        CardIds.NonCollectible.Priest.ReachEquilibrium_CleanseTheShadowToken,
+        CardIds.NonCollectible.Priest.ReachEquilibrium_CleanseTheShadowToken
     ]
 
     required init(controlledByPlayer: Bool, game: Game) {

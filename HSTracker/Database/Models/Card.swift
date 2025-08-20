@@ -27,6 +27,7 @@ final class Card {
     var flavor = ""
     var health = 0
     var attack = 0
+    var overload = 0
     var name = "unknown"
     var enName = ""
     var playerClass: CardClass = .neutral
@@ -347,6 +348,7 @@ extension Card: NSCopying {
         copy.flavor = self.flavor
         copy.health = self.health
         copy.attack = self.attack
+        copy.overload = self.overload
         copy.name = self.name
         copy.enName = self.enName
         copy.playerClass = self.playerClass

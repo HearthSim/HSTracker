@@ -737,6 +737,7 @@ extension CardIds.Collectible {
         static let PrimalfinChallenger = "TLC_251"
         static let Torga = "TLC_102"
         static let MarinTheManager = "VAC_702"
+        static let ValstannStaghelm = "WON_345"
     }
 }
 
