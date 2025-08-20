@@ -1,6 +1,8 @@
 # 3.3.7
 ## Fixes
 - Fixed start up crash
+## Bob's Buddy
+- Fixed an issue where cards were wrongly marked as unsupported.
 
 # 3.3.6
 ## Fixes
