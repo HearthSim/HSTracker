@@ -1,3 +1,7 @@
+# 3.3.8
+## New
+- Updated for Hearthstone 33.4.0
+
 # 3.3.7
 ## Fixes
 - Fixed start up crash
