@@ -14,6 +14,7 @@ class BattlegroundsTierOverlayView: NSView {
     var showing = false
     var availableTiers: [Bool] = [false, false, false, false, false, false, false]
     var isThorimRelevant = false
+    var isNorgannonsRewardRelevant = false
     var isPageFishingRodRelevant = false
 
     init() {
@@ -29,7 +30,7 @@ class BattlegroundsTierOverlayView: NSView {
     }
     
     var showTavernTier7: Bool {
-        return Settings.alwaysShowTier7 || isThorimRelevant || isPageFishingRodRelevant
+        return Settings.alwaysShowTier7 || isThorimRelevant || isPageFishingRodRelevant || isNorgannonsRewardRelevant
     }
 
     func unhideTier() {
@@ -69,6 +70,7 @@ class BattlegroundsTierOverlayView: NSView {
         hoverTier = 0
         needsDisplay = true
         isThorimRelevant = false
+        isNorgannonsRewardRelevant = false
         isPageFishingRodRelevant = false
     }
     
@@ -127,7 +129,7 @@ class BattlegroundsTierOverlayView: NSView {
                 windowManager.show(controller: controller, show: true,
                                    frame: frame, overlay: true)
                 controller.detailsView?.contentFrame = frame
-                controller.detailsView?.setTier(tier: tier, isThorimRelevant: isThorimRelevant)
+                controller.detailsView?.setTier(tier: tier)
             } else {
                 windowManager.show(controller: controller, show: false)
             }
@@ -177,6 +179,13 @@ class BattlegroundsTierOverlayView: NSView {
     
     func onTrinkets(trinkets: [String]) {
         isPageFishingRodRelevant = trinkets.contains(CardIds.NonCollectible.Neutral.PaglesFishingRod)
+        DispatchQueue.main.async {
+            AppDelegate.instance().coreManager.game.updateBattlegroundsTierOverlay(reset: false)
+        }
+    }
+    
+    func onQuests(quests: [String]) {
+        isNorgannonsRewardRelevant = quests.contains(CardIds.NonCollectible.Neutral.NorgannonsReward)
         DispatchQueue.main.async {
             AppDelegate.instance().coreManager.game.updateBattlegroundsTierOverlay(reset: false)
         }

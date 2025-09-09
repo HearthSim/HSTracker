@@ -3580,6 +3580,16 @@ class Game: NSObject, PowerEventHandler {
                     windowManager.battlegroundsTierOverlay.tierOverlay?.onTrinkets(trinkets: (self.player.trinkets + chosen).compactMap({ x in x.cardId }))
                 }
                 windowManager.battlegroundsTierOverlay.tierOverlay?.onHeroPowers(heroPowers: player.board.filter({ x in x.isHeroPower }).compactMap({ x in x.card.id }))
+                
+                // quest choice
+                if let chosenEntity = chosen.first {
+                    let questRewardDbfId = chosenEntity[.quest_reward_database_id]
+                    if questRewardDbfId > 0 {
+                        if let questReward = Cards.by(dbfId: questRewardDbfId, collectible: false) {
+                            windowManager.battlegroundsTierOverlay.tierOverlay?.onQuests(quests: [questReward.id])
+                        }
+                    }
+                }
             }
         default: break
         }

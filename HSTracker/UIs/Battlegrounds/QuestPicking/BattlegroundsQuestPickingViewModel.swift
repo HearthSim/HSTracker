@@ -96,7 +96,6 @@ class BattlegroundsQuestPickingViewModel: ViewModel {
         if _entities.count != expectedQuestCount() {
             return
         }
-        message.loading()
         
         // delay to allow tag changes to update
         do {
@@ -110,6 +109,8 @@ class BattlegroundsQuestPickingViewModel: ViewModel {
             self.message.error()
             return
         }
+        
+        message.loading()
 
         guard let requestParams = getApiParams() else {
             message.error()

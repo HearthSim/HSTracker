@@ -52,8 +52,6 @@ import Foundation
     
     var anomaly: String?
     
-    var isThorimRelevant: Bool = false
-    
     var availableTiers: [Int] {
         return BattlegroundsUtils.getAvailableTiers(anomalyCardId: anomaly)
     }
@@ -135,12 +133,11 @@ import Foundation
     
     private var hoverTimer: Timer?
     
-    func setTier(tier: Int, isThorimRelevant: Bool) {
+    func setTier(tier: Int) {
         let game = AppDelegate.instance().coreManager.game
         self.activeTier = tier
         self.activeMinionType = nil
         self.availableRaces = game.availableRaces
-        self.isThorimRelevant = isThorimRelevant
         self.isDuos = game.isBattlegroundsDuosMatch()
         let anomalyDbfId = BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: game.gameEntity)
         self.anomaly = Cards.by(dbfId: anomalyDbfId, collectible: false)?.id
