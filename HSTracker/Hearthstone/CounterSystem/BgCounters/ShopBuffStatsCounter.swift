@@ -19,14 +19,15 @@ class ShopBuffStatsCounter: StatsCounter {
     
     override var relatedCards: [String] {
         return [
-            CardIds.NonCollectible.Neutral.NomiKitchenNightmare_NomiPlayerEnchantDnt,
-            CardIds.NonCollectible.Neutral.DazzlingLightspawn_DazzlingLightspawnPlayerEnchantDnt,
-            CardIds.NonCollectible.Neutral.DancingBarnstormer_DancingBarnstormerPlayerEnchantDnt,
-            CardIds.NonCollectible.Neutral.LivingAzerite_LivingAzeritePlayerEnchantDntEnchantment,
-            CardIds.NonCollectible.Neutral.NomiSticker_NomiStickerPlayerEnchantDnt,
-            CardIds.NonCollectible.Neutral.DuneDweller_DuneDwellerPlayerEnchantDnt,
-            CardIds.NonCollectible.Neutral.BlazingGreasefire_BlazingGreasefirePlayerEnchantDnt,
-            CardIds.NonCollectible.Neutral.AligntheElements_AlignTheElementsPlayerEnchDnt
+//            CardIds.NonCollectible.Neutral.NomiKitchenNightmare_NomiPlayerEnchantDnt,
+//            CardIds.NonCollectible.Neutral.DazzlingLightspawn_DazzlingLightspawnPlayerEnchantDnt,
+//            CardIds.NonCollectible.Neutral.DancingBarnstormer_DancingBarnstormerPlayerEnchantDnt,
+//            CardIds.NonCollectible.Neutral.LivingAzerite_LivingAzeritePlayerEnchantDntEnchantment,
+//            CardIds.NonCollectible.Neutral.NomiSticker_NomiStickerPlayerEnchantDnt,
+//            CardIds.NonCollectible.Neutral.DuneDweller_DuneDwellerPlayerEnchantDnt,
+//            CardIds.NonCollectible.Neutral.BlazingGreasefire_BlazingGreasefirePlayerEnchantDnt,
+//            CardIds.NonCollectible.Neutral.AligntheElements_AlignTheElementsPlayerEnchDnt
+            CardIds.NonCollectible.Neutral.ElementalShopBuffPlayerEnchantmentDnt
         ]
     }
     

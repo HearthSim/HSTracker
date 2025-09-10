@@ -1017,5 +1017,6 @@ extension CardIds.NonCollectible {
         static let MarintheManager_ZarogsCrownToken = "VAC_702t"
         static let NorgannonsReward = "BG33_Reward_010"
         static let TreacherousTormentor_DarkGiftToken = "EDR_102t"
+        static let ElementalShopBuffPlayerEnchantmentDnt = "BG_ShopBuff_Elemental"
     }
 }
