@@ -3994,7 +3994,9 @@ class Game: NSObject, PowerEventHandler {
         hoveredCard = state
         DispatchQueue.main.async {
             if self.isTraditionalHearthstoneMatch {
-                self.windowManager.playerTracker.highlightPlayerDeckCards(highlightSourceCardId: self.hoveredCard?.cardId)
+                let isFriendlyCard = state.side == PlayerSide.friendly.rawValue
+                
+                self.windowManager.playerTracker.highlightPlayerDeckCards(highlightSourceCardId: isFriendlyCard ? state.cardId : nil)
             }
             self.updateTooltips()
         }

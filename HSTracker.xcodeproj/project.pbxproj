@@ -658,7 +658,7 @@
 		B85462052CDD3EDA0083BB31 /* TessGreymane.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85462042CDD3EDA0083BB31 /* TessGreymane.swift */; };
 		B854620B2CDD42420083BB31 /* Shudderwock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B854620A2CDD42420083BB31 /* Shudderwock.swift */; };
 		B854620D2CDD42AD0083BB31 /* InventorBoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = B854620C2CDD42AD0083BB31 /* InventorBoom.swift */; };
-		B854620F2CDE721F0083BB31 /* Playerside.swift in Sources */ = {isa = PBXBuildFile; fileRef = B854620E2CDE721F0083BB31 /* Playerside.swift */; };
+		B854620F2CDE721F0083BB31 /* PlayerSide.swift in Sources */ = {isa = PBXBuildFile; fileRef = B854620E2CDE721F0083BB31 /* PlayerSide.swift */; };
 		B85462122CDE8C080083BB31 /* WakenerOfSouls.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85462112CDE8C080083BB31 /* WakenerOfSouls.swift */; };
 		B85462142CDEB9FF0083BB31 /* CrewmateGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85462132CDEB9FF0083BB31 /* CrewmateGenerator.swift */; };
 		B85462162CDEBAC20083BB31 /* DirdraRebelCaptain.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85462152CDEBAC20083BB31 /* DirdraRebelCaptain.swift */; };
@@ -1951,7 +1951,7 @@
 		B85462042CDD3EDA0083BB31 /* TessGreymane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TessGreymane.swift; sourceTree = "<group>"; };
 		B854620A2CDD42420083BB31 /* Shudderwock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shudderwock.swift; sourceTree = "<group>"; };
 		B854620C2CDD42AD0083BB31 /* InventorBoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventorBoom.swift; sourceTree = "<group>"; };
-		B854620E2CDE721F0083BB31 /* Playerside.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playerside.swift; sourceTree = "<group>"; };
+		B854620E2CDE721F0083BB31 /* PlayerSide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSide.swift; sourceTree = "<group>"; };
 		B85462112CDE8C080083BB31 /* WakenerOfSouls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WakenerOfSouls.swift; sourceTree = "<group>"; };
 		B85462132CDEB9FF0083BB31 /* CrewmateGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewmateGenerator.swift; sourceTree = "<group>"; };
 		B85462152CDEBAC20083BB31 /* DirdraRebelCaptain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirdraRebelCaptain.swift; sourceTree = "<group>"; };
@@ -3092,7 +3092,7 @@
 				439C7E9C1C777F8900D29859 /* Mulligan.swift */,
 				439212141DEF5A5E0017AAE5 /* MultiClassGroup.swift */,
 				B8889C1C2DA067D90053DD57 /* PlacementMode.swift */,
-				B854620E2CDE721F0083BB31 /* Playerside.swift */,
+				B854620E2CDE721F0083BB31 /* PlayerSide.swift */,
 				433554551D62EE1200277B27 /* PlayerType.swift */,
 				439C7E9D1C777F8900D29859 /* PlayState.swift */,
 				431AA0CC1D362ECB0030AD22 /* Race.swift */,
@@ -5227,7 +5227,7 @@
 				4349104C1D09739C00B22DB2 /* BoardHero.swift in Sources */,
 				B89656592E555D7200257DDC /* GolgannethTheThunderer.swift in Sources */,
 				1CF204F91E83B74300037A42 /* MirrorHelper.swift in Sources */,
-				B854620F2CDE721F0083BB31 /* Playerside.swift in Sources */,
+				B854620F2CDE721F0083BB31 /* PlayerSide.swift in Sources */,
 				B846CC762E157B2400552F9C /* StoryOfBarnabus.swift in Sources */,
 				43D307FB1C83159C00480488 /* SizeHelper.swift in Sources */,
 				B82029312CD2C4D700C19A8C /* AsteroidExtraDamageCounter.swift in Sources */,
