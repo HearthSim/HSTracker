@@ -38,8 +38,10 @@ class RestInPeace: ICardWithRelatedCards {
 	func getRelatedCards(player: Player) -> [Card?] {
 		var retval = [Card?]()
         let game = AppDelegate.instance().coreManager.game
+        
+        let isPlayer = game.player.id == player.id
 
-        guard let opponent = game.player.id == player.id ? game.opponent : game.player else {
+        guard let opponent = isPlayer ? game.opponent : game.player else {
             return retval
         }
 
@@ -54,14 +56,14 @@ class RestInPeace: ICardWithRelatedCards {
 			}
 
 		if !playerMinions.isEmpty {
-            retval.append(Card(id: playerHero))
+            retval.append(Card(id: isPlayer ? playerHero : opponentHero))
 			let highestCost = playerMinions.map { $0.cost }.max()
 			let minionsWithHighestCost = playerMinions.filter { $0.cost == highestCost }
 			retval.append(contentsOf: minionsWithHighestCost)
 		}
 
 		if !opponentMinions.isEmpty {
-            retval.append(Card(id: opponentHero))
+            retval.append(Card(id: isPlayer ? opponentHero : playerHero))
 			let highestCost = opponentMinions.map { $0.cost }.max()
 			let minionsWithHighestCost = opponentMinions.filter { $0.cost == highestCost }
 			retval.append(contentsOf: minionsWithHighestCost)
