@@ -77,7 +77,8 @@ class BaseCounter: NSObject {
         let playerEntitiesContains = game.player.playerEntities.any { x in
             x.cardId == cardId &&
             x.info.originalZone != nil &&
-            !x.isInSetAside
+            // non-picked discover option entities now go to the graveyard
+            !x.isInSetAside && !x.isInGraveyard
         }
         
         let discoverEntitiesContains = game.player.offeredEntities.any { x in x.cardId == cardId }
