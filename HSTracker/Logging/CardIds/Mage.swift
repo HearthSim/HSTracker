@@ -209,6 +209,8 @@ extension CardIds.Collectible {
         static let FireballCore = "CORE_CS2_029"
         static let VioletSpellwing = "DRG_107"
         static let ArcaneMissilesLegacy = "EX1_277"
+        static let Techysaurus = "DINO_409"
+        static let SheepMask = "DINO_429"
     }
 }
 

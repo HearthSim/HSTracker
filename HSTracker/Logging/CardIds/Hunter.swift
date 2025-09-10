@@ -213,6 +213,7 @@ extension CardIds.Collectible {
         static let StoryOfCarnassa = "TLC_826"
         static let RangariScout = "GDB_841"
         static let FaithfulCompanions = "NX2_015"
+        static let DevilsaurMask = "DINO_403"
     }
 }
 

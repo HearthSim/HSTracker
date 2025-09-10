@@ -828,6 +828,10 @@
 		B8820CD025603FB00072ECBC /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8820CCF25603FB00072ECBC /* RemoteConfig.swift */; };
 		B8832DDA26057A5000646BA4 /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8832DD926057A5000646BA4 /* RepeatingTimer.swift */; };
 		B8832DDC26117FCF00646BA4 /* MultiIdCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8832DDB26117FCE00646BA4 /* MultiIdCard.swift */; };
+		B88339752E710457007D9754 /* CardsThatDidntStartInDeckPlayedCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88339742E710457007D9754 /* CardsThatDidntStartInDeckPlayedCounter.swift */; };
+		B88339772E71053D007D9754 /* HolyEggbearer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88339762E71053D007D9754 /* HolyEggbearer.swift */; };
+		B883397B2E7105C1007D9754 /* CostumeMerchant.swift in Sources */ = {isa = PBXBuildFile; fileRef = B883397A2E7105C1007D9754 /* CostumeMerchant.swift */; };
+		B883397D2E7106DD007D9754 /* PossessedAnimancer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B883397C2E7106DD007D9754 /* PossessedAnimancer.swift */; };
 		B88364FA275D6FE10094D8E1 /* FlavorText.xib in Resources */ = {isa = PBXBuildFile; fileRef = B88364F9275D6FE10094D8E1 /* FlavorText.xib */; };
 		B88364FC275D746D0094D8E1 /* FlavorText.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88364FB275D746D0094D8E1 /* FlavorText.swift */; };
 		B887656726C3049F003D3629 /* ShortIdHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E7B15262A798000C42EF0 /* ShortIdHelper.swift */; };
@@ -2061,6 +2065,10 @@
 		B8820CCF25603FB00072ECBC /* RemoteConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfig.swift; sourceTree = "<group>"; };
 		B8832DD926057A5000646BA4 /* RepeatingTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatingTimer.swift; sourceTree = "<group>"; };
 		B8832DDB26117FCE00646BA4 /* MultiIdCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiIdCard.swift; sourceTree = "<group>"; };
+		B88339742E710457007D9754 /* CardsThatDidntStartInDeckPlayedCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsThatDidntStartInDeckPlayedCounter.swift; sourceTree = "<group>"; };
+		B88339762E71053D007D9754 /* HolyEggbearer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolyEggbearer.swift; sourceTree = "<group>"; };
+		B883397A2E7105C1007D9754 /* CostumeMerchant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostumeMerchant.swift; sourceTree = "<group>"; };
+		B883397C2E7106DD007D9754 /* PossessedAnimancer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PossessedAnimancer.swift; sourceTree = "<group>"; };
 		B88364F9275D6FE10094D8E1 /* FlavorText.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FlavorText.xib; sourceTree = "<group>"; };
 		B88364FB275D746D0094D8E1 /* FlavorText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlavorText.swift; sourceTree = "<group>"; };
 		B88595B62CEFDB9900769275 /* libswift_Concurrency.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libswift_Concurrency.tbd; path = usr/lib/swift/libswift_Concurrency.tbd; sourceTree = SDKROOT; };
@@ -3374,6 +3382,7 @@
 				B889F60A2CED5D26001506F4 /* CardsDrawnThisGameCounter.swift */,
 				B889F60C2CED6151001506F4 /* CardsDrawnThisTurnCounter.swift */,
 				B852D81C2DDDF59D00884B26 /* CardsPlayedThisTurnCounter.swift */,
+				B88339742E710457007D9754 /* CardsThatDidntStartInDeckPlayedCounter.swift */,
 				B89343372CD00858009A8727 /* ChaoticTendrilCounter.swift */,
 				B81B3D942D41238100DC9EB0 /* ColossusCounter.swift */,
 				B89343392CD008DF009A8727 /* CthunCounter.swift */,
@@ -3501,6 +3510,7 @@
 				B846CC952E16C40100552F9C /* AmbushPredators.swift */,
 				B89865C02D91FF9600BA5649 /* Blink.swift */,
 				B852D8052DC171A500884B26 /* ContrabandStash.swift */,
+				B883397A2E7105C1007D9754 /* CostumeMerchant.swift */,
 				B8E1E5FB2D0CA17600383975 /* CounterfeitBlade.swift */,
 				B89865C22D9200CB00BA5649 /* DigForTreasure.swift */,
 				B80B69092E3C3ECD00197FA5 /* DustBunny.swift */,
@@ -3603,6 +3613,7 @@
 				B86D89FD2D95F31700AB65A5 /* FaeTrickster.swift */,
 				B81B3D922D409CE900DC9EB0 /* FateSplitter.swift */,
 				B86D89FF2D95F3A700AB65A5 /* FinjaTheFlyingStar.swift */,
+				B88339762E71053D007D9754 /* HolyEggbearer.swift */,
 				B852D8342DDFB95E00884B26 /* HopefulDryad.swift */,
 				B89865942D91D17100BA5649 /* InstrumentTech.swift */,
 				B81B3D8E2D409B0A00DC9EB0 /* JoymancerJepetto.swift */,
@@ -3658,6 +3669,7 @@
 				B8E1E5FF2D0CA21C00383975 /* InfantryReanimator.swift */,
 				B846CC6D2E09F31500552F9C /* LadyDarkvein.swift */,
 				B89865DE2D920CF500BA5649 /* LokenJailerOfYoggSaron.swift */,
+				B883397C2E7106DD007D9754 /* PossessedAnimancer.swift */,
 				B86D8A252D96005500AB65A5 /* RotheartDryad.swift */,
 				B89865E02D920D2700BA5649 /* SketchArtist.swift */,
 				B89865E22D920D7E00BA5649 /* SymphonyOfSins */,
@@ -5287,6 +5299,7 @@
 				B8B7901B2C97540D00DD33EC /* DeputizationAuraEnchantment.swift in Sources */,
 				439212151DEF5A5E0017AAE5 /* MultiClassGroup.swift in Sources */,
 				434EAC961DBCD3E8009C7636 /* NSAlert.swift in Sources */,
+				B883397B2E7105C1007D9754 /* CostumeMerchant.swift in Sources */,
 				B8B78FFC2C970B7500DD33EC /* CoilfangConstrictorEnchantment.swift in Sources */,
 				434910501D09770000B22DB2 /* PlayerBoard.swift in Sources */,
 				B89865642D8E157600BA5649 /* PendantOfEarth.swift in Sources */,
@@ -5482,6 +5495,7 @@
 				4335545B1D65944700277B27 /* Toast.swift in Sources */,
 				B8B790292C97571A00DD33EC /* TimeOutEnchantment.swift in Sources */,
 				B89865742D91AE2600BA5649 /* MysteryEgg.swift in Sources */,
+				B883397D2E7106DD007D9754 /* PossessedAnimancer.swift in Sources */,
 				B86D89D22D95BF6300AB65A5 /* FracturedPowerEnchantment.swift in Sources */,
 				B89865CB2D9206A800BA5649 /* CactusCutter.swift in Sources */,
 				B8AC9A1C293CE3310047F438 /* BattlegroundsHeroPickingViewModel.swift in Sources */,
@@ -5635,6 +5649,7 @@
 				B8591FF82B24919F00B907A4 /* MulliganState.swift in Sources */,
 				B89865F22D95514900BA5649 /* AnachronosTurnCounter.swift in Sources */,
 				B86D8A222D95FF8C00AB65A5 /* Merithra.swift in Sources */,
+				B88339772E71053D007D9754 /* HolyEggbearer.swift in Sources */,
 				B81B3DA52D4439FD00DC9EB0 /* StarlightWhelp.swift in Sources */,
 				B898994F2CA4514E0011B184 /* BattlegroundsTrinketPickParams.swift in Sources */,
 				B89899552CA5F0290011B184 /* BattlegroundsSingleTrinket.swift in Sources */,
@@ -5700,6 +5715,7 @@
 				1C132F821DBA24C1002B1BF2 /* AppHealth.swift in Sources */,
 				439C7EC31C777F8900D29859 /* LoadingScreenHandler.swift in Sources */,
 				B89865DD2D920CBD00BA5649 /* GameMasterNemsy.swift in Sources */,
+				B88339752E710457007D9754 /* CardsThatDidntStartInDeckPlayedCounter.swift in Sources */,
 				B86D89C22D95A04200AB65A5 /* FriendlyMinionsDiedThisGameCounter.swift in Sources */,
 				B846CC9A2E1C20ED00552F9C /* GorishiWasp.swift in Sources */,
 				B81B3D9B2D4128DB00DC9EB0 /* JimRaynor.swift in Sources */,

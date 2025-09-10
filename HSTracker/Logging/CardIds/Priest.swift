@@ -181,6 +181,7 @@ extension CardIds.Collectible {
         static let Insight = "DMF_054"
         static let Resuscitate = "TLC_818"
         static let RestInPeace = "VAC_457"
+        static let BehemothMask = "DINO_428"
     }
 }
 

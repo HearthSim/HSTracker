@@ -225,6 +225,7 @@ extension CardIds.Collectible {
         static let EyesInTheSky = "TLC_521"
         static let DustBunny = "MIS_706"
         static let WebOfDeception = "EDR_523"
+        static let CostumeMerchant = "DINO_427"
     }
 }
 

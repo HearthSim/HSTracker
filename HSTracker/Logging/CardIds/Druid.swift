@@ -190,6 +190,7 @@ extension CardIds.Collectible {
         static let BottomlessToyChest = "TOY_851"
         static let WidowbloomSeedsman = "REV_318"
         static let WidowbloomSeedsmanCorePlaceholder = "CORE_REV_318"
+        static let PantherMask = "DINO_432"
     }
 }
 

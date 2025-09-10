@@ -194,6 +194,8 @@ extension CardIds.Collectible {
         static let CursedCatacombs = "TLC_451"
         static let DeathrotMaw = "TLC_479"
         static let Spelunker = "TLC_450"
+        static let BatMask = "DINO_402"
+        static let PossessedAnimancer = "DINO_131"
     }
 }
 
