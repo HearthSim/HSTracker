@@ -145,7 +145,7 @@ class CounterView: NSView {
 
     override func mouseEntered(with event: NSEvent) {
         if window != nil {
-            delayedTooltip = DelayedTooltip(handler: tooltipDisplay, 0.400, nil)
+            delayedTooltip = DelayedTooltip(handler: tooltipDisplay, 0.600, nil)
         }
     }
 
