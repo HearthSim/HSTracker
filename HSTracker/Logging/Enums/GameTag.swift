@@ -456,7 +456,8 @@ enum GameTag: Int, CaseIterable, Codable {
     tavern_spell_health_increase = 3990,
     bacon_elemental_buffhealthvalue = 4001,
     bacon_elemental_buffatkvalue = 4002,
-    kindred = 4028
+    kindred = 4028,
+    bacon_player_extra_gold_next_turn = 4286
 
     static var lookup = [String: GameTag]()
     
