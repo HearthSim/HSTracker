@@ -2018,7 +2018,7 @@ class Game: NSObject, PowerEventHandler {
     }
     
     private func updatePostGameBattlegroundsRating(gameStats: InternalGameStats) {
-        if let data = UploadMetaData.retryWhileNull(f: MirrorHelper.getBattlegroundsRatingChange) {
+        if let data = UploadMetaData.retryWhileNull(f: MirrorHelper.getBattlegroundsRatingChange, tries: 5, delay: 500) {
             gameStats.battlegroundsRatingAfter = data.ratingNew.intValue
         } else {
             logger.warning("Could not get battlegrounds rating")
