@@ -80,6 +80,7 @@ class Game: NSObject, PowerEventHandler {
     let activeEffects: ActiveEffects
     let counterManager: CounterManager
     let relatedCardsManager: RelatedCardsManager
+    var isBattlegroundsCombatPhase = false
 	
     func setHearthstoneRunning(flag: Bool) {
         hearthstoneRunState.isRunning = flag
@@ -1428,6 +1429,7 @@ class Game: NSObject, PowerEventHandler {
         _serverInfo = nil
 
         entities.removeAll()
+        isBattlegroundsCombatPhase = false
         tmpEntities.removeAll()
         knownCardIds.removeAll()
         joustReveals = 0
@@ -2215,13 +2217,12 @@ class Game: NSObject, PowerEventHandler {
             
             if isBattlegroundsMatch() {
                 DispatchQueue.main.async { [self] in
+                    self.primaryPlayerId = self.player.id
+                    self.isBattlegroundsCombatPhase = true
                     OpponentDeadForTracker.shoppingStarted(game: self)
-                    if playerTurn.turn > 1 {
-                        self.primaryPlayerId = self.player.id
-                        BobsBuddyInvoker.instance(gameId: self.gameId, turn: self.turnNumber() - 1)?.startShopping()
-                        windowManager.battlegroundsTierOverlay.tierOverlay.onHeroPowers(heroPowers: self.player.board.filter { x in x.isHeroPower }.compactMap { x in x.cardId })
-                        windowManager.battlegroundsTierOverlay.tierOverlay.onTrinkets(trinkets: self.player.trinkets.compactMap({ x in x.cardId }))
-                    }
+                    BobsBuddyInvoker.instance(gameId: self.gameId, turn: self.turnNumber() - 1)?.startShopping()
+                    windowManager.battlegroundsTierOverlay.tierOverlay.onHeroPowers(heroPowers: self.player.board.filter { x in x.isHeroPower }.compactMap { x in x.cardId })
+                    windowManager.battlegroundsTierOverlay.tierOverlay.onTrinkets(trinkets: self.player.trinkets.compactMap({ x in x.cardId }))
                 }
             }
 

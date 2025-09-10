@@ -281,4 +281,7 @@ protocol PowerEventHandler: AnyObject {
     func handleOpponentHandToPlay(entity: Entity, cardId: String?, turn: Int)
     
     func handlePlayerHandToDeck(entity: Entity, cardId: String?)
+    
+    var isBattlegroundsCombatPhase: Bool { get set }
+
 }

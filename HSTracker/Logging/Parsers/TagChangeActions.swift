@@ -121,6 +121,7 @@ struct TagChangeActions {
     
     private func onBattlegroundsSetupChange(eventHandler: PowerEventHandler, value: Int, prevValue: Int) {
         if prevValue == 1 && value == 0 {
+            eventHandler.isBattlegroundsCombatPhase = true
             if eventHandler.isBattlegroundsSoloMatch() {
                 BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.startCombat()
             }
@@ -133,6 +134,7 @@ struct TagChangeActions {
         }
 
         if prevValue == 1 && value == 0 {
+            eventHandler.isBattlegroundsCombatPhase = false
             if !eventHandler.isBattlegroundsDuosMatch() || eventHandler.duosWasOpponentHeroModified {
                 eventHandler.snapshotBattlegroundsBoardState()
             }

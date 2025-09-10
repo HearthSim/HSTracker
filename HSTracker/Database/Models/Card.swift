@@ -85,6 +85,10 @@ final class Card {
         }
     }
     
+    func isAllRace() -> Bool {
+        return hasRace(.all)
+    }
+    
     func isBeast() -> Bool {
         return hasRace(.beast)
     }
