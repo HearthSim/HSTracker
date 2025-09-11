@@ -1,3 +1,20 @@
+# 3.3.9
+## New
+- Added automatic display of Tavern Tier 7 minions in the overlay when Norgannon’s Reward is present.
+- Added card highlighting for Day of Rebirth cards.
+## Fixes
+- Improved Gold Next Turn counter.
+- Fixed an issue where opponent's rest in peace related cards would display the heroes swapped.
+- Fixed an issue where counters were not correctly appearing/disappearing during discover phase.
+- Fixed an issue where "Start of the Game" cards would be identified in opponent's hand when drawn by Nightmare Lord Xavius.
+- Fixed conditions for displaying the Blood Gem Counter.
+- Fixed an issue where the Shop Elemental Buffs counter would not appear.
+- Increased delay to show counter tooltips on hover.
+- Tentatively fixed an issue that prevented MMR results from updating after ranked matches.
+- Fixed an issue where corpse counter would appear when the opponent is not a Warlock with Death Knight Tourist.
+## Bob's Buddy
+- Fixed incorrect simulation results due to Whirring Protector.
+
 # 3.3.8
 ## New
 - Updated for Hearthstone 33.4.0
