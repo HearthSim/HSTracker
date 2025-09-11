@@ -432,6 +432,7 @@ enum GameTag: Int, CaseIterable, Codable {
     bacon_trinket = 3407,
     gametag_3527 = 3527,
     paladin_aura = 3429,
+    gametag_3479 = 3479, //TAG_PLAYER_CONCEDED_OR_DISCONNECTED
     gametag_3533 = 3533,
     gametag_3559 = 3559,
     bacon_is_magic_item_discover = 3565,

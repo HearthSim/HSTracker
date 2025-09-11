@@ -28,7 +28,9 @@ struct TagChangeActions {
                 self.zoneChange(eventHandler: eventHandler, id: id, value: value, prevValue: prevValue)
             case .playstate: 
                 self.playstateChange(eventHandler: eventHandler, id: id, value: value)
-            case .cardtype: 
+            case .gametag_3479:
+                self.bgsConcededChange(eventHandler: eventHandler, id: id, value: value)
+            case .cardtype:
                 self.cardTypeChange(eventHandler: eventHandler, id: id, value: value)
             case .defending: 
                 self.defendingChange(eventHandler: eventHandler, id: id, value: value)
@@ -605,6 +607,12 @@ struct TagChangeActions {
             setHeroAsync(eventHandler: eventHandler, id: id)
         } else if value == CardType.minion.rawValue {
             minionRevealed(eventHandler: eventHandler, id: id)
+        }
+    }
+    
+    private func bgsConcededChange(eventHandler: PowerEventHandler, id: Int, value: Int) {
+        if value == 1 {
+            eventHandler.concede()
         }
     }
 
