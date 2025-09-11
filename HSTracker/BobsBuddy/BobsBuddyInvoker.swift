@@ -65,8 +65,8 @@ class BobsBuddyInvoker {
     var LastAttackingHero: Entity?
     var LastAttackingHeroAttack: Int = 0
     
-    static private let WhirringProtector_Normal = CardIds.NonCollectible.Neutral.WhirringProtector
-    static private let WhirringProtector_Golden = CardIds.NonCollectible.Neutral.WhirringProtector_WhirringProtector1
+    static private let WhirringProtector_Normal = CardIds.NonCollectible.Neutral.WhirringProtector_WhirringProtectorEnchantment
+    static private let WhirringProtector_Golden = CardIds.NonCollectible.Neutral.WhirringProtector_WhirringProtector2
     
     var _instanceKey = ""
     let game: Game
