@@ -1,3 +1,7 @@
+# 3.3.10
+## New
+- Updated for Hearthstone 33.4.2
+
 # 3.3.9
 ## New
 - Added automatic display of Tavern Tier 7 minions in the overlay when Norgannon’s Reward is present.
