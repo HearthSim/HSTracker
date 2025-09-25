@@ -1,3 +1,9 @@
+# 3.3.11
+## Fixes
+- Filtered out unavailable cards: Opponent's counters and related cards on Arena are now hidden if they are not in the current card pool.
+## Bob's Buddy
+- Fixed incorrect simulation results due to Rallying Cry.
+
 # 3.3.10
 ## New
 - Updated for Hearthstone 33.4.2
