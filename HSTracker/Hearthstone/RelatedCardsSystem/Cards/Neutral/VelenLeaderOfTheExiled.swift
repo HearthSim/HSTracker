@@ -16,7 +16,8 @@ class VelenLeaderOfTheExiled: ICardWithRelatedCards {
 
     func shouldShowForOpponent(opponent: Player) -> Bool {
         if let card = Cards.by(cardId: getCardId()) {
-            return CardUtils.isCardFromFormat(card: card, format: AppDelegate.instance().coreManager.game.currentFormat) && getRelatedCards(player: opponent).count > 2
+            let game = AppDelegate.instance().coreManager.game
+            return card.isCardLegal(gameType: game.currentGameType, format: game.currentFormatType) && getRelatedCards(player: opponent).count > 2
         }
         return false
     }

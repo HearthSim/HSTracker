@@ -19,7 +19,8 @@ class WallowTheWretched: ICardWithRelatedCards {
         guard let card = Cards.by(cardId: getCardId()) else {
             return false
         }
-        return CardUtils.mayCardBeRelevant(card: card, format: AppDelegate.instance().coreManager.game.currentFormat, playerClass: opponent.originalClass) && getRelatedCards(player: opponent).count > 1
+        let game = AppDelegate.instance().coreManager.game
+        return CardUtils.mayCardBeRelevant(card: card, gameType: game.currentGameType, format: game.currentFormatType, playerClass: opponent.originalClass) && getRelatedCards(player: opponent).count > 1
     }
 
     func getRelatedCards(player: Player) -> [Card?] {

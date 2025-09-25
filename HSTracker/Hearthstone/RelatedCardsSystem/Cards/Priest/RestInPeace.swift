@@ -19,7 +19,7 @@ class RestInPeace: ICardWithRelatedCards {
         let game = AppDelegate.instance().coreManager.game
 
         guard let card = Cards.by(cardId: getCardId()) else { return false }
-        return CardUtils.mayCardBeRelevant(card: card, format: game.currentFormat, playerClass: opponent.originalClass)
+        return CardUtils.mayCardBeRelevant(card: card, gameType: game.currentGameType, format: game.currentFormatType, playerClass: opponent.originalClass)
 			&& getRelatedCards(player: opponent).count > 0
 	}
 

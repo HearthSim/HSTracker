@@ -100,7 +100,7 @@ class BaseCounter: NSObject {
 
     func filterCardsByClassAndFormat(cardIds: [String], playerClass: CardClass?, ignoreNeutral: Bool = false) -> [String] {
         return cardIds.compactMap({ cardId in Cards.by(cardId: cardId )})
-            .filterCardsByFormat(format: game.currentFormat)
+            .filterCardsByFormat(gameType: game.currentGameType, format: game.currentFormatType)
             .filterCardsByPlayerClass(playerClass: playerClass, ignoreNeutral: ignoreNeutral)
             .compactMap({ card in card.id })
     }

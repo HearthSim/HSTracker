@@ -9,21 +9,6 @@
 import Foundation
 
 class CardUtils {
-    static func isCardFromFormat(card: Card, format: Format?) -> Bool {
-        switch format {
-        case .classic:
-            return CardSet.classicSets().contains(card.set ?? .invalid)
-        case .wild:
-            return !CardSet.classicSets().contains(card.set ?? .invalid)
-        case .standard:
-            return !CardSet.wildSets().contains(card.set ?? .invalid) && !CardSet.classicSets().contains(card.set ?? .invalid)
-        case .twist:
-            return CardSet.twistSets().contains(card.set ?? .invalid)
-        default:
-            return true
-        }
-    }
-    
     static func isCardFromPlayerClass(card: Card, playerClass: CardClass?, ignoreNeutral: Bool = false) -> Bool {
         guard let playerClass else {
             return false
@@ -32,8 +17,8 @@ class CardUtils {
              (!ignoreNeutral && card.playerClass == .neutral))
     }
 
-    static func mayCardBeRelevant(card: Card, format: Format?, playerClass: CardClass?, ignoreNeutral: Bool = false) -> Bool {
-        return isCardFromFormat(card: card, format: format) && isCardFromPlayerClass(card: card, playerClass: playerClass, ignoreNeutral: ignoreNeutral)
+    static func mayCardBeRelevant(card: Card, gameType: GameType, format: FormatType, playerClass: CardClass?, ignoreNeutral: Bool = false) -> Bool {
+        return card.isCardLegal(gameType: gameType, format: format) && isCardFromPlayerClass(card: card, playerClass: playerClass, ignoreNeutral: ignoreNeutral)
     }
     
     private static let _starshipIds = [
@@ -124,8 +109,8 @@ extension Card {
 }
 
 extension Array where Element: Card {
-    func filterCardsByFormat(format: Format?) -> [Card] {
-        return filter { CardUtils.isCardFromFormat(card: $0, format: format) }
+    func filterCardsByFormat(gameType: GameType, format: FormatType) -> [Card] {
+        return filter { $0.isCardLegal(gameType: gameType, format: format) }
     }
     
     func filterCardsByPlayerClass(playerClass: CardClass?, ignoreNeutral: Bool = false) -> [Card] {

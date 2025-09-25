@@ -203,7 +203,7 @@ class Game: NSObject, PowerEventHandler {
                 if self.gameEnded && Settings.clearTrackersOnGameEnd {
                     tracker.update(cards: [], top: [], bottom: [], sideboards: [], relatedCards: [], reset: reset)
                 } else {
-                    let cardWithRelatedCards = relatedCardsManager.getCardsOpponentMayHave(opponent)
+                    let cardWithRelatedCards = relatedCardsManager.getCardsOpponentMayHave(opponent, currentGameType, currentFormatType)
                     cardWithRelatedCards.forEach({
                         $0.count = 1
                     })
@@ -1698,6 +1698,10 @@ class Game: NSObject, PowerEventHandler {
         }
         
         counterManager.reset()
+        
+        if isTraditionalHearthstoneMatch {
+            CardLegalityChecker.loadCardsByFormat(gameType: currentGameType, format: currentFormatType)
+        }
 		
 		// update spectator information
         if spectator || currentGameMode == .mercenaries { // no deck for mercenaries
@@ -1765,6 +1769,10 @@ class Game: NSObject, PowerEventHandler {
             
             if self.gameEntity == nil || self.currentMode != .gameplay {
                 return
+            }
+            
+            if self.isTraditionalHearthstoneMatch {
+                CardLegalityChecker.loadCardsByFormat(gameType: self.currentGameType, format: self.currentFormatType)
             }
             
             if self.isBattlegroundsMatch() {

@@ -31,11 +31,11 @@ class CardsDrawnThisGameCounter: NumericCounter {
         if isPlayerCounter {
             return inPlayerDeckOrKnown(cardIds: relatedCards)
         }
-        guard let card = Cards.by(cardId: CardIds.Collectible.Neutral.PlayhouseGiant) else {
+        guard let playhouseGiant = Cards.by(cardId: CardIds.Collectible.Neutral.PlayhouseGiant) else {
             return false
         }
 
-        return game.opponent.originalClass == .rogue && CardUtils.isCardFromFormat(card: card, format: game.currentFormat) && counter >= 10
+        return game.opponent.originalClass == .rogue && playhouseGiant.isCardLegal(gameType: game.currentGameType, format: game.currentFormatType) && counter >= 10
     }
 
     override func getCardsToDisplay() -> [String] {

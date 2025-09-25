@@ -1023,6 +1023,7 @@
 		B8AF9336282FE46000864934 /* BattlegroundsGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AF9335282FE45F00864934 /* BattlegroundsGameView.swift */; };
 		B8AFA4092723306D00B3470E /* BoardOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8AFA4082723306C00B3470E /* BoardOverlay.xib */; };
 		B8AFA40B2723310700B3470E /* BoardOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AFA40A2723310700B3470E /* BoardOverlay.swift */; };
+		B8B287052E83838600C55767 /* CardLegalityChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B287042E83838600C55767 /* CardLegalityChecker.swift */; };
 		B8B61C222AEBEA9C00990359 /* AvailableSecretsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B61C212AEBEA9C00990359 /* AvailableSecretsProvider.swift */; };
 		B8B61C242AEBEB2C00990359 /* RemoteArenaSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B61C232AEBEB2C00990359 /* RemoteArenaSettings.swift */; };
 		B8B78F9B2C93C34E00DD33EC /* EntityBasedEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B78F9A2C93C34E00DD33EC /* EntityBasedEffect.swift */; };
@@ -2254,6 +2255,7 @@
 		B8AF9335282FE45F00864934 /* BattlegroundsGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsGameView.swift; sourceTree = "<group>"; };
 		B8AFA4082723306C00B3470E /* BoardOverlay.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BoardOverlay.xib; sourceTree = "<group>"; };
 		B8AFA40A2723310700B3470E /* BoardOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardOverlay.swift; sourceTree = "<group>"; };
+		B8B287042E83838600C55767 /* CardLegalityChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardLegalityChecker.swift; sourceTree = "<group>"; };
 		B8B61C212AEBEA9C00990359 /* AvailableSecretsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailableSecretsProvider.swift; sourceTree = "<group>"; };
 		B8B61C232AEBEB2C00990359 /* RemoteArenaSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteArenaSettings.swift; sourceTree = "<group>"; };
 		B8B78F9A2C93C34E00DD33EC /* EntityBasedEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityBasedEffect.swift; sourceTree = "<group>"; };
@@ -3224,10 +3226,11 @@
 		43B695551C90653A00F4D0AC /* Hearthstone */ = {
 			isa = PBXGroup;
 			children = (
-				B81B3D612D10CDD400DC9EB0 /* CardExtraInfo */,
 				B82238BB2BF948E600B405D4 /* BattlegroundsBoardState.swift */,
 				B82238BF2BF9891200B405D4 /* BattlegroundsHeroPickState.swift */,
 				B82238B92BF948B000B405D4 /* BoardSnapshot.swift */,
+				B81B3D612D10CDD400DC9EB0 /* CardExtraInfo */,
+				B8B287042E83838600C55767 /* CardLegalityChecker.swift */,
 				B8FDE9332CDB0B430093BFF7 /* CardUtils.swift */,
 				B8AB59992744145B00383EC8 /* Collection.swift */,
 				B8AB59972744139700383EC8 /* CollectionHelper.swift */,
@@ -4154,7 +4157,6 @@
 		B8E1E5B92D0C884400383975 /* Priest */ = {
 			isa = PBXGroup;
 			children = (
-				B805C28B2E4D73A300ECF220 /* RestInPeace.swift */,
 				B8E1E5E72D0C9E5500383975 /* AmuletOfUndying.swift */,
 				B8E1E5E92D0C9EB600383975 /* AnimateDead.swift */,
 				B89865B62D91EF0100BA5649 /* BenevolentBanker.swift */,
@@ -4175,6 +4177,7 @@
 				B8E1E5C42D0C8A9F00383975 /* Psychopomp.swift */,
 				B81B3D8A2D4098CE00DC9EB0 /* RaDen.swift */,
 				B86D8A1B2D95FD8E00AB65A5 /* RazaTheResealed.swift */,
+				B805C28B2E4D73A300ECF220 /* RestInPeace.swift */,
 				B8E1E5C62D0C8B6700383975 /* Resurrect.swift */,
 				B846CC7B2E157BF500552F9C /* Resuscitate.swift */,
 				B89865BC2D91EFE900BA5649 /* ScaleReplica.swift */,
@@ -5332,6 +5335,7 @@
 				43D308081C84410000480488 /* PlayerTrackersPreferences.swift in Sources */,
 				B854622D2CE008360083BB31 /* BaconWatcher.swift in Sources */,
 				B8E1E5A62D0B873E00383975 /* BeetlesSizeCounter.swift in Sources */,
+				B8B287052E83838600C55767 /* CardLegalityChecker.swift in Sources */,
 				43C567E91D5D0F5700451B6F /* LogLineZone.swift in Sources */,
 				B8B790102C974E8700DD33EC /* SaboteurEnchantment.swift in Sources */,
 				B89865A12D91D2B500BA5649 /* TramOperator.swift in Sources */,

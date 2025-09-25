@@ -47,8 +47,8 @@ class RelatedCardsManager {
         return relatedCards[cardId]
     }
     
-    public func getCardsOpponentMayHave(_ opponent: Player) -> [Card] {
-        return relatedCards.values.filter { card in card.shouldShowForOpponent(opponent: opponent) }
+    public func getCardsOpponentMayHave(_ opponent: Player, _ gameType: GameType, _ format: FormatType) -> [Card] {
+        return relatedCards.values.filter { card in card.shouldShowForOpponent(opponent: opponent) && card.isCardLegal(gameType: gameType, format: format) }
             .compactMap { card in Cards.by(cardId: card.getCardId()) }
     }
 }

@@ -20,7 +20,8 @@ class SuccumbToMadness: ResurrectionCard {
         guard let card = Cards.by(cardId: getCardId()) else {
             return false
         }
-        return CardUtils.mayCardBeRelevant(card: card, format: AppDelegate.instance().coreManager.game.currentFormat, playerClass: opponent.originalClass) && getRelatedCards(player: opponent).count > 0
+        let game = AppDelegate.instance().coreManager.game
+        return CardUtils.mayCardBeRelevant(card: card, gameType: game.currentGameType, format: game.currentFormatType, playerClass: opponent.originalClass) && getRelatedCards(player: opponent).count > 0
     }
     
     override func filterCard(card: Card) -> Bool {
