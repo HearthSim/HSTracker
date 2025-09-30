@@ -9,6 +9,7 @@
 import Foundation
 import OAuthSwift
 import PromiseKit
+import Mixpanel
 
 enum HSReplayError: Error {
     case missingAccount
@@ -257,6 +258,55 @@ class HSReplayAPI {
             })
     }
     
+    static func linkMixpanelAccount() {
+        let token_payload = [
+            "i": "hst",
+            "m": Mixpanel.mainInstance().distinctId
+        ]
+
+        logger.info(token_payload)
+
+        do {
+            let json_string = String(data: try JSONSerialization.data(withJSONObject: token_payload), encoding: String.Encoding.utf8)
+
+            let encoded_payload = json_string?.data(using: .utf8)?.base64EncodedString()
+
+            var body: Data?
+
+            let encoder = JSONEncoder()
+
+            do {
+                body = try encoder.encode(["client_analytics_token": encoded_payload])
+            } catch {
+                logger.error(error)
+            }
+
+            startAuthorizedRequest(
+                HSReplay.mixpanelIdentifyUrl,
+                method: .POST,
+                parameters: [:],
+                headers: defaultHeaders,
+                body: body,
+                onTokenRenewal: tokenRenewalHandler,
+                completionHandler: { result in
+                    switch result {
+                    case .success(let response):
+                        MixpanelEvents.linkedMixpanelToken = true;
+                        logger.info("Succesfully identified mixpanel token")
+                    case .failure(let error):
+                        switch error {
+                        case .requestError(let error, _):
+                            logger.error("\(error.localizedDescription)")
+                        default:
+                            logger.error("Failed to identified token: \(error)")
+                        }
+                    }
+                })
+        } catch let error {
+            logger.error("Failed to create payload : \(error)")
+        }
+    }
+
     static func updateAccountStatus(handle: @escaping (Bool) -> Void) {
         guard let token = Settings.hsReplayUploadToken else {
             logger.error("Authorization token not set yet")

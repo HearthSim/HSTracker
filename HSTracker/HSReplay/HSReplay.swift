@@ -44,4 +44,6 @@ struct HSReplay {
     static let constructedMulliganGuide = "\(baseApiUrl)/mulligan/overlay/"
     static let constructedMulliganGuideStatus = "\(baseApiUrl)/mulligan/status/"
     static let tier7TrinketPickStats = "\(baseApiUrl)/battlegrounds/trinket_pick/"
+
+    static let mixpanelIdentifyUrl = "\(baseApiUrl)/client_analytics/identify/"
 }

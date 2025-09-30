@@ -126,9 +126,12 @@ class HSReplayPreferences: NSViewController, PreferencePane {
             Settings.hsReplayOAuthToken = nil
             Settings.hsReplayUploadToken = nil
             Settings.hsReplayUsername = nil
+            MixpanelEvents.resetAccount()
+
             updateStatus()
         } else {
             HSReplayAPI.oAuthAuthorize {
+                HSReplayAPI.linkMixpanelAccount()
                 _ = HSReplayAPI.getAccount().done { result in
                     switch result {
                         case .failed:

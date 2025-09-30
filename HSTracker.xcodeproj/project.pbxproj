@@ -16,6 +16,9 @@
 		1CCB4AEB1E8A4930003FD1AD /* LogEventHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCB4AEA1E8A4930003FD1AD /* LogEventHandlers.swift */; };
 		1CF204F91E83B74300037A42 /* MirrorHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF204F81E83B74300037A42 /* MirrorHelper.swift */; };
 		340AAC051D0544AD0015FE33 /* StringTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340AAC041D0544AD0015FE33 /* StringTracker.swift */; };
+		3CB1A35D2E8C3A400090486F /* Mixpanel in Frameworks */ = {isa = PBXBuildFile; productRef = 3CB1A35C2E8C3A400090486F /* Mixpanel */; };
+		3CB1A35F2E8C63060090486F /* MixpanelEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB1A35E2E8C63010090486F /* MixpanelEvents.swift */; };
+		3CB1A3602E8C63060090486F /* MixpanelEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB1A35E2E8C63010090486F /* MixpanelEvents.swift */; };
 		43050C621E6B484D007600EA /* Hearthstone.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43050C611E6B484D007600EA /* Hearthstone.xcassets */; };
 		4305CA471CF434E30048E7EC /* Cards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4305CA461CF434E30048E7EC /* Cards.swift */; };
 		4308EB7E1D76AFE6000897C8 /* ReleaseChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4308EB7D1D76AFE6000897C8 /* ReleaseChannel.swift */; };
@@ -1404,6 +1407,7 @@
 		1CF1B58B1E815810007DCBF2 /* LogReaderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogReaderTests.swift; sourceTree = "<group>"; };
 		1CF204F81E83B74300037A42 /* MirrorHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MirrorHelper.swift; sourceTree = "<group>"; };
 		340AAC041D0544AD0015FE33 /* StringTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTracker.swift; sourceTree = "<group>"; };
+		3CB1A35E2E8C63010090486F /* MixpanelEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixpanelEvents.swift; sourceTree = "<group>"; };
 		43050C601E6B2C0E007600EA /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/TrackersPreferences.strings; sourceTree = "<group>"; };
 		43050C611E6B484D007600EA /* Hearthstone.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Hearthstone.xcassets; sourceTree = "<group>"; };
 		4305CA461CF434E30048E7EC /* Cards.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cards.swift; sourceTree = "<group>"; };
@@ -2677,6 +2681,7 @@
 				4367899F1CAC05DD00C962D1 /* Cocoa.framework in Frameworks */,
 				B8D75BD925BDD47A00446923 /* FMDB in Frameworks */,
 				B8E1E5A32CF94FB900383975 /* AppMover in Frameworks */,
+				3CB1A35D2E8C3A400090486F /* Mixpanel in Frameworks */,
 				436789D11CAE484000C962D1 /* Foundation.framework in Frameworks */,
 				433554331D5F6B4400277B27 /* libz.tbd in Frameworks */,
 				B8D75BEF25BDFE6D00446923 /* Gzip in Frameworks */,
@@ -3037,6 +3042,7 @@
 		439C7E931C777F8900D29859 /* Logging */ = {
 			isa = PBXGroup;
 			children = (
+				3CB1A35E2E8C63010090486F /* MixpanelEvents.swift */,
 				B864AE232597BB0500793F36 /* AdventureConfig.swift */,
 				1C132F811DBA24C1002B1BF2 /* AppHealth.swift */,
 				B898994C2CA450720011B184 /* BattlegroundsTrinketPickState.swift */,
@@ -4521,6 +4527,7 @@
 				B8196F102CC1BB58007C0371 /* Sentry */,
 				B889F6082CEC1CFB001506F4 /* Atomics */,
 				B8E1E5A22CF94FB900383975 /* AppMover */,
+				3CB1A35C2E8C3A400090486F /* Mixpanel */,
 			);
 			productName = HSTracker;
 			productReference = 439C7E481C7772C000D29859 /* HSTracker.app */;
@@ -4621,6 +4628,7 @@
 				B8196F0F2CC1BB58007C0371 /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
 				B889F6072CEC1CFB001506F4 /* XCRemoteSwiftPackageReference "swift-atomics" */,
 				B8E1E5A12CF94F2A00383975 /* XCRemoteSwiftPackageReference "AppMover" */,
+				3CB1A35B2E8C3A390090486F /* XCRemoteSwiftPackageReference "mixpanel-swift" */,
 			);
 			productRefGroup = 439C7E491C7772C000D29859 /* Products */;
 			projectDirPath = "";
@@ -5710,6 +5718,7 @@
 				B820293D2CD2CFB400C19A8C /* StarlightWandererEnchantment.swift in Sources */,
 				B8B78FBA2C95298A00DD33EC /* DiscipleOfEonarEnchantment.swift in Sources */,
 				B846CC6A2E09F03300552F9C /* TheLichKing.swift in Sources */,
+				3CB1A3602E8C63060090486F /* MixpanelEvents.swift in Sources */,
 				B846CCBA2E1C5D6500552F9C /* Torga.swift in Sources */,
 				B80B5B2F2C49BF9D005F4321 /* CompositionStatsException.swift in Sources */,
 				B86D8A182D95FB2100AB65A5 /* RedscaleDragontamer.swift in Sources */,
@@ -6106,6 +6115,7 @@
 				43C1CAAD1E96CD6F008C20B1 /* GraveyardCounter.swift in Sources */,
 				43C1CAAE1E96CD6F008C20B1 /* JadeCounter.swift in Sources */,
 				43C1CAAF1E96CD6F008C20B1 /* WindowManager.swift in Sources */,
+				3CB1A35F2E8C63060090486F /* MixpanelEvents.swift in Sources */,
 				43C1CAB01E96CD6F008C20B1 /* ImageUtils.swift in Sources */,
 				43C1CAB11E96CD6F008C20B1 /* ClassColor.swift in Sources */,
 				B8643D012759814800B2D708 /* MercenariesCoins.swift in Sources */,
@@ -6882,6 +6892,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		3CB1A35B2E8C3A390090486F /* XCRemoteSwiftPackageReference "mixpanel-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mixpanel/mixpanel-swift";
+			requirement = {
+				kind = exactVersion;
+				version = 5.1.3;
+			};
+		};
 		B8196F0F2CC1BB58007C0371 /* XCRemoteSwiftPackageReference "sentry-cocoa" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/getsentry/sentry-cocoa.git";
@@ -6997,6 +7015,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		3CB1A35C2E8C3A400090486F /* Mixpanel */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3CB1A35B2E8C3A390090486F /* XCRemoteSwiftPackageReference "mixpanel-swift" */;
+			productName = Mixpanel;
+		};
 		B8196F102CC1BB58007C0371 /* Sentry */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B8196F0F2CC1BB58007C0371 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
