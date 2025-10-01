@@ -155,6 +155,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
                         case .failed:
                             logger.error("Failed to retrieve account data")
                         case .success(account: let data):
+                            Settings.hsReplayUsername = data.username
                             logger.info("Successfully retrieved account data: Username: \(data.username), battletag: \(data.battletag)")
                         }
                     }.catch { error in
@@ -170,6 +171,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
                 case .failed:
                     logger.error("Failed to retrieve account data")
                 case .success(account: let data):
+                    Settings.hsReplayUsername = data.username
                     logger.info("Successfully retrieved account data: Username: \(data.username), battletag: \(data.battletag)")
                 }
             }
