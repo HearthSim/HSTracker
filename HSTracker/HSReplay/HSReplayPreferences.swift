@@ -125,10 +125,21 @@ class HSReplayPreferences: NSViewController, PreferencePane {
             Settings.hsReplayOAuthRefreshToken = nil
             Settings.hsReplayOAuthToken = nil
             Settings.hsReplayUploadToken = nil
+            Settings.hsReplayUsername = nil
             updateStatus()
         } else {
             HSReplayAPI.oAuthAuthorize {
-                self.updateStatus()
+                _ = HSReplayAPI.getAccount().done { result in
+                    switch result {
+                        case .failed:
+                            logger.error("Failed to retrieve account data")
+                        case .success(account: let data):
+                            Settings.hsReplayUsername = data.username
+                            logger.info("Successfully retrieved account data: Username: \(data.username), battletag: \(data.battletag)")
+                    }
+
+                    self.updateStatus()
+                }
             }
         }
     }
@@ -151,7 +162,12 @@ class HSReplayPreferences: NSViewController, PreferencePane {
     private func updateStatus() {
         if Settings.hsReplayOAuthRefreshToken != nil {
             oAuthAccount.title = String.localizedString("Logout", comment: "")
-            myAccountMessage.stringValue = String.localizedString("Logged in to HSReplay.net. Open your collection and the uploading will begin automatically.", comment: "")
+            var message = String.localizedString("Logged in to HSReplay.net. Open your collection and it will be automatically uploaded.", comment: "")
+
+            if let username = Settings.hsReplayUsername {
+                message = String(format: String.localizedString("Logged in to HSReplay.net as %@. Open your collection and it will be automatically uploaded.", comment: ""), username)
+            }
+            myAccountMessage.stringValue = message
         } else {
             oAuthAccount.title = String.localizedString("Login to HSReplay.net", comment: "")
             myAccountMessage.stringValue = String.localizedString("Login to claim your replays and enable all HSReplay.net features.", comment: "")

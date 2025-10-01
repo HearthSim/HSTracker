@@ -63,7 +63,8 @@
 "Login" = "Login";
 "Logout" = "Logout";
 "Login to HSReplay.net" = "Login to HSReplay.net";
-"Logged in to HSReplay.net. Open your collection and the uploading will begin automatically." = "Logged in to HSReplay.net. Open your collection and the uploading will begin automatically.";
+"Logged in to HSReplay.net. Open your collection and it will be automatically uploaded." = "Logged in to HSReplay.net. Open your collection and it will be automatically uploaded.";
+"Logged in to HSReplay.net as %@. Open your collection and it will be automatically uploaded." = "Logged in to HSReplay.net as %@. Open your collection and it will be automatically uploaded.";
 "Login to claim your replays and enable all HSReplay.net features." = "Login to claim your replays and enable all HSReplay.net features.";
 "Top deck:" = "Top deck:";
 "In top 2:" = "In top 2:";
