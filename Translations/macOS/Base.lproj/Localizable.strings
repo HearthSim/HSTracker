@@ -166,6 +166,7 @@
 "SPACE" = "Great Dark Beyond";
 "EMERALD_DREAM" = "Into the Emerald Dream";
 "THE_LOST_CITY" = "The Lost City";
+"TIME_TRAVEL" = "Across the Timeways";
 
 /* card type */
 "all_types" = "All";
