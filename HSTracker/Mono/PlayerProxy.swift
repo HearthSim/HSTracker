@@ -21,7 +21,7 @@ class PlayerProxy: MonoHandle, MonoClassInitializer {
             PlayerProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Simulation", name: "Player")
             // methods
             PlayerProxy._constructor = MonoHelper.getMethod(PlayerProxy._class, ".ctor", 1)
-            PlayerProxy._setPlayerHeroPower = MonoHelper.getMethod(PlayerProxy._class, "AddHeroPower", 5)
+            PlayerProxy._setPlayerHeroPower = MonoHelper.getMethod(PlayerProxy._class, "AddHeroPower", 7)
             PlayerProxy._setSecrets = MonoHelper.getMethod(PlayerProxy._class, "SetSecretsHstracker", 1)
             
             // fields
@@ -53,8 +53,8 @@ class PlayerProxy: MonoHandle, MonoClassInitializer {
 
     }
     
-    func addHeroPower(heroPowerCardId: String, friendly: Bool, isActivated: Bool, data: Int32, data2: Int32) {
-        MonoHelper.setStringBoolBoolIntInt(obj: self, method: PlayerProxy._setPlayerHeroPower, v1: heroPowerCardId, v2: friendly, v3: isActivated, v4: data, v5: data2)
+    func addHeroPower(heroPowerCardId: String, friendly: Bool, isActivated: Bool, data: Int32, data2: Int32, attachedMinion: MonoHandle = MonoHandle()) {
+        MonoHelper.setStringBoolBoolIntIntHandle(obj: self, method: PlayerProxy._setPlayerHeroPower, v1: heroPowerCardId, v2: friendly, v3: isActivated, v4: data, v5: data2, v6: attachedMinion)
     }
     
     func setSecrets(secrets: [Int]) {

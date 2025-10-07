@@ -1021,5 +1021,6 @@ extension CardIds.NonCollectible {
         static let ElementalShopBuffPlayerEnchantmentDnt = "BG_ShopBuff_Elemental"
         static let WhirringProtector_WhirringProtectorEnchantment = "BG33_807e"
         static let WhirringProtector_WhirringProtector2 = "BG33_807_Ge"
+        static let TavishStormpike_LockAndLoad = "BG22_HERO_000p_Alt"
     }
 }

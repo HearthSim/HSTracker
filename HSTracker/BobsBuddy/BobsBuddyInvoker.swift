@@ -874,6 +874,8 @@ class BobsBuddyInvoker {
         for heroPower in playerHeroPowers {
             var pHpData = heroPower[.tag_script_data_num_1]
             let pHpData2 = heroPower[.tag_script_data_num_2]
+            var pHpAttachedMinion: MinionProxy?
+            
             if heroPower.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_RapidReanimation {
                 let minionsInPlay = game.player.board.filter { e in e.isMinion && e.isControlled(by: game.player.id)}.compactMap { x in x.id }
                 let attachedToEntityId = game.player.playerEntities
@@ -893,6 +895,12 @@ class BobsBuddyInvoker {
                 }
             }
             
+            if heroPower.cardId == CardIds.NonCollectible.Neutral.TavishStormpike_LockAndLoad {
+                let attachedEntityId = heroPower[.tag_script_data_ent_1]
+                if let attachedEntity = gamePlayer.setAside.first(where: { e in e.id == attachedEntityId }) {
+                    pHpAttachedMinion = BobsBuddyInvoker.getMinionFromEntity(sim: simulator, player: friendly, ent: attachedEntity, attachedEntities: getAttachedEntities(entityId: attachedEntityId))
+                }
+            }
             inputPlayer.addHeroPower(heroPowerCardId: heroPower.cardId, friendly: friendly, isActivated: wasHeroPowerActivated(heroPower: heroPower), data: Int32(pHpData), data2: Int32(pHpData2))
         }
 

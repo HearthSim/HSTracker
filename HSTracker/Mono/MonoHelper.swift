@@ -751,13 +751,14 @@ class MonoHelper {
         params.deallocate()
     }
 
-    static func setStringBoolBoolIntInt(obj: MonoHandle, method: OpaquePointer, v1: String, v2: Bool, v3: Bool, v4: Int32, v5: Int32) {
-        let params = UnsafeMutablePointer<OpaquePointer>.allocate(capacity: 5)
-        let ptrs = UnsafeMutablePointer<Int32>.allocate(capacity: 4)
+    static func setStringBoolBoolIntIntHandle(obj: MonoHandle, method: OpaquePointer, v1: String, v2: Bool, v3: Bool, v4: Int32, v5: Int32, v6: MonoHandle) {
+        let params = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: 7)
+        let ptrs = UnsafeMutablePointer<Int32>.allocate(capacity: 5)
         ptrs[0] = v2 ? 1 : 0
         ptrs[1] = v3 ? 1 : 0
         ptrs[2] = v4
         ptrs[3] = v5
+        ptrs[4] = 0
         v1.withCString({
             params[0] = mono_string_new(MonoHelper._monoInstance, $0)
         })
@@ -765,8 +766,10 @@ class MonoHelper {
         params[2] = OpaquePointer(ptrs.advanced(by: 1))
         params[3] = OpaquePointer(ptrs.advanced(by: 2))
         params[4] = OpaquePointer(ptrs.advanced(by: 3))
+        params[5] = OpaquePointer(ptrs.advanced(by: 4))
+        params[6] = OpaquePointer(v6.get())
         
-        params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 5, {
+        params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 7, {
             let inst = obj.get()
 
             mono_runtime_invoke(method, inst, $0, nil)
