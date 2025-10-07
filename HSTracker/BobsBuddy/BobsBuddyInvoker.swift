@@ -874,6 +874,7 @@ class BobsBuddyInvoker {
         for heroPower in playerHeroPowers {
             var pHpData = heroPower[.tag_script_data_num_1]
             let pHpData2 = heroPower[.tag_script_data_num_2]
+            let pHpData3 = heroPower[.tag_script_data_num_3]
             var pHpAttachedMinion: MinionProxy?
             
             if heroPower.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_RapidReanimation {
@@ -905,7 +906,7 @@ class BobsBuddyInvoker {
                     pHpAttachedMinion = BobsBuddyInvoker.getMinionFromEntity(sim: simulator, player: friendly, ent: attachedEntity, attachedEntities: getAttachedEntities(entityId: attachedEntityId))
                 }
             }
-            inputPlayer.addHeroPower(heroPowerCardId: heroPower.cardId, friendly: friendly, isActivated: wasHeroPowerActivated(heroPower: heroPower), data: Int32(pHpData), data2: Int32(pHpData2), attachedMinion: pHpAttachedMinion ?? MonoHandle())
+            inputPlayer.addHeroPower(heroPowerCardId: heroPower.cardId, friendly: friendly, isActivated: wasHeroPowerActivated(heroPower: heroPower), data: Int32(pHpData), data2: Int32(pHpData2), data3: Int32(pHpData3), attachedMinion: pHpAttachedMinion ?? MonoHandle())
         }
 
         let playerQuests = inputPlayer.quests

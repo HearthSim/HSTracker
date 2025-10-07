@@ -416,11 +416,11 @@ class MonoHelper {
             
             player.health = 4
             player.tier = 3
-            player.addHeroPower(heroPowerCardId: "TB_BaconShop_HP_061", friendly: true, isActivated: true, data: 0, data2: 0)
+            player.addHeroPower(heroPowerCardId: "TB_BaconShop_HP_061", friendly: true, isActivated: true, data: 0, data2: 0, data3: 0)
 
             opponent.health = 3
             opponent.tier = 3
-            opponent.addHeroPower(heroPowerCardId: "TB_BaconShop_HP_043", friendly: false, isActivated: false, data: 0, data2: 0)
+            opponent.addHeroPower(heroPowerCardId: "TB_BaconShop_HP_043", friendly: false, isActivated: false, data: 0, data2: 0, data3: 0)
             
             let ps = player.side
             let os = opponent.side
@@ -751,14 +751,14 @@ class MonoHelper {
         params.deallocate()
     }
 
-    static func setStringBoolBoolIntIntHandle(obj: MonoHandle, method: OpaquePointer, v1: String, v2: Bool, v3: Bool, v4: Int32, v5: Int32, v6: MonoHandle) {
+    static func setStringBoolBoolIntIntIntHandle(obj: MonoHandle, method: OpaquePointer, v1: String, v2: Bool, v3: Bool, v4: Int32, v5: Int32, v6: Int32, v7: MonoHandle) {
         let params = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: 7)
         let ptrs = UnsafeMutablePointer<Int32>.allocate(capacity: 5)
         ptrs[0] = v2 ? 1 : 0
         ptrs[1] = v3 ? 1 : 0
         ptrs[2] = v4
         ptrs[3] = v5
-        ptrs[4] = 0
+        ptrs[4] = v6
         v1.withCString({
             params[0] = mono_string_new(MonoHelper._monoInstance, $0)
         })
@@ -767,7 +767,7 @@ class MonoHelper {
         params[3] = OpaquePointer(ptrs.advanced(by: 2))
         params[4] = OpaquePointer(ptrs.advanced(by: 3))
         params[5] = OpaquePointer(ptrs.advanced(by: 4))
-        params[6] = OpaquePointer(v6.get())
+        params[6] = OpaquePointer(v7.get())
         
         params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 7, {
             let inst = obj.get()

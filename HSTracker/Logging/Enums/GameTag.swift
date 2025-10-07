@@ -410,6 +410,7 @@ enum GameTag: Int, CaseIterable, Codable {
     bacon_bloodgembuffhealthvalue = 2827,
     venomous = 2853,
     gametag_2878 = 2878,
+    tag_script_data_num_3 = 2889,
     bacon_global_anomaly_dbid = 2897,
     cthun_health_buff = 3053,
     cthun_attack_buff = 3054,

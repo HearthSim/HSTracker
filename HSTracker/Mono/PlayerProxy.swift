@@ -53,8 +53,8 @@ class PlayerProxy: MonoHandle, MonoClassInitializer {
 
     }
     
-    func addHeroPower(heroPowerCardId: String, friendly: Bool, isActivated: Bool, data: Int32, data2: Int32, attachedMinion: MonoHandle = MonoHandle()) {
-        MonoHelper.setStringBoolBoolIntIntHandle(obj: self, method: PlayerProxy._setPlayerHeroPower, v1: heroPowerCardId, v2: friendly, v3: isActivated, v4: data, v5: data2, v6: attachedMinion)
+    func addHeroPower(heroPowerCardId: String, friendly: Bool, isActivated: Bool, data: Int32, data2: Int32, data3: Int32, attachedMinion: MonoHandle = MonoHandle()) {
+        MonoHelper.setStringBoolBoolIntIntIntHandle(obj: self, method: PlayerProxy._setPlayerHeroPower, v1: heroPowerCardId, v2: friendly, v3: isActivated, v4: data, v5: data2, v6: data3, v7: attachedMinion)
     }
     
     func setSecrets(secrets: [Int]) {
