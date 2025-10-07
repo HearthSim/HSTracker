@@ -59,7 +59,7 @@ enum BnetGameType: Int {
             return .bgt_friends
         case .gt_tutorial:
             return .bgt_tutorial
-        case .gt_arena, .gt_underground_arena:
+        case .gt_arena:
             return .bgt_arena
         case .gt_test:
             return .bgt_test1
@@ -107,6 +107,8 @@ enum BnetGameType: Int {
             return .bgt_battlegrounds_duo_vs_ai
         case .gt_battlegrounds_duo_friendly:
             return .bgt_battlegrounds_duo_friendly
+        case .gt_underground_arena:
+            return .bgt_underground_arena
         default:
             return .bgt_unknown
         }
