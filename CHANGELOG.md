@@ -1,3 +1,15 @@
+# 3.3.12
+## New
+- Updated for Hearthstone 33.6.0
+- Show HSReplay user name in Settings panel
+## Fixes
+- Fixed an issue where cards drawn by Nightmare Lord Xavius were not removed from the decklist.
+## Bob's Buddy
+- Fixed incorrect simulation results due to Tavish Hero Power.
+- Fixed incorrect simulation results due to Malorne.
+- Fixed incorrect simulation results due to Onyxia Hero Power.
+- Fixed incorrect simulation results due to Geared Guard.
+
 # 3.3.11
 ## Fixes
 - Filtered out unavailable cards: Opponent's counters and related cards on Arena are now hidden if they are not in the current card pool.
