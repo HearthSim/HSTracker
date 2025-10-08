@@ -258,7 +258,7 @@ struct TagChangeActions {
         }
         
         // prevents dark gift leaking the card
-        if entity.cardId == CardIds.NonCollectible.Neutral.TreacherousTormentor_DarkGiftToken {
+        if entity.cardId == CardIds.NonCollectible.Neutral.TreacherousTormentor_DarkGiftToken && entity.isControlled(by: eventHandler.opponent.id) {
             targetEntity.info.revealedOnHistory = false
             targetEntity.info.hidden = true
             return
