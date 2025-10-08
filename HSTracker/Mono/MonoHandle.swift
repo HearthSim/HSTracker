@@ -16,7 +16,7 @@ class MonoHandle {
     }
     
     required init(obj: UnsafeMutablePointer<MonoObject>?) {
-        _handle = mono_gchandle_new(obj, 0)
+        _handle = (obj != nil) ? mono_gchandle_new(obj, 0) : 0
     }
     
     func set(obj: UnsafeMutablePointer<MonoObject>?) {
