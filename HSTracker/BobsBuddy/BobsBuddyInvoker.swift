@@ -897,8 +897,11 @@ class BobsBuddyInvoker {
             }
             
             if heroPower.cardId == CardIds.NonCollectible.Neutral.TavishStormpike_LockAndLoad {
-                errorState = .unknownCards
-                throw "Board has unsupported hero power. Exiting."
+                let attachedEntityId = heroPower[.tag_script_data_ent_1]
+                if let attachedEntity = gamePlayer.setAside.first(where: {e in e.id == attachedEntityId }) {
+                    pHpAttachedMinion = BobsBuddyInvoker.getMinionFromEntity(sim: simulator, player: friendly, ent: attachedEntity,
+                                                                             attachedEntities: getAttachedEntities(entityId: attachedEntityId))
+                }
             }
             inputPlayer.addHeroPower(heroPowerCardId: heroPower.cardId, friendly: friendly, isActivated: wasHeroPowerActivated(heroPower: heroPower), data: Int32(pHpData), data2: Int32(pHpData2), data3: Int32(pHpData3), attachedMinion: pHpAttachedMinion ?? MonoHandle())
         }
@@ -1159,6 +1162,32 @@ class BobsBuddyInvoker {
         for secret in secretsToAdd {
             input.addSecretFromDbfid(id: secret, target: oppSecrets)
         }
+        tryRerun()
+    }
+    
+    func updateOpponentHeroPower(attachedEntity: Entity) {
+        guard let input, state == .combat else {
+            return
+        }
+        
+        var tavishLockAndLoad: HeroPowerDataProxy?
+        
+        let heroPowers = input.opponent.heroPowers
+        let count = MonoHelper.listCount(obj: heroPowers)
+        for idx in 0 ..< count {
+            let hp = HeroPowerDataProxy(obj: MonoHelper.listItem(obj: heroPowers, index: idx).get())
+            if hp.cardId == CardIds.NonCollectible.Neutral.TavishStormpike_LockAndLoad {
+                tavishLockAndLoad = hp
+                break
+            }
+        }
+
+        guard let tavishLockAndLoad else {
+            return
+        }
+
+        tavishLockAndLoad.attachedMinion = BobsBuddyInvoker.getMinionFromEntity(sim: SimulatorProxy(), player: false, ent: attachedEntity, attachedEntities: getAttachedEntities(entityId: attachedEntity.id))
+
         tryRerun()
     }
 

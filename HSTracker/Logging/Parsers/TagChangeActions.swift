@@ -218,6 +218,11 @@ struct TagChangeActions {
             return
         }
 
+        if eventHandler.currentGameMode == .battlegrounds && AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock?.cardId == CardIds.NonCollectible.Neutral.TavishStormpike_LockAndLoad &&
+            entity[.controller] == eventHandler.opponent.id && entity.isInZone(zone: .play) {
+            BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateOpponentHeroPower(attachedEntity: entity)
+        }
+        
         onDredge(eventHandler: eventHandler, entity: entity, target: targetEntity)
         
         if entity.isControlled(by: eventHandler.opponent.id) {

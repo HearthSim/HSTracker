@@ -44,4 +44,7 @@ class HeroPowerDataProxy: MonoHandle, MonoClassInitializer {
 
     @MonoPrimitiveProperty(property: "Data", owner: HeroPowerDataProxy.self)
     var data: Int32
+    
+    @MonoHandleProperty(property: "AttachedMinion", owner: HeroPowerDataProxy.self)
+    var attachedMinion: MinionProxy
 }
