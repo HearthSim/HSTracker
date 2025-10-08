@@ -1,3 +1,7 @@
+# 3.3.13
+## Fixes
+- Fixed crash during Battlegrounds
+
 # 3.3.12
 ## New
 - Updated for Hearthstone 33.6.0
