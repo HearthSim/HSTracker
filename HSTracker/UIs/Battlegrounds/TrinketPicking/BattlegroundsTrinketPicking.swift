@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class BattlegroundsTrinketPicking: OverWindowController {
     @IBOutlet var itemsStack: NSStackView!
@@ -101,9 +102,22 @@ class BattlegroundsTrinketPicking: OverWindowController {
                     old.removeFromSuperview()
                 }
                 
+                if #available(macOS 10.15, *) {
+                    itemsStack.edgeInsets = NSEdgeInsets(top: 10, left: 20, bottom: 0, right: 0)
+                }
+                
                 if let trinketStats = viewModel.trinketStats {
                     for vm in trinketStats {
-                        let view = BattlegroundsSingleTrinket(frame: NSRect(x: 0, y: 0, width: 277, height: 430), viewModel: vm)
+                        let view = if #available(macOS 10.15, *) {
+                            NSHostingView(
+                                rootView: BattlegroundsStatsPicker(
+                                    viewModel: vm, itemHasCost: true
+                                ))
+                        } else {
+                            BattlegroundsSingleTrinket(
+                                frame: NSRect(x: 0, y: 0, width: 277, height: 430),
+                                viewModel: vm)
+                        }
                         itemsStack.addArrangedSubview(view)
                     }
                 }
