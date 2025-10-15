@@ -11,6 +11,7 @@
 import Foundation
 import RealmSwift
 import HearthMirror
+import Mixpanel
 
 struct Sideboard {
     let ownerCardId: String
@@ -1941,6 +1942,28 @@ class Game: NSObject, PowerEventHandler {
 		return result
 	}
 
+    func trackGameEnd() {
+        if !(isConstructedMatch() || isBattlegroundsMatch() || isArenaMatch) {
+            return;
+        }
+
+        var properties: Properties = [
+            "franchise": isBattlegroundsMatch() ? "Battlegrounds" : "HS-Constructed",
+            "game_type": currentGameType.rawValue,
+            // TODO: If we want to add more event tracking to HSTracker
+            // move these into super properties that apply to every event
+            // and are updated whenever they change
+            "is_authenticated": HSReplayAPI.isFullyAuthenticated,
+            "card_language": Settings.hearthstoneLanguage?.rawValue,
+        ]
+
+        if (isArenaMatch) {
+            properties["sub_franchise"] = ["Arena"]
+        }
+
+        MixpanelEvents.sendEvent(event: .EndMatch, properties: properties)
+    }
+
     func handleEndGame() {
 		
 		if self.handledGameEnd {
@@ -1968,6 +1991,8 @@ class Game: NSObject, PowerEventHandler {
         // reset the turn counter
         updateTurnCounter(turn: 1)
         
+        trackGameEnd()
+
         if isMercenariesMatch() {
             updatePostGameMercenariesRating(gameStats: currentGameStats)
         }
@@ -2335,7 +2360,7 @@ class Game: NSObject, PowerEventHandler {
     
     var isFriendlyMatch: Bool { return currentGameType == .gt_vs_friend }
     
-    var isArenaMatch: Bool { return currentGameType == .gt_arena }
+    var isArenaMatch: Bool { return currentGameType == .gt_arena || currentGameType == .gt_underground_arena }
     
     func isAnyBattlegroundsSessionSettingActive() -> Bool {
         return Settings.showMinionsSection || Settings.showMMR || Settings.showLatestGames
