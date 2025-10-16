@@ -1027,6 +1027,7 @@
 		B8AFA4092723306D00B3470E /* BoardOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8AFA4082723306C00B3470E /* BoardOverlay.xib */; };
 		B8AFA40B2723310700B3470E /* BoardOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AFA40A2723310700B3470E /* BoardOverlay.swift */; };
 		B8B287052E83838600C55767 /* CardLegalityChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B287042E83838600C55767 /* CardLegalityChecker.swift */; };
+		B8B287072EA19A3100C55767 /* PortalVanguard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B287062EA19A3100C55767 /* PortalVanguard.swift */; };
 		B8B61C222AEBEA9C00990359 /* AvailableSecretsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B61C212AEBEA9C00990359 /* AvailableSecretsProvider.swift */; };
 		B8B61C242AEBEB2C00990359 /* RemoteArenaSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B61C232AEBEB2C00990359 /* RemoteArenaSettings.swift */; };
 		B8B78F9B2C93C34E00DD33EC /* EntityBasedEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B78F9A2C93C34E00DD33EC /* EntityBasedEffect.swift */; };
@@ -2260,6 +2261,7 @@
 		B8AFA4082723306C00B3470E /* BoardOverlay.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BoardOverlay.xib; sourceTree = "<group>"; };
 		B8AFA40A2723310700B3470E /* BoardOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardOverlay.swift; sourceTree = "<group>"; };
 		B8B287042E83838600C55767 /* CardLegalityChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardLegalityChecker.swift; sourceTree = "<group>"; };
+		B8B287062EA19A3100C55767 /* PortalVanguard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortalVanguard.swift; sourceTree = "<group>"; };
 		B8B61C212AEBEA9C00990359 /* AvailableSecretsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailableSecretsProvider.swift; sourceTree = "<group>"; };
 		B8B61C232AEBEB2C00990359 /* RemoteArenaSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteArenaSettings.swift; sourceTree = "<group>"; };
 		B8B78F9A2C93C34E00DD33EC /* EntityBasedEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityBasedEffect.swift; sourceTree = "<group>"; };
@@ -3636,6 +3638,7 @@
 				B8E1E5DF2D0C9D5F00383975 /* NzothGodOfTheDeep.swift */,
 				B8E1E5E12D0C9DA100383975 /* NzothTheCorruptor.swift */,
 				B898659A2D91D21400BA5649 /* PluckyPaintfin.swift */,
+				B8B287062EA19A3100C55767 /* PortalVanguard.swift */,
 				B852D8382DDFBA4E00884B26 /* PrimordialProtector.swift */,
 				B846CC832E15B6FC00552F9C /* PterrordaxEgg.swift */,
 				B852D8182DDACAAF00884B26 /* Shaladrassil.swift */,
@@ -4994,6 +4997,7 @@
 				43F204121E93C2E600E0BC4A /* Warlock.swift in Sources */,
 				B83CF364294BB808003C9062 /* BattlegroundsQuestPicking.swift in Sources */,
 				B846CCA02E1C221E00552F9C /* LatorviusGazeOfTheCity.swift in Sources */,
+				B8B287072EA19A3100C55767 /* PortalVanguard.swift in Sources */,
 				B82029552CD459E800C19A8C /* GridCardImageItem.swift in Sources */,
 				B8B7900E2C974E1300DD33EC /* PrimordialStudiesEnchantment.swift in Sources */,
 				B89865DF2D920CF500BA5649 /* LokenJailerOfYoggSaron.swift in Sources */,
