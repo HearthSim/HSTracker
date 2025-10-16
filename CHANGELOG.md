@@ -1,3 +1,12 @@
+# 3.3.14
+## New
+- Added deck highlight to Portal Vanguard.
+## Fixes
+- Fixed card marks not appearing for cards discovered by creature of madness.
+## Bob's Buddy
+- Fixed incorrect simulation results due to Devout Hellcaller.
+- Added support for Titanic Guardian.
+
 # 3.3.13
 ## Fixes
 - Fixed crash during Battlegrounds
