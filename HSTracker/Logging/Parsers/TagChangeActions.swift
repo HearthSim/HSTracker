@@ -255,8 +255,9 @@ struct TagChangeActions {
             return
         }
         
+        let currentBlock = AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock
         // Eyes in the Sky
-        if let currentBlock = AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock, currentBlock.type == "POWER", let actionStartingEntity = eventHandler.entities[currentBlock.sourceEntityId], actionStartingEntity.cardId == CardIds.Collectible.Rogue.EyesInTheSky, let linkingEntity = eventHandler.entities[id], let linkedEntity = eventHandler.entities[value], !linkedEntity.cardId.isEmpty && linkedEntity.cardId.isEmpty {
+        if let currentBlock, currentBlock.type == "POWER", let actionStartingEntity = eventHandler.entities[currentBlock.sourceEntityId], actionStartingEntity.cardId == CardIds.Collectible.Rogue.EyesInTheSky, let linkingEntity = eventHandler.entities[id], let linkedEntity = eventHandler.entities[value], !linkedEntity.cardId.isEmpty && linkedEntity.cardId.isEmpty {
             linkedEntity.cardId = linkingEntity.cardId
             linkedEntity.info.guessedCardState = .guessed
             
@@ -264,7 +265,7 @@ struct TagChangeActions {
         }
         
         // prevents dark gift leaking the card
-        if entity.cardId == CardIds.NonCollectible.Neutral.TreacherousTormentor_DarkGiftToken && entity.isControlled(by: eventHandler.opponent.id) {
+        if currentBlock?.parent?.cardId == CardIds.Collectible.Neutral.NightmareLordXavius && entity.cardId == CardIds.NonCollectible.Neutral.TreacherousTormentor_DarkGiftToken && entity.isControlled(by: eventHandler.opponent.id) {
             targetEntity.info.revealedOnHistory = false
             targetEntity.info.hidden = true
             return
