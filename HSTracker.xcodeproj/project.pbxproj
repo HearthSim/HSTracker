@@ -508,6 +508,8 @@
 		B836822227888B4D007D5740 /* LethalResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B836822127888B4D007D5740 /* LethalResult.swift */; };
 		B83682242789F812007D5740 /* ExitConditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83682232789F812007D5740 /* ExitConditions.swift */; };
 		B837D7D22EABC7870070DB4B /* GreySageParrot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B837D7D12EABC7870070DB4B /* GreySageParrot.swift */; };
+		B837D7D42EAC28020070DB4B /* HeraldOfLokholar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B837D7D32EAC28020070DB4B /* HeraldOfLokholar.swift */; };
+		B837D7D62EAC28D50070DB4B /* TwilightDeceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B837D7D52EAC28D50070DB4B /* TwilightDeceptor.swift */; };
 		B83A703E2E00A3BF00B85BBE /* JsonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83A703D2E00A3BF00B85BBE /* JsonManager.swift */; };
 		B83A703F2E00A3BF00B85BBE /* JsonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83A703D2E00A3BF00B85BBE /* JsonManager.swift */; };
 		B83A70412E03009200B85BBE /* DeckImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83A70402E03009200B85BBE /* DeckImporter.swift */; };
@@ -1822,6 +1824,8 @@
 		B836822127888B4D007D5740 /* LethalResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LethalResult.swift; sourceTree = "<group>"; };
 		B83682232789F812007D5740 /* ExitConditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExitConditions.swift; sourceTree = "<group>"; };
 		B837D7D12EABC7870070DB4B /* GreySageParrot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreySageParrot.swift; sourceTree = "<group>"; };
+		B837D7D32EAC28020070DB4B /* HeraldOfLokholar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeraldOfLokholar.swift; sourceTree = "<group>"; };
+		B837D7D52EAC28D50070DB4B /* TwilightDeceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilightDeceptor.swift; sourceTree = "<group>"; };
 		B83A703D2E00A3BF00B85BBE /* JsonManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonManager.swift; sourceTree = "<group>"; };
 		B83A70402E03009200B85BBE /* DeckImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckImporter.swift; sourceTree = "<group>"; };
 		B83CF35F294A7C42003C9062 /* BattlegroundsSingleQuestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsSingleQuestView.swift; sourceTree = "<group>"; };
@@ -3626,6 +3630,7 @@
 				B86D89FD2D95F31700AB65A5 /* FaeTrickster.swift */,
 				B81B3D922D409CE900DC9EB0 /* FateSplitter.swift */,
 				B86D89FF2D95F3A700AB65A5 /* FinjaTheFlyingStar.swift */,
+				B837D7D32EAC28020070DB4B /* HeraldOfLokholar.swift */,
 				B88339762E71053D007D9754 /* HolyEggbearer.swift */,
 				B852D8342DDFB95E00884B26 /* HopefulDryad.swift */,
 				B89865942D91D17100BA5649 /* InstrumentTech.swift */,
@@ -4197,6 +4202,7 @@
 				B89865BE2D91F06600BA5649 /* ThriveInTheShadowsCore.swift */,
 				B81B3D8C2D4099B000DC9EB0 /* TramHeist.swift */,
 				B8E1E5F72D0CA0E300383975 /* TwilightsCall.swift */,
+				B837D7D52EAC28D50070DB4B /* TwilightDeceptor.swift */,
 				B8E1E5F92D0CA12D00383975 /* XyrellaTheDevout.swift */,
 			);
 			path = Priest;
@@ -5075,6 +5081,7 @@
 				432B60391CBF9AD700B05D19 /* ManaGemButton.swift in Sources */,
 				B8B790632C9785A300DD33EC /* FelfireBonfireEnchantment.swift in Sources */,
 				B89865B72D91EF0100BA5649 /* BenevolentBanker.swift in Sources */,
+				B837D7D42EAC28020070DB4B /* HeraldOfLokholar.swift in Sources */,
 				B846CC4C2E0636D500552F9C /* Stargazing.swift in Sources */,
 				B82238B82BF82BA500B405D4 /* PlayerProxy.swift in Sources */,
 				B8B7903F2C9776EB00DD33EC /* SandboxScoundrelEnchantment.swift in Sources */,
@@ -5756,6 +5763,7 @@
 				B8D34D37294FE74700CACC5A /* BattlegroundsHeroPickStatsParams .swift in Sources */,
 				B8E1E5D82D0C95D400383975 /* Rally.swift in Sources */,
 				43C567E71D5D0F2E00451B6F /* LogLineNamespace.swift in Sources */,
+				B837D7D62EAC28D50070DB4B /* TwilightDeceptor.swift in Sources */,
 				B85462432CE021FF0083BB31 /* PVPDungeonRunWatcher.swift in Sources */,
 				B854623F2CE01ECF0083BB31 /* DeckPickerWatcher.swift in Sources */,
 				B8B78FDE2C9633EC00DD33EC /* HodirFatherOfGiantsEnchantment.swift in Sources */,

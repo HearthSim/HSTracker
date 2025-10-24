@@ -8,7 +8,7 @@
 
 import Foundation
 
-class HiHoSilverwing: ICardWithHighlight {
+class HiHoSilverwing: ICardWithHighlight, ISpellSchoolTutor {
     required init() {}
     
     func getCardId() -> String {
@@ -19,5 +19,9 @@ class HiHoSilverwing: ICardWithHighlight {
         return HighlightColorHelper.getHighlightColor(
             card.spellSchool == SpellSchool.holy
         )
+    }
+    
+    var tutoredSpellSchools: [Int] {
+        return [SpellSchool.holy.rawValue]
     }
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class GroveShaper: ICardWithHighlight {
+class GroveShaper: ICardWithHighlight, ISpellSchoolTutor {
     required init() {
         
     }
@@ -21,5 +21,9 @@ class GroveShaper: ICardWithHighlight {
         return HighlightColorHelper.getHighlightColor(
             card.spellSchool == SpellSchool.nature
         )
+    }
+    
+    var tutoredSpellSchools: [Int] {
+        return [SpellSchool.nature.rawValue]
     }
 }

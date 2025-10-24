@@ -740,6 +740,7 @@ extension CardIds.Collectible {
         static let ValstannStaghelm = "WON_345"
         static let HolyEggbearer = "DINO_411"
         static let PortalVanguard = "TIME_003"
+        static let HeraldOfLokholar = "AV_101"
     }
 }
 
