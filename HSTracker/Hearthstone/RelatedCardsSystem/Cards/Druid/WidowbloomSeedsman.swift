@@ -6,7 +6,7 @@
 //  Copyright © 2025 Benjamin Michotte. All rights reserved.
 //
 
-class WidowbloomSeedsman: ICardWithHighlight {
+class WidowbloomSeedsman: ICardWithHighlight, ISpellSchoolTutor {
     required init() {
         
     }
@@ -18,6 +18,10 @@ class WidowbloomSeedsman: ICardWithHighlight {
 	func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
 		return HighlightColorHelper.getHighlightColor(card.spellSchool == SpellSchool.nature)
 	}
+    
+    var tutoredSpellSchools: [Int] {
+        return [SpellSchool.nature.rawValue]
+    }
 }
 
 class WidowbloomSeedsmanCore: WidowbloomSeedsman {

@@ -1307,7 +1307,7 @@ class Game: NSObject, PowerEventHandler {
         _battlegroundsBoardState = BattlegroundsBoardState(game: self)
 		player = Player(local: true, game: self)
         opponent = Player(local: false, game: self)
-        secretsManager = SecretsManager(game: self, availableSecrets: RemoteArenaSettings())
+        secretsManager = SecretsManager(game: self, availableSecrets: RemoteArenaSettings(), relatedCardsManager: relatedCardsManager)
         secretsManager?.onChanged = { [weak self] cards in
             self?.updateSecretTracker(cards: cards)
         }

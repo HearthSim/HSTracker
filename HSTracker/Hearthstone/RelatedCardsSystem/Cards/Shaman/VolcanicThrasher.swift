@@ -8,7 +8,7 @@
 
 import Foundation
 
-class VolcanicThrasher: ICardWithHighlight {
+class VolcanicThrasher: ICardWithHighlight, ISpellSchoolTutor {
     required init() {}
 
     func getCardId() -> String {
@@ -17,5 +17,9 @@ class VolcanicThrasher: ICardWithHighlight {
 
     func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         HighlightColorHelper.getHighlightColor(card.spellSchool == SpellSchool.fire)
+    }
+    
+    var tutoredSpellSchools: [Int] {
+        return [SpellSchool.fire.rawValue]
     }
 }

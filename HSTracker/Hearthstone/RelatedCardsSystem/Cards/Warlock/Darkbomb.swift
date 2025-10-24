@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Darkbomb: ICardWithHighlight {
+class Darkbomb: ICardWithHighlight, ISpellSchoolTutor {
     required init() {}
 
     func getCardId() -> String {
@@ -17,6 +17,10 @@ class Darkbomb: ICardWithHighlight {
 
     func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         HighlightColorHelper.getHighlightColor(card.spellSchool == SpellSchool.shadow)
+    }
+    
+    var tutoredSpellSchools: [Int] {
+        return [SpellSchool.shadow.rawValue]
     }
 }
 

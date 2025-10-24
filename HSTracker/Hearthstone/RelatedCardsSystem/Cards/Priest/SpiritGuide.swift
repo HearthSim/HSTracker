@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class SpiritGuide: ICardWithHighlight {
+public class SpiritGuide: ICardWithHighlight, ISpellSchoolTutor {
     
     public required init() { }
     
@@ -21,6 +21,10 @@ public class SpiritGuide: ICardWithHighlight {
             card.spellSchool == SpellSchool.holy,
             card.spellSchool == SpellSchool.shadow
         )
+    }
+    
+    var tutoredSpellSchools: [Int] {
+        return [SpellSchool.holy.rawValue, SpellSchool.shadow.rawValue]
     }
 }
 

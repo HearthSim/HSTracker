@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Stargazing: ICardWithHighlight {
+class Stargazing: ICardWithHighlight, ISpellSchoolTutor {
     required init() {}
 
     func getCardId() -> String {
@@ -17,5 +17,9 @@ class Stargazing: ICardWithHighlight {
 
     func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         HighlightColorHelper.getHighlightColor(card.spellSchool == SpellSchool.arcane)
+    }
+    
+    var tutoredSpellSchools: [Int] {
+        return [SpellSchool.arcane.rawValue]
     }
 }

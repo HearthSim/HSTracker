@@ -8,7 +8,7 @@
 
 import Foundation
 
-class WatercolorArtist: ICardWithHighlight {
+class WatercolorArtist: ICardWithHighlight, ISpellSchoolTutor {
     required init() {}
     
     func getCardId() -> String {
@@ -19,5 +19,9 @@ class WatercolorArtist: ICardWithHighlight {
         return HighlightColorHelper.getHighlightColor(
             card.spellSchool == SpellSchool.frost
         )
+    }
+    
+    var tutoredSpellSchools: [Int] {
+        return [SpellSchool.frost.rawValue]
     }
 }

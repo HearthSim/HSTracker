@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Felgorger: ICardWithHighlight {
+class Felgorger: ICardWithHighlight, ISpellSchoolTutor {
     required init() {
     }
     
@@ -18,5 +18,9 @@ class Felgorger: ICardWithHighlight {
 
     func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         HighlightColorHelper.getHighlightColor(card.spellSchool == SpellSchool.fel)
+    }
+    
+    var tutoredSpellSchools: [Int] {
+        return [SpellSchool.fel.rawValue]
     }
 }

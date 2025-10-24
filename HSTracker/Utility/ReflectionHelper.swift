@@ -14,6 +14,7 @@ class ReflectionHelper {
     private static var cacheCounterClassList = [BaseCounter.Type]()
     private static var cacheRelatedClassList = [ICardWithRelatedCards.Type]()
     private static var cacheHighlightClassList = [ICardWithHighlight.Type]()
+    private static var cacheSpellSchoolTutorClassList = [ISpellSchoolTutor.Type]()
 
     static func initialize() {
         var count: UInt32 = 0
@@ -44,6 +45,9 @@ class ReflectionHelper {
             } else if let hccl = cl as? ICardWithHighlight.Type {
                 cacheHighlightClassList.append(hccl)
             }
+            if let sstcl = cl as? ISpellSchoolTutor.Type {
+                cacheSpellSchoolTutorClassList.append(sstcl)
+            }
         }
     }
     
@@ -65,5 +69,9 @@ class ReflectionHelper {
     
     static func getHighlightClasses() -> [ICardWithHighlight.Type] {
         return cacheHighlightClassList
+    }
+    
+    static func getSpellSchoolTutorClasses() -> [ISpellSchoolTutor.Type] {
+        return cacheSpellSchoolTutorClassList
     }
 }

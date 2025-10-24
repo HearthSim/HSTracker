@@ -8,7 +8,7 @@
 
 import Foundation
 
-class SketchArtist: ICardWithHighlight {
+class SketchArtist: ICardWithHighlight, ISpellSchoolTutor {
     required init() {}
     
     func getCardId() -> String {
@@ -17,5 +17,9 @@ class SketchArtist: ICardWithHighlight {
     
     func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         return HighlightColorHelper.getHighlightColor(card.spellSchool == SpellSchool.shadow)
+    }
+    
+    var tutoredSpellSchools: [Int] {
+        return [SpellSchool.shadow.rawValue]
     }
 }

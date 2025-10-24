@@ -8,7 +8,7 @@
 
 import Foundation
 
-class HarbingerOfWinter: ICardWithHighlight {
+class HarbingerOfWinter: ICardWithHighlight, ISpellSchoolTutor {
     required init() {
         
     }
@@ -20,6 +20,10 @@ class HarbingerOfWinter: ICardWithHighlight {
     func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
         let isFrostSpell = card.spellSchool == SpellSchool.frost
         return HighlightColorHelper.getHighlightColor(isFrostSpell)
+    }
+    
+    var tutoredSpellSchools: [Int] {
+        return [SpellSchool.frost.rawValue]
     }
 }
 

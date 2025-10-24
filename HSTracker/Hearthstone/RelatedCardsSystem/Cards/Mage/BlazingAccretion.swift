@@ -8,7 +8,7 @@
 
 import Foundation
 
-class BlazingAccretion: ICardWithHighlight {
+class BlazingAccretion: ICardWithHighlight, ISpellSchoolTutor {
     required init() {}
     
     func getCardId() -> String {
@@ -20,5 +20,9 @@ class BlazingAccretion: ICardWithHighlight {
             card.spellSchool == SpellSchool.fire ||
             card.isElemental()
         )
+    }
+    
+    var tutoredSpellSchools: [Int] {
+        return [SpellSchool.fire.rawValue]
     }
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class LivingFlame: ICardWithHighlight {
+class LivingFlame: ICardWithHighlight, ISpellSchoolTutor {
     required init() {
         
     }
@@ -21,5 +21,9 @@ class LivingFlame: ICardWithHighlight {
         return HighlightColorHelper.getHighlightColor(
             card.spellSchool == SpellSchool.fire
         )
+    }
+    
+    var tutoredSpellSchools: [Int] {
+        return [SpellSchool.fire.rawValue]
     }
 }

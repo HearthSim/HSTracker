@@ -12,3 +12,7 @@ protocol ICardWithHighlight: ICard {
     init()
     func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor
 }
+
+protocol ISpellSchoolTutor: ICardWithHighlight {
+    var tutoredSpellSchools: [Int] { get }
+}
