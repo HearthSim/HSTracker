@@ -507,6 +507,7 @@
 		B836822027888B12007D5740 /* CombatResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B836821F27888B12007D5740 /* CombatResult.swift */; };
 		B836822227888B4D007D5740 /* LethalResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B836822127888B4D007D5740 /* LethalResult.swift */; };
 		B83682242789F812007D5740 /* ExitConditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83682232789F812007D5740 /* ExitConditions.swift */; };
+		B837D7D22EABC7870070DB4B /* GreySageParrot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B837D7D12EABC7870070DB4B /* GreySageParrot.swift */; };
 		B83A703E2E00A3BF00B85BBE /* JsonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83A703D2E00A3BF00B85BBE /* JsonManager.swift */; };
 		B83A703F2E00A3BF00B85BBE /* JsonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83A703D2E00A3BF00B85BBE /* JsonManager.swift */; };
 		B83A70412E03009200B85BBE /* DeckImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83A70402E03009200B85BBE /* DeckImporter.swift */; };
@@ -1820,6 +1821,7 @@
 		B836821F27888B12007D5740 /* CombatResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatResult.swift; sourceTree = "<group>"; };
 		B836822127888B4D007D5740 /* LethalResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LethalResult.swift; sourceTree = "<group>"; };
 		B83682232789F812007D5740 /* ExitConditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExitConditions.swift; sourceTree = "<group>"; };
+		B837D7D12EABC7870070DB4B /* GreySageParrot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreySageParrot.swift; sourceTree = "<group>"; };
 		B83A703D2E00A3BF00B85BBE /* JsonManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonManager.swift; sourceTree = "<group>"; };
 		B83A70402E03009200B85BBE /* DeckImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckImporter.swift; sourceTree = "<group>"; };
 		B83CF35F294A7C42003C9062 /* BattlegroundsSingleQuestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsSingleQuestView.swift; sourceTree = "<group>"; };
@@ -4402,6 +4404,7 @@
 				B846CC432E0635C700552F9C /* ElementalAllies.swift */,
 				B846CC452E06361400552F9C /* FrostweaveDungeoneer.swift */,
 				B8E1E5AB2D0C708900383975 /* GrandMagisterRommath.swift */,
+				B837D7D12EABC7870070DB4B /* GreySageParrot.swift */,
 				B846CC472E06366600552F9C /* IcebloodTower.swift */,
 				B898657D2D91B00B00BA5649 /* MesaduneTheFractured.swift */,
 				B81B3D982D41273C00DC9EB0 /* ResonanceCoil.swift */,
@@ -5033,6 +5036,7 @@
 				436F5D0C1CFD5F6A00DEB9A1 /* CardBar.swift in Sources */,
 				43E7BEB11DBB81B10057DC0C /* RealmCard.swift in Sources */,
 				B846CC4E2E09DA7600552F9C /* CaptainsParrot.swift in Sources */,
+				B837D7D22EABC7870070DB4B /* GreySageParrot.swift in Sources */,
 				B86D89DE2D95C46200AB65A5 /* Nythendra.swift in Sources */,
 				43EBA3A31D1299AC0093B1C2 /* CardHudContainer.swift in Sources */,
 				B8B790322C975B0200DD33EC /* LoveEverlastingEnchantment.swift in Sources */,

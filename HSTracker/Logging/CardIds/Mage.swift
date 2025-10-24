@@ -211,6 +211,7 @@ extension CardIds.Collectible {
         static let ArcaneMissilesLegacy = "EX1_277"
         static let Techysaurus = "DINO_409"
         static let SheepMask = "DINO_429"
+        static let GreySageParrot = "DED_515"
     }
 }
 
