@@ -197,26 +197,8 @@ class SecretsManager {
         
         let secretsFromDeck = secrets.filter { s in !s.entity.info.created }
         
-        let secretAndDrawSource = secretsFromDeck.compactMap { s in
-            (s, game.opponent.revealedEntities.first { e in e.id == s.entity.info.getDrawerId() })
-        }
+        let filteredSecretsFromDeck = getFilteredSecretsByDrawer(secretsFromDeck, availableSecrets)
         
-        var filteredSecretsFromDeck = [MultiIdCard]()
-        
-        for (secret, drawSource) in secretAndDrawSource {
-            if let drawSource, let spellSchoolTutor = _relatedCardsManager.getSpellSchoolTutor(drawSource.cardId) {
-                let spellSchools = spellSchoolTutor.tutoredSpellSchools
-                let secrets = secret.excluded
-                    .filter { x in x.key.ids.any { availableSecrets.contains($0) && !x.value }}
-                    .compactMap { x in Card(id: x.key.ids[0]) }
-                    .filter { c in spellSchools.contains(c.spellSchool.rawValue) }
-                    .compactMap { c in CardIds.Secrets.getSecretMultiIdCard(c.id) }
-                filteredSecretsFromDeck.append(contentsOf: secrets)
-            } else {
-                let secrets = secret.excluded.filter { x in x.key.ids.any { availableSecrets.contains($0) }}
-                filteredSecretsFromDeck.append(contentsOf: secrets.filter { x in !x.value }.compactMap { x in x.key })
-            }
-        }
         let hasPlayedTwoOf: ((_ card: MultiIdCard) -> Bool) = { card in
             opponentEntities.filter { card == $0.cardId && !$0.info.created }.count >= 2
         }
@@ -247,10 +229,10 @@ class SecretsManager {
             return secrets
         }
         
-        let quantified = createdBySecrets
-            .flatMap { s in s.excluded }
-            .filter { x in !x.value }
-            .group { x in x.key }
+        let filteredSecrets = getFilteredSecretsByDrawer(createdBySecrets, availableSecrets)
+        
+        let quantified = filteredSecrets
+            .group { m in m }
             .compactMap { g in
                 if CardIds.Secrets.getSecretMultiIdCard(g.key.ids[0]) != nil {
                     return QuantifiedMultiIdCard(baseCard: g.key, count: g.value.count)
@@ -268,12 +250,24 @@ class SecretsManager {
         if let availableCreatedBy = getCreatedBySecretsByCreator(gameMode: gameMode, format: format) {
             let creators = createdBySecrets.compactMap { s in (s, game.opponent.revealedEntities.first { e in e.id == s.entity.info.getCreatorId()})}
             for (secret, creator) in creators {
-                if let creator, let creatableSecrets = availableCreatedBy[creator.cardId] {
-                    let secrets = secret.excluded.filter { x in x.key.ids.any { creatableSecrets.contains($0) }}
-                    secretsCreated.append(contentsOf: secrets.filter { x in !x.value }.compactMap { x in x.key })
+                let drawer = game.opponent.revealedEntities.first { e in e.id == secret.entity.info.getDrawerId() }
+                
+                if let drawer, let spellSchoolTutor = _relatedCardsManager.getSpellSchoolTutor(drawer.cardId) {
+                    if let creator, let creatableSecrets = availableCreatedBy[creator.cardId] {
+                        let secrets = SecretsManager.getFilteredSecretsByDrawerFromSingleSecret(secret, spellSchoolTutor, creatableSecrets)
+                        secretsCreated.append(contentsOf: secrets)
+                    } else {
+                        let secrets = SecretsManager.getFilteredSecretsByDrawerFromSingleSecret(secret, spellSchoolTutor, availableSecrets)
+                        secretsCreated.append(contentsOf: secrets)
+                    }
                 } else {
-                    let secrets = secret.excluded.filter { x in x.key.ids.any { availableSecrets.contains($0) }}
-                    secretsCreated.append(contentsOf: secrets.filter { x in !x.value }.compactMap { x in x.key })
+                    if let creator, let creatableSecrets = availableCreatedBy[creator.cardId] {
+                        let secrets = secret.excluded.filter { x in x.key.ids.any { creatableSecrets.contains($0) }}
+                        secretsCreated.append(contentsOf: secrets.filter { x in !x.value }.compactMap { x in x.key })
+                    } else {
+                        let secrets = secret.excluded.filter { x in x.key.ids.any { availableSecrets.contains($0) }}
+                        secretsCreated.append(contentsOf: secrets.filter { x in !x.value }.compactMap { x in x.key })
+                    }
                 }
             }
             
@@ -289,9 +283,10 @@ class SecretsManager {
             return SecretsManager.quantifiedCardsToCards(quantified, format)
         }
         
-        let quantifiedSecrets = createdBySecrets
-            .flatMap { s in s.excluded }
-            .group { x in x.key }
+        let filteredSecrets = getFilteredSecretsByDrawer(createdBySecrets, availableSecrets)
+        
+        let quantifiedSecrets = filteredSecrets
+            .group { x in x }
             .compactMap { g in
                 if CardIds.Secrets.getSecretMultiIdCard(g.key.ids[0]) != nil {
                     return QuantifiedMultiIdCard(baseCard: g.key, count: g.value.count)
@@ -299,8 +294,35 @@ class SecretsManager {
                     return QuantifiedMultiIdCard(baseCard: g.key, count: 0)
                 }
             }
-            .filter { x in x.ids.any { availableSecrets.contains($0) }}
+        
         return SecretsManager.quantifiedCardsToCards(quantifiedSecrets, format)
+    }
+    
+    private func getFilteredSecretsByDrawer(_ allSecrets: [Secret], _ availableSecrets: Set<String>) -> [MultiIdCard] {
+        let secretAndDrawSource = allSecrets.compactMap { s in
+            (s, game.opponent.revealedEntities.first { e in e.id == s.entity.info.getDrawerId() })
+        }
+
+        var filteredSecrets = [MultiIdCard]()
+        for (secret, drawSource) in secretAndDrawSource {
+            if let drawSource, let spellSchoolTutor = _relatedCardsManager.getSpellSchoolTutor(drawSource.cardId) {
+                filteredSecrets.append(contentsOf: SecretsManager.getFilteredSecretsByDrawerFromSingleSecret(secret, spellSchoolTutor, availableSecrets))
+            } else {
+                let secrets = secret.excluded.filter { x in x.key.ids.any { availableSecrets.contains($0) } }
+                filteredSecrets.append(contentsOf: secrets.filter { x in !x.value }.compactMap { x in x.key })
+            }
+        }
+
+        return filteredSecrets
+    }
+
+    private static func getFilteredSecretsByDrawerFromSingleSecret(_ secret: Secret, _ spellSchoolTutor: ISpellSchoolTutor, _ availableSecrets: Set<String>) ->  [MultiIdCard] {
+        let spellSchools = spellSchoolTutor.tutoredSpellSchools
+        return secret.excluded
+            .filter { x in x.key.ids.any { availableSecrets.contains($0) && !x.value }}
+            .compactMap { x in Card(id: x.key.ids[0]) }
+            .filter { c in spellSchools.contains(c.spellSchool.rawValue) }
+            .compactMap { c in CardIds.Secrets.getSecretMultiIdCard(c.id) }
     }
     
     private static func quantifiedCardsToCards(_ quantified: [QuantifiedMultiIdCard], _ format: FormatType) -> [Card] {
