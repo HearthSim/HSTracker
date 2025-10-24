@@ -20,7 +20,7 @@ enum CardListSorting: Int {
     case cost, mulliganWr
 }
 
-extension Array where Element: Card {
+extension Array where Element == Card {
     func sortCardList(_ sorting: CardListSorting = .cost) -> [Card] {
         if sorting == .cost {
             return sorted {
@@ -51,6 +51,28 @@ extension Array where Element: Card {
     func isValidDeck() -> Bool {
         let count = countCards()
         return count == 30 || count == 40
+    }
+    
+    static func addCard(_ cards: inout [Card], _ newCard: Card) {
+        let existingCard = cards.first { c in c.id == newCard.id }
+        
+        if existingCard != nil {
+            existingCard?.count += newCard.count
+        } else {
+            cards.append(newCard)
+        }
+    }
+    
+    func addCardRange(_ newCards: [Card]) -> [Card] {
+        var cards = self
+        for card in newCards {
+            [Card].addCard(&cards, card)
+        }
+        return cards
+    }
+    
+    func concatCardList(_ newCards: [Card]) -> [Card] {
+        return addCardRange(newCards)
     }
 }
 

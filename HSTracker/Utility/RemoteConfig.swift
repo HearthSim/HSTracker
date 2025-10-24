@@ -94,6 +94,7 @@ struct ConfigData: Codable {
 
 struct LiveSecrets: Codable {
     var by_game_type_and_format_type: [String: Set<String>]
+    var created_by_game_type_and_format_type: [String: [String: Set<String>]]?
 }
 
 class RemoteConfig {

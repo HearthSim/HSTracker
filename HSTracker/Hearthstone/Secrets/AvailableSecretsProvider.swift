@@ -10,4 +10,5 @@ import Foundation
 
 protocol AvailableSecretsProvider {
     var byType: [String: Set<String>]? { get }
+    var createdByTypeByCreator: [String: [String: Set<String>]]? { get }
 }

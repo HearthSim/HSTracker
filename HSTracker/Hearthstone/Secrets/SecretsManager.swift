@@ -16,9 +16,9 @@ class SecretsManager {
     private var _lastStartOfTurnCheck = 0
     private var _lastStartOfTurnDamageCheck = 0
     private var _lastStartOfTurnMinionCheck = 0
-
+    
     private var entititesInHandOnMinionsPlayed: Set<Entity>  = Set<Entity>()
-
+    
     private var game: Game
     private var availableSecrets: AvailableSecretsProvider
     private(set) var secrets = SynchronizedArray<Secret>()
@@ -28,19 +28,19 @@ class SecretsManager {
     
     private var _lastPlayedMinionId: Int = 0
     private var savedSecrets = SynchronizedArray<MultiIdCard>()
-
+    
     var onChanged: (([Card]) -> Void)?
-
+    
     init(game: Game, availableSecrets: AvailableSecretsProvider) {
         self.game = game
         self.availableSecrets = availableSecrets
     }
-
+    
     private var freeSpaceOnBoard: Bool { return game.opponentBoardCount < 7 }
     private var freeSpaceInHand: Bool { return game.opponentHandCount < 10 }
     private var handleAction: Bool { return hasActiveSecrets }
     private var isAnyMinionInOpponentsHand: Bool { return entititesInHandOnMinionsPlayed.first(where: { entity in entity.isMinion }) != nil }
-
+    
     private var hasActiveSecrets: Bool {
         return secrets.count > 0
     }
@@ -52,23 +52,23 @@ class SecretsManager {
             savedSecrets.append(secret)
         }
     }
-
+    
     func exclude(cardId: MultiIdCard, invokeCallback: Bool = true) {
         secrets.forEach {
             $0.exclude(cardId: cardId)
         }
-
+        
         if invokeCallback {
             onChanged?(getSecretList())
         }
     }
-
+    
     func exclude(cardIds: [MultiIdCard]) {
         cardIds.enumerated().forEach {
             exclude(cardId: $1, invokeCallback: $0 == cardIds.count - 1)
         }
     }
-
+    
     func reset() {
         _avengeDeathRattleCount = 0
         _awaitingAvenge = false
@@ -79,13 +79,13 @@ class SecretsManager {
         entititesInHandOnMinionsPlayed.removeAll()
         secrets.removeAll()
     }
-
+    
     @discardableResult
     func newSecret(entity: Entity) -> Bool {
         if !entity.isSecret || !entity.has(tag: .class) {
             return false
         }
-
+        
         if entity.hasCardId {
             if let secretMultiIdCard = CardIds.Secrets.getSecretMultiIdCard(entity.cardId) {
                 exclude(cardId: secretMultiIdCard, invokeCallback: false)
@@ -103,14 +103,14 @@ class SecretsManager {
             return false
         }
     }
-
+    
     @discardableResult
     func removeSecret(entity: Entity) -> Bool {
         guard let secret = secrets.first(where: { $0.entity.id == entity.id }) else {
             logger.info("Secret not found \(entity)")
             return false
         }
-
+        
         handleFastCombat(entity: entity)
         secrets.remove(secret)
         if secret.entity.hasCardId {
@@ -122,7 +122,7 @@ class SecretsManager {
         onChanged?(getSecretList())
         return true
     }
-
+    
     func toggle(cardId: String) {
         let mcid = MultiIdCard(cardId)
         let excluded = secrets.any { $0.isExcluded(cardId: mcid) }
@@ -150,11 +150,21 @@ class SecretsManager {
             Set<String>(CardIds.Secrets.All.filter { x in x.isWild }.map { x in x.ids[0] })
         }
     }
+    
+    func getCreatedBySecretsByCreator(gameMode: GameType, format: FormatType) -> [String: Set<String>]? {
+        if gameMode != .gt_arena && gameMode != .gt_underground_arena {
+            return nil
+        }
+        
+        if let createdByTypeByCretor = availableSecrets.createdByTypeByCreator, let res = createdByTypeByCretor["\(gameMode)"] {
+            return res
+        }
+        return nil
+    }
 
     func getSecretList() -> [Card] {
         let gameMode = game.currentGameType
-        let formatType = game.currentFormatType
-        let format = game.currentFormat
+        let format = game.currentFormatType
         
         let gameModeHasCardLimit = switch gameMode {
         case .gt_casual, .gt_ranked, .gt_vs_friend, .gt_vs_ai:
@@ -162,11 +172,11 @@ class SecretsManager {
         default:
             false
         }
-
+        
         let opponentEntities = game.opponent.revealedEntities.filter {
             $0.id < 68 && $0.isSecret && $0.hasCardId
         }
-
+        
         let createdSecrets = secrets
             .filter { $0.entity.info.created }
             .flatMap { $0.excluded }
@@ -180,7 +190,18 @@ class SecretsManager {
             gameModeHasCardLimit && hasPlayedTwoOf(card) && !createdSecrets.contains(card) ? 0 : count
         }
         
-        var cards = secrets.array().flatMap { $0.excluded }
+        let deckSecrets = getSecretsFromDeck(format, adjustCount)
+        let createdSecretsList = getSecretsCreatedBy(gameMode, format)
+        
+        return createdSecretsList.concatCardList(deckSecrets)
+    }
+     
+    private func getSecretsFromDeck(_ format: FormatType, _ adjustCount: ((_ card: MultiIdCard, _ count: Int) -> Int)) -> [Card] {
+        let availableSecrets = getAvailableSecrets(gameMode: game.currentGameType, format: format)
+        
+        let cards = secrets.array()
+            .filter { !$0.entity.info.created }
+            .flatMap { $0.excluded }
             .group { $0.key }
             .compactMap { group in
                 if let multiIdCard = CardIds.Secrets.getSecretMultiIdCard(group.key.ids[0]) {
@@ -189,20 +210,84 @@ class SecretsManager {
                     return QuantifiedMultiIdCard(baseCard: group.key, count: 0)
                 }
             }
-
-        let availableSecrets = getAvailableSecrets(gameMode: gameMode, format: formatType)
-        cards = cards.filter { x in x.ids.any { y in availableSecrets.contains(y) } }
-
-        return cards.compactMap { x in
-            if x.count == 0 {
-                return nil
+            .filter { x in x.ids.any { availableSecrets.contains($0) }}
+        
+        return SecretsManager.quantifiedCardsToCards(cards, format)
+    }
+    
+    private func getSecretsCreatedBy(_ gameMode: GameType, _ format: FormatType) -> [Card] {
+        let createdBySecrets = secrets.filter { $0.entity.info.created }
+        
+        let availableSecrets = getAvailableSecrets(gameMode: gameMode, format: format)
+        
+        if gameMode == .gt_arena || gameMode == .gt_underground_arena {
+            let secrets = getArenaCreatedSecrets(createdBySecrets, availableSecrets, gameMode, format)
+            return secrets
+        }
+        
+        let quantified = createdBySecrets
+            .flatMap { s in s.excluded }
+            .filter { x in !x.value }
+            .group { x in x.key }
+            .compactMap { g in
+                if let card = CardIds.Secrets.getSecretMultiIdCard(g.key.ids[0]) {
+                    return QuantifiedMultiIdCard(baseCard: g.key, count: g.value.count)
+                } else {
+                    return QuantifiedMultiIdCard(baseCard: g.key, count: 0)
+                }
             }
+            .filter { x in x.ids.any { availableSecrets.contains($0) }}
+        
+        return SecretsManager.quantifiedCardsToCards(quantified, format)
+    }
+    
+    private func getArenaCreatedSecrets(_ createdBySecrets: [Secret], _ availableSecrets: Set<String>, _ gameMode: GameType, _ format: FormatType) -> [Card] {
+        var secretsCreated = [MultiIdCard]()
+        if let availableCreatedBy = getCreatedBySecretsByCreator(gameMode: gameMode, format: format) {
+            let creators = createdBySecrets.compactMap { s in (s, game.opponent.revealedEntities.first { e in e.id == s.entity.info.getCreatorId()})}
+            for (secret, creator) in creators {
+                if let creator, let creatableSecrets = availableCreatedBy[creator.cardId] {
+                    let secrets = secret.excluded.filter { x in x.key.ids.any { creatableSecrets.contains($0) }}
+                    secretsCreated.append(contentsOf: secrets.filter { x in !x.value }.compactMap { x in x.key })
+                } else {
+                    let secrets = secret.excluded.filter { x in x.key.ids.any { availableSecrets.contains($0) }}
+                    secretsCreated.append(contentsOf: secrets.filter { x in !x.value }.compactMap { x in x.key })
+                }
+            }
+            
+            let quantified = secretsCreated
+                .group { m in m }
+                .compactMap { g in
+                    if let card = CardIds.Secrets.getSecretMultiIdCard(g.key.ids[0]) {
+                        return QuantifiedMultiIdCard(baseCard: g.key, count: g.value.count)
+                    } else {
+                        return QuantifiedMultiIdCard(baseCard: g.key, count: 0)
+                    }
+                }
+            return SecretsManager.quantifiedCardsToCards(quantified, format)
+        }
+        
+        let quantifiedSecrets = secretsCreated
+            .group { m in m }
+            .compactMap { g in
+                if let card = CardIds.Secrets.getSecretMultiIdCard(g.key.ids[0]) {
+                    return QuantifiedMultiIdCard(baseCard: g.key, count: g.value.count)
+                } else {
+                    return QuantifiedMultiIdCard(baseCard: g.key, count: 0)
+                }
+            }
+            .filter { x in x.ids.any { availableSecrets.contains($0) }}
+        return SecretsManager.quantifiedCardsToCards(quantifiedSecrets, format)
+    }
+    
+    private static func quantifiedCardsToCards(_ quantified: [QuantifiedMultiIdCard], _ format: FormatType) -> [Card] {
+        return quantified.compactMap { x in
             if let card = x.getCardForFormat(format: format) {
                 card.count = x.count
                 return card
             }
             return nil
-        }.sortCardList()
+        }
     }
 
     func handleAttack(attacker: Entity, defender: Entity, fastOnly: Bool = false) {
