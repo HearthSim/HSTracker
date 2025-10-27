@@ -841,7 +841,7 @@ struct TagChangeActions {
                 if let prevZone = Zone(rawValue: prevValue) {
                     eventHandler.opponentSecretPlayed(entity: entity, cardId: cardId, from: -1,
                                               turn: eventHandler.turnNumber(),
-                                              fromZone: prevZone, otherId: id)
+                                              fromZone: prevZone, otherId: id, creatorId: nil)
                     if powerGameStateParser?.getCurrentBlock()?.cardId == CardIds.Collectible.Neutral.GrandArchivist
                        && powerGameStateParser?.getCurrentBlock()?.entityDiscardedByArchivist != nil {
                         powerGameStateParser?.getCurrentBlock()?.entityDiscardedByArchivist?.cardId = entity.info.latestCardId
@@ -1006,12 +1006,12 @@ struct TagChangeActions {
                     eventHandler.playerSecretPlayed(entity: entity, cardId: cardId,
                                                     turn: eventHandler.turnNumber(), fromZone: prevZone, parentCardId: currentBlockCardId)
                 }
-            } else if controller == eventHandler.opponent.id {
+            } else if controller == eventHandler.opponent.id { //secret cast by some minion (e.g. Fyrakk)
                 if let prevZone = Zone(rawValue: prevValue) {
                     eventHandler.opponentSecretPlayed(entity: entity, cardId: cardId,
-                                              from: entity[.zone_position],
-                                              turn: eventHandler.turnNumber(),
-                                              fromZone: prevZone, otherId: id)
+                                                      from: entity[.zone_position],
+                                                      turn: eventHandler.turnNumber(),
+                                                      fromZone: prevZone, otherId: id, creatorId: powerGameStateParser?.currentBlock?.sourceEntityId)
                 }
             }
             
@@ -1117,7 +1117,7 @@ struct TagChangeActions {
                 if let prevZone = Zone(rawValue: prevValue) {
                     eventHandler.opponentSecretPlayed(entity: entity, cardId: cardId,
                                               from: -1, turn: eventHandler.turnNumber(),
-                                              fromZone: prevZone, otherId: id)
+                                              fromZone: prevZone, otherId: id, creatorId: nil)
                 }
             }
             

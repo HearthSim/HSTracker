@@ -3105,7 +3105,7 @@ class Game: NSObject, PowerEventHandler {
 
     func opponentSecretPlayed(entity: Entity, cardId: String?,
                               from: Int, turn: Int,
-                              fromZone: Zone, otherId: Int) {
+                              fromZone: Zone, otherId: Int, creatorId: Int? = nil) {
         if !entity.isSecret {
             if entity.isQuest && !entity.isQuestlinePart || entity.isSideQuest {
                 opponent.questPlayedFromHand(entity: entity, turn: turn)
@@ -3123,7 +3123,7 @@ class Game: NSObject, PowerEventHandler {
         case .hand:
             opponent.secretPlayedFromHand(entity: entity, turn: turn)
         default:
-            opponent.createInSecret(entity: entity, turn: turn)
+            opponent.createInSecret(entity: entity, turn: turn, creatorId: creatorId)
         }
 
         var heroClass: CardClass?

@@ -19,6 +19,8 @@ class EntityInfo {
         return originalController > 0 && originalController != _entity[.controller]
     }
     var created = false
+    
+    var creatorId: Int?
     var hasOutstandingTagChanges = false
     var originalController = 0
     var hidden = false
@@ -82,6 +84,9 @@ class EntityInfo {
         var creatorId = _entity[.displayed_creator]
         if creatorId == 0 {
             creatorId = _entity[.creator]
+        }
+        if creatorId == 0 {
+            creatorId = _entity.info.creatorId ?? 0
         }
         return creatorId
     }

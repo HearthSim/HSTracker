@@ -1015,9 +1015,10 @@ final class Player {
         }
     }
 
-    func createInSecret(entity: Entity, turn: Int) {
+    func createInSecret(entity: Entity, turn: Int, creatorId: Int? = nil) {
         entity.info.created = true
         entity.info.turn = turn
+        entity.info.creatorId = creatorId
         if Settings.fullGameLog {
             logger.info("\(debugName) \(#function) \(entity)")
         }

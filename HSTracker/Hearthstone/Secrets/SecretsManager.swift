@@ -346,7 +346,7 @@ class SecretsManager {
         let allSecrets = CardIds.Secrets.Mage.All + CardIds.Secrets.Hunter.All + CardIds.Secrets.Paladin.All + CardIds.Secrets.Rogue.All
         
         return Set<String>(allSecrets
-            .filter { s in s.ids.all { id in generator.isInGeneratorPool(Card(id: id), gameMode, format)} }
+            .filter { s in generator.isInGeneratorPool(s, gameMode, format) }
             .flatMap { m in m.ids })
     }
     

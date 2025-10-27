@@ -20,5 +20,9 @@ class TearReality: ICardGenerator {
          CardSet.classicSets().contains(card.set ?? .invalid))
     }
 
+    func isInGeneratorPool(_ card: MultiIdCard, _ gameMode: GameType, _ format: FormatType) -> Bool {
+        return card.ids.any { c in isInGeneratorPool(Card(id: c), gameMode, format) }
+    }
+    
     required init() {}
 }

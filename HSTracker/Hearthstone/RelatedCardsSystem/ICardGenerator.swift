@@ -11,4 +11,5 @@ import Foundation
 protocol ICardGenerator: ICard {
     init()
     func isInGeneratorPool(_ card: Card, _ gameMode: GameType, _ format: FormatType) -> Bool
+    func isInGeneratorPool(_ card: MultiIdCard, _ gameMode: GameType, _ format: FormatType) -> Bool
 }

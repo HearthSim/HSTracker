@@ -251,6 +251,7 @@ extension Entity: NSCopying {
         e.info.extraInfo = e.info.extraInfo
         e.info.costReduction = info.costReduction
         e.info.revealedOnHistory = info.revealedOnHistory
+        e.info.creatorId = info.creatorId
 
         return e
     }

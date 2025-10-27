@@ -28,4 +28,8 @@ class SketchArtist: ICardWithHighlight, ISpellSchoolTutor, ICardGenerator {
                card.spellSchool == SpellSchool.shadow &&
         card.isCardLegal(gameType: gameMode, format: format)
     }
+
+    func isInGeneratorPool(_ card: MultiIdCard, _ gameMode: GameType, _ format: FormatType) -> Bool {
+        return card.ids.any { c in isInGeneratorPool(Card(id: c), gameMode, format) }
+    }    
 }
