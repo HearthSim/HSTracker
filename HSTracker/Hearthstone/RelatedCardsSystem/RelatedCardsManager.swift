@@ -12,6 +12,7 @@ class RelatedCardsManager {
     private var relatedCards = [String: ICardWithRelatedCards]()
     private var highlightCards = [String: ICardWithHighlight]()
     private var spellSchoolTutorCards = [String: ISpellSchoolTutor]()
+    private var cardGeneratorCards = [String: ICardGenerator]()
     
     private func initializeRelatedCards() {
         let _cards = ReflectionHelper.getRelatedClases()
@@ -40,6 +41,15 @@ class RelatedCardsManager {
         }
     }
     
+    private func initializeCardGeneratorCards() {
+        let _cards = ReflectionHelper.getCardGeneratorClasses()
+        
+        for card in _cards {
+            let cardGenerator = card.init()
+            cardGeneratorCards[cardGenerator.getCardId()] = cardGenerator
+        }
+    }
+    
     public func reset() {
         if relatedCards.count == 0 {
             initializeRelatedCards()
@@ -49,6 +59,9 @@ class RelatedCardsManager {
         }
         if spellSchoolTutorCards.count == 0 {
             initializeSpellSchoolTutorCards()
+        }
+        if cardGeneratorCards.count == 0 {
+            initializeCardGeneratorCards()
         }
     }
     
@@ -62,6 +75,10 @@ class RelatedCardsManager {
     
     public func getSpellSchoolTutor(_ cardId: String) -> ISpellSchoolTutor? {
         return spellSchoolTutorCards[cardId]
+    }
+    
+    public func getCardGenerator(_ cardId: String) -> ICardGenerator? {
+        return cardGeneratorCards[cardId]
     }
     
     public func getCardsOpponentMayHave(_ opponent: Player, _ gameType: GameType, _ format: FormatType) -> [Card] {

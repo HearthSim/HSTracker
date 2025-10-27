@@ -212,6 +212,11 @@ extension CardIds.Collectible {
         static let Techysaurus = "DINO_409"
         static let SheepMask = "DINO_429"
         static let GreySageParrot = "DED_515"
+        static let TearReality = "NX2_001"
+        static let Supernova = "GDB_301"
+        static let SubmergedSpacerock = "TID_707"
+        static let DiscoAtTheEndOfTime = "WON_040"
+        static let Blasteroid = "GDB_303"
     }
 }
 

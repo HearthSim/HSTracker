@@ -741,6 +741,11 @@ extension CardIds.Collectible {
         static let HolyEggbearer = "DINO_411"
         static let PortalVanguard = "TIME_003"
         static let HeraldOfLokholar = "AV_101"
+        static let UmbralGeist = "RLK_914"
+        static let SweetenedSnowflurry = "TOY_307"
+        static let Pyrotechnician = "ETC_540"
+        static let GalacticCrusader = "GDB_862"
+        static let FyrakkTheBlazing = "FIR_959"
     }
 }
 
@@ -1024,5 +1029,6 @@ extension CardIds.NonCollectible {
         static let WhirringProtector_WhirringProtectorEnchantment = "BG33_807e"
         static let WhirringProtector_WhirringProtector2 = "BG33_807_Ge"
         static let TavishStormpike_LockAndLoad = "BG22_HERO_000p_Alt"
+        static let SweetenedSnowflurry_SweetenedSnowflurryToken = "TOY_307t"
     }
 }

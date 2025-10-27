@@ -58,6 +58,7 @@ extension CardIds.Collectible {
         static let DreadRaptor = "TLC_432"
         static let HighCultistHerenn = "TLC_810"
         static let WaveOfTar = "TLC_439"
+        static let LadyDeathwhisper = "RLK_713"
     }
 }
 

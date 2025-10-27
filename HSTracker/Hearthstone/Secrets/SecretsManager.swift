@@ -225,24 +225,33 @@ class SecretsManager {
         let availableSecrets = getAvailableSecrets(gameMode: gameMode, format: format)
         
         if gameMode == .gt_arena || gameMode == .gt_underground_arena {
-            let secrets = getArenaCreatedSecrets(createdBySecrets, availableSecrets, gameMode, format)
-            return secrets
+            return getArenaCreatedSecrets(createdBySecrets, availableSecrets, gameMode, format)
         }
         
-        let filteredSecrets = getFilteredSecretsByDrawer(createdBySecrets, availableSecrets)
-        
-        let quantified = filteredSecrets
-            .group { m in m }
-            .compactMap { g in
-                if CardIds.Secrets.getSecretMultiIdCard(g.key.ids[0]) != nil {
-                    return QuantifiedMultiIdCard(baseCard: g.key, count: g.value.count)
+        var secretsCreated = [MultiIdCard]()
+
+        for secret in createdBySecrets {
+            let creator = tryGetCreator(secret)
+            let drawer = tryGetDrawer(secret)
+            
+            if let creator, let generator = _relatedCardsManager.getCardGenerator(creator.cardId) {
+                let creatableSecrets = getCreatableSecretsFromGenerator(generator, gameMode, format)
+                
+                if let drawer, let tutor = _relatedCardsManager.getSpellSchoolTutor(drawer.cardId) {
+                    secretsCreated.append(contentsOf: SecretsManager.getFilteredSecretsByDrawerFromSingleSecret(secret, tutor, creatableSecrets))
                 } else {
-                    return QuantifiedMultiIdCard(baseCard: g.key, count: 0)
+                    secretsCreated.append(contentsOf: getFilteredSecrets(secret, creatableSecrets))
+                }
+            } else {
+                if let drawer, let tutor = _relatedCardsManager.getSpellSchoolTutor(drawer.cardId) {
+                    secretsCreated.append(contentsOf: SecretsManager.getFilteredSecretsByDrawerFromSingleSecret(secret, tutor, availableSecrets))
+                } else {
+                    secretsCreated.append(contentsOf: getFilteredSecrets(secret, availableSecrets))
                 }
             }
-            .filter { x in x.ids.any { availableSecrets.contains($0) }}
+        }
         
-        return SecretsManager.quantifiedCardsToCards(quantified, format)
+        return quantifyAndConvertSecrets(secretsCreated, format)
     }
     
     private func getArenaCreatedSecrets(_ createdBySecrets: [Secret], _ availableSecrets: Set<String>, _ gameMode: GameType, _ format: FormatType) -> [Card] {
@@ -316,13 +325,46 @@ class SecretsManager {
         return filteredSecrets
     }
 
-    private static func getFilteredSecretsByDrawerFromSingleSecret(_ secret: Secret, _ spellSchoolTutor: ISpellSchoolTutor, _ availableSecrets: Set<String>) ->  [MultiIdCard] {
+    private static func getFilteredSecretsByDrawerFromSingleSecret(_ secret: Secret, _ spellSchoolTutor: ISpellSchoolTutor, _ availableSecrets: Set<String>) -> [MultiIdCard] {
         let spellSchools = spellSchoolTutor.tutoredSpellSchools
         return secret.excluded
             .filter { x in x.key.ids.any { availableSecrets.contains($0) && !x.value }}
             .compactMap { x in Card(id: x.key.ids[0]) }
             .filter { c in spellSchools.contains(c.spellSchool.rawValue) }
             .compactMap { c in CardIds.Secrets.getSecretMultiIdCard(c.id) }
+    }
+    
+    private func tryGetCreator(_ secret: Secret) -> Entity? {
+        return game.opponent.revealedEntities.first { e in e.id == secret.entity.info.getCreatorId() }
+    }
+    
+    private func tryGetDrawer(_ secret: Secret) -> Entity? {
+        return game.opponent.revealedEntities.first { e in e.id == secret.entity.info.getDrawerId() }
+    }
+    
+    private func getCreatableSecretsFromGenerator(_ generator: ICardGenerator, _ gameMode: GameType, _ format: FormatType) -> Set<String> {
+        let allSecrets = CardIds.Secrets.Mage.All + CardIds.Secrets.Hunter.All + CardIds.Secrets.Paladin.All + CardIds.Secrets.Rogue.All
+        
+        return Set<String>(allSecrets
+            .filter { s in s.ids.all { id in generator.isInGeneratorPool(Card(id: id), gameMode, format)} }
+            .flatMap { m in m.ids })
+    }
+    
+    private func getFilteredSecrets(_ secret: Secret, _ allowedSecrets: Set<String>) -> [MultiIdCard] {
+        return secret.excluded.filter { x in x.key.ids.any { allowedSecrets.contains($0) && !x.value }}.compactMap { x in x.key }
+    }
+    
+    private func quantifyAndConvertSecrets(_ secrets: [MultiIdCard], _ format: FormatType) -> [Card] {
+        let quantified = secrets
+            .group { m in m }
+            .compactMap { g in
+                if CardIds.Secrets.getSecretMultiIdCard(g.key.ids[0]) != nil {
+                    return QuantifiedMultiIdCard(baseCard: g.key, count: g.value.count)
+                } else {
+                    return QuantifiedMultiIdCard(baseCard: g.key, count: 0)
+                }
+            }
+        return SecretsManager.quantifiedCardsToCards(quantified, format)
     }
     
     private static func quantifiedCardsToCards(_ quantified: [QuantifiedMultiIdCard], _ format: FormatType) -> [Card] {

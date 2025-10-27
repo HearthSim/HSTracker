@@ -183,6 +183,7 @@ extension CardIds.Collectible {
         static let RestInPeace = "VAC_457"
         static let BehemothMask = "DINO_428"
         static let TwilightDeceptor = "SW_444"
+        static let TwilightMender = "TLC_814"
     }
 }
 

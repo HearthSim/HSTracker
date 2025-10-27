@@ -1944,7 +1944,7 @@ class Game: NSObject, PowerEventHandler {
 
     func trackGameEnd() {
         if !(isConstructedMatch() || isBattlegroundsMatch() || isArenaMatch) {
-            return;
+            return
         }
 
         var properties: Properties = [
@@ -1954,10 +1954,10 @@ class Game: NSObject, PowerEventHandler {
             // move these into super properties that apply to every event
             // and are updated whenever they change
             "is_authenticated": HSReplayAPI.isFullyAuthenticated,
-            "card_language": Settings.hearthstoneLanguage?.rawValue,
+            "card_language": Settings.hearthstoneLanguage?.rawValue
         ]
 
-        if (isArenaMatch) {
+        if isArenaMatch {
             properties["sub_franchise"] = ["Arena"]
         }
 

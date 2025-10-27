@@ -15,6 +15,7 @@ class ReflectionHelper {
     private static var cacheRelatedClassList = [ICardWithRelatedCards.Type]()
     private static var cacheHighlightClassList = [ICardWithHighlight.Type]()
     private static var cacheSpellSchoolTutorClassList = [ISpellSchoolTutor.Type]()
+    private static var cacheCardGeneratorClassList = [ICardGenerator.Type]()
 
     static func initialize() {
         var count: UInt32 = 0
@@ -28,7 +29,7 @@ class ReflectionHelper {
         
         classListBuffer.forEach { cl in
             // checking the name of the class for HSTracker prefix speeds it up from 12s to 100ms
-            // it also avoids some werid crashes that happen when trying to cast it to a type instead of
+            // it also avoids some weird crashes that happen when trying to cast it to a type instead of
             // protocol
             let name = class_getName(cl)
             if memcmp(name, "HSTracker.", 10) != 0 {
@@ -47,6 +48,9 @@ class ReflectionHelper {
             }
             if let sstcl = cl as? ISpellSchoolTutor.Type {
                 cacheSpellSchoolTutorClassList.append(sstcl)
+            }
+            if let cgcl = cl as? ICardGenerator.Type {
+                cacheCardGeneratorClassList.append(cgcl)
             }
         }
     }
@@ -73,5 +77,9 @@ class ReflectionHelper {
     
     static func getSpellSchoolTutorClasses() -> [ISpellSchoolTutor.Type] {
         return cacheSpellSchoolTutorClassList
+    }
+    
+    static func getCardGeneratorClasses() -> [ICardGenerator.Type] {
+        return cacheCardGeneratorClassList
     }
 }

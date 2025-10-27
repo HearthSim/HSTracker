@@ -8,7 +8,7 @@
 
 import Foundation
 
-class SketchArtist: ICardWithHighlight, ISpellSchoolTutor {
+class SketchArtist: ICardWithHighlight, ISpellSchoolTutor, ICardGenerator {
     required init() {}
     
     func getCardId() -> String {
@@ -21,5 +21,11 @@ class SketchArtist: ICardWithHighlight, ISpellSchoolTutor {
     
     var tutoredSpellSchools: [Int] {
         return [SpellSchool.shadow.rawValue]
+    }
+    
+    func isInGeneratorPool(_ card: Card, _ gameMode: GameType, _ format: FormatType) -> Bool {
+        return card.type == .spell &&
+               card.spellSchool == SpellSchool.shadow &&
+        card.isCardLegal(gameType: gameMode, format: format)
     }
 }
