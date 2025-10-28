@@ -527,6 +527,8 @@
 		B837D7F42EAFB1720070DB4B /* DiscoAtTheEndOfTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = B837D7F32EAFB1720070DB4B /* DiscoAtTheEndOfTime.swift */; };
 		B837D7F62EAFB2230070DB4B /* Blasteroid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B837D7F52EAFB2230070DB4B /* Blasteroid.swift */; };
 		B837D7F82EAFB2650070DB4B /* LadyDeathwhisper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B837D7F72EAFB2650070DB4B /* LadyDeathwhisper.swift */; };
+		B837D7FA2EB1526A0070DB4B /* AccountId.swift in Sources */ = {isa = PBXBuildFile; fileRef = B837D7F92EB1526A0070DB4B /* AccountId.swift */; };
+		B837D7FB2EB1526A0070DB4B /* AccountId.swift in Sources */ = {isa = PBXBuildFile; fileRef = B837D7F92EB1526A0070DB4B /* AccountId.swift */; };
 		B83A703E2E00A3BF00B85BBE /* JsonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83A703D2E00A3BF00B85BBE /* JsonManager.swift */; };
 		B83A703F2E00A3BF00B85BBE /* JsonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83A703D2E00A3BF00B85BBE /* JsonManager.swift */; };
 		B83A70412E03009200B85BBE /* DeckImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83A70402E03009200B85BBE /* DeckImporter.swift */; };
@@ -1860,6 +1862,7 @@
 		B837D7F32EAFB1720070DB4B /* DiscoAtTheEndOfTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoAtTheEndOfTime.swift; sourceTree = "<group>"; };
 		B837D7F52EAFB2230070DB4B /* Blasteroid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blasteroid.swift; sourceTree = "<group>"; };
 		B837D7F72EAFB2650070DB4B /* LadyDeathwhisper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LadyDeathwhisper.swift; sourceTree = "<group>"; };
+		B837D7F92EB1526A0070DB4B /* AccountId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountId.swift; sourceTree = "<group>"; };
 		B83A703D2E00A3BF00B85BBE /* JsonManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonManager.swift; sourceTree = "<group>"; };
 		B83A70402E03009200B85BBE /* DeckImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckImporter.swift; sourceTree = "<group>"; };
 		B83CF35F294A7C42003C9062 /* BattlegroundsSingleQuestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsSingleQuestView.swift; sourceTree = "<group>"; };
@@ -2777,6 +2780,7 @@
 		4323C5E31E1695DD00C97896 /* HearthMirror */ = {
 			isa = PBXGroup;
 			children = (
+				B837D7F92EB1526A0070DB4B /* AccountId.swift */,
 				4323C5F41E1BC09500C97896 /* ArenaInfo.swift */,
 				4323C5F61E1BE28800C97896 /* BrawlInfo.swift */,
 				4323C5E71E16963200C97896 /* MatchInfo.swift */,
@@ -5787,6 +5791,7 @@
 				B86C9EAB27A17B3B00195C0A /* BrukanInvocationDeathrattles.swift in Sources */,
 				B8E1E5D12D0C94E000383975 /* Hadronox.swift in Sources */,
 				B8C33FB1273EF851006DA79E /* MercenariesCoins.swift in Sources */,
+				B837D7FB2EB1526A0070DB4B /* AccountId.swift in Sources */,
 				B83CF379294E63C9003C9062 /* BattlegroundsCompositionPopularity.swift in Sources */,
 				B8B78FB82C94612400DD33EC /* ChitinousPlatingEnchantment.swift in Sources */,
 				439C7EDE1C777FA900D29859 /* ImageUtils.swift in Sources */,
@@ -6193,6 +6198,7 @@
 				43C1CAA71E96CD6F008C20B1 /* FloatingCard.swift in Sources */,
 				43C1CAA91E96CD6F008C20B1 /* StringTracker.swift in Sources */,
 				BCCCDB9F1EA55B0C00C328D0 /* NotificationManager.swift in Sources */,
+				B837D7FA2EB1526A0070DB4B /* AccountId.swift in Sources */,
 				43C1CAAA1E96CD6F008C20B1 /* BoardDamage.swift in Sources */,
 				43C1CAAB1E96CD6F008C20B1 /* CardHud.swift in Sources */,
 				43C1CAAC1E96CD6F008C20B1 /* CardHudContainer.swift in Sources */,

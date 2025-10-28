@@ -82,6 +82,8 @@ class Game: NSObject, PowerEventHandler {
     let counterManager: CounterManager
     let relatedCardsManager: RelatedCardsManager
     var isBattlegroundsCombatPhase = false
+    var accountId: MirrorAccountId?
+    var battlegroundsDetails: UploadMetaData.BattlegroundsLobbyDetails?
 	
     func setHearthstoneRunning(flag: Bool) {
         hearthstoneRunState.isRunning = flag
@@ -1070,6 +1072,11 @@ class Game: NSObject, PowerEventHandler {
     
     private var _mercenariesRating: Int?
     
+    private var isReconnect = false
+    var shouldSuppressLog: Bool {
+        return isBattlegroundsMatch() && isReconnect
+    }
+    
     var mercenariesRating: Int? {
         if _mercenariesRating == nil {
             if let rating = MirrorHelper.getMercenariesRating() {
@@ -1684,6 +1691,8 @@ class Game: NSObject, PowerEventHandler {
         cacheMatchInfo()
         cacheGameType()
         cacheSpectator()
+        
+        accountId = MirrorHelper.getAccountId()
 
         logger.info("----- Game Started -----")
         logger.info("currentGameMode: \(currentGameMode), isInMenu: \(isInMenu), "
@@ -1714,6 +1723,7 @@ class Game: NSObject, PowerEventHandler {
         }
         
         if isBattlegroundsMatch() {
+            battlegroundsDetails = UploadMetaData.BattlegroundsLobbyDetails()
             DispatchQueue.main.async {
                 self.windowManager.battlegroundsSession.update()
                 self.windowManager.battlegroundsSession.updateScaling()
@@ -1778,6 +1788,7 @@ class Game: NSObject, PowerEventHandler {
             
             if self.isBattlegroundsMatch() {
                 if (self.gameEntity?[.step] ?? 0) > Step.begin_mulligan.rawValue {
+                    self.isReconnect = true
                     DispatchQueue.main.async {
                         self.windowManager.battlegroundsSession.update()
                         self.windowManager.battlegroundsSession.updateScaling()
@@ -1809,6 +1820,7 @@ class Game: NSObject, PowerEventHandler {
         handleEndGame()
         self.powerLog = []
 
+        isReconnect = false
         secretsManager?.reset()
         windowManager.hideGameTrackers()
         turnTimer.stop()
@@ -1933,11 +1945,36 @@ class Game: NSObject, PowerEventHandler {
         }
         result.setOpponentCards(opponent.opponentCardList.filter { x in !x.isCreated })
 		
-        if currentGameType == .gt_battlegrounds || currentGameType == .gt_battlegrounds_friendly {
-            result.battlegroundsRaces = self.availableRaces?.compactMap({ x in Race.allCases.firstIndex(of: x)}) ?? []
-        }
-        
         result.deckId = currentDeck?.id ?? ""
+        
+        if isBattlegroundsMatch() {
+            if let accountId {
+                result.accountId = AccountId(hi: accountId.hi.int64Value, lo: accountId.lo.int64Value)
+            }
+            
+            result.gameDurationSeconds = Int(result.endTime.timeIntervalSince(result.startTime))
+            let hero = entities.values.first { x in x.has(tag: .player_leaderboard_place) && x.isControlled(by: player.id) }
+            
+            let finalPlacement = hero?[.player_leaderboard_place] ?? 0
+            if battlegroundsDetails != nil {
+                battlegroundsDetails?.anomaly_dbf_id = gameEntity?[.bacon_global_anomaly_dbid]
+                battlegroundsDetails?.final_placement = finalPlacement
+                
+                battlegroundsDetails?.friendly_hero_raw_dbf_id = hero?.card.dbfId
+                battlegroundsDetails?.friendly_player_entity_id = hero?.id
+                
+                let allHeroes = entities.values.filter { x in x.has(tag: .player_leaderboard_place) }
+                for lobbyHero in allHeroes {
+                    if battlegroundsDetails?.lobby_hero_dbf_ids == nil {
+                        battlegroundsDetails?.lobby_hero_dbf_ids = [Int]()
+                    }
+                    battlegroundsDetails?.lobby_hero_dbf_ids?.append(lobbyHero.card.dbfId)
+                }
+                result.battlegroundsDetails = battlegroundsDetails
+            }
+            result.battlegroundsRaces = self.availableRaces?.compactMap({ x in Race.allCases.firstIndex(of: x)}) ?? []
+
+        }
 		
 		return result
 	}
@@ -2093,6 +2130,10 @@ class Game: NSObject, PowerEventHandler {
             (stats.gameMode == .duels &&
                 Settings.hsReplayUploadDuelsMatches) ||
             (stats.gameMode == .mercenaries && Settings.hsReplayUploadMercenariesMatches)) {
+            
+            if shouldSuppressLog {
+                logger.info("Reconnected Battlegrounds game detected; this log will likely be invalid.")
+            }
 			
             let (uploadMetaData, statId) = UploadMetaData.generate(stats: stats, buildNumber: self.buildNumber,
                                                                    game: self )

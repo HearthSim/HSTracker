@@ -11,6 +11,7 @@ import RealmSwift
 
 class InternalGameStats {
     var statId: String = generateId()
+    var accountId: AccountId?
     var playerHero: CardClass = .neutral
     var opponentHero: CardClass = .neutral
     var coin = false
@@ -65,6 +66,8 @@ class InternalGameStats {
     var sideboards = [Sideboard]()
     var opponentHeroCardId: String?
     var deckId = ""
+    var gameDurationSeconds: Int?
+    var battlegroundsDetails: UploadMetaData.BattlegroundsLobbyDetails?
     private var _format: Format?
     
     var format: Format? {

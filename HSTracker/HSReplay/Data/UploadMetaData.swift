@@ -10,7 +10,9 @@ import Foundation
 
 class UploadMetaData: Encodable {
     private enum CodingKeys: String, CodingKey {
-        case game_handle,
+        case account_hi,
+             account_lo,
+             game_handle,
              client_handle,
              reconnecting,
              resumable,
@@ -32,7 +34,10 @@ class UploadMetaData: Encodable {
              mercenaries_bounty_run_id,
              mercenaries_bounty_run_turns_taken,
              mercenaries_bounty_run_completed_nodes,
-             mercenaries_rewards
+             mercenaries_rewards,
+             battlegrounds_details,
+             num_turns,
+             game_duration_seconds
     }
     
     private var statistic: InternalGameStats?
@@ -40,6 +45,8 @@ class UploadMetaData: Encodable {
     private var log: [String] = []
     var dateStart: Date?
     
+    var account_hi: Int64?
+    var account_lo: Int64?
     var game_handle: String?
     var client_handle: String?
     var reconnecting: Bool?
@@ -63,6 +70,9 @@ class UploadMetaData: Encodable {
     var mercenaries_bounty_run_turns_taken: Int?
     var mercenaries_bounty_run_completed_nodes: Int?
     var mercenaries_rewards: [MercenaryReward]?
+    var battlegrounds_details: BattlegroundsLobbyDetails?
+    var num_turns: Int?
+    var game_duration_seconds: Int?
     
     public static let iso8601StringFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -125,6 +135,15 @@ class UploadMetaData: Encodable {
             metaData.league_id = stats.leagueId
         }
         if stats.gameMode == .battlegrounds {
+            if let accountId = stats.accountId {
+                metaData.account_hi = accountId.hi
+                metaData.account_lo = accountId.lo
+            }
+            metaData.num_turns = stats.turns
+            metaData.game_duration_seconds = stats.gameDurationSeconds
+            
+            metaData.battlegrounds_details = stats.battlegroundsDetails
+
             metaData.battlegrounds_races = stats.battlegroundsRaces
         }
         if stats.gameMode == .mercenaries {
@@ -287,5 +306,13 @@ class UploadMetaData: Encodable {
     struct MercenaryReward: Encodable {
         let mercenary_id: Int
         let coins: Int
+    }
+    
+    struct BattlegroundsLobbyDetails: Encodable {
+        var lobby_hero_dbf_ids: [Int]?
+        var anomaly_dbf_id: Int?
+        var friendly_player_entity_id: Int?
+        var final_placement: Int?
+        var friendly_hero_raw_dbf_id: Int?
     }
 }
