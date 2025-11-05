@@ -341,11 +341,11 @@ class PowerGameStateParser: LogEventParser {
                     let entity = eventHandler.entities[entityId]
                     if entity?.info.guessedCardState != GuessedCardState.none {
                         entity?.info.guessedCardState = GuessedCardState.revealed
-                        if AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock?.hideShowEntities ?? false && !(entity?.info.revealedOnHistory ?? false) && !(entity?.has(tag: .displayed_creator) ?? true) {
-                            entity?.info.hidden = true
-                        } else {
-                            entity?.info.hidden = false
-                        }
+                    }
+                    if AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock?.hideShowEntities ?? false && !(entity?.info.revealedOnHistory ?? false) && !(entity?.has(tag: .displayed_creator) ?? true) {
+                        entity?.info.hidden = true
+                    } else {
+                        entity?.info.hidden = false
                     }
                     if entity?.info.deckIndex ?? 0 < 0, let currentBlock = currentBlock, currentBlock.sourceEntityId != 0 {
                         if let source = eventHandler.entities[currentBlock.sourceEntityId], source.hasDredge {
