@@ -575,6 +575,10 @@ class SecretsManager {
         // TODO: break ties when Effigy + Deathrattle played on the same turn
         exclude.append(CardIds.Secrets.Mage.Effigy)
         exclude.append(CardIds.Secrets.Hunter.EmergencyManeuvers)
+        
+        if entity.info.turnPlayed == (game.gameEntity?[.turn] ?? 0) - 1 {
+            exclude.append(CardIds.Secrets.Hunter.UntimelyDeath)
+        }
 
         self.exclude(cardIds: exclude)
     }

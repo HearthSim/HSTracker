@@ -210,6 +210,10 @@ extension CardIds.Collectible {
         static let Lightray = "TID_077"
         static let AmitusThePeacekeeper = "TTN_858"
         static let BattleVicar = "ONY_022"
+        static let GelbinOfTomorrow = "TIME_009"
+        static let PastGnomeregan = "TIME_044"
+        static let Tankgineer = "TIME_017"
+        static let TheFinsBeyondTime = "TIME_706"
     }
 }
 
@@ -297,6 +301,10 @@ extension CardIds.NonCollectible {
         static let BlessingOfTheDragon = "EDR_445p"
         static let HotSpringGlider_WeeeeeEnchantment = "TLC_428e"
         static let IdooftheThreshfleet_CallTheThreshfleetToken = "TLC_241t"
+        static let GelbinofTomorrow_GnomishAuraToken = "TIME_009t1"
+        static let GelbinofTomorrow_MekkatorquesAuraToken = "TIME_009t2"
+        static let PastGnomeregan_PresentGnomereganToken = "TIME_044t1"
+        static let PastGnomeregan_FutureGnomereganToken = "TIME_044t2"
     }
 }
 

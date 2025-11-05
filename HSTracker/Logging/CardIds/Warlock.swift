@@ -198,6 +198,10 @@ extension CardIds.Collectible {
         static let PossessedAnimancer = "DINO_131"
         static let TamsinRoame = "BAR_918"
         static let FiddlefireImp = "JAM_032"
+        static let TimethiefRafaam = "TIME_005"
+        static let Chronogor = "TIME_032"
+        static let Fatebreaker = "TIME_028"
+        static let RuinousVelocidrake = "TIME_029"
     }
 }
 
@@ -281,6 +285,17 @@ extension CardIds.NonCollectible {
         static let EscapetheUnderfel_FelraptorToken = "TLC_446t3"
         static let EscapetheUnderfel_FelhornToken = "TLC_446t4"
         static let Spelunker_SpelunkerEnchantPlayerEnchantment = "TLC_450e"
+        static let TimethiefRafaam_TinyRafaamToken = "TIME_005t1"
+        static let TimethiefRafaam_GreenRafaamToken = "TIME_005t2"
+        static let TimethiefRafaam_MurlocRafaamToken = "TIME_005t8"
+        static let TimethiefRafaam_ExplorerRafaamToken = "TIME_005t3"
+        static let TimethiefRafaam_WarchiefRafaamToken = "TIME_005t4"
+        static let TimethiefRafaam_CalamitousRafaamToken = "TIME_005t6"
+        static let TimethiefRafaam_MindflayerRfaamToken = "TIME_005t5"
+        static let TimethiefRafaam_GiantRafaamToken = "TIME_005t7"
+        static let TimethiefRafaam_ArchmageRafaamToken = "TIME_005t9"
+        static let TimethiefRafaam_MrgleermMrgloslgyToken = "TIME_005t8e"
+        static let TwilightTimehopper_ShredOfTimeToken = "TIME_025t"
     }
 }
 

@@ -492,13 +492,27 @@ struct TagChangeActions {
             return
         }
     
-        let isStartOfTheGameEffect = powerGameStateParser?.currentBlock?.triggerKeyword == "START_OF_GAME_KEYWORK"
+        let isStartOfTheGameEffect = powerGameStateParser?.currentBlock?.triggerKeyword == "START_OF_GAME_KEYWORD"
         entity.info.hidden = isStartOfTheGameEffect
         
         if isStartOfTheGameEffect {
             entity.info.guessedCardState = .revealed
             
+            predictFabled(entity)
+            
             AppDelegate.instance().coreManager.game.updateTrackers()
+        }
+    }
+    
+    private func predictFabled(_ entity: Entity) {
+        guard entity.hasCardId, let cardIds = CardIds.fabledDict[entity.cardId] else {
+            return
+        }
+        
+        let game = AppDelegate.instance().coreManager.game
+        
+        for cardId in cardIds {
+            game.opponent.predictUniqueCardInDeck(cardId: cardId, isCreated: false)
         }
     }
     

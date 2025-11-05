@@ -191,6 +191,7 @@ extension CardIds.Collectible {
         static let WidowbloomSeedsman = "REV_318"
         static let WidowbloomSeedsmanCorePlaceholder = "CORE_REV_318"
         static let PantherMask = "DINO_432"
+        static let LadyAzshara = "TIME_211"
     }
 }
 
@@ -350,6 +351,8 @@ extension CardIds.NonCollectible {
         static let SkyscreamerEggs_SkyscreamerHatchlingToken = "TLC_237t"
         static let LohtheLivingLegend_LivingLegendEnchantment = "TLC_257e1"
         static let RavenousFlock_RavenousFlockPlayerEnchantEnchantment = "TLC_232e"
+        static let LadyAzshara_EmpowerTheWell = "TIME_211b"
+        static let LadyAzshara_EmpowerZinAzshari = "TIME_211a"
     }
 }
 

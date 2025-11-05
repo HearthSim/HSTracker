@@ -816,6 +816,7 @@ final class Player {
         }
         entity.info.hidden = false
         entity.info.turn = turn
+        entity.info.turnPlayed = game.gameEntity?[.turn]
         entity.info.costReduction = 0
         if entity.cardId != CardIds.NonCollectible.Neutral.PhotographerFizzle_FizzlesSnapshotToken && entity.cardId != CardIds.NonCollectible.Priest.Repackage_RepackagedBoxToken &&  !CardUtils.isStarship(entity.cardId) {
             entity.info.storedCardIds.removeAll()

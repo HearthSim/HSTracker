@@ -184,6 +184,9 @@ extension CardIds.Collectible {
         static let BehemothMask = "DINO_428"
         static let TwilightDeceptor = "SW_444"
         static let TwilightMender = "TLC_814"
+        static let MedivhTheHallowed = "TIME_890"
+        static let DiscipleOfTheDove = "TIME_037"
+        static let PastConflux = "TIME_436"
     }
 }
 
@@ -253,6 +256,10 @@ extension CardIds.NonCollectible {
         static let AwakentheMakers_WardedByHopeToken = "UNG_940t8e"
         static let ReachEquilibrium_CleanseTheShadowToken = "TLC_817t"
         static let ReachEquilibrium_CorruptTheLightToken = "TLC_817t2"
+        static let MedivhtheHallowed_AtieshTheGreatstaffToken = "TIME_890t"
+        static let MedivhtheHallowed_KarazhanTheSanctumToken = "TIME_890t2"
+        static let PastConflux_PresentConfluxToken = "TIME_436t1"
+        static let PastConflux_FutureConfluxToken = "TIME_436t2"
     }
 }
 

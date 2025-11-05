@@ -179,6 +179,9 @@ extension CardIds.Collectible {
         static let Sleetbreaker = "AV_260"
         static let Windchill = "AV_266"
         static let GolgannethTheThunderer = "TTN_800"
+        static let MuradinHighKing = "TIME_209"
+        static let Thunderquake = "TIME_215"
+        static let StaticShock = "TIME_218"
     }
 }
 
@@ -247,6 +250,8 @@ extension CardIds.NonCollectible {
         static let BlessingOfTheWind = "EDR_448p"
         static let SpiritoftheMountain_AshalonRidgeGuardianToken = "TLC_229t14"
         static let SpiritoftheMountain_PerfectEvolutionToken = "TLC_229t14e"
+        static let MuradinHighKing_HighKingsHammerToken = "TIME_209t"
+        static let MuradinHighKing_AvatarFormToken1 = "TIME_209t2"
     }
 }
 

@@ -134,11 +134,11 @@ class HSReplayPreferences: NSViewController, PreferencePane {
                 HSReplayAPI.linkMixpanelAccount()
                 _ = HSReplayAPI.getAccount().done { result in
                     switch result {
-                        case .failed:
-                            logger.error("Failed to retrieve account data")
-                        case .success(account: let data):
-                            Settings.hsReplayUsername = data.username
-                            logger.info("Successfully retrieved account data: Username: \(data.username), battletag: \(data.battletag)")
+                    case .failed:
+                        logger.error("Failed to retrieve account data")
+                    case .success(account: let data):
+                        Settings.hsReplayUsername = data.username
+                        logger.info("Successfully retrieved account data: Username: \(data.username), battletag: \(data.battletag)")
                     }
 
                     self.updateStatus()

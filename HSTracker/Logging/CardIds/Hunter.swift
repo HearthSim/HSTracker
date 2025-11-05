@@ -214,6 +214,10 @@ extension CardIds.Collectible {
         static let RangariScout = "GDB_841"
         static let FaithfulCompanions = "NX2_015"
         static let DevilsaurMask = "DINO_403"
+        static let RangerGeneralSylvanas = "TIME_609"
+        static let UntimelyDeath = "TIME_620"
+        static let KingMaluk = "TIME_042"
+        static let PastSilvermoon = "TIME_810"
     }
 }
 
@@ -293,6 +297,11 @@ extension CardIds.NonCollectible {
         static let MysteryEgg_MysteryEggToken = "TOY_351t"
         static let BlessingOfTheWolf = "EDR_850p"
         static let CowerinFear_CowerInFearPlayerEnchantEnchantment = "TLC_823e1"
+        static let RangerGeneralSylvanas_RangerCaptainAlleriaToken = "TIME_609t1"
+        static let RangerGeneralSylvanas_RangerInitiateVereesaToken = "TIME_609t2"
+        static let KingMaluk_InfiniteBananaToken = "TIME_042t"
+        static let PastSilvermoon_PresentSilvermoonToken = "TIME_810t1"
+        static let PastSilvermoon_FutureSilvermoonToken = "TIME_810t2"
     }
 }
 
@@ -316,6 +325,7 @@ extension CardIds.Secrets {
         static let PressurePlate = MultiIdCard(CardIds.Collectible.Hunter.PressurePlate)
         static let RatTrap = MultiIdCard(CardIds.Collectible.Hunter.RatTrap, CardIds.Collectible.Hunter.RatTrapCore)
         static let Snipe = MultiIdCard(CardIds.Collectible.Hunter.Snipe, CardIds.Collectible.Hunter.SnipeVanilla, CardIds.Collectible.Hunter.SnipeWONDERS)
+        static let UntimelyDeath = MultiIdCard(CardIds.Collectible.Hunter.UntimelyDeath)
         static let SnakeTrap = MultiIdCard(CardIds.Collectible.Hunter.SnakeTrap, CardIds.Collectible.Hunter.SnakeTrapCore, CardIds.Collectible.Hunter.SnakeTrapVanilla)
         static let VenomstrikeTrap = MultiIdCard(CardIds.Collectible.Hunter.VenomstrikeTrap, CardIds.Collectible.Hunter.VenomstrikeTrapCore)
         static let WanderingMonster = MultiIdCard(CardIds.Collectible.Hunter.WanderingMonster, CardIds.Collectible.Hunter.WanderingMonsterInvalid)

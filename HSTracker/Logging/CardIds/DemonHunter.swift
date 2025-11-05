@@ -64,6 +64,10 @@ extension CardIds.Collectible {
         static let GorishiWasp = "TLC_630"
         static let Infestation = "TLC_902"
         static let InsectClaw = "TLC_833"
+        static let Broxigar = "TIME_020"
+        static let TheEternalHold = "TIME_446"
+        static let LastingLegacy = "TIME_449"
+        static let Solitude = "TIME_448"
     }
 }
 
@@ -99,5 +103,11 @@ extension CardIds.NonCollectible {
         static let SilithidQueen_SilithidGrubToken = "TLC_903t"
         static let UnleashtheColossus_GorishisFavorEnchantment = "TLC_631e"
         static let UnleashtheColossus_GorishiColossusToken = "TLC_631t"
+        static let Broxigar_AxeOfCenariusToken = "TIME_020t1"
+        static let Broxigar_FirstPortalToArgusToken = "TIME_020t2"
+        static let TheEternalHold_JailbreakEnchantment = "TIME_446e"
+        static let Broxigar_SecondPortalToArgusToken = "TIME_020t3"
+        static let Broxigar_ThirdPortalToArgusToken = "TIME_020t4"
+        static let Broxigar_FinalPortalToArgusToken = "TIME_020t5"
     }
 }

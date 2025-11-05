@@ -290,8 +290,8 @@ class HSReplayAPI {
                 onTokenRenewal: tokenRenewalHandler,
                 completionHandler: { result in
                     switch result {
-                    case .success(let response):
-                        MixpanelEvents.linkedMixpanelToken = true;
+                    case .success:
+                        MixpanelEvents.linkedMixpanelToken = true
                         logger.info("Succesfully identified mixpanel token")
                     case .failure(let error):
                         switch error {

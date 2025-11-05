@@ -240,6 +240,7 @@ extension Entity: NSCopying {
         e.info.originalController = info.originalController
         e.info.hidden = info.hidden
         e.info.turn = info.turn
+        e.info.turnPlayed = info.turnPlayed
         e.info.deckIndex = info.deckIndex
         e.info.inGraveyardAtStartOfGame = info.inGraveyardAtStartOfGame
         e.info.guessedCardState = info.guessedCardState

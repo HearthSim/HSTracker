@@ -56,6 +56,50 @@ struct CardIds {
         CardIds.NonCollectible.Warrior.ConditioningRank1_ConditioningRank3Token: CardIds.Collectible.Warrior.ConditioningRank1
     ]
     
+    private static let fabledGroups = [ CardClass.deathknight: [ Collectible.Deathknight.TalanjiOfTheGraves,
+                                                                 NonCollectible.Deathknight.TalanjioftheGraves_BwonsamdiToken,
+                                                                 NonCollectible.Deathknight.TalanjioftheGraves_WhatBefellZandalarToken ],
+                                CardClass.demonhunter: [ Collectible.DemonHunter.Broxigar,
+                                                         NonCollectible.DemonHunter.Broxigar_AxeOfCenariusToken,
+                                                         NonCollectible.DemonHunter.Broxigar_FirstPortalToArgusToken ],
+                                CardClass.druid: [ Collectible.Druid.LadyAzshara,
+                                                   NonCollectible.Druid.LadyAzshara_EmpowerTheWell,
+                                                   NonCollectible.Druid.LadyAzshara_EmpowerZinAzshari ],
+                                CardClass.hunter: [ Collectible.Hunter.RangerGeneralSylvanas,
+                                                    NonCollectible.Hunter.RangerGeneralSylvanas_RangerCaptainAlleriaToken,
+                                                    NonCollectible.Hunter.RangerGeneralSylvanas_RangerInitiateVereesaToken ],
+                                CardClass.mage: [ Collectible.Mage.AzureQueenSindragosa,
+                                                  NonCollectible.Mage.AzureQueenSindragosa_AzureKingMalygosToken,
+                                                  NonCollectible.Mage.AzureQueenSindragosa_AzureOathstoneToken ],
+                                CardClass.paladin: [ Collectible.Paladin.GelbinOfTomorrow,
+                                                     NonCollectible.Paladin.GelbinofTomorrow_GnomishAuraToken,
+                                                     NonCollectible.Paladin.GelbinofTomorrow_MekkatorquesAuraToken ],
+                                CardClass.priest: [ Collectible.Priest.MedivhTheHallowed,
+                                                    NonCollectible.Priest.MedivhtheHallowed_AtieshTheGreatstaffToken,
+                                                    NonCollectible.Priest.MedivhtheHallowed_KarazhanTheSanctumToken ],
+                                CardClass.rogue: [ Collectible.Rogue.GaronaHalforcen,
+                                                   NonCollectible.Rogue.GaronaHalforcen_KingLlaneToken,
+                                                   NonCollectible.Rogue.GaronaHalforcen_TheKingslayersToken ],
+                                CardClass.shaman: [ Collectible.Shaman.MuradinHighKing,
+                                                    NonCollectible.Shaman.MuradinHighKing_HighKingsHammerToken,
+                                                    NonCollectible.Shaman.MuradinHighKing_AvatarFormToken1 ],
+                                CardClass.warlock: [ Collectible.Warlock.TimethiefRafaam,
+                                                     NonCollectible.Warlock.TimethiefRafaam_TinyRafaamToken,
+                                                     NonCollectible.Warlock.TimethiefRafaam_GreenRafaamToken,
+                                                     NonCollectible.Warlock.TimethiefRafaam_MurlocRafaamToken,
+                                                     NonCollectible.Warlock.TimethiefRafaam_ExplorerRafaamToken,
+                                                     NonCollectible.Warlock.TimethiefRafaam_WarchiefRafaamToken,
+                                                     NonCollectible.Warlock.TimethiefRafaam_CalamitousRafaamToken,
+                                                     NonCollectible.Warlock.TimethiefRafaam_MindflayerRfaamToken,
+                                                     NonCollectible.Warlock.TimethiefRafaam_GiantRafaamToken,
+                                                     NonCollectible.Warlock.TimethiefRafaam_ArchmageRafaamToken ],
+                                CardClass.warrior: [ Collectible.Warrior.LogoshBloodFighter,
+                                                     NonCollectible.Warrior.LoGoshBloodFighter_BrollBloodFighterToken,
+                                                     NonCollectible.Warrior.LoGoshBloodFighter_ValeeraBloodFighterToken ]
+                                ]
+    
+    static let fabledDict = Dictionary<String, [String]>(uniqueKeysWithValues: fabledGroups.flatMap { kvp in kvp.value.compactMap { card in (card, kvp.value )}})
+    
     struct Collectible {}
 
     struct NonCollectible {}

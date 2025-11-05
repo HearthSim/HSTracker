@@ -2986,6 +2986,9 @@ class Game: NSObject, PowerEventHandler {
     
     func handleOpponentHandToPlay(entity: Entity, cardId: String?, turn: Int) {
         opponent.handToPlay(entity: entity, turn: turn)
+        
+        predictFabled(entity)
+        
         updateTrackers()
     }
 
@@ -3111,6 +3114,7 @@ class Game: NSObject, PowerEventHandler {
             if let currentBlock = AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock {
                 currentBlock.isTradeableAction = true
             }
+            predictFabled(entity)
         }
         opponent.handToDeck(entity: entity, turn: turn)
         updateTrackers()
@@ -3123,6 +3127,8 @@ class Game: NSObject, PowerEventHandler {
 
     func opponentPlay(entity: Entity, cardId: String?, from: Int, turn: Int) {
         opponent.play(entity: entity, turn: turn)
+        
+        predictFabled(entity)
 
         if let cardId = cardId, !cardId.isEmpty {
             playedCards.append(PlayedCard(player: .opponent, cardId: cardId, turn: turn))
@@ -3141,6 +3147,7 @@ class Game: NSObject, PowerEventHandler {
 
     func opponentHandDiscard(entity: Entity, cardId: String?, from: Int, turn: Int) {
         opponent.handDiscard(entity: entity, turn: turn)
+        predictFabled(entity)
         updateTrackers()
     }
 
@@ -3155,6 +3162,7 @@ class Game: NSObject, PowerEventHandler {
             } else if entity.isObjective {
                 opponent.objectivePlayedFromHand(entity: entity, turn: turn)
             }
+            updateTrackers()
             return
         }
 
@@ -3208,16 +3216,23 @@ class Game: NSObject, PowerEventHandler {
 
     func opponentRemoveFromDeck(entity: Entity, turn: Int) {
         opponent.removeFromDeck(entity: entity, turn: turn)
+        
+        predictFabled(entity)
+        
         updateTrackers()
     }
 
     func opponentDeckDiscard(entity: Entity, cardId: String?, turn: Int) {
         opponent.deckDiscard(entity: entity, turn: turn)
+        predictFabled(entity)
         updateTrackers()
     }
 
     func opponentDeckToPlay(entity: Entity, cardId: String?, turn: Int) {
         opponent.deckToPlay(entity: entity, turn: turn)
+        
+        predictFabled(entity)
+        
         updateTrackers()
     }
 
@@ -3258,11 +3273,18 @@ class Game: NSObject, PowerEventHandler {
     
     func opponentJoust(entity: Entity, cardId: String?, turn: Int) {
         opponent.joustReveal(entity: entity, turn: turn)
+        predictFabled(entity)
         updateTrackers()
     }
 
     func opponentGetToDeck(entity: Entity, turn: Int) {
         opponent.createInDeck(entity: entity, turn: turn)
+        
+        if !entity.cardId.isEmpty, let cardIds = CardIds.fabledDict[entity.cardId] {
+            for cardId in cardIds {
+                opponent.predictUniqueCardInDeck(cardId: cardId, isCreated: false)
+            }
+        }
         updateTrackers()
     }
     
@@ -3328,6 +3350,16 @@ class Game: NSObject, PowerEventHandler {
             logger.info("Opponent Hero Power \(cardId) \(turn) ")
         }
         updateTrackers()
+    }
+    
+    private func predictFabled(_ entity: Entity) {
+        guard entity.hasCardId, let cardIds = CardIds.fabledDict[entity.cardId] else {
+            return
+        }
+        
+        for id in cardIds where id != entity.cardId {
+            opponent.predictUniqueCardInDeck(cardId: id, isCreated: false)
+        }
     }
     
     func handleQuestRewardDatabaseId(id: Int, value: Int) {

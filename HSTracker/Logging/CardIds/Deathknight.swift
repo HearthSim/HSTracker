@@ -59,6 +59,8 @@ extension CardIds.Collectible {
         static let HighCultistHerenn = "TLC_810"
         static let WaveOfTar = "TLC_439"
         static let LadyDeathwhisper = "RLK_713"
+        static let TalanjiOfTheGraves = "TIME_619"
+        static let MemoriamManifest = "TIME_616"
     }
 }
 
@@ -87,6 +89,11 @@ extension CardIds.NonCollectible {
         static let TheLichKing_ArmyOfTheFrozenThroneToken = "ICC_314t2"
         static let TheLichKing_FrostmourneToken = "ICC_314t1"
         static let WaveofTar_StuckEnchantment = "TLC_439e2"
+        static let TalanjioftheGraves_BwonsamdiToken = "TIME_619t"
+        static let TalanjioftheGraves_WhatBefellZandalarToken = "TIME_619t2"
+        static let TalanjioftheGraves_BoonOfPowerToken = "TIME_619t3"
+        static let TalanjioftheGraves_BoonOfLongevityToken = "TIME_619t4"
+        static let TalanjioftheGraves_BoonOfSpeedToken = "TIME_619t5"
     }
 }
 

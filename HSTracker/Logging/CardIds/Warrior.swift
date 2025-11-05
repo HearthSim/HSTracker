@@ -165,6 +165,11 @@ extension CardIds.Collectible {
         static let SuccumbToMadness = "EDR_455"
         static let OverlordSaurfang = "BAR_334"
         static let LastStand = "RLK_601"
+        static let LogoshBloodFighter = "TIME_850"
+        static let SlowMotion = "TIME_716"
+        static let GladiatorialCombat = "TIME_870"
+        static let PrecursoryStrike = "TIME_750"
+        static let UnleashTheCrocolisks = "TIME_873"
     }
 }
 
@@ -255,6 +260,11 @@ extension CardIds.NonCollectible {
         static let SporeEmpressMoldara_ReplicatingSporeToken = "GDB_234t"
         static let ExpeditionSergeant_ExpeditionSergeantFutureBuffEnchantment = "GDB_229e"
         static let EntertheLostCity_LatorviusGazeOfTheCityToken = "TLC_602t"
+        static let LoGoshBloodFighter_BrollBloodFighterToken = "TIME_850t"
+        static let LoGoshBloodFighter_ValeeraBloodFighterToken = "TIME_850t1"
+        static let SlowMotion_SlowedDownEnchantment = "TIME_716e3"
+        static let GladiatorialCombat_ColiseumTigerToken = "TIME_870t"
+        static let UnleashtheCrocolisks_ColiseumCrocoliskToken = "TIME_873t"
     }
 }
 

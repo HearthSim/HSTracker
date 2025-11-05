@@ -217,6 +217,9 @@ extension CardIds.Collectible {
         static let SubmergedSpacerock = "TID_707"
         static let DiscoAtTheEndOfTime = "WON_040"
         static let Blasteroid = "GDB_303"
+        static let AzureQueenSindragosa = "TIME_852"
+        static let AlterTime = "TIME_857"
+        static let MirrorDimension = "TIME_006"
     }
 }
 
@@ -296,6 +299,9 @@ extension CardIds.NonCollectible {
         static let IngeniousArtificer_IngeniousArtficerFutureBuffEnchantment = "GDB_135e"
         static let WispTokenEMERALD_DREAM = "EDR_851t"
         static let BlessingOfTheWisp = "EDR_851p"
+        static let AzureQueenSindragosa_AzureKingMalygosToken = "TIME_852t1"
+        static let AzureQueenSindragosa_AzureOathstoneToken = "TIME_852t3"
+        static let MirrorDimension_MirroredMageToken = "TIME_006t1"
     }
 }
 

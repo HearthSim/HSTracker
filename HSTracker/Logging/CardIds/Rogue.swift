@@ -226,6 +226,8 @@ extension CardIds.Collectible {
         static let DustBunny = "MIS_706"
         static let WebOfDeception = "EDR_523"
         static let CostumeMerchant = "DINO_427"
+        static let GaronaHalforcen = "TIME_875"
+        static let TimeAdmralHooktail = "TIME_713"
     }
 }
 
@@ -319,6 +321,9 @@ extension CardIds.NonCollectible {
         static let TheCavernsBelow_CrystalCoreTokenUNGORO = "UNG_067t1"
         static let WickedKnifeLegacy = "CS2_082"
         static let WebofDeception_SkitteringSpiderlingToken = "EDR_523t"
+        static let GaronaHalforcen_KingLlaneToken = "TIME_875t"
+        static let GaronaHalforcen_TheKingslayersToken = "TIME_875t1"
+        static let TimeAdmralHooktail_TimelessChestToken = "TIME_713t"
     }
 }
 

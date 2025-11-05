@@ -746,6 +746,8 @@ extension CardIds.Collectible {
         static let Pyrotechnician = "ETC_540"
         static let GalacticCrusader = "GDB_862"
         static let FyrakkTheBlazing = "FIR_959"
+        static let Chromie = "TIME_103"
+        static let TemporalTraveler = "TIME_434"
     }
 }
 
@@ -1030,5 +1032,6 @@ extension CardIds.NonCollectible {
         static let WhirringProtector_WhirringProtector2 = "BG33_807_Ge"
         static let TavishStormpike_LockAndLoad = "BG22_HERO_000p_Alt"
         static let SweetenedSnowflurry_SweetenedSnowflurryToken = "TOY_307t"
+        static let TemporalTraveler_TemporalShadowToken = "TIME_434t"
     }
 }

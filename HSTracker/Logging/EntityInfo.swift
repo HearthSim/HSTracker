@@ -25,6 +25,7 @@ class EntityInfo {
     var originalController = 0
     var hidden = false
     var turn = 0
+    var turnPlayed: Int?
     var costReduction = 0
     var revealedOnHistory = false
     var originalZone: Zone?
