@@ -117,8 +117,8 @@ final class LogReader {
 
                         if !lines.isEmpty {
                             for line in lines {
-                                offset += UInt64((line + "\n")
-                                    .lengthOfBytes(using: .utf8))
+                                offset += UInt64(line
+                                    .lengthOfBytes(using: .utf8) + 1)
                                 let logLine = LogLine(namespace: info.name,
                                                       line: line)
 
