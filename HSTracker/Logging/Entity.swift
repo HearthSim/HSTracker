@@ -189,7 +189,7 @@ class Entity {
     }
     
     var hasDredge: Bool {
-        return has(tag: .dredge) || cardId == CardIds.Collectible.Warrior.FromTheDepths
+        return has(tag: .dredge) || cardId == CardIds.Collectible.Warrior.FromTheDepths || cardId == CardIds.Collectible.Druid.Waveshaping
     }
         
     func clearCardId() {
