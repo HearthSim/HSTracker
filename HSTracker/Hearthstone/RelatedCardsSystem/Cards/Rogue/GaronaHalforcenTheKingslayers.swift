@@ -12,7 +12,7 @@ class GaronaHalforcenTheKingslayers: ICardWithHighlight {
     }
 
     func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
-        HighlightColorHelper.getHighlightColor(card.rarity == .legendary)
+        HighlightColorHelper.getHighlightColor(card.rarity == .legendary || card.mechanics.contains("ELITE"))
     }
 
     required init() {}
