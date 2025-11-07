@@ -782,6 +782,8 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Paladin.Grillmaster_SunscreenToken)
                         case CardIds.Collectible.Rogue.MetalDetector:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.TheCoinBasic)
+                        case CardIds.NonCollectible.Rogue.GaronaHalforcen_KingLlaneToken:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Rogue.GaronaHalforcen_KingLlaneToken)
                         case CardIds.NonCollectible.Paladin.LibramofDivinity_LibramOfDivinityEnchantment:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Paladin.LibramOfDivinity)
                         case CardIds.NonCollectible.Neutral.Corpsicle_CorpsicleEnchantment:

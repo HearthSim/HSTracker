@@ -3280,7 +3280,7 @@ class Game: NSObject, PowerEventHandler {
     func opponentGetToDeck(entity: Entity, turn: Int) {
         opponent.createInDeck(entity: entity, turn: turn)
         
-        if !entity.cardId.isEmpty, let cardIds = CardIds.fabledDict[entity.cardId] {
+        if !entity.info.created && !entity.cardId.isEmpty, let cardIds = CardIds.fabledDict[entity.cardId] {
             for cardId in cardIds {
                 opponent.predictUniqueCardInDeck(cardId: cardId, isCreated: false)
             }
@@ -3353,7 +3353,7 @@ class Game: NSObject, PowerEventHandler {
     }
     
     private func predictFabled(_ entity: Entity) {
-        guard entity.hasCardId, let cardIds = CardIds.fabledDict[entity.cardId] else {
+        guard !entity.info.created, entity.hasCardId, let cardIds = CardIds.fabledDict[entity.cardId] else {
             return
         }
         

@@ -505,7 +505,7 @@ struct TagChangeActions {
     }
     
     private func predictFabled(_ entity: Entity) {
-        guard entity.hasCardId, let cardIds = CardIds.fabledDict[entity.cardId] else {
+        guard !entity.info.created, entity.hasCardId, let cardIds = CardIds.fabledDict[entity.cardId] else {
             return
         }
         
