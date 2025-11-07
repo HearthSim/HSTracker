@@ -825,6 +825,12 @@ struct TagChangeActions {
                     entity.info.deckIndex = newIndex
                 }
                 
+                if powerGameStateParser?.currentBlock?.cardId == CardIds.Collectible.Druid.KaldoreiCultivator {
+                    eventHandler.dredgeCounter += 1
+                    let newIndex = eventHandler.dredgeCounter
+                    entity.info.deckIndex = -newIndex
+                }
+                
                 if eventHandler.joustReveals > 0 {
                     break
                 }

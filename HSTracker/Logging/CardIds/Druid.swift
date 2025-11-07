@@ -193,6 +193,7 @@ extension CardIds.Collectible {
         static let PantherMask = "DINO_432"
         static let LadyAzshara = "TIME_211"
         static let Waveshaping = "TIME_701"
+        static let KaldoreiCultivator = "TIME_730"
     }
 }
 
