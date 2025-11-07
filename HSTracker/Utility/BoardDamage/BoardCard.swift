@@ -26,6 +26,7 @@ class BoardCard: IBoardEntity {
     
     private(set) var name = ""
     private(set) var attack = 0
+    private(set) var hasInfiniteAttack = false
     private(set) var health = 0
     private(set) var include = false
     
@@ -51,6 +52,10 @@ class BoardCard: IBoardEntity {
         name = entity.name.isBlank ? cardName : entity.name!
         
         _stdAttack = entity.has(tag: .hide_stats) ? 0 : entity[.atk]
+        if _stdAttack == 2147483647 {
+            _stdAttack = 0
+            hasInfiniteAttack = true
+        }
         _health = entity.has(tag: .hide_stats) ? 0 : entity[.health]
         _armor = entity[.armor]
         _damageTaken = entity[.damage]

@@ -773,7 +773,7 @@ class Game: NSObject, PowerEventHandler {
                             heroPowerDmg *= 2
                         }
                     }
-                    playerBoardDamage.update(attack: board.player.damage + heroPowerDmg)
+                    playerBoardDamage.update(attack: board.player.hasInfiniteDamage ? Int.max : board.player.damage + heroPowerDmg)
                     if Settings.autoPositionTrackers {
                         rect = SizeHelper.playerBoardDamageFrame()
                     } else {
@@ -803,7 +803,7 @@ class Game: NSObject, PowerEventHandler {
                             heroPowerDmg *= 2
                         }
                     }
-                    opponentBoardDamage.update(attack: board.opponent.damage + heroPowerDmg)
+                    opponentBoardDamage.update(attack: board.opponent.hasInfiniteDamage ? Int.max : board.opponent.damage + heroPowerDmg)
                     if Settings.autoPositionTrackers {
                         rect = SizeHelper.opponentBoardDamageFrame()
                     } else {

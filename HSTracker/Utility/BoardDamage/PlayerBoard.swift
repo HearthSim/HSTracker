@@ -19,6 +19,10 @@ class PlayerBoard {
             .reduce(0, +)
     }
     
+    var hasInfiniteDamage: Bool {
+        return cards.filter { x in x.include }.any { x in x.hasInfiniteAttack }
+    }
+    
     init(list: [Entity], activeTurn: Bool) {
         cards = []
         let filtered = filter(cards: list)

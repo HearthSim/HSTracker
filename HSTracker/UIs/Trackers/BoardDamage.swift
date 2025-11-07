@@ -30,7 +30,7 @@ class BoardDamage: OverWindowController {
 
     func update(attack: Int) {
         if let damage = self.damage {
-            damage.attributedStringValue = NSAttributedString(string: "\(attack)",
+            damage.attributedStringValue = NSAttributedString(string: attack == Int.max ? "\u{221e}" : "\(attack)",
                                                           attributes: attributes)
         }
     }

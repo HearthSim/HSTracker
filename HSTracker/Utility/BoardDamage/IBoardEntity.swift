@@ -13,6 +13,7 @@ protocol IBoardEntity {
     var cardId: String { get }
     var health: Int { get }
     var attack: Int { get }
+    var hasInfiniteAttack: Bool { get }
     // number of attacks made this turn
     var attacksThisTurn: Int { get }
     // ability to attack this turn (some exceptions)

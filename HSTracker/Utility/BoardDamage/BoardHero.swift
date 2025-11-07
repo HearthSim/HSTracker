@@ -22,7 +22,8 @@ class BoardHero: IBoardEntity {
     
     // total attack, weapon plus abilities
     private(set) var attack = 0
-    
+    private(set) var hasInfiniteAttack = false
+
     var attacksThisTurn: Int { return _hero.attacksThisTurn }
     
     var exhausted: Bool { return _hero.exhausted }
@@ -37,6 +38,10 @@ class BoardHero: IBoardEntity {
         _hero = BoardCard(entity: hero, active: activeTurn)
         // hero gains windfury with weapon, doubling attack get base attack
         _baseAttack = hero[.atk]
+        if _baseAttack == 2147483647 {
+            _baseAttack = 0
+            hasInfiniteAttack = true
+        }
         if let weapon = weapon {
             _weapon = BoardCard(entity: weapon, active: activeTurn)
         }
