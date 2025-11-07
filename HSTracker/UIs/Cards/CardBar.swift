@@ -309,14 +309,16 @@ class CardBar: NSView, CardBarTheme {
         addFadeOverlay()
 
         if let card = card {
-            if (abs(card.count) > 1 && playerType != .editDeck) || card.rarity == .legendary {
+            let rarity = card.rarity == .invalid && card.mechanics.contains("ELITE") ? Rarity.legendary : card.rarity
+
+            if (abs(card.count) > 1 && playerType != .editDeck) || rarity == .legendary {
                 addCountBox()
                 addCountText()
             }
             if card.isCreated {
                 addCreatedIcon()
             }
-            if (abs(card.count) <= 1 || playerType == .editDeck) && card.rarity == .legendary {
+            if (abs(card.count) <= 1 || playerType == .editDeck) && rarity == .legendary {
                 if !isBattlegrounds {
                     addLegendaryIcon()
                 }
@@ -351,9 +353,11 @@ class CardBar: NSView, CardBarTheme {
             addBadAsMultipleIcon()
         }
         if let card = card, playerType != .hero {
+            let rarity = card.rarity == .invalid && card.mechanics.contains("ELITE") ? Rarity.legendary : card.rarity
+
             if let isArena = isArena,
                 playerType == .editDeck && !isArena
-                    && (card.count >= 2 || (card.count == 1 && card.rarity == .legendary)) {
+                    && (card.count >= 2 || (card.count == 1 && rarity == .legendary)) {
                 addDarken()
             } else if (card.count <= 0 || card.jousted)
                 && playerType != .cardList && playerType != .editDeck {
@@ -371,7 +375,7 @@ class CardBar: NSView, CardBarTheme {
     }
     func addCardImage(rect: NSRect, offsetByCountBox: Bool = false) {
         guard let card = card else { return }
-        let rarity = card.rarity
+        let rarity = card.rarity == .invalid && card.mechanics.contains("ELITE") ? Rarity.legendary : card.rarity
         var count = card.count
         if count == 0 { count = 1 }
         var offset = offsetByCountBox
@@ -423,7 +427,7 @@ class CardBar: NSView, CardBarTheme {
 
         if let card = card {
             count = card.count
-            rarity = card.rarity
+            rarity = card.rarity == .invalid && card.mechanics.contains("ELITE") ? Rarity.legendary : card.rarity
         } else if isBattlegrounds {
             return
         }
@@ -442,7 +446,8 @@ class CardBar: NSView, CardBarTheme {
 
         var countBox = required[.defaultCountBox]
         if Settings.showRarityColors && hasAllOptionalCountBoxes {
-            switch card.rarity {
+            let rarity = card.rarity == .invalid && card.mechanics.contains("ELITE") ? Rarity.legendary : card.rarity
+            switch rarity {
             case .rare:
                 countBox = optionalCountBoxes[.rareCountBox]
             case .epic:
@@ -529,7 +534,9 @@ class CardBar: NSView, CardBarTheme {
         guard let card = card else { return }
 
         if let createdIcon = required[.createdIcon] {
-            if abs(card.count) > 1 || card.rarity == .legendary {
+            let rarity = card.rarity == .invalid && card.mechanics.contains("ELITE") ? Rarity.legendary : card.rarity
+
+            if abs(card.count) > 1 || rarity == .legendary {
                 add(themeElement: createdIcon, rect: rect.offsetBy(dx: createdIconOffset, dy: 0))
             } else {
                 add(themeElement: createdIcon, rect: rect)
@@ -590,7 +597,7 @@ class CardBar: NSView, CardBarTheme {
     func addFrame() {
         var rarity: Rarity = .common
         if let card = card {
-            rarity = card.rarity
+            rarity = card.rarity == .invalid && card.mechanics.contains("ELITE") ? Rarity.legendary : card.rarity
         }
 
         var frame = required[.defaultFrame]
@@ -619,7 +626,8 @@ class CardBar: NSView, CardBarTheme {
 
         var gem = required[.defaultGem]
         if Settings.showRarityColors && hasAllOptionalGems {
-            switch card.rarity {
+            let rarity = card.rarity == .invalid && card.mechanics.contains("ELITE") ? Rarity.legendary : card.rarity
+            switch rarity {
             case .rare:
                 gem = optionalGems[.rareGem]
             case .epic:
@@ -671,7 +679,8 @@ class CardBar: NSView, CardBarTheme {
         let keepWidth = card?.cardWinRates != nil ? mulliganWinrateBoxRect.width : 0
         var width = frameRect.width - keepWidth - (isBattlegrounds ? 14 : 38)
         if let card = card {
-            if abs(card.count) > 0 || card.rarity == .legendary {
+            let rarity = card.rarity == .invalid && card.mechanics.contains("ELITE") ? Rarity.legendary : card.rarity
+            if abs(card.count) > 0 || rarity == .legendary {
                 width -= boxRect.width
             }
             if card.isCreated {
