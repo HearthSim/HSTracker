@@ -1275,6 +1275,7 @@
 		B8DB12C12EBAEAD5004268FA /* GladiatorialCombat.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DB12C02EBAEAD5004268FA /* GladiatorialCombat.swift */; };
 		B8DB12C32EBAEB38004268FA /* PrecursoryStrike.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DB12C22EBAEB38004268FA /* PrecursoryStrike.swift */; };
 		B8DB12C52EBAEB6F004268FA /* UnleashTheCrocolisks.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DB12C42EBAEB6F004268FA /* UnleashTheCrocolisks.swift */; };
+		B8DB12C72EBEB93C004268FA /* TimethiefRafaamCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DB12C62EBEB93C004268FA /* TimethiefRafaamCounter.swift */; };
 		B8DC11EE24E5A8360088A755 /* MonoHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC11ED24E5A8360088A755 /* MonoHandle.swift */; };
 		B8DC11F024E6AF280088A755 /* BobsBuddyInvoker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC11EF24E6AF280088A755 /* BobsBuddyInvoker.swift */; };
 		B8DC11F224E77F040088A755 /* BobsBuddyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC11F124E77F040088A755 /* BobsBuddyState.swift */; };
@@ -2563,6 +2564,7 @@
 		B8DB12C02EBAEAD5004268FA /* GladiatorialCombat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GladiatorialCombat.swift; sourceTree = "<group>"; };
 		B8DB12C22EBAEB38004268FA /* PrecursoryStrike.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrecursoryStrike.swift; sourceTree = "<group>"; };
 		B8DB12C42EBAEB6F004268FA /* UnleashTheCrocolisks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnleashTheCrocolisks.swift; sourceTree = "<group>"; };
+		B8DB12C62EBEB93C004268FA /* TimethiefRafaamCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimethiefRafaamCounter.swift; sourceTree = "<group>"; };
 		B8DC11ED24E5A8360088A755 /* MonoHandle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonoHandle.swift; sourceTree = "<group>"; };
 		B8DC11EF24E6AF280088A755 /* BobsBuddyInvoker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BobsBuddyInvoker.swift; sourceTree = "<group>"; };
 		B8DC11F124E77F040088A755 /* BobsBuddyState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BobsBuddyState.swift; sourceTree = "<group>"; };
@@ -3534,6 +3536,7 @@
 				B872E0D82DB05ADA0023B24B /* SpellsPlayedInCharactersCounter.swift */,
 				B893434B2CD122C3009A8727 /* SummonedDragonsCounter.swift */,
 				B85462292CDED2FE0083BB31 /* TheCeaselessExpanseCounter.swift */,
+				B8DB12C62EBEB93C004268FA /* TimethiefRafaamCounter.swift */,
 				B86D89C72D95A48F00AB65A5 /* TyrandeSpellsPlayedCounter.swift */,
 				B893434D2CD1320F009A8727 /* WheelOfDeathTurnsCounter.swift */,
 				B86D89C92D95A57F00AB65A5 /* YsondreCounter.swift */,
@@ -5402,6 +5405,7 @@
 				B852D8392DDFBA4E00884B26 /* PrimordialProtector.swift in Sources */,
 				B8591FFC2B24F87C00B907A4 /* ObjectiveProxy.swift in Sources */,
 				B8BB7ABC28369C9F008239CA /* BattlegroundsFinalBoard.swift in Sources */,
+				B8DB12C72EBEB93C004268FA /* TimethiefRafaamCounter.swift in Sources */,
 				B8196F252CCB246C007C0371 /* CounterView.swift in Sources */,
 				B89865402D8B5D0400BA5649 /* HarbingerOfWinter.swift in Sources */,
 				B8B78FEB2C967A7900DD33EC /* HotStreakEnchantment.swift in Sources */,
