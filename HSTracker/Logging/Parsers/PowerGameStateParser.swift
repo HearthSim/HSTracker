@@ -338,53 +338,52 @@ class PowerGameStateParser: LogEventParser {
                 }
                 entity.info.latestCardId = cardId
                 if type == "SHOW_ENTITY" {
-                    let entity = eventHandler.entities[entityId]
-                    if entity?.info.guessedCardState != GuessedCardState.none {
-                        entity?.info.guessedCardState = GuessedCardState.revealed
+                    if entity.info.guessedCardState != GuessedCardState.none {
+                        entity.info.guessedCardState = GuessedCardState.revealed
                     }
-                    if AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock?.hideShowEntities ?? false && !(entity?.info.revealedOnHistory ?? false) && !(entity?.has(tag: .displayed_creator) ?? true) {
-                        entity?.info.hidden = true
+                    if (AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock?.hideShowEntities ?? false && !(entity.info.revealedOnHistory) && !(entity.has(tag: .displayed_creator))) || entity.cardId == CardIds.NonCollectible.Rogue.GaronaHalforcen_KingLlaneToken {
+                        entity.info.hidden = true
                     } else {
-                        entity?.info.hidden = false
+                        entity.info.hidden = false
                     }
-                    if entity?.info.deckIndex ?? 0 < 0, let currentBlock = currentBlock, currentBlock.sourceEntityId != 0 {
+                    if entity.info.deckIndex < 0, let currentBlock = currentBlock, currentBlock.sourceEntityId != 0 {
                         if let source = eventHandler.entities[currentBlock.sourceEntityId], source.hasDredge {
                             eventHandler.dredgeCounter += 1
                             let newIndex = eventHandler.dredgeCounter
-                            entity?.info.deckIndex = newIndex
-                            logger.info("Dredge Top: \(entity?.description ?? "")")
+                            entity.info.deckIndex = newIndex
+                            logger.info("Dredge Top: \(entity.description)")
                             eventHandler.handlePlayerDredge()
                         }
                     }
                     
-                    if entity?.cardId == CardIds.NonCollectible.Neutral.PhotographerFizzle_FizzlesSnapshotToken
+                    if entity.cardId == CardIds.NonCollectible.Neutral.PhotographerFizzle_FizzlesSnapshotToken
                        && currentBlock?.cardId == CardIds.Collectible.Neutral.PhotographerFizzle {
-                        if entity?.isControlled(by: eventHandler.player.id) ?? false {
-                            entity?.info.storedCardIds.append(contentsOf: eventHandler.player.hand.sorted(by: { $0.zonePosition < $1.zonePosition }).compactMap { e in e.card.id })
-                        } else if entity?.isControlled(by: eventHandler.opponent.id) ?? false {
-                            entity?.info.storedCardIds.append(contentsOf: eventHandler.opponent.hand.sorted(by: { $0.zonePosition < $1.zonePosition }).compactMap { e in
+                        if entity.isControlled(by: eventHandler.player.id) {
+                            entity.info.storedCardIds.append(contentsOf: eventHandler.player.hand.sorted(by: { $0.zonePosition < $1.zonePosition }).compactMap { e in e.card.id })
+                        } else if entity.isControlled(by: eventHandler.opponent.id) {
+                            entity.info.storedCardIds.append(contentsOf: eventHandler.opponent.hand.sorted(by: { $0.zonePosition < $1.zonePosition }).compactMap { e in
                                 if e.hasCardId && !e.info.hidden {
                                     return e.card.id
                                 }
                                 return String(e.id)
                             })
-                            entity?.info.guessedCardState = .guessed
+                            entity.info.guessedCardState = .guessed
                         }
                     }
                     
-                    if currentBlock?.cardId == CardIds.Collectible.Shaman.Triangulate && !(entity?.cardId.isBlank ?? true) {
-                        if entity?.isControlled(by: eventHandler.player.id) ?? false {
-                            addKnownCardId(eventHandler: eventHandler, cardId: entity?.cardId, count: 3, info: entity?.info)
-                        } else if entity?.isControlled(by: eventHandler.opponent.id) ?? false {
+                    if currentBlock?.cardId == CardIds.Collectible.Shaman.Triangulate && !(entity.cardId.isBlank) {
+                        if entity.isControlled(by: eventHandler.player.id) {
+                            addKnownCardId(eventHandler: eventHandler, cardId: entity.cardId, count: 3, info: entity.info)
+                        } else if entity.isControlled(by: eventHandler.opponent.id) {
                             eventHandler.triangulatePlayed = true
                         }
                     }
                     
-                    if currentBlock?.cardId == CardIds.Collectible.Priest.Repackage && entity?.cardId == CardIds.NonCollectible.Priest.Repackage_RepackagedBoxToken {
-                        entity?.info.storedCardIds.append(contentsOf: eventHandler.minionsInPlay.array())
+                    if currentBlock?.cardId == CardIds.Collectible.Priest.Repackage && entity.cardId == CardIds.NonCollectible.Priest.Repackage_RepackagedBoxToken {
+                        entity.info.storedCardIds.append(contentsOf: eventHandler.minionsInPlay.array())
                         
-                        if entity?.isControlled(by: eventHandler.opponent.id) ?? false {
-                            entity?.info.guessedCardState = .guessed
+                        if entity.isControlled(by: eventHandler.opponent.id) {
+                            entity.info.guessedCardState = .guessed
                         }
                     }
                 }
