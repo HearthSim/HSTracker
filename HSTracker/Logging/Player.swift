@@ -1020,6 +1020,22 @@ final class Player {
         entity.info.created = true
         entity.info.turn = turn
         entity.info.creatorId = creatorId
+        
+        if let creator = game.entities[creatorId ?? -1] {
+            if creator.cardId == CardIds.Collectible.Mage.FacelessEnigma {
+                let allSecrets = game.player.graveyard.filter { e in e.isSecret }
+                var options = allSecrets.dropFirst(max(0, allSecrets.count - 2)).compactMap { e in e.cardId }
+                
+                if let ownSecret = game.player.secrets.last, ownSecret.info.getCreatorId() == creator.id && !ownSecret.cardId.isBlank {
+                    options.remove(ownSecret.cardId)
+                }
+                
+                if let last = options.last {
+                    creator.info.storedCardIds.append(last)
+                }
+            }
+        }
+        
         if Settings.fullGameLog {
             logger.info("\(debugName) \(#function) \(entity)")
         }

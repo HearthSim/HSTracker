@@ -220,6 +220,7 @@ extension CardIds.Collectible {
         static let AzureQueenSindragosa = "TIME_852"
         static let AlterTime = "TIME_857"
         static let MirrorDimension = "TIME_006"
+        static let FacelessEnigma = "TIME_860"
     }
 }
 

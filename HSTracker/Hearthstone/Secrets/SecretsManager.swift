@@ -222,7 +222,7 @@ class SecretsManager {
     private func getSecretsCreatedBy(_ gameMode: GameType, _ format: FormatType) -> [Card] {
         let createdBySecrets = secrets.filter { $0.entity.info.created }
         
-        let availableSecrets = getAvailableSecrets(gameMode: gameMode, format: format)
+        var availableSecrets = getAvailableSecrets(gameMode: gameMode, format: format)
         
         if gameMode == .gt_arena || gameMode == .gt_underground_arena {
             return getArenaCreatedSecrets(createdBySecrets, availableSecrets, gameMode, format)
@@ -234,7 +234,19 @@ class SecretsManager {
             let creator = tryGetCreator(secret)
             let drawer = tryGetDrawer(secret)
             
-            if let creator, let generator = _relatedCardsManager.getCardGenerator(creator.cardId) {
+            if let creator, creator.cardId == CardIds.Collectible.Mage.FacelessEnigma {
+                let storedIds = creator.info.storedCardIds
+                let controlledByPlayer = creator.isControlled(by: game.player.id)
+                
+                if storedIds.isEmpty {
+                    secretsCreated.append(contentsOf: getFilteredSecrets(secret, availableSecrets))
+                } else if controlledByPlayer {
+                    secretsCreated.append(contentsOf: getFilteredSecrets(secret, Set<String>(storedIds)))
+                } else {
+                    availableSecrets.remove(storedIds.last ?? "")
+                    secretsCreated.append(contentsOf: getFilteredSecrets(secret, availableSecrets))
+                }
+            } else if let creator, let generator = _relatedCardsManager.getCardGenerator(creator.cardId) {
                 let creatableSecrets = getCreatableSecretsFromGenerator(generator, gameMode, format)
                 
                 if let drawer, let tutor = _relatedCardsManager.getSpellSchoolTutor(drawer.cardId) {
@@ -335,7 +347,13 @@ class SecretsManager {
     }
     
     private func tryGetCreator(_ secret: Secret) -> Entity? {
-        return game.opponent.revealedEntities.first { e in e.id == secret.entity.info.getCreatorId() }
+        if let opponentCreator = game.opponent.revealedEntities.first(where: { e in e.id == secret.entity.info.getCreatorId() }) {
+            return opponentCreator
+        }
+        if let playerCreator = game.player.revealedEntities.first(where: { e in e.id == secret.entity.info.getCreatorId() }), playerCreator.cardId == CardIds.Collectible.Mage.FacelessEnigma {
+            return playerCreator
+        }
+        return nil
     }
     
     private func tryGetDrawer(_ secret: Secret) -> Entity? {
