@@ -85,6 +85,10 @@ public extension String {
     
     @discardableResult
     func replace(_ pattern: String, with string: String) -> String {
-        return self.replacingOccurrences(of: pattern, with: string)
+        if #available(macOS 13.0, *) {
+            return self.replacing(pattern, with: string)
+        } else {
+            return self.replacingOccurrences(of: pattern, with: string)
+        }
     }
 }

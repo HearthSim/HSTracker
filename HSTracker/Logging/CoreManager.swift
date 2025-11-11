@@ -163,9 +163,15 @@ final class CoreManager: NSObject {
                 var zonesFound: [LogLineZone] = []
                 let splittedZones = fileContent.components(separatedBy: "[")
                     .map {
-                        $0.replacingOccurrences(of: "]", with: "")
-                            .components(separatedBy: "\n")
-                            .filter { !$0.isEmpty }
+                        if #available(macOS 13.0, *) {
+                            $0.replacing("]", with: "")
+                                .components(separatedBy: "\n")
+                                .filter { !$0.isEmpty }
+                        } else {
+                            $0.replacingOccurrences(of: "]", with: "")
+                                .components(separatedBy: "\n")
+                                .filter { !$0.isEmpty }
+                        }
                     }
                     .filter { !$0.isEmpty }
 
