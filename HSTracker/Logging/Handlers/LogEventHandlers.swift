@@ -172,9 +172,7 @@ protocol PowerEventHandler: AnyObject {
 	
 	func opponentHandDiscard(entity: Entity, cardId: String?, from: Int, turn: Int)
 	
-	func opponentSecretPlayed(entity: Entity, cardId: String?,
-	                          from: Int, turn: Int,
-                              fromZone: Zone, otherId: Int, creatorId: Int?)
+	func opponentSecretPlayed(entity: Entity, cardId: String?, from: Int, turn: Int, fromZone: Zone, otherId: Int, creatorId: Int?)
 	
 	func opponentMulligan(entity: Entity, from: Int)
 	
