@@ -355,6 +355,10 @@ extension CardIds.NonCollectible {
         static let RavenousFlock_RavenousFlockPlayerEnchantEnchantment = "TLC_232e"
         static let LadyAzshara_EmpowerTheWell = "TIME_211b"
         static let LadyAzshara_EmpowerZinAzshari = "TIME_211a"
+        static let LadyAzshara_TheWellOfEternityToken2 = "TIME_211t1t"
+        static let LadyAzshara_TheWellOfEternityToken1 = "TIME_211t1"
+        static let LadyAzshara_ZinAzshariToken2 = "TIME_211t2t"
+        static let LadyAzshara_ZinAzshariToken1 = "TIME_211t2"
     }
 }
 
