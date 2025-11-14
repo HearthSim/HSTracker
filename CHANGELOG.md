@@ -1,3 +1,7 @@
+# 3.4.2
+## New
+- Updated for Hearthstone 34.0.2
+
 # 3.4.1
 ## New
 - Added card highlights for patch 34.0.0 cards
