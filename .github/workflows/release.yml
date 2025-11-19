@@ -1,0 +1,80 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Import Code Signing Certificates
+        uses: apple-actions/import-codesign-certs@v2
+        with:
+          p12-file-base64: ${{ secrets.MAC_CERTS }}
+          p12-password: ${{ secrets.MAC_CERTS_PASSWORD }}
+
+      - name: Install kscript
+        run: brew install kscript
+
+      - name: Bootstrap
+        run: ./scripts/bootstrap.sh
+
+      - name: Build
+        env:
+          HSTRACKER_DIR: ${{ github.workspace }}
+        run: ./scripts/release.kts build
+
+      - name: Notarize
+        env:
+          HSTRACKER_DIR: ${{ github.workspace }}
+          APPLE_USERNAME: ${{ secrets.APPLE_ID }}
+          APPLE_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
+          ITC_PROVIDER: ${{ secrets.APPLE_TEAM_ID }}
+        run: ./scripts/release.kts notarize
+
+      - name: Checkout hsdecktracker.net
+        uses: actions/checkout@v4
+        with:
+          repository: HearthSim/hsdecktracker.net
+          path: hsdecktracker.net
+          ssh-key: ${{ secrets.HSDECKTRACKER_DEPLOY_KEY }}
+
+      - name: Configure Git
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+
+      - name: Install sentry-cli
+        run: brew install getsentry/tools/sentry-cli
+
+      - name: Download Sparkle tools
+        run: |
+          curl -L -o Sparkle.tar.xz https://github.com/sparkle-project/Sparkle/releases/download/2.6.4/Sparkle-2.6.4.tar.xz
+          mkdir -p Sparkle
+          tar -xf Sparkle.tar.xz -C Sparkle
+          chmod +x Sparkle/bin/generate_appcast
+
+      - name: Setup DSA private key
+        run: echo "${{ secrets.DSA_PRIV_PEM }}" > dsa_priv.pem
+
+      - name: Prepare Release
+        env:
+          HSTRACKER_DIR: ${{ github.workspace }}
+          HSDECKTRACKER_DIR: ${{ github.workspace }}/hsdecktracker.net
+          SPARKLE_DIR: ${{ github.workspace }}/Sparkle
+          SENTRY_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ./scripts/release.kts release
