@@ -13,7 +13,6 @@
 @file:DependsOn("com.damnhandy:handy-uri-templates:2.1.7")
 @file:DependsOn("com.github.ajalt:clikt:2.6.0")
 
-
 import com.dailymotion.kinta.KintaEnv
 import com.dailymotion.kinta.Logger
 import com.dailymotion.kinta.helper.okHttpLoggingLevel
@@ -56,11 +55,6 @@ val hstrackerAppZipPath = "$releaseDir/HSTracker.app.zip"
 val hstrackerDSYMZipPath = "$releaseDir/HSTracker.dSYMs.zip"
 
 val changelogMdPath = "${hstracker_dir}/CHANGELOG.md"
-
-val generateAppcast = "${KintaEnv.getOrFail("SPARKLE_DIR")}/bin/generate_appcast"
-val appCast2ReleaseXmlPath = "$releaseDir/appcast2.xml"
-
-val appCast2XmlPath = "${KintaEnv.getOrFail("HSDECKTRACKER_DIR")}/hstracker/appcast2.xml"
 
 val buildCommand = object: CliktCommand(name = "build") {
     override fun run() {
@@ -132,6 +126,7 @@ val releaseCommand = object: CliktCommand(name = "release") {
     private fun updateAppCast(versionName: String, markdown: String) {
         val factory = DocumentBuilderFactory.newInstance()
         val builder = factory.newDocumentBuilder()
+        val appCast2ReleaseXmlPath = "$releaseDir/appcast2.xml"
         val releaseAppcastDocument = builder.parse(File(appCast2ReleaseXmlPath))
 
         val releaseItems = releaseAppcastDocument.documentElement.getElementsByTagName("item")
@@ -145,6 +140,7 @@ val releaseCommand = object: CliktCommand(name = "release") {
                 "https://github.com/HearthSim/HSTracker/releases/download/$versionName/HSTracker.app.zip"
         )
 
+        val appCast2XmlPath = "${KintaEnv.getOrFail("HSDECKTRACKER_DIR")}/hstracker/appcast2.xml"
         val appcastDocument = builder.parse(File(appCast2XmlPath))
 
         val importedNode = appcastDocument.importNode(itemElement, true)
@@ -207,16 +203,19 @@ val releaseCommand = object: CliktCommand(name = "release") {
         }
 
         println("uploading $hstrackerDSYMZipPath")
-        
+
         CommandLine.executeOrFail(File(hstracker_dir), "sentry-cli debug-files upload --auth-token ${KintaEnv.getOrFail("SENTRY_TOKEN")} --include-sources --org hearthsim --project hstracker archive/${changelogVersion}/HSTracker.dSYMs.zip")
 
-        GithubIntegration.createRelease(
-                tagName = changelogVersion,
-                assets = listOf(
-                        File(hstrackerAppZipPath)
-                ),
-                changelogMarkdown = changelog.first().markdown
+        val changelogFile = File("$releaseDir/release_notes.md")
+        changelogFile.writeText(changelog.first().markdown)
+
+        CommandLine.executeOrFail(
+                File(hstracker_dir),
+                "gh release create $changelogVersion $hstrackerAppZipPath --draft --notes-file ${changelogFile.absolutePath} --title $changelogVersion"
         )
+
+
+        val generateAppcast = "${KintaEnv.getOrFail("SPARKLE_DIR")}/bin/generate_appcast"
 
         // not sure why we need to remove the sparkle cache but we do else it reuses previous versions
         CommandLine.executeOrFail(File(hstracker_dir), "rm -rf ${System.getenv("HOME")}/Library/Caches/Sparkle_generate_appcast/")
@@ -225,12 +224,19 @@ val releaseCommand = object: CliktCommand(name = "release") {
         // Could not unarchive /Users/martin/git/HSTracker/archive/2019_6_6/options.plist Error Domain=SUSparkleErrorDomain Code=3000 "Not a supported archive format: file:///Users/martin/Library/Caches/Sparkle_generate_appcast/options.plist.tmp/options.plist" UserInfo={NSLocalizedDescription=Not a supported archive format: file:///Users/martin/Library/Caches/Sparkle_generate_appcast/options.plist.tmp/options.plist}
         CommandLine.executeOrFail(File(hstracker_dir), "$generateAppcast -f ${hstracker_dir}/dsa_priv.pem $releaseDir")
 
-        val hsdecktracker_net_dir = File(KintaEnv.getOrFail("HSTRACKER_HSDECKTRACKER_DIR"))
+        val hsdecktracker_net_dir = File(KintaEnv.getOrFail("HSDECKTRACKER_DIR"))
 
         CommandLine.executeOrFail(hsdecktracker_net_dir, "git checkout master")
         CommandLine.executeOrFail(hsdecktracker_net_dir, "git pull")
         CommandLine.executeOrFail(hsdecktracker_net_dir, "git stash")
-        updateAppCast(marketingVersion, changelog.first().markdown)    }
+        updateAppCast(marketingVersion, changelog.first().markdown)
+
+        val branchName = "appcast-update-$marketingVersion"
+        CommandLine.executeOrFail(hsdecktracker_net_dir, "git checkout -b $branchName")
+        CommandLine.executeOrFail(hsdecktracker_net_dir, "git add hstracker/appcast2.xml")
+        CommandLine.executeOrFail(hsdecktracker_net_dir, "git commit -m HSTracker-$marketingVersion")
+        CommandLine.executeOrFail(hsdecktracker_net_dir, "git push -u origin $branchName")
+    }
 }
 
 fun main(args: Array<String>) {
