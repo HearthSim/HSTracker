@@ -1,3 +1,6 @@
+# 3.4.3
+This is a test
+
 # 3.4.2
 ## New
 - Updated for Hearthstone 34.0.2
