@@ -206,38 +206,54 @@ val releaseCommand = object: CliktCommand(name = "release") {
 
         CommandLine.executeOrFail(File(hstracker_dir), "sentry-cli debug-files upload --auth-token ${KintaEnv.getOrFail("SENTRY_TOKEN")} --include-sources --org hearthsim --project hstracker archive/${changelogVersion}/HSTracker.dSYMs.zip")
 
+        println("Sentry upload completed")
+
         val changelogFile = File("$releaseDir/release_notes.md")
         changelogFile.writeText(changelog.first().markdown)
 
+        println("Creating GitHub release...")
         CommandLine.executeOrFail(
                 File(hstracker_dir),
                 "gh release create $changelogVersion $hstrackerAppZipPath --draft --notes-file ${changelogFile.absolutePath} --title $changelogVersion"
         )
+        println("GitHub release created successfully")
 
 
         val generateAppcast = "${KintaEnv.getOrFail("SPARKLE_DIR")}/bin/generate_appcast"
 
+        println("Clearing Sparkle cache...")
         // not sure why we need to remove the sparkle cache but we do else it reuses previous versions
         CommandLine.executeOrFail(File(hstracker_dir), "rm -rf ${System.getenv("HOME")}/Library/Caches/Sparkle_generate_appcast/")
+        println("Generating appcast...")
         // generateAppCast will output some warnings, that's ok at this point
         // Warning: Private key not found in the Keychain (-25300). Please run the generate_keys tool
         // Could not unarchive /Users/martin/git/HSTracker/archive/2019_6_6/options.plist Error Domain=SUSparkleErrorDomain Code=3000 "Not a supported archive format: file:///Users/martin/Library/Caches/Sparkle_generate_appcast/options.plist.tmp/options.plist" UserInfo={NSLocalizedDescription=Not a supported archive format: file:///Users/martin/Library/Caches/Sparkle_generate_appcast/options.plist.tmp/options.plist}
         CommandLine.executeOrFail(File(hstracker_dir), "$generateAppcast $releaseDir")
+        println("Appcast generated successfully")
 
         val hsdecktracker_net_dir = File(KintaEnv.getOrFail("HSDECKTRACKER_DIR"))
 
+        println("Checking out master branch...")
         CommandLine.executeOrFail(hsdecktracker_net_dir, "git checkout master")
+        println("Pulling latest changes...")
         CommandLine.executeOrFail(hsdecktracker_net_dir, "git pull")
+        println("Stashing changes...")
         CommandLine.executeOrFail(hsdecktracker_net_dir, "git stash")
         updateAppCast(marketingVersion, changelog.first().markdown)
 
         val branchName = "appcast-update-$marketingVersion"
+        println("Creating branch $branchName...")
         CommandLine.executeOrFail(hsdecktracker_net_dir, "git checkout -b $branchName")
+        println("Adding appcast changes...")
         CommandLine.executeOrFail(hsdecktracker_net_dir, "git add hstracker/appcast2.xml")
+        println("Committing changes...")
         CommandLine.executeOrFail(hsdecktracker_net_dir, "git commit -m \"HSTracker $marketingVersion\"")
+        println("Pushing branch...")
         CommandLine.executeOrFail(hsdecktracker_net_dir, "git push -u origin $branchName")
 
+        println("Creating pull request...")
         CommandLine.executeOrFail(hsdecktracker_net_dir, "gh pr create --title \"HSTracker $marketingVersion\" --base master --fill")
+        println("Release process completed successfully!")
     }
 }
 
