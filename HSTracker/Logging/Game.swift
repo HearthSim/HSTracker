@@ -3357,7 +3357,7 @@ class Game: NSObject, PowerEventHandler {
             return
         }
         
-        for id in cardIds where id != entity.cardId {
+        for id in cardIds where id != entity.cardId && opponent.revealedEntities.all({ x in x.cardId != id }) {
             opponent.predictUniqueCardInDeck(cardId: id, isCreated: false)
         }
     }
