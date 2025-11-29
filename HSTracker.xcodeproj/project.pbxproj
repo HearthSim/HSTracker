@@ -488,6 +488,7 @@
 		B8230B942C8BE125008CBEEB /* IHsChoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8230B932C8BE125008CBEEB /* IHsChoice.swift */; };
 		B823E801275FB89400747CAF /* FlavorText.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88364FB275D746D0094D8E1 /* FlavorText.swift */; };
 		B823E802275FB89900747CAF /* FlavorText.xib in Resources */ = {isa = PBXBuildFile; fileRef = B88364F9275D6FE10094D8E1 /* FlavorText.xib */; };
+		B825F7922EDB6B3C00032E75 /* ShroudOfConcealment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B825F7912EDB6B3C00032E75 /* ShroudOfConcealment.swift */; };
 		B82AE5F028ADBC55004A8FE0 /* Influx.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82AE5EF28ADBC54004A8FE0 /* Influx.swift */; };
 		B82AE5FD28BE8631004A8FE0 /* BobsBuddy-version.txt in Resources */ = {isa = PBXBuildFile; fileRef = B82AE5F928BE8631004A8FE0 /* BobsBuddy-version.txt */; };
 		B82AE5FE28BE8631004A8FE0 /* cards-version.txt in Resources */ = {isa = PBXBuildFile; fileRef = B82AE5FA28BE8631004A8FE0 /* cards-version.txt */; };
@@ -1857,6 +1858,7 @@
 		B82238C12BFD399300B405D4 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		B8230B902C8A84A5008CBEEB /* GameInfoHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameInfoHandler.swift; sourceTree = "<group>"; };
 		B8230B932C8BE125008CBEEB /* IHsChoice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IHsChoice.swift; sourceTree = "<group>"; };
+		B825F7912EDB6B3C00032E75 /* ShroudOfConcealment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShroudOfConcealment.swift; sourceTree = "<group>"; };
 		B82AE5EF28ADBC54004A8FE0 /* Influx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Influx.swift; sourceTree = "<group>"; };
 		B82AE5F928BE8631004A8FE0 /* BobsBuddy-version.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "BobsBuddy-version.txt"; sourceTree = "<group>"; };
 		B82AE5FA28BE8631004A8FE0 /* cards-version.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "cards-version.txt"; sourceTree = "<group>"; };
@@ -3647,6 +3649,7 @@
 				B89865C82D9201EF00BA5649 /* RaidingParty.swift */,
 				B846CC592E09DC4F00552F9C /* ScourgeIllusionist.swift */,
 				B85462222CDEBE390083BB31 /* ScroungingShipwright.swift */,
+				B825F7912EDB6B3C00032E75 /* ShroudOfConcealment.swift */,
 				B85462242CDEBFC30083BB31 /* StarshipSchematic.swift */,
 				B846CC5B2E09DC9000552F9C /* Swindle.swift */,
 				B85462042CDD3EDA0083BB31 /* TessGreymane.swift */,
@@ -5603,6 +5606,7 @@
 				434D1CAF1D0C500300222B8E /* ImageUtilities.swift in Sources */,
 				B8591FFA2B24F7C900B907A4 /* ObjectiveFactoryProxy.swift in Sources */,
 				B898655A2D8C92F200BA5649 /* SummerFlowerchild.swift in Sources */,
+				B825F7922EDB6B3C00032E75 /* ShroudOfConcealment.swift in Sources */,
 				B87856E02C04BA7F004C2C40 /* UnsupportedInteractionProxy.swift in Sources */,
 				B89865482D8B6C9600BA5649 /* CliffDive.swift in Sources */,
 				B898657E2D91B00B00BA5649 /* MesaduneTheFractured.swift in Sources */,

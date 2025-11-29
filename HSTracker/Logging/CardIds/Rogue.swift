@@ -228,6 +228,7 @@ extension CardIds.Collectible {
         static let CostumeMerchant = "DINO_427"
         static let GaronaHalforcen = "TIME_875"
         static let TimeAdmralHooktail = "TIME_713"
+        static let ShroudOfConcealment = "WC_016"
     }
 }
 
