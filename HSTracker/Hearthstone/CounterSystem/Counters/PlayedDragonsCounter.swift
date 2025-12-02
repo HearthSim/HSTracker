@@ -68,6 +68,10 @@ class PlayedDragonsCounter: NumericCounter {
             return
         }
         
+        if prevValue != Zone.hand.rawValue {
+            return
+        }
+        
         if AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock?.type != "PLAY" {
             return
         }
