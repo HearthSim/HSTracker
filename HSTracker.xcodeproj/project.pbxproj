@@ -489,6 +489,7 @@
 		B823E801275FB89400747CAF /* FlavorText.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88364FB275D746D0094D8E1 /* FlavorText.swift */; };
 		B823E802275FB89900747CAF /* FlavorText.xib in Resources */ = {isa = PBXBuildFile; fileRef = B88364F9275D6FE10094D8E1 /* FlavorText.xib */; };
 		B825F7922EDB6B3C00032E75 /* ShroudOfConcealment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B825F7912EDB6B3C00032E75 /* ShroudOfConcealment.swift */; };
+		B825F7972EDF874300032E75 /* AllYouCanEat.swift in Sources */ = {isa = PBXBuildFile; fileRef = B825F7962EDF874300032E75 /* AllYouCanEat.swift */; };
 		B82AE5F028ADBC55004A8FE0 /* Influx.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82AE5EF28ADBC54004A8FE0 /* Influx.swift */; };
 		B82AE5FD28BE8631004A8FE0 /* BobsBuddy-version.txt in Resources */ = {isa = PBXBuildFile; fileRef = B82AE5F928BE8631004A8FE0 /* BobsBuddy-version.txt */; };
 		B82AE5FE28BE8631004A8FE0 /* cards-version.txt in Resources */ = {isa = PBXBuildFile; fileRef = B82AE5FA28BE8631004A8FE0 /* cards-version.txt */; };
@@ -1859,6 +1860,7 @@
 		B8230B902C8A84A5008CBEEB /* GameInfoHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameInfoHandler.swift; sourceTree = "<group>"; };
 		B8230B932C8BE125008CBEEB /* IHsChoice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IHsChoice.swift; sourceTree = "<group>"; };
 		B825F7912EDB6B3C00032E75 /* ShroudOfConcealment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShroudOfConcealment.swift; sourceTree = "<group>"; };
+		B825F7962EDF874300032E75 /* AllYouCanEat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllYouCanEat.swift; sourceTree = "<group>"; };
 		B82AE5EF28ADBC54004A8FE0 /* Influx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Influx.swift; sourceTree = "<group>"; };
 		B82AE5F928BE8631004A8FE0 /* BobsBuddy-version.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "BobsBuddy-version.txt"; sourceTree = "<group>"; };
 		B82AE5FA28BE8631004A8FE0 /* cards-version.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "cards-version.txt"; sourceTree = "<group>"; };
@@ -3694,6 +3696,7 @@
 		B85462092CDD42330083BB31 /* Warrior */ = {
 			isa = PBXGroup;
 			children = (
+				B825F7962EDF874300032E75 /* AllYouCanEat.swift */,
 				B89865E72D920E1B00BA5649 /* BlackrockNRoll.swift */,
 				B89865E92D920E5100BA5649 /* ChorusRiff.swift */,
 				B8DB12C02EBAEAD5004268FA /* GladiatorialCombat.swift */,
@@ -5686,6 +5689,7 @@
 				43883F1E1DA382BA00A7B79C /* Language.swift in Sources */,
 				B8DC11F024E6AF280088A755 /* BobsBuddyInvoker.swift in Sources */,
 				437E56F01DAAB81400FC0FC1 /* Array.swift in Sources */,
+				B825F7972EDF874300032E75 /* AllYouCanEat.swift in Sources */,
 				B846CC542E09DB5600552F9C /* CallToArms.swift in Sources */,
 				B8AF0C772B85625200B65F63 /* Region.swift in Sources */,
 				B89865DB2D920C8900BA5649 /* DirgeOfDespair.swift in Sources */,

@@ -170,6 +170,7 @@ extension CardIds.Collectible {
         static let GladiatorialCombat = "TIME_870"
         static let PrecursoryStrike = "TIME_750"
         static let UnleashTheCrocolisks = "TIME_873"
+        static let AllYouCanEat = "VAC_528"
     }
 }
 
