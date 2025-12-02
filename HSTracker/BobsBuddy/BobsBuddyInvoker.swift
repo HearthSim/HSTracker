@@ -707,7 +707,9 @@ class BobsBuddyInvoker {
         
         minion.primaryRace = Int32(ent[.cardrace])
         minion.baseAttack = Int32(ent[GameTag.atk])
-        minion.baseHealth = Int32(ent[GameTag.health])
+        minion.baseHealth = Int32(ent[GameTag.health] - ent[.damage])
+        minion.maxAttack = Int32(ent[GameTag.atk])
+        minion.maxHealth = Int32(ent[GameTag.health])
         minion.taunt = ent.has(tag: GameTag.taunt)
         minion.div = ent.has(tag: GameTag.divine_shield)
         if cardIdsWithCleave.contains(cardId) {
