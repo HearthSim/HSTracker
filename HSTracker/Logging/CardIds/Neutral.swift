@@ -1033,5 +1033,7 @@ extension CardIds.NonCollectible {
         static let TavishStormpike_LockAndLoad = "BG22_HERO_000p_Alt"
         static let SweetenedSnowflurry_SweetenedSnowflurryToken = "TOY_307t"
         static let TemporalTraveler_TemporalShadowToken = "TIME_434t"
+        static let ChoralMrrrglr = "BG26_354"
+        static let ChoralMrrrglr_ChorusEnchantment = "BG26_354e"
     }
 }

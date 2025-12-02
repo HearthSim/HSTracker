@@ -1295,6 +1295,21 @@ class PowerGameStateParser: LogEventParser {
                     }
                 }
             }
+            
+            // Handle Choral Mrrrglr enchantment in Battlegrounds
+            // Check at BLOCK_END because the enchantment is updated DURING the block, not at BLOCK_START
+            if eventHandler.currentGameMode == GameMode.battlegrounds && currentBlock?.type == "TRIGGER" && currentBlock?.cardId == CardIds.NonCollectible.Neutral.ChoralMrrrglr {
+                if let choralEntity = eventHandler.entities[currentBlock?.sourceEntityId ?? -1], choralEntity.isControlled(by: eventHandler.opponent.id) {
+                    // Find the Chorus enchantment that was CHANGED in this block and attached to Choral
+                    // The enchantment is created inside the TRIGGER block, so it exists in game.Entities by BLOCK_END
+                    if let chorusEnchantment = eventHandler.entities.values
+                        .first(where: { e in e.cardId == CardIds.NonCollectible.Neutral.ChoralMrrrglr_ChorusEnchantment &&
+                            e[GameTag.attached] == choralEntity.id &&
+                            e[GameTag.creator] == choralEntity.id }) {
+                        BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateMinionEnchantment(chorusEnchantment, choralEntity.id, false)
+                    }
+                }
+            }
             blockEnd()
         }
 

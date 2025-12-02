@@ -1119,11 +1119,6 @@ class BobsBuddyInvoker {
             return
         }
         
-        // Only allow feathermane and Flighty Scout for now.
-        if copy.cardId != CardIds.NonCollectible.Neutral.FreeFlyingFeathermane && copy.cardId != CardIds.NonCollectible.Neutral.FreeFlyingFeathermane_FreeFlyingFeathermane && copy.cardId != CardIds.NonCollectible.Neutral.FlightyScout && copy.cardId != CardIds.NonCollectible.Neutral.FlightyScout_FlightyScout {
-            return
-        }
-        
         opponentHandMap[entity] = copy
         
         // Wait for attached entities to be logged. This should happen at the exact same timestamp.
@@ -1170,6 +1165,12 @@ class BobsBuddyInvoker {
             return
         }
         
+        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        
+        defer {
+            mono_thread_detach(opaque)
+        }
+        
         var tavishLockAndLoad: HeroPowerDataProxy?
         
         let heroPowers = input.opponent.heroPowers
@@ -1187,6 +1188,46 @@ class BobsBuddyInvoker {
         }
 
         tavishLockAndLoad.attachedMinion = BobsBuddyInvoker.getMinionFromEntity(sim: SimulatorProxy(), player: false, ent: attachedEntity, attachedEntities: getAttachedEntities(entityId: attachedEntity.id))
+
+        tryRerun()
+    }
+    
+    func updateMinionEnchantment(_ enchantmentEntity: Entity, _ attachedToEntityId: Int, _ isPlayerMinion: Bool) {
+        guard let input, state == .combat else {
+            return
+        }
+        
+        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        
+        defer {
+            mono_thread_detach(opaque)
+        }
+        
+        let targetPlayer = isPlayerMinion ? input.player : input.opponent
+        let side = targetPlayer.side
+        let count = MonoHelper.listCount(obj: side)
+        var minion: MinionProxy?
+        for i in 0 ..< count {
+            let item = MonoHelper.listItem(obj: side, index: i).get()
+            let m = MinionProxy(obj: item)
+            if m.gameId == attachedToEntityId {
+                minion = m
+                break
+            }
+        }
+        guard let minion else {
+            return
+        }
+        
+        // Attach enchant to the minion
+        if enchantmentEntity.card.type == CardType.enchantment && !enchantmentEntity.cardId.isEmpty {
+            let enchantment = SimulatorProxy().enchantmentFactory.create(cardId: enchantmentEntity.cardId, controlledByPlayer: minion.controlledByPlayer)
+            if enchantment.get() != nil {
+                enchantment.scriptDataNum1 = Int32(enchantmentEntity[GameTag.tag_script_data_num_1])
+                enchantment.scriptDataNum2 = Int32(enchantmentEntity[GameTag.tag_script_data_num_2])
+                minion.attachEnchantment(enchantment: enchantment)
+            }
+        }
 
         tryRerun()
     }
