@@ -1,3 +1,14 @@
+# 3.4.3
+## New
+- Updated for Herthstone 34.2.0
+- Added deck highlight to All You Can Eat and Shroud of Concealment.
+## Fixes
+- Fixed an issue where fabled cards could appear duplicated in opponent's decklist.
+- Fix Dragons Played Counter inaccuracy in some cases.
+## Bob's Buddy
+- Fix summoning cards from hand not being supported.
+- Fix Choral Mrrrglr not being supported for opponent.
+
 # 3.4.2
 ## New
 - Updated for Hearthstone 34.0.2
