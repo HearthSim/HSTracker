@@ -1,3 +1,13 @@
+# 3.4.4
+## Fixes
+- Attempted to fix crash during Battlegrounds games
+## Bob's Buddy
+- Tentatively fixed incorrect simulation results due to Apexis Guardian
+- Fixed incorrect simulation results due to Blue Volumizer
+- Fixed incorrect simulation results due to Green Volumizer
+- Fixed incorrect simulation results due to Red Volumizer
+- Fixed incorrect simulation results due to Deathwing Hero Power
+
 # 3.4.3
 ## New
 - Updated for Herthstone 34.2.0
