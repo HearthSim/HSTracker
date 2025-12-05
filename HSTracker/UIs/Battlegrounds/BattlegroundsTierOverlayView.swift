@@ -171,7 +171,7 @@ class BattlegroundsTierOverlayView: NSView {
     }
     
     func onHeroPowers(heroPowers: [String]) {
-        isThorimRelevant = heroPowers.any { x in x == CardIds.NonCollectible.Neutral.ThorimStormlord_ChooseYourChampion || x == CardIds.NonCollectible.Neutral.ThorimStormlord_ThorimsChampion }
+        isThorimRelevant = heroPowers.any { x in x == CardIds.NonCollectible.Neutral.ThorimStormlord_ChooseYourChampion }
         DispatchQueue.main.async {
             self.needsDisplay = true
         }

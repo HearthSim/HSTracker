@@ -1035,5 +1035,7 @@ extension CardIds.NonCollectible {
         static let TemporalTraveler_TemporalShadowToken = "TIME_434t"
         static let ChoralMrrrglr = "BG26_354"
         static let ChoralMrrrglr_ChorusEnchantment = "BG26_354e"
+        static let TimewarpedGoldrinn_TimewarpedGoldrinnPlayerEnchantDnt = "BG34_Giant_362pe"
+        static let DeepBlueCrooner_DeepBluesEnchantment = "BG26_502e"
     }
 }

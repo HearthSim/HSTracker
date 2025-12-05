@@ -761,6 +761,10 @@ class BobsBuddyInvoker {
                 minion.addDeathrattle(deathrattle: GenericDeathrattles.sneedHeroPower())
             case CardIds.NonCollectible.Neutral.Brukan_ElementEarth:
                 minion.addDeathrattle(deathrattle: GenericDeathrattles.earthInvocation())
+            case CardIds.NonCollectible.Neutral.SurfnSurf_CrabRidingEnchantment:
+                minion.addDeathrattle(deathrattle: GenericDeathrattles.crab())
+            case CardIds.NonCollectible.Neutral.SurfnSurf_CrabRiding:
+                minion.addDeathrattle(deathrattle: GenericDeathrattles.crabGolden())
             case CardIds.NonCollectible.Neutral.Brukan_EarthRecollection:
                 minion.addDeathrattle(deathrattle: BrukanInvocationDeathrattles.earth())
             case CardIds.NonCollectible.Neutral.Brukan_FireRecollection:
@@ -1002,12 +1006,23 @@ class BobsBuddyInvoker {
             inputPlayer.undeadAttackBonus = Int32(pUndeadBonus[.tag_script_data_num_1])
         }
         
+        if let pBeastBonus = playerAttached.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.TimewarpedGoldrinn_TimewarpedGoldrinnPlayerEnchantDnt }) {
+            inputPlayer.beastAttackBonus = Int32(pBeastBonus[GameTag.tag_script_data_num_1])
+            inputPlayer.beastHealthBonus = Int32(pBeastBonus[GameTag.tag_script_data_num_2])
+            logger.info("pBeastAttack=\(inputPlayer.beastAttackBonus), pBeastHealth=\(inputPlayer.beastHealthBonus), friendly=\(friendly)")
+        }
+        
         if let pAncestralAutomaton = playerAttached.first(where: { x in x.cardId == CardIds.Invalid.AncestralAutomaton_AncestralAutomatonPlayerEnchantDnt }) {
             inputPlayer.ancestralAutomatonCounter = Int32( pAncestralAutomaton[.tag_script_data_num_1])
         }
         if let pBeetle = playerAttached.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.RunedProgenitor_BeetleArmyPlayerEnchantDnt }) {
             inputPlayer.beetlesAtkBuff = Int32(pBeetle[.tag_script_data_num_1])
             inputPlayer.beetlesHealthBuff = Int32(pBeetle[.tag_script_data_num_2])
+        }
+        if let pDeepBlues = playerAttached.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.DeepBlueCrooner_DeepBluesEnchantment }) {
+            inputPlayer.deepBluesAtkBuff = Int32(pDeepBlues[GameTag.tag_script_data_num_1])
+            inputPlayer.deepBluesHealthBuff = Int32(pDeepBlues[GameTag.tag_script_data_num_2])
+            logger.info("pDeepBluesAtk=\(inputPlayer.deepBluesAtkBuff), pDeepBluesHealth=\(inputPlayer.deepBluesHealthBuff), friendly=\(friendly)")
         }
         inputPlayer.elementalPlayCounter = Int32(game.playerEntity?[.gametag_2878] ?? 0)
 
