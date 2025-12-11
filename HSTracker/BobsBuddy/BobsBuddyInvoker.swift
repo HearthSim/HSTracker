@@ -1019,11 +1019,6 @@ class BobsBuddyInvoker {
             inputPlayer.beetlesAtkBuff = Int32(pBeetle[.tag_script_data_num_1])
             inputPlayer.beetlesHealthBuff = Int32(pBeetle[.tag_script_data_num_2])
         }
-        if let pDeepBlues = playerAttached.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.DeepBlueCrooner_DeepBluesEnchantment }) {
-            inputPlayer.deepBluesAtkBuff = Int32(pDeepBlues[GameTag.tag_script_data_num_1])
-            inputPlayer.deepBluesHealthBuff = Int32(pDeepBlues[GameTag.tag_script_data_num_2])
-            logger.info("pDeepBluesAtk=\(inputPlayer.deepBluesAtkBuff), pDeepBluesHealth=\(inputPlayer.deepBluesHealthBuff), friendly=\(friendly)")
-        }
         inputPlayer.elementalPlayCounter = Int32(game.playerEntity?[.gametag_2878] ?? 0)
 
         logger.info("pEternal=\(inputPlayer.eternalKnightCounter), pUndead=\(inputPlayer.undeadAttackBonus), pElemental=\(inputPlayer.elementalPlayCounter), friendly=\(friendly)")
