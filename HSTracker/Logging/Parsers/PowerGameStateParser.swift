@@ -333,7 +333,8 @@ class PowerGameStateParser: LogEventParser {
                     entity.has(tag: .bacon_trinket) ||
                     // Heroes during Battlegrounds reroll
                     entity.has(tag: .bacon_hero_can_be_drafted) ||
-                    entity.has(tag: .bacon_skin) {
+                    entity.has(tag: .bacon_skin) ||
+                    entity.cardId.hasPrefix("CREATED_BY_") {
                     entity.cardId = cardId
                 }
                 entity.info.latestCardId = cardId
@@ -1222,6 +1223,13 @@ class PowerGameStateParser: LogEventParser {
                                     eventHandler.opponent.predictUniqueCardInDeck(cardId: id, isCreated: true)
                                 }
                             }
+                        case CardIds.Collectible.Druid.SkyMotherAviana:
+                            let createdByAviana = FakeCard(CardIds.Collectible.Druid.SkyMotherAviana)
+                            createdByAviana.cost = 1
+                            createdByAviana.type = .minion
+                            createdByAviana.rarity = .legendary
+                            createdByAviana.tags = [ .elite: 1 ]
+                            addKnownCardId(eventHandler: eventHandler, cardId: createdByAviana.serialize(), count: 10)
                         default:
                             if let card = Cards.any(byId: actionStartingCardId) {
                                 if (player != nil && player![.current_player] == 1

@@ -464,13 +464,17 @@ class FakeCard {
         }
     }
     
-    func serialize() throws -> String {
+    func serialize() -> String {
         let payload = FakeCardDto(originalCardId: originalCardId, type: type, rarity: rarity, cost: cost, tags: tags)
         let encoder = JSONEncoder()
         
-        let json = try encoder.encode(payload).base64EncodedString()
-        
-        return "CREATED_BY_" + json
+        do {
+            let json = try encoder.encode(payload).base64EncodedString()
+            return "CREATED_BY_" + json
+        } catch {
+            logger.debug(error)
+        }
+        return "UNKNOWN"
     }
     
     static func fromString(_ cardId: String) throws -> FakeCard {
