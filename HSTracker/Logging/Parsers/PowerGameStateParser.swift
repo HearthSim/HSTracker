@@ -1230,6 +1230,12 @@ class PowerGameStateParser: LogEventParser {
                             createdByAviana.rarity = .legendary
                             createdByAviana.tags = [ .elite: 1 ]
                             addKnownCardId(eventHandler: eventHandler, cardId: createdByAviana.serialize(), count: 10)
+                            
+                        case CardIds.Collectible.Mage.Blasteroid:
+                            let createdByBlasteroid = FakeCard(CardIds.Collectible.Mage.Blasteroid)
+                            createdByBlasteroid.type = CardType.spell
+                            createdByBlasteroid.tags = [ .spell_school: SpellSchool.fire.rawValue ]
+                            addKnownCardId(eventHandler: eventHandler, cardId: createdByBlasteroid.serialize(), count: 5)
                         default:
                             if let card = Cards.any(byId: actionStartingCardId) {
                                 if (player != nil && player![.current_player] == 1
