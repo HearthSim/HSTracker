@@ -1037,5 +1037,6 @@ extension CardIds.NonCollectible {
         static let ChoralMrrrglr_ChorusEnchantment = "BG26_354e"
         static let TimewarpedGoldrinn_TimewarpedGoldrinnPlayerEnchantDnt = "BG34_Giant_362pe"
         static let DeepBlueCrooner_DeepBluesEnchantment = "BG26_502e"
+        static let TimewarpedNelliesShipToken1 = "BG34_Giant_074t"
     }
 }

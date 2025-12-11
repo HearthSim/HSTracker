@@ -1298,8 +1298,8 @@ class PowerGameStateParser: LogEventParser {
             
             // Handle Choral Mrrrglr enchantment in Battlegrounds
             // Check at BLOCK_END because the enchantment is updated DURING the block, not at BLOCK_START
-            if eventHandler.currentGameMode == GameMode.battlegrounds && currentBlock?.type == "TRIGGER" && currentBlock?.cardId == CardIds.NonCollectible.Neutral.ChoralMrrrglr {
-                if let choralEntity = eventHandler.entities[currentBlock?.sourceEntityId ?? -1], choralEntity.isControlled(by: eventHandler.opponent.id) {
+            if eventHandler.currentGameMode == GameMode.battlegrounds, let currentBlock, currentBlock.type == "TRIGGER" {
+                if currentBlock.cardId == CardIds.NonCollectible.Neutral.ChoralMrrrglr, let choralEntity = eventHandler.entities[currentBlock.sourceEntityId], choralEntity.isControlled(by: eventHandler.opponent.id) {
                     // Find the Chorus enchantment that was CHANGED in this block and attached to Choral
                     // The enchantment is created inside the TRIGGER block, so it exists in game.Entities by BLOCK_END
                     if let chorusEnchantment = eventHandler.entities.values
@@ -1307,6 +1307,14 @@ class PowerGameStateParser: LogEventParser {
                             e[GameTag.attached] == choralEntity.id &&
                             e[GameTag.creator] == choralEntity.id }) {
                         BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateMinionEnchantment(chorusEnchantment, choralEntity.id, false)
+                    }
+                }
+                if currentBlock.cardId == CardIds.NonCollectible.Neutral.TimewarpedNelliesShipToken1 && currentBlock.triggerKeyword == "DEATHRATTLE" {
+                    if let nelliesEntity = eventHandler.entities[currentBlock.sourceEntityId] {
+                        let summonedEntities = eventHandler.entities.values.filter { e in e[GameTag.cardtype] == CardType.minion.rawValue && e[.creator] == nelliesEntity[.creator] && e[.zone] == Zone.play.rawValue }.compactMap { x in x.card.dbfId }
+                        if summonedEntities.count > 0 {
+                            BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateNelliesShipEnchantment(summonedEntities, nelliesEntity.id, nelliesEntity.isControlled(by: eventHandler.player.id))
+                        }
                     }
                 }
             }
