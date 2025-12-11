@@ -1236,6 +1236,14 @@ class PowerGameStateParser: LogEventParser {
                             createdByBlasteroid.type = CardType.spell
                             createdByBlasteroid.tags = [ .spell_school: SpellSchool.fire.rawValue ]
                             addKnownCardId(eventHandler: eventHandler, cardId: createdByBlasteroid.serialize(), count: 5)
+                        case CardIds.Collectible.Rogue.AcademicEspionage:
+                            let createdByAcademicEspionage = FakeCard(CardIds.Collectible.Rogue.AcademicEspionage)
+                            createdByAcademicEspionage.cost = 1
+                            addKnownCardId(eventHandler: eventHandler, cardId: createdByAcademicEspionage.serialize(), count: 10)
+                        case CardIds.Collectible.Rogue.AgencyEspionage:
+                            let createdByAgencyEspionage = FakeCard(CardIds.Collectible.Rogue.AgencyEspionage)
+                            createdByAgencyEspionage.cost = 1
+                            addKnownCardId(eventHandler: eventHandler, cardId: createdByAgencyEspionage.serialize(), count: 10)
                         default:
                             if let card = Cards.any(byId: actionStartingCardId) {
                                 if (player != nil && player![.current_player] == 1
