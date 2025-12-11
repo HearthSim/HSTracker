@@ -10,7 +10,7 @@
 
 import Foundation
 
-enum CardType: Int, CaseIterable {
+enum CardType: Int, CaseIterable, Codable {
     case invalid = 0,
     game = 1,
     player = 2,

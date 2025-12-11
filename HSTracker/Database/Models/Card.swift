@@ -64,6 +64,7 @@ final class Card {
     var spellSchool: SpellSchool = .none
     var highlightColor = HighlightColor.none
     var tag4058 = 0
+    var elite = false
     
     func hasRace(_ race: Race) -> Bool {
         if races.count == 0 {
@@ -315,6 +316,37 @@ final class Card {
     
     init(id: String) {
         self.id = id
+         
+        do {
+            if id.hasPrefix("CREATED_BY_") {
+                let fakeData = try FakeCard.fromString(id)
+                if let cost = fakeData.cost {
+                    self.cost = cost
+                }
+                if let rarity = fakeData.rarity {
+                    self.rarity = rarity
+                }
+                if let type = fakeData.type {
+                    self.type = type
+                }
+                
+                for kvp in fakeData.tags {
+                    switch kvp.key {
+                    case .elite:
+                        elite = true
+                    case .spell_school:
+                        if let school = SpellSchool(rawValue: kvp.value) {
+                            spellSchool = school
+                        }
+                    default:
+                        fatalError("GameTag \(kvp.key) not handled")
+                    }
+                }
+            }
+        }
+        catch {
+            logger.error(error)
+        }
     }
     
     init(fromRealCard: RealmCard) {
@@ -391,6 +423,7 @@ extension Card: NSCopying {
         copy.faction = self.faction
         copy.spellSchool = self.spellSchool
         copy.tag4058 = self.tag4058
+        copy.elite = self.elite
 
         return copy
     }
@@ -410,5 +443,68 @@ extension Card: Hashable {
 
     static func == (lhs: Card, rhs: Card) -> Bool {
         return lhs.id == rhs.id
+    }
+}
+
+class FakeCard {
+    var originalCardId: String
+    var name: String?
+    var enName: String?
+    var type: CardType?
+    var rarity: Rarity?
+    var cost: Int?
+    var tags: [GameTag: Int] = [:]
+    
+    init(_ originalCardId: String) {
+        self.originalCardId = originalCardId
+        
+        if let card = Cards.any(byId: originalCardId) {
+            name = String(format: String.localizedString("CardTile_Created_By", comment: ""), card.name)
+            enName = "Created by \(card.enName)"
+        }
+    }
+    
+    func serialize() throws -> String {
+        let payload = FakeCardDto(originalCardId: originalCardId, type: type, rarity: rarity, cost: cost, tags: tags)
+        let encoder = JSONEncoder()
+        
+        let json = try encoder.encode(payload).base64EncodedString()
+        
+        return "CREATED_BY_" + json
+    }
+    
+    static func fromString(_ cardId: String) throws -> FakeCard {
+        if !cardId.hasPrefix("CREATED_BY_") {
+            throw "Not a FakeCard cardId"
+        }
+        
+        let decoder = JSONDecoder()
+        let base64 = cardId.substring(from: "CREATED_BY_".count)
+        if let data = base64.data(using: .utf8) {
+            let json = try decoder.decode(FakeCardDto.self, from: data)
+            let fake = FakeCard(json.originalCardId)
+            fake.type = json.type
+            fake.rarity = json.rarity
+            fake.cost = json.cost
+            fake.tags = json.tags
+            return fake
+        }
+        throw "Failed to decode"
+    }
+    
+    private class FakeCardDto: Codable {
+        var originalCardId = ""
+        var type: CardType?
+        var rarity: Rarity?
+        var cost: Int?
+        var tags = [GameTag: Int]()
+        
+        init(originalCardId: String = "", type: CardType? = nil, rarity: Rarity? = nil, cost: Int? = nil, tags: [GameTag : Int] = [GameTag: Int]()) {
+            self.originalCardId = originalCardId
+            self.type = type
+            self.rarity = rarity
+            self.cost = cost
+            self.tags = tags
+        }
     }
 }

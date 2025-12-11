@@ -74,6 +74,7 @@
 "I understand" = "I understand";
 "Delete cached images" = "Delete cached images";
 "By clicking 'Delete' all locally cached images will be deleted. This may take a while" = "By clicking 'Delete' all locally cached images will be deleted. This may take a while";
+"CardTile_Created_By" = "Created by %@";
 
 /* Link Opponent Deck Panel */
 "LinkOpponentDeck_Dismiss" = "Dismiss";

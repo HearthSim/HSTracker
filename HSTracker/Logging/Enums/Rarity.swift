@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum Rarity: String, CaseIterable {
+enum Rarity: String, CaseIterable, Codable {
     case invalid,
          common,
          free,
