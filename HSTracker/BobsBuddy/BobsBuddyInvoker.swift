@@ -727,7 +727,8 @@ class BobsBuddyInvoker {
         minion.reborn = ent.has(tag: GameTag.reborn)
         minion.scriptDataNum1 = Int32(ent[.tag_script_data_num_1])
         minion.scriptDataNum2 = Int32(ent[.tag_script_data_num_2])
-        
+        minion.scriptDataNum3 = Int32(ent[.tag_script_data_num_3])
+
         let dbfId = ent.card.dbfId
         let m1 = ent[.modular_entity_part_1]
         let m2 = ent[.modular_entity_part_2]
