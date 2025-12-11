@@ -1038,5 +1038,10 @@ extension CardIds.NonCollectible {
         static let TimewarpedGoldrinn_TimewarpedGoldrinnPlayerEnchantDnt = "BG34_Giant_362pe"
         static let DeepBlueCrooner_DeepBluesEnchantment = "BG26_502e"
         static let TimewarpedNelliesShipToken1 = "BG34_Giant_074t"
+        static let TimewarpedMrrrglr = "BG34_Giant_321"
+        static let CostumeEnthusiast = "BG34_142"
+        static let CostumeEnthusiast_EnthusiasticEnchantment = "BG34_142e"
+        static let Dramaloc = "BG34_143"
+        static let Dramaloc_DramaticEnchantment = "BG34_143e"
     }
 }

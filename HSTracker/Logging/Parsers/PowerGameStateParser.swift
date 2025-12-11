@@ -1296,17 +1296,25 @@ class PowerGameStateParser: LogEventParser {
                 }
             }
             
-            // Handle Choral Mrrrglr enchantment in Battlegrounds
+            // Handle Hand related enchantments in Battlegrounds
             // Check at BLOCK_END because the enchantment is updated DURING the block, not at BLOCK_START
             if eventHandler.currentGameMode == GameMode.battlegrounds, let currentBlock, currentBlock.type == "TRIGGER" {
-                if currentBlock.cardId == CardIds.NonCollectible.Neutral.ChoralMrrrglr, let choralEntity = eventHandler.entities[currentBlock.sourceEntityId], choralEntity.isControlled(by: eventHandler.opponent.id) {
-                    // Find the Chorus enchantment that was CHANGED in this block and attached to Choral
-                    // The enchantment is created inside the TRIGGER block, so it exists in game.Entities by BLOCK_END
-                    if let chorusEnchantment = eventHandler.entities.values
-                        .first(where: { e in e.cardId == CardIds.NonCollectible.Neutral.ChoralMrrrglr_ChorusEnchantment &&
-                            e[GameTag.attached] == choralEntity.id &&
-                            e[GameTag.creator] == choralEntity.id }) {
-                        BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateMinionEnchantment(chorusEnchantment, choralEntity.id, false)
+                // Handle hand related minions that trigger enchantments on opponent's board
+                let enchantmentMapping = [
+                    CardIds.NonCollectible.Neutral.ChoralMrrrglr: CardIds.NonCollectible.Neutral.ChoralMrrrglr_ChorusEnchantment,
+                    CardIds.NonCollectible.Neutral.TimewarpedMrrrglr: CardIds.NonCollectible.Neutral.ChoralMrrrglr_ChorusEnchantment,
+                    CardIds.NonCollectible.Neutral.CostumeEnthusiast: CardIds.NonCollectible.Neutral.CostumeEnthusiast_EnthusiasticEnchantment,
+                    CardIds.NonCollectible.Neutral.Dramaloc: CardIds.NonCollectible.Neutral.Dramaloc_DramaticEnchantment
+                        ]
+                if let cardId = currentBlock.cardId, let enchantmentCardId = enchantmentMapping[cardId] {
+                    if let sourceEntity = eventHandler.entities[currentBlock.sourceEntityId], sourceEntity.isControlled(by: eventHandler.opponent.id) {
+                        // Find the enchantment that was created in this TRIGGER block and attached to the source minion
+                        if let enchantment = eventHandler.entities.values
+                        .first(where: { e in e.cardId == enchantmentCardId &&
+                            e[GameTag.attached] == sourceEntity.id &&
+                            e[GameTag.creator] == sourceEntity.id }) {
+                            BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateMinionEnchantment(enchantment, sourceEntity.id, false)
+                        }
                     }
                 }
                 if currentBlock.cardId == CardIds.NonCollectible.Neutral.TimewarpedNelliesShipToken1 && currentBlock.triggerKeyword == "DEATHRATTLE" {
