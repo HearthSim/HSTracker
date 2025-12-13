@@ -1,3 +1,30 @@
+# 3.4.5
+## New
+- Updated for Hearthstone 34.2.2
+- Add unknown cards shuffled by Sky Mother Aviana, Blasteroid, Academic Espionage and Agency Espionage. This way the player can know how many were drawn and how many are left in the deck.
+## Fixes
+- Fixed importing of deck strings with Fabled Cards
+## Bob's Buddy
+- Added support for Dramaloc.
+- Added support for Costume Enthusiast.
+- Added support for Imposing Percussionist.
+- Added support for Soul Rewinder.
+- Added support for Ashen Corruptor.
+- Added support for Timewarped Nellie's Ship.
+- Tentatively fixed incorrect simulation results due to Apexis Guardian.
+- Fixed incorrect simulation results due to fighting a dead opponent.
+- Fixed incorrect simulation results due to Blue Volumizer;
+- Fixed incorrect simulation results due to Green Volumizer;
+- Fixed incorrect simulation results due to Red Volumizer;
+- Fixed incorrect simulation results due to Deathwing Hero Power.
+- Fixed incorrect simulation results due to Bluesy Siren.
+- Fixed incorrect simulation results due to Apexis Guardian.
+- Fixed incorrect simulation results due to Saltscale Honcho.
+- Fixed incorrect simulation results due to Flighty Scout.
+- Fixed incorrect simulation results due to Bluesy Siren.
+- Fixed incorrect simulation results due to Timewarped Scourfin.
+- Fixed incorrect simulation results due to Expert Aviator.
+
 # 3.4.4
 ## Fixes
 - Attempted to fix crash during Battlegrounds games
