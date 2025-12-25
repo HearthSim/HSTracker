@@ -24,7 +24,8 @@ class TinyRafaam: ICardWithHighlight {
         CardIds.NonCollectible.Warlock.TimethiefRafaam_CalamitousRafaamToken,
         CardIds.NonCollectible.Warlock.TimethiefRafaam_MindflayerRfaamToken,
         CardIds.NonCollectible.Warlock.TimethiefRafaam_GiantRafaamToken,
-        CardIds.NonCollectible.Warlock.TimethiefRafaam_ArchmageRafaamToken
+        CardIds.NonCollectible.Warlock.TimethiefRafaam_ArchmageRafaamToken,
+        CardIds.Collectible.Warlock.TimethiefRafaam
     ]
 
     required init() {}
