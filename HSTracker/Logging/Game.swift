@@ -3651,6 +3651,10 @@ class Game: NSObject, PowerEventHandler {
     func setChoicesVisible(_ choicesVisible: Bool) {
         windowManager.battlegroundsTrinketPicking.viewModel.choicesVisible = choicesVisible
     }
+    
+    func handleSpecialShop(_ args: SpecialShopChoicesArgs) {
+        // TODO: when minion pining gets added
+    }
 
     func handleOpponentEntitiesChosen(choice: IHsCompletedChoice) {
         if choice.choiceType == .general {

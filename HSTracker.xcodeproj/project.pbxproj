@@ -1366,6 +1366,7 @@
 		B8E76173293A3D010048E802 /* QueueEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E76172293A3D010048E802 /* QueueEvents.swift */; };
 		B8E868832B93AF04005B1315 /* SceneHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E868822B93AF04005B1315 /* SceneHandler.swift */; };
 		B8E868852B940EB7005B1315 /* HearthDbConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E868842B940EB7005B1315 /* HearthDbConverter.swift */; };
+		B8E9C6582EFDF50D00EF3F6E /* SpecialShopChoicesStateWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E9C6572EFDF50D00EF3F6E /* SpecialShopChoicesStateWatcher.swift */; };
 		B8EC9A482612148500EB17A9 /* MultiIdCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8832DDB26117FCE00646BA4 /* MultiIdCard.swift */; };
 		B8EC9A492612149D00EB17A9 /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8832DD926057A5000646BA4 /* RepeatingTimer.swift */; };
 		B8EC9A4A261215C800EB17A9 /* OpponentDeadForTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC376025D06C2F00452A83 /* OpponentDeadForTracker.swift */; };
@@ -2624,6 +2625,7 @@
 		B8E76172293A3D010048E802 /* QueueEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueEvents.swift; sourceTree = "<group>"; };
 		B8E868822B93AF04005B1315 /* SceneHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneHandler.swift; sourceTree = "<group>"; };
 		B8E868842B940EB7005B1315 /* HearthDbConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HearthDbConverter.swift; sourceTree = "<group>"; };
+		B8E9C6572EFDF50D00EF3F6E /* SpecialShopChoicesStateWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialShopChoicesStateWatcher.swift; sourceTree = "<group>"; };
 		B8EF1D7B291681EA00AC4658 /* BattlegroundsQuestView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsQuestView.xib; sourceTree = "<group>"; };
 		B8EF1D7D2916857000AC4658 /* BattlegroundsQuestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsQuestView.swift; sourceTree = "<group>"; };
 		B8FDE9262CD99D840093BFF7 /* ReflectionHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReflectionHelper.swift; sourceTree = "<group>"; };
@@ -3162,7 +3164,6 @@
 		439C7E931C777F8900D29859 /* Logging */ = {
 			isa = PBXGroup;
 			children = (
-				3CB1A35E2E8C63010090486F /* MixpanelEvents.swift */,
 				B864AE232597BB0500793F36 /* AdventureConfig.swift */,
 				1C132F811DBA24C1002B1BF2 /* AppHealth.swift */,
 				B898994C2CA450720011B184 /* BattlegroundsTrinketPickState.swift */,
@@ -3182,6 +3183,7 @@
 				439C7EAF1C777F8900D29859 /* LogReader.swift */,
 				432A392E1CF0B0F80029F0EA /* LogReaderInfo.swift */,
 				439C7EB11C777F8900D29859 /* LogReaderManager.swift */,
+				3CB1A35E2E8C63010090486F /* MixpanelEvents.swift */,
 				B8591FF72B24919F00B907A4 /* MulliganState.swift */,
 				B8DC376025D06C2F00452A83 /* OpponentDeadForTracker.swift */,
 				1CCB4AE91E8A46F0003FD1AD /* Parsers */,
@@ -3852,6 +3854,7 @@
 				B85462422CE021FF0083BB31 /* PVPDungeonRunWatcher.swift */,
 				B85462342CE0185B0083BB31 /* QueueWatcher.swift */,
 				B854623C2CE01DF50083BB31 /* SceneWatcher.swift */,
+				B8E9C6572EFDF50D00EF3F6E /* SpecialShopChoicesStateWatcher.swift */,
 			);
 			path = HearthWatcher;
 			sourceTree = "<group>";
@@ -5449,6 +5452,7 @@
 				B8B78FDC2C96337900DD33EC /* CelestialShotEnchantment.swift in Sources */,
 				4C3E2D8A245ED13D00292349 /* ToastWindowController.swift in Sources */,
 				B846CC5C2E09DC9000552F9C /* Swindle.swift in Sources */,
+				B8E9C6582EFDF50D00EF3F6E /* SpecialShopChoicesStateWatcher.swift in Sources */,
 				B8FDE9272CD99D840093BFF7 /* ReflectionHelper.swift in Sources */,
 				43E77EE21C949C7800C26950 /* TimerHud.swift in Sources */,
 				B846CC902E16C10000552F9C /* EternalBloodpetal.swift in Sources */,

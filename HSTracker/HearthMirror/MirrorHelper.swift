@@ -523,5 +523,13 @@ struct MirrorHelper {
         }
         return result
     }
+    
+    static func getSpecialShopChoiceState() -> MirrorSpecialShopChoicesState? {
+        var result: MirrorSpecialShopChoicesState?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getSpecialShopChoices()
+        }
+        return result
+    }
 }
 

@@ -22,6 +22,7 @@ class Watchers {
     static let pvpDungeonRunWatcher = PVPDungeonRunWatcher()
     static let queueWatcher = QueueWatcher()
     static let sceneWatcher = SceneWatcher()
+    static let specialShopChoicesStateWatcher = SpecialShopChoicesStateWatcher()
     
     static func initialize() {
         arenaWatcher.onCompleteDeck = onDeckCompleted
@@ -35,6 +36,9 @@ class Watchers {
         bigCardWatcher.change = onBigCardChange
         choicesWatcher.change = { _, args in
             AppDelegate.instance().coreManager.game.setChoicesVisible(args.currentChoice?.isVisible ?? false)
+        }
+        specialShopChoicesStateWatcher.change = { _, args in
+            AppDelegate.instance().coreManager.game.handleSpecialShop(args)
         }
         deckPickerWatcher.change = onDeckPickerChange
         discoverStateWatcher.change = onDiscoverStateChange
@@ -68,6 +72,7 @@ class Watchers {
         battlegroundsTeammateBoardStateWatcher.stop()
         bigCardWatcher.stop()
         choicesWatcher.stop()
+        specialShopChoicesStateWatcher.stop()
         deckPickerWatcher.stop()
         discoverStateWatcher.stop()
         dungeonRunDeckWatcher.stop()

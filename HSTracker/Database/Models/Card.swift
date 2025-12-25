@@ -343,8 +343,7 @@ final class Card {
                     }
                 }
             }
-        }
-        catch {
+        } catch {
             logger.error(error)
         }
     }
@@ -503,7 +502,7 @@ class FakeCard {
         var cost: Int?
         var tags = [GameTag: Int]()
         
-        init(originalCardId: String = "", type: CardType? = nil, rarity: Rarity? = nil, cost: Int? = nil, tags: [GameTag : Int] = [GameTag: Int]()) {
+        init(originalCardId: String = "", type: CardType? = nil, rarity: Rarity? = nil, cost: Int? = nil, tags: [GameTag: Int] = [GameTag: Int]()) {
             self.originalCardId = originalCardId
             self.type = type
             self.rarity = rarity
