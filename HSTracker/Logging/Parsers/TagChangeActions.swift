@@ -270,6 +270,16 @@ struct TagChangeActions {
             targetEntity.info.hidden = true
             return
         }
+        
+        // prevents nightmare fuel leaking the card
+        if (currentBlock?.cardId == CardIds.Collectible.Rogue.NightmareFuel ||
+            currentBlock?.parent?.cardId == CardIds.Collectible.Rogue.NightmareFuel &&
+            entity.cardId == CardIds.NonCollectible.Neutral.TreacherousTormentor_DarkGiftToken) &&
+            entity.isControlled(by: eventHandler.player.id) {
+            targetEntity.cardId = ""
+            targetEntity.info.hidden = true
+            return
+        }
         onDredge(eventHandler: eventHandler, entity: entity, target: targetEntity)
     }
     

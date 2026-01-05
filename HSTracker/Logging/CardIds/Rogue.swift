@@ -230,6 +230,7 @@ extension CardIds.Collectible {
         static let TimeAdmralHooktail = "TIME_713"
         static let ShroudOfConcealment = "WC_016"
         static let AgencyEspionage = "WORK_004"
+        static let NightmareFuel = "EDR_528"
     }
 }
 
