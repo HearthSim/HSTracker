@@ -218,6 +218,7 @@ extension CardIds.Collectible {
         static let UntimelyDeath = "TIME_620"
         static let KingMaluk = "TIME_042"
         static let PastSilvermoon = "TIME_810"
+        static let Zuljin = "TRL_065"
     }
 }
 
