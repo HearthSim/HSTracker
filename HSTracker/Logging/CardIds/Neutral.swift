@@ -1048,5 +1048,8 @@ extension CardIds.NonCollectible {
         static let LeafThroughThePages = "BG28_827"
         static let BloodGemBarrage = "BG34_689"
         static let BloodGemBarrage_BloodGemBarragePlayerEnchDntEnchantment = "BG34_689e2"
+        static let WorgenExecutive = "BG34_650"
+        static let Waveling = "BG34_856"
+        static let RightMostTavernMinionBuffPlayerEnchDnt = "BG34_854pe"
     }
 }
