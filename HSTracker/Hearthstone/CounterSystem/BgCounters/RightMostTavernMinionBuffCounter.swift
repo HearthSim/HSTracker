@@ -19,6 +19,10 @@ class RightMostTavernMinionBuffCounter: StatsCounter {
     override var cardIdToShowInUI: String? {
         return CardIds.NonCollectible.Neutral.WorgenExecutive
     }
+    
+    override var localizedName: String {
+        return String.localizedString("Counter_RightMostTavernMinionBuff", comment: "")
+    }
 
     override var relatedCards: [String] {
         return [

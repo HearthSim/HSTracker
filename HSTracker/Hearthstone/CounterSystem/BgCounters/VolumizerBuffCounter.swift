@@ -19,6 +19,10 @@ class VolumizerBuffCounter: StatsCounter {
     override var cardIdToShowInUI: String? {
         return CardIds.NonCollectible.Neutral.AutoAccelerator_RedVolumizerToken1
     }
+    
+    override var localizedName: String {
+        return String.localizedString("Counter_VolumizerBuff", comment: "")
+    }
 
     override var relatedCards: [String] {
         return [

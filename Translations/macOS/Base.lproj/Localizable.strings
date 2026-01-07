@@ -347,6 +347,8 @@
 "Counter_FreeRefresh" = "Free Refreshes";
 "Counter_GoldNextTurn" = "Extra Gold Next Turn";
 "Counter_TavernSpellsBuff" = "Spells Extra Buff";
+"Counter_RightMostTavernMinionBuff" = "Right Most Tavern Buff";
+"Counter_VolumizerBuff" = "Volumizer Buff";
 
 /* Tier7 */
 "BattlegroundsOverlayMessage_Error" = "Something went wrong :(";
