@@ -1044,5 +1044,7 @@ extension CardIds.NonCollectible {
         static let CostumeEnthusiast_EnthusiasticEnchantment = "BG34_142e"
         static let Dramaloc = "BG34_143"
         static let Dramaloc_DramaticEnchantment = "BG34_143e"
+        static let GhostlyYmirjar = "BG34_697"
+        static let LeafThroughThePages = "BG28_827"
     }
 }

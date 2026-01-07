@@ -35,7 +35,9 @@ class FreeRefreshCounter: NumericCounter {
 
     override func getCardsToDisplay() -> [String] {
         return [
-            CardIds.NonCollectible.Neutral.RefreshingAnomaly
+            CardIds.NonCollectible.Neutral.RefreshingAnomaly,
+            CardIds.NonCollectible.Neutral.GhostlyYmirjar,
+            CardIds.NonCollectible.Neutral.LeafThroughThePages
         ]
     }
 
@@ -50,12 +52,8 @@ class FreeRefreshCounter: NumericCounter {
             return
         }
 
-        if entity.cardId != CardIds.NonCollectible.Neutral.RefreshingAnomaly_RefreshCosts0Enchantment {
-            return
-        }
-
-        if tag == .tag_script_data_num_2 {
-            counter += (value - prevValue)
+        if tag == .bacon_free_refresh_count {
+            counter = value
             onCounterChanged()
         }
     }
