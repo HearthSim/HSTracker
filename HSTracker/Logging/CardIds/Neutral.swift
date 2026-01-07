@@ -1051,5 +1051,9 @@ extension CardIds.NonCollectible {
         static let WorgenExecutive = "BG34_650"
         static let Waveling = "BG34_856"
         static let RightMostTavernMinionBuffPlayerEnchDnt = "BG34_854pe"
+        static let AutoAccelerator_RedVolumizerToken1 = "BG34_170t"
+        static let AutoAccelerator_GreenVolumizerToken1 = "BG34_170t3"
+        static let AutoAccelerator_BlueVolumizerToken1 = "BG34_170t2"
+        static let AutoAccelerator_VolumizedEnchantment = "BG34_170e"
     }
 }

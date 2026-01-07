@@ -494,6 +494,7 @@
 		B82901EF2F0C1287002F96FB /* Zuljin.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82901EE2F0C1287002F96FB /* Zuljin.swift */; };
 		B82901F12F0ED32A002F96FB /* BloodGemBarrageBuffCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82901F02F0ED32A002F96FB /* BloodGemBarrageBuffCounter.swift */; };
 		B82901F32F0ED3FE002F96FB /* RightMostTavernMinionBuffCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82901F22F0ED3FE002F96FB /* RightMostTavernMinionBuffCounter.swift */; };
+		B82901F52F0ED4A0002F96FB /* VolumizerBuffCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82901F42F0ED4A0002F96FB /* VolumizerBuffCounter.swift */; };
 		B82AE5F028ADBC55004A8FE0 /* Influx.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82AE5EF28ADBC54004A8FE0 /* Influx.swift */; };
 		B82AE5FD28BE8631004A8FE0 /* BobsBuddy-version.txt in Resources */ = {isa = PBXBuildFile; fileRef = B82AE5F928BE8631004A8FE0 /* BobsBuddy-version.txt */; };
 		B82AE5FE28BE8631004A8FE0 /* cards-version.txt in Resources */ = {isa = PBXBuildFile; fileRef = B82AE5FA28BE8631004A8FE0 /* cards-version.txt */; };
@@ -1870,6 +1871,7 @@
 		B82901EE2F0C1287002F96FB /* Zuljin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Zuljin.swift; sourceTree = "<group>"; };
 		B82901F02F0ED32A002F96FB /* BloodGemBarrageBuffCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BloodGemBarrageBuffCounter.swift; sourceTree = "<group>"; };
 		B82901F22F0ED3FE002F96FB /* RightMostTavernMinionBuffCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RightMostTavernMinionBuffCounter.swift; sourceTree = "<group>"; };
+		B82901F42F0ED4A0002F96FB /* VolumizerBuffCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumizerBuffCounter.swift; sourceTree = "<group>"; };
 		B82AE5EF28ADBC54004A8FE0 /* Influx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Influx.swift; sourceTree = "<group>"; };
 		B82AE5F928BE8631004A8FE0 /* BobsBuddy-version.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "BobsBuddy-version.txt"; sourceTree = "<group>"; };
 		B82AE5FA28BE8631004A8FE0 /* cards-version.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "cards-version.txt"; sourceTree = "<group>"; };
@@ -4322,6 +4324,7 @@
 				B8E1E5A72D0B883100383975 /* SpellsPlayedForNagasCounter.swift */,
 				B852D8162DDAC91A00884B26 /* TavernSpellsBuffCounter.swift */,
 				B8E1E5A92D0B891F00383975 /* UndeadAttackBonusCounter.swift */,
+				B82901F42F0ED4A0002F96FB /* VolumizerBuffCounter.swift */,
 			);
 			path = BgCounters;
 			sourceTree = "<group>";
@@ -5706,6 +5709,7 @@
 				B82029572CD4658100C19A8C /* GridCardImages.swift in Sources */,
 				B8B78FB12C93CA9700DD33EC /* HelyaEnchantment.swift in Sources */,
 				43883F1E1DA382BA00A7B79C /* Language.swift in Sources */,
+				B82901F52F0ED4A0002F96FB /* VolumizerBuffCounter.swift in Sources */,
 				B8DC11F024E6AF280088A755 /* BobsBuddyInvoker.swift in Sources */,
 				437E56F01DAAB81400FC0FC1 /* Array.swift in Sources */,
 				B825F7972EDF874300032E75 /* AllYouCanEat.swift in Sources */,
