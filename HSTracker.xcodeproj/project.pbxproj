@@ -492,6 +492,7 @@
 		B825F7972EDF874300032E75 /* AllYouCanEat.swift in Sources */ = {isa = PBXBuildFile; fileRef = B825F7962EDF874300032E75 /* AllYouCanEat.swift */; };
 		B82901ED2F0C1098002F96FB /* TimelineAccelerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82901EC2F0C1098002F96FB /* TimelineAccelerator.swift */; };
 		B82901EF2F0C1287002F96FB /* Zuljin.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82901EE2F0C1287002F96FB /* Zuljin.swift */; };
+		B82901F12F0ED32A002F96FB /* BloodGemBarrageBuffCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82901F02F0ED32A002F96FB /* BloodGemBarrageBuffCounter.swift */; };
 		B82AE5F028ADBC55004A8FE0 /* Influx.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82AE5EF28ADBC54004A8FE0 /* Influx.swift */; };
 		B82AE5FD28BE8631004A8FE0 /* BobsBuddy-version.txt in Resources */ = {isa = PBXBuildFile; fileRef = B82AE5F928BE8631004A8FE0 /* BobsBuddy-version.txt */; };
 		B82AE5FE28BE8631004A8FE0 /* cards-version.txt in Resources */ = {isa = PBXBuildFile; fileRef = B82AE5FA28BE8631004A8FE0 /* cards-version.txt */; };
@@ -1866,6 +1867,7 @@
 		B825F7962EDF874300032E75 /* AllYouCanEat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllYouCanEat.swift; sourceTree = "<group>"; };
 		B82901EC2F0C1098002F96FB /* TimelineAccelerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineAccelerator.swift; sourceTree = "<group>"; };
 		B82901EE2F0C1287002F96FB /* Zuljin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Zuljin.swift; sourceTree = "<group>"; };
+		B82901F02F0ED32A002F96FB /* BloodGemBarrageBuffCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BloodGemBarrageBuffCounter.swift; sourceTree = "<group>"; };
 		B82AE5EF28ADBC54004A8FE0 /* Influx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Influx.swift; sourceTree = "<group>"; };
 		B82AE5F928BE8631004A8FE0 /* BobsBuddy-version.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "BobsBuddy-version.txt"; sourceTree = "<group>"; };
 		B82AE5FA28BE8631004A8FE0 /* cards-version.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "cards-version.txt"; sourceTree = "<group>"; };
@@ -4308,6 +4310,7 @@
 			isa = PBXGroup;
 			children = (
 				B8E1E5A52D0B873E00383975 /* BeetlesSizeCounter.swift */,
+				B82901F02F0ED32A002F96FB /* BloodGemBarrageBuffCounter.swift */,
 				B8196F1E2CC87293007C0371 /* BloodGemCounter.swift */,
 				B852D80E2DDAB97100884B26 /* ElementalsExtraStatsCounter.swift */,
 				B852D8122DDABE1E00884B26 /* FreeRefreshCounter.swift */,
@@ -5161,6 +5164,7 @@
 				B80B690A2E3C3ECD00197FA5 /* DustBunny.swift in Sources */,
 				B89865342D6EA3C900BA5649 /* EnchantmentProxy.swift in Sources */,
 				B86D89CC2D95BDD700AB65A5 /* DreamboundDiscipleEnchantment.swift in Sources */,
+				B82901F12F0ED32A002F96FB /* BloodGemBarrageBuffCounter.swift in Sources */,
 				B80B69082E3C3E5A00197FA5 /* VioletSpellwing.swift in Sources */,
 				B89865C32D9200CB00BA5649 /* DigForTreasure.swift in Sources */,
 				B854623B2CE01C5F0083BB31 /* BattlegroundsLeaderboardWatcher.swift in Sources */,
