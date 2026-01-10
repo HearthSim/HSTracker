@@ -2047,6 +2047,7 @@ class Game: NSObject, PowerEventHandler {
             windowManager.battlegroundsQuestPicking.viewModel.reset()
             windowManager.battlegroundsTrinketPicking.viewModel.reset()
             hideBattlegroundsHeroPanel()
+            hideBattlegroundsTimewarpPanel()
         }
         if isConstructedMatch() {
             hideMulliganToast()
@@ -2285,6 +2286,7 @@ class Game: NSObject, PowerEventHandler {
                 self.windowManager.battlegroundsQuestPicking.viewModel.reset()
                 self.windowManager.battlegroundsTrinketPicking.viewModel.reset()
                 self.hideBattlegroundsHeroPanel()
+                self.hideBattlegroundsTimewarpPanel()
                 self.windowManager.battlegroundsSession.update()
                 self.windowManager.battlegroundsSession.updateScaling()
             }
@@ -3467,6 +3469,7 @@ class Game: NSObject, PowerEventHandler {
         if isBattlegroundsMatch() {
             snapshotBattlegroundsHeroPick()
             hideBattlegroundsHeroPanel()
+            hideBattlegroundsTimewarpPanel()
             windowManager.battlegroundsHeroPicking.viewModel.reset()
             await windowManager.battlegroundsSession.hideCompStatsOnError()
         } else if isConstructedMatch() || isFriendlyMatch || isArenaMatch {
@@ -3653,6 +3656,18 @@ class Game: NSObject, PowerEventHandler {
     }
     
     func handleSpecialShop(_ args: SpecialShopChoicesArgs) {
+        guard isBattlegroundsMatch() else {
+            return
+        }
+        
+        let boardCards = args.boardCards
+        let userHasTier7 = HSReplayAPI.accountData?.is_tier7 ?? false // TODO: trial active
+        
+        if args.isActive && boardCards.count > 0 && userHasTier7 {
+            showBattlegroundsTimewarpPanel(boardCards)
+        } else {
+            hideBattlegroundsTimewarpPanel()
+        }
         // TODO: when minion pining gets added
     }
 
@@ -3937,7 +3952,22 @@ class Game: NSObject, PowerEventHandler {
             AppDelegate.instance().coreManager.toaster.hide()
         }
     }
-    
+
+    func showBattlegroundsTimewarpPanel(_ boardCards: [MirrorBoardCard]) {
+        DispatchQueue.main.async {
+            let toast = BattlegroundsTimewarpPanel(frame: NSRect.zero)
+            toast.boardCards = boardCards
+            
+            AppDelegate.instance().coreManager.toaster.displayToast(view: toast, timeoutMillis: 0)
+        }
+    }
+
+    func hideBattlegroundsTimewarpPanel() {
+        DispatchQueue.main.async {
+            AppDelegate.instance().coreManager.toaster.hide()
+        }
+    }
+
     func hideMulliganToast() {
         DispatchQueue.main.async {
             AppDelegate.instance().coreManager.toaster.hide()

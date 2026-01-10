@@ -265,6 +265,14 @@ final class CoreManager: NSObject {
                 }
                 retry = false
                 Watchers.sceneWatcher.run()
+                _ = HSReplayAPI.getAccount().done { result in
+                    switch result {
+                    case .success(account: let account):
+                        logger.info("Retrieved account \(account.username) - \(account.battletag)")
+                    case .failed:
+                        logger.error("Failed to retrieve account")
+                    }
+                }
             }
         }
         if retry {

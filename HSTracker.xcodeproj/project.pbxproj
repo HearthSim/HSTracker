@@ -845,6 +845,8 @@
 		B86FFA7D299C67AE0093689E /* Debounce.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC2D29437AF500F74CD9 /* Debounce.swift */; };
 		B86FFA7E299C67B50093689E /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC382944B1DA00F74CD9 /* ViewModel.swift */; };
 		B86FFA7F299C68870093689E /* NSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC3C29462EA800F74CD9 /* NSButton.swift */; };
+		B872168B2F10652D00E848BA /* BattlegroundsTimewarpPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B872168A2F10652D00E848BA /* BattlegroundsTimewarpPanel.swift */; };
+		B872168C2F10652D00E848BA /* BattlegroundsTimewarpPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B872168A2F10652D00E848BA /* BattlegroundsTimewarpPanel.swift */; };
 		B872E0D72DB059470023B24B /* HolySpellsPlayedCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B872E0D62DB059410023B24B /* HolySpellsPlayedCounter.swift */; };
 		B872E0D92DB05ADA0023B24B /* SpellsPlayedInCharactersCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B872E0D82DB05ADA0023B24B /* SpellsPlayedInCharactersCounter.swift */; };
 		B872E0DB2DB05C950023B24B /* TwistedWebweaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B872E0DA2DB05C950023B24B /* TwistedWebweaver.swift */; };
@@ -2150,6 +2152,7 @@
 		B86D8A232D95FFDA00AB65A5 /* ArchdruidOfThorns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchdruidOfThorns.swift; sourceTree = "<group>"; };
 		B86D8A252D96005500AB65A5 /* RotheartDryad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotheartDryad.swift; sourceTree = "<group>"; };
 		B86D8A272D9600E400AB65A5 /* SuccumbToMadness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccumbToMadness.swift; sourceTree = "<group>"; };
+		B872168A2F10652D00E848BA /* BattlegroundsTimewarpPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsTimewarpPanel.swift; sourceTree = "<group>"; };
 		B872E0D62DB059410023B24B /* HolySpellsPlayedCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolySpellsPlayedCounter.swift; sourceTree = "<group>"; };
 		B872E0D82DB05ADA0023B24B /* SpellsPlayedInCharactersCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellsPlayedInCharactersCounter.swift; sourceTree = "<group>"; };
 		B872E0DA2DB05C950023B24B /* TwistedWebweaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwistedWebweaver.swift; sourceTree = "<group>"; };
@@ -3479,6 +3482,7 @@
 				B8BA17DC28EFC8F8004D40ED /* LinkOpponentDeckPanel.xib */,
 				B82E7B13262A533F00C42EF0 /* MulliganToastView.swift */,
 				B8BCC1E02739991600DA6474 /* VerticallyAlignedTextFieldCell.swift */,
+				B872168A2F10652D00E848BA /* BattlegroundsTimewarpPanel.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -5776,6 +5780,7 @@
 				B8DB12B92EBAE834004268FA /* ExplorerRafaam.swift in Sources */,
 				B8B790212C97550600DD33EC /* LifeguardEnchantment.swift in Sources */,
 				B83CF36B294E2930003C9062 /* BattlegroundsPlacementDistributionBar.swift in Sources */,
+				B872168B2F10652D00E848BA /* BattlegroundsTimewarpPanel.swift in Sources */,
 				B8B78FBE2C952AD200DD33EC /* NatureStudiesEnchantment.swift in Sources */,
 				B837D7E02EAEA6F50070DB4B /* BattleVicar.swift in Sources */,
 				43A12C871CA3D24800090BFE /* SaveDeck.swift in Sources */,
@@ -6298,6 +6303,7 @@
 				43C1CA621E96CD6F008C20B1 /* LoadingScreenHandler.swift in Sources */,
 				43C1CA631E96CD6F008C20B1 /* RachelleHandler.swift in Sources */,
 				43C1CA651E96CD6F008C20B1 /* LogEventHandlers.swift in Sources */,
+				B872168C2F10652D00E848BA /* BattlegroundsTimewarpPanel.swift in Sources */,
 				43C1CA661E96CD6F008C20B1 /* AppHealth.swift in Sources */,
 				43C1CA671E96CD6F008C20B1 /* Block.swift in Sources */,
 				43C1CA681E96CD6F008C20B1 /* Entity.swift in Sources */,

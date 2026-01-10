@@ -55,7 +55,7 @@ class SceneHandler {
             Watchers.bigCardWatcher.stop()
             Watchers.discoverStateWatcher.stop()
             Watchers.choicesWatcher.stop()
-//            Watchers.specialShopChoicesStateWatcher.stop()
+            Watchers.specialShopChoicesStateWatcher.stop()
         }
     }
     
@@ -86,7 +86,7 @@ class SceneHandler {
             game.updateBattlegroundsSessionVisibility()
             Watchers.bigCardWatcher.run()
             Watchers.choicesWatcher.run()
-//            Watchers.specialShopChoicesStateWatcher.run()
+            Watchers.specialShopChoicesStateWatcher.run()
             Watchers.discoverStateWatcher.run()
             Watchers.baconWatcher.run()
         }

@@ -40,7 +40,7 @@ struct Helper {
             formatter.dateFormat = match[0].value
             let date = formatter.string(from: Date())
             result = result.replace(dateRegex, with: date)
-
+            
         }
         
         if classRegex.match(result) {
@@ -49,7 +49,7 @@ struct Helper {
         }
         return result
     }
-
+    
     static func toPrettyNumber(n: Int) -> Int {
         let divisor = max(pow(10, (floor(log(Double(n))/log(10.0)) - 1)), 1)
         let pn = floor(Double(n) / divisor) * divisor
@@ -67,7 +67,7 @@ struct Helper {
                 }
             }
         }
-
+        
         // This probably need to be more lenient in the future and allow other file content
         logger.info("Updating client.config")
         do {
@@ -115,13 +115,13 @@ struct Helper {
             neutral = [ 60.0, adjustSaturation(32.0, saturationMultiplier), 44.0 ]
             negative = [ 0.0, adjustSaturation(32.0, saturationMultiplier), 44.0 ]
         }
-
+        
         let hsl = delta > 0
-            ? scaleTriple(severity, neutral, positive)
-            : delta < 0
-                ? scaleTriple(severity, neutral, negative)
-                : neutral
-
+        ? scaleTriple(severity, neutral, positive)
+        : delta < 0
+        ? scaleTriple(severity, neutral, negative)
+        : neutral
+        
         return hslToColorString(hue: hsl[0], saturation: hsl[1], lightness: hsl[2])
     }
     
@@ -135,20 +135,20 @@ struct Helper {
         if h < 0 {
             h += 360
         }
-
+        
         s /= 100
         l /= 100
-
+        
         func f(_ n: Double) -> Double {
             let k = (n + h / 30).truncatingRemainder(dividingBy: 12)
             let a = s * min(l, 1 - l)
             return l - a * max(-1, min(min(k - 3, 9 - k), 1))
         }
-
+        
         let r = (f(0) * 255)
         let g = (f(8) * 255)
         let b = (f(4) * 255)
-
+        
         return String(format: "#%2X%2X%2X", Int(r), Int(g), Int(b))
     }
     
@@ -188,7 +188,7 @@ struct Helper {
         }
         return url + Helper.getHsReplayNetUrlParams(campaign, queryParams, fragmentParams)
     }
-
+    
     static func getHsReplayNetUrlParams(_ campaign: String, _ queryParams: [String]? = nil, _ fragmentParams: [String]? = nil) -> String {
         var query = [
             "utm_source=hdt",
@@ -206,7 +206,7 @@ struct Helper {
         }
         return urlParams
     }
-
+    
     static func openBattlegroundsHeroPicker(heroIds: [Int], duos: Bool, anomalyDbfId: Int?, parameters: [String: String]?) {
         let queryParams = parameters?.compactMap { kv in "\(Helper.urlEncode(kv.key))=\(Helper.urlEncode(kv.value))"} ?? [String]()
         var fragmentParams = [ "heroes=\(heroIds.compactMap({ x in String(x)}).joined(separator: ","))" ]
@@ -218,6 +218,38 @@ struct Helper {
             fragmentParams.append("minionTypes=\(Helper.urlEncode(availableRacesAsList.joined(separator: ",")))")
         }
         let url = Helper.buildHsReplayNetUrl(duos ? "/battlegrounds/duos/heroes/" : "/battlegrounds/heroes/", "bgs_toast", queryParams, fragmentParams)
+        NSWorkspace.shared.open(URL(string: url)!)
+    }
+
+    static func openBattlegroundsTimewarpPage(_ boardCards: [MirrorBoardCard]) {
+        let cardIds = boardCards
+            .compactMap { card in card.cardId }
+            .filter { id in id.count > 0 }
+            .unique()
+
+        if cardIds.count == 0 {
+            return
+        }
+
+        let timewarpCards = cardIds
+            .compactMap { Cards.any(byId: $0) }
+
+        let dbfIds = timewarpCards
+            .compactMap { card in card.dbfId }
+
+        let isMajorTimewarp = timewarpCards.any { card in card.techLevel == 5 }
+
+        var fragmentParams = [
+            "view=advanced",
+            "searchTerm=\(dbfIds.compactMap { String($0) }.joined(separator: ","))"
+        ]
+
+        if isMajorTimewarp
+        {
+            fragmentParams.append("timewarp=major")
+        }
+
+        let url = Helper.buildHsReplayNetUrl("/battlegrounds/timewarp/", "bgs_timewarp_toast", nil, fragmentParams)
         NSWorkspace.shared.open(URL(string: url)!)
     }
 }
