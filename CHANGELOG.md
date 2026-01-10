@@ -1,3 +1,22 @@
+# 3.4.6
+## New
+**Hearthstone**:
+- Added deck highlight to Timeline Accelerator.
+- Added Zul'jin related cards.
+**Battlegrounds**:
+- Updated Free Refreshes counter.
+- Added Blood Gem Barrage Buff counter.
+- Added Right Most Tavern Minion Buff counter.
+- Added Volumizer Buff counter.
+- New Tier7 feature: Added a notification at the start of Timewarped Taverns to compare the HSReplay.net Timewarped Cards filtered to the presented choices.
+## Fixes
+- Fixed an info leak involving Nightmare Fuel.
+- Fixed Tiny Rafaam and Explorer Rafaam not highlighting 10 mana Timethief Rafaam.
+- Fixed incorrect simulation results due to Opponent Hand Cards not being buffed correctly.
+- Fixed incorrect simulation results due to Costume Enthusiast.
+- Fixed incorrect simulation results due to Twilight Hatchling.
+- Fixed incorrect simulation results due to Timewarped Nellies Ship
+
 # 3.4.5
 ## New
 - Updated for Hearthstone 34.2.2
