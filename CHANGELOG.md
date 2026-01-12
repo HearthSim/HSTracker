@@ -1,3 +1,7 @@
+# Unrelease
+## Fixes
+- Updated Right Most Tavern Minion Buff counter-related cards.
+
 # 3.4.6
 ## New
 **Hearthstone**:

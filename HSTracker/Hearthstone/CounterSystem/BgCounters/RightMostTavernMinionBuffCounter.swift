@@ -27,7 +27,9 @@ class RightMostTavernMinionBuffCounter: StatsCounter {
     override var relatedCards: [String] {
         return [
             CardIds.NonCollectible.Neutral.WorgenExecutive,
-            CardIds.NonCollectible.Neutral.Waveling
+            CardIds.NonCollectible.Neutral.Waveling,
+            CardIds.NonCollectible.Neutral.EnDjinnBlazer,
+            CardIds.NonCollectible.Neutral.EasterlyWinds
         ]
     }
 

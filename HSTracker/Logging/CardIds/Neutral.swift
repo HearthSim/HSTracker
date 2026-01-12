@@ -1055,5 +1055,7 @@ extension CardIds.NonCollectible {
         static let AutoAccelerator_GreenVolumizerToken1 = "BG34_170t3"
         static let AutoAccelerator_BlueVolumizerToken1 = "BG34_170t2"
         static let AutoAccelerator_VolumizedEnchantment = "BG34_170e"
+        static let EnDjinnBlazer = "BG34_865"
+        static let EasterlyWinds = "BG34_444"
     }
 }
