@@ -244,8 +244,7 @@ struct Helper {
             "searchTerm=\(dbfIds.compactMap { String($0) }.joined(separator: ","))"
         ]
 
-        if isMajorTimewarp
-        {
+        if isMajorTimewarp {
             fragmentParams.append("timewarp=major")
         }
 
