@@ -231,6 +231,7 @@ extension CardIds.Collectible {
         static let ShroudOfConcealment = "WC_016"
         static let AgencyEspionage = "WORK_004"
         static let NightmareFuel = "EDR_528"
+        static let DejaVu = "TIME_039"
     }
 }
 

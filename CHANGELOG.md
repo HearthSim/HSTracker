@@ -1,5 +1,6 @@
 # Unrelease
 ## Fixes
+- Fixed an info leak involving Nightmare Fuel and Deja Vu.
 - Updated Right Most Tavern Minion Buff counter-related cards.
 
 # 3.4.6
