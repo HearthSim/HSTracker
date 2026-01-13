@@ -848,6 +848,7 @@
 		B872168B2F10652D00E848BA /* BattlegroundsTimewarpPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B872168A2F10652D00E848BA /* BattlegroundsTimewarpPanel.swift */; };
 		B872168C2F10652D00E848BA /* BattlegroundsTimewarpPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B872168A2F10652D00E848BA /* BattlegroundsTimewarpPanel.swift */; };
 		B872168E2F16E82C00E848BA /* Finality.swift in Sources */ = {isa = PBXBuildFile; fileRef = B872168D2F16E82C00E848BA /* Finality.swift */; };
+		B87216902F16E98C00E848BA /* MinionsDiedThisTurnCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B872168F2F16E98C00E848BA /* MinionsDiedThisTurnCounter.swift */; };
 		B872E0D72DB059470023B24B /* HolySpellsPlayedCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B872E0D62DB059410023B24B /* HolySpellsPlayedCounter.swift */; };
 		B872E0D92DB05ADA0023B24B /* SpellsPlayedInCharactersCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B872E0D82DB05ADA0023B24B /* SpellsPlayedInCharactersCounter.swift */; };
 		B872E0DB2DB05C950023B24B /* TwistedWebweaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B872E0DA2DB05C950023B24B /* TwistedWebweaver.swift */; };
@@ -2155,6 +2156,7 @@
 		B86D8A272D9600E400AB65A5 /* SuccumbToMadness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccumbToMadness.swift; sourceTree = "<group>"; };
 		B872168A2F10652D00E848BA /* BattlegroundsTimewarpPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsTimewarpPanel.swift; sourceTree = "<group>"; };
 		B872168D2F16E82C00E848BA /* Finality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Finality.swift; sourceTree = "<group>"; };
+		B872168F2F16E98C00E848BA /* MinionsDiedThisTurnCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinionsDiedThisTurnCounter.swift; sourceTree = "<group>"; };
 		B872E0D62DB059410023B24B /* HolySpellsPlayedCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolySpellsPlayedCounter.swift; sourceTree = "<group>"; };
 		B872E0D82DB05ADA0023B24B /* SpellsPlayedInCharactersCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellsPlayedInCharactersCounter.swift; sourceTree = "<group>"; };
 		B872E0DA2DB05C950023B24B /* TwistedWebweaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwistedWebweaver.swift; sourceTree = "<group>"; };
@@ -3548,6 +3550,7 @@
 				B82029322CD2C65D00C19A8C /* KiljaedenCounter.swift */,
 				B89343472CD11E7A009A8727 /* LibramCostReductionCounter.swift */,
 				B89865352D8A343600BA5649 /* MinionsDiedThisGameCounter.swift */,
+				B872168F2F16E98C00E848BA /* MinionsDiedThisTurnCounter.swift */,
 				B846CCC12E29A79700552F9C /* PaladinCardsPlayedCounter.swift */,
 				B86D89C52D95A2FF00AB65A5 /* PlayedDragonsCounter.swift */,
 				B893434F2CD1520E009A8727 /* PlayedSpellSchoolsCounter.swift */,
@@ -6075,6 +6078,7 @@
 				B8B78F9B2C93C34E00DD33EC /* EntityBasedEffect.swift in Sources */,
 				B846CCA42E1C394700552F9C /* GorishisFavorEnchantment.swift in Sources */,
 				B846CC402E06351C00552F9C /* BalindaStonehearth.swift in Sources */,
+				B87216902F16E98C00E848BA /* MinionsDiedThisTurnCounter.swift in Sources */,
 				B89C9894280A113A005E9315 /* AnimatedCardList.swift in Sources */,
 				B89865AD2D91D68D00BA5649 /* HiHoSilverwing.swift in Sources */,
 				B893433C2CD0372A009A8727 /* ElementalTurnSequenceCounter.swift in Sources */,

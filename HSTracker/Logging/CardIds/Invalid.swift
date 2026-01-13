@@ -39,6 +39,7 @@ extension CardIds.Collectible {
         static let WarpGate = "SC_751"
         static let ChronoBoost = "SC_750"
         static let NydusWorm = "SC_015"
+        static let RemnantOfRage = "END_004"
     }
 }
 
