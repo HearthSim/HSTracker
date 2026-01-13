@@ -221,6 +221,7 @@ extension CardIds.Collectible {
         static let AlterTime = "TIME_857"
         static let MirrorDimension = "TIME_006"
         static let FacelessEnigma = "TIME_860"
+        static let FlamesOfInfinity = "END_024"
     }
 }
 
@@ -311,7 +312,7 @@ extension CardIds.Secrets {
         static let All = [Counterspell, Duplicate, Effigy, ExplosiveRunes, FrozenClone, IceBarrier,
                           IceBlock, ManaBind, MirrorEntity, OasisAlly, PotionOfPolymorph, Spellbender,
                           SplittingImage, Vaporize, FlameWard, NetherwindPortal, RiggedFaireGame,
-                          VengefulVisage, Objection, AzeriteVein, SummoningWard]
+                          VengefulVisage, Objection, AzeriteVein, SummoningWard, FlamesOfInfinity]
         static let AzeriteVein = MultiIdCard(CardIds.Collectible.Mage.AzeriteVein)
         static let Counterspell = MultiIdCard(CardIds.Collectible.Mage.Counterspell, CardIds.Collectible.Mage.CounterspellCore, CardIds.Collectible.Mage.CounterspellVanilla)
         static let Duplicate = MultiIdCard(CardIds.Collectible.Mage.Duplicate)
@@ -333,5 +334,6 @@ extension CardIds.Secrets {
         static let VengefulVisage = MultiIdCard(CardIds.Collectible.Mage.VengefulVisage)
         static let Objection = MultiIdCard(CardIds.Collectible.Mage.Objection)
         static let SummoningWard = MultiIdCard(CardIds.Collectible.Mage.SummoningWard)
+        static let FlamesOfInfinity = MultiIdCard(CardIds.Collectible.Mage.FlamesOfInfinity)
     }
 }

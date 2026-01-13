@@ -673,6 +673,9 @@ class SecretsManager {
             if game.opponentMinionCount >= 1 && freeSpaceOnBoard {
                 exclude(cardId: CardIds.Secrets.Mage.SummoningWard)
             }
+            if game.playerMinionCount >= 1 {
+                exclude(cardId: CardIds.Secrets.Mage.FlamesOfInfinity)
+            }
         }
         
         if isCurrentPlayer && (turn > _lastStartOfTurnMinionCheck) {
