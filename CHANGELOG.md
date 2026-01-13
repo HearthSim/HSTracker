@@ -1,4 +1,9 @@
-# Unrelease
+# 3.4.7
+## New
+**Updated for Hearthstone 34.4.0**
+- Added new counters: Minions that Died this Turn and Overload this game.
+- Added deck highlight for Finality.
+- Added Flames Of Infinity to secret tracker.
 ## Fixes
 - Fixed an info leak involving Nightmare Fuel and Deja Vu.
 - Updated Right Most Tavern Minion Buff counter-related cards.
