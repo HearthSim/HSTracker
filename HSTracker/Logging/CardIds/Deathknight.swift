@@ -95,6 +95,7 @@ extension CardIds.NonCollectible {
         static let TalanjioftheGraves_BoonOfPowerToken = "TIME_619t3"
         static let TalanjioftheGraves_BoonOfLongevityToken = "TIME_619t4"
         static let TalanjioftheGraves_BoonOfSpeedToken = "TIME_619t5"
+        static let Finality_BlessingOfTheInfinite = "END_003p"
     }
 }
 

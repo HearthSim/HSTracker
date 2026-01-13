@@ -25,6 +25,8 @@ class ImbueCounter: NumericCounter {
             CardIds.NonCollectible.Paladin.BlessingOfTheDragon,
             CardIds.NonCollectible.Priest.LunarwingMessenger_BlessingOfTheMoon,
             CardIds.NonCollectible.Shaman.BlessingOfTheWind,
+            CardIds.NonCollectible.Deathknight.Finality_BlessingOfTheInfinite,
+            CardIds.NonCollectible.Rogue.Eventuality_BlessingOfTheBronze,
             CardIds.Collectible.Neutral.MalorneTheWaywatcher
         ]
     }

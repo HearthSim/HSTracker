@@ -328,6 +328,7 @@ extension CardIds.NonCollectible {
         static let GaronaHalforcen_KingLlaneToken = "TIME_875t"
         static let GaronaHalforcen_TheKingslayersToken = "TIME_875t1"
         static let TimeAdmralHooktail_TimelessChestToken = "TIME_713t"
+        static let Eventuality_BlessingOfTheBronze = "END_000p"
     }
 }
 
