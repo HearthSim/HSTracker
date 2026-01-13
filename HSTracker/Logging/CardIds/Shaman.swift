@@ -182,6 +182,7 @@ extension CardIds.Collectible {
         static let MuradinHighKing = "TIME_209"
         static let Thunderquake = "TIME_215"
         static let StaticShock = "TIME_218"
+        static let HaywireHornswog = "END_030"
     }
 }
 
