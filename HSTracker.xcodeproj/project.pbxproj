@@ -847,6 +847,7 @@
 		B86FFA7F299C68870093689E /* NSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC3C29462EA800F74CD9 /* NSButton.swift */; };
 		B872168B2F10652D00E848BA /* BattlegroundsTimewarpPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B872168A2F10652D00E848BA /* BattlegroundsTimewarpPanel.swift */; };
 		B872168C2F10652D00E848BA /* BattlegroundsTimewarpPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B872168A2F10652D00E848BA /* BattlegroundsTimewarpPanel.swift */; };
+		B872168E2F16E82C00E848BA /* Finality.swift in Sources */ = {isa = PBXBuildFile; fileRef = B872168D2F16E82C00E848BA /* Finality.swift */; };
 		B872E0D72DB059470023B24B /* HolySpellsPlayedCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B872E0D62DB059410023B24B /* HolySpellsPlayedCounter.swift */; };
 		B872E0D92DB05ADA0023B24B /* SpellsPlayedInCharactersCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B872E0D82DB05ADA0023B24B /* SpellsPlayedInCharactersCounter.swift */; };
 		B872E0DB2DB05C950023B24B /* TwistedWebweaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B872E0DA2DB05C950023B24B /* TwistedWebweaver.swift */; };
@@ -2153,6 +2154,7 @@
 		B86D8A252D96005500AB65A5 /* RotheartDryad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotheartDryad.swift; sourceTree = "<group>"; };
 		B86D8A272D9600E400AB65A5 /* SuccumbToMadness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccumbToMadness.swift; sourceTree = "<group>"; };
 		B872168A2F10652D00E848BA /* BattlegroundsTimewarpPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsTimewarpPanel.swift; sourceTree = "<group>"; };
+		B872168D2F16E82C00E848BA /* Finality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Finality.swift; sourceTree = "<group>"; };
 		B872E0D62DB059410023B24B /* HolySpellsPlayedCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolySpellsPlayedCounter.swift; sourceTree = "<group>"; };
 		B872E0D82DB05ADA0023B24B /* SpellsPlayedInCharactersCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellsPlayedInCharactersCounter.swift; sourceTree = "<group>"; };
 		B872E0DA2DB05C950023B24B /* TwistedWebweaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwistedWebweaver.swift; sourceTree = "<group>"; };
@@ -3736,6 +3738,7 @@
 				B8E1E5CE2D0C943D00383975 /* Boneshredder.swift */,
 				B846CC712E157AA100552F9C /* DreadRaptor.swift */,
 				B86D89D52D95C0EB00AB65A5 /* FalricCorePlaceholder.swift */,
+				B872168D2F16E82C00E848BA /* Finality.swift */,
 				B898653F2D8B5D0400BA5649 /* HarbingerOfWinter.swift */,
 				B86D89D72D95C31E00AB65A5 /* HideousHusk.swift */,
 				B846CC732E157AD500552F9C /* HighCultistHerenn.swift */,
@@ -5183,6 +5186,7 @@
 				B89865952D91D17100BA5649 /* InstrumentTech.swift in Sources */,
 				B812BCED2947F929000C6513 /* BattlegroundsQuestPickParams.swift in Sources */,
 				B800FCA62732AA9100AFBD51 /* MercenariesTaskListButton.swift in Sources */,
+				B872168E2F16E82C00E848BA /* Finality.swift in Sources */,
 				B8B78FFA2C970A8A00DD33EC /* CamouflagedDirigibleEnchantment.swift in Sources */,
 				B844D36A2A0C3497001704E0 /* SpellCardEntityProxy.swift in Sources */,
 				B852D8432DDFBE6500884B26 /* ApothecarysCaravan.swift in Sources */,

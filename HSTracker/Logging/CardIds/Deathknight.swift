@@ -61,6 +61,7 @@ extension CardIds.Collectible {
         static let LadyDeathwhisper = "RLK_713"
         static let TalanjiOfTheGraves = "TIME_619"
         static let MemoriamManifest = "TIME_616"
+        static let Finality = "END_003"
     }
 }
 
