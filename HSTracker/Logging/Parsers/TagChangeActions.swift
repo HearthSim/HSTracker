@@ -240,11 +240,10 @@ struct TagChangeActions {
         // prevents nightmare fuel and dejavu leaking the card
         if (currentBlock?.cardId == CardIds.Collectible.Rogue.NightmareFuel ||
             (currentBlock?.parent?.cardId == CardIds.Collectible.Rogue.NightmareFuel &&
-             entity.cardId == CardIds.NonCollectible.Neutral.TreacherousTormentor_DarkGiftToken) ||
+             currentBlock?.cardId == CardIds.NonCollectible.Neutral.TreacherousTormentor_DarkGiftToken) ||
             currentBlock?.cardId == CardIds.Collectible.Rogue.DejaVu) &&
             entity.isControlled(by: eventHandler.player.id) {
             targetEntity.cardId = ""
-            targetEntity.info.hidden = true
             if !entity.info.latestCardId.isEmpty {
                 eventHandler.opponent.predictUniqueCardInDeck(cardId: entity.info.latestCardId, isCreated: false)
                 AppDelegate.instance().coreManager.game.updateTrackers()
@@ -294,7 +293,6 @@ struct TagChangeActions {
             entity.cardId == CardIds.NonCollectible.Neutral.TreacherousTormentor_DarkGiftToken) &&
             entity.isControlled(by: eventHandler.player.id) {
             targetEntity.cardId = ""
-            targetEntity.info.hidden = true
             return
         }
         onDredge(eventHandler: eventHandler, entity: entity, target: targetEntity)
