@@ -202,6 +202,7 @@ extension CardIds.Collectible {
         static let Chronogor = "TIME_032"
         static let Fatebreaker = "TIME_028"
         static let RuinousVelocidrake = "TIME_029"
+        static let ChogallWONDERS = "WON_105"
     }
 }
 
