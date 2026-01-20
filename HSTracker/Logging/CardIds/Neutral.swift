@@ -749,6 +749,7 @@ extension CardIds.Collectible {
         static let Chromie = "TIME_103"
         static let TemporalTraveler = "TIME_434"
         static let TimelineAccelerator = "WON_139"
+        static let ElwynnBoar = "SW_075"
     }
 }
 
