@@ -1,3 +1,11 @@
+# 3.4.8
+## New
+**Updated for Hearthstone 3.4.2**
+- Added Elwynn Boar counter.
+- Added Chogall and Magister Dawngrasp related cards.
+## Fixes
+- Attempted fix for an info leak involving Nightmare Fuel and Deja Vu.
+
 # 3.4.7
 ## New
 **Updated for Hearthstone 34.4.0**
