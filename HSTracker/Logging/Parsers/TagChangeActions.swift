@@ -82,6 +82,16 @@ struct TagChangeActions {
                 self.onParentCardChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue)
             case .cant_play:
                 self.cantPlayChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue)
+            case .health:
+                self.healthChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue)
+            case .maxresources:
+                self.maxResourcesChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue)
+            case .maxhandsize:
+                self.maxHandSizeChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue)
+            case .corpses:
+                self.corpsesChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue)
+            case .corpses_spent_this_game:
+                self.corpsesSpentThisGameChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue)
             case .lettuce_ability_tile_visual_all_visible, .lettuce_ability_tile_visual_self_only, .fake_zone, .fake_zone_position:
                 eventHandler.handleMercenariesStateChange()
             case .player_tech_level:
@@ -498,6 +508,103 @@ struct TagChangeActions {
         if let entity = eventHandler.entities[id] {
             //We do prevValue - value because armor gets smaller as you lose it and damage gets bigger as you lose life.
             eventHandler.handleEntityLostArmor(entity: entity, value: previous - value)
+        }
+    }
+    
+    // The HEALTH tag is the total/max Health, the displayed health is HEALTH - DAMAGE
+    private func healthChange(eventHandler: PowerEventHandler, id: Int, value: Int, previous prevValue: Int) {
+        if value <= 0 {
+            return
+        }
+        guard let entity = eventHandler.entities[id], eventHandler.isTraditionalHearthstoneMatch else {
+            return
+        }
+
+        if !entity.isHero || !entity.isInPlay {
+            return
+        }
+
+        if entity.isControlled(by: eventHandler.player.id) {
+            eventHandler.handlePlayerMaxHealthChange(value)
+        } else if entity.isControlled(by: eventHandler.opponent.id) {
+            eventHandler.handleOpponentMaxHealthChange(value)
+        }
+    }
+
+    // In Traditional Hearthstone, Resources is Mana
+    private func maxResourcesChange(eventHandler: PowerEventHandler, id: Int, value: Int, previous prevValue: Int) {
+        if value <= 0 {
+            return
+        }
+        guard let entity = eventHandler.entities[id] else {
+            return
+        }
+
+        if !eventHandler.isTraditionalHearthstoneMatch {
+            return
+        }
+
+        if entity.isControlled(by: eventHandler.player.id) || id == eventHandler.player.id {
+            eventHandler.handlePlayerMaxManaChange(value)
+        } else if entity.isControlled(by: eventHandler.opponent.id) || id == eventHandler.opponent.id {
+            eventHandler.handleOpponentMaxManaChange(value)
+        }
+    }
+
+    private func maxHandSizeChange(eventHandler: PowerEventHandler, id: Int, value: Int, previous prevValue: Int) {
+        if value <= 0 {
+            return
+        }
+        guard let entity = eventHandler.entities[id] else {
+            return
+        }
+
+        if !eventHandler.isTraditionalHearthstoneMatch {
+            return
+        }
+
+        if entity.isControlled(by: eventHandler.player.id) || id == eventHandler.player.id {
+            eventHandler.handlePlayerMaxHandSizeChange(value)
+        } else if entity.isControlled(by: eventHandler.opponent.id) || id == eventHandler.opponent.id {
+            eventHandler.handleOpponentMaxHandSizeChange(value)
+        }
+    }
+    
+    private func corpsesChange(eventHandler: PowerEventHandler, id: Int, value: Int, previous prevValue: Int) {
+        if value <= 0 {
+            return
+        }
+        
+        guard let entity = eventHandler.entities[id] else {
+            return
+        }
+        
+        if !eventHandler.isTraditionalHearthstoneMatch {
+            return
+        }
+        
+        if entity.isControlled(by: eventHandler.opponent.id) {
+            let corpsesSpent = entity[.corpses_spent_this_game]
+            eventHandler.handleOpponentCorpsesLeftChange(value - corpsesSpent)
+        }
+    }
+    
+    private func corpsesSpentThisGameChange(eventHandler: PowerEventHandler, id: Int, value: Int, previous prevValue: Int) {
+        if value <= 0 {
+            return
+        }
+        
+        guard let entity = eventHandler.entities[id] else {
+            return
+        }
+        
+        if !eventHandler.isTraditionalHearthstoneMatch {
+            return
+        }
+
+        if entity.isControlled(by: eventHandler.opponent.id) {
+            let corpses = entity[.corpses]
+            eventHandler.handleOpponentCorpsesLeftChange(corpses - value)
         }
     }
     

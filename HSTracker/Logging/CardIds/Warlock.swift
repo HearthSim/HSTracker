@@ -203,6 +203,7 @@ extension CardIds.Collectible {
         static let Fatebreaker = "TIME_028"
         static let RuinousVelocidrake = "TIME_029"
         static let ChogallWONDERS = "WON_105"
+        static let SummonerDarkmarrow = "VAC_503"
     }
 }
 

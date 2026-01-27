@@ -35,6 +35,7 @@ class PlayerTrackersPreferences: NSViewController, PreferencePane {
     @IBOutlet var showCounters: NSButton!
     @IBOutlet var showPlayerRelatedCards: NSButton!
     @IBOutlet var showPlayerHighlightSynergies: NSButton!
+    @IBOutlet var showPlayerMaxResources: NSButton!
 
     override func viewWillAppear() {
         super.viewWillAppear()
@@ -63,6 +64,7 @@ class PlayerTrackersPreferences: NSViewController, PreferencePane {
         showCounters.state = Settings.showPlayerCounters ? .on : .off
         showPlayerRelatedCards.state = Settings.showPlayerRelatedCards ? .on : .off
         showPlayerHighlightSynergies.state = Settings.showPlayerHighlightSynergies ? .on : .off
+        showPlayerMaxResources.state = Settings.showPlayerMaxResources ? .on : .off
     }
     
     @IBAction func colorChange(_ sender: NSColorWell) {
@@ -113,6 +115,8 @@ class PlayerTrackersPreferences: NSViewController, PreferencePane {
             Settings.showPlayerRelatedCards = showPlayerRelatedCards.state == .on
         } else if sender == showPlayerHighlightSynergies {
             Settings.showPlayerHighlightSynergies = showPlayerHighlightSynergies.state == .on
+        } else if sender == showPlayerMaxResources {
+            Settings.showPlayerMaxResources = showPlayerMaxResources.state == .on
         }
     }
 }

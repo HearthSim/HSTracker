@@ -300,6 +300,9 @@ class PowerGameStateParser: LogEventParser {
                     if actionStartingEntity.cardId == CardIds.NonCollectible.Neutral.TouristVfxEnchantmentEnchantment && actionStartingEntity.isControlled(by: eventHandler.opponent.id) && eventHandler.opponent.revealedCards.all({ c in c.id != cardId }) {
                         eventHandler.opponent.predictUniqueCardInDeck(cardId: cardId, isCreated: false)
                         AppDelegate.instance().coreManager.game.updateTrackers()
+                        if cardId == CardIds.Collectible.Warlock.SummonerDarkmarrow {
+                            eventHandler.opponent.hasDeathKnightTourist = true
+                        }
                     }
                 }
 
@@ -386,6 +389,11 @@ class PowerGameStateParser: LogEventParser {
                         if entity.isControlled(by: eventHandler.opponent.id) {
                             entity.info.guessedCardState = .guessed
                         }
+                    }
+                    
+                    if entity.isControlled(by: eventHandler.opponent.id) && entity.cardId == CardIds.Collectible.Warlock.SummonerDarkmarrow && !entity.info.created {
+                        eventHandler.opponent.hasDeathKnightTourist = true
+                        AppDelegate.instance().coreManager.game.updateOpponentResourcesWidget()
                     }
                 }
 

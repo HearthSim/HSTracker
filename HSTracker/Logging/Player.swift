@@ -92,12 +92,20 @@ extension PredictedCard: Hashable {
 }
 
 final class Player {
+    private static let InitialMaxHealth = 30
+    private static let InitialMaxMana = 10
+    private static let InitialMaxHandSize = 10
+    
     var originalClass: CardClass?
     var currentClass: CardClass?
     var playerClassId: String?
     var isLocalPlayer: Bool
     var id = -1
     var fatigue = 0
+    var maxHealth = InitialMaxHealth
+    var maxMana = InitialMaxMana
+    var maxHandSize = InitialMaxHandSize
+    var corpsesLeft: Int?
     var heroPowerCount = 0
     var spellsPlayedCount: Int {
         return spellsPlayedCards.count
@@ -112,6 +120,7 @@ final class Player {
     fileprivate(set) var startingHand = [Entity]()
     fileprivate(set) var entitiesDiscardedFromHand = [Entity]()
     var isPlayingWhizbang = false
+    var hasDeathKnightTourist = false
     fileprivate(set) var deathrattlesPlayedCount = 0
     private let game: Game
     var lastDrawnCardId: String?
@@ -208,6 +217,11 @@ final class Player {
         originalClass = nil
         currentClass = nil
         fatigue = 0
+        maxMana = Player.InitialMaxMana
+        maxHealth = Player.InitialMaxHealth
+        maxHandSize = Player.InitialMaxHandSize
+        corpsesLeft = nil
+        hasDeathKnightTourist = false
         spellsPlayedCards.removeAll()
         spellsPlayedInFriendlyCharacters.removeAll()
         spellsPlayedInOpponentCharacters.removeAll()
@@ -242,10 +256,6 @@ final class Player {
         return self.maxMana - (entity?[.resources_used] ?? 0)
     }
     
-    var maxMana: Int {
-        return (entity?[.resources] ?? 0) + (entity?[.temp_resources] ?? 0)
-    }
-
     var displayRevealedCards: [Card] {
         return revealedEntities.filter({ x in
             return !x.info.created

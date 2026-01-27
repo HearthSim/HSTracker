@@ -9,33 +9,33 @@
 import Foundation
 
 protocol PowerEventHandler: AnyObject {
-
+    
     var proposedAttackerEntityId: Int { get set }
     var proposedDefenderEntityId: Int { get set }
-
-	// TODO: remove set on most properties to ensure encapsulation
-	var entities: SynchronizedDictionary<Int, Entity> { get }
-	var tmpEntities: SynchronizedArray<Entity> { get set }
-	
-	func add(entity: Entity)
-	
-	func set(playerHero cardId: String)
-	func set(opponentHero cardId: String)
-	func set(activeDeckId: String?, autoDetected: Bool)
+    
+    // TODO: remove set on most properties to ensure encapsulation
+    var entities: SynchronizedDictionary<Int, Entity> { get }
+    var tmpEntities: SynchronizedArray<Entity> { get set }
+    
+    func add(entity: Entity)
+    
+    func set(playerHero cardId: String)
+    func set(opponentHero cardId: String)
+    func set(activeDeckId: String?, autoDetected: Bool)
     func set(activeDeck: Deck, autoDetected: Bool)
     func set(buildNumber: Int)
     func add(playerName: String, for ID: Int)
     func playerName(for ID: Int) -> String?
-	
-	var player: Player! { get set }
-	var opponent: Player! { get set }
-	
-	var currentMode: Mode? { get set }
+    
+    var player: Player! { get set }
+    var opponent: Player! { get set }
+    
+    var currentMode: Mode? { get set }
     var currentGameMode: GameMode { get }
-	
-	var gameTriggerCount: Int { get set }
-	
-	var lastId: Int { get set }
+    
+    var gameTriggerCount: Int { get set }
+    
+    var lastId: Int { get set }
     
     // swiftlint:disable large_tuple
     var knownCardIds: SynchronizedDictionary<Int, [(String, DeckLocation, String?, EntityInfo?)]> { get set }
@@ -98,7 +98,7 @@ protocol PowerEventHandler: AnyObject {
     func playerMinionPlayed(entity: Entity)
     
     func playerMinionDeath(entity: Entity)
-	    
+    
     func entityPredamage(entity: Entity, damage: Int)
     
     func entityDamage(dealer: Entity, entity: Entity, damage: Int)
@@ -106,10 +106,10 @@ protocol PowerEventHandler: AnyObject {
     func handleChameleosReveal(cardId: String)
     
     func handleCardCopy()
-	
-	func turnsInPlayChange(entity: Entity, turn: Int)
-	
-	func turnNumber() -> Int
+    
+    func turnsInPlayChange(entity: Entity, turn: Int)
+    
+    func turnNumber() -> Int
     
     func turn() -> Int
     
@@ -117,50 +117,50 @@ protocol PowerEventHandler: AnyObject {
     
     @available(macOS 10.15.0, *)
     func handlePlayerMulliganDone() async
-	
-	func playerFatigue(value: Int)
-	
-	func playerHeroPower(cardId: String, turn: Int)
-	
+    
+    func playerFatigue(value: Int)
+    
+    func playerHeroPower(cardId: String, turn: Int)
+    
     func playerPlay(entity: Entity, cardId: String?, turn: Int, parentCardId: String)
-	
-	func playerGet(entity: Entity, cardId: String?, turn: Int)
-	
-	func playerRemoveFromDeck(entity: Entity, turn: Int)
-	
-	func playerDeckDiscard(entity: Entity, cardId: String?, turn: Int)
-	
-	func playerHandDiscard(entity: Entity, cardId: String?, turn: Int)
-	
-	func playerDeckToPlay(entity: Entity, cardId: String?, turn: Int)
-	
+    
+    func playerGet(entity: Entity, cardId: String?, turn: Int)
+    
+    func playerRemoveFromDeck(entity: Entity, turn: Int)
+    
+    func playerDeckDiscard(entity: Entity, cardId: String?, turn: Int)
+    
+    func playerHandDiscard(entity: Entity, cardId: String?, turn: Int)
+    
+    func playerDeckToPlay(entity: Entity, cardId: String?, turn: Int)
+    
     func playerPlayToGraveyard(entity: Entity, cardId: String?, turn: Int, playersTurn: Bool)
-	
-	func playerJoust(entity: Entity, cardId: String?, turn: Int)
-	
-	func playerGetToDeck(entity: Entity, cardId: String?, turn: Int)
-	
-	func playerCreateInPlay(entity: Entity, cardId: String?, turn: Int)
-	
-	func playerStolen(entity: Entity, cardId: String?, turn: Int)
-	
+    
+    func playerJoust(entity: Entity, cardId: String?, turn: Int)
+    
+    func playerGetToDeck(entity: Entity, cardId: String?, turn: Int)
+    
+    func playerCreateInPlay(entity: Entity, cardId: String?, turn: Int)
+    
+    func playerStolen(entity: Entity, cardId: String?, turn: Int)
+    
     func playerSecretPlayed(entity: Entity, cardId: String?, turn: Int, fromZone: Zone, parentCardId: String)
     
     func playerSecretTrigger(entity: Entity, cardId: String?, turn: Int, otherId: Int)
-	
-	func playerBackToHand(entity: Entity, cardId: String?, turn: Int)
-	
-	func playerPlayToDeck(entity: Entity, cardId: String?, turn: Int)
-	
-	func playerMulligan(entity: Entity, cardId: String?)
-	
-	func playerDraw(entity: Entity, cardId: String?, turn: Int)
-	
-	func playerCreateInSetAside(entity: Entity, turn: Int)
-	
-	func playerRemoveFromPlay(entity: Entity, turn: Int)
-	
-	func opponentGet(entity: Entity, turn: Int, id: Int)
+    
+    func playerBackToHand(entity: Entity, cardId: String?, turn: Int)
+    
+    func playerPlayToDeck(entity: Entity, cardId: String?, turn: Int)
+    
+    func playerMulligan(entity: Entity, cardId: String?)
+    
+    func playerDraw(entity: Entity, cardId: String?, turn: Int)
+    
+    func playerCreateInSetAside(entity: Entity, turn: Int)
+    
+    func playerRemoveFromPlay(entity: Entity, turn: Int)
+    
+    func opponentGet(entity: Entity, turn: Int, id: Int)
     
     func opponentHandToDeck(entity: Entity, cardId: String?, turn: Int)
 	
@@ -177,33 +177,33 @@ protocol PowerEventHandler: AnyObject {
 	func opponentMulligan(entity: Entity, from: Int)
 	
     func opponentDraw(entity: Entity, turn: Int, cardId: String, drawerId: Int?)
-	
-	func opponentRemoveFromDeck(entity: Entity, turn: Int)
-	
-	func opponentDeckDiscard(entity: Entity, cardId: String?, turn: Int)
-	
-	func opponentDeckToPlay(entity: Entity, cardId: String?, turn: Int)
-	
-	func opponentPlayToGraveyard(entity: Entity, cardId: String?,
-	                             turn: Int, playersTurn: Bool)
-	
-	func opponentJoust(entity: Entity, cardId: String?, turn: Int)
-	
-	func opponentGetToDeck(entity: Entity, turn: Int)
-	
-	func opponentSecretTrigger(entity: Entity, cardId: String?, turn: Int, otherId: Int)
-	
-	func opponentFatigue(value: Int)
-	
-	func opponentCreateInPlay(entity: Entity, cardId: String?, turn: Int)
-	
-	func opponentStolen(entity: Entity, cardId: String?, turn: Int)
-	
-	func opponentRemoveFromPlay(entity: Entity, turn: Int)
-	
-	func opponentCreateInSetAside(entity: Entity, turn: Int)
-	
-	func opponentHeroPower(cardId: String, turn: Int)
+    
+    func opponentRemoveFromDeck(entity: Entity, turn: Int)
+    
+    func opponentDeckDiscard(entity: Entity, cardId: String?, turn: Int)
+    
+    func opponentDeckToPlay(entity: Entity, cardId: String?, turn: Int)
+    
+    func opponentPlayToGraveyard(entity: Entity, cardId: String?,
+                                 turn: Int, playersTurn: Bool)
+    
+    func opponentJoust(entity: Entity, cardId: String?, turn: Int)
+    
+    func opponentGetToDeck(entity: Entity, turn: Int)
+    
+    func opponentSecretTrigger(entity: Entity, cardId: String?, turn: Int, otherId: Int)
+    
+    func opponentFatigue(value: Int)
+    
+    func opponentCreateInPlay(entity: Entity, cardId: String?, turn: Int)
+    
+    func opponentStolen(entity: Entity, cardId: String?, turn: Int)
+    
+    func opponentRemoveFromPlay(entity: Entity, turn: Int)
+    
+    func opponentCreateInSetAside(entity: Entity, turn: Int)
+    
+    func opponentHeroPower(cardId: String, turn: Int)
     
     func snapshotBattlegroundsBoardState()
     
@@ -214,12 +214,12 @@ protocol PowerEventHandler: AnyObject {
     func handlePlayerTriples(entity: Entity, triples: Int)
     
     func handlePlayerBuddiesGained(entity: Entity, num: Int)
-
+    
     func handlePlayerHeroPowerQuestRewardDatabaseId(entity: Entity, num: Int)
     func handlePlayerHeroPowerQuestRewardCompleted(entity: Entity, num: Int)
     func handlePlayerHeroQuestRewardDatabaseId(entity: Entity, num: Int)
     func handlePlayerHeroQuestRewardCompleted(entity: Entity, num: Int)
-
+    
     func handlePlayerLibramReduction(change: Int)
     
     func handleOpponentLibramReduction(change: Int)
@@ -241,7 +241,7 @@ protocol PowerEventHandler: AnyObject {
     func handlePlayerDredge()
     
     func handlePlayerUnknownCardAddedToDeck()
-
+    
     var dredgeCounter: Int { get set }
     
     func handleOpponentSecretRemove(entity: Entity, cardId: String?, turn: Int)
@@ -282,4 +282,11 @@ protocol PowerEventHandler: AnyObject {
     
     var isBattlegroundsCombatPhase: Bool { get set }
 
+    func handlePlayerMaxHealthChange(_ value: Int)
+    func handleOpponentMaxHealthChange(_ value: Int)
+    func handlePlayerMaxManaChange(_ value: Int)
+    func handleOpponentMaxManaChange(_ value: Int)
+    func handlePlayerMaxHandSizeChange(_ value: Int)
+    func handleOpponentMaxHandSizeChange(_ value: Int)
+    func handleOpponentCorpsesLeftChange(_ value: Int)
 }

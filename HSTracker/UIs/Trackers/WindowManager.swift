@@ -163,6 +163,28 @@ class WindowManager {
         return $0
     }(CountersOverlay(windowNibName: "CountersOverlay"))
 
+    private var _playerPlayerResourcesOverlay: Any?
+    @available(OSX 10.15, *)
+    var playerPlayerResourcesOverlay: PlayerResourcesWindow? {
+        get {
+            if _playerPlayerResourcesOverlay == nil {
+                _playerPlayerResourcesOverlay = PlayerResourcesWindow(windowNibName: "PlayerResourcesWindow")
+            }
+            return (_playerPlayerResourcesOverlay as? PlayerResourcesWindow)
+        }
+    }
+    
+    private var _opponentPlayerResourcesOverlay: Any?
+    @available(OSX 10.15, *)
+    var opponentPlayerResourcesOverlay: PlayerResourcesWindow? {
+        get {
+            if _opponentPlayerResourcesOverlay == nil {
+                _opponentPlayerResourcesOverlay = PlayerResourcesWindow(windowNibName: "PlayerResourcesWindow")
+            }
+            return (_opponentPlayerResourcesOverlay as? PlayerResourcesWindow)
+        }
+    }
+
     var toastWindowController = ToastWindowController()
 
     var floatingCard: FloatingCard = {
@@ -453,3 +475,4 @@ class WindowManager {
         }
     }
 }
+

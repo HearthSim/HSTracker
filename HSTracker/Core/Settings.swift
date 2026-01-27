@@ -357,6 +357,10 @@ final class Settings {
     static var enableLinkOpponentDeckInNonFriendly: Bool
     @UserDefault(key: Settings.opponent_related_cards, defaultValue: true)
     static var showOpponentRelatedCards
+    @UserDefault(key: Settings.player_max_resources, defaultValue: true)
+    static var showPlayerMaxResources: Bool
+    @UserDefault(key: Settings.opponent_max_resources, defaultValue: true)
+    static var showOpponentMaxResources: Bool
 
     @UserDefaultCustom(key: Settings.timer_hud_frame, defaultValue: nil)
     static var timerHudFrame: NSRect?
@@ -612,6 +616,7 @@ extension Settings {
     static let player_counters = "player_counters"
     static let player_related_cards = "player_related_cards"
     static let player_highlight_synergies = "player_highlight_synergies"
+    static let player_max_resources = "player_max_resources"
     static let opponent_deathrattle_frame = "opponent_deathrattle_frame"
     static let opponent_graveyard_frame = "opponent_graveyard_frame"
     static let opponent_graveyard_details_frame = "opponent_graveyard_details_frame"
@@ -619,6 +624,7 @@ extension Settings {
     static let interacted_with_link_opponentDeck = "interacted_with_link_opponentDeck"
     static let enable_link_opponent_deck = "enable_link_opponent_deck"
     static let opponent_related_cards = "opponent_related_cards"
+    static let opponent_max_resources = "opponent_max_resources"
 
     static let remove_cards_from_deck = "remove_cards_from_deck"
     static let highlight_last_drawn = "highlight_last_drawn"

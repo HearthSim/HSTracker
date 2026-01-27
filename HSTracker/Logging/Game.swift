@@ -43,7 +43,15 @@ class Game: NSObject, PowerEventHandler {
 	
 	private let turnTimer: TurnTimer
     
-    private var mulliganState: MulliganState!
+    private var _mulliganState: MulliganState?
+    private var mulliganState: MulliganState {
+        if let _mulliganState {
+            return _mulliganState
+        }
+        let res = MulliganState(game: self)
+        _mulliganState = res
+        return res
+    }
     
     private var battlegroundsTrinketPickStates = [BattlegroundsTrinketPickState]()
     
@@ -56,6 +64,9 @@ class Game: NSObject, PowerEventHandler {
                     self?.updateBattlegroundsOverlays()
                     self?.updateConstructedMulliganOverlays()
                     self?.updateActiveEffects()
+                    if #available(macOS 10.15, *) {
+                        self?.updateMaxResourcesWidget()
+                    }
                     self?.updateCounters()
 				})
 			} else {
@@ -63,6 +74,9 @@ class Game: NSObject, PowerEventHandler {
                 self.updateBattlegroundsOverlays()
                 self.updateConstructedMulliganOverlays()
                 self.updateActiveEffects()
+                if #available(macOS 10.15, *) {
+                    self.updateMaxResourcesWidget()
+                }
                 self.updateCounters()
 			}
 		}
@@ -164,6 +178,9 @@ class Game: NSObject, PowerEventHandler {
         self.updateBoardOverlay()
         self.updateConstructedMulliganOverlays()
         self.updateActiveEffects()
+        if #available(macOS 10.15, *) {
+            self.updateMaxResourcesWidget()
+        }
         self.updateCounters()
 	}
 	
@@ -530,6 +547,29 @@ class Game: NSObject, PowerEventHandler {
                 }
             } else {
                 self.windowManager.show(controller: self.windowManager.constructedMulliganGuidePreLobby, show: false)
+            }
+        }
+    }
+    
+    @available(macOS 10.15, *)
+    func updateMaxResourcesWidget() {
+        DispatchQueue.main.async { [self] in
+            updatePlayerResorucesWidgetVisibility()
+            let hsActive = hearthstoneRunState.isActive
+
+            if let win =  windowManager.playerPlayerResourcesOverlay {
+                if hsActive && win.viewModel.visibility && shouldShowTracker {
+                    windowManager.show(controller: win, show: true, frame: SizeHelper.playerMaxResourcesFrame(), overlay: true)
+                } else {
+                    windowManager.show(controller: win, show: false)
+                }
+            }
+            if let win =  windowManager.opponentPlayerResourcesOverlay {
+                if hsActive && win.viewModel.visibility && shouldShowTracker {
+                    windowManager.show(controller: win, show: true, frame: SizeHelper.opponentMaxResourcesFrame(), overlay: true)
+                } else {
+                    windowManager.show(controller: win, show: false)
+                }
             }
         }
     }
@@ -1318,7 +1358,6 @@ class Game: NSObject, PowerEventHandler {
         secretsManager?.onChanged = { [weak self] cards in
             self?.updateSecretTracker(cards: cards)
         }
-        mulliganState = MulliganState(game: self)
 		
 		windowManager.startManager()
         windowManager.playerTracker.window?.delegate = self
@@ -1403,6 +1442,9 @@ class Game: NSObject, PowerEventHandler {
                 self.updateBattlegroundsOverlays()
                 self.updateConstructedMulliganOverlays()
                 self.updateActiveEffects()
+                if #available(macOS 10.15, *) {
+                    self.updateMaxResourcesWidget()
+                }
             }
             self.counter = 0
         } else {
@@ -1475,6 +1517,7 @@ class Game: NSObject, PowerEventHandler {
         activeEffects.reset()
         relatedCardsManager.reset()
         updateSecretTracker(cards: [])
+        resetPlayerResourcesWidgets()
         windowManager.hideGameTrackers()
 		
 		_spectator = nil
@@ -1485,6 +1528,7 @@ class Game: NSObject, PowerEventHandler {
         _battlegroundsHeroPickStatsParams = nil
         _battlegroundsHeroPickState = nil
         _mulliganGuideParams = nil
+        _mulliganState = nil
         mulliganCardStats = nil
         windowManager.battlegroundsDetailsWindow.reset()
         DispatchQueue.main.async {
@@ -1507,6 +1551,7 @@ class Game: NSObject, PowerEventHandler {
         
         minionsInPlay.removeAll()
         minionsInPlayByPlayer.removeAll()
+        resetPlayerResourcesWidgets()
     }
     
     func cacheBrawlInfo() {
@@ -4221,6 +4266,93 @@ class Game: NSObject, PowerEventHandler {
             DispatchQueue.main.async {
                 vm.setCardIdsFromCards(relatedCards.compactMap({ $0 }))
                 self.windowManager.show(controller: self.windowManager.tooltipGridCards, show: true, frame: NSRect(x: left, y: frame.height - top - CGFloat(vm.gridHeight), width: CGFloat(vm.gridWidth), height: CGFloat(vm.gridHeight)))
+            }
+        }
+    }
+    
+    func handlePlayerMaxHealthChange(_ value: Int) {
+        player.maxHealth = value
+        updatePlayerResourcesWidget()
+    }
+    
+    func handleOpponentMaxHealthChange(_ value: Int) {
+        opponent.maxHealth = value
+        updateOpponentResourcesWidget()
+    }
+    
+    func handlePlayerMaxManaChange(_ value: Int) {
+        player.maxMana = value
+        updatePlayerResourcesWidget()
+    }
+    
+    func handleOpponentMaxManaChange(_ value: Int) {
+        opponent.maxMana = value
+        updateOpponentResourcesWidget()
+    }
+    
+    func handlePlayerMaxHandSizeChange(_ value: Int) {
+        player.maxHandSize = value
+        updatePlayerResourcesWidget()
+    }
+    
+    func handleOpponentMaxHandSizeChange(_ value: Int) {
+        opponent.maxHandSize = value
+        updateOpponentResourcesWidget()
+    }
+
+    func handleOpponentCorpsesLeftChange(_ value: Int) {
+        opponent.corpsesLeft = value
+        if opponent.hasDeathKnightTourist {
+            updateOpponentResourcesWidget()
+        }
+    }
+    
+    func resetPlayerResourcesWidgets() {
+        resetPlayerResourcesWidgets(player.maxHealth, player.maxMana, player.maxHandSize)
+    }
+    
+    func updatePlayerResourcesWidget() {
+        updatePlayerResourcesWidget(player.maxHealth, player.maxMana, player.maxHandSize)
+    }
+    
+    func updateOpponentResourcesWidget() {
+        let shouldShowCorpsesLeft = opponent.hasDeathKnightTourist
+        updateOpponentResourcesWidget(opponent.maxHealth, opponent.maxMana, opponent.maxHandSize, shouldShowCorpsesLeft ? opponent.corpsesLeft : nil)
+    }
+    
+    func resetPlayerResourcesWidgets(_ maxHealth: Int, _ maxMana: Int, _ maxHandSize: Int) {
+        if #available(macOS 10.15, *) {
+            DispatchQueue.main.async {
+                self.windowManager.playerPlayerResourcesOverlay?.viewModel.initialize(maxHealth, maxMana, maxHandSize)
+                self.windowManager.opponentPlayerResourcesOverlay?.viewModel.initialize(maxHealth, maxMana, maxHandSize)
+            }
+        }
+    }
+    
+    func updatePlayerResourcesWidget(_ maxHealth: Int, _ maxMana: Int, _ maxHandSize: Int) {
+        if #available(macOS 10.15, *) {
+            DispatchQueue.main.async {
+                self.windowManager.playerPlayerResourcesOverlay?.viewModel.updatePlayerResourcesWidget(maxHealth, maxMana, maxHandSize)
+            }
+        }
+    }
+    
+    func updateOpponentResourcesWidget(_ maxHealth: Int, _ maxMana: Int, _ maxHandSize: Int, _ corpsesLeft: Int?) {
+        if #available(macOS 10.15, *) {
+            DispatchQueue.main.async {
+                self.windowManager.opponentPlayerResourcesOverlay?.viewModel.updatePlayerResourcesWidget(maxHealth, maxMana, maxHandSize, corpsesLeft)
+            }
+        }
+    }
+    
+    func updatePlayerResorucesWidgetVisibility() {
+        if #available(macOS 10.15, *) {
+            if isInMenu || !isMulliganDone() || isBattlegroundsMatch() {
+                windowManager.playerPlayerResourcesOverlay?.viewModel.visibility = false
+                windowManager.opponentPlayerResourcesOverlay?.viewModel.visibility = false
+            } else {
+                windowManager.playerPlayerResourcesOverlay?.viewModel.visibility = Settings.showPlayerMaxResources
+                windowManager.opponentPlayerResourcesOverlay?.viewModel.visibility = Settings.showOpponentMaxResources
             }
         }
     }
