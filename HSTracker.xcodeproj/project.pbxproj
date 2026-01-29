@@ -647,6 +647,7 @@
 		B849673F289A0EA400D90B30 /* BattlegroundsFinalBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BB7ABB28369C9F008239CA /* BattlegroundsFinalBoard.swift */; };
 		B8496740289A119200D90B30 /* NSFont+NSTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BB7AB728351890008239CA /* NSFont+NSTextField.swift */; };
 		B849674328A5830D00D90B30 /* libcoreclr.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B849674228A5830D00D90B30 /* libcoreclr.dylib */; };
+		B84A52192F2AF09E003D9FED /* TimelooperToki.swift in Sources */ = {isa = PBXBuildFile; fileRef = B84A52182F2AF09E003D9FED /* TimelooperToki.swift */; };
 		B850AA33252CB0490031E8F2 /* TurnCounter.xib in Resources */ = {isa = PBXBuildFile; fileRef = B850AA32252CB0490031E8F2 /* TurnCounter.xib */; };
 		B850AA35252CB0FA0031E8F2 /* TurnCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */; };
 		B851C8F52BD29FF700B748C1 /* BattlegroundsCardsGroups.xib in Resources */ = {isa = PBXBuildFile; fileRef = B851C8F42BD29FF700B748C1 /* BattlegroundsCardsGroups.xib */; };
@@ -2019,6 +2020,7 @@
 		B846CCBF2E1DABA700552F9C /* DiveTheGolakkaDepthsBuffCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiveTheGolakkaDepthsBuffCounter.swift; sourceTree = "<group>"; };
 		B846CCC12E29A79700552F9C /* PaladinCardsPlayedCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaladinCardsPlayedCounter.swift; sourceTree = "<group>"; };
 		B849674228A5830D00D90B30 /* libcoreclr.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcoreclr.dylib; path = "downloaded-frameworks/mono/runtimes/osx-x64/native/libcoreclr.dylib"; sourceTree = "<group>"; };
+		B84A52182F2AF09E003D9FED /* TimelooperToki.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelooperToki.swift; sourceTree = "<group>"; };
 		B850AA32252CB0490031E8F2 /* TurnCounter.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TurnCounter.xib; sourceTree = "<group>"; };
 		B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnCounter.swift; sourceTree = "<group>"; };
 		B851C8F42BD29FF700B748C1 /* BattlegroundsCardsGroups.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsCardsGroups.xib; sourceTree = "<group>"; };
@@ -4646,6 +4648,7 @@
 				B837D7EF2EAFB0E20070DB4B /* Supernova.swift */,
 				B837D7ED2EAFAFD20070DB4B /* TearReality.swift */,
 				B8FDE9482CDD22640093BFF7 /* TheGalacticProjectionOrb.swift */,
+				B84A52182F2AF09E003D9FED /* TimelooperToki.swift */,
 				B89865812D91B07200BA5649 /* UnderTheSea.swift */,
 				B80B69072E3C3E5A00197FA5 /* VioletSpellwing.swift */,
 				B89865832D91B0AA00BA5649 /* VolumeUp.swift */,
@@ -5485,6 +5488,7 @@
 				B89865402D8B5D0400BA5649 /* HarbingerOfWinter.swift in Sources */,
 				B8B78FEB2C967A7900DD33EC /* HotStreakEnchantment.swift in Sources */,
 				B8B7902B2C97579100DD33EC /* TimewardenEnchantment.swift in Sources */,
+				B84A52192F2AF09E003D9FED /* TimelooperToki.swift in Sources */,
 				B8B78FED2C96FC8400DD33EC /* KingTideEnchantment.swift in Sources */,
 				B8DB12C52EBAEB6F004268FA /* UnleashTheCrocolisks.swift in Sources */,
 				B8449A062781CB6F0094E5B3 /* GenericDeathrattles.swift in Sources */,

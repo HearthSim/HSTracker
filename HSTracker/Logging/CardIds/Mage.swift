@@ -222,6 +222,7 @@ extension CardIds.Collectible {
         static let MirrorDimension = "TIME_006"
         static let FacelessEnigma = "TIME_860"
         static let FlamesOfInfinity = "END_024"
+        static let TimelooperToki = "TIME_861"
     }
 }
 
