@@ -36,7 +36,7 @@ struct PlayerResourcesView: View {
 @available(macOS 10.15.0, *)
 #Preview {
     VStack {
-        var vm = PlayerResourcesViewModel()
+        let vm = PlayerResourcesViewModel()
         vm.initialize(30, 10, 10)
         vm.updatePlayerResourcesWidget(35, 15, 12, 5)
         return PlayerResourcesView(vm)
