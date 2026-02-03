@@ -36,4 +36,8 @@ class ChogallWONDERS: Chogall {
     override func getCardId() -> String {
         return CardIds.Collectible.Warlock.ChogallWONDERS
     }
+    
+    override func shouldShowForOpponent(opponent: Player) -> Bool {
+        return false
+    }
 }
