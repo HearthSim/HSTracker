@@ -284,6 +284,11 @@ class PowerGameStateParser: LogEventParser {
                 if let currentBlock = currentBlock, entity.cardId.uppercased().contains("HERO") {
                     currentBlock.hasFullEntityHeroPackets = true
                 }
+            } else if let cardId, !cardId.isBlank, let entity = eventHandler.entities[id] {
+                // Entity already exists but FULL_ENTITY - Updating arrived with a different CardID
+                // This happens when a Discover choice is changed via Rewind
+                entity.cardId = cardId
+                entity.info.latestCardId = cardId
             }
 
             set(currentEntity: id)
