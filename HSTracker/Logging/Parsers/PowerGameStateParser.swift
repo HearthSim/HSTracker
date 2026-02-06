@@ -345,7 +345,9 @@ class PowerGameStateParser: LogEventParser {
                     entity.cardId.hasPrefix("CREATED_BY_") {
                     entity.cardId = cardId
                 }
-                entity.info.latestCardId = cardId
+                if !cardId.isEmpty {
+                    entity.info.latestCardId = cardId
+                }
                 if type == "SHOW_ENTITY" {
                     if entity.info.guessedCardState != GuessedCardState.none {
                         entity.info.guessedCardState = GuessedCardState.revealed
