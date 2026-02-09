@@ -1212,6 +1212,7 @@
 		B8C2F90F261F530700C31E6A /* GetAccountResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C2F90E261F530700C31E6A /* GetAccountResult.swift */; };
 		B8C2F9102623233100C31E6A /* GetAccountResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C2F90E261F530700C31E6A /* GetAccountResult.swift */; };
 		B8C33FB1273EF851006DA79E /* MercenariesCoins.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C33FB0273EF851006DA79E /* MercenariesCoins.swift */; };
+		B8CDDCAD2F3A7B9A004C3E86 /* Reminisce.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CDDCAC2F3A7B9A004C3E86 /* Reminisce.swift */; };
 		B8CE65D3294FE8CE00E8D168 /* BattlegroundsComposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AC9A27293F9A680047F438 /* BattlegroundsComposition.swift */; };
 		B8CE65D4294FE8D100E8D168 /* BattlegroundsHeroPickStatsParams .swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D34D36294FE74700CACC5A /* BattlegroundsHeroPickStatsParams .swift */; };
 		B8CE65D62950980100E8D168 /* BattlegroundsPlacementDistribution.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8CE65D52950980100E8D168 /* BattlegroundsPlacementDistribution.xib */; };
@@ -2550,6 +2551,7 @@
 		B8C1F1C2295A42F6001E078C /* BattlegroundsSingleHeroStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsSingleHeroStats.swift; sourceTree = "<group>"; };
 		B8C2F90E261F530700C31E6A /* GetAccountResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAccountResult.swift; sourceTree = "<group>"; };
 		B8C33FB0273EF851006DA79E /* MercenariesCoins.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MercenariesCoins.swift; sourceTree = "<group>"; };
+		B8CDDCAC2F3A7B9A004C3E86 /* Reminisce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reminisce.swift; sourceTree = "<group>"; };
 		B8CE65D52950980100E8D168 /* BattlegroundsPlacementDistribution.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsPlacementDistribution.xib; sourceTree = "<group>"; };
 		B8CE65D72950D76C00E8D168 /* BattlegroundsHeroPicking.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsHeroPicking.xib; sourceTree = "<group>"; };
 		B8CE65D92950D78100E8D168 /* BattlegroundsHeroPicking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsHeroPicking.swift; sourceTree = "<group>"; };
@@ -4397,6 +4399,7 @@
 				B8E1E5C42D0C8A9F00383975 /* Psychopomp.swift */,
 				B81B3D8A2D4098CE00DC9EB0 /* RaDen.swift */,
 				B86D8A1B2D95FD8E00AB65A5 /* RazaTheResealed.swift */,
+				B8CDDCAC2F3A7B9A004C3E86 /* Reminisce.swift */,
 				B805C28B2E4D73A300ECF220 /* RestInPeace.swift */,
 				B8E1E5C62D0C8B6700383975 /* Resurrect.swift */,
 				B846CC7B2E157BF500552F9C /* Resuscitate.swift */,
@@ -4405,9 +4408,9 @@
 				B86D8A1D2D95FE2A00AB65A5 /* SpiritGuide.swift */,
 				B89865BE2D91F06600BA5649 /* ThriveInTheShadowsCore.swift */,
 				B81B3D8C2D4099B000DC9EB0 /* TramHeist.swift */,
-				B8E1E5F72D0CA0E300383975 /* TwilightsCall.swift */,
 				B837D7D52EAC28D50070DB4B /* TwilightDeceptor.swift */,
 				B837D7DD2EAEA6860070DB4B /* TwilightMender.swift */,
+				B8E1E5F72D0CA0E300383975 /* TwilightsCall.swift */,
 				B8E1E5F92D0CA12D00383975 /* XyrellaTheDevout.swift */,
 			);
 			path = Priest;
@@ -6123,6 +6126,7 @@
 				B846CCA42E1C394700552F9C /* GorishisFavorEnchantment.swift in Sources */,
 				B846CC402E06351C00552F9C /* BalindaStonehearth.swift in Sources */,
 				B87216902F16E98C00E848BA /* MinionsDiedThisTurnCounter.swift in Sources */,
+				B8CDDCAD2F3A7B9A004C3E86 /* Reminisce.swift in Sources */,
 				B89C9894280A113A005E9315 /* AnimatedCardList.swift in Sources */,
 				B89865AD2D91D68D00BA5649 /* HiHoSilverwing.swift in Sources */,
 				B893433C2CD0372A009A8727 /* ElementalTurnSequenceCounter.swift in Sources */,

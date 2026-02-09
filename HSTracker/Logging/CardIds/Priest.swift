@@ -260,6 +260,7 @@ extension CardIds.NonCollectible {
         static let MedivhtheHallowed_KarazhanTheSanctumToken = "TIME_890t2"
         static let PastConflux_PresentConfluxToken = "TIME_436t1"
         static let PastConflux_FutureConfluxToken = "TIME_436t2"
+        static let Reminisce = "TOT_343"
     }
 }
 
