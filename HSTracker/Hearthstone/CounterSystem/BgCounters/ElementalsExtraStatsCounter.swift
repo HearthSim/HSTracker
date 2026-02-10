@@ -20,8 +20,7 @@ class ElementalsExtraStatsCounter: StatsCounter {
     override var relatedCards: [String] {
         return [
             CardIds.NonCollectible.Neutral.SandSwirler,
-            CardIds.NonCollectible.Neutral.GlowingCinder,
-            CardIds.NonCollectible.Neutral.AmplifyingLightspawn
+            CardIds.NonCollectible.Neutral.GlowingCinder
         ]
     }
 

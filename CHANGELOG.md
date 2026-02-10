@@ -1,3 +1,11 @@
+# 3.4.9
+## New
+**Updated for Hearthstone 3.4.6**
+- Added Reminisce related cards.
+## Fixes
+- Fixed Cho'gall related cards appearing twice.
+- Fixed Secret Tracker not handling cards created by Timelooper Toki.
+
 # 3.4.8
 ## New
 **Updated for Hearthstone 3.4.2**
