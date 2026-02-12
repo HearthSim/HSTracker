@@ -1019,7 +1019,16 @@ class BobsBuddyInvoker {
         if let pBeetle = playerAttached.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.RunedProgenitor_BeetleArmyPlayerEnchantDnt }) {
             inputPlayer.beetlesAtkBuff = Int32(pBeetle[.tag_script_data_num_1])
             inputPlayer.beetlesHealthBuff = Int32(pBeetle[.tag_script_data_num_2])
+            logger.info("pBeetleAtk=\(inputPlayer.beetlesAtkBuff), pBeetleHealth=\(inputPlayer.beetlesHealthBuff), friendly=\(friendly)")
         }
+        
+        if let pWhelpBonus = playerAttached.first(where: { x in
+            x.cardId == CardIds.NonCollectible.Neutral.BurgeoningWhelp_WhelpArmyEnchantment }) {
+            inputPlayer.whelpAttackBonus = Int32(pWhelpBonus[GameTag.tag_script_data_num_1])
+            inputPlayer.whelpHealthBonus = Int32(pWhelpBonus[GameTag.tag_script_data_num_2])
+            logger.info("pWhelpAttack=\(inputPlayer.whelpAttackBonus), pWhelpHealth=\(inputPlayer.whelpHealthBonus), friendly=\(friendly)")
+        }
+        
         inputPlayer.elementalPlayCounter = Int32(game.playerEntity?[.gametag_2878] ?? 0)
 
         logger.info("pEternal=\(inputPlayer.eternalKnightCounter), pUndead=\(inputPlayer.undeadAttackBonus), pElemental=\(inputPlayer.elementalPlayCounter), friendly=\(friendly)")

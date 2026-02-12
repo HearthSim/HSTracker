@@ -1059,5 +1059,6 @@ extension CardIds.NonCollectible {
         static let AutoAccelerator_VolumizedEnchantment = "BG34_170e"
         static let EnDjinnBlazer = "BG34_865"
         static let EasterlyWinds = "BG34_444"
+        static let BurgeoningWhelp_WhelpArmyEnchantment = "BG34_402e"
     }
 }

@@ -25,7 +25,7 @@ class PlayerProxy: MonoHandle, MonoClassInitializer {
             PlayerProxy._setSecrets = MonoHelper.getMethod(PlayerProxy._class, "SetSecretsHstracker", 1)
             
             // fields
-            initializeProperties(properties: [ "Side", "HeroPowers", "Quests", "Objectives", "Trinkets", "Secrets", "Hand", "FriendlyMinionsDeadLastCombatCounter", "EternalKnightCounter", "AncestralAutomatonCounter", "UndeadAttackBonus", "ElementalPlayCounter", "BloodGemAtkBuff", "BloodGemHealthBuff", "DeepBluesAtkBuff", "DeepBluesHealthBuff", "TavernSpellCounter", "PiratesSummonCounter", "ResourcesSpentThisGame", "BeastsSummonCounter", "BeastAttackBonus", "BeastHealthBonus", "BeetlesAtkBuff", "BeetlesHealthBuff", "BattlecryCounter", "WonLastCombat", "BattlecriesPlayed", "Health", "DamageTaken", "Tier" ])
+            initializeProperties(properties: [ "Side", "HeroPowers", "Quests", "Objectives", "Trinkets", "Secrets", "Hand", "FriendlyMinionsDeadLastCombatCounter", "EternalKnightCounter", "AncestralAutomatonCounter", "UndeadAttackBonus", "WhelpAttackBonus", "WhelpHealthBonus", "ElementalPlayCounter", "BloodGemAtkBuff", "BloodGemHealthBuff", "DeepBluesAtkBuff", "DeepBluesHealthBuff", "TavernSpellCounter", "PiratesSummonCounter", "ResourcesSpentThisGame", "BeastsSummonCounter", "BeastAttackBonus", "BeastHealthBonus", "BeetlesAtkBuff", "BeetlesHealthBuff", "BattlecryCounter", "WonLastCombat", "BattlecriesPlayed", "Health", "DamageTaken", "Tier" ])
         }
     }
     
@@ -107,6 +107,12 @@ class PlayerProxy: MonoHandle, MonoClassInitializer {
 
     @MonoPrimitiveProperty(property: "UndeadAttackBonus", owner: PlayerProxy.self)
     var undeadAttackBonus: Int32
+    
+    @MonoPrimitiveProperty(property: "WhelpAttackBonus", owner: PlayerProxy.self)
+    var whelpAttackBonus: Int32
+    
+    @MonoPrimitiveProperty(property: "WhelpHealthBonus", owner: PlayerProxy.self)
+    var whelpHealthBonus: Int32
     
     @MonoPrimitiveProperty(property: "ElementalPlayCounter", owner: PlayerProxy.self)
     var elementalPlayCounter: Int32
