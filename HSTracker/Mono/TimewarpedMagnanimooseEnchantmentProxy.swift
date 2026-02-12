@@ -1,0 +1,26 @@
+//
+//  TimewarpedMagnanimooseEnchantmentProxy.swift
+//  HSTracker
+//
+//  Created by Francisco Moraes on 2/11/26.
+//  Copyright © 2026 Benjamin Michotte. All rights reserved.
+//
+
+import Foundation
+
+class TimewarpedMagnanimooseEnchantmentProxy: MonoHandle, MonoClassInitializer {
+    static var _class: OpaquePointer?
+    
+    static var _members = [String: OpaquePointer]()
+    
+    static func initialize() {
+        if EnchantmentProxy._class == nil {
+            EnchantmentProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Enchantments", name: "TimewarpedMagnanimooseEnchantment")
+            
+            initializeProperties(properties: [ "SummonedMinions" ])
+        }
+    }
+    
+    @MonoHandleProperty(property: "SummonedMinions", owner: TimewarpedMagnanimooseEnchantmentProxy.self)
+    var summonedMinions: MonoHandle
+}

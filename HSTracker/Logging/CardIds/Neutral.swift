@@ -1060,5 +1060,6 @@ extension CardIds.NonCollectible {
         static let EnDjinnBlazer = "BG34_865"
         static let EasterlyWinds = "BG34_444"
         static let BurgeoningWhelp_WhelpArmyEnchantment = "BG34_402e"
+        static let TimewarpedMagnanimoose = "BG34_Giant_619"
     }
 }

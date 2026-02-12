@@ -1254,6 +1254,50 @@ class BobsBuddyInvoker {
         tryRerun()
     }
     
+    static let timewarpedMagnanimooseEnchantment = "BACON_FAKE_Magnanimoose_Enchantment"
+    
+    func updateTimewarpedMagnanimoose(_ summonedEntities: [Entity], _ magnanimooseEntityId: Int, _ isPlayerMinion: Bool) {
+        guard let input, state == .combat else {
+            return
+        }
+        
+        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        defer {
+            mono_thread_detach(opaque)
+        }
+
+        let targetPlayer = isPlayerMinion ? input.player : input.opponent
+        let side = targetPlayer.side
+        let count = MonoHelper.listCount(obj: side)
+        var minion: MinionProxy?
+        for i in 0 ..< count {
+            let item = MonoHelper.listItem(obj: side, index: i).get()
+            let m = MinionProxy(obj: item)
+            if m.gameId == magnanimooseEntityId {
+                minion = m
+                break
+            }
+        }
+        guard let minion else {
+            return
+        }
+
+        let simulator = SimulatorProxy()
+        let summonedMinions = summonedEntities.compactMap { e in BobsBuddyInvoker.getMinionFromEntity(sim: simulator, player: isPlayerMinion, ent: e, attachedEntities: getAttachedEntities(entityId: e.id)) }
+
+        let enchantment = simulator.enchantmentFactory.create(cardId: BobsBuddyInvoker.timewarpedMagnanimooseEnchantment, controlledByPlayer: minion.controlledByPlayer)
+        if enchantment.get() != nil {
+            let magnanimooseEnchant = TimewarpedMagnanimooseEnchantmentProxy(obj: enchantment.get())
+            MonoHelper.listClear(obj: magnanimooseEnchant.summonedMinions)
+            for m in summonedMinions {
+                MonoHelper.addToList(list: magnanimooseEnchant.summonedMinions, element: m)
+            }
+            minion.attachEnchantment(enchantment: enchantment)
+        }
+
+        tryRerun()
+    }
+    
     static let timewarpedNelliesShipEnchantment = "BACON_FAKE_NelliesShip_Enchantment"
     
     func updateNelliesShipEnchantment(_ cardDbfids: [Int], _ attachedToEntityId: Int, _ isPlayerMinion: Bool) {
