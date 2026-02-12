@@ -1217,6 +1217,10 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Druid.Starfire)
                         case CardIds.Collectible.Mage.SpiritGatherer:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Mage.WispTokenEMERALD_DREAM)
+                        case CardIds.Collectible.Neutral.WarmasterBlackhorn:
+                            if let currentBlock {
+                                currentBlock.hideShowEntities = true
+                            }
                         case CardIds.NonCollectible.Warrior.EntertheLostCity_LatorviusGazeOfTheCityToken:
                             if actionStartingEntity?.isControlled(by: eventHandler.opponent.id) ?? false {
                                 for id in [ CardIds.NonCollectible.Druid.JungleGiants_BarnabusTheStomperToken,

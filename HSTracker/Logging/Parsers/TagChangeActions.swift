@@ -623,9 +623,11 @@ struct TagChangeActions {
         guard let entity = eventHandler.entities[id] else {
             return
         }
-    
+        
+        let hideEntity = powerGameStateParser?.currentBlock?.hideShowEntities ?? false && entity.isControlled(by: eventHandler.opponent.id)
+        
         let isStartOfTheGameEffect = powerGameStateParser?.currentBlock?.triggerKeyword == "START_OF_GAME_KEYWORD"
-        entity.info.hidden = isStartOfTheGameEffect
+        entity.info.hidden = hideEntity || (isStartOfTheGameEffect && entity.isControlled(by: eventHandler.opponent.id))
         
         if isStartOfTheGameEffect {
             entity.info.guessedCardState = .revealed
