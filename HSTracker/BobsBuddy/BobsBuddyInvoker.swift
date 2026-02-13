@@ -1023,7 +1023,7 @@ class BobsBuddyInvoker {
         }
         
         if let pWhelpBonus = playerAttached.first(where: { x in
-            x.cardId == CardIds.NonCollectible.Neutral.BurgeoningWhelp_WhelpArmyEnchantment }) {
+            x.cardId == CardIds.NonCollectible.Neutral.BurgeoningWhelp_WhelpBuffPlayerEnchantDnt }) {
             inputPlayer.whelpAttackBonus = Int32(pWhelpBonus[GameTag.tag_script_data_num_1])
             inputPlayer.whelpHealthBonus = Int32(pWhelpBonus[GameTag.tag_script_data_num_2])
             logger.info("pWhelpAttack=\(inputPlayer.whelpAttackBonus), pWhelpHealth=\(inputPlayer.whelpHealthBonus), friendly=\(friendly)")
