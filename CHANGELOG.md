@@ -1,3 +1,18 @@
+# 3.4.10
+**Hearthstone**:
+- Added support to Splendiferous Whizbang's Decks.
+- Fixed Warmaster Blackhorn not available for deck construction
+**Battlegrounds**:
+- Added Whelp Buff counter to the overlay.
+- Fixed incorrect simulation results due to Burgeoning Whelp not considering itself for the Whelp buff.
+- Fixed incorrect simulation results due to Burgeoning Whelp buff not being applied to the Whelps summoned during combat.
+- Fixed incorrect simulation results due to Twilight Hatchling and Whelp Watcher summoning Whelps in the wrong ordering scope.
+- Fixed incorrect simulation results due to:\
+  *Photobomber, Stoneshell Guardian, Defiant Shipwright, Lovesick Balladist, Timewarped Collector, Timewarped Astrogrill and Peggy Sturdybone*
+- Added simulation support for:\
+  *Timewarped StoneDrake and Timewarped Magnanimoose*
+- Added simulation support for Burgeoning Whelp's global extra stats to whelps.
+
 # 3.4.9
 ## New
 **Updated for Hearthstone 3.4.6**
