@@ -14,8 +14,8 @@ class TimewarpedMagnanimooseEnchantmentProxy: MonoHandle, MonoClassInitializer {
     static var _members = [String: OpaquePointer]()
     
     static func initialize() {
-        if EnchantmentProxy._class == nil {
-            EnchantmentProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Enchantments", name: "TimewarpedMagnanimooseEnchantment")
+        if TimewarpedMagnanimooseEnchantmentProxy._class == nil {
+            TimewarpedMagnanimooseEnchantmentProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Enchantments", name: "TimewarpedMagnanimooseEnchantment")
             
             initializeProperties(properties: [ "SummonedMinions" ])
         }
