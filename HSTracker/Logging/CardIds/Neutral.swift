@@ -751,6 +751,19 @@ extension CardIds.Collectible {
         static let TimelineAccelerator = "WON_139"
         static let ElwynnBoar = "SW_075"
         static let WarmasterBlackhorn = "CATA_720"
+        static let EvilCableRat = "DAL_400"
+        static let GrandLackeyErkh = "YOD_035"
+        static let TwinFinFinTwin = "TSC_960"
+        static let BeamingSidekick = "ULD_191"
+        static let ZephrysTheGreat = "ULD_003"
+        static let DragonqueenAlexstrasza = "DRG_089"
+        static let EliseTheNavigator = "TLC_100"
+        static let EmperorThaurissanFP2 = "BRM_028"
+        static let ScarabKeychain = "TOY_006"
+        static let TarSlime = "TOY_000"
+        static let ChefNomi = "DAL_554"
+        static let ArchivistElysiana = "DAL_736"
+        static let ZolaTheGorgonCorePlaceholder = "CORE_LOOT_516"
     }
 }
 
@@ -1061,5 +1074,6 @@ extension CardIds.NonCollectible {
         static let EasterlyWinds = "BG34_444"
         static let BurgeoningWhelp_WhelpArmyEnchantment = "BG34_402e"
         static let TimewarpedMagnanimoose = "BG34_Giant_619"
+        static let SplendiferousWhizbang_WishToken = "TOY_700t9t2"
     }
 }

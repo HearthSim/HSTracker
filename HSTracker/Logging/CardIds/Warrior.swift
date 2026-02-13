@@ -171,6 +171,10 @@ extension CardIds.Collectible {
         static let PrecursoryStrike = "TIME_750"
         static let UnleashTheCrocolisks = "TIME_873"
         static let AllYouCanEat = "VAC_528"
+        static let EvilQuartermaster = "DRG_020"
+        static let LivewireLance = "ULD_708"
+        static let DrBoomMadGenius = "BOT_238"
+        static let ShadowflameSuffusion = "FIR_939"
     }
 }
 

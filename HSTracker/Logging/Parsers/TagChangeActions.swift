@@ -735,6 +735,12 @@ struct TagChangeActions {
 
     private func controllerChange(eventHandler: PowerEventHandler, id: Int, prevValue: Int, value: Int) {
         guard let entity = eventHandler.entities[id] else { return }
+        
+        if entity.cardId == CardIds.Collectible.Neutral.SplendiferousWhizbang {
+            if value == eventHandler.player.id {
+                eventHandler.player.isPlayingWhizbang = true
+            }
+        }
         if prevValue <= 0 {
             entity.info.originalController = value
             return

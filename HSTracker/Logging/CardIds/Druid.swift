@@ -195,6 +195,14 @@ extension CardIds.Collectible {
         static let Waveshaping = "TIME_701"
         static let KaldoreiCultivator = "TIME_730"
         static let SkyMotherAviana = "TOY_806"
+        static let LightningBloom = "SCH_427"
+        static let EliseTheEnlightened = "ULD_139"
+        static let Invigorate = "WON_014"
+        static let WildGrowthLegacy = "CS2_013"
+        static let Overgrowth = "BT_130"
+        static let CrystalCluster = "DEEP_028"
+        static let EonarTheLifeBinder = "TTN_903"
+        static let WildGrowthCorePlaceholder = "CORE_CS2_013"
     }
 }
 
@@ -360,6 +368,7 @@ extension CardIds.NonCollectible {
         static let LadyAzshara_TheWellOfEternityToken1 = "TIME_211t1"
         static let LadyAzshara_ZinAzshariToken2 = "TIME_211t2t"
         static let LadyAzshara_ZinAzshariToken1 = "TIME_211t2"
+        static let SplendiferousWhizbang_MomentOfDiscoveryToken = "TOY_700t"
     }
 }
 

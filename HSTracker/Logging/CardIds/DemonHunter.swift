@@ -68,6 +68,21 @@ extension CardIds.Collectible {
         static let TheEternalHold = "TIME_446"
         static let LastingLegacy = "TIME_449"
         static let Solitude = "TIME_448"
+        static let GunslingerKurtrus = "WW_401"
+        static let IllidariStudiesCore = "CORE_YOP_001"
+        static let RedCard = "TOY_644"
+        static let ChaosStrikeCore = "CORE_BT_035"
+        static let SpiritOfTheTeam = "TOY_028"
+        static let AldrachiWarbladesCore = "CORE_BT_921"
+        static let Cicigi = "TOY_913"
+        static let EyeBeamCore = "CORE_BT_801"
+        static let BallHog = "TOY_642"
+        static let WorkshopMishap = "TOY_640"
+        static let ChaosNovaCorePlaceholder = "CORE_BT_235"
+        static let WindowShopper = "TOY_652"
+        static let IllidariInquisitorCore = "CS3_020"
+        static let MagtheridonUnreleased = "TOY_647"
+        static let FelBarrage = "SW_040"
     }
 }
 

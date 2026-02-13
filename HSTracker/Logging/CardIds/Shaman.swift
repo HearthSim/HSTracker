@@ -183,6 +183,26 @@ extension CardIds.Collectible {
         static let Thunderquake = "TIME_215"
         static let StaticShock = "TIME_218"
         static let HaywireHornswog = "END_030"
+        static let EvilTotem = "ULD_276"
+        static let WeaponizedWasp = "ULD_170"
+        static let HagathasScheme = "DAL_009"
+        static let SwampqueenHagatha = "DAL_431"
+        static let MurlocGrowfin = "MIS_307"
+        static let Overdraft = "SW_114"
+        static let SludgeSlurper = "DAL_433"
+        static let SpawnpoolForager = "BAR_751"
+        static let SouthCoastChieftain = "BAR_040"
+        static let CallInTheFinishersGANGS = "CFM_310"
+        static let ChargedCall = "SW_035"
+        static let Clownfish = "TID_004"
+        static let NofinCanStopUs = "BAR_041"
+        static let SerpentshrinePortal = "BT_100"
+        static let TurnTheTides = "TTN_722"
+        static let Vessina = "ULD_173"
+        static let CommandOfNeptulon = "TID_005"
+        static let CumuloMaximus = "DRG_223"
+        static let DoctorHollidae = "WW_010"
+        static let FrostyDécor = "VAC_305"
     }
 }
 
@@ -253,6 +273,7 @@ extension CardIds.NonCollectible {
         static let SpiritoftheMountain_PerfectEvolutionToken = "TLC_229t14e"
         static let MuradinHighKing_HighKingsHammerToken = "TIME_209t"
         static let MuradinHighKing_AvatarFormToken1 = "TIME_209t2"
+        static let SplendiferousWhizbang_QuestAcceptedToken = "TOY_700t14"
     }
 }
 

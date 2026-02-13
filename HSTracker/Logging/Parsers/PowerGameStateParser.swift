@@ -395,6 +395,13 @@ class PowerGameStateParser: LogEventParser {
                         eventHandler.opponent.hasDeathKnightTourist = true
                         AppDelegate.instance().coreManager.game.updateOpponentResourcesWidget()
                     }
+                    
+                    if entity.cardId == CardIds.Collectible.Neutral.SplendiferousWhizbang && entity.isControlled(by: eventHandler.opponent.id) {
+                        eventHandler.opponent.isPlayingWhizbang = true
+                        if let originalClass = eventHandler.opponent.originalClass, let whizbangDeck = WhizbangDecks.splendiferousWhizbangDecks[originalClass] {
+                            Player.knownOpponentDeck = whizbangDeck.compactMap( { id in Cards.any(byId: id) })
+                        }
+                    }
                 }
 
                 let fizzleSnapshots = eventHandler.opponent.playerEntities.filter { e in e.cardId == CardIds.NonCollectible.Neutral.PhotographerFizzle_FizzlesSnapshotToken }

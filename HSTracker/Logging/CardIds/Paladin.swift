@@ -214,6 +214,16 @@ extension CardIds.Collectible {
         static let PastGnomeregan = "TIME_044"
         static let Tankgineer = "TIME_017"
         static let TheFinsBeyondTime = "TIME_706"
+        static let CrystalsmithKangor = "BOT_236"
+        static let EqualityCore = "CORE_EX1_619"
+        static let HandOfAdal = "BT_292"
+        static let SirFinleyOfTheSands = "ULD_500"
+        static let AldorPeacekeeperVanilla = "VAN_EX1_382"
+        static let BronzeExplorer = "DRG_229"
+        static let ConsecrationCore = "CORE_CS2_093"
+        static let TruesilverChampionCorePlaceholder = "CORE_CS2_097"
+        static let ProtectTheInnocent = "AV_342"
+        static let TirionFordringCore = "CORE_EX1_383"
     }
 }
 

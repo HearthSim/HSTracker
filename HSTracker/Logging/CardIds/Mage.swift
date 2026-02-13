@@ -223,6 +223,10 @@ extension CardIds.Collectible {
         static let FacelessEnigma = "TIME_860"
         static let FlamesOfInfinity = "END_024"
         static let TimelooperToki = "TIME_861"
+        static let RenoTheRelicologist = "ULD_238"
+        static let TheAmazingReno = "YOD_009"
+        static let InfinitizeTheMaxitude = "ETC_206"
+        static let TheForbiddenSequence = "TLC_460"
     }
 }
 
@@ -305,6 +309,7 @@ extension CardIds.NonCollectible {
         static let AzureQueenSindragosa_AzureKingMalygosToken = "TIME_852t1"
         static let AzureQueenSindragosa_AzureOathstoneToken = "TIME_852t3"
         static let MirrorDimension_MirroredMageToken = "TIME_006t1"
+        static let SplendiferousWhizbang_MorphingCardToken = "TOY_700t13"
     }
 }
 

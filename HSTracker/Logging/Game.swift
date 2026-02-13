@@ -2100,6 +2100,10 @@ class Game: NSObject, PowerEventHandler {
                 self.player.mulliganCardStats = nil
                 self.hideMulliganGuideStats()
             }
+            if opponent.isPlayingWhizbang {
+                opponent.isPlayingWhizbang = false
+                Player.knownOpponentDeck = nil
+            }
         }
 
         if let currentDeck = self.currentDeck {
@@ -2537,13 +2541,36 @@ class Game: NSObject, PowerEventHandler {
     func playerName(for ID: Int) -> String? {
         return self.playerIDNameMapping[ID]
     }
-
+    
     // MARK: - player
     func set(playerHero cardId: String) {
         if let card = Cards.hero(byId: cardId) {
             player.originalClass = card.playerClass
             player.currentClass = player.originalClass
             player.playerClassId = cardId
+            
+            if player.isPlayingWhizbang && currentDeck == nil, let whizbangDeck = WhizbangDecks.splendiferousWhizbangDecks[card.playerClass] {
+                    let ret = Deck()
+                    ret.name = "\(card.playerClass.rawValue) Splendiferous Whizbang Deck"
+                    ret.heroId = card.playerClass.defaultHeroCardId
+                    
+                    let counts = whizbangDeck.reduce(into: [:]) { counts, element in
+                        counts[element, default: 0] += 1
+                    }
+                    let tmpCards = counts.compactMap { (key: String, value: Int) -> RealmCard? in
+                        guard let card = Cards.any(byId: key) else {
+                            return nil
+                        }
+                        let res = RealmCard()
+                        res.id = card.id
+                        res.count = value
+                        return res
+                    }
+                    for tmpCard in tmpCards {
+                        ret.cards.append(tmpCard)
+                    }
+                    set(activeDeck: ret, autoDetected: true)
+            }
             if Settings.fullGameLog {
                 logger.info("Player class is \(card) ")
             }

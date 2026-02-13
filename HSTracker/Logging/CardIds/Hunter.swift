@@ -219,6 +219,11 @@ extension CardIds.Collectible {
         static let KingMaluk = "TIME_042"
         static let PastSilvermoon = "TIME_810"
         static let Zuljin = "TRL_065"
+        static let TheldurinTheLost = "WW_815"
+        static let DinotamerBrann = "ULD_156"
+        static let BeastmasterLeoroxx = "BT_214"
+        static let KingKrushCorePlaceholder = "CORE_EX1_543"
+        static let ShimmerShot = "DEEP_003"
     }
 }
 

@@ -204,6 +204,20 @@ extension CardIds.Collectible {
         static let RuinousVelocidrake = "TIME_029"
         static let ChogallWONDERS = "WON_105"
         static let SummonerDarkmarrow = "VAC_503"
+        static let SinisterDeal = "ULD_160"
+        static let EvilRecruiter = "ULD_162"
+        static let DarkPharaohTekahn = "ULD_168"
+        static let ArchVillainRafaam = "DAL_422"
+        static let Fracking = "WW_092"
+        static let BloodShardBristleback = "BAR_916"
+        static let FurnaceFuel = "WW_441"
+        static let WasteRemover = "WW_042"
+        static let NeeruFireblade = "BAR_919"
+        static let RinOrchestratorOfDoom = "ETC_071"
+        static let BarrensScavenger = "BAR_917"
+        static let ChaosCreation = "DEEP_031"
+        static let FanottemLordOfTheOpera = "JAM_030"
+        static let HellfireCore = "CORE_CS2_062"
     }
 }
 

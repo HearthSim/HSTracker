@@ -187,6 +187,19 @@ extension CardIds.Collectible {
         static let MedivhTheHallowed = "TIME_890"
         static let DiscipleOfTheDove = "TIME_037"
         static let PastConflux = "TIME_436"
+        static let WhispersOfEvil = "DRG_301"
+        static let EvilConscripter = "DAL_413"
+        static let MadameLazul = "DAL_729"
+        static let EliseBadlandsSavior = "WW_392"
+        static let CrimsonClergyLegacy = "CS3_014"
+        static let FanClub = "ETC_449"
+        static let HolySmiteCore = "CORE_CS1_130"
+        static let PsychicConjurerCore = "CORE_EX1_193"
+        static let ShadowWordDeathCorePlaceholder = "CORE_EX1_622"
+        static let ShadowWordPainLegacy = "CS2_234"
+        static let HolyNovaCore = "CORE_CS1_112"
+        static let PipThePotent = "WW_394"
+        static let LightbombCore = "CORE_GVG_008"
     }
 }
 

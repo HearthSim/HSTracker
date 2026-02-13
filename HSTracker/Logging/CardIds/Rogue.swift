@@ -232,6 +232,19 @@ extension CardIds.Collectible {
         static let AgencyEspionage = "WORK_004"
         static let NightmareFuel = "EDR_528"
         static let DejaVu = "TIME_039"
+        static let EvilMiscreant = "DAL_415"
+        static let HeistbaronTogwaggle = "DAL_417"
+        static let ShadowstepCore = "CORE_EX1_144"
+        static let Breakdance = "ETC_076"
+        static let Filletfighter = "TSC_963"
+        static let SwashburglarCore = "CORE_KAR_069"
+        static let KajamiteCreation = "TTN_925"
+        static let QuickPick = "DEEP_014"
+        static let HenchClanBurglarCore = "CORE_DAL_416"
+        static let Watercannon = "TOY_522"
+        static let PirateAdmiralHooktusk = "TSC_934"
+        static let VelarokWindblade = "WW_364"
+        static let SnatchAndGrab = "VAC_700"
     }
 }
 
