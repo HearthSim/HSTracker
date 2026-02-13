@@ -21,7 +21,11 @@ class BloodGemBarrageBuffCounter: StatsCounter {
     }
 
     public override var relatedCards: [String] {
-        return [CardIds.NonCollectible.Neutral.BloodGemBarrage]
+        return [
+            CardIds.NonCollectible.Neutral.BloodGemBarrage,
+            CardIds.NonCollectible.Neutral.BriarbackDrummer,
+            CardIds.NonCollectible.Neutral.RazorfenFlapper
+        ]
     }
 
     public override func shouldShow() -> Bool {

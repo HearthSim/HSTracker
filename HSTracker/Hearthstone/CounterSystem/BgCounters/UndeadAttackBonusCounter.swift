@@ -28,7 +28,8 @@ class UndeadAttackBonusCounter: NumericCounter {
             CardIds.NonCollectible.Neutral.NerubianDeathswarmer,
             CardIds.NonCollectible.Neutral.AnubarakNerubianKing,
             CardIds.NonCollectible.Neutral.ChampionOfThePrimus,
-            CardIds.NonCollectible.Neutral.Butchering
+            CardIds.NonCollectible.Neutral.Butchering,
+            CardIds.NonCollectible.Neutral.ForsakenWeaver
         ]
     }
 

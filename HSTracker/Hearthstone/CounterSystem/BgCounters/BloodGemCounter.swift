@@ -18,7 +18,14 @@ class BloodGemCounter: StatsCounter {
     }
 
     override var relatedCards: [String] {
-        return []
+        return [
+            CardIds.NonCollectible.Neutral.BloodGem1,
+            CardIds.NonCollectible.Neutral.MoonBaconJazzer,
+            CardIds.NonCollectible.Neutral.PricklyPiper,
+            CardIds.NonCollectible.Neutral.FearlessFoodie,
+            CardIds.NonCollectible.Neutral.SanguineRefiner,
+            CardIds.NonCollectible.Neutral.SanguineChampion
+        ]
     }
 
     required init(controlledByPlayer: Bool, game: Game) {

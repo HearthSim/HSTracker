@@ -36,9 +36,11 @@ class TavernSpellsBuffCounter: StatsCounter {
     override func getCardsToDisplay() -> [String] {
         return [
             CardIds.NonCollectible.Neutral.IntrepidBotanist,
-            CardIds.NonCollectible.Neutral.TranquilMeditative,
+            CardIds.NonCollectible.Neutral.BlueWhelp,
             CardIds.NonCollectible.Neutral.ShoalfinMystic,
+            CardIds.NonCollectible.Neutral.FriendlyGeist,
             CardIds.NonCollectible.Neutral.Humongozz,
+            CardIds.NonCollectible.Neutral.TranquilMeditative,
             CardIds.NonCollectible.Neutral.FelfireConjurer
         ]
     }

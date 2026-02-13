@@ -399,7 +399,7 @@ class PowerGameStateParser: LogEventParser {
                     if entity.cardId == CardIds.Collectible.Neutral.SplendiferousWhizbang && entity.isControlled(by: eventHandler.opponent.id) {
                         eventHandler.opponent.isPlayingWhizbang = true
                         if let originalClass = eventHandler.opponent.originalClass, let whizbangDeck = WhizbangDecks.splendiferousWhizbangDecks[originalClass] {
-                            Player.knownOpponentDeck = whizbangDeck.compactMap( { id in Cards.any(byId: id) })
+                            Player.knownOpponentDeck = whizbangDeck.compactMap({ id in Cards.any(byId: id) })
                         }
                     }
                 }

@@ -1,12 +1,12 @@
 //
-//  RightMostTavernMinionBuffCounter.swift
+//  WhelpStatsBuffCounter.swift
 //  HSTracker
 //
-//  Created by Francisco Moraes on 1/7/26.
+//  Created by Francisco Moraes on 2/12/26.
 //  Copyright © 2026 Benjamin Michotte. All rights reserved.
 //
 
-class RightMostTavernMinionBuffCounter: StatsCounter {
+class WhelpStatsBuffCounter: StatsCounter {
 
     required init(controlledByPlayer: Bool, game: Game) {
         super.init(controlledByPlayer: controlledByPlayer, game: game)
@@ -17,20 +17,18 @@ class RightMostTavernMinionBuffCounter: StatsCounter {
     }
 
     override var cardIdToShowInUI: String? {
-        return CardIds.NonCollectible.Neutral.WorgenExecutive
+        return CardIds.NonCollectible.Neutral.TwilightHatchling_TwilightWhelpToken
     }
-    
+
     override var localizedName: String {
-        return String.localizedString("Counter_RightMostTavernMinionBuff", comment: "")
+        return String.localizedString("Counter_WhelpBuff", comment: "")
     }
 
     override var relatedCards: [String] {
         return [
-            CardIds.NonCollectible.Neutral.WorgenExecutive,
-            CardIds.NonCollectible.Neutral.Waveling,
-            CardIds.NonCollectible.Neutral.EnDjinnBlazer,
-            CardIds.NonCollectible.Neutral.PrehistoricTinkerer,
-            CardIds.NonCollectible.Neutral.EasterlyWinds
+            CardIds.NonCollectible.Neutral.BurgeoningWhelp,
+            CardIds.NonCollectible.Neutral.TwilightHatchling_TwilightWhelpToken,
+            CardIds.NonCollectible.Neutral.BlueWhelp
         ]
     }
 
@@ -55,7 +53,7 @@ class RightMostTavernMinionBuffCounter: StatsCounter {
             return
         }
 
-        if entity.card.id != CardIds.NonCollectible.Neutral.RightMostTavernMinionBuffPlayerEnchDnt {
+        if entity.card.id != CardIds.NonCollectible.Neutral.BurgeoningWhelp_WhelpBuffPlayerEnchantDnt {
             return
         }
 

@@ -105,7 +105,7 @@ class BaseCounter: NSObject {
             .compactMap({ card in card.id })
     }
     
-    final let _alwaysAvailableCards = [ CardIds.NonCollectible.Neutral.BoonofBeetles_BeetleToken1, CardIds.NonCollectible.Neutral.BloodGem1 ]
+    final let _alwaysAvailableCards = [ CardIds.NonCollectible.Neutral.BoonofBeetles_BeetleToken1, CardIds.NonCollectible.Neutral.BloodGem1, CardIds.NonCollectible.Neutral.TwilightHatchling_TwilightWhelpToken ]
 
     private var _availableCardIds: Set<Int>?
     

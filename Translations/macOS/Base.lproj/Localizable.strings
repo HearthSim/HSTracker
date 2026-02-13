@@ -351,6 +351,7 @@
 "Counter_TavernSpellsBuff" = "Spells Extra Buff";
 "Counter_RightMostTavernMinionBuff" = "Right Most Tavern Buff";
 "Counter_VolumizerBuff" = "Volumizer Buff";
+"Counter_WhelpBuff" = "Whelp Buff";
 
 /* Tier7 */
 "BattlegroundsOverlayMessage_Error" = "Something went wrong :(";

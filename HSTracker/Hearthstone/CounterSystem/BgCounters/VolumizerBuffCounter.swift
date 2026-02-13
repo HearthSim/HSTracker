@@ -28,7 +28,10 @@ class VolumizerBuffCounter: StatsCounter {
         return [
             CardIds.NonCollectible.Neutral.AutoAccelerator_GreenVolumizerToken1,
             CardIds.NonCollectible.Neutral.AutoAccelerator_RedVolumizerToken1,
-            CardIds.NonCollectible.Neutral.AutoAccelerator_BlueVolumizerToken1
+            CardIds.NonCollectible.Neutral.AutoAccelerator_BlueVolumizerToken1,
+            CardIds.NonCollectible.Neutral.AutoAccelerator,
+            CardIds.NonCollectible.Neutral.ConveyorConstruct,
+            CardIds.NonCollectible.Neutral.ApexisGuardian
         ]
     }
 

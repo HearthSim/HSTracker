@@ -6,7 +6,6 @@
 //  Copyright © 2026 Benjamin Michotte. All rights reserved.
 //
 
-
 import Foundation
 
 class WhizbangDecks {
