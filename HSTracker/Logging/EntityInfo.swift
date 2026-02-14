@@ -38,7 +38,12 @@ class EntityInfo {
     var storedCardIds: [String] = []
     var copyOfCardId: String?
     var latestCardId: String {
-        get { _latestCardId ?? _entity.cardId }
+        get {
+            if let id = _latestCardId, !id.isEmpty {
+                return id
+            }
+            return _entity.cardId
+        }
         set { _latestCardId = newValue }
     }
     var deckIndex = 0
