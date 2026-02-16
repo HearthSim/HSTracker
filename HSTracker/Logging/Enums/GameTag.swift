@@ -414,6 +414,7 @@ enum GameTag: Int, CaseIterable, Codable {
     gametag_2878 = 2878,
     tag_script_data_num_3 = 2889,
     bacon_global_anomaly_dbid = 2897,
+    tag_script_data_num_4 = 2919,
     cthun_health_buff = 3053,
     cthun_attack_buff = 3054,
     forge_revealed = 3070,
