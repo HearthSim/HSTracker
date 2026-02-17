@@ -51,6 +51,10 @@ class FreeRefreshCounter: NumericCounter {
         if entity.isControlled(by: game.player.id) != isPlayerCounter {
             return
         }
+        
+        if entity[.zone] == Zone.setaside.rawValue {
+            return
+        }
 
         if tag == .bacon_free_refresh_count {
             counter = value
