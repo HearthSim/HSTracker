@@ -60,7 +60,14 @@ class PaladinCardsPlayedCounter: NumericCounter {
             return
         }
 
-        if AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock?.type != "PLAY" {
+        let currentBlock = AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock
+        
+        if currentBlock?.type != "PLAY" {
+            return
+        }
+        
+        let originCard = Card(id: currentBlock?.cardId ?? "")
+        if originCard.type == .hero_power {
             return
         }
 
