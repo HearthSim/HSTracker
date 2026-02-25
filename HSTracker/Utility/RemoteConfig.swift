@@ -83,7 +83,6 @@ struct ConfigData: Codable {
     var news: NewsData?
     var collection_banner: CollectionBannerData?
     var battlegrounds_short_names: [CardShortName]?
-    var battlegrounds_tag_overrides: [TagOverride]?
     var bobs_buddy: BobsBuddyData?
     var tier7: Tier7Data?
     var mulligan_guide: MulliganGuideData?
@@ -101,10 +100,12 @@ class RemoteConfig {
     static var data: ConfigData?
     static var mercenaries: [Mercenary]?
     static var liveSecrets: LiveSecrets?
+    static var battlegroundsTagOverrides: [TagOverride]?
     
     private static var url = "https://hsdecktracker.net/config.json"
     private static var mercsUrl = "https://api.hearthstonejson.com/v1/latest/enUS/mercenaries.json"
     private static var secretsUrl = "https://hsreplay.net/api/v1/live/secrets/"
+    private static var overridesUrl = "https://hsreplay.net/api/v1/battlegrounds/tag_overrides/"
 
     static func checkRemoteConfig(splashscreen: Splashscreen) {
         DispatchQueue.main.async {
@@ -112,39 +113,65 @@ class RemoteConfig {
                                  indeterminate: true)
         }
 
-        let http = Http(url: RemoteConfig.url)
-        let semaphore = DispatchSemaphore(value: 0)
-        _ = http.getPromise(method: .get).map { data in
-            try JSONDecoder().decode(ConfigData.self, from: data!)
-        }.done { data in
-            self.data = data
-            logger.info("Retrieved remote configuration")
-            let http2 = Http(url: RemoteConfig.mercsUrl)
-            _ = http2.getPromise(method: .get).map { data in
-                try JSONDecoder().decode([Mercenary].self, from: data!)
-            }.done { mercs in
-                self.mercenaries = mercs
-                logger.info("Retrieved remote mercenaries configuration")
-                let http4 = Http(url: RemoteConfig.secretsUrl)
-                _ = http4.getPromise(method: .get).map { data in
-                    try JSONDecoder().decode(LiveSecrets.self, from: data!)
-                }.done { secrets in
-                    self.liveSecrets = secrets
-                    logger.info("Retrieved live secrets configuration")
-                    semaphore.signal()
-                }.catch { error in
-                    logger.error("Error parsing live secrets configuration: \(error)")
-                    semaphore.signal()
+        let dispatchGroup = DispatchGroup()
+
+        // Helper function to safely decode and assign data
+        func fetchData<T: Decodable>(
+            url: String,
+            decodeType: T.Type,
+            assignment: @escaping (T) -> Void,
+            errorMessage: String
+        ) {
+            dispatchGroup.enter()
+            let http = Http(url: url)
+            http.getPromise(method: .get)
+                .map { data in
+                    guard let validData = data else {
+                        throw NSError(domain: "NetworkError", code: -1, userInfo: [NSLocalizedDescriptionKey: errorMessage])
+                    }
+                    return try JSONDecoder().decode(decodeType, from: validData)
                 }
-            }.catch { error in
-                logger.error("Error parsing remote mercenaries config: \(error)")
-                semaphore.signal()
-            }
-        }.catch { error in
-            logger.error("Error parsing remote config: \(error)")
-            semaphore.signal()
+                .done { decodedData in
+                    assignment(decodedData)
+                    logger.info("Successfully retrieved: \(errorMessage)")
+                }
+                .catch { error in
+                    logger.error("Error retrieving \(errorMessage): \(error)")
+                }
+                .finally {
+                    dispatchGroup.leave()
+                }
         }
-        _ = semaphore.wait(timeout: DispatchTime.distantFuture)
+
+        // 1. Fetch main config
+        fetchData(url: RemoteConfig.url,
+                  decodeType: ConfigData.self,
+                  assignment: { self.data = $0 },
+                  errorMessage: "main configuration")
+
+        // 2. Fetch battlegrounds tag overrides
+        fetchData(url: RemoteConfig.overridesUrl,
+                  decodeType: [TagOverride].self,
+                  assignment: { self.battlegroundsTagOverrides = $0 },
+                  errorMessage: "battlegrounds tag overrides")
+
+        // 3. Fetch mercenaries
+        fetchData(url: RemoteConfig.mercsUrl,
+                  decodeType: [Mercenary].self,
+                  assignment: { self.mercenaries = $0 },
+                  errorMessage: "mercenaries configuration")
+
+        // 4. Fetch live secrets
+        fetchData(url: RemoteConfig.secretsUrl,
+                  decodeType: LiveSecrets.self,
+                  assignment: { self.liveSecrets = $0 },
+                  errorMessage: "live secrets configuration")
+
+        dispatchGroup.notify(queue: .main) {
+            logger.info("All remote configurations loaded.")
+            splashscreen.progressBar.stopAnimation(nil)
+            // Optionally, you can close the splash screen here or transition to the main app view
+        }
     }
 }
 
