@@ -26,7 +26,7 @@ class BattlegroundsDb {
     var races = Set<Race>()
     
     fileprivate init() {
-        update(RemoteConfig.data?.battlegrounds_tag_overrides)
+        update(RemoteConfig.battlegroundsTagOverrides)
     }
     
     private func update(_ tagOverrides: [TagOverride]?) {
