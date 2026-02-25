@@ -1,3 +1,14 @@
+# 3.4.11
+## New
+**Updated for Hearthstone 34.6.2**
+## Fixes
+- Fixed Lightray Counter wrongly increasing on Hero Power.
+- Fixed Free Refresh Counter getting stuck when a Free Refresh option is just offered.
+**Battlegriounds**
+- Fixed incorrect simulation results due to Photobomber not dealing deathrattle damage after reborning.
+- Fixed incorrect simulation results due to Timewarped Promo Drake not buffing correctly.
+- Fixed an error in simulations due to Timewarped Ragnaros trying to deal damage to an empty board.
+
 # 3.4.10
 **Hearthstone**:
 - Added support to Splendiferous Whizbang's Decks.
@@ -15,7 +26,7 @@
 
 # 3.4.9
 ## New
-**Updated for Hearthstone 3.4.6**
+**Updated for Hearthstone 34.6.0**
 - Added Reminisce related cards.
 ## Fixes
 - Fixed Cho'gall related cards appearing twice.
@@ -23,7 +34,7 @@
 
 # 3.4.8
 ## New
-**Updated for Hearthstone 3.4.2**
+**Updated for Hearthstone 34.4.2**
 - Added Elwynn Boar counter.
 - Added Chogall and Magister Dawngrasp related cards.
 ## Fixes
