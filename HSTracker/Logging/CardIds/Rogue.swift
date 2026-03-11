@@ -245,6 +245,7 @@ extension CardIds.Collectible {
         static let PirateAdmiralHooktusk = "TSC_934"
         static let VelarokWindblade = "WW_364"
         static let SnatchAndGrab = "VAC_700"
+        static let StolenPower = "CATA_202"
     }
 }
 

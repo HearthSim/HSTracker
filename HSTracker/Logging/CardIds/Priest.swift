@@ -200,6 +200,11 @@ extension CardIds.Collectible {
         static let HolyNovaCore = "CORE_CS1_112"
         static let PipThePotent = "WW_394"
         static let LightbombCore = "CORE_GVG_008"
+        static let AlexstraszaGuardianOfLife = "CATA_307"
+        static let CleansingCleric = "CATA_216"
+        static let RubySanctum = "CATA_301"
+        static let CaliaMenethilCorePlaceholder = "CORE_CATA_002"
+        static let Schism = "CATA_306"
     }
 }
 
@@ -274,6 +279,7 @@ extension CardIds.NonCollectible {
         static let PastConflux_PresentConfluxToken = "TIME_436t1"
         static let PastConflux_FutureConfluxToken = "TIME_436t2"
         static let Reminisce = "TOT_343"
+        static let CleansingCleric_FreeFromCorruptionEnchantment = "CATA_216e"
     }
 }
 

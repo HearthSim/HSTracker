@@ -25,3 +25,9 @@ class BattleVicar: ICardGenerator {
     
     required init() {}
 }
+
+class BattleVicarCore: BattleVicar {
+    override func getCardId() -> String {
+        return CardIds.Collectible.Paladin.BattleVicarCorePlaceholder
+    }
+}

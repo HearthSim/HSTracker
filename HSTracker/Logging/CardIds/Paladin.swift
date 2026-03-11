@@ -224,6 +224,9 @@ extension CardIds.Collectible {
         static let TruesilverChampionCorePlaceholder = "CORE_CS2_097"
         static let ProtectTheInnocent = "AV_342"
         static let TirionFordringCore = "CORE_EX1_383"
+        static let BattleVicarCorePlaceholder = "CORE_ONY_022"
+        static let SpearheartSentry = "CATA_474"
+        static let FlightManeuvers = "CATA_479"
     }
 }
 

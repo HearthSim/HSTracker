@@ -224,6 +224,9 @@ extension CardIds.Collectible {
         static let BeastmasterLeoroxx = "BT_214"
         static let KingKrushCorePlaceholder = "CORE_EX1_543"
         static let ShimmerShot = "DEEP_003"
+        static let Ebyssian = "CATA_553"
+        static let ConfrontTheTolvir = "CATA_560"
+        static let SupplyRun = "CATA_820"
     }
 }
 
@@ -308,6 +311,7 @@ extension CardIds.NonCollectible {
         static let KingMaluk_InfiniteBananaToken = "TIME_042t"
         static let PastSilvermoon_PresentSilvermoonToken = "TIME_810t1"
         static let PastSilvermoon_FutureSilvermoonToken = "TIME_810t2"
+        static let SupplyRun_SupplyRunToken1 = "CATA_820t"
     }
 }
 

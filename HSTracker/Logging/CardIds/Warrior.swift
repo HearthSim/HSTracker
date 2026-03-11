@@ -175,6 +175,7 @@ extension CardIds.Collectible {
         static let LivewireLance = "ULD_708"
         static let DrBoomMadGenius = "BOT_238"
         static let ShadowflameSuffusion = "FIR_939"
+        static let CommanderGeddon = "CATA_591"
     }
 }
 

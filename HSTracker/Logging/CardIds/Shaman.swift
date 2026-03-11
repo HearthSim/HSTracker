@@ -203,6 +203,7 @@ extension CardIds.Collectible {
         static let CumuloMaximus = "DRG_223"
         static let DoctorHollidae = "WW_010"
         static let FrostyDécor = "VAC_305"
+        static let RitualOfPower = "CATA_561"
     }
 }
 
@@ -274,6 +275,7 @@ extension CardIds.NonCollectible {
         static let MuradinHighKing_HighKingsHammerToken = "TIME_209t"
         static let MuradinHighKing_AvatarFormToken1 = "TIME_209t2"
         static let SplendiferousWhizbang_QuestAcceptedToken = "TOY_700t14"
+        static let RitualofPower_BreezlingToken = "CATA_561t"
     }
 }
 

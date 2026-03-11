@@ -12,5 +12,5 @@ public enum EffectTag {
     case costModification, cardLock, manaCrystalModification,
          minionModification, cardActivation, heroModification,
          spellDamage, cardAmount, targetModification,
-         summon, spellModification, damageModification
+         summon, spellModification, damageModification, healingModification
 }

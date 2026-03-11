@@ -1263,6 +1263,10 @@ class PowerGameStateParser: LogEventParser {
                             let createdByAgencyEspionage = FakeCard(CardIds.Collectible.Rogue.AgencyEspionage)
                             createdByAgencyEspionage.cost = 1
                             addKnownCardId(eventHandler: eventHandler, cardId: createdByAgencyEspionage.serialize(), count: 10)
+                        case CardIds.Collectible.Druid.AzsharasTriumph:
+                            let createdByAzsharasTriumph = FakeCard(CardIds.Collectible.Druid.AzsharasTriumph)
+                            createdByAzsharasTriumph.type = .minion
+                            addKnownCardId(eventHandler: eventHandler, cardId: createdByAzsharasTriumph.serialize(), count: 5)
                         default:
                             if let card = Cards.any(byId: actionStartingCardId) {
                                 if (player != nil && player![.current_player] == 1

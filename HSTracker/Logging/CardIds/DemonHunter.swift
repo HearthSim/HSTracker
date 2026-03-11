@@ -83,6 +83,7 @@ extension CardIds.Collectible {
         static let IllidariInquisitorCore = "CS3_020"
         static let MagtheridonUnreleased = "TOY_647"
         static let FelBarrage = "SW_040"
+        static let TichondriusCorePlaceholder = "CORE_CATA_001"
     }
 }
 
@@ -124,5 +125,6 @@ extension CardIds.NonCollectible {
         static let Broxigar_SecondPortalToArgusToken = "TIME_020t3"
         static let Broxigar_ThirdPortalToArgusToken = "TIME_020t4"
         static let Broxigar_FinalPortalToArgusToken = "TIME_020t5"
+        static let Tichondrius_DemonicSummoningEnchantment = "CORE_CATA_001e"
     }
 }

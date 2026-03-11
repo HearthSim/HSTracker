@@ -19,3 +19,10 @@ class ArchwitchWillow: ICardWithHighlight {
         return HighlightColorHelper.getHighlightColor(card.isDemon())
     }
 }
+
+class ArchwitchWillowCorePlaceholder: ArchwitchWillow {
+
+    override func getCardId() -> String {
+        return CardIds.Collectible.Warlock.ArchwitchWillowCorePlaceholder
+    }
+}

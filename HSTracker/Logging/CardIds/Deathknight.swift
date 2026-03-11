@@ -62,6 +62,7 @@ extension CardIds.Collectible {
         static let TalanjiOfTheGraves = "TIME_619"
         static let MemoriamManifest = "TIME_616"
         static let Finality = "END_003"
+        static let AlexandrosMograine = "RLK_706"
     }
 }
 
@@ -96,6 +97,7 @@ extension CardIds.NonCollectible {
         static let TalanjioftheGraves_BoonOfLongevityToken = "TIME_619t4"
         static let TalanjioftheGraves_BoonOfSpeedToken = "TIME_619t5"
         static let Finality_BlessingOfTheInfinite = "END_003p"
+        static let AlexandrosMograine_MograinesMigraineEnchantment = "RLK_706e3"
     }
 }
 

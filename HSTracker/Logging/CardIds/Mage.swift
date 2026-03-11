@@ -227,6 +227,7 @@ extension CardIds.Collectible {
         static let TheAmazingReno = "YOD_009"
         static let InfinitizeTheMaxitude = "ETC_206"
         static let TheForbiddenSequence = "TLC_460"
+        static let ArcaneFlow = "CATA_489"
     }
 }
 
@@ -310,6 +311,8 @@ extension CardIds.NonCollectible {
         static let AzureQueenSindragosa_AzureOathstoneToken = "TIME_852t3"
         static let MirrorDimension_MirroredMageToken = "TIME_006t1"
         static let SplendiferousWhizbang_MorphingCardToken = "TOY_700t13"
+        static let Vulcanos_PlumeOfVulcanosToken1 = "CATA_488t"
+        static let Vulcanos_PlumeOfVulcanosToken2 = "CATA_488t2"
     }
 }
 

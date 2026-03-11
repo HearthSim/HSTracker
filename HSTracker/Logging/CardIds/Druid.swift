@@ -203,6 +203,8 @@ extension CardIds.Collectible {
         static let CrystalCluster = "DEEP_028"
         static let EonarTheLifeBinder = "TTN_903"
         static let WildGrowthCorePlaceholder = "CORE_CS2_013"
+        static let WildwoodCircle = "CATA_134"
+        static let AzsharasTriumph = "CATA_136"
     }
 }
 

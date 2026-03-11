@@ -764,6 +764,8 @@ extension CardIds.Collectible {
         static let ChefNomi = "DAL_554"
         static let ArchivistElysiana = "DAL_736"
         static let ZolaTheGorgonCorePlaceholder = "CORE_LOOT_516"
+        static let Warloc = "CATA_180"
+        static let StickybombSaboteur = "CATA_186"
     }
 }
 
@@ -1091,5 +1093,15 @@ extension CardIds.NonCollectible {
         static let ConveyorConstruct = "BG34_171"
         static let ApexisGuardian = "BG34_173"
         static let BurgeoningWhelp = "BG34_402"
+        static let Ebyssian_EbyssiansBlessingEnchantment1 = "CATA_553e"
+        static let Warloc_DoomEnchantment = "CATA_180e"
+        static let AlexstraszaGuardianofLife_CleansedOfCorruptionEnchantment = "CATA_307e"
+        static let RubySanctum_LifebindEnchantment = "CATA_301e"
+        static let CommanderGeddon_BarrenEnchantment = "CATA_591e"
+        static let DragonsReignToken = "CATA_190t10"
+        static let ToppleToken = "CATA_190t11"
+        static let RazeToken = "CATA_190t12"
+        static let EnthrallToken = "CATA_190t13"
+        static let StickybombSaboteur_SabotageToken = "CATA_186t"
     }
 }
