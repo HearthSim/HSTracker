@@ -1,3 +1,7 @@
+# 3.5.0
+## New
+** Updated for Hearthstone 35.0.0**
+
 # 3.4.11
 ## New
 **Updated for Hearthstone 34.6.2**
