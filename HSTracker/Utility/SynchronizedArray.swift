@@ -104,6 +104,12 @@ class SynchronizedArray<T> {
         }
     }
     
+    func sort(by predicate: (T, T) -> Bool) {
+        return lock.around {
+            arr.sort(by: predicate)
+        }
+    }
+    
     subscript(index: Int) -> T {
         get {
             return lock.around {

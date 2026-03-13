@@ -48,6 +48,10 @@ class BloodGemCounter: StatsCounter {
     override func valueToShow() -> String {
         return "+\(max(1, attackCounter)) / +\(max(1, healthCounter))"
     }
+    
+    override var sortValue: Int {
+        return max(1, attackCounter) + max(1, healthCounter)
+    }
 
     override func handleTagChange(tag: GameTag, entity: Entity, value: Int, prevValue: Int) {
         guard game.isBattlegroundsMatch() else { return }

@@ -37,6 +37,10 @@ class StatsCounter: BaseCounter {
             }
         }
     }
+    
+    override var sortValue: Int {
+        return attackCounter + healthCounter 
+    }
 
     required init(controlledByPlayer: Bool, game: Game) {
         super.init(controlledByPlayer: controlledByPlayer, game: game)

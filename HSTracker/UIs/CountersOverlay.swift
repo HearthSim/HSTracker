@@ -114,6 +114,16 @@ class CountersOverlay: OverWindowController {
         if changed || countersView?.subviews.count != visibleCounters.count {
             countersView?.update(self)
         }
+        
+        sortVisibleCounters()
+    }
+    
+    private func sortVisibleCounters() {
+        if !AppDelegate.instance().coreManager.game.isBattlegroundsMatch() {
+            return
+        }
+     
+        visibleCounters.sort(by: { $0.sortValue < $1.sortValue })
     }
     
     func forceShowExampleCounters() {

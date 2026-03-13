@@ -33,6 +33,10 @@ class NumericCounter: BaseCounter {
         return String(counter)
     }
     
+    override var sortValue: Int {
+        return counter
+    }
+    
     var lastEntityToCount: Entity?
     
     func discountIfCantPlay(tag: GameTag, value: Int, entity: Entity) -> Bool {

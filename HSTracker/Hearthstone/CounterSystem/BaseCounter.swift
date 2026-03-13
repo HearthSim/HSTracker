@@ -31,6 +31,10 @@ class BaseCounter: NSObject {
     var counterValue: String {
         return valueToShow()
     }
+    
+    var sortValue: Int {
+        return 0
+    }
 
     var isDisplayValueLong: Bool {
         return false
