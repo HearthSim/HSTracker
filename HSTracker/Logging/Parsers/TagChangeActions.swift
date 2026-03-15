@@ -80,8 +80,6 @@ struct TagChangeActions {
                 self.onRevealed(eventHandler: eventHandler, id: id, value: value, previous: prevValue)
             case .parent_card:
                 self.onParentCardChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue)
-            case .cant_play:
-                self.cantPlayChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue)
             case .health:
                 self.healthChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue)
             case .maxresources:
@@ -648,19 +646,6 @@ struct TagChangeActions {
         for cardId in cardIds {
             game.opponent.predictUniqueCardInDeck(cardId: cardId, isCreated: false)
         }
-    }
-    
-    private func cantPlayChange(eventHandler: PowerEventHandler, id: Int, value: Int, previous: Int) {
-        guard let entity = eventHandler.entities[id] else {
-            return
-        }
-        
-        let player = entity.isControlled(by: eventHandler.player.id) ? eventHandler.player : eventHandler.opponent
-        player?.cardsPlayedThisMatch.remove(entity)
-        player?.cardsPlayedThisTurn.remove(entity)
-        player?.spellsPlayedCards.remove(entity)
-        player?.spellsPlayedInFriendlyCharacters.remove(entity)
-        player?.spellsPlayedInOpponentCharacters.remove(entity)
     }
     
     private func onParentCardChange(eventHandler: PowerEventHandler, id: Int, value: Int, previous: Int) {
