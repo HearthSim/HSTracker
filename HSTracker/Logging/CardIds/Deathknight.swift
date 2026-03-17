@@ -63,6 +63,9 @@ extension CardIds.Collectible {
         static let MemoriamManifest = "TIME_616"
         static let Finality = "END_003"
         static let AlexandrosMograine = "RLK_706"
+        static let ObsessiveTechnician = "CATA_780"
+        static let ExperimentalAnimation = "CATA_156"
+        static let ArisenOnyxia = "CATA_155"
     }
 }
 

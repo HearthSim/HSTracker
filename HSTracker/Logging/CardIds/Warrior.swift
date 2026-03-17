@@ -176,6 +176,9 @@ extension CardIds.Collectible {
         static let DrBoomMadGenius = "BOT_238"
         static let ShadowflameSuffusion = "FIR_939"
         static let CommanderGeddon = "CATA_591"
+        static let CataclysmicWarAxe = "CATA_580"
+        static let ScorchingRavager = "CATA_160"
+        static let RagnarosTheGreatFire = "CATA_150"
     }
 }
 

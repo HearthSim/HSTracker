@@ -84,6 +84,9 @@ extension CardIds.Collectible {
         static let MagtheridonUnreleased = "TOY_647"
         static let FelBarrage = "SW_040"
         static let TichondriusCorePlaceholder = "CORE_CATA_001"
+        static let FelInfusion = "CATA_530"
+        static let ArmoredBloodletter = "CATA_525"
+        static let AzsharaOceanLord = "CATA_151"
     }
 }
 

@@ -526,6 +526,8 @@
 		B833360F2F6214F400923513 /* CaliaMenethil.swift in Sources */ = {isa = PBXBuildFile; fileRef = B833360E2F6214F400923513 /* CaliaMenethil.swift */; };
 		B83336112F62153E00923513 /* StolenPower.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83336102F62153E00923513 /* StolenPower.swift */; };
 		B83336132F6215EC00923513 /* RitualOfPower.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83336122F6215EC00923513 /* RitualOfPower.swift */; };
+		B833361B2F69FAB000923513 /* DeathwingDiscount.swift in Sources */ = {isa = PBXBuildFile; fileRef = B833361A2F69FAB000923513 /* DeathwingDiscount.swift */; };
+		B833361D2F69FB9F00923513 /* HeraldCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B833361C2F69FB9F00923513 /* HeraldCounter.swift */; };
 		B83355AE24F807220025F644 /* BobsBuddyPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = B83355B024F807220025F644 /* BobsBuddyPanel.xib */; };
 		B836821E27873B40007D5740 /* HeroPowerDataProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B836821D27873B40007D5740 /* HeroPowerDataProxy.swift */; };
 		B836822027888B12007D5740 /* CombatResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B836821F27888B12007D5740 /* CombatResult.swift */; };
@@ -1935,6 +1937,8 @@
 		B833360E2F6214F400923513 /* CaliaMenethil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaliaMenethil.swift; sourceTree = "<group>"; };
 		B83336102F62153E00923513 /* StolenPower.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StolenPower.swift; sourceTree = "<group>"; };
 		B83336122F6215EC00923513 /* RitualOfPower.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RitualOfPower.swift; sourceTree = "<group>"; };
+		B833361A2F69FAB000923513 /* DeathwingDiscount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeathwingDiscount.swift; sourceTree = "<group>"; };
+		B833361C2F69FB9F00923513 /* HeraldCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeraldCounter.swift; sourceTree = "<group>"; };
 		B83355AF24F807220025F644 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/BobsBuddyPanel.xib; sourceTree = "<group>"; };
 		B83355B124F84CBF0025F644 /* libmonosgen-2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libmonosgen-2.0.a"; path = "../../../Library/Frameworks/Mono.framework/Versions/6.12.0/lib/libmonosgen-2.0.a"; sourceTree = "<group>"; };
 		B83355B324F84F200025F644 /* libiconv.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.2.dylib; path = ../../../usr/lib/libiconv.2.dylib; sourceTree = "<group>"; };
@@ -3594,6 +3598,7 @@
 				B89343372CD00858009A8727 /* ChaoticTendrilCounter.swift */,
 				B81B3D942D41238100DC9EB0 /* ColossusCounter.swift */,
 				B89343392CD008DF009A8727 /* CthunCounter.swift */,
+				B833361A2F69FAB000923513 /* DeathwingDiscount.swift */,
 				B81B3DA22D4434C000DC9EB0 /* DiscoversThisGameCounter.swift */,
 				B846CCBF2E1DABA700552F9C /* DiveTheGolakkaDepthsBuffCounter.swift */,
 				B893433B2CD0372A009A8727 /* ElementalTurnSequenceCounter.swift */,
@@ -3602,6 +3607,7 @@
 				B893433F2CD07836009A8727 /* FatigueCounter.swift */,
 				B86D89C12D95A04200AB65A5 /* FriendlyMinionsDiedThisGameCounter.swift */,
 				B89343412CD0791C009A8727 /* GalakrondCounter.swift */,
+				B833361C2F69FB9F00923513 /* HeraldCounter.swift */,
 				B86D89C32D95A24F00AB65A5 /* HeroPowersThisGameCounter.swift */,
 				B872E0D62DB059410023B24B /* HolySpellsPlayedCounter.swift */,
 				B8889C1E2DA4AAEB0053DD57 /* ImbueCounter.swift */,
@@ -5477,6 +5483,7 @@
 				B82029392CD2CECB00C19A8C /* AstrobiologistEnchantment.swift in Sources */,
 				B8E1E5B42D0C86A200383975 /* RevivePet.swift in Sources */,
 				B846CC722E157AA100552F9C /* DreadRaptor.swift in Sources */,
+				B833361B2F69FAB000923513 /* DeathwingDiscount.swift in Sources */,
 				B86D89F62D95EFF700AB65A5 /* BrollBearmantle.swift in Sources */,
 				B852D8132DDABE1E00884B26 /* FreeRefreshCounter.swift in Sources */,
 				B898656E2D8E17CF00BA5649 /* Fetch.swift in Sources */,
@@ -5715,6 +5722,7 @@
 				B837D7EC2EAF03F30070DB4B /* FiddlefireImp.swift in Sources */,
 				B85462052CDD3EDA0083BB31 /* TessGreymane.swift in Sources */,
 				4387BED21CF4D7A00002ECBB /* State.swift in Sources */,
+				B833361D2F69FB9F00923513 /* HeraldCounter.swift in Sources */,
 				B85462182CDEBB2E0083BB31 /* EmergencyMeeting.swift in Sources */,
 				B846CC9E2E1C217E00552F9C /* InsectClaw.swift in Sources */,
 				434910521D09773D00B22DB2 /* IBoardEntity.swift in Sources */,

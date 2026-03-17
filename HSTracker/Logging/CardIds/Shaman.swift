@@ -204,6 +204,8 @@ extension CardIds.Collectible {
         static let DoctorHollidae = "WW_010"
         static let FrostyDécor = "VAC_305"
         static let RitualOfPower = "CATA_561"
+        static let SkywallSentinel = "CATA_565"
+        static let AlakirLordOfStorms = "CATA_153"
     }
 }
 

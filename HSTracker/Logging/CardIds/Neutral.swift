@@ -1103,5 +1103,6 @@ extension CardIds.NonCollectible {
         static let RazeToken = "CATA_190t12"
         static let EnthrallToken = "CATA_190t13"
         static let StickybombSaboteur_SabotageToken = "CATA_186t"
+        static let Ultraxion_UltraxionHeraldedEnchantment = "CATA_497e"
     }
 }

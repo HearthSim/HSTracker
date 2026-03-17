@@ -352,6 +352,8 @@
 "Counter_RightMostTavernMinionBuff" = "Right Most Tavern Buff";
 "Counter_VolumizerBuff" = "Volumizer Buff";
 "Counter_WhelpBuff" = "Whelp Buff";
+"Counter_DeathwingDiscount" = "Deathwing Discount";
+"Counter_Herald" = "Herald";
 
 /* Tier7 */
 "BattlegroundsOverlayMessage_Error" = "Something went wrong :(";

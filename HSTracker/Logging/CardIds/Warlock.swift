@@ -219,6 +219,9 @@ extension CardIds.Collectible {
         static let FanottemLordOfTheOpera = "JAM_030"
         static let HellfireCore = "CORE_CS2_062"
         static let ArchwitchWillowCorePlaceholder = "CORE_SCH_181"
+        static let ShadowswornDisciple = "CATA_725"
+        static let ShrineOfTwilight = "CATA_492"
+        static let ChogallMastermind = "CATA_726"
     }
 }
 

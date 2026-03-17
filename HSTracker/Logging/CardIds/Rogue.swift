@@ -246,6 +246,9 @@ extension CardIds.Collectible {
         static let VelarokWindblade = "WW_364"
         static let SnatchAndGrab = "VAC_700"
         static let StolenPower = "CATA_202"
+        static let RiteOfTwilight = "CATA_785"
+        static let ManiacalFollower = "CATA_158"
+        static let Sinestra = "CATA_154"
     }
 }
 
