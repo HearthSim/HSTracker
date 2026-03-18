@@ -97,7 +97,8 @@ enum CardSet: String, CaseIterable {
                 .black_temple, .demon_hunter_initiate, .scholomance, .darkmoon_faire,
                 .the_barrens, .wailing_caverns, .stormwind, .alterac_valley,
                 .the_sunken_city, .revendreth, .return_of_the_lich_king, .path_of_arthas,
-                .battle_of_the_bands, .titans, .wild_west]
+                .battle_of_the_bands, .titans, .wild_west,
+                .whizbangs_workshop, .island_vacation, .space]
     }
     
     static func classicSets() -> [CardSet] {

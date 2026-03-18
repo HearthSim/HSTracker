@@ -1,3 +1,17 @@
+# 3.5.1
+## New
+**Updated for CATACLYSM expansion**
+- Added Herald Counter.
+- Added Deathwing Worldbreaker discount given by Ultraxion.
+- Added trial cards to collection syncing.
+**Battlegrounds**:
+- Added counter sorting by numerical value. This improves the visibility of important counters.
+- Fixed incorrect simulation results where:
+  - Tavish’s Hero Power would not trigger at the start of combat when the opponent had no minions.
+  - Minions targeted by Tasmin’s Hero Power could incorrectly buff themselves when their Deathrattle was triggered by another minion.
+  - Twilight Whelp tokens would not attack when summoned by Twilight Hatchling.
+  - Beetles summoned by Boon of Beetles were missing Taunt.
+
 # 3.5.0
 ## New
 ** Updated for Hearthstone 35.0.0**
