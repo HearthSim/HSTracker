@@ -701,6 +701,10 @@ class BobsBuddyInvoker {
         return board.filter({ $0.isMinion }).map({ $0.copy() }).sorted(by: { $0[GameTag.zone_position] < $1[GameTag.zone_position]})
     }
     
+    static func getOrderedHandEntities(_ hand: [Entity]) -> [Entity] {
+        return hand.sorted(by: { $0[.zone_position] < $1[.zone_position] })
+    }
+    
     static func getMinionFromEntity(sim: SimulatorProxy, player: Bool, ent: Entity, attachedEntities: [Entity]) -> MinionProxy {
         let cardId = ent.info.latestCardId
         let minion = sim.minionFactory.createFromCardid(id: cardId, player: player)
@@ -959,7 +963,8 @@ class BobsBuddyInvoker {
 
             let playerHand = inputPlayer.hand
             
-            for e in gamePlayer.hand {
+            let friendlyHandEntities = BobsBuddyInvoker.getOrderedHandEntities(gamePlayer.hand)
+            for e in friendlyHandEntities {
                 if e.isMinion {
                     let minionEntity = MinionCardEntityProxy(minion: BobsBuddyInvoker.getMinionFromEntity(sim: simulator, player: true, ent: e, attachedEntities: getAttachedEntities(entityId: e.id)), simulator: simulator)
                     minionEntity.canSummon = !e.has(tag: .literally_unplayable)
@@ -988,7 +993,7 @@ class BobsBuddyInvoker {
             }
             inputPlayer.setSecrets(secrets: secretsToAdd)
 
-            self.opponentHand = gamePlayer.hand
+            self.opponentHand = BobsBuddyInvoker.getOrderedHandEntities(gamePlayer.hand)
             let opponentHand = inputPlayer.hand
             MonoHelper.listClear(obj: opponentHand)
             
