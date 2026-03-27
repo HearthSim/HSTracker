@@ -1367,7 +1367,7 @@ class PowerGameStateParser: LogEventParser {
                     if let magnanimooseEntity = eventHandler.entities[currentBlock.sourceEntityId] {
                         let summonedEntities = eventHandler.entities.values.filter({ e in
                             e[.cardtype] == CardType.minion.rawValue &&
-                            e[.creator] == magnanimooseEntity[.creator] &&
+                            e[.creator] == magnanimooseEntity.id &&
                             e[.zone] == Zone.play.rawValue
                         })
 
@@ -1379,9 +1379,9 @@ class PowerGameStateParser: LogEventParser {
                 }
                 if currentBlock.cardId == CardIds.NonCollectible.Neutral.TimewarpedNelliesShipToken1 && currentBlock.triggerKeyword == "DEATHRATTLE" {
                     if let nelliesEntity = eventHandler.entities[currentBlock.sourceEntityId] {
-                        let summonedEntities = eventHandler.entities.values.filter { e in e[GameTag.cardtype] == CardType.minion.rawValue && e[.creator] == nelliesEntity[.creator] && e[.zone] == Zone.play.rawValue }.compactMap { x in x.card.dbfId }
-                        if summonedEntities.count > 0 {
-                            BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateNelliesShipEnchantment(summonedEntities, nelliesEntity.id, nelliesEntity.isControlled(by: eventHandler.player.id))
+                        let summonedDbfIds = eventHandler.entities.values.filter { e in e[GameTag.cardtype] == CardType.minion.rawValue && e[.creator] == nelliesEntity.id && e[.zone] == Zone.play.rawValue }.compactMap { x in x.card.dbfId }
+                        if summonedDbfIds.count > 0 {
+                            BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateNelliesShipEnchantment(summonedDbfIds, nelliesEntity.id, nelliesEntity.isControlled(by: eventHandler.player.id))
                         }
                     }
                 }
