@@ -1,3 +1,7 @@
+# 3.5.3
+## Fixes
+- Fixes crash when starting up with verison 3.5.2
+
 # 3.5.2
 **Bob's Buddy**:
 - Fixed incorrect simulation results where:
