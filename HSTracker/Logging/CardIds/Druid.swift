@@ -205,6 +205,7 @@ extension CardIds.Collectible {
         static let WildGrowthCorePlaceholder = "CORE_CS2_013"
         static let WildwoodCircle = "CATA_134"
         static let AzsharasTriumph = "CATA_136"
+        static let HamuulRunetotem = "EDR_845"
     }
 }
 

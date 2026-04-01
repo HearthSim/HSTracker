@@ -10,7 +10,7 @@ import Foundation
 
 class ImbueCounter: NumericCounter {
    override var cardIdToShowInUI: String? {
-        CardIds.Collectible.Neutral.MalorneTheWaywatcher
+       isHamuul ? CardIds.NonCollectible.Druid.DreamboundDisciple_BlessingOfTheGolem : CardIds.Collectible.Neutral.MalorneTheWaywatcher
     }
     
     override var localizedName: String {
@@ -49,18 +49,35 @@ class ImbueCounter: NumericCounter {
     }
     
     override func valueToShow() -> String {
-        return "\(counter)"
+        return isHamuul ? "\(counter) \(subCounter)/2" : "\(counter)"
     }
+    
+    private var isHamuul = false
+    private var subCounter = 0
     
     override func handleTagChange(tag: GameTag, entity: Entity, value: Int, prevValue: Int) {
         guard game.isTraditionalHearthstoneMatch else { return }
-        guard tag == GameTag.gametag_3527 else { return }
-        guard value > 0 else { return }
-        
+
         let controller = entity[.controller]
+        let isCounterFromController = controller == game.player.id && isPlayerCounter || controller == game.opponent.id && !isPlayerCounter
+
+        guard isCounterFromController else { return }
         
-        if (controller == game.player.id && isPlayerCounter) || (controller == game.opponent.id && !isPlayerCounter) {
-            counter = value
+        if entity.cardId == CardIds.Collectible.Druid.HamuulRunetotem && tag == GameTag.has_activate_power && value == 1 {
+            isHamuul = true
+            return
         }
+        
+        if tag == GameTag.imbue_sub_counter && isHamuul {
+            subCounter = value
+            onCounterChanged()
+            return
+        }
+        
+        guard tag == GameTag.gametag_3527 else { return }
+        guard value != 0 else { return }
+        
+        
+        counter = value
     }
 }

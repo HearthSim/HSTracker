@@ -410,6 +410,7 @@ enum GameTag: Int, CaseIterable, Codable {
     titan = 2772,
     gametag_2822 = 2822,
     bacon_bloodgembuffhealthvalue = 2827,
+    has_activate_power = 2840,
     venomous = 2853,
     gametag_2878 = 2878,
     tag_script_data_num_3 = 2889,
@@ -462,6 +463,7 @@ enum GameTag: Int, CaseIterable, Codable {
     bacon_elemental_buffhealthvalue = 4001,
     bacon_elemental_buffatkvalue = 4002,
     kindred = 4028,
+    imbue_sub_counter = 4168,
     bacon_player_extra_gold_next_turn = 4286,
     herald_colossal_amount = 4327,
     bacon_free_refresh_count = 4536
