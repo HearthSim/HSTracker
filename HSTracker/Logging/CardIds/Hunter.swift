@@ -227,6 +227,7 @@ extension CardIds.Collectible {
         static let Ebyssian = "CATA_553"
         static let ConfrontTheTolvir = "CATA_560"
         static let SupplyRun = "CATA_820"
+        static let PressurePlateCore = "CORE_ULD_152"
     }
 }
 
@@ -332,7 +333,7 @@ extension CardIds.Secrets {
         static let Misdirection = MultiIdCard(CardIds.Collectible.Hunter.Misdirection, CardIds.Collectible.Hunter.MisdirectionVanilla)
         static let OpenTheCages = MultiIdCard(CardIds.Collectible.Hunter.OpenTheCages)
         static let PackTactics = MultiIdCard(CardIds.Collectible.Hunter.PackTactics)
-        static let PressurePlate = MultiIdCard(CardIds.Collectible.Hunter.PressurePlate)
+        static let PressurePlate = MultiIdCard(CardIds.Collectible.Hunter.PressurePlate, CardIds.Collectible.Hunter.PressurePlateCore)
         static let RatTrap = MultiIdCard(CardIds.Collectible.Hunter.RatTrap, CardIds.Collectible.Hunter.RatTrapCore)
         static let Snipe = MultiIdCard(CardIds.Collectible.Hunter.Snipe, CardIds.Collectible.Hunter.SnipeVanilla, CardIds.Collectible.Hunter.SnipeWONDERS)
         static let UntimelyDeath = MultiIdCard(CardIds.Collectible.Hunter.UntimelyDeath)
