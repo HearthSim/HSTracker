@@ -345,7 +345,7 @@ class PowerGameStateParser: LogEventParser {
                     if entity.info.guessedCardState != GuessedCardState.none {
                         entity.info.guessedCardState = GuessedCardState.revealed
                     }
-                    if (AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock?.hideShowEntities ?? false && !(entity.info.revealedOnHistory) && !(entity.has(tag: .displayed_creator))) || entity.cardId == CardIds.NonCollectible.Rogue.GaronaHalforcen_KingLlaneToken {
+                    if (AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock?.hideShowEntities ?? false && !(entity.info.revealedOnHistory) && !(entity.has(tag: .displayed_creator))) {
                         entity.info.hidden = true
                     } else {
                         entity.info.hidden = false
