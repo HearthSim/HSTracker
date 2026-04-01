@@ -1055,6 +1055,9 @@ class BobsBuddyInvoker {
         inputPlayer.bloodGemHealthBuff = Int32(playerEntity[.bacon_bloodgembuffhealthvalue])
         
         logger.info("pBloodGem=+\(inputPlayer.bloodGemAtkBuff)/+\(inputPlayer.bloodGemHealthBuff), friendly=\(friendly)")
+        
+        inputPlayer.tavernSpellAtkBuff = Int32(playerEntity[GameTag.tavern_spell_attack_increase])
+        inputPlayer.tavernSpellHealthBuff = Int32(playerEntity[GameTag.tavern_spell_health_increase])
     }
 
     func snapshotBoardState(turn: Int) {
