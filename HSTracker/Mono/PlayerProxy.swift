@@ -25,7 +25,7 @@ class PlayerProxy: MonoHandle, MonoClassInitializer {
             PlayerProxy._setSecrets = MonoHelper.getMethod(PlayerProxy._class, "SetSecretsHstracker", 1)
             
             // fields
-            initializeProperties(properties: [ "Side", "HeroPowers", "Quests", "Objectives", "Trinkets", "Secrets", "Hand", "FriendlyMinionsDeadLastCombatCounter", "EternalKnightCounter", "AncestralAutomatonCounter", "UndeadAttackBonus", "WhelpAttackBonus", "WhelpHealthBonus", "ElementalPlayCounter", "BloodGemAtkBuff", "BloodGemHealthBuff", "DeepBluesAtkBuff", "DeepBluesHealthBuff", "TavernSpellCounter", "PiratesSummonCounter", "ResourcesSpentThisGame", "BeastsSummonCounter", "BeastAttackBonus", "BeastHealthBonus", "BeetlesAtkBuff", "BeetlesHealthBuff", "BattlecryCounter", "TavernSpellAtkBuff", "TavernSpellHealthBuff", "Health", "DamageTaken", "Tier" ])
+            initializeProperties(properties: [ "Side", "HeroPowers", "Quests", "Objectives", "Trinkets", "Secrets", "Hand", "FriendlyMinionsDeadLastCombatCounter", "EternalKnightCounter", "AncestralAutomatonCounter", "UndeadAttackBonus", "WhelpAttackBonus", "WhelpHealthBonus", "ElementalPlayCounter", "BloodGemAtkBuff", "BloodGemHealthBuff", "DeepBluesAtkBuff", "DeepBluesHealthBuff", "TavernSpellCounter", "PiratesSummonCounter", "ResourcesSpentThisGame", "BeastsSummonCounter", "BeastAttackBonus", "BeastHealthBonus", "BeetlesAtkBuff", "BeetlesHealthBuff", "BattlecryCounter", "TavernSpellAtkBuff", "TavernSpellHealthBuff", "HauntedAtkBuff", "HauntedHealthBuff", "Health", "DamageTaken", "Tier" ])
         }
     }
     
@@ -162,6 +162,12 @@ class PlayerProxy: MonoHandle, MonoClassInitializer {
     @MonoPrimitiveProperty(property: "TavernSpellHealthBuff", owner: PlayerProxy.self)
     var tavernSpellHealthBuff: Int32
 
+    @MonoPrimitiveProperty(property: "HauntedAtkBuff", owner: PlayerProxy.self)
+    var hauntedAtkBuff: Int32
+    
+    @MonoPrimitiveProperty(property: "HauntedHealthBuff", owner: PlayerProxy.self)
+    var hauntedHealthBuff: Int32
+    
     @MonoPrimitiveProperty(property: "Health", owner: PlayerProxy.self)
     var health: Int32
     

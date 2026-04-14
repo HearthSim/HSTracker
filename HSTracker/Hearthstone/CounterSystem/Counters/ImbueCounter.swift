@@ -77,7 +77,6 @@ class ImbueCounter: NumericCounter {
         guard tag == GameTag.gametag_3527 else { return }
         guard value != 0 else { return }
         
-        
         counter = value
     }
 }

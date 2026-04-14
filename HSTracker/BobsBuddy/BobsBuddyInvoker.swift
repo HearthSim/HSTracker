@@ -848,7 +848,7 @@ class BobsBuddyInvoker {
     
     private func setupInputPlayer(simulator: SimulatorProxy, gamePlayer: Player, inputPlayer: PlayerProxy, playerEntity: Entity?, friendly: Bool) throws {
         let playerGameHero = gamePlayer.hero
-
+        
         guard let playerEntity else {
             throw "\(friendly ? "Player" : "Opponent") Entity could not be found. Exiting."
         }
@@ -871,13 +871,13 @@ class BobsBuddyInvoker {
         guard let playerGameHero else {
             throw "Hero(es) could not be found. Exiting."
         }
-                
+        
         inputPlayer.health = Int32(playerGameHero.health + playerGameHero[.armor])
         
         if !friendly && inputPlayer.health <= 0 {
             inputPlayer.health = 1000
         }
-
+        
         inputPlayer.damageTaken = Int32(playerGameHero[GameTag.damage])
         inputPlayer.tier = Int32(playerGameHero[GameTag.player_tech_level])
         
@@ -917,7 +917,7 @@ class BobsBuddyInvoker {
             }
             inputPlayer.addHeroPower(heroPowerCardId: heroPower.cardId, friendly: friendly, isActivated: wasHeroPowerActivated(heroPower: heroPower), data: Int32(pHpData), data2: Int32(pHpData2), data3: Int32(pHpData3), attachedMinion: pHpAttachedMinion ?? MonoHandle())
         }
-
+        
         let playerQuests = inputPlayer.quests
         for quest in gamePlayer.quests {
             let rewardDbfId = quest[.quest_reward_database_id]
@@ -929,7 +929,7 @@ class BobsBuddyInvoker {
             questData.rewardCardId = reward?.id ?? ""
             MonoHelper.addToList(list: playerQuests, element: questData)
         }
-
+        
         for reward in gamePlayer.questRewards {
             let questData = QuestDataProxy()
             questData.questProgress = Int32(0)
@@ -960,7 +960,7 @@ class BobsBuddyInvoker {
             MonoHelper.listClear(obj: target)
             
             inputPlayer.setSecrets(secrets: gamePlayer.secrets.compactMap { s in s.card.dbfId })
-
+            
             let playerHand = inputPlayer.hand
             
             let friendlyHandEntities = BobsBuddyInvoker.getOrderedHandEntities(gamePlayer.hand)
@@ -992,7 +992,7 @@ class BobsBuddyInvoker {
                 }
             }
             inputPlayer.setSecrets(secrets: secretsToAdd)
-
+            
             self.opponentHand = BobsBuddyInvoker.getOrderedHandEntities(gamePlayer.hand)
             let opponentHand = inputPlayer.hand
             MonoHelper.listClear(obj: opponentHand)
@@ -1036,9 +1036,9 @@ class BobsBuddyInvoker {
         }
         
         inputPlayer.elementalPlayCounter = Int32(game.playerEntity?[.gametag_2878] ?? 0)
-
+        
         logger.info("pEternal=\(inputPlayer.eternalKnightCounter), pUndead=\(inputPlayer.undeadAttackBonus), pElemental=\(inputPlayer.elementalPlayCounter), friendly=\(friendly)")
-
+        
         inputPlayer.piratesSummonCounter = Int32(game.playerEntity?[.gametag_2358] ?? 0)
         
         inputPlayer.resourcesSpentThisGame = Int32(game.playerEntity?[.num_resources_spent_this_game] ?? 0)
@@ -1058,6 +1058,12 @@ class BobsBuddyInvoker {
         
         inputPlayer.tavernSpellAtkBuff = Int32(playerEntity[GameTag.tavern_spell_attack_increase])
         inputPlayer.tavernSpellHealthBuff = Int32(playerEntity[GameTag.tavern_spell_health_increase])
+         
+        if let pHaunted = playerAttached.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.HauntedCarapace_HauntedCarapacePlayerEnchantDnt }) {
+            inputPlayer.hauntedAtkBuff = Int32(pHaunted[GameTag.tag_script_data_num_1])
+            inputPlayer.hauntedHealthBuff = Int32(pHaunted[GameTag.tag_script_data_num_2])
+            logger.info("pHauntedAtk=\(inputPlayer.hauntedAtkBuff), pHauntedHealth=\(inputPlayer.hauntedHealthBuff), friendly=\(friendly)")
+        }
     }
 
     func snapshotBoardState(turn: Int) {
