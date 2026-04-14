@@ -1267,6 +1267,17 @@ class PowerGameStateParser: LogEventParser {
                             let createdByAzsharasTriumph = FakeCard(CardIds.Collectible.Druid.AzsharasTriumph)
                             createdByAzsharasTriumph.type = .minion
                             addKnownCardId(eventHandler: eventHandler, cardId: createdByAzsharasTriumph.serialize(), count: 5)
+                        case CardIds.NonCollectible.Neutral.EnthrallToken:
+                            let createdByDeathwing = FakeCard(CardIds.Collectible.Invalid.DeathwingWorldbreakerHeroic)
+                            
+                            createdByDeathwing.type = CardType.minion
+                            createdByDeathwing.rarity = .legendary
+                            createdByDeathwing.cost = 1
+                            createdByDeathwing.tags = [
+                                GameTag.elite: 1,
+                                GameTag.cardrace: 24 // dragon
+                            ]
+                            addKnownCardId(eventHandler: eventHandler, cardId: createdByDeathwing.serialize(), count: 5)
                         default:
                             if let card = Cards.any(byId: actionStartingCardId) {
                                 if (player != nil && player![.current_player] == 1
