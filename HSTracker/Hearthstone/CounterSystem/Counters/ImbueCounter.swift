@@ -49,7 +49,7 @@ class ImbueCounter: NumericCounter {
     }
     
     override func valueToShow() -> String {
-        return isHamuul ? "\(counter) \(subCounter)/2" : "\(counter)"
+        return isHamuul ? "\(counter) \(subCounter)/3" : "\(counter)"
     }
     
     private var isHamuul = false
