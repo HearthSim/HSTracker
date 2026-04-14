@@ -275,6 +275,11 @@ class PowerGameStateParser: LogEventParser {
                     entity.cardId = cid
                 }
                 entity.info.copyOfCardId = copyOfCardId
+                
+                if let block = currentBlock, let blockEntity = eventHandler.entities[block.sourceEntityId], blockEntity.has(tag: GameTag.shattered) {
+                    entity.info.shatterCombined = true
+                }
+                
                 eventHandler.entities[id] = entity
                 
                 if let currentBlock, zone == .deck {

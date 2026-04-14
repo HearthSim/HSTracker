@@ -18,5 +18,7 @@ enum CardMark: Int {
     created,
     drawnByEntity,
     kept,
-    forged
+    forged,
+    shattered,
+    shatterCombined
 }

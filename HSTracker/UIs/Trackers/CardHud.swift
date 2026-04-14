@@ -60,6 +60,8 @@ class CardHud: NSView {
         case .created: icon = "created"
         case .forged: icon = "card-icon-forged"
         case .drawnByEntity: icon = "card-icon-drawn"
+        case .shattered: icon = "shatter-split"
+        case .shatterCombined: icon = "shatter-combined"
         default: icon = nil
         }
     }

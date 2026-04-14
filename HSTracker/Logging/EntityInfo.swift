@@ -45,6 +45,7 @@ class EntityInfo {
     var inGraveyardAtStartOfGame = false
     var extraInfo: (any ICardExtraInfo)?
     var forged = false
+    var shatterCombined = false
 
     init(entity: Entity) {
         _entity = entity
@@ -59,6 +60,12 @@ class EntityInfo {
         }
         if forged {
             return .forged
+        }
+        if shatterCombined {
+            return .shatterCombined
+        }
+        if _entity.has(tag: GameTag.shattered) {
+            return .shattered
         }
         if drawnByEntity {
             return .drawnByEntity
@@ -149,6 +156,12 @@ extension EntityInfo: CustomStringConvertible {
         }
         if forged {
             description += ", forged=true"
+        }
+        if _entity.has(tag: GameTag.shattered) {
+            description += ", shattered=true"
+        }
+        if shatterCombined {
+            description += ", shatterCombined=true"
         }
         if let copyOfCardId {
             description += ", copyOf=\(copyOfCardId)"
