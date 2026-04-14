@@ -1365,7 +1365,8 @@ class PowerGameStateParser: LogEventParser {
                     CardIds.NonCollectible.Neutral.ChoralMrrrglr: CardIds.NonCollectible.Neutral.ChoralMrrrglr_ChorusEnchantment,
                     CardIds.NonCollectible.Neutral.TimewarpedMrrrglr: CardIds.NonCollectible.Neutral.ChoralMrrrglr_ChorusEnchantment,
                     CardIds.NonCollectible.Neutral.CostumeEnthusiast: CardIds.NonCollectible.Neutral.CostumeEnthusiast_EnthusiasticEnchantment,
-                    CardIds.NonCollectible.Neutral.Dramaloc: CardIds.NonCollectible.Neutral.Dramaloc_DramaticEnchantment
+                    CardIds.NonCollectible.Neutral.Dramaloc: CardIds.NonCollectible.Neutral.Dramaloc_DramaticEnchantment,
+                    CardIds.NonCollectible.Neutral.DramalocSticker: CardIds.NonCollectible.Neutral.DramalocSticker_DramaticEnchantment
                         ]
                 if let cardId = currentBlock.cardId, let enchantmentCardId = enchantmentMapping[cardId] {
                     if let sourceEntity = eventHandler.entities[currentBlock.sourceEntityId], sourceEntity.isControlled(by: eventHandler.opponent.id) {

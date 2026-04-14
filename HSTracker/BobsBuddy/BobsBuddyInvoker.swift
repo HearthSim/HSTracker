@@ -882,6 +882,7 @@ class BobsBuddyInvoker {
         inputPlayer.tier = Int32(playerGameHero[GameTag.player_tech_level])
         
         let playerHeroPowers = gamePlayer.board.filter({ $0.isHeroPower }).take(2)
+        var claimedHeroPowerTargets = Set<Int>()
         
         for heroPower in playerHeroPowers {
             var pHpData = heroPower[.tag_script_data_num_1]
@@ -894,17 +895,19 @@ class BobsBuddyInvoker {
                 let attachedToEntityId = game.player.playerEntities
                     .filter { x in x.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_ImpendingDeath && x.isInPlay }
                     .compactMap { x in x[.attached] }
-                    .first { x in minionsInPlay.any { y in y == x } } ?? 0
+                    .first { x in minionsInPlay.any { y in y == x && !claimedHeroPowerTargets.contains(x)} } ?? 0
                 if attachedToEntityId > 0 {
                     pHpData = attachedToEntityId
+                    claimedHeroPowerTargets.insert(attachedToEntityId)
                 }
             }
             
             if heroPower.cardId == CardIds.NonCollectible.Neutral.FlobbidinousFloop_GloriousGloop {
                 let minionsInPlay = gamePlayer.board.filter { e in e.isMinion && e.isControlled(by: gamePlayer.id) }.compactMap { x in x.id }
-                let attachedToEntityId = gamePlayer.playerEntities.filter { x in x.cardId == CardIds.NonCollectible.Neutral.FlobbidinousFloop_InTheGloop && (!friendly || (x.isInPlay && friendly)) }.compactMap { x in x[.attached] }.first { x in minionsInPlay.any { y in y == x } } ?? 0
+                let attachedToEntityId = gamePlayer.playerEntities.filter { x in x.cardId == CardIds.NonCollectible.Neutral.FlobbidinousFloop_InTheGloop && (!friendly || (x.isInPlay && friendly)) }.compactMap { x in x[.attached] }.first { x in minionsInPlay.any { y in y == x && !claimedHeroPowerTargets.contains(x)} } ?? 0
                 if attachedToEntityId > 0 {
                     pHpData = attachedToEntityId
+                    claimedHeroPowerTargets.insert(attachedToEntityId)
                 }
             }
             
