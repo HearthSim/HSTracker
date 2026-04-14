@@ -354,6 +354,7 @@
 "Counter_WhelpBuff" = "Whelp Buff";
 "Counter_DeathwingDiscount" = "Deathwing Discount";
 "Counter_Herald" = "Herald";
+"Counter_RandomTavernMinionBuff" = "Random Tavern Minion Buff";
 
 /* Tier7 */
 "BattlegroundsOverlayMessage_Error" = "Something went wrong :(";

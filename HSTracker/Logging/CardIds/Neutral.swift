@@ -1105,5 +1105,6 @@ extension CardIds.NonCollectible {
         static let StickybombSaboteur_SabotageToken = "CATA_186t"
         static let Ultraxion_UltraxionHeraldedEnchantment = "CATA_497e"
         static let HauntedCarapace_HauntedCarapacePlayerEnchantDnt = "BG33_112pe"
+        static let RandomMinionTavernMinionBuffPlayerEnchDnt = "BG34_854pe"
     }
 }
