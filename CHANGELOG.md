@@ -1,3 +1,11 @@
+# 3.5.4
+## New
+**Updated for Hearthstone 35.2.0**
+- Added unknown cards shuffled by Deathwing Worldbreaker.
+- Added icons that indicate shattered cards.
+**Bob's Buddy**:
+- Many fixes
+
 # 3.5.3
 ## Fixes
 - Fixes crash when starting up with verison 3.5.2
