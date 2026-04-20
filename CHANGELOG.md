@@ -1,3 +1,9 @@
+# 3.5.5
+## Fixes
+- Update card database to correct version (should fix problem tracking games)
+**Bob's Buddy**
+- Numerous fixes
+
 # 3.5.4
 ## New
 **Updated for Hearthstone 35.2.0**
