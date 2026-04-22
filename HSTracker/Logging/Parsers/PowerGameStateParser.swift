@@ -32,6 +32,7 @@ class PowerGameStateParser: LogEventParser {
     final let SubSpellStartRegex = Regex("SUB_SPELL_START - SpellPrefabGUID=(.*) Source=(\\d+)")
     final let MetaInfoRegex = Regex("Info\\[\\d+\\]\\s*=\\s*(?:.*\\bid=(\\d+).*]|\\b(\\d+)\\b)")
     var tagChangeHandler = TagChangeHandler()
+    var tmpEntities = SynchronizedArray<Entity>()
     var currentEntity: Entity?
     var gameStateIsInsideMetaDataHistoryTarget = false
 
@@ -154,11 +155,11 @@ class PowerGameStateParser: LogEventParser {
                     }
 
                     //while the id is unknown, store in tmp entities
-                    var tmpEntity = eventHandler.tmpEntities.first { $0.name == rawEntity }
+                    var tmpEntity = tmpEntities.first { $0.name == rawEntity }
                     if tmpEntity == nil {
-                        let tmp = Entity(id: eventHandler.tmpEntities.count + 1)
+                        let tmp = Entity(id: tmpEntities.count + 1)
                         tmp.name = rawEntity
-                        eventHandler.tmpEntities.append(tmp)
+                        tmpEntities.append(tmp)
                         tmpEntity = tmp
                     }
 
@@ -184,18 +185,22 @@ class PowerGameStateParser: LogEventParser {
                                     tag: gameTag, id: entity.id,
                                     value: val)
                             })
-                            eventHandler.tmpEntities.remove(tmpEntity)
+                            tmpEntities.remove(tmpEntity)
                             tagChangeHandler.tagChange(eventHandler: eventHandler,
                                                        rawTag: tag,
                                                        id: entity.id,
                                                        rawValue: value)
                         }
 
-                        if let tmpEntity = tmpEntity, eventHandler.tmpEntities.contains(tmpEntity) {
+                        if let tmpEntity = tmpEntity, tmpEntities.contains(tmpEntity) {
                             tmpEntity[_tag] = tagValue
-                            let player: Player? = eventHandler.player.name == tmpEntity.name
+                            var player: Player? = eventHandler.player.name == tmpEntity.name
                                 ? eventHandler.player
                                 : (eventHandler.opponent.name == tmpEntity.name ? eventHandler.opponent : nil)
+                            
+                            if player == nil && tmpEntity.name == "UNKNOWN HUMAN PLAYER" && !(eventHandler.player.name?.isEmpty ?? true) && (eventHandler.opponent.name?.isEmpty ?? true) {
+                                player = eventHandler.opponent
+                            }
 
                             if let _player = player,
                                 let playerEntity = eventHandler.entities.values
@@ -207,7 +212,7 @@ class PowerGameStateParser: LogEventParser {
                                                                id: playerEntity.id,
                                                                value: val)
                                 })
-                                eventHandler.tmpEntities.remove(tmpEntity)
+                                tmpEntities.remove(tmpEntity)
                             }
                         }
                     }
@@ -1314,12 +1319,7 @@ class PowerGameStateParser: LogEventParser {
                 eventHandler.gameTriggerCount += 1
             }
         } else if logLine.line.contains("CREATE_GAME") {
-            tagChangeHandler.clearQueuedActions()
-
-            // indicate game start
-            maxBlockId = 0
-            currentBlock = nil
-            resetCurrentEntity()
+            reset()
 //            eventHandler.gameStart(at: logLine.time)
         } else if logLine.line.contains("BLOCK_END") {
             if eventHandler.gameTriggerCount < 10 && (eventHandler.gameEntity?.has(tag: .turn) ?? false) {
@@ -1491,6 +1491,12 @@ class PowerGameStateParser: LogEventParser {
     }
 
     private func reset() {
+        tmpEntities.removeAll()
         tagChangeHandler.clearQueuedActions()
+        
+        // indicate game start
+        maxBlockId = 0
+        currentBlock = nil
+        resetCurrentEntity()
     }
 }

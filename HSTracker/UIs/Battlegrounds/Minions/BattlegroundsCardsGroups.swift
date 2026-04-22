@@ -119,7 +119,11 @@ class BattlegroundsCardsGroups: NSView {
         contentView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         contentView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         contentView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        kvoToken = observe(\.headerBackground, changeHandler: { _, _ in self.updateHeaderBackground() })
+        kvoToken = observe(\.headerBackground, changeHandler: { _, _ in
+            DispatchQueue.main.async {
+                self.updateHeaderBackground()
+            }
+        })
         
         titleLabel.chunkFive()
     }

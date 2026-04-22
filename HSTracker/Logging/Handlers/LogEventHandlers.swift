@@ -15,7 +15,6 @@ protocol PowerEventHandler: AnyObject {
     
     // TODO: remove set on most properties to ensure encapsulation
     var entities: SynchronizedDictionary<Int, Entity> { get }
-    var tmpEntities: SynchronizedArray<Entity> { get set }
     
     func add(entity: Entity)
     

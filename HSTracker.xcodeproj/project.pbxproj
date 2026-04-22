@@ -493,7 +493,7 @@
 		B82901ED2F0C1098002F96FB /* TimelineAccelerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82901EC2F0C1098002F96FB /* TimelineAccelerator.swift */; };
 		B82901EF2F0C1287002F96FB /* Zuljin.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82901EE2F0C1287002F96FB /* Zuljin.swift */; };
 		B82901F12F0ED32A002F96FB /* BloodGemBarrageBuffCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82901F02F0ED32A002F96FB /* BloodGemBarrageBuffCounter.swift */; };
-		B82901F32F0ED3FE002F96FB /* RandomTavernMinionBuffCounter in Sources */ = {isa = PBXBuildFile; fileRef = B82901F22F0ED3FE002F96FB /* RandomTavernMinionBuffCounter */; };
+		B82901F32F0ED3FE002F96FB /* RandomTavernMinionBuffCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82901F22F0ED3FE002F96FB /* RandomTavernMinionBuffCounter.swift */; };
 		B82901F52F0ED4A0002F96FB /* VolumizerBuffCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82901F42F0ED4A0002F96FB /* VolumizerBuffCounter.swift */; };
 		B82AE5F028ADBC55004A8FE0 /* Influx.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82AE5EF28ADBC54004A8FE0 /* Influx.swift */; };
 		B82AE5FD28BE8631004A8FE0 /* BobsBuddy-version.txt in Resources */ = {isa = PBXBuildFile; fileRef = B82AE5F928BE8631004A8FE0 /* BobsBuddy-version.txt */; };
@@ -1905,7 +1905,7 @@
 		B82901EC2F0C1098002F96FB /* TimelineAccelerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineAccelerator.swift; sourceTree = "<group>"; };
 		B82901EE2F0C1287002F96FB /* Zuljin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Zuljin.swift; sourceTree = "<group>"; };
 		B82901F02F0ED32A002F96FB /* BloodGemBarrageBuffCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BloodGemBarrageBuffCounter.swift; sourceTree = "<group>"; };
-		B82901F22F0ED3FE002F96FB /* RandomTavernMinionBuffCounter */ = {isa = PBXFileReference; lastKnownFileType = text; path = RandomTavernMinionBuffCounter; sourceTree = "<group>"; };
+		B82901F22F0ED3FE002F96FB /* RandomTavernMinionBuffCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomTavernMinionBuffCounter.swift; sourceTree = "<group>"; };
 		B82901F42F0ED4A0002F96FB /* VolumizerBuffCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumizerBuffCounter.swift; sourceTree = "<group>"; };
 		B82AE5EF28ADBC54004A8FE0 /* Influx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Influx.swift; sourceTree = "<group>"; };
 		B82AE5F928BE8631004A8FE0 /* BobsBuddy-version.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "BobsBuddy-version.txt"; sourceTree = "<group>"; };
@@ -4422,7 +4422,7 @@
 				B852D80E2DDAB97100884B26 /* ElementalsExtraStatsCounter.swift */,
 				B852D8122DDABE1E00884B26 /* FreeRefreshCounter.swift */,
 				B852D8142DDABEE400884B26 /* GoldNextTurnCounter.swift */,
-				B82901F22F0ED3FE002F96FB /* RandomTavernMinionBuffCounter */,
+				B82901F22F0ED3FE002F96FB /* RandomTavernMinionBuffCounter.swift */,
 				B852D8102DDABB8800884B26 /* ShopBuffStatsCounter.swift */,
 				B8E1E5A72D0B883100383975 /* SpellsPlayedForNagasCounter.swift */,
 				B852D8162DDAC91A00884B26 /* TavernSpellsBuffCounter.swift */,
@@ -5558,7 +5558,7 @@
 				B8591FFC2B24F87C00B907A4 /* ObjectiveProxy.swift in Sources */,
 				B8BB7ABC28369C9F008239CA /* BattlegroundsFinalBoard.swift in Sources */,
 				B8DB12C72EBEB93C004268FA /* TimethiefRafaamCounter.swift in Sources */,
-				B82901F32F0ED3FE002F96FB /* RandomTavernMinionBuffCounter in Sources */,
+				B82901F32F0ED3FE002F96FB /* RandomTavernMinionBuffCounter.swift in Sources */,
 				B8196F252CCB246C007C0371 /* CounterView.swift in Sources */,
 				B89865402D8B5D0400BA5649 /* HarbingerOfWinter.swift in Sources */,
 				B8B78FEB2C967A7900DD33EC /* HotStreakEnchantment.swift in Sources */,
@@ -7130,7 +7130,7 @@
 					"$(SDKROOT)/usr/lib/swift",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 3.5.5;
+				MARKETING_VERSION = 3.5.6;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = (
@@ -7181,7 +7181,7 @@
 					"$(SDKROOT)/usr/lib/swift",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 3.5.5;
+				MARKETING_VERSION = 3.5.6;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = (
 					"$(inherited)",

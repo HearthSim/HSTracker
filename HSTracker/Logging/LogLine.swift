@@ -10,7 +10,7 @@
 
 import Foundation
 
-class LogDateFormatter: DateFormatter {
+class LogDateFormatter: DateFormatter, @unchecked Sendable {
 	
 	private static let subsecRegex = Regex("(S+)")
 	

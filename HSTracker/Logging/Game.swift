@@ -1067,7 +1067,6 @@ class Game: NSObject, PowerEventHandler {
     }
 
 	var entities =  SynchronizedDictionary<Int, Entity>()
-    var tmpEntities = SynchronizedArray<Entity>()
     
     // swiftlint:disable large_tuple
     var knownCardIds = SynchronizedDictionary<Int, [(String, DeckLocation, String?, EntityInfo?)]>()
@@ -1480,7 +1479,6 @@ class Game: NSObject, PowerEventHandler {
 
         entities.removeAll()
         isBattlegroundsCombatPhase = false
-        tmpEntities.removeAll()
         knownCardIds.removeAll()
         joustReveals = 0
         lastPlagueDrawn.clear()
@@ -1657,6 +1655,10 @@ class Game: NSObject, PowerEventHandler {
         return valid
     }
     
+    private func isMedalInfoPresent(_ playerInfo: MatchInfo.Player?) -> Bool {
+        return playerInfo?.standardMedalInfo != nil || playerInfo?.wildMedalInfo != nil || playerInfo?.classicMedalInfo != nil || playerInfo?.twistMedalInfo != nil
+    }
+
     func invalidateMatchInfoCache() {
         _matchInfoCacheInvalid = true
     }
@@ -1667,17 +1669,38 @@ class Game: NSObject, PowerEventHandler {
             return
         }
         DispatchQueue.global().async {
-            var minfo: MatchInfo? = self.matchInfo
-            while minfo == nil || !self.isValidPlayerInfo(playerInfo: minfo?.localPlayer) || !self.isValidPlayerInfo(playerInfo: minfo?.opposingPlayer, allowMissing: self.isMercenariesMatch()) {
-                logger.info("Waiting for matchInfo... (matchInfo=\(String(describing: minfo)), localPlayer=\(self.matchInfo?.localPlayer.name ?? "Unknown"), opposingPlayer=\(self.matchInfo?.opposingPlayer.name ?? "Unknown"))")
-                Thread.sleep(forTimeInterval: 1)
-                minfo = self.matchInfo
+            var matchInfo: MatchInfo?
+            for i in 0...30 {
+                if i > 0 {
+                    logger.info("Waiting for matchInfo... (matchInfo=\(String(describing: matchInfo)), localPlayer=\(matchInfo?.localPlayer.name ?? "Unknown"), opposingPlayer=\(matchInfo?.opposingPlayer.name ?? "Unknown"))")
+                    Thread.sleep(forTimeInterval: 1)
+                }
+                matchInfo = self.matchInfo
+                guard let matchInfo else {
+                    continue
+                }
+                
+                // the player info will probably arrive shortly
+                if !self.isValidPlayerInfo(playerInfo: matchInfo.localPlayer) || !self.isValidPlayerInfo(playerInfo: matchInfo.opposingPlayer, allowMissing: self.isMercenariesMatch()) {
+                    continue
+                }
+                
+                // wait for some medal info to be present.
+                // opponent may not have medal info in case of UNKNOWN HUMAN PLAYER
+                if !self.isMedalInfoPresent(matchInfo.localPlayer) && !self.isMedalInfoPresent(matchInfo.opposingPlayer) {
+                    continue
+                }
+                    
+                // looking good
+                break
             }
-            if let minfo = minfo {
-                self.updatePlayers(matchInfo: minfo)
-                self._matchInfoCacheInvalid = false
-                self._matchInfo = minfo
+            guard let matchInfo else {
+                logger.info("Giving up waiting for matchInfo")
+                return
             }
+            self._matchInfo = matchInfo
+            self.updatePlayers(matchInfo: matchInfo)
+            self._matchInfoCacheInvalid = false
         }
     }
     
@@ -2471,7 +2494,7 @@ class Game: NSObject, PowerEventHandler {
     }
     
     func isConstructedMatch() -> Bool {
-        return currentGameType == .gt_ranked || currentGameType == .gt_casual || currentGameType == .gt_vs_friend /*|| currentGameType == .gt_vs_ai */
+        return currentGameType == .gt_ranked || currentGameType == .gt_casual || currentGameType == .gt_vs_friend || currentGameType == .gt_vs_ai 
     }
     
     func isMulliganDone() -> Bool {
@@ -2817,7 +2840,7 @@ class Game: NSObject, PowerEventHandler {
     
     private var battlegroundsHeroPickingLatch = 0
     
-    @available(macOS 10.15.0, *)
+    @available(macOS 10.15.0, *) @MainActor
     private func refreshBattlegroundsHeroPickStats() async {
         let heroes = player.playerEntities.filter { x in x.isHero && (x.has(tag: .bacon_hero_can_be_drafted) || x.has(tag: .bacon_skin)) && !x.has(tag: .bacon_locked_mulligan_hero) }
 
@@ -2856,7 +2879,7 @@ class Game: NSObject, PowerEventHandler {
     public func handleBattlegroundsHeroReroll(entity: Entity, oldCardId: String?) {
         if isBattlegroundsMatch() {
             if #available(macOS 10.15, *) {
-                Task.detached {
+                Task.detached { @MainActor in
                     if let cardId = oldCardId, let theDbfId = Cards.by(cardId: cardId)?.dbfId {
                         self.windowManager.battlegroundsHeroPicking.viewModel.invalidateSingleHeroStats(theDbfId)
                     }
@@ -2938,7 +2961,7 @@ class Game: NSObject, PowerEventHandler {
         }
     }
     
-    @available(macOS 10.15.0, *)
+    @available(macOS 10.15.0, *) @MainActor
     private func handleBattlegroundsStart() async {
         Watchers.battlegroundsLeaderboardWatcher.run()
         OpponentDeadForTracker.reset()
@@ -2959,8 +2982,8 @@ class Game: NSObject, PowerEventHandler {
             counter += 1
         }
         
-        await windowManager.battlegroundsSession.update()
-        await windowManager.battlegroundsSession.updateScaling()
+        windowManager.battlegroundsSession.update()
+        windowManager.battlegroundsSession.updateScaling()
         
         if isBattlegroundsDuosMatch() {
             Watchers.battlegroundsTeammateBoardStateWatcher.run()
@@ -3536,14 +3559,14 @@ class Game: NSObject, PowerEventHandler {
         }
     }
     
-    @available(macOS 10.15.0, *)
+    @available(macOS 10.15.0, *) @MainActor
     func handlePlayerMulliganDone() async {
         if isBattlegroundsMatch() {
             snapshotBattlegroundsHeroPick()
             hideBattlegroundsHeroPanel()
             hideBattlegroundsTimewarpPanel()
             windowManager.battlegroundsHeroPicking.viewModel.reset()
-            await windowManager.battlegroundsSession.hideCompStatsOnError()
+            windowManager.battlegroundsSession.hideCompStatsOnError()
         } else if isConstructedMatch() || isFriendlyMatch || isArenaMatch {
             hideMulliganToast()
             
@@ -3621,13 +3644,13 @@ class Game: NSObject, PowerEventHandler {
         }
     }
     
-    @available(macOS 10.15.0, *)
+    @available(macOS 10.15.0, *) @MainActor
     func handleBattlegroundsTrinketChoice(choice: IHsChoice) async {
         let offeredEntities = choice.offeredEntityIds?.compactMap { id in entities[id] } ?? [Entity]()
 
         let offered = offeredEntities.filter { x in x.isBattlegroundsTrinket }
         let trinkets = (player.trinkets + offered).compactMap({ x in x.card.id })
-        await windowManager.battlegroundsTierOverlay.tierOverlay.onTrinkets(trinkets: trinkets)
+        windowManager.battlegroundsTierOverlay.tierOverlay.onTrinkets(trinkets: trinkets)
         
         let result = await getTrinketPickStats(choice: choice)
         if let result, !isTrinketChoiceComplete(choiceId: choice.id) {
@@ -3635,7 +3658,7 @@ class Game: NSObject, PowerEventHandler {
             windowManager.battlegroundsTrinketPicking.viewModel.setTrinketStats(data)
         }
         player.offeredEntityIds = choice.offeredEntityIds ?? [Int]()
-        await windowManager.playerCountersOverlay.updateVisibleCounters()
+        windowManager.playerCountersOverlay.updateVisibleCounters()
 
     }
     
@@ -3793,7 +3816,7 @@ class Game: NSObject, PowerEventHandler {
         }
     }
     
-    @available(macOS 10.15.0, *)
+    @available(macOS 10.15.0, *) @MainActor
     func handleHearthstoneMulliganPhase() async {
         for _ in 0 ..< 10 {
             do {
