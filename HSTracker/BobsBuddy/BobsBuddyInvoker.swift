@@ -795,7 +795,7 @@ class BobsBuddyInvoker {
                 minion.addDeathrattle(deathrattle: HoggyBank.deathrattle())
             case CardIds.NonCollectible.Neutral.JarredFrostling_FrostyGlobeEnchantment:
                 minion.addDeathrattle(deathrattle: JarredFrostling.deathrattle())
-            case CardIds.NonCollectible.Neutral.BloodGem2:
+            case CardIds.NonCollectible.Neutral.BloodGems:
                 let atk = attached[.tag_script_data_num_1]
                 let health = attached[.tag_script_data_num_2]
                 minion.setBloodGemStats(atk, health)
