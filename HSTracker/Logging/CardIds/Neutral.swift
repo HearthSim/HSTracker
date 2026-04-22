@@ -1108,5 +1108,6 @@ extension CardIds.NonCollectible {
         static let RandomMinionTavernMinionBuffPlayerEnchDnt = "BG34_854pe"
         static let DramalocSticker = "BG35_MagicItem_754"
         static let DramalocSticker_DramaticEnchantment = "BG35_MagicItem_754e"
+        static let EternalFirebolt_EternalFireboltEnchantment = "END_025e"
     }
 }

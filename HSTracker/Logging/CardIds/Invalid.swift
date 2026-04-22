@@ -43,6 +43,7 @@ extension CardIds.Collectible {
         static let DeathwingWorldbreakerHeroic = "CATA_190h"
         static let Ultraxion = "CATA_497"
         static let EnvoyOfTheEnd = "CATA_722"
+        static let EternalFirebolt = "END_025"
     }
 }
 

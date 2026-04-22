@@ -813,6 +813,8 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Paladin.LibramOfDivinity)
                         case CardIds.NonCollectible.Neutral.Corpsicle_CorpsicleEnchantment:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Deathknight.Corpsicle)
+                        case CardIds.NonCollectible.Neutral.EternalFirebolt_EternalFireboltEnchantment:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Invalid.EternalFirebolt)
                         case CardIds.Collectible.Mage.CommanderSivara, CardIds.Collectible.Neutral.TidepoolPupil:
                             if let cardId = currentBlock?.parent?.cardId, Cards.by(cardId: cardId)?.type == .spell, let actionStartingEntity {
                                 let maxCards = 3
