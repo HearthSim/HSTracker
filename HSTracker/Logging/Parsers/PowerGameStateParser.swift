@@ -1404,6 +1404,14 @@ class PowerGameStateParser: LogEventParser {
                         }
                     }
                 }
+                if currentBlock.cardId == CardIds.NonCollectible.Neutral.TavishStormpike_LockAndLoad && currentBlock.triggerKeyword == "TRIGGER_VISUAL" {
+                    if let lockAndLoadEntity = eventHandler.entities[currentBlock.sourceEntityId], lockAndLoadEntity.isControlled(by: eventHandler.opponent.id) {
+                        if let summonedEntity = eventHandler.entities.values.first(where: { e in e[GameTag.cardtype] == CardType.minion.rawValue && e[GameTag.creator] == lockAndLoadEntity.id && e[GameTag.zone] == Zone.play.rawValue
+                        }) {
+                            BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateOpponentLockAndLoadHeroPower(attachedEntity: summonedEntity)
+                        }
+                    }
+                }
             }
             blockEnd()
         }

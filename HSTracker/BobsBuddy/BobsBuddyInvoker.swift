@@ -1200,7 +1200,7 @@ class BobsBuddyInvoker {
         tryRerun()
     }
     
-    func updateOpponentHeroPower(attachedEntity: Entity) {
+    func updateOpponentLockAndLoadHeroPower(attachedEntity: Entity) {
         guard let input, state == .combat else {
             return
         }
