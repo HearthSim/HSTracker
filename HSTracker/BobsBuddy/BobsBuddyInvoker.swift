@@ -1225,7 +1225,7 @@ class BobsBuddyInvoker {
             }
         }
 
-        guard let tavishLockAndLoad else {
+        guard let tavishLockAndLoad, tavishLockAndLoad.attachedMinion.get() == nil else {
             return
         }
 
