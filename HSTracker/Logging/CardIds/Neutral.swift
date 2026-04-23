@@ -1115,5 +1115,9 @@ extension CardIds.NonCollectible {
         static let EnchantedSentinel = "BG35_341"
         static let DustboneDevastator = "BG33_323"
         static let Plaguerunner = "BG34_690"
+        static let LaboratoryAssistant_DemonFodderToken1 = "BG35_150t"
+        static let LaboratoryAssistant = "BG35_150"
+        static let WoodlandDefiler = "BG35_151"
+        static let TwistedWrathguard = "BG35_155"
     }
 }

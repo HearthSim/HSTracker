@@ -1058,6 +1058,7 @@
 		B8AC9A26293F92540047F438 /* BattlegroundsQuestPickingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AC9A25293F92530047F438 /* BattlegroundsQuestPickingViewModel.swift */; };
 		B8AC9A28293F9A680047F438 /* BattlegroundsComposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AC9A27293F9A680047F438 /* BattlegroundsComposition.swift */; };
 		B8AC9A2A293F9B120047F438 /* BattlegroundsQuestStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AC9A29293F9B120047F438 /* BattlegroundsQuestStats.swift */; };
+		B8AEB6072F999A6E00CDA2C0 /* DemonFodderCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AEB6062F999A6E00CDA2C0 /* DemonFodderCounter.swift */; };
 		B8AF0C652B828A4A00B65F63 /* ConstructedMulliganSingleCardHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AF0C642B828A4A00B65F63 /* ConstructedMulliganSingleCardHeader.swift */; };
 		B8AF0C672B83A65E00B65F63 /* MulliganGuideStatusData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AF0C662B83A65E00B65F63 /* MulliganGuideStatusData.swift */; };
 		B8AF0C692B83A77100B65F63 /* MulliganGuideStatusParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AF0C682B83A77100B65F63 /* MulliganGuideStatusParams.swift */; };
@@ -2390,6 +2391,7 @@
 		B8AC9A25293F92530047F438 /* BattlegroundsQuestPickingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsQuestPickingViewModel.swift; sourceTree = "<group>"; };
 		B8AC9A27293F9A680047F438 /* BattlegroundsComposition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsComposition.swift; sourceTree = "<group>"; };
 		B8AC9A29293F9B120047F438 /* BattlegroundsQuestStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsQuestStats.swift; sourceTree = "<group>"; };
+		B8AEB6062F999A6E00CDA2C0 /* DemonFodderCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemonFodderCounter.swift; sourceTree = "<group>"; };
 		B8AF0C642B828A4A00B65F63 /* ConstructedMulliganSingleCardHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructedMulliganSingleCardHeader.swift; sourceTree = "<group>"; };
 		B8AF0C662B83A65E00B65F63 /* MulliganGuideStatusData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulliganGuideStatusData.swift; sourceTree = "<group>"; };
 		B8AF0C682B83A77100B65F63 /* MulliganGuideStatusParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulliganGuideStatusParams.swift; sourceTree = "<group>"; };
@@ -4419,6 +4421,7 @@
 				B8E1E5A52D0B873E00383975 /* BeetlesSizeCounter.swift */,
 				B82901F02F0ED32A002F96FB /* BloodGemBarrageBuffCounter.swift */,
 				B8196F1E2CC87293007C0371 /* BloodGemCounter.swift */,
+				B8AEB6062F999A6E00CDA2C0 /* DemonFodderCounter.swift */,
 				B852D80E2DDAB97100884B26 /* ElementalsExtraStatsCounter.swift */,
 				B852D8122DDABE1E00884B26 /* FreeRefreshCounter.swift */,
 				B852D8142DDABEE400884B26 /* GoldNextTurnCounter.swift */,
@@ -5613,6 +5616,7 @@
 				B846CCA22E1C38CD00552F9C /* WaveOfTarEnchantment.swift in Sources */,
 				B89865E62D920DDC00BA5649 /* MovementOfPride.swift in Sources */,
 				B833360F2F6214F400923513 /* CaliaMenethil.swift in Sources */,
+				B8AEB6072F999A6E00CDA2C0 /* DemonFodderCounter.swift in Sources */,
 				B846CC8A2E15C3C100552F9C /* Cinderfin.swift in Sources */,
 				B8DC11EE24E5A8360088A755 /* MonoHandle.swift in Sources */,
 				B8B78FF62C9708CA00DD33EC /* AshenElementalEnchantment.swift in Sources */,
