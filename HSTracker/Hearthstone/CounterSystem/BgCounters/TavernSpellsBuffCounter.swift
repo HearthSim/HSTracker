@@ -38,6 +38,7 @@ class TavernSpellsBuffCounter: StatsCounter {
             CardIds.NonCollectible.Neutral.IntrepidBotanist,
             CardIds.NonCollectible.Neutral.BlueWhelp,
             CardIds.NonCollectible.Neutral.ShoalfinMystic,
+            CardIds.NonCollectible.Neutral.EnchantedSentinel,
             CardIds.NonCollectible.Neutral.FriendlyGeist,
             CardIds.NonCollectible.Neutral.Humongozz,
             CardIds.NonCollectible.Neutral.TranquilMeditative,

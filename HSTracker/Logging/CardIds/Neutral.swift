@@ -1110,5 +1110,10 @@ extension CardIds.NonCollectible {
         static let DramalocSticker_DramaticEnchantment = "BG35_MagicItem_754e"
         static let EternalFirebolt_EternalFireboltEnchantment = "END_025e"
         static let BloodGems = "BG20_GEMe2"
+        static let Vinespeaker = "BG35_437"
+        static let WyvernOutrider = "BG35_601"
+        static let EnchantedSentinel = "BG35_341"
+        static let DustboneDevastator = "BG33_323"
+        static let Plaguerunner = "BG34_690"
     }
 }

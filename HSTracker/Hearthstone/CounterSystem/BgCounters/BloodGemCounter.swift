@@ -24,7 +24,8 @@ class BloodGemCounter: StatsCounter {
             CardIds.NonCollectible.Neutral.PricklyPiper,
             CardIds.NonCollectible.Neutral.FearlessFoodie,
             CardIds.NonCollectible.Neutral.SanguineRefiner,
-            CardIds.NonCollectible.Neutral.SanguineChampion
+            CardIds.NonCollectible.Neutral.SanguineChampion,
+            CardIds.NonCollectible.Neutral.Vinespeaker
         ]
     }
 

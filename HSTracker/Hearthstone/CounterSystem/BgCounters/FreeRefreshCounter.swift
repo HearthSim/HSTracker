@@ -37,7 +37,8 @@ class FreeRefreshCounter: NumericCounter {
         return [
             CardIds.NonCollectible.Neutral.RefreshingAnomaly,
             CardIds.NonCollectible.Neutral.GhostlyYmirjar,
-            CardIds.NonCollectible.Neutral.LeafThroughThePages
+            CardIds.NonCollectible.Neutral.LeafThroughThePages,
+            CardIds.NonCollectible.Neutral.WyvernOutrider
         ]
     }
 

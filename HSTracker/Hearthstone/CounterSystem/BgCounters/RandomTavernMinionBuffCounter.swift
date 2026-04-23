@@ -17,7 +17,7 @@ class RandomTavernMinionBuffCounter: StatsCounter {
     }
 
     override var cardIdToShowInUI: String? {
-        return CardIds.NonCollectible.Neutral.WorgenExecutive
+        return CardIds.NonCollectible.Neutral.Waveling
     }
     
     override var localizedName: String {
