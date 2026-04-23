@@ -1,3 +1,39 @@
+# 3.5.6
+## Fixes
+- Fixed issue with mulligan guide staying on screen
+- Fixed issue with game trackers not working
+- Fixed issue with matches not recording properly
+**Hearthstone**:
+- Added card icon to Eternal Firebolt that returned to hand at the end of the turn.
+**Battlegrounds**:
+- Added counter for Demon Fodder.
+- Updated all counters.
+- Added simulation support for Repicating Cathedral trinket
+- Added simulation support for Rewinder Portrait trinket
+- Added simulation support for Tichondrius
+- Added simulation support for Old Soul
+- Added simulation support for Maelstrom Emergent
+- Added simulation support for Balinda Stonehearth
+- Added simulation support for Lorewalker Scroll trinket
+- Added Support for Living Azerite and Azerite Portrait Trinket.
+- Fixed incorrect simulation results where:
+  - Blood gems played during combat were incorrectly triggering certain trinkets
+  - Banana Slamma and Slamma Sticker trinket were incorrectly buffing health
+  - Not properly taking into account presence of multiple hero damaged rewind effects
+  - Stomping Stegodon rallys could multiply extensively and cause OutOfMemory exception
+  - Falling Sky Golem was missing stats from deathrattle counter when reborn or resummoned
+- Revised/Added full support for all cards that generate minions to hand during combat
+- Generated minion pool has been scoped to player tier and races in the lobby (when relevant)
+- Ensured minions added to hand this way can also be summoned (e.g., via Expert Aviator)
+- Updated relevant minion changes for Hotfix Patch 35.2.1
+- Fixed incorrect simulation results where Sly Raptor was not considering the correct pool of minions in the lobby to summon.
+- Fixed incorrect simulation results where:
+	- Scarlet Savior was not receiving divine shield when buffed at start of combat
+    - Tide Raiser was not buffing properly when adjacent minions were killed via cleave damage
+    - Deep Blue Spellcraft spell stats were outdated
+    - Tavish Stormpike hero power trigger order was outdated
+    - Golden Expert Aviator could cause the simulator to fail
+
 # 3.5.5
 ## Fixes
 - Update card database to correct version (should fix problem tracking games)
