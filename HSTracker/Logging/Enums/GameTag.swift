@@ -468,6 +468,7 @@ enum GameTag: Int, CaseIterable, Codable {
     bacon_player_extra_gold_next_turn = 4286,
     herald_colossal_amount = 4327,
     bacon_free_refresh_count = 4536,
+    gametag_4639 = 4639,
     bacon_fodders_in_refresh = 4664
 
     static var lookup = [String: GameTag]()

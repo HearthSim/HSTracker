@@ -25,7 +25,7 @@ class PlayerProxy: MonoHandle, MonoClassInitializer {
             PlayerProxy._setSecrets = MonoHelper.getMethod(PlayerProxy._class, "SetSecretsHstracker", 1)
             
             // fields
-            initializeProperties(properties: [ "Side", "HeroPowers", "Quests", "Objectives", "Trinkets", "Secrets", "Hand", "FriendlyMinionsDeadLastCombatCounter", "EternalKnightCounter", "AncestralAutomatonCounter", "UndeadAttackBonus", "WhelpAttackBonus", "WhelpHealthBonus", "ElementalPlayCounter", "BloodGemAtkBuff", "BloodGemHealthBuff", "TavernSpellCounter", "PiratesSummonCounter", "ResourcesSpentThisGame", "BeastsSummonCounter", "BeastAttackBonus", "BeastHealthBonus", "BeetlesAtkBuff", "BeetlesHealthBuff", "BattlecryCounter", "TavernSpellAtkBuff", "TavernSpellHealthBuff", "HauntedAtkBuff", "HauntedHealthBuff", "Health", "DamageTaken", "Tier" ])
+            initializeProperties(properties: [ "Side", "HeroPowers", "Quests", "Objectives", "Trinkets", "Secrets", "Hand", "FriendlyMinionsDeadLastCombatCounter", "EternalKnightCounter", "AncestralAutomatonCounter", "UndeadAttackBonus", "WhelpAttackBonus", "WhelpHealthBonus", "ElementalPlayCounter", "BloodGemAtkBuff", "BloodGemHealthBuff", "TavernSpellCounter", "PiratesSummonCounter", "ResourcesSpentThisGame", "BeastsSummonCounter", "BeastAttackBonus", "BeastHealthBonus", "BeetlesAtkBuff", "BeetlesHealthBuff", "BattlecryCounter", "DeathrattleCounter", "TavernSpellAtkBuff", "TavernSpellHealthBuff", "HauntedAtkBuff", "HauntedHealthBuff", "Health", "DamageTaken", "Tier" ])
         }
     }
     
@@ -146,6 +146,9 @@ class PlayerProxy: MonoHandle, MonoClassInitializer {
 
     @MonoPrimitiveProperty(property: "BattlecryCounter", owner: PlayerProxy.self)
     var battlecryCounter: Int32
+    
+    @MonoPrimitiveProperty(property: "DeathrattleCounter", owner: PlayerProxy.self)
+    var deathrattleCounter: Int32
     
     @MonoPrimitiveProperty(property: "BeetlesHealthBuff", owner: PlayerProxy.self)
     var beetlesHealthBuff: Int32
