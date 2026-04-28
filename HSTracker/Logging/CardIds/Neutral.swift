@@ -1120,5 +1120,6 @@ extension CardIds.NonCollectible {
         static let WoodlandDefiler = "BG35_151"
         static let TwistedWrathguard = "BG35_155"
         static let KelthuzadTavernBrawl2 = "TB_BaconShop_HERO_KelThuzad"
+        static let BackToBackBATTLEGROUNDS = "BG35_952"
     }
 }

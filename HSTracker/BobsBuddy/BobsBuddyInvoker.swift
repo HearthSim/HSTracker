@@ -1068,6 +1068,10 @@ class BobsBuddyInvoker {
         inputPlayer.tavernSpellAtkBuff = Int32(playerEntity[GameTag.tavern_spell_attack_increase])
         inputPlayer.tavernSpellHealthBuff = Int32(playerEntity[GameTag.tavern_spell_health_increase])
         
+        if playerAttached.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.BackToBackBATTLEGROUNDS }) != nil {
+            inputPlayer.backToBackCounter = Int32(playerEntity[GameTag.tag_script_data_num_3])
+        }
+        
         inputPlayer.deathrattleCounter = Int32(playerEntity[GameTag.gametag_4639])
          
         if let pHaunted = playerAttached.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.HauntedCarapace_HauntedCarapacePlayerEnchantDnt }) {
