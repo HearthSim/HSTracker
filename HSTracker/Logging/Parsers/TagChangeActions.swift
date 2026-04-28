@@ -221,12 +221,11 @@ struct TagChangeActions {
     
     private func onCardCopy(eventHandler: PowerEventHandler, id: Int, value: Int) {
 
-        guard let entity = eventHandler.entities[id] else {
+        guard let entity = eventHandler.entities[id], let currentBlock = AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock else {
             return
         }
 
-        if eventHandler.currentGameMode == .battlegrounds && AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock?.cardId == CardIds.NonCollectible.Neutral.TavishStormpike_LockAndLoad &&
-            entity[.controller] == eventHandler.opponent.id && entity.isInZone(zone: .play) {
+        if eventHandler.currentGameMode == .battlegrounds && currentBlock.cardId == CardIds.NonCollectible.Neutral.TavishStormpike_LockAndLoad && entity.isMinion && entity[.controller] == eventHandler.opponent.id && currentBlock.id == entity[.creator] && entity.isInZone(zone: .play) {
             BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateOpponentLockAndLoadHeroPower(attachedEntity: entity)
         }
         
@@ -244,14 +243,12 @@ struct TagChangeActions {
             // Card was created by Suspicious Alchemist/Usher/Pirate
             return
         }
-        
-        let currentBlock = AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock
-        
+                
         // prevents nightmare fuel and dejavu leaking the card
-        if (currentBlock?.cardId == CardIds.Collectible.Rogue.NightmareFuel ||
-            (currentBlock?.parent?.cardId == CardIds.Collectible.Rogue.NightmareFuel &&
-             currentBlock?.cardId == CardIds.NonCollectible.Neutral.TreacherousTormentor_DarkGiftToken) ||
-            currentBlock?.cardId == CardIds.Collectible.Rogue.DejaVu) &&
+        if (currentBlock.cardId == CardIds.Collectible.Rogue.NightmareFuel ||
+            (currentBlock.parent?.cardId == CardIds.Collectible.Rogue.NightmareFuel &&
+             currentBlock.cardId == CardIds.NonCollectible.Neutral.TreacherousTormentor_DarkGiftToken) ||
+            currentBlock.cardId == CardIds.Collectible.Rogue.DejaVu) &&
             entity.isControlled(by: eventHandler.player.id) {
             targetEntity.cardId = ""
             if !entity.info.latestCardId.isEmpty {
