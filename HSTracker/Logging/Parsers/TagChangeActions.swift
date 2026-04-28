@@ -225,7 +225,7 @@ struct TagChangeActions {
             return
         }
 
-        if eventHandler.currentGameMode == .battlegrounds && currentBlock.cardId == CardIds.NonCollectible.Neutral.TavishStormpike_LockAndLoad && entity.isMinion && entity[.controller] == eventHandler.opponent.id && currentBlock.id == entity[.creator] && entity.isInZone(zone: .play) {
+        if eventHandler.currentGameMode == .battlegrounds && currentBlock.cardId == CardIds.NonCollectible.Neutral.TavishStormpike_LockAndLoad && entity.isMinion && entity[.controller] == eventHandler.opponent.id && currentBlock.sourceEntityId == entity[.creator] && entity.isInZone(zone: .play) {
             BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateOpponentLockAndLoadHeroPower(attachedEntity: entity)
         }
         
