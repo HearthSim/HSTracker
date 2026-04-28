@@ -13,6 +13,7 @@ class PlayerProxy: MonoHandle, MonoClassInitializer {
     static var _constructor: OpaquePointer!
     static var _setSecrets: OpaquePointer!
     static var _setPlayerHeroPower: OpaquePointer!
+    static var _setHeroIsKelThuzad: OpaquePointer!
     
     static var _members = [String: OpaquePointer]()
     
@@ -23,9 +24,10 @@ class PlayerProxy: MonoHandle, MonoClassInitializer {
             PlayerProxy._constructor = MonoHelper.getMethod(PlayerProxy._class, ".ctor", 1)
             PlayerProxy._setPlayerHeroPower = MonoHelper.getMethod(PlayerProxy._class, "AddHeroPower", 7)
             PlayerProxy._setSecrets = MonoHelper.getMethod(PlayerProxy._class, "SetSecretsHstracker", 1)
+            PlayerProxy._setHeroIsKelThuzad = MonoHelper.getMethod(PlayerProxy._class, "SetHeroIsKelThuzad", 0)
             
             // fields
-            initializeProperties(properties: [ "Side", "HeroPowers", "Quests", "Objectives", "Trinkets", "Secrets", "Hand", "FriendlyMinionsDeadLastCombatCounter", "EternalKnightCounter", "AncestralAutomatonCounter", "UndeadAttackBonus", "WhelpAttackBonus", "WhelpHealthBonus", "ElementalPlayCounter", "BloodGemAtkBuff", "BloodGemHealthBuff", "TavernSpellCounter", "PiratesSummonCounter", "ResourcesSpentThisGame", "BeastsSummonCounter", "BeastAttackBonus", "BeastHealthBonus", "BeetlesAtkBuff", "BeetlesHealthBuff", "BattlecryCounter", "DeathrattleCounter", "TavernSpellAtkBuff", "TavernSpellHealthBuff", "HauntedAtkBuff", "HauntedHealthBuff", "Health", "DamageTaken", "Tier" ])
+            initializeProperties(properties: [ "Side", "HeroPowers", "Quests", "Objectives", "Trinkets", "Secrets", "Hand", "FriendlyMinionsDeadLastCombatCounter", "EternalKnightCounter", "AncestralAutomatonCounter", "UndeadAttackBonus", "WhelpAttackBonus", "WhelpHealthBonus", "ElementalPlayCounter", "BloodGemAtkBuff", "BloodGemHealthBuff", "TavernSpellCounter", "PiratesSummonCounter", "ResourcesSpentThisGame", "BeastsSummonCounter", "BeastAttackBonus", "BeastHealthBonus", "BeetlesAtkBuff", "BeetlesHealthBuff", "BattlecryCounter", "DeathrattleCounter", "TavernSpellAtkBuff", "TavernSpellHealthBuff", "HauntedAtkBuff", "HauntedHealthBuff", "Health", "DamageTaken", "Tier", "HeroIsKelThuzad" ])
         }
     }
     
@@ -73,6 +75,10 @@ class PlayerProxy: MonoHandle, MonoClassInitializer {
         _ = mono_runtime_invoke(PlayerProxy._setSecrets, self.get(), params, nil)
         
         params.deallocate()
+    }
+    
+    func setHeroIsKelThuzad() {
+        _ = mono_runtime_invoke(PlayerProxy._setHeroIsKelThuzad, self.get(), nil, nil)
     }
     
     @MonoHandleProperty(property: "Side", owner: PlayerProxy.self)
@@ -173,4 +179,7 @@ class PlayerProxy: MonoHandle, MonoClassInitializer {
     
     @MonoPrimitiveProperty(property: "Tier", owner: PlayerProxy.self)
     var tier: Int32
+    
+    @MonoPrimitiveProperty(property: "HeroIsKelThuzad", owner: PlayerProxy.self)
+    var heroIsKelThuzad: Bool
 }

@@ -679,10 +679,13 @@ class BobsBuddyInvoker {
             return false
         }
 
-        return MonoHelper.listItems(obj: input.opponent.heroPowers).any { obj in
+        if MonoHelper.listItems(obj: input.opponentTeammate.heroPowers).any({ obj in
             let hp = HeroPowerDataProxy(obj: obj.get())
             return hp.cardId == KelThuzadPowerID
+        }) {
+            return true
         }
+        return input.opponent.heroIsKelThuzad
     }
     
     func    isUnknownCard(e: Entity?) -> Bool {
@@ -981,6 +984,9 @@ class BobsBuddyInvoker {
                 }
             }
         } else {
+            if isOpponentHeroKelThuzad() {
+                inputPlayer.setHeroIsKelThuzad()
+            }
             let secrets = gamePlayer.secrets
             opponentSecrets = secrets
             var secretsToAdd = [Int]()
@@ -1380,5 +1386,11 @@ class BobsBuddyInvoker {
             }
         }
         return result
+    }
+    
+    private func isOpponentHeroKelThuzad() -> Bool {
+        let heroEntityId = game.opponentEntity?[.hero_entity]
+        let heroEntity = game.opponent.playerEntities.first { x in x.id == heroEntityId }
+        return heroEntity?.cardId == CardIds.NonCollectible.Neutral.KelthuzadTavernBrawl2
     }
 }
