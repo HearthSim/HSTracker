@@ -1,3 +1,41 @@
+# 3.5.7
+## New
+**Updated for Hearthstone 35.2.2**
+## Battlegrounds
+- Fixed incorrect simulation results where:
+  - Opponent Lock and Load were still not tracking the attached minion properly
+  - Sinrunner Blanchy was keeping all enchantments on reborn, instead of just bonus keywords
+  - Stomping Stegodon summoned during combat was missing its Rally ability
+  - Mothership and Timewarped mothership were not adding protoss minions to hand
+  - Bloodbound Earrings trinkets were counting up instead of down
+  - Scarlet Survivor reborn was not resetting divine shield check
+  - Scarlet Survivor golden reborn was not automatically giving itself divine shield
+  - Health Lost During Combat could be limited by the damage cap
+- Added simulation support for Back to Back tavern spell
+- Fixed incorrect simulation results where:
+  - Opponent Tavish Hero power was missing the attached minion
+  - Artisanal Urn trinket, Protective Ring trinket, and Lesser Artisanal Urn trinket were outdated
+  - Pufferquill was sometimes failing to get venomous from a blood gem played on it
+  - Bubble Crown trinket was counting up instead of down
+  - Old Soul in-hand effect was counting up instead of down
+  - Baleful Incense trinket was considering all undead minions for reborn
+  - Golden Lurking Leviathan was buffing too much
+  - Minions made golden from Captain Sanders were missing stats
+  - Sinrunner Blanchy was missing divine shield when reborn if it was granted divine shield earlier (e.g., from Swatting Insects hero power)
+  - Diremuck Forager second summoned minion was wrong
+  - Papa Mrrglton incorrectly buffing self
+  - Octosari Wrap God buff stats were incorrect
+  - Tidemistress Athissa now buffs all friendly naga
+  - Ship Jumper golden behavior was incorrect
+  - Pack Tactics trigger was incorrect
+- Added simulation support for Trusty Crowbar trinket
+- Added simulation support for Miniature Ship trinket
+- Added simulation support for Felburned Ledger trinket
+- Added simulation support for Czarina Portrait trinket
+- Added simulation support for Nalaa the Redeemer and Redeemer Portrait trinket
+- Added simulation support for Timecap'n Hooktail
+- Added simulation support for Nathaniel Blightcaller
+
 # 3.5.6
 ## Fixes
 - Fixed issue with mulligan guide staying on screen
