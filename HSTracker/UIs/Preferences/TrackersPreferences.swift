@@ -88,17 +88,16 @@ class TrackersPreferences: NSViewController, PreferencePane {
 
     @IBAction func comboboxChange(_ sender: NSComboBox) {
         if sender == cardSize {
-            if let value = cardSize.objectValueOfSelectedItem as? String {
-                let size: CardSize
-                switch value {
-                case String.localizedString("Tiny", comment: ""): size = .tiny
-                case String.localizedString("Small", comment: ""): size = .small
-                case String.localizedString("Big", comment: ""): size = .big
-                case String.localizedString("Huge", comment: ""): size = .huge
-                default: size = .medium
-                }
-                Settings.cardSize = size
+            let size: CardSize
+            switch cardSize.indexOfSelectedItem {
+            case 0: size = .tiny
+            case 1: size = .small
+            case 3: size = .big
+            case 4: size = .huge
+            case 2: size = .medium
+            default: size = .medium
             }
+            Settings.cardSize = size
         } else if sender == theme {
             Settings.theme = themes[theme.indexOfSelectedItem]
         }
