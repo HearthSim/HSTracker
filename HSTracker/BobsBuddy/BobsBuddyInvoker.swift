@@ -1244,6 +1244,54 @@ class BobsBuddyInvoker {
         tryRerun()
     }
     
+    func updateDuosLockAndLoadHeroPower(_ cardDbfId: Int) {
+        guard let input, state == .combat else {
+            return
+        }
+
+        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        
+        defer {
+            mono_thread_detach(opaque)
+        }
+        
+        func getTavishHP(_ heroPowers: MonoHandle) -> HeroPowerDataProxy? {
+            let count = MonoHelper.listCount(obj: heroPowers)
+            for idx in 0 ..< count {
+                let hp = HeroPowerDataProxy(obj: MonoHelper.listItem(obj: heroPowers, index: idx).get())
+                if hp.cardId == CardIds.NonCollectible.Neutral.TavishStormpike_LockAndLoad {
+                    return hp
+                }
+            }
+            return nil
+        }
+        
+        var tavishLockAndLoad: HeroPowerDataProxy? = getTavishHP(input.opponent.heroPowers)
+        
+        if tavishLockAndLoad == nil && input.playerTeammate.get() != nil {
+            tavishLockAndLoad = getTavishHP(input.playerTeammate.heroPowers)
+        }
+        
+        if tavishLockAndLoad == nil {
+            tavishLockAndLoad = getTavishHP(input.opponent.heroPowers)
+        }
+        
+        if tavishLockAndLoad == nil && input.opponentTeammate.get() != nil {
+            tavishLockAndLoad = getTavishHP(input.opponentTeammate.heroPowers)
+        }
+        
+        guard let tavishLockAndLoad else {
+            return
+        }
+        
+        if tavishLockAndLoad.attachedMinion.get() != nil || tavishLockAndLoad.data3 > 0 {
+            return
+        }
+        tavishLockAndLoad.data3 = Int32(cardDbfId)
+        
+        tryRerun()
+    }
+    
     func updateMinionEnchantment(_ enchantmentEntity: Entity, _ attachedToEntityId: Int, _ isPlayerMinion: Bool) {
         guard let input, state == .combat else {
             return

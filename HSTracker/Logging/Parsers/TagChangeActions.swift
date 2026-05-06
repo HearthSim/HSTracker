@@ -226,7 +226,11 @@ struct TagChangeActions {
         }
 
         if eventHandler.currentGameMode == .battlegrounds && currentBlock.cardId == CardIds.NonCollectible.Neutral.TavishStormpike_LockAndLoad && entity.isMinion && entity[.controller] == eventHandler.opponent.id && currentBlock.sourceEntityId == entity[.creator] && entity.isInZone(zone: .play) {
-            BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateOpponentLockAndLoadHeroPower(attachedEntity: entity)
+            if eventHandler.isBattlegroundsDuosMatch() {
+                BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateDuosLockAndLoadHeroPower(entity.card.dbfId)
+            } else if entity.isControlled(by: eventHandler.opponent.id) {
+                BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateOpponentLockAndLoadHeroPower(attachedEntity: entity)
+            }
         }
         
         guard let targetEntity = eventHandler.entities[value] else {
