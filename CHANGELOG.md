@@ -1,3 +1,17 @@
+# 3.5.8
+## New
+**Updated for Hearthstone 35.4.0**
+## Fixes
+- Fixed bug of not being able to change card sizes depending on the language translation (issue 1407)
+## Battlegrounds:
+- Fixed incorrect simulation results where:
+   - Stomping Stegodon summoned in combat was not triggering its rally when attacking
+   - Minions summoned from multiple secrets at once were not in the correct order
+   - Duos: Tavsih hero power was missing the attached minion for any player
+   - Bubble Crown trinket was missing tavern spell buffs on the opponent side
+   - In rare cases, two of the same secret could be set for the same player
+   - Twilight Hatchlings killing each other in a mirror match was copying the deathrattle to Fish of N'Zoth
+
 # 3.5.7
 ## New
 **Updated for Hearthstone 35.2.2**
