@@ -5119,7 +5119,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Change SHA1 here to change the version of HearthMirror used by HSTracker\nSHA1=$(cat $SRCROOT/HSTracker/HearthMirror-version.txt)\n\nDIR=\"$SRCROOT/downloaded-frameworks/HearthMirror\"\nVERSION_FILE=\"$DIR/HearthMirror.sha1\"\nZIP_FILE=\"$DIR/HearthMirror.framework.zip\"\nDSYM_ZIP_FILE=\"$DIR/HearthMirror.framework.dSYM.zip\"\n\nif [ \"$(cat $VERSION_FILE)\" != \"$SHA1\"  ]\nthen\n    set -e\n    \n    rm -rf \"$DIR\"\n    mkdir -p \"$DIR\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.zip\" -O \"$ZIP_FILE\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.dSYM.zip\" -O \"$DSYM_ZIP_FILE\"\n    unzip -d \"$DIR\" \"$ZIP_FILE\"\n    unzip -d \"$DIR\" \"$DSYM_ZIP_FILE\"\n    echo \"$SHA1\" > \"$VERSION_FILE\"\nfi\n\n\n\n";
+			shellScript = "# Change SHA1 here to change the version of HearthMirror used by HSTracker\nSHA1=$(cat $SRCROOT/HSTracker/HearthMirror-version.txt)\n\nDIR=\"$SRCROOT/downloaded-frameworks/HearthMirror\"\nVERSION_FILE=\"$DIR/HearthMirror.sha1\"\nZIP_FILE=\"$DIR/HearthMirror.framework.zip\"\nDSYM_ZIP_FILE=\"$DIR/HearthMirror.framework.dSYM.zip\"\n\nif [ \"$(cat $VERSION_FILE)\" != \"$SHA1\"  ]\nthen\n    set -e\n    \n    rm -rf \"$DIR\"\n    mkdir -p \"$DIR\"\n    curl -fL -o \"$ZIP_FILE\" \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.zip\"\n    curl -fL -o \"$DSYM_ZIP_FILE\" \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.dSYM.zip\"\n    unzip -d \"$DIR\" \"$ZIP_FILE\"\n    unzip -d \"$DIR\" \"$DSYM_ZIP_FILE\"\n    echo \"$SHA1\" > \"$VERSION_FILE\"\nfi\n\n\n\n";
 		};
 		B83355B724F89D1A0025F644 /* Embed Mono */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -5160,7 +5160,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nMONO_VERSION=$(cat $SRCROOT/HSTracker/mono-version.txt)\n\nDIR=\"$SRCROOT/downloaded-frameworks/mono\"\nmkdir -p $DIR\n\nwget  \"https://www.nuget.org/api/v2/package/Microsoft.NETCore.App.Runtime.Mono.osx-x64/${MONO_VERSION}\" -P \"$DIR\" -O \"$DIR/mono-${MONO_VERSION}.zip\"\nunzip -n \"$DIR/mono-${MONO_VERSION}.zip\" -d \"$DIR\"\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nMONO_VERSION=$(cat $SRCROOT/HSTracker/mono-version.txt)\n\nDIR=\"$SRCROOT/downloaded-frameworks/mono\"\nmkdir -p $DIR\n\ncurl -fL -o \"$DIR/mono-${MONO_VERSION}.zip\" \"https://www.nuget.org/api/v2/package/Microsoft.NETCore.App.Runtime.Mono.osx-x64/${MONO_VERSION}\"\nunzip -n \"$DIR/mono-${MONO_VERSION}.zip\" -d \"$DIR\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B8643D122759872D00B2D708 /* Download enUS cards */ = {
@@ -5222,7 +5222,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# change version here when needed\nset -e\n\nDIR=\"$SRCROOT/HSTracker/Resources/Managed\"\n\nmkdir -p $DIR\n\nwget -N \"https://libs.hearthsim.net/hdt/HearthDb.zip\" -P \"$DIR\" -O \"$SRCROOT/downloaded-frameworks/HearthDb.zip\"\nwget -N \"https://libs.hearthsim.net/hdt/BobsBuddy.zip\" -P \"$DIR\" -O \"$SRCROOT/downloaded-frameworks/BobsBuddy.zip\"\n\nunzip -o \"$SRCROOT/downloaded-frameworks/HearthDb.zip\" -d \"$DIR\"\nunzip -o \"$SRCROOT/downloaded-frameworks/BobsBuddy.zip\" -d \"$DIR\"\n";
+			shellScript = "# change version here when needed\nset -e\n\nDIR=\"$SRCROOT/HSTracker/Resources/Managed\"\n\nmkdir -p $DIR\n\ncurl -fL -z \"$SRCROOT/downloaded-frameworks/HearthDb.zip\" -o \"$SRCROOT/downloaded-frameworks/HearthDb.zip\" \"https://libs.hearthsim.net/hdt/HearthDb.zip\"\ncurl -fL -z \"$SRCROOT/downloaded-frameworks/BobsBuddy.zip\" -o \"$SRCROOT/downloaded-frameworks/BobsBuddy.zip\" \"https://libs.hearthsim.net/hdt/BobsBuddy.zip\"\n\nunzip -o \"$SRCROOT/downloaded-frameworks/HearthDb.zip\" -d \"$DIR\"\nunzip -o \"$SRCROOT/downloaded-frameworks/BobsBuddy.zip\" -d \"$DIR\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
