@@ -206,6 +206,7 @@ extension CardIds.Collectible {
         static let RitualOfPower = "CATA_561"
         static let SkywallSentinel = "CATA_565"
         static let AlakirLordOfStorms = "CATA_153"
+        static let MuradinsLastStand = "CATA_568"
     }
 }
 

@@ -1064,6 +1064,7 @@
 		B8AEB60F2FB273CE00CDA2C0 /* LeylineEffectIncreaseCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AEB60E2FB273CE00CDA2C0 /* LeylineEffectIncreaseCounter.swift */; };
 		B8AEB6112FB2744B00CDA2C0 /* LeylineExtraTriggerCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AEB6102FB2744B00CDA2C0 /* LeylineExtraTriggerCounter.swift */; };
 		B8AEB6132FB276A100CDA2C0 /* ExtraAnimalCompanionCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AEB6122FB276A100CDA2C0 /* ExtraAnimalCompanionCounter.swift */; };
+		B8AEB6262FB2813800CDA2C0 /* FriendlyAttacksThisGameCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AEB6252FB2813800CDA2C0 /* FriendlyAttacksThisGameCounter.swift */; };
 		B8AF0C652B828A4A00B65F63 /* ConstructedMulliganSingleCardHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AF0C642B828A4A00B65F63 /* ConstructedMulliganSingleCardHeader.swift */; };
 		B8AF0C672B83A65E00B65F63 /* MulliganGuideStatusData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AF0C662B83A65E00B65F63 /* MulliganGuideStatusData.swift */; };
 		B8AF0C692B83A77100B65F63 /* MulliganGuideStatusParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AF0C682B83A77100B65F63 /* MulliganGuideStatusParams.swift */; };
@@ -2402,6 +2403,7 @@
 		B8AEB60E2FB273CE00CDA2C0 /* LeylineEffectIncreaseCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeylineEffectIncreaseCounter.swift; sourceTree = "<group>"; };
 		B8AEB6102FB2744B00CDA2C0 /* LeylineExtraTriggerCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeylineExtraTriggerCounter.swift; sourceTree = "<group>"; };
 		B8AEB6122FB276A100CDA2C0 /* ExtraAnimalCompanionCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtraAnimalCompanionCounter.swift; sourceTree = "<group>"; };
+		B8AEB6252FB2813800CDA2C0 /* FriendlyAttacksThisGameCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendlyAttacksThisGameCounter.swift; sourceTree = "<group>"; };
 		B8AF0C642B828A4A00B65F63 /* ConstructedMulliganSingleCardHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructedMulliganSingleCardHeader.swift; sourceTree = "<group>"; };
 		B8AF0C662B83A65E00B65F63 /* MulliganGuideStatusData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulliganGuideStatusData.swift; sourceTree = "<group>"; };
 		B8AF0C682B83A77100B65F63 /* MulliganGuideStatusParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulliganGuideStatusParams.swift; sourceTree = "<group>"; };
@@ -3623,6 +3625,7 @@
 				B893433D2CD06762009A8727 /* ExcavateTierCounter.swift */,
 				B8AEB6122FB276A100CDA2C0 /* ExtraAnimalCompanionCounter.swift */,
 				B893433F2CD07836009A8727 /* FatigueCounter.swift */,
+				B8AEB6252FB2813800CDA2C0 /* FriendlyAttacksThisGameCounter.swift */,
 				B86D89C12D95A04200AB65A5 /* FriendlyMinionsDiedThisGameCounter.swift */,
 				B89343412CD0791C009A8727 /* GalakrondCounter.swift */,
 				B833361C2F69FB9F00923513 /* HeraldCounter.swift */,
@@ -5778,6 +5781,7 @@
 				B837D7D82EAEA5000070DB4B /* ISpellSchoolTutor.swift in Sources */,
 				439C7E851C777CFC00D29859 /* Deck.swift in Sources */,
 				B85462252CDEBFC30083BB31 /* StarshipSchematic.swift in Sources */,
+				B8AEB6262FB2813800CDA2C0 /* FriendlyAttacksThisGameCounter.swift in Sources */,
 				B89865B52D91D80600BA5649 /* TrinketArtist.swift in Sources */,
 				B846CC3E2E05F95C00552F9C /* TrinketTracker.swift in Sources */,
 				B864AE2225979E9100793F36 /* AdventureModeDbId.swift in Sources */,
