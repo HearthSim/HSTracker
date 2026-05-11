@@ -36,20 +36,16 @@ class AnimalCompanionCounter: NumericCounter {
 
     override func shouldShow() -> Bool {
         guard game.isTraditionalHearthstoneMatch else { return false }
-        
-        if isPlayerCounter {
-            return inPlayerDeckOrKnown(cardIds: relatedCards)
-        }
-        
-        return counter > 0 || companions[0] != CardIds.NonCollectible.Hunter.HufferLegacy
+
+        return counter > 3
     }
 
     override func getCardsToDisplay() -> [String] {
-        return companions
+        return isPlayerCounter ? companions : []
     }
 
     override func valueToShow() -> String {
-        return "\(counter + 1)"
+        return String(format: String.localizedString("Counter_AnimalCompanionCost", comment: ""), "\(counter)")
     }
 
     override func handleTagChange(tag: GameTag, entity: Entity, value: Int, prevValue: Int) {
@@ -69,33 +65,19 @@ class AnimalCompanionCounter: NumericCounter {
                 return
             }
 
-            if let card = Cards.by(dbfId: value, collectible: false) {
-                switch tag {
-                case .tag_script_data_num_4:
-                    companions[0] = card.id
-                    onCounterChanged()
-                case .tag_script_data_num_5:
-                    companions[1] = card.id
-                    onCounterChanged()
-                case .tag_script_data_num_6:
-                    companions[2] = card.id
-                    onCounterChanged()
-                default:
-                    break
-                }
+            guard let card = Cards.by(dbfId: value, collectible: false) else { return }
+            
+            switch tag {
+            case .tag_script_data_num_4:
+                companions[0] = card.id
+            case .tag_script_data_num_5:
+                companions[1] = card.id
+            case .tag_script_data_num_6:
+                companions[2] = card.id
+            default:
+                break
             }
-            return
+            counter = card.cost
         }
-
-        // Tag 4629 represents the specific counter for this mechanic
-        if tag.rawValue != 4629 {
-            return
-        }
-
-        if value == 0 {
-            return
-        }
-
-        counter = value
     }
 }

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -1063,6 +1063,7 @@
 		B8AEB60D2FB2731E00CDA2C0 /* LeylineCostReductionCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AEB60C2FB2731E00CDA2C0 /* LeylineCostReductionCounter.swift */; };
 		B8AEB60F2FB273CE00CDA2C0 /* LeylineEffectIncreaseCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AEB60E2FB273CE00CDA2C0 /* LeylineEffectIncreaseCounter.swift */; };
 		B8AEB6112FB2744B00CDA2C0 /* LeylineExtraTriggerCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AEB6102FB2744B00CDA2C0 /* LeylineExtraTriggerCounter.swift */; };
+		B8AEB6132FB276A100CDA2C0 /* ExtraAnimalCompanionCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AEB6122FB276A100CDA2C0 /* ExtraAnimalCompanionCounter.swift */; };
 		B8AF0C652B828A4A00B65F63 /* ConstructedMulliganSingleCardHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AF0C642B828A4A00B65F63 /* ConstructedMulliganSingleCardHeader.swift */; };
 		B8AF0C672B83A65E00B65F63 /* MulliganGuideStatusData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AF0C662B83A65E00B65F63 /* MulliganGuideStatusData.swift */; };
 		B8AF0C692B83A77100B65F63 /* MulliganGuideStatusParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AF0C682B83A77100B65F63 /* MulliganGuideStatusParams.swift */; };
@@ -2400,6 +2401,7 @@
 		B8AEB60C2FB2731E00CDA2C0 /* LeylineCostReductionCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeylineCostReductionCounter.swift; sourceTree = "<group>"; };
 		B8AEB60E2FB273CE00CDA2C0 /* LeylineEffectIncreaseCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeylineEffectIncreaseCounter.swift; sourceTree = "<group>"; };
 		B8AEB6102FB2744B00CDA2C0 /* LeylineExtraTriggerCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeylineExtraTriggerCounter.swift; sourceTree = "<group>"; };
+		B8AEB6122FB276A100CDA2C0 /* ExtraAnimalCompanionCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtraAnimalCompanionCounter.swift; sourceTree = "<group>"; };
 		B8AF0C642B828A4A00B65F63 /* ConstructedMulliganSingleCardHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructedMulliganSingleCardHeader.swift; sourceTree = "<group>"; };
 		B8AF0C662B83A65E00B65F63 /* MulliganGuideStatusData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulliganGuideStatusData.swift; sourceTree = "<group>"; };
 		B8AF0C682B83A77100B65F63 /* MulliganGuideStatusParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulliganGuideStatusParams.swift; sourceTree = "<group>"; };
@@ -2879,6 +2881,10 @@
 		F7D7A3A52011B67D00E3A5F0 /* Hearthstone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hearthstone.swift; sourceTree = "<group>"; };
 		F7D7A3AD2017B51300E3A5F0 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dsa_pub.pem; path = HSTracker/Resources/dsa_pub.pem; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		B8AEB6142FB2770200CDA2C0 /* AnimalCompanionGenerator */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = AnimalCompanionGenerator; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		439C7E451C7772C000D29859 /* Frameworks */ = {
@@ -3615,6 +3621,7 @@
 				B893433B2CD0372A009A8727 /* ElementalTurnSequenceCounter.swift */,
 				B8D02E522F1EFD9900DC55C1 /* ElwynnBoarCounter.swift */,
 				B893433D2CD06762009A8727 /* ExcavateTierCounter.swift */,
+				B8AEB6122FB276A100CDA2C0 /* ExtraAnimalCompanionCounter.swift */,
 				B893433F2CD07836009A8727 /* FatigueCounter.swift */,
 				B86D89C12D95A04200AB65A5 /* FriendlyMinionsDiedThisGameCounter.swift */,
 				B89343412CD0791C009A8727 /* GalakrondCounter.swift */,
@@ -4658,6 +4665,7 @@
 			isa = PBXGroup;
 			children = (
 				B8E1E5B12D0C860B00383975 /* AbominableBowman.swift */,
+				B8AEB6142FB2770200CDA2C0 /* AnimalCompanionGenerator */,
 				B89865652D8E15D000BA5649 /* Banjosaur.swift */,
 				B89865672D8E168A00BA5649 /* BarakKodobane.swift */,
 				B89865692D8E16EE00BA5649 /* BargainBin.swift */,
@@ -4832,6 +4840,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				B8AEB6142FB2770200CDA2C0 /* AnimalCompanionGenerator */,
 			);
 			name = HSTracker;
 			packageProductDependencies = (
@@ -5773,6 +5784,7 @@
 				B89865702D8E181400BA5649 /* MastersCall.swift in Sources */,
 				B854620B2CDD42420083BB31 /* Shudderwock.swift in Sources */,
 				431AA0CB1D362DBA0030AD22 /* Faction.swift in Sources */,
+				B8AEB6132FB276A100CDA2C0 /* ExtraAnimalCompanionCounter.swift in Sources */,
 				C92C68181D1F74CE009030DC /* LadderGrid.swift in Sources */,
 				B852D8372DDFB9AF00884B26 /* KingpinPud.swift in Sources */,
 				439C7EB51C777F8900D29859 /* Entity.swift in Sources */,

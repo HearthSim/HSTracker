@@ -235,6 +235,10 @@ extension CardIds.Collectible {
         static let MigratingElekk = "MEND_303"
         static let AnimalCompanionLegacy = "NEW1_031"
         static let AnimalCompanionVanilla = "VAN_NEW1_031"
+        static let CallOfTheWildCore = "CORE_OG_211"
+        static let PatchworkPals = "TOY_353"
+        static let Spiritspeaker = "MEND_301"
+        static let ToMySide = "LOOT_217"
     }
 }
 
