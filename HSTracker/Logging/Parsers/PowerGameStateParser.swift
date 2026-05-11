@@ -815,6 +815,8 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Deathknight.Corpsicle)
                         case CardIds.NonCollectible.Neutral.EternalFirebolt_EternalFireboltEnchantment:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Invalid.EternalFirebolt)
+                        case CardIds.Collectible.DemonHunter.GorishiWasp:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.DemonHunter.GorishiWasp_GorishiStingerToken)
                         case CardIds.Collectible.Mage.CommanderSivara, CardIds.Collectible.Neutral.TidepoolPupil:
                             if let cardId = currentBlock?.parent?.cardId, Cards.by(cardId: cardId)?.type == .spell, let actionStartingEntity {
                                 let maxCards = 3
@@ -1240,6 +1242,8 @@ class PowerGameStateParser: LogEventParser {
                             if let currentBlock {
                                 currentBlock.hideShowEntities = true
                             }
+                        case CardIds.Collectible.DemonHunter.Infestation:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.DemonHunter.GorishiWasp_GorishiStingerToken, count: 2)
                         case CardIds.NonCollectible.Warrior.EntertheLostCity_LatorviusGazeOfTheCityToken:
                             if actionStartingEntity?.isControlled(by: eventHandler.opponent.id) ?? false {
                                 for id in [ CardIds.NonCollectible.Druid.JungleGiants_BarnabusTheStomperToken,
