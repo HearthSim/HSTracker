@@ -14,13 +14,17 @@ class AnimalCompanionCounter: NumericCounter {
 
     override var relatedCards: [String] {
         return [
-            CardIds.Collectible.Hunter.TalyaEarthstrider,
-            CardIds.Collectible.Hunter.TamePet,
-            CardIds.Collectible.Hunter.RoamFree,
-            CardIds.Collectible.Hunter.MigratingElekk,
             CardIds.Collectible.Hunter.AnimalCompanionCore,
             CardIds.Collectible.Hunter.AnimalCompanionLegacy,
-            CardIds.Collectible.Hunter.AnimalCompanionVanilla
+            CardIds.Collectible.Hunter.AnimalCompanionVanilla,
+            CardIds.Collectible.Hunter.BrollBearmantle,
+            CardIds.Collectible.Hunter.CallOfTheWild,
+            CardIds.Collectible.Hunter.CallOfTheWildCore,
+            CardIds.Collectible.Hunter.OpenTheCages,
+            CardIds.Collectible.Hunter.PatchworkPals,
+            CardIds.Collectible.Hunter.RoamFree,
+            CardIds.Collectible.Hunter.Spiritspeaker,
+            CardIds.Collectible.Hunter.ToMySide
         ]
     }
 
@@ -29,6 +33,8 @@ class AnimalCompanionCounter: NumericCounter {
         CardIds.NonCollectible.Hunter.LeokkLegacy,
         CardIds.NonCollectible.Hunter.MishaLegacy
     ]
+    
+    private var _opponentKnownCompanions = Set<String>()
 
     required init(controlledByPlayer: Bool, game: Game) {
         super.init(controlledByPlayer: controlledByPlayer, game: game)
@@ -41,7 +47,7 @@ class AnimalCompanionCounter: NumericCounter {
     }
 
     override func getCardsToDisplay() -> [String] {
-        return isPlayerCounter ? companions : []
+        return isPlayerCounter ? companions : Array(_opponentKnownCompanions)
     }
 
     override func valueToShow() -> String {
@@ -67,6 +73,10 @@ class AnimalCompanionCounter: NumericCounter {
 
             guard let card = Cards.by(dbfId: value, collectible: false) else { return }
             
+            if !isPlayerCounter {
+                _opponentKnownCompanions.removeAll()
+            }
+            
             switch tag {
             case .tag_script_data_num_4:
                 companions[0] = card.id
@@ -82,5 +92,39 @@ class AnimalCompanionCounter: NumericCounter {
             }
             counter = card.cost
         }
+        
+        if isPlayerCounter {
+            return
+        }
+        
+        if handleOpponentSummon(tag, entity, value, prevValue) {
+            onCounterChanged()
+        }
+    }
+    
+    private func handleOpponentSummon(_ tag: GameTag, _ entity: Entity, _ value: Int, _ prevValue: Int) -> Bool {
+        if tag != GameTag.zone {
+            return false
+        }
+
+        if value != Zone.play.rawValue {
+            return false
+        }
+
+        guard let currentBlock = AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock, relatedCards.contains(currentBlock.cardId ?? "") else {
+            return false
+        }
+
+        if !entity.card.isBeast() {
+            return false
+        }
+
+        if entity.card.cost != counter {
+            return false
+        }
+
+        _opponentKnownCompanions.insert(entity.card.id)
+
+        return true
     }
 }
