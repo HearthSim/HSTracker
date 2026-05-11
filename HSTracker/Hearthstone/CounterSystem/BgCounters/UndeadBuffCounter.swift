@@ -8,7 +8,7 @@
 
 import Foundation
 
-class UndeadAttackBonusCounter: NumericCounter {
+class UndeadfBuffCounter: StatsCounter {
     override var isBattlegroundsCounter: Bool { true }
     override var cardIdToShowInUI: String? { CardIds.NonCollectible.Neutral.NerubianDeathswarmer }
     override var localizedName: String { String.localizedString("Counter_UndeadAttackBonus", comment: "") }
@@ -20,13 +20,15 @@ class UndeadAttackBonusCounter: NumericCounter {
 
     override func shouldShow() -> Bool {
         guard game.isBattlegroundsMatch() else { return false }
-        return counter > 0 && game.player.board.contains { $0.card.isUndead() }
+        return (attackCounter > 0 || healthCounter > 0) && game.player.board.contains { $0.card.isUndead() }
     }
 
     override func getCardsToDisplay() -> [String] {
         return [
             CardIds.NonCollectible.Neutral.NerubianDeathswarmer,
             CardIds.NonCollectible.Neutral.AnubarakNerubianKing,
+            CardIds.NonCollectible.Neutral.DustboneDevastator,
+            CardIds.NonCollectible.Neutral.Plaguerunner,
             CardIds.NonCollectible.Neutral.ChampionOfThePrimus,
             CardIds.NonCollectible.Neutral.Butchering,
             CardIds.NonCollectible.Neutral.ForsakenWeaver,
@@ -36,7 +38,7 @@ class UndeadAttackBonusCounter: NumericCounter {
     }
 
     override func valueToShow() -> String {
-        return "+\(counter)"
+        return healthCounter > 0 ? "+\(attackCounter) / +\(healthCounter)" : "+\(attackCounter)"
     }
 
     override func handleTagChange(tag: GameTag, entity: Entity, value: Int, prevValue: Int) {
@@ -54,7 +56,11 @@ class UndeadAttackBonusCounter: NumericCounter {
         }
 
         if tag == .tag_script_data_num_1 {
-            counter = value
+            attackCounter = value
+        }
+        
+        if tag == .tag_script_data_num_2 {
+            healthCounter = value
         }
     }
 }

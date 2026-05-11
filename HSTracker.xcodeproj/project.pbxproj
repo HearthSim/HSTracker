@@ -1367,7 +1367,7 @@
 		B8E1E5A32CF94FB900383975 /* AppMover in Frameworks */ = {isa = PBXBuildFile; productRef = B8E1E5A22CF94FB900383975 /* AppMover */; };
 		B8E1E5A62D0B873E00383975 /* BeetlesSizeCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5A52D0B873E00383975 /* BeetlesSizeCounter.swift */; };
 		B8E1E5A82D0B883100383975 /* SpellsPlayedForNagasCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5A72D0B883100383975 /* SpellsPlayedForNagasCounter.swift */; };
-		B8E1E5AA2D0B891F00383975 /* UndeadAttackBonusCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5A92D0B891F00383975 /* UndeadAttackBonusCounter.swift */; };
+		B8E1E5AA2D0B891F00383975 /* UndeadBuffCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5A92D0B891F00383975 /* UndeadBuffCounter.swift */; };
 		B8E1E5AC2D0C708900383975 /* GrandMagisterRommath.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5AB2D0C708900383975 /* GrandMagisterRommath.swift */; };
 		B8E1E5AE2D0C719300383975 /* AllFelBreaksLoose.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5AD2D0C719300383975 /* AllFelBreaksLoose.swift */; };
 		B8E1E5B02D0C854000383975 /* WitchingHour.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5AF2D0C854000383975 /* WitchingHour.swift */; };
@@ -2672,7 +2672,7 @@
 		B8DC376025D06C2F00452A83 /* OpponentDeadForTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpponentDeadForTracker.swift; sourceTree = "<group>"; };
 		B8E1E5A52D0B873E00383975 /* BeetlesSizeCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeetlesSizeCounter.swift; sourceTree = "<group>"; };
 		B8E1E5A72D0B883100383975 /* SpellsPlayedForNagasCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellsPlayedForNagasCounter.swift; sourceTree = "<group>"; };
-		B8E1E5A92D0B891F00383975 /* UndeadAttackBonusCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UndeadAttackBonusCounter.swift; sourceTree = "<group>"; };
+		B8E1E5A92D0B891F00383975 /* UndeadBuffCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UndeadBuffCounter.swift; sourceTree = "<group>"; };
 		B8E1E5AB2D0C708900383975 /* GrandMagisterRommath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrandMagisterRommath.swift; sourceTree = "<group>"; };
 		B8E1E5AD2D0C719300383975 /* AllFelBreaksLoose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllFelBreaksLoose.swift; sourceTree = "<group>"; };
 		B8E1E5AF2D0C854000383975 /* WitchingHour.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WitchingHour.swift; sourceTree = "<group>"; };
@@ -4452,7 +4452,7 @@
 				B852D8102DDABB8800884B26 /* ShopBuffStatsCounter.swift */,
 				B8E1E5A72D0B883100383975 /* SpellsPlayedForNagasCounter.swift */,
 				B852D8162DDAC91A00884B26 /* TavernSpellsBuffCounter.swift */,
-				B8E1E5A92D0B891F00383975 /* UndeadAttackBonusCounter.swift */,
+				B8E1E5A92D0B891F00383975 /* UndeadBuffCounter.swift */,
 				B82901F42F0ED4A0002F96FB /* VolumizerBuffCounter.swift */,
 				B8CDDCC22F3EAF87004C3E86 /* WhelpStatsBuffCounter.swift */,
 			);
@@ -5530,7 +5530,7 @@
 				B846CC362E05F73200552F9C /* PhaseStalker.swift in Sources */,
 				B8196F142CC850BB007C0371 /* BaseCounter.swift in Sources */,
 				43D308061C842DC900480488 /* GamePrefences.swift in Sources */,
-				B8E1E5AA2D0B891F00383975 /* UndeadAttackBonusCounter.swift in Sources */,
+				B8E1E5AA2D0B891F00383975 /* UndeadBuffCounter.swift in Sources */,
 				B8DC376125D06C2F00452A83 /* OpponentDeadForTracker.swift in Sources */,
 				43A8A0F71E1557C900AF34FD /* FormatType.swift in Sources */,
 				B8B78FCF2C960FF200DD33EC /* ManaBurnEnchantment.swift in Sources */,
