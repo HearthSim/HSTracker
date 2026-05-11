@@ -358,6 +358,7 @@
 "Counter_NextRefreshDemonFodder" = "Next Refresh Demon Fodders";
 "Counter_SilverHandRecruitBuff" = "Silver Hand Recruit Buff";
 "Counter_AnimalCompanionCost" = "%@ Cost";
+"Counter_MuradinLastStand" = "Cost: %@";
 
 /* Tier7 */
 "BattlegroundsOverlayMessage_Error" = "Something went wrong :(";
