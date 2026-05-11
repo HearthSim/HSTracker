@@ -228,6 +228,10 @@ extension CardIds.Collectible {
         static let InfinitizeTheMaxitude = "ETC_206"
         static let TheForbiddenSequence = "TLC_460"
         static let ArcaneFlow = "CATA_489"
+        static let LeyWalker = "MEND_501"
+        static let TheArcanomicon = "MEND_505"
+        static let MysticRunesaber = "MEND_506"
+        static let SurgeNeedle = "MEND_503"
     }
 }
 
@@ -313,6 +317,7 @@ extension CardIds.NonCollectible {
         static let SplendiferousWhizbang_MorphingCardToken = "TOY_700t13"
         static let Vulcanos_PlumeOfVulcanosToken1 = "CATA_488t"
         static let Vulcanos_PlumeOfVulcanosToken2 = "CATA_488t2"
+        static let LeyWalker_UnblockLeylineToken = "MEND_501t2e"
     }
 }
 

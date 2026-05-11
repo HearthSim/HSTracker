@@ -467,6 +467,8 @@ enum GameTag: Int, CaseIterable, Codable {
     kindred = 4028,
     imbue_sub_counter = 4168,
     shattered = 4240,
+    gametag_4283 = 4283,
+    gametag_4288 = 4288,
     bacon_player_extra_gold_next_turn = 4286,
     herald_colossal_amount = 4327,
     bacon_free_refresh_count = 4536,

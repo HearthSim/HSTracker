@@ -1060,6 +1060,9 @@
 		B8AEB6072F999A6E00CDA2C0 /* DemonFodderCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AEB6062F999A6E00CDA2C0 /* DemonFodderCounter.swift */; };
 		B8AEB6092FB26BA200CDA2C0 /* AnimalCompanionCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AEB6082FB26BA200CDA2C0 /* AnimalCompanionCounter.swift */; };
 		B8AEB60B2FB270B900CDA2C0 /* SilverHandRecruitBuffCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AEB60A2FB270B900CDA2C0 /* SilverHandRecruitBuffCounter.swift */; };
+		B8AEB60D2FB2731E00CDA2C0 /* LeylineCostReductionCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AEB60C2FB2731E00CDA2C0 /* LeylineCostReductionCounter.swift */; };
+		B8AEB60F2FB273CE00CDA2C0 /* LeylineEffectIncreaseCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AEB60E2FB273CE00CDA2C0 /* LeylineEffectIncreaseCounter.swift */; };
+		B8AEB6112FB2744B00CDA2C0 /* LeylineExtraTriggerCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AEB6102FB2744B00CDA2C0 /* LeylineExtraTriggerCounter.swift */; };
 		B8AF0C652B828A4A00B65F63 /* ConstructedMulliganSingleCardHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AF0C642B828A4A00B65F63 /* ConstructedMulliganSingleCardHeader.swift */; };
 		B8AF0C672B83A65E00B65F63 /* MulliganGuideStatusData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AF0C662B83A65E00B65F63 /* MulliganGuideStatusData.swift */; };
 		B8AF0C692B83A77100B65F63 /* MulliganGuideStatusParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AF0C682B83A77100B65F63 /* MulliganGuideStatusParams.swift */; };
@@ -2394,6 +2397,9 @@
 		B8AEB6062F999A6E00CDA2C0 /* DemonFodderCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemonFodderCounter.swift; sourceTree = "<group>"; };
 		B8AEB6082FB26BA200CDA2C0 /* AnimalCompanionCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalCompanionCounter.swift; sourceTree = "<group>"; };
 		B8AEB60A2FB270B900CDA2C0 /* SilverHandRecruitBuffCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SilverHandRecruitBuffCounter.swift; sourceTree = "<group>"; };
+		B8AEB60C2FB2731E00CDA2C0 /* LeylineCostReductionCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeylineCostReductionCounter.swift; sourceTree = "<group>"; };
+		B8AEB60E2FB273CE00CDA2C0 /* LeylineEffectIncreaseCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeylineEffectIncreaseCounter.swift; sourceTree = "<group>"; };
+		B8AEB6102FB2744B00CDA2C0 /* LeylineExtraTriggerCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeylineExtraTriggerCounter.swift; sourceTree = "<group>"; };
 		B8AF0C642B828A4A00B65F63 /* ConstructedMulliganSingleCardHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructedMulliganSingleCardHeader.swift; sourceTree = "<group>"; };
 		B8AF0C662B83A65E00B65F63 /* MulliganGuideStatusData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulliganGuideStatusData.swift; sourceTree = "<group>"; };
 		B8AF0C682B83A77100B65F63 /* MulliganGuideStatusParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulliganGuideStatusParams.swift; sourceTree = "<group>"; };
@@ -3619,6 +3625,9 @@
 				B89343432CD11C13009A8727 /* JadeDisplayCounter.swift */,
 				B89343452CD11D03009A8727 /* JadeGolemCounter.swift */,
 				B82029322CD2C65D00C19A8C /* KiljaedenCounter.swift */,
+				B8AEB60C2FB2731E00CDA2C0 /* LeylineCostReductionCounter.swift */,
+				B8AEB60E2FB273CE00CDA2C0 /* LeylineEffectIncreaseCounter.swift */,
+				B8AEB6102FB2744B00CDA2C0 /* LeylineExtraTriggerCounter.swift */,
 				B89343472CD11E7A009A8727 /* LibramCostReductionCounter.swift */,
 				B89865352D8A343600BA5649 /* MinionsDiedThisGameCounter.swift */,
 				B872168F2F16E98C00E848BA /* MinionsDiedThisTurnCounter.swift */,
@@ -5551,6 +5560,7 @@
 				B846CC942E16C1F800552F9C /* SkyscreamerEggs.swift in Sources */,
 				B86D89E82D95EC8F00AB65A5 /* GrimHarvest.swift in Sources */,
 				1C17D2521E82DEE700ED4047 /* RealmHelper.swift in Sources */,
+				B8AEB60D2FB2731E00CDA2C0 /* LeylineCostReductionCounter.swift in Sources */,
 				B89865AF2D91D6D300BA5649 /* InterstellarResearcher.swift in Sources */,
 				B83336012F620CFC00923513 /* CommanderGeddonEnchantment.swift in Sources */,
 				B83335F92F62095500923513 /* WarlocEnchantment.swift in Sources */,
@@ -6059,6 +6069,7 @@
 				B89865F22D95514900BA5649 /* AnachronosTurnCounter.swift in Sources */,
 				B86D8A222D95FF8C00AB65A5 /* Merithra.swift in Sources */,
 				B88339772E71053D007D9754 /* HolyEggbearer.swift in Sources */,
+				B8AEB6112FB2744B00CDA2C0 /* LeylineExtraTriggerCounter.swift in Sources */,
 				B81B3DA52D4439FD00DC9EB0 /* StarlightWhelp.swift in Sources */,
 				B898994F2CA4514E0011B184 /* BattlegroundsTrinketPickParams.swift in Sources */,
 				B89899552CA5F0290011B184 /* BattlegroundsSingleTrinket.swift in Sources */,
@@ -6159,6 +6170,7 @@
 				B8832DDA26057A5000646BA4 /* RepeatingTimer.swift in Sources */,
 				B8DB128F2EBAD9E9004268FA /* LastingLegacy.swift in Sources */,
 				B89865682D8E168A00BA5649 /* BarakKodobane.swift in Sources */,
+				B8AEB60F2FB273CE00CDA2C0 /* LeylineEffectIncreaseCounter.swift in Sources */,
 				B8E1E5B22D0C860B00383975 /* AbominableBowman.swift in Sources */,
 				B8DB12932EBADA70004268FA /* TheEternalHold.swift in Sources */,
 				439DD8F61DB2324A004EBE47 /* CardSize.swift in Sources */,
