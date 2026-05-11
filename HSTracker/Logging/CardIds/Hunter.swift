@@ -228,6 +228,13 @@ extension CardIds.Collectible {
         static let ConfrontTheTolvir = "CATA_560"
         static let SupplyRun = "CATA_820"
         static let PressurePlateCore = "CORE_ULD_152"
+        static let AnimalCompanionCore = "CORE_NEW1_031"
+        static let TalyaEarthstrider = "MEND_304"
+        static let TamePet = "MEND_300"
+        static let RoamFree = "MEND_307"
+        static let MigratingElekk = "MEND_303"
+        static let AnimalCompanionLegacy = "NEW1_031"
+        static let AnimalCompanionVanilla = "VAN_NEW1_031"
     }
 }
 
@@ -313,6 +320,9 @@ extension CardIds.NonCollectible {
         static let PastSilvermoon_PresentSilvermoonToken = "TIME_810t1"
         static let PastSilvermoon_FutureSilvermoonToken = "TIME_810t2"
         static let SupplyRun_SupplyRunToken1 = "CATA_820t"
+        static let HufferLegacy = "NEW1_034"
+        static let LeokkLegacy = "NEW1_033"
+        static let MishaLegacy = "NEW1_032"
     }
 }
 

@@ -416,6 +416,8 @@ enum GameTag: Int, CaseIterable, Codable {
     tag_script_data_num_3 = 2889,
     bacon_global_anomaly_dbid = 2897,
     tag_script_data_num_4 = 2919,
+    tag_script_data_num_5 = 2920,
+    tag_script_data_num_6 = 2921,
     cthun_health_buff = 3053,
     cthun_attack_buff = 3054,
     forge_revealed = 3070,
@@ -468,6 +470,7 @@ enum GameTag: Int, CaseIterable, Codable {
     bacon_player_extra_gold_next_turn = 4286,
     herald_colossal_amount = 4327,
     bacon_free_refresh_count = 4536,
+    gametag_4629 = 4629,
     gametag_4639 = 4639,
     bacon_fodders_in_refresh = 4664
 

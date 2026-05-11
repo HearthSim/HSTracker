@@ -807,7 +807,6 @@
 		B86D89F02D95EE5F00AB65A5 /* FandralStaghelm.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86D89EF2D95EE5F00AB65A5 /* FandralStaghelm.swift */; };
 		B86D89F22D95EED700AB65A5 /* GroveShaper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86D89F12D95EED700AB65A5 /* GroveShaper.swift */; };
 		B86D89F42D95EF2900AB65A5 /* Reforestation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86D89F32D95EF2900AB65A5 /* Reforestation.swift */; };
-		B86D89F62D95EFF700AB65A5 /* BrollBearmantle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86D89F52D95EFF700AB65A5 /* BrollBearmantle.swift */; };
 		B86D89F82D95F15800AB65A5 /* ExoticHoundmaster.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86D89F72D95F15800AB65A5 /* ExoticHoundmaster.swift */; };
 		B86D89FA2D95F1D900AB65A5 /* SpiritGatherer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86D89F92D95F1D900AB65A5 /* SpiritGatherer.swift */; };
 		B86D89FC2D95F29100AB65A5 /* EnvoyOfTheGlade.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86D89FB2D95F29100AB65A5 /* EnvoyOfTheGlade.swift */; };
@@ -1059,6 +1058,7 @@
 		B8AC9A28293F9A680047F438 /* BattlegroundsComposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AC9A27293F9A680047F438 /* BattlegroundsComposition.swift */; };
 		B8AC9A2A293F9B120047F438 /* BattlegroundsQuestStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AC9A29293F9B120047F438 /* BattlegroundsQuestStats.swift */; };
 		B8AEB6072F999A6E00CDA2C0 /* DemonFodderCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AEB6062F999A6E00CDA2C0 /* DemonFodderCounter.swift */; };
+		B8AEB6092FB26BA200CDA2C0 /* AnimalCompanionCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AEB6082FB26BA200CDA2C0 /* AnimalCompanionCounter.swift */; };
 		B8AF0C652B828A4A00B65F63 /* ConstructedMulliganSingleCardHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AF0C642B828A4A00B65F63 /* ConstructedMulliganSingleCardHeader.swift */; };
 		B8AF0C672B83A65E00B65F63 /* MulliganGuideStatusData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AF0C662B83A65E00B65F63 /* MulliganGuideStatusData.swift */; };
 		B8AF0C692B83A77100B65F63 /* MulliganGuideStatusParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AF0C682B83A77100B65F63 /* MulliganGuideStatusParams.swift */; };
@@ -2181,7 +2181,6 @@
 		B86D89EF2D95EE5F00AB65A5 /* FandralStaghelm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FandralStaghelm.swift; sourceTree = "<group>"; };
 		B86D89F12D95EED700AB65A5 /* GroveShaper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroveShaper.swift; sourceTree = "<group>"; };
 		B86D89F32D95EF2900AB65A5 /* Reforestation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reforestation.swift; sourceTree = "<group>"; };
-		B86D89F52D95EFF700AB65A5 /* BrollBearmantle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrollBearmantle.swift; sourceTree = "<group>"; };
 		B86D89F72D95F15800AB65A5 /* ExoticHoundmaster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExoticHoundmaster.swift; sourceTree = "<group>"; };
 		B86D89F92D95F1D900AB65A5 /* SpiritGatherer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpiritGatherer.swift; sourceTree = "<group>"; };
 		B86D89FB2D95F29100AB65A5 /* EnvoyOfTheGlade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvoyOfTheGlade.swift; sourceTree = "<group>"; };
@@ -2392,6 +2391,7 @@
 		B8AC9A27293F9A680047F438 /* BattlegroundsComposition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsComposition.swift; sourceTree = "<group>"; };
 		B8AC9A29293F9B120047F438 /* BattlegroundsQuestStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsQuestStats.swift; sourceTree = "<group>"; };
 		B8AEB6062F999A6E00CDA2C0 /* DemonFodderCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemonFodderCounter.swift; sourceTree = "<group>"; };
+		B8AEB6082FB26BA200CDA2C0 /* AnimalCompanionCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalCompanionCounter.swift; sourceTree = "<group>"; };
 		B8AF0C642B828A4A00B65F63 /* ConstructedMulliganSingleCardHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructedMulliganSingleCardHeader.swift; sourceTree = "<group>"; };
 		B8AF0C662B83A65E00B65F63 /* MulliganGuideStatusData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulliganGuideStatusData.swift; sourceTree = "<group>"; };
 		B8AF0C682B83A77100B65F63 /* MulliganGuideStatusParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulliganGuideStatusParams.swift; sourceTree = "<group>"; };
@@ -3589,6 +3589,7 @@
 			children = (
 				B8196F1A2CC87060007C0371 /* AbyssalCurseCounter.swift */,
 				B89865F12D95514900BA5649 /* AnachronosTurnCounter.swift */,
+				B8AEB6082FB26BA200CDA2C0 /* AnimalCompanionCounter.swift */,
 				B846CCB52E1C44A700552F9C /* AshalonRidgeGuardianCounter.swift */,
 				B82029302CD2C4D700C19A8C /* AsteroidExtraDamageCounter.swift */,
 				B8196F1C2CC871A6007C0371 /* AstralAutomatonCounter.swift */,
@@ -4649,7 +4650,6 @@
 				B89865672D8E168A00BA5649 /* BarakKodobane.swift */,
 				B89865692D8E16EE00BA5649 /* BargainBin.swift */,
 				B898656B2D8E175400BA5649 /* Birdwatching.swift */,
-				B86D89F52D95EFF700AB65A5 /* BrollBearmantle.swift */,
 				B81B3D882D4094E900DC9EB0 /* ChattyMacaw.swift */,
 				B83336022F620D8A00923513 /* ConfrontTheTolvir.swift */,
 				B8E1E5D92D0C964000383975 /* DefenseAttorneyNathanos.swift */,
@@ -5256,6 +5256,7 @@
 				B820294D2CD2D38800C19A8C /* ExpeditionSergeantEnchantment.swift in Sources */,
 				B8BD8453285D23C500F4F224 /* UnfairLock.swift in Sources */,
 				B8CE65DC2950D80200E8D168 /* BattlegroundsPlacementDistribution.swift in Sources */,
+				B8AEB6092FB26BA200CDA2C0 /* AnimalCompanionCounter.swift in Sources */,
 				43F2040F1E93C2E600E0BC4A /* Priest.swift in Sources */,
 				B86D89D62D95C0EB00AB65A5 /* FalricCorePlaceholder.swift in Sources */,
 				B8E1E5AE2D0C719300383975 /* AllFelBreaksLoose.swift in Sources */,
@@ -5487,7 +5488,6 @@
 				B8E1E5B42D0C86A200383975 /* RevivePet.swift in Sources */,
 				B846CC722E157AA100552F9C /* DreadRaptor.swift in Sources */,
 				B833361B2F69FAB000923513 /* DeathwingDiscount.swift in Sources */,
-				B86D89F62D95EFF700AB65A5 /* BrollBearmantle.swift in Sources */,
 				B852D8132DDABE1E00884B26 /* FreeRefreshCounter.swift in Sources */,
 				B898656E2D8E17CF00BA5649 /* Fetch.swift in Sources */,
 				B8DC11F424EACDB80088A755 /* SimulationRunner.swift in Sources */,
