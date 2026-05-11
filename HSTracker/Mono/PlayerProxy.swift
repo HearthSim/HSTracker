@@ -27,7 +27,7 @@ class PlayerProxy: MonoHandle, MonoClassInitializer {
             PlayerProxy._setHeroIsKelThuzad = MonoHelper.getMethod(PlayerProxy._class, "SetHeroIsKelThuzad", 0)
             
             // fields
-            initializeProperties(properties: [ "Side", "HeroPowers", "Quests", "Objectives", "Trinkets", "Secrets", "Hand", "FriendlyMinionsDeadLastCombatCounter", "EternalKnightCounter", "AncestralAutomatonCounter", "UndeadAttackBonus", "WhelpAttackBonus", "WhelpHealthBonus", "ElementalPlayCounter", "BloodGemAtkBuff", "BloodGemHealthBuff", "TavernSpellCounter", "PiratesSummonCounter", "ResourcesSpentThisGame", "BeastsSummonCounter", "BeastAttackBonus", "BeastHealthBonus", "BeetlesAtkBuff", "BeetlesHealthBuff", "BattlecryCounter", "DeathrattleCounter", "TavernSpellAtkBuff", "TavernSpellHealthBuff", "BackToBackCounter", "HauntedAtkBuff", "HauntedHealthBuff", "Health", "DamageTaken", "Tier", "HeroIsKelThuzad" ])
+            initializeProperties(properties: [ "Side", "HeroPowers", "Quests", "Objectives", "Trinkets", "Secrets", "Hand", "FriendlyMinionsDeadLastCombatCounter", "EternalKnightCounter", "AncestralAutomatonCounter", "UndeadAttackBonus", "UndeadHealthBonus", "WhelpAttackBonus", "WhelpHealthBonus", "ElementalPlayCounter", "BloodGemAtkBuff", "BloodGemHealthBuff", "TavernSpellCounter", "PiratesSummonCounter", "ResourcesSpentThisGame", "BeastsSummonCounter", "BeastAttackBonus", "BeastHealthBonus", "BeetlesAtkBuff", "BeetlesHealthBuff", "BattlecryCounter", "DeathrattleCounter", "TavernSpellAtkBuff", "TavernSpellHealthBuff", "BackToBackCounter", "HauntedAtkBuff", "HauntedHealthBuff", "Health", "DamageTaken", "Tier", "HeroIsKelThuzad" ])
         }
     }
     
@@ -113,7 +113,10 @@ class PlayerProxy: MonoHandle, MonoClassInitializer {
 
     @MonoPrimitiveProperty(property: "UndeadAttackBonus", owner: PlayerProxy.self)
     var undeadAttackBonus: Int32
-    
+
+    @MonoPrimitiveProperty(property: "UndeadHealthBonus", owner: PlayerProxy.self)
+    var undeadHealthBonus: Int32
+
     @MonoPrimitiveProperty(property: "WhelpAttackBonus", owner: PlayerProxy.self)
     var whelpAttackBonus: Int32
     

@@ -1020,6 +1020,7 @@ class BobsBuddyInvoker {
         let pUndeadBonus = playerAttached.first { x in x.cardId == CardIds.NonCollectible.Neutral.NerubianDeathswarmer_UndeadBonusAttackPlayerEnchantDnt }
         if let pUndeadBonus {
             inputPlayer.undeadAttackBonus = Int32(pUndeadBonus[.tag_script_data_num_1])
+            inputPlayer.undeadHealthBonus = Int32(pUndeadBonus[.tag_script_data_num_2])
         }
         
         if let pBeastBonus = playerAttached.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.TimewarpedGoldrinn_TimewarpedGoldrinnPlayerEnchantDnt }) {
