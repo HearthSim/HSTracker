@@ -70,10 +70,13 @@ class AnimalCompanionCounter: NumericCounter {
             switch tag {
             case .tag_script_data_num_4:
                 companions[0] = card.id
+                onCounterChanged()
             case .tag_script_data_num_5:
                 companions[1] = card.id
+                onCounterChanged()
             case .tag_script_data_num_6:
                 companions[2] = card.id
+                onCounterChanged()
             default:
                 break
             }
