@@ -356,6 +356,7 @@
 "Counter_Herald" = "Herald";
 "Counter_RandomTavernMinionBuff" = "Random Tavern Minion Buff";
 "Counter_NextRefreshDemonFodder" = "Next Refresh Demon Fodders";
+"Counter_SilverHandRecruitBuff" = "Silver Hand Recruit Buff";
 
 /* Tier7 */
 "BattlegroundsOverlayMessage_Error" = "Something went wrong :(";

@@ -227,6 +227,9 @@ extension CardIds.Collectible {
         static let BattleVicarCorePlaceholder = "CORE_ONY_022"
         static let SpearheartSentry = "CATA_474"
         static let FlightManeuvers = "CATA_479"
+        static let BrashBattlemaster = "MEND_800"
+        static let ResilientSavior = "MEND_801"
+        static let EmboldeningBlade = "MEND_803"
     }
 }
 
@@ -318,6 +321,10 @@ extension CardIds.NonCollectible {
         static let GelbinofTomorrow_MekkatorquesAuraToken = "TIME_009t2"
         static let PastGnomeregan_PresentGnomereganToken = "TIME_044t1"
         static let PastGnomeregan_FutureGnomereganToken = "TIME_044t2"
+        static let SilverHandRecruitLegacyToken1 = "CS2_101t"
+        static let EmboldeningBlade_EmboldenedEnchantment1 = "MEND_803e"
+        static let BrashBattlemaster_RecruitsMightEnchantment = "MEND_800e"
+        static let ResilientSavior_RecruitsResilienceEnchantment = "MEND_801e"
     }
 }
 
