@@ -66,6 +66,8 @@ class BattlegroundsGameView: NSView {
         
     var game: BattlegroundsLastGames.GameItem?
     
+    private var processingTask: DispatchWorkItem?
+    
     override var intrinsicContentSize: NSSize {
         return NSSize(width: 240, height: 34)
     }
@@ -106,33 +108,62 @@ class BattlegroundsGameView: NSView {
             return
         }
         
-        var minions = [Entity]()
-        for minion in finalBoard.minions {
-            let entity = Entity()
-            entity.cardId = minion.cardId
-            for tag in minion.tags {
-                if let gt = GameTag(rawValue: tag.tag) {
-                    entity[gt] = tag.value
+        // Cancel any pending processing
+            processingTask?.cancel()
+            
+            let task = DispatchWorkItem { [weak self] in
+                guard let self = self else { return }
+                
+                // Process minions
+                let minions = finalBoard.minions.map { minion -> Entity in
+                    let entity = Entity()
+                    entity.cardId = minion.cardId
+                    for tag in minion.tags {
+                        if let gt = GameTag(rawValue: tag.tag) {
+                            entity[gt] = tag.value
+                        }
+                    }
+                    return entity
+                }
+                
+                // Update UI on main queue
+                DispatchQueue.main.async {
+                    
+                    let wm = AppDelegate.instance().coreManager.game.windowManager
+                    let fb = wm.battlegroundsFinalBoard
+                    fb.setBoard(board: minions, endTime: self.game?.endTime)
+                    
+                    let window = wm.battlegroundsSession.window!
+                    let rect = self.convert(self.bounds, to: nil)
+                    let screenRect = window.convertToScreen(rect)
+                    let size = NSSize(width: 378, height: 125)
+                    
+                    var x: CGFloat = rect.maxX + 10
+                    if let screenFrame = self.window?.screen?.frame ?? NSScreen.main?.frame,
+                       x + size.width >= screenFrame.maxX {
+                        x = window.frame.minX - 10 - size.width
+                    }
+                    
+                    wm.show(controller: fb,
+                           show: true,
+                           frame: NSRect(x: screenRect.minX + x,
+                                       y: screenRect.minY,
+                                       width: size.width,
+                                       height: size.height),
+                           title: nil,
+                           overlay: true)
                 }
             }
-            minions.append(entity)
-        }
-
-        let wm = AppDelegate.instance().coreManager.game.windowManager
-        let fb = wm.battlegroundsFinalBoard
-        fb.setBoard(board: minions, endTime: game?.endTime)
-        let window = wm.battlegroundsSession.window!
-        let rect = convert(bounds, to: nil)
-        let screenRect = window.convertToScreen(rect)
-        let size = NSSize(width: 378, height: 125)
-        var x: CGFloat = rect.maxX + 10
-        if let screenFrame = self.window?.screen?.frame ?? NSScreen.main?.frame, x + size.width >= screenFrame.maxX {
-            x = window.frame.minX - 10 - size.width
-        }
-        AppDelegate.instance().coreManager.game.windowManager.show(controller: fb, show: true, frame: NSRect(x: screenRect.minX + x, y: screenRect.minY, width: size.width, height: size.height), title: nil, overlay: true)
+            
+            processingTask = task
+            DispatchQueue.global(qos: .userInitiated).async(execute: task)
     }
     
     override func mouseExited(with event: NSEvent) {
+        // Cancel any pending processing
+        processingTask?.cancel()
+        processingTask = nil
+        
         let wm = AppDelegate.instance().coreManager.game.windowManager
         wm.show(controller: wm.battlegroundsFinalBoard, show: false)
     }
