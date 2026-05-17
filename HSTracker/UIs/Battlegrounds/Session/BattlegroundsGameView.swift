@@ -129,6 +129,9 @@ class BattlegroundsGameView: NSView {
         if let screenFrame = self.window?.screen?.frame ?? NSScreen.main?.frame, x + size.width >= screenFrame.maxX {
             x = window.frame.minX - 10 - size.width
         }
+        if let fbWindow = fb.window, fbWindow.parent !== window {
+            window.addChildWindow(fbWindow, ordered: .above)
+        }
         AppDelegate.instance().coreManager.game.windowManager.show(controller: fb, show: true, frame: NSRect(x: screenRect.minX + x, y: screenRect.minY, width: size.width, height: size.height), title: nil, overlay: true)
     }
     
