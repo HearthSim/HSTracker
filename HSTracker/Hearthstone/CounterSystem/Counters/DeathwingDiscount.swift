@@ -62,8 +62,7 @@ class DeathwingDiscount: NumericCounter {
         let controller = entity[.controller]
 
         if (controller == game.player.id && isPlayerCounter) || (controller == game.opponent.id && !isPlayerCounter) {
-            // Note: C# sets Counter = -value;
-            counter = -value
+            counter -= value
         }
     }
 }
