@@ -743,7 +743,9 @@ class BobsBuddyInvoker {
         
         if m1 > 0 && m2 > 0 && (m1 == dbfId || m2 == dbfId) {
             if let modularCard = Cards.by(dbfId: m1 == dbfId ? m2 : m1, collectible: false) {
-                minion.attachModularEntity(cardId: modularCard.id)
+                let modularMinion = sim.minionFactory.createFromCardid(id: modularCard.id, player: player)
+                minion.attachedModularEntity = modularMinion
+                modularMinion.attachedTo = minion
             }
         }
         

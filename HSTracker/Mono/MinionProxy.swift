@@ -26,7 +26,7 @@ class MinionProxy: MonoHandle, MonoClassInitializer {
             
             initializeFields(fields: ["minionName", "tier"])
 
-            initializeProperties(properties: ["CardID", "ControlledByPlayer", "HasWingmen", "PrimaryRace", "baseAttack", "baseHealth", "cleave", "div", "game_id", "golden", "megaWindfury", "poisonous", "reborn", "stealth", "taunt", "vanillaAttack", "vanillaHealth", "maxAttack", "maxHealth", "windfury", "ScriptDataNum1", "ScriptDataNum2", "ScriptDataNum3", "ScriptDataNum4", "venomous"])
+            initializeProperties(properties: ["CardID", "ControlledByPlayer", "HasWingmen", "PrimaryRace", "baseAttack", "baseHealth", "cleave", "div", "game_id", "golden", "megaWindfury", "poisonous", "reborn", "stealth", "taunt", "vanillaAttack", "vanillaHealth", "maxAttack", "maxHealth", "windfury", "ScriptDataNum1", "ScriptDataNum2", "ScriptDataNum3", "ScriptDataNum4", "venomous", "AttachedModularEntity", "AttachedTo"])
         }
     }
     
@@ -114,6 +114,12 @@ class MinionProxy: MonoHandle, MonoClassInitializer {
     
     @MonoPrimitiveProperty(property: "venomous", owner: MinionProxy.self)
     var venomous: Bool
+    
+    @MonoHandleProperty(property: "AttachedModularEntity", owner: MinionProxy.self)
+    var attachedModularEntity: MinionProxy
+    
+    @MonoHandleProperty(property: "AttachedTo", owner: MinionProxy.self)
+    var attachedTo: MinionProxy
 
     func addDeathrattle(deathrattle: MonoHandle) {
         let field = mono_class_get_field_from_name(MinionProxy._class, "AdditionalDeathrattles")
