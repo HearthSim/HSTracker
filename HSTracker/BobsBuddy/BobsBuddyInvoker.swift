@@ -844,6 +844,9 @@ class BobsBuddyInvoker {
         if scriptDataNum2 > 0 {
             trinket.scriptDataNum2 = Int32(scriptDataNum2)
         }
+        if entity.cardId == CardIds.NonCollectible.Neutral.ReplicaCathedral {
+            trinket.scriptDataNum1 = Int32(entity[GameTag.gametag_4696])
+        }
         return trinket
     }
     
