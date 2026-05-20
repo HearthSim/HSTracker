@@ -751,6 +751,16 @@ class PowerGameStateParser: LogEventParser {
                                     player.predictUniqueCardInDeck(cardId: CardIds.NonCollectible.Neutral.CThuntheShattered_HeartOfCthunToken, isCreated: true)
                                 }
                             }
+                        case CardIds.Collectible.Neutral.DragonSoulShattered:
+                            // The pieces are created in random order. So we can not assign predicted ids to entities the way we usually do.
+                            if let actionStartingEntity, let player = actionStartingEntity.isControlled(by: eventHandler.player.id) ? eventHandler.player : eventHandler.opponent {
+                                player.predictUniqueCardInDeck(cardId: CardIds.NonCollectible.Neutral.DragonSoulShattered_BlackAspectEssenceToken, isCreated: true)
+                                player.predictUniqueCardInDeck(cardId: CardIds.NonCollectible.Neutral.DragonSoulShattered_BlueAspectEssenceToken, isCreated: true)
+                                player.predictUniqueCardInDeck(cardId: CardIds.NonCollectible.Neutral.DragonSoulShattered_BronzeAspectEssenceToken, isCreated: true)
+                                player.predictUniqueCardInDeck(cardId: CardIds.NonCollectible.Neutral.DragonSoulShattered_GreenAspectEssenceToken, isCreated: true)
+                                player.predictUniqueCardInDeck(cardId: CardIds.NonCollectible.Neutral.DragonSoulShattered_RedAspectEssenceToken, isCreated: true)
+                                player.predictUniqueCardInDeck(cardId: CardIds.NonCollectible.Neutral.DragonSoulShattered_StormAspectEssenceToken, isCreated: true)
+                            }
                         case CardIds.Collectible.Priest.MidaPureLight:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Priest.MidaPureLight_FragmentOfMidaToken)
                         case CardIds.Collectible.Warlock.CurseOfAgony:

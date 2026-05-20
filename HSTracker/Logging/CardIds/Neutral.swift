@@ -766,6 +766,7 @@ extension CardIds.Collectible {
         static let ZolaTheGorgonCorePlaceholder = "CORE_LOOT_516"
         static let Warloc = "CATA_180"
         static let StickybombSaboteur = "CATA_186"
+        static let DragonSoulShattered = "CATA_EVENT_110"
     }
 }
 
@@ -1121,5 +1122,11 @@ extension CardIds.NonCollectible {
         static let TwistedWrathguard = "BG35_155"
         static let KelthuzadTavernBrawl2 = "TB_BaconShop_HERO_KelThuzad"
         static let BackToBackBATTLEGROUNDS = "BG35_952"
+        static let DragonSoulShattered_BlackAspectEssenceToken = "CATA_EVENT_110t5"
+        static let DragonSoulShattered_BlueAspectEssenceToken = "CATA_EVENT_110t3"
+        static let DragonSoulShattered_BronzeAspectEssenceToken = "CATA_EVENT_110t4"
+        static let DragonSoulShattered_GreenAspectEssenceToken = "CATA_EVENT_110t6"
+        static let DragonSoulShattered_RedAspectEssenceToken = "CATA_EVENT_110t2"
+        static let DragonSoulShattered_StormAspectEssenceToken = "CATA_EVENT_110t7"
     }
 }
