@@ -11,7 +11,7 @@ import Foundation
 class UndeadfBuffCounter: StatsCounter {
     override var isBattlegroundsCounter: Bool { true }
     override var cardIdToShowInUI: String? { CardIds.NonCollectible.Neutral.NerubianDeathswarmer }
-    override var localizedName: String { String.localizedString("Counter_UndeadAttackBonus", comment: "") }
+    override var localizedName: String { String.localizedString("Counter_UndeadBuff", comment: "") }
     override var relatedCards: [String] { [] }
 
     required init(controlledByPlayer: Bool, game: Game) {

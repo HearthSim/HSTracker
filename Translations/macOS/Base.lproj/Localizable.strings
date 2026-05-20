@@ -340,7 +340,7 @@
 "Counter_ProtossMinionCostReduction" = "Protoss Minions Cost Reduction";
 "Counter_SelfDamage" = "Self Damage";
 "Counter_SummonedDragons" = "Summoned Dragons";
-"Counter_UndeadAttackBonus" = "Undead Attack Bonus";
+"Counter_UndeadBuff" = "Undead Buff";
 "Counter_FriendlyMinionsDiedThisGame" = "Friendly Minions That Died";
 "Counter_PlayedDragons" = "Played Dragons";
 "Counter_Imbue" = "Imbue";
