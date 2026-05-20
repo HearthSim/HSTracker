@@ -1422,11 +1422,7 @@ class PowerGameStateParser: LogEventParser {
                     if let lockAndLoadEntity = eventHandler.entities[currentBlock.sourceEntityId] {
                         if let summonedEntity = eventHandler.entities.values.first(where: { e in e[GameTag.cardtype] == CardType.minion.rawValue && e[GameTag.creator] == lockAndLoadEntity.id && (e[GameTag.zone] == Zone.play.rawValue || e[GameTag.zone] == Zone.graveyard.rawValue)
                         }) {
-                            if eventHandler.isBattlegroundsDuosMatch() {
-                                BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateDuosLockAndLoadHeroPower(summonedEntity.card.dbfId)
-                            } else if lockAndLoadEntity.isControlled(by: eventHandler.opponent.id) {
-                                BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateOpponentLockAndLoadHeroPower(attachedEntity: summonedEntity)
-                            }
+                            BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateLockAndLoadHeroPower(attachedEntity: summonedEntity, isOpponent: lockAndLoadEntity.isControlled(by: eventHandler.opponent.id))
                         }
                     }
                 }

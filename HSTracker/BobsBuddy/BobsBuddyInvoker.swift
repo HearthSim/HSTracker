@@ -1219,7 +1219,7 @@ class BobsBuddyInvoker {
         tryRerun()
     }
     
-    func updateOpponentLockAndLoadHeroPower(attachedEntity: Entity) {
+    func updateLockAndLoadHeroPower(attachedEntity: Entity, isOpponent: Bool) {
         guard let input, state == .combat else {
             return
         }
@@ -1230,25 +1230,23 @@ class BobsBuddyInvoker {
             mono_thread_detach(opaque)
         }
         
-        var tavishLockAndLoad: HeroPowerDataProxy?
-        
-        let heroPowers = input.opponent.heroPowers
-        let count = MonoHelper.listCount(obj: heroPowers)
-        for idx in 0 ..< count {
-            let hp = HeroPowerDataProxy(obj: MonoHelper.listItem(obj: heroPowers, index: idx).get())
-            if hp.cardId == CardIds.NonCollectible.Neutral.TavishStormpike_LockAndLoad {
-                tavishLockAndLoad = hp
-                break
+        var tryDuos = game.isBattlegroundsDuosMatch()
+        var tryRerun = false
+        if isOpponent && !tryDuos {  // Try to obtain for opponent when not duos
+            let tavishLockAndLoad = listFirst(input.opponent.heroPowers, { (hp: HeroPowerDataProxy) in hp.cardId == CardIds.NonCollectible.Neutral.TavishStormpike_LockAndLoad })
+            if tavishLockAndLoad == nil {
+                tryDuos = true // Will fallback and try duos anyways
+            } else if let tavishLockAndLoad, tavishLockAndLoad.attachedMinion.get() == nil {
+                tavishLockAndLoad.attachedMinion = BobsBuddyInvoker.getMinionFromEntity(sim: SimulatorProxy(), player: false, ent: attachedEntity, attachedEntities: getAttachedEntities(entityId: attachedEntity.id))
+                tryRerun = true
             }
         }
-
-        guard let tavishLockAndLoad, tavishLockAndLoad.attachedMinion.get() == nil else {
-            return
+        if tryDuos {
+            updateDuosLockAndLoadHeroPower(attachedEntity.card.dbfId)
         }
-
-        tavishLockAndLoad.attachedMinion = BobsBuddyInvoker.getMinionFromEntity(sim: SimulatorProxy(), player: false, ent: attachedEntity, attachedEntities: getAttachedEntities(entityId: attachedEntity.id))
-
-        tryRerun()
+        if tryRerun {
+            self.tryRerun()
+        }
     }
     
     func updateDuosLockAndLoadHeroPower(_ cardDbfId: Int) {
@@ -1317,7 +1315,13 @@ class BobsBuddyInvoker {
         guard let input, state == BobsBuddyState.combat else {
             return
         }
-
+        
+        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        
+        defer {
+            mono_thread_detach(opaque)
+        }
+        
         var friendly = true
         var sandyMinion = listFirst(input.player.side, { (m: MinionProxy) in m.game_id == sandyEntityId })
         if sandyMinion == nil && input.playerTeammate.get() != nil {
@@ -1348,6 +1352,12 @@ class BobsBuddyInvoker {
             return
         }
 
+        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        
+        defer {
+            mono_thread_detach(opaque)
+        }
+        
         var friendly = true
         var flobbidinousFloop = listFirst(input.player.heroPowers, { (hp: HeroPowerDataProxy) in hp.cardId == CardIds.NonCollectible.Neutral.FlobbidinousFloop_GloriousGloop })
         if flobbidinousFloop == nil && input.playerTeammate.get() != nil {
