@@ -882,6 +882,8 @@
 		B87DFF8B2DFC74D3006F39CF /* ArenaLastDrafts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87DFF892DFC74D3006F39CF /* ArenaLastDrafts.swift */; };
 		B8820CD025603FB00072ECBC /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8820CCF25603FB00072ECBC /* RemoteConfig.swift */; };
 		B882CC902FBBE364002234D6 /* libcoreclr.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B882CC8F2FBBE364002234D6 /* libcoreclr.dylib */; };
+		B882CC922FBD46AC002234D6 /* SandyProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B882CC912FBD46AC002234D6 /* SandyProxy.swift */; };
+		B882CC932FBD46AC002234D6 /* SandyProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B882CC912FBD46AC002234D6 /* SandyProxy.swift */; };
 		B8832DDA26057A5000646BA4 /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8832DD926057A5000646BA4 /* RepeatingTimer.swift */; };
 		B8832DDC26117FCF00646BA4 /* MultiIdCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8832DDB26117FCE00646BA4 /* MultiIdCard.swift */; };
 		B88339752E710457007D9754 /* CardsThatDidntStartInDeckPlayedCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88339742E710457007D9754 /* CardsThatDidntStartInDeckPlayedCounter.swift */; };
@@ -2228,6 +2230,7 @@
 		B87DFF892DFC74D3006F39CF /* ArenaLastDrafts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArenaLastDrafts.swift; sourceTree = "<group>"; };
 		B8820CCF25603FB00072ECBC /* RemoteConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfig.swift; sourceTree = "<group>"; };
 		B882CC8F2FBBE364002234D6 /* libcoreclr.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcoreclr.dylib; path = "downloaded-frameworks/mono/universal/libcoreclr.dylib"; sourceTree = "<group>"; };
+		B882CC912FBD46AC002234D6 /* SandyProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SandyProxy.swift; sourceTree = "<group>"; };
 		B8832DD926057A5000646BA4 /* RepeatingTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatingTimer.swift; sourceTree = "<group>"; };
 		B8832DDB26117FCE00646BA4 /* MultiIdCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiIdCard.swift; sourceTree = "<group>"; };
 		B88339742E710457007D9754 /* CardsThatDidntStartInDeckPlayedCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsThatDidntStartInDeckPlayedCounter.swift; sourceTree = "<group>"; };
@@ -3709,16 +3712,17 @@
 				B82AE60128BED413004A8FE0 /* QuestDataProxy.swift */,
 				B8449A032781C7360094E5B3 /* ReplicatingMenace.swift */,
 				B898995A2CAA32B10011B184 /* RustyTrident.swift */,
+				B882CC912FBD46AC002234D6 /* SandyProxy.swift */,
 				B89899562CAA30D20011B184 /* Scallywag.swift */,
 				B8DC11F324EACDB80088A755 /* SimulationRunner.swift */,
 				B82F4EAF24E32C3000905024 /* SimulatorProxy.swift */,
 				B844D3692A0C3497001704E0 /* SpellCardEntityProxy.swift */,
+				B8CDDCBE2F3D63C8004C3E86 /* TimewarpedMagnanimooseEnchantmentProxy.swift */,
 				B80B5B322C7508BF005F4321 /* TrinketFactoryProxy.swift */,
 				B80B5B302C750895005F4321 /* TrinketProxy.swift */,
 				B844D36B2A0C3510001704E0 /* UnknownCardEntityProxy.swift */,
 				B87856DF2C04BA7F004C2C40 /* UnsupportedInteractionProxy.swift */,
 				B81189242E429A510091B4D6 /* WhirringProtector.swift */,
-				B8CDDCBE2F3D63C8004C3E86 /* TimewarpedMagnanimooseEnchantmentProxy.swift */,
 			);
 			path = Mono;
 			sourceTree = "<group>";
@@ -5351,6 +5355,7 @@
 				B8196F162CC86FB3007C0371 /* NumericCounter.swift in Sources */,
 				B852D8212DDEC40900884B26 /* DoubleJump.swift in Sources */,
 				43F204061E93C2E600E0BC4A /* Deathknight.swift in Sources */,
+				B882CC922FBD46AC002234D6 /* SandyProxy.swift in Sources */,
 				43F204091E93C2E600E0BC4A /* Hunter.swift in Sources */,
 				B898659F2D91D28300BA5649 /* Thunderbringer.swift in Sources */,
 				43F2040C1E93C2E600E0BC4A /* Neutral.swift in Sources */,
@@ -6461,6 +6466,7 @@
 				43C1CA511E96CD6F008C20B1 /* GameMode.swift in Sources */,
 				B8643D10275982C400B2D708 /* RateLimiter.swift in Sources */,
 				43C1CA521E96CD6F008C20B1 /* GameResult.swift in Sources */,
+				B882CC932FBD46AC002234D6 /* SandyProxy.swift in Sources */,
 				43C1CA531E96CD6F008C20B1 /* GameTag.swift in Sources */,
 				43C1CA541E96CD6F008C20B1 /* GameType.swift in Sources */,
 				43C1CA551E96CD6F008C20B1 /* Mode.swift in Sources */,

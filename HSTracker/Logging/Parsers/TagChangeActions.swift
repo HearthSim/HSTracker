@@ -231,6 +231,11 @@ struct TagChangeActions {
             }
         }
         
+        if let currentBlock = AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock, eventHandler.currentGameMode == GameMode.battlegrounds && currentBlock.cardId == CardIds.NonCollectible.Neutral.Sandy && entity.isMinion &&
+            currentBlock.sourceEntityId == entity[.creator] && entity.isInZone(zone: .setaside) {
+            BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateSandyTransformDuos(entity, Int32(entity[.creator]))
+        }
+        
         guard let targetEntity = eventHandler.entities[value] else {
             return
         }

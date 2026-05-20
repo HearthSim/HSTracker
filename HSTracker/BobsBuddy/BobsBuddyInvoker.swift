@@ -1298,6 +1298,51 @@ class BobsBuddyInvoker {
         tryRerun()
     }
     
+    private func sideFirst(_ player: PlayerProxy, _ predicate: (MinionProxy) -> Bool) -> MinionProxy? {
+        let side = player.side
+        let count = MonoHelper.listCount(obj: side)
+        var minion: MinionProxy?
+        for i in 0 ..< count {
+            let item = MonoHelper.listItem(obj: side, index: i).get()
+            let m = MinionProxy(obj: item)
+            if predicate(m) {
+                minion = m
+                break
+            }
+        }
+        return minion
+    }
+    
+    func updateSandyTransformDuos(_ attachedEntity: Entity, _ sandyEntityId: Int32) {
+        guard let input, state == BobsBuddyState.combat else {
+            return
+        }
+
+        var friendly = true
+        var sandyMinion = sideFirst(input.player, { m in m.game_id == sandyEntityId })
+        if sandyMinion == nil && input.playerTeammate.get() != nil {
+            sandyMinion = sideFirst(input.playerTeammate, { m in m.game_id == sandyEntityId })
+        }
+        if sandyMinion == nil {
+            friendly = false
+            sandyMinion = sideFirst(input.opponent, { m in m.game_id == sandyEntityId })
+        }
+        if sandyMinion == nil && input.opponentTeammate.get() != nil {
+            sandyMinion = sideFirst(input.opponentTeammate, { m in m.game_id == sandyEntityId })
+        }
+        guard let sandyMinion else {
+            return
+        }
+        let sandy = SandyProxy(obj: sandyMinion.get())
+        if sandy.attachedMinion.get() != nil {
+            return
+        }
+
+        sandy.attachedMinion = BobsBuddyInvoker.getMinionFromEntity(sim: SimulatorProxy(), player: friendly, ent: attachedEntity, attachedEntities: getAttachedEntities(entityId: attachedEntity.id))
+
+        tryRerun()
+    }
+    
     func updateMinionEnchantment(_ enchantmentEntity: Entity, _ attachedToEntityId: Int, _ isPlayerMinion: Bool) {
         guard let input, state == .combat else {
             return
