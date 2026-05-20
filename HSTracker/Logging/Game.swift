@@ -3757,14 +3757,14 @@ class Game: NSObject, PowerEventHandler {
             return
         }
         
-        let boardCards = args.boardCards
-        let userHasTier7 = HSReplayAPI.accountData?.is_tier7 ?? false // TODO: trial active
-        
-        if args.isActive && boardCards.count > 0 && userHasTier7 {
-            showBattlegroundsTimewarpPanel(boardCards)
-        } else {
-            hideBattlegroundsTimewarpPanel()
-        }
+//        let boardCards = args.boardCards
+//        let userHasTier7 = HSReplayAPI.accountData?.is_tier7 ?? false // TODO: trial active
+//        
+//        if args.isActive && boardCards.count > 0 && userHasTier7 {
+//            showBattlegroundsTimewarpPanel(boardCards)
+//        } else {
+        hideBattlegroundsTimewarpPanel()
+//        }
         // TODO: when minion pining gets added
     }
 
