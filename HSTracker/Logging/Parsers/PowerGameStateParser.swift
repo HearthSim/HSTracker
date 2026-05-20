@@ -1420,7 +1420,7 @@ class PowerGameStateParser: LogEventParser {
                 }
                 if currentBlock.cardId == CardIds.NonCollectible.Neutral.TavishStormpike_LockAndLoad && currentBlock.triggerKeyword == "TRIGGER_VISUAL" {
                     if let lockAndLoadEntity = eventHandler.entities[currentBlock.sourceEntityId] {
-                        if let summonedEntity = eventHandler.entities.values.first(where: { e in e[GameTag.cardtype] == CardType.minion.rawValue && e[GameTag.creator] == lockAndLoadEntity.id && e[GameTag.zone] == Zone.play.rawValue
+                        if let summonedEntity = eventHandler.entities.values.first(where: { e in e[GameTag.cardtype] == CardType.minion.rawValue && e[GameTag.creator] == lockAndLoadEntity.id && (e[GameTag.zone] == Zone.play.rawValue || e[GameTag.zone] == Zone.graveyard.rawValue)
                         }) {
                             if eventHandler.isBattlegroundsDuosMatch() {
                                 BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateDuosLockAndLoadHeroPower(summonedEntity.card.dbfId)
