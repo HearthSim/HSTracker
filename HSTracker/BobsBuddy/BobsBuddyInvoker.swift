@@ -847,6 +847,7 @@ class BobsBuddyInvoker {
         if entity.cardId == CardIds.NonCollectible.Neutral.ReplicaCathedral {
             trinket.scriptDataNum1 = Int32(entity[GameTag.gametag_4696])
         }
+        trinket.game_id = Int32(entity.id)
         return trinket
     }
     
@@ -926,7 +927,7 @@ class BobsBuddyInvoker {
                                                                              attachedEntities: getAttachedEntities(entityId: attachedEntityId))
                 }
             }
-            inputPlayer.addHeroPower(heroPowerCardId: heroPower.cardId, friendly: friendly, isActivated: wasHeroPowerActivated(heroPower: heroPower), data: Int32(pHpData), data2: Int32(pHpData2), data3: Int32(pHpData3), attachedMinion: pHpAttachedMinion ?? MonoHandle())
+            inputPlayer.addHeroPower(heroPowerCardId: heroPower.cardId, friendly: friendly, isActivated: wasHeroPowerActivated(heroPower: heroPower), data: Int32(pHpData), data2: Int32(pHpData2), data3: Int32(pHpData3), attachedMinion: pHpAttachedMinion ?? MonoHandle(), game_id: Int32(heroPower.id))
         }
         
         let playerQuests = inputPlayer.quests
