@@ -85,7 +85,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
             // We recommend adjusting this value in production.
             options.profilesSampleRate = 0.0
         }
-        
+        SentrySDK.configureScope { scope in
+#if arch(arm64)
+            let arch = "arm64"
+#else
+            let arch = "x64"
+#endif
+            scope.setTag(value: arch, key: "device.arch")
+        }
         let options = [
             kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true as CFBoolean
         ]

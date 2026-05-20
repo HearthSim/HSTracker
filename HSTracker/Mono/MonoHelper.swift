@@ -312,16 +312,23 @@ class MonoHelper {
         // simulation result
         setenv("MONO_THREADS_SUSPEND", "preemptive", 1)
         // The following can help debug issues with packaging of needed libraries
-        //setenv("MONO_LOG_LEVEL", "debug", 1)
-        //setenv("MONO_LOG_MASK", "asm,dll", 1)
+//        setenv("MONO_LOG_LEVEL", "debug", 1)
+//        setenv("MONO_LOG_MASK", "asm,dll", 1)
 
-        if let files = Bundle.main.urls(forResourcesWithExtension: "dll", subdirectory: "Resources/Managed") {
-            let libs = files.compactMap { x in x.path }
+#if arch(arm64)
+        let archDir = "arm64"
+#else
+        let archDir = "x64"
+#endif
+        
+        if let archFiles = Bundle.main.urls(forResourcesWithExtension: "dll", subdirectory: "Resources/Managed/\(archDir)") {
+            let archLibs = archFiles.compactMap { x in x.path }
+            
             let props = UnsafeMutablePointer<UnsafePointer<CChar>?>.allocate(capacity: 1)
             "TRUSTED_PLATFORM_ASSEMBLIES".withCString {
                 props.pointee = $0
                 let values = UnsafeMutablePointer<UnsafePointer<CChar>?>.allocate(capacity: 1)
-                libs.joined(separator: ":").withCString {
+                archLibs.joined(separator: ":").withCString {
                     values.pointee = $0
                     monovm_initialize(1, props, values)
                 }
@@ -751,14 +758,15 @@ class MonoHelper {
         params.deallocate()
     }
 
-    static func setStringBoolBoolIntIntIntHandle(obj: MonoHandle, method: OpaquePointer, v1: String, v2: Bool, v3: Bool, v4: Int32, v5: Int32, v6: Int32, v7: MonoHandle) {
-        let params = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: 7)
-        let ptrs = UnsafeMutablePointer<Int32>.allocate(capacity: 5)
+    static func setStringBoolBoolIntIntIntIntHandle(obj: MonoHandle, method: OpaquePointer, v1: String, v2: Bool, v3: Bool, v4: Int32, v5: Int32, v6: Int32, v7: MonoHandle, v8: Int32) {
+        let params = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: 8)
+        let ptrs = UnsafeMutablePointer<Int32>.allocate(capacity: 6)
         ptrs[0] = v2 ? 1 : 0
         ptrs[1] = v3 ? 1 : 0
         ptrs[2] = v4
         ptrs[3] = v5
         ptrs[4] = v6
+        ptrs[5] = v8
         v1.withCString({
             params[0] = mono_string_new(MonoHelper._monoInstance, $0)
         })
@@ -768,6 +776,7 @@ class MonoHelper {
         params[4] = OpaquePointer(ptrs.advanced(by: 3))
         params[5] = OpaquePointer(ptrs.advanced(by: 4))
         params[6] = OpaquePointer(v7.get())
+        params[7] = OpaquePointer(ptrs.advanced(by: 5))
         
         params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 7, {
             let inst = obj.get()

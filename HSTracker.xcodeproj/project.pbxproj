@@ -665,7 +665,6 @@
 		B849673E289A0E9D00D90B30 /* BattlegroundsGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AF9335282FE45F00864934 /* BattlegroundsGameView.swift */; };
 		B849673F289A0EA400D90B30 /* BattlegroundsFinalBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BB7ABB28369C9F008239CA /* BattlegroundsFinalBoard.swift */; };
 		B8496740289A119200D90B30 /* NSFont+NSTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BB7AB728351890008239CA /* NSFont+NSTextField.swift */; };
-		B849674328A5830D00D90B30 /* libcoreclr.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B849674228A5830D00D90B30 /* libcoreclr.dylib */; };
 		B84A52192F2AF09E003D9FED /* TimelooperToki.swift in Sources */ = {isa = PBXBuildFile; fileRef = B84A52182F2AF09E003D9FED /* TimelooperToki.swift */; };
 		B850AA33252CB0490031E8F2 /* TurnCounter.xib in Resources */ = {isa = PBXBuildFile; fileRef = B850AA32252CB0490031E8F2 /* TurnCounter.xib */; };
 		B850AA35252CB0FA0031E8F2 /* TurnCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */; };
@@ -882,6 +881,7 @@
 		B87DFF8A2DFC74D3006F39CF /* ArenaLastDrafts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87DFF892DFC74D3006F39CF /* ArenaLastDrafts.swift */; };
 		B87DFF8B2DFC74D3006F39CF /* ArenaLastDrafts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87DFF892DFC74D3006F39CF /* ArenaLastDrafts.swift */; };
 		B8820CD025603FB00072ECBC /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8820CCF25603FB00072ECBC /* RemoteConfig.swift */; };
+		B882CC902FBBE364002234D6 /* libcoreclr.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B882CC8F2FBBE364002234D6 /* libcoreclr.dylib */; };
 		B8832DDA26057A5000646BA4 /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8832DD926057A5000646BA4 /* RepeatingTimer.swift */; };
 		B8832DDC26117FCF00646BA4 /* MultiIdCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8832DDB26117FCE00646BA4 /* MultiIdCard.swift */; };
 		B88339752E710457007D9754 /* CardsThatDidntStartInDeckPlayedCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88339742E710457007D9754 /* CardsThatDidntStartInDeckPlayedCounter.swift */; };
@@ -2227,6 +2227,7 @@
 		B87DFF862DEF38AE006F39CF /* EndbringerUmbra.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndbringerUmbra.swift; sourceTree = "<group>"; };
 		B87DFF892DFC74D3006F39CF /* ArenaLastDrafts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArenaLastDrafts.swift; sourceTree = "<group>"; };
 		B8820CCF25603FB00072ECBC /* RemoteConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfig.swift; sourceTree = "<group>"; };
+		B882CC8F2FBBE364002234D6 /* libcoreclr.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcoreclr.dylib; path = "downloaded-frameworks/mono/universal/libcoreclr.dylib"; sourceTree = "<group>"; };
 		B8832DD926057A5000646BA4 /* RepeatingTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatingTimer.swift; sourceTree = "<group>"; };
 		B8832DDB26117FCE00646BA4 /* MultiIdCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiIdCard.swift; sourceTree = "<group>"; };
 		B88339742E710457007D9754 /* CardsThatDidntStartInDeckPlayedCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsThatDidntStartInDeckPlayedCounter.swift; sourceTree = "<group>"; };
@@ -2893,7 +2894,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B849674328A5830D00D90B30 /* libcoreclr.dylib in Frameworks */,
+				B882CC902FBBE364002234D6 /* libcoreclr.dylib in Frameworks */,
 				B8D75BF725BE032500446923 /* Sparkle in Frameworks */,
 				B8D75BBD25BCEACB00446923 /* TextAttributes in Frameworks */,
 				4367899F1CAC05DD00C962D1 /* Cocoa.framework in Frameworks */,
@@ -4808,6 +4809,7 @@
 		F997FED720A990D7DB50C540 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B882CC8F2FBBE364002234D6 /* libcoreclr.dylib */,
 				B88595B62CEFDB9900769275 /* libswift_Concurrency.tbd */,
 				B849674228A5830D00D90B30 /* libcoreclr.dylib */,
 				B83355B324F84F200025F644 /* libiconv.2.dylib */,
@@ -5161,12 +5163,12 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Resources/Managed/mscorlib.dll",
-				"${BUILT_PRODUCTS_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Resources/Managed/System.Xml.XmlSerializer.dll",
+				"${BUILT_PRODUCTS_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Resources/Managed/arm64/mscorlib.dll",
+				"${BUILT_PRODUCTS_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Resources/Managed/arm64/System.Xml.XmlSerializer.dll",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# exit 0\n\n# Version\nMONO_VERSION=6.0.8\nNET_VERSION=net7.0\nASSEMBLIES=\"mscorlib.dll netstandard.dll System.dll System.Collections.dll System.Collections.Concurrent.dll System.Collections.NonGeneric.dll System.Collections.Specialized.dll System.Configuration.dll System.Core.dll System.Diagnostics.TraceSource.dll System.Diagnostics.Tracing.dll System.Linq.dll System.Linq.Expressions.dll System.Memory.dll System.Numerics.Vectors.dll System.ObjectModel.dll System.Private.Uri.dll System.Private.Xml.dll System.Reflection.Emit.dll System.Reflection.Emit.ILGeneration.dll System.Reflection.Emit.Lightweight.dll System.Reflection.Primitives.dll System.Runtime.dll System.Runtime.CompilerServices.Unsafe.dll System.Runtime.InteropServices.dll System.Runtime.Loader.dll System.Text.Encoding.Extensions.dll System.Text.RegularExpressions.dll System.Threading.dll System.Threading.Tasks.Parallel.dll System.Threading.Thread.dll System.Xml.dll System.Xml.ReaderWriter.dll System.Xml.XmlSerializer.dll\"\n\n# Locations\nMONO_LOCATION=$SRCROOT/downloaded-frameworks/mono/runtimes/osx-x64/lib/${NET_VERSION}\nMONO_NATIVE=$SRCROOT/downloaded-frameworks/mono/runtimes/osx-x64/native\n\nLOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${FRAMEWORKS_FOLDER_PATH}\"\nBIN_LOCATION=\"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_FOLDER_PATH}\"\nRES_LOCATION=\"${BUILT_PRODUCTS_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Resources/Managed\"\n\nmkdir -p \"${LOCATION}\"\n\nset -x\nset -e\n\n# Copy needed files\ncp $MONO_NATIVE/libcoreclr.dylib \"${LOCATION}\"\ncp $MONO_NATIVE/libSystem.Native.dylib \"${LOCATION}\"\n\ncp $MONO_NATIVE/System.Private.CoreLib.dll \"${RES_LOCATION}\"\n\n# Copy system assemblies needed\nfor assembly in $ASSEMBLIES; do cp ${MONO_LOCATION}/$assembly \"${RES_LOCATION}\"; done\n\n# Change runtime paths\n#install_name_tool -change /Library/Frameworks/Mono.framework/Versions/$MONO_VERSION/lib/libmonosgen-2.0.1.dylib @rpath/libmonosgen-2.0.1.dylib \"${BIN_LOCATION}/${EXECUTABLE_NAME}\"\n#install_name_tool -change /Library/Frameworks/Mono.framework/Versions/$MONO_VERSION/lib/libsqlite3.0.dylib @rpath/libsqlite3.0.dylib \"${BIN_LOCATION}/${EXECUTABLE_NAME}\"\n";
+			shellScript = "# exit 0\n\nset -x\nset -e\n\n# Version\nMONO_VERSION=6.0.8\nNET_VERSION=net7.0\nASSEMBLIES=\"mscorlib.dll netstandard.dll System.dll System.Collections.dll System.Collections.Concurrent.dll System.Collections.NonGeneric.dll System.Collections.Specialized.dll System.Configuration.dll System.Core.dll System.Diagnostics.TraceSource.dll System.Diagnostics.Tracing.dll System.Linq.dll System.Linq.Expressions.dll System.Memory.dll System.Numerics.Vectors.dll System.ObjectModel.dll System.Private.Uri.dll System.Private.Xml.dll System.Reflection.Emit.dll System.Reflection.Emit.ILGeneration.dll System.Reflection.Emit.Lightweight.dll System.Reflection.Primitives.dll System.Runtime.dll System.Runtime.CompilerServices.Unsafe.dll System.Runtime.InteropServices.dll System.Runtime.Loader.dll System.Text.Encoding.Extensions.dll System.Text.RegularExpressions.dll System.Threading.dll System.Threading.Tasks.Parallel.dll System.Threading.Thread.dll System.Xml.dll System.Xml.ReaderWriter.dll System.Xml.XmlSerializer.dll\"\n\nMONO_UNIVERSAL=$SRCROOT/downloaded-frameworks/mono/universal\nLOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${FRAMEWORKS_FOLDER_PATH}\"\nBIN_LOCATION=\"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_FOLDER_PATH}\"\nmkdir -p \"${LOCATION}\"\n\n# Copy needed files\ncp $MONO_UNIVERSAL/libcoreclr.dylib \"${LOCATION}\"\ncp $MONO_UNIVERSAL/libSystem.Native.dylib \"${LOCATION}\"\n\nEMBED_ARCHES=\"osx-arm64 osx-x64\"\nfor arch in $EMBED_ARCHES ; do\n    MONO_ARCH=\"arm64\"\n    if [ \"$arch\" = \"osx-x64\" ]; then\n       MONO_ARCH=\"x64\"\n    fi\n\n    # Locations\n    MONO_LOCATION=$SRCROOT/downloaded-frameworks/mono/runtimes/${arch}/lib/${NET_VERSION}\n    MONO_NATIVE=$SRCROOT/downloaded-frameworks/mono/runtimes/${arch}/native\n\n    RES_LOCATION=\"${BUILT_PRODUCTS_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Resources/Managed/${MONO_ARCH}\"\n\n    mkdir -p \"${RES_LOCATION}\"\n\n    cp $MONO_NATIVE/System.Private.CoreLib.dll \"${RES_LOCATION}\"\n\n    # Copy system assemblies needed\n    for assembly in $ASSEMBLIES; do cp ${MONO_LOCATION}/$assembly \"${RES_LOCATION}\"; done\n\n    # Change runtime paths\n    #install_name_tool -change /Library/Frameworks/Mono.framework/Versions/$MONO_VERSION/lib/libmonosgen-2.0.1.dylib @rpath/libmonosgen-2.0.1.dylib \"${BIN_LOCATION}/${EXECUTABLE_NAME}\"\n    #install_name_tool -change /Library/Frameworks/Mono.framework/Versions/$MONO_VERSION/lib/libsqlite3.0.dylib @rpath/libsqlite3.0.dylib \"${BIN_LOCATION}/${EXECUTABLE_NAME}\"\ndone\n";
 		};
 		B849674128A57C7300D90B30 /* Download Mono */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -5186,7 +5188,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nMONO_VERSION=$(cat $SRCROOT/HSTracker/mono-version.txt)\n\nDIR=\"$SRCROOT/downloaded-frameworks/mono\"\nmkdir -p $DIR\n\nwget  \"https://www.nuget.org/api/v2/package/Microsoft.NETCore.App.Runtime.Mono.osx-x64/${MONO_VERSION}\" -P \"$DIR\" -O \"$DIR/mono-${MONO_VERSION}.zip\"\nunzip -n \"$DIR/mono-${MONO_VERSION}.zip\" -d \"$DIR\"\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nMONO_VERSION=$(cat $SRCROOT/HSTracker/mono-version.txt)\n\nDIR=\"$SRCROOT/downloaded-frameworks/mono\"\nmkdir -p $DIR\n\nwget  \"https://www.nuget.org/api/v2/package/Microsoft.NETCore.App.Runtime.Mono.osx-x64/${MONO_VERSION}\" -P \"$DIR\" -O \"$DIR/mono-${MONO_VERSION}-x64.zip\"\nunzip -n \"$DIR/mono-${MONO_VERSION}-x64.zip\" -d \"$DIR\"\n\nwget  \"https://www.nuget.org/api/v2/package/Microsoft.NETCore.App.Runtime.Mono.osx-arm64/${MONO_VERSION}\" -P \"$DIR\" -O \"$DIR/mono-${MONO_VERSION}-arm64.zip\"\nunzip -n \"$DIR/mono-${MONO_VERSION}-arm64.zip\" -d \"$DIR\"\n\n\nmkdir -p \"$DIR/universal\"\nLIBRARIES=\"libcoreclr.dylib libSystem.Native.dylib\"\nfor lib in $LIBRARIES; do\n    lipo -create \"$DIR/runtimes/osx-arm64/native/$lib\" \"$DIR/runtimes/osx-x64/native/$lib\" -output \"$DIR/universal/$lib\"\ndone\n";
 			showEnvVarsInLog = 0;
 		};
 		B8643D122759872D00B2D708 /* Download enUS cards */ = {
@@ -5242,13 +5244,13 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				$SRCROOT/HSTracker/Resources/Managed/BobsBuddy.dll,
-				$SRCROOT/HSTracker/Resources/Managed/HearthDb.dll,
-				$SRCROOT/HSTracker/Resources/Managed/BobsBuddy.Common.dll,
+				$SRCROOT/HSTracker/Resources/Managed/arm64/BobsBuddy.dll,
+				$SRCROOT/HSTracker/Resources/Managed/arm64/HearthDb.dll,
+				$SRCROOT/HSTracker/Resources/Managed/arm64/BobsBuddy.Common.dll,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# change version here when needed\nset -e\n\nDIR=\"$SRCROOT/HSTracker/Resources/Managed\"\n\nmkdir -p $DIR\n\nwget -N \"https://libs.hearthsim.net/hdt/HearthDb.zip\" -P \"$DIR\" -O \"$SRCROOT/downloaded-frameworks/HearthDb.zip\"\nwget -N \"https://libs.hearthsim.net/hdt/BobsBuddy.zip\" -P \"$DIR\" -O \"$SRCROOT/downloaded-frameworks/BobsBuddy.zip\"\n\nunzip -o \"$SRCROOT/downloaded-frameworks/HearthDb.zip\" -d \"$DIR\"\nunzip -o \"$SRCROOT/downloaded-frameworks/BobsBuddy.zip\" -d \"$DIR\"\n";
+			shellScript = "# change version here when needed\nset -e\n\nDIR=\"$SRCROOT/HSTracker/Resources/Managed\"\n\nmkdir -p $DIR/arm64\nmkdir -p $DIR/x64\n\nwget -N \"https://libs.hearthsim.net/hdt/HearthDb.zip\" -P \"$DIR\" -O \"$SRCROOT/downloaded-frameworks/HearthDb.zip\"\nwget -N \"https://libs.hearthsim.net/hdt/BobsBuddy.zip\" -P \"$DIR\" -O \"$SRCROOT/downloaded-frameworks/BobsBuddy.zip\"\n\nunzip -o \"$SRCROOT/downloaded-frameworks/HearthDb.zip\" -d \"$DIR/arm64\"\nunzip -o \"$SRCROOT/downloaded-frameworks/BobsBuddy.zip\" -d \"$DIR/arm64\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -7144,7 +7146,7 @@
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
-				EXCLUDED_ARCHS = arm64;
+				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HSTracker",
@@ -7152,6 +7154,14 @@
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
 				HEADER_SEARCH_PATHS = (
+					"$(SDKROOT)/usr/include/libxml2",
+					"$(PROJECT_DIR)/downloaded-frameworks/mono/runtimes/osx-x64/native/include/mono-2.0",
+				);
+				"HEADER_SEARCH_PATHS[arch=arm64]" = (
+					"$(SDKROOT)/usr/include/libxml2",
+					"$(PROJECT_DIR)/downloaded-frameworks/mono/runtimes/osx-arm64/native/include/mono-2.0",
+				);
+				"HEADER_SEARCH_PATHS[arch=x86_64]" = (
 					"$(SDKROOT)/usr/include/libxml2",
 					"$(PROJECT_DIR)/downloaded-frameworks/mono/runtimes/osx-x64/native/include/mono-2.0",
 				);
@@ -7164,9 +7174,14 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/downloaded-frameworks/mono/runtimes/osx-x64/native",
 					"$(SDKROOT)/usr/lib/swift",
+					"$(PROJECT_DIR)/downloaded-frameworks/mono/universal",
+				);
+				"LIBRARY_SEARCH_PATHS[arch=*]" = (
+					"$(PROJECT_DIR)/downloaded-frameworks/mono/universal",
+					"$(SDKROOT)/usr/lib/swift",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 3.5.8;
+				MARKETING_VERSION = 3.5.9;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = (
@@ -7195,7 +7210,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_HARDENED_RUNTIME = YES;
-				EXCLUDED_ARCHS = arm64;
+				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HSTracker",
@@ -7203,6 +7218,14 @@
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
 				HEADER_SEARCH_PATHS = (
+					"$(SDKROOT)/usr/include/libxml2",
+					"$(PROJECT_DIR)/downloaded-frameworks/mono/runtimes/osx-x64/native/include/mono-2.0",
+				);
+				"HEADER_SEARCH_PATHS[arch=arm64]" = (
+					"$(SDKROOT)/usr/include/libxml2",
+					"$(PROJECT_DIR)/downloaded-frameworks/mono/runtimes/osx-arm64/native/include/mono-2.0",
+				);
+				"HEADER_SEARCH_PATHS[arch=x86_64]" = (
 					"$(SDKROOT)/usr/include/libxml2",
 					"$(PROJECT_DIR)/downloaded-frameworks/mono/runtimes/osx-x64/native/include/mono-2.0",
 				);
@@ -7215,9 +7238,14 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/downloaded-frameworks/mono/runtimes/osx-x64/native",
 					"$(SDKROOT)/usr/lib/swift",
+					"$(PROJECT_DIR)/downloaded-frameworks/mono/universal",
+				);
+				"LIBRARY_SEARCH_PATHS[arch=*]" = (
+					"$(PROJECT_DIR)/downloaded-frameworks/mono/universal",
+					"$(SDKROOT)/usr/lib/swift",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 3.5.8;
+				MARKETING_VERSION = 3.5.9;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
