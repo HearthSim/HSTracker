@@ -1298,13 +1298,12 @@ class BobsBuddyInvoker {
         tryRerun()
     }
     
-    private func sideFirst(_ player: PlayerProxy, _ predicate: (MinionProxy) -> Bool) -> MinionProxy? {
-        let side = player.side
-        let count = MonoHelper.listCount(obj: side)
-        var minion: MinionProxy?
+    private func listFirst<T: MonoHandle>(_ list: MonoHandle, _ predicate: (T) -> Bool) -> T? {
+        let count = MonoHelper.listCount(obj: list)
+        var minion: T?
         for i in 0 ..< count {
-            let item = MonoHelper.listItem(obj: side, index: i).get()
-            let m = MinionProxy(obj: item)
+            let item = MonoHelper.listItem(obj: list, index: i).get()
+            let m = T(obj: item)
             if predicate(m) {
                 minion = m
                 break
@@ -1319,16 +1318,16 @@ class BobsBuddyInvoker {
         }
 
         var friendly = true
-        var sandyMinion = sideFirst(input.player, { m in m.game_id == sandyEntityId })
+        var sandyMinion = listFirst(input.player.side, { (m: MinionProxy) in m.game_id == sandyEntityId })
         if sandyMinion == nil && input.playerTeammate.get() != nil {
-            sandyMinion = sideFirst(input.playerTeammate, { m in m.game_id == sandyEntityId })
+            sandyMinion = listFirst(input.playerTeammate.side, { (m: MinionProxy) in m.game_id == sandyEntityId })
         }
         if sandyMinion == nil {
             friendly = false
-            sandyMinion = sideFirst(input.opponent, { m in m.game_id == sandyEntityId })
+            sandyMinion = listFirst(input.opponent.side, { (m: MinionProxy) in m.game_id == sandyEntityId })
         }
         if sandyMinion == nil && input.opponentTeammate.get() != nil {
-            sandyMinion = sideFirst(input.opponentTeammate, { m in m.game_id == sandyEntityId })
+            sandyMinion = listFirst(input.opponentTeammate.side, { (m: MinionProxy) in m.game_id == sandyEntityId })
         }
         guard let sandyMinion else {
             return
@@ -1339,6 +1338,35 @@ class BobsBuddyInvoker {
         }
 
         sandy.attachedMinion = BobsBuddyInvoker.getMinionFromEntity(sim: SimulatorProxy(), player: friendly, ent: attachedEntity, attachedEntities: getAttachedEntities(entityId: attachedEntity.id))
+
+        tryRerun()
+    }
+    
+    func updateFlobbidinousFloopTransformDuos(_ attachedEntity: Entity) {
+        guard let input, state != BobsBuddyState.combat else {
+            return
+        }
+
+        var friendly = true
+        var flobbidinousFloop = listFirst(input.player.heroPowers, { (hp: HeroPowerDataProxy) in hp.cardId == CardIds.NonCollectible.Neutral.FlobbidinousFloop_GloriousGloop })
+        if flobbidinousFloop == nil && input.playerTeammate.get() != nil {
+            flobbidinousFloop = listFirst(input.playerTeammate.heroPowers, { (hp: HeroPowerDataProxy) in hp.cardId == CardIds.NonCollectible.Neutral.FlobbidinousFloop_GloriousGloop })
+        }
+        if flobbidinousFloop == nil {
+            friendly = false
+            flobbidinousFloop = listFirst(input.opponent.heroPowers, { (hp: HeroPowerDataProxy) in hp.cardId == CardIds.NonCollectible.Neutral.FlobbidinousFloop_GloriousGloop })
+        }
+        if flobbidinousFloop == nil && input.opponentTeammate.get() != nil {
+            flobbidinousFloop = listFirst(input.opponentTeammate.heroPowers, { (hp: HeroPowerDataProxy) in hp.cardId == CardIds.NonCollectible.Neutral.FlobbidinousFloop_GloriousGloop })
+        }
+        guard let flobbidinousFloop else {
+            return
+        }
+        if flobbidinousFloop.attachedMinion.get() != nil {
+            return
+        }
+
+        flobbidinousFloop.attachedMinion = BobsBuddyInvoker.getMinionFromEntity(sim: SimulatorProxy(), player: friendly, ent: attachedEntity, attachedEntities: getAttachedEntities(entityId: attachedEntity.id))
 
         tryRerun()
     }
