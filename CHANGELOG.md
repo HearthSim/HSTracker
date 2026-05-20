@@ -1,3 +1,18 @@
+# 3.5.9
+## New
+**Updated for Hearthstone 35.4.2**
+- Added Apple silicon binary (arm64)
+## Fixes
+- Fix Battlegrounds overlays staying visible when another app takes focus (thanks @eraycantazeguney)
+- Fixed Deathwing Discount Counter not working with multiple Ultraxion effects.
+- Fixed *Dragon Soul, Shattered* Essences not being added to the deck at the start of the game.
+## Battlegrounds
+- Fixed Timewarp button showing during tavern.
+- Fixed Trinket Guides not showing during Trinket Picking.
+- Updated the Undead buff counter to also show health bonus (when improved via Tavern Spell buffs and Butchering).
+- Fixed the order of the Undead minions shown when hovering the Undead buff counter.
+- Fixed some incorrect simulation results related to Undead health buffs, Stormcoil Sticker, Malorne, Scarlet Survivor, Roaring Recruiter and Ship Jumper.
+
 # 3.5.8
 ## New
 **Updated for Hearthstone 35.4.0**
