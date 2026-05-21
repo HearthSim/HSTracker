@@ -448,6 +448,9 @@ class BattlegroundsSession: OverWindowController {
     }
 
     private func updateLatestGames() -> BattlegroundsLastGames.GameItem? {
+        let wm = AppDelegate.instance().coreManager.game.windowManager
+        wm.show(controller: wm.battlegroundsFinalBoard, show: false)
+
         sessionGames.removeAll()
         let sortedGames = BattlegroundsLastGames.instance.getPlayerGames(duos: isDuos).sorted(by: { (a, b) in a.startTime < b.startTime })
         deleteOldGames(games: sortedGames)
