@@ -297,6 +297,7 @@ class WindowManager {
             self?.flavorText.window?.orderOut(nil)
             self?.playerActiveEffectsOverlay.window?.orderOut(nil)
             self?.opponentActiveEffectsOverlay.window?.orderOut(nil)
+            self?.tooltipGridCards.window?.orderOut(nil)
         }
     }
 
