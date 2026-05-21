@@ -1437,8 +1437,10 @@ class Game: NSObject, PowerEventHandler {
             self.counter = 0
         } else if self.counter > 3 {
             let rect = SizeHelper.hearthstoneWindow.frame
+            // fullscreen-flag flips can leave _frame unchanged but still shift the 50px game-menu offset
+            let wasFullscreen = SizeHelper.hearthstoneWindow.isFullscreen()
             SizeHelper.hearthstoneWindow.reload()
-            if rect != SizeHelper.hearthstoneWindow.frame {
+            if rect != SizeHelper.hearthstoneWindow.frame || wasFullscreen != SizeHelper.hearthstoneWindow.isFullscreen() {
                 self.updateAllTrackers()
                 self.updateBattlegroundsOverlays()
                 self.updateConstructedMulliganOverlays()
