@@ -410,6 +410,7 @@ final class CoreManager: NSObject {
     func appDeactivated(_ notification: Notification) {
         if let app = notification.userInfo!["NSWorkspaceApplicationKey"] as? NSRunningApplication {
 			if app.localizedName == CoreManager.applicationName {
+                NotificationCenter.default.post(name: Notification.Name(rawValue: Events.hearthstone_deactived), object: nil)
 				self.game.setHearthstoneActived(flag: false)
 			}
 			if app.bundleIdentifier == Bundle.main.bundleIdentifier {
