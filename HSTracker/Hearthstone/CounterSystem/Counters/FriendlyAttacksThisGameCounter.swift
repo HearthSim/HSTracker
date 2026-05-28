@@ -32,7 +32,7 @@ class FriendlyAttacksThisGameCounter: NumericCounter {
     override func valueToShow() -> String {
         // C# uses Counter_AnimalCompanionCost as a generic localized string with a placeholder
         let remainingAttacks = max(9 - counter, 0)
-        return String(format: String.localizedString("Counter_MuradinLastStand", comment: ""), remainingAttacks)
+        return String(format: String.localizedString("Counter_MuradinLastStand", comment: ""), "(\remainingAttacks)")
     }
 
     override func handleTagChange(tag: GameTag, entity: Entity, value: Int, prevValue: Int) {
