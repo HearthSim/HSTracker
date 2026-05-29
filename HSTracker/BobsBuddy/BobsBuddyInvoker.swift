@@ -693,10 +693,6 @@ class BobsBuddyInvoker {
         return e?.card.id == "unknown" || e?.cardId.isEmpty ?? false
     }
     
-    func isUnsupportedCard(e: Entity?) -> Bool {
-        return e?.card.id == CardIds.NonCollectible.Invalid.ProfessorPutricide_Festergut1 || e?.card.id == CardIds.NonCollectible.Invalid.ProfessorPutricide_Festergut2
-    }
-    
     func wasHeroPowerActivated(heroPower: Entity?) -> Bool {
         return (heroPower?.has(tag: GameTag.exhausted) ?? false || heroPower?.has(tag: GameTag.bacon_hero_power_activated) ?? false)
     }
@@ -870,12 +866,7 @@ class BobsBuddyInvoker {
             }
             
             // SupportedCards.VerifyCardIsSupported currently only works with TECH_LEVEL > 0.
-            // TODO: as this is implemented in BB and would require a call via Mono
-            
-            if isUnsupportedCard(e: entity) {
-                errorState = .unsupportedCards
-                throw "Board has unsupported cards. Exiting."
-            }
+            // TODO: as this is implemented in BB and would require a call via Mono            
         }
         
         guard let playerGameHero else {
