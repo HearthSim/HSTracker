@@ -462,7 +462,7 @@ class Game: NSObject, PowerEventHandler {
             }
             
             if windowManager.playerActiveEffectsOverlay.visibility && windowManager.playerActiveEffectsOverlay.visibleEffects.count > 0 {
-                if hsActive {
+                if (Settings.hideAllWhenGameInBackground && hsActive) || !Settings.hideAllWhenGameInBackground {
                     windowManager.show(controller: windowManager.playerActiveEffectsOverlay, show: true, frame: SizeHelper.playerActiveEffectsFrame(), overlay: true)
                     windowManager.playerActiveEffectsOverlay.updateGrid()
                 } else {
@@ -471,7 +471,7 @@ class Game: NSObject, PowerEventHandler {
             }
 
             if windowManager.opponentActiveEffectsOverlay.visibility && windowManager.opponentActiveEffectsOverlay.visibleEffects.count > 0 {
-                if hsActive {
+                if (Settings.hideAllWhenGameInBackground && hsActive) || !Settings.hideAllWhenGameInBackground {
                     windowManager.show(controller: windowManager.opponentActiveEffectsOverlay, show: true, frame: SizeHelper.opponentActiveEffectsFrame(), overlay: true)
                     windowManager.opponentActiveEffectsOverlay.updateGrid()
                 } else {
@@ -495,7 +495,7 @@ class Game: NSObject, PowerEventHandler {
             }
             
             if windowManager.playerCountersOverlay.visibility && windowManager.playerCountersOverlay.visibleCounters.count > 0 {
-                if hsActive {
+                if (Settings.hideAllWhenGameInBackground && hsActive) || !Settings.hideAllWhenGameInBackground {
                     windowManager.show(controller: windowManager.playerCountersOverlay, show: true, frame: SizeHelper.playerCountersFrame(), overlay: true)
                     if windowManager.playerCountersOverlay.needsUpdate() {
                         DispatchQueue.main.async {
@@ -508,7 +508,7 @@ class Game: NSObject, PowerEventHandler {
             }
 
             if windowManager.opponentCountersOverlay.visibility && windowManager.opponentCountersOverlay.visibleCounters.count > 0 {
-                if hsActive {
+                if (Settings.hideAllWhenGameInBackground && hsActive) || !Settings.hideAllWhenGameInBackground {
                     windowManager.show(controller: windowManager.opponentCountersOverlay, show: true, frame: SizeHelper.opponentCountersFrame(), overlay: true)
                     if windowManager.opponentCountersOverlay.needsUpdate() {
                         DispatchQueue.main.async {
@@ -528,7 +528,7 @@ class Game: NSObject, PowerEventHandler {
             let hsActive = self.hearthstoneRunState.isActive
             
             if self.windowManager.constructedMulliganGuide.viewModel.visibility {
-                if hsActive {
+                if (Settings.hideAllWhenGameInBackground && hsActive) || !Settings.hideAllWhenGameInBackground {
                     self.windowManager.show(controller: self.windowManager.constructedMulliganGuide, show: true, frame: SizeHelper.hearthstoneWindow.frame, overlay: true)
                     DispatchQueue.main.async {
                         self.windowManager.constructedMulliganGuide.updateScaling()
@@ -537,9 +537,9 @@ class Game: NSObject, PowerEventHandler {
                     self.windowManager.show(controller: self.windowManager.constructedMulliganGuide, show: false)
                 }
             }
-            
+
             if self.windowManager.constructedMulliganGuidePreLobby.isVisible {
-                if hsActive && Settings.showMulliganGuidePreLobby {
+                if ((Settings.hideAllWhenGameInBackground && hsActive) || !Settings.hideAllWhenGameInBackground) && Settings.showMulliganGuidePreLobby {
                     self.windowManager.show(controller: self.windowManager.constructedMulliganGuidePreLobby, show: true, frame: SizeHelper.constructedMulliganGuidePreLobbyFrame(), overlay: true)
                     DispatchQueue.main.async {
                         self.windowManager.constructedMulliganGuidePreLobby.updateScaling()
@@ -560,14 +560,14 @@ class Game: NSObject, PowerEventHandler {
             let hsActive = hearthstoneRunState.isActive
 
             if let win =  windowManager.playerPlayerResourcesOverlay {
-                if hsActive && win.viewModel.visibility && shouldShowTracker {
+                if ((Settings.hideAllWhenGameInBackground && hsActive) || !Settings.hideAllWhenGameInBackground) && win.viewModel.visibility && shouldShowTracker {
                     windowManager.show(controller: win, show: true, frame: SizeHelper.playerMaxResourcesFrame(), overlay: true)
                 } else {
                     windowManager.show(controller: win, show: false)
                 }
             }
             if let win =  windowManager.opponentPlayerResourcesOverlay {
-                if hsActive && win.viewModel.visibility && shouldShowTracker {
+                if ((Settings.hideAllWhenGameInBackground && hsActive) || !Settings.hideAllWhenGameInBackground) && win.viewModel.visibility && shouldShowTracker {
                     windowManager.show(controller: win, show: true, frame: SizeHelper.opponentMaxResourcesFrame(), overlay: true)
                 } else {
                     windowManager.show(controller: win, show: false)
@@ -581,7 +581,7 @@ class Game: NSObject, PowerEventHandler {
             let hsActive = self.hearthstoneRunState.isActive
             
             if self.windowManager.battlegroundsSession.visibility {
-                if hsActive {
+                if (Settings.hideAllWhenGameInBackground && hsActive) || !Settings.hideAllWhenGameInBackground {
                     var rect = SizeHelper.battlegroundsSessionFrame()
                     if !Settings.autoPositionTrackers {
                         if let savedRect = Settings.battlegroundsSessionFrame {
@@ -596,7 +596,7 @@ class Game: NSObject, PowerEventHandler {
                 }
             }
             if self.windowManager.tier7PreLobby.isVisible {
-                if hsActive {
+                if (Settings.hideAllWhenGameInBackground && hsActive) || !Settings.hideAllWhenGameInBackground {
                     self.windowManager.show(controller: self.windowManager.tier7PreLobby, show: true, frame: SizeHelper.tier7PreLobbyFrame(), overlay: true)
                 } else {
                     self.windowManager.show(controller: self.windowManager.tier7PreLobby, show: false)
@@ -606,7 +606,7 @@ class Game: NSObject, PowerEventHandler {
             }
             
             if self.windowManager.battlegroundsHeroPicking.viewModel.visibility {
-                if hsActive {
+                if (Settings.hideAllWhenGameInBackground && hsActive) || !Settings.hideAllWhenGameInBackground {
                     self.windowManager.show(controller: self.windowManager.battlegroundsHeroPicking, show: true, frame: SizeHelper.hearthstoneWindow.frame, overlay: true)
                     DispatchQueue.main.async {
                         self.windowManager.battlegroundsHeroPicking.updateScaling()
@@ -617,7 +617,7 @@ class Game: NSObject, PowerEventHandler {
             }
             
             if self.windowManager.battlegroundsQuestPicking.viewModel.visibility {
-                if hsActive {
+                if (Settings.hideAllWhenGameInBackground && hsActive) || !Settings.hideAllWhenGameInBackground {
                     self.windowManager.show(controller: self.windowManager.battlegroundsQuestPicking, show: true, frame: SizeHelper.hearthstoneWindow.frame, overlay: true)
                     DispatchQueue.main.async {
                         self.windowManager.battlegroundsQuestPicking.updateScaling()
@@ -628,7 +628,7 @@ class Game: NSObject, PowerEventHandler {
             }
 
             if self.windowManager.battlegroundsTrinketPicking.viewModel.visibility {
-                if hsActive {
+                if (Settings.hideAllWhenGameInBackground && hsActive) || !Settings.hideAllWhenGameInBackground {
                     self.windowManager.show(controller: self.windowManager.battlegroundsTrinketPicking, show: true, frame: SizeHelper.hearthstoneWindow.frame, overlay: true)
                     DispatchQueue.main.async {
                         self.windowManager.battlegroundsTrinketPicking.updateScaling()
@@ -951,7 +951,7 @@ class Game: NSObject, PowerEventHandler {
     }
     
     func updateBattlegroundsSessionVisibility(_ isFriendsListOpen: Bool = false) {
-        let show = isRunning && hearthstoneRunState.isActive && Settings.showSessionRecap
+        let show = isRunning && ((Settings.hideAllWhenGameInBackground && hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground) && Settings.showSessionRecap
                 && (
                     (
                         // Scene is not transitioning
@@ -1437,8 +1437,10 @@ class Game: NSObject, PowerEventHandler {
             self.counter = 0
         } else if self.counter > 3 {
             let rect = SizeHelper.hearthstoneWindow.frame
+            // fullscreen-flag flips can leave _frame unchanged but still shift the 50px game-menu offset
+            let wasFullscreen = SizeHelper.hearthstoneWindow.isFullscreen()
             SizeHelper.hearthstoneWindow.reload()
-            if rect != SizeHelper.hearthstoneWindow.frame {
+            if rect != SizeHelper.hearthstoneWindow.frame || wasFullscreen != SizeHelper.hearthstoneWindow.isFullscreen() {
                 self.updateAllTrackers()
                 self.updateBattlegroundsOverlays()
                 self.updateConstructedMulliganOverlays()

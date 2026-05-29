@@ -38,7 +38,7 @@ struct SizeHelper {
         func reload() {
             let options = CGWindowListOption(arrayLiteral: .excludeDesktopElements)
             let windowListInfo = CGWindowListCopyWindowInfo(options, CGWindowID(0))
-            
+
             if let info = (windowListInfo as? [NSDictionary])?.filter({dict in
                 dict["kCGWindowOwnerName"] as? String == CoreManager.applicationName && dict["kCGWindowLayer"] as? Int == 0 && dict["kCGWindowIsOnscreen"] as? Int == 1
             }).sorted(by: {
@@ -47,23 +47,43 @@ struct SizeHelper {
                 if let id = info["kCGWindowNumber"] as? Int {
                     self.windowId = CGWindowID(id)
                 }
-                
+
                 let pid = info["kCGWindowOwnerPID"] as? pid_t ?? 0
-                
+
                 let appRef = AXUIElementCreateApplication(pid)
                 var window: CFTypeRef?
-                
+
                 let result: AXError = AXUIElementCopyAttributeValue(appRef, kAXFocusedWindowAttribute as CFString, &window)
                 var calculateFromFrame = false
-                if result == .success {
-                    var fs: CFTypeRef?
+                // kCGWindowBounds can return a stale Mission Control thumbnail rect for some
+                // time after MC dismisses; AX reflects HS's actual NSWindow.frame.
+                var axRect: CGRect?
+                if result == .success, let axWindow = window {
                     // swiftlint:disable force_cast
-                    AXUIElementCopyAttributeValue(window as! AXUIElement, "AXFullScreen" as CFString, &fs)
+                    let axWindowRef = axWindow as! AXUIElement
                     // swiftlint:enable force_cast
+
+                    var fs: CFTypeRef?
+                    AXUIElementCopyAttributeValue(axWindowRef, "AXFullScreen" as CFString, &fs)
                     if let nsvalue = fs as? NSNumber {
                         fullscreen = nsvalue.intValue != 0
                     } else {
                         fullscreen = false
+                    }
+
+                    var posRef: CFTypeRef?
+                    var sizeRef: CFTypeRef?
+                    let posResult = AXUIElementCopyAttributeValue(axWindowRef, kAXPositionAttribute as CFString, &posRef)
+                    let sizeResult = AXUIElementCopyAttributeValue(axWindowRef, kAXSizeAttribute as CFString, &sizeRef)
+                    if posResult == .success, sizeResult == .success,
+                       let posValue = posRef, let sizeValue = sizeRef {
+                        var pos = CGPoint.zero
+                        var size = CGSize.zero
+                        // swiftlint:disable force_cast
+                        AXValueGetValue(posValue as! AXValue, .cgPoint, &pos)
+                        AXValueGetValue(sizeValue as! AXValue, .cgSize, &size)
+                        // swiftlint:enable force_cast
+                        axRect = CGRect(origin: pos, size: size)
                     }
                 } else {
                     if !SizeHelper.HearthstoneWindow.axErrorReported {
@@ -72,23 +92,22 @@ struct SizeHelper {
                     }
                     calculateFromFrame = true
                 }
-                
+
                 // swiftlint:disable force_cast
                 let bounds = info["kCGWindowBounds"] as! CFDictionary
                 // swiftlint:enable force_cast
-                if let rect = CGRect(dictionaryRepresentation: bounds) {
+                if let rect = axRect ?? CGRect(dictionaryRepresentation: bounds) {
                     var frame = rect
-                    
+
                     // Warning: this function assumes that the
                     // first screen in the list is the active one
                     if let screen = NSScreen.screens.first {
                         screenRect = screen.frame
                         frame.origin.y = screen.frame.maxY - rect.maxY
                     }
-                    
-                    //logger.debug("HS Frame is : \(rect)")
+
                     self._frame = frame
-                    
+
                     if calculateFromFrame {
                         var fs = false
                         for scr in NSScreen.screens where scr.frame == frame {
@@ -120,7 +139,7 @@ struct SizeHelper {
             return _frame.minY
         }
         
-        fileprivate func isFullscreen() -> Bool {
+        func isFullscreen() -> Bool {
             return fullscreen
         }
         

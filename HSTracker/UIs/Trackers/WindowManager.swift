@@ -297,6 +297,7 @@ class WindowManager {
             self?.flavorText.window?.orderOut(nil)
             self?.playerActiveEffectsOverlay.window?.orderOut(nil)
             self?.opponentActiveEffectsOverlay.window?.orderOut(nil)
+            self?.tooltipGridCards.window?.orderOut(nil)
         }
     }
 
@@ -436,11 +437,12 @@ class WindowManager {
                 }
             }
 
-            // set the level of the window : over all if hearthstone is active
-            // as a normal window otherwise
+            // Place overlays just above Hearthstone (normal level) but below
+            // any system UI level so macOS Notification Center, menu bar, and
+            // status items can render above them.
             let level: Int
             if overlay {
-                level = Int(CGShieldingWindowLevel())
+                level = Int(CGWindowLevelForKey(CGWindowLevelKey.normalWindow)) + 1
             } else {
                 level = Int(CGWindowLevelForKey(CGWindowLevelKey.normalWindow))
             }

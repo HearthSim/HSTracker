@@ -18,7 +18,7 @@ class Toast {
         w.hasShadow = false
         w.acceptsMouseMovedEvents = true
         w.styleMask = .borderless
-        w.level = NSWindow.Level(rawValue: Int(CGShieldingWindowLevel()))
+        w.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(CGWindowLevelKey.normalWindow)) + 1)
         w.backgroundColor = Color.clear
         
         w.orderFrontRegardless()
@@ -167,15 +167,27 @@ class Toast {
             }
         }
         
+        override func mouseEntered(with event: NSEvent) {
+            guard action == nil, !SizeHelper.hearthstoneWindow.isFullscreen() else { return }
+            NSAnimationContext.runAnimationGroup { context in
+                context.duration = 0.2
+                animator().alphaValue = 0.3
+            }
+        }
+
+        override func mouseExited(with event: NSEvent) {
+            NSAnimationContext.runAnimationGroup { context in
+                context.duration = 0.2
+                animator().alphaValue = 1.0
+            }
+        }
+
         override func mouseDown(with event: NSEvent) {
-            guard self.action != nil else { return }
-            
             inClick = true
         }
         override func mouseUp(with event: NSEvent) {
-            guard self.action != nil else { return }
             guard inClick else { return }
-            
+
             inClick = false
             action?()
             toastWindow.remove(panel: self)
