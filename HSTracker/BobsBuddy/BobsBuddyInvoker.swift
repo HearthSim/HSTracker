@@ -1237,7 +1237,7 @@ class BobsBuddyInvoker {
             let tavishLockAndLoad = listFirst(input.opponent.heroPowers, { (hp: HeroPowerDataProxy) in hp.cardId == CardIds.NonCollectible.Neutral.TavishStormpike_LockAndLoad })
             if tavishLockAndLoad == nil {
                 tryDuos = true // Will fallback and try duos anyways
-            } else if let tavishLockAndLoad, tavishLockAndLoad.attachedMinion.get() == nil {
+            } else if let tavishLockAndLoad, tavishLockAndLoad.attachedMinion.get() == nil && tavishLockAndLoad.data3 == 0 {
                 tavishLockAndLoad.attachedMinion = BobsBuddyInvoker.getMinionFromEntity(sim: SimulatorProxy(), player: false, ent: attachedEntity, attachedEntities: getAttachedEntities(entityId: attachedEntity.id))
                 tryRerun = true
             }
