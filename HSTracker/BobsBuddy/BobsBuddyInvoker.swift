@@ -320,8 +320,6 @@ class BobsBuddyInvoker {
         logger.info("Starting simulation")
         return Promise<OutputProxy?> { seal in
             DispatchQueue.global().async {
-                Influx.breadcrumb(eventName: "running_simulation", withProperties: ["turn": "\(self.game.turnNumber())"])
-
                 let opaque = mono_thread_attach(MonoHelper._monoInstance)
                 
                 var result: OutputProxy?
@@ -382,6 +380,9 @@ class BobsBuddyInvoker {
                             at = self.MaxTimeForComplexBoards
                         }
                         let start = DispatchTime.now()
+                        
+                        Influx.breadcrumb(eventName: "running_simulation", withProperties: ["turn": "\(self.game.turnNumber())",
+                                          "input": str ])
                         
                         let task = simulator.simulateMultiThreaded(input: inp, maxIterations: self.Iterations, threadCount: tc, maxDuration: at)
                         
@@ -1334,9 +1335,15 @@ class BobsBuddyInvoker {
         if sandyMinion == nil && input.opponentTeammate.get() != nil {
             sandyMinion = listFirst(input.opponentTeammate.side, { (m: MinionProxy) in m.game_id == sandyEntityId })
         }
-        guard let sandyMinion else {
+        guard let sandyMinion, sandyMinion.get() != nil else {
             return
         }
+        let cl = mono_class_get_name(mono_object_get_class(sandyMinion.get()))
+        var className = "Unknown"
+        if let cl {
+            className = String(cString: cl)
+        }
+        Influx.breadcrumb(eventName: "sandy_minion_found", withProperties: ["sandyEntityId": "\(sandyEntityId)", className: className])
         let sandy = SandyProxy(obj: sandyMinion.get())
         if sandy.attachedMinion.get() != nil {
             return
