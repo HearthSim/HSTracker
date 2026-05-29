@@ -1346,7 +1346,7 @@ class BobsBuddyInvoker {
     }
     
     func updateFlobbidinousFloopTransformDuos(_ attachedEntity: Entity) {
-        guard let input, state != BobsBuddyState.combat else {
+        guard let input, state == BobsBuddyState.combat else {
             return
         }
 
@@ -1376,6 +1376,50 @@ class BobsBuddyInvoker {
         }
 
         flobbidinousFloop.attachedMinion = BobsBuddyInvoker.getMinionFromEntity(sim: SimulatorProxy(), player: friendly, ent: attachedEntity, attachedEntities: getAttachedEntities(entityId: attachedEntity.id))
+
+        tryRerun()
+    }
+    
+    func updateSummoningSphereDuos(_ attachedEntity: Entity, _ trinketEntityId: Int32) {
+        guard let input, state == BobsBuddyState.combat else {
+            return
+        }
+
+        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        
+        defer {
+            mono_thread_detach(opaque)
+        }
+
+        var friendly = true
+        var summoningSphereTrinket = listFirst(input.player.trinkets, { (t: TrinketProxy) in t.game_id == trinketEntityId && t.cardID == CardIds.NonCollectible.Neutral.SummoningSphere })
+        if summoningSphereTrinket?.get() == nil && input.playerTeammate.get() != nil {
+            summoningSphereTrinket = listFirst(input.playerTeammate.trinkets, { (t: TrinketProxy) in t.game_id == trinketEntityId && t.cardID == CardIds.NonCollectible.Neutral.SummoningSphere })
+        }
+        if summoningSphereTrinket?.get() == nil {
+            friendly = false
+            summoningSphereTrinket = listFirst(input.opponent.trinkets, { (t: TrinketProxy) in t.game_id == trinketEntityId && t.cardID == CardIds.NonCollectible.Neutral.SummoningSphere })
+        }
+        if summoningSphereTrinket?.get() == nil && input.opponentTeammate.get() != nil {
+            summoningSphereTrinket = listFirst(input.opponentTeammate.trinkets, { (t: TrinketProxy) in t.game_id == trinketEntityId && t.cardID == CardIds.NonCollectible.Neutral.SummoningSphere })
+        }
+        guard let summoningSphereTrinket, summoningSphereTrinket.get() != nil else {
+            return
+        }
+        let cl = mono_class_get_name(mono_object_get_class(summoningSphereTrinket.get()))
+        var className = "Unknown"
+        if let cl {
+            className = String(cString: cl)
+        }
+        Influx.breadcrumb(eventName: "summoning_sphere_trinket_found", withProperties: ["trinketEntityId": "\(trinketEntityId)", className: className])
+
+        let summoningSphere = SummoningSphereProxy(obj: summoningSphereTrinket.get())
+
+        if summoningSphere.attachedMinion.get() != nil {
+            return
+        }
+
+        summoningSphere.attachedMinion = BobsBuddyInvoker.getMinionFromEntity(sim: SimulatorProxy(), player: friendly, ent: attachedEntity, attachedEntities: getAttachedEntities(entityId: attachedEntity.id))
 
         tryRerun()
     }

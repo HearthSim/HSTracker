@@ -1130,5 +1130,7 @@ extension CardIds.NonCollectible {
         static let DragonSoulShattered_StormAspectEssenceToken = "CATA_EVENT_110t7"
         static let ReplicaCathedral = "BG30_MagicItem_434"
         static let Sandy = "BGDUO_125"
+        static let SummoningSphere = "BGDUO_MagicItem_003"
+        static let LesserTrinket = "BG30_Trinket_1st"
     }
 }

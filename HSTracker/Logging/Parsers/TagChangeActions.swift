@@ -239,6 +239,11 @@ struct TagChangeActions {
             BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateFlobbidinousFloopTransformDuos(entity)
         }
         
+        if let currentBlock = AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock, eventHandler.currentGameMode == GameMode.battlegrounds && (currentBlock.cardId == CardIds.NonCollectible.Neutral.SummoningSphere || currentBlock.cardId == CardIds.NonCollectible.Neutral.LesserTrinket) && entity.isMinion &&
+            currentBlock.sourceEntityId == entity[.creator] && entity.isInZone(zone: .setaside) {
+            BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateSummoningSphereDuos(entity, Int32(entity[.creator]))
+        }
+        
         guard let targetEntity = eventHandler.entities[value] else {
             return
         }

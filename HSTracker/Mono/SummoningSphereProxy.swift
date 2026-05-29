@@ -8,14 +8,14 @@
 
 import Foundation
 
-class SandyProxy: MonoHandle, MonoClassInitializer {
+class SummoningSphereProxy: MonoHandle, MonoClassInitializer {
     internal static var _class: OpaquePointer?
     
     static var _members = [String: OpaquePointer]()
     
     static func initialize() {
-        if SandyProxy._class == nil {
-            SandyProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Minions.Duos", name: "Sandy")
+        if SummoningSphereProxy._class == nil {
+            SummoningSphereProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Trinkets", name: "SummoningSphere")
             
             initializeProperties(properties: ["AttachedMinion"])
         }
@@ -25,6 +25,6 @@ class SandyProxy: MonoHandle, MonoClassInitializer {
         super.init(obj: obj)
     }
     
-    @MonoHandleProperty(property: "AttachedMinion", owner: SandyProxy.self)
+    @MonoHandleProperty(property: "AttachedMinion", owner: SummoningSphereProxy.self)
     var attachedMinion: MinionProxy
 }
