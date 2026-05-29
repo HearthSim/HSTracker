@@ -96,16 +96,23 @@ struct LiveSecrets: Codable {
     var created_by_game_type_and_format_type: [String: [String: Set<String>]]?
 }
 
+struct MetaPeriod: Codable {
+    var period_start: Int64
+    var mechanics: [String]
+}
+
 class RemoteConfig {
     static var data: ConfigData?
     static var mercenaries: [Mercenary]?
     static var liveSecrets: LiveSecrets?
     static var battlegroundsTagOverrides: [TagOverride]?
+    static var metaPeriods: [MetaPeriod]?
     
     private static var url = "https://hsdecktracker.net/config.json"
     private static var mercsUrl = "https://api.hearthstonejson.com/v1/latest/enUS/mercenaries.json"
     private static var secretsUrl = "https://hsreplay.net/api/v1/live/secrets/"
     private static var overridesUrl = "https://hsreplay.net/api/v1/battlegrounds/tag_overrides/"
+    private static var battlegroundsMetaPeriodsUrl = "https://hsreplay.net/api/v1/battlegrounds/meta_periods/"
 
     static func checkRemoteConfig(splashscreen: Splashscreen) {
         DispatchQueue.main.async {
@@ -166,6 +173,12 @@ class RemoteConfig {
                   decodeType: LiveSecrets.self,
                   assignment: { self.liveSecrets = $0 },
                   errorMessage: "live secrets configuration")
+        
+        // 5. Fetch meta periods
+        fetchData(url: RemoteConfig.battlegroundsMetaPeriodsUrl,
+                  decodeType: [MetaPeriod].self,
+                  assignment: { self.metaPeriods = $0 },
+                  errorMessage: "meta periods configuration")
 
         dispatchGroup.notify(queue: .main) {
             logger.info("All remote configurations loaded.")
