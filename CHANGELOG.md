@@ -1,3 +1,21 @@
+# 3.5.10
+## Fixes
+- Fixed crash due to Muradin's Last Stand Counter.
+- Window mode improvements (thanks @eraycantazeguney)
+## Bob's Buddy
+- Improved simulation accuracy for cast spell interactions.
+- Fixed Deathly Phylactery trinket deathrattle simulation behavior.
+- Fixed Humon'gozz incorrectly applying extra tavern spell buffs.
+- Fixed hero power ordering when Tavish appears before Brukan's Lightning.
+- Fixed incorrect attack/health bonuses when opponent hero is Kel'Thuzad.
+- Fixed Leeroy Jenkins incorrectly targeting friendly Stitched Salvager.
+- Fixed Sly Raptor summon pool to correctly include Rylak.
+- Fixed Time Management showing both options as always valid.
+- Fixed Friendly Geist interaction with Tavern Spell buffs.
+- Fixed incorrect simulation results where:
+- Stitched minions from Build-An-Undead were being given bonus keywords of both minions even when some were removed (e.g., reborn, taunt)
+- Improved Summoning Sphere for Duos to better discover the attached minion
+
 # 3.5.9
 ## New
 **Updated for Hearthstone 35.4.2**
