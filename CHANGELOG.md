@@ -1,3 +1,22 @@
+# 3.5.11
+## New
+**Updated for Hearthstone 35.6.0**
+**Note**: Hearthstone now has a native Apple Silicon binary which is currently not supported by HSTracker. Follow the instructions from the alert to use HSTracker while support is added. A future alert will notify you when the problem has been fixed.
+## Fixes
+- Fixed incorrect Muradin's Last Stand Counter
+## Battlegrounds
+- Fixed Timewarp tavern button visibility based on current meta.
+## Bob's Buddy
+- Improved simulation accuracy for cast spell interactions.
+- Fixed Deathly Phylactery trinket deathrattle simulation behavior.
+- Fixed Humon'gozz incorrectly applying extra tavern spell buffs.
+- Fixed hero power ordering when Tavish appears before Brukan's Lightning.
+- Fixed incorrect attack/health bonuses when opponent hero is Kel'Thuzad.
+- Fixed Leeroy Jenkins incorrectly targeting friendly Stitched Salvager.
+- Fixed Sly Raptor summon pool to correctly include Rylak.
+- Fixed Time Management showing both options as always valid.
+- Fixed Friendly Geist interaction with Tavern Spell buffs.
+
 # 3.5.10
 ## Fixes
 - Fixed crash due to Muradin's Last Stand Counter.
