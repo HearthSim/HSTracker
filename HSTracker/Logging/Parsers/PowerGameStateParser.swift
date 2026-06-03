@@ -1427,6 +1427,15 @@ class PowerGameStateParser: LogEventParser {
                     }
                 }
             }
+            if eventHandler.currentGameMode == .battlegrounds, let currentBlock = AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock, currentBlock.type == "POWER" && currentBlock.cardId == CardIds.NonCollectible.Neutral.BackToBackBATTLEGROUNDS {
+                if let backToBackEntity = eventHandler.entities[currentBlock.sourceEntityId] {
+                    if let backToBackEnchantmentEntity = eventHandler.entities.values
+                        .filter({ e in e.cardId == CardIds.NonCollectible.Neutral.BacktoBack_GotYourBackEnchantment && e[GameTag.creator] == backToBackEntity.id }).first {
+                        BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?
+                            .updateBackToBackSpellBonus(backToBackEnchantmentEntity, backToBackEntity.isControlled(by: eventHandler.opponent.id))
+                    }
+                }
+            }
             blockEnd()
         }
 

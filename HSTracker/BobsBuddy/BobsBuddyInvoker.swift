@@ -1067,10 +1067,6 @@ class BobsBuddyInvoker {
         inputPlayer.tavernSpellAtkBuff = Int32(playerEntity[GameTag.tavern_spell_attack_increase])
         inputPlayer.tavernSpellHealthBuff = Int32(playerEntity[GameTag.tavern_spell_health_increase])
         
-        if playerAttached.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.BackToBackBATTLEGROUNDS }) != nil {
-            inputPlayer.backToBackCounter = Int32(playerEntity[GameTag.tag_script_data_num_3])
-        }
-        
         inputPlayer.deathrattleCounter = Int32(playerEntity[GameTag.gametag_4639])
          
         if let pHaunted = playerAttached.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.HauntedCarapace_HauntedCarapacePlayerEnchantDnt }) {
@@ -1301,6 +1297,36 @@ class BobsBuddyInvoker {
             }
         }
         return minion
+    }
+    
+    func updateBackToBackSpellBonus(_ backToBackEnchantmentEntity: Entity, _ isOpponent: Bool) {
+        guard let input, state == BobsBuddyState.combat else {
+            return
+        }
+        
+        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        
+        defer {
+            mono_thread_detach(opaque)
+        }
+
+        if isOpponent {
+            if input.opponent.backToBackAtk == 0 && input.opponent.backToBackHealth == 0 {
+                input.opponent.backToBackAtk = Int32(backToBackEnchantmentEntity[GameTag.tag_script_data_num_1])
+                input.opponent.backToBackHealth = Int32(backToBackEnchantmentEntity[GameTag.tag_script_data_num_2])
+            } else {
+                return
+            }
+        } else {
+            if input.player.backToBackAtk == 0 && input.player.backToBackHealth == 0 {
+                input.player.backToBackAtk = Int32(backToBackEnchantmentEntity[GameTag.tag_script_data_num_1])
+                input.player.backToBackHealth = Int32(backToBackEnchantmentEntity[GameTag.tag_script_data_num_2])
+            } else {
+                return
+            }
+        }
+
+        tryRerun()
     }
     
     func updateSandyTransformDuos(_ attachedEntity: Entity, _ sandyEntityId: Int32) {

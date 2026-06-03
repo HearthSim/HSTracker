@@ -27,7 +27,7 @@ class PlayerProxy: MonoHandle, MonoClassInitializer {
             PlayerProxy._setHeroIsKelThuzad = MonoHelper.getMethod(PlayerProxy._class, "SetHeroIsKelThuzad", 0)
             
             // fields
-            initializeProperties(properties: [ "Side", "HeroPowers", "Quests", "Objectives", "Trinkets", "Secrets", "Hand", "FriendlyMinionsDeadLastCombatCounter", "EternalKnightCounter", "AncestralAutomatonCounter", "UndeadAttackBonus", "UndeadHealthBonus", "WhelpAttackBonus", "WhelpHealthBonus", "ElementalPlayCounter", "BloodGemAtkBuff", "BloodGemHealthBuff", "TavernSpellCounter", "PiratesSummonCounter", "ResourcesSpentThisGame", "BeastsSummonCounter", "BeastAttackBonus", "BeastHealthBonus", "BeetlesAtkBuff", "BeetlesHealthBuff", "BattlecryCounter", "DeathrattleCounter", "TavernSpellAtkBuff", "TavernSpellHealthBuff", "BackToBackCounter", "HauntedAtkBuff", "HauntedHealthBuff", "Health", "DamageTaken", "Tier", "HeroIsKelThuzad" ])
+            initializeProperties(properties: [ "Side", "HeroPowers", "Quests", "Objectives", "Trinkets", "Secrets", "Hand", "FriendlyMinionsDeadLastCombatCounter", "EternalKnightCounter", "AncestralAutomatonCounter", "UndeadAttackBonus", "UndeadHealthBonus", "WhelpAttackBonus", "WhelpHealthBonus", "ElementalPlayCounter", "BloodGemAtkBuff", "BloodGemHealthBuff", "TavernSpellCounter", "PiratesSummonCounter", "ResourcesSpentThisGame", "BeastsSummonCounter", "BeastAttackBonus", "BeastHealthBonus", "BeetlesAtkBuff", "BeetlesHealthBuff", "BattlecryCounter", "DeathrattleCounter", "TavernSpellAtkBuff", "TavernSpellHealthBuff", "BackToBackAtk", "BackToBackHealth", "BackToBackCounter", "HauntedAtkBuff", "HauntedHealthBuff", "Health", "DamageTaken", "Tier", "HeroIsKelThuzad" ])
         }
     }
     
@@ -170,6 +170,12 @@ class PlayerProxy: MonoHandle, MonoClassInitializer {
     
     @MonoPrimitiveProperty(property: "BackToBackCounter", owner: PlayerProxy.self)
     var backToBackCounter: Int32
+
+    @MonoPrimitiveProperty(property: "BackToBackAtk", owner: PlayerProxy.self)
+    var backToBackAtk: Int32
+
+    @MonoPrimitiveProperty(property: "BackToBackHealth", owner: PlayerProxy.self)
+    var backToBackHealth: Int32
 
     @MonoPrimitiveProperty(property: "HauntedAtkBuff", owner: PlayerProxy.self)
     var hauntedAtkBuff: Int32

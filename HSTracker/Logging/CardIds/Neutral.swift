@@ -1132,5 +1132,6 @@ extension CardIds.NonCollectible {
         static let Sandy = "BGDUO_125"
         static let SummoningSphere = "BGDUO_MagicItem_003"
         static let LesserTrinket = "BG30_Trinket_1st"
+        static let BacktoBack_GotYourBackEnchantment = "BG35_952e"
     }
 }
