@@ -179,6 +179,7 @@ extension CardIds.Collectible {
         static let CataclysmicWarAxe = "CATA_580"
         static let ScorchingRavager = "CATA_160"
         static let RagnarosTheGreatFire = "CATA_150"
+        static let ForgeOfSoulsCorePlaceholder = "CORE_ICC_281"
     }
 }
 

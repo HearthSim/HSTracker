@@ -894,6 +894,7 @@
 		B883397D2E7106DD007D9754 /* PossessedAnimancer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B883397C2E7106DD007D9754 /* PossessedAnimancer.swift */; };
 		B88364FA275D6FE10094D8E1 /* FlavorText.xib in Resources */ = {isa = PBXBuildFile; fileRef = B88364F9275D6FE10094D8E1 /* FlavorText.xib */; };
 		B88364FC275D746D0094D8E1 /* FlavorText.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88364FB275D746D0094D8E1 /* FlavorText.swift */; };
+		B884B73F2FD8CC2F00D67EED /* ForgeOfSouls.swift in Sources */ = {isa = PBXBuildFile; fileRef = B884B73E2FD8CC2F00D67EED /* ForgeOfSouls.swift */; };
 		B887656726C3049F003D3629 /* ShortIdHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E7B15262A798000C42EF0 /* ShortIdHelper.swift */; };
 		B887656826C304A5003D3629 /* MulliganToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E7B13262A533F00C42EF0 /* MulliganToastView.swift */; };
 		B887656A26C304FA003D3629 /* BigInt in Frameworks */ = {isa = PBXBuildFile; productRef = B887656926C304FA003D3629 /* BigInt */; };
@@ -2242,6 +2243,7 @@
 		B883397C2E7106DD007D9754 /* PossessedAnimancer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PossessedAnimancer.swift; sourceTree = "<group>"; };
 		B88364F9275D6FE10094D8E1 /* FlavorText.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FlavorText.xib; sourceTree = "<group>"; };
 		B88364FB275D746D0094D8E1 /* FlavorText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlavorText.swift; sourceTree = "<group>"; };
+		B884B73E2FD8CC2F00D67EED /* ForgeOfSouls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgeOfSouls.swift; sourceTree = "<group>"; };
 		B88595B62CEFDB9900769275 /* libswift_Concurrency.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libswift_Concurrency.tbd; path = usr/lib/swift/libswift_Concurrency.tbd; sourceTree = SDKROOT; };
 		B8889C1A2D9DC6ED0053DD57 /* DiscoverStateWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverStateWatcher.swift; sourceTree = "<group>"; };
 		B8889C1C2DA067D90053DD57 /* PlacementMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacementMode.swift; sourceTree = "<group>"; };
@@ -3835,6 +3837,7 @@
 				B825F7962EDF874300032E75 /* AllYouCanEat.swift */,
 				B89865E72D920E1B00BA5649 /* BlackrockNRoll.swift */,
 				B89865E92D920E5100BA5649 /* ChorusRiff.swift */,
+				B884B73E2FD8CC2F00D67EED /* ForgeOfSouls.swift */,
 				B8DB12C02EBAEAD5004268FA /* GladiatorialCombat.swift */,
 				B854620C2CDD42AD0083BB31 /* InventorBoom.swift */,
 				B846CC632E09DDF600552F9C /* LastStand.swift */,
@@ -5352,6 +5355,7 @@
 				B8B7900E2C974E1300DD33EC /* PrimordialStudiesEnchantment.swift in Sources */,
 				B89865DF2D920CF500BA5649 /* LokenJailerOfYoggSaron.swift in Sources */,
 				B8E1E5EC2D0C9EF900383975 /* CatrinaMuerte.swift in Sources */,
+				B884B73F2FD8CC2F00D67EED /* ForgeOfSouls.swift in Sources */,
 				B851C8F72BD2BCDA00B748C1 /* BattlegroundsCardsGroups.swift in Sources */,
 				B8A9CB332571F160000071FC /* GuessedCardState.swift in Sources */,
 				B8B790722C97A2AA00DD33EC /* PunchCardEnchantment.swift in Sources */,
