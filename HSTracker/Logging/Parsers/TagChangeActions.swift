@@ -639,8 +639,12 @@ struct TagChangeActions {
         let hideEntity = powerGameStateParser?.currentBlock?.hideShowEntities ?? false && entity.isControlled(by: eventHandler.opponent.id)
         
         let isStartOfTheGameEffect = powerGameStateParser?.currentBlock?.triggerKeyword == "START_OF_GAME_KEYWORD"
-        entity.info.hidden = hideEntity || (isStartOfTheGameEffect && entity.isControlled(by: eventHandler.opponent.id))
         
+        // cultivating sprite's bulb is set to not revealed, but it is a known card
+        let isCultivatingSpriteBulb = powerGameStateParser?.currentBlock?.cardId == CardIds.Collectible.Neutral.CultivatingSprite && entity.cardId == CardIds.NonCollectible.Neutral.CultivatingSprite_BloomingBulbToken
+
+        entity.info.hidden = !isCultivatingSpriteBulb && (hideEntity || (isStartOfTheGameEffect && entity.isControlled(by: eventHandler.opponent.id)))
+                
         if isStartOfTheGameEffect {
             entity.info.guessedCardState = .revealed
             

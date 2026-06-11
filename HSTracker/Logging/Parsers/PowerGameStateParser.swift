@@ -1254,6 +1254,8 @@ class PowerGameStateParser: LogEventParser {
                             }
                         case CardIds.Collectible.DemonHunter.Infestation:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.DemonHunter.GorishiWasp_GorishiStingerToken, count: 2)
+                        case CardIds.Collectible.Neutral.CultivatingSprite:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.CultivatingSprite_BloomingBulbToken)
                         case CardIds.NonCollectible.Warrior.EntertheLostCity_LatorviusGazeOfTheCityToken:
                             if actionStartingEntity?.isControlled(by: eventHandler.opponent.id) ?? false {
                                 for id in [ CardIds.NonCollectible.Druid.JungleGiants_BarnabusTheStomperToken,

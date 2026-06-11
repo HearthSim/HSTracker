@@ -767,6 +767,7 @@ extension CardIds.Collectible {
         static let Warloc = "CATA_180"
         static let StickybombSaboteur = "CATA_186"
         static let DragonSoulShattered = "CATA_EVENT_110"
+        static let CultivatingSprite = "MEND_100"
     }
 }
 
@@ -1133,5 +1134,6 @@ extension CardIds.NonCollectible {
         static let SummoningSphere = "BGDUO_MagicItem_003"
         static let LesserTrinket = "BG30_Trinket_1st"
         static let BacktoBack_GotYourBackEnchantment = "BG35_952e"
+        static let CultivatingSprite_BloomingBulbToken = "MEND_100t"
     }
 }
