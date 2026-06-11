@@ -255,17 +255,19 @@ final class CoreManager: NSObject {
     private func internalStartTracking() {
         var retry = true
         if CoreManager.isHearthstoneRunning() {
+#if arch(arm64)
             if #available(macOS 11.0, *) {
-                if let app = CoreManager.hearthstoneApp, app.executableArchitecture == NSBundleExecutableArchitectureARM64 {
+                if let app = CoreManager.hearthstoneApp, app.executableArchitecture == NSBundleExecutableArchitectureX86_64 {
                     let alert = NSAlert()
-                    logger.error("Hearthstone is running in 'Apple Silicon' architecture, which is not supported")
-                    alert.messageText = "Unsupport architecture for Hearthstone"
-                    alert.informativeText = "HSTracker doesn’t currently support the native 'Apple Silicon' version of 'Hearthstone'.\n\nTo fix this, open your 'Applications' folder, right-click 'Hearthstone', and select 'Get Info'. Check the box for 'Open using Rosetta', then restart the game."
+                    logger.error("Hearthstone is running in 'X86-64' architecture")
+                    alert.messageText = "Nonoptimal version of Hearthstone"
+                    alert.informativeText = "HSTracker currently supports the native 'Apple Silicon' version of 'Hearthstone'.\n\nTo fix this, open your 'Applications' folder, right-click 'Hearthstone', and select 'Get Info'. Uncheck the box for 'Open using Rosetta', then restart the game."
                     alert.alertStyle = .critical
                     alert.runModal()
                     return
                 }
             }
+#endif
 
             let logPath = MirrorHelper.getLogSessionDir()
             if !logPath.isEmpty {

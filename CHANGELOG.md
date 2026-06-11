@@ -1,3 +1,20 @@
+# 3.5.12
+**Updated for Hearthstone 35.6.2**
+## Hearthstone
+- Added Card Mark to Prepare cards in the opponent's hand.
+- Added Deck Highlight to Forge of Souls.
+- Fixed an issue where Cultivating Sprite Bulb would not appear in opponent's hand.
+## Bob's Buddy
+- Added support for Greymane's Champion.
+- Added support for Mooneater's Champion.
+- Added support for Enchanted Sentinel.
+- Added support for Sundered Matriarch.
+- Added support for Glowing Cinder.
+- Fixed Charmwing incorrectly buffing with current health.
+- Fixed RingBearer trigger order.
+- Fixed Ingenious Inventor golden buff amount.
+- Fixed Escape Eruption spellcraft stats.
+
 # 3.5.11
 ## New
 **Updated for Hearthstone 35.6.0**
