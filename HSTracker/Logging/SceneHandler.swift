@@ -15,12 +15,27 @@ class SceneHandler {
     
     static private var transitioning: Bool?
     
+    static func reset() {
+        lastScene = nil
+        scene = nil
+        nextScene = nil
+        transitioning = nil
+    }
+    
     static func onSceneUpdate(prevMode: Mode, mode: Mode, sceneLoaded: Bool, transitioning: Bool) {
         if SceneHandler.transitioning == nil || transitioning {
             onSceneTransitionStart(from: prevMode, to: mode)
             SceneHandler.transitioning = true
         }
         if !transitioning && sceneLoaded {
+            // We settled on a new scene without ever observing the transition start
+            // (e.g. the transitioning frame was missed, or stale state leaked across a
+            // game restart). Run the leave logic for the scene we are coming from so its
+            // overlays get hidden.
+            if transitioning == false, let scene, scene != mode {
+                onSceneTransitionStart(from: scene, to: mode)
+            }
+
             onSceneTransitionComplete(from: prevMode, to: mode)
             SceneHandler.transitioning = false
         }

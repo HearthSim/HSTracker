@@ -312,6 +312,7 @@ final class CoreManager: NSObject {
     func stopTracking() {
         logger.info("Stop Tracking")
 		logReaderManager.stop(eraseLogFile: !CoreManager.isHearthstoneRunning())
+        SceneHandler.reset()
         Watchers.stop()
         MirrorHelper.destroy()
         let wm = game.windowManager
