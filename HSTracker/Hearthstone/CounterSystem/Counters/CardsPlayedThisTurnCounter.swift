@@ -33,7 +33,8 @@ class CardsPlayedThisTurnCounter: NumericCounter {
             CardIds.Collectible.Rogue.SpectralPillagerCorePlaceholder,
             CardIds.Collectible.Rogue.ScribblingStenographer,
             CardIds.Collectible.Rogue.ScribblingStenographerCorePlaceholder,
-            CardIds.Collectible.Neutral.FrostwolfWarmaster
+            CardIds.Collectible.Neutral.FrostwolfWarmaster,
+            CardIds.Collectible.Rogue.DefiasWannabe 
         ]
     }
 

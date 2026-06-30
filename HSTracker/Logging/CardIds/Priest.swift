@@ -205,6 +205,7 @@ extension CardIds.Collectible {
         static let RubySanctum = "CATA_301"
         static let CaliaMenethilCorePlaceholder = "CORE_CATA_002"
         static let Schism = "CATA_306"
+        static let UndeathSentence = "JAIL_940"
     }
 }
 

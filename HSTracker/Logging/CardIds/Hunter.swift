@@ -239,6 +239,7 @@ extension CardIds.Collectible {
         static let PatchworkPals = "TOY_353"
         static let Spiritspeaker = "MEND_301"
         static let ToMySide = "LOOT_217"
+        static let SmuggledShovel = "JAIL_380"
     }
 }
 

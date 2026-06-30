@@ -828,6 +828,8 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Invalid.EternalFirebolt)
                         case CardIds.Collectible.DemonHunter.GorishiWasp:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.DemonHunter.GorishiWasp_GorishiStingerToken)
+                        case CardIds.Collectible.DemonHunter.StardustScythe, CardIds.Collectible.DemonHunter.ViciousVoidscale:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.DemonHunter.VoidSoul)
                         case CardIds.Collectible.Mage.CommanderSivara, CardIds.Collectible.Neutral.TidepoolPupil:
                             if let cardId = currentBlock?.parent?.cardId, Cards.by(cardId: cardId)?.type == .spell, let actionStartingEntity {
                                 let maxCards = 3
@@ -1257,6 +1259,12 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.DemonHunter.GorishiWasp_GorishiStingerToken, count: 2)
                         case CardIds.Collectible.Neutral.CultivatingSprite:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.CultivatingSprite_BloomingBulbToken)
+                        case CardIds.Collectible.Neutral.RecklessDetective:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.RecklessDetective_DetectivesClothesToken)
+                        case CardIds.Collectible.Rogue.LotusBookie:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.TheCoinBasic)
+                        case CardIds.Collectible.DemonHunter.VoidBlast:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.DemonHunter.VoidSoul)
                         case CardIds.NonCollectible.Warrior.EntertheLostCity_LatorviusGazeOfTheCityToken:
                             if actionStartingEntity?.isControlled(by: eventHandler.opponent.id) ?? false {
                                 for id in [ CardIds.NonCollectible.Druid.JungleGiants_BarnabusTheStomperToken,

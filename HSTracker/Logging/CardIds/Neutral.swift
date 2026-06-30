@@ -768,6 +768,8 @@ extension CardIds.Collectible {
         static let StickybombSaboteur = "CATA_186"
         static let DragonSoulShattered = "CATA_EVENT_110"
         static let CultivatingSprite = "MEND_100"
+        static let CapturedArchmage = "JAIL_974"
+        static let RecklessDetective = "JAIL_447"
     }
 }
 
@@ -1137,5 +1139,6 @@ extension CardIds.NonCollectible {
         static let CultivatingSprite_BloomingBulbToken = "MEND_100t"
         static let AutoAssembler_AutoAssemblerEnchantment = "BG32_172e"
         static let TagtransferplayerenchantDnt = "Bacon_TagTransferPlayerE"
+        static let RecklessDetective_DetectivesClothesToken = "JAIL_447t"
     }
 }

@@ -87,6 +87,10 @@ extension CardIds.Collectible {
         static let FelInfusion = "CATA_530"
         static let ArmoredBloodletter = "CATA_525"
         static let AzsharaOceanLord = "CATA_151"
+        static let StardustScythe = "JAIL_730"
+        static let ViciousVoidscale = "JAIL_733"
+        static let VoidSoul = "JAIL_732"
+        static let VoidBlast = "JAIL_891"
     }
 }
 

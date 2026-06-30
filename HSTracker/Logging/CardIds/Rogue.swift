@@ -250,6 +250,9 @@ extension CardIds.Collectible {
         static let ManiacalFollower = "CATA_158"
         static let Sinestra = "CATA_154"
         static let SketchyInformation = "SW_405"
+        static let DefiasWannabe = "JAIL_909"
+        static let SliceAndDice = "JAIL_500"
+        static let LotusBookie = "JAIL_720"
     }
 }
 

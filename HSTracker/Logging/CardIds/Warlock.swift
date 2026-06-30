@@ -222,6 +222,7 @@ extension CardIds.Collectible {
         static let ShadowswornDisciple = "CATA_725"
         static let ShrineOfTwilight = "CATA_492"
         static let ChogallMastermind = "CATA_726"
+        static let Moragg = "JAIL_906"
     }
 }
 

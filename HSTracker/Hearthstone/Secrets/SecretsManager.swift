@@ -410,6 +410,7 @@ class SecretsManager {
         
         if !attacker.isHero {
             exclude.append(CardIds.Secrets.Paladin.JudgementofJustice)
+            exclude.append(CardIds.Secrets.Mage.MysticMisdirection)
         }
 
         if defender.isHero {

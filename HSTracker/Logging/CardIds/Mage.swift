@@ -232,6 +232,8 @@ extension CardIds.Collectible {
         static let TheArcanomicon = "MEND_505"
         static let MysticRunesaber = "MEND_506"
         static let SurgeNeedle = "MEND_503"
+        static let MysticMisdirection = "JAIL_315"
+        static let ContrabandWands = "JAIL_312"
     }
 }
 
@@ -326,7 +328,7 @@ extension CardIds.Secrets {
         static let All = [Counterspell, Duplicate, Effigy, ExplosiveRunes, FrozenClone, IceBarrier,
                           IceBlock, ManaBind, MirrorEntity, OasisAlly, PotionOfPolymorph, Spellbender,
                           SplittingImage, Vaporize, FlameWard, NetherwindPortal, RiggedFaireGame,
-                          VengefulVisage, Objection, AzeriteVein, SummoningWard, FlamesOfInfinity]
+                          VengefulVisage, Objection, AzeriteVein, SummoningWard, FlamesOfInfinity, MysticMisdirection]
         static let AzeriteVein = MultiIdCard(CardIds.Collectible.Mage.AzeriteVein)
         static let Counterspell = MultiIdCard(CardIds.Collectible.Mage.Counterspell, CardIds.Collectible.Mage.CounterspellCore, CardIds.Collectible.Mage.CounterspellVanilla)
         static let Duplicate = MultiIdCard(CardIds.Collectible.Mage.Duplicate)
@@ -349,5 +351,6 @@ extension CardIds.Secrets {
         static let Objection = MultiIdCard(CardIds.Collectible.Mage.Objection)
         static let SummoningWard = MultiIdCard(CardIds.Collectible.Mage.SummoningWard)
         static let FlamesOfInfinity = MultiIdCard(CardIds.Collectible.Mage.FlamesOfInfinity)
+        static let MysticMisdirection = MultiIdCard(CardIds.Collectible.Mage.MysticMisdirection)
     }
 }
