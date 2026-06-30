@@ -25,7 +25,7 @@ class MinionProxy: MonoHandle, MonoClassInitializer {
             MinionProxy._setBloodGemStats = MonoHelper.getMethod(MinionProxy._class, "SetBloodGemStats", 2)
             MinionProxy._attachEnchantment = MonoHelper.getMethod(MinionProxy._class, "AttachEnchantment", 1)
             
-            MinionProxy._isMech = MonoHelper.getMethod(MinionProxy._class, "IsMech", 1)
+            MinionProxy._isMech = MonoHelper.getMethod(MinionProxy._class, "IsMech", 0)
             
             initializeFields(fields: ["minionName", "tier"])
 
