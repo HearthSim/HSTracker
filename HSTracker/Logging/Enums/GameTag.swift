@@ -422,6 +422,7 @@ enum GameTag: Int, CaseIterable, Codable {
     cthun_attack_buff = 3054,
     forge_revealed = 3070,
     is_bacon_pool_spell = 3081,
+    gametag_3088 = 3088,
     bacon_duo_team_id = 3095,
     titan_ability_used_1 = 3140,
     titan_ability_used_2 = 3141,
