@@ -633,7 +633,6 @@ struct TagChangeActions {
         }
     }
     
-    
     private func onPrepareRevealed(eventHandler: PowerEventHandler, id: Int, value: Int, prevValue: Int) {
         guard let entity = eventHandler.entities[id] else {
             return
@@ -1380,6 +1379,17 @@ struct TagChangeActions {
             return
         }
         OpponentDeadForTracker.setNextOpponentPlayerId(value)
+        
+        // Battlegrounds only:
+        // Due to a recent card "Tidecaller Prophet", TAVERN_SPELL_ATTACK/HEALTH_INCREASE for an opponent
+        // can decrease from a previously higher value. If it changed back to zero, no update is sent when
+        // this tag is zero, and BobsBuddyInvoker will have a stale value.
+        // To fix this, clear the two tags here; and non-zero values from an opponent will re-emit
+        // the correct values on reveal.
+        if eventHandler.isBattlegroundsMatch() && value > 0, let opponentEntity = eventHandler.opponentEntity {
+            opponentEntity[.tavern_spell_attack_increase] = 0
+            opponentEntity[.tavern_spell_health_increase] = 0
+        }
     }
 
     private func playerTechLevel(eventHandler: PowerEventHandler, id: Int, value: Int, previous: Int) {

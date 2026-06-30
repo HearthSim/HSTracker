@@ -251,6 +251,8 @@ protocol PowerEventHandler: AnyObject {
     
     var lastPlagueDrawn: Stack<String> { get }
     
+    func isBattlegroundsMatch() -> Bool
+    
     func isBattlegroundsSoloMatch() -> Bool
     
     func isBattlegroundsDuosMatch() -> Bool
