@@ -471,6 +471,7 @@ enum GameTag: Int, CaseIterable, Codable {
     gametag_4288 = 4288,
     bacon_player_extra_gold_next_turn = 4286,
     herald_colossal_amount = 4327,
+    prepare_revealed = 4459,
     bacon_free_refresh_count = 4536,
     gametag_4629 = 4629,
     gametag_4639 = 4639,

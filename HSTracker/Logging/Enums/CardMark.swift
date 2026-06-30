@@ -20,5 +20,6 @@ enum CardMark: Int {
     kept,
     forged,
     shattered,
-    shatterCombined
+    shatterCombined,
+    prepared
 }

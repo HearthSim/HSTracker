@@ -46,6 +46,7 @@ class EntityInfo {
     var extraInfo: (any ICardExtraInfo)?
     var forged = false
     var shatterCombined = false
+    var prepared = 0
 
     init(entity: Entity) {
         _entity = entity
@@ -60,6 +61,9 @@ class EntityInfo {
         }
         if forged {
             return .forged
+        }
+        if prepared > 0 {
+            return .prepared
         }
         if shatterCombined {
             return .shatterCombined
@@ -162,6 +166,9 @@ extension EntityInfo: CustomStringConvertible {
         }
         if shatterCombined {
             description += ", shatterCombined=true"
+        }
+        if prepared > 0 {
+            description += ", prepared=true"
         }
         if let copyOfCardId {
             description += ", copyOf=\(copyOfCardId)"

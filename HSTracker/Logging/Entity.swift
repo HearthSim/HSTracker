@@ -248,6 +248,7 @@ extension Entity: NSCopying {
         e.info.storedCardIds = info.storedCardIds
         e.info.forged = info.forged
         e.info.shatterCombined = info.shatterCombined
+        e.info.prepared = info.prepared
         e.info.drawerId = info.drawerId
         e.info.copyOfCardId = info.copyOfCardId
         e.info.extraInfo = e.info.extraInfo

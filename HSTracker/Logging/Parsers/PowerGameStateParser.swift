@@ -266,6 +266,7 @@ class PowerGameStateParser: LogEventParser {
                     entity.info.costReduction = entityInfo.costReduction
                     entity.info.extraInfo = entityInfo.extraInfo
                     entity.info.storedCardIds = entityInfo.storedCardIds
+                    entity.info.prepared = entityInfo.prepared
                 }
                 if guessedCardId {
                     entity.info.guessedCardState = GuessedCardState.guessed

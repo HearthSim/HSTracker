@@ -76,6 +76,8 @@ struct TagChangeActions {
                 self.armorChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue)
             case .forge_revealed:
                 self.onForgeRevealed(eventHandler: eventHandler, id: id, value: value, previous: prevValue)
+            case .prepare_revealed:
+                self.onPrepareRevealed(eventHandler: eventHandler, id: id, value: value, prevValue: prevValue)
             case .revealed:
                 self.onRevealed(eventHandler: eventHandler, id: id, value: value, previous: prevValue)
             case .parent_card:
@@ -627,6 +629,23 @@ struct TagChangeActions {
         
         if entity.isControlled(by: eventHandler.opponent.id) && entity.isInZone(zone: .hand) {
             entity.info.forged = true
+            entity.info.hidden = false
+        }
+    }
+    
+    
+    private func onPrepareRevealed(eventHandler: PowerEventHandler, id: Int, value: Int, prevValue: Int) {
+        guard let entity = eventHandler.entities[id] else {
+            return
+        }
+
+        if prevValue > value {
+            return
+        }
+
+        if entity.isControlled(by: eventHandler.opponent.id) && entity.isInZone(zone: .hand) {
+            entity.info.prepared = value + 1
+            entity.info.costReduction += entity.info.prepared
             entity.info.hidden = false
         }
     }
