@@ -477,7 +477,8 @@ enum GameTag: Int, CaseIterable, Codable {
     gametag_4629 = 4629,
     gametag_4639 = 4639,
     bacon_fodders_in_refresh = 4664,
-    gametag_4696 = 4696
+    gametag_4696 = 4696,
+    gametag_4741 = 4741
 
     static var lookup = [String: GameTag]()
     
