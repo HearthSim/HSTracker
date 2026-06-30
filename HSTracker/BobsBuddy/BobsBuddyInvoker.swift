@@ -842,10 +842,7 @@ class BobsBuddyInvoker {
                 continue
             }
 
-            // A tripled magnetic minion can carry multiple Auto Assemblers and records the total on tag 4741.
-            // Take that tag or the enchant count, whichever is larger
-            let maxAssemblers = max(magnetic[GameTag.gametag_4741], enchantCount)
-            for _ in 0 ..< maxAssemblers {
+            for _ in 0 ..< enchantCount {
                 minion.addDeathrattle(deathrattle: AutoAssembler.deathrattle(golden: false))
             }
         }
