@@ -832,7 +832,7 @@ class BobsBuddyInvoker {
         // Specific handling for: Auto Assembler
         // Each attached enchantment's CREATOR is the magnetic card that produced it; take each distinct id once.
         for magneticId in attachedEntities.compactMap({ e in e[GameTag.creator] }).filter({ id in id > 0 }).unique() {
-            guard let magnetic = allEntities[magneticId] else {
+            guard allEntities[magneticId] != nil else {
                 continue
             }
 
