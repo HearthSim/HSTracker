@@ -1136,5 +1136,6 @@ extension CardIds.NonCollectible {
         static let BacktoBack_GotYourBackEnchantment = "BG35_952e"
         static let CultivatingSprite_BloomingBulbToken = "MEND_100t"
         static let AutoAssembler_AutoAssemblerEnchantment = "BG32_172e"
+        static let TagtransferplayerenchantDnt = "Bacon_TagTransferPlayerE"
     }
 }

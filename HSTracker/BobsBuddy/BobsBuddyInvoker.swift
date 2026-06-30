@@ -1096,8 +1096,10 @@ class BobsBuddyInvoker {
         
         logger.info("pBloodGem=+\(inputPlayer.bloodGemAtkBuff)/+\(inputPlayer.bloodGemHealthBuff), friendly=\(friendly)")
         
-        inputPlayer.tavernSpellAtkBuff = Int32(playerEntity[GameTag.tavern_spell_attack_increase])
-        inputPlayer.tavernSpellHealthBuff = Int32(playerEntity[GameTag.tavern_spell_health_increase])
+        let pTagTransfer = friendly ? nil : playerAttached.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.TagtransferplayerenchantDnt && x.isInPlay })
+        inputPlayer.tavernSpellAtkBuff = Int32(pTagTransfer?[.tavern_spell_attack_increase] ?? playerEntity[GameTag.tavern_spell_attack_increase])
+        inputPlayer.tavernSpellHealthBuff = Int32(pTagTransfer?[.tavern_spell_health_increase] ?? playerEntity[GameTag.tavern_spell_health_increase])
+        logger.info("pTavernSpell=+\(inputPlayer.tavernSpellAtkBuff)/+\(inputPlayer.tavernSpellHealthBuff) (opponentTransferEnchant=\(pTagTransfer != nil)), friendly=\(friendly)")
         
         inputPlayer.tavernSpellCounter = Int32(playerEntity[GameTag.gametag_3088])
         
