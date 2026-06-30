@@ -1044,6 +1044,7 @@
 		B89899682CB5F94C0011B184 /* ActiveEffectsOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = B89899672CB5F94C0011B184 /* ActiveEffectsOverlay.xib */; };
 		B89BCE042FF463400095F011 /* AutoAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89BCE032FF463360095F011 /* AutoAssembler.swift */; };
 		B89BCE062FF4721B0095F011 /* SketchyInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89BCE052FF4721B0095F011 /* SketchyInformation.swift */; };
+		B89BCE082FF4729F0095F011 /* IceFishing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89BCE072FF4729F0095F011 /* IceFishing.swift */; };
 		B89C9894280A113A005E9315 /* AnimatedCardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89C9893280A113A005E9315 /* AnimatedCardList.swift */; };
 		B89C9896280C610C005E9315 /* DeckLens.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89C9895280C610C005E9315 /* DeckLens.swift */; };
 		B89F51EA2C9CF8D600E31195 /* ActiveEffect.xib in Resources */ = {isa = PBXBuildFile; fileRef = B89F51E92C9CF8D600E31195 /* ActiveEffect.xib */; };
@@ -2392,6 +2393,7 @@
 		B89899672CB5F94C0011B184 /* ActiveEffectsOverlay.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ActiveEffectsOverlay.xib; sourceTree = "<group>"; };
 		B89BCE032FF463360095F011 /* AutoAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoAssembler.swift; sourceTree = "<group>"; };
 		B89BCE052FF4721B0095F011 /* SketchyInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SketchyInformation.swift; sourceTree = "<group>"; };
+		B89BCE072FF4729F0095F011 /* IceFishing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IceFishing.swift; sourceTree = "<group>"; };
 		B89C9893280A113A005E9315 /* AnimatedCardList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedCardList.swift; sourceTree = "<group>"; };
 		B89C9895280C610C005E9315 /* DeckLens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckLens.swift; sourceTree = "<group>"; };
 		B89F51E92C9CF8D600E31195 /* ActiveEffect.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ActiveEffect.xib; sourceTree = "<group>"; };
@@ -3818,6 +3820,7 @@
 				B89865D02D92074700BA5649 /* Flowrider.swift */,
 				B89656582E555D7200257DDC /* GolgannethTheThunderer.swift */,
 				B89865D22D9207B500BA5649 /* HagathaTheFabled.swift */,
+				B89BCE072FF4729F0095F011 /* IceFishing.swift */,
 				B86D8A1F2D95FEE200AB65A5 /* KragwaTheFrog.swift */,
 				B86D8A212D95FF8C00AB65A5 /* Merithra.swift */,
 				B8DB12B22EBAE740004268FA /* MuradinHighKing.swift */,
@@ -5724,6 +5727,7 @@
 				B8B7903B2C97764500DD33EC /* ConcealEnchantment.swift in Sources */,
 				B89865542D8C704F00BA5649 /* EmbraceOfNature.swift in Sources */,
 				B89865762D91AEAE00BA5649 /* TenGallonHat.swift in Sources */,
+				B89BCE082FF4729F0095F011 /* IceFishing.swift in Sources */,
 				B8FDE9342CDB0B430093BFF7 /* CardUtils.swift in Sources */,
 				B8E1E5C72D0C8B6700383975 /* Resurrect.swift in Sources */,
 				B898653E2D8B591300BA5649 /* ICardWithHighlight.swift in Sources */,

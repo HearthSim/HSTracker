@@ -207,6 +207,7 @@ extension CardIds.Collectible {
         static let SkywallSentinel = "CATA_565"
         static let AlakirLordOfStorms = "CATA_153"
         static let MuradinsLastStand = "CATA_568"
+        static let IceFishingCorePlaceholder = "CORE_ICC_089"
     }
 }
 
