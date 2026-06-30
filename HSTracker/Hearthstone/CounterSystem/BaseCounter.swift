@@ -113,11 +113,13 @@ class BaseCounter: NSObject {
 
     private var _availableCardIds: Set<Int>?
     
-    private func getAvailableCardIds() -> Set<Int> {
+    private func getAvailableCardIds() -> Set<Int>? {
         if let availableCardIds = _availableCardIds {
             return availableCardIds
         }
-        let availableRaces = game.availableRaces ?? [Race]()
+        guard let availableRaces = game.availableRaces else {
+            return nil
+        }
         let currentRaces = Set<Race>(availableRaces) + [ .all, .invalid ]
         let availableCards = BattlegroundsDbSingleton.instance.getCardsByRaces(currentRaces, game.isBattlegroundsDuosMatch()) + BattlegroundsDbSingleton.instance.getSpells(game.isBattlegroundsDuosMatch())
         
@@ -127,9 +129,10 @@ class BaseCounter: NSObject {
     }
     
     var cardsToDisplay: [Card] {
+        let availableCardIds = getAvailableCardIds()
         return getCardsToDisplay().compactMap({ cardId in
             if let card = Cards.by(cardId: cardId) {
-                if isBattlegroundsCounter && !getAvailableCardIds().contains(card.dbfId) && !_alwaysAvailableCards.contains(where: {$0 == cardId }) {
+                if isBattlegroundsCounter, let availableCardIds, !availableCardIds.contains(card.dbfId) && !_alwaysAvailableCards.contains(where: {$0 == cardId }) {
                     return nil
                 }
                 card.baconCard = isBattlegroundsCounter
