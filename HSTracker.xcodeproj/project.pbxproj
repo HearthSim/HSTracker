@@ -388,6 +388,8 @@
 		4CFF95AB23C0C3B3006AB461 /* BattlegroundsTierOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFF95AA23C0C3B3006AB461 /* BattlegroundsTierOverlay.swift */; };
 		4CFF95AD23C0C48E006AB461 /* BattlegroundsTierOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CFF95AC23C0C48E006AB461 /* BattlegroundsTierOverlay.xib */; };
 		4CFF95AF23C0C56A006AB461 /* BattlegroundsTierOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFF95AE23C0C56A006AB461 /* BattlegroundsTierOverlayView.swift */; };
+		7BA4A8162FF3EA91000B3784 /* PreferencePaneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA4A8152FF3EA91000B3784 /* PreferencePaneController.swift */; };
+		7BA4A8172FF3EA91000B3784 /* PreferencePaneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA4A8152FF3EA91000B3784 /* PreferencePaneController.swift */; };
 		B800FCA42732AA7C00AFBD51 /* MercenariesTaskListButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = B800FCA32732AA7C00AFBD51 /* MercenariesTaskListButton.xib */; };
 		B800FCA62732AA9100AFBD51 /* MercenariesTaskListButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B800FCA52732AA9100AFBD51 /* MercenariesTaskListButton.swift */; };
 		B800FCAA2732FABD00AFBD51 /* MercenariesTaskListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B800FCA92732FABD00AFBD51 /* MercenariesTaskListView.swift */; };
@@ -1826,6 +1828,7 @@
 		4CFF95AC23C0C48E006AB461 /* BattlegroundsTierOverlay.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsTierOverlay.xib; sourceTree = "<group>"; };
 		4CFF95AE23C0C56A006AB461 /* BattlegroundsTierOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsTierOverlayView.swift; sourceTree = "<group>"; };
 		5B0AB88C2313083700654A03 /* HSTracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HSTracker.entitlements; sourceTree = "<group>"; };
+		7BA4A8152FF3EA91000B3784 /* PreferencePaneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencePaneController.swift; sourceTree = "<group>"; };
 		B800FCA32732AA7C00AFBD51 /* MercenariesTaskListButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MercenariesTaskListButton.xib; sourceTree = "<group>"; };
 		B800FCA52732AA9100AFBD51 /* MercenariesTaskListButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MercenariesTaskListButton.swift; sourceTree = "<group>"; };
 		B800FCA92732FABD00AFBD51 /* MercenariesTaskListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MercenariesTaskListView.swift; sourceTree = "<group>"; };
@@ -3073,6 +3076,7 @@
 		436032991C7B4C34005F1893 /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
+				7BA4A8152FF3EA91000B3784 /* PreferencePaneController.swift */,
 				B8B7CC1E253C721400033758 /* BattlegroundsPreferences.swift */,
 				B8B7CC22253C74D100033758 /* BattlegroundsPreferences.xib */,
 				43D308051C842DC900480488 /* GamePrefences.swift */,
@@ -5624,6 +5628,7 @@
 				B86D89E82D95EC8F00AB65A5 /* GrimHarvest.swift in Sources */,
 				1C17D2521E82DEE700ED4047 /* RealmHelper.swift in Sources */,
 				B8AEB60D2FB2731E00CDA2C0 /* LeylineCostReductionCounter.swift in Sources */,
+				7BA4A8162FF3EA91000B3784 /* PreferencePaneController.swift in Sources */,
 				B89865AF2D91D6D300BA5649 /* InterstellarResearcher.swift in Sources */,
 				B83336012F620CFC00923513 /* CommanderGeddonEnchantment.swift in Sources */,
 				B83335F92F62095500923513 /* WarlocEnchantment.swift in Sources */,
@@ -6549,6 +6554,7 @@
 				43C1CA6A1E96CD6F008C20B1 /* Game.swift in Sources */,
 				B823E801275FB89400747CAF /* FlavorText.swift in Sources */,
 				43C1CA6B1E96CD6F008C20B1 /* CoreManager.swift in Sources */,
+				7BA4A8172FF3EA91000B3784 /* PreferencePaneController.swift in Sources */,
 				43C1CA6C1E96CD6F008C20B1 /* LogLine.swift in Sources */,
 				43C1CA6D1E96CD6F008C20B1 /* LogLineNamespace.swift in Sources */,
 				43C1CA6E1E96CD6F008C20B1 /* LogLineZone.swift in Sources */,
