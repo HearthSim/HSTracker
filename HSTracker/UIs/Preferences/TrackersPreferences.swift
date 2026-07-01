@@ -14,7 +14,7 @@ class TrackersPreferences: PreferencePaneController, PreferencePane {
     
     var preferencePaneTitle = String.localizedString("Trackers", comment: "")
     
-    var toolbarItemIcon = NSImage.preferenceToolbarIcon(named: "gear")
+    var toolbarItemIcon = NSImage(named: "settings-trackers")!
 
     @IBOutlet var highlightCardsInHand: NSButton!
     @IBOutlet var highlightLastDrawn: NSButton!

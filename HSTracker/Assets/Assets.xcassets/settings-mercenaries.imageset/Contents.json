@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Mode_Battlegrounds_Dark.png",
+      "filename" : "settings-mercenaries.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "settings-mercenaries@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "settings-mercenaries@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "player.png",
+      "filename" : "settings-importing.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "settings-importing@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "settings-importing@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

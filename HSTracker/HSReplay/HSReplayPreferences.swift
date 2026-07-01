@@ -14,7 +14,7 @@ class HSReplayPreferences: PreferencePaneController, PreferencePane {
     
     var preferencePaneTitle = "HSReplay"
     
-    var toolbarItemIcon = NSImage.preferenceToolbarIcon(named: "hsreplay_logo_white")
+    var toolbarItemIcon = NSImage(named: "settings-hsreplay")!
     
     @IBOutlet var synchronizeMatches: NSButton!
     @IBOutlet var gameTypeSelector: NSView!

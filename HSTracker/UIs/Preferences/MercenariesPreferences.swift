@@ -14,7 +14,7 @@ class MercenariesPreferences: PreferencePaneController, PreferencePane {
     
     var preferencePaneTitle = String.localizedString("Mercenaries", comment: "")
     
-    var toolbarItemIcon = NSImage.preferenceToolbarIcon(named: "Mode_Mercenaries")
+    var toolbarItemIcon = NSImage(named: "settings-mercenaries")!
 
     @IBOutlet var showMercsOpponentHover: NSButton!
     @IBOutlet var showMercsPlayerHover: NSButton!

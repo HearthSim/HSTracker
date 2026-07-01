@@ -14,7 +14,7 @@ class BattlegroundsPreferences: PreferencePaneController, PreferencePane {
     
     var preferencePaneTitle = String.localizedString("Battlegrounds", comment: "")
     
-    var toolbarItemIcon = NSImage.preferenceToolbarIcon(named: "Mode_Battlegrounds_Dark")
+    var toolbarItemIcon = NSImage(named: "settings-battlegrounds")!
 
     @IBOutlet var enableTier7Overlay: NSButton!
     @IBOutlet var showTier7PreLobby: NSButton!

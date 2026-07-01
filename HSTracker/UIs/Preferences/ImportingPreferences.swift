@@ -14,7 +14,7 @@ class ImportingPreferences: PreferencePaneController, NSControlTextEditingDelega
     
     let preferencePaneTitle = String.localizedString("Importing", comment: "")
     
-    let toolbarItemIcon = NSImage.preferenceToolbarIcon(named: "import")
+    let toolbarItemIcon = NSImage(named: "settings-importing")!
 
     @IBOutlet var dungeonIncludePassives: NSButton!
     @IBOutlet var dungeonAdventure: NSComboBox!

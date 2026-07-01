@@ -14,7 +14,7 @@ class GeneralPreferences: PreferencePaneController, PreferencePane {
     
     var preferencePaneTitle = String.localizedString("General", comment: "")
     
-    var toolbarItemIcon = NSImage(named: NSImage.preferencesGeneralName)!
+    var toolbarItemIcon = NSImage(named: "settings-general")!
 
     @IBOutlet var notifyGameStart: NSButton!
     @IBOutlet var notifyTurnStart: NSButton!

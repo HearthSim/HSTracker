@@ -9,21 +9,6 @@
 import Foundation
 
 extension NSImage {
-    /// Size used for every preference-pane toolbar icon, so the assorted bundled assets render at a
-    /// consistent size instead of at their natural (often oversized) dimensions. Any visual margin
-    /// should live in the artwork itself, not here.
-    static let preferenceToolbarIconSize = NSSize(width: 20, height: 20)
-
-    /// A uniform-size template copy of a bundled glyph asset. Resized into a fresh image so the
-    /// shared cached asset (some are reused by other UI) is never mutated.
-    static func preferenceToolbarIcon(named name: String) -> NSImage {
-        guard let icon = NSImage(named: name)?.resized(to: preferenceToolbarIconSize) else {
-            return NSImage()
-        }
-        icon.isTemplate = true
-        return icon
-    }
-
     convenience init?(named: String, size: NSSize, tintColor: NSColor? = nil) {
         guard let image = NSImage(named: named) else { return nil }
         let newImage = NSImage(size: size)

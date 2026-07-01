@@ -12,9 +12,9 @@ import Preferences
 class PlayerTrackersPreferences: PreferencePaneController, PreferencePane {
     var preferencePaneIdentifier = Preferences.PaneIdentifier.player_trackers
     
-    var preferencePaneTitle = String.localizedString("Player tracker", comment: "")
+    var preferencePaneTitle = String.localizedString("Player", comment: "")
     
-    var toolbarItemIcon = NSImage.preferenceToolbarIcon(named: "player")
+    var toolbarItemIcon = NSImage(named: "settings-player")!
 
     @IBOutlet var showPlayerTracker: NSButton!
     @IBOutlet var showPlayerCardCount: NSButton!

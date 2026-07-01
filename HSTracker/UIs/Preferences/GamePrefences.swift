@@ -14,7 +14,7 @@ class GamePreferences: PreferencePaneController, PreferencePane {
     
     var preferencePaneTitle = String.localizedString("Game", comment: "")
     
-    var toolbarItemIcon = NSImage.preferenceToolbarIcon(named: "game")
+    var toolbarItemIcon = NSImage(named: "settings-game")!
 
     @IBOutlet var hearthstonePath: NSTextField!
     @IBOutlet var chooseHearthstonePath: NSButton!
