@@ -9,12 +9,12 @@
 import Foundation
 import Preferences
 
-class GamePreferences: NSViewController, PreferencePane {
+class GamePreferences: PreferencePaneController, PreferencePane {
     var preferencePaneIdentifier = Preferences.PaneIdentifier.game
     
     var preferencePaneTitle = String.localizedString("Game", comment: "")
     
-    var toolbarItemIcon = NSImage(named: "game")!
+    var toolbarItemIcon = NSImage(named: "settings-game")!
 
     @IBOutlet var hearthstonePath: NSTextField!
     @IBOutlet var chooseHearthstonePath: NSButton!

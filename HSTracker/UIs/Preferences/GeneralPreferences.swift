@@ -9,12 +9,12 @@
 import Foundation
 import Preferences
 
-class GeneralPreferences: NSViewController, PreferencePane {
+class GeneralPreferences: PreferencePaneController, PreferencePane {
     var preferencePaneIdentifier = Preferences.PaneIdentifier.general
     
     var preferencePaneTitle = String.localizedString("General", comment: "")
     
-    var toolbarItemIcon = NSImage(named: NSImage.preferencesGeneralName)!
+    var toolbarItemIcon = NSImage(named: "settings-general")!
 
     @IBOutlet var notifyGameStart: NSButton!
     @IBOutlet var notifyTurnStart: NSButton!

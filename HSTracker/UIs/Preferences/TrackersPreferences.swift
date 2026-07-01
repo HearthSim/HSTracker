@@ -9,12 +9,12 @@
 import Foundation
 import Preferences
 
-class TrackersPreferences: NSViewController, PreferencePane {
+class TrackersPreferences: PreferencePaneController, PreferencePane {
     var preferencePaneIdentifier = Preferences.PaneIdentifier.trackers
     
     var preferencePaneTitle = String.localizedString("Trackers", comment: "")
     
-    var toolbarItemIcon = NSImage(named: "gear")!
+    var toolbarItemIcon = NSImage(named: "settings-trackers")!
 
     @IBOutlet var highlightCardsInHand: NSButton!
     @IBOutlet var highlightLastDrawn: NSButton!

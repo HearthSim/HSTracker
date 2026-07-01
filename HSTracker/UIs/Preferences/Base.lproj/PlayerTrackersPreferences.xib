@@ -130,7 +130,6 @@
                         </colorWell>
                     </subviews>
                     <constraints>
-                        <constraint firstAttribute="height" constant="18" id="0Vr-Rt-THr"/>
                         <constraint firstItem="mRM-Lj-SBH" firstAttribute="leading" secondItem="JpE-eO-815" secondAttribute="leading" id="I67-Ly-Ek6"/>
                         <constraint firstAttribute="trailing" secondItem="MGl-GB-lMD" secondAttribute="trailing" id="RMQ-WR-WUR"/>
                         <constraint firstItem="MGl-GB-lMD" firstAttribute="leading" secondItem="mRM-Lj-SBH" secondAttribute="trailing" constant="20" id="axY-6k-1we"/>

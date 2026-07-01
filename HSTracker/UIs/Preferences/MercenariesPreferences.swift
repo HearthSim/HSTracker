@@ -9,12 +9,12 @@
 import Foundation
 import Preferences
 
-class MercenariesPreferences: NSViewController, PreferencePane {
+class MercenariesPreferences: PreferencePaneController, PreferencePane {
     var preferencePaneIdentifier = Preferences.PaneIdentifier.mercenaries
     
     var preferencePaneTitle = String.localizedString("Mercenaries", comment: "")
     
-    var toolbarItemIcon = NSImage(named: "Mode_Mercenaries")!
+    var toolbarItemIcon = NSImage(named: "settings-mercenaries")!
 
     @IBOutlet var showMercsOpponentHover: NSButton!
     @IBOutlet var showMercsPlayerHover: NSButton!

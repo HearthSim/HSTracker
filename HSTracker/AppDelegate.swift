@@ -53,7 +53,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
             MercenariesPreferences(nibName: "MercenariesPreferences", bundle: nil),
             ImportingPreferences(nibName: "ImportingPreferences", bundle: nil)
         ]
-        return PreferencesWindowController(preferencePanes: panes, style: .toolbarItems, animated: false)
+        // Each pane fixes its own width (see PreferencePaneController), so the window keeps a
+        // constant width across panes and only its height adapts.
+        return PreferencesWindowController(preferencePanes: panes, style: .toolbarItems, animated: true)
     }()
     
     func applicationWillFinishLaunching(_ notification: Notification) {
