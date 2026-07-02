@@ -9,12 +9,12 @@
 import Foundation
 import Preferences
 
-class OpponentTrackersPreferences: NSViewController, PreferencePane {
+class OpponentTrackersPreferences: PreferencePaneController, PreferencePane {
     var preferencePaneIdentifier = Preferences.PaneIdentifier.opponent_trackers
     
-    var preferencePaneTitle = String.localizedString("Opponent tracker", comment: "")
+    var preferencePaneTitle = String.localizedString("Opponent", comment: "")
     
-    var toolbarItemIcon = NSImage(named: "opponent")!
+    var toolbarItemIcon = NSImage(named: "settings-opponent")!
 
     @IBOutlet var showOpponentTracker: NSButton!
     @IBOutlet var showCardHuds: NSButton!

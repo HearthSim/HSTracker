@@ -9,12 +9,12 @@
 import Foundation
 import Preferences
 
-class BattlegroundsPreferences: NSViewController, PreferencePane {
+class BattlegroundsPreferences: PreferencePaneController, PreferencePane {
     var preferencePaneIdentifier = Preferences.PaneIdentifier.battlegrounds
     
     var preferencePaneTitle = String.localizedString("Battlegrounds", comment: "")
     
-    var toolbarItemIcon = NSImage(named: "Mode_Battlegrounds_Dark")!
+    var toolbarItemIcon = NSImage(named: "settings-battlegrounds")!
 
     @IBOutlet var enableTier7Overlay: NSButton!
     @IBOutlet var showTier7PreLobby: NSButton!

@@ -9,12 +9,12 @@
 import Foundation
 import Preferences
 
-class HSReplayPreferences: NSViewController, PreferencePane {
+class HSReplayPreferences: PreferencePaneController, PreferencePane {
     var preferencePaneIdentifier = Preferences.PaneIdentifier.hsreplay
     
     var preferencePaneTitle = "HSReplay"
     
-    var toolbarItemIcon = NSImage(named: "hsreplay_logo_white")!
+    var toolbarItemIcon = NSImage(named: "settings-hsreplay")!
     
     @IBOutlet var synchronizeMatches: NSButton!
     @IBOutlet var gameTypeSelector: NSView!
