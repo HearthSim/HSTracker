@@ -290,4 +290,7 @@ protocol PowerEventHandler: AnyObject {
     func handlePlayerMaxHandSizeChange(_ value: Int)
     func handleOpponentMaxHandSizeChange(_ value: Int)
     func handleOpponentCorpsesLeftChange(_ value: Int)
+    
+    var beatrixCardIds: Set<Int> { get set }
+    var beatrixCopiedCard: String? { get set }
 }

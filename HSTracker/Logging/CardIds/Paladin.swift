@@ -232,6 +232,7 @@ extension CardIds.Collectible {
         static let EmboldeningBlade = "MEND_803"
         static let ReinforcementAura = "JAIL_327"
         static let ScarletRecruiter = "JAIL_516"
+        static let CommanderBeatrix = "JAIL_397"
     }
 }
 

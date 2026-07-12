@@ -206,7 +206,7 @@ class Game: NSObject, PowerEventHandler {
         }
     }
 	
-	@objc fileprivate func updateOpponentTracker(reset: Bool = false) {
+	@objc func updateOpponentTracker(reset: Bool = false) {
         DispatchQueue.main.async { [weak self] in
             guard let self else {
                 return
@@ -1069,6 +1069,8 @@ class Game: NSObject, PowerEventHandler {
     }
 
 	var entities =  SynchronizedDictionary<Int, Entity>()
+    var beatrixCardIds = Set<Int>()
+    var beatrixCopiedCard: String?
     
     // swiftlint:disable large_tuple
     var knownCardIds = SynchronizedDictionary<Int, [(String, DeckLocation, String?, EntityInfo?)]>()
@@ -1555,6 +1557,9 @@ class Game: NSObject, PowerEventHandler {
         minionsInPlay.removeAll()
         minionsInPlayByPlayer.removeAll()
         resetPlayerResourcesWidgets()
+        
+        beatrixCardIds.removeAll()
+        beatrixCopiedCard = nil
     }
     
     func cacheBrawlInfo() {

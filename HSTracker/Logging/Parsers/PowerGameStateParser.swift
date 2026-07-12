@@ -256,6 +256,8 @@ class PowerGameStateParser: LogEventParser {
                         let lastCardDrawnId = eventHandler.opponent.hand.sorted(by: { $0.zonePosition > $1.zonePosition }).first?.id ?? -1
                         let lastCardDrawnEntity = eventHandler.entities[lastCardDrawnId]
                         copyOfCardId = lastCardDrawnEntity?.info.copyOfCardId ?? "\(lastCardDrawnId)"
+                    } else if eventHandler.beatrixCardIds.contains(id) {
+                        cardId = eventHandler.beatrixCopiedCard ?? ""
                     }
                 }
 
@@ -290,6 +292,10 @@ class PowerGameStateParser: LogEventParser {
                 
                 if let currentBlock, zone == .deck {
                     currentBlock.entitiesCreatedInDeck.append((entity: entity, ids: Set<Int>()))
+                }
+                
+                if let currentBlock, currentBlock.type == "TRIGGER" && eventHandler.gameEntity?[.step] == Step.invalid.rawValue {
+                    eventHandler.beatrixCardIds.insert(id)
                 }
                 
                 if let currentBlock = currentBlock, entity.cardId.uppercased().contains("HERO") {
@@ -356,7 +362,7 @@ class PowerGameStateParser: LogEventParser {
                     if entity.info.guessedCardState != GuessedCardState.none {
                         entity.info.guessedCardState = GuessedCardState.revealed
                     }
-                    if AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock?.hideShowEntities ?? false && !(entity.info.revealedOnHistory) && !(entity.has(tag: .displayed_creator)) {
+                    if AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock?.hideShowEntities ?? false && !(entity.info.revealedOnHistory) && !(entity.has(tag: .displayed_creator)) || entity.cardId == CardIds.NonCollectible.Rogue.GaronaHalforcen_KingLlaneToken {
                         entity.info.hidden = true
                     } else {
                         entity.info.hidden = false
@@ -527,7 +533,20 @@ class PowerGameStateParser: LogEventParser {
             if gameStateIsInsideMetaDataHistoryTarget {
                 let match = MetaInfoRegex.matches(logLine.line)
                 if let entityId = Int(match.count > 1 ? match[1].value : match[0].value), let entity = eventHandler.entities[entityId] {
-                    entity.info.hidden = false
+                    entity.info.hidden = entity.cardId == CardIds.NonCollectible.Rogue.GaronaHalforcen_KingLlaneToken
+                    if currentBlock?.cardId == CardIds.Collectible.Paladin.CommanderBeatrix && currentBlock?.type == "TRIGGER" {
+                        for cId in eventHandler.beatrixCardIds {
+                            if let e = eventHandler.entities[cId] {
+                                e.cardId = entity.cardId
+                            }
+                        }
+
+                        if entity.isControlled(by: eventHandler.player.id) {
+                            AppDelegate.instance().coreManager.game.updatePlayerTracker()
+                        } else {
+                            AppDelegate.instance().coreManager.game.updateOpponentTracker()
+                        }
+                    }
                 }
                 isInsideMetaDataHistoryTarget = true
             }
