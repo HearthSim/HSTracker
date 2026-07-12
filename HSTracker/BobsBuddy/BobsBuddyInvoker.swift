@@ -836,16 +836,16 @@ class BobsBuddyInvoker {
                 continue
             }
 
-            // Count the Auto Assembler enchantments attached to the magnetic (directly-magnetized Auto Assemblers).
             let enchantCount = allEntities.values.count { x in x.isAttachedTo(entityId: magneticId) && x.cardId == CardIds.NonCollectible.Neutral.AutoAssembler_AutoAssemblerEnchantment }
-            if enchantCount == 0 {
-                continue
-            }
-
+            let goldenEnchantCount = allEntities.values.count { x in x.isAttachedTo(entityId: magneticId) && x.cardId == CardIds.NonCollectible.Neutral.AutoAssembler_AutoAssembler2 }
+            
             for _ in 0 ..< enchantCount {
                 minion.addDeathrattle(deathrattle: AutoAssembler.deathrattle(golden: false))
             }
-        }
+
+            for _ in 0 ..< goldenEnchantCount {
+                minion.addDeathrattle(deathrattle: AutoAssembler.deathrattle(golden: true))
+            }        }
 
         // Future magnetic deathrattles can be added/handled here.
     }

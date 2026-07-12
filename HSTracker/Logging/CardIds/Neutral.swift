@@ -1140,5 +1140,6 @@ extension CardIds.NonCollectible {
         static let AutoAssembler_AutoAssemblerEnchantment = "BG32_172e"
         static let TagtransferplayerenchantDnt = "Bacon_TagTransferPlayerE"
         static let RecklessDetective_DetectivesClothesToken = "JAIL_447t"
+        static let AutoAssembler_AutoAssembler2 = "BG32_172_Ge"
     }
 }
