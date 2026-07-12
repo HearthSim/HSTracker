@@ -13,9 +13,9 @@ class BattlegroundsTierOverlayView: NSView {
     var hoverTier = 0
     var showing = false
     var availableTiers: [Bool] = [false, false, false, false, false, false, false]
-    var isThorimRelevant = false
-    var isNorgannonsRewardRelevant = false
-    var isPageFishingRodRelevant = false
+    var hasTier7HeroPower = false
+    var hasTier7QuestReward = false
+    var hasTier7Trinket = false
 
     init() {
         super.init(frame: NSRect.zero)
@@ -30,7 +30,7 @@ class BattlegroundsTierOverlayView: NSView {
     }
     
     var showTavernTier7: Bool {
-        return Settings.alwaysShowTier7 || isThorimRelevant || isPageFishingRodRelevant || isNorgannonsRewardRelevant
+        return Settings.alwaysShowTier7 || hasTier7HeroPower || hasTier7Trinket || hasTier7QuestReward
     }
 
     func unhideTier() {
@@ -69,9 +69,9 @@ class BattlegroundsTierOverlayView: NSView {
         currentTier = 0
         hoverTier = 0
         needsDisplay = true
-        isThorimRelevant = false
-        isNorgannonsRewardRelevant = false
-        isPageFishingRodRelevant = false
+        hasTier7HeroPower = false
+        hasTier7Trinket = false
+        hasTier7QuestReward = false
     }
     
     func drawTier(tier: Int, x: Int) {
@@ -87,7 +87,7 @@ class BattlegroundsTierOverlayView: NSView {
 
         let rect = NSRect(x: x + 2, y: 10, width: 36, height: 36)
         if let image = NSImage(contentsOfFile: "\(rp)/Resources/Battlegrounds/tier-\(tier).png") {
-            let avail = availableTiers[tier - 1] || (tier == 7 && isThorimRelevant)
+            let avail = availableTiers[tier - 1] || (tier == 7 && showTavernTier7)
             image.draw(in: rect, from: NSRect(origin: CGPoint(x: 0, y: 0), size: image.size), operation: .sourceOver, fraction: hoverTier == tier ? (avail ? 1.0 : 0.6) : (avail ? 1.0 : 0.3))
         }
     }
@@ -171,21 +171,21 @@ class BattlegroundsTierOverlayView: NSView {
     }
     
     func onHeroPowers(heroPowers: [String]) {
-        isThorimRelevant = heroPowers.any { x in x == CardIds.NonCollectible.Neutral.ThorimStormlord_ChooseYourChampion }
+        hasTier7HeroPower = heroPowers.any { x in x == CardIds.NonCollectible.Neutral.ThorimStormlord_ChooseYourChampion }
         DispatchQueue.main.async {
             self.needsDisplay = true
         }
     }
     
     func onTrinkets(trinkets: [String]) {
-        isPageFishingRodRelevant = trinkets.contains(CardIds.NonCollectible.Neutral.PaglesFishingRod)
+        hasTier7Trinket = trinkets.any { x in x == CardIds.NonCollectible.Neutral.PaglesFishingRod || x == CardIds.NonCollectible.Neutral.Kaleidoscope }
         DispatchQueue.main.async {
             AppDelegate.instance().coreManager.game.updateBattlegroundsTierOverlay(reset: false)
         }
     }
     
     func onQuests(quests: [String]) {
-        isNorgannonsRewardRelevant = quests.contains(CardIds.NonCollectible.Neutral.NorgannonsReward)
+        hasTier7QuestReward = quests.contains(CardIds.NonCollectible.Neutral.NorgannonsReward)
         DispatchQueue.main.async {
             AppDelegate.instance().coreManager.game.updateBattlegroundsTierOverlay(reset: false)
         }
