@@ -30,7 +30,7 @@ class CardsPlayedFor2ManaCounter: NumericCounter {
     }
 
     override func getCardsToDisplay() -> [String] {
-        return getCardsInDeckOrKnown(cardIds: relatedCards)
+        return relatedCards
     }
 
     override func valueToShow() -> String {
