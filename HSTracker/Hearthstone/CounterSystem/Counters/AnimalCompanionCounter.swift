@@ -38,6 +38,8 @@ class AnimalCompanionCounter: NumericCounter {
 
     required init(controlledByPlayer: Bool, game: Game) {
         super.init(controlledByPlayer: controlledByPlayer, game: game)
+        
+        counter = 3
     }
 
     override func shouldShow() -> Bool {
@@ -66,6 +68,19 @@ class AnimalCompanionCounter: NumericCounter {
         if cardId == CardIds.Collectible.Hunter.TamePet ||
            cardId == CardIds.Collectible.Hunter.MigratingElekk ||
            cardId == CardIds.Collectible.Hunter.RoamFree {
+            
+            if !isPlayerCounter && tag == GameTag.zone && value == Zone.play.rawValue {
+                _opponentKnownCompanions.removeAll()
+
+                let delta = switch entity.cardId {
+                case CardIds.Collectible.Hunter.TamePet: 1
+                case CardIds.Collectible.Hunter.MigratingElekk: 1
+                case CardIds.Collectible.Hunter.RoamFree: 2
+                default:  0
+                }
+
+                counter = min(counter + delta, 10)
+            }
             
             guard tag == .hidden_script_data_4 || tag == .hidden_script_data_5 || tag == .hidden_script_data_6 else {
                 return
