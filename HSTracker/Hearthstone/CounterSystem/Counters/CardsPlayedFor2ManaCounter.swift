@@ -37,10 +37,6 @@ class CardsPlayedFor2ManaCounter: NumericCounter {
         return String(counter)
     }
 
-    private var cardTypes: [CardType] {
-        return [.spell, .location, .minion, .weapon]
-    }
-
     override func handleTagChange(tag: GameTag, entity: Entity, value: Int, prevValue: Int) {
         guard game.isTraditionalHearthstoneMatch else { return }
         guard entity.isControlled(by: game.player.id) == isPlayerCounter else { return }
@@ -51,8 +47,9 @@ class CardsPlayedFor2ManaCounter: NumericCounter {
 
         let playedCard = Card(id: currentBlock.cardId ?? "")
 
-        // Cleaned up the type constraint check using Swift's array containment rule
-        guard cardTypes.contains(playedCard.type) else { return }
+        if playedCard.type == CardType.hero_power {
+            return
+        }
 
         lastEntityToCount = entity
         counter += 1
