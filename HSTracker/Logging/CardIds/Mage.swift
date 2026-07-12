@@ -234,6 +234,7 @@ extension CardIds.Collectible {
         static let SurgeNeedle = "MEND_503"
         static let MysticMisdirection = "JAIL_315"
         static let ContrabandWands = "JAIL_312"
+        static let JailhouseManastorm = "JAIL_122"
     }
 }
 
@@ -320,6 +321,7 @@ extension CardIds.NonCollectible {
         static let Vulcanos_PlumeOfVulcanosToken1 = "CATA_488t"
         static let Vulcanos_PlumeOfVulcanosToken2 = "CATA_488t2"
         static let LeyWalker_UnblockLeylineToken = "MEND_501t2e"
+        static let JailhouseManastorm_ManastormSummoningEnchantment = "JAIL_122e5"
     }
 }
 

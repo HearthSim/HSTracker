@@ -1057,6 +1057,7 @@
 		B89BCE182FF47D5A0095F011 /* Moragg.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89BCE172FF47D5A0095F011 /* Moragg.swift */; };
 		B89BCED430042CD60095F011 /* VoidSoulCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89BCED330042CD60095F011 /* VoidSoulCounter.swift */; };
 		B89BCED630042DA90095F011 /* CardsPlayedFor2ManaCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89BCED530042DA90095F011 /* CardsPlayedFor2ManaCounter.swift */; };
+		B89BCED830042EAF0095F011 /* JailhouseManastormEnchantment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89BCED730042EAF0095F011 /* JailhouseManastormEnchantment.swift */; };
 		B89C9894280A113A005E9315 /* AnimatedCardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89C9893280A113A005E9315 /* AnimatedCardList.swift */; };
 		B89C9896280C610C005E9315 /* DeckLens.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89C9895280C610C005E9315 /* DeckLens.swift */; };
 		B89F51EA2C9CF8D600E31195 /* ActiveEffect.xib in Resources */ = {isa = PBXBuildFile; fileRef = B89F51E92C9CF8D600E31195 /* ActiveEffect.xib */; };
@@ -2417,6 +2418,7 @@
 		B89BCE172FF47D5A0095F011 /* Moragg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Moragg.swift; sourceTree = "<group>"; };
 		B89BCED330042CD60095F011 /* VoidSoulCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoidSoulCounter.swift; sourceTree = "<group>"; };
 		B89BCED530042DA90095F011 /* CardsPlayedFor2ManaCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsPlayedFor2ManaCounter.swift; sourceTree = "<group>"; };
+		B89BCED730042EAF0095F011 /* JailhouseManastormEnchantment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JailhouseManastormEnchantment.swift; sourceTree = "<group>"; };
 		B89C9893280A113A005E9315 /* AnimatedCardList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedCardList.swift; sourceTree = "<group>"; };
 		B89C9895280C610C005E9315 /* DeckLens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckLens.swift; sourceTree = "<group>"; };
 		B89F51E92C9CF8D600E31195 /* ActiveEffect.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ActiveEffect.xib; sourceTree = "<group>"; };
@@ -4288,6 +4290,7 @@
 				B8B78FE82C96796500DD33EC /* ElementalEvocationEnchantment.swift */,
 				B8B78FEA2C967A7900DD33EC /* HotStreakEnchantment.swift */,
 				B82029342CD2CD9F00C19A8C /* IngeniousArtificerEnchantment.swift */,
+				B89BCED730042EAF0095F011 /* JailhouseManastormEnchantment.swift */,
 				B8B78FEC2C96FC8400DD33EC /* KingTideEnchantment.swift */,
 				B81B3DAA2D444F8600DC9EB0 /* ShieldBatteryEnchantment.swift */,
 				B8B78FF02C96FD4500DD33EC /* SolidAlibiEnchantment.swift */,
@@ -5327,6 +5330,7 @@
 				B898655E2D8C93C700BA5649 /* TortollanTraveler.swift in Sources */,
 				B8E1E5B62D0C870F00383975 /* BodyWrapper.swift in Sources */,
 				B8BA17D928EFAF73004D40ED /* ClipboardImporter.swift in Sources */,
+				B89BCED830042EAF0095F011 /* JailhouseManastormEnchantment.swift in Sources */,
 				432A077C1E93B0F100921E34 /* Secrets.swift in Sources */,
 				B89865362D8A343600BA5649 /* MinionsDiedThisGameCounter.swift in Sources */,
 				B87765CD2BB9AE7F003BE49D /* DeckSideboards.swift in Sources */,
