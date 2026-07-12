@@ -28,7 +28,7 @@ class HeroPowerDataProxy: MonoHandle, MonoClassInitializer {
         if HeroPowerDataProxy._class == nil {
             HeroPowerDataProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Simulation", name: "HeroPowerData")
             
-            initializeProperties(properties: ["CardId", "IsActivated", "Data", "Data2", "Data3", "AttachedMinion"])
+            initializeProperties(properties: ["CardId", "IsActivated", "Data", "Data2", "Data3", "AttachedMinion", "AttachedMinionCapturedDuringCombat"])
         }
     }
 
@@ -53,4 +53,7 @@ class HeroPowerDataProxy: MonoHandle, MonoClassInitializer {
 
     @MonoHandleProperty(property: "AttachedMinion", owner: HeroPowerDataProxy.self)
     var attachedMinion: MinionProxy
+    
+    @MonoPrimitiveProperty(property: "AttachedMinionCapturedDuringCombat", owner: HeroPowerDataProxy.self)
+    var attachedMinionCapturedDuringCombat: Bool
 }

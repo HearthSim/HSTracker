@@ -1262,6 +1262,7 @@ class BobsBuddyInvoker {
                 tryDuos = true // Will fallback and try duos anyways
             } else if let tavishLockAndLoad, tavishLockAndLoad.attachedMinion.get() == nil && tavishLockAndLoad.data3 == 0 {
                 tavishLockAndLoad.attachedMinion = BobsBuddyInvoker.getMinionFromEntity(sim: SimulatorProxy(), player: false, ent: attachedEntity, attachedEntities: getAttachedEntities(entityId: attachedEntity.id))
+                tavishLockAndLoad.attachedMinionCapturedDuringCombat = true
                 tryRerun = true
             }
         }
