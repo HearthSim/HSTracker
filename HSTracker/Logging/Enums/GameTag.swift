@@ -466,6 +466,7 @@ enum GameTag: Int, CaseIterable, Codable {
     bacon_elemental_buffhealthvalue = 4001,
     bacon_elemental_buffatkvalue = 4002,
     kindred = 4028,
+    additional_hero_power_entity_1 = 4029,
     imbue_sub_counter = 4168,
     shattered = 4240,
     gametag_4283 = 4283,

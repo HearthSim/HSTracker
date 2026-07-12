@@ -3833,10 +3833,16 @@ class Game: NSObject, PowerEventHandler {
             if isBattlegroundsMatch() {
                 if chosen.count == 1 {
                     let hero = chosen.first
+                    var heroPowers = [String]()
                     let heroPower = Cards.by(dbfId: hero?[.hero_power], collectible: false)?.id
                     if let hp = heroPower {
-                        windowManager.battlegroundsTierOverlay.tierOverlay?.onHeroPowers(heroPowers: [ hp ])
+                        heroPowers.append(hp)
                     }
+                    let additionalHeroPowerId = hero?[GameTag.additional_hero_power_entity_1] ?? 0
+                    if additionalHeroPowerId > 0, let additionalHeroPower =  entities[additionalHeroPowerId] {
+                        heroPowers.append(additionalHeroPower.card.id)
+                    }
+                    windowManager.battlegroundsTierOverlay.tierOverlay?.onHeroPowers(heroPowers: heroPowers)
                 } else {
                     logger.error("Could not reliably determine Battlegrounds hero power. \(chosen.count) hero(es) chosen.")
                 }
@@ -3852,7 +3858,8 @@ class Game: NSObject, PowerEventHandler {
                 if source?[.bacon_is_magic_item_discover] ?? 0 > 0 {
                     windowManager.battlegroundsTierOverlay.tierOverlay?.onTrinkets(trinkets: (self.player.trinkets + chosen).compactMap({ x in x.cardId }))
                 }
-                windowManager.battlegroundsTierOverlay.tierOverlay?.onHeroPowers(heroPowers: player.board.filter({ x in x.isHeroPower }).compactMap({ x in x.card.id }))
+                // the entity of a chosen hero power is only created after the choice completes, concat the chosen one
+                windowManager.battlegroundsTierOverlay.tierOverlay?.onHeroPowers(heroPowers: player.board.filter({ x in x.isHeroPower }).compactMap({ x in x.card.id }) + chosen.filter({ x in x.isHeroPower }).compactMap({ x in x.card.id }))
                 
                 // quest choice
                 if let chosenEntity = chosen.first {
