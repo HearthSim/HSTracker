@@ -1056,6 +1056,7 @@
 		B89BCE162FF47D060095F011 /* SliceAndDice.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89BCE152FF47D060095F011 /* SliceAndDice.swift */; };
 		B89BCE182FF47D5A0095F011 /* Moragg.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89BCE172FF47D5A0095F011 /* Moragg.swift */; };
 		B89BCED430042CD60095F011 /* VoidSoulCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89BCED330042CD60095F011 /* VoidSoulCounter.swift */; };
+		B89BCED630042DA90095F011 /* CardsPlayedFor2ManaCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89BCED530042DA90095F011 /* CardsPlayedFor2ManaCounter.swift */; };
 		B89C9894280A113A005E9315 /* AnimatedCardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89C9893280A113A005E9315 /* AnimatedCardList.swift */; };
 		B89C9896280C610C005E9315 /* DeckLens.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89C9895280C610C005E9315 /* DeckLens.swift */; };
 		B89F51EA2C9CF8D600E31195 /* ActiveEffect.xib in Resources */ = {isa = PBXBuildFile; fileRef = B89F51E92C9CF8D600E31195 /* ActiveEffect.xib */; };
@@ -2415,6 +2416,7 @@
 		B89BCE152FF47D060095F011 /* SliceAndDice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliceAndDice.swift; sourceTree = "<group>"; };
 		B89BCE172FF47D5A0095F011 /* Moragg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Moragg.swift; sourceTree = "<group>"; };
 		B89BCED330042CD60095F011 /* VoidSoulCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoidSoulCounter.swift; sourceTree = "<group>"; };
+		B89BCED530042DA90095F011 /* CardsPlayedFor2ManaCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsPlayedFor2ManaCounter.swift; sourceTree = "<group>"; };
 		B89C9893280A113A005E9315 /* AnimatedCardList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedCardList.swift; sourceTree = "<group>"; };
 		B89C9895280C610C005E9315 /* DeckLens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckLens.swift; sourceTree = "<group>"; };
 		B89F51E92C9CF8D600E31195 /* ActiveEffect.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ActiveEffect.xib; sourceTree = "<group>"; };
@@ -3650,6 +3652,7 @@
 				B89BCE092FF4768B0095F011 /* CapturedArchmageCounter.swift */,
 				B889F60A2CED5D26001506F4 /* CardsDrawnThisGameCounter.swift */,
 				B889F60C2CED6151001506F4 /* CardsDrawnThisTurnCounter.swift */,
+				B89BCED530042DA90095F011 /* CardsPlayedFor2ManaCounter.swift */,
 				B852D81C2DDDF59D00884B26 /* CardsPlayedThisTurnCounter.swift */,
 				B88339742E710457007D9754 /* CardsThatDidntStartInDeckPlayedCounter.swift */,
 				B89343372CD00858009A8727 /* ChaoticTendrilCounter.swift */,
@@ -5532,6 +5535,7 @@
 				B8E868832B93AF04005B1315 /* SceneHandler.swift in Sources */,
 				B8AB59942742F94900383EC8 /* RateLimiter.swift in Sources */,
 				438B04F91E6F55720071594B /* Date.swift in Sources */,
+				B89BCED630042DA90095F011 /* CardsPlayedFor2ManaCounter.swift in Sources */,
 				B8B78FE92C96796500DD33EC /* ElementalEvocationEnchantment.swift in Sources */,
 				437C58301EBC7E8400FFD888 /* NSImage.swift in Sources */,
 				B8D02E5E2F2454E700DC55C1 /* PlayerResourcesWindow.swift in Sources */,
