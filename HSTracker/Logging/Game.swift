@@ -1099,6 +1099,7 @@ class Game: NSObject, PowerEventHandler {
     private var awaitingAvenge = false
     var isInMenu = true
     private var handledGameEnd = false
+    private var _pendingBattlegroundsGame: PendingBattlegroundsGame?
     
 	var enqueueTime = LogDate(date: Date.distantPast)
     private var lastTurnStart: [Int] = [0, 0]
@@ -2113,8 +2114,7 @@ class Game: NSObject, PowerEventHandler {
                 self.windowManager.battlegroundsTierOverlay.tierOverlay.reset()
             }
             updatePostGameBattlegroundsRating(gameStats: currentGameStats)
-            recordBattlegroundsGame(gameStats: currentGameStats)
-            windowManager.battlegroundsSession.onGameEnd(gameStats: currentGameStats)
+            captureBattlegroundsGame(stats: currentGameStats)
             windowManager.battlegroundsHeroPicking.viewModel.reset()
             windowManager.battlegroundsQuestPicking.viewModel.reset()
             windowManager.battlegroundsTrinketPicking.viewModel.reset()
@@ -2159,6 +2159,11 @@ class Game: NSObject, PowerEventHandler {
         }
 
 		self.syncStats(logLines: self.powerLog, stats: currentGameStats)
+        
+        if isBattlegroundsMatch() {
+            recordBattlegroundsGame()
+            windowManager.battlegroundsSession.onGameEnd(gameStats: currentGameStats)
+        }
         
         activeEffects.reset()
         counterManager.reset()
@@ -2246,26 +2251,58 @@ class Game: NSObject, PowerEventHandler {
         }
     }
     
-    func recordBattlegroundsGame(gameStats: InternalGameStats) {
+    private class PendingBattlegroundsGame {
+        init(stats: InternalGameStats, heroCardId: String, placement: Int, finalBoard: [Entity], friendlyGame: Bool, duos: Bool) {
+            self.stats = stats
+            self.heroCardId = heroCardId
+            self.placement = placement
+            self.finalBoard = finalBoard
+            self.friendlyGame = friendlyGame
+            self.duos = duos
+        }
+        
+        let stats: InternalGameStats
+        let heroCardId: String
+        let placement: Int
+        let finalBoard: [Entity]
+        let friendlyGame: Bool
+        let duos: Bool
+    }
+
+    // Capture entity-derived data before the SaveReplays await, since a return to menu or
+    // the next game start can clear _game.Entities (and reset the game type) meanwhile.
+    private func captureBattlegroundsGame(stats: InternalGameStats) {
+        _pendingBattlegroundsGame = nil
+        
         if spectator {
             return
         }
+        
         let hero = entities.values.first(where: { x in x.has(tag: .player_leaderboard_place) && x.isControlled(by: player.id) })
-        let heroCardId = hero?.cardId
+        let heroCardId = hero?.cardId != nil ? BattlegroundsUtils.getOriginalHeroId(heroId: hero?.cardId ?? "") : nil
+        let duos = isBattlegroundsDuosMatch()
+        let placement = min(hero?[.player_leaderboard_place] ?? 0, duos ? 4 : 8)
+        guard let heroCardId, placement > 0 else {
+            logger.error("Missing data while trying to record battleground game")
+            return
+        }
         let finalBoard = entities.values.filter({ x in x.isMinion && x.isInZone(zone: .play) && x.isControlled(by: player.id)}).compactMap({ x in x.copy() }).sorted(by: { x, y in
             x[.zone_position] < y[.zone_position]
         })
         let friendlyGame = currentGameType == .gt_battlegrounds_friendly || currentGameType == .gt_battlegrounds_duo_friendly
-        let duos = isBattlegroundsDuosMatch()
-        let placement = min(hero?[.player_leaderboard_place] ?? 0, duos ? 4 : 8)
-        if let heroCardId = heroCardId, placement > 0 {
-            BattlegroundsLastGames.instance.addGame(startTime: gameStats.startTime, endTime: gameStats.endTime, hero: BattlegroundsUtils.getOriginalHeroId(heroId: heroCardId), rating: gameStats.battlegroundsRating, ratingAfter: gameStats.battlegroundsRatingAfter, placement: placement, finalBoard: finalBoard, friendlyGame: friendlyGame, duos: duos)
-            DispatchQueue.main.async {
-                self.windowManager.battlegroundsSession.update()
-                self.windowManager.battlegroundsSession.updateScaling()
-            }
-        } else {
-            logger.error("Missing data while trying to record battleground game")
+        _pendingBattlegroundsGame = PendingBattlegroundsGame(stats: stats, heroCardId: heroCardId, placement: placement, finalBoard: finalBoard, friendlyGame: friendlyGame, duos: duos)
+    }
+    
+    // Persist the captured game once SaveReplays has populated the post-game rating.
+    func recordBattlegroundsGame() {
+        guard let pending = _pendingBattlegroundsGame else {
+            return
+        }
+        _pendingBattlegroundsGame = nil
+        BattlegroundsLastGames.instance.addGame(startTime: pending.stats.startTime, endTime: pending.stats.endTime, hero: pending.heroCardId, rating: pending.stats.battlegroundsRating, ratingAfter: pending.stats.battlegroundsRatingAfter, placement: pending.placement, finalBoard: pending.finalBoard, friendlyGame: pending.friendlyGame, duos: pending.duos)
+        DispatchQueue.main.async {
+            self.windowManager.battlegroundsSession.update()
+            self.windowManager.battlegroundsSession.updateScaling()
         }
     }
 
