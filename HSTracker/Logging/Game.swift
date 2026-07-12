@@ -2328,12 +2328,16 @@ class Game: NSObject, PowerEventHandler {
         }
         return 0
     }
+    
+    var currentTurnActivePlayer: PlayerType {playerEntity?.isCurrentPlayer == true ? PlayerType.player : PlayerType.opponent }
 
     func turnsInPlayChange(entity: Entity, turn: Int) {
-        guard let opponentEntity = opponentEntity else { return }
+        if playerEntity == nil {
+            return
+        }
 
         if entity.isHero {
-            let player: PlayerType = opponentEntity.isCurrentPlayer ? .opponent : .player
+            let player = currentTurnActivePlayer
             if lastTurnStart[player.rawValue] >= turn {
                 return
             }
