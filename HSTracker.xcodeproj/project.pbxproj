@@ -1055,6 +1055,7 @@
 		B89BCE142FF47CC70095F011 /* UndeathSentence.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89BCE132FF47CC70095F011 /* UndeathSentence.swift */; };
 		B89BCE162FF47D060095F011 /* SliceAndDice.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89BCE152FF47D060095F011 /* SliceAndDice.swift */; };
 		B89BCE182FF47D5A0095F011 /* Moragg.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89BCE172FF47D5A0095F011 /* Moragg.swift */; };
+		B89BCED430042CD60095F011 /* VoidSoulCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89BCED330042CD60095F011 /* VoidSoulCounter.swift */; };
 		B89C9894280A113A005E9315 /* AnimatedCardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89C9893280A113A005E9315 /* AnimatedCardList.swift */; };
 		B89C9896280C610C005E9315 /* DeckLens.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89C9895280C610C005E9315 /* DeckLens.swift */; };
 		B89F51EA2C9CF8D600E31195 /* ActiveEffect.xib in Resources */ = {isa = PBXBuildFile; fileRef = B89F51E92C9CF8D600E31195 /* ActiveEffect.xib */; };
@@ -2413,6 +2414,7 @@
 		B89BCE132FF47CC70095F011 /* UndeathSentence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UndeathSentence.swift; sourceTree = "<group>"; };
 		B89BCE152FF47D060095F011 /* SliceAndDice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliceAndDice.swift; sourceTree = "<group>"; };
 		B89BCE172FF47D5A0095F011 /* Moragg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Moragg.swift; sourceTree = "<group>"; };
+		B89BCED330042CD60095F011 /* VoidSoulCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoidSoulCounter.swift; sourceTree = "<group>"; };
 		B89C9893280A113A005E9315 /* AnimatedCardList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedCardList.swift; sourceTree = "<group>"; };
 		B89C9895280C610C005E9315 /* DeckLens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckLens.swift; sourceTree = "<group>"; };
 		B89F51E92C9CF8D600E31195 /* ActiveEffect.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ActiveEffect.xib; sourceTree = "<group>"; };
@@ -3691,6 +3693,7 @@
 				B85462292CDED2FE0083BB31 /* TheCeaselessExpanseCounter.swift */,
 				B8DB12C62EBEB93C004268FA /* TimethiefRafaamCounter.swift */,
 				B86D89C72D95A48F00AB65A5 /* TyrandeSpellsPlayedCounter.swift */,
+				B89BCED330042CD60095F011 /* VoidSoulCounter.swift */,
 				B893434D2CD1320F009A8727 /* WheelOfDeathTurnsCounter.swift */,
 				B86D89C92D95A57F00AB65A5 /* YsondreCounter.swift */,
 			);
@@ -5557,6 +5560,7 @@
 				B8B790592C97841400DD33EC /* CommanderUlthokEnchantment.swift in Sources */,
 				B82AE60228BED413004A8FE0 /* QuestDataProxy.swift in Sources */,
 				B8D8859A24F4185200F2F0F2 /* BobsBuddyErrorState.swift in Sources */,
+				B89BCED430042CD60095F011 /* VoidSoulCounter.swift in Sources */,
 				B8591FF02B23CC7D00B907A4 /* ChoiceType.swift in Sources */,
 				43B6954D1C9014FA00F4D0AC /* TagChangeActions.swift in Sources */,
 				B86D8A142D95FAB400AB65A5 /* Dreamwarden.swift in Sources */,
