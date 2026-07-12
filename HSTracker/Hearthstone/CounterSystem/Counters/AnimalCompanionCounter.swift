@@ -67,7 +67,7 @@ class AnimalCompanionCounter: NumericCounter {
            cardId == CardIds.Collectible.Hunter.MigratingElekk ||
            cardId == CardIds.Collectible.Hunter.RoamFree {
             
-            guard tag == .tag_script_data_num_4 || tag == .tag_script_data_num_5 || tag == .tag_script_data_num_6 else {
+            guard tag == .hidden_script_data_4 || tag == .hidden_script_data_5 || tag == .hidden_script_data_6 else {
                 return
             }
 
@@ -78,13 +78,13 @@ class AnimalCompanionCounter: NumericCounter {
             }
             
             switch tag {
-            case .tag_script_data_num_4:
+            case .hidden_script_data_4:
                 companions[0] = card.id
                 onCounterChanged()
-            case .tag_script_data_num_5:
+            case .hidden_script_data_5:
                 companions[1] = card.id
                 onCounterChanged()
-            case .tag_script_data_num_6:
+            case .hidden_script_data_6:
                 companions[2] = card.id
                 onCounterChanged()
             default:
