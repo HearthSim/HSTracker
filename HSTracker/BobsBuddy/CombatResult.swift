@@ -12,5 +12,6 @@ enum CombatResult: Int {
 case invalid = 0,
         win = 1,
         loss = 2,
-        tie = 3
+        tie = 3,
+        reconnect = 4
 }

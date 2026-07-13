@@ -50,6 +50,15 @@ class BobsBuddyInvoker {
     // detection in TagChangeActions can skip the entity lookup for the (vast majority of) combats without one.
     static var currentCombatHasDrBoomsMonster = false
     
+    // Incremented on every detected game reconnect. Each combat snapshot records the current value;
+    // a mismatch at validation time means the reconnect happened after this combat started, so the
+    // absence of the combat's outcome should not be deemed as CombatResult.Tie.
+    private static var _reconnectCounter = 0
+    static func onGameReconnect() {
+        _reconnectCounter += 1
+    }
+    private var _reconnectCounterAtSnapshot = 0
+    
     var doNotReport = true
     
     private var currentOpponentMinions: [Int: MinionProxy] = [:]
@@ -104,6 +113,7 @@ class BobsBuddyInvoker {
     
     private init(key: String) {
         _instanceKey = key
+        _reconnectCounterAtSnapshot = BobsBuddyInvoker._reconnectCounter
         game = AppDelegate.instance().coreManager.game
         
         let opaque = mono_thread_attach(MonoHelper._monoInstance)
@@ -539,7 +549,10 @@ class BobsBuddyInvoker {
     }
     
     private func getLastCombatResult() -> CombatResult {
-        guard let LastAttackingHero = LastAttackingHero else {
+        guard let LastAttackingHero else {
+            if _reconnectCounterAtSnapshot != BobsBuddyInvoker._reconnectCounter {
+                return .reconnect
+            }
             return .tie
         }
         if LastAttackingHero.isControlled(by: game.player.id) {
@@ -1138,6 +1151,7 @@ class BobsBuddyInvoker {
     func snapshotBoardState(turn: Int) {
         logger.debug("Snapshotting board state...")
         LastAttackingHero = nil
+        _reconnectCounterAtSnapshot = BobsBuddyInvoker._reconnectCounter
         
         let simulator = SimulatorProxy()
         let input = InputProxy()
