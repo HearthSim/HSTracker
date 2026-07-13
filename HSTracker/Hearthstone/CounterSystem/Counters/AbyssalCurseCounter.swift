@@ -62,7 +62,7 @@ class AbyssalCurseCounter: NumericCounter {
         }
         
         let controller = entity[.controller]
-        if (controller == game.player.id && isPlayerCounter) || (controller == game.opponent.id && !isPlayerCounter) {
+        if (controller == game.player.id && !isPlayerCounter) || (controller == game.opponent.id && isPlayerCounter) {
             counter = value
         }
     }
