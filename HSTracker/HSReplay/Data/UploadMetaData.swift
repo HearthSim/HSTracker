@@ -238,7 +238,7 @@ class UploadMetaData: Encodable {
             if stats.mercenariesRatingAfter > 0 {
                 friendly.mercenaries_rating_after = stats.mercenariesRatingAfter
             }
-        } else if playerDeckSize == 30 || playerDeckSize == 40 || stats.isPVPDungeonMatch || stats.isDungeonMatch && stats.deckId.count > 0 {
+        } else if playerDeckSize == 30 || playerDeckSize == 40 || (playerDeckSize == 20 && stats.playerCards.any({ x in x.id == CardIds.Collectible.Priest.AzalinaSoulsever })) || stats.isPVPDungeonMatch || stats.isDungeonMatch && stats.deckId.count > 0 {
             friendly.deck = stats.playerCards.filter { x in x.id?.count ?? 0 > 0 }.flatMap { x in repeatElement(x.id ?? "", count: x.count) }
             friendly.sideboards = stats.sideboards.compactMap { s in Sideboard(owner: s.ownerCardId, cards: s.cards.flatMap { c in Array(repeating: c.id, count: c.count) })}
             if stats.hsDeckId ?? 0 > 0 {

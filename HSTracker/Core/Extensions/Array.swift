@@ -50,7 +50,7 @@ extension Array where Element == Card {
 
     func isValidDeck() -> Bool {
         let count = countCards()
-        return count == 30 || count == 40
+        return count == 30 || (count == 40 && any { x in x.id == CardIds.Collectible.Neutral.PrinceRenathal || x.id == CardIds.Collectible.Neutral.PrinceRenathalInvalid }) || (count == 20 && any { x in x.id == CardIds.Collectible.Priest.AzalinaSoulsever })
     }
     
     static func addCard(_ cards: inout [Card], _ newCard: Card) {

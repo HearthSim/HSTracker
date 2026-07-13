@@ -234,7 +234,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
     func countCards() {
         let count = cards.countCards()
-        let deckSize = cards.any { x in x.id == CardIds.Collectible.Neutral.PrinceRenathal || x.id == CardIds.Collectible.Neutral.PrinceRenathalInvalid } ? 40 : 30
+        let deckSize = cards.any { x in x.id == CardIds.Collectible.Neutral.PrinceRenathal || x.id == CardIds.Collectible.Neutral.PrinceRenathalInvalid } ? 40 : cards.any { x in x.id == CardIds.Collectible.Priest.AzalinaSoulsever } ? 20 : 30
         countLabel.stringValue = "\(count) / \(deckSize)"
     }
     
@@ -260,13 +260,23 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         }
         reloadCards()
     }
+    
+    var targetCardCount: Int {
+        if cards.any({ x in x.id == CardIds.Collectible.Neutral.PrinceRenathal || x.id == CardIds.Collectible.Neutral.PrinceRenathalInvalid }) {
+            return 40
+        }
+        if cards.any({ x in x.id == CardIds.Collectible.Priest.AzalinaSoulsever }) {
+            return 20
+        }
+        return 30
+    }
 
     @IBAction func clickCard(_ sender: NSTableView) {
         guard sender.clickedRow >= 0 else { return }
         let card: Card
 
         if sender == cardsTableView {
-            let deckSize = cards.any { x in x.id == CardIds.Collectible.Neutral.PrinceRenathal } ? 40 : 30
+            let deckSize = targetCardCount
 
             card = currentClassCards[sender.clickedRow]
             if cards.countCards() >= deckSize {

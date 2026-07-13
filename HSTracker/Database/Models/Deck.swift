@@ -108,7 +108,7 @@ class Deck: Object {
 
     func isValid() -> Bool {
         let count = countCards()
-        return Deck.isExactlyWhizbang(self) || count == 30 || count == 40
+        return Deck.isExactlyWhizbang(self) || count == 30 || count == 40 || (count == 20 && sortedCards.any({ x in x.id == CardIds.Collectible.Priest.AzalinaSoulsever }))
     }
     
     static func isExactlyWhizbang(_ deck: Deck) -> Bool {
