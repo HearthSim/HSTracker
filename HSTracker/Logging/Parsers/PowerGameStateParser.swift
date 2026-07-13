@@ -294,6 +294,7 @@ class PowerGameStateParser: LogEventParser {
                     currentBlock.entitiesCreatedInDeck.append((entity: entity, ids: Set<Int>()))
                 }
                 
+                // Beatrix cards are added before mulligan step
                 if let currentBlock, currentBlock.type == "TRIGGER" && eventHandler.gameEntity?[.step] == Step.invalid.rawValue {
                     eventHandler.beatrixCardIds.insert(id)
                 }
@@ -362,11 +363,10 @@ class PowerGameStateParser: LogEventParser {
                     if entity.info.guessedCardState != GuessedCardState.none {
                         entity.info.guessedCardState = GuessedCardState.revealed
                     }
-                    if AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock?.hideShowEntities ?? false && !(entity.info.revealedOnHistory) && !(entity.has(tag: .displayed_creator)) || entity.cardId == CardIds.NonCollectible.Rogue.GaronaHalforcen_KingLlaneToken {
-                        entity.info.hidden = true
-                    } else {
-                        entity.info.hidden = false
-                    }
+                    let shouldHideForBlock = AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock?.hideShowEntities ?? false && !(entity.info.revealedOnHistory) && !(entity.has(tag: .displayed_creator))
+                    let beforeMulligan = eventHandler.gameEntity?[.step] ?? Step.main_begin.rawValue < Step.begin_mulligan.rawValue
+                    entity.info.hidden = shouldHideForBlock || beforeMulligan
+                    
                     if entity.info.deckIndex < 0, let currentBlock = currentBlock, currentBlock.sourceEntityId != 0 {
                         if let source = eventHandler.entities[currentBlock.sourceEntityId], source.hasDredge {
                             eventHandler.dredgeCounter += 1
