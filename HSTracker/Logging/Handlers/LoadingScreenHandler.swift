@@ -136,6 +136,10 @@ struct LoadingScreenHandler: LogEventParser {
             // uncommenting this line will prevent powerlog reader to work properly
             coreManager.game.reset()
         } else if logLine.line.contains("MulliganManager.HandleGameStart") && logLine.line.contains("IsPastBeginPhase()=True") {
+            // Let Bob's Buddy know a reconnect happened, so a combat in progress is not validated
+            // against a log that is missing its outcome events.
+            BobsBuddyInvoker.onGameReconnect()
+            
             coreManager.game.handleGameReconnect(timestamp: logLine.time.date)
         }
     }

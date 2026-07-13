@@ -1852,10 +1852,6 @@ class Game: NSObject, PowerEventHandler {
             }
             self._lastReconnectStartTimestamp = timestamp
             
-            // Let Bob's Buddy know a reconnect happened, so a combat in progress is not validated
-            // against a log that is missing its outcome events.
-            BobsBuddyInvoker.onGameReconnect()
-            
             for _ in 0 ..< 20 where self.gameEntity == nil || self.currentMode != .gameplay {
                 Thread.sleep(forTimeInterval: 0.5)
             }
