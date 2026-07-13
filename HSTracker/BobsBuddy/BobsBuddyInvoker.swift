@@ -1253,7 +1253,7 @@ class BobsBuddyInvoker {
     }
     
     func updateOpponentHand(entity: Entity, copy: Entity) {
-        guard let input, state != .combat  else {
+        guard let input, state == .combat || state == .combatPartial else {
             return
         }
         
@@ -1299,7 +1299,7 @@ class BobsBuddyInvoker {
     }
     
     func updateLockAndLoadHeroPower(attachedEntity: Entity, isOpponent: Bool) {
-        guard let input, state == .combat else {
+        guard let input, state == .combat || state == .combatPartial else {
             return
         }
         
@@ -1330,7 +1330,7 @@ class BobsBuddyInvoker {
     }
     
     func updateDuosLockAndLoadHeroPower(_ cardDbfId: Int) {
-        guard let input, state == .combat else {
+        guard let input, state == .combat || state == .combatPartial else {
             return
         }
 
@@ -1392,7 +1392,7 @@ class BobsBuddyInvoker {
     }
     
     func updateBackToBackSpellBonus(_ backToBackEnchantmentEntity: Entity, _ isOpponent: Bool) {
-        guard let input, state == BobsBuddyState.combat else {
+        guard let input, state == BobsBuddyState.combat || state == .combatPartial else {
             return
         }
         
@@ -1422,7 +1422,7 @@ class BobsBuddyInvoker {
     }
     
     func updateSandyTransformDuos(_ attachedEntity: Entity, _ sandyEntityId: Int32) {
-        guard let input, state == BobsBuddyState.combat else {
+        guard let input, state == BobsBuddyState.combat || state == .combatPartial else {
             return
         }
         
@@ -1464,7 +1464,7 @@ class BobsBuddyInvoker {
     }
     
     func updateFlobbidinousFloopTransformDuos(_ attachedEntity: Entity) {
-        guard let input, state == BobsBuddyState.combat else {
+        guard let input, state == BobsBuddyState.combat || state == .combatPartial else {
             return
         }
 
@@ -1499,7 +1499,7 @@ class BobsBuddyInvoker {
     }
     
     func updateSummoningSphereDuos(_ attachedEntity: Entity, _ trinketEntityId: Int32) {
-        guard let input, state == BobsBuddyState.combat else {
+        guard let input, state == BobsBuddyState.combat || state == .combatPartial else {
             return
         }
 
@@ -1543,7 +1543,7 @@ class BobsBuddyInvoker {
     }
     
     func updateMinionEnchantment(_ enchantmentEntity: Entity, _ attachedToEntityId: Int, _ isPlayerMinion: Bool) {
-        guard let input, state == .combat else {
+        guard let input, state == .combat || state == .combatPartial else {
             return
         }
         
@@ -1585,7 +1585,7 @@ class BobsBuddyInvoker {
     static let timewarpedMagnanimooseEnchantment = "BACON_FAKE_Magnanimoose_Enchantment"
     
     func updateDrBoomsMonsterReborn(_ sourceEntityId: Int, _ rebornMaxHealth: Int, _ isPlayerMinion: Bool) {
-        guard let input, state == .combat else {
+        guard let input, state == .combat || state == .combatPartial else {
             return
         }
         
@@ -1611,7 +1611,7 @@ class BobsBuddyInvoker {
         tryRerun()
     }
     func updateTimewarpedMagnanimoose(_ summonedEntities: [Entity], _ magnanimooseEntityId: Int, _ isPlayerMinion: Bool) {
-        guard let input, state == .combat else {
+        guard let input, state == .combat || state == .combatPartial else {
             return
         }
         
@@ -1658,7 +1658,7 @@ class BobsBuddyInvoker {
         guard let input else {
             return
         }
-        guard state == .combat else {
+        guard state == .combat || state == .combatPartial else {
             return
         }
         
