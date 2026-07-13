@@ -31,7 +31,7 @@ class FriendlyMinionsDiedThisGameCounter: NumericCounter {
     override func shouldShow() -> Bool {
         if !game.isTraditionalHearthstoneMatch { return false }
         if isPlayerCounter {
-            return inPlayerDeckOrKnown(cardIds: relatedCards)
+            return inPlayerDeckOrKnown(cardIds: relatedCards) || (counter >= 10 && inPlayerDeckOrKnown(cardIds: [ CardIds.Collectible.Neutral.MalorneTheWaywatcher ]))
         }
         let couldBeGenerated = game.opponent.playerEntities.contains { entity in
             guard entity.isInHand || entity.isInPlay || entity.isInDeck else { return false }
@@ -49,7 +49,7 @@ class FriendlyMinionsDiedThisGameCounter: NumericCounter {
 
     override func getCardsToDisplay() -> [String] {
         if isPlayerCounter {
-            return getCardsInDeckOrKnown(cardIds: relatedCards)
+            return getCardsInDeckOrKnown(cardIds: relatedCards + [ CardIds.Collectible.Neutral.MalorneTheWaywatcher ])
         }
 
         let cardsFilteredByClassAndFormat = filterCardsByClassAndFormat(cardIds: relatedCards, playerClass: game.opponent.originalClass)
