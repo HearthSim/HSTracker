@@ -2743,6 +2743,12 @@ class Game: NSObject, PowerEventHandler {
         opponent.updateLibramReduction(change: change)
     }
     
+    func resetOpponentHandCostReduction() {
+        for card in opponent.hand {
+            card.info.costReduction = 0
+        }
+    }
+    
     func handlePlayerAbyssalCurse(value: Int) {
         player.updateAbyssalCurse(value: value)
     }

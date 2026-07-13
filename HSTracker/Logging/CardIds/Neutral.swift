@@ -770,6 +770,7 @@ extension CardIds.Collectible {
         static let CultivatingSprite = "MEND_100"
         static let CapturedArchmage = "JAIL_974"
         static let RecklessDetective = "JAIL_447"
+        static let WizenedTruthseeker = "TIME_057"
     }
 }
 

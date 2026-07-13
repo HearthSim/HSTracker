@@ -293,4 +293,6 @@ protocol PowerEventHandler: AnyObject {
     
     var beatrixCardIds: Set<Int> { get set }
     var beatrixCopiedCard: String? { get set }
+    
+    func resetOpponentHandCostReduction()
 }

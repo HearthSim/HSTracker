@@ -1284,6 +1284,12 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.TheCoinBasic)
                         case CardIds.Collectible.DemonHunter.VoidBlast:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.DemonHunter.VoidSoul)
+                        case CardIds.Collectible.Neutral.WizenedTruthseeker:
+                            if let actionStartingEntity {
+                                if actionStartingEntity.isControlled(by: eventHandler.player.id) {
+                                    eventHandler.handleOpponentHandCostReduction(value: 1)
+                                }
+                            }
                         case CardIds.NonCollectible.Warrior.EntertheLostCity_LatorviusGazeOfTheCityToken:
                             if actionStartingEntity?.isControlled(by: eventHandler.opponent.id) ?? false {
                                 for id in [ CardIds.NonCollectible.Druid.JungleGiants_BarnabusTheStomperToken,
