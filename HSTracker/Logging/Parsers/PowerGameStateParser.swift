@@ -872,6 +872,8 @@ class PowerGameStateParser: LogEventParser {
                             }
                         case CardIds.Collectible.Neutral.Meadowstrider:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Neutral.Meadowstrider, count: 1, location: DeckLocation.bottom)
+                        case CardIds.Collectible.Warlock.ImpGangStooge:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Warlock.ImpGangStooge_GrandmotherImpToken, count: 1, location: DeckLocation.bottom)
                         case CardIds.Collectible.Paladin.IdoOfTheThreshfleet:
                             addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Paladin.IdooftheThreshfleet_CallTheThreshfleetToken)
                         case CardIds.Collectible.Hunter.RangariScout:

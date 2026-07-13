@@ -223,6 +223,7 @@ extension CardIds.Collectible {
         static let ShrineOfTwilight = "CATA_492"
         static let ChogallMastermind = "CATA_726"
         static let Moragg = "JAIL_906"
+        static let ImpGangStooge = "JAIL_399"
     }
 }
 
@@ -317,6 +318,7 @@ extension CardIds.NonCollectible {
         static let TimethiefRafaam_ArchmageRafaamToken = "TIME_005t9"
         static let TimethiefRafaam_MrgleermMrgloslgyToken = "TIME_005t8e"
         static let TwilightTimehopper_ShredOfTimeToken = "TIME_025t"
+        static let ImpGangStooge_GrandmotherImpToken = "JAIL_399t1"
     }
 }
 
