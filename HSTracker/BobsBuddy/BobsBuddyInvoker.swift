@@ -144,6 +144,11 @@ class BobsBuddyInvoker {
         return nil
     }
     
+    // BobsBuddy states during which a revealed card can be added to simulator input
+    private var updateRevealedEntityValidStates: Bool {
+        state == BobsBuddyState.initial || state == BobsBuddyState.combat || state == BobsBuddyState.combatPartial
+    }
+    
     func shouldRun() -> Bool {
         if !Settings.showBobsBuddy {
             return false
@@ -1237,6 +1242,13 @@ class BobsBuddyInvoker {
     private var reRunCount = 0
     
     func tryRerun() {
+        if state == BobsBuddyState.initial {
+            // For duos, revealed cards can happen during BobsBuddyState.Initial since the entire first
+            // fight parses before any state is assigned. The upcoming partial/full simulator run will have
+            // this updated input, so there is no need to continue with TryRerun()
+            return
+        }
+        
         reRunCount += 1
         if reRunCount <= 11 {
             logger.debug("Input changed, re-running simulation! (\(reRunCount))")
@@ -1252,8 +1264,8 @@ class BobsBuddyInvoker {
         }
     }
     
-    func updateOpponentHand(entity: Entity, copy: Entity) {
-        guard let input, state == .combat || state == .combatPartial else {
+    func updateCardOpponentHand(entity: Entity, copy: Entity) {
+        guard let input, updateRevealedEntityValidStates else {
             return
         }
         
@@ -1299,7 +1311,7 @@ class BobsBuddyInvoker {
     }
     
     func updateLockAndLoadHeroPower(attachedEntity: Entity, isOpponent: Bool) {
-        guard let input, state == .combat || state == .combatPartial else {
+        guard let input, updateRevealedEntityValidStates else {
             return
         }
         
@@ -1330,7 +1342,7 @@ class BobsBuddyInvoker {
     }
     
     func updateDuosLockAndLoadHeroPower(_ cardDbfId: Int) {
-        guard let input, state == .combat || state == .combatPartial else {
+        guard let input, updateRevealedEntityValidStates else {
             return
         }
 
@@ -1392,7 +1404,7 @@ class BobsBuddyInvoker {
     }
     
     func updateBackToBackSpellBonus(_ backToBackEnchantmentEntity: Entity, _ isOpponent: Bool) {
-        guard let input, state == BobsBuddyState.combat || state == .combatPartial else {
+        guard let input, updateRevealedEntityValidStates else {
             return
         }
         
@@ -1422,7 +1434,7 @@ class BobsBuddyInvoker {
     }
     
     func updateSandyTransformDuos(_ attachedEntity: Entity, _ sandyEntityId: Int32) {
-        guard let input, state == BobsBuddyState.combat || state == .combatPartial else {
+        guard let input, updateRevealedEntityValidStates else {
             return
         }
         
@@ -1464,7 +1476,7 @@ class BobsBuddyInvoker {
     }
     
     func updateFlobbidinousFloopTransformDuos(_ attachedEntity: Entity) {
-        guard let input, state == BobsBuddyState.combat || state == .combatPartial else {
+        guard let input, updateRevealedEntityValidStates else {
             return
         }
 
@@ -1499,7 +1511,7 @@ class BobsBuddyInvoker {
     }
     
     func updateSummoningSphereDuos(_ attachedEntity: Entity, _ trinketEntityId: Int32) {
-        guard let input, state == BobsBuddyState.combat || state == .combatPartial else {
+        guard let input, updateRevealedEntityValidStates else {
             return
         }
 
@@ -1543,7 +1555,7 @@ class BobsBuddyInvoker {
     }
     
     func updateMinionEnchantment(_ enchantmentEntity: Entity, _ attachedToEntityId: Int, _ isPlayerMinion: Bool) {
-        guard let input, state == .combat || state == .combatPartial else {
+        guard let input, updateRevealedEntityValidStates else {
             return
         }
         
@@ -1585,7 +1597,7 @@ class BobsBuddyInvoker {
     static let timewarpedMagnanimooseEnchantment = "BACON_FAKE_Magnanimoose_Enchantment"
     
     func updateDrBoomsMonsterReborn(_ sourceEntityId: Int, _ rebornMaxHealth: Int, _ isPlayerMinion: Bool) {
-        guard let input, state == .combat || state == .combatPartial else {
+        guard let input, updateRevealedEntityValidStates else {
             return
         }
         
@@ -1611,7 +1623,7 @@ class BobsBuddyInvoker {
         tryRerun()
     }
     func updateTimewarpedMagnanimoose(_ summonedEntities: [Entity], _ magnanimooseEntityId: Int, _ isPlayerMinion: Bool) {
-        guard let input, state == .combat || state == .combatPartial else {
+        guard let input, updateRevealedEntityValidStates else {
             return
         }
         
@@ -1658,7 +1670,7 @@ class BobsBuddyInvoker {
         guard let input else {
             return
         }
-        guard state == .combat || state == .combatPartial else {
+        guard updateRevealedEntityValidStates else {
             return
         }
         
