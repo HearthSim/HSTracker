@@ -62,7 +62,7 @@ class Entity {
     }
     
     var isTheCoin: Bool {
-        return cardId == CardIds.NonCollectible.Neutral.TheCoinBasic || (isSpell && self[.gametag_2088] == 1)
+        return cardId == CardIds.NonCollectible.Neutral.TheCoinBasic || (isSpell && self[.coin_card] == 1)
     }
     
     func isInZone(zone: Zone) -> Bool {
