@@ -126,7 +126,7 @@ class MinionProxy: MonoHandle, MonoClassInitializer {
     
     @MonoPrimitiveProperty(property: "game_id", owner: MinionProxy.self)
     var game_id: Int32
-
+    
     func addDeathrattle(deathrattle: MonoHandle) {
         let field = mono_class_get_field_from_name(MinionProxy._class, "AdditionalDeathrattles")
         let inst = get()

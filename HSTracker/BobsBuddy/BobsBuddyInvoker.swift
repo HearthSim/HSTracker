@@ -46,6 +46,10 @@ class BobsBuddyInvoker {
     var input: InputProxy?
     var output: OutputProxy?
     
+    // True while the current Battlegrounds combat contains a Dr. Boom's Monster, so the per-HEALTH-change reborn
+    // detection in TagChangeActions can skip the entity lookup for the (vast majority of) combats without one.
+    static var currentCombatHasDrBoomsMonster = false
+    
     var doNotReport = true
     
     private var currentOpponentMinions: [Int: MinionProxy] = [:]
@@ -1111,6 +1115,20 @@ class BobsBuddyInvoker {
             logger.info("pHauntedAtk=\(inputPlayer.hauntedAtkBuff), pHauntedHealth=\(inputPlayer.hauntedHealthBuff), friendly=\(friendly)")
         }
     }
+    
+    private func listAny<T: MonoHandle>(_ list: MonoHandle, _ predicate: (T) -> Bool) -> T? {
+        let count = MonoHelper.listCount(obj: list)
+        var minion: T?
+        for i in 0 ..< count {
+            let item = MonoHelper.listItem(obj: list, index: i).get()
+            let m = T(obj: item)
+            if predicate(m) {
+                minion = m
+                break
+            }
+        }
+        return minion
+    }
 
     func snapshotBoardState(turn: Int) {
         logger.debug("Snapshotting board state...")
@@ -1175,6 +1193,24 @@ class BobsBuddyInvoker {
                 
         self.input = input
         self._turn = turn
+        
+        // Flag checking for Dr. Boom's Monster (to optimize redundantly checking in TagChangeAction)
+        // Predicate for MinionProxy objects (board)
+        let boomCheckMinion: (MinionProxy) -> Bool = { minion in
+            guard minion.get() != nil else { return false } // Ensure the underlying MonoObject is not nil
+            return minion.cardID == CardIds.NonCollectible.Neutral.DrBoomsMonster || minion.cardID == CardIds.NonCollectible.Neutral.DrBoomsMonster_DrBoomsMonster1
+        }
+        
+        // Predicate for CardEntityProxy objects (hand)
+        let boomCheckCard: (CardEntityProxy) -> Bool = { cardEntity in
+            guard cardEntity.get() != nil else { return false } // Ensure the underlying MonoObject is not nil
+            return cardEntity.id == CardIds.NonCollectible.Neutral.DrBoomsMonster || cardEntity.id == CardIds.NonCollectible.Neutral.DrBoomsMonster_DrBoomsMonster1
+        }
+        
+        BobsBuddyInvoker.currentCombatHasDrBoomsMonster = (listAny(input.player.side, boomCheckMinion) != nil) ||
+                                                          (listAny(input.opponent.side, boomCheckMinion) != nil) || // Corrected: input.player.opponent.side -> input.opponent.side
+                                                          (listAny(input.player.hand, boomCheckCard) != nil) ||
+                                                          (listAny(input.opponent.hand, boomCheckCard) != nil)
         
         logger.debug("Successfully snapshotted board state")
     }
@@ -1529,6 +1565,32 @@ class BobsBuddyInvoker {
     
     static let timewarpedMagnanimooseEnchantment = "BACON_FAKE_Magnanimoose_Enchantment"
     
+    func updateDrBoomsMonsterReborn(_ sourceEntityId: Int, _ rebornMaxHealth: Int, _ isPlayerMinion: Bool) {
+        guard let input, state == .combat else {
+            return
+        }
+        
+        // We need to know the magnetized count when a Dr. Boom's Monster is reborn
+        let targetPlayer = isPlayerMinion ? input.player : input.opponent
+        if targetPlayer.magnetizeCounter.get() != nil {
+            return
+        }
+
+        guard let source = listFirst(targetPlayer.side, { (m: MinionProxy) in m.game_id == sourceEntityId
+            && (m.cardID == CardIds.NonCollectible.Neutral.DrBoomsMonster || m.cardID == CardIds.NonCollectible.Neutral.DrBoomsMonster_DrBoomsMonster1) }) else {
+            return
+        }
+
+        let statsGrantedPerMagnetize = source.golden ? 4 : 2
+        var count = (rebornMaxHealth - statsGrantedPerMagnetize) / statsGrantedPerMagnetize
+        if count <= 0 {
+            return
+        }
+
+        let boxedInt = mono_value_box(MonoHelper._monoInstance, mono_get_int32_class(), &count)
+        targetPlayer.magnetizeCounter = MonoHandle(obj: boxedInt)
+        tryRerun()
+    }
     func updateTimewarpedMagnanimoose(_ summonedEntities: [Entity], _ magnanimooseEntityId: Int, _ isPlayerMinion: Bool) {
         guard let input, state == .combat else {
             return

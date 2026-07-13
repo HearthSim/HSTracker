@@ -20,6 +20,8 @@ class CardEntityProxy: MonoHandle, MonoClassInitializer {
             CardEntityProxy._class = MonoHelper.loadClass(ns: "BobsBuddy", name: "CardEntity")
             
             CardEntityProxy._constructor = MonoHelper.getMethod(CardEntityProxy._class, ".ctor", 3)
+            
+            initializeProperties(properties: [ "Id" ])
         }
     }
 
@@ -46,6 +48,10 @@ class CardEntityProxy: MonoHandle, MonoClassInitializer {
     }
     
     required init(obj: UnsafeMutablePointer<MonoObject>?) {
-        fatalError("init(obj:) has not been implemented")
+        super.init(obj: obj)
     }
+        
+    @MonoStringProperty(property: "Id", owner: CardEntityProxy.self)
+    var id: String
+
 }

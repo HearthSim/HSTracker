@@ -22,12 +22,12 @@ class PlayerProxy: MonoHandle, MonoClassInitializer {
             PlayerProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Simulation", name: "Player")
             // methods
             PlayerProxy._constructor = MonoHelper.getMethod(PlayerProxy._class, ".ctor", 1)
-            PlayerProxy._setPlayerHeroPower = MonoHelper.getMethod(PlayerProxy._class, "AddHeroPower", 8)
+            PlayerProxy._setPlayerHeroPower = MonoHelper.getMethod(PlayerProxy._class, "AddHeroPower", 9)
             PlayerProxy._setSecrets = MonoHelper.getMethod(PlayerProxy._class, "SetSecretsHstracker", 1)
             PlayerProxy._setHeroIsKelThuzad = MonoHelper.getMethod(PlayerProxy._class, "SetHeroIsKelThuzad", 0)
             
             // fields
-            initializeProperties(properties: [ "Side", "HeroPowers", "Quests", "Objectives", "Trinkets", "Secrets", "Hand", "FriendlyMinionsDeadLastCombatCounter", "EternalKnightCounter", "AncestralAutomatonCounter", "UndeadAttackBonus", "UndeadHealthBonus", "WhelpAttackBonus", "WhelpHealthBonus", "ElementalPlayCounter", "BloodGemAtkBuff", "BloodGemHealthBuff", "TavernSpellCounter", "PiratesSummonCounter", "ResourcesSpentThisGame", "BeastsSummonCounter", "BeastAttackBonus", "BeastHealthBonus", "BeetlesAtkBuff", "BeetlesHealthBuff", "BattlecryCounter", "DeathrattleCounter", "TavernSpellAtkBuff", "TavernSpellHealthBuff", "BackToBackAtk", "BackToBackHealth", "BackToBackCounter", "HauntedAtkBuff", "HauntedHealthBuff", "Health", "DamageTaken", "Tier", "HeroIsKelThuzad" ])
+            initializeProperties(properties: [ "Side", "HeroPowers", "Quests", "Objectives", "Trinkets", "Secrets", "Hand", "FriendlyMinionsDeadLastCombatCounter", "EternalKnightCounter", "MagnetizeCounter", "AncestralAutomatonCounter", "UndeadAttackBonus", "UndeadHealthBonus", "WhelpAttackBonus", "WhelpHealthBonus", "ElementalPlayCounter", "BloodGemAtkBuff", "BloodGemHealthBuff", "TavernSpellCounter", "PiratesSummonCounter", "ResourcesSpentThisGame", "BeastsSummonCounter", "BeastAttackBonus", "BeastHealthBonus", "BeetlesAtkBuff", "BeetlesHealthBuff", "BattlecryCounter", "DeathrattleCounter", "TavernSpellAtkBuff", "TavernSpellHealthBuff", "BackToBackAtk", "BackToBackHealth", "BackToBackCounter", "HauntedAtkBuff", "HauntedHealthBuff", "Health", "DamageTaken", "Tier", "HeroIsKelThuzad" ])
         }
     }
     
@@ -55,8 +55,8 @@ class PlayerProxy: MonoHandle, MonoClassInitializer {
 
     }
     
-    func addHeroPower(heroPowerCardId: String, friendly: Bool, isActivated: Bool, data: Int32, data2: Int32, data3: Int32, attachedMinion: MonoHandle = MonoHandle(), game_id: Int32 = 0) {
-        MonoHelper.setStringBoolBoolIntIntIntIntHandle(obj: self, method: PlayerProxy._setPlayerHeroPower, v1: heroPowerCardId, v2: friendly, v3: isActivated, v4: data, v5: data2, v6: data3, v7: attachedMinion, v8: game_id)
+    func addHeroPower(heroPowerCardId: String, friendly: Bool, isActivated: Bool, data: Int32, data2: Int32, data3: Int32, attachedMinion: MonoHandle = MonoHandle(), game_id: Int32 = 0, attachedMinionCapturedDuringCombat: Bool = false) {
+        MonoHelper.setStringBoolBoolIntIntIntIntHandleBool(obj: self, method: PlayerProxy._setPlayerHeroPower, v1: heroPowerCardId, v2: friendly, v3: isActivated, v4: data, v5: data2, v6: data3, v7: attachedMinion, v8: game_id, v9: attachedMinionCapturedDuringCombat)
     }
     
     func setSecrets(secrets: [Int]) {
@@ -107,6 +107,9 @@ class PlayerProxy: MonoHandle, MonoClassInitializer {
     
     @MonoPrimitiveProperty(property: "EternalKnightCounter", owner: PlayerProxy.self)
     var eternalKnightCounter: Int32
+    
+    @MonoHandleProperty(property: "MagnetizeCounter", owner: PlayerProxy.self)
+    var magnetizeCounter: MonoHandle
     
     @MonoPrimitiveProperty(property: "AncestralAutomatonCounter", owner: PlayerProxy.self)
     var ancestralAutomatonCounter: Int32
