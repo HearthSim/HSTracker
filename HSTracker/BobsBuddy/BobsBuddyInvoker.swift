@@ -868,7 +868,11 @@ class BobsBuddyInvoker {
     }
     
     static func getTrinketFromEntity(factory: TrinketFactoryProxy, player: Bool, entity: Entity) -> TrinketProxy {
-        let trinket = factory.create(id: entity.cardId, friendly: player)
+        // Use LatestCardId, not CardId. A Lesser/Greater Crystal Ball that has transformed into a
+        // copy of a trinket keeps its stale token CardId (BACON trinket entities are not updated by
+        // CHANGE_ENTITY), while LatestCardId always reflects the copied card.
+        let cardId = entity.info.latestCardId
+        let trinket = factory.create(id: cardId, friendly: player)
         let scriptDataNum1 = entity[.tag_script_data_num_1]
         let scriptDataNum2 = trinket.scriptDataNum2
         if scriptDataNum1 > 0 {
@@ -877,7 +881,8 @@ class BobsBuddyInvoker {
         if scriptDataNum2 > 0 {
             trinket.scriptDataNum2 = Int32(scriptDataNum2)
         }
-        if entity.cardId == CardIds.NonCollectible.Neutral.ReplicaCathedral {
+        // Special handling for replica cathedral
+        if cardId == CardIds.NonCollectible.Neutral.ReplicaCathedral {
             trinket.scriptDataNum1 = Int32(entity[GameTag.gametag_4696])
         }
         trinket.game_id = Int32(entity.id)
