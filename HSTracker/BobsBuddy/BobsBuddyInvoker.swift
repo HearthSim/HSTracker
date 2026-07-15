@@ -1600,7 +1600,11 @@ class BobsBuddyInvoker {
         guard let input, updateRevealedEntityValidStates else {
             return
         }
-        
+        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        defer {
+            mono_thread_detach(opaque)
+        }
+
         // We need to know the magnetized count when a Dr. Boom's Monster is reborn
         let targetPlayer = isPlayerMinion ? input.player : input.opponent
         if targetPlayer.magnetizeCounter.get() != nil {
@@ -1622,6 +1626,7 @@ class BobsBuddyInvoker {
         targetPlayer.magnetizeCounter = MonoHandle(obj: boxedInt)
         tryRerun()
     }
+    
     func updateTimewarpedMagnanimoose(_ summonedEntities: [Entity], _ magnanimooseEntityId: Int, _ isPlayerMinion: Bool) {
         guard let input, updateRevealedEntityValidStates else {
             return
