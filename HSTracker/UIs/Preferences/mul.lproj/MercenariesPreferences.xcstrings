@@ -1,0 +1,66 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "bkp-KW-tQa.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Show ability icons below player Mercenaries\"; ObjectID = \"bkp-KW-tQa\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show ability icons below player Mercenaries"
+          }
+        }
+      }
+    },
+    "i84-xc-QhF.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Show opponent Mercenary abilities on hover\"; ObjectID = \"i84-xc-QhF\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show opponent Mercenary abilities on hover"
+          }
+        }
+      }
+    },
+    "QMN-RN-SBa.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Show player Mercenary abilities on hover\"; ObjectID = \"QMN-RN-SBa\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show player Mercenary abilities on hover"
+          }
+        }
+      }
+    },
+    "xHF-kI-BcO.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Show Tasks panel while in Mercenaries mode\"; ObjectID = \"xHF-kI-BcO\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show Tasks panel while in Mercenaries mode"
+          }
+        }
+      }
+    },
+    "yHd-sB-xlv.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Show ability icons above opponent Mercenaries\"; ObjectID = \"yHd-sB-xlv\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show ability icons above opponent Mercenaries"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.1"
+}

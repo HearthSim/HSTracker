@@ -1,0 +1,198 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "5e4-DO-DV2.title" : {
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"-\"; ObjectID = \"5e4-DO-DV2\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "-"
+          }
+        }
+      }
+    },
+    "am7-wl-m8P.title" : {
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"Loss\"; ObjectID = \"am7-wl-m8P\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Loss"
+          }
+        }
+      }
+    },
+    "ap0-Df-S17.title" : {
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"Win\"; ObjectID = \"ap0-Df-S17\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Win"
+          }
+        }
+      }
+    },
+    "e3u-8j-TGc.title" : {
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"Lethal\"; ObjectID = \"e3u-8j-TGc\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Lethal"
+          }
+        }
+      }
+    },
+    "EbW-eL-CJE.title" : {
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"AVG DMG\"; ObjectID = \"EbW-eL-CJE\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "AVG DMG"
+          }
+        }
+      }
+    },
+    "Ek9-wV-FN6.title" : {
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"Tie\"; ObjectID = \"Ek9-wV-FN6\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Tie"
+          }
+        }
+      }
+    },
+    "fVs-fF-yRw.title" : {
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"-\"; ObjectID = \"fVs-fF-yRw\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "-"
+          }
+        }
+      }
+    },
+    "h3H-2c-OkJ.title" : {
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"AVG DMG\"; ObjectID = \"h3H-2c-OkJ\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "AVG DMG"
+          }
+        }
+      }
+    },
+    "HFC-lZ-iLC.title" : {
+      "comment" : "Class = \"NSBox\"; title = \"Background Box\"; ObjectID = \"HFC-lZ-iLC\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Background Box"
+          }
+        }
+      }
+    },
+    "HZD-O0-28u.title" : {
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"-\"; ObjectID = \"HZD-O0-28u\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "-"
+          }
+        }
+      }
+    },
+    "jWa-v7-Pxa.title" : {
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"-\"; ObjectID = \"jWa-v7-Pxa\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "-"
+          }
+        }
+      }
+    },
+    "Jzr-ut-1Rd.title" : {
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"-\"; ObjectID = \"Jzr-ut-1Rd\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "-"
+          }
+        }
+      }
+    },
+    "KL3-ZW-CmV.title" : {
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"Lethal\"; ObjectID = \"KL3-ZW-CmV\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Lethal"
+          }
+        }
+      }
+    },
+    "OKv-fB-gXn.title" : {
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"-\"; ObjectID = \"OKv-fB-gXn\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "-"
+          }
+        }
+      }
+    },
+    "xPg-d8-3jx.title" : {
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"-\"; ObjectID = \"xPg-d8-3jx\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "-"
+          }
+        }
+      }
+    },
+    "ZRo-ec-BR3.title" : {
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"-\"; ObjectID = \"ZRo-ec-BR3\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "-"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.1"
+}

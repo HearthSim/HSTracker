@@ -1,0 +1,804 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "4LE-h7-rfX.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Show tiers\"; ObjectID = \"4LE-h7-rfX\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show tiers"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示酒馆等级"
+          }
+        }
+      }
+    },
+    "7dm-kv-U4Y.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Show minion types\"; ObjectID = \"7dm-kv-U4Y\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show minion types"
+          }
+        }
+      }
+    },
+    "9TS-9T-RQV.title" : {
+      "comment" : "Class = \"NSBox\"; title = \"Bob's Buddy\"; ObjectID = \"9TS-9T-RQV\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Bob's Buddy"
+          }
+        }
+      }
+    },
+    "be4-8p-MhH.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Show trinket picking stats\"; ObjectID = \"be4-8p-MhH\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show trinket picking stats"
+          }
+        }
+      }
+    },
+    "c2t-Sg-vNs.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Show turn counter\"; ObjectID = \"c2t-Sg-vNs\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show turn counter"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show turn counter"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show turn counter"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show turn counter"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show turn counter"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show turn counter"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show turn counter"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "턴 카운터 보여주기"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show turn counter"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show turn counter"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show turn counter"
+          }
+        },
+        "th-TH" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show turn counter"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示回合计数器"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show turn counter"
+          }
+        }
+      }
+    },
+    "DaB-Gf-wIK.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Banned\"; ObjectID = \"DaB-Gf-wIK\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Banned"
+          }
+        }
+      }
+    },
+    "dcW-bJ-e6v.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Show Battlecry and Deathrattle on tiers\"; ObjectID = \"dcW-bJ-e6v\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show Battlecry and Deathrattle on tiers"
+          }
+        }
+      }
+    },
+    "EaL-aA-A3g.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Always show tavern tier 7\"; ObjectID = \"EaL-aA-A3g\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Always show tavern tier 7"
+          }
+        }
+      }
+    },
+    "fts-jC-w9N.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Enable Tier7 overlay\"; ObjectID = \"fts-jC-w9N\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Enable Tier7 overlay"
+          }
+        }
+      }
+    },
+    "gcd-yJ-p3G.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Reset Session\"; ObjectID = \"gcd-yJ-p3G\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Reset Session"
+          }
+        }
+      }
+    },
+    "gkM-fC-BN7.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Show Battlegrounds hero picking stats\"; ObjectID = \"gkM-fC-BN7\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show Battlegrounds hero picking stats"
+          }
+        }
+      }
+    },
+    "hVL-iu-9SV.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Show latest games\"; ObjectID = \"hVL-iu-9SV\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show latest games"
+          }
+        }
+      }
+    },
+    "i84-xc-QhF.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Show Bob's Buddy\"; ObjectID = \"i84-xc-QhF\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Bob's Buddy"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show Bob's Buddy"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Bob's Buddy"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Bob's Buddy"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Bob's Buddy"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Bob's Buddy"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Bob's Buddy"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "전우 보여주기"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Bob's Buddy"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Bob's Buddy"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Bob's Buddy"
+          }
+        },
+        "th-TH" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Bob's Buddy"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示鲍勃助手"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Bob's Buddy"
+          }
+        }
+      }
+    },
+    "J07-pk-b78.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Show opponent warband\"; ObjectID = \"J07-pk-b78\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show opponent warband"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示对手阵容"
+          }
+        }
+      }
+    },
+    "JUT-jb-jLx.title" : {
+      "comment" : "Class = \"NSBox\"; title = \"Session Recap\"; ObjectID = \"JUT-jb-jLx\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Session Recap"
+          }
+        }
+      }
+    },
+    "kdX-CA-zhQ.title" : {
+      "comment" : "Class = \"NSBox\"; title = \"Tier7\"; ObjectID = \"kdX-CA-zhQ\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Tier7"
+          }
+        }
+      }
+    },
+    "L5S-gI-Wxn.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Start, Current\"; ObjectID = \"L5S-gI-Wxn\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Start, Current"
+          }
+        }
+      }
+    },
+    "LKm-DE-YdT.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Always show average damage\"; ObjectID = \"LKm-DE-YdT\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Always show average damage"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Always show average damage"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Always show average damage"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Always show average damage"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Always show average damage"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Always show average damage"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Always show average damage"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "평균 데미지 보여주기"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Always show average damage"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Always show average damage"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Always show average damage"
+          }
+        },
+        "th-TH" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Always show average damage"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "总是显示平均伤害"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Always show average damage"
+          }
+        }
+      }
+    },
+    "nGc-Fs-IbI.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Show tavern and triple history\"; ObjectID = \"nGc-Fs-IbI\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show tavern and triple history"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示酒馆升级和三连历史"
+          }
+        }
+      }
+    },
+    "oXq-kH-uaV.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Show hero comparison\"; ObjectID = \"oXq-kH-uaV\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show hero comparison"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示英雄对比"
+          }
+        }
+      }
+    },
+    "po8-Pv-EE8.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Show Battlegrounds quest picking stats\"; ObjectID = \"po8-Pv-EE8\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show Battlegrounds quest picking stats"
+          }
+        }
+      }
+    },
+    "PrW-hA-PZj.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Show MMR\"; ObjectID = \"PrW-hA-PZj\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show MMR"
+          }
+        }
+      }
+    },
+    "pzC-JZ-tcU.title" : {
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"Scaling\"; ObjectID = \"pzC-JZ-tcU\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Scaling"
+          }
+        }
+      }
+    },
+    "QMN-RN-SBa.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Show Bob's Buddy during combat\"; ObjectID = \"QMN-RN-SBa\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Bob's Buddy during combat"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show Bob's Buddy during combat"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Bob's Buddy during combat"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Bob's Buddy during combat"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Bob's Buddy during combat"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Bob's Buddy during combat"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Bob's Buddy during combat"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "전투중 전우 보여주기"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Bob's Buddy during combat"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Bob's Buddy during combat"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Bob's Buddy during combat"
+          }
+        },
+        "th-TH" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Bob's Buddy during combat"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在战斗中显示鲍勃助手"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Bob's Buddy during combat"
+          }
+        }
+      }
+    },
+    "QUp-Tx-AlQ.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Show tavern spells\"; ObjectID = \"QUp-Tx-AlQ\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show tavern spells"
+          }
+        }
+      }
+    },
+    "RCI-vA-mUx.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Current, Change\"; ObjectID = \"RCI-vA-mUx\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Current, Change"
+          }
+        }
+      }
+    },
+    "rPF-4f-O8s.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Show Bob's Buddy during shopping\"; ObjectID = \"rPF-4f-O8s\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Bob's Buddy during shopping"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show Bob's Buddy during shopping"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Bob's Buddy during shopping"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Bob's Buddy during shopping"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Bob's Buddy during shopping"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Bob's Buddy during shopping"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Bob's Buddy during shopping"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "쇼핑중 전우 보여주기"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Bob's Buddy during shopping"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Bob's Buddy during shopping"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Bob's Buddy during shopping"
+          }
+        },
+        "th-TH" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Bob's Buddy during shopping"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在商店中显示鲍勃助手"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Bob's Buddy during shopping"
+          }
+        }
+      }
+    },
+    "tBZ-Tg-1hx.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Show comp stats (in session recap)\"; ObjectID = \"tBZ-Tg-1hx\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show comp stats (in session recap)"
+          }
+        }
+      }
+    },
+    "TFO-5v-fkw.title" : {
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"100%\"; ObjectID = \"TFO-5v-fkw\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "100%"
+          }
+        }
+      }
+    },
+    "wfJ-hm-6dv.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Available\"; ObjectID = \"wfJ-hm-6dv\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Available"
+          }
+        }
+      }
+    },
+    "Xmc-n4-oyS.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Show Tier7 menu overlay (MMR & stats)\"; ObjectID = \"Xmc-n4-oyS\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show Tier7 menu overlay (MMR & stats)"
+          }
+        }
+      }
+    },
+    "ZsD-zG-uu2.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Show session recap\"; ObjectID = \"ZsD-zG-uu2\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show session recap"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.1"
+}
