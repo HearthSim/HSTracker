@@ -36,17 +36,15 @@
                 <outlet property="showTier7PreLobby" destination="0rS-5z-pRa" id="fhR-dD-W7g"/>
                 <outlet property="showTiers" destination="66r-fs-Jja" id="g6P-yg-2Du"/>
                 <outlet property="showTurnCounter" destination="led-ON-LPz" id="hz4-bl-Hks"/>
-                <outlet property="view" destination="c22-O7-iKe" id="rY0-tu-oVL"/>
+                <outlet property="view" destination="PgR-kc-NQ2" id="rY0-tu-oVL"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customView translatesAutoresizingMaskIntoConstraints="NO" id="c22-O7-iKe">
+        <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="10" horizontalStackHuggingPriority="250" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" id="PgR-kc-NQ2">
             <rect key="frame" x="0.0" y="0.0" width="414" height="848"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PgR-kc-NQ2">
-                    <rect key="frame" x="0.0" y="0.0" width="414" height="848"/>
-                    <subviews>
                         <box title="Tier7" translatesAutoresizingMaskIntoConstraints="NO" id="kdX-CA-zhQ">
                             <rect key="frame" x="7" y="642" width="400" height="186"/>
                             <view key="contentView" id="FaQ-JU-XUN">
@@ -58,7 +56,7 @@
                                         <subviews>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3Ts-2S-wmU">
                                                 <rect key="frame" x="-2" y="139" width="151" height="18"/>
-                                                <buttonCell key="cell" type="check" title="Enable Tier7 Overlay" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="fts-jC-w9N">
+                                                <buttonCell key="cell" type="check" title="Enable Tier7 overlay" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="fts-jC-w9N">
                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                     <font key="font" metaFont="system"/>
                                                 </buttonCell>
@@ -68,7 +66,7 @@
                                             </button>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0rS-5z-pRa">
                                                 <rect key="frame" x="-2" y="113" width="272" height="18"/>
-                                                <buttonCell key="cell" type="check" title="Show Tier7 menu Overlay (MMR &amp; Stats)" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Xmc-n4-oyS">
+                                                <buttonCell key="cell" type="check" title="Show Tier7 menu overlay (MMR &amp; stats)" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Xmc-n4-oyS">
                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                     <font key="font" metaFont="system"/>
                                                 </buttonCell>
@@ -78,7 +76,7 @@
                                             </button>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bM5-OJ-VEP">
                                                 <rect key="frame" x="-2" y="87" width="264" height="18"/>
-                                                <buttonCell key="cell" type="check" title="Show Battlegrounds Hero Picking Stats" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="gkM-fC-BN7">
+                                                <buttonCell key="cell" type="check" title="Show Battlegrounds hero picking stats" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="gkM-fC-BN7">
                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                     <font key="font" metaFont="system"/>
                                                 </buttonCell>
@@ -88,7 +86,7 @@
                                             </button>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QeJ-mI-bjv">
                                                 <rect key="frame" x="-2" y="61" width="270" height="18"/>
-                                                <buttonCell key="cell" type="check" title="Show Battlegrounds Quest Picking Stats" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="po8-Pv-EE8">
+                                                <buttonCell key="cell" type="check" title="Show Battlegrounds quest picking stats" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="po8-Pv-EE8">
                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                     <font key="font" metaFont="system"/>
                                                 </buttonCell>
@@ -98,7 +96,7 @@
                                             </button>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="k99-WS-d2I">
                                                 <rect key="frame" x="-2" y="35" width="185" height="18"/>
-                                                <buttonCell key="cell" type="check" title="Show Trinket picking stats" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="be4-8p-MhH">
+                                                <buttonCell key="cell" type="check" title="Show trinket picking stats" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="be4-8p-MhH">
                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                     <font key="font" metaFont="system"/>
                                                 </buttonCell>
@@ -108,7 +106,7 @@
                                             </button>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WNs-L3-3NJ">
                                                 <rect key="frame" x="-2" y="9" width="243" height="18"/>
-                                                <buttonCell key="cell" type="check" title="Show Comp stats (in session recap)" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="tBZ-Tg-1hx">
+                                                <buttonCell key="cell" type="check" title="Show comp stats (in session recap)" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="tBZ-Tg-1hx">
                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                     <font key="font" metaFont="system"/>
                                                 </buttonCell>
@@ -247,7 +245,7 @@
                         </button>
                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nIZ-ZN-jaR">
                             <rect key="frame" x="8" y="375" width="185" height="18"/>
-                            <buttonCell key="cell" type="check" title="Always show Tavern Tier 7" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="EaL-aA-A3g">
+                            <buttonCell key="cell" type="check" title="Always show tavern tier 7" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="EaL-aA-A3g">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
@@ -257,7 +255,7 @@
                         </button>
                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3HM-F3-XZP">
                             <rect key="frame" x="8" y="349" width="262" height="18"/>
-                            <buttonCell key="cell" type="check" title="Show battlecry and deathrattle on tiers" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="dcW-bJ-e6v">
+                            <buttonCell key="cell" type="check" title="Show Battlecry and Deathrattle on tiers" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="dcW-bJ-e6v">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
@@ -267,7 +265,7 @@
                         </button>
                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wJz-9K-13G">
                             <rect key="frame" x="8" y="323" width="142" height="18"/>
-                            <buttonCell key="cell" type="check" title="Show Tavern spells" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="QUp-Tx-AlQ">
+                            <buttonCell key="cell" type="check" title="Show tavern spells" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="QUp-Tx-AlQ">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
@@ -287,7 +285,7 @@
                         </button>
                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aHt-pi-28x" userLabel="Show hero comparison">
                             <rect key="frame" x="8" y="271" width="168" height="18"/>
-                            <buttonCell key="cell" type="check" title="Show hero comparision" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="oXq-kH-uaV">
+                            <buttonCell key="cell" type="check" title="Show hero comparison" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="oXq-kH-uaV">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
@@ -506,12 +504,12 @@
                             </view>
                         </box>
                     </subviews>
-                    <edgeInsets key="edgeInsets" left="10" right="10" top="20" bottom="20"/>
+                    <edgeInsets key="edgeInsets" left="20" right="20" top="20" bottom="20"/>
                     <constraints>
-                        <constraint firstAttribute="trailing" secondItem="JUT-jb-jLx" secondAttribute="trailing" constant="10" id="9Ne-eL-PRV"/>
-                        <constraint firstItem="JUT-jb-jLx" firstAttribute="leading" secondItem="PgR-kc-NQ2" secondAttribute="leading" constant="10" id="ZUD-U1-Azp"/>
-                        <constraint firstAttribute="trailing" secondItem="9TS-9T-RQV" secondAttribute="trailing" constant="10" id="pEH-0P-fUo"/>
-                        <constraint firstAttribute="trailing" secondItem="kdX-CA-zhQ" secondAttribute="trailing" constant="10" id="yl6-uH-FNx"/>
+                        <constraint firstAttribute="trailing" secondItem="JUT-jb-jLx" secondAttribute="trailing" constant="20" id="9Ne-eL-PRV"/>
+                        <constraint firstItem="JUT-jb-jLx" firstAttribute="leading" secondItem="PgR-kc-NQ2" secondAttribute="leading" constant="20" id="ZUD-U1-Azp"/>
+                        <constraint firstAttribute="trailing" secondItem="9TS-9T-RQV" secondAttribute="trailing" constant="20" id="pEH-0P-fUo"/>
+                        <constraint firstAttribute="trailing" secondItem="kdX-CA-zhQ" secondAttribute="trailing" constant="20" id="yl6-uH-FNx"/>
                     </constraints>
                     <visibilityPriorities>
                         <integer value="1000"/>
@@ -541,15 +539,7 @@
                         <real value="3.4028234663852886e+38"/>
                         <real value="3.4028234663852886e+38"/>
                     </customSpacing>
+                    <point key="canvasLocation" x="-167" y="62.5"/>
                 </stackView>
-            </subviews>
-            <constraints>
-                <constraint firstItem="PgR-kc-NQ2" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="PKM-mW-KbX"/>
-                <constraint firstAttribute="bottom" secondItem="PgR-kc-NQ2" secondAttribute="bottom" id="Szj-RU-H3P"/>
-                <constraint firstAttribute="trailing" secondItem="PgR-kc-NQ2" secondAttribute="trailing" id="U3X-NU-WdV"/>
-                <constraint firstItem="PgR-kc-NQ2" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="qHs-Ko-xIt"/>
-            </constraints>
-            <point key="canvasLocation" x="-167" y="62.5"/>
-        </customView>
     </objects>
 </document>

@@ -1,5 +1,5 @@
 //
-//  GamePrefences.swift
+//  GamePreferences.swift
 //  HSTracker
 //
 //  Created by Benjamin Michotte on 29/02/16.

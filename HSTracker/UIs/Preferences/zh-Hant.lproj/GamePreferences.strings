@@ -5,7 +5,7 @@
 /* Class = "NSTextFieldCell"; title = "Hearthstone language"; ObjectID = "biS-yx-frk"; */
 "biS-yx-frk.title" = "爐石戰記的語言";
 
-/* Class = "NSButtonCell"; title = "Auto archive arena deck on run end"; ObjectID = "hMe-FU-CjR"; */
+/* Class = "NSButtonCell"; title = "Auto archive Arena deck on run end"; ObjectID = "hMe-FU-CjR"; */
 "hMe-FU-CjR.title" = "在每輪結束時，自動儲存競技場套牌";
 
 /* Class = "NSButtonCell"; title = "Auto import and select decks"; ObjectID = "mhj-j8-OPU"; */

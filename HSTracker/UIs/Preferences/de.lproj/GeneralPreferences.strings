@@ -26,8 +26,8 @@
 /* Class = "NSButtonCell"; title = "Save replays"; ObjectID = "lku-8T-sZE"; */
 "lku-8T-sZE.title" = "Replays speichern";
 
-/* Class = "NSButtonCell"; title = "Enable Apphealth icon badge"; ObjectID = "mBv-nX-Cn3"; */
-"mBv-nX-Cn3.title" = "Aktiviere Apphealth Icon-Badge";
+/* Class = "NSButtonCell"; title = "Enable AppHealth icon badge"; ObjectID = "mBv-nX-Cn3"; */
+"mBv-nX-Cn3.title" = "Aktiviere AppHealth Icon-Badge";
 
 /* Class = "NSButtonCell"; title = "Prefer golden cards when exporting to Hearthstone"; ObjectID = "1BI-nh-nxq"; */
 "1BI-nh-nxq.title" = "Bevorzuge goldene Karten beim Export zu Hearthstone";
