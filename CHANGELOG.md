@@ -1,3 +1,30 @@
+# 3.6.1
+**Hearthstone**
+- Fixed Animal Companion Counter not updating.
+- Added support to Commander Beatrix.
+- Added Counter for Cards played for 2 Mana (Jade Guardians)
+- Added Void Soul Counter
+- Added Active Effect for Jilhouse Manastorm
+- Fixed Animal Companion Counter not appearing for the opponent.
+- Added support to Azalina Soulsever decks.
+- Changed Aessina counter to display when Malorne is in the deck and 10 or more minions had died.
+- Fixed Abyssal Curse counter not updating.
+- Added Imp Gang Stooge's token to the bottom of the deck.
+**Battlegrounds**
+- The minion browser now shows Tavern Tier 7 automatically in more cases.
+- Fixed Bob's Buddy getting stuck in the combat state in rare cases.
+- Fixed incorrect simulation results where:
+  - Multiple minions killed by Tunnel Blaster could fail apply a deathrattle tavern spell
+  - Multiple replica cathedrals were triggering more than once per spell
+  - Diremuck Forager was failing to summon a minion added to hand mid-combat
+  - Player attack order was not rechecking when Illidan Wingmen resulted in larger boards from summons
+  - Rokara hero power was not granting stats for some attacks immediately scopes
+  - Minions destroyed by Soul Fermenter were not adhering to deathrattle then reborn order
+  - Ingenious Inventor deathrattle was not being copied properly
+  - Secrets in duos games were triggering for teammates
+  - Lesser/Greater crystal ball was failing to capture charges/state for certain copied trinkets
+- Added simulation support for Dr. Boom's Monster
+
 # 3.6.0
 **Updated for Hearthstone 36.0.0**
 ## Hearthstone
