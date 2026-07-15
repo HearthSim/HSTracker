@@ -32,8 +32,8 @@
 /* Class = "NSButton"; ibShadowedToolTip = "Notifications are only visible if Hearthstone is not focused"; ObjectID = "hzK-vu-1RX"; */
 "hzK-vu-1RX.ibShadowedToolTip" = "Notifications are only visible if Hearthstone is not focused";
 
-/* Class = "NSButtonCell"; title = "Enable Apphealth icon badge"; ObjectID = "mBv-nX-Cn3"; */
-"mBv-nX-Cn3.title" = "Enable Apphealth icon badge";
+/* Class = "NSButtonCell"; title = "Enable AppHealth icon badge"; ObjectID = "mBv-nX-Cn3"; */
+"mBv-nX-Cn3.title" = "Enable AppHealth icon badge";
 
 /* Class = "NSButtonCell"; title = "Close HSTracker when Hearthstone closes"; ObjectID = "oQm-3D-WOn"; */
 "oQm-3D-WOn.title" = "Close HSTracker when Hearthstone closes";

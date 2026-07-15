@@ -28,7 +28,7 @@
                 <outlet property="view" destination="DPe-et-cJR" id="cJe-z5-DVd"/>
             </connections>
         </customObject>
-        <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="10" horizontalStackHuggingPriority="250" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" id="DPe-et-cJR">
+        <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="10" horizontalStackHuggingPriority="250" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" id="DPe-et-cJR">
             <rect key="frame" x="0.0" y="0.0" width="432" height="428"/>
             <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
             <subviews>
@@ -219,7 +219,7 @@
                     </connections>
                 </button>
             </subviews>
-            <edgeInsets key="edgeInsets" left="20" right="20" top="10" bottom="10"/>
+            <edgeInsets key="edgeInsets" left="20" right="20" top="20" bottom="20"/>
             <constraints>
                 <constraint firstItem="GPS-bk-Bdd" firstAttribute="leading" secondItem="DPe-et-cJR" secondAttribute="leading" constant="20" symbolic="YES" id="0Hi-Xj-Gwf"/>
                 <constraint firstAttribute="trailing" secondItem="Vp4-QG-lNm" secondAttribute="trailing" constant="20" symbolic="YES" id="0p6-ep-pOo"/>

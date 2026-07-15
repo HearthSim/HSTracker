@@ -17,7 +17,7 @@
 /* Class = "NSButtonCell"; title = "Save replays"; ObjectID = "vod-AA-O2m"; */
 "vod-AA-O2m.title" = "保存回放";
 
-/* Class = "NSButtonCell"; title = "Enable Apphealth icon badge"; ObjectID = "mBv-nX-Cn3"; */
+/* Class = "NSButtonCell"; title = "Enable AppHealth icon badge"; ObjectID = "mBv-nX-Cn3"; */
 "mBv-nX-Cn3.title" = "使用炉石传说符号";
 
 /* Class = "NSButtonCell"; title = "Prefer golden cards when exporting to Hearthstone"; ObjectID = "1BI-nh-nxq"; */
