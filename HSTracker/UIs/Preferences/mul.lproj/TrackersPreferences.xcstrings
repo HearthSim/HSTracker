@@ -11,6 +11,12 @@
             "value" : "Show experience counter"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher le compteur d'expérience"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -50,7 +56,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Positionnement automatique des trackers"
+            "value" : "Positionner les trackers automatiquement"
           }
         },
         "it" : {
@@ -140,7 +146,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Autorise HSTracker à fonctionner en plein écran"
+            "value" : "Autoriser HSTracker à fonctionner en plein écran"
           }
         },
         "it" : {
@@ -215,6 +221,12 @@
             "value" : "Disable tracking in spectator mode"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Désactiver le suivi en mode spectateur"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -259,90 +271,6 @@
         }
       }
     },
-    "36t-98-K9E.title" : {
-      "comment" : "Class = \"NSTextFieldCell\"; title = \"Floating card style\"; ObjectID = \"36t-98-K9E\";",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mouseover Kartenstil"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Floating card style"
-          }
-        },
-        "es-MX" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Floating card style"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Style des tooltips"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Floating card style"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Floating card style"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Floating card style"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Floating card style"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Floating card style"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Floating card style"
-          }
-        },
-        "th-TH" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Floating card style"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "卡牌样式设为漂浮"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "卡片的懸浮風格"
-          }
-        }
-      }
-    },
     "aO1-IW-r7y.ibShadowedToolTip" : {
       "comment" : "Class = \"NSButton\"; ibShadowedToolTip = \"HSTracker will be visible on all your workspace while playing\"; ObjectID = \"aO1-IW-r7y\";",
       "extractionState" : "extracted_with_value",
@@ -374,7 +302,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "HSTracker sera visible sur tous vos workspace pendant que vous jouez"
+            "value" : "HSTracker reste visible sur tous les espaces de travail pendant les parties"
           }
         },
         "it" : {
@@ -886,6 +814,12 @@
             "state" : "new",
             "value" : "Enable Mulligan Guide"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activer le Mulligan Guide"
+          }
         }
       }
     },
@@ -1259,232 +1193,16 @@
             "value" : "Show flavor text"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher le texte d'ambiance"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "显示风味文字"
-          }
-        }
-      }
-    },
-    "fhr-Mz-lcf.title" : {
-      "comment" : "Class = \"NSButtonCell\"; title = \"Show topdeck chance\"; ObjectID = \"fhr-Mz-lcf\";",
-      "extractionState" : "manual",
-      "localizations" : {
-        "es-MX" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show topdeck chance"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show topdeck chance"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "탑덱 찬스 보여주기"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show topdeck chance"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show topdeck chance"
-          }
-        },
-        "th-TH" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show topdeck chance"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "显示抽卡机会"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "顯示抽牌機率"
-          }
-        }
-      }
-    },
-    "GY2-Lg-KWo.ibShadowedObjectValues[0]" : {
-      "comment" : "Class = \"NSComboBoxCell\"; GY2-Lg-KWo.ibShadowedObjectValues[0] = \"Text\"; ObjectID = \"GY2-Lg-KWo\";",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Text"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Text"
-          }
-        },
-        "es-MX" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Text"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Texte"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Text"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Text"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "글자"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Text"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Text"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Text"
-          }
-        },
-        "th-TH" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Text"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "文字"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "文字"
-          }
-        }
-      }
-    },
-    "GY2-Lg-KWo.ibShadowedObjectValues[1]" : {
-      "comment" : "Class = \"NSComboBoxCell\"; GY2-Lg-KWo.ibShadowedObjectValues[1] = \"Image\"; ObjectID = \"GY2-Lg-KWo\";",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bild"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Image"
-          }
-        },
-        "es-MX" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Image"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Image"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Image"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Image"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이미지"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Image"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Image"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Image"
-          }
-        },
-        "th-TH" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Image"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "图片"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "圖片"
           }
         }
       }
@@ -1520,7 +1238,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voir les couleurs de rareté"
+            "value" : "Afficher les couleurs de rareté"
           }
         },
         "it" : {
@@ -1589,6 +1307,12 @@
             "value" : "Show constructed mulligan"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher le mulligan en mode Construit"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1611,6 +1335,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hide all trackers when game is in background"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Masquer tous les trackers quand le jeu est en arrière-plan"
           }
         },
         "ja" : {
@@ -1778,7 +1508,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cacher tous les trackers quand aucune partie n'est lancée"
+            "value" : "Masquer tous les trackers quand aucune partie n'est lancée"
           }
         },
         "it" : {
@@ -1868,7 +1598,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voir les cartes au survol des trackers"
+            "value" : "Afficher les cartes au survol des trackers"
           }
         },
         "it" : {
@@ -1923,42 +1653,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "滑鼠停留在記牌器時顯示卡牌"
-          }
-        }
-      }
-    },
-    "Jj4-X9-UWO.title" : {
-      "comment" : "Class = \"NSButtonCell\"; title = \"Show topdeck chance\"; ObjectID = \"Jj4-X9-UWO\";",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeige Topdeck-Wahrscheinlichkeit"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show topdeck chance"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Voir les chances de topdeck"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show topdeck chance"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show topdeck chance"
           }
         }
       }
@@ -2049,36 +1743,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "主題"
-          }
-        }
-      }
-    },
-    "ndN-hu-6Rx.title" : {
-      "comment" : "Class = \"NSButtonCell\"; title = \"Include obtained cards\"; ObjectID = \"ndN-hu-6Rx\";",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Entdeckte und fremde Karten mit einbeziehen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Incluir las cartas obtenidas"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Include obtained cards"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Incluir cards obtidos"
           }
         }
       }
@@ -2182,6 +1846,12 @@
             "state" : "new",
             "value" : "Show availability on deck selection screen"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher la disponibilité sur l'écran de sélection des decks"
+          }
         }
       }
     },
@@ -2283,6 +1953,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Show mulligan overlay at start of game"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher l'overlay de mulligan en début de partie"
           }
         }
       }
@@ -2408,7 +2084,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voir le chronomètre"
+            "value" : "Afficher le chronomètre"
           }
         },
         "it" : {
@@ -2498,7 +2174,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Surligner les cartes perdues"
+            "value" : "Surligner les cartes défaussées du deck"
           }
         },
         "it" : {
@@ -2588,7 +2264,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voir l'aide aux secrets"
+            "value" : "Afficher l'aide aux secrets"
           }
         },
         "it" : {

@@ -91,90 +91,6 @@
         }
       }
     },
-    "4f5-xO-gik.title" : {
-      "comment" : "Class = \"NSButtonCell\"; title = \"Add a note on end game\"; ObjectID = \"4f5-xO-gik\";",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Füge eine Bemerkung am Ende des Spiels hinzu."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add a note on end game"
-          }
-        },
-        "es-MX" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add a note on end game"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ajoute une note en fin de partie"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add a note on end game"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add a note on end game"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "게임이 끝나면 메모 추가하기"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add a note on end game"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Adicionar uma nota ao final do jogo"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add a note on end game"
-          }
-        },
-        "th-TH" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add a note on end game"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "当对局结束时新增记录"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在比賽結束時新增筆記"
-          }
-        }
-      }
-    },
     "08B-rI-8LA.ibShadowedToolTip" : {
       "comment" : "Class = \"NSButton\"; ibShadowedToolTip = \"Notifications are only visible if Hearthstone is not focused\"; ObjectID = \"08B-rI-8LA\";",
       "extractionState" : "extracted_with_value",
@@ -206,7 +122,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les notifications sont seulement visibles si Hearthstone n'est pas visible"
+            "value" : "Les notifications sont visibles uniquement si Hearthstone n'est pas au premier plan"
           }
         },
         "it" : {
@@ -296,7 +212,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Me notifier quand la partie commence"
+            "value" : "Notifier au début de la partie"
           }
         },
         "it" : {
@@ -386,7 +302,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les notifications sont seulement visibles si Hearthstone n'est pas visible"
+            "value" : "Les notifications sont visibles uniquement si Hearthstone n'est pas au premier plan"
           }
         },
         "it" : {
@@ -476,7 +392,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Me notifier quand mon opposant concède"
+            "value" : "Notifier à la concession de l'adversaire"
           }
         },
         "it" : {
@@ -551,6 +467,12 @@
             "value" : "Notifications are only visible if Hearthstone is not focused"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les notifications sont visibles uniquement si Hearthstone n'est pas au premier plan"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -589,78 +511,6 @@
         }
       }
     },
-    "hzK-vu-1RX.title" : {
-      "comment" : "Class = \"NSButtonCell\"; title = \"Close HSTracker when Hearthstone closes\"; ObjectID = \"hzK-vu-1RX\";",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Beende HSTracker, wenn Hearthstone beendet wird"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Close HSTracker when Hearthstone closes"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fermer HSTracker quand on ferme Hearthstone"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Close HSTracker when Hearthstone closes"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fechar HSTracker quando Hearthstone fechar"
-          }
-        }
-      }
-    },
-    "lku-8T-sZE.title" : {
-      "comment" : "Class = \"NSButtonCell\"; title = \"Save replays\"; ObjectID = \"lku-8T-sZE\";",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Replays speichern"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save replays"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enregistrer les replays"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save replays"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save replays"
-          }
-        }
-      }
-    },
     "mBv-nX-Cn3.title" : {
       "comment" : "Class = \"NSButtonCell\"; title = \"Enable AppHealth icon badge\"; ObjectID = \"mBv-nX-Cn3\";",
       "extractionState" : "extracted_with_value",
@@ -692,7 +542,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Activer le badge Santé de HSTracker"
+            "value" : "Activer le badge AppHealth sur l'icône"
           }
         },
         "it" : {
@@ -755,13 +605,37 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Close HSTracker when Hearthstone closes\"; ObjectID = \"oQm-3D-WOn\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beende HSTracker, wenn Hearthstone beendet wird"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Close HSTracker when Hearthstone closes"
           }
         },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close HSTracker when Hearthstone closes"
+          }
+        },
         "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close HSTracker when Hearthstone closes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fermer HSTracker à la fermeture de Hearthstone"
+          }
+        },
+        "it" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Close HSTracker when Hearthstone closes"
@@ -783,6 +657,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Close HSTracker when Hearthstone closes"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fechar HSTracker quando Hearthstone fechar"
           }
         },
         "ru" : {
@@ -842,7 +722,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Me notifier quand mon tour commence"
+            "value" : "Notifier au début du tour"
           }
         },
         "it" : {
@@ -901,71 +781,41 @@
         }
       }
     },
-    "TKd-w3-odf.title" : {
-      "comment" : "Class = \"NSButtonCell\"; title = \"Use Arena Helper\"; ObjectID = \"TKd-w3-odf\";",
-      "extractionState" : "manual",
-      "localizations" : {
-        "es-MX" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Use Arena Helper"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Use Arena Helper"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "투기장 헬퍼 사용"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Use Arena Helper"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Use Arena Helper"
-          }
-        },
-        "th-TH" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Use Arena Helper"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "使用竞技模式助手"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "使用競技場小幫手"
-          }
-        }
-      }
-    },
     "vod-AA-O2m.title" : {
       "comment" : "Class = \"NSButtonCell\"; title = \"Save replays\"; ObjectID = \"vod-AA-O2m\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Replays speichern"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Save replays"
           }
         },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save replays"
+          }
+        },
         "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save replays"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrer les replays"
+          }
+        },
+        "it" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Save replays"
@@ -984,6 +834,12 @@
           }
         },
         "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save replays"
+          }
+        },
+        "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Save replays"
@@ -1046,7 +902,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Utiliser les notifications Toast à la place du Notification Center"
+            "value" : "Utiliser les notifications Toast au lieu du Centre de notifications"
           }
         },
         "it" : {
@@ -1136,7 +992,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les notifications sont seulement visibles si Hearthstone n'est pas visible"
+            "value" : "Les notifications sont visibles uniquement si Hearthstone n'est pas au premier plan"
           }
         },
         "it" : {

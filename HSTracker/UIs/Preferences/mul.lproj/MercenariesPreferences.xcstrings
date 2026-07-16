@@ -10,6 +10,12 @@
             "state" : "new",
             "value" : "Show ability icons below player Mercenaries"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher les icônes de capacité sous les Mercenaires du joueur"
+          }
         }
       }
     },
@@ -21,6 +27,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Show opponent Mercenary abilities on hover"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher les capacités des Mercenaires de l'adversaire au survol"
           }
         }
       }
@@ -34,6 +46,12 @@
             "state" : "new",
             "value" : "Show player Mercenary abilities on hover"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher les capacités des Mercenaires du joueur au survol"
+          }
         }
       }
     },
@@ -46,6 +64,12 @@
             "state" : "new",
             "value" : "Show Tasks panel while in Mercenaries mode"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher le panneau des tâches en mode Mercenaires"
+          }
         }
       }
     },
@@ -57,6 +81,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Show ability icons above opponent Mercenaries"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher les icônes de capacité au-dessus des Mercenaires de l'adversaire"
           }
         }
       }

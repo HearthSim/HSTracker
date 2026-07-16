@@ -1,42 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "9aT-vn-YLp.title" : {
-      "comment" : "Class = \"NSButtonCell\"; title = \"Choose\"; ObjectID = \"9aT-vn-YLp\";",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Auswählen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Seleccionar"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choisir"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choose"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Escolher"
-          }
-        }
-      }
-    },
     "biS-yx-frk.title" : {
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Hearthstone language\"; ObjectID = \"biS-yx-frk\";",
       "extractionState" : "extracted_with_value",
@@ -68,7 +32,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Langue Hearthstone"
+            "value" : "Langue de Hearthstone"
           }
         },
         "it" : {
@@ -141,6 +105,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Auto archive Arena deck on run end"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Archiver automatiquement le deck d'Arène en fin de série"
           }
         },
         "ja" : {
@@ -308,7 +278,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Import et sélection auto des decks"
+            "value" : "Importer et sélectionner les decks automatiquement"
           }
         },
         "it" : {
@@ -398,7 +368,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Langue HSTracker"
+            "value" : "Langue de HSTracker"
           }
         },
         "it" : {
@@ -543,42 +513,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "爐石戰記的程式目錄"
-          }
-        }
-      }
-    },
-    "ZIv-Kx-0sm.title" : {
-      "comment" : "Class = \"NSTextFieldCell\"; title = \"Decks backup directory\"; ObjectID = \"ZIv-Kx-0sm\";",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deck Backup Verzeichnis"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Directorio de copia de seguridad de mazos"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Répertoire des decks"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Decks backup directory"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Diretório de backup dos Decks"
           }
         }
       }
