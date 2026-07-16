@@ -170,7 +170,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "套牌统计"
+            "value" : "卡组统计"
           }
         },
         "zh-Hant" : {
@@ -260,7 +260,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "没有选择套牌"
+            "value" : "尚未选择卡组"
           }
         },
         "zh-Hant" : {

@@ -521,6 +521,12 @@
             "value" : "Reset Account"
           }
         },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重置账号"
+          }
+        },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1124,7 +1130,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在连接 HSReplay 后，打开你的收藏，上传会自动进行。"
+            "value" : "登录以同步你的回放并启用HSReplay.net的所有功能。"
           }
         }
       }

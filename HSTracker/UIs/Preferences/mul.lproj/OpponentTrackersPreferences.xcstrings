@@ -266,7 +266,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "显示对手抽卡机会"
+            "value" : "显示对手抽牌机率"
           }
         },
         "zh-Hant" : {
@@ -356,7 +356,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "显示对手英雄和名字"
+            "value" : "显示对手职业和名字"
           }
         },
         "zh-Hant" : {
@@ -632,7 +632,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "清空对手记牌器"
+            "value" : "对局结束清空对手记牌器"
           }
         },
         "zh-Hant" : {
@@ -722,7 +722,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "显示场攻（包括武器）"
+            "value" : "显示场攻"
           }
         },
         "zh-Hant" : {
@@ -812,7 +812,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "显示对手的卡牌数"
+            "value" : "显示对手卡牌数"
           }
         },
         "zh-Hant" : {
@@ -832,6 +832,12 @@
             "state" : "new",
             "value" : "Show counters"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示计数器"
+          }
         }
       }
     },
@@ -844,6 +850,12 @@
             "state" : "new",
             "value" : "Show active effects"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示激活效果"
+          }
         }
       }
     },
@@ -855,6 +867,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Show maximum Health, Mana, and Hand Size"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示血量、法力水晶和手牌数上限"
           }
         }
       }
@@ -998,7 +1016,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "鼠标进入时显示卡牌列表"
+            "value" : "鼠标悬停显示卡牌列表"
           }
         },
         "zh-Hant" : {
@@ -1108,6 +1126,12 @@
             "state" : "new",
             "value" : "Show related cards tooltip"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示相关卡牌提示信息"
+          }
         }
       }
     },
@@ -1177,67 +1201,73 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Zeige gegnerischen C'Thun-Counter"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show C'Thun counter"
           }
         },
         "es" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Show C'Thun counter"
           }
         },
         "es-MX" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Show C'Thun counter"
           }
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Voir le compteur C'Thun"
           }
         },
         "it" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Show C'Thun counter"
           }
         },
         "ja" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Show C'Thun counter"
           }
         },
         "ko" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "S크툰 카운터 보여주기"
           }
         },
         "pl" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Show C'Thun counter"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Show C'Thun counter"
           }
         },
         "ru" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Show C'Thun counter"
           }
         },
         "th-TH" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Show C'Thun counter"
           }
         },
@@ -1249,7 +1279,7 @@
         },
         "zh-Hant" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "顯示克蘇恩計算器"
           }
         }
@@ -1323,6 +1353,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Enable setting opponent deck in non-friendly matches"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在非好友对战中启用对手卡组设置"
           }
         }
       }

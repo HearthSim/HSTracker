@@ -34,6 +34,12 @@
             "state" : "translated",
             "value" : "Escolher"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "9aT-vn-YLp.title"
+          }
         }
       }
     },
@@ -116,7 +122,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "炉石传说语言"
+            "value" : "炉石传说 语言"
           }
         },
         "zh-Hant" : {
@@ -176,7 +182,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在每轮结束时，自动存储竞技模式套牌"
+            "value" : "每轮结束自动储存竞技模式卡组"
           }
         },
         "zh-Hant" : {
@@ -356,7 +362,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "自动导入并选择套牌"
+            "value" : "自动导入并选择卡组"
           }
         },
         "zh-Hant" : {
@@ -536,7 +542,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "炉石传说目录"
+            "value" : "炉石传说 目录"
           }
         },
         "zh-Hant" : {
@@ -579,6 +585,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Diretório de backup dos Decks"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ZIv-Kx-0sm.title"
           }
         }
       }

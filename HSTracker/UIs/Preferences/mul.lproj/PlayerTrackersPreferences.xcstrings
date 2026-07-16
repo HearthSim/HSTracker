@@ -50,7 +50,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "鼠标进入时显示卡牌列表"
+            "value" : "鼠标悬停显示卡牌列表"
           }
         },
         "zh-Hant" : {
@@ -200,7 +200,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "显示你的抽卡机会"
+            "value" : "显示你的抽牌机率"
           }
         },
         "zh-Hant" : {
@@ -219,6 +219,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Highlight synergies in the deck"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高亮卡组中的配合卡牌"
           }
         }
       }
@@ -255,6 +261,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mostrar cemitério"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "D65-CQ-243.title"
           }
         }
       }
@@ -338,7 +350,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "显示套牌名称"
+            "value" : "显示卡组名称"
           }
         },
         "zh-Hant" : {
@@ -358,6 +370,12 @@
             "state" : "new",
             "value" : "E.T.C.'s Band"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "精英牛头人酋长的乐队"
+          }
         }
       }
     },
@@ -369,6 +387,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Show counters"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示计数器"
           }
         }
       }
@@ -542,7 +566,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "抽的卡牌在记牌器上闪烁"
+            "value" : "抽到的牌在记牌器上闪烁"
           }
         },
         "zh-Hant" : {
@@ -681,6 +705,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Show related cards tooltip"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示相关卡牌提示信息"
           }
         }
       }
@@ -950,7 +980,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "显示记牌器"
+            "value" : "显示你的记牌器"
           }
         },
         "zh-Hant" : {
@@ -1005,6 +1035,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mostrar percentagem vitória-derrota"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "oIi-8e-cCP.title"
           }
         }
       }
@@ -1178,7 +1214,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "显示场攻（包括武器）"
+            "value" : "显示场攻"
           }
         },
         "zh-Hant" : {
@@ -1432,6 +1468,12 @@
             "state" : "new",
             "value" : "Show maximum Health, Mana, and Hand Size"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示血量、法力水晶和手牌数上限"
+          }
         }
       }
     },
@@ -1443,6 +1485,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Show active effects"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示激活效果"
           }
         }
       }
