@@ -1800,9 +1800,16 @@
       }
     },
     "Battlegrounds" : {
+      "comment" : "Settings toolbar tab title. Kept untranslated: \"Champs de bataille\" overflows the 600pt toolbar.",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Battlegrounds"
+          }
+        },
+        "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Battlegrounds"
@@ -2641,6 +2648,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "By clicking 'Reset' you will clear your list of Latest Games and make your Start MMR the same as your current MMR."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En cliquant sur « Réinitialiser », vous effacerez votre liste des dernières parties et votre MMR de départ sera aligné sur votre MMR actuel."
           }
         },
         "ko" : {
@@ -8001,6 +8014,23 @@
         }
       }
     },
+    "Importing" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importing"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import"
+          }
+        }
+      }
+    },
     "In top 2:" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -8995,6 +9025,12 @@
             "state" : "translated",
             "value" : "Logged in to HSReplay.net as %@. Open your collection and it will be automatically uploaded."
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connecté à HSReplay.net en tant que %@. Ouvrez votre collection et elle sera envoyée automatiquement."
+          }
         }
       }
     },
@@ -9005,6 +9041,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Logged in to HSReplay.net. Open your collection and it will be automatically uploaded."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connecté à HSReplay.net. Ouvrez votre collection et elle sera envoyée automatiquement."
           }
         }
       }
@@ -9106,6 +9148,12 @@
             "state" : "translated",
             "value" : "Login to claim your replays and enable all HSReplay.net features."
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connectez-vous pour réclamer vos replays et activer toutes les fonctionnalités de HSReplay.net."
+          }
         }
       }
     },
@@ -9116,6 +9164,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Login to HSReplay.net"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se connecter à HSReplay.net"
           }
         }
       }
@@ -9573,6 +9627,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mercenaries"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mercenaires"
           }
         },
         "ko" : {
@@ -11220,6 +11280,23 @@
         }
       }
     },
+    "Opponent" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opponent"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adversaire"
+          }
+        }
+      }
+    },
     "Opponent tracker" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -11317,6 +11394,12 @@
             "state" : "translated",
             "value" : "Subscribed to HSReplay.net"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abonné à HSReplay.net"
+          }
         }
       }
     },
@@ -11327,6 +11410,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Subscribed to HSReplay.net"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abonné à HSReplay.net"
           }
         }
       }
@@ -11339,6 +11428,12 @@
             "state" : "translated",
             "value" : "Subscribed to Premium"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abonné à Premium"
+          }
         }
       }
     },
@@ -11349,6 +11444,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Subscribed to Tier7"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abonné à Tier7"
           }
         }
       }
@@ -11548,6 +11649,23 @@
         }
       }
     },
+    "Player" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Player"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Joueur"
+          }
+        }
+      }
+    },
     "Player tracker" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -11678,7 +11796,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Veuillez sélectionner votre application Hearthstone"
+            "value" : "Sélectionner l'application Hearthstone"
           }
         },
         "it" : {
@@ -12430,7 +12548,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reset"
+            "value" : "Réinitialiser"
           }
         },
         "it" : {
@@ -12496,6 +12614,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Resetting current Session"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réinitialiser la session actuelle"
           }
         },
         "ko" : {

@@ -10,6 +10,12 @@
             "state" : "new",
             "value" : "Template"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modèle"
+          }
         }
       }
     },
@@ -21,6 +27,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Adventure"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aventure"
           }
         }
       }
@@ -34,6 +46,12 @@
             "state" : "new",
             "value" : "Template"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modèle"
+          }
         }
       }
     },
@@ -45,6 +63,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Include passive cards"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inclure les cartes passives"
           }
         }
       }
@@ -58,6 +82,12 @@
             "state" : "new",
             "value" : "Preview"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aperçu"
+          }
         }
       }
     },
@@ -70,6 +100,12 @@
             "state" : "new",
             "value" : "Arena"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arène"
+          }
         }
       }
     },
@@ -80,6 +116,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
+            "value" : "Duels"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "Duels"
           }
         }
@@ -94,6 +136,12 @@
             "state" : "new",
             "value" : "Template"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modèle"
+          }
         }
       }
     },
@@ -105,6 +153,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Dungeon"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Donjon"
           }
         }
       }
@@ -118,6 +172,12 @@
             "state" : "new",
             "value" : "Preview"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aperçu"
+          }
         }
       }
     },
@@ -129,6 +189,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Dungeon Run"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Expédition en donjon"
           }
         }
       }
@@ -142,6 +208,12 @@
             "state" : "new",
             "value" : "Monster Hunt"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chasse aux monstres"
+          }
         }
       }
     },
@@ -153,6 +225,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Rumble Run"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baston royale"
           }
         }
       }
@@ -166,6 +244,12 @@
             "state" : "new",
             "value" : "The Dalaran Heist"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le Casse de Dalaran"
+          }
         }
       }
     },
@@ -178,6 +262,12 @@
             "state" : "new",
             "value" : "Tombs of Terror"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les Tombes de la terreur"
+          }
         }
       }
     },
@@ -189,6 +279,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Preview"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aperçu"
           }
         }
       }

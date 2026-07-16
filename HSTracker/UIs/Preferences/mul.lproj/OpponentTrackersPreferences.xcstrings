@@ -1,102 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "0rm-Kh-0Ob.title" : {
-      "comment" : "Class = \"NSButtonCell\"; title = \"Show Libram counter\"; ObjectID = \"0rm-Kh-0Ob\";",
-      "extractionState" : "manual",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "显示圣契计数器"
-          }
-        }
-      }
-    },
-    "9eg-6X-x7A.title" : {
-      "comment" : "Class = \"NSButtonCell\"; title = \"Show Spell counter\"; ObjectID = \"9eg-6X-x7A\";",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeige gegnerischen Spell-Counter"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show Spell counter"
-          }
-        },
-        "es-MX" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show Spell counter"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Voir le compteur de sorts"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show Spell counter"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show Spell counter"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "주문 갯수 보여주기"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show Spell counter"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show Spell counter"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show Spell counter"
-          }
-        },
-        "th-TH" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show Spell counter"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "显示法术计数器"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "顯示法術計算器"
-          }
-        }
-      }
-    },
     "50X-Tt-yJa.title" : {
       "comment" : "Class = \"NSButtonCell\"; title = \"Show opponent in-hand card huds\"; ObjectID = \"50X-Tt-yJa\";",
       "extractionState" : "extracted_with_value",
@@ -128,7 +32,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voir les infos des cartes de l'adversaire"
+            "value" : "Afficher les infos des cartes en main de l'adversaire"
           }
         },
         "it" : {
@@ -218,7 +122,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voir la chance de pioche de l'adversaire"
+            "value" : "Afficher les chances de pioche de l'adversaire"
           }
         },
         "it" : {
@@ -308,7 +212,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voir la classe et le nom du joueur"
+            "value" : "Afficher la classe et le nom du joueur"
           }
         },
         "it" : {
@@ -398,7 +302,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voir le compteur de Râles d'agonie"
+            "value" : "Afficher le compteur de Râles d'agonie"
           }
         },
         "it" : {
@@ -453,102 +357,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "顯示死亡之聲計算器"
-          }
-        }
-      }
-    },
-    "BFR-Pw-i1H.title" : {
-      "comment" : "Class = \"NSButtonCell\"; title = \"Show Jade Counter\"; ObjectID = \"BFR-Pw-i1H\";",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeige Jade-Counter"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show Jade Counter"
-          }
-        },
-        "es-MX" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show Jade Counter"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Voir le compteur Jade"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show Jade Counter"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show Jade Counter"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "비취 카운터 보여주기"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show Jade Counter"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show Jade Counter"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show Jade Counter"
-          }
-        },
-        "th-TH" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show Jade Counter"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "显示青玉魔像计数器"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "顯示翠玉魔像計算器"
-          }
-        }
-      }
-    },
-    "d7f-oO-njY.title" : {
-      "comment" : "Class = \"NSButtonCell\"; title = \"Show Galakrond invoke counter\"; ObjectID = \"d7f-oO-njY\";",
-      "extractionState" : "manual",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "显示迦拉克隆计数器"
           }
         }
       }
@@ -674,7 +482,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voir les dégâts sur table"
+            "value" : "Afficher les dégâts sur table"
           }
         },
         "it" : {
@@ -764,7 +572,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voir le nombre de cartes de l'adversaire"
+            "value" : "Afficher le nombre de cartes de l'adversaire"
           }
         },
         "it" : {
@@ -832,6 +640,12 @@
             "state" : "new",
             "value" : "Show counters"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher les compteurs"
+          }
         }
       }
     },
@@ -844,6 +658,12 @@
             "state" : "new",
             "value" : "Show active effects"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher les effets actifs"
+          }
         }
       }
     },
@@ -855,6 +675,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Show maximum Health, Mana, and Hand Size"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher les maximums de points de vie, de mana et de cartes en main"
           }
         }
       }
@@ -890,7 +716,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voir le tracker de l'adversaire"
+            "value" : "Afficher le tracker de l'adversaire"
           }
         },
         "it" : {
@@ -963,6 +789,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cardlist opens on mouseover"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir la liste des cartes au survol"
           }
         },
         "ja" : {
@@ -1040,7 +872,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voir les cartes créées"
+            "value" : "Inclure les cartes créées"
           }
         },
         "it" : {
@@ -1108,6 +940,12 @@
             "state" : "new",
             "value" : "Show related cards tooltip"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher l'infobulle des cartes liées"
+          }
         }
       }
     },
@@ -1125,6 +963,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Prevent tracker from covering opponent's name"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empêcher le tracker de masquer le nom de l'adversaire"
           }
         },
         "ja" : {
@@ -1171,90 +1015,6 @@
         }
       }
     },
-    "RyA-1i-LPY.title" : {
-      "comment" : "Class = \"NSButtonCell\"; title = \"Show C'Thun counter\"; ObjectID = \"RyA-1i-LPY\";",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeige gegnerischen C'Thun-Counter"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show C'Thun counter"
-          }
-        },
-        "es-MX" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show C'Thun counter"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Voir le compteur C'Thun"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show C'Thun counter"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show C'Thun counter"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "S크툰 카운터 보여주기"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show C'Thun counter"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show C'Thun counter"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show C'Thun counter"
-          }
-        },
-        "th-TH" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show C'Thun counter"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "显示克苏恩计数器"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "顯示克蘇恩計算器"
-          }
-        }
-      }
-    },
     "W6j-bY-6aE.title" : {
       "comment" : "Class = \"NSButtonCell\"; title = \"Show graveyard\"; ObjectID = \"W6j-bY-6aE\";",
       "extractionState" : "extracted_with_value",
@@ -1269,6 +1029,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Show graveyard"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher le cimetière"
           }
         },
         "ja" : {
@@ -1323,6 +1089,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Enable setting opponent deck in non-friendly matches"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autoriser la sélection du deck de l'adversaire hors parties amicales"
           }
         }
       }

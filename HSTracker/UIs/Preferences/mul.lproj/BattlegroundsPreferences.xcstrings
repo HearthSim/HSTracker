@@ -11,6 +11,12 @@
             "value" : "Show tiers"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher les niveaux"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -28,6 +34,12 @@
             "state" : "new",
             "value" : "Show minion types"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher les types de serviteurs"
+          }
         }
       }
     },
@@ -38,6 +50,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
+            "value" : "Bob's Buddy"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "Bob's Buddy"
           }
         }
@@ -51,6 +69,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Show trinket picking stats"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher les stats de choix des babioles"
           }
         }
       }
@@ -86,7 +110,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Show turn counter"
+            "value" : "Afficher le compteur de tours"
           }
         },
         "it" : {
@@ -154,6 +178,12 @@
             "state" : "new",
             "value" : "Banned"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bannis"
+          }
         }
       }
     },
@@ -165,6 +195,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Show Battlecry and Deathrattle on tiers"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher les Cris de guerre et Râles d'agonie sur les niveaux"
           }
         }
       }
@@ -178,6 +214,12 @@
             "state" : "new",
             "value" : "Always show tavern tier 7"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toujours afficher le niveau 7 de taverne"
+          }
         }
       }
     },
@@ -189,6 +231,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Enable Tier7 overlay"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activer l'overlay Tier7"
           }
         }
       }
@@ -202,6 +250,12 @@
             "state" : "new",
             "value" : "Reset Session"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réinitialiser la session"
+          }
         }
       }
     },
@@ -214,6 +268,12 @@
             "state" : "new",
             "value" : "Show Battlegrounds hero picking stats"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher les stats de choix des héros de Champs de bataille"
+          }
         }
       }
     },
@@ -225,6 +285,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Show latest games"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher les dernières parties"
           }
         }
       }
@@ -260,7 +326,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Show Bob's Buddy"
+            "value" : "Afficher Bob's Buddy"
           }
         },
         "it" : {
@@ -329,6 +395,12 @@
             "value" : "Show opponent warband"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher la bande de l'adversaire"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -346,6 +418,12 @@
             "state" : "new",
             "value" : "Session Recap"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Résumé de session"
+          }
         }
       }
     },
@@ -356,6 +434,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
+            "value" : "Tier7"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "Tier7"
           }
         }
@@ -369,6 +453,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Start, Current"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Départ, actuel"
           }
         }
       }
@@ -404,7 +494,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Always show average damage"
+            "value" : "Toujours afficher les dégâts moyens"
           }
         },
         "it" : {
@@ -473,6 +563,12 @@
             "value" : "Show tavern and triple history"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher l'historique de taverne et des triples"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -489,6 +585,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Show hero comparison"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher la comparaison des héros"
           }
         },
         "zh-Hans" : {
@@ -508,6 +610,12 @@
             "state" : "new",
             "value" : "Show Battlegrounds quest picking stats"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher les stats de choix des quêtes de Champs de bataille"
+          }
         }
       }
     },
@@ -520,6 +628,12 @@
             "state" : "new",
             "value" : "Show MMR"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher le MMR"
+          }
         }
       }
     },
@@ -531,6 +645,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Scaling"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Échelle"
           }
         }
       }
@@ -566,7 +686,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Show Bob's Buddy during combat"
+            "value" : "Afficher Bob's Buddy pendant les combats"
           }
         },
         "it" : {
@@ -634,6 +754,12 @@
             "state" : "new",
             "value" : "Show tavern spells"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher les sorts de taverne"
+          }
         }
       }
     },
@@ -645,6 +771,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Current, Change"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actuel, évolution"
           }
         }
       }
@@ -680,7 +812,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Show Bob's Buddy during shopping"
+            "value" : "Afficher Bob's Buddy pendant les achats"
           }
         },
         "it" : {
@@ -748,6 +880,12 @@
             "state" : "new",
             "value" : "Show comp stats (in session recap)"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher les stats de compositions (dans le résumé de session)"
+          }
         }
       }
     },
@@ -759,6 +897,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "100%"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "100 %"
           }
         }
       }
@@ -772,6 +916,12 @@
             "state" : "new",
             "value" : "Available"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disponibles"
+          }
         }
       }
     },
@@ -784,6 +934,12 @@
             "state" : "new",
             "value" : "Show Tier7 menu overlay (MMR & stats)"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher l'overlay du menu Tier7 (MMR et stats)"
+          }
         }
       }
     },
@@ -795,6 +951,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Show session recap"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher le résumé de session"
           }
         }
       }

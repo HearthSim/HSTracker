@@ -10,6 +10,12 @@
             "state" : "new",
             "value" : "Duels"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duels"
+          }
         }
       }
     },
@@ -22,6 +28,12 @@
             "state" : "new",
             "value" : "Subscription status"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Statut de l'abonnement"
+          }
         }
       }
     },
@@ -33,6 +45,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Mercenaries"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mercenaires"
           }
         }
       }
@@ -51,6 +69,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Login to HSReplay"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se connecter à HSReplay.net"
           }
         },
         "ja" : {
@@ -99,6 +123,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Show upload notification"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher la notification d'envoi"
           }
         },
         "ja" : {
@@ -176,7 +206,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Synchroniser les résultats des parties"
+            "value" : "Envoyer les replays automatiquement"
           }
         },
         "it" : {
@@ -235,90 +265,6 @@
         }
       }
     },
-    "alf-8N-P9t.title" : {
-      "comment" : "Class = \"NSTextFieldCell\"; title = \"Log in with your Battle.net credentials on HSReplay.net to claim your existing replays. This will open your web browser.\"; ObjectID = \"alf-8N-P9t\";",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Melde Dich mit deinen Battle.net Zugangsdaten auf HSReplay.net an, um bestehende Replays hinzuzufügen. Dieser Vorgang öffnet ein neues Browser-Fenster."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Log in with your Battle.net credentials on HSReplay.net to claim your existing replays. This will open your web browser."
-          }
-        },
-        "es-MX" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Log in with your Battle.net credentials on HSReplay.net to claim your existing replays. This will open your web browser."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Connectez-vous avec votre compte Battle.net sur HSReplay.net pour réclamer vos replays. Ceci ouvrira une fenetre dans votre navigateur web."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Log in with your Battle.net credentials on HSReplay.net to claim your existing replays. This will open your web browser."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Log in with your Battle.net credentials on HSReplay.net to claim your existing replays. This will open your web browser."
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Log in with your Battle.net credentials on HSReplay.net to claim your existing replays. This will open your web browser."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Log in with your Battle.net credentials on HSReplay.net to claim your existing replays. This will open your web browser."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Log in with your Battle.net credentials on HSReplay.net to claim your existing replays. This will open your web browser."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Log in with your Battle.net credentials on HSReplay.net to claim your existing replays. This will open your web browser."
-          }
-        },
-        "th-TH" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Log in with your Battle.net credentials on HSReplay.net to claim your existing replays. This will open your web browser."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "用战网帐号登录 HSReplay，以同步您记录的对战回放。这将打开浏览器。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在HSReplay.net中使用Battle.net的帳號來登入，以同步儲存的重播紀錄。點擊後將開啟網頁瀏覽器。"
-          }
-        }
-      }
-    },
     "dX9-1S-Y1M.title" : {
       "comment" : "Class = \"NSButtonCell\"; title = \"Spectator\"; ObjectID = \"dX9-1S-Y1M\";",
       "extractionState" : "extracted_with_value",
@@ -333,6 +279,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Spectator"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spectateur"
           }
         },
         "ja" : {
@@ -388,6 +340,12 @@
             "state" : "new",
             "value" : "X"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "X"
+          }
         }
       }
     },
@@ -405,6 +363,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ranked"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Classé"
           }
         },
         "ja" : {
@@ -451,132 +415,6 @@
         }
       }
     },
-    "Ikd-r0-oiT.title" : {
-      "comment" : "Class = \"NSButtonCell\"; title = \"Reset Account\"; ObjectID = \"Ikd-r0-oiT\";",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reset Account"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reset Account"
-          }
-        },
-        "es-MX" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reset Account"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Réinitialiser le compte"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reset Account"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reset Account"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reset Account"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reset Account"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reset Account"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reset Account"
-          }
-        },
-        "th-TH" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reset Account"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "重設帳號"
-          }
-        }
-      }
-    },
-    "JsZ-J6-FKG.title" : {
-      "comment" : "Class = \"NSTextFieldCell\"; title = \"Label\"; ObjectID = \"JsZ-J6-FKG\";",
-      "extractionState" : "manual",
-      "localizations" : {
-        "es-MX" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Label"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Label"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Label"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Label"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Label"
-          }
-        },
-        "th-TH" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Label"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "標籤"
-          }
-        }
-      }
-    },
     "KV0-Rl-jeI.title" : {
       "comment" : "Class = \"NSBox\"; title = \"My Account\"; ObjectID = \"KV0-Rl-jeI\";",
       "extractionState" : "extracted_with_value",
@@ -585,6 +423,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "My Account"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compte"
           }
         },
         "zh-Hans" : {
@@ -609,6 +453,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tavern Brawl"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bras de fer"
           }
         },
         "ja" : {
@@ -671,6 +521,12 @@
             "value" : "Friendly"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Amical"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -724,89 +580,11 @@
             "state" : "new",
             "value" : "Find out more"
           }
-        }
-      }
-    },
-    "PFc-eW-dQG.title" : {
-      "comment" : "Class = \"NSButtonCell\"; title = \"Claim Account\"; ObjectID = \"PFc-eW-dQG\";",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mit HSReplay verbinden"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Claim Account"
-          }
-        },
-        "es-MX" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Claim Account"
-          }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lier mon compte"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Claim Account"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Claim Account"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Claim Account"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Claim Account"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Claim Account"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Claim Account"
-          }
-        },
-        "th-TH" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Claim Account"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "连接帐户"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "連結帳號"
+            "value" : "En savoir plus"
           }
         }
       }
@@ -825,6 +603,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Upload game modes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modes de jeu à envoyer"
           }
         },
         "ja" : {
@@ -874,83 +658,11 @@
             "state" : "new",
             "value" : "Thank you for supporting us!"
           }
-        }
-      }
-    },
-    "UbW-mX-Jca.title" : {
-      "comment" : "Class = \"NSBox\"; title = \"Title\"; ObjectID = \"UbW-mX-Jca\";",
-      "extractionState" : "manual",
-      "localizations" : {
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "標題"
-          }
-        }
-      }
-    },
-    "VPW-70-gcw.title" : {
-      "comment" : "Class = \"NSBox\"; title = \"Replay Uploads\"; ObjectID = \"VPW-70-gcw\";",
-      "extractionState" : "manual",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "上传回放"
-          }
-        }
-      }
-    },
-    "Wij-ky-VUj.title" : {
-      "comment" : "Class = \"NSButtonCell\"; title = \"Disconnect from HSReplay\"; ObjectID = \"Wij-ky-VUj\";",
-      "extractionState" : "manual",
-      "localizations" : {
-        "es-MX" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Disconnect from HSReplay"
-          }
         },
-        "ja" : {
+        "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Disconnect from HSReplay"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Disconnect from HSReplay"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Disconnect from HSReplay"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Disconnect from HSReplay"
-          }
-        },
-        "th-TH" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Disconnect from HSReplay"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "断开与 HSReplay 的连接"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "取消連結HSReplay的帳號"
+            "value" : "Merci de nous soutenir !"
           }
         }
       }
@@ -969,6 +681,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Arena"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arène"
           }
         },
         "ja" : {
@@ -1031,6 +749,12 @@
             "value" : "Adventure / Practice"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aventure / Entraînement"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1075,42 +799,6 @@
         }
       }
     },
-    "y6L-Kw-KFY.title" : {
-      "comment" : "Class = \"NSButtonCell\"; title = \"Disconnect from HSReplay\"; ObjectID = \"y6L-Kw-KFY\";",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verbingung mit HSReplay trennen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Disconnect from HSReplay"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Déconnecter HSReplay"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Disconnect from HSReplay"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Disconnect from HSReplay"
-          }
-        }
-      }
-    },
     "zQQ-GF-3Lg.title" : {
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Login to claim your replays and enable all HSReplay.net features.\"; ObjectID = \"zQQ-GF-3Lg\";",
       "extractionState" : "extracted_with_value",
@@ -1119,6 +807,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Login to claim your replays and enable all HSReplay.net features."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connectez-vous pour réclamer vos replays et activer toutes les fonctionnalités de HSReplay.net."
           }
         },
         "zh-Hans" : {
@@ -1138,6 +832,12 @@
             "state" : "new",
             "value" : "Battlegrounds"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Champs de bataille"
+          }
         }
       }
     },
@@ -1155,6 +855,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Casual"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Normal"
           }
         },
         "ja" : {
