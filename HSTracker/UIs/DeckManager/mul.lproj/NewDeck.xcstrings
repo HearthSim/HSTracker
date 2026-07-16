@@ -170,7 +170,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "竞技模式套牌"
+            "value" : "竞技模式卡组"
           }
         },
         "zh-Hant" : {
@@ -260,7 +260,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你想如何创建新的套牌?"
+            "value" : "你想如何创建新的卡组?"
           }
         },
         "zh-Hant" : {
@@ -398,7 +398,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "使用 HSTracker 构建套牌"
+            "value" : "使用 HSTracker 构建卡组"
           }
         },
         "zh-Hant" : {
@@ -578,7 +578,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "新套牌"
+            "value" : "新卡组"
           }
         },
         "zh-Hant" : {

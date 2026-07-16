@@ -212,7 +212,7 @@
                                     <action selector="oauthAccount:" target="-2" id="jQ7-3D-y0c"/>
                                 </connections>
                             </button>
-                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8vg-lb-UfO">
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8vg-lb-UfO">
                                 <rect key="frame" x="8" y="10" width="384" height="32"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Login to claim your replays and enable all HSReplay.net features." id="zQQ-GF-3Lg">
                                     <font key="font" metaFont="system"/>
@@ -236,7 +236,7 @@
                 <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pY7-IO-Y3U">
                     <rect key="frame" x="20" y="20" width="400" height="134"/>
                     <subviews>
-                        <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Cho-Aw-fPX">
+                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Cho-Aw-fPX">
                             <rect key="frame" x="-2" y="118" width="13" height="16"/>
                             <textFieldCell key="cell" lineBreakMode="clipping" title="X" id="fXm-MH-vJc">
                                 <font key="font" usesAppearanceFont="YES"/>
@@ -251,7 +251,7 @@
                         <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LJN-bu-4T2">
                             <rect key="frame" x="17" y="86" width="383" height="48"/>
                             <subviews>
-                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jN5-VM-fr0">
+                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jN5-VM-fr0">
                                     <rect key="frame" x="-2" y="32" width="122" height="16"/>
                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Subscription status" id="7ln-3f-To8">
                                         <font key="font" metaFont="system"/>
@@ -262,7 +262,7 @@
                                         <binding destination="-2" name="value" keyPath="self.subscriptionStatusText" id="9Zi-Rg-1Hd"/>
                                     </connections>
                                 </textField>
-                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dVH-bb-ulp">
+                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dVH-bb-ulp">
                                     <rect key="frame" x="-2" y="16" width="179" height="16"/>
                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Thank you for supporting us!" id="sW4-mJ-KZE">
                                         <font key="font" metaFont="system"/>

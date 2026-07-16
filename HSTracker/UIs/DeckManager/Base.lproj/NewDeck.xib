@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="24765" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="24765"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -25,13 +25,13 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="480" height="212"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1728" height="1079"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1512" height="949"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="490" height="212"/>
+                <rect key="frame" x="0.0" y="0.0" width="486" height="212"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="YES" preferredMaxLayoutWidth="440" translatesAutoresizingMaskIntoConstraints="NO" id="YM1-PJ-coX">
-                        <rect key="frame" x="18" y="186" width="454" height="16"/>
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="YES" preferredMaxLayoutWidth="440" translatesAutoresizingMaskIntoConstraints="NO" id="YM1-PJ-coX">
+                        <rect key="frame" x="18" y="186" width="450" height="16"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="How do you want to create your new deck ?" id="bnr-YF-pLP">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -39,7 +39,7 @@
                         </textFieldCell>
                     </textField>
                     <button translatesAutoresizingMaskIntoConstraints="NO" id="HQy-Fh-m0E">
-                        <rect key="frame" x="18" y="149" width="206" height="18"/>
+                        <rect key="frame" x="20" y="150" width="203" height="16"/>
                         <buttonCell key="cell" type="radio" title="Using HSTracker deck builder" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="N10-sK-1gZ">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
@@ -49,14 +49,14 @@
                         </connections>
                     </button>
                     <button translatesAutoresizingMaskIntoConstraints="NO" id="Hi4-1P-a8c">
-                        <rect key="frame" x="242" y="120" width="148" height="18"/>
+                        <rect key="frame" x="243" y="105" width="143" height="32"/>
                         <buttonCell key="cell" type="check" title="Arena or Brawl deck" bezelStyle="regularSquare" imagePosition="left" inset="2" id="0dN-Ei-UM2">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                     </button>
                     <button horizontalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="CZt-Rl-BuG">
-                        <rect key="frame" x="18" y="96" width="452" height="18"/>
+                        <rect key="frame" x="20" y="81" width="446" height="16"/>
                         <buttonCell key="cell" type="radio" title="From the Clipboard" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="OSn-2r-6E8">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
@@ -66,7 +66,7 @@
                         </connections>
                     </button>
                     <button horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zId-Z2-sHp">
-                        <rect key="frame" x="375" y="47" width="102" height="32"/>
+                        <rect key="frame" x="374" y="36" width="92" height="24"/>
                         <buttonCell key="cell" type="push" title="Choose file" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="xPi-Gg-ebR">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -76,7 +76,7 @@
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5rB-EX-IcR">
-                        <rect key="frame" x="424" y="13" width="53" height="32"/>
+                        <rect key="frame" x="424" y="20" width="42" height="24"/>
                         <buttonCell key="cell" type="push" title="OK" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="trs-D1-mgZ">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -89,7 +89,7 @@ DQ
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kOn-oh-tpj">
-                        <rect key="frame" x="352" y="13" width="76" height="32"/>
+                        <rect key="frame" x="348" y="20" width="66" height="24"/>
                         <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0dg-Pr-Io8">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -102,18 +102,18 @@ Gw
                         </connections>
                     </button>
                     <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="AnM-ox-JdV">
-                        <rect key="frame" x="333" y="22" width="16" height="16"/>
+                        <rect key="frame" x="322" y="24" width="16" height="16"/>
                     </progressIndicator>
                     <popUpButton springLoaded="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Mqd-Tw-L0d">
-                        <rect key="frame" x="241" y="142" width="233" height="25"/>
+                        <rect key="frame" x="243" y="146" width="223" height="24"/>
                         <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="sXW-5w-NLm">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="menu"/>
+                            <font key="font" metaFont="message"/>
                             <menu key="menu" id="YSM-KE-dJ1"/>
                         </popUpButtonCell>
                     </popUpButton>
                     <button translatesAutoresizingMaskIntoConstraints="NO" id="cZL-u5-ElV">
-                        <rect key="frame" x="18" y="55" width="354" height="18"/>
+                        <rect key="frame" x="20" y="40" width="344" height="16"/>
                         <buttonCell key="cell" type="radio" title="From a file" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="tHo-vJ-FwV">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>

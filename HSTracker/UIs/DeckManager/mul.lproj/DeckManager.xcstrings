@@ -248,7 +248,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "使用套牌"
+            "value" : "使用卡组"
           }
         },
         "zh-Hant" : {
@@ -338,7 +338,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "使用套牌"
+            "value" : "使用卡组"
           }
         },
         "zh-Hant" : {
@@ -476,7 +476,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "新建套牌"
+            "value" : "新建卡组"
           }
         },
         "zh-Hant" : {
@@ -566,7 +566,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "新建套牌"
+            "value" : "新建卡组"
           }
         },
         "zh-Hant" : {
@@ -656,7 +656,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "删除套牌"
+            "value" : "删除卡组"
           }
         },
         "zh-Hant" : {
@@ -746,7 +746,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "删除套牌"
+            "value" : "删除卡组"
           }
         },
         "zh-Hant" : {
@@ -872,7 +872,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "修改套牌"
+            "value" : "修改卡组"
           }
         },
         "zh-Hant" : {
@@ -962,7 +962,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "修改套牌"
+            "value" : "修改卡组"
           }
         },
         "zh-Hant" : {
@@ -1946,7 +1946,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "重命名套牌"
+            "value" : "重命名卡组"
           }
         },
         "zh-Hant" : {
@@ -2036,7 +2036,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "重命名套牌"
+            "value" : "重命名卡组"
           }
         },
         "zh-Hant" : {
@@ -2126,7 +2126,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "套牌管理器"
+            "value" : "卡组管理器"
           }
         },
         "zh-Hant" : {
