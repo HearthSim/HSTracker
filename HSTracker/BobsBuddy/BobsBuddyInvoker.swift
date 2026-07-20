@@ -33,8 +33,6 @@ class BobsBuddyInvoker {
     let StateChangeDelay = 500
     let LichKingDelay = 2000
     
-    static let cardIdsWithoutPremiumImplementation: [String] = MinionFactoryProxy.getCardIdsWithoutPremiumImplementations()
-    
     static let cardIdsWithCleave: [String] = MinionFactoryProxy.getCardIdsWithCleave()
     
     static let cardIdsWithMegaWindfury: [String] = MinionFactoryProxy.getCardIdsWithMegaWindfury()
@@ -766,11 +764,6 @@ class BobsBuddyInvoker {
                 minion.attachedModularEntity = modularMinion
                 modularMinion.attachedTo = minion
             }
-        }
-        
-        if golden && (BobsBuddyInvoker.cardIdsWithoutPremiumImplementation.firstIndex(of: cardId) != nil) {
-            minion.vanillaAttack *= 2
-            minion.vanillaHealth *= 2
         }
         
         for attached in attachedEntities {

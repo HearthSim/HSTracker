@@ -190,12 +190,12 @@ final class Player {
     var setAside: [Entity] { return playerEntities.filter({ $0.isInSetAside }) }
     static var knownOpponentDeck: [Card]?
     var entity: Entity? {
-        return game.entities.values.filter({ $0[.player_id] == self.id }).first
+        return game.entities.values.filter({ $0[.player_id] == self.id }).sorted(by: { $0.id < $1.id }).first
     }
 
     fileprivate(set) lazy var inDeckPredictions = [PredictedCard]()
     var hero: Entity? {
-        return board.first { x in x.isHero }
+        return board.filter { x in x.isHero }.min(by: { $0.id < $1.id })
     }
     
     private let pastHPLock = UnfairLock()

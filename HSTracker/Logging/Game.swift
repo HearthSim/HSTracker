@@ -1942,7 +1942,7 @@ class Game: NSObject, PowerEventHandler {
 		if let name = self.player.name {
 			result.playerName = name
 		}
-		if let _player = self.entities.values.first(where: { $0.isPlayer(eventHandler: self) }) {
+		if let _player = self.entities.values.filter({ $0.isPlayer(eventHandler: self) }).sorted(by: { $0.id < $1.id }).first {
 			result.coin = !_player.has(tag: .first_player)
 		}
 		
@@ -2031,7 +2031,7 @@ class Game: NSObject, PowerEventHandler {
             }
             
             result.gameDurationSeconds = Int(result.endTime.timeIntervalSince(result.startTime))
-            let hero = entities.values.first { x in x.has(tag: .player_leaderboard_place) && x.isControlled(by: player.id) }
+            let hero = (playerEntity?[.hero_entity]).flatMap { entities[$0] }
             
             let finalPlacement = hero?[.player_leaderboard_place] ?? 0
             if battlegroundsDetails != nil {
@@ -2283,7 +2283,7 @@ class Game: NSObject, PowerEventHandler {
             return
         }
         
-        let hero = entities.values.first(where: { x in x.has(tag: .player_leaderboard_place) && x.isControlled(by: player.id) })
+        let hero = (playerEntity?[.hero_entity]).flatMap { entities[$0] }
         let heroCardId = hero?.cardId != nil ? BattlegroundsUtils.getOriginalHeroId(heroId: hero?.cardId ?? "") : nil
         let duos = isBattlegroundsDuosMatch()
         let placement = min(hero?[.player_leaderboard_place] ?? 0, duos ? 4 : 8)
@@ -2551,9 +2551,9 @@ class Game: NSObject, PowerEventHandler {
         if isBattlegroundsMatch() {
                 return true
         }
-        let player = entities.map { $0.1 }.first { $0.isPlayer(eventHandler: self) }
+        let player = entities.map { $0.1 }.filter { $0.isPlayer(eventHandler: self) }.sorted(by: { $0.id < $1.id }).first
         let opponent = entities.map { $0.1 }
-            .first { $0.has(tag: .player_id) && !$0.isPlayer(eventHandler: self) }
+            .filter { $0.has(tag: .player_id) && !$0.isPlayer(eventHandler: self) }.sorted(by: { $0.id < $1.id }).first
 
         if let player = player, let opponent = opponent {
             return player[.mulligan_state] == Mulligan.done.rawValue

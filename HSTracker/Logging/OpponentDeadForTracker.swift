@@ -36,7 +36,7 @@ class OpponentDeadForTracker {
     
     static func setNextOpponentPlayerId(_ playerId: Int) {
         let game = AppDelegate.instance().coreManager.game
-        guard let nextOpponent = game.entities.values.first(where: { x in x[GameTag.player_id] == playerId }) else {
+        guard let nextOpponent = game.entities.values.filter({ x in x[GameTag.player_id] == playerId }).min(by: { $0.id < $1.id }) else {
             return
         }
         let leaderboardPlace = nextOpponent[GameTag.player_leaderboard_place]

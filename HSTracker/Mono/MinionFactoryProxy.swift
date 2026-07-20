@@ -28,13 +28,12 @@ class MinionFactoryProxy: MonoHandle, MonoClassInitializer {
         
         _createFromCardid = MonoHelper.getMethod(MinionFactoryProxy._class, "CreateFromCardId", 2)
         
-        _cardIdsWithoutPremiumImplementations = MonoHelper.getField(_class, "cardIdsWithoutPremiumImplementations")
         _cardIdsWithCleave = MonoHelper.getField(_class, "cardIDsWithCleave")
         _cardIdsWithMegaWindfury = MonoHelper.getField(_class, "cardIdsWithMegaWindfury")
         
         _tryGetPremiumIdFromNormal = MonoHelper.getMethod(MinionFactoryProxy._class, "TryGetPremiumIdFromNormal", 1)
 
-        _classVT = mono_class_vtable(MonoHelper._monoInstance, mono_field_get_parent(_cardIdsWithoutPremiumImplementations))
+        _classVT = mono_class_vtable(MonoHelper._monoInstance, mono_field_get_parent(_cardIdsWithMegaWindfury))
     }
     
     required init(obj: UnsafeMutablePointer<MonoObject>?) {
@@ -93,10 +92,6 @@ class MinionFactoryProxy: MonoHandle, MonoClassInitializer {
         return arr
     }
     
-    static func getCardIdsWithoutPremiumImplementations() -> [String] {
-        return getStringArrayField(field: _cardIdsWithoutPremiumImplementations)
-    }
-
     static func getCardIdsWithCleave() -> [String] {
         return getStringArrayField(field: _cardIdsWithCleave)
     }

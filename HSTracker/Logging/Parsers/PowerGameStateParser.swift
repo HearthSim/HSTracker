@@ -204,7 +204,7 @@ class PowerGameStateParser: LogEventParser {
 
                             if let _player = player,
                                 let playerEntity = eventHandler.entities.values
-                                    .first(where: { $0[.player_id] == _player.id }) {
+                                    .filter({ $0[.player_id] == _player.id }).sorted(by: { $0.id < $1.id }).first {
                                 playerEntity.name = tmpEntity.name
                                 tmpEntity.tags.forEach({ gameTag, val in
                                     tagChangeHandler.tagChange(eventHandler: eventHandler,
@@ -595,9 +595,9 @@ class PowerGameStateParser: LogEventParser {
 
             if matches.count > 0 && (blockType == "TRIGGER" || blockType == "POWER") {
                 let player = eventHandler.entities.values
-                    .first { $0.has(tag: .player_id) && $0[.player_id] == eventHandler.player.id }
+                    .filter { $0.has(tag: .player_id) && $0[.player_id] == eventHandler.player.id }.sorted(by: { $0.id < $1.id }).first
                 let opponent = eventHandler.entities.values
-                    .first { $0.has(tag: .player_id) && $0[.player_id] == eventHandler.opponent.id }
+                    .filter { $0.has(tag: .player_id) && $0[.player_id] == eventHandler.opponent.id }.sorted(by: { $0.id < $1.id }).first
 
                 guard let actionStartingEntityId = Int(matches[1].value) else {
                     Influx.sendSingleEvent(eventName: "PowerGameStateParser_invalid_action_entity_id", withProperties: ["line": logLine.line])
@@ -1400,7 +1400,7 @@ class PowerGameStateParser: LogEventParser {
             let abyssalCurseCreators = [ CardIds.Collectible.Warlock.DraggedBelow, CardIds.Collectible.Warlock.SirakessCultist, CardIds.Collectible.Warlock.AbyssalWave, CardIds.Collectible.Warlock.Zaqul ]
             if currentBlock?.type == "POWER" && abyssalCurseCreators.contains(currentBlock?.cardId ?? "") {
                 if let sourceEntity = eventHandler.entities.values.first(where: { x in x.id == currentBlock!.sourceEntityId }) {
-                    let abyssalCurse = eventHandler.entities.values.last(where: { x in x[.creator] == sourceEntity.id })
+                    let abyssalCurse = eventHandler.entities.values.filter { $0[.creator] == sourceEntity.id }.max(by: { $0.id < $1.id })
                     let nextDamage = abyssalCurse?[.tag_script_data_num_1] ?? 0
                     
                     if sourceEntity.isControlled(by: eventHandler.player.id) {
@@ -1458,8 +1458,8 @@ class PowerGameStateParser: LogEventParser {
                 }
                 if currentBlock.cardId == CardIds.NonCollectible.Neutral.TavishStormpike_LockAndLoad && currentBlock.triggerKeyword == "TRIGGER_VISUAL" {
                     if let lockAndLoadEntity = eventHandler.entities[currentBlock.sourceEntityId] {
-                        if let summonedEntity = eventHandler.entities.values.first(where: { e in e[GameTag.cardtype] == CardType.minion.rawValue && e[GameTag.creator] == lockAndLoadEntity.id && (e[GameTag.zone] == Zone.play.rawValue || e[GameTag.zone] == Zone.graveyard.rawValue)
-                        }) {
+                        if let summonedEntity = eventHandler.entities.values.filter({ e in e[GameTag.cardtype] == CardType.minion.rawValue && e[GameTag.creator] == lockAndLoadEntity.id && (e[GameTag.zone] == Zone.play.rawValue || e[GameTag.zone] == Zone.graveyard.rawValue)
+                        }).min(by: { $0.id < $1.id }) {
                             BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateLockAndLoadHeroPower(attachedEntity: summonedEntity, isOpponent: lockAndLoadEntity.isControlled(by: eventHandler.opponent.id))
                         }
                     }
