@@ -543,7 +543,7 @@ class MonoHelper {
         fatalError("Failed to load class \(ns).\(name)")
     }
     
-    static func objectNew(clazz: OpaquePointer) -> UnsafeMutablePointer<MonoObject>? {
+    static func objectNew(clazz: OpaquePointer!) -> UnsafeMutablePointer<MonoObject>? {
         let result = mono_object_new(MonoHelper._monoInstance, clazz)
         
         return result

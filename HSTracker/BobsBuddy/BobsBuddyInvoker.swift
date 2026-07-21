@@ -154,41 +154,55 @@ class BobsBuddyInvoker {
         return true
     }
     
+    private func snapshotCombatState() -> Bool {
+        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        
+        defer {
+            mono_thread_detach(opaque)
+        }
+        
+        if game.isBattlegroundsDuosMatch() {
+            snapshotBoardState(turn: game.turnNumber())
+            BobsBuddyInvoker.bobsBuddyDisplay.setState(st: .waitingForTeammates)
+            DispatchQueue.main.async {
+                BobsBuddyInvoker.bobsBuddyDisplay.resetText()
+            }
+            if input != nil && (duosInputPlayerTeammate == nil || duosInputOpponentTeammate == nil) {
+                logger.debug("Waiting Teammates. Exiting.")
+                return false
+            }
+        }
+        
+        if state.rawValue >= BobsBuddyState.combat.rawValue {
+            logger.debug("Already in \(state) state. Exiting")
+            return false
+        } else {
+            snapshotBoardState(turn: game.turnNumber())
+        }
+        logger.info("State is now combat")
+        state = .combat
+        
+        return true
+    }
+
     func startCombat() {
         opponentHand = [Entity]()
         opponentSecrets = [Entity]()
-        
+
         if !shouldRun() {
             return
         }
+
+        if !snapshotCombatState() {
+            return
+        }
+
         DispatchQueue.global().async { [self] in
             let opaque = mono_thread_attach(MonoHelper._monoInstance)
-            
+
             defer {
                 mono_thread_detach(opaque)
             }
-            
-            if game.isBattlegroundsDuosMatch() {
-                snapshotBoardState(turn: game.turnNumber())
-                BobsBuddyInvoker.bobsBuddyDisplay.setState(st: .waitingForTeammates)
-                DispatchQueue.main.async {
-                    BobsBuddyInvoker.bobsBuddyDisplay.resetText()
-                }
-                if input != nil && (duosInputPlayerTeammate == nil || duosInputOpponentTeammate == nil) {
-                    logger.debug("Waiting Teammates. Exiting.")
-                    return
-                }
-            }
-            
-            if state.rawValue >= BobsBuddyState.combat.rawValue {
-                logger.debug("Already in \(state) state. Exiting")
-                return
-            } else {
-                snapshotBoardState(turn: game.turnNumber())
-            }
-            logger.info("State is now combat")
-            state = .combat
-            
             Thread.sleep(forTimeInterval: Double(StateChangeDelay) / 1_000.0)
             
             if state != .combat {
@@ -1272,10 +1286,12 @@ class BobsBuddyInvoker {
             return
         }
 
-        MonoHelper.listClear(obj: input.opponent.hand)
+        let cls = mono_object_get_class(input.opponent.hand.get())
+        let newHand = MonoHandle(obj: MonoHelper.objectNew(clazz: cls))
         for ent in entities {
-            MonoHelper.addToList(list: input.opponent.hand, element: ent)
+            MonoHelper.addToList(list: newHand, element: ent)
         }
+        input.opponent.hand = newHand
         
         tryRerun()
     }
