@@ -133,6 +133,8 @@ final class Player {
     }
     var deadMinionsCards = [Entity]()
     var secretsTriggeredCards = [Entity]()
+    var beatrixCardIds: Set<Int> = []
+    var beatrixCopiedCard: String?
 
     var hasCoin: Bool {
         return hand.any { $0.isTheCoin }
@@ -250,6 +252,8 @@ final class Player {
         }
         playedSpellSchools.removeAll()
         isPlayingWhizbang = false
+        beatrixCardIds.removeAll()
+        beatrixCopiedCard = nil
     }
     
     var currentMana: Int {
