@@ -1563,6 +1563,86 @@ class BobsBuddyInvoker {
         tryRerun()
     }
     
+    func updateMagnanimooseSummonPoolDuos(_ summonedEntities: [Entity], _ magnanimooseEntityId: Int, _ isPlayerMinion: Bool) {
+        guard let input, updateRevealedEntityValidStates else {
+            return
+        }
+        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        
+        defer {
+            mono_thread_detach(opaque)
+        }
+        
+        // Determine which of the four players owns this Magnanimoose by finding its entity id on one of the captured boards.
+        var playerToUpdate: PlayerProxy?
+        if isPlayerMinion {
+            if listFirst(input.player.side, { (m: MinionProxy) in m.game_id == magnanimooseEntityId }) != nil {
+                playerToUpdate = input.player
+            } else if input.playerTeammate.get() != nil && listFirst(input.playerTeammate.side, { (m: MinionProxy) in m.game_id == magnanimooseEntityId }) != nil {
+                playerToUpdate = input.playerTeammate
+            }
+        } else {
+            if listFirst(input.opponent.side, { (m: MinionProxy) in m.game_id == magnanimooseEntityId }) != nil {
+                playerToUpdate = input.opponent
+            } else if input.opponentTeammate.get() != nil && listFirst(input.opponentTeammate.side, { (m: MinionProxy) in m.game_id == magnanimooseEntityId }) != nil {
+                playerToUpdate = input.opponentTeammate
+            }
+        }
+
+        if playerToUpdate == nil {
+            // A Magnanimoose summoned during combat is not on any captured board; match its controller to the correct player.
+            let controller = game.entities[magnanimooseEntityId]?[.controller] ?? 0
+            playerToUpdate = controllingPlayer(controller, isPlayerMinion)
+        }
+
+        // Last resort if the controller could not be matched (e.g. a teammate board not yet snapshot).
+        if playerToUpdate == nil {
+            playerToUpdate = isPlayerMinion ? input.player : input.opponent
+        }
+        guard let playerToUpdate else {
+            return
+        }
+
+        let simulator = SimulatorProxy()
+        let summonedMinions = summonedEntities.compactMap { e in
+            let minion = BobsBuddyInvoker.getMinionFromEntity(sim: simulator, player: isPlayerMinion, ent: e, attachedEntities: getAttachedEntities(entityId: e.id))
+            let copiedFrom = e[GameTag.copied_from_entity_id]
+            if copiedFrom > 0 {
+                minion.game_id = Int32(copiedFrom)
+            }
+            return minion
+        }
+        let list = playerToUpdate.magnanimooseSummonPoolDuos
+        for minion in summonedMinions {
+            MonoHelper.addToList(list: list, element: minion)
+        }
+
+        tryRerun()
+    }
+
+    private func controllingPlayer(_ controller: Int, _ isPlayerMinion: Bool) -> PlayerProxy? {
+        guard let input, controller != 0 else {
+            return nil
+        }
+        let relevantSides = isPlayerMinion
+            ? [ input.player, input.playerTeammate ]
+            : [ input.opponent, input.opponentTeammate ]
+        for player in relevantSides {
+            if player.get() == nil {
+                continue
+            }
+            let side = player.side
+            let cnt = MonoHelper.listCount(obj: side)
+            for i in 0 ..< cnt {
+                let minion = MinionProxy(obj: MonoHelper.listItem(obj: side, index: i).get())
+                if let entity = game.entities[Int(minion.game_id)], entity[GameTag.controller] == controller {
+                    return player
+                }
+            }
+        }
+        return nil
+    }
+    
     func updateMinionEnchantment(_ enchantmentEntity: Entity, _ attachedToEntityId: Int, _ isPlayerMinion: Bool) {
         guard let input, updateRevealedEntityValidStates else {
             return

@@ -1456,6 +1456,21 @@ class PowerGameStateParser: LogEventParser {
                         }
                     }
                 }
+                if currentBlock.cardId == CardIds.NonCollectible.Neutral.Magnanimoose && currentBlock.triggerKeyword == "DEATHRATTLE" {
+                    if let magnanimooseEntity = eventHandler.entities[currentBlock.sourceEntityId] {
+                        let summonedEntities = eventHandler.entities.values
+                            .filter { e in
+                                e[GameTag.cardtype] == CardType.minion.rawValue &&
+                                e[GameTag.creator] == magnanimooseEntity.id &&
+                                e[GameTag.zone] == Zone.play.rawValue
+                            }
+
+                        if summonedEntities.count > 0 {
+                            BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?
+                                .updateMagnanimooseSummonPoolDuos(summonedEntities, magnanimooseEntity.id, magnanimooseEntity.isControlled(by: eventHandler.player.id))
+                        }
+                    }
+                }
                 if currentBlock.cardId == CardIds.NonCollectible.Neutral.TavishStormpike_LockAndLoad && currentBlock.triggerKeyword == "TRIGGER_VISUAL" {
                     if let lockAndLoadEntity = eventHandler.entities[currentBlock.sourceEntityId] {
                         if let summonedEntity = eventHandler.entities.values.filter({ e in e[GameTag.cardtype] == CardType.minion.rawValue && e[GameTag.creator] == lockAndLoadEntity.id && (e[GameTag.zone] == Zone.play.rawValue || e[GameTag.zone] == Zone.graveyard.rawValue)
