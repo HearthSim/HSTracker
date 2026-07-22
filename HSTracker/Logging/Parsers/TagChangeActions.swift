@@ -251,13 +251,15 @@ struct TagChangeActions {
             BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateSandyTransformDuos(entity, Int32(entity[.creator]))
         }
 
-        if let currentBlock = AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock, eventHandler.currentGameMode == GameMode.battlegrounds && currentBlock.cardId == CardIds.NonCollectible.Neutral.FlobbidinousFloop_GloriousGloop && entity.isMinion &&
-            currentBlock.sourceEntityId == entity[.creator] && entity.isInZone(zone: .setaside) {
+        // Glorious Gloop transforms the chosen minion into the teammate's highest-Tier minion. Capture the
+        // transformed minion: the minion in PLAY copies from a SETASIDE entity
+        if let currentBlock = AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock, eventHandler.currentGameMode == GameMode.battlegrounds && currentBlock.cardId == CardIds.NonCollectible.Neutral.FlobbidinousFloop_GloriousGloop && entity.isMinion && entity.isInZone(zone: .play), let floopCopySource = eventHandler.entities[value],
+            floopCopySource.isInZone(zone: .setaside) {
             BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateFlobbidinousFloopTransformDuos(entity)
         }
         
         if let currentBlock = AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock, eventHandler.currentGameMode == GameMode.battlegrounds && (currentBlock.cardId == CardIds.NonCollectible.Neutral.SummoningSphere || currentBlock.cardId == CardIds.NonCollectible.Neutral.LesserTrinket) && entity.isMinion &&
-            currentBlock.sourceEntityId == entity[.creator] && entity.isInZone(zone: .setaside) {
+            currentBlock.sourceEntityId == entity[.creator] && (entity.isInZone(zone: .setaside) || entity.isInZone(zone: .play)) {
             BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateSummoningSphereDuos(entity, Int32(entity[.creator]))
         }
         
