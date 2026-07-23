@@ -918,7 +918,7 @@ class BobsBuddyInvoker {
         return game.entities.values.filter({ $0.isAttachedTo(entityId: entityId) && ($0.isInPlay || $0.isInSetAside || $0.isInGraveyard) }).map({ $0.copy() })
     }
     
-    private func setupInputPlayer(simulator: SimulatorProxy, gamePlayer: Player, inputPlayer: PlayerProxy, playerEntity: Entity?, friendly: Bool) throws {
+    private func setupInputPlayer(simulator: SimulatorProxy, gamePlayer: Player, inputPlayer: PlayerProxy, playerEntity: Entity?, friendly: Bool, isDuosTeammate: Bool = false) throws {
         let playerGameHero = gamePlayer.hero
         
         guard let playerEntity else {
@@ -1076,72 +1076,88 @@ class BobsBuddyInvoker {
             }
         }
         
-        let playerAttached = getAttachedEntities(entityId: playerEntity.id)
+        // DUOS TEAMMATE (validated/verified against 276 duos combats):
+        // Per-player enchants only ever attach to the two Player entities (Player and Opponent). When the
+        // displayed warband swaps to the teammate's, the game creates FRESH copies of the teammate's per-player
+        // enchants attached to the same Player entity in zone PLAY, and moves the local player's own copies
+        // to SETASIDE; therefore filter to to IsInPlay.
+        let playerAttached = isDuosTeammate
+        ? getAttachedEntities(entityId: playerEntity.id).filter { x in x.isInPlay }
+        : getAttachedEntities(entityId: playerEntity.id)
+
+        // captured inputPlayer values below are marked as either 'attached' or 'direct'
+        // attached: obtained from GetAttachedEntities (requires isDuosTeammate to work properly in duos games)
+        // direct: comes directly from the playerEntity using GetTag (no special handling needed for duos)
+        
         let pEternalLegion = playerAttached.first { x in x.cardId == CardIds.NonCollectible.Neutral.EternalKnight_EternalKnightPlayerEnchant }
         if let pEternalLegion {
-            inputPlayer.eternalKnightCounter = Int32(pEternalLegion[.tag_script_data_num_1])
+            inputPlayer.eternalKnightCounter = Int32(pEternalLegion[.tag_script_data_num_1]) // attached
         }
         let pUndeadBonus = playerAttached.first { x in x.cardId == CardIds.NonCollectible.Neutral.NerubianDeathswarmer_UndeadBonusAttackPlayerEnchantDnt }
         if let pUndeadBonus {
-            inputPlayer.undeadAttackBonus = Int32(pUndeadBonus[.tag_script_data_num_1])
-            inputPlayer.undeadHealthBonus = Int32(pUndeadBonus[.tag_script_data_num_2])
+            inputPlayer.undeadAttackBonus = Int32(pUndeadBonus[.tag_script_data_num_1]) // attached
+            inputPlayer.undeadHealthBonus = Int32(pUndeadBonus[.tag_script_data_num_2]) // attached
         }
         
         if let pBeastBonus = playerAttached.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.TimewarpedGoldrinn_TimewarpedGoldrinnPlayerEnchantDnt }) {
-            inputPlayer.beastAttackBonus = Int32(pBeastBonus[GameTag.tag_script_data_num_1])
-            inputPlayer.beastHealthBonus = Int32(pBeastBonus[GameTag.tag_script_data_num_2])
+            inputPlayer.beastAttackBonus = Int32(pBeastBonus[GameTag.tag_script_data_num_1]) // attached
+            inputPlayer.beastHealthBonus = Int32(pBeastBonus[GameTag.tag_script_data_num_2]) // attached
             logger.info("pBeastAttack=\(inputPlayer.beastAttackBonus), pBeastHealth=\(inputPlayer.beastHealthBonus), friendly=\(friendly)")
         }
         
         if let pAncestralAutomaton = playerAttached.first(where: { x in x.cardId == CardIds.Invalid.AncestralAutomaton_AncestralAutomatonPlayerEnchantDnt }) {
-            inputPlayer.ancestralAutomatonCounter = Int32( pAncestralAutomaton[.tag_script_data_num_1])
+            inputPlayer.ancestralAutomatonCounter = Int32( pAncestralAutomaton[.tag_script_data_num_1]) // attached
         }
         if let pBeetle = playerAttached.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.RunedProgenitor_BeetleArmyPlayerEnchantDnt }) {
-            inputPlayer.beetlesAtkBuff = Int32(pBeetle[.tag_script_data_num_1])
-            inputPlayer.beetlesHealthBuff = Int32(pBeetle[.tag_script_data_num_2])
+            inputPlayer.beetlesAtkBuff = Int32(pBeetle[.tag_script_data_num_1]) // attached
+            inputPlayer.beetlesHealthBuff = Int32(pBeetle[.tag_script_data_num_2]) // attached
             logger.info("pBeetleAtk=\(inputPlayer.beetlesAtkBuff), pBeetleHealth=\(inputPlayer.beetlesHealthBuff), friendly=\(friendly)")
         }
         
         if let pWhelpBonus = playerAttached.first(where: { x in
             x.cardId == CardIds.NonCollectible.Neutral.BurgeoningWhelp_WhelpBuffPlayerEnchantDnt }) {
-            inputPlayer.whelpAttackBonus = Int32(pWhelpBonus[GameTag.tag_script_data_num_1])
-            inputPlayer.whelpHealthBonus = Int32(pWhelpBonus[GameTag.tag_script_data_num_2])
+            inputPlayer.whelpAttackBonus = Int32(pWhelpBonus[GameTag.tag_script_data_num_1]) // attached
+            inputPlayer.whelpHealthBonus = Int32(pWhelpBonus[GameTag.tag_script_data_num_2]) // attached
             logger.info("pWhelpAttack=\(inputPlayer.whelpAttackBonus), pWhelpHealth=\(inputPlayer.whelpHealthBonus), friendly=\(friendly)")
         }
         
-        inputPlayer.elementalPlayCounter = Int32(game.playerEntity?[.gametag_2878] ?? 0)
+        inputPlayer.elementalPlayCounter = Int32(game.playerEntity?[.gametag_2878] ?? 0) // direct
         
         logger.info("pEternal=\(inputPlayer.eternalKnightCounter), pUndead=\(inputPlayer.undeadAttackBonus), pElemental=\(inputPlayer.elementalPlayCounter), friendly=\(friendly)")
         
-        inputPlayer.piratesSummonCounter = Int32(game.playerEntity?[.gametag_2358] ?? 0)
+        inputPlayer.piratesSummonCounter = Int32(game.playerEntity?[.gametag_2358] ?? 0) // direct
         
-        inputPlayer.resourcesSpentThisGame = Int32(game.playerEntity?[.num_resources_spent_this_game] ?? 0)
+        inputPlayer.resourcesSpentThisGame = Int32(game.playerEntity?[.num_resources_spent_this_game] ?? 0) // direct
         
-        inputPlayer.beastsSummonCounter = Int32(game.playerEntity?[.gametag_3962] ?? 0)
+        inputPlayer.beastsSummonCounter = Int32(game.playerEntity?[.gametag_3962] ?? 0) // direct
         
-        inputPlayer.friendlyMinionsDeadLastCombatCounter = Int32(game.playerEntity?[.gametag_2717] ?? 0)
+        inputPlayer.friendlyMinionsDeadLastCombatCounter = Int32(game.playerEntity?[.gametag_2717] ?? 0) // direct
         
-        inputPlayer.battlecryCounter = Int32(game.playerEntity?[.gametag_3236] ?? 0)
+        inputPlayer.battlecryCounter = Int32(game.playerEntity?[.gametag_3236] ?? 0) // direct
         
         logger.info("pPirates=\(inputPlayer.piratesSummonCounter), pBeasts=\(inputPlayer.beastsSummonCounter), pDeadLastCombat=\(inputPlayer.friendlyMinionsDeadLastCombatCounter), pBattlecry=\(inputPlayer.battlecryCounter), friendly=\(friendly)")
         
-        inputPlayer.bloodGemAtkBuff = Int32(playerEntity[.bacon_bloodgembuffatkvalue])
-        inputPlayer.bloodGemHealthBuff = Int32(playerEntity[.bacon_bloodgembuffhealthvalue])
+        inputPlayer.bloodGemAtkBuff = Int32(playerEntity[.bacon_bloodgembuffatkvalue]) // direct
+        inputPlayer.bloodGemHealthBuff = Int32(playerEntity[.bacon_bloodgembuffhealthvalue]) // direct
         
         logger.info("pBloodGem=+\(inputPlayer.bloodGemAtkBuff)/+\(inputPlayer.bloodGemHealthBuff), friendly=\(friendly)")
         
-        let pTagTransfer = friendly ? nil : playerAttached.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.TagtransferplayerenchantDnt && x.isInPlay })
-        inputPlayer.tavernSpellAtkBuff = Int32(playerEntity.has(tag: GameTag.tavern_spell_attack_increase) ? playerEntity[GameTag.tavern_spell_attack_increase] : pTagTransfer?[GameTag.tavern_spell_attack_increase] ?? 0)
-        inputPlayer.tavernSpellHealthBuff = Int32(playerEntity.has(tag: GameTag.tavern_spell_health_increase) ? playerEntity[GameTag.tavern_spell_health_increase] : pTagTransfer?[GameTag.tavern_spell_health_increase] ?? 0)
+        let pTagTransfer = friendly ? nil : playerAttached.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.TagtransferplayerenchantDnt && x.isInPlay }) // attached (opponent-only transfer enchant)
+        inputPlayer.tavernSpellAtkBuff = Int32(playerEntity.has(tag: GameTag.tavern_spell_attack_increase) ?
+                                               playerEntity[GameTag.tavern_spell_attack_increase] // direct
+                                               : pTagTransfer?[GameTag.tavern_spell_attack_increase] ?? 0) // attached (fallback)
+        inputPlayer.tavernSpellHealthBuff = Int32(playerEntity.has(tag: GameTag.tavern_spell_health_increase) ?
+                                                  playerEntity[GameTag.tavern_spell_health_increase] // direct
+                                                  : pTagTransfer?[GameTag.tavern_spell_health_increase] ?? 0) // attached (fallback)
         logger.info("pTavernSpell=+\(inputPlayer.tavernSpellAtkBuff)/+\(inputPlayer.tavernSpellHealthBuff) (opponentTransferEnchant=\(pTagTransfer != nil)), friendly=\(friendly)")
         
-        inputPlayer.tavernSpellCounter = Int32(playerEntity[GameTag.gametag_3088])
+        inputPlayer.tavernSpellCounter = Int32(playerEntity[GameTag.gametag_3088]) // direct
         
-        inputPlayer.deathrattleCounter = Int32(playerEntity[GameTag.gametag_4639])
+        inputPlayer.deathrattleCounter = Int32(playerEntity[GameTag.gametag_4639]) // direct
          
         if let pHaunted = playerAttached.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.HauntedCarapace_HauntedCarapacePlayerEnchantDnt }) {
-            inputPlayer.hauntedAtkBuff = Int32(pHaunted[GameTag.tag_script_data_num_1])
-            inputPlayer.hauntedHealthBuff = Int32(pHaunted[GameTag.tag_script_data_num_2])
+            inputPlayer.hauntedAtkBuff = Int32(pHaunted[GameTag.tag_script_data_num_1]) // attached
+            inputPlayer.hauntedHealthBuff = Int32(pHaunted[GameTag.tag_script_data_num_2]) // attached
             logger.info("pHauntedAtk=\(inputPlayer.hauntedAtkBuff), pHauntedHealth=\(inputPlayer.hauntedHealthBuff), friendly=\(friendly)")
         }
     }
@@ -1195,11 +1211,11 @@ class BobsBuddyInvoker {
                 duosInputOpponentTeammate = nil
             } else {
                 if game.duosWasPlayerHeroModified && duosInputPlayerTeammate == nil && input.playerTeammate.get() != nil {
-                    try setupInputPlayer(simulator: simulator, gamePlayer: game.player, inputPlayer: input.playerTeammate, playerEntity: game.playerEntity, friendly: true)
+                    try setupInputPlayer(simulator: simulator, gamePlayer: game.player, inputPlayer: input.playerTeammate, playerEntity: game.playerEntity, friendly: true, isDuosTeammate: true)
                     duosInputPlayerTeammate = input.playerTeammate
                 }
                 if game.duosWasOpponentHeroModified && duosInputOpponentTeammate == nil && input.opponentTeammate.get() != nil {
-                    try setupInputPlayer(simulator: simulator, gamePlayer: game.opponent, inputPlayer: input.opponentTeammate, playerEntity: game.opponentEntity, friendly: false)
+                    try setupInputPlayer(simulator: simulator, gamePlayer: game.opponent, inputPlayer: input.opponentTeammate, playerEntity: game.opponentEntity, friendly: false, isDuosTeammate: true)
                     duosInputOpponentTeammate = input.opponentTeammate
                 }
                 if game.isBattlegroundsDuosMatch() {
