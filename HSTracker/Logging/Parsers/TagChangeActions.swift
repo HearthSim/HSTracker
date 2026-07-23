@@ -87,6 +87,8 @@ struct TagChangeActions {
             case .health:
                 self.healthChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue)
                 self.drBoomsMonsterRebornHealth(eventHandler: eventHandler, id: id, value: value)
+            case .atk:
+                self.opponentMalorneAtkChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue)
             case .maxresources:
                 self.maxResourcesChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue)
             case .maxhandsize:
@@ -217,6 +219,24 @@ struct TagChangeActions {
         BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateDrBoomsMonsterReborn(entity[.creator], value, entity.isControlled(by: eventHandler.player.id))
     }
     
+    private func opponentMalorneAtkChange(eventHandler: PowerEventHandler, id: Int, value: Int, previous: Int) {
+        if !BobsBuddyInvoker.currentCombatMayHaveOpponentMalorne {
+            return
+        }
+        guard let entity = eventHandler.entities[id] else {
+            return
+        }
+        if entity.cardId != CardIds.NonCollectible.Neutral.ForestLordCenarius_Malorne1
+            && entity.cardId != CardIds.NonCollectible.Neutral.ForestLordCenarius_Malorne2 {
+            return
+        }
+        if entity.isControlled(by: eventHandler.player.id) {
+            return
+        }
+        BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateOpponentResourcesSpentThisGame(id, previous, value,
+                                             entity.cardId ==  CardIds.NonCollectible.Neutral.ForestLordCenarius_Malorne2)
+    }
+    
     private func tagScriptDataNum1(eventHandler: PowerEventHandler, id: Int, value: Int) {
         if eventHandler.currentGameMode != .battlegrounds {
             return
@@ -246,9 +266,13 @@ struct TagChangeActions {
             BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateLockAndLoadHeroPower(attachedEntity: entity, isOpponent: entity.isControlled(by: eventHandler.opponent.id))
         }
         
+        // Sandy transforms into a copy of the teammate's highest-Health minion. Capture from Sandy's own
+        // PLAY entity: when COPIED_FROM_ENTITY_ID lands on it.
+        // *Note: The SETASIDE copy source is unusable for an opponent-side Sandy: it is created hidden
+        // (no CARDTYPE/CREATOR) and only revealed after the transform, with its zone already REMOVEDFROMGAME.
         if let currentBlock = AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock, eventHandler.currentGameMode == GameMode.battlegrounds && currentBlock.cardId == CardIds.NonCollectible.Neutral.Sandy && entity.isMinion &&
-            currentBlock.sourceEntityId == entity[.creator] && entity.isInZone(zone: .setaside) {
-            BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateSandyTransformDuos(entity, Int32(entity[.creator]))
+            currentBlock.sourceEntityId == entity.id && entity.isInZone(zone: .play) && value != 0 {
+            BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateSandyTransformDuos(entity)
         }
 
         // Glorious Gloop transforms the chosen minion into the teammate's highest-Tier minion. Capture the

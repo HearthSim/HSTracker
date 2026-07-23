@@ -16,10 +16,15 @@ class AnomalyProxy: MonoHandle, MonoClassInitializer {
     static func initialize() {
         if AnomalyProxy._class == nil {
             AnomalyProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Anomalies", name: "Anomaly")
+            
+            initializeProperties(properties: [ "CardID" ] )
         }
     }
     
     required init(obj: UnsafeMutablePointer<MonoObject>?) {
         super.init(obj: obj)
     }
+    
+    @MonoStringProperty(property: "CardID", owner: AnomalyProxy.self)
+    var cardID: String
 }

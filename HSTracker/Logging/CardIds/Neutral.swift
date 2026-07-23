@@ -1146,5 +1146,9 @@ extension CardIds.NonCollectible {
         static let DrBoomsMonster = "BG31_176"
         static let DrBoomsMonster_DrBoomsMonster1 = "BG31_176_G"
         static let Magnanimoose = "BGDUO_105"
+        static let ForestLordCenarius_Malorne1 = "BG32_HERO_001_Buddy"
+        static let ForestLordCenarius_Malorne2 = "BG32_HERO_001_Buddy_G"
+        static let BringInTheBuddies = "BG27_Anomaly_810"
+        static let ForestLordCenarius_PowerOfAncients = "BG32_HERO_001_Buddye"
     }
 }

@@ -48,6 +48,9 @@ class BobsBuddyInvoker {
     // detection in TagChangeActions can skip the entity lookup for the (vast majority of) combats without one.
     static var currentCombatHasDrBoomsMonster = false
     
+    // True in games where an opponent Malorne can be summoned during the current combat (the Bring in the Buddies anomaly)
+    static var currentCombatMayHaveOpponentMalorne = false
+    
     // Incremented on every detected game reconnect. Each combat snapshot records the current value;
     // a mismatch at validation time means the reconnect happened after this combat started, so the
     // absence of the combat's outcome should not be deemed as CombatResult.Tie.
@@ -1129,6 +1132,13 @@ class BobsBuddyInvoker {
         
         inputPlayer.resourcesSpentThisGame = Int32(game.playerEntity?[.num_resources_spent_this_game] ?? 0) // direct
         
+        // The tag is never sent for the opponent — derive the value if there is a Malorne on their board.
+        if inputPlayer.resourcesSpentThisGame == 0 && !friendly {
+            if let malorne = gamePlayer.board.first(where: { e in e.cardId == CardIds.NonCollectible.Neutral.ForestLordCenarius_Malorne1 || e.cardId == CardIds.NonCollectible.Neutral.ForestLordCenarius_Malorne2 }) {
+                inputPlayer.resourcesSpentThisGame = Int32(BobsBuddyInvoker.getResourcesSpentThisGameFromMalorne(malorne, getAttachedEntities(entityId: malorne.id))) // derived
+            }
+        }
+        
         inputPlayer.beastsSummonCounter = Int32(game.playerEntity?[.gametag_3962] ?? 0) // direct
         
         inputPlayer.friendlyMinionsDeadLastCombatCounter = Int32(game.playerEntity?[.gametag_2717] ?? 0) // direct
@@ -1258,6 +1268,9 @@ class BobsBuddyInvoker {
                                                           (listAny(input.opponent.side, boomCheckMinion) != nil) || // Corrected: input.player.opponent.side -> input.opponent.side
                                                           (listAny(input.player.hand, boomCheckCard) != nil) ||
                                                           (listAny(input.opponent.hand, boomCheckCard) != nil)
+        
+        // Flag checking it's possible to summon Malorne during combat (to optimize redundantly checking in TagChangeAction).
+        BobsBuddyInvoker.currentCombatMayHaveOpponentMalorne = input.anomaly.get() != nil && input.anomaly.cardID == CardIds.NonCollectible.Neutral.BringInTheBuddies
         
         logger.debug("Successfully snapshotted board state")
     }
@@ -1458,7 +1471,7 @@ class BobsBuddyInvoker {
         tryRerun()
     }
     
-    func updateSandyTransformDuos(_ attachedEntity: Entity, _ sandyEntityId: Int32) {
+    func updateSandyTransformDuos(_ transformedSandyEntity: Entity) {
         guard let input, updateRevealedEntityValidStates else {
             return
         }
@@ -1470,32 +1483,28 @@ class BobsBuddyInvoker {
         }
         
         var friendly = true
-        var sandyMinion = listFirst(input.player.side, { (m: MinionProxy) in m.game_id == sandyEntityId })
+        // True to a "transform", transformedSandyEntity has the same Id as the original Sandy
+        var sandyMinion = listFirst(input.player.side, { (m: MinionProxy) in m.game_id == transformedSandyEntity.id })
         if sandyMinion == nil && input.playerTeammate.get() != nil {
-            sandyMinion = listFirst(input.playerTeammate.side, { (m: MinionProxy) in m.game_id == sandyEntityId })
+            sandyMinion = listFirst(input.playerTeammate.side, { (m: MinionProxy) in m.game_id == transformedSandyEntity.id })
         }
         if sandyMinion == nil {
             friendly = false
-            sandyMinion = listFirst(input.opponent.side, { (m: MinionProxy) in m.game_id == sandyEntityId })
+            sandyMinion = listFirst(input.opponent.side, { (m: MinionProxy) in m.game_id == transformedSandyEntity.id })
         }
         if sandyMinion == nil && input.opponentTeammate.get() != nil {
-            sandyMinion = listFirst(input.opponentTeammate.side, { (m: MinionProxy) in m.game_id == sandyEntityId })
+            sandyMinion = listFirst(input.opponentTeammate.side, { (m: MinionProxy) in m.game_id == transformedSandyEntity.id })
         }
         guard let sandyMinion, sandyMinion.get() != nil else {
             return
         }
-        let cl = mono_class_get_name(mono_object_get_class(sandyMinion.get()))
-        var className = "Unknown"
-        if let cl {
-            className = String(cString: cl)
-        }
-        Influx.breadcrumb(eventName: "sandy_minion_found", withProperties: ["sandyEntityId": "\(sandyEntityId)", className: className])
+
         let sandy = SandyProxy(obj: sandyMinion.get())
         if sandy.attachedMinion.get() != nil {
             return
         }
 
-        sandy.attachedMinion = BobsBuddyInvoker.getMinionFromEntity(sim: SimulatorProxy(), player: friendly, ent: attachedEntity, attachedEntities: getAttachedEntities(entityId: attachedEntity.id))
+        sandy.attachedMinion = BobsBuddyInvoker.getMinionFromEntity(sim: SimulatorProxy(), player: friendly, ent: transformedSandyEntity, attachedEntities: getAttachedEntities(entityId: transformedSandyEntity.id))
 
         tryRerun()
     }
@@ -1732,6 +1741,35 @@ class BobsBuddyInvoker {
         tryRerun()
     }
     
+    func updateOpponentResourcesSpentThisGame(_ malorneEntityId: Int, _ prevAtk: Int, _ atk: Int, _ golden: Bool) {
+        guard let input, updateRevealedEntityValidStates else {
+            return
+        }
+        if input.opponent.resourcesSpentThisGame > 0 {
+            return
+        }
+
+        // The entity's creation also carries as tag change (prevAtk=0 -> atk=base_attack).
+        // The buff we care about is the first ATK change after that (once Power of Ancients is attached).
+        if prevAtk <= 0 {
+            return
+        }
+        if !getAttachedEntities(entityId: malorneEntityId).any({ x in x.cardId == CardIds.NonCollectible.Neutral.ForestLordCenarius_PowerOfAncients }) {
+            return
+        }
+
+        var powerOfAncientsbuff = atk - prevAtk
+        if golden {
+            powerOfAncientsbuff /= 2
+        }
+        if powerOfAncientsbuff <= 0 {
+            return
+        }
+
+        input.opponent.resourcesSpentThisGame = Int32(powerOfAncientsbuff * 3)
+        tryRerun()
+    }
+    
     func updateTimewarpedMagnanimoose(_ summonedEntities: [Entity], _ magnanimooseEntityId: Int, _ isPlayerMinion: Bool) {
         guard let input, updateRevealedEntityValidStates else {
             return
@@ -1842,5 +1880,22 @@ class BobsBuddyInvoker {
         let heroEntityId = game.opponentEntity?[.hero_entity]
         let heroEntity = game.opponent.playerEntities.first { x in x.id == heroEntityId }
         return heroEntity?.cardId == CardIds.NonCollectible.Neutral.KelthuzadTavernBrawl2
+    }
+    
+    // NUM_RESOURCES_SPENT_THIS_GAME is never set for the opponent, but can be inferred from Malorne
+    private static func getResourcesSpentThisGameFromMalorne(_ malorne: Entity, _ attachedEntities: [Entity]) -> Int {
+        let enchantments = attachedEntities
+            .filter { x in x.cardId != CardIds.NonCollectible.Neutral.ForestLordCenarius_PowerOfAncients }
+        let attackBuffs = enchantments.reduce(0, { $0 + $1[GameTag.tag_script_data_num_1] })
+        let healthBuffs = enchantments.reduce(0, { $0 + $1[GameTag.tag_script_data_num_2]})
+        // GetTag(HEALTH) is the max health, unaffected by damage. Taking the min of the two increases accuracy
+        // in case there is a buff that never appears as an enchantment attached to the minion.
+        var aura = min(
+                    malorne[GameTag.atk] - malorne.card.attack - attackBuffs,
+                    malorne[GameTag.health] - malorne.card.health - healthBuffs)
+        if malorne.cardId == CardIds.NonCollectible.Neutral.ForestLordCenarius_Malorne2 {
+            aura /= 2
+        }
+        return aura > 0 ? aura * 3 : 0
     }
 }
