@@ -1212,7 +1212,14 @@ class BobsBuddyInvoker {
         }
         
         do {
-            if self.input == nil {
+            // In solos, each invoker instance snapshots exactly once, and _input=null here is the expected case.
+            // Only a duos teammate re-snapshot will legitimately arrive with _input set.
+            // However, a non-null solos _input CAN occur from a third-party plugin that saves/restores input
+            // mid-combat. Allowing setup to always proceed for solos, regardless of _input, solves this.
+            if self.input == nil || !game.isBattlegroundsDuosMatch() {
+                if self.input != nil {
+                    logger.debug("Input was already set before this instance's first snapshot; Rebuilding the input from the current game state.")
+                }
                 try setupInputPlayer(simulator: simulator, gamePlayer: game.player, inputPlayer: input.player, playerEntity: game.playerEntity, friendly: true)
                 try setupInputPlayer(simulator: simulator, gamePlayer: game.opponent, inputPlayer: input.opponent, playerEntity: game.opponentEntity, friendly: false)
                 duosInputPlayer = input.player
