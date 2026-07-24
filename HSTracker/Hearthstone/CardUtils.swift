@@ -37,10 +37,12 @@ class CardUtils {
     }
         
     static func getProcessedCardFromEntity(_ entity: Entity, _ player: Player) -> Card? {
-        if isStarship(entity.cardId) {
+        // LatestCardId, not CardId: the entity may have transformed in place (e.g. Hex via CHANGE_ENTITY)
+        let cardId = entity.info.latestCardId
+        if isStarship(cardId) {
             return entity.handleStarship(player)
         }
-        let card = Cards.by(cardId: entity.cardId)
+        let card = Cards.by(cardId: cardId)
         return card?.handleZilliax3000(player: player)
     }
 }

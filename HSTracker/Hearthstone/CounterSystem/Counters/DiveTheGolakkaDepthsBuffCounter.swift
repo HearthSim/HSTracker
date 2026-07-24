@@ -35,7 +35,7 @@ class DiveTheGolakkaDepthsBuffCounter: StatsCounter {
 
     override func handleTagChange(tag: GameTag, entity: Entity, value: Int, prevValue: Int) {
         guard game.isTraditionalHearthstoneMatch,
-              entity.card.id == CardIds.Collectible.Paladin.DiveTheGolakkaDepths,
+              entity.latestCard.id == CardIds.Collectible.Paladin.DiveTheGolakkaDepths,
               entity.isControlled(by: game.player.id) == isPlayerCounter,
               tag == .tag_script_data_num_1 else {
             return

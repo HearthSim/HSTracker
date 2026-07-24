@@ -43,7 +43,7 @@ class YsondreCounter: NumericCounter {
         guard game.isTraditionalHearthstoneMatch else { return }
         guard game.isMulliganDone() else { return }
 
-        if entity.cardId != CardIds.Collectible.Warrior.Ysondre { return }
+        if entity.info.latestCardId != CardIds.Collectible.Warrior.Ysondre { return }
         if tag != .zone { return }
 
         if value == Zone.play.rawValue {

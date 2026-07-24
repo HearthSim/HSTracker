@@ -45,7 +45,7 @@ class WheelOfDeathTurnsCounter: NumericCounter {
             isWheelOfDeathInPlay = true
         }
         
-        guard entity.card.id == CardIds.NonCollectible.Warlock.WheelofDEATH_WheelOfDeathCounterEnchantment else { return }
+        guard entity.latestCard.id == CardIds.NonCollectible.Warlock.WheelofDEATH_WheelOfDeathCounterEnchantment else { return }
         
         if tag == .tag_script_data_num_1 {
             let controller = entity[.controller]

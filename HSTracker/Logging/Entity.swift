@@ -206,6 +206,10 @@ class Entity {
         }
         return Card()
     }
+    
+    var latestCard: Card {
+        return info.latestCardId == cardId ? card : Card(id: info.latestCardId)
+    }
 
     func set(cardCount count: Int) {
         card.count = count

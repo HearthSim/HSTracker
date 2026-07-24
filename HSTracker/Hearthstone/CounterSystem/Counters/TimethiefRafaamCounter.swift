@@ -62,10 +62,10 @@ class TimethiefRafaamCounter: NumericCounter {
 
         guard isCurrentController else { return }
 
-        let cardId = entity.card.id
+        let cardId = entity.latestCard.id
         guard rafaams.contains(cardId), !playedRafaams.values.contains(cardId) else { return }
 
-        playedRafaams[entity.card.cost] = cardId
+        playedRafaams[entity.latestCard.cost] = cardId
         counter += 1
     }
 }

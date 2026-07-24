@@ -45,7 +45,7 @@ class VoidSoulCounter: NumericCounter {
 
     override func handleTagChange(tag: GameTag, entity: Entity, value: Int, prevValue: Int) {
         guard game.isTraditionalHearthstoneMatch else { return }
-        guard entity.cardId == CardIds.Collectible.DemonHunter.VoidSoul else { return }
+        guard entity.info.latestCardId == CardIds.Collectible.DemonHunter.VoidSoul else { return }
         guard entity.isControlled(by: game.player.id) == isPlayerCounter else { return }
         guard !discountIfCantPlay(tag: tag, value: value, entity: entity) else { return }
         guard tag == .zone else { return }

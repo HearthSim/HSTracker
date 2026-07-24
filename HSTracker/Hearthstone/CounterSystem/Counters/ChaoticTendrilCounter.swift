@@ -48,7 +48,7 @@ class ChaoticTendrilCounter: NumericCounter {
 
         let isCurrentController = isPlayerCounter ? entity.isControlled(by: game.player.id) : entity.isControlled(by: game.opponent.id)
 
-        guard isCurrentController && entity.card.id == CardIds.Collectible.Neutral.ChaoticTendril else { return }
+        guard isCurrentController && entity.latestCard.id == CardIds.Collectible.Neutral.ChaoticTendril else { return }
 
         counter += 1
     }

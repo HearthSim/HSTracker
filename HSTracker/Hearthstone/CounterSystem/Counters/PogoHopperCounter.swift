@@ -49,7 +49,7 @@ class PogoHopperCounter: NumericCounter {
 
         let isCurrentController = isPlayerCounter ? entity.isControlled(by: game.player.id) : entity.isControlled(by: game.opponent.id)
 
-        guard isCurrentController && entity.card.id == CardIds.Collectible.Rogue.PogoHopper else { return }
+        guard isCurrentController && entity.latestCard.id == CardIds.Collectible.Rogue.PogoHopper else { return }
 
         counter += 1
     }

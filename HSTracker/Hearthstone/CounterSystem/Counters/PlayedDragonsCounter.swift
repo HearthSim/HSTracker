@@ -56,7 +56,7 @@ class PlayedDragonsCounter: NumericCounter {
             return
         }
         
-        if !entity.card.isDragon() {
+        if !entity.latestCard.isDragon() {
             return
         }
         

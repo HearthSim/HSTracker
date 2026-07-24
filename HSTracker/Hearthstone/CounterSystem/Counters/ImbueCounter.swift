@@ -63,7 +63,7 @@ class ImbueCounter: NumericCounter {
 
         guard isCounterFromController else { return }
         
-        if entity.cardId == CardIds.Collectible.Druid.HamuulRunetotem && tag == GameTag.has_activate_power && value == 1 {
+        if entity.info.latestCardId == CardIds.Collectible.Druid.HamuulRunetotem && tag == GameTag.has_activate_power && value == 1 {
             isHamuul = true
             return
         }

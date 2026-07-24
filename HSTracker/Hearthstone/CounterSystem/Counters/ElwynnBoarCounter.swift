@@ -47,7 +47,7 @@ class ElwynnBoarCounter: NumericCounter {
             return
         }
 
-        if entity.cardId != CardIds.Collectible.Neutral.ElwynnBoar {
+        if entity.info.latestCardId != CardIds.Collectible.Neutral.ElwynnBoar {
             return
         }
 

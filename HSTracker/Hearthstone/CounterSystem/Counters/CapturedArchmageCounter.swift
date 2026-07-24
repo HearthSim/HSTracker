@@ -37,7 +37,7 @@ class CapturedArchmageCounter: NumericCounter {
     override func handleTagChange(tag: GameTag, entity: Entity, value: Int, prevValue: Int) {
         guard game.isTraditionalHearthstoneMatch else { return }
         guard game.isMulliganDone() else { return }
-        guard entity.cardId == CardIds.Collectible.Neutral.CapturedArchmage else { return }
+        guard entity.info.latestCardId == CardIds.Collectible.Neutral.CapturedArchmage else { return }
         guard tag == .zone else { return }
         
         // Check if the entity moved explicitly from PLAY to GRAVEYARD

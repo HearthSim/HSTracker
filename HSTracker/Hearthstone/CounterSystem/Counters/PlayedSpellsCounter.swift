@@ -72,7 +72,7 @@ class PlayedSpellsCounter: NumericCounter {
         guard AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock?.type == "PLAY" else { return }
         guard entity.isSpell else { return }
         
-        guard !_ignoredCards.contains(entity.cardId) else { return }
+        guard !_ignoredCards.contains(entity.info.latestCardId) else { return }
 
         let controller = entity[GameTag.controller]
         if (controller == game.player.id && isPlayerCounter) || (controller == game.opponent.id && !isPlayerCounter) {

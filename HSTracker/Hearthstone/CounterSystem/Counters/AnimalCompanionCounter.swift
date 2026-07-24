@@ -64,7 +64,7 @@ class AnimalCompanionCounter: NumericCounter {
         guard isPlayerController == isPlayerCounter else { return }
 
         // Check for specific companion-generating spells
-        let cardId = entity.cardId
+        let cardId = entity.info.latestCardId
         if cardId == CardIds.Collectible.Hunter.TamePet ||
            cardId == CardIds.Collectible.Hunter.MigratingElekk ||
            cardId == CardIds.Collectible.Hunter.RoamFree {
@@ -72,7 +72,7 @@ class AnimalCompanionCounter: NumericCounter {
             if !isPlayerCounter && tag == GameTag.zone && value == Zone.play.rawValue {
                 _opponentKnownCompanions.removeAll()
 
-                let delta = switch entity.cardId {
+                let delta = switch cardId {
                 case CardIds.Collectible.Hunter.TamePet: 1
                 case CardIds.Collectible.Hunter.MigratingElekk: 1
                 case CardIds.Collectible.Hunter.RoamFree: 2
@@ -130,11 +130,11 @@ class AnimalCompanionCounter: NumericCounter {
             return false
         }
 
-        if !entity.card.isBeast() {
+        if !entity.latestCard.isBeast() {
             return false
         }
 
-        if entity.card.cost != counter {
+        if entity.latestCard.cost != counter {
             return false
         }
 

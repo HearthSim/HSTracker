@@ -118,7 +118,8 @@ class AnachronosTurnCounter: NumericCounter {
               value == Zone.setaside.rawValue
         else { return }
         
-        let cardId = entity.cardId
+        let cardId = entity.info.latestCardId
+        if cardId.isEmpty { return }
         let controller = entity[GameTag.controller]
         if controller == game.player.id {
             playerMinions.append(cardId)

@@ -59,7 +59,7 @@ class ElementalTurnSequenceCounter: NumericCounter {
         guard game.isTraditionalHearthstoneMatch else { return }
 
         let isCurrentController = isPlayerCounter ? entity.isControlled(by: game.player.id) : entity.isControlled(by: game.opponent.id)
-        guard isCurrentController, entity.card.isElemental(), !playedThisTurn else { return }
+        guard isCurrentController, entity.latestCard.isElemental(), !playedThisTurn else { return }
 
         let turnNumber = game.turnNumber()
         if turnNumber == lastPlayedTurn + 1 || counter == 0 {

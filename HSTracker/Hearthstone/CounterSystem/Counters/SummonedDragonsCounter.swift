@@ -53,7 +53,7 @@ class SummonedDragonsCounter: NumericCounter {
             return
         }
         
-        guard entity.isMinion, entity.card.isDragon() else { return }
+        guard entity.isMinion, entity.latestCard.isDragon() else { return }
         
         if tag != .zone || value != Zone.play.rawValue {
             return
