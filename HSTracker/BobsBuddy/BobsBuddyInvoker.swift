@@ -1372,14 +1372,14 @@ class BobsBuddyInvoker {
             }
         }
         if tryDuos {
-            updateDuosLockAndLoadHeroPower(attachedEntity.card.dbfId)
+            updateDuosLockAndLoadHeroPower(attachedEntity)
         }
         if tryRerun {
             self.tryRerun()
         }
     }
     
-    func updateDuosLockAndLoadHeroPower(_ cardDbfId: Int) {
+    func updateDuosLockAndLoadHeroPower(_ firedMinionEntity: Entity) {
         guard let input, updateRevealedEntityValidStates else {
             return
         }
@@ -1390,29 +1390,39 @@ class BobsBuddyInvoker {
             mono_thread_detach(opaque)
         }
         
-        func getTavishHP(_ heroPowers: MonoHandle) -> HeroPowerDataProxy? {
-            let count = MonoHelper.listCount(obj: heroPowers)
-            for idx in 0 ..< count {
-                let hp = HeroPowerDataProxy(obj: MonoHelper.listItem(obj: heroPowers, index: idx).get())
-                if hp.cardId == CardIds.NonCollectible.Neutral.TavishStormpike_LockAndLoad {
-                    return hp
+        let creatorId = firedMinionEntity[.creator]
+        let sides: [(MonoHandle, Bool)] = [
+            ( input.player.heroPowers, true ),
+            ( input.playerTeammate.get() != nil ? input.playerTeammate.heroPowers : MonoHandle(), true ),
+            ( input.opponent.heroPowers, false ),
+            ( input.opponentTeammate.get() != nil ? input.opponentTeammate.heroPowers : MonoHandle(), false )
+        ]
+        var tavishLockAndLoad: HeroPowerDataProxy?
+        var friendly = false
+        for (heroPowers, sideFriendly) in sides {
+            if heroPowers.get() != nil {
+                if let match = listFirst(heroPowers, { (hp: HeroPowerDataProxy) in
+                    hp.cardId
+                    == CardIds.NonCollectible.Neutral.TavishStormpike_LockAndLoad && hp.attachedMinion.game_id == creatorId }) {
+                    tavishLockAndLoad = match
+                    friendly = sideFriendly
+                    break
                 }
             }
-            return nil
         }
         
-        var tavishLockAndLoad: HeroPowerDataProxy? = getTavishHP(input.opponent.heroPowers)
-        
-        if tavishLockAndLoad == nil && input.playerTeammate.get() != nil {
-            tavishLockAndLoad = getTavishHP(input.playerTeammate.heroPowers)
-        }
-        
-        if tavishLockAndLoad == nil {
-            tavishLockAndLoad = getTavishHP(input.opponent.heroPowers)
-        }
-        
-        if tavishLockAndLoad == nil && input.opponentTeammate.get() != nil {
-            tavishLockAndLoad = getTavishHP(input.opponentTeammate.heroPowers)
+        if tavishLockAndLoad == nil  {
+            for (heroPowers, sideFriendly) in sides {
+                if heroPowers.get() != nil {
+                    if let match = listFirst(heroPowers, { (hp: HeroPowerDataProxy) in
+                        hp.cardId
+                        == CardIds.NonCollectible.Neutral.TavishStormpike_LockAndLoad }) {
+                        tavishLockAndLoad = match
+                        friendly = sideFriendly
+                        break
+                    }
+                }
+            }
         }
         
         guard let tavishLockAndLoad else {
@@ -1422,8 +1432,17 @@ class BobsBuddyInvoker {
         if tavishLockAndLoad.attachedMinion.get() != nil || tavishLockAndLoad.data3 > 0 {
             return
         }
-        tavishLockAndLoad.data3 = Int32(cardDbfId)
-        
+        // COPIED_FROM_ENTITY_ID capture (TagChangeActions) fires before the fired minion attacks,
+        // so its stats are clean. The BLOCK_END capture (PowerHandler) can run after the shot, and the minion
+        // may carry damage or already be dead, and the simulation replays the shot, if so, fall back to dbf_id.
+        if firedMinionEntity[GameTag.damage] == 0 && firedMinionEntity.isInZone(zone: Zone.play) {
+            tavishLockAndLoad.attachedMinion = BobsBuddyInvoker.getMinionFromEntity(sim: SimulatorProxy(), player: friendly, ent: firedMinionEntity, attachedEntities: getAttachedEntities(entityId: firedMinionEntity.id))
+            tavishLockAndLoad.attachedMinionCapturedDuringCombat = true
+        } else if tavishLockAndLoad.data3 == 0 {
+            tavishLockAndLoad.data3 = Int32(firedMinionEntity.card.dbfId)
+        } else {
+            return
+        }
         tryRerun()
     }
     
