@@ -1,5 +1,27 @@
+# 3.6.2
+**Updated for Hearthstone 36.0.3**
+## Hearthstone
+- Fixed cases where Commander Beatrix would not add cards to the deck.
+- Fixed Wizened Truthseeker wrongly adding discount to opponent's hand.
+- Fixed Related Cards and Counters not considering transformed cards, such as Hex's frog.
+## Bob's Buddy
+- Fixed incorrect simulation results where:
+- Twilight Hatching with reborn landed in the wrong position
+- Bring in the Buddies Anomaly was missing buddies in the summon pool
+- Opponent trinkets start-of-combat trigger order was incorrect
+- Redemption secret was redeeming the wrong minion inside an "attacks immediately" context
+- Some Build-An-Undead minion choices that cannot be made golden were
+- Cards with "Double stats" on the same stats trigger were overdoubling
+- Illidan hero power was not always selecting the correct first attacker in regular combat
+- Flesheating Ghoul was failing to trigger on killed opponent minions
+- A Malorne summoned mid-combat could have incorrect stats
+## Duos
+- Fixed Sandy so its transform is detected and updated mid-combat
+- Improved Lock and Load detection at start-of-combat
+- Fixed a infrequent scenario where a duos game was detected as the wrong game type
+
 # 3.6.1
-**Hearthstone**
+## Hearthstone
 - Fixed Animal Companion Counter not updating.
 - Added support to Commander Beatrix.
 - Added Counter for Cards played for 2 Mana (Jade Guardians)
@@ -10,7 +32,7 @@
 - Changed Aessina counter to display when Malorne is in the deck and 10 or more minions had died.
 - Fixed Abyssal Curse counter not updating.
 - Added Imp Gang Stooge's token to the bottom of the deck.
-**Battlegrounds**
+## Battlegrounds
 - The minion browser now shows Tavern Tier 7 automatically in more cases.
 - Fixed Bob's Buddy getting stuck in the combat state in rare cases.
 - Fixed incorrect simulation results where:
