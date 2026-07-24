@@ -1048,17 +1048,57 @@ class Game: NSObject, PowerEventHandler {
     }
 
     private var _currentGameType: GameType = .gt_unknown
+    private var _gameTypeDuosCorrectionCheckCompleted = false
     var currentGameType: GameType {
 
         if _currentGameType != .gt_unknown {
+            if _gameTypeDuosCorrectionCheckCompleted {
+                return _currentGameType
+            }
+            if isSoloBattlegroundsGameType(_currentGameType) {
+                tryCorrectMisreadSoloGameType()
+            }
             return _currentGameType
         }
         if currentMode == .gameplay, let gameType = MirrorHelper.getGameType(),
             let type = GameType(rawValue: gameType) {
             _currentGameType = type
+            if _gameTypeDuosCorrectionCheckCompleted {
+                return _currentGameType
+            }
+            if isSoloBattlegroundsGameType(_currentGameType) {
+                tryCorrectMisreadSoloGameType()
+            }
+            return _currentGameType
         }
         return .gt_unknown
     }
+    
+    /// <summary>
+    /// The mirror can report a stale solo game type for a Duos game (confirmed to be a longstanding issue
+    /// via Sentry). The likely cause, the previous game's game_type was read during the menu-to-gameplay
+    /// transition, which then locks the game into solo mode.
+    /// The fix: check all player entities for any nonzero BACON_DUO_TEAM_ID tag.
+    /// </summary>
+    private func tryCorrectMisreadSoloGameType() {
+        let duoGameTypeEquivalent = switch _currentGameType {
+            case GameType.gt_battlegrounds: GameType.gt_battlegrounds_duo
+            case GameType.gt_battlegrounds_friendly: GameType.gt_battlegrounds_duo_friendly
+            case GameType.gt_battlegrounds_ai_vs_ai: GameType.gt_battlegrounds_duo_ai_vs_ai
+            case GameType.gt_battlegrounds_player_vs_ai: GameType.gt_battlegrounds_duo_vs_ai
+            default: GameType.gt_unknown
+        }
+        let hasDuoTeamId = entities.values
+            .any({ e in e.has(tag: GameTag.player_id) && e[GameTag.bacon_duo_team_id] > 0 })
+        if hasDuoTeamId {
+            logger.warning("Correcting misread solo game type \(_currentGameType) to \(duoGameTypeEquivalent) (player entity has BACON_DUO_TEAM_ID)")
+            _currentGameType = duoGameTypeEquivalent
+            _gameTypeDuosCorrectionCheckCompleted = true
+        } else if setupDone {  // All player entities now exist, the game is genuinely solo.
+            _gameTypeDuosCorrectionCheckCompleted = true
+        }
+    }
+
     
     private var _serverInfo: MirrorGameServerInfo?
     var serverInfo: MirrorGameServerInfo? {
@@ -1479,6 +1519,7 @@ class Game: NSObject, PowerEventHandler {
         _matchInfo = nil
         _currentFormatType = .ft_unknown
         _currentGameType = .gt_unknown
+        _gameTypeDuosCorrectionCheckCompleted = false
 		_currentGameMode = .none
         _serverInfo = nil
 
@@ -1579,7 +1620,9 @@ class Game: NSObject, PowerEventHandler {
     
     func cacheGameType() {
         if let currentGameType = MirrorHelper.getGameType(), currentGameType != GameType.gt_unknown.rawValue {
-            _currentGameType = GameType(rawValue: currentGameType) ?? .gt_unknown
+            if !_gameTypeDuosCorrectionCheckCompleted { // Do not let a late mirror overwrite a bg game type already corrected by TryCorrectMisreadSoloGameType.
+                _currentGameType = GameType(rawValue: currentGameType) ?? .gt_unknown
+            }
         } else {
             DispatchQueue.global().asyncAfter(deadline: .now() + 1.0) {
                 self.cacheGameType()
@@ -2503,6 +2546,10 @@ class Game: NSObject, PowerEventHandler {
     }
     
     func isBattlegroundsSoloMatch() -> Bool {
+        return isSoloBattlegroundsGameType(currentGameType)
+    }
+    
+    func isSoloBattlegroundsGameType(_ currentGameType: GameType) -> Bool {
         return currentGameType == .gt_battlegrounds || currentGameType == .gt_battlegrounds_friendly || currentGameType == .gt_battlegrounds_ai_vs_ai || currentGameType == .gt_battlegrounds_player_vs_ai
     }
     
