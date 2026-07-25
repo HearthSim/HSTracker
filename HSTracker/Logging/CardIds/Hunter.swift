@@ -240,6 +240,7 @@ extension CardIds.Collectible {
         static let Spiritspeaker = "MEND_301"
         static let ToMySide = "LOOT_217"
         static let SmuggledShovel = "JAIL_380"
+        static let KingOfTheUnderbelly = "JAIL_831"
     }
 }
 

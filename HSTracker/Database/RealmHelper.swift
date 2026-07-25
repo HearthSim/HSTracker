@@ -454,7 +454,7 @@ struct RealmHelper {
 		}
 	}
 	
-	static func add(deck: Deck, with cards: [Card]) {
+    static func add(deck: Deck, with cards: [Card], sideboards: [Int: [Int: Int]] = [:]) {
 		
 		guard let realm = try? Realm() else {
 			logger.error("Error accessing Realm database")
@@ -468,6 +468,19 @@ struct RealmHelper {
 				for card in cards {
 					deck.add(card: card)
 				}
+                for sideboard in sideboards {
+                    if let owner = Cards.by(dbfId: sideboard.key) {
+                        let s = RealmSideboard(ownerCardId: owner.id)
+                        //                            realm.add(s)
+                        for card in sideboard.value {
+                            if let c = Cards.by(dbfId: card.0, collectible: false) {
+                                c.count = card.1
+                                s.add(card: c)
+                            }
+                        }
+                        deck.sideboards.append(s)
+                    }
+                }
 			}
 		} catch {
 			logger.error("Can not add deck : \(error)")

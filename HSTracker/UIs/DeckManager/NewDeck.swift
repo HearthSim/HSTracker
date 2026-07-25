@@ -88,9 +88,10 @@ class NewDeck: NSWindowController, NSControlTextEditingDelegate {
                 deck.playerClass = serializedDeck.getHero()?.playerClass ?? .invalid
                 deck.name = serializedDeck.name
                 cards = serializedDeck.cards
+                let sideboards = serializedDeck.sideboards
                 
                 if let _cards = cards {
-                    RealmHelper.add(deck: deck, with: _cards)
+                    RealmHelper.add(deck: deck, with: _cards, sideboards: sideboards)
                     self._addDeck(deck)
                 }
             } else {

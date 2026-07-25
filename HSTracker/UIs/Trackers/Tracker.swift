@@ -334,14 +334,14 @@ class Tracker: OverWindowController, CardCellHover {
             playerBottom.isHidden = true
         }
         if playerSideboards.count > 0 && !Settings.hidePlayerSideboards {
-            let playerSideboardsHeight = CGFloat(playerSideboards.count) * cardHeight + smallFrameHeight
+            let playerSideboardsHeight = CGFloat(playerSideboards.count) * cardHeight + smallFrameHeight * CGFloat(playerSideboards.sideboardCount)
             y -= playerSideboardsHeight
             playerSideboards.frame = NSRect(x: 0, y: y, width: windowWidth, height: playerSideboardsHeight)
             playerSideboards.cards.cardHeight = cardHeight
-            playerSideboards.updateFrames(frameHeight: smallFrameHeight)
+            playerSideboards.updateFrames(frameHeight: smallFrameHeight, cardHeight: cardHeight)
         } else {
             playerSideboards.frame = NSRect.zero
-            playerSideboards.updateFrames(frameHeight: smallFrameHeight)
+            playerSideboards.updateFrames(frameHeight: smallFrameHeight, cardHeight: cardHeight)
             playerSideboards.isHidden = true
         }
         if !cardCounter.isHidden {
