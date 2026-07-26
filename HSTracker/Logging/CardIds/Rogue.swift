@@ -254,6 +254,7 @@ extension CardIds.Collectible {
         static let SliceAndDice = "JAIL_500"
         static let LotusBookie = "JAIL_720"
         static let JadeGuardians = "JAIL_474"
+        static let LotusTroublemaker = "JAIL_470"
     }
 }
 

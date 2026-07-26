@@ -13,7 +13,8 @@ class CardsPlayedFor2ManaCounter: NumericCounter {
     }
 
     override var relatedCards: [String] {
-        return [CardIds.Collectible.Rogue.JadeGuardians]
+        return [CardIds.Collectible.Rogue.JadeGuardians,
+                CardIds.Collectible.Rogue.LotusTroublemaker]
     }
 
     required init(controlledByPlayer: Bool, game: Game) {
