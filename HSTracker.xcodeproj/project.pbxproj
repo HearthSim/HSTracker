@@ -1276,6 +1276,7 @@
 		B8D02E5C2F24230300DC55C1 /* PlayerResourcesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D02E5B2F24230300DC55C1 /* PlayerResourcesView.swift */; };
 		B8D02E5E2F2454E700DC55C1 /* PlayerResourcesWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D02E5D2F2454E700DC55C1 /* PlayerResourcesWindow.swift */; };
 		B8D02E602F24592D00DC55C1 /* PlayerResourcesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8D02E5F2F24592D00DC55C1 /* PlayerResourcesWindow.xib */; };
+		B8D22EA73015965F00E44909 /* InfestTheSculleryCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D22EA63015965F00E44909 /* InfestTheSculleryCounter.swift */; };
 		B8D34D35294FB0C100CACC5A /* BattlegroundsHeroHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D34D34294FB0C100CACC5A /* BattlegroundsHeroHeaderViewModel.swift */; };
 		B8D34D37294FE74700CACC5A /* BattlegroundsHeroPickStatsParams .swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D34D36294FE74700CACC5A /* BattlegroundsHeroPickStatsParams .swift */; };
 		B8D75B8F25A9DC9A00446923 /* ExperienceOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8D75B8E25A9DC9A00446923 /* ExperienceOverlay.xib */; };
@@ -2558,6 +2559,7 @@
 		B8D02E5B2F24230300DC55C1 /* PlayerResourcesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerResourcesView.swift; sourceTree = "<group>"; };
 		B8D02E5D2F2454E700DC55C1 /* PlayerResourcesWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerResourcesWindow.swift; sourceTree = "<group>"; };
 		B8D02E5F2F24592D00DC55C1 /* PlayerResourcesWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayerResourcesWindow.xib; sourceTree = "<group>"; };
+		B8D22EA63015965F00E44909 /* InfestTheSculleryCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfestTheSculleryCounter.swift; sourceTree = "<group>"; };
 		B8D34D34294FB0C100CACC5A /* BattlegroundsHeroHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsHeroHeaderViewModel.swift; sourceTree = "<group>"; };
 		B8D34D36294FE74700CACC5A /* BattlegroundsHeroPickStatsParams .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BattlegroundsHeroPickStatsParams .swift"; sourceTree = "<group>"; };
 		B8D75B8E25A9DC9A00446923 /* ExperienceOverlay.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExperienceOverlay.xib; sourceTree = "<group>"; };
@@ -3449,6 +3451,7 @@
 				B86D89C32D95A24F00AB65A5 /* HeroPowersThisGameCounter.swift */,
 				B872E0D62DB059410023B24B /* HolySpellsPlayedCounter.swift */,
 				B8889C1E2DA4AAEB0053DD57 /* ImbueCounter.swift */,
+				B8D22EA63015965F00E44909 /* InfestTheSculleryCounter.swift */,
 				B89343432CD11C13009A8727 /* JadeDisplayCounter.swift */,
 				B89343452CD11D03009A8727 /* JadeGolemCounter.swift */,
 				B82029322CD2C65D00C19A8C /* KiljaedenCounter.swift */,
@@ -5474,6 +5477,7 @@
 				B846CC902E16C10000552F9C /* EternalBloodpetal.swift in Sources */,
 				B846CC682E09EFDD00552F9C /* NineLives.swift in Sources */,
 				340AAC051D0544AD0015FE33 /* StringTracker.swift in Sources */,
+				B8D22EA73015965F00E44909 /* InfestTheSculleryCounter.swift in Sources */,
 				B8B61C222AEBEA9C00990359 /* AvailableSecretsProvider.swift in Sources */,
 				B83335F52F6207BB00923513 /* TichondriusEnchantment.swift in Sources */,
 				B8AC9A26293F92540047F438 /* BattlegroundsQuestPickingViewModel.swift in Sources */,

@@ -206,6 +206,7 @@ extension CardIds.Collectible {
         static let WildwoodCircle = "CATA_134"
         static let AzsharasTriumph = "CATA_136"
         static let HamuulRunetotem = "EDR_845"
+        static let InfestTheScullery = "JAIL_200"
     }
 }
 
