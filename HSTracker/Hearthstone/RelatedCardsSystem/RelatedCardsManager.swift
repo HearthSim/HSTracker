@@ -12,7 +12,7 @@ class RelatedCardsManager {
     private var relatedCards = [String: ICardWithRelatedCards]()
     private var highlightCards = [String: ICardWithHighlight]()
     private var spellSchoolTutorCards = [String: ISpellSchoolTutor]()
-    private var cardGeneratorCards = [String: ICardGenerator]()
+    var cardGeneratorCards = [String: ICardGenerator]()
     
     private func initializeRelatedCards() {
         let _cards = ReflectionHelper.getRelatedClases()

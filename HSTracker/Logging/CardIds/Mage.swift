@@ -322,6 +322,7 @@ extension CardIds.NonCollectible {
         static let Vulcanos_PlumeOfVulcanosToken2 = "CATA_488t2"
         static let LeyWalker_UnblockLeylineToken = "MEND_501t2e"
         static let JailhouseManastorm_ManastormSummoningEnchantment = "JAIL_122e5"
+        static let TheForbiddenSequence_TheOriginStoneToken = "TLC_460t"
     }
 }
 

@@ -246,6 +246,18 @@ class SecretsManager {
                     availableSecrets.remove(storedIds.last ?? "")
                     secretsCreated.append(contentsOf: getFilteredSecrets(secret, availableSecrets))
                 }
+            } else if let creator, creator.cardId == CardIds.NonCollectible.Mage.TheForbiddenSequence_TheOriginStoneToken {
+                let storedIds = secret.entity.info.storedCardIds
+
+                if !storedIds.isEmpty {
+                    // The Origin Stone revealed the copy it cast, so the exact secret is known.
+                    secretsCreated.append(contentsOf: getFilteredSecrets(secret, Set<String>(storedIds)))
+                } else if let sourceGenerator = tryGetOriginStoneSourceGenerator(secret: secret) {
+                    let creatableSecrets = getCreatableSecretsFromGenerator(sourceGenerator, gameMode, format)
+                    secretsCreated.append(contentsOf: getFilteredSecrets(secret, creatableSecrets))
+                } else {
+                    secretsCreated.append(contentsOf: getFilteredSecrets(secret, availableSecrets))
+                }
             } else if let creator, let generator = _relatedCardsManager.getCardGenerator(creator.cardId) {
                 let creatableSecrets = getCreatableSecretsFromGenerator(generator, gameMode, format)
                 
@@ -358,6 +370,39 @@ class SecretsManager {
     
     private func tryGetDrawer(_ secret: Secret) -> Entity? {
         return game.opponent.revealedEntities.first { e in e.id == secret.entity.info.getDrawerId() }
+    }
+
+    private func tryGetOriginStoneSourceGenerator(secret: Secret) -> ICardGenerator? {
+        // The Origin Stone casts copies of unchosen discover options: it reveals a copy of the
+        // option immediately before the cast entity is created. Trace that copy back to the
+        // discover source to reuse its generator pool.
+        let revealedCast = game.opponent.revealedEntities
+            .filter { e in
+                e.id < secret.entity.id &&
+                e.isSecret &&
+                e[.copied_from_entity_id] > 0 &&
+                e.isInZone(zone: .setaside)
+            }
+            .max(by: { $0.id < $1.id })
+
+        guard let revealedCast = revealedCast else {
+            return nil
+        }
+
+        let copiedFromId = revealedCast[.copied_from_entity_id]
+        let discoverOption = game.opponent.revealedEntities
+            .first(where: { $0.id == copiedFromId })
+
+        let creatorId = discoverOption?[.creator]
+        let discoverSource = game.opponent.revealedEntities
+            .first(where: { $0.id == creatorId })
+
+        if let generatorCardId = discoverSource?.cardId,
+           let sourceGenerator = _relatedCardsManager.cardGeneratorCards[generatorCardId] {
+            return sourceGenerator
+        }
+
+        return nil
     }
     
     private func getCreatableSecretsFromGenerator(_ generator: ICardGenerator, _ gameMode: GameType, _ format: FormatType) -> Set<String> {
