@@ -1441,7 +1441,7 @@ class PowerGameStateParser: LogEventParser {
                         }
                     }
                 }
-                if currentBlock.cardId == CardIds.NonCollectible.Neutral.TimewarpedMagnanimoose && currentBlock.triggerKeyword == "DEATHRATTLE" {
+                if (currentBlock.cardId == CardIds.NonCollectible.Neutral.TimewarpedMagnanimoose || currentBlock.cardId == CardIds.NonCollectible.Neutral.TimewarpedMagnanimoose_TimewarpedMagnanimoose) && currentBlock.triggerKeyword == "DEATHRATTLE" {
                     
                     if let magnanimooseEntity = eventHandler.entities[currentBlock.sourceEntityId] {
                         let summonedEntities = eventHandler.entities.values.filter({ e in
@@ -1456,7 +1456,7 @@ class PowerGameStateParser: LogEventParser {
                         }
                     }
                 }
-                if currentBlock.cardId == CardIds.NonCollectible.Neutral.TimewarpedNelliesShipToken1 && currentBlock.triggerKeyword == "DEATHRATTLE" {
+                if (currentBlock.cardId == CardIds.NonCollectible.Neutral.TimewarpedNelliesShipToken1 || currentBlock.cardId == CardIds.NonCollectible.Neutral.TimewarpedNelliesShipToken2) && currentBlock.triggerKeyword == "DEATHRATTLE" {
                     if let nelliesEntity = eventHandler.entities[currentBlock.sourceEntityId] {
                         let summonedDbfIds = eventHandler.entities.values.filter { e in e[GameTag.cardtype] == CardType.minion.rawValue && e[.creator] == nelliesEntity.id && e[.zone] == Zone.play.rawValue }.compactMap { x in x.card.dbfId }
                         if summonedDbfIds.count > 0 {
@@ -1464,7 +1464,7 @@ class PowerGameStateParser: LogEventParser {
                         }
                     }
                 }
-                if currentBlock.cardId == CardIds.NonCollectible.Neutral.Magnanimoose && currentBlock.triggerKeyword == "DEATHRATTLE" {
+                if (currentBlock.cardId == CardIds.NonCollectible.Neutral.Magnanimoose || currentBlock.cardId == CardIds.NonCollectible.Neutral.Magnanimoose_Magnanimoose) && currentBlock.triggerKeyword == "DEATHRATTLE" {
                     if let magnanimooseEntity = eventHandler.entities[currentBlock.sourceEntityId] {
                         let summonedEntities = eventHandler.entities.values
                             .filter { e in

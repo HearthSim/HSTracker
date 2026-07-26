@@ -270,7 +270,7 @@ struct TagChangeActions {
         // PLAY entity: when COPIED_FROM_ENTITY_ID lands on it.
         // *Note: The SETASIDE copy source is unusable for an opponent-side Sandy: it is created hidden
         // (no CARDTYPE/CREATOR) and only revealed after the transform, with its zone already REMOVEDFROMGAME.
-        if let currentBlock = AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock, eventHandler.currentGameMode == GameMode.battlegrounds && currentBlock.cardId == CardIds.NonCollectible.Neutral.Sandy && entity.isMinion &&
+        if let currentBlock = AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock, eventHandler.currentGameMode == GameMode.battlegrounds && (currentBlock.cardId == CardIds.NonCollectible.Neutral.Sandy || currentBlock.cardId == CardIds.NonCollectible.Neutral.Sandy_Sandy) && entity.isMinion &&
             currentBlock.sourceEntityId == entity.id && entity.isInZone(zone: .play) && value != 0 {
             BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateSandyTransformDuos(entity)
         }
