@@ -448,7 +448,7 @@ class MonoHelper {
             e[.atk] = 5
             e[.health] = 5
             e[.tech_level] = 2
-            let minionEntity = MinionCardEntityProxy(minion: BobsBuddyInvoker.getMinionFromEntity(sim: sim, player: false, ent: e, attachedEntities: [Entity]()), simulator: sim)
+            let minionEntity = MinionCardEntityProxy(minion: BobsBuddyInvoker.getMinionFromEntity(sim: sim, player: false, entity: e, attachedEntities: [Entity]()), simulator: sim)
             minionEntity.canSummon = true
             MonoHelper.addToList(list: hand, element: minionEntity)
             MonoHelper.addToList(list: hand, element: BloodGemProxy(simulator: sim))

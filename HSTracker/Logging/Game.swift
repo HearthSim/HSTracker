@@ -1083,6 +1083,7 @@ class Game: NSObject, PowerEventHandler {
     /// The fix: check all player entities for any nonzero BACON_DUO_TEAM_ID tag.
     /// </summary>
     private func tryCorrectMisreadSoloGameType() {
+        // swiftlint:disable switch_case_alignment
         let duoGameTypeEquivalent = switch _currentGameType {
             case GameType.gt_battlegrounds: GameType.gt_battlegrounds_duo
             case GameType.gt_battlegrounds_friendly: GameType.gt_battlegrounds_duo_friendly
@@ -1090,6 +1091,7 @@ class Game: NSObject, PowerEventHandler {
             case GameType.gt_battlegrounds_player_vs_ai: GameType.gt_battlegrounds_duo_vs_ai
             default: GameType.gt_unknown
         }
+        // swiftlint:enable switch_case_alignment
         let hasDuoTeamId = entities.values
             .any({ e in e.has(tag: GameTag.player_id) && e[GameTag.bacon_duo_team_id] > 0 })
         if hasDuoTeamId {
@@ -1101,7 +1103,6 @@ class Game: NSObject, PowerEventHandler {
         }
     }
 
-    
     private var _serverInfo: MirrorGameServerInfo?
     var serverInfo: MirrorGameServerInfo? {
         if _serverInfo == nil {
