@@ -314,5 +314,14 @@ class UploadMetaData: Encodable {
         var friendly_player_entity_id: Int?
         var final_placement: Int?
         var friendly_hero_raw_dbf_id: Int?
+        var game_uuid: String?
+        var lobby_players: [BattlegroundsLobbyStatePlayer]?
+    }
+    
+    struct BattlegroundsLobbyStatePlayer: Encodable {
+        var hero_card_id: String?
+        var player_name: String?
+        var account_hi: Int64?
+        var account_lo: Int64?
     }
 }

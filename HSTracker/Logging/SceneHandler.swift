@@ -66,6 +66,7 @@ class SceneHandler {
         } else if from == .gameplay {
             game.updateBattlegroundsSessionVisibility()
             Watchers.battlegroundsTeammateBoardStateWatcher.stop()
+            Watchers.battlegroundsLobbyInfoWatcher.stop()
             Watchers.baconWatcher.stop()
             Watchers.bigCardWatcher.stop()
             Watchers.discoverStateWatcher.stop()

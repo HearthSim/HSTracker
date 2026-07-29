@@ -531,5 +531,13 @@ struct MirrorHelper {
         }
         return result
     }
+    
+    static func getBattlegroundsLobbyInfo() -> MirrorBattlegroundsLobbyInfo? {
+        var result: MirrorBattlegroundsLobbyInfo?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getBattlegroundsLobbyInfo()
+        }
+        return result
+    }
 }
 

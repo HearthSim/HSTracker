@@ -141,6 +141,8 @@ class Game: NSObject, PowerEventHandler {
     var battlegroundsBuddiesEnabled: Bool {
         return gameEntity?[.bacon_buddy_enabled] ?? 0 > 0
     }
+    
+    var battlegroundsLobbyInfo: MirrorBattlegroundsLobbyInfo?
 	
 	// MARK: - PowerEventHandler protocol
 	
@@ -1910,6 +1912,7 @@ class Game: NSObject, PowerEventHandler {
                         self.windowManager.battlegroundsSession.updateScaling()
                     }
                     Watchers.battlegroundsLeaderboardWatcher.run()
+                    Watchers.battlegroundsLobbyInfoWatcher.run()
                     if self.isBattlegroundsDuosMatch() {
                         Watchers.battlegroundsTeammateBoardStateWatcher.run()
                     }
@@ -2087,6 +2090,8 @@ class Game: NSObject, PowerEventHandler {
                     battlegroundsDetails?.lobby_hero_dbf_ids?.append(lobbyHero.card.dbfId)
                 }
                 result.battlegroundsDetails = battlegroundsDetails
+                result.battlegroundsDetails?.game_uuid = battlegroundsLobbyInfo?.gameUuid
+                result.battlegroundsDetails?.lobby_players = battlegroundsLobbyInfo?.players.compactMap({ p in UploadMetaData.BattlegroundsLobbyStatePlayer(hero_card_id: p.heroCardId, player_name: p.name, account_hi: p.accountId.hi.int64Value, account_lo: p.accountId.lo.int64Value) })
             }
             result.battlegroundsRaces = self.availableRaces?.compactMap({ x in Race.allCases.firstIndex(of: x)}) ?? []
 
@@ -3062,6 +3067,7 @@ class Game: NSObject, PowerEventHandler {
     @available(macOS 10.15.0, *) @MainActor
     private func handleBattlegroundsStart() async {
         Watchers.battlegroundsLeaderboardWatcher.run()
+        Watchers.battlegroundsLobbyInfoWatcher.run()
         OpponentDeadForTracker.reset()
         var heroes = [Entity]()
         for _ in 0 ..< 10 {

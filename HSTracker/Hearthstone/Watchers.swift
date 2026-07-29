@@ -12,6 +12,7 @@ class Watchers {
     static let arenaWatcher = ArenaWatcher()
     static let baconWatcher = BaconWatcher()
     static let battlegroundsLeaderboardWatcher = BattlegroundsLeaderboardWatcher()
+    static let battlegroundsLobbyInfoWatcher = BattlegroundsLobbyInfoWatcher()
     static let battlegroundsTeammateBoardStateWatcher = BattlegroundsTeammateBoardStateWatcher()
     static let bigCardWatcher = BigCardWatcher()
     static let choicesWatcher = ChoicesWatcher()
@@ -32,6 +33,7 @@ class Watchers {
             game.windowManager.battlegroundsOverlay.view.setHoveredBattlegroundsEntityId(args.hoveredEntityId)
 
         }
+        battlegroundsLobbyInfoWatcher.change = onBattlegroundsLobbyInfoChange
         battlegroundsTeammateBoardStateWatcher.change = onBattlegroundsTeammateBoardStateChange
         bigCardWatcher.change = onBigCardChange
         choicesWatcher.change = { _, args in
@@ -69,6 +71,7 @@ class Watchers {
         arenaWatcher.stop()
         baconWatcher.stop()
         battlegroundsLeaderboardWatcher.stop()
+        battlegroundsLobbyInfoWatcher.stop()
         battlegroundsTeammateBoardStateWatcher.stop()
         bigCardWatcher.stop()
         choicesWatcher.stop()
@@ -116,5 +119,9 @@ class Watchers {
         if game.isTraditionalHearthstoneMatch {
             game.windowManager.playerTracker.highlightPlayerDeckCards(highlightSourceCardId: args.cardId)
         }
+    }
+    
+    private static func onBattlegroundsLobbyInfoChange(_ sender: BattlegroundsLobbyInfoWatcher, _ args: BattlegroundsLobbyInfoArgs) {
+        AppDelegate.instance().coreManager.game.battlegroundsLobbyInfo = args.lobbyInfo
     }
 }
