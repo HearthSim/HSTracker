@@ -1147,9 +1147,10 @@ class BobsBuddyInvoker {
         
         logger.info("pPirates=\(inputPlayer.piratesSummonCounter), pBeasts=\(inputPlayer.beastsSummonCounter), pDeadLastCombat=\(inputPlayer.friendlyMinionsDeadLastCombatCounter), pBattlecry=\(inputPlayer.battlecryCounter), friendly=\(friendly)")
         
-        inputPlayer.bloodGemAtkBuff = Int32(playerEntity[.bacon_bloodgembuffatkvalue]) // direct
-        inputPlayer.bloodGemHealthBuff = Int32(playerEntity[.bacon_bloodgembuffhealthvalue]) // direct
-        
+        if let pBloodGemBonus = playerAttached.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.MoonBaconJazzer_BloodGemPlayerEnchantDnt }) {
+            inputPlayer.bloodGemAtkBuff = Int32(pBloodGemBonus[GameTag.tag_script_data_num_1])   // attached
+            inputPlayer.bloodGemHealthBuff = Int32(pBloodGemBonus[GameTag.tag_script_data_num_2])   // attached
+        }
         logger.info("pBloodGem=+\(inputPlayer.bloodGemAtkBuff)/+\(inputPlayer.bloodGemHealthBuff), friendly=\(friendly)")
         
         let pTagTransfer = friendly ? nil : playerAttached.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.TagtransferplayerenchantDnt && x.isInPlay }) // attached (opponent-only transfer enchant)
