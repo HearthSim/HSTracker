@@ -1568,7 +1568,7 @@ class BobsBuddyInvoker {
         tryRerun()
     }
     
-    func updateFlobbidinousFloopTransformDuos(_ attachedEntity: Entity) {
+    func updateFlobbidinousFloopTransformDuos(_ attachedEntity: Entity, _ floopEntityId: Int) {
         guard let input, updateRevealedEntityValidStates else {
             return
         }
@@ -1580,16 +1580,17 @@ class BobsBuddyInvoker {
         }
         
         var friendly = true
-        var flobbidinousFloop = listFirst(input.player.heroPowers, { (hp: HeroPowerDataProxy) in hp.cardId == CardIds.NonCollectible.Neutral.FlobbidinousFloop_GloriousGloop })
+        
+        var flobbidinousFloop = listFirst(input.player.heroPowers, { (hp: HeroPowerDataProxy) in hp.game_id == floopEntityId && hp.cardId == CardIds.NonCollectible.Neutral.FlobbidinousFloop_GloriousGloop })
         if flobbidinousFloop == nil && input.playerTeammate.get() != nil {
-            flobbidinousFloop = listFirst(input.playerTeammate.heroPowers, { (hp: HeroPowerDataProxy) in hp.cardId == CardIds.NonCollectible.Neutral.FlobbidinousFloop_GloriousGloop })
+            flobbidinousFloop = listFirst(input.playerTeammate.heroPowers, { (hp: HeroPowerDataProxy) in hp.game_id == floopEntityId && hp.cardId == CardIds.NonCollectible.Neutral.FlobbidinousFloop_GloriousGloop })
         }
         if flobbidinousFloop == nil {
             friendly = false
-            flobbidinousFloop = listFirst(input.opponent.heroPowers, { (hp: HeroPowerDataProxy) in hp.cardId == CardIds.NonCollectible.Neutral.FlobbidinousFloop_GloriousGloop })
+            flobbidinousFloop = listFirst(input.opponent.heroPowers, { (hp: HeroPowerDataProxy) in hp.game_id == floopEntityId && hp.cardId == CardIds.NonCollectible.Neutral.FlobbidinousFloop_GloriousGloop })
         }
         if flobbidinousFloop == nil && input.opponentTeammate.get() != nil {
-            flobbidinousFloop = listFirst(input.opponentTeammate.heroPowers, { (hp: HeroPowerDataProxy) in hp.cardId == CardIds.NonCollectible.Neutral.FlobbidinousFloop_GloriousGloop })
+            flobbidinousFloop = listFirst(input.opponentTeammate.heroPowers, { (hp: HeroPowerDataProxy) in hp.game_id == floopEntityId && hp.cardId == CardIds.NonCollectible.Neutral.FlobbidinousFloop_GloriousGloop })
         }
         guard let flobbidinousFloop else {
             return
@@ -1599,6 +1600,39 @@ class BobsBuddyInvoker {
         }
 
         flobbidinousFloop.attachedMinion = BobsBuddyInvoker.getMinionFromEntity(sim: SimulatorProxy(), player: friendly, entity: attachedEntity, attachedEntities: getAttachedEntities(entityId: attachedEntity.id))
+
+        tryRerun()
+    }
+    
+    // Invoked at the END of Glorious Gloop's Start of Combat trigger block. Set AttachedMinionCapturedDuringCombat
+    // with AttachedMinion still null, so the simulator skips UnsupportedInteractionException.
+    func updateFlobbidinousFloopConfirmedNoTransformDuos(_ floopEntityId: Int) {
+        guard let input, updateRevealedEntityValidStates else {
+            return
+        }
+        
+        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        
+        defer {
+            mono_thread_detach(opaque)
+        }
+
+        var flobbidinousFloop = listFirst(input.player.heroPowers, { (hp: HeroPowerDataProxy) in hp.game_id == floopEntityId && hp.cardId == CardIds.NonCollectible.Neutral.FlobbidinousFloop_GloriousGloop })
+
+        if flobbidinousFloop == nil && input.playerTeammate.get() != nil {
+            flobbidinousFloop = listFirst(input.playerTeammate.heroPowers, { (hp: HeroPowerDataProxy) in hp.game_id == floopEntityId && hp.cardId == CardIds.NonCollectible.Neutral.FlobbidinousFloop_GloriousGloop })
+        }
+        if flobbidinousFloop == nil {
+            flobbidinousFloop = listFirst(input.opponent.heroPowers, { (hp: HeroPowerDataProxy) in hp.game_id == floopEntityId && hp.cardId == CardIds.NonCollectible.Neutral.FlobbidinousFloop_GloriousGloop })
+        }
+        if flobbidinousFloop == nil && input.opponentTeammate.get() != nil {
+            flobbidinousFloop = listFirst(input.opponentTeammate.heroPowers, { (hp: HeroPowerDataProxy) in hp.game_id == floopEntityId && hp.cardId == CardIds.NonCollectible.Neutral.FlobbidinousFloop_GloriousGloop })
+        }
+        guard let flobbidinousFloop, flobbidinousFloop.attachedMinion.get() == nil && !flobbidinousFloop.attachedMinionCapturedDuringCombat else {
+            return
+        }
+
+        flobbidinousFloop.attachedMinionCapturedDuringCombat = true
 
         tryRerun()
     }

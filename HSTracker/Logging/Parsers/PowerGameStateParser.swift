@@ -1487,6 +1487,26 @@ class PowerGameStateParser: LogEventParser {
                         }
                     }
                 }
+                // Glorious Gloop's Start of Combat trigger block always runs, but it transforms nothing when the
+                // teammate has no minion to copy. A transform consumes the chosen minion's "In the Gloop"
+                // enchantment (it leaves PLAY inside this block), so an enchantment still in PLAY on a minion
+                // still in PLAY when the block ends means that minion was left unchanged.
+                if currentBlock.cardId == CardIds.NonCollectible.Neutral.FlobbidinousFloop_GloriousGloop, let floopEntity =  eventHandler.entities[currentBlock.sourceEntityId] {
+                    let noTransform = eventHandler.entities.values.any({ e in
+                        if e.cardId == CardIds.NonCollectible.Neutral.FlobbidinousFloop_InTheGloop
+                            && e.isInPlay
+                            && e.isControlled(by: floopEntity[GameTag.controller]) {
+                            if let chosen = eventHandler.entities[e[GameTag.attached]], chosen.isMinion && chosen.isInPlay {
+                                return true
+                            }
+                        }
+                        return false
+                    })
+                    
+                    if noTransform {
+                        BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateFlobbidinousFloopConfirmedNoTransformDuos(currentBlock.sourceEntityId)
+                    }
+                }
             }
             if eventHandler.currentGameMode == .battlegrounds, let currentBlock = AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock, currentBlock.type == "POWER" && currentBlock.cardId == CardIds.NonCollectible.Neutral.BackToBackBATTLEGROUNDS {
                 if let backToBackEntity = eventHandler.entities[currentBlock.sourceEntityId] {
