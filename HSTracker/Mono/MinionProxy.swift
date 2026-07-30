@@ -29,7 +29,7 @@ class MinionProxy: MonoHandle, MonoClassInitializer {
             
             initializeFields(fields: ["minionName", "tier"])
 
-            initializeProperties(properties: ["CardID", "ControlledByPlayer", "HasWingmen", "PrimaryRace", "baseAttack", "baseHealth", "cleave", "div", "game_id", "golden", "megaWindfury", "poisonous", "reborn", "stealth", "taunt", "vanillaAttack", "vanillaHealth", "maxAttack", "maxHealth", "windfury", "ScriptDataNum1", "ScriptDataNum2", "ScriptDataNum3", "ScriptDataNum4", "venomous", "AttachedModularEntity", "AttachedTo", "game_id"])
+            initializeProperties(properties: ["CardID", "ControlledByPlayer", "HasWingmen", "PrimaryRace", "baseAttack", "baseHealth", "cleave", "div", "game_id", "golden", "megaWindfury", "poisonous", "reborn", "stealth", "taunt", "vanillaAttack", "vanillaHealth", "maxAttack", "maxHealth", "windfury", "ScriptDataNum1", "ScriptDataNum2", "ScriptDataNum3", "ScriptDataNum4", "venomous", "AttachedModularEntity", "AttachedTo", "game_id", "MinionUpdatedDuringCombat"])
         }
     }
     
@@ -96,6 +96,9 @@ class MinionProxy: MonoHandle, MonoClassInitializer {
 
     @MonoPrimitiveProperty(property: "game_id", owner: MinionProxy.self)
     var gameId: Int32
+    
+    @MonoPrimitiveProperty(property: "MinionUpdatedDuringCombat", owner: SandyProxy.self)
+    var minionUpdatedDuringCombat: Bool
     
     @MonoPrimitiveProperty(property: "stealth", owner: MinionProxy.self)
     var stealth: Bool

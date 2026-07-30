@@ -1564,6 +1564,8 @@ class BobsBuddyInvoker {
         }
 
         sandy.attachedMinion = BobsBuddyInvoker.getMinionFromEntity(sim: SimulatorProxy(), player: friendly, entity: transformedSandyEntity, attachedEntities: getAttachedEntities(entityId: transformedSandyEntity.id))
+        
+        sandyMinion.minionUpdatedDuringCombat = true
 
         tryRerun()
     }
@@ -1795,6 +1797,7 @@ class BobsBuddyInvoker {
                 enchantment.scriptDataNum1 = Int32(enchantmentEntity[GameTag.tag_script_data_num_1])
                 enchantment.scriptDataNum2 = Int32(enchantmentEntity[GameTag.tag_script_data_num_2])
                 minion.attachEnchantment(enchantment: enchantment)
+                minion.minionUpdatedDuringCombat = true
             }
         }
 
@@ -1900,6 +1903,7 @@ class BobsBuddyInvoker {
                 MonoHelper.addToList(list: magnanimooseEnchant.summonedMinions, element: m)
             }
             minion.attachEnchantment(enchantment: enchantment)
+            minion.minionUpdatedDuringCombat = true
         }
 
         tryRerun()
@@ -1942,6 +1946,7 @@ class BobsBuddyInvoker {
             enchantment.scriptDataNum1 = Int32(cardDbfids.count > 0 ? cardDbfids[0] : 0)
             enchantment.scriptDataNum2 = Int32(cardDbfids.count > 1 ? cardDbfids[1] : 0)
             minion.attachEnchantment(enchantment: enchantment)
+            minion.minionUpdatedDuringCombat = true
         }
 
         tryRerun()
