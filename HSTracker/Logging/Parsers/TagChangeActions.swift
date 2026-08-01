@@ -538,6 +538,13 @@ struct TagChangeActions {
         guard let entity = eventHandler.entities[value] else {
             return
         }
+        
+        // Signal to flush AutoAssembler deathrattles observed during a sequence of Deathrattle Blocks
+        if BobsBuddyInvoker.currentCombatHasPendingAutoAssemblerObservations {
+            BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?
+                .flushAndUpdateObservedAutoAssemblerDeathrattlesAsync()
+        }
+        
         if entity.isHero {
             logger.debug("Saw hero attack from \(entity.cardId)")
 

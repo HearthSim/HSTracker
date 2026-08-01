@@ -930,7 +930,48 @@ class MonoHelper {
         
         return MonoHandle(obj: res)
     }
-    
+
+    static func listRemoveAt(obj: MonoHandle, index: Int32) {
+        let inst = obj.get()
+        
+        let cl = mono_object_get_class(inst)
+        
+        let meth = mono_class_get_method_from_name(cl, "RemoveAt", 1)
+
+        let params = UnsafeMutablePointer<UnsafeMutableRawPointer?>.allocate(capacity: 1)
+        let ptrs = UnsafeMutablePointer<Int32>.allocate(capacity: 1)
+        ptrs[0] = index
+        params[0] = UnsafeMutableRawPointer(ptrs.advanced(by: 0))
+
+        _ = params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 1, {
+
+            mono_runtime_invoke(meth, inst, $0, nil)
+        })
+        ptrs.deallocate()
+        params.deallocate()
+    }
+
+    static func listInsert(obj: MonoHandle, index: Int32, value: MonoHandle) {
+        let inst = obj.get()
+        
+        let cl = mono_object_get_class(inst)
+        
+        let meth = mono_class_get_method_from_name(cl, "Insert", 2)
+
+        let params = UnsafeMutablePointer<UnsafeMutableRawPointer?>.allocate(capacity: 2)
+        let ptrs = UnsafeMutablePointer<Int32>.allocate(capacity: 1)
+        ptrs[0] = index
+        params[0] = UnsafeMutableRawPointer(ptrs.advanced(by: 0))
+        params[1] = UnsafeMutableRawPointer(value.get())
+
+        _ = params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 2, {
+
+            mono_runtime_invoke(meth, inst, $0, nil)
+        })
+        ptrs.deallocate()
+        params.deallocate()
+    }
+
     static func listItems(obj: MonoHandle) -> [MonoHandle] {
         let count = MonoHelper.listCount(obj: obj)
         

@@ -1155,5 +1155,7 @@ extension CardIds.NonCollectible {
         static let Magnanimoose_Magnanimoose = "BGDUO_105_G"
         static let Sandy_Sandy = "BGDUO_125_G"
         static let MoonBaconJazzer_BloodGemPlayerEnchantDnt = "BG26_159pe"
+        static let AncestralAutomaton = "BG_TTN_401"
+        static let AncestralAutomaton_AncestralAutomaton = "BG_TTN_401_G"
     }
 }

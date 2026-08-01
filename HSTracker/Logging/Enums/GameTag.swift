@@ -348,6 +348,7 @@ enum GameTag: Int, CaseIterable, Codable {
     casts_when_drawn = 1077,
     reborn = 1085,
     quest_reward_database_id = 1089,
+    extra_deathrattles_additional = 1131,
     proxy_galakrond = 1190,
     sidequest = 1192,
     mega_windfury = 1207,

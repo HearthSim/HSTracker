@@ -51,6 +51,9 @@ class BobsBuddyInvoker {
     // True in games where an opponent Malorne can be summoned during the current combat (the Bring in the Buddies anomaly)
     static var currentCombatMayHaveOpponentMalorne = false
     
+    // True while at least one magnetized AutoAssembler deathrattle observation awaits flushing
+    static var currentCombatHasPendingAutoAssemblerObservations = false
+    
     // Incremented on every detected game reconnect. Each combat snapshot records the current value;
     // a mismatch at validation time means the reconnect happened after this combat started, so the
     // absence of the combat's outcome should not be deemed as CombatResult.Tie.
@@ -520,6 +523,12 @@ class BobsBuddyInvoker {
             return
         }
         let wasPreviousStatePartial = state == .combatPartial
+        
+        // The last death of the combat has no following attack to trigger a potential flush.
+        if BobsBuddyInvoker.currentCombatHasPendingAutoAssemblerObservations {
+            flushAndUpdateObservedAutoAssemblerDeathrattlesAsync()
+        }
+        
         if isGameOver {
             if state != .initial {
                 logger.debug("Setting UI state to GameOver")
@@ -877,11 +886,11 @@ class BobsBuddyInvoker {
             let goldenEnchantCount = allEntities.values.count { x in x.isAttachedTo(entityId: magneticId) && x.cardId == CardIds.NonCollectible.Neutral.AutoAssembler_AutoAssembler2 }
             
             for _ in 0 ..< enchantCount {
-                minion.addDeathrattle(deathrattle: AutoAssembler.deathrattle(golden: false))
+                minion.addDeathrattle(deathrattle: AutoAssemblerProxy.deathrattle())
             }
 
             for _ in 0 ..< goldenEnchantCount {
-                minion.addDeathrattle(deathrattle: AutoAssembler.deathrattle(golden: true))
+                minion.addDeathrattle(deathrattle: AutoAssemblerProxy.goldenDeathrattle())
             }        }
 
         // Future magnetic deathrattles can be added/handled here.
@@ -1315,6 +1324,9 @@ class BobsBuddyInvoker {
         
         // Flag checking it's possible to summon Malorne during combat (to optimize redundantly checking in TagChangeAction).
         BobsBuddyInvoker.currentCombatMayHaveOpponentMalorne = input.anomaly.get() != nil && input.anomaly.cardID == CardIds.NonCollectible.Neutral.BringInTheBuddies
+        
+        // A stale observation from a combat that never reached StartShoppingAsync (e.g., disconnect) must not trigger flushes in the next combat.
+        BobsBuddyInvoker.currentCombatHasPendingAutoAssemblerObservations = false
         
         logger.debug("Successfully snapshotted board state")
     }
@@ -1950,6 +1962,130 @@ class BobsBuddyInvoker {
         }
 
         tryRerun()
+    }
+    
+    // Minions whose deathrattle blocks summoned Ancestral Automatons, awaiting reconciliation.
+    private var _pendingAutoAssemblerSources = Set<Int>()
+
+    // Trigger multiplier of minions in pendingAutoAssemblerSources.
+    private var _autoAssemblerTriggersPerDeathrattle: [Int: Int] = [:]
+
+    func observeMagnetizedAutoAssemblerDeathrattles(sourceEntityId: Int, extraDeathrattles: Int) {
+        if _autoAssemblerTriggersPerDeathrattle[sourceEntityId] == nil {
+            _autoAssemblerTriggersPerDeathrattle[sourceEntityId] = 1 + extraDeathrattles
+        }
+        _pendingAutoAssemblerSources.insert(sourceEntityId)
+        BobsBuddyInvoker.currentCombatHasPendingAutoAssemblerObservations = true
+    }
+
+    func flushAndUpdateObservedAutoAssemblerDeathrattlesAsync() {
+        BobsBuddyInvoker.currentCombatHasPendingAutoAssemblerObservations = false
+        guard !_pendingAutoAssemblerSources.isEmpty else { return }
+        
+        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        defer {
+            mono_thread_detach(opaque)
+        }
+        
+        let sources = Array(_pendingAutoAssemblerSources)
+        _pendingAutoAssemblerSources.removeAll()
+
+        guard input != nil && updateRevealedEntityValidStates else { return }
+
+        var changed = false
+        for sourceEntityId in sources {
+            changed = reconcileAutoAssemblerDeathrattles(sourceEntityId: sourceEntityId) || changed
+        }
+
+        if changed {
+            tryRerun()
+        }
+    }
+
+    private func reconcileAutoAssemblerDeathrattles(sourceEntityId: Int) -> Bool {
+        guard let input = input else { return false }
+        
+        let sides = [input.player, input.playerTeammate, input.opponent, input.opponentTeammate]
+            .compactMap { $0 }
+        
+        let minion = sides
+            .filter { $0.get() != nil }
+            .map { MonoHelper.listItems(obj: $0.side) }
+            .flatMap { $0 }
+            .map { MinionProxy(obj: $0.get()) }
+            .first(where: { $0.gameId == sourceEntityId })
+        
+        guard let minion, !minion.minionUpdatedDuringCombat else {
+            return false
+        }
+
+        // Every automaton created in trigger order; entity ids are assigned in creation order (includes SETASIDE)
+        let observedGoldenSequence = game.entities.values
+            .filter { e in
+                (e.cardId == CardIds.NonCollectible.Neutral.AncestralAutomaton ||
+                 e.cardId == CardIds.NonCollectible.Neutral.AncestralAutomaton_AncestralAutomaton) &&
+                e[.creator] == sourceEntityId &&
+                (e.isInPlay || e.isInSetAside || e.isInGraveyard)
+            }
+            .sorted(by: { $0.id < $1.id })
+            .map { $0.cardId == CardIds.NonCollectible.Neutral.AncestralAutomaton_AncestralAutomaton }
+
+        let triggerMultiplier = _autoAssemblerTriggersPerDeathrattle[sourceEntityId] ?? 1
+        
+        // Extra deathrattles (e.g., Titus Rivendare) resolve as full repeats of the whole deathrattle list —
+        // so the first (observed / triggerMultiplier) summons are the distinct deathrattles in their real order.
+        var automatons = Array(observedGoldenSequence.prefix(observedGoldenSequence.count / triggerMultiplier))
+
+        // A minion's own innate deathrattles and deathrattles from attached enchantments resolve before these
+        // AdditionalDeathrattles, and appear as the leading elements; drop them so automatons map to AdditionalDeathrattles only.
+        let leadingCaptured = (MonoHelper.isInstance(obj: minion, klass: AutoAssemblerProxy._class!) ? 1 : 0)
+        + MonoHelper.listItems(obj: minion.enchantments).filter { MonoHelper.isInstance(obj: $0, klass: AutoAssemblerEnchantmentProxy._class!) || MonoHelper.isInstance(obj: $0, klass: AutoAssemblerEnchantmentGoldenProxy._class!) }.count
+            
+        if leadingCaptured > 0 {
+            automatons = Array(automatons.dropFirst(leadingCaptured))
+        }
+
+        let getAction = { (m: MonoHandle) -> UnsafeMutablePointer<MonoObject>? in
+            return mono_property_get_value(mono_class_get_property_from_name(mono_object_get_class(m.get()), "Method"), m.get(), nil, nil)
+        }
+        let autoAssemblerAction = getAction(AutoAssemblerProxy.deathrattle())
+        let autoAssemblerGoldenAction = getAction(AutoAssemblerProxy.goldenDeathrattle())
+        
+        // Get any existing AutoAssembler deathrattles already tracked on AdditionalDeathrattles
+        var currentIndices = [Int]()
+        for i in 0 ..< MonoHelper.listCount(obj: minion.additionalDeathrattles) {
+            let deathrattleAction = getAction(MonoHelper.listItem(obj: minion.additionalDeathrattles, index: i))
+            if deathrattleAction == autoAssemblerAction || deathrattleAction == autoAssemblerGoldenAction {
+                currentIndices.append(Int(i))
+            }
+        }
+
+        // If observed summons not more than entries already captured — nothing to add.
+        if automatons.count <= currentIndices.count {
+            return false
+        }
+
+        // Replace the Auto Assembler entries with the observed sequence, in place: the simulator
+        // fires AdditionalDeathrattles in list order, so the order decides summon order — board
+        // positions, and which summons no longer fit once the board fills.
+        var insertAt = !currentIndices.isEmpty ? Int32(currentIndices[0]) : MonoHelper.listCount(obj: minion.additionalDeathrattles)
+        for i in currentIndices.reversed() {
+            MonoHelper.listRemoveAt(obj: minion.additionalDeathrattles, index: Int32(i))
+        }
+        
+        let newDeathrattles = automatons.map { golden in
+            golden ? AutoAssemblerProxy.goldenDeathrattle() : AutoAssemblerProxy.deathrattle()
+        }
+        for newItem in newDeathrattles {
+            MonoHelper.listInsert(obj: minion.additionalDeathrattles, index: insertAt, value: newItem)
+            insertAt += 1
+        }
+        minion.minionUpdatedDuringCombat = true
+
+        let goldenCount = automatons.filter { $0 }.count
+        logger.debug("Set \(automatons.count) Auto Assembler deathrattles (\(goldenCount) golden) on \(minion.cardID) (entity \(sourceEntityId), \(observedGoldenSequence.count) Automatons observed, \(triggerMultiplier) triggers per deathrattle)")
+
+        return true
     }
 
     private func getOpponentHandEntities(simulator: SimulatorProxy) -> [MonoHandle] {

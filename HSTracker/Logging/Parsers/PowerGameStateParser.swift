@@ -304,6 +304,28 @@ class PowerGameStateParser: LogEventParser {
                     }
                 }
                 
+                // Used to detect and update hidden magnetized AutoAssembler deathrattles
+                if  // short-circuit on CardId to minimize frequency of this check
+                    (cardId == CardIds.NonCollectible.Neutral.AncestralAutomaton || cardId == CardIds.NonCollectible.Neutral.AncestralAutomaton_AncestralAutomaton)
+                        && eventHandler.currentGameMode == GameMode.battlegrounds,
+                    let currentBlock,
+                    currentBlock.type == "TRIGGER" && currentBlock.triggerKeyword == "DEATHRATTLE",
+                    let deadMinion = eventHandler.entities[currentBlock.sourceEntityId],
+                    deadMinion.isMinion {
+                    let race = deadMinion[GameTag.cardrace]
+                    if race == Race.lookup(Race.mechanical) || race == Race.lookup(Race.all) {
+                        // Extra-deathrattles (e.g., Titus Rivendare) are tracked on the controlling player entity.
+                        let controller = deadMinion[GameTag.controller]
+                        let controllerEntity = controller == eventHandler.player.id ? eventHandler.playerEntity
+                        : controller == eventHandler.opponent.id ? eventHandler.opponentEntity
+                        : eventHandler.entities.values.filter { e in e[.player_id] == controller }.sorted(by: { $0.id < $1.id }).first
+                        let extraDeathrattles = controllerEntity?[GameTag.extra_deathrattles_additional] ?? 0
+
+                        BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?
+                            .observeMagnetizedAutoAssemblerDeathrattles(sourceEntityId: currentBlock.sourceEntityId, extraDeathrattles: extraDeathrattles)
+                    }
+                }
+                
                 if let currentBlock = currentBlock, entity.cardId.uppercased().contains("HERO") {
                     currentBlock.hasFullEntityHeroPackets = true
                 }

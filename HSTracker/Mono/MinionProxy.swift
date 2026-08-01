@@ -27,9 +27,9 @@ class MinionProxy: MonoHandle, MonoClassInitializer {
             
             MinionProxy._isMech = MonoHelper.getMethod(MinionProxy._class, "IsMech", 0)
             
-            initializeFields(fields: ["minionName", "tier"])
+            initializeFields(fields: ["minionName", "tier", "AdditionalDeathrattles"])
 
-            initializeProperties(properties: ["CardID", "ControlledByPlayer", "HasWingmen", "PrimaryRace", "baseAttack", "baseHealth", "cleave", "div", "game_id", "golden", "megaWindfury", "poisonous", "reborn", "stealth", "taunt", "vanillaAttack", "vanillaHealth", "maxAttack", "maxHealth", "windfury", "ScriptDataNum1", "ScriptDataNum2", "ScriptDataNum3", "ScriptDataNum4", "venomous", "AttachedModularEntity", "AttachedTo", "game_id", "MinionUpdatedDuringCombat"])
+            initializeProperties(properties: ["CardID", "ControlledByPlayer", "HasWingmen", "PrimaryRace", "baseAttack", "baseHealth", "cleave", "div", "game_id", "golden", "megaWindfury", "poisonous", "reborn", "stealth", "taunt", "vanillaAttack", "vanillaHealth", "maxAttack", "maxHealth", "windfury", "ScriptDataNum1", "ScriptDataNum2", "ScriptDataNum3", "ScriptDataNum4", "venomous", "AttachedModularEntity", "AttachedTo", "game_id", "MinionUpdatedDuringCombat", "Enchantments"])
         }
     }
     
@@ -97,7 +97,7 @@ class MinionProxy: MonoHandle, MonoClassInitializer {
     @MonoPrimitiveProperty(property: "game_id", owner: MinionProxy.self)
     var gameId: Int32
     
-    @MonoPrimitiveProperty(property: "MinionUpdatedDuringCombat", owner: SandyProxy.self)
+    @MonoPrimitiveProperty(property: "MinionUpdatedDuringCombat", owner: MinionProxy.self)
     var minionUpdatedDuringCombat: Bool
     
     @MonoPrimitiveProperty(property: "stealth", owner: MinionProxy.self)
@@ -129,6 +129,12 @@ class MinionProxy: MonoHandle, MonoClassInitializer {
     
     @MonoPrimitiveProperty(property: "game_id", owner: MinionProxy.self)
     var game_id: Int32
+    
+    @MonoHandleProperty(property: "Enchantments", owner: MinionProxy.self)
+    var enchantments: MonoHandle
+    
+    @MonoHandleField(field: "AdditionalDeathrattles", owner: MinionProxy.self)
+    var additionalDeathrattles: MonoHandle
     
     func addDeathrattle(deathrattle: MonoHandle) {
         let field = mono_class_get_field_from_name(MinionProxy._class, "AdditionalDeathrattles")
