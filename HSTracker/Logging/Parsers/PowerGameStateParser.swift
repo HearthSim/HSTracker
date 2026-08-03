@@ -314,15 +314,19 @@ class PowerGameStateParser: LogEventParser {
                     deadMinion.isMinion {
                     let race = deadMinion[GameTag.cardrace]
                     if race == Race.lookup(Race.mechanical) || race == Race.lookup(Race.all) {
-                        // Extra-deathrattles (e.g., Titus Rivendare) are tracked on the controlling player entity.
-                        let controller = deadMinion[GameTag.controller]
-                        let controllerEntity = controller == eventHandler.player.id ? eventHandler.playerEntity
-                        : controller == eventHandler.opponent.id ? eventHandler.opponentEntity
-                        : eventHandler.entities.values.filter { e in e[.player_id] == controller }.sorted(by: { $0.id < $1.id }).first
-                        let extraDeathrattles = controllerEntity?[GameTag.extra_deathrattles_additional] ?? 0
-
-                        BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?
-                            .observeMagnetizedAutoAssemblerDeathrattles(sourceEntityId: currentBlock.sourceEntityId, extraDeathrattles: extraDeathrattles)
+                        let isGolden = cardId == CardIds.NonCollectible.Neutral.AncestralAutomaton_AncestralAutomaton
+                        let sourceZone = deadMinion[GameTag.zone]
+                        if sourceZone == Zone.graveyard.rawValue {  // Deathrattles triggered the normal way
+                            // Extra-deathrattles (e.g., Titus Rivendare) are tracked on the controlling player entity.
+                            let controller = deadMinion[GameTag.controller]
+                            let controllerEntity = controller == eventHandler.player.id ? eventHandler.playerEntity
+                            : controller == eventHandler.opponent.id ? eventHandler.opponentEntity
+                            : eventHandler.entities.values.filter({ e in e[GameTag.player_id] == controller }).sorted(by: { $0.id < $1.id }).first
+                            let extraDeathrattles = controllerEntity?[GameTag.extra_deathrattles_additional] ?? 0
+                            
+                            BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?
+                                .observeMagnetizedAutoAssemblerDeathrattles(currentBlock.sourceEntityId, extraDeathrattles, isGolden)
+                        }
                     }
                 }
                 
