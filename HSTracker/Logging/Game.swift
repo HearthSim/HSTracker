@@ -3907,6 +3907,7 @@ class Game: NSObject, PowerEventHandler {
             }
         case ChoiceType.general:
             counterManager.handleChoicePicked(choice: choice)
+            handleSphereOfSapienceChosen(choice, chosen, source)
             if isBattlegroundsMatch() {
                 windowManager.battlegroundsQuestPicking.viewModel.reset()
                 windowManager.battlegroundsTrinketPicking.viewModel.reset()
@@ -3928,6 +3929,37 @@ class Game: NSObject, PowerEventHandler {
             }
         default: break
         }
+    }
+    
+    // Sphere of Sapience offers the top card of the deck, or "A New Fate" to put it on the
+    // bottom. The card in the deck never changes zone, and the offered card is only a copy of
+    // it, so the choice is the only signal we get about the new position.
+    private func handleSphereOfSapienceChosen(_ choice: IHsCompletedChoice, _ chosen: [Entity], _ source: Entity?) {
+        if source?.cardId != CardIds.Collectible.Neutral.SphereOfSapience {
+            return
+        }
+
+        let offeredCopy = choice.offeredEntityIds?
+            .compactMap { id in entities[id] }
+            .first { x in x.cardId != CardIds.NonCollectible.Neutral.SphereofSapience_ANewFateToken }
+        guard let offeredCopy else {
+            return
+        }
+
+        var linkedId = offeredCopy[GameTag.linked_entity]
+        if linkedId == 0 {
+            linkedId = offeredCopy[GameTag.copied_from_entity_id]
+        }
+        guard let topCard = entities[linkedId], !topCard.isInDeck else {
+            return
+        }
+
+        let putOnBottom = chosen.any({ x in x.cardId == CardIds.NonCollectible.Neutral.SphereofSapience_ANewFateToken })
+        dredgeCounter += 1
+        let newIndex = dredgeCounter
+        topCard.info.deckIndex = putOnBottom ? -newIndex : newIndex
+        logger.info("Sphere of Sapience \(putOnBottom ? "Bottom" : "Top"): \(topCard)")
+        updatePlayerTracker()
     }
     
     @available(macOS 10.15.0, *) @MainActor

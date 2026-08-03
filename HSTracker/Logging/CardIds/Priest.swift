@@ -207,6 +207,7 @@ extension CardIds.Collectible {
         static let Schism = "CATA_306"
         static let UndeathSentence = "JAIL_940"
         static let AzalinaSoulsever = "JAIL_430"
+        static let ShatteredReflections = "DEEP_025"
     }
 }
 

@@ -1159,5 +1159,6 @@ extension CardIds.NonCollectible {
         static let AncestralAutomaton_AncestralAutomaton = "BG_TTN_401_G"
         static let SurfnSurf_CrabToken = "BG27_004t2"
         static let SurfnSurf_Crab = "BG27_004_Gt2"
+        static let SphereofSapience_ANewFateToken = "SCH_259t"
     }
 }

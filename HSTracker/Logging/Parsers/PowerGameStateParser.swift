@@ -690,13 +690,8 @@ class PowerGameStateParser: LogEventParser {
                     if let actionStartingCardId = actionStartingCardId {
                         
                         switch actionStartingCardId {
-                        case CardIds.Collectible.Neutral.SphereOfSapience:
-                            // These are tricky to implement correctly, so
-                            // until the are, we will just reset the state
-                            // known about the top/bottom of the deck
-                            if actionStartingEntity?.isControlled(by: player?.id ?? 0) ?? false {
-                                eventHandler.handlePlayerUnknownCardAddedToDeck()
-                            }
+                            // Sphere of Sapience is resolved from the entity choice it offers,
+                            // see Game.handleSphereOfSapienceChosen
                         case CardIds.Collectible.Rogue.TradePrinceGallywix:
                             if let entity = eventHandler.entities[eventHandler.lastCardPlayed] {
                                 let cardId = entity.cardId
@@ -994,7 +989,8 @@ class PowerGameStateParser: LogEventParser {
                              CardIds.Collectible.Neutral.DragonBreeder,
                              CardIds.Collectible.Shaman.ColdStorage,
                              CardIds.Collectible.Priest.PowerChordSynchronize,
-                             CardIds.Collectible.Rogue.Shadowcaster:
+                             CardIds.Collectible.Rogue.Shadowcaster,
+                             CardIds.Collectible.Priest.ShatteredReflections:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: target)
                         case CardIds.Collectible.Mage.ForgottenTorch:
