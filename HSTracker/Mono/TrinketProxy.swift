@@ -16,7 +16,7 @@ class TrinketProxy: MonoHandle, MonoClassInitializer {
     static func initialize() {
         if TrinketProxy._class == nil {
             TrinketProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Trinkets", name: "Trinket")
-            initializeProperties(properties: ["CardID", "ScriptDataNum1", "ScriptDataNum2", "game_id"])
+            initializeProperties(properties: ["CardID", "ScriptDataNum1", "ScriptDataNum2", "game_id", "TrinketUpdatedDuringCombat"])
         }
     }
     
@@ -32,4 +32,6 @@ class TrinketProxy: MonoHandle, MonoClassInitializer {
     var scriptDataNum2: Int32
     @MonoPrimitiveProperty(property: "game_id", owner: TrinketProxy.self)
     var game_id: Int32
+    @MonoPrimitiveProperty(property: "TrinketUpdatedDuringCombat", owner: TrinketProxy.self)
+    var trinketUpdatedDuringCombat: Bool
 }

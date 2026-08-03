@@ -1701,6 +1701,36 @@ class BobsBuddyInvoker {
         tryRerun()
     }
     
+    func updateSummoningSphereConfirmedNoSummonDuos(_ trinketEntityId: Int) {
+        guard let input, updateRevealedEntityValidStates else {
+            return
+        }
+        
+        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        
+        defer {
+            mono_thread_detach(opaque)
+        }
+        
+        var summoningSphereTrinket = listFirst(input.player.trinkets, { (t: TrinketProxy) in t.game_id == trinketEntityId && t.cardID == CardIds.NonCollectible.Neutral.SummoningSphere })
+        if summoningSphereTrinket == nil && input.playerTeammate.get() != nil {
+            summoningSphereTrinket = listFirst(input.playerTeammate.trinkets, { (t: TrinketProxy) in t.game_id == trinketEntityId && t.cardID == CardIds.NonCollectible.Neutral.SummoningSphere })
+        }
+        if summoningSphereTrinket == nil {
+            summoningSphereTrinket = listFirst(input.opponent.trinkets, { (t: TrinketProxy) in t.game_id == trinketEntityId && t.cardID == CardIds.NonCollectible.Neutral.SummoningSphere })
+        }
+        if summoningSphereTrinket == nil && input.opponentTeammate.get() != nil {
+            summoningSphereTrinket = listFirst(input.opponentTeammate.trinkets, { (t: TrinketProxy) in t.game_id == trinketEntityId && t.cardID == CardIds.NonCollectible.Neutral.SummoningSphere })
+        }
+        guard let summoningSphereTrinket, SummoningSphereProxy(obj: summoningSphereTrinket.get()).attachedMinion.get() == nil && !summoningSphereTrinket.trinketUpdatedDuringCombat else {
+            return
+        }
+
+        summoningSphereTrinket.trinketUpdatedDuringCombat = true
+
+        tryRerun()
+    }
+    
     func updateMagnanimooseSummonPoolDuos(_ summonedEntities: [Entity], _ magnanimooseEntityId: Int, _ isPlayerMinion: Bool) {
         guard let input, updateRevealedEntityValidStates else {
             return

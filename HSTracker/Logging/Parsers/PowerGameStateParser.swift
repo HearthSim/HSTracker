@@ -1533,6 +1533,21 @@ class PowerGameStateParser: LogEventParser {
                         BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateFlobbidinousFloopConfirmedNoTransformDuos(currentBlock.sourceEntityId)
                     }
                 }
+                
+                // Summoning Sphere's Start of Combat trigger block always runs, but it summons nothing when
+                // its owner's board is already full. The summon is the minion created with the Sphere as
+                // CREATOR; a summon does not outlive the combat, so no such minion in PLAY when the block
+                // ends means this trigger produced nothing.
+                if (currentBlock.cardId == CardIds.NonCollectible.Neutral.SummoningSphere || currentBlock.cardId == CardIds.NonCollectible.Neutral.LesserTrinket) && currentBlock.triggerKeyword ==  "TRIGGER_VISUAL", let sphereEntity = eventHandler.entities[currentBlock.sourceEntityId] {
+                    let noSummon = !eventHandler.entities.values.any({ e in
+                        e[GameTag.cardtype] == CardType.minion.rawValue
+                        && e[GameTag.creator] == sphereEntity.id
+                        && e[GameTag.zone] == Zone.play.rawValue })
+                        
+                    if noSummon {
+                        BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateSummoningSphereConfirmedNoSummonDuos(sphereEntity.id)
+                    }
+                }
             }
             if eventHandler.currentGameMode == .battlegrounds, let currentBlock = AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock, currentBlock.type == "POWER" && currentBlock.cardId == CardIds.NonCollectible.Neutral.BackToBackBATTLEGROUNDS {
                 if let backToBackEntity = eventHandler.entities[currentBlock.sourceEntityId] {
