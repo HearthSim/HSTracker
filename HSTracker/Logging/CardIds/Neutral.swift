@@ -1157,5 +1157,7 @@ extension CardIds.NonCollectible {
         static let MoonBaconJazzer_BloodGemPlayerEnchantDnt = "BG26_159pe"
         static let AncestralAutomaton = "BG_TTN_401"
         static let AncestralAutomaton_AncestralAutomaton = "BG_TTN_401_G"
+        static let SurfnSurf_CrabToken = "BG27_004t2"
+        static let SurfnSurf_Crab = "BG27_004_Gt2"
     }
 }

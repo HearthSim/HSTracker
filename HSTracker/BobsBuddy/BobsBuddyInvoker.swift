@@ -54,6 +54,9 @@ class BobsBuddyInvoker {
     // True while at least one magnetized AutoAssembler deathrattle observation awaits flushing
     static var currentCombatHasPendingAutoAssemblerObservations = false
     
+    // True while at least one granted Surf n' Surf Crab deathrattle observation awaits flushing
+    static var currentCombatHasPendingCrabObservations = false
+    
     // Incremented on every detected game reconnect. Each combat snapshot records the current value;
     // a mismatch at validation time means the reconnect happened after this combat started, so the
     // absence of the combat's outcome should not be deemed as CombatResult.Tie.
@@ -527,6 +530,9 @@ class BobsBuddyInvoker {
         // The last death of the combat has no following attack to trigger a potential flush.
         if BobsBuddyInvoker.currentCombatHasPendingAutoAssemblerObservations {
             flushAndUpdateObservedAutoAssemblerDeathrattlesAsync()
+        }
+        if BobsBuddyInvoker.currentCombatHasPendingCrabObservations {
+            flushAndUpdateObservedCrabDeathrattlesAsync()
         }
         
         if isGameOver {
@@ -1333,6 +1339,7 @@ class BobsBuddyInvoker {
         
         // A stale observation from a combat that never reached StartShoppingAsync (e.g., disconnect) must not trigger flushes in the next combat.
         BobsBuddyInvoker.currentCombatHasPendingAutoAssemblerObservations = false
+        BobsBuddyInvoker.currentCombatHasPendingCrabObservations = false
         
         logger.debug("Successfully snapshotted board state")
     }
@@ -2108,6 +2115,107 @@ class BobsBuddyInvoker {
         let goldenCount = automatons.filter { $0 }.count
         logger.debug("Set \(automatons.count) Auto Assembler deathrattles (\(goldenCount) golden) on \(minion.cardID) (entity \(sourceEntityId), \(summonedByIsPremium.count) Automatons observed, \(triggerMultiplier) triggers per deathrattle)")
 
+        return true
+    }
+    
+    // Minions whose death firings summoned Crabs (granted Surf n' Surf "Crab Riding"), awaiting reconciliation:
+    // source entity id -> (trigger multiplier, summoned Crabs in creation order)
+    private var _pendingCrabDeathrattleSources = [Int: (triggerMultiplier: Int, summonedIsPremium: [Bool])]()
+
+    func observeGrantedCrabDeathrattles(_ sourceEntityId: Int, _ extraDeathrattles: Int, _ isGolden: Bool) {
+        var observation = _pendingCrabDeathrattleSources[sourceEntityId]
+        if observation == nil {
+            observation = (1 + extraDeathrattles, [Bool]())
+            _pendingCrabDeathrattleSources[sourceEntityId] = observation
+        }
+        observation?.summonedIsPremium.append(isGolden)
+        BobsBuddyInvoker.currentCombatHasPendingCrabObservations = true
+    }
+
+    func flushAndUpdateObservedCrabDeathrattlesAsync() {
+        BobsBuddyInvoker.currentCombatHasPendingCrabObservations = false
+        if _pendingCrabDeathrattleSources.count == 0 {
+            return
+        }
+        var sourceThatSummoned = Array(_pendingCrabDeathrattleSources)
+        _pendingCrabDeathrattleSources.removeAll()
+        
+        guard let input, updateRevealedEntityValidStates else {
+            return
+        }
+        
+        var changed = false
+        for kv_pair in sourceThatSummoned {
+            changed = reconcileCrabDeathrattles(kv_pair.key, kv_pair.value.triggerMultiplier, kv_pair.value.summonedIsPremium) || changed
+        }
+        
+        if(changed) {
+            tryRerun()
+        }
+    }
+
+    private func reconcileCrabDeathrattles(_ sourceEntityId: Int, _ triggerMultiplier: Int, _  summonedByIsPremium: [Bool]) -> Bool {
+        guard let input else {
+            return false
+        }
+        let sides = [ input.player, input.playerTeammate, input.opponent, input.opponentTeammate ]
+        let minion = sides
+            .filter { $0.get() != nil }
+            .map { MonoHelper.listItems(obj: $0.side) }
+            .flatMap { $0 }
+            .map { MinionProxy(obj: $0.get()) }
+            .first(where: { $0.gameId == sourceEntityId })
+        guard let minion, !minion.minionUpdatedDuringCombat else {
+            return false
+        }
+        
+        // Extra deathrattles (e.g., Titus Rivendare) resolve as full repeats of the whole deathrattle list —
+        // so the first (observed / triggerMultiplier) summons are the distinct deathrattles in their real order.
+        // Unlike Auto Assembler there is no innate summoner of Crabs to skip: every observed firing maps to
+        // one granted "Crab Riding" entry on AdditionalDeathrattles.
+        let crabs = summonedByIsPremium.take(summonedByIsPremium.count / triggerMultiplier)
+        
+        let getAction = { (m: MonoHandle) -> UnsafeMutablePointer<MonoObject>? in
+            return mono_property_get_value(mono_class_get_property_from_name(mono_object_get_class(m.get()), "Method"), m.get(), nil, nil)
+        }
+        let crabAction = getAction(GenericDeathrattles.crab())
+        let crabGoldenAction = getAction(GenericDeathrattles.crabGolden())
+        
+        // Get any Crab deathrattles already captured on AdditionalDeathrattles (visible grant enchantments)
+        var currentIndices = [Int]()
+        for i in 0 ..< MonoHelper.listCount(obj: minion.additionalDeathrattles) {
+            var deathrattleAction = getAction(MonoHelper.listItem(obj: minion.additionalDeathrattles, index: i))
+            if deathrattleAction == crabAction {
+                currentIndices.append(Int(i))
+            } else if deathrattleAction == crabGoldenAction {
+                currentIndices.append(Int(i))
+            }
+        }
+        
+        // If observed summons not more than entries already captured — nothing to add.
+        if crabs.count <= currentIndices.count {
+            return false
+        }
+        
+        // Replace the Crab entries with the observed sequence, in place: the simulator fires
+        // AdditionalDeathrattles in list order, so the order decides summon order — board
+        // positions, and which summons no longer fit once the board fills.
+        var insertAt = currentIndices.count > 0 ? Int32(currentIndices[0]) : MonoHelper.listCount(obj: minion.additionalDeathrattles)
+        for i in currentIndices.reversed() {
+            MonoHelper.listRemoveAt(obj: minion.additionalDeathrattles, index: Int32(currentIndices[i]))
+        }
+        let newDeathrattles = crabs.map { golden in
+            golden ? GenericDeathrattles.crabGolden() : GenericDeathrattles.crab()
+        }
+        for newItem in newDeathrattles {
+            MonoHelper.listInsert(obj: minion.additionalDeathrattles, index: insertAt, value: newItem)
+            insertAt += 1
+        }
+        minion.minionUpdatedDuringCombat = true
+        
+        let goldenCount = crabs.filter { $0 }.count
+        logger.debug("Set \(crabs.count) Crab deathrattles (\(goldenCount) golden) on \(minion.cardID) (entity \(sourceEntityId), \(summonedByIsPremium.count) Crabs observed, \(triggerMultiplier) triggers per deathrattle)")
+        
         return true
     }
 

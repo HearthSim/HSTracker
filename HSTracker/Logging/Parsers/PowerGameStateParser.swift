@@ -330,6 +330,28 @@ class PowerGameStateParser: LogEventParser {
                     }
                 }
                 
+                // Used to detect and update hidden granted Surf n' Surf Crab deathrattles
+                if  // short-circuit on CardId to minimize frequency of this check
+                    (cardId == CardIds.NonCollectible.Neutral.SurfnSurf_CrabToken || cardId == CardIds.NonCollectible.Neutral.SurfnSurf_Crab)
+                    && eventHandler.currentGameMode == GameMode.battlegrounds,
+                    let currentBlock,
+                    currentBlock.type == "TRIGGER" && currentBlock.triggerKeyword == "DEATHRATTLE",
+                    let crabDeathrattleSource = eventHandler.entities[currentBlock.sourceEntityId],
+                    crabDeathrattleSource.isMinion {
+                    let isGolden = cardId == CardIds.NonCollectible.Neutral.SurfnSurf_Crab
+                    let sourceZone = crabDeathrattleSource[GameTag.zone]
+                    if sourceZone == Zone.graveyard.rawValue {  // Deathrattles triggered the normal way
+                        // Extra-deathrattles (e.g., Titus Rivendare) are tracked on the controlling player entity.
+                        let controller = crabDeathrattleSource[GameTag.controller]
+                        let controllerEntity = controller == eventHandler.player.id ? eventHandler.playerEntity
+                        : controller == eventHandler.opponent.id ? eventHandler.opponentEntity
+                        : eventHandler.entities.values.filter { e in e[GameTag.player_id] == controller }.sorted(by: { $0.id < $1.id }).first
+                        let extraDeathrattles = controllerEntity?[GameTag.extra_deathrattles_additional] ?? 0
+                        
+                        BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?
+                            .observeGrantedCrabDeathrattles(currentBlock.sourceEntityId, extraDeathrattles, isGolden)
+                    }
+                }
                 if let currentBlock = currentBlock, entity.cardId.uppercased().contains("HERO") {
                     currentBlock.hasFullEntityHeroPackets = true
                 }

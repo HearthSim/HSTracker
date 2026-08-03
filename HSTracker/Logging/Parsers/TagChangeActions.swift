@@ -545,6 +545,12 @@ struct TagChangeActions {
                 .flushAndUpdateObservedAutoAssemblerDeathrattlesAsync()
         }
         
+        // Signal to flush granted Surf n' Surf Crab deathrattles observed during a sequence of Deathrattle Blocks
+        if BobsBuddyInvoker.currentCombatHasPendingCrabObservations {
+            BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?
+                .flushAndUpdateObservedCrabDeathrattlesAsync()
+        }
+        
         if entity.isHero {
             logger.debug("Saw hero attack from \(entity.cardId)")
 
