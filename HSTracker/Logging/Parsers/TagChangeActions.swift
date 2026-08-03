@@ -710,7 +710,10 @@ struct TagChangeActions {
         
         let hideEntity = powerGameStateParser?.currentBlock?.hideShowEntities ?? false && entity.isControlled(by: eventHandler.opponent.id)
         
-        let isStartOfTheGameEffect = powerGameStateParser?.currentBlock?.triggerKeyword == "START_OF_GAME_KEYWORD"
+        // Some start of game effects (e.g. Prince Renathal) reveal themselves from a block that is
+        // not tagged with START_OF_GAME_KEYWORD. Nothing else reveals opponent cards during the
+        // mulligan, so treat any reveal happening then as a start of game effect.
+        let isStartOfTheGameEffect = powerGameStateParser?.currentBlock?.triggerKeyword == "START_OF_GAME_KEYWORD" || (eventHandler.gameEntity?[GameTag.step] ?? Int.max) <= Step.begin_mulligan.rawValue
         
         // cultivating sprite's bulb is set to not revealed, but it is a known card
         let isCultivatingSpriteBulb = powerGameStateParser?.currentBlock?.cardId == CardIds.Collectible.Neutral.CultivatingSprite && entity.cardId == CardIds.NonCollectible.Neutral.CultivatingSprite_BloomingBulbToken

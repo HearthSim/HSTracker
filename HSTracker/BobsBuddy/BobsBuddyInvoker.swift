@@ -2137,10 +2137,10 @@ class BobsBuddyInvoker {
         if _pendingCrabDeathrattleSources.count == 0 {
             return
         }
-        var sourceThatSummoned = Array(_pendingCrabDeathrattleSources)
+        let sourceThatSummoned = Array(_pendingCrabDeathrattleSources)
         _pendingCrabDeathrattleSources.removeAll()
         
-        guard let input, updateRevealedEntityValidStates else {
+        if input == nil || !updateRevealedEntityValidStates {
             return
         }
         
@@ -2149,7 +2149,7 @@ class BobsBuddyInvoker {
             changed = reconcileCrabDeathrattles(kv_pair.key, kv_pair.value.triggerMultiplier, kv_pair.value.summonedIsPremium) || changed
         }
         
-        if(changed) {
+        if changed {
             tryRerun()
         }
     }
@@ -2184,7 +2184,7 @@ class BobsBuddyInvoker {
         // Get any Crab deathrattles already captured on AdditionalDeathrattles (visible grant enchantments)
         var currentIndices = [Int]()
         for i in 0 ..< MonoHelper.listCount(obj: minion.additionalDeathrattles) {
-            var deathrattleAction = getAction(MonoHelper.listItem(obj: minion.additionalDeathrattles, index: i))
+            let deathrattleAction = getAction(MonoHelper.listItem(obj: minion.additionalDeathrattles, index: i))
             if deathrattleAction == crabAction {
                 currentIndices.append(Int(i))
             } else if deathrattleAction == crabGoldenAction {
