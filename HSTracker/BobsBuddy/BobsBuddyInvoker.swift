@@ -1192,10 +1192,16 @@ class BobsBuddyInvoker {
         
         logger.info("pPirates=\(inputPlayer.piratesSummonCounter), pBeasts=\(inputPlayer.beastsSummonCounter), pDeadLastCombat=\(inputPlayer.friendlyMinionsDeadLastCombatCounter), pBattlecry=\(inputPlayer.battlecryCounter), friendly=\(friendly)")
         
-        if let pBloodGemBonus = playerAttached.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.MoonBaconJazzer_BloodGemPlayerEnchantDnt }) {
-            inputPlayer.bloodGemAtkBuff = Int32(pBloodGemBonus[GameTag.tag_script_data_num_1])   // attached
-            inputPlayer.bloodGemHealthBuff = Int32(pBloodGemBonus[GameTag.tag_script_data_num_2])   // attached
-        }
+        // Two places carry the Blood Gem buff and each has a measured way to under-count
+        // both only ever accumulate, so take the per-source maximum.
+        let pBloodGemBonus = playerAttached.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.MoonBaconJazzer_BloodGemPlayerEnchantDnt })
+        let bloodGemAtkFromEnchant = pBloodGemBonus?[GameTag.tag_script_data_num_1] ?? 0   // attached
+        let bloodGemHealthFromEnchant = pBloodGemBonus?[GameTag.tag_script_data_num_2] ?? 0   // attached
+        let bloodGemAtkFromTag = playerEntity[GameTag.bacon_bloodgembuffatkvalue]   // direct
+        let bloodGemHealthFromTag = playerEntity[GameTag.bacon_bloodgembuffhealthvalue]   // direct
+        inputPlayer.bloodGemAtkBuff = Int32(max(bloodGemAtkFromEnchant, bloodGemAtkFromTag))
+        inputPlayer.bloodGemHealthBuff = Int32(max(bloodGemHealthFromEnchant, bloodGemHealthFromTag))
+        
         logger.info("pBloodGem=+\(inputPlayer.bloodGemAtkBuff)/+\(inputPlayer.bloodGemHealthBuff), friendly=\(friendly)")
         
         let pTagTransfer = friendly ? nil : playerAttached.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.TagtransferplayerenchantDnt && x.isInPlay }) // attached (opponent-only transfer enchant)
@@ -1963,13 +1969,12 @@ class BobsBuddyInvoker {
 
         tryRerun()
     }
-    
 
     // Minions whose death firings summoned Ancestral Automatons, awaiting reconciliation:
     // source entity id -> (trigger multiplier, summoned Automatons in creation order)
     private var _pendingAutoAssemblerDeathrattleSources = [Int: (triggerMultiplier: Int, summonedIsPremium: [Bool])]()
     
-    func observeMagnetizedAutoAssemblerDeathrattles(_ sourceEntityId: Int, _ extraDeathrattles: Int, _ isGolden:  Bool) {
+    func observeMagnetizedAutoAssemblerDeathrattles(_ sourceEntityId: Int, _ extraDeathrattles: Int, _ isGolden: Bool) {
         if _pendingAutoAssemblerDeathrattleSources[sourceEntityId] == nil {
             let observation = (1 + extraDeathrattles, [Bool]())
             _pendingAutoAssemblerDeathrattleSources[sourceEntityId] = observation
@@ -1988,7 +1993,7 @@ class BobsBuddyInvoker {
             mono_thread_detach(opaque)
         }
         
-        var sourceThatSummoned = Array(_pendingAutoAssemblerDeathrattleSources)
+        let sourceThatSummoned = Array(_pendingAutoAssemblerDeathrattleSources)
         _pendingAutoAssemblerDeathrattleSources.removeAll()
         
         guard input != nil && updateRevealedEntityValidStates else { return }
