@@ -1160,5 +1160,6 @@ extension CardIds.NonCollectible {
         static let SurfnSurf_CrabToken = "BG27_004t2"
         static let SurfnSurf_Crab = "BG27_004_Gt2"
         static let SphereofSapience_ANewFateToken = "SCH_259t"
+        static let LadyDeathwhisperTavernBrawl1 = "TB_BaconShop_HERO_Deathwhisper"
     }
 }

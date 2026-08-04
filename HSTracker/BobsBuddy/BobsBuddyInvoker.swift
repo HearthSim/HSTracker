@@ -599,10 +599,19 @@ class BobsBuddyInvoker {
     
     private func getLastLethalResult() -> LethalResult {
         guard let defendingHero = _defendingHero, let attackingHero = _attackingHero else {
-            return .noOneDied
+            return .noOneDied // No damage dealt, defender still alive (was a tie)
         }
 
-        let totalDefenderHealth = defendingHero.health + defendingHero[.armor]
+        var totalDefenderHealth = defendingHero.health + defendingHero[.armor]
+        if defendingHero.cardId == CardIds.NonCollectible.Neutral.LadyDeathwhisperTavernBrawl1, let input {
+            // The defender is Lady Deathwhisper, the DUOS 0-health hero;
+            // In this case, the attacking hero strike damage is directed to the living teammate
+            if attackingHero.isControlled(by: game.player.id) {
+                totalDefenderHealth = Int(SimulatorProxy.getDuosStartingHealth(input.opponent.health, (input.opponentTeammate.get() != nil ? input.opponentTeammate.health : nil)))
+            } else {
+                totalDefenderHealth = Int(SimulatorProxy.getDuosStartingHealth(input.player.health, (input.playerTeammate.get() != nil ? input.playerTeammate.health : nil)))
+            }
+        }
         if attackingHero.attack >= totalDefenderHealth {
             if attackingHero.isControlled(by: game.player.id) {
                 return .opponentDied
@@ -610,7 +619,7 @@ class BobsBuddyInvoker {
                 return .friendlyDied
             }
         }
-        return .noOneDied
+        return .noOneDied // damage was dealt, but defender still alive
     }
     
     private func validateSimulationResult() {
