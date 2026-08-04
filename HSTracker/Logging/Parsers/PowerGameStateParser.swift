@@ -400,6 +400,13 @@ class PowerGameStateParser: LogEventParser {
                 }
                 let entity = eventHandler.entities[entityId]!
                 let oldCardId = entity.cardId
+                // A Battlegrounds trinket slot (Lesser/Greater Trinket) or trinket-granting hero
+                // power (Fantastic Treasure, Growing Collection) is revealed by CHANGE_ENTITY.
+                if entity.info.cardIdBeforeReveal?.isEmpty ?? true
+                    && !oldCardId.isEmpty
+                    && oldCardId != cardId {
+                    entity.info.cardIdBeforeReveal = oldCardId
+                }
                 if entity.cardId.isBlank ||
                     // placeholders and Fantastic Treasure (Marin's hero power)
                     entity.has(tag: .bacon_is_magic_item_discover) ||

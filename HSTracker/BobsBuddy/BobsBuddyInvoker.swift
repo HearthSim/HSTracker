@@ -974,10 +974,10 @@ class BobsBuddyInvoker {
         
         // Set slot that holds the trinket (i.e., Fantastic Treasure, Growing Collection,
         // Lesser Trinket, Greater Trinket); necessary to order friendly start of combat triggers
-        if entity.cardId != cardId {
-            trinket.containerCardId = entity.cardId
+        let containerCardId = entity.info.cardIdBeforeReveal ?? entity.cardId
+        if !containerCardId.isEmpty && containerCardId != cardId {
+            trinket.containerCardId = containerCardId
         }
-        
         // Special handling for replica cathedral
         if cardId == CardIds.NonCollectible.Neutral.ReplicaCathedral {
             trinket.scriptDataNum1 = Int32(entity[GameTag.gametag_4696])

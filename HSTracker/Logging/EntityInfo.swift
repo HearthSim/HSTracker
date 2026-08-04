@@ -31,8 +31,9 @@ class EntityInfo {
     var originalZone: Zone?
     var createdInDeck: Bool { return originalZone == .deck }
     var createdInHand: Bool { return originalZone == .hand }
-    private(set) var originalCardId: String?
+    var originalCardId: String?
     var wasTransformed: Bool { return !originalCardId.isBlank }
+    var cardIdBeforeReveal: String?
     var originalEntityWasCreated: Bool?
     var guessedCardState: GuessedCardState = GuessedCardState.none
     var storedCardIds: [String] = []
