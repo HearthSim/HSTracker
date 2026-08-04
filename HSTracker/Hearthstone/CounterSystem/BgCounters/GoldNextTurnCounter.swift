@@ -38,7 +38,15 @@ class GoldNextTurnCounter: StatsCounter {
             _overconfidence = max(0, newValue)
         }
     }
-    
+    private var _accordotron = 0
+    private var accordotron: Int {
+        get {
+            return _accordotron
+        }
+        set {
+            _accordotron = max(0, newValue)
+        }
+    }
     private var _goldSureAmount = 0
     private var goldSureAmount: Int {
         get {
@@ -58,7 +66,7 @@ class GoldNextTurnCounter: StatsCounter {
     }
 
     override func shouldShow() -> Bool {
-        return game.isBattlegroundsMatch() && (goldSureAmount > 0 || overconfidence > 0)
+        return game.isBattlegroundsMatch() && (goldSureAmount > 0 || overconfidence > 0 || accordotron > 0)
     }
 
     override func getCardsToDisplay() -> [String] {
@@ -73,10 +81,11 @@ class GoldNextTurnCounter: StatsCounter {
     }
 
     override func valueToShow() -> String {
+        let sureAmount = goldSureAmount + accordotron
         if extraGoldFromOverconfidence > 0 {
-            return "\(goldSureAmount) (\(goldSureAmount + extraGoldFromOverconfidence))"
+            return "\(sureAmount) (\(sureAmount + extraGoldFromOverconfidence))"
         }
-        return "\(goldSureAmount)"
+        return "\(sureAmount)"
     }
 
     override func handleTagChange(tag: GameTag, entity: Entity, value: Int, prevValue: Int) {
@@ -101,6 +110,32 @@ class GoldNextTurnCounter: StatsCounter {
                 overconfidence -= 1
                 onCounterChanged()
             }
+        }
+        
+        let isAccordotronMinion = entity.cardId == CardIds.NonCollectible.Neutral.AccordOTron || entity.cardId == CardIds.NonCollectible.Neutral.AccordoTron_AccordOTron
+        let isAccordotronEnchantment = entity.cardId == CardIds.NonCollectible.Neutral.AccordoTron_AccordOTronEnchantment
+        if (isAccordotronMinion && tag == GameTag.zone)
+            || (isAccordotronEnchantment && (tag == GameTag.zone || tag == GameTag.tag_script_data_num_1)) {
+            updateAccordotron()
+        }
+    }
+    
+    private func updateAccordotron() {
+        let controllerId = isPlayerCounter ? game.player.id : game.opponent.id
+        let total = game.entities.values
+            .filter { e in e.isInPlay && e.isControlled(by: controllerId) }
+            .reduce(0, { (curr, e) in
+                let val = switch e.cardId {
+                case CardIds.NonCollectible.Neutral.AccordOTron:  1
+                case CardIds.NonCollectible.Neutral.AccordoTron_AccordOTron: 2
+                case CardIds.NonCollectible.Neutral.AccordoTron_AccordOTronEnchantment: e[GameTag.tag_script_data_num_1]
+                default: 0
+                }
+                return curr + val
+            })
+        if total != accordotron {
+            accordotron = total
+            onCounterChanged()
         }
     }
 }
