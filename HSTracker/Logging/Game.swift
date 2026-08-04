@@ -2170,16 +2170,14 @@ class Game: NSObject, PowerEventHandler {
             hideBattlegroundsHeroPanel()
             hideBattlegroundsTimewarpPanel()
         }
-        if isConstructedMatch() {
+        if isTraditionalHearthstoneMatch {
             hideMulliganToast()
             DispatchQueue.main.async {
                 self.player.mulliganCardStats = nil
                 self.hideMulliganGuideStats()
             }
-            if opponent.isPlayingWhizbang {
-                opponent.isPlayingWhizbang = false
-                Player.knownOpponentDeck = nil
-            }
+            opponent.isPlayingWhizbang = false
+            Player.knownOpponentDeck = nil
         }
 
         if let currentDeck = self.currentDeck {
