@@ -603,9 +603,11 @@ class BobsBuddyInvoker {
         }
 
         var totalDefenderHealth = defendingHero.health + defendingHero[.armor]
-        if defendingHero.cardId == CardIds.NonCollectible.Neutral.LadyDeathwhisperTavernBrawl1, let input {
-            // The defender is Lady Deathwhisper, the DUOS 0-health hero;
-            // In this case, the attacking hero strike damage is directed to the living teammate
+        if game.isBattlegroundsDuosMatch(), let input {
+            // A duos pair shares one health pool. _defendingHero holds the last hero-vs-hero strike of the
+            // combat; when the other partner has been eliminated that strike lands on Lady Deathwhisper,
+            // which has HEALTH=30 DAMAGE=30 before it is hit. Its Health+ARMOR is therefore 0, so every strike
+            // compares as lethal. Use GetDuosStartingHealth instead - which is the value the simulation used.
             if attackingHero.isControlled(by: game.player.id) {
                 totalDefenderHealth = Int(SimulatorProxy.getDuosStartingHealth(input.opponent.health, (input.opponentTeammate.get() != nil ? input.opponentTeammate.health : nil)))
             } else {
