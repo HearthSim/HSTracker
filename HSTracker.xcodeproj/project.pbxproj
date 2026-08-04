@@ -881,6 +881,7 @@
 		B87DFF872DEF38AE006F39CF /* EndbringerUmbra.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87DFF862DEF38AE006F39CF /* EndbringerUmbra.swift */; };
 		B87DFF8A2DFC74D3006F39CF /* ArenaLastDrafts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87DFF892DFC74D3006F39CF /* ArenaLastDrafts.swift */; };
 		B87DFF8B2DFC74D3006F39CF /* ArenaLastDrafts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87DFF892DFC74D3006F39CF /* ArenaLastDrafts.swift */; };
+		B8815BF0302162F50016D77A /* ICopiesDeathrattlesProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8815BEF302162F50016D77A /* ICopiesDeathrattlesProxy.swift */; };
 		B8820CD025603FB00072ECBC /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8820CCF25603FB00072ECBC /* RemoteConfig.swift */; };
 		B882CC902FBBE364002234D6 /* libcoreclr.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B882CC8F2FBBE364002234D6 /* libcoreclr.dylib */; };
 		B882CC922FBD46AC002234D6 /* SandyProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B882CC912FBD46AC002234D6 /* SandyProxy.swift */; };
@@ -2166,6 +2167,7 @@
 		B8795EAB27516DBC00469B6E /* MercenariesTask.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MercenariesTask.xib; sourceTree = "<group>"; };
 		B87DFF862DEF38AE006F39CF /* EndbringerUmbra.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndbringerUmbra.swift; sourceTree = "<group>"; };
 		B87DFF892DFC74D3006F39CF /* ArenaLastDrafts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArenaLastDrafts.swift; sourceTree = "<group>"; };
+		B8815BEF302162F50016D77A /* ICopiesDeathrattlesProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ICopiesDeathrattlesProxy.swift; sourceTree = "<group>"; };
 		B8820CCF25603FB00072ECBC /* RemoteConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfig.swift; sourceTree = "<group>"; };
 		B882CC8F2FBBE364002234D6 /* libcoreclr.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcoreclr.dylib; path = "downloaded-frameworks/mono/universal/libcoreclr.dylib"; sourceTree = "<group>"; };
 		B882CC912FBD46AC002234D6 /* SandyProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SandyProxy.swift; sourceTree = "<group>"; };
@@ -3520,6 +3522,7 @@
 				B8449A052781CB6F0094E5B3 /* GenericDeathrattles.swift */,
 				B836821D27873B40007D5740 /* HeroPowerDataProxy.swift */,
 				B898995C2CAA33710011B184 /* HoggyBank.swift */,
+				B8815BEF302162F50016D77A /* ICopiesDeathrattlesProxy.swift */,
 				B82F4EAD24E3229200905024 /* InputProxy.swift */,
 				B898995E2CAA33CF0011B184 /* JarredFrostling.swift */,
 				B89899582CAA31CA0011B184 /* Leapfrogger.swift */,
@@ -5432,6 +5435,7 @@
 				B87216922F16ECBE00E848BA /* OverloadThisGameCounter.swift in Sources */,
 				B8DB12BF2EBAE910004268FA /* TinyRafaam.swift in Sources */,
 				439C7ECB1C777F8900D29859 /* LogReaderManager.swift in Sources */,
+				B8815BF0302162F50016D77A /* ICopiesDeathrattlesProxy.swift in Sources */,
 				B83336052F620E2200923513 /* SupplyRun.swift in Sources */,
 				B846CC862E15B7A600552F9C /* CreatureOfTheSacredCave.swift in Sources */,
 				B852D8392DDFBA4E00884B26 /* PrimordialProtector.swift in Sources */,

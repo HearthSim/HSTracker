@@ -2062,6 +2062,11 @@ class BobsBuddyInvoker {
             return false
         }
         
+        // Ignore minions that copy/gain deathrattles during combat (e.g., Fish of N'Zoth, Timewraped Whirl-O-Tron)
+        if MonoHelper.isInstance(obj: minion, klass: ICopiesDeathrattlesProxy._class!) {
+            return false
+        }
+        
         // Extra deathrattles (e.g., Titus Rivendare) resolve as full repeats of the whole deathrattle list —
         // so the first (observed / triggerMultiplier) summons are the distinct deathrattles in their real order.
         var automatons = summonedByIsPremium.take(summonedByIsPremium.count / triggerMultiplier)
@@ -2169,6 +2174,11 @@ class BobsBuddyInvoker {
             return false
         }
         
+        // Ignore minions that copy/gain deathrattles during combat (e.g., Fish of N'Zoth, Timewraped Whirl-O-Tron)
+        if MonoHelper.isInstance(obj: minion, klass: ICopiesDeathrattlesProxy._class!) {
+            return false
+        }
+
         // Extra deathrattles (e.g., Titus Rivendare) resolve as full repeats of the whole deathrattle list —
         // so the first (observed / triggerMultiplier) summons are the distinct deathrattles in their real order.
         // Unlike Auto Assembler there is no innate summoner of Crabs to skip: every observed firing maps to
