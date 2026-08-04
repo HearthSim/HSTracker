@@ -1263,6 +1263,8 @@ class BobsBuddyInvoker {
     func snapshotBoardState(turn: Int) {
         logger.debug("Snapshotting board state...")
         LastAttackingHero = nil
+        _attackingHero = nil
+        _defendingHero = nil
         _reconnectCounterAtSnapshot = BobsBuddyInvoker._reconnectCounter
         
         let simulator = SimulatorProxy()
