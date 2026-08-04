@@ -1802,6 +1802,17 @@ class BobsBuddyInvoker {
         let summonedMinions = summonedEntities.compactMap { e in
             let minion = BobsBuddyInvoker.getMinionFromEntity(sim: simulator, player: isPlayerMinion, entity: e, attachedEntities: getAttachedEntities(entityId: e.id))
             let copiedFrom = e[GameTag.copied_from_entity_id]
+            
+            // The game writes a minion's aggregate ATK/HEALTH when it enters PLAY. A copy that did not
+            // fit stays in SETASIDE holding the card's printed stats, so read the real values off the
+            // entity it was copied from.
+            if !e.isInPlay && copiedFrom > 0, let copySource = game.entities[copiedFrom],
+               copySource.isInPlay || copySource.isInSetAside {
+                minion.baseAttack = Int32(copySource[GameTag.atk])
+                minion.maxAttack = Int32(copySource[GameTag.atk])
+                minion.baseHealth = Int32(copySource[GameTag.health] - copySource[GameTag.damage])
+                minion.maxHealth = Int32(copySource[GameTag.health])
+            }
             if copiedFrom > 0 {
                 minion.game_id = Int32(copiedFrom)
             }
