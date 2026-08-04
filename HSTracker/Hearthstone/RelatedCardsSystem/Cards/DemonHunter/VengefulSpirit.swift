@@ -17,6 +17,6 @@ class VengefulSpirit: ICardWithHighlight {
     }
 
     func shouldHighlight(card: Card, deck: [Card]) -> HighlightColor {
-        return HighlightColorHelper.getHighlightColor(card.hasDeathrattle())
+        return HighlightColorHelper.getHighlightColor(card.hasDeathrattle() && card.type == CardType.minion)
     }
 }
