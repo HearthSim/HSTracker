@@ -112,9 +112,15 @@ class GoldNextTurnCounter: StatsCounter {
             }
         }
         
+        // during combat the board is replicated, keep the last shopping phase value
+        if game.isBattlegroundsCombatPhase {
+            return
+        }
+        
         let isAccordotronMinion = entity.cardId == CardIds.NonCollectible.Neutral.AccordOTron || entity.cardId == CardIds.NonCollectible.Neutral.AccordoTron_AccordOTron
         let isAccordotronEnchantment = entity.cardId == CardIds.NonCollectible.Neutral.AccordoTron_AccordOTronEnchantment
-        if (isAccordotronMinion && tag == GameTag.zone)
+        // PREMIUM catches transforms into the golden minion (CHANGE_ENTITY does not change the zone)
+        if (isAccordotronMinion && (tag == GameTag.zone || tag == GameTag.premium))
             || (isAccordotronEnchantment && (tag == GameTag.zone || tag == GameTag.tag_script_data_num_1)) {
             updateAccordotron()
         }
