@@ -27,6 +27,7 @@ class BobsBuddyInvoker {
     
     let Iterations: Int = 10_000
     let MaxTime: Int = 1_500
+    let MinimumSpinTime: TimeInterval = 0.500
     let MaxTimeForComplexBoards = 3_000
     let MaxTimeForLeapfrogger = 5_000
     let MinimumSimulationsToReportSentry = 2500
@@ -297,6 +298,7 @@ class BobsBuddyInvoker {
         return Promise<Bool> { seal in
             currentOpponentMinions.removeAll()
             logger.debug("Running simulation...")
+            let startTime = Date()
             DispatchQueue.main.async {
                 BobsBuddyInvoker.bobsBuddyDisplay.hidePercentagesShowSpinners()
             }
@@ -312,6 +314,11 @@ class BobsBuddyInvoker {
                     mono_thread_detach(opaque)
                 }
 
+                // extremely fast simulations otherwise make the spinner disappear quickly, making the result feel unreliable
+                let remainingSpinTime = self.MinimumSpinTime - (Date().timeIntervalSince1970 - startTime.timeIntervalSince1970)
+                if remainingSpinTime > 0 {
+                    Thread.sleep(forTimeInterval: remainingSpinTime)
+                }
                 // Add enum for exit conditions
                 if top.simulationCount <= 500 && top.getMyExitCondition() ==  .time {
                     logger.debug("Could not perform enough simulations. Displaying error state and exiting.")
