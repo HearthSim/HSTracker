@@ -66,6 +66,10 @@ final class Card {
     var tag4058 = 0
     var elite = false
     
+    var isKnownCard: Bool {
+        return Cards.isValidCardId(id) || _fakeData != nil
+    }
+    
     func hasRace(_ race: Race) -> Bool {
         if races.count == 0 {
             return false
@@ -311,6 +315,8 @@ final class Card {
         return color
     }
     
+    private var _fakeData: FakeCard?
+    
     init() {
     }
     
@@ -320,6 +326,7 @@ final class Card {
         do {
             if id.hasPrefix("CREATED_BY_") {
                 let fakeData = try FakeCard.fromString(id)
+                _fakeData = fakeData
                 if let cost = fakeData.cost {
                     self.cost = cost
                 }

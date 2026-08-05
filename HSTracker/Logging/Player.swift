@@ -1009,6 +1009,15 @@ final class Player {
             logger.info("\(debugName) \(#function) \(entity)")
         }
     }
+    
+    func removePredictedCardsInDeckCosting(_ maxCost: Int) {
+        inDeckPredictions.removeAll(where: { x in
+            if let card = Cards.by(cardId: x.cardId) {
+                return card.isKnownCard && card.cost <= maxCost
+            }
+            return false
+        })
+    }
 
     func joustReveal(entity: Entity, turn: Int) {
         entity.info.turn = turn

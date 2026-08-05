@@ -223,4 +223,8 @@ final class Cards {
         }
         return hero
     }
+    
+    static func isValidCardId(_ cardId: String) -> Bool {
+        return cardsById.containsKey(cardId)
+    }
 }

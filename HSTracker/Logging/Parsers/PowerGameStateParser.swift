@@ -585,7 +585,13 @@ class PowerGameStateParser: LogEventParser {
                 eventHandler.handlePlayerDredge()
             }
         } else if logLine.line.contains("META_DATA - Meta=OVERRIDE_HISTORY") {
-            AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock?.hideShowEntities = true
+            if let currentBlock = currentBlock {
+                let e = eventHandler.entities[currentBlock.sourceEntityId]
+                let isPlayerHemet = currentBlock.cardId == CardIds.Collectible.Neutral.HemetJungleHunter && (e?.isControlled(by: eventHandler.player.id) ?? false)
+                if !isPlayerHemet {
+                    AppDelegate.instance().coreManager.logReaderManager.powerGameStateParser.currentBlock?.hideShowEntities = true
+                }
+            }
         } else if logLine.line.contains("META_DATA - Meta=HISTORY_TARGET") {
             gameStateIsInsideMetaDataHistoryTarget = true
             isInsideMetaDataHistoryTarget = true
@@ -1350,6 +1356,12 @@ class PowerGameStateParser: LogEventParser {
                                 if actionStartingEntity.isControlled(by: eventHandler.player.id) {
                                     eventHandler.resetOpponentHandCostReduction()
                                 }
+                            }
+                        case CardIds.Collectible.Neutral.HemetJungleHunter:
+                            if correspondPlayer == eventHandler.player.id {
+                                eventHandler.player.removePredictedCardsInDeckCosting(3)
+                            } else if correspondPlayer == eventHandler.opponent.id {
+                                eventHandler.opponent.removePredictedCardsInDeckCosting(3)
                             }
                         case CardIds.NonCollectible.Warrior.EntertheLostCity_LatorviusGazeOfTheCityToken:
                             if actionStartingEntity?.isControlled(by: eventHandler.opponent.id) ?? false {
