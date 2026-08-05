@@ -1120,6 +1120,8 @@ class BobsBuddyInvoker {
                     MonoHelper.addToList(list: playerHand, element: minionEntity)
                 } else if e.cardId == CardIds.NonCollectible.Neutral.BloodGem1 {
                     MonoHelper.addToList(list: playerHand, element: BloodGemProxy(simulator: simulator))
+                } else if e.cardId == CardIds.NonCollectible.Neutral.BilgewaterBreakout_LockboxToken {
+                    MonoHelper.addToList(list: inputPlayer.hand, element: LockboxCardEntityProxy(simulator: simulator))
                 } else if e.isSpell {
                     MonoHelper.addToList(list: playerHand, element: SpellCardEntityProxy(simulator: simulator))
                 } else {
@@ -2278,6 +2280,8 @@ class BobsBuddyInvoker {
                 result.append(minion)
             } else if e.cardId == CardIds.NonCollectible.Neutral.BloodGem1 {
                 result.append(BloodGemProxy(simulator: simulator))
+            } else if e.cardId == CardIds.NonCollectible.Neutral.BilgewaterBreakout_LockboxToken {
+                result.append(LockboxCardEntityProxy(simulator: simulator))
             } else if e.isSpell {
                 result.append(SpellCardEntityProxy(simulator: simulator))
             } else if !e.cardId.isEmpty {

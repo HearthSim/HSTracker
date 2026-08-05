@@ -882,6 +882,7 @@
 		B87DFF8A2DFC74D3006F39CF /* ArenaLastDrafts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87DFF892DFC74D3006F39CF /* ArenaLastDrafts.swift */; };
 		B87DFF8B2DFC74D3006F39CF /* ArenaLastDrafts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87DFF892DFC74D3006F39CF /* ArenaLastDrafts.swift */; };
 		B8815BF0302162F50016D77A /* ICopiesDeathrattlesProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8815BEF302162F50016D77A /* ICopiesDeathrattlesProxy.swift */; };
+		B8815BF23022BEC40016D77A /* LockboxCardEntityProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8815BF13022BEC40016D77A /* LockboxCardEntityProxy.swift */; };
 		B8820CD025603FB00072ECBC /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8820CCF25603FB00072ECBC /* RemoteConfig.swift */; };
 		B882CC902FBBE364002234D6 /* libcoreclr.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B882CC8F2FBBE364002234D6 /* libcoreclr.dylib */; };
 		B882CC922FBD46AC002234D6 /* SandyProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B882CC912FBD46AC002234D6 /* SandyProxy.swift */; };
@@ -2168,6 +2169,7 @@
 		B87DFF862DEF38AE006F39CF /* EndbringerUmbra.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndbringerUmbra.swift; sourceTree = "<group>"; };
 		B87DFF892DFC74D3006F39CF /* ArenaLastDrafts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArenaLastDrafts.swift; sourceTree = "<group>"; };
 		B8815BEF302162F50016D77A /* ICopiesDeathrattlesProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ICopiesDeathrattlesProxy.swift; sourceTree = "<group>"; };
+		B8815BF13022BEC40016D77A /* LockboxCardEntityProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockboxCardEntityProxy.swift; sourceTree = "<group>"; };
 		B8820CCF25603FB00072ECBC /* RemoteConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfig.swift; sourceTree = "<group>"; };
 		B882CC8F2FBBE364002234D6 /* libcoreclr.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcoreclr.dylib; path = "downloaded-frameworks/mono/universal/libcoreclr.dylib"; sourceTree = "<group>"; };
 		B882CC912FBD46AC002234D6 /* SandyProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SandyProxy.swift; sourceTree = "<group>"; };
@@ -3526,6 +3528,7 @@
 				B82F4EAD24E3229200905024 /* InputProxy.swift */,
 				B898995E2CAA33CF0011B184 /* JarredFrostling.swift */,
 				B89899582CAA31CA0011B184 /* Leapfrogger.swift */,
+				B8815BF13022BEC40016D77A /* LockboxCardEntityProxy.swift */,
 				B844D36D2A0C35A8001704E0 /* MinionCardEntityProxy.swift */,
 				B82F4EB124E4088500905024 /* MinionFactoryProxy.swift */,
 				B82F4EB324E40B9F00905024 /* MinionProxy.swift */,
@@ -5779,6 +5782,7 @@
 				B86D89D22D95BF6300AB65A5 /* FracturedPowerEnchantment.swift in Sources */,
 				B89865CB2D9206A800BA5649 /* CactusCutter.swift in Sources */,
 				B8AC9A1C293CE3310047F438 /* BattlegroundsHeroPickingViewModel.swift in Sources */,
+				B8815BF23022BEC40016D77A /* LockboxCardEntityProxy.swift in Sources */,
 				B8DB12912EBADA2D004268FA /* Solitude.swift in Sources */,
 				B8B7900A2C974CFA00DD33EC /* LoathebEnchantment.swift in Sources */,
 				B895864B2B81460700989C13 /* ConstructedMulliganSingleCardHeaderViewModel.swift in Sources */,

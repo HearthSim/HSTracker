@@ -1163,5 +1163,6 @@ extension CardIds.NonCollectible {
         static let LadyDeathwhisperTavernBrawl1 = "TB_BaconShop_HERO_Deathwhisper"
         static let AccordoTron_AccordOTron = "BG26_147_G"
         static let AccordoTron_AccordOTronEnchantment = "BG26_147e"
+        static let BilgewaterBreakout_LockboxToken = "BG36_520t"
     }
 }
