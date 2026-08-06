@@ -30,7 +30,7 @@ class TrinketProxy: MonoHandle, MonoClassInitializer {
     var scriptDataNum1: Int32
     @MonoPrimitiveProperty(property: "ScriptDataNum2", owner: TrinketProxy.self)
     var scriptDataNum2: Int32
-    @MonoPrimitiveProperty(property: "ContainerCardId", owner: TrinketProxy.self)
+    @MonoStringProperty(property: "ContainerCardId", owner: TrinketProxy.self)
     var containerCardId: String
     @MonoPrimitiveProperty(property: "game_id", owner: TrinketProxy.self)
     var game_id: Int32

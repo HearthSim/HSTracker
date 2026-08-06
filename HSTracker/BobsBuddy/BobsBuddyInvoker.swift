@@ -269,6 +269,12 @@ class BobsBuddyInvoker {
                 return
             }
             
+            let opaque = mono_thread_attach(MonoHelper._monoInstance)
+
+            defer {
+                mono_thread_detach(opaque)
+            }
+            
             state = .combatPartial
             logger.debug("Setting UI state to combat...")
             
@@ -1403,6 +1409,12 @@ class BobsBuddyInvoker {
             return
         }
         
+        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        
+        defer {
+            mono_thread_detach(opaque)
+        }
+        
         opponentHandMap[entity] = copy
         
         // Wait for attached entities to be logged. This should happen at the exact same timestamp.
@@ -1427,6 +1439,12 @@ class BobsBuddyInvoker {
         guard let input, state == .combat && game.isBattlegroundsDuosMatch() else {
             return
         }
+        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        
+        defer {
+            mono_thread_detach(opaque)
+        }
+        
         var secretsToAdd = [Int?]()
         var seen = Set<Int>()
         for dbfid in opponentSecrets.compactMap({ x in
@@ -1936,6 +1954,13 @@ class BobsBuddyInvoker {
         guard let input, updateRevealedEntityValidStates else {
             return
         }
+        
+        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        
+        defer {
+            mono_thread_detach(opaque)
+        }
+        
         if input.opponent.resourcesSpentThisGame > 0 {
             return
         }
@@ -2088,6 +2113,12 @@ class BobsBuddyInvoker {
     private func reconcileAutoAssemblerDeathrattles(_ sourceEntityId: Int, _ triggerMultiplier: Int, _ summonedByIsPremium: [Bool]) -> Bool {
         guard let input = input else { return false }
         
+        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        
+        defer {
+            mono_thread_detach(opaque)
+        }
+        
         let sides = [input.player, input.playerTeammate, input.opponent, input.opponentTeammate]
             .compactMap { $0 }
         
@@ -2187,6 +2218,12 @@ class BobsBuddyInvoker {
         
         if input == nil || !updateRevealedEntityValidStates {
             return
+        }
+        
+        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        
+        defer {
+            mono_thread_detach(opaque)
         }
         
         var changed = false
