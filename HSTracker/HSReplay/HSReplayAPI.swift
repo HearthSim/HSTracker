@@ -799,6 +799,40 @@ class HSReplayAPI {
     }
     
     @available(macOS 10.15.0, *)
+    static func getConstructedMulliganV2(parameters: MulliganV2Params) async -> MulliganV2Data? {
+        return await withCheckedContinuation { continuation in
+            let encoder = JSONEncoder()
+            var body: Data?
+            do {
+                body = try encoder.encode(parameters)
+                if let body = body {
+                    logger.debug("Sending mulligan guide v2 data request: \(String(data: body, encoding: .utf8) ?? "ERROR")")
+                }
+            } catch {
+                logger.error(error)
+            }
+
+            startAuthorizedRequest("\(HSReplay.constructedMulliganGuideV2)", method: .POST, parameters: [:], headers: ["Content-Type": "application/json"], body: body, completionHandler: { result in
+                switch result {
+                case .success(let response):
+                    if let str = String(data: response.data, encoding: .utf8) {
+                        logger.debug("Response data: \(str)")
+                        let bqs: MulliganV2Data? = parseResponse(data: response.data, defaultValue: nil)
+                        continuation.resume(returning: bqs)
+                    } else {
+                        continuation.resume(returning: nil)
+                    }
+                    return
+                case .failure(let error):
+                    logger.error(error)
+                    continuation.resume(returning: nil)
+                    return
+                }
+            })
+        }
+    }
+
+    @available(macOS 10.15.0, *)
     static func getMulliganGuideStatus(parameters: MulliganGuideStatusParams) async -> MulliganGuideStatusData? {
         return await withCheckedContinuation { continuation in
             let encoder = JSONEncoder()

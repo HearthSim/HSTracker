@@ -483,7 +483,33 @@ struct MirrorHelper {
         }
         return result
     }
-    
+
+    // Raw values from the game's ActorStateType enum (only the cases the
+    // Mulligan G-V2 live-confidence recalculation cares about).
+    private enum MulliganActorState: Int {
+        case cardSelected = 5 // used in Mulligan as Keep
+        case cardPlayableMouseOver = 7
+    }
+
+    @available(macOS 10.15, *)
+    static func getMulliganLiveState() -> MulliganLiveState? {
+        var result: MirrorMulliganState?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getMulliganState()
+        }
+        guard let result else { return nil }
+
+        let cards = result.mulliganCards.map { card in
+            MulliganLiveCardState(
+                zonePosition: card.zonePosition.intValue,
+                cardId: card.cardId,
+                kept: card.state.intValue == MulliganActorState.cardSelected.rawValue,
+                mouseOverInPlay: card.state.intValue == MulliganActorState.cardPlayableMouseOver.rawValue
+            )
+        }
+        return MulliganLiveState(waitingForUserInput: result.waitingForUserInput, cards: cards)
+    }
+
     static func getSelectedBattlegroundsGameMode() -> SelectedBattlegroundsGameMode {
         var result = SelectedBattlegroundsGameMode.unknown
         MirrorHelper.accessQueue.sync {

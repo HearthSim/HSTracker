@@ -240,9 +240,13 @@ struct SizeHelper {
     }
     
     static func overHearthstoneFrame() -> NSRect {
-        let frame = hearthstoneWindow.frame
-        
-        return hearthstoneWindow.relativeFrame(frame)
+        // hearthstoneWindow.frame is already the window's absolute screen rect -
+        // no relativeFrame() translation needed (that's for small widget rects
+        // authored in the Base-reference coordinate system, not the HS window's
+        // own frame; running it through relativeFrame() here double-applies the
+        // scale to the origin, drifting further off the further the window sits
+        // from (0,0) on screen).
+        return hearthstoneWindow.frame
     }
     
     static var trackerWidth: CGFloat {

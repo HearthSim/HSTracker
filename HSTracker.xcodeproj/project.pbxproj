@@ -15,7 +15,10 @@
 		1CCB4ACF1E84708A003FD1AD /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 433554321D5F6B4400277B27 /* libz.tbd */; };
 		1CCB4AEB1E8A4930003FD1AD /* LogEventHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCB4AEA1E8A4930003FD1AD /* LogEventHandlers.swift */; };
 		1CF204F91E83B74300037A42 /* MirrorHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF204F81E83B74300037A42 /* MirrorHelper.swift */; };
+		1F966AEAB083406B7A9876F0 /* RootOverlayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28A2E812F2EFBF3F260A3AE /* RootOverlayViewModel.swift */; };
+		31BB69763BC1B35E25AE5639 /* ConstructedMulliganV2SingleCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24D4A90A357C8BFD01DCBD2 /* ConstructedMulliganV2SingleCardViewModel.swift */; };
 		340AAC051D0544AD0015FE33 /* StringTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340AAC041D0544AD0015FE33 /* StringTracker.swift */; };
+		3412955453DE192E50E80735 /* ConstructedMulliganV2SingleCardHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 738EB3EBBA2F12662014F3ED /* ConstructedMulliganV2SingleCardHeaderViewModel.swift */; };
 		3CB1A35D2E8C3A400090486F /* Mixpanel in Frameworks */ = {isa = PBXBuildFile; productRef = 3CB1A35C2E8C3A400090486F /* Mixpanel */; };
 		3CB1A35F2E8C63060090486F /* MixpanelEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB1A35E2E8C63010090486F /* MixpanelEvents.swift */; };
 		3CB1A3602E8C63060090486F /* MixpanelEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB1A35E2E8C63010090486F /* MixpanelEvents.swift */; };
@@ -387,8 +390,18 @@
 		4CFF95AB23C0C3B3006AB461 /* BattlegroundsTierOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFF95AA23C0C3B3006AB461 /* BattlegroundsTierOverlay.swift */; };
 		4CFF95AD23C0C48E006AB461 /* BattlegroundsTierOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CFF95AC23C0C48E006AB461 /* BattlegroundsTierOverlay.xib */; };
 		4CFF95AF23C0C56A006AB461 /* BattlegroundsTierOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFF95AE23C0C56A006AB461 /* BattlegroundsTierOverlayView.swift */; };
+		506D65462C58EAC1617E4302 /* ConstructedMulliganGuideV2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3F16E15E17850C0760780D /* ConstructedMulliganGuideV2View.swift */; };
+		64069AB704B1E42F6742B690 /* LinearGaugeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A55210827595351F15734B7 /* LinearGaugeView.swift */; };
+		6F10D744995FB62C28FB3813 /* MulliganTipIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8710EB77B7B79FE2F598AEBA /* MulliganTipIconView.swift */; };
 		7BA4A8162FF3EA91000B3784 /* PreferencePaneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA4A8152FF3EA91000B3784 /* PreferencePaneController.swift */; };
 		7BA4A8172FF3EA91000B3784 /* PreferencePaneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA4A8152FF3EA91000B3784 /* PreferencePaneController.swift */; };
+		82C409FBBAECB6E69E29A68F /* ConstructedMulliganGuideV2ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F4128461C4484E8450D77D /* ConstructedMulliganGuideV2ViewModel.swift */; };
+		8DF18459F89A844F812A8D2F /* MulliganV2Params.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331922B5382E5C30E699243F /* MulliganV2Params.swift */; };
+		8F1C709C9ED6C951378F9500 /* MulliganTooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C4ECFD232B21BD908EA905 /* MulliganTooltip.swift */; };
+		947577168CC05BE7DC23659A /* RootOverlayWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2742D7642ECBC122BF4479 /* RootOverlayWindow.swift */; };
+		9E67814D8E6FAC2919F53CB0 /* MulliganCardPortraitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7A76CCAFA6BFB8D952B01F /* MulliganCardPortraitView.swift */; };
+		A07B71E888E4FFF92A972B12 /* MulliganV2Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E350BCCBA1DB98636739A35 /* MulliganV2Data.swift */; };
+		ACF7F51EA11C1F29E5D1EAE9 /* RootOverlayWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = F09754876C6371F33E219DA1 /* RootOverlayWindow.xib */; };
 		B800FCA42732AA7C00AFBD51 /* MercenariesTaskListButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = B800FCA32732AA7C00AFBD51 /* MercenariesTaskListButton.xib */; };
 		B800FCA62732AA9100AFBD51 /* MercenariesTaskListButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B800FCA52732AA9100AFBD51 /* MercenariesTaskListButton.swift */; };
 		B800FCAA2732FABD00AFBD51 /* MercenariesTaskListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B800FCA92732FABD00AFBD51 /* MercenariesTaskListView.swift */; };
@@ -1483,7 +1496,9 @@
 		C99C0C9D1D0A608C000DD6FB /* StatsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99C0C9C1D0A608C000DD6FB /* StatsHelper.swift */; };
 		C9BDB3C81D20BC4C00886A11 /* StatsTab.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9BDB3CA1D20BC4C00886A11 /* StatsTab.xib */; };
 		C9BDB3D71D20BE9500886A11 /* LadderTab.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9BDB3D91D20BE9500886A11 /* LadderTab.xib */; };
+		CAB1941AFC7E94E2D2F47408 /* RootOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1F19717A4A8D185811FB9E /* RootOverlayView.swift */; };
 		E30590BB21174FC900679D66 /* UploadCollectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30590BA21174FC900679D66 /* UploadCollectionData.swift */; };
+		EF3B5194CD86CE62EAA0D5E7 /* ConstructedMulliganV2SingleCardHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172D1024C17902D2BE62ABF7 /* ConstructedMulliganV2SingleCardHeaderView.swift */; };
 		F719B88A200ACAE3004F5E36 /* DefaultDecks.swift in Sources */ = {isa = PBXBuildFile; fileRef = F719B889200ACAE3004F5E36 /* DefaultDecks.swift */; };
 		F719B88B200ACAE3004F5E36 /* DefaultDecks.swift in Sources */ = {isa = PBXBuildFile; fileRef = F719B889200ACAE3004F5E36 /* DefaultDecks.swift */; };
 		F723404420014D3E00E4587A /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = F79833961FFF324200D2893E /* Events.swift */; };
@@ -1529,6 +1544,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0E350BCCBA1DB98636739A35 /* MulliganV2Data.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MulliganV2Data.swift; sourceTree = "<group>"; };
+		172D1024C17902D2BE62ABF7 /* ConstructedMulliganV2SingleCardHeaderView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ConstructedMulliganV2SingleCardHeaderView.swift; sourceTree = "<group>"; };
+		1A55210827595351F15734B7 /* LinearGaugeView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LinearGaugeView.swift; sourceTree = "<group>"; };
 		1C132F811DBA24C1002B1BF2 /* AppHealth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppHealth.swift; sourceTree = "<group>"; };
 		1C17D24B1E82C81700ED4047 /* LogEventParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogEventParser.swift; sourceTree = "<group>"; };
 		1C17D2511E82DEE700ED4047 /* RealmHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmHelper.swift; sourceTree = "<group>"; };
@@ -1540,6 +1558,7 @@
 		1CF1B5891E81426D007DCBF2 /* AlgorithmTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlgorithmTests.swift; sourceTree = "<group>"; };
 		1CF1B58B1E815810007DCBF2 /* LogReaderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogReaderTests.swift; sourceTree = "<group>"; };
 		1CF204F81E83B74300037A42 /* MirrorHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MirrorHelper.swift; sourceTree = "<group>"; };
+		331922B5382E5C30E699243F /* MulliganV2Params.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MulliganV2Params.swift; sourceTree = "<group>"; };
 		340AAC041D0544AD0015FE33 /* StringTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTracker.swift; sourceTree = "<group>"; };
 		3CB1A35E2E8C63010090486F /* MixpanelEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixpanelEvents.swift; sourceTree = "<group>"; };
 		43050C611E6B484D007600EA /* Hearthstone.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Hearthstone.xcassets; sourceTree = "<group>"; };
@@ -1729,6 +1748,7 @@
 		43F204051E93C2E600E0BC4A /* Warrior.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Warrior.swift; sourceTree = "<group>"; };
 		43F4D0481EB7A23D006B4479 /* HeroPower.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeroPower.swift; sourceTree = "<group>"; };
 		43F8265A1E0A674000422F4F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		46F4128461C4484E8450D77D /* ConstructedMulliganGuideV2ViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ConstructedMulliganGuideV2ViewModel.swift; sourceTree = "<group>"; };
 		49930DD31DFA859F008C8CD4 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		4C1923932392DF8A007EBB0F /* BattlegroundsOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsOverlay.swift; sourceTree = "<group>"; };
 		4C1923952392DFA5007EBB0F /* BattlegroundsOverlay.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsOverlay.xib; sourceTree = "<group>"; };
@@ -1750,8 +1770,13 @@
 		4CFF95AA23C0C3B3006AB461 /* BattlegroundsTierOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsTierOverlay.swift; sourceTree = "<group>"; };
 		4CFF95AC23C0C48E006AB461 /* BattlegroundsTierOverlay.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsTierOverlay.xib; sourceTree = "<group>"; };
 		4CFF95AE23C0C56A006AB461 /* BattlegroundsTierOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsTierOverlayView.swift; sourceTree = "<group>"; };
+		5A1F19717A4A8D185811FB9E /* RootOverlayView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RootOverlayView.swift; sourceTree = "<group>"; };
 		5B0AB88C2313083700654A03 /* HSTracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HSTracker.entitlements; sourceTree = "<group>"; };
+		64C4ECFD232B21BD908EA905 /* MulliganTooltip.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MulliganTooltip.swift; sourceTree = "<group>"; };
+		738EB3EBBA2F12662014F3ED /* ConstructedMulliganV2SingleCardHeaderViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ConstructedMulliganV2SingleCardHeaderViewModel.swift; sourceTree = "<group>"; };
 		7BA4A8152FF3EA91000B3784 /* PreferencePaneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencePaneController.swift; sourceTree = "<group>"; };
+		8710EB77B7B79FE2F598AEBA /* MulliganTipIconView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MulliganTipIconView.swift; sourceTree = "<group>"; };
+		AE7A76CCAFA6BFB8D952B01F /* MulliganCardPortraitView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MulliganCardPortraitView.swift; sourceTree = "<group>"; };
 		B800FCA32732AA7C00AFBD51 /* MercenariesTaskListButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MercenariesTaskListButton.xib; sourceTree = "<group>"; };
 		B800FCA52732AA9100AFBD51 /* MercenariesTaskListButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MercenariesTaskListButton.swift; sourceTree = "<group>"; };
 		B800FCA92732FABD00AFBD51 /* MercenariesTaskListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MercenariesTaskListView.swift; sourceTree = "<group>"; };
@@ -2701,7 +2726,12 @@
 		C99C0C9C1D0A608C000DD6FB /* StatsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StatsHelper.swift; path = Statistics/StatsHelper.swift; sourceTree = "<group>"; };
 		C9BDB3C91D20BC4C00886A11 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/StatsTab.xib; sourceTree = "<group>"; };
 		C9BDB3D81D20BE9500886A11 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LadderTab.xib; sourceTree = "<group>"; };
+		CA2742D7642ECBC122BF4479 /* RootOverlayWindow.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RootOverlayWindow.swift; sourceTree = "<group>"; };
+		CB3F16E15E17850C0760780D /* ConstructedMulliganGuideV2View.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ConstructedMulliganGuideV2View.swift; sourceTree = "<group>"; };
 		E30590BA21174FC900679D66 /* UploadCollectionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadCollectionData.swift; sourceTree = "<group>"; };
+		F09754876C6371F33E219DA1 /* RootOverlayWindow.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = RootOverlayWindow.xib; sourceTree = "<group>"; };
+		F24D4A90A357C8BFD01DCBD2 /* ConstructedMulliganV2SingleCardViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ConstructedMulliganV2SingleCardViewModel.swift; sourceTree = "<group>"; };
+		F28A2E812F2EFBF3F260A3AE /* RootOverlayViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RootOverlayViewModel.swift; sourceTree = "<group>"; };
 		F719B889200ACAE3004F5E36 /* DefaultDecks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDecks.swift; sourceTree = "<group>"; };
 		F79833961FFF324200D2893E /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
 		F7D7A3A52011B67D00E3A5F0 /* Hearthstone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hearthstone.swift; sourceTree = "<group>"; };
@@ -2709,7 +2739,17 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		B8AEB6142FB2770200CDA2C0 /* AnimalCompanionGenerator */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = AnimalCompanionGenerator; sourceTree = "<group>"; };
+		B8AEB6142FB2770200CDA2C0 /* AnimalCompanionGenerator */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = AnimalCompanionGenerator;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -3199,6 +3239,7 @@
 				433554591D65940300277B27 /* Toast */,
 				439C7ED41C777FA900D29859 /* Trackers */,
 				4C3E2D9F245F86A300292349 /* Views */,
+				9A2D20BAAAF228915120783F /* Overlay */,
 			);
 			path = UIs;
 			sourceTree = "<group>";
@@ -3395,6 +3436,44 @@
 				B872168A2F10652D00E848BA /* BattlegroundsTimewarpPanel.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		54E5C32CC162F286D353E539 /* V2 */ = {
+			isa = PBXGroup;
+			children = (
+				46F4128461C4484E8450D77D /* ConstructedMulliganGuideV2ViewModel.swift */,
+				F24D4A90A357C8BFD01DCBD2 /* ConstructedMulliganV2SingleCardViewModel.swift */,
+				738EB3EBBA2F12662014F3ED /* ConstructedMulliganV2SingleCardHeaderViewModel.swift */,
+				172D1024C17902D2BE62ABF7 /* ConstructedMulliganV2SingleCardHeaderView.swift */,
+				CB3F16E15E17850C0760780D /* ConstructedMulliganGuideV2View.swift */,
+				1A55210827595351F15734B7 /* LinearGaugeView.swift */,
+				64C4ECFD232B21BD908EA905 /* MulliganTooltip.swift */,
+				AE7A76CCAFA6BFB8D952B01F /* MulliganCardPortraitView.swift */,
+				8710EB77B7B79FE2F598AEBA /* MulliganTipIconView.swift */,
+			);
+			name = V2;
+			path = V2;
+			sourceTree = "<group>";
+		};
+		9A2D20BAAAF228915120783F /* Overlay */ = {
+			isa = PBXGroup;
+			children = (
+				AC96C3692BDC46AEE4F7540D /* Root */,
+			);
+			name = Overlay;
+			path = Overlay;
+			sourceTree = "<group>";
+		};
+		AC96C3692BDC46AEE4F7540D /* Root */ = {
+			isa = PBXGroup;
+			children = (
+				F28A2E812F2EFBF3F260A3AE /* RootOverlayViewModel.swift */,
+				5A1F19717A4A8D185811FB9E /* RootOverlayView.swift */,
+				CA2742D7642ECBC122BF4479 /* RootOverlayWindow.swift */,
+				F09754876C6371F33E219DA1 /* RootOverlayWindow.xib */,
+			);
+			name = Root;
+			path = Root;
 			sourceTree = "<group>";
 		};
 		B804FC422946BAB200F74CD9 /* Composition */ = {
@@ -3868,6 +3947,7 @@
 				B8AF0C7E2B92B76700B65F63 /* ConstructedMulliganSingleDeckStatus.swift */,
 				B8AF0C7C2B9295A000B65F63 /* ConstructedMulliganSingleDeckStatus.xib */,
 				B89586442B804E2000989C13 /* ConstructedStatsHeaderViewModel.swift */,
+				54E5C32CC162F286D353E539 /* V2 */,
 			);
 			path = Mulligan;
 			sourceTree = "<group>";
@@ -4276,6 +4356,8 @@
 				E30590BA21174FC900679D66 /* UploadCollectionData.swift */,
 				43C568041D5E5BFF00451B6F /* UploadMetaData.swift */,
 				43C568021D5E59E500451B6F /* UploadResult.swift */,
+				331922B5382E5C30E699243F /* MulliganV2Params.swift */,
+				0E350BCCBA1DB98636739A35 /* MulliganV2Data.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -4918,6 +5000,7 @@
 				B82029542CD459E800C19A8C /* GridCardImageItem.xib in Resources */,
 				F7D7A3AE2017B51300E3A5F0 /* dsa_pub.pem in Resources */,
 				B83CF371294E4379003C9062 /* BattlegroundsCompositionPopularityRow.xib in Resources */,
+				ACF7F51EA11C1F29E5D1EAE9 /* RootOverlayWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6139,6 +6222,20 @@
 				B82238BA2BF948B000B405D4 /* BoardSnapshot.swift in Sources */,
 				B8DB12A52EBAE474004268FA /* PastGnomeregan.swift in Sources */,
 				B85462372CE019FE0083BB31 /* ChoicesWatcher.swift in Sources */,
+				8DF18459F89A844F812A8D2F /* MulliganV2Params.swift in Sources */,
+				A07B71E888E4FFF92A972B12 /* MulliganV2Data.swift in Sources */,
+				82C409FBBAECB6E69E29A68F /* ConstructedMulliganGuideV2ViewModel.swift in Sources */,
+				31BB69763BC1B35E25AE5639 /* ConstructedMulliganV2SingleCardViewModel.swift in Sources */,
+				3412955453DE192E50E80735 /* ConstructedMulliganV2SingleCardHeaderViewModel.swift in Sources */,
+				EF3B5194CD86CE62EAA0D5E7 /* ConstructedMulliganV2SingleCardHeaderView.swift in Sources */,
+				506D65462C58EAC1617E4302 /* ConstructedMulliganGuideV2View.swift in Sources */,
+				64069AB704B1E42F6742B690 /* LinearGaugeView.swift in Sources */,
+				8F1C709C9ED6C951378F9500 /* MulliganTooltip.swift in Sources */,
+				9E67814D8E6FAC2919F53CB0 /* MulliganCardPortraitView.swift in Sources */,
+				6F10D744995FB62C28FB3813 /* MulliganTipIconView.swift in Sources */,
+				1F966AEAB083406B7A9876F0 /* RootOverlayViewModel.swift in Sources */,
+				CAB1941AFC7E94E2D2F47408 /* RootOverlayView.swift in Sources */,
+				947577168CC05BE7DC23659A /* RootOverlayWindow.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

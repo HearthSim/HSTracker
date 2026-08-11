@@ -1207,6 +1207,18 @@
         }
       }
     },
+    "gV2-en-Cel.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Enable Mulligan G-V2\"; ObjectID = \"gV2-en-Cel\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Enable Mulligan G-V2"
+          }
+        }
+      }
+    },
     "h5J-7C-d2f.title" : {
       "comment" : "Class = \"NSButtonCell\"; title = \"Show rarity colors\"; ObjectID = \"h5J-7C-d2f\";",
       "extractionState" : "extracted_with_value",

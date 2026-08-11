@@ -10,7 +10,7 @@ import Foundation
 
 struct Helper {
     enum ColorStringMode {
-        case DEFAULT, BATTLEGROUNDS
+        case DEFAULT, BATTLEGROUNDS, MULLIGAN_CONFIDENCE
     }
     
     static func getCurrentRegion() -> Region {
@@ -114,6 +114,10 @@ struct Helper {
             positive = [ 120.0, adjustSaturation(32.0, saturationMultiplier), 44.0 ]
             neutral = [ 60.0, adjustSaturation(32.0, saturationMultiplier), 44.0 ]
             negative = [ 0.0, adjustSaturation(32.0, saturationMultiplier), 44.0 ]
+        case .MULLIGAN_CONFIDENCE:
+            positive = [ 120.0, adjustSaturation(55.0, saturationMultiplier), 30.0 ]
+            neutral = [ 50.0, adjustSaturation(80.0, saturationMultiplier), 45.0 ]
+            negative = [ 0.0, adjustSaturation(80.0, saturationMultiplier), 40.0 ]
         }
         
         let hsl = delta > 0

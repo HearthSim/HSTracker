@@ -321,6 +321,10 @@ final class CoreManager: NSObject {
         wm.battlegroundsTrinketPicking.viewModel.reset()
         wm.constructedMulliganGuide.viewModel.reset()
         wm.constructedMulliganGuidePreLobby.viewModel.reset()
+        if #available(macOS 10.15, *) {
+            game.stopMulliganLivePolling()
+            wm.rootOverlay?.viewModel.mulliganGuideV2.reset()
+        }
         if wm.battlegroundsSession.visibility {
             DispatchQueue.main.async {
                 wm.battlegroundsSession.visibility = false

@@ -36,6 +36,7 @@ class TrackersPreferences: PreferencePaneController, PreferencePane {
     @IBOutlet var showMulliganToast: NSButton!
     @IBOutlet var showFlavorText: NSButton!
     @IBOutlet var enableMulliganGuide: NSButton!
+    @IBOutlet var enableMulliganGV2: NSButton!
     @IBOutlet var showMulliganGuidePreLobby: NSButton!
     @IBOutlet var autoShowMulliganGuide: NSButton!
     
@@ -78,6 +79,7 @@ class TrackersPreferences: PreferencePaneController, PreferencePane {
             ? .on : .off
         disableTrackingInSpectatorMode.state = Settings.dontTrackWhileSpectating ? .on : .off
         enableMulliganGuide.state = Settings.enableMulliganGuide ? .on : .off
+        enableMulliganGV2.state = Settings.enableMulliganGV2 ? .on : .off
         showMulliganGuidePreLobby.state = Settings.showMulliganGuidePreLobby ? .on : .off
         autoShowMulliganGuide.state = Settings.autoShowMulliganGuide ? .on : .off
     }
@@ -157,6 +159,13 @@ class TrackersPreferences: PreferencePaneController, PreferencePane {
                 game.player.mulliganCardStats = nil
             }
             game.updateMulliganGuidePreLobby()
+        } else if sender == enableMulliganGV2 {
+            Settings.enableMulliganGV2 = enableMulliganGV2.state == .on
+            if #available(macOS 10.15, *) {
+                let game = AppDelegate.instance().coreManager.game
+                game.stopMulliganLivePolling()
+                game.windowManager.rootOverlay?.viewModel.mulliganGuideV2.reset()
+            }
         } else if sender == showMulliganGuidePreLobby {
             Settings.showMulliganGuidePreLobby = showMulliganGuidePreLobby.state == .on
             AppDelegate.instance().coreManager.game.updateMulliganGuidePreLobby()

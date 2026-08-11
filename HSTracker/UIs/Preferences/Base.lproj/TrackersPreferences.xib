@@ -13,6 +13,7 @@
                 <outlet property="autoShowMulliganGuide" destination="dj6-Ot-tpw" id="nEW-22-jgP"/>
                 <outlet property="cardSize" destination="oRs-V7-1J6" id="hMc-ok-6ju"/>
                 <outlet property="disableTrackingInSpectatorMode" destination="zka-3O-txd" id="LSN-Ma-O0H"/>
+                <outlet property="enableMulliganGV2" destination="gV2-en-Ckb" id="gV2-en-Out"/>
                 <outlet property="enableMulliganGuide" destination="nYX-fZ-Mny" id="j8E-p3-afF"/>
                 <outlet property="hideAllWhenGameInBackground" destination="GbU-Ts-Vje" id="6E9-Rh-b40"/>
                 <outlet property="hideAllWhenNotInGame" destination="dGD-b8-UwI" id="OlZ-EN-L3z"/>
@@ -324,6 +325,16 @@
                         <action selector="checkboxClicked:" target="-2" id="e2s-of-hkJ"/>
                     </connections>
                 </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gV2-en-Ckb" userLabel="Enable Mulligan G-V2">
+                    <rect key="frame" x="18" y="87" width="301" height="18"/>
+                    <buttonCell key="cell" type="check" title="Enable Mulligan G-V2" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="gV2-en-Cel">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="gV2-en-Act"/>
+                    </connections>
+                </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dj6-Ot-tpw" userLabel="Show mulligan overlay at start of game">
                     <rect key="frame" x="18" y="61" width="301" height="18"/>
                     <buttonCell key="cell" type="check" title="Show mulligan overlay at start of game" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="UXw-QE-lUP">
@@ -371,6 +382,8 @@
                 <constraint firstItem="dj6-Ot-tpw" firstAttribute="leading" secondItem="51m-9V-RQO" secondAttribute="leading" constant="20" symbolic="YES" id="H6W-On-F2j"/>
                 <constraint firstAttribute="trailing" secondItem="WVi-zk-TFf" secondAttribute="trailing" constant="20" symbolic="YES" id="N2I-3Y-eKD"/>
                 <constraint firstItem="nYX-fZ-Mny" firstAttribute="leading" secondItem="51m-9V-RQO" secondAttribute="leading" constant="20" symbolic="YES" id="Ngw-M1-DvP"/>
+                <constraint firstItem="gV2-en-Ckb" firstAttribute="leading" secondItem="51m-9V-RQO" secondAttribute="leading" constant="20" symbolic="YES" id="gV2-Ld-Con"/>
+                <constraint firstAttribute="trailing" secondItem="gV2-en-Ckb" secondAttribute="trailing" constant="20" symbolic="YES" id="gV2-Tr-Con"/>
                 <constraint firstItem="TNp-Jh-qS9" firstAttribute="leading" secondItem="51m-9V-RQO" secondAttribute="leading" constant="20" symbolic="YES" id="OfP-zq-Tiw"/>
                 <constraint firstItem="HPM-az-sML" firstAttribute="leading" secondItem="51m-9V-RQO" secondAttribute="leading" constant="20" symbolic="YES" id="QQc-38-g0g"/>
                 <constraint firstAttribute="trailing" secondItem="1Ry-pR-4H6" secondAttribute="trailing" constant="20" symbolic="YES" id="ScW-0I-b1i"/>

@@ -1,0 +1,23 @@
+//
+//  RootOverlayViewModel.swift
+//  HSTracker
+//
+//  Created by Francisco Moraes on 8/7/26.
+//  Copyright © 2026 Benjamin Michotte. All rights reserved.
+//
+
+import Foundation
+import SwiftUI
+
+// Single scaled canvas new SwiftUI overlay features attach to as children,
+// instead of each feature owning its own window + hand-rolled height/1080
+// scaling math (what every AppKit overlay, including the V1 mulligan guide,
+// currently does individually). RootOverlayView derives scale/canvas size
+// directly from its own measured bounds (GeometryReader) rather than from
+// state pushed in here, so content authored at the 1080-tall reference
+// (matching the rest of HSTracker's overlay scaling convention) lines up
+// regardless of the window's aspect ratio.
+@available(macOS 10.15, *)
+class RootOverlayViewModel: ObservableObject {
+    let mulliganGuideV2 = ConstructedMulliganGuideV2ViewModel()
+}

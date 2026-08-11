@@ -238,6 +238,8 @@ final class Settings {
     static var showFlavorText: Bool
     @UserDefault(key: Settings.enable_mulligan_guide, defaultValue: true)
     static var enableMulliganGuide: Bool
+    @UserDefault(key: Settings.enable_mulligan_gv2, defaultValue: true)
+    static var enableMulliganGV2: Bool
     @UserDefault(key: Settings.show_mulligan_guide_pre_lobby, defaultValue: true)
     static var showMulliganGuidePreLobby: Bool
     @UserDefault(key: Settings.auto_show_mulligan_guide, defaultValue: true)
@@ -572,6 +574,7 @@ extension Settings {
     static let show_mulligan_toast = "show_mulligan_toast"
     static let show_flavor_text = "show_flavor_text"
     static let enable_mulligan_guide = "enable_mulligan_guide"
+    static let enable_mulligan_gv2 = "enable_mulligan_gv2"
     static let show_mulligan_guide_pre_lobby = "show_mulligan_guide_pre_lobby"
     static let auto_show_mulligan_guide = "auto_show_mulligan_guide"
     

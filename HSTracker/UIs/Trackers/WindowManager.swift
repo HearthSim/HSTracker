@@ -181,6 +181,15 @@ class WindowManager {
         return (_opponentPlayerResourcesOverlay as? PlayerResourcesWindow)
     }
 
+    private var _rootOverlay: Any?
+    @available(OSX 10.15, *)
+    var rootOverlay: RootOverlayWindow? {
+        if _rootOverlay == nil {
+            _rootOverlay = RootOverlayWindow(windowNibName: "RootOverlayWindow")
+        }
+        return (_rootOverlay as? RootOverlayWindow)
+    }
+
     var toastWindowController = ToastWindowController()
 
     var floatingCard: FloatingCard = {

@@ -48,7 +48,9 @@ class AnimatedCardList: NSView {
                         continue
                     }
                     animatedCard.card?.highlightColor = newValue?(card, cards) ?? .none
-                    animatedCard.needsDisplay = true
+                    DispatchQueue.main.async {
+                        animatedCard.needsDisplay = true
+                    }
                 }
             }
         }
