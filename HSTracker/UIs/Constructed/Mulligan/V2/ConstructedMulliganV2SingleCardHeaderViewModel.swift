@@ -77,8 +77,15 @@ class ConstructedMulliganV2SingleCardHeaderViewModel: ObservableObject, Identifi
     private static let barWidth: Double = 212
     private static let markerWidth: Double = 10
 
-    init(position: Int, data: MulliganV2Data.MulliganCard) {
+    // Whether the current player is going first in this match - initiative
+    // tips need this to pick the "going first" vs "on the coin" icon/copy,
+    // since the API's this/other_init_keep_rate pair is always relative to
+    // whichever initiative the player actually has, not labeled explicitly.
+    private let isFirst: Bool
+
+    init(position: Int, data: MulliganV2Data.MulliganCard, isFirst: Bool) {
         self.id = position
+        self.isFirst = isFirst
         let card = Cards.by(dbfId: data.dbf_id)
         self.card = card
         self.cardStatus = data.card_status
@@ -86,7 +93,7 @@ class ConstructedMulliganV2SingleCardHeaderViewModel: ObservableObject, Identifi
         switch data.card_status {
         case .valid, .lowData, .validWithInvalidNeighbors, .lowDataWithInvalidNeighbors:
             self.justifications = data.justification.map { MulliganJustification(cardDbfIds: MulliganJustification.parseKey($0.key), confidence: $0.value) }
-            self.tips = data.tips.map { MulliganTipViewModel(tip: $0, ownerCard: card, ownerDbfId: data.dbf_id) }
+            self.tips = data.tips.map { MulliganTipViewModel(tip: $0, ownerCard: card, ownerDbfId: data.dbf_id, isFirst: isFirst) }
         default:
             self.justifications = []
             self.tips = []
@@ -136,7 +143,7 @@ class ConstructedMulliganV2SingleCardHeaderViewModel: ObservableObject, Identifi
         card = Cards.by(dbfId: data.dbf_id)
         cardStatus = data.card_status
         justifications = data.justification.map { MulliganJustification(cardDbfIds: MulliganJustification.parseKey($0.key), confidence: $0.value) }
-        tips = data.tips.map { MulliganTipViewModel(tip: $0, ownerCard: card, ownerDbfId: data.dbf_id) }
+        tips = data.tips.map { MulliganTipViewModel(tip: $0, ownerCard: card, ownerDbfId: data.dbf_id, isFirst: isFirst) }
         recalculateConfidence()
     }
 
@@ -245,6 +252,7 @@ class MulliganTipViewModel: ObservableObject, Identifiable {
     let id = UUID()
     private(set) var tipCard: Card?
     private(set) var tipClassIcon: String?
+    private(set) var tipInitiativeIcon: String?
     let arrowCount: Int
     let arrowsUp: Bool
     private(set) var tooltipTitle: String?
@@ -254,12 +262,9 @@ class MulliganTipViewModel: ObservableObject, Identifiable {
 
     // The API's tip_enum values aren't documented, so which family a tip
     // belongs to is derived from which fields are present: dbf_id -> card
-    // synergy tip, opponent_class -> opponent-class tip. Initiative tips
-    // (going first/coin) aren't implemented - HDT itself shipped them once
-    // then disabled them (WPF BitmapImage crashes) and hasn't turned them
-    // back on, so they're not live upstream either; a tip matching neither
-    // shape just renders without an icon/tooltip.
-    init(tip: MulliganV2Data.MulliganTip, ownerCard: Card?, ownerDbfId: Int?) {
+    // synergy tip, opponent_class -> opponent-class tip, this/other_init_keep_rate
+    // -> initiative tip (going first/coin).
+    init(tip: MulliganV2Data.MulliganTip, ownerCard: Card?, ownerDbfId: Int?, isFirst: Bool) {
         arrowsUp = tip.arrows > 0
         arrowCount = abs(tip.arrows)
 
@@ -270,6 +275,8 @@ class MulliganTipViewModel: ObservableObject, Identifiable {
                   let thisOpponentKeepRate = tip.this_opponent_keep_rate,
                   let otherOpponentKeepRate = tip.other_opponent_keep_rate {
             configureOpponentTip(opponentClass: opponentClass, thisOpponentKeepRate: thisOpponentKeepRate, otherOpponentKeepRate: otherOpponentKeepRate, ownerCard: ownerCard)
+        } else if let thisInitKeepRate = tip.this_init_keep_rate, let otherInitKeepRate = tip.other_init_keep_rate {
+            configureInitiativeTip(thisInitKeepRate: thisInitKeepRate, otherInitKeepRate: otherInitKeepRate, isFirst: isFirst, ownerCard: ownerCard)
         }
     }
 
@@ -313,6 +320,37 @@ class MulliganTipViewModel: ObservableObject, Identifiable {
 
         baseKeepRateText = String(format: String.localizedString("MulliganGV2_Tooltip_OtherOpponentKeepRate", comment: ""), baseKeepRate)
         adjustedKeepRateText = String(format: String.localizedString("MulliganGV2_Tooltip_ThisOpponentKeepRate", comment: ""), className, adjustedKeepRate)
+    }
+
+    // "this"/"other" here are relative to the player's actual initiative in
+    // the current match (same convention as the opponent-class tip's
+    // this/other_opponent_keep_rate), not tagged with which is which - so
+    // isFirst (from the live game state, already sent as player_initiative
+    // in the request) is what tells us whether "this" means going first or
+    // being on the coin.
+    private func configureInitiativeTip(thisInitKeepRate: Double, otherInitKeepRate: Double, isFirst: Bool, ownerCard: Card?) {
+        tipInitiativeIcon = isFirst ? "going_first" : "going_second"
+
+        let baseKeepRate = Self.format(otherInitKeepRate)
+        let adjustedKeepRate = Self.format(thisInitKeepRate)
+        let delta = adjustedKeepRate - baseKeepRate
+
+        tooltipTitle = String(format: String.localizedString("MulliganGV2_IconTooltip_Title_Initiative", comment: ""), delta > 0 ? "+" : "-", abs(delta))
+        switch (isFirst, arrowsUp) {
+        case (true, false):
+            tooltipText = String(format: String.localizedString("MulliganGV2_IconTooltip_KeptLess_First", comment: ""), ownerCard?.name ?? "", abs(delta))
+        case (true, true):
+            tooltipText = String(format: String.localizedString("MulliganGV2_IconTooltip_KeptMore_First", comment: ""), ownerCard?.name ?? "", abs(delta))
+        case (false, false):
+            tooltipText = String(format: String.localizedString("MulliganGV2_IconTooltip_KeptLess_Coin", comment: ""), ownerCard?.name ?? "", abs(delta))
+        case (false, true):
+            tooltipText = String(format: String.localizedString("MulliganGV2_IconTooltip_KeptMore_Coin", comment: ""), ownerCard?.name ?? "", abs(delta))
+        }
+
+        let thisLabelKey = isFirst ? "MulliganGV2_Tooltip_GoingFirstKeepRate" : "MulliganGV2_Tooltip_GoingSecondKeepRate"
+        let otherLabelKey = isFirst ? "MulliganGV2_Tooltip_GoingSecondKeepRate" : "MulliganGV2_Tooltip_GoingFirstKeepRate"
+        baseKeepRateText = String(format: String.localizedString(otherLabelKey, comment: ""), baseKeepRate)
+        adjustedKeepRateText = String(format: String.localizedString(thisLabelKey, comment: ""), adjustedKeepRate)
     }
 
     private static func format(_ value: Double) -> Int {

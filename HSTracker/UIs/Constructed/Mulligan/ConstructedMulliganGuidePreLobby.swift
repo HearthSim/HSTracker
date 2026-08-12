@@ -49,15 +49,15 @@ class ConstructedMulliganGuidePreLobby: OverWindowController {
             return
         }
         let rect = SizeHelper.constructedMulliganGuidePreLobbyFrame()
-        let bounds = NSRect(x: 0, y: 0, width: rect.width/2.0, height: rect.height/2.0)
-        logger.debug("bounds: \(bounds)")
-        let scale = SizeHelper.hearthstoneWindow.height / 1080
-        let sw = bounds.width * scale
-        let sh = bounds.height * scale
-        scaleView.frame = NSRect(x: 0, y: rect.height/2.0 - sh, width: sw, height: sh)
-        logger.debug("scaleView frame: \(scaleView.frame)")
-        scaleView.bounds = bounds
-        logger.debug("scaleView bounds: \(scaleView.bounds)")
+        // rect is already sized to the visible content (SizeHelper no longer
+        // returns a 2x-oversized frame with a separate internal
+        // repositioning step - see the comment there for why the old scheme
+        // silently got clamped on screens without much extra vertical room),
+        // so scaleView just fills the window directly, scaled up from the
+        // unscaled reference bounds (matching the 238x3 / 224x3 reference
+        // size the badge cells/rows are laid out at).
+        scaleView.frame = NSRect(x: 0, y: 0, width: rect.width, height: rect.height)
+        scaleView.bounds = NSRect(x: 0, y: 0, width: 238.0*3.0, height: 224.0*3.0)
         scaleView.needsDisplay = true
     }
     
@@ -82,6 +82,26 @@ class ConstructedMulliganGuidePreLobby: OverWindowController {
                 for row in rows {
                     for status in row {
                         let view = ConstructedMulliganSingleDeckStatus(frame: NSRect(x: 0, y: 0, width: 238, height: 96), status: status)
+                        // Deliberately NOT setting view.isHidden here (see git
+                        // history for the reverted attempt) - Stack1/2/3 use
+                        // distribution="equalSpacing" over a *fixed* 714pt
+                        // width (exactly 3*238, so it tiles with zero slack
+                        // when all 3 cells are visible). Hiding an arranged
+                        // subview excludes it from that distribution, and with
+                        // fewer visible cells equalSpacing redistributes the
+                        // full 714pt across whatever remains - e.g. a single
+                        // remaining visible cell gets centered across the
+                        // whole row instead of staying in its own column.
+                        // Confirmed live: a cell meant for column 0 rendered
+                        // at column 1's position once its siblings were
+                        // hidden. Each cell keeps its own reserved 238pt slot
+                        // (matching its box.isHidden-driven inner content
+                        // hiding in ConstructedMulliganSingleDeckStatus) so
+                        // column alignment with Hearthstone's own deck boxes
+                        // stays correct; a real "shrink when blank" needs a
+                        // distribution that doesn't redistribute on hide
+                        // (e.g. per-cell explicit constraints instead of
+                        // equalSpacing), not arrangedSubview.isHidden.
                         switch rowIndex {
                         case 0:
                             stack1.addArrangedSubview(view)

@@ -13,45 +13,60 @@ struct ConstructedMulliganV2SingleCardHeaderView: View {
     @ObservedObject var viewModel: ConstructedMulliganV2SingleCardHeaderViewModel
 
     var body: some View {
-        VStack(spacing: 4) {
-            HStack(spacing: 4) {
-                ForEach(viewModel.tips) { tip in
-                    MulliganTipIconView(tip: tip)
+        // Matches HDT's XAML, where the tip-icon row (Height=45) and the
+        // gauge row stack directly with no gap between them.
+        VStack(spacing: 0) {
+            Group {
+                HStack(spacing: 4) {
+                    ForEach(viewModel.tips) { tip in
+                        MulliganTipIconView(tip: tip)
+                    }
                 }
-            }
-            .frame(height: 45)
+                .padding(.top, 4)
+                .frame(height: 45)
 
-            ZStack(alignment: .topTrailing) {
-                ZStack {
-                    if viewModel.hasError {
-                        errorPill
-                    } else {
-                        LinearGaugeView(viewModel: viewModel)
-                            .mulliganTooltip(gaugeTooltip)
+                ZStack(alignment: .topTrailing) {
+                    ZStack {
+                        if viewModel.hasError {
+                            errorPill
+                        } else {
+                            LinearGaugeView(viewModel: viewModel)
+                                .mulliganTooltip(gaugeTooltip)
 
-                        if viewModel.replaced {
-                            RoundedRectangle(cornerRadius: 4)
-                                .fill(Color.black.opacity(0.5))
-                                .frame(width: 212, height: 21)
+                            if viewModel.replaced {
+                                RoundedRectangle(cornerRadius: 4)
+                                    .fill(Color.black.opacity(0.5))
+                                    .frame(width: 212, height: 21)
+                            }
                         }
                     }
-                }
 
-                if viewModel.hasWarning {
-                    ZStack {
-                        MulliganTriangle()
-                            .fill(Color.yellow)
-                            .overlay(MulliganTriangle().stroke(Color.black, lineWidth: 1.3))
-                        Text("!")
-                            .font(.system(size: 9, weight: .black))
-                            .foregroundColor(.black)
-                            .offset(y: 2)
+                    if viewModel.hasWarning {
+                        ZStack {
+                            MulliganTriangle()
+                                .fill(Color.yellow)
+                                .overlay(MulliganTriangle().stroke(Color.black, lineWidth: 1.3))
+                            Text("!")
+                                .font(.system(size: 9, weight: .black))
+                                .foregroundColor(.black)
+                                .offset(y: 2)
+                        }
+                        .frame(width: 18, height: 16)
+                        .mulliganTooltip(viewModel.warningText)
+                        .offset(x: 4, y: -4)
                     }
-                    .frame(width: 18, height: 16)
-                    .mulliganTooltip(viewModel.warningText)
-                    .offset(x: 4, y: -4)
                 }
             }
+            // Reports only this top strip's own (small) bounds, not the
+            // 555pt-tall placeholder below - the interactive click-through
+            // region needs to cover the tip icons/gauge, but must stay clear
+            // of the real Hearthstone card art beneath, which the Spacer
+            // below stands in for. See InteractiveRegionPreferenceKey.
+            .background(
+                GeometryReader { proxy in
+                    Color.clear.preference(key: InteractiveRegionPreferenceKey.self, value: proxy.frame(in: .rootOverlayCanvas))
+                }
+            )
 
             // The rest of this column is transparent - it's a stand-in for the
             // actual card, which Hearthstone renders itself. Matches HDT's card
@@ -74,12 +89,9 @@ struct ConstructedMulliganV2SingleCardHeaderView: View {
             .frame(width: 212, height: 20.5)
     }
 
-    private var gaugeTooltip: String? {
+    private var gaugeTooltip: MulliganTooltipContent? {
         guard viewModel.hasTooltip, let title = viewModel.tooltipTitle else { return nil }
-        if let text = viewModel.tooltipText {
-            return "\(title)\n\(text)"
-        }
-        return title
+        return MulliganTooltipContent(title: title, body: viewModel.tooltipText)
     }
 }
 
@@ -97,9 +109,9 @@ struct ConstructedMulliganV2SingleCardHeaderView: View {
     let error = MulliganV2Data.MulliganCard(card_status: .noData)
 
     return HStack(spacing: 12) {
-        ConstructedMulliganV2SingleCardHeaderView(viewModel: ConstructedMulliganV2SingleCardHeaderViewModel(position: 1, data: normal))
-        ConstructedMulliganV2SingleCardHeaderView(viewModel: ConstructedMulliganV2SingleCardHeaderViewModel(position: 2, data: warning))
-        ConstructedMulliganV2SingleCardHeaderView(viewModel: ConstructedMulliganV2SingleCardHeaderViewModel(position: 3, data: error))
+        ConstructedMulliganV2SingleCardHeaderView(viewModel: ConstructedMulliganV2SingleCardHeaderViewModel(position: 1, data: normal, isFirst: true))
+        ConstructedMulliganV2SingleCardHeaderView(viewModel: ConstructedMulliganV2SingleCardHeaderViewModel(position: 2, data: warning, isFirst: true))
+        ConstructedMulliganV2SingleCardHeaderView(viewModel: ConstructedMulliganV2SingleCardHeaderViewModel(position: 3, data: error, isFirst: true))
     }
     .padding(30)
     .background(Color.black)

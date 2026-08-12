@@ -244,7 +244,23 @@ final class Settings {
     static var showMulliganGuidePreLobby: Bool
     @UserDefault(key: Settings.auto_show_mulligan_guide, defaultValue: true)
     static var autoShowMulliganGuide: Bool
-    
+    @UserDefault(key: Settings.mulligan_gv2_onboarding_seen, defaultValue: false)
+    static var mulliganGV2OnboardingSeen: Bool
+    // The traditional-format sale's own id (RemoteConfig.data.sales.traditional.id)
+    // once the user dismisses that sale's tooltip - stays hidden until a
+    // newer sale (higher id) comes along.
+    @UserDefault(key: Settings.ignore_traditional_sale_id, defaultValue: -1)
+    static var ignoreTraditionalSaleId: Int
+    // JSON-encoded MulliganGuideTrialData (token/gameHandle/lastTrialAlertPending)
+    // - see MulliganGuideTrial.swift.
+    @UserDefault(key: Settings.mulligan_guide_trial_data, defaultValue: nil)
+    static var mulliganGuideTrialData: String?
+    // The "trials exhausted" alert is a one-time heads-up, not a recurring
+    // reminder - shown at most once ever, matching HDT's own
+    // SeenMulliganGuideTrialsExhausted.
+    @UserDefault(key: Settings.seen_mulligan_guide_trials_exhausted, defaultValue: false)
+    static var seenMulliganGuideTrialsExhausted: Bool
+
     // MARK: - Battlegrounds
     @UserDefault(key: Settings.show_bobs_buddy, defaultValue: true)
     static var showBobsBuddy: Bool
@@ -577,7 +593,11 @@ extension Settings {
     static let enable_mulligan_gv2 = "enable_mulligan_gv2"
     static let show_mulligan_guide_pre_lobby = "show_mulligan_guide_pre_lobby"
     static let auto_show_mulligan_guide = "auto_show_mulligan_guide"
-    
+    static let mulligan_gv2_onboarding_seen = "mulligan_gv2_onboarding_seen"
+    static let ignore_traditional_sale_id = "ignore_traditional_sale_id"
+    static let mulligan_guide_trial_data = "mulligan_guide_trial_data"
+    static let seen_mulligan_guide_trials_exhausted = "seen_mulligan_guide_trials_exhausted"
+
     // MARK: Battlegrounds
     static let show_bobs_buddy = "show_bobs_buddy"
     static let show_bobs_buddy_during_combat = "show_bobs_buddy_during_combat"

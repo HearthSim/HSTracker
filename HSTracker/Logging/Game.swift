@@ -150,6 +150,9 @@ class Game: NSObject, PowerEventHandler {
             }
             updateBattlegroundsSessionVisibility()
         }
+        if flag, #available(macOS 10.15, *) {
+            windowManager.rootOverlay?.viewModel.constructedMulliganPreLobbyWidget.onFocus()
+        }
     }
 	
 	func setSelfActivated(flag: Bool) {
@@ -4143,7 +4146,7 @@ class Game: NSObject, PowerEventHandler {
 
                             DispatchQueue.main.async {
                                 self.windowManager.rootOverlay?.viewModel.mulliganGuideV2.scopeMessage(opponentClass: opponentClass, isFirst: isFirst)
-                                self.windowManager.rootOverlay?.viewModel.mulliganGuideV2.setMulliganData(mulliganV2Data)
+                                self.windowManager.rootOverlay?.viewModel.mulliganGuideV2.setMulliganData(mulliganV2Data, isFirst: isFirst)
                             }
                             startMulliganLivePolling()
                         } else {
@@ -4304,9 +4307,11 @@ class Game: NSObject, PowerEventHandler {
         guard Settings.enableMulliganGV2 else {
             return nil
         }
+        guard !(RemoteConfig.data?.mulligan_guide?.disabled ?? false) else {
+            return nil
+        }
         let userOwnsPremium = HSReplayAPI.accountData?.is_premium ?? false
-        if !userOwnsPremium {
-            // No trial support yet - matches getMulliganGuideData() above
+        if !userOwnsPremium && (MulliganGuideTrial.remainingTrials ?? 0) == 0 {
             return nil
         }
         guard let parameters = getMulliganV2Params() else {
@@ -4314,6 +4319,29 @@ class Game: NSObject, PowerEventHandler {
         }
         parameters.mulligan_state = isMulliganDone ? Mulligan.done.rawValue : Mulligan.input.rawValue
 
+        // Matches HDT's GameEventHandler.GetMulliganV2Data(): non-premium
+        // players spend a trial (reusing one already activated for this
+        // same match, via MulliganGuideTrial.activateOrContinue) instead of
+        // using the OAuth session, and only for a deck the pre-lobby status
+        // check already confirmed has coverage worth spending a trial on.
+        var token: String?
+        if !userOwnsPremium {
+            guard let gameType = BnetGameType(rawValue: parameters.game_type),
+                  windowManager.constructedMulliganGuidePreLobby.viewModel.isDeckAvailableForMulliganGuide(gameType: gameType, deckstring: parameters.deckstring) else {
+                return nil
+            }
+            guard let acc = MirrorHelper.getAccountId() else {
+                return nil
+            }
+            token = await MulliganGuideTrial.activateOrContinue(hi: acc.hi.int64Value, lo: acc.lo.int64Value, gameHandle: serverInfo?.gameHandle as? Int)
+            guard token != nil else {
+                return nil
+            }
+        }
+
+        if let token {
+            return await HSReplayAPI.getConstructedMulliganV2(token: token, parameters: parameters)
+        }
         return await HSReplayAPI.getConstructedMulliganV2(parameters: parameters)
     }
     
@@ -4338,11 +4366,96 @@ class Game: NSObject, PowerEventHandler {
     }
     
     @MainActor
+    private func showMulliganPreLobbyWidget() {
+        guard #available(macOS 10.15, *) else { return }
+        windowManager.rootOverlay?.viewModel.constructedMulliganPreLobbyWidget.isShown = true
+    }
+
+    @MainActor
+    private func hideMulliganPreLobbyWidget() {
+        guard #available(macOS 10.15, *) else { return }
+        windowManager.rootOverlay?.viewModel.constructedMulliganPreLobbyWidget.isShown = false
+    }
+
+    // Matches HDT's UpdateMulliganGuideTrialsExhausted(): a one-time
+    // heads-up (never a recurring reminder - Settings.seenMulliganGuideTrialsExhausted
+    // gates that) shown exactly when the player's most recent trial
+    // activation consumed their last one (MulliganGuideTrial.consumePendingLastTrialAlert,
+    // a persisted flag set by Game.getMulliganV2Data's trial activation) and
+    // they still have zero remaining and aren't premium by the time they're
+    // back in the lobby.
+    @available(macOS 10.15, *)
+    @MainActor
+    private func updateMulliganGuideTrialsExhausted() {
+        guard !Settings.seenMulliganGuideTrialsExhausted else {
+            return
+        }
+        guard MulliganGuideTrial.consumePendingLastTrialAlert() else {
+            return
+        }
+        guard !(HSReplayAPI.accountData?.is_premium ?? false) else {
+            return
+        }
+        // Trials may have reset while the player was away from the lobby.
+        guard (MulliganGuideTrial.remainingTrials ?? 0) == 0 else {
+            return
+        }
+
+        Settings.seenMulliganGuideTrialsExhausted = true
+
+        guard let alert = windowManager.rootOverlay?.viewModel.mulliganGuideTrialsExhausted else {
+            return
+        }
+        alert.trialTimeRemaining = MulliganGuideTrial.timeRemaining
+        alert.isShown = true
+    }
+
+    @available(macOS 10.15, *)
+    @MainActor
+    private func hideMulliganGuideTrialsExhausted() {
+        windowManager.rootOverlay?.viewModel.mulliganGuideTrialsExhausted.isShown = false
+    }
+
+    @MainActor
     func updateMulliganGuidePreLobby() {
         let isPremium = HSReplayAPI.accountData?.is_premium ?? false
-        
-        let show = isInMenu && SceneHandler.scene == .tournament && Settings.enableMulliganGuide &&  Settings.showMulliganGuidePreLobby && isPremium
-        if show {
+        let inConstructedLobby = isInMenu && SceneHandler.scene == .tournament
+
+        // Refreshing trial status here (rather than only from the widget's
+        // own update cycle) keeps it reasonably current for the exhausted
+        // check below without blocking this function on the network -
+        // HDT's own version awaits this synchronously before proceeding,
+        // which Swift's non-async updateMulliganGuidePreLobby (called from
+        // many synchronous sites) can't cheaply do; a slightly stale
+        // remainingTrials on the very first call back to the lobby is an
+        // acceptable tradeoff over a larger async refactor.
+        if #available(macOS 10.15, *), let acc = MirrorHelper.getAccountId() {
+            Task.detached {
+                await MulliganGuideTrial.update(hi: acc.hi.int64Value, lo: acc.lo.int64Value)
+            }
+        }
+
+        var mulliganGuideTrialsExhaustedVisible = false
+        if #available(macOS 10.15, *) {
+            if inConstructedLobby {
+                updateMulliganGuideTrialsExhausted()
+            } else {
+                hideMulliganGuideTrialsExhausted()
+            }
+            mulliganGuideTrialsExhaustedVisible = windowManager.rootOverlay?.viewModel.mulliganGuideTrialsExhausted.isShown ?? false
+        }
+
+        // Matches HDT's OverlayWindow.Update.cs UpdateMulliganGuidePreLobbyVisibility():
+        // both the badge grid and the widget are gated by the single
+        // ShowMulliganGuidePreLobby toggle (not EnableMulliganGuide/
+        // EnableMulliganGV2, which HDT doesn't check here at all), ANDed
+        // with the trials-exhausted alert taking precedence while it's up.
+        let show = inConstructedLobby && Settings.showMulliganGuidePreLobby && !mulliganGuideTrialsExhaustedVisible
+
+        // The badge grid keeps its own pre-existing isPremium requirement
+        // (predates this widget work, not something HDT's own gate has -
+        // left as-is rather than changed as a side effect here).
+        if show && isPremium {
             showMulliganGuidePreLobby()
             if #available(macOS 10.15.0, *) {
                 Task.detached { [self] in
@@ -4352,8 +4465,17 @@ class Game: NSObject, PowerEventHandler {
         } else {
             hideMulliganGuidePreLobby()
         }
+
+        // The widget itself is meant to be visible to non-premium users too
+        // (it's what converts them to subscribers), matching HDT exactly -
+        // no isPremium check here.
+        if show {
+            showMulliganPreLobbyWidget()
+        } else {
+            hideMulliganPreLobbyWidget()
+        }
     }
-    
+
     func setDeckPickerState(_ vft: VisualsFormatType, _ decksList: [CollectionDeckBoxVisual?], _ isModalOpen: Bool) {
         let vm = windowManager.constructedMulliganGuidePreLobby.viewModel
         if vm.decksOnPage == nil || decksList != vm.decksOnPage {
@@ -4361,10 +4483,18 @@ class Game: NSObject, PowerEventHandler {
         }
         vm.visualsFormatType = vft
         vm.isModalOpen = isModalOpen
+
+        if #available(macOS 10.15, *), let widgetVm = windowManager.rootOverlay?.viewModel.constructedMulliganPreLobbyWidget {
+            widgetVm.isModalOpen = isModalOpen
+            widgetVm.visualsFormatType = vft
+        }
     }
-    
+
     func setConstructedQueue(_ inQueue: Bool) {
         windowManager.constructedMulliganGuidePreLobby.viewModel.isInQueue = inQueue
+        if #available(macOS 10.15, *), let widgetVm = windowManager.rootOverlay?.viewModel.constructedMulliganPreLobbyWidget {
+            widgetVm.isInQueue = inQueue
+        }
     }
     
     private let _mulliganToast = MulliganToastView(frame: NSRect.zero)

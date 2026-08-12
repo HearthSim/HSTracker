@@ -27,6 +27,10 @@ struct MulliganCardPortraitView: View {
                         Image(nsImage: image)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
+                            // Matches HDT's ScaleTransform(1.6, 1.6, 16, 12) on its
+                            // 32x32 portrait ellipse - zooms into the art crop so
+                            // the card frame/edges don't show inside the circle.
+                            .scaleEffect(1.6, anchor: UnitPoint(x: 0.5, y: 0.375))
                     }
                 }
             )
@@ -37,11 +41,15 @@ struct MulliganCardPortraitView: View {
 
     private func load() {
         guard let card else { return }
+        // HDT's Portrait asset source is the plain art-only crop
+        // (art.hearthstonejson.com/v1/256x/{id}.jpg), i.e. ImageUtils' `.art`
+        // type - not `.cardArt`, which renders the full card (frame, text,
+        // cost gem) and was showing the whole card squeezed into the circle.
         if let cached = ImageUtils.cachedArt(cardId: card.id) {
             image = cached
             return
         }
-        ImageUtils.cardArt(for: card.id) { img in
+        ImageUtils.art(for: card.id) { img in
             DispatchQueue.main.async {
                 self.image = img
             }

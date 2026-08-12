@@ -20,4 +20,12 @@ import SwiftUI
 @available(macOS 10.15, *)
 class RootOverlayViewModel: ObservableObject {
     let mulliganGuideV2 = ConstructedMulliganGuideV2ViewModel()
+    let constructedMulliganPreLobbyWidget = ConstructedMulliganPreLobbyWidgetViewModel()
+    let mulliganGuideTrialsExhausted = MulliganGuideTrialsExhaustedViewModel()
+
+    // On-screen frame (in RootOverlayView's own coordinate space) of whichever
+    // child currently needs real mouse interactivity, reported by
+    // InteractiveRegionPreferenceKey. RootOverlayWindow reads this to know
+    // which pixels should stop being click-through.
+    @Published var interactiveRegion: CGRect?
 }

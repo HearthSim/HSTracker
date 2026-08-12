@@ -21,7 +21,10 @@ class ConstructedMulliganGuideV2ViewModel: ObservableObject {
         error != nil || !cardStats.isEmpty
     }
 
-    func setMulliganData(_ data: MulliganV2Data?) {
+    // updateMulliganDataAfterMulligan doesn't need isFirst again - each
+    // header view model already stashed its own copy at construction time
+    // (see ConstructedMulliganV2SingleCardHeaderViewModel.updateCard).
+    func setMulliganData(_ data: MulliganV2Data?, isFirst: Bool) {
         guard let data else {
             cardStats = []
             statsVisibility = false
@@ -39,7 +42,7 @@ class ConstructedMulliganGuideV2ViewModel: ObservableObject {
         var built: [ConstructedMulliganV2SingleCardViewModel] = []
         for (key, cardData) in data.data.cards_by_position {
             guard let position = Int(key) else { continue }
-            built.append(ConstructedMulliganV2SingleCardViewModel(position: position, data: cardData))
+            built.append(ConstructedMulliganV2SingleCardViewModel(position: position, data: cardData, isFirst: isFirst))
         }
         built.sort { $0.position < $1.position }
 

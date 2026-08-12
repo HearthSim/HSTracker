@@ -11,6 +11,7 @@
                 <outlet property="box" destination="sf7-y0-XDe" id="vbV-Br-nQN"/>
                 <outlet property="contentView" destination="c22-O7-iKe" id="Add-2n-EiP"/>
                 <outlet property="padding" destination="iOF-68-h6A" id="zfm-iW-MZZ"/>
+                <outlet property="labelTrailingConstraint" destination="Vrz-l6-CZx" id="pQ7-pT-8fXa"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
@@ -57,6 +58,7 @@
                                                     <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                 </dictionary>
                                             </binding>
+                                            <binding destination="-2" name="value" keyPath="self.label" id="hLx-4T-qWc"/>
                                         </connections>
                                     </textField>
                                 </subviews>

@@ -22,6 +22,7 @@
 		3CB1A35D2E8C3A400090486F /* Mixpanel in Frameworks */ = {isa = PBXBuildFile; productRef = 3CB1A35C2E8C3A400090486F /* Mixpanel */; };
 		3CB1A35F2E8C63060090486F /* MixpanelEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB1A35E2E8C63010090486F /* MixpanelEvents.swift */; };
 		3CB1A3602E8C63060090486F /* MixpanelEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB1A35E2E8C63010090486F /* MixpanelEvents.swift */; };
+		3DEAC63A9D588D131162ABF7 /* MulliganV2StatusData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97939C4EA13DEC8A16EB021 /* MulliganV2StatusData.swift */; };
 		43050C621E6B484D007600EA /* Hearthstone.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43050C611E6B484D007600EA /* Hearthstone.xcassets */; };
 		4305CA471CF434E30048E7EC /* Cards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4305CA461CF434E30048E7EC /* Cards.swift */; };
 		4308EB7E1D76AFE6000897C8 /* ReleaseChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4308EB7D1D76AFE6000897C8 /* ReleaseChannel.swift */; };
@@ -383,6 +384,7 @@
 		4C3E2DA52460C82900292349 /* FrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2DA42460C82800292349 /* FrameView.swift */; };
 		4C68AF2B2447D35B00E52834 /* HearthMirror.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C68AF2A2447D35A00E52834 /* HearthMirror.framework */; };
 		4C68AF2C2447D37000E52834 /* HearthMirror.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4C68AF2A2447D35A00E52834 /* HearthMirror.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4C8E201F195AC2873021D4F9 /* MulliganV2StatusParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBEF7E2938397C5400012FA /* MulliganV2StatusParams.swift */; };
 		4CECFFD523C10C3E0093253E /* BattlegroundsTierDetailWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CECFFD423C10C3D0093253E /* BattlegroundsTierDetailWindowController.swift */; };
 		4CECFFD723C10C570093253E /* BattlegroundsTierDetailWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CECFFD623C10C570093253E /* BattlegroundsTierDetailWindowController.xib */; };
 		4CECFFD923C111AA0093253E /* BattlegroundsTierDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CECFFD823C111AA0093253E /* BattlegroundsTierDetailsView.swift */; };
@@ -390,7 +392,9 @@
 		4CFF95AB23C0C3B3006AB461 /* BattlegroundsTierOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFF95AA23C0C3B3006AB461 /* BattlegroundsTierOverlay.swift */; };
 		4CFF95AD23C0C48E006AB461 /* BattlegroundsTierOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CFF95AC23C0C48E006AB461 /* BattlegroundsTierOverlay.xib */; };
 		4CFF95AF23C0C56A006AB461 /* BattlegroundsTierOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFF95AE23C0C56A006AB461 /* BattlegroundsTierOverlayView.swift */; };
+		4D3ECCEAC870D8495A39FF5E /* ConstructedMulliganPreLobbyWidgetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F0CE929C65D6AE160FFBF5 /* ConstructedMulliganPreLobbyWidgetViewModel.swift */; };
 		506D65462C58EAC1617E4302 /* ConstructedMulliganGuideV2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3F16E15E17850C0760780D /* ConstructedMulliganGuideV2View.swift */; };
+		62EBAABA64D422A3A7C5B058 /* MulliganGuideTrial.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6E0D088083F9ECD72F3B16 /* MulliganGuideTrial.swift */; };
 		64069AB704B1E42F6742B690 /* LinearGaugeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A55210827595351F15734B7 /* LinearGaugeView.swift */; };
 		6F10D744995FB62C28FB3813 /* MulliganTipIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8710EB77B7B79FE2F598AEBA /* MulliganTipIconView.swift */; };
 		7BA4A8162FF3EA91000B3784 /* PreferencePaneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA4A8152FF3EA91000B3784 /* PreferencePaneController.swift */; };
@@ -398,10 +402,12 @@
 		82C409FBBAECB6E69E29A68F /* ConstructedMulliganGuideV2ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F4128461C4484E8450D77D /* ConstructedMulliganGuideV2ViewModel.swift */; };
 		8DF18459F89A844F812A8D2F /* MulliganV2Params.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331922B5382E5C30E699243F /* MulliganV2Params.swift */; };
 		8F1C709C9ED6C951378F9500 /* MulliganTooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C4ECFD232B21BD908EA905 /* MulliganTooltip.swift */; };
+		8F239D3C72B955B990CF1451 /* MulliganGuideTrialsExhaustedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C74E246D839D7D120CA28E4 /* MulliganGuideTrialsExhaustedView.swift */; };
 		947577168CC05BE7DC23659A /* RootOverlayWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2742D7642ECBC122BF4479 /* RootOverlayWindow.swift */; };
 		9E67814D8E6FAC2919F53CB0 /* MulliganCardPortraitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7A76CCAFA6BFB8D952B01F /* MulliganCardPortraitView.swift */; };
 		A07B71E888E4FFF92A972B12 /* MulliganV2Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E350BCCBA1DB98636739A35 /* MulliganV2Data.swift */; };
 		ACF7F51EA11C1F29E5D1EAE9 /* RootOverlayWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = F09754876C6371F33E219DA1 /* RootOverlayWindow.xib */; };
+		B41238D5664BA8BCEC4D20C5 /* ConstructedMulliganPreLobbyWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB1647DCFF7E9F0816C194F6 /* ConstructedMulliganPreLobbyWidgetView.swift */; };
 		B800FCA42732AA7C00AFBD51 /* MercenariesTaskListButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = B800FCA32732AA7C00AFBD51 /* MercenariesTaskListButton.xib */; };
 		B800FCA62732AA9100AFBD51 /* MercenariesTaskListButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B800FCA52732AA9100AFBD51 /* MercenariesTaskListButton.swift */; };
 		B800FCAA2732FABD00AFBD51 /* MercenariesTaskListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B800FCA92732FABD00AFBD51 /* MercenariesTaskListView.swift */; };
@@ -1273,6 +1279,7 @@
 		B8C2F90F261F530700C31E6A /* GetAccountResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C2F90E261F530700C31E6A /* GetAccountResult.swift */; };
 		B8C2F9102623233100C31E6A /* GetAccountResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C2F90E261F530700C31E6A /* GetAccountResult.swift */; };
 		B8C33FB1273EF851006DA79E /* MercenariesCoins.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C33FB0273EF851006DA79E /* MercenariesCoins.swift */; };
+		B8CB542253130C9F7AB0D806 /* MulliganGuideTrialsExhaustedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F763EBF84875A096625CC1B /* MulliganGuideTrialsExhaustedViewModel.swift */; };
 		B8CDDCAD2F3A7B9A004C3E86 /* Reminisce.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CDDCAC2F3A7B9A004C3E86 /* Reminisce.swift */; };
 		B8CDDCBF2F3D63C8004C3E86 /* TimewarpedMagnanimooseEnchantmentProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CDDCBE2F3D63C8004C3E86 /* TimewarpedMagnanimooseEnchantmentProxy.swift */; };
 		B8CDDCC12F3D67D2004C3E86 /* WhizbangDecks.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CDDCC02F3D67D2004C3E86 /* WhizbangDecks.swift */; };
@@ -1558,6 +1565,7 @@
 		1CF1B5891E81426D007DCBF2 /* AlgorithmTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlgorithmTests.swift; sourceTree = "<group>"; };
 		1CF1B58B1E815810007DCBF2 /* LogReaderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogReaderTests.swift; sourceTree = "<group>"; };
 		1CF204F81E83B74300037A42 /* MirrorHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MirrorHelper.swift; sourceTree = "<group>"; };
+		2F763EBF84875A096625CC1B /* MulliganGuideTrialsExhaustedViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MulliganGuideTrialsExhaustedViewModel.swift; sourceTree = "<group>"; };
 		331922B5382E5C30E699243F /* MulliganV2Params.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MulliganV2Params.swift; sourceTree = "<group>"; };
 		340AAC041D0544AD0015FE33 /* StringTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTracker.swift; sourceTree = "<group>"; };
 		3CB1A35E2E8C63010090486F /* MixpanelEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixpanelEvents.swift; sourceTree = "<group>"; };
@@ -1772,10 +1780,14 @@
 		4CFF95AE23C0C56A006AB461 /* BattlegroundsTierOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsTierOverlayView.swift; sourceTree = "<group>"; };
 		5A1F19717A4A8D185811FB9E /* RootOverlayView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RootOverlayView.swift; sourceTree = "<group>"; };
 		5B0AB88C2313083700654A03 /* HSTracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HSTracker.entitlements; sourceTree = "<group>"; };
+		5C74E246D839D7D120CA28E4 /* MulliganGuideTrialsExhaustedView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MulliganGuideTrialsExhaustedView.swift; sourceTree = "<group>"; };
 		64C4ECFD232B21BD908EA905 /* MulliganTooltip.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MulliganTooltip.swift; sourceTree = "<group>"; };
 		738EB3EBBA2F12662014F3ED /* ConstructedMulliganV2SingleCardHeaderViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ConstructedMulliganV2SingleCardHeaderViewModel.swift; sourceTree = "<group>"; };
 		7BA4A8152FF3EA91000B3784 /* PreferencePaneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencePaneController.swift; sourceTree = "<group>"; };
+		7EBEF7E2938397C5400012FA /* MulliganV2StatusParams.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MulliganV2StatusParams.swift; sourceTree = "<group>"; };
+		85F0CE929C65D6AE160FFBF5 /* ConstructedMulliganPreLobbyWidgetViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ConstructedMulliganPreLobbyWidgetViewModel.swift; sourceTree = "<group>"; };
 		8710EB77B7B79FE2F598AEBA /* MulliganTipIconView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MulliganTipIconView.swift; sourceTree = "<group>"; };
+		A97939C4EA13DEC8A16EB021 /* MulliganV2StatusData.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MulliganV2StatusData.swift; sourceTree = "<group>"; };
 		AE7A76CCAFA6BFB8D952B01F /* MulliganCardPortraitView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MulliganCardPortraitView.swift; sourceTree = "<group>"; };
 		B800FCA32732AA7C00AFBD51 /* MercenariesTaskListButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MercenariesTaskListButton.xib; sourceTree = "<group>"; };
 		B800FCA52732AA9100AFBD51 /* MercenariesTaskListButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MercenariesTaskListButton.swift; sourceTree = "<group>"; };
@@ -2728,7 +2740,9 @@
 		C9BDB3D81D20BE9500886A11 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LadderTab.xib; sourceTree = "<group>"; };
 		CA2742D7642ECBC122BF4479 /* RootOverlayWindow.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RootOverlayWindow.swift; sourceTree = "<group>"; };
 		CB3F16E15E17850C0760780D /* ConstructedMulliganGuideV2View.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ConstructedMulliganGuideV2View.swift; sourceTree = "<group>"; };
+		DB1647DCFF7E9F0816C194F6 /* ConstructedMulliganPreLobbyWidgetView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ConstructedMulliganPreLobbyWidgetView.swift; sourceTree = "<group>"; };
 		E30590BA21174FC900679D66 /* UploadCollectionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadCollectionData.swift; sourceTree = "<group>"; };
+		EE6E0D088083F9ECD72F3B16 /* MulliganGuideTrial.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MulliganGuideTrial.swift; sourceTree = "<group>"; };
 		F09754876C6371F33E219DA1 /* RootOverlayWindow.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = RootOverlayWindow.xib; sourceTree = "<group>"; };
 		F24D4A90A357C8BFD01DCBD2 /* ConstructedMulliganV2SingleCardViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ConstructedMulliganV2SingleCardViewModel.swift; sourceTree = "<group>"; };
 		F28A2E812F2EFBF3F260A3AE /* RootOverlayViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RootOverlayViewModel.swift; sourceTree = "<group>"; };
@@ -3948,6 +3962,11 @@
 				B8AF0C7C2B9295A000B65F63 /* ConstructedMulliganSingleDeckStatus.xib */,
 				B89586442B804E2000989C13 /* ConstructedStatsHeaderViewModel.swift */,
 				54E5C32CC162F286D353E539 /* V2 */,
+				EE6E0D088083F9ECD72F3B16 /* MulliganGuideTrial.swift */,
+				85F0CE929C65D6AE160FFBF5 /* ConstructedMulliganPreLobbyWidgetViewModel.swift */,
+				DB1647DCFF7E9F0816C194F6 /* ConstructedMulliganPreLobbyWidgetView.swift */,
+				2F763EBF84875A096625CC1B /* MulliganGuideTrialsExhaustedViewModel.swift */,
+				5C74E246D839D7D120CA28E4 /* MulliganGuideTrialsExhaustedView.swift */,
 			);
 			path = Mulligan;
 			sourceTree = "<group>";
@@ -4358,6 +4377,8 @@
 				43C568021D5E59E500451B6F /* UploadResult.swift */,
 				331922B5382E5C30E699243F /* MulliganV2Params.swift */,
 				0E350BCCBA1DB98636739A35 /* MulliganV2Data.swift */,
+				7EBEF7E2938397C5400012FA /* MulliganV2StatusParams.swift */,
+				A97939C4EA13DEC8A16EB021 /* MulliganV2StatusData.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -6236,6 +6257,13 @@
 				1F966AEAB083406B7A9876F0 /* RootOverlayViewModel.swift in Sources */,
 				CAB1941AFC7E94E2D2F47408 /* RootOverlayView.swift in Sources */,
 				947577168CC05BE7DC23659A /* RootOverlayWindow.swift in Sources */,
+				4C8E201F195AC2873021D4F9 /* MulliganV2StatusParams.swift in Sources */,
+				3DEAC63A9D588D131162ABF7 /* MulliganV2StatusData.swift in Sources */,
+				62EBAABA64D422A3A7C5B058 /* MulliganGuideTrial.swift in Sources */,
+				4D3ECCEAC870D8495A39FF5E /* ConstructedMulliganPreLobbyWidgetViewModel.swift in Sources */,
+				B41238D5664BA8BCEC4D20C5 /* ConstructedMulliganPreLobbyWidgetView.swift in Sources */,
+				B8CB542253130C9F7AB0D806 /* MulliganGuideTrialsExhaustedViewModel.swift in Sources */,
+				8F239D3C72B955B990CF1451 /* MulliganGuideTrialsExhaustedView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -38,10 +38,11 @@ struct ConstructedMulliganGuideV2View: View {
                             .frame(width: 988 / CGFloat(viewModel.cardStats.count))
                     }
                 }
-                // Extra upward nudge on top of the card-height placeholder in
-                // ConstructedMulliganV2SingleCardHeaderView, matching HDT's own
-                // small fine-tune offset above the centered card row.
-                .offset(y: -50)
+                // Small upward nudge on top of the card-height placeholder in
+                // ConstructedMulliganV2SingleCardHeaderView, tuned to sit just
+                // above the physical cards without overlapping the Hearthstone
+                // timer/UI text higher up the screen.
+                .offset(y: -30)
 
                 if let message = viewModel.message {
                     Text(message)
@@ -69,7 +70,7 @@ struct ConstructedMulliganGuideV2View: View {
         "[2]": 0.71
     ])
     vm.cardStats = (1...4).map {
-        ConstructedMulliganV2SingleCardViewModel(position: $0, data: data)
+        ConstructedMulliganV2SingleCardViewModel(position: $0, data: data, isFirst: true)
     }
     vm.statsVisibility = true
     vm.message = "vs Mage, going first"

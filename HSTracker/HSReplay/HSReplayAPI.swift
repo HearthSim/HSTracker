@@ -832,6 +832,45 @@ class HSReplayAPI {
         }
     }
 
+    // Trial-token variant, matching getTier7HeroPickStats(token:parameters:) -
+    // an unauthenticated request carrying the trial token in a header
+    // instead of the user's own OAuth session.
+    @available(macOS 10.15.0, *)
+    static func getConstructedMulliganV2(token: String?, parameters: MulliganV2Params) async -> MulliganV2Data? {
+        guard let token else {
+            return nil
+        }
+        return await withCheckedContinuation { continuation in
+            let encoder = JSONEncoder()
+            var body: Data?
+            do {
+                body = try encoder.encode(parameters)
+                if let body = body {
+                    logger.debug("Sending mulligan guide v2 data request (trial): \(String(data: body, encoding: .utf8) ?? "ERROR")")
+                }
+            } catch {
+                logger.error(error)
+            }
+            guard let body = body else {
+                continuation.resume(returning: nil)
+                return
+            }
+            let http = Http(url: "\(HSReplay.constructedMulliganGuideV2)")
+            _ = http.uploadPromise(method: .post, headers: ["Content-Type": "application/json", "X-Trial-Token": token], data: body).done { response in
+                guard let data = response as? Data else {
+                    continuation.resume(returning: nil)
+                    return
+                }
+                logger.debug("Response data (trial): \(String(data: data, encoding: .utf8) ?? "FAILED")")
+                let bqs: MulliganV2Data? = parseResponse(data: data, defaultValue: nil)
+                continuation.resume(returning: bqs)
+            }.catch { error in
+                logger.error(error)
+                continuation.resume(returning: nil)
+            }
+        }
+    }
+
     @available(macOS 10.15.0, *)
     static func getMulliganGuideStatus(parameters: MulliganGuideStatusParams) async -> MulliganGuideStatusData? {
         return await withCheckedContinuation { continuation in
@@ -865,7 +904,41 @@ class HSReplayAPI {
             })
         }
     }
-    
+
+    @available(macOS 10.15.0, *)
+    static func getMulliganV2Status(parameters: MulliganV2StatusParams) async -> MulliganV2StatusData? {
+        return await withCheckedContinuation { continuation in
+            let encoder = JSONEncoder()
+            var body: Data?
+            do {
+                body = try encoder.encode(parameters)
+                if let body = body {
+                    logger.debug("Sending mulligan guide v2 status request: \(String(data: body, encoding: .utf8) ?? "ERROR")")
+                }
+            } catch {
+                logger.error(error)
+            }
+
+            startAuthorizedRequest("\(HSReplay.constructedMulliganGuideV2Status)", method: .POST, parameters: [:], headers: ["Content-Type": "application/json"], body: body, completionHandler: { result in
+                switch result {
+                case .success(let response):
+                    if let str = String(data: response.data, encoding: .utf8) {
+                        logger.debug("Response data: \(str)")
+                        let bqs: MulliganV2StatusData? = parseResponse(data: response.data, defaultValue: nil)
+                        continuation.resume(returning: bqs)
+                    } else {
+                        continuation.resume(returning: nil)
+                    }
+                    return
+                case .failure(let error):
+                    logger.error(error)
+                    continuation.resume(returning: nil)
+                    return
+                }
+            })
+        }
+    }
+
     @available(macOS 10.15.0, *)
     static func getTier7CompStats(parameters: BattlegroundsCompStatsParams) async -> BattlegroundsCompStats? {
         return await withCheckedContinuation { continuation in

@@ -324,6 +324,9 @@ final class CoreManager: NSObject {
         if #available(macOS 10.15, *) {
             game.stopMulliganLivePolling()
             wm.rootOverlay?.viewModel.mulliganGuideV2.reset()
+            wm.rootOverlay?.viewModel.constructedMulliganPreLobbyWidget.reset()
+            wm.rootOverlay?.viewModel.mulliganGuideTrialsExhausted.isShown = false
+            MulliganGuideTrial.clear()
         }
         if wm.battlegroundsSession.visibility {
             DispatchQueue.main.async {

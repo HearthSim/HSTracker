@@ -51,10 +51,13 @@ class MulliganV2Data: Decodable {
         var opponent_class: String?
         var this_opponent_keep_rate: Double?
         var other_opponent_keep_rate: Double?
-        var this_initiative_keep_rate: Double?
-        var other_initiative_keep_rate: Double?
+        // Confirmed against a live response: the API sends "this_init_keep_rate"/
+        // "other_init_keep_rate", not the "_initiative_" spelling HDT's C# property
+        // names would suggest.
+        var this_init_keep_rate: Double?
+        var other_init_keep_rate: Double?
 
-        init(tip_enum: Int, arrows: Int, dbf_id: Int? = nil, base_keep_rate: Double? = nil, adjusted_keep_rate: Double? = nil, keep_rate_delta: Double? = nil, opponent_class: String? = nil, this_opponent_keep_rate: Double? = nil, other_opponent_keep_rate: Double? = nil, this_initiative_keep_rate: Double? = nil, other_initiative_keep_rate: Double? = nil) {
+        init(tip_enum: Int, arrows: Int, dbf_id: Int? = nil, base_keep_rate: Double? = nil, adjusted_keep_rate: Double? = nil, keep_rate_delta: Double? = nil, opponent_class: String? = nil, this_opponent_keep_rate: Double? = nil, other_opponent_keep_rate: Double? = nil, this_init_keep_rate: Double? = nil, other_init_keep_rate: Double? = nil) {
             self.tip_enum = tip_enum
             self.arrows = arrows
             self.dbf_id = dbf_id
@@ -64,8 +67,8 @@ class MulliganV2Data: Decodable {
             self.opponent_class = opponent_class
             self.this_opponent_keep_rate = this_opponent_keep_rate
             self.other_opponent_keep_rate = other_opponent_keep_rate
-            self.this_initiative_keep_rate = this_initiative_keep_rate
-            self.other_initiative_keep_rate = other_initiative_keep_rate
+            self.this_init_keep_rate = this_init_keep_rate
+            self.other_init_keep_rate = other_init_keep_rate
         }
     }
 }

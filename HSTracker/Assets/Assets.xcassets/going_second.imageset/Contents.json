@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "going_second.png",
+      "idiom" : "mac"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

@@ -12,7 +12,9 @@ enum SingleDeckState {
     case invalid,
          loading, // indicates that a task is currently fetching some
          no_data,
-         ready
+         v1_ready,
+         v2_ready,
+         v2_partial
 }
 
 class SingleDeckStatus {
@@ -40,13 +42,13 @@ class SingleDeckStatus {
     
     var iconVisibility: Bool {
         return switch state {
-        case .ready, .no_data, .loading:
+        case .v1_ready, .v2_ready, .v2_partial, .no_data, .loading:
             true
         default:
             false
         }
     }
-    
+
     var iconSource: NSImage? {
         return switch state {
         case .no_data:
@@ -55,33 +57,41 @@ class SingleDeckStatus {
             NSImage(named: "mulligan-guide-data")
         }
     }
-    
+
     var borderBrush: String {
         return switch state {
         case .no_data:
             "#CCE3D000"
+        case .v2_partial:
+            "#CCE0A200"
         default:
             "#CC00AA00"
         }
     }
-        
+
     var background: String {
         return switch state {
         case .no_data:
             "#CC1A1100"
+        case .v2_partial:
+            "#CC221900"
         default:
             "#CC002200"
         }
     }
-    
+
     var label: String {
         return switch state {
         case .loading:
             String.localizedString("ConstructedMulliganGuidePreLobby_Status_Loading", comment: "")
         case .no_data:
             String.localizedString("ConstructedMulliganGuidePreLobby_Status_NoData", comment: "")
-        case .ready:
-            String.localizedString("ConstructedMulliganGuidePreLobby_Status_Ready", comment: "")
+        case .v1_ready:
+            String.localizedString("ConstructedMulliganGuidePreLobby_Status_V1Ready", comment: "")
+        case .v2_ready:
+            String.localizedString("ConstructedMulliganGuidePreLobby_Status_V2Ready", comment: "")
+        case .v2_partial:
+            String.localizedString("ConstructedMulliganGuidePreLobby_Status_Partial", comment: "")
         default:
             "\(state)"
         }
@@ -130,6 +140,7 @@ class ConstructedMulliganGuidePreLobbyViewModel: ViewModel {
     struct DeckData {
         var deckstring: String
         var hasRunes: Bool
+        var dbfIds: [Int]
     }
     
     private var _decksByFormatAndDeckId = [FormatType: [Int64: DeckData]]()
@@ -164,7 +175,8 @@ class ConstructedMulliganGuidePreLobbyViewModel: ViewModel {
             guard let hearthDbDeck = HearthDbConverter.toHearthDbDeck(deck: deck, format: formatType) else {
                 continue
             }
-            let deckData = DeckData(deckstring: DeckSerializer.serialize(deck: hearthDbDeck) ?? "", hasRunes: hearthDbDeck.getHero()?.playerClass == .deathknight || hearthDbDeck.cards.any { x in x.tourist == CardClass.allCases.firstIndex(of: .deathknight) })
+            let dbfIds = hearthDbDeck.cards.flatMap { card in Array(repeating: card.dbfId, count: max(card.count, 1)) }
+            let deckData = DeckData(deckstring: DeckSerializer.serialize(deck: hearthDbDeck) ?? "", hasRunes: hearthDbDeck.getHero()?.playerClass == .deathknight || hearthDbDeck.cards.any { x in x.tourist == CardClass.allCases.firstIndex(of: .deathknight) }, dbfIds: dbfIds)
             cache[deck.id.int64Value] = deckData
         }
         return cache
@@ -254,19 +266,51 @@ class ConstructedMulliganGuidePreLobbyViewModel: ViewModel {
     // MARK: -
     
     @available(macOS 10.15.0, *)
-    private static func loadMulliganGuideStatus(gameType: BnetGameType, starLevel: Int?, deckstrings: [String]) async -> [String: MulliganGuideStatusData.Status] {
-        if deckstrings.count == 0 {
-            return [String: MulliganGuideStatusData.Status]()
+    private static func loadMulliganGuideStatus(gameType: BnetGameType, starLevel: Int?, decks: [DeckData]) async -> [String: SingleDeckState] {
+        if decks.count == 0 {
+            return [String: SingleDeckState]()
         }
-        
+
+        let deckstrings = decks.map { $0.deckstring }
         let parameters = MulliganGuideStatusParams(decks: deckstrings, game_type: gameType.rawValue, star_level: starLevel)
         let result = await HSReplayAPI.getMulliganGuideStatus(parameters: parameters)
-        return Dictionary(uniqueKeysWithValues: deckstrings.compactMap { x in
-            if let res = result?.decks[x] {
-                return (x, MulliganGuideStatusData.Status(rawValue: res.status) ?? .NO_DATA)
-            } else {
-                return (x, MulliganGuideStatusData.Status.NO_DATA)
+        return Dictionary(uniqueKeysWithValues: deckstrings.map { x in
+            let status = result?.decks[x].map { MulliganGuideStatusData.Status(rawValue: $0.status) ?? .NO_DATA } ?? .NO_DATA
+            return (x, status == .READY ? SingleDeckState.v1_ready : SingleDeckState.no_data)
+        })
+    }
+
+    // Standard Ranked/Friendly decks are checked against the Mulligan G-V2
+    // status endpoint instead, which needs each deck's dbfIds (not just its
+    // deckstring) to evaluate partial coverage card-by-card.
+    @available(macOS 10.15.0, *)
+    private static func loadMulliganV2Status(gameType: BnetGameType, starLevel: Int?, decks: [DeckData]) async -> [String: SingleDeckState] {
+        if decks.count == 0 {
+            return [String: SingleDeckState]()
+        }
+
+        // AppDelegate.instance().coreManager.game.currentRegion is a plain
+        // cached property read (populated once, non-blocking, at tracking
+        // startup - see CoreManager.swift) rather than calling
+        // Helper.getCurrentRegion() directly here, which does its own
+        // blocking retry loop (up to 10 * 2s sleeps) and would stall this
+        // status refresh.
+        let parameters = MulliganV2StatusParams(
+            deck_boxes: decks.map { MulliganV2StatusParams.Deck(deckstring: $0.deckstring, dbf_ids: $0.dbfIds) },
+            game_type: gameType.rawValue,
+            star_level: starLevel,
+            player_region: Region.toBnetRegion(region: AppDelegate.instance().coreManager.game.currentRegion)
+        )
+        let result = await HSReplayAPI.getMulliganV2Status(parameters: parameters)
+        let statusByDeckstring = Dictionary(uniqueKeysWithValues: (result?.data ?? []).map { ($0.deckstring, $0.status) })
+        return Dictionary(uniqueKeysWithValues: decks.map { deck in
+            let status = statusByDeckstring[deck.deckstring].map { MulliganV2StatusData.Status(rawValue: $0) ?? .NONE } ?? .NONE
+            let state: SingleDeckState = switch status {
+            case .SUPPORTED: .v2_ready
+            case .PARTIAL: .v2_partial
+            case .NONE: .no_data
             }
+            return (deck.deckstring, state)
         })
     }
     
@@ -290,7 +334,7 @@ class ConstructedMulliganGuidePreLobbyViewModel: ViewModel {
         if _deckStatusByDeckstring[gameType] == nil {
             _deckStatusByDeckstring[gameType] = [String: SingleDeckState]()
         }
-        var toLoad = [String]()
+        var toLoad = [DeckData]()
         if onlyVisibilePage {
             guard let validDecksOnPage else {
                 return
@@ -300,13 +344,13 @@ class ConstructedMulliganGuidePreLobbyViewModel: ViewModel {
                     continue
                 }
                 if let deckData = deckboxes[deckId], _deckStatusByDeckstring[gameType]?[deckData.deckstring] == nil {
-                    toLoad.append(deckData.deckstring)
+                    toLoad.append(deckData)
                     _deckStatusByDeckstring[gameType]?[deckData.deckstring] = .loading
                 }
             }
         } else {
             for deckbox in deckboxes.values where _deckStatusByDeckstring[gameType]?[deckbox.deckstring] == nil {
-                toLoad.append(deckbox.deckstring)
+                toLoad.append(deckbox)
                 _deckStatusByDeckstring[gameType]?[deckbox.deckstring] = .loading
             }
         }
@@ -336,15 +380,12 @@ class ConstructedMulliganGuidePreLobbyViewModel: ViewModel {
             // It's important to copy this out, because it can change while awaiting the mulligan guide status
             // => this would lead to a "miscache"
             let theGameType = gameType
-            let results = await ConstructedMulliganGuidePreLobbyViewModel.loadMulliganGuideStatus(gameType: theGameType, starLevel: starLevel, deckstrings: toLoad)
-            
+            let results = theGameType == .bgt_ranked_standard
+                ? await ConstructedMulliganGuidePreLobbyViewModel.loadMulliganV2Status(gameType: theGameType, starLevel: starLevel, decks: toLoad)
+                : await ConstructedMulliganGuidePreLobbyViewModel.loadMulliganGuideStatus(gameType: theGameType, starLevel: starLevel, decks: toLoad)
+
             for result in results {
-                _deckStatusByDeckstring[theGameType]?[result.key] = switch result.value {
-                case .READY:
-                    SingleDeckState.ready
-                default:
-                    SingleDeckState.no_data
-                }
+                _deckStatusByDeckstring[theGameType]?[result.key] = result.value
             }
             
             onPropertyChanged("pageStatus")
@@ -384,7 +425,24 @@ class ConstructedMulliganGuidePreLobbyViewModel: ViewModel {
     func invlidateAllDecks() {
         _decksByFormatAndDeckId.removeAll()
     }
-    
+
+    // Matches HDT's GameEventHandler.IsDeckAvailableForMulliganGuide(): reuses
+    // this same badge-grid status cache to decide whether a non-premium
+    // player's trial should even be spent on this deck - only decks the
+    // status check already confirmed have real (or partial) coverage are
+    // worth burning a trial on.
+    func isDeckAvailableForMulliganGuide(gameType: BnetGameType, deckstring: String) -> Bool {
+        guard let state = _deckStatusByDeckstring[gameType]?[deckstring] else {
+            return false
+        }
+        switch state {
+        case .v1_ready, .v2_ready, .v2_partial:
+            return true
+        default:
+            return false
+        }
+    }
+
     func reset() {
         _decksByFormatAndDeckId.removeAll()
         _deckStatusByDeckstring.removeAll()
