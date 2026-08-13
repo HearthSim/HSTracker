@@ -1,3 +1,8 @@
+# 3.6.4
+## Hearthstone
+- New Premium feature: Mulligan G-V2!\
+  *As a free user, you can try it for 5 games per week.*
+
 # 3.6.3
 **Updated for Hearthstone 36.2**
 ## Fixes
