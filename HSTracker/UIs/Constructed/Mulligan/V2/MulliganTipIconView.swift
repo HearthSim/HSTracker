@@ -28,7 +28,7 @@ struct MulliganTipIconView: View {
             .padding(.top, 2)
         }
         .frame(width: 40, height: 40)
-        .mulliganTooltip(tooltip)
+        .guideTooltip(tooltip)
     }
 
     // Card-synergy tips show the other card's portrait; opponent-class tips
@@ -70,11 +70,11 @@ struct MulliganTipIconView: View {
         }
     }
 
-    private var tooltip: MulliganTooltipContent? {
+    private var tooltip: GuideTooltipContent? {
         guard let title = tip.tooltipTitle else { return nil }
         var footer: [String] = []
         if let base = tip.baseKeepRateText { footer.append(base) }
         if let adjusted = tip.adjustedKeepRateText { footer.append(adjusted) }
-        return MulliganTooltipContent(title: title, body: tip.tooltipText, footer: footer)
+        return GuideTooltipContent(title: title, body: tip.tooltipText, footer: footer)
     }
 }

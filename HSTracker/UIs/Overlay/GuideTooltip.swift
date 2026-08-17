@@ -1,5 +1,5 @@
 //
-//  MulliganTooltip.swift
+//  GuideTooltip.swift
 //  HSTracker
 //
 //  Created by Francisco Moraes on 8/7/26.
@@ -12,8 +12,14 @@ import SwiftUI
 // 6pt bottom margin; MultiLineTextBlock body, regular/12pt with an 8pt bottom
 // margin when a footer follows; OutlinedTextBlock footer lines, bold/12pt,
 // flush against each other with no margin).
+//
+// Originally built for the Mulligan V2 overlay (still its main consumer) but
+// generic to any RootOverlayView content - Battlegrounds Guides reuses it for
+// its own small text tooltips (e.g. difficulty/tier explanations). Not a fit
+// for card-preview tooltips (a full card image, like HDT's CardTooltip) -
+// those are a different visual and aren't built yet.
 @available(macOS 10.15, *)
-struct MulliganTooltipContent: Equatable {
+struct GuideTooltipContent: Equatable {
     var title: String?
     var body: String?
     var footer: [String] = []
@@ -24,14 +30,13 @@ struct MulliganTooltipContent: Equatable {
 // mechanism (NSView.toolTip) needs the window to be key to ever display, so
 // it never fires here, hence rolling our own via .onHover.
 //
-// The bubble renders in place, which means it sits inside
-// ConstructedMulliganGuideV2View's scaled subtree and scales with the rest of
-// the overlay - matching HDT, which deliberately applies the same
-// ScaleTransform to its tooltips via the LayoutTransform setter in
-// ConstructedMulliganGuideV2.xaml.
+// The bubble renders in place, which means it sits inside the RootOverlayView
+// child's own scaled subtree and scales with the rest of the overlay -
+// matching HDT, which deliberately applies the same ScaleTransform to its
+// tooltips via the LayoutTransform setter in the consuming XAML.
 @available(macOS 10.15, *)
-private struct MulliganTooltipModifier: ViewModifier {
-    let content: MulliganTooltipContent?
+private struct GuideTooltipModifier: ViewModifier {
+    let content: GuideTooltipContent?
 
     @SwiftUI.State private var isHovering = false
 
@@ -58,7 +63,7 @@ private struct MulliganTooltipModifier: ViewModifier {
             // CenteredTooltipConverter).
             Color.clear
                 .frame(height: 0)
-                .overlay(MulliganTooltipBubble(content: content), alignment: .bottom)
+                .overlay(GuideTooltipBubble(content: content), alignment: .bottom)
                 .offset(y: -Self.gap)
                 .allowsHitTesting(false)
         }
@@ -66,8 +71,8 @@ private struct MulliganTooltipModifier: ViewModifier {
 }
 
 @available(macOS 10.15, *)
-private struct MulliganTooltipBubble: View {
-    let content: MulliganTooltipContent
+private struct GuideTooltipBubble: View {
+    let content: GuideTooltipContent
 
     // HDT's ConstructedTooltipStyle caps its Border at MaxWidth=230 (inclusive
     // of the 8pt horizontal padding) and lets it hug narrower content; this
@@ -120,13 +125,13 @@ private struct MulliganTooltipBubble: View {
 
 @available(macOS 10.15, *)
 extension View {
-    func mulliganTooltip(_ content: MulliganTooltipContent?) -> some View {
-        modifier(MulliganTooltipModifier(content: content))
+    func guideTooltip(_ content: GuideTooltipContent?) -> some View {
+        modifier(GuideTooltipModifier(content: content))
     }
 
     // Convenience for tooltips with no title/footer, just a body line (e.g.
     // the low-data warning triangle).
-    func mulliganTooltip(_ text: String?) -> some View {
-        modifier(MulliganTooltipModifier(content: text.map { MulliganTooltipContent(body: $0) }))
+    func guideTooltip(_ text: String?) -> some View {
+        modifier(GuideTooltipModifier(content: text.map { GuideTooltipContent(body: $0) }))
     }
 }

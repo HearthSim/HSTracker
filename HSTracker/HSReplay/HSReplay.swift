@@ -9,8 +9,7 @@
 import Foundation
 
 struct HSReplay {
-    static let hsreplayUrl = "https://hsreplay.net"
-    static let baseUrl = "https://api.hsreplay.net"
+    static let baseUrl = "https://hsreplay.net"
     static let baseUploadUrl = "https://upload.hsreplay.net"
     private static let baseOAuth = "/oauth2"
     private static let baseApi = "/api/v1"
@@ -24,7 +23,7 @@ struct HSReplay {
     private static let accountApi = "/account/"
     
     static let baseApiUrl = "\(baseUrl)\(baseApi)"
-    static let baseOAuthUrl = "\(hsreplayUrl)\(baseOAuth)"
+    static let baseOAuthUrl = "\(baseUrl)\(baseOAuth)"
     static let baseUploadApiUrl = "\(baseUploadUrl)\(baseApi)"
     static let uploadRequestUrl = "\(baseUploadApiUrl)\(uploadRequestApi)"
     static let tokensUrl = "\(baseApiUrl)\(tokensApi)"
@@ -49,4 +48,11 @@ struct HSReplay {
     static let tier7TrinketPickStats = "\(baseApiUrl)/battlegrounds/trinket_pick/"
 
     static let mixpanelIdentifyUrl = "\(baseApiUrl)/client_analytics/identify/"
+
+    static let compGuidesUrl = "\(baseUrl)\(baseApi)/battlegrounds/comp_guides/"
+    static let tier7CompGuidesUrl = "\(baseUrl)\(baseApi)/battlegrounds/comp_guides/tier7/"
+    static let heroGuidesUrl = "\(baseUrl)\(baseApi)/battlegrounds/hero_guides/"
+    static let trinketGuidesUrl = "\(baseUrl)\(baseApi)/battlegrounds/trinket_guides/"
+    static let anomalyGuidesUrl = "\(baseUrl)\(baseApi)/battlegrounds/anomaly_guides/"
+    static let questGuidesUrl = "\(baseUrl)\(baseApi)/battlegrounds/quest_guides/"
 }

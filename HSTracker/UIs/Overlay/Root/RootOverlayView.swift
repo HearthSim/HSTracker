@@ -36,7 +36,6 @@ extension CoordinateSpace {
 @available(macOS 10.15, *)
 struct RootOverlayView: View {
     @ObservedObject var viewModel: RootOverlayViewModel
-
     var body: some View {
         // GeometryReader measures the real, current bounds NSHostingView gives this
         // view directly - scale/canvas are derived from that measurement and the
@@ -54,6 +53,18 @@ struct RootOverlayView: View {
                 // subtree only.
                 ZStack {
                     ConstructedMulliganGuideV2View(viewModel: viewModel.mulliganGuideV2)
+
+                    // Wrapped in its own top-trailing-anchored ZStack rather
+                    // than positioned directly: the outer ZStack here has no
+                    // alignment of its own (its children default-center),
+                    // and this panel needs to sit at the canvas's top-right
+                    // corner, matching HDT's BgsTopBar (Canvas.Top="0"
+                    // Canvas.Right="0" in Windows/OverlayWindow.xaml).
+                    ZStack(alignment: .topTrailing) {
+                        Color.clear
+                        GuidesTabsView(viewModel: viewModel.battlegroundsGuidesTabs, compsGuides: viewModel.battlegroundsCompsGuides, heroGuides: viewModel.battlegroundsHeroGuides, questGuides: viewModel.battlegroundsQuestGuides)
+                    }
+                    .frame(width: canvasWidth, height: 1080)
                 }
                 .frame(width: canvasWidth, height: 1080)
                 .scaleEffect(scale, anchor: .center)
@@ -79,7 +90,10 @@ struct RootOverlayView: View {
                 // which is why none is attached out here.
                 ConstructedMulliganPreLobbyWidgetView(viewModel: viewModel.constructedMulliganPreLobbyWidget)
                 MulliganGuideTrialsExhaustedView(viewModel: viewModel.mulliganGuideTrialsExhausted)
+                AnomalyGuideMulliganTriggerView(anomalyGuides: viewModel.battlegroundsAnomalyGuides, geometrySize: geometry.size)
+                AnomalyGuideBadgeTriggerView(anomalyGuides: viewModel.battlegroundsAnomalyGuides, geometrySize: geometry.size)
                 // Future SwiftUI overlay features attach here as additional children.
+
             }
         }
         // Declared on the outer GeometryReader so nested frame(in: .rootOverlayCanvas)

@@ -22,6 +22,12 @@ class RootOverlayViewModel: ObservableObject {
     let mulliganGuideV2 = ConstructedMulliganGuideV2ViewModel()
     let constructedMulliganPreLobbyWidget = ConstructedMulliganPreLobbyWidgetViewModel()
     let mulliganGuideTrialsExhausted = MulliganGuideTrialsExhaustedViewModel()
+    let battlegroundsCompsGuides = BattlegroundsCompsGuidesViewModel()
+    let battlegroundsHeroGuides = BattlegroundsHeroGuidesViewModel()
+    let battlegroundsTrinketGuides = BattlegroundsTrinketGuidesViewModel()
+    let battlegroundsAnomalyGuides = BattlegroundsAnomalyGuidesViewModel()
+    let battlegroundsQuestGuides = BattlegroundsQuestGuidesViewModel()
+    let battlegroundsGuidesTabs = BattlegroundsGuidesTabsViewModel()
 
     // On-screen frame (in RootOverlayView's own coordinate space) of whichever
     // child currently needs real mouse interactivity, reported by

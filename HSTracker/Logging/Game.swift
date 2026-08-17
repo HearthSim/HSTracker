@@ -1974,10 +1974,25 @@ class Game: NSObject, PowerEventHandler {
                 Task.detached {
                     await self.windowManager.battlegroundsSession.updateCompositionStatsVisibility()
                 }
+                Task.detached {
+                    await self.windowManager.rootOverlay?.viewModel.battlegroundsCompsGuides.onMatchStart()
+                }
+                Task.detached {
+                    await self.windowManager.rootOverlay?.viewModel.battlegroundsHeroGuides.update()
+                }
+                Task.detached {
+                    await self.windowManager.rootOverlay?.viewModel.battlegroundsTrinketGuides.update()
+                }
+                Task.detached {
+                    await self.windowManager.rootOverlay?.viewModel.battlegroundsAnomalyGuides.update()
+                }
+                Task.detached {
+                    await self.windowManager.rootOverlay?.viewModel.battlegroundsQuestGuides.update()
+                }
             }
         }
     }
-    
+
     private var _lastReconnectStartTimestamp: Date = Date.distantPast
     func handleGameReconnect(timestamp: Date) {
         DispatchQueue.global().async {
@@ -2262,6 +2277,16 @@ class Game: NSObject, PowerEventHandler {
             windowManager.battlegroundsHeroPicking.viewModel.reset()
             windowManager.battlegroundsQuestPicking.viewModel.reset()
             windowManager.battlegroundsTrinketPicking.viewModel.reset()
+            if #available(macOS 10.15, *) {
+                // These mutate @Published properties on ObservableObjects
+                // (unlike the legacy KVO-based ViewModel.reset() calls
+                // above), which Combine requires happen on the main thread.
+                DispatchQueue.main.async {
+                    self.windowManager.rootOverlay?.viewModel.battlegroundsCompsGuides.onMatchEnd()
+                    self.windowManager.rootOverlay?.viewModel.battlegroundsHeroGuides.onMatchEnd()
+                    self.windowManager.rootOverlay?.viewModel.battlegroundsQuestGuides.onMatchEnd()
+                }
+            }
             hideBattlegroundsHeroPanel()
             hideBattlegroundsTimewarpPanel()
         }
@@ -3138,8 +3163,9 @@ class Game: NSObject, PowerEventHandler {
     func snapshotBattlegroundsOfferedHeroes(_ heroes: [Entity]) {
         _ = battlegroundsHeroPickState.snapshotOfferedHeroes(heroes)
     }
-    func snapshotBattlegroundsHeroPick() {
-        _ = battlegroundsHeroPickState.snapshotPickedHero()
+    @discardableResult
+    func snapshotBattlegroundsHeroPick() -> Int? {
+        return battlegroundsHeroPickState.snapshotPickedHero()
     }
     
     @MainActor
@@ -3770,7 +3796,8 @@ class Game: NSObject, PowerEventHandler {
     @available(macOS 10.15.0, *) @MainActor
     func handlePlayerMulliganDone() async {
         if isBattlegroundsMatch() {
-            snapshotBattlegroundsHeroPick()
+            let pickedHeroDbfId = snapshotBattlegroundsHeroPick()
+            windowManager.rootOverlay?.viewModel.battlegroundsHeroGuides.selectHero(dbfId: pickedHeroDbfId)
             hideBattlegroundsHeroPanel()
             hideBattlegroundsTimewarpPanel()
             windowManager.battlegroundsHeroPicking.viewModel.reset()
@@ -4061,6 +4088,14 @@ class Game: NSObject, PowerEventHandler {
                     if questRewardDbfId > 0 {
                         if let questReward = Cards.by(dbfId: questRewardDbfId, collectible: false) {
                             windowManager.battlegroundsTierOverlay.tierOverlay?.onQuests(quests: [questReward.id])
+                            if #available(macOS 10.15, *) {
+                                // Mutates an @Published property - this
+                                // handler runs off the log-parsing thread
+                                // (ChoicesHandler), not guaranteed main.
+                                DispatchQueue.main.async {
+                                    self.windowManager.rootOverlay?.viewModel.battlegroundsQuestGuides.selectQuest(card: questReward)
+                                }
+                            }
                         }
                     }
                 }
@@ -4707,10 +4742,18 @@ class Game: NSObject, PowerEventHandler {
         DispatchQueue.main.async {
             if self.isTraditionalHearthstoneMatch {
                 let isFriendlyCard = state.side == PlayerSide.friendly.rawValue
-                
+
                 self.windowManager.playerTracker.highlightPlayerDeckCards(highlightSourceCardId: isFriendlyCard ? state.cardId : nil)
             }
             self.updateTooltips()
+            // Mirrors HDT's SetAnomalyGuidesTrigger(string cardId), called
+            // from the same memory-read big-card-hover callback as
+            // SetRelatedCardsTrigger - shows the anomaly guide tooltip
+            // whenever the currently-hovered card (per the mirror) is the
+            // battleground anomaly badge.
+            if #available(macOS 10.15, *) {
+                self.windowManager.rootOverlay?.viewModel.battlegroundsAnomalyGuides.updateHoveredCard(cardId: state.cardId)
+            }
         }
     }
     

@@ -68,7 +68,7 @@ class BattlegroundsTrinketPickingViewModel: ViewModel {
     }
     
     func setTrinketStats(_ stats: [BattlegroundsTrinketPickStats.BattlegroundsSingleTrinketPickStats]) {
-        trinketStats = stats.compactMap({ x in StatsHeaderViewModel(tier: x.tier, avgPlacement: x.avg_placement, pickRate: x.pick_rate)})
+        trinketStats = stats.compactMap({ x in StatsHeaderViewModel(tier: x.tier, avgPlacement: x.avg_placement, pickRate: x.pick_rate, dbfId: x.trinket_dbf_id)})
         
         statsVisibility = Settings.autoShowBattlegroundsTrinketPicking
     }

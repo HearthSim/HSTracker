@@ -19,6 +19,7 @@ class RootOverlayWindow: OverWindowController {
     private var globalMouseMonitor: Any?
     private var localMouseMonitor: Any?
     private var fallbackTimer: Timer?
+    private var hoveredCardId: String?
 
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -79,20 +80,75 @@ class RootOverlayWindow: OverWindowController {
 
     private func updateMouseThrough() {
         guard let window = window, let hostingView = hostingView else { return }
+        let screenLocation = NSEvent.mouseLocation
+        let windowPoint = window.convertPoint(fromScreen: screenLocation)
+        let viewPoint = hostingView.convert(windowPoint, from: nil)
+
         guard let region = viewModel.interactiveRegion else {
             setIgnoresMouseEvents(true)
             return
         }
-        let screenLocation = NSEvent.mouseLocation
-        let windowPoint = window.convertPoint(fromScreen: screenLocation)
-        let viewPoint = hostingView.convert(windowPoint, from: nil)
         let inside = region.contains(viewPoint)
         setIgnoresMouseEvents(!inside)
+
+        updateCardHover()
     }
 
     private func setIgnoresMouseEvents(_ ignores: Bool) {
         if window?.ignoresMouseEvents != ignores {
             window?.ignoresMouseEvents = ignores
+        }
+    }
+
+    // Matches the live cursor position (already computed above for the
+    // click-through check) against every currently-reported card hover
+    // region and drives CardTooltipPanel directly - see the comment atop
+    // CardHoverRegionPreferenceKey in CardImageTooltip.swift for why this
+    // replaces a per-view hover callback.
+    // Matches the live cursor against registered CardHoverNSView instances using
+    // CALayer coordinate conversion. layer.convert(bounds, to: rootLayer) goes
+    // through the full CALayer transform chain - including SwiftUI's scaleEffect
+    // and NSScrollView's scroll offset - giving the correct visual position.
+    // The final comparison is in screen coordinates (Y-up, Cocoa convention)
+    // using NSEvent.mouseLocation, avoiding any NSView/SwiftUI coordinate space
+    // issues entirely.
+    private func updateCardHover() {
+        guard let overlayWindow = window else { return }
+        let screenLocation = NSEvent.mouseLocation
+
+        let match = CardHoverRegistry.shared.entries.first { entry in
+            guard let nsView = entry.view,
+                  nsView.window === overlayWindow else { return false }
+            // NSView.convert(to: nil) → window base coordinates (Y-up from
+            // window bottom, flips handled by AppKit automatically).
+            // convertToScreen → screen coordinates (same Y-up convention).
+            // NSEvent.mouseLocation is also Y-up screen coordinates.
+            let rectInWindow = nsView.convert(nsView.bounds, to: nil)
+            let screenRect = overlayWindow.convertToScreen(rectInWindow)
+            return screenRect.contains(screenLocation)
+        }
+
+        if let match = match {
+            if hoveredCardId != match.cardId {
+                hoveredCardId = match.cardId
+                CardTooltipPanel.shared.show(cardId: match.cardId)
+            }
+        } else {
+            if let current = hoveredCardId {
+                hoveredCardId = nil
+                CardTooltipPanel.shared.hide(ifShowing: current)
+            }
+            // Force-hide if the tooltip's current card is no longer registered.
+            // Fires at most every 150ms via the fallback timer and catches the
+            // race where hide(ifShowing:) returned early because currentCardId
+            // was a different card than the one whose view was removed (e.g.
+            // the guide navigated away while a new 300ms show-delay was still
+            // in flight for a different hovered card).
+            let registry = CardHoverRegistry.shared
+            if let shown = CardTooltipPanel.shared.currentCardId,
+               !registry.entries.contains(where: { $0.cardId == shown && $0.view != nil }) {
+                CardTooltipPanel.shared.hide()
+            }
         }
     }
 }

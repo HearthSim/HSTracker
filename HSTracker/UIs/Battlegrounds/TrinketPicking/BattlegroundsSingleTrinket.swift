@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class BattlegroundsSingleTrinket: NSView {
     @IBOutlet var contentView: NSView!
@@ -251,5 +252,71 @@ class BattlegroundsSingleTrinket: NSView {
         } else {
             pickRateLabel.stringValue = "—" // em dash
         }
+    }
+
+    // MARK: - Trinket guide hover tooltip
+
+    private var trinketTrackingArea: NSTrackingArea?
+    private var trinketTooltipHostingView: NSView?
+
+    override func updateTrackingAreas() {
+        super.updateTrackingAreas()
+        if let trinketTrackingArea {
+            removeTrackingArea(trinketTrackingArea)
+        }
+        // .activeAlways, not .activeInKeyWindow: this sits in a non-
+        // activating overlay panel (OverWindowController) that never
+        // becomes key, so key-window-scoped tracking would never fire -
+        // same reasoning as GuideTooltip.swift's .onHover-based tooltips.
+        let area = NSTrackingArea(rect: bounds, options: [.mouseEnteredAndExited, .activeAlways], owner: self, userInfo: nil)
+        addTrackingArea(area)
+        trinketTrackingArea = area
+    }
+
+    override func mouseEntered(with event: NSEvent) {
+        super.mouseEntered(with: event)
+        if #available(macOS 10.15, *) {
+            showTrinketGuideTooltip()
+        }
+    }
+
+    override func mouseExited(with event: NSEvent) {
+        super.mouseExited(with: event)
+        hideTrinketGuideTooltip()
+    }
+
+    @available(macOS 10.15, *)
+    private func showTrinketGuideTooltip() {
+        guard let dbfId = viewModel.dbfId, let window = self.window else { return }
+
+        let guide = AppDelegate.instance().coreManager.game.windowManager.rootOverlay?.viewModel.battlegroundsTrinketGuides.guide(dbfId: dbfId)
+        let howToPlay = guide?.published_guide ?? ""
+
+        let availableRaces = Set(AppDelegate.instance().coreManager.game.availableRaces ?? [])
+        let favorableTribes = (guide?.favorable_tribes ?? []).compactMap { raceNumber -> Race? in
+            guard raceNumber >= 0, raceNumber < Race.allCases.count else { return nil }
+            let race = Race.allCases[raceNumber]
+            return availableRaces.contains(race) ? race : nil
+        }
+
+        let hostingView = NSHostingView(rootView: GuideTooltipCardView(howToPlay: howToPlay, favorableTribes: favorableTribes))
+        let fitting = hostingView.fittingSize
+        let selfFrameInWindow = convert(bounds, to: nil)
+        hostingView.frame = NSRect(
+            x: selfFrameInWindow.midX - fitting.width / 2,
+            y: selfFrameInWindow.maxY + 8,
+            width: fitting.width,
+            height: fitting.height
+        )
+        // Added to the window's content view (not a sibling inside
+        // itemsStack) so it draws above every trinket card regardless of
+        // stack order, and isn't affected by NSStackView's own layout pass.
+        window.contentView?.addSubview(hostingView)
+        trinketTooltipHostingView = hostingView
+    }
+
+    private func hideTrinketGuideTooltip() {
+        trinketTooltipHostingView?.removeFromSuperview()
+        trinketTooltipHostingView = nil
     }
 }

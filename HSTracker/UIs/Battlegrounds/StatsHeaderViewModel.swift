@@ -13,21 +13,26 @@ class StatsHeaderViewModel: ViewModel {
     private(set) var tierV2: String?
     private(set) var avgPlacement: Double?
     private(set) var pickRate: Double?
-    
-    init(tier: Int?, avgPlacement: Double?, pickRate: Double?) {
+    // The card this stats header is for, when known - e.g. a trinket's dbfId,
+    // used to look up its guide for the hover tooltip.
+    private(set) var dbfId: Int?
+
+    init(tier: Int?, avgPlacement: Double?, pickRate: Double?, dbfId: Int? = nil) {
         super.init()
-        
+
         self.tier = tier
         self.avgPlacement = avgPlacement
         self.pickRate = pickRate
+        self.dbfId = dbfId
     }
-    
-    init(tier: String?, avgPlacement: Double?, pickRate: Double?) {
+
+    init(tier: String?, avgPlacement: Double?, pickRate: Double?, dbfId: Int? = nil) {
         super.init()
-        
+
         self.tierV2 = tier
         self.avgPlacement = avgPlacement
         self.pickRate = pickRate
+        self.dbfId = dbfId
     }
 
     var tierChar: String {

@@ -31,7 +31,7 @@ struct ConstructedMulliganV2SingleCardHeaderView: View {
                             errorPill
                         } else {
                             LinearGaugeView(viewModel: viewModel)
-                                .mulliganTooltip(gaugeTooltip)
+                                .guideTooltip(gaugeTooltip)
 
                             if viewModel.replaced {
                                 RoundedRectangle(cornerRadius: 4)
@@ -52,7 +52,7 @@ struct ConstructedMulliganV2SingleCardHeaderView: View {
                                 .offset(y: 2)
                         }
                         .frame(width: 18, height: 16)
-                        .mulliganTooltip(viewModel.warningText)
+                        .guideTooltip(viewModel.warningText)
                         .offset(x: 4, y: -4)
                     }
                 }
@@ -89,9 +89,9 @@ struct ConstructedMulliganV2SingleCardHeaderView: View {
             .frame(width: 212, height: 20.5)
     }
 
-    private var gaugeTooltip: MulliganTooltipContent? {
+    private var gaugeTooltip: GuideTooltipContent? {
         guard viewModel.hasTooltip, let title = viewModel.tooltipTitle else { return nil }
-        return MulliganTooltipContent(title: title, body: viewModel.tooltipText)
+        return GuideTooltipContent(title: title, body: viewModel.tooltipText)
     }
 }
 
