@@ -44,14 +44,18 @@ struct HeroGuideView: View {
     private func header(_ hero: BattlegroundsHeroGuideViewModel) -> some View {
         HStack {
             Text(hero.heroCard.name)
-                .font(.system(size: 13, weight: .bold))
-                .foregroundColor(.white)
+                .chunkFive(size: 13)
+                .outlinedText()
+                .lineLimit(1)
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
         .padding(.horizontal, 9)
         .frame(height: 48)
         .frame(maxWidth: .infinity, alignment: .leading)
+        .background(GuideCardArtBackground(card: hero.heroCard, opacity: 0.4, gradientEnd: 0.80))
         .background(Color(hex: "#141617"))
         .overlay(Rectangle().frame(height: 1).foregroundColor(Color(hex: "#4A5256")), alignment: .bottom)
+        .clipped()
     }
 
     @ViewBuilder

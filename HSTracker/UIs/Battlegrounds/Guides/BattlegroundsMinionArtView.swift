@@ -100,6 +100,10 @@ struct BattlegroundsMinionArtView: View {
                 .outlinedText()
                 .frame(width: 75, height: 75, alignment: .center)
                 .offset(x: 151, y: 170)
+
+            if minion.tier > 0 {
+                tierBadge
+            }
         }
         .frame(width: Self.portraitSize, height: Self.portraitSize)
         .opacity(minion.isAvailable ? 1.0 : 0.5)
@@ -113,6 +117,43 @@ struct BattlegroundsMinionArtView: View {
         .scaleEffect(isHovering ? 1.05 : 1.0)
         .trackHover { hovering in isHovering = hovering }
         .cardImageTooltip(cardId: minion.card.id)
+    }
+
+    // Pure-SwiftUI fallback for HDT's Image("tier-N") badge — a colored
+    // diamond (rotated square) matching the BG tavern-tier gem palette,
+    // positioned top-right of the portrait canvas. Replaces a missing image
+    // asset without visual regression: same color language as the BG UI.
+    private var tierBadge: some View {
+        ZStack {
+            Rectangle()
+                .fill(LinearGradient(
+                    colors: Self.tierBadgeColors(minion.tier),
+                    startPoint: .top,
+                    endPoint: .bottom
+                ))
+                .frame(width: 22, height: 22)
+                .rotationEffect(.degrees(45))
+                .shadow(color: .black.opacity(0.6), radius: 2, x: 0, y: 1)
+            Text("\(minion.tier)")
+                .font(.system(size: 14, weight: .bold))
+                .outlinedText()
+                .foregroundColor(.white)
+        }
+        .frame(width: 32, height: 32)
+        .offset(x: 195, y: 5)
+    }
+
+    private static func tierBadgeColors(_ tier: Int) -> [Color] {
+        switch tier {
+        case 1: return [Color(hex: "#8A8E96"), Color(hex: "#5A5D63")]
+        case 2: return [Color(hex: "#5AAA34"), Color(hex: "#3B7222")]
+        case 3: return [Color(hex: "#3A8FD4"), Color(hex: "#235E8C")]
+        case 4: return [Color(hex: "#9252CC"), Color(hex: "#5E2E88")]
+        case 5: return [Color(hex: "#D47C20"), Color(hex: "#8C500E")]
+        case 6: return [Color(hex: "#CC3020"), Color(hex: "#8C1810")]
+        case 7: return [Color(hex: "#D4A020"), Color(hex: "#8C6A0C")]
+        default: return [Color(hex: "#707070"), Color(hex: "#404040")]
+        }
     }
 
     private func overlayImage(_ name: String) -> some View {

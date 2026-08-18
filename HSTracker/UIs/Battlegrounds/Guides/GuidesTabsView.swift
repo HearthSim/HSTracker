@@ -57,11 +57,14 @@ struct GuidesTabsView: View {
             GuidesTabButton(imageName: "icon-comp", iconSize: CGSize(width: 31, height: 23), isActive: viewModel.activeTab == .comps) {
                 viewModel.toggleComps()
             }
-            // Ported from HDT's Resources/Icons.xaml icon_hero - see
-            // Assets.xcassets/icon-hero.imageset. HDT swaps in a taller
-            // icon_hero_and_quest variant once a quest guide is selected;
-            // not ported yet, so this always renders the hero-only icon.
-            GuidesTabButton(imageName: "icon-hero", iconSize: CGSize(width: 21, height: 23), isActive: viewModel.activeTab == .heroes) {
+            // Matches HDT's GuidesTabs.xaml: swaps icon_hero → icon_hero_and_quest
+            // (a taller icon that stacks the quest scroll below the hero silhouette)
+            // once the player has received their first quest reward mid-match.
+            GuidesTabButton(
+                imageName: questGuides.hasQuests ? "icon-hero-and-quest" : "icon-hero",
+                iconSize: questGuides.hasQuests ? CGSize(width: 21, height: 34) : CGSize(width: 21, height: 23),
+                isActive: viewModel.activeTab == .heroes
+            ) {
                 viewModel.toggleHeroes()
             }
             Spacer(minLength: 0)
