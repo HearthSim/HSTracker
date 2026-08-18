@@ -119,41 +119,27 @@ struct BattlegroundsMinionArtView: View {
         .cardImageTooltip(cardId: minion.card.id)
     }
 
-    // Pure-SwiftUI fallback for HDT's Image("tier-N") badge — a colored
-    // diamond (rotated square) matching the BG tavern-tier gem palette,
-    // positioned top-right of the portrait canvas. Replaces a missing image
-    // asset without visual regression: same color language as the BG UI.
+    // Tier badge using the same tier-N.png assets that BattlegroundsTierOverlayView
+    // already ships (Resources/Battlegrounds/tier-1.png … tier-7.png). The images
+    // are 105×114 and include the number; no text overlay needed. The badge lives
+    // inside the 256-pt reference canvas (which scaledToFrame shrinks to 70×70 at
+    // the call site), so it is sized so it reads clearly after that 0.273× scale:
+    // 80×87 → ≈22×24 pt on screen, roughly matching HDT's in-game badge size.
     private var tierBadge: some View {
-        ZStack {
-            Rectangle()
-                .fill(LinearGradient(
-                    colors: Self.tierBadgeColors(minion.tier),
-                    startPoint: .top,
-                    endPoint: .bottom
-                ))
-                .frame(width: 22, height: 22)
-                .rotationEffect(.degrees(45))
-                .shadow(color: .black.opacity(0.6), radius: 2, x: 0, y: 1)
-            Text("\(minion.tier)")
-                .font(.system(size: 14, weight: .bold))
-                .outlinedText()
-                .foregroundColor(.white)
+        Group {
+            if let image = Self.tierImage(minion.tier) {
+                Image(nsImage: image)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 80, height: 87)
+                    .offset(x: 175, y: 3)
+            }
         }
-        .frame(width: 32, height: 32)
-        .offset(x: 195, y: 5)
     }
 
-    private static func tierBadgeColors(_ tier: Int) -> [Color] {
-        switch tier {
-        case 1: return [Color(hex: "#8A8E96"), Color(hex: "#5A5D63")]
-        case 2: return [Color(hex: "#5AAA34"), Color(hex: "#3B7222")]
-        case 3: return [Color(hex: "#3A8FD4"), Color(hex: "#235E8C")]
-        case 4: return [Color(hex: "#9252CC"), Color(hex: "#5E2E88")]
-        case 5: return [Color(hex: "#D47C20"), Color(hex: "#8C500E")]
-        case 6: return [Color(hex: "#CC3020"), Color(hex: "#8C1810")]
-        case 7: return [Color(hex: "#D4A020"), Color(hex: "#8C6A0C")]
-        default: return [Color(hex: "#707070"), Color(hex: "#404040")]
-        }
+    private static func tierImage(_ tier: Int) -> NSImage? {
+        guard tier > 0, let rp = Bundle.main.resourcePath else { return nil }
+        return NSImage(contentsOfFile: "\(rp)/Resources/Battlegrounds/tier-\(tier).png")
     }
 
     private func overlayImage(_ name: String) -> some View {
