@@ -1989,6 +1989,9 @@ class Game: NSObject, PowerEventHandler {
                 Task.detached {
                     await self.windowManager.rootOverlay?.viewModel.battlegroundsQuestGuides.update()
                 }
+                DispatchQueue.main.async {
+                    self.windowManager.rootOverlay?.viewModel.battlegroundsMinionsGuide.onMatchStart()
+                }
             }
         }
     }
@@ -2285,6 +2288,7 @@ class Game: NSObject, PowerEventHandler {
                     self.windowManager.rootOverlay?.viewModel.battlegroundsCompsGuides.onMatchEnd()
                     self.windowManager.rootOverlay?.viewModel.battlegroundsHeroGuides.onMatchEnd()
                     self.windowManager.rootOverlay?.viewModel.battlegroundsQuestGuides.onMatchEnd()
+                    self.windowManager.rootOverlay?.viewModel.battlegroundsMinionsGuide.onMatchEnd()
                 }
             }
             hideBattlegroundsHeroPanel()

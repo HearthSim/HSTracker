@@ -62,7 +62,7 @@ struct RootOverlayView: View {
                     // Canvas.Right="0" in Windows/OverlayWindow.xaml).
                     ZStack(alignment: .topTrailing) {
                         Color.clear
-                        GuidesTabsView(viewModel: viewModel.battlegroundsGuidesTabs, compsGuides: viewModel.battlegroundsCompsGuides, heroGuides: viewModel.battlegroundsHeroGuides, questGuides: viewModel.battlegroundsQuestGuides)
+                        GuidesTabsView(viewModel: viewModel.battlegroundsGuidesTabs, compsGuides: viewModel.battlegroundsCompsGuides, heroGuides: viewModel.battlegroundsHeroGuides, questGuides: viewModel.battlegroundsQuestGuides, minionsGuide: viewModel.battlegroundsMinionsGuide)
                     }
                     .frame(width: canvasWidth, height: 1080)
                 }

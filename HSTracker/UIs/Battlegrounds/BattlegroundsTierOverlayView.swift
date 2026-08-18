@@ -46,21 +46,9 @@ class BattlegroundsTierOverlayView: NSView {
             }
             showing = true
         }
-        if currentTier >= 1 && currentTier <= 7 {
-            let windowManager = AppDelegate.instance().coreManager.game.windowManager
-            let controller = windowManager.battlegroundsTierDetailsWindowController
-            let frame = SizeHelper.battlegroundsTierDetailFrame()
-            controller.detailsView?.contentFrame = frame
-            windowManager.show(controller: controller, show: true, frame: frame, overlay: true)
-        }
     }
-    
+
     func hideTier() {
-        if currentTier >= 1 && currentTier <= 7 {
-            let windowManager = AppDelegate.instance().coreManager.game.windowManager
-            let controller = windowManager.battlegroundsTierDetailsWindowController
-            windowManager.show(controller: controller, show: false)
-        }
         showing = false
     }
     
@@ -121,17 +109,17 @@ class BattlegroundsTierOverlayView: NSView {
     func displayTier(tier: Int, force: Bool = false) {
         if tier != currentTier || force {
             currentTier = tier
-            
-            let windowManager = AppDelegate.instance().coreManager.game.windowManager
-            let controller = windowManager.battlegroundsTierDetailsWindowController
-            if tier >= 1 && tier <= 7 {
-                let frame = SizeHelper.battlegroundsTierDetailFrame()
-                windowManager.show(controller: controller, show: true,
-                                   frame: frame, overlay: true)
-                controller.detailsView?.contentFrame = frame
-                controller.detailsView?.setTier(tier: tier)
-            } else {
-                windowManager.show(controller: controller, show: false)
+            if #available(macOS 10.15, *) {
+                if tier >= 1 && tier <= 7 {
+                    DispatchQueue.main.async {
+                        AppDelegate.instance().coreManager.game.windowManager.rootOverlay?.viewModel.battlegroundsMinionsGuide.selectTier(tier)
+                        AppDelegate.instance().coreManager.game.windowManager.rootOverlay?.viewModel.battlegroundsGuidesTabs.activeTab = .minions
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        AppDelegate.instance().coreManager.game.windowManager.rootOverlay?.viewModel.battlegroundsGuidesTabs.activeTab = nil
+                    }
+                }
             }
         }
     }

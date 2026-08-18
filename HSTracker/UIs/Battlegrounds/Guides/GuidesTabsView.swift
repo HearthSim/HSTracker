@@ -19,6 +19,7 @@ struct GuidesTabsView: View {
     @ObservedObject var compsGuides: BattlegroundsCompsGuidesViewModel
     @ObservedObject var heroGuides: BattlegroundsHeroGuidesViewModel
     @ObservedObject var questGuides: BattlegroundsQuestGuidesViewModel
+    @ObservedObject var minionsGuide: BattlegroundsMinionsViewModel
 
     // Matches HDT's GuidesTabs.xaml Width="249" exactly (3 buttons x 83pt
     // each, once Minions joins as the third tab).
@@ -67,7 +68,9 @@ struct GuidesTabsView: View {
             ) {
                 viewModel.toggleHeroes()
             }
-            Spacer(minLength: 0)
+            GuidesTabButton(imageName: "icon-minion", iconSize: CGSize(width: 22, height: 24), isActive: viewModel.activeTab == .minions) {
+                viewModel.toggleMinions()
+            }
         }
         .background(Color(hex: "#2C3135"))
     }
@@ -89,6 +92,8 @@ struct GuidesTabsView: View {
                 HeroGuideView(viewModel: heroGuides)
                 QuestGuideView(viewModel: questGuides)
             }
+        case .minions:
+            BattlegroundsMinionsView(viewModel: minionsGuide)
         }
     }
 }

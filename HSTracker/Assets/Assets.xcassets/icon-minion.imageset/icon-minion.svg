@@ -1,0 +1,12 @@
+<svg width="22" height="24" viewBox="0 0 22 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<!-- BG minion portrait oval ring (border layer) -->
+<ellipse cx="11" cy="10" rx="9" ry="9" stroke="#FFFFFF" stroke-opacity="0.46" stroke-width="1.5"/>
+<!-- Inner portrait fill -->
+<ellipse cx="11" cy="10" rx="7.5" ry="7.5" fill="#FFFFFF" fill-opacity="0.2"/>
+<!-- Portrait highlight (inner silhouette) -->
+<ellipse cx="11" cy="9" rx="5" ry="5.5" fill="#FFFFFF" fill-opacity="0.7"/>
+<!-- Attack gem (pentagon at bottom-left, matching BG card layout) -->
+<path d="M1.5 20.5 L4.5 17 L7.5 20.5 L4.5 23.5 Z" fill="#FFFFFF" fill-opacity="0.9"/>
+<!-- Health gem (circle at bottom-right) -->
+<circle cx="17" cy="20.5" r="3" fill="#FFFFFF" fill-opacity="0.9"/>
+</svg>

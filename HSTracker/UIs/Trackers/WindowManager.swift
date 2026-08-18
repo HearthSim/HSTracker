@@ -77,10 +77,6 @@ class WindowManager {
         return $0
     }(BattlegroundsTierOverlay(windowNibName: "BattlegroundsTierOverlay"))
 
-    var battlegroundsTierDetailsWindowController: BattlegroundsTierDetailWindowController = {
-        return $0
-    }(BattlegroundsTierDetailWindowController(windowNibName: "BattlegroundsTierDetailWindowController"))
-    
     var bobsBuddyPanel: BobsBuddyPanel = {
         return $0
     }(BobsBuddyPanel(windowNibName: "BobsBuddyPanel"))

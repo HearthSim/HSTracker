@@ -27,6 +27,7 @@ class RootOverlayViewModel: ObservableObject {
     let battlegroundsTrinketGuides = BattlegroundsTrinketGuidesViewModel()
     let battlegroundsAnomalyGuides = BattlegroundsAnomalyGuidesViewModel()
     let battlegroundsQuestGuides = BattlegroundsQuestGuidesViewModel()
+    let battlegroundsMinionsGuide = BattlegroundsMinionsViewModel()
     let battlegroundsGuidesTabs = BattlegroundsGuidesTabsViewModel()
 
     // On-screen frame (in RootOverlayView's own coordinate space) of whichever
