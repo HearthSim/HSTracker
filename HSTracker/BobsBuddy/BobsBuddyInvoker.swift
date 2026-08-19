@@ -908,7 +908,7 @@ class BobsBuddyInvoker {
 
         // Specific handling for: Auto Assembler
         // Each attached enchantment's CREATOR is the magnetic card that produced it; take each distinct id once.
-        for magneticId in attachedEntities.filter({ e in e.has(tag: .magnetic) }).compactMap({ e in e[GameTag.creator] }).filter({ id in id > 0 }).unique() {
+        for magneticId in attachedEntities.filter({ e in e.has(tag: .modular) }).compactMap({ e in e[GameTag.creator] }).filter({ id in id > 0 }).unique() {
             guard allEntities[magneticId] != nil else {
                 continue
             }
@@ -933,7 +933,7 @@ class BobsBuddyInvoker {
     // card's own enchantment instead of the module's, so the module is read from CREATOR_DBID.
     private static func checkForRepeatedMagnetizedAutoAssemblers(_ minion: MinionProxy, _ attachedEntities: [Entity]) {
         for attached in attachedEntities {
-            guard attached.has(tag: .magnetic) else { continue }
+            guard attached.has(tag: .modular) else { continue }
 
             guard let module = Cards.by(dbfId: attached[.creator_dbid], collectible: false), module.attack > 0 else { continue }
 
@@ -1643,16 +1643,16 @@ class BobsBuddyInvoker {
         // True to a "transform", transformedSandyEntity has the same Id as the original Sandy
         // Guard against the snapshot holding the already-transformed copy (non-Sandy minion with same id)
         guard let sandyClass = SandyProxy._class else { return }
-        var sandyMinion = listFirst(input.player.side, { (m: MinionProxy) in MonoHelper.isInstance(obj: m.get(), klass: sandyClass) && m.game_id == transformedSandyEntity.id })
+        var sandyMinion = listFirst(input.player.side, { (m: MinionProxy) in MonoHelper.isInstance(obj: m, klass: sandyClass) && m.game_id == transformedSandyEntity.id })
         if sandyMinion == nil && input.playerTeammate.get() != nil {
-            sandyMinion = listFirst(input.playerTeammate.side, { (m: MinionProxy) in MonoHelper.isInstance(obj: m.get(), klass: sandyClass) && m.game_id == transformedSandyEntity.id })
+            sandyMinion = listFirst(input.playerTeammate.side, { (m: MinionProxy) in MonoHelper.isInstance(obj: m, klass: sandyClass) && m.game_id == transformedSandyEntity.id })
         }
         if sandyMinion == nil {
             friendly = false
-            sandyMinion = listFirst(input.opponent.side, { (m: MinionProxy) in MonoHelper.isInstance(obj: m.get(), klass: sandyClass) && m.game_id == transformedSandyEntity.id })
+            sandyMinion = listFirst(input.opponent.side, { (m: MinionProxy) in MonoHelper.isInstance(obj: m, klass: sandyClass) && m.game_id == transformedSandyEntity.id })
         }
         if sandyMinion == nil && input.opponentTeammate.get() != nil {
-            sandyMinion = listFirst(input.opponentTeammate.side, { (m: MinionProxy) in MonoHelper.isInstance(obj: m.get(), klass: sandyClass) && m.game_id == transformedSandyEntity.id })
+            sandyMinion = listFirst(input.opponentTeammate.side, { (m: MinionProxy) in MonoHelper.isInstance(obj: m, klass: sandyClass) && m.game_id == transformedSandyEntity.id })
         }
         guard let sandyMinion, sandyMinion.get() != nil else {
             return
