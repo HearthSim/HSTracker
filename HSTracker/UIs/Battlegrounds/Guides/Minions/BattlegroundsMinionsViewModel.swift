@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
 // Mirrors HDT's BattlegroundsMinionsViewModel: drives the Minions tab that
 // replaced the AppKit BattlegroundsTierDetailsView + BattlegroundsTierDetailWindowController.
@@ -22,22 +23,35 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
         let minionType: Int      // Race.lookup result, or -1 for spells
         let raceName: String
         let groupedByMinionType: Bool  // true when in tribe mode (groups by tier)
-        let minions: [BattlegroundsCompGuideViewModel.GuideMinion]
+        let cards: [Card]
     }
 
     @Published var activeTier: Int?
     @Published var activeTribe: Race?
+    @Published var availableTiers: [Int] = BattlegroundsUtils.getAvailableTiers(anomalyCardId: nil)
 
     private var availableRaces: [Race]?
     private var isDuos = false
     private var anomaly: String?
-
-    var availableTiers: [Int] {
-        BattlegroundsUtils.getAvailableTiers(anomalyCardId: anomaly)
-    }
+    private var settingsCancellable: AnyCancellable?
 
     private var showTier7: Bool {
         AppDelegate.instance().coreManager.game.windowManager.battlegroundsTierOverlay.tierOverlay.showTavernTier7
+    }
+
+    init() {
+        settingsCancellable = NotificationCenter.default
+            .publisher(for: UserDefaults.didChangeNotification)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in self?.refreshAvailableTiers() }
+    }
+
+    private func refreshAvailableTiers() {
+        var tiers = BattlegroundsUtils.getAvailableTiers(anomalyCardId: anomaly)
+        if (Settings.alwaysShowTier7 || showTier7) && !tiers.contains(7) {
+            tiers.append(7)
+        }
+        availableTiers = tiers
     }
 
     var unavailableRaces: [Race] {
@@ -67,6 +81,7 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
         anomaly = Cards.by(dbfId: anomalyDbfId, collectible: false)?.id
         activeTier = nil
         activeTribe = nil
+        refreshAvailableTiers()
     }
 
     func onMatchEnd() {
@@ -92,30 +107,25 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
     private func groupsByTribe(tier: Int) -> [MinionGroup] {
         var result = [MinionGroup]()
         for race in BattlegroundsDbSingleton.instance.races {
-            if let ar = availableRaces, !ar.contains(race) && race != .invalid {
+            if let ar = availableRaces, !ar.contains(race) && race != .invalid && race != .all {
                 continue
             }
             let cards = BattlegroundsDbSingleton.instance.getCards(tier, race, isDuos)
             guard !cards.isEmpty else { continue }
-            let minions = cards.sorted { $0.name < $1.name }.map {
-                BattlegroundsCompGuideViewModel.GuideMinion(dbfId: $0.dbfId, card: $0, isAvailable: true)
-            }
             result.append(MinionGroup(
                 tier: tier,
                 minionType: Race.lookup(race),
                 raceName: String.localizedString("\(race)", comment: ""),
                 groupedByMinionType: false,
-                minions: minions
+                cards: cards.sorted { $0.name < $1.name }
             ))
         }
         if Settings.showTavernSpells {
             let spells = BattlegroundsDbSingleton.instance.getSpells(tier, isDuos)
                 .sorted { a, b in a.cost == b.cost ? a.name < b.name : a.cost < b.cost }
             if !spells.isEmpty {
-                let minions = spells.map {
-                    BattlegroundsCompGuideViewModel.GuideMinion(dbfId: $0.dbfId, card: $0, isAvailable: true)
-                }
-                result.append(MinionGroup(tier: tier, minionType: -1, raceName: "", groupedByMinionType: false, minions: minions))
+                result.append(MinionGroup(tier: tier, minionType: -1, raceName: "",
+                                          groupedByMinionType: false, cards: spells))
             }
         }
         return result.sorted { a, b in
@@ -129,6 +139,7 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
         var tiers = availableTiers
         if showTier7 { tiers.append(7) }
         let minionType = Race.lookup(tribe)
+        let raceName = String.localizedString("\(tribe)", comment: "")
         var result = [MinionGroup]()
         for tier in tiers {
             let cards: [Card]
@@ -142,10 +153,8 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
                 cards = (main + extra).sorted { $0.name < $1.name }
             }
             guard !cards.isEmpty else { continue }
-            let minions = cards.map {
-                BattlegroundsCompGuideViewModel.GuideMinion(dbfId: $0.dbfId, card: $0, isAvailable: true)
-            }
-            result.append(MinionGroup(tier: tier, minionType: minionType, raceName: "", groupedByMinionType: true, minions: minions))
+            result.append(MinionGroup(tier: tier, minionType: minionType, raceName: raceName,
+                                      groupedByMinionType: true, cards: cards))
         }
         return result
     }

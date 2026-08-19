@@ -134,9 +134,11 @@ class RootOverlayWindow: OverWindowController {
                 CardTooltipPanel.shared.show(cardId: match.cardId)
             }
         } else {
-            if let current = hoveredCardId {
+            if hoveredCardId != nil {
                 hoveredCardId = nil
-                CardTooltipPanel.shared.hide(ifShowing: current)
+                // Unconditional hide: we know no card is under cursor, so we must
+                // dismiss regardless of which card (base or golden) is currently shown.
+                CardTooltipPanel.shared.hide()
             }
             // Force-hide if the tooltip's current card is no longer registered.
             // Fires at most every 150ms via the fallback timer and catches the

@@ -102,20 +102,28 @@ private struct CardHoverRepresentable: NSViewRepresentable {
 
 // MARK: - Tooltip panel
 
+// Mirrors HDT's CardTooltip.xaml: base card shown immediately, golden card shown
+// 0.8s later ALONGSIDE the base (matching StoryboardShowDelayed BeginTime="0:0:0.8").
+// Both cards are visible simultaneously; golden disappears if the card is no longer hovered.
+// If golden art is unavailable (card has no baconTriple), only the base card is shown.
 @available(macOS 10.15, *)
 class CardTooltipPanel: NSPanel {
     static let shared = CardTooltipPanel()
 
-    private let imageView = NSImageView()
+    private let primaryImageView = NSImageView()
+    private let goldenImageView = NSImageView()
     private(set) var currentCardId: String?
     private var pendingShowWork: DispatchWorkItem?
     private var pendingHideWork: DispatchWorkItem?
+    private var pendingGoldenWork: DispatchWorkItem?
     private var maxDurationTimer: Timer?
 
     private static let tooltipWidth: CGFloat = 220
     private static let tooltipHeight: CGFloat = tooltipWidth * 388.0 / 256.0
     private static let showDelay: TimeInterval = 0.3
     private static let hideDelay: TimeInterval = 0.1
+    // 0.8s matches CardTooltip.xaml StoryboardShowDelayed BeginTime="0:0:0.8"
+    private static let goldenDelay: TimeInterval = 0.8
     private static let maxDuration: TimeInterval = 60
 
     private init() {
@@ -133,8 +141,32 @@ class CardTooltipPanel: NSPanel {
         hidesOnDeactivate = false
         animationBehavior = .none
 
-        imageView.imageScaling = .scaleProportionallyUpOrDown
-        contentView = imageView
+        let w = Self.tooltipWidth
+        let h = Self.tooltipHeight
+        primaryImageView.imageScaling = .scaleProportionallyUpOrDown
+        primaryImageView.frame = NSRect(x: 0, y: 0, width: w, height: h)
+        goldenImageView.imageScaling = .scaleProportionallyUpOrDown
+        goldenImageView.frame = .zero
+
+        let container = NSView(frame: NSRect(x: 0, y: 0, width: w, height: h))
+        container.addSubview(goldenImageView)
+        container.addSubview(primaryImageView)
+        contentView = container
+
+        // Hide tooltip when Hearthstone loses focus (tab-away).
+        NSWorkspace.shared.notificationCenter.addObserver(
+            self,
+            selector: #selector(hearthstoneDeactivated(_:)),
+            name: NSWorkspace.didDeactivateApplicationNotification,
+            object: nil
+        )
+    }
+
+    @objc private func hearthstoneDeactivated(_ notification: Notification) {
+        guard let app = notification.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication else { return }
+        if app.localizedName == "Hearthstone" {
+            hide()
+        }
     }
 
     func show(cardId: String) {
@@ -142,11 +174,14 @@ class CardTooltipPanel: NSPanel {
         pendingHideWork = nil
 
         if currentCardId == cardId && isVisible {
-            positionNearMouse()
+            positionNearMouse(panelWidth: frame.size.width)
             return
         }
 
         pendingShowWork?.cancel()
+        pendingGoldenWork?.cancel()
+        pendingGoldenWork = nil
+
         let work = DispatchWorkItem { [weak self] in
             guard let self = self else { return }
             self.pendingShowWork = nil
@@ -156,7 +191,12 @@ class CardTooltipPanel: NSPanel {
             // still fire, leaving a ghost tooltip after the guide is gone.
             guard CardHoverRegistry.shared.entries.contains(where: { $0.view != nil && $0.cardId == cardId }) else { return }
             self.currentCardId = cardId
-            self.imageView.image = nil
+            let w = Self.tooltipWidth
+            let h = Self.tooltipHeight
+            self.primaryImageView.image = nil
+            self.goldenImageView.image = nil
+            self.goldenImageView.frame = .zero
+            self.primaryImageView.frame = NSRect(x: 0, y: 0, width: w, height: h)
 
             // Try BG art first (BG cards); fall back to the standard render
             // (collectible cards referenced in guide text like Sonya Shadowdancer).
@@ -164,19 +204,21 @@ class CardTooltipPanel: NSPanel {
                 if let img = img {
                     DispatchQueue.main.async {
                         guard let self = self, self.currentCardId == cardId else { return }
-                        self.imageView.image = img
-                        self.positionNearMouse()
+                        self.primaryImageView.image = img
+                        self.positionNearMouse(panelWidth: Self.tooltipWidth)
                         self.orderFront(nil)
                         self.startMaxDurationTimer()
+                        self.scheduleGolden(cardId: cardId)
                     }
                 } else {
                     ImageUtils.cardArt(for: cardId) { [weak self] img in
                         DispatchQueue.main.async {
                             guard let self = self, self.currentCardId == cardId else { return }
-                            self.imageView.image = img
-                            self.positionNearMouse()
+                            self.primaryImageView.image = img
+                            self.positionNearMouse(panelWidth: Self.tooltipWidth)
                             self.orderFront(nil)
                             self.startMaxDurationTimer()
+                            self.scheduleGolden(cardId: cardId)
                         }
                     }
                 }
@@ -186,15 +228,48 @@ class CardTooltipPanel: NSPanel {
         DispatchQueue.main.asyncAfter(deadline: .now() + Self.showDelay, execute: work)
     }
 
+    // After goldenDelay seconds, shows the golden (baconTriple) card ALONGSIDE the base
+    // card — matching CardTooltip.xaml's DockPanel with both images side by side.
+    // Silently does nothing if golden art is unavailable for this card.
+    private func scheduleGolden(cardId: String) {
+        pendingGoldenWork?.cancel()
+        let work = DispatchWorkItem { [weak self] in
+            guard let self = self, self.currentCardId == cardId else { return }
+            self.pendingGoldenWork = nil
+            ImageUtils.cardArtBG(for: cardId, baconTriple: true) { [weak self] img in
+                guard let img = img else { return }
+                DispatchQueue.main.async {
+                    guard let self = self, self.currentCardId == cardId else { return }
+                    let w = Self.tooltipWidth
+                    let h = Self.tooltipHeight
+                    self.goldenImageView.image = img
+                    // Expand to double width: golden on left, base card on right
+                    self.positionNearMouse(panelWidth: w * 2)
+                    self.goldenImageView.frame = NSRect(x: 0, y: 0, width: w, height: h)
+                    self.primaryImageView.frame = NSRect(x: w, y: 0, width: w, height: h)
+                }
+            }
+        }
+        pendingGoldenWork = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + Self.goldenDelay, execute: work)
+    }
+
     func hide() {
         pendingShowWork?.cancel()
         pendingShowWork = nil
         pendingHideWork?.cancel()
         pendingHideWork = nil
+        pendingGoldenWork?.cancel()
+        pendingGoldenWork = nil
         maxDurationTimer?.invalidate()
         maxDurationTimer = nil
         currentCardId = nil
-        imageView.image = nil
+        let w = Self.tooltipWidth
+        let h = Self.tooltipHeight
+        primaryImageView.image = nil
+        goldenImageView.image = nil
+        goldenImageView.frame = .zero
+        primaryImageView.frame = NSRect(x: 0, y: 0, width: w, height: h)
         orderOut(nil)
     }
 
@@ -208,6 +283,8 @@ class CardTooltipPanel: NSPanel {
     func hide(ifShowing cardId: String) {
         pendingShowWork?.cancel()
         pendingShowWork = nil
+        pendingGoldenWork?.cancel()
+        pendingGoldenWork = nil
 
         guard currentCardId == cardId else { return }
 
@@ -216,25 +293,31 @@ class CardTooltipPanel: NSPanel {
             self.pendingHideWork = nil
             guard self.currentCardId == cardId else { return }
             self.currentCardId = nil
-            self.imageView.image = nil
+            let w = Self.tooltipWidth
+            let h = Self.tooltipHeight
+            self.primaryImageView.image = nil
+            self.goldenImageView.image = nil
+            self.goldenImageView.frame = .zero
+            self.primaryImageView.frame = NSRect(x: 0, y: 0, width: w, height: h)
             self.orderOut(nil)
         }
         pendingHideWork = work
         DispatchQueue.main.asyncAfter(deadline: .now() + Self.hideDelay, execute: work)
     }
 
-    private func positionNearMouse() {
+    private func positionNearMouse(panelWidth: CGFloat) {
         let mousePoint = NSEvent.mouseLocation
+        let h = Self.tooltipHeight
         var origin = NSPoint(
-            x: mousePoint.x - Self.tooltipWidth - 20,
-            y: mousePoint.y - Self.tooltipHeight / 2
+            x: mousePoint.x - panelWidth - 20,
+            y: mousePoint.y - h / 2
         )
         if let screen = NSScreen.main {
             let frame = screen.visibleFrame
             origin.x = max(frame.minX, origin.x)
-            origin.y = max(frame.minY, min(frame.maxY - Self.tooltipHeight, origin.y))
+            origin.y = max(frame.minY, min(frame.maxY - h, origin.y))
         }
-        setFrameOrigin(origin)
+        setFrame(NSRect(origin: origin, size: CGSize(width: panelWidth, height: h)), display: true)
     }
 }
 

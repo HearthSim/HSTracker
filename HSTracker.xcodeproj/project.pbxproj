@@ -1284,6 +1284,7 @@
 		3650284E7F5F7DF194F76E9E /* BattlegroundsGuidesTabsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B54C3648CCDFE74F16426CF /* BattlegroundsGuidesTabsViewModel.swift */; };
 		AA2B3C4D5E6F7A8B9C0D1E2F /* BattlegroundsMinionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B2C3D4E5F6A7B8C9D0E1F /* BattlegroundsMinionsViewModel.swift */; };
 		BB2C3D4E5F6A7B8C9D0E1F2A /* BattlegroundsMinionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1C2D3E4F5A6B7C8D9E0F1A /* BattlegroundsMinionsView.swift */; };
+		CC4E5F6A7B8C9D0E1F2A3B4C /* BattlegroundsCardsGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3D4E5F6A7B8C9D0E1F2A3B /* BattlegroundsCardsGroupView.swift */; };
 		FA59B44179A65B25F725A382 /* GuidesTabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D52FE31E0E35DBE0A18FC1F /* GuidesTabsView.swift */; };
 		B8BD3BAA2C41C50F001E85B7 /* BattlegroundsCompositionStatsBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8BD3BA92C41C50F001E85B7 /* BattlegroundsCompositionStatsBar.xib */; };
 		B8BD3BAC2C41C524001E85B7 /* BattlegroundsCompositionStatsBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD3BAB2C41C524001E85B7 /* BattlegroundsCompositionStatsBar.swift */; };
@@ -2613,6 +2614,7 @@
 		2B54C3648CCDFE74F16426CF /* BattlegroundsGuidesTabsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsGuidesTabsViewModel.swift; sourceTree = "<group>"; };
 		AA1B2C3D4E5F6A7B8C9D0E1F /* BattlegroundsMinionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsMinionsViewModel.swift; sourceTree = "<group>"; };
 		BB1C2D3E4F5A6B7C8D9E0F1A /* BattlegroundsMinionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsMinionsView.swift; sourceTree = "<group>"; };
+		CC3D4E5F6A7B8C9D0E1F2A3B /* BattlegroundsCardsGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsCardsGroupView.swift; sourceTree = "<group>"; };
 		1D52FE31E0E35DBE0A18FC1F /* GuidesTabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidesTabsView.swift; sourceTree = "<group>"; };
 		B8BD3BA92C41C50F001E85B7 /* BattlegroundsCompositionStatsBar.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsCompositionStatsBar.xib; sourceTree = "<group>"; };
 		B8BD3BAB2C41C524001E85B7 /* BattlegroundsCompositionStatsBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsCompositionStatsBar.swift; sourceTree = "<group>"; };
@@ -3595,6 +3597,7 @@
 			children = (
 				AA1B2C3D4E5F6A7B8C9D0E1F /* BattlegroundsMinionsViewModel.swift */,
 				BB1C2D3E4F5A6B7C8D9E0F1A /* BattlegroundsMinionsView.swift */,
+				CC3D4E5F6A7B8C9D0E1F2A3B /* BattlegroundsCardsGroupView.swift */,
 			);
 			path = Minions;
 			sourceTree = "<group>";
@@ -6101,6 +6104,7 @@
 				3650284E7F5F7DF194F76E9E /* BattlegroundsGuidesTabsViewModel.swift in Sources */,
 				AA2B3C4D5E6F7A8B9C0D1E2F /* BattlegroundsMinionsViewModel.swift in Sources */,
 				BB2C3D4E5F6A7B8C9D0E1F2A /* BattlegroundsMinionsView.swift in Sources */,
+				CC4E5F6A7B8C9D0E1F2A3B4C /* BattlegroundsCardsGroupView.swift in Sources */,
 				FA59B44179A65B25F725A382 /* GuidesTabsView.swift in Sources */,
 				B89BCE182FF47D5A0095F011 /* Moragg.swift in Sources */,
 				B8E1E5D62D0C958300383975 /* RaiseDead.swift in Sources */,

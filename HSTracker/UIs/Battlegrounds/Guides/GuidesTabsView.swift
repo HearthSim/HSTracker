@@ -35,10 +35,17 @@ struct GuidesTabsView: View {
                 tabStrip
                 if let activeTab = viewModel.activeTab {
                     content(for: activeTab)
+                        // Cap at (canvas height − tab strip) so the panel grows to
+                        // fill the window bottom for long lists while still shrinking
+                        // for short ones (fixedSize below handles the shrink side).
+                        .frame(maxHeight: 1080 - 49)
+                        // Minions content manages its own per-group backgrounds so the
+                        // gaps between groups are transparent (showing the game window).
+                        // Comps and Heroes content views need the panel fill.
+                        .background(activeTab == .minions ? Color.clear : Color(hex: "#23272A"))
                 }
             }
             .frame(width: Self.width)
-            .background(Color(hex: "#23272A"))
             .overlay(RoundedRectangle(cornerRadius: 0).stroke(Color(hex: "#3f4346"), lineWidth: 1))
             .fixedSize(horizontal: false, vertical: true)
             .background(
@@ -51,6 +58,12 @@ struct GuidesTabsView: View {
 
     private var tabStrip: some View {
         HStack(spacing: 0) {
+            // Tab order mirrors GuidesTabs.xaml: Minions first, then Comps, then Heroes.
+            // icon_card from Icons.xaml: Canvas 20×27, displayed at 18.2×23 pt with
+            // a white VisualBrush OpacityMask in XAML — matched here by the SVG asset.
+            GuidesTabButton(imageName: "icon-card", iconSize: CGSize(width: 18.2, height: 23), isActive: viewModel.activeTab == .minions) {
+                viewModel.toggleMinions()
+            }
             // Ported from HDT's Resources/Icons.xaml icon_comp, white +
             // amber Tier7-accent fills at fixed opacities - see
             // Assets.xcassets/icon-comp.imageset. Not a template/tintable
@@ -67,9 +80,6 @@ struct GuidesTabsView: View {
                 isActive: viewModel.activeTab == .heroes
             ) {
                 viewModel.toggleHeroes()
-            }
-            GuidesTabButton(imageName: "icon-minion", iconSize: CGSize(width: 22, height: 24), isActive: viewModel.activeTab == .minions) {
-                viewModel.toggleMinions()
             }
         }
         .background(Color(hex: "#2C3135"))
