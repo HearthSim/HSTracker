@@ -228,15 +228,20 @@ class CardTooltipPanel: NSPanel {
         DispatchQueue.main.asyncAfter(deadline: .now() + Self.showDelay, execute: work)
     }
 
-    // After goldenDelay seconds, shows the golden (baconTriple) card ALONGSIDE the base
+    // After goldenDelay seconds, shows the golden (triple upgrade) card ALONGSIDE the base
     // card — matching CardTooltip.xaml's DockPanel with both images side by side.
-    // Silently does nothing if golden art is unavailable for this card.
+    // Resolves the triple card via baconTripleUpgradeMinionId; silently does nothing if
+    // the card has no triple upgrade or the art is unavailable.
     private func scheduleGolden(cardId: String) {
         pendingGoldenWork?.cancel()
         let work = DispatchWorkItem { [weak self] in
             guard let self = self, self.currentCardId == cardId else { return }
             self.pendingGoldenWork = nil
-            ImageUtils.cardArtBG(for: cardId, baconTriple: true) { [weak self] img in
+            guard let card = Cards.by(cardId: cardId),
+                  card.baconTripleUpgradeMinionId != 0,
+                  let golden = Cards.by(dbfId: card.baconTripleUpgradeMinionId, collectible: false) else { return }
+            let goldenCardId = golden.id
+            ImageUtils.cardArtBG(for: goldenCardId, baconTriple: false) { [weak self] img in
                 guard let img = img else { return }
                 DispatchQueue.main.async {
                     guard let self = self, self.currentCardId == cardId else { return }
