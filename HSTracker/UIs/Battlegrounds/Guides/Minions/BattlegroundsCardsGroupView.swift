@@ -19,6 +19,8 @@ struct BattlegroundsCardsGroupView: View {
     let group: BattlegroundsMinionsViewModel.MinionGroup
     let onTribeSelected: ((Race) -> Void)?
 
+    @SwiftUI.State private var isHeaderHovering = false
+
     // Mirrors BattlegroundsCardsGroup.HeaderCursor: header is clickable ("Hand")
     // only when viewing the tier mode (grouped by tribe) and the tribe is a real
     // filterable race — not spells (-1), not neutral/invalid.
@@ -83,11 +85,33 @@ struct BattlegroundsCardsGroupView: View {
                 }
             }
             .frame(height: 24)
-            .background(Color(hex: "#1d3657"))
+            // Explicit maxWidth here (not just on the HStack above) - see
+            // CompGuideRow's identical fix: without it, hover/click hit-testing
+            // on macOS derives the Button's region from its label's own opaque
+            // content rather than the full frame, leaving only a small area
+            // (roughly the Text glyph) actually responsive.
+            .frame(maxWidth: .infinity)
+            .background(Color(hex: headerBackgroundHex))
             .overlay(Rectangle().frame(height: 1).foregroundColor(Color(hex: "#141617")), alignment: .bottom)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
+        // SwiftUI's .onHover on a Button only tracked roughly the top half of
+        // this header vertically (a known SwiftUI-on-macOS hit-testing quirk
+        // with Button + ZStack content) - trackHover uses a real AppKit
+        // NSTrackingArea sized to the actual rendered bounds instead, matching
+        // the fix already used for the minion-tile hover effect (see
+        // CardImageTooltip.swift's HoverTrackingNSView).
+        .trackHover { hovering in
+            isHeaderHovering = hovering
+        }
+    }
+
+    // Lighter blue on hover, but only while the header is actually clickable
+    // (tribe mode) — matches HDT's hover trigger, which only fires when
+    // GroupedByMinionType is false.
+    private var headerBackgroundHex: String {
+        isHeaderHovering && !group.groupedByMinionType ? "#24436c" : "#1d3657"
     }
 
     // Slanted subtitle panel — mirrors BattlegroundsCardsGroup.xaml's right-docked
