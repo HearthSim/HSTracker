@@ -1145,19 +1145,7 @@ class Game: NSObject, PowerEventHandler {
     private var _currentGameType: GameType = .gt_unknown
     private var _gameTypeDuosCorrectionCheckCompleted = false
     var currentGameType: GameType {
-
         if _currentGameType != .gt_unknown {
-            if _gameTypeDuosCorrectionCheckCompleted {
-                return _currentGameType
-            }
-            if isSoloBattlegroundsGameType(_currentGameType) {
-                tryCorrectMisreadSoloGameType()
-            }
-            return _currentGameType
-        }
-        if currentMode == .gameplay, let gameType = MirrorHelper.getGameType(),
-            let type = GameType(rawValue: gameType) {
-            _currentGameType = type
             if _gameTypeDuosCorrectionCheckCompleted {
                 return _currentGameType
             }
@@ -2667,7 +2655,7 @@ class Game: NSObject, PowerEventHandler {
     }
     
     var isTraditionalHearthstoneMatch: Bool {
-        return !isBattlegroundsMatch() && !isMercenariesMatch()
+        return currentGameType != .gt_unknown && !isBattlegroundsMatch() && !isMercenariesMatch()
     }
     
     var currentBattlegroundsRating: Int? {
