@@ -1615,16 +1615,18 @@ class BobsBuddyInvoker {
         
         var friendly = true
         // True to a "transform", transformedSandyEntity has the same Id as the original Sandy
-        var sandyMinion = listFirst(input.player.side, { (m: MinionProxy) in m.game_id == transformedSandyEntity.id })
+        // Guard against the snapshot holding the already-transformed copy (non-Sandy minion with same id)
+        guard let sandyClass = SandyProxy._class else { return }
+        var sandyMinion = listFirst(input.player.side, { (m: MinionProxy) in MonoHelper.isInstance(obj: m.get(), klass: sandyClass) && m.game_id == transformedSandyEntity.id })
         if sandyMinion == nil && input.playerTeammate.get() != nil {
-            sandyMinion = listFirst(input.playerTeammate.side, { (m: MinionProxy) in m.game_id == transformedSandyEntity.id })
+            sandyMinion = listFirst(input.playerTeammate.side, { (m: MinionProxy) in MonoHelper.isInstance(obj: m.get(), klass: sandyClass) && m.game_id == transformedSandyEntity.id })
         }
         if sandyMinion == nil {
             friendly = false
-            sandyMinion = listFirst(input.opponent.side, { (m: MinionProxy) in m.game_id == transformedSandyEntity.id })
+            sandyMinion = listFirst(input.opponent.side, { (m: MinionProxy) in MonoHelper.isInstance(obj: m.get(), klass: sandyClass) && m.game_id == transformedSandyEntity.id })
         }
         if sandyMinion == nil && input.opponentTeammate.get() != nil {
-            sandyMinion = listFirst(input.opponentTeammate.side, { (m: MinionProxy) in m.game_id == transformedSandyEntity.id })
+            sandyMinion = listFirst(input.opponentTeammate.side, { (m: MinionProxy) in MonoHelper.isInstance(obj: m.get(), klass: sandyClass) && m.game_id == transformedSandyEntity.id })
         }
         guard let sandyMinion, sandyMinion.get() != nil else {
             return
