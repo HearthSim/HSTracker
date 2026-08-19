@@ -1171,5 +1171,6 @@ extension CardIds.NonCollectible {
         static let AccordoTron_AccordOTron = "BG26_147_G"
         static let AccordoTron_AccordOTronEnchantment = "BG26_147e"
         static let BilgewaterBreakout_LockboxToken = "BG36_520t"
+        static let WaxLance = "BG36_MagicItem_309"
     }
 }

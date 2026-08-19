@@ -178,7 +178,7 @@ class BattlegroundsTierOverlayView: NSView {
     }
     
     func onTrinkets(trinkets: [String]) {
-        hasTier7Trinket = trinkets.any { x in x == CardIds.NonCollectible.Neutral.PaglesFishingRod || x == CardIds.NonCollectible.Neutral.Kaleidoscope }
+        hasTier7Trinket = trinkets.any { x in x == CardIds.NonCollectible.Neutral.PaglesFishingRod || x == CardIds.NonCollectible.Neutral.Kaleidoscope || x == CardIds.NonCollectible.Neutral.WaxLance }
         DispatchQueue.main.async {
             AppDelegate.instance().coreManager.game.updateBattlegroundsTierOverlay(reset: false)
         }
