@@ -241,10 +241,10 @@ class CardTooltipPanel: NSPanel {
                   card.baconTripleUpgradeMinionId != 0,
                   let golden = Cards.by(dbfId: card.baconTripleUpgradeMinionId, collectible: false) else { return }
             let goldenCardId = golden.id
-            ImageUtils.cardArtBG(for: goldenCardId, baconTriple: false) { [weak self] img in
-                guard let img = img else { return }
+
+            func apply(_ img: NSImage) {
                 DispatchQueue.main.async {
-                    guard let self = self, self.currentCardId == cardId else { return }
+                    guard self.currentCardId == cardId else { return }
                     let w = Self.tooltipWidth
                     let h = Self.tooltipHeight
                     self.goldenImageView.image = img
@@ -252,6 +252,23 @@ class CardTooltipPanel: NSPanel {
                     self.positionNearMouse(panelWidth: w * 2)
                     self.goldenImageView.frame = NSRect(x: 0, y: 0, width: w, height: h)
                     self.primaryImageView.frame = NSRect(x: w, y: 0, width: w, height: h)
+                }
+            }
+
+            // Mirrors HDT's cardImageDownloader URL formula: bgs endpoint (these are
+            // always Battlegrounds cards) with "_triple" appended to the *golden* card's
+            // own id (which is itself a distinct CardID, e.g. "BG20_100_G" — not the base
+            // card's id) — verified against art.hearthstonejson.com directly:
+            // bgs/.../BG20_100_G_triple.png → 200, while bgs/.../BG20_100_G.png (no
+            // suffix) and render/.../BG20_100_G_triple.png both 404.
+            ImageUtils.cardArtBG(for: goldenCardId, baconTriple: true) { img in
+                if let img = img {
+                    apply(img)
+                } else {
+                    ImageUtils.cardArt(for: goldenCardId) { img in
+                        guard let img = img else { return }
+                        apply(img)
+                    }
                 }
             }
         }
