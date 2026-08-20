@@ -8,7 +8,7 @@
 
 class InfestTheSculleryCounter: NumericCounter {
 
-    private let baseCost = 4
+    private let baseCost = 3
 
     override var cardIdToShowInUI: String? {
         return CardIds.Collectible.Druid.InfestTheScullery

@@ -1,3 +1,13 @@
+# 3.6.5
+**Updated for Hearthstone 36.2.2**
+## Battlegrounds
+- Added counters for Eternal Knight and Ancestral Automaton.
+- Fixed issues that could cause Latest Games to not work in Duos.
+- Updated the list of Trinkets that cause Tavern Tier 7 to appear.
+- Fixed a number of incorrect combat odds.
+- Fixed a crash when Sandy was on the board in Duos.
+- Fixed a recent issue with incorrect combat odds around Polarizing Beatboxer.
+
 # 3.6.4
 ## Hearthstone
 - New Premium feature: Mulligan G-V2!\

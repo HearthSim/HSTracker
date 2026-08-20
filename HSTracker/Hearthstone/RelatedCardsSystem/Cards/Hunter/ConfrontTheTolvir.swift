@@ -21,6 +21,6 @@ class ConfrontTheTolvir: ICardWithRelatedCards {
     func getRelatedCards(player: Player) -> [Card?] {
         return player.cardsPlayedThisMatch
             .compactMap { entity in CardUtils.getProcessedCardFromEntity(entity, player) }
-            .filter { $0.cost == 1 }
+            .filter { $0.cost == 1 && $0.type == .minion }
     }
 }

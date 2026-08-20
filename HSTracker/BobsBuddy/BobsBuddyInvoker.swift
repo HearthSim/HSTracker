@@ -890,6 +890,7 @@ class BobsBuddyInvoker {
             }
             // Not just mech here, because Technical Element can magnetize to Elementals
             checkForSurfnSurfFromMagnetizedModules(minion, entity, allEntities)
+            checkForRepeatedMagnetizedAutoAssemblers(minion, attachedEntities)
         }
         
         minion.gameId = Int32(entity.id)
@@ -907,7 +908,7 @@ class BobsBuddyInvoker {
 
         // Specific handling for: Auto Assembler
         // Each attached enchantment's CREATOR is the magnetic card that produced it; take each distinct id once.
-        for magneticId in attachedEntities.compactMap({ e in e[GameTag.creator] }).filter({ id in id > 0 }).unique() {
+        for magneticId in attachedEntities.filter({ e in e.has(tag: .modular) }).compactMap({ e in e[GameTag.creator] }).filter({ id in id > 0 }).unique() {
             guard allEntities[magneticId] != nil else {
                 continue
             }
@@ -925,7 +926,32 @@ class BobsBuddyInvoker {
 
         // Future magnetic deathrattles can be added/handled here.
     }
-    
+
+    // Every magnetization of the same module onto a host accumulates into ONE enchantment on that
+    // host, whose TAG_SCRIPT_DATA_NUM_1 holds the module's Attack once per module. An extra
+    // magnetization granted by another card (Drone Duplicator, Polarizing Beatboxer) writes that
+    // card's own enchantment instead of the module's, so the module is read from CREATOR_DBID.
+    private static func checkForRepeatedMagnetizedAutoAssemblers(_ minion: MinionProxy, _ attachedEntities: [Entity]) {
+        for attached in attachedEntities {
+            guard attached.has(tag: .modular) else { continue }
+
+            guard let module = Cards.by(dbfId: attached[.creator_dbid], collectible: false), module.attack > 0 else { continue }
+
+            let golden = module.id == CardIds.NonCollectible.Neutral.AutoAssembler_AutoAssembler1
+            guard golden || module.id == CardIds.NonCollectible.Neutral.AutoAssembler else { continue }
+
+            let modules = attached[.tag_script_data_num_1] / module.attack
+
+            // The module's own enchantment already carries one of them.
+            let carriesOne = attached.cardId == CardIds.NonCollectible.Neutral.AutoAssembler_AutoAssemblerEnchantment
+                || attached.cardId == CardIds.NonCollectible.Neutral.AutoAssembler_AutoAssembler2
+
+            for _ in (carriesOne ? 1 : 0) ..< modules {
+                minion.addDeathrattle(deathrattle: golden ? AutoAssemblerProxy.goldenDeathrattle() : AutoAssemblerProxy.deathrattle())
+            }
+        }
+    }
+
     // A magnetized module keeps its own attached enchantments, including Surf n' Surf Spellcraft spells
     // cast on a Technical Element, which is then magnetized to another host minion.
     // The magnetized module records its host in TAG_SCRIPT_DATA_NUM_1 when it magnetizes.
@@ -1615,16 +1641,18 @@ class BobsBuddyInvoker {
         
         var friendly = true
         // True to a "transform", transformedSandyEntity has the same Id as the original Sandy
-        var sandyMinion = listFirst(input.player.side, { (m: MinionProxy) in m.game_id == transformedSandyEntity.id })
+        // Guard against the snapshot holding the already-transformed copy (non-Sandy minion with same id)
+        guard let sandyClass = SandyProxy._class else { return }
+        var sandyMinion = listFirst(input.player.side, { (m: MinionProxy) in MonoHelper.isInstance(obj: m, klass: sandyClass) && m.game_id == transformedSandyEntity.id })
         if sandyMinion == nil && input.playerTeammate.get() != nil {
-            sandyMinion = listFirst(input.playerTeammate.side, { (m: MinionProxy) in m.game_id == transformedSandyEntity.id })
+            sandyMinion = listFirst(input.playerTeammate.side, { (m: MinionProxy) in MonoHelper.isInstance(obj: m, klass: sandyClass) && m.game_id == transformedSandyEntity.id })
         }
         if sandyMinion == nil {
             friendly = false
-            sandyMinion = listFirst(input.opponent.side, { (m: MinionProxy) in m.game_id == transformedSandyEntity.id })
+            sandyMinion = listFirst(input.opponent.side, { (m: MinionProxy) in MonoHelper.isInstance(obj: m, klass: sandyClass) && m.game_id == transformedSandyEntity.id })
         }
         if sandyMinion == nil && input.opponentTeammate.get() != nil {
-            sandyMinion = listFirst(input.opponentTeammate.side, { (m: MinionProxy) in m.game_id == transformedSandyEntity.id })
+            sandyMinion = listFirst(input.opponentTeammate.side, { (m: MinionProxy) in MonoHelper.isInstance(obj: m, klass: sandyClass) && m.game_id == transformedSandyEntity.id })
         }
         guard let sandyMinion, sandyMinion.get() != nil else {
             return

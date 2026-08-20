@@ -51,6 +51,7 @@ class BattlegroundsSession: OverWindowController {
             return _battlegroundsGameMode
         }
         set {
+            if newValue == .unknown { return }
             let modified = _battlegroundsGameMode != newValue
             _battlegroundsGameMode = newValue
             if modified {
@@ -225,8 +226,8 @@ class BattlegroundsSession: OverWindowController {
         }
                 
         let firstGame = updateLatestGames()
-        
-        let rating = isDuos ? game.battlegroundsRatingInfo?.duosRating.intValue ?? 0 :  game.battlegroundsRatingInfo?.rating.intValue ?? 0
+
+        let rating = BattlegroundsSession.clientRating(ratingInfo: game.battlegroundsRatingInfo, duos: isDuos) ?? 0
         let ratingStart = firstGame?.rating ?? rating
         
         if Settings.showMMRStartCurrent {
@@ -452,9 +453,11 @@ class BattlegroundsSession: OverWindowController {
         wm.show(controller: wm.battlegroundsFinalBoard, show: false)
 
         sessionGames.removeAll()
-        let sortedGames = BattlegroundsLastGames.instance.getPlayerGames(duos: isDuos).sorted(by: { (a, b) in a.startTime < b.startTime })
+        let duos = isDuos
+        let ratingInfo = AppDelegate.instance().coreManager.game.battlegroundsRatingInfo
+        let sortedGames = BattlegroundsLastGames.instance.getPlayerGames(duos: duos).sorted(by: { (a, b) in a.startTime < b.startTime })
         deleteOldGames(games: sortedGames)
-        sessionGames = getSessionGames(sortedGames: sortedGames)
+        sessionGames = getSessionGames(sortedGames: sortedGames, ratingInfo: ratingInfo, duos: duos)
         let firstGame = sessionGames.first
         if sessionGames.count > 8 {
             sessionGames.removeSubrange(0 ..< sessionGames.count - 8)
@@ -479,7 +482,12 @@ class BattlegroundsSession: OverWindowController {
         return firstGame
     }
     
-    private func getSessionGames(sortedGames: [BattlegroundsLastGames.GameItem]) -> [BattlegroundsLastGames.GameItem] {
+    private static func clientRating(ratingInfo: MirrorBattlegroundRatingInfo?, duos: Bool) -> Int? {
+        // Duos and Solos are separate ladders, so mixing them up makes a Duos rating look like a season reset
+        return duos ? ratingInfo?.duosRating.intValue : ratingInfo?.rating.intValue
+    }
+
+    private func getSessionGames(sortedGames: [BattlegroundsLastGames.GameItem], ratingInfo: MirrorBattlegroundRatingInfo?, duos: Bool) -> [BattlegroundsLastGames.GameItem] {
         var sessionStartTime: Date?
         var previousGameEndTime: Date?
         var previousGameRatingAfter = 0
@@ -489,7 +497,7 @@ class BattlegroundsSession: OverWindowController {
                 let ts = gStartTime.timeIntervalSince(previousGameEndTime)
                 let diffMMR = g.rating - previousGameRatingAfter
                 let ratingReset = g.rating < 500 && diffMMR < -500
-                
+
                 if ts / 3600 >= 6 || ratingReset {
                     sessionStartTime = gStartTime
                 }
@@ -497,7 +505,7 @@ class BattlegroundsSession: OverWindowController {
             previousGameEndTime = g.endTime
             previousGameRatingAfter = g.ratingAfter
         }
-        
+
         var sessionGames = [BattlegroundsLastGames.GameItem]()
         if let sessionStartTime = sessionStartTime {
             sessionGames = sortedGames.filter({ x in x.startTime >= sessionStartTime })
@@ -507,7 +515,7 @@ class BattlegroundsSession: OverWindowController {
         if sessionGames.count > 0, let lastGame = sessionGames.last {
             // Check for MMR reset on last game
             var ratingResetAfterLastGame = false
-            if let currentMMR = AppDelegate.instance().coreManager.game.battlegroundsRatingInfo?.rating.intValue {
+            if let currentMMR = BattlegroundsSession.clientRating(ratingInfo: ratingInfo, duos: duos) {
                 let sessionLastMMR = lastGame.ratingAfter
                 ratingResetAfterLastGame = currentMMR < 500 && currentMMR - sessionLastMMR < -500
             }
