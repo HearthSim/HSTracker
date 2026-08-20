@@ -40,7 +40,6 @@ struct BattlegroundsCardsGroupView: View {
         }
         .background(Color(hex: "#23272a"))
         .overlay(Rectangle().stroke(Color(hex: "#141617"), lineWidth: 1))
-        .padding(.top, 5)
     }
 
     // MARK: - Group header
@@ -226,6 +225,7 @@ struct MinionCardRow: View {
         .frame(maxWidth: .infinity)
         .frame(height: Self.rowH)
         .clipped()
+        .overlay(Rectangle().frame(width: 1).foregroundColor(.black.opacity(0.6)), alignment: .leading)
         .cardImageTooltip(cardId: card.id)
         .onAppear(perform: loadTile)
     }

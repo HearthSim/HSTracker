@@ -12,11 +12,19 @@ import SwiftUI
 struct BattlegroundsMinionsView: View {
     @ObservedObject var viewModel: BattlegroundsMinionsViewModel
 
+    // HDT's TierButton style: Setter Property="Padding" Value="9" (all sides).
+    private static let horizontalPadding: CGFloat = 9
+
     var body: some View {
         VStack(spacing: 0) {
             tierStrip
             ScrollView {
-                VStack(spacing: 0) {
+                // 5pt spacing goes *between* groups only (VStack spacing, not
+                // each group's own top padding) - a per-group top padding put
+                // an unwanted transparent gap directly under the tier strip
+                // for the first group too, since the minions tab's content
+                // background is Color.clear (see GuidesTabsView.body).
+                VStack(spacing: 5) {
                     ForEach(viewModel.groups) { group in
                         BattlegroundsCardsGroupView(group: group) { race in
                             viewModel.selectTribe(race)
@@ -33,23 +41,43 @@ struct BattlegroundsMinionsView: View {
     // MARK: - Tier strip
 
     private var tierStrip: some View {
-        // Adaptive sizing matches HDT's TierButton.Size logic:
-        //   ≤6 tiers: badge=38, spacing=3 → 6×38+5×3+2×3=249pt
-        //    7 tiers: badge=33, spacing=2 → 7×33+6×2+2×3=249pt
+        // Adaptive sizing follows HDT's TierButton.Size logic (≤6 tiers: 38pt
+        // badges at 3pt spacing; 7 tiers: 33pt at 2pt), but the badge size is
+        // capped to whatever actually fits the panel rather than taken as a
+        // constant. HDT's numbers assume 3pt of horizontal padding, which is
+        // what makes them total exactly 249; under the 9pt padding this row
+        // now uses they'd come to 261 and overflow the panel on both sides
+        // (measured: the row rendered 264 wide at x=-7.5 inside a 249 frame,
+        // spilling past the panel border).
         let count = viewModel.availableTiers.count
-        let badgeSize: CGFloat = count >= 7 ? 33 : 38
         let spacing: CGFloat = count >= 7 ? 2 : 3
+        let preferredBadge: CGFloat = count >= 7 ? 33 : 38
+        let available = GuidesTabsView.width
+            - Self.horizontalPadding * 2
+            - spacing * CGFloat(max(count - 1, 0))
+        let badgeSize: CGFloat = count > 0
+            ? min(preferredBadge, (available / CGFloat(count)).rounded(.down))
+            : preferredBadge
         return HStack(spacing: spacing) {
             ForEach(viewModel.availableTiers, id: \.self) { tier in
                 MinionsViewTierButton(tier: tier, isActive: viewModel.activeTier == tier, badgeSize: badgeSize) {
                     viewModel.selectTier(tier)
                 }
             }
-            Spacer(minLength: 0)
         }
-        .padding(.horizontal, 3)
-        .padding(.vertical, 5)
-        .background(Color(hex: "#1c1f22"))
+        // Matches HDT's TierButton style: Setter Property="Padding" Value="9" (all sides).
+        .padding(Self.horizontalPadding)
+        // Left-align via a flexible frame rather than a trailing Spacer: a
+        // Spacer is a full HStack child, so it added a sixth `spacing` gap and
+        // pushed the row to 252pt inside the 249pt panel (measured), spilling
+        // 1.5pt past each edge.
+        .frame(maxWidth: .infinity, alignment: .leading)
+        // Matches GuidesTabButton's isActive background (#23272A), NOT
+        // tabStrip's own idle/hover fill (#2C3135) - the Minions tab button
+        // is always active while this is visible, and it deliberately drops
+        // its bottom border to sit flush against this exact color (see
+        // GuidesTabButton's bottomBorder comment).
+        .background(Color(hex: "#23272A"))
         .overlay(Rectangle().frame(height: 1).foregroundColor(Color(hex: "#141617")), alignment: .bottom)
         .clipped()
     }
@@ -90,7 +118,6 @@ struct BattlegroundsMinionsView: View {
             }
             .background(Color(hex: "#23272a"))
             .overlay(Rectangle().stroke(Color(hex: "#141617"), lineWidth: 1))
-            .padding(.top, 5)
         }
     }
 
@@ -125,6 +152,15 @@ private struct MinionsViewTierButton: View {
                 // Since our strip only shows available tiers, inactive = 0.5 (dim, not hidden).
                 MinionsViewTierBadge(tier: tier, badgeSize: badgeSize)
                     .opacity(isActive || isHovering ? 1.0 : 0.5)
+
+                // Hovering the already-selected tier previews a deselect: tier-x.png,
+                // matching the real Battlegrounds tavern tier selector's own hover
+                // affordance for its currently-picked tier.
+                if isActive && isHovering, let tierX = Self.tierXImage {
+                    Image(nsImage: tierX)
+                        .resizable()
+                        .frame(width: badgeSize, height: badgeSize)
+                }
             }
             .frame(width: badgeSize, height: badgeSize)
             .contentShape(Rectangle())
@@ -136,6 +172,11 @@ private struct MinionsViewTierButton: View {
     private static let glowImage: NSImage? = {
         guard let rp = Bundle.main.resourcePath else { return nil }
         return NSImage(contentsOfFile: "\(rp)/Resources/Battlegrounds/tier-glow.png")
+    }()
+
+    private static let tierXImage: NSImage? = {
+        guard let rp = Bundle.main.resourcePath else { return nil }
+        return NSImage(contentsOfFile: "\(rp)/Resources/Battlegrounds/tier-x.png")
     }()
 }
 

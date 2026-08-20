@@ -22,8 +22,10 @@ struct GuidesTabsView: View {
     @ObservedObject var minionsGuide: BattlegroundsMinionsViewModel
 
     // Matches HDT's GuidesTabs.xaml Width="249" exactly (3 buttons x 83pt
-    // each, once Minions joins as the third tab).
-    private static let width: CGFloat = 249
+    // each, once Minions joins as the third tab). Not private - the tab
+    // content sizes itself against this (see BattlegroundsMinionsView's
+    // tierStrip, which derives its badge size so the row fits the panel).
+    static let width: CGFloat = 249
 
     var body: some View {
         // Visibility gated here, in a View holding its own @ObservedObject -
@@ -35,10 +37,24 @@ struct GuidesTabsView: View {
                 tabStrip
                 if let activeTab = viewModel.activeTab {
                     content(for: activeTab)
+                        // Pin content to the panel width so no tab's content can
+                        // widen the panel out from under the tab strip. The Minions
+                        // tier row used to do exactly that (measured 264pt inside
+                        // this 249pt panel), which pushed the tab strip 7.5pt off
+                        // centre and spilled rows past the border drawn below.
+                        .frame(width: Self.width)
                         // Cap at (canvas height − tab strip) so the panel grows to
                         // fill the window bottom for long lists while still shrinking
                         // for short ones (fixedSize below handles the shrink side).
-                        .frame(maxHeight: 1080 - 49)
+                        //
+                        // alignment: .top is required, not cosmetic: with the
+                        // default .center, content shorter than this box gets
+                        // centred and the slack is split above and below it.
+                        // Selecting a tier in the Minions tab did that - the tier
+                        // row measured 7.5pt below the tab strip instead of flush
+                        // against it, exposing the transparent game board through
+                        // the gap. Pinning to .top keeps it flush in every state.
+                        .frame(maxHeight: 1080 - 49, alignment: .top)
                         // Minions content manages its own per-group backgrounds so the
                         // gaps between groups are transparent (showing the game window).
                         // Comps and Heroes content views need the panel fill.
@@ -46,7 +62,10 @@ struct GuidesTabsView: View {
                 }
             }
             .frame(width: Self.width)
-            .overlay(RoundedRectangle(cornerRadius: 0).stroke(Color(hex: "#3f4346"), lineWidth: 1))
+            // Top/right/bottom only - a full 4-sided stroke put an unwanted
+            // seam down the left edge, most noticeable against the tab strip
+            // and tier strip's flat backgrounds.
+            .overlay(ThreeSidedBorder().stroke(Color(hex: "#3f4346"), lineWidth: 1))
             .fixedSize(horizontal: false, vertical: true)
             .background(
                 GeometryReader { proxy in
@@ -127,19 +146,25 @@ private struct GuidesTabButton: View {
 
     var body: some View {
         Button(action: action) {
-            Image(imageName)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: iconSize.width, height: iconSize.height)
-                .frame(width: Self.buttonWidth, height: Self.buttonHeight)
-                .background(backgroundColor)
-                // HDT's active button drops its bottom border, since it sits
-                // flush against the content panel below (same #23272A bg).
-                .overlay(bottomBorder, alignment: .bottom)
-                // See CompGuideRow's identical fix: without this, hover/
-                // click hit-testing can end up scoped to the icon's own
-                // rendered glyph instead of the full button frame.
-                .contentShape(Rectangle())
+            // ZStack + a single outer frame, matching MinionsViewTierButton's
+            // pattern, rather than two chained .frame() calls on the Image
+            // itself - equivalent in practice, just more consistent with the
+            // rest of this file.
+            ZStack {
+                backgroundColor
+                Image(imageName)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: iconSize.width, height: iconSize.height)
+            }
+            .frame(width: Self.buttonWidth, height: Self.buttonHeight)
+            // HDT's active button drops its bottom border, since it sits
+            // flush against the content panel below (same #23272A bg).
+            .overlay(bottomBorder, alignment: .bottom)
+            // See CompGuideRow's identical fix: without this, hover/
+            // click hit-testing can end up scoped to the icon's own
+            // rendered glyph instead of the full button frame.
+            .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
         .onHover { hovering in
@@ -159,5 +184,19 @@ private struct GuidesTabButton: View {
         if !isActive {
             Rectangle().frame(height: 1).foregroundColor(Color(hex: "#3f4346"))
         }
+    }
+}
+
+// Outline stroke omitting the left edge - see GuidesTabsView.body's outer
+// overlay for why (a full 4-sided stroke left an unwanted seam on the left).
+@available(macOS 10.15, *)
+private struct ThreeSidedBorder: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        path.move(to: CGPoint(x: rect.minX, y: rect.minY))
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY))
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
+        path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY))
+        return path
     }
 }

@@ -35,8 +35,17 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
     private var anomaly: String?
     private var settingsCancellable: AnyCancellable?
 
+    // Both coreManager and tierOverlay are implicitly-unwrapped: coreManager
+    // isn't assigned until AppDelegate.completeSetup(), and tierOverlay is an
+    // @IBOutlet that stays nil until BattlegroundsTierOverlay's nib is loaded
+    // (which only happens once that window is first shown). Since the
+    // UserDefaults subscription below can fire this from any settings write
+    // anywhere in the app, force-unwrapping the chain would crash whenever a
+    // setting changed before those were realized - so chain optionally and
+    // default to "don't force tier 7 on".
     private var showTier7: Bool {
-        AppDelegate.instance().coreManager.game.windowManager.battlegroundsTierOverlay.tierOverlay.showTavernTier7
+        AppDelegate.instance().coreManager?.game.windowManager
+            .battlegroundsTierOverlay.tierOverlay?.showTavernTier7 ?? false
     }
 
     init() {
