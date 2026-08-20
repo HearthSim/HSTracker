@@ -59,6 +59,10 @@ final class Card {
     var tourist = 0
     var baconTriple = false
     var baconTripleUpgradeMinionId = 0
+    // BACON_BUDDY / BACON_TRIPLED_BASE_MINION_ID - BattlegroundsDb pairs them to
+    // collect the base (non-golden) buddies for the Buddies card-type filter.
+    var isBaconBuddy = false
+    var baconTripledBaseMinionId = 0
     var baconCard = false
     var faction: GameTag?
     var spellSchool: SpellSchool = .none

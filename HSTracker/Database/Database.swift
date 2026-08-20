@@ -45,7 +45,17 @@ class Database: NSObject, XMLParserDelegate {
         GameTag.paladin_aura.rawValue: "PALADIN_AURA",
         GameTag.imp.rawValue: "IMP",
         GameTag.kindred.rawValue: "KINDRED",
-        GameTag.elite.rawValue: "ELITE"
+        GameTag.elite.rawValue: "ELITE",
+        // Battlegrounds keyword filters (see BattlegroundsKeyword). HDT reads these
+        // straight off the entity with card.GetTag; HSTracker only keeps the curated
+        // mechanics list below, so each tag a keyword filter needs has to be named here.
+        GameTag.reborn.rawValue: "REBORN",
+        GameTag.modular.rawValue: "MODULAR",
+        GameTag.avenge.rawValue: "AVENGE",
+        GameTag.bacon_rally.rawValue: "BACON_RALLY",
+        GameTag.start_of_combat.rawValue: "START_OF_COMBAT",
+        GameTag.end_of_turn_trigger.rawValue: "END_OF_TURN_TRIGGER",
+        GameTag.bacon_activate_tooltip.rawValue: "BACON_ACTIVATE_TOOLTIP"
     ]
     
     static let currentSeason: Int = {
@@ -157,7 +167,7 @@ class Database: NSObject, XMLParserDelegate {
                     }
                 case GameTag.is_bacon_pool_spell.rawValue:
                     currentCard?.isBaconPoolSpell = intValue != 0
-                case GameTag.windfury.rawValue, GameTag.taunt.rawValue, GameTag.stealth.rawValue, GameTag.spellpower.rawValue, GameTag.divine_shield.rawValue, GameTag.charge.rawValue, GameTag.freeze.rawValue, GameTag.enraged.rawValue, GameTag.deathrattle.rawValue, GameTag.battlecry.rawValue, GameTag.secret.rawValue, GameTag.combo.rawValue, GameTag.silence.rawValue, GameTag.immunetospellpower.rawValue, GameTag.poisonous.rawValue, GameTag.lifesteal.rawValue, GameTag.outcast.rawValue, GameTag.rush.rawValue, GameTag.overkill.rawValue, GameTag.trigger_visual.rawValue, GameTag.honorable_kill.rawValue, GameTag.immune.rawValue, GameTag.dormant.rawValue, GameTag.discover.rawValue, GameTag.venomous.rawValue, GameTag.choose_one.rawValue, GameTag.paladin_aura.rawValue, GameTag.imp.rawValue, GameTag.kindred.rawValue, GameTag.elite.rawValue:
+                case GameTag.windfury.rawValue, GameTag.taunt.rawValue, GameTag.stealth.rawValue, GameTag.spellpower.rawValue, GameTag.divine_shield.rawValue, GameTag.charge.rawValue, GameTag.freeze.rawValue, GameTag.enraged.rawValue, GameTag.deathrattle.rawValue, GameTag.battlecry.rawValue, GameTag.secret.rawValue, GameTag.combo.rawValue, GameTag.silence.rawValue, GameTag.immunetospellpower.rawValue, GameTag.poisonous.rawValue, GameTag.lifesteal.rawValue, GameTag.outcast.rawValue, GameTag.rush.rawValue, GameTag.overkill.rawValue, GameTag.trigger_visual.rawValue, GameTag.honorable_kill.rawValue, GameTag.immune.rawValue, GameTag.dormant.rawValue, GameTag.discover.rawValue, GameTag.venomous.rawValue, GameTag.choose_one.rawValue, GameTag.paladin_aura.rawValue, GameTag.imp.rawValue, GameTag.kindred.rawValue, GameTag.elite.rawValue, GameTag.reborn.rawValue, GameTag.modular.rawValue, GameTag.avenge.rawValue, GameTag.bacon_rally.rawValue, GameTag.start_of_combat.rawValue, GameTag.end_of_turn_trigger.rawValue, GameTag.bacon_activate_tooltip.rawValue:
                     if let mechanic = Database.mechanics[id] {
                         currentCard?.mechanics.append(mechanic)
                     }
@@ -165,6 +175,10 @@ class Database: NSObject, XMLParserDelegate {
                     currentCard?.multipleClasses = intValue
                 case GameTag.bacon_triple_upgrade_minion_id.rawValue:
                     currentCard?.baconTripleUpgradeMinionId = intValue
+                case GameTag.bacon_buddy.rawValue:
+                    currentCard?.isBaconBuddy = intValue == 1
+                case GameTag.bacon_tripled_base_minion_id.rawValue:
+                    currentCard?.baconTripledBaseMinionId = intValue
                 case GameTag.kabal.rawValue, GameTag.grimy_goons.rawValue, GameTag.jade_lotus.rawValue, GameTag.protoss.rawValue, GameTag.terran.rawValue, GameTag.zerg.rawValue:
                     if intValue > 0 {
                         currentCard?.faction = GameTag(rawValue: id)
@@ -184,7 +198,12 @@ class Database: NSObject, XMLParserDelegate {
             }
         case "deDE", "enUS", "esES", "esMX", "frFR", "itIT", "jaJP", "koKR", "plPL", "ptBR", "ruRU", "thTH", "zhCN", "zhTW":
             assert(currentElement == .Tag)
-            if elementName == mainLanguage {
+            // enUS is captured alongside the display language, not only when it *is*
+            // the display language. enName/enText used to be filled in solely on the
+            // enUS-user path, which left card.enText empty for everyone else - and
+            // that string is what English-invariant matching reads (BattlegroundsDb's
+            // race-in-text detection, and BattlegroundsKeyword's text fallback).
+            if elementName == mainLanguage || elementName == "enUS" {
                 currentLanguage = elementName
             }
         default:
@@ -220,17 +239,23 @@ class Database: NSObject, XMLParserDelegate {
             currentTag = nil
         case "deDE", "enUS", "esES", "esMX", "frFR", "itIT", "jaJP", "koKR", "plPL", "ptBR", "ruRU", "thTH", "zhCN", "zhTW":
             if !currentLanguage.isEmpty {
+                // The display-language fields stay gated on mainLanguage - previously
+                // that was implicit, since currentLanguage was only ever set for it.
                 if currentTag == .cardname {
-                    currentCard?.name = currentText
+                    if elementName == mainLanguage {
+                        currentCard?.name = currentText
+                    }
                     if elementName == "enUS" {
                         currentCard?.enName = currentText
                     }
                 } else if currentTag == .cardtext {
-                    currentCard?.text = currentText
+                    if elementName == mainLanguage {
+                        currentCard?.text = currentText
+                    }
                     if elementName == "enUS" {
                         currentCard?.enText = currentText
                     }
-                } else if currentTag == .flavortext {
+                } else if currentTag == .flavortext, elementName == mainLanguage {
                     currentCard?.flavor = currentText
                 }
                 currentLanguage = ""

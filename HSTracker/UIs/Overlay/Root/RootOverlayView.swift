@@ -28,6 +28,21 @@ struct InteractiveRegionPreferenceKey: PreferenceKey {
     }
 }
 
+// Reports the on-screen frame of a child that wants hover without claiming
+// clicks - HDT's IsOverlayHoverVisible, as opposed to the
+// IsOverlayHitTestVisible that InteractiveRegionPreferenceKey above models.
+// RootOverlayWindow matches the cursor against this without ever touching
+// ignoresMouseEvents, so the pixels stay click-through.
+@available(macOS 10.15, *)
+struct HoverRegionPreferenceKey: PreferenceKey {
+    static var defaultValue: CGRect?
+    static func reduce(value: inout CGRect?, nextValue: () -> CGRect?) {
+        if let next = nextValue() {
+            value = value?.union(next) ?? next
+        }
+    }
+}
+
 @available(macOS 10.15, *)
 extension CoordinateSpace {
     static let rootOverlayCanvas = CoordinateSpace.named("rootOverlayCanvas")
@@ -62,6 +77,24 @@ struct RootOverlayView: View {
                     // Canvas.Right="0" in Windows/OverlayWindow.xaml).
                     ZStack(alignment: .topTrailing) {
                         Color.clear
+                        // HDT's BgsTopBarMask: a 350x120 hover-only rectangle
+                        // pinned to the canvas top-right (Canvas.Top="0"
+                        // Canvas.Right="0"), sized to cover the guides panel,
+                        // the tier strip, and the ~100pt to their left that the
+                        // minion browser's filter button slides out into. Purely
+                        // a hover sensor - it never takes clicks, hence
+                        // HoverRegionPreferenceKey rather than the interactive
+                        // one. Sits under GuidesTabsView so it can't shadow it.
+                        Color.clear
+                            .frame(width: 350, height: 120)
+                            .background(
+                                GeometryReader { proxy in
+                                    Color.clear.preference(
+                                        key: HoverRegionPreferenceKey.self,
+                                        value: proxy.frame(in: .rootOverlayCanvas)
+                                    )
+                                }
+                            )
                         GuidesTabsView(viewModel: viewModel.battlegroundsGuidesTabs, compsGuides: viewModel.battlegroundsCompsGuides, heroGuides: viewModel.battlegroundsHeroGuides, questGuides: viewModel.battlegroundsQuestGuides, minionsGuide: viewModel.battlegroundsMinionsGuide)
                     }
                     .frame(width: canvasWidth, height: 1080)
@@ -102,6 +135,9 @@ struct RootOverlayView: View {
         .coordinateSpace(name: "rootOverlayCanvas")
         .onPreferenceChange(InteractiveRegionPreferenceKey.self) { region in
             viewModel.interactiveRegion = region
+        }
+        .onPreferenceChange(HoverRegionPreferenceKey.self) { region in
+            viewModel.hoverRegion = region
         }
     }
 }

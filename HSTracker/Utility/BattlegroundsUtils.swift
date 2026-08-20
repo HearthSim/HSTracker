@@ -62,6 +62,34 @@ class BattlegroundsUtils {
         return nil
     }
         
+    // Mirrors HDT's BattlegroundsUtils._availableKeywords, in the same order -
+    // the Mechanics list in the extra-filters panel renders it top to bottom.
+    // Every englishName is verified against HDT-Localization's Strings.resx;
+    // note "End Of Turn" and "Start Of Combat" capitalise the Of, which is why
+    // BattlegroundsKeyword matches card text case-insensitively.
+    // Every entry is a TagKeyword (tag OR English mention) except Lockbox, which
+    // the client never tags, so it matches on the mention alone.
+    private static let availableKeywords: [BattlegroundsKeyword] = [
+        BattlegroundsKeyword(locKey: "GameTag_Battlecry", englishName: "Battlecry", mechanic: "BATTLECRY"),
+        BattlegroundsKeyword(locKey: "GameTag_Deathrattle", englishName: "Deathrattle", mechanic: "DEATHRATTLE"),
+        BattlegroundsKeyword(locKey: "GameTag_BGAvenge", englishName: "Avenge", mechanic: "AVENGE"),
+        BattlegroundsKeyword(locKey: "GameTag_BGRally", englishName: "Rally", mechanic: "BACON_RALLY"),
+        BattlegroundsKeyword(locKey: "GameTag_DivineShield", englishName: "Divine Shield", mechanic: "DIVINE_SHIELD"),
+        BattlegroundsKeyword(locKey: "GameTag_Taunt", englishName: "Taunt", mechanic: "TAUNT"),
+        BattlegroundsKeyword(locKey: "GameTag_EndOfTurn", englishName: "End Of Turn", mechanic: "END_OF_TURN_TRIGGER"),
+        BattlegroundsKeyword(locKey: "GameTag_StartOfCombat", englishName: "Start Of Combat", mechanic: "START_OF_COMBAT"),
+        BattlegroundsKeyword(locKey: "GameTag_Reborn", englishName: "Reborn", mechanic: "REBORN"),
+        BattlegroundsKeyword(locKey: "GameTag_ChooseOne", englishName: "Choose One", mechanic: "CHOOSE_ONE"),
+        BattlegroundsKeyword(locKey: "GameTag_Modular", englishName: "Magnetic", mechanic: "MODULAR"),
+        BattlegroundsKeyword(locKey: "GameTag_Venomous", englishName: "Venomous", mechanic: "VENOMOUS"),
+        BattlegroundsKeyword(locKey: "GameTag_BGActivate", englishName: "Activate", mechanic: "BACON_ACTIVATE_TOOLTIP"),
+        BattlegroundsKeyword(locKey: "Battlegrounds_Browser_Filter_Lockbox", englishName: "Lockbox", mechanic: nil)
+    ]
+
+    static func getAvailableKeywords() -> [BattlegroundsKeyword] {
+        return availableKeywords
+    }
+
     static let tavernSpellRaceMapping: [String: Race] = [
         // Scavenge for Parts
         "BG28_600": .mechanical,

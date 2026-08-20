@@ -362,11 +362,13 @@ enum GameTag: Int, CaseIterable, Codable {
     player_tech_level = 1377,
     bacon_hero_power_activated = 1398,
     bacon_triple_upgrade_minion_id = 1429,
+    bacon_tripled_base_minion_id = 1471,
     tech_level = 1440,
     player_triples = 1447,
     is_bacon_pool_minion = 1456,
     bacon_hero_can_be_drafted = 1491,
     dormant = 1518,
+    start_of_combat = 1531,
     copied_from_entity_id = 1565,
     spell_school = 1635,
     lettuce_controller = 1653,
@@ -392,6 +394,8 @@ enum GameTag: Int, CaseIterable, Codable {
     is_using_trade_option = 2045,
     coin_card = 2088,
     bacon_combat_damage_cap = 2089,
+    avenge = 2129,
+    bacon_buddy = 2154,
     corpses = 2186,
     lettuce_show_opposing_fake_hand = 2224,
     objective = 2311,
@@ -458,6 +462,7 @@ enum GameTag: Int, CaseIterable, Codable {
     mage_tourist = 3606,
     paladin_tourist = 3607,
     bacon_is_potential_trinket = 3705,
+    end_of_turn_trigger = 3744,
     demon_portal_deck = 3808,
     gametag_3809 = 3809,
     bacon_locked_mulligan_hero = 3877,
@@ -469,6 +474,7 @@ enum GameTag: Int, CaseIterable, Codable {
     kindred = 4028,
     additional_hero_power_entity_1 = 4029,
     imbue_sub_counter = 4168,
+    bacon_rally = 4204,
     shattered = 4240,
     gametag_4283 = 4283,
     gametag_4288 = 4288,
@@ -483,7 +489,8 @@ enum GameTag: Int, CaseIterable, Codable {
     gametag_4741 = 4741,
     hidden_script_data_4 = 4830,
     hidden_script_data_5 = 4831,
-    hidden_script_data_6 = 4832
+    hidden_script_data_6 = 4832,
+    bacon_activate_tooltip = 4867
 
     static var lookup = [String: GameTag]()
     

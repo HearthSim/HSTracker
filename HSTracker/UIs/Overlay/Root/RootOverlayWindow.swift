@@ -84,6 +84,8 @@ class RootOverlayWindow: OverWindowController {
         let windowPoint = window.convertPoint(fromScreen: screenLocation)
         let viewPoint = hostingView.convert(windowPoint, from: nil)
 
+        updateFilterRegionHover(at: viewPoint)
+
         guard let region = viewModel.interactiveRegion else {
             setIgnoresMouseEvents(true)
             return
@@ -92,6 +94,27 @@ class RootOverlayWindow: OverWindowController {
         setIgnoresMouseEvents(!inside)
 
         updateCardHover()
+    }
+
+    // HDT's BgsTopBarMask MouseEnter/MouseLeave handlers, which flip
+    // BattlegroundsMinionsVM.IsFilterRegionHovered to slide the minion browser's
+    // filter button in and out.
+    //
+    // Driven from the cursor position tracked here rather than from a SwiftUI
+    // .onHover, because the mask deliberately stays click-through
+    // (IsHitTestVisible="False" on HDT's side): .onHover only fires once
+    // ignoresMouseEvents is already false, so it would never see the cursor over
+    // the part of the mask outside the panel - which is exactly where the button
+    // slides out to. Called before the interactiveRegion guard below so it keeps
+    // running while the overlay is fully click-through.
+    private func updateFilterRegionHover(at viewPoint: NSPoint) {
+        let hovering = viewModel.hoverRegion?.contains(viewPoint) ?? false
+        let minions = viewModel.battlegroundsMinionsGuide
+        guard minions.isFilterRegionHovered != hovering else { return }
+        // Durations match the tab's own slide storyboard: 0.2s out, 0.4s back.
+        withAnimation(.easeOut(duration: hovering ? 0.2 : 0.4)) {
+            minions.isFilterRegionHovered = hovering
+        }
     }
 
     private func setIgnoresMouseEvents(_ ignores: Bool) {

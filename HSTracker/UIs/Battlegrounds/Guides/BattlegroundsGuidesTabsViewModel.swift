@@ -21,7 +21,18 @@ enum GuidesTab: Equatable {
 
 @available(macOS 10.15, *)
 final class BattlegroundsGuidesTabsViewModel: ObservableObject {
-    @Published var activeTab: GuidesTab?
+    @Published var activeTab: GuidesTab? {
+        didSet {
+            // HDT closes the minions extra-filters panel on every tab change
+            // (BattlegroundsGuidesTabsViewModel: `IsFiltersOpen = false`). It
+            // hangs off the left of the Minions tab, so leaving it open while
+            // another tab - or none - is showing would strand it mid-air.
+            if oldValue != activeTab {
+                AppDelegate.instance().coreManager?.game.windowManager
+                    .rootOverlay?.viewModel.battlegroundsMinionsGuide.isFiltersOpen = false
+            }
+        }
+    }
 
     // Matches HDT's ShowCompsCommand/ShowHeroesCommand/ShowMinionsCommand:
     // clicking the already-active tab's icon collapses it rather than doing nothing.

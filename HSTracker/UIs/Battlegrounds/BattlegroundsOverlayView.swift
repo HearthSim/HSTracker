@@ -141,6 +141,7 @@ class BattlegroundsOverlayView: NSView {
                 heroPowers = heroes.compactMap { x in Cards.by(dbfId: x[.hero_power], collectible: false)?.id }
             }
             windowManager.battlegroundsTierOverlay.tierOverlay.onHeroPowers(heroPowers: heroPowers)
+            game.battlegroundsMinionsOnHeroPowers(heroPowers)
             let rect = SizeHelper.battlegroundsDetailsFrame()
             windowManager.show(controller: windowManager.battlegroundsDetailsWindow, show: true,
                                frame: rect, overlay: true)

@@ -166,7 +166,15 @@ class BattlegroundsTierOverlayView: NSView {
     }
     
     func onTrinkets(trinkets: [String]) {
-        hasTier7Trinket = trinkets.any { x in x == CardIds.NonCollectible.Neutral.PaglesFishingRod || x == CardIds.NonCollectible.Neutral.Kaleidoscope }
+        // Same four trinkets HDT's OnTrinkets checks. Pagle's Fishing Rod and
+        // Kaleidoscope were already here; the Kaleidoscope token and Wax Lance
+        // were missing, so this overlay under-reported tier 7 for both.
+        hasTier7Trinket = trinkets.any { x in
+            x == CardIds.NonCollectible.Neutral.PaglesFishingRod
+                || x == CardIds.NonCollectible.Neutral.Kaleidoscope
+                || x == CardIds.NonCollectible.Neutral.Kaleidoscope_KaleidoscopeToken
+                || x == CardIds.NonCollectible.Neutral.WaxLance
+        }
         DispatchQueue.main.async {
             AppDelegate.instance().coreManager.game.updateBattlegroundsTierOverlay(reset: false)
         }

@@ -19,16 +19,23 @@ struct BattlegroundsCardsGroupView: View {
     let group: BattlegroundsMinionsViewModel.MinionGroup
     let onTribeSelected: ((Race) -> Void)?
 
+    // Width="196" on the XAML's outer Border. Narrower than the 249pt panel on
+    // purpose: the ItemsControl holding the groups is HorizontalAlignment="Right",
+    // so the groups hug the right edge and leave a 53pt gutter down the left.
+    // That gutter is what the extra-filters panel slides over - its 20pt of
+    // overlap with the panel lands in empty space rather than on the cards.
+    static let width: CGFloat = 196
+
     @SwiftUI.State private var isHeaderHovering = false
 
     // Mirrors BattlegroundsCardsGroup.HeaderCursor: header is clickable ("Hand")
-    // only when viewing the tier mode (grouped by tribe) and the tribe is a real
-    // filterable race — not spells (-1), not neutral/invalid.
+    // only in tier mode (grouped by tribe) and only for a real filterable race —
+    // not spells, not neutral/invalid, and never in the type- or keyword-grouped
+    // views, whose headers name a tavern tier rather than a type.
     private var canFilterByTribe: Bool {
         !group.groupedByMinionType
-            && group.minionType != -1
-            && group.minionType != Race.lookup(.invalid)
-            && Race(rawValue: group.minionType) != nil
+            && !group.groupedByKeyword
+            && group.minionType?.isFilterableFromGroupHeader == true
     }
 
     var body: some View {
@@ -38,8 +45,13 @@ struct BattlegroundsCardsGroupView: View {
                 MinionCardRow(card: card)
             }
         }
+        .frame(width: Self.width)
         .background(Color(hex: "#23272a"))
         .overlay(Rectangle().stroke(Color(hex: "#141617"), lineWidth: 1))
+        // Margin="0,5,0,0" on that same Border - carried per group rather than
+        // as VStack spacing, so the *first* group is inset from the tier strip
+        // too. Spacing alone left it flush against the strip's bottom border.
+        .padding(.top, 5)
     }
 
     // MARK: - Group header
@@ -50,7 +62,7 @@ struct BattlegroundsCardsGroupView: View {
     // a ScrollView on macOS.
     private var groupHeader: some View {
         Button {
-            if canFilterByTribe, let race = Race(rawValue: group.minionType) {
+            if canFilterByTribe, case .race(let race) = group.minionType {
                 onTribeSelected?(race)
             }
         } label: {
@@ -66,21 +78,17 @@ struct BattlegroundsCardsGroupView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
 
-                // Subtitle tab: shown in tribe mode (GroupedByMinionType=true) to
-                // display the race name on the right edge of the header.
-                if group.groupedByMinionType && !group.raceName.isEmpty {
+                // Subtitle tab on the right edge of the header, mirroring
+                // BattlegroundsCardsGroup.SubTitle: the keyword name in keyword
+                // mode, the type name in type mode, nothing in tier mode (where
+                // the title already carries the type).
+                //
+                // No filter icon rides along here any more - drilling into a type
+                // now goes through the extra-filters panel's slide-out button
+                // (see BattlegroundsMinionsExtraFiltersView). The header itself
+                // stays clickable, as in HDT.
+                if !groupSubtitle.isEmpty {
                     subtitleBadge
-                }
-
-                // Drill-down filter icon: shown when the header can be tapped to
-                // filter by this tribe (BattlegroundsCardsGroup.HeaderCursor="Hand").
-                if canFilterByTribe {
-                    Image("appbar_filter_white")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 20, height: 20)
-                        .opacity(0.7)
-                        .padding(.trailing, 5)
                 }
             }
             .frame(height: 24)
@@ -110,7 +118,7 @@ struct BattlegroundsCardsGroupView: View {
     // (tribe mode) — matches HDT's hover trigger, which only fires when
     // GroupedByMinionType is false.
     private var headerBackgroundHex: String {
-        isHeaderHovering && !group.groupedByMinionType ? "#24436c" : "#1d3657"
+        isHeaderHovering && canFilterByTribe ? "#24436c" : "#1d3657"
     }
 
     // Slanted subtitle panel — mirrors BattlegroundsCardsGroup.xaml's right-docked
@@ -129,8 +137,8 @@ struct BattlegroundsCardsGroupView: View {
             .frame(width: 12, height: 24)
             .clipped()
 
-            // Race name text (SubTitle binding in XAML; no icon, matching HDT).
-            Text(group.raceName)
+            // SubTitle binding in XAML; text only, no icon, matching HDT.
+            Text(groupSubtitle)
                 .font(.system(size: 10, weight: .medium))
                 .foregroundColor(Color(hex: "#dcddde"))
                 .lineLimit(1)
@@ -143,15 +151,28 @@ struct BattlegroundsCardsGroupView: View {
     }
 
     // Mirrors BattlegroundsCardsGroup.Title:
-    //   GroupedByMinionType → "Tavern Tier N"
-    //   minionType == -1    → localized "spells"
-    //   minionType == INVALID → localized "neutral"
-    //   otherwise           → localized race name
+    //   grouped by type, or by keyword and not the spells group → "Tavern Tier N"
+    //   spells   → localized "spells"
+    //   INVALID  → localized "neutral"
+    //   otherwise → localized type name
+    //
+    // The keyword view's trailing spells group carries tier 0 precisely so it
+    // lands in the second branch and titles itself "spells", not "Tavern Tier 0".
     private var groupTitle: String {
-        if group.groupedByMinionType { return "Tavern Tier \(group.tier)" }
-        if group.minionType == -1 { return String.localizedString("spells", comment: "") }
-        if group.minionType == Race.lookup(.invalid) { return String.localizedString("neutral", comment: "") }
-        return group.raceName
+        if group.groupedByMinionType || (group.groupedByKeyword && group.minionType != .spells) {
+            return "Tavern Tier \(group.tier)"
+        }
+        // HDT titles this group from Battlegrounds_Spells - plural - while the
+        // subtitle and the Card Types button use the singular GameTag_BGSpell.
+        if group.minionType == .spells { return BattlegroundsMinionType.spellsGroupTitle }
+        return group.minionType?.displayName ?? ""
+    }
+
+    // Mirrors BattlegroundsCardsGroup.SubTitle.
+    private var groupSubtitle: String {
+        if group.groupedByKeyword { return group.keyword?.name ?? "" }
+        if group.groupedByMinionType { return group.minionType?.displayName ?? "" }
+        return ""
     }
 }
 

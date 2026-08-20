@@ -32,6 +32,12 @@ struct GuidesTabsView: View {
         // see BattlegroundsCompGuidesPanel's old header comment (Milestone 1)
         // for why gating from RootOverlayView itself doesn't reliably react
         // to nested ObservableObject changes.
+        // To exercise the guides panel outside a real Battlegrounds match, swap
+        // the gate below for `if true` - the panel then renders whatever the view
+        // models hold instead of waiting for a lobby. Pair it with the stand-in
+        // lobby in BattlegroundsMinionsViewModel.availableRaces, or the Minions
+        // tab comes up with no races and an empty Card Types grid.
+        // if true {
         if AppDelegate.instance().coreManager.game.isBattlegroundsMatch() {
             VStack(spacing: 0) {
                 tabStrip

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Ported from HDT's Resources/Icons.xaml `bar_filter` Canvas: three stacked,
+     centred, round-capped bars forming a funnel.
+
+     The viewBox is the path's own drawn bounds (x 16..496, y 120..392), not the
+     Canvas's declared 512x290 - WPF uses this icon as a VisualBrush inside an
+     OpacityMask, and a VisualBrush stretches the visual's *content* bounds, so
+     the declared Canvas size never applies. Those bounds are 480x272 (1.765),
+     which is what makes the icon fill HDT's 14x8 (1.75) Rectangle near-exactly. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="16 120 480 272">
+  <path fill="#FFFFFF" d="M472 168H40a24 24 0 0 1 0-48h432a24 24 0 0 1 0 48zm-80 112H120a24 24 0 0 1 0-48h272a24 24 0 0 1 0 48zm-96 112h-80a24 24 0 0 1 0-48h80a24 24 0 0 1 0 48z"/>
+</svg>
