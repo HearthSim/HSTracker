@@ -234,9 +234,9 @@
                                 <action selector="checkboxClicked:" target="-2" id="TTp-yo-XBI"/>
                             </connections>
                         </button>
-                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="66r-fs-Jja" userLabel="Show minions browser">
+                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="66r-fs-Jja" userLabel="Show minions and guides browser">
                             <rect key="frame" x="8" y="401" width="90" height="18"/>
-                            <buttonCell key="cell" type="check" title="Show minions browser" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="4LE-h7-rfX">
+                            <buttonCell key="cell" type="check" title="Show minions and guides browser" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="4LE-h7-rfX">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>

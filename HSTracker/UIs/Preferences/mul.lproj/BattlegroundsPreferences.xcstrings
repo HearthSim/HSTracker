@@ -2,25 +2,37 @@
   "sourceLanguage" : "en",
   "strings" : {
     "4LE-h7-rfX.title" : {
-      "comment" : "Class = \"NSButtonCell\"; title = \"Show minions browser\"; ObjectID = \"4LE-h7-rfX\";",
+      "comment" : "Class = \"NSButtonCell\"; title = \"Show minions and guides browser\"; ObjectID = \"4LE-h7-rfX\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diener und Ratgeber anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Show minions browser"
+            "value" : "Show minions and guides browser"
           }
         },
-        "fr" : {
+        "ko" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Afficher les niveaux"
+            "state" : "translated",
+            "value" : "하수인과 가이드 탐색기 표시"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar Navegador de Lacaios e Guias"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "显示酒馆等级"
+            "state" : "translated",
+            "value" : "显示随从和指南浏览器"
           }
         }
       }
@@ -87,6 +99,30 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Show hero and comp guides"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher les guides de héros et de composition"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "영웅과 조합 가이드 보기"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar Guias de Herói e Composição"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示英雄和流派指南"
           }
         }
       }
