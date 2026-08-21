@@ -374,10 +374,24 @@ struct SizeHelper {
     }
     
     static func turnCounterFrame() -> NSRect {
-        let frame = battlegroundsTierOverlayFrame()
-        let left = frame.minX - 100
-        let top = frame.minY
-        return NSRect(x: left, y: top, width: 100, height: frame.height)
+        // Geometry inherited from the AppKit tier overlay this used to sit
+        // beside. That overlay is gone - the Minions tab's tier strip replaced
+        // it - but the turn counter's placement is deliberate, so the strip's
+        // former frame is reproduced here rather than re-derived.
+        //
+        // The tier count came from the overlay's own showTavernTier7; it now
+        // comes from the Minions view model, which owns that state.
+        let trackerFrame = playerTrackerFrame()
+        var showTier7 = Settings.alwaysShowTier7
+        if #available(macOS 10.15, *) {
+            showTier7 = AppDelegate.instance().coreManager?.game.windowManager
+                .rootOverlay?.viewModel.battlegroundsMinionsGuide.shouldShowTier7 ?? showTier7
+        }
+        let height = CGFloat(56)
+        let tierStripWidth = CGFloat((showTier7 ? 7 : 6) * 48 + 8)
+        let right = hearthstoneWindow.frame.minX + hearthstoneWindow.frame.width - tierStripWidth
+        return NSRect(x: right - 100, y: trackerFrame.minY + trackerFrame.height - height,
+                      width: 100, height: height)
     }
     
     static func battlegroundsSessionFrame() -> NSRect {
@@ -401,17 +415,6 @@ struct SizeHelper {
         
         let frame = NSRect(x: left, y: bottom, width: right - left, height: top - bottom)
         return (frame)
-    }
-    
-    static func battlegroundsTierOverlayFrame() -> NSRect {
-        let trackerFrame = playerTrackerFrame()
-        let tierOverlay = AppDelegate.instance().coreManager?.game.windowManager.battlegroundsTierOverlay.tierOverlay
-        let tiers = (tierOverlay?.showTavernTier7 ?? false) ? 7 : 6
-        let height = CGFloat(56)
-        let width = CGFloat(tiers * 48 + 8)
-        let x = hearthstoneWindow.frame.minX + hearthstoneWindow.frame.width - width
-        
-        return NSRect(x: x, y: trackerFrame.minY + trackerFrame.height - height, width: width, height: height)
     }
     
     static func bobsPanelOverlayFrame() -> NSRect {

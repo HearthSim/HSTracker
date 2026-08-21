@@ -251,7 +251,7 @@ private struct MinionsViewTierButton: View {
         Button(action: action) {
             ZStack {
                 // tier-glow.png drawn behind the badge for active/hover state,
-                // matching BattlegroundsTierOverlayView.drawTier() which draws the
+                // matching the AppKit tier overlay's drawTier(), which drew the
                 // glow at (x, 8, 40, 40) behind a (x+2, 10, 36, 36) badge.
                 // We scale proportionally: glow fills the button, badge is inset 1pt.
                 if isActive || isHovering, let glow = Self.glowImage {

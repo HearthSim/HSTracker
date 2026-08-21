@@ -215,7 +215,6 @@ class Game: NSObject, PowerEventHandler {
         self.updateBoardStateTrackers()
         self.updateSecretTracker()
         self.updateBattlegroundsOverlay()
-        self.updateBattlegroundsTierOverlay(reset: guiUpdateResets)
         self.updateBobsBuddyOverlay()
         self.updateTurnCounterOverlay()
         self.updateToaster()
@@ -798,28 +797,6 @@ class Game: NSObject, PowerEventHandler {
         }
     }
     
-    func updateBattlegroundsTierOverlay(reset: Bool) {
-        let rect = SizeHelper.battlegroundsTierOverlayFrame()
-                
-        DispatchQueue.main.async {
-            let isBG = self.isBattlegroundsMatch() && !self.gameEnded
-
-            let controller = self.windowManager.battlegroundsTierOverlay
-
-            if isBG && Settings.showTiers && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
-                                              || !Settings.hideAllWhenGameInBackground) && !self.hideBattlegroundsTier {
-                self.windowManager.show(controller: controller, show: true, frame: rect, title: nil, overlay: true)
-                controller.tierOverlay?.unhideTier()
-                if reset {
-                    controller.tierOverlay?.displayTier(tier: controller.tierOverlay.currentTier, force: true)
-                }
-            } else {
-                self.windowManager.show(controller: controller, show: false)
-                controller.tierOverlay?.hideTier()
-            }
-        }
-    }
-    
     func updateExperienceOverlay() {
         let rect = SizeHelper.experienceOverlayFrame()
         
@@ -1263,7 +1240,6 @@ class Game: NSObject, PowerEventHandler {
     var adventureOpponentId: String?
     
     var hideBobsBuddy = false
-    var hideBattlegroundsTier = false
     var hideBattlegroundsTurn = false
     
     var availableRaces: [Race]? {
@@ -1667,7 +1643,6 @@ class Game: NSObject, PowerEventHandler {
         updateTurnCounter(turn: 1)
         
         hideBobsBuddy = false
-        hideBattlegroundsTier = false
         hideBattlegroundsTurn = false
         
         adventureOpponentId = nil
@@ -2260,9 +2235,6 @@ class Game: NSObject, PowerEventHandler {
         if isBattlegroundsMatch() {
             BobsBuddyInvoker.instance(gameId: gameId, turn: turnNumber())?.startShopping(isGameOver: true)
             OpponentDeadForTracker.reset()
-            DispatchQueue.main.async {
-                self.windowManager.battlegroundsTierOverlay.tierOverlay.reset()
-            }
             updatePostGameBattlegroundsRating(gameStats: currentGameStats)
             captureBattlegroundsGame(stats: currentGameStats)
             windowManager.battlegroundsHeroPicking.viewModel.reset()
@@ -2585,8 +2557,6 @@ class Game: NSObject, PowerEventHandler {
                     BobsBuddyInvoker.instance(gameId: self.gameId, turn: self.turnNumber() - 1)?.startShopping()
                     let heroPowerIds = self.player.board.filter { x in x.isHeroPower }.compactMap { x in x.cardId }
                     let trinketIds = self.player.trinkets.compactMap({ x in x.cardId })
-                    windowManager.battlegroundsTierOverlay.tierOverlay.onHeroPowers(heroPowers: heroPowerIds)
-                    windowManager.battlegroundsTierOverlay.tierOverlay.onTrinkets(trinkets: trinketIds)
                     self.battlegroundsMinionsOnHeroPowers(heroPowerIds)
                     self.battlegroundsMinionsOnTrinkets(trinketIds)
                 }
@@ -3902,7 +3872,6 @@ class Game: NSObject, PowerEventHandler {
             } else if offeredEntities.all({ x in x.isHeroPower }) { // hero power choice
                 let offered = offeredEntities.filter { x in x.isHeroPower }
                 let heroPowerIds = (player.board.filter({ x in x.isHeroPower }) + offered).compactMap({ x in x.card.id })
-                windowManager.battlegroundsTierOverlay.tierOverlay.onHeroPowers(heroPowers: heroPowerIds)
                 battlegroundsMinionsOnHeroPowers(heroPowerIds)
             }
         }
@@ -3956,7 +3925,6 @@ class Game: NSObject, PowerEventHandler {
 
         let offered = offeredEntities.filter { x in x.isBattlegroundsTrinket }
         let trinkets = (player.trinkets + offered).compactMap({ x in x.card.id })
-        windowManager.battlegroundsTierOverlay.tierOverlay.onTrinkets(trinkets: trinkets)
         battlegroundsMinionsOnTrinkets(trinkets)
         
         let result = await getTrinketPickStats(choice: choice)
@@ -4099,7 +4067,6 @@ class Game: NSObject, PowerEventHandler {
                     if additionalHeroPowerId > 0, let additionalHeroPower =  entities[additionalHeroPowerId] {
                         heroPowers.append(additionalHeroPower.card.id)
                     }
-                    windowManager.battlegroundsTierOverlay.tierOverlay?.onHeroPowers(heroPowers: heroPowers)
                     battlegroundsMinionsOnHeroPowers(heroPowers)
                 } else {
                     logger.error("Could not reliably determine Battlegrounds hero power. \(chosen.count) hero(es) chosen.")
@@ -4116,12 +4083,10 @@ class Game: NSObject, PowerEventHandler {
                 windowManager.battlegroundsTrinketPicking.viewModel.reset()
                 if source?[.bacon_is_magic_item_discover] ?? 0 > 0 {
                     let chosenTrinketIds = (self.player.trinkets + chosen).compactMap({ x in x.cardId })
-                    windowManager.battlegroundsTierOverlay.tierOverlay?.onTrinkets(trinkets: chosenTrinketIds)
                     battlegroundsMinionsOnTrinkets(chosenTrinketIds)
                 }
                 // the entity of a chosen hero power is only created after the choice completes, concat the chosen one
                 let chosenHeroPowerIds = player.board.filter({ x in x.isHeroPower }).compactMap({ x in x.card.id }) + chosen.filter({ x in x.isHeroPower }).compactMap({ x in x.card.id })
-                windowManager.battlegroundsTierOverlay.tierOverlay?.onHeroPowers(heroPowers: chosenHeroPowerIds)
                 battlegroundsMinionsOnHeroPowers(chosenHeroPowerIds)
                 
                 // quest choice
@@ -4129,7 +4094,6 @@ class Game: NSObject, PowerEventHandler {
                     let questRewardDbfId = chosenEntity[.quest_reward_database_id]
                     if questRewardDbfId > 0 {
                         if let questReward = Cards.by(dbfId: questRewardDbfId, collectible: false) {
-                            windowManager.battlegroundsTierOverlay.tierOverlay?.onQuests(quests: [questReward.id])
                             battlegroundsMinionsOnQuests([questReward.id])
                             if #available(macOS 10.15, *) {
                                 // Mutates an @Published property - this

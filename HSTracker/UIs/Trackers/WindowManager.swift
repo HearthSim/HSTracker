@@ -72,11 +72,7 @@ class WindowManager {
     var battlegroundsDetailsWindow: BattlegroundsDetailsWindow = {
         return $0
     }(BattlegroundsDetailsWindow(windowNibName: "BattlegroundsDetailsWindow"))
-
-    var battlegroundsTierOverlay: BattlegroundsTierOverlay = {
-        return $0
-    }(BattlegroundsTierOverlay(windowNibName: "BattlegroundsTierOverlay"))
-
+    
     var bobsBuddyPanel: BobsBuddyPanel = {
         return $0
     }(BobsBuddyPanel(windowNibName: "BobsBuddyPanel"))
@@ -295,7 +291,6 @@ class WindowManager {
             self?.battlegroundsDetailsWindow.window?.orderOut(nil)
             self?.bobsBuddyPanel.window?.orderOut(nil)
             self?.turnCounter.window?.orderOut(nil)
-            self?.battlegroundsTierOverlay.window?.orderOut(nil)
             self?.cardHudContainer.reset()
             self?.playerBoardOverlay.window?.orderOut(nil)
             self?.opponentBoardOverlay.window?.orderOut(nil)

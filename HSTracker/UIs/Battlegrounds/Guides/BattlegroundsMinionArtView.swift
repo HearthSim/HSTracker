@@ -119,8 +119,8 @@ struct BattlegroundsMinionArtView: View {
         .cardImageTooltip(cardId: minion.card.id)
     }
 
-    // Tier badge using the same tier-N.png assets that BattlegroundsTierOverlayView
-    // already ships (Resources/Battlegrounds/tier-1.png … tier-7.png). The images
+    // Tier badge using the tier-N.png assets in
+    // Resources/Battlegrounds (tier-1.png … tier-7.png). The images
     // are 105×114 and include the number; no text overlay needed. The badge lives
     // inside the 256-pt reference canvas (which scaledToFrame shrinks to 70×70 at
     // the call site), so it is sized so it reads clearly after that 0.273× scale:
