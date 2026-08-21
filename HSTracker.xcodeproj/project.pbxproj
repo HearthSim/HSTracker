@@ -374,6 +374,11 @@
 		4C1923962392DFA5007EBB0F /* BattlegroundsOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C1923952392DFA5007EBB0F /* BattlegroundsOverlay.xib */; };
 		4C1923992392E18E007EBB0F /* BattlegroundsOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1923982392E18E007EBB0F /* BattlegroundsOverlayView.swift */; };
 		EE2A2B3C4D5E6F708192A3C2 /* BattlegroundsTurnCounterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE1A2B3C4D5E6F708192A3C1 /* BattlegroundsTurnCounterView.swift */; };
+		EE0000000000000000001002 /* BattlegroundsInspiration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000001001 /* BattlegroundsInspiration.swift */; };
+		EE0000000000000000001004 /* BattlegroundsInspirationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000001003 /* BattlegroundsInspirationViewModel.swift */; };
+		EE0000000000000000001006 /* BattlegroundsInspirationGameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000001005 /* BattlegroundsInspirationGameViewModel.swift */; };
+		EE0000000000000000001008 /* BattlegroundsInspirationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000001007 /* BattlegroundsInspirationView.swift */; };
+		EE000000000000000000100A /* BattlegroundsInspirationOverlayButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000001009 /* BattlegroundsInspirationOverlayButtonView.swift */; };
 		4C19239D2392FA7E007EBB0F /* BattlegroundsDetailsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C19239C2392FA7E007EBB0F /* BattlegroundsDetailsWindow.swift */; };
 		4C1923A12392FB3F007EBB0F /* BattlegroundsDetailsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C1923A02392FB3F007EBB0F /* BattlegroundsDetailsWindow.xib */; };
 		4C3E2D8A245ED13D00292349 /* ToastWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2D89245ED13D00292349 /* ToastWindowController.swift */; };
@@ -1779,6 +1784,11 @@
 		4C1923952392DFA5007EBB0F /* BattlegroundsOverlay.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsOverlay.xib; sourceTree = "<group>"; };
 		4C1923982392E18E007EBB0F /* BattlegroundsOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsOverlayView.swift; sourceTree = "<group>"; };
 		EE1A2B3C4D5E6F708192A3C1 /* BattlegroundsTurnCounterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsTurnCounterView.swift; sourceTree = "<group>"; };
+		EE0000000000000000001001 /* BattlegroundsInspiration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsInspiration.swift; sourceTree = "<group>"; };
+		EE0000000000000000001003 /* BattlegroundsInspirationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsInspirationViewModel.swift; sourceTree = "<group>"; };
+		EE0000000000000000001005 /* BattlegroundsInspirationGameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsInspirationGameViewModel.swift; sourceTree = "<group>"; };
+		EE0000000000000000001007 /* BattlegroundsInspirationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsInspirationView.swift; sourceTree = "<group>"; };
+		EE0000000000000000001009 /* BattlegroundsInspirationOverlayButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsInspirationOverlayButtonView.swift; sourceTree = "<group>"; };
 		4C19239C2392FA7E007EBB0F /* BattlegroundsDetailsWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsDetailsWindow.swift; sourceTree = "<group>"; };
 		4C1923A02392FB3F007EBB0F /* BattlegroundsDetailsWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsDetailsWindow.xib; sourceTree = "<group>"; };
 		4C3E2D89245ED13D00292349 /* ToastWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastWindowController.swift; sourceTree = "<group>"; };
@@ -3426,6 +3436,17 @@
 			name = Configs;
 			sourceTree = "<group>";
 		};
+		EE000000000000000000100B /* Inspiration */ = {
+			isa = PBXGroup;
+			children = (
+				EE0000000000000000001003 /* BattlegroundsInspirationViewModel.swift */,
+				EE0000000000000000001005 /* BattlegroundsInspirationGameViewModel.swift */,
+				EE0000000000000000001007 /* BattlegroundsInspirationView.swift */,
+				EE0000000000000000001009 /* BattlegroundsInspirationOverlayButtonView.swift */,
+			);
+			path = Inspiration;
+			sourceTree = "<group>";
+		};
 		4C1923972392E174007EBB0F /* Battlegrounds */ = {
 			isa = PBXGroup;
 			children = (
@@ -3449,6 +3470,7 @@
 				B8A70C142841494D004D054C /* BattlegroundsTierTriples.xib */,
 				B804FC422946BAB200F74CD9 /* Composition */,
 				1CA71231B18F27326893EF28 /* Guides */,
+				EE000000000000000000100B /* Inspiration */,
 				B8AC9A1A293CE31D0047F438 /* HeroPicking */,
 				B851C8F32BD29FDC00B748C1 /* Minions */,
 				B8AC9A24293F91FC0047F438 /* QuestPicking */,
@@ -4457,6 +4479,7 @@
 				B8621F192746A785004DD0E9 /* Account.swift */,
 				B8AC9A27293F9A680047F438 /* BattlegroundsComposition.swift */,
 				B8BD3BA72C4159EA001E85B7 /* BattlegroundsCompStats.swift */,
+				EE0000000000000000001001 /* BattlegroundsInspiration.swift */,
 				34889C8488137B3728B9A9CC /* BattlegroundsCompGuides.swift */,
 				ED0DCED696955C5052713784 /* BattlegroundsHeroGuides.swift */,
 				0821780135316731C4043969 /* BattlegroundsTrinketGuides.swift */,
@@ -6122,6 +6145,11 @@
 				B8AF9336282FE46000864934 /* BattlegroundsGameView.swift in Sources */,
 				4C1923992392E18E007EBB0F /* BattlegroundsOverlayView.swift in Sources */,
 				EE2A2B3C4D5E6F708192A3C2 /* BattlegroundsTurnCounterView.swift in Sources */,
+				EE0000000000000000001002 /* BattlegroundsInspiration.swift in Sources */,
+				EE0000000000000000001004 /* BattlegroundsInspirationViewModel.swift in Sources */,
+				EE0000000000000000001006 /* BattlegroundsInspirationGameViewModel.swift in Sources */,
+				EE0000000000000000001008 /* BattlegroundsInspirationView.swift in Sources */,
+				EE000000000000000000100A /* BattlegroundsInspirationOverlayButtonView.swift in Sources */,
 				B8B7906E2C97919500DD33EC /* OdynPrimeDesignateEnchantment.swift in Sources */,
 				B82F4EAE24E3229200905024 /* InputProxy.swift in Sources */,
 				B864AE242597BB0500793F36 /* AdventureConfig.swift in Sources */,

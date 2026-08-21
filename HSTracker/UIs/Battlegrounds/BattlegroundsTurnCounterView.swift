@@ -44,9 +44,34 @@ final class BattlegroundsTurnCounterViewModel: ObservableObject {
 @available(macOS 10.15, *)
 struct BattlegroundsTurnCounterView: View {
     @ObservedObject var viewModel: BattlegroundsTurnCounterViewModel
+    // The MultiDataTrigger on the TurnCounter's style binds across to two other
+    // elements - BattlegroundsMinions' IsFilterButtonVisible and GuidesTabs'
+    // Visibility - so the counter needs both view models, not just its own.
+    // Held as @ObservedObject rather than read through RootOverlayViewModel
+    // because a parent view does not re-render for a nested ObservableObject's
+    // changes (see GuidesTabsView's own header comment).
+    @ObservedObject var minionsGuide: BattlegroundsMinionsViewModel
+    @ObservedObject var guidesTabs: BattlegroundsGuidesTabsViewModel
 
     // Height="49" on the TurnCounter in BgsTopBar.
     static let height: CGFloat = 49
+
+    // TranslateTransform.X target once the filter tab is out and the tab strip
+    // is gone. A RenderTransform in HDT and .offset here - both are visual only,
+    // so the guides panel beside the counter stays put and the counter slides
+    // left over the game board to make room for the tab.
+    private static let slideOffset: CGFloat = -46
+
+    // The MultiDataTrigger's two conditions: IsFilterButtonVisible on the
+    // minions view model, and GuidesTabs collapsed - which is any state other
+    // than "browser on and guides on", the only one that draws the tab strip.
+    //
+    // Faithful to HDT down to its quirk: with the browser off entirely the tab
+    // strip is also collapsed, and the top-bar hover mask still runs, so merely
+    // hovering the corner slides the counter aside for a tab that isn't there.
+    private var isSlidLeft: Bool {
+        minionsGuide.isFilterButtonVisible && !(guidesTabs.showBrowser && guidesTabs.showGuides)
+    }
 
     var body: some View {
         if viewModel.isShown {
@@ -59,6 +84,11 @@ struct BattlegroundsTurnCounterView: View {
                 .padding(.vertical, 3)
                 .frame(height: Self.height)
                 .background(TurnCounterShape().fill(Color(hex: "#141617")))
+                // No animation of its own: HDT gives this 0.2s each way while
+                // the tab it moves for uses 0.2s out and 0.4s back, leaving the
+                // two out of step on the way in. Letting whichever withAnimation
+                // changed IsFilterButtonVisible carry both keeps them together.
+                .offset(x: isSlidLeft ? Self.slideOffset : 0)
         }
     }
 }

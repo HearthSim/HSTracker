@@ -64,6 +64,16 @@ final class Card {
     var isBaconBuddy = false
     var baconTripledBaseMinionId = 0
     var baconCard = false
+    // GameTag.HIDE_COST, as parsed from the card XML.
+    var hideCostTag = false
+
+    // Mirrors HDT's Card.HideCost: the tag, or a 0-cost card whose English text
+    // says "Passive" - which is how passive Battlegrounds hero powers are
+    // marked. HDT's third branch (a fake card with a nil cost) has no
+    // equivalent here. Drives whether a hero power renders a cost gem.
+    var hideCost: Bool {
+        hideCostTag || (cost == 0 && enText.contains("Passive"))
+    }
     var faction: GameTag?
     var spellSchool: SpellSchool = .none
     var highlightColor = HighlightColor.none
@@ -429,6 +439,7 @@ extension Card: NSCopying {
         copy.zilliaxCustomizableFunctionalModule = self.zilliaxCustomizableFunctionalModule
         copy.zilliaxCustomizableCosmeticModule = self.zilliaxCustomizableCosmeticModule
         copy.multipleClasses = self.multipleClasses
+        copy.hideCostTag = self.hideCostTag
         copy.baconTripleUpgradeMinionId = self.baconTripleUpgradeMinionId
         copy.faction = self.faction
         copy.spellSchool = self.spellSchool

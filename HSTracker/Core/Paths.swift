@@ -35,6 +35,11 @@ class Paths {
         return HSTracker.appendingPathComponent("arts", isDirectory: true)
     }()
 
+    // Full-body Battlegrounds hero portraits, HDT's Images/Heroes cache.
+    static let heroes: URL = {
+        return HSTracker.appendingPathComponent("heroes", isDirectory: true)
+    }()
+
     static let decks: URL = {
         return HSTracker.appendingPathComponent("decks", isDirectory: true)
     }()
@@ -66,7 +71,7 @@ class Paths {
 		Creates folders at all path object location
 	*/
     static func initDirs() {
-        let paths = [cards, decks, replays, cardJson, logs, tmpReplays, tiles, arts, cards, cardsBG, arenaJson]
+        let paths = [cards, decks, replays, cardJson, logs, tmpReplays, tiles, arts, cards, cardsBG, arenaJson, heroes]
         let fileManager = FileManager.default
         for path in paths {
             if fileManager.fileExists(atPath: path.absoluteString) { continue }

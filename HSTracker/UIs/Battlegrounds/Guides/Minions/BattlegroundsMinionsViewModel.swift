@@ -113,6 +113,10 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
         let groupedByMinionType: Bool  // true in type mode (groups by tier)
         let groupedByKeyword: Bool     // true in keyword mode (groups by tier)
         let cards: [Card]
+        // Carried per group exactly as HDT's CardGroup.IsInspirationEnabled is,
+        // so the value a group renders with is the one that was live when the
+        // group was built.
+        let isInspirationEnabled: Bool
     }
 
     @Published var activeTier: Int?
@@ -131,6 +135,12 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
     // reaching into AppKit would leave SwiftUI with nothing to invalidate on.
     @Published private(set) var isTier7Forced = false
 
+    // HDT's BattlegroundsMinionsViewModel.IsInspirationEnabled, set from
+    // OverlayWindow as `_game.IsBattlegroundsMatch && userHasTier7`. Gates the
+    // per-card inspiration indicator (see MinionCardRow) - it is a Tier7
+    // entitlement flag, nothing to do with Duos.
+    @Published private(set) var isInspirationEnabled = false
+
     // Extra-filters panel state. isFilterRegionHovered is driven by
     // RootOverlayWindow from HDT's BgsTopBarMask - a hover-only rectangle over
     // the canvas's top-right corner - not by any hover tracking on these views,
@@ -148,6 +158,7 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
     private var isDuos = false
     private var anomaly: String?
     private var settingsCancellable: AnyCancellable?
+    private var trialCancellable: AnyCancellable?
 
     // The three mid-match sources of a tier 7, owned here rather than read off
     // the AppKit tier overlay. Mirrors HDT's HasTier7HeroPower / HasTier7Trinket
@@ -172,6 +183,27 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
             .publisher(for: UserDefaults.didChangeNotification)
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in self?.updateTavernTier7Visibility() }
+
+        // HDT hooks Tier7Trial.OnTrialActivated in OverlayWindow's constructor to
+        // re-run the same assignment; a trial can be activated mid-lobby (hero
+        // pick, composition stats) long after onMatchStart has run.
+        trialCancellable = NotificationCenter.default
+            .publisher(for: Notification.Name(rawValue: Events.tier7_trial_activated))
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in self?.updateInspirationEnabled() }
+    }
+
+    // Mirrors OverlayWindow's `IsInspirationEnabled = _game.IsBattlegroundsMatch
+    // && userHasTier7`, with Tier7Trial.token standing in for HDT's
+    // IsTrialForCurrentGameActive(gameId). HSTracker's Tier7Trial keeps no
+    // per-game handle and nothing calls its clear(), so a token activated once
+    // lasts the rest of the app session - slightly more permissive than HDT's
+    // per-game check, but this is exactly how the Comp guides and the quest
+    // picker already read the entitlement.
+    private func updateInspirationEnabled() {
+        let game = AppDelegate.instance().coreManager.game
+        let userHasTier7 = (HSReplayAPI.accountData?.is_tier7 ?? false) || Tier7Trial.token != nil
+        isInspirationEnabled = game.isBattlegroundsMatch() && userHasTier7
     }
 
     // Mirrors HDT's UpdateTavernTier7Visibility(): recomputes the tier list when
@@ -353,6 +385,7 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
         let anomalyDbfId = BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: game.gameEntity)
         anomaly = Cards.by(dbfId: anomalyDbfId, collectible: false)?.id
         clearFilters()
+        updateInspirationEnabled()
         // The tier-7 sources are deliberately *not* cleared here, only in
         // onMatchEnd - HDT calls Reset() solely from HideBgsTopBar. Clearing on
         // the way in would race the hooks: onMatchStart and the forwards from
@@ -365,6 +398,9 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
         clearFilters()
         availableRaces = nil
         resetTier7Sources()
+        // HDT lets its next Update() tick drop the flag once IsBattlegroundsMatch
+        // goes false; there is no such tick here, so clear it explicitly.
+        isInspirationEnabled = false
     }
 
     // HDT's Reset() clears all three alongside the filters, at match end only;
@@ -436,7 +472,8 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
                 keyword: nil,
                 groupedByMinionType: false,
                 groupedByKeyword: false,
-                cards: cards.sorted { $0.name < $1.name }
+                cards: cards.sorted { $0.name < $1.name },
+                isInspirationEnabled: isInspirationEnabled
             ))
         }
         if Settings.showTavernSpells {
@@ -445,7 +482,8 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
             if !spells.isEmpty {
                 result.append(MinionGroup(tier: tier, minionType: .spells, keyword: nil,
                                           groupedByMinionType: false, groupedByKeyword: false,
-                                          cards: spells))
+                                          cards: spells,
+                                          isInspirationEnabled: isInspirationEnabled))
             }
         }
         return result.sorted { a, b in
@@ -478,7 +516,8 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
             guard !cards.isEmpty else { continue }
             result.append(MinionGroup(tier: tier, minionType: minionType, keyword: nil,
                                       groupedByMinionType: true, groupedByKeyword: false,
-                                      cards: cards))
+                                      cards: cards,
+                                      isInspirationEnabled: isInspirationEnabled))
         }
         return result
     }
@@ -496,7 +535,8 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
             guard !cards.isEmpty else { continue }
             result.append(MinionGroup(tier: tier, minionType: nil, keyword: keyword,
                                       groupedByMinionType: false, groupedByKeyword: true,
-                                      cards: cards))
+                                      cards: cards,
+                                      isInspirationEnabled: isInspirationEnabled))
         }
         // Gated on showTavernSpells for the same reason the tier view is: a user
         // who turned tavern spells off shouldn't get them back via a keyword.
@@ -508,7 +548,8 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
             if !spells.isEmpty {
                 result.append(MinionGroup(tier: 0, minionType: .spells, keyword: keyword,
                                           groupedByMinionType: false, groupedByKeyword: true,
-                                          cards: spells))
+                                          cards: spells,
+                                          isInspirationEnabled: isInspirationEnabled))
             }
         }
         return result

@@ -244,6 +244,9 @@ enum GameTag: Int, CaseIterable, Codable {
     ai_one_shot_kill = 400,
     evil_glow = 401,
     //hide_cost = 402,
+    // HIDE_COST's real value per HearthDb; the 402 above is a stale guess and
+    // stays commented out rather than being silently corrected in place.
+    hide_cost = 684,
     hide_stats = 402,
     inspire = 403,
     receives_double_spelldamage_bonus = 404,

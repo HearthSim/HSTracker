@@ -15,16 +15,19 @@ import SwiftUI
 // pixels should stop being click-through - see its mouse-tracking comment.
 @available(macOS 10.15, *)
 struct InteractiveRegionPreferenceKey: PreferenceKey {
-    static var defaultValue: CGRect?
-    // Unioned rather than overwritten: originally only one interactive child
-    // was ever visible at a time (the pre-lobby widget XOR the trials-exhausted
-    // alert), so last-write-wins was fine. The mulligan V2 card row reports one
-    // region per offered card (up to 3 simultaneously), so they all need to
-    // stay interactive together instead of only the last one evaluated.
-    static func reduce(value: inout CGRect?, nextValue: () -> CGRect?) {
-        if let next = nextValue() {
-            value = value?.union(next) ?? next
-        }
+    static var defaultValue: [CGRect] = []
+    // Collected as a list rather than overwritten or unioned. Originally only
+    // one interactive child was ever visible at a time (the pre-lobby widget
+    // XOR the trials-exhausted alert), so last-write-wins was fine; the
+    // mulligan V2 card row then needed up to three at once, and unioning them
+    // into a single rect was enough for three siblings sitting in a row.
+    //
+    // It stops being enough once two far-apart children are up together - the
+    // guides panel in the top-right corner and the Inspiration panel in the
+    // middle of the screen. Their bounding box covers most of the overlay, and
+    // every click inside it would stop falling through to Hearthstone.
+    static func reduce(value: inout [CGRect], nextValue: () -> [CGRect]) {
+        value.append(contentsOf: nextValue())
     }
 }
 
@@ -104,9 +107,30 @@ struct RootOverlayView: View {
                         //
                         // .top so the 49pt counter lines up with the tab strip.
                         HStack(alignment: .top, spacing: 0) {
-                            BattlegroundsTurnCounterView(viewModel: viewModel.battlegroundsTurnCounter)
+                            // First in BgsTopBar, left of the turn counter, as
+                            // in OverlayWindow.xaml.
+                            BattlegroundsInspirationOverlayButtonView(viewModel: viewModel.battlegroundsInspiration)
+                            BattlegroundsTurnCounterView(viewModel: viewModel.battlegroundsTurnCounter,
+                                                         minionsGuide: viewModel.battlegroundsMinionsGuide,
+                                                         guidesTabs: viewModel.battlegroundsGuidesTabs)
                             GuidesTabsView(viewModel: viewModel.battlegroundsGuidesTabs, compsGuides: viewModel.battlegroundsCompsGuides, heroGuides: viewModel.battlegroundsHeroGuides, questGuides: viewModel.battlegroundsQuestGuides, minionsGuide: viewModel.battlegroundsMinionsGuide)
                         }
+                    }
+                    .frame(width: canvasWidth, height: 1080)
+
+                    // Last, so it draws over the top bar - BattlegroundsInspiration
+                    // comes after BgsTopBar on OverlayWindow's canvas too.
+                    //
+                    // OverlayElementBehavior places it at
+                    // GetLeft = GetScaledXPos((1 - 0.65)/2) and GetTop = Height * 0.13.
+                    // The panel's 936 width is exactly 65% of the 1440-wide inner
+                    // 4:3 area, and that left offset centres it there - which, since
+                    // the 4:3 area is itself centred in the window, is just "centred
+                    // horizontally", 140.4pt down from the top.
+                    ZStack(alignment: .top) {
+                        Color.clear
+                        BattlegroundsInspirationView(viewModel: viewModel.battlegroundsInspiration)
+                            .padding(.top, 0.13 * 1080)
                     }
                     .frame(width: canvasWidth, height: 1080)
                 }
@@ -144,8 +168,8 @@ struct RootOverlayView: View {
         // reports land in the same real, post-scale pixel space as the
         // NSHostingView's own bounds.
         .coordinateSpace(name: "rootOverlayCanvas")
-        .onPreferenceChange(InteractiveRegionPreferenceKey.self) { region in
-            viewModel.interactiveRegion = region
+        .onPreferenceChange(InteractiveRegionPreferenceKey.self) { regions in
+            viewModel.interactiveRegions = regions
         }
         .onPreferenceChange(HoverRegionPreferenceKey.self) { region in
             viewModel.hoverRegion = region

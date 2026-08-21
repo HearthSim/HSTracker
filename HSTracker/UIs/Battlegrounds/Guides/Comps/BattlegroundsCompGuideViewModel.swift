@@ -21,37 +21,10 @@ struct BattlegroundsCompGuideViewModel: Identifiable {
     let compGuide: BattlegroundsCompGuide
     var id: String { compGuide.name }
 
-    struct GuideMinion: Identifiable {
-        let id: Int // dbfId
-        let card: Card
-        let isAvailable: Bool
-        let attack: Int
-        let health: Int
-        let tier: Int
-        let hasTaunt: Bool
-        let hasReborn: Bool
-        let hasDeathrattle: Bool
-        let hasPoisonous: Bool
-        let hasVenomous: Bool
-        let hasDivineShield: Bool
-        let isLegendary: Bool
-
-        init(dbfId: Int, card: Card, isAvailable: Bool) {
-            self.id = dbfId
-            self.card = card
-            self.isAvailable = isAvailable
-            self.attack = card.attack
-            self.health = card.health
-            self.tier = card.techLevel
-            self.hasTaunt = card.mechanics.contains("TAUNT")
-            self.hasReborn = card.mechanics.contains("REBORN")
-            self.hasDeathrattle = card.mechanics.contains("DEATHRATTLE")
-            self.hasPoisonous = card.mechanics.contains("POISONOUS")
-            self.hasVenomous = card.mechanics.contains("VENOMOUS")
-            self.hasDivineShield = card.mechanics.contains("DIVINE_SHIELD")
-            self.isLegendary = card.rarity == .legendary
-        }
-    }
+    // Kept as a nested name so every existing call site still reads
+    // BattlegroundsCompGuideViewModel.GuideMinion; the type itself now lives
+    // with the view that draws it, since the Inspiration panel builds them too.
+    typealias GuideMinion = BattlegroundsMinionArt
 
     let coreCards: [GuideMinion]
     let addonCards: [GuideMinion]

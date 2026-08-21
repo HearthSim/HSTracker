@@ -1004,6 +1004,68 @@ class HSReplayAPI {
         }
     }
     
+    // Mirrors BattlegroundsInspirationViewModel.MakeRequest. Two variants, as
+    // with the comp stats above: OAuth for accounts that own Tier7, an
+    // X-Trial-Token header for accounts riding a trial.
+    @available(macOS 10.15.0, *)
+    static func getBattlegroundsInspiration(parameters: BattlegroundsInspirationParams) async -> BattlegroundsInspiration? {
+        return await withCheckedContinuation { continuation in
+            var body: Data?
+            do {
+                body = try JSONEncoder().encode(parameters)
+                if let body {
+                    logger.debug("Sending inspiration request: \(String(data: body, encoding: .utf8) ?? "ERROR")")
+                }
+            } catch {
+                logger.error(error)
+            }
+            startAuthorizedRequest("\(HSReplay.battlegroundsInspirationUrl)", method: .POST, headers: ["Content-Type": "application/json"], body: body, completionHandler: { result in
+                switch result {
+                case .success(let response):
+                    let inspiration: BattlegroundsInspiration? = parseResponse(data: response.data, defaultValue: nil)
+                    continuation.resume(returning: inspiration)
+                case .failure(let error):
+                    logger.error(error)
+                    continuation.resume(returning: nil)
+                }
+            })
+        }
+    }
+
+    @available(macOS 10.15.0, *)
+    static func getBattlegroundsInspiration(token: String?, parameters: BattlegroundsInspirationParams) async -> BattlegroundsInspiration? {
+        guard let token else {
+            return nil
+        }
+        return await withCheckedContinuation { continuation in
+            var body: Data?
+            do {
+                body = try JSONEncoder().encode(parameters)
+                if let body {
+                    logger.debug("Sending inspiration request: \(String(data: body, encoding: .utf8) ?? "ERROR")")
+                }
+            } catch {
+                logger.error(error)
+            }
+            guard let body else {
+                continuation.resume(returning: nil)
+                return
+            }
+            let http = Http(url: "\(HSReplay.battlegroundsInspirationUrl)")
+            _ = http.uploadPromise(method: .post, headers: ["Content-Type": "application/json", "X-Trial-Token": token], data: body).done { response in
+                guard let data = response as? Data else {
+                    continuation.resume(returning: nil)
+                    return
+                }
+                let inspiration: BattlegroundsInspiration? = parseResponse(data: data, defaultValue: nil)
+                continuation.resume(returning: inspiration)
+            }.catch { error in
+                logger.error(error)
+                continuation.resume(returning: nil)
+            }
+        }
+    }
+
     // Builds the query string by hand (rather than passing a parameters dict
     // to startAuthorizedRequest/Http) so `minion_types` can be repeated once
     // per value - matching the HSReplayNET client exactly (it appends

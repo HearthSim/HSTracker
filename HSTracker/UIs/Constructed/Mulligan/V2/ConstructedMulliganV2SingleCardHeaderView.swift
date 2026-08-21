@@ -64,7 +64,7 @@ struct ConstructedMulliganV2SingleCardHeaderView: View {
             // below stands in for. See InteractiveRegionPreferenceKey.
             .background(
                 GeometryReader { proxy in
-                    Color.clear.preference(key: InteractiveRegionPreferenceKey.self, value: proxy.frame(in: .rootOverlayCanvas))
+                    Color.clear.preference(key: InteractiveRegionPreferenceKey.self, value: [proxy.frame(in: .rootOverlayCanvas)])
                 }
             )
 

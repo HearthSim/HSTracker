@@ -14,7 +14,7 @@ import HearthMirror
 
 struct ImageUtils {
     enum ImageType: Int {
-        case tile, art, cardArt, cardArtBG
+        case tile, art, cardArt, cardArtBG, hero
     }
     
     static func tileUrl(cardId: String) -> String {
@@ -33,21 +33,29 @@ struct ImageUtils {
         return "https://art.hearthstonejson.com/v1/256x/\(cardId).jpg"
     }
 
+    // Full-body hero portrait, the URL HDT's heroImageDownloader uses.
+    static func heroUrl(cardId: String) -> String {
+        return "https://art.hearthstonejson.com/v1/heroes/latest/256x/\(cardId).png"
+    }
+
     private static var cache =  SynchronizedDictionary<String, NSImage>()
     private static var cacheArt =  SynchronizedDictionary<String, NSImage>()
     private static var cacheCardArt =  SynchronizedDictionary<String, NSImage>()
     private static var cacheCardArtBG =  SynchronizedDictionary<String, NSImage>()
+    private static var cacheHero = SynchronizedDictionary<String, NSImage>()
     
     static func clearCache() {
         cache.removeAll()
         cacheArt.removeAll()
         cacheCardArt.removeAll()
         cacheCardArtBG.removeAll()
+        cacheHero.removeAll()
         
         clearDirectory(path: Paths.cards)
         clearDirectory(path: Paths.cardsBG)
         clearDirectory(path: Paths.arts)
         clearDirectory(path: Paths.tiles)
+        clearDirectory(path: Paths.heroes)
     }
     
     static func clearDirectory(path: URL) {
@@ -110,6 +118,18 @@ struct ImageUtils {
         loadImage(type: .cardArtBG, cardId: finalCardId, completion: completion)
     }
 
+    static func cachedHero(cardId: String) -> NSImage? {
+        return cacheHero[cardId]
+    }
+
+    static func hero(for cardId: String, completion: @escaping ((NSImage?) -> Void)) {
+        if let image = cacheHero[cardId] {
+            completion(image)
+            return
+        }
+        loadImage(type: .hero, cardId: cardId, completion: completion)
+    }
+
     static func cachedArt(cardId: String) -> NSImage? {
         let res = cacheArt[cardId]
         
@@ -128,6 +148,8 @@ struct ImageUtils {
             path = Paths.cards.appendingPathComponent("\(cardId).jpg")
         case .cardArtBG:
             path = Paths.cardsBG.appendingPathComponent("\(cardId).jpg")
+        case .hero:
+            path = Paths.heroes.appendingPathComponent("\(cardId).png")
         }
         if let image = NSImage(contentsOf: path) {
             switch type {
@@ -139,6 +161,8 @@ struct ImageUtils {
                 cacheCardArt[cardId] = image
             case .cardArtBG:
                 cacheCardArtBG[cardId] = image
+            case .hero:
+                cacheHero[cardId] = image
             }
             
             completion(image)
@@ -156,6 +180,8 @@ struct ImageUtils {
             url = artUrl(cardId: cardId, lang: Settings.hearthstoneLanguage?.rawValue ?? "enUS")
         case .cardArtBG:
             url = artUrlBG(cardId: cardId, lang: Settings.hearthstoneLanguage?.rawValue ?? "enUS")
+        case .hero:
+            url = heroUrl(cardId: cardId)
         }
         guard let url = URL(string: url) else {
             completion(nil)
@@ -181,6 +207,8 @@ struct ImageUtils {
                         cacheCardArt[cardId] = image
                     case .cardArtBG:
                         cacheCardArtBG[cardId] = image
+                    case .hero:
+                        cacheHero[cardId] = image
                     }
                     
                     completion(image)

@@ -8,9 +8,8 @@
 
 import SwiftUI
 
-// Mirrors HDT's CompGuide.xaml. "Pin All Cards" and "Show Example Boards" are
-// rendered disabled - they're wired up in the Minion Pinning and Inspiration
-// milestones respectively, not yet. "Pin All Cards" is a small icon button
+// Mirrors HDT's CompGuide.xaml. "Pin All Cards" is still rendered disabled -
+// it's wired up in the Minion Pinning milestone, not yet. It is a small icon button
 // in HDT (pin.png) sitting in the header next to the tier badge; no pin
 // asset exists in this catalog yet, so it's approximated here with a plain
 // glyph in the same position rather than skipped outright.
@@ -18,6 +17,8 @@ import SwiftUI
 struct CompGuideDetailView: View {
     @ObservedObject var viewModel: BattlegroundsCompsGuidesViewModel
     let comp: BattlegroundsCompGuideViewModel
+
+    @SwiftUI.State private var isInspirationHovering = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -180,24 +181,65 @@ struct CompGuideDetailView: View {
             }
             .frame(maxWidth: .infinity)
             if showInspirationButton {
-                // Placeholder for HDT's "Show Example Boards" button
-                // (Tier7 Inspiration feature) - stays disabled until the
-                // Inspiration milestone.
-                // Matches HDT's InspirationButtonStyle disabled state exactly
-                // (FontSize 11/Bold, uniform 4pt padding, bg/fg opacity 0.08/
-                // 0.2) rather than approximated values.
-                Text("Show Example Boards")
-                    .font(.system(size: 11, weight: .bold))
-                    .foregroundColor(.white.opacity(0.2))
-                    .padding(4)
-                    .background(Color.white.opacity(0.08))
-                    .cornerRadius(3)
+                inspirationButton
             }
         }
         .padding(9)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(Color(hex: "#1c1f22"))
         .overlay(Rectangle().frame(height: 1).foregroundColor(Color(hex: "#4A5256")), alignment: .top)
+    }
+
+    // HDT's InspirationButtonStyle: bold 11pt on #F1C040 (#CCCCCC on hover) with
+    // #26200F text, CornerRadius 3, 4pt of padding on both the Button and its
+    // template Border, and a 14x14 black Tier7 logo 4pt before the label.
+    //
+    // Disabled - the account owns neither Tier7 nor an active trial - keeps
+    // HDT's disabled trigger: background and foreground at 0.08/0.2 opacity.
+    @ViewBuilder
+    private var inspirationButton: some View {
+        let enabled = comp.exampleBoardsButtonEnabled
+        Button {
+            showExampleLineups()
+        } label: {
+            HStack(spacing: 0) {
+                Image("tier7-logo")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 14, height: 14)
+                    // LogoBrush="Black" on the button's Tier7Logo. colorMultiply
+                    // rather than a template rendering mode - the asset is an SVG
+                    // that is not marked as a template image.
+                    .colorMultiply(enabled ? .black : .white)
+                    .opacity(enabled ? 1 : 0.2)
+                    .padding(.trailing, 4)
+                    .padding(.bottom, -2)
+                Text(BattlegroundsInspirationViewModel.localized("Battlegrounds_CompGuide_Inspiration_Button",
+                                                                fallback: "Show Example Lineups"))
+                    .font(.system(size: 11, weight: .bold))
+                    // Only the background changes on hover in HDT.
+                    .foregroundColor(enabled ? Color(hex: "#26200F") : .white.opacity(0.2))
+            }
+            .padding(8)
+            .background(enabled
+                        ? Color(hex: isInspirationHovering ? "#CCCCCC" : "#F1C040")
+                        : Color.white.opacity(0.08))
+            .cornerRadius(3)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .disabled(!enabled)
+        .trackHover { isInspirationHovering = $0 }
+    }
+
+    // ShowExampleBoardsCommand: the comp's core cards, narrowed to what this
+    // lobby actually offers, keyed by the comp's own name rather than a minion's.
+    private func showExampleLineups() {
+        guard let inspiration = AppDelegate.instance().coreManager?.game
+            .windowManager.rootOverlay?.viewModel.battlegroundsInspiration else { return }
+        let cards = comp.coreCards.filter { $0.isAvailable }.map { $0.card }
+        inspiration.setKeyMinion(title: comp.compGuide.name, cards: cards)
+        inspiration.show()
     }
 
     private func pillSection(title: String, lines: [[GuideTextSegment]]) -> some View {

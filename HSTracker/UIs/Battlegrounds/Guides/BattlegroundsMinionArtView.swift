@@ -19,14 +19,90 @@ import SwiftUI
 // system, and doesn't need it - ImageUtils.art/cachedArt already do the
 // same job, matching GuideCardArtBackground/MulliganCardPortraitView).
 //
-// No premium/golden variant: a guide's minion is illustrative (drawn from
-// the card definition alone), not a live board entity, so there's no
-// concept of a golden copy to reflect. No tier badge either - HDT's overlay
-// draws one (Image("tier-N")), but no tier-N asset exists in this catalog
-// yet; add one and the badge below whenever it does.
+// Driven by BattlegroundsMinionArt, which either derives its stats from a card
+// definition (the comp guides, where a minion is illustrative) or carries them
+// verbatim (the Inspiration panel, whose boards are real first-place lineups
+// full of buffed and golden minions).
+// Everything BattlegroundsMinionArtView needs to draw one minion. Two sources
+// feed it: a card definition (comp guides - printed stats, keywords read off
+// the card's mechanics) and an explicit set of values (the Inspiration panel,
+// whose stats and keywords come off the wire).
+//
+// id is a UUID rather than the dbf id because a single board can hold several
+// copies of the same minion, and ForEach needs them distinct.
+@available(macOS 10.15, *)
+struct BattlegroundsMinionArt: Identifiable {
+    let id = UUID()
+    let dbfId: Int
+    let card: Card
+    let isAvailable: Bool
+    let attack: Int
+    let health: Int
+    let tier: Int
+    let hasTaunt: Bool
+    let hasReborn: Bool
+    let hasDeathrattle: Bool
+    let hasPoisonous: Bool
+    let hasVenomous: Bool
+    let hasDivineShield: Bool
+    let isLegendary: Bool
+    let isPremium: Bool
+    // HDT's BattlegroundsMinionViewModel.HasTier, which only turns on once Tier
+    // is assigned - the Inspiration panel never assigns it, so its boards carry
+    // no tier badges.
+    let showTier: Bool
+    // HDT's ShowTripleTooltip, set false in the Inspiration panel: a premium
+    // minion there is already the golden copy, so pairing the tooltip with
+    // "and here is the golden version" would just repeat it.
+    let showTriple: Bool
+
+    // Comp guides: printed stats straight off the card definition.
+    init(dbfId: Int, card: Card, isAvailable: Bool) {
+        self.dbfId = dbfId
+        self.card = card
+        self.isAvailable = isAvailable
+        self.attack = card.attack
+        self.health = card.health
+        self.tier = card.techLevel
+        self.hasTaunt = card.mechanics.contains("TAUNT")
+        self.hasReborn = card.mechanics.contains("REBORN")
+        self.hasDeathrattle = card.mechanics.contains("DEATHRATTLE")
+        self.hasPoisonous = card.mechanics.contains("POISONOUS")
+        self.hasVenomous = card.mechanics.contains("VENOMOUS")
+        self.hasDivineShield = card.mechanics.contains("DIVINE_SHIELD")
+        self.isLegendary = card.rarity == .legendary
+        self.isPremium = false
+        self.showTier = true
+        self.showTriple = true
+    }
+
+    // Inspiration: a real board, so every stat and keyword is whatever the API
+    // reported rather than what the card prints.
+    init(card: Card, attack: Int, health: Int, isPremium: Bool, hasTaunt: Bool,
+         hasReborn: Bool, hasDeathrattle: Bool, hasPoisonous: Bool,
+         hasVenomous: Bool, hasDivineShield: Bool) {
+        self.dbfId = card.dbfId
+        self.card = card
+        self.isAvailable = true
+        self.attack = attack
+        self.health = health
+        self.tier = card.techLevel
+        self.hasTaunt = hasTaunt
+        self.hasReborn = hasReborn
+        self.hasDeathrattle = hasDeathrattle
+        self.hasPoisonous = hasPoisonous
+        self.hasVenomous = hasVenomous
+        self.hasDivineShield = hasDivineShield
+        self.isLegendary = card.rarity == .legendary
+        self.isPremium = isPremium
+        self.showTier = false
+        self.showTriple = false
+    }
+}
+
 @available(macOS 10.15, *)
 struct BattlegroundsMinionArtView: View {
-    let minion: BattlegroundsCompGuideViewModel.GuideMinion
+    let minion: BattlegroundsMinionArt
 
     @SwiftUI.State private var portrait: NSImage?
     @SwiftUI.State private var isHovering = false
@@ -48,7 +124,7 @@ struct BattlegroundsMinionArtView: View {
             Color.clear.frame(width: Self.portraitSize, height: Self.portraitSize)
 
             if minion.hasTaunt {
-                Image("taunt")
+                Image(minion.isPremium ? "taunt_premium" : "taunt")
                     .resizable()
                     .interpolation(.high)
                     .frame(width: Self.frameWidth, height: Self.frameHeight)
@@ -64,7 +140,7 @@ struct BattlegroundsMinionArtView: View {
                     .clipShape(Ellipse().path(in: CGRect(x: 128 - 87, y: 128 - 120, width: 174, height: 240)))
             }
 
-            Image("border")
+            Image(minion.isPremium ? "border_premium" : "border")
                 .resizable()
                 .interpolation(.high)
                 .frame(width: Self.frameWidth, height: Self.frameHeight)
@@ -74,7 +150,7 @@ struct BattlegroundsMinionArtView: View {
                 overlayImage("reborn")
             }
             if minion.isLegendary {
-                overlayImage("legendary")
+                overlayImage(minion.isPremium ? "legendary_premium" : "legendary")
             }
             if minion.hasDeathrattle {
                 overlayImage("deathrattle")
@@ -85,7 +161,7 @@ struct BattlegroundsMinionArtView: View {
             if minion.hasVenomous {
                 overlayImage("venomous")
             }
-            overlayImage("stats")
+            overlayImage(minion.isPremium ? "stats_premium" : "stats")
             if minion.hasDivineShield {
                 overlayImage("divine-shield")
             }
@@ -101,7 +177,7 @@ struct BattlegroundsMinionArtView: View {
                 .frame(width: 75, height: 75, alignment: .center)
                 .offset(x: 151, y: 170)
 
-            if minion.tier > 0 {
+            if minion.showTier && minion.tier > 0 {
                 tierBadge
             }
         }
@@ -116,7 +192,7 @@ struct BattlegroundsMinionArtView: View {
         // CardImageTooltip.swift.
         .scaleEffect(isHovering ? 1.05 : 1.0)
         .trackHover { hovering in isHovering = hovering }
-        .cardImageTooltip(cardId: minion.card.id)
+        .cardImageTooltip(cardId: minion.card.id, showTriple: minion.showTriple)
     }
 
     // Tier badge using the tier-N.png assets in

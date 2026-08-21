@@ -42,7 +42,16 @@ struct BattlegroundsCardsGroupView: View {
         VStack(spacing: 0) {
             groupHeader
             ForEach(Array(group.cards.enumerated()), id: \.offset) { _, card in
-                MinionCardRow(card: card)
+                // AnimatedCardList.Update passes `ShowTier7InspirationButton &&
+                // card.IsBaconMinion` down to each AnimatedCard. IsBaconMinion is
+                // `BaconCard && TypeEnum == MINION`; every card in these groups is
+                // already out of the Battlegrounds pool, and HSTracker's own
+                // `baconCard` flag is only populated for counters rather than by
+                // the card DB, so the type check alone carries the distinction
+                // that matters here - minions and buddies get the indicator,
+                // tavern spells do not.
+                MinionCardRow(card: card,
+                              showInspiration: group.isInspirationEnabled && card.type == .minion)
             }
         }
         .frame(width: Self.width)
@@ -191,16 +200,27 @@ struct BattlegroundsCardsGroupView: View {
 //   4. Frame overlay (frame.png full width)
 //   5. Card name (ChunkFive/Belwe, 15pt)
 //   6. Spell coin badge (coin-cost.png + cost number, right-aligned; spells only)
+//   7. Tier7 inspiration button (hover only; see inspirationButton)
 @available(macOS 10.15, *)
 struct MinionCardRow: View {
     let card: Card
+    // AnimatedCard.Update's showTier7InspirationBtn.
+    let showInspiration: Bool
 
     @SwiftUI.State private var tile: NSImage?
+    @SwiftUI.State private var isRowHovering = false
+    @SwiftUI.State private var isButtonHovering = false
 
     private static let rowH: CGFloat = CGFloat(kRowHeight)   // 34 pt
     private static let nameX: CGFloat = 8
     // coinRect in CardBar: NSRect(x: 217-25, y: 4, width: 25, height: 25)
     private static let coinW: CGFloat = 25
+    // BtnTier7Inspiration: Width/Height 30, Margin="0,2,34,2". The 34pt right
+    // inset is one 30pt button plus its 2pt margins - it keeps the rightmost
+    // slot free for the pin button, which HDT docks there. HDT applies the same
+    // inset whether or not that button is showing.
+    private static let inspirationSize: CGFloat = 30
+    private static let inspirationTrailing: CGFloat = 34
 
     private var isSpell: Bool { card.type == .battleground_spell }
 
@@ -247,8 +267,84 @@ struct MinionCardRow: View {
         .frame(height: Self.rowH)
         .clipped()
         .overlay(Rectangle().frame(width: 1).foregroundColor(.black.opacity(0.6)), alignment: .leading)
+        // Outside the .clipped() ZStack so the button keeps its own hit area and
+        // is never trimmed by the row's clip.
+        .overlay(inspirationOverlay, alignment: .trailing)
         .cardImageTooltip(cardId: card.id)
+        // AnimatedCard's Grid_OnMouseEnter / Grid_OnMouseLeave, which run
+        // InspirationButtonIn / InspirationButtonOut. Uses trackHover for the
+        // same reason the group header does - see HoverTrackingNSView.
+        .trackHover { hovering in
+            guard showInspiration else { return }
+            withAnimation(Self.buttonAnimation(hovering)) {
+                isRowHovering = hovering
+            }
+        }
         .onAppear(perform: loadTile)
+    }
+
+    // MARK: - Tier7 inspiration button
+    //
+    // Mirrors AnimatedCard.xaml's BtnTier7Inspiration Border: 30x30, CornerRadius
+    // 3, 1pt #141617 border, #23272a background going to #43474a on hover, with a
+    // 22x22 icon_inspiration glyph inset by 4.
+    //
+    // Only rendered when the group says inspiration is enabled and only visible
+    // while the row is hovered, exactly as in HDT.
+
+    // InspirationButtonIn: opacity 0->1 and scale 0.7->1 over 0.5s after a 0.1s
+    // delay, on an ElasticEase(EaseOut, Oscillations=1, Springiness=3) - a spring
+    // is the closest SwiftUI equivalent. InspirationButtonOut fades out over 0.1s
+    // (HDT snaps the scale back in the same beat).
+    private static func buttonAnimation(_ appearing: Bool) -> Animation {
+        appearing ? .spring(response: 0.5, dampingFraction: 0.55).delay(0.1)
+                  : .easeOut(duration: 0.1)
+    }
+
+    // The row's tracking area and the button's overlap, so take either as
+    // "shown" - otherwise the button could fade out from under the cursor that
+    // is resting on it.
+    private var isInspirationShown: Bool { isRowHovering || isButtonHovering }
+
+    @ViewBuilder
+    private var inspirationOverlay: some View {
+        if showInspiration {
+            inspirationButton
+                .opacity(isInspirationShown ? 1 : 0)
+                .scaleEffect(isInspirationShown ? 1 : 0.7)
+                // Collapsed in XAML until Update makes it Visible; hidden here
+                // means it also stops taking clicks while faded out.
+                .allowsHitTesting(isInspirationShown)
+                .padding(.trailing, Self.inspirationTrailing)
+        }
+    }
+
+    private var inspirationButton: some View {
+        Image("icon_inspiration")
+            .resizable()
+            .frame(width: 22, height: 22)
+            .padding(4)
+            .background(Color(hex: isButtonHovering ? "#43474a" : "#23272a"))
+            .cornerRadius(3)
+            .overlay(RoundedRectangle(cornerRadius: 3).stroke(Color(hex: "#141617"), lineWidth: 1))
+            .frame(width: Self.inspirationSize, height: Self.inspirationSize)
+            .contentShape(Rectangle())
+            .trackHover { hovering in
+                withAnimation(Self.buttonAnimation(hovering)) {
+                    isButtonHovering = hovering
+                }
+            }
+            // AnimatedCard's BtnBgsInspiration_OnMouseUp: SetKeyMinion(Card)
+            // then ShowBgsInspiration().
+            .onTapGesture {
+                guard let inspiration = Self.inspirationViewModel else { return }
+                inspiration.setKeyMinion([card])
+                inspiration.show()
+            }
+    }
+
+    private static var inspirationViewModel: BattlegroundsInspirationViewModel? {
+        AppDelegate.instance().coreManager?.game.windowManager.rootOverlay?.viewModel.battlegroundsInspiration
     }
 
     // Coin-cost badge: coin image with cost number centered on top.

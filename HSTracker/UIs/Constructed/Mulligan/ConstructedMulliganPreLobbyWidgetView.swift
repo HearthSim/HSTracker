@@ -54,7 +54,7 @@ struct ConstructedMulliganPreLobbyWidgetView: View {
             // contributions from views that actually call .preference().
             .background(
                 GeometryReader { proxy in
-                    Color.clear.preference(key: InteractiveRegionPreferenceKey.self, value: proxy.frame(in: .rootOverlayCanvas))
+                    Color.clear.preference(key: InteractiveRegionPreferenceKey.self, value: [proxy.frame(in: .rootOverlayCanvas)])
                 }
             )
         }

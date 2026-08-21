@@ -2232,6 +2232,10 @@ class Game: NSObject, PowerEventHandler {
             windowManager.battlegroundsQuestPicking.viewModel.reset()
             windowManager.battlegroundsTrinketPicking.viewModel.reset()
             if #available(macOS 10.15, *) {
+                // GameEventHandler's IsBattlegroundsMatch branch clears the trial
+                // once the match it was activated for is over, so the next game
+                // has to spend a trial of its own rather than riding this token.
+                Tier7Trial.clear()
                 // These mutate @Published properties on ObservableObjects
                 // (unlike the legacy KVO-based ViewModel.reset() calls
                 // above), which Combine requires happen on the main thread.
@@ -2240,6 +2244,10 @@ class Game: NSObject, PowerEventHandler {
                     self.windowManager.rootOverlay?.viewModel.battlegroundsHeroGuides.onMatchEnd()
                     self.windowManager.rootOverlay?.viewModel.battlegroundsQuestGuides.onMatchEnd()
                     self.windowManager.rootOverlay?.viewModel.battlegroundsMinionsGuide.onMatchEnd()
+                    // HideBgsTopBar resets the Inspiration panel alongside the
+                    // rest of the top bar, so it never carries a lineup - or its
+                    // open state - into the next match.
+                    self.windowManager.rootOverlay?.viewModel.battlegroundsInspiration.reset()
                 }
             }
             hideBattlegroundsHeroPanel()
@@ -2550,12 +2558,28 @@ class Game: NSObject, PowerEventHandler {
                     let trinketIds = self.player.trinkets.compactMap({ x in x.cardId })
                     self.battlegroundsMinionsOnHeroPowers(heroPowerIds)
                     self.battlegroundsMinionsOnTrinkets(trinketIds)
+                    if #available(macOS 10.15, *) {
+                        // From here until combat, the board the Inspiration panel
+                        // sends alongside a key minion is the live one.
+                        self.windowManager.rootOverlay?.viewModel.battlegroundsInspiration.onShoppingStart()
+                    }
                 }
             }
 
             NotificationManager.showNotification(type: .turnStart)
         }
         
+        // GameEventHandler's opponent-turn branch: shopping is over, so the
+        // Inspiration panel freezes the board it will keep sending for the rest
+        // of this turn. Solo only, as in HDT - a duos board changes hands.
+        if player == .opponent && !isInMenu && isBattlegroundsSoloMatch() {
+            if #available(macOS 10.15, *) {
+                DispatchQueue.main.async {
+                    self.windowManager.rootOverlay?.viewModel.battlegroundsInspiration.onShoppingEnd()
+                }
+            }
+        }
+
         updateTurnCounter(turn: turnNumber())
         
         updateTrackers()
@@ -3156,6 +3180,11 @@ class Game: NSObject, PowerEventHandler {
         Watchers.battlegroundsLeaderboardWatcher.run()
         Watchers.battlegroundsLobbyInfoWatcher.run()
         OpponentDeadForTracker.reset()
+        if #available(macOS 10.15, *) {
+            await MainActor.run {
+                self.windowManager.rootOverlay?.viewModel.battlegroundsInspiration.reset()
+            }
+        }
         var heroes = [Entity]()
         for _ in 0 ..< 10 {
             await Task.sleep(milliseconds: 500)

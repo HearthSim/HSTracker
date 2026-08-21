@@ -175,6 +175,8 @@ class Database: NSObject, XMLParserDelegate {
                     currentCard?.multipleClasses = intValue
                 case GameTag.bacon_triple_upgrade_minion_id.rawValue:
                     currentCard?.baconTripleUpgradeMinionId = intValue
+                case GameTag.hide_cost.rawValue:
+                    currentCard?.hideCostTag = intValue == 1
                 case GameTag.bacon_buddy.rawValue:
                     currentCard?.isBaconBuddy = intValue == 1
                 case GameTag.bacon_tripled_base_minion_id.rawValue:

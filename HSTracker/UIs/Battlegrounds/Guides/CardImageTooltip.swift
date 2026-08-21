@@ -29,6 +29,9 @@ import SwiftUI
 @available(macOS 10.15, *)
 final class CardHoverNSView: NSView {
     private(set) var cardId: String = ""
+    // HDT's ShowTripleTooltip. False suppresses the golden companion image -
+    // see BattlegroundsMinionArt.showTriple.
+    private(set) var showTriple: Bool = true
 
     // Match NSHostingView's own flip so NSView.convert() coordinate conversions
     // are consistent with SwiftUI's Y-down coordinate space throughout the tree.
@@ -42,9 +45,10 @@ final class CardHoverNSView: NSView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func update(cardId: String) {
-        guard cardId != self.cardId else { return }
+    func update(cardId: String, showTriple: Bool) {
+        guard cardId != self.cardId || showTriple != self.showTriple else { return }
         self.cardId = cardId
+        self.showTriple = showTriple
         if window != nil {
             CardHoverRegistry.shared.register(self)
         }
@@ -71,6 +75,7 @@ class CardHoverRegistry {
 
     struct Entry {
         let cardId: String
+        let showTriple: Bool
         weak var view: CardHoverNSView?
     }
 
@@ -79,7 +84,7 @@ class CardHoverRegistry {
     func register(_ view: CardHoverNSView) {
         entries.removeAll { $0.view == nil || $0.view === view }
         guard !view.cardId.isEmpty else { return }
-        entries.append(Entry(cardId: view.cardId, view: view))
+        entries.append(Entry(cardId: view.cardId, showTriple: view.showTriple, view: view))
     }
 
     func unregister(_ view: CardHoverNSView) {
@@ -90,13 +95,14 @@ class CardHoverRegistry {
 @available(macOS 10.15, *)
 private struct CardHoverRepresentable: NSViewRepresentable {
     let cardId: String
+    let showTriple: Bool
 
     func makeNSView(context: Context) -> CardHoverNSView {
         CardHoverNSView()
     }
 
     func updateNSView(_ nsView: CardHoverNSView, context: Context) {
-        nsView.update(cardId: cardId)
+        nsView.update(cardId: cardId, showTriple: showTriple)
     }
 }
 
@@ -169,7 +175,7 @@ class CardTooltipPanel: NSPanel {
         }
     }
 
-    func show(cardId: String) {
+    func show(cardId: String, showTriple: Bool = true) {
         pendingHideWork?.cancel()
         pendingHideWork = nil
 
@@ -208,7 +214,9 @@ class CardTooltipPanel: NSPanel {
                         self.positionNearMouse(panelWidth: Self.tooltipWidth)
                         self.orderFront(nil)
                         self.startMaxDurationTimer()
-                        self.scheduleGolden(cardId: cardId)
+                        if showTriple {
+                            self.scheduleGolden(cardId: cardId)
+                        }
                     }
                 } else {
                     ImageUtils.cardArt(for: cardId) { [weak self] img in
@@ -397,10 +405,11 @@ extension View {
 @available(macOS 10.15, *)
 private struct CardImageTooltipModifier: ViewModifier {
     let cardId: String?
+    let showTriple: Bool
 
     func body(content: Content) -> some View {
         if let cardId = cardId {
-            content.background(CardHoverRepresentable(cardId: cardId))
+            content.background(CardHoverRepresentable(cardId: cardId, showTriple: showTriple))
         } else {
             content
         }
@@ -409,7 +418,7 @@ private struct CardImageTooltipModifier: ViewModifier {
 
 @available(macOS 10.15, *)
 extension View {
-    func cardImageTooltip(cardId: String?) -> some View {
-        modifier(CardImageTooltipModifier(cardId: cardId))
+    func cardImageTooltip(cardId: String?, showTriple: Bool = true) -> some View {
+        modifier(CardImageTooltipModifier(cardId: cardId, showTriple: showTriple))
     }
 }

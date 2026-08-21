@@ -30,12 +30,14 @@ class RootOverlayViewModel: ObservableObject {
     let battlegroundsMinionsGuide = BattlegroundsMinionsViewModel()
     let battlegroundsGuidesTabs = BattlegroundsGuidesTabsViewModel()
     let battlegroundsTurnCounter = BattlegroundsTurnCounterViewModel()
+    let battlegroundsInspiration = BattlegroundsInspirationViewModel()
 
-    // On-screen frame (in RootOverlayView's own coordinate space) of whichever
-    // child currently needs real mouse interactivity, reported by
-    // InteractiveRegionPreferenceKey. RootOverlayWindow reads this to know
-    // which pixels should stop being click-through.
-    @Published var interactiveRegion: CGRect?
+    // On-screen frames (in RootOverlayView's own coordinate space) of every
+    // child that currently needs real mouse interactivity, reported by
+    // InteractiveRegionPreferenceKey. RootOverlayWindow reads these to know
+    // which pixels should stop being click-through. One rect per child rather
+    // than their bounding box - see the preference key for why.
+    @Published var interactiveRegions: [CGRect] = []
 
     // Frame of whichever child wants to know when the cursor is merely *over*
     // it, without claiming clicks. This is HDT's IsOverlayHoverVisible, the

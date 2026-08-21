@@ -66,7 +66,7 @@ class RootOverlayWindow: OverWindowController {
             self?.updateMouseThrough()
             return event
         }
-        regionSubscription = viewModel.$interactiveRegion.sink { [weak self] _ in
+        regionSubscription = viewModel.$interactiveRegions.sink { [weak self] _ in
             self?.updateMouseThrough()
         }
         // Backstop: mouse-moved monitors should keep ignoresMouseEvents in
@@ -86,11 +86,11 @@ class RootOverlayWindow: OverWindowController {
 
         updateFilterRegionHover(at: viewPoint)
 
-        guard let region = viewModel.interactiveRegion else {
+        guard !viewModel.interactiveRegions.isEmpty else {
             setIgnoresMouseEvents(true)
             return
         }
-        let inside = region.contains(viewPoint)
+        let inside = viewModel.interactiveRegions.contains { $0.contains(viewPoint) }
         setIgnoresMouseEvents(!inside)
 
         updateCardHover()
@@ -154,7 +154,7 @@ class RootOverlayWindow: OverWindowController {
         if let match = match {
             if hoveredCardId != match.cardId {
                 hoveredCardId = match.cardId
-                CardTooltipPanel.shared.show(cardId: match.cardId)
+                CardTooltipPanel.shared.show(cardId: match.cardId, showTriple: match.showTriple)
             }
         } else {
             if hoveredCardId != nil {

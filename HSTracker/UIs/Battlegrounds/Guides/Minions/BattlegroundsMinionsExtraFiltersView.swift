@@ -119,7 +119,7 @@ extension View {
             GeometryReader { proxy in
                 Color.clear.preference(
                     key: InteractiveRegionPreferenceKey.self,
-                    value: isActive ? proxy.frame(in: .rootOverlayCanvas) : nil
+                    value: isActive ? [proxy.frame(in: .rootOverlayCanvas)] : []
                 )
             }
         )
@@ -369,6 +369,12 @@ private struct Triangle: Shape {
 // 0 → -41, which keeps its right edge pinned just inside the panel while the
 // body grows leftwards. Since the tab is invisible in its collapsed state, the
 // same motion is expressed here as one offset on a fixed-width tab.
+//
+// Stand-alone mode has its own MultiDataTrigger pairing IsFilterButtonVisible
+// with IsStandAloneMode: the same 48pt width, but a -46 translate and a 2pt
+// collapsed width instead of -41 and 10. Only the translate carries over -
+// the collapsed width is what stops HDT's tab poking out from behind the panel
+// when it is closed, and a tab that is simply invisible has nothing to hide.
 @available(macOS 10.15, *)
 struct MinionsExtraFiltersButton: View {
     @ObservedObject var viewModel: BattlegroundsMinionsViewModel
@@ -381,11 +387,19 @@ struct MinionsExtraFiltersButton: View {
     // Height="58" against a 57pt strip; here the tab instead stretches to
     // whatever the tier strip actually measures (see the frame below).
     private static let tabWidth: CGFloat = 48
-    private static let expandedOffset: CGFloat = -41
+    private static let expandedOffsetDefault: CGFloat = -41
+    // Stand-alone slides 5pt further left, in step with the turn counter's own
+    // -46 (see BattlegroundsTurnCounterView): with the tab strip gone the
+    // counter sits right up against the tier strip, so the tab has to clear it.
+    private static let expandedOffsetStandAlone: CGFloat = -46
+    private var expandedOffset: CGFloat {
+        isStandAlone ? Self.expandedOffsetStandAlone : Self.expandedOffsetDefault
+    }
     // How much of the tab ends up on top of the panel once it slides out. The
     // backgrounds match there, so the overlap is invisible - but the tab's top
-    // border is not, hence topTrailingInset on TabBorder below.
-    private static let panelOverlap: CGFloat = tabWidth + expandedOffset
+    // border is not, hence topTrailingInset on TabBorder below. Only consumed
+    // by the non-stand-alone border, which is the only one with a top edge.
+    private var panelOverlap: CGFloat { Self.tabWidth + expandedOffset }
     private static let buttonSize: CGFloat = 32
     // Rectangle Height="8" Width="14" masked with the bar_filter visual.
     private static let iconSize = CGSize(width: 14, height: 8)
@@ -413,7 +427,7 @@ struct MinionsExtraFiltersButton: View {
         // Ahead of the offset below - see reportInteractiveRegion.
         .reportInteractiveRegion(when: isVisible)
         .opacity(isVisible ? 1 : 0)
-        .offset(x: isVisible ? Self.expandedOffset : 0)
+        .offset(x: isVisible ? expandedOffset : 0)
         // Collapsed the tab sits under the panel, where it must not swallow
         // clicks meant for the tier strip.
         .allowsHitTesting(isVisible)
@@ -427,7 +441,7 @@ struct MinionsExtraFiltersButton: View {
                 .foregroundColor(Color(hex: "#3f4346"))
                 .frame(maxWidth: .infinity, alignment: .leading)
         } else {
-            TabBorder(topTrailingInset: Self.panelOverlap).stroke(Color(hex: "#3f4346"), lineWidth: 1)
+            TabBorder(topTrailingInset: panelOverlap).stroke(Color(hex: "#3f4346"), lineWidth: 1)
         }
     }
 

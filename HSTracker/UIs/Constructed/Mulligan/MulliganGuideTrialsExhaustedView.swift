@@ -85,7 +85,7 @@ struct MulliganGuideTrialsExhaustedView: View {
             // contribute one while hidden).
             .background(
                 GeometryReader { proxy in
-                    Color.clear.preference(key: InteractiveRegionPreferenceKey.self, value: proxy.frame(in: .rootOverlayCanvas))
+                    Color.clear.preference(key: InteractiveRegionPreferenceKey.self, value: [proxy.frame(in: .rootOverlayCanvas)])
                 }
             )
         }

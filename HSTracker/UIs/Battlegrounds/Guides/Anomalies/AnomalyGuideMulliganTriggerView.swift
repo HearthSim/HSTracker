@@ -52,7 +52,7 @@ struct AnomalyGuideMulliganTriggerView: View {
                 .overlay(tooltip(guide: guide, scale: scale, triggerHeight: height), alignment: .bottom)
                 .background(
                     GeometryReader { proxy in
-                        Color.clear.preference(key: InteractiveRegionPreferenceKey.self, value: proxy.frame(in: .rootOverlayCanvas))
+                        Color.clear.preference(key: InteractiveRegionPreferenceKey.self, value: [proxy.frame(in: .rootOverlayCanvas)])
                     }
                 )
                 .offset(x: left, y: top)
