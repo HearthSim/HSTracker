@@ -378,12 +378,37 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
 
     // MARK: - Lifecycle
 
-    func onMatchStart() {
-        let game = AppDelegate.instance().coreManager.game
-        availableRaces = game.availableRaces
-        isDuos = game.isBattlegroundsDuosMatch()
+    // Mirrors HDT's ShowBgsTopBar, which re-reads the lobby on *every* overlay
+    // update rather than once at match start.
+    //
+    // That matters because availableRaces comes from Hearthstone's memory via
+    // the mirror, and is not there yet when gameStart fires. Reading it once at
+    // match start latched nil for the whole match, and nil falls back to
+    // "every race in the card DB" - which is why the Card Types grid showed all
+    // ten tribes instead of the lobby's own. Game.availableRaces retries the
+    // mirror on each call while it is still nil, so simply asking again works.
+    //
+    // Early-out when nothing changed: this runs on the gui update tick, and
+    // publishing every time would re-render the whole panel continuously.
+    func updateLobby() {
+        guard let game = AppDelegate.instance().coreManager?.game else { return }
+        let races = game.availableRaces
+        let duos = game.isBattlegroundsDuosMatch()
         let anomalyDbfId = BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: game.gameEntity)
-        anomaly = Cards.by(dbfId: anomalyDbfId, collectible: false)?.id
+        let anomalyCardId = Cards.by(dbfId: anomalyDbfId, collectible: false)?.id
+
+        guard races != availableRaces || duos != isDuos || anomalyCardId != anomaly else { return }
+
+        objectWillChange.send()
+        availableRaces = races
+        isDuos = duos
+        anomaly = anomalyCardId
+        // The anomaly decides which tiers exist.
+        updateTavernTier7Visibility()
+    }
+
+    func onMatchStart() {
+        updateLobby()
         clearFilters()
         updateInspirationEnabled()
         // The tier-7 sources are deliberately *not* cleared here, only in

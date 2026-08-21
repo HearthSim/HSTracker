@@ -741,6 +741,13 @@ class Game: NSObject, PowerEventHandler {
         DispatchQueue.main.async {
             let isBG = self.isBattlegroundsMatch() && !self.gameEnded
 
+            // HDT refreshes the minion browser's lobby state from ShowBgsTopBar,
+            // which this is the analogue of. The available races are not readable
+            // from the mirror yet at gameStart, so they have to be picked up here.
+            if #available(macOS 10.15, *), isBG {
+                self.windowManager.rootOverlay?.viewModel.battlegroundsMinionsGuide.updateLobby()
+            }
+
             if isBG && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
                     || !Settings.hideAllWhenGameInBackground) {
                 
