@@ -61,10 +61,6 @@ class WindowManager {
         return $0
     }(TimerHud(windowNibName: "TimerHud"))
 
-    var turnCounter: TurnCounter = {
-        return $0
-    }(TurnCounter(windowNibName: "TurnCounter"))
-
     var battlegroundsOverlay: BattlegroundsOverlay = {
         return $0
     }(BattlegroundsOverlay(windowNibName: "BattlegroundsOverlay"))
@@ -290,7 +286,6 @@ class WindowManager {
             self?.opponentBoardDamage.window?.orderOut(nil)
             self?.battlegroundsDetailsWindow.window?.orderOut(nil)
             self?.bobsBuddyPanel.window?.orderOut(nil)
-            self?.turnCounter.window?.orderOut(nil)
             self?.cardHudContainer.reset()
             self?.playerBoardOverlay.window?.orderOut(nil)
             self?.opponentBoardOverlay.window?.orderOut(nil)

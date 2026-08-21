@@ -29,6 +29,7 @@ class RootOverlayViewModel: ObservableObject {
     let battlegroundsQuestGuides = BattlegroundsQuestGuidesViewModel()
     let battlegroundsMinionsGuide = BattlegroundsMinionsViewModel()
     let battlegroundsGuidesTabs = BattlegroundsGuidesTabsViewModel()
+    let battlegroundsTurnCounter = BattlegroundsTurnCounterViewModel()
 
     // On-screen frame (in RootOverlayView's own coordinate space) of whichever
     // child currently needs real mouse interactivity, reported by

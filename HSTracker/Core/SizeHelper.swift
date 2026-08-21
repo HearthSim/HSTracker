@@ -373,27 +373,6 @@ struct SizeHelper {
         return hearthstoneWindow.relativeFrame(frame)
     }
     
-    static func turnCounterFrame() -> NSRect {
-        // Geometry inherited from the AppKit tier overlay this used to sit
-        // beside. That overlay is gone - the Minions tab's tier strip replaced
-        // it - but the turn counter's placement is deliberate, so the strip's
-        // former frame is reproduced here rather than re-derived.
-        //
-        // The tier count came from the overlay's own showTavernTier7; it now
-        // comes from the Minions view model, which owns that state.
-        let trackerFrame = playerTrackerFrame()
-        var showTier7 = Settings.alwaysShowTier7
-        if #available(macOS 10.15, *) {
-            showTier7 = AppDelegate.instance().coreManager?.game.windowManager
-                .rootOverlay?.viewModel.battlegroundsMinionsGuide.shouldShowTier7 ?? showTier7
-        }
-        let height = CGFloat(56)
-        let tierStripWidth = CGFloat((showTier7 ? 7 : 6) * 48 + 8)
-        let right = hearthstoneWindow.frame.minX + hearthstoneWindow.frame.width - tierStripWidth
-        return NSRect(x: right - 100, y: trackerFrame.minY + trackerFrame.height - height,
-                      width: 100, height: height)
-    }
-    
     static func battlegroundsSessionFrame() -> NSRect {
         let bottom = hearthstoneWindow.frame.minY + 0.05 * hearthstoneWindow.height
         let top = hearthstoneWindow.frame.maxY - 0.15 * hearthstoneWindow.height

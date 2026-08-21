@@ -95,7 +95,18 @@ struct RootOverlayView: View {
                                     )
                                 }
                             )
-                        GuidesTabsView(viewModel: viewModel.battlegroundsGuidesTabs, compsGuides: viewModel.battlegroundsCompsGuides, heroGuides: viewModel.battlegroundsHeroGuides, questGuides: viewModel.battlegroundsQuestGuides, minionsGuide: viewModel.battlegroundsMinionsGuide)
+                        // HDT's BgsTopBar is a horizontal StackPanel holding the
+                        // turn counter and then the guides tabs, anchored to the
+                        // canvas's top-right. Pairing them here keeps the counter
+                        // pinned to the panel's left edge however wide the panel
+                        // gets, which is what the AppKit counter used to
+                        // approximate with a hand-computed frame.
+                        //
+                        // .top so the 49pt counter lines up with the tab strip.
+                        HStack(alignment: .top, spacing: 0) {
+                            BattlegroundsTurnCounterView(viewModel: viewModel.battlegroundsTurnCounter)
+                            GuidesTabsView(viewModel: viewModel.battlegroundsGuidesTabs, compsGuides: viewModel.battlegroundsCompsGuides, heroGuides: viewModel.battlegroundsHeroGuides, questGuides: viewModel.battlegroundsQuestGuides, minionsGuide: viewModel.battlegroundsMinionsGuide)
+                        }
                     }
                     .frame(width: canvasWidth, height: 1080)
                 }

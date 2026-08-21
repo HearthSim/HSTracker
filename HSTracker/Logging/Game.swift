@@ -420,17 +420,18 @@ class Game: NSObject, PowerEventHandler {
             guard let self else {
                 return
             }
-            self.windowManager.turnCounter.setTurnNumber(turn: turn)
-
-            let isBG = self.isBattlegroundsMatch() && !self.gameEnded
-
-            if isBG && Settings.showTurnCounter && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground) {
-                let rect = SizeHelper.turnCounterFrame()
-                self.windowManager.show(controller: self.windowManager.turnCounter, show: true, frame: rect, title: nil, overlay: self.hearthstoneRunState.isActive)
-            } else {
-                self.windowManager.show(controller: self.windowManager.turnCounter, show: false)
+            if #available(macOS 10.15, *) {
+                self.windowManager.rootOverlay?.viewModel.battlegroundsTurnCounter
+                    .update(turn: turn, isShown: self.isTurnCounterVisible)
             }
         }
+    }
+
+    // The counter lives in RootOverlay now, so it no longer needs the
+    // hideAllWhenGameInBackground check the AppKit window carried -
+    // updateRootOverlay already hides the whole overlay in that case.
+    private var isTurnCounterVisible: Bool {
+        isBattlegroundsMatch() && !gameEnded && Settings.showTurnCounter && !hideBattlegroundsTurn
     }
 
     func updateTurnTimer() {
@@ -764,20 +765,10 @@ class Game: NSObject, PowerEventHandler {
     }
     
     func updateTurnCounterOverlay() {
-        let rect = SizeHelper.turnCounterFrame()
-        
         DispatchQueue.main.async {
-            let isBG = self.isBattlegroundsMatch() && !self.gameEnded
-            if isBG && Settings.showTurnCounter &&
-                ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
-                 || !Settings.hideAllWhenGameInBackground) && !self.hideBattlegroundsTurn {
-                let turn = self.turnNumber()
-                if turn > 0 {
-                    self.windowManager.turnCounter.setTurnNumber(turn: turn)
-                }
-                self.windowManager.show(controller: self.windowManager.turnCounter, show: true, frame: rect, title: nil, overlay: true)
-            } else {
-                self.windowManager.show(controller: self.windowManager.turnCounter, show: false)
+            if #available(macOS 10.15, *) {
+                self.windowManager.rootOverlay?.viewModel.battlegroundsTurnCounter
+                    .update(turn: self.turnNumber(), isShown: self.isTurnCounterVisible)
             }
         }
     }
