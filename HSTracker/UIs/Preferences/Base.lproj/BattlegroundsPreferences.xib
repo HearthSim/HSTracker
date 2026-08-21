@@ -35,6 +35,7 @@
                 <outlet property="showTavernTriples" destination="5P3-yR-y70" id="MTL-lF-zzw"/>
                 <outlet property="showTier7PreLobby" destination="0rS-5z-pRa" id="fhR-dD-W7g"/>
                 <outlet property="showTiers" destination="66r-fs-Jja" id="g6P-yg-2Du"/>
+                <outlet property="showBattlegroundsGuides" destination="bgg-ui-001" id="bgg-ui-004"/>
                 <outlet property="showTurnCounter" destination="led-ON-LPz" id="hz4-bl-Hks"/>
                 <outlet property="view" destination="PgR-kc-NQ2" id="rY0-tu-oVL"/>
             </connections>
@@ -233,14 +234,24 @@
                                 <action selector="checkboxClicked:" target="-2" id="TTp-yo-XBI"/>
                             </connections>
                         </button>
-                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="66r-fs-Jja" userLabel="Show tiers">
+                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="66r-fs-Jja" userLabel="Show minions browser">
                             <rect key="frame" x="8" y="401" width="90" height="18"/>
-                            <buttonCell key="cell" type="check" title="Show tiers" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="4LE-h7-rfX">
+                            <buttonCell key="cell" type="check" title="Show minions browser" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="4LE-h7-rfX">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
                             <connections>
                                 <action selector="checkboxClicked:" target="-2" id="zeD-Re-HKP"/>
+                            </connections>
+                        </button>
+                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bgg-ui-001" userLabel="Show hero and comp guides">
+                            <rect key="frame" x="8" y="388" width="196" height="18"/>
+                            <buttonCell key="cell" type="check" title="Show hero and comp guides" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="bgg-ui-002">
+                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <connections>
+                                <action selector="checkboxClicked:" target="-2" id="bgg-ui-003"/>
                             </connections>
                         </button>
                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nIZ-ZN-jaR">

@@ -27,6 +27,7 @@ class BattlegroundsPreferences: PreferencePaneController, PreferencePane {
     @IBOutlet var showAverageDamage: NSButton!
     @IBOutlet var showOpponentWarband: NSButton!
     @IBOutlet var showTiers: NSButton!
+    @IBOutlet var showBattlegroundsGuides: NSButton!
     @IBOutlet var showBDonTiers: NSButton!
     @IBOutlet var showTavernSpells: NSButton!
     @IBOutlet var showTavernTriples: NSButton!
@@ -61,7 +62,8 @@ class BattlegroundsPreferences: PreferencePaneController, PreferencePane {
         showTurnCounter.state = Settings.showTurnCounter ? .on : .off
         showAverageDamage.state = Settings.showAverageDamage ? .on : .off
         showOpponentWarband.state = Settings.showOpponentWarband ? .on : .off
-        showTiers.state = Settings.showTiers ? .on : .off
+        showTiers.state = Settings.showBattlegroundsBrowser ? .on : .off
+        showBattlegroundsGuides.state = Settings.showBattlegroundsGuides ? .on : .off
         showBDonTiers.state = Settings.showBattlecryDeathrattleOnTiers ? .on : .off
         showTavernSpells.state = Settings.showTavernSpells ? .on : .off
         showTavernTriples.state = Settings.showTavernTriples ? .on : .off
@@ -97,7 +99,9 @@ class BattlegroundsPreferences: PreferencePaneController, PreferencePane {
         } else if sender == showOpponentWarband {
             Settings.showOpponentWarband = showOpponentWarband.state == .on
         } else if sender == showTiers {
-            Settings.showTiers = showTiers.state == .on
+            Settings.showBattlegroundsBrowser = showTiers.state == .on
+        } else if sender == showBattlegroundsGuides {
+            Settings.showBattlegroundsGuides = showBattlegroundsGuides.state == .on
             updateEnablement()
         } else if sender == showBDonTiers {
             Settings.showBattlecryDeathrattleOnTiers = sender.state == .on
@@ -201,6 +205,7 @@ class BattlegroundsPreferences: PreferencePaneController, PreferencePane {
         showBattlegroundsCompStats.isEnabled = enabled
         showQuestPicking.isEnabled = enabled
         alwaysShowTavernTier7.isEnabled = showTiers.state == .on
+        showBattlegroundsGuides.isEnabled = showTiers.state == .on
     }
     
     @IBAction func reset(_ sender: NSButton) {

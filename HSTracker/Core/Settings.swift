@@ -276,6 +276,23 @@ final class Settings {
     static var showOpponentWarband: Bool
     @UserDefault(key: Settings.show_tiers, defaultValue: true)
     static var showTiers: Bool
+
+    // HDT's ShowBattlegroundsBrowser ("Show Minions and Guides Browser") and
+    // ShowBattlegroundsGuides ("Show Hero and Comp Guides"). Between them they
+    // pick one of three top-bar states: nothing, the minions browser on its own,
+    // or the browser inside the guides tabs.
+    //
+    // The browser flag reuses the legacy show_tiers key rather than taking a new
+    // one. That setting gated the AppKit tier overlay, whose tier strip the
+    // browser's own strip replaced when that overlay was removed - so an
+    // existing "off" still means what the user chose: no tier strip.
+    static var showBattlegroundsBrowser: Bool {
+        get { showTiers }
+        set { showTiers = newValue }
+    }
+
+    @UserDefault(key: Settings.show_battlegrounds_guides, defaultValue: true)
+    static var showBattlegroundsGuides: Bool
     @UserDefault(key: Settings.show_battlecry_deathrattle_on_tiers, defaultValue: true)
     static var showBattlecryDeathrattleOnTiers: Bool
     @UserDefault(key: Settings.show_tavern_spells, defaultValue: true)
@@ -606,6 +623,7 @@ extension Settings {
     static let show_average_damage = "show_average_damage"
     static let show_opponent_warband = "show_opponent_warband"
     static let show_tiers = "show_tiers"
+    static let show_battlegrounds_guides = "show_battlegrounds_guides"
     static let show_battlecry_deathrattle_on_tiers = "show_battlecry_deathrattle_on_tiers"
     static let show_tavern_spells = "show_tavern_spells"
     static let show_tavern_triples = "show_tavern_triples"

@@ -372,6 +372,8 @@ private struct Triangle: Shape {
 @available(macOS 10.15, *)
 struct MinionsExtraFiltersButton: View {
     @ObservedObject var viewModel: BattlegroundsMinionsViewModel
+    /// HDT's IsStandAloneMode - see the DataTriggers on this tab's Border style.
+    var isStandAlone = false
 
     @SwiftUI.State private var isHovering = false
 
@@ -403,8 +405,11 @@ struct MinionsExtraFiltersButton: View {
         // sat 2pt lower than the tier badges beside it.
         .frame(width: Self.tabWidth)
         .frame(maxHeight: .infinity)
-        .background(Color(hex: "#23272A"))
-        .overlay(TabBorder(topTrailingInset: Self.panelOverlap).stroke(Color(hex: "#3f4346"), lineWidth: 1))
+        // Stand-alone flattens the tab the same way it flattens the tier strip:
+        // #141617 fill, no corner radius, and BorderThickness "1,0,0,0" - the
+        // left edge only, with the top and bottom dropped.
+        .background(Color(hex: isStandAlone ? "#141617" : "#23272A"))
+        .overlay(tabBorder)
         // Ahead of the offset below - see reportInteractiveRegion.
         .reportInteractiveRegion(when: isVisible)
         .opacity(isVisible ? 1 : 0)
@@ -412,6 +417,18 @@ struct MinionsExtraFiltersButton: View {
         // Collapsed the tab sits under the panel, where it must not swallow
         // clicks meant for the tier strip.
         .allowsHitTesting(isVisible)
+    }
+
+    @ViewBuilder
+    private var tabBorder: some View {
+        if isStandAlone {
+            Rectangle()
+                .frame(width: 1)
+                .foregroundColor(Color(hex: "#3f4346"))
+                .frame(maxWidth: .infinity, alignment: .leading)
+        } else {
+            TabBorder(topTrailingInset: Self.panelOverlap).stroke(Color(hex: "#3f4346"), lineWidth: 1)
+        }
     }
 
     private var filterButton: some View {
@@ -456,9 +473,12 @@ struct MinionsExtraFiltersButton: View {
         .onHover { hovering in isHovering = hovering }
     }
 
+    // Hover and open states are shared; only the idle fill differs, since
+    // #141617 would vanish into the stand-alone tab behind it.
     private var buttonBackground: Color {
         if viewModel.isFiltersOpen { return Color(hex: "#36393f") }
-        return isHovering ? Color(hex: "#2C3135") : Color(hex: "#141617")
+        if isHovering { return Color(hex: "#2C3135") }
+        return Color(hex: isStandAlone ? "#202325" : "#141617")
     }
 }
 

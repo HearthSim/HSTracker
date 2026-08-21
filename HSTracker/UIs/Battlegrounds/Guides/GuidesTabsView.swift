@@ -38,11 +38,49 @@ struct GuidesTabsView: View {
         // lobby in BattlegroundsMinionsViewModel.availableRaces, or the Minions
         // tab comes up with no races and an empty Card Types grid.
         // if true {
-        if AppDelegate.instance().coreManager.game.isBattlegroundsMatch() {
+        if viewModel.showBrowser && AppDelegate.instance().coreManager.game.isBattlegroundsMatch() {
             VStack(spacing: 0) {
-                tabStrip
-                if let activeTab = viewModel.activeTab {
-                    content(for: activeTab)
+                // Stand-alone mode drops the tab strip and shows the minions
+                // browser on its own, matching HDT's third top-bar state
+                // (browser on, guides off). The browser is always expanded there
+                // - there is no tab left to collapse it with.
+                if viewModel.isStandAlone {
+                    tabContent(.minions)
+                } else {
+                    tabStrip
+                    if let activeTab = viewModel.activeTab {
+                        tabContent(activeTab)
+                    }
+                }
+            }
+            .frame(width: Self.width)
+            // Top/right/bottom only - a full 4-sided stroke put an unwanted
+            // seam down the left edge, most noticeable against the tab strip
+            // and tier strip's flat backgrounds.
+            //
+            // Stand-alone has no outer border at all: the tier strip carries its
+            // own left edge and each card group is already boxed, which is how
+            // HDT's BattlegroundsMinions looks without the tabs around it.
+            .overlay(standAloneBorder)
+            .fixedSize(horizontal: false, vertical: true)
+            .background(
+                GeometryReader { proxy in
+                    Color.clear.preference(key: InteractiveRegionPreferenceKey.self, value: proxy.frame(in: .rootOverlayCanvas))
+                }
+            )
+        }
+    }
+
+    @ViewBuilder
+    private var standAloneBorder: some View {
+        if !viewModel.isStandAlone {
+            ThreeSidedBorder().stroke(Color(hex: "#3f4346"), lineWidth: 1)
+        }
+    }
+
+    @ViewBuilder
+    private func tabContent(_ activeTab: GuidesTab) -> some View {
+        content(for: activeTab)
                         // Pin content to the panel width so no tab's content can
                         // widen the panel out from under the tab strip. The Minions
                         // tier row used to do exactly that (measured 264pt inside
@@ -65,20 +103,6 @@ struct GuidesTabsView: View {
                         // gaps between groups are transparent (showing the game window).
                         // Comps and Heroes content views need the panel fill.
                         .background(activeTab == .minions ? Color.clear : Color(hex: "#23272A"))
-                }
-            }
-            .frame(width: Self.width)
-            // Top/right/bottom only - a full 4-sided stroke put an unwanted
-            // seam down the left edge, most noticeable against the tab strip
-            // and tier strip's flat backgrounds.
-            .overlay(ThreeSidedBorder().stroke(Color(hex: "#3f4346"), lineWidth: 1))
-            .fixedSize(horizontal: false, vertical: true)
-            .background(
-                GeometryReader { proxy in
-                    Color.clear.preference(key: InteractiveRegionPreferenceKey.self, value: proxy.frame(in: .rootOverlayCanvas))
-                }
-            )
-        }
     }
 
     private var tabStrip: some View {
@@ -128,7 +152,7 @@ struct GuidesTabsView: View {
                 QuestGuideView(viewModel: questGuides)
             }
         case .minions:
-            BattlegroundsMinionsView(viewModel: minionsGuide)
+            BattlegroundsMinionsView(viewModel: minionsGuide, isStandAlone: viewModel.isStandAlone)
         }
     }
 }

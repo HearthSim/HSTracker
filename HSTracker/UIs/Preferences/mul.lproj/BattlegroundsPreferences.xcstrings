@@ -2,24 +2,24 @@
   "sourceLanguage" : "en",
   "strings" : {
     "4LE-h7-rfX.title" : {
-      "comment" : "Class = \"NSButtonCell\"; title = \"Show tiers\"; ObjectID = \"4LE-h7-rfX\";",
+      "comment" : "Class = \"NSButtonCell\"; title = \"Show minions browser\"; ObjectID = \"4LE-h7-rfX\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Show tiers"
+            "value" : "Show minions browser"
           }
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Afficher les niveaux"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "显示酒馆等级"
           }
         }
@@ -75,6 +75,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Afficher les stats de choix des babioles"
+          }
+        }
+      }
+    },
+    "bgg-ui-002.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Show hero and comp guides\"; ObjectID = \"bgg-ui-002\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show hero and comp guides"
           }
         }
       }

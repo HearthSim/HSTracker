@@ -11,9 +11,18 @@ import SwiftUI
 @available(macOS 10.15, *)
 struct BattlegroundsMinionsView: View {
     @ObservedObject var viewModel: BattlegroundsMinionsViewModel
+    /// HDT's IsStandAloneMode - the browser shown without the guides tabs above
+    /// it. Restyles the tier strip and the filter tab; see TopBorderStyle's
+    /// DataTrigger in BattlegroundsMinions.xaml.
+    var isStandAlone = false
 
-    // HDT's TierButton style: Setter Property="Padding" Value="9" (all sides).
-    private static let horizontalPadding: CGFloat = 9
+    // HDT's TierButton style: Padding="9" all round, or "5,6,5,5" stand-alone.
+    private var horizontalPadding: CGFloat { isStandAlone ? 5 : 9 }
+    private var stripPadding: EdgeInsets {
+        isStandAlone
+            ? EdgeInsets(top: 6, leading: 5, bottom: 5, trailing: 5)
+            : EdgeInsets(top: 9, leading: 9, bottom: 9, trailing: 9)
+    }
 
     // Adaptive sizing follows HDT's TierButton.Size logic (≤6 tiers: 38pt
     // badges at 3pt spacing; 7 tiers: 33pt at 2pt), but the badge size is
@@ -30,14 +39,18 @@ struct BattlegroundsMinionsView: View {
         guard count > 0 else { return 38 }
         let preferred: CGFloat = count >= 7 ? 33 : 38
         let available = GuidesTabsView.width
-            - Self.horizontalPadding * 2
+            - horizontalPadding * 2
             - tierSpacing * CGFloat(count - 1)
         return min(preferred, (available / CGFloat(count)).rounded(.down))
     }
 
     // The tier strip's own rendered height. The slide-out tab matches it so
     // their centres line up, and the filters panel hangs below it.
-    private var stripHeight: CGFloat { badgeSize + Self.horizontalPadding * 2 }
+    // Stand-alone fixes it at 49 (Height="49" on the DataTrigger), with the
+    // badges centred in whatever slack that leaves.
+    private var stripHeight: CGFloat {
+        isStandAlone ? 49 : badgeSize + horizontalPadding * 2
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -85,7 +98,7 @@ struct BattlegroundsMinionsView: View {
     private var filterButtonTab: some View {
         // Reports its own interactive region internally, for the ordering reason
         // spelled out on reportInteractiveRegion.
-        MinionsExtraFiltersButton(viewModel: viewModel)
+        MinionsExtraFiltersButton(viewModel: viewModel, isStandAlone: isStandAlone)
     }
 
     @ViewBuilder
@@ -115,8 +128,7 @@ struct BattlegroundsMinionsView: View {
                 }
             }
         }
-        // Matches HDT's TierButton style: Setter Property="Padding" Value="9" (all sides).
-        .padding(Self.horizontalPadding)
+        .padding(stripPadding)
         // Left-align via a flexible frame rather than a trailing Spacer: a
         // Spacer is a full HStack child, so it added a sixth `spacing` gap and
         // pushed the row to 252pt inside the 249pt panel (measured), spilling
@@ -137,9 +149,35 @@ struct BattlegroundsMinionsView: View {
         // (#3f4346, drawn over the top) landed on this same edge and hid it.
         // Selecting a tier grows the panel, moves that outer border down, and
         // left the dark line exposed.
-        .background(TierStripShape().fill(Color(hex: "#23272A")))
-        .overlay(TierStripBorder().stroke(Color(hex: "#3f4346"), lineWidth: 1))
+        .frame(height: stripHeight)
+        .background(stripBackground)
+        .overlay(stripBorder)
         .clipped()
+    }
+
+    // Stand-alone drops the rounded corner and the panel fill for a flat
+    // #141617 bar - the tabs are gone, so it no longer has to blend with them.
+    @ViewBuilder
+    private var stripBackground: some View {
+        if isStandAlone {
+            Color(hex: "#141617")
+        } else {
+            TierStripShape().fill(Color(hex: "#23272A"))
+        }
+    }
+
+    // BorderThickness goes from "1,0,0,1" to "1,0,0,0" stand-alone: the bottom
+    // edge is dropped, leaving only the left one.
+    @ViewBuilder
+    private var stripBorder: some View {
+        if isStandAlone {
+            Rectangle()
+                .frame(width: 1)
+                .foregroundColor(Color(hex: "#3f4346"))
+                .frame(maxWidth: .infinity, alignment: .leading)
+        } else {
+            TierStripBorder().stroke(Color(hex: "#3f4346"), lineWidth: 1)
+        }
     }
 
     // MARK: - Unavailable footer (mirrors BattlegroundsMinionTypesBox.xaml)
