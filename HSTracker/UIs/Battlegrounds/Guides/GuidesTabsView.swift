@@ -20,6 +20,10 @@ struct GuidesTabsView: View {
     @ObservedObject var heroGuides: BattlegroundsHeroGuidesViewModel
     @ObservedObject var questGuides: BattlegroundsQuestGuidesViewModel
     @ObservedObject var minionsGuide: BattlegroundsMinionsViewModel
+    // Carried through to the browser rows and the comp guide's "pin all" button
+    // (HDT reaches Core.Overlay.BattlegroundsMinionPinningViewModel statically
+    // from both; there is no such global here).
+    @ObservedObject var minionPinning: BattlegroundsMinionPinningViewModel
 
     // Matches HDT's GuidesTabs.xaml Width="249" exactly (3 buttons x 83pt
     // each, once Minions joins as the third tab). Not private - the tab
@@ -139,7 +143,7 @@ struct GuidesTabsView: View {
         switch tab {
         case .comps:
             if let comp = compsGuides.selectedComp {
-                CompGuideDetailView(viewModel: compsGuides, comp: comp)
+                CompGuideDetailView(viewModel: compsGuides, comp: comp, pinning: minionPinning)
             } else {
                 CompGuideListView(viewModel: compsGuides)
             }
@@ -152,7 +156,7 @@ struct GuidesTabsView: View {
                 QuestGuideView(viewModel: questGuides)
             }
         case .minions:
-            BattlegroundsMinionsView(viewModel: minionsGuide, isStandAlone: viewModel.isStandAlone)
+            BattlegroundsMinionsView(viewModel: minionsGuide, pinning: minionPinning, isStandAlone: viewModel.isStandAlone)
         }
     }
 }

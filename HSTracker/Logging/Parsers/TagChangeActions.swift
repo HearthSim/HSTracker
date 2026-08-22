@@ -139,6 +139,7 @@ struct TagChangeActions {
     private func onBattlegroundsSetupChange(eventHandler: PowerEventHandler, value: Int, prevValue: Int) {
         if prevValue == 1 && value == 0 {
             eventHandler.isBattlegroundsCombatPhase = true
+            hideMinionPinningShop(eventHandler)
             if eventHandler.isBattlegroundsSoloMatch() {
                 BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.startCombat()
             }
@@ -152,12 +153,22 @@ struct TagChangeActions {
 
         if prevValue == 1 && value == 0 {
             eventHandler.isBattlegroundsCombatPhase = false
+            hideMinionPinningShop(eventHandler)
             if !eventHandler.isBattlegroundsDuosMatch() || eventHandler.duosWasOpponentHeroModified {
                 eventHandler.snapshotBattlegroundsBoardState()
             }
             if eventHandler.isBattlegroundsDuosMatch() {
                 BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.startCombat()
             }
+        }
+    }
+
+    // Both of HDT's combat-setup handlers collapse BgsMinionPinningShop as
+    // combat opens - the shop is gone, so its markers must be too.
+    private func hideMinionPinningShop(_ eventHandler: PowerEventHandler) {
+        guard #available(macOS 10.15, *), let game = eventHandler as? Game else { return }
+        DispatchQueue.main.async {
+            game.windowManager.rootOverlay?.viewModel.battlegroundsMinionPinning.setShopVisible(false)
         }
     }
 

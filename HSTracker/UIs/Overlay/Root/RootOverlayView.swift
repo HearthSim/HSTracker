@@ -113,10 +113,19 @@ struct RootOverlayView: View {
                             BattlegroundsTurnCounterView(viewModel: viewModel.battlegroundsTurnCounter,
                                                          minionsGuide: viewModel.battlegroundsMinionsGuide,
                                                          guidesTabs: viewModel.battlegroundsGuidesTabs)
-                            GuidesTabsView(viewModel: viewModel.battlegroundsGuidesTabs, compsGuides: viewModel.battlegroundsCompsGuides, heroGuides: viewModel.battlegroundsHeroGuides, questGuides: viewModel.battlegroundsQuestGuides, minionsGuide: viewModel.battlegroundsMinionsGuide)
+                            GuidesTabsView(viewModel: viewModel.battlegroundsGuidesTabs, compsGuides: viewModel.battlegroundsCompsGuides, heroGuides: viewModel.battlegroundsHeroGuides, questGuides: viewModel.battlegroundsQuestGuides, minionsGuide: viewModel.battlegroundsMinionsGuide, minionPinning: viewModel.battlegroundsMinionPinning)
                         }
                     }
                     .frame(width: canvasWidth, height: 1080)
+
+                    // HDT's BgsMinionPinning: a canvas-sized Grid holding the
+                    // Tavern Pinning panel (bottom-right) and the markers drawn
+                    // over Bob's shop. Both sit in the scaled subtree because
+                    // HDT scales them by the same Height/1080 factor.
+                    BattlegroundsMinionPinningView(viewModel: viewModel.battlegroundsMinionPinning,
+                                                   canvasWidth: canvasWidth)
+                    BattlegroundsMinionPinningShopView(viewModel: viewModel.battlegroundsMinionPinning,
+                                                       canvasWidth: canvasWidth)
 
                     // Last, so it draws over the top bar - BattlegroundsInspiration
                     // comes after BgsTopBar on OverlayWindow's canvas too.

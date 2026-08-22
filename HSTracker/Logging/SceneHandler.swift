@@ -105,6 +105,7 @@ class SceneHandler {
             Watchers.specialShopChoicesStateWatcher.run()
             Watchers.discoverStateWatcher.run()
             Watchers.baconWatcher.run()
+            Watchers.playZoneWatcher.run()
         }
         
         if from == .bacon {

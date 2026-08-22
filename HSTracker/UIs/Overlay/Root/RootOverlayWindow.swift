@@ -20,6 +20,7 @@ class RootOverlayWindow: OverWindowController {
     private var localMouseMonitor: Any?
     private var fallbackTimer: Timer?
     private var hoveredCardId: String?
+    private weak var hoveredView: CardHoverNSView?
 
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -139,7 +140,13 @@ class RootOverlayWindow: OverWindowController {
         guard let overlayWindow = window else { return }
         let screenLocation = NSEvent.mouseLocation
 
-        let match = CardHoverRegistry.shared.entries.first { entry in
+        // `last`, not `first`: the Inspiration board overlaps its tiles by 8pt
+        // (HDT's Margin="-4,0"), so two entries can contain the cursor at once.
+        // Registration follows view-tree order, and a later sibling draws on
+        // top - which is the one WPF's hit-testing would pick. Everywhere else
+        // the tiles do not overlap, so at most one entry ever matches and this
+        // is the same as before.
+        let match = CardHoverRegistry.shared.entries.last { entry in
             guard let nsView = entry.view,
                   nsView.window === overlayWindow else { return false }
             // NSView.convert(to: nil) → window base coordinates (Y-up from
@@ -152,13 +159,29 @@ class RootOverlayWindow: OverWindowController {
         }
 
         if let match = match {
-            if hoveredCardId != match.cardId {
+            // Keyed on the matched view as well as the card: an Inspiration board
+            // routinely holds two copies of the same minion, and now that the
+            // tooltip anchors to the element rather than following the cursor,
+            // moving between them has to re-anchor it. HDT gets this for free -
+            // each element raises its own MouseLeave/MouseEnter.
+            if hoveredCardId != match.cardId || hoveredView !== match.view {
                 hoveredCardId = match.cardId
-                CardTooltipPanel.shared.show(cardId: match.cardId, showTriple: match.showTriple)
+                hoveredView = match.view
+                // HDT anchors the tooltip to the hovered element and clamps it to
+                // the overlay window (its ActualWidth/ActualHeight), not to the
+                // screen - so both rects are handed over here, in the screen
+                // coordinates the panel positions itself in.
+                let anchor = match.view.map {
+                    overlayWindow.convertToScreen($0.convert($0.bounds, to: nil))
+                }
+                CardTooltipPanel.shared.show(cardId: match.cardId, showTriple: match.showTriple,
+                                             placement: match.placement,
+                                             anchor: anchor, bounds: overlayWindow.frame)
             }
         } else {
             if hoveredCardId != nil {
                 hoveredCardId = nil
+                hoveredView = nil
                 // Unconditional hide: we know no card is under cursor, so we must
                 // dismiss regardless of which card (base or golden) is currently shown.
                 CardTooltipPanel.shared.hide()

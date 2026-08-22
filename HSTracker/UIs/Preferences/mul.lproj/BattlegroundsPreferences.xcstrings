@@ -955,6 +955,84 @@
         }
       }
     },
+    "tvp-ui-002.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Show tavern pinning\"; ObjectID = \"tvp-ui-002\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show tavern pinning"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exibir Fixador da Taverna"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示酒馆标记"
+          }
+        }
+      }
+    },
+    "tvp-ui-012.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Auto-enable comps key pieces on game start\"; ObjectID = \"tvp-ui-012\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Auto-enable comps key pieces on game start"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autoativar Peças-Chaves da Comp no Início da Partida"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在对局开始时自动启用关键随从标记"
+          }
+        }
+      }
+    },
+    "tvp-ui-022.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Show quick guides\"; ObjectID = \"tvp-ui-022\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show quick guides"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "퀵 가이드 표시"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exibir Guias Rápidos"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示快速指南"
+          }
+        }
+      }
+    },
     "wfJ-hm-6dv.title" : {
       "comment" : "Class = \"NSButtonCell\"; title = \"Available\"; ObjectID = \"wfJ-hm-6dv\";",
       "extractionState" : "extracted_with_value",

@@ -287,7 +287,9 @@ struct GuideFlowParagraph: View {
             .foregroundColor(color)
             .fixedSize()
         if token.isCard {
-            text.cardImageTooltip(cardId: token.cardId)
+            // CompGuide.xaml gives its ReferencedCardRun style Placement="Left",
+            // same as the minions beside it.
+            text.cardImageTooltip(cardId: token.cardId, placement: .left)
         } else {
             text
         }

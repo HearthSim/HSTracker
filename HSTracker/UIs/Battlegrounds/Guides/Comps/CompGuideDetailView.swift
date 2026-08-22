@@ -8,17 +8,16 @@
 
 import SwiftUI
 
-// Mirrors HDT's CompGuide.xaml. "Pin All Cards" is still rendered disabled -
-// it's wired up in the Minion Pinning milestone, not yet. It is a small icon button
-// in HDT (pin.png) sitting in the header next to the tier badge; no pin
-// asset exists in this catalog yet, so it's approximated here with a plain
-// glyph in the same position rather than skipped outright.
+// Mirrors HDT's CompGuide.xaml.
 @available(macOS 10.15, *)
 struct CompGuideDetailView: View {
     @ObservedObject var viewModel: BattlegroundsCompsGuidesViewModel
     let comp: BattlegroundsCompGuideViewModel
+    @ObservedObject var pinning: BattlegroundsMinionPinningViewModel
 
     @SwiftUI.State private var isInspirationHovering = false
+    @SwiftUI.State private var isHeaderHovering = false
+    @SwiftUI.State private var isPinButtonHovering = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -91,13 +90,16 @@ struct CompGuideDetailView: View {
 
             Spacer(minLength: 0)
 
-            // Placeholder for HDT's pin.png icon button (see file header
-            // comment) - stays disabled until the Minion Pinning milestone.
-            Text("\u{1F4CC}")
-                .font(.system(size: 12))
-                .opacity(0.3)
+            pinAllButton
 
-            tierBadge(text: tierLetter(comp.tier), colors: comp.tierColors)
+            tierBadge(text: comp.tierText, colors: comp.tierColors)
+        }
+        // Grid_OnMouseEnter / Grid_OnMouseLeave on the header: the pin button
+        // springs in on hover, and stays put once everything is pinned.
+        .trackHover { hovering in
+            withAnimation(Self.pinButtonAnimation(hovering)) {
+                isHeaderHovering = hovering
+            }
         }
         .padding(.horizontal, 9)
         .frame(height: 48)
@@ -111,6 +113,59 @@ struct CompGuideDetailView: View {
         .overlay(Rectangle().frame(height: 1).foregroundColor(Color(hex: "#4A5256")), alignment: .bottom)
         .cornerRadius(3, corners: [.topLeft, .topRight])
         .clipped()
+    }
+
+    // BtnPinAllCompCards: a 30x30 PinIconButtonStyle button carrying a 22pt
+    // pin.png, Margin="0,0,6,0", wrapped in the same BgsMinionPinningVisibility
+    // gate the browser's per-row button uses. #23272a idle, #43474a hovered,
+    // and #141617 once every card in the guide is pinned.
+    //
+    // PinButtonIn / PinButtonUnpinned / PinButtonPinned: opacity 0->1 with a
+    // 0.7->1 ElasticEase scale, held open while everything is pinned.
+    private static func pinButtonAnimation(_ appearing: Bool) -> Animation {
+        appearing ? .spring(response: 0.5, dampingFraction: 0.55).delay(0.1)
+                  : .easeOut(duration: 0.2)
+    }
+
+    private var isAllPinned: Bool { comp.areAllCompCardsPinned(pinning) }
+    private var isPinButtonShown: Bool { isAllPinned || isHeaderHovering || isPinButtonHovering }
+
+    @ViewBuilder
+    private var pinAllButton: some View {
+        if pinning.isShown {
+            Button {
+                comp.togglePinAllCompCards(pinning)
+            } label: {
+                Group {
+                    if let pin = MinionPinningImages.pin {
+                        Image(nsImage: pin)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                    }
+                }
+                .frame(width: 22, height: 22)
+                .frame(width: 30, height: 30)
+                .background(Color(hex: pinBackgroundHex))
+                .cornerRadius(3)
+                .overlay(RoundedRectangle(cornerRadius: 3).stroke(Color(hex: "#141617"), lineWidth: 1))
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .padding(.trailing, 6)
+            .opacity(isPinButtonShown ? 1 : 0)
+            .scaleEffect(isPinButtonShown ? 1 : 0.7)
+            .allowsHitTesting(isPinButtonShown)
+            .trackHover { hovering in
+                withAnimation(Self.pinButtonAnimation(hovering)) {
+                    isPinButtonHovering = hovering
+                }
+            }
+        }
+    }
+
+    private var pinBackgroundHex: String {
+        if isPinButtonHovering { return "#43474a" }
+        return isAllPinned ? "#141617" : "#23272a"
     }
 
     private func badge(text: String, colors: [Color]) -> some View {
@@ -297,17 +352,6 @@ struct CompGuideDetailView: View {
         .padding(7)
         .background(Color(hex: "#141617"))
         .overlay(Rectangle().frame(height: 1).foregroundColor(Color(hex: "#4A5256")), alignment: .top)
-    }
-
-    private func tierLetter(_ tier: Int) -> String {
-        switch tier {
-        case 1: return "S"
-        case 2: return "A"
-        case 3: return "B"
-        case 4: return "C"
-        case 5: return "D"
-        default: return "?"
-        }
     }
 
     private func difficultyLabel(_ difficulty: Int) -> String {

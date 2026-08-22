@@ -55,6 +55,10 @@ struct BattlegroundsMinionArt: Identifiable {
     // minion there is already the golden copy, so pairing the tooltip with
     // "and here is the golden version" would just repeat it.
     let showTriple: Bool
+    // HDT's ToolTipService.Placement, which differs per panel: Left on
+    // CompGuide.xaml's BattlegroundsMinion style, Right in
+    // BattlegroundsInspiration.xaml (and by default everywhere else).
+    let tooltipPlacement: CardTooltipPlacement
 
     // Comp guides: printed stats straight off the card definition.
     init(dbfId: Int, card: Card, isAvailable: Bool) {
@@ -74,6 +78,7 @@ struct BattlegroundsMinionArt: Identifiable {
         self.isPremium = false
         self.showTier = true
         self.showTriple = true
+        self.tooltipPlacement = .left
     }
 
     // Inspiration: a real board, so every stat and keyword is whatever the API
@@ -97,6 +102,7 @@ struct BattlegroundsMinionArt: Identifiable {
         self.isPremium = isPremium
         self.showTier = false
         self.showTriple = false
+        self.tooltipPlacement = .right
     }
 }
 
@@ -166,16 +172,8 @@ struct BattlegroundsMinionArtView: View {
                 overlayImage("divine-shield")
             }
 
-            Text("\(minion.attack)")
-                .font(.system(size: 45, weight: .bold))
-                .outlinedText()
-                .frame(width: 75, height: 75, alignment: .center)
-                .offset(x: 29, y: 170)
-            Text("\(minion.health)")
-                .font(.system(size: 45, weight: .bold))
-                .outlinedText()
-                .frame(width: 75, height: 75, alignment: .center)
-                .offset(x: 151, y: 170)
+            statNumber(minion.attack).offset(x: 29, y: 170)
+            statNumber(minion.health).offset(x: 151, y: 170)
 
             if minion.showTier && minion.tier > 0 {
                 tierBadge
@@ -192,7 +190,8 @@ struct BattlegroundsMinionArtView: View {
         // CardImageTooltip.swift.
         .scaleEffect(isHovering ? 1.05 : 1.0)
         .trackHover { hovering in isHovering = hovering }
-        .cardImageTooltip(cardId: minion.card.id, showTriple: minion.showTriple)
+        .cardImageTooltip(cardId: minion.card.id, showTriple: minion.showTriple,
+                          placement: minion.tooltipPlacement)
     }
 
     // Tier badge using the tier-N.png assets in
@@ -201,6 +200,37 @@ struct BattlegroundsMinionArtView: View {
     // inside the 256-pt reference canvas (which scaledToFrame shrinks to 70×70 at
     // the call site), so it is sized so it reads clearly after that 0.273× scale:
     // 80×87 → ≈22×24 pt on screen, roughly matching HDT's in-game badge size.
+    // HearthstoneTextBlock Text="{Binding Attack}" Width="75" Height="75"
+    // FontSize="45" FontWeight="Bold" TextAlignment="Center", at Canvas.Left
+    // 29 / 151 and Canvas.Top 170.
+    //
+    // Two things the obvious SwiftUI spelling gets wrong here, both of which a
+    // late-game Battlegrounds board makes visible:
+    //
+    //  - Text(verbatim:), not Text("\(value)"). The interpolating form resolves
+    //    to LocalizedStringKey, and its Int interpolation runs the value through
+    //    the locale's number format - so a 4096-attack minion rendered "4,096"
+    //    in en_US. WPF's {Binding} just calls ToString(), with no separator.
+    //  - the text must *shrink* to fit the 75pt box, not truncate. SwiftUI's
+    //    Text ellipsizes by default, so a buffed stat rendered "4,...". The
+    //    shrink is not in HDT's XAML - it is in OutlinedTextBlock.MeasureOverride,
+    //    which walks the font size down from the declared FontSize one point at
+    //    a time until the formatted text fits availableSize in both axes (down
+    //    to 1pt). At 45pt bold even three digits exceed 75pt, so most late-game
+    //    stats are drawn below their nominal size in HDT too.
+    //
+    // minimumScaleFactor scales continuously rather than in whole points, which
+    // is the one difference from HDT's loop; the floor matches its `fontSize > 1`
+    // termination, so like HDT this never has to fall back to truncating.
+    private func statNumber(_ value: Int) -> some View {
+        Text(verbatim: "\(value)")
+            .font(.system(size: 45, weight: .bold))
+            .lineLimit(1)
+            .minimumScaleFactor(1.0 / 45.0)
+            .outlinedText()
+            .frame(width: 75, height: 75, alignment: .center)
+    }
+
     private var tierBadge: some View {
         Group {
             if let image = Self.tierImage(minion.tier) {

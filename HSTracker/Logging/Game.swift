@@ -746,6 +746,14 @@ class Game: NSObject, PowerEventHandler {
             // from the mirror yet at gameStart, so they have to be picked up here.
             if #available(macOS 10.15, *), isBG {
                 self.windowManager.rootOverlay?.viewModel.battlegroundsMinionsGuide.updateLobby()
+                // OverlayWindow.Update re-evaluates ShouldShowBgsMinionPinning()
+                // and re-pushes AvailableRaces on the same tick, for the same
+                // reason: neither the mulligan state nor the lobby's races are
+                // settled at match start.
+                if let pinning = self.windowManager.rootOverlay?.viewModel.battlegroundsMinionPinning {
+                    pinning.updateLobby()
+                    pinning.updateVisibility()
+                }
             }
 
             if isBG && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
@@ -1952,6 +1960,10 @@ class Game: NSObject, PowerEventHandler {
                 }
                 DispatchQueue.main.async {
                     self.windowManager.rootOverlay?.viewModel.battlegroundsMinionsGuide.onMatchStart()
+                    // GameEventHandler's HandleGameStart calls
+                    // BattlegroundsMinionPinningViewModel.Reset(), which re-arms
+                    // the key-piece recommendations from the auto-enable setting.
+                    self.windowManager.rootOverlay?.viewModel.battlegroundsMinionPinning.reset()
                 }
             }
         }
@@ -2255,6 +2267,9 @@ class Game: NSObject, PowerEventHandler {
                     // rest of the top bar, so it never carries a lineup - or its
                     // open state - into the next match.
                     self.windowManager.rootOverlay?.viewModel.battlegroundsInspiration.reset()
+                    // HideBgsMinionPinning: pins never survive a match, and the
+                    // panel goes with them.
+                    self.windowManager.rootOverlay?.viewModel.battlegroundsMinionPinning.onMatchEnd()
                 }
             }
             hideBattlegroundsHeroPanel()
@@ -2569,6 +2584,10 @@ class Game: NSObject, PowerEventHandler {
                         // From here until combat, the board the Inspiration panel
                         // sends alongside a key minion is the live one.
                         self.windowManager.rootOverlay?.viewModel.battlegroundsInspiration.onShoppingStart()
+                        // OnBattlegroundsShoppingStart also reveals the Tavern
+                        // Pinning shop markers; both combat-setup transitions
+                        // hide them again (see TagChangeActions).
+                        self.windowManager.rootOverlay?.viewModel.battlegroundsMinionPinning.setShopVisible(true)
                     }
                 }
             }
@@ -2711,6 +2730,18 @@ class Game: NSObject, PowerEventHandler {
         return currentGameType == .gt_ranked || currentGameType == .gt_casual || currentGameType == .gt_vs_friend || currentGameType == .gt_vs_ai 
     }
     
+    // Mirrors HDT's GameV2.IsBattlegroundsHeroPickingDone: the player's own
+    // mulligan (which in Battlegrounds is the hero pick) has resolved. Unlike
+    // isMulliganDone below it deliberately ignores the opponent, who in
+    // Battlegrounds is Bob.
+    var isBattlegroundsHeroPickingDone: Bool {
+        guard isBattlegroundsMatch() else { return false }
+        guard let player = entities.map({ $0.1 })
+            .filter({ $0.isPlayer(eventHandler: self) })
+            .sorted(by: { $0.id < $1.id }).first else { return false }
+        return player[.mulligan_state] == Mulligan.done.rawValue
+    }
+
     func isMulliganDone() -> Bool {
         if isBattlegroundsMatch() {
                 return true
@@ -4067,7 +4098,26 @@ class Game: NSObject, PowerEventHandler {
         } else {
             hideBattlegroundsTimewarpPanel()
         }
-        // TODO: when minion pining gets added
+
+        // HDT calls OnShopChange from here as well as from OnPlayZoneChange, so
+        // the Tavern Pinning markers follow the Timewarp "compare cards" shop
+        // (ChoiceCardMgr's m_shopChoice zone) while it is up, not just Bob's own
+        // tavern. When that zone is empty this hands over an empty list, which
+        // clears the markers until the next play-zone tick refills them - the
+        // same brief handover HDT has.
+        handleShopBoardState(boardCards: boardCards, mousedOverSlot: args.mousedOverSlot)
+    }
+
+    // The single entry point both shop feeds share: PlayZoneWatcher's opposing
+    // zone (Bob's shop, HDT's Watchers.OnPlayZoneChange) and the special-shop
+    // watcher above. Mirrors HDT's BattlegroundsMinionPinningViewModel.OnShopChange
+    // call sites.
+    func handleShopBoardState(boardCards: [MirrorBoardCard], mousedOverSlot: Int) {
+        guard #available(macOS 10.15, *) else { return }
+        DispatchQueue.main.async {
+            self.windowManager.rootOverlay?.viewModel.battlegroundsMinionPinning
+                .onShopChange(boardCards: boardCards, mousedOverSlot: mousedOverSlot)
+        }
     }
 
     func handleOpponentEntitiesChosen(choice: IHsCompletedChoice) {

@@ -558,6 +558,17 @@ struct MirrorHelper {
         return result
     }
     
+    // HDT's Reflection.Client.GetBoardState(needsFriendlyZone). The friendly
+    // zone is only ever needed for its board-entry-order overlay, which
+    // HSTracker does not have, so every caller here passes false.
+    static func getBoardState(includeFriendly: Bool) -> MirrorBoardState? {
+        var result: MirrorBoardState?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getBoardState(includeFriendly)
+        }
+        return result
+    }
+
     static func getBattlegroundsLobbyInfo() -> MirrorBattlegroundsLobbyInfo? {
         var result: MirrorBattlegroundsLobbyInfo?
         MirrorHelper.accessQueue.sync {

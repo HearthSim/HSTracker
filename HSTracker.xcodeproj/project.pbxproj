@@ -379,6 +379,9 @@
 		EE0000000000000000001006 /* BattlegroundsInspirationGameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000001005 /* BattlegroundsInspirationGameViewModel.swift */; };
 		EE0000000000000000001008 /* BattlegroundsInspirationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000001007 /* BattlegroundsInspirationView.swift */; };
 		EE000000000000000000100A /* BattlegroundsInspirationOverlayButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000001009 /* BattlegroundsInspirationOverlayButtonView.swift */; };
+		EE0000000000000000002002 /* BattlegroundsMinionPinningViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000002001 /* BattlegroundsMinionPinningViewModel.swift */; };
+		EE0000000000000000002004 /* BattlegroundsMinionPinningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000002003 /* BattlegroundsMinionPinningView.swift */; };
+		EE0000000000000000002006 /* BattlegroundsMinionPinningShopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000002005 /* BattlegroundsMinionPinningShopView.swift */; };
 		4C19239D2392FA7E007EBB0F /* BattlegroundsDetailsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C19239C2392FA7E007EBB0F /* BattlegroundsDetailsWindow.swift */; };
 		4C1923A12392FB3F007EBB0F /* BattlegroundsDetailsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C1923A02392FB3F007EBB0F /* BattlegroundsDetailsWindow.xib */; };
 		4C3E2D8A245ED13D00292349 /* ToastWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2D89245ED13D00292349 /* ToastWindowController.swift */; };
@@ -1482,6 +1485,7 @@
 		B8E868832B93AF04005B1315 /* SceneHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E868822B93AF04005B1315 /* SceneHandler.swift */; };
 		B8E868852B940EB7005B1315 /* HearthDbConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E868842B940EB7005B1315 /* HearthDbConverter.swift */; };
 		B8E9C6582EFDF50D00EF3F6E /* SpecialShopChoicesStateWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E9C6572EFDF50D00EF3F6E /* SpecialShopChoicesStateWatcher.swift */; };
+		EE0000000000000000002012 /* PlayZoneWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000002011 /* PlayZoneWatcher.swift */; };
 		B8EC9A482612148500EB17A9 /* MultiIdCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8832DDB26117FCE00646BA4 /* MultiIdCard.swift */; };
 		B8EC9A492612149D00EB17A9 /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8832DD926057A5000646BA4 /* RepeatingTimer.swift */; };
 		B8EC9A4A261215C800EB17A9 /* OpponentDeadForTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC376025D06C2F00452A83 /* OpponentDeadForTracker.swift */; };
@@ -1789,6 +1793,9 @@
 		EE0000000000000000001005 /* BattlegroundsInspirationGameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsInspirationGameViewModel.swift; sourceTree = "<group>"; };
 		EE0000000000000000001007 /* BattlegroundsInspirationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsInspirationView.swift; sourceTree = "<group>"; };
 		EE0000000000000000001009 /* BattlegroundsInspirationOverlayButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsInspirationOverlayButtonView.swift; sourceTree = "<group>"; };
+		EE0000000000000000002001 /* BattlegroundsMinionPinningViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsMinionPinningViewModel.swift; sourceTree = "<group>"; };
+		EE0000000000000000002003 /* BattlegroundsMinionPinningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsMinionPinningView.swift; sourceTree = "<group>"; };
+		EE0000000000000000002005 /* BattlegroundsMinionPinningShopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsMinionPinningShopView.swift; sourceTree = "<group>"; };
 		4C19239C2392FA7E007EBB0F /* BattlegroundsDetailsWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsDetailsWindow.swift; sourceTree = "<group>"; };
 		4C1923A02392FB3F007EBB0F /* BattlegroundsDetailsWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsDetailsWindow.xib; sourceTree = "<group>"; };
 		4C3E2D89245ED13D00292349 /* ToastWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastWindowController.swift; sourceTree = "<group>"; };
@@ -2753,6 +2760,7 @@
 		B8E868822B93AF04005B1315 /* SceneHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneHandler.swift; sourceTree = "<group>"; };
 		B8E868842B940EB7005B1315 /* HearthDbConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HearthDbConverter.swift; sourceTree = "<group>"; };
 		B8E9C6572EFDF50D00EF3F6E /* SpecialShopChoicesStateWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialShopChoicesStateWatcher.swift; sourceTree = "<group>"; };
+		EE0000000000000000002011 /* PlayZoneWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayZoneWatcher.swift; sourceTree = "<group>"; };
 		B8EF1D7B291681EA00AC4658 /* BattlegroundsQuestView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsQuestView.xib; sourceTree = "<group>"; };
 		B8EF1D7D2916857000AC4658 /* BattlegroundsQuestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsQuestView.swift; sourceTree = "<group>"; };
 		B8FDE9262CD99D840093BFF7 /* ReflectionHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReflectionHelper.swift; sourceTree = "<group>"; };
@@ -3447,6 +3455,16 @@
 			path = Inspiration;
 			sourceTree = "<group>";
 		};
+		EE0000000000000000002007 /* MinionPinning */ = {
+			isa = PBXGroup;
+			children = (
+				EE0000000000000000002001 /* BattlegroundsMinionPinningViewModel.swift */,
+				EE0000000000000000002003 /* BattlegroundsMinionPinningView.swift */,
+				EE0000000000000000002005 /* BattlegroundsMinionPinningShopView.swift */,
+			);
+			path = MinionPinning;
+			sourceTree = "<group>";
+		};
 		4C1923972392E174007EBB0F /* Battlegrounds */ = {
 			isa = PBXGroup;
 			children = (
@@ -3473,6 +3491,7 @@
 				EE000000000000000000100B /* Inspiration */,
 				B8AC9A1A293CE31D0047F438 /* HeroPicking */,
 				B851C8F32BD29FDC00B748C1 /* Minions */,
+				EE0000000000000000002007 /* MinionPinning */,
 				B8AC9A24293F91FC0047F438 /* QuestPicking */,
 				B8BD3BA42C40B7ED001E85B7 /* Session */,
 				B804FC3E2946882D00F74CD9 /* StatsHeaderViewModel.swift */,
@@ -4039,6 +4058,7 @@
 				B85462342CE0185B0083BB31 /* QueueWatcher.swift */,
 				B854623C2CE01DF50083BB31 /* SceneWatcher.swift */,
 				B8E9C6572EFDF50D00EF3F6E /* SpecialShopChoicesStateWatcher.swift */,
+				EE0000000000000000002011 /* PlayZoneWatcher.swift */,
 			);
 			path = HearthWatcher;
 			sourceTree = "<group>";
@@ -5708,6 +5728,7 @@
 				4C3E2D8A245ED13D00292349 /* ToastWindowController.swift in Sources */,
 				B846CC5C2E09DC9000552F9C /* Swindle.swift in Sources */,
 				B8E9C6582EFDF50D00EF3F6E /* SpecialShopChoicesStateWatcher.swift in Sources */,
+				EE0000000000000000002012 /* PlayZoneWatcher.swift in Sources */,
 				B8FDE9272CD99D840093BFF7 /* ReflectionHelper.swift in Sources */,
 				43E77EE21C949C7800C26950 /* TimerHud.swift in Sources */,
 				B846CC902E16C10000552F9C /* EternalBloodpetal.swift in Sources */,
@@ -6150,6 +6171,9 @@
 				EE0000000000000000001006 /* BattlegroundsInspirationGameViewModel.swift in Sources */,
 				EE0000000000000000001008 /* BattlegroundsInspirationView.swift in Sources */,
 				EE000000000000000000100A /* BattlegroundsInspirationOverlayButtonView.swift in Sources */,
+				EE0000000000000000002002 /* BattlegroundsMinionPinningViewModel.swift in Sources */,
+				EE0000000000000000002004 /* BattlegroundsMinionPinningView.swift in Sources */,
+				EE0000000000000000002006 /* BattlegroundsMinionPinningShopView.swift in Sources */,
 				B8B7906E2C97919500DD33EC /* OdynPrimeDesignateEnchantment.swift in Sources */,
 				B82F4EAE24E3229200905024 /* InputProxy.swift in Sources */,
 				B864AE242597BB0500793F36 /* AdventureConfig.swift in Sources */,

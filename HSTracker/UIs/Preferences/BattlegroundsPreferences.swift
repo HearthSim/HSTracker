@@ -28,6 +28,11 @@ class BattlegroundsPreferences: PreferencePaneController, PreferencePane {
     @IBOutlet var showOpponentWarband: NSButton!
     @IBOutlet var showTiers: NSButton!
     @IBOutlet var showBattlegroundsGuides: NSButton!
+    // HDT's CheckboxShowBattlegroundsTavernMarkers and the two it gates
+    // (OverlayBattlegrounds.xaml).
+    @IBOutlet var showTavernPinning: NSButton!
+    @IBOutlet var autoEnableTavernPinningRecommended: NSButton!
+    @IBOutlet var showTavernPinningQuickGuides: NSButton!
     @IBOutlet var showBDonTiers: NSButton!
     @IBOutlet var showTavernSpells: NSButton!
     @IBOutlet var showTavernTriples: NSButton!
@@ -64,6 +69,12 @@ class BattlegroundsPreferences: PreferencePaneController, PreferencePane {
         showOpponentWarband.state = Settings.showOpponentWarband ? .on : .off
         showTiers.state = Settings.showBattlegroundsBrowser ? .on : .off
         showBattlegroundsGuides.state = Settings.showBattlegroundsGuides ? .on : .off
+        showTavernPinning.state = Settings.showBattlegroundsTavernMarkers ? .on : .off
+        autoEnableTavernPinningRecommended.state = Settings.autoEnableTavernMarkersRecommended ? .on : .off
+        // Checked only while *neither* half has been dismissed, matching HDT's
+        // own initialisation.
+        showTavernPinningQuickGuides.state =
+            (!Settings.dismissedTavernMarkerQuickGuide && !Settings.dismissedCompGuidesMarkerQuickGuide) ? .on : .off
         showBDonTiers.state = Settings.showBattlecryDeathrattleOnTiers ? .on : .off
         showTavernSpells.state = Settings.showTavernSpells ? .on : .off
         showTavernTriples.state = Settings.showTavernTriples ? .on : .off
@@ -103,6 +114,34 @@ class BattlegroundsPreferences: PreferencePaneController, PreferencePane {
         } else if sender == showBattlegroundsGuides {
             Settings.showBattlegroundsGuides = showBattlegroundsGuides.state == .on
             updateEnablement()
+        } else if sender == showTavernPinning {
+            Settings.showBattlegroundsTavernMarkers = sender.state == .on
+            updateEnablement()
+            if #available(macOS 10.15, *) {
+                // HDT re-evaluates ShouldShowBgsMinionPinning() from the
+                // checkbox handler rather than waiting for the next tick, so the
+                // panel appears or clears immediately mid-match.
+                game.windowManager.rootOverlay?.viewModel.battlegroundsMinionPinning.updateVisibility()
+            }
+        } else if sender == autoEnableTavernPinningRecommended {
+            Settings.autoEnableTavernMarkersRecommended = sender.state == .on
+        } else if sender == showTavernPinningQuickGuides {
+            // One checkbox over both dismissed flags: ticking it re-arms the
+            // quick guides (HDT's ShowQuickGuide, which also re-arms the
+            // auto-enable prompt), unticking dismisses both.
+            if #available(macOS 10.15, *) {
+                let pinning = game.windowManager.rootOverlay?.viewModel.battlegroundsMinionPinning
+                if sender.state == .on {
+                    pinning?.showGuide()
+                } else {
+                    Settings.dismissedTavernMarkerQuickGuide = true
+                    Settings.dismissedCompGuidesMarkerQuickGuide = true
+                    pinning?.refreshQuickGuideState()
+                }
+            } else {
+                Settings.dismissedTavernMarkerQuickGuide = sender.state != .on
+                Settings.dismissedCompGuidesMarkerQuickGuide = sender.state != .on
+            }
         } else if sender == showBDonTiers {
             Settings.showBattlecryDeathrattleOnTiers = sender.state == .on
         } else if sender == showTavernSpells {
@@ -206,6 +245,12 @@ class BattlegroundsPreferences: PreferencePaneController, PreferencePane {
         showQuestPicking.isEnabled = enabled
         alwaysShowTavernTier7.isEnabled = showTiers.state == .on
         showBattlegroundsGuides.isEnabled = showTiers.state == .on
+
+        // IsEnabled="{Binding IsChecked, ElementName=CheckboxShowBattlegroundsTavernMarkers}"
+        // on both of the pinning sub-options.
+        let pinningEnabled = showTavernPinning.state == .on
+        autoEnableTavernPinningRecommended.isEnabled = pinningEnabled
+        showTavernPinningQuickGuides.isEnabled = pinningEnabled
     }
     
     @IBAction func reset(_ sender: NSButton) {

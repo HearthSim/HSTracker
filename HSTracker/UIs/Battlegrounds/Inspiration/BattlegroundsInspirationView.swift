@@ -390,7 +390,7 @@ private struct InspirationHeroPowerView: View {
             // BattlegroundsInspiration.xaml.
             .scaleEffect(isHovering ? 1.05 : 1.0)
             .trackHover { isHovering = $0 }
-            .cardImageTooltip(cardId: card.id, showTriple: false)
+            .cardImageTooltip(cardId: card.id, showTriple: false, placement: .right)
             .onAppear(perform: loadPortrait)
         }
     }

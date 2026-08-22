@@ -332,6 +332,23 @@ final class Settings {
     @UserDefault(key: Settings.auto_show_battlegrounds_trinket_picking, defaultValue: true)
     static var autoShowBattlegroundsTrinketPicking: Bool
 
+    // Tavern Pinning (HDT's ShowBattlegroundsTavernMarkers,
+    // AutoEnableTavernMarkersRecommended, TavernMarkersPanelExpanded, and the
+    // three "dismissed" flags its ConfigWrapper exposes). Defaults match
+    // HDT's Config.cs exactly.
+    @UserDefault(key: Settings.show_battlegrounds_tavern_markers, defaultValue: true)
+    static var showBattlegroundsTavernMarkers: Bool
+    @UserDefault(key: Settings.auto_enable_tavern_markers_recommended, defaultValue: false)
+    static var autoEnableTavernMarkersRecommended: Bool
+    @UserDefault(key: Settings.tavern_markers_panel_expanded, defaultValue: true)
+    static var tavernMarkersPanelExpanded: Bool
+    @UserDefault(key: Settings.dismissed_tavern_marker_quick_guide, defaultValue: false)
+    static var dismissedTavernMarkerQuickGuide: Bool
+    @UserDefault(key: Settings.dismissed_comp_guides_marker_quick_guide, defaultValue: false)
+    static var dismissedCompGuidesMarkerQuickGuide: Bool
+    @UserDefault(key: Settings.dismissed_auto_enable_popup, defaultValue: false)
+    static var dismissedAutoEnablePopup: Bool
+
     @UserDefault(key: Settings.player_draw_chance, defaultValue: true)
     static var showPlayerDrawChance: Bool
     @UserDefault(key: Settings.player_card_count, defaultValue: true)
@@ -643,7 +660,13 @@ extension Settings {
     static let show_battlegrounds_tier7_session_comp_stats = "show_battlegrounds_tier7_session_comp_stats"
     static let always_show_tier_7 = "always_show_tier_7"
     static let auto_show_battlegrounds_trinket_picking = "auto_show_battlegrounds_trinket_picking"
-    
+    static let show_battlegrounds_tavern_markers = "show_battlegrounds_tavern_markers"
+    static let auto_enable_tavern_markers_recommended = "auto_enable_tavern_markers_recommended"
+    static let tavern_markers_panel_expanded = "tavern_markers_panel_expanded"
+    static let dismissed_tavern_marker_quick_guide = "dismissed_tavern_marker_quick_guide"
+    static let dismissed_comp_guides_marker_quick_guide = "dismissed_comp_guides_marker_quick_guide"
+    static let dismissed_auto_enable_popup = "dismissed_auto_enable_popup"
+
     static let player_draw_chance = "player_draw_chance"
     static let player_card_count = "player_card_count"
     static let opponent_card_count = "opponent_card_count"

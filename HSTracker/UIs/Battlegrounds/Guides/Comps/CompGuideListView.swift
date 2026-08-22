@@ -168,7 +168,7 @@ struct CompGuideListView: View {
     // Matches HDT's CompGuideList.xaml tier group header exactly: a
     // full-width flat (unrounded) stretch bar, not a small badge chip.
     private func tierHeader(tier: Int, colors: [Color]) -> some View {
-        Text(tierLetter(tier))
+        Text(BattlegroundsCompGuideViewModel.tierText(tier))
             .font(.system(size: 16, weight: .black))
             .foregroundColor(.white)
             .padding(.leading, 8)
@@ -177,17 +177,6 @@ struct CompGuideListView: View {
             .padding(.bottom, 5)
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(LinearGradient(colors: colors, startPoint: .topLeading, endPoint: .bottomTrailing))
-    }
-
-    private func tierLetter(_ tier: Int) -> String {
-        switch tier {
-        case 1: return "S"
-        case 2: return "A"
-        case 3: return "B"
-        case 4: return "C"
-        case 5: return "D"
-        default: return "?"
-        }
     }
 }
 

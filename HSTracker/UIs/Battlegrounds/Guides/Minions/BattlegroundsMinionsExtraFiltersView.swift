@@ -126,6 +126,35 @@ extension View {
     }
 }
 
+// MARK: - Tribe portrait
+//
+// Mirrors HDT's BattlegroundsMinionType.xaml on its own: an Ellipse filled by
+// the tribe's ImageBrush, scaled 1.1 about a centre below the icon — which
+// nudges the art up slightly as it grows. Sized by the caller, since HDT binds
+// the ellipse to the control's own Width/Height.
+//
+// Kept separate from the button below because HDT composes it in two places:
+// inside BattlegroundsMinionTypeButton (here and in the Tavern Pinning panel)
+// and bare, at 23pt, inside the minion-type pin marker drawn over Bob's shop.
+@available(macOS 10.15, *)
+struct BattlegroundsMinionTypeIcon: View {
+    let minionType: BattlegroundsMinionType
+
+    var body: some View {
+        GeometryReader { proxy in
+            Image(minionType.iconName)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: proxy.size.width, height: proxy.size.height)
+                .scaleEffect(1.1)
+                // ScaleTransform CenterY="35" against a 34pt icon: the growth
+                // is anchored just below the art, lifting it slightly.
+                .offset(y: -proxy.size.height * 1.8 / 34)
+                .clipShape(Circle())
+        }
+    }
+}
+
 // MARK: - Card type button
 //
 // Mirrors BattlegroundsMinionTypeButton.xaml: a circular tribe portrait ringed
@@ -189,16 +218,9 @@ struct BattlegroundsMinionTypeButton: View {
         .onHover { hovering in isHovering = hovering }
     }
 
-    // Ellipse.Fill = ImageBrush clipped to a circle, scaled 1.1 about a centre
-    // below the icon — which nudges the art up slightly as it grows.
     private var portrait: some View {
-        Image(button.minionType.iconName)
-            .resizable()
-            .aspectRatio(contentMode: .fill)
+        BattlegroundsMinionTypeIcon(minionType: button.minionType)
             .frame(width: Self.size, height: Self.size)
-            .scaleEffect(1.1)
-            .offset(y: -1.8)
-            .clipShape(Circle())
             .opacity(iconOpacity)
     }
 

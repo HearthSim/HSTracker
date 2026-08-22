@@ -11,6 +11,11 @@ import SwiftUI
 @available(macOS 10.15, *)
 struct BattlegroundsMinionsView: View {
     @ObservedObject var viewModel: BattlegroundsMinionsViewModel
+    /// Threaded down to the per-row pin button, which mirrors AnimatedCard's
+    /// BtnPinMinion. Held as an @ObservedObject the whole way down so a pin made
+    /// anywhere else (the panel, a comp guide) repaints these rows - the job
+    /// HDT's PinsChanged event does for its WPF controls.
+    @ObservedObject var pinning: BattlegroundsMinionPinningViewModel
     /// HDT's IsStandAloneMode - the browser shown without the guides tabs above
     /// it. Restyles the tier strip and the filter tab; see TopBorderStyle's
     /// DataTrigger in BattlegroundsMinions.xaml.
@@ -64,7 +69,7 @@ struct BattlegroundsMinionsView: View {
                 // as well as between groups.
                 VStack(spacing: 0) {
                     ForEach(viewModel.groups) { group in
-                        BattlegroundsCardsGroupView(group: group) { race in
+                        BattlegroundsCardsGroupView(group: group, pinning: pinning) { race in
                             viewModel.selectTribe(race)
                         }
                     }

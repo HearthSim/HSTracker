@@ -17,6 +17,10 @@ import SwiftUI
 @available(macOS 10.15, *)
 struct BattlegroundsCardsGroupView: View {
     let group: BattlegroundsMinionsViewModel.MinionGroup
+    // BattlegroundsCardsGroup.xaml.cs sets CardsList.ShowPinButton = true
+    // unconditionally; whether the button actually shows is the pinning feature's
+    // own visibility, which is what this carries down.
+    @ObservedObject var pinning: BattlegroundsMinionPinningViewModel
     let onTribeSelected: ((Race) -> Void)?
 
     // Width="196" on the XAML's outer Border. Narrower than the 249pt panel on
@@ -51,7 +55,8 @@ struct BattlegroundsCardsGroupView: View {
                 // that matters here - minions and buddies get the indicator,
                 // tavern spells do not.
                 MinionCardRow(card: card,
-                              showInspiration: group.isInspirationEnabled && card.type == .minion)
+                              showInspiration: group.isInspirationEnabled && card.type == .minion,
+                              pinning: pinning)
             }
         }
         .frame(width: Self.width)
@@ -206,10 +211,12 @@ struct MinionCardRow: View {
     let card: Card
     // AnimatedCard.Update's showTier7InspirationBtn.
     let showInspiration: Bool
+    @ObservedObject var pinning: BattlegroundsMinionPinningViewModel
 
     @SwiftUI.State private var tile: NSImage?
     @SwiftUI.State private var isRowHovering = false
     @SwiftUI.State private var isButtonHovering = false
+    @SwiftUI.State private var isPinButtonHovering = false
 
     private static let rowH: CGFloat = CGFloat(kRowHeight)   // 34 pt
     private static let nameX: CGFloat = 8
@@ -270,12 +277,18 @@ struct MinionCardRow: View {
         // Outside the .clipped() ZStack so the button keeps its own hit area and
         // is never trimmed by the row's clip.
         .overlay(inspirationOverlay, alignment: .trailing)
+        .overlay(pinOverlay, alignment: .trailing)
+        // CardTile.xaml attaches its CardTooltip without a Placement, which
+        // SetTooltip folds into Right - so the default is already correct here.
         .cardImageTooltip(cardId: card.id)
         // AnimatedCard's Grid_OnMouseEnter / Grid_OnMouseLeave, which run
         // InspirationButtonIn / InspirationButtonOut. Uses trackHover for the
         // same reason the group header does - see HoverTrackingNSView.
+        // AnimateButtonsIn / AnimateButtonsOut run both buttons off this one
+        // hover, so the guard the inspiration button used to carry moved inside
+        // its own overlay - the pin button needs the hover even when there is no
+        // inspiration button to show.
         .trackHover { hovering in
-            guard showInspiration else { return }
             withAnimation(Self.buttonAnimation(hovering)) {
                 isRowHovering = hovering
             }
@@ -305,6 +318,67 @@ struct MinionCardRow: View {
     // "shown" - otherwise the button could fade out from under the cursor that
     // is resting on it.
     private var isInspirationShown: Bool { isRowHovering || isButtonHovering }
+
+    // MARK: - Pin button
+    //
+    // Mirrors AnimatedCard.xaml's BtnPinMinion: a 30x30 Border in the row's
+    // rightmost slot (Margin="0,2,2,2"), CornerRadius 3 on a 1pt #141617 border,
+    // #23272a going to #43474a on hover - and to #141617 while the card is
+    // pinned, so a pinned row reads as "filled in".
+    //
+    // The whole thing is wrapped in a Border bound to BgsMinionPinningVisibility,
+    // hence the isShown gate.
+
+    private var isPinned: Bool { pinning.isCardPinned(card.id) }
+
+    // AnimateButtonsIn/Out: a pinned card's button is pinned open (PinButtonPinned
+    // runs on both enter *and* leave), an unpinned one springs in on hover and
+    // fades back out.
+    private var isPinButtonShown: Bool { isPinned || isRowHovering || isPinButtonHovering }
+
+    @ViewBuilder
+    private var pinOverlay: some View {
+        if pinning.isShown {
+            pinButton
+                .opacity(isPinButtonShown ? 1 : 0)
+                .scaleEffect(isPinButtonShown ? 1 : 0.7)
+                .allowsHitTesting(isPinButtonShown)
+                .padding(.trailing, 2)
+        }
+    }
+
+    private var pinButton: some View {
+        Group {
+            if let pin = MinionPinningImages.pin {
+                Image(nsImage: pin)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+            }
+        }
+        // Image Height/Width 20 with Margin="4" inside the 30pt border.
+        .frame(width: 20, height: 20)
+        .padding(4)
+        .background(Color(hex: pinBackgroundHex))
+        .cornerRadius(3)
+        .overlay(RoundedRectangle(cornerRadius: 3).stroke(Color(hex: "#141617"), lineWidth: 1))
+        .frame(width: Self.inspirationSize, height: Self.inspirationSize)
+        .contentShape(Rectangle())
+        .trackHover { hovering in
+            withAnimation(Self.buttonAnimation(hovering)) {
+                isPinButtonHovering = hovering
+            }
+        }
+        // BtnPinMinion_OnMouseUp.
+        .onTapGesture {
+            pinning.togglePinCard(card.id)
+        }
+    }
+
+    // The DataTriggers fire in XAML order, so IsMouseOver wins over IsPinned.
+    private var pinBackgroundHex: String {
+        if isPinButtonHovering { return "#43474a" }
+        return isPinned ? "#141617" : "#23272a"
+    }
 
     @ViewBuilder
     private var inspirationOverlay: some View {

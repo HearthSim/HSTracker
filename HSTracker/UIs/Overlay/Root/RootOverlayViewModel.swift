@@ -31,6 +31,14 @@ class RootOverlayViewModel: ObservableObject {
     let battlegroundsGuidesTabs = BattlegroundsGuidesTabsViewModel()
     let battlegroundsTurnCounter = BattlegroundsTurnCounterViewModel()
     let battlegroundsInspiration = BattlegroundsInspirationViewModel()
+    let battlegroundsMinionPinning = BattlegroundsMinionPinningViewModel()
+
+    init() {
+        // HDT wires the same reference in OverlayWindow's constructor
+        // (BattlegroundsMinionPinningViewModel.CompsGuidesVM = ...): the key
+        // piece recommendations are mined out of the loaded comp guides.
+        battlegroundsMinionPinning.compsGuides = battlegroundsCompsGuides
+    }
 
     // On-screen frames (in RootOverlayView's own coordinate space) of every
     // child that currently needs real mouse interactivity, reported by
