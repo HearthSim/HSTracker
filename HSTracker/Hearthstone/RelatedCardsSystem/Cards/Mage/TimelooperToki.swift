@@ -15,8 +15,8 @@ class TimelooperToki: ICardGenerator {
 
     func isInGeneratorPool(_ card: Card, _ gameMode: GameType, _ format: FormatType) -> Bool {
         return card.type == .spell &&
-        (CardSet.wildSets().contains(card.set ?? .invalid) ||
-         CardSet.classicSets().contains(card.set ?? .invalid))
+        (CardSet.wildSets.contains(card.set ?? .invalid) ||
+         CardSet.classicSets.contains(card.set ?? .invalid))
     }
 
     func isInGeneratorPool(_ card: MultiIdCard, _ gameMode: GameType, _ format: FormatType) -> Bool {

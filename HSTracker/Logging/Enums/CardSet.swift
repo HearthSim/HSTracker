@@ -73,46 +73,40 @@ enum CardSet: String, CaseIterable {
     cataclysm,
     escapefrom_violet_hold
     
-    static func deckManagerValidCardSets() -> [CardSet] {
-        return [.all, .vanilla, .core, .basic, .expert1, .naxx, .gvg, .brm, .tgt,
-                .loe, .og, .kara, .gangs, .ungoro, .icecrown,
-                .lootapalooza, .gilneas, .boomsday, .troll,
-                .dalaran, .uldum, .dragons, .year_of_the_dragon,
-                .black_temple, .demon_hunter_initiate, .scholomance, .darkmoon_faire,
-                .the_barrens, .wailing_caverns, .stormwind, .alterac_valley,
-                .the_sunken_city, .revendreth, .return_of_the_lich_king, .path_of_arthas,
-                .battle_of_the_bands, .titans, .wonders, .wild_west,
-                .whizbangs_workshop, .island_vacation, .space,
-                .emerald_dream, .the_lost_city, .time_travel,
-                .cataclysm, .escapefrom_violet_hold]
-    }
-    
-    static func wildSets() -> [CardSet] {
-        return [.brm, .loe, .tgt, .hof,
-                .naxx, .gvg, .promo,
-                .kara, .og, .gangs,
-                .ungoro, .icecrown, .lootapalooza,
-                .gilneas, .boomsday, .troll,
-                .dalaran, .uldum, .wild_event, .dragons, .year_of_the_dragon,
-                .wonders, .legacy,
-                .black_temple, .demon_hunter_initiate, .scholomance, .darkmoon_faire,
-                .the_barrens, .wailing_caverns, .stormwind, .alterac_valley,
-                .the_sunken_city, .revendreth, .return_of_the_lich_king, .path_of_arthas,
-                .battle_of_the_bands, .titans, .wild_west,
-                .whizbangs_workshop, .island_vacation, .space]
-    }
-    
-    static func classicSets() -> [CardSet] {
-        return [ .vanilla ]
-    }
-    
-    static func twistSets() -> [CardSet] {
-        return [ .battle_of_the_bands, .return_of_the_lich_king, .path_of_arthas,
-                 .revendreth, .the_sunken_city, .core,
-                 .alterac_valley, .stormwind, .the_barrens,
-                 .darkmoon_faire, .scholomance, .demon_hunter_initiate,
-                 .black_temple]
-    }
+    // These lists used to be rebuilt on every call, which is once or twice per
+    // card while the database loads and once per card in half a dozen deck
+    // checks. They are constants, so hold onto them - and keep a Set alongside
+    // the ones that are only ever asked "does this contain".
+    static let deckManagerValidCardSets: [CardSet] = [
+        .all, .vanilla, .core, .basic, .expert1, .naxx, .gvg, .brm, .tgt, .loe, .og, .kara,
+        .gangs, .ungoro, .icecrown, .lootapalooza, .gilneas, .boomsday, .troll, .dalaran,
+        .uldum, .dragons, .year_of_the_dragon, .black_temple, .demon_hunter_initiate,
+        .scholomance, .darkmoon_faire, .the_barrens, .wailing_caverns, .stormwind,
+        .alterac_valley, .the_sunken_city, .revendreth, .return_of_the_lich_king,
+        .path_of_arthas, .battle_of_the_bands, .titans, .wonders, .wild_west,
+        .whizbangs_workshop, .island_vacation, .space, .emerald_dream, .the_lost_city,
+        .time_travel, .cataclysm, .escapefrom_violet_hold
+    ]
+
+    static let deckManagerCardSetLookup = Set(deckManagerValidCardSets)
+
+    static let wildSets: Set<CardSet> = [
+        .brm, .loe, .tgt, .hof, .naxx, .gvg, .promo, .kara, .og, .gangs, .ungoro, .icecrown,
+        .lootapalooza, .gilneas, .boomsday, .troll, .dalaran, .uldum, .wild_event, .dragons,
+        .year_of_the_dragon, .wonders, .legacy, .black_temple, .demon_hunter_initiate,
+        .scholomance, .darkmoon_faire, .the_barrens, .wailing_caverns, .stormwind,
+        .alterac_valley, .the_sunken_city, .revendreth, .return_of_the_lich_king,
+        .path_of_arthas, .battle_of_the_bands, .titans, .wild_west, .whizbangs_workshop,
+        .island_vacation, .space
+    ]
+
+    static let classicSets: Set<CardSet> = [ .vanilla ]
+
+    static let twistSets: Set<CardSet> = [
+        .battle_of_the_bands, .return_of_the_lich_king, .path_of_arthas, .revendreth,
+        .the_sunken_city, .core, .alterac_valley, .stormwind, .the_barrens, .darkmoon_faire,
+        .scholomance, .demon_hunter_initiate, .black_temple
+    ]
 }
 
 public enum CardSetInt: Int {

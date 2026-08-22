@@ -413,7 +413,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     // MARK: - Sets
     private func loadSets() {
         let popupMenu = NSMenu()
-        for set in CardSet.deckManagerValidCardSets() {
+        for set in CardSet.deckManagerValidCardSets {
             if set == .invalid {
                 continue
             }

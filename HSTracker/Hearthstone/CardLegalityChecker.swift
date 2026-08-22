@@ -54,13 +54,13 @@ class CardLegalityChecker {
         }
         switch format {
         case .ft_classic:
-            return CardSet.classicSets().contains(cardSet)
+            return CardSet.classicSets.contains(cardSet)
         case .ft_wild:
-            return !CardSet.classicSets().contains(cardSet)
+            return !CardSet.classicSets.contains(cardSet)
         case .ft_standard:
-            return !CardSet.wildSets().contains(cardSet) && !CardSet.classicSets().contains(cardSet)
+            return !CardSet.wildSets.contains(cardSet) && !CardSet.classicSets.contains(cardSet)
         case .ft_twist:
-            return CardSet.twistSets().contains(cardSet)
+            return CardSet.twistSets.contains(cardSet)
         default:
             return true
         }

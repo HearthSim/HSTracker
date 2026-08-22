@@ -24,30 +24,4 @@ class Splashscreen: NSWindowController {
             progressBar.startAnimation(nil)
         }
     }
-
-    func display(_ str: String, total: Double) {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self, let information, let progressBar else {
-                return
-            }
-            progressBar.isIndeterminate = false
-            information.stringValue = str
-            progressBar.maxValue = total
-            progressBar.doubleValue = 0
-        }
-        
-    }
-
-    func increment(_ str: String? = nil) {
-        // UI should be adjusted on the main thread
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else {
-                return
-            }
-            self.progressBar.increment(by: 1)
-            if let str = str {
-                self.information.stringValue = str
-            }
-        }
-    }
 }

@@ -119,6 +119,7 @@
 		439C7E851C777CFC00D29859 /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E7D1C777CFC00D29859 /* Deck.swift */; };
 		439C7E891C777CFC00D29859 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E811C777CFC00D29859 /* Card.swift */; };
 		439C7E8D1C777D1C00D29859 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E8C1C777D1C00D29859 /* Database.swift */; };
+		B8CD01012FA0000000CD0101 /* CardDefsBinary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CD01002FA0000000CD0100 /* CardDefsBinary.swift */; };
 		439C7E921C777EFA00D29859 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E911C777EFA00D29859 /* Settings.swift */; };
 		439C7EB51C777F8900D29859 /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E951C777F8900D29859 /* Entity.swift */; };
 		439C7EB61C777F8900D29859 /* CardMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E971C777F8900D29859 /* CardMark.swift */; };
@@ -188,6 +189,7 @@
 		43C1CA111E96CD6F008C20B1 /* GameStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435CD9081E1E3AB4000AF3DE /* GameStats.swift */; };
 		43C1CA121E96CD6F008C20B1 /* ServerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435CD90A1E1E4447000AF3DE /* ServerInfo.swift */; };
 		43C1CA131E96CD6F008C20B1 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E8C1C777D1C00D29859 /* Database.swift */; };
+		B8CD01022FA0000000CD0102 /* CardDefsBinary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CD01002FA0000000CD0100 /* CardDefsBinary.swift */; };
 		43C1CA151E96CD6F008C20B1 /* Cards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4305CA461CF434E30048E7EC /* Cards.swift */; };
 		43C1CA161E96CD6F008C20B1 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43883F1D1DA382BA00A7B79C /* Language.swift */; };
 		43C1CA171E96CD6F008C20B1 /* RealmHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C17D2511E82DEE700ED4047 /* RealmHelper.swift */; };
@@ -1694,6 +1696,7 @@
 		439C7E7D1C777CFC00D29859 /* Deck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
 		439C7E811C777CFC00D29859 /* Card.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		439C7E8C1C777D1C00D29859 /* Database.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
+		B8CD01002FA0000000CD0100 /* CardDefsBinary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardDefsBinary.swift; sourceTree = "<group>"; };
 		439C7E8E1C777D6C00D29859 /* Resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Resources; sourceTree = "<group>"; };
 		439C7E911C777EFA00D29859 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		439C7E951C777F8900D29859 /* Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
@@ -3151,6 +3154,7 @@
 			children = (
 				439C7E7B1C777CD500D29859 /* Models */,
 				439C7E8C1C777D1C00D29859 /* Database.swift */,
+				B8CD01002FA0000000CD0100 /* CardDefsBinary.swift */,
 				4305CA461CF434E30048E7EC /* Cards.swift */,
 				43883F1D1DA382BA00A7B79C /* Language.swift */,
 				1C17D2511E82DEE700ED4047 /* RealmHelper.swift */,
@@ -4935,6 +4939,7 @@
 				439C7E451C7772C000D29859 /* Frameworks */,
 				437B5BCC1CD3B50000DE0A41 /* Swiftlint */,
 				B86F2153255DBFFC008D522A /* Download cards XML */,
+				B8CD01032FA0000000CD0103 /* Compile CardDefs */,
 				B83355B724F89D1A0025F644 /* Embed Mono */,
 				4368741F201720A800C9D1E9 /* Update version */,
 			);
@@ -4975,7 +4980,6 @@
 				439C7E5A1C7772C100D29859 /* Resources */,
 				4345E9EF1CB45134002D0F23 /* CopyFiles */,
 				439C7E591C7772C100D29859 /* Frameworks */,
-				B8643D122759872D00B2D708 /* Download enUS cards */,
 			);
 			buildRules = (
 			);
@@ -5282,7 +5286,7 @@
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nMONO_VERSION=$(cat $SRCROOT/HSTracker/mono-version.txt)\n\nDIR=\"$SRCROOT/downloaded-frameworks/mono\"\nmkdir -p $DIR\n\nwget  \"https://www.nuget.org/api/v2/package/Microsoft.NETCore.App.Runtime.Mono.osx-x64/${MONO_VERSION}\" -P \"$DIR\" -O \"$DIR/mono-${MONO_VERSION}-x64.zip\"\nunzip -n \"$DIR/mono-${MONO_VERSION}-x64.zip\" -d \"$DIR\"\n\nwget  \"https://www.nuget.org/api/v2/package/Microsoft.NETCore.App.Runtime.Mono.osx-arm64/${MONO_VERSION}\" -P \"$DIR\" -O \"$DIR/mono-${MONO_VERSION}-arm64.zip\"\nunzip -n \"$DIR/mono-${MONO_VERSION}-arm64.zip\" -d \"$DIR\"\n\n\nmkdir -p \"$DIR/universal\"\nLIBRARIES=\"libcoreclr.dylib libSystem.Native.dylib\"\nfor lib in $LIBRARIES; do\n    lipo -create \"$DIR/runtimes/osx-arm64/native/$lib\" \"$DIR/runtimes/osx-x64/native/$lib\" -output \"$DIR/universal/$lib\"\ndone\n";
 			showEnvVarsInLog = 0;
 		};
-		B8643D122759872D00B2D708 /* Download enUS cards */ = {
+		B8CD01032FA0000000CD0103 /* Compile CardDefs */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -5290,15 +5294,20 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/CardDefs.xml",
+				"$(SRCROOT)/HSTracker/Database/CardDefsBinary.swift",
+				"$(SRCROOT)/Tools/CardDefsCompiler/main.swift",
 			);
-			name = "Download enUS cards";
+			name = "Compile CardDefs";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/CardDefs.bin",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "LOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"/Resources/Cards\nmkdir -p \"${LOCATION}\"\n\nHSJSON=\"https://api.hearthstonejson.com/v1\"\n\nfor lang in enUS; do\n    echo \"Downloading cards.$lang.json\"\n    curl -L -z \"${LOCATION}/cardsDB.$lang.json\" -o \"${LOCATION}/cardsDB.$lang.json\" \"$HSJSON/latest/$lang/cards.json\"\ndone\n";
+			shellScript = "set -e\n\n# CardDefs.xml is pinned by cards-version.txt and never changes for a given\n# build, so it is transcoded to a binary blob here instead of being parsed on\n# every launch. See HSTracker/Database/CardDefsBinary.swift.\n#\n# The blob goes straight into Contents/Resources, not into Resources/Cards:\n# HSTracker/Resources is a folder reference, and its copy replaces that whole\n# directory, so anything a script phase writes inside it can be wiped by a\n# later build.\nSOURCES=\"$SRCROOT/HSTracker/Database/CardDefsBinary.swift $SRCROOT/Tools/CardDefsCompiler/main.swift\"\nTOOL=\"${DERIVED_FILE_DIR}/CardDefsCompiler\"\nRESOURCES=\"${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"\n\nmkdir -p \"${DERIVED_FILE_DIR}\" \"${RESOURCES}\"\n\nrebuild=0\n[ -x \"$TOOL\" ] || rebuild=1\nfor src in $SOURCES; do\n    [ \"$src\" -nt \"$TOOL\" ] && rebuild=1\ndone\nif [ $rebuild -eq 1 ]; then\n    echo \"Building CardDefsCompiler\"\n    xcrun --sdk macosx swiftc -O -swift-version 5 -o \"$TOOL\" $SOURCES\nfi\n\n\"$TOOL\" \"${BUILT_PRODUCTS_DIR}/CardDefs.xml\" \"${RESOURCES}/CardDefs.bin\"\n";
+			showEnvVarsInLog = 0;
 		};
 		B86F2153255DBFFC008D522A /* Download cards XML */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -5314,11 +5323,11 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/Resources/Cards/CardDefs.xml",
+				"$(BUILT_PRODUCTS_DIR)/CardDefs.xml",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "VERSION=$(cat $SRCROOT/HSTracker/cards-version.txt)\n\nLOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"/Resources/Cards\nmkdir -p \"${LOCATION}\"\n\nCARDDEFS=\"https://github.com/HearthSim/hsdata/raw\"\n\necho \"Downloading CardDefs.xml\"\ncurl -L -z \"${LOCATION}/CardDefs.xml\" -o \"${LOCATION}/CardDefs.xml\" \"$CARDDEFS/$VERSION/CardDefs.xml\"\n";
+			shellScript = "VERSION=$(cat $SRCROOT/HSTracker/cards-version.txt)\n\n# The XML is a build input only - \"Compile CardDefs\" turns it into the\n# CardDefs.bin the app actually reads - so stage it next to the app rather\n# than inside it.\nLOCATION=\"${BUILT_PRODUCTS_DIR}\"\nmkdir -p \"${LOCATION}\"\n\nCARDDEFS=\"https://github.com/HearthSim/hsdata/raw\"\n\necho \"Downloading CardDefs.xml\"\ncurl -L -z \"${LOCATION}/CardDefs.xml\" -o \"${LOCATION}/CardDefs.xml\" \"$CARDDEFS/$VERSION/CardDefs.xml\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B8D8859B24F4333000F2F0F2 /* Download BobsBuddy and HearthDb */ = {
@@ -5660,6 +5669,7 @@
 				B8B790122C974F0F00DD33EC /* SpeakerStomperEnchantment.swift in Sources */,
 				B854621C2CDEBBC40083BB31 /* VoroneiRecruiter.swift in Sources */,
 				439C7E8D1C777D1C00D29859 /* Database.swift in Sources */,
+				B8CD01012FA0000000CD0101 /* CardDefsBinary.swift in Sources */,
 				B8AB599A2744145B00383EC8 /* Collection.swift in Sources */,
 				B86D8A002D95F3A700AB65A5 /* FinjaTheFlyingStar.swift in Sources */,
 				B82029492CD2D2C200C19A8C /* ForebodingFlameEnchantment.swift in Sources */,
@@ -6576,6 +6586,7 @@
 				43C1CA111E96CD6F008C20B1 /* GameStats.swift in Sources */,
 				43C1CA121E96CD6F008C20B1 /* ServerInfo.swift in Sources */,
 				43C1CA131E96CD6F008C20B1 /* Database.swift in Sources */,
+				B8CD01022FA0000000CD0102 /* CardDefsBinary.swift in Sources */,
 				43C1CA151E96CD6F008C20B1 /* Cards.swift in Sources */,
 				43C1CA161E96CD6F008C20B1 /* Language.swift in Sources */,
 				B8643D0F2759828F00B2D708 /* Account.swift in Sources */,

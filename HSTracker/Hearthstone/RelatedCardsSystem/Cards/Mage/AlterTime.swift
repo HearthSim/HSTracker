@@ -15,7 +15,7 @@ class AlterTime: ICardGenerator {
         card.type == .spell &&
         card.isClass(cardClass: .mage) &&
         card.spellSchool == .arcane &&
-        (CardSet.wildSets().contains(card.set ?? .invalid) || CardSet.classicSets().contains(card.set ?? .invalid))
+        (CardSet.wildSets.contains(card.set ?? .invalid) || CardSet.classicSets.contains(card.set ?? .invalid))
     }
 
     func isInGeneratorPool(_ card: MultiIdCard, _ gameMode: GameType, _ format: FormatType) -> Bool {

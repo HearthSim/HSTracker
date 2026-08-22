@@ -155,20 +155,20 @@ class Deck: Object {
 
     func standardViable() -> Bool {
         return !isArena && !sortedCards.any {
-            $0.set != nil && CardSet.wildSets().contains($0.set!)
+            $0.set != nil && CardSet.wildSets.contains($0.set!)
         }
     }
 
     var isWildDeck: Bool {
-        return sortedCards.any { CardSet.wildSets().contains($0.set ?? .invalid) }
+        return sortedCards.any { CardSet.wildSets.contains($0.set ?? .invalid) }
     }
     
     var isClassicDeck: Bool {
-        return sortedCards.all { CardSet.classicSets().contains($0.set ?? .invalid) }
+        return sortedCards.all { CardSet.classicSets.contains($0.set ?? .invalid) }
     }
     
     var isTwistDeck: Bool {
-        return sortedCards.all { CardSet.twistSets().contains($0.set ?? .invalid) && !$0.isNeutral() }
+        return sortedCards.all { CardSet.twistSets.contains($0.set ?? .invalid) && !$0.isNeutral() }
     }
     
     func guessFormatType() -> FormatType {
