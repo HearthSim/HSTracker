@@ -175,6 +175,7 @@ class RootOverlayWindow: OverWindowController {
                     overlayWindow.convertToScreen($0.convert($0.bounds, to: nil))
                 }
                 CardTooltipPanel.shared.show(cardId: match.cardId, showTriple: match.showTriple,
+                                             baconTriple: match.baconTriple,
                                              placement: match.placement,
                                              anchor: anchor, bounds: overlayWindow.frame)
             }

@@ -190,8 +190,10 @@ struct BattlegroundsMinionArtView: View {
         // CardImageTooltip.swift.
         .scaleEffect(isHovering ? 1.05 : 1.0)
         .trackHover { hovering in isHovering = hovering }
+        // HDT sets BaconTriple = premium on the card it hands the tooltip; a
+        // golden minion's render is only published under "<id>_triple".
         .cardImageTooltip(cardId: minion.card.id, showTriple: minion.showTriple,
-                          placement: minion.tooltipPlacement)
+                          baconTriple: minion.isPremium, placement: minion.tooltipPlacement)
     }
 
     // Tier badge using the tier-N.png assets in

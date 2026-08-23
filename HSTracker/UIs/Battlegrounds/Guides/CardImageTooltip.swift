@@ -47,6 +47,11 @@ final class CardHoverNSView: NSView {
     // HDT's ShowTripleTooltip. False suppresses the golden companion image -
     // see BattlegroundsMinionArt.showTriple.
     private(set) var showTriple: Bool = true
+    // HDT's Card.BaconTriple, which its cardImageDownloader URL formula appends
+    // "_triple" for. The golden card's own art is only published under that
+    // suffix - bgs/.../BG20_100_G.png is a 404, bgs/.../BG20_100_G_triple.png
+    // is a 200 - so a golden minion whose id is requested bare renders nothing.
+    private(set) var baconTriple: Bool = false
     private(set) var placement: CardTooltipPlacement = .right
 
     // Match NSHostingView's own flip so NSView.convert() coordinate conversions
@@ -61,10 +66,12 @@ final class CardHoverNSView: NSView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func update(cardId: String, showTriple: Bool, placement: CardTooltipPlacement) {
-        guard cardId != self.cardId || showTriple != self.showTriple || placement != self.placement else { return }
+    func update(cardId: String, showTriple: Bool, baconTriple: Bool, placement: CardTooltipPlacement) {
+        guard cardId != self.cardId || showTriple != self.showTriple
+                || baconTriple != self.baconTriple || placement != self.placement else { return }
         self.cardId = cardId
         self.showTriple = showTriple
+        self.baconTriple = baconTriple
         self.placement = placement
         if window != nil {
             CardHoverRegistry.shared.register(self)
@@ -93,6 +100,7 @@ class CardHoverRegistry {
     struct Entry {
         let cardId: String
         let showTriple: Bool
+        let baconTriple: Bool
         let placement: CardTooltipPlacement
         weak var view: CardHoverNSView?
     }
@@ -102,7 +110,8 @@ class CardHoverRegistry {
     func register(_ view: CardHoverNSView) {
         entries.removeAll { $0.view == nil || $0.view === view }
         guard !view.cardId.isEmpty else { return }
-        entries.append(Entry(cardId: view.cardId, showTriple: view.showTriple, placement: view.placement, view: view))
+        entries.append(Entry(cardId: view.cardId, showTriple: view.showTriple,
+                             baconTriple: view.baconTriple, placement: view.placement, view: view))
     }
 
     func unregister(_ view: CardHoverNSView) {
@@ -114,6 +123,7 @@ class CardHoverRegistry {
 private struct CardHoverRepresentable: NSViewRepresentable {
     let cardId: String
     let showTriple: Bool
+    let baconTriple: Bool
     let placement: CardTooltipPlacement
 
     func makeNSView(context: Context) -> CardHoverNSView {
@@ -121,7 +131,7 @@ private struct CardHoverRepresentable: NSViewRepresentable {
     }
 
     func updateNSView(_ nsView: CardHoverNSView, context: Context) {
-        nsView.update(cardId: cardId, showTriple: showTriple, placement: placement)
+        nsView.update(cardId: cardId, showTriple: showTriple, baconTriple: baconTriple, placement: placement)
     }
 }
 
@@ -206,7 +216,7 @@ class CardTooltipPanel: NSPanel {
         }
     }
 
-    func show(cardId: String, showTriple: Bool = true,
+    func show(cardId: String, showTriple: Bool = true, baconTriple: Bool = false,
               placement: CardTooltipPlacement = .right,
               anchor: NSRect? = nil, bounds: NSRect? = nil) {
         // Stored rather than passed down: the golden art resolves later and the
@@ -282,7 +292,11 @@ class CardTooltipPanel: NSPanel {
 
             // Try BG art first (BG cards); fall back to the standard render
             // (collectible cards referenced in guide text like Sonya Shadowdancer).
-            ImageUtils.cardArtBG(for: cardId, baconTriple: false) { [weak self] img in
+            // baconTriple mirrors HDT's URL formula:
+            //   .../{BaconCard ? "bgs" : "render"}/latest/{lang}/{size}/{Id}{BaconTriple ? "_triple" : ""}.png
+            // The Inspiration board's premium minions arrive as the golden card,
+            // whose art only exists under the suffixed name.
+            ImageUtils.cardArtBG(for: cardId, baconTriple: baconTriple) { [weak self] img in
                 if let img = img {
                     DispatchQueue.main.async {
                         guard let self = self, self.currentCardId == cardId else { return }
@@ -522,11 +536,13 @@ extension View {
 private struct CardImageTooltipModifier: ViewModifier {
     let cardId: String?
     let showTriple: Bool
+    let baconTriple: Bool
     let placement: CardTooltipPlacement
 
     func body(content: Content) -> some View {
         if let cardId = cardId {
-            content.background(CardHoverRepresentable(cardId: cardId, showTriple: showTriple, placement: placement))
+            content.background(CardHoverRepresentable(cardId: cardId, showTriple: showTriple,
+                                                      baconTriple: baconTriple, placement: placement))
         } else {
             content
         }
@@ -535,8 +551,9 @@ private struct CardImageTooltipModifier: ViewModifier {
 
 @available(macOS 10.15, *)
 extension View {
-    func cardImageTooltip(cardId: String?, showTriple: Bool = true,
+    func cardImageTooltip(cardId: String?, showTriple: Bool = true, baconTriple: Bool = false,
                           placement: CardTooltipPlacement = .right) -> some View {
-        modifier(CardImageTooltipModifier(cardId: cardId, showTriple: showTriple, placement: placement))
+        modifier(CardImageTooltipModifier(cardId: cardId, showTriple: showTriple,
+                                          baconTriple: baconTriple, placement: placement))
     }
 }
