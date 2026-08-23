@@ -58,27 +58,16 @@ struct GuidesTabsView: View {
                 }
             }
             .frame(width: Self.width)
-            // Top/right/bottom only - a full 4-sided stroke put an unwanted
-            // seam down the left edge, most noticeable against the tab strip
-            // and tier strip's flat backgrounds.
-            //
-            // Stand-alone has no outer border at all: the tier strip carries its
-            // own left edge and each card group is already boxed, which is how
-            // HDT's BattlegroundsMinions looks without the tabs around it.
-            .overlay(standAloneBorder)
+            // No panel-level border: HDT has none either. The outline is drawn
+            // piece by piece - the tab buttons and each content root carry
+            // their own left/bottom edges (see GuidesPanelBorder), which line
+            // up into one continuous left edge down the column.
             .fixedSize(horizontal: false, vertical: true)
             .background(
                 GeometryReader { proxy in
                     Color.clear.preference(key: InteractiveRegionPreferenceKey.self, value: [proxy.frame(in: .rootOverlayCanvas)])
                 }
             )
-        }
-    }
-
-    @ViewBuilder
-    private var standAloneBorder: some View {
-        if !viewModel.isStandAlone {
-            ThreeSidedBorder().stroke(Color(hex: "#3f4346"), lineWidth: 1)
         }
     }
 
@@ -152,7 +141,7 @@ struct GuidesTabsView: View {
             // Heroes tab template (HeroGuide + QuestGuide as separate
             // UserControls, not one shared scroll region).
             VStack(spacing: 0) {
-                HeroGuideView(viewModel: heroGuides)
+                HeroGuideView(viewModel: heroGuides, hasQuests: questGuides.hasQuests)
                 QuestGuideView(viewModel: questGuides)
             }
         case .minions:
@@ -192,8 +181,12 @@ private struct GuidesTabButton: View {
                     .frame(width: iconSize.width, height: iconSize.height)
             }
             .frame(width: Self.buttonWidth, height: Self.buttonHeight)
-            // HDT's active button drops its bottom border, since it sits
-            // flush against the content panel below (same #23272A bg).
+            // BorderThickness "1,0,0,1", dropping to "1,0,0,0" on the active
+            // tab: the left edge is drawn on every button - including the
+            // leftmost, whose line separates the strip from the turn counter
+            // beside it - while the bottom edge is dropped on the active tab,
+            // which sits flush against the content panel below (same #23272A).
+            .overlay(leftBorder, alignment: .leading)
             .overlay(bottomBorder, alignment: .bottom)
             // See CompGuideRow's identical fix: without this, hover/
             // click hit-testing can end up scoped to the icon's own
@@ -213,6 +206,10 @@ private struct GuidesTabButton: View {
         return isHovering ? Color(hex: "#2C3135") : Color(hex: "#141617")
     }
 
+    private var leftBorder: some View {
+        Rectangle().frame(width: 1).foregroundColor(Color(hex: "#3f4346"))
+    }
+
     @ViewBuilder
     private var bottomBorder: some View {
         if !isActive {
@@ -221,16 +218,65 @@ private struct GuidesTabButton: View {
     }
 }
 
-// Outline stroke omitting the left edge - see GuidesTabsView.body's outer
-// overlay for why (a full 4-sided stroke left an unwanted seam on the left).
+// MARK: - Panel outline
+//
+// HDT never frames the guides column as a whole - every piece draws its own
+// edges, all in #3f4346: GuidesTabs.xaml's buttons at BorderThickness
+// "1,0,0,1", and each content root (CompGuideList, HeroGuide, QuestGuide, and
+// BattlegroundsMinions' tier strip) at "1,0,0,1" with CornerRadius "0,0,0,3".
+// Stacked, those left edges read as one line running the height of the column,
+// closed off by a bottom edge with a rounded bottom-left corner.
+//
+// Nothing draws a top or right edge: the column is flush against the top-right
+// corner of the game window, where neither would be visible.
+//
+// The Minions tab deliberately stops the left edge at the tier strip - the card
+// groups below it are right-aligned 196pt boxes with transparent gaps between
+// them, so HDT carries no line down past the strip. That is why this is applied
+// per content view rather than once around the whole panel.
 @available(macOS 10.15, *)
-private struct ThreeSidedBorder: Shape {
+struct GuidesPanelBorder: Shape {
+    // Whether this panel ends the column. HDT drops CornerRadius to 0 on a
+    // panel that has another bordered one below it (HeroGuide once quests are
+    // showing) - the rounded corner belongs to whichever panel ends the column.
+    var isBottomRounded = true
+
+    private static let cornerRadius: CGFloat = 3
+
     func path(in rect: CGRect) -> Path {
+        // Half a point in from each edge, matching TierStripBorder: the stroke
+        // then lands inside the panel instead of straddling its bounds, so it
+        // lines up with the tab strip's separators rather than sitting half a
+        // point off them.
+        let left = rect.minX + 0.5
+        let bottom = rect.maxY - 0.5
+        let radius = isBottomRounded ? Self.cornerRadius : 0
+
         var path = Path()
-        path.move(to: CGPoint(x: rect.minX, y: rect.minY))
-        path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY))
-        path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
-        path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY))
+        path.move(to: CGPoint(x: left, y: rect.minY))
+        path.addLine(to: CGPoint(x: left, y: bottom - radius))
+        if radius > 0 {
+            path.addQuadCurve(
+                to: CGPoint(x: left + radius, y: bottom),
+                control: CGPoint(x: left, y: bottom)
+            )
+        }
+        path.addLine(to: CGPoint(x: rect.maxX, y: bottom))
         return path
+    }
+}
+
+@available(macOS 10.15, *)
+extension View {
+    /// HDT's "1,0,0,1" / #3f4346 / "0,0,0,3" content-root border - see GuidesPanelBorder.
+    func guidesPanelBorder(isBottomRounded: Bool = true) -> some View {
+        // maxWidth so the edges span the full 249pt panel even when the content
+        // itself measures narrower - GuidesTabsView.tabContent centres content
+        // in the panel width, which would otherwise inset the border with it.
+        frame(maxWidth: .infinity)
+            .overlay(
+                GuidesPanelBorder(isBottomRounded: isBottomRounded)
+                    .stroke(Color(hex: "#3f4346"), lineWidth: 1)
+            )
     }
 }

@@ -55,6 +55,10 @@ struct CompGuideDetailView: View {
         }
         .padding(9)
         .background(Color(hex: "#292d30"))
+        // The detail panel lives inside CompGuideList.xaml's root Border in
+        // HDT (one Border around both the list and the detail Grid), so it
+        // carries the same "1,0,0,1" / "0,0,0,3" edge as the list does.
+        .guidesPanelBorder()
     }
 
     private var backButton: some View {

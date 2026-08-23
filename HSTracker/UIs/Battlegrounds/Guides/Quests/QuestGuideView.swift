@@ -25,7 +25,11 @@ struct QuestGuideView: View {
                 }
             }
             .background(Color(hex: "#23272A"))
-            .overlay(RoundedRectangle(cornerRadius: 0).stroke(Color(hex: "#3f4346"), lineWidth: 1))
+            // QuestGuide.xaml's root Border is "1,0,0,1" / "0,0,0,3" - left and
+            // bottom only, not the 4-sided stroke this used to draw. It always
+            // ends the Heroes tab, so it keeps the rounded corner; the line
+            // above it is HeroGuideView's own bottom edge.
+            .guidesPanelBorder()
         }
     }
 

@@ -20,6 +20,9 @@ struct CompGuideListView: View {
             content
         }
         .padding(9)
+        // CompGuideList.xaml's root Border: BorderThickness "1,0,0,1",
+        // BorderBrush "#3f4346", CornerRadius "0,0,0,3", Padding 9.
+        .guidesPanelBorder()
     }
 
     private var header: some View {

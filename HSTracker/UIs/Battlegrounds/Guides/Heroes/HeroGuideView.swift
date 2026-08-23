@@ -12,6 +12,10 @@ import SwiftUI
 @available(macOS 10.15, *)
 struct HeroGuideView: View {
     @ObservedObject var viewModel: BattlegroundsHeroGuidesViewModel
+    // HeroGuide.xaml's DataTrigger on HasQuests, which only changes the root
+    // Border's CornerRadius: with QuestGuide stacked below, the rounded
+    // bottom-left corner moves down to that panel and this one goes square.
+    let hasQuests: Bool
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -39,6 +43,10 @@ struct HeroGuideView: View {
             }
         }
         .padding(9)
+        // HeroGuide.xaml's root Border: BorderThickness "1,0,0,1", BorderBrush
+        // "#3f4346", Padding 9. Its bottom edge is also what separates this
+        // panel from QuestGuideView below it - that view draws no top edge.
+        .guidesPanelBorder(isBottomRounded: !hasQuests)
     }
 
     private func header(_ hero: BattlegroundsHeroGuideViewModel) -> some View {
