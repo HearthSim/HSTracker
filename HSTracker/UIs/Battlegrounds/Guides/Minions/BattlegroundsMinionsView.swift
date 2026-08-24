@@ -21,6 +21,13 @@ struct BattlegroundsMinionsView: View {
     /// DataTrigger in BattlegroundsMinions.xaml.
     var isStandAlone = false
 
+    // Shared across every row in every group so only one row can ever read as
+    // "hovered" at a time - see RowHoverCoordinator in BattlegroundsCardsGroupView.swift.
+    // Held via @SwiftUI.State (not @StateObject, since this file's SwiftUI code
+    // targets macOS 10.15) so the instance survives this view struct being
+    // recreated on every parent update.
+    @SwiftUI.State private var rowHover = RowHoverCoordinator()
+
     // HDT's TierButton style: Padding="9" all round, or "5,6,5,5" stand-alone.
     private var horizontalPadding: CGFloat { isStandAlone ? 5 : 9 }
     private var stripPadding: EdgeInsets {
@@ -69,7 +76,7 @@ struct BattlegroundsMinionsView: View {
                 // as well as between groups.
                 VStack(spacing: 0) {
                     ForEach(viewModel.groups) { group in
-                        BattlegroundsCardsGroupView(group: group, pinning: pinning) { race in
+                        BattlegroundsCardsGroupView(group: group, pinning: pinning, rowHover: rowHover) { race in
                             viewModel.selectTribe(race)
                         }
                     }

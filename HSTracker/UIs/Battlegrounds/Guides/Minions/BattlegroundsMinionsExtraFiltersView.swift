@@ -278,13 +278,19 @@ struct BattlegroundsMinionTypeButton: View {
                 .fill(Color(hex: "#141617"))
                 .overlay(RoundedRectangle(cornerRadius: 1).stroke(Color(hex: "#4A5256"), lineWidth: 1))
                 .overlay(
-                    // Viewbox Stretch="Uniform" StretchDirection="DownOnly":
-                    // long type names shrink to fit, short ones stay at 10pt.
+                    // Viewbox Stretch="Uniform" StretchDirection="DownOnly"
+                    // Margin="2,1" around a 10pt TextBlock: short type names stay
+                    // at 10pt, long ones shrink as far as they have to. A Viewbox
+                    // has no lower bound, so neither can this - a 0.5 floor left
+                    // "ELEMENTAL" (which needs ~0.45 in the plate's 28pt of usable
+                    // width) truncating to "ELEMENT..." instead. The floor here is
+                    // 1pt out of 10, matching where HDT's OutlinedTextBlock
+                    // terminates its own shrink loop.
                     Text(button.minionType.buttonLabel)
                         .font(.system(size: 10))
                         .foregroundColor(Color(hex: "#dcddde"))
                         .lineLimit(1)
-                        .minimumScaleFactor(0.5)
+                        .minimumScaleFactor(1.0 / 10.0)
                         .padding(.horizontal, 2)
                 )
                 .opacity(iconOpacity)

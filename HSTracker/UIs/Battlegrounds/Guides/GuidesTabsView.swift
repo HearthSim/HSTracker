@@ -71,6 +71,34 @@ struct GuidesTabsView: View {
         }
     }
 
+    // Ports OverlayWindow.Update's cap on the browser's height:
+    //
+    //   TabsContent.MaxHeight        = max(0, (H - 54 + buttonSpace) * 0.95 / scaling - pinningHeight)
+    //   BattlegroundsMinions.MaxHeight = max(0, (H      + buttonSpace) * 0.95 / scaling - pinningHeight)
+    //
+    // with buttonSpace = 20 and pinningHeight = the Tavern Pinning control's
+    // rendered height, both only while that panel is up. The two forms differ by
+    // the 54pt the tab strip occupies, which stand-alone mode does not have.
+    //
+    // Every term matters, and the 0.95 most of all: it is a 5% bottom margin,
+    // and it is what actually produces clearance. At 1080 the content bottom
+    // lands at 49 + (1080 - 34) * 0.95 - h = 1042.7 - h against a cluster top of
+    // 1080 - h, i.e. 37pt clear. Keeping the old `1080 - 49` base and only
+    // subtracting the pinning height leaves the browser 20pt *into* the panel -
+    // the +20 give-back is not clearance, it is a partial refund of the 54pt
+    // button row.
+    //
+    // The one thing not reproduced: HDT subtracts its constants in window pixels
+    // before dividing by the top bar's AutoScaling, which is clamped to
+    // [0.8, 1.3], where this canvas scales uniformly by Height/1080. The two
+    // agree exactly at 1080 and drift by a few points at the extremes.
+    private var contentMaxHeight: CGFloat {
+        let buttonSpace: CGFloat = minionPinning.isShown ? 20 : 0
+        let pinningHeight: CGFloat = minionPinning.isShown ? minionPinning.panelHeight : 0
+        let tabStripAllowance: CGFloat = viewModel.isStandAlone ? 0 : 54
+        return max(0, (1080 - tabStripAllowance + buttonSpace) * 0.95 - pinningHeight)
+    }
+
     @ViewBuilder
     private func tabContent(_ activeTab: GuidesTab) -> some View {
         content(for: activeTab)
@@ -80,9 +108,9 @@ struct GuidesTabsView: View {
                         // this 249pt panel), which pushed the tab strip 7.5pt off
                         // centre and spilled rows past the border drawn below.
                         .frame(width: Self.width)
-                        // Cap at (canvas height − tab strip) so the panel grows to
-                        // fill the window bottom for long lists while still shrinking
-                        // for short ones (fixedSize below handles the shrink side).
+                        // Cap so the panel grows toward the window bottom for long
+                        // lists while still shrinking for short ones (fixedSize
+                        // below handles the shrink side) - see contentMaxHeight.
                         //
                         // alignment: .top is required, not cosmetic: with the
                         // default .center, content shorter than this box gets
@@ -91,7 +119,7 @@ struct GuidesTabsView: View {
                         // row measured 7.5pt below the tab strip instead of flush
                         // against it, exposing the transparent game board through
                         // the gap. Pinning to .top keeps it flush in every state.
-                        .frame(maxHeight: 1080 - 49, alignment: .top)
+                        .frame(maxHeight: contentMaxHeight, alignment: .top)
                         // Minions content manages its own per-group backgrounds so the
                         // gaps between groups are transparent (showing the game window).
                         // Comps and Heroes content views need the panel fill.

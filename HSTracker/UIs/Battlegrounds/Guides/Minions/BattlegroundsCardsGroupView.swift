@@ -21,6 +21,8 @@ struct BattlegroundsCardsGroupView: View {
     // unconditionally; whether the button actually shows is the pinning feature's
     // own visibility, which is what this carries down.
     @ObservedObject var pinning: BattlegroundsMinionPinningViewModel
+    // Shared across every group's rows - see RowHoverCoordinator below.
+    @ObservedObject var rowHover: RowHoverCoordinator
     let onTribeSelected: ((Race) -> Void)?
 
     // Width="196" on the XAML's outer Border. Narrower than the 249pt panel on
@@ -56,7 +58,8 @@ struct BattlegroundsCardsGroupView: View {
                 // tavern spells do not.
                 MinionCardRow(card: card,
                               showInspiration: group.isInspirationEnabled && card.type == .minion,
-                              pinning: pinning)
+                              pinning: pinning,
+                              rowHover: rowHover)
             }
         }
         .frame(width: Self.width)
@@ -190,6 +193,26 @@ struct BattlegroundsCardsGroupView: View {
     }
 }
 
+// MARK: - Row hover coordination
+//
+// HoverTrackingNSView's mouseEntered/mouseExited pair is delivered per row via
+// its own NSTrackingArea. When Hearthstone (not HSTracker) has focus, AppKit's
+// event delivery to this background overlay window can be throttled enough
+// that a mouseExited for the row the cursor just left arrives after (or is
+// dropped relative to) the mouseEntered for the row it just entered - so two
+// independent per-row booleans could each read true at once, showing the
+// pin/inspiration icons stacked on more than one row.
+//
+// Routing every row's hover through one shared "currently hovered row" value
+// makes that structurally impossible: an entered event always claims the ID
+// outright, so only the most recently entered row can ever compare equal, no
+// matter what order events actually arrive in. A lost exited event just means
+// a row stays highlighted a little longer, not that two rows highlight at once.
+@available(macOS 10.15, *)
+final class RowHoverCoordinator: ObservableObject {
+    @Published fileprivate var hoveredRowID: UUID?
+}
+
 // MARK: - Tracker-style card row (SwiftUI port of CardBar isBattlegrounds=true)
 //
 // Replicates CardBar.draw() visual at kRowHeight (34 pt), omitting the
@@ -212,11 +235,16 @@ struct MinionCardRow: View {
     // AnimatedCard.Update's showTier7InspirationBtn.
     let showInspiration: Bool
     @ObservedObject var pinning: BattlegroundsMinionPinningViewModel
+    @ObservedObject var rowHover: RowHoverCoordinator
 
     @SwiftUI.State private var tile: NSImage?
-    @SwiftUI.State private var isRowHovering = false
+    // Stable per-row identity for rowHover.hoveredRowID - created once and kept
+    // for the row view's lifetime, same as the @State it replaces.
+    @SwiftUI.State private var rowID = UUID()
     @SwiftUI.State private var isButtonHovering = false
     @SwiftUI.State private var isPinButtonHovering = false
+
+    private var isRowHovering: Bool { rowHover.hoveredRowID == rowID }
 
     private static let rowH: CGFloat = CGFloat(kRowHeight)   // 34 pt
     private static let nameX: CGFloat = 8
@@ -290,7 +318,11 @@ struct MinionCardRow: View {
         // inspiration button to show.
         .trackHover { hovering in
             withAnimation(Self.buttonAnimation(hovering)) {
-                isRowHovering = hovering
+                if hovering {
+                    rowHover.hoveredRowID = rowID
+                } else if rowHover.hoveredRowID == rowID {
+                    rowHover.hoveredRowID = nil
+                }
             }
         }
         .onAppear(perform: loadTile)

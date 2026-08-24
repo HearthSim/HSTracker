@@ -118,6 +118,23 @@ final class BattlegroundsMinionPinningViewModel: ObservableObject {
         isQuickCompGuideVisible || isAutoEnableMessageVisible
     }
 
+    // The rendered height of the panel-plus-buttons cluster, in canvas units.
+    //
+    // HDT reads BattlegroundsMinionPinningControl.ActualHeight straight off the
+    // control every overlay tick and subtracts it from the minion browser's
+    // MaxHeight, so the browser stops above this panel instead of running under
+    // it (OverlayWindow.Update). SwiftUI has no equivalent of reaching into a
+    // sibling view's frame, so the view measures itself and publishes it here
+    // and GuidesTabsView reads it back.
+    @Published private(set) var panelHeight: CGFloat = 0
+
+    func updatePanelHeight(_ height: CGFloat) {
+        // Guarded: this is fed from a layout measurement, and republishing an
+        // unchanged value would re-enter layout every frame.
+        guard abs(panelHeight - height) > 0.5 else { return }
+        panelHeight = height
+    }
+
     // HDT's IsOnTrial: true for anyone who does not own Tier7 outright, which
     // is what puts the "Tier7 Feature" tag in the panel header. Note this is
     // *not* the gate on the feature itself - see updateVisibility.

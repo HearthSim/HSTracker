@@ -17,6 +17,16 @@ import SwiftUI
 // bottom-trailing, matching the XAML: HDT puts the control in a canvas-sized
 // Grid with a LayoutTransform of Height/1080, which is exactly what
 // RootOverlayView's scaled subtree already provides.
+// Reports the rendered height of the Tavern Pinning cluster so the minion
+// browser can shorten itself by exactly that much.
+@available(macOS 10.15, *)
+struct PinningPanelHeightKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = max(value, nextValue())
+    }
+}
+
 @available(macOS 10.15, *)
 struct BattlegroundsMinionPinningView: View {
     @ObservedObject var viewModel: BattlegroundsMinionPinningViewModel
@@ -53,6 +63,16 @@ struct BattlegroundsMinionPinningView: View {
                         .padding(.trailing, Self.expandButtonInset)
                 }
                 .reportInteractiveRegion(when: true)
+                // Measured so the minion browser can stop above this cluster
+                // rather than running under it - see the view model's
+                // panelHeight and GuidesTabsView's pinningClearance. HDT reads
+                // the equivalent off the control directly.
+                .background(
+                    GeometryReader { proxy in
+                        Color.clear.preference(key: PinningPanelHeightKey.self,
+                                               value: proxy.size.height)
+                    }
+                )
                 // Panel_MouseEnter / Panel_MouseLeave: the help and settings
                 // buttons in the header only appear while the cursor is on the
                 // panel. HDT hooks this on the panel Border itself; hooking the
@@ -68,6 +88,9 @@ struct BattlegroundsMinionPinningView: View {
                     .reportInteractiveRegion(when: viewModel.isCompGuidesMarkerPanelVisible)
             }
             .frame(width: canvasWidth, height: 1080)
+            .onPreferenceChange(PinningPanelHeightKey.self) { height in
+                viewModel.updatePanelHeight(height)
+            }
         }
     }
 
@@ -568,66 +591,76 @@ private struct PinnedSlotView: View {
     let action: () -> Void
 
     @SwiftUI.State private var isHovering = false
-    @SwiftUI.State private var art: NSImage?
 
-    private static let size: CGFloat = 42
+    fileprivate static let size: CGFloat = 42
 
+    // The clip here is deliberately *partial*, mirroring the XAML: the outer
+    // Border carries ClipToBounds="False" and only the inner art Grid clips
+    // (ClipToBounds="True" plus an OpacityMask keyed to CellBorder). The tier
+    // badge is a sibling of that Grid, not a child, which is what lets it
+    // overhang the cell's top edge by 8pt. Clipping the whole cell instead -
+    // the obvious SwiftUI spelling, since .cornerRadius() is .clipShape() -
+    // sheared the top off every badge.
+    //
+    // Draw order follows the XAML's Panel.ZIndex: art (0), badge (5), the
+    // hover "unpin" X (10).
     var body: some View {
         Button(action: action) {
             ZStack {
-                if slot.isClearButton {
-                    clearContent
-                } else {
-                    cardContent
+                clippedCell
+
+                if slot.hasCard {
+                    // Viewbox Width/Height 21 Margin="0,-8,0,0" at the top.
+                    MinionsViewTierBadge(tier: slot.tier, badgeSize: 21)
+                        .opacity(0.95)
+                        .frame(maxHeight: .infinity, alignment: .top)
+                        .offset(y: -8)
+
+                    // Hovering a pinned card previews the unpin, the same tier-x
+                    // affordance the browser's tier badges use. Cell-sized, so
+                    // whether it is clipped makes no difference - it sits out
+                    // here only to keep the ZIndex order.
+                    if isHovering, let tierX = MinionsFilterImages.tierX {
+                        Image(nsImage: tierX)
+                            .resizable()
+                            .frame(width: Self.size, height: Self.size)
+                    }
                 }
             }
             .frame(width: Self.size, height: Self.size)
-            .background(Color(hex: slot.isClearButton ? "#2E3235" : "#1e2124"))
-            .cornerRadius(3)
-            .overlay(
-                RoundedRectangle(cornerRadius: 3)
-                    .stroke(Color(hex: isHovering ? "#22FFFFFF" : "#141617"), lineWidth: 2)
-            )
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
         .onHover { hovering in isHovering = hovering }
-        .onAppear(perform: loadArt)
     }
 
-    // Image Stretch="UniformToFill" Width/Height 80 pulled up by 10 inside the
-    // 42pt cell, so the portrait's face rather than its centre shows.
-    @ViewBuilder
-    private var cardContent: some View {
+    // Everything that lives *inside* the rounded cell: the fill, the portrait,
+    // and the Clear glyph. This is the part HDT clips.
+    private var clippedCell: some View {
         ZStack {
-            if let art {
-                Image(nsImage: art)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 80, height: 80)
-                    .offset(y: -10)
-                    .frame(width: Self.size, height: Self.size, alignment: .top)
-                    .clipped()
-            }
-
-            if slot.hasCard {
-                // Viewbox Width/Height 21 Margin="0,-8,0,0" at the top: the tier
-                // badge overhangs the cell's top edge.
-                MinionsViewTierBadge(tier: slot.tier, badgeSize: 21)
-                    .opacity(0.95)
-                    .frame(maxHeight: .infinity, alignment: .top)
-                    .offset(y: -8)
-
-                // Hovering a pinned card previews the unpin, the same tier-x
-                // affordance the browser's tier badges use.
-                if isHovering, let tierX = MinionsFilterImages.tierX {
-                    Image(nsImage: tierX)
-                        .resizable()
-                        .frame(width: Self.size, height: Self.size)
-                }
+            Color(hex: slot.isClearButton ? "#2E3235" : "#1e2124")
+            if slot.isClearButton {
+                clearContent
+            } else {
+                portrait
             }
         }
         .frame(width: Self.size, height: Self.size)
+        .cornerRadius(3)
+        .overlay(
+            RoundedRectangle(cornerRadius: 3)
+                .stroke(Color(hex: isHovering ? "#22FFFFFF" : "#141617"), lineWidth: 2)
+        )
+    }
+
+    // Keyed to the card, so it is recreated whenever the slot's card changes.
+    // See PinnedSlotArt for why that .id is load-bearing.
+    @ViewBuilder
+    private var portrait: some View {
+        if let cardId = slot.cardId {
+            PinnedSlotArt(cardId: cardId)
+                .id(cardId)
+        }
     }
 
     private var clearContent: some View {
@@ -637,9 +670,21 @@ private struct PinnedSlotView: View {
                     .resizable()
                     .frame(width: 28, height: 28)
             }
+            // Viewbox Margin="4,2" Stretch="Uniform" around a 10pt
+            // HearthstoneTextBlock. Same shrink-to-fit as the tribe name plates:
+            // "Clear" fits at 10pt in English, but the twelve shipped
+            // translations do not all fit the cell's 34pt of usable width.
+            //
+            // One half of the Viewbox is not reproduced: with no
+            // StretchDirection it defaults to Both, so HDT also scales *up* to
+            // fill. SwiftUI has no equivalent for a Text without a measuring
+            // wrapper, and only the shrink half prevents a visible defect.
             Text(String.localizedString("Clear", comment: ""))
                 .chunkFive(size: 10)
+                .lineLimit(1)
+                .minimumScaleFactor(1.0 / 10.0)
                 .outlinedText()
+                .padding(.horizontal, 4)
                 .frame(maxHeight: .infinity, alignment: .bottom)
                 .padding(.bottom, 2)
         }
@@ -647,8 +692,59 @@ private struct PinnedSlotView: View {
         .frame(width: Self.size, height: Self.size)
     }
 
-    private func loadArt() {
-        guard let cardId = slot.cardId else { return }
+}
+
+// The pinned card's portrait.
+//
+// This is its own view purely so the art load can hang off an identity that
+// tracks the *card* rather than the cell. PinnedSlot's id is its grid index, so
+// a cell keeps the same SwiftUI identity as pins come and go, and .onAppear
+// fires only once per identity - which, for the five cells the empty grid shows
+// before anything is pinned, is while they still have no card. Loading the art
+// from the cell's own onAppear therefore latched nil and never retried, leaving
+// every pinned slot blank. The `.id(cardId)` at the call site makes SwiftUI
+// build a fresh instance (fresh @State, fresh onAppear) per card.
+//
+// HDT gets this for free: PinnedSlotViewModel.CardId's setter rebuilds
+// CardAsset, so the asset is derived from the id rather than fetched once when
+// the cell is created.
+@available(macOS 10.15, *)
+private struct PinnedSlotArt: View {
+    let cardId: String
+
+    @SwiftUI.State private var art: NSImage?
+
+    // The cell-sized Color.clear is not decorative: .onAppear does not fire on a
+    // view whose content resolves to empty, so hanging the load off a bare
+    // `Group { if let art { ... } }` means the loader never runs at all while
+    // art is nil - i.e. never. Giving the view something that always occupies
+    // space is what makes the load happen (the same shape
+    // MulliganCardPortraitView uses, where the base is a Circle).
+    //
+    // Image Stretch="UniformToFill" Width/Height 80 pulled up by 10 inside the
+    // 42pt cell, so the portrait's face rather than its centre shows. The
+    // overlay is top-aligned because the 80pt image overflows the 42pt cell and
+    // the XAML pins it to the top before the clip takes the rest.
+    var body: some View {
+        Color.clear
+            .frame(width: PinnedSlotView.size, height: PinnedSlotView.size)
+            .overlay(portrait, alignment: .top)
+            .clipped()
+            .onAppear(perform: load)
+    }
+
+    @ViewBuilder
+    private var portrait: some View {
+        if let art {
+            Image(nsImage: art)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 80, height: 80)
+                .offset(y: -10)
+        }
+    }
+
+    private func load() {
         if let cached = ImageUtils.cachedArt(cardId: cardId) {
             art = cached
             return
