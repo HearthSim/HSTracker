@@ -52,6 +52,12 @@
             "state" : "translated",
             "value" : "Afficher les types de serviteurs"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示随从类型"
+          }
         }
       }
     },
@@ -66,6 +72,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bob's Buddy"
+          }
+        },
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bob's Buddy"
@@ -87,6 +99,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Afficher les stats de choix des babioles"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示饰品选择数据"
           }
         }
       }
@@ -232,6 +250,12 @@
             "state" : "translated",
             "value" : "Bannis"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "禁用"
+          }
         }
       }
     },
@@ -249,6 +273,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Afficher les Cris de guerre et Râles d'agonie sur les niveaux"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在等级上显示战吼和亡语"
           }
         }
       }
@@ -268,6 +298,12 @@
             "state" : "translated",
             "value" : "Toujours afficher le niveau 7 de taverne"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "始终显示酒馆等级 7"
+          }
         }
       }
     },
@@ -285,6 +321,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Activer l'overlay Tier7"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "启用等级 7 悬浮层"
           }
         }
       }
@@ -304,6 +346,12 @@
             "state" : "translated",
             "value" : "Réinitialiser la session"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重置会话"
+          }
         }
       }
     },
@@ -322,6 +370,12 @@
             "state" : "translated",
             "value" : "Afficher les stats de choix des héros de Champs de bataille"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示酒馆战棋英雄选择数据"
+          }
         }
       }
     },
@@ -339,6 +393,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Afficher les dernières parties"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示最近对局"
           }
         }
       }
@@ -472,6 +532,12 @@
             "state" : "translated",
             "value" : "Résumé de session"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "对局回顾"
+          }
         }
       }
     },
@@ -490,6 +556,12 @@
             "state" : "translated",
             "value" : "Tier7"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "等级 7"
+          }
         }
       }
     },
@@ -507,6 +579,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Départ, actuel"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "起始,当前"
           }
         }
       }
@@ -664,6 +742,12 @@
             "state" : "translated",
             "value" : "Afficher les stats de choix des quêtes de Champs de bataille"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示酒馆战棋任务选择数据"
+          }
         }
       }
     },
@@ -682,6 +766,12 @@
             "state" : "translated",
             "value" : "Afficher le MMR"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示 MMR"
+          }
         }
       }
     },
@@ -699,6 +789,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Échelle"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "缩放"
           }
         }
       }
@@ -808,6 +904,12 @@
             "state" : "translated",
             "value" : "Afficher les sorts de taverne"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示酒馆法术"
+          }
         }
       }
     },
@@ -825,6 +927,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Actuel, évolution"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当前,变化"
           }
         }
       }
@@ -934,6 +1042,12 @@
             "state" : "translated",
             "value" : "Afficher les stats de compositions (dans le résumé de session)"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示阵容数据(在对局回顾中)"
+          }
         }
       }
     },
@@ -951,6 +1065,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "100 %"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "100%"
           }
         }
       }
@@ -1048,6 +1168,12 @@
             "state" : "translated",
             "value" : "Disponibles"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可用"
+          }
         }
       }
     },
@@ -1066,6 +1192,12 @@
             "state" : "translated",
             "value" : "Afficher l'overlay du menu Tier7 (MMR et stats)"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示等级 7 菜单悬浮层(MMR 和数据)"
+          }
         }
       }
     },
@@ -1083,6 +1215,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Afficher le résumé de session"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示对局回顾"
           }
         }
       }

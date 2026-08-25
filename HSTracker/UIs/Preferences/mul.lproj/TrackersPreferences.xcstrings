@@ -352,6 +352,12 @@
             "state" : "translated",
             "value" : "遊戲進行中，能在所有桌面看見記牌器"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "游戏进行时,HSTracker 将在所有桌面可见"
+          }
         }
       }
     },
@@ -820,6 +826,12 @@
             "state" : "translated",
             "value" : "Activer le Mulligan Guide"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "启用起手指南"
+          }
         }
       }
     },
@@ -1215,6 +1227,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Enable Mulligan G-V2"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "启用起手指南 V2"
           }
         }
       }
@@ -1864,6 +1882,12 @@
             "state" : "translated",
             "value" : "Afficher la disponibilité sur l'écran de sélection des decks"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在卡组选择界面显示可用性"
+          }
         }
       }
     },
@@ -1971,6 +1995,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Afficher l'overlay de mulligan en début de partie"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "对局开始时显示起手悬浮层"
           }
         }
       }

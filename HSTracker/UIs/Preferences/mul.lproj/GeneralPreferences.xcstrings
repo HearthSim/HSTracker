@@ -508,6 +508,12 @@
             "state" : "translated",
             "value" : "目前視窗不是爐石戰記時才會顯示通知"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "仅当炉石传说不在前台时显示通知"
+          }
         }
       }
     },

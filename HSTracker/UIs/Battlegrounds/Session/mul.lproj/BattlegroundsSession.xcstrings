@@ -10,6 +10,12 @@
             "state" : "new",
             "value" : "No games played this session."
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本次会话没有进行对局。"
+          }
         }
       }
     },
@@ -292,6 +298,12 @@
             "state" : "new",
             "value" : "Hero"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "英雄"
+          }
         }
       }
     },
@@ -302,6 +314,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
+            "value" : "0"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "0"
           }
         }
@@ -315,6 +333,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Composition"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "阵容"
           }
         }
       }
@@ -596,6 +620,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
+            "value" : "MMR"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "MMR"
           }
         }
@@ -880,6 +910,12 @@
             "state" : "new",
             "value" : "Composition Stats"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "阵容数据"
+          }
         }
       }
     },
@@ -891,6 +927,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Latest Games"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最近对局"
           }
         }
       }
@@ -1186,6 +1228,12 @@
             "state" : "new",
             "value" : "Latest 10 games will appear here."
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最近 10 局对局将显示在这里。"
+          }
         }
       }
     },
@@ -1197,6 +1245,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Avg Place"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平均名次"
           }
         }
       }
@@ -1210,6 +1264,12 @@
             "state" : "new",
             "value" : "Waiting for next game"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "等待下一局"
+          }
         }
       }
     },
@@ -1221,6 +1281,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Waiting for next game"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "等待下一局"
           }
         }
       }
@@ -1234,6 +1300,12 @@
             "state" : "new",
             "value" : "Label A"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "标签 A"
+          }
         }
       }
     },
@@ -1244,6 +1316,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
+            "value" : "MMR"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "MMR"
           }
         }
@@ -1528,6 +1606,12 @@
             "state" : "new",
             "value" : "Place"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "名次"
+          }
         }
       }
     },
@@ -1630,6 +1714,12 @@
             "state" : "new",
             "value" : "Label B"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "标签 B"
+          }
         }
       }
     },
@@ -1641,6 +1731,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Failed to load compositions"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加载阵容失败"
           }
         }
       }
@@ -1834,6 +1930,12 @@
             "state" : "new",
             "value" : "0"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "0"
+          }
         }
       }
     },
@@ -1935,6 +2037,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "First Place"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "第一名"
           }
         }
       }
@@ -2127,6 +2235,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Minions Banned"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "禁用随从"
           }
         }
       }

@@ -46,6 +46,12 @@
             "state" : "translated",
             "value" : "Item 2"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "项目 2"
+          }
         }
       }
     },
@@ -90,6 +96,12 @@
           }
         },
         "th-TH" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "7"
+          }
+        },
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "7"
@@ -190,6 +202,12 @@
             "state" : "translated",
             "value" : "5"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5"
+          }
         }
       }
     },
@@ -231,6 +249,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Text Cell"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "722-4W-cap.title"
           }
         }
       }
@@ -276,6 +300,12 @@
           }
         },
         "th-TH" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "6"
+          }
+        },
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "6"
@@ -328,6 +358,12 @@
             "state" : "translated",
             "value" : "Item 3"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "项目 3"
+          }
         }
       }
     },
@@ -369,6 +405,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Table View Cell"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "bfQ-B1-uvC.title"
           }
         }
       }
@@ -598,6 +640,12 @@
             "state" : "translated",
             "value" : "Item 2"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "项目 2"
+          }
         }
       }
     },
@@ -826,6 +874,12 @@
             "state" : "translated",
             "value" : "Item 3"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "项目 3"
+          }
         }
       }
     },
@@ -870,6 +924,12 @@
           }
         },
         "th-TH" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "4"
+          }
+        },
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "4"
@@ -922,6 +982,12 @@
             "state" : "translated",
             "value" : "Item 3"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "项目 3"
+          }
         }
       }
     },
@@ -969,6 +1035,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Item 1"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "项目 1"
           }
         }
       }
@@ -1018,6 +1090,12 @@
             "state" : "translated",
             "value" : "Item 1"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "项目 1"
+          }
         }
       }
     },
@@ -1059,6 +1137,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Text Cell"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "m8v-z4-YUR.title"
           }
         }
       }
@@ -1104,6 +1188,12 @@
           }
         },
         "th-TH" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "0"
+          }
+        },
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "0"
@@ -1336,6 +1426,12 @@
             "state" : "translated",
             "value" : "2"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2"
+          }
         }
       }
     },
@@ -1380,6 +1476,12 @@
           }
         },
         "th-TH" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "3"
+          }
+        },
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "3"
@@ -1516,6 +1618,12 @@
             "state" : "translated",
             "value" : "Table View Cell"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "R90-PG-oAN.title"
+          }
         }
       }
     },
@@ -1563,6 +1671,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Item 2"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "项目 2"
           }
         }
       }
@@ -1612,6 +1726,12 @@
             "state" : "translated",
             "value" : "Item 2"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "项目 2"
+          }
         }
       }
     },
@@ -1659,6 +1779,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Item 3"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "项目 3"
           }
         }
       }
@@ -1708,6 +1834,12 @@
             "state" : "translated",
             "value" : "Item 1"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "项目 1"
+          }
         }
       }
     },
@@ -1756,6 +1888,12 @@
             "state" : "translated",
             "value" : "Item 1"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "项目 1"
+          }
         }
       }
     },
@@ -1800,6 +1938,12 @@
           }
         },
         "th-TH" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1"
+          }
+        },
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "1"

@@ -16,6 +16,12 @@
             "state" : "translated",
             "value" : "Afficher les icônes de capacité sous les Mercenaires du joueur"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在己方佣兵下方显示技能图标"
+          }
         }
       }
     },
@@ -33,6 +39,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Afficher les capacités des Mercenaires de l'adversaire au survol"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "悬停时显示对手佣兵技能"
           }
         }
       }
@@ -52,6 +64,12 @@
             "state" : "translated",
             "value" : "Afficher les capacités des Mercenaires du joueur au survol"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "悬停时显示己方佣兵技能"
+          }
         }
       }
     },
@@ -70,6 +88,12 @@
             "state" : "translated",
             "value" : "Afficher le panneau des tâches en mode Mercenaires"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "佣兵战纪模式中显示任务面板"
+          }
         }
       }
     },
@@ -87,6 +111,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Afficher les icônes de capacité au-dessus des Mercenaires de l'adversaire"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在对手佣兵上方显示技能图标"
           }
         }
       }

@@ -136,6 +136,12 @@
             "state" : "translated",
             "value" : "Text Cell"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文本单元格"
+          }
         }
       }
     },
@@ -274,6 +280,12 @@
             "state" : "translated",
             "value" : "Text Cell"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文本单元格"
+          }
         }
       }
     },
@@ -321,6 +333,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Text Cell"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文本单元格"
           }
         }
       }
@@ -459,6 +477,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Text Cell"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文本单元格"
           }
         }
       }

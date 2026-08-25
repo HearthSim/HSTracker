@@ -16,6 +16,12 @@
             "state" : "translated",
             "value" : "Duels"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "对决模式"
+          }
         }
       }
     },
@@ -34,6 +40,12 @@
             "state" : "translated",
             "value" : "Statut de l'abonnement"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "订阅状态"
+          }
         }
       }
     },
@@ -51,6 +63,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mercenaires"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "佣兵战纪"
           }
         }
       }
@@ -105,6 +123,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Login to HSReplay"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "登录 HSReplay.net"
           }
         }
       }
@@ -342,6 +366,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "X"
+          }
+        },
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "X"
@@ -586,6 +616,12 @@
             "state" : "translated",
             "value" : "En savoir plus"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "了解更多"
+          }
         }
       }
     },
@@ -646,6 +682,12 @@
             "state" : "translated",
             "value" : "上傳遊戲模式"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上传游戏模式"
+          }
         }
       }
     },
@@ -663,6 +705,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Merci de nous soutenir !"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "感谢你的支持!"
           }
         }
       }
@@ -837,6 +885,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Champs de bataille"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "酒馆战棋"
           }
         }
       }

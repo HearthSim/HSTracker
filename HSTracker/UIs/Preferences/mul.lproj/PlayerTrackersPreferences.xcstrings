@@ -262,6 +262,12 @@
             "state" : "translated",
             "value" : "Surligner les synergies dans le deck"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高亮卡组中的联动"
+          }
         }
       }
     },
@@ -273,6 +279,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Show corpses counter"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示尸体计数"
           }
         }
       }
@@ -382,6 +394,12 @@
             "state" : "translated",
             "value" : "Groupe d'E.T.C."
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "精英牛头人酋长乐队"
+          }
         }
       }
     },
@@ -399,6 +417,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Afficher les compteurs"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示计数器"
           }
         }
       }
@@ -711,6 +735,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Afficher l'infobulle des cartes liées"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示相关卡牌提示"
           }
         }
       }
@@ -1204,6 +1234,12 @@
             "state" : "translated",
             "value" : "Afficher les maximums de points de vie, de mana et de cartes en main"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示生命值、法力值和手牌上限"
+          }
         }
       }
     },
@@ -1221,6 +1257,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Afficher les effets actifs"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示激活效果"
           }
         }
       }

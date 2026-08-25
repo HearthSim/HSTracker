@@ -10,6 +10,12 @@
             "state" : "new",
             "value" : "-"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "-"
+          }
         }
       }
     },
@@ -21,6 +27,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Loss"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "失败"
           }
         }
       }
@@ -34,6 +46,12 @@
             "state" : "new",
             "value" : "Win"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "胜利"
+          }
         }
       }
     },
@@ -45,6 +63,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Lethal"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "斩杀"
           }
         }
       }
@@ -58,6 +82,12 @@
             "state" : "new",
             "value" : "AVG DMG"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平均伤害"
+          }
         }
       }
     },
@@ -70,6 +100,12 @@
             "state" : "new",
             "value" : "Tie"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平局"
+          }
         }
       }
     },
@@ -80,6 +116,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
+            "value" : "-"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "-"
           }
         }
@@ -94,6 +136,12 @@
             "state" : "new",
             "value" : "AVG DMG"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平均伤害"
+          }
         }
       }
     },
@@ -106,6 +154,12 @@
             "state" : "new",
             "value" : "Background Box"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "背景框"
+          }
         }
       }
     },
@@ -116,6 +170,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
+            "value" : "-"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "-"
           }
         }
@@ -130,6 +190,12 @@
             "state" : "new",
             "value" : "-"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "-"
+          }
         }
       }
     },
@@ -140,6 +206,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
+            "value" : "-"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "-"
           }
         }
@@ -154,6 +226,12 @@
             "state" : "new",
             "value" : "Lethal"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "斩杀"
+          }
         }
       }
     },
@@ -164,6 +242,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
+            "value" : "-"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "-"
           }
         }
@@ -178,6 +262,12 @@
             "state" : "new",
             "value" : "-"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "-"
+          }
         }
       }
     },
@@ -188,6 +278,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
+            "value" : "-"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "-"
           }
         }

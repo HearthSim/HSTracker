@@ -10,6 +10,12 @@
             "state" : "new",
             "value" : "Item 2"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "项目 2"
+          }
         }
       }
     },
@@ -57,6 +63,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Item 1"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "项目 1"
           }
         }
       }
@@ -106,6 +118,12 @@
             "state" : "translated",
             "value" : "Gitter"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Discord"
+          }
         }
       }
     },
@@ -154,6 +172,12 @@
             "state" : "translated",
             "value" : "Gitter"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Discord"
+          }
         }
       }
     },
@@ -165,6 +189,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Item 1"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "项目 1"
           }
         }
       }
@@ -393,6 +423,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Item 2"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "项目 2"
           }
         }
       }
@@ -766,6 +802,12 @@
             "state" : "new",
             "value" : "Item 3"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "项目 3"
+          }
         }
       }
     },
@@ -778,6 +820,12 @@
             "state" : "new",
             "value" : "Modes"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模式"
+          }
         }
       }
     },
@@ -789,6 +837,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Modes"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模式"
           }
         }
       }
@@ -1018,6 +1072,12 @@
             "state" : "translated",
             "value" : "Item 1"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "项目 1"
+          }
         }
       }
     },
@@ -1029,6 +1089,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Export with comments"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "导出并带注释"
           }
         }
       }
@@ -1258,6 +1324,12 @@
             "state" : "translated",
             "value" : "Twitter"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Twitter"
+          }
         }
       }
     },
@@ -1302,6 +1374,12 @@
           }
         },
         "th-TH" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Twitter"
+          }
+        },
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Twitter"
@@ -1353,6 +1431,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Item 3"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "项目 3"
           }
         }
       }
@@ -1576,6 +1660,12 @@
             "state" : "translated",
             "value" : "Text Cell"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "fXC-1a-kDU.title"
+          }
         }
       }
     },
@@ -1623,6 +1713,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Delete"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "删除"
           }
         }
       }
@@ -1672,6 +1768,12 @@
             "state" : "translated",
             "value" : "Classes"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "职业"
+          }
         }
       }
     },
@@ -1720,6 +1822,12 @@
             "state" : "translated",
             "value" : "Classes"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "职业"
+          }
         }
       }
     },
@@ -1767,6 +1875,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Edit"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "编辑"
           }
         }
       }
@@ -2182,6 +2296,12 @@
             "state" : "translated",
             "value" : "Item 2"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "项目 2"
+          }
         }
       }
     },
@@ -2223,6 +2343,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Table View Cell"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "sFg-Jc-b7d.title"
           }
         }
       }
@@ -2452,6 +2578,12 @@
             "state" : "translated",
             "value" : "Item 3"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "项目 3"
+          }
         }
       }
     },
@@ -2668,6 +2800,12 @@
             "state" : "translated",
             "value" : "Use"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用"
+          }
         }
       }
     },
@@ -2805,6 +2943,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Export"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "导出"
           }
         }
       }
@@ -2944,6 +3088,12 @@
             "state" : "translated",
             "value" : "Text Cell"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "YgP-rU-92k.title"
+          }
         }
       }
     },
@@ -2991,6 +3141,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rename"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重命名"
           }
         }
       }
