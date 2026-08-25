@@ -454,6 +454,7 @@ class BobsBuddyInvoker {
                         _ = mono_runtime_invoke(mw, tinst, nil, exc)
 
                         if let exc = exc[0] {
+                            UnsupportedInteractionExceptionProxy.initialize()
                             var ae: AggregateExceptionProxy! = AggregateExceptionProxy(obj: exc)
                             var ex: UnsupportedInteractionExceptionProxy?
                             while let aggregate = ae, MonoHelper.isInstance(obj: aggregate, klass: AggregateExceptionProxy._class!) {

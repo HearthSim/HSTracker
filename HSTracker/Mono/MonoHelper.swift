@@ -32,6 +32,7 @@ extension MonoClassInitializer {
     }
 
     static func getMember(name: String) -> OpaquePointer {
+        initialize()
         if let member = _members[name] {
             return member
         }
@@ -296,7 +297,9 @@ class MonoHelper {
     static var _image: OpaquePointer? // MonoImage
         
     static func initialize() {
-        for cl in ReflectionHelper.getMonoClasses() {
+        let classes = ReflectionHelper.getMonoClasses()
+        logger.debug("Initializing \(classes.count) mono proxy classes")
+        for cl in classes {
             cl.initialize()
         }
     }
@@ -499,6 +502,8 @@ class MonoHelper {
             exc[0] = nil
             _ = mono_runtime_invoke(mw, inst2, nil, exc)
             if exc[0] != nil {
+                UnsupportedInteractionExceptionProxy.initialize()
+                AggregateExceptionProxy.initialize()
                 var aggregate: AggregateExceptionProxy! = AggregateExceptionProxy(obj: exc[0])
                 while true {
                     let inner = aggregate.innerException
@@ -510,7 +515,8 @@ class MonoHelper {
                     } else if let class_ = AggregateExceptionProxy._class, MonoHelper.isInstance(obj: aggregate, klass: class_) {
                         aggregate = AggregateExceptionProxy(obj: inner.get())
                     } else {
-                        fatalError("Unsupported exception")
+                        logger.error("Unsupported exception in testSimulation: \(MonoHelper.toString(obj: aggregate))")
+                        break
                     }
                 }
                 let str = MonoHelper.toString(obj: aggregate)
