@@ -58,6 +58,7 @@ struct SizeHelper {
                 // kCGWindowBounds can return a stale Mission Control thumbnail rect for some
                 // time after MC dismisses; AX reflects HS's actual NSWindow.frame.
                 var axRect: CGRect?
+                var hasTitlebar = false
                 if result == .success, let axWindow = window {
                     // swiftlint:disable force_cast
                     let axWindowRef = axWindow as! AXUIElement
@@ -69,6 +70,14 @@ struct SizeHelper {
                         fullscreen = nsvalue.intValue != 0
                     } else {
                         fullscreen = false
+                    }
+
+                    // Borderless windows (e.g. Hearthstone fullscreen, which fills the
+                    // screen below the menu bar instead of using a native fullscreen
+                    // Space) have no titlebar and thus no AXTitleUIElement.
+                    var titleRef: CFTypeRef?
+                    if AXUIElementCopyAttributeValue(axWindowRef, "AXTitleUIElement" as CFString, &titleRef) == .success, titleRef != nil {
+                        hasTitlebar = true
                     }
 
                     var posRef: CFTypeRef?
@@ -99,9 +108,19 @@ struct SizeHelper {
                 if let rect = axRect ?? CGRect(dictionaryRepresentation: bounds) {
                     var frame = rect
 
-                    // Warning: this function assumes that the
-                    // first screen in the list is the active one
-                    if let screen = NSScreen.screens.first {
+                    // Pick the screen that actually contains the game window
+                    // instead of assuming the first screen in the list, so
+                    // external displays work.
+                    var activeScreen = NSScreen.screens.first
+                    for scr in NSScreen.screens {
+                        var converted = rect
+                        converted.origin.y = scr.frame.maxY - rect.maxY
+                        if scr.frame.intersects(converted) {
+                            activeScreen = scr
+                            break
+                        }
+                    }
+                    if let screen = activeScreen {
                         screenRect = screen.frame
                         frame.origin.y = screen.frame.maxY - rect.maxY
                     }
@@ -116,6 +135,38 @@ struct SizeHelper {
                         }
                         fullscreen = fs
                     }
+
+                    // Convert the raw window rect to the visible content area used by
+                    // every overlay frame calculation:
+                    // 1. Subtract the titlebar height only when the window really has
+                    //    one. Hearthstone fullscreen is a borderless window that fills
+                    //    the screen below the menu bar: AXFullScreen reports false and
+                    //    there is no AXTitleUIElement, so no compensation applies.
+                    // 2. Cap the top at the screen's visibleFrame. Overlays positioned
+                    //    above it would otherwise be silently pushed down by AppKit
+                    //    (constrainFrameRect), which is the "auto shift down" observed
+                    //    on the notched built-in screen.
+                    if !fullscreen {
+                        var effectiveTitlebar = SizeHelper.HearthstoneWindow.titlebarHeight
+                        if let screen = activeScreen {
+                            // Borderless fullscreen: the window exactly fills the
+                            // visible frame (below the menu bar / notch) and has no
+                            // titlebar. Compare the converted AppKit-coordinates
+                            // frame, not the top-left-origin CG rect.
+                            if frame == screen.visibleFrame {
+                                effectiveTitlebar = 0
+                            } else if axRect != nil {
+                                let cgHeight = ((bounds as NSDictionary)["Height"] as? NSNumber)?.doubleValue ?? 0
+                                let axExcludesTitlebar = cgHeight - rect.height > 10
+                                if !hasTitlebar || axExcludesTitlebar {
+                                    effectiveTitlebar = 0
+                                }
+                            }
+                            let top = min(frame.maxY - effectiveTitlebar, screen.visibleFrame.maxY)
+                            _frame.size.height = max(top - _frame.minY, 0)
+                        }
+                    }
+                    logger.debug("HS window frame=\(_frame) fullscreen=\(fullscreen) hasTitlebar=\(hasTitlebar) axUsed=\(axRect != nil)")
                 }
             }
         }
@@ -127,8 +178,8 @@ struct SizeHelper {
         static var titlebarHeight: CGFloat = 0.0
         
         var height: CGFloat {
-            let height = _frame.height
-            return isFullscreen() ? height : max(height - SizeHelper.HearthstoneWindow.titlebarHeight, 0)
+            // reload() already converts _frame to the game's visible content area
+            return _frame.height
         }
         
         fileprivate var left: CGFloat {
