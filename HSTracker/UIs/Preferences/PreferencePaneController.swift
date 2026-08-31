@@ -24,8 +24,67 @@ class PreferencePaneController: NSViewController {
     /// Shared width for every settings pane.
     static let fixedWidth: CGFloat = 600
 
+    /// Tallest a pane may be before it gets wrapped in a scroll view.
+    ///
+    /// `PreferencesTabViewController.setWindowFrame` sizes the window straight from
+    /// `view.fittingSize` with no clamp against the screen, so a tall pane simply
+    /// runs off the bottom - Battlegrounds is 848pt of content, which needs roughly
+    /// a 930pt window once the title bar and toolbar are added. The budget below is
+    /// what is left of the screen after that chrome plus a margin.
+    private static var maxContentHeight: CGFloat {
+        let available = NSScreen.main?.visibleFrame.height ?? 900
+        // ~78pt toolbar + ~28pt title bar, and some breathing room.
+        return max(400, available - 140)
+    }
+
+    override func loadView() {
+        super.loadView()
+
+        let content = view
+        content.translatesAutoresizingMaskIntoConstraints = false
+
+        // fittingSize needs the width settled first, or a stack view reports the
+        // height it would take at its natural width rather than at ours.
+        let widthConstraint = content.widthAnchor.constraint(equalToConstant: Self.fixedWidth)
+        widthConstraint.isActive = true
+        content.layoutSubtreeIfNeeded()
+        let contentHeight = content.fittingSize.height
+
+        guard contentHeight > Self.maxContentHeight else { return }
+
+        let scrollView = NSScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.hasVerticalScroller = true
+        scrollView.hasHorizontalScroller = false
+        // Left visible rather than autohiding: with legacy (non-overlay)
+        // scrollbars a permanent scroller is what tells the user there is more
+        // pane below, which is the whole point here. Overlay scrollers ignore
+        // this and fade as usual.
+        scrollView.autohidesScrollers = false
+        scrollView.drawsBackground = false
+        scrollView.borderType = .noBorder
+        scrollView.documentView = content
+
+        // The content tracks the clip view's width rather than keeping its own
+        // fixed one, so a legacy (non-overlay) scroller narrows it instead of
+        // clipping its trailing edge.
+        widthConstraint.isActive = false
+        let clip = scrollView.contentView
+        NSLayoutConstraint.activate([
+            content.topAnchor.constraint(equalTo: clip.topAnchor),
+            content.leadingAnchor.constraint(equalTo: clip.leadingAnchor),
+            content.trailingAnchor.constraint(equalTo: clip.trailingAnchor),
+            content.heightAnchor.constraint(equalToConstant: contentHeight),
+            scrollView.heightAnchor.constraint(equalToConstant: Self.maxContentHeight)
+        ])
+
+        view = scrollView
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Applies to the scroll view when loadView wrapped the pane, and to the
+        // pane itself otherwise - either way it is what the window is sized from.
         view.translatesAutoresizingMaskIntoConstraints = false
         view.widthAnchor.constraint(equalToConstant: Self.fixedWidth).isActive = true
     }
