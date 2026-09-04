@@ -1,3 +1,7 @@
+# 3.6.9
+## Hearthstone
+- Fixed the deck tracker redrawing its card rows off the main thread while hovering a Discover choice, which could corrupt memory and crash the app.
+
 # 3.6.8
 **Updated for Hearthstone 36.4.2**
 ## Hearthstone

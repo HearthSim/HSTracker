@@ -44,7 +44,9 @@ class AnimatedCardList: NSView {
                     }
                     if card.count <= 0 || card.jousted {
                         animatedCard.card?.highlightColor = .none
-                        animatedCard.needsDisplay = true
+                        DispatchQueue.main.async {
+                            animatedCard.needsDisplay = true
+                        }
                         continue
                     }
                     animatedCard.card?.highlightColor = newValue?(card, cards) ?? .none
