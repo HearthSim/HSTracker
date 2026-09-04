@@ -1305,6 +1305,7 @@
 		B86D8A102D95F94200AB65A5 /* TormentedDreadwing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86D8A0F2D95F94200AB65A5 /* TormentedDreadwing.swift */; };
 		B86D8A122D95FA7500AB65A5 /* DragonscaleArmaments.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86D8A112D95FA7500AB65A5 /* DragonscaleArmaments.swift */; };
 		B86D8A142D95FAB400AB65A5 /* Dreamwarden.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86D8A132D95FAB400AB65A5 /* Dreamwarden.swift */; };
+		B8E31E047B5AF281CD837F86 /* EmeraldPortal.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87A49F8CB20664D2FC8BDFE /* EmeraldPortal.swift */; };
 		B86D8A162D95FAE000AB65A5 /* Grillmaster.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86D8A152D95FAE000AB65A5 /* Grillmaster.swift */; };
 		B86D8A182D95FB2100AB65A5 /* RedscaleDragontamer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86D8A172D95FB2100AB65A5 /* RedscaleDragontamer.swift */; };
 		B86D8A1C2D95FD8E00AB65A5 /* RazaTheResealed.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86D8A1B2D95FD8E00AB65A5 /* RazaTheResealed.swift */; };
@@ -3310,6 +3311,7 @@
 		B86D8A0F2D95F94200AB65A5 /* TormentedDreadwing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TormentedDreadwing.swift; sourceTree = "<group>"; };
 		B86D8A112D95FA7500AB65A5 /* DragonscaleArmaments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragonscaleArmaments.swift; sourceTree = "<group>"; };
 		B86D8A132D95FAB400AB65A5 /* Dreamwarden.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dreamwarden.swift; sourceTree = "<group>"; };
+		B87A49F8CB20664D2FC8BDFE /* EmeraldPortal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmeraldPortal.swift; sourceTree = "<group>"; };
 		B86D8A152D95FAE000AB65A5 /* Grillmaster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grillmaster.swift; sourceTree = "<group>"; };
 		B86D8A172D95FB2100AB65A5 /* RedscaleDragontamer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedscaleDragontamer.swift; sourceTree = "<group>"; };
 		B86D8A1B2D95FD8E00AB65A5 /* RazaTheResealed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RazaTheResealed.swift; sourceTree = "<group>"; };
@@ -6354,6 +6356,7 @@
 				B846CC852E15B7A600552F9C /* CreatureOfTheSacredCave.swift */,
 				B86D8A112D95FA7500AB65A5 /* DragonscaleArmaments.swift */,
 				B86D8A132D95FAB400AB65A5 /* Dreamwarden.swift */,
+				B87A49F8CB20664D2FC8BDFE /* EmeraldPortal.swift */,
 				B8DB12A22EBAE3BC004268FA /* GelbinOfTomorrow.swift */,
 				B86D8A152D95FAE000AB65A5 /* Grillmaster.swift */,
 				B89865AC2D91D68D00BA5649 /* HiHoSilverwing.swift */,
@@ -7643,6 +7646,7 @@
 				B8591FF02B23CC7D00B907A4 /* ChoiceType.swift in Sources */,
 				43B6954D1C9014FA00F4D0AC /* TagChangeActions.swift in Sources */,
 				B86D8A142D95FAB400AB65A5 /* Dreamwarden.swift in Sources */,
+				B8E31E047B5AF281CD837F86 /* EmeraldPortal.swift in Sources */,
 				B83CF373294E4E57003C9062 /* BattlegroundsCompositionPopularityRow.swift in Sources */,
 				B89656552E555C5B00257DDC /* ValstannStaghelm.swift in Sources */,
 				B8B7905B2C97849B00DD33EC /* CorruptingMistEnchantment.swift in Sources */,
