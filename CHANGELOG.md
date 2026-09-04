@@ -1,7 +1,7 @@
 # 3.6.9
 ## Hearthstone
 - Fixed the deck tracker redrawing its card rows off the main thread while hovering a Discover choice, which could corrupt memory and crash the app.
-- Fixed a crash on startup when the Bob's Buddy self test hit a simulation error it did not recognize.
+- Fixed a crash on startup when the Bob's Buddy self test hit a simulation error it did not recognize. The self test no longer runs in released builds, which also removes a full simulation from every launch.
 
 # 3.6.8
 **Updated for Hearthstone 36.4.2**

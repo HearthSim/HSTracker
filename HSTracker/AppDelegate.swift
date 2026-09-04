@@ -322,9 +322,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
 #if !HSTTEST
             if MonoHelper.load() {
                 MonoHelper.initialize()
+#if DEBUG
+                // Developer smoke test only. It runs a full 1000 iteration, 4 thread
+                // simulation, which is not something a shipping build should do on
+                // every launch (Sentry HSTRACKER-2XX).
                 DispatchQueue.global().async(qos: .userInitiated) {
                     MonoHelper.testSimulation()
                 }
+#endif
             } else {
                 logger.error("Failed to load BobsBuddy")
             }
