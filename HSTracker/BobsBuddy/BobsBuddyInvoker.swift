@@ -1070,6 +1070,11 @@ class BobsBuddyInvoker {
                     if offensiveSacrifice.get() != nil {
                         minion.attachEnchantment(enchantment: offensiveSacrifice)
                     }
+                case CardIds.NonCollectible.Neutral.DefensiveSacrifice:
+                    let defensiveSacrifice = sim.enchantmentFactory.create(cardId: CardIds.NonCollectible.Neutral.DefensiveSacrifice, controlledByPlayer: minion.controlledByPlayer)
+                    if defensiveSacrifice.get() != nil {
+                        minion.attachEnchantment(enchantment: defensiveSacrifice)
+                    }
                 default:
                     break
                 }
