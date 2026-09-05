@@ -1143,7 +1143,6 @@
 		B8496732289A0CF300D90B30 /* SynchronizedDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD84542860058400F4F224 /* SynchronizedDictionary.swift */; };
 		B8496733289A0CF300D90B30 /* SynchronizedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FE1F982875BD15004C397C /* SynchronizedArray.swift */; };
 		B8496734289A0D8F00D90B30 /* UnfairLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD8452285D23C500F4F224 /* UnfairLock.swift */; };
-		B8A17C032E5F1A0100C1D2E0 /* MainThreadGuard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A17C012E5F1A0100C1D2E0 /* MainThreadGuard.swift */; };
 		B8496735289A0DA900D90B30 /* BattlegroundsTierTriples.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A70C16284152DC004D054C /* BattlegroundsTierTriples.swift */; };
 		B8496736289A0DB600D90B30 /* BattlegroundsSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AF932F282D4A7C00864934 /* BattlegroundsSession.swift */; };
 		B8496738289A0DC500D90B30 /* DeckLens.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89C9895280C610C005E9315 /* DeckLens.swift */; };
@@ -1229,10 +1228,6 @@
 		B8591FFC2B24F87C00B907A4 /* ObjectiveProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FFB2B24F87C00B907A4 /* ObjectiveProxy.swift */; };
 		B85920962B4C73B300B907A4 /* CustomToolTip in Frameworks */ = {isa = PBXBuildFile; productRef = B85920952B4C73B300B907A4 /* CustomToolTip */; };
 		B85A0D54272CDEFE006D2648 /* MercenariesPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85A0D53272CDEFE006D2648 /* MercenariesPreferences.swift */; };
-		B8FA0C0100000005000000A5 /* TheOutfinderPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FA0C0100000001000000A1 /* TheOutfinderPreferences.swift */; };
-		B8FA0C0100000006000000A6 /* TheOutfinderPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FA0C0100000001000000A1 /* TheOutfinderPreferences.swift */; };
-		B8FA0C0100000007000000A7 /* TheOutfinderPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8FA0C0100000004000000A4 /* TheOutfinderPreferences.xib */; };
-		B8FA0C0100000008000000A8 /* TheOutfinderPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8FA0C0100000004000000A4 /* TheOutfinderPreferences.xib */; };
 		B85A0D55272CE24A006D2648 /* MercenariesPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B85A0D51272CDDFB006D2648 /* MercenariesPreferences.xib */; };
 		B85A0D56272CE24B006D2648 /* MercenariesPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B85A0D51272CDDFB006D2648 /* MercenariesPreferences.xib */; };
 		B85A0D5727303709006D2648 /* BoardOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AFA40A2723310700B3470E /* BoardOverlay.swift */; };
@@ -1309,7 +1304,6 @@
 		B86D8A102D95F94200AB65A5 /* TormentedDreadwing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86D8A0F2D95F94200AB65A5 /* TormentedDreadwing.swift */; };
 		B86D8A122D95FA7500AB65A5 /* DragonscaleArmaments.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86D8A112D95FA7500AB65A5 /* DragonscaleArmaments.swift */; };
 		B86D8A142D95FAB400AB65A5 /* Dreamwarden.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86D8A132D95FAB400AB65A5 /* Dreamwarden.swift */; };
-		B8E31E047B5AF281CD837F86 /* EmeraldPortal.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87A49F8CB20664D2FC8BDFE /* EmeraldPortal.swift */; };
 		B86D8A162D95FAE000AB65A5 /* Grillmaster.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86D8A152D95FAE000AB65A5 /* Grillmaster.swift */; };
 		B86D8A182D95FB2100AB65A5 /* RedscaleDragontamer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86D8A172D95FB2100AB65A5 /* RedscaleDragontamer.swift */; };
 		B86D8A1C2D95FD8E00AB65A5 /* RazaTheResealed.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86D8A1B2D95FD8E00AB65A5 /* RazaTheResealed.swift */; };
@@ -1553,6 +1547,8 @@
 		B89C9894280A113A005E9315 /* AnimatedCardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89C9893280A113A005E9315 /* AnimatedCardList.swift */; };
 		B89C9896280C610C005E9315 /* DeckLens.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89C9895280C610C005E9315 /* DeckLens.swift */; };
 		B89F51EA2C9CF8D600E31195 /* ActiveEffect.xib in Resources */ = {isa = PBXBuildFile; fileRef = B89F51E92C9CF8D600E31195 /* ActiveEffect.xib */; };
+		B8A17C022E5F1A0100C1D2E0 /* MainThreadGuard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A17C012E5F1A0100C1D2E0 /* MainThreadGuard.swift */; };
+		B8A17C032E5F1A0100C1D2E0 /* MainThreadGuard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A17C012E5F1A0100C1D2E0 /* MainThreadGuard.swift */; };
 		B8A1F0022E5F0A0100000002 /* Watcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F0012E5F0A0100000001 /* Watcher.swift */; };
 		B8A70C152841494D004D054C /* BattlegroundsTierTriples.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8A70C142841494D004D054C /* BattlegroundsTierTriples.xib */; };
 		B8A70C17284152DC004D054C /* BattlegroundsTierTriples.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A70C16284152DC004D054C /* BattlegroundsTierTriples.swift */; };
@@ -1741,7 +1737,6 @@
 		B8BD3BB22C4360B1001E85B7 /* BattlegroundsCompositionStatsRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD3BB12C4360B1001E85B7 /* BattlegroundsCompositionStatsRow.swift */; };
 		B8BD8443284AB92700F4F224 /* BattlegroundsSession.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8BD8441284AB92600F4F224 /* BattlegroundsSession.xib */; };
 		B8BD8453285D23C500F4F224 /* UnfairLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD8452285D23C500F4F224 /* UnfairLock.swift */; };
-		B8A17C022E5F1A0100C1D2E0 /* MainThreadGuard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A17C012E5F1A0100C1D2E0 /* MainThreadGuard.swift */; };
 		B8BD84552860058400F4F224 /* SynchronizedDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD84542860058400F4F224 /* SynchronizedDictionary.swift */; };
 		B8BD84572861394100F4F224 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD84562861394100F4F224 /* Regex.swift */; };
 		B8BDF9062A9625D9000DA4ED /* AnomalyFactoryProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BDF9052A9625D9000DA4ED /* AnomalyFactoryProxy.swift */; };
@@ -1924,6 +1919,7 @@
 		B8E1E5FE2D0CA1CD00383975 /* HabeasCorpses.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5FD2D0CA1CD00383975 /* HabeasCorpses.swift */; };
 		B8E1E6002D0CA21C00383975 /* InfantryReanimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5FF2D0CA21C00383975 /* InfantryReanimator.swift */; };
 		B8E1E6022D0CA25700383975 /* TamsinsPhylactery.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E6012D0CA25700383975 /* TamsinsPhylactery.swift */; };
+		B8E31E047B5AF281CD837F86 /* EmeraldPortal.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87A49F8CB20664D2FC8BDFE /* EmeraldPortal.swift */; };
 		B8E76171293A321A0048E802 /* FindGameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E76170293A321A0048E802 /* FindGameState.swift */; };
 		B8E76173293A3D010048E802 /* QueueEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E76172293A3D010048E802 /* QueueEvents.swift */; };
 		B8E868832B93AF04005B1315 /* SceneHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E868822B93AF04005B1315 /* SceneHandler.swift */; };
@@ -1941,6 +1937,10 @@
 		B8F778772805CE00006348B4 /* LethalResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B836822127888B4D007D5740 /* LethalResult.swift */; };
 		B8F778782805CE54006348B4 /* CombatResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B836821F27888B12007D5740 /* CombatResult.swift */; };
 		B8F778792805CE59006348B4 /* ReplicatingMenace.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8449A032781C7360094E5B3 /* ReplicatingMenace.swift */; };
+		B8FA0C0100000005000000A5 /* TheOutfinderPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FA0C0100000001000000A1 /* TheOutfinderPreferences.swift */; };
+		B8FA0C0100000006000000A6 /* TheOutfinderPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FA0C0100000001000000A1 /* TheOutfinderPreferences.swift */; };
+		B8FA0C0100000007000000A7 /* TheOutfinderPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8FA0C0100000004000000A4 /* TheOutfinderPreferences.xib */; };
+		B8FA0C0100000008000000A8 /* TheOutfinderPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8FA0C0100000004000000A4 /* TheOutfinderPreferences.xib */; };
 		B8FDE9272CD99D840093BFF7 /* ReflectionHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FDE9262CD99D840093BFF7 /* ReflectionHelper.swift */; };
 		B8FDE92A2CDAF96A0093BFF7 /* ICardWithRelatedCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FDE9292CDAF96A0093BFF7 /* ICardWithRelatedCards.swift */; };
 		B8FDE92C2CDAF9D10093BFF7 /* RelatedCardsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FDE92B2CDAF9D10093BFF7 /* RelatedCardsManager.swift */; };
@@ -3261,9 +3261,6 @@
 		B8591FFB2B24F87C00B907A4 /* ObjectiveProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectiveProxy.swift; sourceTree = "<group>"; };
 		B85A0D52272CDDFB006D2648 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MercenariesPreferences.xib; sourceTree = "<group>"; };
 		B85A0D53272CDEFE006D2648 /* MercenariesPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MercenariesPreferences.swift; sourceTree = "<group>"; };
-		B8FA0C0100000001000000A1 /* TheOutfinderPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TheOutfinderPreferences.swift; sourceTree = "<group>"; };
-		B8FA0C0100000002000000A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TheOutfinderPreferences.xib; sourceTree = "<group>"; };
-		B8FA0C0100000003000000A3 /* mul */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; name = mul; path = mul.lproj/TheOutfinderPreferences.xcstrings; sourceTree = "<group>"; };
 		B85F1AC8258A558200A6F8C3 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		B8621F192746A785004DD0E9 /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		B8621F1B2746AF5E004DD0E9 /* HSReplayNetHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSReplayNetHelper.swift; sourceTree = "<group>"; };
@@ -3318,7 +3315,6 @@
 		B86D8A0F2D95F94200AB65A5 /* TormentedDreadwing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TormentedDreadwing.swift; sourceTree = "<group>"; };
 		B86D8A112D95FA7500AB65A5 /* DragonscaleArmaments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragonscaleArmaments.swift; sourceTree = "<group>"; };
 		B86D8A132D95FAB400AB65A5 /* Dreamwarden.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dreamwarden.swift; sourceTree = "<group>"; };
-		B87A49F8CB20664D2FC8BDFE /* EmeraldPortal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmeraldPortal.swift; sourceTree = "<group>"; };
 		B86D8A152D95FAE000AB65A5 /* Grillmaster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grillmaster.swift; sourceTree = "<group>"; };
 		B86D8A172D95FB2100AB65A5 /* RedscaleDragontamer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedscaleDragontamer.swift; sourceTree = "<group>"; };
 		B86D8A1B2D95FD8E00AB65A5 /* RazaTheResealed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RazaTheResealed.swift; sourceTree = "<group>"; };
@@ -3341,6 +3337,7 @@
 		B87856DF2C04BA7F004C2C40 /* UnsupportedInteractionProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsupportedInteractionProxy.swift; sourceTree = "<group>"; };
 		B87856E12C04BB2D004C2C40 /* EntityProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityProxy.swift; sourceTree = "<group>"; };
 		B8795EAB27516DBC00469B6E /* MercenariesTask.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MercenariesTask.xib; sourceTree = "<group>"; };
+		B87A49F8CB20664D2FC8BDFE /* EmeraldPortal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmeraldPortal.swift; sourceTree = "<group>"; };
 		B87DFF862DEF38AE006F39CF /* EndbringerUmbra.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndbringerUmbra.swift; sourceTree = "<group>"; };
 		B87DFF892DFC74D3006F39CF /* ArenaLastDrafts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArenaLastDrafts.swift; sourceTree = "<group>"; };
 		B8815BEF302162F50016D77A /* ICopiesDeathrattlesProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ICopiesDeathrattlesProxy.swift; sourceTree = "<group>"; };
@@ -3542,6 +3539,7 @@
 		B89C9893280A113A005E9315 /* AnimatedCardList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedCardList.swift; sourceTree = "<group>"; };
 		B89C9895280C610C005E9315 /* DeckLens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckLens.swift; sourceTree = "<group>"; };
 		B89F51E92C9CF8D600E31195 /* ActiveEffect.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ActiveEffect.xib; sourceTree = "<group>"; };
+		B8A17C012E5F1A0100C1D2E0 /* MainThreadGuard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainThreadGuard.swift; sourceTree = "<group>"; };
 		B8A1F0012E5F0A0100000001 /* Watcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Watcher.swift; sourceTree = "<group>"; };
 		B8A70C142841494D004D054C /* BattlegroundsTierTriples.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsTierTriples.xib; sourceTree = "<group>"; };
 		B8A70C16284152DC004D054C /* BattlegroundsTierTriples.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsTierTriples.swift; sourceTree = "<group>"; };
@@ -3716,7 +3714,6 @@
 		B8BD3BB12C4360B1001E85B7 /* BattlegroundsCompositionStatsRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsCompositionStatsRow.swift; sourceTree = "<group>"; };
 		B8BD8442284AB92700F4F224 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/BattlegroundsSession.xib; sourceTree = "<group>"; };
 		B8BD8452285D23C500F4F224 /* UnfairLock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnfairLock.swift; sourceTree = "<group>"; };
-		B8A17C012E5F1A0100C1D2E0 /* MainThreadGuard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainThreadGuard.swift; sourceTree = "<group>"; };
 		B8BD84542860058400F4F224 /* SynchronizedDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynchronizedDictionary.swift; sourceTree = "<group>"; tabWidth = 3; };
 		B8BD84562861394100F4F224 /* Regex.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
 		B8BDF9052A9625D9000DA4ED /* AnomalyFactoryProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnomalyFactoryProxy.swift; sourceTree = "<group>"; };
@@ -3849,6 +3846,9 @@
 		B8E9C6572EFDF50D00EF3F6E /* SpecialShopChoicesStateWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialShopChoicesStateWatcher.swift; sourceTree = "<group>"; };
 		B8EF1D7B291681EA00AC4658 /* BattlegroundsQuestView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsQuestView.xib; sourceTree = "<group>"; };
 		B8EF1D7D2916857000AC4658 /* BattlegroundsQuestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsQuestView.swift; sourceTree = "<group>"; };
+		B8FA0C0100000001000000A1 /* TheOutfinderPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TheOutfinderPreferences.swift; sourceTree = "<group>"; };
+		B8FA0C0100000002000000A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TheOutfinderPreferences.xib; sourceTree = "<group>"; };
+		B8FA0C0100000003000000A3 /* mul */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; name = mul; path = mul.lproj/TheOutfinderPreferences.xcstrings; sourceTree = "<group>"; };
 		B8FDE9262CD99D840093BFF7 /* ReflectionHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReflectionHelper.swift; sourceTree = "<group>"; };
 		B8FDE9292CDAF96A0093BFF7 /* ICardWithRelatedCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ICardWithRelatedCards.swift; sourceTree = "<group>"; };
 		B8FDE92B2CDAF9D10093BFF7 /* RelatedCardsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelatedCardsManager.swift; sourceTree = "<group>"; };
@@ -9472,15 +9472,6 @@
 			name = MercenariesPreferences.xib;
 			sourceTree = "<group>";
 		};
-		B8FA0C0100000004000000A4 /* TheOutfinderPreferences.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B8FA0C0100000002000000A2 /* Base */,
-				B8FA0C0100000003000000A3 /* mul */,
-			);
-			name = TheOutfinderPreferences.xib;
-			sourceTree = "<group>";
-		};
 		B864AE3925A4CC1200793F36 /* ImportingPreferences.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -9524,6 +9515,15 @@
 				B89BCF47300851D10095F011 /* mul */,
 			);
 			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		B8FA0C0100000004000000A4 /* TheOutfinderPreferences.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B8FA0C0100000002000000A2 /* Base */,
+				B8FA0C0100000003000000A3 /* mul */,
+			);
+			name = TheOutfinderPreferences.xib;
 			sourceTree = "<group>";
 		};
 		C9BDB3CA1D20BC4C00886A11 /* StatsTab.xib */ = {
@@ -9703,7 +9703,7 @@
 					"$(SDKROOT)/usr/lib/swift",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 3.6.8;
+				MARKETING_VERSION = 3.6.9;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = (
@@ -9767,7 +9767,7 @@
 					"$(SDKROOT)/usr/lib/swift",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 3.6.8;
+				MARKETING_VERSION = 3.6.9;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
