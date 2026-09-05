@@ -25,11 +25,20 @@ import SwiftUI
 // PoolSummaryPanelView comment), so filters are simply always available here: the cost filter
 // works unconditionally, and the keyword filter naturally stays hidden until
 // RelatedCardsManager.relatedCardsSummaryKeywords is ever populated.
+//
+// The pool itself is drawn in one of HDT's two modes, chosen by Config.Instance.OutfinderUseCardTiles
+// (Settings.outfinderUseCardTiles here): off - the default - lays the pool out as full card renders,
+// three per row; on lays it out as a card-tile list, which is what HDT's own checkbox label calls the
+// mode that "uses less data". HSTracker already has a card-tile list in AnimatedCardList, so the tile
+// mode hosts that rather than reimplementing CardTile.xaml in SwiftUI.
 @available(macOS 10.15, *)
 final class RelatedCardsBrowserViewModel: ObservableObject {
     @Published var cardName: String = ""
     @Published var cards: [Card] = []
     @Published var isFilterOpen: Bool = false
+    // Read once per pool rather than on every body evaluation, mirroring how HDT only re-reads
+    // Config.Instance.OutfinderUseCardTiles when RaiseDisplayModeChanged fires.
+    @Published var useCardTiles: Bool = Settings.outfinderUseCardTiles
     @Published private(set) var activeCostFilters: Set<Int> = []
     @Published private(set) var activeKeyword: String?
 
@@ -104,6 +113,7 @@ final class RelatedCardsBrowserViewModel: ObservableObject {
     func reset(cardName: String, cards: [Card]) {
         self.cardName = cardName
         self.cards = cards
+        useCardTiles = Settings.outfinderUseCardTiles
         isFilterOpen = false
         activeCostFilters = []
         activeKeyword = nil
@@ -136,24 +146,40 @@ private struct FilterChipView: View {
     }
 }
 
-// Small square art crop for a row tile - a simpler variant of RelatedCardsTooltipPanel's
-// RelatedCardImageView (that one insets for the grid's 194pt-tall cells; this one is a fixed,
-// much smaller thumbnail so the crop math isn't worth sharing).
+// The grid mode's card: RelatedCardItem.AssetViewModel is built with CardAssetType.FullImage, so
+// this is the whole rendered card (frame, name, text), not the art crop RelatedCardsTooltipPanel's
+// compact grid uses. The 108x152 box and its 2,3 margin are the literal values from the XAML's
+// <Image> in the ShowCardGrid ListView; the renders carry their own transparent padding, which is
+// why HDT gets away with rows that tight.
 @available(macOS 10.15, *)
-private struct RelatedCardsBrowserArtView: View {
+private struct RelatedCardsBrowserFullCardView: View {
     let card: Card
+
+    static let cardWidth: CGFloat = 108
+    static let cardHeight: CGFloat = 152
+
     @SwiftUI.State private var image: NSImage?
+
+    private var loadingImageName: String {
+        switch card.type {
+        case .hero: return "loading_hero"
+        case .minion: return "loading_minion"
+        case .weapon: return "loading_weapon"
+        default: return "loading_spell"
+        }
+    }
 
     var body: some View {
         Group {
             if let image {
-                Image(nsImage: image).resizable().aspectRatio(contentMode: .fill)
+                Image(nsImage: image).resizable().aspectRatio(contentMode: .fit)
             } else {
-                Color(hex: "#1A2228")
+                Image(loadingImageName).resizable().aspectRatio(contentMode: .fit)
             }
         }
-        .frame(width: 42, height: 32)
-        .clipShape(RoundedRectangle(cornerRadius: 4))
+        .frame(width: Self.cardWidth, height: Self.cardHeight)
+        .padding(.horizontal, 2)
+        .padding(.vertical, 3)
         .onAppear(perform: loadImage)
     }
 
@@ -171,43 +197,63 @@ private struct RelatedCardsBrowserArtView: View {
     }
 }
 
-// A single row in the pool list - ports CardTile.xaml's row shape (cost gem, art, name) without
-// the count/mulligan/highlight extras that only make sense in an actual deck list.
+// AnimatedCardList lays its CardBars out from its own frame width, and only when something calls
+// updateFrames() - it has no layout pass of its own because every existing caller sizes it by hand.
+// Hosted in SwiftUI nothing does, so this subclass re-runs the layout whenever AppKit hands it a new
+// size, and reload(cards:) forces one after the contents change.
 @available(macOS 10.15, *)
-private struct RelatedCardsBrowserTileView: View {
-    let card: Card
+final class RelatedCardsBrowserTileList: AnimatedCardList {
+    private var laidOutSize: NSSize = .zero
+    private var loadedIds: [String] = []
 
-    var body: some View {
-        HStack(spacing: 8) {
-            ZStack {
-                Circle().fill(Color(hex: "#1560A8"))
-                Text(verbatim: "\(card.cost)")
-                    .font(.system(size: 12, weight: .bold))
-                    .foregroundColor(.white)
-            }
-            .frame(width: 22, height: 22)
+    // updateNSView runs for every change to the view model, most of which - opening the filter
+    // drawer, say - leave the pool alone, and update(cards:reset:) would throw away and rebuild
+    // every CardBar each time.
+    func reload(cards: [Card]) {
+        let ids = cards.map { $0.id }
+        guard ids != loadedIds else { return }
+        loadedIds = ids
+        update(cards: cards, reset: true)
+        laidOutSize = .zero
+        needsLayout = true
+    }
 
-            RelatedCardsBrowserArtView(card: card)
+    override func layout() {
+        super.layout()
+        guard bounds.size != laidOutSize else { return }
+        laidOutSize = bounds.size
+        updateFrames()
+    }
+}
 
-            Text(card.name)
-                .font(.system(size: 12))
-                .foregroundColor(.white)
-                .lineLimit(1)
-                .truncationMode(.tail)
+// The tile mode's list. HDT draws its own CardTile at 217x34 scaled by 0.92 and centered in the
+// 350pt panel; HSTracker's CardBar is authored against the very same 217x34 box (kFrameWidth /
+// kRowHeight), so the same scale reproduces HDT's row size exactly. playerType .cardList is the
+// tracker-less variant: white text, and no darkening for the count of 0 that pool cards carry.
+@available(macOS 10.15, *)
+private struct RelatedCardsBrowserTileListView: NSViewRepresentable {
+    let cards: [Card]
 
-            Spacer(minLength: 0)
-        }
-        .padding(.horizontal, 8)
-        .padding(.vertical, 4)
-        .background(Color(hex: "#20282C"))
-        .cornerRadius(6)
+    static let tileScale: CGFloat = 0.92
+    static let tileWidth = CGFloat(kFrameWidth) * tileScale
+    static let tileHeight = CGFloat(kRowHeight) * tileScale
+
+    func makeNSView(context: Context) -> RelatedCardsBrowserTileList {
+        let list = RelatedCardsBrowserTileList()
+        list.playerType = .cardList
+        list.cardHeight = Self.tileHeight
+        return list
+    }
+
+    func updateNSView(_ nsView: RelatedCardsBrowserTileList, context: Context) {
+        nsView.reload(cards: cards)
     }
 }
 
 @available(macOS 10.15, *)
 private struct RelatedCardsBrowserContentView: View {
     @ObservedObject var viewModel: RelatedCardsBrowserViewModel
-    static let width: CGFloat = 320
+    static let width: CGFloat = 350
 
     var body: some View {
         VStack(spacing: 0) {
@@ -305,14 +351,42 @@ private struct RelatedCardsBrowserContentView: View {
 
     private var cardList: some View {
         ScrollView {
-            VStack(spacing: 4) {
-                ForEach(Array(viewModel.filteredCards.enumerated()), id: \.offset) { _, card in
-                    RelatedCardsBrowserTileView(card: card)
-                }
+            if viewModel.useCardTiles {
+                cardTiles
+            } else {
+                cardGrid
             }
-            .padding(8)
         }
         .frame(maxHeight: 480)
+    }
+
+    // Ports the ShowCardGrid ListView: rows of three full card renders, centered.
+    private var cardGrid: some View {
+        let cards = viewModel.filteredCards
+        let rows = Int(ceil(Double(cards.count) / 3.0))
+        return VStack(spacing: 0) {
+            ForEach(0..<rows, id: \.self) { row in
+                HStack(spacing: 0) {
+                    ForEach(0..<3, id: \.self) { column in
+                        let index = row * 3 + column
+                        if index < cards.count {
+                            RelatedCardsBrowserFullCardView(card: cards[index])
+                        }
+                    }
+                }
+            }
+        }
+        .frame(maxWidth: .infinity)
+    }
+
+    // Ports the UseCardTiles ListView, down to its 4,3 padding.
+    private var cardTiles: some View {
+        RelatedCardsBrowserTileListView(cards: viewModel.filteredCards)
+            .frame(width: RelatedCardsBrowserTileListView.tileWidth,
+                   height: RelatedCardsBrowserTileListView.tileHeight * CGFloat(viewModel.filteredCards.count))
+            .padding(.horizontal, 4)
+            .padding(.vertical, 3)
+            .frame(maxWidth: .infinity)
     }
 }
 
