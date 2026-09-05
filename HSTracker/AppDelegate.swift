@@ -49,6 +49,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
             HSReplayPreferences(nibName: "HSReplayPreferences", bundle: nil),
             PlayerTrackersPreferences(nibName: "PlayerTrackersPreferences", bundle: nil),
             OpponentTrackersPreferences(nibName: "OpponentTrackersPreferences", bundle: nil),
+            TheOutfinderPreferences(nibName: "TheOutfinderPreferences", bundle: nil),
             BattlegroundsPreferences(nibName: "BattlegroundsPreferences", bundle: nil),
             MercenariesPreferences(nibName: "MercenariesPreferences", bundle: nil),
             ImportingPreferences(nibName: "ImportingPreferences", bundle: nil)

@@ -76,11 +76,12 @@ final class RelatedCardsRightClickMonitor {
         rightButtonWasDown = isDown
 
         guard pressed else { return }
-        // Mirrors PollRightClick's guard order: frontmost app, the setting gate (HSTracker has no
-        // Config.Instance.OutfinderEnabled equivalent yet, so this uses the same
-        // showPlayerRelatedCards setting every other related-cards call site already gates on),
-        // then whether a large-pool card is actually hovered right now.
+        // Mirrors PollRightClick's guard order: frontmost app, the setting gate, then whether a
+        // large-pool card is actually hovered right now. HDT checks Config.Instance.OutfinderEnabled
+        // alone here; showPlayerRelatedCards is kept alongside it because the pool that would be
+        // browsed only ever gets set by a tooltip that setting already gates.
         guard CoreManager.isHearthstoneActive() else { return }
+        guard Settings.outfinderEnabled else { return }
         guard Settings.showPlayerRelatedCards else { return }
         guard let card = hoveredCard, !hoveredPool.isEmpty else { return }
 

@@ -4839,7 +4839,9 @@ class Game: NSObject, PowerEventHandler {
             // player hand
             if hoveredCard.isHand && isTraditionalHearthstoneMatch {
                 let relatedCards = getRelatedCards(player: player, cardId: hoveredCard.cardId, inHand: true, handPosition: hoveredCard.zonePosition)
-                if relatedCards.count > 0 && Settings.showPlayerRelatedCards {
+                // HDT's SetRelatedCardsTrigger(BigCardState): OutfinderInHand gates the hand hover.
+                if relatedCards.count > 0 && Settings.showPlayerRelatedCards &&
+                    !relatedCardsManager.isOutfinderSuppressed(cardId: hoveredCard.cardId, surfaceEnabled: Settings.outfinderInHand) {
                     let nonNullableRelatedCards = relatedCards.compactMap { x in x }
                     
                     let tooltipGridCards = windowManager.tooltipGridCards
@@ -4883,7 +4885,10 @@ class Game: NSObject, PowerEventHandler {
                     hoveredEntity = entity
                     relatedCards = getRelatedCards(player: player, cardId: hoveredCard.cardId, objectiveEntity: entity)
                 }
-                if relatedCards.count > 0 && Settings.showPlayerRelatedCards {
+                // HSTracker's own zone, with no HDT counterpart; it reaches the tooltip through the
+                // same big-card hover trigger as the hand, so it follows that trigger's setting.
+                if relatedCards.count > 0 && Settings.showPlayerRelatedCards &&
+                    !relatedCardsManager.isOutfinderSuppressed(cardId: hoveredCard.cardId, surfaceEnabled: Settings.outfinderInHand) {
                     let nonNullableRelatedCards = relatedCards.compactMap { $0 }
                     let tooltipGridCards = windowManager.tooltipGridCards
                     tooltipGridCards.setTitle(String.localizedString("Related_Cards", comment: ""))
@@ -4925,7 +4930,9 @@ class Game: NSObject, PowerEventHandler {
                     hoveredEntity = entity
                     relatedCards = getRelatedCards(player: opponent, cardId: hoveredCard.cardId, objectiveEntity: entity)
                 }
-                if relatedCards.count > 0 && Settings.showPlayerRelatedCards {
+                // As above: the opponent's secrets/objective zone rides the same hover trigger.
+                if relatedCards.count > 0 && Settings.showPlayerRelatedCards &&
+                    !relatedCardsManager.isOutfinderSuppressed(cardId: hoveredCard.cardId, surfaceEnabled: Settings.outfinderInHand) {
                     let nonNullableRelatedCards = relatedCards.compactMap { $0 }
                     let tooltipGridCards = windowManager.tooltipGridCards
                     tooltipGridCards.setTitle(String.localizedString("Related_Cards", comment: ""))
@@ -5012,7 +5019,9 @@ class Game: NSObject, PowerEventHandler {
 
         // Not ideal. Maybe we re-position the tooltip on size change and canvas.top/left change?
 
-        if Settings.showPlayerRelatedCards {
+        // HDT's SetRelatedCardsTrigger(DiscoverState) gates this one on OutfinderInDeck.
+        if Settings.showPlayerRelatedCards &&
+            !relatedCardsManager.isOutfinderSuppressed(cardId: state.cardId, surfaceEnabled: Settings.outfinderInDeck) {
             let relatedCards = getRelatedCards(player: player, cardId: state.cardId)
             guard relatedCards.count > 0 else {
                 return

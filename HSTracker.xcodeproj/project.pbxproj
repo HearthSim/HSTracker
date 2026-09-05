@@ -1229,6 +1229,10 @@
 		B8591FFC2B24F87C00B907A4 /* ObjectiveProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FFB2B24F87C00B907A4 /* ObjectiveProxy.swift */; };
 		B85920962B4C73B300B907A4 /* CustomToolTip in Frameworks */ = {isa = PBXBuildFile; productRef = B85920952B4C73B300B907A4 /* CustomToolTip */; };
 		B85A0D54272CDEFE006D2648 /* MercenariesPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85A0D53272CDEFE006D2648 /* MercenariesPreferences.swift */; };
+		B8FA0C0100000005000000A5 /* TheOutfinderPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FA0C0100000001000000A1 /* TheOutfinderPreferences.swift */; };
+		B8FA0C0100000006000000A6 /* TheOutfinderPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FA0C0100000001000000A1 /* TheOutfinderPreferences.swift */; };
+		B8FA0C0100000007000000A7 /* TheOutfinderPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8FA0C0100000004000000A4 /* TheOutfinderPreferences.xib */; };
+		B8FA0C0100000008000000A8 /* TheOutfinderPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8FA0C0100000004000000A4 /* TheOutfinderPreferences.xib */; };
 		B85A0D55272CE24A006D2648 /* MercenariesPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B85A0D51272CDDFB006D2648 /* MercenariesPreferences.xib */; };
 		B85A0D56272CE24B006D2648 /* MercenariesPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B85A0D51272CDDFB006D2648 /* MercenariesPreferences.xib */; };
 		B85A0D5727303709006D2648 /* BoardOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AFA40A2723310700B3470E /* BoardOverlay.swift */; };
@@ -3257,6 +3261,9 @@
 		B8591FFB2B24F87C00B907A4 /* ObjectiveProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectiveProxy.swift; sourceTree = "<group>"; };
 		B85A0D52272CDDFB006D2648 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MercenariesPreferences.xib; sourceTree = "<group>"; };
 		B85A0D53272CDEFE006D2648 /* MercenariesPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MercenariesPreferences.swift; sourceTree = "<group>"; };
+		B8FA0C0100000001000000A1 /* TheOutfinderPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TheOutfinderPreferences.swift; sourceTree = "<group>"; };
+		B8FA0C0100000002000000A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TheOutfinderPreferences.xib; sourceTree = "<group>"; };
+		B8FA0C0100000003000000A3 /* mul */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; name = mul; path = mul.lproj/TheOutfinderPreferences.xcstrings; sourceTree = "<group>"; };
 		B85F1AC8258A558200A6F8C3 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		B8621F192746A785004DD0E9 /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		B8621F1B2746AF5E004DD0E9 /* HSReplayNetHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSReplayNetHelper.swift; sourceTree = "<group>"; };
@@ -4273,6 +4280,8 @@
 				432B5FC11CB5373500B05D19 /* InitialConfiguration.xib */,
 				B85A0D53272CDEFE006D2648 /* MercenariesPreferences.swift */,
 				B85A0D51272CDDFB006D2648 /* MercenariesPreferences.xib */,
+				B8FA0C0100000001000000A1 /* TheOutfinderPreferences.swift */,
+				B8FA0C0100000004000000A4 /* TheOutfinderPreferences.xib */,
 				437B5BB41CD2558500DE0A41 /* OpponentTrackersPreferences.swift */,
 				437B5BB61CD2559300DE0A41 /* OpponentTrackersPreferences.xib */,
 				43D308071C84410000480488 /* PlayerTrackersPreferences.swift */,
@@ -7004,6 +7013,7 @@
 				B8BD3BB02C435CA7001E85B7 /* BattlegroundsCompositionStatsRow.xib in Resources */,
 				B8B7CC20253C74D100033758 /* BattlegroundsPreferences.xib in Resources */,
 				B85A0D55272CE24A006D2648 /* MercenariesPreferences.xib in Resources */,
+				B8FA0C0100000007000000A7 /* TheOutfinderPreferences.xib in Resources */,
 				B8AF0C6F2B8433DE00B65F63 /* ConstructedMulliganGuide.xib in Resources */,
 				B8BB7ABA28369737008239CA /* BattlegroundsFinalBoard.xib in Resources */,
 				434D1CB41D10947200222B8E /* Statistics.xib in Resources */,
@@ -7084,6 +7094,7 @@
 				B8BA17FD28F10F6C004D40ED /* FloatingCard.xib in Resources */,
 				B8643D042759815500B2D708 /* MercenariesTaskListButton.xib in Resources */,
 				B85A0D56272CE24B006D2648 /* MercenariesPreferences.xib in Resources */,
+				B8FA0C0100000008000000A8 /* TheOutfinderPreferences.xib in Resources */,
 				43640BE11E89A25F00FAFD07 /* Resources in Resources */,
 				B85A0D582730370D006D2648 /* BoardOverlay.xib in Resources */,
 				B8643D072759815D00B2D708 /* MercenariesTask.xib in Resources */,
@@ -8766,6 +8777,7 @@
 				43C567EC1D5E314500451B6F /* HSReplay.swift in Sources */,
 				B852D8192DDACAAF00884B26 /* Shaladrassil.swift in Sources */,
 				B85A0D54272CDEFE006D2648 /* MercenariesPreferences.swift in Sources */,
+				B8FA0C0100000005000000A5 /* TheOutfinderPreferences.swift in Sources */,
 				B8E1E5CB2D0C8CF900383975 /* ResurrectionCard.swift in Sources */,
 				B81B3D8F2D409B0A00DC9EB0 /* JoymancerJepetto.swift in Sources */,
 				B846CC6C2E09F16700552F9C /* ImpKingRafaam.swift in Sources */,
@@ -9172,6 +9184,7 @@
 				43C1CA4B1E96CD6F008C20B1 /* CardMark.swift in Sources */,
 				F7D7A3A72011B67D00E3A5F0 /* Hearthstone.swift in Sources */,
 				B8643D022759814B00B2D708 /* MercenariesPreferences.swift in Sources */,
+				B8FA0C0100000006000000A6 /* TheOutfinderPreferences.swift in Sources */,
 				43C1CA4C1E96CD6F008C20B1 /* CardSet.swift in Sources */,
 				43C1CA4D1E96CD6F008C20B1 /* CardType.swift in Sources */,
 				43C1CA4E1E96CD6F008C20B1 /* Faction.swift in Sources */,
@@ -9457,6 +9470,15 @@
 				B89BCF49300851D10095F011 /* mul */,
 			);
 			name = MercenariesPreferences.xib;
+			sourceTree = "<group>";
+		};
+		B8FA0C0100000004000000A4 /* TheOutfinderPreferences.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B8FA0C0100000002000000A2 /* Base */,
+				B8FA0C0100000003000000A3 /* mul */,
+			);
+			name = TheOutfinderPreferences.xib;
 			sourceTree = "<group>";
 		};
 		B864AE3925A4CC1200793F36 /* ImportingPreferences.xib */ = {

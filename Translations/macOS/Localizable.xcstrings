@@ -15670,6 +15670,36 @@
         }
       }
     },
+    "The OutFinder" : {
+      "comment" : "The OutFinder settings pane title",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der OutFinder"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The OutFinder"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OutFinder"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最佳解探寻器"
+          }
+        }
+      }
+    },
     "THE_BARRENS" : {
       "extractionState" : "manual",
       "localizations" : {

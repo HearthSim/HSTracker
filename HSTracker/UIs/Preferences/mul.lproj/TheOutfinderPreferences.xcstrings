@@ -1,0 +1,144 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Otf-C0-Ena.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Enable The OutFinder\"; ObjectID = \"Otf-C0-Ena\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den OutFinder aktivieren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Enable The OutFinder"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Habilitar o OutFinder"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "启用最佳解探寻器"
+          }
+        }
+      }
+    },
+    "Otf-C1-Dek.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Show in deck\"; ObjectID = \"Otf-C1-Dek\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In Deck anzeigen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show in deck"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exibir no deck"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在套牌中显示"
+          }
+        }
+      }
+    },
+    "Otf-C2-Hnd.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Show in hand\"; ObjectID = \"Otf-C2-Hnd\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In der Hand anzeigen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show in hand"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exibir na mão"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在手牌中显示"
+          }
+        }
+      }
+    },
+    "Otf-C3-Pct.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Use percentages\"; ObjectID = \"Otf-C3-Pct\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Use percentages"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usar porcentagens"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用百分比"
+          }
+        }
+      }
+    },
+    "Otf-C4-Til.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Show pools as a card list (uses less data)\"; ObjectID = \"Otf-C4-Til\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show pools as a card list (uses less data)"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exibir conjuntos como lista de cards (utiliza menos dados)"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "以卡片列表显示卡池（使用较少的数据）"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.1"
+}

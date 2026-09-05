@@ -379,6 +379,23 @@ final class Settings {
     static var showPlayerRelatedCards
     @UserDefault(key: Settings.player_highlight_synergies, defaultValue: true)
     static var showPlayerHighlightSynergies
+    // The OutFinder settings pane, porting HDT's Config.Instance.Outfinder* block. These sit
+    // alongside showPlayer/showOpponentRelatedCards (HDT's HidePlayerRelatedCards) rather than
+    // replacing them: those hide the related-cards tooltip for one tracker, while these gate the
+    // Outfinder - the pool summary and statistics - across the whole app.
+    @UserDefault(key: Settings.outfinder_enabled, defaultValue: true)
+    static var outfinderEnabled: Bool
+    @UserDefault(key: Settings.outfinder_in_deck, defaultValue: true)
+    static var outfinderInDeck: Bool
+    @UserDefault(key: Settings.outfinder_in_hand, defaultValue: true)
+    static var outfinderInHand: Bool
+    // Formats the pool summary as percentages rather than card counts.
+    @UserDefault(key: Settings.outfinder_use_percentages, defaultValue: true)
+    static var outfinderUsePercentages: Bool
+    // Off (HDT's default) draws the pool browser as full card renders, on draws it as a card-tile
+    // list, which downloads far less image data.
+    @UserDefault(key: Settings.outfinder_use_card_tiles, defaultValue: false)
+    static var outfinderUseCardTiles: Bool
     @UserDefault(key: Settings.opponent_deathrattle_frame, defaultValue: false)
     static var showOpponentDeathrattle: Bool
     @UserDefault(key: Settings.opponent_graveyard_frame, defaultValue: true)
@@ -693,6 +710,11 @@ extension Settings {
     static let player_counters = "player_counters"
     static let player_related_cards = "player_related_cards"
     static let player_highlight_synergies = "player_highlight_synergies"
+    static let outfinder_enabled = "outfinder_enabled"
+    static let outfinder_in_deck = "outfinder_in_deck"
+    static let outfinder_in_hand = "outfinder_in_hand"
+    static let outfinder_use_percentages = "outfinder_use_percentages"
+    static let outfinder_use_card_tiles = "outfinder_use_card_tiles"
     static let player_max_resources = "player_max_resources"
     static let player_corpses_counter = "player_corpses_counter"
     static let opponent_deathrattle_frame = "opponent_deathrattle_frame"
