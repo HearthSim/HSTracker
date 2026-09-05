@@ -212,6 +212,14 @@ struct ImageUtils {
                     }
                     
                     completion(image)
+                } else {
+                    // A 404 from art.hearthstonejson.com arrives as an HTML body with no
+                    // URLSession error - which is what asking for art a card does not have looks
+                    // like, e.g. the /bgs variant of a constructed card. Without this branch the
+                    // completion is never called at all, silently stranding every caller that has
+                    // a fallback to run or a placeholder to show.
+                    logger.verbose("no \(type) image at \(url)")
+                    completion(nil)
                 }
                 }.resume()
         }

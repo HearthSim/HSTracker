@@ -185,7 +185,9 @@ class RootOverlayWindow: OverWindowController {
                 hoveredView = nil
                 // Unconditional hide: we know no card is under cursor, so we must
                 // dismiss regardless of which card (base or golden) is currently shown.
-                CardTooltipPanel.shared.hide()
+                // Scoped to this source, though - the cursor leaving the canvas is routinely the
+                // cursor arriving somewhere that drives the same panel itself.
+                CardTooltipPanel.shared.hide(from: .registry)
             }
             // Force-hide if the tooltip's current card is no longer registered.
             // Fires at most every 150ms via the fallback timer and catches the
@@ -193,10 +195,12 @@ class RootOverlayWindow: OverWindowController {
             // was a different card than the one whose view was removed (e.g.
             // the guide navigated away while a new 300ms show-delay was still
             // in flight for a different hovered card).
+            // Scoped the same way: "not in the registry" only means "gone" for a tooltip the
+            // registry started.
             let registry = CardHoverRegistry.shared
             if let shown = CardTooltipPanel.shared.currentCardId,
                !registry.entries.contains(where: { $0.cardId == shown && $0.view != nil }) {
-                CardTooltipPanel.shared.hide()
+                CardTooltipPanel.shared.hide(from: .registry)
             }
         }
     }

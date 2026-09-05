@@ -5,6 +5,7 @@
 - Added Paladin Imbue's Emerald Portal to The OutFinder.
 - Added a The OutFinder settings pane, matching Hearthstone Deck Tracker's own: it can now be turned off entirely, shown or hidden separately for cards in the deck and cards in hand, and switched between percentages and card counts.
 - Fixed The OutFinder's pool browser drawing its own compact card rows instead of the two displays Hearthstone Deck Tracker offers. It now shows the full card art three to a row, or the deck tracker's card list when "Show pools as a card list (uses less data)" is enabled.
+- Fixed The OutFinder's pool browser not showing a card preview on hover, which Hearthstone Deck Tracker shows in both of its displays.
 ## Bob's Buddy
 - Fixed the Defensive Sacrifice Dark Gift not being applied to the simulation when it was offered on a magnetized module.
 

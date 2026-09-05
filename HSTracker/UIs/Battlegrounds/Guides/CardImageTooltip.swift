@@ -41,6 +41,17 @@ enum CardTooltipPlacement {
     var flipped: CardTooltipPlacement { self == .left ? .right : .left }
 }
 
+// Which mechanism put the tooltip currently on screen. HDT needs no equivalent - every element
+// raises its own MouseEnter/MouseLeave - but here two different mechanisms drive one shared panel:
+// RootOverlayWindow polls CardHoverRegistry for views inside its own canvas, while the Outfinder
+// pool browser lives in its own NSPanel and drives show/hide from NSTrackingAreas. Tagging the
+// source keeps the registry's housekeeping (its liveness guard and its force-hide sweep, both of
+// which treat "not in the registry" as "gone") from tearing down a tooltip it never started.
+enum CardTooltipSource {
+    case registry
+    case trackingArea
+}
+
 @available(macOS 10.15, *)
 final class CardHoverNSView: NSView {
     private(set) var cardId: String = ""
@@ -148,6 +159,7 @@ class CardTooltipPanel: NSPanel {
     private let primaryImageView = NSImageView()
     private let goldenImageView = NSImageView()
     private(set) var currentCardId: String?
+    private(set) var currentSource: CardTooltipSource = .registry
     private var pendingShowWork: DispatchWorkItem?
     private var pendingHideWork: DispatchWorkItem?
     private var pendingGoldenWork: DispatchWorkItem?
@@ -216,14 +228,26 @@ class CardTooltipPanel: NSPanel {
         }
     }
 
+    /// - Parameters:
+    ///   - source: which mechanism is asking - see CardTooltipSource. Set synchronously, so a hide
+    ///     from the other source is a no-op even while this show is still inside its delay.
+    ///   - sourceView: for `.trackingArea`, the view that reported the hover. The show is abandoned
+    ///     if it has left the window by the time the delay elapses, which is what the registry
+    ///     lookup does for `.registry`.
+    ///   - baconCard: HDT's Card.BaconCard, which its URL formula picks bgs vs render from
+    ///     outright. Pass it when the caller knows; leave it nil to try BG art and fall back, which
+    ///     is what the guides need because their text can reference either kind.
     func show(cardId: String, showTriple: Bool = true, baconTriple: Bool = false,
               placement: CardTooltipPlacement = .right,
-              anchor: NSRect? = nil, bounds: NSRect? = nil) {
+              anchor: NSRect? = nil, bounds: NSRect? = nil,
+              source: CardTooltipSource = .registry, sourceView: NSView? = nil,
+              baconCard: Bool? = nil) {
         // Stored rather than passed down: the golden art resolves later and the
         // early-return path below re-positions against the same geometry.
         preferredPlacement = placement
         currentAnchor = anchor
         currentBounds = bounds
+        currentSource = source
         pendingHideWork?.cancel()
         pendingHideWork = nil
 
@@ -236,14 +260,21 @@ class CardTooltipPanel: NSPanel {
         pendingGoldenWork?.cancel()
         pendingGoldenWork = nil
 
-        let work = DispatchWorkItem { [weak self] in
+        let work = DispatchWorkItem { [weak self, weak sourceView] in
             guard let self = self else { return }
             self.pendingShowWork = nil
             // Abort if the view that triggered this show was removed from the
             // hierarchy while the 300ms delay was pending (guide closed, user
             // navigated away).  Without this guard the image load and orderFront
             // still fire, leaving a ghost tooltip after the guide is gone.
-            guard CardHoverRegistry.shared.entries.contains(where: { $0.view != nil && $0.cardId == cardId }) else { return }
+            switch source {
+            case .registry:
+                guard CardHoverRegistry.shared.entries.contains(where: { $0.view != nil && $0.cardId == cardId }) else { return }
+            case .trackingArea:
+                // The same check for a view the registry never held: losing its window is how a
+                // closed panel or a rebuilt row reports that it is gone.
+                guard sourceView?.window != nil else { return }
+            }
             self.currentCardId = cardId
             let w = Self.tooltipWidth
             let h = Self.tooltipHeight
@@ -290,26 +321,37 @@ class CardTooltipPanel: NSPanel {
                 }
             }
 
-            // Try BG art first (BG cards); fall back to the standard render
-            // (collectible cards referenced in guide text like Sonya Shadowdancer).
-            // baconTriple mirrors HDT's URL formula:
+            // HDT's URL formula:
             //   .../{BaconCard ? "bgs" : "render"}/latest/{lang}/{size}/{Id}{BaconTriple ? "_triple" : ""}.png
-            // The Inspiration board's premium minions arrive as the golden card,
-            // whose art only exists under the suffixed name.
-            ImageUtils.cardArtBG(for: cardId, baconTriple: baconTriple) { [weak self] img in
-                if let img = img {
+            // baconTriple is part of it because the Inspiration board's premium minions arrive as
+            // the golden card, whose art only exists under the suffixed name.
+            //
+            // A caller that knows which kind it holds gets HDT's single request. A caller that does
+            // not - the guides, whose text can reference a collectible card like Sonya Shadowdancer
+            // - tries BG art and falls back to the standard render. That fallback costs a 404 per
+            // attempt and failed downloads are not cached, so it is worth avoiding when possible.
+            func loadStandardRender() {
+                ImageUtils.cardArt(for: cardId) { [weak self] img in
                     DispatchQueue.main.async {
                         guard let self = self, self.currentCardId == cardId else { return }
+                        // Previously this branch scheduled the golden
+                        // unconditionally, ignoring showTriple.
                         showPrimary(img)
                     }
-                } else {
-                    ImageUtils.cardArt(for: cardId) { [weak self] img in
+                }
+            }
+
+            if baconCard == false {
+                loadStandardRender()
+            } else {
+                ImageUtils.cardArtBG(for: cardId, baconTriple: baconTriple) { [weak self] img in
+                    if let img = img {
                         DispatchQueue.main.async {
                             guard let self = self, self.currentCardId == cardId else { return }
-                            // Previously this branch scheduled the golden
-                            // unconditionally, ignoring showTriple.
                             showPrimary(img)
                         }
+                    } else {
+                        loadStandardRender()
                     }
                 }
             }
@@ -389,6 +431,14 @@ class CardTooltipPanel: NSPanel {
         goldenImageView.frame = .zero
         primaryImageView.frame = NSRect(x: 0, y: 0, width: w, height: h)
         orderOut(nil)
+    }
+
+    /// Hides only a tooltip this source owns. RootOverlayWindow's registry sweep runs on every
+    /// mouse move and would otherwise dismiss a tooltip the browser panel put up, since nothing in
+    /// the browser is ever registered.
+    func hide(from source: CardTooltipSource) {
+        guard currentSource == source else { return }
+        hide()
     }
 
     private func startMaxDurationTimer() {

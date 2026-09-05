@@ -146,6 +146,90 @@ private struct FilterChipView: View {
     }
 }
 
+// Ports the CardTooltip HDT attaches to both display modes: to the grid's <Border> with
+// Placement="Left", and - via CardTile.xaml itself - to each tile row with Placement="Right".
+//
+// CardTooltipPanel is that tooltip, already ported, but the way it is normally triggered is not
+// reusable here: CardHoverRegistry is polled by RootOverlayWindow's mouse-move monitors and only
+// ever sees views inside that canvas, while this browser is its own NSPanel. Hover is therefore
+// detected with an NSTrackingArea - the same mechanism CardBar already uses for the deck tracker's
+// own hover, and the reason it keeps working while Hearthstone is the frontmost app.
+@available(macOS 10.15, *)
+enum RelatedCardsBrowserTooltip {
+    static func show(card: Card, placement: CardTooltipPlacement, from view: NSView) {
+        guard let window = view.window else { return }
+        let anchor = window.convertToScreen(view.convert(view.bounds, to: nil))
+        // HDT clamps the tooltip to its overlay window; there is no overlay window in this path, so
+        // the screen the browser is on plays that role.
+        let bounds = (NSScreen.screens.first { $0.frame.intersects(window.frame) } ?? NSScreen.main)?.visibleFrame
+        // Card.UpdateTooltip sets ShowTriple = BaconCard, so a constructed pool card gets no golden
+        // companion image. source/sourceView opt out of the CardHoverRegistry bookkeeping that
+        // RootOverlayWindow's own hovers rely on - see CardTooltipSource.
+        CardTooltipPanel.shared.show(cardId: card.id, showTriple: card.baconCard,
+                                     baconTriple: card.baconTriple, placement: placement,
+                                     anchor: anchor, bounds: bounds,
+                                     source: .trackingArea, sourceView: view,
+                                     baconCard: card.baconCard)
+    }
+
+    static func hide(card: Card) {
+        CardTooltipPanel.shared.hide(ifShowing: card.id)
+    }
+
+    static func hideAll() {
+        CardTooltipPanel.shared.hide(from: .trackingArea)
+    }
+}
+
+@available(macOS 10.15, *)
+final class RelatedCardsBrowserHoverNSView: NSView {
+    var card: Card?
+    var placement: CardTooltipPlacement = .left
+
+    // Match NSHostingView's own flip, like CardHoverNSView does.
+    override var isFlipped: Bool { true }
+
+    private lazy var trackingArea = NSTrackingArea(rect: .zero,
+                                                   options: [.inVisibleRect, .activeAlways, .mouseEnteredAndExited],
+                                                   owner: self,
+                                                   userInfo: nil)
+
+    override func updateTrackingAreas() {
+        super.updateTrackingAreas()
+        if !trackingAreas.contains(trackingArea) {
+            addTrackingArea(trackingArea)
+        }
+    }
+
+    override func mouseEntered(with event: NSEvent) {
+        guard let card else { return }
+        RelatedCardsBrowserTooltip.show(card: card, placement: placement, from: self)
+    }
+
+    override func mouseExited(with event: NSEvent) {
+        guard let card else { return }
+        RelatedCardsBrowserTooltip.hide(card: card)
+    }
+}
+
+@available(macOS 10.15, *)
+private struct RelatedCardsBrowserHoverView: NSViewRepresentable {
+    let card: Card
+    let placement: CardTooltipPlacement
+
+    func makeNSView(context: Context) -> RelatedCardsBrowserHoverNSView {
+        let view = RelatedCardsBrowserHoverNSView()
+        view.card = card
+        view.placement = placement
+        return view
+    }
+
+    func updateNSView(_ nsView: RelatedCardsBrowserHoverNSView, context: Context) {
+        nsView.card = card
+        nsView.placement = placement
+    }
+}
+
 // The grid mode's card: RelatedCardItem.AssetViewModel is built with CardAssetType.FullImage, so
 // this is the whole rendered card (frame, name, text), not the art crop RelatedCardsTooltipPanel's
 // compact grid uses. The 108x152 box and its 2,3 margin are the literal values from the XAML's
@@ -180,6 +264,11 @@ private struct RelatedCardsBrowserFullCardView: View {
         .frame(width: Self.cardWidth, height: Self.cardHeight)
         .padding(.horizontal, 2)
         .padding(.vertical, 3)
+        // HDT's tooltip hangs off the Border that wraps the Image, so it covers the margin too.
+        // A background rather than an overlay, matching HoverTrackingNSView's existing use: a
+        // tracking area fires regardless of z-order, and behind the card it cannot intercept the
+        // scroll wheel.
+        .background(RelatedCardsBrowserHoverView(card: card, placement: .left))
         .onAppear(perform: loadImage)
     }
 
@@ -230,6 +319,10 @@ final class RelatedCardsBrowserTileList: AnimatedCardList {
 // 350pt panel; HSTracker's CardBar is authored against the very same 217x34 box (kFrameWidth /
 // kRowHeight), so the same scale reproduces HDT's row size exactly. playerType .cardList is the
 // tracker-less variant: white text, and no darkening for the count of 0 that pool cards carry.
+//
+// The rows need no hover overlay of their own: CardTile.xaml carries its CardTooltip inline, and
+// CardBar has the matching affordance built in - an NSTrackingArea reporting through CardCellHover,
+// which is what drives the deck tracker's own hover preview.
 @available(macOS 10.15, *)
 private struct RelatedCardsBrowserTileListView: NSViewRepresentable {
     let cards: [Card]
@@ -238,10 +331,30 @@ private struct RelatedCardsBrowserTileListView: NSViewRepresentable {
     static let tileWidth = CGFloat(kFrameWidth) * tileScale
     static let tileHeight = CGFloat(kRowHeight) * tileScale
 
+    // CardBar holds its delegate weakly and AnimatedCardList holds it strongly, so the coordinator
+    // SwiftUI owns is what keeps it alive for the life of the list.
+    final class Coordinator: NSObject, CardCellHover {
+        func hover(cell: CardBar, card: Card) {
+            // Placement="Right", per CardTile.xaml.
+            RelatedCardsBrowserTooltip.show(card: card, placement: .right, from: cell)
+        }
+
+        func out(card: Card) {
+            RelatedCardsBrowserTooltip.hide(card: card)
+        }
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator()
+    }
+
     func makeNSView(context: Context) -> RelatedCardsBrowserTileList {
         let list = RelatedCardsBrowserTileList()
         list.playerType = .cardList
         list.cardHeight = Self.tileHeight
+        // Set before the first reload: AnimatedCardList only forwards a delegate that is already in
+        // place when it builds each CardBar.
+        list.delegate = context.coordinator
         return list
     }
 
@@ -479,6 +592,7 @@ final class RelatedCardsBrowserPanel: NSPanel {
     // call - the card whose pool this is (for the header text) and the full pool to browse.
     func show(sourceCard: Card, relatedCards: [Card], near frame: NSRect) {
         collectionBehavior = Settings.canJoinFullscreen ? [.canJoinAllSpaces, .fullScreenAuxiliary] : []
+        RelatedCardsBrowserTooltip.hideAll()
         viewModel.reset(cardName: sourceCard.name, cards: relatedCards)
 
         var origin = NSPoint(x: frame.maxX + 12, y: frame.maxY - 600)
@@ -500,6 +614,9 @@ final class RelatedCardsBrowserPanel: NSPanel {
     }
 
     func hide() {
+        // The pool the tooltip was anchored to is going away with the panel, and a plain NSView
+        // tracking area cannot report an exit for a window that just disappeared.
+        RelatedCardsBrowserTooltip.hideAll()
         orderOut(nil)
     }
 }
