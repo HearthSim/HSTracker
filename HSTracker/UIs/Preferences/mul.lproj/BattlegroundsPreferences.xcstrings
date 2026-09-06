@@ -41,6 +41,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Show minion types\"; ObjectID = \"7dm-kv-U4Y\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dienerarten anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -77,6 +83,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Show trinket picking stats\"; ObjectID = \"be4-8p-MhH\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Statistik zur Schmuckstückwahl anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -95,6 +107,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Show hero and comp guides\"; ObjectID = \"bgg-ui-002\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Helden- und Comp-Guides anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -131,6 +149,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Show minions and guides browser in pre-lobby\"; ObjectID = \"bgl-ui-002\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diener- und Guide-Übersicht in der Vorlobby anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -233,6 +257,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Banned\"; ObjectID = \"DaB-Gf-wIK\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gesperrt"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -251,6 +281,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Show Battlecry and Deathrattle on tiers\"; ObjectID = \"dcW-bJ-e6v\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kampfschrei und Todesröcheln auf Stufen anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -269,6 +305,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Always show tavern tier 7\"; ObjectID = \"EaL-aA-A3g\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tavernenstufe 7 immer anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -287,6 +329,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Enable Tier7 overlay\"; ObjectID = \"fts-jC-w9N\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tier7-Overlay aktivieren"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -305,6 +353,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Reset Session\"; ObjectID = \"gcd-yJ-p3G\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sitzung zurücksetzen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -323,6 +377,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Show Battlegrounds hero picking stats\"; ObjectID = \"gkM-fC-BN7\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Statistik zur Heldenwahl anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -341,6 +401,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Show latest games\"; ObjectID = \"hVL-iu-9SV\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Letzte Spiele anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -449,6 +515,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Show opponent warband\"; ObjectID = \"J07-pk-b78\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gegnerisches Brett anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -473,6 +545,12 @@
       "comment" : "Class = \"NSBox\"; title = \"Session Recap\"; ObjectID = \"JUT-jb-jLx\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sitzungsübersicht"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -509,6 +587,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Start, Current\"; ObjectID = \"L5S-gI-Wxn\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start, Aktuell"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -617,6 +701,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Show tavern and triple history\"; ObjectID = \"nGc-Fs-IbI\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tavernen- und Dreifachverlauf anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -641,6 +731,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Show hero comparison\"; ObjectID = \"oXq-kH-uaV\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heldenvergleich anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -665,6 +761,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Show Battlegrounds quest picking stats\"; ObjectID = \"po8-Pv-EE8\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Statistik zur Questwahl anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -683,6 +785,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Show MMR\"; ObjectID = \"PrW-hA-PZj\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MMR anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -701,6 +809,12 @@
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Scaling\"; ObjectID = \"pzC-JZ-tcU\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skalierung"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -809,6 +923,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Show tavern spells\"; ObjectID = \"QUp-Tx-AlQ\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tavernenzauber anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -827,6 +947,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Current, Change\"; ObjectID = \"RCI-vA-mUx\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktuell, Änderung"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -935,6 +1061,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Show comp stats (in session recap)\"; ObjectID = \"tBZ-Tg-1hx\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comp-Statistik anzeigen (in der Sitzungsübersicht)"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -971,6 +1103,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Show tavern pinning\"; ObjectID = \"tvp-ui-002\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anheften in der Taverne anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -995,6 +1133,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Auto-enable comps key pieces on game start\"; ObjectID = \"tvp-ui-012\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wichtige Comp-Karten bei Spielstart automatisch aktivieren"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -1019,6 +1163,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Show quick guides\"; ObjectID = \"tvp-ui-022\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kurzanleitungen anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -1049,6 +1199,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Available\"; ObjectID = \"wfJ-hm-6dv\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verfügbar"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -1067,6 +1223,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Show Tier7 menu overlay (MMR & stats)\"; ObjectID = \"Xmc-n4-oyS\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tier7-Menü-Overlay anzeigen (MMR & Statistik)"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -1085,6 +1247,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Show session recap\"; ObjectID = \"ZsD-zG-uu2\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sitzungsübersicht anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",

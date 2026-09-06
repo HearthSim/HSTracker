@@ -773,6 +773,12 @@
       "comment" : "Class = \"NSToolbarItem\"; label = \"Modes\"; ObjectID = \"BHN-1k-K8M\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modi"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -785,6 +791,12 @@
       "comment" : "Class = \"NSToolbarItem\"; paletteLabel = \"Modes\"; ObjectID = \"BHN-1k-K8M\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modi"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -1025,6 +1037,12 @@
       "comment" : "Class = \"NSMenuItem\"; title = \"Export with comments\"; ObjectID = \"CTB-Ls-Ryo\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mit Kommentaren exportieren"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -1583,6 +1601,12 @@
       "comment" : "Class = \"NSMenuItem\"; title = \"Delete\"; ObjectID = \"hbn-wb-w85\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Löschen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -1631,6 +1655,12 @@
       "comment" : "Class = \"NSToolbarItem\"; label = \"Classes\"; ObjectID = \"Hyt-EI-Vfy\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klassen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -1679,6 +1709,12 @@
       "comment" : "Class = \"NSToolbarItem\"; paletteLabel = \"Classes\"; ObjectID = \"Hyt-EI-Vfy\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klassen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -1727,6 +1763,12 @@
       "comment" : "Class = \"NSMenuItem\"; title = \"Edit\"; ObjectID = \"K4S-En-2ZL\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bearbeiten"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -2627,6 +2669,12 @@
       "comment" : "Class = \"NSMenuItem\"; title = \"Use\"; ObjectID = \"xp4-7a-GbL\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwenden"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -2765,6 +2813,12 @@
       "comment" : "Class = \"NSToolbarItem\"; paletteLabel = \"Export\"; ObjectID = \"XUQ-ti-e6U\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exportieren"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -2951,6 +3005,12 @@
       "comment" : "Class = \"NSMenuItem\"; title = \"Rename\"; ObjectID = \"YTC-HA-6U7\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Umbenennen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",

@@ -5,6 +5,12 @@
       "comment" : "Class = \"NSTextFieldCell\"; title = \"No games played this session.\"; ObjectID = \"1mK-qe-hNf\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In dieser Sitzung noch keine Spiele."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -287,6 +293,12 @@
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Hero\"; ObjectID = \"7pd-zc-OK6\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Held"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -311,6 +323,12 @@
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Composition\"; ObjectID = \"56B-oE-mHO\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aufstellung"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -875,6 +893,12 @@
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Composition Stats\"; ObjectID = \"dfB-qF-lgY\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aufstellungsstatistik"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -887,6 +911,12 @@
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Latest Games\"; ObjectID = \"EHU-ML-UQu\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Letzte Spiele"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -899,6 +929,12 @@
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Waiting for next game\"; ObjectID = \"F5K-Qy-jMG\";",
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Warte auf nächstes Spiel"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1181,6 +1217,12 @@
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Latest 10 games will appear here.\"; ObjectID = \"laC-ik-fnr\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hier erscheinen die letzten 10 Spiele."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -1193,6 +1235,12 @@
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Avg Place\"; ObjectID = \"lbg-ag-AUz\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ø Platz"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -1205,6 +1253,12 @@
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Waiting for next game\"; ObjectID = \"Ljq-si-cSB\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Warte auf nächstes Spiel"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -1217,6 +1271,12 @@
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Waiting for next game\"; ObjectID = \"Lsj-Uu-LT0\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Warte auf nächstes Spiel"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -1523,6 +1583,12 @@
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Place\"; ObjectID = \"OQz-Pw-CsO\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Platz"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -1637,6 +1703,12 @@
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Failed to load compositions\"; ObjectID = \"QQx-oQ-X0l\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aufstellungen konnten nicht geladen werden"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -1931,6 +2003,12 @@
       "comment" : "Class = \"NSTextFieldCell\"; title = \"First Place\"; ObjectID = \"uLh-zR-aZ2\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erster Platz"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -2123,6 +2201,12 @@
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Minions Banned\"; ObjectID = \"vrF-Hk-Z1q\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gesperrte Diener"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
