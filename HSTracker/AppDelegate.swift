@@ -80,6 +80,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
             options.debug = false // Enabled debug when first installing is always helpful
             options.appHangTimeoutInterval = 60.0
 
+            // The SDK swizzles NSURLSessionTask and reports every 5xx response as an
+            // error by default, from any host the app talks to. That is a backend
+            // health signal, not an HSTracker defect, and it belongs in HSReplay's own
+            // monitoring - as Sentry issues they were HSTRACKER-3C, 67k events across
+            // hsreplay.net, art.hearthstonejson.com and Mixpanel, drowning out the
+            // crashes we can actually act on. The calls themselves already handle a
+            // failed response by logging it and carrying on.
+            options.enableCaptureFailedRequests = false
+
             // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
             // We recommend adjusting this value in production.
             options.tracesSampleRate = 0.0
