@@ -95,6 +95,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Auto archive Arena deck on run end\"; ObjectID = \"hMe-FU-CjR\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arena-Deck am Ende des Laufs automatisch archivieren"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",

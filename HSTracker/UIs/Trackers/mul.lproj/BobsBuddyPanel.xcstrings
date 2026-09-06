@@ -17,6 +17,12 @@
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Loss\"; ObjectID = \"am7-wl-m8P\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verlust"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -29,6 +35,12 @@
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Win\"; ObjectID = \"ap0-Df-S17\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sieg"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -41,6 +53,12 @@
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Lethal\"; ObjectID = \"e3u-8j-TGc\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tödlich"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -53,6 +71,12 @@
       "comment" : "Class = \"NSTextFieldCell\"; title = \"AVG DMG\"; ObjectID = \"EbW-eL-CJE\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ø DMG"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -65,6 +89,12 @@
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Tie\"; ObjectID = \"Ek9-wV-FN6\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remis"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -89,6 +119,12 @@
       "comment" : "Class = \"NSTextFieldCell\"; title = \"AVG DMG\"; ObjectID = \"h3H-2c-OkJ\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ø DMG"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -149,6 +185,12 @@
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Lethal\"; ObjectID = \"KL3-ZW-CmV\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tödlich"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",

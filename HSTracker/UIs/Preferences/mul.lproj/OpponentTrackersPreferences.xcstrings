@@ -365,6 +365,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Show corpses counter\"; ObjectID = \"Cps-op-002\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leichenzähler anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -647,6 +653,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Show counters\"; ObjectID = \"K55-Z7-vBQ\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zähler anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -665,6 +677,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Show active effects\"; ObjectID = \"KlQ-DN-Kv1\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktive Effekte anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -683,6 +701,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Show maximum Health, Mana, and Hand Size\"; ObjectID = \"Lq9-gc-KKd\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maximales Leben, Mana und Handkartenzahl anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -791,6 +815,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Cardlist opens on mouseover\"; ObjectID = \"pMP-qQ-LuR\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kartenliste beim Daraufzeigen öffnen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -947,6 +977,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Show related cards tooltip\"; ObjectID = \"R2c-Ut-BK4\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kurzinfo zu verwandten Karten anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -965,6 +1001,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Prevent tracker from covering opponent's name\"; ObjectID = \"rrt-Fg-VGw\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tracker soll den Namen des Gegners nicht verdecken"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -1031,6 +1073,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Show graveyard\"; ObjectID = \"W6j-bY-6aE\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Friedhof anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -1097,6 +1145,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Enable setting opponent deck in non-friendly matches\"; ObjectID = \"ZkO-13-FoB\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gegnerdeck auch außerhalb von Freundschaftsspielen setzen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
