@@ -1,3 +1,7 @@
+# 3.6.10
+## Hearthstone
+- Added diagnostics to the deck tracker's card list to help track down the remaining random crashes on macOS 26, which are caused by overlay work still running off the main thread.
+
 # 3.6.9
 ## Hearthstone
 - Fixed the deck tracker redrawing its card rows off the main thread while hovering a Discover choice, which could corrupt memory and crash the app.

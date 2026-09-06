@@ -273,6 +273,7 @@ class CardBar: NSView, CardBarTheme {
 
     // MARK: - animation
     func fadeIn(highlight: Bool) {
+        assertMainThread()
         if highlight {
             self.alphaValue = 0.3
             NSAnimationContext.runAnimationGroup({ (context) in
@@ -283,6 +284,7 @@ class CardBar: NSView, CardBarTheme {
     }
 
     func fadeOut(highlight: Bool) {
+        assertMainThread()
         if highlight {
             NSAnimationContext.runAnimationGroup({ (context) in
                 context.duration = 0.5

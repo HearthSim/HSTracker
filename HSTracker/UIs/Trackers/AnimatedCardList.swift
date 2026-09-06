@@ -81,7 +81,8 @@ class AnimatedCardList: NSView {
     }
 
     @discardableResult func update(cards: [Card], reset: Bool) -> Bool {
-        lock.around {
+        assertMainThread()
+        return lock.around {
             if reset {
                 animatedCards.removeAll()
             }
@@ -186,6 +187,7 @@ class AnimatedCardList: NSView {
     }
     
     func updateFrames() {
+        assertMainThread()
         lock.around {
             let ics = internalIntrinsicContentSize(cardCount)
             var y = ics.height
