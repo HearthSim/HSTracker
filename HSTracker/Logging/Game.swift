@@ -761,14 +761,18 @@ class Game: NSObject, PowerEventHandler {
                 // function's HDT analogue (ShowBgsTopBar).
                 self.windowManager.rootOverlay?.viewModel.battlegroundsGuidesTabs.isPreLobby = false
                 self.windowManager.rootOverlay?.viewModel.battlegroundsMinionsGuide.updateLobby()
-                // OverlayWindow.Update re-evaluates ShouldShowBgsMinionPinning()
-                // and re-pushes AvailableRaces on the same tick, for the same
-                // reason: neither the mulligan state nor the lobby's races are
-                // settled at match start.
-                if let pinning = self.windowManager.rootOverlay?.viewModel.battlegroundsMinionPinning {
-                    pinning.updateLobby()
-                    pinning.updateVisibility()
-                }
+                // OverlayWindow.Update re-pushes AvailableRaces on the same
+                // tick, because the lobby's races are not settled at match
+                // start.
+                self.windowManager.rootOverlay?.viewModel.battlegroundsMinionPinning.updateLobby()
+            }
+
+            // Outside the isBG branch for the same reason setInMatch is: the
+            // Tavern Pinning panel has to be taken down when a match ends
+            // however it ended, not only on the handleEndGame path. Its own
+            // predicate carries the match term - see updateVisibility().
+            if #available(macOS 10.15, *) {
+                self.windowManager.rootOverlay?.viewModel.battlegroundsMinionPinning.updateVisibility()
             }
 
             if isBG && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
@@ -1082,6 +1086,15 @@ class Game: NSObject, PowerEventHandler {
                 windowManager.rootOverlay?.viewModel.battlegroundsMinionsGuide.enterPreLobby(isDuos: mode == .duos)
                 guidesTabs.activeTab = nil
                 guidesTabs.isPreLobby = true
+                // HDT's BattlegroundsCompsGuidesVM.OnPreLobby(): the comp
+                // guides have no other trigger in the lobby, so without this
+                // the tab stays stuck on its loading state until a match
+                // starts.
+                if let comps = windowManager.rootOverlay?.viewModel.battlegroundsCompsGuides {
+                    Task {
+                        await comps.onPreLobby()
+                    }
+                }
             }
         } else {
             guidesTabs.isPreLobby = false
@@ -4826,7 +4839,9 @@ class Game: NSObject, PowerEventHandler {
             // player hand
             if hoveredCard.isHand && isTraditionalHearthstoneMatch {
                 let relatedCards = getRelatedCards(player: player, cardId: hoveredCard.cardId, inHand: true, handPosition: hoveredCard.zonePosition)
-                if relatedCards.count > 0 && Settings.showPlayerRelatedCards {
+                // HDT's SetRelatedCardsTrigger(BigCardState): OutfinderInHand gates the hand hover.
+                if relatedCards.count > 0 && Settings.showPlayerRelatedCards &&
+                    !relatedCardsManager.isOutfinderSuppressed(cardId: hoveredCard.cardId, surfaceEnabled: Settings.outfinderInHand) {
                     let nonNullableRelatedCards = relatedCards.compactMap { x in x }
                     
                     let tooltipGridCards = windowManager.tooltipGridCards
@@ -4870,7 +4885,10 @@ class Game: NSObject, PowerEventHandler {
                     hoveredEntity = entity
                     relatedCards = getRelatedCards(player: player, cardId: hoveredCard.cardId, objectiveEntity: entity)
                 }
-                if relatedCards.count > 0 && Settings.showPlayerRelatedCards {
+                // HSTracker's own zone, with no HDT counterpart; it reaches the tooltip through the
+                // same big-card hover trigger as the hand, so it follows that trigger's setting.
+                if relatedCards.count > 0 && Settings.showPlayerRelatedCards &&
+                    !relatedCardsManager.isOutfinderSuppressed(cardId: hoveredCard.cardId, surfaceEnabled: Settings.outfinderInHand) {
                     let nonNullableRelatedCards = relatedCards.compactMap { $0 }
                     let tooltipGridCards = windowManager.tooltipGridCards
                     tooltipGridCards.setTitle(String.localizedString("Related_Cards", comment: ""))
@@ -4912,7 +4930,9 @@ class Game: NSObject, PowerEventHandler {
                     hoveredEntity = entity
                     relatedCards = getRelatedCards(player: opponent, cardId: hoveredCard.cardId, objectiveEntity: entity)
                 }
-                if relatedCards.count > 0 && Settings.showPlayerRelatedCards {
+                // As above: the opponent's secrets/objective zone rides the same hover trigger.
+                if relatedCards.count > 0 && Settings.showPlayerRelatedCards &&
+                    !relatedCardsManager.isOutfinderSuppressed(cardId: hoveredCard.cardId, surfaceEnabled: Settings.outfinderInHand) {
                     let nonNullableRelatedCards = relatedCards.compactMap { $0 }
                     let tooltipGridCards = windowManager.tooltipGridCards
                     tooltipGridCards.setTitle(String.localizedString("Related_Cards", comment: ""))
@@ -4999,7 +5019,9 @@ class Game: NSObject, PowerEventHandler {
 
         // Not ideal. Maybe we re-position the tooltip on size change and canvas.top/left change?
 
-        if Settings.showPlayerRelatedCards {
+        // HDT's SetRelatedCardsTrigger(DiscoverState) gates this one on OutfinderInDeck.
+        if Settings.showPlayerRelatedCards &&
+            !relatedCardsManager.isOutfinderSuppressed(cardId: state.cardId, surfaceEnabled: Settings.outfinderInDeck) {
             let relatedCards = getRelatedCards(player: player, cardId: state.cardId)
             guard relatedCards.count > 0 else {
                 return

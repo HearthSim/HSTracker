@@ -50,6 +50,7 @@ class CurveView: NSView {
     }
 
     override func draw(_ rect: NSRect) {
+        assertMainThread()
         super.draw(rect)
         guard self.deck != nil else { return }
         if self.counts.isEmpty {

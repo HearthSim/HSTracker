@@ -8,6 +8,10 @@
 
 import Foundation
 
+// These helpers run from image download completions and from watcher threads.
+// `lockFocus()` mutates the calling thread's shared `NSGraphicsContext` stack
+// and is deprecated as of macOS 15, so they compose through
+// `NSImage(size:flipped:drawingHandler:)`, which is safe from any thread.
 struct ImageUtilities {
     static func screenshotFirstCard() -> NSImage? {
         let hearthstoneWindow = SizeHelper.hearthstoneWindow
@@ -45,33 +49,27 @@ struct ImageUtilities {
     }
 
     static func cropRect(image: NSImage, rect: NSRect) -> NSImage {
-        let target = NSImage(size: rect.size)
-        target.lockFocus()
-        NSGraphicsContext.current?.imageInterpolation = .high
-        image.draw(at: NSPoint.zero,
-                           from: rect,
-                           operation: .copy,
-                           fraction: 1.0)
-        target.unlockFocus()
-        return target
+        return NSImage(size: rect.size, flipped: false, drawingHandler: { _ -> Bool in
+            NSGraphicsContext.current?.imageInterpolation = .high
+            image.draw(at: NSPoint.zero,
+                       from: rect,
+                       operation: .copy,
+                       fraction: 1.0)
+            return true
+        })
     }
     
-    static func resize(image origImage: NSImage, size: NSSize) -> NSImage? {
-        let sourceImage = origImage
-        let newSize = size
-        let smallImage = NSImage(size: newSize)
-        if smallImage.size == NSSize.zero {
+    static func resize(image origImage: NSImage, size newSize: NSSize) -> NSImage? {
+        if newSize == NSSize.zero {
             return nil
         }
-        smallImage.lockFocus()
-        sourceImage.size = newSize
-        NSGraphicsContext.current!.imageInterpolation = .high
-        sourceImage.draw(at: NSPoint.zero,
-                                from: CGRect(x: 0, y: 0,
-                                    width: newSize.width, height: newSize.height),
-                                operation: .copy,
-                                fraction: 1.0)
-        smallImage.unlockFocus()
-        return smallImage
+        return NSImage(size: newSize, flipped: false, drawingHandler: { (rect) -> Bool in
+            NSGraphicsContext.current?.imageInterpolation = .high
+            origImage.draw(in: rect,
+                           from: NSRect.zero,
+                           operation: .copy,
+                           fraction: 1.0)
+            return true
+        })
     }
 }

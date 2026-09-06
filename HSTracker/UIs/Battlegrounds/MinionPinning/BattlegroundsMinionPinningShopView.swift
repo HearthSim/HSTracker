@@ -204,7 +204,7 @@ struct RecommendedCompsTooltip: View {
         }
         .padding(.horizontal, 9)
         .frame(height: 48)
-        .background(GuideCardArtBackground(card: comp.representativeCard, opacity: 0.4, gradientEnd: 0.80))
+        .background(GuideCardArtBackground(card: comp.representativeCard, opacity: 0.4, gradientEnd: 0.80, gradientColor: Color(hex: "#141617")))
         .background(Color(hex: "#141617"))
         .overlay(RoundedRectangle(cornerRadius: 3).stroke(Color(hex: "#CC4A5256"), lineWidth: 1))
         .cornerRadius(3)

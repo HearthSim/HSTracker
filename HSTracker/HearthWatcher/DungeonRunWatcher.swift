@@ -7,50 +7,22 @@
 //
 
 import Foundation
-import Atomics
 
-class DungeonRunDeckWatcher {
+class DungeonRunDeckWatcher: Watcher {
     private(set) var dungeonRunDeck: [Card] = []
     private(set) var currentModeId: AdventureModeDbId = .invalid
     
     var dungeonInfoChanged: ((_ dungeonInfo: MirrorDungeonInfo) -> Void)?
     var dungeonRunMatchStarted: ((_ newRun: Bool, _ set: CardSet) -> Void)?
     
-    private let delay: TimeInterval
-    private var _running = ManagedAtomic<Bool>(false)
-    private var _watch = ManagedAtomic<Bool>(false)
     var _prevCards: [Int]?
     var _prevLootChoice = 0
     var _prevTreasureChoice = 0
     var _prevAdventure: AdventureDbId = .invalid
     var _currentInfo: MirrorDungeonInfo?
-    
-    internal var queue: DispatchQueue?
-    
-    init(delay: TimeInterval = 0.500) {
-        self.delay = delay
-    }
-    
-    func run() {
-        _watch.store(true, ordering: .sequentiallyConsistent)
-        if _running.load(ordering: .sequentiallyConsistent) {
-            return
-        }
-        if queue == nil {
-            queue = DispatchQueue(label: "\(type(of: self))",
-                                  attributes: [])
-        }
-        if let queue = queue {
-            queue.async { [weak self] in
-                guard let self else { return }
-                Thread.current.name = queue.label
-                self.watch()
-            }
-        }
-    }
-    
-    func stop() {
-        _watch.store(false, ordering: .sequentiallyConsistent)
+
+    override init(delay: TimeInterval = 0.500) {
+        super.init(delay: delay)
     }
 
     static var initialOpponents: [String] =  [
@@ -78,28 +50,19 @@ class DungeonRunDeckWatcher {
     var currentAdventure: AdventureConfig?
     var saveKey: GameSaveKeyId = .invalid
     
-    private func watch() {
-        _running.store(true, ordering: .sequentiallyConsistent)
+    override func setup() {
         _prevCards = nil
         _prevLootChoice = 0
         _prevTreasureChoice = 0
         dungeonRunDeck.removeAll()
-        
-        while _watch.load(ordering: .sequentiallyConsistent) {
-            Thread.sleep(forTimeInterval: delay)
-            if !_watch.load(ordering: .sequentiallyConsistent) {
-                break
-            }
-            if update() {
-                break
-            }
-        }
+    }
+
+    override func cleanup() {
         dungeonRunDeck.removeAll()
         saveKey = .invalid
-        _running.store(false, ordering: .sequentiallyConsistent)
     }
-    
-    private func update() -> Bool {
+
+    override func update() -> Bool {
         let game = AppDelegate.instance().coreManager.game
         guard var config = MirrorHelper.getAdventureConfig() else {
             return false

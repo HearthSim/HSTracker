@@ -17,6 +17,9 @@ import SwiftUI
 @available(macOS 10.15, *)
 struct BattlegroundsCompGuideViewModel: Identifiable {
     let compGuide: BattlegroundsCompGuide
+    // HDT's _isPreLobby: this guide is being shown in the Battlegrounds
+    // lobby, before a match, where there is no minion pool yet.
+    let isPreLobby: Bool
     var id: String { compGuide.name }
 
     // Kept as a nested name so every existing call site still reads
@@ -40,6 +43,10 @@ struct BattlegroundsCompGuideViewModel: Identifiable {
     // HDT's ExampleBoardsButtonEnabled - the button itself isn't wired up
     // until the Inspiration milestone, but the gating already matches.
     var exampleBoardsButtonEnabled: Bool { Self.isTier7Enabled }
+
+    // HDT's ExampleBoardsButtonVisibility: the example boards are filtered by
+    // the current minion pool, which only exists during a match.
+    var exampleBoardsButtonVisible: Bool { !isPreLobby }
 
     // HDT's TierText. Lives on the view model rather than in each view because
     // three of them render it now: the comp list row, the comp detail header,
@@ -83,12 +90,14 @@ struct BattlegroundsCompGuideViewModel: Identifiable {
     // Deriving the check and the action from this single de-duplicated list
     // makes the button's own state round-trip by construction.
     var pinnableCardIds: [String] {
-        let available = Self.availableCardIds()
+        // nil means every card is available, which is the case before a match,
+        // where there is no minion pool yet - HDT's GetAvailableCardIds.
+        let available: Set<Int>? = isPreLobby ? nil : Self.availableCardIds()
         var ids: [String] = []
         var seen: Set<String> = []
 
         func add(dbfId: Int) {
-            guard available.contains(dbfId) else { return }
+            guard available?.contains(dbfId) ?? true else { return }
             guard let card = Cards.by(dbfId: dbfId, collectible: false), !card.id.isEmpty else { return }
             guard seen.insert(card.id).inserted else { return }
             ids.append(card.id)
@@ -134,13 +143,16 @@ struct BattlegroundsCompGuideViewModel: Identifiable {
         GuideCardText.parse(raw)
     }
 
-    init(_ compGuide: BattlegroundsCompGuide) {
+    init(_ compGuide: BattlegroundsCompGuide, isPreLobby: Bool) {
         self.compGuide = compGuide
+        self.isPreLobby = isPreLobby
 
         // HDT only filters core/addon cards down to the current lobby's
         // available pool when Tier7 is enabled - free-tier users always see
-        // the full list, unfiltered.
-        let checkAvailability = Self.isTier7Enabled
+        // the full list, unfiltered. Before a match there is no minion pool at
+        // all, so nothing is filtered either (HDT's GetAvailableCardIds returns
+        // null in the pre-lobby).
+        let checkAvailability = Self.isTier7Enabled && !isPreLobby
         let available = checkAvailability ? Self.availableCardIds() : nil
 
         func minions(_ dbfIds: [Int]) -> [GuideMinion] {

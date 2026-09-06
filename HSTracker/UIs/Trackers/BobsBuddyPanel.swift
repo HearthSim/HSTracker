@@ -61,8 +61,8 @@ class BobsBuddyPanel: OverWindowController {
         statusMessage = StatusMessageConverter.getStatusMessage(state: state, errorState: errorState, statsShown: showingResults, errorMessage: nil)
     }
     
-    func formatPercent(p: Float) -> String {
-        return String(format: "%.1f%%", p*100.0)
+    func formatPercent(p: Float, atLeast: Bool = false) -> String {
+        return (atLeast ? "≥" : "") + String(format: "%.1f%%", locale: Language.culture, p*100.0)
     }
     
     private var showingResults: Bool = false
@@ -202,9 +202,9 @@ class BobsBuddyPanel: OverWindowController {
             tieRateDisplay = formatPercent(p: tieRate)
             lossRateDisplay = formatPercent(p: lossRate)
         } else if friendlyWon {
-            winRateDisplay = formatPercent(p: winRate)
+            winRateDisplay = formatPercent(p: winRate, atLeast: true)
         } else {
-            lossRateDisplay = formatPercent(p: lossRate)
+            lossRateDisplay = formatPercent(p: lossRate, atLeast: true)
         }
 
         opponentLethalRateDisplay = "0%"
@@ -213,11 +213,11 @@ class BobsBuddyPanel: OverWindowController {
         lethalRateStack.alphaValue = 0.3
 
         if opponentCanDie {
-            opponentLethalRateDisplay = "\(opponentLethal == 1 ? "" : "≥")\(formatPercent(p: opponentLethal))"
+            opponentLethalRateDisplay = formatPercent(p: opponentLethal, atLeast: opponentLethal != 1)
             opponentLethalRateStack.alphaValue = opponentLethal > 0 ? 1 : 0.3
         }
         if playerCanDie {
-            lethalRateDisplay = "\(playerLethal == 1 ? "" : "≥")\(formatPercent(p: playerLethal))"
+            lethalRateDisplay = formatPercent(p: playerLethal, atLeast: playerLethal != 1)
             lethalRateStack.alphaValue = playerLethal > 0 ? 1 : 0.3
         }
         showPercentagesHideSpinners()

@@ -164,7 +164,17 @@ class Tier7PreLobbyViewModel: ViewModel {
             // UpdateAccountData request below. SKip this update
             return
         }
-        if AppDelegate.instance().coreManager.game.currentMode != .bacon {
+        // HDT guards on the game mode the lobby watcher reports, not on
+        // game.currentMode. currentMode only becomes .bacon once the log
+        // readers have replayed the LoadingScreen line announcing the scene,
+        // which lands roughly half a second after the memory mirror has
+        // already told SceneHandler we are in BACON. Launching HSTracker while
+        // Hearthstone sits in the Battlegrounds lobby therefore ran this
+        // update while currentMode was still .invalid: it returned without
+        // ever setting userState, and with nothing in the lobby changing
+        // afterwards nothing called back in, so the widget sat on its loading
+        // spinner for the rest of the session.
+        if battlegroundsGameMode == .unknown {
             return
         }
         

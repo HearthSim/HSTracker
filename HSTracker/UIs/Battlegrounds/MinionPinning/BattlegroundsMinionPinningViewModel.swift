@@ -457,11 +457,26 @@ final class BattlegroundsMinionPinningViewModel: ObservableObject {
     // Mirrors HDT's ShouldShowBgsMinionPinning(), evaluated from the overlay
     // update tick as OverlayWindow.Update does. Unlike the minion browser this
     // *is* a hard Tier7 gate - free users get no panel at all.
+    //
+    // The "still in a Battlegrounds match" term is not part of HDT's own
+    // predicate, because HDT never re-evaluates it on a tick: it sets the
+    // panel visible once from ShowBgsTopBar and collapses it from
+    // ResetBgsMatchState, which its top bar teardown calls however the match
+    // ended. Here the predicate *is* the tick, so it has to carry the term
+    // itself - otherwise the only thing that ever cleared the panel was
+    // onMatchEnd() off handleEndGame(), and any match that did not reach it
+    // (a concede back to the lobby, an early quit to the main menu, endgame
+    // statistics failing to generate) left the panel up for the rest of the
+    // session, in the lobby and in every other game mode. isBattlegroundsHero-
+    // PickingDone and setupDone do not cover this: both keep their last
+    // match's value until the next game resets them.
     func updateVisibility() {
         guard let game = AppDelegate.instance().coreManager?.game else { return }
 
         let userHasTier7 = (HSReplayAPI.accountData?.is_tier7 ?? false) || Tier7Trial.token != nil
-        let shouldShow = Settings.showBattlegroundsTavernMarkers
+        let shouldShow = game.isBattlegroundsMatch()
+            && !game.gameEnded
+            && Settings.showBattlegroundsTavernMarkers
             && game.isBattlegroundsHeroPickingDone
             && game.setupDone
             && userHasTier7

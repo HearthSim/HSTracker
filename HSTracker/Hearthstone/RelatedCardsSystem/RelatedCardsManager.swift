@@ -87,17 +87,41 @@ class RelatedCardsManager {
         return relatedCards[cardId] as? ICardWithDynamicRelatedCardsSummary
     }
 
+    // True when cardId is an Outfinder pool card, i.e. one that would contribute a summary
+    // rather than only a plain related-cards list.
+    public func hasOutfinderSummary(_ cardId: String) -> Bool {
+        return getCardWithRelatedCardsSummary(cardId) != nil || getCardWithDynamicRelatedCardsSummary(cardId) != nil
+    }
+
+    /// Ports the guard HDT repeats at every related-cards trigger:
+    /// `cardWithRelatedCards is ICardWithRelatedCardsSummary or ICardWithDynamicRelatedCardsSummary
+    /// && (!OutfinderEnabled || !OutfinderIn<surface>)`. An Outfinder pool card is suppressed
+    /// entirely when the Outfinder is off for that surface, while a card that only carries a plain
+    /// related-cards list keeps showing its grid - those are not the Outfinder.
+    ///
+    /// - Parameter surfaceEnabled: `Settings.outfinderInDeck` or `Settings.outfinderInHand`, per
+    ///   the trigger this is called from.
+    public func isOutfinderSuppressed(cardId: String, surfaceEnabled: Bool) -> Bool {
+        guard !Settings.outfinderEnabled || !surfaceEnabled else { return false }
+        return hasOutfinderSummary(cardId)
+    }
+
     // Single entry point every related-cards tooltip call site uses right alongside
     // getCardWithRelatedCards/getRelatedCards: nil/nil/false for a plain related-cards
     // list, or the actual Outfinder summary when cardId is a pool-generation card.
     // Pass player (and hoveredEntity, when known) to also cover dynamic pools; without a
     // player, dynamic cards fall through to nil/nil/false the same as an unregistered card.
+    //
+    // HDT threads Config.Instance.OutfinderUsePercentages through from each call site; because
+    // every HSTracker call site goes through this one entry point, the setting is read here
+    // instead, which is the same thing with one less parameter to keep in sync.
     // swiftlint:disable:next large_tuple
     public func getPoolStatistics(cardId: String, relatedCards: [Card?], player: Player? = nil, hoveredEntity: Entity? = nil) -> (statistics: PoolStatistics?, summary: [String: String]?, hasLargePool: Bool) {
+        let usePercentages = Settings.outfinderUsePercentages
         if let player = player, let dynamicCard = getCardWithDynamicRelatedCardsSummary(cardId) {
             var summary: [String: String]?
             var statistics: PoolStatistics?
-            let count = dynamicCard.computeSummary(player: player, summary: &summary, statistics: &statistics, usePercentages: true, hoveredEntity: hoveredEntity, pool: nil)
+            let count = dynamicCard.computeSummary(player: player, summary: &summary, statistics: &statistics, usePercentages: usePercentages, hoveredEntity: hoveredEntity, pool: nil)
             return (statistics, summary, count > RelatedCardsManager.largePoolThreshold)
         }
 
@@ -108,7 +132,7 @@ class RelatedCardsManager {
         let pickConfig = PickConfig(batchSize: generator.picks(), eventCount: generator.eventCount(), isWithReplacement: generator.isWithReplacement())
         var summary: [String: String]?
         var statistics: PoolStatistics?
-        let count = RelatedCardsManager.tryGetRelatedCardsSummary(relatedCards: relatedCards, pickConfig: pickConfig, result: &summary, statistics: &statistics)
+        let count = RelatedCardsManager.tryGetRelatedCardsSummary(relatedCards: relatedCards, pickConfig: pickConfig, result: &summary, statistics: &statistics, usePercentages: usePercentages)
         return (statistics, summary, count > RelatedCardsManager.largePoolThreshold)
     }
 
@@ -341,13 +365,13 @@ class RelatedCardsManager {
     }
 
     private static func formatMedian(_ value: Double) -> String {
-        return value == value.rounded(.down) ? "\(Int(value))" : String(format: "%.1f", value)
+        return value == value.rounded(.down) ? "\(Int(value))" : String(format: "%.1f", locale: Language.culture, value)
     }
 
     // Mirrors C#'s "{0:0.#}" format: round to at most 1 decimal, no trailing zero.
     private static func formatPercent(_ value: Float) -> String {
         let rounded = (Double(value) * 10).rounded() / 10
-        return rounded == rounded.rounded(.down) ? "\(Int(rounded))" : String(format: "%.1f", rounded)
+        return rounded == rounded.rounded(.down) ? "\(Int(rounded))" : String(format: "%.1f", locale: Language.culture, rounded)
     }
 
     private static func calculateMedian(_ values: [Int], _ count: Int) -> Double {

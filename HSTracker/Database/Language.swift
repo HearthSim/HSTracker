@@ -41,3 +41,15 @@ struct Language {
         }
     }
 }
+
+extension Language {
+    /// The locale to format numbers and dates with.
+    ///
+    /// `Locale.current` mixes the language HSTracker was told to display in with the region
+    /// configured in macOS, so a French UI on a US system would still format numbers the US way.
+    /// Formatting against the selected language instead keeps the overlay consistent with the
+    /// text around it.
+    static var culture: Locale {
+        return Settings.hsTrackerLanguage?.localeValue ?? Locale.current
+    }
+}

@@ -31,15 +31,14 @@ class ExperienceTracker: NSView {
     }
     
     override func draw(_ dirtyRect: NSRect) {
+        assertMainThread()
         super.draw(dirtyRect)
         let backgroundColor: NSColor = NSColor.clear
         
         backgroundColor.set()
         dirtyRect.fill()
         
-        let image = NSImage.init(size: NSSize(width: 521, height: 126))
-
-        image.lockFocus()
+        let image = NSImage(size: NSSize(width: 521, height: 126), flipped: false, drawingHandler: { [self] _ -> Bool in
         
         if let emptyBarImage = NSImage(named: "xp_empty_bar") {
             emptyBarImage.draw(in: ExperienceTracker.xpBarRect)
@@ -70,7 +69,8 @@ class ExperienceTracker: NSView {
             scrollImage.draw(in: ExperienceTracker.scrollRect)
         }
         
-        image.unlockFocus()
+        return true
+        })
 
         image.draw(in: visibleRect)
     }

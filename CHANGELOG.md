@@ -1,10 +1,51 @@
+# 3.6.10
+## Hearthstone
+- Added diagnostics to the deck tracker's card list to help track down the remaining random crashes on macOS 26, which are caused by overlay work still running off the main thread.
+- Stopped reporting HSReplay and card art server errors as HSTracker crashes. They are outages on the server side, which HSTracker already handles by carrying on, and they were crowding out the crash reports we can act on.
+
+# 3.6.9
+## Hearthstone
+- Fixed the deck tracker redrawing its card rows off the main thread while hovering a Discover choice, which could corrupt memory and crash the app.
+- Fixed a crash on startup when the Bob's Buddy self test hit a simulation error it did not recognize. The self test no longer runs in released builds, which also removes a full simulation from every launch.
+- Added Paladin Imbue's Emerald Portal to The OutFinder.
+- Added a The OutFinder settings pane, matching Hearthstone Deck Tracker's own: it can now be turned off entirely, shown or hidden separately for cards in the deck and cards in hand, and switched between percentages and card counts.
+- Fixed The OutFinder's pool browser drawing its own compact card rows instead of the two displays Hearthstone Deck Tracker offers. It now shows the full card art three to a row, or the deck tracker's card list when "Show pools as a card list (uses less data)" is enabled.
+- Fixed The OutFinder's pool browser not showing a card preview on hover, which Hearthstone Deck Tracker shows in both of its displays.
+## Bob's Buddy
+- Fixed the Defensive Sacrifice Dark Gift not being applied to the simulation when it was offered on a magnetized module.
+
 # 3.6.8
+**Updated for Hearthstone 36.4.2**
+## Hearthstone
+- Fixed empty sideboard panels briefly appearing in the deck tracker.
+- Fixed a crash when the game watchers were started from two threads at once.
+- Fixed random crashes on macOS 26 caused by overlay artwork being composed off the main thread. Card, minion, experience and Mercenaries ability images are now built in a thread-safe way.
+- Fixed a crash when a card hud finished downloading its source card image, which was cropped on the download thread.
+- Fixed a crash when an overlay window was shown for the first time from a background thread.
+- Fixed a second log reader being left running when tracking was started twice while Hearthstone was still loading.
+- Fixed a crash when the counters were rebuilt at the start or end of a match while the counters overlay was reading them.
+- Fixed a crash in the constructed lobby when the mulligan guide deck badges refreshed, which could happen while browsing decks with the mouse.
+- Fixed The OutFinder's percentages and median values being formatted with the region configured in macOS instead of the language HSTracker is set to.
+## Battlegrounds
+- Fixed the Tavern Pinning panel staying on screen after a Battlegrounds match ended, following the player back into the lobby and into other game modes.
+- Fixed the Tier7 pre-lobby widget staying stuck on its loading spinner when HSTracker was started while Hearthstone was already in the Battlegrounds lobby.
+- Fixed the composition guides never loading in the Battlegrounds lobby, leaving the tab stuck on its loading state until a match started.
+- Fixed the composition and hero guide header art fading out too early, leaving it dimmer than intended.
+- Fixed the session MMR being formatted with the region configured in macOS instead of the language HSTracker is set to.
 ## Bob's Buddy
 - Fixed magnetized Auto Assembler Deathrattle observations never being applied to the simulation.
 - Fixed Auto Assembler Deathrattles not being detected on dual-race Mechs.
 - Fixed Objectives not capturing their second and third script data values.
 - Fixed an Auto Assembler on the board having its own innate Deathrattle counted twice.
 - Fixed the Eternal Legion counter not being read, including Eternal Portrait's accumulated bonus.
+- Fixed Scoutmaster Tavish's Lock and Load minion not being captured when it fired before the combat snapshot.
+- Fixed Nellie's Ship and Magnanimoose enchantments being attached more than once during a combat.
+- Fixed Auto Assembler Deathrattles being miscounted when the host minion had other Deathrattles.
+- Fixed the Sanlayn Scribe counter not being captured in Duos.
+- Fixed an Auto Assembler Deathrattle that summoned nothing being counted a second time alongside a later Deathrattle from the same minion.
+- Fixed the win, tie, loss and lethal percentages being formatted with the region configured in macOS instead of the language HSTracker is set to, and Duos partial results no longer marking their win and loss rates as a lower bound.
+- Fixed Auto Assembler and Sea Star Crab Deathrattle observations from an earlier combat carrying over into the next one.
+- Fixed Auto Assembler Deathrattle firings never being reconciled when the minion summoned nothing, leaving them to be counted against a later combat.
 
 # 3.6.7
 ## Fixes

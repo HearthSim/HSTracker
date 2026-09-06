@@ -8,10 +8,21 @@
 
 import Foundation
 
+// The counter lists are rebuilt from the log reader queue (reset() runs off
+// gameStart/handleEndGame) while the main thread reads them to refresh the
+// counters overlay, so every access goes through `lock`. The public
+// playerCounters/opponentCounters return a snapshot taken under the lock:
+// filtering a plain stored array while another thread was appending to it is
+// what trapped in Array._checkSubscript.
 class CounterManager {
     private var game: Game!
-    private(set) var playerCounters: [BaseCounter] = []
-    private(set) var opponentCounters: [BaseCounter] = []
+
+    private let lock = UnfairLock()
+    private var _playerCounters: [BaseCounter] = []
+    private var _opponentCounters: [BaseCounter] = []
+
+    var playerCounters: [BaseCounter] { lock.around { _playerCounters } }
+    var opponentCounters: [BaseCounter] { lock.around { _opponentCounters } }
 
     typealias CountersChangedListener = (() -> Void)
     private var countersChanged = [CountersChangedListener]()
@@ -21,9 +32,12 @@ class CounterManager {
 
     func initialize(game: Game) {
         self.game = game
-        
+
         let counterTypes = ReflectionHelper.getCounterClasses()
-        
+
+        var playerCounters = [BaseCounter]()
+        var opponentCounters = [BaseCounter]()
+
         for type in counterTypes {
             let playerCounter = type.init(controlledByPlayer: true, game: game)
             playerCounter.counterChanged = { [weak self] in self?.notifyCountersChanged() }
@@ -32,6 +46,12 @@ class CounterManager {
             let opponentCounter = type.init(controlledByPlayer: false, game: game)
             opponentCounter.counterChanged = { [weak self] in self?.notifyCountersChanged() }
             opponentCounters.append(opponentCounter)
+        }
+
+        // Swapped in as a whole so readers never see a partially built list.
+        lock.around {
+            _playerCounters = playerCounters
+            _opponentCounters = opponentCounters
         }
     }
 
@@ -74,24 +94,32 @@ class CounterManager {
     }
 
     func reset() {
-        for counter in playerCounters {
-            counter.counterChanged = nil
-        }
-        for counter in opponentCounters {
-            counter.counterChanged = nil
-        }
-        playerCounters.removeAll()
-        opponentCounters.removeAll()
+        let discarded = playerCounters + opponentCounters
+
         initialize(game: game)
+
+        // BaseCounter.onCounterChanged reads counterChanged on the main queue,
+        // so unhooking the counters we just dropped has to happen there too.
+        // They are unreachable by now, and a last notification from one before
+        // it is unhooked only re-reads the new lists.
+        DispatchQueue.main.async {
+            for counter in discarded {
+                counter.counterChanged = nil
+            }
+        }
+
         notifyCountersChanged()
     }
     
     func addCountersChangedListener(_ listener: @escaping CountersChangedListener) {
-        countersChanged.append(listener)
+        lock.around {
+            countersChanged.append(listener)
+        }
     }
 
     private func notifyCountersChanged() {
-        for listener in countersChanged {
+        let listeners = lock.around { countersChanged }
+        for listener in listeners {
             listener()
         }
     }

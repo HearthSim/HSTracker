@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="24765" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="24765"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="TheOutfinderPreferences">
+            <connections>
+                <outlet property="outfinderEnabled" destination="Otf-B0-Ena" id="Otf-O0-Ena"/>
+                <outlet property="outfinderInDeck" destination="Otf-B1-Dek" id="Otf-O1-Dek"/>
+                <outlet property="outfinderInHand" destination="Otf-B2-Hnd" id="Otf-O2-Hnd"/>
+                <outlet property="outfinderUseCardTiles" destination="Otf-B4-Til" id="Otf-O4-Til"/>
+                <outlet property="outfinderUsePercentages" destination="Otf-B3-Pct" id="Otf-O3-Pct"/>
+                <outlet property="view" destination="Otf-Vw-Stk" id="Otf-Ov-Stk"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="10" horizontalStackHuggingPriority="250" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" id="Otf-Vw-Stk">
+            <rect key="frame" x="0.0" y="0.0" width="460" height="160"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Otf-B0-Ena">
+                    <rect key="frame" x="20" y="124" width="420" height="16"/>
+                    <buttonCell key="cell" type="check" title="Enable The OutFinder" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Otf-C0-Ena">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="Otf-A0-Ena"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Otf-B1-Dek">
+                    <rect key="frame" x="38" y="98" width="402" height="16"/>
+                    <buttonCell key="cell" type="check" title="Show in deck" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Otf-C1-Dek">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="Otf-A1-Dek"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Otf-B2-Hnd">
+                    <rect key="frame" x="38" y="72" width="402" height="16"/>
+                    <buttonCell key="cell" type="check" title="Show in hand" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Otf-C2-Hnd">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="Otf-A2-Hnd"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Otf-B3-Pct">
+                    <rect key="frame" x="38" y="46" width="402" height="16"/>
+                    <buttonCell key="cell" type="check" title="Use percentages" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Otf-C3-Pct">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="Otf-A3-Pct"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Otf-B4-Til">
+                    <rect key="frame" x="38" y="20" width="402" height="16"/>
+                    <buttonCell key="cell" type="check" title="Show pools as a card list (uses less data)" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Otf-C4-Til">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="Otf-A4-Til"/>
+                    </connections>
+                </button>
+            </subviews>
+            <edgeInsets key="edgeInsets" left="20" right="20" top="20" bottom="20"/>
+            <constraints>
+                <constraint firstItem="Otf-B0-Ena" firstAttribute="leading" secondItem="Otf-Vw-Stk" secondAttribute="leading" constant="20" symbolic="YES" id="Otf-L0-Ena"/>
+                <constraint firstItem="Otf-B1-Dek" firstAttribute="leading" secondItem="Otf-Vw-Stk" secondAttribute="leading" constant="38" id="Otf-L1-Dek"/>
+                <constraint firstItem="Otf-B2-Hnd" firstAttribute="leading" secondItem="Otf-Vw-Stk" secondAttribute="leading" constant="38" id="Otf-L2-Hnd"/>
+                <constraint firstItem="Otf-B3-Pct" firstAttribute="leading" secondItem="Otf-Vw-Stk" secondAttribute="leading" constant="38" id="Otf-L3-Pct"/>
+                <constraint firstItem="Otf-B4-Til" firstAttribute="leading" secondItem="Otf-Vw-Stk" secondAttribute="leading" constant="38" id="Otf-L4-Til"/>
+                <constraint firstAttribute="trailing" secondItem="Otf-B0-Ena" secondAttribute="trailing" constant="20" symbolic="YES" id="Otf-T0-Ena"/>
+                <constraint firstAttribute="trailing" secondItem="Otf-B1-Dek" secondAttribute="trailing" constant="20" symbolic="YES" id="Otf-T1-Dek"/>
+                <constraint firstAttribute="trailing" secondItem="Otf-B2-Hnd" secondAttribute="trailing" constant="20" symbolic="YES" id="Otf-T2-Hnd"/>
+                <constraint firstAttribute="trailing" secondItem="Otf-B3-Pct" secondAttribute="trailing" constant="20" symbolic="YES" id="Otf-T3-Pct"/>
+                <constraint firstAttribute="trailing" secondItem="Otf-B4-Til" secondAttribute="trailing" constant="20" symbolic="YES" id="Otf-T4-Til"/>
+            </constraints>
+            <visibilityPriorities>
+                <integer value="1000"/>
+                <integer value="1000"/>
+                <integer value="1000"/>
+                <integer value="1000"/>
+                <integer value="1000"/>
+            </visibilityPriorities>
+            <customSpacing>
+                <real value="3.4028234663852886e+38"/>
+                <real value="3.4028234663852886e+38"/>
+                <real value="3.4028234663852886e+38"/>
+                <real value="3.4028234663852886e+38"/>
+                <real value="3.4028234663852886e+38"/>
+            </customSpacing>
+            <point key="canvasLocation" x="64.5" y="-71"/>
+        </stackView>
+    </objects>
+</document>

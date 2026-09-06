@@ -30,6 +30,18 @@ final class CoreManager: NSObject {
     static let applicationName = "Hearthstone"
 
     var logReaderManager: LogReaderManager!
+
+    /// True while a startTracking() request is waiting for Hearthstone to
+    /// publish its log session directory. Only one such attempt may be in
+    /// flight: two of them used to each build a LogReaderManager, and the one
+    /// that lost the race to the property was never stopped, so its reader
+    /// thread kept processing every log line and driving the watchers next to
+    /// the live one (Sentry HSTRACKER-2MM).
+    private var trackingStartPending = false
+
+    /// Bumped by stopTracking() so a retry chain scheduled before the game
+    /// closed does not start a reader afterwards.
+    private var trackingGeneration = 0
     
     // watchers
     let game: Game
@@ -252,7 +264,12 @@ final class CoreManager: NSObject {
         return true
     }
     
-    private func internalStartTracking() {
+    private func internalStartTracking(generation: Int) {
+        guard generation == trackingGeneration else {
+            logger.info("Start Tracking was cancelled, not starting log readers")
+            trackingStartPending = false
+            return
+        }
         var retry = true
         if CoreManager.isHearthstoneRunning() {
 #if arch(arm64)
@@ -264,6 +281,7 @@ final class CoreManager: NSObject {
                     alert.informativeText = "HSTracker currently supports the native 'Apple Silicon' version of 'Hearthstone'.\n\nTo fix this, open your 'Applications' folder, right-click 'Hearthstone', and select 'Get Info'. Uncheck the box for 'Open using Rosetta', then restart the game."
                     alert.alertStyle = .critical
                     alert.runModal()
+                    trackingStartPending = false
                     return
                 }
             }
@@ -272,8 +290,13 @@ final class CoreManager: NSObject {
             let logPath = MirrorHelper.getLogSessionDir()
             if !logPath.isEmpty {
                 logger.info("Starting log reader with path \(logPath)")
+                // Never leave the previous manager running: two of them would
+                // process every log line twice and call into the shared
+                // watchers from two threads at once.
+                self.logReaderManager.stop(eraseLogFile: false)
                 self.logReaderManager = LogReaderManager(logPath: logPath, coreManager: self)
                 self.logReaderManager.start()
+                trackingStartPending = false
                 if game.currentRegion == .unknown {
                     game.currentRegion = Helper.getCurrentRegion()
                 }
@@ -292,25 +315,36 @@ final class CoreManager: NSObject {
         if retry {
             let time = DispatchTime.now() + .seconds(1)
             DispatchQueue.main.asyncAfter(deadline: time) {
-                self.internalStartTracking()
+                self.internalStartTracking(generation: generation)
             }
         }
     }
 
     func startTracking() {
+        // Hearthstone posts its launch notification before the log session
+        // directory exists, and start() also asks when the game is already up,
+        // so this gets called more than once. Let the attempt already in flight
+        // finish instead of racing a second one against it.
+        guard !trackingStartPending else {
+            logger.info("Start Tracking is already pending")
+            return
+        }
+        trackingStartPending = true
+        let generation = trackingGeneration
+
 		// Starting logreaders after short delay is as game might be still in loading state
         let time = DispatchTime.now() + .seconds(1)
         DispatchQueue.main.asyncAfter(deadline: time) {
             logger.info("Start Tracking")
-            if self.logReaderManager.running {
-                self.logReaderManager.stop(eraseLogFile: !CoreManager.isHearthstoneRunning())
-            }
-            self.internalStartTracking()
+            self.logReaderManager.stop(eraseLogFile: !CoreManager.isHearthstoneRunning())
+            self.internalStartTracking(generation: generation)
         }
     }
 
     func stopTracking() {
         logger.info("Stop Tracking")
+        trackingGeneration += 1
+        trackingStartPending = false
 		logReaderManager.stop(eraseLogFile: !CoreManager.isHearthstoneRunning())
         SceneHandler.reset()
         Watchers.stop()

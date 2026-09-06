@@ -207,8 +207,18 @@ val releaseCommand = object: CliktCommand(name = "release") {
         }
 
         println("uploading $hstrackerDSYMZipPath")
-        
-        CommandLine.executeOrFail(File(hstracker_dir), "sentry-cli debug-files upload --auth-token ${KintaEnv.getOrFail("SENTRY_TOKEN")} --include-sources --org hearthsim --project hstracker archive/${changelogVersion}/HSTracker.dSYMs.zip")
+
+        // The dSYM zip only covers what Xcode produced. The shipped bundle also
+        // contains Sentry.framework, libswift_Concurrency.dylib and the .NET
+        // runtime (libcoreclr.dylib, libSystem.Native.dylib), none of which have
+        // a dSYM. Without their symbol tables Sentry falls back to nearest
+        // symbol guessing across image boundaries, which is what produced the
+        // garbage frames and titles on the EXC_BREAKPOINT crash groups.
+        // Uploading the .app as well gives Sentry symtab and unwind data for
+        // every image we actually ship.
+        val sentryToken = KintaEnv.getOrFail("SENTRY_TOKEN")
+        CommandLine.executeOrFail(File(hstracker_dir), "sentry-cli debug-files upload --auth-token $sentryToken --include-sources --org hearthsim --project hstracker archive/${changelogVersion}/HSTracker.dSYMs.zip")
+        CommandLine.executeOrFail(File(hstracker_dir), "sentry-cli debug-files upload --auth-token $sentryToken --org hearthsim --project hstracker archive/${changelogVersion}/HSTracker.app")
 
         GithubIntegration.createRelease(
                 tagName = changelogVersion,

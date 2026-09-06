@@ -112,7 +112,7 @@ struct CompGuideDetailView: View {
         // card art, faded, always visible (not hover-gated like the list
         // row), spanning the header's full width, with a bottom border and
         // rounded top corners matching the outer container's own radius.
-        .background(GuideCardArtBackground(card: comp.representativeCard, opacity: 0.4, gradientEnd: 0.80))
+        .background(GuideCardArtBackground(card: comp.representativeCard, opacity: 0.4, gradientEnd: 0.80, gradientColor: Color(hex: "#141617")))
         .background(Color(hex: "#141617"))
         .overlay(Rectangle().frame(height: 1).foregroundColor(Color(hex: "#4A5256")), alignment: .bottom)
         .cornerRadius(3, corners: [.topLeft, .topRight])
@@ -239,7 +239,7 @@ struct CompGuideDetailView: View {
                 }
             }
             .frame(maxWidth: .infinity)
-            if showInspirationButton {
+            if showInspirationButton && comp.exampleBoardsButtonVisible {
                 inspirationButton
             }
         }

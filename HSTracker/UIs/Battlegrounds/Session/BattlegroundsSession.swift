@@ -418,12 +418,11 @@ class BattlegroundsSession: OverWindowController {
         }
     }
     
+    @MainActor
     func hideCompStatsOnError() {
         if compStatsErrorVisibility {
             availableCompStatsSectionVisibility = false
-            DispatchQueue.main.async {
-                self.updateCompositionsVisibilities()
-            }
+            updateCompositionsVisibilities()
         }
     }
 
@@ -537,6 +536,7 @@ class BattlegroundsSession: OverWindowController {
     private func formatRating(mmr: Int) -> String {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
+        numberFormatter.locale = Language.culture
         let mmrText = numberFormatter.string(from: NSNumber(value: mmr)) ?? "0"
         return mmrText
     }

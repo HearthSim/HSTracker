@@ -89,9 +89,13 @@ class CardHud: NSView {
         }
         sourceCard = card
         if let card {
-            ImageUtils.tile(for: card.id, completion: { img in
-                self.sourceCardImage = img?.crop(rect: self.cropRect)
+            // The completion runs on the URLSession queue for a fresh
+            // download, so the crop and the property write have to be hopped
+            // onto the main thread with the redraw.
+            ImageUtils.tile(for: card.id, completion: { [weak self] img in
                 DispatchQueue.main.async {
+                    guard let self else { return }
+                    self.sourceCardImage = img?.crop(rect: self.cropRect)
                     self.needsDisplay = true
                 }
             })
@@ -101,6 +105,7 @@ class CardHud: NSView {
     }
     
     override func draw(_ dirtyRect: NSRect) {
+        assertMainThread()
         super.draw(dirtyRect)
         
         addImage(filename: "card-marker", rect: cardMarkerFrame)

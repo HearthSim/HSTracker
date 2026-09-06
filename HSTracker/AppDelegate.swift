@@ -49,6 +49,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
             HSReplayPreferences(nibName: "HSReplayPreferences", bundle: nil),
             PlayerTrackersPreferences(nibName: "PlayerTrackersPreferences", bundle: nil),
             OpponentTrackersPreferences(nibName: "OpponentTrackersPreferences", bundle: nil),
+            TheOutfinderPreferences(nibName: "TheOutfinderPreferences", bundle: nil),
             BattlegroundsPreferences(nibName: "BattlegroundsPreferences", bundle: nil),
             ArenaPreferences(nibName: "ArenaPreferences", bundle: nil),
             MercenariesPreferences(nibName: "MercenariesPreferences", bundle: nil),
@@ -79,6 +80,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
             options.dsn = "https://254d50452b94680e7ac7968694d1de3a@o35918.ingest.us.sentry.io/92505"
             options.debug = false // Enabled debug when first installing is always helpful
             options.appHangTimeoutInterval = 60.0
+
+            // The SDK swizzles NSURLSessionTask and reports every 5xx response as an
+            // error by default, from any host the app talks to. That is a backend
+            // health signal, not an HSTracker defect, and it belongs in HSReplay's own
+            // monitoring - as Sentry issues they were HSTRACKER-3C, 67k events across
+            // hsreplay.net, art.hearthstonejson.com and Mixpanel, drowning out the
+            // crashes we can actually act on. The calls themselves already handle a
+            // failed response by logging it and carrying on.
+            options.enableCaptureFailedRequests = false
 
             // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
             // We recommend adjusting this value in production.
@@ -323,9 +333,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
 #if !HSTTEST
             if MonoHelper.load() {
                 MonoHelper.initialize()
+#if DEBUG
+                // Developer smoke test only. It runs a full 1000 iteration, 4 thread
+                // simulation, which is not something a shipping build should do on
+                // every launch (Sentry HSTRACKER-2XX).
                 DispatchQueue.global().async(qos: .userInitiated) {
                     MonoHelper.testSimulation()
                 }
+#endif
             } else {
                 logger.error("Failed to load BobsBuddy")
             }

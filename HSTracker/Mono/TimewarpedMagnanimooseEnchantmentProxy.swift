@@ -24,3 +24,15 @@ class TimewarpedMagnanimooseEnchantmentProxy: MonoHandle, MonoClassInitializer {
     @MonoHandleProperty(property: "SummonedMinions", owner: TimewarpedMagnanimooseEnchantmentProxy.self)
     var summonedMinions: MonoHandle
 }
+
+class TimewarpedNelliesShipEnchantmentProxy: MonoClassInitializer {
+    static var _class: OpaquePointer?
+    
+    static var _members = [String: OpaquePointer]()
+    
+    static func initialize() {
+        if TimewarpedNelliesShipEnchantmentProxy._class == nil {
+            TimewarpedNelliesShipEnchantmentProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Enchantments", name: "TimewarpedNelliesShipEnchantment")
+        }
+    }
+}

@@ -14,6 +14,9 @@ final class LogReaderManager {
 	
     // lower update times result in faster operation but higher CPU usage
 	static let updateDelay: TimeInterval = 0.05
+
+    // how long stop() waits for the reader thread to leave its loop
+    static let stopTimeout: TimeInterval = 5.0
 	
     let powerGameStateParser: PowerGameStateParser
     let rachelleHandler = RachelleHandler()
@@ -53,9 +56,13 @@ final class LogReaderManager {
     public static let timeZone = TimeZone.current
     public static let calendar = Calendar.current
 
-    var running = false
-    var stopped = false
+    private(set) var running = false
+    private var stopped = false
     private var queue: DispatchQueue?
+    /// Signalled by the worker once `startLogReaders()` has returned, so
+    /// `stop()` can wait for it instead of leaving a second reader racing the
+    /// first one.
+    private let finished = DispatchSemaphore(value: 0)
     private let coreManager: CoreManager
     
 	init(logPath: String, coreManager: CoreManager) {
@@ -92,15 +99,18 @@ final class LogReaderManager {
             logger.error("LogReaderManager can not create queue")
             return
         }
+        self.stopped = false
         self.running = true
         queue.async {
             self.startLogReaders()
+            self.finished.signal()
         }
     }
     
     private func startLogReaders() {
-        stopped = false
-        running = true
+        // Do not clear `stopped` here: a stop() that arrives before this block
+        // starts running has to take effect, otherwise the loop would outlive
+        // its manager and keep driving the watchers alongside a newer reader.
         let entryPoint = self.entryPoint()
         for reader in readers {
             reader.start(manager: self, entryPoint: entryPoint)
@@ -138,16 +148,24 @@ final class LogReaderManager {
             }
             Thread.sleep(forTimeInterval: LogReaderManager.updateDelay)
         }
-        running = false
     }
 
 	func stop(eraseLogFile: Bool) {
+        guard running else {
+            return
+        }
         logger.info("Stopping all trackers")
         stopped = true
-        running = false
         for reader in readers {
 			reader.stop(eraseLogFile: eraseLogFile)
         }
+        // Wait for the worker to actually leave its loop. Returning early would
+        // let a freshly started manager process the same log lines in parallel
+        // with this one, which races every watcher they share.
+        if finished.wait(timeout: .now() + LogReaderManager.stopTimeout) == .timedOut {
+            logger.error("LogReaderManager did not stop within \(LogReaderManager.stopTimeout)s")
+        }
+        running = false
     }
 
 	func restart(eraseLogFile: Bool = false) {

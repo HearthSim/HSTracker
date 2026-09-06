@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Atomics
 
 // Mirrors HDT's HearthWatcher/PlayZoneWatcher + EventArgs/BoardStateArgs.
 //
@@ -49,40 +48,14 @@ struct BoardStateArgs: Equatable {
     let opposing: PlayZoneArgs?
 }
 
-class PlayZoneWatcher {
+class PlayZoneWatcher: Watcher {
     var change: ((_ sender: PlayZoneWatcher, _ args: BoardStateArgs) -> Void)?
-    private let delay: TimeInterval
-    private var _running = ManagedAtomic<Bool>(false)
-    private var _watch = ManagedAtomic<Bool>(false)
     private var _prev: BoardStateArgs?
-    internal var queue: DispatchQueue?
 
     // HDT polls this one at 16ms - it drives a hover indicator, so it has to
     // keep up with the cursor rather than with game state.
-    init(delay: TimeInterval = 0.016) {
-        self.delay = delay
-    }
-
-    func run() {
-        _watch.store(true, ordering: .sequentiallyConsistent)
-        if _running.load(ordering: .sequentiallyConsistent) {
-            return
-        }
-        if queue == nil {
-            queue = DispatchQueue(label: "\(type(of: self))",
-                                  attributes: [])
-        }
-        if let queue = queue {
-            queue.async { [weak self] in
-                guard let self else { return }
-                Thread.current.name = queue.label
-                self.update()
-            }
-        }
-    }
-
-    func stop() {
-        _watch.store(false, ordering: .sequentiallyConsistent)
+    override init(delay: TimeInterval = 0.016) {
+        super.init(delay: delay)
     }
 
     private static func toArgs(_ state: MirrorPlayZoneState?) -> PlayZoneArgs? {
@@ -90,42 +63,37 @@ class PlayZoneWatcher {
         return PlayZoneArgs(boardCards: state.boardCards, mousedOverSlot: state.mousedOverSlot.intValue)
     }
 
-    private func update() {
-        _running.store(true, ordering: .sequentiallyConsistent)
-        while _watch.load(ordering: .sequentiallyConsistent) {
-            Thread.sleep(forTimeInterval: delay)
-            if !_watch.load(ordering: .sequentiallyConsistent) {
-                break
-            }
-
-            // HDT polls this through every gameplay scene because its
-            // board-entry-order overlay consumes the friendly zone in
-            // Constructed. HSTracker has no such overlay, so the only consumer
-            // is Battlegrounds' Tavern Pinning - and at a 16ms cadence on the
-            // single serial mirror queue every other watcher shares, polling
-            // through Constructed matches would be pure contention. Skip the
-            // read instead of stopping the thread, so the watcher still picks up
-            // the next Battlegrounds match without needing its own lifecycle.
-            guard AppDelegate.instance().coreManager.game.isBattlegroundsMatch() else {
-                if _prev != nil {
-                    _prev = nil
-                }
-                continue
-            }
-
-            // HDT passes Config.ShowBoardEntryOrder && IsTraditionalHearthstoneMatch
-            // for the friendly zone; with no board-entry-order overlay here the
-            // friendly half is never read and the mirror can skip it.
-            let state = MirrorHelper.getBoardState(includeFriendly: false)
-            let curr = BoardStateArgs(friendly: Self.toArgs(state?.friendly),
-                                      opposing: Self.toArgs(state?.opposing))
-            if curr == _prev {
-                continue
-            }
-            change?(self, curr)
-            _prev = curr
-        }
+    override func cleanup() {
         _prev = nil
-        _running.store(false, ordering: .sequentiallyConsistent)
+    }
+
+    override func update() -> Bool {
+        // HDT polls this through every gameplay scene because its
+        // board-entry-order overlay consumes the friendly zone in
+        // Constructed. HSTracker has no such overlay, so the only consumer
+        // is Battlegrounds' Tavern Pinning - and at a 16ms cadence on the
+        // single serial mirror queue every other watcher shares, polling
+        // through Constructed matches would be pure contention. Skip the
+        // read instead of stopping the thread, so the watcher still picks up
+        // the next Battlegrounds match without needing its own lifecycle.
+        guard AppDelegate.instance().coreManager.game.isBattlegroundsMatch() else {
+            if _prev != nil {
+                _prev = nil
+            }
+            return false
+        }
+
+        // HDT passes Config.ShowBoardEntryOrder && IsTraditionalHearthstoneMatch
+        // for the friendly zone; with no board-entry-order overlay here the
+        // friendly half is never read and the mirror can skip it.
+        let state = MirrorHelper.getBoardState(includeFriendly: false)
+        let curr = BoardStateArgs(friendly: Self.toArgs(state?.friendly),
+                                  opposing: Self.toArgs(state?.opposing))
+        if curr == _prev {
+            return false
+        }
+        change?(self, curr)
+        _prev = curr
+        return false
     }
 }

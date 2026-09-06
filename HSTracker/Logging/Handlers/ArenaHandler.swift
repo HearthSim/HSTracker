@@ -21,7 +21,7 @@ struct ArenaHandler: LogEventParser {
     func handle(logLine: LogLine) {
 
         if logLine.line.contains("IN_REWARDS") && coreManager.game.currentMode == .draft {
-            _ = Watchers.arenaWatcher.update()
+            Watchers.arenaWatcher.tick()
         } else if (logLine.line.contains("DRAFTING") || logLine.line.contains("REDRAFTING")) && coreManager.game.currentMode == .draft {
             Watchers.arenaWatcher.run()
         }

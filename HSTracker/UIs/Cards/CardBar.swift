@@ -273,6 +273,7 @@ class CardBar: NSView, CardBarTheme {
 
     // MARK: - animation
     func fadeIn(highlight: Bool) {
+        assertMainThread()
         if highlight {
             self.alphaValue = 0.3
             NSAnimationContext.runAnimationGroup({ (context) in
@@ -283,6 +284,7 @@ class CardBar: NSView, CardBarTheme {
     }
 
     func fadeOut(highlight: Bool) {
+        assertMainThread()
         if highlight {
             NSAnimationContext.runAnimationGroup({ (context) in
                 context.duration = 0.5
@@ -293,6 +295,7 @@ class CardBar: NSView, CardBarTheme {
 
     // MARK: - drawing
     override func draw(_ dirtyRect: NSRect) {
+        assertMainThread()
         super.draw(dirtyRect)
 
         guard hasAllRequired else { return }
@@ -893,10 +896,10 @@ class CardBar: NSView, CardBarTheme {
 
 extension NSImage {
     convenience init(color: NSColor, size: NSSize) {
-        self.init(size: size)
-        lockFocus()
-        color.drawSwatch(in: NSRect(origin: .zero, size: size))
-        unlockFocus()
+        self.init(size: size, flipped: false, drawingHandler: { (rect) -> Bool in
+            color.drawSwatch(in: rect)
+            return true
+        })
     }
 }
 

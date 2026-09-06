@@ -7,63 +7,31 @@
 //
 
 import Foundation
-import Atomics
 
 struct BattlegroundsLobbyInfoArgs: Equatable {
     let lobbyInfo: MirrorBattlegroundsLobbyInfo?
 }
 
-class BattlegroundsLobbyInfoWatcher {
+class BattlegroundsLobbyInfoWatcher: Watcher {
     var change: ((_ sender: BattlegroundsLobbyInfoWatcher, _ args: BattlegroundsLobbyInfoArgs) -> Void)?
-    private let delay: TimeInterval
-    private var _running = ManagedAtomic<Bool>(false)
-    private var _watch = ManagedAtomic<Bool>(false)
     private var _prev: BattlegroundsLobbyInfoArgs?
-    internal var queue: DispatchQueue?
 
-    init(delay: TimeInterval = 0.200) {
-        self.delay = delay
+    override init(delay: TimeInterval = 0.200) {
+        super.init(delay: delay)
     }
     
-    func run() {
-        _watch.store(true, ordering: .sequentiallyConsistent)
-        if _running.load(ordering: .sequentiallyConsistent) {
-            return
-        }
-        if queue == nil {
-            queue = DispatchQueue(label: "(type(of: self))",
-                                  attributes: [])
-        }
-        if let queue = queue {
-            queue.async { [weak self] in
-                guard let self else { return }
-                Thread.current.name = queue.label
-                self.update()
-            }
-        }
-    }
-    
-    func stop() {
-        _watch.store(false, ordering: .sequentiallyConsistent)
-    }
-
-    private func update() {
-        _running.store(true, ordering: .sequentiallyConsistent)
-        while _watch.load(ordering: .sequentiallyConsistent) {
-            Thread.sleep(forTimeInterval: delay)
-            if !_watch.load(ordering: .sequentiallyConsistent) {
-                break
-            }
-            
-            let value = MirrorHelper.getBattlegroundsLobbyInfo()
-            let curr = BattlegroundsLobbyInfoArgs(lobbyInfo: value)
-            if curr == _prev {
-                continue
-            }
-            change?(self, curr)
-            _prev = curr
-        }
+    override func cleanup() {
         _prev = nil
-        _running.store(false, ordering: .sequentiallyConsistent)
+    }
+
+    override func update() -> Bool {
+        let value = MirrorHelper.getBattlegroundsLobbyInfo()
+        let curr = BattlegroundsLobbyInfoArgs(lobbyInfo: value)
+        if curr == _prev {
+            return false
+        }
+        change?(self, curr)
+        _prev = curr
+        return false
     }
 }

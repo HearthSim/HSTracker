@@ -1547,6 +1547,9 @@
 		B89C9894280A113A005E9315 /* AnimatedCardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89C9893280A113A005E9315 /* AnimatedCardList.swift */; };
 		B89C9896280C610C005E9315 /* DeckLens.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89C9895280C610C005E9315 /* DeckLens.swift */; };
 		B89F51EA2C9CF8D600E31195 /* ActiveEffect.xib in Resources */ = {isa = PBXBuildFile; fileRef = B89F51E92C9CF8D600E31195 /* ActiveEffect.xib */; };
+		B8A17C022E5F1A0100C1D2E0 /* MainThreadGuard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A17C012E5F1A0100C1D2E0 /* MainThreadGuard.swift */; };
+		B8A17C032E5F1A0100C1D2E0 /* MainThreadGuard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A17C012E5F1A0100C1D2E0 /* MainThreadGuard.swift */; };
+		B8A1F0022E5F0A0100000002 /* Watcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F0012E5F0A0100000001 /* Watcher.swift */; };
 		B8A70C152841494D004D054C /* BattlegroundsTierTriples.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8A70C142841494D004D054C /* BattlegroundsTierTriples.xib */; };
 		B8A70C17284152DC004D054C /* BattlegroundsTierTriples.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A70C16284152DC004D054C /* BattlegroundsTierTriples.swift */; };
 		B8A9CB2E25699B13000071FC /* BattlegroundsMinionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8956CFC25509B3F0073D70C /* BattlegroundsMinionView.swift */; };
@@ -1919,6 +1922,7 @@
 		B8E1E5FE2D0CA1CD00383975 /* HabeasCorpses.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5FD2D0CA1CD00383975 /* HabeasCorpses.swift */; };
 		B8E1E6002D0CA21C00383975 /* InfantryReanimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5FF2D0CA21C00383975 /* InfantryReanimator.swift */; };
 		B8E1E6022D0CA25700383975 /* TamsinsPhylactery.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E6012D0CA25700383975 /* TamsinsPhylactery.swift */; };
+		B8E31E047B5AF281CD837F86 /* EmeraldPortal.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87A49F8CB20664D2FC8BDFE /* EmeraldPortal.swift */; };
 		B8E76171293A321A0048E802 /* FindGameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E76170293A321A0048E802 /* FindGameState.swift */; };
 		B8E76173293A3D010048E802 /* QueueEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E76172293A3D010048E802 /* QueueEvents.swift */; };
 		B8E868832B93AF04005B1315 /* SceneHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E868822B93AF04005B1315 /* SceneHandler.swift */; };
@@ -1936,6 +1940,10 @@
 		B8F778772805CE00006348B4 /* LethalResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B836822127888B4D007D5740 /* LethalResult.swift */; };
 		B8F778782805CE54006348B4 /* CombatResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B836821F27888B12007D5740 /* CombatResult.swift */; };
 		B8F778792805CE59006348B4 /* ReplicatingMenace.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8449A032781C7360094E5B3 /* ReplicatingMenace.swift */; };
+		B8FA0C0100000005000000A5 /* TheOutfinderPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FA0C0100000001000000A1 /* TheOutfinderPreferences.swift */; };
+		B8FA0C0100000006000000A6 /* TheOutfinderPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FA0C0100000001000000A1 /* TheOutfinderPreferences.swift */; };
+		B8FA0C0100000007000000A7 /* TheOutfinderPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8FA0C0100000004000000A4 /* TheOutfinderPreferences.xib */; };
+		B8FA0C0100000008000000A8 /* TheOutfinderPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8FA0C0100000004000000A4 /* TheOutfinderPreferences.xib */; };
 		B8FDE9272CD99D840093BFF7 /* ReflectionHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FDE9262CD99D840093BFF7 /* ReflectionHelper.swift */; };
 		B8FDE92A2CDAF96A0093BFF7 /* ICardWithRelatedCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FDE9292CDAF96A0093BFF7 /* ICardWithRelatedCards.swift */; };
 		B8FDE92C2CDAF9D10093BFF7 /* RelatedCardsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FDE92B2CDAF9D10093BFF7 /* RelatedCardsManager.swift */; };
@@ -3332,6 +3340,7 @@
 		B87856DF2C04BA7F004C2C40 /* UnsupportedInteractionProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsupportedInteractionProxy.swift; sourceTree = "<group>"; };
 		B87856E12C04BB2D004C2C40 /* EntityProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityProxy.swift; sourceTree = "<group>"; };
 		B8795EAB27516DBC00469B6E /* MercenariesTask.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MercenariesTask.xib; sourceTree = "<group>"; };
+		B87A49F8CB20664D2FC8BDFE /* EmeraldPortal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmeraldPortal.swift; sourceTree = "<group>"; };
 		B87DFF862DEF38AE006F39CF /* EndbringerUmbra.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndbringerUmbra.swift; sourceTree = "<group>"; };
 		B87DFF892DFC74D3006F39CF /* ArenaLastDrafts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArenaLastDrafts.swift; sourceTree = "<group>"; };
 		B8815BEF302162F50016D77A /* ICopiesDeathrattlesProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ICopiesDeathrattlesProxy.swift; sourceTree = "<group>"; };
@@ -3533,6 +3542,8 @@
 		B89C9893280A113A005E9315 /* AnimatedCardList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedCardList.swift; sourceTree = "<group>"; };
 		B89C9895280C610C005E9315 /* DeckLens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckLens.swift; sourceTree = "<group>"; };
 		B89F51E92C9CF8D600E31195 /* ActiveEffect.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ActiveEffect.xib; sourceTree = "<group>"; };
+		B8A17C012E5F1A0100C1D2E0 /* MainThreadGuard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainThreadGuard.swift; sourceTree = "<group>"; };
+		B8A1F0012E5F0A0100000001 /* Watcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Watcher.swift; sourceTree = "<group>"; };
 		B8A70C142841494D004D054C /* BattlegroundsTierTriples.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsTierTriples.xib; sourceTree = "<group>"; };
 		B8A70C16284152DC004D054C /* BattlegroundsTierTriples.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsTierTriples.swift; sourceTree = "<group>"; };
 		B8A9CB322571F160000071FC /* GuessedCardState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuessedCardState.swift; sourceTree = "<group>"; };
@@ -3841,6 +3852,9 @@
 		B8E9C6572EFDF50D00EF3F6E /* SpecialShopChoicesStateWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialShopChoicesStateWatcher.swift; sourceTree = "<group>"; };
 		B8EF1D7B291681EA00AC4658 /* BattlegroundsQuestView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsQuestView.xib; sourceTree = "<group>"; };
 		B8EF1D7D2916857000AC4658 /* BattlegroundsQuestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsQuestView.swift; sourceTree = "<group>"; };
+		B8FA0C0100000001000000A1 /* TheOutfinderPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TheOutfinderPreferences.swift; sourceTree = "<group>"; };
+		B8FA0C0100000002000000A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TheOutfinderPreferences.xib; sourceTree = "<group>"; };
+		B8FA0C0100000003000000A3 /* mul */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; name = mul; path = mul.lproj/TheOutfinderPreferences.xcstrings; sourceTree = "<group>"; };
 		B8FDE9262CD99D840093BFF7 /* ReflectionHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReflectionHelper.swift; sourceTree = "<group>"; };
 		B8FDE9292CDAF96A0093BFF7 /* ICardWithRelatedCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ICardWithRelatedCards.swift; sourceTree = "<group>"; };
 		B8FDE92B2CDAF9D10093BFF7 /* RelatedCardsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelatedCardsManager.swift; sourceTree = "<group>"; };
@@ -4277,6 +4291,8 @@
 				432B5FC11CB5373500B05D19 /* InitialConfiguration.xib */,
 				B85A0D53272CDEFE006D2648 /* MercenariesPreferences.swift */,
 				B85A0D51272CDDFB006D2648 /* MercenariesPreferences.xib */,
+				B8FA0C0100000001000000A1 /* TheOutfinderPreferences.swift */,
+				B8FA0C0100000004000000A4 /* TheOutfinderPreferences.xib */,
 				437B5BB41CD2558500DE0A41 /* OpponentTrackersPreferences.swift */,
 				437B5BB61CD2559300DE0A41 /* OpponentTrackersPreferences.xib */,
 				43D308071C84410000480488 /* PlayerTrackersPreferences.swift */,
@@ -4346,6 +4362,7 @@
 				434D1CAE1D0C500300222B8E /* ImageUtilities.swift */,
 				B83A703D2E00A3BF00B85BBE /* JsonManager.swift */,
 				B81EEABA2CE69AF300B32448 /* NibHelper.swift */,
+				B8A17C012E5F1A0100C1D2E0 /* MainThreadGuard.swift */,
 				BCCCDB9D1EA54FF800C328D0 /* NotificationManager.swift */,
 				B8AB59932742F94900383EC8 /* RateLimiter.swift */,
 				B8FDE9262CD99D840093BFF7 /* ReflectionHelper.swift */,
@@ -5647,6 +5664,7 @@
 				B85462402CE01FCD0083BB31 /* ExperienceWatcher.swift */,
 				B85462422CE021FF0083BB31 /* PVPDungeonRunWatcher.swift */,
 				B85462342CE0185B0083BB31 /* QueueWatcher.swift */,
+				B8A1F0012E5F0A0100000001 /* Watcher.swift */,
 				B854623C2CE01DF50083BB31 /* SceneWatcher.swift */,
 				B8E9C6572EFDF50D00EF3F6E /* SpecialShopChoicesStateWatcher.swift */,
 				EE0000000000000000002011 /* PlayZoneWatcher.swift */,
@@ -6361,6 +6379,7 @@
 				B846CC852E15B7A600552F9C /* CreatureOfTheSacredCave.swift */,
 				B86D8A112D95FA7500AB65A5 /* DragonscaleArmaments.swift */,
 				B86D8A132D95FAB400AB65A5 /* Dreamwarden.swift */,
+				B87A49F8CB20664D2FC8BDFE /* EmeraldPortal.swift */,
 				B8DB12A22EBAE3BC004268FA /* GelbinOfTomorrow.swift */,
 				B86D8A152D95FAE000AB65A5 /* Grillmaster.swift */,
 				B89865AC2D91D68D00BA5649 /* HiHoSilverwing.swift */,
@@ -7012,6 +7031,7 @@
 				B8AA20072FC2000100AA2007 /* ArenaPreferences.xib in Resources */,
 				B8B7CC20253C74D100033758 /* BattlegroundsPreferences.xib in Resources */,
 				B85A0D55272CE24A006D2648 /* MercenariesPreferences.xib in Resources */,
+				B8FA0C0100000007000000A7 /* TheOutfinderPreferences.xib in Resources */,
 				B8AF0C6F2B8433DE00B65F63 /* ConstructedMulliganGuide.xib in Resources */,
 				B8BB7ABA28369737008239CA /* BattlegroundsFinalBoard.xib in Resources */,
 				434D1CB41D10947200222B8E /* Statistics.xib in Resources */,
@@ -7092,6 +7112,7 @@
 				B8BA17FD28F10F6C004D40ED /* FloatingCard.xib in Resources */,
 				B8643D042759815500B2D708 /* MercenariesTaskListButton.xib in Resources */,
 				B85A0D56272CE24B006D2648 /* MercenariesPreferences.xib in Resources */,
+				B8FA0C0100000008000000A8 /* TheOutfinderPreferences.xib in Resources */,
 				43640BE11E89A25F00FAFD07 /* Resources in Resources */,
 				B85A0D582730370D006D2648 /* BoardOverlay.xib in Resources */,
 				B8643D072759815D00B2D708 /* MercenariesTask.xib in Resources */,
@@ -7300,6 +7321,7 @@
 				B80B5B332C7508BF005F4321 /* TrinketFactoryProxy.swift in Sources */,
 				B820294D2CD2D38800C19A8C /* ExpeditionSergeantEnchantment.swift in Sources */,
 				B8BD8453285D23C500F4F224 /* UnfairLock.swift in Sources */,
+				B8A17C022E5F1A0100C1D2E0 /* MainThreadGuard.swift in Sources */,
 				B8CE65DC2950D80200E8D168 /* BattlegroundsPlacementDistribution.swift in Sources */,
 				B8AEB6092FB26BA200CDA2C0 /* AnimalCompanionCounter.swift in Sources */,
 				43F2040F1E93C2E600E0BC4A /* Priest.swift in Sources */,
@@ -7653,6 +7675,7 @@
 				B8591FF02B23CC7D00B907A4 /* ChoiceType.swift in Sources */,
 				43B6954D1C9014FA00F4D0AC /* TagChangeActions.swift in Sources */,
 				B86D8A142D95FAB400AB65A5 /* Dreamwarden.swift in Sources */,
+				B8E31E047B5AF281CD837F86 /* EmeraldPortal.swift in Sources */,
 				B83CF373294E4E57003C9062 /* BattlegroundsCompositionPopularityRow.swift in Sources */,
 				B89656552E555C5B00257DDC /* ValstannStaghelm.swift in Sources */,
 				B8B7905B2C97849B00DD33EC /* CorruptingMistEnchantment.swift in Sources */,
@@ -8558,6 +8581,7 @@
 				B837D7E22EAEA79D0070DB4B /* UmbralGeist.swift in Sources */,
 				431719711C84911300F5988B /* EditDeck.swift in Sources */,
 				B85462352CE0185B0083BB31 /* QueueWatcher.swift in Sources */,
+				B8A1F0022E5F0A0100000002 /* Watcher.swift in Sources */,
 				B8CDDCBF2F3D63C8004C3E86 /* TimewarpedMagnanimooseEnchantmentProxy.swift in Sources */,
 				B89BCE042FF463400095F011 /* AutoAssemblerProxy.swift in Sources */,
 				B8DB12852EBAD671004268FA /* MurlocRafaamEnchantment.swift in Sources */,
@@ -8772,6 +8796,7 @@
 				43C567EC1D5E314500451B6F /* HSReplay.swift in Sources */,
 				B852D8192DDACAAF00884B26 /* Shaladrassil.swift in Sources */,
 				B85A0D54272CDEFE006D2648 /* MercenariesPreferences.swift in Sources */,
+				B8FA0C0100000005000000A5 /* TheOutfinderPreferences.swift in Sources */,
 				B8E1E5CB2D0C8CF900383975 /* ResurrectionCard.swift in Sources */,
 				B81B3D8F2D409B0A00DC9EB0 /* JoymancerJepetto.swift in Sources */,
 				B846CC6C2E09F16700552F9C /* ImpKingRafaam.swift in Sources */,
@@ -9055,6 +9080,7 @@
 				B8496736289A0DB600D90B30 /* BattlegroundsSession.swift in Sources */,
 				B8496735289A0DA900D90B30 /* BattlegroundsTierTriples.swift in Sources */,
 				B8496734289A0D8F00D90B30 /* UnfairLock.swift in Sources */,
+				B8A17C032E5F1A0100C1D2E0 /* MainThreadGuard.swift in Sources */,
 				B8496732289A0CF300D90B30 /* SynchronizedDictionary.swift in Sources */,
 				B8496733289A0CF300D90B30 /* SynchronizedArray.swift in Sources */,
 				B8496731289A0CEB00D90B30 /* Regex.swift in Sources */,
@@ -9178,6 +9204,7 @@
 				43C1CA4B1E96CD6F008C20B1 /* CardMark.swift in Sources */,
 				F7D7A3A72011B67D00E3A5F0 /* Hearthstone.swift in Sources */,
 				B8643D022759814B00B2D708 /* MercenariesPreferences.swift in Sources */,
+				B8FA0C0100000006000000A6 /* TheOutfinderPreferences.swift in Sources */,
 				43C1CA4C1E96CD6F008C20B1 /* CardSet.swift in Sources */,
 				43C1CA4D1E96CD6F008C20B1 /* CardType.swift in Sources */,
 				43C1CA4E1E96CD6F008C20B1 /* Faction.swift in Sources */,
@@ -9519,6 +9546,15 @@
 			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
+		B8FA0C0100000004000000A4 /* TheOutfinderPreferences.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B8FA0C0100000002000000A2 /* Base */,
+				B8FA0C0100000003000000A3 /* mul */,
+			);
+			name = TheOutfinderPreferences.xib;
+			sourceTree = "<group>";
+		};
 		C9BDB3CA1D20BC4C00886A11 /* StatsTab.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -9696,7 +9732,7 @@
 					"$(SDKROOT)/usr/lib/swift",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 3.6.7;
+				MARKETING_VERSION = 3.6.9;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = (
@@ -9760,7 +9796,7 @@
 					"$(SDKROOT)/usr/lib/swift",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 3.6.7;
+				MARKETING_VERSION = 3.6.9;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = (
 					"$(inherited)",

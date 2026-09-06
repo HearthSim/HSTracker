@@ -410,14 +410,16 @@ class WindowManager {
     @MainActor
     func show(controller: OverWindowController, show: Bool,
               frame: NSRect? = nil, title: String? = nil, overlay: Bool = true) {
-        guard let window = controller.window else { return }
-
+        // `controller.window` loads the nib on first access, so the hop has to
+        // happen before it is touched, not after.
         if !Thread.isMainThread {
             DispatchQueue.main.async {
                 self.show(controller: controller, show: show, frame: frame, title: title, overlay: overlay)
             }
             return
         }
+
+        guard let window = controller.window else { return }
         
         if show {
             // add the window in the "windows menu"

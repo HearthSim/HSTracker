@@ -354,6 +354,7 @@ extension CardIds.NonCollectible {
         static let LibramofDivinity_LibramOfDivinityEnchantment = "GDB_138e2"
         static let Anachronos_TimeTravelEnchantment = "RLK_919e"
         static let BlessingOfTheDragon = "EDR_445p"
+        static let EmeraldPortal = "EDR_445pt3"
         static let HotSpringGlider_WeeeeeEnchantment = "TLC_428e"
         static let IdooftheThreshfleet_CallTheThreshfleetToken = "TLC_241t"
         static let GelbinofTomorrow_GnomishAuraToken = "TIME_009t1"

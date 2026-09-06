@@ -60,7 +60,7 @@ struct HeroGuideView: View {
         .padding(.horizontal, 9)
         .frame(height: 48)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(GuideCardArtBackground(card: hero.heroCard, opacity: 0.4, gradientEnd: 0.80))
+        .background(GuideCardArtBackground(card: hero.heroCard, opacity: 0.4, gradientEnd: 0.80, gradientColor: Color(hex: "#141617")))
         .background(Color(hex: "#141617"))
         .overlay(Rectangle().frame(height: 1).foregroundColor(Color(hex: "#4A5256")), alignment: .bottom)
         .clipped()

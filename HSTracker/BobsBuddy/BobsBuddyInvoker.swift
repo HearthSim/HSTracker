@@ -59,13 +59,15 @@ class BobsBuddyInvoker {
     static var currentCombatHasPendingCrabObservations = false
     
     // Incremented on every detected game reconnect. Each combat snapshot records the current value;
-    // a mismatch at validation time means the reconnect happened after this combat started, so the
-    // absence of the combat's outcome should not be deemed as CombatResult.Tie.
+    // a mismatch at validation time means the reconnect happened after this combat started, so we
+    // lost the state the simulation was based on. Such a combat is not validated at all: it reports
+    // no terminal case.
     private static var _reconnectCounter = 0
     static func onGameReconnect() {
         _reconnectCounter += 1
     }
     private var _reconnectCounterAtSnapshot = 0
+    private var didReconnect: Bool { _reconnectCounterAtSnapshot != BobsBuddyInvoker._reconnectCounter }
     
     var doNotReport = true
     
@@ -604,7 +606,7 @@ class BobsBuddyInvoker {
     
     private func getLastCombatResult() -> CombatResult {
         guard let LastAttackingHero else {
-            if _reconnectCounterAtSnapshot != BobsBuddyInvoker._reconnectCounter {
+            if didReconnect {
                 return .reconnect
             }
             return .tie
@@ -697,7 +699,7 @@ class BobsBuddyInvoker {
         
         if isIncorrectCombatResult(result: result) {
 //            terminalCase = true
-            if reportErrors {
+            if !didReconnect && reportErrors {
                 alertWithLastInputOutput(result: "\(result)")
             }
         }
@@ -710,7 +712,7 @@ class BobsBuddyInvoker {
                 return
             }
 //            terminalCase = true
-            if reportErrors {
+            if !didReconnect && reportErrors {
                 alertWithLastInputOutput(result: "\(lethalResult)")
             }
         }   
@@ -740,6 +742,7 @@ class BobsBuddyInvoker {
                 "result": "\(result)",
                 "is_duos": "\(game.isBattlegroundsDuosMatch())",
                 "threadCount": "\(ProcessInfo.processInfo.activeProcessorCount / 2)",
+                "re_run_count": "\(reRunCount)",
                 "iterations": "\(output.simulationCount)",
                 "exitCondition": "\(output.getMyExitCondition())",
                 "output": MonoHelper.toString(obj: output)], input: input.unitestCopyableVersion(), log: BobsBuddyInvoker._recentHDTLog.array().joined(separator: "\n"))
@@ -1067,6 +1070,11 @@ class BobsBuddyInvoker {
                     if offensiveSacrifice.get() != nil {
                         minion.attachEnchantment(enchantment: offensiveSacrifice)
                     }
+                case CardIds.NonCollectible.Neutral.DefensiveSacrifice:
+                    let defensiveSacrifice = sim.enchantmentFactory.create(cardId: CardIds.NonCollectible.Neutral.DefensiveSacrifice, controlledByPlayer: minion.controlledByPlayer)
+                    if defensiveSacrifice.get() != nil {
+                        minion.attachEnchantment(enchantment: defensiveSacrifice)
+                    }
                 default:
                     break
                 }
@@ -1160,7 +1168,7 @@ class BobsBuddyInvoker {
         for heroPower in playerHeroPowers {
             var pHpData = heroPower[.tag_script_data_num_1]
             let pHpData2 = heroPower[.tag_script_data_num_2]
-            let pHpData3 = heroPower[.tag_script_data_num_3]
+            var pHpData3 = heroPower[.tag_script_data_num_3]
             var pHpAttachedMinion: MinionProxy?
             
             if heroPower.cardId == CardIds.NonCollectible.Neutral.TeronGorefiend_RapidReanimation {
@@ -1189,6 +1197,27 @@ class BobsBuddyInvoker {
                 if let attachedEntity = gamePlayer.setAside.first(where: {e in e.id == attachedEntityId }) {
                     pHpAttachedMinion = BobsBuddyInvoker.getMinionFromEntity(sim: simulator, player: friendly, entity: attachedEntity,
                                                                              attachedEntities: getAttachedEntities(entityId: attachedEntityId))
+                } else {
+                    // If Lock and Load fired before snapshot assigned input, updateLockAndLoadHeroPower does
+                    // not run if input == nil; for those cases, we can simply check here for free.
+                    let firedEntity = game.entities.values.first { e in
+                        e[GameTag.cardtype] == CardType.minion.rawValue &&
+                        e[GameTag.creator] == heroPower.id &&
+                        e.info.turn == game.turnNumber() &&
+                        (e[GameTag.zone] == Zone.play.rawValue ||
+                         e[GameTag.zone] == Zone.graveyard.rawValue ||
+                         e[GameTag.zone] == Zone.removedfromgame.rawValue)
+                    }
+                    if let firedEntity {
+                        // A minion fired at the front of the combat can end in REMOVEDFROMGAME.
+                        // Reconstruct from the card id instead.
+                        if firedEntity[GameTag.zone] == Zone.removedfromgame.rawValue {
+                            pHpData3 = Cards.any(byId: firedEntity.info.latestCardId)?.dbfId ?? 0
+                        } else {
+                            pHpAttachedMinion = BobsBuddyInvoker.getMinionFromEntity(sim: simulator, player: friendly, entity: firedEntity,
+                                                                                     attachedEntities: getAttachedEntities(entityId: firedEntity.id))
+                        }
+                    }
                 }
             }
             inputPlayer.addHeroPower(heroPowerCardId: heroPower.cardId, friendly: friendly, isActivated: wasHeroPowerActivated(heroPower: heroPower), data: Int32(pHpData), data2: Int32(pHpData2), data3: Int32(pHpData3), attachedMinion: pHpAttachedMinion ?? MonoHandle(), game_id: Int32(heroPower.id))
@@ -1305,6 +1334,19 @@ class BobsBuddyInvoker {
         if let pEternalLegion {
             inputPlayer.eternalKnightCounter = Int32(pEternalLegion[.tag_script_data_num_1]) // attached
             inputPlayer.eternalLegionCounter = Int32(pEternalLegion[.tag_script_data_num_3]) // attached
+        }
+
+        let pSanlaynScribe = playerAttached.first { x in x.cardId == CardIds.NonCollectible.Neutral.SanlaynScribe_SanlaynScribePlayerEnchantDnt }
+        if let pSanlaynScribe {
+            inputPlayer.sanlaynScribeCounter = Int32(pSanlaynScribe[.tag_script_data_num_1]) // attached
+        }
+
+        // The accumulated count now also lives on the Greater Eternal Portrait player enchant.
+        if inputPlayer.eternalLegionCounter == 0 {
+            let pGreaterPortrait = playerAttached.first { x in x.cardId == CardIds.NonCollectible.Neutral.EternalPortrait_GreaterEternalPortraitPlayerEnchDnt }
+            if let pGreaterPortrait {
+                inputPlayer.eternalLegionCounter = Int32(pGreaterPortrait[.tag_script_data_num_1]) // attached
+            }
         }
 
         // Eternal Portrait trinket's accumulated grant is also on a per-Knight enchantment.
@@ -1428,6 +1470,11 @@ class BobsBuddyInvoker {
 
     func snapshotBoardState(turn: Int) {
         logger.debug("Snapshotting board state...")
+
+        _observedAutoAssemblerFirings.removeAll()
+        _pendingAutoAssemblerDeathrattleSources.removeAll()
+        _pendingCrabDeathrattleSources.removeAll()
+
         LastAttackingHero = nil
         _attackingHero = nil
         _defendingHero = nil
@@ -2205,6 +2252,10 @@ class BobsBuddyInvoker {
             return
         }
 
+        if MonoHelper.listItems(obj: minion.enchantments).any({ e in MonoHelper.isInstance(obj: e, klass: TimewarpedMagnanimooseEnchantmentProxy._class!) }) {
+            return
+        }
+
         let simulator = SimulatorProxy()
         let summonedMinions = summonedEntities.compactMap { e in BobsBuddyInvoker.getMinionFromEntity(sim: simulator, player: isPlayerMinion, entity: e, attachedEntities: getAttachedEntities(entityId: e.id)) }
 
@@ -2254,6 +2305,10 @@ class BobsBuddyInvoker {
             return
         }
 
+        if MonoHelper.listItems(obj: minion.enchantments).any({ e in MonoHelper.isInstance(obj: e, klass: TimewarpedNelliesShipEnchantmentProxy._class!) }) {
+            return
+        }
+
         let enchantment = SimulatorProxy().enchantmentFactory.create(cardId: BobsBuddyInvoker.timewarpedNelliesShipEnchantment, controlledByPlayer: minion.controlledByPlayer)
         if enchantment.get() != nil {
             enchantment.scriptDataNum1 = Int32(cardDbfids.count > 0 ? cardDbfids[0] : 0)
@@ -2273,10 +2328,10 @@ class BobsBuddyInvoker {
     private var _observedAutoAssemblerFirings = [Int: Int]()
 
     func observeAutoAssemblerDeathrattleFiring(_ sourceEntityId: Int) {
-        // Counted unconditionally: DEATHRATTLE blocks that resolve before the first observed Automaton
-        // summon (the minion's innate deathrattle) must be in the count that
-        // reconcileAutoAssemblerDeathrattles subtracts otherDeathrattles from.
+        // Each observation is one Auto Assembler deathrattle actually resolving - the spell prefab that
+        // marks it fires whether or not the board had space for the Automaton it summons.
         _observedAutoAssemblerFirings[sourceEntityId] = (_observedAutoAssemblerFirings[sourceEntityId] ?? 0) + 1
+        BobsBuddyInvoker.currentCombatHasPendingAutoAssemblerObservations = true
     }
 
     func observeMagnetizedAutoAssemblerDeathrattles(_ sourceEntityId: Int, _ extraDeathrattles: Int, _ isGolden: Bool) {
@@ -2289,7 +2344,12 @@ class BobsBuddyInvoker {
 
     func flushAndUpdateObservedAutoAssemblerDeathrattlesAsync() {
         BobsBuddyInvoker.currentCombatHasPendingAutoAssemblerObservations = false
-        guard !_pendingAutoAssemblerDeathrattleSources.isEmpty else { return }
+        if _pendingAutoAssemblerDeathrattleSources.isEmpty {
+            // A firing with no summon to reconcile must still be dropped here, or it is counted again
+            // alongside a later firing by the same minion.
+            _observedAutoAssemblerFirings.removeAll()
+            return
+        }
         
         let opaque = mono_thread_attach(MonoHelper._monoInstance)
         defer {
@@ -2305,6 +2365,8 @@ class BobsBuddyInvoker {
         for kv_pair in sourceThatSummoned {
             changed = reconcileAutoAssemblerDeathrattles(kv_pair.key, kv_pair.value.triggerMultiplier, kv_pair.value.summonedIsPremium) || changed
         }
+
+        _observedAutoAssemblerFirings.removeAll()
 
         if changed {
             tryRerun()
@@ -2355,21 +2417,9 @@ class BobsBuddyInvoker {
         // Extra deathrattles (e.g., Titus Rivendare) resolve as full repeats of the whole deathrattle list —
         // so the first (observed / triggerMultiplier) are the distinct deathrattles in their real order.
         let isAutoAssembler = MonoHelper.isInstance(obj: minion, klass: AutoAssemblerProxy._class!)
-        let otherEnchantmentDeathrattles = MonoHelper.listItems(obj: minion.enchantments).filter { e in
-            MonoHelper.isInstance(obj: e, klass: IDeathrattleProxy._class!)
-                && !MonoHelper.isInstance(obj: e, klass: AutoAssemblerEnchantmentProxy._class!)
-                && !MonoHelper.isInstance(obj: e, klass: AutoAssemblerEnchantmentGoldenProxy._class!)
-        }.count
-        let otherAdditionalDeathrattles = (0 ..< MonoHelper.listCount(obj: minion.additionalDeathrattles)).filter { i in
-            let action = getAction(MonoHelper.listItem(obj: minion.additionalDeathrattles, index: i))
-            return action != autoAssemblerAction && action != autoAssemblerGoldenAction
-        }.count
-        let otherDeathrattles = (MonoHelper.isInstance(obj: minion, klass: IDeathrattleProxy._class!) && !isAutoAssembler ? 1 : 0)
-            + otherEnchantmentDeathrattles
-            + otherAdditionalDeathrattles
 
         let observedFirings = _observedAutoAssemblerFirings[sourceEntityId] ?? 0
-        let firedDeathrattles = max(observedFirings / triggerMultiplier - otherDeathrattles, 0)
+        let firedDeathrattles = observedFirings / triggerMultiplier
         let summonedDeathrattles = summonedByIsPremium.count / triggerMultiplier
         var automatons = summonedByIsPremium.take(max(summonedDeathrattles, firedDeathrattles))
 

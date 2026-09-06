@@ -104,6 +104,20 @@ class SingleDeckStatus {
 
 class ConstructedMulliganGuidePreLobbyViewModel: ViewModel {
     private var _deckStatusByDeckstring = [BnetGameType: [String: SingleDeckState]]()
+
+    // _deckStatusByDeckstring and _decksByFormatAndDeckId are touched from
+    // several threads at once: the deck picker watcher polls every 200ms and
+    // any change (down to a deck box gaining focus under the mouse) spawns a
+    // detached ensureLoaded(), while scene transitions call invlidateAllDecks()
+    // and stopTracking() calls reset() from their own threads. Swift
+    // dictionaries are not safe under concurrent mutation, so every access to
+    // those two goes through this lock.
+    private let _lock = UnfairLock()
+
+    // Serializes ensureLoaded(): while one pass is running, a second caller
+    // only asks for one more pass afterwards instead of running in parallel.
+    private var _updateInFlight = false
+    private var _updateRequested = false
     
     override init() {
         // TODO: HSReplayNetOAuth.AccountDataUpdated += () => Core.Overlay.UpdateMulliganGuidePreLobby();
@@ -182,9 +196,16 @@ class ConstructedMulliganGuidePreLobbyViewModel: ViewModel {
         return cache
     }
     
-    private func cacheDecks(formatType: FormatType) -> [Int64: DeckData] {
+    private func cachedDecks(formatType: FormatType) -> [Int64: DeckData] {
+        if let cached = _lock.around({ _decksByFormatAndDeckId[formatType] }) {
+            return cached
+        }
+        // getDeckDataByDeckId() reads the whole collection through the mirror,
+        // so it runs outside the lock.
         let cache = ConstructedMulliganGuidePreLobbyViewModel.getDeckDataByDeckId(formatType: formatType)
-        _decksByFormatAndDeckId[formatType] = cache
+        _lock.around {
+            _decksByFormatAndDeckId[formatType] = cache
+        }
         return cache
     }
     
@@ -209,6 +230,10 @@ class ConstructedMulliganGuidePreLobbyViewModel: ViewModel {
     }
     
     private var gameType: BnetGameType {
+        return ConstructedMulliganGuidePreLobbyViewModel.gameType(for: visualsFormatType)
+    }
+
+    private static func gameType(for visualsFormatType: VisualsFormatType) -> BnetGameType {
         return switch visualsFormatType {
         case .vft_standard:
             BnetGameType.bgt_ranked_standard
@@ -224,6 +249,10 @@ class ConstructedMulliganGuidePreLobbyViewModel: ViewModel {
     }
     
     var formatType: FormatType {
+        return ConstructedMulliganGuidePreLobbyViewModel.formatType(for: visualsFormatType)
+    }
+
+    private static func formatType(for visualsFormatType: VisualsFormatType) -> FormatType {
         return switch visualsFormatType {
         case .vft_standard:
             FormatType.ft_standard
@@ -264,7 +293,30 @@ class ConstructedMulliganGuidePreLobbyViewModel: ViewModel {
     }
     
     // MARK: -
-    
+
+    // Single entry point for the status lookup, matching HDT's
+    // LoadMulliganGuideStatus(): it dedupes the decks before picking the V1 or
+    // V2 endpoint. Two different deck ids can carry the same deckstring - most
+    // easily when DeckSerializer.serialize() fails and getDeckDataByDeckId()
+    // falls back to "", but also for a plain duplicate deck in the collection -
+    // and update()'s "already loading" guard can miss those, so the deckstrings
+    // reaching the request are made distinct here rather than trusted. Decks
+    // with no deckstring at all are dropped: the API has nothing to say about
+    // them and they would only ever come back NO_DATA.
+    @available(macOS 10.15.0, *)
+    private static func loadStatus(gameType: BnetGameType, starLevel: Int?, decks: [DeckData]) async -> [String: SingleDeckState] {
+        var seen = Set<String>()
+        let distinctDecks = decks.filter { deck in
+            !deck.deckstring.isEmpty && seen.insert(deck.deckstring).inserted
+        }
+        if distinctDecks.count == 0 {
+            return [String: SingleDeckState]()
+        }
+        return gameType == .bgt_ranked_standard
+            ? await loadMulliganV2Status(gameType: gameType, starLevel: starLevel, decks: distinctDecks)
+            : await loadMulliganGuideStatus(gameType: gameType, starLevel: starLevel, decks: distinctDecks)
+    }
+
     @available(macOS 10.15.0, *)
     private static func loadMulliganGuideStatus(gameType: BnetGameType, starLevel: Int?, decks: [DeckData]) async -> [String: SingleDeckState] {
         if decks.count == 0 {
@@ -274,10 +326,13 @@ class ConstructedMulliganGuidePreLobbyViewModel: ViewModel {
         let deckstrings = decks.map { $0.deckstring }
         let parameters = MulliganGuideStatusParams(decks: deckstrings, game_type: gameType.rawValue, star_level: starLevel)
         let result = await HSReplayAPI.getMulliganGuideStatus(parameters: parameters)
-        return Dictionary(uniqueKeysWithValues: deckstrings.map { x in
+        // uniquingKeysWith rather than uniqueKeysWithValues: the latter traps
+        // at runtime on a repeated key, and nothing here can guarantee the
+        // deckstrings are distinct (see loadStatus()).
+        return Dictionary(deckstrings.map { x in
             let status = result?.decks[x].map { MulliganGuideStatusData.Status(rawValue: $0.status) ?? .NO_DATA } ?? .NO_DATA
             return (x, status == .READY ? SingleDeckState.v1_ready : SingleDeckState.no_data)
-        })
+        }, uniquingKeysWith: { first, _ in first })
     }
 
     // Standard Ranked/Friendly decks are checked against the Mulligan G-V2
@@ -302,8 +357,11 @@ class ConstructedMulliganGuidePreLobbyViewModel: ViewModel {
             player_region: Region.toBnetRegion(region: AppDelegate.instance().coreManager.game.currentRegion)
         )
         let result = await HSReplayAPI.getMulliganV2Status(parameters: parameters)
-        let statusByDeckstring = Dictionary(uniqueKeysWithValues: (result?.data ?? []).map { ($0.deckstring, $0.status) })
-        return Dictionary(uniqueKeysWithValues: decks.map { deck in
+        // The response is not guaranteed to carry each deckstring only once,
+        // so both of these dictionaries are built with uniquingKeysWith -
+        // uniqueKeysWithValues would trap on a repeat.
+        let statusByDeckstring = Dictionary((result?.data ?? []).map { ($0.deckstring, $0.status) }, uniquingKeysWith: { first, _ in first })
+        return Dictionary(decks.map { deck in
             let status = statusByDeckstring[deck.deckstring].map { MulliganV2StatusData.Status(rawValue: $0) ?? .NONE } ?? .NONE
             let state: SingleDeckState = switch status {
             case .SUPPORTED: .v2_ready
@@ -311,48 +369,98 @@ class ConstructedMulliganGuidePreLobbyViewModel: ViewModel {
             case .NONE: .no_data
             }
             return (deck.deckstring, state)
-        })
+        }, uniquingKeysWith: { first, _ in first })
     }
     
     @available(macOS 10.15.0, *)
     func ensureLoaded() async {
-        await update(true)
-        await update()
+        let alreadyRunning = _lock.around { () -> Bool in
+            if _updateInFlight {
+                _updateRequested = true
+                return true
+            }
+            _updateInFlight = true
+            return false
+        }
+        if alreadyRunning {
+            return
+        }
+        while true {
+            await update(true)
+            await update()
+            let runAgain = _lock.around { () -> Bool in
+                if _updateRequested {
+                    _updateRequested = false
+                    return true
+                }
+                _updateInFlight = false
+                return false
+            }
+            if !runAgain {
+                break
+            }
+        }
     }
     
     @available(macOS 10.15.0, *)
     private func update(_ onlyVisibilePage: Bool = false) async {
-        if gameType == .bgt_unknown || formatType == .ft_unknown {
+        // visualsFormatType is snapshotted once here, and gameType/formatType
+        // derived from that snapshot, because the deck picker watcher can
+        // change it from its own thread at any point. Re-reading the computed
+        // properties as the pass went along used to let gameType flip to a key
+        // with no entry in _deckStatusByDeckstring yet, which silently turned
+        // the "already loading" marker writes into no-ops and let the same
+        // deckstring be queued twice.
+        let theVisualsFormatType = visualsFormatType
+        let theGameType = ConstructedMulliganGuidePreLobbyViewModel.gameType(for: theVisualsFormatType)
+        let theFormatType = ConstructedMulliganGuidePreLobbyViewModel.formatType(for: theVisualsFormatType)
+
+        if theGameType == .bgt_unknown || theFormatType == .ft_unknown {
             return
         }
         
         // Generate the deckstrings for the current format
         
-        let deckboxes = _decksByFormatAndDeckId[formatType].map { x in x } ?? cacheDecks(formatType: formatType)
+        let deckboxes = cachedDecks(formatType: theFormatType)
         
         // Assemble the deck strings that are not known yet
-        if _deckStatusByDeckstring[gameType] == nil {
-            _deckStatusByDeckstring[gameType] = [String: SingleDeckState]()
-        }
-        var toLoad = [DeckData]()
+        var candidates = [DeckData]()
         if onlyVisibilePage {
             guard let validDecksOnPage else {
                 return
             }
             for box in validDecksOnPage {
-                guard let box, let deckId = box.deckid else {
+                guard let box, let deckId = box.deckid, let deckData = deckboxes[deckId] else {
                     continue
                 }
-                if let deckData = deckboxes[deckId], _deckStatusByDeckstring[gameType]?[deckData.deckstring] == nil {
-                    toLoad.append(deckData)
-                    _deckStatusByDeckstring[gameType]?[deckData.deckstring] = .loading
-                }
+                candidates.append(deckData)
             }
         } else {
-            for deckbox in deckboxes.values where _deckStatusByDeckstring[gameType]?[deckbox.deckstring] == nil {
-                toLoad.append(deckbox)
-                _deckStatusByDeckstring[gameType]?[deckbox.deckstring] = .loading
+            candidates = [DeckData](deckboxes.values)
+        }
+
+        // Claim the decks whose status isn't known (or already being fetched)
+        // yet. Marking them .loading under the lock is what keeps a concurrent
+        // pass from claiming the same deck, and the statuses are updated as one
+        // local copy so a claim can never be lost to optional chaining on a
+        // missing gameType entry.
+        let toLoad = _lock.around { () -> [DeckData] in
+            var claimed = [DeckData]()
+            var statuses = _deckStatusByDeckstring[theGameType] ?? [String: SingleDeckState]()
+            for deck in candidates where statuses[deck.deckstring] == nil {
+                // A deck DeckSerializer.serialize() could not encode has no
+                // deckstring to ask the API about: record it as no data rather
+                // than queueing it (several such decks would otherwise all
+                // queue under the same empty deckstring).
+                if deck.deckstring.isEmpty {
+                    statuses[deck.deckstring] = .no_data
+                    continue
+                }
+                claimed.append(deck)
+                statuses[deck.deckstring] = .loading
             }
+            _deckStatusByDeckstring[theGameType] = statuses
+            return claimed
         }
         
         onPropertyChanged("pageStatus")
@@ -363,7 +471,7 @@ class ConstructedMulliganGuidePreLobbyViewModel: ViewModel {
             let medalInfo = MirrorHelper.getMedalData()
             var starLevel: Int?
             if let medalInfo {
-                let medalInfoData: MirrorMedalInfo? = switch visualsFormatType {
+                let medalInfoData: MirrorMedalInfo? = switch theVisualsFormatType {
                 case .vft_standard:
                     medalInfo.standard
                 case .vft_wild:
@@ -377,15 +485,14 @@ class ConstructedMulliganGuidePreLobbyViewModel: ViewModel {
                 }
                 starLevel = medalInfoData?.starLevel.intValue
             }
-            // It's important to copy this out, because it can change while awaiting the mulligan guide status
-            // => this would lead to a "miscache"
-            let theGameType = gameType
-            let results = theGameType == .bgt_ranked_standard
-                ? await ConstructedMulliganGuidePreLobbyViewModel.loadMulliganV2Status(gameType: theGameType, starLevel: starLevel, decks: toLoad)
-                : await ConstructedMulliganGuidePreLobbyViewModel.loadMulliganGuideStatus(gameType: theGameType, starLevel: starLevel, decks: toLoad)
+            // theGameType was copied out above, because it can change while
+            // awaiting the mulligan guide status => this would lead to a "miscache"
+            let results = await ConstructedMulliganGuidePreLobbyViewModel.loadStatus(gameType: theGameType, starLevel: starLevel, decks: toLoad)
 
-            for result in results {
-                _deckStatusByDeckstring[theGameType]?[result.key] = result.value
+            _lock.around {
+                for result in results {
+                    _deckStatusByDeckstring[theGameType]?[result.key] = result.value
+                }
             }
             
             onPropertyChanged("pageStatus")
@@ -394,7 +501,11 @@ class ConstructedMulliganGuidePreLobbyViewModel: ViewModel {
     }
     
     var pageStatus: [SingleDeckStatus] {
-        guard let validDecksOnPage, formatType != .ft_unknown, let deckMap = _decksByFormatAndDeckId[formatType], let allDecks = _deckStatusByDeckstring[gameType] else {
+        let theVisualsFormatType = visualsFormatType
+        let theGameType = ConstructedMulliganGuidePreLobbyViewModel.gameType(for: theVisualsFormatType)
+        let theFormatType = ConstructedMulliganGuidePreLobbyViewModel.formatType(for: theVisualsFormatType)
+        let snapshot = _lock.around { (_decksByFormatAndDeckId[theFormatType], _deckStatusByDeckstring[theGameType]) }
+        guard let validDecksOnPage, theFormatType != .ft_unknown, let deckMap = snapshot.0, let allDecks = snapshot.1 else {
             return [SingleDeckStatus]()
         }
         return validDecksOnPage.compactMap { x in
@@ -417,13 +528,17 @@ class ConstructedMulliganGuidePreLobbyViewModel: ViewModel {
     
     func invalidateDeck(deckId: Int64) {
         // Clear from deckId -> deckstring mapping
-        for formatType in _decksByFormatAndDeckId.keys {
-            _decksByFormatAndDeckId[formatType]?.removeValue(forKey: deckId)
+        _lock.around {
+            for formatType in _decksByFormatAndDeckId.keys {
+                _decksByFormatAndDeckId[formatType]?.removeValue(forKey: deckId)
+            }
         }
     }
     
     func invlidateAllDecks() {
-        _decksByFormatAndDeckId.removeAll()
+        _lock.around {
+            _decksByFormatAndDeckId.removeAll()
+        }
     }
 
     // Matches HDT's GameEventHandler.IsDeckAvailableForMulliganGuide(): reuses
@@ -432,7 +547,7 @@ class ConstructedMulliganGuidePreLobbyViewModel: ViewModel {
     // status check already confirmed have real (or partial) coverage are
     // worth burning a trial on.
     func isDeckAvailableForMulliganGuide(gameType: BnetGameType, deckstring: String) -> Bool {
-        guard let state = _deckStatusByDeckstring[gameType]?[deckstring] else {
+        guard let state = _lock.around({ _deckStatusByDeckstring[gameType]?[deckstring] }) else {
             return false
         }
         switch state {
@@ -444,7 +559,9 @@ class ConstructedMulliganGuidePreLobbyViewModel: ViewModel {
     }
 
     func reset() {
-        _decksByFormatAndDeckId.removeAll()
-        _deckStatusByDeckstring.removeAll()
+        _lock.around {
+            _decksByFormatAndDeckId.removeAll()
+            _deckStatusByDeckstring.removeAll()
+        }
     }
 }

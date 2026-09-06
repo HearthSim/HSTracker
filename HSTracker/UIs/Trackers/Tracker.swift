@@ -501,7 +501,11 @@ class Tracker: OverWindowController, CardCellHover {
 
         let hearthstoneRect = SizeHelper.hearthstoneWindow.frame
         let tooltipGridCards = game.windowManager.tooltipGridCards
-        if relatedCards.count > 0 {
+        // The deck-list hover is HDT's Card.UpdateTooltip path, gated on OutfinderInDeck: an
+        // Outfinder pool card shows nothing at all when the Outfinder is off for the deck, while a
+        // card carrying only a plain related-cards list still shows its grid.
+        if relatedCards.count > 0 &&
+            !game.relatedCardsManager.isOutfinderSuppressed(cardId: cardId, surfaceEnabled: Settings.outfinderInDeck) {
             let nonNullableRelatedCards = relatedCards.compactMap { $0 }
 
             tooltipGridCards.setCardIdsFromCards(nonNullableRelatedCards)

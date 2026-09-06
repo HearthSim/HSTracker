@@ -33,6 +33,7 @@ class BattlegroundsMinionView: NSView {
     }
     
     override func draw(_ dirtyRect: NSRect) {
+        assertMainThread()
         super.draw(dirtyRect)
         let backgroundColor: NSColor = NSColor.clear
         
@@ -45,9 +46,7 @@ class BattlegroundsMinionView: NSView {
         
         let rect = NSRect(x: 0, y: 0, width: 300, height: 350)
         
-        let image = NSImage.init(size: NSSize(width: 300, height: 350))
-
-        image.lockFocus()
+        let image = NSImage(size: NSSize(width: 300, height: 350), flipped: false, drawingHandler: { [self] _ -> Bool in
         
         let isPremium = entity.has(tag: GameTag.premium)
         let premium = isPremium ? "_premium" : ""
@@ -135,7 +134,8 @@ class BattlegroundsMinionView: NSView {
         }
         drawText(text: entity.health.description, rect: NSRect(x: 165, y: 90, width: 90, height: 45), color: color)
         
-        image.unlockFocus()
+        return true
+        })
         
         image.draw(in: visibleRect  )
     }

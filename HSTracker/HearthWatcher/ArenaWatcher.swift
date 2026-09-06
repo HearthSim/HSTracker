@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Atomics
 
 enum ArenaSessionState: Int {
     case invalid = -1,
@@ -28,13 +27,7 @@ struct RewardsEventArgs {
     let info: MirrorArenaInfo
 }
 
-final class ArenaWatcher {
-    private let delay: TimeInterval
-
-    private var _running = ManagedAtomic<Bool>(false)
-    private var _watch = ManagedAtomic<Bool>(false)
-    internal var queue: DispatchQueue?
-    
+final class ArenaWatcher: Watcher {
     private var _prevSlot = -1
     private var _prevRedraftSlot = -1
     private var _prevChoices: [MirrorCard]?
@@ -55,34 +48,11 @@ final class ArenaWatcher {
     public var onCardPicked: ((ArenaWatcher, CardPickedEventArgs) -> Void)?
     public var onRedraftCardPicked: ((ArenaWatcher, RedraftCardPickedEventArgs) -> Void)?
 
-    init(delay: TimeInterval = 0.500) {
-        self.delay = delay
-    }
-    
-    func run() {
-        _watch.store(true, ordering: .sequentiallyConsistent)
-        if _running.load(ordering: .sequentiallyConsistent) {
-            return
-        }
-        if queue == nil {
-            queue = DispatchQueue(label: "\(type(of: self))",
-                                  attributes: [])
-        }
-        if let queue = queue {
-            queue.async { [weak self] in
-                guard let self else { return }
-                Thread.current.name = queue.label
-                self.watch()
-            }
-        }
-    }
-    
-    func stop() {
-        _watch.store(false, ordering: .sequentiallyConsistent)
+    override init(delay: TimeInterval = 0.500) {
+        super.init(delay: delay)
     }
 
-    func watch() {
-        _running.store(true, ordering: .sequentiallyConsistent)
+    override func setup() {
         _prevSlot = -1
         _prevRedraftSlot = -1
         _prevInfo = nil
@@ -92,20 +62,9 @@ final class ArenaWatcher {
         _prevIsUnderground = nil
         _prevArenaSessionState = .invalid
         _isDualClass = false
-        while _watch.load(ordering: .sequentiallyConsistent) {
-            Thread.sleep(forTimeInterval: delay)
-
-            if !_watch.load(ordering: .sequentiallyConsistent) {
-                break
-            }
-            if update() {
-                break
-            }
-        }
-        _running .store(false, ordering: .sequentiallyConsistent)
     }
-    
-    func update() -> Bool {
+
+    override func update() -> Bool {
         guard let arenaInfo = DeckImporter.fromArena(false) else {
             return false
         }
@@ -126,7 +85,7 @@ final class ArenaWatcher {
             if arenaInfo.rewards.count > 0 {
                 onRewards?(RewardsEventArgs(info: arenaInfo))
             }
-            _watch.store(false, ordering: .sequentiallyConsistent)
+            stop()
             return true
         }
         

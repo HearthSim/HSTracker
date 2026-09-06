@@ -59,6 +59,12 @@ class DeckSideboards: NSStackView {
         
         addSubview(etcContainer)
         addSubview(kingOfTheUnderbellyContainer)
+
+        // Hidden until the first update() fills them: an empty sideboard box
+        // would otherwise flash in the tracker before the deck is known.
+        etcContainer.isHidden = true
+        kingOfTheUnderbellyContainer.isHidden = true
+        isHidden = true
     }
     
     required init?(coder: NSCoder) {

@@ -23,11 +23,11 @@ import SwiftUI
 struct GuideCardArtBackground: View {
     let card: Card?
     var opacity: Double = 0.4
-    // HDT's CompButton.xaml row fades out by 0.70; CompGuide.xaml's detail
-    // header fades out further, by 0.80 - only the alpha of the gradient
-    // stops matters for a .mask(), so the opaque stop's actual color here is
-    // arbitrary.
+    // HDT's CompButton.xaml row fades out by 0.70 over #292d30;
+    // CompGuide.xaml's detail header fades out further, by 0.80, over
+    // #141617 - each matches the background the art sits on.
     var gradientEnd: CGFloat = 0.70
+    var gradientColor: Color = Color(hex: "#292d30")
 
     @SwiftUI.State private var image: NSImage?
 
@@ -38,7 +38,14 @@ struct GuideCardArtBackground: View {
                     .offset(x: -30, y: 0)
                     .mask(
                         LinearGradient(
-                            colors: [Color.black, Color.clear],
+                            // HDT's opaque stop sits at offset 0.5 of the
+                            // gradient span, not at its start: the art holds
+                            // full opacity across the left half of the span
+                            // and only then fades out.
+                            stops: [
+                                Gradient.Stop(color: gradientColor, location: 0.5),
+                                Gradient.Stop(color: Color.clear, location: 1.0)
+                            ],
                             startPoint: UnitPoint(x: 0, y: 0),
                             endPoint: UnitPoint(x: gradientEnd, y: 0)
                         )

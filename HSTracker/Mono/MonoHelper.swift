@@ -509,26 +509,40 @@ class MonoHelper {
 
             let exc = UnsafeMutablePointer<UnsafeMutablePointer<MonoObject>?>.allocate(capacity: 1)
             exc[0] = nil
+            defer {
+                exc.deallocate()
+            }
             _ = mono_runtime_invoke(mw, inst2, nil, exc)
-            if exc[0] != nil {
-                var aggregate: AggregateExceptionProxy! = AggregateExceptionProxy(obj: exc[0])
-                while true {
-                    let inner = aggregate.innerException
-                    if let class_ = UnsupportedInteractionExceptionProxy._class, MonoHelper.isInstance(obj: inner, klass: class_) {
-                        let uie = UnsupportedInteractionExceptionProxy(obj: inner.get())
-                        let entity = uie.entity
-                        logger.debug(entity.cardID)
-                        break
-                    } else if let class_ = AggregateExceptionProxy._class, MonoHelper.isInstance(obj: aggregate, klass: class_) {
+            if let raised = exc[0] {
+                // Task.Wait reports a failed simulation as an AggregateException, and
+                // an UnsupportedInteractionException is the only inner exception we
+                // recognize. Everything else used to hit a fatalError here, which took
+                // the whole app down on launch because this test runs at startup
+                // (Sentry HSTRACKER-2XX). Mirror the unwrapping BobsBuddyInvoker does
+                // and just log whatever we could not classify.
+                var uie: UnsupportedInteractionExceptionProxy?
+                if let aggregateClass = AggregateExceptionProxy._class {
+                    var aggregate = AggregateExceptionProxy(obj: raised)
+                    while MonoHelper.isInstance(obj: aggregate, klass: aggregateClass) {
+                        let inner = aggregate.innerException
+                        if let class_ = UnsupportedInteractionExceptionProxy._class,
+                           MonoHelper.isInstance(obj: inner, klass: class_) {
+                            uie = UnsupportedInteractionExceptionProxy(obj: inner.get())
+                            break
+                        }
                         aggregate = AggregateExceptionProxy(obj: inner.get())
-                    } else {
-                        fatalError("Unsupported exception")
                     }
                 }
-                let str = MonoHelper.toString(obj: aggregate)
-                logger.debug(str)
+                if let uie {
+                    let entity = uie.entity
+                    let cardId = entity.get() != nil ? entity.cardID : ""
+                    logger.error("testSimulation unsupported interaction on \(cardId): \(uie.message)")
+                } else {
+                    logger.error("testSimulation failed: \(MonoHelper.toString(obj: MonoHandle(obj: raised)))")
+                }
+                mono_thread_detach(handle)
+                return
             }
-            exc.deallocate()
 
             let meth2 = MonoHelper.getMethod(c, "get_Result", 0)
             let output = mono_runtime_invoke(meth2, inst2, nil, nil)
@@ -536,7 +550,7 @@ class MonoHelper {
 
             let ostr = MonoHelper.toString(obj: top)
             logger.debug("testSimulation result is \(ostr)")
-            
+
             // For testing the damage result code which is a little trickier
             //let damage = top.getResultDamage()
             //logger.debug("testSimulation damage is \(damage)")

@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Atomics
 
 enum VisualsFormatType: Int {
     case vft_unknown,
@@ -51,63 +50,33 @@ struct DeckPickerEventArgs: Equatable {
     let isModalOpen: Bool
 }
 
-class DeckPickerWatcher {
+class DeckPickerWatcher: Watcher {
     var change: ((_ sender: DeckPickerWatcher, _ args: DeckPickerEventArgs) -> Void)?
-    private let delay: TimeInterval
-    private var _running = ManagedAtomic<Bool>(false)
-    private var _watch = ManagedAtomic<Bool>(false)
     private var _prev: DeckPickerEventArgs?
-    internal var queue: DispatchQueue?
     
-    init(delay: TimeInterval = 0.200) {
-        self.delay = delay
+    override init(delay: TimeInterval = 0.200) {
+        super.init(delay: delay)
     }
     
-    func run() {
-        _watch.store(true, ordering: .sequentiallyConsistent)
-        if _running.load(ordering: .sequentiallyConsistent) {
-            return
-        }
-        if queue == nil {
-            queue = DispatchQueue(label: "\(type(of: self))",
-                                  attributes: [])
-        }
-        if let queue = queue {
-            queue.async { [weak self] in
-                guard let self else { return }
-                Thread.current.name = queue.label
-                self.update()
-            }
-        }
-    }
-    
-    func stop() {
-        _watch.store(false, ordering: .sequentiallyConsistent)
-    }
-    
-    private func update() {
-        _running.store(true, ordering: .sequentiallyConsistent)
-        while _watch.load(ordering: .sequentiallyConsistent) {
-            Thread.sleep(forTimeInterval: delay)
-            if !_watch.load(ordering: .sequentiallyConsistent) {
-                break
-            }
-            let decks = MirrorHelper.getDeckPickerDecksOnPage().map { x in
-                var res: CollectionDeckBoxVisual?
-                if let x {
-                    res = CollectionDeckBoxVisual(deckid: x.deckId?.int64Value, isShowingInvalidCardCount: x.isShowingInvalidCardCount, invalidSideboardCardCount: x.invalidSideboardCardCount.intValue, missingSideboardCardCount: x.missingSideboardCardCount.intValue, isFocused: x.isFocused, isSelected: x.isSelected)
-                }
-                return res
-            }
-            let state = MirrorHelper.getDeckPickerState()
-            let curr = DeckPickerEventArgs(selectedFormatType: VisualsFormatType(rawValue: state?.visualsFormatType.intValue ?? 0) ?? VisualsFormatType.vft_unknown, decksOnPage: decks, selectedDeck: state?.selectedDeck?.int64Value ?? 0, isModalOpen: (state?.isModeSwitching ?? false) || MirrorHelper.isBlurActive() || (state?.setRotationOpen ?? false))
-            if curr == _prev {
-                continue
-            }
-            change?(self, curr)
-            _prev = curr
-        }
+    override func cleanup() {
         _prev = nil
-        _running.store(false, ordering: .sequentiallyConsistent)
+    }
+
+    override func update() -> Bool {
+        let decks = MirrorHelper.getDeckPickerDecksOnPage().map { x in
+            var res: CollectionDeckBoxVisual?
+            if let x {
+                res = CollectionDeckBoxVisual(deckid: x.deckId?.int64Value, isShowingInvalidCardCount: x.isShowingInvalidCardCount, invalidSideboardCardCount: x.invalidSideboardCardCount.intValue, missingSideboardCardCount: x.missingSideboardCardCount.intValue, isFocused: x.isFocused, isSelected: x.isSelected)
+            }
+            return res
+        }
+        let state = MirrorHelper.getDeckPickerState()
+        let curr = DeckPickerEventArgs(selectedFormatType: VisualsFormatType(rawValue: state?.visualsFormatType.intValue ?? 0) ?? VisualsFormatType.vft_unknown, decksOnPage: decks, selectedDeck: state?.selectedDeck?.int64Value ?? 0, isModalOpen: (state?.isModeSwitching ?? false) || MirrorHelper.isBlurActive() || (state?.setRotationOpen ?? false))
+        if curr == _prev {
+            return false
+        }
+        change?(self, curr)
+        _prev = curr
+        return false
     }
 }

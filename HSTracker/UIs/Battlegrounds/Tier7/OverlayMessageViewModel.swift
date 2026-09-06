@@ -68,10 +68,10 @@ class OverlayMessageViewModel: ViewModel {
             let mmr = Helper.toPrettyNumber(n: minMmrInt)
             if anomalyAdjusted {
                 let format = String.localizedString("BattlegroundsOverlayMessage_MMR_AnomalyAdjusted", comment: "")
-                text = String(format: format, percent, mmr)
+                text = String(format: format, locale: Language.culture, percent, mmr)
             } else {
                 let format = String.localizedString("BattlegroundsOverlayMessage_MMR", comment: "")
-                text = String(format: format, percent, mmr)
+                text = String(format: format, locale: Language.culture, percent, mmr)
             }
         } else {
             clear()
