@@ -257,6 +257,9 @@ class UploadMetaData: Encodable {
             if stats.arenaLosses > 0 {
                 friendly.losses = stats.arenaLosses
             }
+            if let arenaRating = stats.arenaRating {
+                friendly.arena_rating = arenaRating
+            }
             friendly.arena_draft = arenaDraft(stats: stats, deck: friendly.deck)
         } else if stats.gameMode == .brawl {
             if stats.brawlWins > 0 {
@@ -391,6 +394,8 @@ class UploadMetaData: Encodable {
         
         var mercenaries_rating: Int?
         var mercenaries_rating_after: Int?
+
+        var arena_rating: Int?
 
         var arena_draft: ArenaDraft?
     }

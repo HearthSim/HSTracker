@@ -3,6 +3,7 @@
 - Added diagnostics to the deck tracker's card list to help track down the remaining random crashes on macOS 26, which are caused by overlay work still running off the main thread.
 - Stopped reporting HSReplay and card art server errors as HSTracker crashes. They are outages on the server side, which HSTracker already handles by carrying on, and they were crowding out the crash reports we can act on.
 ## Arena
+- Your arena rating is now sent with uploaded arena matches, matching Hearthstone Deck Tracker. The two ladders are rated separately, so Underground runs send the Underground rating.
 - The arena season is now sent with uploaded arena matches, matching Hearthstone Deck Tracker, so runs are attributed to the right season on HSReplay.
 - Arena drafts are now uploaded with the match, matching Hearthstone Deck Tracker. HSTracker already recorded every pick, the cards offered and how long each choice took, but never sent any of it, so none of it reached your HSReplay arena statistics. Redrafts are included.
 - Each uploaded arena pick now says whether Arenasmith was switched on, whether its panel was actually on screen, whether it had data for the draft, and which scores it showed, matching Hearthstone Deck Tracker. Three of those were being recorded as always-off.

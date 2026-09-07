@@ -1333,6 +1333,8 @@ class Game: NSObject, PowerEventHandler {
     
     private var _battlegroundsRatingInfo: MirrorBattlegroundRatingInfo?
     
+    private var _arenaRatingInfo: MirrorArenaRatingInfo?
+    
     private var _mercenariesRating: Int?
     
     private var isReconnect = false
@@ -1406,6 +1408,27 @@ class Game: NSObject, PowerEventHandler {
         return _battlegroundsRatingInfo
     }
     
+    /// Read from the arena landing page, so it is only there while that scene is
+    /// up - SceneHandler caches it on the way into the draft. The lazy read is
+    /// HDT's `??=` fallback for when it never got cached.
+    var arenaRatingInfo: MirrorArenaRatingInfo? {
+        if let info = _arenaRatingInfo {
+            return info
+        }
+        _arenaRatingInfo = MirrorHelper.getArenaRatingInfo()
+        return _arenaRatingInfo
+    }
+
+    /// The rating for the mode being played; the two arena ladders are rated
+    /// separately.
+    var arenaRating: Int? {
+        switch currentGameType {
+        case .gt_underground_arena: return arenaRatingInfo?.undergroundRating.intValue
+        case .gt_arena: return arenaRatingInfo?.rating.intValue
+        default: return nil
+        }
+    }
+
     var matchInfo: MatchInfo? {
         
         if _matchInfo != nil {
@@ -1790,6 +1813,10 @@ class Game: NSObject, PowerEventHandler {
     
     func cacheBattlegroundRatingInfo() {
         _battlegroundsRatingInfo = MirrorHelper.getBattlegroundsRatingInfo()
+    }
+    
+    func cacheArenaRating() {
+        _arenaRatingInfo = MirrorHelper.getArenaRatingInfo()
     }
     
     func cacheMercenariesRatingInfo() {
@@ -2247,6 +2274,7 @@ class Game: NSObject, PowerEventHandler {
 		} else if self.currentGameMode == .arena {
 			result.arenaLosses = self.arenaInfo?.losses ?? 0
 			result.arenaWins = self.arenaInfo?.wins ?? 0
+			result.arenaRating = self.arenaRating
 		} else if self.currentGameMode == .brawl, let brawlInfo = self.brawlInfo {
 			result.brawlWins = brawlInfo.wins
 			result.brawlLosses = brawlInfo.losses

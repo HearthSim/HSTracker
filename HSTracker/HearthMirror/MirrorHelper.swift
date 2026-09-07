@@ -193,6 +193,14 @@ struct MirrorHelper {
         return result
     }
     
+    static func getArenaRatingInfo() -> MirrorArenaRatingInfo? {
+        var result: MirrorArenaRatingInfo?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getArenaRatingInfo()
+        }
+        return result
+    }
+    
     static func getBattlegroundsRatingChange() -> MirrorRatingChange? {
         var result: MirrorRatingChange?
         MirrorHelper.accessQueue.sync {

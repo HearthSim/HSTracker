@@ -113,6 +113,7 @@ class SceneHandler {
             }
             Watchers.baconWatcher.run()
         } else if to == .draft {
+            game.cacheArenaRating()
             Watchers.arenaWatcher.run()
             Watchers.arenaStateWatcher.run()
         } else if to == .gameplay {

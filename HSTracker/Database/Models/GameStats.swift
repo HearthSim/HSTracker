@@ -54,6 +54,9 @@ class InternalGameStats {
     var arenaSeasonId = -1
     var arenaWins = 0
     var arenaLosses = 0
+    /// Optional, unlike the counters: HDT sends nothing rather than a zero when
+    /// the rating could not be read. Not persisted, same as arenaSeasonId.
+    var arenaRating: Int?
     var brawlWins = 0
     var brawlLosses = 0
     var battlegroundsRating = 0
