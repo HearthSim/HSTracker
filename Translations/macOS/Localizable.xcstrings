@@ -1872,6 +1872,28 @@
         }
       }
     },
+    "Arena_Legendary_Group_Cards" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ Group"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ Grupo"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@传说团队"
+          }
+        }
+      }
+    },
     "ArenaPick_ClassTopCards" : {
       "extractionState" : "manual",
       "localizations" : {

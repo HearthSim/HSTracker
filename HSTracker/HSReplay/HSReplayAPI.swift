@@ -1247,22 +1247,32 @@ class HSReplayAPI {
         return await getArenaJson(url: HSReplay.arenasmithStatusUrl, as: ArenasmithStatus.self)
     }
 
+    /// The signed-in route, HSReplay-API-Client's `OAuthClient.GetArenaPackages()`.
+    ///
+    /// The account is the whole request here - the packages are the ones the server
+    /// has for that player's current run - so this overload takes no parameters.
+    @available(macOS 10.15.0, *)
+    static func getArenaPackages() async -> ArenaPackages? {
+        return await withCheckedContinuation { continuation in
+            startAuthorizedRequest(HSReplay.arenaCardPackagesUrl, method: .GET, parameters: [:], completionHandler: { result in
+                switch result {
+                case .success(let response):
+                    let parsed: ArenaPackages? = parseResponse(data: response.data, defaultValue: nil)
+                    continuation.resume(returning: parsed)
+                case .failure(let error):
+                    logger.error(error)
+                    continuation.resume(returning: nil)
+                }
+            })
+        }
+    }
+
+    /// The free-trial route, HSReplay-API-Client's `HsReplayClient.GetArenaPackages(params)`:
+    /// unauthenticated, and identified by the drafted deck instead. The caller is
+    /// responsible for checking the deck is registered for a trial - see
+    /// `ArenaPackagesManager.fetchPackages()`.
     @available(macOS 10.15.0, *)
     static func getArenaPackages(deckId: Int64, accountLo: Int64, playerRegion: Int) async -> ArenaPackages? {
-        if accountData != nil && isFullyAuthenticated {
-            return await withCheckedContinuation { continuation in
-                startAuthorizedRequest(HSReplay.arenaCardPackagesUrl, method: .GET, parameters: [:], completionHandler: { result in
-                    switch result {
-                    case .success(let response):
-                        let parsed: ArenaPackages? = parseResponse(data: response.data, defaultValue: nil)
-                        continuation.resume(returning: parsed)
-                    case .failure(let error):
-                        logger.error(error)
-                        continuation.resume(returning: nil)
-                    }
-                })
-            }
-        }
         let url = "\(HSReplay.arenaCardPackagesFreeUrl)?deck_id=\(deckId)&account_lo=\(accountLo)&player_region=\(playerRegion)"
         return await getArenaJson(url: url, as: ArenaPackages.self)
     }

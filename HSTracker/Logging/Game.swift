@@ -134,6 +134,7 @@ class Game: NSObject, PowerEventHandler {
     let activeEffects: ActiveEffects
     let counterManager: CounterManager
     let relatedCardsManager: RelatedCardsManager
+    let arenaPackagesManager: ArenaPackagesManager
     var isBattlegroundsCombatPhase = false
     // Raw controller tag (not player/opponent side, which aren't resolved yet during CREATE_GAME) of
     // any side whose deck was half-copied from their enemy's (Azalina Soulsever).
@@ -276,7 +277,37 @@ class Game: NSObject, PowerEventHandler {
                     cardWithRelatedCards.forEach({
                         $0.count = 1
                     })
-                    tracker.update(cards: self.opponent.opponentCardList, top: [], bottom: [], sideboards: [], relatedCards: cardWithRelatedCards, reset: reset)
+                    let opponentCardList = self.opponent.opponentCardList
+
+                    // Ports the arena branch of HDT's Core.UpdateOpponentCards /
+                    // OverlayWindow.UpdateOpponentCards: the package group is shown in
+                    // its own lens, and its cards are taken out of the related-cards
+                    // lens so they are not listed twice.
+                    var packageCards = [Card]()
+                    var packageLabel = ""
+                    var relatedCards = cardWithRelatedCards
+                    if isArenaMatch {
+                        let (packageKey, cards) = arenaPackagesManager.getOpponentsPackageCards(opponentCardList)
+                        packageCards = cards.filter({ card in
+                            opponentCardList.allSatisfy({ $0.id != card.id })
+                        }).sortCardList()
+                        packageCards.forEach({ $0.count = 1 })
+                        packageLabel = String(format: String.localizedString("Arena_Legendary_Group_Cards", comment: ""),
+                                              packageKey?.name ?? "")
+
+                        // On the current arena rotation only one legendary is available
+                        // per draft, so an active legendary package rules every other
+                        // legendary out of the related cards.
+                        let hasLegendaryPackage = !packageCards.isEmpty
+                        relatedCards = cardWithRelatedCards.filter({ card in
+                            packageCards.allSatisfy({ $0.id != card.id })
+                                && !(hasLegendaryPackage && card.rarity == .legendary)
+                        }).sortCardList()
+                    }
+
+                    tracker.update(cards: opponentCardList, top: [], bottom: [], sideboards: [],
+                                   relatedCards: relatedCards, packageCards: packageCards,
+                                   packageLabel: packageLabel, reset: reset)
                 }
                 
                 let gameStarted = !self.isInMenu && self.entities.count >= 67
@@ -1540,6 +1571,7 @@ class Game: NSObject, PowerEventHandler {
         activeEffects = ActiveEffects()
         counterManager = CounterManager()
         relatedCardsManager = RelatedCardsManager()
+        arenaPackagesManager = ArenaPackagesManager()
         super.init()
         counterManager.initialize(game: self)
         _battlegroundsBoardState = BattlegroundsBoardState(game: self)
@@ -1572,7 +1604,8 @@ class Game: NSObject, PowerEventHandler {
 		                                   Settings.opponent_deathrattle_frame,
 		                                   Settings.show_opponent_class, Settings.opponent_graveyard_frame,
 		                                   Settings.opponent_graveyard_details_frame,
-                                           Settings.opponent_related_cards]
+                                           Settings.opponent_related_cards,
+                                           Settings.hide_opponent_arena_packages]
 		
 		// events that should update all trackers
 		let allTrackerUpdateEvents = [Settings.rarity_colors, Events.reload_decks, Settings.window_locked, Settings.auto_position_trackers,
@@ -2054,6 +2087,12 @@ class Game: NSObject, PowerEventHandler {
                 }
             }
         }
+
+        if isArenaMatch, #available(macOS 10.15, *) {
+            Task.detached { [weak self] in
+                await self?.arenaPackagesManager.updatePackages()
+            }
+        }
     }
 
     private var _lastReconnectStartTimestamp: Date = Date.distantPast
@@ -2094,6 +2133,12 @@ class Game: NSObject, PowerEventHandler {
                         Watchers.battlegroundsTeammateBoardStateWatcher.run()
                     }
                     self.updateBattlegroundsOverlays()
+                }
+            }
+
+            if self.isArenaMatch, #available(macOS 10.15, *) {
+                Task.detached { [weak self] in
+                    await self?.arenaPackagesManager.updatePackages()
                 }
             }
         }

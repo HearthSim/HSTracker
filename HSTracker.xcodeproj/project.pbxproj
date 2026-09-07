@@ -4086,6 +4086,7 @@
 		B8AA10012FC1000100AA1001 /* Arena */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Arena; sourceTree = "<group>"; };
 		B8AA10022FC1000100AA1002 /* Arena */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Arena; sourceTree = "<group>"; };
 		B8AA10032FC1000100AA1003 /* Arena */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Arena; sourceTree = "<group>"; };
+		B8AA10042FC1000100AA1004 /* Arena */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Arena; sourceTree = "<group>"; };
 		B8AEB6142FB2770200CDA2C0 /* AnimalCompanionGenerator */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = AnimalCompanionGenerator; sourceTree = "<group>"; };
 		C4537347985E5790B88F7690 /* Pools */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Pools; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -4689,6 +4690,7 @@
 		43B695551C90653A00F4D0AC /* Hearthstone */ = {
 			isa = PBXGroup;
 			children = (
+				B8AA10042FC1000100AA1004 /* Arena */,
 				B82238BB2BF948E600B405D4 /* BattlegroundsBoardState.swift */,
 				B82238BF2BF9891200B405D4 /* BattlegroundsHeroPickState.swift */,
 				B82238B92BF948B000B405D4 /* BoardSnapshot.swift */,
@@ -6877,6 +6879,7 @@
 				B8AA10012FC1000100AA1001 /* Arena */,
 				B8AA10022FC1000100AA1002 /* Arena */,
 				B8AA10032FC1000100AA1003 /* Arena */,
+				B8AA10042FC1000100AA1004 /* Arena */,
 				B8AEB6142FB2770200CDA2C0 /* AnimalCompanionGenerator */,
 				C4537347985E5790B88F7690 /* Pools */,
 			);

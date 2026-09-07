@@ -11,6 +11,7 @@
                 <outlet property="cardsView" destination="naK-zt-rPm" id="SQk-kS-AJ7"/>
                 <outlet property="graveyardCounter" destination="aFR-AO-2Vy" id="ukz-pX-hST"/>
                 <outlet property="opponentDrawChance" destination="Slp-Ya-S9h" id="R3r-Tb-bap"/>
+                <outlet property="opponentPackageCards" destination="pKg-Ar-en1" id="pKg-Ar-en2"/>
                 <outlet property="opponentRelatedCards" destination="m3p-pH-JLu" id="Aze-Ou-n51"/>
                 <outlet property="playerBottom" destination="HpB-sw-IQc" id="11c-Ym-bcE"/>
                 <outlet property="playerClass" destination="YeM-kJ-hCT" id="xGi-5X-mTq"/>
@@ -41,6 +42,10 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
                     <customView identifier="OpponentRelatedCards" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m3p-pH-JLu" userLabel="Opponent Related Cards" customClass="DeckLens" customModule="HSTracker" customModuleProvider="target">
+                        <rect key="frame" x="27" y="264" width="163" height="96"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    </customView>
+                    <customView identifier="OpponentPackageCards" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pKg-Ar-en1" userLabel="Opponent Package Cards" customClass="DeckLens" customModule="HSTracker" customModuleProvider="target">
                         <rect key="frame" x="27" y="264" width="163" height="96"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
