@@ -25,6 +25,7 @@ class UploadMetaData: Encodable {
              scenario_id,
              brawl_season,
              ladder_season,
+             arena_season,
              league_id,
              format,
              player1,
@@ -60,6 +61,7 @@ class UploadMetaData: Encodable {
     var scenario_id: Int?
     var brawl_season: Int?
     var ladder_season: Int?
+    var arena_season: Int?
     var league_id: Int?
     var format: Int?
     var player1: Player?
@@ -130,6 +132,9 @@ class UploadMetaData: Encodable {
         }
         if stats.rankedSeasonId > 0 {
             metaData.ladder_season = stats.rankedSeasonId
+        }
+        if stats.arenaSeasonId > 0 {
+            metaData.arena_season = stats.arenaSeasonId
         }
         if stats.leagueId > 0 {
             metaData.league_id = stats.leagueId
