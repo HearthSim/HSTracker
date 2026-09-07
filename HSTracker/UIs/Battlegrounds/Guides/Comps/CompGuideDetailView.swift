@@ -228,9 +228,17 @@ struct CompGuideDetailView: View {
             Text(title)
                 .chunkFive(size: 12)
                 .outlinedText()
+                // Margin="9,0,0,9" on the section's OutlinedTextBlock: the 9pt
+                // inset is carried by the title itself, not by the section.
+                .padding(.leading, 9)
+            // No spacing between tiles: HDT's items are Margin="0,10", i.e.
+            // vertical only. A 6pt gap here made the row 222pt wide, which with
+            // the section's (equally wrong) 9pt horizontal padding measured
+            // 258pt inside the 249pt panel - the detail panel then rendered
+            // 4.5pt wider than the tab strip on each side.
             VStack(alignment: .center, spacing: 10) {
                 ForEach(Array(minions.chunks(Self.cardColumns).enumerated()), id: \.offset) { _, row in
-                    HStack(spacing: 6) {
+                    HStack(spacing: 0) {
                         ForEach(row) { minion in
                             BattlegroundsMinionArtView(minion: minion)
                                 .scaledToFrame(width: 70, height: 70)
@@ -240,10 +248,14 @@ struct CompGuideDetailView: View {
             }
             .frame(maxWidth: .infinity)
             if showInspirationButton && comp.exampleBoardsButtonVisible {
+                // Margin="9,0" on the OverlayButton, for the same reason as
+                // the title above.
                 inspirationButton
+                    .padding(.horizontal, 9)
             }
         }
-        .padding(9)
+        // Padding="0,9,0,9" on the section Border - vertical only.
+        .padding(.vertical, 9)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(Color(hex: "#1c1f22"))
         .overlay(Rectangle().frame(height: 1).foregroundColor(Color(hex: "#4A5256")), alignment: .top)
