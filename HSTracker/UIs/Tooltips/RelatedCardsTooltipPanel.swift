@@ -181,6 +181,14 @@ struct RelatedCardsGridView: View {
                                 let index = row * layout.columns + column
                                 if index < cards.count {
                                     RelatedCardImageView(card: cards[index], width: CGFloat(layout.cardWidth), height: CGFloat(layout.cardHeight))
+                                        // This panel is a singleton whose hosting view outlives any
+                                        // one hover, so a grid slot keeps its view identity when the
+                                        // next tooltip reuses it - and RelatedCardImageView loads its
+                                        // art from .onAppear, which fires once per identity. Without
+                                        // keying identity to the card, hovering the Beetle counter and
+                                        // then the Blood Gem counter left the gem's slot still showing
+                                        // the beetle render under the new title.
+                                        .id(cards[index].imageIdentity)
                                 }
                             }
                         }

@@ -484,6 +484,11 @@ private struct RelatedCardsBrowserContentView: View {
                         let index = row * 3 + column
                         if index < cards.count {
                             RelatedCardsBrowserFullCardView(card: cards[index])
+                                // Same reason as RelatedCardsTooltipPanel's grid: the panel is a
+                                // singleton, so a slot that changes card (filtering the pool, or
+                                // reopening the browser on another card) keeps its view identity and
+                                // never re-runs the .onAppear that loads the art.
+                                .id(cards[index].imageIdentity)
                         }
                     }
                 }
