@@ -92,6 +92,16 @@ final class ArenaDeckListTileViewModel: ObservableObject, Identifiable {
 /// hero, or card), gates on availability/premium/trials, calls the matching
 /// endpoint, and exposes the results plus the synergy highlighting for the deck
 /// rail.
+/// The Arenasmith state recorded with every draft pick, which HDT's Watchers.cs
+/// reads straight off `Core.Overlay.ArenaPickHelperViewModel`. It lives outside
+/// the view model so the watcher can carry one on macOS 10.14 too.
+struct ArenasmithPickState {
+    var isOverlayVisible = false
+    var isArenasmithAvailable = false
+    var isTrialsActivated = false
+    var arenasmithScores: [String: Float]?
+}
+
 @available(macOS 10.15, *)
 final class ArenaPickHelperViewModel: ObservableObject {
 
@@ -170,6 +180,15 @@ final class ArenaPickHelperViewModel: ObservableObject {
     private(set) var isOverlayVisible = false
     private(set) var isTrialsActivated = false
     private(set) var arenasmithScores = [String: Float]()
+
+    /// All four values at once, for the watcher to record with a pick. These are
+    /// mutated on the main thread, so they are read there as well.
+    var pickState: ArenasmithPickState {
+        ArenasmithPickState(isOverlayVisible: isOverlayVisible,
+                            isArenasmithAvailable: isArenasmithAvailable,
+                            isTrialsActivated: isTrialsActivated,
+                            arenasmithScores: arenasmithScores.isEmpty ? nil : arenasmithScores)
+    }
 
     // MARK: internal state
 

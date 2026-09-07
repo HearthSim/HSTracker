@@ -165,18 +165,23 @@ class Watchers {
             return Array(repeating: card.cardId, count: count)
         }
 
+        let pickState = arenasmithPickState()
+
         ArenaLastDrafts.instance.addPick(info.pickStartTime,
                                          Date(),
                                          args.picked.cardId,
                                          info.choices,
                                          args.slot,
-                                         false,
+                                         pickState.isOverlayVisible,
                                          pickedCards,
                                          deckId,
                                          args.isUnderground,
                                          args.pickedPackage?.map { $0.cardId },
                                          structurePackages(info.choices, info.packages),
-                                         isOverlayEnabled: Settings.enableArenasmithOverlay && Settings.showArenasmithScore)
+                                         isOverlayEnabled: Settings.enableArenasmithOverlay && Settings.showArenasmithScore,
+                                         isArenasmithAvailable: pickState.isArenasmithAvailable,
+                                         isTrialsActivated: pickState.isTrialsActivated,
+                                         arenasmithScores: pickState.arenasmithScores)
 
         // A dual-class draft spends an extra slot on the hero power, so its last
         // card lands on slot 31 rather than 30. Once it is picked there is nothing
@@ -192,6 +197,24 @@ class Watchers {
                 }
             }
         }
+    }
+
+    /// The overlay state to record with a pick, read the way HDT's Watchers.cs
+    /// reads it off Core.Overlay.ArenaPickHelperViewModel. HDT reads those
+    /// properties straight from the watcher thread; here the hop to main is
+    /// required anyway, since `rootOverlay` builds its window controller on first
+    /// use. Safe to do synchronously: the arena watcher's update runs either on
+    /// its own queue or on the log reader thread (ArenaHandler's tick), never
+    /// with the main thread waiting on it.
+    private static func arenasmithPickState() -> ArenasmithPickState {
+        guard #available(macOS 10.15, *) else {
+            return ArenasmithPickState()
+        }
+        let read = {
+            AppDelegate.instance().coreManager.game.windowManager
+                .rootOverlay?.viewModel.arenaPickHelper.pickState ?? ArenasmithPickState()
+        }
+        return Thread.isMainThread ? read() : DispatchQueue.main.sync(execute: read)
     }
 
     private static func onArenaRedraftCardPicked(_ sender: ArenaWatcher, _ args: RedraftCardPickedEventArgs) {
@@ -210,19 +233,24 @@ class Watchers {
             return Array(repeating: card.cardId, count: count)
         }
 
+        let pickState = arenasmithPickState()
+
         ArenaLastDrafts.instance.addRedraftPick(info.pickStartTime,
                                                 Date(),
                                                 args.picked.cardId,
                                                 info.choices,
                                                 args.slot,
-                                                false,
+                                                pickState.isOverlayVisible,
                                                 originalDeck,
                                                 redraftDeck,
                                                 args.deck.id.int64Value,
                                                 redraftDeckId,
                                                 args.losses,
                                                 args.isUnderground,
-                                                isOverlayEnabled: Settings.enableArenasmithOverlay && Settings.showArenasmithScore)
+                                                isOverlayEnabled: Settings.enableArenasmithOverlay && Settings.showArenasmithScore,
+                                                isArenasmithAvailable: pickState.isArenasmithAvailable,
+                                                isTrialsActivated: pickState.isTrialsActivated,
+                                                arenasmithScores: pickState.arenasmithScores)
     }
     
     private static func onBaconChange(_ sender: BaconWatcher, _ args: BaconEventArgs) {

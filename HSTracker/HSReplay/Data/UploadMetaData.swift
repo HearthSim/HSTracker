@@ -290,6 +290,10 @@ class UploadMetaData: Encodable {
                                  chosen: pick.picked,
                                  offered: pick.choices,
                                  time_on_choice: pick.timeOnChoice,
+                                 overlay_enabled: pick.overlayEnabled,
+                                 overlay_visible: pick.overlayVisible,
+                                 arenasmith_available: pick.arenasmithAvailable,
+                                 arenasmith_scores: scores(pick.arenasmithScores),
                                  picked_cards: pick.pickedCards,
                                  picked_package: pick.pickedPackage,
                                  packages: pick.packages.map({ packages in
@@ -310,14 +314,22 @@ class UploadMetaData: Encodable {
                                               chosen: pick.picked,
                                               offered: pick.choices,
                                               time_on_choice: pick.timeOnChoice,
+                                              overlay_enabled: pick.overlayEnabled,
+                                              overlay_visible: pick.overlayVisible,
+                                              arenasmith_available: pick.arenasmithAvailable,
+                                              arenasmith_scores: scores(pick.arenasmithScores),
                                               redraft_picked_cards: pick.redraftPickedCards)
                          }))
         })
 
+        // HDT keeps IsTrialsActivated on the draft, set when the draft record is
+        // first created; HSTracker records it per pick instead, so the first pick
+        // carries the same value.
         return ArenaDraft(draft_start_time: iso8601(draft.startTime),
                           deck_id: draft.deckId,
                           picks: picks,
-                          redrafts: redrafts.isEmpty ? nil : redrafts)
+                          redrafts: redrafts.isEmpty ? nil : redrafts,
+                          trial: draft.picks.first?.trialsActivated ?? false)
     }
 
     /// Ports HDT's `ValidateArenaDraft`. The deck id is already matched; this is the
@@ -332,6 +344,11 @@ class UploadMetaData: Encodable {
             .compactMap({ $0.picked })
             .filter({ !$0.starts(with: "HERO") })
             .allSatisfy({ deckList.contains($0) })
+    }
+
+    private static func scores(_ scores: [ArenaLastDrafts.ArenasmithScore]?) -> [String: Float]? {
+        guard let scores, !scores.isEmpty else { return nil }
+        return Dictionary(scores.map { ($0.cardId, $0.score) }, uniquingKeysWith: { first, _ in first })
     }
 
     private static func iso8601(_ date: Date?) -> String? {
@@ -380,6 +397,8 @@ class UploadMetaData: Encodable {
         var deck_id: Int64?
         var picks: [ArenaPick]
         var redrafts: [ArenaRedraft]?
+        /// Whether a trial was consumed for this draft.
+        var trial: Bool
     }
 
     struct ArenaPick: Encodable {
@@ -391,6 +410,14 @@ class UploadMetaData: Encodable {
         var offered: [String]?
         /// Milliseconds.
         var time_on_choice: Int?
+        /// Whether the Arenasmith overlay was switched on, score included.
+        var overlay_enabled: Bool
+        /// Whether it was actually on screen for this pick.
+        var overlay_visible: Bool
+        /// Whether Arenasmith had data for this draft at all.
+        var arenasmith_available: Bool
+        /// The scores served for this pick, by card id.
+        var arenasmith_scores: [String: Float]?
         /// Cards in the deck at the moment of the pick.
         var picked_cards: [String]?
         /// Cards that came in a package with the picked card, if any.
@@ -415,6 +442,10 @@ class UploadMetaData: Encodable {
         var offered: [String]?
         /// Milliseconds.
         var time_on_choice: Int?
+        var overlay_enabled: Bool
+        var overlay_visible: Bool
+        var arenasmith_available: Bool
+        var arenasmith_scores: [String: Float]?
         /// Cards in the redraft deck at the moment of the pick.
         var redraft_picked_cards: [String]?
     }
