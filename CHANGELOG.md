@@ -5,6 +5,7 @@
 - Fixed HSTracker quitting when the Game settings pane was opened and Hearthstone could not be found, which is exactly when its "Can't find Hearthstone" warning is meant to appear.
 ## Battlegrounds
 - Fixed the counter tooltips keeping the card art of the previously hovered counter, so hovering the Blood Gem counter after the Beetle counter showed a Beetle under the "Blood Gem" title. The same stale art could appear in The OutFinder's pool browser after filtering the pool.
+- Fixed the Blood Gem counter's tooltip listing only the Blood Gem itself instead of the Quilboar payoffs, unlike Hearthstone Deck Tracker.
 
 # 3.6.9
 ## Hearthstone

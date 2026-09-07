@@ -43,7 +43,7 @@ class BloodGemCounter: StatsCounter {
     }
 
     override func getCardsToDisplay() -> [String] {
-        return [CardIds.NonCollectible.Neutral.BloodGem1]
+        return relatedCards
     }
 
     override func valueToShow() -> String {
