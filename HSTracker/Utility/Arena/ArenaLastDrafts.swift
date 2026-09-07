@@ -51,7 +51,9 @@ final class ArenaLastDrafts: Initializable {
         // temporary and silently lost.
         let draftIndex = indexOfDraft(startTime, playerId, deckId, isUnderground)
 
-        let timeSpent = pickedTime.timeIntervalSince(startTime)
+        // HDT stores (int)timeSpent.TotalMilliseconds, and the API documents
+        // time_on_choice in milliseconds; timeIntervalSince is in seconds.
+        let timeSpent = pickedTime.timeIntervalSince(startTime) * 1000
 
         drafts[draftIndex].picks.append(PickItem(picked, choices, slot, Int(timeSpent), overlayVisible, pickedCards, pickedPackage, packages,
                                                  isOverlayEnabled, isArenasmithAvailable, isTrialsActivated, arenasmithScores))
@@ -72,7 +74,7 @@ final class ArenaLastDrafts: Initializable {
         let draftIndex = indexOfDraft(startTime, playerId, originalDeckId, isUnderground)
         let redraftIndex = indexOfRedraft(draftIndex, startTime, playerId, originalDeckId, redraftDeckId, losses, originalDeck, isUnderground)
 
-        let timeSpent = pickedTime.timeIntervalSince(startTime)
+        let timeSpent = pickedTime.timeIntervalSince(startTime) * 1000
 
         drafts[draftIndex].redrafts[redraftIndex].picks.append(
             RedraftPickItem(picked, choices, slot, Int(timeSpent), overlayVisible, redraftPickedCards,
