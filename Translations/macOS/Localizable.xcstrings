@@ -1873,6 +1873,7 @@
       }
     },
     "Arena_Legendary_Group_Cards" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
