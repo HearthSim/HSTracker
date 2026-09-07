@@ -4,6 +4,7 @@
 - Stopped reporting HSReplay and card art server errors as HSTracker crashes. They are outages on the server side, which HSTracker already handles by carrying on, and they were crowding out the crash reports we can act on.
 ## Battlegrounds
 - Fixed the counter tooltips keeping the card art of the previously hovered counter, so hovering the Blood Gem counter after the Beetle counter showed a Beetle under the "Blood Gem" title. The same stale art could appear in The OutFinder's pool browser after filtering the pool.
+- Fixed the Blood Gem counter's tooltip listing only the Blood Gem itself instead of the Quilboar payoffs, unlike Hearthstone Deck Tracker.
 ## Arena
 - Your arena rating is now sent with uploaded arena matches, matching Hearthstone Deck Tracker. The two ladders are rated separately, so Underground runs send the Underground rating.
 - The arena season is now sent with uploaded arena matches, matching Hearthstone Deck Tracker, so runs are attributed to the right season on HSReplay.
