@@ -2280,13 +2280,7 @@ class Game: NSObject, PowerEventHandler {
 		result.scenarioId = self.matchInfo?.missionId ?? 0
 		result.brawlSeasonId = self.matchInfo?.brawlSeasonId ?? 0
 		result.rankedSeasonId = self.matchInfo?.rankedSeasonId ?? 0
-        // HDT reads this off MatchInfo, which HSTracker's HearthMirror does not
-        // carry. The mirror does expose the same DraftManager season on the arena
-        // info, which getArenaInfo() reads through a service rather than the draft
-        // scene, so it is still there during the match.
-        if isArenaMatch {
-            result.arenaSeasonId = MirrorHelper.getArenaInfo()?.season.intValue ?? 0
-        }
+		result.arenaSeasonId = self.matchInfo?.arenaSeasonId ?? 0
         
         let confirmedCards = self.player.revealedCards.filter { x in x.collectible } + self.player.knownCardsInDeck.filter { x in x.collectible && !x.isCreated }
         if let currentDeck, currentDeck.hsDeckId ?? 0 > 0 {
