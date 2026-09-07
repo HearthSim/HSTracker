@@ -72,6 +72,14 @@ final class Card {
     var isBaconBuddy = false
     var baconTripledBaseMinionId = 0
     var baconCard = false
+
+    // SwiftUI identity for views that load this card's render once, from
+    // .onAppear. baconCard picks a different art endpoint for the same id, so
+    // both have to be in the key.
+    var imageIdentity: String {
+        "\(id)-\(baconCard)"
+    }
+
     // GameTag.HIDE_COST, as parsed from the card XML.
     var hideCostTag = false
 
