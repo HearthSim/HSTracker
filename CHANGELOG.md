@@ -6,6 +6,7 @@
 - Fixed the counter tooltips keeping the card art of the previously hovered counter, so hovering the Blood Gem counter after the Beetle counter showed a Beetle under the "Blood Gem" title. The same stale art could appear in The OutFinder's pool browser after filtering the pool.
 - Fixed the Blood Gem counter's tooltip listing only the Blood Gem itself instead of the Quilboar payoffs, unlike Hearthstone Deck Tracker.
 - Fixed the Battlegrounds comp guide being drawn wider than the tab strip above it, so it hung over the game board on either side. Its core and addon card rows had gaps between the minions, and an extra inset around them, that Hearthstone Deck Tracker does not have.
+- Fixed trinket guide tooltips being left behind on the game board. Hovering a trinket could stack up several copies of its tooltip, and every one but the last stayed on screen until a trinket was picked.
 ## Arena
 - Your arena rating is now sent with uploaded arena matches, matching Hearthstone Deck Tracker. The two ladders are rated separately, so Underground runs send the Underground rating.
 - The arena season is now sent with uploaded arena matches, matching Hearthstone Deck Tracker, so runs are attributed to the right season on HSReplay.
