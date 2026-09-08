@@ -127,10 +127,10 @@ class BobsBuddyInvoker {
         _reconnectCounterAtSnapshot = BobsBuddyInvoker._reconnectCounter
         game = AppDelegate.instance().coreManager.game
         
-        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        MonoHelper.attachThread()
         
         defer {
-            mono_thread_detach(opaque)
+            MonoHelper.detachThread()
         }
         duosInputPlayer = PlayerProxy(input: nil)
         duosInputOpponent = PlayerProxy(input: nil)
@@ -168,10 +168,10 @@ class BobsBuddyInvoker {
     }
     
     private func snapshotCombatState() -> Bool {
-        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        MonoHelper.attachThread()
         
         defer {
-            mono_thread_detach(opaque)
+            MonoHelper.detachThread()
         }
         
         if game.isBattlegroundsDuosMatch() {
@@ -216,10 +216,10 @@ class BobsBuddyInvoker {
         }
 
         DispatchQueue.global().async { [self] in
-            let opaque = mono_thread_attach(MonoHelper._monoInstance)
+            MonoHelper.attachThread()
 
             defer {
-                mono_thread_detach(opaque)
+                MonoHelper.detachThread()
             }
             Thread.sleep(forTimeInterval: Double(StateChangeDelay) / 1_000.0)
             
@@ -277,10 +277,10 @@ class BobsBuddyInvoker {
                 return
             }
             
-            let opaque = mono_thread_attach(MonoHelper._monoInstance)
+            MonoHelper.attachThread()
 
             defer {
-                mono_thread_detach(opaque)
+                MonoHelper.detachThread()
             }
             
             state = .combatPartial
@@ -322,10 +322,10 @@ class BobsBuddyInvoker {
                     seal.fulfill(false)
                     return
                 }
-                let opaque = mono_thread_attach(MonoHelper._monoInstance)
+                MonoHelper.attachThread()
                 
                 defer {
-                    mono_thread_detach(opaque)
+                    MonoHelper.detachThread()
                 }
 
                 // extremely fast simulations otherwise make the spinner disappear quickly, making the result feel unreliable
@@ -381,7 +381,7 @@ class BobsBuddyInvoker {
         logger.info("Starting simulation")
         return Promise<OutputProxy?> { seal in
             DispatchQueue.global().async {
-                let opaque = mono_thread_attach(MonoHelper._monoInstance)
+                MonoHelper.attachThread()
                 
                 var result: OutputProxy?
                 
@@ -531,7 +531,7 @@ class BobsBuddyInvoker {
                     logger.error("No input")
                 }
                 
-                mono_thread_detach(opaque)
+                MonoHelper.detachThread()
                 seal.fulfill(result)
             }
         }
@@ -652,10 +652,10 @@ class BobsBuddyInvoker {
     }
     
     private func validateSimulationResultInternal() {
-        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        MonoHelper.attachThread()
         
         defer {
-            mono_thread_detach(opaque)
+            MonoHelper.detachThread()
         }
         logger.debug("Validating results...")
         guard let output = output else {
@@ -1605,10 +1605,10 @@ class BobsBuddyInvoker {
             return
         }
         
-        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        MonoHelper.attachThread()
         
         defer {
-            mono_thread_detach(opaque)
+            MonoHelper.detachThread()
         }
         
         opponentHandMap[entity] = copy
@@ -1646,10 +1646,10 @@ class BobsBuddyInvoker {
         guard let input, state == .combat && game.isBattlegroundsDuosMatch() else {
             return
         }
-        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        MonoHelper.attachThread()
         
         defer {
-            mono_thread_detach(opaque)
+            MonoHelper.detachThread()
         }
         
         var secretsToAdd = [Int?]()
@@ -1676,10 +1676,10 @@ class BobsBuddyInvoker {
             return
         }
         
-        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        MonoHelper.attachThread()
         
         defer {
-            mono_thread_detach(opaque)
+            MonoHelper.detachThread()
         }
         
         var tryDuos = game.isBattlegroundsDuosMatch()
@@ -1707,10 +1707,10 @@ class BobsBuddyInvoker {
             return
         }
 
-        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        MonoHelper.attachThread()
         
         defer {
-            mono_thread_detach(opaque)
+            MonoHelper.detachThread()
         }
         
         let creatorId = firedMinionEntity[.creator]
@@ -1784,10 +1784,10 @@ class BobsBuddyInvoker {
             return
         }
         
-        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        MonoHelper.attachThread()
         
         defer {
-            mono_thread_detach(opaque)
+            MonoHelper.detachThread()
         }
 
         if isOpponent {
@@ -1814,10 +1814,10 @@ class BobsBuddyInvoker {
             return
         }
         
-        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        MonoHelper.attachThread()
         
         defer {
-            mono_thread_detach(opaque)
+            MonoHelper.detachThread()
         }
         
         var friendly = true
@@ -1856,10 +1856,10 @@ class BobsBuddyInvoker {
             return
         }
 
-        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        MonoHelper.attachThread()
         
         defer {
-            mono_thread_detach(opaque)
+            MonoHelper.detachThread()
         }
         
         var friendly = true
@@ -1894,10 +1894,10 @@ class BobsBuddyInvoker {
             return
         }
         
-        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        MonoHelper.attachThread()
         
         defer {
-            mono_thread_detach(opaque)
+            MonoHelper.detachThread()
         }
 
         var flobbidinousFloop = listFirst(input.player.heroPowers, { (hp: HeroPowerDataProxy) in hp.game_id == floopEntityId && hp.cardId == CardIds.NonCollectible.Neutral.FlobbidinousFloop_GloriousGloop })
@@ -1925,10 +1925,10 @@ class BobsBuddyInvoker {
             return
         }
 
-        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        MonoHelper.attachThread()
         
         defer {
-            mono_thread_detach(opaque)
+            MonoHelper.detachThread()
         }
 
         var friendly = true
@@ -1969,10 +1969,10 @@ class BobsBuddyInvoker {
             return
         }
         
-        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        MonoHelper.attachThread()
         
         defer {
-            mono_thread_detach(opaque)
+            MonoHelper.detachThread()
         }
         
         var summoningSphereTrinket = listFirst(input.player.trinkets, { (t: TrinketProxy) in t.game_id == trinketEntityId && t.cardID == CardIds.NonCollectible.Neutral.SummoningSphere })
@@ -1998,10 +1998,10 @@ class BobsBuddyInvoker {
         guard let input, updateRevealedEntityValidStates else {
             return
         }
-        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        MonoHelper.attachThread()
         
         defer {
-            mono_thread_detach(opaque)
+            MonoHelper.detachThread()
         }
         
         // Determine which of the four players owns this Magnanimoose by finding its entity id on one of the captured boards.
@@ -2090,10 +2090,10 @@ class BobsBuddyInvoker {
             return
         }
         
-        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        MonoHelper.attachThread()
         
         defer {
-            mono_thread_detach(opaque)
+            MonoHelper.detachThread()
         }
         
         let targetPlayer = isPlayerMinion ? input.player : input.opponent
@@ -2131,10 +2131,10 @@ class BobsBuddyInvoker {
             return
         }
 
-        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        MonoHelper.attachThread()
 
         defer {
-            mono_thread_detach(opaque)
+            MonoHelper.detachThread()
         }
 
         let targetPlayer = isPlayerTrinket ? input.player : input.opponent
@@ -2163,9 +2163,9 @@ class BobsBuddyInvoker {
         guard let input, updateRevealedEntityValidStates else {
             return
         }
-        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        MonoHelper.attachThread()
         defer {
-            mono_thread_detach(opaque)
+            MonoHelper.detachThread()
         }
 
         // We need to know the magnetized count when a Dr. Boom's Monster is reborn
@@ -2195,10 +2195,10 @@ class BobsBuddyInvoker {
             return
         }
         
-        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        MonoHelper.attachThread()
         
         defer {
-            mono_thread_detach(opaque)
+            MonoHelper.detachThread()
         }
         
         if input.opponent.resourcesSpentThisGame > 0 {
@@ -2231,9 +2231,9 @@ class BobsBuddyInvoker {
             return
         }
         
-        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        MonoHelper.attachThread()
         defer {
-            mono_thread_detach(opaque)
+            MonoHelper.detachThread()
         }
 
         let targetPlayer = isPlayerMinion ? input.player : input.opponent
@@ -2283,9 +2283,9 @@ class BobsBuddyInvoker {
             return
         }
         
-        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        MonoHelper.attachThread()
         defer {
-            mono_thread_detach(opaque)
+            MonoHelper.detachThread()
         }
         
         let targetPlayer = isPlayerMinion ? input.player : input.opponent
@@ -2351,9 +2351,9 @@ class BobsBuddyInvoker {
             return
         }
         
-        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        MonoHelper.attachThread()
         defer {
-            mono_thread_detach(opaque)
+            MonoHelper.detachThread()
         }
         
         let sourceThatSummoned = Array(_pendingAutoAssemblerDeathrattleSources)
@@ -2376,10 +2376,10 @@ class BobsBuddyInvoker {
     private func reconcileAutoAssemblerDeathrattles(_ sourceEntityId: Int, _ triggerMultiplier: Int, _ summonedByIsPremium: [Bool]) -> Bool {
         guard let input = input else { return false }
         
-        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        MonoHelper.attachThread()
         
         defer {
-            mono_thread_detach(opaque)
+            MonoHelper.detachThread()
         }
         
         let sides = [input.player, input.playerTeammate, input.opponent, input.opponentTeammate]
@@ -2501,10 +2501,10 @@ class BobsBuddyInvoker {
             return
         }
         
-        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        MonoHelper.attachThread()
         
         defer {
-            mono_thread_detach(opaque)
+            MonoHelper.detachThread()
         }
         
         var changed = false

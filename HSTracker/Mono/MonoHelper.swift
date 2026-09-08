@@ -294,6 +294,57 @@ class MonoHelper {
     static var _monoInstance: OpaquePointer? // MonoDomain
     static var _assembly: OpaquePointer? // MonoClass
     static var _image: OpaquePointer? // MonoImage
+
+    // Mono keeps a single attachment per thread: calling mono_thread_attach on an
+    // already-attached thread hands back that same attachment rather than stacking
+    // a new one, and one mono_thread_detach then tears it down for every frame at
+    // once. Nested scopes used to leave the outer frames running on a thread the
+    // runtime no longer knew about, and their detach aborted the process from
+    // mono_thread_detach_internal. Counting the nesting per thread keeps the
+    // outermost scope the owner of the attachment.
+    private static let attachmentKey = "net.hearthsim.hstracker.monoAttachment"
+
+    private final class ThreadAttachment {
+        var depth = 1
+        let detach: () -> Void
+
+        init(detach: @escaping () -> Void) {
+            self.detach = detach
+        }
+    }
+
+    /// Attaches the current thread to the Mono runtime, or records one more level
+    /// of nesting when it is already attached. Every call must be balanced by
+    /// `detachThread()`, which is what actually detaches once the outermost scope
+    /// is left.
+    static func attachThread() {
+        let threadStorage = Thread.current.threadDictionary
+
+        if let attachment = threadStorage[attachmentKey] as? ThreadAttachment {
+            attachment.depth += 1
+            return
+        }
+
+        let handle = mono_thread_attach(MonoHelper._monoInstance)
+        threadStorage[attachmentKey] = ThreadAttachment { mono_thread_detach(handle) }
+    }
+
+    /// Balances `attachThread()`. Only the outermost scope on a thread detaches.
+    static func detachThread() {
+        let threadStorage = Thread.current.threadDictionary
+
+        guard let attachment = threadStorage[attachmentKey] as? ThreadAttachment else {
+            // Detaching a thread we never attached is what aborts the runtime, so an
+            // unbalanced call is dropped instead of passed on.
+            return
+        }
+
+        attachment.depth -= 1
+        if attachment.depth == 0 {
+            threadStorage.removeObject(forKey: attachmentKey)
+            attachment.detach()
+        }
+    }
         
     static func initialize() {
         for cl in ReflectionHelper.getMonoClasses() {
@@ -423,7 +474,7 @@ class MonoHelper {
     }
     
     static func testSimulation() {
-        let handle = mono_thread_attach(MonoHelper._monoInstance)
+        MonoHelper.attachThread()
                 
         let sim = SimulatorProxy()
         
@@ -540,7 +591,7 @@ class MonoHelper {
                 } else {
                     logger.error("testSimulation failed: \(MonoHelper.toString(obj: MonoHandle(obj: raised)))")
                 }
-                mono_thread_detach(handle)
+                MonoHelper.detachThread()
                 return
             }
 
@@ -556,7 +607,7 @@ class MonoHelper {
             //logger.debug("testSimulation damage is \(damage)")
         }
         
-        mono_thread_detach(handle)
+        MonoHelper.detachThread()
     }
     
     static func loadClass(ns: String, name: String) -> OpaquePointer {
