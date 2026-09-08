@@ -14,6 +14,7 @@
 - Fixed the Battlegrounds comp guide being drawn wider than the tab strip above it, so it hung over the game board on either side. Its core and addon card rows had gaps between the minions, and an extra inset around them, that Hearthstone Deck Tracker does not have.
 - Fixed trinket guide tooltips being left behind on the game board. Hovering a trinket could stack up several copies of its tooltip, and every one but the last stayed on screen until a trinket was picked.
 ## Bob's Buddy
+- Fixed Bob's Buddy failing with a "Could not load file or assembly 'System.Runtime.Intrinsics'" error on every simulation thread, which left the panel stuck without odds. The vectorized `Enumerable.Max` that the simulator reaches through resolves against that assembly, and it was the one part of the .NET runtime the app bundle did not ship. It is now staged alongside the rest.
 - Fixed HSTracker quitting during a Battlegrounds Duos combat with Scoutmaster Tavish's Lock and Load, within seconds of every restart, because it re-reads the same combat from the log each time it starts. Bob's Buddy attached the log reader's thread to the simulator a second time without detaching in between, and the mono runtime, which does not count attachments, treats the leftover detach as fatal. The same fault could end any combat where a magnetized Auto Assembler summoned an Ancestral Automaton. All of Bob's Buddy's hand-offs to the simulator now go through one guard that counts nesting, so the crash cannot come back through any of the others. (#1436)
 
 # 3.6.9
