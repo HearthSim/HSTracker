@@ -2,6 +2,12 @@
 ## Hearthstone
 - Added diagnostics to the deck tracker's card list to help track down the remaining random crashes on macOS 26, which are caused by overlay work still running off the main thread.
 - Stopped reporting HSReplay and card art server errors as HSTracker crashes. They are outages on the server side, which HSTracker already handles by carrying on, and they were crowding out the crash reports we can act on.
+- Fixed HSTracker quitting when the Game settings pane was opened and Hearthstone could not be found, which is exactly when its "Can't find Hearthstone" warning is meant to appear.
+- Fixed the deck manager freezing the whole app, sometimes for hours, when the decks were sorted by win percentage, wins, losses or games played. Every table view redraw re-sorted the deck list from scratch, and each comparison re-read a deck's entire game history from the database. The sort is now computed once per refresh and the records are reused, so a large collection sorts instantly. Because the setting is saved, restarting HSTracker used to walk straight back into the freeze.
+- Fixed the deck manager sorting by wins, losses and games played counting only ranked games while the row underneath showed the totals for every mode, so the list looked wrongly ordered.
+- The deck manager now reads the deck records on a background thread, showing a spinner and the decks in name order until they are ready, so a large collection cannot stall the trackers while it sorts.
+- Fixed HSTracker throwing away every setting on launch and asking for the languages again, for anyone who still had preferences left behind by the pre-2018 `be.michotte.hstracker` bundle id. The migration that copies them over replaced our whole preferences file with the 2018 one and ran again on every launch, with nothing recording that it had already happened. It now merges the old values in underneath the current ones, and only ever runs once.
+- The first-run configuration window now shows the languages that are already configured, instead of two empty fields. It is also shown when only the Hearthstone folder is missing, which made it look as though the languages had been forgotten as well. Which of the two is actually missing is now written to the log.
 ## Battlegrounds
 - Fixed the counter tooltips keeping the card art of the previously hovered counter, so hovering the Blood Gem counter after the Beetle counter showed a Beetle under the "Blood Gem" title. The same stale art could appear in The OutFinder's pool browser after filtering the pool.
 - Fixed the Blood Gem counter's tooltip listing only the Blood Gem itself instead of the Quilboar payoffs, unlike Hearthstone Deck Tracker.
@@ -15,6 +21,8 @@
 - Fixed the time spent on each arena pick being recorded in seconds where the server expects milliseconds.
 - Fixed arena decks being imported without their sideboards. The imported deck now carries them, and a sideboard change on its own is enough to update a deck HSTracker already knows.
 - Added the opponent's card package to the opponent deck tracker, matching Hearthstone Deck Tracker. Arena rotations group a legendary with cards that only appear alongside it, so seeing one of those cards in the opponent's deck reveals the whole group, which now shows in its own panel. Those cards are also taken out of the related cards panel so they are not listed twice, and while a legendary package is showing, no other legendary is suggested. It can be turned off in Preferences > Arena.
+## Bob's Buddy
+- Fixed HSTracker quitting during a Battlegrounds Duos combat with Scoutmaster Tavish's Lock and Load, within seconds of every restart, because it re-reads the same combat from the log each time it starts. Bob's Buddy attached the log reader's thread to the simulator a second time without detaching in between, and the mono runtime, which does not count attachments, treats the leftover detach as fatal. The same fault could end any combat where a magnetized Auto Assembler summoned an Ancestral Automaton. All of Bob's Buddy's hand-offs to the simulator now go through one guard that counts nesting, so the crash cannot come back through any of the others. (#1436)
 
 # 3.6.9
 ## Hearthstone

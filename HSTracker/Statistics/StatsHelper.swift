@@ -166,8 +166,10 @@ class StatsHelper {
     }
 
     static func getDeckManagerRecordLabel(deck: Deck, mode: GameMode) -> String {
-        let record = getDeckRecord(deck: deck, mode: mode)
+        return getDeckManagerRecordLabel(record: getDeckRecord(deck: deck, mode: mode))
+    }
 
+    static func getDeckManagerRecordLabel(record: StatsDeckRecord) -> String {
         let totalGames = record.total
         if totalGames == 0 {
             return "0 - 0"
@@ -225,26 +227,56 @@ class StatsHelper {
         return winRateString
     }
     
+    /// Computes the record of every given deck, keyed by deck id.
+    ///
+    /// Opens its own Realm and looks the decks up by primary key, so this can
+    /// be called off the main thread. Only value types cross back out, nothing
+    /// Realm-backed, which is what makes it safe to hand the result to another
+    /// queue.
+    static func getDeckRecords(deckIds: [String], mode: GameMode) -> [String: StatsDeckRecord] {
+        guard let realm = try? Realm() else {
+            logger.error("Error accessing Realm database")
+            return [:]
+        }
+
+        var records = [String: StatsDeckRecord]()
+        for deckId in deckIds {
+            guard let deck = realm.object(ofType: Deck.self, forPrimaryKey: deckId) else {
+                continue
+            }
+            records[deckId] = getDeckRecord(deck: deck, mode: mode)
+        }
+        return records
+    }
+
     static func getDeckRecord(deck: Deck, againstClass: CardClass = .neutral,
                               mode: GameMode = .ranked, season: Int = 0) -> StatsDeckRecord {
-        var stats = Array(deck.gameStats)
-        if againstClass != .neutral {
-            stats = stats.filter { $0.opponentHero == againstClass }
-        }
-        if season > 0 {
-            stats = stats.filter { $0.season == season }
-        }
+        // Walk the game list once instead of copying it into an array and
+        // filtering it five times. Decks with a long history make the copy and
+        // the extra passes dominate, and this is called for every deck when the
+        // deck manager sorts.
+        var wins = 0
+        var losses = 0
+        var draws = 0
 
-        var rankedStats: [GameStats]
-        if mode == .all {
-            rankedStats = stats
-        } else {
-            rankedStats = stats.filter { $0.gameMode == mode }
-        }
+        for stat in deck.gameStats {
+            if mode != .all && stat.gameMode != mode {
+                continue
+            }
+            if season > 0 && stat.season != season {
+                continue
+            }
+            if againstClass != .neutral && stat.opponentHero != againstClass {
+                continue
+            }
 
-        let wins = rankedStats.filter { $0.result == .win }.count
-        let losses = rankedStats.filter { $0.result == .loss }.count
-        let draws = rankedStats.filter { $0.result == .draw }.count
+            switch stat.result {
+            case .win: wins += 1
+            case .loss: losses += 1
+            case .draw: draws += 1
+            default: break
+            }
+        }
 
         return StatsDeckRecord(wins: wins,
                                losses: losses,

@@ -43,7 +43,16 @@ class GamePreferences: PreferencePaneController, PreferencePane {
             alert.alertStyle = .critical
             alert.messageText = String.localizedString("Can't find Hearthstone, please select Hearthstone.app", comment: "")
             alert.addButton(withTitle: String.localizedString("OK", comment: ""))
-            alert.runModal()
+            // The Preferences package animates the tab transition inside an
+            // NSAnimationContext group, and sends viewWillAppear from within it,
+            // so we are inside a CoreAnimation transaction here. -[NSAlert runModal]
+            // raises NSGenericException in that state and the exception is not
+            // caught, which killed the app for anyone opening this pane without a
+            // valid Hearthstone path (Sentry HSTRACKER-309). Run it once the
+            // transaction has committed instead.
+            DispatchQueue.main.async {
+                alert.runModal()
+            }
         }
 
         if let locale = Settings.hsTrackerLanguage,

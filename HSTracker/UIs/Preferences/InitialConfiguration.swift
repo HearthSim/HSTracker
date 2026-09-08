@@ -27,7 +27,20 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
 
         hearthstoneLanguage.reloadData()
         hstrackerLanguage.reloadData()
-        
+
+        // Show the languages that are already configured, the way the Game settings pane does.
+        // This window is also shown when only the Hearthstone path is missing, and leaving the
+        // combo boxes empty then made it look as though HSTracker had forgotten the languages
+        // as well (GitHub issue #1428).
+        if let locale = Settings.hsTrackerLanguage,
+            let index = Array(Language.HSTracker.allCases).firstIndex(of: locale) {
+            hstrackerLanguage.selectItem(at: index)
+        }
+        if let locale = Settings.hearthstoneLanguage,
+            let index = Array(Language.Hearthstone.allCases).firstIndex(of: locale) {
+            hearthstoneLanguage.selectItem(at: index)
+        }
+
         let hsPath = Settings.hearthstonePath + "/Hearthstone.app"
         if FileManager.default.fileExists(atPath: hsPath) {
             hearthstonePath.stringValue = hsPath
@@ -43,6 +56,8 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
             alert.addButton(withTitle: String.localizedString("OK", comment: ""))
             alert.beginSheetModal(for: self.window!, completionHandler: nil)
         }
+
+        checkToEnableSave()
     }
 
     // MARK: - Button actions
