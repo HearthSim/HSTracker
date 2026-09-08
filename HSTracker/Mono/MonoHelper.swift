@@ -339,11 +339,11 @@ class MonoHelper {
     }
 
     /// Prefer `withMonoThread`. This is for the few scopes that cannot be expressed as a closure,
-    /// and must be paired with exactly one `detachThread()` on the same thread.
+    /// such as an initializer, and must be paired with exactly one `detachThread()` on the same thread.
     ///
-    /// The depth only counts scopes that go through here. A scope still calling mono_thread_attach
-    /// directly is invisible to it, so nesting one of these inside a raw one is as unsafe as it was
-    /// before; the remaining raw sites in BobsBuddyInvoker should move over to this.
+    /// The depth only counts scopes that go through here or `withMonoThread`. Calling
+    /// mono_thread_attach directly is invisible to it and brings the nesting problem back, so new
+    /// code should always come through one of these two.
     static func attachThread() {
         let depth = threadDepth
         if depth == 0 {
@@ -489,140 +489,137 @@ class MonoHelper {
     }
     
     static func testSimulation() {
-        let handle = mono_thread_attach(MonoHelper._monoInstance)
-                
-        let sim = SimulatorProxy()
+        withMonoThread {
+            let sim = SimulatorProxy()
         
-        if sim.valid() {
-            let test = InputProxy()
+            if sim.valid() {
+                let test = InputProxy()
             
-            let player = test.player
-            let opponent = test.opponent
+                let player = test.player
+                let opponent = test.opponent
             
-            player.health = 4
-            player.tier = 3
-            player.addHeroPower(heroPowerCardId: "TB_BaconShop_HP_061", friendly: true, isActivated: true, data: 0, data2: 0, data3: 0)
+                player.health = 4
+                player.tier = 3
+                player.addHeroPower(heroPowerCardId: "TB_BaconShop_HP_061", friendly: true, isActivated: true, data: 0, data2: 0, data3: 0)
 
-            opponent.health = 3
-            opponent.tier = 3
-            opponent.addHeroPower(heroPowerCardId: "TB_BaconShop_HP_043", friendly: false, isActivated: false, data: 0, data2: 0, data3: 0)
+                opponent.health = 3
+                opponent.tier = 3
+                opponent.addHeroPower(heroPowerCardId: "TB_BaconShop_HP_043", friendly: false, isActivated: false, data: 0, data2: 0, data3: 0)
             
-            let ps = player.side
-            let os = opponent.side
-            let factory = sim.minionFactory
+                let ps = player.side
+                let os = opponent.side
+                let factory = sim.minionFactory
             
-            MonoHelper.addToList(list: ps, element: factory.createFromCardid(id: "UNG_073", player: true))
-            MonoHelper.addToList(list: ps, element: factory.createFromCardid(id: "UNG_073", player: true))
-            MonoHelper.addToList(list: ps, element: factory.createFromCardid(id: "EX1_506a", player: true))
-            MonoHelper.addToList(list: ps, element: factory.createFromCardid(id: "EX1_506a", player: true))
+                MonoHelper.addToList(list: ps, element: factory.createFromCardid(id: "UNG_073", player: true))
+                MonoHelper.addToList(list: ps, element: factory.createFromCardid(id: "UNG_073", player: true))
+                MonoHelper.addToList(list: ps, element: factory.createFromCardid(id: "EX1_506a", player: true))
+                MonoHelper.addToList(list: ps, element: factory.createFromCardid(id: "EX1_506a", player: true))
             
-            MonoHelper.addToList(list: os, element: factory.createFromCardid(id: "BG26_801", player: false))
-            MonoHelper.addToList(list: os, element: factory.createFromCardid(id: "UNG_073", player: false))
-            MonoHelper.addToList(list: os, element: factory.createFromCardid(id: "EX1_506", player: false))
+                MonoHelper.addToList(list: os, element: factory.createFromCardid(id: "BG26_801", player: false))
+                MonoHelper.addToList(list: os, element: factory.createFromCardid(id: "UNG_073", player: false))
+                MonoHelper.addToList(list: os, element: factory.createFromCardid(id: "EX1_506", player: false))
             
-            let hand = test.opponent.hand
-            let e = Entity(id: 105)
-            e.info.latestCardId = "UNG_073"
-            e[.atk] = 5
-            e[.health] = 5
-            e[.tech_level] = 2
-            let minionEntity = MinionCardEntityProxy(minion: BobsBuddyInvoker.getMinionFromEntity(sim: sim, player: false, entity: e, attachedEntities: [Entity]()), simulator: sim)
-            minionEntity.canSummon = true
-            MonoHelper.addToList(list: hand, element: minionEntity)
-            MonoHelper.addToList(list: hand, element: BloodGemProxy(simulator: sim))
+                let hand = test.opponent.hand
+                let e = Entity(id: 105)
+                e.info.latestCardId = "UNG_073"
+                e[.atk] = 5
+                e[.health] = 5
+                e[.tech_level] = 2
+                let minionEntity = MinionCardEntityProxy(minion: BobsBuddyInvoker.getMinionFromEntity(sim: sim, player: false, entity: e, attachedEntities: [Entity]()), simulator: sim)
+                minionEntity.canSummon = true
+                MonoHelper.addToList(list: hand, element: minionEntity)
+                MonoHelper.addToList(list: hand, element: BloodGemProxy(simulator: sim))
             
-            let items = MonoHelper.listItems(obj: hand)
-            for item in items {
-            if MonoHelper.isInstance(obj: item, klass: MinionCardEntityProxy._class!) {
-                    logger.debug("Item is instance")
-                } else {
-                    logger.debug("Item is not instance")
-                }
-            }
-                        
-            let murloc = factory.createFromCardid(id: "EX1_506a", player: false)
-            murloc.poisonous = true
-            logger.debug("Murloc poisonous property \(murloc.poisonous), name \(murloc.minionName)")
-            MonoHelper.addToList(list: os, element: murloc)
-            
-            let trinket = sim.trinketFactory.create(id: "BG30_MagicItem_880", friendly: true)
-            MonoHelper.addToList(list: player.trinkets, element: trinket)
-            
-            player.setSecrets(secrets: [ Cards.any(byId: "TB_Bacon_Secrets_15")?.dbfId ?? 0 ])
-//            logger.debug("Opponent HP \(opponent.heroPower.cardId)")
-            //            let oppSecrets = test.getOpponentSecrets()
-            //            test.addSecretFromDbfid(id: Int32(Cards.any(byId: "TB_Bacon_Secrets_02")?.dbfId ?? 0), target: oppSecrets)            
-//            let playerObjectives = test.playerObjectives
-//            for objective in ["BG28_509"] {
-//                let obj = sim.objectiveFactory.create(cardId: objective, controlledByPlayer: true)
-//                MonoHelper.addToList(list: playerObjectives, element: obj)
-//            }
-
-            let races: [Race] = [ Race.beast, Race.mechanical, Race.dragon, Race.murloc ]
-            
-            test.addAvailableRaces(races: races)
-            
-            let str = test.unitestCopyableVersion()
-            
-            logger.debug(str)
-
-            let runner = SimulationRunnerProxy()
-            let obj = runner.simulateMultiThreaded(input: test, maxIterations: 1000, threadCount: 4, maxDuration: 1500)
-            let c = mono_object_get_class(obj.get())
-            let inst2 = obj.get()
-
-            let mw = MonoHelper.getMethod(c, "Wait", 0)
-
-            let exc = UnsafeMutablePointer<UnsafeMutablePointer<MonoObject>?>.allocate(capacity: 1)
-            exc[0] = nil
-            defer {
-                exc.deallocate()
-            }
-            _ = mono_runtime_invoke(mw, inst2, nil, exc)
-            if let raised = exc[0] {
-                // Task.Wait reports a failed simulation as an AggregateException, and
-                // an UnsupportedInteractionException is the only inner exception we
-                // recognize. Everything else used to hit a fatalError here, which took
-                // the whole app down on launch because this test runs at startup
-                // (Sentry HSTRACKER-2XX). Mirror the unwrapping BobsBuddyInvoker does
-                // and just log whatever we could not classify.
-                var uie: UnsupportedInteractionExceptionProxy?
-                if let aggregateClass = AggregateExceptionProxy._class {
-                    var aggregate = AggregateExceptionProxy(obj: raised)
-                    while MonoHelper.isInstance(obj: aggregate, klass: aggregateClass) {
-                        let inner = aggregate.innerException
-                        if let class_ = UnsupportedInteractionExceptionProxy._class,
-                           MonoHelper.isInstance(obj: inner, klass: class_) {
-                            uie = UnsupportedInteractionExceptionProxy(obj: inner.get())
-                            break
-                        }
-                        aggregate = AggregateExceptionProxy(obj: inner.get())
+                let items = MonoHelper.listItems(obj: hand)
+                for item in items {
+                if MonoHelper.isInstance(obj: item, klass: MinionCardEntityProxy._class!) {
+                        logger.debug("Item is instance")
+                    } else {
+                        logger.debug("Item is not instance")
                     }
                 }
-                if let uie {
-                    let entity = uie.entity
-                    let cardId = entity.get() != nil ? entity.cardID : ""
-                    logger.error("testSimulation unsupported interaction on \(cardId): \(uie.message)")
-                } else {
-                    logger.error("testSimulation failed: \(MonoHelper.toString(obj: MonoHandle(obj: raised)))")
+                        
+                let murloc = factory.createFromCardid(id: "EX1_506a", player: false)
+                murloc.poisonous = true
+                logger.debug("Murloc poisonous property \(murloc.poisonous), name \(murloc.minionName)")
+                MonoHelper.addToList(list: os, element: murloc)
+            
+                let trinket = sim.trinketFactory.create(id: "BG30_MagicItem_880", friendly: true)
+                MonoHelper.addToList(list: player.trinkets, element: trinket)
+            
+                player.setSecrets(secrets: [ Cards.any(byId: "TB_Bacon_Secrets_15")?.dbfId ?? 0 ])
+    //            logger.debug("Opponent HP \(opponent.heroPower.cardId)")
+                //            let oppSecrets = test.getOpponentSecrets()
+                //            test.addSecretFromDbfid(id: Int32(Cards.any(byId: "TB_Bacon_Secrets_02")?.dbfId ?? 0), target: oppSecrets)            
+    //            let playerObjectives = test.playerObjectives
+    //            for objective in ["BG28_509"] {
+    //                let obj = sim.objectiveFactory.create(cardId: objective, controlledByPlayer: true)
+    //                MonoHelper.addToList(list: playerObjectives, element: obj)
+    //            }
+
+                let races: [Race] = [ Race.beast, Race.mechanical, Race.dragon, Race.murloc ]
+            
+                test.addAvailableRaces(races: races)
+            
+                let str = test.unitestCopyableVersion()
+            
+                logger.debug(str)
+
+                let runner = SimulationRunnerProxy()
+                let obj = runner.simulateMultiThreaded(input: test, maxIterations: 1000, threadCount: 4, maxDuration: 1500)
+                let c = mono_object_get_class(obj.get())
+                let inst2 = obj.get()
+
+                let mw = MonoHelper.getMethod(c, "Wait", 0)
+
+                let exc = UnsafeMutablePointer<UnsafeMutablePointer<MonoObject>?>.allocate(capacity: 1)
+                exc[0] = nil
+                defer {
+                    exc.deallocate()
                 }
-                mono_thread_detach(handle)
-                return
+                _ = mono_runtime_invoke(mw, inst2, nil, exc)
+                if let raised = exc[0] {
+                    // Task.Wait reports a failed simulation as an AggregateException, and
+                    // an UnsupportedInteractionException is the only inner exception we
+                    // recognize. Everything else used to hit a fatalError here, which took
+                    // the whole app down on launch because this test runs at startup
+                    // (Sentry HSTRACKER-2XX). Mirror the unwrapping BobsBuddyInvoker does
+                    // and just log whatever we could not classify.
+                    var uie: UnsupportedInteractionExceptionProxy?
+                    if let aggregateClass = AggregateExceptionProxy._class {
+                        var aggregate = AggregateExceptionProxy(obj: raised)
+                        while MonoHelper.isInstance(obj: aggregate, klass: aggregateClass) {
+                            let inner = aggregate.innerException
+                            if let class_ = UnsupportedInteractionExceptionProxy._class,
+                               MonoHelper.isInstance(obj: inner, klass: class_) {
+                                uie = UnsupportedInteractionExceptionProxy(obj: inner.get())
+                                break
+                            }
+                            aggregate = AggregateExceptionProxy(obj: inner.get())
+                        }
+                    }
+                    if let uie {
+                        let entity = uie.entity
+                        let cardId = entity.get() != nil ? entity.cardID : ""
+                        logger.error("testSimulation unsupported interaction on \(cardId): \(uie.message)")
+                    } else {
+                        logger.error("testSimulation failed: \(MonoHelper.toString(obj: MonoHandle(obj: raised)))")
+                    }
+                    return
+                }
+
+                let meth2 = MonoHelper.getMethod(c, "get_Result", 0)
+                let output = mono_runtime_invoke(meth2, inst2, nil, nil)
+                let top = OutputProxy(obj: output)
+
+                let ostr = MonoHelper.toString(obj: top)
+                logger.debug("testSimulation result is \(ostr)")
+
+                // For testing the damage result code which is a little trickier
+                //let damage = top.getResultDamage()
+                //logger.debug("testSimulation damage is \(damage)")
             }
-
-            let meth2 = MonoHelper.getMethod(c, "get_Result", 0)
-            let output = mono_runtime_invoke(meth2, inst2, nil, nil)
-            let top = OutputProxy(obj: output)
-
-            let ostr = MonoHelper.toString(obj: top)
-            logger.debug("testSimulation result is \(ostr)")
-
-            // For testing the damage result code which is a little trickier
-            //let damage = top.getResultDamage()
-            //logger.debug("testSimulation damage is \(damage)")
         }
-        
-        mono_thread_detach(handle)
     }
     
     static func loadClass(ns: String, name: String) -> OpaquePointer {
