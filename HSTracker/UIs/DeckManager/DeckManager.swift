@@ -57,6 +57,13 @@ class DeckManager: NSWindowController {
     let orders = ["ascending", "descending"]
     var sortCriteria = Settings.deckSortCriteria
     var sortOrder = Settings.deckSortOrder
+
+    // sortedFilteredDecks() is called by every table view callback, so both the
+    // sort and the per-deck records it needs are cached until something that
+    // feeds them changes. Everything that can change them goes through
+    // refreshDecks().
+    private var sortedDecksCache: [Deck]?
+    private var deckRecordCache: [String: StatsDeckRecord] = [:]
 	var triggers: [NSObjectProtocol] = []
     
 	weak var game: Game?
@@ -107,7 +114,7 @@ class DeckManager: NSWindowController {
         
         if triggers.count == 0 {
             let events = [
-                Events.reload_decks: self.updateStatsLabel,
+                Events.reload_decks: self.decksDidChange,
                 Settings.theme_token: self.updateTheme
             ]
             for (event, trigger) in events {
@@ -131,7 +138,33 @@ class DeckManager: NSWindowController {
         super.showWindow(sender)
     }
 
+    /// The record shown in the deck manager, computed at most once per deck
+    /// between refreshes. Uses .all so the sort agrees with the numbers the
+    /// rows display.
+    private func deckRecord(for deck: Deck) -> StatsDeckRecord {
+        if let cached = deckRecordCache[deck.deckId] {
+            return cached
+        }
+        let record = StatsHelper.getDeckRecord(deck: deck, mode: .all)
+        deckRecordCache[deck.deckId] = record
+        return record
+    }
+
+    private func invalidateDeckCaches() {
+        sortedDecksCache = nil
+        deckRecordCache.removeAll()
+    }
+
     func sortedFilteredDecks() -> [Deck] {
+        if let cached = sortedDecksCache {
+            return cached
+        }
+        let sorted = computeSortedFilteredDecks()
+        sortedDecksCache = sorted
+        return sorted
+    }
+
+    private func computeSortedFilteredDecks() -> [Deck] {
         let filteredDeck = unsortedFilteredDecks()
         var sortedDeck: [Deck]
         let ascend = sortOrder == "ascending"
@@ -143,20 +176,17 @@ class DeckManager: NSWindowController {
             sortedDeck = filteredDeck.sorted(by: { $0.creationDate < $1.creationDate })
         case "win percentage":
             sortedDeck = filteredDeck.sorted(by: {
-                  StatsHelper.getDeckWinRate(record: StatsHelper.getDeckRecord(deck: $0)) <
-                  StatsHelper.getDeckWinRate(record: StatsHelper.getDeckRecord(deck: $1)) })
+                  StatsHelper.getDeckWinRate(record: deckRecord(for: $0)) <
+                  StatsHelper.getDeckWinRate(record: deckRecord(for: $1)) })
         case "wins":
             sortedDeck = filteredDeck.sorted(by: {
-                  StatsHelper.getDeckRecord(deck: $0).wins <
-                  StatsHelper.getDeckRecord(deck: $1).wins })
+                  deckRecord(for: $0).wins < deckRecord(for: $1).wins })
         case "losses":
             sortedDeck = filteredDeck.sorted(by: {
-                  StatsHelper.getDeckRecord(deck: $0).losses <
-                  StatsHelper.getDeckRecord(deck: $1).losses })
+                  deckRecord(for: $0).losses < deckRecord(for: $1).losses })
         case "games played":
             sortedDeck = filteredDeck.sorted(by: {
-                  StatsHelper.getDeckRecord(deck: $0).total <
-                  StatsHelper.getDeckRecord(deck: $1).total })
+                  deckRecord(for: $0).total < deckRecord(for: $1).total })
         default:
             sortedDeck = filteredDeck
         }
@@ -217,6 +247,14 @@ class DeckManager: NSWindowController {
         }
 
         refreshDecks()
+    }
+
+    /// A game finished while the manager was open, so the cached records no
+    /// longer match the database.
+    func decksDidChange() {
+        invalidateDeckCaches()
+        decksTable.reloadData()
+        updateStatsLabel()
     }
 
     func updateStatsLabel() {
@@ -625,7 +663,6 @@ extension DeckManager: NSTableViewDelegate {
                     cell.useButton.isEnabled = true
                 }
                 
-                let record = StatsHelper.getDeckRecord(deck: deck, mode: .all)
                 switch sortCriteria {
                 case "creation date":
                     let formatter = DateFormatter()
@@ -634,17 +671,17 @@ extension DeckManager: NSTableViewDelegate {
                     cell.detailTextLabel.stringValue =
                         "\(formatter.string(from: deck.creationDate))"
                 case "wins":
-                    cell.detailTextLabel.stringValue = "\(record.wins) " +
+                    cell.detailTextLabel.stringValue = "\(deckRecord(for: deck).wins) " +
                         String.localizedString("wins", comment: "").lowercased()
                 case "losses":
-                    cell.detailTextLabel.stringValue = "\(record.losses) " +
+                    cell.detailTextLabel.stringValue = "\(deckRecord(for: deck).losses) " +
                         String.localizedString("losses", comment: "").lowercased()
                 case "games played":
-                    cell.detailTextLabel.stringValue = "\(record.total) " +
+                    cell.detailTextLabel.stringValue = "\(deckRecord(for: deck).total) " +
                         String.localizedString("games", comment: "").lowercased()
                 default:
                     cell.detailTextLabel.stringValue = StatsHelper
-                        .getDeckManagerRecordLabel(deck: deck, mode: .all)
+                        .getDeckManagerRecordLabel(record: deckRecord(for: deck))
                 }
 
                 return cell
@@ -745,6 +782,7 @@ extension DeckManager: NewDeckDelegate {
             if let realmdecks = RealmHelper.getDecks() {
                 self?.decks = Array(realmdecks)
             }
+            self?.invalidateDeckCaches()
             
             self?.decksTable.reloadData()
             self?.deckListTable.reloadData()

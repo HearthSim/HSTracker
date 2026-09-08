@@ -3,6 +3,8 @@
 - Added diagnostics to the deck tracker's card list to help track down the remaining random crashes on macOS 26, which are caused by overlay work still running off the main thread.
 - Stopped reporting HSReplay and card art server errors as HSTracker crashes. They are outages on the server side, which HSTracker already handles by carrying on, and they were crowding out the crash reports we can act on.
 - Fixed HSTracker quitting when the Game settings pane was opened and Hearthstone could not be found, which is exactly when its "Can't find Hearthstone" warning is meant to appear.
+- Fixed the deck manager freezing the whole app, sometimes for hours, when the decks were sorted by win percentage, wins, losses or games played. Every table view redraw re-sorted the deck list from scratch, and each comparison re-read a deck's entire game history from the database. The sort is now computed once per refresh and the records are reused, so a large collection sorts instantly. Because the setting is saved, restarting HSTracker used to walk straight back into the freeze.
+- Fixed the deck manager sorting by wins, losses and games played counting only ranked games while the row underneath showed the totals for every mode, so the list looked wrongly ordered.
 ## Battlegrounds
 - Fixed the counter tooltips keeping the card art of the previously hovered counter, so hovering the Blood Gem counter after the Beetle counter showed a Beetle under the "Blood Gem" title. The same stale art could appear in The OutFinder's pool browser after filtering the pool.
 - Fixed the Blood Gem counter's tooltip listing only the Blood Gem itself instead of the Quilboar payoffs, unlike Hearthstone Deck Tracker.
