@@ -33,8 +33,6 @@ class DeckManager: NSWindowController {
     @IBOutlet var deckListTable: NSTableView!
     @IBOutlet var curveView: CurveView!
     @IBOutlet var statsLabel: NSTextField!
-    @IBOutlet var progressView: NSView!
-    @IBOutlet var progressIndicator: NSProgressIndicator!
     @IBOutlet var archiveToolBarItem: NSToolbarItem!
     @IBOutlet var sortPopUp: NSPopUpButton!
     @IBOutlet var deckTypePopup: NSPopUpButton!
@@ -64,6 +62,12 @@ class DeckManager: NSWindowController {
     // refreshDecks().
     private var sortedDecksCache: [Deck]?
     private var deckRecordCache: [String: StatsDeckRecord] = [:]
+    private var deckRecordsLoaded = false
+    // Bumped on every refresh so a background pass that finishes after the
+    // decks have changed underneath it is discarded instead of applied.
+    private var deckRecordsToken = 0
+
+    private var recordsProgressIndicator: NSProgressIndicator?
 	var triggers: [NSObjectProtocol] = []
     
 	weak var game: Game?
@@ -153,6 +157,79 @@ class DeckManager: NSWindowController {
     private func invalidateDeckCaches() {
         sortedDecksCache = nil
         deckRecordCache.removeAll()
+        deckRecordsLoaded = false
+        // Discard the result of any background pass still running against the
+        // decks we are throwing away, so it cannot install stale records.
+        deckRecordsToken += 1
+    }
+
+    /// The record based sorts need every deck's record before they can order
+    /// the list. The others only need the records of the rows on screen, which
+    /// deckRecord(for:) can produce as they are drawn.
+    private var sortCriteriaNeedsRecords: Bool {
+        switch sortCriteria {
+        case "win percentage", "wins", "losses", "games played":
+            return true
+        default:
+            return false
+        }
+    }
+
+    /// Reads every deck's game history on a background queue. Walking the
+    /// histories is far cheaper than it used to be, but a collection with
+    /// hundreds of decks and years of games is still enough work to stutter the
+    /// UI, and this window shares the main thread with the trackers.
+    private func loadDeckRecordsIfNeeded() {
+        guard sortCriteriaNeedsRecords, !deckRecordsLoaded, !decks.isEmpty else {
+            hideRecordsProgressIndicator()
+            return
+        }
+
+        let token = deckRecordsToken
+        let deckIds = decks.map { $0.deckId }
+
+        showRecordsProgressIndicator()
+
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            let records = StatsHelper.getDeckRecords(deckIds: deckIds, mode: .all)
+
+            DispatchQueue.main.async {
+                guard let self = self, token == self.deckRecordsToken else { return }
+
+                self.deckRecordCache = records
+                self.deckRecordsLoaded = true
+                self.sortedDecksCache = nil
+                self.hideRecordsProgressIndicator()
+                self.decksTable.reloadData()
+            }
+        }
+    }
+
+    private func showRecordsProgressIndicator() {
+        if recordsProgressIndicator == nil {
+            guard let scrollView = decksTable.enclosingScrollView,
+                  let container = scrollView.superview else { return }
+
+            let size: CGFloat = 32
+            let indicator = NSProgressIndicator(frame: NSRect(
+                x: scrollView.frame.midX - size / 2,
+                y: scrollView.frame.midY - size / 2,
+                width: size, height: size))
+            indicator.style = .spinning
+            indicator.isDisplayedWhenStopped = false
+            // The xib lays this window out with autoresizing masks, so keep the
+            // spinner centred the same way rather than mixing in constraints.
+            indicator.autoresizingMask = [.minXMargin, .maxXMargin,
+                                          .minYMargin, .maxYMargin]
+            container.addSubview(indicator)
+            recordsProgressIndicator = indicator
+        }
+
+        recordsProgressIndicator?.startAnimation(self)
+    }
+
+    private func hideRecordsProgressIndicator() {
+        recordsProgressIndicator?.stopAnimation(self)
     }
 
     func sortedFilteredDecks() -> [Deck] {
@@ -168,7 +245,14 @@ class DeckManager: NSWindowController {
         let filteredDeck = unsortedFilteredDecks()
         var sortedDeck: [Deck]
         let ascend = sortOrder == "ascending"
-        
+
+        if sortCriteriaNeedsRecords && !deckRecordsLoaded {
+            // The records are still being read in the background. Show the
+            // decks in name order, which unsortedFilteredDecks() has already
+            // produced, and re-sort when they arrive.
+            return ascend ? filteredDeck : filteredDeck.reversed()
+        }
+
         switch self.sortCriteria {
         case "name":
             sortedDeck = filteredDeck.sorted(by: { $0.name < $1.name })
@@ -253,6 +337,7 @@ class DeckManager: NSWindowController {
     /// longer match the database.
     func decksDidChange() {
         invalidateDeckCaches()
+        loadDeckRecordsIfNeeded()
         decksTable.reloadData()
         updateStatsLabel()
     }
@@ -783,6 +868,7 @@ extension DeckManager: NewDeckDelegate {
                 self?.decks = Array(realmdecks)
             }
             self?.invalidateDeckCaches()
+            self?.loadDeckRecordsIfNeeded()
             
             self?.decksTable.reloadData()
             self?.deckListTable.reloadData()

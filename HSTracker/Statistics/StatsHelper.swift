@@ -227,6 +227,28 @@ class StatsHelper {
         return winRateString
     }
     
+    /// Computes the record of every given deck, keyed by deck id.
+    ///
+    /// Opens its own Realm and looks the decks up by primary key, so this can
+    /// be called off the main thread. Only value types cross back out, nothing
+    /// Realm-backed, which is what makes it safe to hand the result to another
+    /// queue.
+    static func getDeckRecords(deckIds: [String], mode: GameMode) -> [String: StatsDeckRecord] {
+        guard let realm = try? Realm() else {
+            logger.error("Error accessing Realm database")
+            return [:]
+        }
+
+        var records = [String: StatsDeckRecord]()
+        for deckId in deckIds {
+            guard let deck = realm.object(ofType: Deck.self, forPrimaryKey: deckId) else {
+                continue
+            }
+            records[deckId] = getDeckRecord(deck: deck, mode: mode)
+        }
+        return records
+    }
+
     static func getDeckRecord(deck: Deck, againstClass: CardClass = .neutral,
                               mode: GameMode = .ranked, season: Int = 0) -> StatsDeckRecord {
         // Walk the game list once instead of copying it into an array and

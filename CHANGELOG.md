@@ -5,6 +5,7 @@
 - Fixed HSTracker quitting when the Game settings pane was opened and Hearthstone could not be found, which is exactly when its "Can't find Hearthstone" warning is meant to appear.
 - Fixed the deck manager freezing the whole app, sometimes for hours, when the decks were sorted by win percentage, wins, losses or games played. Every table view redraw re-sorted the deck list from scratch, and each comparison re-read a deck's entire game history from the database. The sort is now computed once per refresh and the records are reused, so a large collection sorts instantly. Because the setting is saved, restarting HSTracker used to walk straight back into the freeze.
 - Fixed the deck manager sorting by wins, losses and games played counting only ranked games while the row underneath showed the totals for every mode, so the list looked wrongly ordered.
+- The deck manager now reads the deck records on a background thread, showing a spinner and the decks in name order until they are ready, so a large collection cannot stall the trackers while it sorts.
 ## Battlegrounds
 - Fixed the counter tooltips keeping the card art of the previously hovered counter, so hovering the Blood Gem counter after the Beetle counter showed a Beetle under the "Blood Gem" title. The same stale art could appear in The OutFinder's pool browser after filtering the pool.
 - Fixed the Blood Gem counter's tooltip listing only the Blood Gem itself instead of the Quilboar payoffs, unlike Hearthstone Deck Tracker.
