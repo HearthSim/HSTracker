@@ -1676,29 +1676,25 @@ class BobsBuddyInvoker {
             return
         }
         
-        let opaque = mono_thread_attach(MonoHelper._monoInstance)
-        
-        defer {
-            mono_thread_detach(opaque)
-        }
-        
-        var tryDuos = game.isBattlegroundsDuosMatch()
-        var tryRerun = false
-        if isOpponent && !tryDuos {  // Try to obtain for opponent when not duos
-            let tavishLockAndLoad = listFirst(input.opponent.heroPowers, { (hp: HeroPowerDataProxy) in hp.cardId == CardIds.NonCollectible.Neutral.TavishStormpike_LockAndLoad })
-            if tavishLockAndLoad == nil {
-                tryDuos = true // Will fallback and try duos anyways
-            } else if let tavishLockAndLoad, tavishLockAndLoad.attachedMinion.get() == nil && tavishLockAndLoad.data3 == 0 {
-                tavishLockAndLoad.attachedMinion = BobsBuddyInvoker.getMinionFromEntity(sim: SimulatorProxy(), player: false, entity: attachedEntity, attachedEntities: getAttachedEntities(entityId: attachedEntity.id))
-                tavishLockAndLoad.attachedMinionCapturedDuringCombat = true
-                tryRerun = true
+        MonoHelper.withMonoThread {
+            var tryDuos = game.isBattlegroundsDuosMatch()
+            var tryRerun = false
+            if isOpponent && !tryDuos {  // Try to obtain for opponent when not duos
+                let tavishLockAndLoad = listFirst(input.opponent.heroPowers, { (hp: HeroPowerDataProxy) in hp.cardId == CardIds.NonCollectible.Neutral.TavishStormpike_LockAndLoad })
+                if tavishLockAndLoad == nil {
+                    tryDuos = true // Will fallback and try duos anyways
+                } else if let tavishLockAndLoad, tavishLockAndLoad.attachedMinion.get() == nil && tavishLockAndLoad.data3 == 0 {
+                    tavishLockAndLoad.attachedMinion = BobsBuddyInvoker.getMinionFromEntity(sim: SimulatorProxy(), player: false, entity: attachedEntity, attachedEntities: getAttachedEntities(entityId: attachedEntity.id))
+                    tavishLockAndLoad.attachedMinionCapturedDuringCombat = true
+                    tryRerun = true
+                }
             }
-        }
-        if tryDuos {
-            updateDuosLockAndLoadHeroPower(attachedEntity)
-        }
-        if tryRerun {
-            self.tryRerun()
+            if tryDuos {
+                updateDuosLockAndLoadHeroPower(attachedEntity)
+            }
+            if tryRerun {
+                self.tryRerun()
+            }
         }
     }
     
@@ -1707,62 +1703,58 @@ class BobsBuddyInvoker {
             return
         }
 
-        let opaque = mono_thread_attach(MonoHelper._monoInstance)
-        
-        defer {
-            mono_thread_detach(opaque)
-        }
-        
-        let creatorId = firedMinionEntity[.creator]
-        let sides: [(MonoHandle, Bool)] = [
-            ( input.player.heroPowers, true ),
-            ( input.playerTeammate.get() != nil ? input.playerTeammate.heroPowers : MonoHandle(), true ),
-            ( input.opponent.heroPowers, false ),
-            ( input.opponentTeammate.get() != nil ? input.opponentTeammate.heroPowers : MonoHandle(), false )
-        ]
-        var tavishLockAndLoad: HeroPowerDataProxy?
-        var friendly = false
-        for (heroPowers, sideFriendly) in sides where heroPowers.get() != nil {
-            if let match = listFirst(heroPowers, { (hp: HeroPowerDataProxy) in
-                hp.cardId
-                == CardIds.NonCollectible.Neutral.TavishStormpike_LockAndLoad && hp.attachedMinion.get() != nil && hp.attachedMinion.game_id == creatorId }) {
-                tavishLockAndLoad = match
-                friendly = sideFriendly
-                break
-            }
-        }
-        
-        if tavishLockAndLoad == nil {
+        MonoHelper.withMonoThread {
+            let creatorId = firedMinionEntity[.creator]
+            let sides: [(MonoHandle, Bool)] = [
+                ( input.player.heroPowers, true ),
+                ( input.playerTeammate.get() != nil ? input.playerTeammate.heroPowers : MonoHandle(), true ),
+                ( input.opponent.heroPowers, false ),
+                ( input.opponentTeammate.get() != nil ? input.opponentTeammate.heroPowers : MonoHandle(), false )
+            ]
+            var tavishLockAndLoad: HeroPowerDataProxy?
+            var friendly = false
             for (heroPowers, sideFriendly) in sides where heroPowers.get() != nil {
                 if let match = listFirst(heroPowers, { (hp: HeroPowerDataProxy) in
                     hp.cardId
-                    == CardIds.NonCollectible.Neutral.TavishStormpike_LockAndLoad }) {
+                    == CardIds.NonCollectible.Neutral.TavishStormpike_LockAndLoad && hp.attachedMinion.get() != nil && hp.attachedMinion.game_id == creatorId }) {
                     tavishLockAndLoad = match
                     friendly = sideFriendly
                     break
                 }
             }
-        }
         
-        guard let tavishLockAndLoad else {
-            return
-        }
+            if tavishLockAndLoad == nil {
+                for (heroPowers, sideFriendly) in sides where heroPowers.get() != nil {
+                    if let match = listFirst(heroPowers, { (hp: HeroPowerDataProxy) in
+                        hp.cardId
+                        == CardIds.NonCollectible.Neutral.TavishStormpike_LockAndLoad }) {
+                        tavishLockAndLoad = match
+                        friendly = sideFriendly
+                        break
+                    }
+                }
+            }
         
-        if tavishLockAndLoad.attachedMinion.get() != nil || tavishLockAndLoad.data3 > 0 {
-            return
+            guard let tavishLockAndLoad else {
+                return
+            }
+        
+            if tavishLockAndLoad.attachedMinion.get() != nil || tavishLockAndLoad.data3 > 0 {
+                return
+            }
+            // COPIED_FROM_ENTITY_ID capture (TagChangeActions) fires before the fired minion attacks,
+            // so its stats are clean. The BLOCK_END capture (PowerHandler) can run after the shot, and the minion
+            // may carry damage or already be dead, and the simulation replays the shot, if so, fall back to dbf_id.
+            if firedMinionEntity[GameTag.damage] == 0 && firedMinionEntity.isInZone(zone: Zone.play) {
+                tavishLockAndLoad.attachedMinion = BobsBuddyInvoker.getMinionFromEntity(sim: SimulatorProxy(), player: friendly, entity: firedMinionEntity, attachedEntities: getAttachedEntities(entityId: firedMinionEntity.id))
+                tavishLockAndLoad.attachedMinionCapturedDuringCombat = true
+            } else if tavishLockAndLoad.data3 == 0 {
+                tavishLockAndLoad.data3 = Int32(firedMinionEntity.card.dbfId)
+            } else {
+                return
+            }
+            tryRerun()
         }
-        // COPIED_FROM_ENTITY_ID capture (TagChangeActions) fires before the fired minion attacks,
-        // so its stats are clean. The BLOCK_END capture (PowerHandler) can run after the shot, and the minion
-        // may carry damage or already be dead, and the simulation replays the shot, if so, fall back to dbf_id.
-        if firedMinionEntity[GameTag.damage] == 0 && firedMinionEntity.isInZone(zone: Zone.play) {
-            tavishLockAndLoad.attachedMinion = BobsBuddyInvoker.getMinionFromEntity(sim: SimulatorProxy(), player: friendly, entity: firedMinionEntity, attachedEntities: getAttachedEntities(entityId: firedMinionEntity.id))
-            tavishLockAndLoad.attachedMinionCapturedDuringCombat = true
-        } else if tavishLockAndLoad.data3 == 0 {
-            tavishLockAndLoad.data3 = Int32(firedMinionEntity.card.dbfId)
-        } else {
-            return
-        }
-        tryRerun()
     }
     
     private func listFirst<T: MonoHandle>(_ list: MonoHandle, _ predicate: (T) -> Bool) -> T? {
@@ -2351,128 +2343,121 @@ class BobsBuddyInvoker {
             return
         }
         
-        let opaque = mono_thread_attach(MonoHelper._monoInstance)
-        defer {
-            mono_thread_detach(opaque)
-        }
+        MonoHelper.withMonoThread {
+            let sourceThatSummoned = Array(_pendingAutoAssemblerDeathrattleSources)
+            _pendingAutoAssemblerDeathrattleSources.removeAll()
         
-        let sourceThatSummoned = Array(_pendingAutoAssemblerDeathrattleSources)
-        _pendingAutoAssemblerDeathrattleSources.removeAll()
-        
-        guard input != nil && updateRevealedEntityValidStates else { return }
+            guard input != nil && updateRevealedEntityValidStates else { return }
 
-        var changed = false
-        for kv_pair in sourceThatSummoned {
-            changed = reconcileAutoAssemblerDeathrattles(kv_pair.key, kv_pair.value.triggerMultiplier, kv_pair.value.summonedIsPremium) || changed
-        }
+            var changed = false
+            for kv_pair in sourceThatSummoned {
+                changed = reconcileAutoAssemblerDeathrattles(kv_pair.key, kv_pair.value.triggerMultiplier, kv_pair.value.summonedIsPremium) || changed
+            }
 
-        _observedAutoAssemblerFirings.removeAll()
+            _observedAutoAssemblerFirings.removeAll()
 
-        if changed {
-            tryRerun()
+            if changed {
+                tryRerun()
+            }
         }
     }
 
     private func reconcileAutoAssemblerDeathrattles(_ sourceEntityId: Int, _ triggerMultiplier: Int, _ summonedByIsPremium: [Bool]) -> Bool {
         guard let input = input else { return false }
         
-        let opaque = mono_thread_attach(MonoHelper._monoInstance)
+        return MonoHelper.withMonoThread {
+            let sides = [input.player, input.playerTeammate, input.opponent, input.opponentTeammate]
+                .compactMap { $0 }
         
-        defer {
-            mono_thread_detach(opaque)
-        }
+            let minion = sides
+                .filter { $0.get() != nil }
+                .map { MonoHelper.listItems(obj: $0.side) }
+                .flatMap { $0 }
+                .map { MinionProxy(obj: $0.get()) }
+                .first(where: { $0.gameId == sourceEntityId })
         
-        let sides = [input.player, input.playerTeammate, input.opponent, input.opponentTeammate]
-            .compactMap { $0 }
-        
-        let minion = sides
-            .filter { $0.get() != nil }
-            .map { MonoHelper.listItems(obj: $0.side) }
-            .flatMap { $0 }
-            .map { MinionProxy(obj: $0.get()) }
-            .first(where: { $0.gameId == sourceEntityId })
-        
-        guard let minion, !minion.minionUpdatedDuringCombat else {
-            return false
-        }
-        
-        // Ignore minions that copy/gain deathrattles during combat (e.g., Fish of N'Zoth, Timewraped Whirl-O-Tron)
-        if MonoHelper.isInstance(obj: minion, klass: ICopiesDeathrattlesProxy._class!) {
-            return false
-        }
-
-        // Sneed's New Shredder's innate Deathrattle summons a copy of a hand minion; when that hand
-        // minion is an Ancestral Automaton the observation is indistinguishable from a hidden
-        // magnetized Auto Assembler — do not attribute its summons to a module.
-        if MonoHelper.isInstance(obj: minion, klass: SneedsNewShredderProxy._class!) {
-            return false
-        }
-
-        let getAction = { (m: MonoHandle) -> UnsafeMutablePointer<MonoObject>? in
-            return mono_property_get_value(mono_class_get_property_from_name(mono_object_get_class(m.get()), "Method"), m.get(), nil, nil)
-        }
-        let autoAssemblerAction = getAction(AutoAssemblerProxy.deathrattle())
-        let autoAssemblerGoldenAction = getAction(AutoAssemblerProxy.goldenDeathrattle())
-
-        // Extra deathrattles (e.g., Titus Rivendare) resolve as full repeats of the whole deathrattle list —
-        // so the first (observed / triggerMultiplier) are the distinct deathrattles in their real order.
-        let isAutoAssembler = MonoHelper.isInstance(obj: minion, klass: AutoAssemblerProxy._class!)
-
-        let observedFirings = _observedAutoAssemblerFirings[sourceEntityId] ?? 0
-        let firedDeathrattles = observedFirings / triggerMultiplier
-        let summonedDeathrattles = summonedByIsPremium.count / triggerMultiplier
-        var automatons = summonedByIsPremium.take(max(summonedDeathrattles, firedDeathrattles))
-
-        // A firing the board had no space for leaves no summon to read the premium flag from; repeat the last
-        // observed one, because every module fused into one host grants the same Automaton.
-        while automatons.count < firedDeathrattles && !summonedByIsPremium.isEmpty {
-            automatons.append(summonedByIsPremium[summonedByIsPremium.count - 1])
-        }
-
-        // A minion's own innate deathrattles and deathrattles from attached enchantments resolve before these
-        // AdditionalDeathrattles, and appear as the leading elements; drop them so automatons map to AdditionalDeathrattles only.
-        let leadingCaptured = (isAutoAssembler ? 1 : 0)
-        + MonoHelper.listItems(obj: minion.enchantments).filter { MonoHelper.isInstance(obj: $0, klass: AutoAssemblerEnchantmentProxy._class!) || MonoHelper.isInstance(obj: $0, klass: AutoAssemblerEnchantmentGoldenProxy._class!) }.count
-
-        if leadingCaptured > 0 {
-            automatons = Array(automatons.dropFirst(leadingCaptured))
-        }
-
-        // Get any existing AutoAssembler deathrattles already tracked on AdditionalDeathrattles
-        var currentIndices = [Int]()
-        for i in 0 ..< MonoHelper.listCount(obj: minion.additionalDeathrattles) {
-            let deathrattleAction = getAction(MonoHelper.listItem(obj: minion.additionalDeathrattles, index: i))
-            if deathrattleAction == autoAssemblerAction || deathrattleAction == autoAssemblerGoldenAction {
-                currentIndices.append(Int(i))
+            guard let minion, !minion.minionUpdatedDuringCombat else {
+                return false
             }
-        }
-
-        // If observed summons not more than entries already captured — nothing to add.
-        if automatons.count <= currentIndices.count {
-            return false
-        }
-
-        // Replace the Auto Assembler entries with the observed sequence, in place: the simulator
-        // fires AdditionalDeathrattles in list order, so the order decides summon order — board
-        // positions, and which summons no longer fit once the board fills.
-        var insertAt = !currentIndices.isEmpty ? Int32(currentIndices[0]) : MonoHelper.listCount(obj: minion.additionalDeathrattles)
-        for i in currentIndices.reversed() {
-            MonoHelper.listRemoveAt(obj: minion.additionalDeathrattles, index: Int32(i))
-        }
         
-        let newDeathrattles = automatons.map { golden in
-            golden ? AutoAssemblerProxy.goldenDeathrattle() : AutoAssemblerProxy.deathrattle()
-        }
-        for newItem in newDeathrattles {
-            MonoHelper.listInsert(obj: minion.additionalDeathrattles, index: insertAt, value: newItem)
-            insertAt += 1
-        }
-        minion.minionUpdatedDuringCombat = true
+            // Ignore minions that copy/gain deathrattles during combat (e.g., Fish of N'Zoth, Timewraped Whirl-O-Tron)
+            if MonoHelper.isInstance(obj: minion, klass: ICopiesDeathrattlesProxy._class!) {
+                return false
+            }
 
-        let goldenCount = automatons.filter { $0 }.count
-        logger.debug("Set \(automatons.count) Auto Assembler deathrattles (\(goldenCount) golden) on \(minion.cardID) (entity \(sourceEntityId), \(summonedByIsPremium.count) Automatons observed, \(triggerMultiplier) triggers per deathrattle)")
+            // Sneed's New Shredder's innate Deathrattle summons a copy of a hand minion; when that hand
+            // minion is an Ancestral Automaton the observation is indistinguishable from a hidden
+            // magnetized Auto Assembler — do not attribute its summons to a module.
+            if MonoHelper.isInstance(obj: minion, klass: SneedsNewShredderProxy._class!) {
+                return false
+            }
 
-        return true
+            let getAction = { (m: MonoHandle) -> UnsafeMutablePointer<MonoObject>? in
+                return mono_property_get_value(mono_class_get_property_from_name(mono_object_get_class(m.get()), "Method"), m.get(), nil, nil)
+            }
+            let autoAssemblerAction = getAction(AutoAssemblerProxy.deathrattle())
+            let autoAssemblerGoldenAction = getAction(AutoAssemblerProxy.goldenDeathrattle())
+
+            // Extra deathrattles (e.g., Titus Rivendare) resolve as full repeats of the whole deathrattle list —
+            // so the first (observed / triggerMultiplier) are the distinct deathrattles in their real order.
+            let isAutoAssembler = MonoHelper.isInstance(obj: minion, klass: AutoAssemblerProxy._class!)
+
+            let observedFirings = _observedAutoAssemblerFirings[sourceEntityId] ?? 0
+            let firedDeathrattles = observedFirings / triggerMultiplier
+            let summonedDeathrattles = summonedByIsPremium.count / triggerMultiplier
+            var automatons = summonedByIsPremium.take(max(summonedDeathrattles, firedDeathrattles))
+
+            // A firing the board had no space for leaves no summon to read the premium flag from; repeat the last
+            // observed one, because every module fused into one host grants the same Automaton.
+            while automatons.count < firedDeathrattles && !summonedByIsPremium.isEmpty {
+                automatons.append(summonedByIsPremium[summonedByIsPremium.count - 1])
+            }
+
+            // A minion's own innate deathrattles and deathrattles from attached enchantments resolve before these
+            // AdditionalDeathrattles, and appear as the leading elements; drop them so automatons map to AdditionalDeathrattles only.
+            let leadingCaptured = (isAutoAssembler ? 1 : 0)
+            + MonoHelper.listItems(obj: minion.enchantments).filter { MonoHelper.isInstance(obj: $0, klass: AutoAssemblerEnchantmentProxy._class!) || MonoHelper.isInstance(obj: $0, klass: AutoAssemblerEnchantmentGoldenProxy._class!) }.count
+
+            if leadingCaptured > 0 {
+                automatons = Array(automatons.dropFirst(leadingCaptured))
+            }
+
+            // Get any existing AutoAssembler deathrattles already tracked on AdditionalDeathrattles
+            var currentIndices = [Int]()
+            for i in 0 ..< MonoHelper.listCount(obj: minion.additionalDeathrattles) {
+                let deathrattleAction = getAction(MonoHelper.listItem(obj: minion.additionalDeathrattles, index: i))
+                if deathrattleAction == autoAssemblerAction || deathrattleAction == autoAssemblerGoldenAction {
+                    currentIndices.append(Int(i))
+                }
+            }
+
+            // If observed summons not more than entries already captured — nothing to add.
+            if automatons.count <= currentIndices.count {
+                return false
+            }
+
+            // Replace the Auto Assembler entries with the observed sequence, in place: the simulator
+            // fires AdditionalDeathrattles in list order, so the order decides summon order — board
+            // positions, and which summons no longer fit once the board fills.
+            var insertAt = !currentIndices.isEmpty ? Int32(currentIndices[0]) : MonoHelper.listCount(obj: minion.additionalDeathrattles)
+            for i in currentIndices.reversed() {
+                MonoHelper.listRemoveAt(obj: minion.additionalDeathrattles, index: Int32(i))
+            }
+        
+            let newDeathrattles = automatons.map { golden in
+                golden ? AutoAssemblerProxy.goldenDeathrattle() : AutoAssemblerProxy.deathrattle()
+            }
+            for newItem in newDeathrattles {
+                MonoHelper.listInsert(obj: minion.additionalDeathrattles, index: insertAt, value: newItem)
+                insertAt += 1
+            }
+            minion.minionUpdatedDuringCombat = true
+
+            let goldenCount = automatons.filter { $0 }.count
+            logger.debug("Set \(automatons.count) Auto Assembler deathrattles (\(goldenCount) golden) on \(minion.cardID) (entity \(sourceEntityId), \(summonedByIsPremium.count) Automatons observed, \(triggerMultiplier) triggers per deathrattle)")
+
+            return true
+        }
     }
     
     // Minions whose death firings summoned Crabs (granted Surf n' Surf "Crab Riding"), awaiting reconciliation:

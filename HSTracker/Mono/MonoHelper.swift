@@ -294,7 +294,73 @@ class MonoHelper {
     static var _monoInstance: OpaquePointer? // MonoDomain
     static var _assembly: OpaquePointer? // MonoClass
     static var _image: OpaquePointer? // MonoImage
-        
+
+    // Mono does not refcount thread attachments: a second mono_thread_attach on an already attached
+    // thread hands back the same MonoThread, and the first mono_thread_detach unregisters it for good.
+    // A nested attach/detach pair therefore leaves the outer detach aborting the process with
+    // "thread should not have been removed yet from threads". Keep our own per-thread depth so only
+    // the outermost scope talks to mono.
+    private static let threadDepthKey: pthread_key_t = {
+        var key = pthread_key_t()
+        pthread_key_create(&key, nil)
+        return key
+    }()
+
+    private static let threadHandleKey: pthread_key_t = {
+        var key = pthread_key_t()
+        pthread_key_create(&key, nil)
+        return key
+    }()
+
+    private static var threadDepth: Int {
+        get { Int(bitPattern: pthread_getspecific(threadDepthKey)) }
+        set { pthread_setspecific(threadDepthKey, UnsafeRawPointer(bitPattern: newValue)) }
+    }
+
+    // The MonoThread handed out by the outermost attach on this thread, kept so the matching detach
+    // passes back the same handle.
+    private static var threadHandle: OpaquePointer? {
+        get { OpaquePointer(pthread_getspecific(threadHandleKey)) }
+        set { pthread_setspecific(threadHandleKey, newValue.map { UnsafeRawPointer($0) }) }
+    }
+
+    /// Runs `body` with the current thread attached to the mono runtime, attaching only if this is the
+    /// outermost such scope on this thread. Nesting is safe. The closure is non-escaping, so the
+    /// compiler also rejects suspending inside the scope, which would detach on a different thread.
+    @inline(__always)
+    static func withMonoThread<T>(_ body: () throws -> T) rethrows -> T {
+        attachThread()
+
+        defer {
+            detachThread()
+        }
+
+        return try body()
+    }
+
+    /// Prefer `withMonoThread`. This is for the few scopes that cannot be expressed as a closure,
+    /// and must be paired with exactly one `detachThread()` on the same thread.
+    ///
+    /// The depth only counts scopes that go through here. A scope still calling mono_thread_attach
+    /// directly is invisible to it, so nesting one of these inside a raw one is as unsafe as it was
+    /// before; the remaining raw sites in BobsBuddyInvoker should move over to this.
+    static func attachThread() {
+        let depth = threadDepth
+        if depth == 0 {
+            threadHandle = mono_thread_attach(MonoHelper._monoInstance)
+        }
+        threadDepth = depth + 1
+    }
+
+    static func detachThread() {
+        let depth = threadDepth - 1
+        threadDepth = depth
+        if depth == 0, let handle = threadHandle {
+            threadHandle = nil
+            mono_thread_detach(handle)
+        }
+    }
+
     static func initialize() {
         for cl in ReflectionHelper.getMonoClasses() {
             cl.initialize()
