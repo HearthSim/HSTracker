@@ -131,15 +131,34 @@ final class Settings {
 
     static var fullGameLog: Bool = false
 
-    static func validated() -> Bool {
+    /// What the initial configuration window still has to ask the user for.
+    ///
+    /// The window used to be shown on a single all-or-nothing boolean, which told neither the
+    /// user nor us which of the two checks had failed. Reporters saw the languages they had
+    /// picked sitting in the preferences and the window asking for them again, when it was
+    /// really the Hearthstone path that was missing (GitHub issue #1428).
+    struct MissingConfiguration: OptionSet {
+        let rawValue: Int
+
+        static let hearthstonePath = MissingConfiguration(rawValue: 1 << 0)
+        static let languages = MissingConfiguration(rawValue: 1 << 1)
+    }
+
+    static func missingConfiguration() -> MissingConfiguration {
         // fix hearthstone log folder path
         let hs_path = Settings.hearthstonePath
         let suffix = "/Logs"
         if hs_path.hasSuffix(suffix) {
             Settings.hearthstonePath = hs_path.substring(from: 0, length: hs_path.count-suffix.count)
         }
-        return CoreManager.validatedHearthstonePath()
-            && hearthstoneLanguage != nil && hsTrackerLanguage != nil
+        var missing: MissingConfiguration = []
+        if !CoreManager.validatedHearthstonePath() {
+            missing.insert(.hearthstonePath)
+        }
+        if hearthstoneLanguage == nil || hsTrackerLanguage == nil {
+            missing.insert(.languages)
+        }
+        return missing
     }
 
     private static let defaults: UserDefaults = {
@@ -160,6 +179,8 @@ final class Settings {
     
     @UserDefault(key: Settings.show_memory_reading_warning, defaultValue: true)
     static var showMemoryReadingWarning: Bool
+    @UserDefault(key: Settings.migrated_legacy_bundle_id, defaultValue: false)
+    static var migratedLegacyBundleId: Bool
     @UserDefault(key: Settings.can_join_fullscreen, defaultValue: true)
     static var canJoinFullscreen: Bool
     @UserDefault(key: Settings.quit_when_hs_closes, defaultValue: false)
@@ -619,6 +640,7 @@ final class Settings {
 extension Settings {
 
     static let show_memory_reading_warning = "showMemoryReadingWarning"
+    static let migrated_legacy_bundle_id = "migrated_legacy_bundle_id"
     
     static let theme_token = "theme"
 

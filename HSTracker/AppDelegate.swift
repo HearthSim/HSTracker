@@ -111,13 +111,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
         if !AXIsProcessTrustedWithOptions(options as CFDictionary) {
             logger.debug("Accessibility permission not granted")
         }
-        // Migrate preferences from old bundle ID
-        let oldPrefs = UserDefaults.standard.persistentDomain(forName: "be.michotte.hstracker")
-        if let oldPrefs = oldPrefs, let bundleId = Bundle.main.bundleIdentifier {
-            UserDefaults.standard.setPersistentDomain(oldPrefs, forName: bundleId)
-            UserDefaults.standard.removePersistentDomain(forName: "be.michotte.hstracker")
-            UserDefaults.standard.synchronize()
-        }
+        AppDelegate.migrateLegacyBundleIdPreferences()
         
         // warn user about memory reading
         if Settings.showMemoryReadingWarning {
@@ -227,9 +221,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
         HSReplayNetHelper.initialize()
         
         // check if we have valid settings
-        if Settings.validated() {
+        let missing = Settings.missingConfiguration()
+        if missing.isEmpty {
             loadSplashscreen()
         } else {
+            logger.info("Showing the initial configuration window, missing:"
+                + "\(missing.contains(.hearthstonePath) ? " Hearthstone path" : "")"
+                + "\(missing.contains(.languages) ? " languages" : "")")
             initalConfig = InitialConfiguration(windowNibName: "InitialConfiguration")
             initalConfig?.completionHandler = {
                 self.loadSplashscreen()
@@ -245,6 +243,39 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
         }
     }
     
+    /// Copies the preferences left behind by the pre-2018 `be.michotte.hstracker` bundle id
+    /// into ours, once.
+    ///
+    /// The original migration replaced our whole preferences domain with the legacy one and ran
+    /// again on every launch, with nothing recording that it had already happened. Any launch
+    /// that still found a non-empty legacy domain therefore threw away every setting the user
+    /// had, handing back a 2018 snapshot instead - which is why the initial configuration window
+    /// kept coming back asking for the languages (GitHub issue #1428). Merge the legacy values
+    /// under the ones we already have, and never do it a second time.
+    static func migrateLegacyBundleIdPreferences() {
+        let legacyBundleId = "be.michotte.hstracker"
+        let defaults = UserDefaults.standard
+
+        guard !Settings.migratedLegacyBundleId else {
+            return
+        }
+        guard let bundleId = Bundle.main.bundleIdentifier else {
+            return
+        }
+
+        if let legacyPrefs = defaults.persistentDomain(forName: legacyBundleId) {
+            var merged = defaults.persistentDomain(forName: bundleId) ?? [:]
+            for (key, value) in legacyPrefs where merged[key] == nil {
+                merged[key] = value
+            }
+            defaults.setPersistentDomain(merged, forName: bundleId)
+            defaults.removePersistentDomain(forName: legacyBundleId)
+        }
+
+        Settings.migratedLegacyBundleId = true
+        defaults.synchronize()
+    }
+
     func applicationWillTerminate(_ notification: Notification) {
         coreManager?.stopTracking()
         if appWillRestart {
