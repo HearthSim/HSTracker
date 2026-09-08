@@ -2,6 +2,7 @@
 ## Hearthstone
 - Added diagnostics to the deck tracker's card list to help track down the remaining random crashes on macOS 26, which are caused by overlay work still running off the main thread.
 - Stopped reporting HSReplay and card art server errors as HSTracker crashes. They are outages on the server side, which HSTracker already handles by carrying on, and they were crowding out the crash reports we can act on.
+- Fixed HSTracker quitting when the Game settings pane was opened and Hearthstone could not be found, which is exactly when its "Can't find Hearthstone" warning is meant to appear.
 
 # 3.6.9
 ## Hearthstone
