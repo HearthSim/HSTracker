@@ -530,8 +530,7 @@ class MonoHelper {
                 MonoHelper.addToList(list: hand, element: minionEntity)
                 MonoHelper.addToList(list: hand, element: BloodGemProxy(simulator: sim))
             
-                let items = MonoHelper.listItems(obj: hand)
-                for item in items {
+                for item in MonoList<MonoHandle>(hand) {
                 if MonoHelper.isInstance(obj: item, klass: MinionCardEntityProxy._class!) {
                         logger.debug("Item is instance")
                     } else {
@@ -978,16 +977,6 @@ class MonoHelper {
         return mono_runtime_invoke(method, obj.get(), nil, nil)
     }
 
-    static func listCount(obj: MonoHandle) -> Int32 {
-        let inst = obj.get()
-        
-        let cl = mono_object_get_class(inst)
-        
-        let meth = mono_class_get_method_from_name(cl, "get_Count", 0)
-        
-        return getInt(obj: obj, method: meth)
-    }
-    
     static func listClear(obj: MonoHandle) {
         let inst = obj.get()
         
@@ -998,28 +987,6 @@ class MonoHelper {
         _ = mono_runtime_invoke(meth, inst, nil, nil)
     }
     
-    static func listItem(obj: MonoHandle, index: Int32) -> MonoHandle {
-        let inst = obj.get()
-        
-        let cl = mono_object_get_class(inst)
-        
-        let prop = mono_class_get_property_from_name(cl, "Item")
-        
-        let params = UnsafeMutablePointer<UnsafeMutableRawPointer?>.allocate(capacity: 1)
-        let ptrs = UnsafeMutablePointer<Int32>.allocate(capacity: 1)
-        ptrs[0] = index
-        params[0] = UnsafeMutableRawPointer(ptrs.advanced(by: 0))
-
-        let res: UnsafeMutablePointer<MonoObject>? = params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 1, {
-
-            return mono_property_get_value(prop, inst, $0, nil)
-        })
-        ptrs.deallocate()
-        params.deallocate()
-        
-        return MonoHandle(obj: res)
-    }
-
     static func listRemoveAt(obj: MonoHandle, index: Int32) {
         let inst = obj.get()
         
@@ -1061,17 +1028,6 @@ class MonoHelper {
         params.deallocate()
     }
 
-    static func listItems(obj: MonoHandle) -> [MonoHandle] {
-        let count = MonoHelper.listCount(obj: obj)
-        
-        var res = [MonoHandle]()
-        
-        for i in 0 ..< count {
-            res.append(MonoHelper.listItem(obj: obj, index: Int32(i)))
-        }
-        return res
-    }
-    
     static func toString(obj: MonoHandle) -> String {
         let res = mono_object_to_string(obj.get(), nil)
         
@@ -1089,13 +1045,21 @@ class MonoHelper {
     }
 
     static func addToList(list: MonoHandle, element: MonoHandle) {
-        let obj = list.get()
+        guard let obj = list.get() else {
+            logger.error("Cannot add to a list that is no longer alive")
+            return
+        }
+        guard let value = element.get() else {
+            // A factory that could not build the element hands back a handle over a null object.
+            logger.error("Cannot add an element that was never created")
+            return
+        }
         let clazz = mono_object_get_class(obj)
         let method = mono_class_get_method_from_name(clazz, "Add", 1)
         
         let params = UnsafeMutablePointer<UnsafeMutablePointer<MonoObject>>.allocate(capacity: 1)
 
-        params[0] = element.get()!
+        params[0] = value
             
         _ = params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 1, {
             mono_runtime_invoke(method, obj, $0, nil)
