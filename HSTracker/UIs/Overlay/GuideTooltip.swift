@@ -182,9 +182,12 @@ final class BgsTooltipPanel: NSPanel {
         contentView = host
     }
 
-    /// - Parameter verticalOffset: HDT's `ToolTip.VerticalOffset`, in WPF's
-    ///   Y-down sense - negative lifts the bubble.
-    func show(text: String, from view: NSView, verticalOffset: CGFloat) {
+    /// - Parameters:
+    ///   - horizontalOffset: HDT's `ToolTip.HorizontalOffset` - negative moves
+    ///     the bubble further left, the same sense as on screen.
+    ///   - verticalOffset: HDT's `ToolTip.VerticalOffset`, in WPF's Y-down
+    ///     sense - negative lifts the bubble.
+    func show(text: String, from view: NSView, horizontalOffset: CGFloat, verticalOffset: CGFloat) {
         pendingShowWork?.cancel()
         owner = view
         let work = DispatchWorkItem { [weak self, weak view] in
@@ -200,7 +203,7 @@ final class BgsTooltipPanel: NSPanel {
             // Placement="Left": the bubble's right edge meets the target's left
             // edge and their tops line up. Screen coordinates are Y-up, so the
             // Y-down VerticalOffset is subtracted rather than added.
-            var origin = NSPoint(x: anchor.minX - size.width,
+            var origin = NSPoint(x: anchor.minX - size.width + horizontalOffset,
                                  y: anchor.maxY - verticalOffset - size.height)
             // HDT keeps its tooltips inside the overlay window (the Hearthstone
             // window), not inside the screen.
@@ -258,6 +261,7 @@ private struct BgsTooltipBubble: View {
 @available(macOS 10.15, *)
 private final class BgsTooltipAnchorNSView: NSView {
     var text: String?
+    var horizontalOffset: CGFloat = 0
     var verticalOffset: CGFloat = 0
 
     private var trackingArea: NSTrackingArea?
@@ -279,7 +283,9 @@ private final class BgsTooltipAnchorNSView: NSView {
 
     override func mouseEntered(with event: NSEvent) {
         guard let text = text, !text.isEmpty else { return }
-        BgsTooltipPanel.shared.show(text: text, from: self, verticalOffset: verticalOffset)
+        BgsTooltipPanel.shared.show(text: text, from: self,
+                                    horizontalOffset: horizontalOffset,
+                                    verticalOffset: verticalOffset)
     }
 
     override func mouseExited(with event: NSEvent) {
@@ -299,6 +305,7 @@ private final class BgsTooltipAnchorNSView: NSView {
 @available(macOS 10.15, *)
 private struct BgsTooltipAnchorRepresentable: NSViewRepresentable {
     let text: String?
+    let horizontalOffset: CGFloat
     let verticalOffset: CGFloat
 
     func makeNSView(context: Context) -> BgsTooltipAnchorNSView {
@@ -307,6 +314,7 @@ private struct BgsTooltipAnchorRepresentable: NSViewRepresentable {
 
     func updateNSView(_ nsView: BgsTooltipAnchorNSView, context: Context) {
         nsView.text = text
+        nsView.horizontalOffset = horizontalOffset
         nsView.verticalOffset = verticalOffset
         // The tooltip's Visibility is bound in HDT, so it can go away while the
         // cursor is still on the element.
@@ -320,7 +328,9 @@ private struct BgsTooltipAnchorRepresentable: NSViewRepresentable {
 extension View {
     // A nil or empty text attaches nothing, mirroring the bound Visibility HDT
     // puts on these tooltips.
-    func bgsTooltip(_ text: String?, verticalOffset: CGFloat = 0) -> some View {
-        background(BgsTooltipAnchorRepresentable(text: text, verticalOffset: verticalOffset))
+    func bgsTooltip(_ text: String?, horizontalOffset: CGFloat = 0,
+                    verticalOffset: CGFloat = 0) -> some View {
+        background(BgsTooltipAnchorRepresentable(text: text, horizontalOffset: horizontalOffset,
+                                                 verticalOffset: verticalOffset))
     }
 }
