@@ -3726,6 +3726,28 @@
         }
       }
     },
+    "BattlegroundsTrinketPicking_VisibilityToggle_Hide" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "HIDE TRINKET STATS"
+          }
+        }
+      }
+    },
+    "BattlegroundsTrinketPicking_VisibilityToggle_Show" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SHOW TRINKET STATS"
+          }
+        }
+      }
+    },
     "beast" : {
       "extractionState" : "manual",
       "localizations" : {

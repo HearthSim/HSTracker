@@ -35,12 +35,12 @@ struct BattlegroundsHeroHeaderView: View {
 
     var body: some View {
         ZStack(alignment: .topLeading) {
-            BattlegroundsHeroHeaderChrome(tierGradient: viewModel.tierLinearGradient)
+            BattlegroundsStatsPlateChrome(tierGradient: viewModel.tierLinearGradient, layout: .heroHeader)
 
             // Avg Placement, column 0.
             title(String.localizedString("BattlegroundsHeroPicking_Header_AvgPlacement", comment: ""))
                 .frame(width: Self.sideColumnWidth, height: Self.titleRowHeight)
-            value(Self.avgPlacementText(viewModel.avgPlacement))
+            value(BattlegroundsStatsText.avgPlacement(viewModel.avgPlacement))
                 .foregroundColor(Color(hex: viewModel.avgPlacementColor))
                 .frame(width: Self.sideColumnWidth, height: Self.valueRowHeight)
                 .offset(y: Self.titleRowHeight)
@@ -49,7 +49,7 @@ struct BattlegroundsHeroHeaderView: View {
             title(String.localizedString("BattlegroundsHeroPicking_Header_PickRate", comment: ""))
                 .frame(width: Self.sideColumnWidth, height: Self.titleRowHeight)
                 .offset(x: Self.rightColumnX)
-            value(Self.pickRateText(viewModel.pickRate))
+            value(BattlegroundsStatsText.pickRate(viewModel.pickRate))
                 .foregroundColor(.white)
                 .frame(width: Self.sideColumnWidth, height: Self.valueRowHeight)
                 .offset(x: Self.rightColumnX, y: Self.titleRowHeight)
@@ -167,45 +167,5 @@ struct BattlegroundsHeroHeaderView: View {
             }
             viewModel.onPlacementHover?(hovering)
         }
-    }
-
-    // MARK: - Formatting
-
-    // StringFormat=N2 and StringFormat={}{0:0.0}%, both culture-aware, which is
-    // what the NSTextField formatters the AppKit header carried did too.
-    private static let avgPlacementFormatter: NumberFormatter = {
-        let formatter = NumberFormatter()
-        formatter.locale = Language.culture
-        formatter.minimumFractionDigits = 2
-        formatter.maximumFractionDigits = 2
-        return formatter
-    }()
-
-    private static let pickRateFormatter: NumberFormatter = {
-        let formatter = NumberFormatter()
-        formatter.locale = Language.culture
-        formatter.numberStyle = .percent
-        formatter.minimumFractionDigits = 1
-        formatter.maximumFractionDigits = 1
-        return formatter
-    }()
-
-    // TargetNullValue on both. HDT's XAML uses an en dash; HSTracker's shared
-    // StatsHeaderViewModel already answers a missing tier with an em dash, so
-    // all three placeholders in this plate stay the one character.
-    private static let missingValue = "—"
-
-    private static func avgPlacementText(_ value: Double?) -> String {
-        guard let value else {
-            return missingValue
-        }
-        return avgPlacementFormatter.string(from: NSNumber(value: value)) ?? missingValue
-    }
-
-    private static func pickRateText(_ value: Double?) -> String {
-        guard let value else {
-            return missingValue
-        }
-        return pickRateFormatter.string(from: NSNumber(value: value / 100.0)) ?? missingValue
     }
 }

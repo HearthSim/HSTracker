@@ -1,5 +1,5 @@
 //
-//  BattlegroundsHeroHeaderChrome.swift
+//  BattlegroundsStatsPlateChrome.swift
 //  HSTracker
 //
 //  Created by Francisco Moraes on 9/10/26.
@@ -14,59 +14,100 @@ private extension Color {
     static let tier7Black = Color(red: 0x14 / 255, green: 0x16 / 255, blue: 0x17 / 255)
 }
 
-// The plate BattlegroundsHeroHeader.xaml draws behind its text: an Image whose
+// The plate the hero and trinket pickers draw behind their stats: an Image whose
 // Source is a DrawingImage, i.e. eight GeometryDrawings declared in their own
-// 243x61 canvas - two purple-capped panels with a bite taken out of their inner
-// bottom corner for the hero portrait to show through, and the tier square
-// between them.
+// canvas - two purple-capped panels with a bite taken out of their inner bottom
+// corner for the card underneath to show through, and the tier square between
+// them.
 //
-// Every path below is that XAML's Geometry data, point for point; each Shape
-// maps the 243x61 canvas into whatever rectangle it is given the way the Image
-// does, uniformly and centred (which at the Grid's own 243x60 means a hair
-// under 1:1, with 2pt of slack down either side).
+// BattlegroundsHeroHeader.xaml and BattlegroundsSingleTrinket.xaml carry the
+// same eight paths; the trinket's only difference is that its panels sit in a
+// DrawingGroup translated 39pt down, which lifts the tier square clear of them
+// (Layout below). Every path is that XAML's Geometry data, point for point, and
+// each Shape maps the drawing's canvas into whatever rectangle it is given the
+// way the Image does, uniformly and centred.
 @available(macOS 10.15, *)
-struct BattlegroundsHeroHeaderChrome: View {
+struct BattlegroundsStatsPlateChrome: View {
+    enum Layout {
+        // The hero header's own 243x61 canvas, fitted into the Grid's 243x60 -
+        // a hair under 1:1, with 2pt of slack down either side.
+        case heroHeader
+        // The trinket plate: the same drawing with the panels pushed 39pt down,
+        // 243x100 of content fitted into a Grid of exactly that size.
+        case trinketPlate
+
+        // The bounds of the drawing itself, which is what a DrawingImage sizes
+        // itself to - not the (larger) ClipGeometry either XAML declares.
+        var canvasSize: CGSize {
+            switch self {
+            case .heroHeader: return CGSize(width: 243, height: 61)
+            case .trinketPlate: return CGSize(width: 243, height: 100)
+            }
+        }
+
+        // The TranslateTransform on the trinket drawing's panel group.
+        var panelOffsetY: CGFloat {
+            switch self {
+            case .heroHeader: return 0
+            case .trinketPlate: return 39
+            }
+        }
+    }
+
     let tierGradient: LinearGradient
+    let layout: Layout
 
     var body: some View {
         ZStack(alignment: .topLeading) {
             // Tier, drawn first so the panels either side overlap it rather
             // than the other way round.
-            HeaderDrawing(.tierBox).fill(tierGradient)
-            HeaderDrawing(.tierBoxOutline)
+            drawing(.tierBox).fill(tierGradient)
+            drawing(.tierBoxOutline)
                 .stroke(Color.black.opacity(0.18), lineWidth: 1)
 
             // Left panel
-            HeaderDrawing(.leftPanel).fill(Color.tier7Black)
-            HeaderDrawing(.leftPanelCap).fill(Color.tier7Purple)
-            HeaderDrawing(.leftPanel).stroke(Color.tier7Purple, lineWidth: 1)
+            drawing(.leftPanel).fill(Color.tier7Black)
+            drawing(.leftPanelCap).fill(Color.tier7Purple)
+            drawing(.leftPanel).stroke(Color.tier7Purple, lineWidth: 1)
 
             // Right panel
-            HeaderDrawing(.rightPanel).fill(Color.tier7Black)
-            HeaderDrawing(.rightPanelCap).fill(Color.tier7Purple)
-            HeaderDrawing(.rightPanel).stroke(Color.tier7Purple, lineWidth: 1)
+            drawing(.rightPanel).fill(Color.tier7Black)
+            drawing(.rightPanelCap).fill(Color.tier7Purple)
+            drawing(.rightPanel).stroke(Color.tier7Purple, lineWidth: 1)
         }
+    }
+
+    private func drawing(_ piece: PlateDrawing.Piece) -> PlateDrawing {
+        return PlateDrawing(piece, layout: layout)
     }
 }
 
-// One GeometryDrawing, built in the drawing's own 243x61 canvas and then fitted
-// into the rectangle the view is given - Image's default Stretch="Uniform".
+// One GeometryDrawing, built in the drawing's own canvas and then fitted into
+// the rectangle the view is given - Image's default Stretch="Uniform".
 @available(macOS 10.15, *)
-private struct HeaderDrawing: Shape {
+private struct PlateDrawing: Shape {
     enum Piece {
         case tierBox, tierBoxOutline
         case leftPanel, leftPanelCap
         case rightPanel, rightPanelCap
+
+        // Everything but the tier square is in the group the trinket plate
+        // translates down.
+        var isPanel: Bool {
+            switch self {
+            case .tierBox, .tierBoxOutline: return false
+            default: return true
+            }
+        }
     }
 
     let piece: Piece
+    let layout: BattlegroundsStatsPlateChrome.Layout
 
-    init(_ piece: Piece) {
+    init(_ piece: Piece, layout: BattlegroundsStatsPlateChrome.Layout) {
         self.piece = piece
+        self.layout = layout
     }
-
-    // DrawingGroup ClipGeometry="M0,0 V61 H243 V0 H0 Z".
-    private static let canvasSize = CGSize(width: 243, height: 61)
 
     func path(in rect: CGRect) -> Path {
         var path = Path()
@@ -78,10 +119,14 @@ private struct HeaderDrawing: Shape {
         case .rightPanel: Self.rightPanel(&path)
         case .rightPanelCap: Self.rightPanelCap(&path)
         }
+        if piece.isPanel, layout.panelOffsetY != 0 {
+            path = path.applying(CGAffineTransform(translationX: 0, y: layout.panelOffsetY))
+        }
 
-        let scale = min(rect.width / Self.canvasSize.width, rect.height / Self.canvasSize.height)
-        let dx = rect.minX + (rect.width - Self.canvasSize.width * scale) / 2
-        let dy = rect.minY + (rect.height - Self.canvasSize.height * scale) / 2
+        let canvasSize = layout.canvasSize
+        let scale = min(rect.width / canvasSize.width, rect.height / canvasSize.height)
+        let dx = rect.minX + (rect.width - canvasSize.width * scale) / 2
+        let dy = rect.minY + (rect.height - canvasSize.height * scale) / 2
         return path.applying(CGAffineTransform(translationX: dx, y: dy).scaledBy(x: scale, y: scale))
     }
 

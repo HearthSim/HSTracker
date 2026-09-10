@@ -103,10 +103,6 @@ class WindowManager {
         return $0
     }(FlavorText(windowNibName: "FlavorText"))
     
-    var battlegroundsTrinketPicking: BattlegroundsTrinketPicking = {
-        return $0
-    }(BattlegroundsTrinketPicking(windowNibName: "BattlegroundsTrinketPicking"))
-    
     var playerActiveEffectsOverlay: ActiveEffectsOverlay = {
         $0.isPlayer = true
         return $0

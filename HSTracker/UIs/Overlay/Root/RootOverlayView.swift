@@ -123,6 +123,11 @@ struct RootOverlayView: View {
                     BattlegroundsHeroPickingView(viewModel: viewModel.battlegroundsHeroPicking,
                                                  canvasWidth: canvasWidth)
 
+                    // The trinket picking stats, declared right after the hero
+                    // picker on HDT's canvas and sized to it the same way.
+                    BattlegroundsTrinketPickingView(viewModel: viewModel.battlegroundsTrinketPicking,
+                                                    canvasWidth: canvasWidth)
+
                     // The Tier7 Battlegrounds pre-lobby panel, declared ahead of
                     // BgsTopBar on HDT's own canvas (OverlayWindow.xaml) so the
                     // top bar and the Inspiration panel draw over it.

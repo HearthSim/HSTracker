@@ -225,7 +225,9 @@ class BattlegroundsPreferences: PreferencePaneController, PreferencePane {
             Settings.alwaysShowTier7 = sender.state == .on
         } else if sender == autoShowBattlegroundsTrinketPicking {
             Settings.autoShowBattlegroundsTrinketPicking = sender.state == .on
-            AppDelegate.instance().coreManager.game.windowManager.battlegroundsTrinketPicking.viewModel.statsVisibility = Settings.autoShowBattlegroundsTrinketPicking
+            if #available(macOS 10.15, *) {
+                AppDelegate.instance().coreManager.game.windowManager.rootOverlay?.viewModel.battlegroundsTrinketPicking.statsVisibility = Settings.autoShowBattlegroundsTrinketPicking
+            }
         }
     }
     
