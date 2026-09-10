@@ -1093,6 +1093,18 @@
         }
       }
     },
+    "WRa-teC-ell.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Win rate\"; ObjectID = \"WRa-teC-ell\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Win rate"
+          }
+        }
+      }
+    },
     "ZkO-13-FoB.title" : {
       "comment" : "Class = \"NSButtonCell\"; title = \"Enable setting opponent deck in non-friendly matches\"; ObjectID = \"ZkO-13-FoB\";",
       "extractionState" : "extracted_with_value",
