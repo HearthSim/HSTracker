@@ -365,14 +365,6 @@ struct SizeHelper {
         return NSRect(x: x, y: trackerFrame.minY + trackerFrame.height - height, width: width, height: height)
     }
     
-    static func toastFrame() -> NSRect {
-        let w: CGFloat = 240.0
-        let h: CGFloat = 100.0
-        
-        let frame = NSRect(x: hearthstoneWindow.frame.width - w - trackerWidth - 10, y: 10, width: w, height: h)
-        return hearthstoneWindow.relativeFrame(frame, relative: false)
-    }
-    
     static func boardOverlayHeight() -> Double {
         return hearthstoneWindow.height * 0.158
     }

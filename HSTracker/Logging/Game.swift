@@ -220,7 +220,6 @@ class Game: NSObject, PowerEventHandler {
         self.updateBattlegroundsOverlay()
         self.updateBobsBuddyOverlay()
         self.updateTurnCounterOverlay()
-        self.updateToaster()
         self.updateExperienceOverlay()
         self.updateMercenariesTaskListButton()
         self.updateBoardOverlay()
@@ -711,19 +710,6 @@ class Game: NSObject, PowerEventHandler {
             }
 
         }
-    }
-    
-    func updateToaster() {
-        let rect = SizeHelper.toastFrame()
-
-        DispatchQueue.main.async {
-            if self.windowManager.toastWindowController.displayed {
-                self.windowManager.show(controller: self.windowManager.toastWindowController, show: true, frame: rect, title: nil, overlay: true)
-            } else {
-                self.windowManager.show(controller: self.windowManager.toastWindowController, show: false)
-            }
-        }
-
     }
     
     func updateTurnCounterOverlay() {
@@ -4646,13 +4632,10 @@ class Game: NSObject, PowerEventHandler {
         }
     }
     
-    private let _mulliganToast = MulliganToastView(frame: NSRect.zero)
     func showMulliganToast(_ shortId: String, _ dbfIds: [Int], _ parameters: [String: String]?, _ showingMulliganStats: Bool = false) {
-        DispatchQueue.main.async {
-            self._mulliganToast.update(shortId, dbfIds, parameters, showingMulliganStats: showingMulliganStats)
-            if self._mulliganToast.shouldShow() {
-                AppDelegate.instance().coreManager.toaster.displayToast(view: self._mulliganToast, timeoutMillis: 0)
-            }
+        if #available(macOS 10.15, *) {
+            windowManager.rootOverlay?.viewModel.mulliganToast
+                .show(shortId: shortId, dbfIds: dbfIds, parameters: parameters, showingMulliganStats: showingMulliganStats)
         }
     }
     
@@ -4701,8 +4684,8 @@ class Game: NSObject, PowerEventHandler {
     }
 
     func hideMulliganToast() {
-        DispatchQueue.main.async {
-            AppDelegate.instance().coreManager.toaster.hide()
+        if #available(macOS 10.15, *) {
+            windowManager.rootOverlay?.viewModel.mulliganToast.hide()
         }
     }
     

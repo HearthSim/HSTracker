@@ -5,6 +5,7 @@
 - Fixed the deck manager freezing the whole app, sometimes for hours, when the decks were sorted by win percentage, wins, losses or games played, and those columns counting only ranked games.
 - Fixed HSTracker forgetting every setting on launch and asking for the languages again, and the first-run window now shows the languages that are already configured.
 - The counters now match Hearthstone Deck Tracker: they scale with the game window, the opponent's sit where they do there, in Battlegrounds they split into two even rows, and hovering one shows its related cards again.
+- The mulligan guide offer now matches Hearthstone Deck Tracker: it slides up from the bottom-right of the game window, scales with it, and when there is nothing to link to it says so over its own grey backdrop instead of the regular one.
 ## Battlegrounds
 - Fixed the counter tooltips showing the previously hovered counter's card art, and the Blood Gem counter listing itself instead of the Quilboar payoffs.
 - Fixed Bob's Buddy treating the end of every combat as the end of the game, which inverted the "Show During Shopping" setting: the odds stayed up when it was off and folded away when it was on.

@@ -45,7 +45,6 @@ final class CoreManager: NSObject {
     
     // watchers
     let game: Game
-    var toaster: Toaster!
     
     var timer = RepeatingTimer(timeInterval: 300.0)
 
@@ -63,8 +62,6 @@ final class CoreManager: NSObject {
         
         let logPath = MirrorHelper.getLogSessionDir()
         logReaderManager = LogReaderManager(logPath: logPath, coreManager: self)
-        
-        self.toaster = Toaster(windowManager: game.windowManager)
         
         game.windowManager.playerActiveEffectsOverlay.setActiveEffects(game.activeEffects)
         game.windowManager.opponentActiveEffectsOverlay.setActiveEffects(game.activeEffects)

@@ -59,6 +59,7 @@
 		0356B221A6B1D233CDA32592 /* RoundedCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6810D90CA28C2EB85EDE584F /* RoundedCorners.swift */; };
 		83357E771750467CBA9C1E54 /* SpinningIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095B9E3F897A4466B967AC5B /* SpinningIndicator.swift */; };
 		3DB8446653C640BA92B821E3 /* HDTCanvasIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 873E3052927B48C8AF6B3C4C /* HDTCanvasIcon.swift */; };
+		A490073F127D4AB4993C6E51 /* OverlayToastPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA118E25CF8B46DA9C97451E /* OverlayToastPanel.swift */; };
 		0423F5C8552E78EB8219EA66 /* Kalecgos.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FAD341D43A9DE42266771 /* Kalecgos.swift */; };
 		04373FE77CAB5A23E37DD94B /* BoardFill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C73C7FC0284A5D2CCA1360B /* BoardFill.swift */; };
 		0447165D73BA101ABD31CB8B /* GuardDuty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9711965D9CB0623DD3BB6DCF /* GuardDuty.swift */; };
@@ -609,12 +610,6 @@
 		4BB21EE9D743B4D71C926015 /* MaruutStonebinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B23A766DCB1C6C064232067 /* MaruutStonebinder.swift */; };
 		4BCBC5B60BC88745C6C18959 /* TwilightInfluence.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA2923A0CC094688C54EAC1 /* TwilightInfluence.swift */; };
 		4BF499CA6DA165808C908FA2 /* PrimordialStudies.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAFDFEEBE32626240122B72 /* PrimordialStudies.swift */; };
-		4C3E2D8A245ED13D00292349 /* ToastWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2D89245ED13D00292349 /* ToastWindowController.swift */; };
-		4C3E2D8C245ED5AA00292349 /* Toaster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2D8B245ED5AA00292349 /* Toaster.swift */; };
-		4C3E2D93245F16B900292349 /* CollectionToastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2D91245F16B900292349 /* CollectionToastViewController.swift */; };
-		4C3E2D94245F16B900292349 /* CollectionToastViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C3E2D92245F16B900292349 /* CollectionToastViewController.xib */; };
-		4C3E2D9E245F85C700292349 /* FillImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2D9D245F85C700292349 /* FillImageView.swift */; };
-		4C3E2DA52460C82900292349 /* FrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2DA42460C82800292349 /* FrameView.swift */; };
 		4C4CF88E46417B0EAF3A829C /* Synthesize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A1E329E4B1ACB081C87856 /* Synthesize.swift */; };
 		4C5E24CC50E631D76D8E13AB /* HarbingerOfTheBlighted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E27743B5E5C3774B3938E72 /* HarbingerOfTheBlighted.swift */; };
 		4C68AF2B2447D35B00E52834 /* HearthMirror.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C68AF2A2447D35A00E52834 /* HearthMirror.framework */; };
@@ -790,6 +785,7 @@
 		8A9278650FD2FE1B6801A7D5 /* HeroGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E517AA18E918059BD6446774 /* HeroGuideView.swift */; };
 		8DF18459F89A844F812A8D2F /* MulliganV2Params.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331922B5382E5C30E699243F /* MulliganV2Params.swift */; };
 		8F239D3C72B955B990CF1451 /* MulliganGuideTrialsExhaustedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C74E246D839D7D120CA28E4 /* MulliganGuideTrialsExhaustedView.swift */; };
+		389DB9BC1E784988977841AF /* MulliganToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6615C51905284AC3B7C1CAF9 /* MulliganToastView.swift */; };
 		8F3B3A1B6F94B49AFAE348A5 /* Qonzu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5614FDB97644B1A5167F9676 /* Qonzu.swift */; };
 		8F60E4B45DEC949E787EFCF4 /* AssemblyLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193CBC69FF8ECC7499058C1B /* AssemblyLine.swift */; };
 		8FAEECDF7BE5021FD91CE046 /* DarkPeddler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF67307662ABFB905C45540 /* DarkPeddler.swift */; };
@@ -1029,7 +1025,6 @@
 		B82AE5FF28BE8631004A8FE0 /* HearthMirror-version.txt in Resources */ = {isa = PBXBuildFile; fileRef = B82AE5FB28BE8631004A8FE0 /* HearthMirror-version.txt */; };
 		B82AE60028BE8631004A8FE0 /* mono-version.txt in Resources */ = {isa = PBXBuildFile; fileRef = B82AE5FC28BE8631004A8FE0 /* mono-version.txt */; };
 		B82AE60228BED413004A8FE0 /* QuestDataProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82AE60128BED413004A8FE0 /* QuestDataProxy.swift */; };
-		B82E7B14262A533F00C42EF0 /* MulliganToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E7B13262A533F00C42EF0 /* MulliganToastView.swift */; };
 		B82E7B16262A798000C42EF0 /* ShortIdHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E7B15262A798000C42EF0 /* ShortIdHelper.swift */; };
 		B82E7B19262A88DB00C42EF0 /* BigInt in Frameworks */ = {isa = PBXBuildFile; productRef = B82E7B18262A88DB00C42EF0 /* BigInt */; };
 		B82F4EAB24E3021D00905024 /* MonoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82F4EAA24E3021D00905024 /* MonoHelper.swift */; };
@@ -1396,7 +1391,6 @@
 		B88364FC275D746D0094D8E1 /* FlavorText.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88364FB275D746D0094D8E1 /* FlavorText.swift */; };
 		B884B73F2FD8CC2F00D67EED /* ForgeOfSouls.swift in Sources */ = {isa = PBXBuildFile; fileRef = B884B73E2FD8CC2F00D67EED /* ForgeOfSouls.swift */; };
 		B887656726C3049F003D3629 /* ShortIdHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E7B15262A798000C42EF0 /* ShortIdHelper.swift */; };
-		B887656826C304A5003D3629 /* MulliganToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E7B13262A533F00C42EF0 /* MulliganToastView.swift */; };
 		B887656A26C304FA003D3629 /* BigInt in Frameworks */ = {isa = PBXBuildFile; productRef = B887656926C304FA003D3629 /* BigInt */; };
 		B8889C1B2D9DC6ED0053DD57 /* DiscoverStateWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8889C1A2D9DC6ED0053DD57 /* DiscoverStateWatcher.swift */; };
 		B8889C1D2DA067D90053DD57 /* PlacementMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8889C1C2DA067D90053DD57 /* PlacementMode.swift */; };
@@ -1744,6 +1738,7 @@
 		B8C2F9102623233100C31E6A /* GetAccountResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C2F90E261F530700C31E6A /* GetAccountResult.swift */; };
 		B8C33FB1273EF851006DA79E /* MercenariesCoins.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C33FB0273EF851006DA79E /* MercenariesCoins.swift */; };
 		B8CB542253130C9F7AB0D806 /* MulliganGuideTrialsExhaustedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F763EBF84875A096625CC1B /* MulliganGuideTrialsExhaustedViewModel.swift */; };
+		DA1A7EBBEB02499BA7888F27 /* MulliganToastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7763354053BC4D139A9EE08D /* MulliganToastViewModel.swift */; };
 		B8CD01012FA0000000CD0101 /* CardDefsBinary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CD01002FA0000000CD0100 /* CardDefsBinary.swift */; };
 		B8CD01022FA0000000CD0102 /* CardDefsBinary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CD01002FA0000000CD0100 /* CardDefsBinary.swift */; };
 		B8CDDCAD2F3A7B9A004C3E86 /* Reminisce.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CDDCAC2F3A7B9A004C3E86 /* Reminisce.swift */; };
@@ -1846,10 +1841,6 @@
 		B8DEDCC82547C4FD00DF524B /* OutputProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC120424EC79370088A755 /* OutputProxy.swift */; };
 		B8DEDCC92547C50700DF524B /* SimulationRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC11F324EACDB80088A755 /* SimulationRunner.swift */; };
 		B8DEDCCA2547C51A00DF524B /* MinionProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82F4EB324E40B9F00905024 /* MinionProxy.swift */; };
-		B8DEDCCC2547C52800DF524B /* ToastWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2D89245ED13D00292349 /* ToastWindowController.swift */; };
-		B8DEDCCD2547C53900DF524B /* Toaster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2D8B245ED5AA00292349 /* Toaster.swift */; };
-		B8DEDCCE2547C54200DF524B /* CollectionToastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2D91245F16B900292349 /* CollectionToastViewController.swift */; };
-		B8DEDCD52547C58800DF524B /* FrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2DA42460C82800292349 /* FrameView.swift */; };
 		B8DEDCD72547C5A800DF524B /* BobsBuddyInvoker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC11EF24E6AF280088A755 /* BobsBuddyInvoker.swift */; };
 		B8DEDCD82547C5A800DF524B /* BobsBuddyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC11F124E77F040088A755 /* BobsBuddyState.swift */; };
 		B8DEDCD92547C5A800DF524B /* BobsBuddyErrorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D8859924F4185200F2F0F2 /* BobsBuddyErrorState.swift */; };
@@ -1858,7 +1849,6 @@
 		B8DEDCDC2547C5C800DF524B /* StatusMessageConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D8859124F3034700F2F0F2 /* StatusMessageConverter.swift */; };
 		B8DEDCDD2547C5D100DF524B /* BattlegroundsPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B7CC1E253C721400033758 /* BattlegroundsPreferences.swift */; };
 		B8DEDCDF2547C61B00DF524B /* MinionHeroPowerTrigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B864A13D24F54E1F005EA2A0 /* MinionHeroPowerTrigger.swift */; };
-		B8DEDCE22547C65700DF524B /* FillImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2D9D245F85C700292349 /* FillImageView.swift */; };
 		B8DEDCE32547CE8300DF524B /* Mono.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B864A14224F58539005EA2A0 /* Mono.framework */; };
 		B8DEDCEB2547CFF200DF524B /* HearthMirror.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4C68AF2A2447D35A00E52834 /* HearthMirror.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B8E1E5A32CF94FB900383975 /* AppMover in Frameworks */ = {isa = PBXBuildFile; productRef = B8E1E5A22CF94FB900383975 /* AppMover */; };
@@ -2363,6 +2353,7 @@
 		2EDDD00A20FE4F4CDB00E26E /* Tortotem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tortotem.swift; sourceTree = "<group>"; };
 		2F38201F4BEEED40E361096F /* NexusChampionSaraad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NexusChampionSaraad.swift; sourceTree = "<group>"; };
 		2F763EBF84875A096625CC1B /* MulliganGuideTrialsExhaustedViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MulliganGuideTrialsExhaustedViewModel.swift; sourceTree = "<group>"; };
+		7763354053BC4D139A9EE08D /* MulliganToastViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MulliganToastViewModel.swift; sourceTree = "<group>"; };
 		2FDFBC1F1075C8104BCF16B6 /* DurnholdeImposter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DurnholdeImposter.swift; sourceTree = "<group>"; };
 		303C3240B65217A9439E85E2 /* VelarokWindblade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VelarokWindblade.swift; sourceTree = "<group>"; };
 		324D034815559080AFCDA2E2 /* WarCacheCorePlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarCacheCorePlaceholder.swift; sourceTree = "<group>"; };
@@ -2643,12 +2634,6 @@
 		4BD734262CA0F79C015087C9 /* BlackMorassImposter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackMorassImposter.swift; sourceTree = "<group>"; };
 		4BDC91A66D6CAEF5B5565042 /* GraveCall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraveCall.swift; sourceTree = "<group>"; };
 		4C3CE44C820DFC22BA5B3BFA /* UndercityHucksterOG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UndercityHucksterOG.swift; sourceTree = "<group>"; };
-		4C3E2D89245ED13D00292349 /* ToastWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastWindowController.swift; sourceTree = "<group>"; };
-		4C3E2D8B245ED5AA00292349 /* Toaster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toaster.swift; sourceTree = "<group>"; };
-		4C3E2D91245F16B900292349 /* CollectionToastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionToastViewController.swift; sourceTree = "<group>"; };
-		4C3E2D92245F16B900292349 /* CollectionToastViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CollectionToastViewController.xib; sourceTree = "<group>"; };
-		4C3E2D9D245F85C700292349 /* FillImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillImageView.swift; sourceTree = "<group>"; };
-		4C3E2DA42460C82800292349 /* FrameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameView.swift; sourceTree = "<group>"; };
 		4C68AF2A2447D35A00E52834 /* HearthMirror.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HearthMirror.framework; path = "downloaded-frameworks/HearthMirror/HearthMirror.framework"; sourceTree = "<group>"; };
 		4CED5D14243D1B27006D2E1F /* DemonHunter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemonHunter.swift; sourceTree = "<group>"; };
 		4CEDCB84D7C706E78A0E2A93 /* CenarionWard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CenarionWard.swift; sourceTree = "<group>"; };
@@ -2709,6 +2694,7 @@
 		5C32BC6DE885B0703F31650D /* ToysnatchingGeist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToysnatchingGeist.swift; sourceTree = "<group>"; };
 		5C73C7FC0284A5D2CCA1360B /* BoardFill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardFill.swift; sourceTree = "<group>"; };
 		5C74E246D839D7D120CA28E4 /* MulliganGuideTrialsExhaustedView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MulliganGuideTrialsExhaustedView.swift; sourceTree = "<group>"; };
+		6615C51905284AC3B7C1CAF9 /* MulliganToastView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MulliganToastView.swift; sourceTree = "<group>"; };
 		5CD6B9085396785A70385643 /* SpitefulChef.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpitefulChef.swift; sourceTree = "<group>"; };
 		5D5C5740C225A34DA4059645 /* FinalFrontier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalFrontier.swift; sourceTree = "<group>"; };
 		5D5FD3D8314F4DD5298BABD4 /* ManaCyclone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManaCyclone.swift; sourceTree = "<group>"; };
@@ -2735,6 +2721,7 @@
 		6810D90CA28C2EB85EDE584F /* RoundedCorners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorners.swift; sourceTree = "<group>"; };
 		095B9E3F897A4466B967AC5B /* SpinningIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinningIndicator.swift; sourceTree = "<group>"; };
 		873E3052927B48C8AF6B3C4C /* HDTCanvasIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDTCanvasIcon.swift; sourceTree = "<group>"; };
+		AA118E25CF8B46DA9C97451E /* OverlayToastPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayToastPanel.swift; sourceTree = "<group>"; };
 		6854F95DEFF73F9ED05CEFF8 /* ConfessorPaletress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfessorPaletress.swift; sourceTree = "<group>"; };
 		6971482AF89097560C23D7B5 /* EverythingMustGo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EverythingMustGo.swift; sourceTree = "<group>"; };
 		6974D96D435CBC69AE53059C /* LifebindersGift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifebindersGift.swift; sourceTree = "<group>"; };
@@ -3040,7 +3027,6 @@
 		B82AE5FB28BE8631004A8FE0 /* HearthMirror-version.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "HearthMirror-version.txt"; sourceTree = "<group>"; };
 		B82AE5FC28BE8631004A8FE0 /* mono-version.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "mono-version.txt"; sourceTree = "<group>"; };
 		B82AE60128BED413004A8FE0 /* QuestDataProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestDataProxy.swift; sourceTree = "<group>"; };
-		B82E7B13262A533F00C42EF0 /* MulliganToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulliganToastView.swift; sourceTree = "<group>"; };
 		B82E7B15262A798000C42EF0 /* ShortIdHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortIdHelper.swift; sourceTree = "<group>"; };
 		B82F4EAA24E3021D00905024 /* MonoHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonoHelper.swift; sourceTree = "<group>"; };
 		B82F4EAD24E3229200905024 /* InputProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputProxy.swift; sourceTree = "<group>"; };
@@ -4538,7 +4524,6 @@
 				439C7EA61C777F8900D29859 /* LoadingScreenHandler.swift */,
 				1CCB4AEA1E8A4930003FD1AD /* LogEventHandlers.swift */,
 				439C7EA91C777F8900D29859 /* RachelleHandler.swift */,
-				4C3E2D8B245ED5AA00292349 /* Toaster.swift */,
 			);
 			path = Handlers;
 			sourceTree = "<group>";
@@ -4581,8 +4566,6 @@
 				43EBA3A41D129B030093B1C2 /* CardHudContainer.xib */,
 				43B695621C920A0500F4D0AC /* CardList.swift */,
 				43B695641C920BD500F4D0AC /* CardList.xib */,
-				4C3E2D91245F16B900292349 /* CollectionToastViewController.swift */,
-				4C3E2D92245F16B900292349 /* CollectionToastViewController.xib */,
 				B89C9895280C610C005E9315 /* DeckLens.swift */,
 				B87765CC2BB9AE7F003BE49D /* DeckSideboards.swift */,
 				B8D75B9025A9DCDE00446923 /* ExperienceOverlay.swift */,
@@ -4606,7 +4589,6 @@
 				340AAC041D0544AD0015FE33 /* StringTracker.swift */,
 				43E77EE11C949C7800C26950 /* TimerHud.swift */,
 				43E77EDF1C949C6D00C26950 /* TimerHud.xib */,
-				4C3E2D89245ED13D00292349 /* ToastWindowController.swift */,
 				439C7EDC1C777FA900D29859 /* Tracker.swift */,
 				439C7EDD1C777FA900D29859 /* Tracker.xib */,
 				436789BA1CACF79800C962D1 /* TrackerFrame.swift */,
@@ -4777,11 +4759,8 @@
 			isa = PBXGroup;
 			children = (
 				B8D75B9225A9DD1300446923 /* ExperienceTracker.swift */,
-				4C3E2D9D245F85C700292349 /* FillImageView.swift */,
-				4C3E2DA42460C82800292349 /* FrameView.swift */,
 				B8BA17D628E91C52004D40ED /* LinkOpponentDeckPanel.swift */,
 				B8BA17DC28EFC8F8004D40ED /* LinkOpponentDeckPanel.xib */,
-				B82E7B13262A533F00C42EF0 /* MulliganToastView.swift */,
 				B8BCC1E02739991600DA6474 /* VerticallyAlignedTextFieldCell.swift */,
 			);
 			path = Views;
@@ -4819,6 +4798,7 @@
 				6810D90CA28C2EB85EDE584F /* RoundedCorners.swift */,
 				095B9E3F897A4466B967AC5B /* SpinningIndicator.swift */,
 				873E3052927B48C8AF6B3C4C /* HDTCanvasIcon.swift */,
+				AA118E25CF8B46DA9C97451E /* OverlayToastPanel.swift */,
 			);
 			path = Overlay;
 			sourceTree = "<group>";
@@ -5672,7 +5652,9 @@
 				85F0CE929C65D6AE160FFBF5 /* ConstructedMulliganPreLobbyWidgetViewModel.swift */,
 				DB1647DCFF7E9F0816C194F6 /* ConstructedMulliganPreLobbyWidgetView.swift */,
 				2F763EBF84875A096625CC1B /* MulliganGuideTrialsExhaustedViewModel.swift */,
+				7763354053BC4D139A9EE08D /* MulliganToastViewModel.swift */,
 				5C74E246D839D7D120CA28E4 /* MulliganGuideTrialsExhaustedView.swift */,
+				6615C51905284AC3B7C1CAF9 /* MulliganToastView.swift */,
 			);
 			path = Mulligan;
 			sourceTree = "<group>";
@@ -6976,7 +6958,6 @@
 				437B5BB81CD2559300DE0A41 /* OpponentTrackersPreferences.xib in Resources */,
 				4335543A1D5FAF0300277B27 /* HSReplayPreferences.xib in Resources */,
 				43EBA3A51D129B030093B1C2 /* CardHudContainer.xib in Resources */,
-				4C3E2D94245F16B900292349 /* CollectionToastViewController.xib in Resources */,
 				B8D02E602F24592D00DC55C1 /* PlayerResourcesWindow.xib in Resources */,
 				B800FCA42732AA7C00AFBD51 /* MercenariesTaskListButton.xib in Resources */,
 				B8AF0C7D2B9295A000B65F63 /* ConstructedMulliganSingleDeckStatus.xib in Resources */,
@@ -7542,7 +7523,6 @@
 				439C7E921C777EFA00D29859 /* Settings.swift in Sources */,
 				B864AE2025979E3400793F36 /* AdventureDbId.swift in Sources */,
 				B844D36C2A0C3510001704E0 /* UnknownCardEntityProxy.swift in Sources */,
-				4C3E2D8C245ED5AA00292349 /* Toaster.swift in Sources */,
 				B83336072F620E8B00923513 /* PlumeOfVulcanos.swift in Sources */,
 				43EECB961C7DE3BA0077AC1B /* DeckCellView.swift in Sources */,
 				B83336112F62153E00923513 /* StolenPower.swift in Sources */,
@@ -7623,7 +7603,6 @@
 				B8B78FD52C96188100DD33EC /* RagingFelscreamerEnchantment.swift in Sources */,
 				B8B78FD12C96118F00DD33EC /* PocketSandEnchantment.swift in Sources */,
 				B8B7902D2C97584300DD33EC /* WaveOfApathyEnchantment.swift in Sources */,
-				4C3E2DA52460C82900292349 /* FrameView.swift in Sources */,
 				B86D89D02D95BEB700AB65A5 /* AgamagganEnchantment.swift in Sources */,
 				B8DC11F224E77F040088A755 /* BobsBuddyState.swift in Sources */,
 				B854621A2CDEBB6D0083BB31 /* Headhunt.swift in Sources */,
@@ -7632,7 +7611,6 @@
 				439C7EC01C777F8900D29859 /* ArenaHandler.swift in Sources */,
 				B89865BF2D91F06600BA5649 /* ThriveInTheShadowsCore.swift in Sources */,
 				BCCCDB9E1EA54FF800C328D0 /* NotificationManager.swift in Sources */,
-				4C3E2D9E245F85C700292349 /* FillImageView.swift in Sources */,
 				B89865BD2D91EFE900BA5649 /* ScaleReplica.swift in Sources */,
 				B8DB12B12EBAE6D0004268FA /* TimeAdmralHooktail.swift in Sources */,
 				43B695631C920A0500F4D0AC /* CardList.swift in Sources */,
@@ -7739,7 +7717,6 @@
 				B8E1E5B82D0C879300383975 /* AnyfinCanHappen.swift in Sources */,
 				B86D89FE2D95F31700AB65A5 /* FaeTrickster.swift in Sources */,
 				B8B78FDC2C96337900DD33EC /* CelestialShotEnchantment.swift in Sources */,
-				4C3E2D8A245ED13D00292349 /* ToastWindowController.swift in Sources */,
 				B846CC5C2E09DC9000552F9C /* Swindle.swift in Sources */,
 				B8E9C6582EFDF50D00EF3F6E /* SpecialShopChoicesStateWatcher.swift in Sources */,
 				EE0000000000000000002012 /* PlayZoneWatcher.swift in Sources */,
@@ -8693,7 +8670,6 @@
 				B804FC26294264D700F74CD9 /* Tier7PreLobbyViewModel.swift in Sources */,
 				FC0A7E022E70A1010001A002 /* Tier7PreLobbyView.swift in Sources */,
 				1DC8438909E340C1A06CCDCE /* OverlayMessageView.swift in Sources */,
-				4C3E2D93245F16B900292349 /* CollectionToastViewController.swift in Sources */,
 				439DD8F41DB23212004EBE47 /* PlayerTurn.swift in Sources */,
 				B8B790452C9777E400DD33EC /* TarSlickEnchantment.swift in Sources */,
 				B8D75B9325A9DD1300446923 /* ExperienceTracker.swift in Sources */,
@@ -8783,7 +8759,6 @@
 				434910541D097B0500B22DB2 /* EntityHelper.swift in Sources */,
 				B8B790702C97A26100DD33EC /* PartScrapperEnchantment.swift in Sources */,
 				B86D8A1E2D95FE2A00AB65A5 /* SpiritGuide.swift in Sources */,
-				B82E7B14262A533F00C42EF0 /* MulliganToastView.swift in Sources */,
 				B8B7903D2C97769200DD33EC /* PreparationEnchantment.swift in Sources */,
 				B89865582D8C92A300BA5649 /* PeacefulPiper.swift in Sources */,
 				439C7EE31C777FA900D29859 /* Tracker.swift in Sources */,
@@ -8925,6 +8900,7 @@
 				0356B221A6B1D233CDA32592 /* RoundedCorners.swift in Sources */,
 				83357E771750467CBA9C1E54 /* SpinningIndicator.swift in Sources */,
 				3DB8446653C640BA92B821E3 /* HDTCanvasIcon.swift in Sources */,
+				A490073F127D4AB4993C6E51 /* OverlayToastPanel.swift in Sources */,
 				51DE03002F9F1326921F709E /* GuideCardText.swift in Sources */,
 				510B084E7B4A1450F0D9E5A7 /* GuideCardArtBackground.swift in Sources */,
 				9ECB3617F6D61E087A475667 /* BattlegroundsMinionArtView.swift in Sources */,
@@ -8940,7 +8916,9 @@
 				4D3ECCEAC870D8495A39FF5E /* ConstructedMulliganPreLobbyWidgetViewModel.swift in Sources */,
 				B41238D5664BA8BCEC4D20C5 /* ConstructedMulliganPreLobbyWidgetView.swift in Sources */,
 				B8CB542253130C9F7AB0D806 /* MulliganGuideTrialsExhaustedViewModel.swift in Sources */,
+				DA1A7EBBEB02499BA7888F27 /* MulliganToastViewModel.swift in Sources */,
 				8F239D3C72B955B990CF1451 /* MulliganGuideTrialsExhaustedView.swift in Sources */,
+				389DB9BC1E784988977841AF /* MulliganToastView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9021,7 +8999,6 @@
 				B8F778752805CDF2006348B4 /* BrukanInvocationDeathrattles.swift in Sources */,
 				B8F778742805CDEA006348B4 /* GenericDeathrattles.swift in Sources */,
 				B8F778732805CDDD006348B4 /* ExitConditions.swift in Sources */,
-				B887656826C304A5003D3629 /* MulliganToastView.swift in Sources */,
 				B887656726C3049F003D3629 /* ShortIdHelper.swift in Sources */,
 				B8C2F9102623233100C31E6A /* GetAccountResult.swift in Sources */,
 				B8EC9A4A261215C800EB17A9 /* OpponentDeadForTracker.swift in Sources */,
@@ -9041,7 +9018,6 @@
 				B8A9CB3C2573FD61000071FC /* GuessedCardState.swift in Sources */,
 				B8A9CB2F25699B70000071FC /* RemoteConfig.swift in Sources */,
 				B8A9CB2E25699B13000071FC /* BattlegroundsMinionView.swift in Sources */,
-				B8DEDCE22547C65700DF524B /* FillImageView.swift in Sources */,
 				B8DEDCDF2547C61B00DF524B /* MinionHeroPowerTrigger.swift in Sources */,
 				B8DEDCDD2547C5D100DF524B /* BattlegroundsPreferences.swift in Sources */,
 				B8DEDCDC2547C5C800DF524B /* StatusMessageConverter.swift in Sources */,
@@ -9050,11 +9026,7 @@
 				B8DEDCD72547C5A800DF524B /* BobsBuddyInvoker.swift in Sources */,
 				B8DEDCD82547C5A800DF524B /* BobsBuddyState.swift in Sources */,
 				B8DEDCD92547C5A800DF524B /* BobsBuddyErrorState.swift in Sources */,
-				B8DEDCD52547C58800DF524B /* FrameView.swift in Sources */,
 				B8643D11275982E700B2D708 /* Deque.swift in Sources */,
-				B8DEDCCE2547C54200DF524B /* CollectionToastViewController.swift in Sources */,
-				B8DEDCCD2547C53900DF524B /* Toaster.swift in Sources */,
-				B8DEDCCC2547C52800DF524B /* ToastWindowController.swift in Sources */,
 				B8DEDCCA2547C51A00DF524B /* MinionProxy.swift in Sources */,
 				B8DEDCC92547C50700DF524B /* SimulationRunner.swift in Sources */,
 				B8DEDCC82547C4FD00DF524B /* OutputProxy.swift in Sources */,

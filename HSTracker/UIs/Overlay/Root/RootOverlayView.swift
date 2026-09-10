@@ -158,6 +158,11 @@ struct RootOverlayView: View {
                     BattlegroundsNotificationsView(viewModel: viewModel.battlegroundsNotifications,
                                                    canvasWidth: canvasWidth)
 
+                    // HDT's MulliganNotificationPanel, declared right after
+                    // those two and placed exactly where the hero one is.
+                    MulliganToastView(viewModel: viewModel.mulliganToast,
+                                      canvasWidth: canvasWidth)
+
                     // The Battlegrounds hero picking stats, which HDT
                     // declares right after BgsOpponentInfoContainer and ahead
                     // of Tier7PreLobby on its own canvas

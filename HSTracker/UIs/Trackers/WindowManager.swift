@@ -132,8 +132,6 @@ class WindowManager {
         return (_rootOverlay as? RootOverlayWindow)
     }
 
-    var toastWindowController = ToastWindowController()
-
     var floatingCard: FloatingCard = {
         if let fWindow = $0.window {
             
