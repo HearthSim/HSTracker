@@ -23,6 +23,7 @@ protocol BobsBuddyDisplay: AnyObject {
     func showPercentagesHideSpinners()
     func showCompletedSimulation(winRate: Float, tieRate: Float, lossRate: Float, playerLethal: Float, opponentLethal: Float, possibleResults: [Int32])
     func showPartialDuosSimulation(winRate: Float, tieRate: Float, lossRate: Float, playerLethal: Float, opponentLethal: Float, possibleResults: [Int32], friendlyWon: Bool, playerCanDie: Bool, opponentCanDie: Bool)
+    func setLastOutcome(_ lastOutcome: Int)
 }
 
 extension BobsBuddyDisplay {
@@ -90,6 +91,12 @@ class BobsBuddyPanelViewModel: ObservableObject, BobsBuddyDisplay {
     private var state: BobsBuddyState = .initial
     private var showingResults = false
 
+    // What setAverageDamage last worked out, kept for setLastOutcome to check
+    // the real combat against.
+    private var playerDamageDealtBounds: [Int]?
+    private var opponentDamageDealtBounds: [Int]?
+    private var lastCombatResult = 0
+
     private var _errorState: BobsBuddyErrorState = .none
     private var errorState: BobsBuddyErrorState {
         get {
@@ -155,6 +162,9 @@ class BobsBuddyPanelViewModel: ObservableObject, BobsBuddyDisplay {
 
     func resetDisplays() {
         onMain {
+            self.playerDamageDealtBounds = nil
+            self.opponentDamageDealtBounds = nil
+            self.lastCombatResult = 0
             self.resetTextOnMain()
             self.playerLethalOpacity = Self.softLabelOpacity
             self.opponentLethalOpacity = Self.softLabelOpacity
@@ -254,6 +264,33 @@ class BobsBuddyPanelViewModel: ObservableObject, BobsBuddyDisplay {
             }
             self.updateStatusMessage()
         }
+    }
+
+    // SetLastOutcome: the combat that just finished. When it landed outside the
+    // range the average damage panels predicted, they peek open to show what
+    // that range had been - once ever, since attempting it also marks them
+    // seen.
+    func setLastOutcome(_ lastOutcome: Int) {
+        onMain {
+            self.lastCombatResult = lastOutcome
+            if self.isDamageOutcomeOutsideEightyPercent() {
+                self.attemptToExpandAverageDamagePanels(slide: true, showInfo: true)
+            }
+        }
+    }
+
+    private func isDamageOutcomeOutsideEightyPercent() -> Bool {
+        if Settings.seenBobsBuddyAverageDamage {
+            return false
+        }
+        if lastCombatResult < 0, let bounds = opponentDamageDealtBounds, bounds.count > 1 {
+            let taken = -lastCombatResult
+            return taken < bounds[0] || taken > bounds[1]
+        }
+        if lastCombatResult > 0, let bounds = playerDamageDealtBounds, bounds.count > 1 {
+            return lastCombatResult < bounds[0] || lastCombatResult > bounds[1]
+        }
+        return false
     }
 
     // MARK: - The panel's own hover
@@ -414,6 +451,9 @@ class BobsBuddyPanelViewModel: ObservableObject, BobsBuddyDisplay {
 
         let playerDamageDealtBounds = Self.getTwentiethAndEightiethPercentileFor(possibleResults: playerDamageDealtPossibilities)
         let opponentDamageDealtBounds = Self.getTwentiethAndEightiethPercentileFor(possibleResults: opponentSortedDamageDealtPossibilites)
+
+        self.playerDamageDealtBounds = playerDamageDealtBounds.map { Int($0) }
+        self.opponentDamageDealtBounds = opponentDamageDealtBounds.map { Int($0) }
 
         playerAverageDamageOpacity = playerDamageDealtBounds[0] == 0 && playerDamageDealtBounds.count == 1 ? Self.softLabelOpacity : 1.0
         opponentAverageDamageOpacity = opponentDamageDealtBounds[0] == 0 && opponentDamageDealtBounds.count == 1 ? Self.softLabelOpacity : 1.0

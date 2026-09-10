@@ -543,6 +543,7 @@ class BobsBuddyInvoker {
         if hasErrorState() {
             return
         }
+        BobsBuddyInvoker.bobsBuddyDisplay?.setLastOutcome(getLastCombatDamageDealt())
         BobsBuddyInvoker.bobsBuddyDisplay?.setState(st: state)
         validateSimulationResult()
     }
@@ -573,10 +574,15 @@ class BobsBuddyInvoker {
     }
     
     private func getLastCombatDamageDealt() -> Int {
-        if LastAttackingHero != nil {
-            return LastAttackingHeroAttack
+        guard let LastAttackingHero else {
+            return 0
         }
-        return 0
+        // HDT returns this unsigned, which leaves its panel checking the damage
+        // the player *took* against the range it predicted the player would
+        // *deal*. Who swung is known right here, so the damage is signed the
+        // way the simulator's own possibleResults are - positive for damage the
+        // player dealt - and both halves of that check do their job.
+        return LastAttackingHero.isControlled(by: game.player.id) ? LastAttackingHeroAttack : -LastAttackingHeroAttack
     }
     
     private func getLastCombatResult() -> CombatResult {
