@@ -11,14 +11,10 @@ import SwiftUI
 // Port of HDT's BattlegroundsGameView.xaml
 // (Controls/Overlay/Battlegrounds/Session): one row of the Latest Games list.
 //
-// The final-board tooltip the row opens on hover lives in
-// BattlegroundsFinalBoardTooltip and is drawn by BattlegroundsSessionView, not
-// here: the panel rounds its own corners by clipping the section stack, and in
-// SwiftUI a clip applies to everything beneath it - so a tooltip rendered from
-// inside a row would be cut off at the panel edge. The row only reports where
-// it is (an anchor preference) and lets the panel place the tooltip outside
-// that clip. HSTracker used to show this board in a separate
-// BattlegroundsFinalBoard window; HDT draws it inline, which is what this does.
+// The final-board tooltip the row opens on hover is drawn by
+// BattlegroundsFinalBoardPanel rather than here - see that file for why it
+// cannot live inside the session window. The row only reports that it is
+// hovered and where it sits, in the session panel's own coordinate space.
 @available(macOS 10.15, *)
 struct BattlegroundsGameRowView: View {
     let viewModel: BattlegroundsGameRowViewModel
@@ -92,17 +88,26 @@ struct BattlegroundsGameRowView: View {
         .onHover { hovering in
             isHovering = hovering
         }
-        .anchorPreference(key: HoveredGamePreferenceKey.self, value: .bounds) { anchor in
-            isHovering ? HoveredGame(bounds: anchor, viewModel: viewModel) : nil
-        }
+        .background(
+            GeometryReader { proxy in
+                Color.clear.preference(
+                    key: HoveredGamePreferenceKey.self,
+                    value: isHovering
+                        ? HoveredGame(frame: proxy.frame(in: .named(BattlegroundsSessionView.coordinateSpace)),
+                                      viewModel: viewModel)
+                        : nil
+                )
+            }
+        )
     }
 }
 
-// What a hovered row hands up to BattlegroundsSessionView so it can place the
-// final-board tooltip relative to that row.
+// What a hovered row hands up to the session panel so the tooltip window can be
+// placed relative to that row. The frame is in the panel's own unscaled
+// coordinate space, whose origin is the panel's top-left corner.
 @available(macOS 10.15, *)
 struct HoveredGame: Equatable {
-    let bounds: Anchor<CGRect>
+    let frame: CGRect
     let viewModel: BattlegroundsGameRowViewModel
 }
 

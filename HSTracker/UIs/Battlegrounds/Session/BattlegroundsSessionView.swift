@@ -31,17 +31,19 @@ struct BattlegroundsSessionView: View {
     private static let headerBackground = Color(hex: "#1C2022")
     private static let dividerColor = Color(hex: "#4A5256")
 
+    // The space a hovered game row reports its position in, and the one
+    // BattlegroundsFinalBoardPanel places the tooltip against. Its origin is the
+    // panel's top-left corner, before the session's scaling is applied.
+    static let coordinateSpace = "battlegroundsSessionPanel"
+
     var body: some View {
         panel
-            // Attached outside the corner clipping below, so a hovered game
-            // row's final board can extend past the panel's edge - see
-            // BattlegroundsGameRowView for why the row cannot draw it itself.
-            .overlayPreferenceValue(HoveredGamePreferenceKey.self) { hovered in
-                GeometryReader { proxy in
-                    if let hovered = hovered {
-                        finalBoardTooltip(for: hovered, proxy: proxy)
-                    }
-                }
+            .coordinateSpace(name: Self.coordinateSpace)
+            // The tooltip itself is a separate window - see
+            // BattlegroundsFinalBoardPanel - so all that leaves the view here is
+            // which row is hovered and where it is.
+            .onPreferenceChange(HoveredGamePreferenceKey.self) { hovered in
+                viewModel.hoveredGame = hovered
             }
     }
 
@@ -321,18 +323,6 @@ struct BattlegroundsSessionView: View {
         }
     }
 
-    // MARK: - Final board tooltip
-
-    @ViewBuilder
-    private func finalBoardTooltip(for hovered: HoveredGame, proxy: GeometryProxy) -> some View {
-        let rowFrame = proxy[hovered.bounds]
-        let minions = hovered.viewModel.finalBoardMinions
-        FinalBoardTooltipContainer(minions: minions,
-                                   tooltipToRight: viewModel.tooltipToRight,
-                                   origin: CGPoint(x: rowFrame.minX, y: rowFrame.minY))
-            .allowsHitTesting(false)
-    }
-
     // MARK: - Cog
 
     // OverlayButton Height="23" Width="24" CornerRadius="3" Margin="4", holding
@@ -343,47 +333,6 @@ struct BattlegroundsSessionView: View {
             SessionCogButton()
                 .padding(4)
         }
-    }
-}
-
-// Places BattlegroundsFinalBoardTooltip at the hovered row's origin. Split out
-// so the tooltip's own measured width - which decides where it sits when it
-// opens to the left - can be held in @State without that state living on the
-// whole panel.
-@available(macOS 10.15, *)
-private struct FinalBoardTooltipContainer: View {
-    let minions: [Entity]
-    let tooltipToRight: Bool
-    let origin: CGPoint
-
-    @SwiftUI.State private var contentWidth: CGFloat = 0
-
-    var body: some View {
-        BattlegroundsFinalBoardTooltip(minions: minions,
-                                       tooltipToRight: tooltipToRight,
-                                       contentWidth: contentWidth)
-            .background(
-                GeometryReader { proxy in
-                    Color.clear.preference(key: FinalBoardWidthPreferenceKey.self,
-                                           value: proxy.size.width)
-                }
-            )
-            .opacity(0.95)
-            .scaleEffect(BattlegroundsFinalBoardTooltip.scale, anchor: .topLeading)
-            .offset(x: origin.x + BattlegroundsFinalBoardTooltip.canvasLeft(tooltipToRight: tooltipToRight,
-                                                                           contentWidth: contentWidth),
-                    y: origin.y + BattlegroundsFinalBoardTooltip.canvasTop(minionCount: minions.count))
-            .onPreferenceChange(FinalBoardWidthPreferenceKey.self) { width in
-                contentWidth = width
-            }
-    }
-}
-
-@available(macOS 10.15, *)
-private struct FinalBoardWidthPreferenceKey: PreferenceKey {
-    static var defaultValue: CGFloat = 0
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value = max(value, nextValue())
     }
 }
 

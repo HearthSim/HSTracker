@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
 // Hosts the SwiftUI session recap panel (BattlegroundsSessionView, a port of
 // HDT's BattlegroundsSession.xaml) in the draggable, user-positionable overlay
@@ -30,6 +31,8 @@ class BattlegroundsSession: OverWindowController {
     private var globalMouseMonitor: Any?
     private var localMouseMonitor: Any?
     private var fallbackTimer: Timer?
+    private var hoverSubscription: Any?
+    private var _finalBoardPanel: Any?
 
     @available(macOS 10.15, *)
     var viewModel: BattlegroundsSessionViewModel {
@@ -79,7 +82,37 @@ class BattlegroundsSession: OverWindowController {
             // the same trick RootOverlayWindow uses.
             window?.ignoresMouseEvents = true
             installMouseMonitors()
+            hoverSubscription = viewModel.$hoveredGame.sink { [weak self] hovered in
+                self?.updateFinalBoard(hovered)
+            }
         }
+    }
+
+    @available(macOS 10.15, *)
+    private var finalBoardPanel: BattlegroundsFinalBoardPanel {
+        if let existing = _finalBoardPanel as? BattlegroundsFinalBoardPanel {
+            return existing
+        }
+        let created = BattlegroundsFinalBoardPanel()
+        _finalBoardPanel = created
+        return created
+    }
+
+    // HDT's BattlegroundsGameViewModel.OnMouseEnter / OnMouseLeave, applied to
+    // the tooltip's own window rather than to a canvas inside the panel.
+    @available(macOS 10.15, *)
+    private func updateFinalBoard(_ hovered: HoveredGame?) {
+        guard let window, let hostingView else { return }
+        guard let hovered, window.isVisible else {
+            finalBoardPanel.hide()
+            return
+        }
+        finalBoardPanel.show(minions: hovered.viewModel.finalBoardMinions,
+                             tooltipToRight: viewModel.tooltipToRight,
+                             rowFrame: hovered.frame,
+                             in: hostingView,
+                             scaling: CGFloat(viewModel.scaling),
+                             parent: window)
     }
 
     deinit {
@@ -91,6 +124,8 @@ class BattlegroundsSession: OverWindowController {
         }
         fallbackTimer?.invalidate()
     }
+
+    // MARK: - Final board
 
     // MARK: - Mouse tracking
 
@@ -120,7 +155,14 @@ class BattlegroundsSession: OverWindowController {
         let screenLocation = NSEvent.mouseLocation
         let windowPoint = window.convertPoint(fromScreen: screenLocation)
         let viewPoint = hostingView.convert(windowPoint, from: nil)
-        setIgnoresMouseEvents(!viewModel.panelRegion.contains(viewPoint))
+        let inside = viewModel.panelRegion.contains(viewPoint)
+        setIgnoresMouseEvents(!inside)
+        // Backstop for the tooltip: the window going click-through again should
+        // deliver a SwiftUI hover-exit, but if that is missed the tooltip would
+        // be left on screen with the cursor nowhere near it.
+        if !inside && viewModel.hoveredGame != nil {
+            viewModel.hoveredGame = nil
+        }
     }
 
     private func setIgnoresMouseEvents(_ ignores: Bool) {

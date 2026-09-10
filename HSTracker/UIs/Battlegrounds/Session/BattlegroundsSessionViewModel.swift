@@ -106,6 +106,11 @@ class BattlegroundsSessionViewModel: ObservableObject {
     // (HDT's `tooltipToRight` in BattlegroundsGameViewModel.OnMouseEnter).
     @Published var tooltipToRight = true
 
+    // The Latest Games row the cursor is over, with its position in the panel's
+    // own coordinate space. BattlegroundsSession watches this and drives
+    // BattlegroundsFinalBoardPanel from it.
+    @Published var hoveredGame: HoveredGame?
+
     // MARK: - Mode
 
     private let updateCompStatsSemaphore = UnfairLock()
