@@ -7,7 +7,9 @@
 //
 
 import Foundation
+import AppKit
 import SwiftUI
+import Preferences
 
 // What BobsBuddyInvoker drives the panel through. It is a protocol, and not
 // gated on the SwiftUI baseline, because the invoker isn't either: the view
@@ -65,6 +67,19 @@ class BobsBuddyPanelViewModel: ObservableObject, BobsBuddyDisplay {
     @Published private(set) var showSpinner = false
     @Published private(set) var warningIconVisible = false
     @Published private(set) var statusMessage = ""
+
+    // SettingsVisibility: the question mark and the cog are only there while
+    // the cursor is over the panel.
+    @Published private(set) var settingsVisible = false
+    // InfoVisibility, which starts open until the panel has introduced itself
+    // once - Config.SeenBobsBuddyInfo.
+    @Published private(set) var infoVisible = !Settings.seenBobsBuddyInfo
+    // AverageDamageInfoVisibility, put up by hovering either average damage
+    // panel or by opening the panel with them along.
+    @Published private(set) var averageDamageInfoVisible = false
+    // CloseAverageDamageInfoVisibility: that note's own close button, gone for
+    // good once it has been used.
+    @Published private(set) var closeAverageDamageInfoVisible = !Settings.bobsBuddyAverageDamageInfoClosed
 
     // BobsBuddyPanel.xaml.cs's own constant for a stat that is zero or unknown.
     static let softLabelOpacity = 0.3
@@ -226,8 +241,124 @@ class BobsBuddyPanelViewModel: ObservableObject, BobsBuddyDisplay {
             guard self.state == .combat || self.state == .combatWithoutSimulation || self.state == .shopping else {
                 return
             }
-            self.showResults(show: !self.showingResults)
+            let show = !self.showingResults
+            self.showResults(show: show)
+            if show {
+                // BottomBar_MouseDown slides the average damage panels open
+                // whether or not the setting keeps them open, and offers the
+                // note that explains them.
+                withAnimation(.easeInOut(duration: Self.slideDuration)) {
+                    self.averageDamageExpanded = true
+                }
+                self.attemptToShowAverageDamageInfo()
+            }
             self.updateStatusMessage()
+        }
+    }
+
+    // MARK: - The panel's own hover
+
+    // UserControl_MouseEnter/MouseLeave: the icons in the status bar appear,
+    // and the average damage panels peek open - without the slide, since the
+    // cursor is already there.
+    func onPanelHover(_ hovering: Bool) {
+        onMain {
+            self.settingsVisible = hovering
+            if hovering {
+                self.attemptToExpandAverageDamagePanels(slide: false, showInfo: true)
+            } else {
+                self.averageDamageInfoVisible = false
+                if !Settings.showAverageDamage {
+                    self.averageDamageExpanded = false
+                }
+            }
+        }
+    }
+
+    // AverageDamageTakenPanel_MouseEnter/MouseLeave, which both panels share:
+    // the note stays up while the cursor is on one of them, and afterwards only
+    // if it has never been dismissed.
+    func onAverageDamageHover(_ hovering: Bool) {
+        onMain {
+            if hovering {
+                self.averageDamageInfoVisible = true
+            } else if Settings.bobsBuddyAverageDamageInfoClosed {
+                self.averageDamageInfoVisible = false
+            }
+        }
+    }
+
+    // MARK: - The info panels
+
+    // Question_MouseDown, which also counts as having seen the introduction.
+    func toggleInfo() {
+        onMain {
+            self.infoVisible.toggle()
+            self.updateSeenInfo()
+        }
+    }
+
+    // Close_MouseDown.
+    func closeInfo() {
+        onMain {
+            self.infoVisible = false
+            self.updateSeenInfo()
+        }
+    }
+
+    // CloseAverageDamageInfo_MouseDown: this one is dismissed for good.
+    func closeAverageDamageInfo() {
+        onMain {
+            Settings.bobsBuddyAverageDamageInfoClosed = true
+            self.averageDamageInfoVisible = false
+            self.closeAverageDamageInfoVisible = false
+        }
+    }
+
+    // The cog's MouseBinding: GlobalCommands.ShowSettings("Battlegrounds").
+    func showSettings() {
+        AppDelegate.instance().openPreferences(pane: Preferences.PaneIdentifier.battlegrounds)
+    }
+
+    // The Hyperlink under the introduction.
+    func openLearnMore() {
+        if let url = URL(string: "https://articles.hsreplay.net/2020/04/24/introducing-bobs-buddy/") {
+            NSWorkspace.shared.open(url)
+        }
+    }
+
+    private func attemptToExpandAverageDamagePanels(slide: Bool, showInfo: Bool) {
+        guard state != .initial, resultsExpanded else {
+            return
+        }
+        updateSeenAverageDamage()
+        if slide {
+            withAnimation(.easeInOut(duration: Self.slideDuration)) {
+                averageDamageExpanded = true
+            }
+        } else {
+            averageDamageExpanded = true
+        }
+        if showInfo {
+            attemptToShowAverageDamageInfo()
+        }
+    }
+
+    private func attemptToShowAverageDamageInfo() {
+        if !Settings.bobsBuddyAverageDamageInfoClosed {
+            averageDamageInfoVisible = true
+        }
+    }
+
+    private func updateSeenInfo() {
+        if !Settings.seenBobsBuddyInfo && !infoVisible {
+            Settings.seenBobsBuddyInfo = true
+        }
+    }
+
+    private func updateSeenAverageDamage() {
+        if !Settings.seenBobsBuddyAverageDamage {
+            Settings.seenBobsBuddyAverageDamage = true
         }
     }
 
@@ -240,6 +371,9 @@ class BobsBuddyPanelViewModel: ObservableObject, BobsBuddyDisplay {
         }
 
         showingResults = show
+        if !show {
+            averageDamageInfoVisible = false
+        }
         // Config.AlwaysShowAverageDamage in HDT: the two side panels slide with
         // the results only when the user asked for them.
         let showAverageDamage = show && Settings.showAverageDamage

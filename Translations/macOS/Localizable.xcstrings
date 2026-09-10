@@ -1895,6 +1895,28 @@
         }
       }
     },
+    "AverageDamage_Info_Description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "These panels show the middle 80th percentile of possible damage outcomes."
+          }
+        }
+      }
+    },
+    "AverageDamage_Info_Title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Average Damage"
+          }
+        }
+      }
+    },
     "Awaiting Shopping Phase" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3900,6 +3922,39 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "外域的灰烬"
+          }
+        }
+      }
+    },
+    "BobsBuddyPanel_Info_Description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "See your chances to win, tie, or lose each combat round in Battlegrounds."
+          }
+        }
+      }
+    },
+    "BobsBuddyPanel_Info_Link_LearnMore" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Learn more."
+          }
+        }
+      }
+    },
+    "BobsBuddyPanel_Info_Title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bob's Buddy"
           }
         }
       }

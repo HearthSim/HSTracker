@@ -293,6 +293,17 @@ final class Settings {
     static var showTurnCounter: Bool
     @UserDefault(key: Settings.show_average_damage, defaultValue: true)
     static var showAverageDamage: Bool
+    // The three flags Bob's Buddy's own info popups remember, matching HDT's
+    // SeenBobsBuddyInfo, BobsBuddyAverageDamageInfoClosed and
+    // SeenBobsBuddyAverageDamage: whether the panel has explained itself once,
+    // whether the average damage note was dismissed for good, and whether the
+    // average damage panels have ever been seen.
+    @UserDefault(key: Settings.seen_bobs_buddy_info, defaultValue: false)
+    static var seenBobsBuddyInfo: Bool
+    @UserDefault(key: Settings.bobs_buddy_average_damage_info_closed, defaultValue: false)
+    static var bobsBuddyAverageDamageInfoClosed: Bool
+    @UserDefault(key: Settings.seen_bobs_buddy_average_damage, defaultValue: false)
+    static var seenBobsBuddyAverageDamage: Bool
     @UserDefault(key: Settings.show_opponent_warband, defaultValue: true)
     static var showOpponentWarband: Bool
     @UserDefault(key: Settings.show_tiers, defaultValue: true)
@@ -721,6 +732,9 @@ extension Settings {
     static let show_bobs_buddy_during_shopping = "show_bobs_buddy_during_shopping"
     static let show_turn_counter = "show_turn_counter"
     static let show_average_damage = "show_average_damage"
+    static let seen_bobs_buddy_info = "seen_bobs_buddy_info"
+    static let bobs_buddy_average_damage_info_closed = "bobs_buddy_average_damage_info_closed"
+    static let seen_bobs_buddy_average_damage = "seen_bobs_buddy_average_damage"
     static let show_opponent_warband = "show_opponent_warband"
     static let show_tiers = "show_tiers"
     static let show_battlegrounds_guides = "show_battlegrounds_guides"
