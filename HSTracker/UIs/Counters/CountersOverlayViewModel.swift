@@ -30,6 +30,12 @@ class CountersOverlayViewModel: ObservableObject {
 
     @Published private(set) var chips: [CounterChipViewModel] = []
 
+    // Core.Game.IsBattlegroundsMatch, which HDT's CountersOverlay reads in two
+    // places: SortVisibleCounters and WrapWidth. Republished with the chips so
+    // the view can break the rows without reaching for the game itself on every
+    // layout pass - see CountersOverlayView.wrapWidth.
+    @Published private(set) var isBattlegroundsMatch = false
+
     private var counterManager: CounterManager?
 
     // While example counters are up they stand in for the real list, so a
@@ -68,14 +74,17 @@ class CountersOverlayViewModel: ObservableObject {
             updated.append(CounterChipViewModel(counter: counter))
         }
 
-        chips = sorted(updated)
+        setChips(updated)
     }
 
     // HDT's SortVisibleCounters: ordered in Battlegrounds only, left alone
     // everywhere else.
-    private func sorted(_ chips: [CounterChipViewModel]) -> [CounterChipViewModel] {
-        guard AppDelegate.instance().coreManager.game.isBattlegroundsMatch() else { return chips }
-        return chips.sorted { $0.counter.sortValue < $1.counter.sortValue }
+    private func setChips(_ chips: [CounterChipViewModel]) {
+        let isBattlegroundsMatch = AppDelegate.instance().coreManager.game.isBattlegroundsMatch()
+        self.isBattlegroundsMatch = isBattlegroundsMatch
+        self.chips = isBattlegroundsMatch
+            ? chips.sorted { $0.counter.sortValue < $1.counter.sortValue }
+            : chips
     }
 
     func forceShowExampleCounters() {
@@ -87,8 +96,8 @@ class CountersOverlayViewModel: ObservableObject {
         }
         guard let counterManager else { return }
         showingExamples = true
-        chips = counterManager.getExampleCounters(controlledByPlayer: isPlayer)
-            .map { CounterChipViewModel(counter: $0) }
+        setChips(counterManager.getExampleCounters(controlledByPlayer: isPlayer)
+            .map { CounterChipViewModel(counter: $0) })
     }
 
     func forceHideExampleCounters() {
@@ -99,7 +108,7 @@ class CountersOverlayViewModel: ObservableObject {
             return
         }
         showingExamples = false
-        chips = []
+        setChips([])
         updateVisibleCounters()
     }
 }

@@ -47,11 +47,8 @@ struct CountersOverlayView: View {
     // CounterChipView's own fixed height, which is all the rows are made of.
     private static let chipHeight: CGFloat = 51
 
-    // The width chips wrap at. HDT wraps by its own rule (CountersOverlay's
-    // WrapWidth, which only kicks in for a Battlegrounds match with more than
-    // two counters); this is the 336pt width of the window the counters used to
-    // live in, kept so the rows break exactly where they did before the move.
-    private static let wrapWidth: CGFloat = 336
+    // HDT's CountersOverlay.BattlegroundsWrapThreshold.
+    private static let battlegroundsWrapThreshold = 2
 
     var body: some View {
         // Instantiated unconditionally so the @ObservedObject binding keeps
@@ -68,18 +65,43 @@ struct CountersOverlayView: View {
         .frame(width: canvasWidth, height: Self.canvasHeight, alignment: .topLeading)
     }
 
+    // HDT's CountersOverlay.WrapWidth, the MaxWidth it puts on the WrapPanel
+    // the chips sit in: positive infinity - one row, never wrapped - unless a
+    // Battlegrounds match has more counters up than the threshold, in which
+    // case it is the summed width of the first ceil(count / 2) of them, so the
+    // row breaks into two with the larger half on top.
+    //
+    // HDT sums the pills' own ActualWidth and adds InnerMargin * 2 per pill;
+    // chipWidth is already that whole footprint, its 5pt margins included.
+    //
+    // Computed here rather than published by the view model so it is always
+    // read at the same moment the rows below are, off the same chipWidths: a
+    // counter's value (and with it its chip's width) settles one main-queue
+    // block after the list it belongs to is republished, so anything worked out
+    // at that earlier point would be a tick behind what the rows are measured
+    // against.
+    private var wrapWidth: CGFloat {
+        let chips = viewModel.chips
+        guard viewModel.isBattlegroundsMatch, chips.count > Self.battlegroundsWrapThreshold else {
+            return .infinity
+        }
+        let maxPerRow = Int(ceil(Double(chips.count) / 2.0))
+        return chips.prefix(maxPerRow).reduce(0) { $0 + $1.chipWidth }
+    }
+
     // Greedily wraps chips into rows no wider than wrapWidth, stacking overflow
-    // rows below the first - the first row filled is the one closest to the
-    // anchored edge, matching the old bottom-up AppKit layout (row 0 at the
-    // higher y, each subsequent row lower), which a plain top-to-bottom VStack
+    // rows below the first - what WrapPanel does with that MaxWidth. The first
+    // row filled is the one closest to the anchored edge (row 0 at the higher
+    // y, each subsequent row lower), which a plain top-to-bottom VStack
     // reproduces directly.
     private var rows: [[CounterChipViewModel]] {
+        let wrapWidth = self.wrapWidth
         var rows: [[CounterChipViewModel]] = []
         var current: [CounterChipViewModel] = []
         var width: CGFloat = 0
         for chip in viewModel.chips {
             let chipWidth = chip.chipWidth
-            if width + chipWidth > Self.wrapWidth && !current.isEmpty {
+            if width + chipWidth > wrapWidth && !current.isEmpty {
                 rows.append(current)
                 current = []
                 width = 0
@@ -101,7 +123,10 @@ struct CountersOverlayView: View {
                 }
             }
         }
-        .frame(width: Self.wrapWidth, alignment: .topLeading)
+        // No width of its own: WrapPanel's MaxWidth only bounds where the rows
+        // break (which `rows` has already applied), and the block is anchored
+        // by its left edge, so its laid-out width is whatever the widest row
+        // needs.
     }
 
     // Canvas.SetLeft(counters, Helper.GetScaledXPos(horizontal / 100, Width,
