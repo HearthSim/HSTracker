@@ -61,10 +61,6 @@ class WindowManager {
         return $0
     }(TimerHud(windowNibName: "TimerHud"))
 
-    var bobsBuddyPanel: BobsBuddyPanel = {
-        return $0
-    }(BobsBuddyPanel(windowNibName: "BobsBuddyPanel"))
-    
     var experiencePanel: ExperienceOverlay = {
         return $0
     }(ExperienceOverlay(windowNibName: "ExperienceOverlay"))
@@ -243,7 +239,6 @@ class WindowManager {
             self?.timerHud.window?.orderOut(nil)
             self?.playerBoardDamage.window?.orderOut(nil)
             self?.opponentBoardDamage.window?.orderOut(nil)
-            self?.bobsBuddyPanel.window?.orderOut(nil)
             self?.cardHudContainer.reset()
             self?.playerBoardOverlay.window?.orderOut(nil)
             self?.opponentBoardOverlay.window?.orderOut(nil)

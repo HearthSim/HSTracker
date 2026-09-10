@@ -70,9 +70,6 @@ final class BattlegroundsOpponentInfoViewModel: ObservableObject {
     static let leaderboardSlots = 8
 
     private var hoveredEntityId: Int?
-    // Whether this view model was the one that took Bob's Buddy down, so it only
-    // puts back a panel it hid itself.
-    private var bobsBuddyHidden = false
 
     // OverlayWindow._leaderboardHoveredEntityId, pushed by
     // BattlegroundsLeaderboardWatcher.
@@ -153,25 +150,12 @@ final class BattlegroundsOpponentInfoViewModel: ObservableObject {
         // HDT keeps Bob's Buddy and the top bar up and merely fades them to 0.3
         // while the panel is out; HSTracker has always hidden them instead,
         // because its own panel is wider than HDT's and covers the same corner.
-        let windowManager = game.windowManager
-        if shouldShowOpponentInfo {
-            game.hideBobsBuddy = true
-            game.hideBattlegroundsTurn = true
-            game.updateTurnCounterOverlay()
-
-            if windowManager.bobsBuddyPanel.window?.isVisible ?? false {
-                bobsBuddyHidden = true
-                windowManager.show(controller: windowManager.bobsBuddyPanel, show: false)
-            }
-        } else {
-            game.hideBobsBuddy = false
-            if bobsBuddyHidden {
-                bobsBuddyHidden = false
-                windowManager.show(controller: windowManager.bobsBuddyPanel, show: true)
-            }
-            game.hideBattlegroundsTurn = false
-            game.updateTurnCounterOverlay()
-        }
+        // Bob's Buddy is a RootOverlay child now, so setting the flag its own
+        // visibility already reads and asking for a recompute is all it takes.
+        game.hideBobsBuddy = shouldShowOpponentInfo
+        game.hideBattlegroundsTurn = shouldShowOpponentInfo
+        game.updateBobsBuddyOverlay()
+        game.updateTurnCounterOverlay()
     }
 
     // BgsOpponentInfo.Update / ClearLastKnownBoard, plus the hero-power push

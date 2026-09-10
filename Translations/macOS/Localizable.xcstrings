@@ -3904,6 +3904,61 @@
         }
       }
     },
+    "BobsBuddyPanel_Label_AVG" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AVG DMG"
+          }
+        }
+      }
+    },
+    "BobsBuddyPanel_Label_Lethal" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "LETHAL"
+          }
+        }
+      }
+    },
+    "BobsBuddyPanel_Label_Loss" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "LOSS"
+          }
+        }
+      }
+    },
+    "BobsBuddyPanel_Label_Tie" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TIE"
+          }
+        }
+      }
+    },
+    "BobsBuddyPanel_Label_Win" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "WIN"
+          }
+        }
+      }
+    },
     "BobsBuddyStatusMessage_CurrentCombatPartial" : {
       "extractionState" : "manual",
       "localizations" : {

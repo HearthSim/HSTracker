@@ -113,6 +113,22 @@ struct RootOverlayView: View {
                     CountersOverlayView(viewModel: viewModel.opponentCounters, canvasWidth: canvasWidth)
                     CountersOverlayView(viewModel: viewModel.playerCounters, canvasWidth: canvasWidth)
 
+                    // Bob's Buddy, centred on the canvas top - its
+                    // OverlayElementBehavior is
+                    //   GetLeft = Width / 2 - ActualWidth * AutoScaling / 2
+                    //   GetTop  = 0
+                    //   GetScaling = AutoScaling
+                    // which, since this subtree already applies that scale, is
+                    // just "centred horizontally, at the canvas top". HDT
+                    // declares it ahead of BgsOpponentInfoContainer, and the
+                    // two never share the screen: the opponent panel takes the
+                    // same corner and hides this one while it is up.
+                    ZStack(alignment: .top) {
+                        Color.clear
+                        BobsBuddyPanelView(viewModel: viewModel.bobsBuddy)
+                    }
+                    .frame(width: canvasWidth, height: 1080)
+
                     // The hovered opponent's warband, pinned to the top edge of
                     // the canvas and centred on it - HDT's
                     // BgsOpponentInfoContainer is a Width="1000" StackPanel at

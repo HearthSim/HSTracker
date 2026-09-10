@@ -120,7 +120,15 @@ class BobsBuddyInvoker {
     private static var _instances = SynchronizedDictionary<String, BobsBuddyInvoker>()
     private static var _currentGameId = ""
     
-    private static let bobsBuddyDisplay = AppDelegate.instance().coreManager.game.windowManager.bobsBuddyPanel
+    // The panel is a RootOverlay child now, and so gated on the SwiftUI
+    // baseline this file is not - hence the protocol, and the optional every
+    // call site below goes through.
+    private static var bobsBuddyDisplay: BobsBuddyDisplay? {
+        if #available(macOS 10.15, *) {
+            return AppDelegate.instance().coreManager.game.windowManager.rootOverlay?.viewModel.bobsBuddy
+        }
+        return nil
+    }
     
     private init(key: String) {
         _instanceKey = key
@@ -172,9 +180,9 @@ class BobsBuddyInvoker {
         return MonoHelper.withMonoThread {
             if game.isBattlegroundsDuosMatch() {
                 snapshotBoardState(turn: game.turnNumber())
-                BobsBuddyInvoker.bobsBuddyDisplay.setState(st: .waitingForTeammates)
+                BobsBuddyInvoker.bobsBuddyDisplay?.setState(st: .waitingForTeammates)
                 DispatchQueue.main.async {
-                    BobsBuddyInvoker.bobsBuddyDisplay.resetText()
+                    BobsBuddyInvoker.bobsBuddyDisplay?.resetText()
                 }
                 if input != nil && (duosInputPlayerTeammate == nil || duosInputOpponentTeammate == nil) {
                     logger.debug("Waiting Teammates. Exiting.")
@@ -225,7 +233,7 @@ class BobsBuddyInvoker {
                 }
             
                 logger.debug("Setting UI state to combat...")
-                BobsBuddyInvoker.bobsBuddyDisplay.setState(st: .combat)
+                BobsBuddyInvoker.bobsBuddyDisplay?.setState(st: .combat)
             
                 func hpAny(_ list: MonoHandle) -> Bool {
                     return MonoList<HeroPowerDataProxy>(list).contains { hp in
@@ -239,7 +247,7 @@ class BobsBuddyInvoker {
             
                 _ = runAndDisplaySimulationAsync().catch({ error in
                     logger.error("Error running simulation: \(error.localizedDescription)")
-                    BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .failedToLoad)
+                    BobsBuddyInvoker.bobsBuddyDisplay?.setErrorState(error: .failedToLoad)
                     var inputString = ""
                     if let input = self.input {
                         inputString = input.unitestCopyableVersion()
@@ -271,9 +279,9 @@ class BobsBuddyInvoker {
                 state = .combatPartial
                 logger.debug("Setting UI state to combat...")
             
-                BobsBuddyInvoker.bobsBuddyDisplay.setState(st: .combatPartial)
+                BobsBuddyInvoker.bobsBuddyDisplay?.setState(st: .combatPartial)
                 DispatchQueue.main.async {
-                    BobsBuddyInvoker.bobsBuddyDisplay.resetText()
+                    BobsBuddyInvoker.bobsBuddyDisplay?.resetText()
                 }
             
                 // Enforce input teammate to be null if teammate was not snapshot
@@ -300,7 +308,7 @@ class BobsBuddyInvoker {
             logger.debug("Running simulation...")
             let startTime = Date()
             DispatchQueue.main.async {
-                BobsBuddyInvoker.bobsBuddyDisplay.hidePercentagesShowSpinners()
+                BobsBuddyInvoker.bobsBuddyDisplay?.hidePercentagesShowSpinners()
             }
             _ = runSimulation().done { (result) in
                 guard let top = result, let input = self.input else {
@@ -318,7 +326,7 @@ class BobsBuddyInvoker {
                     if top.simulationCount <= 500 && top.getMyExitCondition() ==  .time {
                         logger.debug("Could not perform enough simulations. Displaying error state and exiting.")
                         self.errorState = .notEnoughData
-                        BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .notEnoughData)
+                        BobsBuddyInvoker.bobsBuddyDisplay?.setErrorState(error: .notEnoughData)
                     } else if self.state == .combatPartial {
                         logger.debug("Displaying partial simulation results")
                         let winRate = top.winRate
@@ -332,7 +340,7 @@ class BobsBuddyInvoker {
                         let opponentCanDie = input.opponent.health <= input.damageCap
                     
                         DispatchQueue.main.async {
-                            BobsBuddyInvoker.bobsBuddyDisplay.showPartialDuosSimulation(winRate: winRate, tieRate: tieRate, lossRate: lossRate, playerLethal: theirDeathRate, opponentLethal: myDeathRate, possibleResults: possibleResults, friendlyWon: friendlyWon, playerCanDie: playerCanDie, opponentCanDie: opponentCanDie)
+                            BobsBuddyInvoker.bobsBuddyDisplay?.showPartialDuosSimulation(winRate: winRate, tieRate: tieRate, lossRate: lossRate, playerLethal: theirDeathRate, opponentLethal: myDeathRate, possibleResults: possibleResults, friendlyWon: friendlyWon, playerCanDie: playerCanDie, opponentCanDie: opponentCanDie)
                         }
                     } else {
                         logger.debug("Displaying simulation results")
@@ -344,7 +352,7 @@ class BobsBuddyInvoker {
                         let possibleResults = top.getResultDamage()
                     
                         DispatchQueue.main.async {
-                            BobsBuddyInvoker.bobsBuddyDisplay.showCompletedSimulation(winRate: winRate, tieRate: tieRate, lossRate: lossRate, playerLethal: theirDeathRate, opponentLethal: myDeathRate, possibleResults: possibleResults)
+                            BobsBuddyInvoker.bobsBuddyDisplay?.showCompletedSimulation(winRate: winRate, tieRate: tieRate, lossRate: lossRate, playerLethal: theirDeathRate, opponentLethal: myDeathRate, possibleResults: possibleResults)
                         }
                     }
                     self.output = top
@@ -352,7 +360,7 @@ class BobsBuddyInvoker {
                 }
             }.catch({ error in
                 logger.error("Error running simulation: \(error.localizedDescription)")
-                BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .failedToLoad)
+                BobsBuddyInvoker.bobsBuddyDisplay?.setErrorState(error: .failedToLoad)
                 Influx.sendEvent(eventName: "runSimulation failed", withProperties: [ "error": error.localizedDescription])
                 seal.fulfill(false)
             })
@@ -479,7 +487,7 @@ class BobsBuddyInvoker {
                         
                             Influx.breadcrumb(eventName: "simulation_complete", withProperties: ["turn": "\(self.game.turnNumber())"])
                         } catch let error as UnsupportedInteraction {
-                            BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .unsupportedInteraction, message: error.message)
+                            BobsBuddyInvoker.bobsBuddyDisplay?.setErrorState(error: .unsupportedInteraction, message: error.message)
                             result = nil
                         } catch {
                             var inputString = ""
@@ -492,7 +500,7 @@ class BobsBuddyInvoker {
                                 }
                             })
                             logger.error("Unknown error")
-                            BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .none)
+                            BobsBuddyInvoker.bobsBuddyDisplay?.setErrorState(error: .none)
                             result = nil
                         }
                     } else {
@@ -535,7 +543,7 @@ class BobsBuddyInvoker {
         if hasErrorState() {
             return
         }
-        BobsBuddyInvoker.bobsBuddyDisplay.setState(st: wasPreviousStatePartial ? .gameOverAfterPartial : .gameOver)
+        BobsBuddyInvoker.bobsBuddyDisplay?.setState(st: wasPreviousStatePartial ? .gameOverAfterPartial : .gameOver)
         validateSimulationResult()
     }
     
@@ -543,7 +551,7 @@ class BobsBuddyInvoker {
         if errorState == .none {
             return false
         }
-        BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: errorState)
+        BobsBuddyInvoker.bobsBuddyDisplay?.setErrorState(error: errorState)
         logger.debug("ErrorState=\(errorState)")
         return true
     }
@@ -1538,7 +1546,7 @@ class BobsBuddyInvoker {
             if shouldRun() {
                 let expandAfterError = errorState == .none && Settings.showBobsBuddyDuringCombat
                 errorState = .none
-                BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .none, show: expandAfterError)
+                BobsBuddyInvoker.bobsBuddyDisplay?.setErrorState(error: .none, show: expandAfterError)
                 output = nil
                 _ = runAndDisplaySimulationAsync()
             }
