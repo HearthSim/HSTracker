@@ -72,6 +72,14 @@ struct RootOverlayView: View {
                 ZStack {
                     ConstructedMulliganGuideV2View(viewModel: viewModel.mulliganGuideV2)
 
+                    // Both counter blocks are children of HDT's own overlay
+                    // canvas, declared opponent-first
+                    // (Windows/OverlayWindow.xaml), and are scaled by the same
+                    // Height/1080 factor this subtree applies - see
+                    // CountersOverlayView for the placement they carry.
+                    CountersOverlayView(viewModel: viewModel.opponentCounters, canvasWidth: canvasWidth)
+                    CountersOverlayView(viewModel: viewModel.playerCounters, canvasWidth: canvasWidth)
+
                     // Wrapped in its own top-trailing-anchored ZStack rather
                     // than positioned directly: the outer ZStack here has no
                     // alignment of its own (its children default-center),

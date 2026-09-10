@@ -4,6 +4,7 @@
 - Fixed HSTracker quitting when the Game settings pane was opened and Hearthstone could not be found.
 - Fixed the deck manager freezing the whole app, sometimes for hours, when the decks were sorted by win percentage, wins, losses or games played, and those columns counting only ranked games.
 - Fixed HSTracker forgetting every setting on launch and asking for the languages again, and the first-run window now shows the languages that are already configured.
+- The counters now match Hearthstone Deck Tracker: they scale with the game window, the opponent's sit where Hearthstone Deck Tracker puts them, and hovering one shows its related cards again.
 ## Battlegrounds
 - Fixed the counter tooltips showing the previously hovered counter's card art, and the Blood Gem counter listing itself instead of the Quilboar payoffs.
 - Fixed trinket guide tooltips stacking up and being left behind on the game board.

@@ -86,6 +86,7 @@ class RootOverlayWindow: OverWindowController {
         let viewPoint = hostingView.convert(windowPoint, from: nil)
 
         updateFilterRegionHover(at: viewPoint)
+        updateCounterHover()
 
         guard !viewModel.interactiveRegions.isEmpty else {
             setIgnoresMouseEvents(true)
@@ -116,6 +117,31 @@ class RootOverlayWindow: OverWindowController {
         withAnimation(.easeOut(duration: hovering ? 0.2 : 0.4)) {
             minions.isFilterRegionHovered = hovering
         }
+    }
+
+    // HDT's counters are IsOverlayHoverVisible: hovering one puts up its
+    // related-cards grid while clicks over it still fall through to
+    // Hearthstone. Matched from the cursor position here rather than from an
+    // NSTrackingArea inside the chip for the same reason as the filter region
+    // above - a click-through window is delivered no mouse-entered events -
+    // and called before the interactive-region guard so it keeps working while
+    // the canvas has no interactive children at all, which is the normal case
+    // during a constructed match.
+    private func updateCounterHover() {
+        guard let overlayWindow = window else { return }
+        let screenLocation = NSEvent.mouseLocation
+
+        let match = CounterHoverRegistry.shared.entries.last { entry in
+            guard let nsView = entry.view,
+                  nsView.window === overlayWindow else { return false }
+            let rectInWindow = nsView.convert(nsView.bounds, to: nil)
+            return overlayWindow.convertToScreen(rectInWindow).contains(screenLocation)
+        }
+
+        let anchor = match?.view.map { view in
+            overlayWindow.convertToScreen(view.convert(view.bounds, to: nil))
+        }
+        CounterTooltipController.shared.hover(counter: match?.counter, anchor: anchor)
     }
 
     private func setIgnoresMouseEvents(_ ignores: Bool) {

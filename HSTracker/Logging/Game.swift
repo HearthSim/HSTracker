@@ -530,44 +530,34 @@ class Game: NSObject, PowerEventHandler {
         }
     }
     
+    // The counters live on the RootOverlay canvas, so there is no window of
+    // their own left to frame, show or hide: a side with nothing to show
+    // renders nothing, and hideAllWhenGameInBackground is already handled once
+    // for the whole canvas in updateRootOverlay().
     func updateCounters() {
-        DispatchQueue.main.async { [self] in
-            let hsActive = hearthstoneRunState.isActive
+        if #available(macOS 10.15, *) {
+            DispatchQueue.main.async { [self] in
+                guard let viewModel = windowManager.rootOverlay?.viewModel else { return }
 
-            if isInMenu || !isMulliganDone() || !shouldShowTracker {
-                windowManager.playerCountersOverlay.visibility = false
-                windowManager.opponentCountersOverlay.visibility = false
-            } else {
-                windowManager.playerCountersOverlay.visibility = Settings.showPlayerCounters
-                windowManager.opponentCountersOverlay.visibility = Settings.showOpponentCounters
-            }
-            
-            if windowManager.playerCountersOverlay.visibility && windowManager.playerCountersOverlay.visibleCounters.count > 0 {
-                if (Settings.hideAllWhenGameInBackground && hsActive) || !Settings.hideAllWhenGameInBackground {
-                    windowManager.show(controller: windowManager.playerCountersOverlay, show: true, frame: SizeHelper.playerCountersFrame(), overlay: true)
-                    if windowManager.playerCountersOverlay.needsUpdate() {
-                        DispatchQueue.main.async {
-                            self.windowManager.playerCountersOverlay.update()
-                        }
-                    }
+                if isInMenu || !isMulliganDone() || !shouldShowTracker {
+                    viewModel.playerCounters.isShown = false
+                    viewModel.opponentCounters.isShown = false
                 } else {
-                    windowManager.show(controller: windowManager.playerCountersOverlay, show: false)
+                    viewModel.playerCounters.isShown = Settings.showPlayerCounters
+                    viewModel.opponentCounters.isShown = Settings.showOpponentCounters
                 }
             }
+        }
+    }
 
-            if windowManager.opponentCountersOverlay.visibility && windowManager.opponentCountersOverlay.visibleCounters.count > 0 {
-                if (Settings.hideAllWhenGameInBackground && hsActive) || !Settings.hideAllWhenGameInBackground {
-                    windowManager.show(controller: windowManager.opponentCountersOverlay, show: true, frame: SizeHelper.opponentCountersFrame(), overlay: true)
-                    if windowManager.opponentCountersOverlay.needsUpdate() {
-                        DispatchQueue.main.async {
-                            self.windowManager.opponentCountersOverlay.update()
-                        }
-                    }
-                } else {
-                    windowManager.show(controller: windowManager.opponentCountersOverlay, show: false)
-                }
+    // The player's counters are a RootOverlay child rather than a window of
+    // their own, so refreshing them is a view-model call - wrapped here because
+    // the callers are not themselves gated on the SwiftUI baseline.
+    func updatePlayerCounters() {
+        if #available(macOS 10.15, *) {
+            DispatchQueue.main.async {
+                self.windowManager.rootOverlay?.viewModel.playerCounters.updateVisibleCounters()
             }
-
         }
     }
     
@@ -4014,9 +4004,7 @@ class Game: NSObject, PowerEventHandler {
             }
         }
         player.offeredEntityIds = choice.offeredEntityIds ?? [Int]()
-        DispatchQueue.main.async {
-            self.windowManager.playerCountersOverlay.updateVisibleCounters()
-        }
+        updatePlayerCounters()
     }
     
     // MARK: - Battlegrounds tier 7 sources
@@ -4071,7 +4059,7 @@ class Game: NSObject, PowerEventHandler {
             windowManager.battlegroundsTrinketPicking.viewModel.setTrinketStats(data)
         }
         player.offeredEntityIds = choice.offeredEntityIds ?? [Int]()
-        windowManager.playerCountersOverlay.updateVisibleCounters()
+        updatePlayerCounters()
 
     }
     

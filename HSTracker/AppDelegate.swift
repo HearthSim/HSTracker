@@ -707,12 +707,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
                 game.windowManager.playerActiveEffectsOverlay.forceHideExampleEffects()
                 game.windowManager.playerActiveEffectsOverlay.updateGrid()
                 
-                game.windowManager.playerCountersOverlay.forceHideExampleCounters()
+                if #available(macOS 10.15, *) {
+                    game.windowManager.rootOverlay?.viewModel.playerCounters.forceHideExampleCounters()
+                }
             } else {
                 game.windowManager.playerActiveEffectsOverlay.forceShowExampleEffects(true)
                 game.windowManager.playerActiveEffectsOverlay.updateGrid()
                 
-                game.windowManager.playerCountersOverlay.forceShowExampleCounters()
+                if #available(macOS 10.15, *) {
+                    game.windowManager.rootOverlay?.viewModel.playerCounters.forceShowExampleCounters()
+                }
             }
         }
     }

@@ -68,8 +68,10 @@ final class CoreManager: NSObject {
         
         game.windowManager.playerActiveEffectsOverlay.setActiveEffects(game.activeEffects)
         game.windowManager.opponentActiveEffectsOverlay.setActiveEffects(game.activeEffects)
-        game.windowManager.playerCountersOverlay.setCounters(game.counterManager)
-        game.windowManager.opponentCountersOverlay.setCounters(game.counterManager)
+        if #available(macOS 10.15, *) {
+            game.windowManager.rootOverlay?.viewModel.playerCounters.setCounters(game.counterManager)
+            game.windowManager.rootOverlay?.viewModel.opponentCounters.setCounters(game.counterManager)
+        }
         game.activeEffects.effectsChanged = {
             self.game.windowManager.playerActiveEffectsOverlay.updateVisibleEffects()
             self.game.windowManager.opponentActiveEffectsOverlay.updateVisibleEffects()

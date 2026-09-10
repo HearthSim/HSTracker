@@ -133,16 +133,6 @@ class WindowManager {
         return $0
     }(ActiveEffectsOverlay(windowNibName: "ActiveEffectsOverlay"))
 
-    var playerCountersOverlay: CountersOverlay = {
-        $0.isPlayer = true
-        return $0
-    }(CountersOverlay(windowNibName: "CountersOverlay"))
-
-    var opponentCountersOverlay: CountersOverlay = {
-        $0.isPlayer = false
-        return $0
-    }(CountersOverlay(windowNibName: "CountersOverlay"))
-
     private var _playerPlayerResourcesOverlay: Any?
     @available(OSX 10.15, *)
     var playerPlayerResourcesOverlay: PlayerResourcesWindow? {

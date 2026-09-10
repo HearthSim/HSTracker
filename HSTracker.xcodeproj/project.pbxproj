@@ -871,7 +871,8 @@
 		AE4A5B0B5B58399C74BFD036 /* DruidOfRegrowth.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB2E650284546CDC9B26697 /* DruidOfRegrowth.swift */; };
 		AF0AD113CF4624B8AD5501C2 /* CactusConstruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFB64810E93DD25C03AA892 /* CactusConstruct.swift */; };
 		AF242CF85CFE107300D4448B /* Nebula.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2A88FCFF78C1253F82D826 /* Nebula.swift */; };
-		AF242E1567C97B1534849012 /* CountersOverlayContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA91B2C5880F366B5209463B /* CountersOverlayContentView.swift */; };
+		AF242E1567C97B1534849012 /* CountersOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA91B2C5880F366B5209463B /* CountersOverlayView.swift */; };
+		B8C0A1112CCD500000F74CD9 /* CountersOverlayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C0A1102CCD500000F74CD9 /* CountersOverlayViewModel.swift */; };
 		AF3D18F2EAC59504DA60C82D /* UnstableEvolution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F2D438A01B8A24BE375EA1 /* UnstableEvolution.swift */; };
 		AFC299D6005C682B06769FA9 /* ShadowedInformant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B90E9F7F7B559A5C0816DD /* ShadowedInformant.swift */; };
 		B03B557B98A6611748DD0CAD /* Reconnaissance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0954EA4E0A9C8157991D89C5 /* Reconnaissance.swift */; };
@@ -944,8 +945,6 @@
 		B8196F1D2CC871A6007C0371 /* AstralAutomatonCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8196F1C2CC871A6007C0371 /* AstralAutomatonCounter.swift */; };
 		B8196F1F2CC87293007C0371 /* BloodGemCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8196F1E2CC87293007C0371 /* BloodGemCounter.swift */; };
 		B8196F212CC9A203007C0371 /* CounterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8196F202CC9A203007C0371 /* CounterManager.swift */; };
-		B8196F272CCD4135007C0371 /* CountersOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8196F262CCD4135007C0371 /* CountersOverlay.xib */; };
-		B8196F292CCD416F007C0371 /* CountersOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8196F282CCD416F007C0371 /* CountersOverlay.swift */; };
 		B81B3D632D10CDE900DC9EB0 /* ICardExtraInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81B3D622D10CDE900DC9EB0 /* ICardExtraInfo.swift */; };
 		B81B3D652D10CE1300DC9EB0 /* IncidiusCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81B3D642D10CE1300DC9EB0 /* IncidiusCounter.swift */; };
 		B81B3D892D4094E900DC9EB0 /* ChattyMacaw.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81B3D882D4094E900DC9EB0 /* ChattyMacaw.swift */; };
@@ -2911,7 +2910,8 @@
 		A97939C4EA13DEC8A16EB021 /* MulliganV2StatusData.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MulliganV2StatusData.swift; sourceTree = "<group>"; };
 		AA1B2C3D4E5F6A7B8C9D0E1F /* BattlegroundsMinionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsMinionsViewModel.swift; sourceTree = "<group>"; };
 		AA3DB15609E8DD81E526C05C /* FlintFirearm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlintFirearm.swift; sourceTree = "<group>"; };
-		AA91B2C5880F366B5209463B /* CountersOverlayContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountersOverlayContentView.swift; sourceTree = "<group>"; };
+		AA91B2C5880F366B5209463B /* CountersOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountersOverlayView.swift; sourceTree = "<group>"; };
+		B8C0A1102CCD500000F74CD9 /* CountersOverlayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountersOverlayViewModel.swift; sourceTree = "<group>"; };
 		AB4A87D09EC33560CCD354EA /* VexCrow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VexCrow.swift; sourceTree = "<group>"; };
 		ABACC6E4541AF219E643ECE5 /* DraconicStudies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraconicStudies.swift; sourceTree = "<group>"; };
 		AC1BA8C76F268B7BA2EAF645 /* GuideCardText.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GuideCardText.swift; sourceTree = "<group>"; };
@@ -2989,8 +2989,6 @@
 		B8196F1C2CC871A6007C0371 /* AstralAutomatonCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AstralAutomatonCounter.swift; sourceTree = "<group>"; };
 		B8196F1E2CC87293007C0371 /* BloodGemCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BloodGemCounter.swift; sourceTree = "<group>"; };
 		B8196F202CC9A203007C0371 /* CounterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterManager.swift; sourceTree = "<group>"; };
-		B8196F262CCD4135007C0371 /* CountersOverlay.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CountersOverlay.xib; sourceTree = "<group>"; };
-		B8196F282CCD416F007C0371 /* CountersOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountersOverlay.swift; sourceTree = "<group>"; };
 		B81B3D622D10CDE900DC9EB0 /* ICardExtraInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ICardExtraInfo.swift; sourceTree = "<group>"; };
 		B81B3D642D10CE1300DC9EB0 /* IncidiusCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidiusCounter.swift; sourceTree = "<group>"; };
 		B81B3D882D4094E900DC9EB0 /* ChattyMacaw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChattyMacaw.swift; sourceTree = "<group>"; };
@@ -4589,8 +4587,6 @@
 				B8D8859724F40D4E00F2F0F2 /* ClickableBox.swift */,
 				B89586422B804DF300989C13 /* Constructed */,
 				A0513765E60521E5C22836D8 /* Counters */,
-				B8196F282CCD416F007C0371 /* CountersOverlay.swift */,
-				B8196F262CCD4135007C0371 /* CountersOverlay.xib */,
 				4360329E1C7D0113005F1893 /* DeckManager */,
 				439C7ECF1C777FA900D29859 /* ImageUtils.swift */,
 				B8C1F1BD295553F7001E078C /* MainMenu.xib */,
@@ -4852,7 +4848,8 @@
 			isa = PBXGroup;
 			children = (
 				3C57685B3ADDD6F597BA9277 /* CounterChipView.swift */,
-				AA91B2C5880F366B5209463B /* CountersOverlayContentView.swift */,
+				AA91B2C5880F366B5209463B /* CountersOverlayView.swift */,
+				B8C0A1102CCD500000F74CD9 /* CountersOverlayViewModel.swift */,
 			);
 			path = Counters;
 			sourceTree = "<group>";
@@ -7066,7 +7063,6 @@
 				B8D75B8F25A9DC9A00446923 /* ExperienceOverlay.xib in Resources */,
 				432B60351CB6A8CC00B05D19 /* FloatingCard.xib in Resources */,
 				B83CF377294E6242003C9062 /* BattlegroundsCompositionPopularity.xib in Resources */,
-				B8196F272CCD4135007C0371 /* CountersOverlay.xib in Resources */,
 				B89899682CB5F94C0011B184 /* ActiveEffectsOverlay.xib in Resources */,
 				F7D7A3AE2017B51300E3A5F0 /* dsa_pub.pem in Resources */,
 				B83CF371294E4379003C9062 /* BattlegroundsCompositionPopularityRow.xib in Resources */,
@@ -8024,7 +8020,8 @@
 				D5CE0C37E72BCDF908B9BACA /* YoggInTheBox.swift in Sources */,
 				639CD49E06E16725CB4555E9 /* RitualOfLife.swift in Sources */,
 				B3F0708D0880295D75E00378 /* CounterChipView.swift in Sources */,
-				AF242E1567C97B1534849012 /* CountersOverlayContentView.swift in Sources */,
+				AF242E1567C97B1534849012 /* CountersOverlayView.swift in Sources */,
+				B8C0A1112CCD500000F74CD9 /* CountersOverlayViewModel.swift in Sources */,
 				C047DB3ABDED54B56FB46CF6 /* PoolStatistics.swift in Sources */,
 				3BAA98714F3FBC242006D4FD /* StatBar.swift in Sources */,
 				BD8BA04BA44C92D25E86BA2B /* ICardWithDynamicRelatedCardsSummary.swift in Sources */,
@@ -8193,7 +8190,6 @@
 				B94F9579FA39AA1020D4E556 /* ForbiddenShrine.swift in Sources */,
 				30DA6E144FC5E60CF0E94939 /* JailhouseManastorm.swift in Sources */,
 				79AFA21BC321DE51EE4E8B74 /* ScrappyScavenger.swift in Sources */,
-				B8196F292CCD416F007C0371 /* CountersOverlay.swift in Sources */,
 				B804FC342944416A00F74CD9 /* TextButton.swift in Sources */,
 				43B6955B1C9065AC00F4D0AC /* Secret.swift in Sources */,
 				B89865D12D92074700BA5649 /* Flowrider.swift in Sources */,
