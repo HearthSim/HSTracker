@@ -17846,6 +17846,39 @@
         }
       }
     },
+    "Toast_Battlegrounds_Compare_Heroes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compare Heroes"
+          }
+        }
+      }
+    },
+    "Toast_Battlegrounds_HSReplaynet" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "HSReplay.net - Battlegrounds"
+          }
+        }
+      }
+    },
+    "Toast_Battlegrounds_Timewarp" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compare Timewarped Cards"
+          }
+        }
+      }
+    },
     "Toast_Mulligan_NotOnWebsite" : {
       "extractionState" : "manual",
       "localizations" : {

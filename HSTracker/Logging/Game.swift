@@ -666,18 +666,12 @@ class Game: NSObject, PowerEventHandler {
 
     func updateBattlegroundsOverlays() {
         DispatchQueue.main.async {
-            let hsActive = self.hearthstoneRunState.isActive
-            
-            // The session panel lives on the RootOverlay canvas, so there is no
-            // window of its own to move or hide - the same visibility rules it
-            // is given everywhere else cover the focus change too.
+            // Every Battlegrounds overlay is a RootOverlay child now, and
+            // unlike the AppKit windows they replaced none of them needs a
+            // frame or a window level from here: Game.updateRootOverlay hides
+            // the whole canvas when Hearthstone goes to the background. Only
+            // the session panel has visibility rules of its own to re-run.
             self.updateBattlegroundsSessionVisibility()
-            // The Tier7 pre-lobby panel and all three pickers are RootOverlay
-            // children now too, and unlike the AppKit windows they replaced
-            // they need nothing here at all: Game.updateRootOverlay already
-            // hides the whole canvas when Hearthstone goes to the background.
-
-
         }
     }
     
@@ -4663,35 +4657,46 @@ class Game: NSObject, PowerEventHandler {
     }
     
     func showBattlegroundsHeroPanel(_ heroIds: [Int], _ duos: Bool, _ parameters: [String: String]?) {
-        DispatchQueue.main.async {
-            let toast = BgHeroesToastView(frame: NSRect.zero)
-            toast.heroIds = heroIds
-            toast.duos = duos
-            toast.anomalyDbfId = BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: self.gameEntity)
-            toast.parameters = parameters
-            
-            AppDelegate.instance().coreManager.toaster.displayToast(view: toast, timeoutMillis: 0)
+        if #available(macOS 10.15, *) {
+            let anomalyDbfId = BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: gameEntity)
+            windowManager.rootOverlay?.viewModel.battlegroundsNotifications
+                .showHeroPick(heroIds: heroIds, duos: duos, anomalyDbfId: anomalyDbfId, parameters: parameters)
         }
     }
     
     func hideBattlegroundsHeroPanel() {
-        DispatchQueue.main.async {
-            AppDelegate.instance().coreManager.toaster.hide()
+        if #available(macOS 10.15, *) {
+            windowManager.rootOverlay?.viewModel.battlegroundsNotifications.hideHeroPick()
         }
     }
 
+    // OverlayWindow._tavernMarkersPanelExpandedBeforeTimewarp.
+    private var tavernMarkersPanelExpandedBeforeTimewarp: Bool?
+
     func showBattlegroundsTimewarpPanel(_ boardCards: [MirrorBoardCard]) {
-        DispatchQueue.main.async {
-            let toast = BattlegroundsTimewarpPanel(frame: NSRect.zero)
-            toast.boardCards = boardCards
-            
-            AppDelegate.instance().coreManager.toaster.displayToast(view: toast, timeoutMillis: 0)
+        if #available(macOS 10.15, *) {
+            guard let viewModel = windowManager.rootOverlay?.viewModel else {
+                return
+            }
+            // HDT collapses the Tavern Pinning panel while the Timewarp shop is
+            // up and puts it back the way it found it afterwards - the panel
+            // shares that corner with the compare-cards shop.
+            if !viewModel.battlegroundsNotifications.timewarpIsShown {
+                tavernMarkersPanelExpandedBeforeTimewarp = viewModel.battlegroundsMinionPinning.isExpanded
+                viewModel.battlegroundsMinionPinning.isExpanded = false
+            }
+            viewModel.battlegroundsNotifications.showTimewarp(boardCards: boardCards)
         }
     }
 
     func hideBattlegroundsTimewarpPanel() {
-        DispatchQueue.main.async {
-            AppDelegate.instance().coreManager.toaster.hide()
+        if #available(macOS 10.15, *) {
+            windowManager.rootOverlay?.viewModel.battlegroundsNotifications.hideTimewarp()
+
+            if let expanded = tavernMarkersPanelExpandedBeforeTimewarp {
+                windowManager.rootOverlay?.viewModel.battlegroundsMinionPinning.isExpanded = expanded
+                tavernMarkersPanelExpandedBeforeTimewarp = nil
+            }
         }
     }
 

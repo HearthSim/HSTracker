@@ -16,6 +16,7 @@
 - The quest and trinket picking stats are drawn the way Hearthstone Deck Tracker draws them, the quest stats explain themselves on hover, and the trinket show/hide button and guide tooltips no longer take the mouse away from the rest of the game window.
 - Hovering an offered hero or quest reward now shows its guide, the way hovering a trinket already did, and every guide tooltip is hidden when the Battlegrounds guides are switched off.
 - Bob's Buddy now matches Hearthstone Deck Tracker: the combat odds scale with the game window, the average damage panels open beside them rather than under them, and only the status bar takes the mouse.
+- The "Compare Heroes" and "Compare Timewarped Cards" offers now match Hearthstone Deck Tracker: they slide up from the bottom-right of the game window, scale with it, name the site they open, and the Tavern Pinning panel folds away while the Timewarp shop is up.
 ## Bob's Buddy
 - Fixed Bob's Buddy being left without odds because the app shipped an incomplete, out-of-date copy of the runtime it simulates with.
 - Fixed HSTracker crashing during a Battlegrounds combat with Scoutmaster Tavish's Lock and Load, a magnetized Auto Assembler, or a minion granted "Crab Riding". (#1436)

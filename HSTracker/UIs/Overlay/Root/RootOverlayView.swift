@@ -151,6 +151,13 @@ struct RootOverlayView: View {
                     }
                     .frame(width: canvasWidth, height: 1080)
 
+                    // HDT's HeroNotificationPanel and TimewarpNotificationPanel,
+                    // declared right after BgsOpponentInfoContainer on its own
+                    // canvas and, like it, scaled by AutoScaling - the scale
+                    // this subtree already applies.
+                    BattlegroundsNotificationsView(viewModel: viewModel.battlegroundsNotifications,
+                                                   canvasWidth: canvasWidth)
+
                     // The Battlegrounds hero picking stats, which HDT
                     // declares right after BgsOpponentInfoContainer and ahead
                     // of Tier7PreLobby on its own canvas
