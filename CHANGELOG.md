@@ -9,6 +9,7 @@
 - Fixed the counter tooltips showing the previously hovered counter's card art, and the Blood Gem counter listing itself instead of the Quilboar payoffs.
 - Fixed trinket guide tooltips stacking up and being left behind on the game board.
 - The Battlegrounds comp guide now matches Hearthstone Deck Tracker: it no longer overhangs the tab strip, its card rows lost their extra gaps, its "Show Example Lineups" button spans the Core Cards section, and its mode badge names the Tier7 or Free version with an explanation on hover.
+- The Tier7 panel in the Battlegrounds lobby now matches Hearthstone Deck Tracker: it can be folded away by its header chevron, a settings button appears in its corner on hover, a sale offer is shown when one is running, and it scales with the game window.
 - The Battlegrounds session panel now matches Hearthstone Deck Tracker: the available and banned minion types can be shown at the same time, a past game's final board appears beside its row, and a settings button appears in the panel's corner on hover, and it is dragged around the game window directly instead of being moved as a separate window.
 ## Bob's Buddy
 - Fixed Bob's Buddy being left without odds because the app shipped an incomplete, out-of-date copy of the runtime it simulates with.

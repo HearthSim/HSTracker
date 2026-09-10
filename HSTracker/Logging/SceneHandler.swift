@@ -110,8 +110,8 @@ class SceneHandler {
             Watchers.playZoneWatcher.run()
         }
         
-        if from == .bacon {
-            game.windowManager.tier7PreLobby.viewModel.invalidateUserState()
+        if from == .bacon, #available(macOS 10.15, *) {
+            game.windowManager.rootOverlay?.viewModel.tier7PreLobby.invalidateUserState()
         }
     }
 }

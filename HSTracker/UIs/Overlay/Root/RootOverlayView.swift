@@ -80,6 +80,29 @@ struct RootOverlayView: View {
                     CountersOverlayView(viewModel: viewModel.opponentCounters, canvasWidth: canvasWidth)
                     CountersOverlayView(viewModel: viewModel.playerCounters, canvasWidth: canvasWidth)
 
+                    // The Tier7 Battlegrounds pre-lobby panel, declared ahead of
+                    // BgsTopBar on HDT's own canvas (OverlayWindow.xaml) so the
+                    // top bar and the Inspiration panel draw over it.
+                    //
+                    // OverlayElementBehavior gives it
+                    // GetScaling = Height/1080 - the very scale this subtree
+                    // already applies - so its canvas position is just its
+                    // window position divided by that scale:
+                    //   GetTop  = Height * 0.103          -> 0.103 * 1080
+                    //   GetLeft = GetScaledXPos(0.079, Width, ScreenRatio)
+                    //           = Width*ratio*0.079 + Width*(1-ratio)/2, and
+                    //     since ratio = 1440/canvasWidth in this space, that
+                    //     comes out as 1440*0.079 + (canvasWidth - 1440)/2 -
+                    //     i.e. 7.9% into the inner 4:3 area, wherever that area
+                    //     sits in a wider client.
+                    ZStack(alignment: .topLeading) {
+                        Color.clear
+                        Tier7PreLobbyView(viewModel: viewModel.tier7PreLobby)
+                            .padding(.leading, 1440 * 0.079 + (canvasWidth - 1440) / 2)
+                            .padding(.top, 0.103 * 1080)
+                    }
+                    .frame(width: canvasWidth, height: 1080)
+
                     // Wrapped in its own top-trailing-anchored ZStack rather
                     // than positioned directly: the outer ZStack here has no
                     // alignment of its own (its children default-center),

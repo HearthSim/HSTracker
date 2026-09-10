@@ -367,6 +367,15 @@ final class Settings {
     static var enableTier7Overlay: Bool
     @UserDefault(key: Settings.show_battlegrounds_tier7_prelobby, defaultValue: true)
     static var showBattlegroundsTier7PreLobby: Bool
+    // HDT's Config.Tier7OverlayCollapsed - whether the Tier7 pre-lobby panel's
+    // body is folded away behind its header chevron.
+    @UserDefault(key: Settings.tier7_overlay_collapsed, defaultValue: false)
+    static var tier7OverlayCollapsed: Bool
+    // The Battlegrounds sale's own id (RemoteConfig.data.sales.battlegrounds.id)
+    // once the user dismisses that sale's tooltip - stays hidden until a newer
+    // sale (higher id) comes along. HDT's Config.IgnoreBattlegroundsSaleId.
+    @UserDefault(key: Settings.ignore_battlegrounds_sale_id, defaultValue: -1)
+    static var ignoreBattlegroundsSaleId: Int
     @UserDefault(key: Settings.show_battlegrounds_hero_picking, defaultValue: true)
     static var showBattlegroundsHeroPicking: Bool
     @UserDefault(key: Settings.show_battlegrounds_quest_picking, defaultValue: true)
@@ -735,6 +744,8 @@ extension Settings {
     static let battlegrounds_session_frame = "battlegrounds_session_frame"
     static let enable_tier7_overlay = "enable_tier7_overlay"
     static let show_battlegrounds_tier7_prelobby = "show_battlegrounds_tier7_prelobby"
+    static let tier7_overlay_collapsed = "tier7_overlay_collapsed"
+    static let ignore_battlegrounds_sale_id = "ignore_battlegrounds_sale_id"
     static let show_battlegrounds_hero_picking = "show_battlegrounds_hero_picking"
     static let show_battlegrounds_quest_picking = "show_battlegrounds_quest_picking"
     static let battlegrounds_session_scaling = "battlegrounds_session_scaling"

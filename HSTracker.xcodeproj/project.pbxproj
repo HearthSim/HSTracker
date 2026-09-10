@@ -907,13 +907,13 @@
 		B800FCAC273318DA00AFBD51 /* MercenariesTaskListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B800FCAB273318DA00AFBD51 /* MercenariesTaskListView.xib */; };
 		B804FC2429418CC200F74CD9 /* OverlayMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC2329418CC200F74CD9 /* OverlayMessageViewModel.swift */; };
 		B804FC26294264D700F74CD9 /* Tier7PreLobbyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC25294264D700F74CD9 /* Tier7PreLobbyViewModel.swift */; };
+		FC0A7E022E70A1010001A002 /* Tier7PreLobbyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0A7E012E70A1010001A001 /* Tier7PreLobbyView.swift */; };
+		FC0A7E032E70A1010001A003 /* Tier7PreLobbyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0A7E012E70A1010001A001 /* Tier7PreLobbyView.swift */; };
 		B804FC2829429ED900F74CD9 /* Tier7AllTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC2729429ED900F74CD9 /* Tier7AllTime.swift */; };
 		B804FC2A2943626C00F74CD9 /* PlayerTrialData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC292943626C00F74CD9 /* PlayerTrialData.swift */; };
 		B804FC2C294362C800F74CD9 /* Tier7Trial.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC2B294362C800F74CD9 /* Tier7Trial.swift */; };
 		B804FC2E29437AF500F74CD9 /* Debounce.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC2D29437AF500F74CD9 /* Debounce.swift */; };
-		B804FC3029437E0300F74CD9 /* Tier7PreLobby.xib in Resources */ = {isa = PBXBuildFile; fileRef = B804FC2F29437E0300F74CD9 /* Tier7PreLobby.xib */; };
 		B804FC342944416A00F74CD9 /* TextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC332944416A00F74CD9 /* TextButton.swift */; };
-		B804FC36294444C300F74CD9 /* Tier7PreLobby.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC35294444C300F74CD9 /* Tier7PreLobby.swift */; };
 		B804FC37294446ED00F74CD9 /* TextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC332944416A00F74CD9 /* TextButton.swift */; };
 		B804FC392944B1DA00F74CD9 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC382944B1DA00F74CD9 /* ViewModel.swift */; };
 		B804FC3D29462EA800F74CD9 /* NSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC3C29462EA800F74CD9 /* NSButton.swift */; };
@@ -1326,7 +1326,6 @@
 		B86D8A242D95FFDA00AB65A5 /* ArchdruidOfThorns.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86D8A232D95FFDA00AB65A5 /* ArchdruidOfThorns.swift */; };
 		B86D8A262D96005500AB65A5 /* RotheartDryad.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86D8A252D96005500AB65A5 /* RotheartDryad.swift */; };
 		B86D8A282D9600E400AB65A5 /* SuccumbToMadness.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86D8A272D9600E400AB65A5 /* SuccumbToMadness.swift */; };
-		B86FFA5E299C66730093689E /* Tier7PreLobby.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC35294444C300F74CD9 /* Tier7PreLobby.swift */; };
 		B86FFA5F299C667F0093689E /* BattlegroundsHeroPicking.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CE65D92950D78100E8D168 /* BattlegroundsHeroPicking.swift */; };
 		B86FFA60299C667F0093689E /* BattlegroundsQuestPicking.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83CF363294BB808003C9062 /* BattlegroundsQuestPicking.swift */; };
 		B86FFA61299C66CC0093689E /* QueueEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E76172293A3D010048E802 /* QueueEvents.swift */; };
@@ -2953,13 +2952,12 @@
 		B800FCAB273318DA00AFBD51 /* MercenariesTaskListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MercenariesTaskListView.xib; sourceTree = "<group>"; };
 		B804FC2329418CC200F74CD9 /* OverlayMessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayMessageViewModel.swift; sourceTree = "<group>"; };
 		B804FC25294264D700F74CD9 /* Tier7PreLobbyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tier7PreLobbyViewModel.swift; sourceTree = "<group>"; };
+		FC0A7E012E70A1010001A001 /* Tier7PreLobbyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tier7PreLobbyView.swift; sourceTree = "<group>"; };
 		B804FC2729429ED900F74CD9 /* Tier7AllTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tier7AllTime.swift; sourceTree = "<group>"; };
 		B804FC292943626C00F74CD9 /* PlayerTrialData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerTrialData.swift; sourceTree = "<group>"; };
 		B804FC2B294362C800F74CD9 /* Tier7Trial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tier7Trial.swift; sourceTree = "<group>"; };
 		B804FC2D29437AF500F74CD9 /* Debounce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debounce.swift; sourceTree = "<group>"; };
-		B804FC2F29437E0300F74CD9 /* Tier7PreLobby.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Tier7PreLobby.xib; sourceTree = "<group>"; };
 		B804FC332944416A00F74CD9 /* TextButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextButton.swift; sourceTree = "<group>"; };
-		B804FC35294444C300F74CD9 /* Tier7PreLobby.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tier7PreLobby.swift; sourceTree = "<group>"; };
 		B804FC382944B1DA00F74CD9 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		B804FC3C29462EA800F74CD9 /* NSButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSButton.swift; sourceTree = "<group>"; };
 		B804FC3E2946882D00F74CD9 /* StatsHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsHeaderViewModel.swift; sourceTree = "<group>"; };
@@ -5772,8 +5770,7 @@
 				B8AC9A22293D48E10047F438 /* OverlayMessage.swift */,
 				B8AC9A20293D452C0047F438 /* OverlayMessage.xib */,
 				B804FC2329418CC200F74CD9 /* OverlayMessageViewModel.swift */,
-				B804FC35294444C300F74CD9 /* Tier7PreLobby.swift */,
-				B804FC2F29437E0300F74CD9 /* Tier7PreLobby.xib */,
+				FC0A7E012E70A1010001A001 /* Tier7PreLobbyView.swift */,
 				B804FC25294264D700F74CD9 /* Tier7PreLobbyViewModel.swift */,
 				B804FC2B294362C800F74CD9 /* Tier7Trial.swift */,
 			);
@@ -6991,7 +6988,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B804FC3029437E0300F74CD9 /* Tier7PreLobby.xib in Resources */,
 				B8EF1D7C291681EA00AC4658 /* BattlegroundsQuestView.xib in Resources */,
 				49930DD41DFA859F008C8CD4 /* .swiftlint.yml in Resources */,
 				B8BA17DA28EFC8F8004D40ED /* LinkOpponentDeckPanel.xib in Resources */,
@@ -8563,7 +8559,6 @@
 				B89343422CD0791C009A8727 /* GalakrondCounter.swift in Sources */,
 				43C568011D5E584F00451B6F /* LogUploader.swift in Sources */,
 				439C7EBD1C777F8900D29859 /* TagClass.swift in Sources */,
-				B804FC36294444C300F74CD9 /* Tier7PreLobby.swift in Sources */,
 				43E77EE41C94A19700C26950 /* TurnTimer.swift in Sources */,
 				B89865522D8C6FCB00BA5649 /* ChiaDrake.swift in Sources */,
 				B8DB12992EBADBCF004268FA /* AlterTime.swift in Sources */,
@@ -8743,6 +8738,7 @@
 				B864AE3C25A4D15C00793F36 /* ImportingPreferences.swift in Sources */,
 				B846CCBC2E1D9ECB00552F9C /* CrystalCoreEnchantment.swift in Sources */,
 				B804FC26294264D700F74CD9 /* Tier7PreLobbyViewModel.swift in Sources */,
+				FC0A7E022E70A1010001A002 /* Tier7PreLobbyView.swift in Sources */,
 				4C3E2D93245F16B900292349 /* CollectionToastViewController.swift in Sources */,
 				439DD8F41DB23212004EBE47 /* PlayerTurn.swift in Sources */,
 				B8B790452C9777E400DD33EC /* TarSlickEnchantment.swift in Sources */,
@@ -9028,12 +9024,12 @@
 				B86FFA79299C67780093689E /* OverlayMessage.swift in Sources */,
 				B86FFA7A299C67780093689E /* OverlayMessageViewModel.swift in Sources */,
 				B86FFA7B299C67780093689E /* Tier7PreLobbyViewModel.swift in Sources */,
+				FC0A7E032E70A1010001A003 /* Tier7PreLobbyView.swift in Sources */,
 				B86FFA7C299C67780093689E /* Tier7Trial.swift in Sources */,
 				B86FFA62299C67390093689E /* FindGameState.swift in Sources */,
 				B86FFA61299C66CC0093689E /* QueueEvents.swift in Sources */,
 				B86FFA5F299C667F0093689E /* BattlegroundsHeroPicking.swift in Sources */,
 				B86FFA60299C667F0093689E /* BattlegroundsQuestPicking.swift in Sources */,
-				B86FFA5E299C66730093689E /* Tier7PreLobby.swift in Sources */,
 				B8BA17FB28F0CFED004D40ED /* Influx.swift in Sources */,
 				B8BA17FA28F0CFD4004D40ED /* ClipboardImporter.swift in Sources */,
 				B8BA17F928F0CFA1004D40ED /* RewardTrackType.swift in Sources */,

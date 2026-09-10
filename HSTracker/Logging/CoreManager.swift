@@ -373,12 +373,10 @@ final class CoreManager: NSObject {
         if #available(macOS 10.15, *) {
             DispatchQueue.main.async {
                 wm.rootOverlay?.viewModel.battlegroundsSession.setShown(false)
-            }
-        }
-        if wm.tier7PreLobby.isVisible {
-            DispatchQueue.main.async {
-                wm.tier7PreLobby.isVisible = false
-                wm.show(controller: wm.tier7PreLobby, show: false)
+                if let tier7PreLobby = wm.rootOverlay?.viewModel.tier7PreLobby, tier7PreLobby.isShown {
+                    tier7PreLobby.isShown = false
+                    tier7PreLobby.reset()
+                }
             }
         }
         game.updateBattlegroundsOverlays()

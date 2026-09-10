@@ -148,8 +148,8 @@ class Game: NSObject, PowerEventHandler {
     func setHearthstoneActived(flag: Bool) {
         hearthstoneRunState.isActive = flag
         if currentMode == .bacon || isBattlegroundsMatch() {
-            if flag {
-                windowManager.tier7PreLobby.viewModel.onFocus()
+            if flag, #available(macOS 10.15, *) {
+                windowManager.rootOverlay?.viewModel.tier7PreLobby.onFocus()
             }
             updateBattlegroundsSessionVisibility()
         }
@@ -672,15 +672,10 @@ class Game: NSObject, PowerEventHandler {
             // window of its own to move or hide - the same visibility rules it
             // is given everywhere else cover the focus change too.
             self.updateBattlegroundsSessionVisibility()
-            if self.windowManager.tier7PreLobby.isVisible {
-                if (Settings.hideAllWhenGameInBackground && hsActive) || !Settings.hideAllWhenGameInBackground {
-                    self.windowManager.show(controller: self.windowManager.tier7PreLobby, show: true, frame: SizeHelper.tier7PreLobbyFrame(), overlay: true)
-                } else {
-                    self.windowManager.show(controller: self.windowManager.tier7PreLobby, show: false)
-                }
-            } else if self.windowManager.tier7PreLobby.window?.isVisible ?? false {
-                self.windowManager.show(controller: self.windowManager.tier7PreLobby, show: false)
-            }
+            // The Tier7 pre-lobby panel is a RootOverlay child now too, and
+            // unlike the AppKit window it replaced it needs nothing here at
+            // all: Game.updateRootOverlay already hides the whole canvas when
+            // Hearthstone goes to the background.
             
             if self.windowManager.battlegroundsHeroPicking.viewModel.visibility {
                 if (Settings.hideAllWhenGameInBackground && hsActive) || !Settings.hideAllWhenGameInBackground {
@@ -979,9 +974,9 @@ class Game: NSObject, PowerEventHandler {
     }
         
     func setBaconState(_ mode: SelectedBattlegroundsGameMode, _ isAnyOpen: Bool) {
-        windowManager.tier7PreLobby.viewModel.battlegroundsGameMode = mode
-        windowManager.tier7PreLobby.viewModel.isModalOpen = !queueEvents.isInQueue && isAnyOpen
         if #available(macOS 10.15, *) {
+            windowManager.rootOverlay?.viewModel.tier7PreLobby.battlegroundsGameMode = mode
+            windowManager.rootOverlay?.viewModel.tier7PreLobby.isModalOpen = !queueEvents.isInQueue && isAnyOpen
             windowManager.rootOverlay?.viewModel.battlegroundsSession.battlegroundsGameMode = mode
         }
         if #available(macOS 10.15, *) {
@@ -1004,24 +999,32 @@ class Game: NSObject, PowerEventHandler {
     @available(macOS 10.15, *)
     @MainActor
     func updateTier7PreLobbyVisibility() {
-        let show = isRunning && isInMenu && !queueEvents.isInQueue && SceneHandler.scene == .bacon && Settings.enableTier7Overlay && Settings.showBattlegroundsTier7PreLobby && (windowManager.tier7PreLobby.viewModel.battlegroundsGameMode == .solo || windowManager.tier7PreLobby.viewModel.battlegroundsGameMode == .duos) && windowManager.tier7PreLobby.viewModel.visibility
+        guard let viewModel = windowManager.rootOverlay?.viewModel.tier7PreLobby else {
+            return
+        }
+
+        // Hearthstone being in the background isn't a term here, exactly as in
+        // HDT: the whole RootOverlay window is hidden for that
+        // (Game.updateRootOverlay), so folding it in would only make the panel
+        // reset itself every time the user alt-tabbed.
+        let show = isRunning && isInMenu && !queueEvents.isInQueue && SceneHandler.scene == .bacon && Settings.enableTier7Overlay && Settings.showBattlegroundsTier7PreLobby && (viewModel.battlegroundsGameMode == .solo || viewModel.battlegroundsGameMode == .duos) && viewModel.visibility
         if show {
             Task.init {
-                _ = await windowManager.tier7PreLobby.viewModel.update()
+                await viewModel.update()
             }
-            if Settings.showBattlegroundsTier7PreLobby || !(HSReplayAPI.accountData?.is_tier7 ?? false) {
-                Task.init {
-                    _ = await windowManager.tier7PreLobby.viewModel.update()
-                }
-            }
-            if self.hearthstoneRunState.isActive {
-                self.windowManager.tier7PreLobby.isVisible = true
-                self.windowManager.show(controller: self.windowManager.tier7PreLobby, show: true, frame: SizeHelper.tier7PreLobbyFrame())
-            }
-        } else {
-            self.windowManager.tier7PreLobby.isVisible = false
-            self.windowManager.show(controller: self.windowManager.tier7PreLobby, show: false)
+        } else if viewModel.isShown {
+            // HDT's _tier7PreLobbyBehavior.HideCallback. Gated on the
+            // shown -> hidden transition because that is the only time
+            // OverlayElementBehavior.Hide() fires it - it early-returns when
+            // the element is already collapsed - and this runs on every lobby
+            // tick. reset() clears battlegroundsGameMode along with the rest,
+            // as HDT's Reset() does; BaconWatcher re-supplies it on its next
+            // change (queueing blurs the lobby, so cancelling one always
+            // produces one), and re-entering BACON restarts the watcher with a
+            // cleared _prev so it reports unconditionally.
+            viewModel.reset()
         }
+        viewModel.isShown = show
     }
 
     // Mirrors HDT's InBattlegroundsScene: true while sitting in the Battlegrounds
@@ -1063,7 +1066,7 @@ class Game: NSObject, PowerEventHandler {
         let show = isRunning && isBaconSceneOrTransitioningToFromMatch && Settings.showBattlegroundsBrowser && Settings.showBattlegroundsGuidesPreLobby
         if show {
             if !guidesTabs.isPreLobby {
-                let mode = windowManager.tier7PreLobby.viewModel.battlegroundsGameMode
+                let mode = windowManager.rootOverlay?.viewModel.tier7PreLobby.battlegroundsGameMode
                 windowManager.rootOverlay?.viewModel.battlegroundsMinionsGuide.enterPreLobby(isDuos: mode == .duos)
                 guidesTabs.activeTab = nil
                 guidesTabs.isPreLobby = true
@@ -1988,8 +1991,8 @@ class Game: NSObject, PowerEventHandler {
         
         windowManager.linkOpponentDeckPanel.isFriendlyMatch = isFriendlyMatch
         
-        if isBattlegroundsMatch() && currentGameMode == .spectator {
-            windowManager.tier7PreLobby.viewModel.reset()
+        if isBattlegroundsMatch() && currentGameMode == .spectator, #available(macOS 10.15, *) {
+            windowManager.rootOverlay?.viewModel.tier7PreLobby.reset()
         }
         
         if isFriendlyMatch {

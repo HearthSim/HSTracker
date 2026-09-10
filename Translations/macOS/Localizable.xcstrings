@@ -3352,6 +3352,39 @@
         }
       }
     },
+    "BattlegroundsPreLobby_AlreadySubscribed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subscribed?"
+          }
+        }
+      }
+    },
+    "BattlegroundsPreLobby_AnonymousTooltip_Bottom" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subscribe to Tier7 to unlock unlimited usage."
+          }
+        }
+      }
+    },
+    "BattlegroundsPreLobby_AnonymousTooltip_Top" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign in to HSReplay.net to access Pick Rates, Average Placements, and more!"
+          }
+        }
+      }
+    },
     "BattlegroundsPreLobby_Authenticated_TrialsRemaining" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3380,7 +3413,106 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wecome %@!"
+            "value" : "Welcome %@!"
+          }
+        }
+      }
+    },
+    "BattlegroundsPreLobby_Disabled" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temporarily disabled. We will be back soon!"
+          }
+        }
+      }
+    },
+    "BattlegroundsPreLobby_InteractivePanel_Anonymous_Hover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hover for more details"
+          }
+        }
+      }
+    },
+    "BattlegroundsPreLobby_InteractivePanel_Anonymous_Hover_Details" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign in to HSReplay.net to access Tier7 Stats directly in the overlay!"
+          }
+        }
+      }
+    },
+    "BattlegroundsPreLobby_InteractivePanel_Header" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tier7 Battlegrounds Overlay"
+          }
+        }
+      }
+    },
+    "BattlegroundsPreLobby_InteractivePanel_Loading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading..."
+          }
+        }
+      }
+    },
+    "BattlegroundsPreLobby_Join" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Join Tier7 to get unlimited access."
+          }
+        }
+      }
+    },
+    "BattlegroundsPreLobby_RefreshSubscription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Refresh"
+          }
+        }
+      }
+    },
+    "BattlegroundsPreLobby_SaleTag" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sale!"
+          }
+        }
+      }
+    },
+    "BattlegroundsPreLobby_SaleTooltip_Description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enjoy the new season with all the Tier7 stats and features saving up to %d%% for a limited time!"
           }
         }
       }
@@ -3396,6 +3528,50 @@
         }
       }
     },
+    "BattlegroundsPreLobby_SignInToSubscription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign In"
+          }
+        }
+      }
+    },
+    "BattlegroundsPreLobby_Subscribed_AllTimeMMR" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All-time highest MMR"
+          }
+        }
+      }
+    },
+    "BattlegroundsPreLobby_Subscribed_MyStats" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GO TO MY STATS"
+          }
+        }
+      }
+    },
+    "BattlegroundsPreLobby_Subscribed_Tier7" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You're subscribed to Tier7!"
+          }
+        }
+      }
+    },
     "BattlegroundsPreLobby_Trial_ResetTimeRemaining_DaysHours" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3403,6 +3579,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%dd %dh"
+          }
+        }
+      }
+    },
+    "BattlegroundsPreLobby_TrialsRemaining_Tooltip" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try the Tier7 overlay for free for a limited number of games, and we'll periodically give you more."
           }
         }
       }
