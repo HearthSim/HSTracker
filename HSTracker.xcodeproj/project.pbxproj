@@ -41,8 +41,6 @@
 		BB5E551B0000000000000062 /* BattlegroundsQuestTileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5E551B0000000000000060 /* BattlegroundsQuestTileView.swift */; };
 		BB5E551A0000000000000014 /* BattlegroundsCompositionStatsRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5E551A0000000000000013 /* BattlegroundsCompositionStatsRowView.swift */; };
 		BB5E551A0000000000000015 /* BattlegroundsCompositionStatsRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5E551A0000000000000013 /* BattlegroundsCompositionStatsRowView.swift */; };
-		BB5E551A0000000000000017 /* NSImageViewScaleAspectFill.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5E551A0000000000000016 /* NSImageViewScaleAspectFill.swift */; };
-		BB5E551A0000000000000018 /* NSImageViewScaleAspectFill.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5E551A0000000000000016 /* NSImageViewScaleAspectFill.swift */; };
 		007F08E45030E4217D8CFB9E /* RunesOfDarkness.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D62B9589AFE2395A143FBDF /* RunesOfDarkness.swift */; };
 		00861C0F306D142858D6A60E /* SneedsNewShredderProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0EBDF8E209D5AF3AC8F4B5 /* SneedsNewShredderProxy.swift */; };
 		016C447651C95982C22E12C0 /* PocketDimension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4CBD1CCD78F0349B552422E /* PocketDimension.swift */; };
@@ -1350,7 +1348,6 @@
 		B86FFA76299C67780093689E /* BattlegroundsSingleQuestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83CF35F294A7C42003C9062 /* BattlegroundsSingleQuestView.swift */; };
 		B86FFA77299C67780093689E /* BattlegroundsSingleQuestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC4029468BEA00F74CD9 /* BattlegroundsSingleQuestViewModel.swift */; };
 		B86FFA78299C67780093689E /* StatsHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC3E2946882D00F74CD9 /* StatsHeaderViewModel.swift */; };
-		B86FFA79299C67780093689E /* OverlayMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AC9A22293D48E10047F438 /* OverlayMessage.swift */; };
 		B86FFA7A299C67780093689E /* OverlayMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC2329418CC200F74CD9 /* OverlayMessageViewModel.swift */; };
 		B86FFA7B299C67780093689E /* Tier7PreLobbyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC25294264D700F74CD9 /* Tier7PreLobbyViewModel.swift */; };
 		B86FFA7C299C67780093689E /* Tier7Trial.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC2B294362C800F74CD9 /* Tier7Trial.swift */; };
@@ -1571,8 +1568,6 @@
 		C16B2C5CCC22484C94A79291 /* BattlegroundsHeroPickingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD2AC35158694F2DAFBAAE6A /* BattlegroundsHeroPickingView.swift */; };
 		B8AC9A1E293CE51B0047F438 /* BattlegroundsSingleHeroViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AC9A1D293CE51B0047F438 /* BattlegroundsSingleHeroViewModel.swift */; };
 		F359F02409924D6B9E3ADBB6 /* BattlegroundsSingleHeroStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE5D40882B64C2C91878006 /* BattlegroundsSingleHeroStatsView.swift */; };
-		B8AC9A21293D452C0047F438 /* OverlayMessage.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8AC9A20293D452C0047F438 /* OverlayMessage.xib */; };
-		B8AC9A23293D48E10047F438 /* OverlayMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AC9A22293D48E10047F438 /* OverlayMessage.swift */; };
 		B8AC9A26293F92540047F438 /* BattlegroundsQuestPickingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AC9A25293F92530047F438 /* BattlegroundsQuestPickingViewModel.swift */; };
 		2C3B1F6E1CC648F78C5277FF /* BattlegroundsQuestPickingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9FD1F5132B4BB4B408B7AC /* BattlegroundsQuestPickingView.swift */; };
 		B8AC9A28293F9A680047F438 /* BattlegroundsComposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AC9A27293F9A680047F438 /* BattlegroundsComposition.swift */; };
@@ -2216,7 +2211,6 @@
 		BB5E551B0000000000000050 /* BattlegroundsTierTriplesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsTierTriplesView.swift; sourceTree = "<group>"; };
 		BB5E551B0000000000000060 /* BattlegroundsQuestTileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsQuestTileView.swift; sourceTree = "<group>"; };
 		BB5E551A0000000000000013 /* BattlegroundsCompositionStatsRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsCompositionStatsRowView.swift; sourceTree = "<group>"; };
-		BB5E551A0000000000000016 /* NSImageViewScaleAspectFill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSImageViewScaleAspectFill.swift; sourceTree = "<group>"; };
 		0069AE75FCF9DD8FBFB3BB69 /* TrainingSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingSession.swift; sourceTree = "<group>"; };
 		00784AC5C0025D2E498265EE /* PlantedEvidence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantedEvidence.swift; sourceTree = "<group>"; };
 		0093278898A576BD6877B781 /* TheSunwell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheSunwell.swift; sourceTree = "<group>"; };
@@ -3536,8 +3530,6 @@
 		AD2AC35158694F2DAFBAAE6A /* BattlegroundsHeroPickingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsHeroPickingView.swift; sourceTree = "<group>"; };
 		B8AC9A1D293CE51B0047F438 /* BattlegroundsSingleHeroViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsSingleHeroViewModel.swift; sourceTree = "<group>"; };
 		FEE5D40882B64C2C91878006 /* BattlegroundsSingleHeroStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsSingleHeroStatsView.swift; sourceTree = "<group>"; };
-		B8AC9A20293D452C0047F438 /* OverlayMessage.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OverlayMessage.xib; sourceTree = "<group>"; };
-		B8AC9A22293D48E10047F438 /* OverlayMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayMessage.swift; sourceTree = "<group>"; };
 		B8AC9A25293F92530047F438 /* BattlegroundsQuestPickingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsQuestPickingViewModel.swift; sourceTree = "<group>"; };
 		2E9FD1F5132B4BB4B408B7AC /* BattlegroundsQuestPickingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsQuestPickingView.swift; sourceTree = "<group>"; };
 		B8AC9A27293F9A680047F438 /* BattlegroundsComposition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsComposition.swift; sourceTree = "<group>"; };
@@ -4843,7 +4835,6 @@
 		B804FC422946BAB200F74CD9 /* Composition */ = {
 			isa = PBXGroup;
 			children = (
-				BB5E551A0000000000000016 /* NSImageViewScaleAspectFill.swift */,
 				B83CF374294E5048003C9062 /* BattlegroundsCompositionPopularityRowViewModel.swift */,
 				B804FC432946BACF00F74CD9 /* BattlegroundsCompositionPopularityViewModel.swift */,
 				D75211172CFA463FA1833F50 /* BattlegroundsCompositionPopularityView.swift */,
@@ -5724,8 +5715,6 @@
 		B8AC9A1F293D42510047F438 /* Tier7 */ = {
 			isa = PBXGroup;
 			children = (
-				B8AC9A22293D48E10047F438 /* OverlayMessage.swift */,
-				B8AC9A20293D452C0047F438 /* OverlayMessage.xib */,
 				B804FC2329418CC200F74CD9 /* OverlayMessageViewModel.swift */,
 				FC0A7E012E70A1010001A001 /* Tier7PreLobbyView.swift */,
 				509A26237869439FBDB6F7B0 /* OverlayMessageView.swift */,
@@ -6947,7 +6936,6 @@
 				49930DD41DFA859F008C8CD4 /* .swiftlint.yml in Resources */,
 				B8BA17DA28EFC8F8004D40ED /* LinkOpponentDeckPanel.xib in Resources */,
 				432B5FC51CB5374100B05D19 /* EditDeck.xib in Resources */,
-				B8AC9A21293D452C0047F438 /* OverlayMessage.xib in Resources */,
 				432B5FC81CB5374600B05D19 /* NewDeck.xib in Resources */,
 				B88364FA275D6FE10094D8E1 /* FlavorText.xib in Resources */,
 				434910451D09505100B22DB2 /* BoardDamage.xib in Resources */,
@@ -8525,7 +8513,6 @@
 				B8AFA40B2723310700B3470E /* BoardOverlay.swift in Sources */,
 				B8BDF9082A9626A8000DA4ED /* AnomalyProxy.swift in Sources */,
 				B8196F1F2CC87293007C0371 /* BloodGemCounter.swift in Sources */,
-				B8AC9A23293D48E10047F438 /* OverlayMessage.swift in Sources */,
 				B851C8F92BD6821600B748C1 /* BattlegroundsDb.swift in Sources */,
 				B89865D52D9207E000BA5649 /* Triangulate.swift in Sources */,
 				BB5E551A0000000000000002 /* BattlegroundsSessionViewModel.swift in Sources */,
@@ -8545,7 +8532,6 @@
 				BB5E551B0000000000000061 /* BattlegroundsQuestTileView.swift in Sources */,
 				BB5E553A0000000000000064 /* BattlegroundsSessionOverlayView.swift in Sources */,
 				BB5E551A0000000000000014 /* BattlegroundsCompositionStatsRowView.swift in Sources */,
-				BB5E551A0000000000000017 /* NSImageViewScaleAspectFill.swift in Sources */,
 				B893433A2CD008DF009A8727 /* CthunCounter.swift in Sources */,
 				B86D8A042D95F72D00AB65A5 /* NaralexHeraldOfTheFlights.swift in Sources */,
 				B89865602D8C941300BA5649 /* UngoroBrochure.swift in Sources */,
@@ -8959,7 +8945,6 @@
 				B86FFA76299C67780093689E /* BattlegroundsSingleQuestView.swift in Sources */,
 				B86FFA77299C67780093689E /* BattlegroundsSingleQuestViewModel.swift in Sources */,
 				B86FFA78299C67780093689E /* StatsHeaderViewModel.swift in Sources */,
-				B86FFA79299C67780093689E /* OverlayMessage.swift in Sources */,
 				B86FFA7A299C67780093689E /* OverlayMessageViewModel.swift in Sources */,
 				B86FFA7B299C67780093689E /* Tier7PreLobbyViewModel.swift in Sources */,
 				FC0A7E032E70A1010001A003 /* Tier7PreLobbyView.swift in Sources */,
@@ -8996,7 +8981,6 @@
 				BB5E551B0000000000000062 /* BattlegroundsQuestTileView.swift in Sources */,
 				BB5E553A00000000000000C8 /* BattlegroundsSessionOverlayView.swift in Sources */,
 				BB5E551A0000000000000015 /* BattlegroundsCompositionStatsRowView.swift in Sources */,
-				BB5E551A0000000000000018 /* NSImageViewScaleAspectFill.swift in Sources */,
 				B8496734289A0D8F00D90B30 /* UnfairLock.swift in Sources */,
 				B8A17C032E5F1A0100C1D2E0 /* MainThreadGuard.swift in Sources */,
 				B8496732289A0CF300D90B30 /* SynchronizedDictionary.swift in Sources */,
