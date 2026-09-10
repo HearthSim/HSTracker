@@ -91,10 +91,6 @@ class WindowManager {
         return $0
     }(BattlegroundsQuestPicking(windowNibName: "BattlegroundsQuestPicking"))
     
-    var battlegroundsHeroPicking: BattlegroundsHeroPicking = {
-        return $0
-    }(BattlegroundsHeroPicking(windowNibName: "BattlegroundsHeroPicking"))
-    
     var constructedMulliganGuide: ConstructedMulliganGuide = {
         return $0
     }(ConstructedMulliganGuide(windowNibName: "ConstructedMulliganGuide"))

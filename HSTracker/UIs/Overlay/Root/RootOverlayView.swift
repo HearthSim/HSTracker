@@ -112,6 +112,17 @@ struct RootOverlayView: View {
                     }
                     .frame(width: canvasWidth, height: 1080)
 
+                    // The Battlegrounds hero picking stats, which HDT
+                    // declares right after BgsOpponentInfoContainer and ahead
+                    // of Tier7PreLobby on its own canvas
+                    // (Windows/OverlayWindow.xaml). OverlayWindow.Update sizes
+                    // the control to Width/scaling by Height/scaling at
+                    // Canvas 0,0 with scaling = Height/1080, which is this
+                    // subtree's own canvas - so it just takes it whole and
+                    // places its plates with the XAML's alignments.
+                    BattlegroundsHeroPickingView(viewModel: viewModel.battlegroundsHeroPicking,
+                                                 canvasWidth: canvasWidth)
+
                     // The Tier7 Battlegrounds pre-lobby panel, declared ahead of
                     // BgsTopBar on HDT's own canvas (OverlayWindow.xaml) so the
                     // top bar and the Inspiration panel draw over it.

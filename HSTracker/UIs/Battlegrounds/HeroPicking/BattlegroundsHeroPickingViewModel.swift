@@ -7,119 +7,114 @@
 //
 
 import Foundation
+import SwiftUI
 
-class BattlegroundsHeroPickingViewModel: ViewModel {
-    var isViewingTeammate: Bool {
-        get {
-            getProp(false)
-        }
-        set {
-            setProp(newValue)
-            onPropertyChanged("visibility")
+// Port of HDT's BattlegroundsHeroPickingViewModel
+// (Controls/Overlay/Battlegrounds/HeroPicking/BattlegroundsHeroPickingViewModel.cs).
+@available(macOS 10.15, *)
+class BattlegroundsHeroPickingViewModel: ObservableObject {
+    @Published private var _isViewingTeammate = false
+    @Published private(set) var heroStats: [BattlegroundsSingleHeroViewModel]?
+    @Published private var _statsVisibility = false
+
+    let message = OverlayMessageViewModel()
+
+    init() {
+        // OverlayMessageViewModel is still the AppKit-era ViewModel - the quest
+        // and trinket pickers, both still AppKit, share it - so it can't carry
+        // @Published of its own without being gated to the SwiftUI baseline.
+        // Republishing its changes from here is what keeps the message this
+        // panel draws in sync with it.
+        message.propertyChanged = { [weak self] _ in
+            self?.onMain {
+                self?.objectWillChange.send()
+            }
         }
     }
-    
+
+    // BattlegroundsTeammateBoardStateWatcher pushes this from its own thread.
+    var isViewingTeammate: Bool {
+        get {
+            return _isViewingTeammate
+        }
+        set {
+            onMain { self._isViewingTeammate = newValue }
+        }
+    }
+
+    // HDT's Visibility is just "we have stats and aren't looking at a
+    // teammate's board"; the extra gate is HSTracker's own, which switches the
+    // overlay off wholesale from Battlegrounds preferences rather than through
+    // HDT's in-overlay show/hide toggle.
     var visibility: Bool {
         if !Settings.showBattlegroundsHeroPicking || isViewingTeammate {
             return false
         }
-        return heroStats != nil ? true : false
+        return heroStats != nil
     }
-    
+
+    // Gates the stats themselves, which fade in once they have loaded.
     var statsVisibility: Bool {
         get {
-            return getProp(false)
+            return _statsVisibility
         }
         set {
-            setProp(newValue)
-//            onPropertyChanged("visibilityToggleIcon")
-//            onPropertyChanged("visibilityToggleText")
+            onMain { self._statsVisibility = newValue }
         }
     }
-    
-    var heroStats: [BattlegroundsSingleHeroViewModel]? {
-        get {
-            return getProp(nil)
-        }
-        set {
-            setProp(newValue)
-            onPropertyChanged("visibility")
-        }
-    }
-    
-    let message = OverlayMessageViewModel()
-    
+
     func reset() {
-        heroStats = nil
-        isViewingTeammate = false
-        statsVisibility = false
-        message.clear()
-    }
-    
-    var scaling: Double {
-        get {
-            return getProp(1.0)
-        }
-        set {
-            setProp(newValue)
+        onMain {
+            self.heroStats = nil
+            self._isViewingTeammate = false
+            self._statsVisibility = false
+            self.message.clear()
         }
     }
-    
-    var selectedHeroDbfId: Int {
-        get {
-            getProp(0)
+
+    func setHeroStats(stats: [BattlegroundsHeroPickStats.BattlegroundsSingleHeroPickStats], parameters: [String: String]?, minMmr: Int?, anomalyadjusted: Bool) {
+        let filterValue = parameters?["mmrPercentile"]
+
+        onMain {
+            withAnimation(.easeInOut(duration: Self.fadeDuration)) {
+                self.heroStats = stats.compactMap { x in BattlegroundsSingleHeroViewModel(stats: x, onPlacementHover: self.setPlacementVisible) }
+
+                self.message.mmr(filterValue: filterValue, minMMR: minMmr, anomalyAdjusted: anomalyadjusted)
+
+                self._statsVisibility = Settings.showBattlegroundsHeroPicking
+            }
         }
-        set {
-            setProp(newValue)
-            guard let heroStats else {
+    }
+
+    func invalidateSingleHeroStats(_ dbfId: Int) {
+        onMain {
+            self.heroStats = self.heroStats?.compactMap { x in x.heroDbfId == dbfId ? BattlegroundsSingleHeroViewModel(stats: nil, onPlacementHover: self.setPlacementVisible) : x }
+        }
+    }
+
+    // Hovering any one hero's average placement reveals the placement
+    // distribution on every hero at once.
+    func setPlacementVisible(_ isVisible: Bool) {
+        onMain {
+            guard let heroStats = self.heroStats else {
                 return
             }
-            let selectedHeroIndex = heroStats.firstIndex { x in x.heroDbfId == newValue }
-            let game = AppDelegate.instance().coreManager.game
-            
-            if let selectedHeroIndex {
-                let direction = (selectedHeroIndex >= heroStats.count / 2) ? -1 : 1
-                for i in 0 ..< heroStats.count {
-                    heroStats[i].setHiddenByHeroPower(i == selectedHeroIndex + direction || game.battlegroundsBuddiesEnabled && i == selectedHeroIndex + 2 * direction)
-                }
-            } else {
-                for i in 0 ..< heroStats.count {
-                    heroStats[i].setHiddenByHeroPower(false)
-                }
+            for hero in heroStats {
+                hero.bgsHeroHeaderVM.placementDistributionVisibility = isVisible
             }
         }
     }
-    
-    var statsText: String? {
-        get {
-            return getProp("")
-        }
-        set {
-            setProp(newValue)
-        }
-    }
-    
-    @available(macOS 10.15.0, *)
-    func setHeroStats(stats: [BattlegroundsHeroPickStats.BattlegroundsSingleHeroPickStats], parameters: [String: String]?, minMmr: Int?, anomalyadjusted: Bool) async {
-        heroStats = stats.compactMap { x in BattlegroundsSingleHeroViewModel(stats: x, onPlacementHover: setPlacementVisible) }
-        let filterValue = parameters?["mmrPercentile"]
-        
-        message.mmr(filterValue: filterValue, minMMR: minMmr, anomalyAdjusted: anomalyadjusted)
-        
-        statsVisibility = Settings.showBattlegroundsHeroPicking ? true : false
-    }
-    
-    func invalidateSingleHeroStats(_ dbfId: Int) {
-        heroStats = heroStats?.compactMap { x in x.heroDbfId == dbfId ? BattlegroundsSingleHeroViewModel(stats: nil, onPlacementHover: setPlacementVisible) : x }
-    }
-    
-    func setPlacementVisible(_ isVisible: Bool) {
-        guard let heroStats else {
-            return
-        }
-        let visibility = isVisible
-        for hero in heroStats {
-            hero.bgsHeroHeaderVM.placementDistributionVisibility = visibility
+
+    // anim:FadeAnimation.Duration="0:0:0.2" on the stats grid.
+    static let fadeDuration = 0.2
+
+    // The log reader, the watchers and BobsBuddy all call in from their own
+    // threads, and @Published has to be written on the main one.
+    private func onMain(_ block: @escaping () -> Void) {
+        if Thread.isMainThread {
+            block()
+        } else {
+            DispatchQueue.main.async(execute: block)
         }
     }
 }

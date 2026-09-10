@@ -3219,6 +3219,83 @@
         }
       }
     },
+    "BattlegroundsHeroPicking_Header_AvgPlacement" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avg Placement"
+          }
+        }
+      }
+    },
+    "BattlegroundsHeroPicking_Header_AvgPlacementTooltip_Desc" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The final placement the hero achieves on average, adjusted for the available minion types"
+          }
+        }
+      }
+    },
+    "BattlegroundsHeroPicking_Header_AvgPlacementTooltip_Title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Average Placement"
+          }
+        }
+      }
+    },
+    "BattlegroundsHeroPicking_Header_PickRate" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pick Rate"
+          }
+        }
+      }
+    },
+    "BattlegroundsHeroPicking_Header_PickRateTooltip_Desc" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Percent of the time this hero is picked at the start of a game when presented as an option"
+          }
+        }
+      }
+    },
+    "BattlegroundsHeroPicking_Header_PickRateTooltip_Title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pick Rate"
+          }
+        }
+      }
+    },
+    "BattlegroundsHeroPicking_Header_Tier" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TIER"
+          }
+        }
+      }
+    },
     "BattlegroundsHeroPicking_Header_Tier1Tooltip_Title" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3270,6 +3347,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Armor Range: %d - %d"
+          }
+        }
+      }
+    },
+    "BattlegroundsHeroPicking_PlacementDistribution_NoData" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No placement data"
           }
         }
       }

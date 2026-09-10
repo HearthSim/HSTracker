@@ -334,3 +334,101 @@ extension View {
                                                  verticalOffset: verticalOffset))
     }
 }
+
+// MARK: - Battlegrounds top-placed tooltip
+
+// Mirrors HDT's BgsTooltipStyle (Controls/Overlay/Battlegrounds/
+// BattlegroundsResources.xaml), the style the hero, quest and trinket pickers
+// put on every ToolTip they declare: a #141617 bubble with a 1pt #361637
+// border, 8pt padding, MaxWidth="230" and white 12pt centred wrapping text,
+// placed above its target with a small diamond pointing back down at it.
+//
+// Drawn in place like GuideTooltipModifier above rather than in its own panel,
+// which is what HDT does too - the picker's own resources give the tooltip the
+// control's LayoutTransform so it scales with the overlay.
+@available(macOS 10.15, *)
+private struct BgsTopTooltipModifier: ViewModifier {
+    let title: String
+    let desc: String
+
+    @SwiftUI.State private var isHovering = false
+
+    // Placement="Top" with VerticalOffset="-4", plus the template Border's own
+    // 10pt bottom margin.
+    private static let gap: CGFloat = 14
+
+    func body(content viewContent: Content) -> some View {
+        viewContent
+            .onHover { isHovering = $0 }
+            .overlay(bubble, alignment: .top)
+    }
+
+    @ViewBuilder
+    private var bubble: some View {
+        if isHovering {
+            // Zero-height marker on the anchor's top edge with the bubble
+            // bottom-aligned onto it, so it grows upward without this view
+            // needing to know its height - the same trick GuideTooltipModifier
+            // uses, and the same centring HDT's TooltipPosition converter does.
+            Color.clear
+                .frame(height: 0)
+                .overlay(BgsTopTooltipBubble(title: title, desc: desc), alignment: .bottom)
+                .offset(y: -Self.gap)
+                .allowsHitTesting(false)
+        }
+    }
+}
+
+@available(macOS 10.15, *)
+private struct BgsTopTooltipBubble: View {
+    let title: String
+    let desc: String
+
+    // MaxWidth="230" on the Border, inclusive of its 8pt padding and 1pt
+    // border. Pinned rather than capped, as in the two bubbles above.
+    private static let textWidth: CGFloat = 230 - 2 * (8 + 1)
+
+    private static let background = Color(red: 0x14 / 255, green: 0x16 / 255, blue: 0x17 / 255)
+    private static let border = Color(red: 0x36 / 255, green: 0x16 / 255, blue: 0x37 / 255)
+
+    var body: some View {
+        ZStack(alignment: .bottom) {
+            // Declared before the body Border in the template, so the body
+            // draws over its upper half and only the tip shows.
+            arrow
+            box
+        }
+    }
+
+    private var box: some View {
+        (Text(title).font(.system(size: 12, weight: .bold)) + Text(verbatim: "\n") + Text(desc).font(.system(size: 12)))
+            .foregroundColor(.white)
+            .multilineTextAlignment(.center)
+            // Vertical-only fixedSize against a definite width, for the reason
+            // spelled out in GuideTooltipBubble.
+            .fixedSize(horizontal: false, vertical: true)
+            .frame(width: Self.textWidth)
+            .padding(8)
+            .background(Self.background)
+            .overlay(Rectangle().stroke(Self.border, lineWidth: 1))
+    }
+
+    // A 12x12 Border rotated 45 degrees about its centre, sitting 4pt above the
+    // tooltip's own bottom edge while the body sits 10pt above it - so it pokes
+    // 6pt out from under the body.
+    private var arrow: some View {
+        Rectangle()
+            .fill(Self.background)
+            .overlay(Rectangle().stroke(Self.border, lineWidth: 1))
+            .frame(width: 12, height: 12)
+            .rotationEffect(.degrees(45))
+            .offset(y: 6)
+    }
+}
+
+@available(macOS 10.15, *)
+extension View {
+    func bgsTopTooltip(title: String, desc: String) -> some View {
+        modifier(BgsTopTooltipModifier(title: title, desc: desc))
+    }
+}

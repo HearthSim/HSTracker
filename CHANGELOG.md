@@ -12,6 +12,7 @@
 - The Tier7 panel in the Battlegrounds lobby now matches Hearthstone Deck Tracker: it can be folded away by its header chevron, a settings button appears in its corner on hover, a sale offer is shown when one is running, and it scales with the game window.
 - The Battlegrounds session panel now matches Hearthstone Deck Tracker: the available and banned minion types can be shown at the same time, a past game's final board appears beside its row, and a settings button appears in the panel's corner on hover, and it is dragged around the game window directly instead of being moved as a separate window.
 - The panel showing a hovered opponent's last known warband, and the turns each dead player has been out, now match Hearthstone Deck Tracker: both scale with the game window and sit where they do there.
+- The hero picking stats now match Hearthstone Deck Tracker: they scale with the game window, hovering a hero's average placement shows how often it finishes in each place, and the average placement and pick rate now explain themselves on hover.
 ## Bob's Buddy
 - Fixed Bob's Buddy being left without odds because the app shipped an incomplete, out-of-date copy of the runtime it simulates with.
 - Fixed HSTracker crashing during a Battlegrounds combat with Scoutmaster Tavish's Lock and Load, a magnetized Auto Assembler, or a minion granted "Crab Riding". (#1436)

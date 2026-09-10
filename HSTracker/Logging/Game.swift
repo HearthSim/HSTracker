@@ -672,22 +672,12 @@ class Game: NSObject, PowerEventHandler {
             // window of its own to move or hide - the same visibility rules it
             // is given everywhere else cover the focus change too.
             self.updateBattlegroundsSessionVisibility()
-            // The Tier7 pre-lobby panel is a RootOverlay child now too, and
-            // unlike the AppKit window it replaced it needs nothing here at
-            // all: Game.updateRootOverlay already hides the whole canvas when
-            // Hearthstone goes to the background.
-            
-            if self.windowManager.battlegroundsHeroPicking.viewModel.visibility {
-                if (Settings.hideAllWhenGameInBackground && hsActive) || !Settings.hideAllWhenGameInBackground {
-                    self.windowManager.show(controller: self.windowManager.battlegroundsHeroPicking, show: true, frame: SizeHelper.hearthstoneWindow.frame, overlay: true)
-                    DispatchQueue.main.async {
-                        self.windowManager.battlegroundsHeroPicking.updateScaling()
-                    }
-                } else {
-                    self.windowManager.show(controller: self.windowManager.battlegroundsHeroPicking, show: false)
-                }
-            }
-            
+            // The Tier7 pre-lobby panel and the hero picking stats are
+            // RootOverlay children now too, and unlike the AppKit windows they
+            // replaced they need nothing here at all: Game.updateRootOverlay
+            // already hides the whole canvas when Hearthstone goes to the
+            // background.
+
             if self.windowManager.battlegroundsQuestPicking.viewModel.visibility {
                 if (Settings.hideAllWhenGameInBackground && hsActive) || !Settings.hideAllWhenGameInBackground {
                     self.windowManager.show(controller: self.windowManager.battlegroundsQuestPicking, show: true, frame: SizeHelper.hearthstoneWindow.frame, overlay: true)
@@ -2310,10 +2300,10 @@ class Game: NSObject, PowerEventHandler {
             OpponentDeadForTracker.reset()
             updatePostGameBattlegroundsRating(gameStats: currentGameStats)
             captureBattlegroundsGame(stats: currentGameStats)
-            windowManager.battlegroundsHeroPicking.viewModel.reset()
             windowManager.battlegroundsQuestPicking.viewModel.reset()
             windowManager.battlegroundsTrinketPicking.viewModel.reset()
             if #available(macOS 10.15, *) {
+                windowManager.rootOverlay?.viewModel.battlegroundsHeroPicking.reset()
                 // GameEventHandler's IsBattlegroundsMatch branch clears the trial
                 // once the match it was activated for is over, so the next game
                 // has to spend a trial of its own rather than riding this token.
@@ -2627,7 +2617,9 @@ class Game: NSObject, PowerEventHandler {
                 self.hideMulliganGuideStats()
                 self.player.mulliganCardStats = nil
                 
-                self.windowManager.battlegroundsHeroPicking.viewModel.reset()
+                if #available(macOS 10.15, *) {
+                    self.windowManager.rootOverlay?.viewModel.battlegroundsHeroPicking.reset()
+                }
                 self.windowManager.battlegroundsQuestPicking.viewModel.reset()
                 self.windowManager.battlegroundsTrinketPicking.viewModel.reset()
                 self.hideBattlegroundsHeroPanel()
@@ -3179,7 +3171,7 @@ class Game: NSObject, PowerEventHandler {
         }
 
         // the stats are no longer relevant
-        if gameEntity?[.step] ?? 0 > Step.begin_mulligan.rawValue || isInMenu || windowManager.battlegroundsHeroPicking.viewModel.heroStats == nil {
+        if gameEntity?[.step] ?? 0 > Step.begin_mulligan.rawValue || isInMenu || windowManager.rootOverlay?.viewModel.battlegroundsHeroPicking.heroStats == nil {
             return
         }
 
@@ -3197,7 +3189,7 @@ class Game: NSObject, PowerEventHandler {
             if #available(macOS 10.15, *) {
                 Task.detached { @MainActor in
                     if let cardId = oldCardId, let theDbfId = Cards.by(cardId: cardId)?.dbfId {
-                        self.windowManager.battlegroundsHeroPicking.viewModel.invalidateSingleHeroStats(theDbfId)
+                        self.windowManager.rootOverlay?.viewModel.battlegroundsHeroPicking.invalidateSingleHeroStats(theDbfId)
                     }
                     await self.refreshBattlegroundsHeroPickStats()
                 }
@@ -3255,9 +3247,7 @@ class Game: NSObject, PowerEventHandler {
     @MainActor
     private func showBattlegroundsHeroPickingStats(_ heroStats: [BattlegroundsHeroPickStats.BattlegroundsSingleHeroPickStats], _ parameters: [String: String]?, _ minMmr: Int?, _ anomalyAdjusted: Bool) {
         if #available(macOS 10.15, *) {
-            Task.detached {
-                await self.windowManager.battlegroundsHeroPicking.viewModel.setHeroStats(stats: heroStats, parameters: parameters, minMmr: minMmr, anomalyadjusted: anomalyAdjusted)
-            }
+            windowManager.rootOverlay?.viewModel.battlegroundsHeroPicking.setHeroStats(stats: heroStats, parameters: parameters, minMmr: minMmr, anomalyadjusted: anomalyAdjusted)
         }
     }
     
@@ -3888,7 +3878,7 @@ class Game: NSObject, PowerEventHandler {
             windowManager.rootOverlay?.viewModel.battlegroundsHeroGuides.selectHero(dbfId: pickedHeroDbfId)
             hideBattlegroundsHeroPanel()
             hideBattlegroundsTimewarpPanel()
-            windowManager.battlegroundsHeroPicking.viewModel.reset()
+            windowManager.rootOverlay?.viewModel.battlegroundsHeroPicking.reset()
             if #available(macOS 10.15, *) {
                 windowManager.rootOverlay?.viewModel.battlegroundsSession.hideCompStatsOnError()
             }
