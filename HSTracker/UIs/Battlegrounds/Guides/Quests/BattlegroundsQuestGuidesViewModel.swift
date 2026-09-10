@@ -35,6 +35,16 @@ final class BattlegroundsQuestGuidesViewModel: ObservableObject {
         selectedQuests.append(BattlegroundsQuestGuideViewModel(questCard: card, questGuide: guide))
     }
 
+    // The guide for one offered reward, for the tooltip the quest picker
+    // raises - HDT's BattlegroundsQuestGuideListViewModel.GetQuestGuide, keyed
+    // by the reward card the way selectQuest(card:) above is.
+    func guide(rewardDbfId: Int) -> BattlegroundsQuestGuideViewModel? {
+        guard let card = Cards.by(dbfId: rewardDbfId, collectible: false) else {
+            return nil
+        }
+        return BattlegroundsQuestGuideViewModel(questCard: card, questGuide: questGuides?[rewardDbfId])
+    }
+
     func onMatchEnd() {
         selectedQuests = []
     }

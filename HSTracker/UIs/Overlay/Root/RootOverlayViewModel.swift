@@ -56,16 +56,21 @@ class RootOverlayViewModel: ObservableObject {
     // than their bounding box - see the preference key for why.
     @Published var interactiveRegions: [CGRect] = []
 
-    // Frame of whichever child wants to know when the cursor is merely *over*
-    // it, without claiming clicks. This is HDT's IsOverlayHoverVisible, the
-    // counterpart to the IsOverlayHitTestVisible that interactiveRegion covers:
+    // Frames of the children that want to know when the cursor is merely *over*
+    // them, without claiming clicks. This is HDT's IsOverlayHoverVisible, the
+    // counterpart to the IsOverlayHitTestVisible that interactiveRegions covers:
     // BgsTopBarMask is `IsHitTestVisible="False"` precisely so it can reveal the
     // minion browser's filter button on hover while every click in that corner
-    // still falls through to Hearthstone.
+    // still falls through to Hearthstone, and the guide tooltips over the
+    // offered heroes and quest rewards have to leave those cards clickable.
     //
     // Reported by HoverRegionPreferenceKey and matched against the cursor by
     // RootOverlayWindow, which tracks it continuously regardless of
     // ignoresMouseEvents - SwiftUI's own .onHover can't do this job, since it
     // only fires once the window has already stopped being click-through.
-    @Published var hoverRegion: CGRect?
+    @Published var hoverRegions: [HoverRegion] = []
+
+    // The ids of the hover regions the cursor is currently inside, written by
+    // RootOverlayWindow on every mouse move.
+    @Published var hoveredRegionIds: Set<String> = []
 }

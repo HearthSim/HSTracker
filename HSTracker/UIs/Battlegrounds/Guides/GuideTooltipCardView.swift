@@ -18,10 +18,24 @@ import SwiftUI
 struct GuideTooltipCardView: View {
     let howToPlay: String
     let favorableTribes: [Race]
+    // HeroGuideTooltip.xaml alone carries a second block under the guide, shown
+    // while buddies are enabled; the trinket, quest and anomaly tooltips have
+    // none, so it defaults to empty for them.
+    var buddyGuide: String = ""
 
-    private static let width: CGFloat = 260
+    // MaxWidth="300" MinWidth="200" on the Border; pinned, as the other
+    // tooltips in this overlay are. Read by the pickers, which place the card
+    // beside the hovered hero or reward.
+    static let width: CGFloat = 260
+
+    // HDT's HeroGuideVisibility, QuestGuideVisibility and
+    // TrinketGuideVisibility all gate on the same pair of settings.
+    static var isEnabled: Bool {
+        return Settings.showBattlegroundsBrowser && Settings.showBattlegroundsGuides
+    }
 
     var isGuidePublished: Bool { !howToPlay.isEmpty }
+    private var isBuddyGuidePublished: Bool { isGuidePublished && !buddyGuide.isEmpty }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -65,16 +79,38 @@ struct GuideTooltipCardView: View {
     @ViewBuilder
     private var content: some View {
         if isGuidePublished {
-            // TrinketGuideTooltip.xaml/AnomalyGuideTooltip.xaml both spec
-            // FontSize 15 / LineHeight 23 here, not 13 with no line spacing.
-            GuideText(text: howToPlay, fontSize: 15, color: .white, lineSpacing: 8)
-                .padding(16)
+            VStack(alignment: .leading, spacing: 0) {
+                // TrinketGuideTooltip.xaml/AnomalyGuideTooltip.xaml both spec
+                // FontSize 15 / LineHeight 23 here, not 13 with no line spacing.
+                GuideText(text: howToPlay, fontSize: 15, color: .white, lineSpacing: 8)
+                if isBuddyGuidePublished {
+                    buddyBlock
+                }
+            }
+            .padding(16)
         } else {
             Text("No guide available")
                 .font(.system(size: 12))
                 .foregroundColor(.white.opacity(0.7))
                 .padding(16)
         }
+    }
+
+    // HeroGuideTooltip.xaml's buddy block: a #1C2022 box with a 1pt #2e3235
+    // border and a 5pt radius, 9pt of padding, 9pt below the guide, headed by
+    // the Chunkfive "Buddy Guide" line the hero guide panel uses too.
+    private var buddyBlock: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Buddy Guide")
+                .chunkFive(size: 12)
+                .outlinedText()
+            // FontSize 11 / LineHeight 17, as in the panel.
+            GuideText(text: buddyGuide, fontSize: 11, color: .white.opacity(0.7), lineSpacing: 6)
+        }
+        .padding(9)
+        .background(RoundedRectangle(cornerRadius: 5).fill(Color(hex: "#1C2022")))
+        .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(hex: "#2e3235"), lineWidth: 1))
+        .padding(.top, 9)
     }
 
     private var footer: some View {

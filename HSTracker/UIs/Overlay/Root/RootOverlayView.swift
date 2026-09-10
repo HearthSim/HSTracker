@@ -31,18 +31,41 @@ struct InteractiveRegionPreferenceKey: PreferenceKey {
     }
 }
 
-// Reports the on-screen frame of a child that wants hover without claiming
-// clicks - HDT's IsOverlayHoverVisible, as opposed to the
-// IsOverlayHitTestVisible that InteractiveRegionPreferenceKey above models.
-// RootOverlayWindow matches the cursor against this without ever touching
-// ignoresMouseEvents, so the pixels stay click-through.
+// One child's claim on hover without claiming clicks - HDT's
+// IsOverlayHoverVisible, as opposed to the IsOverlayHitTestVisible that
+// InteractiveRegionPreferenceKey above models. RootOverlayWindow matches the
+// cursor against these without ever touching ignoresMouseEvents, so the pixels
+// stay click-through.
+//
+// Carries an id because several children want this at once and each needs to
+// know whether the cursor is over *it*: the top-bar mask, and one region per
+// offered hero and quest reward for their guide tooltips.
+@available(macOS 10.15, *)
+struct HoverRegion: Equatable {
+    let id: String
+    let rect: CGRect
+}
+
+// The ids the hover regions are matched by. Free functions rather than
+// stringly-typed call sites, since both ends have to agree on them.
+@available(macOS 10.15, *)
+enum HoverRegionID {
+    static let bgsTopBarMask = "bgsTopBarMask"
+
+    static func heroGuide(_ index: Int) -> String {
+        return "heroGuide.\(index)"
+    }
+
+    static func questGuide(_ index: Int) -> String {
+        return "questGuide.\(index)"
+    }
+}
+
 @available(macOS 10.15, *)
 struct HoverRegionPreferenceKey: PreferenceKey {
-    static var defaultValue: CGRect?
-    static func reduce(value: inout CGRect?, nextValue: () -> CGRect?) {
-        if let next = nextValue() {
-            value = value?.union(next) ?? next
-        }
+    static var defaultValue: [HoverRegion] = []
+    static func reduce(value: inout [HoverRegion], nextValue: () -> [HoverRegion]) {
+        value.append(contentsOf: nextValue())
     }
 }
 
@@ -121,12 +144,16 @@ struct RootOverlayView: View {
                     // subtree's own canvas - so it just takes it whole and
                     // places its plates with the XAML's alignments.
                     BattlegroundsHeroPickingView(viewModel: viewModel.battlegroundsHeroPicking,
+                                                 heroGuides: viewModel.battlegroundsHeroGuides,
+                                                 hoveredRegions: viewModel.hoveredRegionIds,
                                                  canvasWidth: canvasWidth)
 
                     // The quest and trinket picking stats, declared right
                     // after the hero picker on HDT's canvas and sized to it the
                     // same way.
                     BattlegroundsQuestPickingView(viewModel: viewModel.battlegroundsQuestPicking,
+                                                  questGuides: viewModel.battlegroundsQuestGuides,
+                                                  hoveredRegions: viewModel.hoveredRegionIds,
                                                   canvasWidth: canvasWidth)
                     BattlegroundsTrinketPickingView(viewModel: viewModel.battlegroundsTrinketPicking,
                                                     canvasWidth: canvasWidth)
@@ -176,7 +203,8 @@ struct RootOverlayView: View {
                                 GeometryReader { proxy in
                                     Color.clear.preference(
                                         key: HoverRegionPreferenceKey.self,
-                                        value: proxy.frame(in: .rootOverlayCanvas)
+                                        value: [HoverRegion(id: HoverRegionID.bgsTopBarMask,
+                                                            rect: proxy.frame(in: .rootOverlayCanvas))]
                                     )
                                 }
                             )
@@ -269,8 +297,8 @@ struct RootOverlayView: View {
         .onPreferenceChange(InteractiveRegionPreferenceKey.self) { regions in
             viewModel.interactiveRegions = regions
         }
-        .onPreferenceChange(HoverRegionPreferenceKey.self) { region in
-            viewModel.hoverRegion = region
+        .onPreferenceChange(HoverRegionPreferenceKey.self) { regions in
+            viewModel.hoverRegions = regions
         }
     }
 }

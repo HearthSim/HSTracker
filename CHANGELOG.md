@@ -14,6 +14,7 @@
 - The panel showing a hovered opponent's last known warband, and the turns each dead player has been out, now match Hearthstone Deck Tracker: both scale with the game window and sit where they do there.
 - The hero picking stats now match Hearthstone Deck Tracker: they scale with the game window, hovering a hero's average placement shows how often it finishes in each place, and the average placement and pick rate now explain themselves on hover.
 - The quest and trinket picking stats are drawn the way Hearthstone Deck Tracker draws them, the quest stats explain themselves on hover, and the trinket show/hide button and guide tooltips no longer take the mouse away from the rest of the game window.
+- Hovering an offered hero or quest reward now shows its guide, the way hovering a trinket already did, and every guide tooltip is hidden when the Battlegrounds guides are switched off.
 ## Bob's Buddy
 - Fixed Bob's Buddy being left without odds because the app shipped an incomplete, out-of-date copy of the runtime it simulates with.
 - Fixed HSTracker crashing during a Battlegrounds combat with Scoutmaster Tavish's Lock and Load, a magnetized Auto Assembler, or a minion granted "Crab Riding". (#1436)

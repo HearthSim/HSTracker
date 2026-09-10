@@ -110,7 +110,12 @@ class RootOverlayWindow: OverWindowController {
     // slides out to. Called before the interactiveRegion guard below so it keeps
     // running while the overlay is fully click-through.
     private func updateFilterRegionHover(at viewPoint: NSPoint) {
-        let hovering = viewModel.hoverRegion?.contains(viewPoint) ?? false
+        let hovered = Set(viewModel.hoverRegions.filter { $0.rect.contains(viewPoint) }.map { $0.id })
+        if viewModel.hoveredRegionIds != hovered {
+            viewModel.hoveredRegionIds = hovered
+        }
+
+        let hovering = hovered.contains(HoverRegionID.bgsTopBarMask)
         let minions = viewModel.battlegroundsMinionsGuide
         guard minions.isFilterRegionHovered != hovering else { return }
         // Durations match the tab's own slide storyboard: 0.2s out, 0.4s back.

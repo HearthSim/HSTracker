@@ -148,7 +148,7 @@ struct BattlegroundsSingleTrinketView: View {
     }
 
     private static func loadGuide(dbfId: Int?) -> GuideTooltipCardView? {
-        guard let dbfId else {
+        guard let dbfId, GuideTooltipCardView.isEnabled else {
             return nil
         }
         let game = AppDelegate.instance().coreManager.game

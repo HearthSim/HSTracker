@@ -23,6 +23,10 @@ import SwiftUI
 @available(macOS 10.15, *)
 struct BattlegroundsHeroPickingView: View {
     @ObservedObject var viewModel: BattlegroundsHeroPickingViewModel
+    // The loaded hero guides, for the tooltip a hovered hero raises.
+    @ObservedObject var heroGuides: BattlegroundsHeroGuidesViewModel
+    // The hover regions the cursor is currently inside, from RootOverlayWindow.
+    let hoveredRegions: Set<String>
     let canvasWidth: CGFloat
 
     // Each hero is a Height="568" Width="266" Grid with Margin="37,0" in a
@@ -45,6 +49,7 @@ struct BattlegroundsHeroPickingView: View {
         ZStack {
             heroes(heroStats)
             message
+            guideTooltip(heroStats)
         }
         .frame(width: canvasWidth, height: 1080)
         // anim:FadeAnimation Direction="Down" Distance="20" Duration="0:0:0.2":
@@ -60,12 +65,61 @@ struct BattlegroundsHeroPickingView: View {
     // the centre of the canvas.
     private func heroes(_ heroStats: [BattlegroundsSingleHeroViewModel]) -> some View {
         HStack(spacing: 0) {
-            ForEach(heroStats) { hero in
-                BattlegroundsSingleHeroStatsView(viewModel: hero)
+            ForEach(Array(heroStats.enumerated()), id: \.offset) { index, hero in
+                BattlegroundsSingleHeroStatsView(viewModel: hero,
+                                                 guideRegionId: HoverRegionID.heroGuide(index))
                     .frame(width: Self.cellWidth, height: BattlegroundsSingleHeroStatsView.size.height)
             }
         }
-        .offset(x: 14 / 2, y: 57 / 2)
+        .offset(x: Self.rowOffsetX, y: 57 / 2)
+    }
+
+    // MARK: - Hero guide tooltip
+
+    // HDT raises this from its own SetHeroGuidesTrigger, a hover-only rectangle
+    // it positions over the offered hero from the game's mulligan tooltip
+    // state. HSTracker has no such watcher, so the sensor is the hero's own
+    // slot in this overlay - which is laid out over that same hero - and only
+    // the placement is taken from HDT: vm.Top = Height * 0.21 and the card
+    // beside the hovered hero, on whichever side has room for it.
+    private static let guideTop: CGFloat = 0.21 * 1080
+    private static let guideGap: CGFloat = 8
+    private static let rowOffsetX: CGFloat = 14 / 2
+
+    @ViewBuilder
+    private func guideTooltip(_ heroStats: [BattlegroundsSingleHeroViewModel]) -> some View {
+        if GuideTooltipCardView.isEnabled,
+           let index = hoveredIndex(count: heroStats.count),
+           let dbfId = heroStats[index].heroDbfId,
+           let guide = heroGuides.guide(dbfId: dbfId) {
+            ZStack(alignment: .topLeading) {
+                Color.clear
+                GuideTooltipCardView(howToPlay: guide.howToPlay,
+                                     favorableTribes: guide.favorableTribes,
+                                     buddyGuide: guide.isBuddyGuidePublished ? guide.howToPlayBuddy : "")
+                    .padding(.leading, guideLeft(index: index, count: heroStats.count))
+                    .padding(.top, Self.guideTop)
+            }
+            .frame(width: canvasWidth, height: 1080)
+            .allowsHitTesting(false)
+        }
+    }
+
+    private func hoveredIndex(count: Int) -> Int? {
+        return (0..<count).first { hoveredRegions.contains(HoverRegionID.heroGuide($0)) }
+    }
+
+    // The hovered hero's own column, worked back from the centred row, and then
+    // the card just outside it - to its right for the heroes in the left half
+    // of the row, to its left for the rest, so the card always stays on screen.
+    private func guideLeft(index: Int, count: Int) -> CGFloat {
+        let rowCentre = canvasWidth / 2 + Self.rowOffsetX
+        let cardCentre = rowCentre + (CGFloat(index) - CGFloat(count - 1) / 2) * Self.cellWidth
+        let halfCard = BattlegroundsSingleHeroStatsView.size.width / 2
+        if index < count / 2 {
+            return cardCentre + halfCard + Self.guideGap
+        }
+        return cardCentre - halfCard - Self.guideGap - GuideTooltipCardView.width
     }
 
     // HorizontalAlignment="Center" VerticalAlignment="Bottom"

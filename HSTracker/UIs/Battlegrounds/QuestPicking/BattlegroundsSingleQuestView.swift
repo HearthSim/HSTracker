@@ -21,6 +21,9 @@ private extension Color {
 @available(macOS 10.15, *)
 struct BattlegroundsSingleQuestView: View {
     let viewModel: BattlegroundsSingleQuestViewModel
+    // The id this reward's guide tooltip sensor reports itself under, so
+    // RootOverlayWindow can say whether the cursor is over this reward.
+    let guideRegionId: String
 
     // The DataTemplate's Grid: Height="880" Width="273".
     static let size = CGSize(width: 273, height: 880)
@@ -37,8 +40,21 @@ struct BattlegroundsSingleQuestView: View {
         // their own Margin="0 667 0 0".
         VStack(spacing: 0) {
             header
+            // The gap the compositions box's own Margin="0 667 0 0" opens up is
+            // where the offered reward card itself sits, so it doubles as the
+            // guide tooltip's sensor - a hover region rather than an
+            // interactive one, so the click that picks the reward still reaches
+            // Hearthstone (HDT's own trigger is IsOverlayHoverVisible too).
+            Color.clear
+                .frame(height: 667)
+                .background(
+                    GeometryReader { proxy in
+                        Color.clear.preference(key: HoverRegionPreferenceKey.self,
+                                               value: [HoverRegion(id: guideRegionId,
+                                                                   rect: proxy.frame(in: .rootOverlayCanvas))])
+                    }
+                )
             BattlegroundsCompositionPopularityView(viewModel: viewModel.compVM)
-                .padding(.top, 667)
             Spacer(minLength: 0)
         }
         .frame(width: Self.size.width, height: Self.size.height, alignment: .top)

@@ -45,6 +45,16 @@ final class BattlegroundsHeroGuidesViewModel: ObservableObject {
     // there's no need to refetch it every match - only which hero is
     // currently selected needs clearing. Mirrors BattlegroundsCompsGuidesVM's
     // onMatchEnd()/reset() split.
+    // The guide for one offered hero, for the tooltip the hero picker raises -
+    // HDT's BattlegroundsHeroGuideListViewModel.GetHeroGuide, which is likewise
+    // keyed by the base hero rather than the skin that was offered.
+    func guide(dbfId: Int) -> BattlegroundsHeroGuideViewModel? {
+        guard let baseHero = Cards.getBattlegroundsHeroFromDbfid(dbfId: dbfId) else {
+            return nil
+        }
+        return BattlegroundsHeroGuideViewModel(heroCard: baseHero, heroGuide: heroGuides?[baseHero.dbfId])
+    }
+
     func onMatchEnd() {
         selectedHero = nil
         pickedHeroDbfId = nil

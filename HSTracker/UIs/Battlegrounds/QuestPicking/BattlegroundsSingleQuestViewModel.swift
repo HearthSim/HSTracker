@@ -15,7 +15,8 @@ class BattlegroundsSingleQuestViewModel: StatsHeaderViewModel {
     private(set) var compVM: BattlegroundsCompositionPopularityViewModel?
     
     init(stats: BattlegroundsQuestStats?) {
-        super.init(tier: stats?.tier_r, avgPlacement: stats?.avg_final_placement_r, pickRate: stats?.fp_pick_rate_r)
+        // The reward's own dbf id, which is what the quest guides are keyed by.
+        super.init(tier: stats?.tier_r, avgPlacement: stats?.avg_final_placement_r, pickRate: stats?.fp_pick_rate_r, dbfId: stats?.reward_dbf_id)
         
         logger.debug("QUEST Tier: \(tier ?? 0), placement: \(avgPlacement ?? 0.0), pick rate: \(pickRate ?? 0.0)")
         
