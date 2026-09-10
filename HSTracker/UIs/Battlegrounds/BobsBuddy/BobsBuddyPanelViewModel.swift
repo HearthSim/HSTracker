@@ -108,7 +108,7 @@ class BobsBuddyPanelViewModel: ObservableObject, BobsBuddyDisplay {
                 self.clearErrorState()
                 self.showResults(show: Settings.showBobsBuddyDuringCombat)
             } else if st == .shopping || st == .shoppingAfterPartial || st == .gameOver || st == .gameOverAfterPartial {
-                if !Settings.showBobsBuddyDuringShopping {
+                if Settings.showBobsBuddyDuringShopping {
                     self.showResults(show: true)
                 } else if self.showingResults {
                     // If the user has disabled the "Show During Shopping" setting we would usually hide Bob's Buddy here.
@@ -116,6 +116,8 @@ class BobsBuddyPanelViewModel: ObservableObject, BobsBuddyDisplay {
                     // - the game has ended (so we don't hide it again on the results screen), or
                     // - the previous simulation was deferred (so that the user can see the result).
                     self.showResults(show: st == .gameOver || st == .gameOverAfterPartial || lastState == .combatWithoutSimulation)
+                } else {
+                    self.showResults(show: false)
                 }
             } else if st == .combatWithoutSimulation {
                 self.showResults(show: false)

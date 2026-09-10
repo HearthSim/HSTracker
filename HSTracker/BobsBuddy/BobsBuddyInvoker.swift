@@ -512,7 +512,7 @@ class BobsBuddyInvoker {
         }
     }
     
-    func startShopping(isGameOver: Bool = true) {
+    func startShopping(isGameOver: Bool = false) {
         if !shouldRun() {
             return
         }
@@ -543,7 +543,7 @@ class BobsBuddyInvoker {
         if hasErrorState() {
             return
         }
-        BobsBuddyInvoker.bobsBuddyDisplay?.setState(st: wasPreviousStatePartial ? .gameOverAfterPartial : .gameOver)
+        BobsBuddyInvoker.bobsBuddyDisplay?.setState(st: state)
         validateSimulationResult()
     }
     
