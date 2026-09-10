@@ -232,16 +232,24 @@ class BattlegroundsPreferences: PreferencePaneController, PreferencePane {
     @IBAction func sliderChanged(_ sender: Any) {
         Settings.battlegroundsSessionScaling = scalingSlider.doubleValue / 100.0
         scalingValue.doubleValue = scalingSlider.doubleValue / 100.0
-        AppDelegate.instance().coreManager.game.windowManager.battlegroundsSession.updateScaling()
+        if #available(macOS 10.15, *) {
+            AppDelegate.instance().coreManager.game.windowManager.rootOverlay?
+                .viewModel.battlegroundsSession.updateScaling()
+        }
     }
 
     // The session panel keeps every section's visibility in its view model, so a
     // settings change has to be pushed into it rather than picked up on the next
     // redraw.
     private func updateSession() {
-        let session = AppDelegate.instance().coreManager.game.windowManager.battlegroundsSession
-        session.updateSectionsVisibilities()
-        session.update()
+        if #available(macOS 10.15, *) {
+            guard let session = AppDelegate.instance().coreManager.game.windowManager.rootOverlay?
+                .viewModel.battlegroundsSession else {
+                return
+            }
+            session.updateSectionsVisibilities()
+            session.update()
+        }
     }
     
     private func updateEnablement() {
@@ -290,7 +298,7 @@ class BattlegroundsPreferences: PreferencePaneController, PreferencePane {
         }
         
         BattlegroundsLastGames.instance.reset()
-        AppDelegate.instance().coreManager.game.windowManager.battlegroundsSession.update()
+        updateSession()
 
     }
 }

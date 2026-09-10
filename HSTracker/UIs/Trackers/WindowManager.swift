@@ -95,10 +95,6 @@ class WindowManager {
         return $0
     }(MercenariesTaskListView(windowNibName: "MercenariesTaskListView"))
     
-    var battlegroundsSession: BattlegroundsSession = {
-        return $0
-    }(BattlegroundsSession(windowNibName: "BattlegroundsSession"))
-    
     var tier7PreLobby: Tier7PreLobby = {
         return $0
     }(Tier7PreLobby(windowNibName: "Tier7PreLobby"))

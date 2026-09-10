@@ -84,31 +84,81 @@ class BattlegroundsSessionViewModel: ObservableObject {
     // is over the panel (Panel_MouseEnter/Panel_MouseLeave).
     @Published var isCogVisible = false
 
-    // Settings.battlegroundsSessionScaling, applied to the whole panel by
-    // BattlegroundsSessionRootView.
+    // Whether the panel is on screen at all - HDT's
+    // FadeAnimation.SetVisibility(BattlegroundsSessionStackPanel, ...).
+    @Published var isShown = false
+
+    // Settings.battlegroundsSessionScaling, HDT's OverlaySessionRecapScaling,
+    // applied to the whole panel as a RenderTransform would be. Note this is
+    // the *only* scale on the panel: unlike the guides it is not also scaled by
+    // the client's resolution, which is why it sits outside RootOverlayView's
+    // 1080-reference subtree.
     @Published var scaling: Double = Settings.battlegroundsSessionScaling
 
-    // The panel's laid-out (unscaled) size, reported back by the view.
-    @Published var panelSize: CGSize = .zero
+    // Where the panel sits on the overlay canvas, as a percentage of the canvas
+    // size - HDT's Canvas.SetTop(panel, Height * SessionRecapTop / 100) and the
+    // matching SetLeft.
+    @Published var top: Double = Settings.battlegroundsSessionTop
+    @Published var left: Double = Settings.battlegroundsSessionLeft
 
-    // Where the panel ends up inside its window once scaled - the pixels the
-    // window has to stop being click-through over. Its origin is (0, 0)
-    // because BattlegroundsSessionRootView pins the panel to the window's
-    // top-left corner.
-    var panelRegion: CGRect {
-        CGRect(x: 0, y: 0,
-               width: panelSize.width * CGFloat(scaling),
-               height: panelSize.height * CGFloat(scaling))
-    }
+    // The panel's laid-out (unscaled) size, reported back by the view so the
+    // overlay can work out which pixels it covers.
+    @Published var panelSize: CGSize = .zero
 
     // Which side of the Hearthstone window the panel sits on, which decides
     // whether a game row's final-board tooltip opens to its right or its left
     // (HDT's `tooltipToRight` in BattlegroundsGameViewModel.OnMouseEnter).
-    @Published var tooltipToRight = true
+    var tooltipToRight: Bool { left < 50 }
+
+    // MARK: - Dragging
+
+    private var lastDragTranslation: CGSize?
+
+    // HDT drags the panel by adding the raw mouse delta to the stored
+    // percentages (OverlayWindow.Input.cs: SessionRecapTop += delta.Y / Height,
+    // where delta is the per-move pixel delta pre-multiplied by 100). SwiftUI
+    // reports a running total instead of a per-event delta, so the increment is
+    // taken against the previous translation.
+    func drag(translation: CGSize, canvasSize: CGSize) {
+        guard canvasSize.width > 0, canvasSize.height > 0 else { return }
+        let previous = lastDragTranslation ?? .zero
+        let dx = translation.width - previous.width
+        let dy = translation.height - previous.height
+        lastDragTranslation = translation
+
+        top += Double(dy / canvasSize.height) * 100.0
+        left += Double(dx / canvasSize.width) * 100.0
+    }
+
+    // MouseInputOnLmbUp saves the config once the drag finishes.
+    func endDrag() {
+        lastDragTranslation = nil
+        Settings.battlegroundsSessionTop = top
+        Settings.battlegroundsSessionLeft = left
+    }
+
+    // The panel used to be its own window, dragged to an absolute screen rect.
+    // Convert that rect into the percentages above the first time we have a
+    // Hearthstone frame to measure it against, so a player who moved the panel
+    // keeps it where they put it. The old rect was only honoured when trackers
+    // were not auto-positioned, so neither is this.
+    func migratePositionIfNeeded() {
+        guard !Settings.migratedSessionPosition else { return }
+        let hearthstoneFrame = SizeHelper.hearthstoneWindow.frame
+        guard hearthstoneFrame.width > 0, hearthstoneFrame.height > 0 else { return }
+
+        if !Settings.autoPositionTrackers, let saved = Settings.battlegroundsSessionFrame,
+           saved.width > 0, saved.height > 0 {
+            left = Double((saved.minX - hearthstoneFrame.minX) / hearthstoneFrame.width) * 100.0
+            top = Double((hearthstoneFrame.maxY - saved.maxY) / hearthstoneFrame.height) * 100.0
+            Settings.battlegroundsSessionTop = top
+            Settings.battlegroundsSessionLeft = left
+        }
+        Settings.migratedSessionPosition = true
+    }
 
     // The Latest Games row the cursor is over, with its position in the panel's
-    // own coordinate space. BattlegroundsSession watches this and drives
-    // BattlegroundsFinalBoardPanel from it.
+    // own coordinate space, so the final-board tooltip can be placed against it.
     @Published var hoveredGame: HoveredGame?
 
     // MARK: - Mode
@@ -160,6 +210,27 @@ class BattlegroundsSessionViewModel: ObservableObject {
             return
         }
         update()
+    }
+
+    // The panel is drawn by RootOverlayView now, so "showing" it is a flag
+    // rather than a window; it still refreshes on the way in the way the
+    // window controller's show() did.
+    @MainActor
+    func setShown(_ shown: Bool) {
+        isShown = shown
+        guard shown else {
+            hoveredGame = nil
+            return
+        }
+        migratePositionIfNeeded()
+        scaling = Settings.battlegroundsSessionScaling
+        updateSectionsVisibilities()
+        update()
+    }
+
+    @MainActor
+    func updateScaling() {
+        scaling = Settings.battlegroundsSessionScaling
     }
 
     func onGameEnd() {
@@ -345,8 +416,6 @@ class BattlegroundsSessionViewModel: ObservableObject {
         compStatsBodyVisible = true
         compStatsWaitingMsgVisible = false
         compStatsErrorVisible = false
-
-        AppDelegate.instance().coreManager.game.updateBattlegroundsOverlays()
     }
 
     private func updateCompositionStatsIfNeeded() async {

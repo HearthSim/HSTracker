@@ -350,8 +350,19 @@ final class Settings {
     static var showMMRStartCurrent: Bool
     @UserDefault(key: Settings.show_latest_games, defaultValue: true)
     static var showLatestGames: Bool
+    // Where the session panel sits on the overlay canvas, as a percentage of the
+    // Hearthstone client's size - HDT's Config.SessionRecapTop / SessionRecapLeft,
+    // including their defaults.
+    @UserDefault(key: Settings.battlegrounds_session_top, defaultValue: 15.0)
+    static var battlegroundsSessionTop: Double
+    @UserDefault(key: Settings.battlegrounds_session_left, defaultValue: 0.0)
+    static var battlegroundsSessionLeft: Double
+    // The absolute frame the panel's own window used to be dragged to, kept only
+    // so BattlegroundsSessionViewModel can convert it into the pair above once.
     @UserDefaultCustom(key: Settings.battlegrounds_session_frame, defaultValue: nil)
     static var battlegroundsSessionFrame: NSRect?
+    @UserDefault(key: Settings.migrated_session_position, defaultValue: false)
+    static var migratedSessionPosition: Bool
     @UserDefault(key: Settings.enable_tier7_overlay, defaultValue: true)
     static var enableTier7Overlay: Bool
     @UserDefault(key: Settings.show_battlegrounds_tier7_prelobby, defaultValue: true)
@@ -713,6 +724,9 @@ extension Settings {
     static let show_banned_tribes = "show_banned_tribes"
     static let show_minion_types = "show_minion_types"
     static let show_minions_available = "show_minions_available"
+    static let battlegrounds_session_top = "battlegrounds_session_top"
+    static let battlegrounds_session_left = "battlegrounds_session_left"
+    static let migrated_session_position = "migrated_session_position"
     static let show_minions_banned = "show_minions_banned"
     static let migrated_session_minion_types = "migrated_session_minion_types"
     static let show_mmr = "show_mmr"

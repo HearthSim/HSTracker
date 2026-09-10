@@ -169,6 +169,13 @@ struct RootOverlayView: View {
                 MulliganGuideTrialsExhaustedView(viewModel: viewModel.mulliganGuideTrialsExhausted)
                 AnomalyGuideMulliganTriggerView(anomalyGuides: viewModel.battlegroundsAnomalyGuides, geometrySize: geometry.size)
                 AnomalyGuideBadgeTriggerView(anomalyGuides: viewModel.battlegroundsAnomalyGuides, geometrySize: geometry.size)
+                // The Battlegrounds session panel belongs in this fixed-pixel
+                // layer, not the scaled subtree above: HDT positions it on the
+                // overlay canvas with plain percentages of the canvas size and
+                // scales it only by the user's own OverlaySessionRecapScaling,
+                // never by the client's resolution.
+                BattlegroundsSessionOverlayView(viewModel: viewModel.battlegroundsSession,
+                                                canvasSize: geometry.size)
                 // Future SwiftUI overlay features attach here as additional children.
 
             }

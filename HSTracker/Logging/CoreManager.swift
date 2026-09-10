@@ -368,10 +368,9 @@ final class CoreManager: NSObject {
             // (`Tier7Trial.token != nil`) read as premium.
             Tier7Trial.clear()
         }
-        if wm.battlegroundsSession.visibility {
+        if #available(macOS 10.15, *) {
             DispatchQueue.main.async {
-                wm.battlegroundsSession.visibility = false
-                wm.show(controller: wm.battlegroundsSession, show: false)
+                wm.rootOverlay?.viewModel.battlegroundsSession.setShown(false)
             }
         }
         if wm.tier7PreLobby.isVisible {

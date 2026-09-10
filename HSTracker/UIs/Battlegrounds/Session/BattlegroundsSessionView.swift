@@ -39,12 +39,25 @@ struct BattlegroundsSessionView: View {
     var body: some View {
         panel
             .coordinateSpace(name: Self.coordinateSpace)
-            // The tooltip itself is a separate window - see
-            // BattlegroundsFinalBoardPanel - so all that leaves the view here is
-            // which row is hovered and where it is.
             .onPreferenceChange(HoveredGamePreferenceKey.self) { hovered in
                 viewModel.hoveredGame = hovered
             }
+            // Attached outside the corner clipping in `panel`, so a hovered
+            // game row's final board can extend past the panel's edge - in
+            // SwiftUI a clip applies to everything beneath it, which is why the
+            // row cannot draw this itself. It reaches across the overlay canvas
+            // exactly as HDT's does.
+            .overlay(finalBoardTooltip, alignment: .topLeading)
+    }
+
+    @ViewBuilder
+    private var finalBoardTooltip: some View {
+        if let hovered = viewModel.hoveredGame {
+            FinalBoardTooltipContainer(minions: hovered.viewModel.finalBoardMinions,
+                                       tooltipToRight: viewModel.tooltipToRight,
+                                       origin: CGPoint(x: hovered.frame.minX, y: hovered.frame.minY))
+                .allowsHitTesting(false)
+        }
     }
 
     private var panel: some View {
@@ -333,6 +346,47 @@ struct BattlegroundsSessionView: View {
             SessionCogButton()
                 .padding(4)
         }
+    }
+}
+
+// Places BattlegroundsFinalBoardTooltip at the hovered row's origin. Split out
+// so the tooltip's own measured width - which decides where it sits when it
+// opens to the left - can be held in @State without that state living on the
+// whole panel.
+@available(macOS 10.15, *)
+private struct FinalBoardTooltipContainer: View {
+    let minions: [Entity]
+    let tooltipToRight: Bool
+    let origin: CGPoint
+
+    @SwiftUI.State private var contentWidth: CGFloat = 0
+
+    var body: some View {
+        BattlegroundsFinalBoardTooltip(minions: minions,
+                                       tooltipToRight: tooltipToRight,
+                                       contentWidth: contentWidth)
+            .background(
+                GeometryReader { proxy in
+                    Color.clear.preference(key: FinalBoardWidthPreferenceKey.self,
+                                           value: proxy.size.width)
+                }
+            )
+            .opacity(0.95)
+            .scaleEffect(BattlegroundsFinalBoardTooltip.scale, anchor: .topLeading)
+            .offset(x: origin.x + BattlegroundsFinalBoardTooltip.canvasLeft(tooltipToRight: tooltipToRight,
+                                                                           contentWidth: contentWidth),
+                    y: origin.y + BattlegroundsFinalBoardTooltip.canvasTop(minionCount: minions.count))
+            .onPreferenceChange(FinalBoardWidthPreferenceKey.self) { width in
+                contentWidth = width
+            }
+    }
+}
+
+@available(macOS 10.15, *)
+private struct FinalBoardWidthPreferenceKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = max(value, nextValue())
     }
 }
 
