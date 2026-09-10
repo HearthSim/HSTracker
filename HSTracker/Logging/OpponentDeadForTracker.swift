@@ -29,9 +29,7 @@ class OpponentDeadForTracker {
             }
         }
         _deadTracker.sort(by: { x, y in return y < x })
-        DispatchQueue.main.async {
-            AppDelegate.instance().coreManager.game.windowManager.battlegroundsOverlay.view.updateOpponentDeadForTurns(turns: _deadTracker)
-        }
+        updateOverlay()
     }
     
     static func setNextOpponentPlayerId(_ playerId: Int) {
@@ -43,7 +41,10 @@ class OpponentDeadForTracker {
         if leaderboardPlace > 0 && leaderboardPlace <= 8 {
             logger.debug("Updating dead tracker with \(leaderboardPlace), id=\(nextOpponent[.entity_id]), player_id=\(playerId)")
             DispatchQueue.main.async {
-                AppDelegate.instance().coreManager.game.windowManager.battlegroundsOverlay.view.positionDeadForText(nextOpponentLeaderboardPosition: leaderboardPlace)
+                if #available(macOS 10.15, *) {
+                    AppDelegate.instance().coreManager.game.windowManager.rootOverlay?.viewModel
+                        .battlegroundsOpponentInfo.setNextOpponentLeaderboardPosition(leaderboardPlace)
+                }
             }
         }
     }
@@ -51,8 +52,16 @@ class OpponentDeadForTracker {
     static func reset() {
         _uniqueDeadPlayers.removeAll()
         _deadTracker.removeAll()
+        updateOverlay()
+    }
+
+    private static func updateOverlay() {
+        let turns = _deadTracker
         DispatchQueue.main.async {
-            AppDelegate.instance().coreManager.game.windowManager.battlegroundsOverlay.view.updateOpponentDeadForTurns(turns: _deadTracker)
+            if #available(macOS 10.15, *) {
+                AppDelegate.instance().coreManager.game.windowManager.rootOverlay?.viewModel
+                    .battlegroundsOpponentInfo.updateDeadForTurns(turns)
+            }
         }
     }
 }

@@ -30,9 +30,11 @@ class Watchers {
         arenaWatcher.onCompleteDeck = onDeckCompleted
         baconWatcher.change = onBaconChange
         battlegroundsLeaderboardWatcher.change = { _, args in
-            let game = AppDelegate.instance().coreManager.game
-            game.windowManager.battlegroundsOverlay.view.setHoveredBattlegroundsEntityId(args.hoveredEntityId)
-
+            if #available(macOS 10.15, *) {
+                let game = AppDelegate.instance().coreManager.game
+                game.windowManager.rootOverlay?.viewModel.battlegroundsOpponentInfo
+                    .setHoveredEntityId(args.hoveredEntityId)
+            }
         }
         battlegroundsLobbyInfoWatcher.change = onBattlegroundsLobbyInfoChange
         battlegroundsTeammateBoardStateWatcher.change = onBattlegroundsTeammateBoardStateChange

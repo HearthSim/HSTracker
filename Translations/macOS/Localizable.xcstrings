@@ -13559,6 +13559,17 @@
     "No guide available" : {
 
     },
+    "No minions on board" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No minions on board"
+          }
+        }
+      }
+    },
     "no_type" : {
       "extractionState" : "manual",
       "localizations" : {

@@ -202,23 +202,6 @@ struct SizeHelper {
     
     static let hearthstoneWindow = HearthstoneWindow()
     
-    static var battlegroundsTileHeight: CGFloat {
-        return (hearthstoneWindow.height * 0.7) / 8.0
-    }
-    
-    static var battlegroundsTileWidth: CGFloat {
-        return hearthstoneWindow.height * 0.078
-    }
-    
-    static let battlegroundsDuosTileToSpacingRatio = 0.137
-    
-    static var battlegroundsDuosTileHeight: CGFloat {
-        return hearthstoneWindow.height * 0.69 * (1.0 - battlegroundsDuosTileToSpacingRatio) / 8
-    }
-    static var battlegroundsDuosSpacingHeight: CGFloat {
-        return hearthstoneWindow.height * 0.69 * battlegroundsDuosTileToSpacingRatio / 3
-    }
-
     static var hearthstoneBoardWidth: CGFloat {
         return hearthstoneWindow.height * 1.5
     }
@@ -373,19 +356,6 @@ struct SizeHelper {
         return hearthstoneWindow.relativeFrame(frame)
     }
     
-    static func battlegroundsOverlayFrame() -> NSRect {
-        let top = hearthstoneWindow.frame.minY + 0.85 * hearthstoneWindow.height
-        let bottom = hearthstoneWindow.frame.minY + 0.15 * hearthstoneWindow.height
-        
-        // Looks like the HS board ratio is 1.5, the rest is padding
-        let boardWidth = hearthstoneWindow.height * 1.5
-        let left = hearthstoneWindow.frame.minX
-        let right = hearthstoneWindow.frame.minX + 0.133 * boardWidth + (hearthstoneWindow.width - boardWidth)/2
-        
-        let frame = NSRect(x: left, y: bottom, width: right - left, height: top - bottom)
-        return (frame)
-    }
-    
     static func bobsPanelOverlayFrame() -> NSRect {
         let trackerFrame = playerTrackerFrame()
         let height = CGFloat(52)
@@ -402,16 +372,6 @@ struct SizeHelper {
         let y = hearthstoneWindow.frame.minY
         
         return NSRect(x: x, y: y, width: width, height: height)
-    }
-    
-    static func battlegroundsDetailsFrame() -> NSRect {
-        let w: CGFloat = 1184
-        let h: CGFloat = 270
-        
-        let x = hearthstoneWindow.frame.minX + (hearthstoneWindow.width - w) / 2
-        
-        let frame = NSRect(x: x, y: hearthstoneWindow.frame.maxY - h, width: w, height: h)
-        return frame
     }
     
     static func toastFrame() -> NSRect {

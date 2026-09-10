@@ -66,6 +66,16 @@ struct RootOverlayView: View {
             let canvasWidth = scale > 0 ? geometry.size.width / scale : geometry.size.width
 
             ZStack(alignment: .topLeading) {
+                // Declared before the scaled subtree because HDT declares the
+                // eight BattlegroundsTileText/BattlegroundsTurnText pairs before
+                // every Battlegrounds panel on its own canvas
+                // (Windows/OverlayWindow.xaml), so everything else draws over
+                // them. Like the session panel below it takes real, post-scale
+                // pixels rather than living in the scaled subtree - see the
+                // view's own header for why.
+                BattlegroundsOpponentDeadForView(viewModel: viewModel.battlegroundsOpponentInfo,
+                                                 canvasSize: geometry.size)
+
                 // Resolution-scaled, game-relative content (authored at the
                 // 1080-tall reference) lives in this inner, transformed
                 // subtree only.
@@ -79,6 +89,28 @@ struct RootOverlayView: View {
                     // CountersOverlayView for the placement they carry.
                     CountersOverlayView(viewModel: viewModel.opponentCounters, canvasWidth: canvasWidth)
                     CountersOverlayView(viewModel: viewModel.playerCounters, canvasWidth: canvasWidth)
+
+                    // The hovered opponent's warband, pinned to the top edge of
+                    // the canvas and centred on it - HDT's
+                    // BgsOpponentInfoContainer is a Width="1000" StackPanel at
+                    // Canvas.Top="0" whose behavior sets
+                    //   GetLeft = Width / 2 - ActualWidth * AutoScaling / 2
+                    //   GetTop  = 0
+                    //   GetScaling = AutoScaling (= Height / 1080)
+                    // Since this subtree already applies that scale, all that is
+                    // left is "centred horizontally, at the canvas top". The
+                    // container's fixed 1000 width only matters when the panel
+                    // is narrower than it, and centring the panel itself gives
+                    // the same result either way.
+                    //
+                    // Declared before Tier7PreLobby, matching its place on HDT's
+                    // canvas, so the pre-lobby panel, the top bar, the pinning
+                    // markers and the Inspiration panel all draw over it.
+                    ZStack(alignment: .top) {
+                        Color.clear
+                        BattlegroundsOpponentInfoView(viewModel: viewModel.battlegroundsOpponentInfo)
+                    }
+                    .frame(width: canvasWidth, height: 1080)
 
                     // The Tier7 Battlegrounds pre-lobby panel, declared ahead of
                     // BgsTopBar on HDT's own canvas (OverlayWindow.xaml) so the

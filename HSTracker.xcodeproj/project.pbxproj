@@ -21,6 +21,18 @@
 		BB5E551A000000000000000F /* BattlegroundsGameRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5E551A000000000000000D /* BattlegroundsGameRowView.swift */; };
 		BB5E551A0000000000000011 /* BattlegroundsFinalBoardTooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5E551A0000000000000010 /* BattlegroundsFinalBoardTooltip.swift */; };
 		BB5E551A0000000000000012 /* BattlegroundsFinalBoardTooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5E551A0000000000000010 /* BattlegroundsFinalBoardTooltip.swift */; };
+		BB5E551B0000000000000011 /* BattlegroundsMinionRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5E551B0000000000000010 /* BattlegroundsMinionRepresentable.swift */; };
+		BB5E551B0000000000000012 /* BattlegroundsMinionRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5E551B0000000000000010 /* BattlegroundsMinionRepresentable.swift */; };
+		BB5E551B0000000000000021 /* BattlegroundsOpponentInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5E551B0000000000000020 /* BattlegroundsOpponentInfoViewModel.swift */; };
+		BB5E551B0000000000000022 /* BattlegroundsOpponentInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5E551B0000000000000020 /* BattlegroundsOpponentInfoViewModel.swift */; };
+		BB5E551B0000000000000031 /* BattlegroundsOpponentInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5E551B0000000000000030 /* BattlegroundsOpponentInfoView.swift */; };
+		BB5E551B0000000000000032 /* BattlegroundsOpponentInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5E551B0000000000000030 /* BattlegroundsOpponentInfoView.swift */; };
+		BB5E551B0000000000000041 /* BattlegroundsOpponentDeadForView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5E551B0000000000000040 /* BattlegroundsOpponentDeadForView.swift */; };
+		BB5E551B0000000000000042 /* BattlegroundsOpponentDeadForView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5E551B0000000000000040 /* BattlegroundsOpponentDeadForView.swift */; };
+		BB5E551B0000000000000051 /* BattlegroundsTierTriplesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5E551B0000000000000050 /* BattlegroundsTierTriplesView.swift */; };
+		BB5E551B0000000000000052 /* BattlegroundsTierTriplesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5E551B0000000000000050 /* BattlegroundsTierTriplesView.swift */; };
+		BB5E551B0000000000000061 /* BattlegroundsQuestTileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5E551B0000000000000060 /* BattlegroundsQuestTileView.swift */; };
+		BB5E551B0000000000000062 /* BattlegroundsQuestTileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5E551B0000000000000060 /* BattlegroundsQuestTileView.swift */; };
 		BB5E551A0000000000000014 /* BattlegroundsCompositionStatsRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5E551A0000000000000013 /* BattlegroundsCompositionStatsRowView.swift */; };
 		BB5E551A0000000000000015 /* BattlegroundsCompositionStatsRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5E551A0000000000000013 /* BattlegroundsCompositionStatsRowView.swift */; };
 		BB5E551A0000000000000017 /* NSImageViewScaleAspectFill.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5E551A0000000000000016 /* NSImageViewScaleAspectFill.swift */; };
@@ -583,11 +595,6 @@
 		4BB21EE9D743B4D71C926015 /* MaruutStonebinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B23A766DCB1C6C064232067 /* MaruutStonebinder.swift */; };
 		4BCBC5B60BC88745C6C18959 /* TwilightInfluence.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA2923A0CC094688C54EAC1 /* TwilightInfluence.swift */; };
 		4BF499CA6DA165808C908FA2 /* PrimordialStudies.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAFDFEEBE32626240122B72 /* PrimordialStudies.swift */; };
-		4C1923942392DF8A007EBB0F /* BattlegroundsOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1923932392DF8A007EBB0F /* BattlegroundsOverlay.swift */; };
-		4C1923962392DFA5007EBB0F /* BattlegroundsOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C1923952392DFA5007EBB0F /* BattlegroundsOverlay.xib */; };
-		4C1923992392E18E007EBB0F /* BattlegroundsOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1923982392E18E007EBB0F /* BattlegroundsOverlayView.swift */; };
-		4C19239D2392FA7E007EBB0F /* BattlegroundsDetailsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C19239C2392FA7E007EBB0F /* BattlegroundsDetailsWindow.swift */; };
-		4C1923A12392FB3F007EBB0F /* BattlegroundsDetailsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C1923A02392FB3F007EBB0F /* BattlegroundsDetailsWindow.xib */; };
 		4C3E2D8A245ED13D00292349 /* ToastWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2D89245ED13D00292349 /* ToastWindowController.swift */; };
 		4C3E2D8C245ED5AA00292349 /* Toaster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2D8B245ED5AA00292349 /* Toaster.swift */; };
 		4C3E2D93245F16B900292349 /* CollectionToastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2D91245F16B900292349 /* CollectionToastViewController.swift */; };
@@ -1160,7 +1167,6 @@
 		B8496732289A0CF300D90B30 /* SynchronizedDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD84542860058400F4F224 /* SynchronizedDictionary.swift */; };
 		B8496733289A0CF300D90B30 /* SynchronizedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FE1F982875BD15004C397C /* SynchronizedArray.swift */; };
 		B8496734289A0D8F00D90B30 /* UnfairLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD8452285D23C500F4F224 /* UnfairLock.swift */; };
-		B8496735289A0DA900D90B30 /* BattlegroundsTierTriples.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A70C16284152DC004D054C /* BattlegroundsTierTriples.swift */; };
 		B8496738289A0DC500D90B30 /* DeckLens.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89C9895280C610C005E9315 /* DeckLens.swift */; };
 		B8496739289A0DCF00D90B30 /* AnimatedCardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89C9893280A113A005E9315 /* AnimatedCardList.swift */; };
 		B849673A289A0DD800D90B30 /* Sentry.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FE1F9B28784ACE004C397C /* Sentry.swift */; };
@@ -1336,7 +1342,6 @@
 		B86FFA67299C67780093689E /* PlayerTrialData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC292943626C00F74CD9 /* PlayerTrialData.swift */; };
 		B86FFA68299C67780093689E /* BattlegroundsPlacementDistribution.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CE65DB2950D80200E8D168 /* BattlegroundsPlacementDistribution.swift */; };
 		B86FFA69299C67780093689E /* BattlegroundsPlacementDistributionBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83CF36A294E2930003C9062 /* BattlegroundsPlacementDistributionBar.swift */; };
-		B86FFA6A299C67780093689E /* BattlegroundsQuestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EF1D7D2916857000AC4658 /* BattlegroundsQuestView.swift */; };
 		B86FFA6B299C67780093689E /* BattlegroundsCompositionPopularity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83CF378294E63C8003C9062 /* BattlegroundsCompositionPopularity.swift */; };
 		B86FFA6C299C67780093689E /* BattlegroundsCompositionPopularityBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83CF36C294E3CF2003C9062 /* BattlegroundsCompositionPopularityBar.swift */; };
 		B86FFA6D299C67780093689E /* BattlegroundsCompositionPopularityRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83CF372294E4E57003C9062 /* BattlegroundsCompositionPopularityRow.swift */; };
@@ -1562,8 +1567,6 @@
 		B8A17C022E5F1A0100C1D2E0 /* MainThreadGuard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A17C012E5F1A0100C1D2E0 /* MainThreadGuard.swift */; };
 		B8A17C032E5F1A0100C1D2E0 /* MainThreadGuard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A17C012E5F1A0100C1D2E0 /* MainThreadGuard.swift */; };
 		B8A1F0022E5F0A0100000002 /* Watcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F0012E5F0A0100000001 /* Watcher.swift */; };
-		B8A70C152841494D004D054C /* BattlegroundsTierTriples.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8A70C142841494D004D054C /* BattlegroundsTierTriples.xib */; };
-		B8A70C17284152DC004D054C /* BattlegroundsTierTriples.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A70C16284152DC004D054C /* BattlegroundsTierTriples.swift */; };
 		B8A9CB2E25699B13000071FC /* BattlegroundsMinionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8956CFC25509B3F0073D70C /* BattlegroundsMinionView.swift */; };
 		B8A9CB2F25699B70000071FC /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8820CCF25603FB00072ECBC /* RemoteConfig.swift */; };
 		B8A9CB332571F160000071FC /* GuessedCardState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A9CB322571F160000071FC /* GuessedCardState.swift */; };
@@ -1858,9 +1861,6 @@
 		B8DEDCCC2547C52800DF524B /* ToastWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2D89245ED13D00292349 /* ToastWindowController.swift */; };
 		B8DEDCCD2547C53900DF524B /* Toaster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2D8B245ED5AA00292349 /* Toaster.swift */; };
 		B8DEDCCE2547C54200DF524B /* CollectionToastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2D91245F16B900292349 /* CollectionToastViewController.swift */; };
-		B8DEDCD02547C55F00DF524B /* BattlegroundsOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1923932392DF8A007EBB0F /* BattlegroundsOverlay.swift */; };
-		B8DEDCD22547C58200DF524B /* BattlegroundsOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1923982392E18E007EBB0F /* BattlegroundsOverlayView.swift */; };
-		B8DEDCD42547C58200DF524B /* BattlegroundsDetailsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C19239C2392FA7E007EBB0F /* BattlegroundsDetailsWindow.swift */; };
 		B8DEDCD52547C58800DF524B /* FrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2DA42460C82800292349 /* FrameView.swift */; };
 		B8DEDCD62547C59700DF524B /* BobsBuddyPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC11FF24EC5F990088A755 /* BobsBuddyPanel.swift */; };
 		B8DEDCD72547C5A800DF524B /* BobsBuddyInvoker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC11EF24E6AF280088A755 /* BobsBuddyInvoker.swift */; };
@@ -1929,8 +1929,6 @@
 		B8EC9A482612148500EB17A9 /* MultiIdCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8832DDB26117FCE00646BA4 /* MultiIdCard.swift */; };
 		B8EC9A492612149D00EB17A9 /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8832DD926057A5000646BA4 /* RepeatingTimer.swift */; };
 		B8EC9A4A261215C800EB17A9 /* OpponentDeadForTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC376025D06C2F00452A83 /* OpponentDeadForTracker.swift */; };
-		B8EF1D7C291681EA00AC4658 /* BattlegroundsQuestView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8EF1D7B291681EA00AC4658 /* BattlegroundsQuestView.xib */; };
-		B8EF1D7E2916857000AC4658 /* BattlegroundsQuestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EF1D7D2916857000AC4658 /* BattlegroundsQuestView.swift */; };
 		B8F778732805CDDD006348B4 /* ExitConditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83682232789F812007D5740 /* ExitConditions.swift */; };
 		B8F778742805CDEA006348B4 /* GenericDeathrattles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8449A052781CB6F0094E5B3 /* GenericDeathrattles.swift */; };
 		B8F778752805CDF2006348B4 /* BrukanInvocationDeathrattles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86C9EAA27A17B3A00195C0A /* BrukanInvocationDeathrattles.swift */; };
@@ -2220,6 +2218,12 @@
 		BB5E551A000000000000000A /* BattlegroundsGameRowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsGameRowViewModel.swift; sourceTree = "<group>"; };
 		BB5E551A000000000000000D /* BattlegroundsGameRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsGameRowView.swift; sourceTree = "<group>"; };
 		BB5E551A0000000000000010 /* BattlegroundsFinalBoardTooltip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsFinalBoardTooltip.swift; sourceTree = "<group>"; };
+		BB5E551B0000000000000010 /* BattlegroundsMinionRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsMinionRepresentable.swift; sourceTree = "<group>"; };
+		BB5E551B0000000000000020 /* BattlegroundsOpponentInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsOpponentInfoViewModel.swift; sourceTree = "<group>"; };
+		BB5E551B0000000000000030 /* BattlegroundsOpponentInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsOpponentInfoView.swift; sourceTree = "<group>"; };
+		BB5E551B0000000000000040 /* BattlegroundsOpponentDeadForView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsOpponentDeadForView.swift; sourceTree = "<group>"; };
+		BB5E551B0000000000000050 /* BattlegroundsTierTriplesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsTierTriplesView.swift; sourceTree = "<group>"; };
+		BB5E551B0000000000000060 /* BattlegroundsQuestTileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsQuestTileView.swift; sourceTree = "<group>"; };
 		BB5E551A0000000000000013 /* BattlegroundsCompositionStatsRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsCompositionStatsRowView.swift; sourceTree = "<group>"; };
 		BB5E551A0000000000000016 /* NSImageViewScaleAspectFill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSImageViewScaleAspectFill.swift; sourceTree = "<group>"; };
 		0069AE75FCF9DD8FBFB3BB69 /* TrainingSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingSession.swift; sourceTree = "<group>"; };
@@ -2646,11 +2650,6 @@
 		4BC8C901994B9A28E00A2CA7 /* PrimordialLord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimordialLord.swift; sourceTree = "<group>"; };
 		4BD734262CA0F79C015087C9 /* BlackMorassImposter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackMorassImposter.swift; sourceTree = "<group>"; };
 		4BDC91A66D6CAEF5B5565042 /* GraveCall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraveCall.swift; sourceTree = "<group>"; };
-		4C1923932392DF8A007EBB0F /* BattlegroundsOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsOverlay.swift; sourceTree = "<group>"; };
-		4C1923952392DFA5007EBB0F /* BattlegroundsOverlay.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsOverlay.xib; sourceTree = "<group>"; };
-		4C1923982392E18E007EBB0F /* BattlegroundsOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsOverlayView.swift; sourceTree = "<group>"; };
-		4C19239C2392FA7E007EBB0F /* BattlegroundsDetailsWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsDetailsWindow.swift; sourceTree = "<group>"; };
-		4C1923A02392FB3F007EBB0F /* BattlegroundsDetailsWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsDetailsWindow.xib; sourceTree = "<group>"; };
 		4C3CE44C820DFC22BA5B3BFA /* UndercityHucksterOG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UndercityHucksterOG.swift; sourceTree = "<group>"; };
 		4C3E2D89245ED13D00292349 /* ToastWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastWindowController.swift; sourceTree = "<group>"; };
 		4C3E2D8B245ED5AA00292349 /* Toaster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toaster.swift; sourceTree = "<group>"; };
@@ -3548,8 +3547,6 @@
 		B89F51E92C9CF8D600E31195 /* ActiveEffect.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ActiveEffect.xib; sourceTree = "<group>"; };
 		B8A17C012E5F1A0100C1D2E0 /* MainThreadGuard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainThreadGuard.swift; sourceTree = "<group>"; };
 		B8A1F0012E5F0A0100000001 /* Watcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Watcher.swift; sourceTree = "<group>"; };
-		B8A70C142841494D004D054C /* BattlegroundsTierTriples.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsTierTriples.xib; sourceTree = "<group>"; };
-		B8A70C16284152DC004D054C /* BattlegroundsTierTriples.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsTierTriples.swift; sourceTree = "<group>"; };
 		B8A9CB322571F160000071FC /* GuessedCardState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuessedCardState.swift; sourceTree = "<group>"; };
 		B8AB59932742F94900383EC8 /* RateLimiter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateLimiter.swift; sourceTree = "<group>"; };
 		B8AB59952742FA5C00383EC8 /* Deque.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deque.swift; sourceTree = "<group>"; };
@@ -3840,8 +3837,6 @@
 		B8E868822B93AF04005B1315 /* SceneHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneHandler.swift; sourceTree = "<group>"; };
 		B8E868842B940EB7005B1315 /* HearthDbConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HearthDbConverter.swift; sourceTree = "<group>"; };
 		B8E9C6572EFDF50D00EF3F6E /* SpecialShopChoicesStateWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialShopChoicesStateWatcher.swift; sourceTree = "<group>"; };
-		B8EF1D7B291681EA00AC4658 /* BattlegroundsQuestView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsQuestView.xib; sourceTree = "<group>"; };
-		B8EF1D7D2916857000AC4658 /* BattlegroundsQuestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsQuestView.swift; sourceTree = "<group>"; };
 		B8FA0C0100000001000000A1 /* TheOutfinderPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TheOutfinderPreferences.swift; sourceTree = "<group>"; };
 		B8FA0C0100000002000000A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TheOutfinderPreferences.xib; sourceTree = "<group>"; };
 		B8FA0C0100000003000000A3 /* mul */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; name = mul; path = mul.lproj/TheOutfinderPreferences.xcstrings; sourceTree = "<group>"; };
@@ -4761,22 +4756,19 @@
 		4C1923972392E174007EBB0F /* Battlegrounds */ = {
 			isa = PBXGroup;
 			children = (
-				4C19239C2392FA7E007EBB0F /* BattlegroundsDetailsWindow.swift */,
-				4C1923A02392FB3F007EBB0F /* BattlegroundsDetailsWindow.xib */,
 				B8BB7AB12831ABE0008239CA /* BattlegroundsLastGames.swift */,
 				B8956CFC25509B3F0073D70C /* BattlegroundsMinionView.swift */,
-				4C1923932392DF8A007EBB0F /* BattlegroundsOverlay.swift */,
-				4C1923952392DFA5007EBB0F /* BattlegroundsOverlay.xib */,
-				4C1923982392E18E007EBB0F /* BattlegroundsOverlayView.swift */,
+				BB5E551B0000000000000010 /* BattlegroundsMinionRepresentable.swift */,
+				BB5E551B0000000000000020 /* BattlegroundsOpponentInfoViewModel.swift */,
+				BB5E551B0000000000000030 /* BattlegroundsOpponentInfoView.swift */,
+				BB5E551B0000000000000040 /* BattlegroundsOpponentDeadForView.swift */,
+				BB5E551B0000000000000050 /* BattlegroundsTierTriplesView.swift */,
+				BB5E551B0000000000000060 /* BattlegroundsQuestTileView.swift */,
 				EE1A2B3C4D5E6F708192A3C1 /* BattlegroundsTurnCounterView.swift */,
 				B8CE65DB2950D80200E8D168 /* BattlegroundsPlacementDistribution.swift */,
 				B8CE65D52950980100E8D168 /* BattlegroundsPlacementDistribution.xib */,
 				B83CF36A294E2930003C9062 /* BattlegroundsPlacementDistributionBar.swift */,
 				B83CF368294E27F2003C9062 /* BattlegroundsPlacementDistributionBar.xib */,
-				B8EF1D7D2916857000AC4658 /* BattlegroundsQuestView.swift */,
-				B8EF1D7B291681EA00AC4658 /* BattlegroundsQuestView.xib */,
-				B8A70C16284152DC004D054C /* BattlegroundsTierTriples.swift */,
-				B8A70C142841494D004D054C /* BattlegroundsTierTriples.xib */,
 				B804FC422946BAB200F74CD9 /* Composition */,
 				1CA71231B18F27326893EF28 /* Guides */,
 				EE000000000000000000100B /* Inspiration */,
@@ -6988,7 +6980,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B8EF1D7C291681EA00AC4658 /* BattlegroundsQuestView.xib in Resources */,
 				49930DD41DFA859F008C8CD4 /* .swiftlint.yml in Resources */,
 				B8BA17DA28EFC8F8004D40ED /* LinkOpponentDeckPanel.xib in Resources */,
 				432B5FC51CB5374100B05D19 /* EditDeck.xib in Resources */,
@@ -7011,7 +7002,6 @@
 				B82AE60028BE8631004A8FE0 /* mono-version.txt in Resources */,
 				432B5FC21CB5373D00B05D19 /* SaveDeck.xib in Resources */,
 				B864AE3A25A4CC1200793F36 /* ImportingPreferences.xib in Resources */,
-				B8A70C152841494D004D054C /* BattlegroundsTierTriples.xib in Resources */,
 				B8AF0C7B2B928AA400B65F63 /* ConstructedMulliganGuidePreLobby.xib in Resources */,
 				437B5BB81CD2559300DE0A41 /* OpponentTrackersPreferences.xib in Resources */,
 				4335543A1D5FAF0300277B27 /* HSReplayPreferences.xib in Resources */,
@@ -7042,7 +7032,6 @@
 				B85FE9C52E53CACA001865FC /* Resources in Resources */,
 				B800FCAC273318DA00AFBD51 /* MercenariesTaskListView.xib in Resources */,
 				437B5BC51CD2568E00DE0A41 /* TrackersPreferences.xib in Resources */,
-				4C1923962392DFA5007EBB0F /* BattlegroundsOverlay.xib in Resources */,
 				432B5FCB1CB5375500B05D19 /* DeckManager.xib in Resources */,
 				B82AE5FE28BE8631004A8FE0 /* cards-version.txt in Resources */,
 				B89899512CA4BC650011B184 /* BattlegroundsTrinketPicking.xib in Resources */,
@@ -7050,7 +7039,6 @@
 				B8CE65D82950D76C00E8D168 /* BattlegroundsHeroPicking.xib in Resources */,
 				432B5FBF1CB5373500B05D19 /* InitialConfiguration.xib in Resources */,
 				B8795EAC27516DBC00469B6E /* MercenariesTask.xib in Resources */,
-				4C1923A12392FB3F007EBB0F /* BattlegroundsDetailsWindow.xib in Resources */,
 				B81849232BF4D58E00F4EEE2 /* ConstructedMulliganOverlayMessage.xib in Resources */,
 				434106A51C9868620045655A /* Classes.xcassets in Resources */,
 				B89F51EA2C9CF8D600E31195 /* ActiveEffect.xib in Resources */,
@@ -7434,7 +7422,6 @@
 				4360329B1C7B657C005F1893 /* Splashscreen.swift in Sources */,
 				B89865E82D920E1B00BA5649 /* BlackrockNRoll.swift in Sources */,
 				B89865912D91D10300BA5649 /* ColiferoTheArtist.swift in Sources */,
-				4C1923942392DF8A007EBB0F /* BattlegroundsOverlay.swift in Sources */,
 				B8B78FF32C96FD9800DD33EC /* SurfalopodEnchantment.swift in Sources */,
 				B852D8152DDABEE400884B26 /* GoldNextTurnCounter.swift in Sources */,
 				B898653A2D8B57E000BA5649 /* ICard.swift in Sources */,
@@ -7621,7 +7608,6 @@
 				B89865932D91D13B00BA5649 /* EtherealOracle.swift in Sources */,
 				B804FC2E29437AF500F74CD9 /* Debounce.swift in Sources */,
 				B8E1E5E82D0C9E5500383975 /* AmuletOfUndying.swift in Sources */,
-				B8A70C17284152DC004D054C /* BattlegroundsTierTriples.swift in Sources */,
 				B836821E27873B40007D5740 /* HeroPowerDataProxy.swift in Sources */,
 				B8B78FE52C9676B500DD33EC /* AquaArchivistEnchantment.swift in Sources */,
 				B846CC3C2E05F90B00552F9C /* TrialOfTheJormungars.swift in Sources */,
@@ -8206,7 +8192,6 @@
 				B89865662D8E15D000BA5649 /* Banjosaur.swift in Sources */,
 				B86D89C82D95A48F00AB65A5 /* TyrandeSpellsPlayedCounter.swift in Sources */,
 				B8889C1F2DA4AAEB0053DD57 /* ImbueCounter.swift in Sources */,
-				4C19239D2392FA7E007EBB0F /* BattlegroundsDetailsWindow.swift in Sources */,
 				B89865322D6EA36B00BA5649 /* EnchantmentFactoryProxy.swift in Sources */,
 				B8AF0C672B83A65E00B65F63 /* MulliganGuideStatusData.swift in Sources */,
 				B852D8312DDFB8C100884B26 /* ArchdruidNaralex.swift in Sources */,
@@ -8596,6 +8581,12 @@
 				BB5E551A000000000000000B /* BattlegroundsGameRowViewModel.swift in Sources */,
 				BB5E551A000000000000000E /* BattlegroundsGameRowView.swift in Sources */,
 				BB5E551A0000000000000011 /* BattlegroundsFinalBoardTooltip.swift in Sources */,
+				BB5E551B0000000000000011 /* BattlegroundsMinionRepresentable.swift in Sources */,
+				BB5E551B0000000000000021 /* BattlegroundsOpponentInfoViewModel.swift in Sources */,
+				BB5E551B0000000000000031 /* BattlegroundsOpponentInfoView.swift in Sources */,
+				BB5E551B0000000000000041 /* BattlegroundsOpponentDeadForView.swift in Sources */,
+				BB5E551B0000000000000051 /* BattlegroundsTierTriplesView.swift in Sources */,
+				BB5E551B0000000000000061 /* BattlegroundsQuestTileView.swift in Sources */,
 				BB5E553A0000000000000064 /* BattlegroundsSessionOverlayView.swift in Sources */,
 				BB5E551A0000000000000014 /* BattlegroundsCompositionStatsRowView.swift in Sources */,
 				BB5E551A0000000000000017 /* NSImageViewScaleAspectFill.swift in Sources */,
@@ -8685,7 +8676,6 @@
 				B854622A2CDED2FE0083BB31 /* TheCeaselessExpanseCounter.swift in Sources */,
 				B89BCE102FF47C2D0095F011 /* ReinforcementAura.swift in Sources */,
 				B898995D2CAA33710011B184 /* HoggyBank.swift in Sources */,
-				4C1923992392E18E007EBB0F /* BattlegroundsOverlayView.swift in Sources */,
 				EE2A2B3C4D5E6F708192A3C2 /* BattlegroundsTurnCounterView.swift in Sources */,
 				EE0000000000000000001002 /* BattlegroundsInspiration.swift in Sources */,
 				EE0000000000000000001004 /* BattlegroundsInspirationViewModel.swift in Sources */,
@@ -8705,7 +8695,6 @@
 				4308EB7E1D76AFE6000897C8 /* ReleaseChannel.swift in Sources */,
 				B846CC3A2E05F7C000552F9C /* SpringTheTrap.swift in Sources */,
 				B8E1E5DA2D0C964000383975 /* DefenseAttorneyNathanos.swift in Sources */,
-				B8EF1D7E2916857000AC4658 /* BattlegroundsQuestView.swift in Sources */,
 				439C7EC91C777F8900D29859 /* LogLine.swift in Sources */,
 				B89865A52D91D30E00BA5649 /* WeaponsAttendant.swift in Sources */,
 				B846CC7A2E157BA000552F9C /* VioletTreasuregill.swift in Sources */,
@@ -9006,7 +8995,6 @@
 				B86FFA67299C67780093689E /* PlayerTrialData.swift in Sources */,
 				B86FFA68299C67780093689E /* BattlegroundsPlacementDistribution.swift in Sources */,
 				B86FFA69299C67780093689E /* BattlegroundsPlacementDistributionBar.swift in Sources */,
-				B86FFA6A299C67780093689E /* BattlegroundsQuestView.swift in Sources */,
 				B86FFA6B299C67780093689E /* BattlegroundsCompositionPopularity.swift in Sources */,
 				B86FFA6C299C67780093689E /* BattlegroundsCompositionPopularityBar.swift in Sources */,
 				B86FFA6D299C67780093689E /* BattlegroundsCompositionPopularityRow.swift in Sources */,
@@ -9048,10 +9036,15 @@
 				BB5E551A000000000000000C /* BattlegroundsGameRowViewModel.swift in Sources */,
 				BB5E551A000000000000000F /* BattlegroundsGameRowView.swift in Sources */,
 				BB5E551A0000000000000012 /* BattlegroundsFinalBoardTooltip.swift in Sources */,
+				BB5E551B0000000000000012 /* BattlegroundsMinionRepresentable.swift in Sources */,
+				BB5E551B0000000000000022 /* BattlegroundsOpponentInfoViewModel.swift in Sources */,
+				BB5E551B0000000000000032 /* BattlegroundsOpponentInfoView.swift in Sources */,
+				BB5E551B0000000000000042 /* BattlegroundsOpponentDeadForView.swift in Sources */,
+				BB5E551B0000000000000052 /* BattlegroundsTierTriplesView.swift in Sources */,
+				BB5E551B0000000000000062 /* BattlegroundsQuestTileView.swift in Sources */,
 				BB5E553A00000000000000C8 /* BattlegroundsSessionOverlayView.swift in Sources */,
 				BB5E551A0000000000000015 /* BattlegroundsCompositionStatsRowView.swift in Sources */,
 				BB5E551A0000000000000018 /* NSImageViewScaleAspectFill.swift in Sources */,
-				B8496735289A0DA900D90B30 /* BattlegroundsTierTriples.swift in Sources */,
 				B8496734289A0D8F00D90B30 /* UnfairLock.swift in Sources */,
 				B8A17C032E5F1A0100C1D2E0 /* MainThreadGuard.swift in Sources */,
 				B8496732289A0CF300D90B30 /* SynchronizedDictionary.swift in Sources */,
@@ -9096,10 +9089,7 @@
 				B8DEDCD92547C5A800DF524B /* BobsBuddyErrorState.swift in Sources */,
 				B8DEDCD62547C59700DF524B /* BobsBuddyPanel.swift in Sources */,
 				B8DEDCD52547C58800DF524B /* FrameView.swift in Sources */,
-				B8DEDCD22547C58200DF524B /* BattlegroundsOverlayView.swift in Sources */,
 				B8643D11275982E700B2D708 /* Deque.swift in Sources */,
-				B8DEDCD42547C58200DF524B /* BattlegroundsDetailsWindow.swift in Sources */,
-				B8DEDCD02547C55F00DF524B /* BattlegroundsOverlay.swift in Sources */,
 				B8DEDCCE2547C54200DF524B /* CollectionToastViewController.swift in Sources */,
 				B8DEDCCD2547C53900DF524B /* Toaster.swift in Sources */,
 				B8DEDCCC2547C52800DF524B /* ToastWindowController.swift in Sources */,

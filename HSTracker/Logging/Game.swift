@@ -713,8 +713,6 @@ class Game: NSObject, PowerEventHandler {
     }
     
     func updateBattlegroundsOverlay() {
-        let rect = SizeHelper.battlegroundsOverlayFrame()
-
         DispatchQueue.main.async {
             let isBG = self.isBattlegroundsMatch() && !self.gameEnded
 
@@ -749,13 +747,6 @@ class Game: NSObject, PowerEventHandler {
                 self.windowManager.rootOverlay?.viewModel.battlegroundsMinionPinning.updateVisibility()
             }
 
-            if isBG && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
-                    || !Settings.hideAllWhenGameInBackground) {
-                
-                self.windowManager.show(controller: self.windowManager.battlegroundsOverlay, show: true, frame: rect, title: nil, overlay: true)
-            } else {
-                self.windowManager.show(controller: self.windowManager.battlegroundsOverlay, show: false)
-            }
         }
     }
     
@@ -1705,7 +1696,9 @@ class Game: NSObject, PowerEventHandler {
         _mulliganV2Params = nil
         _mulliganState = nil
         mulliganCardStats = nil
-        windowManager.battlegroundsDetailsWindow.reset()
+        if #available(macOS 10.15, *) {
+            windowManager.rootOverlay?.viewModel.battlegroundsOpponentInfo.reset()
+        }
         DispatchQueue.main.async {
             self.windowManager.bobsBuddyPanel.resetDisplays()
         }

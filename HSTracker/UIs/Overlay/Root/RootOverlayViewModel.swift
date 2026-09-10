@@ -33,6 +33,7 @@ class RootOverlayViewModel: ObservableObject {
     let battlegroundsInspiration = BattlegroundsInspirationViewModel()
     let battlegroundsMinionPinning = BattlegroundsMinionPinningViewModel()
     let battlegroundsSession = BattlegroundsSessionViewModel()
+    let battlegroundsOpponentInfo = BattlegroundsOpponentInfoViewModel()
     let tier7PreLobby = Tier7PreLobbyViewModel()
     // HDT's two CountersOverlay controls, IsPlayer="true"/"false".
     let playerCounters = CountersOverlayViewModel(isPlayer: true)

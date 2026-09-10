@@ -36,7 +36,7 @@ struct BattlegroundsFinalBoardTooltip: View {
     // keeps HDT's 110pt width and takes the height that preserves that aspect -
     // at a square 110x110 every minion renders visibly squashed.
     private static let minionWidth: CGFloat = 110
-    private static let minionHeight: CGFloat = 110 * 350 / 300
+    private static let minionHeight = BattlegroundsMinionRepresentable.height(forWidth: minionWidth)
     private static let minionOverlap: CGFloat = 10
 
     // FinalBoardCanvasTop, which shifts the box up far enough to stay centred
@@ -128,24 +128,5 @@ struct BattlegroundsFinalBoardTooltip: View {
             .rotationEffect(.degrees(45))
             .offset(x: tooltipToRight ? 0 : contentWidth + 2,
                     y: minions.isEmpty ? 70 : 135)
-    }
-}
-
-// HSTracker draws a Battlegrounds minion (art, border, keyword badges and
-// stats) with a custom NSView; there is no SwiftUI equivalent, so the final
-// board hosts the existing view rather than re-implementing that drawing.
-@available(macOS 10.15, *)
-private struct BattlegroundsMinionRepresentable: NSViewRepresentable {
-    let entity: Entity
-
-    func makeNSView(context: Context) -> BattlegroundsMinionView {
-        let view = BattlegroundsMinionView()
-        view.entity = entity
-        return view
-    }
-
-    func updateNSView(_ nsView: BattlegroundsMinionView, context: Context) {
-        nsView.entity = entity
-        nsView.needsDisplay = true
     }
 }
