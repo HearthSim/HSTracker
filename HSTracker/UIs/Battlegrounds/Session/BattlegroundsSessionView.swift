@@ -122,10 +122,16 @@ struct BattlegroundsSessionView: View {
     }
 
     // The 11pt, 55%-white column captions HDT uses above each table.
+    //
+    // These are WPF <Label>s, and a Label's default template carries
+    // Padding="5" - so the 5pt inset is part of the control, not something the
+    // XAML has to ask for. Every Label ported here needs it; leaving it out is
+    // what had the MMR labels sitting on top of their values.
     private func columnLabel(_ key: String) -> some View {
         Text(String.localizedString(key, comment: ""))
             .font(.system(size: 11))
             .foregroundColor(Color.white.opacity(0.55))
+            .padding(5)
     }
 
     // TextBlock Foreground="#FFFFFF" Opacity=".5" TextAlignment="Center"
@@ -214,8 +220,10 @@ struct BattlegroundsSessionView: View {
                     // the rows below.
                     HStack(spacing: 0) {
                         columnLabel("Battlegrounds_Session_CompStats_Label_Composition")
-                            .frame(width: 90, alignment: .leading)
+                            // Margin="2,0,0,0", inside the column rather than
+                            // pushing the whole row across.
                             .padding(.leading, 2)
+                            .frame(width: 90, alignment: .leading)
                         columnLabel("Battlegrounds_Session_CompStats_Label_FirstPlace")
                             .frame(width: 70)
                         columnLabel("Battlegrounds_Session_CompStats_Label_AveragePlace")
@@ -283,10 +291,12 @@ struct BattlegroundsSessionView: View {
 
     private func mmrColumn(label: String, value: String, color: Color) -> some View {
         VStack(spacing: 0) {
+            // Label FontSize="11", with the template's own Padding="5" - which
+            // the value's -5 top margin below is measured against.
             Text(label)
                 .font(.system(size: 11))
                 .foregroundColor(Color.white.opacity(0.55))
-                .padding(.vertical, 3)
+                .padding(5)
             // HearthstoneTextBlock FontSize="18" Margin="0,-5,0,8"
             Text(verbatim: value)
                 .chunkFive(size: 18)
@@ -317,7 +327,6 @@ struct BattlegroundsSessionView: View {
                         columnLabel("Battlegrounds_Session_Games_Label_MMR")
                             .frame(width: Self.contentWidth * 1.0 / 3.7)
                     }
-                    .padding(.vertical, 3)
                 }
                 if viewModel.gamesEmptyStateVisible {
                     VStack(spacing: 0) {

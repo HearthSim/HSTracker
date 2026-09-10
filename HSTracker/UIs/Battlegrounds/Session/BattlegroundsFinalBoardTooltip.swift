@@ -66,8 +66,9 @@ struct BattlegroundsFinalBoardTooltip: View {
             Text(String.localizedString("Battlegrounds_Session_Game_Tooltip_Final_Board", comment: ""))
                 .font(.system(size: 18))
                 .foregroundColor(Color.white.opacity(0.55))
+                // Label, so Padding="5" from its default template.
+                .padding(5)
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 4)
                 .background(Color(hex: "#1C2022"))
                 .overlay(Color(hex: "#4A5256").frame(height: 1), alignment: .bottom)
 
@@ -77,7 +78,9 @@ struct BattlegroundsFinalBoardTooltip: View {
                     Text(String.localizedString("Battlegrounds_Session_Game_Tooltip_Final_Board_Empty", comment: ""))
                         .font(.system(size: 18))
                         .foregroundColor(Color.white.opacity(0.55))
-                        .padding(EdgeInsets(top: 20, leading: 30, bottom: 20, trailing: 20))
+                        // Margin="30,20,20,20" on top of the Label template's
+                        // own Padding="5".
+                        .padding(EdgeInsets(top: 25, leading: 35, bottom: 25, trailing: 25))
                 } else {
                     ForEach(Array(minions.prefix(7).enumerated()), id: \.offset) { _, minion in
                         BattlegroundsMinionRepresentable(entity: minion)
