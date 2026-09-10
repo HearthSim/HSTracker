@@ -3219,6 +3219,17 @@
         }
       }
     },
+    "BattlegroundsHeroPicking_Compositions_NoData" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No composition data"
+          }
+        }
+      }
+    },
     "BattlegroundsHeroPicking_Header_AvgPlacement" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3347,6 +3358,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Armor Range: %d - %d"
+          }
+        }
+      }
+    },
+    "BattlegroundsHeroPicking_Hero_CompositionTooltip" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Percentage of 1st place finishes"
           }
         }
       }
@@ -3722,6 +3744,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rewards with average placements worse than one standard deviation from the best tier 3 reward"
+          }
+        }
+      }
+    },
+    "BattlegroundsQuestPickingHeader_AvgPlacementTooltip_Desc" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The final placement this reward achieves on average, adjusted for your hero and the available minion types"
+          }
+        }
+      }
+    },
+    "BattlegroundsQuestPickingHeader_PickRateTooltip_Desc" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Percent of the time this reward is picked by first place players"
           }
         }
       }

@@ -8,6 +8,9 @@
 
 import Foundation
 
+// Port of HDT's BattlegroundsSingleQuestViewModel
+// (Controls/Overlay/Battlegrounds/QuestPicking/BattlegroundsSingleQuestViewModel.cs):
+// one offered reward's stats header plus the compositions that win with it.
 class BattlegroundsSingleQuestViewModel: StatsHeaderViewModel {
     private(set) var compVM: BattlegroundsCompositionPopularityViewModel?
     
@@ -19,19 +22,5 @@ class BattlegroundsSingleQuestViewModel: StatsHeaderViewModel {
         if let stats = stats, stats.first_place_comps.count > 0 {
             compVM = BattlegroundsCompositionPopularityViewModel(compsData: stats.first_place_comps)
         }
-    }
-    
-    var tierTooltipTitle: String {
-        if let tier = tier, tier >= 1 &&  tier <= 4 {
-            return String.localizedString("BattlegroundsHeroPicking_Header_Tier\(tier)Tooltip_Title", comment: "")
-        }
-        return ""
-    }
-    
-    var tierTooltipText: String {
-        if let tier = tier, tier >= 1 && tier <= 4 {
-            return String.localizedString("BattlegroundsQuestPicking_Header_Tier\(tier)Tooltip_Desc", comment: "")
-        }
-        return ""
     }
 }

@@ -352,12 +352,12 @@ final class CoreManager: NSObject {
         Watchers.stop()
         MirrorHelper.destroy()
         let wm = game.windowManager
-        wm.battlegroundsQuestPicking.viewModel.reset()
         wm.constructedMulliganGuide.viewModel.reset()
         wm.constructedMulliganGuidePreLobby.viewModel.reset()
         if #available(macOS 10.15, *) {
             game.stopMulliganLivePolling()
             wm.rootOverlay?.viewModel.battlegroundsHeroPicking.reset()
+            wm.rootOverlay?.viewModel.battlegroundsQuestPicking.reset()
             wm.rootOverlay?.viewModel.battlegroundsTrinketPicking.reset()
             wm.rootOverlay?.viewModel.mulliganGuideV2.reset()
             wm.rootOverlay?.viewModel.constructedMulliganPreLobbyWidget.reset()

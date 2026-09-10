@@ -215,7 +215,7 @@ class BattlegroundsPreferences: PreferencePaneController, PreferencePane {
             Settings.showBattlegroundsQuestPicking = sender.state == .on
             if game.isBattlegroundsMatch() {
                 if #available(macOS 10.15, *) {
-                    game.windowManager.battlegroundsQuestPicking.viewModel.visibility = sender.state == .on
+                    game.windowManager.rootOverlay?.viewModel.battlegroundsQuestPicking.visibility = sender.state == .on
                 }
             }
         } else if sender == showBattlegroundsCompStats {

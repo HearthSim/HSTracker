@@ -672,22 +672,11 @@ class Game: NSObject, PowerEventHandler {
             // window of its own to move or hide - the same visibility rules it
             // is given everywhere else cover the focus change too.
             self.updateBattlegroundsSessionVisibility()
-            // The Tier7 pre-lobby panel and the hero and trinket picking
-            // stats are RootOverlay children now too, and unlike the AppKit
-            // windows they replaced they need nothing here at all:
-            // Game.updateRootOverlay already hides the whole canvas when
-            // Hearthstone goes to the background.
+            // The Tier7 pre-lobby panel and all three pickers are RootOverlay
+            // children now too, and unlike the AppKit windows they replaced
+            // they need nothing here at all: Game.updateRootOverlay already
+            // hides the whole canvas when Hearthstone goes to the background.
 
-            if self.windowManager.battlegroundsQuestPicking.viewModel.visibility {
-                if (Settings.hideAllWhenGameInBackground && hsActive) || !Settings.hideAllWhenGameInBackground {
-                    self.windowManager.show(controller: self.windowManager.battlegroundsQuestPicking, show: true, frame: SizeHelper.hearthstoneWindow.frame, overlay: true)
-                    DispatchQueue.main.async {
-                        self.windowManager.battlegroundsQuestPicking.updateScaling()
-                    }
-                } else {
-                    self.windowManager.show(controller: self.windowManager.battlegroundsQuestPicking, show: false)
-                }
-            }
 
         }
     }
@@ -2290,9 +2279,9 @@ class Game: NSObject, PowerEventHandler {
             OpponentDeadForTracker.reset()
             updatePostGameBattlegroundsRating(gameStats: currentGameStats)
             captureBattlegroundsGame(stats: currentGameStats)
-            windowManager.battlegroundsQuestPicking.viewModel.reset()
             if #available(macOS 10.15, *) {
                 windowManager.rootOverlay?.viewModel.battlegroundsHeroPicking.reset()
+                windowManager.rootOverlay?.viewModel.battlegroundsQuestPicking.reset()
                 windowManager.rootOverlay?.viewModel.battlegroundsTrinketPicking.reset()
                 // GameEventHandler's IsBattlegroundsMatch branch clears the trial
                 // once the match it was activated for is over, so the next game
@@ -2609,9 +2598,9 @@ class Game: NSObject, PowerEventHandler {
                 
                 if #available(macOS 10.15, *) {
                     self.windowManager.rootOverlay?.viewModel.battlegroundsHeroPicking.reset()
+                    self.windowManager.rootOverlay?.viewModel.battlegroundsQuestPicking.reset()
                     self.windowManager.rootOverlay?.viewModel.battlegroundsTrinketPicking.reset()
                 }
-                self.windowManager.battlegroundsQuestPicking.viewModel.reset()
                 self.hideBattlegroundsHeroPanel()
                 self.hideBattlegroundsTimewarpPanel()
                 self.updateBattlegroundsSessionPanel()
@@ -3765,7 +3754,7 @@ class Game: NSObject, PowerEventHandler {
         if isBattlegroundsMatch(), let entity = entities[id], entity.isControlled(by: player.id) {
             if #available(macOS 10.15, *) {
                 Task.detached {
-                    await self.windowManager.battlegroundsQuestPicking.viewModel.onBattlegroundsQuest(questEntity: entity)
+                    await self.windowManager.rootOverlay?.viewModel.battlegroundsQuestPicking.onBattlegroundsQuest(questEntity: entity)
                 }
             }
         }
@@ -4194,7 +4183,9 @@ class Game: NSObject, PowerEventHandler {
                 } else {
                     logger.error("Could not reliably determine Battlegrounds hero power. \(chosen.count) hero(es) chosen.")
                 }
-                self.windowManager.battlegroundsQuestPicking.viewModel.reset()
+                if #available(macOS 10.15, *) {
+                    self.windowManager.rootOverlay?.viewModel.battlegroundsQuestPicking.reset()
+                }
             } else if isConstructedMatch() || isFriendlyMatch || isArenaMatch {
                 _ = snapshotMulliganChoices(choice: choice)
             }
@@ -4202,8 +4193,8 @@ class Game: NSObject, PowerEventHandler {
             counterManager.handleChoicePicked(choice: choice)
             handleSphereOfSapienceChosen(choice, chosen, source)
             if isBattlegroundsMatch() {
-                windowManager.battlegroundsQuestPicking.viewModel.reset()
                 if #available(macOS 10.15, *) {
+                    windowManager.rootOverlay?.viewModel.battlegroundsQuestPicking.reset()
                     windowManager.rootOverlay?.viewModel.battlegroundsTrinketPicking.reset()
                 }
                 if source?[.bacon_is_magic_item_discover] ?? 0 > 0 {

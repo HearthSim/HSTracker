@@ -87,10 +87,6 @@ class WindowManager {
         return $0
     }(MercenariesTaskListView(windowNibName: "MercenariesTaskListView"))
     
-    var battlegroundsQuestPicking: BattlegroundsQuestPicking = {
-        return $0
-    }(BattlegroundsQuestPicking(windowNibName: "BattlegroundsQuestPicking"))
-    
     var constructedMulliganGuide: ConstructedMulliganGuide = {
         return $0
     }(ConstructedMulliganGuide(windowNibName: "ConstructedMulliganGuide"))

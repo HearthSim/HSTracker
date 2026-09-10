@@ -123,8 +123,11 @@ struct RootOverlayView: View {
                     BattlegroundsHeroPickingView(viewModel: viewModel.battlegroundsHeroPicking,
                                                  canvasWidth: canvasWidth)
 
-                    // The trinket picking stats, declared right after the hero
-                    // picker on HDT's canvas and sized to it the same way.
+                    // The quest and trinket picking stats, declared right
+                    // after the hero picker on HDT's canvas and sized to it the
+                    // same way.
+                    BattlegroundsQuestPickingView(viewModel: viewModel.battlegroundsQuestPicking,
+                                                  canvasWidth: canvasWidth)
                     BattlegroundsTrinketPickingView(viewModel: viewModel.battlegroundsTrinketPicking,
                                                     canvasWidth: canvasWidth)
 

@@ -348,7 +348,7 @@ extension View {
 // control's LayoutTransform so it scales with the overlay.
 @available(macOS 10.15, *)
 private struct BgsTopTooltipModifier: ViewModifier {
-    let title: String
+    let title: String?
     let desc: String
 
     @SwiftUI.State private var isHovering = false
@@ -381,7 +381,7 @@ private struct BgsTopTooltipModifier: ViewModifier {
 
 @available(macOS 10.15, *)
 private struct BgsTopTooltipBubble: View {
-    let title: String
+    let title: String?
     let desc: String
 
     // MaxWidth="230" on the Border, inclusive of its 8pt padding and 1pt
@@ -401,7 +401,7 @@ private struct BgsTopTooltipBubble: View {
     }
 
     private var box: some View {
-        (Text(title).font(.system(size: 12, weight: .bold)) + Text(verbatim: "\n") + Text(desc).font(.system(size: 12)))
+        text
             .foregroundColor(.white)
             .multilineTextAlignment(.center)
             // Vertical-only fixedSize against a definite width, for the reason
@@ -411,6 +411,17 @@ private struct BgsTopTooltipBubble: View {
             .padding(8)
             .background(Self.background)
             .overlay(Rectangle().stroke(Self.border, lineWidth: 1))
+    }
+
+    // Some of these tooltips are a bold title over a description, some are a
+    // single line; both are one TextBlock in HDT, and concatenating Text keeps
+    // them one here too - see GuideTooltipBubble for why that matters.
+    private var text: Text {
+        let body = Text(desc).font(.system(size: 12))
+        guard let title else {
+            return body
+        }
+        return Text(title).font(.system(size: 12, weight: .bold)) + Text(verbatim: "\n") + body
     }
 
     // A 12x12 Border rotated 45 degrees about its centre, sitting 4pt above the
@@ -430,5 +441,11 @@ private struct BgsTopTooltipBubble: View {
 extension View {
     func bgsTopTooltip(title: String, desc: String) -> some View {
         modifier(BgsTopTooltipModifier(title: title, desc: desc))
+    }
+
+    // The single-line form, for the tooltips HDT declares as a bare
+    // ToolTip="..." string.
+    func bgsTopTooltip(_ text: String) -> some View {
+        modifier(BgsTopTooltipModifier(title: nil, desc: text))
     }
 }
