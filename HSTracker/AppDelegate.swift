@@ -112,6 +112,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
             logger.debug("Accessibility permission not granted")
         }
         AppDelegate.migrateLegacyBundleIdPreferences()
+        AppDelegate.migrateSessionMinionTypesPreference()
         
         // warn user about memory reading
         if Settings.showMemoryReadingWarning {
@@ -274,6 +275,24 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
 
         Settings.migratedLegacyBundleId = true
         defaults.synchronize()
+    }
+
+    /// Carries the old single-choice minion types preference over to the pair of
+    /// independent settings the session panel now uses, once.
+    ///
+    /// HSTracker used to show one minion types list and a radio pair picking
+    /// whether it held the available or the banned types. HDT has two separate
+    /// sections with a checkbox each, and the SwiftUI session panel follows it -
+    /// so whichever list the user had selected becomes the one section that
+    /// starts out enabled.
+    static func migrateSessionMinionTypesPreference() {
+        guard !Settings.migratedSessionMinionTypes else {
+            return
+        }
+        let showedBanned = Settings.showMinionTypes == 0
+        Settings.showMinionsAvailable = !showedBanned
+        Settings.showMinionsBanned = showedBanned
+        Settings.migratedSessionMinionTypes = true
     }
 
     func applicationWillTerminate(_ notification: Notification) {

@@ -99,10 +99,6 @@ class WindowManager {
         return $0
     }(BattlegroundsSession(windowNibName: "BattlegroundsSession"))
     
-    var battlegroundsFinalBoard: BattlegroundsFinalBoard = {
-        return $0
-    }(BattlegroundsFinalBoard(windowNibName: "BattlegroundsFinalBoard"))
-    
     var tier7PreLobby: Tier7PreLobby = {
         return $0
     }(Tier7PreLobby(windowNibName: "Tier7PreLobby"))

@@ -16,7 +16,23 @@ import SwiftUI
 // hence the `scale` parameter instead of a fixed size.
 @available(macOS 10.15, *)
 struct BattlegroundsTribeIconView: View {
+    // HDT's BattlegroundsTribe.MinionTypeAvailability, which picks the ring
+    // colour and whether the crossed-out overlay is drawn.
+    enum Availability {
+        case available
+        case banned
+
+        // BattlegroundsTribe.xaml.cs's BorderColor.
+        var borderColor: Color {
+            switch self {
+            case .available: return Color(hex: "#16d220")
+            case .banned: return Color(hex: "#D44040")
+            }
+        }
+    }
+
     let race: Race
+    var availability: Availability = .available
     var scale: CGFloat = 1.0
 
     // BattlegroundsTribe.xaml's outer Canvas is 38x38 with a 2pt border ring
@@ -35,11 +51,22 @@ struct BattlegroundsTribeIconView: View {
                     .frame(width: circleSize, height: circleSize)
                     .clipShape(Circle())
                 // BorderColor defaults to "#16d220" (Availability.Available) -
-                // none of the guide call sites bind Availability, so it's
-                // always the green ring, never the banned/red one.
+                // none of the guide call sites bind Availability, so there it's
+                // always the green ring; the session panel's banned list is the
+                // one caller that asks for the red one.
                 Circle()
-                    .stroke(Color(hex: "#16d220"), lineWidth: borderWidth)
+                    .stroke(availability.borderColor, lineWidth: borderWidth)
                     .frame(width: circleSize, height: circleSize)
+                // XVisibility: a 26pt cross, Canvas.Left="16" Canvas.Top="15"
+                // within the 38pt canvas, i.e. offset from its centre by
+                // (16 + 13) - 19 = 10 in X and (15 + 13) - 19 = 9 in Y.
+                if availability == .banned {
+                    Image("tribes-x")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 26 * scale, height: 26 * scale)
+                        .offset(x: 10 * scale, y: 9 * scale)
+                }
             }
             .frame(width: canvasSize, height: canvasSize)
             Text(BattlegroundsMinionType.raceName(race))

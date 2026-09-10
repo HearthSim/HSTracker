@@ -1,0 +1,115 @@
+//
+//  BattlegroundsGameRowView.swift
+//  HSTracker
+//
+//  Created by Francisco Moraes on 9/9/26.
+//  Copyright © 2026 Benjamin Michotte. All rights reserved.
+//
+
+import SwiftUI
+
+// Port of HDT's BattlegroundsGameView.xaml
+// (Controls/Overlay/Battlegrounds/Session): one row of the Latest Games list.
+//
+// The final-board tooltip the row opens on hover lives in
+// BattlegroundsFinalBoardTooltip and is drawn by BattlegroundsSessionView, not
+// here: the panel rounds its own corners by clipping the section stack, and in
+// SwiftUI a clip applies to everything beneath it - so a tooltip rendered from
+// inside a row would be cut off at the panel edge. The row only reports where
+// it is (an anchor preference) and lets the panel place the tooltip outside
+// that clip. HSTracker used to show this board in a separate
+// BattlegroundsFinalBoard window; HDT draws it inline, which is what this does.
+@available(macOS 10.15, *)
+struct BattlegroundsGameRowView: View {
+    let viewModel: BattlegroundsGameRowViewModel
+
+    // Canvas Height="34" Width="238" - the row content, inside the panel's
+    // 1pt border.
+    static let rowHeight: CGFloat = 34
+    static let rowWidth: CGFloat = 238
+
+    // Grid.ColumnDefinitions 1.7* / 1* / 1* over the 238pt row.
+    private static let heroColumnWidth: CGFloat = rowWidth * 1.7 / 3.7
+    private static let placeColumnWidth: CGFloat = rowWidth * 1.0 / 3.7
+    private static let mmrColumnWidth: CGFloat = rowWidth * 1.0 / 3.7
+
+    @SwiftUI.State private var isHovering = false
+
+    var body: some View {
+        Group {
+            ZStack(alignment: .topLeading) {
+                // Image Canvas.Left="-35" Canvas.Top="5" Margin="-10,-5,0,0",
+                // i.e. (-45, 0).
+                BattlegroundsSessionTileArt(card: viewModel.heroCard,
+                                            fadeColor: Color(hex: "#AA000000"))
+                    .offset(x: -45, y: 0)
+
+                HStack(spacing: 0) {
+                    // HeroName, HorizontalAlignment="Left" Margin="8,0,0,0"
+                    Text(viewModel.heroName)
+                        .chunkFive(size: 13)
+                        .outlinedText()
+                        .lineLimit(1)
+                        .padding(.leading, 8)
+                        .frame(width: Self.heroColumnWidth, alignment: .leading)
+
+                    // Canvas 22x18 holding the placement text, with the crown
+                    // pinned at Canvas.Left="-8" Canvas.Top="-7".
+                    ZStack(alignment: .topLeading) {
+                        Text(viewModel.placementText)
+                            .font(.system(size: 13, weight: .bold))
+                            .foregroundColor(viewModel.placementColor)
+                            .multilineTextAlignment(.center)
+                            .frame(width: 23)
+                        if viewModel.showCrown {
+                            Image("bgs_crown")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 16, height: 16)
+                                .offset(x: -8, y: -7)
+                        }
+                    }
+                    .frame(width: 22, height: 18)
+                    .frame(width: Self.placeColumnWidth)
+
+                    Text(viewModel.mmrDeltaText)
+                        .font(.system(size: 13))
+                        .foregroundColor(viewModel.mmrDeltaColor)
+                        .frame(width: Self.mmrColumnWidth)
+                }
+                .frame(width: Self.rowWidth, height: Self.rowHeight)
+            }
+            .frame(width: Self.rowWidth, height: Self.rowHeight, alignment: .topLeading)
+            .clipped()
+        }
+        .frame(width: Self.rowWidth, height: Self.rowHeight)
+        .background(Color(hex: "#AA000000"))
+        // Border BorderBrush="#1C2022" BorderThickness="0,1,0,0". Drawn over
+        // the row rather than stacked above it: HDT's border overflows the
+        // 34pt Canvas it wraps, so consecutive rows still sit 34pt apart.
+        .overlay(Color(hex: "#1C2022").frame(height: 1), alignment: .top)
+        .contentShape(Rectangle())
+        .onHover { hovering in
+            isHovering = hovering
+        }
+        .anchorPreference(key: HoveredGamePreferenceKey.self, value: .bounds) { anchor in
+            isHovering ? HoveredGame(bounds: anchor, viewModel: viewModel) : nil
+        }
+    }
+}
+
+// What a hovered row hands up to BattlegroundsSessionView so it can place the
+// final-board tooltip relative to that row.
+@available(macOS 10.15, *)
+struct HoveredGame: Equatable {
+    let bounds: Anchor<CGRect>
+    let viewModel: BattlegroundsGameRowViewModel
+}
+
+@available(macOS 10.15, *)
+struct HoveredGamePreferenceKey: PreferenceKey {
+    static var defaultValue: HoveredGame?
+    static func reduce(value: inout HoveredGame?, nextValue: () -> HoveredGame?) {
+        value = nextValue() ?? value
+    }
+}

@@ -330,8 +330,20 @@ final class Settings {
     static var showSessionRecap: Bool
     @UserDefault(key: Settings.show_banned_tribes, defaultValue: true)
     static var showMinionsSection: Bool
+    // Legacy single-choice setting: 0 showed the banned minion types, anything
+    // else showed the available ones. HDT has independent checkboxes for the two
+    // sections, which showMinionsAvailable/showMinionsBanned below now mirror;
+    // this key is only kept so AppDelegate.migrateSessionMinionTypesPreference
+    // can carry the user's old choice over once.
     @UserDefault(key: Settings.show_minion_types, defaultValue: 1)
     static var showMinionTypes: Int
+    // HDT's ShowSessionRecapMinionsAvailable / ShowSessionRecapMinionsBanned.
+    @UserDefault(key: Settings.show_minions_available, defaultValue: true)
+    static var showMinionsAvailable: Bool
+    @UserDefault(key: Settings.show_minions_banned, defaultValue: false)
+    static var showMinionsBanned: Bool
+    @UserDefault(key: Settings.migrated_session_minion_types, defaultValue: false)
+    static var migratedSessionMinionTypes: Bool
     @UserDefault(key: Settings.show_mmr, defaultValue: true)
     static var showMMR: Bool
     @UserDefault(key: Settings.show_mmr_start_current, defaultValue: true)
@@ -700,6 +712,9 @@ extension Settings {
     static let show_session_recap = "show_session_recap"
     static let show_banned_tribes = "show_banned_tribes"
     static let show_minion_types = "show_minion_types"
+    static let show_minions_available = "show_minions_available"
+    static let show_minions_banned = "show_minions_banned"
+    static let migrated_session_minion_types = "migrated_session_minion_types"
     static let show_mmr = "show_mmr"
     static let show_mmr_start_current = "show_mmr_start_current"
     static let show_latest_games = "show_latest_games"

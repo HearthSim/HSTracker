@@ -84,8 +84,8 @@ class BattlegroundsPreferences: PreferencePaneController, PreferencePane {
         showHeroToast.state = Settings.showHeroToast ? .on : .off
         showSessionRecap.state = Settings.showSessionRecap ? .on : .off
         showMinionTypes.state = Settings.showMinionsSection ? .on : .off
-        showAvailable.state = Settings.showMinionTypes != 0 ? .on : .off
-        showBanned.state = Settings.showMinionTypes == 0 ? .on : .off
+        showAvailable.state = Settings.showMinionsAvailable ? .on : .off
+        showBanned.state = Settings.showMinionsBanned ? .on : .off
         showMMR.state = Settings.showMMR ? .on : .off
         showLatestGames.state = Settings.showLatestGames ? .on : .off
         showMMRStartCurrent.state = Settings.showMMRStartCurrent ? .on : .off
@@ -171,29 +171,33 @@ class BattlegroundsPreferences: PreferencePaneController, PreferencePane {
         } else if sender == showMinionTypes {
             Settings.showMinionsSection = sender.state == .on
             updateEnablement()
+            updateSession()
         } else if sender == showAvailable {
-            Settings.showMinionTypes = 1
-            showAvailable.state = .on
-            showBanned.state = .off
-            AppDelegate.instance().coreManager.game.windowManager.battlegroundsSession.update()
+            // HDT's CheckboxSessionRecapMinionsAvailable and
+            // CheckboxSessionRecapMinionsBanned are independent - the panel can
+            // show either list, both, or neither.
+            Settings.showMinionsAvailable = sender.state == .on
+            updateSession()
         } else if sender == showBanned {
-            Settings.showMinionTypes = 0
-            showAvailable.state = .off
-            showBanned.state = .on
-            AppDelegate.instance().coreManager.game.windowManager.battlegroundsSession.update()
+            Settings.showMinionsBanned = sender.state == .on
+            updateSession()
         } else if sender == showMMR {
             Settings.showMMR = sender.state == .on
             updateEnablement()
+            updateSession()
         } else if sender == showLatestGames {
             Settings.showLatestGames = sender.state == .on
+            updateSession()
         } else if sender == showMMRStartCurrent {
             Settings.showMMRStartCurrent = true
             showMMRStartCurrent.state = .on
             showMMRCurrentChange.state = .off
+            updateSession()
         } else if sender == showMMRCurrentChange {
             Settings.showMMRStartCurrent = false
             showMMRStartCurrent.state = .off
             showMMRCurrentChange.state = .on
+            updateSession()
         } else if sender == enableTier7Overlay {
             Settings.enableTier7Overlay = sender.state == .on
             updateEnablement()
@@ -216,6 +220,7 @@ class BattlegroundsPreferences: PreferencePaneController, PreferencePane {
             }
         } else if sender == showBattlegroundsCompStats {
             Settings.showBattlegroundsTier7SessionCompStats = sender.state == .on
+            updateSession()
         } else if sender == alwaysShowTavernTier7 {
             Settings.alwaysShowTier7 = sender.state == .on
         } else if sender == autoShowBattlegroundsTrinketPicking {
@@ -227,6 +232,16 @@ class BattlegroundsPreferences: PreferencePaneController, PreferencePane {
     @IBAction func sliderChanged(_ sender: Any) {
         Settings.battlegroundsSessionScaling = scalingSlider.doubleValue / 100.0
         scalingValue.doubleValue = scalingSlider.doubleValue / 100.0
+        AppDelegate.instance().coreManager.game.windowManager.battlegroundsSession.updateScaling()
+    }
+
+    // The session panel keeps every section's visibility in its view model, so a
+    // settings change has to be pushed into it rather than picked up on the next
+    // redraw.
+    private func updateSession() {
+        let session = AppDelegate.instance().coreManager.game.windowManager.battlegroundsSession
+        session.updateSectionsVisibilities()
+        session.update()
     }
     
     private func updateEnablement() {
