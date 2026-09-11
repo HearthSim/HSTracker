@@ -162,6 +162,29 @@ extension RootOverlayViewModel {
         }
     }
 
+    func setHeroPickingTooltipMask(zoneSize: Int, zonePosition: Int, tooltipOnRight: Bool,
+                                   numCards: Int, buddiesEnabled: Bool = false) {
+        opacityMask.removeMaskedRegion("HeroPickingTooltip")
+
+        if zoneSize == 0 {
+            return
+        }
+
+        let regionDrawer = makeRegionDrawer()
+
+        let rects = regionDrawer.drawBgHeroPickingTooltipRegion(zoneSize: zoneSize,
+                                                                zonePosition: zonePosition,
+                                                                tooltipOnRight: tooltipOnRight,
+                                                                numCards: numCards,
+                                                                buddiesEnabled: buddiesEnabled)
+
+        opacityMask.batchUpdate {
+            for rect in rects {
+                opacityMask.addMaskedRegion("HeroPickingTooltip", rect)
+            }
+        }
+    }
+
     func setMulliganAnomalyMask(_ card: Card?) {
         opacityMask.removeMaskedRegion("MulliganAnomaly")
 

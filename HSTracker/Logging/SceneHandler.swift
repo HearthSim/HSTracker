@@ -73,6 +73,7 @@ class SceneHandler {
             Watchers.discoverStateWatcher.stop()
             Watchers.choicesWatcher.stop()
             Watchers.specialShopChoicesStateWatcher.stop()
+            Watchers.mulliganTooltipWatcher.stop()
         }
     }
     
@@ -107,6 +108,7 @@ class SceneHandler {
             Watchers.specialShopChoicesStateWatcher.run()
             Watchers.discoverStateWatcher.run()
             Watchers.baconWatcher.run()
+            Watchers.mulliganTooltipWatcher.run()
             Watchers.playZoneWatcher.run()
         }
         

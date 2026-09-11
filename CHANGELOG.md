@@ -6,7 +6,7 @@
 - Fixed the deck manager freezing the whole app, sometimes for hours, when the decks were sorted by win percentage, wins, losses or games played, and those columns counting only ranked games.
 - Fixed HSTracker forgetting every setting on launch and asking for the languages again, and the first-run window now shows the languages that are already configured.
 - The counters now scale with the game window, the opponent's sit in their correct spot, in Battlegrounds they split into two even rows, and hovering one shows its related cards again.
-- The overlay is now cut away wherever Hearthstone draws something of its own over the board - a hovered minion, weapon, hero power, secret or card in hand with its tooltips and enchantments, the Discover and trinket choices, the anomaly in the Battlegrounds mulligan, the friends list and the escape menu - so none of them are covered up any more.
+- The overlay is now cut away wherever Hearthstone draws something of its own over the board - a hovered minion, weapon, hero power, secret or card in hand with its tooltips and enchantments, the Discover and trinket choices, the anomaly and offered hero powers in the Battlegrounds mulligan, the friends list and the escape menu - so none of them are covered up any more.
 ## Battlegrounds
 - Fixed the counter tooltips showing the previously hovered counter's card art, and the Blood Gem counter listing itself instead of the Quilboar payoffs.
 - Fixed the Blood Gem and next-turn gold counters reading the combat board instead of the shop, so they stopped following what was bought and sold.

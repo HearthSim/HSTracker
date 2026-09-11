@@ -544,6 +544,17 @@ struct MirrorHelper {
         return result
     }
     
+    // MulliganManager.s_instance - the tooltip Hearthstone draws beside a
+    // moused-over card during the Battlegrounds hero picking phase. HDT reads it
+    // through Reflection.Client.GetMulliganTooltipState().
+    static func getMulliganTooltipState() -> MirrorMulliganTooltipState? {
+        var result: MirrorMulliganTooltipState?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getMulliganTooltipState()
+        }
+        return result
+    }
+    
     static func getBigCardState() -> MirrorBigCardState? {
         var result: MirrorBigCardState?
         MirrorHelper.accessQueue.sync {

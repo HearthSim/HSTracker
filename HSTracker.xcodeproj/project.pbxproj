@@ -1231,6 +1231,7 @@
 		B854622D2CE008360083BB31 /* BaconWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B854622C2CE008360083BB31 /* BaconWatcher.swift */; };
 		B854622F2CE00B140083BB31 /* Watchers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B854622E2CE00B140083BB31 /* Watchers.swift */; };
 		B85462312CE00EED0083BB31 /* BigCardWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85462302CE00EED0083BB31 /* BigCardWatcher.swift */; };
+		24DAE815B49242E7A17CC1A7 /* MulliganTooltipWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E2BBE30F494E9E8F26C8D4 /* MulliganTooltipWatcher.swift */; };
 		B85462332CE016B80083BB31 /* ArenaWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85462322CE016B80083BB31 /* ArenaWatcher.swift */; };
 		B85462352CE0185B0083BB31 /* QueueWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85462342CE0185B0083BB31 /* QueueWatcher.swift */; };
 		B85462372CE019FE0083BB31 /* ChoicesWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85462362CE019FE0083BB31 /* ChoicesWatcher.swift */; };
@@ -3223,6 +3224,7 @@
 		B854622C2CE008360083BB31 /* BaconWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaconWatcher.swift; sourceTree = "<group>"; };
 		B854622E2CE00B140083BB31 /* Watchers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Watchers.swift; sourceTree = "<group>"; };
 		B85462302CE00EED0083BB31 /* BigCardWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigCardWatcher.swift; sourceTree = "<group>"; };
+		A8E2BBE30F494E9E8F26C8D4 /* MulliganTooltipWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulliganTooltipWatcher.swift; sourceTree = "<group>"; };
 		B85462322CE016B80083BB31 /* ArenaWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArenaWatcher.swift; sourceTree = "<group>"; };
 		B85462342CE0185B0083BB31 /* QueueWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueWatcher.swift; sourceTree = "<group>"; };
 		B85462362CE019FE0083BB31 /* ChoicesWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoicesWatcher.swift; sourceTree = "<group>"; };
@@ -5603,6 +5605,7 @@
 				B8D22EAA30169C9600E44909 /* BattlegroundsLobbyInfoWatcher.swift */,
 				B85462382CE01B1F0083BB31 /* BattlegroundsTeammateBoardStateWatcher.swift */,
 				B85462302CE00EED0083BB31 /* BigCardWatcher.swift */,
+				A8E2BBE30F494E9E8F26C8D4 /* MulliganTooltipWatcher.swift */,
 				B85462362CE019FE0083BB31 /* ChoicesWatcher.swift */,
 				B854623E2CE01ECF0083BB31 /* DeckPickerWatcher.swift */,
 				B8889C1A2D9DC6ED0053DD57 /* DiscoverStateWatcher.swift */,
@@ -7370,6 +7373,7 @@
 				B8B790232C97557900DD33EC /* RebukeEnchantment.swift in Sources */,
 				B89343362CCFD3BE009A8727 /* PogoHopperCounter.swift in Sources */,
 				B85462312CE00EED0083BB31 /* BigCardWatcher.swift in Sources */,
+				24DAE815B49242E7A17CC1A7 /* MulliganTooltipWatcher.swift in Sources */,
 				B846CC582E09DC0200552F9C /* ShadowVisions.swift in Sources */,
 				4360329B1C7B657C005F1893 /* Splashscreen.swift in Sources */,
 				B89865E82D920E1B00BA5649 /* BlackrockNRoll.swift in Sources */,

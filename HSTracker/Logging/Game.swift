@@ -4172,6 +4172,18 @@ class Game: NSObject, PowerEventHandler {
         guard #available(macOS 10.15, *) else { return }
         onMainOverlay { $0.setGameMenuOpacityMask(visible) }
     }
+
+    // HDT's Watchers.OnMulliganTooltipChange ->
+    // OverlayWindow.SetHeroPickingTooltipMask.
+    func setHeroPickingTooltipMask(zoneSize: Int, zonePosition: Int, tooltipOnRight: Bool,
+                                   numCards: Int, buddiesEnabled: Bool) {
+        guard #available(macOS 10.15, *) else { return }
+        onMainOverlay {
+            $0.setHeroPickingTooltipMask(zoneSize: zoneSize, zonePosition: zonePosition,
+                                         tooltipOnRight: tooltipOnRight, numCards: numCards,
+                                         buddiesEnabled: buddiesEnabled)
+        }
+    }
     
     func handleSpecialShop(_ args: SpecialShopChoicesArgs) {
         guard isBattlegroundsMatch() else {

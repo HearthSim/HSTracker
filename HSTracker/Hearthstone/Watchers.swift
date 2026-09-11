@@ -18,6 +18,7 @@ class Watchers {
     static let choicesWatcher = ChoicesWatcher()
     static let deckPickerWatcher = DeckPickerWatcher()
     static let discoverStateWatcher = DiscoverStateWatcher()
+    static let mulliganTooltipWatcher = MulliganTooltipWatcher()
     static let dungeonRunDeckWatcher = DungeonRunDeckWatcher()
     static let experienceWatcher = ExperienceWatcher()
     static let playZoneWatcher = PlayZoneWatcher()
@@ -48,6 +49,7 @@ class Watchers {
         }
         deckPickerWatcher.change = onDeckPickerChange
         discoverStateWatcher.change = onDiscoverStateChange
+        mulliganTooltipWatcher.change = onMulliganTooltipChange
         dungeonRunDeckWatcher.dungeonRunMatchStarted = { newrun, set in
             CoreManager.dungeonRunMatchStarted(newRun: newrun, set: set, isPVPDR: false)
         }
@@ -83,6 +85,7 @@ class Watchers {
         specialShopChoicesStateWatcher.stop()
         deckPickerWatcher.stop()
         discoverStateWatcher.stop()
+        mulliganTooltipWatcher.stop()
         dungeonRunDeckWatcher.stop()
         experienceWatcher.stop()
         playZoneWatcher.stop()
@@ -129,6 +132,21 @@ class Watchers {
 
     private static func onBigCardChange(_ sender: BigCardWatcher, _ args: BigCardArgs) {
         AppDelegate.instance().coreManager.game.onBigCardChange(args)
+    }
+    
+    // HDT's Watchers.OnMulliganTooltipChange. It also drives
+    // SetHeroGuidesTrigger there, which places an invisible hover target over
+    // the game's own tooltip; the hero guides are triggered from the overlay's
+    // own hero plates here instead (HoverRegionID.heroGuide), so only the mask
+    // hangs off this.
+    private static func onMulliganTooltipChange(_ sender: MulliganTooltipWatcher, _ args: MulliganTooltipArgs) {
+        let game = AppDelegate.instance().coreManager.game
+        let buddiesEnabled = (game.gameEntity?[.bacon_buddy_enabled] ?? 0) > 0
+        game.setHeroPickingTooltipMask(zoneSize: args.zoneSize,
+                                       zonePosition: args.zonePosition,
+                                       tooltipOnRight: args.isTooltipOnRight,
+                                       numCards: args.tooltipCards.count,
+                                       buddiesEnabled: buddiesEnabled)
     }
     
     private static func onDeckPickerChange(_ sender: DeckPickerWatcher, _ args: DeckPickerEventArgs) {
