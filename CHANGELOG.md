@@ -8,6 +8,7 @@
 - The mulligan guide offer now matches Hearthstone Deck Tracker: it slides up from the bottom-right of the game window, scales with it, and when there is nothing to link to it says so over its own grey backdrop instead of the regular one.
 ## Battlegrounds
 - Fixed the counter tooltips showing the previously hovered counter's card art, and the Blood Gem counter listing itself instead of the Quilboar payoffs.
+- Fixed the Blood Gem and next-turn gold counters reading the combat board instead of the shop, so they stopped following what was bought and sold.
 - Fixed Bob's Buddy treating the end of every combat as the end of the game, which inverted the "Show During Shopping" setting: the odds stayed up when it was off and folded away when it was on.
 - Fixed trinket guide tooltips stacking up and being left behind on the game board.
 - The Battlegrounds comp guide now matches Hearthstone Deck Tracker: it no longer overhangs the tab strip, its card rows lost their extra gaps, its "Show Example Lineups" button spans the Core Cards section, and its mode badge names the Tier7 or Free version with an explanation on hover.

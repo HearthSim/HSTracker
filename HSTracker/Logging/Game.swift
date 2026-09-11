@@ -2586,7 +2586,7 @@ class Game: NSObject, PowerEventHandler {
             if isBattlegroundsMatch() {
                 DispatchQueue.main.async { [self] in
                     self.primaryPlayerId = self.player.id
-                    self.isBattlegroundsCombatPhase = true
+                    self.isBattlegroundsCombatPhase = false
                     OpponentDeadForTracker.shoppingStarted(game: self)
                     BobsBuddyInvoker.instance(gameId: self.gameId, turn: self.turnNumber() - 1)?.startShopping()
                     let heroPowerIds = self.player.board.filter { x in x.isHeroPower }.compactMap { x in x.cardId }
