@@ -13,6 +13,7 @@
 - Fixed Bob's Buddy treating the end of every combat as the end of the game, which inverted the "Show During Shopping" setting: the odds stayed up when it was off and folded away when it was on.
 - Fixed trinket guide tooltips stacking up and being left behind on the game board.
 - Fixed the session panel losing track of a Battlegrounds season MMR reset: the game the reset happened in now shows the new rating, and the session counts from zero instead of from the old rating.
+- Fixed the session panel showing a current MMR of zero, and a session change of the whole starting rating, while Hearthstone had not reported a rating yet.
 - Fixed the session panel shortening a second place finish to "2..." in its latest games list, cutting off the longer hero names there instead of fitting them, and trimming a large MMR figure in that list.
 - The Battlegrounds comp guide now matches Hearthstone Deck Tracker: it no longer overhangs the tab strip, its card rows lost their extra gaps, its "Show Example Lineups" button spans the Core Cards section, and its mode badge names the Tier7 or Free version with an explanation on hover.
 - The Tier7 panel in the Battlegrounds lobby now matches Hearthstone Deck Tracker: it can be folded away by its header chevron, a settings button appears in its corner on hover, a sale offer is shown when one is running, and it scales with the game window.

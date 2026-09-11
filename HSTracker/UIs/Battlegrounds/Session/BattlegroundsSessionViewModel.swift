@@ -264,9 +264,15 @@ class BattlegroundsSessionViewModel: ObservableObject {
         let firstGame = updateLatestGames()
 
         let game = AppDelegate.instance().coreManager.game
-        let rating = BattlegroundsSessionViewModel.clientRating(ratingInfo: game.battlegroundsRatingInfo, duos: isDuos) ?? 0
+        var rating = BattlegroundsSessionViewModel.clientRating(ratingInfo: game.battlegroundsRatingInfo, duos: isDuos) ?? 0
         // A game the season reset during starts the session from 0 rather than from the rating it began with
         let ratingStart = firstGame.map { $0.seasonReset ? 0 : $0.rating } ?? rating
+        // The client has no rating for us yet - HearthMirror has not read one, or this is the Duos
+        // ladder of someone who has never played Duos - so fall back to where the session started
+        // rather than reporting a current MMR of 0 and a change of -<the whole session start>.
+        if rating == 0 {
+            rating = ratingStart
+        }
 
         if Settings.showMMRStartCurrent {
             mmrLabelA = String.localizedString("Battlegrounds_Session_MMR_Label_Start", comment: "")
