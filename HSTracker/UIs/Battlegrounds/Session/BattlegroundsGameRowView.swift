@@ -52,10 +52,15 @@ struct BattlegroundsGameRowView: View {
                     // Canvas 22x18 holding the placement text, with the crown
                     // pinned at Canvas.Left="-8" Canvas.Top="-7".
                     ZStack(alignment: .topLeading) {
+                        // WPF lets a NoWrap TextBlock overflow its Width
+                        // instead of trimming it, and "2nd" at 13pt bold is a
+                        // hair wider than 23pt - .fixedSize() keeps SwiftUI
+                        // from truncating it to "2...".
                         Text(viewModel.placementText)
                             .font(.system(size: 13, weight: .bold))
                             .foregroundColor(viewModel.placementColor)
                             .multilineTextAlignment(.center)
+                            .fixedSize()
                             .frame(width: 23)
                         if viewModel.showCrown {
                             Image("bgs_crown")
