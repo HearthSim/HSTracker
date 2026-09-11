@@ -79,9 +79,14 @@ struct BattlegroundsGameRowView: View {
                     .frame(width: 22, height: 18)
                     .frame(width: Self.placeColumnWidth)
 
+                    // A plain TextBlock with no Width: WPF centres it in the
+                    // column and lets it overflow rather than trimming it, so
+                    // .fixedSize() here too. A full rating rather than a delta
+                    // ("+20000", 48pt) still fits the 64pt column.
                     Text(viewModel.mmrDeltaText)
                         .font(.system(size: 13))
                         .foregroundColor(viewModel.mmrDeltaColor)
+                        .fixedSize()
                         .frame(width: Self.mmrColumnWidth)
                 }
                 .frame(width: Self.rowWidth, height: Self.rowHeight)
