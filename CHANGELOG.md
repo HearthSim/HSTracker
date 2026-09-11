@@ -1,5 +1,6 @@
 # 3.6.10
 ## Hearthstone
+- Fixed everything that has not been translated into the selected language showing its internal name, such as "Counter_AnimalCompanionCost" in place of the Animal Companion counter, now falling back to English again, and translated a large part of what was still English in all thirteen languages.
 - Added diagnostics for the remaining random crashes on macOS 26, and stopped reporting HSReplay and card art server outages as crashes.
 - Fixed HSTracker quitting when the Game settings pane was opened and Hearthstone could not be found.
 - Fixed the deck manager freezing the whole app, sometimes for hours, when the decks were sorted by win percentage, wins, losses or games played, and those columns counting only ranked games.
