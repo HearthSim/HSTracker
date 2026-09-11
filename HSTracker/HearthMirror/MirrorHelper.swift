@@ -427,6 +427,16 @@ struct MirrorHelper {
         return result ?? false
     }
     
+    // GameMenu.s_instance.m_isShown - the escape menu, which HDT reads through
+    // Reflection.Client.IsGameMenuShown() for its own UiWatcher.
+    static func isGameMenuVisible() -> Bool {
+        var result: Bool?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.isGameMenuVisible()
+        }
+        return result ?? false
+    }
+    
     static func getLogSessionDir() -> String {
         var result: String?
         MirrorHelper.accessQueue.sync {

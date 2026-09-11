@@ -106,6 +106,7 @@ class Watchers {
             // HDT does this from Watchers.OnUiChange, whose UIWatcher this
             // BaconWatcher stands in for here.
             game.setFriendListOpacityMask(args.isFriendsListOpen)
+            game.setGameMenuOpacityMask(args.isGameMenuShown)
         }
     }
     

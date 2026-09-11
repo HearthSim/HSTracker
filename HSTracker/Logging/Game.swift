@@ -4165,6 +4165,13 @@ class Game: NSObject, PowerEventHandler {
         guard #available(macOS 10.15, *) else { return }
         onMainOverlay { $0.setFriendListOpacityMask(visible) }
     }
+
+    // HDT's Watchers.OnUiChange -> OverlayWindow.SetGameMenuOpacityMask. The
+    // escape menu is drawn centred over the board, under the overlay.
+    func setGameMenuOpacityMask(_ visible: Bool) {
+        guard #available(macOS 10.15, *) else { return }
+        onMainOverlay { $0.setGameMenuOpacityMask(visible) }
+    }
     
     func handleSpecialShop(_ args: SpecialShopChoicesArgs) {
         guard isBattlegroundsMatch() else {

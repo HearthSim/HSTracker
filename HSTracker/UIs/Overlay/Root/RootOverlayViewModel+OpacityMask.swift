@@ -36,6 +36,17 @@ extension RootOverlayViewModel {
         }
     }
 
+    func setGameMenuOpacityMask(_ visible: Bool) {
+        if visible {
+            let regionDrawer = makeRegionDrawer()
+            let rect = regionDrawer.drawGameMenuRegion()
+
+            opacityMask.addMaskedRegion("GameMenu", rect)
+        } else {
+            opacityMask.removeMaskedRegion("GameMenu")
+        }
+    }
+
     func setCardOpacityMask(_ state: BigCardArgs) {
         if battlegroundsHeroPicking.isViewingTeammate {
             return
