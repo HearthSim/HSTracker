@@ -159,6 +159,7 @@ class Watchers {
     private static func onDiscoverStateChange(_ sender: DiscoverStateWatcher, _ args: DiscoverStateArgs) {
         let game = AppDelegate.instance().coreManager.game
         game.setRelatedCardsTrigger(args)
+        game.setQuestGuidesTrigger(args)
         // This runs on the DiscoverStateWatcher queue. highlightPlayerDeckCards
         // reaches into the tracker window and marks card bars for redisplay, so
         // it has to run on the main thread - Game.onBigCardChange hops for the

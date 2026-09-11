@@ -56,9 +56,9 @@ enum HoverRegionID {
     // laid over wherever the game currently has its tooltip, as HDT's is.
     static let heroGuideTrigger = "heroGuideTrigger"
 
-    static func questGuide(_ index: Int) -> String {
-        return "questGuide.\(index)"
-    }
+    // As with the hero one above: a single rectangle over the game's own
+    // tooltip, not one per offered reward.
+    static let questGuideTrigger = "questGuideTrigger"
 }
 
 @available(macOS 10.15, *)
@@ -186,9 +186,14 @@ struct RootOverlayView: View {
                     // after the hero picker on HDT's canvas and sized to it the
                     // same way.
                     BattlegroundsQuestPickingView(viewModel: viewModel.battlegroundsQuestPicking,
-                                                  questGuides: viewModel.battlegroundsQuestGuides,
-                                                  hoveredRegions: viewModel.hoveredRegionIds,
                                                   canvasWidth: canvasWidth)
+
+                    // HDT's DiscoveryGuidesTooltipTrigger, laid over the game's
+                    // own quest reward tooltip. Declared after the picker for
+                    // the same reason the hero one is.
+                    BattlegroundsQuestGuideTriggerView(questGuides: viewModel.battlegroundsQuestGuides,
+                                                       canvasWidth: canvasWidth,
+                                                       hoveredRegions: viewModel.hoveredRegionIds)
                     BattlegroundsTrinketPickingView(viewModel: viewModel.battlegroundsTrinketPicking,
                                                     canvasWidth: canvasWidth)
 

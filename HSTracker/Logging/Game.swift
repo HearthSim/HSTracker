@@ -4185,6 +4185,44 @@ class Game: NSObject, PowerEventHandler {
         }
     }
 
+    // HDT's Watchers.OnDiscoverStateChange -> OverlayWindow.SetQuestGuidesTrigger.
+    //
+    // The entity resolution happens here rather than in the view model because
+    // it reads the game's own entities, as HDT's does from OverlayWindow.
+    //
+    // HDT bails out of this without clearing its trigger, but clears it anyway
+    // on every discover-state change: SetTrinketGuidesTrigger resets the same
+    // shared element first, and Watchers calls that one before this one. There
+    // is no shared element here, so the clear is explicit.
+    func setQuestGuidesTrigger(_ state: DiscoverStateArgs) {
+        guard #available(macOS 10.15, *) else { return }
+
+        guard let entityId = state.entityId, entityId != 0,
+              let entity = entities[entityId] else {
+            onMainOverlay { $0.battlegroundsQuestGuides.trigger = nil }
+            return
+        }
+
+        let questRewardCardId = entity[.quest_reward_database_id]
+        guard let questRewardCard = Cards.by(dbfId: questRewardCardId, collectible: false),
+              questRewardCard.type == .battleground_quest_reward else {
+            onMainOverlay { $0.battlegroundsQuestGuides.trigger = nil }
+            return
+        }
+
+        // A reward card shown alongside the quest shifts which side the game
+        // puts its own tooltip on.
+        let isRewardCardPresent = Cards.by(dbfId: entity[.bacon_card_dbid_reward], collectible: false) != nil
+        let isGameTooltipRight = isRewardCardPresent
+            ? state.zonePosition + 1 == state.zoneSize
+            : state.zonePosition == 0
+
+        let trigger = BattlegroundsQuestGuideTrigger(rewardDbfId: questRewardCard.dbfId,
+                                                     zonePosition: state.zonePosition,
+                                                     tooltipOnRight: isGameTooltipRight)
+        onMainOverlay { $0.battlegroundsQuestGuides.trigger = trigger }
+    }
+
     // HDT's Watchers.OnMulliganTooltipChange ->
     // OverlayWindow.SetHeroGuidesTrigger.
     func setHeroGuidesTrigger(zoneSize: Int, zonePosition: Int, tooltipOnRight: Bool,
