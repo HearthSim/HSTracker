@@ -11,27 +11,10 @@ import Foundation
 // Mirrors HDT's BattlegroundsQuestGuideListViewModel. selectedQuests grows
 // across the match (multiple quest rewards can be picked, typically turn 1
 // and turn 4) - never cleared mid-match, only at onMatchEnd()/reset().
-// The state HDT hangs off DiscoveryGuidesTooltipTrigger's
-// CardGridTooltipViewModel: which reward the game has a tooltip up for, and
-// where.
-@available(macOS 10.15, *)
-struct BattlegroundsQuestGuideTrigger: Equatable {
-    let rewardDbfId: Int
-    let zonePosition: Int
-    let tooltipOnRight: Bool
-}
-
 @available(macOS 10.15, *)
 final class BattlegroundsQuestGuidesViewModel: ObservableObject {
     @Published var questGuides: [Int: BattlegroundsQuestGuide]?
     @Published var selectedQuests: [BattlegroundsQuestGuideViewModel] = []
-
-    // Non-nil only while the game has a quest reward tooltip up - see
-    // BattlegroundsQuestGuideTriggerView, which draws over it.
-    //
-    // Main thread only, as the @Published write demands; Game.setQuestGuidesTrigger
-    // reaches it through onMainOverlay.
-    @Published var trigger: BattlegroundsQuestGuideTrigger?
 
     var hasQuests: Bool { !selectedQuests.isEmpty }
 

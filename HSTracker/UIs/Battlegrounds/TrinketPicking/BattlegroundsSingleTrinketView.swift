@@ -31,8 +31,6 @@ struct BattlegroundsSingleTrinketView: View {
     private static let rightColumnX = sideColumnWidth + tierColumnWidth
     private static let titleRowHeight: CGFloat = 22
 
-    @SwiftUI.State private var guide: GuideTooltipCardView?
-
     var body: some View {
         ZStack(alignment: .topLeading) {
             BattlegroundsStatsPlateChrome(tierGradient: viewModel.tierLinearGradient, layout: .trinketPlate)
@@ -41,8 +39,6 @@ struct BattlegroundsSingleTrinketView: View {
             tier
 
             stats
-
-            guideTooltip
         }
         // The control's root is a Canvas, which has no desired size of its own:
         // its children draw from the cell's top-left corner down.
@@ -108,57 +104,5 @@ struct BattlegroundsSingleTrinketView: View {
         Text(verbatim: text)
             .chunkFive(size: 20)
             .fixedSize()
-    }
-
-    // MARK: - Guide tooltip
-
-    // HSTracker's own addition, with no HDT counterpart: hovering a trinket
-    // shows its guide. The AppKit view this replaces took the hover over the
-    // whole 252x430 cell; on the shared canvas the sensor is the plate, which
-    // is the part of the cell that actually draws anything - a cell-sized
-    // interactive region would stop the click that picks the trinket from
-    // reaching Hearthstone.
-    private var guideTooltip: some View {
-        Color.clear
-            .frame(width: Self.plateSize.width, height: Self.plateSize.height)
-            .onHover { hovering in
-                guide = hovering ? Self.loadGuide(dbfId: viewModel.dbfId) : nil
-            }
-            .background(
-                GeometryReader { proxy in
-                    Color.clear.preference(key: InteractiveRegionPreferenceKey.self,
-                                           value: [proxy.frame(in: .rootOverlayCanvas)])
-                }
-            )
-            .overlay(bubble, alignment: .top)
-    }
-
-    @ViewBuilder
-    private var bubble: some View {
-        if let guide {
-            // Zero-height marker on the plate's top edge with the card
-            // bottom-aligned onto it, so it grows upward from 8pt above the
-            // plate - where the AppKit tooltip was placed.
-            Color.clear
-                .frame(height: 0)
-                .overlay(guide, alignment: .bottom)
-                .offset(y: -8)
-                .allowsHitTesting(false)
-        }
-    }
-
-    private static func loadGuide(dbfId: Int?) -> GuideTooltipCardView? {
-        guard let dbfId, GuideTooltipCardView.isEnabled else {
-            return nil
-        }
-        let game = AppDelegate.instance().coreManager.game
-        let guide = game.windowManager.rootOverlay?.viewModel.battlegroundsTrinketGuides.guide(dbfId: dbfId)
-        let availableRaces = Set(game.availableRaces ?? [])
-        let favorableTribes = (guide?.favorable_tribes ?? []).compactMap { raceNumber -> Race? in
-            guard raceNumber >= 0, raceNumber < Race.allCases.count else { return nil }
-            let race = Race.allCases[raceNumber]
-            return availableRaces.contains(race) ? race : nil
-        }
-        return GuideTooltipCardView(howToPlay: guide?.published_guide ?? "", favorableTribes: favorableTribes)
     }
 }

@@ -640,6 +640,8 @@
 		534B3670AF83FD10DAACBE25 /* HarmonicaSoloist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84264C0A8DF1CC9A733F955E /* HarmonicaSoloist.swift */; };
 		5383585553DB66B28D2064EC /* SubmergedMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1687C2330CD8A06FE4E183CC /* SubmergedMap.swift */; };
 		53BA4A2A2559A966D13B4DB5 /* GuideTooltipCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6ED7CA29BE55BC91172EEEA /* GuideTooltipCardView.swift */; };
+		59D9FC36B27543028261A91F /* BattlegroundsDiscoveryGuideTriggerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6D85C55C18463C9D42BDE3 /* BattlegroundsDiscoveryGuideTriggerView.swift */; };
+		24A6F7609D6642FAB5B444BC /* BattlegroundsDiscoveryGuidesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755828E8DCB947A7B93443CD /* BattlegroundsDiscoveryGuidesViewModel.swift */; };
 		55D8E2A6AD2618A0D4EEBF86 /* FlightOfTheBronze.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3942DF0FC4A4C5CD1B3BB9E7 /* FlightOfTheBronze.swift */; };
 		56094868BBE44A21EDEE3F00 /* InfernoHerald.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B6CC02090D5F81B2D93724 /* InfernoHerald.swift */; };
 		57068BEE5BD61D9A131AA0B3 /* OrbitalSatellite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDD8B998198F6DD46793645 /* OrbitalSatellite.swift */; };
@@ -873,7 +875,6 @@
 		A6BA3F10B9A15C153F92918C /* TimeMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CF2A32DF8DA7D0BF7F0FA0 /* TimeMachine.swift */; };
 		A863EF0C034F6B9CE483E835 /* WitchyLackey.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E0C5970697B5045A03B511 /* WitchyLackey.swift */; };
 		A8B6CDB7E06BEE5EFEB10B8F /* BattlegroundsQuestGuidesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1B5B7EC48DAD9E849EF3D2 /* BattlegroundsQuestGuidesViewModel.swift */; };
-		CF87CE4059C546758EDD9E93 /* BattlegroundsQuestGuideTriggerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3C13A031BD4D6AA140EB75 /* BattlegroundsQuestGuideTriggerView.swift */; };
 		A9040F0022FA987F8E479834 /* Webspinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174A8FB14DC7DF2733333DF3 /* Webspinner.swift */; };
 		A97B91F9EC391E15D21DE22E /* PrimordialLord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC8C901994B9A28E00A2CA7 /* PrimordialLord.swift */; };
 		AA2B3C4D5E6F7A8B9C0D1E2F /* BattlegroundsMinionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B2C3D4E5F6A7B8C9D0E1F /* BattlegroundsMinionsViewModel.swift */; };
@@ -2708,7 +2709,6 @@
 		5D5FD3D8314F4DD5298BABD4 /* ManaCyclone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManaCyclone.swift; sourceTree = "<group>"; };
 		5DE331D144B1F061932C7C50 /* DistressSignal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistressSignal.swift; sourceTree = "<group>"; };
 		5E1B5B7EC48DAD9E849EF3D2 /* BattlegroundsQuestGuidesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsQuestGuidesViewModel.swift; sourceTree = "<group>"; };
-		8F3C13A031BD4D6AA140EB75 /* BattlegroundsQuestGuideTriggerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsQuestGuideTriggerView.swift; sourceTree = "<group>"; };
 		5FB4FF292FDD77BF05C745A0 /* CodeViolet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeViolet.swift; sourceTree = "<group>"; };
 		603A979A54748F818672ED21 /* BoggspineKnuckles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoggspineKnuckles.swift; sourceTree = "<group>"; };
 		60DB78EEB3D510A67EE5FBA8 /* LinedancePartner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinedancePartner.swift; sourceTree = "<group>"; };
@@ -2888,6 +2888,8 @@
 		A6A213E722B21C2C7A39B59F /* MuckbornServant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuckbornServant.swift; sourceTree = "<group>"; };
 		A6BD3695F3ACE712E3DE00A3 /* DeckOfWonders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckOfWonders.swift; sourceTree = "<group>"; };
 		A6ED7CA29BE55BC91172EEEA /* GuideTooltipCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideTooltipCardView.swift; sourceTree = "<group>"; };
+		DA6D85C55C18463C9D42BDE3 /* BattlegroundsDiscoveryGuideTriggerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsDiscoveryGuideTriggerView.swift; sourceTree = "<group>"; };
+		755828E8DCB947A7B93443CD /* BattlegroundsDiscoveryGuidesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsDiscoveryGuidesViewModel.swift; sourceTree = "<group>"; };
 		A77D5C6F749DED5E861E006D /* WeaponizedPinata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeaponizedPinata.swift; sourceTree = "<group>"; };
 		A7BDFCE2D8431881F049CE56 /* VoidScripture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoidScripture.swift; sourceTree = "<group>"; };
 		A8CD2C0C7791AD63C01C41A1 /* EntrappedSorceress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntrappedSorceress.swift; sourceTree = "<group>"; };
@@ -4099,7 +4101,6 @@
 			children = (
 				1E2590FF667758EDCBD66D8B /* BattlegroundsQuestGuideViewModel.swift */,
 				5E1B5B7EC48DAD9E849EF3D2 /* BattlegroundsQuestGuidesViewModel.swift */,
-				8F3C13A031BD4D6AA140EB75 /* BattlegroundsQuestGuideTriggerView.swift */,
 				13CCF4F69403ADE417089F99 /* QuestGuideView.swift */,
 			);
 			path = Quests;
@@ -4116,6 +4117,8 @@
 				2B54C3648CCDFE74F16426CF /* BattlegroundsGuidesTabsViewModel.swift */,
 				1D52FE31E0E35DBE0A18FC1F /* GuidesTabsView.swift */,
 				A6ED7CA29BE55BC91172EEEA /* GuideTooltipCardView.swift */,
+				DA6D85C55C18463C9D42BDE3 /* BattlegroundsDiscoveryGuideTriggerView.swift */,
+				755828E8DCB947A7B93443CD /* BattlegroundsDiscoveryGuidesViewModel.swift */,
 				57B5D26BFC38CE7071BAC4D8 /* BattlegroundsTribeIconView.swift */,
 				DC3023F67A002FF55103D7D4 /* Comps */,
 				4A4D3CAF96DA482322117F24 /* Heroes */,
@@ -8570,10 +8573,11 @@
 				B229C5969DD827010E3B781F /* AnomalyGuideBadgeTriggerView.swift in Sources */,
 				6973ED809BBB8F0AF330A16B /* BattlegroundsQuestGuideViewModel.swift in Sources */,
 				A8B6CDB7E06BEE5EFEB10B8F /* BattlegroundsQuestGuidesViewModel.swift in Sources */,
-				CF87CE4059C546758EDD9E93 /* BattlegroundsQuestGuideTriggerView.swift in Sources */,
 				B0851A7EBF69EF1AE8A2F095 /* QuestGuideView.swift in Sources */,
 				7DDF2942C3426ACCB245C6C6 /* BattlegroundsTrinketGuidesViewModel.swift in Sources */,
 				53BA4A2A2559A966D13B4DB5 /* GuideTooltipCardView.swift in Sources */,
+				59D9FC36B27543028261A91F /* BattlegroundsDiscoveryGuideTriggerView.swift in Sources */,
+				24A6F7609D6642FAB5B444BC /* BattlegroundsDiscoveryGuidesViewModel.swift in Sources */,
 				B28D563F42ECAC13B5EC030B /* BattlegroundsTribeIconView.swift in Sources */,
 				9808BA7D3F3D644A6BADC982 /* BattlegroundsCompsGuidesViewModel.swift in Sources */,
 				BFCAC7ABAB9C2D4919639D77 /* BattlegroundsCompGuideViewModel.swift in Sources */,

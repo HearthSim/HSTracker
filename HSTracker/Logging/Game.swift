@@ -4185,30 +4185,56 @@ class Game: NSObject, PowerEventHandler {
         }
     }
 
+    // HDT's Watchers.OnDiscoverStateChange -> OverlayWindow.SetTrinketGuidesTrigger.
+    //
+    // Called before setQuestGuidesTrigger below, as in HDT, and it is this one
+    // that resets the shared trigger: the two write the same element there, so
+    // a discover state that is neither leaves it cleared.
+    func setTrinketGuidesTrigger(zoneSize: Int, zonePosition: Int, cardId: String) {
+        guard #available(macOS 10.15, *) else { return }
+
+        guard !cardId.isEmpty,
+              let card = Cards.by(cardId: cardId),
+              card.type == .battleground_trinket else {
+            onMainOverlay { $0.battlegroundsDiscoveryGuides.trigger = nil }
+            return
+        }
+
+        let trinketPickWidth = 0.192
+        let leftEdge = 0.122
+        let trinketX = leftEdge + Double(zonePosition) * trinketPickWidth
+
+        let trigger = BattlegroundsDiscoveryGuideTrigger(
+            content: .trinket(dbfId: card.dbfId),
+            x: trinketX,
+            top: 0.28,
+            width: 0.25,
+            height: 0.35,
+            placement: .bottom,
+            verticalOffset: 10,
+            alignsToStart: false)
+        onMainOverlay { $0.battlegroundsDiscoveryGuides.trigger = trigger }
+    }
+
     // HDT's Watchers.OnDiscoverStateChange -> OverlayWindow.SetQuestGuidesTrigger.
     //
     // The entity resolution happens here rather than in the view model because
-    // it reads the game's own entities, as HDT's does from OverlayWindow.
-    //
-    // HDT bails out of this without clearing its trigger, but clears it anyway
-    // on every discover-state change: SetTrinketGuidesTrigger resets the same
-    // shared element first, and Watchers calls that one before this one. There
-    // is no shared element here, so the clear is explicit.
+    // it reads the game's own entities, as HDT's does from OverlayWindow. Like
+    // HDT's, it leaves the shared trigger alone when it does not apply - the
+    // trinket path above has already cleared it.
     func setQuestGuidesTrigger(_ state: DiscoverStateArgs) {
         guard #available(macOS 10.15, *) else { return }
 
         guard let entityId = state.entityId, entityId != 0,
-              let entity = entities[entityId] else {
-            onMainOverlay { $0.battlegroundsQuestGuides.trigger = nil }
-            return
-        }
+              let entity = entities[entityId] else { return }
 
         let questRewardCardId = entity[.quest_reward_database_id]
         guard let questRewardCard = Cards.by(dbfId: questRewardCardId, collectible: false),
-              questRewardCard.type == .battleground_quest_reward else {
-            onMainOverlay { $0.battlegroundsQuestGuides.trigger = nil }
-            return
-        }
+              questRewardCard.type == .battleground_quest_reward else { return }
+
+        let questPickWidth = 0.270
+        let leftEdge = 0.117
+        let questX = leftEdge + Double(state.zonePosition) * questPickWidth
 
         // A reward card shown alongside the quest shifts which side the game
         // puts its own tooltip on.
@@ -4217,10 +4243,16 @@ class Game: NSObject, PowerEventHandler {
             ? state.zonePosition + 1 == state.zoneSize
             : state.zonePosition == 0
 
-        let trigger = BattlegroundsQuestGuideTrigger(rewardDbfId: questRewardCard.dbfId,
-                                                     zonePosition: state.zonePosition,
-                                                     tooltipOnRight: isGameTooltipRight)
-        onMainOverlay { $0.battlegroundsQuestGuides.trigger = trigger }
+        let trigger = BattlegroundsDiscoveryGuideTrigger(
+            content: .questReward(dbfId: questRewardCard.dbfId),
+            x: questX,
+            top: 0.22,
+            width: 0.30,
+            height: 0.55,
+            placement: isGameTooltipRight ? .right : .left,
+            verticalOffset: 32,
+            alignsToStart: true)
+        onMainOverlay { $0.battlegroundsDiscoveryGuides.trigger = trigger }
     }
 
     // HDT's Watchers.OnMulliganTooltipChange ->

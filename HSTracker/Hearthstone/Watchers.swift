@@ -158,6 +158,10 @@ class Watchers {
     
     private static func onDiscoverStateChange(_ sender: DiscoverStateWatcher, _ args: DiscoverStateArgs) {
         let game = AppDelegate.instance().coreManager.game
+        // HDT's OnDiscoverStateChange order: the trinket trigger first, since
+        // it is the one that resets the element the two of them share.
+        game.setTrinketGuidesTrigger(zoneSize: args.zoneSize, zonePosition: args.zonePosition,
+                                     cardId: args.cardId)
         game.setRelatedCardsTrigger(args)
         game.setQuestGuidesTrigger(args)
         // This runs on the DiscoverStateWatcher queue. highlightPlayerDeckCards

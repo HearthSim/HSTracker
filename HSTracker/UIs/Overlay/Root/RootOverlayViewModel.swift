@@ -27,6 +27,9 @@ class RootOverlayViewModel: ObservableObject {
     let battlegroundsTrinketGuides = BattlegroundsTrinketGuidesViewModel()
     let battlegroundsAnomalyGuides = BattlegroundsAnomalyGuidesViewModel()
     let battlegroundsQuestGuides = BattlegroundsQuestGuidesViewModel()
+    // HDT's DiscoveryGuidesTooltipTrigger, the element its trinket and quest
+    // guide triggers share.
+    let battlegroundsDiscoveryGuides = BattlegroundsDiscoveryGuidesViewModel()
     let battlegroundsMinionsGuide = BattlegroundsMinionsViewModel()
     let battlegroundsGuidesTabs = BattlegroundsGuidesTabsViewModel()
     let battlegroundsTurnCounter = BattlegroundsTurnCounterViewModel()

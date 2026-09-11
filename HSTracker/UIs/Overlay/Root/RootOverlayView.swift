@@ -57,8 +57,9 @@ enum HoverRegionID {
     static let heroGuideTrigger = "heroGuideTrigger"
 
     // As with the hero one above: a single rectangle over the game's own
-    // tooltip, not one per offered reward.
-    static let questGuideTrigger = "questGuideTrigger"
+    // tooltip, not one per offered card - and one for the trinket and quest
+    // triggers together, which share an element in HDT.
+    static let discoveryGuideTrigger = "discoveryGuideTrigger"
 }
 
 @available(macOS 10.15, *)
@@ -188,14 +189,18 @@ struct RootOverlayView: View {
                     BattlegroundsQuestPickingView(viewModel: viewModel.battlegroundsQuestPicking,
                                                   canvasWidth: canvasWidth)
 
-                    // HDT's DiscoveryGuidesTooltipTrigger, laid over the game's
-                    // own quest reward tooltip. Declared after the picker for
-                    // the same reason the hero one is.
-                    BattlegroundsQuestGuideTriggerView(questGuides: viewModel.battlegroundsQuestGuides,
-                                                       canvasWidth: canvasWidth,
-                                                       hoveredRegions: viewModel.hoveredRegionIds)
                     BattlegroundsTrinketPickingView(viewModel: viewModel.battlegroundsTrinketPicking,
                                                     canvasWidth: canvasWidth)
+
+                    // HDT's DiscoveryGuidesTooltipTrigger, laid over the game's
+                    // own tooltip for a hovered quest reward or trinket.
+                    // Declared after the pickers for the same reason the hero
+                    // one is.
+                    BattlegroundsDiscoveryGuideTriggerView(discoveryGuides: viewModel.battlegroundsDiscoveryGuides,
+                                                           trinketGuides: viewModel.battlegroundsTrinketGuides,
+                                                           questGuides: viewModel.battlegroundsQuestGuides,
+                                                           canvasWidth: canvasWidth,
+                                                           hoveredRegions: viewModel.hoveredRegionIds)
 
                     // The Tier7 Battlegrounds pre-lobby panel, declared ahead of
                     // BgsTopBar on HDT's own canvas (OverlayWindow.xaml) so the
