@@ -100,8 +100,9 @@ struct BattlegroundsOpponentDeadForView: View {
 
         // Both blocks are Width="{BattlegroundsTileWidth}"
         // Height="{BattlegroundsTileHeight}" TextAlignment="Center": centred
-        // across the tile's width, drawn from the top of a tile-tall box - which
-        // is what leaves the "Turns" line sitting under the number.
+        // both ways in a tile-sized box (see label()), which is what leaves the
+        // "Turns" line sitting under the number once each one's own Margin has
+        // nudged it.
         label(turns.map { "\($0)" } ?? "")
             .offset(x: origin.x + tileMargin.x, y: origin.y + tileMargin.y)
 
@@ -120,8 +121,24 @@ struct BattlegroundsOpponentDeadForView: View {
             .chunkFive(size: 15)
             .outlinedText()
             .frame(width: tileWidth, alignment: .center)
-            .frame(height: tileHeight, alignment: .top)
+            .frame(height: tileHeight, alignment: .center)
+            .offset(y: Self.lineHeight * 0.05)
     }
+
+    // OutlinedTextBlock.OnRender, the base class HearthstoneTextBlock draws
+    // through, does not lay its text out at the top of the element: as soon as
+    // a Width, a Height or a TextAlignment is set - and all three are, on all
+    // sixteen of these blocks - it centres the line vertically and then drops it
+    // by a twentieth of a line:
+    //     var center = (ActualHeight - _formattedText.Height) / 2;
+    //     originY = center + _formattedText.Height * 0.05;
+    // Since ActualHeight here is a whole leaderboard tile, that centring is
+    // worth about four tenths of a tile; without it the pair rides up onto the
+    // portrait above the one it belongs to.
+    private static let lineHeight: CGFloat = {
+        guard let font = NSFont(name: "ChunkFive", size: 15) else { return 15 }
+        return font.ascender - font.descender + font.leading
+    }()
 
     // Canvas.SetTop from PositionDeadForText.
     private func top(for slot: Int) -> CGFloat {
