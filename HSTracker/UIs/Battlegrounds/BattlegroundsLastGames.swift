@@ -9,6 +9,11 @@
 import Foundation
 
 class BattlegroundsLastGames: Codable {
+    // Battlegrounds seasons reset the rating to a low value, so a large drop to a low rating means the season rolled over
+    static func isRatingReset(before: Int, after: Int) -> Bool {
+        return after < 500 && after - before < -500
+    }
+
     struct GameItem: Codable {
         var player: String?
         var startTime: Date
@@ -20,7 +25,12 @@ class BattlegroundsLastGames: Codable {
         var finalBoard: FinalBoardItem?
         var friendlyGame: Bool?
         var duos: Bool?
-        
+
+        // the season reset happened during this game, so it counts as starting from 0 MMR
+        var seasonReset: Bool {
+            return BattlegroundsLastGames.isRatingReset(before: rating, after: ratingAfter)
+        }
+
         init(startTime: Date, endTime: Date, hero: String, rating: Int, ratingAfter: Int, placement: Int, finalBoard: [Entity], friendlyGame: Bool, player: String, duos: Bool) {
             self.startTime = startTime
             self.endTime = endTime

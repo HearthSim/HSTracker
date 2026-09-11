@@ -265,7 +265,8 @@ class BattlegroundsSessionViewModel: ObservableObject {
 
         let game = AppDelegate.instance().coreManager.game
         let rating = BattlegroundsSessionViewModel.clientRating(ratingInfo: game.battlegroundsRatingInfo, duos: isDuos) ?? 0
-        let ratingStart = firstGame?.rating ?? rating
+        // A game the season reset during starts the session from 0 rather than from the rating it began with
+        let ratingStart = firstGame.map { $0.seasonReset ? 0 : $0.rating } ?? rating
 
         if Settings.showMMRStartCurrent {
             mmrLabelA = String.localizedString("Battlegrounds_Session_MMR_Label_Start", comment: "")
@@ -507,8 +508,7 @@ class BattlegroundsSessionViewModel: ObservableObject {
             if let previousGameEndTime = previousGameEndTime {
                 let gStartTime = g.startTime
                 let ts = gStartTime.timeIntervalSince(previousGameEndTime)
-                let diffMMR = g.rating - previousGameRatingAfter
-                let ratingReset = g.rating < 500 && diffMMR < -500
+                let ratingReset = BattlegroundsLastGames.isRatingReset(before: previousGameRatingAfter, after: g.rating)
 
                 if ts / 3600 >= 6 || ratingReset {
                     sessionStartTime = gStartTime
@@ -528,8 +528,7 @@ class BattlegroundsSessionViewModel: ObservableObject {
             // Check for MMR reset on last game
             var ratingResetAfterLastGame = false
             if let currentMMR = BattlegroundsSessionViewModel.clientRating(ratingInfo: ratingInfo, duos: duos) {
-                let sessionLastMMR = lastGame.ratingAfter
-                ratingResetAfterLastGame = currentMMR < 500 && currentMMR - sessionLastMMR < -500
+                ratingResetAfterLastGame = BattlegroundsLastGames.isRatingReset(before: lastGame.ratingAfter, after: currentMMR)
             }
             if Date().timeIntervalSince(lastGame.endTime) >= 6 * 60 * 60 || ratingResetAfterLastGame {
                 return []
