@@ -41,11 +41,17 @@ struct BattlegroundsGameRowView: View {
                     .offset(x: -45, y: 0)
 
                 HStack(spacing: 0) {
-                    // HeroName, HorizontalAlignment="Left" Margin="8,0,0,0"
+                    // HeroName, HorizontalAlignment="Left" Margin="8,0,0,0".
+                    // HearthstoneTextBlock shrinks the font until the name fits
+                    // rather than trimming it (OutlinedTextBlock.MeasureOverride),
+                    // which is what keeps a hero with no short name - "Overlord
+                    // Saurfang", "Yogg-Saron, Hope's End" - readable in the
+                    // ~101pt the column leaves.
                     Text(viewModel.heroName)
                         .chunkFive(size: 13)
-                        .outlinedText()
                         .lineLimit(1)
+                        .minimumScaleFactor(1.0 / 13.0)
+                        .outlinedText()
                         .padding(.leading, 8)
                         .frame(width: Self.heroColumnWidth, alignment: .leading)
 
