@@ -4184,6 +4184,18 @@ class Game: NSObject, PowerEventHandler {
                                          buddiesEnabled: buddiesEnabled)
         }
     }
+
+    // HDT's Watchers.OnMulliganTooltipChange ->
+    // OverlayWindow.SetHeroGuidesTrigger.
+    func setHeroGuidesTrigger(zoneSize: Int, zonePosition: Int, tooltipOnRight: Bool,
+                              cards: [String], buddiesEnabled: Bool) {
+        guard #available(macOS 10.15, *) else { return }
+        onMainOverlay {
+            $0.battlegroundsHeroGuides.setTrigger(zoneSize: zoneSize, zonePosition: zonePosition,
+                                                  tooltipOnRight: tooltipOnRight, cards: cards,
+                                                  buddiesEnabled: buddiesEnabled)
+        }
+    }
     
     func handleSpecialShop(_ args: SpecialShopChoicesArgs) {
         guard isBattlegroundsMatch() else {

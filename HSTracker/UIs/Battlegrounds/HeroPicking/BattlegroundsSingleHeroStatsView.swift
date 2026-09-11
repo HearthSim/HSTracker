@@ -14,9 +14,6 @@ import SwiftUI
 @available(macOS 10.15, *)
 struct BattlegroundsSingleHeroStatsView: View {
     let viewModel: BattlegroundsSingleHeroViewModel
-    // The id this hero's guide tooltip sensor reports itself under, so
-    // RootOverlayWindow can say whether the cursor is over this hero.
-    let guideRegionId: String
 
     // d:DesignHeight="568" d:DesignWidth="266", the size the picking overlay's
     // ItemTemplate gives each hero.
@@ -27,18 +24,7 @@ struct BattlegroundsSingleHeroStatsView: View {
             BattlegroundsHeroHeaderView(viewModel: viewModel.bgsHeroHeaderVM)
             // The hero portrait container: a transparent, IsHitTestVisible=
             // "False" Grid that only reserves the room the portrait occupies.
-            // It doubles as the guide tooltip's sensor, since it is the part of
-            // the card the hero itself is under - a hover region rather than an
-            // interactive one, so the click that picks the hero still reaches
-            // Hearthstone (HDT's own trigger is IsOverlayHoverVisible too).
             Color.clear
-                .background(
-                    GeometryReader { proxy in
-                        Color.clear.preference(key: HoverRegionPreferenceKey.self,
-                                               value: [HoverRegion(id: guideRegionId,
-                                                                   rect: proxy.frame(in: .rootOverlayCanvas))])
-                    }
-                )
         }
         .frame(width: Self.size.width, height: Self.size.height)
     }

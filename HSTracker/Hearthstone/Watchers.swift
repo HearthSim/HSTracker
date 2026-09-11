@@ -134,11 +134,9 @@ class Watchers {
         AppDelegate.instance().coreManager.game.onBigCardChange(args)
     }
     
-    // HDT's Watchers.OnMulliganTooltipChange. It also drives
-    // SetHeroGuidesTrigger there, which places an invisible hover target over
-    // the game's own tooltip; the hero guides are triggered from the overlay's
-    // own hero plates here instead (HoverRegionID.heroGuide), so only the mask
-    // hangs off this.
+    // HDT's Watchers.OnMulliganTooltipChange: the mask cut away over the game's
+    // hero picking tooltip, and the hover trigger that raises the hovered
+    // hero's guide over it.
     private static func onMulliganTooltipChange(_ sender: MulliganTooltipWatcher, _ args: MulliganTooltipArgs) {
         let game = AppDelegate.instance().coreManager.game
         let buddiesEnabled = (game.gameEntity?[.bacon_buddy_enabled] ?? 0) > 0
@@ -147,6 +145,11 @@ class Watchers {
                                        tooltipOnRight: args.isTooltipOnRight,
                                        numCards: args.tooltipCards.count,
                                        buddiesEnabled: buddiesEnabled)
+        game.setHeroGuidesTrigger(zoneSize: args.zoneSize,
+                                  zonePosition: args.zonePosition,
+                                  tooltipOnRight: args.isTooltipOnRight,
+                                  cards: args.tooltipCards,
+                                  buddiesEnabled: buddiesEnabled)
     }
     
     private static func onDeckPickerChange(_ sender: DeckPickerWatcher, _ args: DeckPickerEventArgs) {

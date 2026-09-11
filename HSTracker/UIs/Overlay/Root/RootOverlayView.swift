@@ -52,9 +52,9 @@ struct HoverRegion: Equatable {
 enum HoverRegionID {
     static let bgsTopBarMask = "bgsTopBarMask"
 
-    static func heroGuide(_ index: Int) -> String {
-        return "heroGuide.\(index)"
-    }
+    // One id, not one per hero: the hero guide trigger is a single rectangle
+    // laid over wherever the game currently has its tooltip, as HDT's is.
+    static let heroGuideTrigger = "heroGuideTrigger"
 
     static func questGuide(_ index: Int) -> String {
         return "questGuide.\(index)"
@@ -172,9 +172,15 @@ struct RootOverlayView: View {
                     // subtree's own canvas - so it just takes it whole and
                     // places its plates with the XAML's alignments.
                     BattlegroundsHeroPickingView(viewModel: viewModel.battlegroundsHeroPicking,
-                                                 heroGuides: viewModel.battlegroundsHeroGuides,
-                                                 hoveredRegions: viewModel.hoveredRegionIds,
                                                  canvasWidth: canvasWidth)
+
+                    // HDT's GuidesTooltipTrigger, laid over the game's own hero
+                    // picking tooltip. Declared after the picker so the guide
+                    // it raises draws over the stats plates, as HDT's popup
+                    // does.
+                    BattlegroundsHeroGuideTriggerView(heroGuides: viewModel.battlegroundsHeroGuides,
+                                                      canvasWidth: canvasWidth,
+                                                      hoveredRegions: viewModel.hoveredRegionIds)
 
                     // The quest and trinket picking stats, declared right
                     // after the hero picker on HDT's canvas and sized to it the
