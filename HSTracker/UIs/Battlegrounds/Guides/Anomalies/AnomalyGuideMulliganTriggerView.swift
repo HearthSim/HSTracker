@@ -48,6 +48,11 @@ struct AnomalyGuideMulliganTriggerView: View {
                 .contentShape(Rectangle())
                 .onHover { hovering in
                     isHovering = hovering
+                    // HDT's AnomalyGuidesMulliganTrigger_OnMouseEnter/OnMouseLeave:
+                    // hovering the anomaly makes the game blow the card up right
+                    // here, so the overlay is cut away over it.
+                    AppDelegate.instance().coreManager.game.windowManager.rootOverlay?
+                        .viewModel.setMulliganAnomalyMask(hovering ? anomalyCard : nil)
                 }
                 .overlay(tooltip(guide: guide, scale: scale, triggerHeight: height), alignment: .bottom)
                 .background(

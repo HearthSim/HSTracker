@@ -40,7 +40,8 @@ class Watchers {
         battlegroundsTeammateBoardStateWatcher.change = onBattlegroundsTeammateBoardStateChange
         bigCardWatcher.change = onBigCardChange
         choicesWatcher.change = { _, args in
-            AppDelegate.instance().coreManager.game.setChoicesVisible(args.currentChoice?.isVisible ?? false)
+            AppDelegate.instance().coreManager.game.setChoicesVisible(args.currentChoice?.isVisible ?? false,
+                                                                      args.currentChoice?.cards)
         }
         specialShopChoicesStateWatcher.change = { _, args in
             AppDelegate.instance().coreManager.game.handleSpecialShop(args)
@@ -102,6 +103,9 @@ class Watchers {
             let game = AppDelegate.instance().coreManager.game
             game.setBaconState(args.selectedBattlegroundsGameMode, args.isAnyOpen())
             game.updateBattlegroundsSessionVisibility(args.isFriendsListOpen)
+            // HDT does this from Watchers.OnUiChange, whose UIWatcher this
+            // BaconWatcher stands in for here.
+            game.setFriendListOpacityMask(args.isFriendsListOpen)
         }
     }
     

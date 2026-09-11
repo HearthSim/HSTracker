@@ -30,7 +30,8 @@ enum CardType: Int, CaseIterable, Codable {
     location = 39,
     battleground_quest_reward = 40,
     battleground_spell = 42,
-    battleground_anomaly = 43
+    battleground_anomaly = 43,
+    battleground_trinket = 44
 
     init?(rawString: String) {
         let string = rawString.lowercased()

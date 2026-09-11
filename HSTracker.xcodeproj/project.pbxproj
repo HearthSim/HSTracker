@@ -140,6 +140,8 @@
 		1F88497A5D8C5B814F9E9E41 /* ConcealingConfection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4D6046C5D73ECE50F7D597 /* ConcealingConfection.swift */; };
 		1F8C7FEA98E9ACA22F6DA91D /* ArchivistElysiana.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96844049B1E2B17ACC2A290 /* ArchivistElysiana.swift */; };
 		1F966AEAB083406B7A9876F0 /* RootOverlayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28A2E812F2EFBF3F260A3AE /* RootOverlayViewModel.swift */; };
+		6A35D4C1A830458DB48B03AD /* RootOverlayViewModel+OpacityMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F9E3A211164980BB8D0328 /* RootOverlayViewModel+OpacityMask.swift */; };
+		E7A88D211D724FA18DD88D50 /* OverlayOpacityMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39454EFE1AF42C0A2EEC1E9 /* OverlayOpacityMask.swift */; };
 		20807AE9C722D4AE4EF5BE7F /* WeaponizedPinata.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77D5C6F749DED5E861E006D /* WeaponizedPinata.swift */; };
 		211E768F3430431AF8C88B64 /* LinaShopManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016692564B00DD8F5DDF354B /* LinaShopManager.swift */; };
 		2124127D48163BEDB9813179 /* ChromaticEgg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 518F2B7D9E290D0C61FAF5C0 /* ChromaticEgg.swift */; };
@@ -397,6 +399,7 @@
 		43C1CA071E96CD6F008C20B1 /* NSAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434EAC951DBCD3E8009C7636 /* NSAlert.swift */; };
 		43C1CA081E96CD6F008C20B1 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E911C777EFA00D29859 /* Settings.swift */; };
 		43C1CA091E96CD6F008C20B1 /* SizeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D307FA1C83159C00480488 /* SizeHelper.swift */; };
+		E8311E6BDE364CB09613342F /* RegionDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C40A12D2F2C4E5EA2895460 /* RegionDrawer.swift */; };
 		43C1CA0A1E96CD6F008C20B1 /* ReleaseChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4308EB7D1D76AFE6000897C8 /* ReleaseChannel.swift */; };
 		43C1CA0B1E96CD6F008C20B1 /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4390FBB91DAA72E700AE71BB /* Version.swift */; };
 		43C1CA0C1E96CD6F008C20B1 /* Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BE58BD1DC47C6D00B24A21 /* Paths.swift */; };
@@ -557,6 +560,7 @@
 		43C568031D5E59E500451B6F /* UploadResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C568021D5E59E500451B6F /* UploadResult.swift */; };
 		43C568051D5E5BFF00451B6F /* UploadMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C568041D5E5BFF00451B6F /* UploadMetaData.swift */; };
 		43D307FB1C83159C00480488 /* SizeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D307FA1C83159C00480488 /* SizeHelper.swift */; };
+		03291F63EDC64A2C93C10F6B /* RegionDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C40A12D2F2C4E5EA2895460 /* RegionDrawer.swift */; };
 		43D308041C842DC000480488 /* GeneralPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D308031C842DC000480488 /* GeneralPreferences.swift */; };
 		43D308061C842DC900480488 /* GamePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D308051C842DC900480488 /* GamePreferences.swift */; };
 		43D308081C84410000480488 /* PlayerTrackersPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D308071C84410000480488 /* PlayerTrackersPreferences.swift */; };
@@ -2568,6 +2572,7 @@
 		43C568021D5E59E500451B6F /* UploadResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadResult.swift; sourceTree = "<group>"; };
 		43C568041D5E5BFF00451B6F /* UploadMetaData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadMetaData.swift; sourceTree = "<group>"; };
 		43D307FA1C83159C00480488 /* SizeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SizeHelper.swift; sourceTree = "<group>"; };
+		4C40A12D2F2C4E5EA2895460 /* RegionDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionDrawer.swift; sourceTree = "<group>"; };
 		43D308031C842DC000480488 /* GeneralPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralPreferences.swift; sourceTree = "<group>"; };
 		43D308051C842DC900480488 /* GamePreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GamePreferences.swift; sourceTree = "<group>"; };
 		43D308071C84410000480488 /* PlayerTrackersPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerTrackersPreferences.swift; sourceTree = "<group>"; };
@@ -3987,6 +3992,8 @@
 		F24D4A90A357C8BFD01DCBD2 /* ConstructedMulliganV2SingleCardViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ConstructedMulliganV2SingleCardViewModel.swift; sourceTree = "<group>"; };
 		F26FE77E174E66E764BE5212 /* SuspiciousUsher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuspiciousUsher.swift; sourceTree = "<group>"; };
 		F28A2E812F2EFBF3F260A3AE /* RootOverlayViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RootOverlayViewModel.swift; sourceTree = "<group>"; };
+		77F9E3A211164980BB8D0328 /* RootOverlayViewModel+OpacityMask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RootOverlayViewModel+OpacityMask.swift"; sourceTree = "<group>"; };
+		B39454EFE1AF42C0A2EEC1E9 /* OverlayOpacityMask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayOpacityMask.swift; sourceTree = "<group>"; };
 		F2AEE407FFC333F8468DBAC0 /* CrystalsongPortal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrystalsongPortal.swift; sourceTree = "<group>"; };
 		F2F27BB14D0D3F0575E900FE /* ReliquaryResearcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReliquaryResearcher.swift; sourceTree = "<group>"; };
 		F2FE6008D30C97F647BA241C /* Jackpot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Jackpot.swift; sourceTree = "<group>"; };
@@ -4433,6 +4440,7 @@
 				4308EB7D1D76AFE6000897C8 /* ReleaseChannel.swift */,
 				439C7E911C777EFA00D29859 /* Settings.swift */,
 				43D307FA1C83159C00480488 /* SizeHelper.swift */,
+				4C40A12D2F2C4E5EA2895460 /* RegionDrawer.swift */,
 				4390FBB91DAA72E700AE71BB /* Version.swift */,
 			);
 			path = Core;
@@ -4817,6 +4825,8 @@
 			isa = PBXGroup;
 			children = (
 				F28A2E812F2EFBF3F260A3AE /* RootOverlayViewModel.swift */,
+				77F9E3A211164980BB8D0328 /* RootOverlayViewModel+OpacityMask.swift */,
+				B39454EFE1AF42C0A2EEC1E9 /* OverlayOpacityMask.swift */,
 				5A1F19717A4A8D185811FB9E /* RootOverlayView.swift */,
 				CA2742D7642ECBC122BF4479 /* RootOverlayWindow.swift */,
 				F09754876C6371F33E219DA1 /* RootOverlayWindow.xib */,
@@ -7707,6 +7717,7 @@
 				B854620F2CDE721F0083BB31 /* PlayerSide.swift in Sources */,
 				B846CC762E157B2400552F9C /* StoryOfBarnabus.swift in Sources */,
 				43D307FB1C83159C00480488 /* SizeHelper.swift in Sources */,
+				03291F63EDC64A2C93C10F6B /* RegionDrawer.swift in Sources */,
 				B82029312CD2C4D700C19A8C /* AsteroidExtraDamageCounter.swift in Sources */,
 				B8B790272C9756A400DD33EC /* StarlightGrooveEnchantment.swift in Sources */,
 				B82029352CD2CD9F00C19A8C /* IngeniousArtificerEnchantment.swift in Sources */,
@@ -8908,6 +8919,8 @@
 				9E67814D8E6FAC2919F53CB0 /* MulliganCardPortraitView.swift in Sources */,
 				6F10D744995FB62C28FB3813 /* MulliganTipIconView.swift in Sources */,
 				1F966AEAB083406B7A9876F0 /* RootOverlayViewModel.swift in Sources */,
+				6A35D4C1A830458DB48B03AD /* RootOverlayViewModel+OpacityMask.swift in Sources */,
+				E7A88D211D724FA18DD88D50 /* OverlayOpacityMask.swift in Sources */,
 				CAB1941AFC7E94E2D2F47408 /* RootOverlayView.swift in Sources */,
 				947577168CC05BE7DC23659A /* RootOverlayWindow.swift in Sources */,
 				4C8E201F195AC2873021D4F9 /* MulliganV2StatusParams.swift in Sources */,
@@ -9047,6 +9060,7 @@
 				43C1CA071E96CD6F008C20B1 /* NSAlert.swift in Sources */,
 				43C1CA081E96CD6F008C20B1 /* Settings.swift in Sources */,
 				43C1CA091E96CD6F008C20B1 /* SizeHelper.swift in Sources */,
+				E8311E6BDE364CB09613342F /* RegionDrawer.swift in Sources */,
 				43C1CA0A1E96CD6F008C20B1 /* ReleaseChannel.swift in Sources */,
 				43C1CA0B1E96CD6F008C20B1 /* Version.swift in Sources */,
 				43C1CA0C1E96CD6F008C20B1 /* Paths.swift in Sources */,

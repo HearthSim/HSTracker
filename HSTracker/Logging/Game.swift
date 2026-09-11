@@ -2587,6 +2587,7 @@ class Game: NSObject, PowerEventHandler {
                 DispatchQueue.main.async { [self] in
                     self.primaryPlayerId = self.player.id
                     self.isBattlegroundsCombatPhase = false
+                    self.onBattlegroundsShoppingStart()
                     OpponentDeadForTracker.shoppingStarted(game: self)
                     BobsBuddyInvoker.instance(gameId: self.gameId, turn: self.turnNumber() - 1)?.startShopping()
                     let heroPowerIds = self.player.board.filter { x in x.isHeroPower }.compactMap { x in x.cardId }
@@ -4089,10 +4090,80 @@ class Game: NSObject, PowerEventHandler {
         state.pickTrinket(trinket: chosen)
     }
     
-    func setChoicesVisible(_ choicesVisible: Bool) {
+    // The Battlegrounds choices whose mask is waiting for shopping to start -
+    // see setChoicesVisible below.
+    private var pendingBgsCombatChoices: [String]?
+
+    func setChoicesVisible(_ choicesVisible: Bool, _ cardIds: [String]?) {
         if #available(macOS 10.15, *) {
             windowManager.rootOverlay?.viewModel.battlegroundsTrinketPicking.choicesVisible = choicesVisible
         }
+
+        guard isBattlegroundsMatch() else { return }
+
+        let cardIdList = cardIds ?? [String]()
+        if !choicesVisible || cardIdList.isEmpty {
+            pendingBgsCombatChoices = nil
+            if #available(macOS 10.15, *) {
+                onMainOverlay { $0.opacityMask.removeMaskedRegion("DiscoverCard") }
+            }
+            return
+        }
+
+        // The choices can already be readable while the combat that precedes
+        // them is still playing out, and the game does not draw them until
+        // shopping opens - so the cut-out waits for that (HDT's
+        // OnBattlegroundsShoppingStart).
+        if isBattlegroundsCombatPhase {
+            pendingBgsCombatChoices = cardIdList
+            return
+        }
+
+        pendingBgsCombatChoices = nil
+        applyDiscoverCardMask(cardIdList)
+    }
+
+    func onBattlegroundsShoppingStart() {
+        if let pending = pendingBgsCombatChoices {
+            pendingBgsCombatChoices = nil
+            applyDiscoverCardMask(pending)
+        }
+    }
+
+    private func applyDiscoverCardMask(_ cardIds: [String]) {
+        let cards = cardIds.compactMap { Cards.by(cardId: $0) }
+        guard #available(macOS 10.15, *) else { return }
+
+        if cards.all({ $0.type == .battleground_trinket }) {
+            let count = cards.count
+            onMainOverlay { $0.setTrinketPickingOpacityMask(zoneSize: count) }
+        } else if cards.all({ $0.type == .minion || $0.type == .battleground_spell || $0.type == .spell }) {
+            let count = cards.count
+            let hasDarkGifts = player.offeredEntities.any { $0[.dark_gift_entity] > 0 }
+            onMainOverlay { $0.setDiscoverCardOpacityMask(zoneSize: count, hasDarkGifts: hasDarkGifts) }
+        }
+    }
+
+    // The opacity mask lives on RootOverlay's view model and is main-thread
+    // only; every caller here arrives off a watcher or the log reader.
+    @available(macOS 10.15, *)
+    func onMainOverlay(_ block: @escaping (RootOverlayViewModel) -> Void) {
+        let run = { [weak self] in
+            guard let viewModel = self?.windowManager.rootOverlay?.viewModel else { return }
+            block(viewModel)
+        }
+        if Thread.isMainThread {
+            run()
+        } else {
+            DispatchQueue.main.async(execute: run)
+        }
+    }
+
+    // HDT's Watchers.OnUiChange -> OverlayWindow.SetFriendListOpacityMask. The
+    // friends list slides in over the right of the client, under the overlay.
+    func setFriendListOpacityMask(_ visible: Bool) {
+        guard #available(macOS 10.15, *) else { return }
+        onMainOverlay { $0.setFriendListOpacityMask(visible) }
     }
     
     func handleSpecialShop(_ args: SpecialShopChoicesArgs) {
@@ -4907,6 +4978,12 @@ class Game: NSObject, PowerEventHandler {
     func onBigCardChange(_ state: BigCardArgs) {
         hoveredCard = state
         DispatchQueue.main.async {
+            // HDT's Watchers.OnBigCardChange calls SetCardOpacityMask first:
+            // the game is drawing the hovered card blown up, with its tooltips
+            // and enchantment list, and the overlay has to get out of the way.
+            if #available(macOS 10.15, *) {
+                self.windowManager.rootOverlay?.viewModel.setCardOpacityMask(state)
+            }
             if self.isTraditionalHearthstoneMatch {
                 let isFriendlyCard = state.side == PlayerSide.friendly.rawValue
 

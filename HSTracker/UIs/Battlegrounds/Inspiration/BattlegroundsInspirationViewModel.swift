@@ -86,11 +86,29 @@ final class BattlegroundsInspirationViewModel: ObservableObject {
     func show() {
         guard AppDelegate.instance().coreManager.game.isBattlegroundsMatch() else { return }
         isShown = true
+        // HDT's ShowBgsInspiration drops the overlay's opacity mask while the
+        // panel is up: it covers the middle of the client, and would otherwise
+        // be shot through by whatever cut-out the cursor last left behind.
+        setOpacityMaskEnabled(false)
     }
 
     @MainActor
     func close() {
         isShown = false
+        setOpacityMaskEnabled(true)
+    }
+
+    // HDT always pairs Reset() with HideBgsInspiration(), so the mask comes back
+    // on either route out of the panel.
+    @MainActor
+    private func setOpacityMaskEnabled(_ enabled: Bool) {
+        guard let mask = AppDelegate.instance().coreManager.game
+            .windowManager.rootOverlay?.viewModel.opacityMask else { return }
+        if enabled {
+            mask.enable()
+        } else {
+            mask.disable()
+        }
     }
 
     // MARK: - Requests
@@ -210,6 +228,7 @@ final class BattlegroundsInspirationViewModel: ObservableObject {
     @MainActor
     func reset() {
         isShown = false
+        setOpacityMaskEnabled(true)
         allGames = nil
         page = 1
         titleText = ""

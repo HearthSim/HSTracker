@@ -41,6 +41,13 @@ class RootOverlayViewModel: ObservableObject {
     let battlegroundsQuestPicking = BattlegroundsQuestPickingViewModel()
     let battlegroundsTrinketPicking = BattlegroundsTrinketPickingViewModel()
     let tier7PreLobby = Tier7PreLobbyViewModel()
+    // HDT's OverlayWindow.OpacityMaskOverlay, which it hands to the window's own
+    // OpacityMask - the regions of the canvas cut away so what Hearthstone draws
+    // over its board (a blown-up hovered card, its tooltips, the discover
+    // choices, the friends list) is not covered by the overlay. See
+    // RootOverlayViewModel+OpacityMask for the methods that fill it.
+    let opacityMask = OverlayOpacityMask()
+
     // HDT's two CountersOverlay controls, IsPlayer="true"/"false".
     let playerCounters = CountersOverlayViewModel(isPlayer: true)
     let opponentCounters = CountersOverlayViewModel(isPlayer: false)

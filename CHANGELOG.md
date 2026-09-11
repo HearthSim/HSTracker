@@ -6,6 +6,7 @@
 - Fixed HSTracker forgetting every setting on launch and asking for the languages again, and the first-run window now shows the languages that are already configured.
 - The counters now match Hearthstone Deck Tracker: they scale with the game window, the opponent's sit where they do there, in Battlegrounds they split into two even rows, and hovering one shows its related cards again.
 - The mulligan guide offer now matches Hearthstone Deck Tracker: it slides up from the bottom-right of the game window, scales with it, and when there is nothing to link to it says so over its own grey backdrop instead of the regular one.
+- The overlay is now cut away wherever Hearthstone draws a card of its own at full size - a hovered minion, weapon, hero power, secret or card in hand with its tooltips and enchantments, the Discover and trinket choices, the anomaly in the Battlegrounds mulligan and the friends list - so none of them are covered up any more.
 ## Battlegrounds
 - Fixed the counter tooltips showing the previously hovered counter's card art, and the Blood Gem counter listing itself instead of the Quilboar payoffs.
 - Fixed the Blood Gem and next-turn gold counters reading the combat board instead of the shop, so they stopped following what was bought and sold.

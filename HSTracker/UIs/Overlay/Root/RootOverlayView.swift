@@ -317,6 +317,12 @@ struct RootOverlayView: View {
                 // Future SwiftUI overlay features attach here as additional children.
 
             }
+            // HDT assigns OpacityMaskOverlay.Mask to OverlayWindow.OpacityMask,
+            // so the cut-outs apply to everything the overlay draws - both the
+            // scaled game-relative subtree and the fixed-pixel chrome. Applied
+            // to the same ZStack here, in the outer geometry's own space, which
+            // is the normalized space the regions were computed in.
+            .mask(RootOverlayOpacityMaskView(mask: viewModel.opacityMask, size: geometry.size))
         }
         // Declared on the outer GeometryReader so nested frame(in: .rootOverlayCanvas)
         // reports land in the same real, post-scale pixel space as the
