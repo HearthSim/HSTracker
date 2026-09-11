@@ -26,6 +26,7 @@
 - Bob's Buddy now matches Hearthstone Deck Tracker: the combat odds scale with the game window, the average damage panels open beside them rather than under them, and only the status bar takes the mouse.
 - Bob's Buddy gained the rest of its Hearthstone Deck Tracker panel: it introduces itself the first time, a question mark and a settings button appear in its status bar on hover, and hovering it peeks the average damage panels open with a note explaining them - which they also do on their own, once, after a combat lands outside the damage they predicted.
 - The "Compare Heroes" and "Compare Timewarped Cards" offers now match Hearthstone Deck Tracker: they slide up from the bottom-right of the game window, scale with it, name the site they open, and the Tavern Pinning panel folds away while the Timewarp shop is up.
+- Fixed the Tavern Pinning panel taking the mouse away from the quest log and settings buttons in the bottom-right corner of the game window, so Hearthstone's menu could no longer be opened. (#1439)
 ## Bob's Buddy
 - Fixed Bob's Buddy being left without odds because the app shipped an incomplete, out-of-date copy of the runtime it simulates with.
 - Fixed HSTracker crashing during a Battlegrounds combat with Scoutmaster Tavish's Lock and Load, a magnetized Auto Assembler, or a minion granted "Crab Riding". (#1436)

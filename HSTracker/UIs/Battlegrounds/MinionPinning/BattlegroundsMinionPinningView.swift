@@ -49,20 +49,33 @@ struct BattlegroundsMinionPinningView: View {
             ZStack(alignment: .bottomTrailing) {
                 Color.clear
 
-                // The panel and its two buttons: one hit-testable region,
-                // matching the single OverlayExtensions.IsOverlayHitTestVisible
-                // on the outer Border in the XAML.
+                // The panel and its two buttons. HDT carries a single
+                // OverlayExtensions.IsOverlayHitTestVisible on the Border that
+                // wraps all three, and that region is the wrapper's whole
+                // bounding box - which, because the buttons are inset from the
+                // right by 248 and 194, includes 194pt of empty canvas in the
+                // bottom-right corner. That costs HDT nothing: its overlay is a
+                // WPF AllowsTransparency window, so a click over a fully
+                // transparent pixel falls through to Hearthstone even while the
+                // window is taking clicks. macOS has no per-pixel equivalent -
+                // ignoresMouseEvents is all-or-nothing for the whole window -
+                // so reporting the bounding box here claimed that corner too,
+                // and Hearthstone's own quest log and settings cog live in
+                // exactly those 194pt. Each piece therefore reports its own
+                // frame instead, leaving the gap between them click-through.
                 ZStack(alignment: .bottomTrailing) {
                     if viewModel.isExpanded {
                         panel
+                            .reportInteractiveRegion(when: true)
                             .padding(.bottom, Self.panelBottomInset)
                     }
                     recommendButton
+                        .reportInteractiveRegion(when: true)
                         .padding(.trailing, Self.recommendButtonInset)
                     expandButton
+                        .reportInteractiveRegion(when: true)
                         .padding(.trailing, Self.expandButtonInset)
                 }
-                .reportInteractiveRegion(when: true)
                 // Measured so the minion browser can stop above this cluster
                 // rather than running under it - see the view model's
                 // panelHeight and GuidesTabsView's pinningClearance. HDT reads
@@ -82,10 +95,14 @@ struct BattlegroundsMinionPinningView: View {
 
                 // Sibling of the panel in HDT's root Grid, at Margin="0,0,257,54"
                 // - clear of both the panel's left edge and the button row.
+                // Reported ahead of the padding that places it, for the same
+                // reason as the cluster above: measured after, the region would
+                // also cover the 257pt to its right and the 54pt below it,
+                // which is the bottom-right corner of the game window.
                 compGuidesMarkerSection
+                    .reportInteractiveRegion(when: viewModel.isCompGuidesMarkerPanelVisible)
                     .padding(.trailing, 257)
                     .padding(.bottom, 54)
-                    .reportInteractiveRegion(when: viewModel.isCompGuidesMarkerPanelVisible)
             }
             .frame(width: canvasWidth, height: 1080)
             .onPreferenceChange(PinningPanelHeightKey.self) { height in
