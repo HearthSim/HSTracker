@@ -293,6 +293,25 @@ class Game: NSObject, PowerEventHandler {
                 
                 tracker.graveyard = self.opponent.graveyard
                 tracker.playerClassId = self.opponent.playerClassId
+
+                tracker.recordTrackerMessage = ""
+                if Settings.showWinRateAgainst,
+                   let currentDeck = self.currentDeck,
+                   let opponentClass = self.opponent.originalClass,
+                   Cards.classes.contains(opponentClass),
+                   let deck = RealmHelper.getDeck(with: currentDeck.id) {
+                    let record = StatsHelper.getDeckRecord(deck: deck,
+                                                           againstClass: opponentClass,
+                                                           mode: .all)
+                    let total = record.wins + record.losses
+                    let percent = total > 0
+                        ? String(Int(round(Double(record.wins) * 100.0 / Double(total))))
+                        : "-"
+                    let className = String.localizedString(opponentClass.rawValue,
+                                                           comment: "").capitalized
+                    tracker.recordTrackerMessage = "VS \(className): "
+                        + "\(record.wins)-\(record.losses) (\(percent)%)"
+                }
                 
                 tracker.currentFormat = self.currentFormat
                 tracker.currentGameMode = self.currentGameMode
@@ -1488,7 +1507,7 @@ class Game: NSObject, PowerEventHandler {
 		                                   Settings.opponent_deathrattle_frame,
 		                                   Settings.show_opponent_class, Settings.opponent_graveyard_frame,
 		                                   Settings.opponent_graveyard_details_frame,
-                                           Settings.opponent_related_cards]
+                                           Settings.opponent_related_cards, Settings.show_win_rate_against]
 		
 		// events that should update all trackers
 		let allTrackerUpdateEvents = [Settings.rarity_colors, Events.reload_decks, Settings.window_locked, Settings.auto_position_trackers,

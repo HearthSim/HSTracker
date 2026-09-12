@@ -79,6 +79,10 @@ class Tracker: OverWindowController, CardCellHover {
         setOpacity()
         
         if playerType == .opponent {
+            recordTracker.fontSize = 15
+            recordTracker.showsBackground = false
+            recordTracker.verticallyCentersText = true
+            recordTracker.verticalTextOffset = -1
             window?.contentView?.addTrackingArea(getTrackingArea())
         }
     }
@@ -145,7 +149,7 @@ class Tracker: OverWindowController, CardCellHover {
             opponentDrawChance.isHidden = !Settings.showOpponentDrawChance
             playerDrawChance.isHidden = true
             playerClass.isHidden = !Settings.showOpponentClassInTracker
-            recordTracker.isHidden = true
+            recordTracker.isHidden = !Settings.showWinRateAgainst || recordTrackerMessage.isEmpty
         } else {
             cardCounter.isHidden = !Settings.showPlayerCardCount
             opponentDrawChance.isHidden = true
@@ -190,6 +194,7 @@ class Tracker: OverWindowController, CardCellHover {
         
         let bigFrameHeight = round(71 / ratio)
         let smallFrameHeight = round(40 / ratio)
+        let winRateFrameHeight = round(25 / ratio)
         
         var offsetFrames: CGFloat = 0
         var startHeight: CGFloat = 0
@@ -265,7 +270,7 @@ class Tracker: OverWindowController, CardCellHover {
             offsetFrames += smallFrameHeight
         }
         if !recordTracker.isHidden {
-            offsetFrames += smallFrameHeight
+            offsetFrames += playerType == .opponent ? winRateFrameHeight : smallFrameHeight
         }
 
         var totalCards = cardsView.count
@@ -301,6 +306,14 @@ class Tracker: OverWindowController, CardCellHover {
         
         let cardViewHeight = CGFloat(cardsView.count) * cardHeight
         var y: CGFloat = windowHeight - startHeight
+
+        if !recordTracker.isHidden && playerType == .opponent {
+            y -= winRateFrameHeight
+            recordTracker.frame = NSRect(x: 0,
+                                         y: y,
+                                         width: windowWidth,
+                                         height: winRateFrameHeight)
+        }
 
         if playerTop.count > 0 && Settings.showPlayerCardsTop {
             let playerTopHeight = CGFloat(playerTop.count) * cardHeight + smallFrameHeight + 5
@@ -387,7 +400,7 @@ class Tracker: OverWindowController, CardCellHover {
             graveyardCounter?.cardHeight = cardHeight
             graveyardCounter?.needsDisplay = true
         }
-        if !recordTracker.isHidden {
+        if !recordTracker.isHidden && playerType != .opponent {
             y -= smallFrameHeight
             recordTracker.frame = NSRect(x: 0,
                                          y: y,

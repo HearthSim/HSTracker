@@ -490,6 +490,8 @@ final class Settings {
     static var clearTrackersOnGameEnd: Bool
     @UserDefault(key: Settings.show_opponent_tracker, defaultValue: true)
     static var showOpponentTracker: Bool
+    @UserDefault(key: Settings.show_win_rate_against, defaultValue: false)
+    static var showWinRateAgainst: Bool
     @UserDefault(key: Settings.show_timer, defaultValue: false)
     static var showTimer: Bool
     @UserDefault(key: Settings.interacted_with_link_opponentDeck, defaultValue: false)
@@ -812,6 +814,7 @@ extension Settings {
     static let show_player_tracker = "show_player_tracker"
     static let clear_trackers_end = "clear_trackers_end"
     static let show_opponent_tracker = "show_opponent_tracker"
+    static let show_win_rate_against = "show_win_rate_against"
     static let show_timer = "show_timer"
 
     static let timer_hud_frame = "timer_hud_frame"
