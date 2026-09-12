@@ -54,8 +54,12 @@ final class BattlegroundsHeroGuidesViewModel: ObservableObject {
     // HDT's HeroGuideTooltip.Update: the tooltip carries the offered hero's
     // hero power, and the guide is keyed by the hero that hero power belongs to
     // (GameTag.BACON_HEROPOWER_BASE_HERO_ID).
+    //
+    // Looked up with any(byId:) rather than by(cardId:), which is the unfiltered
+    // lookup HDT's HearthDb.Cards.GetFromDbfId is: by(cardId:) drops hero powers
+    // outright, so it can never resolve the one card this is handed.
     func guide(heroPowerCardId: String) -> BattlegroundsHeroGuideViewModel? {
-        guard let heroPower = Cards.by(cardId: heroPowerCardId) else { return nil }
+        guard let heroPower = Cards.any(byId: heroPowerCardId) else { return nil }
         let heroDbfId = heroPower.baconHeroPowerBaseHeroId
         guard heroDbfId != 0 else { return nil }
         return guide(dbfId: heroDbfId)
