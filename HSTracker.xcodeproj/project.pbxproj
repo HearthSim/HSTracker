@@ -51,6 +51,7 @@
 		BB5E551A0000000000000015 /* BattlegroundsCompositionStatsRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5E551A0000000000000013 /* BattlegroundsCompositionStatsRowView.swift */; };
 		007F08E45030E4217D8CFB9E /* RunesOfDarkness.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D62B9589AFE2395A143FBDF /* RunesOfDarkness.swift */; };
 		00861C0F306D142858D6A60E /* SneedsNewShredderProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0EBDF8E209D5AF3AC8F4B5 /* SneedsNewShredderProxy.swift */; };
+		74AA0D4F99B3EF3059C6C331 /* EclipsionIllidariProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9FEB78454DF574FEBB7E02 /* EclipsionIllidariProxy.swift */; };
 		016C447651C95982C22E12C0 /* PocketDimension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4CBD1CCD78F0349B552422E /* PocketDimension.swift */; };
 		0193298188746B7264F39651 /* KabalMastermindEnchantment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10AE416D5D5D7B49CD1AAB52 /* KabalMastermindEnchantment.swift */; };
 		01FC9967737C376C8E107F0D /* WinterspringWhelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCAD8F6B8546F77022EE0E99 /* WinterspringWhelp.swift */; };
@@ -3974,6 +3975,7 @@
 		EA85B74A3B55A2AE4FD5A6DC /* Steeldancer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Steeldancer.swift; sourceTree = "<group>"; };
 		EAA0A92B8EDC1A27F9A1842A /* InstrumentSmasher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstrumentSmasher.swift; sourceTree = "<group>"; };
 		EB0EBDF8E209D5AF3AC8F4B5 /* SneedsNewShredderProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SneedsNewShredderProxy.swift; sourceTree = "<group>"; };
+		EC9FEB78454DF574FEBB7E02 /* EclipsionIllidariProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EclipsionIllidariProxy.swift; sourceTree = "<group>"; };
 		EBB2E650284546CDC9B26697 /* DruidOfRegrowth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DruidOfRegrowth.swift; sourceTree = "<group>"; };
 		EC7CA8B070C879F1A6067254 /* ApexisBlast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApexisBlast.swift; sourceTree = "<group>"; };
 		EC7E4FE0161F36F5AF2BFE35 /* DrakeadonMongrel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrakeadonMongrel.swift; sourceTree = "<group>"; };
@@ -4998,6 +5000,7 @@
 				B8815BEF302162F50016D77A /* ICopiesDeathrattlesProxy.swift */,
 				59AD43D2D0B8C43BEB7820B1 /* IDeathrattleProxy.swift */,
 				EB0EBDF8E209D5AF3AC8F4B5 /* SneedsNewShredderProxy.swift */,
+				EC9FEB78454DF574FEBB7E02 /* EclipsionIllidariProxy.swift */,
 				B82F4EAD24E3229200905024 /* InputProxy.swift */,
 				B898995E2CAA33CF0011B184 /* JarredFrostling.swift */,
 				B89899582CAA31CA0011B184 /* Leapfrogger.swift */,
@@ -7689,6 +7692,7 @@
 				B8815BF0302162F50016D77A /* ICopiesDeathrattlesProxy.swift in Sources */,
 				4B8A44DBE702C0F6C3BB0CA6 /* IDeathrattleProxy.swift in Sources */,
 				00861C0F306D142858D6A60E /* SneedsNewShredderProxy.swift in Sources */,
+				74AA0D4F99B3EF3059C6C331 /* EclipsionIllidariProxy.swift in Sources */,
 				B83336052F620E2200923513 /* SupplyRun.swift in Sources */,
 				B846CC862E15B7A600552F9C /* CreatureOfTheSacredCave.swift in Sources */,
 				B852D8392DDFBA4E00884B26 /* PrimordialProtector.swift in Sources */,

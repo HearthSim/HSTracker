@@ -802,6 +802,14 @@ class BobsBuddyInvoker {
         minion.scriptDataNum3 = Int32(entity[.tag_script_data_num_3])
         minion.scriptDataNum4 = Int32(entity[.tag_script_data_num_4])
 
+        // Eclipsion Illidari: SCORE_VALUE_2 is the number of "Immune while Attacking" grants left this turn
+        if let eclipsionClass = EclipsionIllidariProxy._class, MonoHelper.isInstance(obj: minion, klass: eclipsionClass),
+           entity.tags.containsKey(.score_value_2) {
+            var scoreValue2 = Int32(entity[.score_value_2])
+            let boxed = mono_value_box(MonoHelper._monoInstance, mono_get_int32_class(), &scoreValue2)
+            EclipsionIllidariProxy(obj: minion.get()).scoreValue2 = MonoHandle(obj: boxed)
+        }
+
         let dbfId = entity.card.dbfId
         let m1 = entity[.modular_entity_part_1]
         let m2 = entity[.modular_entity_part_2]
