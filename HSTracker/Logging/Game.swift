@@ -5041,7 +5041,10 @@ class Game: NSObject, PowerEventHandler {
                     let cardHeight = 0.5
                     let cardHeightInPixels = cardHeight * frame.height
                     let cardWidth = cardHeightInPixels * 34 / (cardHeight * 100)
-                    let x = correctedOffsetX + cardWidth / 2 - Double(tooltipGridCards.gridWidth) / 2.0
+                    // getScaledXPos returns an offset inside the Hearthstone window, so it has to be
+                    // carried back into screen space - without frame.minX the tooltip lands at the
+                    // same offset on whichever display has x == 0 instead of the one the game is on.
+                    let x = frame.minX + correctedOffsetX + cardWidth / 2 - Double(tooltipGridCards.gridWidth) / 2.0
                     let tooltipFrame = NSRect(x: Int(x), y: Int(y), width: tooltipGridCards.gridWidth, height: tooltipGridCards.gridHeight)
                     tooltipGridCards.show(frame: tooltipFrame)
                     RelatedCardsRightClickMonitor.shared.setHoveredLargePool(
@@ -5089,7 +5092,10 @@ class Game: NSObject, PowerEventHandler {
                     let cardHeightInPixels = cardHeight * frame.height
                     let cardWidth = cardHeightInPixels * 31 / (cardHeight * 100)
 
-                    let x = correctedOffsetX + cardWidth / 2 - Double(tooltipGridCards.gridWidth) / 2.0
+                    // getScaledXPos returns an offset inside the Hearthstone window, so it has to be
+                    // carried back into screen space - without frame.minX the tooltip lands at the
+                    // same offset on whichever display has x == 0 instead of the one the game is on.
+                    let x = frame.minX + correctedOffsetX + cardWidth / 2 - Double(tooltipGridCards.gridWidth) / 2.0
                     let tooltipFrame = NSRect(x: Int(x), y: Int(y), width: tooltipGridCards.gridWidth, height: tooltipGridCards.gridHeight)
                     tooltipGridCards.show(frame: tooltipFrame)
                     RelatedCardsRightClickMonitor.shared.setHoveredLargePool(
@@ -5133,7 +5139,10 @@ class Game: NSObject, PowerEventHandler {
                     let cardHeightInPixels = cardHeight * frame.height
                     let cardWidth = cardHeightInPixels * 31 / (cardHeight * 100)
                     
-                    let x = correctedOffsetX + cardWidth / 2 - Double(tooltipGridCards.gridWidth) / 2.0
+                    // getScaledXPos returns an offset inside the Hearthstone window, so it has to be
+                    // carried back into screen space - without frame.minX the tooltip lands at the
+                    // same offset on whichever display has x == 0 instead of the one the game is on.
+                    let x = frame.minX + correctedOffsetX + cardWidth / 2 - Double(tooltipGridCards.gridWidth) / 2.0
                     let tooltipFrame = NSRect(x: Int(x), y: Int(y), width: tooltipGridCards.gridWidth, height: tooltipGridCards.gridHeight)
                     tooltipGridCards.show(frame: tooltipFrame)
                     RelatedCardsRightClickMonitor.shared.setHoveredLargePool(
@@ -5268,7 +5277,9 @@ class Game: NSObject, PowerEventHandler {
                 vm.setCardIdsFromCards(relatedCards.compactMap({ $0 }))
                 let (statistics, summary, hasLargePool) = self.relatedCardsManager.getPoolStatistics(cardId: state.cardId, relatedCards: relatedCards, player: self.player)
                 vm.setPoolStatistics(statistics, relatedCardsSummary: summary, hasLargePool: hasLargePool)
-                let tooltipFrame = NSRect(x: left, y: frame.height - top - CGFloat(vm.gridHeight), width: CGFloat(vm.gridWidth), height: CGFloat(vm.gridHeight))
+                // left/top are window-relative (every measurement above is a fraction of the
+                // Hearthstone window), so both have to be offset by the window's own screen origin.
+                let tooltipFrame = NSRect(x: frame.minX + left, y: frame.maxY - top - CGFloat(vm.gridHeight), width: CGFloat(vm.gridWidth), height: CGFloat(vm.gridHeight))
                 vm.show(frame: tooltipFrame)
                 RelatedCardsRightClickMonitor.shared.setHoveredLargePool(
                     card: hasLargePool ? Cards.by(cardId: state.cardId) : nil,

@@ -543,14 +543,18 @@ class Tracker: OverWindowController, CardCellHover {
             // silently falling through to no summary on a deck-list hover.
             let (statistics, summary, hasLargePool) = game.relatedCardsManager.getPoolStatistics(cardId: cardId, relatedCards: relatedCards, player: player)
             tooltipGridCards.setPoolStatistics(statistics, relatedCardsSummary: summary, hasLargePool: hasLargePool)
-            let screen = NSScreen.screens.first { s in s.frame.contains(rect) } ?? NSScreen.main
+            // rect is the hovered cell in screen space, so every bound it is compared against has
+            // to be in screen space too: a bare width/height is the size of a display, not the top
+            // or right edge of the one the tracker is actually on.
+            let screen = NSScreen.screens.first { s in s.frame.intersects(rect) } ?? NSScreen.main
             var y = rect.minY
-            if rect.minY + CGFloat(tooltipGridCards.gridHeight) > screen?.frame.height ?? hearthstoneRect.height {
-                y = hearthstoneRect.maxY - CGFloat(tooltipGridCards.gridHeight)
+            let maxY = screen?.frame.maxY ?? hearthstoneRect.maxY
+            if rect.minY + CGFloat(tooltipGridCards.gridHeight) > maxY {
+                y = maxY - CGFloat(tooltipGridCards.gridHeight)
             }
 
             var x: CGFloat = 0.0
-            if rect.minX < hearthstoneRect.width / 2 {
+            if rect.minX < hearthstoneRect.midX {
                 x = rect.maxX
             } else {
                 x = rect.minX - CGFloat(tooltipGridCards.gridWidth)
