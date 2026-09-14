@@ -37,7 +37,7 @@
 - Fixed Bob's Buddy being left without odds because the app shipped an incomplete, out-of-date copy of the runtime it simulates with.
 - Fixed HSTracker crashing during a Battlegrounds combat with Scoutmaster Tavish's Lock and Load, a magnetized Auto Assembler, or a minion granted "Crab Riding". (#1436)
 - Fixed the combat odds in Duos assuming Embrace Your Rage had already gone off when it had not.
-- Fixed the combat odds miscounting the Automatons a magnetized Auto Assembler summons, after a Deathly Phylactery repeat or on a Kangor's Apprentice.
+- Fixed the combat odds miscounting the Automatons a magnetized Auto Assembler summons, after a Deathly Phylactery repeat, on a Kangor's Apprentice, or on a minion turned into a Mech by Amalgamation.
 - Fixed the combat odds ignoring how many "Immune while attacking" grants Eclipsion Illidari had left.
 - Fixed the combat odds losing the Invulnerability dark gift when the minion carrying it was magnetized onto a Mech.
 - The combat odds now account for the stats Dr. Boom's Monster hands out when it is magnetized onto another Mech.

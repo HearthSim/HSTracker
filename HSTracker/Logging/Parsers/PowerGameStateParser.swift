@@ -318,8 +318,12 @@ class PowerGameStateParser: LogEventParser {
                     let deadMinion = eventHandler.entities[currentBlock.sourceEntityId],
                     deadMinion.isMinion {
                     // The CARDRACE tag only carries the primary race, so a dual-race Mech is missed;
-                    // read the race off the card definition instead.
-                    if deadMinion.card.isMech() || deadMinion.card.isAllRace() {
+                    // read the race off the card definition too. The other way round, the card's
+                    // static race misses a minion made a Mech by an enchantment (Amalgamation);
+                    // the live CARDRACE tag carries that one.
+                    let liveRaceValue = deadMinion[GameTag.cardrace]
+                    let liveRace = liveRaceValue >= 0 && liveRaceValue < Race.allCases.count ? Race.allCases[liveRaceValue] : Race.invalid
+                    if deadMinion.card.isMech() || deadMinion.card.isAllRace() || liveRace == .mechanical || liveRace == .all {
                         let isGolden = cardId == CardIds.NonCollectible.Neutral.AncestralAutomaton_AncestralAutomaton
                         let sourceZone = deadMinion[GameTag.zone]
                         if sourceZone == Zone.graveyard.rawValue {  // Deathrattles triggered the normal way
