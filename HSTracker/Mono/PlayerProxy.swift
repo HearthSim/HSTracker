@@ -27,7 +27,7 @@ class PlayerProxy: MonoHandle, MonoClassInitializer {
             PlayerProxy._setHeroIsKelThuzad = MonoHelper.getMethod(PlayerProxy._class, "SetHeroIsKelThuzad", 0)
             
             // fields
-            initializeProperties(properties: [ "Side", "HeroPowers", "Quests", "Objectives", "Trinkets", "Secrets", "Hand", "MagnanimooseSummonPoolDuos", "FriendlyMinionsDeadLastCombatCounter", "EternalKnightCounter", "EternalLegionCounter", "SanlaynScribeCounter", "MagnetizeCounter", "AncestralAutomatonCounter", "UndeadAttackBonus", "UndeadHealthBonus", "WhelpAttackBonus", "WhelpHealthBonus", "ElementalPlayCounter", "ElementalsGiveExtraAttack", "ElementalsGiveExtraHealth", "BloodGemAtkBuff", "BloodGemHealthBuff", "TavernSpellCounter", "PiratesSummonCounter", "ResourcesSpentThisGame", "BeastsSummonCounter", "GoldenMinionsPlayedCounter", "BeastAttackBonus", "BeastHealthBonus", "BeetlesAtkBuff", "BeetlesHealthBuff", "BattlecryCounter", "DeathrattleCounter", "TavernSpellAtkBuff", "TavernSpellHealthBuff", "BackToBackAtk", "BackToBackHealth", "BackToBackCounter", "HauntedAtkBuff", "HauntedHealthBuff", "Health", "DamageTaken", "Tier", "HeroIsKelThuzad" ])
+            initializeProperties(properties: [ "Side", "HeroPowers", "Quests", "Objectives", "Trinkets", "Secrets", "Hand", "MagnanimooseSummonPoolDuos", "FriendlyMinionsDeadLastCombatCounter", "EternalKnightCounter", "EternalLegionCounter", "SanlaynScribeCounter", "MagnetizeCounter", "AncestralAutomatonCounter", "UndeadAttackBonus", "UndeadHealthBonus", "WhelpAttackBonus", "WhelpHealthBonus", "ElementalPlayCounter", "ElementalsGiveExtraAttack", "ElementalsGiveExtraHealth", "BloodGemAtkBuff", "BloodGemHealthBuff", "TavernSpellCounter", "PiratesSummonCounter", "ResourcesSpentThisGame", "BeastsSummonCounter", "TastyLobsterCounter", "GoldenMinionsPlayedCounter", "BeastAttackBonus", "BeastHealthBonus", "BeetlesAtkBuff", "BeetlesHealthBuff", "BattlecryCounter", "DeathrattleCounter", "TavernSpellAtkBuff", "TavernSpellHealthBuff", "BackToBackAtk", "BackToBackHealth", "BackToBackCounter", "HauntedAtkBuff", "HauntedHealthBuff", "Health", "DamageTaken", "Tier", "HeroIsKelThuzad" ])
         }
     }
     
@@ -161,6 +161,9 @@ class PlayerProxy: MonoHandle, MonoClassInitializer {
     
     @MonoPrimitiveProperty(property: "BeastsSummonCounter", owner: PlayerProxy.self)
     var beastsSummonCounter: Int32
+
+    @MonoPrimitiveProperty(property: "TastyLobsterCounter", owner: PlayerProxy.self)
+    var tastyLobsterCounter: Int32
 
     @MonoPrimitiveProperty(property: "GoldenMinionsPlayedCounter", owner: PlayerProxy.self)
     var goldenMinionsPlayedCounter: Int32

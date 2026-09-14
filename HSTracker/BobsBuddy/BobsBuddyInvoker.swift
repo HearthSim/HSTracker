@@ -1438,6 +1438,8 @@ class BobsBuddyInvoker {
         
         inputPlayer.beastsSummonCounter = Int32(readPlayerCounter(.gametag_3962)) // direct or transfer
         
+        inputPlayer.tastyLobsterCounter = Int32(readPlayerCounter(.gametag_4803)) // direct or transfer
+        
         inputPlayer.goldenMinionsPlayedCounter = Int32(readPlayerCounter(.gametag_4799)) // direct or transfer
         
         inputPlayer.friendlyMinionsDeadLastCombatCounter = Int32(readPlayerCounter(.gametag_2717)) // direct or transfer

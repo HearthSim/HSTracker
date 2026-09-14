@@ -39,7 +39,7 @@
 - Fixed the combat odds in Duos assuming Embrace Your Rage had already gone off when it had not.
 - Fixed the combat odds miscounting the Automatons a magnetized Auto Assembler summons, after a Deathly Phylactery repeat, on a Kangor's Apprentice, or on a minion turned into a Mech by Amalgamation.
 - The combat odds now keep the Invulnerability dark gift and Dr. Boom's Monster's stat grant through magnetizing, and respect how many "Immune while attacking" grants Eclipsion Illidari has left.
-- The combat odds now count how many times each side has magnetized and how many golden minions each side has played, no longer hand an opponent the previous opponent's Blood Gem buff, and read a ghost opponent's counters, including how much gold they have spent, from the right player.
+- The combat odds now count how many times each side has magnetized, how many golden minions each side has played and each side's Tasty Lobster count, no longer hand an opponent the previous opponent's Blood Gem buff, and read a ghost opponent's counters, including how much gold they have spent, from the right player.
 
 # 3.6.9
 ## Hearthstone
