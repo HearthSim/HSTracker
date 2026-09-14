@@ -42,7 +42,7 @@
 - Fixed the combat odds losing the Invulnerability dark gift when the minion carrying it was magnetized onto a Mech.
 - The combat odds now account for the stats Dr. Boom's Monster hands out when it is magnetized onto another Mech.
 - The combat odds now know how many times each side has magnetized, and how many golden minions each side has played, this game.
-- Fixed the combat odds giving an opponent the previous opponent's Blood Gem buff.
+- Fixed the combat odds giving an opponent the previous opponent's Blood Gem buff, and reading a ghost opponent's tribe and battlecry counters from the wrong player.
 
 # 3.6.9
 ## Hearthstone

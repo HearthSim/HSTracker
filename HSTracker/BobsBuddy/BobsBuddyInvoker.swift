@@ -1330,9 +1330,23 @@ class BobsBuddyInvoker {
         ? getAttachedEntities(entityId: playerEntity.id).filter { x in x.isInPlay }
         : getAttachedEntities(entityId: playerEntity.id)
 
-        // captured inputPlayer values below are marked as either 'attached' or 'direct'
-        // attached: obtained from GetAttachedEntities (requires isDuosTeammate to work properly in duos games)
-        // direct: comes directly from the playerEntity using GetTag (no special handling needed for duos)
+        // captured inputPlayer values below are marked as: 'attached', 'direct' or 'transfer'
+        // - attached: obtained from getAttachedEntities (requires isDuosTeammate to work properly in duos games)
+        // - direct: comes directly from the playerEntity (no special handling needed for duos)
+        // - transfer: from the opponent's TagTransferPlayerEnchant when one is attached, otherwise direct
+
+        // Each combat the game attaches a TagTransferPlayerEnchant to the OPPONENT player entity, carrying the
+        // opponent's per-game counters under the same tag ids as the player entity.
+        // This matters when the opponent is a ghost, since the killed opponent entity's own copies of those tags
+        // can still hold the previous combat's values at the snapshot.
+        let pTagTransfer = friendly ? nil : playerAttached.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.TagtransferplayerenchantDnt && x.isInPlay }) // attached
+        let isDuos = game.isBattlegroundsDuosMatch()
+        let readPlayerCounter: (GameTag) -> Int = { tag in
+            if !isDuos, let pTagTransfer {
+                return pTagTransfer[tag] // pTagTransfer when opponent (transfer)
+            }
+            return playerEntity[tag] // playerEntity otherwise (direct)
+        }
         
         let pEternalLegion = playerAttached.first { x in x.cardId == CardIds.NonCollectible.Neutral.EternalKnight_EternalKnightPlayerEnchant }
         if let pEternalLegion {
@@ -1400,17 +1414,17 @@ class BobsBuddyInvoker {
             logger.info("pWhelpAttack=\(inputPlayer.whelpAttackBonus), pWhelpHealth=\(inputPlayer.whelpHealthBonus), friendly=\(friendly)")
         }
         
-        inputPlayer.elementalPlayCounter = Int32(game.playerEntity?[.gametag_2878] ?? 0) // direct
+        inputPlayer.elementalPlayCounter = Int32(readPlayerCounter(.gametag_2878)) // direct or transfer
 
-        inputPlayer.elementalsGiveExtraAttack = Int32(game.playerEntity?[.bacon_elemental_buffatkvalue] ?? 0) // direct
-        inputPlayer.elementalsGiveExtraHealth = Int32(game.playerEntity?[.bacon_elemental_buffhealthvalue] ?? 0) // direct
+        inputPlayer.elementalsGiveExtraAttack = Int32(readPlayerCounter(.bacon_elemental_buffatkvalue)) // direct or transfer
+        inputPlayer.elementalsGiveExtraHealth = Int32(readPlayerCounter(.bacon_elemental_buffhealthvalue)) // direct or transfer
 
         logger.info("pEternal=\(inputPlayer.eternalKnightCounter), pEternalLegion=\(inputPlayer.eternalLegionCounter), pUndead=\(inputPlayer.undeadAttackBonus), pElemental=\(inputPlayer.elementalPlayCounter), pElementalExtraAtk=\(inputPlayer.elementalsGiveExtraAttack), pElementalExtraHealth=\(inputPlayer.elementalsGiveExtraHealth), friendly=\(friendly)")
         
-        inputPlayer.piratesSummonCounter = Int32(game.playerEntity?[.gametag_2358] ?? 0) // direct
+        inputPlayer.piratesSummonCounter = Int32(readPlayerCounter(.gametag_2358)) // direct or transfer
         
         // Number of times this player has Magnetized this game.
-        var magnetizeCounter = Int32(playerEntity[.gametag_3670]) // direct
+        var magnetizeCounter = Int32(readPlayerCounter(.gametag_3670)) // direct or transfer
         inputPlayer.magnetizeCounter = MonoHandle(obj: mono_value_box(MonoHelper._monoInstance, mono_get_int32_class(), &magnetizeCounter))
         
         inputPlayer.resourcesSpentThisGame = Int32(game.playerEntity?[.num_resources_spent_this_game] ?? 0) // direct
@@ -1422,13 +1436,13 @@ class BobsBuddyInvoker {
             }
         }
         
-        inputPlayer.beastsSummonCounter = Int32(game.playerEntity?[.gametag_3962] ?? 0) // direct
+        inputPlayer.beastsSummonCounter = Int32(readPlayerCounter(.gametag_3962)) // direct or transfer
         
-        inputPlayer.goldenMinionsPlayedCounter = Int32(playerEntity[.gametag_4799]) // direct
+        inputPlayer.goldenMinionsPlayedCounter = Int32(readPlayerCounter(.gametag_4799)) // direct or transfer
         
-        inputPlayer.friendlyMinionsDeadLastCombatCounter = Int32(game.playerEntity?[.gametag_2717] ?? 0) // direct
+        inputPlayer.friendlyMinionsDeadLastCombatCounter = Int32(readPlayerCounter(.gametag_2717)) // direct or transfer
         
-        inputPlayer.battlecryCounter = Int32(game.playerEntity?[.gametag_3236] ?? 0) // direct
+        inputPlayer.battlecryCounter = Int32(readPlayerCounter(.gametag_3236)) // direct or transfer
         
         logger.info("pPirates=\(inputPlayer.piratesSummonCounter), pBeasts=\(inputPlayer.beastsSummonCounter), pDeadLastCombat=\(inputPlayer.friendlyMinionsDeadLastCombatCounter), pBattlecry=\(inputPlayer.battlecryCounter), friendly=\(friendly)")
         
@@ -1444,7 +1458,7 @@ class BobsBuddyInvoker {
         
         logger.info("pBloodGem=+\(inputPlayer.bloodGemAtkBuff)/+\(inputPlayer.bloodGemHealthBuff), friendly=\(friendly)")
         
-        let pTagTransfer = friendly ? nil : playerAttached.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.TagtransferplayerenchantDnt && x.isInPlay }) // attached (opponent-only transfer enchant)
+        // Direct first: the game writes these two on the player entity again after the transfer.
         inputPlayer.tavernSpellAtkBuff = Int32(playerEntity.has(tag: GameTag.tavern_spell_attack_increase) ?
                                                playerEntity[GameTag.tavern_spell_attack_increase] // direct
                                                : pTagTransfer?[GameTag.tavern_spell_attack_increase] ?? 0) // attached (fallback)
@@ -1453,9 +1467,9 @@ class BobsBuddyInvoker {
                                                   : pTagTransfer?[GameTag.tavern_spell_health_increase] ?? 0) // attached (fallback)
         logger.info("pTavernSpell=+\(inputPlayer.tavernSpellAtkBuff)/+\(inputPlayer.tavernSpellHealthBuff) (opponentTransferEnchant=\(pTagTransfer != nil)), friendly=\(friendly)")
         
-        inputPlayer.tavernSpellCounter = Int32(playerEntity[GameTag.gametag_3088]) // direct
+        inputPlayer.tavernSpellCounter = Int32(readPlayerCounter(.gametag_3088)) // direct or transfer
         
-        inputPlayer.deathrattleCounter = Int32(playerEntity[GameTag.gametag_4639]) // direct
+        inputPlayer.deathrattleCounter = Int32(readPlayerCounter(.gametag_4639)) // direct or transfer
          
         if let pHaunted = playerAttached.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.HauntedCarapace_HauntedCarapacePlayerEnchantDnt }) {
             inputPlayer.hauntedAtkBuff = Int32(pHaunted[GameTag.tag_script_data_num_1]) // attached
