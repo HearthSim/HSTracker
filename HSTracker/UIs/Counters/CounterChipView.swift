@@ -88,71 +88,6 @@ final class CounterChipViewModel: ObservableObject, Identifiable {
     }
 }
 
-// Carries the chip's NSView so RootOverlayWindow can tell when the cursor is
-// over it, and so the tooltip can be anchored to the chip's own screen-space
-// frame (what the old CounterView.tooltipDisplay got from
-// `self.convert(self.bounds, to: nil)`).
-//
-// The chips now sit on the RootOverlay canvas, which stays click-through -
-// HDT marks them IsOverlayHoverVisible, not IsOverlayHitTestVisible, so a
-// click over a counter still reaches Hearthstone. A click-through window is
-// delivered no mouse-entered events at all, which is why the NSTrackingArea
-// this used to carry is gone: the cursor is matched against the registry
-// instead, exactly as CardHoverRegistry does for the card tooltips.
-@available(macOS 10.15, *)
-final class CounterHoverNSView: NSView {
-    private(set) var counter: BaseCounter?
-
-    // Match NSHostingView's own flip so NSView.convert() stays consistent with
-    // SwiftUI's Y-down coordinate space, as CardHoverNSView does.
-    override var isFlipped: Bool { true }
-
-    func update(counter: BaseCounter) {
-        guard self.counter !== counter else { return }
-        self.counter = counter
-        if window != nil {
-            CounterHoverRegistry.shared.register(self)
-        }
-    }
-
-    override func viewDidMoveToWindow() {
-        super.viewDidMoveToWindow()
-        if window != nil {
-            CounterHoverRegistry.shared.register(self)
-        } else {
-            CounterHoverRegistry.shared.unregister(self)
-            // The counter went away while its tooltip was up (or on its way
-            // up) - RootOverlayWindow's own sweep would only notice on the next
-            // mouse move, and there may not be one.
-            if let counter {
-                CounterTooltipController.shared.hide(ifShowing: counter)
-            }
-        }
-    }
-}
-
-@available(macOS 10.15, *)
-class CounterHoverRegistry {
-    static let shared = CounterHoverRegistry()
-
-    struct Entry {
-        let counter: BaseCounter
-        weak var view: CounterHoverNSView?
-    }
-
-    private(set) var entries: [Entry] = []
-
-    func register(_ view: CounterHoverNSView) {
-        entries.removeAll { $0.view == nil || $0.view === view }
-        guard let counter = view.counter else { return }
-        entries.append(Entry(counter: counter, view: view))
-    }
-
-    func unregister(_ view: CounterHoverNSView) {
-        entries.removeAll { $0.view === view || $0.view == nil }
-    }
-}
-
 // Drives RelatedCardsTooltipPanel from whichever chip the cursor is over.
 // Ported from the old CounterView.tooltipDisplay, including its 0.6s delay -
 // HDT's counters carry ToolTipService.InitialShowDelay="600".
@@ -236,16 +171,6 @@ class CounterTooltipController {
 }
 
 @available(macOS 10.15, *)
-private struct CounterHoverRepresentable: NSViewRepresentable {
-    let counter: BaseCounter
-
-    func makeNSView(context: Context) -> CounterHoverNSView { CounterHoverNSView() }
-    func updateNSView(_ nsView: CounterHoverNSView, context: Context) {
-        nsView.update(counter: counter)
-    }
-}
-
-@available(macOS 10.15, *)
 struct CounterChipView: View {
     @ObservedObject var viewModel: CounterChipViewModel
 
@@ -280,7 +205,13 @@ struct CounterChipView: View {
         .padding(5)
         .frame(width: viewModel.chipWidth, height: 51, alignment: .leading)
         .clipped()
-        .background(CounterHoverRepresentable(counter: viewModel.counter))
+        // HDT hangs a GridCardImages off the chip's IsOverlayHoverVisible
+        // border, the same element a card tile hangs a CardTooltip off, so the
+        // chip registers with the shared hover registry rather than one of its
+        // own. The cursor is matched there rather than by an NSTrackingArea
+        // because the canvas stays click-through, and a click-through window is
+        // delivered no mouse-entered events at all.
+        .relatedCardsTooltip(counter: viewModel.counter)
     }
 
     private var circleImage: some View {

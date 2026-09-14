@@ -19,7 +19,7 @@ class RootOverlayWindow: OverWindowController {
     private var globalMouseMonitor: Any?
     private var localMouseMonitor: Any?
     private var fallbackTimer: Timer?
-    private var hoveredCardId: String?
+    private var hoveredTooltip: OverlayTooltip?
     private weak var hoveredView: CardHoverNSView?
 
     override func windowDidLoad() {
@@ -90,7 +90,13 @@ class RootOverlayWindow: OverWindowController {
         updateArenaDirectionTrigger(at: viewPoint)
         updateArenaCardListTrigger(at: viewPoint)
         updateArenaTooltipHover(at: viewPoint)
-        updateCounterHover()
+        // Before the interactiveRegion guard below, so hover tooltips keep
+        // working while the canvas has no interactive children at all - the
+        // normal case during a constructed match, which is exactly when the
+        // counters and the active effects are on screen. HDT's
+        // IsOverlayHoverVisible is independent of IsOverlayHitTestVisible in the
+        // same way, and this touches nothing the guard sets.
+        updateHoverTooltip()
 
         guard !viewModel.interactiveRegions.isEmpty else {
             setIgnoresMouseEvents(true)
@@ -98,8 +104,6 @@ class RootOverlayWindow: OverWindowController {
         }
         let inside = viewModel.interactiveRegions.contains { $0.contains(viewPoint) }
         setIgnoresMouseEvents(!inside)
-
-        updateCardHover()
     }
 
     // HDT's BgsTopBarMask MouseEnter/MouseLeave handlers, which flip
@@ -296,50 +300,31 @@ class RootOverlayWindow: OverWindowController {
         return inside
     }
 
-    // HDT's counters are IsOverlayHoverVisible: hovering one puts up its
-    // related-cards grid while clicks over it still fall through to
-    // Hearthstone. Matched from the cursor position here rather than from an
-    // NSTrackingArea inside the chip for the same reason as the filter region
-    // above - a click-through window is delivered no mouse-entered events -
-    // and called before the interactive-region guard so it keeps working while
-    // the canvas has no interactive children at all, which is the normal case
-    // during a constructed match.
-    private func updateCounterHover() {
-        guard let overlayWindow = window else { return }
-        let screenLocation = NSEvent.mouseLocation
-
-        let match = CounterHoverRegistry.shared.entries.last { entry in
-            guard let nsView = entry.view,
-                  nsView.window === overlayWindow else { return false }
-            let rectInWindow = nsView.convert(nsView.bounds, to: nil)
-            return overlayWindow.convertToScreen(rectInWindow).contains(screenLocation)
-        }
-
-        let anchor = match?.view.map { view in
-            overlayWindow.convertToScreen(view.convert(view.bounds, to: nil))
-        }
-        CounterTooltipController.shared.hover(counter: match?.counter, anchor: anchor)
-    }
-
     private func setIgnoresMouseEvents(_ ignores: Bool) {
         if window?.ignoresMouseEvents != ignores {
             window?.ignoresMouseEvents = ignores
         }
     }
 
-    // Matches the live cursor position (already computed above for the
-    // click-through check) against every currently-reported card hover
-    // region and drives CardTooltipPanel directly - see the comment atop
-    // CardHoverRegionPreferenceKey in CardImageTooltip.swift for why this
-    // replaces a per-view hover callback.
-    // Matches the live cursor against registered CardHoverNSView instances using
-    // CALayer coordinate conversion. layer.convert(bounds, to: rootLayer) goes
-    // through the full CALayer transform chain - including SwiftUI's scaleEffect
-    // and NSScrollView's scroll offset - giving the correct visual position.
-    // The final comparison is in screen coordinates (Y-up, Cocoa convention)
-    // using NSEvent.mouseLocation, avoiding any NSView/SwiftUI coordinate space
-    // issues entirely.
-    private func updateCardHover() {
+    // Every element HDT marks IsOverlayHoverVisible, matched from the live
+    // cursor position against the registered CardHoverNSView instances and
+    // dispatched to whichever tooltip that element declared - CardTooltipPanel
+    // for a card image, CounterTooltipController for a counter's related-cards
+    // grid. HDT hangs both off the same OverlayExtensions.ToolTip attached
+    // property, so one sweep serves both here; the counters used to have a
+    // second registry and a second sweep of their own.
+    //
+    // Matched here rather than by a per-view .onHover or NSTrackingArea because
+    // hover-visible is not hit-test visible: the canvas stays click-through over
+    // these elements, and a click-through window is delivered no mouse-entered
+    // events at all.
+    //
+    // NSView.convert goes through the full transform chain - including SwiftUI's
+    // scaleEffect and NSScrollView's scroll offset - giving the correct visual
+    // position. The final comparison is in screen coordinates (Y-up, Cocoa
+    // convention) using NSEvent.mouseLocation, avoiding any NSView/SwiftUI
+    // coordinate space issues entirely.
+    private func updateHoverTooltip() {
         guard let overlayWindow = window else { return }
         let screenLocation = NSEvent.mouseLocation
 
@@ -362,13 +347,14 @@ class RootOverlayWindow: OverWindowController {
         }
 
         if let match = match {
-            // Keyed on the matched view as well as the card: an Inspiration board
-            // routinely holds two copies of the same minion, and now that the
-            // tooltip anchors to the element rather than following the cursor,
-            // moving between them has to re-anchor it. HDT gets this for free -
-            // each element raises its own MouseLeave/MouseEnter.
-            if hoveredCardId != match.cardId || hoveredView !== match.view {
-                hoveredCardId = match.cardId
+            // Keyed on the matched view as well as the tooltip: an Inspiration
+            // board routinely holds two copies of the same minion, and now that
+            // the tooltip anchors to the element rather than following the
+            // cursor, moving between them has to re-anchor it. HDT gets this for
+            // free - each element raises its own MouseLeave/MouseEnter.
+            if !(hoveredTooltip?.matches(match.tooltip) ?? false) || hoveredView !== match.view {
+                let previous = hoveredTooltip
+                hoveredTooltip = match.tooltip
                 hoveredView = match.view
                 // HDT anchors the tooltip to the hovered element and clamps it to
                 // the overlay window (its ActualWidth/ActualHeight), not to the
@@ -377,20 +363,34 @@ class RootOverlayWindow: OverWindowController {
                 let anchor = match.view.map {
                     overlayWindow.convertToScreen($0.convert($0.bounds, to: nil))
                 }
-                CardTooltipPanel.shared.show(cardId: match.cardId, showTriple: match.showTriple,
-                                             baconTriple: match.baconTriple,
-                                             placement: match.placement,
-                                             anchor: anchor, bounds: overlayWindow.frame)
+                // The two kinds drive different panels, so moving from one kind
+                // straight onto the other has to dismiss the one being left -
+                // neither panel knows about the other.
+                dismissIfDifferentKind(previous, than: match.tooltip)
+                switch match.tooltip {
+                case .card(let cardId, let showTriple, let baconTriple, let placement):
+                    CardTooltipPanel.shared.show(cardId: cardId, showTriple: showTriple,
+                                                 baconTriple: baconTriple,
+                                                 placement: placement,
+                                                 anchor: anchor, bounds: overlayWindow.frame)
+                case .relatedCards(let counter):
+                    CounterTooltipController.shared.hover(counter: counter, anchor: anchor)
+                }
             }
         } else {
-            if hoveredCardId != nil {
-                hoveredCardId = nil
+            if let previous = hoveredTooltip {
+                hoveredTooltip = nil
                 hoveredView = nil
-                // Unconditional hide: we know no card is under cursor, so we must
-                // dismiss regardless of which card (base or golden) is currently shown.
-                // Scoped to this source, though - the cursor leaving the canvas is routinely the
-                // cursor arriving somewhere that drives the same panel itself.
-                CardTooltipPanel.shared.hide(from: .registry)
+                switch previous {
+                case .card:
+                    // Unconditional hide: we know no card is under cursor, so we must
+                    // dismiss regardless of which card (base or golden) is currently shown.
+                    // Scoped to this source, though - the cursor leaving the canvas is routinely the
+                    // cursor arriving somewhere that drives the same panel itself.
+                    CardTooltipPanel.shared.hide(from: .registry)
+                case .relatedCards:
+                    CounterTooltipController.shared.hover(counter: nil, anchor: nil)
+                }
             }
             // Force-hide if the tooltip's current card is no longer registered.
             // Fires at most every 150ms via the fallback timer and catches the
@@ -402,9 +402,26 @@ class RootOverlayWindow: OverWindowController {
             // registry started.
             let registry = CardHoverRegistry.shared
             if let shown = CardTooltipPanel.shared.currentCardId,
-               !registry.entries.contains(where: { $0.cardId == shown && $0.view != nil }) {
+               !registry.entries.contains(where: { entry in
+                   guard case .card(let cardId, _, _, _) = entry.tooltip else { return false }
+                   return cardId == shown && entry.view != nil
+               }) {
                 CardTooltipPanel.shared.hide(from: .registry)
             }
+        }
+    }
+
+    // Leaving one tooltip kind for the other: the panel being left has to be
+    // told, because the panel being entered will not hide it.
+    private func dismissIfDifferentKind(_ previous: OverlayTooltip?, than next: OverlayTooltip) {
+        guard let previous else { return }
+        switch (previous, next) {
+        case (.card, .relatedCards):
+            CardTooltipPanel.shared.hide(from: .registry)
+        case (.relatedCards, .card):
+            CounterTooltipController.shared.hover(counter: nil, anchor: nil)
+        default:
+            break
         }
     }
 }
