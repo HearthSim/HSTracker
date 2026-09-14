@@ -57,6 +57,12 @@ class RootOverlayViewModel: ObservableObject {
     let playerCounters = CountersOverlayViewModel(isPlayer: true)
     let opponentCounters = CountersOverlayViewModel(isPlayer: false)
 
+    // HDT's two PlayerResourcesWidget controls, declared right after the
+    // counters and the active-effects widgets on its own canvas
+    // (Windows/OverlayWindow.xaml).
+    let playerResources = PlayerResourcesViewModel(isPlayer: true)
+    let opponentResources = PlayerResourcesViewModel(isPlayer: false)
+
     init() {
         // HDT wires the same reference in OverlayWindow's constructor
         // (BattlegroundsMinionPinningViewModel.CompsGuidesVM = ...): the key

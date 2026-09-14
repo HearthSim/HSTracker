@@ -15,7 +15,11 @@ class PlayerResourcesViewModel: ObservableObject {
         var icon: String
         var value: Int
     }
-        
+
+    // Which of HDT's two PlayerResourcesWidget instances this is - the widgets
+    // are identical apart from the canvas position each is given.
+    let isPlayer: Bool
+
     private var _initialMaxHealth = 0
     private var _initialMaxMana = 0
     private var _initialMaxHandSize = 0
@@ -26,15 +30,18 @@ class PlayerResourcesViewModel: ObservableObject {
     private var _corpsesChanged = false
     
     @Published var resources: [Resource] = []
-    
-    @Published var visibility = false
+
+    // HDT's Visibility on the control, driven by
+    // Game.updatePlayerResorucesWidgetVisibility the way
+    // OverlayWindow.UpdatePlayerResourcesWidgetVisibility drives it there.
+    @Published var isShown = false
     
     public var hasVisibleResources: Bool {
         return resources.count > 0
     }
     
-    init() {
-        
+    init(isPlayer: Bool) {
+        self.isPlayer = isPlayer
     }
     
     func initialize(_ maxHealth: Int, _ maxMana: Int, _ maxHandSize: Int) {

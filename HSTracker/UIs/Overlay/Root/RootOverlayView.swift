@@ -125,6 +125,15 @@ struct RootOverlayView: View {
                     CountersOverlayView(viewModel: viewModel.opponentCounters, canvasWidth: canvasWidth)
                     CountersOverlayView(viewModel: viewModel.playerCounters, canvasWidth: canvasWidth)
 
+                    // HDT's two PlayerResourcesWidget controls, declared right
+                    // after those counters (and the active-effects widgets
+                    // HSTracker still keeps in windows of their own) on its own
+                    // canvas, opponent first, and scaled by the same
+                    // Height/1080 factor - see PlayerResourcesView for the
+                    // placement they carry.
+                    PlayerResourcesView(viewModel: viewModel.opponentResources, canvasWidth: canvasWidth)
+                    PlayerResourcesView(viewModel: viewModel.playerResources, canvasWidth: canvasWidth)
+
                     // Bob's Buddy, centred on the canvas top - its
                     // OverlayElementBehavior is
                     //   GetLeft = Width / 2 - ActualWidth * AutoScaling / 2

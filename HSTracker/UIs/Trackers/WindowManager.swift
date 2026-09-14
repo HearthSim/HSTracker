@@ -105,24 +105,6 @@ class WindowManager {
         return $0
     }(ActiveEffectsOverlay(windowNibName: "ActiveEffectsOverlay"))
 
-    private var _playerPlayerResourcesOverlay: Any?
-    @available(OSX 10.15, *)
-    var playerPlayerResourcesOverlay: PlayerResourcesWindow? {
-        if _playerPlayerResourcesOverlay == nil {
-            _playerPlayerResourcesOverlay = PlayerResourcesWindow(windowNibName: "PlayerResourcesWindow")
-        }
-        return (_playerPlayerResourcesOverlay as? PlayerResourcesWindow)
-    }
-    
-    private var _opponentPlayerResourcesOverlay: Any?
-    @available(OSX 10.15, *)
-    var opponentPlayerResourcesOverlay: PlayerResourcesWindow? {
-        if _opponentPlayerResourcesOverlay == nil {
-            _opponentPlayerResourcesOverlay = PlayerResourcesWindow(windowNibName: "PlayerResourcesWindow")
-        }
-        return (_opponentPlayerResourcesOverlay as? PlayerResourcesWindow)
-    }
-
     private var _rootOverlay: Any?
     @available(OSX 10.15, *)
     var rootOverlay: RootOverlayWindow? {

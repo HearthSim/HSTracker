@@ -627,26 +627,14 @@ class Game: NSObject, PowerEventHandler {
         }
     }
     
+    // The resources widgets live on the RootOverlay canvas, so there is no
+    // window of their own left to frame, show or hide: a side with nothing to
+    // show renders nothing, and hideAllWhenGameInBackground is already handled
+    // once for the whole canvas in updateRootOverlay().
     @available(macOS 10.15, *)
     func updateMaxResourcesWidget() {
         DispatchQueue.main.async { [self] in
             updatePlayerResorucesWidgetVisibility()
-            let hsActive = hearthstoneRunState.isActive
-
-            if let win =  windowManager.playerPlayerResourcesOverlay {
-                if ((Settings.hideAllWhenGameInBackground && hsActive) || !Settings.hideAllWhenGameInBackground) && win.viewModel.visibility && shouldShowTracker {
-                    windowManager.show(controller: win, show: true, frame: SizeHelper.playerMaxResourcesFrame(), overlay: true)
-                } else {
-                    windowManager.show(controller: win, show: false)
-                }
-            }
-            if let win =  windowManager.opponentPlayerResourcesOverlay {
-                if ((Settings.hideAllWhenGameInBackground && hsActive) || !Settings.hideAllWhenGameInBackground) && win.viewModel.visibility && shouldShowTracker {
-                    windowManager.show(controller: win, show: true, frame: SizeHelper.opponentMaxResourcesFrame(), overlay: true)
-                } else {
-                    windowManager.show(controller: win, show: false)
-                }
-            }
         }
     }
 
@@ -5360,8 +5348,9 @@ class Game: NSObject, PowerEventHandler {
     func resetPlayerResourcesWidgets(_ maxHealth: Int, _ maxMana: Int, _ maxHandSize: Int) {
         if #available(macOS 10.15, *) {
             DispatchQueue.main.async {
-                self.windowManager.playerPlayerResourcesOverlay?.viewModel.initialize(maxHealth, maxMana, maxHandSize)
-                self.windowManager.opponentPlayerResourcesOverlay?.viewModel.initialize(maxHealth, maxMana, maxHandSize)
+                guard let viewModel = self.windowManager.rootOverlay?.viewModel else { return }
+                viewModel.playerResources.initialize(maxHealth, maxMana, maxHandSize)
+                viewModel.opponentResources.initialize(maxHealth, maxMana, maxHandSize)
             }
         }
     }
@@ -5369,7 +5358,7 @@ class Game: NSObject, PowerEventHandler {
     func updatePlayerResourcesWidget(_ maxHealth: Int, _ maxMana: Int, _ maxHandSize: Int, _ corpsesLeft: Int? = nil) {
         if #available(macOS 10.15, *) {
             DispatchQueue.main.async {
-                self.windowManager.playerPlayerResourcesOverlay?.viewModel.updatePlayerResourcesWidget(maxHealth, maxMana, maxHandSize, corpsesLeft)
+                self.windowManager.rootOverlay?.viewModel.playerResources.updatePlayerResourcesWidget(maxHealth, maxMana, maxHandSize, corpsesLeft)
             }
         }
     }
@@ -5377,19 +5366,22 @@ class Game: NSObject, PowerEventHandler {
     func updateOpponentResourcesWidget(_ maxHealth: Int, _ maxMana: Int, _ maxHandSize: Int, _ corpsesLeft: Int?) {
         if #available(macOS 10.15, *) {
             DispatchQueue.main.async {
-                self.windowManager.opponentPlayerResourcesOverlay?.viewModel.updatePlayerResourcesWidget(maxHealth, maxMana, maxHandSize, corpsesLeft)
+                self.windowManager.rootOverlay?.viewModel.opponentResources.updatePlayerResourcesWidget(maxHealth, maxMana, maxHandSize, corpsesLeft)
             }
         }
     }
     
+    // shouldShowTracker is folded in here because the window show/hide this
+    // replaces applied it on top of the widget's own visibility flag.
     func updatePlayerResorucesWidgetVisibility() {
         if #available(macOS 10.15, *) {
-            if isInMenu || !isMulliganDone() || isBattlegroundsMatch() {
-                windowManager.playerPlayerResourcesOverlay?.viewModel.visibility = false
-                windowManager.opponentPlayerResourcesOverlay?.viewModel.visibility = false
+            guard let viewModel = windowManager.rootOverlay?.viewModel else { return }
+            if isInMenu || !isMulliganDone() || isBattlegroundsMatch() || !shouldShowTracker {
+                viewModel.playerResources.isShown = false
+                viewModel.opponentResources.isShown = false
             } else {
-                windowManager.playerPlayerResourcesOverlay?.viewModel.visibility = Settings.showPlayerMaxResources
-                windowManager.opponentPlayerResourcesOverlay?.viewModel.visibility = Settings.showOpponentMaxResources
+                viewModel.playerResources.isShown = Settings.showPlayerMaxResources
+                viewModel.opponentResources.isShown = Settings.showOpponentMaxResources
             }
         }
     }

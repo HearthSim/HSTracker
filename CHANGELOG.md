@@ -9,6 +9,7 @@
 - The counters now scale with the game window, the opponent's sit in their correct spot, in Battlegrounds they split into two even rows, and hovering one shows its related cards again.
 - The overlay is now cut away wherever Hearthstone draws something of its own over the board - a hovered minion, weapon, hero power, secret or card in hand with its tooltips and enchantments, the Discover and trinket choices, the anomaly and offered hero powers in the Battlegrounds mulligan, the friends list and the escape menu - so none of them are covered up any more.
 - Fixed the Ectoplasm spells left behind by Slime 'em! both listing the same board, so each one now shows the minions it will actually resummon.
+- The max resources widgets now scale with the game window, are cut away wherever Hearthstone draws over them, and no longer leave a small dark square on the board when there is nothing to show.
 ## Battlegrounds
 - Fixed the counter tooltips showing the previously hovered counter's card art, and the Blood Gem counter listing itself instead of the Quilboar payoffs.
 - Fixed the Blood Gem and next-turn gold counters reading the combat board instead of the shop, so they stopped following what was bought and sold.

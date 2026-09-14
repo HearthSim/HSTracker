@@ -1764,8 +1764,6 @@
 		B8D02E512F1EE56F00DC55C1 /* Chogall.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D02E502F1EE56F00DC55C1 /* Chogall.swift */; };
 		B8D02E532F1EFD9900DC55C1 /* ElwynnBoarCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D02E522F1EFD9900DC55C1 /* ElwynnBoarCounter.swift */; };
 		B8D02E5C2F24230300DC55C1 /* PlayerResourcesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D02E5B2F24230300DC55C1 /* PlayerResourcesView.swift */; };
-		B8D02E5E2F2454E700DC55C1 /* PlayerResourcesWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D02E5D2F2454E700DC55C1 /* PlayerResourcesWindow.swift */; };
-		B8D02E602F24592D00DC55C1 /* PlayerResourcesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8D02E5F2F24592D00DC55C1 /* PlayerResourcesWindow.xib */; };
 		B8D22EA73015965F00E44909 /* InfestTheSculleryCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D22EA63015965F00E44909 /* InfestTheSculleryCounter.swift */; };
 		B8D22EAB30169C9600E44909 /* BattlegroundsLobbyInfoWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D22EAA30169C9600E44909 /* BattlegroundsLobbyInfoWatcher.swift */; };
 		B8D22EAD301BC61600E44909 /* AutoAssemblerEnchantment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D22EAC301BC61600E44909 /* AutoAssemblerEnchantment.swift */; };
@@ -3711,8 +3709,6 @@
 		B8D02E502F1EE56F00DC55C1 /* Chogall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chogall.swift; sourceTree = "<group>"; };
 		B8D02E522F1EFD9900DC55C1 /* ElwynnBoarCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElwynnBoarCounter.swift; sourceTree = "<group>"; };
 		B8D02E5B2F24230300DC55C1 /* PlayerResourcesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerResourcesView.swift; sourceTree = "<group>"; };
-		B8D02E5D2F2454E700DC55C1 /* PlayerResourcesWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerResourcesWindow.swift; sourceTree = "<group>"; };
-		B8D02E5F2F24592D00DC55C1 /* PlayerResourcesWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayerResourcesWindow.xib; sourceTree = "<group>"; };
 		B8D22EA63015965F00E44909 /* InfestTheSculleryCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfestTheSculleryCounter.swift; sourceTree = "<group>"; };
 		B8D22EAA30169C9600E44909 /* BattlegroundsLobbyInfoWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsLobbyInfoWatcher.swift; sourceTree = "<group>"; };
 		B8D22EAC301BC61600E44909 /* AutoAssemblerEnchantment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoAssemblerEnchantment.swift; sourceTree = "<group>"; };
@@ -5064,8 +5060,6 @@
 			children = (
 				B8D02E5B2F24230300DC55C1 /* PlayerResourcesView.swift */,
 				B852D8012DBA8BDE00884B26 /* PlayerResourcesViewModel.swift */,
-				B8D02E5D2F2454E700DC55C1 /* PlayerResourcesWindow.swift */,
-				B8D02E5F2F24592D00DC55C1 /* PlayerResourcesWindow.xib */,
 			);
 			path = PlayerResourcesWidget;
 			sourceTree = "<group>";
@@ -7008,7 +7002,6 @@
 				437B5BB81CD2559300DE0A41 /* OpponentTrackersPreferences.xib in Resources */,
 				4335543A1D5FAF0300277B27 /* HSReplayPreferences.xib in Resources */,
 				43EBA3A51D129B030093B1C2 /* CardHudContainer.xib in Resources */,
-				B8D02E602F24592D00DC55C1 /* PlayerResourcesWindow.xib in Resources */,
 				B800FCA42732AA7C00AFBD51 /* MercenariesTaskListButton.xib in Resources */,
 				B8AF0C7D2B9295A000B65F63 /* ConstructedMulliganSingleDeckStatus.xib in Resources */,
 				432B5FB61CB5372600B05D19 /* GamePreferences.xib in Resources */,
@@ -7586,7 +7579,6 @@
 				B89BCED630042DA90095F011 /* CardsPlayedFor2ManaCounter.swift in Sources */,
 				B8B78FE92C96796500DD33EC /* ElementalEvocationEnchantment.swift in Sources */,
 				437C58301EBC7E8400FFD888 /* NSImage.swift in Sources */,
-				B8D02E5E2F2454E700DC55C1 /* PlayerResourcesWindow.swift in Sources */,
 				B85F1AC9258A558200A6F8C3 /* Helper.swift in Sources */,
 				B8B78FCD2C960D7600DD33EC /* LoadTheChamber.swift in Sources */,
 				B8DB12872EBAD6D0004268FA /* SlowMotionEnchantment.swift in Sources */,

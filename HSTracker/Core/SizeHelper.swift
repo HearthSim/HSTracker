@@ -507,17 +507,4 @@ struct SizeHelper {
         return NSRect(x: hs.minX + SizeHelper.getScaledXPos(0.087, width: SizeHelper.hearthstoneWindow.width, ratio: SizeHelper.screenRatio), y: topEdge - sh, width: sw, height: sh)
     }
 
-    static func opponentMaxResourcesFrame() -> NSRect {
-        let hs = hearthstoneWindow.frame
-        let w = 222.0
-        let h = 36.0
-        return NSRect(x: hs.minX + getScaledXPos(72.2 / 100.0, width: hs.width, ratio: screenRatio), y: hs.minY + (hs.height * (100.0-0.3) / 100.0) - h, width: w, height: h)
-    }
-    
-    static func playerMaxResourcesFrame() -> NSRect {
-        let hs = hearthstoneWindow.frame
-        let w = 222.0
-        let h = 36.0
-        return NSRect(x: hs.minX + getScaledXPos(75.2 / 100.0, width: hs.width, ratio: screenRatio), y: hs.minY + (hs.height * (100.0 - 95.6) / 100.0) - h, width: w, height: h)
-    }
 }
