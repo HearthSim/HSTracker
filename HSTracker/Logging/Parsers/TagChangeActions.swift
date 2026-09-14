@@ -1537,6 +1537,11 @@ struct TagChangeActions {
         if eventHandler.isBattlegroundsMatch() && value > 0, let opponentEntity = eventHandler.opponentEntity {
             opponentEntity[.tavern_spell_attack_increase] = 0
             opponentEntity[.tavern_spell_health_increase] = 0
+            // The Blood Gem buff tags can carry over from the previous opponent the same way: the reveal
+            // only writes non-zero values, so an opponent with no buff keeps the previous opponent's
+            // value in BobsBuddyInvoker's max of enchant and tag.
+            opponentEntity[.bacon_bloodgembuffatkvalue] = 0
+            opponentEntity[.bacon_bloodgembuffhealthvalue] = 0
         }
     }
 
