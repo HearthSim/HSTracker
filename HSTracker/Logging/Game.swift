@@ -5302,23 +5302,32 @@ class Game: NSObject, PowerEventHandler {
                 }
             }
 
-            // Place the tooltip against the trigger rectangle the way WPF's ToolTipService.Placement
-            // does: Left/Right butt the tooltip against that side and align their top edges, while
-            // Top/Bottom butt it against that side and align their left edges. Until now the frame
-            // was built from the trigger's own left/top, which drew the grid on top of the Discover
-            // option instead of beside it and made tooltipPlacement have no effect at all.
-            var tooltipLeft = left
-            var tooltipTop = top
+            // Place the tooltip against the trigger rectangle. HDT does not use WPF's own
+            // ToolTipService placement - OverlayWindow.Tooltips.cs's SetTooltip reads
+            // ToolTipService.Placement as a direction and then positions the tooltip itself,
+            // centering it on the trigger's other axis. Until now the frame was built from the
+            // trigger's own left/top, which drew the grid on top of the Discover option instead of
+            // beside it and made tooltipPlacement have no effect at all.
+            var tooltipLeft: CGFloat
+            var tooltipTop: CGFloat
             switch tooltipPlacement {
             case .left:
                 tooltipLeft = left - tooltipWidth
+                tooltipTop = top + height / 2 - tooltipHeight / 2
             case .right:
                 tooltipLeft = left + width
+                tooltipTop = top + height / 2 - tooltipHeight / 2
             case .top:
+                tooltipLeft = left + width / 2 - tooltipWidth / 2
                 tooltipTop = top - tooltipHeight
             case .bottom:
+                tooltipLeft = left + width / 2 - tooltipWidth / 2
                 tooltipTop = top + height
             }
+            // SetTooltip's closing clamp: the tooltip is kept inside the overlay, which covers the
+            // Hearthstone window.
+            tooltipLeft = max(0, min(tooltipLeft, frame.width - tooltipWidth))
+            tooltipTop = max(0, min(tooltipTop, frame.height - tooltipHeight))
 
             // left/top are window-relative (every measurement above is a fraction of the
             // Hearthstone window), so both have to be offset by the window's own screen origin.
