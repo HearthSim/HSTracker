@@ -5196,7 +5196,12 @@ class Game: NSObject, PowerEventHandler {
         // resolves to RelatedCardsTooltipPanel.shared, whose lazy init instantiates an
         // NSPanel, so every access to the panel - reads included - has to be on the main
         // thread.
-        if state.cardId == "" {
+        //
+        // HDT opens with vm.Reset() + SetHoveredLargePool(null, null) and only then decides
+        // whether anything replaces them, so every bail-out takes the previous Discover option's
+        // tooltip down with it - moving from an option that has a pool to one that doesn't must
+        // not leave the old grid on screen.
+        func reset() {
             DispatchQueue.main.async {
                 let vm = self.windowManager.tooltipGridCards
                 if vm.cards.count > 0 {
@@ -5204,88 +5209,126 @@ class Game: NSObject, PowerEventHandler {
                 }
                 RelatedCardsRightClickMonitor.shared.clearHoveredLargePool()
             }
+        }
+
+        if state.cardId == "" {
+            reset()
             return
         }
 
         // Not ideal. Maybe we re-position the tooltip on size change and canvas.top/left change?
 
         // HDT's SetRelatedCardsTrigger(DiscoverState) gates this one on OutfinderInDeck.
-        if Settings.showPlayerRelatedCards &&
-            !relatedCardsManager.isOutfinderSuppressed(cardId: state.cardId, surfaceEnabled: Settings.outfinderInDeck) {
-            let relatedCards = getRelatedCards(player: player, cardId: state.cardId)
-            guard relatedCards.count > 0 else {
-                return
-            }
-            
-            let frame = SizeHelper.hearthstoneWindow.frame
-            
-            let top = frame.height * 0.2
-            let height = frame.height * 0.53
-            let width = frame.height * 0.3
-            var left = 0.0
-            var tooltipPlacement = PlacementMode.right
-            
-            switch state.zoneSize {
-            case 4:
-                left = (0.116 + Double(state.zonePosition) * 0.2) * frame.width
-                tooltipPlacement = state.zonePosition < 2 ? PlacementMode.right : PlacementMode.left
-            case 3:
-                let centerPosition = 1
-                let offsetXScale = 0.2
-                
-                let relativePosition = state.zonePosition - centerPosition
-                let offsetX = 0.5 - 0.088 + Double(relativePosition) * offsetXScale
-                left = offsetX * frame.width
-                tooltipPlacement = PlacementMode.right
-            case 2:
-                left = state.zonePosition == 0 ? 0.318 * frame.width : 0.518 * frame.width
-                tooltipPlacement = state.zonePosition == 0 ? PlacementMode.left : PlacementMode.right
-            case 1:
-                left = (0.5 - 0.088) * frame.width
-                tooltipPlacement = PlacementMode.left
-            default:
-                break
-            }
-            
-            DispatchQueue.main.async {
-                let vm = self.windowManager.tooltipGridCards
-                vm.setTitle(String.localizedString("Related_Cards", comment: ""))
+        guard Settings.showPlayerRelatedCards,
+              !relatedCardsManager.isOutfinderSuppressed(cardId: state.cardId, surfaceEnabled: Settings.outfinderInDeck) else {
+            reset()
+            return
+        }
+        let relatedCards = getRelatedCards(player: player, cardId: state.cardId)
+        guard relatedCards.count > 0 else {
+            reset()
+            return
+        }
 
-                let tooltipWidth = CGFloat(vm.gridWidth)
-                let tooltipHeight = CGFloat(vm.gridHeight)
+        let frame = SizeHelper.hearthstoneWindow.frame
 
-                // Correct placement if tooltip would go outside of window, and it fit on the other side
-                switch tooltipPlacement {
-                case PlacementMode.top:
-                    if top - tooltipHeight < 0.0 && top + height + tooltipHeight <= frame.height {
-                        tooltipPlacement = PlacementMode.bottom
-                    }
-                case PlacementMode.bottom:
-                    if top + height + tooltipHeight > frame.height && top - tooltipHeight >= 0.0 {
-                        tooltipPlacement = PlacementMode.top
-                    }
-                case PlacementMode.left:
-                    if left - tooltipWidth < 0.0 && left + width + tooltipWidth <= frame.width {
-                        tooltipPlacement = PlacementMode.right
-                    }
-                case PlacementMode.right:
-                    if left + width + tooltipWidth > frame.width && left - tooltipWidth >= 0.0 {
-                        tooltipPlacement = PlacementMode.left
-                    }
+        // The trigger rectangle: HDT's RelatedCardsTrigger Grid, laid out over the hovered
+        // Discover option, is what the tooltip is placed against - it is not the tooltip's own
+        // frame. top is measured from the top of the Hearthstone window, as Canvas.Top is.
+        let top = frame.height * 0.2
+        let height = frame.height * 0.53
+        let width = frame.height * 0.3
+        var left = 0.0
+        // vm.Reset() leaves TooltipPlacement at PlacementMode.Top, which is what an unrecognized
+        // zone size falls back to.
+        var tooltipPlacement = PlacementMode.top
+
+        switch state.zoneSize {
+        case 4:
+            left = (0.116 + Double(state.zonePosition) * 0.2) * frame.width
+            tooltipPlacement = state.zonePosition < 2 ? PlacementMode.right : PlacementMode.left
+        case 3:
+            let centerPosition = 1
+            let offsetXScale = 0.2
+
+            let relativePosition = state.zonePosition - centerPosition
+            let offsetX = 0.5 - 0.088 + Double(relativePosition) * offsetXScale
+            left = offsetX * frame.width
+            tooltipPlacement = PlacementMode.right
+        case 2:
+            left = state.zonePosition == 0 ? 0.318 * frame.width : 0.518 * frame.width
+            tooltipPlacement = state.zonePosition == 0 ? PlacementMode.left : PlacementMode.right
+        case 1:
+            left = (0.5 - 0.088) * frame.width
+            tooltipPlacement = PlacementMode.left
+        default:
+            // HDT's switch leaves the trigger at its post-Reset zero size, which can never be
+            // hovered, so no tooltip is shown at all.
+            reset()
+            return
+        }
+
+        DispatchQueue.main.async {
+            let vm = self.windowManager.tooltipGridCards
+            vm.setTitle(String.localizedString("Related_Cards", comment: ""))
+            // MaxCardGridHeight="470" on the GridCardImages inside this tooltip, same as every
+            // other path that shows it.
+            vm.setCardIdsFromCards(relatedCards.compactMap({ $0 }), 470)
+            let (statistics, summary, hasLargePool) = self.relatedCardsManager.getPoolStatistics(cardId: state.cardId, relatedCards: relatedCards, player: self.player)
+            vm.setPoolStatistics(statistics, relatedCardsSummary: summary, hasLargePool: hasLargePool)
+
+            // Read after the pool is set: gridWidth/gridHeight are derived from the cards the
+            // panel is currently holding, so reading them first measures the previous pool.
+            let tooltipWidth = CGFloat(vm.gridWidth)
+            let tooltipHeight = CGFloat(vm.gridHeight)
+
+            // Correct placement if tooltip would go outside of window, and it fit on the other side
+            switch tooltipPlacement {
+            case PlacementMode.top:
+                if top - tooltipHeight < 0.0 && top + height + tooltipHeight <= frame.height {
+                    tooltipPlacement = PlacementMode.bottom
                 }
-
-                vm.setCardIdsFromCards(relatedCards.compactMap({ $0 }))
-                let (statistics, summary, hasLargePool) = self.relatedCardsManager.getPoolStatistics(cardId: state.cardId, relatedCards: relatedCards, player: self.player)
-                vm.setPoolStatistics(statistics, relatedCardsSummary: summary, hasLargePool: hasLargePool)
-                // left/top are window-relative (every measurement above is a fraction of the
-                // Hearthstone window), so both have to be offset by the window's own screen origin.
-                let tooltipFrame = NSRect(x: frame.minX + left, y: frame.maxY - top - CGFloat(vm.gridHeight), width: CGFloat(vm.gridWidth), height: CGFloat(vm.gridHeight))
-                vm.show(frame: tooltipFrame)
-                RelatedCardsRightClickMonitor.shared.setHoveredLargePool(
-                    card: hasLargePool ? Cards.by(cardId: state.cardId) : nil,
-                    pool: hasLargePool ? relatedCards.compactMap({ $0 }) : [],
-                    anchorFrame: tooltipFrame)
+            case PlacementMode.bottom:
+                if top + height + tooltipHeight > frame.height && top - tooltipHeight >= 0.0 {
+                    tooltipPlacement = PlacementMode.top
+                }
+            case PlacementMode.left:
+                if left - tooltipWidth < 0.0 && left + width + tooltipWidth <= frame.width {
+                    tooltipPlacement = PlacementMode.right
+                }
+            case PlacementMode.right:
+                if left + width + tooltipWidth > frame.width && left - tooltipWidth >= 0.0 {
+                    tooltipPlacement = PlacementMode.left
+                }
             }
+
+            // Place the tooltip against the trigger rectangle the way WPF's ToolTipService.Placement
+            // does: Left/Right butt the tooltip against that side and align their top edges, while
+            // Top/Bottom butt it against that side and align their left edges. Until now the frame
+            // was built from the trigger's own left/top, which drew the grid on top of the Discover
+            // option instead of beside it and made tooltipPlacement have no effect at all.
+            var tooltipLeft = left
+            var tooltipTop = top
+            switch tooltipPlacement {
+            case .left:
+                tooltipLeft = left - tooltipWidth
+            case .right:
+                tooltipLeft = left + width
+            case .top:
+                tooltipTop = top - tooltipHeight
+            case .bottom:
+                tooltipTop = top + height
+            }
+
+            // left/top are window-relative (every measurement above is a fraction of the
+            // Hearthstone window), so both have to be offset by the window's own screen origin.
+            let tooltipFrame = NSRect(x: frame.minX + tooltipLeft, y: frame.maxY - tooltipTop - tooltipHeight,
+                                      width: tooltipWidth, height: tooltipHeight)
+            vm.show(frame: tooltipFrame)
+            RelatedCardsRightClickMonitor.shared.setHoveredLargePool(
+                card: hasLargePool ? Cards.by(cardId: state.cardId) : nil,
+                pool: hasLargePool ? relatedCards.compactMap({ $0 }) : [],
+                anchorFrame: tooltipFrame)
         }
     }
     
