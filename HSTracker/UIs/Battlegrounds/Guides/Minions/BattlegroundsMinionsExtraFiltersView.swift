@@ -142,16 +142,30 @@ extension View {
 struct BattlegroundsMinionTypeIcon: View {
     let minionType: BattlegroundsMinionType
 
+    // The XAML's ScaleTransform CenterX="17" CenterY="35" is in absolute units,
+    // not a fraction of the icon - the brush grows about a point below and just
+    // left of a 34pt icon's centre, which lifts the art as it zooms. SwiftUI's
+    // scaleEffect always grows about the view's own centre, so the difference
+    // has to be added back as an offset: matching
+    // `C + s(p - C)` with `c + s(p - c) + d` gives `d = (1 - s) * (C - c)`,
+    // where c is the icon's centre and C is (17, 35).
+    //
+    // Deriving it from the icon's own size matters because HDT composes this at
+    // two sizes: 34pt inside the minion-type buttons and 23pt bare, in the pin
+    // marker drawn over Bob's shop. Hardcoding the 34pt result left the 23pt
+    // copy's art about a point low and half a point right of HDT's.
+    private static let scaleCenter = CGPoint(x: 17, y: 35)
+    private static let scale: CGFloat = 1.1
+
     var body: some View {
         GeometryReader { proxy in
             Image(minionType.iconName)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width: proxy.size.width, height: proxy.size.height)
-                .scaleEffect(1.1)
-                // ScaleTransform CenterY="35" against a 34pt icon: the growth
-                // is anchored just below the art, lifting it slightly.
-                .offset(y: -proxy.size.height * 1.8 / 34)
+                .scaleEffect(Self.scale)
+                .offset(x: (1 - Self.scale) * (Self.scaleCenter.x - proxy.size.width / 2),
+                        y: (1 - Self.scale) * (Self.scaleCenter.y - proxy.size.height / 2))
                 .clipShape(Circle())
         }
     }

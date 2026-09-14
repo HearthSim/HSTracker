@@ -20,14 +20,19 @@ struct BaconEventArgs: Equatable {
     let isPopupShowing: Bool
     let isFriendsListOpen: Bool
     let isBlurActive: Bool
+    // HDT's UIEventArgs.IsGameMenuShown. Deliberately outside isAnyOpen() below:
+    // HDT's own IsGameCriticalUiOpen leaves the escape menu (and the friends
+    // list) out, they only drive the overlay's opacity mask.
+    let isGameMenuShown: Bool
     let selectedBattlegroundsGameMode: SelectedBattlegroundsGameMode
     
-    init(_ isShopOpen: Bool, _ isJournalOpen: Bool, _ isPopupShowing: Bool, _ isFriendsListOpen: Bool, _ isBlurActive: Bool, _ selectedBattlegroundsGameMode: SelectedBattlegroundsGameMode) {
+    init(_ isShopOpen: Bool, _ isJournalOpen: Bool, _ isPopupShowing: Bool, _ isFriendsListOpen: Bool, _ isBlurActive: Bool, _ isGameMenuShown: Bool, _ selectedBattlegroundsGameMode: SelectedBattlegroundsGameMode) {
         self.isShopOpen = isShopOpen
         self.isJournalOpen = isJournalOpen
         self.isPopupShowing = isPopupShowing
         self.isFriendsListOpen = isFriendsListOpen
         self.isBlurActive = isBlurActive
+        self.isGameMenuShown = isGameMenuShown
         self.selectedBattlegroundsGameMode = selectedBattlegroundsGameMode
     }
     
@@ -49,7 +54,7 @@ class BaconWatcher: Watcher {
     }
 
     override func update() -> Bool {
-        let curr = BaconEventArgs(MirrorHelper.isShopOpen(), MirrorHelper.isJournalOpen(), MirrorHelper.isPopupShowing(), MirrorHelper.isFriendsListVisible(), MirrorHelper.isBlurActive(), MirrorHelper.getSelectedBattlegroundsGameMode())
+        let curr = BaconEventArgs(MirrorHelper.isShopOpen(), MirrorHelper.isJournalOpen(), MirrorHelper.isPopupShowing(), MirrorHelper.isFriendsListVisible(), MirrorHelper.isBlurActive(), MirrorHelper.isGameMenuVisible(), MirrorHelper.getSelectedBattlegroundsGameMode())
         if curr ==  _prev {
             return false
         }

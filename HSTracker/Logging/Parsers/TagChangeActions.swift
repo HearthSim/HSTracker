@@ -156,7 +156,7 @@ struct TagChangeActions {
         }
 
         if prevValue == 1 && value == 0 {
-            eventHandler.isBattlegroundsCombatPhase = false
+            eventHandler.isBattlegroundsCombatPhase = true
             hideMinionPinningShop(eventHandler)
             if !eventHandler.isBattlegroundsDuosMatch() || eventHandler.duosWasOpponentHeroModified {
                 eventHandler.snapshotBattlegroundsBoardState()

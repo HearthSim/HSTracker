@@ -35,17 +35,54 @@ struct CompGuideListView: View {
         }
     }
 
+    // HDT's two mode badges, each a Border with Padding="8 4": the Tier7 one
+    // is a 12x12 Tier7Orange logo before "Tier7 Version"; the free one is
+    // "Free Version" followed by a 12x12 "?" ring, both in the same #CCCCCC,
+    // and carries the tooltip saying what a subscription would add here.
     @ViewBuilder
     private var modeBadge: some View {
         switch viewModel.currentState {
         case .tier7Feature:
-            Text("Tier 7 Mode")
-                .font(.system(size: 10, weight: .semibold))
-                .foregroundColor(Color(hex: "#F5A623"))
+            HStack(spacing: 0) {
+                Image("tier7-logo")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 12, height: 12)
+                    // LogoBrush="{StaticResource Tier7Orange}" - colorMultiply
+                    // for the same reason as the Inspiration button's logo.
+                    .colorMultiply(Color(hex: "#FFB00D"))
+                    .padding(.trailing, 4)
+                Text(BattlegroundsInspirationViewModel.localized("Battlegrounds_CompGuides_Tier7_Mode",
+                                                                fallback: "Tier7 Version"))
+                    .font(.system(size: 10, weight: .semibold))
+                    .foregroundColor(Color(hex: "#FFB00D"))
+                    // Margin="0,-1,0,0" on the TextBlock.
+                    .padding(.top, -1)
+            }
+            .padding(.horizontal, 8)
+            .padding(.vertical, 4)
         case .baseFeature, .empty, .error, .loading:
-            Text("Free")
-                .font(.system(size: 10, weight: .semibold))
-                .foregroundColor(Color(hex: "#F5C543"))
+            HStack(spacing: 0) {
+                Text(BattlegroundsInspirationViewModel.localized("Battlegrounds_CompGuides_Free_Mode",
+                                                                fallback: "Free Version"))
+                    .font(.system(size: 10, weight: .semibold))
+                    .foregroundColor(Color(hex: "#CCCCCC"))
+                // A 12x12 Border at CornerRadius 10, i.e. a ring, around a
+                // ChunkFive "?" - Margin="4,2,0,0".
+                Text("?")
+                    .chunkFive(size: 9)
+                    .foregroundColor(Color(hex: "#CCCCCC"))
+                    .frame(width: 12, height: 12)
+                    .overlay(Circle().stroke(Color(hex: "#CCCCCC"), lineWidth: 1))
+                    .padding(.leading, 4)
+                    .padding(.top, 2)
+            }
+            .padding(.horizontal, 8)
+            .padding(.vertical, 4)
+            .bgsTooltip(BattlegroundsInspirationViewModel.localized(
+                            "Battlegrounds_CompGuides_Tier7_Tooltip",
+                            fallback: "Subscribe to Tier7 to filter the guide list by minion types and see the tiers for each comp right here while playing!"),
+                        horizontalOffset: -8, verticalOffset: -8)
         }
     }
 

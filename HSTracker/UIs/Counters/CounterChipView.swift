@@ -88,42 +88,166 @@ final class CounterChipViewModel: ObservableObject, Identifiable {
     }
 }
 
-// Reports mouseEntered/mouseExited plus the NSView itself (needed to convert
-// to a screen-space frame for RelatedCardsTooltipPanel, same as the old
-// CounterView.tooltipDisplay did with `self.convert(self.bounds, to: nil)`).
+// Carries the chip's NSView so RootOverlayWindow can tell when the cursor is
+// over it, and so the tooltip can be anchored to the chip's own screen-space
+// frame (what the old CounterView.tooltipDisplay got from
+// `self.convert(self.bounds, to: nil)`).
+//
+// The chips now sit on the RootOverlay canvas, which stays click-through -
+// HDT marks them IsOverlayHoverVisible, not IsOverlayHitTestVisible, so a
+// click over a counter still reaches Hearthstone. A click-through window is
+// delivered no mouse-entered events at all, which is why the NSTrackingArea
+// this used to carry is gone: the cursor is matched against the registry
+// instead, exactly as CardHoverRegistry does for the card tooltips.
 @available(macOS 10.15, *)
-private final class CounterChipHoverNSView: NSView {
-    var onHoverChanged: ((Bool, NSView) -> Void)?
-    private var trackingArea: NSTrackingArea?
+final class CounterHoverNSView: NSView {
+    private(set) var counter: BaseCounter?
 
-    override func updateTrackingAreas() {
-        super.updateTrackingAreas()
-        if let trackingArea { removeTrackingArea(trackingArea) }
-        let area = NSTrackingArea(rect: bounds, options: [.mouseEnteredAndExited, .activeAlways, .inVisibleRect], owner: self, userInfo: nil)
-        addTrackingArea(area)
-        trackingArea = area
+    // Match NSHostingView's own flip so NSView.convert() stays consistent with
+    // SwiftUI's Y-down coordinate space, as CardHoverNSView does.
+    override var isFlipped: Bool { true }
+
+    func update(counter: BaseCounter) {
+        guard self.counter !== counter else { return }
+        self.counter = counter
+        if window != nil {
+            CounterHoverRegistry.shared.register(self)
+        }
     }
 
-    override func mouseEntered(with event: NSEvent) { onHoverChanged?(true, self) }
-    override func mouseExited(with event: NSEvent) { onHoverChanged?(false, self) }
+    override func viewDidMoveToWindow() {
+        super.viewDidMoveToWindow()
+        if window != nil {
+            CounterHoverRegistry.shared.register(self)
+        } else {
+            CounterHoverRegistry.shared.unregister(self)
+            // The counter went away while its tooltip was up (or on its way
+            // up) - RootOverlayWindow's own sweep would only notice on the next
+            // mouse move, and there may not be one.
+            if let counter {
+                CounterTooltipController.shared.hide(ifShowing: counter)
+            }
+        }
+    }
 }
 
 @available(macOS 10.15, *)
-private struct CounterChipHoverRepresentable: NSViewRepresentable {
-    let onHoverChanged: (Bool, NSView) -> Void
+class CounterHoverRegistry {
+    static let shared = CounterHoverRegistry()
 
-    func makeNSView(context: Context) -> CounterChipHoverNSView { CounterChipHoverNSView() }
-    func updateNSView(_ nsView: CounterChipHoverNSView, context: Context) {
-        nsView.onHoverChanged = onHoverChanged
+    struct Entry {
+        let counter: BaseCounter
+        weak var view: CounterHoverNSView?
+    }
+
+    private(set) var entries: [Entry] = []
+
+    func register(_ view: CounterHoverNSView) {
+        entries.removeAll { $0.view == nil || $0.view === view }
+        guard let counter = view.counter else { return }
+        entries.append(Entry(counter: counter, view: view))
+    }
+
+    func unregister(_ view: CounterHoverNSView) {
+        entries.removeAll { $0.view === view || $0.view == nil }
+    }
+}
+
+// Drives RelatedCardsTooltipPanel from whichever chip the cursor is over.
+// Ported from the old CounterView.tooltipDisplay, including its 0.6s delay -
+// HDT's counters carry ToolTipService.InitialShowDelay="600".
+@available(macOS 10.15, *)
+class CounterTooltipController {
+    static let shared = CounterTooltipController()
+
+    private static let showDelay: TimeInterval = 0.6
+
+    private var hoveredCounter: BaseCounter?
+    private var shownCounter: BaseCounter?
+    private var pendingShow: DispatchWorkItem?
+
+    // Called by RootOverlayWindow's cursor tracking on every mouse move, with
+    // the chip under the cursor (if any) and its screen-space frame.
+    func hover(counter: BaseCounter?, anchor: NSRect?) {
+        guard hoveredCounter !== counter else { return }
+        hoveredCounter = counter
+        pendingShow?.cancel()
+        pendingShow = nil
+
+        guard let counter, let anchor else {
+            hideIfShown()
+            return
+        }
+
+        let work = DispatchWorkItem { [weak self] in
+            guard let self else { return }
+            self.pendingShow = nil
+            self.show(counter: counter, anchor: anchor)
+        }
+        pendingShow = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + Self.showDelay, execute: work)
+    }
+
+    func hide(ifShowing counter: BaseCounter) {
+        guard shownCounter === counter || hoveredCounter === counter else { return }
+        if hoveredCounter === counter {
+            hoveredCounter = nil
+        }
+        pendingShow?.cancel()
+        pendingShow = nil
+        hideIfShown()
+    }
+
+    // Ported from CounterView.tooltipDisplay: butt the grid against whichever
+    // side has room and clamp it so it never runs past the top of the
+    // Hearthstone window. The chip's own screen frame stands in for the
+    // counters window's, which is what that code measured against - there is no
+    // such window any more, and the canvas's frame is the whole client, which
+    // would push the grid off the far side of it.
+    private func show(counter: BaseCounter, anchor: NSRect) {
+        let cardsToDisplay = counter.cardsToDisplay
+        if cardsToDisplay.isEmpty { return }
+
+        let cardImages = RelatedCardsTooltipPanel.shared
+        cardImages.setTitle(counter.localizedName)
+        cardImages.setCardIdsFromCards(cardsToDisplay)
+
+        let width = CGFloat(cardImages.gridWidth)
+        let height = CGFloat(cardImages.gridHeight)
+        let hsFrame = SizeHelper.hearthstoneWindow.frame
+
+        let x = anchor.minX < width ? anchor.maxX : anchor.minX - width
+        var y = anchor.minY
+        if y + height > hsFrame.maxY {
+            y = hsFrame.maxY - height
+        }
+
+        shownCounter = counter
+        cardImages.show(frame: NSRect(x: x, y: y, width: width, height: height))
+    }
+
+    // Only ever hides a tooltip this controller put up: the same panel is
+    // driven by the trackers' own card tiles.
+    private func hideIfShown() {
+        guard shownCounter != nil else { return }
+        shownCounter = nil
+        RelatedCardsTooltipPanel.shared.hide()
+    }
+}
+
+@available(macOS 10.15, *)
+private struct CounterHoverRepresentable: NSViewRepresentable {
+    let counter: BaseCounter
+
+    func makeNSView(context: Context) -> CounterHoverNSView { CounterHoverNSView() }
+    func updateNSView(_ nsView: CounterHoverNSView, context: Context) {
+        nsView.update(counter: counter)
     }
 }
 
 @available(macOS 10.15, *)
 struct CounterChipView: View {
     @ObservedObject var viewModel: CounterChipViewModel
-    @SwiftUI.State private var pendingShowWork: DispatchWorkItem?
-
-    private static let showDelay: TimeInterval = 0.6
 
     var body: some View {
         HStack(spacing: 0) {
@@ -156,7 +280,7 @@ struct CounterChipView: View {
         .padding(5)
         .frame(width: viewModel.chipWidth, height: 51, alignment: .leading)
         .clipped()
-        .background(CounterChipHoverRepresentable(onHoverChanged: handleHover))
+        .background(CounterHoverRepresentable(counter: viewModel.counter))
     }
 
     private var circleImage: some View {
@@ -179,52 +303,5 @@ struct CounterChipView: View {
         .offset(x: -10, y: -7)
         .frame(width: 37, height: 37, alignment: .topLeading)
         .clipShape(Circle())
-    }
-
-    private func handleHover(_ hovering: Bool, _ nsView: NSView) {
-        pendingShowWork?.cancel()
-        pendingShowWork = nil
-        if hovering {
-            let work = DispatchWorkItem { showTooltip(from: nsView) }
-            pendingShowWork = work
-            DispatchQueue.main.asyncAfter(deadline: .now() + Self.showDelay, execute: work)
-        } else {
-            RelatedCardsTooltipPanel.shared.hide()
-        }
-    }
-
-    // Ported from the old CounterView.tooltipDisplay: butt the tooltip
-    // against whichever side of the chip's window has room, clamped so it
-    // never runs past the top of the Hearthstone window.
-    private func showTooltip(from nsView: NSView) {
-        guard let window = nsView.window else { return }
-        let cardsToDisplay = viewModel.counter.cardsToDisplay
-        if cardsToDisplay.isEmpty { return }
-
-        let windowRect = window.frame
-        let hsFrame = SizeHelper.hearthstoneWindow.frame
-
-        let cardImages = RelatedCardsTooltipPanel.shared
-        cardImages.setTitle(viewModel.counter.localizedName)
-        cardImages.setCardIdsFromCards(cardsToDisplay)
-
-        let hoverFrame = NSRect(x: 0, y: 0, width: cardImages.gridWidth, height: cardImages.gridHeight)
-
-        let x: CGFloat
-        if windowRect.origin.x < hoverFrame.size.width {
-            x = windowRect.origin.x + windowRect.size.width
-        } else {
-            x = windowRect.origin.x - hoverFrame.size.width
-        }
-
-        let cellFrameRelativeToWindow = nsView.convert(nsView.bounds, to: nil)
-        let cellFrameRelativeToScreen = window.convertToScreen(cellFrameRelativeToWindow)
-
-        var y: CGFloat = cellFrameRelativeToScreen.origin.y
-        if y + hoverFrame.height > hsFrame.maxY {
-            y = hsFrame.maxY - hoverFrame.height
-        }
-
-        cardImages.show(frame: NSRect(x: x, y: y, width: hoverFrame.width, height: hoverFrame.height))
     }
 }

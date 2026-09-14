@@ -90,6 +90,7 @@ class RootOverlayWindow: OverWindowController {
         updateArenaDirectionTrigger(at: viewPoint)
         updateArenaCardListTrigger(at: viewPoint)
         updateArenaTooltipHover(at: viewPoint)
+        updateCounterHover()
 
         guard !viewModel.interactiveRegions.isEmpty else {
             setIgnoresMouseEvents(true)
@@ -113,7 +114,12 @@ class RootOverlayWindow: OverWindowController {
     // slides out to. Called before the interactiveRegion guard below so it keeps
     // running while the overlay is fully click-through.
     private func updateFilterRegionHover(at viewPoint: NSPoint) {
-        let hovering = viewModel.hoverRegion?.contains(viewPoint) ?? false
+        let hovered = Set(viewModel.hoverRegions.filter { $0.rect.contains(viewPoint) }.map { $0.id })
+        if viewModel.hoveredRegionIds != hovered {
+            viewModel.hoveredRegionIds = hovered
+        }
+
+        let hovering = hovered.contains(HoverRegionID.bgsTopBarMask)
         let minions = viewModel.battlegroundsMinionsGuide
         guard minions.isFilterRegionHovered != hovering else { return }
         // Durations match the tab's own slide storyboard: 0.2s out, 0.4s back.
@@ -288,6 +294,31 @@ class RootOverlayWindow: OverWindowController {
             j = i
         }
         return inside
+    }
+
+    // HDT's counters are IsOverlayHoverVisible: hovering one puts up its
+    // related-cards grid while clicks over it still fall through to
+    // Hearthstone. Matched from the cursor position here rather than from an
+    // NSTrackingArea inside the chip for the same reason as the filter region
+    // above - a click-through window is delivered no mouse-entered events -
+    // and called before the interactive-region guard so it keeps working while
+    // the canvas has no interactive children at all, which is the normal case
+    // during a constructed match.
+    private func updateCounterHover() {
+        guard let overlayWindow = window else { return }
+        let screenLocation = NSEvent.mouseLocation
+
+        let match = CounterHoverRegistry.shared.entries.last { entry in
+            guard let nsView = entry.view,
+                  nsView.window === overlayWindow else { return false }
+            let rectInWindow = nsView.convert(nsView.bounds, to: nil)
+            return overlayWindow.convertToScreen(rectInWindow).contains(screenLocation)
+        }
+
+        let anchor = match?.view.map { view in
+            overlayWindow.convertToScreen(view.convert(view.bounds, to: nil))
+        }
+        CounterTooltipController.shared.hover(counter: match?.counter, anchor: anchor)
     }
 
     private func setIgnoresMouseEvents(_ ignores: Bool) {

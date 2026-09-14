@@ -85,6 +85,7 @@ class SceneHandler {
             Watchers.discoverStateWatcher.stop()
             Watchers.choicesWatcher.stop()
             Watchers.specialShopChoicesStateWatcher.stop()
+            Watchers.mulliganTooltipWatcher.stop()
         }
     }
     
@@ -123,11 +124,12 @@ class SceneHandler {
             Watchers.specialShopChoicesStateWatcher.run()
             Watchers.discoverStateWatcher.run()
             Watchers.baconWatcher.run()
+            Watchers.mulliganTooltipWatcher.run()
             Watchers.playZoneWatcher.run()
         }
         
-        if from == .bacon {
-            game.windowManager.tier7PreLobby.viewModel.invalidateUserState()
+        if from == .bacon, #available(macOS 10.15, *) {
+            game.windowManager.rootOverlay?.viewModel.tier7PreLobby.invalidateUserState()
         }
 
         if to == .draft, #available(macOS 10.15, *) {

@@ -71,6 +71,14 @@ final class Card {
     // collect the base (non-golden) buddies for the Buddies card-type filter.
     var isBaconBuddy = false
     var baconTripledBaseMinionId = 0
+    // BACON_EVOLUTION_CARD_ID - a Battlegrounds card that carries a second card
+    // alongside it (an anomaly with an attached minion, an evolved trinket), so
+    // the game draws two cards where the overlay would otherwise expect one.
+    var baconEvolutionCardId = 0
+    // BACON_HEROPOWER_BASE_HERO_ID - the hero a Battlegrounds hero power belongs
+    // to, which is how a hero guide is resolved from the hero power Hearthstone
+    // shows in its hero picking tooltip.
+    var baconHeroPowerBaseHeroId = 0
     var baconCard = false
 
     // SwiftUI identity for views that load this card's render once, from
@@ -460,6 +468,8 @@ extension Card: NSCopying {
         copy.multipleClasses = self.multipleClasses
         copy.hideCostTag = self.hideCostTag
         copy.baconTripleUpgradeMinionId = self.baconTripleUpgradeMinionId
+        copy.baconEvolutionCardId = self.baconEvolutionCardId
+        copy.baconHeroPowerBaseHeroId = self.baconHeroPowerBaseHeroId
         copy.faction = self.faction
         copy.spellSchool = self.spellSchool
         copy.tag4058 = self.tag4058

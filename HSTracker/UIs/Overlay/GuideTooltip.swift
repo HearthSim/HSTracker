@@ -135,3 +135,317 @@ extension View {
         modifier(GuideTooltipModifier(content: text.map { GuideTooltipContent(body: $0) }))
     }
 }
+
+// MARK: - Battlegrounds left-placed tooltip
+
+// Mirrors HDT's BgsLeftTooltipStyle (Controls/Overlay/Battlegrounds/
+// BattlegroundsResources.xaml), which the comp guides pick up through their own
+// BgsTooltipStyle: a square #141617 bubble with a 1pt #FFB00D border, 8pt
+// padding, MaxWidth="230" and white 14pt centered wrapping text, placed to the
+// left of its target with their top edges aligned.
+//
+// Hosted in its own borderless panel rather than drawn in place like
+// GuideTooltipModifier above, because the comp guide's content sits inside a
+// ScrollView whose clip would cut off a bubble that by construction hangs
+// entirely outside the panel. Same mechanics as CardTooltipPanel, and the same
+// reason it is a panel too.
+@available(macOS 10.15, *)
+final class BgsTooltipPanel: NSPanel {
+    static let shared = BgsTooltipPanel()
+
+    private var hostingView: NSHostingView<BgsTooltipBubble>!
+    private var pendingShowWork: DispatchWorkItem?
+    // The anchor the panel is currently showing for, so a hide from a different
+    // anchor (a stale mouseExited, a row being torn down) is a no-op.
+    private weak var owner: NSView?
+
+    // ToolTipService.InitialShowDelay="500" on the comp guide's wrapper Border.
+    private static let showDelay: TimeInterval = 0.5
+
+    private init() {
+        super.init(
+            contentRect: NSRect(x: 0, y: 0, width: BgsTooltipBubble.maxWidth, height: 40),
+            styleMask: [.borderless, .nonactivatingPanel],
+            backing: .buffered,
+            defer: true
+        )
+        isOpaque = false
+        backgroundColor = .clear
+        level = NSWindow.Level(rawValue: NSWindow.Level.floating.rawValue + 1)
+        ignoresMouseEvents = true
+        hasShadow = false
+        hidesOnDeactivate = false
+        animationBehavior = .none
+
+        let host = NSHostingView(rootView: BgsTooltipBubble(text: ""))
+        hostingView = host
+        contentView = host
+    }
+
+    /// - Parameters:
+    ///   - horizontalOffset: HDT's `ToolTip.HorizontalOffset` - negative moves
+    ///     the bubble further left, the same sense as on screen.
+    ///   - verticalOffset: HDT's `ToolTip.VerticalOffset`, in WPF's Y-down
+    ///     sense - negative lifts the bubble.
+    func show(text: String, from view: NSView, horizontalOffset: CGFloat, verticalOffset: CGFloat) {
+        pendingShowWork?.cancel()
+        owner = view
+        let work = DispatchWorkItem { [weak self, weak view] in
+            guard let self = self, let view = view, let window = view.window else { return }
+            self.pendingShowWork = nil
+
+            self.hostingView.rootView = BgsTooltipBubble(text: text)
+            let size = self.hostingView.fittingSize
+            self.setContentSize(size)
+            self.hostingView.layoutSubtreeIfNeeded()
+
+            let anchor = window.convertToScreen(view.convert(view.bounds, to: nil))
+            // Placement="Left": the bubble's right edge meets the target's left
+            // edge and their tops line up. Screen coordinates are Y-up, so the
+            // Y-down VerticalOffset is subtracted rather than added.
+            var origin = NSPoint(x: anchor.minX - size.width + horizontalOffset,
+                                 y: anchor.maxY - verticalOffset - size.height)
+            // HDT keeps its tooltips inside the overlay window (the Hearthstone
+            // window), not inside the screen.
+            let bounds = window.frame
+            origin.x = max(bounds.minX, min(origin.x, bounds.maxX - size.width))
+            origin.y = max(bounds.minY, min(origin.y, bounds.maxY - size.height))
+            self.setFrameOrigin(origin)
+            self.orderFrontRegardless()
+        }
+        pendingShowWork = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + Self.showDelay, execute: work)
+    }
+
+    func hide(from view: NSView) {
+        guard owner === view else { return }
+        pendingShowWork?.cancel()
+        pendingShowWork = nil
+        owner = nil
+        orderOut(nil)
+    }
+}
+
+@available(macOS 10.15, *)
+private struct BgsTooltipBubble: View {
+    let text: String
+
+    // The template Border's MaxWidth="230", inclusive of its 8pt padding and
+    // 1pt border. Pinned rather than capped, as in GuideTooltipBubble above -
+    // every tooltip on this surface wraps to it anyway.
+    static let maxWidth: CGFloat = 230
+    private static let textWidth: CGFloat = maxWidth - 2 * (8 + 1)
+
+    var body: some View {
+        Text(text)
+            .font(.system(size: 14))
+            .foregroundColor(.white)
+            .multilineTextAlignment(.center)
+            // Vertical-only fixedSize against a definite width, for the reason
+            // spelled out in GuideTooltipBubble.
+            .fixedSize(horizontal: false, vertical: true)
+            .frame(width: Self.textWidth)
+            .padding(8)
+            .background(Color(hex: "#141617"))
+            // Tier7Orange, and a square Border - BgsLeftTooltipStyle sets no
+            // CornerRadius.
+            .overlay(Rectangle().stroke(Color(hex: "#FFB00D"), lineWidth: 1))
+    }
+}
+
+// The hover source and the placement target in one: an NSView reports both
+// through AppKit tracking areas, which - unlike SwiftUI's .onHover - keep
+// working for a subtree that .disabled() has taken out of hit-testing, and
+// unlike a SwiftUI overlay it can be converted to screen coordinates through
+// the whole scaled, scrolled chain.
+@available(macOS 10.15, *)
+private final class BgsTooltipAnchorNSView: NSView {
+    var text: String?
+    var horizontalOffset: CGFloat = 0
+    var verticalOffset: CGFloat = 0
+
+    private var trackingArea: NSTrackingArea?
+
+    override func updateTrackingAreas() {
+        super.updateTrackingAreas()
+        if let trackingArea {
+            removeTrackingArea(trackingArea)
+        }
+        let area = NSTrackingArea(
+            rect: bounds,
+            options: [.mouseEnteredAndExited, .activeAlways, .inVisibleRect],
+            owner: self,
+            userInfo: nil
+        )
+        addTrackingArea(area)
+        trackingArea = area
+    }
+
+    override func mouseEntered(with event: NSEvent) {
+        guard let text = text, !text.isEmpty else { return }
+        BgsTooltipPanel.shared.show(text: text, from: self,
+                                    horizontalOffset: horizontalOffset,
+                                    verticalOffset: verticalOffset)
+    }
+
+    override func mouseExited(with event: NSEvent) {
+        BgsTooltipPanel.shared.hide(from: self)
+    }
+
+    // The guide can be navigated away from - or the whole overlay torn down -
+    // while the bubble is up or its show delay is still pending.
+    override func viewDidMoveToWindow() {
+        super.viewDidMoveToWindow()
+        if window == nil {
+            BgsTooltipPanel.shared.hide(from: self)
+        }
+    }
+}
+
+@available(macOS 10.15, *)
+private struct BgsTooltipAnchorRepresentable: NSViewRepresentable {
+    let text: String?
+    let horizontalOffset: CGFloat
+    let verticalOffset: CGFloat
+
+    func makeNSView(context: Context) -> BgsTooltipAnchorNSView {
+        BgsTooltipAnchorNSView()
+    }
+
+    func updateNSView(_ nsView: BgsTooltipAnchorNSView, context: Context) {
+        nsView.text = text
+        nsView.horizontalOffset = horizontalOffset
+        nsView.verticalOffset = verticalOffset
+        // The tooltip's Visibility is bound in HDT, so it can go away while the
+        // cursor is still on the element.
+        if text == nil || text?.isEmpty == true {
+            BgsTooltipPanel.shared.hide(from: nsView)
+        }
+    }
+}
+
+@available(macOS 10.15, *)
+extension View {
+    // A nil or empty text attaches nothing, mirroring the bound Visibility HDT
+    // puts on these tooltips.
+    func bgsTooltip(_ text: String?, horizontalOffset: CGFloat = 0,
+                    verticalOffset: CGFloat = 0) -> some View {
+        background(BgsTooltipAnchorRepresentable(text: text, horizontalOffset: horizontalOffset,
+                                                 verticalOffset: verticalOffset))
+    }
+}
+
+// MARK: - Battlegrounds top-placed tooltip
+
+// Mirrors HDT's BgsTooltipStyle (Controls/Overlay/Battlegrounds/
+// BattlegroundsResources.xaml), the style the hero, quest and trinket pickers
+// put on every ToolTip they declare: a #141617 bubble with a 1pt #361637
+// border, 8pt padding, MaxWidth="230" and white 12pt centred wrapping text,
+// placed above its target with a small diamond pointing back down at it.
+//
+// Drawn in place like GuideTooltipModifier above rather than in its own panel,
+// which is what HDT does too - the picker's own resources give the tooltip the
+// control's LayoutTransform so it scales with the overlay.
+@available(macOS 10.15, *)
+private struct BgsTopTooltipModifier: ViewModifier {
+    let title: String?
+    let desc: String
+
+    @SwiftUI.State private var isHovering = false
+
+    // Placement="Top" with VerticalOffset="-4", plus the template Border's own
+    // 10pt bottom margin.
+    private static let gap: CGFloat = 14
+
+    func body(content viewContent: Content) -> some View {
+        viewContent
+            .onHover { isHovering = $0 }
+            .overlay(bubble, alignment: .top)
+    }
+
+    @ViewBuilder
+    private var bubble: some View {
+        if isHovering {
+            // Zero-height marker on the anchor's top edge with the bubble
+            // bottom-aligned onto it, so it grows upward without this view
+            // needing to know its height - the same trick GuideTooltipModifier
+            // uses, and the same centring HDT's TooltipPosition converter does.
+            Color.clear
+                .frame(height: 0)
+                .overlay(BgsTopTooltipBubble(title: title, desc: desc), alignment: .bottom)
+                .offset(y: -Self.gap)
+                .allowsHitTesting(false)
+        }
+    }
+}
+
+@available(macOS 10.15, *)
+private struct BgsTopTooltipBubble: View {
+    let title: String?
+    let desc: String
+
+    // MaxWidth="230" on the Border, inclusive of its 8pt padding and 1pt
+    // border. Pinned rather than capped, as in the two bubbles above.
+    private static let textWidth: CGFloat = 230 - 2 * (8 + 1)
+
+    private static let background = Color(red: 0x14 / 255, green: 0x16 / 255, blue: 0x17 / 255)
+    private static let border = Color(red: 0x36 / 255, green: 0x16 / 255, blue: 0x37 / 255)
+
+    var body: some View {
+        ZStack(alignment: .bottom) {
+            // Declared before the body Border in the template, so the body
+            // draws over its upper half and only the tip shows.
+            arrow
+            box
+        }
+    }
+
+    private var box: some View {
+        text
+            .foregroundColor(.white)
+            .multilineTextAlignment(.center)
+            // Vertical-only fixedSize against a definite width, for the reason
+            // spelled out in GuideTooltipBubble.
+            .fixedSize(horizontal: false, vertical: true)
+            .frame(width: Self.textWidth)
+            .padding(8)
+            .background(Self.background)
+            .overlay(Rectangle().stroke(Self.border, lineWidth: 1))
+    }
+
+    // Some of these tooltips are a bold title over a description, some are a
+    // single line; both are one TextBlock in HDT, and concatenating Text keeps
+    // them one here too - see GuideTooltipBubble for why that matters.
+    private var text: Text {
+        let body = Text(desc).font(.system(size: 12))
+        guard let title else {
+            return body
+        }
+        return Text(title).font(.system(size: 12, weight: .bold)) + Text(verbatim: "\n") + body
+    }
+
+    // A 12x12 Border rotated 45 degrees about its centre, sitting 4pt above the
+    // tooltip's own bottom edge while the body sits 10pt above it - so it pokes
+    // 6pt out from under the body.
+    private var arrow: some View {
+        Rectangle()
+            .fill(Self.background)
+            .overlay(Rectangle().stroke(Self.border, lineWidth: 1))
+            .frame(width: 12, height: 12)
+            .rotationEffect(.degrees(45))
+            .offset(y: 6)
+    }
+}
+
+@available(macOS 10.15, *)
+extension View {
+    func bgsTopTooltip(title: String, desc: String) -> some View {
+        modifier(BgsTopTooltipModifier(title: title, desc: desc))
+    }
+
+    // The single-line form, for the tooltips HDT declares as a bare
+    // ToolTip="..." string.
+    func bgsTopTooltip(_ text: String) -> some View {
+        modifier(BgsTopTooltipModifier(title: nil, desc: text))
+    }
+}

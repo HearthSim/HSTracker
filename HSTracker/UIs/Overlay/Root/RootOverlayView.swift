@@ -31,18 +31,42 @@ struct InteractiveRegionPreferenceKey: PreferenceKey {
     }
 }
 
-// Reports the on-screen frame of a child that wants hover without claiming
-// clicks - HDT's IsOverlayHoverVisible, as opposed to the
-// IsOverlayHitTestVisible that InteractiveRegionPreferenceKey above models.
-// RootOverlayWindow matches the cursor against this without ever touching
-// ignoresMouseEvents, so the pixels stay click-through.
+// One child's claim on hover without claiming clicks - HDT's
+// IsOverlayHoverVisible, as opposed to the IsOverlayHitTestVisible that
+// InteractiveRegionPreferenceKey above models. RootOverlayWindow matches the
+// cursor against these without ever touching ignoresMouseEvents, so the pixels
+// stay click-through.
+//
+// Carries an id because several children want this at once and each needs to
+// know whether the cursor is over *it*: the top-bar mask, and one region per
+// offered hero and quest reward for their guide tooltips.
+@available(macOS 10.15, *)
+struct HoverRegion: Equatable {
+    let id: String
+    let rect: CGRect
+}
+
+// The ids the hover regions are matched by. Free functions rather than
+// stringly-typed call sites, since both ends have to agree on them.
+@available(macOS 10.15, *)
+enum HoverRegionID {
+    static let bgsTopBarMask = "bgsTopBarMask"
+
+    // One id, not one per hero: the hero guide trigger is a single rectangle
+    // laid over wherever the game currently has its tooltip, as HDT's is.
+    static let heroGuideTrigger = "heroGuideTrigger"
+
+    // As with the hero one above: a single rectangle over the game's own
+    // tooltip, not one per offered card - and one for the trinket and quest
+    // triggers together, which share an element in HDT.
+    static let discoveryGuideTrigger = "discoveryGuideTrigger"
+}
+
 @available(macOS 10.15, *)
 struct HoverRegionPreferenceKey: PreferenceKey {
-    static var defaultValue: CGRect?
-    static func reduce(value: inout CGRect?, nextValue: () -> CGRect?) {
-        if let next = nextValue() {
-            value = value?.union(next) ?? next
-        }
+    static var defaultValue: [HoverRegion] = []
+    static func reduce(value: inout [HoverRegion], nextValue: () -> [HoverRegion]) {
+        value.append(contentsOf: nextValue())
     }
 }
 
@@ -77,11 +101,140 @@ struct RootOverlayView: View {
             let fourThreeInset = (canvasWidth - RootOverlayView.fourThreeWidth) / 2
 
             ZStack(alignment: .topLeading) {
+                // Declared before the scaled subtree because HDT declares the
+                // eight BattlegroundsTileText/BattlegroundsTurnText pairs before
+                // every Battlegrounds panel on its own canvas
+                // (Windows/OverlayWindow.xaml), so everything else draws over
+                // them. Like the session panel below it takes real, post-scale
+                // pixels rather than living in the scaled subtree - see the
+                // view's own header for why.
+                BattlegroundsOpponentDeadForView(viewModel: viewModel.battlegroundsOpponentInfo,
+                                                 canvasSize: geometry.size)
+
                 // Resolution-scaled, game-relative content (authored at the
                 // 1080-tall reference) lives in this inner, transformed
                 // subtree only.
                 ZStack {
                     ConstructedMulliganGuideV2View(viewModel: viewModel.mulliganGuideV2)
+
+                    // Both counter blocks are children of HDT's own overlay
+                    // canvas, declared opponent-first
+                    // (Windows/OverlayWindow.xaml), and are scaled by the same
+                    // Height/1080 factor this subtree applies - see
+                    // CountersOverlayView for the placement they carry.
+                    CountersOverlayView(viewModel: viewModel.opponentCounters, canvasWidth: canvasWidth)
+                    CountersOverlayView(viewModel: viewModel.playerCounters, canvasWidth: canvasWidth)
+
+                    // Bob's Buddy, centred on the canvas top - its
+                    // OverlayElementBehavior is
+                    //   GetLeft = Width / 2 - ActualWidth * AutoScaling / 2
+                    //   GetTop  = 0
+                    //   GetScaling = AutoScaling
+                    // which, since this subtree already applies that scale, is
+                    // just "centred horizontally, at the canvas top". HDT
+                    // declares it ahead of BgsOpponentInfoContainer, and the
+                    // two never share the screen: the opponent panel takes the
+                    // same corner and hides this one while it is up.
+                    ZStack(alignment: .top) {
+                        Color.clear
+                        BobsBuddyPanelView(viewModel: viewModel.bobsBuddy)
+                    }
+                    .frame(width: canvasWidth, height: 1080)
+
+                    // The hovered opponent's warband, pinned to the top edge of
+                    // the canvas and centred on it - HDT's
+                    // BgsOpponentInfoContainer is a Width="1000" StackPanel at
+                    // Canvas.Top="0" whose behavior sets
+                    //   GetLeft = Width / 2 - ActualWidth * AutoScaling / 2
+                    //   GetTop  = 0
+                    //   GetScaling = AutoScaling (= Height / 1080)
+                    // Since this subtree already applies that scale, all that is
+                    // left is "centred horizontally, at the canvas top". The
+                    // container's fixed 1000 width only matters when the panel
+                    // is narrower than it, and centring the panel itself gives
+                    // the same result either way.
+                    //
+                    // Declared before Tier7PreLobby, matching its place on HDT's
+                    // canvas, so the pre-lobby panel, the top bar, the pinning
+                    // markers and the Inspiration panel all draw over it.
+                    ZStack(alignment: .top) {
+                        Color.clear
+                        BattlegroundsOpponentInfoView(viewModel: viewModel.battlegroundsOpponentInfo)
+                    }
+                    .frame(width: canvasWidth, height: 1080)
+
+                    // HDT's HeroNotificationPanel and TimewarpNotificationPanel,
+                    // declared right after BgsOpponentInfoContainer on its own
+                    // canvas and, like it, scaled by AutoScaling - the scale
+                    // this subtree already applies.
+                    BattlegroundsNotificationsView(viewModel: viewModel.battlegroundsNotifications,
+                                                   canvasWidth: canvasWidth)
+
+                    // HDT's MulliganNotificationPanel, declared right after
+                    // those two and placed exactly where the hero one is.
+                    MulliganToastView(viewModel: viewModel.mulliganToast,
+                                      canvasWidth: canvasWidth)
+
+                    // The Battlegrounds hero picking stats, which HDT
+                    // declares right after BgsOpponentInfoContainer and ahead
+                    // of Tier7PreLobby on its own canvas
+                    // (Windows/OverlayWindow.xaml). OverlayWindow.Update sizes
+                    // the control to Width/scaling by Height/scaling at
+                    // Canvas 0,0 with scaling = Height/1080, which is this
+                    // subtree's own canvas - so it just takes it whole and
+                    // places its plates with the XAML's alignments.
+                    BattlegroundsHeroPickingView(viewModel: viewModel.battlegroundsHeroPicking,
+                                                 canvasWidth: canvasWidth)
+
+                    // HDT's GuidesTooltipTrigger, laid over the game's own hero
+                    // picking tooltip. Declared after the picker so the guide
+                    // it raises draws over the stats plates, as HDT's popup
+                    // does.
+                    BattlegroundsHeroGuideTriggerView(heroGuides: viewModel.battlegroundsHeroGuides,
+                                                      canvasWidth: canvasWidth,
+                                                      hoveredRegions: viewModel.hoveredRegionIds)
+
+                    // The quest and trinket picking stats, declared right
+                    // after the hero picker on HDT's canvas and sized to it the
+                    // same way.
+                    BattlegroundsQuestPickingView(viewModel: viewModel.battlegroundsQuestPicking,
+                                                  canvasWidth: canvasWidth)
+
+                    BattlegroundsTrinketPickingView(viewModel: viewModel.battlegroundsTrinketPicking,
+                                                    canvasWidth: canvasWidth)
+
+                    // HDT's DiscoveryGuidesTooltipTrigger, laid over the game's
+                    // own tooltip for a hovered quest reward or trinket.
+                    // Declared after the pickers for the same reason the hero
+                    // one is.
+                    BattlegroundsDiscoveryGuideTriggerView(discoveryGuides: viewModel.battlegroundsDiscoveryGuides,
+                                                           trinketGuides: viewModel.battlegroundsTrinketGuides,
+                                                           questGuides: viewModel.battlegroundsQuestGuides,
+                                                           canvasWidth: canvasWidth,
+                                                           hoveredRegions: viewModel.hoveredRegionIds)
+
+                    // The Tier7 Battlegrounds pre-lobby panel, declared ahead of
+                    // BgsTopBar on HDT's own canvas (OverlayWindow.xaml) so the
+                    // top bar and the Inspiration panel draw over it.
+                    //
+                    // OverlayElementBehavior gives it
+                    // GetScaling = Height/1080 - the very scale this subtree
+                    // already applies - so its canvas position is just its
+                    // window position divided by that scale:
+                    //   GetTop  = Height * 0.103          -> 0.103 * 1080
+                    //   GetLeft = GetScaledXPos(0.079, Width, ScreenRatio)
+                    //           = Width*ratio*0.079 + Width*(1-ratio)/2, and
+                    //     since ratio = 1440/canvasWidth in this space, that
+                    //     comes out as 1440*0.079 + (canvasWidth - 1440)/2 -
+                    //     i.e. 7.9% into the inner 4:3 area, wherever that area
+                    //     sits in a wider client.
+                    ZStack(alignment: .topLeading) {
+                        Color.clear
+                        Tier7PreLobbyView(viewModel: viewModel.tier7PreLobby)
+                            .padding(.leading, 1440 * 0.079 + (canvasWidth - 1440) / 2)
+                            .padding(.top, 0.103 * 1080)
+                    }
+                    .frame(width: canvasWidth, height: 1080)
 
                     // Wrapped in its own top-trailing-anchored ZStack rather
                     // than positioned directly: the outer ZStack here has no
@@ -105,7 +258,8 @@ struct RootOverlayView: View {
                                 GeometryReader { proxy in
                                     Color.clear.preference(
                                         key: HoverRegionPreferenceKey.self,
-                                        value: proxy.frame(in: .rootOverlayCanvas)
+                                        value: [HoverRegion(id: HoverRegionID.bgsTopBarMask,
+                                                            rect: proxy.frame(in: .rootOverlayCanvas))]
                                     )
                                 }
                             )
@@ -208,9 +362,26 @@ struct RootOverlayView: View {
                 MulliganGuideTrialsExhaustedView(viewModel: viewModel.mulliganGuideTrialsExhausted)
                 AnomalyGuideMulliganTriggerView(anomalyGuides: viewModel.battlegroundsAnomalyGuides, geometrySize: geometry.size)
                 AnomalyGuideBadgeTriggerView(anomalyGuides: viewModel.battlegroundsAnomalyGuides, geometrySize: geometry.size)
+                // The Battlegrounds session panel belongs in this fixed-pixel
+                // layer, not the scaled subtree above: HDT positions it on the
+                // overlay canvas with plain percentages of the canvas size and
+                // scales it only by the user's own OverlaySessionRecapScaling,
+                // never by the client's resolution.
+                BattlegroundsSessionOverlayView(viewModel: viewModel.battlegroundsSession,
+                                                canvasSize: geometry.size)
                 // Future SwiftUI overlay features attach here as additional children.
 
             }
+            // HDT assigns OpacityMaskOverlay.Mask to OverlayWindow.OpacityMask,
+            // so the cut-outs apply to everything the overlay draws - both the
+            // scaled game-relative subtree and the fixed-pixel chrome. Applied
+            // to the same ZStack here, in the outer geometry's own space, which
+            // is the normalized space the regions were computed in.
+            .mask(RootOverlayOpacityMaskView(mask: viewModel.opacityMask, size: geometry.size))
+            // Applied after the mask, so the outlines this draws are not
+            // themselves cut away. Inert unless
+            // OverlayOpacityMask.debugShowRegions is flipped on.
+            .overlay(RootOverlayOpacityMaskDebugView(mask: viewModel.opacityMask, size: geometry.size))
         }
         // Declared on the outer GeometryReader so nested frame(in: .rootOverlayCanvas)
         // reports land in the same real, post-scale pixel space as the
@@ -219,8 +390,8 @@ struct RootOverlayView: View {
         .onPreferenceChange(InteractiveRegionPreferenceKey.self) { regions in
             viewModel.interactiveRegions = regions
         }
-        .onPreferenceChange(HoverRegionPreferenceKey.self) { region in
-            viewModel.hoverRegion = region
+        .onPreferenceChange(HoverRegionPreferenceKey.self) { regions in
+            viewModel.hoverRegions = regions
         }
     }
 }

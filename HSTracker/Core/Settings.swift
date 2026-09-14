@@ -293,6 +293,17 @@ final class Settings {
     static var showTurnCounter: Bool
     @UserDefault(key: Settings.show_average_damage, defaultValue: true)
     static var showAverageDamage: Bool
+    // The three flags Bob's Buddy's own info popups remember, matching HDT's
+    // SeenBobsBuddyInfo, BobsBuddyAverageDamageInfoClosed and
+    // SeenBobsBuddyAverageDamage: whether the panel has explained itself once,
+    // whether the average damage note was dismissed for good, and whether the
+    // average damage panels have ever been seen.
+    @UserDefault(key: Settings.seen_bobs_buddy_info, defaultValue: false)
+    static var seenBobsBuddyInfo: Bool
+    @UserDefault(key: Settings.bobs_buddy_average_damage_info_closed, defaultValue: false)
+    static var bobsBuddyAverageDamageInfoClosed: Bool
+    @UserDefault(key: Settings.seen_bobs_buddy_average_damage, defaultValue: false)
+    static var seenBobsBuddyAverageDamage: Bool
     @UserDefault(key: Settings.show_opponent_warband, defaultValue: true)
     static var showOpponentWarband: Bool
     @UserDefault(key: Settings.show_tiers, defaultValue: true)
@@ -330,20 +341,52 @@ final class Settings {
     static var showSessionRecap: Bool
     @UserDefault(key: Settings.show_banned_tribes, defaultValue: true)
     static var showMinionsSection: Bool
+    // Legacy single-choice setting: 0 showed the banned minion types, anything
+    // else showed the available ones. HDT has independent checkboxes for the two
+    // sections, which showMinionsAvailable/showMinionsBanned below now mirror;
+    // this key is only kept so AppDelegate.migrateSessionMinionTypesPreference
+    // can carry the user's old choice over once.
     @UserDefault(key: Settings.show_minion_types, defaultValue: 1)
     static var showMinionTypes: Int
+    // HDT's ShowSessionRecapMinionsAvailable / ShowSessionRecapMinionsBanned.
+    @UserDefault(key: Settings.show_minions_available, defaultValue: true)
+    static var showMinionsAvailable: Bool
+    @UserDefault(key: Settings.show_minions_banned, defaultValue: false)
+    static var showMinionsBanned: Bool
+    @UserDefault(key: Settings.migrated_session_minion_types, defaultValue: false)
+    static var migratedSessionMinionTypes: Bool
     @UserDefault(key: Settings.show_mmr, defaultValue: true)
     static var showMMR: Bool
     @UserDefault(key: Settings.show_mmr_start_current, defaultValue: true)
     static var showMMRStartCurrent: Bool
     @UserDefault(key: Settings.show_latest_games, defaultValue: true)
     static var showLatestGames: Bool
+    // Where the session panel sits on the overlay canvas, as a percentage of the
+    // Hearthstone client's size - HDT's Config.SessionRecapTop / SessionRecapLeft,
+    // including their defaults.
+    @UserDefault(key: Settings.battlegrounds_session_top, defaultValue: 15.0)
+    static var battlegroundsSessionTop: Double
+    @UserDefault(key: Settings.battlegrounds_session_left, defaultValue: 0.0)
+    static var battlegroundsSessionLeft: Double
+    // The absolute frame the panel's own window used to be dragged to, kept only
+    // so BattlegroundsSessionViewModel can convert it into the pair above once.
     @UserDefaultCustom(key: Settings.battlegrounds_session_frame, defaultValue: nil)
     static var battlegroundsSessionFrame: NSRect?
+    @UserDefault(key: Settings.migrated_session_position, defaultValue: false)
+    static var migratedSessionPosition: Bool
     @UserDefault(key: Settings.enable_tier7_overlay, defaultValue: true)
     static var enableTier7Overlay: Bool
     @UserDefault(key: Settings.show_battlegrounds_tier7_prelobby, defaultValue: true)
     static var showBattlegroundsTier7PreLobby: Bool
+    // HDT's Config.Tier7OverlayCollapsed - whether the Tier7 pre-lobby panel's
+    // body is folded away behind its header chevron.
+    @UserDefault(key: Settings.tier7_overlay_collapsed, defaultValue: false)
+    static var tier7OverlayCollapsed: Bool
+    // The Battlegrounds sale's own id (RemoteConfig.data.sales.battlegrounds.id)
+    // once the user dismisses that sale's tooltip - stays hidden until a newer
+    // sale (higher id) comes along. HDT's Config.IgnoreBattlegroundsSaleId.
+    @UserDefault(key: Settings.ignore_battlegrounds_sale_id, defaultValue: -1)
+    static var ignoreBattlegroundsSaleId: Int
     @UserDefault(key: Settings.show_battlegrounds_hero_picking, defaultValue: true)
     static var showBattlegroundsHeroPicking: Bool
     @UserDefault(key: Settings.show_battlegrounds_quest_picking, defaultValue: true)
@@ -712,6 +755,9 @@ extension Settings {
     static let show_bobs_buddy_during_shopping = "show_bobs_buddy_during_shopping"
     static let show_turn_counter = "show_turn_counter"
     static let show_average_damage = "show_average_damage"
+    static let seen_bobs_buddy_info = "seen_bobs_buddy_info"
+    static let bobs_buddy_average_damage_info_closed = "bobs_buddy_average_damage_info_closed"
+    static let seen_bobs_buddy_average_damage = "seen_bobs_buddy_average_damage"
     static let show_opponent_warband = "show_opponent_warband"
     static let show_tiers = "show_tiers"
     static let show_battlegrounds_guides = "show_battlegrounds_guides"
@@ -723,12 +769,20 @@ extension Settings {
     static let show_session_recap = "show_session_recap"
     static let show_banned_tribes = "show_banned_tribes"
     static let show_minion_types = "show_minion_types"
+    static let show_minions_available = "show_minions_available"
+    static let battlegrounds_session_top = "battlegrounds_session_top"
+    static let battlegrounds_session_left = "battlegrounds_session_left"
+    static let migrated_session_position = "migrated_session_position"
+    static let show_minions_banned = "show_minions_banned"
+    static let migrated_session_minion_types = "migrated_session_minion_types"
     static let show_mmr = "show_mmr"
     static let show_mmr_start_current = "show_mmr_start_current"
     static let show_latest_games = "show_latest_games"
     static let battlegrounds_session_frame = "battlegrounds_session_frame"
     static let enable_tier7_overlay = "enable_tier7_overlay"
     static let show_battlegrounds_tier7_prelobby = "show_battlegrounds_tier7_prelobby"
+    static let tier7_overlay_collapsed = "tier7_overlay_collapsed"
+    static let ignore_battlegrounds_sale_id = "ignore_battlegrounds_sale_id"
     static let show_battlegrounds_hero_picking = "show_battlegrounds_hero_picking"
     static let show_battlegrounds_quest_picking = "show_battlegrounds_quest_picking"
     static let battlegrounds_session_scaling = "battlegrounds_session_scaling"

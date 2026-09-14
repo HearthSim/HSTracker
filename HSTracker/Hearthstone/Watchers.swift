@@ -19,6 +19,7 @@ class Watchers {
     static let choicesWatcher = ChoicesWatcher()
     static let deckPickerWatcher = DeckPickerWatcher()
     static let discoverStateWatcher = DiscoverStateWatcher()
+    static let mulliganTooltipWatcher = MulliganTooltipWatcher()
     static let dungeonRunDeckWatcher = DungeonRunDeckWatcher()
     static let experienceWatcher = ExperienceWatcher()
     static let playZoneWatcher = PlayZoneWatcher()
@@ -35,21 +36,25 @@ class Watchers {
         arenaWatcher.onRedraftCardPicked = onArenaRedraftCardPicked
         baconWatcher.change = onBaconChange
         battlegroundsLeaderboardWatcher.change = { _, args in
-            let game = AppDelegate.instance().coreManager.game
-            game.windowManager.battlegroundsOverlay.view.setHoveredBattlegroundsEntityId(args.hoveredEntityId)
-
+            if #available(macOS 10.15, *) {
+                let game = AppDelegate.instance().coreManager.game
+                game.windowManager.rootOverlay?.viewModel.battlegroundsOpponentInfo
+                    .setHoveredEntityId(args.hoveredEntityId)
+            }
         }
         battlegroundsLobbyInfoWatcher.change = onBattlegroundsLobbyInfoChange
         battlegroundsTeammateBoardStateWatcher.change = onBattlegroundsTeammateBoardStateChange
         bigCardWatcher.change = onBigCardChange
         choicesWatcher.change = { _, args in
-            AppDelegate.instance().coreManager.game.setChoicesVisible(args.currentChoice?.isVisible ?? false)
+            AppDelegate.instance().coreManager.game.setChoicesVisible(args.currentChoice?.isVisible ?? false,
+                                                                      args.currentChoice?.cards)
         }
         specialShopChoicesStateWatcher.change = { _, args in
             AppDelegate.instance().coreManager.game.handleSpecialShop(args)
         }
         deckPickerWatcher.change = onDeckPickerChange
         discoverStateWatcher.change = onDiscoverStateChange
+        mulliganTooltipWatcher.change = onMulliganTooltipChange
         dungeonRunDeckWatcher.dungeonRunMatchStarted = { newrun, set in
             CoreManager.dungeonRunMatchStarted(newRun: newrun, set: set, isPVPDR: false)
         }
@@ -86,6 +91,7 @@ class Watchers {
         specialShopChoicesStateWatcher.stop()
         deckPickerWatcher.stop()
         discoverStateWatcher.stop()
+        mulliganTooltipWatcher.stop()
         dungeonRunDeckWatcher.stop()
         experienceWatcher.stop()
         playZoneWatcher.stop()
@@ -258,11 +264,17 @@ class Watchers {
             let game = AppDelegate.instance().coreManager.game
             game.setBaconState(args.selectedBattlegroundsGameMode, args.isAnyOpen())
             game.updateBattlegroundsSessionVisibility(args.isFriendsListOpen)
+            // HDT does this from Watchers.OnUiChange, whose UIWatcher this
+            // BaconWatcher stands in for here.
+            game.setFriendListOpacityMask(args.isFriendsListOpen)
+            game.setGameMenuOpacityMask(args.isGameMenuShown)
         }
     }
     
     private static func onBattlegroundsTeammateBoardStateChange(_ sender: BattlegroundsTeammateBoardStateWatcher, _ args: BattlegroundsTeammateBoardStateArgs) {
-        AppDelegate.instance().coreManager.game.windowManager.battlegroundsHeroPicking.viewModel.isViewingTeammate = args.isViewingTeammate
+        if #available(macOS 10.15, *) {
+            AppDelegate.instance().coreManager.game.windowManager.rootOverlay?.viewModel.battlegroundsHeroPicking.isViewingTeammate = args.isViewingTeammate
+        }
         // rest is not used
     }
     
@@ -280,13 +292,36 @@ class Watchers {
         AppDelegate.instance().coreManager.game.onBigCardChange(args)
     }
     
+    // HDT's Watchers.OnMulliganTooltipChange: the mask cut away over the game's
+    // hero picking tooltip, and the hover trigger that raises the hovered
+    // hero's guide over it.
+    private static func onMulliganTooltipChange(_ sender: MulliganTooltipWatcher, _ args: MulliganTooltipArgs) {
+        let game = AppDelegate.instance().coreManager.game
+        let buddiesEnabled = (game.gameEntity?[.bacon_buddy_enabled] ?? 0) > 0
+        game.setHeroPickingTooltipMask(zoneSize: args.zoneSize,
+                                       zonePosition: args.zonePosition,
+                                       tooltipOnRight: args.isTooltipOnRight,
+                                       numCards: args.tooltipCards.count,
+                                       buddiesEnabled: buddiesEnabled)
+        game.setHeroGuidesTrigger(zoneSize: args.zoneSize,
+                                  zonePosition: args.zonePosition,
+                                  tooltipOnRight: args.isTooltipOnRight,
+                                  cards: args.tooltipCards,
+                                  buddiesEnabled: buddiesEnabled)
+    }
+    
     private static func onDeckPickerChange(_ sender: DeckPickerWatcher, _ args: DeckPickerEventArgs) {
         AppDelegate.instance().coreManager.game.setDeckPickerState(args.selectedFormatType, args.decksOnPage, args.isModalOpen)
     }
     
     private static func onDiscoverStateChange(_ sender: DiscoverStateWatcher, _ args: DiscoverStateArgs) {
         let game = AppDelegate.instance().coreManager.game
+        // HDT's OnDiscoverStateChange order: the trinket trigger first, since
+        // it is the one that resets the element the two of them share.
+        game.setTrinketGuidesTrigger(zoneSize: args.zoneSize, zonePosition: args.zonePosition,
+                                     cardId: args.cardId)
         game.setRelatedCardsTrigger(args)
+        game.setQuestGuidesTrigger(args)
         // This runs on the DiscoverStateWatcher queue. highlightPlayerDeckCards
         // reaches into the tracker window and marks card bars for redisplay, so
         // it has to run on the main thread - Game.onBigCardChange hops for the

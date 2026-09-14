@@ -27,6 +27,9 @@ class RootOverlayViewModel: ObservableObject {
     let battlegroundsTrinketGuides = BattlegroundsTrinketGuidesViewModel()
     let battlegroundsAnomalyGuides = BattlegroundsAnomalyGuidesViewModel()
     let battlegroundsQuestGuides = BattlegroundsQuestGuidesViewModel()
+    // HDT's DiscoveryGuidesTooltipTrigger, the element its trinket and quest
+    // guide triggers share.
+    let battlegroundsDiscoveryGuides = BattlegroundsDiscoveryGuidesViewModel()
     let battlegroundsMinionsGuide = BattlegroundsMinionsViewModel()
     let battlegroundsGuidesTabs = BattlegroundsGuidesTabsViewModel()
     let battlegroundsTurnCounter = BattlegroundsTurnCounterViewModel()
@@ -34,6 +37,25 @@ class RootOverlayViewModel: ObservableObject {
     let battlegroundsMinionPinning = BattlegroundsMinionPinningViewModel()
     let arenaPickHelper = ArenaPickHelperViewModel()
     let arenaPreDraft = ArenaPreDraftViewModel()
+    let battlegroundsSession = BattlegroundsSessionViewModel()
+    let bobsBuddy = BobsBuddyPanelViewModel()
+    let battlegroundsNotifications = BattlegroundsNotificationsViewModel()
+    let mulliganToast = MulliganToastViewModel()
+    let battlegroundsOpponentInfo = BattlegroundsOpponentInfoViewModel()
+    let battlegroundsHeroPicking = BattlegroundsHeroPickingViewModel()
+    let battlegroundsQuestPicking = BattlegroundsQuestPickingViewModel()
+    let battlegroundsTrinketPicking = BattlegroundsTrinketPickingViewModel()
+    let tier7PreLobby = Tier7PreLobbyViewModel()
+    // HDT's OverlayWindow.OpacityMaskOverlay, which it hands to the window's own
+    // OpacityMask - the regions of the canvas cut away so what Hearthstone draws
+    // over its board (a blown-up hovered card, its tooltips, the discover
+    // choices, the friends list) is not covered by the overlay. See
+    // RootOverlayViewModel+OpacityMask for the methods that fill it.
+    let opacityMask = OverlayOpacityMask()
+
+    // HDT's two CountersOverlay controls, IsPlayer="true"/"false".
+    let playerCounters = CountersOverlayViewModel(isPlayer: true)
+    let opponentCounters = CountersOverlayViewModel(isPlayer: false)
 
     init() {
         // HDT wires the same reference in OverlayWindow's constructor
@@ -49,22 +71,28 @@ class RootOverlayViewModel: ObservableObject {
     // than their bounding box - see the preference key for why.
     @Published var interactiveRegions: [CGRect] = []
 
-    // Frame of whichever child wants to know when the cursor is merely *over*
-    // it, without claiming clicks. This is HDT's IsOverlayHoverVisible, the
-    // counterpart to the IsOverlayHitTestVisible that interactiveRegion covers:
+    // Frames of the children that want to know when the cursor is merely *over*
+    // them, without claiming clicks. This is HDT's IsOverlayHoverVisible, the
+    // counterpart to the IsOverlayHitTestVisible that interactiveRegions covers:
     // BgsTopBarMask is `IsHitTestVisible="False"` precisely so it can reveal the
     // minion browser's filter button on hover while every click in that corner
-    // still falls through to Hearthstone.
+    // still falls through to Hearthstone, and the guide tooltips over the
+    // offered heroes and quest rewards have to leave those cards clickable.
     //
     // Reported by HoverRegionPreferenceKey and matched against the cursor by
     // RootOverlayWindow, which tracks it continuously regardless of
     // ignoresMouseEvents - SwiftUI's own .onHover can't do this job, since it
     // only fires once the window has already stopped being click-through.
-    @Published var hoverRegion: CGRect?
+    @Published var hoverRegions: [HoverRegion] = []
 
-    // Frame of the Arena bottom panel, tracked separately from hoverRegion above:
-    // that one is wired straight to the Battlegrounds filter button, and the two
-    // are driven by different children with different consumers.
+    // The ids of the hover regions the cursor is currently inside, written by
+    // RootOverlayWindow on every mouse move.
+    @Published var hoveredRegionIds: Set<String> = []
+
+    // Frame of the Arena bottom panel, tracked separately from hoverRegions
+    // above: those are reported by children that only need to know the cursor is
+    // over them, while this one drives the panel's own slide-out and is matched
+    // against the cursor by RootOverlayWindow on its own terms.
     @Published var arenaBottomPanelFrame: CGRect?
 
     // The bottom panel's direction funnel, in canvas pixels.

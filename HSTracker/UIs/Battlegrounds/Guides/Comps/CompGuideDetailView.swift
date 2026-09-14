@@ -252,6 +252,14 @@ struct CompGuideDetailView: View {
                 // the title above.
                 inspirationButton
                     .padding(.horizontal, 9)
+                    // HDT hangs the tooltip off the Border wrapping the button,
+                    // not off the button itself, so the 9pt margins are part of
+                    // its hover region and its left edge is the placement target.
+                    .bgsTooltip(comp.exampleBoardsButtonEnabled ? nil :
+                                    BattlegroundsInspirationViewModel.localized(
+                                        "Battlegrounds_CompGuide_CoreCards_Tier7_Tooltip",
+                                        fallback: "Subscribe to Tier7 to see 1st place lineups with the core cards right on this screen!"),
+                                verticalOffset: -8)
             }
         }
         // Padding="0,9,0,9" on the section Border - vertical only.
@@ -261,9 +269,9 @@ struct CompGuideDetailView: View {
         .overlay(Rectangle().frame(height: 1).foregroundColor(Color(hex: "#4A5256")), alignment: .top)
     }
 
-    // HDT's InspirationButtonStyle: bold 11pt on #F1C040 (#CCCCCC on hover) with
-    // #26200F text, CornerRadius 3, 4pt of padding on both the Button and its
-    // template Border, and a 14x14 black Tier7 logo 4pt before the label.
+    // HDT's Tier7 yellow OverlayButton: bold 11pt on #F1C040 (#CCCCCC on hover)
+    // with #26200F text, CornerRadius 3, Padding="4", and a 14x14 black Tier7
+    // logo 4pt before the label.
     //
     // Disabled - the account owns neither Tier7 nor an active trial - keeps
     // HDT's disabled trigger: background and foreground at 0.08/0.2 opacity.
@@ -282,7 +290,9 @@ struct CompGuideDetailView: View {
                     // rather than a template rendering mode - the asset is an SVG
                     // that is not marked as a template image.
                     .colorMultiply(enabled ? .black : .white)
-                    .opacity(enabled ? 1 : 0.2)
+                    // The disabled logo is #FFFFFF at 0.3, a shade brighter than
+                    // the 0.2 the disabled label uses.
+                    .opacity(enabled ? 1 : 0.3)
                     .padding(.trailing, 4)
                     .padding(.bottom, -2)
                 Text(BattlegroundsInspirationViewModel.localized("Battlegrounds_CompGuide_Inspiration_Button",
@@ -291,7 +301,11 @@ struct CompGuideDetailView: View {
                     // Only the background changes on hover in HDT.
                     .foregroundColor(enabled ? Color(hex: "#26200F") : .white.opacity(0.2))
             }
-            .padding(8)
+            .padding(4)
+            // The OverlayButton is a Border in a vertical StackPanel, so it
+            // stretches to the panel's width; only its content StackPanel is
+            // HorizontalAlignment="Center".
+            .frame(maxWidth: .infinity)
             .background(enabled
                         ? Color(hex: isInspirationHovering ? "#CCCCCC" : "#F1C040")
                         : Color.white.opacity(0.08))

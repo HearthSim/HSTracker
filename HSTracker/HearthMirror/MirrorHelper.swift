@@ -453,6 +453,16 @@ struct MirrorHelper {
         return result ?? false
     }
     
+    // GameMenu.s_instance.m_isShown - the escape menu, which HDT reads through
+    // Reflection.Client.IsGameMenuShown() for its own UiWatcher.
+    static func isGameMenuVisible() -> Bool {
+        var result: Bool?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.isGameMenuVisible()
+        }
+        return result ?? false
+    }
+    
     static func getLogSessionDir() -> String {
         var result: String?
         MirrorHelper.accessQueue.sync {
@@ -556,6 +566,17 @@ struct MirrorHelper {
         var result: MirrorBattlegroundsTeammateBoardState?
         MirrorHelper.accessQueue.sync {
             result = mirror?.getBattlegroundsTeammateBoardState()
+        }
+        return result
+    }
+    
+    // MulliganManager.s_instance - the tooltip Hearthstone draws beside a
+    // moused-over card during the Battlegrounds hero picking phase. HDT reads it
+    // through Reflection.Client.GetMulliganTooltipState().
+    static func getMulliganTooltipState() -> MirrorMulliganTooltipState? {
+        var result: MirrorMulliganTooltipState?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getMulliganTooltipState()
         }
         return result
     }

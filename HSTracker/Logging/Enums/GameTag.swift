@@ -409,9 +409,11 @@ enum GameTag: Int, CaseIterable, Codable {
     objective = 2311,
     dredge = 2332,
     bacon_player_num_hero_buddies_gained = 2346,
+    bacon_heropower_base_hero_id = 2376,
     gametag_2358 = 2358,
     was_discover_option = 2509,
     bacon_buddy_enabled = 2518,
+    bacon_evolution_card_id = 2519,
     immolatestage = 2600,
     corpses_spent_this_game = 2639,
     bacon_card_dbid_reward = 2673,
@@ -509,6 +511,7 @@ enum GameTag: Int, CaseIterable, Codable {
     hidden_script_data_4 = 4830,
     hidden_script_data_5 = 4831,
     hidden_script_data_6 = 4832,
+    dark_gift_entity = 4865,
     bacon_activate_tooltip = 4867
 
     static var lookup = [String: GameTag]()

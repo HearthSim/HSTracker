@@ -45,7 +45,6 @@ final class CoreManager: NSObject {
     
     // watchers
     let game: Game
-    var toaster: Toaster!
     
     var timer = RepeatingTimer(timeInterval: 300.0)
 
@@ -64,12 +63,12 @@ final class CoreManager: NSObject {
         let logPath = MirrorHelper.getLogSessionDir()
         logReaderManager = LogReaderManager(logPath: logPath, coreManager: self)
         
-        self.toaster = Toaster(windowManager: game.windowManager)
-        
         game.windowManager.playerActiveEffectsOverlay.setActiveEffects(game.activeEffects)
         game.windowManager.opponentActiveEffectsOverlay.setActiveEffects(game.activeEffects)
-        game.windowManager.playerCountersOverlay.setCounters(game.counterManager)
-        game.windowManager.opponentCountersOverlay.setCounters(game.counterManager)
+        if #available(macOS 10.15, *) {
+            game.windowManager.rootOverlay?.viewModel.playerCounters.setCounters(game.counterManager)
+            game.windowManager.rootOverlay?.viewModel.opponentCounters.setCounters(game.counterManager)
+        }
         game.activeEffects.effectsChanged = {
             self.game.windowManager.playerActiveEffectsOverlay.updateVisibleEffects()
             self.game.windowManager.opponentActiveEffectsOverlay.updateVisibleEffects()
@@ -350,13 +349,13 @@ final class CoreManager: NSObject {
         Watchers.stop()
         MirrorHelper.destroy()
         let wm = game.windowManager
-        wm.battlegroundsHeroPicking.viewModel.reset()
-        wm.battlegroundsQuestPicking.viewModel.reset()
-        wm.battlegroundsTrinketPicking.viewModel.reset()
         wm.constructedMulliganGuide.viewModel.reset()
         wm.constructedMulliganGuidePreLobby.viewModel.reset()
         if #available(macOS 10.15, *) {
             game.stopMulliganLivePolling()
+            wm.rootOverlay?.viewModel.battlegroundsHeroPicking.reset()
+            wm.rootOverlay?.viewModel.battlegroundsQuestPicking.reset()
+            wm.rootOverlay?.viewModel.battlegroundsTrinketPicking.reset()
             wm.rootOverlay?.viewModel.mulliganGuideV2.reset()
             wm.rootOverlay?.viewModel.constructedMulliganPreLobbyWidget.reset()
             wm.rootOverlay?.viewModel.mulliganGuideTrialsExhausted.isShown = false
@@ -368,16 +367,13 @@ final class CoreManager: NSObject {
             // (`Tier7Trial.token != nil`) read as premium.
             Tier7Trial.clear()
         }
-        if wm.battlegroundsSession.visibility {
+        if #available(macOS 10.15, *) {
             DispatchQueue.main.async {
-                wm.battlegroundsSession.visibility = false
-                wm.show(controller: wm.battlegroundsSession, show: false)
-            }
-        }
-        if wm.tier7PreLobby.isVisible {
-            DispatchQueue.main.async {
-                wm.tier7PreLobby.isVisible = false
-                wm.show(controller: wm.tier7PreLobby, show: false)
+                wm.rootOverlay?.viewModel.battlegroundsSession.setShown(false)
+                if let tier7PreLobby = wm.rootOverlay?.viewModel.tier7PreLobby, tier7PreLobby.isShown {
+                    tier7PreLobby.isShown = false
+                    tier7PreLobby.reset()
+                }
             }
         }
         game.updateBattlegroundsOverlays()

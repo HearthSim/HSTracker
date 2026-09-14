@@ -7,7 +7,12 @@
 //
 
 import Foundation
+import AppKit
+import Preferences
 
+// Not gated on the SwiftUI baseline: ConstructedMulliganPreLobbyWidgetViewModel
+// reuses both of these as-is, the same way HDT's own Constructed widget reuses
+// them from its Tier7 equivalent.
 enum UserState: Int {
     case loading, unknownPlayer, validPlayer, subscribed, disabled
 }
@@ -16,152 +21,169 @@ enum RefreshSubscriptionState: Int {
     case hidden, signIn, refresh
 }
 
-class Tier7PreLobbyViewModel: ViewModel {
-    
-    override init() {
-        super.init()
-        // FIXME: notifications
+// Port of HDT's Tier7PreLobbyViewModel
+// (Controls/Overlay/Battlegrounds/Tier7/Tier7PreLobbyViewModel.cs).
+@available(macOS 10.15, *)
+class Tier7PreLobbyViewModel: ObservableObject {
+    // HDT drives this panel's presence with _tier7PreLobbyBehavior.Show()/Hide()
+    // rather than a view-model flag; on the RootOverlay canvas there is no
+    // window to show or hide, so Game.updateTier7PreLobbyVisibility() sets this
+    // instead - same role isShown plays on the Constructed pre-lobby widget.
+    @Published var isShown = false
+    @Published var battlegroundsGameMode: SelectedBattlegroundsGameMode = .unknown
+    // HDT: IsGameCriticalUiOpen.
+    @Published var isModalOpen = false
+    @Published private var _userState: UserState = .loading
+    @Published var trialUsesRemaining: Int?
+    @Published var trialTimeRemaining: String?
+    @Published var allTimeHighMMR: String?
+    @Published var isAuthenticated: Bool?
+    @Published var username: String?
+    @Published var refreshAccountEnabled = true
+    @Published var isCollapsed: Bool
+    @Published private var possiblySubscribed = false
+
+    private var _isUpdatingAccount = false
+
+    init() {
+        isCollapsed = Settings.tier7OverlayCollapsed
     }
-    
-    var battlegroundsGameMode: SelectedBattlegroundsGameMode {
-        get {
-            return getProp(.unknown)
-        }
-        set {
-            setProp(newValue)
-            onPropertyChanged("allTimeHighMMRVisibility")
-        }
-    }
-    
-    var isModalOpen: Bool {
-        get {
-            return getProp(false)
-        }
-        set {
-            setProp(newValue)
-            onPropertyChanged("visibility")
-        }
-    }
-    
+
     var visibility: Bool {
-        return isModalOpen ? false : true
+        !isModalOpen
     }
-    
-    func invalidateUserState() {
-        userState = .loading
-    }
-    
+
     var userState: UserState {
         get {
             if RemoteConfig.data?.tier7?.disabled ?? false {
                 return .disabled
             }
-            return getProp(.loading)
+            return _userState
         }
         set {
-            setProp(newValue)
+            _userState = newValue
         }
     }
-    
+
+    func invalidateUserState() {
+        userState = .loading
+    }
+
     func onFocus() {
         possiblySubscribed = true
     }
-    
-    var possiblySubscribed: Bool {
-        get {
-            return getProp(false)
-        }
-        set {
-            setProp(newValue)
-            onPropertyChanged("refreshSubscriptionState")
-        }
-    }
-    
+
     var refreshSubscriptionState: RefreshSubscriptionState {
-        if (trialUsesRemaining ?? 0 > 0 && !possiblySubscribed) || isAuthenticated == nil {
+        if ((trialUsesRemaining ?? 0) > 0 && !possiblySubscribed) || isAuthenticated == nil {
             return .hidden
         }
         return isAuthenticated == true ? .refresh : .signIn
     }
-    
-    var trialUsesRemaining: Int? {
-        get {
-            return getProp(nil)
-        }
-        set {
-            setProp(newValue)
-            onPropertyChanged("refreshSubscriptionState")
-        }
-    }
-    
-    var allTimeHighMMR: String? {
-        get {
-            return getProp(nil)
-        }
-        set {
-            setProp(newValue)
-            onPropertyChanged("allTimeHighMMRVisibility")
-        }
-    }
-    
+
     var allTimeHighMMRVisibility: Bool {
         if allTimeHighMMR == nil || battlegroundsGameMode != .solo {
             return false
         }
         return true
     }
-    
-    var trialTimeRemaining: String? {
-        get {
-            return getProp(nil)
-        }
-        set {
-            setProp(newValue)
-            onPropertyChanged("resetTimeVisibility")
-        }
-    }
-    
+
     var resetTimeVisibility: Bool {
-        return trialTimeRemaining != nil ? true : false
+        trialTimeRemaining != nil
     }
-    
-    var refreshAccountVisibility: Bool {
-        get {
-            getProp(false)
+
+    // HDT's PanelMinWidth: the two states with a 230-wide content column get a
+    // wider panel than the two with a 182-wide one.
+    var panelMinWidth: CGFloat {
+        userState == .validPlayer || userState == .subscribed ? 264 : 214
+    }
+
+    // RemoteConfig.data is fetched once at app launch and never live-updated
+    // afterward (see RemoteConfig.checkRemoteConfig), so a plain synchronous
+    // read here - the same pattern userState's tier7?.disabled check above
+    // uses - stands in for HDT's Remote.Config.Loaded subscription.
+    private var saleData: SaleData? {
+        RemoteConfig.data?.sales?.battlegrounds
+    }
+
+    var saleTagVisibility: Bool {
+        saleData?.enabled ?? false
+    }
+
+    var saleTooltipVisibility: Bool {
+        guard let saleData, saleData.enabled else {
+            return false
         }
-        set {
-            setProp(newValue)
+        return Settings.ignoreBattlegroundsSaleId < saleData.id
+    }
+
+    var saleDescription: String {
+        guard let saleData, saleData.enabled else {
+            return ""
+        }
+        return String(format: String.localizedString("BattlegroundsPreLobby_SaleTooltip_Description", comment: ""), saleData.discount)
+    }
+
+    func toggleCollapsed() {
+        isCollapsed.toggle()
+        Settings.tier7OverlayCollapsed = isCollapsed
+    }
+
+    func closeSaleTooltip() {
+        Settings.ignoreBattlegroundsSaleId = saleData?.id ?? -1
+        // saleTooltipVisibility is a plain computed property (not its own
+        // @Published), so nothing would otherwise tell SwiftUI to re-read it
+        // after this write.
+        objectWillChange.send()
+    }
+
+    func showSettings() {
+        AppDelegate.instance().openPreferences(pane: Preferences.PaneIdentifier.battlegrounds)
+    }
+
+    func signIn() {
+        AppDelegate.instance().openPreferences(pane: Preferences.PaneIdentifier.hsreplay)
+    }
+
+    func subscribeNow() {
+        let url = Helper.buildHsReplayNetUrl("battlegrounds/tier7/", "bgs_lobby_subscribe")
+        if let url = URL(string: url) {
+            NSWorkspace.shared.open(url)
+        }
+        possiblySubscribed = true
+    }
+
+    func myStats() {
+        let acc = MirrorHelper.getAccountId()
+        var queryParams: [String]?
+        if let acc {
+            queryParams = ["hearthstone_account=\(acc.hi)-\(acc.lo)"]
+        }
+        let url = Helper.buildHsReplayNetUrl("battlegrounds/mine/", "bgs_lobby_my_stats", queryParams)
+        if let url = URL(string: url) {
+            NSWorkspace.shared.open(url)
         }
     }
-    
-    var refreshAccountEnabled: Bool {
-        get {
-            getProp(true)
-        }
-        set {
-            setProp(newValue)
+
+    func refreshAccount() {
+        Task.detached { [weak self] in
+            guard let self else { return }
+            await MainActor.run {
+                self.refreshAccountEnabled = false
+                self.invalidateUserState()
+            }
+            async let accountUpdate: GetAccountResult = HSReplayAPI.getAccountAsync()
+            async let delay: Void = { try? await Task.sleep(nanoseconds: 3_000_000_000) }()
+            _ = await (accountUpdate, delay)
+            await self.update()
+            await MainActor.run {
+                self.refreshAccountEnabled = true
+            }
         }
     }
-    
-    var username: String? {
-        get {
-            getProp(nil)
-        }
-        set {
-            setProp(newValue)
-        }
-    }
-    
-    private var _isUpdatingAccount = false
-    
-    @available(macOS 10.15.0, *)
+
+    @MainActor
     func update() async {
         if userState == .disabled {
-            return
-        }
-        if _isUpdatingAccount {
-            // AccountDataUpdated event was likely trigger by the
-            // UpdateAccountData request below. SKip this update
             return
         }
         // HDT guards on the game mode the lobby watcher reports, not on
@@ -177,14 +199,19 @@ class Tier7PreLobbyViewModel: ViewModel {
         if battlegroundsGameMode == .unknown {
             return
         }
-        
+        if _isUpdatingAccount {
+            // AccountDataUpdated event was likely triggered by the
+            // UpdateAccountData request below. Skip this update.
+            return
+        }
+
         if await Debounce.wasCalledAgain(milliseconds: 50) {
             // Debounce to avoid multiple invocations of this when the log
             // is being (re-)read and contains multiple scene changes in
             // and out of BACON.
             return
         }
-        
+
         var ownsTier7 = false
         if HSReplayAPI.isFullyAuthenticated && HSReplayAPI.accountData != nil {
             if userState == .loading {
@@ -204,12 +231,13 @@ class Tier7PreLobbyViewModel: ViewModel {
         } else {
             isAuthenticated = false
         }
-        
+
         let acc = MirrorHelper.getAccountId()
-        username = MirrorHelper.getBattleTag()?.components(separatedBy: "#")[0] ?? HSReplayAPI.accountData?.username ?? nil
+        username = MirrorHelper.getBattleTag()?.components(separatedBy: "#").first ?? HSReplayAPI.accountData?.username
+
         if !ownsTier7 {
             allTimeHighMMR = nil
-            guard let acc = acc else {
+            guard let acc else {
                 // unable to get AccountHi/AccountLo, not eligible for trials
                 userState = .unknownPlayer
                 return
@@ -220,15 +248,15 @@ class Tier7PreLobbyViewModel: ViewModel {
             userState = .validPlayer
             return
         }
-        
+
         if userState != .subscribed {
             userState = .loading
         }
-        
+
         trialTimeRemaining = nil
         var allTimeFromApi: Int?
-        
-        if let acc = acc {
+
+        if let acc {
             allTimeFromApi = await HSReplayAPI.getAllTimeBGsMMR(hi: acc.hi.int64Value, lo: acc.lo.intValue)?.all_time_high_mmr
         }
         let currentMMR = AppDelegate.instance().coreManager.game.battlegroundsRatingInfo?.rating.intValue
@@ -243,21 +271,12 @@ class Tier7PreLobbyViewModel: ViewModel {
         }
         userState = .subscribed
     }
-    
-    var isAuthenticated: Bool? {
-        get {
-            return getProp(nil)
-        }
-        set {
-            setProp(newValue)
-            onPropertyChanged("refreshSubscriptionState")
-        }
-    }
-    
+
     func reset() {
         userState = .loading
         allTimeHighMMR = nil
         trialTimeRemaining = nil
         username = nil
+        battlegroundsGameMode = .unknown
     }
 }
