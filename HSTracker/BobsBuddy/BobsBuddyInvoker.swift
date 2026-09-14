@@ -753,8 +753,16 @@ class BobsBuddyInvoker {
         return e?.card.id == "unknown" || e?.cardId.isEmpty ?? false
     }
     
-    func wasHeroPowerActivated(heroPower: Entity?) -> Bool {
-        return (heroPower?.has(tag: GameTag.exhausted) ?? false || heroPower?.has(tag: GameTag.bacon_hero_power_activated) ?? false)
+    func wasHeroPowerActivated(heroPower: Entity?, isDuos: Bool = false) -> Bool {
+        guard let heroPower else {
+            return false
+        }
+        // In Duos, there is a repeat issue with "Embrace Your Rage" and BACON_HERO_POWER_ACTIVATED=1,
+        // but no trigger happens in combat; EXHAUSTED=0 is likely a more reliable signal.
+        if isDuos && heroPower.cardId == CardIds.NonCollectible.Neutral.EmbraceYourRageTavernBrawl {
+            return heroPower.has(tag: GameTag.exhausted)
+        }
+        return heroPower.has(tag: GameTag.exhausted) || heroPower.has(tag: GameTag.bacon_hero_power_activated)
     }
     
     static func getOrderedMinions(board: [Entity]) -> [Entity] {
@@ -1195,7 +1203,7 @@ class BobsBuddyInvoker {
                     }
                 }
             }
-            inputPlayer.addHeroPower(heroPowerCardId: heroPower.cardId, friendly: friendly, isActivated: wasHeroPowerActivated(heroPower: heroPower), data: Int32(pHpData), data2: Int32(pHpData2), data3: Int32(pHpData3), attachedMinion: pHpAttachedMinion ?? MonoHandle(), game_id: Int32(heroPower.id))
+            inputPlayer.addHeroPower(heroPowerCardId: heroPower.cardId, friendly: friendly, isActivated: wasHeroPowerActivated(heroPower: heroPower, isDuos: game.isBattlegroundsDuosMatch()), data: Int32(pHpData), data2: Int32(pHpData2), data3: Int32(pHpData3), attachedMinion: pHpAttachedMinion ?? MonoHandle(), game_id: Int32(heroPower.id))
         }
         
         let playerQuests = inputPlayer.quests

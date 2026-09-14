@@ -959,6 +959,7 @@ extension CardIds.NonCollectible {
         static let Brukan_WaterRecollection = "BG22_HERO_001_Buddy_e3"
         static let Brukan_LightningRecollection = "BG22_HERO_001_Buddy_e4"
         static let Wingmen_WingmenEnchantmentTavernBrawl = "TB_BaconShop_HP_069e"
+        static let EmbraceYourRageTavernBrawl = "TB_BaconShop_HP_103"
         static let AzsharanSentinel_SunkenSentinelToken = "TSC_919t"
         static let PiranhaSwarmer_PiranhaSwarmerToken1 = "TSC_638t"
         static let PiranhaSwarmer_PiranhaSwarmerToken2 = "TSC_638t2"
