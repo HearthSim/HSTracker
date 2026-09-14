@@ -881,6 +881,14 @@ class BobsBuddyInvoker {
                     torethsBlessing.scriptDataNum1 = Int32(entity[.divine_shield])
                     minion.attachEnchantment(enchantment: torethsBlessing)
                 }
+            case CardIds.NonCollectible.Neutral.DrBoomsMonster_BoomingEnchantment:
+                let boomingModule = attachedEntities.first { e in e.cardId == CardIds.NonCollectible.Neutral.DrBoomsMonster_DrBoomsMonsterEnchantment }
+                let booming = sim.enchantmentFactory.create(cardId: CardIds.NonCollectible.Neutral.DrBoomsMonster_BoomingEnchantment, controlledByPlayer: minion.controlledByPlayer)
+                if let boomingModule, booming.get() != nil {
+                    booming.scriptDataNum1 = Int32(boomingModule[.tag_script_data_num_1])
+                    booming.scriptDataNum2 = Int32(boomingModule[.tag_script_data_num_2])
+                    minion.attachEnchantment(enchantment: booming)
+                }
             default:
                 if attached.card.type == .enchantment && !attached.cardId.isEmpty {
                     let enchantment = sim.enchantmentFactory.create(cardId: attached.cardId, controlledByPlayer: minion.controlledByPlayer)
