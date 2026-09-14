@@ -1427,7 +1427,7 @@ class BobsBuddyInvoker {
         var magnetizeCounter = Int32(readPlayerCounter(.gametag_3670)) // direct or transfer
         inputPlayer.magnetizeCounter = MonoHandle(obj: mono_value_box(MonoHelper._monoInstance, mono_get_int32_class(), &magnetizeCounter))
         
-        inputPlayer.resourcesSpentThisGame = Int32(game.playerEntity?[.num_resources_spent_this_game] ?? 0) // direct
+        inputPlayer.resourcesSpentThisGame = Int32(playerEntity[.num_resources_spent_this_game]) // direct
         
         // The tag is never sent for the opponent — derive the value if there is a Malorne on their board.
         if inputPlayer.resourcesSpentThisGame == 0 && !friendly {
