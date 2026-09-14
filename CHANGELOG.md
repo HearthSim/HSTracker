@@ -29,6 +29,7 @@
 - Arena drafts are now uploaded with the match, matching Hearthstone Deck Tracker. HSTracker already recorded every pick, the cards offered and how long each choice took, but never sent any of it, so none of it reached your HSReplay arena statistics. Redrafts are included.
 - Each uploaded arena pick now says whether Arenasmith was switched on, whether its panel was actually on screen, whether it had data for the draft, and which scores it showed, matching Hearthstone Deck Tracker. Three of those were being recorded as always-off.
 - Fixed the time spent on each arena pick being recorded in seconds where the server expects milliseconds.
+- Fixed the arena overlay covering up the card Hearthstone blows up out of the deck tray, and the tooltip it draws under a hovered draft choice.
 - Fixed arena decks being imported without their sideboards. The imported deck now carries them, and a sideboard change on its own is enough to update a deck HSTracker already knows.
 - Added the opponent's card package to the opponent deck tracker, matching Hearthstone Deck Tracker. Arena rotations group a legendary with cards that only appear alongside it, so seeing one of those cards in the opponent's deck reveals the whole group, which now shows in its own panel. Those cards are also taken out of the related cards panel so they are not listed twice, and while a legendary package is showing, no other legendary is suggested. It can be turned off in Preferences > Arena.
 ## Bob's Buddy

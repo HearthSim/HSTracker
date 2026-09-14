@@ -400,6 +400,7 @@
 		43C1CA081E96CD6F008C20B1 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E911C777EFA00D29859 /* Settings.swift */; };
 		43C1CA091E96CD6F008C20B1 /* SizeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D307FA1C83159C00480488 /* SizeHelper.swift */; };
 		E8311E6BDE364CB09613342F /* RegionDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C40A12D2F2C4E5EA2895460 /* RegionDrawer.swift */; };
+		ED424B026AA2FBF9671BC17D /* MathUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48AED5BF7C237C6A178B7FC5 /* MathUtil.swift */; };
 		43C1CA0A1E96CD6F008C20B1 /* ReleaseChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4308EB7D1D76AFE6000897C8 /* ReleaseChannel.swift */; };
 		43C1CA0B1E96CD6F008C20B1 /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4390FBB91DAA72E700AE71BB /* Version.swift */; };
 		43C1CA0C1E96CD6F008C20B1 /* Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BE58BD1DC47C6D00B24A21 /* Paths.swift */; };
@@ -561,6 +562,7 @@
 		43C568051D5E5BFF00451B6F /* UploadMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C568041D5E5BFF00451B6F /* UploadMetaData.swift */; };
 		43D307FB1C83159C00480488 /* SizeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D307FA1C83159C00480488 /* SizeHelper.swift */; };
 		03291F63EDC64A2C93C10F6B /* RegionDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C40A12D2F2C4E5EA2895460 /* RegionDrawer.swift */; };
+		29C77435D2712AA6F9236748 /* MathUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48AED5BF7C237C6A178B7FC5 /* MathUtil.swift */; };
 		43D308041C842DC000480488 /* GeneralPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D308031C842DC000480488 /* GeneralPreferences.swift */; };
 		43D308061C842DC900480488 /* GamePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D308051C842DC900480488 /* GamePreferences.swift */; };
 		43D308081C84410000480488 /* PlayerTrackersPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D308071C84410000480488 /* PlayerTrackersPreferences.swift */; };
@@ -3525,6 +3527,7 @@
 		B89C9893280A113A005E9315 /* AnimatedCardList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedCardList.swift; sourceTree = "<group>"; };
 		B89C9895280C610C005E9315 /* DeckLens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckLens.swift; sourceTree = "<group>"; };
 		B89F51E92C9CF8D600E31195 /* ActiveEffect.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ActiveEffect.xib; sourceTree = "<group>"; };
+		48AED5BF7C237C6A178B7FC5 /* MathUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathUtil.swift; sourceTree = "<group>"; };
 		B8A17C012E5F1A0100C1D2E0 /* MainThreadGuard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainThreadGuard.swift; sourceTree = "<group>"; };
 		B8A1F0012E5F0A0100000001 /* Watcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Watcher.swift; sourceTree = "<group>"; };
 		B8A9CB322571F160000071FC /* GuessedCardState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuessedCardState.swift; sourceTree = "<group>"; };
@@ -4330,6 +4333,7 @@
 				B83A703D2E00A3BF00B85BBE /* JsonManager.swift */,
 				B81EEABA2CE69AF300B32448 /* NibHelper.swift */,
 				B8A17C012E5F1A0100C1D2E0 /* MainThreadGuard.swift */,
+				48AED5BF7C237C6A178B7FC5 /* MathUtil.swift */,
 				BCCCDB9D1EA54FF800C328D0 /* NotificationManager.swift */,
 				B8AB59932742F94900383EC8 /* RateLimiter.swift */,
 				B8FDE9262CD99D840093BFF7 /* ReflectionHelper.swift */,
@@ -7752,6 +7756,7 @@
 				B846CC762E157B2400552F9C /* StoryOfBarnabus.swift in Sources */,
 				43D307FB1C83159C00480488 /* SizeHelper.swift in Sources */,
 				03291F63EDC64A2C93C10F6B /* RegionDrawer.swift in Sources */,
+				29C77435D2712AA6F9236748 /* MathUtil.swift in Sources */,
 				B82029312CD2C4D700C19A8C /* AsteroidExtraDamageCounter.swift in Sources */,
 				B8B790272C9756A400DD33EC /* StarlightGrooveEnchantment.swift in Sources */,
 				B82029352CD2CD9F00C19A8C /* IngeniousArtificerEnchantment.swift in Sources */,
@@ -9100,6 +9105,7 @@
 				43C1CA081E96CD6F008C20B1 /* Settings.swift in Sources */,
 				43C1CA091E96CD6F008C20B1 /* SizeHelper.swift in Sources */,
 				E8311E6BDE364CB09613342F /* RegionDrawer.swift in Sources */,
+				ED424B026AA2FBF9671BC17D /* MathUtil.swift in Sources */,
 				43C1CA0A1E96CD6F008C20B1 /* ReleaseChannel.swift in Sources */,
 				43C1CA0B1E96CD6F008C20B1 /* Version.swift in Sources */,
 				43C1CA0C1E96CD6F008C20B1 /* Paths.swift in Sources */,

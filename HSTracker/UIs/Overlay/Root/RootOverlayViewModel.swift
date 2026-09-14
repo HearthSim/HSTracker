@@ -62,6 +62,19 @@ class RootOverlayViewModel: ObservableObject {
         // (BattlegroundsMinionPinningViewModel.CompsGuidesVM = ...): the key
         // piece recommendations are mined out of the loaded comp guides.
         battlegroundsMinionPinning.compsGuides = battlegroundsCompsGuides
+
+        // The two arena regions of the opacity mask, subscribed where HDT
+        // subscribes them (OverlayWindow's constructor, next to its other
+        // ArenaStateWatcher wiring) rather than from Watchers: they are the
+        // overlay window's own, and ArenaStateEvent raises on the main queue
+        // already. The rest of the mask is fed from Watchers because the
+        // watchers behind it have a single `change` closure to spare.
+        Watchers.arenaStateWatcher.onTrayBigCardChanged.subscribe { [weak self] in
+            self?.setArenaCardOpacityMask($0)
+        }
+        Watchers.arenaStateWatcher.onTooltipChanged.subscribe { [weak self] in
+            self?.setArenaTooltipOpacityMask($0)
+        }
     }
 
     // On-screen frames (in RootOverlayView's own coordinate space) of every
