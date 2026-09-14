@@ -95,16 +95,6 @@ class WindowManager {
         return $0
     }(FlavorText(windowNibName: "FlavorText"))
     
-    var playerActiveEffectsOverlay: ActiveEffectsOverlay = {
-        $0.isPlayer = true
-        return $0
-    }(ActiveEffectsOverlay(windowNibName: "ActiveEffectsOverlay"))
-
-    var opponentActiveEffectsOverlay: ActiveEffectsOverlay = {
-        $0.isPlayer = false
-        return $0
-    }(ActiveEffectsOverlay(windowNibName: "ActiveEffectsOverlay"))
-
     private var _rootOverlay: Any?
     @available(OSX 10.15, *)
     var rootOverlay: RootOverlayWindow? {
@@ -223,8 +213,6 @@ class WindowManager {
             self?.playerBoardOverlay.window?.orderOut(nil)
             self?.opponentBoardOverlay.window?.orderOut(nil)
             self?.flavorText.window?.orderOut(nil)
-            self?.playerActiveEffectsOverlay.window?.orderOut(nil)
-            self?.opponentActiveEffectsOverlay.window?.orderOut(nil)
             if #available(macOS 10.15, *) {
                 self?.tooltipGridCards.hide()
                 RelatedCardsBrowserPanel.shared.hide()

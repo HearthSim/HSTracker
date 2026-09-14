@@ -533,36 +533,23 @@ class Game: NSObject, PowerEventHandler {
         }
     }
     
+    // The active effects live on the RootOverlay canvas, so there is no window
+    // of their own left to frame, show or hide: a side with nothing to show
+    // renders nothing, and hideAllWhenGameInBackground is already handled once
+    // for the whole canvas in updateRootOverlay().
     func updateActiveEffects() {
-        DispatchQueue.main.async { [self] in
-            let hsActive = hearthstoneRunState.isActive
+        if #available(macOS 10.15, *) {
+            DispatchQueue.main.async { [self] in
+                guard let viewModel = windowManager.rootOverlay?.viewModel else { return }
 
-            if isInMenu || !isMulliganDone() || isBattlegroundsMatch() {
-                windowManager.playerActiveEffectsOverlay.visibility = false
-                windowManager.opponentActiveEffectsOverlay.visibility = false
-            } else {
-                windowManager.playerActiveEffectsOverlay.visibility = Settings.showPlayerActiveEffects
-                windowManager.opponentActiveEffectsOverlay.visibility = Settings.showOpponentActiveEffects
-            }
-            
-            if windowManager.playerActiveEffectsOverlay.visibility && windowManager.playerActiveEffectsOverlay.visibleEffects.count > 0 {
-                if (Settings.hideAllWhenGameInBackground && hsActive) || !Settings.hideAllWhenGameInBackground {
-                    windowManager.show(controller: windowManager.playerActiveEffectsOverlay, show: true, frame: SizeHelper.playerActiveEffectsFrame(), overlay: true)
-                    windowManager.playerActiveEffectsOverlay.updateGrid()
+                if isInMenu || !isMulliganDone() || isBattlegroundsMatch() {
+                    viewModel.playerActiveEffects.isShown = false
+                    viewModel.opponentActiveEffects.isShown = false
                 } else {
-                    windowManager.show(controller: windowManager.playerActiveEffectsOverlay, show: false)
+                    viewModel.playerActiveEffects.isShown = Settings.showPlayerActiveEffects
+                    viewModel.opponentActiveEffects.isShown = Settings.showOpponentActiveEffects
                 }
             }
-
-            if windowManager.opponentActiveEffectsOverlay.visibility && windowManager.opponentActiveEffectsOverlay.visibleEffects.count > 0 {
-                if (Settings.hideAllWhenGameInBackground && hsActive) || !Settings.hideAllWhenGameInBackground {
-                    windowManager.show(controller: windowManager.opponentActiveEffectsOverlay, show: true, frame: SizeHelper.opponentActiveEffectsFrame(), overlay: true)
-                    windowManager.opponentActiveEffectsOverlay.updateGrid()
-                } else {
-                    windowManager.show(controller: windowManager.opponentActiveEffectsOverlay, show: false)
-                }
-            }
-
         }
     }
     

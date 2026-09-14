@@ -63,15 +63,16 @@ final class CoreManager: NSObject {
         let logPath = MirrorHelper.getLogSessionDir()
         logReaderManager = LogReaderManager(logPath: logPath, coreManager: self)
         
-        game.windowManager.playerActiveEffectsOverlay.setActiveEffects(game.activeEffects)
-        game.windowManager.opponentActiveEffectsOverlay.setActiveEffects(game.activeEffects)
         if #available(macOS 10.15, *) {
             game.windowManager.rootOverlay?.viewModel.playerCounters.setCounters(game.counterManager)
             game.windowManager.rootOverlay?.viewModel.opponentCounters.setCounters(game.counterManager)
-        }
-        game.activeEffects.effectsChanged = {
-            self.game.windowManager.playerActiveEffectsOverlay.updateVisibleEffects()
-            self.game.windowManager.opponentActiveEffectsOverlay.updateVisibleEffects()
+            game.windowManager.rootOverlay?.viewModel.playerActiveEffects.setActiveEffects(game.activeEffects)
+            game.windowManager.rootOverlay?.viewModel.opponentActiveEffects.setActiveEffects(game.activeEffects)
+            game.activeEffects.effectsChanged = { [weak game] in
+                guard let viewModel = game?.windowManager.rootOverlay?.viewModel else { return }
+                viewModel.playerActiveEffects.updateVisibleEffects()
+                viewModel.opponentActiveEffects.updateVisibleEffects()
+            }
         }
         
         timer.eventHandler = {

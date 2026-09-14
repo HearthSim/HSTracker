@@ -57,9 +57,13 @@ class RootOverlayViewModel: ObservableObject {
     let playerCounters = CountersOverlayViewModel(isPlayer: true)
     let opponentCounters = CountersOverlayViewModel(isPlayer: false)
 
-    // HDT's two PlayerResourcesWidget controls, declared right after the
-    // counters and the active-effects widgets on its own canvas
-    // (Windows/OverlayWindow.xaml).
+    // HDT's two ActiveEffectsOverlay controls, declared right after the
+    // counters on its own canvas (Windows/OverlayWindow.xaml).
+    let playerActiveEffects = ActiveEffectsOverlayViewModel(isPlayer: true)
+    let opponentActiveEffects = ActiveEffectsOverlayViewModel(isPlayer: false)
+
+    // HDT's two PlayerResourcesWidget controls, declared right after those on
+    // the same canvas.
     let playerResources = PlayerResourcesViewModel(isPlayer: true)
     let opponentResources = PlayerResourcesViewModel(isPlayer: false)
 

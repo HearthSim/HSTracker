@@ -453,20 +453,6 @@ struct SizeHelper {
         return hearthstoneWindow.relativeFrame(frame, relative: false)
     }
     
-    static func opponentActiveEffectsFrame() -> NSRect {
-        let hs = hearthstoneWindow.frame
-        let w = 244.0
-        let h = 122.0
-        return NSRect(x: hs.minX + getScaledXPos(66.2 / 100.0, width: hs.width, ratio: screenRatio), y: hs.minY + (hs.height * 73.8 / 100.0), width: w, height: h)
-    }
-    
-    static func playerActiveEffectsFrame() -> NSRect {
-        let hs = hearthstoneWindow.frame
-        let w = 244.0
-        let h = 122.0
-        return NSRect(x: hs.minX + getScaledXPos(66.2 / 100.0, width: hs.width, ratio: screenRatio), y: hs.minY + (hs.height * (100.0 - 71.6) / 100.0) - h, width: w, height: h)
-    }
-
     static func constructedMulliganGuidePreLobbyFrame() -> NSRect {
         let hs = SizeHelper.hearthstoneWindow.frame
         let w = 238.0*3.0

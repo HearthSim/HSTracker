@@ -1542,9 +1542,6 @@
 		B898995B2CAA32B10011B184 /* RustyTrident.swift in Sources */ = {isa = PBXBuildFile; fileRef = B898995A2CAA32B10011B184 /* RustyTrident.swift */; };
 		B898995D2CAA33710011B184 /* HoggyBank.swift in Sources */ = {isa = PBXBuildFile; fileRef = B898995C2CAA33710011B184 /* HoggyBank.swift */; };
 		B898995F2CAA33CF0011B184 /* JarredFrostling.swift in Sources */ = {isa = PBXBuildFile; fileRef = B898995E2CAA33CF0011B184 /* JarredFrostling.swift */; };
-		B89899642CB5DC790011B184 /* ActiveEffectsOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89899632CB5DC790011B184 /* ActiveEffectsOverlay.swift */; };
-		B89899662CB5DD510011B184 /* ActiveEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89899652CB5DD510011B184 /* ActiveEffect.swift */; };
-		B89899682CB5F94C0011B184 /* ActiveEffectsOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = B89899672CB5F94C0011B184 /* ActiveEffectsOverlay.xib */; };
 		B89BCE042FF463400095F011 /* AutoAssemblerProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89BCE032FF463360095F011 /* AutoAssemblerProxy.swift */; };
 		B89BCE062FF4721B0095F011 /* SketchyInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89BCE052FF4721B0095F011 /* SketchyInformation.swift */; };
 		B89BCE082FF4729F0095F011 /* IceFishing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89BCE072FF4729F0095F011 /* IceFishing.swift */; };
@@ -1562,7 +1559,6 @@
 		B89BCF3E300851CE0095F011 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B89BCF3D300851CE0095F011 /* Localizable.xcstrings */; };
 		B89C9894280A113A005E9315 /* AnimatedCardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89C9893280A113A005E9315 /* AnimatedCardList.swift */; };
 		B89C9896280C610C005E9315 /* DeckLens.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89C9895280C610C005E9315 /* DeckLens.swift */; };
-		B89F51EA2C9CF8D600E31195 /* ActiveEffect.xib in Resources */ = {isa = PBXBuildFile; fileRef = B89F51E92C9CF8D600E31195 /* ActiveEffect.xib */; };
 		B8A17C022E5F1A0100C1D2E0 /* MainThreadGuard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A17C012E5F1A0100C1D2E0 /* MainThreadGuard.swift */; };
 		B8A17C032E5F1A0100C1D2E0 /* MainThreadGuard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A17C012E5F1A0100C1D2E0 /* MainThreadGuard.swift */; };
 		B8A1F0022E5F0A0100000002 /* Watcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F0012E5F0A0100000001 /* Watcher.swift */; };
@@ -1714,6 +1710,9 @@
 		B8B790702C97A26100DD33EC /* PartScrapperEnchantment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B7906F2C97A26100DD33EC /* PartScrapperEnchantment.swift */; };
 		B8B790722C97A2AA00DD33EC /* PunchCardEnchantment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B790712C97A2AA00DD33EC /* PunchCardEnchantment.swift */; };
 		B8B790742C98754100DD33EC /* ActiveEffects.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B790732C98754100DD33EC /* ActiveEffects.swift */; };
+		0650363215E9F650A52495CD /* ActiveEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E27FFD484D84943DA7D783E /* ActiveEffectView.swift */; };
+		F94726CF06F07B007A527F03 /* ActiveEffectsOverlayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74663103EB83CBDBD5FE3B2 /* ActiveEffectsOverlayViewModel.swift */; };
+		3B9F7A24C287A8CD4FA58812 /* ActiveEffectsOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E421254CE2D4ECEE75AE0E /* ActiveEffectsOverlayView.swift */; };
 		B8B790772C98764000DD33EC /* DynamicFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B790762C98764000DD33EC /* DynamicFactory.swift */; };
 		B8B790792C98A70800DD33EC /* EffectFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B790782C98A70800DD33EC /* EffectFactory.swift */; };
 		B8B7CC1F253C721400033758 /* BattlegroundsPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B7CC1E253C721400033758 /* BattlegroundsPreferences.swift */; };
@@ -3485,9 +3484,6 @@
 		B898995A2CAA32B10011B184 /* RustyTrident.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RustyTrident.swift; sourceTree = "<group>"; };
 		B898995C2CAA33710011B184 /* HoggyBank.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoggyBank.swift; sourceTree = "<group>"; };
 		B898995E2CAA33CF0011B184 /* JarredFrostling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JarredFrostling.swift; sourceTree = "<group>"; };
-		B89899632CB5DC790011B184 /* ActiveEffectsOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveEffectsOverlay.swift; sourceTree = "<group>"; };
-		B89899652CB5DD510011B184 /* ActiveEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveEffect.swift; sourceTree = "<group>"; };
-		B89899672CB5F94C0011B184 /* ActiveEffectsOverlay.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ActiveEffectsOverlay.xib; sourceTree = "<group>"; };
 		B89BCE032FF463360095F011 /* AutoAssemblerProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoAssemblerProxy.swift; sourceTree = "<group>"; };
 		B89BCE052FF4721B0095F011 /* SketchyInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SketchyInformation.swift; sourceTree = "<group>"; };
 		B89BCE072FF4729F0095F011 /* IceFishing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IceFishing.swift; sourceTree = "<group>"; };
@@ -3525,7 +3521,6 @@
 		B89BCF4E300851D20095F011 /* mul */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; name = mul; path = mul.lproj/NewDeck.xcstrings; sourceTree = "<group>"; };
 		B89C9893280A113A005E9315 /* AnimatedCardList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedCardList.swift; sourceTree = "<group>"; };
 		B89C9895280C610C005E9315 /* DeckLens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckLens.swift; sourceTree = "<group>"; };
-		B89F51E92C9CF8D600E31195 /* ActiveEffect.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ActiveEffect.xib; sourceTree = "<group>"; };
 		48AED5BF7C237C6A178B7FC5 /* MathUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathUtil.swift; sourceTree = "<group>"; };
 		B8A17C012E5F1A0100C1D2E0 /* MainThreadGuard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainThreadGuard.swift; sourceTree = "<group>"; };
 		B8A1F0012E5F0A0100000001 /* Watcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Watcher.swift; sourceTree = "<group>"; };
@@ -3674,6 +3669,9 @@
 		B8B7906F2C97A26100DD33EC /* PartScrapperEnchantment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartScrapperEnchantment.swift; sourceTree = "<group>"; };
 		B8B790712C97A2AA00DD33EC /* PunchCardEnchantment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PunchCardEnchantment.swift; sourceTree = "<group>"; };
 		B8B790732C98754100DD33EC /* ActiveEffects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveEffects.swift; sourceTree = "<group>"; };
+		1E27FFD484D84943DA7D783E /* ActiveEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveEffectView.swift; sourceTree = "<group>"; };
+		E74663103EB83CBDBD5FE3B2 /* ActiveEffectsOverlayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveEffectsOverlayViewModel.swift; sourceTree = "<group>"; };
+		D4E421254CE2D4ECEE75AE0E /* ActiveEffectsOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveEffectsOverlayView.swift; sourceTree = "<group>"; };
 		B8B790762C98764000DD33EC /* DynamicFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicFactory.swift; sourceTree = "<group>"; };
 		B8B790782C98A70800DD33EC /* EffectFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EffectFactory.swift; sourceTree = "<group>"; };
 		B8B7CC1E253C721400033758 /* BattlegroundsPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsPreferences.swift; sourceTree = "<group>"; };
@@ -5735,10 +5733,9 @@
 		B89F51E82C9CF8C300E31195 /* ActiveEffects */ = {
 			isa = PBXGroup;
 			children = (
-				B89F51E92C9CF8D600E31195 /* ActiveEffect.xib */,
-				B89899652CB5DD510011B184 /* ActiveEffect.swift */,
-				B89899672CB5F94C0011B184 /* ActiveEffectsOverlay.xib */,
-				B89899632CB5DC790011B184 /* ActiveEffectsOverlay.swift */,
+				1E27FFD484D84943DA7D783E /* ActiveEffectView.swift */,
+				E74663103EB83CBDBD5FE3B2 /* ActiveEffectsOverlayViewModel.swift */,
+				D4E421254CE2D4ECEE75AE0E /* ActiveEffectsOverlayView.swift */,
 			);
 			path = ActiveEffects;
 			sourceTree = "<group>";
@@ -7028,12 +7025,10 @@
 				B8795EAC27516DBC00469B6E /* MercenariesTask.xib in Resources */,
 				B81849232BF4D58E00F4EEE2 /* ConstructedMulliganOverlayMessage.xib in Resources */,
 				434106A51C9868620045655A /* Classes.xcassets in Resources */,
-				B89F51EA2C9CF8D600E31195 /* ActiveEffect.xib in Resources */,
 				B8C1F1BF295553F8001E078C /* MainMenu.xib in Resources */,
 				43E77EE01C949C6D00C26950 /* TimerHud.xib in Resources */,
 				B8D75B8F25A9DC9A00446923 /* ExperienceOverlay.xib in Resources */,
 				432B60351CB6A8CC00B05D19 /* FloatingCard.xib in Resources */,
-				B89899682CB5F94C0011B184 /* ActiveEffectsOverlay.xib in Resources */,
 				F7D7A3AE2017B51300E3A5F0 /* dsa_pub.pem in Resources */,
 				ACF7F51EA11C1F29E5D1EAE9 /* RootOverlayWindow.xib in Resources */,
 			);
@@ -8067,7 +8062,6 @@
 				B820294F2CD2D3F000C19A8C /* UnyieldingVindicatorEnchantment.swift in Sources */,
 				B837D7E62EAF02E80070DB4B /* Pyrotechnician.swift in Sources */,
 				B83336032F620D8A00923513 /* ConfrontTheTolvir.swift in Sources */,
-				B89899662CB5DD510011B184 /* ActiveEffect.swift in Sources */,
 				B89656512E555B5C00257DDC /* WidowbloomSeedsman.swift in Sources */,
 				B8DB12952EBADAAB004268FA /* KingMaluk.swift in Sources */,
 				B852D8292DDFB78B00884B26 /* GuardianAnimals.swift in Sources */,
@@ -8793,7 +8787,6 @@
 				B80B5B2F2C49BF9D005F4321 /* CompositionStatsException.swift in Sources */,
 				B86D8A182D95FB2100AB65A5 /* RedscaleDragontamer.swift in Sources */,
 				431AA0CD1D362ECB0030AD22 /* Race.swift in Sources */,
-				B89899642CB5DC790011B184 /* ActiveEffectsOverlay.swift in Sources */,
 				B8B790502C977BEF00DD33EC /* InzahEnchantment.swift in Sources */,
 				1C132F821DBA24C1002B1BF2 /* AppHealth.swift in Sources */,
 				439C7EC31C777F8900D29859 /* LoadingScreenHandler.swift in Sources */,
@@ -8874,6 +8867,9 @@
 				B898655C2D8C934A00BA5649 /* TakeToTheSkies.swift in Sources */,
 				B820294B2CD2D31F00C19A8C /* InfernalStratagemEnchantment.swift in Sources */,
 				B8B790742C98754100DD33EC /* ActiveEffects.swift in Sources */,
+				0650363215E9F650A52495CD /* ActiveEffectView.swift in Sources */,
+				F94726CF06F07B007A527F03 /* ActiveEffectsOverlayViewModel.swift in Sources */,
+				3B9F7A24C287A8CD4FA58812 /* ActiveEffectsOverlayView.swift in Sources */,
 				B80B5B312C750895005F4321 /* TrinketProxy.swift in Sources */,
 				4323C5F71E1BE28800C97896 /* BrawlInfo.swift in Sources */,
 				B8889C1D2DA067D90053DD57 /* PlacementMode.swift in Sources */,

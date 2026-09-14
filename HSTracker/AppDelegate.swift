@@ -705,17 +705,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
                                         comment: "")
         if let game = coreManager?.game {
             if Settings.windowsLocked {
-                game.windowManager.playerActiveEffectsOverlay.forceHideExampleEffects()
-                game.windowManager.playerActiveEffectsOverlay.updateGrid()
-                
                 if #available(macOS 10.15, *) {
+                    game.windowManager.rootOverlay?.viewModel.playerActiveEffects.forceHideExampleEffects()
                     game.windowManager.rootOverlay?.viewModel.playerCounters.forceHideExampleCounters()
                 }
             } else {
-                game.windowManager.playerActiveEffectsOverlay.forceShowExampleEffects(true)
-                game.windowManager.playerActiveEffectsOverlay.updateGrid()
-                
                 if #available(macOS 10.15, *) {
+                    game.windowManager.rootOverlay?.viewModel.playerActiveEffects.forceShowExampleEffects()
                     game.windowManager.rootOverlay?.viewModel.playerCounters.forceShowExampleCounters()
                 }
             }
