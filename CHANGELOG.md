@@ -4,6 +4,7 @@
 - Added diagnostics for the remaining random crashes on macOS 26, and stopped reporting HSReplay and card art server outages as crashes.
 - Fixed HSTracker quitting when the Game settings pane was opened and Hearthstone could not be found.
 - Fixed HSTracker quitting while it was reading Hearthstone's log files and one of them was removed or replaced underneath it.
+- Fixed HSTracker quitting when a deck was deleted in the deck manager while its record was being refreshed.
 - Fixed the deck manager freezing the whole app, sometimes for hours, when the decks were sorted by win percentage, wins, losses or games played, and those columns counting only ranked games.
 - Fixed HSTracker forgetting every setting on launch and asking for the languages again, and the first-run window now shows the languages that are already configured.
 - The counters now scale with the game window, the opponent's sit in their correct spot, in Battlegrounds they split into two even rows, and hovering one shows its related cards again.
