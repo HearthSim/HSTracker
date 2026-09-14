@@ -1323,8 +1323,14 @@ class PowerGameStateParser: LogEventParser {
                                 }
                             }
                         case CardIds.Collectible.Priest.SlimeEm:
-                            eventHandler.player.slimedMinions = eventHandler.player.board.filter { $0.isMinion }
-                            eventHandler.opponent.slimedMinions = eventHandler.opponent.board.filter { $0.isMinion }
+                            // Snapshot both boards before the spell destroys them. The Ectoplasm tokens are
+                            // created later in this same block; ectoplasmCreated copies the matching side's
+                            // snapshot onto each token, so several Ectoplasms in hand each keep the board
+                            // their own Slime 'em! destroyed.
+                            eventHandler.slimedMinions.removeAll()
+                            for slimedPlayer in [ eventHandler.player, eventHandler.opponent ].compactMap({ $0 }) where slimedPlayer.id > 0 {
+                                eventHandler.slimedMinions[slimedPlayer.id] = snapshotSlimedMinions(slimedPlayer)
+                            }
                         case CardIds.NonCollectible.Priest.Repackage_RepackagedBoxToken:
                             for card in actionStartingEntity?.info.storedCardIds ?? [String]() {
                                 addKnownCardId(eventHandler: eventHandler, cardId: card)
@@ -1699,6 +1705,17 @@ class PowerGameStateParser: LogEventParser {
                 eventHandler.knownCardIds[blockId]?.removeLast()
             }
         }
+    }
+
+    /// The card ids Slime 'em! will hand back to `player`, in the order the Ectoplasm grid shows
+    /// them (most expensive first, duplicates kept - two copies of a minion on board are two
+    /// resummons). latestCardId, not cardId: what gets resummoned is the minion as it stood on
+    /// board, which may have transformed since it was played.
+    private func snapshotSlimedMinions(_ player: Player) -> [String] {
+        return player.board.filter { $0.isMinion }
+            .map { $0.info.latestCardId }
+            .filter { !$0.isEmpty }
+            .sorted { (Cards.by(cardId: $0)?.cost ?? 0) > (Cards.by(cardId: $1)?.cost ?? 0) }
     }
 
     private func addKnownCardId(eventHandler: PowerEventHandler, cardId: String?, count: Int = 1, location: DeckLocation = .unknown, copyOfCardId: String? = nil, info: EntityInfo? = nil) {

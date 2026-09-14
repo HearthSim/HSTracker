@@ -468,24 +468,35 @@ struct TagChangeActions {
         }
     }
 
-    // The copy going to the enemy is created hidden and in SETASIDE, so the usual KnownCardIds
-    // guess (which skips SETASIDE) never claims it. Its DISPLAYED_CREATOR points back at
-    // Slime 'em! though, which is enough to name it while it is still on its way to hand.
+    // Both Ectoplasms carry a DISPLAYED_CREATOR pointing back at the Slime 'em! that made them,
+    // which is the one signal that catches each of them exactly once. The copy going to the
+    // enemy needs it to even be named: it is created hidden and in SETASIDE, so the usual
+    // KnownCardIds guess (which skips SETASIDE) never claims it.
     // Only DISPLAYED_CREATOR is used, not CREATOR: the same block also creates hidden SETASIDE
-    // copies of the enemy's slimed minions, and those never carry a DISPLAYED_CREATOR.
+    // copies of the slimed minions, and those never carry a DISPLAYED_CREATOR.
     private func ectoplasmCreated(eventHandler: PowerEventHandler, id: Int, value: Int) {
         if value == 0 {
             return
         }
-        guard let entity = eventHandler.entities[id], entity.cardId.isEmpty else {
+        guard let entity = eventHandler.entities[id] else {
             return
         }
         guard let creator = eventHandler.entities[value], creator.cardId == CardIds.Collectible.Priest.SlimeEm else {
             return
         }
 
-        entity.cardId = CardIds.NonCollectible.Priest.Slimeem_EctoplasmToken
-        entity.info.guessedCardState = .guessed
+        if entity.cardId.isEmpty {
+            entity.cardId = CardIds.NonCollectible.Priest.Slimeem_EctoplasmToken
+            entity.info.guessedCardState = .guessed
+        } else if entity.cardId != CardIds.NonCollectible.Priest.Slimeem_EctoplasmToken {
+            return
+        }
+
+        // Stored on the token, not on the player: each Ectoplasm resummons the board its own
+        // Slime 'em! destroyed, and several of them can sit in hand at once.
+        if entity.info.storedCardIds.count == 0, let slimedMinions = eventHandler.slimedMinions[entity[.controller]] {
+            entity.info.storedCardIds.append(contentsOf: slimedMinions)
+        }
     }
 
     private func creatorChanged(eventHandler: PowerEventHandler, id: Int, value: Int) {

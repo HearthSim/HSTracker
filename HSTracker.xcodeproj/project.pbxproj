@@ -185,7 +185,6 @@
 		2E262587AA89898C7DAFBF80 /* CodeViolet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB4FF292FDD77BF05C745A0 /* CodeViolet.swift */; };
 		2E82EA3AE6F49A6676B34238 /* Evolve.swift in Sources */ = {isa = PBXBuildFile; fileRef = C069F836A3D36B327ADF8AF6 /* Evolve.swift */; };
 		2EDE800E763F3059A14B6285 /* StoryOfUmbra.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A6F775C035AC4C5621E727 /* StoryOfUmbra.swift */; };
-		2F3AB26C914169F4BA0A6779 /* Ectoplasm.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93EE8749D2A85AF1B695353 /* Ectoplasm.swift */; };
 		301AF85D19463903C4717E38 /* ChitteringTunneler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA84526D1D8839C8F0A46D3F /* ChitteringTunneler.swift */; };
 		301F0B440B151D034485FF2F /* GraveCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDC91A66D6CAEF5B5565042 /* GraveCall.swift */; };
 		30C49AD42A449EC7EB702623 /* BoneDrake.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF73913DBD830BE91B12ED65 /* BoneDrake.swift */; };
@@ -4033,7 +4032,6 @@
 		F888001BBE72CCE433D88439 /* PackKodo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackKodo.swift; sourceTree = "<group>"; };
 		F8ADABE367AEFA26C36CB19D /* PowerOfCreation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerOfCreation.swift; sourceTree = "<group>"; };
 		F8AF0FBB2E24167FA90ACB76 /* GhostWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GhostWriter.swift; sourceTree = "<group>"; };
-		F93EE8749D2A85AF1B695353 /* Ectoplasm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ectoplasm.swift; sourceTree = "<group>"; };
 		FA84526D1D8839C8F0A46D3F /* ChitteringTunneler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChitteringTunneler.swift; sourceTree = "<group>"; };
 		FB8C8770B8EACBE80773E3F0 /* EmberscarredWhelp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmberscarredWhelp.swift; sourceTree = "<group>"; };
 		FBB29B539DBFE7DBC9D5CF3E /* Dethrone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dethrone.swift; sourceTree = "<group>"; };
@@ -6169,7 +6167,6 @@
 				0CED04CBAC755F05ABEAA2DD /* FollowTheGhosts.swift */,
 				90236A89DD90147B95F7856E /* RaithVanGeist.swift */,
 				27FC3508F59927DE9C19984F /* SlimeEm.swift */,
-				F93EE8749D2A85AF1B695353 /* Ectoplasm.swift */,
 				B837D7D52EAC28D50070DB4B /* TwilightDeceptor.swift */,
 				B837D7DD2EAEA6860070DB4B /* TwilightMender.swift */,
 				B8E1E5F72D0CA0E300383975 /* TwilightsCall.swift */,
@@ -7433,7 +7430,6 @@
 				E37074DCC8B10D28908723AE /* FollowTheGhosts.swift in Sources */,
 				AB39F5F5C0EC4B5A9EA2C0BF /* RaithVanGeist.swift in Sources */,
 				4DB3387B6FC24B7AB57C5B51 /* SlimeEm.swift in Sources */,
-				2F3AB26C914169F4BA0A6779 /* Ectoplasm.swift in Sources */,
 				4361D8341DC8A21800D831CF /* BnetGameType.swift in Sources */,
 				B8DB12B32EBAE740004268FA /* MuradinHighKing.swift in Sources */,
 				B852D8022DBA8BDE00884B26 /* PlayerResourcesViewModel.swift in Sources */,

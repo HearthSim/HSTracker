@@ -175,7 +175,13 @@ class Game: NSObject, PowerEventHandler {
     var minionsInPlay = SynchronizedArray<String>()
     
     var minionsInPlayByPlayer = SynchronizedDictionary<Int, SynchronizedArray<String>>()
-        
+
+    /// Board snapshot taken when Slime 'em! resolves, keyed by controller: the card ids of the
+    /// minions that side's Ectoplasm token will resummon. The tokens are created later in the
+    /// same block, by which point the board is already being destroyed, so the snapshot is
+    /// taken up front and copied onto each token as it appears.
+    var slimedMinions = SynchronizedDictionary<Int, [String]>()
+
     //We do count+1 because the friendly hero is not in setaside
     func battlegroundsHeroCount() -> Int {
         return entities.values.filter { x in x.isHero && x.isInSetAside && (x.has(tag: .bacon_hero_can_be_drafted) || x.has(tag: .bacon_skin) || x.has(tag: .player_tech_level)) }.count + 1 }
@@ -1720,6 +1726,7 @@ class Game: NSObject, PowerEventHandler {
         
         minionsInPlay.removeAll()
         minionsInPlayByPlayer.removeAll()
+        slimedMinions.removeAll()
         resetPlayerResourcesWidgets()
     }
     
@@ -4992,7 +4999,12 @@ class Game: NSObject, PowerEventHandler {
             } else if inHand {
                 entities = handPosition != nil ? player.hand.filter { e in e.zonePosition == handPosition } : player.hand.filter { e in e.cardId == cardId }
             } else {
-                entities = player.deck.filter { e in e.cardId == cardId }
+                // Created tokens (Ectoplasm, Fizzle's Snapshot) are listed straight from hand and
+                // are never hidden, so they need matching too - the card list row for one *is* that
+                // entity, and its stored cards are the whole point of hovering it.
+                entities = (player.deck.filter { e in e.cardId == cardId }
+                            + player.hand.filter { e in e.cardId == cardId && (e.info.hidden || e.info.created) })
+                    .sorted { $0.id < $1.id }
             }
 
             for entity in entities {

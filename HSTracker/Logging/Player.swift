@@ -137,7 +137,6 @@ final class Player {
         return deadMinionsCards.last
     }
     var deadMinionsCards = [Entity]()
-    var slimedMinions = [Entity]()
     var secretsTriggeredCards = [Entity]()
     var beatrixCardIds: Set<Int> = []
     var beatrixCopiedCard: String?
@@ -241,7 +240,6 @@ final class Player {
         entitiesDiscardedFromHand.removeAll()
         secretsTriggeredCards.removeAll()
         deadMinionsCards.removeAll()
-        slimedMinions.removeAll()
         deathrattlesPlayedCount = 0
         heroPowerCount = 0
         offeredEntityIds.removeAll()
