@@ -53,7 +53,12 @@ extension RootOverlayViewModel {
         }
 
         opacityMask.batchUpdate {
-            let card = Cards.by(cardId: state.cardId)
+            // Cards.any(byId:), not Cards.by(cardId:): the latter filters out
+            // hero powers and hero skins, so the hero power branch below could
+            // never run and the nil it returned instead fell through to the
+            // enemy-secret branch. HDT's Database.GetCardFromId, which this
+            // stands in for, hands back whatever the id names.
+            let card = Cards.any(byId: state.cardId)
             let isFriendly = state.side == PlayerSide.friendly.rawValue
             let isHand = state.isHand
 

@@ -4131,7 +4131,13 @@ class Game: NSObject, PowerEventHandler {
     }
 
     private func applyDiscoverCardMask(_ cardIds: [String]) {
-        let cards = cardIds.compactMap { Cards.by(cardId: $0) }
+        // Cards.any(byId:) for the same reason setCardOpacityMask uses it:
+        // Cards.by(cardId:) drops hero powers and hero skins, and dropping one
+        // here does not just lose a card - it shortens the list the branches
+        // below are decided on and counted from, so an offer holding one would
+        // be drawn a card too narrow, or drawn at all where HDT (whose
+        // GetCardFromId keeps everything) matches no branch and draws nothing.
+        let cards = cardIds.compactMap { Cards.any(byId: $0) }
         guard #available(macOS 10.15, *) else { return }
 
         if cards.all({ $0.type == .battleground_trinket }) {
