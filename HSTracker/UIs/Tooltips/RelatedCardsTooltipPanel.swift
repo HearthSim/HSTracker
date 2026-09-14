@@ -221,6 +221,8 @@ struct RelatedCardsGridView: View {
 @available(macOS 10.15, *)
 struct PoolSummaryPanelView: View {
     static let width: CGFloat = 330
+    // PoolSummaryView's Margin="0 0 15 0", the gap it keeps between itself and the card grid.
+    static let trailingMargin: CGFloat = 15
 
     let totalCardCount: Int
     let statistics: PoolStatistics
@@ -350,7 +352,19 @@ private struct RelatedCardsTooltipContentView: View {
     @ObservedObject var viewModel: RelatedCardsTooltipViewModel
 
     var body: some View {
+        // The summary comes first and the grid second, which is the order the overlay's own
+        // <StackPanel Orientation="Horizontal"> in OverlayWindow.xaml declares them in - the
+        // summary reads left of the cards, not right of them.
         HStack(alignment: .top, spacing: 0) {
+            if let statistics = viewModel.poolStatistics {
+                PoolSummaryPanelView(totalCardCount: viewModel.cards.count, statistics: statistics,
+                                     relatedCardsSummary: viewModel.relatedCardsSummary, hasLargePool: viewModel.hasLargePool)
+                    // PoolSummaryView's own Margin="0 0 15 0". It belongs to the summary rather
+                    // than to the gap between the two, so it stays even when the grid is dropped
+                    // for a large pool - and goes away with the summary, the way a collapsed
+                    // element takes its margin out of a StackPanel with it.
+                    .padding(.trailing, PoolSummaryPanelView.trailingMargin)
+            }
             // Mirrors HDT's CardTooltipViewModel.RelatedCards being nulled out (and the
             // GridCardImages control's Visibility collapsing) once the pool exceeds
             // LargePoolThreshold - the card grid is omitted entirely rather than rendered
@@ -367,10 +381,6 @@ private struct RelatedCardsTooltipContentView: View {
                     .frame(width: CGFloat(layout.gridWidth) * viewModel.scale,
                            height: CGFloat(layout.gridHeight) * viewModel.scale,
                            alignment: .topLeading)
-            }
-            if let statistics = viewModel.poolStatistics {
-                PoolSummaryPanelView(totalCardCount: viewModel.cards.count, statistics: statistics,
-                                     relatedCardsSummary: viewModel.relatedCardsSummary, hasLargePool: viewModel.hasLargePool)
             }
         }
     }
@@ -405,7 +415,9 @@ final class RelatedCardsTooltipPanel: NSPanel {
     }
 
     var gridWidth: Int {
-        scaledGridWidth + (viewModel.poolStatistics != nil ? Int(PoolSummaryPanelView.width) : 0)
+        scaledGridWidth + (viewModel.poolStatistics != nil
+                           ? Int(PoolSummaryPanelView.width + PoolSummaryPanelView.trailingMargin)
+                           : 0)
     }
 
     var gridHeight: Int {
