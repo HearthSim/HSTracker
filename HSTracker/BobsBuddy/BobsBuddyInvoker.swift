@@ -1409,6 +1409,10 @@ class BobsBuddyInvoker {
         
         inputPlayer.piratesSummonCounter = Int32(game.playerEntity?[.gametag_2358] ?? 0) // direct
         
+        // Number of times this player has Magnetized this game.
+        var magnetizeCounter = Int32(playerEntity[.gametag_3670]) // direct
+        inputPlayer.magnetizeCounter = MonoHandle(obj: mono_value_box(MonoHelper._monoInstance, mono_get_int32_class(), &magnetizeCounter))
+        
         inputPlayer.resourcesSpentThisGame = Int32(game.playerEntity?[.num_resources_spent_this_game] ?? 0) // direct
         
         // The tag is never sent for the opponent — derive the value if there is a Malorne on their board.

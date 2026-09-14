@@ -41,6 +41,7 @@
 - Fixed the combat odds ignoring how many "Immune while attacking" grants Eclipsion Illidari had left.
 - Fixed the combat odds losing the Invulnerability dark gift when the minion carrying it was magnetized onto a Mech.
 - The combat odds now account for the stats Dr. Boom's Monster hands out when it is magnetized onto another Mech.
+- The combat odds now know how many times each side has magnetized this game.
 
 # 3.6.9
 ## Hearthstone

@@ -478,6 +478,7 @@ enum GameTag: Int, CaseIterable, Codable {
     // Cast raw as (GameTag)3623 in HDT too - HearthDb has no named constant for it either.
     galakrond = 3623,
     imbue = 3626,
+    gametag_3670 = 3670,
     bacon_is_potential_trinket = 3705,
     end_of_turn_trigger = 3744,
     demon_portal_deck = 3808,
