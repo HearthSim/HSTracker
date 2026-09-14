@@ -2246,10 +2246,8 @@ class BobsBuddyInvoker {
                 return false
             }
 
-            // Sneed's New Shredder's innate Deathrattle summons a copy of a hand minion; when that hand
-            // minion is an Ancestral Automaton the observation is indistinguishable from a hidden
-            // magnetized Auto Assembler — do not attribute its summons to a module.
-            if MonoHelper.isInstance(obj: minion, klass: SneedsNewShredderProxy._class!) {
+            if MonoHelper.isInstance(obj: minion, klass: SneedsNewShredderProxy._class!)
+                || MonoHelper.isInstance(obj: minion, klass: KangorsApprenticeProxy._class!) {
                 return false
             }
 
