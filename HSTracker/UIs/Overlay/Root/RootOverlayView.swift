@@ -77,6 +77,10 @@ extension CoordinateSpace {
 
 @available(macOS 10.15, *)
 struct RootOverlayView: View {
+    /// Width of Hearthstone's 4:3 play area in canvas units - the canvas is the
+    /// 1080-tall reference space, so this is fixed regardless of window size.
+    static let fourThreeWidth: CGFloat = 1440
+
     @ObservedObject var viewModel: RootOverlayViewModel
     var body: some View {
         // GeometryReader measures the real, current bounds NSHostingView gives this
@@ -88,6 +92,13 @@ struct RootOverlayView: View {
         GeometryReader { geometry in
             let scale = geometry.size.height / 1080
             let canvasWidth = scale > 0 ? geometry.size.width / scale : geometry.size.width
+            // Hearthstone letterboxes its 4:3 play area in the middle of the
+            // window, and HDT positions game-relative overlays from *its* left
+            // edge via GetScaledXPos, which resolves to Width * (1 - ratio) / 2.
+            // In canvas units the 4:3 area is always 1440 wide, so that is just
+            // half the leftover width. Not the same as the canvas origin, which
+            // is the window's own left edge.
+            let fourThreeInset = (canvasWidth - RootOverlayView.fourThreeWidth) / 2
 
             ZStack(alignment: .topLeading) {
                 // Declared before the scaled subtree because HDT declares the
@@ -280,6 +291,34 @@ struct RootOverlayView: View {
                                                    canvasWidth: canvasWidth)
                     BattlegroundsMinionPinningShopView(viewModel: viewModel.battlegroundsMinionPinning,
                                                        canvasWidth: canvasWidth)
+
+                    // HDT places ArenaPickHelper with GetLeft = GetScaledXPos(0)
+                    // and GetTop = 0, scaled by Height/1080 - i.e. pinned to the
+                    // top-left of the 4:3 inner area, which on a window wider
+                    // than 4:3 is inset from the canvas origin. It is authored at
+                    // HDT's 1440x1080 reference, so it needs no sizing of its own.
+                    ZStack(alignment: .topLeading) {
+                        Color.clear
+                        ArenaPickHelperView(viewModel: viewModel.arenaPickHelper,
+                                            bottomPanelFrame: $viewModel.arenaBottomPanelFrame,
+                                            directionTriggerShape: $viewModel.arenaDirectionTriggerShape,
+                                            cardListDirectionShapes: $viewModel.arenaCardListDirectionShapes,
+                                            cardListTriggerFrame: $viewModel.arenaCardListTriggerFrame,
+                                            tooltipRegions: $viewModel.arenaTooltipRegions)
+                            .padding(.leading, fourThreeInset)
+                    }
+                    .frame(width: canvasWidth, height: 1080)
+
+                    // HDT's _arenaPreLobbyBehavior puts this at
+                    // GetScaledXPos(0.034) / Height * 0.046 - 3.4% in from the
+                    // left edge of the 4:3 inner area, 4.6% down.
+                    ZStack(alignment: .topLeading) {
+                        Color.clear
+                        ArenaPreDraftView(viewModel: viewModel.arenaPreDraft)
+                            .padding(.leading, fourThreeInset + 0.034 * RootOverlayView.fourThreeWidth)
+                            .padding(.top, 0.046 * 1080)
+                    }
+                    .frame(width: canvasWidth, height: 1080)
 
                     // Last, so it draws over the top bar - BattlegroundsInspiration
                     // comes after BgsTopBar on OverlayWindow's canvas too.

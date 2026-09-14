@@ -35,6 +35,8 @@ class RootOverlayViewModel: ObservableObject {
     let battlegroundsTurnCounter = BattlegroundsTurnCounterViewModel()
     let battlegroundsInspiration = BattlegroundsInspirationViewModel()
     let battlegroundsMinionPinning = BattlegroundsMinionPinningViewModel()
+    let arenaPickHelper = ArenaPickHelperViewModel()
+    let arenaPreDraft = ArenaPreDraftViewModel()
     let battlegroundsSession = BattlegroundsSessionViewModel()
     let bobsBuddy = BobsBuddyPanelViewModel()
     let battlegroundsNotifications = BattlegroundsNotificationsViewModel()
@@ -60,6 +62,19 @@ class RootOverlayViewModel: ObservableObject {
         // (BattlegroundsMinionPinningViewModel.CompsGuidesVM = ...): the key
         // piece recommendations are mined out of the loaded comp guides.
         battlegroundsMinionPinning.compsGuides = battlegroundsCompsGuides
+
+        // The two arena regions of the opacity mask, subscribed where HDT
+        // subscribes them (OverlayWindow's constructor, next to its other
+        // ArenaStateWatcher wiring) rather than from Watchers: they are the
+        // overlay window's own, and ArenaStateEvent raises on the main queue
+        // already. The rest of the mask is fed from Watchers because the
+        // watchers behind it have a single `change` closure to spare.
+        Watchers.arenaStateWatcher.onTrayBigCardChanged.subscribe { [weak self] in
+            self?.setArenaCardOpacityMask($0)
+        }
+        Watchers.arenaStateWatcher.onTooltipChanged.subscribe { [weak self] in
+            self?.setArenaTooltipOpacityMask($0)
+        }
     }
 
     // On-screen frames (in RootOverlayView's own coordinate space) of every
@@ -86,4 +101,16 @@ class RootOverlayViewModel: ObservableObject {
     // The ids of the hover regions the cursor is currently inside, written by
     // RootOverlayWindow on every mouse move.
     @Published var hoveredRegionIds: Set<String> = []
+
+    // Frame of the Arena bottom panel, tracked separately from hoverRegions
+    // above: those are reported by children that only need to know the cursor is
+    // over them, while this one drives the panel's own slide-out and is matched
+    // against the cursor by RootOverlayWindow on its own terms.
+    @Published var arenaBottomPanelFrame: CGRect?
+
+    // The bottom panel's direction funnel, in canvas pixels.
+    @Published var arenaDirectionTriggerShape = [CGPoint]()
+    @Published var arenaCardListDirectionShapes = [[CGPoint]]()
+    @Published var arenaCardListTriggerFrame: CGRect?
+    @Published var arenaTooltipRegions = [ArenaTooltipRegion]()
 }

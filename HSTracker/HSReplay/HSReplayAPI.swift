@@ -1139,6 +1139,144 @@ class HSReplayAPI {
         }
     }
 
+    // MARK: - Arenasmith
+    //
+    // The three pick endpoints go out over OAuth when the user is signed in and
+    // plain otherwise - there is no X-Trial-Token here, unlike the Tier7 routes.
+    // Arena trials are resolved server-side from account_lo plus deck_id, so an
+    // anonymous request from a player with trials left is still served.
+
+    @available(macOS 10.15.0, *)
+    /// `logResponse` dumps the raw body before decoding, for when the decoded
+    /// model loses something the JSON text still has - key order, say, which is
+    /// gone the moment an object becomes a Swift Dictionary. Off by default;
+    /// pass it at a call site while investigating.
+    private static func postArena<P: Encodable, R: Decodable>(url: String, parameters: P, as: R.Type,
+                                                              logResponse: Bool = false) async -> R? {
+        let encoder = JSONEncoder()
+        var body: Data?
+        do {
+            body = try encoder.encode(parameters)
+            if let body {
+                logger.debug("Arena request to \(url): \(String(data: body, encoding: .utf8) ?? "ERROR")")
+            }
+        } catch {
+            logger.error(error)
+            return nil
+        }
+        guard let body else { return nil }
+
+        if accountData != nil && isFullyAuthenticated {
+            return await withCheckedContinuation { continuation in
+                startAuthorizedRequest(url, method: .POST, headers: ["Content-Type": "application/json"], body: body, completionHandler: { result in
+                    switch result {
+                    case .success(let response):
+                        if logResponse {
+                            logger.debug("Arena response from \(url): \(String(data: response.data, encoding: .utf8) ?? "ERROR")")
+                        }
+                        let parsed: R? = parseResponse(data: response.data, defaultValue: nil)
+                        continuation.resume(returning: parsed)
+                    case .failure(let error):
+                        logger.error(error)
+                        continuation.resume(returning: nil)
+                    }
+                })
+            }
+        }
+
+        return await withCheckedContinuation { continuation in
+            let http = Http(url: url)
+            _ = http.uploadPromise(method: .post, headers: ["Content-Type": "application/json"], data: body).done { response in
+                guard let data = response as? Data else {
+                    continuation.resume(returning: nil)
+                    return
+                }
+                if logResponse {
+                    logger.debug("Arena response from \(url): \(String(data: data, encoding: .utf8) ?? "ERROR")")
+                }
+                let parsed: R? = parseResponse(data: data, defaultValue: nil)
+                continuation.resume(returning: parsed)
+            }.catch { error in
+                logger.error(error)
+                continuation.resume(returning: nil)
+            }
+        }
+    }
+
+    @available(macOS 10.15.0, *)
+    private static func getArenaJson<R: Decodable>(url: String, as: R.Type) async -> R? {
+        return await withCheckedContinuation { continuation in
+            let http = Http(url: url)
+            _ = http.getPromise(method: .get).done { data in
+                guard let data else {
+                    continuation.resume(returning: nil)
+                    return
+                }
+                let parsed: R? = parseResponse(data: data, defaultValue: nil)
+                continuation.resume(returning: parsed)
+            }.catch { error in
+                logger.error(error)
+                continuation.resume(returning: nil)
+            }
+        }
+    }
+
+    @available(macOS 10.15.0, *)
+    static func getArenaHeroPickStats(parameters: ArenaHeroPickParams) async -> ArenaHeroPickApiResponse? {
+        return await postArena(url: HSReplay.arenaHeroPickUrl, parameters: parameters,
+                               as: ArenaHeroPickApiResponse.self)
+    }
+
+    @available(macOS 10.15.0, *)
+    static func getArenaCardPickStats(parameters: ArenaCardPickParams) async -> ArenaCardPickApiResponse? {
+        return await postArena(url: HSReplay.arenaCardPickUrl, parameters: parameters, as: ArenaCardPickApiResponse.self)
+    }
+
+    @available(macOS 10.15.0, *)
+    static func scoreArenaDeck(parameters: ArenaScoreDeckParams) async -> ArenaCardStats? {
+        return await postArena(url: HSReplay.arenaScoreDeckUrl, parameters: parameters, as: ArenaCardStats.self)
+    }
+
+    @available(macOS 10.15.0, *)
+    static func getArenaTrialStatus(hi: Int64, lo: Int64) async -> ArenaTrialStatus? {
+        return await getArenaJson(url: "\(HSReplay.arenaTrialsUrl)?account_hi=\(hi)&account_lo=\(lo)", as: ArenaTrialStatus.self)
+    }
+
+    @available(macOS 10.15.0, *)
+    static func getArenasmithStatus() async -> ArenasmithStatus? {
+        return await getArenaJson(url: HSReplay.arenasmithStatusUrl, as: ArenasmithStatus.self)
+    }
+
+    /// The signed-in route, HSReplay-API-Client's `OAuthClient.GetArenaPackages()`.
+    ///
+    /// The account is the whole request here - the packages are the ones the server
+    /// has for that player's current run - so this overload takes no parameters.
+    @available(macOS 10.15.0, *)
+    static func getArenaPackages() async -> ArenaPackages? {
+        return await withCheckedContinuation { continuation in
+            startAuthorizedRequest(HSReplay.arenaCardPackagesUrl, method: .GET, parameters: [:], completionHandler: { result in
+                switch result {
+                case .success(let response):
+                    let parsed: ArenaPackages? = parseResponse(data: response.data, defaultValue: nil)
+                    continuation.resume(returning: parsed)
+                case .failure(let error):
+                    logger.error(error)
+                    continuation.resume(returning: nil)
+                }
+            })
+        }
+    }
+
+    /// The free-trial route, HSReplay-API-Client's `HsReplayClient.GetArenaPackages(params)`:
+    /// unauthenticated, and identified by the drafted deck instead. The caller is
+    /// responsible for checking the deck is registered for a trial - see
+    /// `ArenaPackagesManager.fetchPackages()`.
+    @available(macOS 10.15.0, *)
+    static func getArenaPackages(deckId: Int64, accountLo: Int64, playerRegion: Int) async -> ArenaPackages? {
+        let url = "\(HSReplay.arenaCardPackagesFreeUrl)?deck_id=\(deckId)&account_lo=\(accountLo)&player_region=\(playerRegion)"
+        return await getArenaJson(url: url, as: ArenaPackages.self)
+    }
+
     // Ports HSReplay-API-Client's two GetDiscoverPoolKeywords overloads: the premium path goes
     // through OAuth (OAuthClient.DataQueries), the trial path sends an X-Trial-Token header
     // (HsReplayClient). Both return the same keyword -> card-ids map.

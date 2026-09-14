@@ -39,8 +39,14 @@ final class ArenaWatcher: Watcher {
     private final let maxDeckSize = 30
     private final let maxRedraftDeckSize = 5
     
+    private var _isDualClass = false
+
     public var onCompleteDeck: ((ArenaWatcher, CompleteDeckEventArgs) -> Void)?
     public var onRewards: ((RewardsEventArgs) -> Void)?
+    public var onChoicesChanged: ((ArenaWatcher, ChoicesChangedEventArgs) -> Void)?
+    public var onRedraftChoicesChanged: ((ArenaWatcher, RedraftChoicesChangedEventArgs) -> Void)?
+    public var onCardPicked: ((ArenaWatcher, CardPickedEventArgs) -> Void)?
+    public var onRedraftCardPicked: ((ArenaWatcher, RedraftCardPickedEventArgs) -> Void)?
 
     override init(delay: TimeInterval = 0.500) {
         super.init(delay: delay)
@@ -55,6 +61,7 @@ final class ArenaWatcher: Watcher {
         _prevPackages = nil
         _prevIsUnderground = nil
         _prevArenaSessionState = .invalid
+        _isDualClass = false
     }
 
     override func update() -> Bool {
@@ -66,7 +73,10 @@ final class ArenaWatcher: Watcher {
             if _prevArenaSessionState == .drafting {
                 let numCards = arenaInfo.deck.cards.reduce(0, { $0 + $1.count.intValue })
                 if numCards == maxDeckSize {
-                    if _prevSlot == maxDeckSize {
+                    // Dual-class drafts spend an extra slot on the hero power, so the
+                    // final card lands one slot later.
+                    let lastSlot = _isDualClass ? maxDeckSize + 1 : maxDeckSize
+                    if _prevSlot == lastSlot {
                         cardPicked(arenaInfo)
                     }
                 }
@@ -109,12 +119,21 @@ final class ArenaWatcher: Watcher {
             return false
         }
         
-        // TODO
-//        onChoicesChanged?(ChoicesChangedEventArgs(choices.choices, arenaInfo.deck, arenaInfo.currentSlot, arenaInfo.isUnderground, choices.packages))
-        
+        onChoicesChanged?(self, ChoicesChangedEventArgs(choices: choices.choices,
+                                                        deck: arenaInfo.deck,
+                                                        slot: arenaInfo.currentSlot.intValue,
+                                                        isUnderground: arenaInfo.isUnderground,
+                                                        packages: choices.packages))
+
+        // In dual-class Arena the player picks a hero power before the hero, so the
+        // deck carries a hero power while the hero is still unset.
+        _isDualClass = _isDualClass || (!arenaInfo.deck.heroPower.isEmpty && arenaInfo.deck.hero.isEmpty)
+
         // we need to check _prevIsUnderground == arenaInfo.IsUnderground
         // otherwise changing arena mode would trigger Hero/CardPicked
-        if _prevSlot == 0 && arenaInfo.currentSlot.intValue == 1 && _prevIsUnderground == arenaInfo.isUnderground {
+        if ((_prevSlot == 0 && arenaInfo.currentSlot.intValue == 1)
+            || (_isDualClass && _prevSlot == 1 && arenaInfo.currentSlot.intValue == 2))
+            && _prevIsUnderground == arenaInfo.isUnderground {
             heroPicked(arenaInfo)
         } else if _prevSlot > 0 && _prevIsUnderground == arenaInfo.isUnderground {
             cardPicked(arenaInfo)
@@ -131,7 +150,6 @@ final class ArenaWatcher: Watcher {
     }
     
     private func updateRedraft(_ arenaInfo: MirrorArenaInfo) -> Bool {
-//        let redraftDeck = arenaInfo.redraftDeck
         let redraftSlot = arenaInfo.redraftCurrentSlot.intValue
         
         guard let choices = MirrorHelper.getArenaDraftChoices(), choices.choices.count > 0 else {
@@ -141,8 +159,12 @@ final class ArenaWatcher: Watcher {
         if _prevInfo != nil && redraftSlot <= _prevRedraftSlot && _prevIsUnderground == arenaInfo.isUnderground && _prevChoicesVersion == choices.version.intValue {
             return false
         }
-        // TODO
-//        onRedraftChoicesChanged?(RedraftChoicesChangedEventArgs(choices.choices, arenaInfo.deck, redraftDeck, redraftSlot, arenaInfo.losses.intValue, arenaInfo.isUnderground))
+        onRedraftChoicesChanged?(self, RedraftChoicesChangedEventArgs(choices: choices.choices,
+                                                                      deck: arenaInfo.deck,
+                                                                      redraftDeck: arenaInfo.redraftDeck,
+                                                                      slot: redraftSlot,
+                                                                      losses: arenaInfo.losses.intValue,
+                                                                      isUnderground: arenaInfo.isUnderground))
         
         if _prevRedraftSlot >= 0 && _prevIsUnderground == arenaInfo.isUnderground {
             redraftCardPicked(arenaInfo)
@@ -159,18 +181,108 @@ final class ArenaWatcher: Watcher {
     }
     
     private func heroPicked(_ arenaInfo: MirrorArenaInfo) {
-        // TODO
+        guard let prevChoices = _prevChoices else { return }
+
+        if let hero = prevChoices.first(where: { $0.cardId == arenaInfo.deck.hero }) {
+            onCardPicked?(self, CardPickedEventArgs(picked: ArenaPickedCard(mirror: hero),
+                                                    choices: prevChoices,
+                                                    deck: arenaInfo.deck,
+                                                    slot: arenaInfo.currentSlot.intValue - 1,
+                                                    isUnderground: arenaInfo.isUnderground,
+                                                    pickedPackage: nil))
+            return
+        }
+
+        // No choice matched the deck's hero, so this was the hero-power half of a
+        // dual-class draft.
+        _isDualClass = true
+        if let heroPower = prevChoices.first(where: { $0.cardId == arenaInfo.deck.heroPower }) {
+            onCardPicked?(self, CardPickedEventArgs(picked: ArenaPickedCard(mirror: heroPower),
+                                                    choices: prevChoices,
+                                                    deck: arenaInfo.deck,
+                                                    slot: arenaInfo.currentSlot.intValue - 1,
+                                                    isUnderground: arenaInfo.isUnderground,
+                                                    pickedPackage: nil))
+        }
     }
-    
+
     private func cardPicked(_ arenaInfo: MirrorArenaInfo) {
-        // TODO
+        let prevDeck = _prevInfo?.deck.cards ?? [MirrorCard]()
+        let currDeck = arenaInfo.deck.cards
+
+        var addedCards = currDeck.filter { cd in
+            !prevDeck.contains(where: { pd in pd.cardId == cd.cardId && pd.count.intValue == cd.count.intValue })
+        }
+
+        // A package pick adds several cards at once. Find the package that was fully
+        // added and take it out of the running, so the card the player actually
+        // clicked is what remains.
+        var usedPackage: [MirrorCard]?
+        if let packages = _prevPackages {
+            for package in packages {
+                let packageFullyAdded = package.allSatisfy { pkgCard in
+                    let currCount = currDeck.first(where: { $0.cardId == pkgCard.cardId })?.count.intValue ?? 0
+                    let prevCount = prevDeck.first(where: { $0.cardId == pkgCard.cardId })?.count.intValue ?? 0
+                    return (currCount - prevCount) >= pkgCard.count.intValue
+                }
+                if packageFullyAdded {
+                    usedPackage = package
+                    break
+                }
+            }
+        }
+
+        if let usedPackage {
+            for card in usedPackage {
+                if let index = addedCards.firstIndex(where: { $0.cardId == card.cardId }) {
+                    addedCards.remove(at: index)
+                }
+            }
+        }
+
+        guard let picked = addedCards.first else { return }
+
+        onCardPicked?(self, CardPickedEventArgs(picked: ArenaPickedCard(mirror: picked, count: 1),
+                                                choices: _prevChoices ?? [MirrorCard](),
+                                                deck: arenaInfo.deck,
+                                                slot: arenaInfo.currentSlot.intValue - 1,
+                                                isUnderground: arenaInfo.isUnderground,
+                                                pickedPackage: usedPackage))
     }
-    
+
     private func redraftCardPicked(_ arenaInfo: MirrorArenaInfo) {
-        // TODO
+        guard let pick = newRedraftCard(arenaInfo) else { return }
+
+        onRedraftCardPicked?(self, RedraftCardPickedEventArgs(picked: ArenaPickedCard(mirror: pick, count: 1),
+                                                              choices: _prevChoices ?? [MirrorCard](),
+                                                              deck: arenaInfo.deck,
+                                                              redraftDeck: arenaInfo.redraftDeck,
+                                                              slot: arenaInfo.redraftCurrentSlot.intValue - 1,
+                                                              losses: arenaInfo.losses.intValue,
+                                                              isUnderground: arenaInfo.isUnderground))
     }
-    
+
     private func redraftLastCardPicked(_ arenaInfo: MirrorArenaInfo) {
-        // TODO
+        guard let pick = newRedraftCard(arenaInfo) else { return }
+
+        // On the last redraft pick the game has already folded the redrafted cards
+        // into arenaInfo.deck, giving a 35-card deck. _prevInfo still holds the deck
+        // as it was before the pick, which is what consumers expect.
+        let deck = _prevInfo?.deck ?? arenaInfo.deck
+
+        onRedraftCardPicked?(self, RedraftCardPickedEventArgs(picked: ArenaPickedCard(mirror: pick, count: 1),
+                                                              choices: _prevChoices ?? [MirrorCard](),
+                                                              deck: deck,
+                                                              redraftDeck: arenaInfo.redraftDeck,
+                                                              slot: arenaInfo.redraftCurrentSlot.intValue - 1,
+                                                              losses: arenaInfo.losses.intValue,
+                                                              isUnderground: arenaInfo.isUnderground))
+    }
+
+    private func newRedraftCard(_ arenaInfo: MirrorArenaInfo) -> MirrorCard? {
+        guard let prevRedraft = _prevInfo?.redraftDeck.cards else { return nil }
+        return arenaInfo.redraftDeck.cards.first { card in
+            !prevRedraft.contains(where: { $0.cardId == card.cardId && $0.count.intValue == card.count.intValue })
+        }
     }
 }

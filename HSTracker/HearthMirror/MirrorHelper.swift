@@ -193,6 +193,14 @@ struct MirrorHelper {
         return result
     }
     
+    static func getArenaRatingInfo() -> MirrorArenaRatingInfo? {
+        var result: MirrorArenaRatingInfo?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getArenaRatingInfo()
+        }
+        return result
+    }
+    
     static func getBattlegroundsRatingChange() -> MirrorRatingChange? {
         var result: MirrorRatingChange?
         MirrorHelper.accessQueue.sync {
@@ -226,7 +234,25 @@ struct MirrorHelper {
         }
         return result
     }
-    
+
+    /// Full draft-screen state behind the Arenasmith overlay.
+    ///
+    /// The two version arguments are the cheap-skip HDT uses: when the deck list's
+    /// slot collection `_version` is unchanged the mirror leaves `deckListData` /
+    /// `redraftDeckListData` nil instead of re-marshalling every card on each tick.
+    /// `resetCache` drops the mirror's cached Mono handles - pass true whenever the
+    /// objects those handles point at may have been replaced (client state change,
+    /// underground toggle, watcher start).
+    static func getArenaState(deckListVersion: Int?, redraftDeckListVersion: Int?, resetCache: Bool) -> MirrorArenaState? {
+        var result: MirrorArenaState?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getArenaState(deckListVersion.map { NSNumber(value: $0) },
+                                           redraftDeckListVersion: redraftDeckListVersion.map { NSNumber(value: $0) },
+                                           resetCache: resetCache)
+        }
+        return result
+    }
+
     // MARK: - brawl
     
     static func getBrawlInfo() -> MirrorBrawlInfo? {

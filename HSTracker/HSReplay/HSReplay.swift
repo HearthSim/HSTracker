@@ -60,4 +60,14 @@ struct HSReplay {
     static let trinketGuidesUrl = "\(baseUrl)\(baseApi)/battlegrounds/trinket_guides/"
     static let anomalyGuidesUrl = "\(baseUrl)\(baseApi)/battlegrounds/anomaly_guides/"
     static let questGuidesUrl = "\(baseUrl)\(baseApi)/battlegrounds/quest_guides/"
+
+    // Arenasmith. Paths from HSReplay-API-Client's HsReplayClient.cs /
+    // OAuth/OAuthClient.DataQueries.cs.
+    static let arenaHeroPickUrl = "\(baseApiUrl)/arena/hero_pick/"
+    static let arenaCardPickUrl = "\(baseApiUrl)/arena/card_pick/"
+    static let arenaScoreDeckUrl = "\(baseApiUrl)/arena/score_deck/"
+    static let arenaTrialsUrl = "\(baseApiUrl)/arena/trials/"
+    static let arenasmithStatusUrl = "\(baseApiUrl)/arena/arenasmith_status/"
+    static let arenaCardPackagesUrl = "\(baseApiUrl)/arena/card_packages_by_unique_card/"
+    static let arenaCardPackagesFreeUrl = "\(baseApiUrl)/arena/card_packages_by_unique_card/free/"
 }

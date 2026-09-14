@@ -25,6 +25,7 @@ class UploadMetaData: Encodable {
              scenario_id,
              brawl_season,
              ladder_season,
+             arena_season,
              league_id,
              format,
              player1,
@@ -60,6 +61,7 @@ class UploadMetaData: Encodable {
     var scenario_id: Int?
     var brawl_season: Int?
     var ladder_season: Int?
+    var arena_season: Int?
     var league_id: Int?
     var format: Int?
     var player1: Player?
@@ -130,6 +132,9 @@ class UploadMetaData: Encodable {
         }
         if stats.rankedSeasonId > 0 {
             metaData.ladder_season = stats.rankedSeasonId
+        }
+        if stats.arenaSeasonId > 0 {
+            metaData.arena_season = stats.arenaSeasonId
         }
         if stats.leagueId > 0 {
             metaData.league_id = stats.leagueId
@@ -252,6 +257,10 @@ class UploadMetaData: Encodable {
             if stats.arenaLosses > 0 {
                 friendly.losses = stats.arenaLosses
             }
+            if let arenaRating = stats.arenaRating {
+                friendly.arena_rating = arenaRating
+            }
+            friendly.arena_draft = arenaDraft(stats: stats, deck: friendly.deck)
         } else if stats.gameMode == .brawl {
             if stats.brawlWins > 0 {
                 friendly.wins = stats.brawlWins
@@ -264,6 +273,95 @@ class UploadMetaData: Encodable {
             opposing.cardback = stats.opponentCardbackId
         }
         return [ friendly, opposing ]
+    }
+
+    /// Ports the arena branch of HDT's `UploadMetaDataGenerator`: the draft that
+    /// produced this deck is sent alongside the match, so the server can tie the
+    /// picks to how the run went.
+    private static func arenaDraft(stats: InternalGameStats, deck: [String]?) -> ArenaDraft? {
+        guard let deckId = stats.hsDeckId,
+              let draft = ArenaLastDrafts.instance.drafts.first(where: { $0.deckId == deckId }),
+              // HDT reads friendly.DeckList here, which is only filled in for a
+              // complete deck; 0fa7188b added its null check, which Swift's optional
+              // makes mandatory anyway.
+              let deck,
+              validateArenaDraft(deck, draft, stats.gameType == .gt_underground_arena) else {
+            return nil
+        }
+
+        // Grouping by slot guards against a pick being recorded twice, which HDT
+        // saw happen in the stored draft file.
+        let picks = Dictionary(grouping: draft.picks, by: { $0.slot })
+            .compactMap({ _, group -> ArenaPick? in
+                guard let pick = group.last else { return nil }
+                return ArenaPick(pick: pick.slot,
+                                 chosen: pick.picked,
+                                 offered: pick.choices,
+                                 time_on_choice: pick.timeOnChoice,
+                                 overlay_enabled: pick.overlayEnabled,
+                                 overlay_visible: pick.overlayVisible,
+                                 arenasmith_available: pick.arenasmithAvailable,
+                                 arenasmith_scores: scores(pick.arenasmithScores),
+                                 picked_cards: pick.pickedCards,
+                                 picked_package: pick.pickedPackage,
+                                 packages: pick.packages.map({ packages in
+                                     Dictionary(packages.compactMap({ package in
+                                         package.keyCard.map { ($0, package.cards) }
+                                     }), uniquingKeysWith: { first, _ in first })
+                                 }))
+            })
+            .sorted(by: { $0.pick < $1.pick })
+
+        let redrafts = draft.redrafts.map({ redraft in
+            ArenaRedraft(redraft_start_time: iso8601(redraft.startTime),
+                         redraft_deck_id: redraft.redraftedDeckId,
+                         redraft_number: redraft.losses,
+                         deck: redraft.originalDeck,
+                         picks: redraft.picks.map({ pick in
+                             ArenaRedraftPick(pick: pick.slot,
+                                              chosen: pick.picked,
+                                              offered: pick.choices,
+                                              time_on_choice: pick.timeOnChoice,
+                                              overlay_enabled: pick.overlayEnabled,
+                                              overlay_visible: pick.overlayVisible,
+                                              arenasmith_available: pick.arenasmithAvailable,
+                                              arenasmith_scores: scores(pick.arenasmithScores),
+                                              redraft_picked_cards: pick.redraftPickedCards)
+                         }))
+        })
+
+        // HDT keeps IsTrialsActivated on the draft, set when the draft record is
+        // first created; HSTracker records it per pick instead, so the first pick
+        // carries the same value.
+        return ArenaDraft(draft_start_time: iso8601(draft.startTime),
+                          deck_id: draft.deckId,
+                          picks: picks,
+                          redrafts: redrafts.isEmpty ? nil : redrafts,
+                          trial: draft.picks.first?.trialsActivated ?? false)
+    }
+
+    /// Ports HDT's `ValidateArenaDraft`. The deck id is already matched; this is the
+    /// extra confirmation that the stored draft really produced this deck.
+    private static func validateArenaDraft(_ deckList: [String], _ draft: ArenaLastDrafts.DraftItem,
+                                           _ isUnderground: Bool) -> Bool {
+        // skipping underground validation for now
+        if isUnderground {
+            return true
+        }
+        return draft.picks
+            .compactMap({ $0.picked })
+            .filter({ !$0.starts(with: "HERO") })
+            .allSatisfy({ deckList.contains($0) })
+    }
+
+    private static func scores(_ scores: [ArenaLastDrafts.ArenasmithScore]?) -> [String: Float]? {
+        guard let scores, !scores.isEmpty else { return nil }
+        return Dictionary(scores.map { ($0.cardId, $0.score) }, uniquingKeysWith: { first, _ in first })
+    }
+
+    private static func iso8601(_ date: Date?) -> String? {
+        guard let date else { return nil }
+        return ISO8601DateFormatter().string(from: date)
     }
 
     class Player: Encodable {
@@ -296,6 +394,70 @@ class UploadMetaData: Encodable {
         
         var mercenaries_rating: Int?
         var mercenaries_rating_after: Int?
+
+        var arena_rating: Int?
+
+        var arena_draft: ArenaDraft?
+    }
+
+    struct ArenaDraft: Encodable {
+        /// ISO 8601.
+        var draft_start_time: String?
+        /// Hearthstone's own deck id.
+        var deck_id: Int64?
+        var picks: [ArenaPick]
+        var redrafts: [ArenaRedraft]?
+        /// Whether a trial was consumed for this draft.
+        var trial: Bool
+    }
+
+    struct ArenaPick: Encodable {
+        /// Position of the draft pick.
+        var pick: Int
+        /// Card id of the picked card or hero.
+        var chosen: String?
+        /// Card ids of the choices.
+        var offered: [String]?
+        /// Milliseconds.
+        var time_on_choice: Int?
+        /// Whether the Arenasmith overlay was switched on, score included.
+        var overlay_enabled: Bool
+        /// Whether it was actually on screen for this pick.
+        var overlay_visible: Bool
+        /// Whether Arenasmith had data for this draft at all.
+        var arenasmith_available: Bool
+        /// The scores served for this pick, by card id.
+        var arenasmith_scores: [String: Float]?
+        /// Cards in the deck at the moment of the pick.
+        var picked_cards: [String]?
+        /// Cards that came in a package with the picked card, if any.
+        var picked_package: [String]?
+        /// Every package offered during this pick, keyed by its main card id.
+        var packages: [String: [String]]?
+    }
+
+    struct ArenaRedraft: Encodable {
+        /// ISO 8601.
+        var redraft_start_time: String?
+        var redraft_deck_id: Int64?
+        var redraft_number: Int?
+        /// Cards in the deck the redraft started from.
+        var deck: [String]?
+        var picks: [ArenaRedraftPick]
+    }
+
+    struct ArenaRedraftPick: Encodable {
+        var pick: Int
+        var chosen: String?
+        var offered: [String]?
+        /// Milliseconds.
+        var time_on_choice: Int?
+        var overlay_enabled: Bool
+        var overlay_visible: Bool
+        var arenasmith_available: Bool
+        var arenasmith_scores: [String: Float]?
+        /// Cards in the redraft deck at the moment of the pick.
+        var redraft_picked_cards: [String]?
     }
     
     struct Sideboard: Encodable {

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="24765" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="24765"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="ArenaPreferences">
+            <connections>
+                <outlet property="enableArenasmithOverlay" destination="arn-bt-000" id="arn-ol-000"/>
+                <outlet property="showArenasmithPreLobby" destination="arn-bt-001" id="arn-ol-001"/>
+                <outlet property="showArenaHeroPicking" destination="arn-bt-002" id="arn-ol-002"/>
+                <outlet property="showArenasmithScore" destination="arn-bt-003" id="arn-ol-003"/>
+                <outlet property="showArenaRelatedCards" destination="arn-bt-004" id="arn-ol-004"/>
+                <outlet property="showArenaDeckSynergies" destination="arn-bt-005" id="arn-ol-005"/>
+                <outlet property="showArenaRedraftDiscard" destination="arn-bt-006" id="arn-ol-006"/>
+                <outlet property="showOpponentArenaPackages" destination="arn-bt-007" id="arn-ol-007"/>
+                <outlet property="view" destination="arn-St-vw0" id="arn-ol-view"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="10" horizontalStackHuggingPriority="250" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" id="arn-St-vw0">
+            <rect key="frame" x="0.0" y="0.0" width="460" height="238"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="arn-bt-000">
+                    <rect key="frame" x="20" y="202" width="420" height="16"/>
+                    <buttonCell key="cell" type="check" title="Enable Arenasmith" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="arn-cl-000">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="arn-ac-000"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="arn-bt-001">
+                    <rect key="frame" x="20" y="176" width="420" height="16"/>
+                    <buttonCell key="cell" type="check" title="Show Arenasmith in Arena Menu" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="arn-cl-001">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="arn-ac-001"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="arn-bt-002">
+                    <rect key="frame" x="20" y="150" width="420" height="16"/>
+                    <buttonCell key="cell" type="check" title="Show Hero picking stats" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="arn-cl-002">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="arn-ac-002"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="arn-bt-003">
+                    <rect key="frame" x="20" y="124" width="420" height="16"/>
+                    <buttonCell key="cell" type="check" title="Show Arenasmith Scores" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="arn-cl-003">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="arn-ac-003"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="arn-bt-004">
+                    <rect key="frame" x="20" y="98" width="420" height="16"/>
+                    <buttonCell key="cell" type="check" title="Show Related Cards" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="arn-cl-004">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="arn-ac-004"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="arn-bt-005">
+                    <rect key="frame" x="20" y="72" width="420" height="16"/>
+                    <buttonCell key="cell" type="check" title="Show Synergies in your Deck" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="arn-cl-005">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="arn-ac-005"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="arn-bt-006">
+                    <rect key="frame" x="20" y="46" width="420" height="16"/>
+                    <buttonCell key="cell" type="check" title="Show redraft discard suggestions" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="arn-cl-006">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="arn-ac-006"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="arn-bt-007">
+                    <rect key="frame" x="20" y="20" width="420" height="16"/>
+                    <buttonCell key="cell" type="check" title="Show Opponent&apos;s Legendary groups" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="arn-cl-007">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="arn-ac-007"/>
+                    </connections>
+                </button>
+            </subviews>
+            <edgeInsets key="edgeInsets" left="20" right="20" top="20" bottom="20"/>
+            <constraints>
+                <constraint firstItem="arn-bt-000" firstAttribute="leading" secondItem="arn-St-vw0" secondAttribute="leading" constant="20" symbolic="YES" id="arn-cl0-l"/>
+                <constraint firstAttribute="trailing" secondItem="arn-bt-000" secondAttribute="trailing" constant="20" symbolic="YES" id="arn-ct0-t"/>
+                <constraint firstItem="arn-bt-001" firstAttribute="leading" secondItem="arn-St-vw0" secondAttribute="leading" constant="20" symbolic="YES" id="arn-cl1-l"/>
+                <constraint firstAttribute="trailing" secondItem="arn-bt-001" secondAttribute="trailing" constant="20" symbolic="YES" id="arn-ct1-t"/>
+                <constraint firstItem="arn-bt-002" firstAttribute="leading" secondItem="arn-St-vw0" secondAttribute="leading" constant="20" symbolic="YES" id="arn-cl2-l"/>
+                <constraint firstAttribute="trailing" secondItem="arn-bt-002" secondAttribute="trailing" constant="20" symbolic="YES" id="arn-ct2-t"/>
+                <constraint firstItem="arn-bt-003" firstAttribute="leading" secondItem="arn-St-vw0" secondAttribute="leading" constant="20" symbolic="YES" id="arn-cl3-l"/>
+                <constraint firstAttribute="trailing" secondItem="arn-bt-003" secondAttribute="trailing" constant="20" symbolic="YES" id="arn-ct3-t"/>
+                <constraint firstItem="arn-bt-004" firstAttribute="leading" secondItem="arn-St-vw0" secondAttribute="leading" constant="20" symbolic="YES" id="arn-cl4-l"/>
+                <constraint firstAttribute="trailing" secondItem="arn-bt-004" secondAttribute="trailing" constant="20" symbolic="YES" id="arn-ct4-t"/>
+                <constraint firstItem="arn-bt-005" firstAttribute="leading" secondItem="arn-St-vw0" secondAttribute="leading" constant="20" symbolic="YES" id="arn-cl5-l"/>
+                <constraint firstAttribute="trailing" secondItem="arn-bt-005" secondAttribute="trailing" constant="20" symbolic="YES" id="arn-ct5-t"/>
+                <constraint firstItem="arn-bt-006" firstAttribute="leading" secondItem="arn-St-vw0" secondAttribute="leading" constant="20" symbolic="YES" id="arn-cl6-l"/>
+                <constraint firstAttribute="trailing" secondItem="arn-bt-006" secondAttribute="trailing" constant="20" symbolic="YES" id="arn-ct6-t"/>
+                <constraint firstItem="arn-bt-007" firstAttribute="leading" secondItem="arn-St-vw0" secondAttribute="leading" constant="20" symbolic="YES" id="arn-cl7-l"/>
+                <constraint firstAttribute="trailing" secondItem="arn-bt-007" secondAttribute="trailing" constant="20" symbolic="YES" id="arn-ct7-t"/>
+            </constraints>
+            <visibilityPriorities>
+                <integer value="1000"/>
+                <integer value="1000"/>
+                <integer value="1000"/>
+                <integer value="1000"/>
+                <integer value="1000"/>
+                <integer value="1000"/>
+                <integer value="1000"/>
+                <integer value="1000"/>
+            </visibilityPriorities>
+            <customSpacing>
+                <real value="3.4028234663852886e+38"/>
+                <real value="3.4028234663852886e+38"/>
+                <real value="3.4028234663852886e+38"/>
+                <real value="3.4028234663852886e+38"/>
+                <real value="3.4028234663852886e+38"/>
+                <real value="3.4028234663852886e+38"/>
+                <real value="3.4028234663852886e+38"/>
+                <real value="3.4028234663852886e+38"/>
+            </customSpacing>
+            <point key="canvasLocation" x="64.5" y="-71"/>
+        </stackView>
+    </objects>
+</document>

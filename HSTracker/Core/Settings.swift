@@ -400,6 +400,29 @@ final class Settings {
     @UserDefault(key: Settings.auto_show_battlegrounds_trinket_picking, defaultValue: true)
     static var autoShowBattlegroundsTrinketPicking: Bool
 
+    // Arenasmith (HDT's EnableArenasmithOverlay, ShowArenaHeroPicking,
+    // ShowArenasmithScore, ShowArenaRelatedCards, ShowArenaDeckSynergies,
+    // ShowArenaRedraftDiscard, ShowArenasmithPreLobby, HideOpponentArenaPackages
+    // and ArenasmithPreLobbyTrialsCollapsed).
+    @UserDefault(key: Settings.enable_arenasmith_overlay, defaultValue: true)
+    static var enableArenasmithOverlay: Bool
+    @UserDefault(key: Settings.show_arena_hero_picking, defaultValue: true)
+    static var showArenaHeroPicking: Bool
+    @UserDefault(key: Settings.show_arenasmith_score, defaultValue: true)
+    static var showArenasmithScore: Bool
+    @UserDefault(key: Settings.show_arena_related_cards, defaultValue: true)
+    static var showArenaRelatedCards: Bool
+    @UserDefault(key: Settings.show_arena_deck_synergies, defaultValue: true)
+    static var showArenaDeckSynergies: Bool
+    @UserDefault(key: Settings.show_arena_redraft_discard, defaultValue: true)
+    static var showArenaRedraftDiscard: Bool
+    @UserDefault(key: Settings.show_arenasmith_prelobby, defaultValue: true)
+    static var showArenasmithPreLobby: Bool
+    @UserDefault(key: Settings.hide_opponent_arena_packages, defaultValue: false)
+    static var hideOpponentArenaPackages: Bool
+    @UserDefault(key: Settings.arenasmith_prelobby_trials_collapsed, defaultValue: false)
+    static var arenasmithPreLobbyTrialsCollapsed: Bool
+
     // Tavern Pinning (HDT's ShowBattlegroundsTavernMarkers,
     // AutoEnableTavernMarkersRecommended, TavernMarkersPanelExpanded, and the
     // three "dismissed" flags its ConfigWrapper exposes). Defaults match
@@ -766,6 +789,15 @@ extension Settings {
     static let show_battlegrounds_tier7_session_comp_stats = "show_battlegrounds_tier7_session_comp_stats"
     static let always_show_tier_7 = "always_show_tier_7"
     static let auto_show_battlegrounds_trinket_picking = "auto_show_battlegrounds_trinket_picking"
+    static let enable_arenasmith_overlay = "enable_arenasmith_overlay"
+    static let show_arena_hero_picking = "show_arena_hero_picking"
+    static let show_arenasmith_score = "show_arenasmith_score"
+    static let show_arena_related_cards = "show_arena_related_cards"
+    static let show_arena_deck_synergies = "show_arena_deck_synergies"
+    static let show_arena_redraft_discard = "show_arena_redraft_discard"
+    static let show_arenasmith_prelobby = "show_arenasmith_prelobby"
+    static let hide_opponent_arena_packages = "hide_opponent_arena_packages"
+    static let arenasmith_prelobby_trials_collapsed = "arenasmith_prelobby_trials_collapsed"
     static let show_battlegrounds_tavern_markers = "show_battlegrounds_tavern_markers"
     static let auto_enable_tavern_markers_recommended = "auto_enable_tavern_markers_recommended"
     static let tavern_markers_panel_expanded = "tavern_markers_panel_expanded"
