@@ -40,8 +40,12 @@ class BattlegroundsTrinketPickingViewModel: ObservableObject {
         }
     }
 
+    // HDT's Visibility => ChoicesVisible && TrinketStats != null. The extra
+    // "and not empty" this used to carry hid the panel outright whenever the
+    // stats came back without a row for any of the offered trinkets, where HDT
+    // shows the panel and lets its own message stand in.
     var visibility: Bool {
-        return _choicesVisible && trinketStats != nil && (trinketStats?.count ?? 0) > 0
+        return _choicesVisible && trinketStats != nil
     }
 
     // Whether the stats themselves are shown, which the overlay's own toggle
