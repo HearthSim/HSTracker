@@ -37,6 +37,7 @@
 - Fixed Bob's Buddy being left without odds because the app shipped an incomplete, out-of-date copy of the runtime it simulates with.
 - Fixed HSTracker crashing during a Battlegrounds combat with Scoutmaster Tavish's Lock and Load, a magnetized Auto Assembler, or a minion granted "Crab Riding". (#1436)
 - Fixed the combat odds in Duos assuming Embrace Your Rage had already gone off when it had not.
+- Fixed the combat odds miscounting the Automatons a magnetized Auto Assembler summons when Deathly Phylactery repeated its deathrattle.
 
 # 3.6.9
 ## Hearthstone

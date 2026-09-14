@@ -2208,7 +2208,7 @@ class BobsBuddyInvoker {
         }
     }
 
-    private func reconcileAutoAssemblerDeathrattles(_ sourceEntityId: Int, _ triggerMultiplier: Int, _ summonedByIsPremium: [Bool]) -> Bool {
+    private func reconcileAutoAssemblerDeathrattles(_ sourceEntityId: Int, _ capturedTriggerMultiplier: Int, _ summonedByIsPremium: [Bool]) -> Bool {
         guard let input = input else { return false }
         
         return MonoHelper.withMonoThread {
@@ -2228,6 +2228,21 @@ class BobsBuddyInvoker {
                 return false
             }
 
+            // Deathly Phylactery transiently adds +1 to EXTRA_DEATHRATTLES_ADDITIONAL and then removes it;
+            // Read the tag now, when the phylactery's +1 has been subtracted (titus values do not reduce)
+            var multiplierNow = 1
+            if let source = game.entities[sourceEntityId] {
+                let controller = source[.controller]
+                let controllerEntity = game.entities.values.first { e in e.has(tag: .player_id) && e[.player_id] == controller }
+                multiplierNow += controllerEntity?[.extra_deathrattles_additional] ?? 0
+            }
+
+            // The stored multiplier was read at the first trigger; if it was higher than now, attribute it to Deathly Phylactery
+            let phylacteryExtra = capturedTriggerMultiplier > multiplierNow ? 1 : 0
+
+            // Use the current value for the divisions below
+            let triggerMultiplier = multiplierNow
+
             let autoAssemblerActions = [ BobsBuddyInvoker.deathrattleAction(AutoAssemblerProxy.deathrattle()),
                                          BobsBuddyInvoker.deathrattleAction(AutoAssemblerProxy.goldenDeathrattle()) ]
 
@@ -2236,8 +2251,8 @@ class BobsBuddyInvoker {
             let isAutoAssembler = MonoHelper.isInstance(obj: minion, klass: AutoAssemblerProxy._class!)
 
             let observedFirings = _observedAutoAssemblerFirings[sourceEntityId] ?? 0
-            let firedDeathrattles = observedFirings / triggerMultiplier
-            let summonedDeathrattles = summonedByIsPremium.count / triggerMultiplier
+            let firedDeathrattles = (observedFirings - phylacteryExtra) / triggerMultiplier
+            let summonedDeathrattles = (summonedByIsPremium.count - phylacteryExtra) / triggerMultiplier
             var automatons = summonedByIsPremium.take(max(summonedDeathrattles, firedDeathrattles))
 
             // A firing the board had no space for leaves no summon to read the premium flag from; repeat the last
