@@ -4097,6 +4097,10 @@ class Game: NSObject, PowerEventHandler {
     func setChoicesVisible(_ choicesVisible: Bool, _ cardIds: [String]?) {
         if #available(macOS 10.15, *) {
             windowManager.rootOverlay?.viewModel.battlegroundsTrinketPicking.choicesVisible = choicesVisible
+            OverlayOpacityMask.trace("setChoicesVisible visible=\(choicesVisible)"
+                                     + " cards=\(cardIds ?? [String]())"
+                                     + " combat=\(isBattlegroundsCombatPhase)"
+                                     + " bgs=\(isBattlegroundsMatch())")
         }
 
         guard isBattlegroundsMatch() else { return }
@@ -4124,6 +4128,9 @@ class Game: NSObject, PowerEventHandler {
     }
 
     func onBattlegroundsShoppingStart() {
+        if #available(macOS 10.15, *) {
+            OverlayOpacityMask.trace("shopping start, pending=\(pendingBgsCombatChoices ?? [String]())")
+        }
         if let pending = pendingBgsCombatChoices {
             pendingBgsCombatChoices = nil
             applyDiscoverCardMask(pending)
@@ -4139,6 +4146,8 @@ class Game: NSObject, PowerEventHandler {
         // GetCardFromId keeps everything) matches no branch and draws nothing.
         let cards = cardIds.compactMap { Cards.any(byId: $0) }
         guard #available(macOS 10.15, *) else { return }
+
+        OverlayOpacityMask.trace("applyDiscoverCardMask cards=\(cards.map { $0.id })")
 
         if cards.all({ $0.type == .battleground_trinket }) {
             let count = cards.count

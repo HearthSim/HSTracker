@@ -339,6 +339,10 @@ struct RootOverlayView: View {
             // to the same ZStack here, in the outer geometry's own space, which
             // is the normalized space the regions were computed in.
             .mask(RootOverlayOpacityMaskView(mask: viewModel.opacityMask, size: geometry.size))
+            // Applied after the mask, so the outlines this draws are not
+            // themselves cut away. Inert unless
+            // OverlayOpacityMask.debugShowRegions is flipped on.
+            .overlay(RootOverlayOpacityMaskDebugView(mask: viewModel.opacityMask, size: geometry.size))
         }
         // Declared on the outer GeometryReader so nested frame(in: .rootOverlayCanvas)
         // reports land in the same real, post-scale pixel space as the

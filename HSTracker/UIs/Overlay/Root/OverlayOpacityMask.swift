@@ -33,6 +33,17 @@ class OverlayOpacityMask: ObservableObject {
     // HDT's Mask, the DrawingBrush OverlayWindow assigns to its OpacityMask.
     @Published private(set) var maskedRects = [CGRect]()
 
+    // Debug affordance, off in every shipped build: flip this to true and
+    // nothing is cut out of the overlay at all - the regions are outlined in
+    // red and named instead (RootOverlayOpacityMaskDebugView), so a screenshot
+    // says which region is sitting over whatever the overlay has lost. Read at
+    // render time, so flipping it means a rebuild.
+    static var debugShowRegions = false
+
+    // The key each rect in maskedRects came from, in the same order, for the
+    // labels the debug view draws. Only filled while debugShowRegions is on.
+    @Published private(set) var maskedRectKeys = [String]()
+
     private var batchChanges = 0
     private var batchInProgress = false
     private var disabled = false
@@ -53,7 +64,16 @@ class OverlayOpacityMask: ObservableObject {
         }
     }
 
+    // Traces the mask's own traffic while debugShowRegions is on, so a region
+    // that is never asked to go away can be told apart from one that is asked
+    // and stays. Silent - and free - in a normal build.
+    static func trace(_ message: @autoclosure () -> String) {
+        guard debugShowRegions else { return }
+        logger.debug("[opacity mask] \(message())")
+    }
+
     func addMaskedRegion(_ key: String, _ region: CGRect) {
+        OverlayOpacityMask.trace("add \(key) \(region)")
         maskedRegions[key, default: [CGRect]()].append(region)
 
         if !batchInProgress {
@@ -64,6 +84,8 @@ class OverlayOpacityMask: ObservableObject {
     }
 
     func removeMaskedRegion(_ key: String) {
+        OverlayOpacityMask.trace("remove \(key)"
+                                 + (maskedRegions[key] == nil ? " (nothing to remove)" : ""))
         guard maskedRegions.removeValue(forKey: key) != nil else { return }
 
         if !batchInProgress {
@@ -105,9 +127,17 @@ class OverlayOpacityMask: ObservableObject {
         // themselves do - a dictionary's own iteration order is not stable, and
         // HDT's Mask setter likewise only raises a change when the brush is a
         // different one.
-        let rects = maskedRegions.keys.sorted().flatMap { maskedRegions[$0] ?? [CGRect]() }
+        let keys = maskedRegions.keys.sorted()
+        let rects = keys.flatMap { maskedRegions[$0] ?? [CGRect]() }
         if maskedRects != rects {
             maskedRects = rects
+        }
+
+        let names = OverlayOpacityMask.debugShowRegions
+            ? keys.flatMap { key in (maskedRegions[key] ?? [CGRect]()).indices.map { "\(key) #\($0)" } }
+            : [String]()
+        if maskedRectKeys != names {
+            maskedRectKeys = names
         }
     }
 }
@@ -125,7 +155,7 @@ struct RootOverlayOpacityMaskView: View {
         ZStack {
             Rectangle()
                 .fill(Color.black)
-            ForEach(Array(mask.maskedRects.enumerated()), id: \.offset) { _, rect in
+            ForEach(Array(debugRects.enumerated()), id: \.offset) { _, rect in
                 Rectangle()
                     .fill(Color.black)
                     .frame(width: max(rect.width, 0) * size.width,
@@ -135,5 +165,65 @@ struct RootOverlayOpacityMaskView: View {
             }
         }
         .compositingGroup()
+    }
+
+    // Nothing is punched out while the regions are being debugged, so the
+    // overlay stays whole and the outlines can be compared against what it
+    // draws.
+    private var debugRects: [CGRect] {
+        OverlayOpacityMask.debugShowRegions ? [CGRect]() : mask.maskedRects
+    }
+}
+
+// The debug counterpart to the mask: every masked region outlined in red and
+// named by the key that put it there. Draws nothing at all unless
+// OverlayOpacityMask.debugShowRegions is on, and takes no hit testing either
+// way - it is applied over the masked overlay in RootOverlayView, so the
+// outlines survive the very cut-outs they describe.
+@available(macOS 10.15, *)
+struct RootOverlayOpacityMaskDebugView: View {
+    @ObservedObject var mask: OverlayOpacityMask
+    let size: CGSize
+
+    var body: some View {
+        ZStack(alignment: .topLeading) {
+            Color.clear
+            if OverlayOpacityMask.debugShowRegions {
+                ForEach(Array(mask.maskedRects.enumerated()), id: \.offset) { index, rect in
+                    region(rect, index: index, name: index < mask.maskedRectKeys.count
+                           ? mask.maskedRectKeys[index]
+                           : "#\(index)")
+                }
+            }
+        }
+        .allowsHitTesting(false)
+    }
+
+    private func region(_ rect: CGRect, index: Int, name: String) -> some View {
+        let width = max(rect.width, 0) * size.width
+        let height = max(rect.height, 0) * size.height
+
+        return ZStack(alignment: .topLeading) {
+            Rectangle()
+                .stroke(Color.red, lineWidth: 2)
+                .frame(width: width, height: height)
+
+            // The key, plus the normalized origin the region was computed at -
+            // which is what RegionDrawer's own numbers can be matched against.
+            //
+            // Stepped down the rect by its index in the list: one key routinely
+            // contributes several regions sharing a top edge (a BigCard's card,
+            // tooltip and enchantment list all start at the same y), and
+            // labels drawn at the same spot would hide each other.
+            Text(verbatim: String(format: "%@  %.3f, %.3f", name, rect.origin.x, rect.origin.y))
+                .font(.system(size: 11, weight: .bold))
+                .foregroundColor(.white)
+                .padding(.horizontal, 3)
+                .background(Color.red)
+                .fixedSize()
+                .offset(x: 2, y: 2 + CGFloat(index % 4) * 15)
+        }
+        .frame(width: width, height: height, alignment: .topLeading)
+        .offset(x: rect.origin.x * size.width, y: rect.origin.y * size.height)
     }
 }

@@ -62,6 +62,11 @@ extension RootOverlayViewModel {
             let isFriendly = state.side == PlayerSide.friendly.rawValue
             let isHand = state.isHand
 
+            OverlayOpacityMask.trace("setCardOpacityMask card=\(state.cardId)"
+                                     + " type=\(card?.type.rawValue.description ?? "nil")"
+                                     + " friendly=\(isFriendly) hand=\(isHand)"
+                                     + " zone=\(state.zonePosition)/\(state.zoneSize)")
+
             opacityMask.removeMaskedRegion("BigCard")
 
             let regionDrawer = makeRegionDrawer()
