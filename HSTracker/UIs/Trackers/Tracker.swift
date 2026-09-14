@@ -538,6 +538,11 @@ class Tracker: OverWindowController, CardCellHover {
 
             tooltipGridCards.setCardIdsFromCards(nonNullableRelatedCards)
             tooltipGridCards.setTitle(String.localizedString("Related_Cards", comment: ""))
+            // The deck list's own tooltip is CardTooltip.xaml, whose GridCardImages scales by
+            // Config.CardImageSize rather than by the window - and that setting has no HSTracker
+            // equivalent, so it stays at its default of 1. Set explicitly all the same: the panel
+            // is a singleton, so an overlay hover's window scale would otherwise carry over.
+            tooltipGridCards.setScale(1)
             // Passing player (like Game.swift's hover paths already do) so dynamic
             // evolve/devolve pools resolve their live-state summary here too, instead of
             // silently falling through to no summary on a deck-list hover.

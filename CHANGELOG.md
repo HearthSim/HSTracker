@@ -12,6 +12,7 @@
 - The active effects and max resources widgets now scale with the game window and are cut away wherever Hearthstone draws over them, and the max resources widget no longer leaves a small dark square on the board when there is nothing to show.
 - Fixed the Outfinder's related cards tooltip and card pool browser showing up on the main display instead of the one Hearthstone is on.
 - Fixed the related cards tooltip for a Discover choice being drawn on top of the cards being offered instead of centred beside them, and staying on screen when moving to a choice that has none.
+- The related cards tooltips shown over the game board, including the ones on the counters, now scale with the game window like the rest of the overlay.
 ## Battlegrounds
 - Fixed the counter tooltips showing the previously hovered counter's card art, and the Blood Gem counter listing itself instead of the Quilboar payoffs.
 - Fixed the Blood Gem and next-turn gold counters reading the combat board instead of the shop, so they stopped following what was bought and sold.

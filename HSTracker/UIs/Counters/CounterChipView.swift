@@ -147,9 +147,14 @@ class CounterTooltipController {
         cardImages.setTitle(counter.localizedName)
         cardImages.setCardIdsFromCards(cardsToDisplay)
 
+        let hsFrame = SizeHelper.hearthstoneWindow.frame
+        // CountersOverlay.xaml sets OverlayExtensions.AutoScaleToolTip on each chip, which makes
+        // SetTooltip scale the tooltip by the chip's own scale - and the chips live in the
+        // height / 1080 subtree, the same factor CountersOverlayView reproduces here.
+        cardImages.setScale(hsFrame.height / 1080)
+
         let width = CGFloat(cardImages.gridWidth)
         let height = CGFloat(cardImages.gridHeight)
-        let hsFrame = SizeHelper.hearthstoneWindow.frame
 
         let x = anchor.minX < width ? anchor.maxX : anchor.minX - width
         var y = anchor.minY

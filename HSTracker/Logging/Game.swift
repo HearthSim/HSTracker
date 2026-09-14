@@ -5027,6 +5027,8 @@ class Game: NSObject, PowerEventHandler {
                     tooltipGridCards.setPoolStatistics(statistics, relatedCardsSummary: summary, hasLargePool: hasLargePool)
 
                     let frame = SizeHelper.hearthstoneWindow.frame
+                    // SetRelatedCardsTrigger(BigCardState) opens with vm.Scale = Height / 1080.
+                    tooltipGridCards.setScale(frame.height / 1080)
                     let y = frame.maxY - 480
                     // find the left of the card
                     let cardTotal = hoveredCard.zoneSize > 10 ? hoveredCard.zoneSize : 10
@@ -5075,6 +5077,8 @@ class Game: NSObject, PowerEventHandler {
                     tooltipGridCards.setPoolStatistics(statistics, relatedCardsSummary: summary, hasLargePool: hasLargePool)
 
                     let frame = SizeHelper.hearthstoneWindow.frame
+                    // SetRelatedCardsTrigger(BigCardState) opens with vm.Scale = Height / 1080.
+                    tooltipGridCards.setScale(frame.height / 1080)
                     let y = frame.maxY - 480
 
                     // find the left of the card
@@ -5122,6 +5126,8 @@ class Game: NSObject, PowerEventHandler {
                     tooltipGridCards.setPoolStatistics(statistics, relatedCardsSummary: summary, hasLargePool: hasLargePool)
 
                     let frame = SizeHelper.hearthstoneWindow.frame
+                    // SetRelatedCardsTrigger(BigCardState) opens with vm.Scale = Height / 1080.
+                    tooltipGridCards.setScale(frame.height / 1080)
                     let y = frame.maxY - 480
                     
                     // find the left of the card
@@ -5276,6 +5282,8 @@ class Game: NSObject, PowerEventHandler {
             vm.setCardIdsFromCards(relatedCards.compactMap({ $0 }), 470)
             let (statistics, summary, hasLargePool) = self.relatedCardsManager.getPoolStatistics(cardId: state.cardId, relatedCards: relatedCards, player: self.player)
             vm.setPoolStatistics(statistics, relatedCardsSummary: summary, hasLargePool: hasLargePool)
+            // SetRelatedCardsTrigger(DiscoverState) opens with vm.Scale = Height / 1080.
+            vm.setScale(frame.height / 1080)
 
             // Read after the pool is set: gridWidth/gridHeight are derived from the cards the
             // panel is currently holding, so reading them first measures the previous pool.
