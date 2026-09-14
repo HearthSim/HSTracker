@@ -1424,6 +1424,8 @@ class BobsBuddyInvoker {
         
         inputPlayer.beastsSummonCounter = Int32(game.playerEntity?[.gametag_3962] ?? 0) // direct
         
+        inputPlayer.goldenMinionsPlayedCounter = Int32(playerEntity[.gametag_4799]) // direct
+        
         inputPlayer.friendlyMinionsDeadLastCombatCounter = Int32(game.playerEntity?[.gametag_2717] ?? 0) // direct
         
         inputPlayer.battlecryCounter = Int32(game.playerEntity?[.gametag_3236] ?? 0) // direct
