@@ -1066,6 +1066,11 @@ class BobsBuddyInvoker {
                     if defensiveSacrifice.get() != nil {
                         minion.attachEnchantment(enchantment: defensiveSacrifice)
                     }
+                case CardIds.NonCollectible.Neutral.Invulnerability:
+                    let invulnerability = sim.enchantmentFactory.create(cardId: CardIds.NonCollectible.Neutral.Invulnerability, controlledByPlayer: minion.controlledByPlayer)
+                    if invulnerability.get() != nil {
+                        minion.attachEnchantment(enchantment: invulnerability)
+                    }
                 default:
                     break
                 }

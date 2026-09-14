@@ -1046,6 +1046,7 @@ extension CardIds.NonCollectible {
         static let JawsOfDeath = "BG36_MidGameEffect_000t16e"
         static let OffensiveSacrifice = "BG36_MidGameEffect_000te2"
         static let DefensiveSacrifice = "BG36_MidGameEffect_000t2e2"
+        static let Invulnerability = "BG36_MidGameEffect_000t60e"
         static let ColdFeet_ColdFeetEnchantment1 = "JAM_006e"
         static let DiscipleofEonar_SymbioticEnchantment = "TTN_503e"
         static let PopularPixie_GladesGuidanceEnchantment = "JAM_026e"

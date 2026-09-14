@@ -39,6 +39,7 @@
 - Fixed the combat odds in Duos assuming Embrace Your Rage had already gone off when it had not.
 - Fixed the combat odds miscounting the Automatons a magnetized Auto Assembler summons when Deathly Phylactery repeated its deathrattle.
 - Fixed the combat odds ignoring how many "Immune while attacking" grants Eclipsion Illidari had left.
+- Fixed the combat odds losing the Invulnerability dark gift when the minion carrying it was magnetized onto a Mech.
 
 # 3.6.9
 ## Hearthstone
