@@ -956,7 +956,9 @@ class Game: NSObject, PowerEventHandler {
         // HDT: the whole RootOverlay window is hidden for that
         // (Game.updateRootOverlay), so folding it in would only make the panel
         // reset itself every time the user alt-tabbed.
-        let show = isRunning && isInMenu && !queueEvents.isInQueue && SceneHandler.scene == .bacon && Settings.enableTier7Overlay && Settings.showBattlegroundsTier7PreLobby && (viewModel.battlegroundsGameMode == .solo || viewModel.battlegroundsGameMode == .duos) && viewModel.visibility
+        // subs can toggle this independently, non-subs can just toggle the Tier7 setting above
+        let preLobbyEnabled = Settings.showBattlegroundsTier7PreLobby || !(HSReplayAPI.accountData?.is_tier7 ?? false)
+        let show = isRunning && isInMenu && !queueEvents.isInQueue && SceneHandler.scene == .bacon && Settings.enableTier7Overlay && preLobbyEnabled && (viewModel.battlegroundsGameMode == .solo || viewModel.battlegroundsGameMode == .duos) && viewModel.visibility
         if show {
             Task.init {
                 await viewModel.update()

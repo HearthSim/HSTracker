@@ -23,7 +23,7 @@
 - Fixed the session panel losing track of a Battlegrounds season MMR reset: the game the reset happened in now shows the new rating, and the session counts from zero instead of from the old rating.
 - Fixed the session panel showing a current MMR of zero, and a session change of the whole starting rating, while Hearthstone had not reported a rating yet.
 - The Battlegrounds comp guide no longer overhangs the tab strip, its card rows lost their extra gaps, its "Show Example Lineups" button spans the Core Cards section, and its mode badge names the Tier7 or Free version with an explanation on hover.
-- The Tier7 panel in the Battlegrounds lobby can now be folded away by its header chevron, shows a settings button in its corner on hover, shows a sale offer when one is running, and scales with the game window.
+- The Tier7 panel in the Battlegrounds lobby can now be folded away by its header chevron, shows a settings button in its corner on hover, shows a sale offer when one is running, scales with the game window, and no longer stays hidden from players whose Tier7 subscription has ended.
 - The Battlegrounds session panel can now show the available and banned minion types at the same time, show a past game's final board beside its row, show a settings button in its corner on hover, and be dragged around the game window directly instead of being moved as a separate window.
 - The quest stats now explain themselves on hover, and the trinket show/hide button and guide tooltips no longer take the mouse away from the rest of the game window.
 - Fixed the trinket picking panel staying hidden altogether when none of the offered trinkets had stats to show.
