@@ -2,6 +2,7 @@
 ## Hearthstone
 - Fixed HSTracker quitting when a deck was deleted in the deck manager.
 - Fixed HSTracker quitting when a mulligan guide tooltip was shown in Korean, Japanese, Simplified Chinese or Traditional Chinese, and those tooltips now put the card name and the percentage where the translation puts them.
+- The Battlegrounds overlay panels, counters and tavern pin markers now fade back while a hero on the leaderboard is hovered, so they no longer cover that player's board.
 
 # 3.6.10
 ## Hearthstone

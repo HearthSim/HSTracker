@@ -45,6 +45,15 @@ final class BattlegroundsOpponentInfoViewModel: ObservableObject {
     // which HDT ties to *any* hovered leaderboard hero - including your own and,
     // in Duos, your teammate - not to the opponent panel's own visibility.
     @Published var showDeadFor = false
+    // OverlayWindow.UpdateBattlegroundsOverlay's `fadeBgsMinionsList`: while the
+    // cursor is over a leaderboard hero, Hearthstone draws that player's board
+    // across the middle of the screen, so HDT knocks the overlay panels sitting
+    // over it back to 30% opacity rather than hiding them. Tied to *any* hovered
+    // hero, like showDeadFor above, and suppressed during mulligan.
+    @Published var fadeBattlegroundsPanels = false
+
+    // BgsTopBar.Opacity / BgsMinionPinning.Opacity / the two counters.
+    static let fadedOpacity = 0.3
 
     // BattlegroundsBoard's children.
     @Published var minions = [Entity]()
@@ -108,6 +117,7 @@ final class BattlegroundsOpponentInfoViewModel: ObservableObject {
             self.hoveredEntityId = nil
             self.isShown = false
             self.showDeadFor = false
+            self.fadeBattlegroundsPanels = false
             self.clearBoard()
             self.deadForSlots = [Int?](repeating: nil, count: Self.leaderboardSlots)
             self.nextOpponentLeaderboardPosition = 0
@@ -121,6 +131,14 @@ final class BattlegroundsOpponentInfoViewModel: ObservableObject {
 
         isDuos = game.isBattlegroundsDuosMatch()
         showDeadFor = false
+        // HDT declares `var fadeBgsMinionsList = false` at the top of the method
+        // and only assigns the opacities at the bottom, so the early return
+        // below leaves the last fade in place. Clearing it here instead: HDT's
+        // early return is the turn-0 case alone, while this one also covers
+        // leaving the match and the match ending, and a panel left at 30% for
+        // the rest of the session is worse than the one frame of difference on
+        // turn 0.
+        fadeBattlegroundsPanels = false
 
         // HDT only ever runs this from its Battlegrounds path, and its dead-for
         // labels lived on an overlay canvas that was itself only up during a
@@ -135,6 +153,8 @@ final class BattlegroundsOpponentInfoViewModel: ObservableObject {
 
         if let heroEntityId = hoveredEntityId {
             showDeadFor = true
+            // Only fade the minions, if we're out of mulligan.
+            fadeBattlegroundsPanels = game.gameEntity?[.step] ?? 0 > Step.begin_mulligan.rawValue
             // check if it's the team mate
             if let entity = game.entities[heroEntityId], !(entity.isControlled(by: game.player.id) || (game.isBattlegroundsDuosMatch() && entity[.bacon_duo_team_id] == game.playerEntity?[.bacon_duo_team_id])) {
                 shouldShowOpponentInfo = true
@@ -147,11 +167,15 @@ final class BattlegroundsOpponentInfoViewModel: ObservableObject {
             displayHero(entityId: nil)
         }
 
-        // HDT keeps Bob's Buddy and the top bar up and merely fades them to 0.3
-        // while the panel is out; HSTracker has always hidden them instead,
-        // because its own panel is wider than HDT's and covers the same corner.
-        // Bob's Buddy is a RootOverlay child now, so setting the flag its own
-        // visibility already reads and asking for a recompute is all it takes.
+        // HDT only fades Bob's Buddy and the top bar while the panel is out;
+        // HSTracker hides them outright, because its own panel is wider than
+        // HDT's and covers the same corner. Bob's Buddy is a RootOverlay child
+        // now, so setting the flag its own visibility already reads and asking
+        // for a recompute is all it takes.
+        //
+        // This is narrower than fadeBattlegroundsPanels above, and deliberately:
+        // it is keyed to the panel actually being up, so hovering your own hero
+        // (or your Duos teammate) still only fades them, as in HDT.
         game.hideBobsBuddy = shouldShowOpponentInfo
         game.hideBattlegroundsTurn = shouldShowOpponentInfo
         game.updateBobsBuddyOverlay()

@@ -75,6 +75,29 @@ extension CoordinateSpace {
     static let rootOverlayCanvas = CoordinateSpace.named("rootOverlayCanvas")
 }
 
+// The `BgsTopBar.Opacity = fadeBgsMinionsList ? 0.3 : 1` line and its four
+// siblings at the end of OverlayWindow.UpdateBattlegroundsOverlay. Hovering a
+// leaderboard hero makes Hearthstone draw that player's board over the middle of
+// the screen; these panels sit on top of it, so they step back rather than
+// disappear.
+//
+// A wrapper view rather than opacity applied inline, because the flag lives on
+// BattlegroundsOpponentInfoViewModel - the port of the method that computes it -
+// and RootOverlayView observes only RootOverlayViewModel, so something has to
+// observe it for the opacity to track it.
+@available(macOS 10.15, *)
+struct BattlegroundsLeaderboardHoverFade<Content: View>: View {
+    @ObservedObject var viewModel: BattlegroundsOpponentInfoViewModel
+    @ViewBuilder let content: () -> Content
+
+    var body: some View {
+        content()
+            .opacity(viewModel.fadeBattlegroundsPanels
+                     ? BattlegroundsOpponentInfoViewModel.fadedOpacity
+                     : 1)
+    }
+}
+
 @available(macOS 10.15, *)
 struct RootOverlayView: View {
     /// Width of Hearthstone's 4:3 play area in canvas units - the canvas is the
@@ -122,8 +145,16 @@ struct RootOverlayView: View {
                     // (Windows/OverlayWindow.xaml), and are scaled by the same
                     // Height/1080 factor this subtree applies - see
                     // CountersOverlayView for the placement they carry.
-                    CountersOverlayView(viewModel: viewModel.opponentCounters, canvasWidth: canvasWidth)
-                    CountersOverlayView(viewModel: viewModel.playerCounters, canvasWidth: canvasWidth)
+                    // PlayerCounters / OpponentCounters are two of the five
+                    // elements HDT fades while a leaderboard hero is hovered.
+                    // The ActiveEffects and PlayerResources widgets below are
+                    // not, so the fade wraps only this pair.
+                    BattlegroundsLeaderboardHoverFade(viewModel: viewModel.battlegroundsOpponentInfo) {
+                        CountersOverlayView(viewModel: viewModel.opponentCounters, canvasWidth: canvasWidth)
+                    }
+                    BattlegroundsLeaderboardHoverFade(viewModel: viewModel.battlegroundsOpponentInfo) {
+                        CountersOverlayView(viewModel: viewModel.playerCounters, canvasWidth: canvasWidth)
+                    }
 
                     // HDT's two ActiveEffectsOverlay controls, declared right
                     // after those counters on its own canvas, opponent first,
@@ -149,11 +180,18 @@ struct RootOverlayView: View {
                     // declares it ahead of BgsOpponentInfoContainer, and the
                     // two never share the screen: the opponent panel takes the
                     // same corner and hides this one while it is up.
-                    ZStack(alignment: .top) {
-                        Color.clear
-                        BobsBuddyPanelView(viewModel: viewModel.bobsBuddy)
+                    //
+                    // BobsBuddyDisplay is the fifth element HDT fades on
+                    // leaderboard hover. It only ever shows while hovering your
+                    // own hero or your Duos teammate - hovering an opponent
+                    // hides it outright, see BattlegroundsOpponentInfoViewModel.
+                    BattlegroundsLeaderboardHoverFade(viewModel: viewModel.battlegroundsOpponentInfo) {
+                        ZStack(alignment: .top) {
+                            Color.clear
+                            BobsBuddyPanelView(viewModel: viewModel.bobsBuddy)
+                        }
+                        .frame(width: canvasWidth, height: 1080)
                     }
-                    .frame(width: canvasWidth, height: 1080)
 
                     // The hovered opponent's warband, pinned to the top edge of
                     // the canvas and centred on it - HDT's
@@ -285,14 +323,21 @@ struct RootOverlayView: View {
                         // approximate with a hand-computed frame.
                         //
                         // .top so the 49pt counter lines up with the tab strip.
-                        HStack(alignment: .top, spacing: 0) {
-                            // First in BgsTopBar, left of the turn counter, as
-                            // in OverlayWindow.xaml.
-                            BattlegroundsInspirationOverlayButtonView(viewModel: viewModel.battlegroundsInspiration)
-                            BattlegroundsTurnCounterView(viewModel: viewModel.battlegroundsTurnCounter,
-                                                         minionsGuide: viewModel.battlegroundsMinionsGuide,
-                                                         guidesTabs: viewModel.battlegroundsGuidesTabs)
-                            GuidesTabsView(viewModel: viewModel.battlegroundsGuidesTabs, compsGuides: viewModel.battlegroundsCompsGuides, heroGuides: viewModel.battlegroundsHeroGuides, questGuides: viewModel.battlegroundsQuestGuides, minionsGuide: viewModel.battlegroundsMinionsGuide, minionPinning: viewModel.battlegroundsMinionPinning)
+                        //
+                        // Faded on leaderboard hover, as BgsTopBar is. The mask
+                        // above stays out of it: it is a separate element on
+                        // HDT's canvas, outside the StackPanel, and its 0.01
+                        // opacity is load-bearing.
+                        BattlegroundsLeaderboardHoverFade(viewModel: viewModel.battlegroundsOpponentInfo) {
+                            HStack(alignment: .top, spacing: 0) {
+                                // First in BgsTopBar, left of the turn counter, as
+                                // in OverlayWindow.xaml.
+                                BattlegroundsInspirationOverlayButtonView(viewModel: viewModel.battlegroundsInspiration)
+                                BattlegroundsTurnCounterView(viewModel: viewModel.battlegroundsTurnCounter,
+                                                             minionsGuide: viewModel.battlegroundsMinionsGuide,
+                                                             guidesTabs: viewModel.battlegroundsGuidesTabs)
+                                GuidesTabsView(viewModel: viewModel.battlegroundsGuidesTabs, compsGuides: viewModel.battlegroundsCompsGuides, heroGuides: viewModel.battlegroundsHeroGuides, questGuides: viewModel.battlegroundsQuestGuides, minionsGuide: viewModel.battlegroundsMinionsGuide, minionPinning: viewModel.battlegroundsMinionPinning)
+                            }
                         }
                     }
                     .frame(width: canvasWidth, height: 1080)
@@ -301,10 +346,19 @@ struct RootOverlayView: View {
                     // Tavern Pinning panel (bottom-right) and the markers drawn
                     // over Bob's shop. Both sit in the scaled subtree because
                     // HDT scales them by the same Height/1080 factor.
-                    BattlegroundsMinionPinningView(viewModel: viewModel.battlegroundsMinionPinning,
-                                                   canvasWidth: canvasWidth)
-                    BattlegroundsMinionPinningShopView(viewModel: viewModel.battlegroundsMinionPinning,
+                    //
+                    // HDT fades that whole Grid on leaderboard hover, so the
+                    // shop markers - the pin, tribe and key icons drawn over
+                    // Bob's minions - step back along with the panel. They sit
+                    // right where Hearthstone draws the hovered player's board.
+                    BattlegroundsLeaderboardHoverFade(viewModel: viewModel.battlegroundsOpponentInfo) {
+                        BattlegroundsMinionPinningView(viewModel: viewModel.battlegroundsMinionPinning,
                                                        canvasWidth: canvasWidth)
+                    }
+                    BattlegroundsLeaderboardHoverFade(viewModel: viewModel.battlegroundsOpponentInfo) {
+                        BattlegroundsMinionPinningShopView(viewModel: viewModel.battlegroundsMinionPinning,
+                                                           canvasWidth: canvasWidth)
+                    }
 
                     // HDT places ArenaPickHelper with GetLeft = GetScaledXPos(0)
                     // and GetTop = 0, scaled by Height/1080 - i.e. pinned to the
