@@ -7,40 +7,43 @@
 //
 
 import XCTest
-import Wrap
 
 @testable import HSTracker
 
 class ReplayUploadTests: HSTrackerTests {
-	
+
 	override func setUp() {
 		super.setUp()
 	}
-	
+
 	override func tearDown() {
 		super.tearDown()
 	}
-	
-	func testMetadataWrap() {
+
+	/// The upload metadata goes to HSReplay as JSON, so the property names are
+	/// part of the wire format rather than an internal detail.
+	func testMetadataEncoding() throws {
 		let player = UploadMetaData.Player()
-		
-//		player.rank = 1
-//		player.legendRank = 0
+
 		player.stars = 1
 		player.wins = 20
 		player.losses = 10
 		player.deck = ["one", "two"]
-		player.deckId = 12345
-		player.cardBack = 3
-		
-		guard let wrappedPlayer: [String : Any] = try? wrap(player) else {
-			XCTFail()
-			return
-		}
-		
-//		XCTAssert(wrappedPlayer["rank"] as! Int == player.rank!)
-		XCTAssert(wrappedPlayer["cardback"] as! Int == player.cardBack!)
-		XCTAssert(wrappedPlayer["deck"] as! [String] == player.deck!)
+		player.deck_id = 12345
+		player.cardback = 3
+
+		let data = try JSONEncoder().encode(player)
+		let json = try XCTUnwrap(try JSONSerialization.jsonObject(with: data) as? [String: Any])
+
+		XCTAssertEqual(json["stars"] as? Int, player.stars)
+		XCTAssertEqual(json["wins"] as? Int, player.wins)
+		XCTAssertEqual(json["losses"] as? Int, player.losses)
+		XCTAssertEqual(json["deck"] as? [String], player.deck)
+		XCTAssertEqual(json["deck_id"] as? Int64, player.deck_id)
+		XCTAssertEqual(json["cardback"] as? Int, player.cardback)
+
+		// Unset fields are omitted rather than sent as null.
+		XCTAssertNil(json["rank"])
+		XCTAssertNil(json["legend_rank"])
 	}
 }
-
