@@ -47,24 +47,6 @@ class WindowManager {
         return $0
     }(CardList(windowNibName: "CardList"))
 	
-    var playerBoardDamage: BoardDamage = {
-        $0.player = .player
-        return $0
-    }(BoardDamage(windowNibName: "BoardDamage"))
-
-    var opponentBoardDamage: BoardDamage = {
-        $0.player = .opponent
-        return $0
-    }(BoardDamage(windowNibName: "BoardDamage"))
-
-    var timerHud: TimerHud = {
-        return $0
-    }(TimerHud(windowNibName: "TimerHud"))
-
-    var experiencePanel: ExperienceOverlay = {
-        return $0
-    }(ExperienceOverlay(windowNibName: "ExperienceOverlay"))
-    
     var opponentBoardOverlay: BoardOverlay = {
         $0.setPlayerType(playerType: .opponent)
         return $0
@@ -206,9 +188,6 @@ class WindowManager {
 		// TODO: use not defered gui instead
         DispatchQueue.main.async { [weak self] in
             self?.secretTracker.window?.orderOut(nil)
-            self?.timerHud.window?.orderOut(nil)
-            self?.playerBoardDamage.window?.orderOut(nil)
-            self?.opponentBoardDamage.window?.orderOut(nil)
             self?.cardHudContainer.reset()
             self?.playerBoardOverlay.window?.orderOut(nil)
             self?.opponentBoardOverlay.window?.orderOut(nil)

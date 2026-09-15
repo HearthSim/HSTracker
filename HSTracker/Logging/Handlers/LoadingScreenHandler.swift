@@ -58,13 +58,15 @@ struct LoadingScreenHandler: LogEventParser {
                 }
             }
             
-            if let currentMode = game.currentMode, showExperienceDuringMode.contains(currentMode) {
-                game.windowManager.experiencePanel.visible = true
-                game.updateExperienceOverlay()
-            } else {
-                if let previousMode = game.previousMode, showExperienceDuringMode.contains(previousMode) {
-                    game.windowManager.experiencePanel.visible = false
+            if #available(macOS 10.15, *), let counter = game.windowManager.rootOverlay?.viewModel.experienceCounter {
+                if let currentMode = game.currentMode, showExperienceDuringMode.contains(currentMode) {
+                    counter.visible = true
                     game.updateExperienceOverlay()
+                } else {
+                    if let previousMode = game.previousMode, showExperienceDuringMode.contains(previousMode) {
+                        counter.visible = false
+                        game.updateExperienceOverlay()
+                    }
                 }
             }
         

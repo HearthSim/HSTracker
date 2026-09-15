@@ -18,12 +18,14 @@ import Foundation
     private(set) var opponentSeconds: Int = 0
     private var turnTime: Int = 75
     private var timer: Timer?
-    weak var timerHud: TimerHud?
+    // The timers are RootOverlay children now, so the tick goes to the window
+    // manager that owns that canvas rather than to a TimerHud panel of their own.
+    private weak var windowManager: WindowManager?
     
     private var currentPlayer: PlayerType = .player
     
-    init(gui: TimerHud) {
-        self.timerHud = gui
+    init(windowManager: WindowManager) {
+        self.windowManager = windowManager
     }
     
     func startTurn(for player: PlayerType, timeout: Int = -1) {
@@ -81,9 +83,12 @@ import Foundation
             guard let self else {
                 return
             }
-            self.timerHud?.tick(seconds: self.seconds,
-                                playerSeconds: self.playerSeconds,
-                                opponentSeconds: self.opponentSeconds)
+            if #available(macOS 10.15, *) {
+                self.windowManager?.rootOverlay?.viewModel.turnTimer
+                    .tick(seconds: self.seconds,
+                          playerSeconds: self.playerSeconds,
+                          opponentSeconds: self.opponentSeconds)
+            }
         }
     }
 }

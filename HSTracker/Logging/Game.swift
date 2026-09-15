@@ -473,31 +473,20 @@ class Game: NSObject, PowerEventHandler {
         isBattlegroundsMatch() && !gameEnded && Settings.showTurnCounter && !hideBattlegroundsTurn
     }
 
+    // HDT's OverlayWindow.ShowTimers/HideTimers, which is all that is left of
+    // this now that the three timers are RootOverlay children: there is no
+    // window of their own to frame, and hideAllWhenGameInBackground is already
+    // handled once for the whole canvas in updateRootOverlay().
     func updateTurnTimer() {
         DispatchQueue.main.async { [weak self] in
             guard let self else {
                 return
             }
-            if Settings.showTimer && !self.gameEnded && self.shouldShowGUIElement && !isBattlegroundsMatch() && !isMercenariesMatch() {
-                var rect: NSRect?
-                if Settings.autoPositionTrackers {
-                    rect = SizeHelper.timerHudFrame()
-                } else {
-                    rect = Settings.timerHudFrame
-                    if rect == nil {
-                        rect = SizeHelper.timerHudFrame()
-                    }
-                }
-                if let timerHud = self.turnTimer.timerHud {
-                    timerHud.hasValidFrame = true
-                    self.windowManager.show(controller: timerHud, show: true, frame: rect, title: nil, overlay: self.hearthstoneRunState.isActive)
-                }
-            } else {
-                if let timerHud = self.turnTimer.timerHud {
-                    self.windowManager.show(controller: timerHud, show: false)
-                }
+            if #available(macOS 10.15, *) {
+                self.windowManager.rootOverlay?.viewModel.turnTimer.isShown =
+                    Settings.showTimer && !self.gameEnded && self.shouldShowGUIElement
+                    && !self.isBattlegroundsMatch() && !self.isMercenariesMatch()
             }
-            
         }
     }
     
@@ -749,15 +738,16 @@ class Game: NSObject, PowerEventHandler {
         }
     }
     
+    // The experience counter is a RootOverlay child now, so there is no window
+    // of its own left to frame, show or hide: only HDT's
+    // ShowExperienceCounter/HideExperienceCounter gating is left, and
+    // hideAllWhenGameInBackground is already handled once for the whole canvas
+    // in updateRootOverlay().
     func updateExperienceOverlay() {
-        let rect = SizeHelper.experienceOverlayFrame()
-        
         DispatchQueue.main.async {
-            let experiencePanel = self.windowManager.experiencePanel
-            if Settings.showExperienceCounter && experiencePanel.visible && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground) {
-                self.windowManager.show(controller: experiencePanel, show: true, frame: rect, title: nil, overlay: true)
-            } else {
-                self.windowManager.show(controller: experiencePanel, show: false)
+            if #available(macOS 10.15, *) {
+                guard let counter = self.windowManager.rootOverlay?.viewModel.experienceCounter else { return }
+                counter.isShown = Settings.showExperienceCounter && counter.visible
             }
         }
     }
@@ -774,26 +764,32 @@ class Game: NSObject, PowerEventHandler {
             Thread.sleep(forTimeInterval: 0.500)
         }
         logger.debug("Showing experience counter now")
-        let experienceCounter = windowManager.experiencePanel.experienceTracker
-        experienceCounter.xpDisplay = "\(experience)/\(experienceNeeded)"
-        experienceCounter.levelDisplay = "\(level+1)"
-        experienceCounter.xpPercentage = (Double(experience) / Double(experienceNeeded))
-        if animate {
-            DispatchQueue.main.async {
-                experienceCounter.needsDisplay = true
-                self.windowManager.experiencePanel.visible = true
-                self.updateExperienceOverlay()
-                self.guiNeedsUpdate = true
-            }
-            Thread.sleep(forTimeInterval: Game.experienceFadeDelay)
-        } else {
-            DispatchQueue.main.async {
-                experienceCounter.needsDisplay = true
-                
+        let percentage = Double(experience) / Double(experienceNeeded)
+        DispatchQueue.main.async {
+            if #available(macOS 10.15, *) {
+                guard let counter = self.windowManager.rootOverlay?.viewModel.experienceCounter else { return }
+                counter.xpDisplay = "\(experience)/\(experienceNeeded)"
+                counter.levelDisplay = "\(level+1)"
+                // ExperienceChangedAsync's two calls to ChangeRectangleFill: the
+                // three second fill when this is a change worth watching, the
+                // instant one when the bar is just being brought up to date.
+                counter.changeFill(percentage, instant: !animate)
+                if animate {
+                    counter.visible = true
+                    self.updateExperienceOverlay()
+                    self.guiNeedsUpdate = true
+                }
             }
         }
+        if animate {
+            Thread.sleep(forTimeInterval: Game.experienceFadeDelay)
+        }
         if currentMode != Mode.hub {
-            windowManager.experiencePanel.visible = false
+            DispatchQueue.main.async {
+                if #available(macOS 10.15, *) {
+                    self.windowManager.rootOverlay?.viewModel.experienceCounter.visible = false
+                }
+            }
             guiNeedsUpdate = true
         }
     }
@@ -818,18 +814,31 @@ class Game: NSObject, PowerEventHandler {
         }
     }
     
+    // The two attack icons live on the RootOverlay canvas now, so there is no
+    // window of their own left to frame, show or hide. What remains is HDT's
+    // OverlayWindow.UpdateIcons: each icon's visibility, and - when at least one
+    // of them is up - the damage it reads off the board.
     func updateBoardStateTrackers() {
         DispatchQueue.main.async {
-            // board damage
-            let board = BoardState(game: self)
-            
-            let playerBoardDamage = self.windowManager.playerBoardDamage
-            let opponentBoardDamage = self.windowManager.opponentBoardDamage
-            
-            var rect: NSRect?
-            
-            if Settings.playerBoardDamage && self.shouldShowGUIElement && (self.currentGameMode != .battlegrounds && self.currentGameMode != .mercenaries) && self.isMulliganDone() {
-                if !self.gameEnded {
+            if #available(macOS 10.15, *) {
+                guard let viewModel = self.windowManager.rootOverlay?.viewModel else { return }
+
+                let visible = self.shouldShowGUIElement && !self.gameEnded
+                    && self.currentGameMode != .battlegrounds && self.currentGameMode != .mercenaries
+                    && self.isMulliganDone()
+                let showPlayer = Settings.playerBoardDamage && visible
+                let showOpponent = Settings.opponentBoardDamage && visible
+
+                viewModel.playerBoardAttack.isShown = showPlayer
+                viewModel.opponentBoardAttack.isShown = showOpponent
+
+                // HDT only builds the BoardState when one of the two icons is
+                // actually on screen, and so does this.
+                guard showPlayer || showOpponent else { return }
+
+                let board = BoardState(game: self)
+
+                if showPlayer {
                     var heroPowerDmg = 0
                     if let heroPower = board.player.heroPower, self.player.currentMana >= heroPower.cost {
                         heroPowerDmg = heroPower.damage
@@ -839,27 +848,11 @@ class Game: NSObject, PowerEventHandler {
                             heroPowerDmg *= 2
                         }
                     }
-                    playerBoardDamage.update(attack: board.player.hasInfiniteDamage ? Int.max : board.player.damage + heroPowerDmg)
-                    if Settings.autoPositionTrackers {
-                        rect = SizeHelper.playerBoardDamageFrame()
-                    } else {
-                        rect = Settings.playerBoardDamageFrame
-                        if rect == nil {
-                            rect = SizeHelper.playerBoardDamageFrame()
-                        }
-                    }
-                    playerBoardDamage.hasValidFrame = true
-                    self.windowManager.show(controller: playerBoardDamage, show: true,
-                         frame: rect, title: nil, overlay: self.hearthstoneRunState.isActive)
-                } else {
-                    self.windowManager.show(controller: playerBoardDamage, show: false)
+                    viewModel.playerBoardAttack.update(damage: board.player.damage + heroPowerDmg,
+                                                       hasInfiniteDamage: board.player.hasInfiniteDamage)
                 }
-            } else {
-                self.windowManager.show(controller: playerBoardDamage, show: false)
-            }
-            
-            if Settings.opponentBoardDamage && self.shouldShowGUIElement && (self.currentGameMode != .battlegrounds && self.currentGameMode != .mercenaries) && self.isMulliganDone() {
-                if !self.gameEnded {
+
+                if showOpponent {
                     var heroPowerDmg = 0
                     if let heroPower = board.opponent.heroPower {
                         heroPowerDmg = heroPower.damage
@@ -869,24 +862,9 @@ class Game: NSObject, PowerEventHandler {
                             heroPowerDmg *= 2
                         }
                     }
-                    opponentBoardDamage.update(attack: board.opponent.hasInfiniteDamage ? Int.max : board.opponent.damage + heroPowerDmg)
-                    if Settings.autoPositionTrackers {
-                        rect = SizeHelper.opponentBoardDamageFrame()
-                    } else {
-                        rect = Settings.opponentBoardDamageFrame
-                        if rect == nil {
-                            rect = SizeHelper.opponentBoardDamageFrame()
-                        }
-                    }
-                    opponentBoardDamage.hasValidFrame = true
-                    self.windowManager.show(controller: opponentBoardDamage, show: true,
-                         frame: SizeHelper.opponentBoardDamageFrame(), title: nil,
-                         overlay: self.hearthstoneRunState.isActive)
-                } else {
-                    self.windowManager.show(controller: opponentBoardDamage, show: false)
+                    viewModel.opponentBoardAttack.update(damage: board.opponent.damage + heroPowerDmg,
+                                                         hasInfiniteDamage: board.opponent.hasInfiniteDamage)
                 }
-            } else {
-                self.windowManager.show(controller: opponentBoardDamage, show: false)
             }
         }
     }
@@ -1490,7 +1468,7 @@ class Game: NSObject, PowerEventHandler {
     
     init(hearthstoneRunState: HearthstoneRunState) {
         self.hearthstoneRunState = hearthstoneRunState
-		turnTimer = TurnTimer(gui: windowManager.timerHud)
+		turnTimer = TurnTimer(windowManager: windowManager)
         activeEffects = ActiveEffects()
         counterManager = CounterManager()
         relatedCardsManager = RelatedCardsManager()

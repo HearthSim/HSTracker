@@ -530,9 +530,6 @@ final class Settings {
     @UserDefault(key: Settings.opponent_max_resources, defaultValue: true)
     static var showOpponentMaxResources: Bool
 
-    @UserDefaultCustom(key: Settings.timer_hud_frame, defaultValue: nil)
-    static var timerHudFrame: NSRect?
-    
     @UserDefault(key: Settings.show_card_huds, defaultValue: true)
     static var showCardHuds: Bool
     @UserDefault(key: Settings.show_secret_helper, defaultValue: true)
@@ -564,14 +561,8 @@ final class Settings {
     @UserDefault(key: Settings.player_board_damage, defaultValue: true)
     static var playerBoardDamage: Bool
     
-    @UserDefaultCustom(key: Settings.player_board_damage_frame, defaultValue: nil)
-    static var playerBoardDamageFrame: NSRect?
-    
     @UserDefault(key: Settings.opponent_board_damage, defaultValue: true)
     static var opponentBoardDamage: Bool
-    
-    @UserDefaultCustom(key: Settings.opponent_board_damage_frame, defaultValue: nil)
-    static var opponentBoardDamageFrame: NSRect?
     
     @UserDefault(key: Settings.show_fatigue, defaultValue: true)
     static var fatigueIndicator: Bool
@@ -846,7 +837,6 @@ extension Settings {
     static let show_opponent_tracker = "show_opponent_tracker"
     static let show_timer = "show_timer"
 
-    static let timer_hud_frame = "timer_hud_frame"
     static let show_card_huds = "show_card_huds"
     static let show_secret_helper = "show_secret_helper"
     static let show_win_loss_ratio = "show_win_loss_ratio"
@@ -855,9 +845,7 @@ extension Settings {
     static let player_tracker_frame = "player_tracker_frame"
     static let opponent_tracker_frame = "opponent_tracker_frame"
     static let player_board_damage = "player_board_damage"
-    static let player_board_damage_frame = "player_board_damage_frame"
     static let opponent_board_damage = "opponent_board_damage"
-    static let opponent_board_damage_frame = "opponent_board_damage_frame"
     static let show_fatigue = "show_fatigue"
     static let show_opponent_active_effects = "show_opponent_active_effects"
     static let show_player_active_effects = "show_player_active_effects"

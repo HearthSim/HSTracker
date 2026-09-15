@@ -124,6 +124,21 @@ struct RootOverlayView: View {
             let fourThreeInset = (canvasWidth - RootOverlayView.fourThreeWidth) / 2
 
             ZStack(alignment: .topLeading) {
+                // HDT's three turn timers and its two board attack icons, which
+                // sit on its own canvas ahead of the leaderboard tile texts
+                // below (Windows/OverlayWindow.xaml). Like those texts they take
+                // real, post-scale pixels rather than living in the scaled
+                // subtree - OverlayWindow.UpdateScaling never gives any of them
+                // a ScaleTransform, so HDT draws them at a flat size however
+                // large the client is.
+                TurnTimerOverlayView(viewModel: viewModel.turnTimer,
+                                     canvasSize: geometry.size)
+                // Opponent first, as on HDT's canvas.
+                BoardAttackIconView(viewModel: viewModel.opponentBoardAttack,
+                                    canvasSize: geometry.size)
+                BoardAttackIconView(viewModel: viewModel.playerBoardAttack,
+                                    canvasSize: geometry.size)
+
                 // Declared before the scaled subtree because HDT declares the
                 // eight BattlegroundsTileText/BattlegroundsTurnText pairs before
                 // every Battlegrounds panel on its own canvas
@@ -138,6 +153,17 @@ struct RootOverlayView: View {
                 // 1080-tall reference) lives in this inner, transformed
                 // subtree only.
                 ZStack {
+                    // HDT's ExperienceCounter. It is the one of these three
+                    // ports that _is_ resolution-scaled:
+                    // _experienceCounterBehavior gives it
+                    // GetScaling = AutoScaling, the Height/1080 factor this
+                    // subtree applies. Its place on HDT's canvas is just ahead
+                    // of the two attack icons above, which only matters in
+                    // principle - the counter is a menu element and the icons a
+                    // gameplay one, so the two never share the screen.
+                    ExperienceCounterView(viewModel: viewModel.experienceCounter,
+                                          canvasWidth: canvasWidth)
+
                     ConstructedMulliganGuideV2View(viewModel: viewModel.mulliganGuideV2)
 
                     // Both counter blocks are children of HDT's own overlay

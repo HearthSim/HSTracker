@@ -67,6 +67,19 @@ class RootOverlayViewModel: ObservableObject {
     let playerResources = PlayerResourcesViewModel(isPlayer: true)
     let opponentResources = PlayerResourcesViewModel(isPlayer: false)
 
+    // HDT's three turn timers, LblTurnTime / LblPlayerTurnTime /
+    // LblOpponentTurnTime, declared on the same canvas ahead of the deck lists.
+    let turnTimer = TurnTimerOverlayViewModel()
+
+    // HDT's IconBoardAttackOpponent and IconBoardAttackPlayer, declared
+    // opponent-first just after the ExperienceCounter.
+    let opponentBoardAttack = BoardAttackIconViewModel(isPlayer: false)
+    let playerBoardAttack = BoardAttackIconViewModel(isPlayer: true)
+
+    // HDT's ExperienceCounter, which sits on the same canvas right before that
+    // pair of icons.
+    let experienceCounter = ExperienceCounterViewModel()
+
     init() {
         // HDT wires the same reference in OverlayWindow's constructor
         // (BattlegroundsMinionPinningViewModel.CompsGuidesVM = ...): the key

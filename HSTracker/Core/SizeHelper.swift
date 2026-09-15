@@ -320,26 +320,6 @@ struct SizeHelper {
         return trackerFrame(xOffset: 0, yOffset: yOffset)
     }
     
-    static func playerBoardDamageFrame() -> NSRect {
-        let hs = hearthstoneWindow.frame
-        let w = 50.0
-        let h = 50.0
-        return NSRect(x: hs.minX + getScaledXPos(25.5 / 100.0, width: hs.width, ratio: screenRatio), y: hs.minY + (hs.height * (100.0 - 67.62) / 100.0) - h, width: w, height: h)
-    }
-    
-    static func opponentBoardDamageFrame() -> NSRect {
-        let hs = hearthstoneWindow.frame
-        let w = 50.0
-        let h = 50.0
-        return NSRect(x: hs.minX + getScaledXPos(25.5 / 100.0, width: hs.width, ratio: screenRatio), y: hs.minY + (hs.height * (100.0 - 22.39) / 100.0) - h, width: w, height: h)
-    }
-    
-    static func experienceOverlayFrame() -> NSRect {
-        let frame = NSRect(x: 1055.0, y: 0.0, width: 135.0, height: 45.0)
-        //NSRect(x: hearthstoneWindow.frame.maxX  - 400, y: hearthstoneWindow.frame.origin.y, width: 150.0, height: 45.0)
-        return hearthstoneWindow.relativeFrame(frame, keepRatio: true)
-    }
-    
     static func secretTrackerFrame(height: CGFloat) -> NSRect {
         let yOffset: CGFloat = hearthstoneWindow.isFullscreen() ? 0 : 50
         
@@ -349,11 +329,6 @@ struct SizeHelper {
                            height: height)
         
         return hearthstoneWindow.relativeFrame(frame, relative: false)
-    }
-    
-    static func timerHudFrame() -> NSRect {
-        let frame = NSRect(x: 999.0, y: 423.0, width: 160.0, height: 115.0)
-        return hearthstoneWindow.relativeFrame(frame)
     }
     
     static func bobsPanelOverlayFrame() -> NSRect {
