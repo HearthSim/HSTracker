@@ -62,7 +62,9 @@ class Watchers {
             CoreManager.updateDungeonRunDeck(info: info, isPVPDR: false)
         }
         experienceWatcher.newExperienceHandler = { _, args in
-            AppDelegate.instance().coreManager.game.experienceChangedAsync(experience: args.experience, experienceNeeded: args.experienceNeeded, level: args.level, levelChange: args.levelChange, animate: args.animate)
+            if #available(macOS 10.15, *) {
+                AppDelegate.instance().coreManager.game.experienceChangedAsync(experience: args.experience, experienceNeeded: args.experienceNeeded, level: args.level, levelChange: args.levelChange, animate: args.animate)
+            }
         }
         playZoneWatcher.change = onPlayZoneChange
         pvpDungeonRunWatcher.pvpDungeonRunMatchStarted = { newrun, set in

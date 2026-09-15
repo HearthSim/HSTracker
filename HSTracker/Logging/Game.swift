@@ -752,9 +752,35 @@ class Game: NSObject, PowerEventHandler {
         }
     }
     
+    // OverlayWindow's ExperienceFadeDelay and LevelResetDelay, in seconds.
     static let experienceFadeDelay = 6.0
+    static let levelResetDelay = 0.5
     
+    // The waits below are plain sleeps where HDT awaits, so they need a thread
+    // that can afford to sit still: one level-up holds the method for six and a
+    // half seconds, and the mode wait above them has no bound at all. The
+    // experience watcher calls in from inside its own tick, which would stop it
+    // polling for that whole time, so the work moves here instead. HDT has no
+    // equivalent - it starts ExperienceChangedAsync with .Forget() and awaits.
+    //
+    // Serial, so two level-ups arriving back to back animate the bar one after
+    // the other rather than both at once.
+    private let experienceQueue = DispatchQueue(label: "net.hearthsim.hstracker.experience", attributes: [])
+
+    // OverlayWindow.ExperienceChangedAsync.
+    @available(macOS 10.15, *)
     func experienceChangedAsync(experience: Int, experienceNeeded: Int, level: Int, levelChange: Int, animate: Bool) {
+        experienceQueue.async { [weak self] in
+            self?.runExperienceChanged(experience: experience,
+                                       experienceNeeded: experienceNeeded,
+                                       level: level,
+                                       levelChange: levelChange,
+                                       animate: animate)
+        }
+    }
+
+    @available(macOS 10.15, *)
+    private func runExperienceChanged(experience: Int, experienceNeeded: Int, level: Int, levelChange: Int, animate: Bool) {
         let currentMode = self.currentMode ?? .invalid
         let previousMode = self.previousMode ?? .invalid
         
@@ -764,33 +790,53 @@ class Game: NSObject, PowerEventHandler {
             Thread.sleep(forTimeInterval: 0.500)
         }
         logger.debug("Showing experience counter now")
+
         let percentage = Double(experience) / Double(experienceNeeded)
-        DispatchQueue.main.async {
-            if #available(macOS 10.15, *) {
-                guard let counter = self.windowManager.rootOverlay?.viewModel.experienceCounter else { return }
-                counter.xpDisplay = "\(experience)/\(experienceNeeded)"
-                counter.levelDisplay = "\(level+1)"
-                // ExperienceChangedAsync's two calls to ChangeRectangleFill: the
-                // three second fill when this is a change worth watching, the
-                // instant one when the bar is just being brought up to date.
-                counter.changeFill(percentage, instant: !animate)
-                if animate {
-                    counter.visible = true
-                    self.updateExperienceOverlay()
-                    self.guiNeedsUpdate = true
-                }
-            }
+
+        onExperienceCounter { counter in
+            counter.xpDisplay = "\(experience)/\(experienceNeeded)"
+            counter.levelDisplay = "\(level+1)"
         }
+
         if animate {
-            Thread.sleep(forTimeInterval: Game.experienceFadeDelay)
-        }
-        if currentMode != Mode.hub {
-            DispatchQueue.main.async {
-                if #available(macOS 10.15, *) {
-                    self.windowManager.rootOverlay?.viewModel.experienceCounter.visible = false
-                }
+            onExperienceCounter { counter in
+                counter.beginAnimating()
+                counter.show()
             }
+            updateExperienceOverlay()
             guiNeedsUpdate = true
+
+            // One pass per level gained: run the bar to full, hold it there,
+            // empty it, and start the next level. Then the real fraction.
+            for _ in 0 ..< max(levelChange, 0) {
+                onExperienceCounter { $0.changeFill(1, instant: false) }
+                Thread.sleep(forTimeInterval: Game.experienceFadeDelay)
+                onExperienceCounter { $0.resetFill() }
+                Thread.sleep(forTimeInterval: Game.levelResetDelay)
+            }
+            onExperienceCounter { $0.changeFill(percentage, instant: false) }
+            Thread.sleep(forTimeInterval: Game.experienceFadeDelay)
+            onExperienceCounter { $0.endAnimating() }
+        } else {
+            onExperienceCounter { $0.changeFill(percentage, instant: true) }
+        }
+
+        // Read again rather than reusing the mode captured above: the animation
+        // above can have held this method for half a minute, which is exactly
+        // when the player has left the hub in the meantime.
+        if self.currentMode != Mode.hub {
+            onExperienceCounter { $0.hide() }
+            guiNeedsUpdate = true
+        }
+    }
+
+    // The counter lives on the RootOverlay canvas, so every read and write goes
+    // through the main queue.
+    @available(macOS 10.15, *)
+    private func onExperienceCounter(_ body: @escaping (ExperienceCounterViewModel) -> Void) {
+        DispatchQueue.main.async {
+            guard let counter = self.windowManager.rootOverlay?.viewModel.experienceCounter else { return }
+            body(counter)
         }
     }
 

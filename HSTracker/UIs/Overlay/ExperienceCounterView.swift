@@ -32,8 +32,36 @@ final class ExperienceCounterViewModel: ObservableObject {
     // The mode gate LoadingScreenHandler drives (the counter is only offered in
     // the hub and the other menu scenes). Kept off @Published because nothing
     // draws from it directly: Game.updateExperienceOverlay folds it into
-    // isShown along with the setting.
-    var visible = false
+    // isShown along with the setting, which is where HDT's
+    // `if(Config.Instance.ShowExperienceCounter)` in ShowExperienceCounter
+    // ends up.
+    private(set) var visible = false
+
+    // OverlayWindow.AnimatingXPBar, the flag HideExperienceCounter checks so a
+    // scene change part way through a level-up does not take the counter away
+    // mid-animation.
+    private var isAnimating = false
+
+    // ShowExperienceCounter / HideExperienceCounter. Both are called from the
+    // log reader as well as from the animation, so callers go through these
+    // rather than writing `visible` themselves.
+    func show() {
+        visible = true
+    }
+
+    func hide() {
+        if !isAnimating {
+            visible = false
+        }
+    }
+
+    func beginAnimating() {
+        isAnimating = true
+    }
+
+    func endAnimating() {
+        isAnimating = false
+    }
 
     // ChangeRectangleFill(newPercentageFull, instant): the storyboards it picks
     // between are a 3 second RectAnimation and a zero-duration one.

@@ -4,6 +4,7 @@
 - Fixed HSTracker quitting when a mulligan guide tooltip was shown in Korean, Japanese, Simplified Chinese or Traditional Chinese, and those tooltips now put the card name and the percentage where the translation puts them.
 - The Battlegrounds overlay panels, counters and tavern pin markers now fade back while a hero on the leaderboard is hovered, so they no longer cover that player's board.
 - The turn timers, the board attack icons and the experience counter now sit where Hearthstone Deck Tracker puts them and are cut away wherever Hearthstone draws over the board, and they can no longer be dragged to a position of their own.
+- Fixed the experience bar never animating the levels gained, playing a burst of animations when Hearthstone briefly misreported the reward track, and being taken away part way through an animation when the scene changed.
 
 # 3.6.10
 ## Hearthstone

@@ -142,10 +142,10 @@ class TrackersPreferences: PreferencePaneController, PreferencePane {
             if #available(macOS 10.15, *), let counter = game.windowManager.rootOverlay?.viewModel.experienceCounter {
                 if showExperienceCounter.state == .on {
                     if let mode = game.currentMode, mode == Mode.hub {
-                        counter.visible = true
+                        counter.show()
                     }
                 } else {
-                    counter.visible = false
+                    counter.hide()
                 }
             }
         } else if sender == showMulliganToast {

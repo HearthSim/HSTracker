@@ -58,14 +58,23 @@ struct LoadingScreenHandler: LogEventParser {
                 }
             }
             
-            if #available(macOS 10.15, *), let counter = game.windowManager.rootOverlay?.viewModel.experienceCounter {
-                if let currentMode = game.currentMode, showExperienceDuringMode.contains(currentMode) {
-                    counter.visible = true
-                    game.updateExperienceOverlay()
-                } else {
-                    if let previousMode = game.previousMode, showExperienceDuringMode.contains(previousMode) {
-                        counter.visible = false
+            // HDT's ShowExperienceCounter/HideExperienceCounter, called from the
+            // same place in its own LoadingScreenHandler. Marshalled to the main
+            // queue because the counter is a RootOverlay child and this runs on
+            // the log reader's thread; hide() is a no-op while a level-up is
+            // animating, as HDT's is.
+            let currentMode = game.currentMode
+            let previousMode = game.previousMode
+            DispatchQueue.main.async {
+                if #available(macOS 10.15, *), let counter = game.windowManager.rootOverlay?.viewModel.experienceCounter {
+                    if let currentMode, showExperienceDuringMode.contains(currentMode) {
+                        counter.show()
                         game.updateExperienceOverlay()
+                    } else {
+                        if let previousMode, showExperienceDuringMode.contains(previousMode) {
+                            counter.hide()
+                            game.updateExperienceOverlay()
+                        }
                     }
                 }
             }
