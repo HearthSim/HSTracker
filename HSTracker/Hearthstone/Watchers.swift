@@ -75,7 +75,13 @@ class Watchers {
             AppDelegate.instance().coreManager.game.queueEvents.handle(args)
         }
         sceneWatcher.change = { _, args in
-            SceneHandler.onSceneUpdate(prevMode: Mode.allCases[args.prevMode], mode: Mode.allCases[args.mode], sceneLoaded: args.sceneLoaded, transitioning: args.transitioning)
+            // The game client can report a scene this build doesn't know yet
+            // (Hearthstone 36.6 shipped BLACK_MARKET as mode 29); map it to
+            // .invalid rather than trapping on an out-of-range index.
+            let modes = Mode.allCases
+            let prevMode = args.prevMode >= 0 && args.prevMode < modes.count ? modes[args.prevMode] : .invalid
+            let mode = args.mode >= 0 && args.mode < modes.count ? modes[args.mode] : .invalid
+            SceneHandler.onSceneUpdate(prevMode: prevMode, mode: mode, sceneLoaded: args.sceneLoaded, transitioning: args.transitioning)
         }
     }
     

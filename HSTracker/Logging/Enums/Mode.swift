@@ -37,5 +37,6 @@ enum Mode: String, CaseIterable {
     lettuce_friendly,
     lettuce_bounty_team_select,
     lettuce_pack_opening,
-    lucky_draw
+    lucky_draw,
+    black_market
 }
