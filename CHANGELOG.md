@@ -1,6 +1,7 @@
 # 3.6.11
 ## Hearthstone
 - Fixed HSTracker quitting when a deck was deleted in the deck manager.
+- Fixed HSTracker quitting when a mulligan guide tooltip was shown in Korean, Japanese, Simplified Chinese or Traditional Chinese, and those tooltips now put the card name and the percentage where the translation puts them.
 
 # 3.6.10
 ## Hearthstone
