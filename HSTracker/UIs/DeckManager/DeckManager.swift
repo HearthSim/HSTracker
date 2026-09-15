@@ -336,6 +336,10 @@ class DeckManager: NSWindowController {
     /// A game finished while the manager was open, so the cached records no
     /// longer match the database.
     func decksDidChange() {
+        // A deck may have just been deleted, which leaves an invalidated Realm
+        // object behind in our copy of the list. Reading any property of one of
+        // those throws, so drop them before anything walks the decks again.
+        decks = decks.filter { !$0.isInvalidated }
         invalidateDeckCaches()
         loadDeckRecordsIfNeeded()
         decksTable.reloadData()

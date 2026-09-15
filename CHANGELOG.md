@@ -1,3 +1,7 @@
+# 3.6.11
+## Hearthstone
+- Fixed HSTracker quitting when a deck was deleted in the deck manager.
+
 # 3.6.10
 ## Hearthstone
 - Fixed everything that has not been translated into the selected language showing its internal name, such as "Counter_AnimalCompanionCost" in place of the Animal Companion counter, now falling back to English again, and translated a large part of what was still English in all thirteen languages.
