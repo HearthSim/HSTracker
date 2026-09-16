@@ -165,15 +165,17 @@ struct MercenariesTaskView: View {
 
     private var portrait: some View {
         ZStack {
+            // Margin="-5,-5,0,0" on the 110x110 portrait needs no .offset() of
+            // its own. The Image's alignment is WPF's default Stretch, and
+            // ComputeAlignmentOffset degenerates Stretch to Left/Top once the
+            // child is bigger than the slot its margins leave it - 110 against
+            // 105 here - so WPF draws it at exactly (-5,-5) in the Grid, which
+            // is where a ZStack puts a 110 child in a 100 box anyway. Applying
+            // the margin on top of that centring moved it twice, and the clip
+            // ellipse's centre (55,55) landed up and left of the frame art
+            // instead of dead centre of it.
             MercenariesTaskPortrait(card: task.card)
                 .frame(width: Self.portraitImageSize, height: Self.portraitImageSize)
-                // Margin="-5,-5,0,0". The Image's alignment is WPF's default
-                // Stretch, and ComputeAlignmentOffset degenerates Stretch to
-                // Left/Top as soon as the child is bigger than the slot the
-                // margins leave it - 110 against 105 here - so it gets no
-                // centring offset on top of the margin, and the clip ellipse's
-                // centre (55,55) lands dead centre of the 100x100 frame.
-                .offset(x: -Self.portraitOffset, y: -Self.portraitOffset)
 
             Image("merc_frame")
                 .resizable()
@@ -184,7 +186,6 @@ struct MercenariesTaskView: View {
         .frame(width: Self.portraitBox, height: Self.portraitBox)
     }
 
-    private static let portraitOffset: CGFloat = 5
 
     // Measured off-screen at the width the title and description want, which is
     // what the row reports up to the list. Everything else in the row is either
