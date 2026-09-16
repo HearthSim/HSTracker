@@ -101,6 +101,10 @@ class RootOverlayViewModel: ObservableObject {
     // side and the Mercenaries ability strips hanging off them.
     let boardOverlay = BoardOverlayViewModel()
 
+    // HDT's MercAbility1/2/3, the three card renders it shows down the right
+    // edge while a Mercenaries board minion is hovered.
+    let mercenariesAbilityHover = MercenariesAbilityHoverViewModel()
+
     init() {
         // HDT wires the same reference in OverlayWindow's constructor
         // (BattlegroundsMinionPinningViewModel.CompsGuidesVM = ...): the key

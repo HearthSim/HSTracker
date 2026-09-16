@@ -497,6 +497,10 @@ struct RootOverlayView: View {
                 // take real, post-scale pixels because OverlayWindow places both
                 // grids with plain fractions of the client size.
                 BoardOverlayView(viewModel: viewModel.boardOverlay, canvasSize: geometry.size)
+                // The MercAbility stack, which HDT declares immediately before
+                // the two board grids on its own canvas.
+                MercenariesAbilityHoverView(viewModel: viewModel.mercenariesAbilityHover,
+                                            canvasSize: geometry.size)
                 // Last of all, because GridFlavorText is the one child HDT gives
                 // a Panel.ZIndex (5) on its canvas - everything else is at the
                 // default 0, so the flavor text draws over the lot. It belongs

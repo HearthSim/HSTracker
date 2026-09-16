@@ -1988,6 +1988,7 @@
 		D49F499AA6AEFD2B0CD2C9FC /* BattlegroundsHeroGuidesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFADC808A9C0FDF14DD7DDB1 /* BattlegroundsHeroGuidesViewModel.swift */; };
 		D4A5138D3DE8CE1FFCC9C339 /* OutlinedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981DE23C2336148B1CE4DD38 /* OutlinedText.swift */; };
 		B8A1F1022FD10001000A0102 /* TurnTimerOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F1012FD10001000A0101 /* TurnTimerOverlayView.swift */; };
+		B8A1F8022FD80001000A0802 /* MercenariesAbilityHoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F8012FD80001000A0801 /* MercenariesAbilityHoverView.swift */; };
 		B8A1F7022FD70001000A0702 /* MercenariesAbility.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F7012FD70001000A0701 /* MercenariesAbility.swift */; };
 		B8A1F7042FD70001000A0704 /* MercenariesAbilityIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F7032FD70001000A0703 /* MercenariesAbilityIconView.swift */; };
 		B8A1F7062FD70001000A0706 /* BoardOverlayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F7052FD70001000A0705 /* BoardOverlayViewModel.swift */; };
@@ -2825,6 +2826,7 @@
 		97E7491681CCBF41C0C2536F /* Perjury.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Perjury.swift; sourceTree = "<group>"; };
 		981DE23C2336148B1CE4DD38 /* OutlinedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlinedText.swift; sourceTree = "<group>"; };
 		B8A1F1012FD10001000A0101 /* TurnTimerOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnTimerOverlayView.swift; sourceTree = "<group>"; };
+		B8A1F8012FD80001000A0801 /* MercenariesAbilityHoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MercenariesAbilityHoverView.swift; sourceTree = "<group>"; };
 		B8A1F7012FD70001000A0701 /* MercenariesAbility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MercenariesAbility.swift; sourceTree = "<group>"; };
 		B8A1F7032FD70001000A0703 /* MercenariesAbilityIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MercenariesAbilityIconView.swift; sourceTree = "<group>"; };
 		B8A1F7052FD70001000A0705 /* BoardOverlayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardOverlayViewModel.swift; sourceTree = "<group>"; };
@@ -4791,6 +4793,7 @@
 			children = (
 				B8A1F7012FD70001000A0701 /* MercenariesAbility.swift */,
 				B8A1F7032FD70001000A0703 /* MercenariesAbilityIconView.swift */,
+				B8A1F8012FD80001000A0801 /* MercenariesAbilityHoverView.swift */,
 				B8A1F7052FD70001000A0705 /* BoardOverlayViewModel.swift */,
 				B8A1F7072FD70001000A0707 /* BoardOverlayView.swift */,
 				B8A1F7092FD70001000A0709 /* BoardMouseOverDetection.swift */,
@@ -8884,6 +8887,7 @@
 				EC68F5A0821EEF29C71FA2E4 /* GuideTooltip.swift in Sources */,
 				D4A5138D3DE8CE1FFCC9C339 /* OutlinedText.swift in Sources */,
 				B8A1F1022FD10001000A0102 /* TurnTimerOverlayView.swift in Sources */,
+				B8A1F8022FD80001000A0802 /* MercenariesAbilityHoverView.swift in Sources */,
 				B8A1F7022FD70001000A0702 /* MercenariesAbility.swift in Sources */,
 				B8A1F7042FD70001000A0704 /* MercenariesAbilityIconView.swift in Sources */,
 				B8A1F7062FD70001000A0706 /* BoardOverlayViewModel.swift in Sources */,

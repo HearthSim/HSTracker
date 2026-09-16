@@ -34,11 +34,6 @@ final class BoardMouseOverDetection {
     private static let mercenariesTriggerDelay = 0.200
     private static let tolerance: CGFloat = 3
 
-    // The card currently shown in the Mercenaries ability hover, so it can be
-    // dismissed again. HSTracker draws that hover with its floating card
-    // windows rather than HDT's three MercAbility CardImages on the canvas.
-    private var mercHoverCard: Card?
-
     init(viewModel: RootOverlayViewModel) {
         self.viewModel = viewModel
     }
@@ -180,9 +175,7 @@ final class BoardMouseOverDetection {
     }
 
     // OverlayWindow.ShowMercHover, which fills its three MercAbility CardImages
-    // down the right edge of the client. HSTracker has no such elements on the
-    // canvas and shows the same three cards through its floating card windows,
-    // so the frames are computed here and handed over as they were before.
+    // with the hovered mercenary's abilities.
     private func showMercHover(entity: Entity, player: Player) {
         let wantsHover = player.isLocalPlayer
             ? Settings.showMercsPlayerHover
@@ -191,38 +184,30 @@ final class BoardMouseOverDetection {
             clearMercHover()
             return
         }
+        // HDT bails to ClearMercHover when the hovered entity has no card id at
+        // all, before it ever looks the abilities up.
+        guard let id = entity.card.id as String?, !id.isEmpty else {
+            clearMercHover()
+            return
+        }
         let data = getMercAbilities(player: player)
         guard entity.zonePosition > 0, entity.zonePosition - 1 < data.count else { return }
         let abilities = data[entity.zonePosition - 1]
 
-        let hsFrame = SizeHelper.hearthstoneWindow.frame
-        let h = hsFrame.height * 0.3
-        let delta = (hsFrame.height / 3.0 - h) / 2.0
-        let nh = min(h, 388.0)
-        let w = nh / 388.0 * 256.0
-        let x = hsFrame.maxX - w
-
-        for i in 0 ..< min(3, abilities.count) {
-            guard let card = abilities[i].entity?.card ?? abilities[i].card else { continue }
-            if i == 0 {
-                mercHoverCard = card
-            }
-            NotificationCenter.default.post(
-                name: Notification.Name(rawValue: Events.show_floating_card), object: nil,
-                userInfo: ["card": card as Any,
-                           "frame": [x, hsFrame.maxY + delta - CGFloat(i + 1) * h, w, nh],
-                           "useFrame": true,
-                           "index": i,
-                           "disableTimeout": true])
-        }
+        viewModel.mercenariesAbilityHover.show((0 ..< min(3, abilities.count)).compactMap { i in
+            guard let card = abilities[i].entity?.card ?? abilities[i].card else { return nil }
+            // ShowQuestionmark: the ability came from the remote config rather
+            // than the board and has more than one tier, so which one this
+            // mercenary actually has is unknown.
+            return MercenariesAbilityHoverViewModel.Ability(
+                id: i,
+                card: card,
+                showQuestionmark: abilities[i].entity == nil && abilities[i].hasTiers)
+        })
     }
 
     // OverlayWindow.ClearMercHover.
     private func clearMercHover() {
-        guard let card = mercHoverCard else { return }
-        mercHoverCard = nil
-        NotificationCenter.default.post(
-            name: Notification.Name(rawValue: Events.hide_floating_card), object: nil,
-            userInfo: ["card": card as Any])
+        viewModel.mercenariesAbilityHover.clear()
     }
 }
