@@ -86,6 +86,7 @@ class RootOverlayWindow: OverWindowController {
         let viewPoint = hostingView.convert(windowPoint, from: nil)
 
         updateFilterRegionHover(at: viewPoint)
+        boardMouseOver.update(cursor: viewPoint)
         updateArenaPanelHover(at: viewPoint)
         updateArenaDirectionTrigger(at: viewPoint)
         updateArenaCardListTrigger(at: viewPoint)
@@ -133,6 +134,12 @@ class RootOverlayWindow: OverWindowController {
             minions.isFilterRegionHovered = hovering
         }
     }
+
+    // OverlayWindow.MouseOverDetection's DetectMouseOver, which is driven from
+    // the same tracked cursor for the same reason everything else here is: the
+    // board slots are never hit-test visible, so the canvas stays click-through
+    // over them.
+    private lazy var boardMouseOver = BoardMouseOverDetection(viewModel: viewModel)
 
     // OverlayWindow's MercenariesTaskListButton_MouseEnter /
     // MercenariesTaskListButton_MouseLeave, and the ShowMercenariesTasks they

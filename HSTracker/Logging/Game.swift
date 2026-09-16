@@ -898,20 +898,27 @@ class Game: NSObject, PowerEventHandler {
         }
     }
 	
+    // The board hover slots and the Mercenaries ability strips are RootOverlay
+    // children now, so there are no windows left to frame: this decides whether
+    // they are on screen and pushes the board state they draw from. The gate is
+    // the one the two panels already used, kept as it was.
     func updateBoardOverlay() {
-        DispatchQueue.main.async {
-            let oppTracker = self.windowManager.opponentBoardOverlay
-            let playerTracker = self.windowManager.playerBoardOverlay
-
-            let show = (!self.isMercenariesMatch() && Settings.showFlavorText) || (self.isMercenariesMatch())
-            if !self.isInMenu && show || (self.isMulliganDone() || self.isMercenariesMatch()) && !self.gameEnded && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground) {
-                self.windowManager.show(controller: oppTracker, show: true, frame: SizeHelper.opponentBoardOverlay(), title: nil, overlay: self.hearthstoneRunState.isActive)
-                oppTracker.updateBoardState(player: self.opponent)
-                self.windowManager.show(controller: playerTracker, show: true, frame: SizeHelper.playerBoardOverlay(), title: nil, overlay: self.hearthstoneRunState.isActive)
-                playerTracker.updateBoardState(player: self.player)
-            } else {
-                self.windowManager.show(controller: oppTracker, show: false)
-                self.windowManager.show(controller: playerTracker, show: false)
+        if #available(macOS 10.15, *) {
+            DispatchQueue.main.async {
+                guard let board = self.windowManager.rootOverlay?.viewModel.boardOverlay else {
+                    return
+                }
+                let show = (!self.isMercenariesMatch() && Settings.showFlavorText) || (self.isMercenariesMatch())
+                if !self.isInMenu && show || (self.isMulliganDone() || self.isMercenariesMatch()) && !self.gameEnded && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground) {
+                    board.isShown = true
+                    // OverlayWindow.IsGameOver, which collapses every slot
+                    // rather than hiding the grids.
+                    let isGameOver = self.isInMenu || self.gameEnded
+                    board.update(player: self.player, opponent: self.opponent, isGameOver: isGameOver)
+                } else {
+                    board.isShown = false
+                    board.clearAbilities()
+                }
             }
         }
     }

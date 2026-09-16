@@ -97,6 +97,10 @@ class RootOverlayViewModel: ObservableObject {
     // drawn on.
     let flavorText = FlavorTextViewModel()
 
+    // HDT's GridOpponentBoard and GridPlayerBoard: the seven hover slots per
+    // side and the Mercenaries ability strips hanging off them.
+    let boardOverlay = BoardOverlayViewModel()
+
     init() {
         // HDT wires the same reference in OverlayWindow's constructor
         // (BattlegroundsMinionPinningViewModel.CompsGuidesVM = ...): the key
@@ -153,4 +157,10 @@ class RootOverlayViewModel: ObservableObject {
     @Published var arenaCardListDirectionShapes = [[CGPoint]]()
     @Published var arenaCardListTriggerFrame: CGRect?
     @Published var arenaTooltipRegions = [ArenaTooltipRegion]()
+
+    // Where the board's hover ellipses and the player's hand cards currently
+    // are, in canvas pixels. Tracked separately from hoverRegions because
+    // BoardMouseOverDetection does more than ask whether the cursor is inside
+    // one: it needs the shape, the side and the index to resolve an entity.
+    @Published var boardHoverTargets: [BoardHoverTarget] = []
 }

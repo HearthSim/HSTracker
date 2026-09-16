@@ -210,18 +210,6 @@ struct SizeHelper {
         return (4.0 / 3.0) / (hearthstoneWindow.width / hearthstoneWindow.height)
     }
     
-    static var minionWidth: CGFloat {
-        return hearthstoneWindow.width * 0.63 / 7 * screenRatio
-    }
-    
-    static var mercenariesMinionMargin: CGFloat {
-        return hearthstoneWindow.width * screenRatio * 0.01
-    }
-    
-    static var minionMargin: CGFloat {
-        return hearthstoneWindow.width * screenRatio * 0.0029
-    }
-    
     static func overHearthstoneFrame() -> NSRect {
         // hearthstoneWindow.frame is already the window's absolute screen rect -
         // no relativeFrame() translation needed (that's for small widget rects
@@ -338,46 +326,6 @@ struct SizeHelper {
         let x = hearthstoneWindow.frame.minX + (hearthstoneWindow.width - width) / 2
         
         return NSRect(x: x, y: trackerFrame.minY + trackerFrame.height - height, width: width, height: height)
-    }
-    
-    static func boardOverlayHeight() -> Double {
-        return hearthstoneWindow.height * 0.158
-    }
-    
-    static func abilitySize() -> Double {
-        return boardOverlayHeight() * 0.28
-    }
-    
-    static func opponentBoardOverlay() -> NSRect {
-        let width = hearthstoneWindow.width
-        let height = hearthstoneWindow.height
-        let frame = hearthstoneWindow.frame
-        let game = AppDelegate.instance().coreManager.game
-        let step = game.gameEntity?[.step] ?? 0
-        let isMainAction = step == Step.main_action.rawValue || step == Step.main_post_action.rawValue || step == Step.main_pre_action.rawValue
-        let mercsToNominate = game.gameEntity?.has(tag: .allow_move_minion) ?? false
-        
-        let overlayHeight = boardOverlayHeight()
-        let margin = overlayHeight * 0.12
-        let opponentBoardOffset = game.isMercenariesMatch() && isMainAction && !mercsToNominate ? height * 0.142 : height * 0.045
-        let result = NSRect(x: frame.minX, y: frame.minY + height - (height / 2 - overlayHeight - opponentBoardOffset) - overlayHeight, width: width, height: overlayHeight + abilitySize() + margin)
-        return result
-    }
-    
-    static func playerBoardOverlay() -> NSRect {
-        let width = hearthstoneWindow.width
-        let height = hearthstoneWindow.height
-        let frame = hearthstoneWindow.frame
-        let game = AppDelegate.instance().coreManager.game
-        let step = game.gameEntity?[.step] ?? 0
-        let isMainAction = step == Step.main_action.rawValue || step == Step.main_post_action.rawValue || step == Step.main_pre_action.rawValue
-        let mercsToNominate = game.gameEntity?.has(tag: .allow_move_minion) ?? false
-        
-        let overlayHeight = boardOverlayHeight()
-        let margin = overlayHeight * 0.14
-        let playerBoardOffset = game.isMercenariesMatch() ? isMainAction && !mercsToNominate ? height * -0.09 : height * 0.003 : height * 0.03
-        let result = NSRect(x: frame.minX, y: frame.minY + height - (height / 2 - playerBoardOffset) - overlayHeight - abilitySize() - margin, width: width, height: overlayHeight + abilitySize() + margin)
-        return result
     }
     
     static let cardHudContainerWidth: CGFloat = 400

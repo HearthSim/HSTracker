@@ -47,16 +47,6 @@ class WindowManager {
         return $0
     }(CardList(windowNibName: "CardList"))
 	
-    var opponentBoardOverlay: BoardOverlay = {
-        $0.setPlayerType(playerType: .opponent)
-        return $0
-    }(BoardOverlay(windowNibName: "BoardOverlay"))
-    
-    var playerBoardOverlay: BoardOverlay = {
-        $0.setPlayerType(playerType: .player)
-        return $0
-    }(BoardOverlay(windowNibName: "BoardOverlay"))
-    
     private var _rootOverlay: Any?
     @available(OSX 10.15, *)
     var rootOverlay: RootOverlayWindow? {
@@ -169,9 +159,8 @@ class WindowManager {
         DispatchQueue.main.async { [weak self] in
             self?.secretTracker.window?.orderOut(nil)
             self?.cardHudContainer.reset()
-            self?.playerBoardOverlay.window?.orderOut(nil)
-            self?.opponentBoardOverlay.window?.orderOut(nil)
             if #available(macOS 10.15, *) {
+                self?.rootOverlay?.viewModel.boardOverlay.isShown = false
                 self?.rootOverlay?.viewModel.flavorText.hide()
                 self?.tooltipGridCards.hide()
                 RelatedCardsBrowserPanel.shared.hide()

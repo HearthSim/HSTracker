@@ -491,6 +491,12 @@ struct RootOverlayView: View {
                 // never by the client's resolution.
                 BattlegroundsSessionOverlayView(viewModel: viewModel.battlegroundsSession,
                                                 canvasSize: geometry.size)
+                // The two board grids. They draw nothing but the Mercenaries
+                // ability strips - the hover ellipses behind them are measured
+                // and never painted, as HDT's unfilled Ellipses are - and they
+                // take real, post-scale pixels because OverlayWindow places both
+                // grids with plain fractions of the client size.
+                BoardOverlayView(viewModel: viewModel.boardOverlay, canvasSize: geometry.size)
                 // Last of all, because GridFlavorText is the one child HDT gives
                 // a Panel.ZIndex (5) on its canvas - everything else is at the
                 // default 0, so the flavor text draws over the lot. It belongs
@@ -520,6 +526,9 @@ struct RootOverlayView: View {
         }
         .onPreferenceChange(HoverRegionPreferenceKey.self) { regions in
             viewModel.hoverRegions = regions
+        }
+        .onPreferenceChange(BoardHoverTargetsKey.self) { targets in
+            viewModel.boardHoverTargets = targets
         }
     }
 }
