@@ -577,17 +577,6 @@ class Game: NSObject, PowerEventHandler {
         DispatchQueue.main.async {
             let hsActive = self.hearthstoneRunState.isActive
             
-            if self.windowManager.constructedMulliganGuide.viewModel.visibility {
-                if (Settings.hideAllWhenGameInBackground && hsActive) || !Settings.hideAllWhenGameInBackground {
-                    self.windowManager.show(controller: self.windowManager.constructedMulliganGuide, show: true, frame: SizeHelper.hearthstoneWindow.frame, overlay: true)
-                    DispatchQueue.main.async {
-                        self.windowManager.constructedMulliganGuide.updateScaling()
-                    }
-                } else {
-                    self.windowManager.show(controller: self.windowManager.constructedMulliganGuide, show: false)
-                }
-            }
-
             if self.windowManager.constructedMulliganGuidePreLobby.isVisible {
                 if ((Settings.hideAllWhenGameInBackground && hsActive) || !Settings.hideAllWhenGameInBackground) && Settings.showMulliganGuidePreLobby {
                     self.windowManager.show(controller: self.windowManager.constructedMulliganGuidePreLobby, show: true, frame: SizeHelper.constructedMulliganGuidePreLobbyFrame(), overlay: true)
@@ -3886,12 +3875,16 @@ class Game: NSObject, PowerEventHandler {
     
     @MainActor
     func showMulliganGuideStats(stats: [SingleCardStats], maxRank: Int, selectedParams: [String: String?]?) {
-        windowManager.constructedMulliganGuide.viewModel.setMulliganData(stats: stats, maxRank: maxRank, selectedParams: selectedParams)
+        if #available(macOS 10.15, *) {
+            windowManager.rootOverlay?.viewModel.mulliganGuide.setMulliganData(stats: stats, maxRank: maxRank, selectedParams: selectedParams)
+        }
     }
     
     @MainActor
     func hideMulliganGuideStats() {
-        windowManager.constructedMulliganGuide.viewModel.reset()
+        if #available(macOS 10.15, *) {
+            windowManager.rootOverlay?.viewModel.mulliganGuide.reset()
+        }
     }
     
     func handleBeginMulligan() {

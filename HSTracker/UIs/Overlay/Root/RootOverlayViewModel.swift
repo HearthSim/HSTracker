@@ -19,6 +19,10 @@ import SwiftUI
 // regardless of the window's aspect ratio.
 @available(macOS 10.15, *)
 class RootOverlayViewModel: ObservableObject {
+    // HDT's two constructed mulligan guides, declared one after the other on
+    // its own canvas. The V1 one covers every game type the V2 one does not -
+    // everything outside Ranked and Friendly.
+    let mulliganGuide = ConstructedMulliganGuideViewModel()
     let mulliganGuideV2 = ConstructedMulliganGuideV2ViewModel()
     let constructedMulliganPreLobbyWidget = ConstructedMulliganPreLobbyWidgetViewModel()
     let mulliganGuideTrialsExhausted = MulliganGuideTrialsExhaustedViewModel()

@@ -65,10 +65,6 @@ class WindowManager {
         return $0
     }(MercenariesTaskListView(windowNibName: "MercenariesTaskListView"))
     
-    var constructedMulliganGuide: ConstructedMulliganGuide = {
-        return $0
-    }(ConstructedMulliganGuide(windowNibName: "ConstructedMulliganGuide"))
-    
     var constructedMulliganGuidePreLobby: ConstructedMulliganGuidePreLobby = {
         return $0
     }(ConstructedMulliganGuidePreLobby(windowNibName: "ConstructedMulliganGuidePreLobby"))

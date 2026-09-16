@@ -164,6 +164,12 @@ struct RootOverlayView: View {
                     ExperienceCounterView(viewModel: viewModel.experienceCounter,
                                           canvasWidth: canvasWidth)
 
+                    // HDT declares the V1 guide immediately before the V2
+                    // one on its own canvas, and sizes both to
+                    // Width/scaling by Height/scaling at Canvas 0,0 with
+                    // scaling = Height/1080 - this subtree's own canvas.
+                    ConstructedMulliganGuideView(viewModel: viewModel.mulliganGuide,
+                                                 canvasWidth: canvasWidth)
                     ConstructedMulliganGuideV2View(viewModel: viewModel.mulliganGuideV2)
 
                     // Both counter blocks are children of HDT's own overlay
