@@ -50,6 +50,24 @@ struct MercenariesTaskView: View {
             + contentInset.leading + contentWidth + contentInset.trailing
     }
 
+    // A ceiling HDT does not have. Its list sits on a Canvas, which measures
+    // with infinite width, so a row grows to whatever its description wants and
+    // TextWrapping="Wrap" never fires. That holds up there because HDT's mirror
+    // cannot fill in $owner_merc, $bounty_* or $additional_mercs and leaves the
+    // tokens in the string; HSTracker's does fill them in, and
+    // $additional_mercs expands to a comma-joined list of mercenary names. The
+    // list is anchored to the right edge, so an unbounded row grows off the
+    // left of the screen.
+    //
+    // Half the canvas less a row's fixed furniture - which is where the AppKit
+    // list capped itself (SizeHelper.mercenariesTaskListView took
+    // hearthstoneWindow.width / 2). Floored at HDT's own MinWidth so the cap can
+    // never pull a row below it, and rows shorter than the cap are laid out
+    // exactly as HDT lays them out.
+    static func maxContentWidth(canvasWidth: CGFloat) -> CGFloat {
+        max(minContentWidth, canvasWidth / 2 - rowWidth(contentWidth: 0))
+    }
+
     // Background / BorderBrush, shared with the button and the game notice.
     static let panelFill = Color(hex: "#221717")
     static let panelStroke = Color(hex: "#110C0C")

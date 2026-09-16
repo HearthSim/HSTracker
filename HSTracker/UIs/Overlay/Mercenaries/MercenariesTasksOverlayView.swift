@@ -51,7 +51,7 @@ struct MercenariesTasksOverlayView: View {
 
             VStack(alignment: .trailing, spacing: Self.listGap / max(scale, 0.0001)) {
                 if viewModel.isListShown {
-                    MercenariesTaskListView(viewModel: viewModel)
+                    MercenariesTaskListView(viewModel: viewModel, canvasWidth: canvasWidth)
                         .transition(.move(edge: .trailing))
                 }
                 if viewModel.isButtonShown {

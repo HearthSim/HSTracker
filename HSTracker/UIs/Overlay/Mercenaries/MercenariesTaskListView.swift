@@ -15,6 +15,8 @@ import SwiftUI
 @available(macOS 10.15, *)
 struct MercenariesTaskListView: View {
     @ObservedObject var viewModel: MercenariesTaskListViewModel
+    // Only needed for the width ceiling - see MercenariesTaskView.maxContentWidth.
+    let canvasWidth: CGFloat
 
     // Resolved from the rows themselves - see MercenariesTaskContentWidthKey.
     // Starts at the DockPanel's own MinWidth so the first pass is never
@@ -30,8 +32,12 @@ struct MercenariesTaskListView: View {
     private static let noticeOpacity: Double = 0.7
     private static let noticeMargin: CGFloat = 8
 
+    // HDT arranges every row at the widest one's natural width. The clamp on
+    // top of that is ours: rows under the ceiling are unaffected, and a row over
+    // it wraps its description instead of running off the screen.
     private var contentWidth: CGFloat {
-        max(measuredContentWidth, MercenariesTaskView.minContentWidth)
+        min(max(measuredContentWidth, MercenariesTaskView.minContentWidth),
+            MercenariesTaskView.maxContentWidth(canvasWidth: canvasWidth))
     }
 
     var body: some View {
