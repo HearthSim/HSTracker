@@ -94,57 +94,75 @@ final class LogReader {
         logger.verbose("reading \(path) starting at offset \(offset)")
 
         while !stopped {
-            if fileHandle == nil && fileManager.fileExists(atPath: path) {
-                fileHandle = FileHandle(forReadingAtPath: path)
-                
-                let sp = LogReaderManager.fullDateStringFormatter.string(from: startingPoint)
-                logger.verbose("file exists \(path), offset for \(sp) is \(offset),"
-                    + " queue: net.hearthsim.hstracker.readers.\(info.name)")
-            }
-            
-            fileHandle?.seek(toFileOffset: offset)
-            
-            if let data = fileHandle?.readDataToEndOfFile() {
-                autoreleasepool {
-                    
-                    let linesStr = String(decoding: data, as: UTF8.self)
-                    if !linesStr.isBlank {
-                        let lines = linesStr
-                            .components(separatedBy: CharacterSet.newlines)
-                            .filter {
-                                !$0.isEmpty && $0.hasPrefix(info.prefix) && $0.count > 20
+            // The block this runs in only returns once the reader stops, so the
+            // thread's own pool never drains: without one per pass, every
+            // autoreleased temporary the read and the parsing produce piles up
+            // for the whole session.
+            autoreleasepool {
+                if fileHandle == nil && fileManager.fileExists(atPath: path) {
+                    fileHandle = FileHandle(forReadingAtPath: path)
+
+                    let sp = LogReaderManager.fullDateStringFormatter.string(from: startingPoint)
+                    logger.verbose("file exists \(path), offset for \(sp) is \(offset),"
+                        + " queue: net.hearthsim.hstracker.readers.\(info.name)")
+                }
+
+                var data: Data?
+
+                if let handle = fileHandle {
+                    do {
+                        data = try read(handle, from: offset)
+                    } catch {
+                        // The descriptor is no longer usable. Drop it and let the
+                        // next pass reopen whatever file is at the path now.
+                        logger.error("Error reading \(path) at offset \(offset): \(error)")
+                        fileHandle = nil
+                        if !fileManager.fileExists(atPath: path) {
+                            offset = 0
                         }
+                    }
+                }
 
-                        if !lines.isEmpty {
-                            for line in lines {
-                                offset += UInt64(line
-                                    .lengthOfBytes(using: .utf8) + 1)
-                                let logLine = LogLine(namespace: info.name,
-                                                      line: line)
+                guard let data = data else {
+                    fileHandle = nil
+                    return
+                }
 
-                                if (!info.hasFilters || info.startsWithFiltersGroup.any({ logLine.content.hasPrefix($0)}) || info.containsFiltersGroup.any({ logLine.content.contains($0)})) && logLine.time >= startingPoint {
-                                        _lines.enqueue(value: logLine)
-                                }
+                let linesStr = String(decoding: data, as: UTF8.self)
+                if !linesStr.isBlank {
+                    let lines = linesStr
+                        .components(separatedBy: CharacterSet.newlines)
+                        .filter {
+                            !$0.isEmpty && $0.hasPrefix(info.prefix) && $0.count > 20
+                    }
+
+                    if !lines.isEmpty {
+                        for line in lines {
+                            offset += UInt64(line
+                                .lengthOfBytes(using: .utf8) + 1)
+                            let logLine = LogLine(namespace: info.name,
+                                                  line: line)
+
+                            if (!info.hasFilters || info.startsWithFiltersGroup.any({ logLine.content.hasPrefix($0)}) || info.containsFiltersGroup.any({ logLine.content.contains($0)})) && logLine.time >= startingPoint {
+                                    _lines.enqueue(value: logLine)
                             }
                         }
                     }
-
-                    if !fileManager.fileExists(atPath: path) {
-                        logger.verbose("setting \(path) handle to nil \(offset))")
-                        fileHandle = nil
-                    }
-                    if fileHandle == nil {
-                        offset = 0
-                    }
                 }
-            } else {
-                fileHandle = nil
+
+                if !fileManager.fileExists(atPath: path) {
+                    logger.verbose("setting \(path) handle to nil \(offset))")
+                    fileHandle = nil
+                }
+                if fileHandle == nil {
+                    offset = 0
+                }
             }
 
             Thread.sleep(forTimeInterval: LogReaderManager.updateDelay)
         }
         
-        fileHandle?.closeFile()
+        closeHandle(fileHandle)
         fileHandle = nil
         
         _lines.clear()
@@ -152,9 +170,44 @@ final class LogReader {
         // try to truncate log file when stopping
         if fileManager.fileExists(atPath: path) && eraseFile {
             let file = FileHandle(forWritingAtPath: path)
-            file?.truncateFile(atOffset: UInt64(0))
-            file?.closeFile()
+            if #available(macOS 10.15.4, *) {
+                try? file?.truncate(atOffset: 0)
+            } else {
+                file?.truncateFile(atOffset: UInt64(0))
+            }
+            closeHandle(file)
             offset = 0
+        }
+    }
+
+    /// Seeks to `offset` and reads the rest of the file.
+    ///
+    /// `FileHandle`'s classic accessors report a descriptor that is no longer
+    /// usable - Hearthstone's log file having gone away under us, or the
+    /// descriptor closed by something else in the process - by raising an
+    /// Objective-C exception, which no Swift caller can catch: it takes the
+    /// whole app down (HSTRACKER-2DW). The throwing variants signal the same
+    /// conditions as a Swift error, so the read loop can recover from them.
+    private func read(_ handle: FileHandle, from offset: UInt64) throws -> Data {
+        if #available(macOS 10.15.4, *) {
+            try handle.seek(toOffset: offset)
+            return try handle.readToEnd() ?? Data()
+        } else {
+            handle.seek(toFileOffset: offset)
+            return handle.readDataToEndOfFile()
+        }
+    }
+
+    /// Closes `handle`, ignoring a descriptor that is already gone. `closeFile()`
+    /// raises for that case the same way reading does.
+    private func closeHandle(_ handle: FileHandle?) {
+        guard let handle = handle else {
+            return
+        }
+        if #available(macOS 10.15.4, *) {
+            try? handle.close()
+        } else {
+            handle.closeFile()
         }
     }
 

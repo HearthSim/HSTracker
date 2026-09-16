@@ -341,7 +341,7 @@ struct RealmHelper {
             // update NOOOOOO! cards after expansion release
             logger.info("...but we already know that id. Checking for changes...")
 
-            if matchingHsId.cards.allSatisfy({ c in deck.deck.cards.any({ c2 in c.id == c2.cardId && c.count == c2.count.intValue })}) {
+            if matchesMirrorDeck(matchingHsId, deck.deck) {
                 logger.info("No changes found")
                 return matchingHsId
             }
@@ -359,6 +359,10 @@ struct RealmHelper {
                     })
                     for card in cards {
                         matchingHsId.add(card: card)
+                    }
+                    matchingHsId.sideboards.removeAll()
+                    for sideboard in convertSideboards(deck.deck.sideboards) {
+                        matchingHsId.sideboards.append(sideboard)
                     }
                     
 //                    DeckList.Instance.ActiveDeck = matchingHsId
@@ -402,12 +406,62 @@ struct RealmHelper {
                 }) {
                     arenaDeck.add(card: card)
                 }
+                for sideboard in convertSideboards(deck.sideboards) {
+                    arenaDeck.sideboards.append(sideboard)
+                }
             }
             return arenaDeck
         } catch {
             logger.error("Can not import deck. Error : \(error)")
         }
         return nil
+    }
+
+    /// Ports HDT's `DeckManager.ConvertSideboards`.
+    private static func convertSideboards(_ sideboards: [String: [MirrorCard]]) -> [RealmSideboard] {
+        return sideboards.map({ owner, cards in
+            let sideboard = RealmSideboard(ownerCardId: owner)
+            for card in cards {
+                guard let c = Cards.by(cardId: card.cardId) else {
+                    continue
+                }
+                c.count = card.count.intValue
+                sideboard.add(card: c)
+            }
+            return sideboard
+        })
+    }
+
+    /// Ports HDT's `DeckManager.MatchesMirrorDeck`: whether the stored arena deck
+    /// still matches what the mirror reports, sideboards included.
+    private static func matchesMirrorDeck(_ deck: Deck, _ mirrorDeck: MirrorDeck) -> Bool {
+        if !deck.cards.allSatisfy({ c in
+            mirrorDeck.cards.any({ c2 in c.id == c2.cardId && c.count == c2.count.intValue })
+        }) {
+            return false
+        }
+        // Missing sideboards from the mirror may just be a partial read - don't treat
+        // that as a change, or a transient bad read would wipe saved sideboards.
+        if mirrorDeck.sideboards.isEmpty {
+            return true
+        }
+        if deck.sideboards.count != mirrorDeck.sideboards.count {
+            return false
+        }
+        for sideboard in deck.sideboards {
+            guard let mirrorCards = mirrorDeck.sideboards[sideboard.ownerCardId] else {
+                return false
+            }
+            if sideboard.cards.reduce(0, { $0 + $1.count }) != mirrorCards.reduce(0, { $0 + $1.count.intValue }) {
+                return false
+            }
+            if !sideboard.cards.allSatisfy({ c in
+                mirrorCards.any({ c2 in c.id == c2.cardId && c.count == c2.count.intValue })
+            }) {
+                return false
+            }
+        }
+        return true
     }
     	
 	static func add(deck: Deck, update: Bool = false) {

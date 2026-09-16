@@ -130,6 +130,10 @@ struct ImageUtils {
         loadImage(type: .hero, cardId: cardId, completion: completion)
     }
 
+    static func cachedCardArt(cardId: String) -> NSImage? {
+        return cacheCardArt[cardId]
+    }
+
     static func cachedArt(cardId: String) -> NSImage? {
         let res = cacheArt[cardId]
         

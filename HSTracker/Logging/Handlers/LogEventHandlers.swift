@@ -274,6 +274,9 @@ protocol PowerEventHandler: AnyObject {
     var minionsInPlay: SynchronizedArray<String> { get }
     
     var minionsInPlayByPlayer: SynchronizedDictionary<Int, SynchronizedArray<String>> { get }
+
+    /// Board snapshot taken when Slime 'em! resolves, keyed by controller.
+    var slimedMinions: SynchronizedDictionary<Int, [String]> { get }
     
     func handlePlayerHandToPlay(entity: Entity, cardId: String?, turn: Int)
     

@@ -20,7 +20,7 @@ class CurveView: NSView {
 
     private func countCards() {
         counts = [:]
-        guard let deck = self.deck else { return }
+        guard let deck = self.deck, !deck.isInvalidated else { return }
 
         // let's count that stuff
         for card in deck.sortedCards {

@@ -336,6 +336,10 @@ class DeckManager: NSWindowController {
     /// A game finished while the manager was open, so the cached records no
     /// longer match the database.
     func decksDidChange() {
+        // A deck may have just been deleted, which leaves an invalidated Realm
+        // object behind in our copy of the list. Reading any property of one of
+        // those throws, so drop them before anything walks the decks again.
+        decks = decks.filter { !$0.isInvalidated }
         invalidateDeckCaches()
         loadDeckRecordsIfNeeded()
         decksTable.reloadData()
@@ -343,14 +347,20 @@ class DeckManager: NSWindowController {
     }
 
     func updateStatsLabel() {
-        if let currentDeck = self.currentDeck, !currentDeck.isInvalidated {
-            DispatchQueue.main.async {
-                self.statsLabel.stringValue = StatsHelper
-                    .getDeckManagerRecordLabel(deck: currentDeck, mode: .all)
-                self.curveView.reload()
-            }
-        } else {
+        guard let currentDeck = self.currentDeck, !currentDeck.isInvalidated else {
             self.currentDeck = nil
+            return
+        }
+
+        DispatchQueue.main.async { [weak self] in
+            // The deck can be deleted between this block being queued and it
+            // running - the delete confirmation sheet defers the delete itself -
+            // and reading anything off a deleted Realm object throws.
+            guard let self, !currentDeck.isInvalidated else { return }
+
+            self.statsLabel.stringValue = StatsHelper
+                .getDeckManagerRecordLabel(deck: currentDeck, mode: .all)
+            self.curveView.reload()
         }
     }
 
@@ -593,6 +603,7 @@ class DeckManager: NSWindowController {
     fileprivate func _deleteDeck(_ currentDeck: Deck) {
         decksTable.deselectAll(self)
         self.currentDeck = nil
+        curveView.deck = nil
 
         if let deck = RealmHelper.getDeck(with: currentDeck.deckId) {
 			RealmHelper.delete(deck: deck)

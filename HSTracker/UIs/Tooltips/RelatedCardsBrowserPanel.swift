@@ -601,7 +601,10 @@ final class RelatedCardsBrowserPanel: NSPanel {
         viewModel.reset(cardName: sourceCard.name, cards: relatedCards)
 
         var origin = NSPoint(x: frame.maxX + 12, y: frame.maxY - 600)
-        if let screen = NSScreen.screens.first(where: { $0.frame.contains(frame.origin) }) ?? NSScreen.main {
+        // intersects, not contains(frame.origin): the anchor's bottom-left corner can sit below
+        // the screen it is on, and falling through to NSScreen.main would then clamp the panel
+        // onto the main display rather than the one the game is on.
+        if let screen = NSScreen.screens.first(where: { $0.frame.intersects(frame) }) ?? NSScreen.main {
             if origin.x + RelatedCardsBrowserContentView.width > screen.frame.maxX {
                 origin.x = frame.minX - RelatedCardsBrowserContentView.width - 12
             }

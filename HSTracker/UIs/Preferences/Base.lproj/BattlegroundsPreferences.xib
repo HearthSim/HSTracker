@@ -382,7 +382,7 @@
                                                 <subviews>
                                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QEB-1M-9Xe">
                                                         <rect key="frame" x="8" y="-1" width="173" height="18"/>
-                                                        <buttonCell key="cell" type="radio" title="Available" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="wfJ-hm-6dv">
+                                                        <buttonCell key="cell" type="check" title="Available" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="wfJ-hm-6dv">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                             <font key="font" metaFont="system"/>
                                                         </buttonCell>
@@ -392,7 +392,7 @@
                                                     </button>
                                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1TJ-xA-4cD">
                                                         <rect key="frame" x="189" y="-1" width="173" height="18"/>
-                                                        <buttonCell key="cell" type="radio" title="Banned" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="DaB-Gf-wIK">
+                                                        <buttonCell key="cell" type="check" title="Banned" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="DaB-Gf-wIK">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                             <font key="font" metaFont="system"/>
                                                         </buttonCell>

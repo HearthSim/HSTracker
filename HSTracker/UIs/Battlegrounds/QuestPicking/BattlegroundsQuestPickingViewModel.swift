@@ -8,41 +8,56 @@
 
 import Foundation
 import PromiseKit
+import SwiftUI
 
-class BattlegroundsQuestPickingViewModel: ViewModel {
+// Port of HDT's BattlegroundsQuestPickingViewModel
+// (Controls/Overlay/Battlegrounds/QuestPicking/BattlegroundsQuestPickingViewModel.cs).
+@available(macOS 10.15, *)
+class BattlegroundsQuestPickingViewModel: ObservableObject {
     private var _entities = SynchronizedArray<Entity>()
-    
-    var quests: [BattlegroundsSingleQuestViewModel]? {
-        get {
-            return getProp(nil)
-        }
-        set {
-            setProp(newValue)
+
+    @Published private(set) var quests: [BattlegroundsSingleQuestViewModel]?
+    @Published private var _visibility = false
+
+    let message = OverlayMessageViewModel()
+
+    init() {
+        // The message view model is still the AppKit-era ViewModel, shared with
+        // the trinket picker; republishing its changes here is what keeps the
+        // message this panel draws in sync with it.
+        message.propertyChanged = { [weak self] _ in
+            self?.onMain {
+                self?.objectWillChange.send()
+            }
         }
     }
-    
+
+    // HDT's Visibility, which follows the live card choices, behind
+    // HSTracker's own preference gate.
     var visibility: Bool {
         get {
             if !Settings.showBattlegroundsQuestPicking {
                 return false
             }
-            return getProp(false)
+            return _visibility
         }
         set {
-            setProp(newValue)
+            onMain { self._visibility = newValue }
         }
     }
-    
-    var scaling: Double {
-        get {
-            return getProp(1.0)
-        }
-        set {
-            setProp(newValue)
+
+    // The log reader and the update loop below both call in off the main
+    // thread, and @Published has to be written on it.
+    private func onMain(_ block: @escaping () -> Void) {
+        if Thread.isMainThread {
+            block()
+        } else {
+            DispatchQueue.main.async(execute: block)
         }
     }
-    
-    let message = OverlayMessageViewModel()
+
+    // anim:FadeAnimation.Duration="0:0:0.2" on the quests grid.
+    static let fadeDuration = 0.2
     
     private func expectedQuestCount() -> Int? {
         switch AppDelegate.instance().coreManager.game.turnNumber() {
@@ -52,7 +67,6 @@ class BattlegroundsQuestPickingViewModel: ViewModel {
         }
     }
 
-    @available(macOS 10.15.0, *)
     func onBattlegroundsQuest(questEntity: Entity) async {
         logger.debug("Quest: \(questEntity)")
         if !questEntity.hasCardId {
@@ -68,12 +82,13 @@ class BattlegroundsQuestPickingViewModel: ViewModel {
     
     func reset() {
         _entities.removeAll()
-        quests = nil
-        visibility = false
-        message.clear()
+        onMain {
+            self.quests = nil
+            self._visibility = false
+            self.message.clear()
+        }
     }
-    
-    @available(macOS 10.15.0, *)
+
     func update() async {
         if !Settings.enableTier7Overlay {
             return
@@ -128,14 +143,19 @@ class BattlegroundsQuestPickingViewModel: ViewModel {
             self._entities.first(where: { x in x.cardId == id })
         }
 
-        self.quests = orderedEntries.compactMap { quest in
+        let questViewModels = orderedEntries.compactMap { quest -> BattlegroundsSingleQuestViewModel in
             let reward = quest[.quest_reward_database_id]
             let data = questData.first { x in x.reward_dbf_id == reward }
             if let card = Cards.by(dbfId: reward, collectible: false) {
                 logger.debug("QUEST reward: \(card.name)")
             }
-            
+
             return BattlegroundsSingleQuestViewModel(stats: data)
+        }
+        onMain {
+            withAnimation(.easeInOut(duration: Self.fadeDuration)) {
+                self.quests = questViewModels
+            }
         }
         
         let anomalyAdjusted = questData.any { quest in quest.anomaly_adjusted ?? false }
@@ -146,7 +166,11 @@ class BattlegroundsQuestPickingViewModel: ViewModel {
             guard let liveChoices = MirrorHelper.getCardChoices(), quests != nil else { // Quests is null once Reset is called
                 break
             }
-            visibility = liveChoices.isVisible
+            onMain {
+                withAnimation(.easeInOut(duration: Self.fadeDuration)) {
+                    self._visibility = liveChoices.isVisible
+                }
+            }
 
             do {
                 try await Task.sleep(nanoseconds: 32_000_000)

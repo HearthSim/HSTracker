@@ -40,10 +40,15 @@ class SingleCardStats: MulliganGuideData.CardStats {
     }
 }
 
-class ConstructedMulliganSingleCardViewModel: ViewModel {
+// HDT's ConstructedMulliganSingleCardViewModel: one offered card's column in
+// the V1 guide. Identifiable so the guide's card row can ForEach over them -
+// by identity, since two copies of the same card can be offered at once and a
+// dbfId would collide.
+@available(macOS 10.15, *)
+class ConstructedMulliganSingleCardViewModel: ObservableObject, Identifiable {
     let cardHeaderVM: ConstructedMulliganSingleCardHeaderViewModel
     let dbfId: Int?
-    
+
     init(stats: SingleCardStats?, maxRank: Int?) {
         dbfId = stats?.dbf_id
         self.cardHeaderVM = ConstructedMulliganSingleCardHeaderViewModel(rank: stats?.rank, mulliganWr: stats?.opening_hand_winrate, keepRate: stats?.keep_percentage, maxRank: maxRank, baseWinRate: stats?.baseWinRate)

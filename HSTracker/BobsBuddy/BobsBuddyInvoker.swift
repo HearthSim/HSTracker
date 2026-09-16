@@ -120,7 +120,15 @@ class BobsBuddyInvoker {
     private static var _instances = SynchronizedDictionary<String, BobsBuddyInvoker>()
     private static var _currentGameId = ""
     
-    private static let bobsBuddyDisplay = AppDelegate.instance().coreManager.game.windowManager.bobsBuddyPanel
+    // The panel is a RootOverlay child now, and so gated on the SwiftUI
+    // baseline this file is not - hence the protocol, and the optional every
+    // call site below goes through.
+    private static var bobsBuddyDisplay: BobsBuddyDisplay? {
+        if #available(macOS 10.15, *) {
+            return AppDelegate.instance().coreManager.game.windowManager.rootOverlay?.viewModel.bobsBuddy
+        }
+        return nil
+    }
     
     private init(key: String) {
         _instanceKey = key
@@ -172,9 +180,9 @@ class BobsBuddyInvoker {
         return MonoHelper.withMonoThread {
             if game.isBattlegroundsDuosMatch() {
                 snapshotBoardState(turn: game.turnNumber())
-                BobsBuddyInvoker.bobsBuddyDisplay.setState(st: .waitingForTeammates)
+                BobsBuddyInvoker.bobsBuddyDisplay?.setState(st: .waitingForTeammates)
                 DispatchQueue.main.async {
-                    BobsBuddyInvoker.bobsBuddyDisplay.resetText()
+                    BobsBuddyInvoker.bobsBuddyDisplay?.resetText()
                 }
                 if input != nil && (duosInputPlayerTeammate == nil || duosInputOpponentTeammate == nil) {
                     logger.debug("Waiting Teammates. Exiting.")
@@ -225,7 +233,7 @@ class BobsBuddyInvoker {
                 }
             
                 logger.debug("Setting UI state to combat...")
-                BobsBuddyInvoker.bobsBuddyDisplay.setState(st: .combat)
+                BobsBuddyInvoker.bobsBuddyDisplay?.setState(st: .combat)
             
                 func hpAny(_ list: MonoHandle) -> Bool {
                     return MonoList<HeroPowerDataProxy>(list).contains { hp in
@@ -239,7 +247,7 @@ class BobsBuddyInvoker {
             
                 _ = runAndDisplaySimulationAsync().catch({ error in
                     logger.error("Error running simulation: \(error.localizedDescription)")
-                    BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .failedToLoad)
+                    BobsBuddyInvoker.bobsBuddyDisplay?.setErrorState(error: .failedToLoad)
                     var inputString = ""
                     if let input = self.input {
                         inputString = input.unitestCopyableVersion()
@@ -271,9 +279,9 @@ class BobsBuddyInvoker {
                 state = .combatPartial
                 logger.debug("Setting UI state to combat...")
             
-                BobsBuddyInvoker.bobsBuddyDisplay.setState(st: .combatPartial)
+                BobsBuddyInvoker.bobsBuddyDisplay?.setState(st: .combatPartial)
                 DispatchQueue.main.async {
-                    BobsBuddyInvoker.bobsBuddyDisplay.resetText()
+                    BobsBuddyInvoker.bobsBuddyDisplay?.resetText()
                 }
             
                 // Enforce input teammate to be null if teammate was not snapshot
@@ -300,7 +308,7 @@ class BobsBuddyInvoker {
             logger.debug("Running simulation...")
             let startTime = Date()
             DispatchQueue.main.async {
-                BobsBuddyInvoker.bobsBuddyDisplay.hidePercentagesShowSpinners()
+                BobsBuddyInvoker.bobsBuddyDisplay?.hidePercentagesShowSpinners()
             }
             _ = runSimulation().done { (result) in
                 guard let top = result, let input = self.input else {
@@ -318,7 +326,7 @@ class BobsBuddyInvoker {
                     if top.simulationCount <= 500 && top.getMyExitCondition() ==  .time {
                         logger.debug("Could not perform enough simulations. Displaying error state and exiting.")
                         self.errorState = .notEnoughData
-                        BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .notEnoughData)
+                        BobsBuddyInvoker.bobsBuddyDisplay?.setErrorState(error: .notEnoughData)
                     } else if self.state == .combatPartial {
                         logger.debug("Displaying partial simulation results")
                         let winRate = top.winRate
@@ -332,7 +340,7 @@ class BobsBuddyInvoker {
                         let opponentCanDie = input.opponent.health <= input.damageCap
                     
                         DispatchQueue.main.async {
-                            BobsBuddyInvoker.bobsBuddyDisplay.showPartialDuosSimulation(winRate: winRate, tieRate: tieRate, lossRate: lossRate, playerLethal: theirDeathRate, opponentLethal: myDeathRate, possibleResults: possibleResults, friendlyWon: friendlyWon, playerCanDie: playerCanDie, opponentCanDie: opponentCanDie)
+                            BobsBuddyInvoker.bobsBuddyDisplay?.showPartialDuosSimulation(winRate: winRate, tieRate: tieRate, lossRate: lossRate, playerLethal: theirDeathRate, opponentLethal: myDeathRate, possibleResults: possibleResults, friendlyWon: friendlyWon, playerCanDie: playerCanDie, opponentCanDie: opponentCanDie)
                         }
                     } else {
                         logger.debug("Displaying simulation results")
@@ -344,7 +352,7 @@ class BobsBuddyInvoker {
                         let possibleResults = top.getResultDamage()
                     
                         DispatchQueue.main.async {
-                            BobsBuddyInvoker.bobsBuddyDisplay.showCompletedSimulation(winRate: winRate, tieRate: tieRate, lossRate: lossRate, playerLethal: theirDeathRate, opponentLethal: myDeathRate, possibleResults: possibleResults)
+                            BobsBuddyInvoker.bobsBuddyDisplay?.showCompletedSimulation(winRate: winRate, tieRate: tieRate, lossRate: lossRate, playerLethal: theirDeathRate, opponentLethal: myDeathRate, possibleResults: possibleResults)
                         }
                     }
                     self.output = top
@@ -352,7 +360,7 @@ class BobsBuddyInvoker {
                 }
             }.catch({ error in
                 logger.error("Error running simulation: \(error.localizedDescription)")
-                BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .failedToLoad)
+                BobsBuddyInvoker.bobsBuddyDisplay?.setErrorState(error: .failedToLoad)
                 Influx.sendEvent(eventName: "runSimulation failed", withProperties: [ "error": error.localizedDescription])
                 seal.fulfill(false)
             })
@@ -479,7 +487,7 @@ class BobsBuddyInvoker {
                         
                             Influx.breadcrumb(eventName: "simulation_complete", withProperties: ["turn": "\(self.game.turnNumber())"])
                         } catch let error as UnsupportedInteraction {
-                            BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .unsupportedInteraction, message: error.message)
+                            BobsBuddyInvoker.bobsBuddyDisplay?.setErrorState(error: .unsupportedInteraction, message: error.message)
                             result = nil
                         } catch {
                             var inputString = ""
@@ -492,7 +500,7 @@ class BobsBuddyInvoker {
                                 }
                             })
                             logger.error("Unknown error")
-                            BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .none)
+                            BobsBuddyInvoker.bobsBuddyDisplay?.setErrorState(error: .none)
                             result = nil
                         }
                     } else {
@@ -504,7 +512,7 @@ class BobsBuddyInvoker {
         }
     }
     
-    func startShopping(isGameOver: Bool = true) {
+    func startShopping(isGameOver: Bool = false) {
         if !shouldRun() {
             return
         }
@@ -535,7 +543,8 @@ class BobsBuddyInvoker {
         if hasErrorState() {
             return
         }
-        BobsBuddyInvoker.bobsBuddyDisplay.setState(st: wasPreviousStatePartial ? .gameOverAfterPartial : .gameOver)
+        BobsBuddyInvoker.bobsBuddyDisplay?.setLastOutcome(getLastCombatDamageDealt())
+        BobsBuddyInvoker.bobsBuddyDisplay?.setState(st: state)
         validateSimulationResult()
     }
     
@@ -543,7 +552,7 @@ class BobsBuddyInvoker {
         if errorState == .none {
             return false
         }
-        BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: errorState)
+        BobsBuddyInvoker.bobsBuddyDisplay?.setErrorState(error: errorState)
         logger.debug("ErrorState=\(errorState)")
         return true
     }
@@ -565,10 +574,15 @@ class BobsBuddyInvoker {
     }
     
     private func getLastCombatDamageDealt() -> Int {
-        if LastAttackingHero != nil {
-            return LastAttackingHeroAttack
+        guard let LastAttackingHero else {
+            return 0
         }
-        return 0
+        // HDT returns this unsigned, which leaves its panel checking the damage
+        // the player *took* against the range it predicted the player would
+        // *deal*. Who swung is known right here, so the damage is signed the
+        // way the simulator's own possibleResults are - positive for damage the
+        // player dealt - and both halves of that check do their job.
+        return LastAttackingHero.isControlled(by: game.player.id) ? LastAttackingHeroAttack : -LastAttackingHeroAttack
     }
     
     private func getLastCombatResult() -> CombatResult {
@@ -739,8 +753,16 @@ class BobsBuddyInvoker {
         return e?.card.id == "unknown" || e?.cardId.isEmpty ?? false
     }
     
-    func wasHeroPowerActivated(heroPower: Entity?) -> Bool {
-        return (heroPower?.has(tag: GameTag.exhausted) ?? false || heroPower?.has(tag: GameTag.bacon_hero_power_activated) ?? false)
+    func wasHeroPowerActivated(heroPower: Entity?, isDuos: Bool = false) -> Bool {
+        guard let heroPower else {
+            return false
+        }
+        // In Duos, there is a repeat issue with "Embrace Your Rage" and BACON_HERO_POWER_ACTIVATED=1,
+        // but no trigger happens in combat; EXHAUSTED=0 is likely a more reliable signal.
+        if isDuos && heroPower.cardId == CardIds.NonCollectible.Neutral.EmbraceYourRageTavernBrawl {
+            return heroPower.has(tag: GameTag.exhausted)
+        }
+        return heroPower.has(tag: GameTag.exhausted) || heroPower.has(tag: GameTag.bacon_hero_power_activated)
     }
     
     static func getOrderedMinions(board: [Entity]) -> [Entity] {
@@ -779,6 +801,14 @@ class BobsBuddyInvoker {
         minion.scriptDataNum2 = Int32(entity[.tag_script_data_num_2])
         minion.scriptDataNum3 = Int32(entity[.tag_script_data_num_3])
         minion.scriptDataNum4 = Int32(entity[.tag_script_data_num_4])
+
+        // Eclipsion Illidari: SCORE_VALUE_2 is the number of "Immune while Attacking" grants left this turn
+        if let eclipsionClass = EclipsionIllidariProxy._class, MonoHelper.isInstance(obj: minion, klass: eclipsionClass),
+           entity.tags.containsKey(.score_value_2) {
+            var scoreValue2 = Int32(entity[.score_value_2])
+            let boxed = mono_value_box(MonoHelper._monoInstance, mono_get_int32_class(), &scoreValue2)
+            EclipsionIllidariProxy(obj: minion.get()).scoreValue2 = MonoHandle(obj: boxed)
+        }
 
         let dbfId = entity.card.dbfId
         let m1 = entity[.modular_entity_part_1]
@@ -850,6 +880,14 @@ class BobsBuddyInvoker {
                     // due to card effects like persist poet);
                     torethsBlessing.scriptDataNum1 = Int32(entity[.divine_shield])
                     minion.attachEnchantment(enchantment: torethsBlessing)
+                }
+            case CardIds.NonCollectible.Neutral.DrBoomsMonster_BoomingEnchantment:
+                let boomingModule = attachedEntities.first { e in e.cardId == CardIds.NonCollectible.Neutral.DrBoomsMonster_DrBoomsMonsterEnchantment }
+                let booming = sim.enchantmentFactory.create(cardId: CardIds.NonCollectible.Neutral.DrBoomsMonster_BoomingEnchantment, controlledByPlayer: minion.controlledByPlayer)
+                if let boomingModule, booming.get() != nil {
+                    booming.scriptDataNum1 = Int32(boomingModule[.tag_script_data_num_1])
+                    booming.scriptDataNum2 = Int32(boomingModule[.tag_script_data_num_2])
+                    minion.attachEnchantment(enchantment: booming)
                 }
             default:
                 if attached.card.type == .enchantment && !attached.cardId.isEmpty {
@@ -1036,6 +1074,11 @@ class BobsBuddyInvoker {
                     if defensiveSacrifice.get() != nil {
                         minion.attachEnchantment(enchantment: defensiveSacrifice)
                     }
+                case CardIds.NonCollectible.Neutral.Invulnerability:
+                    let invulnerability = sim.enchantmentFactory.create(cardId: CardIds.NonCollectible.Neutral.Invulnerability, controlledByPlayer: minion.controlledByPlayer)
+                    if invulnerability.get() != nil {
+                        minion.attachEnchantment(enchantment: invulnerability)
+                    }
                 default:
                     break
                 }
@@ -1181,7 +1224,7 @@ class BobsBuddyInvoker {
                     }
                 }
             }
-            inputPlayer.addHeroPower(heroPowerCardId: heroPower.cardId, friendly: friendly, isActivated: wasHeroPowerActivated(heroPower: heroPower), data: Int32(pHpData), data2: Int32(pHpData2), data3: Int32(pHpData3), attachedMinion: pHpAttachedMinion ?? MonoHandle(), game_id: Int32(heroPower.id))
+            inputPlayer.addHeroPower(heroPowerCardId: heroPower.cardId, friendly: friendly, isActivated: wasHeroPowerActivated(heroPower: heroPower, isDuos: game.isBattlegroundsDuosMatch()), data: Int32(pHpData), data2: Int32(pHpData2), data3: Int32(pHpData3), attachedMinion: pHpAttachedMinion ?? MonoHandle(), game_id: Int32(heroPower.id))
         }
         
         let playerQuests = inputPlayer.quests
@@ -1287,9 +1330,23 @@ class BobsBuddyInvoker {
         ? getAttachedEntities(entityId: playerEntity.id).filter { x in x.isInPlay }
         : getAttachedEntities(entityId: playerEntity.id)
 
-        // captured inputPlayer values below are marked as either 'attached' or 'direct'
-        // attached: obtained from GetAttachedEntities (requires isDuosTeammate to work properly in duos games)
-        // direct: comes directly from the playerEntity using GetTag (no special handling needed for duos)
+        // captured inputPlayer values below are marked as: 'attached', 'direct' or 'transfer'
+        // - attached: obtained from getAttachedEntities (requires isDuosTeammate to work properly in duos games)
+        // - direct: comes directly from the playerEntity (no special handling needed for duos)
+        // - transfer: from the opponent's TagTransferPlayerEnchant when one is attached, otherwise direct
+
+        // Each combat the game attaches a TagTransferPlayerEnchant to the OPPONENT player entity, carrying the
+        // opponent's per-game counters under the same tag ids as the player entity.
+        // This matters when the opponent is a ghost, since the killed opponent entity's own copies of those tags
+        // can still hold the previous combat's values at the snapshot.
+        let pTagTransfer = friendly ? nil : playerAttached.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.TagtransferplayerenchantDnt && x.isInPlay }) // attached
+        let isDuos = game.isBattlegroundsDuosMatch()
+        let readPlayerCounter: (GameTag) -> Int = { tag in
+            if !isDuos, let pTagTransfer {
+                return pTagTransfer[tag] // pTagTransfer when opponent (transfer)
+            }
+            return playerEntity[tag] // playerEntity otherwise (direct)
+        }
         
         let pEternalLegion = playerAttached.first { x in x.cardId == CardIds.NonCollectible.Neutral.EternalKnight_EternalKnightPlayerEnchant }
         if let pEternalLegion {
@@ -1357,16 +1414,20 @@ class BobsBuddyInvoker {
             logger.info("pWhelpAttack=\(inputPlayer.whelpAttackBonus), pWhelpHealth=\(inputPlayer.whelpHealthBonus), friendly=\(friendly)")
         }
         
-        inputPlayer.elementalPlayCounter = Int32(game.playerEntity?[.gametag_2878] ?? 0) // direct
+        inputPlayer.elementalPlayCounter = Int32(readPlayerCounter(.gametag_2878)) // direct or transfer
 
-        inputPlayer.elementalsGiveExtraAttack = Int32(game.playerEntity?[.bacon_elemental_buffatkvalue] ?? 0) // direct
-        inputPlayer.elementalsGiveExtraHealth = Int32(game.playerEntity?[.bacon_elemental_buffhealthvalue] ?? 0) // direct
+        inputPlayer.elementalsGiveExtraAttack = Int32(readPlayerCounter(.bacon_elemental_buffatkvalue)) // direct or transfer
+        inputPlayer.elementalsGiveExtraHealth = Int32(readPlayerCounter(.bacon_elemental_buffhealthvalue)) // direct or transfer
 
         logger.info("pEternal=\(inputPlayer.eternalKnightCounter), pEternalLegion=\(inputPlayer.eternalLegionCounter), pUndead=\(inputPlayer.undeadAttackBonus), pElemental=\(inputPlayer.elementalPlayCounter), pElementalExtraAtk=\(inputPlayer.elementalsGiveExtraAttack), pElementalExtraHealth=\(inputPlayer.elementalsGiveExtraHealth), friendly=\(friendly)")
         
-        inputPlayer.piratesSummonCounter = Int32(game.playerEntity?[.gametag_2358] ?? 0) // direct
+        inputPlayer.piratesSummonCounter = Int32(readPlayerCounter(.gametag_2358)) // direct or transfer
         
-        inputPlayer.resourcesSpentThisGame = Int32(game.playerEntity?[.num_resources_spent_this_game] ?? 0) // direct
+        // Number of times this player has Magnetized this game.
+        var magnetizeCounter = Int32(readPlayerCounter(.gametag_3670)) // direct or transfer
+        inputPlayer.magnetizeCounter = MonoHandle(obj: mono_value_box(MonoHelper._monoInstance, mono_get_int32_class(), &magnetizeCounter))
+        
+        inputPlayer.resourcesSpentThisGame = Int32(playerEntity[.num_resources_spent_this_game]) // direct
         
         // The tag is never sent for the opponent — derive the value if there is a Malorne on their board.
         if inputPlayer.resourcesSpentThisGame == 0 && !friendly {
@@ -1375,11 +1436,15 @@ class BobsBuddyInvoker {
             }
         }
         
-        inputPlayer.beastsSummonCounter = Int32(game.playerEntity?[.gametag_3962] ?? 0) // direct
+        inputPlayer.beastsSummonCounter = Int32(readPlayerCounter(.gametag_3962)) // direct or transfer
         
-        inputPlayer.friendlyMinionsDeadLastCombatCounter = Int32(game.playerEntity?[.gametag_2717] ?? 0) // direct
+        inputPlayer.tastyLobsterCounter = Int32(readPlayerCounter(.gametag_4803)) // direct or transfer
         
-        inputPlayer.battlecryCounter = Int32(game.playerEntity?[.gametag_3236] ?? 0) // direct
+        inputPlayer.goldenMinionsPlayedCounter = Int32(readPlayerCounter(.gametag_4799)) // direct or transfer
+        
+        inputPlayer.friendlyMinionsDeadLastCombatCounter = Int32(readPlayerCounter(.gametag_2717)) // direct or transfer
+        
+        inputPlayer.battlecryCounter = Int32(readPlayerCounter(.gametag_3236)) // direct or transfer
         
         logger.info("pPirates=\(inputPlayer.piratesSummonCounter), pBeasts=\(inputPlayer.beastsSummonCounter), pDeadLastCombat=\(inputPlayer.friendlyMinionsDeadLastCombatCounter), pBattlecry=\(inputPlayer.battlecryCounter), friendly=\(friendly)")
         
@@ -1395,7 +1460,7 @@ class BobsBuddyInvoker {
         
         logger.info("pBloodGem=+\(inputPlayer.bloodGemAtkBuff)/+\(inputPlayer.bloodGemHealthBuff), friendly=\(friendly)")
         
-        let pTagTransfer = friendly ? nil : playerAttached.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.TagtransferplayerenchantDnt && x.isInPlay }) // attached (opponent-only transfer enchant)
+        // Direct first: the game writes these two on the player entity again after the transfer.
         inputPlayer.tavernSpellAtkBuff = Int32(playerEntity.has(tag: GameTag.tavern_spell_attack_increase) ?
                                                playerEntity[GameTag.tavern_spell_attack_increase] // direct
                                                : pTagTransfer?[GameTag.tavern_spell_attack_increase] ?? 0) // attached (fallback)
@@ -1404,9 +1469,9 @@ class BobsBuddyInvoker {
                                                   : pTagTransfer?[GameTag.tavern_spell_health_increase] ?? 0) // attached (fallback)
         logger.info("pTavernSpell=+\(inputPlayer.tavernSpellAtkBuff)/+\(inputPlayer.tavernSpellHealthBuff) (opponentTransferEnchant=\(pTagTransfer != nil)), friendly=\(friendly)")
         
-        inputPlayer.tavernSpellCounter = Int32(playerEntity[GameTag.gametag_3088]) // direct
+        inputPlayer.tavernSpellCounter = Int32(readPlayerCounter(.gametag_3088)) // direct or transfer
         
-        inputPlayer.deathrattleCounter = Int32(playerEntity[GameTag.gametag_4639]) // direct
+        inputPlayer.deathrattleCounter = Int32(readPlayerCounter(.gametag_4639)) // direct or transfer
          
         if let pHaunted = playerAttached.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.HauntedCarapace_HauntedCarapacePlayerEnchantDnt }) {
             inputPlayer.hauntedAtkBuff = Int32(pHaunted[GameTag.tag_script_data_num_1]) // attached
@@ -1538,7 +1603,7 @@ class BobsBuddyInvoker {
             if shouldRun() {
                 let expandAfterError = errorState == .none && Settings.showBobsBuddyDuringCombat
                 errorState = .none
-                BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .none, show: expandAfterError)
+                BobsBuddyInvoker.bobsBuddyDisplay?.setErrorState(error: .none, show: expandAfterError)
                 output = nil
                 _ = runAndDisplaySimulationAsync()
             }
@@ -2186,7 +2251,7 @@ class BobsBuddyInvoker {
         }
     }
 
-    private func reconcileAutoAssemblerDeathrattles(_ sourceEntityId: Int, _ triggerMultiplier: Int, _ summonedByIsPremium: [Bool]) -> Bool {
+    private func reconcileAutoAssemblerDeathrattles(_ sourceEntityId: Int, _ capturedTriggerMultiplier: Int, _ summonedByIsPremium: [Bool]) -> Bool {
         guard let input = input else { return false }
         
         return MonoHelper.withMonoThread {
@@ -2199,12 +2264,25 @@ class BobsBuddyInvoker {
                 return false
             }
 
-            // Sneed's New Shredder's innate Deathrattle summons a copy of a hand minion; when that hand
-            // minion is an Ancestral Automaton the observation is indistinguishable from a hidden
-            // magnetized Auto Assembler — do not attribute its summons to a module.
-            if MonoHelper.isInstance(obj: minion, klass: SneedsNewShredderProxy._class!) {
+            if MonoHelper.isInstance(obj: minion, klass: SneedsNewShredderProxy._class!)
+                || MonoHelper.isInstance(obj: minion, klass: KangorsApprenticeProxy._class!) {
                 return false
             }
+
+            // Deathly Phylactery transiently adds +1 to EXTRA_DEATHRATTLES_ADDITIONAL and then removes it;
+            // Read the tag now, when the phylactery's +1 has been subtracted (titus values do not reduce)
+            var multiplierNow = 1
+            if let source = game.entities[sourceEntityId] {
+                let controller = source[.controller]
+                let controllerEntity = game.entities.values.first { e in e.has(tag: .player_id) && e[.player_id] == controller }
+                multiplierNow += controllerEntity?[.extra_deathrattles_additional] ?? 0
+            }
+
+            // The stored multiplier was read at the first trigger; if it was higher than now, attribute it to Deathly Phylactery
+            let phylacteryExtra = capturedTriggerMultiplier > multiplierNow ? 1 : 0
+
+            // Use the current value for the divisions below
+            let triggerMultiplier = multiplierNow
 
             let autoAssemblerActions = [ BobsBuddyInvoker.deathrattleAction(AutoAssemblerProxy.deathrattle()),
                                          BobsBuddyInvoker.deathrattleAction(AutoAssemblerProxy.goldenDeathrattle()) ]
@@ -2214,8 +2292,8 @@ class BobsBuddyInvoker {
             let isAutoAssembler = MonoHelper.isInstance(obj: minion, klass: AutoAssemblerProxy._class!)
 
             let observedFirings = _observedAutoAssemblerFirings[sourceEntityId] ?? 0
-            let firedDeathrattles = observedFirings / triggerMultiplier
-            let summonedDeathrattles = summonedByIsPremium.count / triggerMultiplier
+            let firedDeathrattles = (observedFirings - phylacteryExtra) / triggerMultiplier
+            let summonedDeathrattles = (summonedByIsPremium.count - phylacteryExtra) / triggerMultiplier
             var automatons = summonedByIsPremium.take(max(summonedDeathrattles, firedDeathrattles))
 
             // A firing the board had no space for leaves no summon to read the premium flag from; repeat the last

@@ -1,16 +1,64 @@
+# 3.6.11
+## Hearthstone
+- Fixed HSTracker quitting when a deck was deleted in the deck manager.
+- Fixed HSTracker quitting when a mulligan guide tooltip was shown in Korean, Japanese, Simplified Chinese or Traditional Chinese, and those tooltips now put the card name and the percentage where the translation puts them.
+- The Battlegrounds overlay panels, counters and tavern pin markers now fade back while a hero on the leaderboard is hovered, so they no longer cover that player's board.
+- The turn timers, the board attack icons and the experience counter now sit where Hearthstone Deck Tracker puts them and are cut away wherever Hearthstone draws over the board, and they can no longer be dragged to a position of their own.
+- Fixed the experience bar never animating the levels gained, playing a burst of animations when Hearthstone briefly misreported the reward track, and being taken away part way through an animation when the scene changed.
+- The mulligan guide used outside Ranked and Friendly now matches Hearthstone Deck Tracker's own, with its hand rank badge, tooltips and translations, and is cut away wherever Hearthstone draws over the board.
+- The mulligan guide badges over the deck boxes in the constructed lobby now sit where Hearthstone Deck Tracker puts them, and a deck whose status is still loading is no longer coloured as though it were ready.
+- Added the Find Meta Decks button to the constructed lobby, which opens HSReplay's deck list for the format being played.
+- The Mercenaries tasks button and its task list now sit where Hearthstone Deck Tracker puts them, slide in and out as they do there, size themselves to the tasks they show while wrapping a long task description instead of running off the screen, and are cut away wherever Hearthstone draws over the board, and the button's label is now translated.
+- Fixed HSTracker quitting on launch while Hearthstone was showing the Black Market, and it no longer quits when Hearthstone adds a screen, minion type, class or rarity it does not know about yet.
+
 # 3.6.10
 ## Hearthstone
+- Fixed everything that has not been translated into the selected language showing its internal name, such as "Counter_AnimalCompanionCost" in place of the Animal Companion counter, now falling back to English again, and translated a large part of what was still English in all thirteen languages.
 - Added diagnostics for the remaining random crashes on macOS 26, and stopped reporting HSReplay and card art server outages as crashes.
 - Fixed HSTracker quitting when the Game settings pane was opened and Hearthstone could not be found.
+- Fixed HSTracker quitting while it was reading Hearthstone's log files and one of them was removed or replaced underneath it.
+- Fixed HSTracker quitting when a deck was deleted in the deck manager while its record was being refreshed.
 - Fixed the deck manager freezing the whole app, sometimes for hours, when the decks were sorted by win percentage, wins, losses or games played, and those columns counting only ranked games.
 - Fixed HSTracker forgetting every setting on launch and asking for the languages again, and the first-run window now shows the languages that are already configured.
+- The counters now scale with the game window, the opponent's sit in their correct spot, in Battlegrounds they split into two even rows, and hovering one shows its related cards again.
+- The overlay is now cut away wherever Hearthstone draws something of its own over the board - a hovered minion, weapon, hero power, secret or card in hand with its tooltips and enchantments, the Discover and trinket choices, the anomaly and offered hero powers in the Battlegrounds mulligan, the friends list and the escape menu - so none of them are covered up any more.
+- Fixed the Ectoplasm spells left behind by Slime 'em! both listing the same board, so each one now shows the minions it will actually resummon.
+- The active effects and max resources widgets now scale with the game window and are cut away wherever Hearthstone draws over them, and the max resources widget no longer leaves a small dark square on the board when there is nothing to show.
+- Fixed the Outfinder's related cards tooltip and card pool browser showing up on the main display instead of the one Hearthstone is on.
+- Fixed the related cards tooltip for a Discover choice being drawn on top of the cards being offered instead of centred beside them, and staying on screen when moving to a choice that has none.
+- The related cards tooltips shown over the game board, including the ones on the counters, now scale with the game window like the rest of the overlay.
+- The card pool summary now sits to the left of the related cards it describes, with a gap between the two, the way Hearthstone Deck Tracker lays it out.
 ## Battlegrounds
 - Fixed the counter tooltips showing the previously hovered counter's card art, and the Blood Gem counter listing itself instead of the Quilboar payoffs.
+- Fixed the Blood Gem and next-turn gold counters reading the combat board instead of the shop, so they stopped following what was bought and sold.
+- Fixed Bob's Buddy treating the end of every combat as the end of the game, which inverted the "Show During Shopping" setting: the odds stayed up when it was off and folded away when it was on.
 - Fixed trinket guide tooltips stacking up and being left behind on the game board.
-- The Battlegrounds comp guide now matches Hearthstone Deck Tracker: it no longer overhangs the tab strip, its card rows lost their extra gaps, its "Show Example Lineups" button spans the Core Cards section, and its mode badge names the Tier7 or Free version with an explanation on hover.
+- Fixed the session panel losing track of a Battlegrounds season MMR reset: the game the reset happened in now shows the new rating, and the session counts from zero instead of from the old rating.
+- Fixed the session panel showing a current MMR of zero, and a session change of the whole starting rating, while Hearthstone had not reported a rating yet.
+- The Battlegrounds comp guide no longer overhangs the tab strip, its card rows lost their extra gaps, its "Show Example Lineups" button spans the Core Cards section, and its mode badge names the Tier7 or Free version with an explanation on hover.
+- The Tier7 panel in the Battlegrounds lobby can now be folded away by its header chevron, shows a settings button in its corner on hover, shows a sale offer when one is running, scales with the game window, and no longer stays hidden from players whose Tier7 subscription has ended.
+- The Battlegrounds session panel can now show the available and banned minion types at the same time, show a past game's final board beside its row, show a settings button in its corner on hover, and be dragged around the game window directly instead of being moved as a separate window.
+- The quest stats now explain themselves on hover, and the trinket show/hide button and guide tooltips no longer take the mouse away from the rest of the game window.
+- Fixed the trinket picking panel staying hidden altogether when none of the offered trinkets had stats to show.
+- Hovering an offered hero or quest reward now shows its guide, the way hovering a trinket already did, and every guide tooltip is hidden when the Battlegrounds guides are switched off. None of the three now need the picking stats to be on screen, and hovering a trinket for its guide no longer stops the click that picks it from reaching Hearthstone.
+- Bob's Buddy's combat odds now scale with the game window, the average damage panels open beside them rather than under them, only the status bar takes the mouse, it introduces itself the first time, a question mark and a settings button appear in its status bar on hover, and hovering it peeks the average damage panels open with a note explaining them - which they also do on their own, once, after a combat lands outside the damage they predicted.
+- Fixed the Tavern Pinning panel taking the mouse away from the quest log and settings buttons in the bottom-right corner of the game window, so Hearthstone's menu could no longer be opened. (#1439)
+## Arena
+- Your arena rating is now sent with uploaded arena matches, matching Hearthstone Deck Tracker. The two ladders are rated separately, so Underground runs send the Underground rating.
+- The arena season is now sent with uploaded arena matches, matching Hearthstone Deck Tracker, so runs are attributed to the right season on HSReplay.
+- Arena drafts are now uploaded with the match, matching Hearthstone Deck Tracker. HSTracker already recorded every pick, the cards offered and how long each choice took, but never sent any of it, so none of it reached your HSReplay arena statistics. Redrafts are included.
+- Each uploaded arena pick now says whether Arenasmith was switched on, whether its panel was actually on screen, whether it had data for the draft, and which scores it showed, matching Hearthstone Deck Tracker. Three of those were being recorded as always-off.
+- Fixed the time spent on each arena pick being recorded in seconds where the server expects milliseconds.
+- Fixed the arena overlay covering up the card Hearthstone blows up out of the deck tray, and the tooltip it draws under a hovered draft choice.
+- Fixed arena decks being imported without their sideboards. The imported deck now carries them, and a sideboard change on its own is enough to update a deck HSTracker already knows.
+- Added the opponent's card package to the opponent deck tracker, matching Hearthstone Deck Tracker. Arena rotations group a legendary with cards that only appear alongside it, so seeing one of those cards in the opponent's deck reveals the whole group, which now shows in its own panel. Those cards are also taken out of the related cards panel so they are not listed twice, and while a legendary package is showing, no other legendary is suggested. It can be turned off in Preferences > Arena.
 ## Bob's Buddy
 - Fixed Bob's Buddy being left without odds because the app shipped an incomplete, out-of-date copy of the runtime it simulates with.
 - Fixed HSTracker crashing during a Battlegrounds combat with Scoutmaster Tavish's Lock and Load, a magnetized Auto Assembler, or a minion granted "Crab Riding". (#1436)
+- Fixed the combat odds in Duos assuming Embrace Your Rage had already gone off when it had not.
+- Fixed the combat odds miscounting the Automatons a magnetized Auto Assembler summons, after a Deathly Phylactery repeat, on a Kangor's Apprentice, or on a minion turned into a Mech by Amalgamation.
+- The combat odds now keep the Invulnerability dark gift and Dr. Boom's Monster's stat grant through magnetizing, and respect how many "Immune while attacking" grants Eclipsion Illidari has left.
+- The combat odds now count how many times each side has magnetized, how many golden minions each side has played and each side's Tasty Lobster count, no longer hand an opponent the previous opponent's Blood Gem buff, and read a ghost opponent's counters, including how much gold they have spent, from the right player.
 
 # 3.6.9
 ## Hearthstone

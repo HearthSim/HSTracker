@@ -193,6 +193,14 @@ struct MirrorHelper {
         return result
     }
     
+    static func getArenaRatingInfo() -> MirrorArenaRatingInfo? {
+        var result: MirrorArenaRatingInfo?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getArenaRatingInfo()
+        }
+        return result
+    }
+    
     static func getBattlegroundsRatingChange() -> MirrorRatingChange? {
         var result: MirrorRatingChange?
         MirrorHelper.accessQueue.sync {
@@ -226,7 +234,25 @@ struct MirrorHelper {
         }
         return result
     }
-    
+
+    /// Full draft-screen state behind the Arenasmith overlay.
+    ///
+    /// The two version arguments are the cheap-skip HDT uses: when the deck list's
+    /// slot collection `_version` is unchanged the mirror leaves `deckListData` /
+    /// `redraftDeckListData` nil instead of re-marshalling every card on each tick.
+    /// `resetCache` drops the mirror's cached Mono handles - pass true whenever the
+    /// objects those handles point at may have been replaced (client state change,
+    /// underground toggle, watcher start).
+    static func getArenaState(deckListVersion: Int?, redraftDeckListVersion: Int?, resetCache: Bool) -> MirrorArenaState? {
+        var result: MirrorArenaState?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getArenaState(deckListVersion.map { NSNumber(value: $0) },
+                                           redraftDeckListVersion: redraftDeckListVersion.map { NSNumber(value: $0) },
+                                           resetCache: resetCache)
+        }
+        return result
+    }
+
     // MARK: - brawl
     
     static func getBrawlInfo() -> MirrorBrawlInfo? {
@@ -427,6 +453,16 @@ struct MirrorHelper {
         return result ?? false
     }
     
+    // GameMenu.s_instance.m_isShown - the escape menu, which HDT reads through
+    // Reflection.Client.IsGameMenuShown() for its own UiWatcher.
+    static func isGameMenuVisible() -> Bool {
+        var result: Bool?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.isGameMenuVisible()
+        }
+        return result ?? false
+    }
+    
     static func getLogSessionDir() -> String {
         var result: String?
         MirrorHelper.accessQueue.sync {
@@ -530,6 +566,17 @@ struct MirrorHelper {
         var result: MirrorBattlegroundsTeammateBoardState?
         MirrorHelper.accessQueue.sync {
             result = mirror?.getBattlegroundsTeammateBoardState()
+        }
+        return result
+    }
+    
+    // MulliganManager.s_instance - the tooltip Hearthstone draws beside a
+    // moused-over card during the Battlegrounds hero picking phase. HDT reads it
+    // through Reflection.Client.GetMulliganTooltipState().
+    static func getMulliganTooltipState() -> MirrorMulliganTooltipState? {
+        var result: MirrorMulliganTooltipState?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getMulliganTooltipState()
         }
         return result
     }

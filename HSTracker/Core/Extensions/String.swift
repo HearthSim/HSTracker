@@ -84,14 +84,13 @@ extension String {
             return message
         }
         
-        let language = "Base"
-        guard let path = Bundle.main.path(forResource: language, ofType: "lproj") else { return key }
-        let bundle = Bundle(path: path)
-        if let forcedString = bundle?.localizedString(forKey: key, value: nil, table: nil) {
-            return forcedString
-        } else {
-            return key
-        }
+        // The selected language may not translate every key. String catalogs compile
+        // the source language into <developmentLocalization>.lproj, so fall back there
+        // rather than returning the raw key.
+        let language = Bundle.main.developmentLocalization ?? "en"
+        guard let path = Bundle.main.path(forResource: language, ofType: "lproj"),
+              let bundle = Bundle(path: path) else { return key }
+        return bundle.localizedString(forKey: key, value: key, table: nil)
     }
 }
 

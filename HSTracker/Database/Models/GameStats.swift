@@ -48,8 +48,15 @@ class InternalGameStats {
     var hsDeckId: Int64?
     var brawlSeasonId = -1
     var rankedSeasonId = -1
+    /// Not carried over to the Realm GameStats: like brawlSeasonId and
+    /// rankedSeasonId it is only ever read on the way to the upload, and adding a
+    /// persisted property would force a schema migration for nothing.
+    var arenaSeasonId = -1
     var arenaWins = 0
     var arenaLosses = 0
+    /// Optional, unlike the counters: HDT sends nothing rather than a zero when
+    /// the rating could not be read. Not persisted, same as arenaSeasonId.
+    var arenaRating: Int?
     var brawlWins = 0
     var brawlLosses = 0
     var battlegroundsRating = 0
@@ -199,6 +206,7 @@ extension InternalGameStats: CustomStringConvertible {
             "hsDeckId: \(String(describing: hsDeckId)), " +
             "brawlSeasonId: \(brawlSeasonId), " +
             "rankedSeasonId: \(rankedSeasonId), " +
+            "arenaSeasonId: \(arenaSeasonId), " +
             "arenaWins: \(arenaWins), " +
             "arenaLosses: \(arenaLosses), " +
             "brawlWins: \(brawlWins), " +

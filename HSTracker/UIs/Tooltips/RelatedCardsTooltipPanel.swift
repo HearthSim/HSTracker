@@ -22,6 +22,11 @@ final class RelatedCardsTooltipViewModel: ObservableObject {
     @Published var poolStatistics: PoolStatistics?
     @Published var relatedCardsSummary: [String: String]?
     @Published var hasLargePool: Bool = false
+    // CardGridTooltipViewModel.Scale, which the overlay sets to Height / 1080 so the grid tracks
+    // the size of the Hearthstone window. It is a LayoutTransform on GridCardImages alone in
+    // HDT's XAML - the PoolSummaryView next to it is deliberately left unscaled - so it applies
+    // to the grid here too, not to the whole tooltip.
+    @Published var scale: CGFloat = 1
 
     var layout: RelatedCardsGridLayout {
         RelatedCardsGridLayout(cardCount: cards.count, maxGridHeight: maxGridHeight)
@@ -216,6 +221,8 @@ struct RelatedCardsGridView: View {
 @available(macOS 10.15, *)
 struct PoolSummaryPanelView: View {
     static let width: CGFloat = 330
+    // PoolSummaryView's Margin="0 0 15 0", the gap it keeps between itself and the card grid.
+    static let trailingMargin: CGFloat = 15
 
     let totalCardCount: Int
     let statistics: PoolStatistics
@@ -345,18 +352,35 @@ private struct RelatedCardsTooltipContentView: View {
     @ObservedObject var viewModel: RelatedCardsTooltipViewModel
 
     var body: some View {
+        // The summary comes first and the grid second, which is the order the overlay's own
+        // <StackPanel Orientation="Horizontal"> in OverlayWindow.xaml declares them in - the
+        // summary reads left of the cards, not right of them.
         HStack(alignment: .top, spacing: 0) {
+            if let statistics = viewModel.poolStatistics {
+                PoolSummaryPanelView(totalCardCount: viewModel.cards.count, statistics: statistics,
+                                     relatedCardsSummary: viewModel.relatedCardsSummary, hasLargePool: viewModel.hasLargePool)
+                    // PoolSummaryView's own Margin="0 0 15 0". It belongs to the summary rather
+                    // than to the gap between the two, so it stays even when the grid is dropped
+                    // for a large pool - and goes away with the summary, the way a collapsed
+                    // element takes its margin out of a StackPanel with it.
+                    .padding(.trailing, PoolSummaryPanelView.trailingMargin)
+            }
             // Mirrors HDT's CardTooltipViewModel.RelatedCards being nulled out (and the
             // GridCardImages control's Visibility collapsing) once the pool exceeds
             // LargePoolThreshold - the card grid is omitted entirely rather than rendered
             // shrunk, leaving only the summary panel + right-click hint. totalCardCount
             // still reads viewModel.cards.count here since it's unaffected by this check.
             if !viewModel.hasLargePool {
-                RelatedCardsGridView(title: viewModel.title, cards: viewModel.cards, layout: viewModel.layout)
-            }
-            if let statistics = viewModel.poolStatistics {
-                PoolSummaryPanelView(totalCardCount: viewModel.cards.count, statistics: statistics,
-                                     relatedCardsSummary: viewModel.relatedCardsSummary, hasLargePool: viewModel.hasLargePool)
+                let layout = viewModel.layout
+                RelatedCardsGridView(title: viewModel.title, cards: viewModel.cards, layout: layout)
+                    // WPF's LayoutTransform scales the control's footprint as well as its
+                    // rendering; scaleEffect only does the latter, so the outer frame reserves the
+                    // scaled box the panel was sized for. Anchored top-leading, because that is the
+                    // corner the panel frame is pinned to.
+                    .scaleEffect(viewModel.scale, anchor: .topLeading)
+                    .frame(width: CGFloat(layout.gridWidth) * viewModel.scale,
+                           height: CGFloat(layout.gridHeight) * viewModel.scale,
+                           alignment: .topLeading)
             }
         }
     }
@@ -381,12 +405,23 @@ final class RelatedCardsTooltipPanel: NSPanel {
     // The grid layout's own footprint is omitted from both once hasLargePool is set,
     // matching RelatedCardsTooltipContentView no longer rendering RelatedCardsGridView -
     // otherwise the window would be framed for a grid that's no longer on screen.
+    // Only the grid half carries the scale - see RelatedCardsTooltipViewModel.scale.
+    private var scaledGridWidth: Int {
+        viewModel.hasLargePool ? 0 : Int(CGFloat(viewModel.layout.gridWidth) * viewModel.scale)
+    }
+
+    private var scaledGridHeight: Int {
+        viewModel.hasLargePool ? 0 : Int(CGFloat(viewModel.layout.gridHeight) * viewModel.scale)
+    }
+
     var gridWidth: Int {
-        (viewModel.hasLargePool ? 0 : viewModel.layout.gridWidth) + (viewModel.poolStatistics != nil ? Int(PoolSummaryPanelView.width) : 0)
+        scaledGridWidth + (viewModel.poolStatistics != nil
+                           ? Int(PoolSummaryPanelView.width + PoolSummaryPanelView.trailingMargin)
+                           : 0)
     }
 
     var gridHeight: Int {
-        max(viewModel.hasLargePool ? 0 : viewModel.layout.gridHeight, viewModel.poolStatistics != nil ? Self.estimatedPoolPanelHeight : 0)
+        max(scaledGridHeight, viewModel.poolStatistics != nil ? Self.estimatedPoolPanelHeight : 0)
     }
 
     var cards: [Card] { viewModel.cards }
@@ -417,6 +452,13 @@ final class RelatedCardsTooltipPanel: NSPanel {
 
     func setTitle(_ title: String) {
         viewModel.title = title
+    }
+
+    /// HDT's `vm.Scale = Height / 1080`, where Height is the overlay - and so the Hearthstone
+    /// window. Callers that HDT leaves unscaled (the deck list's own card tooltip, which binds
+    /// Config.CardImageSize, defaulting to 1) simply never call this.
+    func setScale(_ scale: CGFloat) {
+        viewModel.scale = scale.isFinite && scale > 0 ? scale : 1
     }
 
     func setPoolStatistics(_ statistics: PoolStatistics?, relatedCardsSummary: [String: String]?, hasLargePool: Bool) {

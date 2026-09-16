@@ -176,7 +176,7 @@ class Database {
         case GameTag.overload.rawValue:
             currentCard?.overload = intValue
         case GameTag.rarity.rawValue:
-            currentCard?.rarity = Rarity.allCases[intValue]
+            currentCard?.rarity = Rarity.allCases[safeIndex: intValue] ?? .invalid
         case GameTag.collectible.rawValue:
             currentCard?.collectible = intValue > 0
         case GameTag.tech_level.rawValue:
@@ -195,11 +195,11 @@ class Database {
         case GameTag.cardtype.rawValue:
             currentCard?.type = CardType(rawValue: intValue) ?? .invalid
         case GameTag.class.rawValue:
-            currentCard?.playerClass = CardClass.allCases[intValue]
+            currentCard?.playerClass = CardClass.allCases[safeIndex: intValue] ?? .invalid
         case GameTag.cardrace.rawValue:
-            let race = Race.allCases[intValue]
+            let race = Race.allCases[safeIndex: intValue] ?? .invalid
             currentCard?.race = race
-            currentCard?.races.append(Race.allCases[intValue])
+            currentCard?.races.append(race)
         case GameTag.multi_class_group.rawValue:
             currentCard?.multiClassGroup = MultiClassGroup(rawValue: intValue) ?? .invalid
         case GameTag.lettuce_cooldown_config.rawValue:
@@ -248,6 +248,10 @@ class Database {
             currentCard?.isBaconBuddy = intValue == 1
         case GameTag.bacon_tripled_base_minion_id.rawValue:
             currentCard?.baconTripledBaseMinionId = intValue
+        case GameTag.bacon_evolution_card_id.rawValue:
+            currentCard?.baconEvolutionCardId = intValue
+        case GameTag.bacon_heropower_base_hero_id.rawValue:
+            currentCard?.baconHeroPowerBaseHeroId = intValue
         case GameTag.kabal.rawValue, GameTag.grimy_goons.rawValue, GameTag.jade_lotus.rawValue, GameTag.protoss.rawValue, GameTag.terran.rawValue, GameTag.zerg.rawValue:
             if intValue > 0 {
                 currentCard?.faction = GameTag(rawValue: id)

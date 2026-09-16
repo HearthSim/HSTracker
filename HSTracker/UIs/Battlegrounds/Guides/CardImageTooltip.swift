@@ -52,18 +52,39 @@ enum CardTooltipSource {
     case trackingArea
 }
 
+// Which tooltip a hovered element puts up. HDT attaches both of these through
+// one mechanism - OverlayExtensions.ToolTip alongside IsOverlayHoverVisible -
+// naming a different content type per element: CardTooltip on a card tile or an
+// active effect, GridCardImages on a counter. Modelling it the same way here is
+// what lets a single registry, and a single cursor sweep in RootOverlayWindow,
+// serve both; the counters used to carry a parallel registry and sweep of their
+// own.
+@available(macOS 10.15, *)
+enum OverlayTooltip {
+    // HDT's CardTooltip: one card image, with its golden companion.
+    case card(cardId: String, showTriple: Bool, baconTriple: Bool, placement: CardTooltipPlacement)
+    // HDT's GridCardImages: the titled grid of related cards the counters
+    // carry. The counter itself is held rather than its cards, because
+    // CardsToDisplay is read at show time - its value moves during a game.
+    case relatedCards(counter: BaseCounter)
+
+    // Identity for "is the cursor still on the same thing", not value equality:
+    // a counter is a reference type and its contents change under it.
+    func matches(_ other: OverlayTooltip) -> Bool {
+        switch (self, other) {
+        case let (.card(a, at, ab, ap), .card(b, bt, bb, bp)):
+            return a == b && at == bt && ab == bb && ap == bp
+        case let (.relatedCards(a), .relatedCards(b)):
+            return a === b
+        default:
+            return false
+        }
+    }
+}
+
 @available(macOS 10.15, *)
 final class CardHoverNSView: NSView {
-    private(set) var cardId: String = ""
-    // HDT's ShowTripleTooltip. False suppresses the golden companion image -
-    // see BattlegroundsMinionArt.showTriple.
-    private(set) var showTriple: Bool = true
-    // HDT's Card.BaconTriple, which its cardImageDownloader URL formula appends
-    // "_triple" for. The golden card's own art is only published under that
-    // suffix - bgs/.../BG20_100_G.png is a 404, bgs/.../BG20_100_G_triple.png
-    // is a 200 - so a golden minion whose id is requested bare renders nothing.
-    private(set) var baconTriple: Bool = false
-    private(set) var placement: CardTooltipPlacement = .right
+    private(set) var tooltip: OverlayTooltip?
 
     // Match NSHostingView's own flip so NSView.convert() coordinate conversions
     // are consistent with SwiftUI's Y-down coordinate space throughout the tree.
@@ -77,13 +98,9 @@ final class CardHoverNSView: NSView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func update(cardId: String, showTriple: Bool, baconTriple: Bool, placement: CardTooltipPlacement) {
-        guard cardId != self.cardId || showTriple != self.showTriple
-                || baconTriple != self.baconTriple || placement != self.placement else { return }
-        self.cardId = cardId
-        self.showTriple = showTriple
-        self.baconTriple = baconTriple
-        self.placement = placement
+    func update(tooltip: OverlayTooltip) {
+        guard !(self.tooltip?.matches(tooltip) ?? false) else { return }
+        self.tooltip = tooltip
         if window != nil {
             CardHoverRegistry.shared.register(self)
         }
@@ -95,11 +112,21 @@ final class CardHoverNSView: NSView {
             CardHoverRegistry.shared.register(self)
         } else {
             CardHoverRegistry.shared.unregister(self)
-            // Hide immediately if this was the currently-shown card — the 150ms
-            // fallback timer in RootOverlayWindow is too slow for navigation
-            // (back to list) and doesn't fire at all when the match ends and
-            // the overlay window is torn down.
-            CardTooltipPanel.shared.hide(ifShowing: cardId)
+            // Hide immediately if this was the currently-shown tooltip — the
+            // 150ms fallback timer in RootOverlayWindow is too slow for
+            // navigation (back to list) and doesn't fire at all when the match
+            // ends and the overlay window is torn down.
+            switch tooltip {
+            case .card(let cardId, _, _, _):
+                CardTooltipPanel.shared.hide(ifShowing: cardId)
+            case .relatedCards(let counter):
+                // The counter went away while its grid was up (or on its way
+                // up) - RootOverlayWindow's own sweep would only notice on the
+                // next mouse move, and there may not be one.
+                CounterTooltipController.shared.hide(ifShowing: counter)
+            case nil:
+                break
+            }
         }
     }
 }
@@ -109,10 +136,7 @@ class CardHoverRegistry {
     static let shared = CardHoverRegistry()
 
     struct Entry {
-        let cardId: String
-        let showTriple: Bool
-        let baconTriple: Bool
-        let placement: CardTooltipPlacement
+        let tooltip: OverlayTooltip
         weak var view: CardHoverNSView?
     }
 
@@ -120,9 +144,9 @@ class CardHoverRegistry {
 
     func register(_ view: CardHoverNSView) {
         entries.removeAll { $0.view == nil || $0.view === view }
-        guard !view.cardId.isEmpty else { return }
-        entries.append(Entry(cardId: view.cardId, showTriple: view.showTriple,
-                             baconTriple: view.baconTriple, placement: view.placement, view: view))
+        guard let tooltip = view.tooltip else { return }
+        if case .card(let cardId, _, _, _) = tooltip, cardId.isEmpty { return }
+        entries.append(Entry(tooltip: tooltip, view: view))
     }
 
     func unregister(_ view: CardHoverNSView) {
@@ -132,17 +156,14 @@ class CardHoverRegistry {
 
 @available(macOS 10.15, *)
 private struct CardHoverRepresentable: NSViewRepresentable {
-    let cardId: String
-    let showTriple: Bool
-    let baconTriple: Bool
-    let placement: CardTooltipPlacement
+    let tooltip: OverlayTooltip
 
     func makeNSView(context: Context) -> CardHoverNSView {
         CardHoverNSView()
     }
 
     func updateNSView(_ nsView: CardHoverNSView, context: Context) {
-        nsView.update(cardId: cardId, showTriple: showTriple, baconTriple: baconTriple, placement: placement)
+        nsView.update(tooltip: tooltip)
     }
 }
 
@@ -269,7 +290,10 @@ class CardTooltipPanel: NSPanel {
             // still fire, leaving a ghost tooltip after the guide is gone.
             switch source {
             case .registry:
-                guard CardHoverRegistry.shared.entries.contains(where: { $0.view != nil && $0.cardId == cardId }) else { return }
+                guard CardHoverRegistry.shared.entries.contains(where: { entry in
+                    guard case .card(let entryCardId, _, _, _) = entry.tooltip else { return false }
+                    return entry.view != nil && entryCardId == cardId
+                }) else { return }
             case .trackingArea:
                 // The same check for a view the registry never held: losing its window is how a
                 // closed panel or a rebuilt row reports that it is gone.
@@ -591,11 +615,23 @@ private struct CardImageTooltipModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         if let cardId = cardId {
-            content.background(CardHoverRepresentable(cardId: cardId, showTriple: showTriple,
-                                                      baconTriple: baconTriple, placement: placement))
+            content.background(CardHoverRepresentable(
+                tooltip: .card(cardId: cardId, showTriple: showTriple,
+                               baconTriple: baconTriple, placement: placement)))
         } else {
             content
         }
+    }
+}
+
+// The counters' equivalent: HDT hangs a GridCardImages off the same
+// IsOverlayHoverVisible element a CardTooltip would hang off.
+@available(macOS 10.15, *)
+private struct RelatedCardsTooltipModifier: ViewModifier {
+    let counter: BaseCounter
+
+    func body(content: Content) -> some View {
+        content.background(CardHoverRepresentable(tooltip: .relatedCards(counter: counter)))
     }
 }
 
@@ -605,5 +641,9 @@ extension View {
                           placement: CardTooltipPlacement = .right) -> some View {
         modifier(CardImageTooltipModifier(cardId: cardId, showTriple: showTriple,
                                           baconTriple: baconTriple, placement: placement))
+    }
+
+    func relatedCardsTooltip(counter: BaseCounter) -> some View {
+        modifier(RelatedCardsTooltipModifier(counter: counter))
     }
 }

@@ -293,6 +293,17 @@ final class Settings {
     static var showTurnCounter: Bool
     @UserDefault(key: Settings.show_average_damage, defaultValue: true)
     static var showAverageDamage: Bool
+    // The three flags Bob's Buddy's own info popups remember, matching HDT's
+    // SeenBobsBuddyInfo, BobsBuddyAverageDamageInfoClosed and
+    // SeenBobsBuddyAverageDamage: whether the panel has explained itself once,
+    // whether the average damage note was dismissed for good, and whether the
+    // average damage panels have ever been seen.
+    @UserDefault(key: Settings.seen_bobs_buddy_info, defaultValue: false)
+    static var seenBobsBuddyInfo: Bool
+    @UserDefault(key: Settings.bobs_buddy_average_damage_info_closed, defaultValue: false)
+    static var bobsBuddyAverageDamageInfoClosed: Bool
+    @UserDefault(key: Settings.seen_bobs_buddy_average_damage, defaultValue: false)
+    static var seenBobsBuddyAverageDamage: Bool
     @UserDefault(key: Settings.show_opponent_warband, defaultValue: true)
     static var showOpponentWarband: Bool
     @UserDefault(key: Settings.show_tiers, defaultValue: true)
@@ -330,20 +341,52 @@ final class Settings {
     static var showSessionRecap: Bool
     @UserDefault(key: Settings.show_banned_tribes, defaultValue: true)
     static var showMinionsSection: Bool
+    // Legacy single-choice setting: 0 showed the banned minion types, anything
+    // else showed the available ones. HDT has independent checkboxes for the two
+    // sections, which showMinionsAvailable/showMinionsBanned below now mirror;
+    // this key is only kept so AppDelegate.migrateSessionMinionTypesPreference
+    // can carry the user's old choice over once.
     @UserDefault(key: Settings.show_minion_types, defaultValue: 1)
     static var showMinionTypes: Int
+    // HDT's ShowSessionRecapMinionsAvailable / ShowSessionRecapMinionsBanned.
+    @UserDefault(key: Settings.show_minions_available, defaultValue: true)
+    static var showMinionsAvailable: Bool
+    @UserDefault(key: Settings.show_minions_banned, defaultValue: false)
+    static var showMinionsBanned: Bool
+    @UserDefault(key: Settings.migrated_session_minion_types, defaultValue: false)
+    static var migratedSessionMinionTypes: Bool
     @UserDefault(key: Settings.show_mmr, defaultValue: true)
     static var showMMR: Bool
     @UserDefault(key: Settings.show_mmr_start_current, defaultValue: true)
     static var showMMRStartCurrent: Bool
     @UserDefault(key: Settings.show_latest_games, defaultValue: true)
     static var showLatestGames: Bool
+    // Where the session panel sits on the overlay canvas, as a percentage of the
+    // Hearthstone client's size - HDT's Config.SessionRecapTop / SessionRecapLeft,
+    // including their defaults.
+    @UserDefault(key: Settings.battlegrounds_session_top, defaultValue: 15.0)
+    static var battlegroundsSessionTop: Double
+    @UserDefault(key: Settings.battlegrounds_session_left, defaultValue: 0.0)
+    static var battlegroundsSessionLeft: Double
+    // The absolute frame the panel's own window used to be dragged to, kept only
+    // so BattlegroundsSessionViewModel can convert it into the pair above once.
     @UserDefaultCustom(key: Settings.battlegrounds_session_frame, defaultValue: nil)
     static var battlegroundsSessionFrame: NSRect?
+    @UserDefault(key: Settings.migrated_session_position, defaultValue: false)
+    static var migratedSessionPosition: Bool
     @UserDefault(key: Settings.enable_tier7_overlay, defaultValue: true)
     static var enableTier7Overlay: Bool
     @UserDefault(key: Settings.show_battlegrounds_tier7_prelobby, defaultValue: true)
     static var showBattlegroundsTier7PreLobby: Bool
+    // HDT's Config.Tier7OverlayCollapsed - whether the Tier7 pre-lobby panel's
+    // body is folded away behind its header chevron.
+    @UserDefault(key: Settings.tier7_overlay_collapsed, defaultValue: false)
+    static var tier7OverlayCollapsed: Bool
+    // The Battlegrounds sale's own id (RemoteConfig.data.sales.battlegrounds.id)
+    // once the user dismisses that sale's tooltip - stays hidden until a newer
+    // sale (higher id) comes along. HDT's Config.IgnoreBattlegroundsSaleId.
+    @UserDefault(key: Settings.ignore_battlegrounds_sale_id, defaultValue: -1)
+    static var ignoreBattlegroundsSaleId: Int
     @UserDefault(key: Settings.show_battlegrounds_hero_picking, defaultValue: true)
     static var showBattlegroundsHeroPicking: Bool
     @UserDefault(key: Settings.show_battlegrounds_quest_picking, defaultValue: true)
@@ -356,6 +399,29 @@ final class Settings {
     static var alwaysShowTier7
     @UserDefault(key: Settings.auto_show_battlegrounds_trinket_picking, defaultValue: true)
     static var autoShowBattlegroundsTrinketPicking: Bool
+
+    // Arenasmith (HDT's EnableArenasmithOverlay, ShowArenaHeroPicking,
+    // ShowArenasmithScore, ShowArenaRelatedCards, ShowArenaDeckSynergies,
+    // ShowArenaRedraftDiscard, ShowArenasmithPreLobby, HideOpponentArenaPackages
+    // and ArenasmithPreLobbyTrialsCollapsed).
+    @UserDefault(key: Settings.enable_arenasmith_overlay, defaultValue: true)
+    static var enableArenasmithOverlay: Bool
+    @UserDefault(key: Settings.show_arena_hero_picking, defaultValue: true)
+    static var showArenaHeroPicking: Bool
+    @UserDefault(key: Settings.show_arenasmith_score, defaultValue: true)
+    static var showArenasmithScore: Bool
+    @UserDefault(key: Settings.show_arena_related_cards, defaultValue: true)
+    static var showArenaRelatedCards: Bool
+    @UserDefault(key: Settings.show_arena_deck_synergies, defaultValue: true)
+    static var showArenaDeckSynergies: Bool
+    @UserDefault(key: Settings.show_arena_redraft_discard, defaultValue: true)
+    static var showArenaRedraftDiscard: Bool
+    @UserDefault(key: Settings.show_arenasmith_prelobby, defaultValue: true)
+    static var showArenasmithPreLobby: Bool
+    @UserDefault(key: Settings.hide_opponent_arena_packages, defaultValue: false)
+    static var hideOpponentArenaPackages: Bool
+    @UserDefault(key: Settings.arenasmith_prelobby_trials_collapsed, defaultValue: false)
+    static var arenasmithPreLobbyTrialsCollapsed: Bool
 
     // Tavern Pinning (HDT's ShowBattlegroundsTavernMarkers,
     // AutoEnableTavernMarkersRecommended, TavernMarkersPanelExpanded, and the
@@ -466,9 +532,6 @@ final class Settings {
     @UserDefault(key: Settings.opponent_max_resources, defaultValue: true)
     static var showOpponentMaxResources: Bool
 
-    @UserDefaultCustom(key: Settings.timer_hud_frame, defaultValue: nil)
-    static var timerHudFrame: NSRect?
-    
     @UserDefault(key: Settings.show_card_huds, defaultValue: true)
     static var showCardHuds: Bool
     @UserDefault(key: Settings.show_secret_helper, defaultValue: true)
@@ -500,14 +563,8 @@ final class Settings {
     @UserDefault(key: Settings.player_board_damage, defaultValue: true)
     static var playerBoardDamage: Bool
     
-    @UserDefaultCustom(key: Settings.player_board_damage_frame, defaultValue: nil)
-    static var playerBoardDamageFrame: NSRect?
-    
     @UserDefault(key: Settings.opponent_board_damage, defaultValue: true)
     static var opponentBoardDamage: Bool
-    
-    @UserDefaultCustom(key: Settings.opponent_board_damage_frame, defaultValue: nil)
-    static var opponentBoardDamageFrame: NSRect?
     
     @UserDefault(key: Settings.show_fatigue, defaultValue: true)
     static var fatigueIndicator: Bool
@@ -691,6 +748,9 @@ extension Settings {
     static let show_bobs_buddy_during_shopping = "show_bobs_buddy_during_shopping"
     static let show_turn_counter = "show_turn_counter"
     static let show_average_damage = "show_average_damage"
+    static let seen_bobs_buddy_info = "seen_bobs_buddy_info"
+    static let bobs_buddy_average_damage_info_closed = "bobs_buddy_average_damage_info_closed"
+    static let seen_bobs_buddy_average_damage = "seen_bobs_buddy_average_damage"
     static let show_opponent_warband = "show_opponent_warband"
     static let show_tiers = "show_tiers"
     static let show_battlegrounds_guides = "show_battlegrounds_guides"
@@ -702,18 +762,35 @@ extension Settings {
     static let show_session_recap = "show_session_recap"
     static let show_banned_tribes = "show_banned_tribes"
     static let show_minion_types = "show_minion_types"
+    static let show_minions_available = "show_minions_available"
+    static let battlegrounds_session_top = "battlegrounds_session_top"
+    static let battlegrounds_session_left = "battlegrounds_session_left"
+    static let migrated_session_position = "migrated_session_position"
+    static let show_minions_banned = "show_minions_banned"
+    static let migrated_session_minion_types = "migrated_session_minion_types"
     static let show_mmr = "show_mmr"
     static let show_mmr_start_current = "show_mmr_start_current"
     static let show_latest_games = "show_latest_games"
     static let battlegrounds_session_frame = "battlegrounds_session_frame"
     static let enable_tier7_overlay = "enable_tier7_overlay"
     static let show_battlegrounds_tier7_prelobby = "show_battlegrounds_tier7_prelobby"
+    static let tier7_overlay_collapsed = "tier7_overlay_collapsed"
+    static let ignore_battlegrounds_sale_id = "ignore_battlegrounds_sale_id"
     static let show_battlegrounds_hero_picking = "show_battlegrounds_hero_picking"
     static let show_battlegrounds_quest_picking = "show_battlegrounds_quest_picking"
     static let battlegrounds_session_scaling = "battlegrounds_session_scaling"
     static let show_battlegrounds_tier7_session_comp_stats = "show_battlegrounds_tier7_session_comp_stats"
     static let always_show_tier_7 = "always_show_tier_7"
     static let auto_show_battlegrounds_trinket_picking = "auto_show_battlegrounds_trinket_picking"
+    static let enable_arenasmith_overlay = "enable_arenasmith_overlay"
+    static let show_arena_hero_picking = "show_arena_hero_picking"
+    static let show_arenasmith_score = "show_arenasmith_score"
+    static let show_arena_related_cards = "show_arena_related_cards"
+    static let show_arena_deck_synergies = "show_arena_deck_synergies"
+    static let show_arena_redraft_discard = "show_arena_redraft_discard"
+    static let show_arenasmith_prelobby = "show_arenasmith_prelobby"
+    static let hide_opponent_arena_packages = "hide_opponent_arena_packages"
+    static let arenasmith_prelobby_trials_collapsed = "arenasmith_prelobby_trials_collapsed"
     static let show_battlegrounds_tavern_markers = "show_battlegrounds_tavern_markers"
     static let auto_enable_tavern_markers_recommended = "auto_enable_tavern_markers_recommended"
     static let tavern_markers_panel_expanded = "tavern_markers_panel_expanded"
@@ -763,7 +840,6 @@ extension Settings {
     static let show_win_rate_against = "show_win_rate_against"
     static let show_timer = "show_timer"
 
-    static let timer_hud_frame = "timer_hud_frame"
     static let show_card_huds = "show_card_huds"
     static let show_secret_helper = "show_secret_helper"
     static let show_win_loss_ratio = "show_win_loss_ratio"
@@ -772,9 +848,7 @@ extension Settings {
     static let player_tracker_frame = "player_tracker_frame"
     static let opponent_tracker_frame = "opponent_tracker_frame"
     static let player_board_damage = "player_board_damage"
-    static let player_board_damage_frame = "player_board_damage_frame"
     static let opponent_board_damage = "opponent_board_damage"
-    static let opponent_board_damage_frame = "opponent_board_damage_frame"
     static let show_fatigue = "show_fatigue"
     static let show_opponent_active_effects = "show_opponent_active_effects"
     static let show_player_active_effects = "show_player_active_effects"

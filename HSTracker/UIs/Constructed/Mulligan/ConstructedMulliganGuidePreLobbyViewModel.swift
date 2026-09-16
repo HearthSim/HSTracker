@@ -6,6 +6,7 @@
 //  Copyright © 2024 Benjamin Michotte. All rights reserved.
 //
 
+import AppKit
 import Foundation
 
 enum SingleDeckState {
@@ -17,29 +18,37 @@ enum SingleDeckState {
          v2_partial
 }
 
+// HDT's SingleDeckStatus: the badge drawn over one deck box in the pre-lobby.
 class SingleDeckStatus {
+    // Visibility.Hidden in HDT, not Collapsed - a hidden cell keeps its slot in
+    // the row, so the badges stay lined up with the deck boxes underneath even
+    // when some of the page has no deck.
     private(set) var visibility: Bool
     private(set) var state: SingleDeckState
     private(set) var hasRunes: Bool
     private(set) var isFocused: Bool
-    var padding: Int {
-        return hasRunes ? 29 : 15
+
+    // Padding => HasRunes ? "18,16,29,0" : "18,16,15,0", i.e. left, top, right,
+    // bottom - the rune column down the left of a Death Knight deck box pushes
+    // the badge further in from the right.
+    var padding: NSEdgeInsets {
+        NSEdgeInsets(top: 16, left: 18, bottom: 0, right: hasRunes ? 29 : 15)
     }
-    
+
     init() {
         visibility = false
         state = .invalid
         hasRunes = false
         isFocused = false
     }
-    
+
     init(state: SingleDeckState, hasRunes: Bool, isFocused: Bool) {
         self.visibility = true
         self.state = state
         self.hasRunes = hasRunes
         self.isFocused = isFocused
     }
-    
+
     var iconVisibility: Bool {
         return switch state {
         case .v1_ready, .v2_ready, .v2_partial, .no_data, .loading:
@@ -49,12 +58,12 @@ class SingleDeckStatus {
         }
     }
 
-    var iconSource: NSImage? {
+    var iconSource: String {
         return switch state {
         case .no_data:
-            NSImage(named: "mulligan-guide-no-data")
+            "mulligan-guide-no-data"
         default:
-            NSImage(named: "mulligan-guide-data")
+            "mulligan-guide-data"
         }
     }
 
@@ -63,9 +72,11 @@ class SingleDeckStatus {
         case .no_data:
             "#CCE3D000"
         case .v2_partial:
-            "#CCE0A200"
-        default:
+            "#CCCCAA00"
+        case .v1_ready, .v2_ready:
             "#CC00AA00"
+        default:
+            "#CC555555"
         }
     }
 
@@ -74,9 +85,11 @@ class SingleDeckStatus {
         case .no_data:
             "#CC1A1100"
         case .v2_partial:
-            "#CC221900"
-        default:
+            "#CC373700"
+        case .v1_ready, .v2_ready:
             "#CC002200"
+        default:
+            "#CC000000"
         }
     }
 
@@ -96,7 +109,7 @@ class SingleDeckStatus {
             "\(state)"
         }
     }
-    
+
     var labelVisibility: Bool {
         return isFocused
     }
@@ -231,6 +244,24 @@ class ConstructedMulliganGuidePreLobbyViewModel: ViewModel {
     
     private var gameType: BnetGameType {
         return ConstructedMulliganGuidePreLobbyViewModel.gameType(for: visualsFormatType)
+    }
+
+    // ConstructedMulliganGuidePreLobby.ViewMetaDecks_MouseUp. HDT keeps this in
+    // the control's code-behind; it lives here because that is where the rest of
+    // HSTracker's overlay panels open their HSReplay links from.
+    func viewMetaDecks() {
+        let fragments: [String] = switch formatType {
+        case .ft_unknown: ["gameType=UNKNOWN"]
+        case .ft_wild: ["gameType=RANKED_WILD"]
+        case .ft_standard: []
+        case .ft_classic: ["gameType=CLASSIC"]
+        case .ft_twist: ["gameType=TWIST"]
+        default: []
+        }
+        let url = Helper.buildHsReplayNetUrl("decks", "constructed_lobby_view_meta_decks", nil, fragments)
+        if let url = URL(string: url) {
+            NSWorkspace.shared.open(url)
+        }
     }
 
     private static func gameType(for visualsFormatType: VisualsFormatType) -> BnetGameType {

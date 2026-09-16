@@ -72,6 +72,10 @@ struct Tier7Data: Codable {
     var disabled: Bool
 }
 
+struct ArenasmithData: Codable {
+    var disabled: Bool?
+}
+
 struct CardInfo: Codable {
     var dbf_id: Int
 }
@@ -96,6 +100,7 @@ struct ConfigData: Codable {
     var battlegrounds_short_names: [CardShortName]?
     var bobs_buddy: BobsBuddyData?
     var tier7: Tier7Data?
+    var arenasmith: ArenasmithData?
     var mulligan_guide: MulliganGuideData?
     var sales: SalesData?
     //swiftlint:disable inclusive_language

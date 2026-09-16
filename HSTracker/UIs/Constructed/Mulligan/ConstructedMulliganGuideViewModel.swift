@@ -8,79 +8,64 @@
 
 import Foundation
 
-class ConstructedMulliganGuideViewModel: ViewModel {
-    var visibility: Bool {
-        get {
-            return getProp(false)
-        }
-        set {
-            setProp(newValue)
-        }
-    }
-    
-    var statsVisibility: Bool {
-        get {
-            return getProp(false)
-        }
-        set {
-            setProp(newValue)
-        }
-    }
-    
+// HDT's ConstructedMulliganGuideViewModel, behind the V1 mulligan guide.
+@available(macOS 10.15, *)
+class ConstructedMulliganGuideViewModel: ObservableObject {
+    // Whether the guide is up at all - which, in HDT, is only the visibility of
+    // the toggle button; the stats themselves are behind statsVisibility.
+    @Published var visibility = false
+
+    @Published var statsVisibility = false
+
+    @Published var cardStats: [ConstructedMulliganSingleCardViewModel] = []
+
+    // HDT's Message. Its own ObservableObject, so the banner view observes it
+    // directly - a parent view does not re-render for a nested one's changes.
+    let message = ConstructedMulliganOverlayMessageViewModel()
+
     var visibilityToggleIcon: String {
-        return statsVisibility ? "eye_slash" : "eye"
+        statsVisibility ? "eye_slash" : "eye"
     }
-    
+
     var visibilityToggleText: String {
-        return statsVisibility ? String.localizedString("ConstructedMulliganGuide_VisibilityToggle_Hide", comment: "") : String.localizedString("ConstructedMulliganGuide_VisibilityToggle_Show", comment: "")
+        statsVisibility
+            ? String.localizedString("ConstructedMulliganGuide_VisibilityToggle_Hide", comment: "")
+            : String.localizedString("ConstructedMulliganGuide_VisibilityToggle_Show", comment: "")
     }
-    
-    var cardStats: [ConstructedMulliganSingleCardViewModel]? {
-        get {
-            return getProp(nil)
-        }
-        set {
-            setProp(newValue)
-        }
+
+    // ConstructedMulliganGuide.OverlayVisibilityToggle_MouseUp, which both flips
+    // the stats and remembers the choice for the next game.
+    func toggleStatsVisibility() {
+        statsVisibility.toggle()
+        Settings.autoShowMulliganGuide = statsVisibility
     }
-    
-    let overlayMesageViewModel = ConstructedMulliganOverlayMessageViewModel()
-        
+
     func reset() {
-        cardStats = nil
+        cardStats = []
         visibility = false
         statsVisibility = false
-        overlayMesageViewModel.text = nil
+        message.text = nil
     }
-    
-    var scaling: Double {
-        get {
-            return getProp(1.0)
-        }
-        set {
-            setProp(newValue)
-        }
-    }
-    
+
     func setMulliganData(stats: [SingleCardStats]?, maxRank: Int?, selectedParams: [String: String?]?) {
-        cardStats = stats?.compactMap { x in ConstructedMulliganSingleCardViewModel(stats: x, maxRank: maxRank) }
+        cardStats = stats?.compactMap { x in ConstructedMulliganSingleCardViewModel(stats: x, maxRank: maxRank) } ?? []
 
         if let selectedParams {
             var opponentClass: CardClass?
             if let opponentClassString = selectedParams["opponent_class"] {
                 opponentClass = CardClass(rawValue: opponentClassString ?? "")
-                }
+            }
             var initiative: ConstructedMulliganOverlayMessageViewModel.PlayerInitiative?
             if let initiativeString = selectedParams["PlayerInitiative"] {
                 initiative = ConstructedMulliganOverlayMessageViewModel.PlayerInitiative(rawValue: initiativeString?.lowercased() ?? "")
             }
-            
+
             if let opponentClass, let initiative {
-                overlayMesageViewModel.scope(cardClass: opponentClass, initiative: initiative)
+                message.scope(cardClass: opponentClass, initiative: initiative)
             }
         }
-        
+
         visibility = true
-        statsVisibility =  Settings.autoShowMulliganGuide
+        statsVisibility = Settings.autoShowMulliganGuide
     }
 }

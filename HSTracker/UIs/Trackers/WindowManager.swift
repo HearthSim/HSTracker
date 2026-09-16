@@ -47,36 +47,6 @@ class WindowManager {
         return $0
     }(CardList(windowNibName: "CardList"))
 	
-    var playerBoardDamage: BoardDamage = {
-        $0.player = .player
-        return $0
-    }(BoardDamage(windowNibName: "BoardDamage"))
-
-    var opponentBoardDamage: BoardDamage = {
-        $0.player = .opponent
-        return $0
-    }(BoardDamage(windowNibName: "BoardDamage"))
-
-    var timerHud: TimerHud = {
-        return $0
-    }(TimerHud(windowNibName: "TimerHud"))
-
-    var battlegroundsOverlay: BattlegroundsOverlay = {
-        return $0
-    }(BattlegroundsOverlay(windowNibName: "BattlegroundsOverlay"))
-
-    var battlegroundsDetailsWindow: BattlegroundsDetailsWindow = {
-        return $0
-    }(BattlegroundsDetailsWindow(windowNibName: "BattlegroundsDetailsWindow"))
-    
-    var bobsBuddyPanel: BobsBuddyPanel = {
-        return $0
-    }(BobsBuddyPanel(windowNibName: "BobsBuddyPanel"))
-    
-    var experiencePanel: ExperienceOverlay = {
-        return $0
-    }(ExperienceOverlay(windowNibName: "ExperienceOverlay"))
-    
     var opponentBoardOverlay: BoardOverlay = {
         $0.setPlayerType(playerType: .opponent)
         return $0
@@ -87,88 +57,10 @@ class WindowManager {
         return $0
     }(BoardOverlay(windowNibName: "BoardOverlay"))
     
-    var mercenariesTaskListButton: MercenariesTaskListButton = {
-        return $0
-    }(MercenariesTaskListButton(windowNibName: "MercenariesTaskListButton"))
-
-    var mercenariesTaskListView: MercenariesTaskListView = {
-        return $0
-    }(MercenariesTaskListView(windowNibName: "MercenariesTaskListView"))
-    
-    var battlegroundsSession: BattlegroundsSession = {
-        return $0
-    }(BattlegroundsSession(windowNibName: "BattlegroundsSession"))
-    
-    var battlegroundsFinalBoard: BattlegroundsFinalBoard = {
-        return $0
-    }(BattlegroundsFinalBoard(windowNibName: "BattlegroundsFinalBoard"))
-    
-    var tier7PreLobby: Tier7PreLobby = {
-        return $0
-    }(Tier7PreLobby(windowNibName: "Tier7PreLobby"))
-    
-    var battlegroundsQuestPicking: BattlegroundsQuestPicking = {
-        return $0
-    }(BattlegroundsQuestPicking(windowNibName: "BattlegroundsQuestPicking"))
-    
-    var battlegroundsHeroPicking: BattlegroundsHeroPicking = {
-        return $0
-    }(BattlegroundsHeroPicking(windowNibName: "BattlegroundsHeroPicking"))
-    
-    var constructedMulliganGuide: ConstructedMulliganGuide = {
-        return $0
-    }(ConstructedMulliganGuide(windowNibName: "ConstructedMulliganGuide"))
-    
-    var constructedMulliganGuidePreLobby: ConstructedMulliganGuidePreLobby = {
-        return $0
-    }(ConstructedMulliganGuidePreLobby(windowNibName: "ConstructedMulliganGuidePreLobby"))
-    
     var flavorText: FlavorText = {
         return $0
     }(FlavorText(windowNibName: "FlavorText"))
     
-    var battlegroundsTrinketPicking: BattlegroundsTrinketPicking = {
-        return $0
-    }(BattlegroundsTrinketPicking(windowNibName: "BattlegroundsTrinketPicking"))
-    
-    var playerActiveEffectsOverlay: ActiveEffectsOverlay = {
-        $0.isPlayer = true
-        return $0
-    }(ActiveEffectsOverlay(windowNibName: "ActiveEffectsOverlay"))
-
-    var opponentActiveEffectsOverlay: ActiveEffectsOverlay = {
-        $0.isPlayer = false
-        return $0
-    }(ActiveEffectsOverlay(windowNibName: "ActiveEffectsOverlay"))
-
-    var playerCountersOverlay: CountersOverlay = {
-        $0.isPlayer = true
-        return $0
-    }(CountersOverlay(windowNibName: "CountersOverlay"))
-
-    var opponentCountersOverlay: CountersOverlay = {
-        $0.isPlayer = false
-        return $0
-    }(CountersOverlay(windowNibName: "CountersOverlay"))
-
-    private var _playerPlayerResourcesOverlay: Any?
-    @available(OSX 10.15, *)
-    var playerPlayerResourcesOverlay: PlayerResourcesWindow? {
-        if _playerPlayerResourcesOverlay == nil {
-            _playerPlayerResourcesOverlay = PlayerResourcesWindow(windowNibName: "PlayerResourcesWindow")
-        }
-        return (_playerPlayerResourcesOverlay as? PlayerResourcesWindow)
-    }
-    
-    private var _opponentPlayerResourcesOverlay: Any?
-    @available(OSX 10.15, *)
-    var opponentPlayerResourcesOverlay: PlayerResourcesWindow? {
-        if _opponentPlayerResourcesOverlay == nil {
-            _opponentPlayerResourcesOverlay = PlayerResourcesWindow(windowNibName: "PlayerResourcesWindow")
-        }
-        return (_opponentPlayerResourcesOverlay as? PlayerResourcesWindow)
-    }
-
     private var _rootOverlay: Any?
     @available(OSX 10.15, *)
     var rootOverlay: RootOverlayWindow? {
@@ -177,8 +69,6 @@ class WindowManager {
         }
         return (_rootOverlay as? RootOverlayWindow)
     }
-
-    var toastWindowController = ToastWindowController()
 
     var floatingCard: FloatingCard = {
         if let fWindow = $0.window {
@@ -282,17 +172,10 @@ class WindowManager {
 		// TODO: use not defered gui instead
         DispatchQueue.main.async { [weak self] in
             self?.secretTracker.window?.orderOut(nil)
-            self?.timerHud.window?.orderOut(nil)
-            self?.playerBoardDamage.window?.orderOut(nil)
-            self?.opponentBoardDamage.window?.orderOut(nil)
-            self?.battlegroundsDetailsWindow.window?.orderOut(nil)
-            self?.bobsBuddyPanel.window?.orderOut(nil)
             self?.cardHudContainer.reset()
             self?.playerBoardOverlay.window?.orderOut(nil)
             self?.opponentBoardOverlay.window?.orderOut(nil)
             self?.flavorText.window?.orderOut(nil)
-            self?.playerActiveEffectsOverlay.window?.orderOut(nil)
-            self?.opponentActiveEffectsOverlay.window?.orderOut(nil)
             if #available(macOS 10.15, *) {
                 self?.tooltipGridCards.hide()
                 RelatedCardsBrowserPanel.shared.hide()

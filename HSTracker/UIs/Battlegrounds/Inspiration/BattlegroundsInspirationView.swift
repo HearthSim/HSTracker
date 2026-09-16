@@ -124,9 +124,8 @@ struct BattlegroundsInspirationView: View {
     private var lineups: some View {
         ZStack {
             if viewModel.isLoadingData {
-                // mah:ProgressRing, 40x40, white. SwiftUI's ProgressView needs
-                // macOS 11, so this wraps AppKit's spinner - the same control
-                // BobsBuddyPanel already uses for its own loading state.
+                // mah:ProgressRing, 40x40, white - SpinningIndicator, which
+                // Bob's Buddy spins too.
                 SpinningIndicator()
                     .frame(width: 40, height: 40)
             } else if viewModel.hasNoGames {
@@ -171,26 +170,6 @@ struct BattlegroundsInspirationView: View {
         .frame(height: 40)
         .frame(maxWidth: .infinity)
         .background(Color(hex: "#1C2022"))
-    }
-}
-
-// NSProgressIndicator in its spinning style, sized by its SwiftUI frame.
-@available(macOS 10.15, *)
-private struct SpinningIndicator: NSViewRepresentable {
-    func makeNSView(context: Context) -> NSProgressIndicator {
-        let indicator = NSProgressIndicator()
-        indicator.style = .spinning
-        indicator.isIndeterminate = true
-        indicator.controlSize = .regular
-        // The overlay is dark throughout, so force the light-on-dark variant
-        // rather than following the system appearance.
-        indicator.appearance = NSAppearance(named: .vibrantDark)
-        indicator.startAnimation(nil)
-        return indicator
-    }
-
-    func updateNSView(_ nsView: NSProgressIndicator, context: Context) {
-        nsView.startAnimation(nil)
     }
 }
 

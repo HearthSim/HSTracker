@@ -53,7 +53,9 @@ class SceneHandler {
             DispatchQueue.main.async {
                 game.updateMulliganGuidePreLobby()
             }
-            game.windowManager.constructedMulliganGuidePreLobby.viewModel.invlidateAllDecks()
+            if #available(macOS 10.15, *) {
+                game.windowManager.rootOverlay?.viewModel.mulliganGuidePreLobby.viewModel.invlidateAllDecks()
+            }
             Watchers.deckPickerWatcher.stop()
         } else if from == .bacon {
             DispatchQueue.main.async {
@@ -64,6 +66,18 @@ class SceneHandler {
                 }
             }
             Watchers.baconWatcher.stop()
+        } else if from == .draft {
+            Watchers.arenaWatcher.stop()
+            Watchers.arenaStateWatcher.stop()
+            DispatchQueue.main.async {
+                if #available(macOS 10.15, *) {
+                    // HDT does the same from _arenaOverlayBehavior and
+                    // _arenaPreLobbyBehavior's HideCallbacks.
+                    let overlay = game.windowManager.rootOverlay?.viewModel
+                    overlay?.arenaPickHelper.reset()
+                    overlay?.arenaPreDraft.reset()
+                }
+            }
         } else if from == .gameplay {
             game.updateBattlegroundsSessionVisibility()
             Watchers.battlegroundsTeammateBoardStateWatcher.stop()
@@ -73,6 +87,7 @@ class SceneHandler {
             Watchers.discoverStateWatcher.stop()
             Watchers.choicesWatcher.stop()
             Watchers.specialShopChoicesStateWatcher.stop()
+            Watchers.mulliganTooltipWatcher.stop()
         }
     }
     
@@ -100,6 +115,10 @@ class SceneHandler {
                 }
             }
             Watchers.baconWatcher.run()
+        } else if to == .draft {
+            game.cacheArenaRating()
+            Watchers.arenaWatcher.run()
+            Watchers.arenaStateWatcher.run()
         } else if to == .gameplay {
             game.updateBattlegroundsSessionVisibility()
             Watchers.bigCardWatcher.run()
@@ -107,11 +126,20 @@ class SceneHandler {
             Watchers.specialShopChoicesStateWatcher.run()
             Watchers.discoverStateWatcher.run()
             Watchers.baconWatcher.run()
+            Watchers.mulliganTooltipWatcher.run()
             Watchers.playZoneWatcher.run()
         }
         
-        if from == .bacon {
-            game.windowManager.tier7PreLobby.viewModel.invalidateUserState()
+        if from == .bacon, #available(macOS 10.15, *) {
+            game.windowManager.rootOverlay?.viewModel.tier7PreLobby.invalidateUserState()
+        }
+
+        if to == .draft, #available(macOS 10.15, *) {
+            let preDraft = game.windowManager.rootOverlay?.viewModel.arenaPreDraft
+            DispatchQueue.main.async {
+                preDraft?.invalidateUserState()
+            }
+            Task { await preDraft?.update() }
         }
     }
 }

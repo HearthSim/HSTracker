@@ -45,7 +45,6 @@ final class CoreManager: NSObject {
     
     // watchers
     let game: Game
-    var toaster: Toaster!
     
     var timer = RepeatingTimer(timeInterval: 300.0)
 
@@ -64,15 +63,16 @@ final class CoreManager: NSObject {
         let logPath = MirrorHelper.getLogSessionDir()
         logReaderManager = LogReaderManager(logPath: logPath, coreManager: self)
         
-        self.toaster = Toaster(windowManager: game.windowManager)
-        
-        game.windowManager.playerActiveEffectsOverlay.setActiveEffects(game.activeEffects)
-        game.windowManager.opponentActiveEffectsOverlay.setActiveEffects(game.activeEffects)
-        game.windowManager.playerCountersOverlay.setCounters(game.counterManager)
-        game.windowManager.opponentCountersOverlay.setCounters(game.counterManager)
-        game.activeEffects.effectsChanged = {
-            self.game.windowManager.playerActiveEffectsOverlay.updateVisibleEffects()
-            self.game.windowManager.opponentActiveEffectsOverlay.updateVisibleEffects()
+        if #available(macOS 10.15, *) {
+            game.windowManager.rootOverlay?.viewModel.playerCounters.setCounters(game.counterManager)
+            game.windowManager.rootOverlay?.viewModel.opponentCounters.setCounters(game.counterManager)
+            game.windowManager.rootOverlay?.viewModel.playerActiveEffects.setActiveEffects(game.activeEffects)
+            game.windowManager.rootOverlay?.viewModel.opponentActiveEffects.setActiveEffects(game.activeEffects)
+            game.activeEffects.effectsChanged = { [weak game] in
+                guard let viewModel = game?.windowManager.rootOverlay?.viewModel else { return }
+                viewModel.playerActiveEffects.updateVisibleEffects()
+                viewModel.opponentActiveEffects.updateVisibleEffects()
+            }
         }
         
         timer.eventHandler = {
@@ -350,13 +350,13 @@ final class CoreManager: NSObject {
         Watchers.stop()
         MirrorHelper.destroy()
         let wm = game.windowManager
-        wm.battlegroundsHeroPicking.viewModel.reset()
-        wm.battlegroundsQuestPicking.viewModel.reset()
-        wm.battlegroundsTrinketPicking.viewModel.reset()
-        wm.constructedMulliganGuide.viewModel.reset()
-        wm.constructedMulliganGuidePreLobby.viewModel.reset()
         if #available(macOS 10.15, *) {
             game.stopMulliganLivePolling()
+            wm.rootOverlay?.viewModel.battlegroundsHeroPicking.reset()
+            wm.rootOverlay?.viewModel.battlegroundsQuestPicking.reset()
+            wm.rootOverlay?.viewModel.battlegroundsTrinketPicking.reset()
+            wm.rootOverlay?.viewModel.mulliganGuidePreLobby.viewModel.reset()
+            wm.rootOverlay?.viewModel.mulliganGuide.reset()
             wm.rootOverlay?.viewModel.mulliganGuideV2.reset()
             wm.rootOverlay?.viewModel.constructedMulliganPreLobbyWidget.reset()
             wm.rootOverlay?.viewModel.mulliganGuideTrialsExhausted.isShown = false
@@ -368,16 +368,13 @@ final class CoreManager: NSObject {
             // (`Tier7Trial.token != nil`) read as premium.
             Tier7Trial.clear()
         }
-        if wm.battlegroundsSession.visibility {
+        if #available(macOS 10.15, *) {
             DispatchQueue.main.async {
-                wm.battlegroundsSession.visibility = false
-                wm.show(controller: wm.battlegroundsSession, show: false)
-            }
-        }
-        if wm.tier7PreLobby.isVisible {
-            DispatchQueue.main.async {
-                wm.tier7PreLobby.isVisible = false
-                wm.show(controller: wm.tier7PreLobby, show: false)
+                wm.rootOverlay?.viewModel.battlegroundsSession.setShown(false)
+                if let tier7PreLobby = wm.rootOverlay?.viewModel.tier7PreLobby, tier7PreLobby.isShown {
+                    tier7PreLobby.isShown = false
+                    tier7PreLobby.reset()
+                }
             }
         }
         game.updateBattlegroundsOverlays()
@@ -672,17 +669,17 @@ final class CoreManager: NSObject {
             playerClass = DefaultDecks.DungeonRun.getUldumHeroPlayerClass(playerClass: loadout.playerClass)
         } else if isPVPDR {
             if info.heroClass.intValue != 0 {
-                playerClass = CardClass.allCases[info.heroClass.intValue]
+                playerClass = CardClass.allCases[safeIndex: info.heroClass.intValue] ?? .invalid
 
             } else if info.heroCardDbId.intValue != 0, let cc = tryGetHeroClass(dbfId: info.heroCardDbId.intValue) {
                 playerClass = cc
             } else if info.playerSelectedHeroDbId.intValue != 0, let cc = tryGetHeroClass(dbfId: info.playerSelectedHeroDbId.intValue) {
                 playerClass = cc
             } else if info.heroCardClass.intValue != 0 {
-                playerClass = CardClass.allCases[info.heroCardClass.intValue]
+                playerClass = CardClass.allCases[safeIndex: info.heroCardClass.intValue] ?? .invalid
             }
         } else {
-            playerClass = CardClass.allCases[info.heroClass.intValue != 0 ? info.heroClass.intValue : info.heroCardClass.intValue]
+            playerClass = CardClass.allCases[safeIndex: info.heroClass.intValue != 0 ? info.heroClass.intValue : info.heroCardClass.intValue] ?? .invalid
         }
         var deck = RealmHelper.getDecks()?.filter({ x in x.isActive && (!isPVPDR && x.isDungeon || isPVPDR && x.isDuels)
                                                     &&  x.playerClass == playerClass
@@ -820,7 +817,7 @@ final class CoreManager: NSObject {
         
         let ret = Deck()
         ret.name = deck.title
-        ret.heroId = CardClass.allCases[deck.clazz.intValue].defaultHeroCardId
+        ret.heroId = (CardClass.allCases[safeIndex: deck.clazz.intValue] ?? .invalid).defaultHeroCardId
         
         let tmpCards = Dictionary(grouping: deck.cards, by: { x in x }).compactMap { (key: NSNumber, value: [NSNumber]) -> RealmCard? in
             guard let card = Cards.by(dbfId: key.intValue, collectible: false) else {

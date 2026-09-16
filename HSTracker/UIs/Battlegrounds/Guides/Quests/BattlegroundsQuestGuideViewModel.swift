@@ -27,8 +27,7 @@ struct BattlegroundsQuestGuideViewModel: Identifiable {
 
         let availableRaces = Set(AppDelegate.instance().coreManager.game.availableRaces ?? [])
         self.favorableTribes = (questGuide?.favorable_tribes ?? []).compactMap { raceNumber -> Race? in
-            guard raceNumber >= 0, raceNumber < Race.allCases.count else { return nil }
-            let race = Race.allCases[raceNumber]
+            guard let race = Race.allCases[safeIndex: raceNumber] else { return nil }
             return availableRaces.contains(race) ? race : nil
         }
     }

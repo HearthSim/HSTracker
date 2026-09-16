@@ -25,6 +25,7 @@ class Tracker: OverWindowController, CardCellHover {
     @IBOutlet private var playerTop: DeckLens!
     @IBOutlet private var playerSideboards: DeckSideboards!
     @IBOutlet private var opponentRelatedCards: DeckLens!
+    @IBOutlet private var opponentPackageCards: DeckLens!
 
     private var hero: CardBar?
     private var heroCard: Card?
@@ -67,6 +68,7 @@ class Tracker: OverWindowController, CardCellHover {
             playerTop.setPlayerType(playerType: playerType)
             playerSideboards.setPlayerType(playerType: playerType)
             opponentRelatedCards.setPlayerType(playerType: playerType)
+            opponentPackageCards.setPlayerType(playerType: playerType)
         }
         cardsView.delegate = self
         playerBottom.setDelegate(delegate: self)
@@ -76,6 +78,11 @@ class Tracker: OverWindowController, CardCellHover {
         playerSideboards.setDelegate(delegate: self)
         opponentRelatedCards.setDelegate(delegate: self)
         opponentRelatedCards.setLabel(label: String.localizedString("Related_Cards", comment: ""))
+        opponentPackageCards.setDelegate(delegate: self)
+        // OverlayWindow.xaml draws this lens with the Arenasmith mark in premium
+        // gold; its label carries the package's key card, so it is set per update.
+        opponentPackageCards.icon = .arenasmith
+        opponentPackageCards.isPremium = true
         setOpacity()
         
         if playerType == .opponent {
@@ -120,11 +127,14 @@ class Tracker: OverWindowController, CardCellHover {
     }
 
     // MARK: - Game
-    func update(cards: [Card], top: [Card], bottom: [Card], sideboards: [Sideboard], relatedCards: [Card], reset: Bool = false) {
+    func update(cards: [Card], top: [Card], bottom: [Card], sideboards: [Sideboard], relatedCards: [Card],
+                packageCards: [Card] = [], packageLabel: String = "", reset: Bool = false) {
         cardsView.update(cards: cards, reset: reset)
         playerBottom.update(cards: bottom, reset: reset)
         playerTop.update(cards: top, reset: reset)
         playerSideboards.update(sideboards: sideboards, reset: reset)
+        opponentPackageCards.setLabel(label: packageLabel)
+        opponentPackageCards.update(cards: packageCards, reset: reset)
         opponentRelatedCards.update(cards: relatedCards, reset: reset)
     }
     
@@ -287,6 +297,10 @@ class Tracker: OverWindowController, CardCellHover {
             offsetFrames += smallFrameHeight
             totalCards += playerSideboards.count
         }
+        if opponentPackageCards.count > 0 && !Settings.hideOpponentArenaPackages {
+            offsetFrames += smallFrameHeight
+            totalCards += opponentPackageCards.count
+        }
         if opponentRelatedCards.count > 0 && Settings.showOpponentRelatedCards {
             offsetFrames += smallFrameHeight
             totalCards += opponentRelatedCards.count
@@ -374,6 +388,17 @@ class Tracker: OverWindowController, CardCellHover {
                                             y: y,
                                             width: windowWidth,
                                             height: smallFrameHeight)
+        }
+        if opponentPackageCards.count > 0 && !Settings.hideOpponentArenaPackages {
+            let opponentPackageCardsHeight = CGFloat(opponentPackageCards.count) * cardHeight + smallFrameHeight + 5
+            y -= opponentPackageCardsHeight
+            opponentPackageCards.frame = NSRect(x: 0, y: y, width: windowWidth, height: opponentPackageCardsHeight)
+            opponentPackageCards.updateFrames(frameHeight: smallFrameHeight)
+            opponentPackageCards.isHidden = false
+        } else {
+            opponentPackageCards.frame = NSRect.zero
+            opponentPackageCards.updateFrames(frameHeight: smallFrameHeight)
+            opponentPackageCards.isHidden = true
         }
         if opponentRelatedCards.count > 0 && Settings.showOpponentRelatedCards {
             let opponentRelatedCardsHeight = CGFloat(opponentRelatedCards.count) * cardHeight + smallFrameHeight + 5
@@ -480,6 +505,7 @@ class Tracker: OverWindowController, CardCellHover {
              playerSideboards,
              playerCardView,
              opponentRelatedCards,
+             opponentPackageCards,
              opponentCardView,
              other
     }
@@ -495,6 +521,8 @@ class Tracker: OverWindowController, CardCellHover {
                 return .playerSideboards
             } else if view == opponentRelatedCards {
                 return .opponentRelatedCards
+            } else if view == opponentPackageCards {
+                return .opponentPackageCards
             } else if view == cardsView {
                 if playerType == .player {
                     return .playerCardView
@@ -523,19 +551,28 @@ class Tracker: OverWindowController, CardCellHover {
 
             tooltipGridCards.setCardIdsFromCards(nonNullableRelatedCards)
             tooltipGridCards.setTitle(String.localizedString("Related_Cards", comment: ""))
+            // The deck list's own tooltip is CardTooltip.xaml, whose GridCardImages scales by
+            // Config.CardImageSize rather than by the window - and that setting has no HSTracker
+            // equivalent, so it stays at its default of 1. Set explicitly all the same: the panel
+            // is a singleton, so an overlay hover's window scale would otherwise carry over.
+            tooltipGridCards.setScale(1)
             // Passing player (like Game.swift's hover paths already do) so dynamic
             // evolve/devolve pools resolve their live-state summary here too, instead of
             // silently falling through to no summary on a deck-list hover.
             let (statistics, summary, hasLargePool) = game.relatedCardsManager.getPoolStatistics(cardId: cardId, relatedCards: relatedCards, player: player)
             tooltipGridCards.setPoolStatistics(statistics, relatedCardsSummary: summary, hasLargePool: hasLargePool)
-            let screen = NSScreen.screens.first { s in s.frame.contains(rect) } ?? NSScreen.main
+            // rect is the hovered cell in screen space, so every bound it is compared against has
+            // to be in screen space too: a bare width/height is the size of a display, not the top
+            // or right edge of the one the tracker is actually on.
+            let screen = NSScreen.screens.first { s in s.frame.intersects(rect) } ?? NSScreen.main
             var y = rect.minY
-            if rect.minY + CGFloat(tooltipGridCards.gridHeight) > screen?.frame.height ?? hearthstoneRect.height {
-                y = hearthstoneRect.maxY - CGFloat(tooltipGridCards.gridHeight)
+            let maxY = screen?.frame.maxY ?? hearthstoneRect.maxY
+            if rect.minY + CGFloat(tooltipGridCards.gridHeight) > maxY {
+                y = maxY - CGFloat(tooltipGridCards.gridHeight)
             }
 
             var x: CGFloat = 0.0
-            if rect.minX < hearthstoneRect.width / 2 {
+            if rect.minX < hearthstoneRect.midX {
                 x = rect.maxX
             } else {
                 x = rect.minX - CGFloat(tooltipGridCards.gridWidth)
@@ -609,7 +646,7 @@ class Tracker: OverWindowController, CardCellHover {
             
             let hoverLocation = getHoverComponent(cell)
             switch hoverLocation {
-            case .opponentRelatedCards, .opponentCardView:
+            case .opponentRelatedCards, .opponentPackageCards, .opponentCardView:
                 if Settings.showOpponentRelatedCards {
                     setRelatedCardsTooltip(AppDelegate.instance().coreManager.game.opponent, card.id, NSRect(x: frame[0], y: frame[1], width: frame[2], height: frame[3]))
                 }
