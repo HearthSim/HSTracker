@@ -916,15 +916,45 @@ class Game: NSObject, PowerEventHandler {
         }
     }
 	
+    // The Mercenaries tasks button and its list are RootOverlay children now,
+    // so there are no windows left to frame: this only decides whether the
+    // button is on screen, which is HDT's
+    // ShowMercenariesTasksButton/HideMercenariesTasksButton pair. Hiding the
+    // button hides the list with it, as HideMercenariesTasksButton does.
     func updateMercenariesTaskListButton() {
-        DispatchQueue.main.async {
-          let merc = self.windowManager.mercenariesTaskListButton
-            if Settings.showMercsTasks && merc.visible && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground) {
-                let rect = SizeHelper.mercenariesTaskListButton()
-                self.windowManager.show(controller: merc, show: true, frame: rect, title: nil, overlay: true)
-            } else {
-                self.windowManager.show(controller: self.windowManager.mercenariesTaskListView, show: false)
-                self.windowManager.show(controller: merc, show: false)
+        if #available(macOS 10.15, *) {
+            DispatchQueue.main.async {
+                guard let tasks = self.windowManager.rootOverlay?.viewModel.mercenariesTasks else {
+                    return
+                }
+                // OverlayWindow.MercenariesButtonOffset reads this live off the
+                // game to keep the button clear of Hearthstone's "Back" button.
+                tasks.isInMenu = self.isInMenu
+                let show = Settings.showMercsTasks && tasks.isRequested
+                    && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
+                        || !Settings.hideAllWhenGameInBackground)
+                tasks.isButtonShown = show
+                if !show {
+                    tasks.isListShown = false
+                }
+            }
+        }
+    }
+
+    // What LoadingScreenHandler used to set on the button controller itself:
+    // whether the Mercenaries scenes want the button at all, before the
+    // settings and background gates updateMercenariesTaskListButton applies.
+    func setMercenariesTasksRequested(_ requested: Bool, gameNoticeVisible: Bool = false) {
+        if #available(macOS 10.15, *) {
+            DispatchQueue.main.async {
+                guard let tasks = self.windowManager.rootOverlay?.viewModel.mercenariesTasks else {
+                    return
+                }
+                tasks.isRequested = requested
+                if requested {
+                    tasks.setGameNoticeVisible(gameNoticeVisible)
+                }
+                self.updateMercenariesTaskListButton()
             }
         }
     }

@@ -123,12 +123,44 @@ class RootOverlayWindow: OverWindowController {
             viewModel.hoveredRegionIds = hovered
         }
 
+        updateMercenariesTasksHover(hovered)
+
         let hovering = hovered.contains(HoverRegionID.bgsTopBarMask)
         let minions = viewModel.battlegroundsMinionsGuide
         guard minions.isFilterRegionHovered != hovering else { return }
         // Durations match the tab's own slide storyboard: 0.2s out, 0.4s back.
         withAnimation(.easeOut(duration: hovering ? 0.2 : 0.4)) {
             minions.isFilterRegionHovered = hovering
+        }
+    }
+
+    // OverlayWindow's MercenariesTaskListButton_MouseEnter /
+    // MercenariesTaskListButton_MouseLeave, and the ShowMercenariesTasks they
+    // call. Driven from the tracked cursor for the same reason the filter
+    // region above is: the button is IsOverlayHoverVisible but never
+    // hit-test visible, so the canvas stays click-through under it and a
+    // SwiftUI .onHover would never fire.
+    private var showMercenariesTasks = false
+    private func updateMercenariesTasksHover(_ hovered: Set<String>) {
+        let hovering = hovered.contains(HoverRegionID.mercenariesTasksButton)
+        guard showMercenariesTasks != hovering else { return }
+        showMercenariesTasks = hovering
+
+        let tasks = viewModel.mercenariesTasks
+        guard hovering else {
+            // HideMercenariesTasks()
+            tasks.isListShown = false
+            return
+        }
+        // await Task.Delay(150), then bail if the cursor already left.
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(150)) { [weak self] in
+            guard let self, self.showMercenariesTasks else { return }
+            // MercenariesTaskListVM.Update() answers false when it has nothing
+            // to show, and HDT then leaves the list hidden.
+            tasks.update { updated in
+                guard updated, self.showMercenariesTasks else { return }
+                tasks.isListShown = true
+            }
         }
     }
 

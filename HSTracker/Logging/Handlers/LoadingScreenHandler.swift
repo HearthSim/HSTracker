@@ -112,13 +112,9 @@ struct LoadingScreenHandler: LogEventParser {
             
             if Settings.showMercsTasks {
                 if let currentMode = game.currentMode, let previousMode = game.previousMode, lettuceModes.contains(currentMode) || (lettuceModes.contains(previousMode) && currentMode == Mode.gameplay) {
-                    game.windowManager.mercenariesTaskListButton.visible = true
-                    game.updateMercenariesTaskListButton()
-                    
-                    game.windowManager.mercenariesTaskListView.setGameNoticeVisible(flag: currentMode == Mode.gameplay)
+                    game.setMercenariesTasksRequested(true, gameNoticeVisible: currentMode == Mode.gameplay)
                 } else {
-                    game.windowManager.mercenariesTaskListButton.visible = false
-                    game.updateMercenariesTaskListButton()
+                    game.setMercenariesTasksRequested(false)
                 }
             }
         

@@ -60,6 +60,11 @@ enum HoverRegionID {
     // tooltip, not one per offered card - and one for the trinket and quest
     // triggers together, which share an element in HDT.
     static let discoveryGuideTrigger = "discoveryGuideTrigger"
+
+    // HDT's MercenariesTaskListButton, which carries IsOverlayHoverVisible with
+    // MouseEnter/MouseLeave handlers - it reveals the task list without ever
+    // taking a click of its own.
+    static let mercenariesTasksButton = "mercenariesTasksButton"
 }
 
 @available(macOS 10.15, *)
@@ -264,6 +269,17 @@ struct RootOverlayView: View {
                     // those two and placed exactly where the hero one is.
                     MulliganToastView(viewModel: viewModel.mulliganToast,
                                       canvasWidth: canvasWidth)
+
+                    // HDT's MercenariesTaskListButton and MercenariesTaskList,
+                    // declared one after the other right here on its own canvas
+                    // - after MulliganNotificationPanel and ahead of the
+                    // Battlegrounds pickers. Both carry
+                    // GetScaling = AutoScaling, so they belong in this scaled
+                    // subtree; the container holds the pair because the list's
+                    // own offset is defined in terms of the button's height.
+                    MercenariesTasksOverlayView(viewModel: viewModel.mercenariesTasks,
+                                                canvasWidth: canvasWidth,
+                                                scale: scale)
 
                     // The Battlegrounds hero picking stats, which HDT
                     // declares right after BgsOpponentInfoContainer and ahead

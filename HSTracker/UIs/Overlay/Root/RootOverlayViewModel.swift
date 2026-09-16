@@ -54,6 +54,11 @@ class RootOverlayViewModel: ObservableObject {
     let battlegroundsQuestPicking = BattlegroundsQuestPickingViewModel()
     let battlegroundsTrinketPicking = BattlegroundsTrinketPickingViewModel()
     let tier7PreLobby = Tier7PreLobbyViewModel()
+
+    // HDT's MercenariesTaskListVM, shared by its MercenariesTaskListButton and
+    // MercenariesTaskListView - one view model for the pair here too, since the
+    // button's only job is to reveal the list.
+    let mercenariesTasks = MercenariesTaskListViewModel()
     // HDT's OverlayWindow.OpacityMaskOverlay, which it hands to the window's own
     // OpacityMask - the regions of the canvas cut away so what Hearthstone draws
     // over its board (a blown-up hovered card, its tooltips, the discover

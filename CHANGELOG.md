@@ -8,6 +8,7 @@
 - The mulligan guide used outside Ranked and Friendly now matches Hearthstone Deck Tracker's own, with its hand rank badge, tooltips and translations, and is cut away wherever Hearthstone draws over the board.
 - The mulligan guide badges over the deck boxes in the constructed lobby now sit where Hearthstone Deck Tracker puts them, and a deck whose status is still loading is no longer coloured as though it were ready.
 - Added the Find Meta Decks button to the constructed lobby, which opens HSReplay's deck list for the format being played.
+- The Mercenaries tasks button and its task list now sit where Hearthstone Deck Tracker puts them, slide in and out as they do there, size themselves to the tasks they show and are cut away wherever Hearthstone draws over the board, and the button's label is now translated.
 
 # 3.6.10
 ## Hearthstone
