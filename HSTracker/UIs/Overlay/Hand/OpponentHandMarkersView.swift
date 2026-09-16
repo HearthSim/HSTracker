@@ -57,14 +57,9 @@ struct OpponentHandMarkersView: View {
     }
 
     private func marker(index: Int, position: CGPoint) -> some View {
-        let model = viewModel.markers[index]
-        return CardMarkerView(viewModel: model)
-            // ext:OverlayExtensions.ToolTip="{x:Type tooltips:CardTooltip}" with
-            // IsOverlayHoverVisible: hovering a marker shows the card its source
-            // tile came from. HDT asks for Placement="Bottom"; only Left and
-            // Right are modelled here, and Right is what SetTooltip folds
-            // anything else into.
-            .cardImageTooltip(cardId: model.sourceCard?.id, showTriple: false)
+        // The hover tooltip is attached inside CardMarkerView, which is what
+        // observes the marker's own view model.
+        CardMarkerView(viewModel: viewModel.markers[index])
             .offset(x: left(position), y: top(position))
     }
 

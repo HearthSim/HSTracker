@@ -10901,6 +10901,17 @@
         }
       }
     },
+    "CardTile_Drawn_By" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drawn by %@"
+          }
+        }
+      }
+    },
     "CATACLYSM" : {
       "extractionState" : "manual",
       "localizations" : {

@@ -50,6 +50,22 @@ struct CardMarkerView: View {
         }
         .frame(width: Self.badgeSide, alignment: .top)
         .opacity(viewModel.isShown ? 1 : 0)
+        // ext:OverlayExtensions.ToolTip="{x:Type tooltips:CardTooltip}" with
+        // IsOverlayHoverVisible, both on the UserControl itself: hovering a
+        // marker shows the card its source tile came from, captioned with how
+        // the card got there. HDT asks for Placement="Bottom"; only Left and
+        // Right are modelled here, and Right is what SetTooltip folds anything
+        // else into.
+        //
+        // Attached here rather than by the parent because the card and the
+        // caption both come off this view model - a parent that does not
+        // observe it would go on handing the tooltip the previous card.
+        //
+        // Dropped along with the marker itself while it is hidden: HDT collapses
+        // the control, and a collapsed WPF element is not hit-testable, so it
+        // raises no hover either.
+        .cardImageTooltip(cardId: viewModel.isShown ? viewModel.sourceCard?.id : nil,
+                          showTriple: false, text: viewModel.tooltipText)
     }
 
     private var ageBadge: some View {

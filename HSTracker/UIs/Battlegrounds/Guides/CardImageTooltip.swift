@@ -61,8 +61,11 @@ enum CardTooltipSource {
 // own.
 @available(macOS 10.15, *)
 enum OverlayTooltip {
-    // HDT's CardTooltip: one card image, with its golden companion.
-    case card(cardId: String, showTriple: Bool, baconTriple: Bool, placement: CardTooltipPlacement)
+    // HDT's CardTooltip: one card image, with its golden companion, and the
+    // optional line CardTooltipViewModel.Text lays over the top of it - what
+    // the card markers use for "Created by X" / "Drawn by X".
+    case card(cardId: String, showTriple: Bool, baconTriple: Bool, text: String?,
+              placement: CardTooltipPlacement)
     // HDT's GridCardImages: the titled grid of related cards the counters
     // carry. The counter itself is held rather than its cards, because
     // CardsToDisplay is read at show time - its value moves during a game.
@@ -72,8 +75,8 @@ enum OverlayTooltip {
     // a counter is a reference type and its contents change under it.
     func matches(_ other: OverlayTooltip) -> Bool {
         switch (self, other) {
-        case let (.card(a, at, ab, ap), .card(b, bt, bb, bp)):
-            return a == b && at == bt && ab == bb && ap == bp
+        case let (.card(a, at, ab, ax, ap), .card(b, bt, bb, bx, bp)):
+            return a == b && at == bt && ab == bb && ax == bx && ap == bp
         case let (.relatedCards(a), .relatedCards(b)):
             return a === b
         default:
@@ -117,7 +120,7 @@ final class CardHoverNSView: NSView {
             // navigation (back to list) and doesn't fire at all when the match
             // ends and the overlay window is torn down.
             switch tooltip {
-            case .card(let cardId, _, _, _):
+            case .card(let cardId, _, _, _, _):
                 CardTooltipPanel.shared.hide(ifShowing: cardId)
             case .relatedCards(let counter):
                 // The counter went away while its grid was up (or on its way
@@ -145,7 +148,7 @@ class CardHoverRegistry {
     func register(_ view: CardHoverNSView) {
         entries.removeAll { $0.view == nil || $0.view === view }
         guard let tooltip = view.tooltip else { return }
-        if case .card(let cardId, _, _, _) = tooltip, cardId.isEmpty { return }
+        if case .card(let cardId, _, _, _, _) = tooltip, cardId.isEmpty { return }
         entries.append(Entry(tooltip: tooltip, view: view))
     }
 
@@ -169,6 +172,25 @@ private struct CardHoverRepresentable: NSViewRepresentable {
 
 // MARK: - Tooltip panel
 
+// CardTooltip.xaml's HearthstoneTextBlock: the line CardTooltipViewModel.Text
+// carries, drawn over the top of the card image rather than beside it. It sits
+// inside the same Grid as the Image, HorizontalAlignment="Center"
+// VerticalAlignment="Top", so it overlaps the art and never moves the tooltip.
+@available(macOS 10.15, *)
+private struct CardTooltipCaption: View {
+    let text: String
+    let fontSize: CGFloat
+
+    var body: some View {
+        Text(verbatim: text)
+            .chunkFive(size: fontSize)
+            // HearthstoneTextBlock's defaults - white fill, black stroke, a
+            // 2pt pen centred on the outline so half of it sits outside.
+            .outlinedText(.white, outlineColor: .black, width: 1)
+            .fixedSize()
+    }
+}
+
 // Mirrors HDT's CardTooltip.xaml: base card shown immediately, golden card shown
 // 0.8s later ALONGSIDE the base (matching StoryboardShowDelayed BeginTime="0:0:0.8").
 // Both cards are visible simultaneously; golden disappears if the card is no longer hovered.
@@ -179,6 +201,7 @@ class CardTooltipPanel: NSPanel {
 
     private let primaryImageView = NSImageView()
     private let goldenImageView = NSImageView()
+    private let captionView = NSHostingView(rootView: CardTooltipCaption(text: "", fontSize: 16))
     private(set) var currentCardId: String?
     private(set) var currentSource: CardTooltipSource = .registry
     private var pendingShowWork: DispatchWorkItem?
@@ -197,6 +220,8 @@ class CardTooltipPanel: NSPanel {
     // re-runs SetPlacement with this value, and CardTooltip reads it to decide
     // which way round the base and golden cards sit.
     private var effectivePlacement: CardTooltipPlacement = .right
+    // CardTooltipViewModel.Text for the hover currently being served.
+    private var currentText: String?
 
     private static let tooltipWidth: CGFloat = 220
     private static let tooltipHeight: CGFloat = tooltipWidth * 388.0 / 256.0
@@ -205,6 +230,9 @@ class CardTooltipPanel: NSPanel {
     // 0.8s matches CardTooltip.xaml StoryboardShowDelayed BeginTime="0:0:0.8"
     private static let goldenDelay: TimeInterval = 0.8
     private static let maxDuration: TimeInterval = 60
+    // CardTooltip.xaml's FontSize="16" on the caption. It is the size the text
+    // starts at, not the size it is drawn at - see captionFontSize(fitting:within:).
+    private static let captionBaseFontSize: CGFloat = 16
 
     private init() {
         super.init(
@@ -228,9 +256,17 @@ class CardTooltipPanel: NSPanel {
         goldenImageView.imageScaling = .scaleProportionallyUpOrDown
         goldenImageView.frame = .zero
 
+        captionView.frame = .zero
+        captionView.isHidden = true
+        // Nothing in this container uses auto layout, and NSHostingView is the
+        // one subview that would otherwise opt into it.
+        captionView.translatesAutoresizingMaskIntoConstraints = true
+
         let container = NSView(frame: NSRect(x: 0, y: 0, width: w, height: h))
         container.addSubview(goldenImageView)
         container.addSubview(primaryImageView)
+        // Last, so it draws over the art the way the XAML's Grid stacks it.
+        container.addSubview(captionView)
         contentView = container
 
         // Hide tooltip when Hearthstone loses focus (tab-away).
@@ -258,7 +294,10 @@ class CardTooltipPanel: NSPanel {
     ///   - baconCard: HDT's Card.BaconCard, which its URL formula picks bgs vs render from
     ///     outright. Pass it when the caller knows; leave it nil to try BG art and fall back, which
     ///     is what the guides need because their text can reference either kind.
+    ///   - text: CardTooltipViewModel.Text - a line drawn over the top of the card image. It
+    ///     changes nothing about the tooltip's size or position; see layOutCaption(in:).
     func show(cardId: String, showTriple: Bool = true, baconTriple: Bool = false,
+              text: String? = nil,
               placement: CardTooltipPlacement = .right,
               anchor: NSRect? = nil, bounds: NSRect? = nil,
               source: CardTooltipSource = .registry, sourceView: NSView? = nil,
@@ -266,6 +305,7 @@ class CardTooltipPanel: NSPanel {
         // Stored rather than passed down: the golden art resolves later and the
         // early-return path below re-positions against the same geometry.
         preferredPlacement = placement
+        currentText = text
         currentAnchor = anchor
         currentBounds = bounds
         currentSource = source
@@ -274,6 +314,9 @@ class CardTooltipPanel: NSPanel {
 
         if currentCardId == cardId && isVisible {
             position(panelWidth: frame.size.width)
+            // Same card, possibly a different line: a marker keeps its card id
+            // while the source it names changes underneath it.
+            layOutCaption(in: primaryImageView.frame)
             return
         }
 
@@ -291,7 +334,7 @@ class CardTooltipPanel: NSPanel {
             switch source {
             case .registry:
                 guard CardHoverRegistry.shared.entries.contains(where: { entry in
-                    guard case .card(let entryCardId, _, _, _) = entry.tooltip else { return false }
+                    guard case .card(let entryCardId, _, _, _, _) = entry.tooltip else { return false }
                     return entry.view != nil && entryCardId == cardId
                 }) else { return }
             case .trackingArea:
@@ -335,6 +378,7 @@ class CardTooltipPanel: NSPanel {
                 self.primaryImageView.frame = NSRect(x: 0, y: 0, width: w, height: h)
                 self.goldenImageView.frame = .zero
             }
+            self.layOutCaption(in: self.primaryImageView.frame)
 
             func showPrimary(_ img: NSImage?) {
                 self.primaryImageView.image = img
@@ -438,6 +482,53 @@ class CardTooltipPanel: NSPanel {
         DispatchQueue.main.asyncAfter(deadline: .now() + Self.goldenDelay, execute: work)
     }
 
+    // CardTooltip.xaml's caption, laid over the top of the primary card image.
+    //
+    // The tooltip never grows to fit it. The Grid that holds the caption and
+    // the image together is capped by MaxWidth - CardImageSize * 256, the card
+    // image's own width - and OutlinedTextBlock.MeasureOverride walks its font
+    // size down a point at a time until the line fits whatever width it is
+    // measured with. So a long card name is drawn smaller instead of pushing
+    // the panel wider, and every other caller's geometry is untouched.
+    private func layOutCaption(in slot: NSRect) {
+        guard let text = currentText, !text.isEmpty, slot.width > 0 else {
+            clearCaption()
+            return
+        }
+        let fontSize = Self.captionFontSize(fitting: text, within: slot.width)
+        let size = Self.captionSize(text, fontSize: fontSize)
+        captionView.rootView = CardTooltipCaption(text: text, fontSize: fontSize)
+        // OutlinedTextBlock.OnRender draws an unconstrained left-aligned line a
+        // twentieth of its own height below the block's top. Applied by lowering
+        // the frame rather than offsetting inside it, which comes to the same
+        // place without the hosting view having to be oversized.
+        let drop = size.height * 0.05
+        captionView.frame = NSRect(x: slot.midX - size.width / 2,
+                                   y: slot.maxY - size.height - drop,
+                                   width: size.width, height: size.height)
+        captionView.isHidden = false
+    }
+
+    private func clearCaption() {
+        captionView.isHidden = true
+        captionView.frame = .zero
+    }
+
+    // OutlinedTextBlock.MeasureOverride's shrink-to-fit: whole-point steps down
+    // from the declared size, stopping at the first one that fits.
+    private static func captionFontSize(fitting text: String, within width: CGFloat) -> CGFloat {
+        var size = captionBaseFontSize
+        while size > 1 && captionSize(text, fontSize: size).width > width {
+            size -= 1
+        }
+        return size
+    }
+
+    private static func captionSize(_ text: String, fontSize: CGFloat) -> CGSize {
+        let font = NSFont(name: "ChunkFive", size: fontSize) ?? NSFont.systemFont(ofSize: fontSize)
+        return (text as NSString).size(withAttributes: [.font: font])
+    }
+
     func hide() {
         pendingShowWork?.cancel()
         pendingShowWork = nil
@@ -448,12 +539,14 @@ class CardTooltipPanel: NSPanel {
         maxDurationTimer?.invalidate()
         maxDurationTimer = nil
         currentCardId = nil
+        currentText = nil
         let w = Self.tooltipWidth
         let h = Self.tooltipHeight
         primaryImageView.image = nil
         goldenImageView.image = nil
         goldenImageView.frame = .zero
         primaryImageView.frame = NSRect(x: 0, y: 0, width: w, height: h)
+        clearCaption()
         orderOut(nil)
     }
 
@@ -485,12 +578,14 @@ class CardTooltipPanel: NSPanel {
             self.pendingHideWork = nil
             guard self.currentCardId == cardId else { return }
             self.currentCardId = nil
+            self.currentText = nil
             let w = Self.tooltipWidth
             let h = Self.tooltipHeight
             self.primaryImageView.image = nil
             self.goldenImageView.image = nil
             self.goldenImageView.frame = .zero
             self.primaryImageView.frame = NSRect(x: 0, y: 0, width: w, height: h)
+            self.clearCaption()
             self.orderOut(nil)
         }
         pendingHideWork = work
@@ -611,13 +706,15 @@ private struct CardImageTooltipModifier: ViewModifier {
     let cardId: String?
     let showTriple: Bool
     let baconTriple: Bool
+    let text: String?
     let placement: CardTooltipPlacement
 
     func body(content: Content) -> some View {
         if let cardId = cardId {
             content.background(CardHoverRepresentable(
                 tooltip: .card(cardId: cardId, showTriple: showTriple,
-                               baconTriple: baconTriple, placement: placement)))
+                               baconTriple: baconTriple, text: text,
+                               placement: placement)))
         } else {
             content
         }
@@ -638,9 +735,11 @@ private struct RelatedCardsTooltipModifier: ViewModifier {
 @available(macOS 10.15, *)
 extension View {
     func cardImageTooltip(cardId: String?, showTriple: Bool = true, baconTriple: Bool = false,
+                          text: String? = nil,
                           placement: CardTooltipPlacement = .right) -> some View {
         modifier(CardImageTooltipModifier(cardId: cardId, showTriple: showTriple,
-                                          baconTriple: baconTriple, placement: placement))
+                                          baconTriple: baconTriple, text: text,
+                                          placement: placement))
     }
 
     func relatedCardsTooltip(counter: BaseCounter) -> some View {

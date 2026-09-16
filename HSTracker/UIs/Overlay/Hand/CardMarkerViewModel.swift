@@ -39,12 +39,26 @@ final class CardMarkerViewModel: ObservableObject {
     // SourceCard, which drives the tile badge and the hover tooltip.
     @Published var sourceCard: Card?
 
-    // CardSourceType. Recorded but not yet shown: HDT turns it into the
-    // "Created by X" / "Drawn by X" line its CardTooltip carries alongside the
-    // card image, and the tooltip panel this port hands the marker to shows the
-    // image only. Kept so updateSource still says what it means, and so the
-    // line has something to read when it is ported.
+    // CardSourceType, which with the source card's name makes the line the
+    // tooltip draws over the card image.
     @Published var sourceType: SourceType?
+
+    // CardMarker.TooltipText, handed to CardTooltipViewModel.Text by
+    // UpdateTooltip. HDT builds the two strings in English inline; the
+    // "Created by" half is already a translated key here, so both go through
+    // the catalog. Known - and no source type at all - name no one, and HDT
+    // maps them to null.
+    var tooltipText: String? {
+        guard let name = sourceCard?.name else { return nil }
+        switch sourceType {
+        case .createdBy:
+            return String(format: String.localizedString("CardTile_Created_By", comment: ""), name)
+        case .drawnBy:
+            return String(format: String.localizedString("CardTile_Drawn_By", comment: ""), name)
+        case .known, nil:
+            return nil
+        }
+    }
 
     // UpdateIcon: HDT reads the asset name off an attribute on the CardMark
     // enum; the names are spelled out here as the AppKit marker spelled them.
