@@ -32,13 +32,49 @@ import SwiftUI
 // unset - into Right. So Right is the default here too, matching CardTile.xaml,
 // which attaches a CardTooltip without naming a placement.
 //
-// Only the two directions HSTracker needs are modelled. HDT also supports Top
-// and Bottom; nothing in the ported surface uses them.
+// All four of SetTooltip's normalized directions. The Battlegrounds guides use
+// Left and Right; the card markers over the opponent's hand use Bottom.
+//
+// PlacementMode, over in Logging/Enums, is the same WPF concept modelled a
+// second time for the guides trigger Game.swift positions itself. The two
+// should be one enum.
 enum CardTooltipPlacement {
     case left
     case right
+    case top
+    case bottom
 
-    var flipped: CardTooltipPlacement { self == .left ? .right : .left }
+    // SetTooltip only ever swaps a placement for the opposite one on the same
+    // axis, so Left and Right never become Top or Bottom.
+    var flipped: CardTooltipPlacement {
+        switch self {
+        case .left: return .right
+        case .right: return .left
+        case .top: return .bottom
+        case .bottom: return .top
+        }
+    }
+
+    var isVertical: Bool { self == .top || self == .bottom }
+}
+
+// Everything the hovered element declares about its tooltip: what
+// CardTooltipViewModel carries (the card and its caption) plus the
+// ToolTipService attached properties SetTooltip reads off the target.
+@available(macOS 10.15, *)
+struct CardTooltipRequest: Equatable {
+    let cardId: String
+    var showTriple = true
+    var baconTriple = false
+    // CardTooltipViewModel.Text, drawn over the top of the card image.
+    var text: String?
+    var placement: CardTooltipPlacement = .right
+    // ToolTipService.HorizontalOffset / VerticalOffset. HDT applies each one
+    // away from the target, so the sign does not depend on which side the
+    // tooltip lands on. Nothing ported sets a horizontal offset; the card
+    // markers set VerticalOffset="20".
+    var horizontalOffset: CGFloat = 0
+    var verticalOffset: CGFloat = 0
 }
 
 // Which mechanism put the tooltip currently on screen. HDT needs no equivalent - every element
@@ -61,11 +97,10 @@ enum CardTooltipSource {
 // own.
 @available(macOS 10.15, *)
 enum OverlayTooltip {
-    // HDT's CardTooltip: one card image, with its golden companion, and the
-    // optional line CardTooltipViewModel.Text lays over the top of it - what
-    // the card markers use for "Created by X" / "Drawn by X".
-    case card(cardId: String, showTriple: Bool, baconTriple: Bool, text: String?,
-              placement: CardTooltipPlacement)
+    // HDT's CardTooltip: one card image, with its golden companion, the
+    // optional line CardTooltipViewModel.Text lays over the top of it, and
+    // where the element wants it put.
+    case card(CardTooltipRequest)
     // HDT's GridCardImages: the titled grid of related cards the counters
     // carry. The counter itself is held rather than its cards, because
     // CardsToDisplay is read at show time - its value moves during a game.
@@ -75,8 +110,8 @@ enum OverlayTooltip {
     // a counter is a reference type and its contents change under it.
     func matches(_ other: OverlayTooltip) -> Bool {
         switch (self, other) {
-        case let (.card(a, at, ab, ax, ap), .card(b, bt, bb, bx, bp)):
-            return a == b && at == bt && ab == bb && ax == bx && ap == bp
+        case let (.card(a), .card(b)):
+            return a == b
         case let (.relatedCards(a), .relatedCards(b)):
             return a === b
         default:
@@ -120,8 +155,8 @@ final class CardHoverNSView: NSView {
             // navigation (back to list) and doesn't fire at all when the match
             // ends and the overlay window is torn down.
             switch tooltip {
-            case .card(let cardId, _, _, _, _):
-                CardTooltipPanel.shared.hide(ifShowing: cardId)
+            case .card(let request):
+                CardTooltipPanel.shared.hide(ifShowing: request.cardId)
             case .relatedCards(let counter):
                 // The counter went away while its grid was up (or on its way
                 // up) - RootOverlayWindow's own sweep would only notice on the
@@ -148,7 +183,7 @@ class CardHoverRegistry {
     func register(_ view: CardHoverNSView) {
         entries.removeAll { $0.view == nil || $0.view === view }
         guard let tooltip = view.tooltip else { return }
-        if case .card(let cardId, _, _, _, _) = tooltip, cardId.isEmpty { return }
+        if case .card(let request) = tooltip, request.cardId.isEmpty { return }
         entries.append(Entry(tooltip: tooltip, view: view))
     }
 
@@ -222,6 +257,9 @@ class CardTooltipPanel: NSPanel {
     private var effectivePlacement: CardTooltipPlacement = .right
     // CardTooltipViewModel.Text for the hover currently being served.
     private var currentText: String?
+    // ToolTipService.HorizontalOffset / VerticalOffset for the same hover.
+    private var horizontalOffset: CGFloat = 0
+    private var verticalOffset: CGFloat = 0
 
     private static let tooltipWidth: CGFloat = 220
     private static let tooltipHeight: CGFloat = tooltipWidth * 388.0 / 256.0
@@ -294,18 +332,21 @@ class CardTooltipPanel: NSPanel {
     ///   - baconCard: HDT's Card.BaconCard, which its URL formula picks bgs vs render from
     ///     outright. Pass it when the caller knows; leave it nil to try BG art and fall back, which
     ///     is what the guides need because their text can reference either kind.
-    ///   - text: CardTooltipViewModel.Text - a line drawn over the top of the card image. It
-    ///     changes nothing about the tooltip's size or position; see layOutCaption(in:).
-    func show(cardId: String, showTriple: Bool = true, baconTriple: Bool = false,
-              text: String? = nil,
-              placement: CardTooltipPlacement = .right,
+    ///   - request: what the hovered element declares - the card, its caption, and the
+    ///     ToolTipService placement and offsets. See CardTooltipRequest.
+    func show(_ request: CardTooltipRequest,
               anchor: NSRect? = nil, bounds: NSRect? = nil,
               source: CardTooltipSource = .registry, sourceView: NSView? = nil,
               baconCard: Bool? = nil) {
+        let cardId = request.cardId
+        let showTriple = request.showTriple
+        let baconTriple = request.baconTriple
         // Stored rather than passed down: the golden art resolves later and the
         // early-return path below re-positions against the same geometry.
-        preferredPlacement = placement
-        currentText = text
+        preferredPlacement = request.placement
+        horizontalOffset = request.horizontalOffset
+        verticalOffset = request.verticalOffset
+        currentText = request.text
         currentAnchor = anchor
         currentBounds = bounds
         currentSource = source
@@ -334,8 +375,8 @@ class CardTooltipPanel: NSPanel {
             switch source {
             case .registry:
                 guard CardHoverRegistry.shared.entries.contains(where: { entry in
-                    guard case .card(let entryCardId, _, _, _, _) = entry.tooltip else { return false }
-                    return entry.view != nil && entryCardId == cardId
+                    guard case .card(let request) = entry.tooltip else { return false }
+                    return entry.view != nil && request.cardId == cardId
                 }) else { return }
             case .trackingArea:
                 // The same check for a view the registry never held: losing its window is how a
@@ -369,9 +410,10 @@ class CardTooltipPanel: NSPanel {
             let goldenFirst = self.effectivePlacement == .left
             if goldenCardId != nil {
                 // CardTooltip.xaml.cs: ImageDock = placement == Left ? Dock.Right
-                // : Dock.Left. Both images dock the same way with the primary
-                // first, which keeps the base card against the hovered element
-                // and puts the golden on the outside.
+                // : Dock.Left - so only Left reverses, and Top and Bottom dock
+                // the same way Right does. Both images dock the same way with
+                // the primary first, which keeps the base card against the
+                // hovered element and puts the golden on the outside.
                 self.primaryImageView.frame = NSRect(x: goldenFirst ? w : 0, y: 0, width: w, height: h)
                 self.goldenImageView.frame = NSRect(x: goldenFirst ? 0 : w, y: 0, width: w, height: h)
             } else {
@@ -593,10 +635,16 @@ class CardTooltipPanel: NSPanel {
     }
 
     // Ports OverlayWindow.Tooltips.cs SetTooltip's geometry. HDT anchors to the
-    // hovered element, not the cursor: the tooltip is butted straight against the
-    // element's left or right edge (HorizontalOffset defaults to 0, and none of
-    // the ported styles set one) and centred on it vertically
-    // (AlignmentMode.Center, the default). It never follows the mouse.
+    // hovered element, not the cursor: the tooltip is butted against one of the
+    // element's four edges, offset away from it by ToolTipService's
+    // Horizontal/VerticalOffset, and centred on the other axis
+    // (AlignmentMode.Center, the default - nothing ported asks for Start or
+    // End). It never follows the mouse.
+    //
+    // SetTooltip works in the overlay window's own client space, which is
+    // Y-down from the top; this works in screen coordinates, which are Y-up. So
+    // HDT's Bottom is the smaller Y here and its Top the larger, and each of
+    // its comparisons against 0 and ActualHeight turns into the opposite bound.
     //
     // Falls back to the cursor only when there is no anchor, which should not
     // happen - every show goes through RootOverlayWindow's registry match.
@@ -612,7 +660,8 @@ class CardTooltipPanel: NSPanel {
         // "Correct placement if tooltip would go outside of window, and it fit on
         // the other side" - note the second half: HDT only flips when the far
         // side actually has room, otherwise it stays put and lets the clamp
-        // below deal with it.
+        // below deal with it. The offsets are left out of these tests, as they
+        // are in SetTooltip.
         var placement = preferredPlacement
         switch placement {
         case .left:
@@ -623,27 +672,58 @@ class CardTooltipPanel: NSPanel {
             if anchor.maxX + panelWidth > bounds.maxX && anchor.minX - panelWidth >= bounds.minX {
                 placement = placement.flipped
             }
+        case .top:
+            if anchor.maxY + h > bounds.maxY && anchor.minY - h >= bounds.minY {
+                placement = placement.flipped
+            }
+        case .bottom:
+            if anchor.minY - h < bounds.minY && anchor.maxY + h <= bounds.maxY {
+                placement = placement.flipped
+            }
         }
 
         effectivePlacement = placement
 
-        var origin = NSPoint(
-            x: placement == .right ? anchor.maxX : anchor.minX - panelWidth,
-            // targetPos.Y + targetHeight / 2 - tooltipHeight / 2, in a Y-up space.
-            y: anchor.midY - h / 2
-        )
+        var origin: NSPoint
+        switch placement {
+        case .left:
+            origin = NSPoint(x: anchor.minX - panelWidth - horizontalOffset,
+                             y: anchor.midY - h / 2 - verticalOffset)
+        case .right:
+            origin = NSPoint(x: anchor.maxX + horizontalOffset,
+                             y: anchor.midY - h / 2 - verticalOffset)
+        case .top:
+            origin = NSPoint(x: anchor.midX - panelWidth / 2 + horizontalOffset,
+                             y: anchor.maxY + verticalOffset)
+        case .bottom:
+            origin = NSPoint(x: anchor.midX - panelWidth / 2 + horizontalOffset,
+                             y: anchor.minY - h - verticalOffset)
+        }
         origin.x = min(bounds.maxX - panelWidth, max(bounds.minX, origin.x))
         origin.y = min(bounds.maxY - h, max(bounds.minY, origin.y))
         setFrame(NSRect(origin: origin, size: CGSize(width: panelWidth, height: h)), display: true)
+
+        // SetTooltip hands what the clamp moved to IScreenBoundaryAware, and
+        // CardTooltip nudges its card image back by up to
+        // (ActualHeight - PrimaryImage.ActualHeight) / 2. That space is zero
+        // here - the panel is exactly one card tall - so there is nothing to
+        // nudge and no counterpart to port.
     }
 
     private func positionNearMouse(panelWidth: CGFloat, within bounds: NSRect) {
         let mousePoint = NSEvent.mouseLocation
         let h = Self.tooltipHeight
-        var origin = NSPoint(
-            x: preferredPlacement == .right ? mousePoint.x + 20 : mousePoint.x - panelWidth - 20,
-            y: mousePoint.y - h / 2
-        )
+        var origin: NSPoint
+        switch preferredPlacement {
+        case .left:
+            origin = NSPoint(x: mousePoint.x - panelWidth - 20, y: mousePoint.y - h / 2)
+        case .right:
+            origin = NSPoint(x: mousePoint.x + 20, y: mousePoint.y - h / 2)
+        case .top:
+            origin = NSPoint(x: mousePoint.x - panelWidth / 2, y: mousePoint.y + 20)
+        case .bottom:
+            origin = NSPoint(x: mousePoint.x - panelWidth / 2, y: mousePoint.y - h - 20)
+        }
         origin.x = min(bounds.maxX - panelWidth, max(bounds.minX, origin.x))
         origin.y = min(bounds.maxY - h, max(bounds.minY, origin.y))
         setFrame(NSRect(origin: origin, size: CGSize(width: panelWidth, height: h)), display: true)
@@ -703,18 +783,12 @@ extension View {
 
 @available(macOS 10.15, *)
 private struct CardImageTooltipModifier: ViewModifier {
-    let cardId: String?
-    let showTriple: Bool
-    let baconTriple: Bool
-    let text: String?
-    let placement: CardTooltipPlacement
+    // nil for a nil card id, which is how a caller turns the tooltip off.
+    let request: CardTooltipRequest?
 
     func body(content: Content) -> some View {
-        if let cardId = cardId {
-            content.background(CardHoverRepresentable(
-                tooltip: .card(cardId: cardId, showTriple: showTriple,
-                               baconTriple: baconTriple, text: text,
-                               placement: placement)))
+        if let request = request {
+            content.background(CardHoverRepresentable(tooltip: .card(request)))
         } else {
             content
         }
@@ -736,10 +810,16 @@ private struct RelatedCardsTooltipModifier: ViewModifier {
 extension View {
     func cardImageTooltip(cardId: String?, showTriple: Bool = true, baconTriple: Bool = false,
                           text: String? = nil,
-                          placement: CardTooltipPlacement = .right) -> some View {
-        modifier(CardImageTooltipModifier(cardId: cardId, showTriple: showTriple,
-                                          baconTriple: baconTriple, text: text,
-                                          placement: placement))
+                          placement: CardTooltipPlacement = .right,
+                          horizontalOffset: CGFloat = 0,
+                          verticalOffset: CGFloat = 0) -> some View {
+        modifier(CardImageTooltipModifier(
+            request: cardId.map {
+                CardTooltipRequest(cardId: $0, showTriple: showTriple, baconTriple: baconTriple,
+                                   text: text, placement: placement,
+                                   horizontalOffset: horizontalOffset,
+                                   verticalOffset: verticalOffset)
+            }))
     }
 
     func relatedCardsTooltip(counter: BaseCounter) -> some View {

@@ -165,8 +165,10 @@ enum RelatedCardsBrowserTooltip {
         // Card.UpdateTooltip sets ShowTriple = BaconCard, so a constructed pool card gets no golden
         // companion image. source/sourceView opt out of the CardHoverRegistry bookkeeping that
         // RootOverlayWindow's own hovers rely on - see CardTooltipSource.
-        CardTooltipPanel.shared.show(cardId: card.id, showTriple: card.baconCard,
-                                     baconTriple: card.baconTriple, placement: placement,
+        CardTooltipPanel.shared.show(CardTooltipRequest(cardId: card.id,
+                                                        showTriple: card.baconCard,
+                                                        baconTriple: card.baconTriple,
+                                                        placement: placement),
                                      anchor: anchor, bounds: bounds,
                                      source: .trackingArea, sourceView: view,
                                      baconCard: card.baconCard)

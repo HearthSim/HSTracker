@@ -36,6 +36,9 @@ struct CardMarkerView: View {
     private static let sourceTileSide: CGFloat = 20
     private static let sourceBorderColor = Color(hex: "#141617")
 
+    // ToolTipService.VerticalOffset on the UserControl.
+    private static let tooltipVerticalOffset: CGFloat = 20
+
     var body: some View {
         // The StackPanel: the age badge, then the source tile under it. A
         // collapsed age badge takes the tile up with it.
@@ -53,9 +56,9 @@ struct CardMarkerView: View {
         // ext:OverlayExtensions.ToolTip="{x:Type tooltips:CardTooltip}" with
         // IsOverlayHoverVisible, both on the UserControl itself: hovering a
         // marker shows the card its source tile came from, captioned with how
-        // the card got there. HDT asks for Placement="Bottom"; only Left and
-        // Right are modelled here, and Right is what SetTooltip folds anything
-        // else into.
+        // the card got there. ToolTipService.Placement="Bottom" and
+        // VerticalOffset="20" put it under the marker rather than beside it,
+        // which is what keeps it clear of the opponent's hand.
         //
         // Attached here rather than by the parent because the card and the
         // caption both come off this view model - a parent that does not
@@ -65,7 +68,8 @@ struct CardMarkerView: View {
         // the control, and a collapsed WPF element is not hit-testable, so it
         // raises no hover either.
         .cardImageTooltip(cardId: viewModel.isShown ? viewModel.sourceCard?.id : nil,
-                          showTriple: false, text: viewModel.tooltipText)
+                          showTriple: false, text: viewModel.tooltipText,
+                          placement: .bottom, verticalOffset: Self.tooltipVerticalOffset)
     }
 
     private var ageBadge: some View {

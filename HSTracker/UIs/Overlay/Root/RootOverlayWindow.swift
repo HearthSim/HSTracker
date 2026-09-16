@@ -407,11 +407,9 @@ class RootOverlayWindow: OverWindowController {
                 // neither panel knows about the other.
                 dismissIfDifferentKind(previous, than: match.tooltip)
                 switch match.tooltip {
-                case .card(let cardId, let showTriple, let baconTriple, let text, let placement):
-                    CardTooltipPanel.shared.show(cardId: cardId, showTriple: showTriple,
-                                                 baconTriple: baconTriple, text: text,
-                                                 placement: placement,
-                                                 anchor: anchor, bounds: overlayWindow.frame)
+                case .card(let request):
+                    CardTooltipPanel.shared.show(request, anchor: anchor,
+                                                 bounds: overlayWindow.frame)
                 case .relatedCards(let counter):
                     CounterTooltipController.shared.hover(counter: counter, anchor: anchor)
                 }
@@ -442,8 +440,8 @@ class RootOverlayWindow: OverWindowController {
             let registry = CardHoverRegistry.shared
             if let shown = CardTooltipPanel.shared.currentCardId,
                !registry.entries.contains(where: { entry in
-                   guard case .card(let cardId, _, _, _, _) = entry.tooltip else { return false }
-                   return cardId == shown && entry.view != nil
+                   guard case .card(let request) = entry.tooltip else { return false }
+                   return request.cardId == shown && entry.view != nil
                }) {
                 CardTooltipPanel.shared.hide(from: .registry)
             }
