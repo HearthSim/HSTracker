@@ -16941,6 +16941,35 @@
         }
       }
     },
+    "Find_Meta_Decks_Button" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Find Meta Decks"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "메타 덱 찾기"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ver os Decks do Meta"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "查找当前环境套牌"
+          }
+        }
+      }
+    },
     "Found unknown cards" : {
       "extractionState" : "manual",
       "localizations" : {

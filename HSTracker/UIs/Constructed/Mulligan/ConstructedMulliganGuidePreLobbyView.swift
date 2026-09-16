@@ -75,6 +75,14 @@ struct ConstructedMulliganGuidePreLobbyView: View {
     private static let cellSpacing: CGFloat = 3
     private static let rowBottomPadding: CGFloat = 128
 
+    // The "Find Meta Decks" button: Border MinWidth="176" Padding="8 5"
+    // CornerRadius="4" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+    // Margin="0 0 8 0", in the outer Grid's second (Auto) row - so it sits under
+    // the badges, right-aligned, 8 in from their right edge.
+    private static let buttonMinWidth: CGFloat = 176
+    private static let buttonTrailingMargin: CGFloat = 8
+    private static let hsReplayNetBlue = Color(hex: "#1D3657")
+
     var body: some View {
         // Instantiated unconditionally so the @ObservedObject binding keeps
         // driving it; it draws nothing while hidden, which is what replaces the
@@ -82,7 +90,12 @@ struct ConstructedMulliganGuidePreLobbyView: View {
         ZStack(alignment: .topLeading) {
             Color.clear
             if model.isShown && model.viewModel.visibility {
-                badges.offset(x: originX, y: originY)
+                VStack(alignment: .trailing, spacing: 0) {
+                    badges
+                    findMetaDecksButton
+                        .padding(.trailing, Self.buttonTrailingMargin)
+                }
+                .offset(x: originX, y: originY)
             }
         }
         .frame(width: canvasWidth, height: Self.canvasHeight, alignment: .topLeading)
@@ -150,6 +163,43 @@ struct ConstructedMulliganGuidePreLobbyView: View {
         .overlay(
             BadgeEdges()
                 .stroke(Color(hex: status.borderBrush), lineWidth: 1)
+        )
+    }
+
+    private var findMetaDecksButton: some View {
+        HStack(spacing: 0) {
+            Image("hsreplay_logo_white")
+                .resizable()
+                .interpolation(.high)
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 24, height: 24)
+                .padding(.leading, 1)
+                .padding(.trailing, 10)
+                .padding(.vertical, 1)
+            Text(String.localizedString("Find_Meta_Decks_Button", comment: ""))
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundColor(.white)
+                .lineLimit(1)
+            Spacer(minLength: 0)
+        }
+        .padding(.horizontal, 8)
+        .padding(.vertical, 5)
+        .frame(minWidth: Self.buttonMinWidth, alignment: .leading)
+        .fixedSize()
+        .background(Self.hsReplayNetBlue)
+        .cornerRadius(4)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            model.viewModel.viewMetaDecks()
+        }
+        // IsOverlayHitTestVisible="True" on the Border: the badges themselves
+        // are IsHitTestVisible="False", so this button is the only part of the
+        // pre-lobby that takes clicks.
+        .background(
+            GeometryReader { proxy in
+                Color.clear.preference(key: InteractiveRegionPreferenceKey.self,
+                                       value: [proxy.frame(in: .rootOverlayCanvas)])
+            }
         )
     }
 

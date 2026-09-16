@@ -6,6 +6,7 @@
 //  Copyright © 2024 Benjamin Michotte. All rights reserved.
 //
 
+import AppKit
 import Foundation
 
 enum SingleDeckState {
@@ -243,6 +244,24 @@ class ConstructedMulliganGuidePreLobbyViewModel: ViewModel {
     
     private var gameType: BnetGameType {
         return ConstructedMulliganGuidePreLobbyViewModel.gameType(for: visualsFormatType)
+    }
+
+    // ConstructedMulliganGuidePreLobby.ViewMetaDecks_MouseUp. HDT keeps this in
+    // the control's code-behind; it lives here because that is where the rest of
+    // HSTracker's overlay panels open their HSReplay links from.
+    func viewMetaDecks() {
+        let fragments: [String] = switch formatType {
+        case .ft_unknown: ["gameType=UNKNOWN"]
+        case .ft_wild: ["gameType=RANKED_WILD"]
+        case .ft_standard: []
+        case .ft_classic: ["gameType=CLASSIC"]
+        case .ft_twist: ["gameType=TWIST"]
+        default: []
+        }
+        let url = Helper.buildHsReplayNetUrl("decks", "constructed_lobby_view_meta_decks", nil, fragments)
+        if let url = URL(string: url) {
+            NSWorkspace.shared.open(url)
+        }
     }
 
     private static func gameType(for visualsFormatType: VisualsFormatType) -> BnetGameType {
