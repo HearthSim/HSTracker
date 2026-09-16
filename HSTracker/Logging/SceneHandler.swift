@@ -53,7 +53,9 @@ class SceneHandler {
             DispatchQueue.main.async {
                 game.updateMulliganGuidePreLobby()
             }
-            game.windowManager.constructedMulliganGuidePreLobby.viewModel.invlidateAllDecks()
+            if #available(macOS 10.15, *) {
+                game.windowManager.rootOverlay?.viewModel.mulliganGuidePreLobby.viewModel.invlidateAllDecks()
+            }
             Watchers.deckPickerWatcher.stop()
         } else if from == .bacon {
             DispatchQueue.main.async {

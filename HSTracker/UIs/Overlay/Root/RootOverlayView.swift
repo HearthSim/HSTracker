@@ -172,6 +172,12 @@ struct RootOverlayView: View {
                                                  canvasWidth: canvasWidth)
                     ConstructedMulliganGuideV2View(viewModel: viewModel.mulliganGuideV2)
 
+                    // HDT declares the pre-lobby badges immediately after
+                    // the two guides on its own canvas, and scales them by
+                    // Height/1080 - this subtree's own factor.
+                    ConstructedMulliganGuidePreLobbyView(model: viewModel.mulliganGuidePreLobby,
+                                                         canvasWidth: canvasWidth)
+
                     // Both counter blocks are children of HDT's own overlay
                     // canvas, declared opponent-first
                     // (Windows/OverlayWindow.xaml), and are scaled by the same

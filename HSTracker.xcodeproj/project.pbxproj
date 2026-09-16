@@ -175,6 +175,7 @@
 		3877FB56DA0B83FC54E7EA20 /* FirelandsPortal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504AD75D62A0C8B8ECB13911 /* FirelandsPortal.swift */; };
 		387CAFA4FF9F85399599B6C6 /* Alarashi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F71B59788B8BC5C03A125F /* Alarashi.swift */; };
 		389DB9BC1E784988977841AF /* MulliganToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6615C51905284AC3B7C1CAF9 /* MulliganToastView.swift */; };
+		B8A1F3022FD30001000A0302 /* ConstructedMulliganGuidePreLobbyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F3012FD30001000A0301 /* ConstructedMulliganGuidePreLobbyView.swift */; };
 		B8A1F2022FD20001000A0202 /* ConstructedMulliganGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F2012FD20001000A0201 /* ConstructedMulliganGuideView.swift */; };
 		B8A1F2042FD20001000A0204 /* ConstructedMulliganSingleCardStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F2032FD20001000A0203 /* ConstructedMulliganSingleCardStatsView.swift */; };
 		B8A1F2062FD20001000A0206 /* ConstructedMulliganSingleCardHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F2052FD20001000A0205 /* ConstructedMulliganSingleCardHeaderView.swift */; };
@@ -1555,10 +1556,6 @@
 		B8AF0C712B84347800B65F63 /* ConstructedMulliganGuideViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AF0C702B84347800B65F63 /* ConstructedMulliganGuideViewModel.swift */; };
 		B8AF0C772B85625200B65F63 /* Region.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AF0C762B85625200B65F63 /* Region.swift */; };
 		B8AF0C792B91444200B65F63 /* ConstructedMulliganGuidePreLobbyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AF0C782B91444200B65F63 /* ConstructedMulliganGuidePreLobbyViewModel.swift */; };
-		B8AF0C7B2B928AA400B65F63 /* ConstructedMulliganGuidePreLobby.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8AF0C7A2B928AA400B65F63 /* ConstructedMulliganGuidePreLobby.xib */; };
-		B8AF0C7D2B9295A000B65F63 /* ConstructedMulliganSingleDeckStatus.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8AF0C7C2B9295A000B65F63 /* ConstructedMulliganSingleDeckStatus.xib */; };
-		B8AF0C7F2B92B76700B65F63 /* ConstructedMulliganSingleDeckStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AF0C7E2B92B76700B65F63 /* ConstructedMulliganSingleDeckStatus.swift */; };
-		B8AF0C812B92C5E800B65F63 /* ConstructedMulliganGuidePreLobby.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AF0C802B92C5E800B65F63 /* ConstructedMulliganGuidePreLobby.swift */; };
 		B8AFA4092723306D00B3470E /* BoardOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8AFA4082723306C00B3470E /* BoardOverlay.xib */; };
 		B8AFA40B2723310700B3470E /* BoardOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AFA40A2723310700B3470E /* BoardOverlay.swift */; };
 		B8B287052E83838600C55767 /* CardLegalityChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B287042E83838600C55767 /* CardLegalityChecker.swift */; };
@@ -2701,6 +2698,7 @@
 		653AA0E547351AB223D57656 /* SnackRun.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnackRun.swift; sourceTree = "<group>"; };
 		656E602C257F3C364C949311 /* Gazlowe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gazlowe.swift; sourceTree = "<group>"; };
 		6615C51905284AC3B7C1CAF9 /* MulliganToastView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MulliganToastView.swift; sourceTree = "<group>"; };
+		B8A1F3012FD30001000A0301 /* ConstructedMulliganGuidePreLobbyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructedMulliganGuidePreLobbyView.swift; sourceTree = "<group>"; };
 		B8A1F2012FD20001000A0201 /* ConstructedMulliganGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructedMulliganGuideView.swift; sourceTree = "<group>"; };
 		B8A1F2032FD20001000A0203 /* ConstructedMulliganSingleCardStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructedMulliganSingleCardStatsView.swift; sourceTree = "<group>"; };
 		B8A1F2052FD20001000A0205 /* ConstructedMulliganSingleCardHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructedMulliganSingleCardHeaderView.swift; sourceTree = "<group>"; };
@@ -3529,10 +3527,6 @@
 		B8AF0C702B84347800B65F63 /* ConstructedMulliganGuideViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructedMulliganGuideViewModel.swift; sourceTree = "<group>"; };
 		B8AF0C762B85625200B65F63 /* Region.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Region.swift; sourceTree = "<group>"; };
 		B8AF0C782B91444200B65F63 /* ConstructedMulliganGuidePreLobbyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructedMulliganGuidePreLobbyViewModel.swift; sourceTree = "<group>"; };
-		B8AF0C7A2B928AA400B65F63 /* ConstructedMulliganGuidePreLobby.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConstructedMulliganGuidePreLobby.xib; sourceTree = "<group>"; };
-		B8AF0C7C2B9295A000B65F63 /* ConstructedMulliganSingleDeckStatus.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConstructedMulliganSingleDeckStatus.xib; sourceTree = "<group>"; };
-		B8AF0C7E2B92B76700B65F63 /* ConstructedMulliganSingleDeckStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructedMulliganSingleDeckStatus.swift; sourceTree = "<group>"; };
-		B8AF0C802B92C5E800B65F63 /* ConstructedMulliganGuidePreLobby.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructedMulliganGuidePreLobby.swift; sourceTree = "<group>"; };
 		B8AFA4082723306C00B3470E /* BoardOverlay.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BoardOverlay.xib; sourceTree = "<group>"; };
 		B8AFA40A2723310700B3470E /* BoardOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardOverlay.swift; sourceTree = "<group>"; };
 		B8B287042E83838600C55767 /* CardLegalityChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardLegalityChecker.swift; sourceTree = "<group>"; };
@@ -5644,15 +5638,11 @@
 		B89586432B804E0200989C13 /* Mulligan */ = {
 			isa = PBXGroup;
 			children = (
-				B8AF0C802B92C5E800B65F63 /* ConstructedMulliganGuidePreLobby.swift */,
-				B8AF0C7A2B928AA400B65F63 /* ConstructedMulliganGuidePreLobby.xib */,
 				B8AF0C782B91444200B65F63 /* ConstructedMulliganGuidePreLobbyViewModel.swift */,
 				B8AF0C702B84347800B65F63 /* ConstructedMulliganGuideViewModel.swift */,
 				B81849262BF4D7C900F4EEE2 /* ConstructedMulliganOverlayMessageViewModel.swift */,
 				B895864A2B81460700989C13 /* ConstructedMulliganSingleCardHeaderViewModel.swift */,
 				B89586462B81400A00989C13 /* ConstructedMulliganSingleCardViewModel.swift */,
-				B8AF0C7E2B92B76700B65F63 /* ConstructedMulliganSingleDeckStatus.swift */,
-				B8AF0C7C2B9295A000B65F63 /* ConstructedMulliganSingleDeckStatus.xib */,
 				B89586442B804E2000989C13 /* ConstructedStatsHeaderViewModel.swift */,
 				54E5C32CC162F286D353E539 /* V2 */,
 				EE6E0D088083F9ECD72F3B16 /* MulliganGuideTrial.swift */,
@@ -5662,6 +5652,7 @@
 				7763354053BC4D139A9EE08D /* MulliganToastViewModel.swift */,
 				5C74E246D839D7D120CA28E4 /* MulliganGuideTrialsExhaustedView.swift */,
 				6615C51905284AC3B7C1CAF9 /* MulliganToastView.swift */,
+				B8A1F3012FD30001000A0301 /* ConstructedMulliganGuidePreLobbyView.swift */,
 				B8A1F2012FD20001000A0201 /* ConstructedMulliganGuideView.swift */,
 				B8A1F2032FD20001000A0203 /* ConstructedMulliganSingleCardStatsView.swift */,
 				B8A1F2052FD20001000A0205 /* ConstructedMulliganSingleCardHeaderView.swift */,
@@ -6966,12 +6957,10 @@
 				B82AE60028BE8631004A8FE0 /* mono-version.txt in Resources */,
 				432B5FC21CB5373D00B05D19 /* SaveDeck.xib in Resources */,
 				B864AE3A25A4CC1200793F36 /* ImportingPreferences.xib in Resources */,
-				B8AF0C7B2B928AA400B65F63 /* ConstructedMulliganGuidePreLobby.xib in Resources */,
 				437B5BB81CD2559300DE0A41 /* OpponentTrackersPreferences.xib in Resources */,
 				4335543A1D5FAF0300277B27 /* HSReplayPreferences.xib in Resources */,
 				43EBA3A51D129B030093B1C2 /* CardHudContainer.xib in Resources */,
 				B800FCA42732AA7C00AFBD51 /* MercenariesTaskListButton.xib in Resources */,
-				B8AF0C7D2B9295A000B65F63 /* ConstructedMulliganSingleDeckStatus.xib in Resources */,
 				432B5FB61CB5372600B05D19 /* GamePreferences.xib in Resources */,
 				439C7EE41C777FA900D29859 /* Tracker.xib in Resources */,
 				43873CC11CA6E6C200F01CB4 /* WindowMove.xib in Resources */,
@@ -7326,7 +7315,6 @@
 				B89865C32D9200CB00BA5649 /* DigForTreasure.swift in Sources */,
 				B854623B2CE01C5F0083BB31 /* BattlegroundsLeaderboardWatcher.swift in Sources */,
 				B8FE1F992875BD15004C397C /* SynchronizedArray.swift in Sources */,
-				B8AF0C812B92C5E800B65F63 /* ConstructedMulliganGuidePreLobby.swift in Sources */,
 				B89865952D91D17100BA5649 /* InstrumentTech.swift in Sources */,
 				B812BCED2947F929000C6513 /* BattlegroundsQuestPickParams.swift in Sources */,
 				B800FCA62732AA9100AFBD51 /* MercenariesTaskListButton.swift in Sources */,
@@ -8124,7 +8112,6 @@
 				B86D89FC2D95F29100AB65A5 /* EnvoyOfTheGlade.swift in Sources */,
 				B846CCBE2E1DA08800552F9C /* StoryOfCarnassa.swift in Sources */,
 				B844D36E2A0C35A8001704E0 /* MinionCardEntityProxy.swift in Sources */,
-				B8AF0C7F2B92B76700B65F63 /* ConstructedMulliganSingleDeckStatus.swift in Sources */,
 				B89865622D8E14C700BA5649 /* CostumedSinger.swift in Sources */,
 				B837D7F22EAFB1350070DB4B /* SubmergedSpacerock.swift in Sources */,
 				B898654E2D8B71CE00BA5649 /* UmpiresGrasp.swift in Sources */,
@@ -8928,6 +8915,7 @@
 				DA1A7EBBEB02499BA7888F27 /* MulliganToastViewModel.swift in Sources */,
 				8F239D3C72B955B990CF1451 /* MulliganGuideTrialsExhaustedView.swift in Sources */,
 				389DB9BC1E784988977841AF /* MulliganToastView.swift in Sources */,
+				B8A1F3022FD30001000A0302 /* ConstructedMulliganGuidePreLobbyView.swift in Sources */,
 				B8A1F2022FD20001000A0202 /* ConstructedMulliganGuideView.swift in Sources */,
 				B8A1F2042FD20001000A0204 /* ConstructedMulliganSingleCardStatsView.swift in Sources */,
 				B8A1F2062FD20001000A0206 /* ConstructedMulliganSingleCardHeaderView.swift in Sources */,

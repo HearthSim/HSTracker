@@ -25,6 +25,10 @@ class RootOverlayViewModel: ObservableObject {
     let mulliganGuide = ConstructedMulliganGuideViewModel()
     let mulliganGuideV2 = ConstructedMulliganGuideV2ViewModel()
     let constructedMulliganPreLobbyWidget = ConstructedMulliganPreLobbyWidgetViewModel()
+    // HDT's ConstructedMulliganGuidePreLobby, the badges over the deck boxes -
+    // declared on its own canvas just after the two guides, and a separate
+    // element from the pre-lobby widget above.
+    let mulliganGuidePreLobby = ConstructedMulliganGuidePreLobbyObservable()
     let mulliganGuideTrialsExhausted = MulliganGuideTrialsExhaustedViewModel()
     let battlegroundsCompsGuides = BattlegroundsCompsGuidesViewModel()
     let battlegroundsHeroGuides = BattlegroundsHeroGuidesViewModel()

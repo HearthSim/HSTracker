@@ -573,21 +573,15 @@ class Game: NSObject, PowerEventHandler {
         }
     }
     
+    // Both mulligan guides and the pre-lobby badges live on the RootOverlay
+    // canvas now, so there is no window of their own left to frame, show or
+    // hide. Only the pre-lobby's own setting gate is left; the
+    // hideAllWhenGameInBackground rule is already handled once for the whole
+    // canvas in updateRootOverlay().
     func updateConstructedMulliganOverlays() {
         DispatchQueue.main.async {
-            let hsActive = self.hearthstoneRunState.isActive
-            
-            if self.windowManager.constructedMulliganGuidePreLobby.isVisible {
-                if ((Settings.hideAllWhenGameInBackground && hsActive) || !Settings.hideAllWhenGameInBackground) && Settings.showMulliganGuidePreLobby {
-                    self.windowManager.show(controller: self.windowManager.constructedMulliganGuidePreLobby, show: true, frame: SizeHelper.constructedMulliganGuidePreLobbyFrame(), overlay: true)
-                    DispatchQueue.main.async {
-                        self.windowManager.constructedMulliganGuidePreLobby.updateScaling()
-                    }
-                } else {
-                    self.windowManager.show(controller: self.windowManager.constructedMulliganGuidePreLobby, show: false)
-                }
-            } else {
-                self.windowManager.show(controller: self.windowManager.constructedMulliganGuidePreLobby, show: false)
+            if #available(macOS 10.15, *) {
+                self.windowManager.rootOverlay?.viewModel.mulliganGuidePreLobby.applyVisibility()
             }
         }
     }
@@ -4724,7 +4718,8 @@ class Game: NSObject, PowerEventHandler {
         var token: String?
         if !userOwnsPremium {
             guard let gameType = BnetGameType(rawValue: parameters.game_type),
-                  windowManager.constructedMulliganGuidePreLobby.viewModel.isDeckAvailableForMulliganGuide(gameType: gameType, deckstring: parameters.deckstring) else {
+                  let preLobbyViewModel = mulliganGuidePreLobbyViewModel,
+                  preLobbyViewModel.isDeckAvailableForMulliganGuide(gameType: gameType, deckstring: parameters.deckstring) else {
                 return nil
             }
             guard let acc = MirrorHelper.getAccountId() else {
@@ -4746,20 +4741,25 @@ class Game: NSObject, PowerEventHandler {
         return _mulliganGuideParams
     }
     
+    // The pre-lobby's own view model, which lives on the RootOverlay canvas
+    // with the badges it drives.
+    @available(macOS 10.15, *)
+    private var mulliganGuidePreLobbyViewModel: ConstructedMulliganGuidePreLobbyViewModel? {
+        windowManager.rootOverlay?.viewModel.mulliganGuidePreLobby.viewModel
+    }
+
     @MainActor
     private func showMulliganGuidePreLobby() {
-        windowManager.constructedMulliganGuidePreLobby.isVisible = true
-        let frame = SizeHelper.constructedMulliganGuidePreLobbyFrame()
-        windowManager.show(controller: windowManager.constructedMulliganGuidePreLobby, show: true, frame: frame)
-        DispatchQueue.main.async {
-            self.windowManager.constructedMulliganGuidePreLobby.updateScaling()
+        if #available(macOS 10.15, *) {
+            windowManager.rootOverlay?.viewModel.mulliganGuidePreLobby.isRequested = true
         }
     }
     
     @MainActor
     private func hideMulliganGuidePreLobby() {
-        windowManager.constructedMulliganGuidePreLobby.isVisible = false
-        windowManager.show(controller: windowManager.constructedMulliganGuidePreLobby, show: false)
+        if #available(macOS 10.15, *) {
+            windowManager.rootOverlay?.viewModel.mulliganGuidePreLobby.isRequested = false
+        }
     }
     
     @MainActor
@@ -4856,7 +4856,7 @@ class Game: NSObject, PowerEventHandler {
             showMulliganGuidePreLobby()
             if #available(macOS 10.15.0, *) {
                 Task.detached { [self] in
-                    await windowManager.constructedMulliganGuidePreLobby.viewModel.ensureLoaded()
+                    await mulliganGuidePreLobbyViewModel?.ensureLoaded()
                 }
             }
         } else {
@@ -4874,12 +4874,13 @@ class Game: NSObject, PowerEventHandler {
     }
 
     func setDeckPickerState(_ vft: VisualsFormatType, _ decksList: [CollectionDeckBoxVisual?], _ isModalOpen: Bool) {
-        let vm = windowManager.constructedMulliganGuidePreLobby.viewModel
-        if vm.decksOnPage == nil || decksList != vm.decksOnPage {
-            vm.decksOnPage = decksList
+        if #available(macOS 10.15, *), let vm = mulliganGuidePreLobbyViewModel {
+            if vm.decksOnPage == nil || decksList != vm.decksOnPage {
+                vm.decksOnPage = decksList
+            }
+            vm.visualsFormatType = vft
+            vm.isModalOpen = isModalOpen
         }
-        vm.visualsFormatType = vft
-        vm.isModalOpen = isModalOpen
 
         if #available(macOS 10.15, *), let widgetVm = windowManager.rootOverlay?.viewModel.constructedMulliganPreLobbyWidget {
             widgetVm.isModalOpen = isModalOpen
@@ -4888,7 +4889,9 @@ class Game: NSObject, PowerEventHandler {
     }
 
     func setConstructedQueue(_ inQueue: Bool) {
-        windowManager.constructedMulliganGuidePreLobby.viewModel.isInQueue = inQueue
+        if #available(macOS 10.15, *) {
+            mulliganGuidePreLobbyViewModel?.isInQueue = inQueue
+        }
         if #available(macOS 10.15, *), let widgetVm = windowManager.rootOverlay?.viewModel.constructedMulliganPreLobbyWidget {
             widgetVm.isInQueue = inQueue
         }

@@ -6,6 +6,7 @@
 - The turn timers, the board attack icons and the experience counter now sit where Hearthstone Deck Tracker puts them and are cut away wherever Hearthstone draws over the board, and they can no longer be dragged to a position of their own.
 - Fixed the experience bar never animating the levels gained, playing a burst of animations when Hearthstone briefly misreported the reward track, and being taken away part way through an animation when the scene changed.
 - The mulligan guide used outside Ranked and Friendly now matches Hearthstone Deck Tracker's own, with its hand rank badge, tooltips and translations, and is cut away wherever Hearthstone draws over the board.
+- The mulligan guide badges over the deck boxes in the constructed lobby now sit where Hearthstone Deck Tracker puts them, and a deck whose status is still loading is no longer coloured as though it were ready.
 
 # 3.6.10
 ## Hearthstone
