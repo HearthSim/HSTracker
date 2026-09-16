@@ -26,38 +26,6 @@ import SwiftUI
 
 // MARK: - Registry
 
-// HDT's ToolTipService.Placement, as consumed by its own overlay tooltip system
-// (OverlayExtensions.Tooltip + OverlayWindow.Tooltips.cs) rather than by WPF's:
-// SetTooltip normalizes Top/Bottom/Left and folds everything else - including
-// unset - into Right. So Right is the default here too, matching CardTile.xaml,
-// which attaches a CardTooltip without naming a placement.
-//
-// All four of SetTooltip's normalized directions. The Battlegrounds guides use
-// Left and Right; the card markers over the opponent's hand use Bottom.
-//
-// PlacementMode, over in Logging/Enums, is the same WPF concept modelled a
-// second time for the guides trigger Game.swift positions itself. The two
-// should be one enum.
-enum CardTooltipPlacement {
-    case left
-    case right
-    case top
-    case bottom
-
-    // SetTooltip only ever swaps a placement for the opposite one on the same
-    // axis, so Left and Right never become Top or Bottom.
-    var flipped: CardTooltipPlacement {
-        switch self {
-        case .left: return .right
-        case .right: return .left
-        case .top: return .bottom
-        case .bottom: return .top
-        }
-    }
-
-    var isVertical: Bool { self == .top || self == .bottom }
-}
-
 // Everything the hovered element declares about its tooltip: what
 // CardTooltipViewModel carries (the card and its caption) plus the
 // ToolTipService attached properties SetTooltip reads off the target.

@@ -5305,14 +5305,14 @@ class Game: NSObject, PowerEventHandler {
         let height = frame.height * 0.53
         let width = frame.height * 0.3
         var left = 0.0
-        // vm.Reset() leaves TooltipPlacement at PlacementMode.Top, which is what an unrecognized
-        // zone size falls back to.
-        var tooltipPlacement = PlacementMode.top
+        // vm.Reset() leaves TooltipPlacement at PlacementMode.Top - HDT's own name for this enum -
+        // which is what an unrecognized zone size falls back to.
+        var tooltipPlacement = CardTooltipPlacement.top
 
         switch state.zoneSize {
         case 4:
             left = (0.116 + Double(state.zonePosition) * 0.2) * frame.width
-            tooltipPlacement = state.zonePosition < 2 ? PlacementMode.right : PlacementMode.left
+            tooltipPlacement = state.zonePosition < 2 ? .right : .left
         case 3:
             let centerPosition = 1
             let offsetXScale = 0.2
@@ -5320,13 +5320,13 @@ class Game: NSObject, PowerEventHandler {
             let relativePosition = state.zonePosition - centerPosition
             let offsetX = 0.5 - 0.088 + Double(relativePosition) * offsetXScale
             left = offsetX * frame.width
-            tooltipPlacement = PlacementMode.right
+            tooltipPlacement = .right
         case 2:
             left = state.zonePosition == 0 ? 0.318 * frame.width : 0.518 * frame.width
-            tooltipPlacement = state.zonePosition == 0 ? PlacementMode.left : PlacementMode.right
+            tooltipPlacement = state.zonePosition == 0 ? .left : .right
         case 1:
             left = (0.5 - 0.088) * frame.width
-            tooltipPlacement = PlacementMode.left
+            tooltipPlacement = .left
         default:
             // HDT's switch leaves the trigger at its post-Reset zero size, which can never be
             // hovered, so no tooltip is shown at all.
@@ -5350,23 +5350,25 @@ class Game: NSObject, PowerEventHandler {
             let tooltipWidth = CGFloat(vm.gridWidth)
             let tooltipHeight = CGFloat(vm.gridHeight)
 
-            // Correct placement if tooltip would go outside of window, and it fit on the other side
+            // Correct placement if tooltip would go outside of window, and it fit on the other side.
+            // Each of SetTooltip's four branches swaps for the opposite side on the same axis,
+            // which is what CardTooltipPlacement.flipped does.
             switch tooltipPlacement {
-            case PlacementMode.top:
+            case .top:
                 if top - tooltipHeight < 0.0 && top + height + tooltipHeight <= frame.height {
-                    tooltipPlacement = PlacementMode.bottom
+                    tooltipPlacement = tooltipPlacement.flipped
                 }
-            case PlacementMode.bottom:
+            case .bottom:
                 if top + height + tooltipHeight > frame.height && top - tooltipHeight >= 0.0 {
-                    tooltipPlacement = PlacementMode.top
+                    tooltipPlacement = tooltipPlacement.flipped
                 }
-            case PlacementMode.left:
+            case .left:
                 if left - tooltipWidth < 0.0 && left + width + tooltipWidth <= frame.width {
-                    tooltipPlacement = PlacementMode.right
+                    tooltipPlacement = tooltipPlacement.flipped
                 }
-            case PlacementMode.right:
+            case .right:
                 if left + width + tooltipWidth > frame.width && left - tooltipWidth >= 0.0 {
-                    tooltipPlacement = PlacementMode.left
+                    tooltipPlacement = tooltipPlacement.flipped
                 }
             }
 

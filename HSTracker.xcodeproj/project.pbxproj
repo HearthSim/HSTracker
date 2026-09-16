@@ -1347,7 +1347,7 @@
 		B887656726C3049F003D3629 /* ShortIdHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E7B15262A798000C42EF0 /* ShortIdHelper.swift */; };
 		B887656A26C304FA003D3629 /* BigInt in Frameworks */ = {isa = PBXBuildFile; productRef = B887656926C304FA003D3629 /* BigInt */; };
 		B8889C1B2D9DC6ED0053DD57 /* DiscoverStateWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8889C1A2D9DC6ED0053DD57 /* DiscoverStateWatcher.swift */; };
-		B8889C1D2DA067D90053DD57 /* PlacementMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8889C1C2DA067D90053DD57 /* PlacementMode.swift */; };
+		B8889C1D2DA067D90053DD57 /* CardTooltipPlacement.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8889C1C2DA067D90053DD57 /* CardTooltipPlacement.swift */; };
 		B8889C1F2DA4AAEB0053DD57 /* ImbueCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8889C1E2DA4AAEB0053DD57 /* ImbueCounter.swift */; };
 		B889F6092CEC1CFB001506F4 /* Atomics in Frameworks */ = {isa = PBXBuildFile; productRef = B889F6082CEC1CFB001506F4 /* Atomics */; settings = {ATTRIBUTES = (Required, ); }; };
 		B889F60B2CED5D26001506F4 /* CardsDrawnThisGameCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B889F60A2CED5D26001506F4 /* CardsDrawnThisGameCounter.swift */; };
@@ -3324,7 +3324,7 @@
 		B884B73E2FD8CC2F00D67EED /* ForgeOfSouls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgeOfSouls.swift; sourceTree = "<group>"; };
 		B88595B62CEFDB9900769275 /* libswift_Concurrency.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libswift_Concurrency.tbd; path = usr/lib/swift/libswift_Concurrency.tbd; sourceTree = SDKROOT; };
 		B8889C1A2D9DC6ED0053DD57 /* DiscoverStateWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverStateWatcher.swift; sourceTree = "<group>"; };
-		B8889C1C2DA067D90053DD57 /* PlacementMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacementMode.swift; sourceTree = "<group>"; };
+		B8889C1C2DA067D90053DD57 /* CardTooltipPlacement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTooltipPlacement.swift; sourceTree = "<group>"; };
 		B8889C1E2DA4AAEB0053DD57 /* ImbueCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImbueCounter.swift; sourceTree = "<group>"; };
 		B889F60A2CED5D26001506F4 /* CardsDrawnThisGameCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsDrawnThisGameCounter.swift; sourceTree = "<group>"; };
 		B889F60C2CED6151001506F4 /* CardsDrawnThisTurnCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsDrawnThisTurnCounter.swift; sourceTree = "<group>"; };
@@ -4505,7 +4505,6 @@
 				43F0002F1C81BAE8000F2F8F /* Mode.swift */,
 				439C7E9C1C777F8900D29859 /* Mulligan.swift */,
 				439212141DEF5A5E0017AAE5 /* MultiClassGroup.swift */,
-				B8889C1C2DA067D90053DD57 /* PlacementMode.swift */,
 				B854620E2CDE721F0083BB31 /* PlayerSide.swift */,
 				433554551D62EE1200277B27 /* PlayerType.swift */,
 				439C7E9D1C777F8900D29859 /* PlayState.swift */,
@@ -4815,6 +4814,7 @@
 				B8A1F5002FD50001000A0500 /* Mercenaries */,
 				CC53180EA9D9AC06BCBFED7F /* GuideTooltip.swift */,
 				981DE23C2336148B1CE4DD38 /* OutlinedText.swift */,
+				B8889C1C2DA067D90053DD57 /* CardTooltipPlacement.swift */,
 				B8A1F6012FD60001000A0601 /* FlavorTextView.swift */,
 				B8A1F5052FD50001000A0505 /* OverlayFormattedText.swift */,
 				B8A1F1012FD10001000A0101 /* TurnTimerOverlayView.swift */,
@@ -8818,7 +8818,7 @@
 				3B9F7A24C287A8CD4FA58812 /* ActiveEffectsOverlayView.swift in Sources */,
 				B80B5B312C750895005F4321 /* TrinketProxy.swift in Sources */,
 				4323C5F71E1BE28800C97896 /* BrawlInfo.swift in Sources */,
-				B8889C1D2DA067D90053DD57 /* PlacementMode.swift in Sources */,
+				B8889C1D2DA067D90053DD57 /* CardTooltipPlacement.swift in Sources */,
 				B846CCAE2E1C3B1600552F9C /* PrimalfinChallengerEnchantment.swift in Sources */,
 				B89865782D91AEF000BA5649 /* TrustyFishingRod.swift in Sources */,
 				BCA70F2A1E2C16DD00038A6C /* FileUtils.m in Sources */,
