@@ -167,9 +167,12 @@ struct MercenariesTaskView: View {
         ZStack {
             MercenariesTaskPortrait(card: task.card)
                 .frame(width: Self.portraitImageSize, height: Self.portraitImageSize)
-                // Margin="-5,-5,0,0" on a centred 110x110 child of a 100x100
-                // Grid: WPF centres it in the 105 the negative left margin
-                // leaves, so it lands 2.5 further out again on each axis.
+                // Margin="-5,-5,0,0". The Image's alignment is WPF's default
+                // Stretch, and ComputeAlignmentOffset degenerates Stretch to
+                // Left/Top as soon as the child is bigger than the slot the
+                // margins leave it - 110 against 105 here - so it gets no
+                // centring offset on top of the margin, and the clip ellipse's
+                // centre (55,55) lands dead centre of the 100x100 frame.
                 .offset(x: -Self.portraitOffset, y: -Self.portraitOffset)
 
             Image("merc_frame")
@@ -181,7 +184,7 @@ struct MercenariesTaskView: View {
         .frame(width: Self.portraitBox, height: Self.portraitBox)
     }
 
-    private static let portraitOffset: CGFloat = 7.5
+    private static let portraitOffset: CGFloat = 5
 
     // Measured off-screen at the width the title and description want, which is
     // what the row reports up to the list. Everything else in the row is either
