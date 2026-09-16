@@ -328,16 +328,5 @@ struct SizeHelper {
         return NSRect(x: x, y: trackerFrame.minY + trackerFrame.height - height, width: width, height: height)
     }
     
-    static let cardHudContainerWidth: CGFloat = 400
-    static let cardHudContainerHeight: CGFloat = 90
-    static func cardHudContainerFrame() -> NSRect {
-        let w = SizeHelper.cardHudContainerWidth * hearthstoneWindow.scaleX
-        let h = SizeHelper.cardHudContainerHeight * hearthstoneWindow.scaleY
-        let frame = NSRect(x: (hearthstoneWindow.frame.width / 2) - (w / 2),
-                           y: hearthstoneWindow.frame.height - h,
-                           width: w, height: h)
-        return hearthstoneWindow.relativeFrame(frame, relative: false)
-    }
-    
 
 }

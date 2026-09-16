@@ -496,6 +496,10 @@ struct RootOverlayView: View {
                 // and never painted, as HDT's unfilled Ellipses are - and they
                 // take real, post-scale pixels because OverlayWindow places both
                 // grids with plain fractions of the client size.
+                // HDT declares the ten card markers just ahead of the
+                // MercAbility stack and the board grids on its own canvas.
+                OpponentHandMarkersView(viewModel: viewModel.opponentHandMarkers,
+                                        canvasSize: geometry.size)
                 BoardOverlayView(viewModel: viewModel.boardOverlay, canvasSize: geometry.size)
                 // The MercAbility stack, which HDT declares immediately before
                 // the two board grids on its own canvas.

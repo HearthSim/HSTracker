@@ -91,11 +91,6 @@ class WindowMove: NSWindowController {
                 defaultFrame = NSRect(x: 200,
                         y: SizeHelper.hearthstoneWindow.frame.height - 50,
                         width: CGFloat(kMediumRowHeight), height: 300)
-            } else if window == "Card Hud Container" {
-                currentWindow = windowManager.cardHudContainer.window
-                defaultFrame = NSRect(x: 529.5,
-                        y: SizeHelper.hearthstoneWindow.frame.height - 80,
-                        width: 400, height: 80)
             } else if window == "Full overlay" {
                 currentWindow = overlayWindow
                 var rect = SizeHelper.hearthstoneWindow.frame

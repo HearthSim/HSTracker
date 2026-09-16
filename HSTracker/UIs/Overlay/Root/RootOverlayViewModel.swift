@@ -105,6 +105,9 @@ class RootOverlayViewModel: ObservableObject {
     // edge while a Mercenaries board minion is hovered.
     let mercenariesAbilityHover = MercenariesAbilityHoverViewModel()
 
+    // HDT's Marks0..9, the age badges over the opponent's hand.
+    let opponentHandMarkers = OpponentHandMarkersViewModel()
+
     init() {
         // HDT wires the same reference in OverlayWindow's constructor
         // (BattlegroundsMinionPinningViewModel.CompsGuidesVM = ...): the key

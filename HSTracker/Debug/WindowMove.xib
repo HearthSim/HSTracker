@@ -50,7 +50,6 @@
                             <objectValues>
                                 <string>Secret Tracker</string>
                                 <string>Full overlay</string>
-                                <string>Card Hud Container</string>
                             </objectValues>
                         </comboBoxCell>
                         <connections>

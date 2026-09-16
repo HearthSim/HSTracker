@@ -11,6 +11,7 @@
 - The Mercenaries tasks button and its task list now sit where Hearthstone Deck Tracker puts them, slide in and out as they do there, size themselves to the tasks they show while wrapping a long task description instead of running off the screen, and are cut away wherever Hearthstone draws over the board, and the button's label is now translated.
 - The card flavor text panel now matches Hearthstone Deck Tracker's, with the card name in Hearthstone's own font and stray markup characters no longer showing in the text.
 - Hovering a card in your hand now shows its flavor text, as it does in Hearthstone Deck Tracker, and the Mercenaries ability icons over the board and the ability cards shown when a mercenary is hovered are now drawn and placed the way Hearthstone Deck Tracker draws and places them.
+- The markers over the opponent's hand now sit where Hearthstone Deck Tracker puts them, with the card that created or drew each one shown below the turn badge rather than inside it.
 - Fixed HSTracker quitting on launch while Hearthstone was showing the Black Market, and it no longer quits when Hearthstone adds a screen, minion type, class or rarity it does not know about yet.
 
 # 3.6.10

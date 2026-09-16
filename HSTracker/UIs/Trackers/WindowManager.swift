@@ -76,10 +76,6 @@ class WindowManager {
         return $0
     }(FloatingCard(windowNibName: "FloatingCard"))
     
-    var cardHudContainer: CardHudContainer = {
-        return $0
-    }(CardHudContainer(windowNibName: "CardHudContainer"))
-    
     @available(macOS 10.15, *)
     var tooltipGridCards: RelatedCardsTooltipPanel {
         RelatedCardsTooltipPanel.shared
@@ -118,8 +114,8 @@ class WindowManager {
 		// TODO: use not defered gui instead
         DispatchQueue.main.async { [weak self] in
             self?.secretTracker.window?.orderOut(nil)
-            self?.cardHudContainer.reset()
             if #available(macOS 10.15, *) {
+                self?.rootOverlay?.viewModel.opponentHandMarkers.hide()
                 self?.rootOverlay?.viewModel.boardOverlay.isShown = false
                 self?.rootOverlay?.viewModel.flavorText.hide()
                 self?.tooltipGridCards.hide()

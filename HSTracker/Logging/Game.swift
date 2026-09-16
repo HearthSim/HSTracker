@@ -823,22 +823,23 @@ class Game: NSObject, PowerEventHandler {
         }
     }
 
+    // The opponent hand markers are RootOverlay children now, so there is no
+    // window of their own left to frame: this decides whether they are on screen
+    // and pushes the hand they describe.
     func updateCardHud() {
-        DispatchQueue.main.async { [weak self] in
-            guard let self else {
-                return
-            }
-            
-            let tracker = self.windowManager.cardHudContainer
-            
-            if Settings.showCardHuds && self.shouldShowGUIElement && !self.gameEnded && !self.isBattlegroundsMatch() {
-                tracker.update(entities: self.opponent.hand,
-                               cardCount: self.opponent.handCount, game: self)
-                self.windowManager.show(controller: tracker, show: true,
-                     frame: SizeHelper.cardHudContainerFrame(), title: nil,
-                     overlay: self.hearthstoneRunState.isActive)
-            } else {
-                self.windowManager.show(controller: tracker, show: false)
+        if #available(macOS 10.15, *) {
+            DispatchQueue.main.async { [weak self] in
+                guard let self,
+                      let markers = self.windowManager.rootOverlay?.viewModel.opponentHandMarkers else {
+                    return
+                }
+                if Settings.showCardHuds && self.shouldShowGUIElement && !self.gameEnded && !self.isBattlegroundsMatch() {
+                    markers.isShown = true
+                    markers.update(hand: self.opponent.hand,
+                                   handCount: self.opponent.handCount, game: self)
+                } else {
+                    markers.hide()
+                }
             }
         }
     }
