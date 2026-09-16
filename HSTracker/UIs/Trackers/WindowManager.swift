@@ -76,46 +76,6 @@ class WindowManager {
         return $0
     }(FloatingCard(windowNibName: "FloatingCard"))
     
-    var floatingCard3: FloatingCard = {
-        if let fWindow = $0.window {
-            
-            fWindow.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(CGWindowLevelKey.mainMenuWindow)) - 1)
-            
-            if Settings.canJoinFullscreen {
-                fWindow.collectionBehavior = [NSWindow.CollectionBehavior.canJoinAllSpaces, NSWindow.CollectionBehavior.fullScreenAuxiliary]
-            } else {
-                fWindow.collectionBehavior = []
-            }
-            
-            fWindow.styleMask = [.borderless, .nonactivatingPanel]
-            fWindow.ignoresMouseEvents = true
-            
-            fWindow.orderFront(nil)
-            fWindow.orderOut(nil)
-        }
-        return $0
-    }(FloatingCard(windowNibName: "FloatingCard"))
-
-    var floatingCard2: FloatingCard = {
-        if let fWindow = $0.window {
-            
-            fWindow.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(CGWindowLevelKey.mainMenuWindow)) - 1)
-            
-            if Settings.canJoinFullscreen {
-                fWindow.collectionBehavior = [NSWindow.CollectionBehavior.canJoinAllSpaces, NSWindow.CollectionBehavior.fullScreenAuxiliary]
-            } else {
-                fWindow.collectionBehavior = []
-            }
-            
-            fWindow.styleMask = [.borderless, .nonactivatingPanel]
-            fWindow.ignoresMouseEvents = true
-            
-            fWindow.orderFront(nil)
-            fWindow.orderOut(nil)
-        }
-        return $0
-    }(FloatingCard(windowNibName: "FloatingCard"))
-
     var cardHudContainer: CardHudContainer = {
         return $0
     }(CardHudContainer(windowNibName: "CardHudContainer"))
@@ -182,15 +142,7 @@ class WindowManager {
                     return
             }
             
-            var floatingCard = self.floatingCard
-            if let index = notification.userInfo?["index"] as? Int {
-                if index == 1 {
-                    floatingCard = self.floatingCard2
-                } else if index == 2 {
-                    floatingCard = self.floatingCard3
-                }
-            }
-            
+            let floatingCard = self.floatingCard
             let useFrame = notification.userInfo?["useFrame"] as? Bool ?? false
 
             if let bgs = notification.userInfo?["battlegrounds"] as? Bool, bgs {
@@ -229,18 +181,12 @@ class WindowManager {
                 fWindow.orderFront(nil)
             }
             
-            var disableTimeout = false
-            if let dt = notification.userInfo?["disableTimeout"] as? Bool, dt {
-                disableTimeout = true
-            }
-            if !disableTimeout {
-                self.closeRequestTimer = Timer.scheduledTimer(
-                    timeInterval: 3,
-                    target: self,
-                    selector: #selector(self.forceHideFloatingCard),
-                    userInfo: nil,
-                    repeats: false)
-            }
+            self.closeRequestTimer = Timer.scheduledTimer(
+                timeInterval: 3,
+                target: self,
+                selector: #selector(self.forceHideFloatingCard),
+                userInfo: nil,
+                repeats: false)
         }
     }
 
@@ -264,8 +210,6 @@ class WindowManager {
                 return
             }
             self.floatingCard.window?.orderOut(self)
-            self.floatingCard2.window?.orderOut(self)
-            self.floatingCard3.window?.orderOut(self)
             self.closeRequestTimer?.invalidate()
             self.closeRequestTimer = nil
             if #available(macOS 10.15, *) {
