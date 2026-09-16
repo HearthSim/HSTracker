@@ -176,7 +176,7 @@ class Database {
         case GameTag.overload.rawValue:
             currentCard?.overload = intValue
         case GameTag.rarity.rawValue:
-            currentCard?.rarity = Rarity.allCases[intValue]
+            currentCard?.rarity = Rarity.allCases[safeIndex: intValue] ?? .invalid
         case GameTag.collectible.rawValue:
             currentCard?.collectible = intValue > 0
         case GameTag.tech_level.rawValue:
@@ -195,11 +195,11 @@ class Database {
         case GameTag.cardtype.rawValue:
             currentCard?.type = CardType(rawValue: intValue) ?? .invalid
         case GameTag.class.rawValue:
-            currentCard?.playerClass = CardClass.allCases[intValue]
+            currentCard?.playerClass = CardClass.allCases[safeIndex: intValue] ?? .invalid
         case GameTag.cardrace.rawValue:
-            let race = Race.allCases[intValue]
+            let race = Race.allCases[safeIndex: intValue] ?? .invalid
             currentCard?.race = race
-            currentCard?.races.append(Race.allCases[intValue])
+            currentCard?.races.append(race)
         case GameTag.multi_class_group.rawValue:
             currentCard?.multiClassGroup = MultiClassGroup(rawValue: intValue) ?? .invalid
         case GameTag.lettuce_cooldown_config.rawValue:

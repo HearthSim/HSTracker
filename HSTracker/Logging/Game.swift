@@ -1304,7 +1304,7 @@ class Game: NSObject, PowerEventHandler {
     var availableRaces: [Race]? {
         if _availableRaces == nil {
             if let races = MirrorHelper.getAvailableBattlegroundsRaces() {
-                let newRaces = races.compactMap({ x in x.intValue > 0 && x.intValue < Race.allCases.count ? Race.allCases[x.intValue] : nil })
+                let newRaces = races.compactMap({ x in x.intValue > 0 ? Race.allCases[safeIndex: x.intValue] : nil })
                 logger.info("Battlegrounds available races: \(newRaces) - from mirror \(races)")
                 if newRaces.count > 0 && newRaces.count == races.count {
                     _availableRaces = newRaces

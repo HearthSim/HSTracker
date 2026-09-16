@@ -322,7 +322,7 @@ class PowerGameStateParser: LogEventParser {
                     // static race misses a minion made a Mech by an enchantment (Amalgamation);
                     // the live CARDRACE tag carries that one.
                     let liveRaceValue = deadMinion[GameTag.cardrace]
-                    let liveRace = liveRaceValue >= 0 && liveRaceValue < Race.allCases.count ? Race.allCases[liveRaceValue] : Race.invalid
+                    let liveRace = Race.allCases[safeIndex: liveRaceValue] ?? Race.invalid
                     if deadMinion.card.isMech() || deadMinion.card.isAllRace() || liveRace == .mechanical || liveRace == .all {
                         let isGolden = cardId == CardIds.NonCollectible.Neutral.AncestralAutomaton_AncestralAutomaton
                         let sourceZone = deadMinion[GameTag.zone]

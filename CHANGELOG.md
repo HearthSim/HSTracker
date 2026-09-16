@@ -9,6 +9,7 @@
 - The mulligan guide badges over the deck boxes in the constructed lobby now sit where Hearthstone Deck Tracker puts them, and a deck whose status is still loading is no longer coloured as though it were ready.
 - Added the Find Meta Decks button to the constructed lobby, which opens HSReplay's deck list for the format being played.
 - The Mercenaries tasks button and its task list now sit where Hearthstone Deck Tracker puts them, slide in and out as they do there, size themselves to the tasks they show while wrapping a long task description instead of running off the screen, and are cut away wherever Hearthstone draws over the board, and the button's label is now translated.
+- Fixed HSTracker quitting on launch while Hearthstone was showing the Black Market, and it no longer quits when Hearthstone adds a screen, minion type, class or rarity it does not know about yet.
 
 # 3.6.10
 ## Hearthstone

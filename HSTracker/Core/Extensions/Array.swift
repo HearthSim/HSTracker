@@ -114,3 +114,15 @@ extension Array where Element: Equatable {
         }
     }
 }
+
+extension Array {
+    /// Bounds-checked lookup, for indices that come from outside HSTracker - a
+    /// value read out of game memory, a tag in the card XML, or a field in an
+    /// HSReplay response. Those can always name something Hearthstone knows
+    /// about and we do not, and `self[index]` traps when they do (issue #1445,
+    /// where scene mode 29 - the Black Market added in 36.6 - ran off the end of
+    /// `Mode.allCases` and crashed the app on launch).
+    subscript(safeIndex index: Int) -> Element? {
+        indices.contains(index) ? self[index] : nil
+    }
+}

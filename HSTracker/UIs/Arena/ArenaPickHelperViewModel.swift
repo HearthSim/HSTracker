@@ -574,8 +574,8 @@ final class ArenaPickHelperViewModel: ObservableObject {
         for entry in response.data {
             // deck_class is HearthDb's numeric CardClass, whose order HSTracker's
             // CardClass enum matches case for case.
-            if entry.deck_class >= 0 && entry.deck_class < CardClass.allCases.count {
-                byClass[CardClass.allCases[entry.deck_class]] = entry
+            if let cardClass = CardClass.allCases[safeIndex: entry.deck_class] {
+                byClass[cardClass] = entry
             }
         }
         return choices.map { choice in
@@ -786,8 +786,8 @@ final class ArenaPickHelperViewModel: ObservableObject {
                          : heroPowerStats?[safeIndex: choice.index])
             let className = stats.flatMap { model -> String? in
                 guard let deckClass = model.data?.deck_class,
-                      deckClass >= 0, deckClass < CardClass.allCases.count else { return nil }
-                return CardClass.allCases[deckClass].rawValue.capitalized
+                      let cardClass = CardClass.allCases[safeIndex: deckClass] else { return nil }
+                return cardClass.rawValue.capitalized
             } ?? ""
             bottomPanelCards = (stats?.classDeckSignatureCardIds ?? []).compactMap { Cards.by(cardId: $0) }
             bottomPanelTitle = "\(className) – \(String.localizedString("ArenaPick_ClassTopCards", comment: ""))"
@@ -929,13 +929,5 @@ final class ArenaPickHelperViewModel: ObservableObject {
 
     private var gameType: Int {
         (isUnderground ? BnetGameType.bgt_underground_arena : BnetGameType.bgt_arena).rawValue
-    }
-}
-
-extension Array {
-    /// Bounds-checked lookup - the hovered choice index comes from game memory and
-    /// can outrun a stats array that is still being replaced.
-    subscript(safeIndex index: Int) -> Element? {
-        indices.contains(index) ? self[index] : nil
     }
 }

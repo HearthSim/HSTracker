@@ -23,3 +23,13 @@ type_name:
     warning: 128
     error: 132
 
+custom_rules:
+  unchecked_allcases_index:
+    name: "Unchecked allCases index"
+    regex: 'allCases\[(?!safeIndex:)'
+    message: "Index allCases with [safeIndex:] and supply a fallback. A raw index straight from Hearthstone traps as soon as the client knows an enum value we do not - see issue #1445, where the Black Market scene added in 36.6 crashed HSTracker on launch."
+    excluded_match_kinds:
+      - comment
+      - doccomment
+      - string
+    severity: error

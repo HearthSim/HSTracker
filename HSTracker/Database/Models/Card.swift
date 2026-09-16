@@ -284,8 +284,7 @@ final class Card {
         var cardClass = 1
         var multipleClasses = self.multipleClasses
         while multipleClasses != 0 {
-            if 1 == (multipleClasses & 1) {
-                let cardClass = CardClass.allCases[cardClass]
+            if 1 == (multipleClasses & 1), let cardClass = CardClass.allCases[safeIndex: cardClass] {
                 classes.append(cardClass)
             }
             multipleClasses >>= 1
@@ -306,7 +305,7 @@ final class Card {
         if !isTourist {
             return nil
         }
-        return CardClass.allCases[tourist]
+        return CardClass.allCases[safeIndex: tourist]
     }
     
     func getTouristVisitClass() -> CardClass? {
