@@ -25,6 +25,18 @@ final class Card {
     var collectible = false
     var cost = 0
     var flavor = ""
+
+    // HDT's Card.FormattedFlavorText, which is CleanUpText(flavor, replaceTags:
+    // false): the game's own markup characters come out, but the <b>/<i> tags
+    // deliberately stay in - the flavor text panel renders them (see
+    // OverlayFormattedText), unlike the card text, which HDT strips them from.
+    var formattedFlavorText: String {
+        flavor
+            .replacingOccurrences(of: "$", with: "")
+            .replacingOccurrences(of: "#", with: "")
+            .replacingOccurrences(of: "\\n", with: "\n")
+            .replacingOccurrences(of: "[x]", with: "")
+    }
     var health = 0
     var attack = 0
     var overload = 0

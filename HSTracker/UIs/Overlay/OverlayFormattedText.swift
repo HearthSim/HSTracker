@@ -1,34 +1,41 @@
 //
-//  MercenariesTaskDescription.swift
+//  OverlayFormattedText.swift
 //  HSTracker
 //
-//  Created by Francisco Moraes on 9/15/26.
+//  Created by Francisco Moraes on 9/16/26.
 //  Copyright © 2026 Benjamin Michotte. All rights reserved.
 //
 
 import SwiftUI
 
-// Task descriptions come out of the mirror as Hearthstone's own card-text
-// markup - `<b>`/`<i>` runs, `<br>` breaks and HTML entities - which HDT's
-// plain `<TextBlock Text="{Binding Description}"/>` shows verbatim, tags and
-// all. The AppKit row did not: it ran the string through
-// String.htmlToAttributedString and drew the result, so the markup rendered.
-// That behaviour is kept here rather than regressed to HDT's, and this is the
-// SwiftUI-side replacement for it: NSAttributedString can't be handed to a
-// SwiftUI Text before macOS 12, so the same small subset is parsed into styled
-// runs and concatenated instead.
+// HDT's AttachedFormattedString, which turns the <b>/<i> runs Hearthstone
+// leaves in its own strings into styled inline runs. HDT attaches it to the
+// flavor text TextBlock on the overlay canvas; this port uses it there and for
+// the Mercenaries task descriptions, whose AppKit row ran the same markup
+// through String.htmlToAttributedString. NSAttributedString cannot be handed to
+// a SwiftUI Text before macOS 12, so the markup is parsed into styled runs and
+// concatenated instead.
+//
+// A slight superset of HDT's parser, which only ever sees <b> and <i>: <br> and
+// the handful of HTML entities the AppKit path decoded are handled too, so
+// neither caller can end up showing a user a raw tag.
 @available(macOS 10.15, *)
-enum MercenariesTaskDescription {
+enum OverlayFormattedText {
     struct Run {
         var text: String
         var bold: Bool
         var italic: Bool
     }
 
-    static func text(_ html: String, size: CGFloat) -> Text {
+    // `weight` is what an unbolded run renders at - HDT's flavor text TextBlock
+    // carries FontWeight="SemiBold", and a <b> run inside it still goes to Bold.
+    // It has to be threaded through here rather than chained onto the result:
+    // every run sets its own font, and a .fontWeight() applied to the finished
+    // concatenation does not reach back into them.
+    static func text(_ html: String, size: CGFloat, weight: Font.Weight = .regular) -> Text {
         runs(html).reduce(Text(verbatim: "")) { result, run in
             var piece = Text(verbatim: run.text)
-                .font(.system(size: size, weight: run.bold ? .bold : .regular))
+                .font(.system(size: size, weight: run.bold ? .bold : weight))
             if run.italic {
                 piece = piece.italic()
             }

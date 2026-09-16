@@ -93,6 +93,10 @@ class RootOverlayViewModel: ObservableObject {
     // pair of icons.
     let experienceCounter = ExperienceCounterViewModel()
 
+    // HDT's GridFlavorText, the parchment panel a hovered card's flavor text is
+    // drawn on.
+    let flavorText = FlavorTextViewModel()
+
     init() {
         // HDT wires the same reference in OverlayWindow's constructor
         // (BattlegroundsMinionPinningViewModel.CompsGuidesVM = ...): the key

@@ -380,16 +380,6 @@ struct SizeHelper {
         return result
     }
     
-    static func flavorTextFrame() -> NSRect {
-        let hs = hearthstoneWindow.frame
-        
-        let ft = AppDelegate.instance().coreManager.game.windowManager.flavorText.window?.frame ?? NSRect.zero
-        let w = ft.width
-        let h = ft.height
-        let frame = NSRect(x: hs.maxX - w - 10.0, y: hs.minY + 10.0, width: w, height: h)
-        return frame
-    }
-    
     static let cardHudContainerWidth: CGFloat = 400
     static let cardHudContainerHeight: CGFloat = 90
     static func cardHudContainerFrame() -> NSRect {

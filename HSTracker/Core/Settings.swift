@@ -673,6 +673,19 @@ final class Settings {
         return language == .ruRU
     }
 
+    // Helper.UseLatinFont() / Helper.LatinLanguages: the card languages HDT
+    // renders card names in Chunkfive for, falling back to the system font in
+    // bold for the rest. Polish and Russian are on the fallback side upstream
+    // even though only one of the two is a non-Latin script, so the list is
+    // carried over as HDT writes it rather than derived from the script.
+    // (HDT's enGB has no counterpart in HSTracker's language list.)
+    static var usesLatinCardFont: Bool {
+        guard let language = hearthstoneLanguage else { return true }
+
+        let latinLanguages: [Language.Hearthstone] = [.enUS, .frFR, .deDE, .itIT, .ptBR, .esMX, .esES]
+        return latinLanguages.contains(language)
+    }
+
     static var isSimplifiedChinese: Bool {
         guard let language = hearthstoneLanguage else { return false }
 

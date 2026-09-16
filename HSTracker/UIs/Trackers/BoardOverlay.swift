@@ -109,40 +109,16 @@ class BoardMinionView: NSView {
     }
     
     private func setFlavorTextEntity(entity: Entity) {
-        guard Settings.showFlavorText else {
-            return
+        // The flavor text panel is a RootOverlay child now, so this hands the
+        // entity over the way HDT's own hover detection does - everything the
+        // old code did by hand here (resolving the card, formatting the text,
+        // framing and showing a window) lives in the view model and the view.
+        if #available(macOS 10.15, *) {
+            AppDelegate.instance().coreManager.game.windowManager
+                .rootOverlay?.viewModel.flavorText.setEntity(entity)
         }
-        let card = entity.info.latestCardId == entity.cardId
-            ? entity.card : Cards.any(byId: entity.info.latestCardId)
-        guard let card = card else {
-            return
-        }
-        if card.flavor.isEmpty {
-            return
-        }
-        guard let font = NSFont(name: "ChunkFive", size: 14.0), let font12 = NSFont(name: "ChunkFive", size: 12.0) else {
-            return
-        }
-        let game = AppDelegate.instance().coreManager.game
-        let flavorWindow = game.windowManager.flavorText
-        guard flavorWindow.flavorTextLabel != nil else {
-            return
-        }
-        let style = NSMutableParagraphStyle()
-        style.alignment = NSTextAlignment.center
-
-        let str = card.flavor.htmlToAttributedString ?? NSMutableAttributedString()
-        str.addAttribute(.paragraphStyle, value: style, range: NSRange(location: 0, length: str.length))
-        str.addAttribute(.font, value: font12, range: NSRange(location: 0, length: str.length))
-        flavorWindow.flavorTextLabel.cell = VerticallyAlignedTextFieldCell()
-        flavorWindow.flavorTextLabel.attributedStringValue = str
-        flavorWindow.flavorTextLabel.textColor = .black
-        let cardNameStr = NSMutableAttributedString(string: card.name, attributes: [NSAttributedString.Key.strokeWidth: -4.0, NSAttributedString.Key.strokeColor: NSColor.black, NSAttributedString.Key.foregroundColor: NSColor.white, NSAttributedString.Key.font: font, NSAttributedString.Key.paragraphStyle: style])
-        flavorWindow.cardNameLabel.attributedStringValue = cardNameStr
-        let rect = SizeHelper.flavorTextFrame()
-        game.windowManager.show(controller: flavorWindow, show: true, frame: rect, title: nil, overlay: true)
     }
-    
+
     var delayedTooltip: DelayedTooltip?
     
     private func tooltipDisplay(_ userInfo: Any?) {
@@ -221,7 +197,9 @@ class BoardMinionView: NSView {
         clearMercHover()
         let game = AppDelegate.instance().coreManager.game
         if !game.isMercenariesMatch() {
-            game.windowManager.show(controller: game.windowManager.flavorText, show: false)
+            if #available(macOS 10.15, *) {
+                game.windowManager.rootOverlay?.viewModel.flavorText.hide()
+            }
         }
     }
 }

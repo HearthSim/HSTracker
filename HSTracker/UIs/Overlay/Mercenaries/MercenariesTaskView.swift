@@ -143,7 +143,7 @@ struct MercenariesTaskView: View {
     }
 
     private var descriptionText: some View {
-        MercenariesTaskDescription.text(task.description, size: Self.descriptionFontSize)
+        OverlayFormattedText.text(task.description, size: Self.descriptionFontSize)
             .foregroundColor(.white)
             .fixedSize(horizontal: false, vertical: true)
     }

@@ -57,10 +57,6 @@ class WindowManager {
         return $0
     }(BoardOverlay(windowNibName: "BoardOverlay"))
     
-    var flavorText: FlavorText = {
-        return $0
-    }(FlavorText(windowNibName: "FlavorText"))
-    
     private var _rootOverlay: Any?
     @available(OSX 10.15, *)
     var rootOverlay: RootOverlayWindow? {
@@ -175,8 +171,8 @@ class WindowManager {
             self?.cardHudContainer.reset()
             self?.playerBoardOverlay.window?.orderOut(nil)
             self?.opponentBoardOverlay.window?.orderOut(nil)
-            self?.flavorText.window?.orderOut(nil)
             if #available(macOS 10.15, *) {
+                self?.rootOverlay?.viewModel.flavorText.hide()
                 self?.tooltipGridCards.hide()
                 RelatedCardsBrowserPanel.shared.hide()
             }

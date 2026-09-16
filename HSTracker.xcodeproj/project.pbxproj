@@ -988,8 +988,6 @@
 		B82238C22BFD399300B405D4 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82238C12BFD399300B405D4 /* Task.swift */; };
 		B8230B912C8A84A5008CBEEB /* GameInfoHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8230B902C8A84A5008CBEEB /* GameInfoHandler.swift */; };
 		B8230B942C8BE125008CBEEB /* IHsChoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8230B932C8BE125008CBEEB /* IHsChoice.swift */; };
-		B823E801275FB89400747CAF /* FlavorText.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88364FB275D746D0094D8E1 /* FlavorText.swift */; };
-		B823E802275FB89900747CAF /* FlavorText.xib in Resources */ = {isa = PBXBuildFile; fileRef = B88364F9275D6FE10094D8E1 /* FlavorText.xib */; };
 		B825F7922EDB6B3C00032E75 /* ShroudOfConcealment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B825F7912EDB6B3C00032E75 /* ShroudOfConcealment.swift */; };
 		B825F7972EDF874300032E75 /* AllYouCanEat.swift in Sources */ = {isa = PBXBuildFile; fileRef = B825F7962EDF874300032E75 /* AllYouCanEat.swift */; };
 		B82901ED2F0C1098002F96FB /* TimelineAccelerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82901EC2F0C1098002F96FB /* TimelineAccelerator.swift */; };
@@ -1354,8 +1352,6 @@
 		B88339772E71053D007D9754 /* HolyEggbearer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88339762E71053D007D9754 /* HolyEggbearer.swift */; };
 		B883397B2E7105C1007D9754 /* CostumeMerchant.swift in Sources */ = {isa = PBXBuildFile; fileRef = B883397A2E7105C1007D9754 /* CostumeMerchant.swift */; };
 		B883397D2E7106DD007D9754 /* PossessedAnimancer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B883397C2E7106DD007D9754 /* PossessedAnimancer.swift */; };
-		B88364FA275D6FE10094D8E1 /* FlavorText.xib in Resources */ = {isa = PBXBuildFile; fileRef = B88364F9275D6FE10094D8E1 /* FlavorText.xib */; };
-		B88364FC275D746D0094D8E1 /* FlavorText.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88364FB275D746D0094D8E1 /* FlavorText.swift */; };
 		B884B73F2FD8CC2F00D67EED /* ForgeOfSouls.swift in Sources */ = {isa = PBXBuildFile; fileRef = B884B73E2FD8CC2F00D67EED /* ForgeOfSouls.swift */; };
 		B887656726C3049F003D3629 /* ShortIdHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E7B15262A798000C42EF0 /* ShortIdHelper.swift */; };
 		B887656A26C304FA003D3629 /* BigInt in Frameworks */ = {isa = PBXBuildFile; productRef = B887656926C304FA003D3629 /* BigInt */; };
@@ -2000,9 +1996,10 @@
 		D49F499AA6AEFD2B0CD2C9FC /* BattlegroundsHeroGuidesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFADC808A9C0FDF14DD7DDB1 /* BattlegroundsHeroGuidesViewModel.swift */; };
 		D4A5138D3DE8CE1FFCC9C339 /* OutlinedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981DE23C2336148B1CE4DD38 /* OutlinedText.swift */; };
 		B8A1F1022FD10001000A0102 /* TurnTimerOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F1012FD10001000A0101 /* TurnTimerOverlayView.swift */; };
+		B8A1F6022FD60001000A0602 /* FlavorTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F6012FD60001000A0601 /* FlavorTextView.swift */; };
 		B8A1F5022FD50001000A0502 /* MercenariesTaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F5012FD50001000A0501 /* MercenariesTaskViewModel.swift */; };
 		B8A1F5042FD50001000A0504 /* MercenariesTaskListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F5032FD50001000A0503 /* MercenariesTaskListViewModel.swift */; };
-		B8A1F5062FD50001000A0506 /* MercenariesTaskDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F5052FD50001000A0505 /* MercenariesTaskDescription.swift */; };
+		B8A1F5062FD50001000A0506 /* OverlayFormattedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F5052FD50001000A0505 /* OverlayFormattedText.swift */; };
 		B8A1F5082FD50001000A0508 /* MercenariesTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F5072FD50001000A0507 /* MercenariesTaskView.swift */; };
 		B8A1F5102FD50001000A0510 /* MercenariesTaskListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F5092FD50001000A0509 /* MercenariesTaskListView.swift */; };
 		B8A1F5122FD50001000A0512 /* MercenariesTaskListButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F5112FD50001000A0511 /* MercenariesTaskListButtonView.swift */; };
@@ -2831,9 +2828,10 @@
 		97E7491681CCBF41C0C2536F /* Perjury.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Perjury.swift; sourceTree = "<group>"; };
 		981DE23C2336148B1CE4DD38 /* OutlinedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlinedText.swift; sourceTree = "<group>"; };
 		B8A1F1012FD10001000A0101 /* TurnTimerOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnTimerOverlayView.swift; sourceTree = "<group>"; };
+		B8A1F6012FD60001000A0601 /* FlavorTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlavorTextView.swift; sourceTree = "<group>"; };
 		B8A1F5012FD50001000A0501 /* MercenariesTaskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MercenariesTaskViewModel.swift; sourceTree = "<group>"; };
 		B8A1F5032FD50001000A0503 /* MercenariesTaskListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MercenariesTaskListViewModel.swift; sourceTree = "<group>"; };
-		B8A1F5052FD50001000A0505 /* MercenariesTaskDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MercenariesTaskDescription.swift; sourceTree = "<group>"; };
+		B8A1F5052FD50001000A0505 /* OverlayFormattedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayFormattedText.swift; sourceTree = "<group>"; };
 		B8A1F5072FD50001000A0507 /* MercenariesTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MercenariesTaskView.swift; sourceTree = "<group>"; };
 		B8A1F5092FD50001000A0509 /* MercenariesTaskListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MercenariesTaskListView.swift; sourceTree = "<group>"; };
 		B8A1F5112FD50001000A0511 /* MercenariesTaskListButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MercenariesTaskListButtonView.swift; sourceTree = "<group>"; };
@@ -3321,8 +3319,6 @@
 		B88339762E71053D007D9754 /* HolyEggbearer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolyEggbearer.swift; sourceTree = "<group>"; };
 		B883397A2E7105C1007D9754 /* CostumeMerchant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostumeMerchant.swift; sourceTree = "<group>"; };
 		B883397C2E7106DD007D9754 /* PossessedAnimancer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PossessedAnimancer.swift; sourceTree = "<group>"; };
-		B88364F9275D6FE10094D8E1 /* FlavorText.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FlavorText.xib; sourceTree = "<group>"; };
-		B88364FB275D746D0094D8E1 /* FlavorText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlavorText.swift; sourceTree = "<group>"; };
 		B884B73E2FD8CC2F00D67EED /* ForgeOfSouls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgeOfSouls.swift; sourceTree = "<group>"; };
 		B88595B62CEFDB9900769275 /* libswift_Concurrency.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libswift_Concurrency.tbd; path = usr/lib/swift/libswift_Concurrency.tbd; sourceTree = SDKROOT; };
 		B8889C1A2D9DC6ED0053DD57 /* DiscoverStateWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverStateWatcher.swift; sourceTree = "<group>"; };
@@ -4580,8 +4576,6 @@
 				43B695641C920BD500F4D0AC /* CardList.xib */,
 				B89C9895280C610C005E9315 /* DeckLens.swift */,
 				B87765CC2BB9AE7F003BE49D /* DeckSideboards.swift */,
-				B88364FB275D746D0094D8E1 /* FlavorText.swift */,
-				B88364F9275D6FE10094D8E1 /* FlavorText.xib */,
 				432B60321CB69FA600B05D19 /* FloatingCard.swift */,
 				432B60341CB6A8CC00B05D19 /* FloatingCard.xib */,
 				BC90FD0A1D97F81B00BAFC0D /* GraveyardCounter.swift */,
@@ -4790,7 +4784,6 @@
 			children = (
 				B8A1F5012FD50001000A0501 /* MercenariesTaskViewModel.swift */,
 				B8A1F5032FD50001000A0503 /* MercenariesTaskListViewModel.swift */,
-				B8A1F5052FD50001000A0505 /* MercenariesTaskDescription.swift */,
 				B8A1F5072FD50001000A0507 /* MercenariesTaskView.swift */,
 				B8A1F5092FD50001000A0509 /* MercenariesTaskListView.swift */,
 				B8A1F5112FD50001000A0511 /* MercenariesTaskListButtonView.swift */,
@@ -4806,6 +4799,8 @@
 				B8A1F5002FD50001000A0500 /* Mercenaries */,
 				CC53180EA9D9AC06BCBFED7F /* GuideTooltip.swift */,
 				981DE23C2336148B1CE4DD38 /* OutlinedText.swift */,
+				B8A1F6012FD60001000A0601 /* FlavorTextView.swift */,
+				B8A1F5052FD50001000A0505 /* OverlayFormattedText.swift */,
 				B8A1F1012FD10001000A0101 /* TurnTimerOverlayView.swift */,
 				B8A1F1032FD10001000A0103 /* BoardAttackIconView.swift */,
 				B8A1F1052FD10001000A0105 /* ExperienceCounterView.swift */,
@@ -6954,7 +6949,6 @@
 				B8BA17DA28EFC8F8004D40ED /* LinkOpponentDeckPanel.xib in Resources */,
 				432B5FC51CB5374100B05D19 /* EditDeck.xib in Resources */,
 				432B5FC81CB5374600B05D19 /* NewDeck.xib in Resources */,
-				B88364FA275D6FE10094D8E1 /* FlavorText.xib in Resources */,
 				432B5FB91CB5372C00B05D19 /* GeneralPreferences.xib in Resources */,
 				43050C621E6B484D007600EA /* Hearthstone.xcassets in Resources */,
 				B8AA20072FC2000100AA2007 /* ArenaPreferences.xib in Resources */,
@@ -7008,7 +7002,6 @@
 				B8FA0C0100000008000000A8 /* TheOutfinderPreferences.xib in Resources */,
 				43640BE11E89A25F00FAFD07 /* Resources in Resources */,
 				B85A0D582730370D006D2648 /* BoardOverlay.xib in Resources */,
-				B823E802275FB89900747CAF /* FlavorText.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7617,7 +7610,6 @@
 				B8AB599A2744145B00383EC8 /* Collection.swift in Sources */,
 				B86D8A002D95F3A700AB65A5 /* FinjaTheFlyingStar.swift in Sources */,
 				B82029492CD2D2C200C19A8C /* ForebodingFlameEnchantment.swift in Sources */,
-				B88364FC275D746D0094D8E1 /* FlavorText.swift in Sources */,
 				B8AC9A1E293CE51B0047F438 /* BattlegroundsSingleHeroViewModel.swift in Sources */,
 				F359F02409924D6B9E3ADBB6 /* BattlegroundsSingleHeroStatsView.swift in Sources */,
 				B898656A2D8E16EE00BA5649 /* BargainBin.swift in Sources */,
@@ -8890,9 +8882,10 @@
 				EC68F5A0821EEF29C71FA2E4 /* GuideTooltip.swift in Sources */,
 				D4A5138D3DE8CE1FFCC9C339 /* OutlinedText.swift in Sources */,
 				B8A1F1022FD10001000A0102 /* TurnTimerOverlayView.swift in Sources */,
+				B8A1F6022FD60001000A0602 /* FlavorTextView.swift in Sources */,
 				B8A1F5022FD50001000A0502 /* MercenariesTaskViewModel.swift in Sources */,
 				B8A1F5042FD50001000A0504 /* MercenariesTaskListViewModel.swift in Sources */,
-				B8A1F5062FD50001000A0506 /* MercenariesTaskDescription.swift in Sources */,
+				B8A1F5062FD50001000A0506 /* OverlayFormattedText.swift in Sources */,
 				B8A1F5082FD50001000A0508 /* MercenariesTaskView.swift in Sources */,
 				B8A1F5102FD50001000A0510 /* MercenariesTaskListView.swift in Sources */,
 				B8A1F5122FD50001000A0512 /* MercenariesTaskListButtonView.swift in Sources */,

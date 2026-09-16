@@ -491,6 +491,12 @@ struct RootOverlayView: View {
                 // never by the client's resolution.
                 BattlegroundsSessionOverlayView(viewModel: viewModel.battlegroundsSession,
                                                 canvasSize: geometry.size)
+                // Last of all, because GridFlavorText is the one child HDT gives
+                // a Panel.ZIndex (5) on its canvas - everything else is at the
+                // default 0, so the flavor text draws over the lot. It belongs
+                // in this fixed-pixel layer for the usual reason: nothing ever
+                // gives it a ScaleTransform.
+                FlavorTextView(viewModel: viewModel.flavorText, canvasSize: geometry.size)
                 // Future SwiftUI overlay features attach here as additional children.
 
             }
