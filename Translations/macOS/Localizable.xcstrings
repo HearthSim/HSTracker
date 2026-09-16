@@ -8502,41 +8502,6 @@
         }
       }
     },
-    "BattlegroundsPreLobby_SaleTag" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Angebot!"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sale!"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "할인!"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Promoção!"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "促销！"
-          }
-        }
-      }
-    },
     "BattlegroundsPreLobby_SaleTooltip_Title" : {
       "extractionState" : "manual",
       "localizations" : {
