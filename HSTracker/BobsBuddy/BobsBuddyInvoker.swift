@@ -1390,14 +1390,6 @@ class BobsBuddyInvoker {
             logger.info("pBeastAttack=\(inputPlayer.beastAttackBonus), pBeastHealth=\(inputPlayer.beastHealthBonus), friendly=\(friendly)")
         }
 
-        // Fang Anklet: a ghost board appears to accumulate the Fangs Out enchantment from the prior player.
-        if !friendly && inputPlayer.heroIsKelThuzad {
-            if let pFangAnklet = playerAttached.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.FangAnklet_FangAnkletPlayerEnchantDnt }) {
-                inputPlayer.beastAttackBonus += Int32(pFangAnklet[.tag_script_data_num_1]) // attached
-                inputPlayer.beastHealthBonus += Int32(pFangAnklet[.tag_script_data_num_2]) // attached
-            }
-        }
-
         if let pAncestralAutomaton = playerAttached.first(where: { x in x.cardId == CardIds.Invalid.AncestralAutomaton_AncestralAutomatonPlayerEnchantDnt }) {
             inputPlayer.ancestralAutomatonCounter = Int32( pAncestralAutomaton[.tag_script_data_num_1]) // attached
         }
