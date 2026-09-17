@@ -44,6 +44,9 @@ class TrackerPanelViewModel: ObservableObject {
     @Published private(set) var relatedCards = TrackerCardListContent()
     @Published private(set) var packageCards = TrackerCardListContent()
     @Published private(set) var packageLabel = ""
+    /// What Godfrey the Betrayer has burned into the void - HDT's
+    /// `PlayerGodfreyCardsDeckLens` / `OpponentGodfreyCardsDeckLens`.
+    @Published private(set) var godfreyCards = TrackerCardListContent()
     @Published private(set) var sideboards: [Sideboard] = []
     @Published private(set) var sideboardsVersion = 0
     @Published private(set) var sideboardsReset = false
@@ -76,7 +79,8 @@ class TrackerPanelViewModel: ObservableObject {
     /// `Tracker.update(cards:top:bottom:sideboards:relatedCards:...)`, which is
     /// what `Game.updatePlayerTracker` / `updateOpponentTracker` still call.
     func update(cards: [Card], top: [Card], bottom: [Card], sideboards: [Sideboard], relatedCards: [Card],
-                packageCards: [Card] = [], packageLabel: String = "", reset: Bool = false) {
+                packageCards: [Card] = [], packageLabel: String = "", godfreyCards: [Card] = [],
+                reset: Bool = false) {
         contentVersion += 1
         let version = contentVersion
         self.cards = TrackerCardListContent(cards: cards, version: version, reset: reset)
@@ -85,6 +89,7 @@ class TrackerPanelViewModel: ObservableObject {
         self.relatedCards = TrackerCardListContent(cards: relatedCards, version: version, reset: reset)
         self.packageCards = TrackerCardListContent(cards: packageCards, version: version, reset: reset)
         self.packageLabel = packageLabel
+        self.godfreyCards = TrackerCardListContent(cards: godfreyCards, version: version, reset: reset)
         self.sideboards = sideboards
         self.sideboardsVersion = version
         self.sideboardsReset = reset

@@ -141,6 +141,12 @@ final class Player {
     var beatrixCardIds: Set<Int> = []
     var beatrixCopiedCard: String?
 
+    /// The cards Godfrey the Betrayer has burned into the void, as HDT's
+    /// `Player.GodfreyCards` tracks them: each burn creates a new hidden entity in
+    /// the void and separately reveals which entity it copied, and the two arrive
+    /// from different log lines, so they are paired up as they come in.
+    var godfreyCards: [GodfreyOverdrawnCard] = []
+
     var hasCoin: Bool {
         return hand.any { $0.isTheCoin }
     }
@@ -258,6 +264,81 @@ final class Player {
         isPlayingWhizbang = false
         beatrixCardIds.removeAll()
         beatrixCopiedCard = nil
+        godfreyCards.removeAll()
+    }
+
+    // MARK: - Godfrey the Betrayer
+    //
+    // Ports HDT's Player.AddGodfreyNewEntityId / AddGodfreyCopiedEntityId /
+    // ReturnGodfreyCard / MarkReturnedGodfreyCard / GetGodfreyCardIdsToDisplay.
+
+    /// The TRIGGER_VISUAL block that burns a card creates the void entity first.
+    func addGodfreyNewEntityId(_ entityId: Int) {
+        godfreyCards.append(GodfreyOverdrawnCard(newEntityId: entityId))
+    }
+
+    /// The BURNED_CARD metadata that follows names the entity it was copied from.
+    /// It pairs with the first burn still missing one; a copy arriving with no
+    /// pending burn starts its own entry.
+    func addGodfreyCopiedEntityId(_ entityId: Int) {
+        if let index = godfreyCards.firstIndex(where: { $0.copiedEntityId == nil }) {
+            godfreyCards[index].copiedEntityId = entityId
+        } else {
+            godfreyCards.append(GodfreyOverdrawnCard(copiedEntityId: entityId))
+        }
+    }
+
+    func returnGodfreyCard(newEntityId: Int, copiedEntityId: Int) {
+        guard let index = godfreyCards.firstIndex(where: {
+            $0.newEntityId == newEntityId || (copiedEntityId > 0 && $0.copiedEntityId == copiedEntityId)
+        }) else {
+            return
+        }
+        // The opponent's returned entity is not revealed, so the user should not learn which card
+        // left the void. Keep showing all candidates until the entity is revealed, unless there
+        // is no ambiguity.
+        if isLocalPlayer || godfreyCards.count == 1 {
+            markReturnedGodfreyCard(godfreyCards[index])
+            godfreyCards.remove(at: index)
+        } else {
+            godfreyCards[index].returnedToHand = true
+        }
+    }
+
+    private func markReturnedGodfreyCard(_ returnedCard: GodfreyOverdrawnCard) {
+        guard !isLocalPlayer else { return }
+        guard let newEntityId = returnedCard.newEntityId,
+              let copiedEntityId = returnedCard.copiedEntityId,
+              let newEntity = game.entities[newEntityId],
+              let copiedEntity = game.entities[copiedEntityId] else {
+            return
+        }
+        newEntity.cardId = copiedEntity.cardId
+        newEntity.info.hidden = false
+        newEntity.info.guessedCardState = .guessed
+        newEntity.info.costReduction += 1
+    }
+
+    /// The entity ids the Overdrawn lens should list, pruning what has since been
+    /// resolved. Called on every tracker update, as HDT calls it from
+    /// Core.UpdatePlayerCards / UpdateOpponentCards.
+    func getGodfreyCardIdsToDisplay() -> [Int] {
+        godfreyCards.removeAll { card in
+            guard card.returnedToHand, let newEntityId = card.newEntityId,
+                  let entity = game.entities[newEntityId] else {
+                return false
+            }
+            return entity.hasCardId
+        }
+        // If every remaining card has returned to hand, the void is empty.
+        if godfreyCards.count > 0 && godfreyCards.allSatisfy({ $0.returnedToHand }) {
+            // A single remaining candidate is no longer ambiguous.
+            if godfreyCards.count == 1 {
+                markReturnedGodfreyCard(godfreyCards[0])
+            }
+            godfreyCards.removeAll()
+        }
+        return godfreyCards.compactMap { $0.copiedEntityId }
     }
     
     var currentMana: Int {
@@ -1167,4 +1248,14 @@ final class Player {
             AppDelegate.instance().coreManager.game.updatePlayerTracker(reset: true)
         }
     }
+}
+
+/// One card Godfrey the Betrayer burned into the void - HDT's
+/// `GodfreyOverdrawnCard`. The burn creates `newEntityId` and the metadata that
+/// follows names the `copiedEntityId` it was taken from; only the latter is worth
+/// showing, since it is the one that carries a card id.
+struct GodfreyOverdrawnCard {
+    var newEntityId: Int?
+    var copiedEntityId: Int?
+    var returnedToHand = false
 }

@@ -14716,6 +14716,23 @@
         }
       }
     },
+    "DeckLens_Label_Overdrawn" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Overdrawn"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "过量抽取"
+          }
+        }
+      }
+    },
     "Decks" : {
       "extractionState" : "manual",
       "localizations" : {

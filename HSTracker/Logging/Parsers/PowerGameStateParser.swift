@@ -40,6 +40,11 @@ class PowerGameStateParser: LogEventParser {
     var tmpEntities = SynchronizedArray<Entity>()
     var currentEntity: Entity?
     var gameStateIsInsideMetaDataHistoryTarget = false
+    // HDT's IsInsideMetaDataBurnedCard: the META_DATA block that names the cards
+    // an overdraw burned. Only Godfrey the Betrayer makes anything of it here -
+    // the burned card goes to the void rather than being destroyed, and the
+    // Overdrawn lens lists what is in there.
+    var gameStateIsInsideMetaDataBurnedCard = false
 
 	private let eventHandler: PowerEventHandler
 
@@ -86,6 +91,7 @@ class PowerGameStateParser: LogEventParser {
     func handle(logLine: LogLine) {
         var creationTag = false
         var isInsideMetaDataHistoryTarget = false
+        var isInsideMetaDataBurnedCard = false
 
         // current game
         if GameEntityRegex.match(logLine.line) {
@@ -306,6 +312,24 @@ class PowerGameStateParser: LogEventParser {
                     if let beatrixEntity = eventHandler.entities[currentBlock.sourceEntityId] {
                         let player = beatrixEntity.isControlled(by: eventHandler.player.id) ? eventHandler.player : eventHandler.opponent
                         player?.beatrixCardIds.insert(id)
+                    }
+                }
+
+                // Godfrey's Atlas burns the overdrawn card into the void, which
+                // shows up as a new hidden entity created by the enchantment's
+                // own TRIGGER_VISUAL block. The card it was copied from arrives
+                // separately, in the BURNED_CARD metadata above.
+                if let currentBlock,
+                   currentBlock.cardId == CardIds.NonCollectible.Neutral.GodfreytheBetrayer_GodfreysAtlasEnchantment,
+                   currentBlock.type == "TRIGGER", currentBlock.triggerKeyword == "TRIGGER_VISUAL",
+                   let blockEntity = eventHandler.entities[currentBlock.sourceEntityId] {
+                    let isControlledByPlayer = blockEntity.isControlled(by: eventHandler.player.id)
+                    let player = isControlledByPlayer ? eventHandler.player : eventHandler.opponent
+                    player?.addGodfreyNewEntityId(id)
+                    if isControlledByPlayer {
+                        AppDelegate.instance().coreManager.game.updatePlayerTracker()
+                    } else {
+                        AppDelegate.instance().coreManager.game.updateOpponentTracker()
                     }
                 }
                 
@@ -605,7 +629,34 @@ class PowerGameStateParser: LogEventParser {
         } else if logLine.line.contains("META_DATA - Meta=HISTORY_TARGET") {
             gameStateIsInsideMetaDataHistoryTarget = true
             isInsideMetaDataHistoryTarget = true
+        } else if logLine.line.contains("META_DATA - Meta=BURNED_CARD") {
+            gameStateIsInsideMetaDataBurnedCard = true
+            isInsideMetaDataBurnedCard = true
         } else if MetaInfoRegex.match(logLine.line) {
+            if gameStateIsInsideMetaDataBurnedCard {
+                let match = MetaInfoRegex.matches(logLine.line)
+                if let entityId = Int(match.count > 1 ? match[1].value : match[0].value),
+                   let entity = eventHandler.entities[entityId] {
+                    let isControlledByPlayer = entity.isControlled(by: eventHandler.player.id)
+                    // Only a Godfrey burn goes to the void; an ordinary overdraw
+                    // destroys the card and has nothing to list.
+                    // PowerEventHandler has no effects of its own, so this reads
+                    // the live game's - the same instance the effect system fills.
+                    let effects = AppDelegate.instance().coreManager.game.activeEffects
+                        .getVisibleEffects(controlledByPlayer: isControlledByPlayer)
+                    if effects.contains(where: { $0.cardId == CardIds.NonCollectible.Neutral.GodfreytheBetrayer_GodfreysAtlasEnchantment }) {
+                        let player = isControlledByPlayer ? eventHandler.player : eventHandler.opponent
+                        player?.addGodfreyCopiedEntityId(entityId)
+                        entity.info.hidden = false
+                        if isControlledByPlayer {
+                            AppDelegate.instance().coreManager.game.updatePlayerTracker()
+                        } else {
+                            AppDelegate.instance().coreManager.game.updateOpponentTracker()
+                        }
+                    }
+                }
+                isInsideMetaDataBurnedCard = true
+            }
             if gameStateIsInsideMetaDataHistoryTarget {
                 let match = MetaInfoRegex.matches(logLine.line)
                 if let entityId = Int(match.count > 1 ? match[1].value : match[0].value), let entity = eventHandler.entities[entityId] {
@@ -650,12 +701,29 @@ class PowerGameStateParser: LogEventParser {
                         let copyOfCardId = lastCardDrawnEntity?.info.copyOfCardId ?? "\(lastCardDrawnId)"
                         addKnownCardId(eventHandler: eventHandler, cardId: "", copyOfCardId: copyOfCardId)
                     }
+
+                    // Godfrey pulling a card back out of the void.
+                    if let currentBlock,
+                       currentBlock.cardId == CardIds.NonCollectible.Neutral.GodfreytheBetrayer_GodfreysAtlasEnchantment,
+                       currentBlock.type == "TRIGGER",
+                       let blockEntity = eventHandler.entities[currentBlock.sourceEntityId] {
+                        let isControlledByPlayer = blockEntity.isControlled(by: eventHandler.player.id)
+                        let player = isControlledByPlayer ? eventHandler.player : eventHandler.opponent
+                        player?.returnGodfreyCard(newEntityId: entity.id,
+                                                  copiedEntityId: entity[.copied_from_entity_id])
+                        if isControlledByPlayer {
+                            AppDelegate.instance().coreManager.game.updatePlayerTracker()
+                        } else {
+                            AppDelegate.instance().coreManager.game.updateOpponentTracker()
+                        }
+                    }
                 }
             } else {
                 logger.info("Invalid source id: \(match[1].value)")
             }
         }
         gameStateIsInsideMetaDataHistoryTarget = isInsideMetaDataHistoryTarget
+        gameStateIsInsideMetaDataBurnedCard = isInsideMetaDataBurnedCard
         if logLine.line.contains("End Spectator") && eventHandler.isInMenu {
             eventHandler.gameEnded = true
             eventHandler.gameEnd()

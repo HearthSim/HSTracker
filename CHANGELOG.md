@@ -2,6 +2,7 @@
 ## Hearthstone
 - The player and opponent deck trackers, the secret helper and the "know your opponent's deck?" prompt are now part of the overlay rather than windows of their own, so they sit where Hearthstone Deck Tracker puts them, keep their place when the game's resolution changes, and are cut away wherever Hearthstone draws over the board.
 - Hovering a card in a deck tracker, the secret helper or the graveyard list now shows the card again without having to unlock the windows first, and does so without stopping clicks reaching Hearthstone.
+- Added an Overdrawn list to both deck trackers, showing the cards Godfrey the Betrayer has burned into the void, and Godfrey's Atlas now appears in the active effects.
 - The deck trackers can now be scaled and faded independently for you and your opponent, centred vertically, and the order of their sections changed, from the new Overlay layout settings pane.
 
 # 3.6.11

@@ -224,6 +224,7 @@ extension CardIds.Collectible {
         static let ChogallMastermind = "CATA_726"
         static let Moragg = "JAIL_906"
         static let ImpGangStooge = "JAIL_399"
+        static let GodfreyTheBetrayer = "JAIL_509"
         static let GodfatherKazakus = "CAP_405"
         static let KabalMastermind = "CAP_406"
         static let Voidlord = "LOOT_368"

@@ -1295,6 +1295,7 @@ extension CardIds.NonCollectible {
         static let AutomatonPortrait = "BG30_MagicItem_303"
         static let TagtransferplayerenchantDnt = "Bacon_TagTransferPlayerE"
         static let RecklessDetective_DetectivesClothesToken = "JAIL_447t"
+        static let GodfreytheBetrayer_GodfreysAtlasEnchantment = "JAIL_509e"
         static let Kaleidoscope = "BG35_MagicItem_821"
         static let Kaleidoscope_KaleidoscopeToken = "BG35_MagicItem_821t"
         static let DrBoomsMonster = "BG31_176"

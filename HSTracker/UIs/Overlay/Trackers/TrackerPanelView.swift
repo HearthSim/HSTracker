@@ -263,6 +263,10 @@ struct TrackerPanelView: View {
             lens(viewModel.relatedCards,
                  label: String.localizedString("Related_Cards", comment: ""),
                  layout: layout)
+        case .godfreyLens:
+            lens(viewModel.godfreyCards,
+                 label: String.localizedString("DeckLens_Label_Overdrawn", comment: ""),
+                 layout: layout)
         }
     }
 
@@ -306,6 +310,7 @@ struct TrackerPanelLayout {
         case deckPanel(DeckPanel)
         case packageLens
         case relatedLens
+        case godfreyLens
     }
 
     struct Section {
@@ -411,6 +416,13 @@ struct TrackerPanelLayout {
             if Settings.showOpponentRelatedCards && !viewModel.relatedCards.cards.isEmpty {
                 kinds.append((.relatedLens, viewModel.relatedCards.cards.count, lensChrome))
             }
+        }
+        // HDT appends the Godfrey lens last on both sides, after everything the
+        // panel order names and after the two opponent lenses above
+        // (OverlayWindow.UpdatePlayerLayout / UpdateOpponentLayout). It has no
+        // setting of its own - the void is either holding cards or it is not.
+        if !viewModel.godfreyCards.cards.isEmpty {
+            kinds.append((.godfreyLens, viewModel.godfreyCards.cards.count, lensChrome))
         }
 
         let fixedHeight = kinds.reduce(0) { $0 + $1.fixed }

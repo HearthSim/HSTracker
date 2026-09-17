@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		41CF366434305109269D5CB2 /* GodfreyOverdrawnTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59AC68FC073DF2A0DBAB9790 /* GodfreyOverdrawnTests.swift */; };
+		B9C3AF598756A0C5A198E8DF /* GodfreyTheBetrayerEnchantment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74BD08816E92E43AFEE3FFE /* GodfreyTheBetrayerEnchantment.swift */; };
 		490B4D29E27587E59D52E1DD /* TrackerPanelLayoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EBCC58146CAD58B971A677 /* TrackerPanelLayoutTests.swift */; };
 		F1C70CEA18B1461A6180965A /* OverlayLayoutPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3FF944C22071399F580810 /* OverlayLayoutPreferences.swift */; };
 		AF10F2FE865ACC3C498AE97C /* DeckPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF805F8203BB16596160FE4A /* DeckPanel.swift */; };
@@ -1884,6 +1886,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		59AC68FC073DF2A0DBAB9790 /* GodfreyOverdrawnTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GodfreyOverdrawnTests.swift; sourceTree = "<group>"; };
+		D74BD08816E92E43AFEE3FFE /* GodfreyTheBetrayerEnchantment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GodfreyTheBetrayerEnchantment.swift; sourceTree = "<group>"; };
 		00EBCC58146CAD58B971A677 /* TrackerPanelLayoutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerPanelLayoutTests.swift; sourceTree = "<group>"; };
 		DD3FF944C22071399F580810 /* OverlayLayoutPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayLayoutPreferences.swift; sourceTree = "<group>"; };
 		DF805F8203BB16596160FE4A /* DeckPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckPanel.swift; sourceTree = "<group>"; };
@@ -4109,6 +4113,7 @@
 				1CF1B5891E81426D007DCBF2 /* AlgorithmTests.swift */,
 				B8A1F0002FCD0000000A0000 /* LocalizationFormatTests.swift */,
 				B8A1F0102FCD0010000A0010 /* CardTooltipTests.swift */,
+				59AC68FC073DF2A0DBAB9790 /* GodfreyOverdrawnTests.swift */,
 				00EBCC58146CAD58B971A677 /* TrackerPanelLayoutTests.swift */,
 				439C7E601C7772C100D29859 /* HSTrackerTests.swift */,
 				1CF1B58B1E815810007DCBF2 /* LogReaderTests.swift */,
@@ -5729,6 +5734,7 @@
 				B8B7905C2C9784C900DD33EC /* CurseOfFleshEnchantment.swift */,
 				B8B7905E2C97850900DD33EC /* CurseOfWeaknessEnchantment.swift */,
 				B8B790602C97854B00DD33EC /* DemonicStudiesEnchantment.swift */,
+				D74BD08816E92E43AFEE3FFE /* GodfreyTheBetrayerEnchantment.swift */,
 				B8B790622C9785A300DD33EC /* FelfireBonfireEnchantment.swift */,
 				B82029482CD2D2C200C19A8C /* ForebodingFlameEnchantment.swift */,
 				B86D89D12D95BF6300AB65A5 /* FracturedPowerEnchantment.swift */,
@@ -7613,6 +7619,7 @@
 				BE1CDE6F446F1565D13A1598 /* GalakrondTheWretched.swift in Sources */,
 				5CF327C8C917A1543530CCC7 /* KabalTrafficker.swift in Sources */,
 				B8B790612C97854B00DD33EC /* DemonicStudiesEnchantment.swift in Sources */,
+				B9C3AF598756A0C5A198E8DF /* GodfreyTheBetrayerEnchantment.swift in Sources */,
 				B89865EA2D920E5100BA5649 /* ChorusRiff.swift in Sources */,
 				B837D7DA2EAEA51A0070DB4B /* ICardGenerator.swift in Sources */,
 				FAB75D0040F782893C59B609 /* PickConfig.swift in Sources */,
@@ -8686,6 +8693,7 @@
 				43C1C9F81E96CCE9008C20B1 /* HSTrackerTests.swift in Sources */,
 				B8A1F0012FCD0001000A0001 /* LocalizationFormatTests.swift in Sources */,
 				B8A1F0112FCD0011000A0011 /* CardTooltipTests.swift in Sources */,
+				41CF366434305109269D5CB2 /* GodfreyOverdrawnTests.swift in Sources */,
 				490B4D29E27587E59D52E1DD /* TrackerPanelLayoutTests.swift in Sources */,
 				43C1C9F91E96CCE9008C20B1 /* LogReaderTests.swift in Sources */,
 				43C1C9FE1E96CCE9008C20B1 /* PowerParserTests.swift in Sources */,

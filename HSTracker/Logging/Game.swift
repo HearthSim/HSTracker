@@ -259,6 +259,27 @@ class Game: NSObject, PowerEventHandler {
         }
     }
 	
+    /// HDT's `OverlayWindow.GetCardsFromEntityIds`: the cards behind a list of
+    /// entity ids, folded by card id with a count and sorted like any deck list.
+    private func getCardsFromEntityIds(_ entityIds: [Int]) -> [Card] {
+        var counts = [String: (card: Card, count: Int)]()
+        for id in entityIds {
+            guard let entity = entities[id] else { continue }
+            let card = entity.card
+            guard !card.id.isEmpty else { continue }
+            if let existing = counts[card.id] {
+                counts[card.id] = (existing.card, existing.count + 1)
+            } else {
+                counts[card.id] = (card, 1)
+            }
+        }
+        return counts.values.map { entry -> Card in
+            let card = entry.card.copy()
+            card.count = entry.count
+            return card
+        }.sortCardList()
+    }
+
 	@objc func updateOpponentTracker(reset: Bool = false) {
         DispatchQueue.main.async { [weak self] in
             guard let self, #available(macOS 10.15, *),
@@ -276,7 +297,9 @@ class Game: NSObject, PowerEventHandler {
                 
                 // update cards
                 if self.gameEnded && Settings.clearTrackersOnGameEnd {
-                    tracker.update(cards: [], top: [], bottom: [], sideboards: [], relatedCards: [], reset: reset)
+                    tracker.update(cards: [], top: [], bottom: [], sideboards: [], relatedCards: [],
+                                   godfreyCards: self.getCardsFromEntityIds(self.opponent.getGodfreyCardIdsToDisplay()),
+                                   reset: reset)
                 } else {
                     let cardWithRelatedCards = relatedCardsManager.getCardsOpponentMayHave(opponent, currentGameType, currentFormatType)
                     cardWithRelatedCards.forEach({
@@ -312,7 +335,9 @@ class Game: NSObject, PowerEventHandler {
 
                     tracker.update(cards: opponentCardList, top: [], bottom: [], sideboards: [],
                                    relatedCards: relatedCards, packageCards: packageCards,
-                                   packageLabel: packageLabel, reset: reset)
+                                   packageLabel: packageLabel,
+                                   godfreyCards: self.getCardsFromEntityIds(self.opponent.getGodfreyCardIdsToDisplay()),
+                                   reset: reset)
                 }
                 
                 let gameStarted = !self.isInMenu && self.entities.count >= 67
@@ -374,7 +399,10 @@ class Game: NSObject, PowerEventHandler {
                     return card
                 }
 
-                tracker.update(cards: self.player.playerCardList, top: top, bottom: bottom, sideboards: self.player.playerSideboardsDict, relatedCards: [], reset: reset)
+                tracker.update(cards: self.player.playerCardList, top: top, bottom: bottom,
+                               sideboards: self.player.playerSideboardsDict, relatedCards: [],
+                               godfreyCards: self.getCardsFromEntityIds(self.player.getGodfreyCardIdsToDisplay()),
+                               reset: reset)
                 
                 // update card counter values
                 let gameStarted = !self.isInMenu && self.entities.count >= 67
