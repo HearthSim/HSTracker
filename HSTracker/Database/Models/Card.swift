@@ -56,6 +56,12 @@ final class Card {
     var enText = ""
     var race: Race = .invalid
     var races: [Race] = []
+    // The per-race marker tags the entity carries (GameTag 2522-2588), in the
+    // order they appear in the card data. HearthDb resolves a card's secondary
+    // race from these rather than from a tag of its own, so BattlegroundsDb needs
+    // the tag ids - not just the races - to tell whether a remote tag override
+    // has switched one of them off.
+    var raceTags: [Int] = []
     var type: CardType = .invalid
     var mechanics: [String] = []
     var isStandard = false
@@ -478,6 +484,7 @@ extension Card: NSCopying {
         copy.deckListIndex = self.deckListIndex
         copy.battlegroundsSkinParentId = self.battlegroundsSkinParentId
         copy.races = self.races
+        copy.raceTags = self.raceTags
         copy.zilliaxCustomizableFunctionalModule = self.zilliaxCustomizableFunctionalModule
         copy.zilliaxCustomizableCosmeticModule = self.zilliaxCustomizableCosmeticModule
         copy.multipleClasses = self.multipleClasses

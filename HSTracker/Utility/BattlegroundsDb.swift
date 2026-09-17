@@ -32,41 +32,87 @@ class BattlegroundsDb {
         update(RemoteConfig.battlegroundsTagOverrides)
     }
     
-    private func update(_ tagOverrides: [TagOverride]?) {
-        var overrides = [Int: (GameTag, Int)]()
-        
-        if let tagOverrides {
+    // Mirrors HDT's BattlegroundsDb.TagLookup: the remote tag overrides, keyed by
+    // the card *and* the tag they apply to. Keying on the card alone - which this
+    // used to do - made an override for one tag answer every other tag's question
+    // as well.
+    private struct TagLookup {
+        private struct Key: Hashable {
+            let dbfId: Int
+            let tag: Int
+        }
+
+        private var overrides = [Key: Int]()
+
+        init(_ tagOverrides: [TagOverride]?) {
+            guard let tagOverrides else { return }
             for tagOverride in tagOverrides {
-                overrides[tagOverride.dbf_id] = (GameTag(rawValue: tagOverride.tag) ?? .ignore_damage, tagOverride.value)
+                overrides[Key(dbfId: tagOverride.dbf_id, tag: tagOverride.tag)] = tagOverride.value
             }
         }
-        
+
         func getTag(_ card: Card, _ tag: GameTag) -> Int {
-            if let tagOverride = overrides[card.dbfId] {
-                return tagOverride.1
+            if let value = overrides[Key(dbfId: card.dbfId, tag: tag.rawValue)] {
+                return value
             }
-            if tag == .tech_level {
+            switch tag {
+            case .tech_level:
                 return card.techLevel
-            } else if tag == .is_bacon_pool_minion {
+            case .is_bacon_pool_minion:
                 return card.isBaconPoolMinion
-            } else if tag == .is_bacon_duos_exclusive {
+            case .is_bacon_duos_exclusive:
                 return card.isBaconDuosExclusive
-            } else if tag == .is_bacon_pool_spell {
+            case .is_bacon_pool_spell:
                 return card.isBaconPoolSpell ? 1 : 0
-            } else if tag == .bacon_buddy {
+            case .bacon_buddy:
                 return card.isBaconBuddy ? 1 : 0
-            } else if tag == .bacon_tripled_base_minion_id {
+            case .bacon_tripled_base_minion_id:
                 return card.baconTripledBaseMinionId
+            default:
+                return 0
             }
-            return 0
         }
-        
+
+        // GetTag(card, CARDRACE), except that the parsed Card already holds the
+        // tag's value as a Race, so only an override has to be converted back.
+        func getRace(_ card: Card) -> Race {
+            if let value = overrides[Key(dbfId: card.dbfId, tag: GameTag.cardrace.rawValue)] {
+                return Race(rawValue: value) ?? .invalid
+            }
+            return card.race
+        }
+
+        // HearthDb resolves the secondary race from a per-race marker tag being
+        // present at all, so an override can only remove one by setting that tag
+        // to 0.
+        func getSecondaryRace(_ card: Card) -> Race {
+            let race = getRace(card)
+            for tag in card.raceTags {
+                guard let secondaryRace = RaceUtils.tagRaceMap[tag], secondaryRace != race else {
+                    continue
+                }
+                if overrides[Key(dbfId: card.dbfId, tag: tag)] == 0 {
+                    continue
+                }
+                return secondaryRace
+            }
+            return .invalid
+        }
+    }
+
+    private func update(_ tagOverrides: [TagOverride]?) {
+        let tags = TagLookup(tagOverrides)
+
+        func getTag(_ card: Card, _ tag: GameTag) -> Int {
+            return tags.getTag(card, tag)
+        }
+
         // explicitly check for == 1, as Rot Hide Gnoll has 2 but is not in the pool
         let baconCards = Cards.cards.filter({ x in getTag(x, .tech_level) > 0 && getTag(x, .is_bacon_pool_minion) == 1})
         
         races.removeAll()
         // should we iterate over a card's races instead?
-        for race in baconCards.compactMap({ x in x.race }) {
+        for race in baconCards.map({ x in tags.getRace(x) }) {
             races.insert(race)
         }
         _cardsByTier.removeAll()
@@ -82,7 +128,7 @@ class BattlegroundsDb {
                     _duosExclusiveCardsByTier[tier] = [Race: [Card]]()
                 }
                 
-                for race in getRaces(card) {
+                for race in getRaces(card, tags) {
                     if _duosExclusiveCardsByTier[tier]?[race] == nil {
                         _duosExclusiveCardsByTier[tier]?[race] = [Card]()
                     }
@@ -93,7 +139,7 @@ class BattlegroundsDb {
                     _solosExclusiveCardsByTier[tier] = [Race: [Card]]()
                 }
                 
-                for race in getRaces(card) {
+                for race in getRaces(card, tags) {
                     if _solosExclusiveCardsByTier[tier]?[race] == nil {
                         _solosExclusiveCardsByTier[tier]?[race] = [Card]()
                     }
@@ -104,7 +150,7 @@ class BattlegroundsDb {
                     _cardsByTier[tier] = [Race: [Card]]()
                 }
                 
-                for race in getRaces(card) {
+                for race in getRaces(card, tags) {
                     if _cardsByTier[tier]?[race] == nil {
                         _cardsByTier[tier]?[race] = [Card]()
                     }
@@ -171,8 +217,9 @@ class BattlegroundsDb {
         }
     }
     
-    private func getRaces(_ card: Card) -> [Race] {
-        if card.race == .invalid {
+    private func getRaces(_ card: Card, _ tags: TagLookup) -> [Race] {
+        let race = tags.getRace(card)
+        if race == .invalid {
             let racesInText = races.filter { x in x != .all && x != .invalid }.filter { x in
                 let raceText = x == .mechanical ? "Mech" : "\(x)".capitalized
 
@@ -182,8 +229,9 @@ class BattlegroundsDb {
                 return [res]
             }
         }
-    
-        return card.races.count > 1 ? card.races : [card.race]
+
+        let secondaryRace = tags.getSecondaryRace(card)
+        return secondaryRace == .invalid ? [race] : [race, secondaryRace]
     }
     
     func getCards(_ tier: Int, _ race: Race, _ isDuos: Bool) -> [Card] {

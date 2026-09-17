@@ -224,6 +224,7 @@ class Database {
         case 2524, 2525, 2526, 2527, 2528, 2529, 2530, 2531, 2532, 2533, 2534, 2536, 2537, 2538, 2539, 2540, 2541, 2542, 2543, 2544, 2522, 2523, 2545, 2546, 2547, 2548, 2549, 2550, 2551, 2552, 2553, 2554, 2555, 2556, 2584, 2585, 2586, 2587, 2588:
             if let race = RaceUtils.tagRaceMap[id] {
                 currentCard?.races.append(race)
+                currentCard?.raceTags.append(id)
             }
         case GameTag.is_bacon_pool_spell.rawValue:
             currentCard?.isBaconPoolSpell = intValue != 0
