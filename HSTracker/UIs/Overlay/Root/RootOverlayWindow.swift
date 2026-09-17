@@ -98,6 +98,9 @@ class RootOverlayWindow: OverWindowController {
         // IsOverlayHoverVisible is independent of IsOverlayHitTestVisible in the
         // same way, and this touches nothing the guard sets.
         updateHoverTooltip()
+        // Also before the guard, and for the same reason: a deck tracker's rows
+        // raise their card preview while the canvas over them is click-through.
+        updateTrackerRowHover()
 
         guard !viewModel.interactiveRegions.isEmpty else {
             setIgnoresMouseEvents(true)
@@ -343,6 +346,54 @@ class RootOverlayWindow: OverWindowController {
         if window?.ignoresMouseEvents != ignores {
             window?.ignoresMouseEvents = ignores
         }
+    }
+
+    // The deck trackers' and the secret helper's rows, matched from the live
+    // cursor position against the lists registered in TrackerCardHoverRegistry.
+    //
+    // This is HDT's OverlayWindow.MouseOverDetection sweep for the deck lists:
+    // StackPanelOpponent is IsOverlayHoverVisible and CardTile carries an
+    // OverlayExtensions.ToolTip, and HDT raises synthetic MouseEnter/MouseLeave
+    // on whichever one the cursor is over while the overlay itself stays
+    // click-through. Separate from updateHoverTooltip above because these rows
+    // do not drive CardTooltipPanel: a tracker row raises the floating card
+    // window, the related-cards grid and the deck's synergy highlight, all of
+    // which TrackerCardHoverHandler already owns.
+    //
+    // Which row the cursor is on is TrackerCardHoverRegistry's own business -
+    // see its row(under:in:).
+    private func updateTrackerRowHover() {
+        guard #available(macOS 10.15, *), let overlayWindow = window else { return }
+        let screenLocation = NSEvent.mouseLocation
+
+        let match = TrackerCardHoverRegistry.shared.row(under: screenLocation, in: overlayWindow)
+
+        guard hoveredTrackerRow?.bar !== match?.bar else { return }
+        if let previous = hoveredTrackerRow {
+            previous.target?.out(card: previous.card)
+        }
+        if let match {
+            hoveredTrackerRow = HoveredTrackerRow(bar: match.bar, card: match.card, target: match.target)
+            match.target.hover(cell: match.bar, card: match.card)
+        } else {
+            hoveredTrackerRow = nil
+        }
+    }
+
+    // The card is held strongly: the row it belongs to can be torn down while it
+    // is still the hovered one (a card leaves the deck, the tracker hides), and
+    // out(card:) still has to be delivered for it.
+    @available(macOS 10.15, *)
+    private struct HoveredTrackerRow {
+        weak var bar: CardBar?
+        let card: Card
+        weak var target: CardCellHover?
+    }
+    private var _hoveredTrackerRow: Any?
+    @available(macOS 10.15, *)
+    private var hoveredTrackerRow: HoveredTrackerRow? {
+        get { _hoveredTrackerRow as? HoveredTrackerRow }
+        set { _hoveredTrackerRow = newValue }
     }
 
     // Every element HDT marks IsOverlayHoverVisible, matched from the live

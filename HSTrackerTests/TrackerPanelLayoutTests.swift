@@ -290,4 +290,89 @@ class TrackerPanelLayoutTests: HSTrackerTests {
         }
         return nil
     }
+
+    // MARK: - Row hover sweep
+
+    /// A locked tracker's rows have to raise their preview from the cursor sweep,
+    /// because the overlay window is click-through over them and a click-through
+    /// window is delivered no mouse-entered events at all. This is that sweep's
+    /// geometry: the row the registry resolves for a given screen point.
+    func testRegistryResolvesTheRowUnderTheCursor() throws {
+        // Both at 1:1 and scaled: the rows are found through SwiftUI's
+        // scaleEffect and offset, which are paint transforms a layout-space
+        // lookup would miss.
+        try assertRowsResolveToThemselves(scaling: 100)
+        try assertRowsResolveToThemselves(scaling: 70)
+    }
+
+    private func assertRowsResolveToThemselves(scaling: Double) throws {
+        Settings.showDeckNameInTracker = false
+        Settings.showWinLossRatio = false
+        Settings.showPlayerCardCount = false
+        Settings.showPlayerDrawChance = false
+
+        let model = playerModel(deck: 6)
+        model.scaling = scaling
+        model.isShown = true
+        let canvas = CGSize(width: 1920, height: 1080)
+        let handler = TrackerCardHoverHandler(playerType: .player)
+
+        let host = NSHostingView(rootView: TrackerPanelView(viewModel: model,
+                                                            canvasSize: canvas,
+                                                            isLocked: true,
+                                                            hoverHandler: handler))
+        host.frame = CGRect(origin: .zero, size: canvas)
+        // A real window: the registry works in screen coordinates, and a view
+        // with no window has none.
+        let window = NSWindow(contentRect: host.frame, styleMask: [.borderless],
+                              backing: .buffered, defer: false)
+        window.contentView = host
+        window.orderFrontRegardless()
+        host.layoutSubtreeIfNeeded()
+        defer { window.orderOut(nil) }
+
+        guard let list = firstDescendant(of: host, ofType: AnimatedCardList.self) else {
+            return XCTFail("no AnimatedCardList was hosted")
+        }
+        let bars = list.subviews.compactMap { $0 as? CardBar }
+        XCTAssertEqual(bars.count, 6)
+
+        // Every row resolves to itself, from its own centre.
+        for bar in bars {
+            let rect = window.convertToScreen(bar.convert(bar.bounds, to: nil))
+            let match = TrackerCardHoverRegistry.shared.row(under: CGPoint(x: rect.midX, y: rect.midY),
+                                                            in: window)
+            XCTAssertTrue(match?.bar === bar, "row at \(rect) did not resolve to itself at \(scaling)%")
+            XCTAssertTrue(match?.target === handler)
+        }
+
+        // ... and a point beside the panel resolves to nothing.
+        let listRect = window.convertToScreen(list.convert(list.bounds, to: nil))
+        XCTAssertNil(TrackerCardHoverRegistry.shared.row(under: CGPoint(x: listRect.minX - 20,
+                                                                        y: listRect.midY),
+                                                         in: window))
+    }
+
+    /// A list that leaves the window stops being swept, so a torn-down tracker
+    /// cannot keep answering for the cursor.
+    func testUnmountedListLeavesTheRegistry() throws {
+        let model = playerModel(deck: 3)
+        model.isShown = true
+        let canvas = CGSize(width: 1920, height: 1080)
+        let host = NSHostingView(rootView: TrackerPanelView(
+            viewModel: model, canvasSize: canvas, isLocked: true,
+            hoverHandler: TrackerCardHoverHandler(playerType: .player)))
+        host.frame = CGRect(origin: .zero, size: canvas)
+        let window = NSWindow(contentRect: host.frame, styleMask: [.borderless],
+                              backing: .buffered, defer: false)
+        window.contentView = host
+        window.orderFrontRegardless()
+        host.layoutSubtreeIfNeeded()
+
+        XCTAssertTrue(TrackerCardHoverRegistry.shared.entries.contains { $0.list?.window === window })
+
+        window.contentView = NSView()
+        window.orderOut(nil)
+        XCTAssertFalse(TrackerCardHoverRegistry.shared.entries.contains { $0.list?.window === window })
+    }
 }

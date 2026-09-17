@@ -164,3 +164,48 @@ class TrackerCardHoverHandler: NSObject, ObservableObject, CardCellHover {
         }
     }
 }
+
+/// The plainer hover the two standalone card lists want: the secret helper and
+/// the graveyard counter's detail list. Both show the blown-up card render and
+/// nothing else - no related-cards grid, no deck highlight - which is what the
+/// `CardList` window they replaced did.
+///
+/// `CardList` put the render to the panel's right whatever side the panel was on
+/// when it was the secret helper (`isSecretPanel`), and otherwise picked the side
+/// the hovered row left room for.
+@available(macOS 10.15, *)
+class OverlayCardListHoverHandler: NSObject, CardCellHover {
+    static let secrets = OverlayCardListHoverHandler(alwaysRight: true)
+    static let cardList = OverlayCardListHoverHandler(alwaysRight: false)
+
+    private let alwaysRight: Bool
+
+    private init(alwaysRight: Bool) {
+        self.alwaysRight = alwaysRight
+    }
+
+    func hover(cell: CardBar, card: Card) {
+        guard let window = cell.window else { return }
+        let hoverFrame = NSRect(x: 0, y: 0, width: 256, height: 388)
+        let onScreen = window.convertToScreen(cell.convert(cell.bounds, to: nil))
+
+        let x = alwaysRight || onScreen.minX < hoverFrame.width
+            ? onScreen.maxX
+            : onScreen.minX - hoverFrame.width
+        var y = onScreen.minY - hoverFrame.height / 2.0
+        if let screen = window.screen {
+            y = min(y, screen.frame.maxY - hoverFrame.height)
+            y = max(y, screen.frame.minY)
+        }
+        let frame = [x, y, hoverFrame.width, hoverFrame.height]
+        NotificationCenter.default.post(name: Notification.Name(rawValue: Events.show_floating_card),
+                                        object: nil,
+                                        userInfo: ["card": card, "frame": frame, "useFrame": true])
+    }
+
+    func out(card: Card) {
+        NotificationCenter.default.post(name: Notification.Name(rawValue: Events.hide_floating_card),
+                                        object: nil,
+                                        userInfo: ["card": card])
+    }
+}

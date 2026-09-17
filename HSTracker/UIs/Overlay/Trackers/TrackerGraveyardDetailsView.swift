@@ -59,6 +59,8 @@ struct TrackerGraveyardDetailsView: View {
                             // bars, so the details keep that look.
                             playerType: .secrets,
                             cardHeight: rowHeight,
-                            delegate: nil)
+                            // The CardList window this replaced gave its rows the
+                            // same card render on hover.
+                            delegate: OverlayCardListHoverHandler.cardList)
     }
 }

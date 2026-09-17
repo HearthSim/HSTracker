@@ -22,6 +22,76 @@ import SwiftUI
 // their children out on demand rather than in a layout pass - every pre-existing
 // caller sized them by hand.
 
+// MARK: - Row hover
+
+/// The card lists whose rows raise a hover, and who to tell when one does.
+///
+/// HDT shows a deck-list card's tooltip while its overlay is fully
+/// click-through: `StackPanelOpponent` carries `IsOverlayHoverVisible` and
+/// `CardTile` an `OverlayExtensions.ToolTip`, and
+/// `OverlayWindow.MouseOverDetection` sweeps the cursor against every registered
+/// hover-visible element each frame and synthesizes MouseEnter/MouseLeave on it
+/// (`CustomMouseEventArgs`). Clicks keep falling through to Hearthstone
+/// throughout - hover-visible is deliberately not hit-test visible.
+///
+/// `RootOverlayWindow.updateTrackerRowHover` is that sweep. It is why the hosted
+/// lists no longer hand their `CardBar`s a `CardCellHover` delegate: the bars'
+/// own `NSTrackingArea`s are dead while the overlay window is click-through, and
+/// would otherwise double-fire with the sweep the moment it is not. HDT guards
+/// the same double-fire by ignoring any enter/leave that is not one of its own
+/// synthesized events.
+@available(macOS 10.15, *)
+final class TrackerCardHoverRegistry {
+    static let shared = TrackerCardHoverRegistry()
+
+    struct Entry {
+        weak var list: AnimatedCardList?
+        weak var target: CardCellHover?
+    }
+
+    private(set) var entries: [Entry] = []
+
+    func register(_ list: AnimatedCardList, target: CardCellHover?) {
+        entries.removeAll { $0.list == nil || $0.list === list }
+        guard let target else { return }
+        entries.append(Entry(list: list, target: target))
+    }
+
+    func unregister(_ list: AnimatedCardList) {
+        entries.removeAll { $0.list === list || $0.list == nil }
+    }
+
+    /// The row under a point, in screen coordinates - what HDT's mouse-over
+    /// sweep resolves each frame.
+    ///
+    /// Screen coordinates rather than a view space, because `NSView.convert`
+    /// walks the full transform chain (SwiftUI's `scaleEffect` and `offset`
+    /// included) and `NSEvent.mouseLocation` is already in them, which sidesteps
+    /// the question of which coordinate space a given rect was reported in.
+    func row(under screenLocation: NSPoint, in window: NSWindow) -> (bar: CardBar, card: Card, target: CardCellHover)? {
+        var match: (bar: CardBar, card: Card, target: CardCellHover)?
+        for entry in entries {
+            guard let list = entry.list, let target = entry.target,
+                  list.window === window else { continue }
+            // Cheap reject: descend into the rows only once the cursor is inside
+            // the list itself.
+            let listRect = window.convertToScreen(list.convert(list.bounds, to: nil))
+            guard listRect.contains(screenLocation) else { continue }
+
+            for case let bar as CardBar in list.subviews {
+                guard let card = bar.card else { continue }
+                let rect = window.convertToScreen(bar.convert(bar.bounds, to: nil))
+                if rect.contains(screenLocation) {
+                    // `last` wins, as in RootOverlayWindow's own tooltip sweep: a
+                    // later sibling is the one drawn on top.
+                    match = (bar, card, target)
+                }
+            }
+        }
+        return match
+    }
+}
+
 // MARK: - Card lists
 
 /// What a hosted `AnimatedCardList` should be showing. `version` is bumped by the
@@ -65,6 +135,20 @@ final class TrackerCardList: AnimatedCardList {
         laidOut = bounds.size
         updateFrames()
     }
+
+    /// Who the cursor sweep reports this list's rows to.
+    weak var hoverTarget: CardCellHover? {
+        didSet { TrackerCardHoverRegistry.shared.register(self, target: hoverTarget) }
+    }
+
+    override func viewDidMoveToWindow() {
+        super.viewDidMoveToWindow()
+        if window != nil {
+            TrackerCardHoverRegistry.shared.register(self, target: hoverTarget)
+        } else {
+            TrackerCardHoverRegistry.shared.unregister(self)
+        }
+    }
 }
 
 @available(macOS 10.15, *)
@@ -80,15 +164,15 @@ struct TrackerCardListView: NSViewRepresentable {
     func makeNSView(context: Context) -> TrackerCardList {
         let list = TrackerCardList()
         list.playerType = playerType
-        // AnimatedCardList only forwards a delegate that is already in place when
-        // it builds each CardBar, so it has to be set before the first apply().
-        list.delegate = delegate
+        list.hoverTarget = delegate
         return list
     }
 
     func updateNSView(_ nsView: TrackerCardList, context: Context) {
         nsView.playerType = playerType
-        nsView.delegate = delegate
+        if nsView.hoverTarget !== delegate {
+            nsView.hoverTarget = delegate
+        }
         if nsView.cardHeight != cardHeight {
             nsView.cardHeight = cardHeight
             nsView.needsLayout = true
@@ -133,6 +217,19 @@ final class TrackerDeckLens: DeckLens {
         laidOut = bounds.size
         updateFrames(frameHeight: frameHeight)
     }
+
+    weak var hoverTarget: CardCellHover? {
+        didSet { TrackerCardHoverRegistry.shared.register(cards, target: hoverTarget) }
+    }
+
+    override func viewDidMoveToWindow() {
+        super.viewDidMoveToWindow()
+        if window != nil {
+            TrackerCardHoverRegistry.shared.register(cards, target: hoverTarget)
+        } else {
+            TrackerCardHoverRegistry.shared.unregister(cards)
+        }
+    }
 }
 
 @available(macOS 10.15, *)
@@ -151,13 +248,15 @@ struct TrackerDeckLensView: NSViewRepresentable {
     func makeNSView(context: Context) -> TrackerDeckLens {
         let lens = TrackerDeckLens(frame: .zero)
         lens.setPlayerType(playerType: playerType)
-        if let delegate { lens.setDelegate(delegate: delegate) }
+        lens.hoverTarget = delegate
         return lens
     }
 
     func updateNSView(_ nsView: TrackerDeckLens, context: Context) {
         nsView.setPlayerType(playerType: playerType)
-        if let delegate { nsView.setDelegate(delegate: delegate) }
+        if nsView.hoverTarget !== delegate {
+            nsView.hoverTarget = delegate
+        }
         if nsView.icon != icon { nsView.icon = icon }
         if nsView.isPremium != isPremium { nsView.isPremium = isPremium }
         nsView.setLabel(label: label)
@@ -198,6 +297,25 @@ final class TrackerSideboards: DeckSideboards {
         laidOut = bounds.size
         updateFrames(frameHeight: frameHeight, cardHeight: listCardHeight)
     }
+
+    /// Two lists here: E.T.C.'s band and King of the Underbelly's.
+    weak var hoverTarget: CardCellHover? {
+        didSet {
+            TrackerCardHoverRegistry.shared.register(cards, target: hoverTarget)
+            TrackerCardHoverRegistry.shared.register(kingOfTheUnderbellyCardList, target: hoverTarget)
+        }
+    }
+
+    override func viewDidMoveToWindow() {
+        super.viewDidMoveToWindow()
+        if window != nil {
+            TrackerCardHoverRegistry.shared.register(cards, target: hoverTarget)
+            TrackerCardHoverRegistry.shared.register(kingOfTheUnderbellyCardList, target: hoverTarget)
+        } else {
+            TrackerCardHoverRegistry.shared.unregister(cards)
+            TrackerCardHoverRegistry.shared.unregister(kingOfTheUnderbellyCardList)
+        }
+    }
 }
 
 @available(macOS 10.15, *)
@@ -213,13 +331,15 @@ struct TrackerSideboardsView: NSViewRepresentable {
     func makeNSView(context: Context) -> TrackerSideboards {
         let view = TrackerSideboards(frame: .zero)
         view.setPlayerType(playerType: playerType)
-        if let delegate { view.setDelegate(delegate: delegate) }
+        view.hoverTarget = delegate
         return view
     }
 
     func updateNSView(_ nsView: TrackerSideboards, context: Context) {
         nsView.setPlayerType(playerType: playerType)
-        if let delegate { nsView.setDelegate(delegate: delegate) }
+        if nsView.hoverTarget !== delegate {
+            nsView.hoverTarget = delegate
+        }
         nsView.frameHeight = frameHeight
         if nsView.listCardHeight != cardHeight {
             nsView.listCardHeight = cardHeight

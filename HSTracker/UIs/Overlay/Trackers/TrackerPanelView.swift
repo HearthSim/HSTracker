@@ -103,13 +103,19 @@ struct TrackerPanelView: View {
     }
     private var originY: CGFloat { canvasSize.height * CGFloat(viewModel.top) / 100.0 }
 
-    /// The panel only stops being click-through while the overlay is unlocked,
-    /// which is exactly what the tracker's own window did: `OverWindowController`
-    /// set `ignoresMouseEvents = Settings.windowsLocked` every time the window was
-    /// shown, so a locked tracker passed clicks *and* hovers straight through to
-    /// Hearthstone. Keeping that rule means the drag and the resize grip work
-    /// while the overlay is unlocked, and the overlay stays click-through over the
-    /// trackers the rest of the time.
+    /// The panel only claims clicks while the overlay is unlocked, which is what
+    /// the drag and the resize grip need; the rest of the time it stays
+    /// click-through, as HDT's stacks do - neither of them is ever marked
+    /// `IsOverlayHitTestVisible`.
+    ///
+    /// Note this says nothing about hover. A locked tracker's rows still raise
+    /// their card preview, from the cursor sweep in
+    /// `RootOverlayWindow.updateTrackerRowHover` - HDT's own arrangement, and the
+    /// reason `IsOverlayHoverVisible` exists separately from hit-test visibility.
+    /// The tracker's own window could not do this: `OverWindowController` set
+    /// `ignoresMouseEvents = Settings.windowsLocked`, and a click-through window
+    /// is delivered no mouse-entered events at all, so a locked tracker showed no
+    /// tooltips.
     private var interactiveRegions: [CGRect] {
         guard viewModel.isShown, !isLocked else { return [] }
         let box = layout.boxHeight * scale
