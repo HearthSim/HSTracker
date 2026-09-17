@@ -86,12 +86,9 @@ class WindowMove: NSWindowController {
             x = 0
 
             currentWindow = nil
-            if window == "Secret Tracker" {
-                currentWindow = windowManager.secretTracker.window
-                defaultFrame = NSRect(x: 200,
-                        y: SizeHelper.hearthstoneWindow.frame.height - 50,
-                        width: CGFloat(kMediumRowHeight), height: 300)
-            } else if window == "Full overlay" {
+            // The secret tracker used to have a window of its own to nudge; it is
+            // a RootOverlay child now, placed from Settings.secretsPanelTop/Left.
+            if window == "Full overlay" {
                 currentWindow = overlayWindow
                 var rect = SizeHelper.hearthstoneWindow.frame
                 rect.origin = NSPoint.zero

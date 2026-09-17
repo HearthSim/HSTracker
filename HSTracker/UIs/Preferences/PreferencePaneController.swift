@@ -37,8 +37,17 @@ class PreferencePaneController: NSViewController {
         return max(400, available - 140)
     }
 
+    /// A pane that builds its content in code rather than from a nib returns it
+    /// here. Everything below - the fixed width and the scroll view a tall pane
+    /// gets wrapped in - applies to it just the same.
+    func makeContentView() -> NSView? { nil }
+
     override func loadView() {
-        super.loadView()
+        if let custom = makeContentView() {
+            view = custom
+        } else {
+            super.loadView()
+        }
 
         let content = view
         content.translatesAutoresizingMaskIntoConstraints = false

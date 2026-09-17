@@ -296,37 +296,11 @@ struct SizeHelper {
         return loc
     }
     
-    static func playerTrackerFrame() -> NSRect {
-        return trackerFrame(xOffset: hearthstoneWindow.frame.width - trackerWidth)
-    }
-    
-    static func opponentTrackerFrame() -> NSRect {
-        var yOffset: CGFloat = 0
-        if Settings.preventOpponentNameCovering {
-            yOffset = hearthstoneWindow.frame.height * 0.125 // name height ratio
-        }
-        return trackerFrame(xOffset: 0, yOffset: yOffset)
-    }
-    
-    static func secretTrackerFrame(height: CGFloat) -> NSRect {
-        let yOffset: CGFloat = hearthstoneWindow.isFullscreen() ? 0 : 50
-        
-        let frame = NSRect(x: trackerWidth + 25,
-                           y: hearthstoneWindow.frame.height - height - yOffset,
-                           width: trackerWidth,
-                           height: height)
-        
-        return hearthstoneWindow.relativeFrame(frame, relative: false)
-    }
-    
-    static func bobsPanelOverlayFrame() -> NSRect {
-        let trackerFrame = playerTrackerFrame()
-        let height = CGFloat(52)
-        let width = CGFloat(404)
-        let x = hearthstoneWindow.frame.minX + (hearthstoneWindow.width - width) / 2
-        
-        return NSRect(x: x, y: trackerFrame.minY + trackerFrame.height - height, width: width, height: height)
-    }
+    // playerTrackerFrame / opponentTrackerFrame / secretTrackerFrame used to
+    // frame the three windows those panels had. They are RootOverlay children
+    // now, placed from percentages of the canvas - see TrackerPanelViewModel and
+    // SecretsPanelViewModel.
+
     
 
 }

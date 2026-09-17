@@ -1,3 +1,8 @@
+# 3.6.12
+## Hearthstone
+- The player and opponent deck trackers, the secret helper and the "know your opponent's deck?" prompt are now part of the overlay rather than windows of their own, so they sit where Hearthstone Deck Tracker puts them, keep their place when the game's resolution changes, and are cut away wherever Hearthstone draws over the board.
+- The deck trackers can now be scaled and faded independently for you and your opponent, centred vertically, and the order of their sections changed, from the new Overlay layout settings pane.
+
 # 3.6.11
 ## Hearthstone
 - Fixed HSTracker quitting when a deck was deleted in the deck manager.

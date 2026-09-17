@@ -108,6 +108,31 @@ class RootOverlayViewModel: ObservableObject {
     // HDT's Marks0..9, the age badges over the opponent's hand.
     let opponentHandMarkers = OpponentHandMarkersViewModel()
 
+    // HDT's BorderStackPanelPlayer / BorderStackPanelOpponent - the two deck
+    // trackers, which used to be windows of their own.
+    let playerTracker = TrackerPanelViewModel(playerType: .player)
+    let opponentTracker = TrackerPanelViewModel(playerType: .opponent)
+
+    // What a hovered row in either tracker raises: the blown-up card render, the
+    // related-cards grid and the player deck's synergy highlight. One per side,
+    // since which side a row belongs to is all those need to know.
+    let playerTrackerHover = TrackerCardHoverHandler(playerType: .player)
+    let opponentTrackerHover = TrackerCardHoverHandler(playerType: .opponent)
+
+    // HDT's SecretsContainer, the secret helper.
+    let secretsPanel = SecretsPanelViewModel()
+
+    // HDT's LinkOpponentDeckDisplay, which hangs off the bottom of the opponent
+    // stack.
+    let linkOpponentDeck = LinkOpponentDeckPanelViewModel()
+
+    // Settings.windowsLocked, HDT's _uiMovable inverted. Mirrored here because
+    // the trackers stop being click-through - and gain their drag and resize
+    // grip - exactly while the overlay is unlocked, so the views have to
+    // re-render when it is toggled.
+    @Published var windowsLocked = Settings.windowsLocked
+    private var windowsLockedObserver: NSObjectProtocol?
+
     init() {
         // HDT wires the same reference in OverlayWindow's constructor
         // (BattlegroundsMinionPinningViewModel.CompsGuidesVM = ...): the key
@@ -125,6 +150,18 @@ class RootOverlayViewModel: ObservableObject {
         }
         Watchers.arenaStateWatcher.onTooltipChanged.subscribe { [weak self] in
             self?.setArenaTooltipOpacityMask($0)
+        }
+
+        windowsLockedObserver = NotificationCenter.default.addObserver(
+            forName: Notification.Name(rawValue: Settings.window_locked),
+            object: nil, queue: .main) { [weak self] _ in
+                self?.windowsLocked = Settings.windowsLocked
+            }
+    }
+
+    deinit {
+        if let windowsLockedObserver {
+            NotificationCenter.default.removeObserver(windowsLockedObserver)
         }
     }
 
@@ -151,7 +188,21 @@ class RootOverlayViewModel: ObservableObject {
 
     // The ids of the hover regions the cursor is currently inside, written by
     // RootOverlayWindow on every mouse move.
-    @Published var hoveredRegionIds: Set<String> = []
+    @Published var hoveredRegionIds: Set<String> = [] {
+        didSet {
+            guard oldValue != hoveredRegionIds else { return }
+            // HDT's StackPanelOpponent_MouseEnter / _MouseLeave, which are what
+            // its IsOverlayHoverVisible stack panel raises
+            // (Windows/OverlayWindow.xaml.cs): the link-opponent-deck prompt
+            // follows the cursor onto the opponent's deck list.
+            let id = TrackerPanelViewModel.opponentStackHoverRegionID
+            if hoveredRegionIds.contains(id) && !oldValue.contains(id) {
+                linkOpponentDeck.showByOpponentStack()
+            } else if !hoveredRegionIds.contains(id) && oldValue.contains(id) {
+                linkOpponentDeck.hideByOpponentStack()
+            }
+        }
+    }
 
     // Frame of the Arena bottom panel, tracked separately from hoverRegions
     // above: those are reported by children that only need to know the cursor is

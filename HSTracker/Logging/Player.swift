@@ -209,7 +209,6 @@ final class Player {
     var pastHeroPowers = Set<String>()
 
     var name: String?
-    var tracker: Tracker?
     var drawnCardsMatchDeck = true
 
 	init(local: Bool, game: Game) {

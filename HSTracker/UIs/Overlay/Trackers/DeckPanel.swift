@@ -1,0 +1,92 @@
+//
+//  DeckPanel.swift
+//  HSTracker
+//
+//  Created by Francisco Moraes on 9/17/26.
+//  Copyright © 2026 Benjamin Michotte. All rights reserved.
+//
+
+import Foundation
+
+/// One orderable section of a deck tracker - HDT's `Enums/DeckPanel.cs`, which
+/// drives `OverlayWindow.UpdatePlayerLayout` / `UpdateOpponentLayout`.
+///
+/// Two of HDT's cases have no HSTracker counterpart and are left out: `Fatigue`,
+/// which HSTracker shows in its counters overlay rather than in the stack, and
+/// `Winrate`, HDT's "VS Mage: 2-1 (67%)" label, which HSTracker has never had.
+/// The opponent's own first section is its hero bar, so `deckTitle` stands in
+/// for `Winrate`'s slot there - it is the same view on both sides, carrying the
+/// deck name for the player and the opponent's class and name for the opponent.
+///
+/// `graveyard` is HSTracker's own: HDT has no graveyard counter in the stack.
+///
+/// The raw values are what `Settings.deckPanelOrderPlayer` /
+/// `deckPanelOrderOpponent` persist, so they must not change.
+enum DeckPanel: String, CaseIterable {
+    case deckTitle = "deck_title"
+    case wins
+    case cardsTop = "cards_top"
+    case cards
+    case cardsBottom = "cards_bottom"
+    case sideboards
+    case cardCounter = "card_counter"
+    case drawChances = "draw_chances"
+    case graveyard
+
+    /// HDT's `DeckPanelOrderLocalPlayer` default, with the graveyard counter -
+    /// which HDT does not have - appended.
+    static let defaultPlayerOrder: [DeckPanel] = [
+        .deckTitle, .wins, .cardsTop, .cards, .cardsBottom, .sideboards, .cardCounter, .drawChances, .graveyard
+    ]
+
+    /// HDT's `DeckPanelOrderOpponent` default. Its leading `Winrate` becomes the
+    /// hero bar, and the graveyard counter is appended as above.
+    static let defaultOpponentOrder: [DeckPanel] = [
+        .deckTitle, .cards, .cardCounter, .drawChances, .graveyard
+    ]
+
+    /// The sections that exist on a given side. The player's deck is the only one
+    /// with a known order to its cards, so top/bottom/sideboards are player-only.
+    static func available(for playerType: PlayerType) -> [DeckPanel] {
+        playerType == .opponent
+            ? [.deckTitle, .cards, .cardCounter, .drawChances, .graveyard]
+            : allCases
+    }
+
+    /// The saved order for a side, filtered down to the sections that side has and
+    /// topped up with any that a saved order predates - so a section added in a
+    /// later build appears rather than silently going missing.
+    static func order(for playerType: PlayerType) -> [DeckPanel] {
+        let raw = playerType == .opponent ? Settings.deckPanelOrderOpponent : Settings.deckPanelOrderPlayer
+        let available = Set(self.available(for: playerType))
+        var order = raw.compactMap { DeckPanel(rawValue: $0) }.filter { available.contains($0) }
+        let missing = (playerType == .opponent ? defaultOpponentOrder : defaultPlayerOrder)
+            .filter { available.contains($0) && !order.contains($0) }
+        order.append(contentsOf: missing)
+        return order
+    }
+
+    static func setOrder(_ order: [DeckPanel], for playerType: PlayerType) {
+        if playerType == .opponent {
+            Settings.deckPanelOrderOpponent = order.map { $0.rawValue }
+        } else {
+            Settings.deckPanelOrderPlayer = order.map { $0.rawValue }
+        }
+    }
+
+    /// The label the reordering UI shows, using HDT's own `Enum_DeckPanel_*`
+    /// strings where one exists.
+    var localizedName: String {
+        switch self {
+        case .deckTitle: return String.localizedString("Enum_DeckPanel_DeckTitle", comment: "")
+        case .wins: return String.localizedString("Enum_DeckPanel_Wins", comment: "")
+        case .cardsTop: return String.localizedString("Enum_DeckPanel_CardsTop", comment: "")
+        case .cards: return String.localizedString("Enum_DeckPanel_Cards", comment: "")
+        case .cardsBottom: return String.localizedString("Enum_DeckPanel_CardsBottom", comment: "")
+        case .sideboards: return String.localizedString("Enum_DeckPanel_ETCBand", comment: "")
+        case .cardCounter: return String.localizedString("Enum_DeckPanel_CardCounter", comment: "")
+        case .drawChances: return String.localizedString("Enum_DeckPanel_DrawChances", comment: "")
+        case .graveyard: return String.localizedString("Enum_DeckPanel_Graveyard", comment: "")
+        }
+    }
+}

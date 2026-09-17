@@ -215,7 +215,7 @@ class Game: NSObject, PowerEventHandler {
 	private var guiUpdateResets = false
 	private let _queue = DispatchQueue(label: "net.hearthsim.hstracker.guiupdate", attributes: [])
 	
-    private func updateAllTrackers() {
+    func updateAllTrackers() {
 		SizeHelper.hearthstoneWindow.reload()
 		
 		self.updatePlayerTracker(reset: guiUpdateResets)
@@ -261,11 +261,11 @@ class Game: NSObject, PowerEventHandler {
 	
 	@objc func updateOpponentTracker(reset: Bool = false) {
         DispatchQueue.main.async { [weak self] in
-            guard let self else {
+            guard let self, #available(macOS 10.15, *),
+                  let tracker = self.windowManager.rootOverlay?.viewModel.opponentTracker else {
                 return
             }
-			
-            let tracker = self.windowManager.opponentTracker
+
             if Settings.showOpponentTracker &&
                 (!self.isBattlegroundsMatch() && !self.isMercenariesMatch() && self.currentGameType != .gt_unknown) &&
             !(Settings.dontTrackWhileSpectating && self.spectator) &&
@@ -328,48 +328,29 @@ class Game: NSObject, PowerEventHandler {
                     tracker.playerName = names[0]
                 }
                 
-                tracker.graveyard = self.opponent.graveyard
+                tracker.setGraveyard(self.opponent.graveyard)
                 tracker.playerClassId = self.opponent.playerClassId
-                
-                tracker.currentFormat = self.currentFormat
-                tracker.currentGameMode = self.currentGameMode
-                tracker.matchInfo = self.matchInfo
-                
-                tracker.setWindowSizes()
-                var rect: NSRect?
-                
-                if Settings.autoPositionTrackers && self.hearthstoneRunState.isRunning {
-                    rect = SizeHelper.opponentTrackerFrame()
-                } else {
-                    rect = Settings.opponentTrackerFrame
-                    if rect == nil {
-                        let x = WindowManager.screenFrame.origin.x + 50
-                        rect = NSRect(x: x,
-                                      y: WindowManager.top + WindowManager.screenFrame.origin.y,
-                                      width: WindowManager.cardWidth,
-                                      height: WindowManager.top)
-                    }
-                }
-                tracker.hasValidFrame = true
-                self.windowManager.show(controller: tracker, show: true,
-                                        frame: rect, title: "Opponent tracker",
-                                        overlay: self.hearthstoneRunState.isActive)
-                if self.windowManager.linkOpponentDeckPanel.isShowing {
-                    self.windowManager.linkOpponentDeckPanel.show()
-                }
+
+                // The stack is a child of the overlay canvas now, so there is no
+                // window left to frame: the percentages HDT places it with are
+                // read back off the settings here, and the panel measures itself
+                // against the canvas.
+                TrackerPanelViewModel.migratePlacementIfNeeded()
+                tracker.reloadSettings()
+                tracker.isShown = true
             } else {
-                self.windowManager.show(controller: tracker, show: false)
-                self.windowManager.show(controller: self.windowManager.linkOpponentDeckPanel, show: false)
+                tracker.isShown = false
+                self.windowManager.rootOverlay?.viewModel.linkOpponentDeck.hide(true)
             }
 		}
 	}
     
     @objc func updatePlayerTracker(reset: Bool = false) {
         DispatchQueue.main.async { [weak self] in
-            guard let self else {
+            guard let self, #available(macOS 10.15, *),
+                  let tracker = self.windowManager.rootOverlay?.viewModel.playerTracker else {
                 return
             }
-            let tracker = self.windowManager.playerTracker
             if Settings.showPlayerTracker &&
                 !(Settings.dontTrackWhileSpectating && self.spectator) &&
                 (!self.isBattlegroundsMatch() && !self.isMercenariesMatch() && self.currentGameType != .gt_unknown) &&
@@ -406,7 +387,7 @@ class Game: NSObject, PowerEventHandler {
                                 
                 if let currentDeck = self.currentDeck {
                     if let deck = RealmHelper.getDeck(with: currentDeck.id) {
-                        tracker.recordTrackerMessage = StatsHelper
+                        tracker.recordMessage = StatsHelper
                             .getDeckManagerRecordLabel(deck: deck,
                                                        mode: .all)
                     }
@@ -421,35 +402,13 @@ class Game: NSObject, PowerEventHandler {
                     tracker.playerClassId = playerHeroId
                 }
                 
-                tracker.graveyard = self.player.graveyard
-                
-                tracker.currentFormat = self.currentFormat 
-                tracker.currentGameMode = self.currentGameMode
-                tracker.matchInfo = self.matchInfo
-                
-                tracker.setWindowSizes()
-                
-                var rect: NSRect?
-                
-                if Settings.autoPositionTrackers && self.hearthstoneRunState.isRunning {
-                    rect = SizeHelper.playerTrackerFrame()
-                } else {
-                    rect = Settings.playerTrackerFrame
-                    if rect == nil {
-                        let x = WindowManager.screenFrame.width - WindowManager.cardWidth
-                            + WindowManager.screenFrame.origin.x
-                        rect = NSRect(x: x,
-                                      y: WindowManager.top + WindowManager.screenFrame.origin.y,
-                                      width: WindowManager.cardWidth,
-                                      height: WindowManager.top)
-                    }
-                }
-                tracker.hasValidFrame = true
-                self.windowManager.show(controller: tracker, show: true,
-                                   frame: rect, title: "Player tracker",
-                                   overlay: self.hearthstoneRunState.isActive)
+                tracker.setGraveyard(self.player.graveyard)
+
+                TrackerPanelViewModel.migratePlacementIfNeeded()
+                tracker.reloadSettings()
+                tracker.isShown = true
             } else {
-                self.windowManager.show(controller: tracker, show: false)
+                tracker.isShown = false
             }
         }
     }
@@ -491,34 +450,28 @@ class Game: NSObject, PowerEventHandler {
     }
     
     func updateSecretTracker(cards: [Card]) {
-        self.windowManager.secretTracker.set(cards: cards)
-        self.updateSecretTracker()
+        DispatchQueue.main.async { [weak self] in
+            guard #available(macOS 10.15, *) else { return }
+            self?.windowManager.rootOverlay?.viewModel.secretsPanel.set(cards: cards)
+            self?.updateSecretTracker()
+        }
     }
     
+    // The secret helper lives on the RootOverlay canvas now, so there is no
+    // window of its own left to frame - HDT places SecretsContainer from
+    // Config.SecretsTop / SecretsLeft and sizes it from SecretsPanelHeight, which
+    // is what SecretsPanelView reads.
     func updateSecretTracker() {
         DispatchQueue.main.async { [weak self] in
-            guard let self else {
+            guard let self, #available(macOS 10.15, *),
+                  let panel = self.windowManager.rootOverlay?.viewModel.secretsPanel else {
                 return
             }
-            
-            let tracker = self.windowManager.secretTracker
-            
-            if Settings.showSecretHelper && !self.gameEnded &&
+
+            panel.reloadSettings()
+            panel.isShown = Settings.showSecretHelper && !self.gameEnded &&
                 ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
-                    || !Settings.hideAllWhenGameInBackground) && !isBattlegroundsMatch() {
-                if tracker.cardCount() > 0 {
-                    tracker.setWindowSizes()
-                    let rect = SizeHelper.secretTrackerFrame(height: tracker.frameHeight)
-                    tracker.contentViewController?.preferredContentSize = rect.size
-                    self.windowManager.show(controller: tracker, show: true,
-                                            frame: rect,
-                                            title: nil, overlay: self.hearthstoneRunState.isActive)
-                } else {
-                    self.windowManager.show(controller: tracker, show: false)
-                }
-            } else {
-                self.windowManager.show(controller: tracker, show: false)
-            }
+                    || !Settings.hideAllWhenGameInBackground) && !isBattlegroundsMatch()
         }
     }
     
@@ -1551,8 +1504,6 @@ class Game: NSObject, PowerEventHandler {
         }
 		
 		windowManager.startManager()
-        windowManager.playerTracker.window?.delegate = self
-        windowManager.opponentTracker.window?.delegate = self
 		
 		let center = NotificationCenter.default
 		
@@ -1564,7 +1515,12 @@ class Game: NSObject, PowerEventHandler {
 		                                 Settings.show_win_loss_ratio, Settings.player_in_hand_color, Settings.show_deck_name,
 		                                 Settings.player_graveyard_details_frame, Settings.player_graveyard_frame,
                                          Settings.player_cards_top, Settings.player_cards_bottom, Settings.player_cards_top,
-                                         Settings.player_cards_bottom, Settings.hide_player_sideboards]
+                                         Settings.player_cards_bottom, Settings.hide_player_sideboards,
+                                         // Where the stack sits, how big it is drawn and what order its
+                                         // sections come in - see TrackerPanelViewModel.
+                                         Settings.player_deck_top, Settings.player_deck_left, Settings.player_deck_height,
+                                         Settings.overlay_player_scaling, Settings.player_opacity,
+                                         Settings.overlay_center_player_stack, Settings.deck_panel_order_player]
 		
 		// events that should update the opponent's tracker
 		let opponentTrackerUpdateEvents = [Settings.show_opponent_tracker, Settings.opponent_card_count, Settings.opponent_draw_chance,
@@ -1572,14 +1528,21 @@ class Game: NSObject, PowerEventHandler {
 		                                   Settings.show_opponent_class, Settings.opponent_graveyard_frame,
 		                                   Settings.opponent_graveyard_details_frame,
                                            Settings.opponent_related_cards,
-                                           Settings.hide_opponent_arena_packages]
+                                           Settings.hide_opponent_arena_packages,
+                                           Settings.opponent_deck_top, Settings.opponent_deck_left,
+                                           Settings.opponent_deck_height, Settings.overlay_opponent_scaling,
+                                           Settings.opponent_opacity, Settings.overlay_center_opponent_stack,
+                                           Settings.deck_panel_order_opponent]
 		
 		// events that should update all trackers
 		let allTrackerUpdateEvents = [Settings.rarity_colors, Events.reload_decks, Settings.window_locked, Settings.auto_position_trackers,
 		                              Events.space_changed, Events.hearthstone_closed, Events.hearthstone_running,
 		                              Events.hearthstone_active, Events.hearthstone_deactived, Settings.can_join_fullscreen,
 		                              Settings.hide_all_trackers_when_not_in_game, Settings.hide_all_trackers_when_game_in_background,
-		                              Settings.card_size, Settings.theme_token]
+		                              Settings.card_size, Settings.theme_token,
+                                      Settings.secrets_panel_top, Settings.secrets_panel_left,
+                                      Settings.secrets_panel_height, Settings.secrets_panel_scaling,
+                                      Settings.tracker_opacity]
         
         for option in playerTrackerUpdateEvents {
             let observer = center.addObserver(forName: NSNotification.Name(rawValue: option), object: nil, queue: OperationQueue.main) { _ in
@@ -2017,16 +1980,18 @@ class Game: NSObject, PowerEventHandler {
                                            "deckId": "\(self.getCurrentDeckIdIfAppropriate())"],
                           level: .info)
         
-        windowManager.linkOpponentDeckPanel.isFriendlyMatch = isFriendlyMatch
+        if #available(macOS 10.15, *) {
+            windowManager.rootOverlay?.viewModel.linkOpponentDeck.isFriendlyMatch = isFriendlyMatch
+        }
         
         if isBattlegroundsMatch() && currentGameMode == .spectator, #available(macOS 10.15, *) {
             windowManager.rootOverlay?.viewModel.tier7PreLobby.reset()
         }
         
         if isFriendlyMatch {
-            if !Settings.interactedWithLinkOpponentDeck {
-                windowManager.linkOpponentDeckPanel.autoShown = true
-                windowManager.linkOpponentDeckPanel.show()
+            if !Settings.interactedWithLinkOpponentDeck, #available(macOS 10.15, *) {
+                windowManager.rootOverlay?.viewModel.linkOpponentDeck.autoShown = true
+                windowManager.rootOverlay?.viewModel.linkOpponentDeck.show()
             }
         }
         
@@ -5239,7 +5204,10 @@ class Game: NSObject, PowerEventHandler {
             if self.isTraditionalHearthstoneMatch {
                 let isFriendlyCard = state.side == PlayerSide.friendly.rawValue
 
-                self.windowManager.playerTracker.highlightPlayerDeckCards(highlightSourceCardId: isFriendlyCard ? state.cardId : nil)
+                if #available(macOS 10.15, *) {
+                    self.windowManager.rootOverlay?.viewModel.playerTrackerHover
+                        .highlightPlayerDeckCards(highlightSourceCardId: isFriendlyCard ? state.cardId : nil)
+                }
             }
             self.updateTooltips()
             // Mirrors HDT's SetAnomalyGuidesTrigger(string cardId), called
@@ -5507,37 +5475,7 @@ class Game: NSObject, PowerEventHandler {
     }
 }
 
-// MARK: NSWindowDelegate functions
-extension Game: NSWindowDelegate {
-    
-    func windowDidResize(_ notification: Notification) {
-        
-        guard let window = notification.object as? NSWindow else { return }
-        
-        if window == self.windowManager.playerTracker.window {
-            self.updatePlayerTracker(reset: false)
-            onWindowMove(tracker: self.windowManager.playerTracker)
-        } else if window == self.windowManager.opponentTracker.window {
-            self.updateOpponentTracker(reset: false)
-            onWindowMove(tracker: self.windowManager.opponentTracker)
-        }
-    }
-    
-    func windowDidMove(_ notification: Notification) {
-        guard let window = notification.object as? NSWindow else { return }
-        if window == self.windowManager.playerTracker.window {
-            onWindowMove(tracker: self.windowManager.playerTracker)
-        } else if window == self.windowManager.opponentTracker.window {
-            onWindowMove(tracker: self.windowManager.opponentTracker)
-        }
-    }
-    
-    private func onWindowMove(tracker: Tracker) {
-        if !tracker.isWindowLoaded || !tracker.hasValidFrame {return}
-        if tracker.playerType == .player {
-            Settings.playerTrackerFrame = tracker.window?.frame
-        } else {
-            Settings.opponentTrackerFrame = tracker.window?.frame
-        }
-    }
-}
+// The two deck trackers used to be windows of their own, and this extension kept
+// Settings.player/opponentTrackerFrame in step as they were dragged and resized.
+// They are RootOverlay children now, dragged on the canvas into the percentages
+// HDT stores (see TrackerPanelViewModel), so nothing here is left.

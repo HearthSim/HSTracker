@@ -329,8 +329,9 @@ class Watchers {
         // it has to run on the main thread - Game.onBigCardChange hops for the
         // same call (Sentry HSTRACKER-304).
         DispatchQueue.main.async {
-            if game.isTraditionalHearthstoneMatch {
-                game.windowManager.playerTracker.highlightPlayerDeckCards(highlightSourceCardId: args.cardId)
+            if game.isTraditionalHearthstoneMatch, #available(macOS 10.15, *) {
+                game.windowManager.rootOverlay?.viewModel.playerTrackerHover
+                    .highlightPlayerDeckCards(highlightSourceCardId: args.cardId)
             }
         }
     }

@@ -558,6 +558,93 @@ final class Settings {
     @UserDefaultCustom(key: Settings.opponent_tracker_frame, defaultValue: nil)
     static var opponentTrackerFrame: NSRect?
 
+    // MARK: - Deck tracker placement on the overlay canvas
+    //
+    // The two deck trackers used to be windows of their own, positioned from an
+    // absolute NSRect. They are now children of the RootOverlay canvas, placed
+    // the way HDT places BorderStackPanelPlayer / BorderStackPanelOpponent:
+    //
+    //   Canvas.SetTop(BorderStackPanelPlayer, Height * PlayerDeckTop / 100)
+    //   Canvas.SetLeft(BorderStackPanelPlayer, Width * PlayerDeckLeft / 100
+    //                   - StackPanelPlayer.ActualWidth * OverlayPlayerScaling / 100)
+    //   Canvas.SetTop(BorderStackPanelOpponent, Height * OpponentDeckTop / 100)
+    //   Canvas.SetLeft(BorderStackPanelOpponent, Width * OpponentDeckLeft / 100)
+    //
+    // (OverlayWindow.Update.cs). Note the player stack hangs its *right* edge on
+    // PlayerDeckLeft, which is why its default is just short of 100.
+    //
+    // Percentages rather than an absolute rect so the placement survives a
+    // resolution change, and the defaults are HDT's own (Config.cs).
+    @UserDefault(key: Settings.player_deck_top, defaultValue: 2.0)
+    static var playerDeckTop: Double
+    @UserDefault(key: Settings.player_deck_left, defaultValue: 99.5)
+    static var playerDeckLeft: Double
+    @UserDefault(key: Settings.opponent_deck_top, defaultValue: 12.5)
+    static var opponentDeckTop: Double
+    @UserDefault(key: Settings.opponent_deck_left, defaultValue: 0.5)
+    static var opponentDeckLeft: Double
+
+    // The height the stack is laid out in, as a percentage of the client height -
+    // HDT's PlayerDeckHeight / OpponentDeckHeight, set by dragging the resize
+    // grip at the panel's bottom-right corner. It is what the card rows shrink to
+    // fit, and what decides whether the stack is pinned to the top or the bottom
+    // of its box (OverlayWindow.xaml.cs PlayerStackHeight / PlayerStackPanelAlignment).
+    @UserDefault(key: Settings.player_deck_height, defaultValue: 88.0)
+    static var playerDeckHeight: Double
+    @UserDefault(key: Settings.opponent_deck_height, defaultValue: 72.0)
+    static var opponentDeckHeight: Double
+
+    // HDT's OverlayPlayerScaling / OverlayOpponentScaling, applied to the whole
+    // stack as a ScaleTransform would be (OverlayWindow.Update.cs UpdateScaling).
+    // Stored as a percentage, like HDT's.
+    @UserDefault(key: Settings.overlay_player_scaling, defaultValue: 100.0)
+    static var overlayPlayerScaling: Double
+    @UserDefault(key: Settings.overlay_opponent_scaling, defaultValue: 100.0)
+    static var overlayOpponentScaling: Double
+
+    // HDT's OverlayCenterPlayerStackPanel / OverlayCenterOpponentStackPanel -
+    // whether the stack sits at the top of its box or is centred in it
+    // (OverlayWindow.xaml.cs PlayerStackPanelAlignment).
+    @UserDefault(key: Settings.overlay_center_player_stack, defaultValue: false)
+    static var overlayCenterPlayerStack: Bool
+    @UserDefault(key: Settings.overlay_center_opponent_stack, defaultValue: false)
+    static var overlayCenterOpponentStack: Bool
+
+    // HDT's PlayerOpacity / OpponentOpacity - the stack's own opacity, per side.
+    // HSTracker used to have one tracker_opacity for both, which is the *window*
+    // background alpha rather than the content's; trackerOpacity above is kept
+    // only so migrateTrackerPlacementIfNeeded() can seed these once.
+    @UserDefault(key: Settings.player_opacity, defaultValue: 100.0)
+    static var playerOpacity: Double
+    @UserDefault(key: Settings.opponent_opacity, defaultValue: 100.0)
+    static var opponentOpacity: Double
+
+    // The order the stack's sections are drawn in, top to bottom - HDT's
+    // DeckPanelOrderLocalPlayer / DeckPanelOrderOpponent. Stored as the raw
+    // strings of DeckPanel so an unknown entry from a newer build is simply
+    // dropped rather than shifting everything after it.
+    @UserDefault(key: Settings.deck_panel_order_player, defaultValue: DeckPanel.defaultPlayerOrder.map { $0.rawValue })
+    static var deckPanelOrderPlayer: [String]
+    @UserDefault(key: Settings.deck_panel_order_opponent, defaultValue: DeckPanel.defaultOpponentOrder.map { $0.rawValue })
+    static var deckPanelOrderOpponent: [String]
+
+    // The secrets panel, which moved onto the canvas with the trackers. HDT's
+    // SecretsTop / SecretsLeft / SecretsPanelHeight / SecretsPanelScaling - note
+    // its scaling is a plain factor in HDT, not a percentage.
+    @UserDefault(key: Settings.secrets_panel_top, defaultValue: 5.0)
+    static var secretsPanelTop: Double
+    @UserDefault(key: Settings.secrets_panel_left, defaultValue: 15.0)
+    static var secretsPanelLeft: Double
+    @UserDefault(key: Settings.secrets_panel_height, defaultValue: 40.0)
+    static var secretsPanelHeight: Double
+    @UserDefault(key: Settings.secrets_panel_scaling, defaultValue: 1.0)
+    static var secretsPanelScaling: Double
+
+    // Set once the absolute frames above have been converted into the
+    // percentages, so a player who moved a tracker keeps it where they put it.
+    @UserDefault(key: Settings.migrated_tracker_placement, defaultValue: false)
+    static var migratedTrackerPlacement: Bool
+
     @UserDefault(key: Settings.player_board_damage, defaultValue: true)
     static var playerBoardDamage: Bool
     
@@ -857,6 +944,25 @@ extension Settings {
     static let show_apphealth = "show_apphealth"
     static let player_tracker_frame = "player_tracker_frame"
     static let opponent_tracker_frame = "opponent_tracker_frame"
+    static let player_deck_top = "player_deck_top"
+    static let player_deck_left = "player_deck_left"
+    static let player_deck_height = "player_deck_height"
+    static let opponent_deck_top = "opponent_deck_top"
+    static let opponent_deck_left = "opponent_deck_left"
+    static let opponent_deck_height = "opponent_deck_height"
+    static let overlay_player_scaling = "overlay_player_scaling"
+    static let overlay_center_player_stack = "overlay_center_player_stack"
+    static let overlay_center_opponent_stack = "overlay_center_opponent_stack"
+    static let overlay_opponent_scaling = "overlay_opponent_scaling"
+    static let player_opacity = "player_opacity"
+    static let opponent_opacity = "opponent_opacity"
+    static let deck_panel_order_player = "deck_panel_order_player"
+    static let deck_panel_order_opponent = "deck_panel_order_opponent"
+    static let secrets_panel_top = "secrets_panel_top"
+    static let secrets_panel_left = "secrets_panel_left"
+    static let secrets_panel_height = "secrets_panel_height"
+    static let secrets_panel_scaling = "secrets_panel_scaling"
+    static let migrated_tracker_placement = "migrated_tracker_placement"
     static let player_board_damage = "player_board_damage"
     static let opponent_board_damage = "opponent_board_damage"
     static let show_fatigue = "show_fatigue"

@@ -13,40 +13,10 @@ class WindowManager {
 	
 	var hearthstoneActive = false
 	
-    static let cardWidth: CGFloat = {
-        switch Settings.cardSize {
-        case .tiny: return CGFloat(kTinyFrameWidth)
-        case .small: return CGFloat(kSmallFrameWidth)
-        case .medium: return CGFloat(kMediumFrameWidth)
-        case .big: return CGFloat(kFrameWidth)
-        case .huge: return CGFloat(kHighRowFrameWidth)
-        }
-    }()
-    static let screenFrame: NSRect = {
-        return NSScreen.main!.frame
-    }()
-    static let top: CGFloat = {
-        return screenFrame.height - 50
-    }()
+    // The two deck trackers, the secret helper and the link-opponent-deck panel
+    // are RootOverlay children now - see RootOverlayViewModel's playerTracker /
+    // opponentTracker / secretsPanel / linkOpponentDeck.
 
-    var playerTracker: Tracker = {
-        $0.playerType = .player
-        return $0
-    }(Tracker(windowNibName: "Tracker"))
-
-    var opponentTracker: Tracker = {
-        $0.playerType = .opponent
-        return $0
-    }(Tracker(windowNibName: "Tracker"))
-    
-    var linkOpponentDeckPanel: LinkOpponentDeckPanel = {
-        return $0
-    }(LinkOpponentDeckPanel(windowNibName: "LinkOpponentDeckPanel"))
-
-    var secretTracker: CardList = {
-        return $0
-    }(CardList(windowNibName: "CardList"))
-	
     private var _rootOverlay: Any?
     @available(OSX 10.15, *)
     var rootOverlay: RootOverlayWindow? {
@@ -86,7 +56,6 @@ class WindowManager {
     var triggers: [NSObjectProtocol] = []
     
     func startManager() {
-        secretTracker.isSecretPanel = true
         if triggers.count == 0 {
             let events = [
                 Events.show_floating_card: self.showFloatingCard,
@@ -113,8 +82,8 @@ class WindowManager {
     func hideGameTrackers() {
 		// TODO: use not defered gui instead
         DispatchQueue.main.async { [weak self] in
-            self?.secretTracker.window?.orderOut(nil)
             if #available(macOS 10.15, *) {
+                self?.rootOverlay?.viewModel.secretsPanel.isShown = false
                 self?.rootOverlay?.viewModel.opponentHandMarkers.hide()
                 self?.rootOverlay?.viewModel.boardOverlay.isShown = false
                 self?.rootOverlay?.viewModel.flavorText.hide()

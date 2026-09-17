@@ -31,3 +31,32 @@ enum CardSize: Int {
     big = 2,
     huge = 3
 }
+
+extension CardSize {
+    /// The height one card row is drawn at.
+    var rowHeight: Double {
+        switch self {
+        case .tiny: return kTinyRowHeight
+        case .small: return kSmallRowHeight
+        case .medium: return kMediumRowHeight
+        case .big: return kRowHeight
+        case .huge: return kHighRowHeight
+        }
+    }
+
+    /// The width a tracker is drawn at, which keeps the 217x34 aspect of the
+    /// authored row.
+    var frameWidth: Double {
+        switch self {
+        case .tiny: return kTinyFrameWidth
+        case .small: return kSmallFrameWidth
+        case .medium: return kMediumFrameWidth
+        case .big: return kFrameWidth
+        case .huge: return kHighRowFrameWidth
+        }
+    }
+
+    /// What every rect authored against the 217x34 row is divided by to reach this
+    /// size - see `TextFrame.ratio`.
+    var ratio: Double { kRowHeight / rowHeight }
+}

@@ -25,23 +25,6 @@ class OverWindowController: NSWindowController {
         }
     }
 
-    func setWindowSizes() {
-        var width: Double
-        switch Settings.cardSize {
-        case .tiny: width = kTinyFrameWidth
-        case .small: width = kSmallFrameWidth
-        case .medium: width = kMediumFrameWidth
-        case .huge: width = kHighRowFrameWidth
-        case .big: width = kFrameWidth
-        }
-
-        guard let window = self.window else { return }
-
-        window.contentMinSize = NSSize(width: CGFloat(width), height: 400)
-        window.contentMaxSize = NSSize(width: CGFloat(width),
-                                             height: NSScreen.main!.frame.height)
-    }
-    
     /**
         Updates the UI based on stored data. This method should only be called from the main thread
      */

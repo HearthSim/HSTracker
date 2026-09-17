@@ -42,7 +42,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
     var triggers: [NSObjectProtocol] = []
     
     lazy var preferences: PreferencesWindowController = {
-        let panes: [PreferencePane] = [
+        var panes: [PreferencePane] = [
             GeneralPreferences(nibName: "GeneralPreferences", bundle: nil),
             GamePreferences(nibName: "GamePreferences", bundle: nil),
             TrackersPreferences(nibName: "TrackersPreferences", bundle: nil),
@@ -55,6 +55,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
             MercenariesPreferences(nibName: "MercenariesPreferences", bundle: nil),
             ImportingPreferences(nibName: "ImportingPreferences", bundle: nil)
         ]
+        // Built in code, so it has no nib to name - see OverlayLayoutPreferences.
+        if #available(macOS 10.15, *) {
+            panes.insert(OverlayLayoutPreferences(), at: 3)
+        }
         // Each pane fixes its own width (see PreferencePaneController), so the window keeps a
         // constant width across panes and only its height adapts.
         return PreferencesWindowController(preferencePanes: panes, style: .toolbarItems, animated: true)
