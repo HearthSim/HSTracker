@@ -71,7 +71,8 @@ enum CardSet: String, CaseIterable {
     the_lost_city,
     time_travel,
     cataclysm,
-    escapefrom_violet_hold
+    escapefrom_violet_hold,
+    be // Reign of the Black Empire
     
     // These lists used to be rebuilt on every call, which is once or twice per
     // card while the database loads and once per card in half a dozen deck
@@ -85,7 +86,7 @@ enum CardSet: String, CaseIterable {
         .alterac_valley, .the_sunken_city, .revendreth, .return_of_the_lich_king,
         .path_of_arthas, .battle_of_the_bands, .titans, .wonders, .wild_west,
         .whizbangs_workshop, .island_vacation, .space, .emerald_dream, .the_lost_city,
-        .time_travel, .cataclysm, .escapefrom_violet_hold
+        .time_travel, .cataclysm, .escapefrom_violet_hold, .be
     ]
 
     static let deckManagerCardSetLookup = Set(deckManagerValidCardSets)
@@ -181,5 +182,6 @@ public enum CardSetInt: Int {
     the_lost_city = 1952,
     time_travel = 1957,
     cataclysm = 1980,
-    escapefrom_violet_hold = 1988
+    escapefrom_violet_hold = 1988,
+    be = 1994
 }

@@ -13,6 +13,7 @@
 - Hovering a card in your hand now shows its flavor text, as it does in Hearthstone Deck Tracker, and the Mercenaries ability icons over the board and the ability cards shown when a mercenary is hovered are now drawn and placed the way Hearthstone Deck Tracker draws and places them.
 - The markers over the opponent's hand now sit where Hearthstone Deck Tracker puts them, with the card that created or drew each one shown below the turn badge rather than inside it, and hovering a marker now shows that card below the hand, naming it and saying whether it created or drew the card in hand.
 - Fixed HSTracker quitting on launch while Hearthstone was showing the Black Market, and it no longer quits when Hearthstone adds a screen, minion type, class or rarity it does not know about yet.
+- Added the Reign of the Black Empire card set, so its cards are recognized instead of being ignored.
 
 ## Battlegrounds
 - Hovering a minion that only ever appears golden now shows just that card, instead of a blank slot beside it.
