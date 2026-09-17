@@ -48,7 +48,8 @@ enum BattlegroundsMinionType: Hashable {
     private static let englishRaceNames: [Race: String] = [
         .beast: "Beast", .demon: "Demon", .dragon: "Dragon", .elemental: "Elemental",
         .mechanical: "Mech", .murloc: "Murloc", .naga: "Naga", .pirate: "Pirate",
-        .quilboar: "Quilboar", .undead: "Undead", .totem: "Totem", .all: "All"
+        .quilboar: "Quilboar", .undead: "Undead", .totem: "Totem", .aberration: "Aberration",
+        .all: "All"
     ]
 
     private static func localized(_ key: String, fallback: String) -> String {

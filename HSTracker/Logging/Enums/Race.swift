@@ -109,7 +109,33 @@ enum Race: String, CaseIterable {
     gnoll,
     golem,
     harpy,
-    vulpera
+    vulpera,
+    race_101,
+    race_102,
+    race_103,
+    race_104,
+    race_105,
+    race_106,
+    race_107,
+    race_108,
+    race_109,
+    race_110,
+    race_111,
+    race_112,
+    race_113,
+    race_114,
+    race_115,
+    race_116,
+    race_117,
+    race_118,
+    race_119,
+    race_120,
+    race_121,
+    race_122,
+    race_123,
+    race_124,
+    race_125,
+    aberration
     
     static var lookup = [Int: Race]()
     static var reverseLookup = [Race: Int]()
@@ -180,6 +206,7 @@ class RaceUtils {
         2585: Race.gnoll,
         2586: Race.golem,
         2587: Race.harpy,
-        2588: Race.vulpera
+        2588: Race.vulpera,
+        4756: Race.aberration
     ]
 }

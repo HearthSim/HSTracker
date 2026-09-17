@@ -18,6 +18,7 @@
 ## Battlegrounds
 - Hovering a minion that only ever appears golden now shows just that card, instead of a blank slot beside it.
 - Fixed the minion type corrections HSTracker downloads being ignored, and a correction meant for one property being applied to all of them.
+- Added the Aberration minion type.
 
 ## Bob's Buddy
 - Fixed the odds against a ghost board counting a Fang Anklet bonus its Beasts do not actually have.
