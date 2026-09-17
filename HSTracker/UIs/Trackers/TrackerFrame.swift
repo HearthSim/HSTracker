@@ -76,15 +76,23 @@ class TextFrame: NSView {
         add(string: String(format: format, val), rect: rect)
     }
 
-    func add(string val: String, rect: NSRect, alignment: NSTextAlignment = .left) {
+    func add(string val: String, rect: NSRect, alignment: NSTextAlignment = .left,
+             fontSize: CGFloat = 18, verticallyCentered: Bool = false,
+             verticalOffset: CGFloat = 0) {
         let attributes = TextAttributes()
-            .font(NSFont(name: "ChunkFive", size: round(18 / ratioHeight)))
+            .font(NSFont(name: "ChunkFive", size: round(fontSize / ratioHeight)))
             .foregroundColor(.white)
             .strokeColor(.black)
             .strokeWidth(-2)
             .alignment(alignment)
 
-        NSAttributedString(string: val, attributes: attributes)
-            .draw(in: ratio(rect))
+        let attributedString = NSAttributedString(string: val, attributes: attributes)
+        var drawRect = ratio(rect)
+        if verticallyCentered {
+            let textHeight = attributedString.size().height
+            drawRect.origin.y = bounds.midY - textHeight / 2 + verticalOffset / ratioHeight
+            drawRect.size.height = textHeight
+        }
+        attributedString.draw(in: drawRect)
     }
 }
