@@ -363,31 +363,51 @@ class RootOverlayWindow: OverWindowController {
     // Which row the cursor is on is TrackerCardHoverRegistry's own business -
     // see its row(under:in:).
     private func updateTrackerRowHover() {
-        guard #available(macOS 10.15, *), let overlayWindow = window else { return }
-        let screenLocation = NSEvent.mouseLocation
-
-        let match = TrackerCardHoverRegistry.shared.row(under: screenLocation, in: overlayWindow)
-
-        guard hoveredTrackerRow?.bar !== match?.bar else { return }
-        if let previous = hoveredTrackerRow {
-            previous.target?.out(card: previous.card)
+        guard #available(macOS 10.15, *), let overlayWindow = window,
+              let hostingView = hostingView else {
+            return
         }
-        if let match {
-            hoveredTrackerRow = HoveredTrackerRow(bar: match.bar, card: match.card, target: match.target)
-            match.target.hover(cell: match.bar, card: match.card)
+        let screenLocation = NSEvent.mouseLocation
+        let windowPoint = overlayWindow.convertPoint(fromScreen: screenLocation)
+        let viewPoint = hostingView.convert(windowPoint, from: nil)
+
+        // `last`, as everywhere else here: a later sibling is the one on top.
+        let match = viewModel.trackerRows.last { $0.rect.contains(viewPoint) }
+
+        guard hoveredTrackerRow?.card !== match?.card else { return }
+        if let previous = hoveredTrackerRow {
+            previous.handler.out(card: previous.card)
+        }
+        if let match, let handler = hoverTarget(for: match.kind) {
+            // The row's frame is in canvas pixels; the preview is placed in screen
+            // ones, so it is converted here rather than in the handler.
+            let inWindow = hostingView.convert(match.rect, to: nil)
+            hoveredTrackerRow = HoveredTrackerRow(card: match.card, handler: handler)
+            handler.hover(card: match.card, rowFrame: overlayWindow.convertToScreen(inWindow))
         } else {
             hoveredTrackerRow = nil
         }
     }
 
-    // The card is held strongly: the row it belongs to can be torn down while it
-    // is still the hovered one (a card leaves the deck, the tracker hides), and
-    // out(card:) still has to be delivered for it.
+    // The card is held strongly: the row can be torn down while it is still the
+    // hovered one (a card leaves the deck, the tracker hides), and out(card:) has
+    // to be delivered for it all the same.
+    /// Which handler a row's kind reports to - see `TrackerRowHoverKind`.
+    @available(macOS 10.15, *)
+    private func hoverTarget(for kind: TrackerRowHoverKind) -> TrackerRowHoverTarget? {
+        switch kind {
+        case .playerDeck: return viewModel.playerTrackerHover
+        case .opponentDeck: return viewModel.opponentTrackerHover
+        case .secrets: return OverlayCardListHoverHandler.secrets
+        case .cardList: return OverlayCardListHoverHandler.cardList
+        case .none: return nil
+        }
+    }
+
     @available(macOS 10.15, *)
     private struct HoveredTrackerRow {
-        weak var bar: CardBar?
         let card: Card
-        weak var target: CardCellHover?
+        let handler: TrackerRowHoverTarget
     }
     private var _hoveredTrackerRow: Any?
     @available(macOS 10.15, *)

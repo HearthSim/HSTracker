@@ -246,15 +246,12 @@ class TrackerPanelLayoutTests: HSTrackerTests {
         XCTAssertEqual(top.y, (layout.boxHeight - content) / 2, accuracy: 0.001)
     }
 
-    // MARK: - Hosted AppKit sections
+    // MARK: - Rows
 
-    /// The sections are the same AppKit views the window-based tracker used, and
-    /// they lay their own children out from the frame they are given rather than
-    /// in a layout pass of their own. This is the check that SwiftUI really does
-    /// hand them that frame.
-    func testHostedCardListGetsTheFrameTheLayoutComputed() {
-        // No hero bar: it would need the card database, which this test does not
-        // load, and it is not what is under test here.
+    /// The rows are SwiftUI now, so the panel has to report where each one is for
+    /// the cursor sweep to raise its preview - `CardBar`'s own tracking areas are
+    /// gone, and were dead over a click-through window anyway.
+    func testPanelReportsARowPerCardForHover() throws {
         Settings.showDeckNameInTracker = false
         Settings.showWinLossRatio = false
         Settings.showPlayerCardCount = false
@@ -265,114 +262,69 @@ class TrackerPanelLayoutTests: HSTrackerTests {
         let canvas = CGSize(width: 1920, height: 1080)
         let layout = TrackerPanelLayout(viewModel: model, canvasHeight: canvas.height)
 
-        let view = TrackerPanelView(viewModel: model,
-                                    canvasSize: canvas,
-                                    isLocked: true,
-                                    hoverHandler: TrackerCardHoverHandler(playerType: .player))
-        let host = NSHostingView(rootView: view)
-        host.frame = CGRect(origin: .zero, size: canvas)
-        host.layoutSubtreeIfNeeded()
+        let rows = try reportedRows(for: model, canvas: canvas)
+        XCTAssertEqual(rows.count, 6)
+        XCTAssertTrue(rows.allSatisfy { $0.kind == .playerDeck })
 
-        guard let list = firstDescendant(of: host, ofType: AnimatedCardList.self) else {
-            return XCTFail("no AnimatedCardList was hosted")
+        // Stacked, each one row tall, and all the same width.
+        let sorted = rows.sorted { $0.rect.minY < $1.rect.minY }
+        for (index, row) in sorted.enumerated() {
+            XCTAssertEqual(row.rect.height, layout.cardHeight, accuracy: 0.5,
+                           "row \(index) is not one card tall")
+            XCTAssertEqual(row.rect.width, layout.width, accuracy: 0.5)
+            if index > 0 {
+                XCTAssertEqual(row.rect.minY, sorted[index - 1].rect.maxY, accuracy: 0.5,
+                               "row \(index) does not sit on the one above")
+            }
         }
-        XCTAssertEqual(list.frame.width, SizeHelper.trackerWidth, accuracy: 0.5)
-        XCTAssertEqual(list.frame.height, CGFloat(6) * layout.cardHeight, accuracy: 0.5)
-        XCTAssertEqual(list.count, 6)
-        // updateFrames() ran, so every row is mounted and stacked.
-        XCTAssertEqual(list.subviews.count, 6)
     }
 
-    private func firstDescendant<T: NSView>(of view: NSView, ofType: T.Type) -> T? {
-        for subview in view.subviews {
-            if let match = subview as? T { return match }
-            if let match = firstDescendant(of: subview, ofType: T.self) { return match }
-        }
-        return nil
-    }
+    /// The opponent's rows report a different kind, which is what sends their
+    /// hover to the opponent's handler rather than the player's.
+    func testOpponentRowsReportTheOpponentKind() throws {
+        Settings.showOpponentClassInTracker = false
+        Settings.showOpponentCardCount = false
+        Settings.showOpponentDrawChance = false
 
-    // MARK: - Row hover sweep
-
-    /// A locked tracker's rows have to raise their preview from the cursor sweep,
-    /// because the overlay window is click-through over them and a click-through
-    /// window is delivered no mouse-entered events at all. This is that sweep's
-    /// geometry: the row the registry resolves for a given screen point.
-    func testRegistryResolvesTheRowUnderTheCursor() throws {
-        // Both at 1:1 and scaled: the rows are found through SwiftUI's
-        // scaleEffect and offset, which are paint transforms a layout-space
-        // lookup would miss.
-        try assertRowsResolveToThemselves(scaling: 100)
-        try assertRowsResolveToThemselves(scaling: 70)
-    }
-
-    private func assertRowsResolveToThemselves(scaling: Double) throws {
-        Settings.showDeckNameInTracker = false
-        Settings.showWinLossRatio = false
-        Settings.showPlayerCardCount = false
-        Settings.showPlayerDrawChance = false
-
-        let model = playerModel(deck: 6)
-        model.scaling = scaling
+        let model = TrackerPanelViewModel(playerType: .opponent)
+        model.update(cards: cards(3), top: [], bottom: [], sideboards: [], relatedCards: [])
+        model.panelOrder = DeckPanel.order(for: .opponent)
         model.isShown = true
-        let canvas = CGSize(width: 1920, height: 1080)
-        let handler = TrackerCardHoverHandler(playerType: .player)
 
-        let host = NSHostingView(rootView: TrackerPanelView(viewModel: model,
-                                                            canvasSize: canvas,
-                                                            isLocked: true,
-                                                            hoverHandler: handler))
-        host.frame = CGRect(origin: .zero, size: canvas)
-        // A real window: the registry works in screen coordinates, and a view
-        // with no window has none.
-        let window = NSWindow(contentRect: host.frame, styleMask: [.borderless],
-                              backing: .buffered, defer: false)
-        window.contentView = host
-        window.orderFrontRegardless()
-        host.layoutSubtreeIfNeeded()
-        defer { window.orderOut(nil) }
-
-        guard let list = firstDescendant(of: host, ofType: AnimatedCardList.self) else {
-            return XCTFail("no AnimatedCardList was hosted")
-        }
-        let bars = list.subviews.compactMap { $0 as? CardBar }
-        XCTAssertEqual(bars.count, 6)
-
-        // Every row resolves to itself, from its own centre.
-        for bar in bars {
-            let rect = window.convertToScreen(bar.convert(bar.bounds, to: nil))
-            let match = TrackerCardHoverRegistry.shared.row(under: CGPoint(x: rect.midX, y: rect.midY),
-                                                            in: window)
-            XCTAssertTrue(match?.bar === bar, "row at \(rect) did not resolve to itself at \(scaling)%")
-            XCTAssertTrue(match?.target === handler)
-        }
-
-        // ... and a point beside the panel resolves to nothing.
-        let listRect = window.convertToScreen(list.convert(list.bounds, to: nil))
-        XCTAssertNil(TrackerCardHoverRegistry.shared.row(under: CGPoint(x: listRect.minX - 20,
-                                                                        y: listRect.midY),
-                                                         in: window))
+        let rows = try reportedRows(for: model, canvas: CGSize(width: 1920, height: 1080))
+        XCTAssertEqual(rows.count, 3)
+        XCTAssertTrue(rows.allSatisfy { $0.kind == .opponentDeck })
     }
 
-    /// A list that leaves the window stops being swept, so a torn-down tracker
-    /// cannot keep answering for the cursor.
-    func testUnmountedListLeavesTheRegistry() throws {
-        let model = playerModel(deck: 3)
-        model.isShown = true
-        let canvas = CGSize(width: 1920, height: 1080)
-        let host = NSHostingView(rootView: TrackerPanelView(
-            viewModel: model, canvasSize: canvas, isLocked: true,
-            hoverHandler: TrackerCardHoverHandler(playerType: .player)))
+    /// A hidden panel reports nothing, so a torn-down tracker cannot keep
+    /// answering for the cursor.
+    func testHiddenPanelReportsNoRows() throws {
+        let model = playerModel(deck: 4)
+        model.isShown = false
+        XCTAssertTrue(try reportedRows(for: model, canvas: CGSize(width: 1920, height: 1080)).isEmpty)
+    }
+
+    /// Hosts the panel and collects what it publishes through TrackerRowHoverKey.
+    private func reportedRows(for model: TrackerPanelViewModel, canvas: CGSize) throws -> [TrackerRowHover] {
+        let collected = RowCollector()
+        let root = TrackerPanelView(viewModel: model, canvasSize: canvas, isLocked: true,
+                                    hoverHandler: TrackerCardHoverHandler(playerType: model.playerType))
+            .coordinateSpace(name: "rootOverlayCanvas")
+            .onPreferenceChange(TrackerRowHoverKey.self) { collected.rows = $0 }
+
+        let host = NSHostingView(rootView: root)
         host.frame = CGRect(origin: .zero, size: canvas)
         let window = NSWindow(contentRect: host.frame, styleMask: [.borderless],
                               backing: .buffered, defer: false)
         window.contentView = host
         window.orderFrontRegardless()
+        RunLoop.current.run(until: Date().addingTimeInterval(0.4))
         host.layoutSubtreeIfNeeded()
-
-        XCTAssertTrue(TrackerCardHoverRegistry.shared.entries.contains { $0.list?.window === window })
-
-        window.contentView = NSView()
         window.orderOut(nil)
-        XCTAssertFalse(TrackerCardHoverRegistry.shared.entries.contains { $0.list?.window === window })
+        return collected.rows
+    }
+
+    private final class RowCollector {
+        var rows: [TrackerRowHover] = []
     }
 }

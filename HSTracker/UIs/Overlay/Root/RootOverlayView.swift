@@ -572,6 +572,9 @@ struct RootOverlayView: View {
         .onPreferenceChange(HoverRegionPreferenceKey.self) { regions in
             viewModel.hoverRegions = regions
         }
+        .onPreferenceChange(TrackerRowHoverKey.self) { rows in
+            viewModel.trackerRows = rows
+        }
         .onPreferenceChange(BoardHoverTargetsKey.self) { targets in
             viewModel.boardHoverTargets = targets
         }

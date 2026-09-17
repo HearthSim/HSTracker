@@ -52,15 +52,9 @@ struct TrackerGraveyardDetailsView: View {
     private var height: CGFloat { rowHeight * CGFloat(viewModel.graveyardMinions.count) }
 
     private var list: some View {
-        TrackerCardListView(content: TrackerCardListContent(cards: viewModel.graveyardMinions,
-                                                            version: viewModel.graveyardVersion,
-                                                            reset: false),
-                            // The list the window used drew its rows as `.secrets`
-                            // bars, so the details keep that look.
-                            playerType: .secrets,
-                            cardHeight: rowHeight,
-                            // The CardList window this replaced gave its rows the
-                            // same card render on hover.
-                            delegate: OverlayCardListHoverHandler.cardList)
+        // The list the window used drew its rows as `.secrets` bars, so the
+        // details keep that look.
+        CardTileListView(cards: viewModel.graveyardMinions, playerType: .secrets,
+                         cardHeight: rowHeight, hoverKind: .cardList)
     }
 }

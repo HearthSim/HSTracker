@@ -59,10 +59,9 @@ struct SecretsPanelView: View {
 
     private var panel: some View {
         VStack(spacing: 0) {
-            TrackerCardListView(content: viewModel.cards,
-                                playerType: .secrets,
-                                cardHeight: cardHeight,
-                                delegate: OverlayCardListHoverHandler.secrets)
+            CardTileListView(cards: viewModel.cards.cards, playerType: .secrets,
+                             cardHeight: cardHeight, reset: viewModel.cards.reset,
+                             hoverKind: .secrets)
                 .frame(width: width, height: listHeight)
         }
         .frame(width: width, height: boxHeight, alignment: .top)

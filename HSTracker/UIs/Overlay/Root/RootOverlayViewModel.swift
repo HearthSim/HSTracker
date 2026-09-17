@@ -204,6 +204,11 @@ class RootOverlayViewModel: ObservableObject {
         }
     }
 
+    // Every deck-tracker row currently on screen, reported by TrackerRowHoverKey.
+    // RootOverlayWindow matches the cursor against these to raise a card's
+    // preview - see its updateTrackerRowHover.
+    @Published var trackerRows: [TrackerRowHover] = []
+
     // Frame of the Arena bottom panel, tracked separately from hoverRegions
     // above: those are reported by children that only need to know the cursor is
     // over them, while this one drives the panel's own slide-out and is matched

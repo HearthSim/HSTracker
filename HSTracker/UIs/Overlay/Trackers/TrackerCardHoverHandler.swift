@@ -18,7 +18,7 @@ import SwiftUI
 /// single `Tracker` instance owned both the player's lists and the opponent's,
 /// and had to work out which of them a hovered row came from.
 @available(macOS 10.15, *)
-class TrackerCardHoverHandler: NSObject, ObservableObject, CardCellHover {
+class TrackerCardHoverHandler: NSObject, ObservableObject, TrackerRowHoverTarget {
     let playerType: PlayerType
 
     init(playerType: PlayerType) {
@@ -51,14 +51,17 @@ class TrackerCardHoverHandler: NSObject, ObservableObject, CardCellHover {
         highlightVersion += 1
     }
 
-    // MARK: - CardCellHover
+    // MARK: - Hover
 
-    func hover(cell: CardBar, card: Card) {
+    /// `rowFrame` is the hovered row in screen coordinates - RootOverlayWindow's
+    /// sweep converts it out of the canvas before handing it over.
+    func hover(card: Card, rowFrame: NSRect) {
         if playerType == .player {
             highlightPlayerDeckCards(highlightSourceCardId: card.id)
         }
         delayedTooltip?.cancel()
-        delayedTooltip = DelayedTooltip(handler: tooltipDisplay, 0.400, ["cell": cell, "card": card])
+        delayedTooltip = DelayedTooltip(handler: tooltipDisplay, 0.400,
+                                        ["frame": rowFrame, "card": card])
     }
 
     func out(card: Card) {
@@ -76,15 +79,12 @@ class TrackerCardHoverHandler: NSObject, ObservableObject, CardCellHover {
     private func tooltipDisplay(_ userInfo: Any?) {
         defer { delayedTooltip = nil }
         guard let dict = userInfo as? [String: Any?],
-              let cell = dict["cell"] as? CardBar,
-              let card = dict["card"] as? Card,
-              let window = cell.window else {
+              let cellOnScreen = dict["frame"] as? NSRect,
+              let card = dict["card"] as? Card else {
             return
         }
 
         let hoverFrame = NSRect(x: 0, y: 0, width: 256, height: 388)
-        let cellInWindow = cell.convert(cell.bounds, to: nil)
-        let cellOnScreen = window.convertToScreen(cellInWindow)
 
         // Decide whether the render goes to the left or the right of the tracker.
         // The tracker used to be a window of its own, so this asked whether that
@@ -174,7 +174,7 @@ class TrackerCardHoverHandler: NSObject, ObservableObject, CardCellHover {
 /// when it was the secret helper (`isSecretPanel`), and otherwise picked the side
 /// the hovered row left room for.
 @available(macOS 10.15, *)
-class OverlayCardListHoverHandler: NSObject, CardCellHover {
+class OverlayCardListHoverHandler: NSObject, TrackerRowHoverTarget {
     static let secrets = OverlayCardListHoverHandler(alwaysRight: true)
     static let cardList = OverlayCardListHoverHandler(alwaysRight: false)
 
@@ -184,16 +184,15 @@ class OverlayCardListHoverHandler: NSObject, CardCellHover {
         self.alwaysRight = alwaysRight
     }
 
-    func hover(cell: CardBar, card: Card) {
-        guard let window = cell.window else { return }
+    /// `rowFrame` is the hovered row in screen coordinates.
+    func hover(card: Card, rowFrame onScreen: NSRect) {
         let hoverFrame = NSRect(x: 0, y: 0, width: 256, height: 388)
-        let onScreen = window.convertToScreen(cell.convert(cell.bounds, to: nil))
 
         let x = alwaysRight || onScreen.minX < hoverFrame.width
             ? onScreen.maxX
             : onScreen.minX - hoverFrame.width
         var y = onScreen.minY - hoverFrame.height / 2.0
-        if let screen = window.screen {
+        if let screen = NSScreen.screens.first(where: { $0.frame.intersects(onScreen) }) ?? NSScreen.main {
             y = min(y, screen.frame.maxY - hoverFrame.height)
             y = max(y, screen.frame.minY)
         }

@@ -83,13 +83,21 @@ class TrackerPanelViewModel: ObservableObject {
                 reset: Bool = false) {
         contentVersion += 1
         let version = contentVersion
-        self.cards = TrackerCardListContent(cards: cards, version: version, reset: reset)
-        self.topCards = TrackerCardListContent(cards: top, version: version, reset: reset)
-        self.bottomCards = TrackerCardListContent(cards: bottom, version: version, reset: reset)
-        self.relatedCards = TrackerCardListContent(cards: relatedCards, version: version, reset: reset)
-        self.packageCards = TrackerCardListContent(cards: packageCards, version: version, reset: reset)
+        // Which rows flash is worked out against what each list was showing, the
+        // way the AppKit list worked it out while diffing - a reset is a rebuild,
+        // not a draw, so nothing flashes.
+        func content(_ new: [Card], _ previous: TrackerCardListContent) -> TrackerCardListContent {
+            TrackerCardListContent(
+                cards: new, version: version, reset: reset,
+                flashing: reset ? [] : TrackerCardListContent.flashingRows(from: previous.cards, to: new))
+        }
+        self.cards = content(cards, self.cards)
+        self.topCards = content(top, self.topCards)
+        self.bottomCards = content(bottom, self.bottomCards)
+        self.relatedCards = content(relatedCards, self.relatedCards)
+        self.packageCards = content(packageCards, self.packageCards)
         self.packageLabel = packageLabel
-        self.godfreyCards = TrackerCardListContent(cards: godfreyCards, version: version, reset: reset)
+        self.godfreyCards = content(godfreyCards, self.godfreyCards)
         self.sideboards = sideboards
         self.sideboardsVersion = version
         self.sideboardsReset = reset

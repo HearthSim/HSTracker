@@ -200,97 +200,93 @@ struct TrackerPanelView: View {
     private func sectionView(_ section: TrackerPanelLayout.Section, layout: TrackerPanelLayout) -> some View {
         switch section.kind {
         case .deckPanel(.deckTitle):
-            TrackerHeroBarView(heroCardId: viewModel.playerClassId,
-                               name: viewModel.playerName,
-                               // The AppKit tracker drew the opponent's hero bar
-                               // costless and the player's with its gem.
-                               hidesCost: viewModel.playerType == .opponent)
+            // HDT's LblDeckTitle is a plain text block; HSTracker has always drawn
+            // the class portrait behind the name, so the row is what carries over.
+            // CardBar drew it at the card size's own row height inside the taller
+            // frame box, sitting on its bottom edge - so does this.
+            VStack(spacing: 0) {
+                Spacer(minLength: 0)
+                CardTileView(card: heroCard, playerType: .hero,
+                             playerName: viewModel.playerName,
+                             rowHeight: CGFloat(Settings.cardSize.rowHeight))
+            }
         case .deckPanel(.wins):
-            TrackerTextFrameView(make: { StringTracker() },
-                                 configure: { $0.message = viewModel.recordMessage })
+            TrackerRecordView(message: viewModel.recordMessage, height: layout.smallFrameHeight)
         case .deckPanel(.cards):
-            TrackerCardListView(content: viewModel.cards,
-                                playerType: viewModel.playerType,
-                                cardHeight: layout.cardHeight,
-                                delegate: hoverHandler,
-                                highlight: hoverHandler.deckHighlight,
-                                highlightVersion: hoverHandler.highlightVersion)
+            list(viewModel.cards, layout: layout)
         case .deckPanel(.cardsTop):
             lens(viewModel.topCards, label: String.localizedString("On Top", comment: ""), layout: layout)
         case .deckPanel(.cardsBottom):
             lens(viewModel.bottomCards, label: String.localizedString("On Bottom", comment: ""), layout: layout)
         case .deckPanel(.sideboards):
             TrackerSideboardsView(sideboards: viewModel.sideboards,
-                                  version: viewModel.sideboardsVersion,
-                                  reset: viewModel.sideboardsReset,
                                   playerType: viewModel.playerType,
                                   cardHeight: layout.cardHeight,
                                   frameHeight: layout.smallFrameHeight,
-                                  delegate: hoverHandler)
+                                  reset: viewModel.sideboardsReset,
+                                  hoverKind: hoverKind)
         case .deckPanel(.cardCounter):
-            TrackerTextFrameView(make: { CardCounter() }, configure: {
-                $0.handCount = viewModel.handCount
-                $0.deckCount = viewModel.deckCount
-            })
+            TrackerCardCounterView(handCount: viewModel.handCount,
+                                   deckCount: viewModel.deckCount,
+                                   height: layout.smallFrameHeight)
         case .deckPanel(.drawChances):
             if viewModel.playerType == .opponent {
-                TrackerTextFrameView(make: { OpponentDrawChance() }, configure: {
-                    $0.drawChance1 = viewModel.drawChance1
-                    $0.drawChance2 = viewModel.drawChance2
-                    $0.handChance1 = viewModel.opponentHandChance1
-                    $0.handChance2 = viewModel.opponentHandChance2
-                })
+                TrackerOpponentDrawChanceView(drawChance1: viewModel.drawChance1,
+                                              drawChance2: viewModel.drawChance2,
+                                              handChance1: viewModel.opponentHandChance1,
+                                              handChance2: viewModel.opponentHandChance2,
+                                              height: layout.bigFrameHeight)
             } else {
-                TrackerTextFrameView(make: { PlayerDrawChance() }, configure: {
-                    $0.drawChance1 = viewModel.drawChance1
-                    $0.drawChance2 = viewModel.drawChance2
-                })
+                TrackerPlayerDrawChanceView(drawChance1: viewModel.drawChance1,
+                                            drawChance2: viewModel.drawChance2,
+                                            height: layout.smallFrameHeight)
             }
         case .deckPanel(.graveyard):
-            graveyardCounter(layout: layout)
+            TrackerGraveyardCounterView(minions: viewModel.graveyardMinionCount,
+                                        murlocs: viewModel.graveyardMurlocCount,
+                                        height: layout.smallFrameHeight)
         case .packageLens:
             // OverlayWindow.xaml draws this lens with the Arenasmith mark in
             // premium gold; its label carries the package's key card.
-            TrackerDeckLensView(content: viewModel.packageCards,
-                                label: viewModel.packageLabel,
-                                icon: .arenasmith,
-                                isPremium: true,
-                                playerType: viewModel.playerType,
-                                cardHeight: layout.cardHeight,
-                                frameHeight: layout.smallFrameHeight,
-                                delegate: hoverHandler)
+            lens(viewModel.packageCards, label: viewModel.packageLabel, layout: layout,
+                 icon: .arenasmith, isPremium: true)
         case .relatedLens:
             lens(viewModel.relatedCards,
-                 label: String.localizedString("Related_Cards", comment: ""),
-                 layout: layout)
+                 label: String.localizedString("Related_Cards", comment: ""), layout: layout)
         case .godfreyLens:
             lens(viewModel.godfreyCards,
-                 label: String.localizedString("DeckLens_Label_Overdrawn", comment: ""),
-                 layout: layout)
+                 label: String.localizedString("DeckLens_Label_Overdrawn", comment: ""), layout: layout)
         }
     }
 
-    private func lens(_ content: TrackerCardListContent, label: String, layout: TrackerPanelLayout) -> some View {
-        TrackerDeckLensView(content: content,
-                            label: label,
-                            icon: .lens,
-                            isPremium: false,
-                            playerType: viewModel.playerType,
-                            cardHeight: layout.cardHeight,
-                            frameHeight: layout.smallFrameHeight,
-                            delegate: hoverHandler,
-                            highlight: hoverHandler.deckHighlight,
-                            highlightVersion: hoverHandler.highlightVersion)
+    private var heroCard: Card? {
+        let card = Cards.hero(byId: viewModel.playerClassId ?? "")
+        card?.count = 1
+        // The opponent's bar is drawn costless, as the AppKit tracker drew it.
+        if viewModel.playerType == .opponent {
+            card?.cost = -1
+        }
+        return card
     }
 
-    /// The counter itself is the theme's graveyard frame; the card list it opens
-    /// on hover is a sibling on the canvas - see `TrackerGraveyardDetailsView`,
-    /// driven by the hover region reported above.
-    private func graveyardCounter(layout: TrackerPanelLayout) -> some View {
-        TrackerTextFrameView(make: { GraveyardCounter() }, configure: {
-            $0.minions = viewModel.graveyardMinionCount
-            $0.murlocks = viewModel.graveyardMurlocCount
-        })
+    private var hoverKind: TrackerRowHoverKind {
+        viewModel.playerType == .opponent ? .opponentDeck : .playerDeck
+    }
+
+    private func list(_ content: TrackerCardListContent, layout: TrackerPanelLayout) -> some View {
+        CardTileListView(cards: content.cards, playerType: viewModel.playerType,
+                         cardHeight: layout.cardHeight, reset: content.reset,
+                         flashing: content.flashing, version: content.version,
+                         hoverKind: hoverKind)
+    }
+
+    private func lens(_ content: TrackerCardListContent, label: String, layout: TrackerPanelLayout,
+                      icon: DeckLensIcon = .lens, isPremium: Bool = false) -> some View {
+        TrackerDeckLensView(cards: content.cards, label: label, icon: icon, isPremium: isPremium,
+                            playerType: viewModel.playerType, cardHeight: layout.cardHeight,
+                            frameHeight: layout.smallFrameHeight, reset: content.reset,
+                            flashing: content.flashing, version: content.version,
+                            hoverKind: hoverKind)
     }
 }
 
