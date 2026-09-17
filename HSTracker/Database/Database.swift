@@ -248,6 +248,8 @@ class Database {
             currentCard?.isBaconBuddy = intValue == 1
         case GameTag.bacon_tripled_base_minion_id.rawValue:
             currentCard?.baconTripledBaseMinionId = intValue
+        case GameTag.only_gold_in_guide.rawValue:
+            currentCard?.onlyGoldInGuide = intValue == 1
         case GameTag.bacon_evolution_card_id.rawValue:
             currentCard?.baconEvolutionCardId = intValue
         case GameTag.bacon_heropower_base_hero_id.rawValue:

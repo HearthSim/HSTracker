@@ -367,7 +367,14 @@ class CardTooltipPanel: NSPanel {
             // The upshot is that HDT reserves the golden's space up front and
             // never moves the tooltip afterwards. This used to size to one card
             // and re-position 0.8s later when the golden arrived.
-            let goldenCardId = Self.goldenCardId(for: cardId, showTriple: showTriple)
+            let (primaryCardId, goldenCardId) = Self.tooltipCards(for: cardId, showTriple: showTriple)
+            // An ONLY_GOLD_IN_GUIDE minion put its golden version in the primary
+            // slot. That card is a Battlegrounds one by construction - it only has
+            // a triple at all - so its art comes off the bgs endpoint under the
+            // "_triple" name, exactly as scheduleGolden asks for it.
+            let onlyGold = primaryCardId != cardId
+            let primaryBaconTriple = onlyGold ? true : baconTriple
+            let primaryBaconCard = onlyGold ? true : baconCard
             let panelWidth = goldenCardId != nil ? w * 2 : w
 
             self.primaryImageView.image = nil
@@ -409,7 +416,7 @@ class CardTooltipPanel: NSPanel {
             // - tries BG art and falls back to the standard render. That fallback costs a 404 per
             // attempt and failed downloads are not cached, so it is worth avoiding when possible.
             func loadStandardRender() {
-                ImageUtils.cardArt(for: cardId) { [weak self] img in
+                ImageUtils.cardArt(for: primaryCardId) { [weak self] img in
                     DispatchQueue.main.async {
                         guard let self = self, self.currentCardId == cardId else { return }
                         // Previously this branch scheduled the golden
@@ -419,10 +426,10 @@ class CardTooltipPanel: NSPanel {
                 }
             }
 
-            if baconCard == false {
+            if primaryBaconCard == false {
                 loadStandardRender()
             } else {
-                ImageUtils.cardArtBG(for: cardId, baconTriple: baconTriple) { [weak self] img in
+                ImageUtils.cardArtBG(for: primaryCardId, baconTriple: primaryBaconTriple) { [weak self] img in
                     if let img = img {
                         DispatchQueue.main.async {
                             guard let self = self, self.currentCardId == cardId else { return }
@@ -436,6 +443,18 @@ class CardTooltipPanel: NSPanel {
         }
         pendingShowWork = work
         DispatchQueue.main.asyncAfter(deadline: .now() + Self.showDelay, execute: work)
+    }
+
+    // Mirrors CardTooltipViewModel.UpdateTooltipCards: which card fills the card
+    // image the tooltip is butted against, and which - if any - goes in the
+    // golden slot beside it.
+    static func tooltipCards(for cardId: String, showTriple: Bool) -> (primary: String, golden: String?) {
+        let tripleCardId = goldenCardId(for: cardId, showTriple: showTriple)
+        // ONLY_GOLD_IN_GUIDE minions have no normal version, so skip straight to the golden one
+        if let tripleCardId, Cards.by(cardId: cardId)?.onlyGoldInGuide ?? false {
+            return (tripleCardId, nil)
+        }
+        return (cardId, tripleCardId)
     }
 
     // The triple upgrade of a Battlegrounds card, or nil if it has none (or the

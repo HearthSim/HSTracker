@@ -79,6 +79,10 @@ final class Card {
     var tourist = 0
     var baconTriple = false
     var baconTripleUpgradeMinionId = 0
+    // ONLY_GOLD_IN_GUIDE - a Battlegrounds minion that has no normal version to
+    // show, so a tooltip skips straight to the golden one instead of putting the
+    // two side by side.
+    var onlyGoldInGuide = false
     // BACON_BUDDY / BACON_TRIPLED_BASE_MINION_ID - BattlegroundsDb pairs them to
     // collect the base (non-golden) buddies for the Buddies card-type filter.
     var isBaconBuddy = false
@@ -479,6 +483,7 @@ extension Card: NSCopying {
         copy.multipleClasses = self.multipleClasses
         copy.hideCostTag = self.hideCostTag
         copy.baconTripleUpgradeMinionId = self.baconTripleUpgradeMinionId
+        copy.onlyGoldInGuide = self.onlyGoldInGuide
         copy.baconEvolutionCardId = self.baconEvolutionCardId
         copy.baconHeroPowerBaseHeroId = self.baconHeroPowerBaseHeroId
         copy.faction = self.faction

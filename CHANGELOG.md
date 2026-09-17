@@ -14,6 +14,9 @@
 - The markers over the opponent's hand now sit where Hearthstone Deck Tracker puts them, with the card that created or drew each one shown below the turn badge rather than inside it, and hovering a marker now shows that card below the hand, naming it and saying whether it created or drew the card in hand.
 - Fixed HSTracker quitting on launch while Hearthstone was showing the Black Market, and it no longer quits when Hearthstone adds a screen, minion type, class or rarity it does not know about yet.
 
+## Battlegrounds
+- Hovering a minion that only ever appears golden now shows just that card, instead of a blank slot beside it.
+
 ## Bob's Buddy
 - Fixed the odds against a ghost board counting a Fang Anklet bonus its Beasts do not actually have.
 

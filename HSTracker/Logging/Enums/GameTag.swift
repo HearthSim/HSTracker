@@ -515,7 +515,8 @@ enum GameTag: Int, CaseIterable, Codable {
     hidden_script_data_5 = 4831,
     hidden_script_data_6 = 4832,
     dark_gift_entity = 4865,
-    bacon_activate_tooltip = 4867
+    bacon_activate_tooltip = 4867,
+    only_gold_in_guide = 4897
 
     static var lookup = [String: GameTag]()
     
