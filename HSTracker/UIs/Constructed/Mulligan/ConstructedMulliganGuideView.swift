@@ -96,15 +96,26 @@ struct ConstructedMulliganGuideView: View {
     }
 
     private var visibilityToggle: some View {
+        // The DockPanel inside the Border: the text docks left and the icon,
+        // as the last child, fills what is left and right-aligns itself in it.
+        // The trailing .fixedSize() is what keeps that from swallowing the
+        // whole canvas: without it the Spacer makes this HStack greedy and the
+        // Border stretches across the overlay, since the bottom-anchored frame
+        // that positions it proposes the full canvas width. MinWidth="180"
+        // still applies, so the Border is content-sized but never narrower.
         HStack(spacing: 0) {
             Text(viewModel.visibilityToggleText)
+                // No FontSize on the TextBlock, so WPF's 12pt default.
+                .font(.system(size: 12))
                 .foregroundColor(.white)
                 .lineLimit(1)
+                .fixedSize()
             Spacer(minLength: 8)
             // Rectangle Height="12" Width="16" filled with the icon.
             Image(viewModel.visibilityToggleIcon)
                 .resizable()
                 .interpolation(.high)
+                .aspectRatio(contentMode: .fit)
                 .frame(width: 16, height: 12)
         }
         .padding(.horizontal, 8)
@@ -112,6 +123,7 @@ struct ConstructedMulliganGuideView: View {
         .frame(minWidth: Self.toggleMinWidth)
         .background(Self.hsReplayNetBlue)
         .cornerRadius(4)
+        .fixedSize()
         .contentShape(Rectangle())
         .onTapGesture {
             viewModel.toggleStatsVisibility()
