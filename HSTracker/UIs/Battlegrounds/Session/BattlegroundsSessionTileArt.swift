@@ -17,7 +17,6 @@ import SwiftUI
 // Only the alpha of `fadeColor` matters - it is an opacity mask, not a tint -
 // which is why the two call sites pass their XAML's literal stop colours
 // (#AA000000 and #141617) rather than a bare opacity.
-@available(macOS 10.15, *)
 struct BattlegroundsSessionTileArt: View {
     let card: Card?
     let fadeColor: Color

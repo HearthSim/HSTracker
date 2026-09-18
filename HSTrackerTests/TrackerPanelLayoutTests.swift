@@ -13,7 +13,6 @@ import XCTest
 /// The part of the deck-tracker port that is pure arithmetic: which sections a
 /// stack shows, in what order, and how far the card rows have to shrink to fit
 /// the box HDT's `PlayerStackHeight` gives them.
-@available(macOS 10.15, *)
 class TrackerPanelLayoutTests: HSTrackerTests {
 
     private var saved: [String: Any?] = [:]

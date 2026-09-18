@@ -16,7 +16,6 @@ import Foundation
 // so there's no need to expose more of Game's internals just to re-read it.
 // The state HDT hangs off GuidesTooltipTrigger's CardGridTooltipViewModel: where
 // Hearthstone is drawing the hovered hero's tooltip, and which cards are in it.
-@available(macOS 10.15, *)
 struct BattlegroundsHeroGuideTrigger: Equatable {
     let zonePosition: Int
     let tooltipOnRight: Bool
@@ -24,7 +23,6 @@ struct BattlegroundsHeroGuideTrigger: Equatable {
     let buddiesEnabled: Bool
 }
 
-@available(macOS 10.15, *)
 final class BattlegroundsHeroGuidesViewModel: ObservableObject {
     @Published var heroGuides: [Int: BattlegroundsHeroGuide]?
     @Published var selectedHero: BattlegroundsHeroGuideViewModel?
@@ -67,7 +65,6 @@ final class BattlegroundsHeroGuidesViewModel: ObservableObject {
 
     private var pickedHeroDbfId: Int?
 
-    @available(macOS 10.15.0, *)
     func update() async {
         guard heroGuides == nil else { return }
 

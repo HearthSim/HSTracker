@@ -114,7 +114,6 @@ protocol PowerEventHandler: AnyObject {
     
     func handleBeginMulligan()
     
-    @available(macOS 10.15.0, *)
     func handlePlayerMulliganDone() async
     
     func playerFatigue(value: Int)

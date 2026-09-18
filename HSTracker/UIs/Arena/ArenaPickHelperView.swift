@@ -12,7 +12,6 @@ import SwiftUI
 /// Authored at HDT's 1440x1080 reference and hosted on `RootOverlayView`'s scaled
 /// canvas, which applies the same `height / 1080` factor HDT's
 /// `_arenaOverlayBehavior` does.
-@available(macOS 10.15, *)
 struct ArenaPickHelperView: View {
     @ObservedObject var viewModel: ArenaPickHelperViewModel
     /// Reported upward so the window can match the cursor against it.
@@ -263,7 +262,6 @@ struct ArenaPickHelperView: View {
 /// One row of the deck rail: the highlight behind a card that interacts with the
 /// hovered pick, the marker saying which way that interaction runs, and - while
 /// editing a redraft deck - Arenasmith's score for the card.
-@available(macOS 10.15, *)
 struct ArenaDeckListTileView: View {
     @ObservedObject var viewModel: ArenaDeckListTileViewModel
     let showSynergy: Bool
@@ -438,7 +436,6 @@ struct ArenaDeckListTileView: View {
 }
 
 /// The hovered pick's tile art, loaded once per card id.
-@available(macOS 10.15, *)
 private struct ArenaTileImageView: View {
     let cardId: String?
     @SwiftUI.State private var image: NSImage?
@@ -473,7 +470,6 @@ private struct ArenaTileImageView: View {
     }
 }
 
-@available(macOS 10.15, *)
 extension ArenaPickHelperViewModel {
     /// The overlay is only up while the player is on a draft screen with the
     /// feature enabled - HDT's `UpdateArenaPickHelperVisibility` plus the panel's

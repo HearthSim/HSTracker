@@ -14,7 +14,6 @@ import HearthMirror
 // for MercenariesTaskListButton and MercenariesTaskList). This replaces the
 // pair of NSPanels - MercenariesTaskListButton and MercenariesTaskListView -
 // that used to own the same state between them.
-@available(macOS 10.15, *)
 final class MercenariesTaskListViewModel: ObservableObject {
     // HDT's Tasks and GameNoticeVisibility.
     @Published private(set) var tasks: [MercenariesTaskViewModel] = []

@@ -20,7 +20,6 @@ enum LinkOpponentDeckState {
 /// It replaces the window controller of the same name; the behaviour - when it
 /// shows, what the link and error lines say, what the button does - is that
 /// class's, unchanged.
-@available(macOS 10.15, *)
 class LinkOpponentDeckPanelViewModel: ObservableObject {
     @Published private(set) var isShowing = false
     @Published private(set) var errorMessage = ""

@@ -14,7 +14,6 @@ import SwiftUI
 // Replaces the old AppKit GridCardImages/NSCollectionView tooltip window with
 // SwiftUI content hosted in a plain NSPanel, following that same precedent.
 
-@available(macOS 10.15, *)
 final class RelatedCardsTooltipViewModel: ObservableObject {
     @Published var title: String = ""
     @Published var cards: [Card] = []
@@ -110,7 +109,6 @@ struct RelatedCardsGridLayout {
 // the old GridCardImages.swift): Hearthstone's card art PNGs carry extra
 // border padding, so the image is inflated slightly beyond the cell and
 // clipped back down, cropping that padding away instead of shrinking the art.
-@available(macOS 10.15, *)
 private struct RelatedCardImageView: View {
     let card: Card
     let width: CGFloat
@@ -159,7 +157,6 @@ private struct RelatedCardImageView: View {
 
 // Ported from Controls/GridCardImages.xaml: a titled, rounded dark box
 // holding the card grid.
-@available(macOS 10.15, *)
 struct RelatedCardsGridView: View {
     let title: String
     let cards: [Card]
@@ -218,7 +215,6 @@ struct RelatedCardsGridView: View {
 // (TheOutfinder_Label_Title + the premium gold color/icon) is omitted here -
 // nothing that reads it exists in HSTracker yet, and it's dead weight until
 // the premium wiring lands alongside real keyword data.
-@available(macOS 10.15, *)
 struct PoolSummaryPanelView: View {
     static let width: CGFloat = 330
     // PoolSummaryView's Margin="0 0 15 0", the gap it keeps between itself and the card grid.
@@ -308,7 +304,6 @@ struct PoolSummaryPanelView: View {
     }
 }
 
-@available(macOS 10.15, *)
 private struct StatBarColumnView: View {
     let labelText: String
     let labelColor: Color
@@ -347,7 +342,6 @@ private struct StatBarColumnView: View {
     }
 }
 
-@available(macOS 10.15, *)
 private struct RelatedCardsTooltipContentView: View {
     @ObservedObject var viewModel: RelatedCardsTooltipViewModel
 
@@ -391,7 +385,6 @@ private struct RelatedCardsTooltipContentView: View {
 // their own desired frame from gridWidth/gridHeight before positioning it
 // (Tracker.swift, Game.swift, CounterChipView.swift) needed only their
 // show/hide call sites updated, not their positioning math.
-@available(macOS 10.15, *)
 final class RelatedCardsTooltipPanel: NSPanel {
     static let shared = RelatedCardsTooltipPanel()
 

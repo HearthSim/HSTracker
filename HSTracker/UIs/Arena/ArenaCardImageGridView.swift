@@ -9,7 +9,6 @@ import SwiftUI
 
 /// A wrapped grid of full card images, scaled so the whole set fits the space it
 /// is given. Port of HDT's `CardImageGrid`.
-@available(macOS 10.15, *)
 struct ArenaCardImageGridView: View {
     let cards: [Card]
     let columns: Int
@@ -88,7 +87,6 @@ struct ArenaCardImageGridView: View {
 }
 
 /// One full card image, loaded through the same cache the rest of the overlay uses.
-@available(macOS 10.15, *)
 struct ArenaCardImageView: View {
     let cardId: String
 

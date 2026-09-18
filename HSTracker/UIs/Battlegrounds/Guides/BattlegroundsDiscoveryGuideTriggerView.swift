@@ -20,7 +20,6 @@ import SwiftUI
 // also had to claim clicks to get a hover out of SwiftUI, which HDT's trigger
 // never does (IsOverlayHoverVisible) - so the click that picks a trinket now
 // falls through to Hearthstone again.
-@available(macOS 10.15, *)
 struct BattlegroundsDiscoveryGuideTriggerView: View {
     @ObservedObject var discoveryGuides: BattlegroundsDiscoveryGuidesViewModel
     @ObservedObject var trinketGuides: BattlegroundsTrinketGuidesViewModel

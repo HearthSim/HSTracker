@@ -15,7 +15,6 @@ import Foundation
 //
 // All of these touch @Published state, so they run on the main thread - the
 // watcher-side callers hop first.
-@available(macOS 10.15, *)
 extension RootOverlayViewModel {
     // HDT builds one of these per call from the overlay window's own size and
     // screen ratio; RootOverlay covers the same Hearthstone client area, so it

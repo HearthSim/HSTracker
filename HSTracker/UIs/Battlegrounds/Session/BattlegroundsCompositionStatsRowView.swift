@@ -13,7 +13,6 @@ import SwiftUI
 // (Controls/Overlay/Battlegrounds/Composition). One row of the session panel's
 // Composition Stats table: faded key-minion art with the comp's name over it,
 // a first-place popularity bar, and the average placement.
-@available(macOS 10.15, *)
 struct BattlegroundsCompositionStatsRowView: View {
     let viewModel: BattlegroundsCompositionStatsRowViewModel
 
@@ -67,7 +66,6 @@ struct BattlegroundsCompositionStatsRowView: View {
 
 // BattlegroundsCompositionStatsBar.xaml: a 70x22 rounded track with a
 // gradient-filled progress border and the percentage written over it.
-@available(macOS 10.15, *)
 struct BattlegroundsCompositionStatsBarView: View {
     let percent: Double
     let maxPercent: Double

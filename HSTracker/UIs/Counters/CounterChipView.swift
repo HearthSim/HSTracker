@@ -14,7 +14,6 @@ import SwiftUI
 // below (margins, circle crop offsets, corner radius) is ported verbatim from
 // that xib rather than redesigned, so the pill looks identical.
 
-@available(macOS 10.15, *)
 final class CounterChipViewModel: ObservableObject, Identifiable {
     let counter: BaseCounter
     var id: ObjectIdentifier { ObjectIdentifier(counter) }
@@ -91,7 +90,6 @@ final class CounterChipViewModel: ObservableObject, Identifiable {
 // Drives RelatedCardsTooltipPanel from whichever chip the cursor is over.
 // Ported from the old CounterView.tooltipDisplay, including its 0.6s delay -
 // HDT's counters carry ToolTipService.InitialShowDelay="600".
-@available(macOS 10.15, *)
 class CounterTooltipController {
     static let shared = CounterTooltipController()
 
@@ -185,7 +183,6 @@ class CounterTooltipController {
     }
 }
 
-@available(macOS 10.15, *)
 struct CounterChipView: View {
     @ObservedObject var viewModel: CounterChipViewModel
 

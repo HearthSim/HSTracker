@@ -17,7 +17,6 @@ import SwiftUI
 // rather than the full card render and centred the portrait circle differently
 // - so this is transcribed from MercenariesAbilityView.xaml rather than from
 // the drawing code it replaces.
-@available(macOS 10.15, *)
 struct MercenariesAbilityIconView: View {
     let ability: MercenariesAbilityModel
     // The Viewbox's Width/Height, which OverlayWindow sets to AbilitySize.
@@ -170,7 +169,6 @@ struct MercenariesAbilityIconView: View {
 // The ability's card art, clipped to the circle the frame leaves open. HDT uses
 // the FullImage asset - the whole rendered card - and cuts the portrait out of
 // it, which is why the clip sits off-centre in the image.
-@available(macOS 10.15, *)
 private struct MercenariesAbilityPortrait: View {
     let cardId: String?
     let width: CGFloat

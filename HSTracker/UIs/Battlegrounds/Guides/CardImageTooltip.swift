@@ -29,7 +29,6 @@ import SwiftUI
 // Everything the hovered element declares about its tooltip: what
 // CardTooltipViewModel carries (the card and its caption) plus the
 // ToolTipService attached properties SetTooltip reads off the target.
-@available(macOS 10.15, *)
 struct CardTooltipRequest: Equatable {
     let cardId: String
     var showTriple = true
@@ -63,7 +62,6 @@ enum CardTooltipSource {
 // what lets a single registry, and a single cursor sweep in RootOverlayWindow,
 // serve both; the counters used to carry a parallel registry and sweep of their
 // own.
-@available(macOS 10.15, *)
 enum OverlayTooltip {
     // HDT's CardTooltip: one card image, with its golden companion, the
     // optional line CardTooltipViewModel.Text lays over the top of it, and
@@ -88,7 +86,6 @@ enum OverlayTooltip {
     }
 }
 
-@available(macOS 10.15, *)
 final class CardHoverNSView: NSView {
     private(set) var tooltip: OverlayTooltip?
 
@@ -137,7 +134,6 @@ final class CardHoverNSView: NSView {
     }
 }
 
-@available(macOS 10.15, *)
 class CardHoverRegistry {
     static let shared = CardHoverRegistry()
 
@@ -160,7 +156,6 @@ class CardHoverRegistry {
     }
 }
 
-@available(macOS 10.15, *)
 private struct CardHoverRepresentable: NSViewRepresentable {
     let tooltip: OverlayTooltip
 
@@ -179,7 +174,6 @@ private struct CardHoverRepresentable: NSViewRepresentable {
 // carries, drawn over the top of the card image rather than beside it. It sits
 // inside the same Grid as the Image, HorizontalAlignment="Center"
 // VerticalAlignment="Top", so it overlaps the art and never moves the tooltip.
-@available(macOS 10.15, *)
 private struct CardTooltipCaption: View {
     let text: String
     let fontSize: CGFloat
@@ -198,7 +192,6 @@ private struct CardTooltipCaption: View {
 // 0.8s later ALONGSIDE the base (matching StoryboardShowDelayed BeginTime="0:0:0.8").
 // Both cards are visible simultaneously; golden disappears if the card is no longer hovered.
 // If golden art is unavailable (card has no baconTriple), only the base card is shown.
-@available(macOS 10.15, *)
 class CardTooltipPanel: NSPanel {
     static let shared = CardTooltipPanel()
 
@@ -764,7 +757,6 @@ class CardTooltipPanel: NSPanel {
 // Used only for the minion-tile scale-on-hover cosmetic effect. An NSTrackingArea
 // is more reliable here than SwiftUI's .onHover because it fires even while the
 // app is in the background (the overlay window is non-activating).
-@available(macOS 10.15, *)
 final class HoverTrackingNSView: NSView {
     var onHover: ((Bool) -> Void)?
     private var trackingArea: NSTrackingArea?
@@ -788,7 +780,6 @@ final class HoverTrackingNSView: NSView {
     override func mouseExited(with event: NSEvent) { onHover?(false) }
 }
 
-@available(macOS 10.15, *)
 private struct HoverTrackingRepresentable: NSViewRepresentable {
     let onHover: (Bool) -> Void
 
@@ -801,7 +792,6 @@ private struct HoverTrackingRepresentable: NSViewRepresentable {
     }
 }
 
-@available(macOS 10.15, *)
 extension View {
     func trackHover(_ onHover: @escaping (Bool) -> Void) -> some View {
         background(HoverTrackingRepresentable(onHover: onHover))
@@ -810,7 +800,6 @@ extension View {
 
 // MARK: - Public modifier
 
-@available(macOS 10.15, *)
 private struct CardImageTooltipModifier: ViewModifier {
     // nil for a nil card id, which is how a caller turns the tooltip off.
     let request: CardTooltipRequest?
@@ -826,7 +815,6 @@ private struct CardImageTooltipModifier: ViewModifier {
 
 // The counters' equivalent: HDT hangs a GridCardImages off the same
 // IsOverlayHoverVisible element a CardTooltip would hang off.
-@available(macOS 10.15, *)
 private struct RelatedCardsTooltipModifier: ViewModifier {
     let counter: BaseCounter
 
@@ -835,7 +823,6 @@ private struct RelatedCardsTooltipModifier: ViewModifier {
     }
 }
 
-@available(macOS 10.15, *)
 extension View {
     func cardImageTooltip(cardId: String?, showTriple: Bool = true, baconTriple: Bool = false,
                           text: String? = nil,

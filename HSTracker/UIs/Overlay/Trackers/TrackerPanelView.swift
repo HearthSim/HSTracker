@@ -24,7 +24,6 @@ import SwiftUI
 /// `OverlayPlayerScaling` as a `ScaleTransform`. All of that is reproduced below;
 /// `AutoScaleCardTiles` - shrinking the card rows until the stack fits its box -
 /// is `TrackerPanelLayout`.
-@available(macOS 10.15, *)
 struct TrackerPanelView: View {
     @ObservedObject var viewModel: TrackerPanelViewModel
     /// The canvas's real, post-scale size - the same Width/Height HDT's
@@ -296,7 +295,6 @@ struct TrackerPanelView: View {
 ///
 /// Everything here is in the stack's own, pre-`ScaleTransform` units, the way
 /// HDT's `PlayerStackHeight` is: the scale is applied once to the finished panel.
-@available(macOS 10.15, *)
 struct TrackerPanelLayout {
     /// How close to the bottom-right corner a mouse-down counts as the resize
     /// grip in HDT (`OverlayWindow.Input.cs`).

@@ -61,7 +61,6 @@ func getMercAbilities(player: Player) -> [[MercAbilityData]] {
 
 // HDT's MercenariesAbilityViewModel. Immutable, so a struct - the board rebuilds
 // the whole array whenever the entities change.
-@available(macOS 10.15, *)
 struct MercenariesAbilityModel: Identifiable, Equatable {
     // Position in the minion's strip. HDT identifies items by reference; SwiftUI
     // needs a key, and a minion never has more than three.

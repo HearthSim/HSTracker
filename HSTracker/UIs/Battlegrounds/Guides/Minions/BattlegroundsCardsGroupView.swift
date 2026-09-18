@@ -14,7 +14,6 @@ import SwiftUI
 // the XAML's outer Border element exactly.
 //
 // Used from BattlegroundsMinionsView for every group (by-tier or by-tribe).
-@available(macOS 10.15, *)
 struct BattlegroundsCardsGroupView: View {
     let group: BattlegroundsMinionsViewModel.MinionGroup
     // BattlegroundsCardsGroup.xaml.cs sets CardsList.ShowPinButton = true
@@ -208,7 +207,6 @@ struct BattlegroundsCardsGroupView: View {
 // outright, so only the most recently entered row can ever compare equal, no
 // matter what order events actually arrive in. A lost exited event just means
 // a row stays highlighted a little longer, not that two rows highlight at once.
-@available(macOS 10.15, *)
 final class RowHoverCoordinator: ObservableObject {
     @Published fileprivate var hoveredRowID: UUID?
 }
@@ -229,7 +227,6 @@ final class RowHoverCoordinator: ObservableObject {
 //   5. Card name (ChunkFive/Belwe, 15pt)
 //   6. Spell coin badge (coin-cost.png + cost number, right-aligned; spells only)
 //   7. Tier7 inspiration button (hover only; see inspirationButton)
-@available(macOS 10.15, *)
 struct MinionCardRow: View {
     let card: Card
     // AnimatedCard.Update's showTier7InspirationBtn.

@@ -9,7 +9,6 @@
 import Foundation
 
 // HDT's ConstructedMulliganGuideViewModel, behind the V1 mulligan guide.
-@available(macOS 10.15, *)
 class ConstructedMulliganGuideViewModel: ObservableObject {
     // Whether the guide is up at all - which, in HDT, is only the visibility of
     // the toggle button; the stats themselves are behind statsVisibility.

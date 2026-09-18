@@ -46,7 +46,6 @@ struct TrackerCardListContent {
 /// canvas does. This stays a sweep rather than `.onHover` for the same reason as
 /// before: `.onHover` only fires once the window has stopped being click-through,
 /// and HDT's deck lists never stop being.
-@available(macOS 10.15, *)
 struct TrackerRowHover: Equatable {
     /// The row's frame in canvas pixels.
     let rect: CGRect
@@ -74,14 +73,12 @@ enum TrackerRowHoverKind: Equatable {
 }
 
 /// What a hovered row is reported to.
-@available(macOS 10.15, *)
 protocol TrackerRowHoverTarget: AnyObject {
     /// `rowFrame` is in screen coordinates.
     func hover(card: Card, rowFrame: NSRect)
     func out(card: Card)
 }
 
-@available(macOS 10.15, *)
 struct TrackerRowHoverKey: PreferenceKey {
     static var defaultValue: [TrackerRowHover] = []
     static func reduce(value: inout [TrackerRowHover], nextValue: () -> [TrackerRowHover]) {

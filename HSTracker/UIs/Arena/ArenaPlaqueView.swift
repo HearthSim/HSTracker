@@ -13,7 +13,6 @@ import SwiftUI
 /// them: gradient ground, an outer highlight ring at level 5, an inner highlight
 /// ring from level 3, a dark inner overlay, then the flames, the bolts and the
 /// score.
-@available(macOS 10.15, *)
 struct ArenaPlaqueView: View {
     @ObservedObject var viewModel: ArenaPlaqueViewModel
 

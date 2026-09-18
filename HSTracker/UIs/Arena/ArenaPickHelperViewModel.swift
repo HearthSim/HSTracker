@@ -26,7 +26,6 @@ enum ArenaScreenBehavior {
 }
 
 /// One row of the drafted-deck rail down the right of the screen.
-@available(macOS 10.15, *)
 final class ArenaDeckListTileViewModel: ObservableObject, Identifiable {
     let cardId: String
     let count: Int
@@ -102,7 +101,6 @@ struct ArenasmithPickState {
     var arenasmithScores: [String: Float]?
 }
 
-@available(macOS 10.15, *)
 final class ArenaPickHelperViewModel: ObservableObject {
 
     // MARK: published state

@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-@available(macOS 10.15, *)
 private extension Color {
     static let tier7Purple = Color(red: 0x36 / 255, green: 0x16 / 255, blue: 0x37 / 255)
     static let tier7Black = Color(red: 0x14 / 255, green: 0x16 / 255, blue: 0x17 / 255)
@@ -18,7 +17,6 @@ private extension Color {
 // its average placement, tier and pick rate along the top, and the warband
 // compositions that most often win with it far below, over the reward's own
 // card.
-@available(macOS 10.15, *)
 struct BattlegroundsSingleQuestView: View {
     let viewModel: BattlegroundsSingleQuestViewModel
 

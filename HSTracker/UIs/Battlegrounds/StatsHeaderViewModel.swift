@@ -108,7 +108,6 @@ class StatsHeaderViewModel: ViewModel {
     }
 }
 
-@available(macOS 10.15, *)
 extension StatsHeaderViewModel {
     // The same brush as tierGradient above, for SwiftUI. HDT builds it with
     // LinearGradientBrush(start, end, 0) - an angle of 0 degrees, so it runs

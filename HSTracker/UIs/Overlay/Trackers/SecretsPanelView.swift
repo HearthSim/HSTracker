@@ -10,7 +10,6 @@ import SwiftUI
 
 /// HDT's `SecretsContainer`, on the RootOverlay canvas - see
 /// `SecretsPanelViewModel` for the placement it carries.
-@available(macOS 10.15, *)
 struct SecretsPanelView: View {
     @ObservedObject var viewModel: SecretsPanelViewModel
     let canvasSize: CGSize

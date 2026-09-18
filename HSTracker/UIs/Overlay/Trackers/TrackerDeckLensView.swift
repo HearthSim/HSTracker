@@ -19,7 +19,6 @@ enum DeckLensIcon {
 ///
 /// The SwiftUI replacement for the `DeckLens` NSStackView, whose chrome was an
 /// NSBox with an NSImageView and an NSTextField laid out by hand.
-@available(macOS 10.15, *)
 struct TrackerDeckLensView: View {
     let cards: [Card]
     let label: String
@@ -92,7 +91,6 @@ struct TrackerDeckLensView: View {
 /// HDT's `DeckSideboards`: one labelled box per sideboard the deck carries -
 /// E.T.C.'s band and King of the Underbelly's - which is the SwiftUI replacement
 /// for the `DeckSideboards` NSStackView.
-@available(macOS 10.15, *)
 struct TrackerSideboardsView: View {
     let sideboards: [Sideboard]
     let playerType: PlayerType

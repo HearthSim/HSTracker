@@ -14,14 +14,12 @@ import Combine
 // GuidesTabsView's tabs is currently expanded, or none. Trinkets/Anomalies
 // never get a case here - HDT never gives them a tab either, they're
 // tooltip-only.
-@available(macOS 10.15, *)
 enum GuidesTab: Equatable {
     case comps
     case heroes
     case minions
 }
 
-@available(macOS 10.15, *)
 final class BattlegroundsGuidesTabsViewModel: ObservableObject {
     // Mirrors HDT's UpdateBgsTopBarContentVisibility: the browser flag gates the
     // whole top bar apart from the turn counter, the guides flag picks whether

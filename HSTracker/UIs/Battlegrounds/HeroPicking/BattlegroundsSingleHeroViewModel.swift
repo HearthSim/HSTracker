@@ -12,7 +12,6 @@ import Foundation
 // (Controls/Overlay/Battlegrounds/HeroPicking/BattlegroundsSingleHeroViewModel.cs):
 // one offered hero, which is just its stats header plus the dbf id the reroll
 // path invalidates it by.
-@available(macOS 10.15, *)
 class BattlegroundsSingleHeroViewModel: Identifiable {
     let bgsHeroHeaderVM: BattlegroundsHeroHeaderViewModel
 

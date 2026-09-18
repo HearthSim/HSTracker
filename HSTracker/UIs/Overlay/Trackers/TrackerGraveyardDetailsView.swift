@@ -20,7 +20,6 @@ import SwiftUI
 /// right for the opponent), as the window did. The window grew upwards from the
 /// cursor; this grows upwards from the counter instead, so it does not jitter
 /// with the pointer inside the counter's 40pt band.
-@available(macOS 10.15, *)
 struct TrackerGraveyardDetailsView: View {
     @ObservedObject var viewModel: TrackerPanelViewModel
     let canvasSize: CGSize

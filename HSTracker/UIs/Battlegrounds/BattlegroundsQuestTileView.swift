@@ -15,7 +15,6 @@ import SwiftUI
 // quests - so the layout here is carried over verbatim from HSTracker's own
 // BattlegroundsQuestView.xib rather than ported from XAML, down to the "!"
 // glyph drawn over the bubble (the bubble art itself is blank).
-@available(macOS 10.15, *)
 struct BattlegroundsQuestTileView: View {
     let quest: BattlegroundsOpponentInfoViewModel.Quest
 

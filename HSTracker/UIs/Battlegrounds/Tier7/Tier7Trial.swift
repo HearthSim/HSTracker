@@ -8,7 +8,6 @@
 
 import Foundation
 
-@available(macOS 10.15.0, *)
 class Tier7Trial {
     private static var _status: PlayerTrialStatus?
     static private(set) var token: String?

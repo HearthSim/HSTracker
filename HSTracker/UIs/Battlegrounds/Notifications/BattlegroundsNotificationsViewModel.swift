@@ -13,7 +13,6 @@ import SwiftUI
 // HeroNotificationPanel and TimewarpNotificationPanel - which offer to open the
 // matching HSReplay.net page. They share a view model because they share their
 // shape, their placement rule and the single call site each in Game.
-@available(macOS 10.15, *)
 class BattlegroundsNotificationsViewModel: ObservableObject {
     @Published private(set) var heroPickIsShown = false
     @Published private(set) var timewarpIsShown = false

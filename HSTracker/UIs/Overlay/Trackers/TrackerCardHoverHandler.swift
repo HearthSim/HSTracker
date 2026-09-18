@@ -17,7 +17,6 @@ import SwiftUI
 /// which is what lets `Tracker.getHoverComponent` go: it existed only because a
 /// single `Tracker` instance owned both the player's lists and the opponent's,
 /// and had to work out which of them a hovered row came from.
-@available(macOS 10.15, *)
 class TrackerCardHoverHandler: NSObject, ObservableObject, TrackerRowHoverTarget {
     let playerType: PlayerType
 
@@ -163,7 +162,6 @@ class TrackerCardHoverHandler: NSObject, ObservableObject, TrackerRowHoverTarget
 /// This used to be the FloatingCard window, driven through `show_floating_card`
 /// notifications with a hand-computed screen frame; CardTooltipPanel is the same
 /// control ported properly, and already backs every other hover in the overlay.
-@available(macOS 10.15, *)
 enum TrackerRowCardPreview {
     /// `Card.UpdateTooltip` sets `ShowTriple = BaconCard`, so a constructed deck's
     /// card gets no golden companion image.
@@ -218,7 +216,6 @@ enum TrackerRowCardPreview {
 /// row left room for, but both of those lists are built from CardTile in HDT, so
 /// both ask for Placement="Right" and let SetTooltip flip it when the far side is
 /// the only one with room.
-@available(macOS 10.15, *)
 class OverlayCardListHoverHandler: NSObject, TrackerRowHoverTarget {
     static let shared = OverlayCardListHoverHandler()
 

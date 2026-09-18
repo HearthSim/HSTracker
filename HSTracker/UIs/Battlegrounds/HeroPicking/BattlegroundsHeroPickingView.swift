@@ -20,7 +20,6 @@ import SwiftUI
 // HDT's in-overlay show/hide toggle has no counterpart here: HSTracker gates the
 // whole overlay on its own "Show hero picking stats" preference instead, which
 // the toggle would have no way back from.
-@available(macOS 10.15, *)
 struct BattlegroundsHeroPickingView: View {
     @ObservedObject var viewModel: BattlegroundsHeroPickingViewModel
     let canvasWidth: CGFloat

@@ -31,7 +31,6 @@ import SwiftUI
 //
 // Every `Core.Game.Metrics.TavernMarkers*` assignment in the HDT source is
 // dropped: HSTracker has no ValueMoments/GameMetrics telemetry to write to.
-@available(macOS 10.15, *)
 final class BattlegroundsMinionPinningViewModel: ObservableObject {
 
     // MARK: - Pinned slots (the panel's grid)

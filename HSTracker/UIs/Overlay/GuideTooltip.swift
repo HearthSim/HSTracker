@@ -18,7 +18,6 @@ import SwiftUI
 // its own small text tooltips (e.g. difficulty/tier explanations). Not a fit
 // for card-preview tooltips (a full card image, like HDT's CardTooltip) -
 // those are a different visual and aren't built yet.
-@available(macOS 10.15, *)
 struct GuideTooltipContent: Equatable {
     var title: String?
     var body: String?
@@ -34,7 +33,6 @@ struct GuideTooltipContent: Equatable {
 // child's own scaled subtree and scales with the rest of the overlay -
 // matching HDT, which deliberately applies the same ScaleTransform to its
 // tooltips via the LayoutTransform setter in the consuming XAML.
-@available(macOS 10.15, *)
 private struct GuideTooltipModifier: ViewModifier {
     let content: GuideTooltipContent?
 
@@ -70,7 +68,6 @@ private struct GuideTooltipModifier: ViewModifier {
     }
 }
 
-@available(macOS 10.15, *)
 private struct GuideTooltipBubble: View {
     let content: GuideTooltipContent
 
@@ -123,7 +120,6 @@ private struct GuideTooltipBubble: View {
     }
 }
 
-@available(macOS 10.15, *)
 extension View {
     func guideTooltip(_ content: GuideTooltipContent?) -> some View {
         modifier(GuideTooltipModifier(content: content))
@@ -149,7 +145,6 @@ extension View {
 // ScrollView whose clip would cut off a bubble that by construction hangs
 // entirely outside the panel. Same mechanics as CardTooltipPanel, and the same
 // reason it is a panel too.
-@available(macOS 10.15, *)
 final class BgsTooltipPanel: NSPanel {
     static let shared = BgsTooltipPanel()
 
@@ -226,7 +221,6 @@ final class BgsTooltipPanel: NSPanel {
     }
 }
 
-@available(macOS 10.15, *)
 private struct BgsTooltipBubble: View {
     let text: String
 
@@ -258,7 +252,6 @@ private struct BgsTooltipBubble: View {
 // working for a subtree that .disabled() has taken out of hit-testing, and
 // unlike a SwiftUI overlay it can be converted to screen coordinates through
 // the whole scaled, scrolled chain.
-@available(macOS 10.15, *)
 private final class BgsTooltipAnchorNSView: NSView {
     var text: String?
     var horizontalOffset: CGFloat = 0
@@ -302,7 +295,6 @@ private final class BgsTooltipAnchorNSView: NSView {
     }
 }
 
-@available(macOS 10.15, *)
 private struct BgsTooltipAnchorRepresentable: NSViewRepresentable {
     let text: String?
     let horizontalOffset: CGFloat
@@ -324,7 +316,6 @@ private struct BgsTooltipAnchorRepresentable: NSViewRepresentable {
     }
 }
 
-@available(macOS 10.15, *)
 extension View {
     // A nil or empty text attaches nothing, mirroring the bound Visibility HDT
     // puts on these tooltips.
@@ -346,7 +337,6 @@ extension View {
 // Drawn in place like GuideTooltipModifier above rather than in its own panel,
 // which is what HDT does too - the picker's own resources give the tooltip the
 // control's LayoutTransform so it scales with the overlay.
-@available(macOS 10.15, *)
 private struct BgsTopTooltipModifier: ViewModifier {
     let title: String?
     let desc: String
@@ -379,7 +369,6 @@ private struct BgsTopTooltipModifier: ViewModifier {
     }
 }
 
-@available(macOS 10.15, *)
 private struct BgsTopTooltipBubble: View {
     let title: String?
     let desc: String
@@ -437,7 +426,6 @@ private struct BgsTopTooltipBubble: View {
     }
 }
 
-@available(macOS 10.15, *)
 extension View {
     func bgsTopTooltip(title: String, desc: String) -> some View {
         modifier(BgsTopTooltipModifier(title: title, desc: desc))

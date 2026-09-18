@@ -19,7 +19,6 @@ import SwiftUI
 // RootOverlayView's scaled subtree already provides.
 // Reports the rendered height of the Tavern Pinning cluster so the minion
 // browser can shorten itself by exactly that much.
-@available(macOS 10.15, *)
 struct PinningPanelHeightKey: PreferenceKey {
     static var defaultValue: CGFloat = 0
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
@@ -27,7 +26,6 @@ struct PinningPanelHeightKey: PreferenceKey {
     }
 }
 
-@available(macOS 10.15, *)
 struct BattlegroundsMinionPinningView: View {
     @ObservedObject var viewModel: BattlegroundsMinionPinningViewModel
     let canvasWidth: CGFloat
@@ -612,7 +610,6 @@ struct BattlegroundsMinionPinningView: View {
 // The DataTemplate on the PinnedSlots ItemsControl: a 42x42 rounded cell that
 // is either a pinned card (portrait art, tier badge, an "unpin" X on hover) or
 // the Clear button that ends the list.
-@available(macOS 10.15, *)
 private struct PinnedSlotView: View {
     let slot: BattlegroundsMinionPinningViewModel.PinnedSlot
     let action: () -> Void
@@ -735,7 +732,6 @@ private struct PinnedSlotView: View {
 // HDT gets this for free: PinnedSlotViewModel.CardId's setter rebuilds
 // CardAsset, so the asset is derived from the id rather than fetched once when
 // the cell is created.
-@available(macOS 10.15, *)
 private struct PinnedSlotArt: View {
     let cardId: String
 
@@ -787,7 +783,6 @@ private struct PinnedSlotArt: View {
 // The 55x54.2 footer buttons: #141617 going to #2C3135 on hover, with a
 // #3f4346 border on only some edges so the pair reads as one strip attached to
 // the panel (BorderThickness="1,1,1,0" / "1,1,0,0" / "1,0,1,0" in the XAML).
-@available(macOS 10.15, *)
 private struct PinningFooterButton<Content: View>: View {
     let background: String
     let hoverBackground: String
@@ -828,7 +823,6 @@ private struct PinningFooterButton<Content: View>: View {
 }
 
 // The rounded pill buttons the popups use ("Got it", "YES", "NO").
-@available(macOS 10.15, *)
 private struct PinningTextButton: View {
     let title: String
     let background: String
@@ -859,7 +853,6 @@ private struct PinningTextButton: View {
 
 // Border Name="BtnHelp"/"BtnOptions": 18x18, CornerRadius 3, transparent until
 // hovered (#22FFFFFF), Margin="4".
-@available(macOS 10.15, *)
 private struct HeaderIconButton<Content: View>: View {
     let action: () -> Void
     @ViewBuilder let content: () -> Content

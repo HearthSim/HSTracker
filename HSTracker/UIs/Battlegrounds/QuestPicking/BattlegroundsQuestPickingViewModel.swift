@@ -12,7 +12,6 @@ import SwiftUI
 
 // Port of HDT's BattlegroundsQuestPickingViewModel
 // (Controls/Overlay/Battlegrounds/QuestPicking/BattlegroundsQuestPickingViewModel.cs).
-@available(macOS 10.15, *)
 class BattlegroundsQuestPickingViewModel: ObservableObject {
     private var _entities = SynchronizedArray<Entity>()
 

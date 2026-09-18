@@ -8,7 +8,6 @@
 
 import Foundation
 
-@available(macOS 10.15, *)
 enum CompGuideListState {
     case loading, baseFeature, tier7Feature, empty, error
 }
@@ -17,7 +16,6 @@ enum CompGuideListState {
 // plain ObservableObject instead of the legacy ViewModel/getProp pattern -
 // see RootOverlayViewModel for the SwiftUI overlay convention this attaches
 // to.
-@available(macOS 10.15, *)
 final class BattlegroundsCompsGuidesViewModel: ObservableObject {
     @Published var comps: [BattlegroundsCompGuideViewModel]?
     @Published var compsByTier: [Int: [BattlegroundsCompGuideViewModel]]?
@@ -40,7 +38,6 @@ final class BattlegroundsCompsGuidesViewModel: ObservableObject {
     // landing at the same time) - mirrors HDT's SemaphoreSlim(1,1) guard.
     private let updateLock = NSLock()
 
-    @available(macOS 10.15.0, *)
     func onMatchStart() async {
         await MainActor.run {
             if isPreLobby {
@@ -61,7 +58,6 @@ final class BattlegroundsCompsGuidesViewModel: ObservableObject {
     // HDT's OnPreLobby, called when the guides panel comes up in the
     // Battlegrounds lobby. Without this the panel had nothing to load it, so it
     // sat on `.loading` until a match started.
-    @available(macOS 10.15.0, *)
     func onPreLobby() async {
         await MainActor.run {
             isPreLobby = true
@@ -106,7 +102,6 @@ final class BattlegroundsCompsGuidesViewModel: ObservableObject {
         }
     }
 
-    @available(macOS 10.15.0, *)
     func retry() async {
         let alreadyRetrying: Bool = await MainActor.run {
             if isRetrying { return true }
@@ -128,7 +123,6 @@ final class BattlegroundsCompsGuidesViewModel: ObservableObject {
         }
     }
 
-    @available(macOS 10.15.0, *)
     private func trySetCompGuides() async {
         let userOwnsTier7 = HSReplayAPI.accountData?.is_tier7 ?? false
         let token = Tier7Trial.token
@@ -140,7 +134,6 @@ final class BattlegroundsCompsGuidesViewModel: ObservableObject {
         }
     }
 
-    @available(macOS 10.15.0, *)
     private func setPremiumCompGuides(token: String?) async {
         let game = AppDelegate.instance().coreManager.game
         let gameLanguage = "\(Settings.hearthstoneLanguage ?? .enUS)"
@@ -194,7 +187,6 @@ final class BattlegroundsCompsGuidesViewModel: ObservableObject {
         }
     }
 
-    @available(macOS 10.15.0, *)
     private func setFreeCompGuides() async {
         let gameLanguage = "\(Settings.hearthstoneLanguage ?? .enUS)"
 

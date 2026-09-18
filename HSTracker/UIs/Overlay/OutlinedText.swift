@@ -26,7 +26,6 @@ import SwiftUI
 // it. Every one of the 8 offset copies below would render in the caller's
 // original color instead of the outline color, which is what was producing
 // a smeared blur of the fill color instead of a black outline.
-@available(macOS 10.15, *)
 private struct OutlinedTextModifier: ViewModifier {
     var textColor: Color
     var outlineColor: Color
@@ -51,7 +50,6 @@ private struct OutlinedTextModifier: ViewModifier {
     }
 }
 
-@available(macOS 10.15, *)
 extension View {
     // Do not chain .foregroundColor() before this - it won't take effect
     // (see OutlinedTextModifier's doc comment). Pass the fill color as

@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-@available(macOS 10.15, *)
 struct MulliganCardPortraitView: View {
     let card: Card?
 

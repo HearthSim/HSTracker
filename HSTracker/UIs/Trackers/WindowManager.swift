@@ -18,7 +18,6 @@ class WindowManager {
     // opponentTracker / secretsPanel / linkOpponentDeck.
 
     private var _rootOverlay: Any?
-    @available(OSX 10.15, *)
     var rootOverlay: RootOverlayWindow? {
         if _rootOverlay == nil {
             _rootOverlay = RootOverlayWindow(windowNibName: "RootOverlayWindow")
@@ -26,7 +25,6 @@ class WindowManager {
         return (_rootOverlay as? RootOverlayWindow)
     }
 
-    @available(macOS 10.15, *)
     var tooltipGridCards: RelatedCardsTooltipPanel {
         RelatedCardsTooltipPanel.shared
     }

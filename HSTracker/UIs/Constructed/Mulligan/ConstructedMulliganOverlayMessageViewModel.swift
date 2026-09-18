@@ -10,7 +10,6 @@ import Foundation
 
 // HDT's OverlayMessageViewModel, the banner the V1 mulligan guide shows under
 // the card row.
-@available(macOS 10.15, *)
 class ConstructedMulliganOverlayMessageViewModel: ObservableObject {
     // HDT keeps Text and Visibility as separate properties, with the setter for
     // one driving the other; here the visibility is simply derived, which is

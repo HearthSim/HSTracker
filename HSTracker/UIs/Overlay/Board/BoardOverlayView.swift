@@ -13,7 +13,6 @@ import SwiftUI
 // real elements on its canvas and hit-tests the cursor against them with
 // EllipseContains / RotatedRectContains; here the views report their geometry
 // and BoardMouseOverDetection does the same tests against it.
-@available(macOS 10.15, *)
 struct BoardHoverTarget: Equatable {
     enum Kind: Equatable {
         case minion(isPlayer: Bool)
@@ -51,7 +50,6 @@ struct BoardHoverTarget: Equatable {
     }
 }
 
-@available(macOS 10.15, *)
 struct BoardHoverTargetsKey: PreferenceKey {
     static var defaultValue: [BoardHoverTarget] = []
     static func reduce(value: inout [BoardHoverTarget], nextValue: () -> [BoardHoverTarget]) {
@@ -67,7 +65,6 @@ struct BoardHoverTargetsKey: PreferenceKey {
 // Belongs in RootOverlayView's fixed-pixel layer: OverlayWindow positions both
 // grids with plain fractions of the client size and never gives either a
 // ScaleTransform.
-@available(macOS 10.15, *)
 struct BoardOverlayView: View {
     @ObservedObject var viewModel: BoardOverlayViewModel
     let canvasSize: CGSize
@@ -233,7 +230,6 @@ struct BoardOverlayView: View {
 
 // HDT's BoardMinionOverlayView: the hover ellipse, with the Mercenaries ability
 // strip hanging off it.
-@available(macOS 10.15, *)
 struct BoardMinionOverlayView: View {
     @ObservedObject var viewModel: BoardMinionOverlayViewModel
     let isPlayer: Bool

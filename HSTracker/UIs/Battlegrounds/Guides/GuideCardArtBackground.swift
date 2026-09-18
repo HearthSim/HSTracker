@@ -19,7 +19,6 @@ import SwiftUI
 // art is shown at native pixel size (no .resizable(), matching HDT's
 // Stretch="None") and is deliberately allowed to overflow its container
 // before clipping, exactly like the WPF Rectangle it mirrors.
-@available(macOS 10.15, *)
 struct GuideCardArtBackground: View {
     let card: Card?
     var opacity: Double = 0.4

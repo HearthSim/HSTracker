@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-@available(macOS 10.15, *)
 private extension Color {
     static let hsReplayBlue = Color(red: 0x1D / 255, green: 0x36 / 255, blue: 0x57 / 255)
     static let hsReplayGold = Color(red: 0xFF / 255, green: 0xB0 / 255, blue: 0x0D / 255)
@@ -17,7 +16,6 @@ private extension Color {
     static let saleRed = Color(red: 0xB9 / 255, green: 0x40 / 255, blue: 0x38 / 255)
 }
 
-@available(macOS 10.15, *)
 struct ConstructedMulliganPreLobbyWidgetView: View {
     @ObservedObject var viewModel: ConstructedMulliganPreLobbyWidgetViewModel
 

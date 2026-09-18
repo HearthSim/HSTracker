@@ -19,7 +19,6 @@ private struct MulliganGuideTrialData: Codable {
     var lastTrialAlertPending: Bool
 }
 
-@available(macOS 10.15.0, *)
 class MulliganGuideTrial {
     private static var _status: PlayerTrialStatus?
     static private(set) var token: String?

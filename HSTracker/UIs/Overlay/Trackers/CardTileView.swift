@@ -21,7 +21,6 @@ import SwiftUI
 ///
 /// `CardBar` itself stays: the deck manager, `EditDeck` and the Outfinder pool
 /// browser are outside the overlay and still use it.
-@available(macOS 10.15, *)
 struct CardTileView: View {
     let card: Card?
     let playerType: PlayerType
@@ -392,7 +391,6 @@ struct CardTileView: View {
 
 }
 
-@available(macOS 10.15, *)
 private extension View {
     /// Places a layer at a rect authored in `CardBar`'s coordinates - a 217x34 box
     /// with a bottom-left origin - inside this view's top-left one.
@@ -416,7 +414,6 @@ private extension View {
 /// - and `.onChange`, the obvious way to notice the card under a reused row
 /// changing, needs macOS 11 while this file's baseline is 10.15 - so the cache
 /// owns both the images and the signal.
-@available(macOS 10.15, *)
 final class CardTileArtCache: ObservableObject {
     static let shared = CardTileArtCache()
 
@@ -457,7 +454,6 @@ final class CardTileArtCache: ObservableObject {
 
 /// The flash itself, split out so its fade runs from `onAppear` - the view is
 /// rebuilt (by `.id`) each time a row's count changes, which is what restarts it.
-@available(macOS 10.15, *)
 private struct CardTileFlashView: View {
     let color: Color
     let mask: NSImage?

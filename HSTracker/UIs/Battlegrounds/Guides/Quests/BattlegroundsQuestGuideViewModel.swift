@@ -10,7 +10,6 @@ import Foundation
 
 // Mirrors HDT's BattlegroundsQuestGuideViewModel, computed once at selection
 // time - same convention as BattlegroundsHeroGuideViewModel.
-@available(macOS 10.15, *)
 struct BattlegroundsQuestGuideViewModel: Identifiable {
     let id = UUID()
     let questCard: Card

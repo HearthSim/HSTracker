@@ -16,7 +16,6 @@ import SwiftUI
 //
 // The quest box on the right has no HDT counterpart - it is HSTracker's own
 // addition, carried over from the AppKit panel this replaces.
-@available(macOS 10.15, *)
 struct BattlegroundsOpponentInfoView: View {
     @ObservedObject var viewModel: BattlegroundsOpponentInfoViewModel
 

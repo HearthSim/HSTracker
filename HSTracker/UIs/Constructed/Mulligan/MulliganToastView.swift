@@ -17,7 +17,6 @@ import SwiftUI
 // (GetRight = 0, GetBottom = Height * 0.04, AnchorSide = Bottom,
 // GetScaling = AutoScaling, Slide in and out), so it hangs off the same corner
 // of the canvas; the two never share a match.
-@available(macOS 10.15, *)
 struct MulliganToastView: View {
     @ObservedObject var viewModel: MulliganToastViewModel
     let canvasWidth: CGFloat

@@ -13,7 +13,6 @@ import XCTest
 /// The overlay canvas can be measured before Hearthstone's own frame is known,
 /// and the zero width that comes back used to travel all the way into SwiftUI's
 /// layout engine as a NaN position, which traps the process.
-@available(macOS 10.15, *)
 class OverlayCanvasGeometryTests: HSTrackerTests {
 
     // MARK: - getScaledXPos

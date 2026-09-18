@@ -12,7 +12,6 @@ import Foundation
 // time (like BattlegroundsCompGuideViewModel) rather than as live-computed
 // properties - buddies-enabled/available-races are stable for the rest of
 // the match by the time a hero is actually picked.
-@available(macOS 10.15, *)
 struct BattlegroundsHeroGuideViewModel {
     let heroCard: Card
     let howToPlay: String

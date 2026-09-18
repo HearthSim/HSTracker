@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-@available(macOS 10.15, *)
 struct ConstructedMulliganV2SingleCardHeaderView: View {
     @ObservedObject var viewModel: ConstructedMulliganV2SingleCardHeaderViewModel
 
@@ -95,7 +94,6 @@ struct ConstructedMulliganV2SingleCardHeaderView: View {
     }
 }
 
-@available(macOS 10.15, *)
 #Preview {
     let normal = MulliganV2Data.MulliganCard(card_status: .valid, justifications: [
         "[]": 0.35,

@@ -18,7 +18,6 @@ import SwiftUI
 // composite into whatever bounds it is given, so callers must size the slot at
 // that aspect (see `height(forWidth:)`) - a square slot renders every minion
 // visibly squashed.
-@available(macOS 10.15, *)
 struct BattlegroundsMinionRepresentable: NSViewRepresentable {
     let entity: Entity
 

@@ -31,7 +31,6 @@ import SwiftUI
 // three per row; on lays it out as a card-tile list, which is what HDT's own checkbox label calls the
 // mode that "uses less data". HSTracker already has a card-tile list in AnimatedCardList, so the tile
 // mode hosts that rather than reimplementing CardTile.xaml in SwiftUI.
-@available(macOS 10.15, *)
 final class RelatedCardsBrowserViewModel: ObservableObject {
     @Published var cardName: String = ""
     @Published var cards: [Card] = []
@@ -124,7 +123,6 @@ final class RelatedCardsBrowserViewModel: ObservableObject {
     }
 }
 
-@available(macOS 10.15, *)
 private struct FilterChipView: View {
     let label: String
     let isActive: Bool
@@ -154,7 +152,6 @@ private struct FilterChipView: View {
 // ever sees views inside that canvas, while this browser is its own NSPanel. Hover is therefore
 // detected with an NSTrackingArea - the same mechanism CardBar already uses for the deck tracker's
 // own hover, and the reason it keeps working while Hearthstone is the frontmost app.
-@available(macOS 10.15, *)
 enum RelatedCardsBrowserTooltip {
     static func show(card: Card, placement: CardTooltipPlacement, from view: NSView) {
         guard let window = view.window else { return }
@@ -183,7 +180,6 @@ enum RelatedCardsBrowserTooltip {
     }
 }
 
-@available(macOS 10.15, *)
 final class RelatedCardsBrowserHoverNSView: NSView {
     var card: Card?
     var placement: CardTooltipPlacement = .left
@@ -214,7 +210,6 @@ final class RelatedCardsBrowserHoverNSView: NSView {
     }
 }
 
-@available(macOS 10.15, *)
 private struct RelatedCardsBrowserHoverView: NSViewRepresentable {
     let card: Card
     let placement: CardTooltipPlacement
@@ -237,7 +232,6 @@ private struct RelatedCardsBrowserHoverView: NSViewRepresentable {
 // compact grid uses. The 108x152 box and its 2,3 margin are the literal values from the XAML's
 // <Image> in the ShowCardGrid ListView; the renders carry their own transparent padding, which is
 // why HDT gets away with rows that tight.
-@available(macOS 10.15, *)
 private struct RelatedCardsBrowserFullCardView: View {
     let card: Card
 
@@ -292,7 +286,6 @@ private struct RelatedCardsBrowserFullCardView: View {
 // updateFrames() - it has no layout pass of its own because every existing caller sizes it by hand.
 // Hosted in SwiftUI nothing does, so this subclass re-runs the layout whenever AppKit hands it a new
 // size, and reload(cards:) forces one after the contents change.
-@available(macOS 10.15, *)
 final class RelatedCardsBrowserTileList: AnimatedCardList {
     private var laidOutSize: NSSize = .zero
     private var loadedIds: [String] = []
@@ -325,7 +318,6 @@ final class RelatedCardsBrowserTileList: AnimatedCardList {
 // The rows need no hover overlay of their own: CardTile.xaml carries its CardTooltip inline, and
 // CardBar has the matching affordance built in - an NSTrackingArea reporting through CardCellHover,
 // which is what drives the deck tracker's own hover preview.
-@available(macOS 10.15, *)
 private struct RelatedCardsBrowserTileListView: NSViewRepresentable {
     let cards: [Card]
 
@@ -365,7 +357,6 @@ private struct RelatedCardsBrowserTileListView: NSViewRepresentable {
     }
 }
 
-@available(macOS 10.15, *)
 private struct RelatedCardsBrowserContentView: View {
     @ObservedObject var viewModel: RelatedCardsBrowserViewModel
     static let width: CGFloat = 350
@@ -515,7 +506,6 @@ private struct RelatedCardsBrowserContentView: View {
 // RelatedCardsTooltipPanel's keyword-chip summary already does: chunked into fixed-size rows by
 // index math rather than a true flow layout. A fixed row size is a fair approximation for a
 // handful of filter chips in a 320pt-wide panel.
-@available(macOS 10.15, *)
 private struct ChunkedChipRows<Data: RandomAccessCollection, RowContent: View>: View where Data.Index == Int {
     let items: Data
     let itemsPerRow: Int
@@ -539,7 +529,6 @@ private struct ChunkedChipRows<Data: RandomAccessCollection, RowContent: View>: 
 
 // Public surface mirrors RelatedCardsTooltipPanel's shape: an NSPanel-backed singleton with
 // simple show/hide entry points, following the same NSPanel + NSHostingView precedent.
-@available(macOS 10.15, *)
 final class RelatedCardsBrowserPanel: NSPanel {
     static let shared = RelatedCardsBrowserPanel()
 

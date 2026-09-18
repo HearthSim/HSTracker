@@ -16,7 +16,6 @@ import SwiftUI
 // RootOverlayView pairs the two in one top-trailing HStack rather than
 // positioning this separately. Height 49 comes from that StackPanel and
 // matches GuidesTabsView's own tab strip, so the two line up.
-@available(macOS 10.15, *)
 final class BattlegroundsTurnCounterViewModel: ObservableObject {
     @Published var turn = 0
     @Published var isShown = false
@@ -41,7 +40,6 @@ final class BattlegroundsTurnCounterViewModel: ObservableObject {
     }
 }
 
-@available(macOS 10.15, *)
 struct BattlegroundsTurnCounterView: View {
     @ObservedObject var viewModel: BattlegroundsTurnCounterViewModel
     // The MultiDataTrigger on the TurnCounter's style binds across to two other
@@ -96,7 +94,6 @@ struct BattlegroundsTurnCounterView: View {
 // CornerRadius="0,0,0,3": square except the bottom-left corner, where the
 // counter meets the game board. Same silhouette as the tier strip's, kept
 // local rather than shared because the two have no other coupling.
-@available(macOS 10.15, *)
 private struct TurnCounterShape: Shape {
     func path(in rect: CGRect) -> Path {
         let radius: CGFloat = 3

@@ -15,7 +15,6 @@ import SwiftUI
 // Canvas.Width/76 and offset by Canvas.Left/76 - which is why a 14x14 settings
 // rectangle draws a 7.2pt gear, not a 14pt one. HDTCanvasIcon reproduces that
 // mapping so the call sites can keep the XAML's own rectangle dimensions.
-@available(macOS 10.15, *)
 struct HDTCanvasIcon<S: Shape>: View {
     let shape: S
     /// The Path's Canvas.Left/Top/Width/Height inside the 76x76 icon canvas.
@@ -39,7 +38,6 @@ struct HDTCanvasIcon<S: Shape>: View {
     }
 }
 
-@available(macOS 10.15, *)
 struct HDTGearShape: Shape {
     // Normalized from HDT's appbar_settings geometry (Resources/Icons.xaml).
     func path(in rect: CGRect) -> Path {
@@ -97,7 +95,6 @@ struct HDTGearShape: Shape {
     }
 }
 
-@available(macOS 10.15, *)
 struct HDTCloseShape: Shape {
     // Normalized from HDT's appbar_close_white geometry (Resources/Icons.xaml).
     func path(in rect: CGRect) -> Path {
@@ -123,7 +120,6 @@ struct HDTCloseShape: Shape {
     }
 }
 
-@available(macOS 10.15, *)
 struct HDTQuestionShape: Shape {
     // Normalized from HDT's appbar_question geometry (Resources/Icons.xaml).
     func path(in rect: CGRect) -> Path {

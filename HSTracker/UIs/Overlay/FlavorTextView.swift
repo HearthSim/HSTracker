@@ -12,7 +12,6 @@ import SwiftUI
 // shows a hovered card's flavor text, plus the OverlayWindow properties behind
 // it (FlavorText, FlavorTextCardName, FlavorTextVisibility) and its
 // SetFlavorTextEntity. Replaces the 298x123 FlavorText NSPanel.
-@available(macOS 10.15, *)
 final class FlavorTextViewModel: ObservableObject {
     // FlavorTextVisibility.
     @Published var isShown = false
@@ -40,7 +39,6 @@ final class FlavorTextViewModel: ObservableObject {
     }
 }
 
-@available(macOS 10.15, *)
 struct FlavorTextView: View {
     @ObservedObject var viewModel: FlavorTextViewModel
     // The overlay's real, post-scale size. The panel belongs in

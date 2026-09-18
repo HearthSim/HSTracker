@@ -16,7 +16,6 @@ import SwiftUI
 // Both hang off the canvas's right edge, where their OverlayElementBehaviors put
 // them (GetRight = 0, AnchorSide = Bottom, GetScaling = AutoScaling), the hero
 // one 4% of the canvas height off the bottom and the Timewarp one 5%.
-@available(macOS 10.15, *)
 struct BattlegroundsNotificationsView: View {
     @ObservedObject var viewModel: BattlegroundsNotificationsViewModel
     let canvasWidth: CGFloat

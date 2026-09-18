@@ -8,7 +8,6 @@
 
 import Foundation
 
-@available(macOS 10.15, *)
 extension Task<Never, Never> {
     static func sleep(milliseconds: UInt64) async {
         do {

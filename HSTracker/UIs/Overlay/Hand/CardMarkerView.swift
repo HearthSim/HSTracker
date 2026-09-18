@@ -13,7 +13,6 @@ import SwiftUI
 // AppKit CardHud drew, which had drifted - it drew the source tile inside the
 // badge instead of below it, cropped a 34x55 slice of the tile where HDT takes
 // a 59x59 square, and set the age in Belwe rather than HDT's Chunkfive.
-@available(macOS 10.15, *)
 struct CardMarkerView: View {
     @ObservedObject var viewModel: CardMarkerViewModel
 
@@ -157,7 +156,6 @@ struct CardMarkerView: View {
 
 // The square crop of the source card's tile that HDT shows in the badge:
 // CropRect = { X = 126, Y = 0, Width = 59, Height = 59 } over the 256x59 tile.
-@available(macOS 10.15, *)
 private struct CardMarkerSourceTile: View {
     let card: Card?
 

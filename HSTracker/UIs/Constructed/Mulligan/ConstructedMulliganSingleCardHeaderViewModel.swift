@@ -8,6 +8,5 @@
 
 import Foundation
 
-@available(macOS 10.15, *)
 class ConstructedMulliganSingleCardHeaderViewModel: ConstructedStatsHeaderViewModel {
 }

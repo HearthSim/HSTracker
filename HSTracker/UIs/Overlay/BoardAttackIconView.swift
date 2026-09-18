@@ -13,7 +13,6 @@ import SwiftUI
 // HearthstoneTextBlock, declared straight on the overlay canvas in
 // Windows/OverlayWindow.xaml. This replaces the pair of 50x50 BoardDamage
 // NSPanels.
-@available(macOS 10.15, *)
 final class BoardAttackIconViewModel: ObservableObject {
     // Which of the two icons this is - they are identical apart from the canvas
     // position each is given.
@@ -48,7 +47,6 @@ final class BoardAttackIconViewModel: ObservableObject {
     }
 }
 
-@available(macOS 10.15, *)
 struct BoardAttackIconView: View {
     @ObservedObject var viewModel: BoardAttackIconViewModel
     // Observed as well as the view model: a drag moves the icon without the
@@ -159,7 +157,6 @@ struct BoardAttackIconView: View {
     private static var lineHeight: CGFloat { font.ascender - font.descender + font.leading }
 }
 
-@available(macOS 10.15, *)
 #Preview {
     let vm = BoardAttackIconViewModel(isPlayer: true)
     vm.isShown = true

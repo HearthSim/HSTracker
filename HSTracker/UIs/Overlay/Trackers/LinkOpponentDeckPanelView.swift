@@ -25,7 +25,6 @@ import SwiftUI
 ///       Canvas.SetTop(panel, opponentTop - panelHeight * scaling - 10);
 ///
 /// It carries the opponent stack's own scaling, as HDT's `UpdateScaling` gives it.
-@available(macOS 10.15, *)
 struct LinkOpponentDeckPanelView: View {
     @ObservedObject var viewModel: LinkOpponentDeckPanelViewModel
     @ObservedObject var opponent: TrackerPanelViewModel
@@ -144,7 +143,6 @@ struct LinkOpponentDeckPanelView: View {
     }
 }
 
-@available(macOS 10.15, *)
 private struct LinkPanelHeightKey: PreferenceKey {
     static var defaultValue: CGFloat?
     static func reduce(value: inout CGFloat?, nextValue: () -> CGFloat?) {

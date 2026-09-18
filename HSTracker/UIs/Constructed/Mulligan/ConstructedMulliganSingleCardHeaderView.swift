@@ -18,7 +18,6 @@ import SwiftUI
 // 0.4363 and 64.1274 wide with a 3.5637 corner and a 0.872587 HSReplayNetBlue
 // stroke, a 19pt blue label strip across their tops, and the rank badge
 // spanning 73...139.
-@available(macOS 10.15, *)
 struct ConstructedMulliganSingleCardHeaderView: View {
     @ObservedObject var viewModel: ConstructedMulliganSingleCardHeaderViewModel
 
@@ -154,7 +153,6 @@ struct ConstructedMulliganSingleCardHeaderView: View {
     }
 }
 
-@available(macOS 10.15, *)
 #Preview {
     VStack(spacing: 8) {
         ForEach(1..<5) { rank in

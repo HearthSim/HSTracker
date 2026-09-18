@@ -13,7 +13,6 @@ import SwiftUI
 // both), one section per selected quest reward. Renders nothing when no
 // quest has been picked yet, same as HDT's ItemsControl over an empty
 // SelectedQuests collection.
-@available(macOS 10.15, *)
 struct QuestGuideView: View {
     @ObservedObject var viewModel: BattlegroundsQuestGuidesViewModel
 

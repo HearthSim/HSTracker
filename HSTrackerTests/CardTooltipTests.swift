@@ -11,7 +11,6 @@ import XCTest
 
 // Mirrors HDT's CardTooltipViewModelTests: which card the hover tooltip puts in
 // its primary slot, and which - if any - it puts in the golden slot beside it.
-@available(macOS 10.15, *)
 class CardTooltipTests: HSTrackerTests {
 
     static var database: Database!

@@ -8,7 +8,6 @@
 
 import Foundation
 
-@available(macOS 10.15, *)
 class ConstructedMulliganV2SingleCardViewModel: ObservableObject, Identifiable {
     var id: Int { position }
     let position: Int

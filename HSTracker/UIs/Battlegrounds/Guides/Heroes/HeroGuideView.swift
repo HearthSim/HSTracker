@@ -9,7 +9,6 @@
 import SwiftUI
 
 // Mirrors HDT's HeroGuide.xaml.
-@available(macOS 10.15, *)
 struct HeroGuideView: View {
     @ObservedObject var viewModel: BattlegroundsHeroGuidesViewModel
     // HeroGuide.xaml's DataTrigger on HasQuests, which only changes the root

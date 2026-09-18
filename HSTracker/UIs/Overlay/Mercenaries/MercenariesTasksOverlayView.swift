@@ -17,7 +17,6 @@ import SwiftUI
 // Both behaviors carry GetScaling = AutoScaling, so this belongs in
 // RootOverlayView's scaled subtree and everything below is in that subtree's
 // 1080-tall canvas units rather than window pixels.
-@available(macOS 10.15, *)
 struct MercenariesTasksOverlayView: View {
     @ObservedObject var viewModel: MercenariesTaskListViewModel
     let canvasWidth: CGFloat

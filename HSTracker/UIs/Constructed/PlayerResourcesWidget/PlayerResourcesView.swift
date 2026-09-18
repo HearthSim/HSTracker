@@ -26,7 +26,6 @@ import SwiftUI
 // numbers SizeHelper.playerMaxResourcesFrame/opponentMaxResourcesFrame used to
 // hold. Both anchor by their top edge, as HDT anchors them - unlike the
 // counters, whose opponent block hangs from its bottom.
-@available(macOS 10.15.0, *)
 struct PlayerResourcesView: View {
     @ObservedObject var viewModel: PlayerResourcesViewModel
     // Observed as well as the view model: a drag moves the widget without the
@@ -121,7 +120,6 @@ struct PlayerResourcesView: View {
     }
 }
 
-@available(macOS 10.15.0, *)
 #Preview {
     VStack {
         let vm = PlayerResourcesViewModel(isPlayer: true)

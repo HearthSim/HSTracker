@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-@available(macOS 10.15, *)
 private extension Color {
     static let tier7Purple = Color(red: 0x36 / 255, green: 0x16 / 255, blue: 0x37 / 255)
 }
@@ -22,7 +21,6 @@ private extension Color {
 // with scaling = Height/1080 - which is the space RootOverlayView's scaled
 // subtree lays its children out in, so everything inside keeps the XAML's own
 // alignments and margins.
-@available(macOS 10.15, *)
 struct BattlegroundsTrinketPickingView: View {
     @ObservedObject var viewModel: BattlegroundsTrinketPickingViewModel
     let canvasWidth: CGFloat

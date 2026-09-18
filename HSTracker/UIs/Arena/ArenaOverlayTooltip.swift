@@ -15,7 +15,6 @@ import SwiftUI
 /// click, so the player can still click through to the card underneath. There is
 /// no AppKit equivalent, so as with the bottom panel the frames are reported up to
 /// `RootOverlayWindow`, which samples the cursor against them.
-@available(macOS 10.15, *)
 enum ArenaTooltipTarget: Hashable {
     case relatedCards(Int)
     case additionalInfo(Int)
@@ -27,7 +26,6 @@ enum ArenaTooltipTarget: Hashable {
 
 /// A run of tooltip text. HDT builds the deck-rail tooltip out of WPF `Inline`s so
 /// the two card names come out bold; this is the same idea, flattened.
-@available(macOS 10.15, *)
 struct ArenaTooltipRun: Equatable {
     var text = ""
     var bold = false
@@ -72,7 +70,6 @@ struct ArenaTooltipRun: Equatable {
 /// region itself: the badge row and the deck rail are both clipped, and where WPF's
 /// ToolTip is a popup in its own window that escapes that clip, a SwiftUI overlay
 /// would be cut off by it.
-@available(macOS 10.15, *)
 struct ArenaTooltipRegion: Equatable {
     let target: ArenaTooltipTarget
     /// Canvas pixels, for `RootOverlayWindow` to sample the cursor against.
@@ -85,14 +82,12 @@ struct ArenaTooltipRegion: Equatable {
     let isEnabled: Bool
 }
 
-@available(macOS 10.15, *)
 extension CoordinateSpace {
     /// Declared on `ArenaPickHelperView`'s root, so a region can report where it
     /// sits in the 1440x1080 space the bubbles are laid out in.
     static let arenaPickHelper = CoordinateSpace.named("arenaPickHelper")
 }
 
-@available(macOS 10.15, *)
 struct ArenaTooltipRegionKey: PreferenceKey {
     static var defaultValue: [ArenaTooltipRegion] = []
     static func reduce(value: inout [ArenaTooltipRegion], nextValue: () -> [ArenaTooltipRegion]) {
@@ -102,7 +97,6 @@ struct ArenaTooltipRegionKey: PreferenceKey {
 
 /// HDT's tooltip template: a near-black rounded box, 8pt padding, hairline border,
 /// white text, wrapping at 300.
-@available(macOS 10.15, *)
 struct ArenaTooltipBubble: View {
     let runs: [ArenaTooltipRun]
 
@@ -157,7 +151,6 @@ struct ArenaTooltipBubble: View {
     }
 }
 
-@available(macOS 10.15, *)
 private struct ArenaTooltipModifier: ViewModifier {
     let target: ArenaTooltipTarget
     let runs: [ArenaTooltipRun]
@@ -178,7 +171,6 @@ private struct ArenaTooltipModifier: ViewModifier {
     }
 }
 
-@available(macOS 10.15, *)
 extension View {
     func arenaOverlayTooltip(_ target: ArenaTooltipTarget,
                              runs: [ArenaTooltipRun],

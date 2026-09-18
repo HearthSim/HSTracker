@@ -527,7 +527,6 @@ struct MirrorHelper {
         case cardPlayableMouseOver = 7
     }
 
-    @available(macOS 10.15, *)
     static func getMulliganLiveState() -> MulliganLiveState? {
         var result: MirrorMulliganState?
         MirrorHelper.accessQueue.sync {

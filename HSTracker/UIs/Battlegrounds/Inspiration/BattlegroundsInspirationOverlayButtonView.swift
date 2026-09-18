@@ -20,7 +20,6 @@ import SwiftUI
 // translate on the way in (0.2s CubicEase) and back out over 0.3s after a 0.1s
 // delay. IsEnabled is set to HasBeenActivated when the panel closes and false
 // while it is open, which is exactly the condition below.
-@available(macOS 10.15, *)
 struct BattlegroundsInspirationOverlayButtonView: View {
     @ObservedObject var viewModel: BattlegroundsInspirationViewModel
 
@@ -59,7 +58,6 @@ struct BattlegroundsInspirationOverlayButtonView: View {
 }
 
 // CornerRadius="0,0,3,3": square on top, rounded at both bottom corners.
-@available(macOS 10.15, *)
 private struct BottomRoundedRect: Shape {
     let radius: CGFloat
 
@@ -80,7 +78,6 @@ private struct BottomRoundedRect: Shape {
 
 // BorderThickness="1,0,1,1": left, right and bottom only - the top edge is open
 // where the tab meets the screen edge.
-@available(macOS 10.15, *)
 private struct SidesAndBottomBorder: Shape {
     let radius: CGFloat
 

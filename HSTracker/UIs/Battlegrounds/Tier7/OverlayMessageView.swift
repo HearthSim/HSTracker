@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-@available(macOS 10.15, *)
 private extension Color {
     static let tier7Purple = Color(red: 0x36 / 255, green: 0x16 / 255, blue: 0x37 / 255)
     static let tier7Black = Color(red: 0x14 / 255, green: 0x16 / 255, blue: 0x17 / 255)
@@ -22,7 +21,6 @@ private extension Color {
 // is shared with the quest and trinket pickers, which are still AppKit and so
 // cannot be gated to the SwiftUI baseline an ObservableObject would need. The
 // panel hosting this republishes the view model's changes instead.
-@available(macOS 10.15, *)
 struct OverlayMessageView: View {
     let text: String?
 

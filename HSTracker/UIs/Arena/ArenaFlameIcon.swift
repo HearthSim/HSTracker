@@ -10,7 +10,6 @@ import SwiftUI
 /// HDT's `Flame` / `FlameUnderground` drawings from `ArenaPlaque.xaml`: four fills
 /// stacked back to front over a 398x745 viewbox, a dark body under a bright core.
 /// Geometry copied verbatim; only the palette differs between the two.
-@available(macOS 10.15, *)
 enum ArenaFlame {
     static let viewBox = CGSize(width: 398, height: 745)
     /// Width at a given height, since the drawing is always scaled uniformly.
@@ -42,7 +41,6 @@ enum ArenaFlame {
 }
 
 /// One flame, at whatever height it is given.
-@available(macOS 10.15, *)
 struct ArenaFlameView: View {
     let isUnderground: Bool
 

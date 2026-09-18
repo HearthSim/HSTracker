@@ -19,7 +19,6 @@ import SwiftUI
 // isShown is checked here, in the view holding its own @ObservedObject - see
 // MulliganGuideTrialsExhaustedView for why gating from RootOverlayView doesn't
 // reliably react to a nested ObservableObject.
-@available(macOS 10.15, *)
 struct BattlegroundsInspirationView: View {
     @ObservedObject var viewModel: BattlegroundsInspirationViewModel
 
@@ -179,7 +178,6 @@ struct BattlegroundsInspirationView: View {
 // on the left, the final board on the right, separated by a hairline. The row
 // carries a 1pt bottom border and a top/bottom inner shadow (a vertical
 // gradient from 32-alpha black at both edges to transparent at 10%/90%).
-@available(macOS 10.15, *)
 private struct InspirationLineupRow: View {
     @ObservedObject var game: BattlegroundsInspirationGameViewModel
     @ObservedObject var viewModel: BattlegroundsInspirationViewModel
@@ -312,7 +310,6 @@ private struct InspirationLineupRow: View {
 // The control wraps that canvas in a `Viewbox Width="110" Height="110"`, and
 // the Inspiration panel scales it a further 0.75 via a LayoutTransform - so it
 // lands at 82.5pt on screen.
-@available(macOS 10.15, *)
 private struct InspirationHeroPowerView: View {
     let card: Card?
     let cost: Int?

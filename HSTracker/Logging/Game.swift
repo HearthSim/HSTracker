@@ -105,19 +105,16 @@ class Game: NSObject, PowerEventHandler {
     // ~16ms poll of the live per-card mulligan selection state (HearthMirror),
     // matching HDT's MulliganStateWatcher cadence, feeding the gauge's live
     // confidence recalculation while the player is choosing what to keep.
-    @available(macOS 10.15, *)
     func startMulliganLivePolling() {
         guard !mulliganLivePollingActive else { return }
         mulliganLivePollingActive = true
         pollMulliganLiveState()
     }
 
-    @available(macOS 10.15, *)
     func stopMulliganLivePolling() {
         mulliganLivePollingActive = false
     }
 
-    @available(macOS 10.15, *)
     private func pollMulliganLiveState() {
         guard mulliganLivePollingActive else { return }
 
@@ -571,7 +568,6 @@ class Game: NSObject, PowerEventHandler {
     // window of their own left to frame, show or hide: a side with nothing to
     // show renders nothing, and hideAllWhenGameInBackground is already handled
     // once for the whole canvas in updateRootOverlay().
-    @available(macOS 10.15, *)
     func updateMaxResourcesWidget() {
         DispatchQueue.main.async { [self] in
             updatePlayerResorucesWidgetVisibility()
@@ -594,7 +590,6 @@ class Game: NSObject, PowerEventHandler {
     // this just avoids the hidden->visible transition that was glitching.
     private var rootOverlayLastFullscreenState: Bool?
 
-    @available(macOS 10.15, *)
     func updateRootOverlay() {
         DispatchQueue.main.async { [self] in
             guard let win = windowManager.rootOverlay else { return }
@@ -732,7 +727,6 @@ class Game: NSObject, PowerEventHandler {
     private let experienceQueue = DispatchQueue(label: "net.hearthsim.hstracker.experience", attributes: [])
 
     // OverlayWindow.ExperienceChangedAsync.
-    @available(macOS 10.15, *)
     func experienceChangedAsync(experience: Int, experienceNeeded: Int, level: Int, levelChange: Int, animate: Bool) {
         experienceQueue.async { [weak self] in
             self?.runExperienceChanged(experience: experience,
@@ -743,7 +737,6 @@ class Game: NSObject, PowerEventHandler {
         }
     }
 
-    @available(macOS 10.15, *)
     private func runExperienceChanged(experience: Int, experienceNeeded: Int, level: Int, levelChange: Int, animate: Bool) {
         let currentMode = self.currentMode ?? .invalid
         let previousMode = self.previousMode ?? .invalid
@@ -796,7 +789,6 @@ class Game: NSObject, PowerEventHandler {
 
     // The counter lives on the RootOverlay canvas, so every read and write goes
     // through the main queue.
-    @available(macOS 10.15, *)
     private func onExperienceCounter(_ body: @escaping (ExperienceCounterViewModel) -> Void) {
         DispatchQueue.main.async {
             guard let counter = self.windowManager.rootOverlay?.viewModel.experienceCounter else { return }
@@ -971,7 +963,6 @@ class Game: NSObject, PowerEventHandler {
         }
     }
         
-    @available(macOS 10.15, *)
     @MainActor
     func updateTier7PreLobbyVisibility() {
         guard let viewModel = windowManager.rootOverlay?.viewModel.tier7PreLobby else {
@@ -1031,7 +1022,6 @@ class Game: NSObject, PowerEventHandler {
     // cleared out from under a match that is about to take the panel over via
     // updateBattlegroundsOverlay()'s hand-off - only a genuine leave (back to the
     // main menu, say) clears it here.
-    @available(macOS 10.15, *)
     @MainActor
     func updateBattlegroundsGuidesPreLobbyVisibility() {
         guard let guidesTabs = windowManager.rootOverlay?.viewModel.battlegroundsGuidesTabs else {
@@ -3143,7 +3133,6 @@ class Game: NSObject, PowerEventHandler {
         }
     }
     
-    @available(macOS 10.15.0, *)
     private func getBattlegroundsHeroPickStats() async -> BattlegroundsHeroPickStats? {
         if spectator {
             return nil
@@ -3210,7 +3199,7 @@ class Game: NSObject, PowerEventHandler {
     
     private var battlegroundsHeroPickingLatch = 0
     
-    @available(macOS 10.15.0, *) @MainActor
+    @MainActor
     private func refreshBattlegroundsHeroPickStats() async {
         let heroes = player.playerEntities.filter { x in x.isHero && (x.has(tag: .bacon_hero_can_be_drafted) || x.has(tag: .bacon_skin)) && !x.has(tag: .bacon_locked_mulligan_hero) }
 
@@ -3313,7 +3302,6 @@ class Game: NSObject, PowerEventHandler {
         }
     }
     
-    @available(macOS 10.15.0, *)
     /// HDT's `WaitForMulliganStart`, with the answer handed back rather than
     /// dropped: true when the mulligan is up and waiting for the player, false
     /// when it is already over (or the game has left for the menu).
@@ -3348,7 +3336,7 @@ class Game: NSObject, PowerEventHandler {
         return false
     }
     
-    @available(macOS 10.15.0, *) @MainActor
+    @MainActor
     private func handleBattlegroundsStart() async {
         Watchers.battlegroundsLeaderboardWatcher.run()
         Watchers.battlegroundsLobbyInfoWatcher.run()
@@ -3962,7 +3950,7 @@ class Game: NSObject, PowerEventHandler {
         }
     }
     
-    @available(macOS 10.15.0, *) @MainActor
+    @MainActor
     func handlePlayerMulliganDone() async {
         if isBattlegroundsMatch() {
             let pickedHeroDbfId = snapshotBattlegroundsHeroPick()
@@ -4043,7 +4031,7 @@ class Game: NSObject, PowerEventHandler {
     /// deck list drops its win rates (setting `Player.mulliganCardStats` is what
     /// redraws it, HDT's `Core.UpdatePlayerCards(true)`). The live polling stop is
     /// HSTracker's own - HDT's MulliganStateWatcher is stopped by the same event.
-    @available(macOS 10.15.0, *) @MainActor
+    @MainActor
     private func finishMulliganGuide() {
         stopMulliganLivePolling()
         hideMulliganGuideStats()
@@ -4109,7 +4097,7 @@ class Game: NSObject, PowerEventHandler {
         }
     }
 
-    @available(macOS 10.15.0, *) @MainActor
+    @MainActor
     func handleBattlegroundsTrinketChoice(choice: IHsChoice) async {
         let offeredEntities = choice.offeredEntityIds?.compactMap { id in entities[id] } ?? [Entity]()
 
@@ -4141,7 +4129,6 @@ class Game: NSObject, PowerEventHandler {
         return state.chosenTrinketDbfId != nil
     }
     
-    @available(macOS 10.15.0, *)
     private func getTrinketPickStats(choice: IHsChoice) async -> BattlegroundsTrinketPickStats? {
         if spectator {
             return nil
@@ -4282,7 +4269,6 @@ class Game: NSObject, PowerEventHandler {
 
     // The opacity mask lives on RootOverlay's view model and is main-thread
     // only; every caller here arrives off a watcher or the log reader.
-    @available(macOS 10.15, *)
     func onMainOverlay(_ block: @escaping (RootOverlayViewModel) -> Void) {
         let run = { [weak self] in
             guard let viewModel = self?.windowManager.rootOverlay?.viewModel else { return }
@@ -4543,7 +4529,7 @@ class Game: NSObject, PowerEventHandler {
         updatePlayerTracker()
     }
     
-    @available(macOS 10.15.0, *) @MainActor
+    @MainActor
     func handleHearthstoneMulliganPhase() async {
         for _ in 0 ..< 10 {
             do {
@@ -4707,7 +4693,6 @@ class Game: NSObject, PowerEventHandler {
         _mulliganGuideParams = MulliganGuideParams(deckstring: activeDeck.shortid, game_type: BnetGameType.getBnetGameType(gameType: currentGameType, format: currentFormat).rawValue, format_type: currentFormatType.rawValue, opponent_class: opponentClass.rawValue.uppercased(), player_initiative: playerEntity?[.first_player] == 1 ? "FIRST" : "COIN", player_star_level: starLevel > 0 ? starLevel : nil, player_star_multiplier: starsPerWin > 0 ? starsPerWin : nil, player_region: Region.toBnetRegion(region: currentRegion), offered_cards: mulliganState.offeredCards.compactMap { x in x.card.deckbuildingCard.dbfId })
     }
     
-    @available(macOS 10.15.0, *)
     func getMulliganGuideData() async -> MulliganGuideData? {
         if spectator {
             return nil
@@ -4759,7 +4744,6 @@ class Game: NSObject, PowerEventHandler {
         return _mulliganV2Params
     }
 
-    @available(macOS 10.15.0, *)
     func getMulliganV2Data(isMulliganDone: Bool = false) async -> MulliganV2Data? {
         if spectator {
             return nil
@@ -4812,7 +4796,6 @@ class Game: NSObject, PowerEventHandler {
     
     // The pre-lobby's own view model, which lives on the RootOverlay canvas
     // with the badges it drives.
-    @available(macOS 10.15, *)
     private var mulliganGuidePreLobbyViewModel: ConstructedMulliganGuidePreLobbyViewModel? {
         windowManager.rootOverlay?.viewModel.mulliganGuidePreLobby.viewModel
     }
@@ -4850,7 +4833,6 @@ class Game: NSObject, PowerEventHandler {
     // a persisted flag set by Game.getMulliganV2Data's trial activation) and
     // they still have zero remaining and aren't premium by the time they're
     // back in the lobby.
-    @available(macOS 10.15, *)
     @MainActor
     private func updateMulliganGuideTrialsExhausted() {
         guard !Settings.seenMulliganGuideTrialsExhausted else {
@@ -4876,7 +4858,6 @@ class Game: NSObject, PowerEventHandler {
         alert.isShown = true
     }
 
-    @available(macOS 10.15, *)
     @MainActor
     private func hideMulliganGuideTrialsExhausted() {
         windowManager.rootOverlay?.viewModel.mulliganGuideTrialsExhausted.isShown = false

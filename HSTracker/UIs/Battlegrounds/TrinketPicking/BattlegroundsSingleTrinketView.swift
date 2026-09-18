@@ -12,7 +12,6 @@ import SwiftUI
 // plate. It is the hero header's plate with the tier square lifted clear of the
 // two panels (see BattlegroundsStatsPlateChrome.Layout), the tier label over the
 // square and the average placement and pick rate in the panels below it.
-@available(macOS 10.15, *)
 struct BattlegroundsSingleTrinketView: View {
     let viewModel: StatsHeaderViewModel
 

@@ -24,7 +24,6 @@ class ArenaPackagesManager {
     private var packagesByKeyCard = [String: [String]]()
     private var packagesKeyByPackageOnlyCard = [String: String]()
 
-    @available(macOS 10.15.0, *)
     func updatePackages() async {
         guard let data = await fetchPackages()?.data else {
             lock.lock()
@@ -43,7 +42,6 @@ class ArenaPackagesManager {
     /// Ports the routing in HDT's `ApiWrapper.GetArenaPackages()`: a signed-in
     /// account goes through OAuth, everybody else through the unauthenticated
     /// endpoint, and only for a deck the server has accepted for a trial.
-    @available(macOS 10.15.0, *)
     private func fetchPackages() async -> ArenaPackages? {
         if HSReplayAPI.accountData != nil && HSReplayAPI.isFullyAuthenticated {
             return await HSReplayAPI.getArenaPackages()

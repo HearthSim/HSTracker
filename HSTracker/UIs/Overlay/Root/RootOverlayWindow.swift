@@ -10,7 +10,6 @@ import SwiftUI
 import Combine
 import Foundation
 
-@available(macOS 10.15, *)
 class RootOverlayWindow: OverWindowController {
     var hostingView: NSHostingView<RootOverlayView>!
     let viewModel = RootOverlayViewModel()
@@ -228,7 +227,6 @@ class RootOverlayWindow: OverWindowController {
         return watcher
     }
 
-    @available(macOS 10.15, *)
     private func endArenaDirectionTrigger() {
         arenaDirectionWatcher.stop()
         arenaDirectionArmPending = false
@@ -270,7 +268,6 @@ class RootOverlayWindow: OverWindowController {
     private var arenaCardListInside = [false, false, false]
     private var arenaCardListArmPending = [false, false, false]
 
-    @available(macOS 10.15, *)
     private func arenaCardListWatcher(_ index: Int) -> ArenaMouseDirectionWatcher {
         if let existing = _arenaCardListWatchers[safeIndex: index] as? ArenaMouseDirectionWatcher {
             return existing
@@ -288,7 +285,6 @@ class RootOverlayWindow: OverWindowController {
         return watchers[index]
     }
 
-    @available(macOS 10.15, *)
     private func endArenaCardListDirection(_ index: Int) {
         arenaCardListWatcher(index).stop()
         arenaCardListArmPending[index] = false
@@ -409,7 +405,6 @@ class RootOverlayWindow: OverWindowController {
     // hovered one (a card leaves the deck, the tracker hides), and out(card:) has
     // to be delivered for it all the same.
     /// Which handler a row's kind reports to - see `TrackerRowHoverKind`.
-    @available(macOS 10.15, *)
     private func hoverTarget(for kind: TrackerRowHoverKind) -> TrackerRowHoverTarget? {
         switch kind {
         case .playerDeck: return viewModel.playerTrackerHover
@@ -419,13 +414,11 @@ class RootOverlayWindow: OverWindowController {
         }
     }
 
-    @available(macOS 10.15, *)
     private struct HoveredTrackerRow {
         let card: Card
         let handler: TrackerRowHoverTarget
     }
     private var _hoveredTrackerRow: Any?
-    @available(macOS 10.15, *)
     private var hoveredTrackerRow: HoveredTrackerRow? {
         get { _hoveredTrackerRow as? HoveredTrackerRow }
         set { _hoveredTrackerRow = newValue }

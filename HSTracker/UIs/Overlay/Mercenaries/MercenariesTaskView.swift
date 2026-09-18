@@ -14,7 +14,6 @@ import SwiftUI
 // arranged at the widest of them. SwiftUI has no separate measure pass, so
 // each row measures itself off-screen and the list reduces the reports with
 // max() and hands the winner back down - see MercenariesTaskListView.
-@available(macOS 10.15, *)
 struct MercenariesTaskContentWidthKey: PreferenceKey {
     static var defaultValue: CGFloat = 0
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
@@ -25,7 +24,6 @@ struct MercenariesTaskContentWidthKey: PreferenceKey {
 // HDT's MercenariesTaskView: one visitor task, drawn as a rounded panel with
 // the mercenary's framed portrait hanging off its left edge. Replaces the
 // MercenariesTask.xib NSView of the same shape.
-@available(macOS 10.15, *)
 struct MercenariesTaskView: View {
     let task: MercenariesTaskViewModel
     // The text column's width, resolved across the whole list. Rows are all
@@ -233,7 +231,6 @@ struct MercenariesTaskView: View {
 }
 
 // The mercenary's portrait, clipped to the oval the frame art leaves open.
-@available(macOS 10.15, *)
 private struct MercenariesTaskPortrait: View {
     let card: Card?
 

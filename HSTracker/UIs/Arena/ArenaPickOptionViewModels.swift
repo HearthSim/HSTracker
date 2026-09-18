@@ -13,7 +13,6 @@ import SwiftUI
 /// HDT uses a deliberately different red for cards and for hero stats - the card
 /// icons are more solid than the hero text below them, so they need the darker
 /// one. Keeping both here, named, so the difference doesn't read as a mistake.
-@available(macOS 10.15, *)
 enum ArenaOptionPalette {
     static let normalBorder = Color(hex: "#067F93")
     static let undergroundBorder = Color(hex: "#932020")
@@ -28,7 +27,6 @@ enum ArenaOptionPalette {
 
 // MARK: - card option
 
-@available(macOS 10.15, *)
 final class ArenaPickSingleCardOptionViewModel: ObservableObject {
     let cardId: String
     let card: Card?
@@ -143,7 +141,6 @@ final class ArenaPickSingleCardOptionViewModel: ObservableObject {
 /// models (`ArenaPickSingleHeroOptionViewModel`,
 /// `...HeroPowerOptionViewModel`, `...DualClassHeroOptionViewModel`) that differ
 /// only in the control they are bound to, so the variant is a field here.
-@available(macOS 10.15, *)
 final class ArenaPickSingleHeroOptionViewModel: ObservableObject {
     enum Variant {
         case hero

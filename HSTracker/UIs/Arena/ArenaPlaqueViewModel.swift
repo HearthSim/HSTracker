@@ -18,7 +18,6 @@ import SwiftUI
 /// given card always draws the same plate - and reproduced here with a small
 /// linear congruential generator rather than Swift's `SystemRandomNumberGenerator`,
 /// which has no seeding.
-@available(macOS 10.15, *)
 final class ArenaPlaqueViewModel: ObservableObject {
     struct FlameData {
         let angle: Double

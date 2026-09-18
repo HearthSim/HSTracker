@@ -19,7 +19,6 @@ import SwiftUI
 // pair that shows the session delta, coloured green/red (Settings.showMMRStartCurrent).
 // That is why the two columns are exposed as generic A/B label+value pairs
 // rather than HDT's BgRatingStart/BgRatingCurrent.
-@available(macOS 10.15, *)
 class BattlegroundsSessionViewModel: ObservableObject {
     // MARK: - Minion types
 
@@ -563,7 +562,6 @@ class BattlegroundsSessionViewModel: ObservableObject {
 // The literal brushes HDT hands out from BattlegroundsGameViewModel's
 // PlacementTextBrush/MMRDeltaTextBrush, kept in one place because the session's
 // MMR "Change" column colours itself with the same two.
-@available(macOS 10.15, *)
 enum BattlegroundsSessionColors {
     static let placementLow = Color(red: 109.0 / 255.0, green: 235.0 / 255.0, blue: 108.0 / 255.0)
     static let placementHigh = Color(red: 236.0 / 255.0, green: 105.0 / 255.0, blue: 105.0 / 255.0)

@@ -21,7 +21,6 @@ import SwiftUI
 // happens over Hearthstone's own rendering, not over this overlay window, so
 // there's nothing for RootOverlayWindow's click-through mechanism to gate -
 // this view only ever reacts to state, never intercepts a click.
-@available(macOS 10.15, *)
 struct AnomalyGuideBadgeTriggerView: View {
     @ObservedObject var anomalyGuides: BattlegroundsAnomalyGuidesViewModel
     let geometrySize: CGSize

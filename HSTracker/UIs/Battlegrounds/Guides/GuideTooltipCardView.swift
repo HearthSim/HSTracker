@@ -14,7 +14,6 @@ import SwiftUI
 // GuideTooltip.swift. HDT gives this its own header/footer bands, so it's a
 // dedicated view rather than a GuideTooltipContent instance. Shared between
 // both guide types rather than duplicated.
-@available(macOS 10.15, *)
 struct GuideTooltipCardView: View {
     let howToPlay: String
     let favorableTribes: [Race]

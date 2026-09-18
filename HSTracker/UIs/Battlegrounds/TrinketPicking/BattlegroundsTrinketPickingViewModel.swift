@@ -11,7 +11,6 @@ import SwiftUI
 
 // Port of HDT's BattlegroundsTrinketPickingViewModel
 // (Controls/Overlay/Battlegrounds/TrinketPicking/BattlegroundsTrinketPickingViewModel.cs).
-@available(macOS 10.15, *)
 class BattlegroundsTrinketPickingViewModel: ObservableObject {
     @Published private var _choicesVisible = false
     @Published private(set) var trinketStats: [StatsHeaderViewModel]?

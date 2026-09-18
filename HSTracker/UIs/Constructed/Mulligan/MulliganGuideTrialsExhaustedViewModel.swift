@@ -14,7 +14,6 @@ import AppKit
 // MulliganGuideTrialsExhaustedViewModel. Driven by
 // Game.updateMulliganGuideTrialsExhausted(), which decides whether to show
 // this based on MulliganGuideTrial.consumePendingLastTrialAlert().
-@available(macOS 10.15, *)
 class MulliganGuideTrialsExhaustedViewModel: ObservableObject {
     @Published var isShown = false
     @Published var trialTimeRemaining: String?

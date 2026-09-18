@@ -19,7 +19,6 @@ import SwiftUI
 // A slight superset of HDT's parser, which only ever sees <b> and <i>: <br> and
 // the handful of HTML entities the AppKit path decoded are handled too, so
 // neither caller can end up showing a user a raw tag.
-@available(macOS 10.15, *)
 enum OverlayFormattedText {
     struct Run {
         var text: String

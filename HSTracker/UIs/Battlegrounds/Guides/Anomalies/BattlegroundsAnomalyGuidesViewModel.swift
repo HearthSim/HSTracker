@@ -10,7 +10,6 @@ import Foundation
 
 // Mirrors HDT's BattlegroundsAnomalyGuideListViewModel - tooltip-only, no
 // tab, same shape as BattlegroundsTrinketGuidesViewModel.
-@available(macOS 10.15, *)
 final class BattlegroundsAnomalyGuidesViewModel: ObservableObject {
     @Published var anomalyGuides: [Int: BattlegroundsAnomalyGuide]?
 
@@ -20,7 +19,6 @@ final class BattlegroundsAnomalyGuidesViewModel: ObservableObject {
     // AnomalyGuideBadgeTriggerView shows the tooltip whenever this is set.
     @Published private(set) var hoveredAnomalyCard: Card?
 
-    @available(macOS 10.15.0, *)
     func update() async {
         guard anomalyGuides == nil else { return }
 

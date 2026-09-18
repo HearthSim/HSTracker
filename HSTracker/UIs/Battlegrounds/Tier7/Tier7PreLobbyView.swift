@@ -9,7 +9,6 @@
 import SwiftUI
 
 // Palette from HDT's Controls/Overlay/Battlegrounds/BattlegroundsResources.xaml.
-@available(macOS 10.15, *)
 private extension Color {
     static let tier7Black = Color(red: 0x14 / 255, green: 0x16 / 255, blue: 0x17 / 255)
     static let tier7Purple = Color(red: 0x36 / 255, green: 0x16 / 255, blue: 0x37 / 255)
@@ -29,7 +28,6 @@ private extension Color {
     static let tier7CaptionWash = Color.white.opacity(0x19 / 255)
 }
 
-@available(macOS 10.15, *)
 private struct Tier7WarningShape: Shape {
     // Normalized from HDT's appbar_warning geometry (Resources/Icons.xaml).
     func path(in rect: CGRect) -> Path {
@@ -61,7 +59,6 @@ private struct Tier7WarningShape: Shape {
     }
 }
 
-@available(macOS 10.15, *)
 private struct Tier7ChevronShape: Shape {
     // Normalized from HDT's chevron_up geometry (Resources/Icons.xaml). The
     // XAML sets Stretch="Fill" on the Path, so the glyph is squashed to a
@@ -92,7 +89,6 @@ private struct Tier7ChevronShape: Shape {
 
 // The diagonal wedge that separates the SUBSCRIBE NOW button from its sale tag
 // (Tier7PreLobby.xaml: a 15-wide Path over the button's 25pt height).
-@available(macOS 10.15, *)
 private struct Tier7SaleWedge: Shape {
     func path(in rect: CGRect) -> Path {
         var path = Path()
@@ -107,7 +103,6 @@ private struct Tier7SaleWedge: Shape {
 }
 
 // The sale tooltip's pointer: HDT's `<Polygon Points="24,0 5,12 24,24"/>`.
-@available(macOS 10.15, *)
 private struct Tier7SaleArrow: Shape {
     func path(in rect: CGRect) -> Path {
         var path = Path()
@@ -127,7 +122,6 @@ private struct Tier7SaleArrow: Shape {
 // by Height/1080 (OverlayWindow.xaml.cs, _tier7PreLobbyBehavior.GetScaling).
 // The canvas position that behavior computes is applied by the parent - see
 // RootOverlayView - so this view just draws itself top-left aligned.
-@available(macOS 10.15, *)
 struct Tier7PreLobbyView: View {
     @ObservedObject var viewModel: Tier7PreLobbyViewModel
 
@@ -600,7 +594,6 @@ struct Tier7PreLobbyView: View {
 
 // The XAML's default TextBlock style for this control: white, centered, 12pt,
 // wrapping.
-@available(macOS 10.15, *)
 private extension View {
     func tier7Body() -> some View {
         self.font(.system(size: 12))
@@ -615,7 +608,6 @@ private extension View {
 // it - WPF gets this for free from the ControlTemplate's IsMouseOver trigger,
 // and several of the controls above (the header chevron/cog, both yellow
 // buttons, the sale tooltip's close box) key their background off it.
-@available(macOS 10.15, *)
 struct HoverButton<Label: View>: View {
     let action: () -> Void
     @ViewBuilder let label: (Bool) -> Label

@@ -17,7 +17,6 @@ import SwiftUI
 // with scaling = Height/1080 - which is the space RootOverlayView's scaled
 // subtree lays its children out in, so everything inside keeps the XAML's own
 // alignments and margins.
-@available(macOS 10.15, *)
 struct BattlegroundsQuestPickingView: View {
     @ObservedObject var viewModel: BattlegroundsQuestPickingViewModel
     let canvasWidth: CGFloat

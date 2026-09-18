@@ -101,7 +101,6 @@ enum BattlegroundsMinionType: Hashable {
 // tribe) XOR activeMinionType (a type's cards grouped by tier) XOR
 // activeKeyword (a mechanic's cards grouped by tier) - matching the three
 // branches of HDT's Groups.
-@available(macOS 10.15, *)
 final class BattlegroundsMinionsViewModel: ObservableObject {
     struct MinionGroup: Identifiable {
         var id: String {

@@ -15,7 +15,6 @@ import SwiftUI
 // CardGridTooltipViewModel, so whichever of the two the hovered choice is, the
 // trigger ends up over it; the trinket one resets the shared state first, which
 // is what clears it when nothing applies.
-@available(macOS 10.15, *)
 struct BattlegroundsDiscoveryGuideTrigger: Equatable {
     // Which guide the trigger raises - HDT keys this off the card's type in
     // GuideTooltipContainer.UpdateContent.
@@ -49,7 +48,6 @@ struct BattlegroundsDiscoveryGuideTrigger: Equatable {
     let alignsToStart: Bool
 }
 
-@available(macOS 10.15, *)
 final class BattlegroundsDiscoveryGuidesViewModel: ObservableObject {
     // Non-nil only while the game has a tooltip up for a hovered trinket or
     // quest reward - see BattlegroundsDiscoveryGuideTriggerView.

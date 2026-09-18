@@ -20,7 +20,6 @@ import SwiftUI
 ///
 /// It replaces the `CardList` window controller HSTracker framed with
 /// `SizeHelper.secretTrackerFrame`.
-@available(macOS 10.15, *)
 class SecretsPanelViewModel: ObservableObject {
     @Published var isShown = false
     @Published private(set) var cards = TrackerCardListContent()

@@ -19,7 +19,6 @@ import SwiftUI
 // @MainActor: the counter-changed listener fires from the log reader queue,
 // and the call sites (AppDelegate's lock/unlock menu item, Game) are plain
 // synchronous code.
-@available(macOS 10.15, *)
 class CountersOverlayViewModel: ObservableObject {
     // HDT's IsPlayer on the two CountersOverlay instances.
     let isPlayer: Bool

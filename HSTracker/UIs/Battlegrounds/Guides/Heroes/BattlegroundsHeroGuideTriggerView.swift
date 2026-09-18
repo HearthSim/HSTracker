@@ -23,7 +23,6 @@ import SwiftUI
 // A hover region rather than an interactive one, matching the
 // IsOverlayHoverVisible HDT puts on the trigger - the click that picks the hero
 // still falls through to Hearthstone.
-@available(macOS 10.15, *)
 struct BattlegroundsHeroGuideTriggerView: View {
     @ObservedObject var heroGuides: BattlegroundsHeroGuidesViewModel
     let canvasWidth: CGFloat

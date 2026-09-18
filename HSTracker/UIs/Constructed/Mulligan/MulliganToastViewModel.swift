@@ -12,7 +12,6 @@ import SwiftUI
 // The state behind HDT's MulliganPanel.xaml.cs - the toast offering the deck's
 // mulligan guide on HSReplay.net, which appears at the start of a constructed
 // match and either links to the deck's page or says there is nothing to link to.
-@available(macOS 10.15, *)
 class MulliganToastViewModel: ObservableObject {
     @Published private(set) var isShown = false
     // HasData: there is a deck page to open.

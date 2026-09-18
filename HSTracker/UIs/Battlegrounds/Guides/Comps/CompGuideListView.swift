@@ -10,7 +10,6 @@ import SwiftUI
 
 // Mirrors HDT's CompGuideList.xaml: title + free/tier7 mode badge, then one
 // of loading/empty/error/list depending on currentState.
-@available(macOS 10.15, *)
 struct CompGuideListView: View {
     @ObservedObject var viewModel: BattlegroundsCompsGuidesViewModel
 
@@ -220,7 +219,6 @@ struct CompGuideListView: View {
     }
 }
 
-@available(macOS 10.15, *)
 private struct CompGuideRow: View {
     let comp: BattlegroundsCompGuideViewModel
     let action: () -> Void

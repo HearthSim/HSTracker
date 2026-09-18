@@ -12,7 +12,6 @@ import SwiftUI
 // header docked to its top and, under it, a placeholder standing in for the
 // card Hearthstone draws itself (a fully transparent #00ff00ff Grid with a 60pt
 // bottom margin in the XAML).
-@available(macOS 10.15, *)
 struct ConstructedMulliganSingleCardStatsView: View {
     @ObservedObject var viewModel: ConstructedMulliganSingleCardViewModel
 

@@ -11,7 +11,6 @@ import SwiftUI
 // HDT's CardMarker: the age badge drawn over one card in the opponent's hand,
 // with the icon and source-card tile that say where the card came from.
 // Replaces the CardHud NSView the CardHudContainer panel held ten of.
-@available(macOS 10.15, *)
 final class CardMarkerViewModel: ObservableObject {
     // CardMarker.SourceType, which decides what the tooltip says about the card
     // the source tile shows.
@@ -95,7 +94,6 @@ final class CardMarkerViewModel: ObservableObject {
 
 // The ten markers and the hand they describe - OverlayWindow's _cardMarks list
 // and the part of UpdateOverlay that fills it. Replaces CardHudContainer.
-@available(macOS 10.15, *)
 final class OpponentHandMarkersViewModel: ObservableObject {
     static let maxHandSize = 10
 

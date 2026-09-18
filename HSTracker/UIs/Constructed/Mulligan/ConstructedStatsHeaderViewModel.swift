@@ -10,7 +10,6 @@ import SwiftUI
 
 // HDT's StatsHeaderViewModel, the values behind one card's stats header in the
 // V1 mulligan guide.
-@available(macOS 10.15, *)
 class ConstructedStatsHeaderViewModel: ObservableObject {
     private(set) var rank: Int?
     private(set) var mulliganWr: Double?

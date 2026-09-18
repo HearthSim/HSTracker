@@ -13,7 +13,6 @@ import SwiftUI
 // BattlegroundsCompGuidesPanel - Comps now shows behind a tab click instead
 // of always-on, matching HDT. Trinkets/Anomalies never get one (tooltip-only
 // in HDT too).
-@available(macOS 10.15, *)
 struct GuidesTabsView: View {
     @ObservedObject var viewModel: BattlegroundsGuidesTabsViewModel
     @ObservedObject var compsGuides: BattlegroundsCompsGuidesViewModel
@@ -220,7 +219,6 @@ struct GuidesTabsView: View {
 // (#141617/#2C3135/#23272A), rather than the opacity-only active/inactive
 // distinction a first pass here used - that read as much smaller and flatter
 // than HDT's real tab strip.
-@available(macOS 10.15, *)
 private struct GuidesTabButton: View {
     let imageName: String
     let iconSize: CGSize
@@ -305,7 +303,6 @@ private struct GuidesTabButton: View {
 // groups below it are right-aligned 196pt boxes with transparent gaps between
 // them, so HDT carries no line down past the strip. That is why this is applied
 // per content view rather than once around the whole panel.
-@available(macOS 10.15, *)
 struct GuidesPanelBorder: Shape {
     // Whether this panel ends the column. HDT drops CornerRadius to 0 on a
     // panel that has another bordered one below it (HeroGuide once quests are
@@ -337,7 +334,6 @@ struct GuidesPanelBorder: Shape {
     }
 }
 
-@available(macOS 10.15, *)
 extension View {
     /// HDT's "1,0,0,1" / #3f4346 / "0,0,0,3" content-root border - see GuidesPanelBorder.
     func guidesPanelBorder(isBottomRounded: Bool = true) -> some View {

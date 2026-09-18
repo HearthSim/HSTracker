@@ -19,7 +19,6 @@ import SwiftUI
 /// Every rect is authored against HDT's 217x34 `CardTile` box, in AppKit's
 /// bottom-left origin - the same coordinates `CardBar` uses - and converted once,
 /// where the layer is placed.
-@available(macOS 10.15, *)
 struct CardTileTheme {
     /// Folder under Resources/Themes/Bars.
     let directory: String
@@ -273,7 +272,6 @@ struct CardTileTheme {
 /// art until something about the card itself changes - the "next refresh" a
 /// theme switch used to wait for. Observing this object is the dependency that
 /// was missing, and is what HDT's per-tile subscription amounts to.
-@available(macOS 10.15, *)
 final class OverlayThemeObserver: ObservableObject {
     static let shared = OverlayThemeObserver()
 

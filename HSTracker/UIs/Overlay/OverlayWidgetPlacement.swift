@@ -19,7 +19,6 @@ import SwiftUI
 /// client, so a placement survives a resolution change - which is why nothing
 /// here is an absolute frame. The one exception is the timers' spacing, which HDT
 /// keeps in points so the gap between the three stays as it was set.
-@available(macOS 10.15, *)
 final class OverlayWidgetPlacement: ObservableObject {
     /// Which pair of `Config` numbers this reads and writes, and - since HDT
     /// hand-writes the arithmetic per element in `OverlayWindow.Input.cs` - how
@@ -174,7 +173,6 @@ final class OverlayWidgetPlacement: ObservableObject {
 
 /// A widget's laid-out size, for the ones that have no fixed one to hand the
 /// movable box - the resources widget is as wide as the resources it is showing.
-@available(macOS 10.15, *)
 struct OverlayWidgetSizePreferenceKey: PreferenceKey {
     static var defaultValue: CGSize = .zero
     static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
@@ -192,7 +190,6 @@ struct OverlayWidgetSizePreferenceKey: PreferenceKey {
 /// The frame is authored in the 1080-tall reference space the widgets are drawn
 /// in, and `canvasScale` converts it for the interactive region, which
 /// `RootOverlayWindow` matches against the cursor in the canvas's real pixels.
-@available(macOS 10.15, *)
 struct OverlayWidgetMovableBox: View {
     @ObservedObject var placement: OverlayWidgetPlacement
     /// The widget's laid-out frame, in the space it is drawn in.

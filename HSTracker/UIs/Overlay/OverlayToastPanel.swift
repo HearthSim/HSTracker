@@ -22,7 +22,6 @@ import SwiftUI
 //           Run FontWeight="SemiBold" FontSize="17" / LineBreak / Run FontSize="12"
 //
 // with Margin="5" and MinHeight="60" on the control itself.
-@available(macOS 10.15, *)
 struct OverlayToastPanel: View {
     let title: String
     let subtitle: String

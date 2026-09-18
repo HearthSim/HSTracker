@@ -26,7 +26,6 @@ import SwiftUI
 // SizeHelper.playerActiveEffectsFrame/opponentActiveEffectsFrame used to hold.
 // Both blocks can be dragged while the overlay is unlocked, as HDT's can - see
 // OverlayWidgetPlacement.
-@available(macOS 10.15, *)
 struct ActiveEffectsOverlayView: View {
     @ObservedObject var viewModel: ActiveEffectsOverlayViewModel
     // Observed as well as the view model: a drag moves the tiles without

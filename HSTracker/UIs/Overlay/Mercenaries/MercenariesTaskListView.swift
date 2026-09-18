@@ -12,7 +12,6 @@ import SwiftUI
 // notice under them. Replaces the MercenariesTaskListView NSPanel, which sized
 // itself to half the Hearthstone window; this one takes its width from its
 // content, as the WPF StackPanel does.
-@available(macOS 10.15, *)
 struct MercenariesTaskListView: View {
     @ObservedObject var viewModel: MercenariesTaskListViewModel
     // Only needed for the width ceiling - see MercenariesTaskView.maxContentWidth.

@@ -19,7 +19,6 @@ import SwiftUI
 // fall through to Hearthstone like the rest of the overlay. No interactive
 // region is reported here for the same reason - pinning from the shop happens
 // through the browser or the panel.
-@available(macOS 10.15, *)
 struct BattlegroundsMinionPinningShopView: View {
     @ObservedObject var viewModel: BattlegroundsMinionPinningViewModel
     // The canvas width RootOverlayView measured, so the row can centre on it.
@@ -56,7 +55,6 @@ struct BattlegroundsMinionPinningShopView: View {
 // in the tavern give a 3x138 row centred on screen, exactly as Hearthstone
 // centres the shop itself. Reserving all seven widths instead pinned the row to
 // a fixed 966pt and pushed every marker left of its minion.
-@available(macOS 10.15, *)
 struct BattlegroundsMinionPinningCardView: View {
     let card: BattlegroundsMinionPinningViewModel.ShopCard
 
@@ -142,7 +140,6 @@ struct BattlegroundsMinionPinningCardView: View {
 // PropertyGroupDescription; BattlegroundsCompGuideViewModel has no such
 // property, so every comp lands in one group and the grouping is a no-op -
 // this renders the flat list it actually produces.
-@available(macOS 10.15, *)
 struct RecommendedCompsTooltip: View {
     let comps: [BattlegroundsCompGuideViewModel]
 

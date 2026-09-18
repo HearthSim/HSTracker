@@ -12,7 +12,6 @@ import SwiftUI
 /// HDT builds these from a `Border` with `BorderThickness="2,0,2,2"` and a
 /// `CornerRadius="0,0,3,3"` - a tab that reads as hanging off the bottom edge of
 /// the card - with the icon clipped inside it.
-@available(macOS 10.15, *)
 private struct ArenaOptionBadge<Content: View>: View {
     let foreground: Color
     /// HDT's `BadgeBorderColor` - teal normally, red in Underground, and white on
@@ -86,7 +85,6 @@ private struct ArenaOptionBadge<Content: View>: View {
 /// The size HDT draws `arena_cell_bg` at behind a badge. It is not the asset's own
 /// size in either case - the hero row paints it at 156x52 and the card row at half
 /// that, so the same texture reads at a different scale on each.
-@available(macOS 10.15, *)
 private enum ArenaBadgeTexture {
     static let hero = CGSize(width: 156, height: 52)
     static let card = CGSize(width: 78, height: 26)
@@ -95,7 +93,6 @@ private enum ArenaBadgeTexture {
 /// The left, bottom and right edges only, with the bottom corners rounded - an
 /// open path, so stroking it leaves the top edge bare like `BorderThickness`
 /// with a zero top.
-@available(macOS 10.15, *)
 struct ArenaBadgeSideBorder: Shape {
     var radius: CGFloat = 3
 
@@ -114,7 +111,6 @@ struct ArenaBadgeSideBorder: Shape {
 }
 
 /// Rounded on the bottom two corners only, as XAML's `CornerRadius="0,0,3,3"`.
-@available(macOS 10.15, *)
 struct UnevenRoundedCornersShape: Shape {
     var bottomLeading: CGFloat = 0
     var bottomTrailing: CGFloat = 0
@@ -138,7 +134,6 @@ struct UnevenRoundedCornersShape: Shape {
 
 /// One of the three offered cards. The card art itself is Hearthstone's - all this
 /// draws is the score plate and the badges that hang under it.
-@available(macOS 10.15, *)
 struct ArenaPickSingleCardOptionView: View {
     @ObservedObject var viewModel: ArenaPickSingleCardOptionViewModel
     /// Which of the three offered cards this is, so its badges can name the
@@ -269,7 +264,6 @@ struct ArenaPickSingleCardOptionView: View {
 
 /// One offered hero, hero power, or dual-class hero: a tier plate over the card,
 /// and win/pick rates under it.
-@available(macOS 10.15, *)
 struct ArenaPickSingleHeroOptionView: View {
     @ObservedObject var viewModel: ArenaPickSingleHeroOptionViewModel
 

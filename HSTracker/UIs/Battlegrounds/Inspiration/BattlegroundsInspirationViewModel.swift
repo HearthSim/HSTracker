@@ -21,7 +21,6 @@ import SwiftUI
 // isShown lives here rather than in an OverlayElementBehavior as it does in
 // HDT - the SwiftUI overlay has no such thing, and RootOverlayView reads this
 // directly.
-@available(macOS 10.15, *)
 final class BattlegroundsInspirationViewModel: ObservableObject {
     // Four lineups per page, as in HDT's Games getter.
     static let gamesPerPage = 4

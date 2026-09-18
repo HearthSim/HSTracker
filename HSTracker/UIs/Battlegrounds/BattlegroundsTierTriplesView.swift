@@ -15,7 +15,6 @@ import SwiftUI
 //
 // A tier the player never reached has Turn == 0, which greys the badge, slides
 // it to the middle of the cell and hides everything else.
-@available(macOS 10.15, *)
 struct BattlegroundsTierTriplesView: View {
     let model: BattlegroundsOpponentInfoViewModel.TierTriples
 

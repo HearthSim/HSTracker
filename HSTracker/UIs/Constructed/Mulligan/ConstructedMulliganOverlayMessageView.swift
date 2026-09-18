@@ -10,7 +10,6 @@ import SwiftUI
 
 // HDT's OverlayMessage: a Tier7Black pill with an HSReplayNetBlue border, an
 // HSReplay icon in a blue cap on its left, and the message text beside it.
-@available(macOS 10.15, *)
 struct ConstructedMulliganOverlayMessageView: View {
     @ObservedObject var viewModel: ConstructedMulliganOverlayMessageViewModel
 
@@ -58,7 +57,6 @@ struct ConstructedMulliganOverlayMessageView: View {
     }
 }
 
-@available(macOS 10.15, *)
 #Preview {
     let vm = ConstructedMulliganOverlayMessageViewModel()
     vm.text = "vs Mage, going first"

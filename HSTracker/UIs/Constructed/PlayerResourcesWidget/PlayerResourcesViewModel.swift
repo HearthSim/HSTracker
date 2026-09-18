@@ -8,7 +8,6 @@
 
 import Foundation
 
-@available(macOS 10.15, *)
 class PlayerResourcesViewModel: ObservableObject {
     
     struct Resource: Equatable {
@@ -88,7 +87,6 @@ class PlayerResourcesViewModel: ObservableObject {
     }
 }
 
-@available(macOS 10.15, *)
 extension PlayerResourcesViewModel.Resource: Identifiable {
     var id: String {
         icon

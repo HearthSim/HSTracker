@@ -27,7 +27,6 @@ import SwiftUI
 // SizeHelper.getScaledXPos mirrors; the 1080-reference canvas has already
 // dropped that pillarbox correction; using it here would drift off the
 // game's actual anomaly icon on any non-4:3 window.
-@available(macOS 10.15, *)
 struct AnomalyGuideMulliganTriggerView: View {
     @ObservedObject var anomalyGuides: BattlegroundsAnomalyGuidesViewModel
     let geometrySize: CGSize

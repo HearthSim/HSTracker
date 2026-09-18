@@ -15,7 +15,6 @@ import SwiftUI
 // Belongs in RootOverlayView's fixed-pixel layer: OverlayWindow positions each
 // marker from plain fractions of the client size and scales them only by the
 // user's own OverlayOpponentScaling, never by the client's resolution.
-@available(macOS 10.15, *)
 struct OpponentHandMarkersView: View {
     @ObservedObject var viewModel: OpponentHandMarkersViewModel
     let canvasSize: CGSize

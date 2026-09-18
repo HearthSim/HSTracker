@@ -15,7 +15,6 @@ import SwiftUI
 //
 // OverlayWindow.xaml instantiates it with CornerRadius="5" FinalBoardTooltip="true",
 // which is the configuration HSTracker uses.
-@available(macOS 10.15, *)
 struct BattlegroundsSessionView: View {
     @ObservedObject var viewModel: BattlegroundsSessionViewModel
 
@@ -362,7 +361,6 @@ struct BattlegroundsSessionView: View {
 // so the tooltip's own measured width - which decides where it sits when it
 // opens to the left - can be held in @State without that state living on the
 // whole panel.
-@available(macOS 10.15, *)
 private struct FinalBoardTooltipContainer: View {
     let minions: [Entity]
     let tooltipToRight: Bool
@@ -391,7 +389,6 @@ private struct FinalBoardTooltipContainer: View {
     }
 }
 
-@available(macOS 10.15, *)
 private struct FinalBoardWidthPreferenceKey: PreferenceKey {
     static var defaultValue: CGFloat = 0
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
@@ -401,7 +398,6 @@ private struct FinalBoardWidthPreferenceKey: PreferenceKey {
 
 // HDT's BtnOptions: Command="{x:Static commands:GlobalCommands.ShowSettings}"
 // CommandParameter="Battlegrounds".
-@available(macOS 10.15, *)
 private struct SessionCogButton: View {
     @SwiftUI.State private var isHovering = false
 

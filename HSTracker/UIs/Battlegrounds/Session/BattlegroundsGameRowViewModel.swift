@@ -12,7 +12,6 @@ import SwiftUI
 // Port of HDT's BattlegroundsGameViewModel
 // (Controls/Overlay/Battlegrounds/Session/BattlegroundsGameViewModel.cs), the
 // data behind one row of the session's Latest Games list.
-@available(macOS 10.15, *)
 class BattlegroundsGameRowViewModel: ObservableObject, Identifiable, Equatable {
     static func == (lhs: BattlegroundsGameRowViewModel, rhs: BattlegroundsGameRowViewModel) -> Bool {
         return lhs === rhs

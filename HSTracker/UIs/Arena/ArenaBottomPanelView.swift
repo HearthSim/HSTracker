@@ -10,7 +10,6 @@ import SwiftUI
 /// The panel along the bottom of the draft screen: the cards an offered pick
 /// generates (or a class's signature cards, when hovering a hero), plus any
 /// advisory messages. Port of the bottom half of HDT's `ArenaPickHelper.xaml`.
-@available(macOS 10.15, *)
 struct ArenaBottomPanelView: View {
     @ObservedObject var viewModel: ArenaPickHelperViewModel
 
@@ -164,7 +163,6 @@ struct ArenaBottomPanelView: View {
 /// The direction funnel, in canvas pixels. A polygon, so unlike the panel's own
 /// frame it cannot be expressed as a rect - a bounding box here would keep the
 /// panel open for any sideways movement, which is exactly what it must not do.
-@available(macOS 10.15, *)
 struct ArenaDirectionTriggerKey: PreferenceKey {
     static var defaultValue: [CGPoint] = []
     static func reduce(value: inout [CGPoint], nextValue: () -> [CGPoint]) {
@@ -176,7 +174,6 @@ struct ArenaDirectionTriggerKey: PreferenceKey {
 /// The three wedges running from each choice across to the deck rail, in canvas
 /// pixels. Always three entries; a disabled wedge reports as empty, which is how
 /// it stops being enterable.
-@available(macOS 10.15, *)
 struct ArenaCardListDirectionKey: PreferenceKey {
     static var defaultValue: [[CGPoint]] = []
     static func reduce(value: inout [[CGPoint]], nextValue: () -> [[CGPoint]]) {
@@ -186,7 +183,6 @@ struct ArenaCardListDirectionKey: PreferenceKey {
 }
 
 /// The deck rail's own frame, for the same reason the bottom panel reports one.
-@available(macOS 10.15, *)
 struct ArenaCardListTriggerKey: PreferenceKey {
     static var defaultValue: CGRect?
     static func reduce(value: inout CGRect?, nextValue: () -> CGRect?) {
@@ -196,7 +192,6 @@ struct ArenaCardListTriggerKey: PreferenceKey {
     }
 }
 
-@available(macOS 10.15, *)
 struct ArenaBottomPanelHoverKey: PreferenceKey {
     static var defaultValue: CGRect?
     static func reduce(value: inout CGRect?, nextValue: () -> CGRect?) {

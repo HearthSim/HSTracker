@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-@available(macOS 10.15, *)
 private extension Color {
     static let tier7Purple = Color(red: 0x36 / 255, green: 0x16 / 255, blue: 0x37 / 255)
     static let tier7Black = Color(red: 0x14 / 255, green: 0x16 / 255, blue: 0x17 / 255)
@@ -18,7 +17,6 @@ private extension Color {
 // BattlegroundsCompositionPopularityRow/Bar it repeats: the three warband
 // compositions that most often win with this quest reward, each with the share
 // of first places it takes.
-@available(macOS 10.15, *)
 struct BattlegroundsCompositionPopularityView: View {
     let viewModel: BattlegroundsCompositionPopularityViewModel?
 
@@ -67,7 +65,6 @@ struct BattlegroundsCompositionPopularityView: View {
 
 // One composition: the key minion's tile art fading out from the left edge, the
 // composition's name, a popularity bar and its percentage.
-@available(macOS 10.15, *)
 private struct BattlegroundsCompositionPopularityRowView: View {
     let viewModel: BattlegroundsCompositionPopularityRowViewModel
 
@@ -167,7 +164,6 @@ private struct BattlegroundsCompositionPopularityRowView: View {
 
 // The key minion's tile, drawn 110pt wide and pulled 55pt left so the row shows
 // the middle of it, under the OpacityMask that fades it out to the right.
-@available(macOS 10.15, *)
 private struct BattlegroundsCompositionTileArt: View {
     let cardId: String
 

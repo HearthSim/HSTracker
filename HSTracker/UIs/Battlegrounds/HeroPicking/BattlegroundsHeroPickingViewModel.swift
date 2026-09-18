@@ -11,7 +11,6 @@ import SwiftUI
 
 // Port of HDT's BattlegroundsHeroPickingViewModel
 // (Controls/Overlay/Battlegrounds/HeroPicking/BattlegroundsHeroPickingViewModel.cs).
-@available(macOS 10.15, *)
 class BattlegroundsHeroPickingViewModel: ObservableObject {
     @Published private var _isViewingTeammate = false
     @Published private(set) var heroStats: [BattlegroundsSingleHeroViewModel]?

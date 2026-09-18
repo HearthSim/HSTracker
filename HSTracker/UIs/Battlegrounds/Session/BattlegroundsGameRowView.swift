@@ -15,7 +15,6 @@ import SwiftUI
 // BattlegroundsFinalBoardPanel rather than here - see that file for why it
 // cannot live inside the session window. The row only reports that it is
 // hovered and where it sits, in the session panel's own coordinate space.
-@available(macOS 10.15, *)
 struct BattlegroundsGameRowView: View {
     let viewModel: BattlegroundsGameRowViewModel
 
@@ -121,13 +120,11 @@ struct BattlegroundsGameRowView: View {
 // What a hovered row hands up to the session panel so the tooltip window can be
 // placed relative to that row. The frame is in the panel's own unscaled
 // coordinate space, whose origin is the panel's top-left corner.
-@available(macOS 10.15, *)
 struct HoveredGame: Equatable {
     let frame: CGRect
     let viewModel: BattlegroundsGameRowViewModel
 }
 
-@available(macOS 10.15, *)
 struct HoveredGamePreferenceKey: PreferenceKey {
     static var defaultValue: HoveredGame?
     static func reduce(value: inout HoveredGame?, nextValue: () -> HoveredGame?) {

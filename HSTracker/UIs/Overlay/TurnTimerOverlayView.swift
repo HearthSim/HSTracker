@@ -13,7 +13,6 @@ import SwiftUI
 // on the overlay canvas in Windows/OverlayWindow.xaml, not a window of their
 // own. This replaces the single 160x115 TimerHud NSPanel that used to hold all
 // three.
-@available(macOS 10.15, *)
 final class TurnTimerOverlayViewModel: ObservableObject {
     // HDT's Visibility on the three blocks, driven by ShowTimers/HideTimers.
     @Published var isShown = false
@@ -38,7 +37,6 @@ final class TurnTimerOverlayViewModel: ObservableObject {
     }
 }
 
-@available(macOS 10.15, *)
 struct TurnTimerOverlayView: View {
     @ObservedObject var viewModel: TurnTimerOverlayViewModel
     // Observed as well as the view model: a drag moves the timers without the
@@ -159,7 +157,6 @@ struct TurnTimerOverlayView: View {
     }
 }
 
-@available(macOS 10.15, *)
 #Preview {
     let vm = TurnTimerOverlayViewModel()
     vm.isShown = true

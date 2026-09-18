@@ -17,7 +17,6 @@ import SwiftUI
 /// against a 217-wide box and divided by the card size's ratio as it drew. As
 /// with `CardTileView`, the rects are carried over as they are and the size is
 /// applied once, as a scale on the finished row.
-@available(macOS 10.15, *)
 struct TrackerFrameView<Content: View>: View {
     /// The theme PNG behind the numbers.
     let background: String
@@ -69,7 +68,6 @@ enum OverlayThemeImage {
 
 /// One number over a theme frame - `TextFrame.add(string:rect:alignment:)`, which
 /// draws ChunkFive at 18 with a black stroke.
-@available(macOS 10.15, *)
 struct TrackerFrameText: View {
     let text: String
     /// The authored rect, in the frame's bottom-left origin coordinates.
@@ -99,7 +97,6 @@ struct TrackerFrameText: View {
 }
 
 /// `CardCounter`: how many cards are in hand and how many are left in the deck.
-@available(macOS 10.15, *)
 struct TrackerCardCounterView: View {
     let handCount: Int
     let deckCount: Int
@@ -115,7 +112,6 @@ struct TrackerCardCounterView: View {
 }
 
 /// `PlayerDrawChance`: the odds of drawing a given one-of or two-of next turn.
-@available(macOS 10.15, *)
 struct TrackerPlayerDrawChanceView: View {
     let drawChance1: Double
     let drawChance2: Double
@@ -133,7 +129,6 @@ struct TrackerPlayerDrawChanceView: View {
 }
 
 /// `OpponentDrawChance`: the same, plus the odds they are already holding it.
-@available(macOS 10.15, *)
 struct TrackerOpponentDrawChanceView: View {
     let drawChance1: Double
     let drawChance2: Double
@@ -157,7 +152,6 @@ struct TrackerOpponentDrawChanceView: View {
 }
 
 /// `StringTracker`: the deck's win/loss record.
-@available(macOS 10.15, *)
 struct TrackerRecordView: View {
     let message: String
     let height: CGFloat
@@ -173,7 +167,6 @@ struct TrackerRecordView: View {
 }
 
 /// `GraveyardCounter`: how many minions have died, and how many were murlocs.
-@available(macOS 10.15, *)
 struct TrackerGraveyardCounterView: View {
     let minions: Int
     let murlocs: Int

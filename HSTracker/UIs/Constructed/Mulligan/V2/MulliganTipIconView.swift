@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-@available(macOS 10.15, *)
 struct MulliganTipIconView: View {
     let tip: MulliganTipViewModel
 

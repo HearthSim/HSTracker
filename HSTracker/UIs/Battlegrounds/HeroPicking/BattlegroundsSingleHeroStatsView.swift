@@ -11,7 +11,6 @@ import SwiftUI
 // Port of HDT's BattlegroundsSingleHeroStats.xaml: one offered hero's slot in
 // the picking overlay - the stats plate docked to the top of it, and under that
 // the space Hearthstone's own hero portrait shows through.
-@available(macOS 10.15, *)
 struct BattlegroundsSingleHeroStatsView: View {
     let viewModel: BattlegroundsSingleHeroViewModel
 

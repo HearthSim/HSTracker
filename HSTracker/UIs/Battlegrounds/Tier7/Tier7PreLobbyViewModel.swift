@@ -23,7 +23,6 @@ enum RefreshSubscriptionState: Int {
 
 // Port of HDT's Tier7PreLobbyViewModel
 // (Controls/Overlay/Battlegrounds/Tier7/Tier7PreLobbyViewModel.cs).
-@available(macOS 10.15, *)
 class Tier7PreLobbyViewModel: ObservableObject {
     // HDT drives this panel's presence with _tier7PreLobbyBehavior.Show()/Hide()
     // rather than a view-model flag; on the RootOverlay canvas there is no

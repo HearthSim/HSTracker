@@ -8,7 +8,6 @@
 
 import Foundation
 
-@available(macOS 10.15.0, *)
 class Debounce {
     private static var _debounces = SynchronizedDictionary<String, Int>()
     

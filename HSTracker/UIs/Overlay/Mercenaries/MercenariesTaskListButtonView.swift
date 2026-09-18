@@ -11,7 +11,6 @@ import SwiftUI
 // HDT's MercenariesTaskListButton: the "Tasks" plate with the Mercenaries
 // portrait overlapping its right edge, which reveals the task list on hover.
 // Replaces the 150x60 MercenariesTaskListButton NSPanel.
-@available(macOS 10.15, *)
 struct MercenariesTaskListButtonView: View {
     // Height="60" on the icon, which is the tallest thing in the Grid and so
     // sets the button's height. The image is 241x256 with a 72-dpi pHYs chunk,

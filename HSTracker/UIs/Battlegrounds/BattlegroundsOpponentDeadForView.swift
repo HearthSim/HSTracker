@@ -19,7 +19,6 @@ import SwiftUI
 // own height. That is why this lives in RootOverlayView's fixed-pixel chrome
 // layer rather than its 1080-reference scaled subtree, and why it takes the
 // canvas's real size.
-@available(macOS 10.15, *)
 struct BattlegroundsOpponentDeadForView: View {
     @ObservedObject var viewModel: BattlegroundsOpponentInfoViewModel
     let canvasSize: CGSize

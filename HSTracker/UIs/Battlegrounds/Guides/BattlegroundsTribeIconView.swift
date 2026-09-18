@@ -14,7 +14,6 @@ import SwiftUI
 // their "Favorable Minions" lists with this control at LayoutTransform
 // ScaleX/Y="0.9", rather than the flat square icon HSTracker used to show -
 // hence the `scale` parameter instead of a fixed size.
-@available(macOS 10.15, *)
 struct BattlegroundsTribeIconView: View {
     // HDT's BattlegroundsTribe.MinionTypeAvailability, which picks the ring
     // colour and whether the crossed-out overlay is drawn.

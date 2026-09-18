@@ -15,7 +15,6 @@ import SwiftUI
 // stays click-through, so SwiftUI's own .onHover would never fire over it, and
 // the cursor has to be tested against the reported geometry instead - which is
 // how HDT has always done it.
-@available(macOS 10.15, *)
 final class BoardMouseOverDetection {
     private unowned let viewModel: RootOverlayViewModel
 

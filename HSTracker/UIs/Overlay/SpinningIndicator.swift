@@ -12,7 +12,6 @@ import SwiftUI
 // frame - what HDT's mah:ProgressRing maps to here, since SwiftUI's own
 // ProgressView needs macOS 11. Shared by the Inspiration panel and Bob's Buddy,
 // both of which spin one while their data is on the way.
-@available(macOS 10.15, *)
 struct SpinningIndicator: NSViewRepresentable {
     func makeNSView(context: Context) -> NSProgressIndicator {
         let indicator = NSProgressIndicator()

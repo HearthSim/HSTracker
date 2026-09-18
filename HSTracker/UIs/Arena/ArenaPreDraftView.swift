@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-@available(macOS 10.15, *)
 private extension Color {
     static let hsReplayBlue = Color(red: 0x1D / 255, green: 0x36 / 255, blue: 0x57 / 255)
     static let hsReplayGold = Color(red: 0xFF / 255, green: 0xB0 / 255, blue: 0x0D / 255)
@@ -18,7 +17,6 @@ private extension Color {
 
 /// The Arenasmith panel on the Arena landing screen. Port of HDT's
 /// `ArenaPreDraft.xaml`.
-@available(macOS 10.15, *)
 struct ArenaPreDraftView: View {
     @ObservedObject var viewModel: ArenaPreDraftViewModel
 
@@ -335,7 +333,6 @@ struct ArenaPreDraftView: View {
 }
 
 /// The collapse chevron, matching the one on the Constructed pre-lobby widget.
-@available(macOS 10.15, *)
 struct ArenaChevron: Shape {
     func path(in rect: CGRect) -> Path {
         var path = Path()

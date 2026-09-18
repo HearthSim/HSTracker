@@ -21,7 +21,6 @@ import SwiftUI
 // It deliberately lives in RootOverlayView's fixed-pixel chrome layer rather
 // than its 1080-reference scaled subtree: HDT applies only
 // OverlaySessionRecapScaling to this control, never a resolution scale.
-@available(macOS 10.15, *)
 struct BattlegroundsSessionOverlayView: View {
     @ObservedObject var viewModel: BattlegroundsSessionViewModel
     // The canvas's real, post-scale size - the same Width/Height HDT's
@@ -120,7 +119,6 @@ struct BattlegroundsSessionOverlayView: View {
 
 // The panel's laid-out (unscaled) size, so the interactive region can be worked
 // out without reading through the transforms that place it.
-@available(macOS 10.15, *)
 private struct SessionPanelSizePreferenceKey: PreferenceKey {
     static var defaultValue: CGSize?
     static func reduce(value: inout CGSize?, nextValue: () -> CGSize?) {

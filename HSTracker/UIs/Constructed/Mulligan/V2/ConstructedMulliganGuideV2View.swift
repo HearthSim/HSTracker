@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-@available(macOS 10.15, *)
 struct ConstructedMulliganGuideV2View: View {
     @ObservedObject var viewModel: ConstructedMulliganGuideV2ViewModel
 
@@ -62,7 +61,6 @@ struct ConstructedMulliganGuideV2View: View {
     }
 }
 
-@available(macOS 10.15, *)
 #Preview {
     let vm = ConstructedMulliganGuideV2ViewModel()
     let data = MulliganV2Data.MulliganCard(card_status: .valid, justifications: [

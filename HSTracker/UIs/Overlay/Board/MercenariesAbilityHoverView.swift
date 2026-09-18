@@ -14,7 +14,6 @@ import SwiftUI
 //
 // Replaces the three FloatingCard windows HSTracker used to drive through
 // show_floating_card notifications with hand-computed screen frames.
-@available(macOS 10.15, *)
 final class MercenariesAbilityHoverViewModel: ObservableObject {
     // One CardImage's worth of state: CardId, and the ShowQuestionmark that
     // marks an ability whose tier could not be read off the board.
@@ -42,7 +41,6 @@ final class MercenariesAbilityHoverViewModel: ObservableObject {
     }
 }
 
-@available(macOS 10.15, *)
 struct MercenariesAbilityHoverView: View {
     @ObservedObject var viewModel: MercenariesAbilityHoverViewModel
     // The overlay's real, post-scale size. OverlayWindow sizes the stack from
@@ -128,7 +126,6 @@ struct MercenariesAbilityHoverView: View {
 // The card render itself. HDT shows a class-coloured placeholder while the
 // asset downloads; HSTracker has no such art, so the slot stays empty until the
 // image arrives.
-@available(macOS 10.15, *)
 private struct MercenariesAbilityHoverImage: View {
     let card: Card
 

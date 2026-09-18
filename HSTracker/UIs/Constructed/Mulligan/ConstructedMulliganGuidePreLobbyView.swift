@@ -14,7 +14,6 @@ import SwiftUI
 // tracker's own teardown - onto SwiftUI. Rewriting it as an ObservableObject
 // would mean redoing that threading; republishing its propertyChanged callback
 // as an objectWillChange on the main queue does not.
-@available(macOS 10.15, *)
 final class ConstructedMulliganGuidePreLobbyObservable: ObservableObject {
     let viewModel = ConstructedMulliganGuidePreLobbyViewModel()
 
@@ -49,7 +48,6 @@ final class ConstructedMulliganGuidePreLobbyObservable: ObservableObject {
 // deck boxes in the constructed pre-lobby, telling you which decks the mulligan
 // guide has data for. This replaces the AppKit window and the three NSStackViews
 // it filled by hand.
-@available(macOS 10.15, *)
 struct ConstructedMulliganGuidePreLobbyView: View {
     @ObservedObject var model: ConstructedMulliganGuidePreLobbyObservable
     // The canvas width RootOverlayView measured, in the 1080-tall reference
@@ -216,7 +214,6 @@ struct ConstructedMulliganGuidePreLobbyView: View {
 }
 
 // BorderThickness="1,0,0,1": the left and bottom edges only.
-@available(macOS 10.15, *)
 private struct BadgeEdges: Shape {
     func path(in rect: CGRect) -> Path {
         var path = Path()

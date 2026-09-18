@@ -12,7 +12,6 @@ import SwiftUI
 // geometry HDT stores here (Width, Height, Margin) is derived from the canvas
 // size by the view instead, the way the rest of these ports do it - only what
 // comes off the game is published.
-@available(macOS 10.15, *)
 final class BoardMinionOverlayViewModel: ObservableObject {
     // HDT's AbilityAlignment, which decides whether the ability strip hangs
     // above the minion or below it. The opponent's is Top, the player's Bottom.
@@ -41,7 +40,6 @@ final class BoardMinionOverlayViewModel: ObservableObject {
 
 // The pair of board grids, GridOpponentBoard and GridPlayerBoard, and the state
 // OverlayWindow reads to place them. Replaces the two BoardOverlay NSPanels.
-@available(macOS 10.15, *)
 final class BoardOverlayViewModel: ObservableObject {
     static let maxBoardSize = 7
     static let maxHandSize = 10

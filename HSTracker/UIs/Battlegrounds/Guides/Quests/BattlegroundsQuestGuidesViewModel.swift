@@ -11,14 +11,12 @@ import Foundation
 // Mirrors HDT's BattlegroundsQuestGuideListViewModel. selectedQuests grows
 // across the match (multiple quest rewards can be picked, typically turn 1
 // and turn 4) - never cleared mid-match, only at onMatchEnd()/reset().
-@available(macOS 10.15, *)
 final class BattlegroundsQuestGuidesViewModel: ObservableObject {
     @Published var questGuides: [Int: BattlegroundsQuestGuide]?
     @Published var selectedQuests: [BattlegroundsQuestGuideViewModel] = []
 
     var hasQuests: Bool { !selectedQuests.isEmpty }
 
-    @available(macOS 10.15.0, *)
     func update() async {
         guard questGuides == nil else { return }
 

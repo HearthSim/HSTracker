@@ -12,7 +12,6 @@ import Combine
 
 // One "if you end up keeping exactly this combination of other cards" scenario
 // for a single offered card, as returned by the server (MulliganCard.justifications).
-@available(macOS 10.15, *)
 struct MulliganJustification {
     let cardDbfIds: [Int]
     // Resolved once at construction (Cards.by(dbfId:) does an uncached full-database
@@ -41,7 +40,6 @@ struct MulliganJustification {
 // bool). ConstructedMulliganV2SingleCardHeaderViewModel.updateState(_:) is the seam
 // this plugs into once that binding exists; until then it's never called and every
 // card shows its static baseline confidence (the "keep everything" justification).
-@available(macOS 10.15, *)
 struct MulliganLiveCardState {
     let zonePosition: Int
     let cardId: String
@@ -49,13 +47,11 @@ struct MulliganLiveCardState {
     let mouseOverInPlay: Bool
 }
 
-@available(macOS 10.15, *)
 struct MulliganLiveState {
     let waitingForUserInput: Bool
     let cards: [MulliganLiveCardState]
 }
 
-@available(macOS 10.15, *)
 class ConstructedMulliganV2SingleCardHeaderViewModel: ObservableObject, Identifiable {
     let id: Int
     var position: Int { id }
@@ -247,7 +243,6 @@ class ConstructedMulliganV2SingleCardHeaderViewModel: ObservableObject, Identifi
     }
 }
 
-@available(macOS 10.15, *)
 class MulliganTipViewModel: ObservableObject, Identifiable {
     let id = UUID()
     private(set) var tipCard: Card?

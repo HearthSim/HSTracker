@@ -8,7 +8,6 @@
 
 import Foundation
 
-@available(macOS 10.15, *)
 class ConstructedMulliganGuideV2ViewModel: ObservableObject {
     @Published var cardStats: [ConstructedMulliganV2SingleCardViewModel] = []
     @Published var message: String?

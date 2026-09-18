@@ -12,7 +12,6 @@ import Foundation
 /// Port of HDT's `HsReplay/ArenaTrial.cs`. Unlike the Battlegrounds trials there is
 /// no token to activate: the server decides per deck, and `isDeckResumable` reports
 /// whether the current draft is one it has already accepted.
-@available(macOS 10.15, *)
 final class ArenaTrial {
     static let instance = ArenaTrial()
 

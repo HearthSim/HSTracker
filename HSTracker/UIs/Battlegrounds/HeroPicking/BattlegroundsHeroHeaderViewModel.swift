@@ -15,7 +15,6 @@ import Foundation
 // trinket pickers, stays on the old ViewModel; only this subclass - whose one
 // mutable property drives a SwiftUI view - is an ObservableObject, which is
 // also why it carries the 10.15 gate the base does not.
-@available(macOS 10.15, *)
 class BattlegroundsHeroHeaderViewModel: StatsHeaderViewModel, ObservableObject {
 
     let placementDistribution: [Double]?

@@ -30,7 +30,6 @@ import SwiftUI
 //
 // id is a UUID rather than the dbf id because a single board can hold several
 // copies of the same minion, and ForEach needs them distinct.
-@available(macOS 10.15, *)
 struct BattlegroundsMinionArt: Identifiable {
     let id = UUID()
     let dbfId: Int
@@ -106,7 +105,6 @@ struct BattlegroundsMinionArt: Identifiable {
     }
 }
 
-@available(macOS 10.15, *)
 struct BattlegroundsMinionArtView: View {
     let minion: BattlegroundsMinionArt
 
@@ -271,7 +269,6 @@ struct BattlegroundsMinionArtView: View {
     }
 }
 
-@available(macOS 10.15, *)
 extension View {
     // Resizes a view authored at baseWidth (a square reference canvas) down
     // to a target tile size via scaleEffect rather than re-deriving every

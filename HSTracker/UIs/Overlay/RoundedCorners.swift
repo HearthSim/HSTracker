@@ -22,14 +22,12 @@ struct RectCorner: OptionSet {
     static let allCorners: RectCorner = [.topLeft, .topRight, .bottomLeft, .bottomRight]
 }
 
-@available(macOS 10.15, *)
 extension View {
     func cornerRadius(_ radius: CGFloat, corners: RectCorner) -> some View {
         clipShape(RoundedCorner(radius: radius, corners: corners))
     }
 }
 
-@available(macOS 10.15, *)
 struct RoundedCorner: Shape {
     var radius: CGFloat
     var corners: RectCorner

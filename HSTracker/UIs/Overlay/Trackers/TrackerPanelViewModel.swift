@@ -18,7 +18,6 @@ import SwiftUI
 /// The sections themselves are unchanged - see `TrackerSectionViews` - so this
 /// holds what they display, where the panel sits, and the height the card rows
 /// have to shrink into.
-@available(macOS 10.15, *)
 class TrackerPanelViewModel: ObservableObject {
     let playerType: PlayerType
 

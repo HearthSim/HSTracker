@@ -44,7 +44,6 @@ enum ArenaRefreshSubscriptionState {
 /// Port of HDT's `ArenaPreDraftViewModel`. Two independent gates decide what it
 /// says: whether HSReplay is serving Arenasmith at all, and what the player's
 /// account entitles them to.
-@available(macOS 10.15, *)
 final class ArenaPreDraftViewModel: ObservableObject {
 
     @Published private(set) var draftState = ArenaDraftState.other

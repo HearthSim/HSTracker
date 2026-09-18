@@ -14,7 +14,6 @@ import SwiftUI
 // localization instead of hand-maintaining catalog entries here.
 //
 // Not ported yet: ShowExampleBoardsCommand (needs Inspiration).
-@available(macOS 10.15, *)
 struct BattlegroundsCompGuideViewModel: Identifiable {
     let compGuide: BattlegroundsCompGuide
     // HDT's _isPreLobby: this guide is being shown in the Battlegrounds

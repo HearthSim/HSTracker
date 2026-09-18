@@ -13,7 +13,6 @@ import XCTest
 /// Dragging the counters and the active-effects tiles around the overlay, which
 /// HDT does by adding the cursor delta to percentages of the client
 /// (`OverlayWindow.Input.cs`) and saving them on mouse up.
-@available(macOS 10.15, *)
 class OverlayWidgetPlacementTests: HSTrackerTests {
 
     private var saved: [String: Any?] = [:]

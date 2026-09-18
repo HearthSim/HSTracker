@@ -12,7 +12,6 @@ import Foundation
 // the strings the row draws. Immutable (every property is get-only on HDT's
 // side too), so a struct rather than an ObservableObject - the list view model
 // republishes the whole array when the mirror is re-read.
-@available(macOS 10.15, *)
 struct MercenariesTaskViewModel: Identifiable {
     // The visitor the task belongs to. HDT has no equivalent - WPF's
     // ItemsControl identifies items by reference - but SwiftUI's ForEach needs

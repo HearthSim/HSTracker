@@ -11,11 +11,9 @@ import Foundation
 // Mirrors HDT's BattlegroundsTrinketGuideListViewModel - tooltip-only, no
 // selection state (unlike Comps/Heroes, there's no dedicated tab; a guide is
 // looked up per-dbfId whenever a trinket card is hovered).
-@available(macOS 10.15, *)
 final class BattlegroundsTrinketGuidesViewModel: ObservableObject {
     @Published var trinketGuides: [Int: BattlegroundsTrinketGuide]?
 
-    @available(macOS 10.15.0, *)
     func update() async {
         guard trinketGuides == nil else { return }
 

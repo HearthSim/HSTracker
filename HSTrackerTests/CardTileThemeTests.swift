@@ -19,7 +19,6 @@ import XCTest
 /// same `Card` at the same height compares equal and is skipped, art and all.
 /// These render a row offscreen and compare the pixels, since that is the only
 /// place the difference shows.
-@available(macOS 10.15, *)
 class CardTileThemeTests: HSTrackerTests {
 
     private var savedTheme: Any?

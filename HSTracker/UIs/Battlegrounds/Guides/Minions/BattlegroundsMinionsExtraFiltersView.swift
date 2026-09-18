@@ -17,7 +17,6 @@ import SwiftUI
 //
 // Selecting from either is mutually exclusive with the tier strip's own filter
 // (see BattlegroundsMinionsViewModel's three-way filter state).
-@available(macOS 10.15, *)
 struct BattlegroundsMinionsExtraFiltersView: View {
     @ObservedObject var viewModel: BattlegroundsMinionsViewModel
 
@@ -114,7 +113,6 @@ struct BattlegroundsMinionsExtraFiltersView: View {
 // beneath it, so a GeometryReader attached *after* an offset measures the
 // un-offset layout frame. This must therefore be applied before any offset that
 // positions the view, and the callers do.
-@available(macOS 10.15, *)
 extension View {
     func reportInteractiveRegion(when isActive: Bool) -> some View {
         background(
@@ -138,7 +136,6 @@ extension View {
 // Kept separate from the button below because HDT composes it in two places:
 // inside BattlegroundsMinionTypeButton (here and in the Tavern Pinning panel)
 // and bare, at 23pt, inside the minion-type pin marker drawn over Bob's shop.
-@available(macOS 10.15, *)
 struct BattlegroundsMinionTypeIcon: View {
     let minionType: BattlegroundsMinionType
 
@@ -176,7 +173,6 @@ struct BattlegroundsMinionTypeIcon: View {
 // Mirrors BattlegroundsMinionTypeButton.xaml: a circular tribe portrait ringed
 // by a thin grey gradient, a gold glow ring when active or hovered, a tier-x
 // overlay previewing deselection, and a small name plate overhanging the bottom.
-@available(macOS 10.15, *)
 struct BattlegroundsMinionTypeButton: View {
     let button: BattlegroundsMinionsViewModel.MinionTypeButton
     let action: () -> Void
@@ -328,7 +324,6 @@ struct BattlegroundsMinionTypeButton: View {
 // Mirrors the Button ControlTemplate in BattlegroundsMinionsExtraFilters.xaml:
 // a 30pt row with a #3f4346 top border, centred bold 11pt label, and — when
 // active — a #36393f fill, #ffffcc text, and a chevron pointing in from each side.
-@available(macOS 10.15, *)
 struct MinionsKeywordButton: View {
     let button: BattlegroundsMinionsViewModel.KeywordButton
     let action: () -> Void
@@ -391,7 +386,6 @@ struct MinionsKeywordButton: View {
     }
 }
 
-@available(macOS 10.15, *)
 private struct Triangle: Shape {
     let pointingRight: Bool
 
@@ -427,7 +421,6 @@ private struct Triangle: Shape {
 // collapsed width instead of -41 and 10. Only the translate carries over -
 // the collapsed width is what stops HDT's tab poking out from behind the panel
 // when it is closed, and a tab that is simply invisible has nothing to hide.
-@available(macOS 10.15, *)
 struct MinionsExtraFiltersButton: View {
     @ObservedObject var viewModel: BattlegroundsMinionsViewModel
     /// HDT's IsStandAloneMode - see the DataTriggers on this tab's Border style.
@@ -550,7 +543,6 @@ struct MinionsExtraFiltersButton: View {
 
 // BorderThickness="1,1,0,1" CornerRadius="0,0,0,3": the tab is open on its
 // right edge, where it meets the panel, and rounded only at the bottom left.
-@available(macOS 10.15, *)
 private struct TabBorder: Shape {
     // Stops the *top* stroke short of the trailing edge by the width of the
     // tab's overlap with the panel. The tier strip has no top border of its own

@@ -18,7 +18,6 @@ import SwiftUI
 /// Built in code rather than from a nib: the section sorter is a list whose rows
 /// move, which is what HDT's `ElementSorter` is, and there is nothing to gain
 /// from expressing that in a xib.
-@available(macOS 10.15, *)
 class OverlayLayoutPreferences: PreferencePaneController, PreferencePane {
     var preferencePaneIdentifier = Preferences.PaneIdentifier.overlay_layout
 
@@ -33,12 +32,10 @@ class OverlayLayoutPreferences: PreferencePaneController, PreferencePane {
     }
 }
 
-@available(macOS 10.15, *)
 extension Preferences.PaneIdentifier {
     static let overlay_layout = Self("overlay_layout")
 }
 
-@available(macOS 10.15, *)
 struct OverlayLayoutPreferencesView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
@@ -77,7 +74,6 @@ struct OverlayLayoutPreferencesView: View {
 }
 
 /// One side's block: scaling, opacity, vertical centring and the section order.
-@available(macOS 10.15, *)
 struct OverlayLayoutSideSection: View {
     let playerType: PlayerType
 
@@ -162,7 +158,6 @@ struct OverlayLayoutSideSection: View {
 /// HDT's `ElementSorter`: one row per section, each moved with an up and a down
 /// button. The per-section checkboxes its rows also carry are HSTracker's
 /// existing Player / Opponent pane options, so they are not repeated here.
-@available(macOS 10.15, *)
 struct DeckPanelSorterView: View {
     @Binding var order: [DeckPanel]
     let playerType: PlayerType
@@ -203,7 +198,6 @@ struct DeckPanelSorterView: View {
 
 /// HDT's secret panel scaling, the one thing about `SecretsContainer` that is not
 /// set by dragging it.
-@available(macOS 10.15, *)
 struct SecretHelperLayoutSection: View {
     @SwiftUI.State private var scaling: Double = Settings.secretsPanelScaling
 

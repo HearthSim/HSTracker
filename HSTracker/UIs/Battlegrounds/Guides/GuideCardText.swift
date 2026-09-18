@@ -12,13 +12,11 @@ import SwiftUI
 // Mirrors HDT's ReferencedCardRun.ParseCardsFromText, which turns
 // `[[Name||dbfId]]` markup embedded in guide copy (comp/hero/quest "how to
 // play" text, etc.) into hoverable inline card links.
-@available(macOS 10.15, *)
 enum GuideTextSegment: Equatable {
     case plain(String)
     case card(name: String, dbfId: Int?)
 }
 
-@available(macOS 10.15, *)
 enum GuideCardText {
     // Splits on newlines first (each line renders as its own wrapping
     // paragraph) then parses `[[Name||dbfId]]` runs out of each line.
@@ -97,7 +95,6 @@ enum GuideCardText {
 // change) - and, since GuideFlowParagraph below now makes each card token
 // individually hoverable, the same ToolTipService.Placement="Left"/
 // CardTooltip binding ReferencedCardRun's style applies.
-@available(macOS 10.15, *)
 struct GuideText: View {
     let text: String?
     var fontSize: CGFloat = 12
@@ -118,7 +115,6 @@ struct GuideText: View {
     }
 }
 
-@available(macOS 10.15, *)
 private struct GuideFlowToken: Identifiable {
     let id: Int
     let text: String
@@ -126,7 +122,6 @@ private struct GuideFlowToken: Identifiable {
     let cardId: String?
 }
 
-@available(macOS 10.15, *)
 private struct GuideFlowWidthKey: PreferenceKey {
     static var defaultValue: CGFloat = 0
     // Combines with max, not last-wins. The reader below shares a ZStack with
@@ -157,7 +152,6 @@ private struct GuideFlowWidthKey: PreferenceKey {
 // (line count × font line height + inter-line spacing) — a GeometryReader-
 // based measurement created a self-referential sizing loop that collapsed
 // to zero height.
-@available(macOS 10.15, *)
 struct GuideFlowParagraph: View {
     let segments: [GuideTextSegment]
     var fontSize: CGFloat = 12

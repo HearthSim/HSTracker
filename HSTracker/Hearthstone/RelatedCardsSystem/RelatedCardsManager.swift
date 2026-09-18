@@ -167,7 +167,6 @@ class RelatedCardsManager {
     /// wired here - the trial-token overload exists on HSReplayAPI and can be pointed at a token
     /// source if Outfinder trials are ever ported. Without entitlement the map stays nil, which is
     /// exactly what the summary and filter UI already treat as "no keyword data".
-    @available(macOS 10.15, *)
     static func loadRelatedCardsSummaryKeywords() {
         relatedCardsSummaryKeywords = nil
 

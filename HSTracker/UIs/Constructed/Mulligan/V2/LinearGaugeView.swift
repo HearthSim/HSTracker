@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-@available(macOS 10.15, *)
 struct MulliganTriangle: Shape {
     func path(in rect: CGRect) -> Path {
         var path = Path()
@@ -22,7 +21,6 @@ struct MulliganTriangle: Shape {
 
 // SF Symbols (Image(systemName:)) need macOS 11; drawn by hand so the
 // mulligan V2 views can target macOS 10.15.
-@available(macOS 10.15, *)
 struct MulliganChevron: Shape {
     func path(in rect: CGRect) -> Path {
         var path = Path()
@@ -33,7 +31,6 @@ struct MulliganChevron: Shape {
     }
 }
 
-@available(macOS 10.15, *)
 struct LinearGaugeView: View {
     @ObservedObject var viewModel: ConstructedMulliganV2SingleCardHeaderViewModel
 

@@ -18,7 +18,6 @@ import SwiftUI
 // subtree - so this takes the canvas whole and places its parts with the XAML's
 // own alignments and margins. This replaces the AppKit window that used to hold
 // it.
-@available(macOS 10.15, *)
 struct ConstructedMulliganGuideView: View {
     @ObservedObject var viewModel: ConstructedMulliganGuideViewModel
     // The canvas width RootOverlayView measured, in the 1080-tall reference
@@ -139,7 +138,6 @@ struct ConstructedMulliganGuideView: View {
     }
 }
 
-@available(macOS 10.15, *)
 #Preview {
     let vm = ConstructedMulliganGuideViewModel()
     vm.cardStats = (1...4).map { rank in

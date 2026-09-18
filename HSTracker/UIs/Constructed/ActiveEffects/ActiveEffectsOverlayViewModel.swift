@@ -13,7 +13,6 @@ import SwiftUI
 // shown while the overlay is unlocked) now that the effects are a child of the
 // RootOverlay canvas instead of a window of their own. Mirrors HDT's
 // ActiveEffectsOverlay.xaml.cs, whose VisibleEffects collection this is.
-@available(macOS 10.15, *)
 class ActiveEffectsOverlayViewModel: ObservableObject {
     // HDT's IsPlayer on the two ActiveEffectsOverlay instances.
     let isPlayer: Bool

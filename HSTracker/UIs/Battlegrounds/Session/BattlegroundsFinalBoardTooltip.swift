@@ -17,7 +17,6 @@ import SwiftUI
 // ScaleTransform of .6; both are applied by the caller
 // (BattlegroundsSessionView) since it is the one that knows where the hovered
 // row sits.
-@available(macOS 10.15, *)
 struct BattlegroundsFinalBoardTooltip: View {
     let minions: [Entity]
     // Which side of the row the tooltip opens on, so the arrow can be drawn on

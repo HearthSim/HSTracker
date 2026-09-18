@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-@available(macOS 10.15, *)
 private extension Color {
     static let tier7Purple = Color(red: 0x36 / 255, green: 0x16 / 255, blue: 0x37 / 255)
     static let tier7Black = Color(red: 0x14 / 255, green: 0x16 / 255, blue: 0x17 / 255)
@@ -18,7 +17,6 @@ private extension Color {
 // one offered hero - average placement on the left, tier in the middle, pick
 // rate on the right - and the placement distribution that takes over its right
 // half while the cursor is on the average placement.
-@available(macOS 10.15, *)
 struct BattlegroundsHeroHeaderView: View {
     @ObservedObject var viewModel: BattlegroundsHeroHeaderViewModel
 

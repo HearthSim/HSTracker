@@ -14,7 +14,6 @@ import SwiftUI
 // 3pt borders, the 8/5 corner radii, the art's 55pt frame at (-10, -7), the
 // 24pt badge - is ported verbatim from that xib rather than redesigned, so
 // the tile looks identical.
-@available(macOS 10.15, *)
 final class ActiveEffectViewModel: ObservableObject, Identifiable {
     let effect: EntityBasedEffect
     // HDT's ActiveEffect.Count: nil unless the effect both wants a count shown
@@ -48,7 +47,6 @@ final class ActiveEffectViewModel: ObservableObject, Identifiable {
     }
 }
 
-@available(macOS 10.15, *)
 struct ActiveEffectView: View {
     @ObservedObject var viewModel: ActiveEffectViewModel
 

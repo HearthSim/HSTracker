@@ -17,7 +17,6 @@ import SwiftUI
 // state pushed in here, so content authored at the 1080-tall reference
 // (matching the rest of HSTracker's overlay scaling convention) lines up
 // regardless of the window's aspect ratio.
-@available(macOS 10.15, *)
 class RootOverlayViewModel: ObservableObject {
     // HDT's two constructed mulligan guides, declared one after the other on
     // its own canvas. The V1 one covers every game type the V2 one does not -

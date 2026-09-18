@@ -16,7 +16,6 @@ import SwiftUI
 /// 600ms later, and flashes a row whose count changed. SwiftUI does the first
 /// three for free once the rows have stable identities, which is what `RowKey`
 /// below is; the flash is driven by a token the list bumps.
-@available(macOS 10.15, *)
 struct CardTileListView: View {
     let cards: [Card]
     let playerType: PlayerType

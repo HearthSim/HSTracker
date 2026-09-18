@@ -25,7 +25,6 @@ import SwiftUI
 //
 // Everything here runs on the main thread, as HDT's does on the WPF dispatcher
 // thread - callers coming off a watcher queue hop first.
-@available(macOS 10.15, *)
 class OverlayOpacityMask: ObservableObject {
     // The masked regions that will be rendered as transparent, grouped by origin key
     private var maskedRegions = [String: [CGRect]]()
@@ -146,7 +145,6 @@ class OverlayOpacityMask: ObservableObject {
 //
 // Lives in its own view, observing the mask directly, so a change to the
 // regions redraws this and not the whole overlay tree it is applied to.
-@available(macOS 10.15, *)
 struct RootOverlayOpacityMaskView: View {
     @ObservedObject var mask: OverlayOpacityMask
     let size: CGSize
@@ -180,7 +178,6 @@ struct RootOverlayOpacityMaskView: View {
 // OverlayOpacityMask.debugShowRegions is on, and takes no hit testing either
 // way - it is applied over the masked overlay in RootOverlayView, so the
 // outlines survive the very cut-outs they describe.
-@available(macOS 10.15, *)
 struct RootOverlayOpacityMaskDebugView: View {
     @ObservedObject var mask: OverlayOpacityMask
     let size: CGSize

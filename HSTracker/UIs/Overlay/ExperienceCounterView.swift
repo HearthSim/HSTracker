@@ -12,7 +12,6 @@ import SwiftUI
 // track bar it draws over the bottom-right of the hub. This replaces the
 // ExperienceOverlay NSPanel and the ExperienceTracker NSView that drew the same
 // four images by hand.
-@available(macOS 10.15, *)
 final class ExperienceCounterViewModel: ObservableObject {
     // XPDisplay and LevelDisplay, the two bound strings.
     @Published var xpDisplay = ""
@@ -84,7 +83,6 @@ final class ExperienceCounterViewModel: ObservableObject {
     }
 }
 
-@available(macOS 10.15, *)
 struct ExperienceCounterView: View {
     @ObservedObject var viewModel: ExperienceCounterViewModel
     // The canvas width RootOverlayView measured, in the 1080-tall reference
@@ -253,7 +251,6 @@ struct ExperienceCounterView: View {
     }()
 }
 
-@available(macOS 10.15, *)
 #Preview {
     let vm = ExperienceCounterViewModel()
     vm.isShown = true

@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-@available(macOS 10.15, *)
 private extension Color {
     // The panel's own background, the win/tie/loss block behind it, and the
     // hairlines between them.
@@ -23,7 +22,6 @@ private extension Color {
 // top of the screen during a Battlegrounds fight - win/tie/loss with each
 // side's lethal chance, the average damage either side deals in its own panel
 // to each side, and the status bar that says what the simulator is doing.
-@available(macOS 10.15, *)
 struct BobsBuddyPanelView: View {
     @ObservedObject var viewModel: BobsBuddyPanelViewModel
 

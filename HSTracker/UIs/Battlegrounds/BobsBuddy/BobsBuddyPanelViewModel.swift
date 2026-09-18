@@ -41,7 +41,6 @@ extension BobsBuddyDisplay {
 }
 
 // Port of the state HDT's BobsBuddyPanel.xaml.cs keeps behind its own bindings.
-@available(macOS 10.15, *)
 class BobsBuddyPanelViewModel: ObservableObject, BobsBuddyDisplay {
     // Game.updateBobsBuddyOverlay, which is what used to show and hide the
     // panel's own window.

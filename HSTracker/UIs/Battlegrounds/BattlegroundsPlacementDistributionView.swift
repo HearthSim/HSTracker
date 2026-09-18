@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-@available(macOS 10.15, *)
 private extension Color {
     static let tier7Purple = Color(red: 0x36 / 255, green: 0x16 / 255, blue: 0x37 / 255)
     static let tier7Black = Color(red: 0x14 / 255, green: 0x16 / 255, blue: 0x17 / 255)
@@ -20,7 +19,6 @@ private extension Color {
 // BattlegroundsPlacementDistributionBar it repeats: the eight-bar histogram
 // that takes over the right-hand side of a hero's stats header while the
 // cursor is on its average placement.
-@available(macOS 10.15, *)
 struct BattlegroundsPlacementDistributionView: View {
     let values: [Double]
 
@@ -148,7 +146,6 @@ struct BattlegroundsPlacementDistributionView: View {
 
 // The label strip's three-sided border, drawn as an open path so the missing
 // top edge stays missing while the two bottom corners still round.
-@available(macOS 10.15, *)
 private struct PlacementLabelStripBorder: Shape {
     func path(in rect: CGRect) -> Path {
         let radius: CGFloat = 5
@@ -167,7 +164,6 @@ private struct PlacementLabelStripBorder: Shape {
 
 // Port of BattlegroundsPlacementDistributionBar.xaml: one bar, bottom-aligned
 // in its column, whose height is Value/MaxValue of the row.
-@available(macOS 10.15, *)
 private struct BattlegroundsPlacementDistributionBar: View {
     let value: Double
     let maxValue: Double

@@ -19,7 +19,6 @@ import SwiftUI
 /// vertical line, cubic curve and close, absolute and relative - plus the leading
 /// `F0`/`F1` fill-rule marker, which is skipped: SwiftUI has no per-path fill rule,
 /// and these shapes have no self-intersections for it to disambiguate.
-@available(macOS 10.15, *)
 enum ArenaVectorPath {
     static func path(from data: String) -> Path {
         var path = Path()
@@ -157,7 +156,6 @@ enum ArenaVectorPath {
 /// One of HDT's `DrawingImage` icons: path data authored against a fixed viewbox,
 /// scaled uniformly into whatever frame it is given and centred, which is what
 /// WPF's default `Stretch="Uniform"` does for the `Image` elements these sit in.
-@available(macOS 10.15, *)
 struct ArenaVectorIcon: Shape {
     let base: Path
     let viewBox: CGSize
@@ -176,7 +174,6 @@ struct ArenaVectorIcon: Shape {
 
 /// The "has related cards" mark: HDT's `CardIcon`, a card outline with a flame on
 /// its face. Geometry copied verbatim from `ArenaPickSingleCardOption.xaml`.
-@available(macOS 10.15, *)
 struct ArenaCardGlyph: Shape {
     /// The icon's own coordinate space, from the drawing's clip geometry.
     static let viewBox = CGSize(width: 29.0, height: 42.0)
@@ -193,7 +190,6 @@ struct ArenaCardGlyph: Shape {
 
 /// The synergy mark: HDT's `BoostIcon`, a pair of stacked up-arrows drawn as two
 /// separate fills. Geometry copied verbatim from `ArenaPickSingleCardOption.xaml`.
-@available(macOS 10.15, *)
 struct ArenaBoostGlyph: Shape {
     static let viewBox = CGSize(width: 40.0, height: 42.0)
     static let width: CGFloat = 18
@@ -215,7 +211,6 @@ struct ArenaBoostGlyph: Shape {
 /// HDT's `BoostGeo` and `BoostSmallGeo`: the chevron-tailed tab behind a deck-rail
 /// synergy marker, drawn pointing left and rotated 180 degrees for the right-hand
 /// one. Geometry copied verbatim from `ArenaPickHelper.xaml`.
-@available(macOS 10.15, *)
 enum ArenaBoostTab {
     static let viewBox = CGSize(width: 65, height: 64)
     static let smallViewBox = CGSize(width: 61, height: 30)
@@ -235,7 +230,6 @@ enum ArenaBoostTab {
 /// One boost tab, filled and stroked in its own coordinate space so the pen scales
 /// with it, then clipped to the viewbox the way HDT's `ClipGeometry` does - the
 /// stroke straddles the geometry's edge and would otherwise spill out.
-@available(macOS 10.15, *)
 struct ArenaBoostTabView: View {
     let color: Color
     /// The right-hand tab is the same drawing under a 180-degree rotation.

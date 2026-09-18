@@ -15,7 +15,6 @@ import SwiftUI
 //
 // An ObservableObject rather than a plain struct because the portrait arrives
 // asynchronously and only that one row should redraw when it does.
-@available(macOS 10.15, *)
 final class BattlegroundsInspirationGameViewModel: ObservableObject, Identifiable {
     // Board minion with the stats and keywords the API reported, rather than
     // the card's own printed values - a first-place board is full of buffed

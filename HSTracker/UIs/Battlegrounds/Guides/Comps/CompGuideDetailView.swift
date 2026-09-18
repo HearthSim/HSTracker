@@ -9,7 +9,6 @@
 import SwiftUI
 
 // Mirrors HDT's CompGuide.xaml.
-@available(macOS 10.15, *)
 struct CompGuideDetailView: View {
     @ObservedObject var viewModel: BattlegroundsCompsGuidesViewModel
     let comp: BattlegroundsCompGuideViewModel

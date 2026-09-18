@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-@available(macOS 10.15, *)
 private extension Color {
     static let tier7Purple = Color(red: 0x36 / 255, green: 0x16 / 255, blue: 0x37 / 255)
     static let tier7Black = Color(red: 0x14 / 255, green: 0x16 / 255, blue: 0x17 / 255)
@@ -26,7 +25,6 @@ private extension Color {
 // (Layout below). Every path is that XAML's Geometry data, point for point, and
 // each Shape maps the drawing's canvas into whatever rectangle it is given the
 // way the Image does, uniformly and centred.
-@available(macOS 10.15, *)
 struct BattlegroundsStatsPlateChrome: View {
     enum Layout {
         // The hero header's own 243x61 canvas, fitted into the Grid's 243x60 -
@@ -84,7 +82,6 @@ struct BattlegroundsStatsPlateChrome: View {
 
 // One GeometryDrawing, built in the drawing's own canvas and then fitted into
 // the rectangle the view is given - Image's default Stretch="Uniform".
-@available(macOS 10.15, *)
 private struct PlateDrawing: Shape {
     enum Piece {
         case tierBox, tierBoxOutline

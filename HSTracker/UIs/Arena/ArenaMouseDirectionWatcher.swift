@@ -14,7 +14,6 @@ import Foundation
 /// panel. Two things end that journey: going still (the timeout restarts on every
 /// movement, so it fires only after the cursor has stopped for `timeout`), or
 /// changing direction to one the caller objects to.
-@available(macOS 10.15, *)
 final class ArenaMouseDirectionWatcher {
     struct Direction: OptionSet {
         let rawValue: Int

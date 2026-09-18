@@ -26,7 +26,6 @@ import SwiftUI
 // Horizontal (70.6/67.7), the same numbers SizeHelper.playerCountersFrame/
 // opponentCountersFrame used to hold. Both blocks can be dragged while the
 // overlay is unlocked, as HDT's can - see OverlayWidgetPlacement.
-@available(macOS 10.15, *)
 struct CountersOverlayView: View {
     @ObservedObject var viewModel: CountersOverlayViewModel
     // Observed as well as the view model: a drag moves the block without

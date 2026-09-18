@@ -67,7 +67,6 @@ extension NSColor {
     }
 }
 
-@available(macOS 10.15, *)
 extension Color {
     init(hex: String) {
         let (red, green, blue, alpha) = componentsFromHex(hex: hex)

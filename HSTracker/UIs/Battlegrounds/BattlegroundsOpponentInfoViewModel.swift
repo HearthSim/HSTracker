@@ -21,7 +21,6 @@ import SwiftUI
 // They share this one view model because they share their trigger: HDT drives
 // both from _leaderboardHoveredEntityId in a single UpdateBattlegroundsOverlay
 // pass, which is what update() below is the port of.
-@available(macOS 10.15, *)
 final class BattlegroundsOpponentInfoViewModel: ObservableObject {
     // One leaderboard slot's triples/tavern-up state, which is what a
     // BattlegroundsTierTriples control renders.

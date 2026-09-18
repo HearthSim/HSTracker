@@ -52,7 +52,6 @@ class SingleCardStats: MulliganGuideData.CardStats {
 // the V1 guide. Identifiable so the guide's card row can ForEach over them -
 // by identity, since two copies of the same card can be offered at once and a
 // dbfId would collide.
-@available(macOS 10.15, *)
 class ConstructedMulliganSingleCardViewModel: ObservableObject, Identifiable {
     let cardHeaderVM: ConstructedMulliganSingleCardHeaderViewModel
     let dbfId: Int?

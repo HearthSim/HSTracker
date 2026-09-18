@@ -23,7 +23,6 @@ struct ArenasmithAvailabilities: Equatable {
 /// Two gates, both mirroring HDT: a remote-config kill switch that turns the whole
 /// feature off, and a per-game-mode server flag. The result is cached for the
 /// session, because HDT queries it once per draft rather than per pick.
-@available(macOS 10.15, *)
 final class ArenasmithStatusManager {
     static let instance = ArenasmithStatusManager()
 
