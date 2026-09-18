@@ -80,14 +80,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
         //setenv("CFNETWORK_DIAGNOSTICS", "3", 1)
         
         Mixpanel.initialize(token: "da39869dcbc77a77a53506f12ff08094")
-        if !AppDelegate.isOfficialBuild {
+        if !AppDelegate.isTelemetryEnabled {
             // Mixpanel.mainInstance() asserts when initialize(token:) was never called, and
             // HSReplayAPI and MixpanelEvents both reach for it, so a fork still needs an
             // instance - just one that never sends anything.
             Mixpanel.mainInstance().optOutTracking()
         }
 
-        if AppDelegate.isOfficialBuild {
+        if AppDelegate.isTelemetryEnabled {
             startCrashReporting()
         }
         let options = [
@@ -298,6 +298,33 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
         return codeSigningTeamIdentifier() == officialTeamIdentifier
     }()
 
+    /// A build that was never shipped. The repository carries CFBundleVersion "DEV", and
+    /// the release build replaces it with the build number being cut, so anything still
+    /// reading "DEV" was built locally - by us, since `isOfficialBuild` has already ruled
+    /// out the forks.
+    static let isDevelopmentBuild: Bool = {
+        Bundle.main.infoDictionary?["CFBundleVersion"] as? String == "DEV"
+    }()
+
+    /// Whether an XCTest bundle is being hosted in this process. The tests are injected
+    /// into HSTracker.app itself, which carries our bundle id and our signature, so
+    /// `isOfficialBuild` accepts a test run and cannot be what keeps it quiet.
+    static let isRunningTests: Bool = {
+        ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+    }()
+
+    /// Whether this process may report into HearthSim's Sentry and Mixpanel projects.
+    ///
+    /// Being an official build is not enough on its own. Our own development builds are
+    /// signed with the same Developer ID and keep the same bundle id, so they satisfy
+    /// `isOfficialBuild` and had been reporting alongside the releases - dist "DEV" was
+    /// several hundred events over 90 days, and a fatal error raised by a test run
+    /// arrived as a crash indistinguishable from a user's. Anything a local build hits is
+    /// in front of whoever is running it already.
+    static let isTelemetryEnabled: Bool = {
+        isOfficialBuild && !isDevelopmentBuild && !isRunningTests
+    }()
+
     /// The Team ID the running binary is signed with, or nil when it is unsigned or ad hoc
     /// signed, as a local "Sign to Run Locally" build is.
     private static func codeSigningTeamIdentifier() -> String? {
@@ -320,7 +347,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
         return information[kSecCodeInfoTeamIdentifier as String] as? String
     }
 
-    /// Only called for an official build; see `isOfficialBuild`.
+    /// Only called when reporting is allowed; see `isTelemetryEnabled`.
     private func startCrashReporting() {
         SentrySDK.start { options in
             options.dsn = "https://254d50452b94680e7ac7968694d1de3a@o35918.ingest.us.sentry.io/92505"
