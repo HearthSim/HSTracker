@@ -13,6 +13,7 @@
 - While the windows are unlocked the overlay no longer pops up card and counter tooltips over whatever you are dragging, the Battlegrounds session panel is now highlighted like everything else that can be moved, and both players' counters and active effects show example content so there is always something to take hold of.
 - Fixed the board damage number sitting too high on its icon.
 - Fixed HSTracker quitting while a Battlegrounds hero, minion or trinket was being picked when it briefly could not tell how large the Hearthstone window was.
+- Builds that are not official HSTracker releases no longer send crash reports and usage statistics to HearthSim.
 
 # 3.6.11
 ## Hearthstone

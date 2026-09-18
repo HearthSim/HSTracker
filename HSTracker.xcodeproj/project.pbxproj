@@ -309,6 +309,7 @@
 		4390FBBA1DAA72E700AE71BB /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4390FBB91DAA72E700AE71BB /* Version.swift */; };
 		439212151DEF5A5E0017AAE5 /* MultiClassGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439212141DEF5A5E0017AAE5 /* MultiClassGroup.swift */; };
 		439BD8C91EBCD40200959F69 /* EnumTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439BD8C81EBCD40200959F69 /* EnumTests.swift */; };
+		B8AA00022C00000100000002 /* OfficialBuildTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AA00012C00000100000001 /* OfficialBuildTests.swift */; };
 		439C7E4C1C7772C000D29859 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E4B1C7772C000D29859 /* AppDelegate.swift */; };
 		439C7E851C777CFC00D29859 /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E7D1C777CFC00D29859 /* Deck.swift */; };
 		439C7E891C777CFC00D29859 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E811C777CFC00D29859 /* Card.swift */; };
@@ -2190,6 +2191,7 @@
 		439212141DEF5A5E0017AAE5 /* MultiClassGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiClassGroup.swift; sourceTree = "<group>"; };
 		439B1DF51E86CC280098BBBC /* DatabaseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseTests.swift; sourceTree = "<group>"; };
 		439BD8C81EBCD40200959F69 /* EnumTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnumTests.swift; sourceTree = "<group>"; };
+		B8AA00012C00000100000001 /* OfficialBuildTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfficialBuildTests.swift; sourceTree = "<group>"; };
 		439C7E481C7772C000D29859 /* HSTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HSTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		439C7E4B1C7772C000D29859 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = HSTracker/AppDelegate.swift; sourceTree = "<group>"; };
 		439C7E571C7772C000D29859 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = HSTracker/Info.plist; sourceTree = "<group>"; };
@@ -4121,6 +4123,7 @@
 				1CCB4AE71E8A41E3003FD1AD /* PowerParserTests.swift */,
 				43640BE21E8A328700FAFD07 /* SecretTests.swift */,
 				439BD8C81EBCD40200959F69 /* EnumTests.swift */,
+				B8AA00012C00000100000001 /* OfficialBuildTests.swift */,
 				1C561C981EC1EC6600007A46 /* ReplayUploadTests.swift */,
 				43B712C01F75115500796F92 /* HSTracker-Test-Bridging-Header.h */,
 			);
@@ -8677,6 +8680,7 @@
 				43C1C9F71E96CCE9008C20B1 /* AlgorithmTests.swift in Sources */,
 				43C1C9FD1E96CCE9008C20B1 /* DatabaseTests.swift in Sources */,
 				439BD8C91EBCD40200959F69 /* EnumTests.swift in Sources */,
+				B8AA00022C00000100000002 /* OfficialBuildTests.swift in Sources */,
 				43C1C9F81E96CCE9008C20B1 /* HSTrackerTests.swift in Sources */,
 				B8A1F0012FCD0001000A0001 /* LocalizationFormatTests.swift in Sources */,
 				B8A1F0112FCD0011000A0011 /* CardTooltipTests.swift in Sources */,

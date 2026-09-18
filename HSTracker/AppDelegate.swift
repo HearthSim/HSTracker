@@ -14,6 +14,7 @@ import Sparkle
 import Sentry
 import AppMover
 import Mixpanel
+import Security
 
 import OAuthSwift
 
@@ -79,36 +80,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
         //setenv("CFNETWORK_DIAGNOSTICS", "3", 1)
         
         Mixpanel.initialize(token: "da39869dcbc77a77a53506f12ff08094")
-
-        SentrySDK.start { options in
-            options.dsn = "https://254d50452b94680e7ac7968694d1de3a@o35918.ingest.us.sentry.io/92505"
-            options.debug = false // Enabled debug when first installing is always helpful
-            options.appHangTimeoutInterval = 60.0
-
-            // The SDK swizzles NSURLSessionTask and reports every 5xx response as an
-            // error by default, from any host the app talks to. That is a backend
-            // health signal, not an HSTracker defect, and it belongs in HSReplay's own
-            // monitoring - as Sentry issues they were HSTRACKER-3C, 67k events across
-            // hsreplay.net, art.hearthstonejson.com and Mixpanel, drowning out the
-            // crashes we can actually act on. The calls themselves already handle a
-            // failed response by logging it and carrying on.
-            options.enableCaptureFailedRequests = false
-
-            // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
-            // We recommend adjusting this value in production.
-            options.tracesSampleRate = 0.0
-
-            // Sample rate for profiling, applied on top of TracesSampleRate.
-            // We recommend adjusting this value in production.
-            options.profilesSampleRate = 0.0
+        if !AppDelegate.isOfficialBuild {
+            // Mixpanel.mainInstance() asserts when initialize(token:) was never called, and
+            // HSReplayAPI and MixpanelEvents both reach for it, so a fork still needs an
+            // instance - just one that never sends anything.
+            Mixpanel.mainInstance().optOutTracking()
         }
-        SentrySDK.configureScope { scope in
-#if arch(arm64)
-            let arch = "arm64"
-#else
-            let arch = "x64"
-#endif
-            scope.setTag(value: arch, key: "device.arch")
+
+        if AppDelegate.isOfficialBuild {
+            startCrashReporting()
         }
         let options = [
             kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true as CFBoolean
@@ -298,6 +278,80 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
         Settings.showMinionsAvailable = !showedBanned
         Settings.showMinionsBanned = showedBanned
         Settings.migratedSessionMinionTypes = true
+    }
+
+    // HSTracker is open source, so the Sentry DSN and the Mixpanel token ship inside
+    // every binary built from this repository, and any fork that rebuilds it keeps
+    // reporting into HearthSim's projects. In Sentry that showed up as releases such as
+    // net.hearthsim.hstracker.selfbuild, net.hearthsim.hstracker.trial26 and
+    // com.baconbrain.hstracker, which distort the release list and the crash triage that
+    // reads it. A build is ours only when it carries our bundle id *and* is signed by our
+    // team - checking the signature as well as the bundle id also catches the self-builds
+    // that keep the official bundle id with a build number we never shipped.
+    private static let officialBundleIdentifier = "net.hearthsim.hstracker"
+    private static let officialTeamIdentifier = "RL7C49LAMC"
+
+    static let isOfficialBuild: Bool = {
+        guard Bundle.main.bundleIdentifier == officialBundleIdentifier else {
+            return false
+        }
+        return codeSigningTeamIdentifier() == officialTeamIdentifier
+    }()
+
+    /// The Team ID the running binary is signed with, or nil when it is unsigned or ad hoc
+    /// signed, as a local "Sign to Run Locally" build is.
+    private static func codeSigningTeamIdentifier() -> String? {
+        var code: SecCode?
+        guard SecCodeCopySelf(SecCSFlags(rawValue: 0), &code) == errSecSuccess, let code else {
+            return nil
+        }
+        var staticCode: SecStaticCode?
+        guard SecCodeCopyStaticCode(code, SecCSFlags(rawValue: 0), &staticCode) == errSecSuccess,
+              let staticCode else {
+            return nil
+        }
+        var information: CFDictionary?
+        guard SecCodeCopySigningInformation(staticCode,
+                                            SecCSFlags(rawValue: UInt32(kSecCSSigningInformation)),
+                                            &information) == errSecSuccess,
+              let information = information as? [String: Any] else {
+            return nil
+        }
+        return information[kSecCodeInfoTeamIdentifier as String] as? String
+    }
+
+    /// Only called for an official build; see `isOfficialBuild`.
+    private func startCrashReporting() {
+        SentrySDK.start { options in
+            options.dsn = "https://254d50452b94680e7ac7968694d1de3a@o35918.ingest.us.sentry.io/92505"
+            options.debug = false // Enabled debug when first installing is always helpful
+            options.appHangTimeoutInterval = 60.0
+
+            // The SDK swizzles NSURLSessionTask and reports every 5xx response as an
+            // error by default, from any host the app talks to. That is a backend
+            // health signal, not an HSTracker defect, and it belongs in HSReplay's own
+            // monitoring - as Sentry issues they were HSTRACKER-3C, 67k events across
+            // hsreplay.net, art.hearthstonejson.com and Mixpanel, drowning out the
+            // crashes we can actually act on. The calls themselves already handle a
+            // failed response by logging it and carrying on.
+            options.enableCaptureFailedRequests = false
+
+            // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
+            // We recommend adjusting this value in production.
+            options.tracesSampleRate = 0.0
+
+            // Sample rate for profiling, applied on top of TracesSampleRate.
+            // We recommend adjusting this value in production.
+            options.profilesSampleRate = 0.0
+        }
+        SentrySDK.configureScope { scope in
+#if arch(arm64)
+            let arch = "arm64"
+#else
+            let arch = "x64"
+#endif
+            scope.setTag(value: arch, key: "device.arch")
+        }
     }
 
     func applicationWillTerminate(_ notification: Notification) {
