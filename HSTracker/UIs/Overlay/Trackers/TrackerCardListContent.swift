@@ -65,9 +65,8 @@ struct TrackerRowHover: Equatable {
 enum TrackerRowHoverKind: Equatable {
     case playerDeck
     case opponentDeck
-    /// The standalone lists beside a tracker - the secret helper (whose preview is
-    /// pinned to its right, as `CardList.isSecretPanel` pinned it) and the
-    /// graveyard details.
+    /// The standalone lists beside a tracker - the secret helper and the graveyard
+    /// details. Both raise the plain card render and nothing else.
     case secrets
     case cardList
     /// Rows that raise nothing.

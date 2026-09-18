@@ -241,8 +241,6 @@ final class Settings {
     static var deckManagerPreferCards: Bool
     @UserDefault(key: Settings.show_floating_card, defaultValue: true)
     static var showFloatingCard: Bool
-    @UserDefaultRawRepresentable(key: Settings.floating_card_style, defaultValue: .image)
-    static var floatingCardStyle: FloatingCardStyle
     @UserDefault(key: Settings.disable_tracking_in_spectator_mode, defaultValue: true)
     static var dontTrackWhileSpectating: Bool
     @UserDefault(key: Settings.window_locked, defaultValue: true)
@@ -823,7 +821,6 @@ extension Settings {
     static let hide_all_trackers_when_game_in_background = "hide_all_trackers_when_game_in_background"
     static let deckmanager_prefer_cards = "deckmanager_prefer_cards"
     static let show_floating_card = "show_floating_card"
-    static let floating_card_style = "floating_card_style"
     static let disable_tracking_in_spectator_mode = "disable_tracking_in_spectator_mode"
     static let window_locked = "window_locked"
     static let prefer_golden_cards = "prefer_golden_cards"

@@ -206,6 +206,13 @@ class CardTooltipPanel: NSPanel {
     private let goldenImageView = NSImageView()
     private let captionView = NSHostingView(rootView: CardTooltipCaption(text: "", fontSize: 16))
     private(set) var currentCardId: String?
+    // What the panel is currently *for*, as opposed to what it is currently rendering: set the
+    // moment a show is asked for, where currentCardId waits out the show delay. Hovers arrive
+    // faster than that delay - a cursor crossing a second tracker row on its way off the list
+    // leaves for 300ms with the first card still on screen and the second one only requested -
+    // and hide(ifShowing:) has to recognize that hover as the one that owns the panel, or the
+    // first card's tooltip is stranded there with nothing left to take it down.
+    private var requestedCardId: String?
     private(set) var currentSource: CardTooltipSource = .registry
     private var pendingShowWork: DispatchWorkItem?
     private var pendingHideWork: DispatchWorkItem?
@@ -318,6 +325,7 @@ class CardTooltipPanel: NSPanel {
         currentAnchor = anchor
         currentBounds = bounds
         currentSource = source
+        requestedCardId = cardId
         pendingHideWork?.cancel()
         pendingHideWork = nil
 
@@ -568,6 +576,7 @@ class CardTooltipPanel: NSPanel {
         maxDurationTimer?.invalidate()
         maxDurationTimer = nil
         currentCardId = nil
+        requestedCardId = nil
         currentText = nil
         let w = Self.tooltipWidth
         let h = Self.tooltipHeight
@@ -594,31 +603,57 @@ class CardTooltipPanel: NSPanel {
         }
     }
 
+    /// The hovered element reporting that the cursor has left it.
+    ///
+    /// Matched against `requestedCardId` rather than `currentCardId`: those differ for the whole
+    /// show delay, and a hover that ends inside it - the cursor passing over a row on its way out
+    /// of the list - has to take the panel down all the same, whatever is still rendered on it.
+    /// A hide for anything else is a stale element's, and leaves both the panel and whichever
+    /// hover does own it alone: cancelling that hover's pending show here would swallow its
+    /// tooltip outright, since the cursor sweeps that drive this only act on changes and so would
+    /// never ask for it again.
     func hide(ifShowing cardId: String) {
+        guard requestedCardId == cardId else { return }
+        requestedCardId = nil
         pendingShowWork?.cancel()
         pendingShowWork = nil
         pendingGoldenWork?.cancel()
         pendingGoldenWork = nil
 
-        guard currentCardId == cardId else { return }
-
         let work = DispatchWorkItem { [weak self] in
             guard let self = self else { return }
             self.pendingHideWork = nil
-            guard self.currentCardId == cardId else { return }
-            self.currentCardId = nil
-            self.currentText = nil
-            let w = Self.tooltipWidth
-            let h = Self.tooltipHeight
-            self.primaryImageView.image = nil
-            self.goldenImageView.image = nil
-            self.goldenImageView.frame = .zero
-            self.primaryImageView.frame = NSRect(x: 0, y: 0, width: w, height: h)
-            self.clearCaption()
-            self.orderOut(nil)
+            // Only a newer show can have claimed the panel since, and that cancels this work
+            // item on its way past - so there is nothing left to check for here.
+            self.hide()
         }
         pendingHideWork = work
         DispatchQueue.main.asyncAfter(deadline: .now() + Self.hideDelay, execute: work)
+    }
+
+    // Puts the panel where placedFrame says it goes. Falls back to the cursor
+    // only when there is no anchor, which should not happen - every show goes
+    // through RootOverlayWindow's registry match or a caller that hands one over.
+    private func position(panelWidth: CGFloat) {
+        let bounds = currentBounds ?? NSScreen.main?.visibleFrame ?? .zero
+
+        guard let anchor = currentAnchor else {
+            positionNearMouse(panelWidth: panelWidth, within: bounds)
+            return
+        }
+
+        let placed = Self.placedFrame(panelWidth: panelWidth, preferred: preferredPlacement,
+                                      anchor: anchor, bounds: bounds,
+                                      horizontalOffset: horizontalOffset,
+                                      verticalOffset: verticalOffset)
+        effectivePlacement = placed.placement
+        setFrame(placed.frame, display: true)
+
+        // SetTooltip hands what the clamp moved to IScreenBoundaryAware, and
+        // CardTooltip nudges its card image back by up to
+        // (ActualHeight - PrimaryImage.ActualHeight) / 2. That space is zero
+        // here - the panel is exactly one card tall - so there is nothing to
+        // nudge and no counterpart to port.
     }
 
     // Ports OverlayWindow.Tooltips.cs SetTooltip's geometry. HDT anchors to the
@@ -633,23 +668,20 @@ class CardTooltipPanel: NSPanel {
     // HDT's Bottom is the smaller Y here and its Top the larger, and each of
     // its comparisons against 0 and ActualHeight turns into the opposite bound.
     //
-    // Falls back to the cursor only when there is no anchor, which should not
-    // happen - every show goes through RootOverlayWindow's registry match.
-    private func position(panelWidth: CGFloat) {
-        let h = Self.tooltipHeight
-        let bounds = currentBounds ?? NSScreen.main?.visibleFrame ?? .zero
-
-        guard let anchor = currentAnchor else {
-            positionNearMouse(panelWidth: panelWidth, within: bounds)
-            return
-        }
+    // Pure, and returns the side it settled on as well as the frame, because a
+    // caller that has to sit beside the tooltip needs both - see projectedFrame.
+    static func placedFrame(panelWidth: CGFloat, preferred: CardTooltipPlacement,
+                            anchor: NSRect, bounds: NSRect,
+                            horizontalOffset: CGFloat, verticalOffset: CGFloat)
+        -> (frame: NSRect, placement: CardTooltipPlacement) {
+        let h = tooltipHeight
 
         // "Correct placement if tooltip would go outside of window, and it fit on
         // the other side" - note the second half: HDT only flips when the far
         // side actually has room, otherwise it stays put and lets the clamp
         // below deal with it. The offsets are left out of these tests, as they
         // are in SetTooltip.
-        var placement = preferredPlacement
+        var placement = preferred
         switch placement {
         case .left:
             if anchor.minX - panelWidth < bounds.minX && anchor.maxX + panelWidth <= bounds.maxX {
@@ -669,8 +701,6 @@ class CardTooltipPanel: NSPanel {
             }
         }
 
-        effectivePlacement = placement
-
         var origin: NSPoint
         switch placement {
         case .left:
@@ -688,13 +718,25 @@ class CardTooltipPanel: NSPanel {
         }
         origin.x = min(bounds.maxX - panelWidth, max(bounds.minX, origin.x))
         origin.y = min(bounds.maxY - h, max(bounds.minY, origin.y))
-        setFrame(NSRect(origin: origin, size: CGSize(width: panelWidth, height: h)), display: true)
+        return (NSRect(origin: origin, size: CGSize(width: panelWidth, height: h)), placement)
+    }
 
-        // SetTooltip hands what the clamp moved to IScreenBoundaryAware, and
-        // CardTooltip nudges its card image back by up to
-        // (ActualHeight - PrimaryImage.ActualHeight) / 2. That space is zero
-        // here - the panel is exactly one card tall - so there is nothing to
-        // nudge and no counterpart to port.
+    /// The frame `show` will give the panel for this request, worked out without
+    /// waiting for the show delay or for any art to arrive.
+    ///
+    /// HDT draws the related-cards grid inside the same CardTooltip control as
+    /// the card image, so it is laid out beside it for free. HSTracker's grid is
+    /// a panel of its own (RelatedCardsTooltipPanel), so the deck lists have to
+    /// butt it against this one by hand - and they cannot do that from the
+    /// hovered row alone, because the tooltip picks its own side and doubles in
+    /// width when the card has a golden companion.
+    static func projectedFrame(for request: CardTooltipRequest, anchor: NSRect, bounds: NSRect) -> NSRect {
+        let (_, goldenCardId) = tooltipCards(for: request.cardId, showTriple: request.showTriple)
+        let panelWidth = goldenCardId != nil ? tooltipWidth * 2 : tooltipWidth
+        return placedFrame(panelWidth: panelWidth, preferred: request.placement,
+                           anchor: anchor, bounds: bounds,
+                           horizontalOffset: request.horizontalOffset,
+                           verticalOffset: request.verticalOffset).frame
     }
 
     private func positionNearMouse(panelWidth: CGFloat, within bounds: NSRect) {

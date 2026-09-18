@@ -355,10 +355,10 @@ class RootOverlayWindow: OverWindowController {
     // StackPanelOpponent is IsOverlayHoverVisible and CardTile carries an
     // OverlayExtensions.ToolTip, and HDT raises synthetic MouseEnter/MouseLeave
     // on whichever one the cursor is over while the overlay itself stays
-    // click-through. Separate from updateHoverTooltip above because these rows
-    // do not drive CardTooltipPanel: a tracker row raises the floating card
-    // window, the related-cards grid and the deck's synergy highlight, all of
-    // which TrackerCardHoverHandler already owns.
+    // click-through. Separate from updateHoverTooltip above because a tracker row
+    // raises more than the card render CardHoverRegistry's entries do - the
+    // related-cards grid and the deck's synergy highlight too - all of which
+    // TrackerCardHoverHandler already owns.
     //
     // Which row the cursor is on is TrackerCardHoverRegistry's own business -
     // see its row(under:in:).
@@ -398,8 +398,7 @@ class RootOverlayWindow: OverWindowController {
         switch kind {
         case .playerDeck: return viewModel.playerTrackerHover
         case .opponentDeck: return viewModel.opponentTrackerHover
-        case .secrets: return OverlayCardListHoverHandler.secrets
-        case .cardList: return OverlayCardListHoverHandler.cardList
+        case .secrets, .cardList: return OverlayCardListHoverHandler.shared
         case .none: return nil
         }
     }
@@ -502,10 +501,10 @@ class RootOverlayWindow: OverWindowController {
             }
             // Force-hide if the tooltip's current card is no longer registered.
             // Fires at most every 150ms via the fallback timer and catches the
-            // race where hide(ifShowing:) returned early because currentCardId
-            // was a different card than the one whose view was removed (e.g.
-            // the guide navigated away while a new 300ms show-delay was still
-            // in flight for a different hovered card).
+            // case where the removed view's own hide(ifShowing:) returned early
+            // because a newer hover already owned the panel, and that hover's
+            // show then never reached the screen (e.g. the guide navigated away
+            // while its 300ms show delay was still in flight).
             // Scoped the same way: "not in the registry" only means "gone" for a tooltip the
             // registry started.
             let registry = CardHoverRegistry.shared

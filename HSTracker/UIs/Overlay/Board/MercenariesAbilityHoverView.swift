@@ -13,9 +13,7 @@ import SwiftUI
 // board minion is hovered and emptied again by ClearMercHover.
 //
 // Replaces the three FloatingCard windows HSTracker used to drive through
-// show_floating_card notifications with hand-computed screen frames. The rest
-// of the floating card system - the tracker card lists, the card huds - still
-// uses those notifications; only this caller moves.
+// show_floating_card notifications with hand-computed screen frames.
 @available(macOS 10.15, *)
 final class MercenariesAbilityHoverViewModel: ObservableObject {
     // One CardImage's worth of state: CardId, and the ShowQuestionmark that

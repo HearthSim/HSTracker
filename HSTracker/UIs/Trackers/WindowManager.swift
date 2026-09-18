@@ -26,26 +26,6 @@ class WindowManager {
         return (_rootOverlay as? RootOverlayWindow)
     }
 
-    var floatingCard: FloatingCard = {
-        if let fWindow = $0.window {
-            
-            fWindow.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(CGWindowLevelKey.mainMenuWindow)) - 1)
-            
-            if Settings.canJoinFullscreen {
-                fWindow.collectionBehavior = [NSWindow.CollectionBehavior.canJoinAllSpaces, NSWindow.CollectionBehavior.fullScreenAuxiliary]
-            } else {
-                fWindow.collectionBehavior = []
-            }
-            
-            fWindow.styleMask = [.borderless, .nonactivatingPanel]
-            fWindow.ignoresMouseEvents = true
-            
-            fWindow.orderFront(nil)
-			fWindow.orderOut(nil)
-        }
-        return $0
-    }(FloatingCard(windowNibName: "FloatingCard"))
-    
     @available(macOS 10.15, *)
     var tooltipGridCards: RelatedCardsTooltipPanel {
         RelatedCardsTooltipPanel.shared
@@ -53,29 +33,6 @@ class WindowManager {
 
     private var lastCardsUpdateRequest = Date.distantPast.timeIntervalSince1970
 
-    var triggers: [NSObjectProtocol] = []
-    
-    func startManager() {
-        if triggers.count == 0 {
-            let events = [
-                Events.show_floating_card: self.showFloatingCard,
-                Events.hide_floating_card: self.hideFloatingCard
-            ]
-            for (event, trigger) in events {
-                let observer = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: event), object: nil, queue: OperationQueue.main) { note in
-                    trigger(note)
-                }
-                triggers.append(observer)
-            }
-        }
-    }
-    
-    deinit {
-        for observer in triggers {
-            NotificationCenter.default.removeObserver(observer)
-        }
-    }
-	
 	private func setHearthstoneActive() { hearthstoneActive = true }
 	private func setHearthstoneBackground() { hearthstoneActive = false }
 
@@ -93,91 +50,16 @@ class WindowManager {
         }
     }
 
-    // MARK: - Floating card
-    var closeRequestTimer: Timer?
-    func showFloatingCard(_ notification: Notification) {
+    /// Takes down whatever the cursor last raised over a tracker row: the card
+    /// render and the related-cards grid beside it. Called when a game ends, which
+    /// can happen with the cursor still sitting on a row.
+    func forceHideCardHover() {
         DispatchQueue.main.async { [weak self] in
             guard let self else {
                 return
             }
-            guard Settings.showFloatingCard else { return }
-            
-            guard let card = notification.userInfo?["card"] as? Card,
-                let arrayFrame = notification.userInfo?["frame"] as? [CGFloat] else {
-                    return
-            }
-            
-            let floatingCard = self.floatingCard
-            let useFrame = notification.userInfo?["useFrame"] as? Bool ?? false
-
-            if let bgs = notification.userInfo?["battlegrounds"] as? Bool, bgs {
-                floatingCard.isBattlegrounds = true
-            } else {
-                floatingCard.isBattlegrounds = false
-            }
-            if let timer = self.closeRequestTimer {
-                timer.invalidate()
-                self.closeRequestTimer = nil
-            }
-            
-            floatingCard.set(card: card)
-            
-            if let fWindow = floatingCard.window {
-                if !useFrame {
-                    fWindow.setFrameOrigin(NSPoint(x: arrayFrame[0],
-                                                                y: arrayFrame[1] - fWindow.frame.size.height/2))
-                }
-
-                fWindow.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(CGWindowLevelKey.mainMenuWindow)) - 1)
-                
-                if Settings.canJoinFullscreen {
-                    fWindow.collectionBehavior = [NSWindow.CollectionBehavior.canJoinAllSpaces, NSWindow.CollectionBehavior.fullScreenAuxiliary]
-                } else {
-                    fWindow.collectionBehavior = []
-                }
-                
-                fWindow.styleMask = [.borderless, .nonactivatingPanel]
-                fWindow.ignoresMouseEvents = true
-                
-                if useFrame {
-                    fWindow.setFrame(NSRect(x: arrayFrame[0], y: arrayFrame[1], width: arrayFrame[2], height: arrayFrame[3]), display: true)
-                }
-
-                fWindow.orderFront(nil)
-            }
-            
-            self.closeRequestTimer = Timer.scheduledTimer(
-                timeInterval: 3,
-                target: self,
-                selector: #selector(self.forceHideFloatingCard),
-                userInfo: nil,
-                repeats: false)
-        }
-    }
-
-    func hideFloatingCard(_ notification: Notification) {
-        guard Settings.showFloatingCard else { return }
-        
-        // hide popup
-        guard let card = notification.userInfo?["card"] as? Card
-            else {
-                return
-        }
-
-        if card.id == floatingCard.card?.id {
-            forceHideFloatingCard()
-        }
-    }
-    
-    @objc func forceHideFloatingCard() {
-        DispatchQueue.main.async { [weak self] in
-            guard let self else {
-                return
-            }
-            self.floatingCard.window?.orderOut(self)
-            self.closeRequestTimer?.invalidate()
-            self.closeRequestTimer = nil
             if #available(macOS 10.15, *) {
+                CardTooltipPanel.shared.hide()
                 self.tooltipGridCards.hide()
             }
         }

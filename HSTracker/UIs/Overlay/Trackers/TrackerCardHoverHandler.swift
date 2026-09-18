@@ -59,6 +59,11 @@ class TrackerCardHoverHandler: NSObject, ObservableObject, TrackerRowHoverTarget
         if playerType == .player {
             highlightPlayerDeckCards(highlightSourceCardId: card.id)
         }
+        // CardTooltipPanel keeps its own show delay - CardTile.xaml's
+        // ToolTipService.InitialShowDelay - so the render is asked for straight
+        // away. The grid, which HDT shows as part of the same tooltip, keeps the
+        // delay the floating-card window was driven through.
+        TrackerRowCardPreview.show(card: card, rowFrame: rowFrame)
         delayedTooltip?.cancel()
         delayedTooltip = DelayedTooltip(handler: tooltipDisplay, 0.400,
                                         ["frame": rowFrame, "card": card])
@@ -70,9 +75,7 @@ class TrackerCardHoverHandler: NSObject, ObservableObject, TrackerRowHoverTarget
         }
         delayedTooltip?.cancel()
         delayedTooltip = nil
-        NotificationCenter.default.post(name: Notification.Name(rawValue: Events.hide_floating_card),
-                                        object: nil,
-                                        userInfo: ["card": card])
+        TrackerRowCardPreview.hide(card: card)
         AppDelegate.instance().coreManager.game.windowManager.tooltipGridCards.hide()
     }
 
@@ -84,23 +87,11 @@ class TrackerCardHoverHandler: NSObject, ObservableObject, TrackerRowHoverTarget
             return
         }
 
-        let hoverFrame = NSRect(x: 0, y: 0, width: 256, height: 388)
-
-        // Decide whether the render goes to the left or the right of the tracker.
-        // The tracker used to be a window of its own, so this asked whether that
-        // window's own origin left room; the row spans the panel, so its screen
-        // frame answers the same question now that the panel is one of many
-        // children of a full-screen overlay window.
-        let x = cellOnScreen.minX < hoverFrame.width ? cellOnScreen.maxX : cellOnScreen.minX - hoverFrame.width
-        let y = cellOnScreen.minY - hoverFrame.height / 2.0
-
-        let frame = [x, y, hoverFrame.width, hoverFrame.height]
-        NotificationCenter.default.post(name: Notification.Name(rawValue: Events.show_floating_card),
-                                        object: nil,
-                                        userInfo: ["card": card, "frame": frame, "useFrame": true])
-
         let game = AppDelegate.instance().coreManager.game
-        let anchor = NSRect(x: x, y: y, width: hoverFrame.width, height: hoverFrame.height)
+        // The grid goes beside the card render, as HDT's does by sitting in the
+        // same CardTooltip control - so it is placed against the render's frame
+        // rather than against the row.
+        let anchor = TrackerRowCardPreview.frame(card: card, rowFrame: cellOnScreen)
         if playerType == .opponent {
             if Settings.showOpponentRelatedCards {
                 setRelatedCardsTooltip(game.opponent, card.id, anchor)
@@ -165,46 +156,82 @@ class TrackerCardHoverHandler: NSObject, ObservableObject, TrackerRowHoverTarget
     }
 }
 
+/// The blown-up card render a hovered tracker row raises: HDT's CardTile.xaml,
+/// which carries `OverlayExtensions.ToolTip="{x:Type tooltips:CardTooltip}"` and
+/// `ToolTipService.Placement="Right"`.
+///
+/// This used to be the FloatingCard window, driven through `show_floating_card`
+/// notifications with a hand-computed screen frame; CardTooltipPanel is the same
+/// control ported properly, and already backs every other hover in the overlay.
+@available(macOS 10.15, *)
+enum TrackerRowCardPreview {
+    /// `Card.UpdateTooltip` sets `ShowTriple = BaconCard`, so a constructed deck's
+    /// card gets no golden companion image.
+    static func request(for card: Card) -> CardTooltipRequest {
+        CardTooltipRequest(cardId: card.id,
+                           showTriple: card.baconCard,
+                           baconTriple: card.baconTriple,
+                           placement: .right)
+    }
+
+    /// SetTooltip clamps the tooltip to the overlay window's own
+    /// ActualWidth/ActualHeight rather than to the screen, and the canvas is that
+    /// window here.
+    private static var bounds: NSRect? {
+        AppDelegate.instance().coreManager.game.windowManager.rootOverlay?.window?.frame
+    }
+
+    /// The rows are drawn by SwiftUI and have no view of their own, so the canvas
+    /// stands in as the source view: what the guard is really asking is whether
+    /// the overlay is still up by the time the show delay elapses.
+    private static var sourceView: NSView? {
+        AppDelegate.instance().coreManager.game.windowManager.rootOverlay?.hostingView
+    }
+
+    static func show(card: Card, rowFrame: NSRect) {
+        guard Settings.showFloatingCard else { return }
+        CardTooltipPanel.shared.show(request(for: card),
+                                     anchor: rowFrame, bounds: bounds,
+                                     source: .trackingArea, sourceView: sourceView,
+                                     baconCard: card.baconCard)
+    }
+
+    static func hide(card: Card) {
+        CardTooltipPanel.shared.hide(ifShowing: card.id)
+    }
+
+    /// Where that render will land, for a caller that has to sit beside it.
+    static func frame(card: Card, rowFrame: NSRect) -> NSRect {
+        CardTooltipPanel.projectedFrame(for: request(for: card),
+                                        anchor: rowFrame,
+                                        bounds: bounds ?? SizeHelper.hearthstoneWindow.frame)
+    }
+}
+
 /// The plainer hover the two standalone card lists want: the secret helper and
 /// the graveyard counter's detail list. Both show the blown-up card render and
 /// nothing else - no related-cards grid, no deck highlight - which is what the
 /// `CardList` window they replaced did.
 ///
-/// `CardList` put the render to the panel's right whatever side the panel was on
-/// when it was the secret helper (`isSecretPanel`), and otherwise picked the side
-/// the hovered row left room for.
+/// One instance, not one per list: `CardList` pinned the render to the panel's
+/// right when it was the secret helper and otherwise picked the side the hovered
+/// row left room for, but both of those lists are built from CardTile in HDT, so
+/// both ask for Placement="Right" and let SetTooltip flip it when the far side is
+/// the only one with room.
 @available(macOS 10.15, *)
 class OverlayCardListHoverHandler: NSObject, TrackerRowHoverTarget {
-    static let secrets = OverlayCardListHoverHandler(alwaysRight: true)
-    static let cardList = OverlayCardListHoverHandler(alwaysRight: false)
+    static let shared = OverlayCardListHoverHandler()
 
-    private let alwaysRight: Bool
-
-    private init(alwaysRight: Bool) {
-        self.alwaysRight = alwaysRight
+    private override init() {
+        super.init()
     }
 
     /// `rowFrame` is the hovered row in screen coordinates.
-    func hover(card: Card, rowFrame onScreen: NSRect) {
-        let hoverFrame = NSRect(x: 0, y: 0, width: 256, height: 388)
-
-        let x = alwaysRight || onScreen.minX < hoverFrame.width
-            ? onScreen.maxX
-            : onScreen.minX - hoverFrame.width
-        var y = onScreen.minY - hoverFrame.height / 2.0
-        if let screen = NSScreen.screens.first(where: { $0.frame.intersects(onScreen) }) ?? NSScreen.main {
-            y = min(y, screen.frame.maxY - hoverFrame.height)
-            y = max(y, screen.frame.minY)
-        }
-        let frame = [x, y, hoverFrame.width, hoverFrame.height]
-        NotificationCenter.default.post(name: Notification.Name(rawValue: Events.show_floating_card),
-                                        object: nil,
-                                        userInfo: ["card": card, "frame": frame, "useFrame": true])
+    func hover(card: Card, rowFrame: NSRect) {
+        TrackerRowCardPreview.show(card: card, rowFrame: rowFrame)
     }
 
     func out(card: Card) {
-        NotificationCenter.default.post(name: Notification.Name(rawValue: Events.hide_floating_card),
-                                        object: nil,
-                                        userInfo: ["card": card])
+        TrackerRowCardPreview.hide(card: card)
     }
 }

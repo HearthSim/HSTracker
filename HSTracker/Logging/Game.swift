@@ -1531,8 +1531,6 @@ class Game: NSObject, PowerEventHandler {
             self?.updateSecretTracker(cards: cards)
         }
 		
-		windowManager.startManager()
-		
 		let center = NotificationCenter.default
 		
 		// events that should update the player tracker
@@ -2332,9 +2330,7 @@ class Game: NSObject, PowerEventHandler {
         self.handledGameEnd = true
                 
         // clear any left over hover
-        DispatchQueue.main.async {
-            self.windowManager.forceHideFloatingCard()
-        }
+        windowManager.forceHideCardHover()
         logger.verbose("End game: \(currentGameStats)")
         let stats = currentGameStats.toGameStats()
         invalidateMatchInfoCache()

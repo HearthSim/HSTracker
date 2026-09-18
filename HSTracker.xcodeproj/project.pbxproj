@@ -251,8 +251,6 @@
 		432B5FC51CB5374100B05D19 /* EditDeck.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B5FC71CB5374100B05D19 /* EditDeck.xib */; };
 		432B5FC81CB5374600B05D19 /* NewDeck.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B5FCA1CB5374600B05D19 /* NewDeck.xib */; };
 		432B5FCB1CB5375500B05D19 /* DeckManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B5FCD1CB5375500B05D19 /* DeckManager.xib */; };
-		432B60331CB69FA600B05D19 /* FloatingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B60321CB69FA600B05D19 /* FloatingCard.swift */; };
-		432B60351CB6A8CC00B05D19 /* FloatingCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B60341CB6A8CC00B05D19 /* FloatingCard.xib */; };
 		432B60391CBF9AD700B05D19 /* ManaGemButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B60381CBF9AD700B05D19 /* ManaGemButton.swift */; };
 		432C11AB1CCF6B460067C5FE /* Format.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432C11AA1CCF6B460067C5FE /* Format.swift */; };
 		433554331D5F6B4400277B27 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 433554321D5F6B4400277B27 /* libz.tbd */; };
@@ -1445,7 +1443,6 @@
 		B8B7CC1F253C721400033758 /* BattlegroundsPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B7CC1E253C721400033758 /* BattlegroundsPreferences.swift */; };
 		B8B7CC20253C74D100033758 /* BattlegroundsPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8B7CC22253C74D100033758 /* BattlegroundsPreferences.xib */; };
 		B8BA17D928EFAF73004D40ED /* ClipboardImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BA17D828EFAF73004D40ED /* ClipboardImporter.swift */; };
-		B8BA17FD28F10F6C004D40ED /* FloatingCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B60341CB6A8CC00B05D19 /* FloatingCard.xib */; };
 		B8BA17FF28F10FE8004D40ED /* Hearthstone.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43050C611E6B484D007600EA /* Hearthstone.xcassets */; };
 		B8BA180028F1101D004D40ED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 434106A11C9868620045655A /* Assets.xcassets */; };
 		B8BB7AB22831ABE0008239CA /* BattlegroundsLastGames.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BB7AB12831ABE0008239CA /* BattlegroundsLastGames.swift */; };
@@ -2133,8 +2130,6 @@
 		432B5FC61CB5374100B05D19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/EditDeck.xib; sourceTree = "<group>"; };
 		432B5FC91CB5374600B05D19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/NewDeck.xib; sourceTree = "<group>"; };
 		432B5FCC1CB5375500B05D19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/DeckManager.xib; sourceTree = "<group>"; };
-		432B60321CB69FA600B05D19 /* FloatingCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatingCard.swift; sourceTree = "<group>"; };
-		432B60341CB6A8CC00B05D19 /* FloatingCard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FloatingCard.xib; sourceTree = "<group>"; };
 		432B60381CBF9AD700B05D19 /* ManaGemButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManaGemButton.swift; sourceTree = "<group>"; };
 		432C11AA1CCF6B460067C5FE /* Format.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Format.swift; sourceTree = "<group>"; };
 		433554321D5F6B4400277B27 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -4280,8 +4275,6 @@
 			isa = PBXGroup;
 			children = (
 				B89C9893280A113A005E9315 /* AnimatedCardList.swift */,
-				432B60321CB69FA600B05D19 /* FloatingCard.swift */,
-				432B60341CB6A8CC00B05D19 /* FloatingCard.xib */,
 				43BDF0BB1DB7FB040081964A /* OverWindowController.swift */,
 				43BDF0BD1DB89A830081964A /* WindowManager.swift */,
 			);
@@ -6720,7 +6713,6 @@
 				432B5FBF1CB5373500B05D19 /* InitialConfiguration.xib in Resources */,
 				434106A51C9868620045655A /* Classes.xcassets in Resources */,
 				B8C1F1BF295553F8001E078C /* MainMenu.xib in Resources */,
-				432B60351CB6A8CC00B05D19 /* FloatingCard.xib in Resources */,
 				F7D7A3AE2017B51300E3A5F0 /* dsa_pub.pem in Resources */,
 				ACF7F51EA11C1F29E5D1EAE9 /* RootOverlayWindow.xib in Resources */,
 			);
@@ -6732,7 +6724,6 @@
 			files = (
 				B8BA180028F1101D004D40ED /* Assets.xcassets in Resources */,
 				B8BA17FF28F10FE8004D40ED /* Hearthstone.xcassets in Resources */,
-				B8BA17FD28F10F6C004D40ED /* FloatingCard.xib in Resources */,
 				B85A0D56272CE24B006D2648 /* MercenariesPreferences.xib in Resources */,
 				B8FA0C0100000008000000A8 /* TheOutfinderPreferences.xib in Resources */,
 				43640BE11E89A25F00FAFD07 /* Resources in Resources */,
@@ -8494,7 +8485,6 @@
 				B85462472CE18BDF0083BB31 /* DelayedTooltip.swift in Sources */,
 				B81B3D952D41238100DC9EB0 /* ColossusCounter.swift in Sources */,
 				B846CC982E1C205B00552F9C /* GorishiStinger.swift in Sources */,
-				432B60331CB69FA600B05D19 /* FloatingCard.swift in Sources */,
 				B82F4EAB24E3021D00905024 /* MonoHelper.swift in Sources */,
 				4390FBBA1DAA72E700AE71BB /* Version.swift in Sources */,
 				B852D80A2DCAA28400884B26 /* SearingReflection.swift in Sources */,
