@@ -146,6 +146,16 @@ class CounterTooltipController {
         let cardImages = RelatedCardsTooltipPanel.shared
         cardImages.setTitle(counter.localizedName)
         cardImages.setCardIdsFromCards(cardsToDisplay)
+        // HDT gives the counters a GridCardImages of their own, so its pool summary is simply
+        // never set; here the panel is a singleton shared with the card-tooltip paths, and those
+        // leave their last card's Outfinder summary behind. Left set, it is drawn beside this
+        // grid - and a large pool drops the grid entirely (see RelatedCardsTooltipContentView),
+        // so the counter's own cards never appear at all. Cleared for the same reason the scale
+        // is set explicitly just below. The right-click browser state goes with it: it belongs to
+        // the card that raised the summary, and a right-click over this tooltip would otherwise
+        // open that card's pool.
+        cardImages.setPoolStatistics(nil, relatedCardsSummary: nil, hasLargePool: false)
+        RelatedCardsRightClickMonitor.shared.clearHoveredLargePool()
 
         let hsFrame = SizeHelper.hearthstoneWindow.frame
         // CountersOverlay.xaml sets OverlayExtensions.AutoScaleToolTip on each chip, which makes

@@ -7,6 +7,7 @@
 - The deck trackers can now be scaled and faded independently for you and your opponent, centred vertically, and the order of their sections changed, from the new Overlay layout settings pane.
 - Fixed the mulligan guide staying on screen and its win rates staying on the deck list after the mulligan, until the opponent had taken a turn, and the numbers it shows once the mulligan is over now rate the cards you kept rather than the ones you were first offered.
 - The mulligan guide no longer appears in practice games against the AI, where HSReplay has no win rates to show for most of the deck.
+- Fixed hovering a counter showing the card pool of a card hovered earlier instead of the counter's own cards.
 
 # 3.6.11
 ## Hearthstone
