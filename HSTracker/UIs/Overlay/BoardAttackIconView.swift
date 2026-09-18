@@ -27,8 +27,13 @@ final class BoardAttackIconViewModel: ObservableObject {
     @Published var damage = 0
     @Published var hasInfiniteDamage = false
 
+    // Where the icon sits, and what dragging it while the overlay is unlocked
+    // does - HDT registers both icons with _movableElements.
+    let placement: OverlayWidgetPlacement
+
     init(isPlayer: Bool) {
         self.isPlayer = isPlayer
+        placement = OverlayWidgetPlacement(widget: .attackIcon, isPlayer: isPlayer)
     }
 
     // board.Player.HasInfiniteDamage ? $" ∞ + {Damage}" : Damage.ToString()
@@ -46,6 +51,11 @@ final class BoardAttackIconViewModel: ObservableObject {
 @available(macOS 10.15, *)
 struct BoardAttackIconView: View {
     @ObservedObject var viewModel: BoardAttackIconViewModel
+    // Observed as well as the view model: a drag moves the icon without the
+    // damage it is showing changing.
+    @ObservedObject var placement: OverlayWidgetPlacement
+    // `Settings.windowsLocked`, HDT's `_uiMovable` inverted.
+    let isLocked: Bool
     // The overlay's real, post-scale size. Like the turn timers, the icons
     // belong in RootOverlayView's fixed-pixel layer and not its 1080-reference
     // scaled subtree: OverlayWindow.UpdateScaling gives them no ScaleTransform,
@@ -54,14 +64,6 @@ struct BoardAttackIconView: View {
 
     // Width / Height on the Grid.
     private static let size: CGFloat = 75
-
-    // Config.AttackIconPlayerVerticalPosition / HorizontalPosition and the
-    // opponent's pair - the numbers SizeHelper.playerBoardDamageFrame and
-    // opponentBoardDamageFrame used to hold.
-    private static let playerVertical: CGFloat = 67.62
-    private static let playerHorizontal: CGFloat = 25.5
-    private static let opponentVertical: CGFloat = 22.39
-    private static let opponentHorizontal: CGFloat = 25.5
 
     // FontSize on the HearthstoneTextBlock, and the Margin="0,3,0,0" that
     // pushes it down inside the Grid.
@@ -76,6 +78,16 @@ struct BoardAttackIconView: View {
             Color.clear
             if viewModel.isShown {
                 icon.offset(x: originX, y: originY)
+                // HDT paints a box over every movable element while the overlay
+                // is unlocked and drags it from there (OverlayWindow.Input.cs).
+                // No canvasScale: these icons are drawn in the canvas's own
+                // pixels, not the resolution-scaled subtree.
+                if !isLocked {
+                    OverlayWidgetMovableBox(
+                        placement: placement,
+                        frame: CGRect(x: originX, y: originY, width: Self.size, height: Self.size),
+                        canvasSize: canvasSize)
+                }
             }
         }
         .frame(width: canvasSize.width, height: canvasSize.height, alignment: .topLeading)
@@ -134,15 +146,14 @@ struct BoardAttackIconView: View {
 
     // Canvas.SetLeft(icon, Helper.GetScaledXPos(horizontal / 100, Width, ScreenRatio)).
     private var originX: CGFloat {
-        let horizontal = viewModel.isPlayer ? Self.playerHorizontal : Self.opponentHorizontal
         let ratio = (4.0 / 3.0) / (canvasSize.width / canvasSize.height)
-        return SizeHelper.getScaledXPos(horizontal / 100.0, width: canvasSize.width, ratio: ratio)
+        return SizeHelper.getScaledXPos(CGFloat(placement.horizontal) / 100.0,
+                                        width: canvasSize.width, ratio: ratio)
     }
 
     // Canvas.SetTop(icon, Height * vertical / 100).
     private var originY: CGFloat {
-        let vertical = viewModel.isPlayer ? Self.playerVertical : Self.opponentVertical
-        return canvasSize.height * vertical / 100.0
+        canvasSize.height * CGFloat(placement.vertical) / 100.0
     }
 
     private static var lineHeight: CGFloat { font.ascender - font.descender + font.leading }
@@ -153,7 +164,8 @@ struct BoardAttackIconView: View {
     let vm = BoardAttackIconViewModel(isPlayer: true)
     vm.isShown = true
     vm.update(damage: 14, hasInfiniteDamage: false)
-    return BoardAttackIconView(viewModel: vm, canvasSize: CGSize(width: 1440, height: 1080))
+    return BoardAttackIconView(viewModel: vm, placement: vm.placement, isLocked: true,
+                               canvasSize: CGSize(width: 1440, height: 1080))
         .frame(width: 1440, height: 1080)
         .background(Color.gray)
 }
