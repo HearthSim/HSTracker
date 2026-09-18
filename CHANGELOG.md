@@ -9,6 +9,7 @@
 - The mulligan guide no longer appears in practice games against the AI, where HSReplay has no win rates to show for most of the deck.
 - Fixed hovering a counter showing the card pool of a card hovered earlier instead of the counter's own cards.
 - Changing the card theme now redraws the deck trackers, their counters and the Battlegrounds minion list at once, instead of leaving the old theme on screen until the next card was drawn.
+- Fixed the board damage number sitting too high on its icon.
 
 # 3.6.11
 ## Hearthstone

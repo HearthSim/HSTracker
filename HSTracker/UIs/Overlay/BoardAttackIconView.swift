@@ -86,20 +86,51 @@ struct BoardAttackIconView: View {
             Image("board_damage")
                 .resizable()
                 .frame(width: Self.size, height: Self.size)
-            // The block sets Width, Height and TextAlignment, so
-            // OutlinedTextBlock.OnRender centres the line in its own 75pt height
-            // and then drops it by a twentieth of a line. The Margin's 3pt lands
-            // on top of that, less the 1.5pt WPF takes back re-centring a 75pt
-            // child in the 72pt the margin leaves it.
+            // Placed by its baseline, because what HDT centres is not the glyphs:
+            // the block sets Width, Height and TextAlignment, so
+            // OutlinedTextBlock.OnRender centres WPF's *character cell* in the
+            // 75pt height and drops it by a twentieth of a cell, then draws the
+            // glyphs a cell-ascent below that. The cell runs from the font's line
+            // gap down to its descender - 1.2em of ChunkFive against 0.7em of
+            // digits - so centring the glyphs instead, which is what handing
+            // SwiftUI a 75pt frame does, leaves the number riding about three
+            // points high of the icon's disc.
             Text(verbatim: viewModel.text)
                 .chunkFive(size: Self.fontSize)
                 .outlinedText()
                 .fixedSize()
-                .frame(width: Self.size, height: Self.size)
-                .offset(y: Self.textMargin / 2 + Self.lineHeight * 0.05)
+                .frame(width: Self.size, height: Self.size, alignment: .top)
+                .offset(y: Self.baselineY - Self.ascent)
         }
         .frame(width: Self.size, height: Self.size)
     }
+
+    /// Where HDT's baseline lands inside the 75pt grid:
+    ///
+    ///     originY = (ActualHeight - FormattedText.Height) / 2 + FormattedText.Height * 0.05
+    ///
+    /// with the geometry built at that point - `BuildGeometry(new Point(0, originY))`
+    /// - so `originY` is the top of the cell and the baseline falls `cellAscent`
+    /// below it. The Margin="0,3,0,0" adds the rest: a 75pt-high block in the
+    /// 72pt the margin leaves it is re-centred by `OutlinedTextBlock`'s own
+    /// `VerticalAlignment.Center`, which gives half of those 3pt back.
+    private static var baselineY: CGFloat {
+        textMargin / 2 + (size - cellHeight) / 2 + cellHeight * 0.05 + cellAscent
+    }
+
+    /// WPF's character cell - `GlyphTypeface.Height`, and so `FormattedText.Height`
+    /// for a single line - and how far into it the baseline sits. The gap hangs
+    /// above the ascent, which is what makes the cell's ascent larger than the
+    /// font's own.
+    private static var cellHeight: CGFloat { lineHeight }
+    private static var cellAscent: CGFloat { font.ascender + font.leading }
+
+    /// How far below a SwiftUI text layer's top edge its baseline falls, which is
+    /// what the offset above is measured from - `CardTileTheme.ascent`.
+    private static var ascent: CGFloat { font.ascender }
+
+    private static let font = NSFont(name: "ChunkFive", size: BoardAttackIconView.fontSize)
+        ?? .systemFont(ofSize: BoardAttackIconView.fontSize)
 
     // Canvas.SetLeft(icon, Helper.GetScaledXPos(horizontal / 100, Width, ScreenRatio)).
     private var originX: CGFloat {
@@ -114,12 +145,7 @@ struct BoardAttackIconView: View {
         return canvasSize.height * vertical / 100.0
     }
 
-    private static let lineHeight: CGFloat = {
-        guard let font = NSFont(name: "ChunkFive", size: BoardAttackIconView.fontSize) else {
-            return BoardAttackIconView.fontSize
-        }
-        return font.ascender - font.descender + font.leading
-    }()
+    private static var lineHeight: CGFloat { font.ascender - font.descender + font.leading }
 }
 
 @available(macOS 10.15, *)
