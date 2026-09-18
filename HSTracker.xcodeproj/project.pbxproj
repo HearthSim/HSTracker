@@ -1287,6 +1287,7 @@
 		B8A1F0212FCD0021000A0021 /* CardTileThemeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F0202FCD0020000A0020 /* CardTileThemeTests.swift */; };
 		B8A1F0412FCD0041000A0041 /* OverlayWidgetPlacementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F0402FCD0040000A0040 /* OverlayWidgetPlacementTests.swift */; };
 		B8A1F0432FCD0043000A0043 /* OverlayCanvasGeometryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F0422FCD0042000A0042 /* OverlayCanvasGeometryTests.swift */; };
+		B8F1A00424F4185200F2F0F2 /* BobsBuddySimulationFailureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F1A00324F4185200F2F0F2 /* BobsBuddySimulationFailureTests.swift */; };
 		B8A1F1022FD10001000A0102 /* TurnTimerOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F1012FD10001000A0101 /* TurnTimerOverlayView.swift */; };
 		B8A1F1042FD10001000A0104 /* BoardAttackIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F1032FD10001000A0103 /* BoardAttackIconView.swift */; };
 		B8A1F0312FCD0031000A0031 /* OverlayWidgetPlacement.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F0302FCD0030000A0030 /* OverlayWidgetPlacement.swift */; };
@@ -1502,6 +1503,7 @@
 		B8D8859224F3034700F2F0F2 /* StatusMessageConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D8859124F3034700F2F0F2 /* StatusMessageConverter.swift */; };
 		B8D8859824F40D4E00F2F0F2 /* ClickableBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D8859724F40D4E00F2F0F2 /* ClickableBox.swift */; };
 		B8D8859A24F4185200F2F0F2 /* BobsBuddyErrorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D8859924F4185200F2F0F2 /* BobsBuddyErrorState.swift */; };
+		B8F1A00224F4185200F2F0F2 /* BobsBuddySimulationFailure.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F1A00124F4185200F2F0F2 /* BobsBuddySimulationFailure.swift */; };
 		B8DB12812EBAD591004268FA /* TheEternalHoldEnchantment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DB12802EBAD591004268FA /* TheEternalHoldEnchantment.swift */; };
 		B8DB12852EBAD671004268FA /* MurlocRafaamEnchantment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DB12842EBAD671004268FA /* MurlocRafaamEnchantment.swift */; };
 		B8DB12872EBAD6D0004268FA /* SlowMotionEnchantment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DB12862EBAD6D0004268FA /* SlowMotionEnchantment.swift */; };
@@ -3192,6 +3194,7 @@
 		B8A1F0202FCD0020000A0020 /* CardTileThemeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardTileThemeTests.swift; sourceTree = "<group>"; };
 		B8A1F0402FCD0040000A0040 /* OverlayWidgetPlacementTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayWidgetPlacementTests.swift; sourceTree = "<group>"; };
 		B8A1F0422FCD0042000A0042 /* OverlayCanvasGeometryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayCanvasGeometryTests.swift; sourceTree = "<group>"; };
+		B8F1A00324F4185200F2F0F2 /* BobsBuddySimulationFailureTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BobsBuddySimulationFailureTests.swift; sourceTree = "<group>"; };
 		B8A1F1012FD10001000A0101 /* TurnTimerOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnTimerOverlayView.swift; sourceTree = "<group>"; };
 		B8A1F1032FD10001000A0103 /* BoardAttackIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardAttackIconView.swift; sourceTree = "<group>"; };
 		B8A1F0302FCD0030000A0030 /* OverlayWidgetPlacement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayWidgetPlacement.swift; sourceTree = "<group>"; };
@@ -3389,6 +3392,7 @@
 		B8D8859124F3034700F2F0F2 /* StatusMessageConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusMessageConverter.swift; sourceTree = "<group>"; };
 		B8D8859724F40D4E00F2F0F2 /* ClickableBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClickableBox.swift; sourceTree = "<group>"; };
 		B8D8859924F4185200F2F0F2 /* BobsBuddyErrorState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BobsBuddyErrorState.swift; sourceTree = "<group>"; };
+		B8F1A00124F4185200F2F0F2 /* BobsBuddySimulationFailure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BobsBuddySimulationFailure.swift; sourceTree = "<group>"; };
 		B8DB12802EBAD591004268FA /* TheEternalHoldEnchantment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheEternalHoldEnchantment.swift; sourceTree = "<group>"; };
 		B8DB12842EBAD671004268FA /* MurlocRafaamEnchantment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MurlocRafaamEnchantment.swift; sourceTree = "<group>"; };
 		B8DB12862EBAD6D0004268FA /* SlowMotionEnchantment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlowMotionEnchantment.swift; sourceTree = "<group>"; };
@@ -4113,6 +4117,7 @@
 				B8A1F0202FCD0020000A0020 /* CardTileThemeTests.swift */,
 				B8A1F0402FCD0040000A0040 /* OverlayWidgetPlacementTests.swift */,
 				B8A1F0422FCD0042000A0042 /* OverlayCanvasGeometryTests.swift */,
+				B8F1A00324F4185200F2F0F2 /* BobsBuddySimulationFailureTests.swift */,
 				59AC68FC073DF2A0DBAB9790 /* GodfreyOverdrawnTests.swift */,
 				00EBCC58146CAD58B971A677 /* TrackerPanelLayoutTests.swift */,
 				439C7E601C7772C100D29859 /* HSTrackerTests.swift */,
@@ -4724,6 +4729,7 @@
 			children = (
 				B8D8859924F4185200F2F0F2 /* BobsBuddyErrorState.swift */,
 				B8DC11EF24E6AF280088A755 /* BobsBuddyInvoker.swift */,
+				B8F1A00124F4185200F2F0F2 /* BobsBuddySimulationFailure.swift */,
 				B8DC11F124E77F040088A755 /* BobsBuddyState.swift */,
 				B836821F27888B12007D5740 /* CombatResult.swift */,
 				B83682232789F812007D5740 /* ExitConditions.swift */,
@@ -7284,6 +7290,7 @@
 				0193298188746B7264F39651 /* KabalMastermindEnchantment.swift in Sources */,
 				B82AE60228BED413004A8FE0 /* QuestDataProxy.swift in Sources */,
 				B8D8859A24F4185200F2F0F2 /* BobsBuddyErrorState.swift in Sources */,
+				B8F1A00224F4185200F2F0F2 /* BobsBuddySimulationFailure.swift in Sources */,
 				B89BCED430042CD60095F011 /* VoidSoulCounter.swift in Sources */,
 				B8591FF02B23CC7D00B907A4 /* ChoiceType.swift in Sources */,
 				43B6954D1C9014FA00F4D0AC /* TagChangeActions.swift in Sources */,
@@ -8687,6 +8694,7 @@
 				B8A1F0212FCD0021000A0021 /* CardTileThemeTests.swift in Sources */,
 				B8A1F0412FCD0041000A0041 /* OverlayWidgetPlacementTests.swift in Sources */,
 				B8A1F0432FCD0043000A0043 /* OverlayCanvasGeometryTests.swift in Sources */,
+				B8F1A00424F4185200F2F0F2 /* BobsBuddySimulationFailureTests.swift in Sources */,
 				41CF366434305109269D5CB2 /* GodfreyOverdrawnTests.swift in Sources */,
 				490B4D29E27587E59D52E1DD /* TrackerPanelLayoutTests.swift in Sources */,
 				43C1C9F91E96CCE9008C20B1 /* LogReaderTests.swift in Sources */,

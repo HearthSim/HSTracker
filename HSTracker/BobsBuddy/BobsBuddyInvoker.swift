@@ -489,6 +489,12 @@ class BobsBuddyInvoker {
                         } catch let error as UnsupportedInteraction {
                             BobsBuddyInvoker.bobsBuddyDisplay?.setErrorState(error: .unsupportedInteraction, message: error.message)
                             result = nil
+                        } catch let error as RuntimeError {
+                            let failure = BobsBuddySimulationFailure(text: error.description)
+                            logger.error("Simulation failed: \(failure.exceptionType) in \(failure.failureFrame ?? "unknown frame")")
+                            failure.report(input: self.input)
+                            BobsBuddyInvoker.bobsBuddyDisplay?.setErrorState(error: failure.errorState)
+                            result = nil
                         } catch {
                             var inputString = ""
                             if let input = self.input {
