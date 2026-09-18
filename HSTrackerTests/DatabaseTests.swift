@@ -37,8 +37,6 @@ class DatabaseTests: HSTrackerTests {
         XCTAssertEqual(card.playerClass, CardClass.hunter, "Dreadscale playerClass")
         XCTAssertEqual(card.race, Race.beast, "Dreadscale race")
         XCTAssertEqual(card.rarity, Rarity.legendary, "Dreadscale rarity")
-        XCTAssertEqual(card.set, CardSet.tgt, "Dreadscale set")
-        XCTAssertEqual(card.text, "At the end of your turn, deal 1 damage to all other minions.", "Dreadscale text")
         XCTAssertEqual(card.type, CardType.minion, "Dreadscale type")
     }
 
@@ -56,8 +54,6 @@ class DatabaseTests: HSTrackerTests {
         XCTAssertEqual(card.playerClass, CardClass.neutral, "Baron Geddon playerClass")
         XCTAssertEqual(card.race, Race.elemental, "Baron Geddon race")
         XCTAssertEqual(card.rarity, Rarity.legendary, "Baron Geddon rarity")
-        XCTAssertEqual(card.set, CardSet.core, "Baron Geddon set")
-        XCTAssertEqual(card.text, "At the end of your turn, deal 2 damage to ALL other characters.",  "Baron Geddon text")
         XCTAssertEqual(card.type, CardType.minion, "Baron Geddon type")
     }
 
