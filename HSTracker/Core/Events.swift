@@ -24,7 +24,4 @@ class Events {
     // its inspiration indicators on the moment a trial starts rather than at the
     // next match.
     static let tier7_trial_activated = "tier7_trial_activated"
-
-    static let show_floating_card = "show_floating_card"
-    static let hide_floating_card = "hide_floating_card"
 }

@@ -2835,6 +2835,19 @@ class Game: NSObject, PowerEventHandler {
     func isConstructedMatch() -> Bool {
         return currentGameType == .gt_ranked || currentGameType == .gt_casual || currentGameType == .gt_vs_friend || currentGameType == .gt_vs_ai 
     }
+
+    // The matches a mulligan guide runs in: HDT's
+    // `IsConstructedMatch || IsFriendlyMatch || IsArenaMatch`, where its own
+    // IsConstructedMatch is ranked, casual and friendly only.
+    //
+    // Deliberately not isConstructedMatch(), which HSTracker widened to take
+    // practice mode as well so the trackers work there. HSReplay has no
+    // aggregated mulligan data for BGT_VS_AI, so a practice game's request comes
+    // back with a win rate on hardly any card - HDT never asks for one.
+    var isMulliganGuideMatch: Bool {
+        return currentGameType == .gt_ranked || currentGameType == .gt_casual
+            || currentGameType == .gt_vs_friend || isArenaMatch
+    }
     
     // Mirrors HDT's GameV2.IsBattlegroundsHeroPickingDone: the player's own
     // mulligan (which in Battlegrounds is the hero pick) has resolved. Unlike
@@ -3301,13 +3314,30 @@ class Game: NSObject, PowerEventHandler {
     }
     
     @available(macOS 10.15.0, *)
-    private func waitForMulliganStart(_ timeout: Int = 60) async {
+    /// HDT's `WaitForMulliganStart`, with the answer handed back rather than
+    /// dropped: true when the mulligan is up and waiting for the player, false
+    /// when it is already over (or the game has left for the menu).
+    ///
+    /// The caller has to know, because everything before this point - the guide
+    /// request in particular - is an `await` of its own. A slow round trip can
+    /// land after the player has already confirmed, and by then
+    /// `handlePlayerMulliganDone` has run its cleanup: publishing the guide at
+    /// that point puts it back up over a board that is already being played,
+    /// with nothing left to take it down until `handleTurnStart`'s fallback
+    /// fires, a full opponent turn later.
+    private func waitForMulliganStart(_ timeout: Int = 60) async -> Bool {
         for _ in 0 ..< 16*60*timeout {
             if isInMenu || (gameEntity?[.step] ?? 0) > Step.begin_mulligan.rawValue {
-                return
+                return false
+            }
+            // The player confirming is what starts handlePlayerMulliganDone, so
+            // this is the point past which nothing may be published - the step
+            // above does not advance until the opponent has confirmed too.
+            if (playerEntity?[.mulligan_state] ?? 0) >= Mulligan.done.rawValue {
+                return false
             }
             if MirrorHelper.isMulliganWaitingForUserInput() {
-                break
+                return true
             }
             do {
                 try await Task.sleep(nanoseconds: 16_000_000)
@@ -3315,6 +3345,7 @@ class Game: NSObject, PowerEventHandler {
                 logger.error(error)
             }
         }
+        return false
     }
     
     @available(macOS 10.15.0, *) @MainActor
@@ -3361,8 +3392,10 @@ class Game: NSObject, PowerEventHandler {
             
         async let statsTask = getBattlegroundsHeroPickStats()
                 
-        // Wait for the mulligan to be ready
-        await waitForMulliganStart()
+        // Wait for the mulligan to be ready. Unlike the constructed guides, the
+        // hero panel is put up from here whether or not the pick is still open -
+        // handleBattlegroundsStart runs before the hero pick, not after it.
+        _ = await waitForMulliganStart()
         
         async let waitAndAppear: () = Task.sleep(milliseconds: 500)
         
@@ -3901,10 +3934,15 @@ class Game: NSObject, PowerEventHandler {
         }
     }
     
+    // HDT's OverlayWindow.HideMulliganGuideStats, which resets *both* guide view
+    // models rather than only the one the mulligan started with - the game type
+    // can still resolve while the mulligan is up, and with it which of the two
+    // isV2Mulligan picks, so hiding only one leaves the other on screen.
     @MainActor
     func hideMulliganGuideStats() {
         if #available(macOS 10.15, *) {
             windowManager.rootOverlay?.viewModel.mulliganGuide.reset()
+            windowManager.rootOverlay?.viewModel.mulliganGuideV2.reset()
         }
     }
     
@@ -3915,7 +3953,7 @@ class Game: NSObject, PowerEventHandler {
                     await self.handleBattlegroundsStart()
                 }
             }
-        } else if isConstructedMatch() || isFriendlyMatch || isArenaMatch {
+        } else if isMulliganGuideMatch {
             if #available(macOS 10.15, *) {
                 Task.detached {
                     await self.handleHearthstoneMulliganPhase()
@@ -3935,77 +3973,56 @@ class Game: NSObject, PowerEventHandler {
             if #available(macOS 10.15, *) {
                 windowManager.rootOverlay?.viewModel.battlegroundsSession.hideCompStatsOnError()
             }
-        } else if isConstructedMatch() || isFriendlyMatch || isArenaMatch {
+        } else if isMulliganGuideMatch {
             hideMulliganToast()
             
             let openingHand = snapshotOpeningHand()
 
-            if isV2Mulligan {
-                if Settings.enableMulliganGV2 {
-                    let numSwappedCards = self.getMulliganSwappedCards()?.count ?? 0
-
-                    let mulliganV2Data = await getMulliganV2Data(isMulliganDone: true)
-                    DispatchQueue.main.async {
-                        self.windowManager.rootOverlay?.viewModel.mulliganGuideV2.updateMulliganDataAfterMulligan(mulliganV2Data)
-                    }
-
-                    // Delay until the cards fly away
-                    do {
-                        try await Task.sleep(nanoseconds: 2_375_000_000 + UInt64(max(1, numSwappedCards)) * 475_000_000)
-                    } catch {
-                        logger.error(error)
-                    }
-
-                    // Wait for the mulligan to be complete (component or animation)
-                    for _ in 0 ..< 7_500 { // 2 minutes
-                        if isInMenu || (gameEntity?[.step] ?? 0) > Step.begin_mulligan.rawValue {
-                            break
-                        }
-                        if (playerEntity?[.mulligan_state] ?? 0) >= Mulligan.done.rawValue && (opponentEntity?[.mulligan_state] ?? 0) >= Mulligan.done.rawValue {
-                            break
-                        }
-                        do {
-                            try await Task.sleep(nanoseconds: 16_000_000)
-                        } catch {
-                            logger.error(error)
-                        }
-                    }
-                    stopMulliganLivePolling()
-                    DispatchQueue.main.async {
-                        self.windowManager.rootOverlay?.viewModel.mulliganGuideV2.reset()
-                    }
-                }
-            } else if let mulliganCardStats, Settings.enableMulliganGuide {
+            // HDT keeps the wait and the cleanup common to both guides and only
+            // branches on isV2 for the one step that differs - re-showing the
+            // stats for the hand the mulligan ended with. Splitting the whole
+            // thing in two, as this used to, meant a mulligan that started on one
+            // guide and finished on the other (isV2Mulligan reads currentGameType,
+            // which the mirror can still be resolving while the mulligan is up)
+            // never reached its cleanup: the guide stayed on screen and the deck
+            // list kept its win rates until the fallback in handleTurnStart fired,
+            // a full opponent turn later.
+            let isV2 = isV2Mulligan
+            if (isV2 || mulliganCardStats != nil) && (Settings.enableMulliganGuide || Settings.enableMulliganGV2) {
                 let numSwappedCards = self.getMulliganSwappedCards()?.count ?? 0
                 if numSwappedCards > 0 {
                     // show the updated cards
                     let dbfIds = openingHand.compactMap { x in x.card.deckbuildingCard.dbfId }
-                    if dbfIds.count > 0 {
-                        DispatchQueue.main.async {
-                            self.showMulliganGuideStats(stats: dbfIds.compactMap { dbfId in
-                                if let l = mulliganCardStats[dbfId] {
-                                    return l
-                                } else {
-                                    return SingleCardStats(dbf_id: dbfId)
-                                }
-                            }, maxRank: mulliganCardStats.count, selectedParams: nil)
+                    if isV2 {
+                        // The hand the mulligan ended with, not the one it was
+                        // offered - see cacheMulliganV2Params.
+                        cacheMulliganV2Params(offeredDbfIds: dbfIds)
+                        if Settings.enableMulliganGV2 {
+                            let mulliganV2Data = await getMulliganV2Data(isMulliganDone: true)
+                            windowManager.rootOverlay?.viewModel.mulliganGuideV2.updateMulliganDataAfterMulligan(mulliganV2Data)
                         }
+                    } else if let mulliganCardStats, dbfIds.count > 0 {
+                        showMulliganGuideStats(stats: dbfIds.compactMap { dbfId in
+                            if let l = mulliganCardStats[dbfId] {
+                                return l
+                            } else {
+                                return SingleCardStats(dbf_id: dbfId)
+                            }
+                        }, maxRank: mulliganCardStats.count, selectedParams: nil)
                     }
                 }
+
                 // Delay until the cards fly away
                 do {
                     try await Task.sleep(nanoseconds: 2_375_000_000 + UInt64(max(1, numSwappedCards)) * 475_000_000)
                 } catch {
                     logger.error(error)
                 }
-                
+
                 // Wait for the mulligan to be complete (component or animation)
                 for _ in 0 ..< 7_500 { // 2 minutes
                     if isInMenu || (gameEntity?[.step] ?? 0) > Step.begin_mulligan.rawValue {
-                        DispatchQueue.main.async {
-                            self.hideMulliganGuideStats()
-                            self.player.mulliganCardStats = nil
-                        }
+                        finishMulliganGuide()
                         return
                     }
                     if (playerEntity?[.mulligan_state] ?? 0) >= Mulligan.done.rawValue && (opponentEntity?[.mulligan_state] ?? 0) >= Mulligan.done.rawValue {
@@ -4017,12 +4034,20 @@ class Game: NSObject, PowerEventHandler {
                         logger.error(error)
                     }
                 }
-                DispatchQueue.main.async {
-                    self.hideMulliganGuideStats()
-                    self.player.mulliganCardStats = nil
-                }
+                finishMulliganGuide()
             }
         }
+    }
+
+    /// The end of HDT's HandlePlayerMulliganDone: both guides come down and the
+    /// deck list drops its win rates (setting `Player.mulliganCardStats` is what
+    /// redraws it, HDT's `Core.UpdatePlayerCards(true)`). The live polling stop is
+    /// HSTracker's own - HDT's MulliganStateWatcher is stopped by the same event.
+    @available(macOS 10.15.0, *) @MainActor
+    private func finishMulliganGuide() {
+        stopMulliganLivePolling()
+        hideMulliganGuideStats()
+        player.mulliganCardStats = nil
     }
     
     func handlePlayerEntityChoices(choice: IHsChoice) {
@@ -4557,7 +4582,11 @@ class Game: NSObject, PowerEventHandler {
                                 mulliganV2Data = await getMulliganV2Data()
                             }
 
-                            await waitForMulliganStart()
+                            // Nothing goes up for a mulligan that is already over -
+                            // see waitForMulliganStart.
+                            guard await waitForMulliganStart() else {
+                                break
+                            }
 
                             let opponentClass = opponent.playerEntities.first { x in x.isHero && x.isInPlay }?.card.playerClass ?? CardClass.invalid
                             let isFirst = playerEntity?[.first_player] == 1
@@ -4581,7 +4610,11 @@ class Game: NSObject, PowerEventHandler {
                                     showToast = false
                                 }
 
-                                await waitForMulliganStart()
+                                // Nothing goes up for a mulligan that is already over -
+                                // see waitForMulliganStart.
+                                guard await waitForMulliganStart() else {
+                                    break
+                                }
 
                                 var cardStats: [Int: SingleCardStats]?
                                 // GroupBy before ToDictionary to deal with (unsupported) dbfId duplicates from the server
@@ -4671,7 +4704,7 @@ class Game: NSObject, PowerEventHandler {
         let starLevel = playerMedalInfo?.starLevel ?? 0
         let starsPerWin = playerMedalInfo?.starsPerWin ?? 0
 
-        _mulliganGuideParams = MulliganGuideParams(deckstring: activeDeck.shortid, game_type: BnetGameType.getBnetGameType(gameType: currentGameType, format: currentFormat).rawValue, format_type: currentFormatType.rawValue, opponent_class: opponentClass.rawValue.uppercased(), player_initiative: playerEntity?[.first_player] == 1 ? "FIRST" : "COIN", player_star_level: starLevel > 0 ? starLevel : nil, player_star_multiplier: starsPerWin > 0 ? starsPerWin : nil, player_region: Region.toBnetRegion(region: currentRegion))
+        _mulliganGuideParams = MulliganGuideParams(deckstring: activeDeck.shortid, game_type: BnetGameType.getBnetGameType(gameType: currentGameType, format: currentFormat).rawValue, format_type: currentFormatType.rawValue, opponent_class: opponentClass.rawValue.uppercased(), player_initiative: playerEntity?[.first_player] == 1 ? "FIRST" : "COIN", player_star_level: starLevel > 0 ? starLevel : nil, player_star_multiplier: starsPerWin > 0 ? starsPerWin : nil, player_region: Region.toBnetRegion(region: currentRegion), offered_cards: mulliganState.offeredCards.compactMap { x in x.card.deckbuildingCard.dbfId })
     }
     
     @available(macOS 10.15.0, *)
@@ -4696,8 +4729,16 @@ class Game: NSObject, PowerEventHandler {
         return await HSReplayAPI.getMulliganGuideData(parameters: parameters)
     }
 
-    func cacheMulliganV2Params(offeredDbfIds: [Int]) {
-        if _mulliganV2Params != nil {
+    /// HDT's `CacheMulliganGuideParams(isV2:dbfIds:)` -> `CacheMulliganV2Params`.
+    ///
+    /// Handing in the offered cards explicitly rebuilds the cached params rather
+    /// than keeping the ones the mulligan started with - HDT's
+    /// `if(_mulliganGuideParams != null && dbfIds == null) return;`. That is what
+    /// lets the request made once the mulligan is done carry the hand it ended
+    /// with; reusing the cached ones asked the server to re-rate the cards that
+    /// were thrown away.
+    func cacheMulliganV2Params(offeredDbfIds: [Int]? = nil) {
+        if _mulliganV2Params != nil && offeredDbfIds == nil {
             return
         }
 
@@ -4705,12 +4746,13 @@ class Game: NSObject, PowerEventHandler {
             return
         }
 
+        let offeredCards = offeredDbfIds ?? mulliganState.offeredCards.compactMap { x in x.card.dbfId }
         let deckCards = activeDeck.cards.flatMap { card in Array(repeating: card.dbfId, count: max(card.count, 1)) }
         let opponentClass = opponent.playerEntities.first { x in x.isHero && x.isInPlay }?.card.playerClass ?? CardClass.invalid
         let starLevel = playerMedalInfo?.starLevel ?? 0
         let starsPerWin = playerMedalInfo?.starsPerWin ?? 0
 
-        _mulliganV2Params = MulliganV2Params(deckstring: activeDeck.shortid, player_class: activeDeck.playerClass.rawValue.uppercased(), deck_cards: deckCards, opponent_class: opponentClass.rawValue.uppercased(), player_initiative: playerEntity?[.first_player] == 1 ? "FIRST" : "COIN", player_region: Region.toBnetRegion(region: currentRegion), player_star_level: starLevel > 0 ? starLevel : nil, player_star_multiplier: starsPerWin > 0 ? starsPerWin : nil, game_type: BnetGameType.getBnetGameType(gameType: currentGameType, format: currentFormat).rawValue, format_type: currentFormatType.rawValue, offered_cards: offeredDbfIds, mulligan_state: Mulligan.input.rawValue)
+        _mulliganV2Params = MulliganV2Params(deckstring: activeDeck.shortid, player_class: activeDeck.playerClass.rawValue.uppercased(), deck_cards: deckCards, opponent_class: opponentClass.rawValue.uppercased(), player_initiative: playerEntity?[.first_player] == 1 ? "FIRST" : "COIN", player_region: Region.toBnetRegion(region: currentRegion), player_star_level: starLevel > 0 ? starLevel : nil, player_star_multiplier: starsPerWin > 0 ? starsPerWin : nil, game_type: BnetGameType.getBnetGameType(gameType: currentGameType, format: currentFormat).rawValue, format_type: currentFormatType.rawValue, offered_cards: offeredCards, mulligan_state: Mulligan.input.rawValue)
     }
 
     func getMulliganV2Params() -> MulliganV2Params? {

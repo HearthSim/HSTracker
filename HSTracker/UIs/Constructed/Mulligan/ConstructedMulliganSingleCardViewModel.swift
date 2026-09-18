@@ -28,8 +28,16 @@ class SingleCardStats: MulliganGuideData.CardStats {
             if let kp = stats.keep_percentage {
                 res.keep_percentage = max(min(kp, 100.0), 0.0)
             }
-            res.rank = stats.opening_hand_winrate != nil ? rank : nil
-            rank += 1
+            // HDT's `Rank = stats.OpeningHandWinrate != null ? rank++ : null`: a
+            // card the server has no winrate for takes no rank *and does not
+            // consume one*, so the ranks stay 1..n over the cards that have one
+            // and the rank gradient keeps lining up with maxRank.
+            if stats.opening_hand_winrate != nil {
+                res.rank = rank
+                rank += 1
+            } else {
+                res.rank = nil
+            }
             res.baseWinRate = baseWinRate
             return res
         }

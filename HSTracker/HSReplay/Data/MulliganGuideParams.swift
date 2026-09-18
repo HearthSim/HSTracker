@@ -17,8 +17,12 @@ class MulliganGuideParams: Encodable {
     var player_star_level: Int?
     var player_star_multiplier: Int?
     var player_region: String?
-    
-    init(deckstring: String, game_type: Int, format_type: Int, opponent_class: String, player_initiative: String, player_star_level: Int? = nil, player_star_multiplier: Int? = nil, player_region: String? = nil) {
+    /// The dbf ids of the cards the mulligan offered - part of the request in
+    /// HSReplay's own `MulliganGuideParams`, and what HDT fills from
+    /// `MulliganState.OfferedCards`.
+    var offered_cards: [Int]
+
+    init(deckstring: String, game_type: Int, format_type: Int, opponent_class: String, player_initiative: String, player_star_level: Int? = nil, player_star_multiplier: Int? = nil, player_region: String? = nil, offered_cards: [Int] = []) {
         self.deckstring = deckstring
         self.game_type = game_type
         self.format_type = format_type
@@ -27,22 +31,21 @@ class MulliganGuideParams: Encodable {
         self.player_star_level = player_star_level
         self.player_star_multiplier = player_star_multiplier
         self.player_region = player_region
+        self.offered_cards = offered_cards
     }
 }
 
 class MulliganGuideFeedbackParams: MulliganGuideParams {
-    var offered_cards: [Int]
     var kept_cards: [Int]
     var final_cards_in_hand: [Int]
     var mulligan_guide_visible: Bool?
     var final_state: Int?
     
-    init(deckstring: String, game_type: Int, format_type: Int, opponent_class: String, player_initiative: String, player_star_level: Int?, player_region: String?, offered_cardsa: [Int], kept_cards: [Int], final_cards_in_hand: [Int], mulligan_guide_visible: Bool?, final_state: Int?) {
-        self.offered_cards = offered_cardsa
+    init(deckstring: String, game_type: Int, format_type: Int, opponent_class: String, player_initiative: String, player_star_level: Int?, player_region: String?, offered_cards: [Int], kept_cards: [Int], final_cards_in_hand: [Int], mulligan_guide_visible: Bool?, final_state: Int?) {
         self.kept_cards = kept_cards
         self.final_cards_in_hand = final_cards_in_hand
         self.mulligan_guide_visible = mulligan_guide_visible
         self.final_state = final_state
-        super.init(deckstring: deckstring, game_type: game_type, format_type: format_type, opponent_class: opponent_class, player_initiative: player_initiative)
+        super.init(deckstring: deckstring, game_type: game_type, format_type: format_type, opponent_class: opponent_class, player_initiative: player_initiative, player_star_level: player_star_level, player_region: player_region, offered_cards: offered_cards)
     }
 }
