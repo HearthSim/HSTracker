@@ -63,16 +63,14 @@ final class CoreManager: NSObject {
         let logPath = MirrorHelper.getLogSessionDir()
         logReaderManager = LogReaderManager(logPath: logPath, coreManager: self)
         
-        if #available(macOS 10.15, *) {
-            game.windowManager.rootOverlay?.viewModel.playerCounters.setCounters(game.counterManager)
-            game.windowManager.rootOverlay?.viewModel.opponentCounters.setCounters(game.counterManager)
-            game.windowManager.rootOverlay?.viewModel.playerActiveEffects.setActiveEffects(game.activeEffects)
-            game.windowManager.rootOverlay?.viewModel.opponentActiveEffects.setActiveEffects(game.activeEffects)
-            game.activeEffects.effectsChanged = { [weak game] in
-                guard let viewModel = game?.windowManager.rootOverlay?.viewModel else { return }
-                viewModel.playerActiveEffects.updateVisibleEffects()
-                viewModel.opponentActiveEffects.updateVisibleEffects()
-            }
+        game.windowManager.rootOverlay?.viewModel.playerCounters.setCounters(game.counterManager)
+        game.windowManager.rootOverlay?.viewModel.opponentCounters.setCounters(game.counterManager)
+        game.windowManager.rootOverlay?.viewModel.playerActiveEffects.setActiveEffects(game.activeEffects)
+        game.windowManager.rootOverlay?.viewModel.opponentActiveEffects.setActiveEffects(game.activeEffects)
+        game.activeEffects.effectsChanged = { [weak game] in
+            guard let viewModel = game?.windowManager.rootOverlay?.viewModel else { return }
+            viewModel.playerActiveEffects.updateVisibleEffects()
+            viewModel.opponentActiveEffects.updateVisibleEffects()
         }
         
         timer.eventHandler = {
@@ -350,31 +348,27 @@ final class CoreManager: NSObject {
         Watchers.stop()
         MirrorHelper.destroy()
         let wm = game.windowManager
-        if #available(macOS 10.15, *) {
-            game.stopMulliganLivePolling()
-            wm.rootOverlay?.viewModel.battlegroundsHeroPicking.reset()
-            wm.rootOverlay?.viewModel.battlegroundsQuestPicking.reset()
-            wm.rootOverlay?.viewModel.battlegroundsTrinketPicking.reset()
-            wm.rootOverlay?.viewModel.mulliganGuidePreLobby.viewModel.reset()
-            wm.rootOverlay?.viewModel.mulliganGuide.reset()
-            wm.rootOverlay?.viewModel.mulliganGuideV2.reset()
-            wm.rootOverlay?.viewModel.constructedMulliganPreLobbyWidget.reset()
-            wm.rootOverlay?.viewModel.mulliganGuideTrialsExhausted.isShown = false
-            MulliganGuideTrial.clear()
-            // HDT clears both trials side by side when Hearthstone exits
-            // (Core.cs, the "Exited game" branch). Tier7Trial was never cleared
-            // here, so a trial token - and the cached trial status behind it -
-            // outlived the game session and made every later entitlement check
-            // (`Tier7Trial.token != nil`) read as premium.
-            Tier7Trial.clear()
-        }
-        if #available(macOS 10.15, *) {
-            DispatchQueue.main.async {
-                wm.rootOverlay?.viewModel.battlegroundsSession.setShown(false)
-                if let tier7PreLobby = wm.rootOverlay?.viewModel.tier7PreLobby, tier7PreLobby.isShown {
-                    tier7PreLobby.isShown = false
-                    tier7PreLobby.reset()
-                }
+        game.stopMulliganLivePolling()
+        wm.rootOverlay?.viewModel.battlegroundsHeroPicking.reset()
+        wm.rootOverlay?.viewModel.battlegroundsQuestPicking.reset()
+        wm.rootOverlay?.viewModel.battlegroundsTrinketPicking.reset()
+        wm.rootOverlay?.viewModel.mulliganGuidePreLobby.viewModel.reset()
+        wm.rootOverlay?.viewModel.mulliganGuide.reset()
+        wm.rootOverlay?.viewModel.mulliganGuideV2.reset()
+        wm.rootOverlay?.viewModel.constructedMulliganPreLobbyWidget.reset()
+        wm.rootOverlay?.viewModel.mulliganGuideTrialsExhausted.isShown = false
+        MulliganGuideTrial.clear()
+        // HDT clears both trials side by side when Hearthstone exits
+        // (Core.cs, the "Exited game" branch). Tier7Trial was never cleared
+        // here, so a trial token - and the cached trial status behind it -
+        // outlived the game session and made every later entitlement check
+        // (`Tier7Trial.token != nil`) read as premium.
+        Tier7Trial.clear()
+        DispatchQueue.main.async {
+            wm.rootOverlay?.viewModel.battlegroundsSession.setShown(false)
+            if let tier7PreLobby = wm.rootOverlay?.viewModel.tier7PreLobby, tier7PreLobby.isShown {
+                tier7PreLobby.isShown = false
+                tier7PreLobby.reset()
             }
         }
         game.updateBattlegroundsOverlays()

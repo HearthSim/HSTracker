@@ -124,9 +124,7 @@ class BobsBuddyInvoker {
     // baseline this file is not - hence the protocol, and the optional every
     // call site below goes through.
     private static var bobsBuddyDisplay: BobsBuddyDisplay? {
-        if #available(macOS 10.15, *) {
-            return AppDelegate.instance().coreManager.game.windowManager.rootOverlay?.viewModel.bobsBuddy
-        }
+        return AppDelegate.instance().coreManager.game.windowManager.rootOverlay?.viewModel.bobsBuddy
         return nil
     }
     

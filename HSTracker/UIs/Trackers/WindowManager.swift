@@ -37,14 +37,12 @@ class WindowManager {
     func hideGameTrackers() {
 		// TODO: use not defered gui instead
         DispatchQueue.main.async { [weak self] in
-            if #available(macOS 10.15, *) {
-                self?.rootOverlay?.viewModel.secretsPanel.isShown = false
-                self?.rootOverlay?.viewModel.opponentHandMarkers.hide()
-                self?.rootOverlay?.viewModel.boardOverlay.isShown = false
-                self?.rootOverlay?.viewModel.flavorText.hide()
-                self?.tooltipGridCards.hide()
-                RelatedCardsBrowserPanel.shared.hide()
-            }
+            self?.rootOverlay?.viewModel.secretsPanel.isShown = false
+            self?.rootOverlay?.viewModel.opponentHandMarkers.hide()
+            self?.rootOverlay?.viewModel.boardOverlay.isShown = false
+            self?.rootOverlay?.viewModel.flavorText.hide()
+            self?.tooltipGridCards.hide()
+            RelatedCardsBrowserPanel.shared.hide()
         }
     }
 
@@ -56,10 +54,8 @@ class WindowManager {
             guard let self else {
                 return
             }
-            if #available(macOS 10.15, *) {
-                CardTooltipPanel.shared.hide()
-                self.tooltipGridCards.hide()
-            }
+            CardTooltipPanel.shared.hide()
+            self.tooltipGridCards.hide()
         }
     }
 

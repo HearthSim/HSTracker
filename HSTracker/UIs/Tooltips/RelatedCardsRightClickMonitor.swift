@@ -85,8 +85,6 @@ final class RelatedCardsRightClickMonitor {
         guard Settings.showPlayerRelatedCards else { return }
         guard let card = hoveredCard, !hoveredPool.isEmpty else { return }
 
-        if #available(macOS 10.15, *) {
-            RelatedCardsBrowserPanel.shared.show(sourceCard: card, relatedCards: hoveredPool, near: anchorFrame)
-        }
+        RelatedCardsBrowserPanel.shared.show(sourceCard: card, relatedCards: hoveredPool, near: anchorFrame)
     }
 }

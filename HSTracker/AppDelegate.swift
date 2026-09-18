@@ -57,9 +57,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
             ImportingPreferences(nibName: "ImportingPreferences", bundle: nil)
         ]
         // Built in code, so it has no nib to name - see OverlayLayoutPreferences.
-        if #available(macOS 10.15, *) {
-            panes.insert(OverlayLayoutPreferences(), at: 3)
-        }
+        panes.insert(OverlayLayoutPreferences(), at: 3)
         // Each pane fixes its own width (see PreferencePaneController), so the window keeps a
         // constant width across panes and only its height adapts.
         return PreferencesWindowController(preferencePanes: panes, style: .toolbarItems, animated: true)
@@ -790,22 +788,18 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
                                         comment: "")
         if let game = coreManager?.game {
             if Settings.windowsLocked {
-                if #available(macOS 10.15, *) {
-                    game.windowManager.rootOverlay?.viewModel.playerActiveEffects.forceHideExampleEffects()
-                    game.windowManager.rootOverlay?.viewModel.opponentActiveEffects.forceHideExampleEffects()
-                    game.windowManager.rootOverlay?.viewModel.playerCounters.forceHideExampleCounters()
-                    game.windowManager.rootOverlay?.viewModel.opponentCounters.forceHideExampleCounters()
-                }
+                game.windowManager.rootOverlay?.viewModel.playerActiveEffects.forceHideExampleEffects()
+                game.windowManager.rootOverlay?.viewModel.opponentActiveEffects.forceHideExampleEffects()
+                game.windowManager.rootOverlay?.viewModel.playerCounters.forceHideExampleCounters()
+                game.windowManager.rootOverlay?.viewModel.opponentCounters.forceHideExampleCounters()
             } else {
                 // Both sides, as HDT's UnlockUi does - otherwise the opponent's
                 // blocks have nothing to drag unless the game happens to be
                 // showing them.
-                if #available(macOS 10.15, *) {
-                    game.windowManager.rootOverlay?.viewModel.playerActiveEffects.forceShowExampleEffects()
-                    game.windowManager.rootOverlay?.viewModel.opponentActiveEffects.forceShowExampleEffects()
-                    game.windowManager.rootOverlay?.viewModel.playerCounters.forceShowExampleCounters()
-                    game.windowManager.rootOverlay?.viewModel.opponentCounters.forceShowExampleCounters()
-                }
+                game.windowManager.rootOverlay?.viewModel.playerActiveEffects.forceShowExampleEffects()
+                game.windowManager.rootOverlay?.viewModel.opponentActiveEffects.forceShowExampleEffects()
+                game.windowManager.rootOverlay?.viewModel.playerCounters.forceShowExampleCounters()
+                game.windowManager.rootOverlay?.viewModel.opponentCounters.forceShowExampleCounters()
             }
         }
     }

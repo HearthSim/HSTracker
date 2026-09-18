@@ -93,7 +93,7 @@ final class ArenaDeckListTileViewModel: ObservableObject, Identifiable {
 /// rail.
 /// The Arenasmith state recorded with every draft pick, which HDT's Watchers.cs
 /// reads straight off `Core.Overlay.ArenaPickHelperViewModel`. It lives outside
-/// the view model so the watcher can carry one on macOS 10.14 too.
+/// the view model so `Watchers` can carry one without depending on it.
 struct ArenasmithPickState {
     var isOverlayVisible = false
     var isArenasmithAvailable = false

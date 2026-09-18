@@ -170,7 +170,7 @@ struct TagChangeActions {
     // Both of HDT's combat-setup handlers collapse BgsMinionPinningShop as
     // combat opens - the shop is gone, so its markers must be too.
     private func hideMinionPinningShop(_ eventHandler: PowerEventHandler) {
-        guard #available(macOS 10.15, *), let game = eventHandler as? Game else { return }
+        guard let game = eventHandler as? Game else { return }
         DispatchQueue.main.async {
             game.windowManager.rootOverlay?.viewModel.battlegroundsMinionPinning.setShopVisible(false)
         }
@@ -420,10 +420,8 @@ struct TagChangeActions {
         }
 
         if entity.isPlayer(eventHandler: eventHandler) && Mulligan.done.rawValue == value {
-            if #available(macOS 10.15, *) {
-                Task.detached {
-                    await eventHandler.handlePlayerMulliganDone()
-                }
+            Task.detached {
+                await eventHandler.handlePlayerMulliganDone()
             }
         }
 

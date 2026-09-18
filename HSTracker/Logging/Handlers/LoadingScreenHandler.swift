@@ -66,7 +66,7 @@ struct LoadingScreenHandler: LogEventParser {
             let currentMode = game.currentMode
             let previousMode = game.previousMode
             DispatchQueue.main.async {
-                if #available(macOS 10.15, *), let counter = game.windowManager.rootOverlay?.viewModel.experienceCounter {
+                if let counter = game.windowManager.rootOverlay?.viewModel.experienceCounter {
                     if let currentMode, showExperienceDuringMode.contains(currentMode) {
                         counter.show()
                         game.updateExperienceOverlay()

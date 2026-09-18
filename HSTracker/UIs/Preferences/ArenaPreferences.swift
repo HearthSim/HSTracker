@@ -84,11 +84,9 @@ class ArenaPreferences: PreferencePaneController, PreferencePane {
 
         // The overlay reads these settings directly, so a change while the draft
         // screen is up needs to redraw rather than wait for the next pick.
-        if #available(macOS 10.15, *) {
-            let overlay = AppDelegate.instance().coreManager?.game.windowManager.rootOverlay?.viewModel
-            overlay?.arenaPickHelper.settingsChanged()
-            overlay?.arenaPreDraft.settingsChanged()
-        }
+        let overlay = AppDelegate.instance().coreManager?.game.windowManager.rootOverlay?.viewModel
+        overlay?.arenaPickHelper.settingsChanged()
+        overlay?.arenaPreDraft.settingsChanged()
     }
 }
 

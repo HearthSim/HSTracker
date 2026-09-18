@@ -17,8 +17,8 @@ import AppKit
 /// into its own slot, so icons are authored larger than that slot — it only ever downscales them,
 /// which stays crisp (an 18pt raster got upscaled and looked blurry). When adding a tab icon, match:
 ///   - Size: 32×32 pt, template rendering intent.
-///   - Vector art: a single `.pdf` with "Preserve Vector Data" (PDF rather than SVG so it renders on
-///     the app's macOS 10.14 deployment target; asset-catalog SVG requires 10.15+).
+///   - Vector art: a single `.pdf` with "Preserve Vector Data", or an asset-catalog `.svg` (the app's
+///     10.15 deployment target supports either).
 ///   - Raster art: `.png` at @1x / @2x / @3x, i.e. 32 / 64 / 96 px.
 class PreferencePaneController: NSViewController {
     /// Shared width for every settings pane.

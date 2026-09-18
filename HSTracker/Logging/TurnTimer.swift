@@ -83,12 +83,10 @@ import Foundation
             guard let self else {
                 return
             }
-            if #available(macOS 10.15, *) {
-                self.windowManager?.rootOverlay?.viewModel.turnTimer
-                    .tick(seconds: self.seconds,
-                          playerSeconds: self.playerSeconds,
-                          opponentSeconds: self.opponentSeconds)
-            }
+            self.windowManager?.rootOverlay?.viewModel.turnTimer
+                .tick(seconds: self.seconds,
+                      playerSeconds: self.playerSeconds,
+                      opponentSeconds: self.opponentSeconds)
         }
     }
 }

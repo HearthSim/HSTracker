@@ -36,11 +36,9 @@ class Watchers {
         arenaWatcher.onRedraftCardPicked = onArenaRedraftCardPicked
         baconWatcher.change = onBaconChange
         battlegroundsLeaderboardWatcher.change = { _, args in
-            if #available(macOS 10.15, *) {
-                let game = AppDelegate.instance().coreManager.game
-                game.windowManager.rootOverlay?.viewModel.battlegroundsOpponentInfo
-                    .setHoveredEntityId(args.hoveredEntityId)
-            }
+            let game = AppDelegate.instance().coreManager.game
+            game.windowManager.rootOverlay?.viewModel.battlegroundsOpponentInfo
+                .setHoveredEntityId(args.hoveredEntityId)
         }
         battlegroundsLobbyInfoWatcher.change = onBattlegroundsLobbyInfoChange
         battlegroundsTeammateBoardStateWatcher.change = onBattlegroundsTeammateBoardStateChange
@@ -62,9 +60,7 @@ class Watchers {
             CoreManager.updateDungeonRunDeck(info: info, isPVPDR: false)
         }
         experienceWatcher.newExperienceHandler = { _, args in
-            if #available(macOS 10.15, *) {
-                AppDelegate.instance().coreManager.game.experienceChangedAsync(experience: args.experience, experienceNeeded: args.experienceNeeded, level: args.level, levelChange: args.levelChange, animate: args.animate)
-            }
+            AppDelegate.instance().coreManager.game.experienceChangedAsync(experience: args.experience, experienceNeeded: args.experienceNeeded, level: args.level, levelChange: args.levelChange, animate: args.animate)
         }
         playZoneWatcher.change = onPlayZoneChange
         pvpDungeonRunWatcher.pvpDungeonRunMatchStarted = { newrun, set in
@@ -199,10 +195,8 @@ class Watchers {
             && Cards.any(byId: heroPower)?.playerClass != Cards.any(byId: args.deck.hero)?.playerClass
         if args.slot == (isDualClass ? 31 : 30) {
             DispatchQueue.main.async {
-                if #available(macOS 10.15, *) {
-                    AppDelegate.instance().coreManager.game.windowManager
-                        .rootOverlay?.viewModel.arenaPickHelper.reset()
-                }
+                AppDelegate.instance().coreManager.game.windowManager
+                    .rootOverlay?.viewModel.arenaPickHelper.reset()
             }
         }
     }
@@ -215,9 +209,6 @@ class Watchers {
     /// its own queue or on the log reader thread (ArenaHandler's tick), never
     /// with the main thread waiting on it.
     private static func arenasmithPickState() -> ArenasmithPickState {
-        guard #available(macOS 10.15, *) else {
-            return ArenasmithPickState()
-        }
         let read = {
             AppDelegate.instance().coreManager.game.windowManager
                 .rootOverlay?.viewModel.arenaPickHelper.pickState ?? ArenasmithPickState()
@@ -262,21 +253,17 @@ class Watchers {
     }
     
     private static func onBaconChange(_ sender: BaconWatcher, _ args: BaconEventArgs) {
-        if #available(macOS 10.15, *) {
-            let game = AppDelegate.instance().coreManager.game
-            game.setBaconState(args.selectedBattlegroundsGameMode, args.isAnyOpen())
-            game.updateBattlegroundsSessionVisibility(args.isFriendsListOpen)
-            // HDT does this from Watchers.OnUiChange, whose UIWatcher this
-            // BaconWatcher stands in for here.
-            game.setFriendListOpacityMask(args.isFriendsListOpen)
-            game.setGameMenuOpacityMask(args.isGameMenuShown)
-        }
+        let game = AppDelegate.instance().coreManager.game
+        game.setBaconState(args.selectedBattlegroundsGameMode, args.isAnyOpen())
+        game.updateBattlegroundsSessionVisibility(args.isFriendsListOpen)
+        // HDT does this from Watchers.OnUiChange, whose UIWatcher this
+        // BaconWatcher stands in for here.
+        game.setFriendListOpacityMask(args.isFriendsListOpen)
+        game.setGameMenuOpacityMask(args.isGameMenuShown)
     }
     
     private static func onBattlegroundsTeammateBoardStateChange(_ sender: BattlegroundsTeammateBoardStateWatcher, _ args: BattlegroundsTeammateBoardStateArgs) {
-        if #available(macOS 10.15, *) {
-            AppDelegate.instance().coreManager.game.windowManager.rootOverlay?.viewModel.battlegroundsHeroPicking.isViewingTeammate = args.isViewingTeammate
-        }
+        AppDelegate.instance().coreManager.game.windowManager.rootOverlay?.viewModel.battlegroundsHeroPicking.isViewingTeammate = args.isViewingTeammate
         // rest is not used
     }
     
@@ -329,7 +316,7 @@ class Watchers {
         // it has to run on the main thread - Game.onBigCardChange hops for the
         // same call (Sentry HSTRACKER-304).
         DispatchQueue.main.async {
-            if game.isTraditionalHearthstoneMatch, #available(macOS 10.15, *) {
+            if game.isTraditionalHearthstoneMatch {
                 game.windowManager.rootOverlay?.viewModel.playerTrackerHover
                     .highlightPlayerDeckCards(highlightSourceCardId: args.cardId)
             }

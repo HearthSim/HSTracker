@@ -41,10 +41,8 @@ class OpponentDeadForTracker {
         if leaderboardPlace > 0 && leaderboardPlace <= 8 {
             logger.debug("Updating dead tracker with \(leaderboardPlace), id=\(nextOpponent[.entity_id]), player_id=\(playerId)")
             DispatchQueue.main.async {
-                if #available(macOS 10.15, *) {
-                    AppDelegate.instance().coreManager.game.windowManager.rootOverlay?.viewModel
-                        .battlegroundsOpponentInfo.setNextOpponentLeaderboardPosition(leaderboardPlace)
-                }
+                AppDelegate.instance().coreManager.game.windowManager.rootOverlay?.viewModel
+                    .battlegroundsOpponentInfo.setNextOpponentLeaderboardPosition(leaderboardPlace)
             }
         }
     }
@@ -58,10 +56,8 @@ class OpponentDeadForTracker {
     private static func updateOverlay() {
         let turns = _deadTracker
         DispatchQueue.main.async {
-            if #available(macOS 10.15, *) {
-                AppDelegate.instance().coreManager.game.windowManager.rootOverlay?.viewModel
-                    .battlegroundsOpponentInfo.updateDeadForTurns(turns)
-            }
+            AppDelegate.instance().coreManager.game.windowManager.rootOverlay?.viewModel
+                .battlegroundsOpponentInfo.updateDeadForTurns(turns)
         }
     }
 }

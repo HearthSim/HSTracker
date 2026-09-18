@@ -199,7 +199,6 @@ class RootOverlayWindow: OverWindowController {
     private var arenaDirectionArmPending = false
 
     private func updateArenaPanelHover(at viewPoint: NSPoint) {
-        guard #available(macOS 10.15, *) else { return }
         let hovering = viewModel.arenaBottomPanelFrame?.contains(viewPoint) ?? false
         let pickHelper = viewModel.arenaPickHelper
         guard pickHelper.hoveringPanel != hovering else { return }
@@ -234,7 +233,6 @@ class RootOverlayWindow: OverWindowController {
     }
 
     private func updateArenaDirectionTrigger(at viewPoint: NSPoint) {
-        guard #available(macOS 10.15, *) else { return }
         let pickHelper = viewModel.arenaPickHelper
         let shape = viewModel.arenaDirectionTriggerShape
         let inside = !shape.isEmpty && Self.polygon(shape, contains: viewPoint)
@@ -292,7 +290,6 @@ class RootOverlayWindow: OverWindowController {
     }
 
     private func updateArenaCardListTrigger(at viewPoint: NSPoint) {
-        guard #available(macOS 10.15, *) else { return }
         let pickHelper = viewModel.arenaPickHelper
 
         let onRail = viewModel.arenaCardListTriggerFrame?.contains(viewPoint) ?? false
@@ -328,7 +325,6 @@ class RootOverlayWindow: OverWindowController {
     // not the same as hit-test visible: the region reacts to the cursor without
     // taking the click, so this samples rather than flipping ignoresMouseEvents.
     private func updateArenaTooltipHover(at viewPoint: NSPoint) {
-        guard #available(macOS 10.15, *) else { return }
         // `last`, not `first`: regions are reported in view-tree order, so a later
         // sibling is the one drawn on top and the one WPF's hit-testing would pick.
         let match = viewModel.arenaTooltipRegions.last { $0.frame.contains(viewPoint) }
@@ -375,7 +371,7 @@ class RootOverlayWindow: OverWindowController {
     // Which row the cursor is on is TrackerCardHoverRegistry's own business -
     // see its row(under:in:).
     private func updateTrackerRowHover() {
-        guard #available(macOS 10.15, *), let overlayWindow = window,
+        guard let overlayWindow = window,
               let hostingView = hostingView else {
             return
         }
@@ -532,7 +528,6 @@ class RootOverlayWindow: OverWindowController {
     /// on screen, and locking it again starts from nothing hovered rather than
     /// from wherever the cursor was when the sweeps stopped.
     private func dismissHoverTooltips() {
-        guard #available(macOS 10.15, *) else { return }
         if let previous = hoveredTooltip {
             hoveredTooltip = nil
             hoveredView = nil

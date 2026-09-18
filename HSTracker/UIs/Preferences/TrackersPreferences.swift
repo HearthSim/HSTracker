@@ -139,7 +139,7 @@ class TrackersPreferences: PreferencePaneController, PreferencePane {
             Settings.showExperienceCounter = showExperienceCounter.state == .on
             let game = AppDelegate.instance().coreManager.game
             
-            if #available(macOS 10.15, *), let counter = game.windowManager.rootOverlay?.viewModel.experienceCounter {
+            if let counter = game.windowManager.rootOverlay?.viewModel.experienceCounter {
                 if showExperienceCounter.state == .on {
                     if let mode = game.currentMode, mode == Mode.hub {
                         counter.show()
@@ -166,7 +166,7 @@ class TrackersPreferences: PreferencePaneController, PreferencePane {
             game.updateMulliganGuidePreLobby()
         } else if sender == enableMulliganGV2 {
             Settings.enableMulliganGV2 = enableMulliganGV2.state == .on
-            if #available(macOS 10.15, *), enableMulliganGV2.state == .off {
+            if enableMulliganGV2.state == .off {
                 let game = AppDelegate.instance().coreManager.game
                 game.stopMulliganLivePolling()
                 game.hideMulliganGuideStats()

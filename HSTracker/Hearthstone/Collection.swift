@@ -42,11 +42,7 @@ class Collection: CollectionBase {
         do {
             let enc = JSONEncoder()
             
-            if #available(macOS 10.13, *) {
-                enc.outputFormatting = .sortedKeys
-            } else {
-                // no fallback, just means we will update the collection more often than necessary
-            }
+            enc.outputFormatting = .sortedKeys
             let value = try enc.encode(self)
             
             let sha = MD5(data: value)
@@ -171,11 +167,7 @@ class MercenariesCollection: CollectionBase {
     func hash() -> String {
         do {
             let enc = JSONEncoder()
-            if #available(macOS 10.13, *) {
-                enc.outputFormatting = .sortedKeys
-            } else {
-                // no fallback, just means we will update the collection more often than necessary
-            }
+            enc.outputFormatting = .sortedKeys
             let value = try enc.encode(self)
             
             let sha = MD5(data: value)

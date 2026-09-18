@@ -64,10 +64,8 @@ class Game: NSObject, PowerEventHandler {
                     self?.updateBattlegroundsOverlays()
                     self?.updateConstructedMulliganOverlays()
                     self?.updateActiveEffects()
-                    if #available(macOS 10.15, *) {
-                        self?.updateMaxResourcesWidget()
-                        self?.updateRootOverlay()
-                    }
+                    self?.updateMaxResourcesWidget()
+                    self?.updateRootOverlay()
                     self?.updateCounters()
 				})
 			} else {
@@ -75,10 +73,8 @@ class Game: NSObject, PowerEventHandler {
                 self.updateBattlegroundsOverlays()
                 self.updateConstructedMulliganOverlays()
                 self.updateActiveEffects()
-                if #available(macOS 10.15, *) {
-                    self.updateMaxResourcesWidget()
-                    self.updateRootOverlay()
-                }
+                self.updateMaxResourcesWidget()
+                self.updateRootOverlay()
                 self.updateCounters()
 			}
 		}
@@ -146,12 +142,12 @@ class Game: NSObject, PowerEventHandler {
     func setHearthstoneActived(flag: Bool) {
         hearthstoneRunState.isActive = flag
         if currentMode == .bacon || isBattlegroundsMatch() {
-            if flag, #available(macOS 10.15, *) {
+            if flag {
                 windowManager.rootOverlay?.viewModel.tier7PreLobby.onFocus()
             }
             updateBattlegroundsSessionVisibility()
         }
-        if flag, #available(macOS 10.15, *) {
+        if flag {
             windowManager.rootOverlay?.viewModel.constructedMulliganPreLobbyWidget.onFocus()
         }
     }
@@ -229,10 +225,8 @@ class Game: NSObject, PowerEventHandler {
         self.updateBoardOverlay()
         self.updateConstructedMulliganOverlays()
         self.updateActiveEffects()
-        if #available(macOS 10.15, *) {
-            self.updateMaxResourcesWidget()
-            self.updateRootOverlay()
-        }
+        self.updateMaxResourcesWidget()
+        self.updateRootOverlay()
         self.updateCounters()
 	}
 	
@@ -279,8 +273,7 @@ class Game: NSObject, PowerEventHandler {
 
 	@objc func updateOpponentTracker(reset: Bool = false) {
         DispatchQueue.main.async { [weak self] in
-            guard let self, #available(macOS 10.15, *),
-                  let tracker = self.windowManager.rootOverlay?.viewModel.opponentTracker else {
+            guard let self, let tracker = self.windowManager.rootOverlay?.viewModel.opponentTracker else {
                 return
             }
 
@@ -369,8 +362,7 @@ class Game: NSObject, PowerEventHandler {
     
     @objc func updatePlayerTracker(reset: Bool = false) {
         DispatchQueue.main.async { [weak self] in
-            guard let self, #available(macOS 10.15, *),
-                  let tracker = self.windowManager.rootOverlay?.viewModel.playerTracker else {
+            guard let self, let tracker = self.windowManager.rootOverlay?.viewModel.playerTracker else {
                 return
             }
             if Settings.showPlayerTracker &&
@@ -443,10 +435,8 @@ class Game: NSObject, PowerEventHandler {
             guard let self else {
                 return
             }
-            if #available(macOS 10.15, *) {
-                self.windowManager.rootOverlay?.viewModel.battlegroundsTurnCounter
-                    .update(turn: turn, isShown: self.isTurnCounterVisible)
-            }
+            self.windowManager.rootOverlay?.viewModel.battlegroundsTurnCounter
+                .update(turn: turn, isShown: self.isTurnCounterVisible)
         }
     }
 
@@ -466,17 +456,14 @@ class Game: NSObject, PowerEventHandler {
             guard let self else {
                 return
             }
-            if #available(macOS 10.15, *) {
-                self.windowManager.rootOverlay?.viewModel.turnTimer.isShown =
-                    Settings.showTimer && !self.gameEnded && self.shouldShowGUIElement
-                    && !self.isBattlegroundsMatch() && !self.isMercenariesMatch()
-            }
+            self.windowManager.rootOverlay?.viewModel.turnTimer.isShown =
+                Settings.showTimer && !self.gameEnded && self.shouldShowGUIElement
+                && !self.isBattlegroundsMatch() && !self.isMercenariesMatch()
         }
     }
     
     func updateSecretTracker(cards: [Card]) {
         DispatchQueue.main.async { [weak self] in
-            guard #available(macOS 10.15, *) else { return }
             self?.windowManager.rootOverlay?.viewModel.secretsPanel.set(cards: cards)
             self?.updateSecretTracker()
         }
@@ -488,8 +475,7 @@ class Game: NSObject, PowerEventHandler {
     // is what SecretsPanelView reads.
     func updateSecretTracker() {
         DispatchQueue.main.async { [weak self] in
-            guard let self, #available(macOS 10.15, *),
-                  let panel = self.windowManager.rootOverlay?.viewModel.secretsPanel else {
+            guard let self, let panel = self.windowManager.rootOverlay?.viewModel.secretsPanel else {
                 return
             }
 
@@ -505,17 +491,15 @@ class Game: NSObject, PowerEventHandler {
     // renders nothing, and hideAllWhenGameInBackground is already handled once
     // for the whole canvas in updateRootOverlay().
     func updateActiveEffects() {
-        if #available(macOS 10.15, *) {
-            DispatchQueue.main.async { [self] in
-                guard let viewModel = windowManager.rootOverlay?.viewModel else { return }
+        DispatchQueue.main.async { [self] in
+            guard let viewModel = windowManager.rootOverlay?.viewModel else { return }
 
-                if isInMenu || !isMulliganDone() || isBattlegroundsMatch() {
-                    viewModel.playerActiveEffects.isShown = false
-                    viewModel.opponentActiveEffects.isShown = false
-                } else {
-                    viewModel.playerActiveEffects.isShown = Settings.showPlayerActiveEffects
-                    viewModel.opponentActiveEffects.isShown = Settings.showOpponentActiveEffects
-                }
+            if isInMenu || !isMulliganDone() || isBattlegroundsMatch() {
+                viewModel.playerActiveEffects.isShown = false
+                viewModel.opponentActiveEffects.isShown = false
+            } else {
+                viewModel.playerActiveEffects.isShown = Settings.showPlayerActiveEffects
+                viewModel.opponentActiveEffects.isShown = Settings.showOpponentActiveEffects
             }
         }
     }
@@ -525,17 +509,15 @@ class Game: NSObject, PowerEventHandler {
     // renders nothing, and hideAllWhenGameInBackground is already handled once
     // for the whole canvas in updateRootOverlay().
     func updateCounters() {
-        if #available(macOS 10.15, *) {
-            DispatchQueue.main.async { [self] in
-                guard let viewModel = windowManager.rootOverlay?.viewModel else { return }
+        DispatchQueue.main.async { [self] in
+            guard let viewModel = windowManager.rootOverlay?.viewModel else { return }
 
-                if isInMenu || !isMulliganDone() || !shouldShowTracker {
-                    viewModel.playerCounters.isShown = false
-                    viewModel.opponentCounters.isShown = false
-                } else {
-                    viewModel.playerCounters.isShown = Settings.showPlayerCounters
-                    viewModel.opponentCounters.isShown = Settings.showOpponentCounters
-                }
+            if isInMenu || !isMulliganDone() || !shouldShowTracker {
+                viewModel.playerCounters.isShown = false
+                viewModel.opponentCounters.isShown = false
+            } else {
+                viewModel.playerCounters.isShown = Settings.showPlayerCounters
+                viewModel.opponentCounters.isShown = Settings.showOpponentCounters
             }
         }
     }
@@ -544,10 +526,8 @@ class Game: NSObject, PowerEventHandler {
     // their own, so refreshing them is a view-model call - wrapped here because
     // the callers are not themselves gated on the SwiftUI baseline.
     func updatePlayerCounters() {
-        if #available(macOS 10.15, *) {
-            DispatchQueue.main.async {
-                self.windowManager.rootOverlay?.viewModel.playerCounters.updateVisibleCounters()
-            }
+        DispatchQueue.main.async {
+            self.windowManager.rootOverlay?.viewModel.playerCounters.updateVisibleCounters()
         }
     }
     
@@ -558,9 +538,7 @@ class Game: NSObject, PowerEventHandler {
     // canvas in updateRootOverlay().
     func updateConstructedMulliganOverlays() {
         DispatchQueue.main.async {
-            if #available(macOS 10.15, *) {
-                self.windowManager.rootOverlay?.viewModel.mulliganGuidePreLobby.applyVisibility()
-            }
+            self.windowManager.rootOverlay?.viewModel.mulliganGuidePreLobby.applyVisibility()
         }
     }
     
@@ -642,14 +620,12 @@ class Game: NSObject, PowerEventHandler {
             // from its body, which gave SwiftUI nothing to invalidate on - see
             // BattlegroundsGuidesTabsViewModel.isInMatch. Pushed outside the isBG
             // branch below precisely so the false edge lands too.
-            if #available(macOS 10.15, *) {
-                self.windowManager.rootOverlay?.viewModel.battlegroundsGuidesTabs.setInMatch(isBG)
-            }
+            self.windowManager.rootOverlay?.viewModel.battlegroundsGuidesTabs.setInMatch(isBG)
 
             // HDT refreshes the minion browser's lobby state from ShowBgsTopBar,
             // which this is the analogue of. The available races are not readable
             // from the mirror yet at gameStart, so they have to be picked up here.
-            if #available(macOS 10.15, *), isBG {
+            if isBG {
                 // The real match takes over the same panel the pre-lobby was
                 // showing - HDT's LeaveBgsGuidesPreLobby, called from this
                 // function's HDT analogue (ShowBgsTopBar).
@@ -665,19 +641,15 @@ class Game: NSObject, PowerEventHandler {
             // Tavern Pinning panel has to be taken down when a match ends
             // however it ended, not only on the handleEndGame path. Its own
             // predicate carries the match term - see updateVisibility().
-            if #available(macOS 10.15, *) {
-                self.windowManager.rootOverlay?.viewModel.battlegroundsMinionPinning.updateVisibility()
-            }
+            self.windowManager.rootOverlay?.viewModel.battlegroundsMinionPinning.updateVisibility()
 
         }
     }
     
     func updateTurnCounterOverlay() {
         DispatchQueue.main.async {
-            if #available(macOS 10.15, *) {
-                self.windowManager.rootOverlay?.viewModel.battlegroundsTurnCounter
-                    .update(turn: self.turnNumber(), isShown: self.isTurnCounterVisible)
-            }
+            self.windowManager.rootOverlay?.viewModel.battlegroundsTurnCounter
+                .update(turn: self.turnNumber(), isShown: self.isTurnCounterVisible)
         }
     }
 
@@ -691,9 +663,7 @@ class Game: NSObject, PowerEventHandler {
             let show = isBG && Settings.showBobsBuddy &&
                 ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
                     || !Settings.hideAllWhenGameInBackground) && !self.hideBobsBuddy
-            if #available(macOS 10.15, *) {
-                self.windowManager.rootOverlay?.viewModel.bobsBuddy.isShown = show
-            }
+            self.windowManager.rootOverlay?.viewModel.bobsBuddy.isShown = show
         }
     }
     
@@ -704,10 +674,8 @@ class Game: NSObject, PowerEventHandler {
     // in updateRootOverlay().
     func updateExperienceOverlay() {
         DispatchQueue.main.async {
-            if #available(macOS 10.15, *) {
-                guard let counter = self.windowManager.rootOverlay?.viewModel.experienceCounter else { return }
-                counter.isShown = Settings.showExperienceCounter && counter.visible
-            }
+            guard let counter = self.windowManager.rootOverlay?.viewModel.experienceCounter else { return }
+            counter.isShown = Settings.showExperienceCounter && counter.visible
         }
     }
     
@@ -800,19 +768,17 @@ class Game: NSObject, PowerEventHandler {
     // window of their own left to frame: this decides whether they are on screen
     // and pushes the hand they describe.
     func updateCardHud() {
-        if #available(macOS 10.15, *) {
-            DispatchQueue.main.async { [weak self] in
-                guard let self,
-                      let markers = self.windowManager.rootOverlay?.viewModel.opponentHandMarkers else {
-                    return
-                }
-                if Settings.showCardHuds && self.shouldShowGUIElement && !self.gameEnded && !self.isBattlegroundsMatch() {
-                    markers.isShown = true
-                    markers.update(hand: self.opponent.hand,
-                                   handCount: self.opponent.handCount, game: self)
-                } else {
-                    markers.hide()
-                }
+        DispatchQueue.main.async { [weak self] in
+            guard let self,
+                  let markers = self.windowManager.rootOverlay?.viewModel.opponentHandMarkers else {
+                return
+            }
+            if Settings.showCardHuds && self.shouldShowGUIElement && !self.gameEnded && !self.isBattlegroundsMatch() {
+                markers.isShown = true
+                markers.update(hand: self.opponent.hand,
+                               handCount: self.opponent.handCount, game: self)
+            } else {
+                markers.hide()
             }
         }
     }
@@ -823,51 +789,49 @@ class Game: NSObject, PowerEventHandler {
     // of them is up - the damage it reads off the board.
     func updateBoardStateTrackers() {
         DispatchQueue.main.async {
-            if #available(macOS 10.15, *) {
-                guard let viewModel = self.windowManager.rootOverlay?.viewModel else { return }
+            guard let viewModel = self.windowManager.rootOverlay?.viewModel else { return }
 
-                let visible = self.shouldShowGUIElement && !self.gameEnded
-                    && self.currentGameMode != .battlegrounds && self.currentGameMode != .mercenaries
-                    && self.isMulliganDone()
-                let showPlayer = Settings.playerBoardDamage && visible
-                let showOpponent = Settings.opponentBoardDamage && visible
+            let visible = self.shouldShowGUIElement && !self.gameEnded
+                && self.currentGameMode != .battlegrounds && self.currentGameMode != .mercenaries
+                && self.isMulliganDone()
+            let showPlayer = Settings.playerBoardDamage && visible
+            let showOpponent = Settings.opponentBoardDamage && visible
 
-                viewModel.playerBoardAttack.isShown = showPlayer
-                viewModel.opponentBoardAttack.isShown = showOpponent
+            viewModel.playerBoardAttack.isShown = showPlayer
+            viewModel.opponentBoardAttack.isShown = showOpponent
 
-                // HDT only builds the BoardState when one of the two icons is
-                // actually on screen, and so does this.
-                guard showPlayer || showOpponent else { return }
+            // HDT only builds the BoardState when one of the two icons is
+            // actually on screen, and so does this.
+            guard showPlayer || showOpponent else { return }
 
-                let board = BoardState(game: self)
+            let board = BoardState(game: self)
 
-                if showPlayer {
-                    var heroPowerDmg = 0
-                    if let heroPower = board.player.heroPower, self.player.currentMana >= heroPower.cost {
-                        heroPowerDmg = heroPower.damage
+            if showPlayer {
+                var heroPowerDmg = 0
+                if let heroPower = board.player.heroPower, self.player.currentMana >= heroPower.cost {
+                    heroPowerDmg = heroPower.damage
 
-                        // Garrison Commander = hero power * 2
-                        if board.player.cards.first(where: { $0.cardId == "AT_080"}) != nil {
-                            heroPowerDmg *= 2
-                        }
+                    // Garrison Commander = hero power * 2
+                    if board.player.cards.first(where: { $0.cardId == "AT_080"}) != nil {
+                        heroPowerDmg *= 2
                     }
-                    viewModel.playerBoardAttack.update(damage: board.player.damage + heroPowerDmg,
-                                                       hasInfiniteDamage: board.player.hasInfiniteDamage)
                 }
+                viewModel.playerBoardAttack.update(damage: board.player.damage + heroPowerDmg,
+                                                   hasInfiniteDamage: board.player.hasInfiniteDamage)
+            }
 
-                if showOpponent {
-                    var heroPowerDmg = 0
-                    if let heroPower = board.opponent.heroPower {
-                        heroPowerDmg = heroPower.damage
+            if showOpponent {
+                var heroPowerDmg = 0
+                if let heroPower = board.opponent.heroPower {
+                    heroPowerDmg = heroPower.damage
 
-                        // Garrison Commander = hero power * 2
-                        if board.opponent.cards.first(where: { $0.cardId == "AT_080"}) != nil {
-                            heroPowerDmg *= 2
-                        }
+                    // Garrison Commander = hero power * 2
+                    if board.opponent.cards.first(where: { $0.cardId == "AT_080"}) != nil {
+                        heroPowerDmg *= 2
                     }
-                    viewModel.opponentBoardAttack.update(damage: board.opponent.damage + heroPowerDmg,
-                                                         hasInfiniteDamage: board.opponent.hasInfiniteDamage)
                 }
+                viewModel.opponentBoardAttack.update(damage: board.opponent.damage + heroPowerDmg,
+                                                     hasInfiniteDamage: board.opponent.hasInfiniteDamage)
             }
         }
     }
@@ -877,22 +841,20 @@ class Game: NSObject, PowerEventHandler {
     // they are on screen and pushes the board state they draw from. The gate is
     // the one the two panels already used, kept as it was.
     func updateBoardOverlay() {
-        if #available(macOS 10.15, *) {
-            DispatchQueue.main.async {
-                guard let board = self.windowManager.rootOverlay?.viewModel.boardOverlay else {
-                    return
-                }
-                let show = (!self.isMercenariesMatch() && Settings.showFlavorText) || (self.isMercenariesMatch())
-                if !self.isInMenu && show || (self.isMulliganDone() || self.isMercenariesMatch()) && !self.gameEnded && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground) {
-                    board.isShown = true
-                    // OverlayWindow.IsGameOver, which collapses every slot
-                    // rather than hiding the grids.
-                    let isGameOver = self.isInMenu || self.gameEnded
-                    board.update(player: self.player, opponent: self.opponent, isGameOver: isGameOver)
-                } else {
-                    board.isShown = false
-                    board.clearAbilities()
-                }
+        DispatchQueue.main.async {
+            guard let board = self.windowManager.rootOverlay?.viewModel.boardOverlay else {
+                return
+            }
+            let show = (!self.isMercenariesMatch() && Settings.showFlavorText) || (self.isMercenariesMatch())
+            if !self.isInMenu && show || (self.isMulliganDone() || self.isMercenariesMatch()) && !self.gameEnded && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground) {
+                board.isShown = true
+                // OverlayWindow.IsGameOver, which collapses every slot
+                // rather than hiding the grids.
+                let isGameOver = self.isInMenu || self.gameEnded
+                board.update(player: self.player, opponent: self.opponent, isGameOver: isGameOver)
+            } else {
+                board.isShown = false
+                board.clearAbilities()
             }
         }
     }
@@ -903,21 +865,19 @@ class Game: NSObject, PowerEventHandler {
     // ShowMercenariesTasksButton/HideMercenariesTasksButton pair. Hiding the
     // button hides the list with it, as HideMercenariesTasksButton does.
     func updateMercenariesTaskListButton() {
-        if #available(macOS 10.15, *) {
-            DispatchQueue.main.async {
-                guard let tasks = self.windowManager.rootOverlay?.viewModel.mercenariesTasks else {
-                    return
-                }
-                // OverlayWindow.MercenariesButtonOffset reads this live off the
-                // game to keep the button clear of Hearthstone's "Back" button.
-                tasks.isInMenu = self.isInMenu
-                let show = Settings.showMercsTasks && tasks.isRequested
-                    && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
-                        || !Settings.hideAllWhenGameInBackground)
-                tasks.isButtonShown = show
-                if !show {
-                    tasks.isListShown = false
-                }
+        DispatchQueue.main.async {
+            guard let tasks = self.windowManager.rootOverlay?.viewModel.mercenariesTasks else {
+                return
+            }
+            // OverlayWindow.MercenariesButtonOffset reads this live off the
+            // game to keep the button clear of Hearthstone's "Back" button.
+            tasks.isInMenu = self.isInMenu
+            let show = Settings.showMercsTasks && tasks.isRequested
+                && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
+                    || !Settings.hideAllWhenGameInBackground)
+            tasks.isButtonShown = show
+            if !show {
+                tasks.isListShown = false
             }
         }
     }
@@ -926,40 +886,32 @@ class Game: NSObject, PowerEventHandler {
     // whether the Mercenaries scenes want the button at all, before the
     // settings and background gates updateMercenariesTaskListButton applies.
     func setMercenariesTasksRequested(_ requested: Bool, gameNoticeVisible: Bool = false) {
-        if #available(macOS 10.15, *) {
-            DispatchQueue.main.async {
-                guard let tasks = self.windowManager.rootOverlay?.viewModel.mercenariesTasks else {
-                    return
-                }
-                tasks.isRequested = requested
-                if requested {
-                    tasks.setGameNoticeVisible(gameNoticeVisible)
-                }
-                self.updateMercenariesTaskListButton()
+        DispatchQueue.main.async {
+            guard let tasks = self.windowManager.rootOverlay?.viewModel.mercenariesTasks else {
+                return
             }
+            tasks.isRequested = requested
+            if requested {
+                tasks.setGameNoticeVisible(gameNoticeVisible)
+            }
+            self.updateMercenariesTaskListButton()
         }
     }
         
     func setBaconState(_ mode: SelectedBattlegroundsGameMode, _ isAnyOpen: Bool) {
-        if #available(macOS 10.15, *) {
-            windowManager.rootOverlay?.viewModel.tier7PreLobby.battlegroundsGameMode = mode
-            windowManager.rootOverlay?.viewModel.tier7PreLobby.isModalOpen = !queueEvents.isInQueue && isAnyOpen
-            windowManager.rootOverlay?.viewModel.battlegroundsSession.battlegroundsGameMode = mode
-        }
-        if #available(macOS 10.15, *) {
-            DispatchQueue.main.async {
-                self.updateTier7PreLobbyVisibility()
-                self.updateBattlegroundsGuidesPreLobbyVisibility()
-            }
+        windowManager.rootOverlay?.viewModel.tier7PreLobby.battlegroundsGameMode = mode
+        windowManager.rootOverlay?.viewModel.tier7PreLobby.isModalOpen = !queueEvents.isInQueue && isAnyOpen
+        windowManager.rootOverlay?.viewModel.battlegroundsSession.battlegroundsGameMode = mode
+        DispatchQueue.main.async {
+            self.updateTier7PreLobbyVisibility()
+            self.updateBattlegroundsGuidesPreLobbyVisibility()
         }
     }
 
     func setBaconQueue(_ isAnyOpen: Bool) {
-        if #available(macOS 10.15, *) {
-            DispatchQueue.main.async {
-                self.updateTier7PreLobbyVisibility()
-                self.updateBattlegroundsGuidesPreLobbyVisibility()
-            }
+        DispatchQueue.main.async {
+            self.updateTier7PreLobbyVisibility()
+            self.updateBattlegroundsGuidesPreLobbyVisibility()
         }
     }
         
@@ -1054,10 +1006,8 @@ class Game: NSObject, PowerEventHandler {
     
     func updateVisibilities() {
         updateBattlegroundsSessionVisibility()
-        if #available(macOS 10.15, *) {
-            DispatchQueue.main.async {
-                self.updateTier7PreLobbyVisibility()
-            }
+        DispatchQueue.main.async {
+            self.updateTier7PreLobbyVisibility()
         }
 //        updateMulliganGuidePreLobbyVisibility()
     }
@@ -1066,9 +1016,7 @@ class Game: NSObject, PowerEventHandler {
     // so refreshing it is a view-model call - wrapped here because the callers
     // are not themselves gated on the SwiftUI baseline.
     func updateBattlegroundsSessionPanel() {
-        if #available(macOS 10.15, *) {
-            windowManager.rootOverlay?.viewModel.battlegroundsSession.update()
-        }
+        windowManager.rootOverlay?.viewModel.battlegroundsSession.update()
     }
 
     func updateBattlegroundsSessionVisibility(_ isFriendsListOpen: Bool = false) {
@@ -1091,10 +1039,8 @@ class Game: NSObject, PowerEventHandler {
                     )
                 ) && !isFriendsListOpen
 
-        if #available(macOS 10.15, *) {
-            DispatchQueue.main.async {
-                self.windowManager.rootOverlay?.viewModel.battlegroundsSession.setShown(show)
-            }
+        DispatchQueue.main.async {
+            self.windowManager.rootOverlay?.viewModel.battlegroundsSession.setShown(show)
         }
     }
 
@@ -1614,10 +1560,8 @@ class Game: NSObject, PowerEventHandler {
                 self.updateBattlegroundsOverlays()
                 self.updateConstructedMulliganOverlays()
                 self.updateActiveEffects()
-                if #available(macOS 10.15, *) {
-                    self.updateMaxResourcesWidget()
-                    self.updateRootOverlay()
-                }
+                self.updateMaxResourcesWidget()
+                self.updateRootOverlay()
             }
             self.counter = 0
         } else {
@@ -1705,12 +1649,8 @@ class Game: NSObject, PowerEventHandler {
         _mulliganV2Params = nil
         _mulliganState = nil
         mulliganCardStats = nil
-        if #available(macOS 10.15, *) {
-            windowManager.rootOverlay?.viewModel.battlegroundsOpponentInfo.reset()
-        }
-        if #available(macOS 10.15, *) {
-            windowManager.rootOverlay?.viewModel.bobsBuddy.resetDisplays()
-        }
+        windowManager.rootOverlay?.viewModel.battlegroundsOpponentInfo.reset()
+        windowManager.rootOverlay?.viewModel.bobsBuddy.resetDisplays()
         updateTurnCounter(turn: 1)
         
         hideBobsBuddy = false
@@ -1964,9 +1904,7 @@ class Game: NSObject, PowerEventHandler {
         
         if isTraditionalHearthstoneMatch {
             CardLegalityChecker.loadCardsByFormat(gameType: currentGameType, format: currentFormatType)
-            if #available(macOS 10.15, *) {
-                RelatedCardsManager.loadRelatedCardsSummaryKeywords()
-            }
+            RelatedCardsManager.loadRelatedCardsSummaryKeywords()
         }
 
 		// update spectator information
@@ -1996,16 +1934,14 @@ class Game: NSObject, PowerEventHandler {
                                            "deckId": "\(self.getCurrentDeckIdIfAppropriate())"],
                           level: .info)
         
-        if #available(macOS 10.15, *) {
-            windowManager.rootOverlay?.viewModel.linkOpponentDeck.isFriendlyMatch = isFriendlyMatch
-        }
+        windowManager.rootOverlay?.viewModel.linkOpponentDeck.isFriendlyMatch = isFriendlyMatch
         
-        if isBattlegroundsMatch() && currentGameMode == .spectator, #available(macOS 10.15, *) {
+        if isBattlegroundsMatch() && currentGameMode == .spectator {
             windowManager.rootOverlay?.viewModel.tier7PreLobby.reset()
         }
         
         if isFriendlyMatch {
-            if !Settings.interactedWithLinkOpponentDeck, #available(macOS 10.15, *) {
+            if !Settings.interactedWithLinkOpponentDeck {
                 windowManager.rootOverlay?.viewModel.linkOpponentDeck.autoShown = true
                 windowManager.rootOverlay?.viewModel.linkOpponentDeck.show()
             }
@@ -2013,36 +1949,34 @@ class Game: NSObject, PowerEventHandler {
         
         if isBattlegroundsMatch() {
             updateBattlegroundsSessionPanel()
-            if #available(macOS 10.15, *) {
-                Task.detached {
-                    await self.windowManager.rootOverlay?.viewModel.battlegroundsSession.updateCompositionStatsVisibility()
-                }
-                Task.detached {
-                    await self.windowManager.rootOverlay?.viewModel.battlegroundsCompsGuides.onMatchStart()
-                }
-                Task.detached {
-                    await self.windowManager.rootOverlay?.viewModel.battlegroundsHeroGuides.update()
-                }
-                Task.detached {
-                    await self.windowManager.rootOverlay?.viewModel.battlegroundsTrinketGuides.update()
-                }
-                Task.detached {
-                    await self.windowManager.rootOverlay?.viewModel.battlegroundsAnomalyGuides.update()
-                }
-                Task.detached {
-                    await self.windowManager.rootOverlay?.viewModel.battlegroundsQuestGuides.update()
-                }
-                DispatchQueue.main.async {
-                    self.windowManager.rootOverlay?.viewModel.battlegroundsMinionsGuide.onMatchStart()
-                    // GameEventHandler's HandleGameStart calls
-                    // BattlegroundsMinionPinningViewModel.Reset(), which re-arms
-                    // the key-piece recommendations from the auto-enable setting.
-                    self.windowManager.rootOverlay?.viewModel.battlegroundsMinionPinning.reset()
-                }
+            Task.detached {
+                await self.windowManager.rootOverlay?.viewModel.battlegroundsSession.updateCompositionStatsVisibility()
+            }
+            Task.detached {
+                await self.windowManager.rootOverlay?.viewModel.battlegroundsCompsGuides.onMatchStart()
+            }
+            Task.detached {
+                await self.windowManager.rootOverlay?.viewModel.battlegroundsHeroGuides.update()
+            }
+            Task.detached {
+                await self.windowManager.rootOverlay?.viewModel.battlegroundsTrinketGuides.update()
+            }
+            Task.detached {
+                await self.windowManager.rootOverlay?.viewModel.battlegroundsAnomalyGuides.update()
+            }
+            Task.detached {
+                await self.windowManager.rootOverlay?.viewModel.battlegroundsQuestGuides.update()
+            }
+            DispatchQueue.main.async {
+                self.windowManager.rootOverlay?.viewModel.battlegroundsMinionsGuide.onMatchStart()
+                // GameEventHandler's HandleGameStart calls
+                // BattlegroundsMinionPinningViewModel.Reset(), which re-arms
+                // the key-piece recommendations from the auto-enable setting.
+                self.windowManager.rootOverlay?.viewModel.battlegroundsMinionPinning.reset()
             }
         }
 
-        if isArenaMatch, #available(macOS 10.15, *) {
+        if isArenaMatch {
             Task.detached { [weak self] in
                 await self?.arenaPackagesManager.updatePackages()
             }
@@ -2069,9 +2003,7 @@ class Game: NSObject, PowerEventHandler {
             
             if self.isTraditionalHearthstoneMatch {
                 CardLegalityChecker.loadCardsByFormat(gameType: self.currentGameType, format: self.currentFormatType)
-                if #available(macOS 10.15, *) {
-                    RelatedCardsManager.loadRelatedCardsSummaryKeywords()
-                }
+                RelatedCardsManager.loadRelatedCardsSummaryKeywords()
             }
             
             if self.isBattlegroundsMatch() {
@@ -2089,7 +2021,7 @@ class Game: NSObject, PowerEventHandler {
                 }
             }
 
-            if self.isArenaMatch, #available(macOS 10.15, *) {
+            if self.isArenaMatch {
                 Task.detached { [weak self] in
                     await self?.arenaPackagesManager.updatePackages()
                 }
@@ -2338,34 +2270,32 @@ class Game: NSObject, PowerEventHandler {
             OpponentDeadForTracker.reset()
             updatePostGameBattlegroundsRating(gameStats: currentGameStats)
             captureBattlegroundsGame(stats: currentGameStats)
-            if #available(macOS 10.15, *) {
-                windowManager.rootOverlay?.viewModel.battlegroundsHeroPicking.reset()
-                windowManager.rootOverlay?.viewModel.battlegroundsQuestPicking.reset()
-                windowManager.rootOverlay?.viewModel.battlegroundsTrinketPicking.reset()
-                // GameEventHandler's IsBattlegroundsMatch branch clears the trial
-                // once the match it was activated for is over, so the next game
-                // has to spend a trial of its own rather than riding this token.
-                Tier7Trial.clear()
-                // These mutate @Published properties on ObservableObjects
-                // (unlike the legacy KVO-based ViewModel.reset() calls
-                // above), which Combine requires happen on the main thread.
-                DispatchQueue.main.async {
-                    // Drops the top bar itself, not just its contents: without this
-                    // the guides panel survived the game-over screen and followed
-                    // the player back to the main menu.
-                    self.windowManager.rootOverlay?.viewModel.battlegroundsGuidesTabs.onMatchEnd()
-                    self.windowManager.rootOverlay?.viewModel.battlegroundsCompsGuides.onMatchEnd()
-                    self.windowManager.rootOverlay?.viewModel.battlegroundsHeroGuides.onMatchEnd()
-                    self.windowManager.rootOverlay?.viewModel.battlegroundsQuestGuides.onMatchEnd()
-                    self.windowManager.rootOverlay?.viewModel.battlegroundsMinionsGuide.onMatchEnd()
-                    // HideBgsTopBar resets the Inspiration panel alongside the
-                    // rest of the top bar, so it never carries a lineup - or its
-                    // open state - into the next match.
-                    self.windowManager.rootOverlay?.viewModel.battlegroundsInspiration.reset()
-                    // HideBgsMinionPinning: pins never survive a match, and the
-                    // panel goes with them.
-                    self.windowManager.rootOverlay?.viewModel.battlegroundsMinionPinning.onMatchEnd()
-                }
+            windowManager.rootOverlay?.viewModel.battlegroundsHeroPicking.reset()
+            windowManager.rootOverlay?.viewModel.battlegroundsQuestPicking.reset()
+            windowManager.rootOverlay?.viewModel.battlegroundsTrinketPicking.reset()
+            // GameEventHandler's IsBattlegroundsMatch branch clears the trial
+            // once the match it was activated for is over, so the next game
+            // has to spend a trial of its own rather than riding this token.
+            Tier7Trial.clear()
+            // These mutate @Published properties on ObservableObjects
+            // (unlike the legacy KVO-based ViewModel.reset() calls
+            // above), which Combine requires happen on the main thread.
+            DispatchQueue.main.async {
+                // Drops the top bar itself, not just its contents: without this
+                // the guides panel survived the game-over screen and followed
+                // the player back to the main menu.
+                self.windowManager.rootOverlay?.viewModel.battlegroundsGuidesTabs.onMatchEnd()
+                self.windowManager.rootOverlay?.viewModel.battlegroundsCompsGuides.onMatchEnd()
+                self.windowManager.rootOverlay?.viewModel.battlegroundsHeroGuides.onMatchEnd()
+                self.windowManager.rootOverlay?.viewModel.battlegroundsQuestGuides.onMatchEnd()
+                self.windowManager.rootOverlay?.viewModel.battlegroundsMinionsGuide.onMatchEnd()
+                // HideBgsTopBar resets the Inspiration panel alongside the
+                // rest of the top bar, so it never carries a lineup - or its
+                // open state - into the next match.
+                self.windowManager.rootOverlay?.viewModel.battlegroundsInspiration.reset()
+                // HideBgsMinionPinning: pins never survive a match, and the
+                // panel goes with them.
+                self.windowManager.rootOverlay?.viewModel.battlegroundsMinionPinning.onMatchEnd()
             }
             hideBattlegroundsHeroPanel()
             hideBattlegroundsTimewarpPanel()
@@ -2376,15 +2306,13 @@ class Game: NSObject, PowerEventHandler {
                 self.player.mulliganCardStats = nil
                 self.hideMulliganGuideStats()
             }
-            if #available(macOS 10.15, *) {
-                // Covers game-end paths that skip handlePlayerMulliganDone() entirely,
-                // e.g. conceding mid-mulligan (mulligan_state never reaches .done, so
-                // that cleanup never runs and the guide/live polling would otherwise
-                // keep running with stale data after the match is over).
-                stopMulliganLivePolling()
-                DispatchQueue.main.async {
-                    self.windowManager.rootOverlay?.viewModel.mulliganGuideV2.reset()
-                }
+            // Covers game-end paths that skip handlePlayerMulliganDone() entirely,
+            // e.g. conceding mid-mulligan (mulligan_state never reaches .done, so
+            // that cleanup never runs and the guide/live polling would otherwise
+            // keep running with stale data after the match is over).
+            stopMulliganLivePolling()
+            DispatchQueue.main.async {
+                self.windowManager.rootOverlay?.viewModel.mulliganGuideV2.reset()
             }
             opponent.isPlayingWhizbang = false
             Player.knownOpponentDeck = nil
@@ -2419,9 +2347,7 @@ class Game: NSObject, PowerEventHandler {
         
         if isBattlegroundsMatch() {
             recordBattlegroundsGame()
-            if #available(macOS 10.15, *) {
-                windowManager.rootOverlay?.viewModel.battlegroundsSession.onGameEnd()
-            }
+            windowManager.rootOverlay?.viewModel.battlegroundsSession.onGameEnd()
         }
         
         activeEffects.reset()
@@ -2655,11 +2581,9 @@ class Game: NSObject, PowerEventHandler {
                 self.hideMulliganGuideStats()
                 self.player.mulliganCardStats = nil
                 
-                if #available(macOS 10.15, *) {
-                    self.windowManager.rootOverlay?.viewModel.battlegroundsHeroPicking.reset()
-                    self.windowManager.rootOverlay?.viewModel.battlegroundsQuestPicking.reset()
-                    self.windowManager.rootOverlay?.viewModel.battlegroundsTrinketPicking.reset()
-                }
+                self.windowManager.rootOverlay?.viewModel.battlegroundsHeroPicking.reset()
+                self.windowManager.rootOverlay?.viewModel.battlegroundsQuestPicking.reset()
+                self.windowManager.rootOverlay?.viewModel.battlegroundsTrinketPicking.reset()
                 self.hideBattlegroundsHeroPanel()
                 self.hideBattlegroundsTimewarpPanel()
                 self.updateBattlegroundsSessionPanel()
@@ -2676,15 +2600,13 @@ class Game: NSObject, PowerEventHandler {
                     let trinketIds = self.player.trinkets.compactMap({ x in x.cardId })
                     self.battlegroundsMinionsOnHeroPowers(heroPowerIds)
                     self.battlegroundsMinionsOnTrinkets(trinketIds)
-                    if #available(macOS 10.15, *) {
-                        // From here until combat, the board the Inspiration panel
-                        // sends alongside a key minion is the live one.
-                        self.windowManager.rootOverlay?.viewModel.battlegroundsInspiration.onShoppingStart()
-                        // OnBattlegroundsShoppingStart also reveals the Tavern
-                        // Pinning shop markers; both combat-setup transitions
-                        // hide them again (see TagChangeActions).
-                        self.windowManager.rootOverlay?.viewModel.battlegroundsMinionPinning.setShopVisible(true)
-                    }
+                    // From here until combat, the board the Inspiration panel
+                    // sends alongside a key minion is the live one.
+                    self.windowManager.rootOverlay?.viewModel.battlegroundsInspiration.onShoppingStart()
+                    // OnBattlegroundsShoppingStart also reveals the Tavern
+                    // Pinning shop markers; both combat-setup transitions
+                    // hide them again (see TagChangeActions).
+                    self.windowManager.rootOverlay?.viewModel.battlegroundsMinionPinning.setShopVisible(true)
                 }
             }
 
@@ -2695,10 +2617,8 @@ class Game: NSObject, PowerEventHandler {
         // Inspiration panel freezes the board it will keep sending for the rest
         // of this turn. Solo only, as in HDT - a duos board changes hands.
         if player == .opponent && !isInMenu && isBattlegroundsSoloMatch() {
-            if #available(macOS 10.15, *) {
-                DispatchQueue.main.async {
-                    self.windowManager.rootOverlay?.viewModel.battlegroundsInspiration.onShoppingEnd()
-                }
+            DispatchQueue.main.async {
+                self.windowManager.rootOverlay?.viewModel.battlegroundsInspiration.onShoppingEnd()
             }
         }
 
@@ -3237,13 +3157,11 @@ class Game: NSObject, PowerEventHandler {
     
     public func handleBattlegroundsHeroReroll(entity: Entity, oldCardId: String?) {
         if isBattlegroundsMatch() {
-            if #available(macOS 10.15, *) {
-                Task.detached { @MainActor in
-                    if let cardId = oldCardId, let theDbfId = Cards.by(cardId: cardId)?.dbfId {
-                        self.windowManager.rootOverlay?.viewModel.battlegroundsHeroPicking.invalidateSingleHeroStats(theDbfId)
-                    }
-                    await self.refreshBattlegroundsHeroPickStats()
+            Task.detached { @MainActor in
+                if let cardId = oldCardId, let theDbfId = Cards.by(cardId: cardId)?.dbfId {
+                    self.windowManager.rootOverlay?.viewModel.battlegroundsHeroPicking.invalidateSingleHeroStats(theDbfId)
                 }
+                await self.refreshBattlegroundsHeroPickStats()
             }
         }
     }
@@ -3297,9 +3215,7 @@ class Game: NSObject, PowerEventHandler {
     
     @MainActor
     private func showBattlegroundsHeroPickingStats(_ heroStats: [BattlegroundsHeroPickStats.BattlegroundsSingleHeroPickStats], _ parameters: [String: String]?, _ minMmr: Int?, _ anomalyAdjusted: Bool) {
-        if #available(macOS 10.15, *) {
-            windowManager.rootOverlay?.viewModel.battlegroundsHeroPicking.setHeroStats(stats: heroStats, parameters: parameters, minMmr: minMmr, anomalyadjusted: anomalyAdjusted)
-        }
+        windowManager.rootOverlay?.viewModel.battlegroundsHeroPicking.setHeroStats(stats: heroStats, parameters: parameters, minMmr: minMmr, anomalyadjusted: anomalyAdjusted)
     }
     
     /// HDT's `WaitForMulliganStart`, with the answer handed back rather than
@@ -3341,10 +3257,8 @@ class Game: NSObject, PowerEventHandler {
         Watchers.battlegroundsLeaderboardWatcher.run()
         Watchers.battlegroundsLobbyInfoWatcher.run()
         OpponentDeadForTracker.reset()
-        if #available(macOS 10.15, *) {
-            await MainActor.run {
-                self.windowManager.rootOverlay?.viewModel.battlegroundsInspiration.reset()
-            }
+        await MainActor.run {
+            self.windowManager.rootOverlay?.viewModel.battlegroundsInspiration.reset()
         }
         var heroes = [Entity]()
         for _ in 0 ..< 10 {
@@ -3843,10 +3757,8 @@ class Game: NSObject, PowerEventHandler {
     
     func handleQuestRewardDatabaseId(id: Int, value: Int) {
         if isBattlegroundsMatch(), let entity = entities[id], entity.isControlled(by: player.id) {
-            if #available(macOS 10.15, *) {
-                Task.detached {
-                    await self.windowManager.rootOverlay?.viewModel.battlegroundsQuestPicking.onBattlegroundsQuest(questEntity: entity)
-                }
+            Task.detached {
+                await self.windowManager.rootOverlay?.viewModel.battlegroundsQuestPicking.onBattlegroundsQuest(questEntity: entity)
             }
         }
     }
@@ -3917,9 +3829,7 @@ class Game: NSObject, PowerEventHandler {
     
     @MainActor
     func showMulliganGuideStats(stats: [SingleCardStats], maxRank: Int, selectedParams: [String: String?]?) {
-        if #available(macOS 10.15, *) {
-            windowManager.rootOverlay?.viewModel.mulliganGuide.setMulliganData(stats: stats, maxRank: maxRank, selectedParams: selectedParams)
-        }
+        windowManager.rootOverlay?.viewModel.mulliganGuide.setMulliganData(stats: stats, maxRank: maxRank, selectedParams: selectedParams)
     }
     
     // HDT's OverlayWindow.HideMulliganGuideStats, which resets *both* guide view
@@ -3928,24 +3838,18 @@ class Game: NSObject, PowerEventHandler {
     // isV2Mulligan picks, so hiding only one leaves the other on screen.
     @MainActor
     func hideMulliganGuideStats() {
-        if #available(macOS 10.15, *) {
-            windowManager.rootOverlay?.viewModel.mulliganGuide.reset()
-            windowManager.rootOverlay?.viewModel.mulliganGuideV2.reset()
-        }
+        windowManager.rootOverlay?.viewModel.mulliganGuide.reset()
+        windowManager.rootOverlay?.viewModel.mulliganGuideV2.reset()
     }
     
     func handleBeginMulligan() {
         if isBattlegroundsMatch() {
-            if #available(macOS 10.15, *) {
-                Task.detached {
-                    await self.handleBattlegroundsStart()
-                }
+            Task.detached {
+                await self.handleBattlegroundsStart()
             }
         } else if isMulliganGuideMatch {
-            if #available(macOS 10.15, *) {
-                Task.detached {
-                    await self.handleHearthstoneMulliganPhase()
-                }
+            Task.detached {
+                await self.handleHearthstoneMulliganPhase()
             }
         }
     }
@@ -3958,9 +3862,7 @@ class Game: NSObject, PowerEventHandler {
             hideBattlegroundsHeroPanel()
             hideBattlegroundsTimewarpPanel()
             windowManager.rootOverlay?.viewModel.battlegroundsHeroPicking.reset()
-            if #available(macOS 10.15, *) {
-                windowManager.rootOverlay?.viewModel.battlegroundsSession.hideCompStatsOnError()
-            }
+            windowManager.rootOverlay?.viewModel.battlegroundsSession.hideCompStatsOnError()
         } else if isMulliganGuideMatch {
             hideMulliganToast()
             
@@ -4044,10 +3946,8 @@ class Game: NSObject, PowerEventHandler {
             
             // trinket picking
             if let source = entities[choice.sourceEntityId], source[.bacon_is_magic_item_discover] > 0 && offeredEntities.all({ x in x.isBattlegroundsTrinket }) {
-                if #available(macOS 10.15.0, *) {
-                    Task.detached {
-                        await self.handleBattlegroundsTrinketChoice(choice: choice)
-                    }
+                Task.detached {
+                    await self.handleBattlegroundsTrinketChoice(choice: choice)
                 }
             } else if offeredEntities.all({ x in x.isHeroPower }) { // hero power choice
                 let offered = offeredEntities.filter { x in x.isHeroPower }
@@ -4074,26 +3974,20 @@ class Game: NSObject, PowerEventHandler {
     // Always hops to main - these mutate @Published state and several callers
     // run on the log-parsing thread rather than main.
     func battlegroundsMinionsOnHeroPowers(_ heroPowers: [String]) {
-        if #available(macOS 10.15, *) {
-            DispatchQueue.main.async {
-                self.windowManager.rootOverlay?.viewModel.battlegroundsMinionsGuide.onHeroPowers(heroPowers)
-            }
+        DispatchQueue.main.async {
+            self.windowManager.rootOverlay?.viewModel.battlegroundsMinionsGuide.onHeroPowers(heroPowers)
         }
     }
 
     func battlegroundsMinionsOnTrinkets(_ trinkets: [String]) {
-        if #available(macOS 10.15, *) {
-            DispatchQueue.main.async {
-                self.windowManager.rootOverlay?.viewModel.battlegroundsMinionsGuide.onTrinkets(trinkets)
-            }
+        DispatchQueue.main.async {
+            self.windowManager.rootOverlay?.viewModel.battlegroundsMinionsGuide.onTrinkets(trinkets)
         }
     }
 
     func battlegroundsMinionsOnQuests(_ quests: [String]) {
-        if #available(macOS 10.15, *) {
-            DispatchQueue.main.async {
-                self.windowManager.rootOverlay?.viewModel.battlegroundsMinionsGuide.onQuests(quests)
-            }
+        DispatchQueue.main.async {
+            self.windowManager.rootOverlay?.viewModel.battlegroundsMinionsGuide.onQuests(quests)
         }
     }
 
@@ -4203,22 +4097,18 @@ class Game: NSObject, PowerEventHandler {
     private var pendingBgsCombatChoices: [String]?
 
     func setChoicesVisible(_ choicesVisible: Bool, _ cardIds: [String]?) {
-        if #available(macOS 10.15, *) {
-            windowManager.rootOverlay?.viewModel.battlegroundsTrinketPicking.choicesVisible = choicesVisible
-            OverlayOpacityMask.trace("setChoicesVisible visible=\(choicesVisible)"
-                                     + " cards=\(cardIds ?? [String]())"
-                                     + " combat=\(isBattlegroundsCombatPhase)"
-                                     + " bgs=\(isBattlegroundsMatch())")
-        }
+        windowManager.rootOverlay?.viewModel.battlegroundsTrinketPicking.choicesVisible = choicesVisible
+        OverlayOpacityMask.trace("setChoicesVisible visible=\(choicesVisible)"
+                                 + " cards=\(cardIds ?? [String]())"
+                                 + " combat=\(isBattlegroundsCombatPhase)"
+                                 + " bgs=\(isBattlegroundsMatch())")
 
         guard isBattlegroundsMatch() else { return }
 
         let cardIdList = cardIds ?? [String]()
         if !choicesVisible || cardIdList.isEmpty {
             pendingBgsCombatChoices = nil
-            if #available(macOS 10.15, *) {
-                onMainOverlay { $0.opacityMask.removeMaskedRegion("DiscoverCard") }
-            }
+            onMainOverlay { $0.opacityMask.removeMaskedRegion("DiscoverCard") }
             return
         }
 
@@ -4236,9 +4126,7 @@ class Game: NSObject, PowerEventHandler {
     }
 
     func onBattlegroundsShoppingStart() {
-        if #available(macOS 10.15, *) {
-            OverlayOpacityMask.trace("shopping start, pending=\(pendingBgsCombatChoices ?? [String]())")
-        }
+        OverlayOpacityMask.trace("shopping start, pending=\(pendingBgsCombatChoices ?? [String]())")
         if let pending = pendingBgsCombatChoices {
             pendingBgsCombatChoices = nil
             applyDiscoverCardMask(pending)
@@ -4253,7 +4141,6 @@ class Game: NSObject, PowerEventHandler {
         // be drawn a card too narrow, or drawn at all where HDT (whose
         // GetCardFromId keeps everything) matches no branch and draws nothing.
         let cards = cardIds.compactMap { Cards.any(byId: $0) }
-        guard #available(macOS 10.15, *) else { return }
 
         OverlayOpacityMask.trace("applyDiscoverCardMask cards=\(cards.map { $0.id })")
 
@@ -4284,14 +4171,12 @@ class Game: NSObject, PowerEventHandler {
     // HDT's Watchers.OnUiChange -> OverlayWindow.SetFriendListOpacityMask. The
     // friends list slides in over the right of the client, under the overlay.
     func setFriendListOpacityMask(_ visible: Bool) {
-        guard #available(macOS 10.15, *) else { return }
         onMainOverlay { $0.setFriendListOpacityMask(visible) }
     }
 
     // HDT's Watchers.OnUiChange -> OverlayWindow.SetGameMenuOpacityMask. The
     // escape menu is drawn centred over the board, under the overlay.
     func setGameMenuOpacityMask(_ visible: Bool) {
-        guard #available(macOS 10.15, *) else { return }
         onMainOverlay { $0.setGameMenuOpacityMask(visible) }
     }
 
@@ -4299,7 +4184,6 @@ class Game: NSObject, PowerEventHandler {
     // OverlayWindow.SetHeroPickingTooltipMask.
     func setHeroPickingTooltipMask(zoneSize: Int, zonePosition: Int, tooltipOnRight: Bool,
                                    numCards: Int, buddiesEnabled: Bool) {
-        guard #available(macOS 10.15, *) else { return }
         onMainOverlay {
             $0.setHeroPickingTooltipMask(zoneSize: zoneSize, zonePosition: zonePosition,
                                          tooltipOnRight: tooltipOnRight, numCards: numCards,
@@ -4313,7 +4197,6 @@ class Game: NSObject, PowerEventHandler {
     // that resets the shared trigger: the two write the same element there, so
     // a discover state that is neither leaves it cleared.
     func setTrinketGuidesTrigger(zoneSize: Int, zonePosition: Int, cardId: String) {
-        guard #available(macOS 10.15, *) else { return }
 
         guard !cardId.isEmpty,
               let card = Cards.by(cardId: cardId),
@@ -4345,7 +4228,6 @@ class Game: NSObject, PowerEventHandler {
     // HDT's, it leaves the shared trigger alone when it does not apply - the
     // trinket path above has already cleared it.
     func setQuestGuidesTrigger(_ state: DiscoverStateArgs) {
-        guard #available(macOS 10.15, *) else { return }
 
         guard let entityId = state.entityId, entityId != 0,
               let entity = entities[entityId] else { return }
@@ -4381,7 +4263,6 @@ class Game: NSObject, PowerEventHandler {
     // OverlayWindow.SetHeroGuidesTrigger.
     func setHeroGuidesTrigger(zoneSize: Int, zonePosition: Int, tooltipOnRight: Bool,
                               cards: [String], buddiesEnabled: Bool) {
-        guard #available(macOS 10.15, *) else { return }
         onMainOverlay {
             $0.battlegroundsHeroGuides.setTrigger(zoneSize: zoneSize, zonePosition: zonePosition,
                                                   tooltipOnRight: tooltipOnRight, cards: cards,
@@ -4419,7 +4300,6 @@ class Game: NSObject, PowerEventHandler {
     // watcher above. Mirrors HDT's BattlegroundsMinionPinningViewModel.OnShopChange
     // call sites.
     func handleShopBoardState(boardCards: [MirrorBoardCard], mousedOverSlot: Int) {
-        guard #available(macOS 10.15, *) else { return }
         DispatchQueue.main.async {
             self.windowManager.rootOverlay?.viewModel.battlegroundsMinionPinning
                 .onShopChange(boardCards: boardCards, mousedOverSlot: mousedOverSlot)
@@ -4454,9 +4334,7 @@ class Game: NSObject, PowerEventHandler {
                 } else {
                     logger.error("Could not reliably determine Battlegrounds hero power. \(chosen.count) hero(es) chosen.")
                 }
-                if #available(macOS 10.15, *) {
-                    self.windowManager.rootOverlay?.viewModel.battlegroundsQuestPicking.reset()
-                }
+                self.windowManager.rootOverlay?.viewModel.battlegroundsQuestPicking.reset()
             } else if isConstructedMatch() || isFriendlyMatch || isArenaMatch {
                 _ = snapshotMulliganChoices(choice: choice)
             }
@@ -4464,10 +4342,8 @@ class Game: NSObject, PowerEventHandler {
             counterManager.handleChoicePicked(choice: choice)
             handleSphereOfSapienceChosen(choice, chosen, source)
             if isBattlegroundsMatch() {
-                if #available(macOS 10.15, *) {
-                    windowManager.rootOverlay?.viewModel.battlegroundsQuestPicking.reset()
-                    windowManager.rootOverlay?.viewModel.battlegroundsTrinketPicking.reset()
-                }
+                windowManager.rootOverlay?.viewModel.battlegroundsQuestPicking.reset()
+                windowManager.rootOverlay?.viewModel.battlegroundsTrinketPicking.reset()
                 if source?[.bacon_is_magic_item_discover] ?? 0 > 0 {
                     let chosenTrinketIds = (self.player.trinkets + chosen).compactMap({ x in x.cardId })
                     battlegroundsMinionsOnTrinkets(chosenTrinketIds)
@@ -4482,13 +4358,11 @@ class Game: NSObject, PowerEventHandler {
                     if questRewardDbfId > 0 {
                         if let questReward = Cards.by(dbfId: questRewardDbfId, collectible: false) {
                             battlegroundsMinionsOnQuests([questReward.id])
-                            if #available(macOS 10.15, *) {
-                                // Mutates an @Published property - this
-                                // handler runs off the log-parsing thread
-                                // (ChoicesHandler), not guaranteed main.
-                                DispatchQueue.main.async {
-                                    self.windowManager.rootOverlay?.viewModel.battlegroundsQuestGuides.selectQuest(card: questReward)
-                                }
+                            // Mutates an @Published property - this
+                            // handler runs off the log-parsing thread
+                            // (ChoicesHandler), not guaranteed main.
+                            DispatchQueue.main.async {
+                                self.windowManager.rootOverlay?.viewModel.battlegroundsQuestGuides.selectQuest(card: questReward)
                             }
                         }
                     }
@@ -4802,27 +4676,21 @@ class Game: NSObject, PowerEventHandler {
 
     @MainActor
     private func showMulliganGuidePreLobby() {
-        if #available(macOS 10.15, *) {
-            windowManager.rootOverlay?.viewModel.mulliganGuidePreLobby.isRequested = true
-        }
+        windowManager.rootOverlay?.viewModel.mulliganGuidePreLobby.isRequested = true
     }
     
     @MainActor
     private func hideMulliganGuidePreLobby() {
-        if #available(macOS 10.15, *) {
-            windowManager.rootOverlay?.viewModel.mulliganGuidePreLobby.isRequested = false
-        }
+        windowManager.rootOverlay?.viewModel.mulliganGuidePreLobby.isRequested = false
     }
     
     @MainActor
     private func showMulliganPreLobbyWidget() {
-        guard #available(macOS 10.15, *) else { return }
         windowManager.rootOverlay?.viewModel.constructedMulliganPreLobbyWidget.isShown = true
     }
 
     @MainActor
     private func hideMulliganPreLobbyWidget() {
-        guard #available(macOS 10.15, *) else { return }
         windowManager.rootOverlay?.viewModel.constructedMulliganPreLobbyWidget.isShown = false
     }
 
@@ -4876,21 +4744,19 @@ class Game: NSObject, PowerEventHandler {
         // many synchronous sites) can't cheaply do; a slightly stale
         // remainingTrials on the very first call back to the lobby is an
         // acceptable tradeoff over a larger async refactor.
-        if #available(macOS 10.15, *), let acc = MirrorHelper.getAccountId() {
+        if let acc = MirrorHelper.getAccountId() {
             Task.detached {
                 await MulliganGuideTrial.update(hi: acc.hi.int64Value, lo: acc.lo.int64Value)
             }
         }
 
         var mulliganGuideTrialsExhaustedVisible = false
-        if #available(macOS 10.15, *) {
-            if inConstructedLobby {
-                updateMulliganGuideTrialsExhausted()
-            } else {
-                hideMulliganGuideTrialsExhausted()
-            }
-            mulliganGuideTrialsExhaustedVisible = windowManager.rootOverlay?.viewModel.mulliganGuideTrialsExhausted.isShown ?? false
+        if inConstructedLobby {
+            updateMulliganGuideTrialsExhausted()
+        } else {
+            hideMulliganGuideTrialsExhausted()
         }
+        mulliganGuideTrialsExhaustedVisible = windowManager.rootOverlay?.viewModel.mulliganGuideTrialsExhausted.isShown ?? false
 
         // Matches HDT's OverlayWindow.Update.cs UpdateMulliganGuidePreLobbyVisibility():
         // both the badge grid and the widget are gated by the single
@@ -4904,10 +4770,8 @@ class Game: NSObject, PowerEventHandler {
         // left as-is rather than changed as a side effect here).
         if show && isPremium {
             showMulliganGuidePreLobby()
-            if #available(macOS 10.15.0, *) {
-                Task.detached { [self] in
-                    await mulliganGuidePreLobbyViewModel?.ensureLoaded()
-                }
+            Task.detached { [self] in
+                await mulliganGuidePreLobbyViewModel?.ensureLoaded()
             }
         } else {
             hideMulliganGuidePreLobby()
@@ -4924,7 +4788,7 @@ class Game: NSObject, PowerEventHandler {
     }
 
     func setDeckPickerState(_ vft: VisualsFormatType, _ decksList: [CollectionDeckBoxVisual?], _ isModalOpen: Bool) {
-        if #available(macOS 10.15, *), let vm = mulliganGuidePreLobbyViewModel {
+        if let vm = mulliganGuidePreLobbyViewModel {
             if vm.decksOnPage == nil || decksList != vm.decksOnPage {
                 vm.decksOnPage = decksList
             }
@@ -4932,76 +4796,62 @@ class Game: NSObject, PowerEventHandler {
             vm.isModalOpen = isModalOpen
         }
 
-        if #available(macOS 10.15, *), let widgetVm = windowManager.rootOverlay?.viewModel.constructedMulliganPreLobbyWidget {
+        if let widgetVm = windowManager.rootOverlay?.viewModel.constructedMulliganPreLobbyWidget {
             widgetVm.isModalOpen = isModalOpen
             widgetVm.visualsFormatType = vft
         }
     }
 
     func setConstructedQueue(_ inQueue: Bool) {
-        if #available(macOS 10.15, *) {
-            mulliganGuidePreLobbyViewModel?.isInQueue = inQueue
-        }
-        if #available(macOS 10.15, *), let widgetVm = windowManager.rootOverlay?.viewModel.constructedMulliganPreLobbyWidget {
+        mulliganGuidePreLobbyViewModel?.isInQueue = inQueue
+        if let widgetVm = windowManager.rootOverlay?.viewModel.constructedMulliganPreLobbyWidget {
             widgetVm.isInQueue = inQueue
         }
     }
     
     func showMulliganToast(_ shortId: String, _ dbfIds: [Int], _ parameters: [String: String]?, _ showingMulliganStats: Bool = false) {
-        if #available(macOS 10.15, *) {
-            windowManager.rootOverlay?.viewModel.mulliganToast
-                .show(shortId: shortId, dbfIds: dbfIds, parameters: parameters, showingMulliganStats: showingMulliganStats)
-        }
+        windowManager.rootOverlay?.viewModel.mulliganToast
+            .show(shortId: shortId, dbfIds: dbfIds, parameters: parameters, showingMulliganStats: showingMulliganStats)
     }
     
     func showBattlegroundsHeroPanel(_ heroIds: [Int], _ duos: Bool, _ parameters: [String: String]?) {
-        if #available(macOS 10.15, *) {
-            let anomalyDbfId = BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: gameEntity)
-            windowManager.rootOverlay?.viewModel.battlegroundsNotifications
-                .showHeroPick(heroIds: heroIds, duos: duos, anomalyDbfId: anomalyDbfId, parameters: parameters)
-        }
+        let anomalyDbfId = BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: gameEntity)
+        windowManager.rootOverlay?.viewModel.battlegroundsNotifications
+            .showHeroPick(heroIds: heroIds, duos: duos, anomalyDbfId: anomalyDbfId, parameters: parameters)
     }
     
     func hideBattlegroundsHeroPanel() {
-        if #available(macOS 10.15, *) {
-            windowManager.rootOverlay?.viewModel.battlegroundsNotifications.hideHeroPick()
-        }
+        windowManager.rootOverlay?.viewModel.battlegroundsNotifications.hideHeroPick()
     }
 
     // OverlayWindow._tavernMarkersPanelExpandedBeforeTimewarp.
     private var tavernMarkersPanelExpandedBeforeTimewarp: Bool?
 
     func showBattlegroundsTimewarpPanel(_ boardCards: [MirrorBoardCard]) {
-        if #available(macOS 10.15, *) {
-            guard let viewModel = windowManager.rootOverlay?.viewModel else {
-                return
-            }
-            // HDT collapses the Tavern Pinning panel while the Timewarp shop is
-            // up and puts it back the way it found it afterwards - the panel
-            // shares that corner with the compare-cards shop.
-            if !viewModel.battlegroundsNotifications.timewarpIsShown {
-                tavernMarkersPanelExpandedBeforeTimewarp = viewModel.battlegroundsMinionPinning.isExpanded
-                viewModel.battlegroundsMinionPinning.isExpanded = false
-            }
-            viewModel.battlegroundsNotifications.showTimewarp(boardCards: boardCards)
+        guard let viewModel = windowManager.rootOverlay?.viewModel else {
+            return
         }
+        // HDT collapses the Tavern Pinning panel while the Timewarp shop is
+        // up and puts it back the way it found it afterwards - the panel
+        // shares that corner with the compare-cards shop.
+        if !viewModel.battlegroundsNotifications.timewarpIsShown {
+            tavernMarkersPanelExpandedBeforeTimewarp = viewModel.battlegroundsMinionPinning.isExpanded
+            viewModel.battlegroundsMinionPinning.isExpanded = false
+        }
+        viewModel.battlegroundsNotifications.showTimewarp(boardCards: boardCards)
     }
 
     func hideBattlegroundsTimewarpPanel() {
-        if #available(macOS 10.15, *) {
-            windowManager.rootOverlay?.viewModel.battlegroundsNotifications.hideTimewarp()
+        windowManager.rootOverlay?.viewModel.battlegroundsNotifications.hideTimewarp()
 
-            if let expanded = tavernMarkersPanelExpandedBeforeTimewarp {
-                windowManager.rootOverlay?.viewModel.battlegroundsMinionPinning.isExpanded = expanded
-                tavernMarkersPanelExpandedBeforeTimewarp = nil
-            }
+        if let expanded = tavernMarkersPanelExpandedBeforeTimewarp {
+            windowManager.rootOverlay?.viewModel.battlegroundsMinionPinning.isExpanded = expanded
+            tavernMarkersPanelExpandedBeforeTimewarp = nil
         }
     }
 
     func hideMulliganToast() {
-        if #available(macOS 10.15, *) {
-            windowManager.rootOverlay?.viewModel.mulliganToast.hide()
-        }
+        windowManager.rootOverlay?.viewModel.mulliganToast.hide()
     }
     
     private(set) var duosWasPlayerHeroModified: Bool = false
@@ -5068,7 +4918,6 @@ class Game: NSObject, PowerEventHandler {
     
     @MainActor
     private func updateTooltips() {
-        guard #available(macOS 10.15, *) else { return }
         delayedTooltip?.cancel()
         if hoveredCard != nil {
             delayedTooltip = DelayedTooltip(handler: tooltipDisplay, 0.400, nil)
@@ -5081,7 +4930,6 @@ class Game: NSObject, PowerEventHandler {
 
     @MainActor
     private func tooltipDisplay(_ userInfo: Any?) {
-        guard #available(macOS 10.15, *) else { return }
         if let hoveredCard {
             // player hand
             if hoveredCard.isHand && isTraditionalHearthstoneMatch {
@@ -5245,16 +5093,12 @@ class Game: NSObject, PowerEventHandler {
             // HDT's Watchers.OnBigCardChange calls SetCardOpacityMask first:
             // the game is drawing the hovered card blown up, with its tooltips
             // and enchantment list, and the overlay has to get out of the way.
-            if #available(macOS 10.15, *) {
-                self.windowManager.rootOverlay?.viewModel.setCardOpacityMask(state)
-            }
+            self.windowManager.rootOverlay?.viewModel.setCardOpacityMask(state)
             if self.isTraditionalHearthstoneMatch {
                 let isFriendlyCard = state.side == PlayerSide.friendly.rawValue
 
-                if #available(macOS 10.15, *) {
-                    self.windowManager.rootOverlay?.viewModel.playerTrackerHover
-                        .highlightPlayerDeckCards(highlightSourceCardId: isFriendlyCard ? state.cardId : nil)
-                }
+                self.windowManager.rootOverlay?.viewModel.playerTrackerHover
+                    .highlightPlayerDeckCards(highlightSourceCardId: isFriendlyCard ? state.cardId : nil)
             }
             self.updateTooltips()
             // Mirrors HDT's SetAnomalyGuidesTrigger(string cardId), called
@@ -5262,16 +5106,13 @@ class Game: NSObject, PowerEventHandler {
             // SetRelatedCardsTrigger - shows the anomaly guide tooltip
             // whenever the currently-hovered card (per the mirror) is the
             // battleground anomaly badge.
-            if #available(macOS 10.15, *) {
-                self.windowManager.rootOverlay?.viewModel.battlegroundsAnomalyGuides.updateHoveredCard(cardId: state.cardId)
-            }
+            self.windowManager.rootOverlay?.viewModel.battlegroundsAnomalyGuides.updateHoveredCard(cardId: state.cardId)
         }
     }
     
     func setRelatedCardsTrigger(_ state: DiscoverStateArgs) {
         // Note: To debug behavior here and/or implement new triggers set a translucent
         // Background (e.g. #40FF0000) on the RelatedCardsTrigger Grid in Overlay.xaml.
-        guard #available(macOS 10.15, *) else { return }
 
         // This runs on the DiscoverStateWatcher queue. windowManager.tooltipGridCards
         // resolves to RelatedCardsTooltipPanel.shared, whose lazy init instantiates an
@@ -5481,43 +5322,35 @@ class Game: NSObject, PowerEventHandler {
     }
 
     func resetPlayerResourcesWidgets(_ maxHealth: Int, _ maxMana: Int, _ maxHandSize: Int) {
-        if #available(macOS 10.15, *) {
-            DispatchQueue.main.async {
-                guard let viewModel = self.windowManager.rootOverlay?.viewModel else { return }
-                viewModel.playerResources.initialize(maxHealth, maxMana, maxHandSize)
-                viewModel.opponentResources.initialize(maxHealth, maxMana, maxHandSize)
-            }
+        DispatchQueue.main.async {
+            guard let viewModel = self.windowManager.rootOverlay?.viewModel else { return }
+            viewModel.playerResources.initialize(maxHealth, maxMana, maxHandSize)
+            viewModel.opponentResources.initialize(maxHealth, maxMana, maxHandSize)
         }
     }
 
     func updatePlayerResourcesWidget(_ maxHealth: Int, _ maxMana: Int, _ maxHandSize: Int, _ corpsesLeft: Int? = nil) {
-        if #available(macOS 10.15, *) {
-            DispatchQueue.main.async {
-                self.windowManager.rootOverlay?.viewModel.playerResources.updatePlayerResourcesWidget(maxHealth, maxMana, maxHandSize, corpsesLeft)
-            }
+        DispatchQueue.main.async {
+            self.windowManager.rootOverlay?.viewModel.playerResources.updatePlayerResourcesWidget(maxHealth, maxMana, maxHandSize, corpsesLeft)
         }
     }
     
     func updateOpponentResourcesWidget(_ maxHealth: Int, _ maxMana: Int, _ maxHandSize: Int, _ corpsesLeft: Int?) {
-        if #available(macOS 10.15, *) {
-            DispatchQueue.main.async {
-                self.windowManager.rootOverlay?.viewModel.opponentResources.updatePlayerResourcesWidget(maxHealth, maxMana, maxHandSize, corpsesLeft)
-            }
+        DispatchQueue.main.async {
+            self.windowManager.rootOverlay?.viewModel.opponentResources.updatePlayerResourcesWidget(maxHealth, maxMana, maxHandSize, corpsesLeft)
         }
     }
     
     // shouldShowTracker is folded in here because the window show/hide this
     // replaces applied it on top of the widget's own visibility flag.
     func updatePlayerResorucesWidgetVisibility() {
-        if #available(macOS 10.15, *) {
-            guard let viewModel = windowManager.rootOverlay?.viewModel else { return }
-            if isInMenu || !isMulliganDone() || isBattlegroundsMatch() || !shouldShowTracker {
-                viewModel.playerResources.isShown = false
-                viewModel.opponentResources.isShown = false
-            } else {
-                viewModel.playerResources.isShown = Settings.showPlayerMaxResources
-                viewModel.opponentResources.isShown = Settings.showOpponentMaxResources
-            }
+        guard let viewModel = windowManager.rootOverlay?.viewModel else { return }
+        if isInMenu || !isMulliganDone() || isBattlegroundsMatch() || !shouldShowTracker {
+            viewModel.playerResources.isShown = false
+            viewModel.opponentResources.isShown = false
+        } else {
+            viewModel.playerResources.isShown = Settings.showPlayerMaxResources
+            viewModel.opponentResources.isShown = Settings.showOpponentMaxResources
         }
     }
 }

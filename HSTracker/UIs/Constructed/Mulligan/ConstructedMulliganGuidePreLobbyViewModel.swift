@@ -234,10 +234,8 @@ class ConstructedMulliganGuidePreLobbyViewModel: ViewModel {
             onPropertyChanged("formatType")
             onPropertyChanged("pageStatus")
             onPropertyChanged("pageStatusRows")
-            if #available(macOS 10.15.0, *) {
-                Task.detached {
-                    await self.ensureLoaded()
-                }
+            Task.detached {
+                await self.ensureLoaded()
             }
         }
     }
