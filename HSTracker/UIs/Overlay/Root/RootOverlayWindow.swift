@@ -97,10 +97,26 @@ class RootOverlayWindow: OverWindowController {
         // counters and the active effects are on screen. HDT's
         // IsOverlayHoverVisible is independent of IsOverlayHitTestVisible in the
         // same way, and this touches nothing the guard sets.
-        updateHoverTooltip()
-        // Also before the guard, and for the same reason: a deck tracker's rows
-        // raise their card preview while the canvas over them is click-through.
-        updateTrackerRowHover()
+        // Both are skipped while the overlay is unlocked: every element on the
+        // canvas is a drag target then, and a tooltip raised by resting on one -
+        // a counter's related cards, a deck row's card render - lands over the
+        // element being aimed at and follows the cursor across the drag.
+        //
+        // HDT does keep its own hover sweep running while _uiMovable is set
+        // (UpdateHoverable is not gated on it), so this is a deliberate
+        // divergence rather than a port: HDT drags from a global mouse hook that
+        // nothing on screen can get between, and what it shows while unlocked is
+        // example counters and example effects, whose tooltips say nothing about
+        // the game in progress.
+        if viewModel.windowsLocked {
+            updateHoverTooltip()
+            // Also before the guard, and for the same reason: a deck tracker's
+            // rows raise their card preview while the canvas over them is
+            // click-through.
+            updateTrackerRowHover()
+        } else {
+            dismissHoverTooltips()
+        }
 
         guard !viewModel.interactiveRegions.isEmpty else {
             setIgnoresMouseEvents(true)
@@ -515,6 +531,28 @@ class RootOverlayWindow: OverWindowController {
                }) {
                 CardTooltipPanel.shared.hide(from: .registry)
             }
+        }
+    }
+
+    /// Takes down whatever the two sweeps above have up, and forgets what they
+    /// were tracking - so unlocking the overlay clears a tooltip that is already
+    /// on screen, and locking it again starts from nothing hovered rather than
+    /// from wherever the cursor was when the sweeps stopped.
+    private func dismissHoverTooltips() {
+        guard #available(macOS 10.15, *) else { return }
+        if let previous = hoveredTooltip {
+            hoveredTooltip = nil
+            hoveredView = nil
+            switch previous {
+            case .card:
+                CardTooltipPanel.shared.hide(from: .registry)
+            case .relatedCards:
+                CounterTooltipController.shared.hover(counter: nil, anchor: nil)
+            }
+        }
+        if let row = hoveredTrackerRow {
+            hoveredTrackerRow = nil
+            row.handler.out(card: row.card)
         }
     }
 

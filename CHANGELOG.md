@@ -9,6 +9,8 @@
 - The mulligan guide no longer appears in practice games against the AI, where HSReplay has no win rates to show for most of the deck.
 - Fixed hovering a counter showing the card pool of a card hovered earlier instead of the counter's own cards.
 - Changing the card theme now redraws the deck trackers, their counters and the Battlegrounds minion list at once, instead of leaving the old theme on screen until the next card was drawn.
+- The counters, the active effects, the turn timers, the board damage icons and the maximum resources widgets can now be dragged to wherever you want them while the windows are unlocked, and stay there, as they can in Hearthstone Deck Tracker.
+- While the windows are unlocked the overlay no longer pops up card and counter tooltips over whatever you are dragging, the Battlegrounds session panel is now highlighted like everything else that can be moved, and both players' counters and active effects show example content so there is always something to take hold of.
 - Fixed the board damage number sitting too high on its icon.
 
 # 3.6.11

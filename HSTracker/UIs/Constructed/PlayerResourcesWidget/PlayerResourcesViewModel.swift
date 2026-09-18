@@ -40,8 +40,13 @@ class PlayerResourcesViewModel: ObservableObject {
         return resources.count > 0
     }
     
+    // Where the widget sits, and what dragging it while the overlay is unlocked
+    // does - HDT registers both resources widgets with _movableElements.
+    let placement: OverlayWidgetPlacement
+
     init(isPlayer: Bool) {
         self.isPlayer = isPlayer
+        placement = OverlayWidgetPlacement(widget: .maxResources, isPlayer: isPlayer)
     }
     
     func initialize(_ maxHealth: Int, _ maxMana: Int, _ maxHandSize: Int) {

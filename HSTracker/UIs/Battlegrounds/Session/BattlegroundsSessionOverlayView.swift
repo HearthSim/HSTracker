@@ -27,6 +27,11 @@ struct BattlegroundsSessionOverlayView: View {
     // The canvas's real, post-scale size - the same Width/Height HDT's
     // percentages are taken against.
     let canvasSize: CGSize
+    /// `Settings.windowsLocked`, HDT's `_uiMovable` inverted. Passed in rather
+    /// than read off Settings here: this view is redrawn when its own view model
+    /// changes, and the lock is toggled from a menu item that changes nothing on
+    /// it - so read here, the panel would keep whichever state it last drew with.
+    let isLocked: Bool
 
     var body: some View {
         // Instantiated unconditionally so the @ObservedObject binding keeps
@@ -87,8 +92,15 @@ struct BattlegroundsSessionOverlayView: View {
             // anchor: .topLeading so the panel's corner stays on the offset
             // origin, which is what the region above assumes.
             .scaleEffect(CGFloat(viewModel.scaling), anchor: .topLeading)
+            // The wash HDT puts over every movable element while the overlay is
+            // unlocked: UnlockUi gives each one's box `Background = #4C0000FF`,
+            // and BattlegroundsSessionStackPanel is one of them
+            // (OverlayWindow.Initialize.cs). It is what says the panel can be
+            // dragged at all - without it this was the one movable element on
+            // the canvas with no sign that it was.
+            .overlay(isLocked ? nil : Color(hex: "#4C0000FF"))
             .offset(x: originX, y: originY)
-            .gesture(dragGesture, including: Settings.windowsLocked ? .none : .all)
+            .gesture(dragGesture, including: isLocked ? .none : .all)
     }
 
     // HDT only moves overlay elements while the overlay is unlocked
@@ -97,7 +109,7 @@ struct BattlegroundsSessionOverlayView: View {
     private var dragGesture: some Gesture {
         DragGesture(minimumDistance: 1)
             .onChanged { value in
-                guard !Settings.windowsLocked else { return }
+                guard !isLocked else { return }
                 viewModel.drag(translation: value.translation, canvasSize: canvasSize)
             }
             .onEnded { _ in

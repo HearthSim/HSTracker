@@ -137,11 +137,18 @@ struct RootOverlayView: View {
                 // a ScaleTransform, so HDT draws them at a flat size however
                 // large the client is.
                 TurnTimerOverlayView(viewModel: viewModel.turnTimer,
+                                     placement: viewModel.turnTimer.placement,
+                                     spacing: viewModel.turnTimer.spacing,
+                                     isLocked: viewModel.windowsLocked,
                                      canvasSize: geometry.size)
                 // Opponent first, as on HDT's canvas.
                 BoardAttackIconView(viewModel: viewModel.opponentBoardAttack,
+                                    placement: viewModel.opponentBoardAttack.placement,
+                                    isLocked: viewModel.windowsLocked,
                                     canvasSize: geometry.size)
                 BoardAttackIconView(viewModel: viewModel.playerBoardAttack,
+                                    placement: viewModel.playerBoardAttack.placement,
+                                    isLocked: viewModel.windowsLocked,
                                     canvasSize: geometry.size)
 
                 // Declared before the scaled subtree because HDT declares the
@@ -193,25 +200,49 @@ struct RootOverlayView: View {
                     // The ActiveEffects and PlayerResources widgets below are
                     // not, so the fade wraps only this pair.
                     BattlegroundsLeaderboardHoverFade(viewModel: viewModel.battlegroundsOpponentInfo) {
-                        CountersOverlayView(viewModel: viewModel.opponentCounters, canvasWidth: canvasWidth)
+                        CountersOverlayView(viewModel: viewModel.opponentCounters,
+                                            placement: viewModel.opponentCounters.placement,
+                                            canvasWidth: canvasWidth,
+                                            canvasSize: geometry.size,
+                                            isLocked: viewModel.windowsLocked)
                     }
                     BattlegroundsLeaderboardHoverFade(viewModel: viewModel.battlegroundsOpponentInfo) {
-                        CountersOverlayView(viewModel: viewModel.playerCounters, canvasWidth: canvasWidth)
+                        CountersOverlayView(viewModel: viewModel.playerCounters,
+                                            placement: viewModel.playerCounters.placement,
+                                            canvasWidth: canvasWidth,
+                                            canvasSize: geometry.size,
+                                            isLocked: viewModel.windowsLocked)
                     }
 
                     // HDT's two ActiveEffectsOverlay controls, declared right
                     // after those counters on its own canvas, opponent first,
                     // and scaled by the same Height/1080 factor - see
                     // ActiveEffectsOverlayView for the placement they carry.
-                    ActiveEffectsOverlayView(viewModel: viewModel.opponentActiveEffects, canvasWidth: canvasWidth)
-                    ActiveEffectsOverlayView(viewModel: viewModel.playerActiveEffects, canvasWidth: canvasWidth)
+                    ActiveEffectsOverlayView(viewModel: viewModel.opponentActiveEffects,
+                                             placement: viewModel.opponentActiveEffects.placement,
+                                             canvasWidth: canvasWidth,
+                                             canvasSize: geometry.size,
+                                             isLocked: viewModel.windowsLocked)
+                    ActiveEffectsOverlayView(viewModel: viewModel.playerActiveEffects,
+                                             placement: viewModel.playerActiveEffects.placement,
+                                             canvasWidth: canvasWidth,
+                                             canvasSize: geometry.size,
+                                             isLocked: viewModel.windowsLocked)
 
                     // HDT's two PlayerResourcesWidget controls, declared right
                     // after those on the same canvas, opponent first, and
                     // scaled the same way - see PlayerResourcesView for the
                     // placement they carry.
-                    PlayerResourcesView(viewModel: viewModel.opponentResources, canvasWidth: canvasWidth)
-                    PlayerResourcesView(viewModel: viewModel.playerResources, canvasWidth: canvasWidth)
+                    PlayerResourcesView(viewModel: viewModel.opponentResources,
+                                        placement: viewModel.opponentResources.placement,
+                                        canvasWidth: canvasWidth,
+                                        canvasSize: geometry.size,
+                                        isLocked: viewModel.windowsLocked)
+                    PlayerResourcesView(viewModel: viewModel.playerResources,
+                                        placement: viewModel.playerResources.placement,
+                                        canvasWidth: canvasWidth,
+                                        canvasSize: geometry.size,
+                                        isLocked: viewModel.windowsLocked)
 
                     // Bob's Buddy, centred on the canvas top - its
                     // OverlayElementBehavior is
@@ -490,7 +521,8 @@ struct RootOverlayView: View {
                 // scales it only by the user's own OverlaySessionRecapScaling,
                 // never by the client's resolution.
                 BattlegroundsSessionOverlayView(viewModel: viewModel.battlegroundsSession,
-                                                canvasSize: geometry.size)
+                                                canvasSize: geometry.size,
+                                                isLocked: viewModel.windowsLocked)
                 // The two deck trackers, the secret helper and the panel that
                 // hangs off the opponent stack. They belong in this fixed-pixel
                 // layer for the same reason the session panel does: HDT places

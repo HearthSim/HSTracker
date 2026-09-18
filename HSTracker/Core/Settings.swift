@@ -638,6 +638,67 @@ final class Settings {
     @UserDefault(key: Settings.secrets_panel_scaling, defaultValue: 1.0)
     static var secretsPanelScaling: Double
 
+    // Where the counters and the active-effects tiles sit, as percentages of the
+    // client - HDT's PlayerCountersVertical/Horizontal, OpponentCountersVertical/
+    // Horizontal and the ActiveEffects pair, with HDT's own defaults (Config.cs).
+    // Both are movable there while the overlay is unlocked, and both hang the
+    // opponent's copy from the *bottom* edge, so its vertical percentage is
+    // measured up from the bottom of the client and grows as it is dragged up
+    // (OverlayWindow.Input.cs).
+    @UserDefault(key: Settings.player_counters_vertical, defaultValue: 68.4)
+    static var playerCountersVertical: Double
+    @UserDefault(key: Settings.player_counters_horizontal, defaultValue: 67.7)
+    static var playerCountersHorizontal: Double
+    @UserDefault(key: Settings.opponent_counters_vertical, defaultValue: 70.6)
+    static var opponentCountersVertical: Double
+    @UserDefault(key: Settings.opponent_counters_horizontal, defaultValue: 67.7)
+    static var opponentCountersHorizontal: Double
+
+    @UserDefault(key: Settings.player_active_effects_vertical, defaultValue: 71.6)
+    static var playerActiveEffectsVertical: Double
+    @UserDefault(key: Settings.player_active_effects_horizontal, defaultValue: 66.2)
+    static var playerActiveEffectsHorizontal: Double
+    @UserDefault(key: Settings.opponent_active_effects_vertical, defaultValue: 73.8)
+    static var opponentActiveEffectsVertical: Double
+    @UserDefault(key: Settings.opponent_active_effects_horizontal, defaultValue: 66.2)
+    static var opponentActiveEffectsHorizontal: Double
+
+    // The board attack icons and the max-resources widgets, both of which hang
+    // by their top edge on either side - HDT's AttackIcon*Position and
+    // *MaxResources* pairs, with its defaults.
+    @UserDefault(key: Settings.attack_icon_player_vertical, defaultValue: 67.62)
+    static var attackIconPlayerVertical: Double
+    @UserDefault(key: Settings.attack_icon_player_horizontal, defaultValue: 25.5)
+    static var attackIconPlayerHorizontal: Double
+    @UserDefault(key: Settings.attack_icon_opponent_vertical, defaultValue: 22.39)
+    static var attackIconOpponentVertical: Double
+    @UserDefault(key: Settings.attack_icon_opponent_horizontal, defaultValue: 25.5)
+    static var attackIconOpponentHorizontal: Double
+
+    @UserDefault(key: Settings.player_max_resources_vertical, defaultValue: 95.6)
+    static var playerMaxResourcesVertical: Double
+    @UserDefault(key: Settings.player_max_resources_horizontal, defaultValue: 75.2)
+    static var playerMaxResourcesHorizontal: Double
+    @UserDefault(key: Settings.opponent_max_resources_vertical, defaultValue: 0.3)
+    static var opponentMaxResourcesVertical: Double
+    @UserDefault(key: Settings.opponent_max_resources_horizontal, defaultValue: 72.2)
+    static var opponentMaxResourcesHorizontal: Double
+
+    // The three turn timers: where the middle one sits, as percentages of the
+    // client, and how far the two per-player ones sit from it - which HDT keeps
+    // in points rather than percentages (TimersHorizontalSpacing /
+    // TimersVerticalSpacing), so they keep their gap whatever the resolution.
+    // Dragging the middle timer moves all three; dragging the player's own moves
+    // the pair.
+    @UserDefault(key: Settings.timers_vertical_position, defaultValue: 44.5)
+    static var timersVerticalPosition: Double
+    @UserDefault(key: Settings.timers_horizontal_position, defaultValue: 72.0)
+    static var timersHorizontalPosition: Double
+    @UserDefault(key: Settings.timers_vertical_spacing, defaultValue: 42.0)
+    static var timersVerticalSpacing: Double
+    @UserDefault(key: Settings.timers_horizontal_spacing, defaultValue: 48.0)
+    static var timersHorizontalSpacing: Double
+
     // Set once the absolute frames above have been converted into the
     // percentages, so a player who moved a tracker keeps it where they put it.
     @UserDefault(key: Settings.migrated_tracker_placement, defaultValue: false)
@@ -959,6 +1020,26 @@ extension Settings {
     static let secrets_panel_left = "secrets_panel_left"
     static let secrets_panel_height = "secrets_panel_height"
     static let secrets_panel_scaling = "secrets_panel_scaling"
+    static let player_counters_vertical = "player_counters_vertical"
+    static let player_counters_horizontal = "player_counters_horizontal"
+    static let opponent_counters_vertical = "opponent_counters_vertical"
+    static let opponent_counters_horizontal = "opponent_counters_horizontal"
+    static let player_active_effects_vertical = "player_active_effects_vertical"
+    static let player_active_effects_horizontal = "player_active_effects_horizontal"
+    static let opponent_active_effects_vertical = "opponent_active_effects_vertical"
+    static let opponent_active_effects_horizontal = "opponent_active_effects_horizontal"
+    static let attack_icon_player_vertical = "attack_icon_player_vertical"
+    static let attack_icon_player_horizontal = "attack_icon_player_horizontal"
+    static let attack_icon_opponent_vertical = "attack_icon_opponent_vertical"
+    static let attack_icon_opponent_horizontal = "attack_icon_opponent_horizontal"
+    static let player_max_resources_vertical = "player_max_resources_vertical"
+    static let player_max_resources_horizontal = "player_max_resources_horizontal"
+    static let opponent_max_resources_vertical = "opponent_max_resources_vertical"
+    static let opponent_max_resources_horizontal = "opponent_max_resources_horizontal"
+    static let timers_vertical_position = "timers_vertical_position"
+    static let timers_horizontal_position = "timers_horizontal_position"
+    static let timers_vertical_spacing = "timers_vertical_spacing"
+    static let timers_horizontal_spacing = "timers_horizontal_spacing"
     static let migrated_tracker_placement = "migrated_tracker_placement"
     static let player_board_damage = "player_board_damage"
     static let opponent_board_damage = "opponent_board_damage"

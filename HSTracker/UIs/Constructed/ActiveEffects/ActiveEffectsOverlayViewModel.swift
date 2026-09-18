@@ -18,6 +18,11 @@ class ActiveEffectsOverlayViewModel: ObservableObject {
     // HDT's IsPlayer on the two ActiveEffectsOverlay instances.
     let isPlayer: Bool
 
+    // Where these tiles sit, and what dragging them while the overlay is
+    // unlocked does - HDT registers both ActiveEffectsOverlay instances with
+    // _movableElements.
+    let placement: OverlayWidgetPlacement
+
     // HDT's Visibility on the control, driven by Game.updateActiveEffects the
     // way OverlayWindow.UpdateActiveEffects drives it there.
     @Published var isShown = false
@@ -32,6 +37,7 @@ class ActiveEffectsOverlayViewModel: ObservableObject {
 
     init(isPlayer: Bool) {
         self.isPlayer = isPlayer
+        placement = OverlayWidgetPlacement(widget: .activeEffects, isPlayer: isPlayer)
     }
 
     func setActiveEffects(_ activeEffects: ActiveEffects) {

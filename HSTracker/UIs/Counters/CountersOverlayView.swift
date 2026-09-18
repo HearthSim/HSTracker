@@ -21,28 +21,27 @@ import SwiftUI
 // this replaces were a fixed 336x102 in screen points however large the
 // client was, so the counters now grow with the client the way HDT's do.
 //
-// Positions come from Config: PlayerCountersVertical/Horizontal (68.4/67.7)
-// and OpponentCountersVertical/Horizontal (70.6/67.7), the same numbers
-// SizeHelper.playerCountersFrame/opponentCountersFrame used to hold. HDT lets
-// the player drag both while the overlay is unlocked and writes the new
-// percentages back; HSTracker never persisted a dragged position for these
-// (the frame was recomputed from SizeHelper on every refresh), so they stay
-// fixed here too.
+// Positions come from Settings, which start at HDT's own defaults:
+// PlayerCountersVertical/Horizontal (68.4/67.7) and OpponentCountersVertical/
+// Horizontal (70.6/67.7), the same numbers SizeHelper.playerCountersFrame/
+// opponentCountersFrame used to hold. Both blocks can be dragged while the
+// overlay is unlocked, as HDT's can - see OverlayWidgetPlacement.
 @available(macOS 10.15, *)
 struct CountersOverlayView: View {
     @ObservedObject var viewModel: CountersOverlayViewModel
+    // Observed as well as the view model: a drag moves the block without
+    // anything about the counters themselves changing.
+    @ObservedObject var placement: OverlayWidgetPlacement
     // The canvas width RootOverlayView measured, in the 1080-tall reference
     // space this subtree is authored in.
     let canvasWidth: CGFloat
+    // The canvas's real, post-scale size, which the drag's percentages are
+    // taken against - the Width/Height of HDT's own overlay window.
+    let canvasSize: CGSize
+    // `Settings.windowsLocked`, HDT's `_uiMovable` inverted.
+    let isLocked: Bool
 
     private static let canvasHeight: CGFloat = 1080
-
-    // Config.PlayerCountersVertical / PlayerCountersHorizontal.
-    private static let playerVertical: CGFloat = 68.4
-    private static let playerHorizontal: CGFloat = 67.7
-    // Config.OpponentCountersVertical / OpponentCountersHorizontal.
-    private static let opponentVertical: CGFloat = 70.6
-    private static let opponentHorizontal: CGFloat = 67.7
 
     // CounterChipView's own fixed height, which is all the rows are made of.
     private static let chipHeight: CGFloat = 51
@@ -60,9 +59,24 @@ struct CountersOverlayView: View {
             if viewModel.isShown && !viewModel.chips.isEmpty {
                 rowsStack
                     .offset(x: originX, y: originY)
+                // HDT paints a box over every movable element while the overlay
+                // is unlocked and drags it from there (OverlayWindow.Input.cs).
+                if !isLocked {
+                    OverlayWidgetMovableBox(placement: placement, frame: contentFrame,
+                                            canvasSize: canvasSize)
+                }
             }
         }
         .frame(width: canvasWidth, height: Self.canvasHeight, alignment: .topLeading)
+    }
+
+    /// What the block currently occupies, in reference-space points: the widest
+    /// row by one chip per row, which is what the WrapPanel lays out.
+    private var contentFrame: CGRect {
+        let rows = self.rows
+        let width = rows.map { $0.reduce(0) { $0 + $1.chipWidth } }.max() ?? 0
+        return CGRect(x: originX, y: originY,
+                      width: width, height: CGFloat(rows.count) * Self.chipHeight)
     }
 
     // HDT's CountersOverlay.WrapWidth, the MaxWidth it puts on the WrapPanel
@@ -135,9 +149,9 @@ struct CountersOverlayView: View {
     // it is the same number either way, since the canvas has the client's
     // aspect ratio.
     private var originX: CGFloat {
-        let horizontal = viewModel.isPlayer ? Self.playerHorizontal : Self.opponentHorizontal
         let ratio = (4.0 / 3.0) / (canvasWidth / Self.canvasHeight)
-        return SizeHelper.getScaledXPos(horizontal / 100.0, width: canvasWidth, ratio: ratio)
+        return SizeHelper.getScaledXPos(CGFloat(placement.horizontal) / 100.0,
+                                        width: canvasWidth, ratio: ratio)
     }
 
     // The player's counters hang from their top edge:
@@ -150,9 +164,9 @@ struct CountersOverlayView: View {
     // laid-out row stack, whose height is exactly one chip per row.
     private var originY: CGFloat {
         if viewModel.isPlayer {
-            return Self.canvasHeight * Self.playerVertical / 100.0
+            return Self.canvasHeight * CGFloat(placement.vertical) / 100.0
         }
         let contentHeight = CGFloat(rows.count) * Self.chipHeight
-        return Self.canvasHeight - (contentHeight + Self.canvasHeight * Self.opponentVertical / 100.0)
+        return Self.canvasHeight - (contentHeight + Self.canvasHeight * CGFloat(placement.vertical) / 100.0)
     }
 }

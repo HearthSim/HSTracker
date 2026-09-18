@@ -19,7 +19,9 @@ import SwiftUI
 // replaces were a fixed 222x36 in screen points however large the client was,
 // so the widget now grows with the client the way HDT's does.
 //
-// Positions come from Config: PlayerMaxResourcesVertical/Horizontal
+// Positions come from Settings, which start at HDT's own defaults, and can be
+// dragged while the overlay is unlocked as HDT's can - see
+// OverlayWidgetPlacement. PlayerMaxResourcesVertical/Horizontal
 // (95.6/75.2) and OpponentMaxResourcesVertical/Horizontal (0.3/72.2), the same
 // numbers SizeHelper.playerMaxResourcesFrame/opponentMaxResourcesFrame used to
 // hold. Both anchor by their top edge, as HDT anchors them - unlike the
@@ -27,18 +29,23 @@ import SwiftUI
 @available(macOS 10.15.0, *)
 struct PlayerResourcesView: View {
     @ObservedObject var viewModel: PlayerResourcesViewModel
+    // Observed as well as the view model: a drag moves the widget without the
+    // resources it is showing changing.
+    @ObservedObject var placement: OverlayWidgetPlacement
     // The canvas width RootOverlayView measured, in the 1080-tall reference
     // space this subtree is authored in.
     let canvasWidth: CGFloat
+    // The canvas's real, post-scale size, which the drag's percentages are
+    // taken against - the Width/Height of HDT's own overlay window.
+    let canvasSize: CGSize
+    // `Settings.windowsLocked`, HDT's `_uiMovable` inverted.
+    let isLocked: Bool
+
+    // The widget is as wide as the resources it is showing, so the movable box
+    // has to be told rather than compute it - see OverlayWidgetSizePreferenceKey.
+    @SwiftUI.State private var widgetSize: CGSize = .zero
 
     private static let canvasHeight: CGFloat = 1080
-
-    // Config.PlayerMaxResourcesVertical / PlayerMaxResourcesHorizontal.
-    private static let playerVertical: CGFloat = 95.6
-    private static let playerHorizontal: CGFloat = 75.2
-    // Config.OpponentMaxResourcesVertical / OpponentMaxResourcesHorizontal.
-    private static let opponentVertical: CGFloat = 0.3
-    private static let opponentHorizontal: CGFloat = 72.2
 
     var body: some View {
         // Instantiated unconditionally so the @ObservedObject binding keeps
@@ -53,10 +60,29 @@ struct PlayerResourcesView: View {
             Color.clear
             if viewModel.isShown && viewModel.hasVisibleResources {
                 widget
+                    .background(
+                        GeometryReader { proxy in
+                            Color.clear.preference(key: OverlayWidgetSizePreferenceKey.self,
+                                                   value: proxy.size)
+                        }
+                    )
                     .offset(x: originX, y: originY)
+                // HDT paints a box over every movable element while the overlay
+                // is unlocked and drags it from there (OverlayWindow.Input.cs).
+                if !isLocked, widgetSize != .zero {
+                    OverlayWidgetMovableBox(
+                        placement: placement,
+                        frame: CGRect(x: originX, y: originY,
+                                      width: widgetSize.width, height: widgetSize.height),
+                        canvasSize: canvasSize,
+                        canvasScale: canvasSize.height / Self.canvasHeight)
+                }
             }
         }
         .frame(width: canvasWidth, height: Self.canvasHeight, alignment: .topLeading)
+        .onPreferenceChange(OverlayWidgetSizePreferenceKey.self) { size in
+            widgetSize = size
+        }
     }
 
     private var widget: some View {
@@ -83,16 +109,15 @@ struct PlayerResourcesView: View {
     // measured; it is the same number either way, since the canvas has the
     // client's aspect ratio.
     private var originX: CGFloat {
-        let horizontal = viewModel.isPlayer ? Self.playerHorizontal : Self.opponentHorizontal
         let ratio = (4.0 / 3.0) / (canvasWidth / Self.canvasHeight)
-        return SizeHelper.getScaledXPos(horizontal / 100.0, width: canvasWidth, ratio: ratio)
+        return SizeHelper.getScaledXPos(CGFloat(placement.horizontal) / 100.0,
+                                        width: canvasWidth, ratio: ratio)
     }
 
     // Canvas.SetTop(widget, Height * vertical / 100), where Height here is the
     // scaled subtree's own 1080.
     private var originY: CGFloat {
-        let vertical = viewModel.isPlayer ? Self.playerVertical : Self.opponentVertical
-        return Self.canvasHeight * vertical / 100.0
+        Self.canvasHeight * CGFloat(placement.vertical) / 100.0
     }
 }
 
@@ -103,7 +128,8 @@ struct PlayerResourcesView: View {
         vm.initialize(30, 10, 10)
         vm.updatePlayerResourcesWidget(35, 15, 12, 5)
         vm.isShown = true
-        return PlayerResourcesView(viewModel: vm, canvasWidth: 1440)
+        return PlayerResourcesView(viewModel: vm, placement: vm.placement, canvasWidth: 1440,
+                                   canvasSize: CGSize(width: 1440, height: 1080), isLocked: true)
     }
     .padding()
     .background(LinearGradient(gradient: Gradient(colors: [.red, .yellow]), startPoint: .top, endPoint: .bottom))

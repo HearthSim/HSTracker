@@ -711,12 +711,19 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
             if Settings.windowsLocked {
                 if #available(macOS 10.15, *) {
                     game.windowManager.rootOverlay?.viewModel.playerActiveEffects.forceHideExampleEffects()
+                    game.windowManager.rootOverlay?.viewModel.opponentActiveEffects.forceHideExampleEffects()
                     game.windowManager.rootOverlay?.viewModel.playerCounters.forceHideExampleCounters()
+                    game.windowManager.rootOverlay?.viewModel.opponentCounters.forceHideExampleCounters()
                 }
             } else {
+                // Both sides, as HDT's UnlockUi does - otherwise the opponent's
+                // blocks have nothing to drag unless the game happens to be
+                // showing them.
                 if #available(macOS 10.15, *) {
                     game.windowManager.rootOverlay?.viewModel.playerActiveEffects.forceShowExampleEffects()
+                    game.windowManager.rootOverlay?.viewModel.opponentActiveEffects.forceShowExampleEffects()
                     game.windowManager.rootOverlay?.viewModel.playerCounters.forceShowExampleCounters()
+                    game.windowManager.rootOverlay?.viewModel.opponentCounters.forceShowExampleCounters()
                 }
             }
         }

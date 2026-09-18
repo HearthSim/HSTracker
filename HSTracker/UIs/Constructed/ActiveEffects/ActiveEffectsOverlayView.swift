@@ -20,25 +20,28 @@ import SwiftUI
 // windows this replaces were a fixed 244x122 in screen points however large the
 // client was, so the tiles now grow with the client the way HDT's do.
 //
-// Positions come from Config: PlayerActiveEffectsVertical/Horizontal
-// (71.6/66.2) and OpponentActiveEffectsVertical/Horizontal (73.8/66.2), the
-// same numbers SizeHelper.playerActiveEffectsFrame/opponentActiveEffectsFrame
-// used to hold.
+// Positions come from Settings, which start at HDT's own defaults:
+// PlayerActiveEffectsVertical/Horizontal (71.6/66.2) and
+// OpponentActiveEffectsVertical/Horizontal (73.8/66.2), the same numbers
+// SizeHelper.playerActiveEffectsFrame/opponentActiveEffectsFrame used to hold.
+// Both blocks can be dragged while the overlay is unlocked, as HDT's can - see
+// OverlayWidgetPlacement.
 @available(macOS 10.15, *)
 struct ActiveEffectsOverlayView: View {
     @ObservedObject var viewModel: ActiveEffectsOverlayViewModel
+    // Observed as well as the view model: a drag moves the tiles without
+    // anything about the effects themselves changing.
+    @ObservedObject var placement: OverlayWidgetPlacement
     // The canvas width RootOverlayView measured, in the 1080-tall reference
     // space this subtree is authored in.
     let canvasWidth: CGFloat
+    // The canvas's real, post-scale size, which the drag's percentages are
+    // taken against - the Width/Height of HDT's own overlay window.
+    let canvasSize: CGSize
+    // `Settings.windowsLocked`, HDT's `_uiMovable` inverted.
+    let isLocked: Bool
 
     private static let canvasHeight: CGFloat = 1080
-
-    // Config.PlayerActiveEffectsVertical / PlayerActiveEffectsHorizontal.
-    private static let playerVertical: CGFloat = 71.6
-    private static let playerHorizontal: CGFloat = 66.2
-    // Config.OpponentActiveEffectsVertical / OpponentActiveEffectsHorizontal.
-    private static let opponentVertical: CGFloat = 73.8
-    private static let opponentHorizontal: CGFloat = 66.2
 
     // HDT's MaxColumns, and the two rows its MaxHeight budgets for.
     private static let maxColumns = 4
@@ -53,9 +56,25 @@ struct ActiveEffectsOverlayView: View {
             if viewModel.isShown && !viewModel.effects.isEmpty {
                 grid
                     .offset(x: originX, y: originY)
+                // HDT paints a box over every movable element while the overlay
+                // is unlocked and drags it from there (OverlayWindow.Input.cs).
+                if !isLocked {
+                    OverlayWidgetMovableBox(placement: placement, frame: contentFrame,
+                                            canvasSize: canvasSize)
+                }
             }
         }
         .frame(width: canvasWidth, height: Self.canvasHeight, alignment: .topLeading)
+    }
+
+    /// What the tiles currently occupy, in reference-space points - the
+    /// UniformGrid's own laid-out size, one cell per column and row.
+    private var contentFrame: CGRect {
+        let rows = self.rows
+        let columns = rows.map { $0.count }.max() ?? 0
+        return CGRect(x: originX, y: originY,
+                      width: CGFloat(columns) * ActiveEffectView.cellSize,
+                      height: CGFloat(rows.count) * ActiveEffectView.cellSize)
     }
 
     // HDT's UniformGrid with Columns="{Binding ColumnCount}", ColumnCount being
@@ -93,9 +112,9 @@ struct ActiveEffectsOverlayView: View {
     // measured; it is the same number either way, since the canvas has the
     // client's aspect ratio.
     private var originX: CGFloat {
-        let horizontal = viewModel.isPlayer ? Self.playerHorizontal : Self.opponentHorizontal
         let ratio = (4.0 / 3.0) / (canvasWidth / Self.canvasHeight)
-        return SizeHelper.getScaledXPos(horizontal / 100.0, width: canvasWidth, ratio: ratio)
+        return SizeHelper.getScaledXPos(CGFloat(placement.horizontal) / 100.0,
+                                        width: canvasWidth, ratio: ratio)
     }
 
     // The player's effects hang from their top edge:
@@ -108,9 +127,9 @@ struct ActiveEffectsOverlayView: View {
     // laid-out grid, whose height is exactly one cell per row.
     private var originY: CGFloat {
         if viewModel.isPlayer {
-            return Self.canvasHeight * Self.playerVertical / 100.0
+            return Self.canvasHeight * CGFloat(placement.vertical) / 100.0
         }
         let contentHeight = CGFloat(rows.count) * ActiveEffectView.cellSize
-        return Self.canvasHeight - (contentHeight + Self.canvasHeight * Self.opponentVertical / 100.0)
+        return Self.canvasHeight - (contentHeight + Self.canvasHeight * CGFloat(placement.vertical) / 100.0)
     }
 }

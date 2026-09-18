@@ -24,6 +24,10 @@ class CountersOverlayViewModel: ObservableObject {
     // HDT's IsPlayer on the two CountersOverlay instances.
     let isPlayer: Bool
 
+    // Where this block sits, and what dragging it while the overlay is unlocked
+    // does - HDT registers both CountersOverlay instances with _movableElements.
+    let placement: OverlayWidgetPlacement
+
     // HDT's Visibility on the control, driven by Game.updateCounters the way
     // OverlayWindow.UpdateCounters drives it there.
     @Published var isShown = false
@@ -44,6 +48,7 @@ class CountersOverlayViewModel: ObservableObject {
 
     init(isPlayer: Bool) {
         self.isPlayer = isPlayer
+        placement = OverlayWidgetPlacement(widget: .counters, isPlayer: isPlayer)
     }
 
     func setCounters(_ counterManager: CounterManager) {
