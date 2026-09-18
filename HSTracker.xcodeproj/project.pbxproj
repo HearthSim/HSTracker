@@ -1283,6 +1283,7 @@
 		B8A1F0012FCD0001000A0001 /* LocalizationFormatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F0002FCD0000000A0000 /* LocalizationFormatTests.swift */; };
 		B8A1F0022E5F0A0100000002 /* Watcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F0012E5F0A0100000001 /* Watcher.swift */; };
 		B8A1F0112FCD0011000A0011 /* CardTooltipTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F0102FCD0010000A0010 /* CardTooltipTests.swift */; };
+		B8A1F0212FCD0021000A0021 /* CardTileThemeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F0202FCD0020000A0020 /* CardTileThemeTests.swift */; };
 		B8A1F1022FD10001000A0102 /* TurnTimerOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F1012FD10001000A0101 /* TurnTimerOverlayView.swift */; };
 		B8A1F1042FD10001000A0104 /* BoardAttackIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F1032FD10001000A0103 /* BoardAttackIconView.swift */; };
 		B8A1F1062FD10001000A0106 /* ExperienceCounterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F1052FD10001000A0105 /* ExperienceCounterView.swift */; };
@@ -3183,6 +3184,7 @@
 		B8A1F0002FCD0000000A0000 /* LocalizationFormatTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizationFormatTests.swift; sourceTree = "<group>"; };
 		B8A1F0012E5F0A0100000001 /* Watcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Watcher.swift; sourceTree = "<group>"; };
 		B8A1F0102FCD0010000A0010 /* CardTooltipTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardTooltipTests.swift; sourceTree = "<group>"; };
+		B8A1F0202FCD0020000A0020 /* CardTileThemeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardTileThemeTests.swift; sourceTree = "<group>"; };
 		B8A1F1012FD10001000A0101 /* TurnTimerOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnTimerOverlayView.swift; sourceTree = "<group>"; };
 		B8A1F1032FD10001000A0103 /* BoardAttackIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardAttackIconView.swift; sourceTree = "<group>"; };
 		B8A1F1052FD10001000A0105 /* ExperienceCounterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExperienceCounterView.swift; sourceTree = "<group>"; };
@@ -4100,6 +4102,7 @@
 				1CF1B5891E81426D007DCBF2 /* AlgorithmTests.swift */,
 				B8A1F0002FCD0000000A0000 /* LocalizationFormatTests.swift */,
 				B8A1F0102FCD0010000A0010 /* CardTooltipTests.swift */,
+				B8A1F0202FCD0020000A0020 /* CardTileThemeTests.swift */,
 				59AC68FC073DF2A0DBAB9790 /* GodfreyOverdrawnTests.swift */,
 				00EBCC58146CAD58B971A677 /* TrackerPanelLayoutTests.swift */,
 				439C7E601C7772C100D29859 /* HSTrackerTests.swift */,
@@ -8667,6 +8670,7 @@
 				43C1C9F81E96CCE9008C20B1 /* HSTrackerTests.swift in Sources */,
 				B8A1F0012FCD0001000A0001 /* LocalizationFormatTests.swift in Sources */,
 				B8A1F0112FCD0011000A0011 /* CardTooltipTests.swift in Sources */,
+				B8A1F0212FCD0021000A0021 /* CardTileThemeTests.swift in Sources */,
 				41CF366434305109269D5CB2 /* GodfreyOverdrawnTests.swift in Sources */,
 				490B4D29E27587E59D52E1DD /* TrackerPanelLayoutTests.swift in Sources */,
 				43C1C9F91E96CCE9008C20B1 /* LogReaderTests.swift in Sources */,

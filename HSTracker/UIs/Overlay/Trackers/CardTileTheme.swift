@@ -261,6 +261,43 @@ struct CardTileTheme {
     private static let imageCache = UnfairLockBox([String: NSImage?]())
 }
 
+/// HDT's `ThemeManager.ThemeChanged`, which every `CardTile` subscribes to for
+/// itself (`CardTile.Subscribe`) so that switching theme redraws the tiles
+/// already on screen rather than the next ones built.
+///
+/// A SwiftUI view reading `Settings.theme` straight out of its body gets no such
+/// redraw: the theme is not one of the view's own values, so when the tracker
+/// republishes its cards SwiftUI compares the row it would build against the one
+/// it holds, finds the same `Card` and the same row height, and skips the body
+/// where the theme would have been re-read. The row then keeps the old theme's
+/// art until something about the card itself changes - the "next refresh" a
+/// theme switch used to wait for. Observing this object is the dependency that
+/// was missing, and is what HDT's per-tile subscription amounts to.
+@available(macOS 10.15, *)
+final class OverlayThemeObserver: ObservableObject {
+    static let shared = OverlayThemeObserver()
+
+    /// What the deck-list rows draw with.
+    @Published private(set) var cardTile: CardTileTheme = .current
+    /// `Settings.theme` itself, for the theme art that is looked up by name -
+    /// the counter frames and the Battlegrounds browser's bars. Kept separate
+    /// from `cardTile.directory` because those two part ways for a theme name
+    /// `CardTileTheme.current` does not know: it falls back to classic, while
+    /// the art falls back per file to the `default` directory.
+    @Published private(set) var name: String = Settings.theme
+
+    private var observer: NSObjectProtocol?
+
+    private init() {
+        observer = NotificationCenter.default.addObserver(
+            forName: NSNotification.Name(rawValue: Settings.theme_token),
+            object: nil, queue: .main) { [weak self] _ in
+                self?.cardTile = .current
+                self?.name = Settings.theme
+            }
+    }
+}
+
 /// A tiny lock box, so the image cache is safe to touch from whichever thread
 /// SwiftUI renders on.
 final class UnfairLockBox<Value> {

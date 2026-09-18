@@ -34,8 +34,12 @@ struct CardTileView: View {
 
     /// The shared tile cache, observed so a row redraws when its art arrives.
     @ObservedObject private var artCache = CardTileArtCache.shared
+    /// Observed for the same reason, and standing in for `CardTile.Subscribe`'s
+    /// `ThemeManager.ThemeChanged` handler: a row already on screen redraws when
+    /// the theme changes under it - see `OverlayThemeObserver`.
+    @ObservedObject private var themeObserver = OverlayThemeObserver.shared
 
-    private var theme: CardTileTheme { CardTileTheme.current }
+    private var theme: CardTileTheme { themeObserver.cardTile }
 
     private var art: NSImage? {
         guard let card else { return nil }

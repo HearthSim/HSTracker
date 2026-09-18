@@ -236,6 +236,10 @@ struct MinionCardRow: View {
     let showInspiration: Bool
     @ObservedObject var pinning: BattlegroundsMinionPinningViewModel
     @ObservedObject var rowHover: RowHoverCoordinator
+    /// See `OverlayThemeObserver`: these bars are drawn from the same theme the
+    /// deck-list rows use, and need the same dependency on it to redraw when it
+    /// changes rather than when the row next changes.
+    @ObservedObject private var themeObserver = OverlayThemeObserver.shared
 
     @SwiftUI.State private var tile: NSImage?
     // Stable per-row identity for rowHover.hoveredRowID - created once and kept
@@ -271,14 +275,14 @@ struct MinionCardRow: View {
                     .clipped()
             }
 
-            if let fade = BarThemeImages.image("fade") {
+            if let fade = BarThemeImages.image("fade", in: themeObserver.name) {
                 Image(nsImage: fade)
                     .resizable()
                     .frame(maxWidth: .infinity)
                     .frame(height: Self.rowH)
             }
 
-            if let frame = BarThemeImages.image("frame") {
+            if let frame = BarThemeImages.image("frame", in: themeObserver.name) {
                 Image(nsImage: frame)
                     .resizable()
                     .frame(maxWidth: .infinity)
@@ -289,7 +293,7 @@ struct MinionCardRow: View {
             // naturally truncates before the coin without needing explicit widths.
             HStack(spacing: 0) {
                 Text(card.name)
-                    .font(.custom(BarThemeImages.cardNameFont, size: 15))
+                    .font(.custom(BarThemeImages.cardNameFont(for: themeObserver.name), size: 15))
                     .outlinedText()
                     .lineLimit(1)
                     .padding(.leading, Self.nameX)
@@ -488,22 +492,22 @@ struct MinionCardRow: View {
 enum BarThemeImages {
     private static var cache: [String: NSImage?] = [:]
 
-    static func image(_ name: String) -> NSImage? {
-        let key = "\(Settings.theme)/\(name)"
+    static func image(_ name: String, in theme: String = Settings.theme) -> NSImage? {
+        let key = "\(theme)/\(name)"
         if let cached = cache[key] { return cached }
-        let img = load(name)
+        let img = load(name, in: theme)
         cache[key] = img
         return img
     }
 
-    private static func load(_ name: String) -> NSImage? {
+    private static func load(_ name: String, in theme: String) -> NSImage? {
         guard let rp = Bundle.main.resourcePath else { return nil }
-        let theme = Settings.theme.isEmpty ? "classic" : Settings.theme
-        return NSImage(contentsOfFile: "\(rp)/Resources/Themes/Bars/\(theme)/\(name).png")
+        let directory = theme.isEmpty ? "classic" : theme
+        return NSImage(contentsOfFile: "\(rp)/Resources/Themes/Bars/\(directory)/\(name).png")
     }
 
     // ClassicBar overrides to "Belwe Bd BT"; all other themes use "ChunkFive".
-    static var cardNameFont: String {
-        Settings.theme == "classic" ? "Belwe Bd BT" : "ChunkFive"
+    static func cardNameFont(for theme: String = Settings.theme) -> String {
+        theme == "classic" ? "Belwe Bd BT" : "ChunkFive"
     }
 }

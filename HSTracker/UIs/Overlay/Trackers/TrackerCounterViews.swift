@@ -27,10 +27,15 @@ struct TrackerFrameView<Content: View>: View {
     let height: CGFloat
     @ViewBuilder let content: () -> Content
 
+    /// See `OverlayThemeObserver`: the frame's PNG is picked by the theme, which
+    /// is not one of this view's own values, so without observing the change
+    /// these rows keep the old theme's frame until their numbers happen to move.
+    @ObservedObject private var themeObserver = OverlayThemeObserver.shared
+
     var body: some View {
         ZStack(alignment: .topLeading) {
             Color.clear
-            if let image = OverlayThemeImage.named(background) {
+            if let image = OverlayThemeImage.named(background, in: themeObserver.name) {
                 Image(nsImage: image)
                     .resizable()
                     .frame(width: box.width, height: box.height)
@@ -47,8 +52,8 @@ struct TrackerFrameView<Content: View>: View {
 /// The overlay theme's own PNGs - `TextFrame.add(image:rect:)`, which falls back
 /// to the default theme for anything the chosen one does not ship.
 enum OverlayThemeImage {
-    static func named(_ filename: String) -> NSImage? {
-        let key = "\(Settings.theme)/\(filename)"
+    static func named(_ filename: String, in theme: String = Settings.theme) -> NSImage? {
+        let key = "\(theme)/\(filename)"
         if let cached = cache.withLock({ $0[key] }) { return cached }
         var image: NSImage?
         if let resourcePath = Bundle.main.resourcePath {
