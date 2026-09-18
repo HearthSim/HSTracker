@@ -12,6 +12,7 @@
 - The counters, the active effects, the turn timers, the board damage icons and the maximum resources widgets can now be dragged to wherever you want them while the windows are unlocked, and stay there, as they can in Hearthstone Deck Tracker.
 - While the windows are unlocked the overlay no longer pops up card and counter tooltips over whatever you are dragging, the Battlegrounds session panel is now highlighted like everything else that can be moved, and both players' counters and active effects show example content so there is always something to take hold of.
 - Fixed the board damage number sitting too high on its icon.
+- Fixed HSTracker quitting while a Battlegrounds hero, minion or trinket was being picked when it briefly could not tell how large the Hearthstone window was.
 
 # 3.6.11
 ## Hearthstone

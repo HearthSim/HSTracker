@@ -1285,6 +1285,7 @@
 		B8A1F0112FCD0011000A0011 /* CardTooltipTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F0102FCD0010000A0010 /* CardTooltipTests.swift */; };
 		B8A1F0212FCD0021000A0021 /* CardTileThemeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F0202FCD0020000A0020 /* CardTileThemeTests.swift */; };
 		B8A1F0412FCD0041000A0041 /* OverlayWidgetPlacementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F0402FCD0040000A0040 /* OverlayWidgetPlacementTests.swift */; };
+		B8A1F0432FCD0043000A0043 /* OverlayCanvasGeometryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F0422FCD0042000A0042 /* OverlayCanvasGeometryTests.swift */; };
 		B8A1F1022FD10001000A0102 /* TurnTimerOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F1012FD10001000A0101 /* TurnTimerOverlayView.swift */; };
 		B8A1F1042FD10001000A0104 /* BoardAttackIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F1032FD10001000A0103 /* BoardAttackIconView.swift */; };
 		B8A1F0312FCD0031000A0031 /* OverlayWidgetPlacement.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F0302FCD0030000A0030 /* OverlayWidgetPlacement.swift */; };
@@ -3188,6 +3189,7 @@
 		B8A1F0102FCD0010000A0010 /* CardTooltipTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardTooltipTests.swift; sourceTree = "<group>"; };
 		B8A1F0202FCD0020000A0020 /* CardTileThemeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardTileThemeTests.swift; sourceTree = "<group>"; };
 		B8A1F0402FCD0040000A0040 /* OverlayWidgetPlacementTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayWidgetPlacementTests.swift; sourceTree = "<group>"; };
+		B8A1F0422FCD0042000A0042 /* OverlayCanvasGeometryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayCanvasGeometryTests.swift; sourceTree = "<group>"; };
 		B8A1F1012FD10001000A0101 /* TurnTimerOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnTimerOverlayView.swift; sourceTree = "<group>"; };
 		B8A1F1032FD10001000A0103 /* BoardAttackIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardAttackIconView.swift; sourceTree = "<group>"; };
 		B8A1F0302FCD0030000A0030 /* OverlayWidgetPlacement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayWidgetPlacement.swift; sourceTree = "<group>"; };
@@ -4108,6 +4110,7 @@
 				B8A1F0102FCD0010000A0010 /* CardTooltipTests.swift */,
 				B8A1F0202FCD0020000A0020 /* CardTileThemeTests.swift */,
 				B8A1F0402FCD0040000A0040 /* OverlayWidgetPlacementTests.swift */,
+				B8A1F0422FCD0042000A0042 /* OverlayCanvasGeometryTests.swift */,
 				59AC68FC073DF2A0DBAB9790 /* GodfreyOverdrawnTests.swift */,
 				00EBCC58146CAD58B971A677 /* TrackerPanelLayoutTests.swift */,
 				439C7E601C7772C100D29859 /* HSTrackerTests.swift */,
@@ -8679,6 +8682,7 @@
 				B8A1F0112FCD0011000A0011 /* CardTooltipTests.swift in Sources */,
 				B8A1F0212FCD0021000A0021 /* CardTileThemeTests.swift in Sources */,
 				B8A1F0412FCD0041000A0041 /* OverlayWidgetPlacementTests.swift in Sources */,
+				B8A1F0432FCD0043000A0043 /* OverlayCanvasGeometryTests.swift in Sources */,
 				41CF366434305109269D5CB2 /* GodfreyOverdrawnTests.swift in Sources */,
 				490B4D29E27587E59D52E1DD /* TrackerPanelLayoutTests.swift in Sources */,
 				43C1C9F91E96CCE9008C20B1 /* LogReaderTests.swift in Sources */,

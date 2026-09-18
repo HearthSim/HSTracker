@@ -246,7 +246,18 @@ struct SizeHelper {
     
     static func getScaledXPos(_ left: CGFloat, width: CGFloat,
                               ratio: CGFloat) -> CGFloat {
-        return ((width) * ratio * left) + (width * (1 - ratio) / 2)
+        let x = ((width) * ratio * left) + (width * (1 - ratio) / 2)
+        // Every caller works its ratio out by dividing by the same width passed
+        // here, so a degenerate window makes that ratio infinite and both terms
+        // above 0 * inf, which is NaN. A NaN reaching a SwiftUI layout modifier
+        // traps the process, so the letterboxing is dropped rather than handed
+        // on: the plain position inside the window is the best answer left, and
+        // the canvas origin if even that is not finite.
+        guard x.isFinite else {
+            let unletterboxed = width * left
+            return unletterboxed.isFinite ? unletterboxed : 0
+        }
+        return x
     }
     
     static func searchLocation() -> NSPoint {
