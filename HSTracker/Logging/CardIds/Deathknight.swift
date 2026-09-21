@@ -94,6 +94,7 @@ extension CardIds.Collectible {
         static let TravelSecurity = "WORK_010"
         static let CorpseFarm = "WW_374"
         static let CorpseFarmCore = "CORE_WW_374"
+        static let ArrivalOfTheOldGods = "BE_EVENT_100"
     }
 }
 

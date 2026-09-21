@@ -198,6 +198,7 @@
 		3A5E34C713834275C86878D6 /* InfiniteAmalgam.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DBE95658968986E3486610 /* InfiniteAmalgam.swift */; };
 		3AB1448257EEA9BA92F363F5 /* Photosynthesis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274BA9589AB9F72DE4444312 /* Photosynthesis.swift */; };
 		3AEA334EF48BED87F136B120 /* CorpseFarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174CD2284B19B0910485DE8C /* CorpseFarm.swift */; };
+		0A0786552A0D43C5D1719B1A /* ArrivalOfTheOldGods.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8CE85B5ED03B5FC5D3FC06 /* ArrivalOfTheOldGods.swift */; };
 		3B74C45E0EE52BDCC260DF53 /* LowSecurityWing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47725036CA468714D30DA153 /* LowSecurityWing.swift */; };
 		3B8E08F977FE2647271E4AB3 /* ElementalRift.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDBF75213773BD2250B02AE6 /* ElementalRift.swift */; };
 		3B8F7761D5BA90C129721F50 /* BurgleTGT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417CA1F90E263A6FC56C5A47 /* BurgleTGT.swift */; };
@@ -899,6 +900,7 @@
 		B846CC3E2E05F95C00552F9C /* TrinketTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC3D2E05F95C00552F9C /* TrinketTracker.swift */; };
 		B846CC402E06351C00552F9C /* BalindaStonehearth.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC3F2E06351C00552F9C /* BalindaStonehearth.swift */; };
 		B846CC422E06357800552F9C /* DeepwaterEvoker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC412E06357800552F9C /* DeepwaterEvoker.swift */; };
+		BE187CDB1269E5A26EC3F408 /* ArrivalOfTheTitans.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673EF74D3B52B075E6D7197C /* ArrivalOfTheTitans.swift */; };
 		B846CC442E0635C700552F9C /* ElementalAllies.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC432E0635C700552F9C /* ElementalAllies.swift */; };
 		B846CC462E06361400552F9C /* FrostweaveDungeoneer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC452E06361400552F9C /* FrostweaveDungeoneer.swift */; };
 		B846CC482E06366600552F9C /* IcebloodTower.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846CC472E06366600552F9C /* IcebloodTower.swift */; };
@@ -1972,6 +1974,7 @@
 		172D1024C17902D2BE62ABF7 /* ConstructedMulliganV2SingleCardHeaderView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ConstructedMulliganV2SingleCardHeaderView.swift; sourceTree = "<group>"; };
 		174A8FB14DC7DF2733333DF3 /* Webspinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Webspinner.swift; sourceTree = "<group>"; };
 		174CD2284B19B0910485DE8C /* CorpseFarm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorpseFarm.swift; sourceTree = "<group>"; };
+		EE8CE85B5ED03B5FC5D3FC06 /* ArrivalOfTheOldGods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrivalOfTheOldGods.swift; sourceTree = "<group>"; };
 		1758DC225CCE31EECE72F7C1 /* SuspiciousPeddler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuspiciousPeddler.swift; sourceTree = "<group>"; };
 		177C7CA6E5F07B2E7CAA8DAD /* BlazingInvocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlazingInvocation.swift; sourceTree = "<group>"; };
 		17BB40A2FEFC305C41EFAAE8 /* BattlegroundsCompGuideViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsCompGuideViewModel.swift; sourceTree = "<group>"; };
@@ -2791,6 +2794,7 @@
 		B846CC3D2E05F95C00552F9C /* TrinketTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrinketTracker.swift; sourceTree = "<group>"; };
 		B846CC3F2E06351C00552F9C /* BalindaStonehearth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalindaStonehearth.swift; sourceTree = "<group>"; };
 		B846CC412E06357800552F9C /* DeepwaterEvoker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepwaterEvoker.swift; sourceTree = "<group>"; };
+		673EF74D3B52B075E6D7197C /* ArrivalOfTheTitans.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrivalOfTheTitans.swift; sourceTree = "<group>"; };
 		B846CC432E0635C700552F9C /* ElementalAllies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementalAllies.swift; sourceTree = "<group>"; };
 		B846CC452E06361400552F9C /* FrostweaveDungeoneer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrostweaveDungeoneer.swift; sourceTree = "<group>"; };
 		B846CC472E06366600552F9C /* IcebloodTower.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IcebloodTower.swift; sourceTree = "<group>"; };
@@ -5040,6 +5044,7 @@
 				0FB366FD65D447B7354216FA /* TravelSecurity.swift */,
 				BA3013BA592F9CA68A99EF28 /* UnholyEmbrace.swift */,
 				174CD2284B19B0910485DE8C /* CorpseFarm.swift */,
+				EE8CE85B5ED03B5FC5D3FC06 /* ArrivalOfTheOldGods.swift */,
 			);
 			path = DeathKnight;
 			sourceTree = "<group>";
@@ -6353,6 +6358,7 @@
 				B846CC772E157B7000552F9C /* ConjuredBookkeeper.swift */,
 				B89BCE0D2FF47BA70095F011 /* ContrabandWands.swift */,
 				B846CC412E06357800552F9C /* DeepwaterEvoker.swift */,
+				673EF74D3B52B075E6D7197C /* ArrivalOfTheTitans.swift */,
 				B837D7F32EAFB1720070DB4B /* DiscoAtTheEndOfTime.swift */,
 				B846CC432E0635C700552F9C /* ElementalAllies.swift */,
 				B846CC452E06361400552F9C /* FrostweaveDungeoneer.swift */,
@@ -6934,6 +6940,7 @@
 				B86D89E62D95EC4D00AB65A5 /* FerociousFelbat.swift in Sources */,
 				B85462142CDEB9FF0083BB31 /* CrewmateGenerator.swift in Sources */,
 				B846CC422E06357800552F9C /* DeepwaterEvoker.swift in Sources */,
+				BE187CDB1269E5A26EC3F408 /* ArrivalOfTheTitans.swift in Sources */,
 				B82F4EB424E40B9F00905024 /* MinionProxy.swift in Sources */,
 				432A07B21E93B6E200921E34 /* CardIds.swift in Sources */,
 				B898654C2D8B714E00BA5649 /* RushTheStage.swift in Sources */,
@@ -7529,6 +7536,7 @@
 				843223FC224804CA1B846F27 /* TravelSecurity.swift in Sources */,
 				1F744D484149E424AA4F293B /* UnholyEmbrace.swift in Sources */,
 				3AEA334EF48BED87F136B120 /* CorpseFarm.swift in Sources */,
+				0A0786552A0D43C5D1719B1A /* ArrivalOfTheOldGods.swift in Sources */,
 				434C2F2C1C7F122A001D1D91 /* NewDeck.swift in Sources */,
 				B86D89CA2D95A57F00AB65A5 /* YsondreCounter.swift in Sources */,
 				1CC4A873D53E1C9081202F29 /* MinionTypesPlayedThisGameCounter.swift in Sources */,
