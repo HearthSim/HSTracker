@@ -25,6 +25,7 @@ final class FlavorTextViewModel: ObservableObject {
     // until the cursor leaves the board. Carried over as-is.
     func setEntity(_ entity: Entity) {
         guard Settings.showFlavorText else { return }
+        guard !(AppDelegate.instance().coreManager?.game.isBattlegroundsMatch() ?? false) else { return }
         let card = entity.info.latestCardId == entity.cardId
             ? entity.card
             : Cards.any(byId: entity.info.latestCardId)
