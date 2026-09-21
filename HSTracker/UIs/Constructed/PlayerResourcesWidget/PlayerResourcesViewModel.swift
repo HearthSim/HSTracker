@@ -27,6 +27,7 @@ class PlayerResourcesViewModel: ObservableObject {
     private var _manaChanged = false
     private var _handSizeChanged = false
     private var _corpsesChanged = false
+    private var _goldChanged = false
     
     @Published var resources: [Resource] = []
 
@@ -57,13 +58,18 @@ class PlayerResourcesViewModel: ObservableObject {
         _manaChanged = false
         _handSizeChanged = false
         _corpsesChanged = false
+        _goldChanged = false
+
+        resources = []
     }
     
-    func updatePlayerResourcesWidget(_ maxHealth: Int, _ maxMana: Int, _ maxHandSize: Int, _ corpsesLeft: Int? = nil) {
+    func updatePlayerResourcesWidget(_ maxHealth: Int, _ maxMana: Int, _ maxHandSize: Int,
+                                     _ corpsesLeft: Int? = nil, _ maxGold: Int? = nil) {
         _healthChanged = _healthChanged || (maxHealth != _initialMaxHealth)
         _manaChanged = _manaChanged || (maxMana != _initialMaxMana)
         _handSizeChanged = _handSizeChanged || (maxHandSize != _initialMaxHandSize)
         _corpsesChanged = corpsesLeft != nil
+        _goldChanged = maxGold != nil
         
         var updated = [Resource]()
         
@@ -81,6 +87,10 @@ class PlayerResourcesViewModel: ObservableObject {
         
         if _corpsesChanged, let corpsesLeft {
             updated.append(Resource(icon: "corpses", value: corpsesLeft))
+        }
+
+        if _goldChanged, let maxGold {
+            updated.append(Resource(icon: "coin-cost", value: maxGold))
         }
         
         resources = updated

@@ -527,6 +527,11 @@ final class Settings {
     static var showPlayerCorpsesCounter: Bool
     @UserDefault(key: Settings.opponent_max_resources, defaultValue: true)
     static var showOpponentMaxResources: Bool
+    // HDT's HidePlayerMaxResourcesWidgetBattlegrounds, inverted: the widget has
+    // its own switch in Battlegrounds, where the only thing it shows is the
+    // maximum gold counter.
+    @UserDefault(key: Settings.battlegrounds_max_resources, defaultValue: true)
+    static var showBattlegroundsMaxResources: Bool
 
     @UserDefault(key: Settings.show_card_huds, defaultValue: true)
     static var showCardHuds: Bool
@@ -983,6 +988,7 @@ extension Settings {
     static let enable_link_opponent_deck = "enable_link_opponent_deck"
     static let opponent_related_cards = "opponent_related_cards"
     static let opponent_max_resources = "opponent_max_resources"
+    static let battlegrounds_max_resources = "battlegrounds_max_resources"
 
     static let remove_cards_from_deck = "remove_cards_from_deck"
     static let highlight_last_drawn = "highlight_last_drawn"

@@ -5322,6 +5322,11 @@ class Game: NSObject, PowerEventHandler {
         updateOpponentResourcesWidget()
     }
 
+    func handlePlayerMaxGoldChange(_ value: Int) {
+        player.maxGold = value
+        updatePlayerResourcesWidget()
+    }
+
     func handlePlayerCorpsesLeftChange(_ value: Int) {
         player.corpsesLeft = value
         updatePlayerResourcesWidget()
@@ -5338,7 +5343,10 @@ class Game: NSObject, PowerEventHandler {
 
     func updatePlayerResourcesWidget() {
         let shouldShowCorpsesLeft = Settings.showPlayerCorpsesCounter
-        updatePlayerResourcesWidget(player.maxHealth, player.maxMana, player.maxHandSize, shouldShowCorpsesLeft ? player.corpsesLeft : nil)
+        let shouldShowMaxGold = isBattlegroundsMatch() && player.maxGold > Player.InitialMaxGold
+        updatePlayerResourcesWidget(player.maxHealth, player.maxMana, player.maxHandSize,
+                                    shouldShowCorpsesLeft ? player.corpsesLeft : nil,
+                                    shouldShowMaxGold ? player.maxGold : nil)
     }
 
     func updateOpponentResourcesWidget() {
@@ -5354,9 +5362,10 @@ class Game: NSObject, PowerEventHandler {
         }
     }
 
-    func updatePlayerResourcesWidget(_ maxHealth: Int, _ maxMana: Int, _ maxHandSize: Int, _ corpsesLeft: Int? = nil) {
+    func updatePlayerResourcesWidget(_ maxHealth: Int, _ maxMana: Int, _ maxHandSize: Int,
+                                     _ corpsesLeft: Int? = nil, _ maxGold: Int? = nil) {
         DispatchQueue.main.async {
-            self.windowManager.rootOverlay?.viewModel.playerResources.updatePlayerResourcesWidget(maxHealth, maxMana, maxHandSize, corpsesLeft)
+            self.windowManager.rootOverlay?.viewModel.playerResources.updatePlayerResourcesWidget(maxHealth, maxMana, maxHandSize, corpsesLeft, maxGold)
         }
     }
     
@@ -5370,12 +5379,16 @@ class Game: NSObject, PowerEventHandler {
     // replaces applied it on top of the widget's own visibility flag.
     func updatePlayerResorucesWidgetVisibility() {
         guard let viewModel = windowManager.rootOverlay?.viewModel else { return }
-        if isInMenu || !isMulliganDone() || isBattlegroundsMatch() || !shouldShowTracker {
+        if isInMenu || !isMulliganDone() || !shouldShowTracker {
             viewModel.playerResources.isShown = false
             viewModel.opponentResources.isShown = false
         } else {
-            viewModel.playerResources.isShown = Settings.showPlayerMaxResources
-            viewModel.opponentResources.isShown = Settings.showOpponentMaxResources
+            // Battlegrounds has a setting of its own, because the only thing
+            // the widget shows there is the max gold counter.
+            viewModel.playerResources.isShown = isBattlegroundsMatch()
+                ? Settings.showBattlegroundsMaxResources
+                : Settings.showPlayerMaxResources
+            viewModel.opponentResources.isShown = Settings.showOpponentMaxResources && !isBattlegroundsMatch()
         }
     }
 }

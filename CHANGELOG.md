@@ -18,6 +18,7 @@
 - The opponent's hand now shows the cost reductions from M.O.T.H.E.R.
 - Added related cards for Arfus, showing the Lich King cards it can give.
 ## Battlegrounds
+- The maximum resources widget now shows your gold cap once something in the lobby raises it above ten, and has its own Battlegrounds setting.
 - Tavern pin markers no longer appear when the minion browser is turned off.
 - Flavor text no longer pops up over the board in Battlegrounds.
 - Fixed the overlay not showing fully during a Timewarp tavern.

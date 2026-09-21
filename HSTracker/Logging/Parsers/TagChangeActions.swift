@@ -95,6 +95,8 @@ struct TagChangeActions {
                 self.opponentMalorneAtkChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue)
             case .maxresources:
                 self.maxResourcesChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue)
+            case .bacon_max_gold:
+                self.maxGoldChange(eventHandler: eventHandler, id: id, value: value)
             case .maxhandsize:
                 self.maxHandSizeChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue)
             case .corpses:
@@ -680,6 +682,22 @@ struct TagChangeActions {
             eventHandler.handlePlayerMaxManaChange(value)
         } else if entity.isControlled(by: eventHandler.opponent.id) || id == eventHandler.opponent.id {
             eventHandler.handleOpponentMaxManaChange(value)
+        }
+    }
+
+    private func maxGoldChange(eventHandler: PowerEventHandler, id: Int, value: Int) {
+        if value <= 0 {
+            return
+        }
+        if !eventHandler.isBattlegroundsMatch() {
+            return
+        }
+        guard let entity = eventHandler.entities[id] else {
+            return
+        }
+
+        if entity.isControlled(by: eventHandler.player.id) {
+            eventHandler.handlePlayerMaxGoldChange(value)
         }
     }
 

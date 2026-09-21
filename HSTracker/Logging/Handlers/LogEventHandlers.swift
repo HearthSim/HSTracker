@@ -292,6 +292,7 @@ protocol PowerEventHandler: AnyObject {
     func handleOpponentMaxManaChange(_ value: Int)
     func handlePlayerMaxHandSizeChange(_ value: Int)
     func handleOpponentMaxHandSizeChange(_ value: Int)
+    func handlePlayerMaxGoldChange(_ value: Int)
     func handlePlayerCorpsesLeftChange(_ value: Int)
     func handleOpponentCorpsesLeftChange(_ value: Int)
 

@@ -95,6 +95,8 @@ final class Player {
     private static let InitialMaxHealth = 30
     private static let InitialMaxMana = 10
     private static let InitialMaxHandSize = 10
+    // Battlegrounds gold caps here unless an anomaly or hero effect raises it
+    static let InitialMaxGold = 10
     
     var originalClass: CardClass?
     var currentClass: CardClass?
@@ -105,6 +107,7 @@ final class Player {
     var maxHealth = InitialMaxHealth
     var maxMana = InitialMaxMana
     var maxHandSize = InitialMaxHandSize
+    var maxGold = InitialMaxGold
     var corpsesLeft: Int?
     var heroPowerCount = 0
     var spellsPlayedCount: Int {
@@ -232,6 +235,7 @@ final class Player {
         maxMana = Player.InitialMaxMana
         maxHealth = Player.InitialMaxHealth
         maxHandSize = Player.InitialMaxHandSize
+        maxGold = Player.InitialMaxGold
         corpsesLeft = nil
         hasDeathKnightTourist = false
         spellsPlayedCards.removeAll()

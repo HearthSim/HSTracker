@@ -613,6 +613,36 @@
         }
       }
     },
+    "mxg-ui-002.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Show Maximum Gold\"; ObjectID = \"mxg-ui-002\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maximales Gold anzeigen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show Maximum Gold"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exibir Ouro Máximo"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示最大铸币"
+          }
+        }
+      }
+    },
     "nGc-Fs-IbI.title" : {
       "comment" : "Class = \"NSButtonCell\"; title = \"Show tavern and triple history\"; ObjectID = \"nGc-Fs-IbI\";",
       "extractionState" : "extracted_with_value",

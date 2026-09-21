@@ -445,6 +445,10 @@ enum GameTag: Int, CaseIterable, Codable {
     titan_ability_used_1 = 3140,
     titan_ability_used_2 = 3141,
     titan_ability_used_3 = 3142,
+    // Battlegrounds gold cap. HDT casts this raw as (GameTag)3148 because
+    // HearthDb has no named constant for it either; maxresources is a flat 99
+    // in Battlegrounds and never moves.
+    bacon_max_gold = 3148,
     is_bacon_duos_exclusive = 3166,
     tourist = 3228,
     gametag_3236 = 3236,

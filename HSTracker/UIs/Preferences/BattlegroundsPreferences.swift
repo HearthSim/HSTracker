@@ -24,6 +24,8 @@ class BattlegroundsPreferences: PreferencePaneController, PreferencePane {
     @IBOutlet var showBobsBuddyDuringCombat: NSButton!
     @IBOutlet var showBobsBuddyDuringShopping: NSButton!
     @IBOutlet var showTurnCounter: NSButton!
+    // HDT's CheckboxShowBattlegroundsMaxResourcesWidget.
+    @IBOutlet var showMaxResources: NSButton!
     @IBOutlet var showAverageDamage: NSButton!
     @IBOutlet var showOpponentWarband: NSButton!
     @IBOutlet var showTiers: NSButton!
@@ -67,6 +69,7 @@ class BattlegroundsPreferences: PreferencePaneController, PreferencePane {
         showBobsBuddyDuringCombat.state = Settings.showBobsBuddyDuringCombat ? .on : .off
         showBobsBuddyDuringShopping.state = Settings.showBobsBuddyDuringShopping ? .on : .off
         showTurnCounter.state = Settings.showTurnCounter ? .on : .off
+        showMaxResources.state = Settings.showBattlegroundsMaxResources ? .on : .off
         showAverageDamage.state = Settings.showAverageDamage ? .on : .off
         showOpponentWarband.state = Settings.showOpponentWarband ? .on : .off
         showTiers.state = Settings.showBattlegroundsBrowser ? .on : .off
@@ -108,6 +111,11 @@ class BattlegroundsPreferences: PreferencePaneController, PreferencePane {
             Settings.showBobsBuddyDuringShopping = showBobsBuddyDuringShopping.state == .on
         } else if sender == showTurnCounter {
             Settings.showTurnCounter = showTurnCounter.state == .on
+        } else if sender == showMaxResources {
+            Settings.showBattlegroundsMaxResources = sender.state == .on
+            // HDT flips the widget's Visibility straight from the checkbox
+            // rather than waiting for the next overlay tick.
+            game.updatePlayerResorucesWidgetVisibility()
         } else if sender == showAverageDamage {
             Settings.showAverageDamage = showAverageDamage.state == .on
         } else if sender == showOpponentWarband {
