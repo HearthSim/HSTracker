@@ -5343,7 +5343,7 @@ class Game: NSObject, PowerEventHandler {
 
     func updatePlayerResourcesWidget() {
         let shouldShowCorpsesLeft = Settings.showPlayerCorpsesCounter
-        let shouldShowMaxGold = isBattlegroundsMatch() && player.maxGold > Player.InitialMaxGold
+        let shouldShowMaxGold = player.shouldShowMaxGold
         updatePlayerResourcesWidget(player.maxHealth, player.maxMana, player.maxHandSize,
                                     shouldShowCorpsesLeft ? player.corpsesLeft : nil,
                                     shouldShowMaxGold ? player.maxGold : nil)

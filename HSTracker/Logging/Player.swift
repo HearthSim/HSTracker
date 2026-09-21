@@ -348,6 +348,13 @@ final class Player {
     var currentMana: Int {
         return self.maxMana - (entity?[.resources_used] ?? 0)
     }
+
+    // The game only starts printing the cap itself once gold reaches it, so the
+    // counter steps aside as soon as RESOURCES has caught up.
+    var shouldShowMaxGold: Bool {
+        return game.isBattlegroundsMatch() && maxGold > Player.InitialMaxGold
+            && maxGold > (game.playerEntity?[.resources] ?? 0)
+    }
     
     var displayRevealedCards: [Card] {
         return revealedEntities.filter({ x in
