@@ -45,6 +45,7 @@ class Watchers {
         bigCardWatcher.change = onBigCardChange
         choicesWatcher.change = { _, args in
             AppDelegate.instance().coreManager.game.setChoicesVisible(args.currentChoice?.isVisible ?? false,
+                                                                      args.currentChoice?.isShopChoice ?? false,
                                                                       args.currentChoice?.cards)
         }
         specialShopChoicesStateWatcher.change = { _, args in

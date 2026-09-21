@@ -4118,9 +4118,10 @@ class Game: NSObject, PowerEventHandler {
     // see setChoicesVisible below.
     private var pendingBgsCombatChoices: [String]?
 
-    func setChoicesVisible(_ choicesVisible: Bool, _ cardIds: [String]?) {
+    func setChoicesVisible(_ choicesVisible: Bool, _ isShopChoice: Bool, _ cardIds: [String]?) {
         windowManager.rootOverlay?.viewModel.battlegroundsTrinketPicking.choicesVisible = choicesVisible
         OverlayOpacityMask.trace("setChoicesVisible visible=\(choicesVisible)"
+                                 + " shop=\(isShopChoice)"
                                  + " cards=\(cardIds ?? [String]())"
                                  + " combat=\(isBattlegroundsCombatPhase)"
                                  + " bgs=\(isBattlegroundsMatch())")
@@ -4128,7 +4129,9 @@ class Game: NSObject, PowerEventHandler {
         guard isBattlegroundsMatch() else { return }
 
         let cardIdList = cardIds ?? [String]()
-        if !choicesVisible || cardIdList.isEmpty {
+        // Shop choices (the Timewarp tavern) look like the regular shop, not
+        // like floating discover cards, so nothing needs cutting away for them.
+        if !choicesVisible || isShopChoice || cardIdList.isEmpty {
             pendingBgsCombatChoices = nil
             onMainOverlay { $0.opacityMask.removeMaskedRegion("DiscoverCard") }
             return

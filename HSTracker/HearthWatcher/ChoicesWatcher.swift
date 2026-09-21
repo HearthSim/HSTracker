@@ -24,7 +24,7 @@ struct ChoicesWatcherArgs: Equatable {
             return false
         }
         
-        return lcc.isVisible == rcc.isVisible && lcc.cards == rcc.cards
+        return lcc.isVisible == rcc.isVisible && lcc.isShopChoice == rcc.isShopChoice && lcc.cards == rcc.cards
     }
 }
 
