@@ -475,6 +475,9 @@ final class BattlegroundsMinionPinningViewModel: ObservableObject {
         let userHasTier7 = (HSReplayAPI.accountData?.is_tier7 ?? false) || Tier7Trial.token != nil
         let shouldShow = game.isBattlegroundsMatch()
             && !game.gameEnded
+            // The pins are placed from the minion browser, so with the browser
+            // turned off the markers can only ever be empty.
+            && Settings.showBattlegroundsBrowser
             && Settings.showBattlegroundsTavernMarkers
             && game.isBattlegroundsHeroPickingDone
             && game.setupDone
