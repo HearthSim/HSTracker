@@ -4277,7 +4277,7 @@ class Game: NSObject, PowerEventHandler {
         
         let boardCards = args.boardCards
         let userHasTier7 = HSReplayAPI.accountData?.is_tier7 ?? false // TODO: trial active
-        let currentPeriod = RemoteConfig.metaPeriods?.sorted(by: { $0.period_start > $1.period_start }).first
+        let currentPeriod = RemoteConfig.battlegroundsLiveMetaPeriod
         let hasTimewarpMechanic = currentPeriod?.mechanics.firstIndex(of: "timewarp") != nil
         
         if args.isActive && boardCards.count > 0 && userHasTier7 && hasTimewarpMechanic {

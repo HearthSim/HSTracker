@@ -116,20 +116,26 @@ struct LiveSecrets: Codable {
 struct MetaPeriod: Codable {
     var period_start: Int64
     var mechanics: [String]
+    var tag_overrides: [TagOverride]?
 }
 
 class RemoteConfig {
     static var data: ConfigData?
     static var mercenaries: [Mercenary]?
     static var liveSecrets: LiveSecrets?
-    static var battlegroundsTagOverrides: [TagOverride]?
-    static var metaPeriods: [MetaPeriod]?
-    
+    // The season currently being played. Replaces both the tag overrides, which
+    // had a feed of their own, and the full list of meta periods that had to be
+    // sorted by start date to find this one.
+    static var battlegroundsLiveMetaPeriod: MetaPeriod?
+    // Mirrors HDT's DataLoader.Loaded event for that one loader: the only
+    // subscriber is BattlegroundsDb, which has to rebuild itself whenever the
+    // overrides change under it.
+    static var battlegroundsLiveMetaPeriodLoaded: ((MetaPeriod?) -> Void)?
+
     private static var url = "https://hsdecktracker.net/config.json"
     private static var mercsUrl = "https://api.hearthstonejson.com/v1/latest/enUS/mercenaries.json"
     private static var secretsUrl = "https://hsreplay.net/api/v1/live/secrets/"
-    private static var overridesUrl = "https://hsreplay.net/api/v1/battlegrounds/tag_overrides/"
-    private static var battlegroundsMetaPeriodsUrl = "https://hsreplay.net/api/v1/battlegrounds/meta_periods/"
+    private static var battlegroundsLiveMetaPeriodUrl = "https://hsreplay.net/api/v1/battlegrounds/meta_periods/live/"
 
     static func checkRemoteConfig(splashscreen: Splashscreen) {
         DispatchQueue.main.async {
@@ -139,7 +145,6 @@ class RemoteConfig {
 
         let dispatchGroup = DispatchGroup()
 
-        // Helper function to safely decode and assign data
         func fetchData<T: Decodable>(
             url: String,
             decodeType: T.Type,
@@ -147,24 +152,10 @@ class RemoteConfig {
             errorMessage: String
         ) {
             dispatchGroup.enter()
-            let http = Http(url: url)
-            http.getPromise(method: .get)
-                .map { data in
-                    guard let validData = data else {
-                        throw NSError(domain: "NetworkError", code: -1, userInfo: [NSLocalizedDescriptionKey: errorMessage])
-                    }
-                    return try JSONDecoder().decode(decodeType, from: validData)
-                }
-                .done { decodedData in
-                    assignment(decodedData)
-                    logger.info("Successfully retrieved: \(errorMessage)")
-                }
-                .catch { error in
-                    logger.error("Error retrieving \(errorMessage): \(error)")
-                }
-                .finally {
-                    dispatchGroup.leave()
-                }
+            RemoteConfig.fetchData(url: url, decodeType: decodeType, assignment: assignment,
+                                   errorMessage: errorMessage) {
+                dispatchGroup.leave()
+            }
         }
 
         // 1. Fetch main config
@@ -173,35 +164,73 @@ class RemoteConfig {
                   assignment: { self.data = $0 },
                   errorMessage: "main configuration")
 
-        // 2. Fetch battlegrounds tag overrides
-        fetchData(url: RemoteConfig.overridesUrl,
-                  decodeType: [TagOverride].self,
-                  assignment: { self.battlegroundsTagOverrides = $0 },
-                  errorMessage: "battlegrounds tag overrides")
-
-        // 3. Fetch mercenaries
+        // 2. Fetch mercenaries
         fetchData(url: RemoteConfig.mercsUrl,
                   decodeType: [Mercenary].self,
                   assignment: { self.mercenaries = $0 },
                   errorMessage: "mercenaries configuration")
 
-        // 4. Fetch live secrets
+        // 3. Fetch live secrets
         fetchData(url: RemoteConfig.secretsUrl,
                   decodeType: LiveSecrets.self,
                   assignment: { self.liveSecrets = $0 },
                   errorMessage: "live secrets configuration")
-        
-        // 5. Fetch meta periods
-        fetchData(url: RemoteConfig.battlegroundsMetaPeriodsUrl,
-                  decodeType: [MetaPeriod].self,
-                  assignment: { self.metaPeriods = $0 },
-                  errorMessage: "meta periods configuration")
+
+        // 4. Fetch the live meta period
+        fetchData(url: RemoteConfig.battlegroundsLiveMetaPeriodUrl,
+                  decodeType: MetaPeriod.self,
+                  assignment: { self.setBattlegroundsLiveMetaPeriod($0) },
+                  errorMessage: "battlegrounds live meta period")
 
         dispatchGroup.notify(queue: .main) {
             logger.info("All remote configurations loaded.")
             splashscreen.progressBar.stopAnimation(nil)
             // Optionally, you can close the splash screen here or transition to the main app view
         }
+    }
+
+    // HDT's Remote.BattlegroundsLiveMetaPeriod.Load(), called again whenever the
+    // Battlegrounds lobby is entered: a season can roll over while the app is
+    // running, and with it the tag overrides everything below reads.
+    static func loadBattlegroundsLiveMetaPeriod() {
+        fetchData(url: RemoteConfig.battlegroundsLiveMetaPeriodUrl,
+                  decodeType: MetaPeriod.self,
+                  assignment: { self.setBattlegroundsLiveMetaPeriod($0) },
+                  errorMessage: "battlegrounds live meta period")
+    }
+
+    private static func setBattlegroundsLiveMetaPeriod(_ metaPeriod: MetaPeriod?) {
+        battlegroundsLiveMetaPeriod = metaPeriod
+        battlegroundsLiveMetaPeriodLoaded?(metaPeriod)
+    }
+
+    // Safely decode and assign data. `completion` runs whether the fetch
+    // succeeded or not, so a caller waiting on a group can leave it.
+    private static func fetchData<T: Decodable>(
+        url: String,
+        decodeType: T.Type,
+        assignment: @escaping (T) -> Void,
+        errorMessage: String,
+        completion: (() -> Void)? = nil
+    ) {
+        let http = Http(url: url)
+        http.getPromise(method: .get)
+            .map { data in
+                guard let validData = data else {
+                    throw NSError(domain: "NetworkError", code: -1, userInfo: [NSLocalizedDescriptionKey: errorMessage])
+                }
+                return try JSONDecoder().decode(decodeType, from: validData)
+            }
+            .done { decodedData in
+                assignment(decodedData)
+                logger.info("Successfully retrieved: \(errorMessage)")
+            }
+            .catch { error in
+                logger.error("Error retrieving \(errorMessage): \(error)")
+            }
+            .finally {
+                completion?()
+            }
     }
 }
 

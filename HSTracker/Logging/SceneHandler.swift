@@ -107,6 +107,10 @@ class SceneHandler {
                 game.updateBattlegroundsGuidesPreLobbyVisibility()
             }
             Watchers.baconWatcher.run()
+            // A season can roll over while the app is running, so the tag
+            // overrides BattlegroundsDb was built from are re-read here rather
+            // than only at launch.
+            RemoteConfig.loadBattlegroundsLiveMetaPeriod()
         } else if to == .draft {
             game.cacheArenaRating()
             Watchers.arenaWatcher.run()

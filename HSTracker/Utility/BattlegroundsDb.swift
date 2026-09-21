@@ -29,7 +29,10 @@ class BattlegroundsDb {
     var races = Set<Race>()
     
     fileprivate init() {
-        update(RemoteConfig.battlegroundsTagOverrides)
+        update(RemoteConfig.battlegroundsLiveMetaPeriod)
+        RemoteConfig.battlegroundsLiveMetaPeriodLoaded = { [weak self] metaPeriod in
+            self?.update(metaPeriod)
+        }
     }
     
     // Mirrors HDT's BattlegroundsDb.TagLookup: the remote tag overrides, keyed by
@@ -100,8 +103,8 @@ class BattlegroundsDb {
         }
     }
 
-    private func update(_ tagOverrides: [TagOverride]?) {
-        let tags = TagLookup(tagOverrides)
+    private func update(_ metaPeriod: MetaPeriod?) {
+        let tags = TagLookup(metaPeriod?.tag_overrides)
 
         func getTag(_ card: Card, _ tag: GameTag) -> Int {
             return tags.getTag(card, tag)
