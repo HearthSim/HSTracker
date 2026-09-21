@@ -904,6 +904,7 @@ extension CardIds.Collectible {
         static let SpitefulSummoner = "LOOT_539"
         static let Steeldancer = "SCH_522"
         static let MOTHER = "BE_036"
+        static let ArfusCorePlaceholder = "CORE_ICC_854"
     }
 }
 

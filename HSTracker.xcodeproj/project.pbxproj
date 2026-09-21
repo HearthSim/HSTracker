@@ -989,6 +989,7 @@
 		B852D82D2DDFB82D00884B26 /* TavishStormpike.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D82C2DDFB82D00884B26 /* TavishStormpike.swift */; };
 		B852D82F2DDFB87500884B26 /* WarsongWrangler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D82E2DDFB87500884B26 /* WarsongWrangler.swift */; };
 		B852D8312DDFB8C100884B26 /* ArchdruidNaralex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D8302DDFB8C100884B26 /* ArchdruidNaralex.swift */; };
+		D75387951E63EA3BDB4E4EFC /* Arfus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1CAE7465640E8D7A08F0E2 /* Arfus.swift */; };
 		B852D8332DDFB92C00884B26 /* CrushclawEnforcer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D8322DDFB92C00884B26 /* CrushclawEnforcer.swift */; };
 		B852D8352DDFB95E00884B26 /* HopefulDryad.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D8342DDFB95E00884B26 /* HopefulDryad.swift */; };
 		B852D8372DDFB9AF00884B26 /* KingpinPud.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D8362DDFB9AF00884B26 /* KingpinPud.swift */; };
@@ -2884,6 +2885,7 @@
 		B852D82C2DDFB82D00884B26 /* TavishStormpike.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TavishStormpike.swift; sourceTree = "<group>"; };
 		B852D82E2DDFB87500884B26 /* WarsongWrangler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarsongWrangler.swift; sourceTree = "<group>"; };
 		B852D8302DDFB8C100884B26 /* ArchdruidNaralex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchdruidNaralex.swift; sourceTree = "<group>"; };
+		7D1CAE7465640E8D7A08F0E2 /* Arfus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arfus.swift; sourceTree = "<group>"; };
 		B852D8322DDFB92C00884B26 /* CrushclawEnforcer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrushclawEnforcer.swift; sourceTree = "<group>"; };
 		B852D8342DDFB95E00884B26 /* HopefulDryad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HopefulDryad.swift; sourceTree = "<group>"; };
 		B852D8362DDFB9AF00884B26 /* KingpinPud.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KingpinPud.swift; sourceTree = "<group>"; };
@@ -5053,6 +5055,7 @@
 			isa = PBXGroup;
 			children = (
 				B852D8302DDFB8C100884B26 /* ArchdruidNaralex.swift */,
+				7D1CAE7465640E8D7A08F0E2 /* Arfus.swift */,
 				B8E1E5B52D0C870F00383975 /* BodyWrapper.swift */,
 				611F6816E329CA4D58526734 /* CreatureOfMadness.swift */,
 				B846CC4D2E09DA7600552F9C /* CaptainsParrot.swift */,
@@ -7867,6 +7870,7 @@
 				B89865322D6EA36B00BA5649 /* EnchantmentFactoryProxy.swift in Sources */,
 				B8AF0C672B83A65E00B65F63 /* MulliganGuideStatusData.swift in Sources */,
 				B852D8312DDFB8C100884B26 /* ArchdruidNaralex.swift in Sources */,
+				D75387951E63EA3BDB4E4EFC /* Arfus.swift in Sources */,
 				B8B790342C975BCB00DD33EC /* RazaTheResealedEnchantment.swift in Sources */,
 				B882CC952FC92565002234D6 /* SummoningSphereProxy.swift in Sources */,
 				B82029432CD2D14200C19A8C /* LuckyComentEnchantment.swift in Sources */,
