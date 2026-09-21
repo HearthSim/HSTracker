@@ -903,6 +903,7 @@ extension CardIds.Collectible {
         static let LinaShopManager = "TOY_531"
         static let SpitefulSummoner = "LOOT_539"
         static let Steeldancer = "SCH_522"
+        static let MOTHER = "BE_036"
     }
 }
 

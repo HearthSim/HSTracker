@@ -2636,6 +2636,26 @@ class Game: NSObject, PowerEventHandler {
         handleIncidiusEndOfTurn(isOpponent: true, turn: turn)
     }
     
+    // "Battlecry: Reduce the Cost of a card in your hand by (5). This continues
+    // to the left and right with (1) less reduction." The chosen card is the
+    // CARD_TARGET, and "left and right" is distance in hand positions.
+    private func handleMotherCostReduction(_ entity: Entity) {
+        guard entity.cardId == CardIds.Collectible.Neutral.MOTHER, entity.has(tag: .card_target) else {
+            return
+        }
+        guard let target = entities[entity[.card_target]] else {
+            return
+        }
+
+        let targetZonePos = target.zonePosition
+        for handCard in opponent.hand where handCard.id != entity.id {
+            let reduction = 5 - abs(handCard.zonePosition - targetZonePos)
+            if reduction > 0 {
+                handCard.info.costReduction += reduction
+            }
+        }
+    }
+
     func handleThaurissanCostReduction() {
         let thaurissans = opponent.board.filter { x in
             (x.cardId == CardIds.Collectible.Neutral.EmperorThaurissan || x.cardId == CardIds.Collectible.Neutral.EmperorThaurissanWONDERS) && !x.has(tag: .silenced)
@@ -3520,6 +3540,8 @@ class Game: NSObject, PowerEventHandler {
 
     func opponentPlay(entity: Entity, cardId: String?, from: Int, turn: Int) {
         opponent.play(entity: entity, turn: turn)
+        
+        handleMotherCostReduction(entity)
         
         predictFabled(entity)
 

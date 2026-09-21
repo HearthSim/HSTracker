@@ -15,6 +15,7 @@
 - Fixed HSTracker quitting while a Battlegrounds hero, minion or trinket was being picked when it briefly could not tell how large the Hearthstone window was.
 - Only official HSTracker releases send crash reports and usage statistics to HearthSim.
 - Added deck highlighting for Arrival of the Old Gods and Arrival of the Titans.
+- The opponent's hand now shows the cost reductions from M.O.T.H.E.R.
 ## Battlegrounds
 - The minion browser's minion type filter now lists the minion types in the current Battlegrounds season rather than every type in the card data, and shows an icon for Aberration.
 ## Bob's Buddy
