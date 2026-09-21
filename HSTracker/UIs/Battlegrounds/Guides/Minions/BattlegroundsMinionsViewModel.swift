@@ -502,10 +502,7 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
 
     private func groupsByTribe(tier: Int) -> [MinionGroup] {
         var result = [MinionGroup]()
-        for race in BattlegroundsDbSingleton.instance.races {
-            if let ar = availableRaces, !ar.contains(race) && race != .invalid && race != .all {
-                continue
-            }
+        for race in availableRaces ?? Array(BattlegroundsDbSingleton.instance.races) {
             let cards = BattlegroundsDbSingleton.instance.getCards(tier, race, isDuos)
             guard !cards.isEmpty else { continue }
             result.append(MinionGroup(

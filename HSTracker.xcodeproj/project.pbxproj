@@ -14,6 +14,7 @@
 		B66941B7F0CDA9EA55EA665F /* CardTileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D57860D8E78E378DBE756B0 /* CardTileView.swift */; };
 		5B144C1D222AA05E22646E31 /* CardTileTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AF1737BDA817BE403CAD76 /* CardTileTheme.swift */; };
 		41CF366434305109269D5CB2 /* GodfreyOverdrawnTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59AC68FC073DF2A0DBAB9790 /* GodfreyOverdrawnTests.swift */; };
+		D0E7DEDC34BEFCFD07851AF5 /* BattlegroundsDbTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B107BF8118B600DF68D3BE /* BattlegroundsDbTests.swift */; };
 		B9C3AF598756A0C5A198E8DF /* GodfreyTheBetrayerEnchantment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74BD08816E92E43AFEE3FFE /* GodfreyTheBetrayerEnchantment.swift */; };
 		490B4D29E27587E59D52E1DD /* TrackerPanelLayoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EBCC58146CAD58B971A677 /* TrackerPanelLayoutTests.swift */; };
 		F1C70CEA18B1461A6180965A /* OverlayLayoutPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3FF944C22071399F580810 /* OverlayLayoutPreferences.swift */; };
@@ -1893,6 +1894,7 @@
 		0D57860D8E78E378DBE756B0 /* CardTileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTileView.swift; sourceTree = "<group>"; };
 		C4AF1737BDA817BE403CAD76 /* CardTileTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTileTheme.swift; sourceTree = "<group>"; };
 		59AC68FC073DF2A0DBAB9790 /* GodfreyOverdrawnTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GodfreyOverdrawnTests.swift; sourceTree = "<group>"; };
+		55B107BF8118B600DF68D3BE /* BattlegroundsDbTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsDbTests.swift; sourceTree = "<group>"; };
 		D74BD08816E92E43AFEE3FFE /* GodfreyTheBetrayerEnchantment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GodfreyTheBetrayerEnchantment.swift; sourceTree = "<group>"; };
 		00EBCC58146CAD58B971A677 /* TrackerPanelLayoutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerPanelLayoutTests.swift; sourceTree = "<group>"; };
 		DD3FF944C22071399F580810 /* OverlayLayoutPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayLayoutPreferences.swift; sourceTree = "<group>"; };
@@ -4119,6 +4121,7 @@
 				B8A1F0422FCD0042000A0042 /* OverlayCanvasGeometryTests.swift */,
 				B8F1A00324F4185200F2F0F2 /* BobsBuddySimulationFailureTests.swift */,
 				59AC68FC073DF2A0DBAB9790 /* GodfreyOverdrawnTests.swift */,
+				55B107BF8118B600DF68D3BE /* BattlegroundsDbTests.swift */,
 				00EBCC58146CAD58B971A677 /* TrackerPanelLayoutTests.swift */,
 				439C7E601C7772C100D29859 /* HSTrackerTests.swift */,
 				1CF1B58B1E815810007DCBF2 /* LogReaderTests.swift */,
@@ -8696,6 +8699,7 @@
 				B8A1F0432FCD0043000A0043 /* OverlayCanvasGeometryTests.swift in Sources */,
 				B8F1A00424F4185200F2F0F2 /* BobsBuddySimulationFailureTests.swift in Sources */,
 				41CF366434305109269D5CB2 /* GodfreyOverdrawnTests.swift in Sources */,
+				D0E7DEDC34BEFCFD07851AF5 /* BattlegroundsDbTests.swift in Sources */,
 				490B4D29E27587E59D52E1DD /* TrackerPanelLayoutTests.swift in Sources */,
 				43C1C9F91E96CCE9008C20B1 /* LogReaderTests.swift in Sources */,
 				43C1C9FE1E96CCE9008C20B1 /* PowerParserTests.swift in Sources */,

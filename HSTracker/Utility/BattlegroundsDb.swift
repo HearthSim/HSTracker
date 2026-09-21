@@ -28,11 +28,17 @@ class BattlegroundsDb {
     
     var races = Set<Race>()
     
-    fileprivate init() {
-        update(RemoteConfig.battlegroundsLiveMetaPeriod)
+    fileprivate convenience init() {
+        self.init(RemoteConfig.battlegroundsLiveMetaPeriod)
         RemoteConfig.battlegroundsLiveMetaPeriodLoaded = { [weak self] metaPeriod in
             self?.update(metaPeriod)
         }
+    }
+
+    // HDT's internal BattlegroundsDb(MetaPeriod?), which exists so the database
+    // can be built from a period the test supplies rather than the live one.
+    init(_ metaPeriod: MetaPeriod?) {
+        update(metaPeriod)
     }
     
     // Mirrors HDT's BattlegroundsDb.TagLookup: the remote tag overrides, keyed by
@@ -113,10 +119,19 @@ class BattlegroundsDb {
         // explicitly check for == 1, as Rot Hide Gnoll has 2 but is not in the pool
         let baconCards = Cards.cards.filter({ x in getTag(x, .tech_level) > 0 && getTag(x, .is_bacon_pool_minion) == 1})
         
+        // The card data can carry minions of a tribe that is not in rotation
+        // (yet), so the meta period decides which tribes exist and the card
+        // scan is only the fallback until it has loaded.
         races.removeAll()
-        // should we iterate over a card's races instead?
-        for race in baconCards.map({ x in tags.getRace(x) }) {
-            races.insert(race)
+        if let minionTypes = metaPeriod?.minionTypes {
+            races.formUnion(minionTypes)
+            races.insert(.invalid)
+            races.insert(.all)
+        } else {
+            // should we iterate over a card's races instead?
+            for race in baconCards.map({ x in tags.getRace(x) }) {
+                races.insert(race)
+            }
         }
         _cardsByTier.removeAll()
         _solosExclusiveCardsByTier.removeAll()

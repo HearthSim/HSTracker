@@ -15,7 +15,7 @@
 - Fixed HSTracker quitting while a Battlegrounds hero, minion or trinket was being picked when it briefly could not tell how large the Hearthstone window was.
 - Only official HSTracker releases send crash reports and usage statistics to HearthSim.
 ## Battlegrounds
-- The minion browser's minion type filter now shows an icon for Aberration.
+- The minion browser's minion type filter now lists the minion types in the current Battlegrounds season rather than every type in the card data, and shows an icon for Aberration.
 ## Bob's Buddy
 - Bob's Buddy now says it failed to load when an incomplete copy of the runtime it simulates with stops it running, instead of leaving the panel empty on every combat, and no longer sends the same failure to HearthSim over and over.
 

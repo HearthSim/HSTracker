@@ -117,6 +117,14 @@ struct MetaPeriod: Codable {
     var period_start: Int64
     var mechanics: [String]
     var tag_overrides: [TagOverride]?
+    var minion_types: [Int]?
+
+    // The API sends the tribes as HearthDb's numeric Race values. HSTracker's
+    // Race is a String enum whose numeric lookup is built at startup, so the
+    // mapping happens here rather than in the decoder.
+    var minionTypes: [Race]? {
+        minion_types?.compactMap { Race(rawValue: $0) }
+    }
 }
 
 class RemoteConfig {
