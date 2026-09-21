@@ -331,19 +331,16 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
     }
 
     // Mirrors HDT's MinionTypeButtons: the lobby's races (or every known race
-    // out of match), with ALL dropped, "Other" (INVALID) forced to the end, and
-    // the Spells / Buddies sentinels appended after it.
+    // out of match), with ALL dropped, the rest sorted by their displayed name,
+    // "Other" (INVALID) forced to the end, and the Spells / Buddies sentinels
+    // appended after it.
     var minionTypeButtons: [MinionTypeButton] {
-        var races: [Race]
-        if let available = availableRaces {
-            // Mirror order comes straight from the game, so keep it as-is.
-            races = available
-        } else {
-            // Db.races is a Set, and HDT leans on HashSet iteration order here.
-            // Sort so the out-of-match grid doesn't reshuffle between launches.
-            races = BattlegroundsDbSingleton.instance.races.sorted { "\($0)" < "\($1)" }
-        }
-        races.removeAll { $0 == .invalid || $0 == .all }
+        var races = (availableRaces ?? Array(BattlegroundsDbSingleton.instance.races))
+            .filter { $0 != .invalid && $0 != .all }
+            .sorted {
+                BattlegroundsMinionType.raceName($0)
+                    .localizedStandardCompare(BattlegroundsMinionType.raceName($1)) == .orderedAscending
+            }
         races.append(.invalid)
 
         var types = races.map { BattlegroundsMinionType.race($0) }
