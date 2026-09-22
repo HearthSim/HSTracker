@@ -143,7 +143,17 @@ class RemoteConfig {
     private static var url = "https://hsdecktracker.net/config.json"
     private static var mercsUrl = "https://api.hearthstonejson.com/v1/latest/enUS/mercenaries.json"
     private static var secretsUrl = "https://hsreplay.net/api/v1/live/secrets/"
-    private static var battlegroundsLiveMetaPeriodUrl = "https://hsreplay.net/api/v1/battlegrounds/meta_periods/live/"
+    // The live meta period is region specific, so the region the player is on is
+    // attached whenever it is known - HDT builds the same query string lazily, since the
+    // region is not settled yet when the loader is created.
+    private static var battlegroundsLiveMetaPeriodUrl: String {
+        let url = "https://hsreplay.net/api/v1/battlegrounds/meta_periods/live/"
+        let region = AppDelegate.instance().coreManager?.game.currentRegion ?? .unknown
+        guard region != .unknown else {
+            return url
+        }
+        return "\(url)?region=\(Region.toBnetRegion(region: region))"
+    }
 
     static func checkRemoteConfig(splashscreen: Splashscreen) {
         DispatchQueue.main.async {
