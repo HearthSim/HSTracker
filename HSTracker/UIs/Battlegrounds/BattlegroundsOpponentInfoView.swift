@@ -57,6 +57,9 @@ struct BattlegroundsOpponentInfoView: View {
         // HorizontalAlignment="Center"; the tiers Border is
         // VerticalAlignment="Top", which is what the .top alignment here is.
         HStack(alignment: .top, spacing: 0) {
+            if let deity = viewModel.deity {
+                deityBox(deity)
+            }
             VStack(alignment: .leading, spacing: 0) {
                 boardBox
                 ageText
@@ -76,9 +79,9 @@ struct BattlegroundsOpponentInfoView: View {
             .frame(minWidth: Self.boardMinWidth)
             .frame(height: Self.boxHeight)
             .background(Self.gradient)
-            // CornerRadius="0 0 0 3" - only the corner that isn't flush against
-            // the screen edge or the box beside it.
-            .cornerRadius(3, corners: .bottomLeft)
+            // CornerRadius="0": the deity panel took over as the leftmost box, so
+            // this one is flush on both sides whether or not that panel is up.
+            .cornerRadius(0)
             // BorderThickness="1 0 1 1": no top edge, since the panel is pinned
             // to the very top of the overlay canvas.
             .overlay(boxEdges)
@@ -124,6 +127,25 @@ struct BattlegroundsOpponentInfoView: View {
             .fixedSize()
             .padding(.top, 5)
             .padding(.bottom, -5)
+    }
+
+    // MARK: - Deity
+
+    // DeityPanel: the same 150pt box as the board, holding the single Deity the hovered
+    // player was last seen building toward. Its StackPanel is Margin="10 0", and its one
+    // BattlegroundsMinion is styled Width/Height 110 - taken to the drawing's own aspect
+    // here, as the board slots are.
+    private func deityBox(_ deity: BattlegroundsMinionDisplay) -> some View {
+        BattlegroundsMinionRepresentable(display: deity)
+            .frame(width: Self.minionWidth, height: Self.minionHeight)
+            .padding(.vertical, Self.minionVerticalPadding)
+            .padding(.horizontal, 10)
+            .frame(height: Self.boxHeight)
+            .background(Self.gradient)
+            // CornerRadius="0 0 0 3" - the panel is now the leftmost box.
+            .cornerRadius(3, corners: .bottomLeft)
+            .overlay(boxEdges)
+            .opacity(0.9)
     }
 
     // MARK: - Tiers

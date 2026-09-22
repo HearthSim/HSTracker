@@ -160,6 +160,10 @@ class Game: NSObject, PowerEventHandler {
     func getBattlegroundsBoardStateFor(id: Int) -> BoardSnapshot? {
         return _battlegroundsBoardState?.getSnapshot(entityId: id)
     }
+
+    func getBattlegroundsDeityFor(id: Int) -> DeitySnapshot? {
+        return _battlegroundsDeityState?.getSnapshot(entityId: id)
+    }
     
     var gameId = ""
     
@@ -181,6 +185,7 @@ class Game: NSObject, PowerEventHandler {
     
     func snapshotBattlegroundsBoardState() {
         _battlegroundsBoardState?.snapshotCurrentBoard()
+        _battlegroundsDeityState?.snapshotCurrentDeity()
     }
     
     var battlegroundsBuddiesEnabled: Bool {
@@ -1076,6 +1081,7 @@ class Game: NSObject, PowerEventHandler {
     var currentMode: Mode? = .invalid
     var previousMode: Mode? = .invalid
     private var _battlegroundsBoardState: BattlegroundsBoardState?
+    private var _battlegroundsDeityState: BattlegroundsDeityState?
     var primaryPlayerId = 0
     
     private var _brawlInfo: BrawlInfo?
@@ -1462,6 +1468,7 @@ class Game: NSObject, PowerEventHandler {
         super.init()
         counterManager.initialize(game: self)
         _battlegroundsBoardState = BattlegroundsBoardState(game: self)
+        _battlegroundsDeityState = BattlegroundsDeityState(game: self)
 		player = Player(local: true, game: self)
         opponent = Player(local: false, game: self)
         secretsManager = SecretsManager(game: self, availableSecrets: RemoteArenaSettings(), relatedCardsManager: relatedCardsManager)
@@ -1649,6 +1656,7 @@ class Game: NSObject, PowerEventHandler {
         _unavailableRaces = nil
         _brawlInfo = nil
         _battlegroundsBoardState?.reset()
+        _battlegroundsDeityState?.reset()
         _battlegroundsHeroPickStatsParams = nil
         _battlegroundsHeroPickState = nil
         _mulliganGuideParams = nil

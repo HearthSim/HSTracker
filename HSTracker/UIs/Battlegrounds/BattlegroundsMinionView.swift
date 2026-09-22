@@ -8,8 +8,56 @@
 
 import Foundation
 
+/// What one minion slot draws. Normally taken from a board `Entity`, but the last known
+/// board popup also draws a Deity, which has no entity of its own until it awakens - HDT
+/// builds a BattlegroundsMinionViewModel by hand for that.
+struct BattlegroundsMinionDisplay {
+    var cardId: String
+    var attack: Int
+    var health: Int
+    var originalAttack: Int
+    var originalHealth: Int
+    var isPremium = false
+    var hasReborn = false
+    var hasTaunt = false
+    var hasDeathrattle = false
+    var hasPoisonous = false
+    var hasDivineShield = false
+    var hasVenomous = false
+
+    init(entity: Entity) {
+        let isPremium = entity.has(tag: .premium)
+        cardId = entity.cardId
+        attack = entity.attack
+        health = entity.health
+        originalAttack = isPremium ? entity.card.attack * 2 : entity.card.attack
+        originalHealth = isPremium ? entity.card.health * 2 : entity.card.health
+        self.isPremium = isPremium
+        hasReborn = entity.has(tag: .reborn)
+        hasTaunt = entity.has(tag: .taunt)
+        hasDeathrattle = entity.has(tag: .deathrattle)
+        hasPoisonous = entity.has(tag: .poisonous)
+        hasDivineShield = entity.has(tag: .divine_shield)
+        hasVenomous = entity.has(tag: .venomous)
+    }
+
+    init(card: Card, attack: Int, health: Int, isPremium: Bool) {
+        cardId = card.id
+        self.attack = attack
+        self.health = health
+        originalAttack = isPremium ? card.attack * 2 : card.attack
+        originalHealth = isPremium ? card.health * 2 : card.health
+        self.isPremium = isPremium
+    }
+}
+
 class BattlegroundsMinionView: NSView {
-    var entity: Entity?
+    var entity: Entity? {
+        didSet {
+            display = entity.map { BattlegroundsMinionDisplay(entity: $0) }
+        }
+    }
+    var display: BattlegroundsMinionDisplay?
     var sourceCardImage: NSImage?
     @IBInspectable var myIntrinsicSize: CGSize = CGSize(width: 100.0, height: 110.0)
     
@@ -40,7 +88,7 @@ class BattlegroundsMinionView: NSView {
         backgroundColor.set()
         dirtyRect.fill()
         
-        guard let entity = entity else {
+        guard let display = display else {
             return
         }
         
@@ -48,22 +96,21 @@ class BattlegroundsMinionView: NSView {
         
         let image = NSImage(size: NSSize(width: 300, height: 350), flipped: false, drawingHandler: { [self] _ -> Bool in
         
-        let isPremium = entity.has(tag: GameTag.premium)
-        let premium = isPremium ? "_premium" : ""
-        let reborn = entity.has(tag: GameTag.reborn)
-        let taunt = entity.has(tag: GameTag.taunt)
-        let deathrattle = entity.has(tag: GameTag.deathrattle)
+        let premium = display.isPremium ? "_premium" : ""
+        let reborn = display.hasReborn
+        let taunt = display.hasTaunt
+        let deathrattle = display.hasDeathrattle
 //        let legendary = entity.card.rarity == Rarity.legendary
-        let poisonous = entity.has(tag: GameTag.poisonous)
-        let divineShield = entity.has(tag: GameTag.divine_shield)
-        let venomous = entity.has(tag: GameTag.venomous)
+        let poisonous = display.hasPoisonous
+        let divineShield = display.hasDivineShield
+        let venomous = display.hasVenomous
         // always hide for now, seems like TRIGGER_VISUAL is a bit too common to be useful
 //        let trigger = entity.has(tag: GameTag.trigger_visual)
         
         if taunt, let tauntImage = NSImage(named: "taunt\(premium)") {
             tauntImage.draw(in: rect)
         }
-        if let cardImage = ImageUtils.cachedArt(cardId: entity.cardId) {
+        if let cardImage = ImageUtils.cachedArt(cardId: display.cardId) {
             NSGraphicsContext.saveGraphicsState()
             let ovalRect = NSRect(x: 55, y: 55, width: 190, height: 256)
             
@@ -74,7 +121,7 @@ class BattlegroundsMinionView: NSView {
             
             NSGraphicsContext.restoreGraphicsState()
         } else {
-            ImageUtils.art(for: entity.cardId, completion: { (img: NSImage?) in
+            ImageUtils.art(for: display.cardId, completion: { (img: NSImage?) in
                 if img  != nil {
                     DispatchQueue.main.async {
                         self.needsDisplay = true
@@ -121,18 +168,16 @@ class BattlegroundsMinionView: NSView {
         
         var color = NSColor.white
         
-        let originalAttack = isPremium ? entity.card.attack * 2 : entity.card.attack
-        let originalHealth = isPremium ? entity.card.health * 2 : entity.card.health
-        if entity.attack > originalAttack {
+        if display.attack > display.originalAttack {
             color = NSColor(red: 0.109, green: 0.89, blue: 0.109, alpha: 1.0)
         }
-        drawText(text: entity.attack.description, rect: NSRect(x: 45, y: 90, width: 90, height: 45), color: color)
+        drawText(text: display.attack.description, rect: NSRect(x: 45, y: 90, width: 90, height: 45), color: color)
         
         color = NSColor.white
-        if entity.health > originalHealth {
+        if display.health > display.originalHealth {
             color = NSColor(red: 0.109, green: 0.89, blue: 0.109, alpha: 1.0)
         }
-        drawText(text: entity.health.description, rect: NSRect(x: 165, y: 90, width: 90, height: 45), color: color)
+        drawText(text: display.health.description, rect: NSRect(x: 165, y: 90, width: 90, height: 45), color: color)
         
         return true
         })

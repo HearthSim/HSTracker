@@ -818,6 +818,8 @@
 		B82238B82BF82BA500B405D4 /* PlayerProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82238B72BF82BA500B405D4 /* PlayerProxy.swift */; };
 		B82238BA2BF948B000B405D4 /* BoardSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82238B92BF948B000B405D4 /* BoardSnapshot.swift */; };
 		B82238BC2BF948E600B405D4 /* BattlegroundsBoardState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82238BB2BF948E600B405D4 /* BattlegroundsBoardState.swift */; };
+		31A1DFEAD8B12E6F26941A52 /* BattlegroundsDeityState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04655F383E8EBD0E3BD1461F /* BattlegroundsDeityState.swift */; };
+		135378920E2B57BC8A46B4C8 /* DeitySnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B12446CD3AB09579B29B1CB0 /* DeitySnapshot.swift */; };
 		B82238BE2BF96C6000B405D4 /* BattlegroundsHeroPickStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82238BD2BF96C5F00B405D4 /* BattlegroundsHeroPickStats.swift */; };
 		B82238C02BF9891200B405D4 /* BattlegroundsHeroPickState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82238BF2BF9891200B405D4 /* BattlegroundsHeroPickState.swift */; };
 		B82238C22BFD399300B405D4 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82238C12BFD399300B405D4 /* Task.swift */; };
@@ -2719,6 +2721,8 @@
 		B82238B72BF82BA500B405D4 /* PlayerProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerProxy.swift; sourceTree = "<group>"; };
 		B82238B92BF948B000B405D4 /* BoardSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardSnapshot.swift; sourceTree = "<group>"; };
 		B82238BB2BF948E600B405D4 /* BattlegroundsBoardState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsBoardState.swift; sourceTree = "<group>"; };
+		04655F383E8EBD0E3BD1461F /* BattlegroundsDeityState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsDeityState.swift; sourceTree = "<group>"; };
+		B12446CD3AB09579B29B1CB0 /* DeitySnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeitySnapshot.swift; sourceTree = "<group>"; };
 		B82238BD2BF96C5F00B405D4 /* BattlegroundsHeroPickStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsHeroPickStats.swift; sourceTree = "<group>"; };
 		B82238BF2BF9891200B405D4 /* BattlegroundsHeroPickState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsHeroPickState.swift; sourceTree = "<group>"; };
 		B82238C12BFD399300B405D4 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
@@ -4349,6 +4353,8 @@
 			children = (
 				B8AA10042FC1000100AA1004 /* Arena */,
 				B82238BB2BF948E600B405D4 /* BattlegroundsBoardState.swift */,
+				04655F383E8EBD0E3BD1461F /* BattlegroundsDeityState.swift */,
+				B12446CD3AB09579B29B1CB0 /* DeitySnapshot.swift */,
 				B82238BF2BF9891200B405D4 /* BattlegroundsHeroPickState.swift */,
 				B82238B92BF948B000B405D4 /* BoardSnapshot.swift */,
 				B81B3D612D10CDD400DC9EB0 /* CardExtraInfo */,
@@ -7512,6 +7518,8 @@
 				A0E243AD589748DF96DA51B2 /* MonoList.swift in Sources */,
 				B8B78FF62C9708CA00DD33EC /* AshenElementalEnchantment.swift in Sources */,
 				B82238BC2BF948E600B405D4 /* BattlegroundsBoardState.swift in Sources */,
+				31A1DFEAD8B12E6F26941A52 /* BattlegroundsDeityState.swift in Sources */,
+				135378920E2B57BC8A46B4C8 /* DeitySnapshot.swift in Sources */,
 				B8B7904C2C97799900DD33EC /* ConductivityEnchantment.swift in Sources */,
 				B87765CB2BB717CD003BE49D /* TrackedCard.swift in Sources */,
 				B852D81D2DDDF59D00884B26 /* CardsPlayedThisTurnCounter.swift in Sources */,

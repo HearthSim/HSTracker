@@ -1326,6 +1326,8 @@ extension CardIds.NonCollectible {
         static let AccordoTron_AccordOTronEnchantment = "BG26_147e"
         static let BilgewaterBreakout_LockboxToken = "BG36_520t"
         static let WaxLance = "BG36_MagicItem_309"
+        // The trinket that turns a Deity golden as it awakens.
+        static let MaskOfAncientOnes = "BG36_MagicItem_602"
         static let GeniusOfMimironToken2 = "TTN_060t10t"
         static let MechagnomeGuide_MechagnomeGuideToken = "TTN_076t"
         static let OrgozoatheTender_AzsharasHatcheryToken = "BG23_015t"
