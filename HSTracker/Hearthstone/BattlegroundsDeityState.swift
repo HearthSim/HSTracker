@@ -31,11 +31,7 @@ class BattlegroundsDeityState {
             return
         }
 
-        // The sigil is copied into the combat and dropped again right after, so take the
-        // newest one.
-        guard let sigil = game.entities.values.filter({ x in
-            x.cardId == CardIds.NonCollectible.Neutral.SecretDeityDnt && x.isControlled(by: game.opponent.id)
-        }).sorted(by: { $0.id > $1.id }).first else {
+        guard let sigil = getSigil(controllerId: game.opponent.id) else {
             return
         }
 
@@ -57,6 +53,28 @@ class BattlegroundsDeityState {
         logger.info("Snapshotting \(card.name) (\(attack)/\(health)\(isGolden ? ", golden" : "")) as the Deity of \(opponentHero.card.name) with player id \(playerId)")
         lastKnownDeity[playerId] = DeitySnapshot(card: card, attack: attack, health: health,
                                                  isGolden: isGolden, turn: game.turnNumber())
+    }
+
+    // The sigil is copied into the combat and dropped again right after, so take the newest one.
+    private func getSigil(controllerId: Int) -> Entity? {
+        return game.entities.values.filter({ x in
+            x.cardId == CardIds.NonCollectible.Neutral.SecretDeityDnt && x.isControlled(by: controllerId)
+        }).sorted(by: { $0.id > $1.id }).first
+    }
+
+    /// The whole lobby builds towards the same Deity, and the game entity carries it from
+    /// CREATE_GAME on. The sigils only show up about a minute later, so this is the only source
+    /// we have during hero picking.
+    var globalOldGod: Card? {
+        return Cards.by(dbfId: game.gameEntity?[.bacon_global_old_god_dbid] ?? 0, collectible: false)
+    }
+
+    // Our own sigil is always readable, so our Deity needs no snapshot.
+    func getPlayerDeity() -> Card? {
+        guard let sigil = getSigil(controllerId: game.player.id) else {
+            return globalOldGod
+        }
+        return Cards.by(dbfId: sigil[.bacon_evolution_card_id], collectible: false) ?? globalOldGod
     }
 
     func getSnapshot(entityId: Int) -> DeitySnapshot? {

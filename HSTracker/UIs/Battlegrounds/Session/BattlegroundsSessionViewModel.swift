@@ -24,6 +24,11 @@ class BattlegroundsSessionViewModel: ObservableObject {
 
     @Published var availableMinionTypes = [Race]()
     @Published var bannedMinionTypes = [Race]()
+    @Published var playerDeity: Card?
+
+    func updatePlayerDeity() {
+        playerDeity = AppDelegate.instance().coreManager.game.battlegroundsPlayerDeity
+    }
 
     @Published var availableMinionTypesSectionVisible = false
     @Published var bannedMinionTypesSectionVisible = false
@@ -248,6 +253,7 @@ class BattlegroundsSessionViewModel: ObservableObject {
         }
 
         updateMinionTypes()
+        updatePlayerDeity()
 
         // Update method might be called multiple times.
         // We need to prevent multiple calls to UpdateCompositionStatsIfNeeded to happen at the same time.

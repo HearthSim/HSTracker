@@ -164,6 +164,14 @@ class Game: NSObject, PowerEventHandler {
     func getBattlegroundsDeityFor(id: Int) -> DeitySnapshot? {
         return _battlegroundsDeityState?.getSnapshot(entityId: id)
     }
+
+    var battlegroundsPlayerDeity: Card? {
+        return _battlegroundsDeityState?.getPlayerDeity()
+    }
+
+    var battlegroundsGlobalOldGod: Card? {
+        return _battlegroundsDeityState?.globalOldGod
+    }
     
     var gameId = ""
     

@@ -184,7 +184,7 @@ struct BattlegroundsSessionView: View {
     private func tribeRow(_ races: [Race], availability: BattlegroundsTribeIconView.Availability) -> some View {
         HStack(spacing: 8) {
             ForEach(races, id: \.self) { race in
-                BattlegroundsTribeIconView(race: race, availability: availability)
+                BattlegroundsTribeIconView(race: race, availability: availability, deity: viewModel.playerDeity)
             }
         }
         .padding(EdgeInsets(top: 8, leading: 8, bottom: 4, trailing: 8))

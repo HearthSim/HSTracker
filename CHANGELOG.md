@@ -28,7 +28,8 @@
 - Fixed the trinket guide tooltip not showing for some of the offered trinkets in the trinket shop.
 - Added a Battlegrounds setting for whether the Meta Snapshot link is offered between games.
 - Hovering a player on the leaderboard now also shows the Deity they were last seen building, and the size it had grown to, with its stats in white.
-- Added a counter for the size of your own Deity, which appears once it has grown large or you have three Aberrations on the board.
+- Added a counter for the size of your own Deity, which shows this game's Deity from the start and appears once it has grown large or you have three Aberrations on the board.
+- The session panel's available minion types now show this game's Deity in place of the Aberration icon.
 ## Bob's Buddy
 - Bob's Buddy now knows about the Deity a Deity Sigil will summon, and the stats it has grown to.
 - Fixed Bob's Buddy simulating your own objectives for your opponent instead of theirs.

@@ -521,6 +521,8 @@ enum GameTag: Int, CaseIterable, Codable {
     dark_gift_entity = 4865,
     bacon_activate_tooltip = 4867,
     only_gold_in_guide = 4897,
+    // The Deity the whole lobby builds towards, on the game entity from CREATE_GAME on.
+    bacon_global_old_god_dbid = 4902,
     // The Deity a Deity Sigil will summon: the sigil carries the Deity's current total
     // stats, which start at 1/1 and grow with every "Give your Deity +X/+Y". The player
     // entity carries the same pair as bacon_old_god_attack/bacon_old_god_health, but the

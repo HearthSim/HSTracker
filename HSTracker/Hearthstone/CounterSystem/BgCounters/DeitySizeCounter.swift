@@ -16,9 +16,11 @@ class DeitySizeCounter: StatsCounter {
 
     override var localizedName: String { String.localizedString("Counter_Deity", comment: "") }
 
-    // Until the sigil tells us which Deity it holds, fall back to generic Aberration art.
+    // The sigil only appears a minute into the game, so until then we go by the lobby's Old God,
+    // and by generic Aberration art before the game entity even has that.
     override var cardIdToShowInUI: String? {
-        deityCardId ?? CardIds.NonCollectible.Neutral.ATaleofKings_KingOfAberrationsTavernBrawl
+        deityCardId ?? game.battlegroundsGlobalOldGod?.id
+            ?? CardIds.NonCollectible.Neutral.ATaleofKings_KingOfAberrationsTavernBrawl
     }
 
     override var relatedCards: [String] {
@@ -69,22 +71,47 @@ class DeitySizeCounter: StatsCounter {
 
     override func handleTagChange(tag: GameTag, entity: Entity, value: Int, prevValue: Int) {
         guard game.isBattlegroundsMatch() else { return }
+
+        // The game entity has no controller, so this has to come before the controller check.
+        if tag == .bacon_global_old_god_dbid {
+            notifyDeityChanged()
+            return
+        }
+
+        if tag == .bacon_old_god_attack || tag == .bacon_old_god_health {
+            handleDeitySize(tag: tag, entity: entity, value: value)
+            return
+        }
+
         guard entity.isControlled(by: game.player.id) == isPlayerCounter else { return }
         guard entity.cardId == CardIds.NonCollectible.Neutral.SecretDeityDnt else { return }
 
-        // The stats are the Deity's current total, not a bonus on top of the printed ones.
-        if tag == .bacon_evolution_card_overwrite_atk {
-            attackCounter = value
-        }
-
-        if tag == .bacon_evolution_card_overwrite_health {
-            healthCounter = value
-        }
-
         if tag == .bacon_evolution_card_id {
             deityCardId = Cards.by(dbfId: value, collectible: false)?.id
-            onPropertyChanged("cardToShowInUi")
-            onPropertyChanged("cardAsset")
+            notifyDeityChanged()
         }
+    }
+
+    // The size lives on the player entity rather than the sigil, and is the Deity's current total
+    // rather than a bonus on top of the printed stats.
+    private func handleDeitySize(tag: GameTag, entity: Entity, value: Int) {
+        guard entity.id == (isPlayerCounter ? game.playerEntity : game.opponentEntity)?.id else { return }
+
+        // The opponent entity only carries a size while we are facing them and drops back to 0 once
+        // their board is hidden again, so keep the last one we saw.
+        if value == 0 && !isPlayerCounter {
+            return
+        }
+
+        if tag == .bacon_old_god_attack {
+            attackCounter = value
+        } else {
+            healthCounter = value
+        }
+    }
+
+    private func notifyDeityChanged() {
+        onPropertyChanged("cardToShowInUi")
+        onPropertyChanged("cardAsset")
     }
 }

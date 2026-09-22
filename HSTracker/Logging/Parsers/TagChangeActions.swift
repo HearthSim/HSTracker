@@ -134,6 +134,10 @@ struct TagChangeActions {
                 self.onHeroEntityChange(eventHandler: eventHandler, playerEntityId: id, heroEntityId: value)
             case .next_opponent_player_id:
                 self.onNextOpponentPlayerId(eventHandler: eventHandler, id: id, value: value)
+            case .bacon_evolution_card_id:
+                self.onBaconEvolutionCardIdChange(eventHandler: eventHandler, id: id)
+            case .bacon_global_old_god_dbid:
+                self.updateSessionPlayerDeity(eventHandler)
             default:
                 break
             }
@@ -176,6 +180,21 @@ struct TagChangeActions {
         guard let game = eventHandler as? Game else { return }
         DispatchQueue.main.async {
             game.windowManager.rootOverlay?.viewModel.battlegroundsMinionPinning.setShopVisible(false)
+        }
+    }
+
+    private func onBaconEvolutionCardIdChange(eventHandler: PowerEventHandler, id: Int) {
+        guard eventHandler.isBattlegroundsMatch() else { return }
+        guard let entity = eventHandler.entities[id] else { return }
+        guard entity.cardId == CardIds.NonCollectible.Neutral.SecretDeityDnt
+                && entity.isControlled(by: eventHandler.player.id) else { return }
+        updateSessionPlayerDeity(eventHandler)
+    }
+
+    private func updateSessionPlayerDeity(_ eventHandler: PowerEventHandler) {
+        guard let game = eventHandler as? Game else { return }
+        DispatchQueue.main.async {
+            game.windowManager.rootOverlay?.viewModel.battlegroundsSession.updatePlayerDeity()
         }
     }
 
