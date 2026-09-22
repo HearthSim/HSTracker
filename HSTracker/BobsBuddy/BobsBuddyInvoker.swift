@@ -1107,6 +1107,33 @@ class BobsBuddyInvoker {
         return objective
     }
     
+    /// Builds the Deity that a Deity Sigil will summon. The Deity has no entity of its
+    /// own until it awakens, so until then it exists only as tags on the sigil: the card
+    /// it is going to be, plus the stats it has accumulated.
+    static func getDeityFromSigil(sim: SimulatorProxy, player: Bool, sigil: Entity) -> MinionProxy? {
+        guard let card = Cards.by(dbfId: sigil[.bacon_evolution_card_id], collectible: false) else {
+            return nil
+        }
+
+        // Deliberately the base card id. A Deity is only ever Golden through Mask of
+        // Ancient Ones, which the sigil applies itself from the trinket.
+        let deity = sim.minionFactory.createFromCardid(id: card.id, player: player)
+
+        // These are the Deity's current total stats, not a bonus on top of the printed
+        // ones: they start at 1/1 when the sigil is created and grow with every "Give
+        // your Deity +X/+Y". The player entity carries the same pair as
+        // bacon_old_god_attack/bacon_old_god_health, but the sigil-local tags stay
+        // correct per player in duos.
+        let attack = Int32(sigil[.bacon_evolution_card_overwrite_atk])
+        let health = Int32(sigil[.bacon_evolution_card_overwrite_health])
+        deity.baseAttack = attack
+        deity.maxAttack = attack
+        deity.baseHealth = health
+        deity.maxHealth = health
+
+        return deity
+    }
+
     static func getTrinketFromEntity(factory: TrinketFactoryProxy, player: Bool, entity: Entity) -> TrinketProxy {
         // Use LatestCardId, not CardId. A Lesser/Greater Crystal Ball that has transformed into a
         // copy of a trinket keeps its stale token CardId (BACON trinket entities are not updated by
@@ -1259,7 +1286,16 @@ class BobsBuddyInvoker {
         let playerObjectives = inputPlayer.objectives
         for objective in gamePlayer.objectives {
             // TODO: [Duos] Check if friendly translates to player correctly
-            MonoHelper.addToList(list: playerObjectives, element: BobsBuddyInvoker.getObjectiveFromEntity(factory: simulator.objectiveFactory, player: friendly, entity: objective))
+            let inputObjective = BobsBuddyInvoker.getObjectiveFromEntity(factory: simulator.objectiveFactory, player: friendly, entity: objective)
+
+            // The Deity Sigil carries the Deity it will summon, which is not an entity
+            // anywhere in the game until it awakens mid-combat.
+            if objective.cardId == CardIds.NonCollectible.Neutral.SecretDeityDnt,
+               let deity = BobsBuddyInvoker.getDeityFromSigil(sim: simulator, player: friendly, sigil: objective) {
+                inputObjective.setAttachedMinion(deity)
+            }
+
+            MonoHelper.addToList(list: playerObjectives, element: inputObjective)
         }
         
         let playerSide = BobsBuddyInvoker.getOrderedMinions(board: gamePlayer.board).filter { e in e.isControlled(by: gamePlayer.id) }.map { e in BobsBuddyInvoker.getMinionFromEntity(sim: simulator, player: friendly, entity: e, attachedEntities: getAttachedEntities(entityId: e.id), allEntities: game.entities)}

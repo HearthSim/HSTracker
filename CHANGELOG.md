@@ -28,6 +28,7 @@
 - Fixed the trinket guide tooltip not showing for some of the offered trinkets in the trinket shop.
 - Added a Battlegrounds setting for whether the Meta Snapshot link is offered between games.
 ## Bob's Buddy
+- Bob's Buddy now knows about the Deity a Deity Sigil will summon, and the stats it has grown to.
 - Fixed Bob's Buddy simulating your own objectives for your opponent instead of theirs.
 - Bob's Buddy now says it failed to load when an incomplete copy of the runtime it simulates with stops it running, instead of leaving the panel empty on every combat, and no longer sends the same failure to HearthSim over and over.
 

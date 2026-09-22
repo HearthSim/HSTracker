@@ -520,7 +520,16 @@ enum GameTag: Int, CaseIterable, Codable {
     hidden_script_data_6 = 4832,
     dark_gift_entity = 4865,
     bacon_activate_tooltip = 4867,
-    only_gold_in_guide = 4897
+    only_gold_in_guide = 4897,
+    // The Deity a Deity Sigil will summon: the sigil carries the Deity's current total
+    // stats, which start at 1/1 and grow with every "Give your Deity +X/+Y". The player
+    // entity carries the same pair as bacon_old_god_attack/bacon_old_god_health, but the
+    // sigil-local ones stay correct per player in duos.
+    bacon_evolution_card_overwrite_atk = 4906,
+    bacon_evolution_card_overwrite_health = 4907,
+    bacon_old_god = 4744,
+    bacon_old_god_attack = 4914,
+    bacon_old_god_health = 4915
 
     static var lookup = [String: GameTag]()
     

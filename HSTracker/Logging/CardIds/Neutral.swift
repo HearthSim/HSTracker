@@ -1049,6 +1049,8 @@ extension CardIds.NonCollectible {
         static let OffensiveSacrifice = "BG36_MidGameEffect_000te2"
         static let DefensiveSacrifice = "BG36_MidGameEffect_000t2e2"
         static let Invulnerability = "BG36_MidGameEffect_000t60e"
+        // The Deity Sigil: the objective that carries the Deity a player will summon.
+        static let SecretDeityDnt = "BG_OldGod"
         static let ColdFeet_ColdFeetEnchantment1 = "JAM_006e"
         static let DiscipleofEonar_SymbioticEnchantment = "TTN_503e"
         static let PopularPixie_GladesGuidanceEnchantment = "JAM_026e"
