@@ -1257,7 +1257,7 @@ class BobsBuddyInvoker {
             MonoHelper.addToList(list: inputPlayer.trinkets, element: BobsBuddyInvoker.getTrinketFromEntity(factory: simulator.trinketFactory, player: friendly, entity: trinket))
         }
         let playerObjectives = inputPlayer.objectives
-        for objective in game.player.objectives {
+        for objective in gamePlayer.objectives {
             // TODO: [Duos] Check if friendly translates to player correctly
             MonoHelper.addToList(list: playerObjectives, element: BobsBuddyInvoker.getObjectiveFromEntity(factory: simulator.objectiveFactory, player: friendly, entity: objective))
         }
