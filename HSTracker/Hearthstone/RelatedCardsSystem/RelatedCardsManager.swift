@@ -145,8 +145,28 @@ class RelatedCardsManager {
     }
     
     public func getCardsOpponentMayHave(_ opponent: Player, _ gameType: GameType, _ format: FormatType) -> [Card] {
-        return relatedCards.values.filter { card in card.shouldShowForOpponent(opponent: opponent) && card.isCardLegal(gameType: gameType, format: format) }
-            .compactMap { card in Cards.by(cardId: card.getCardId()) }
+        let settings = RelatedCardVisibilitySettings.instance
+        // Legality first: it stays a hard gate, so an override can never surface a card
+        // that cannot exist in this format. Only then does the user's override replace
+        // the card's own heuristic.
+        let visible = relatedCards.values.filter { card in
+            card.isCardLegal(gameType: gameType, format: format)
+                && RelatedCardVisibilitySettings.resolve(settings.getOpponent(card.getCardId())) {
+                    card.shouldShowForOpponent(opponent: opponent)
+                }
+        }
+        // A card with several ids (Core/Wild reprints) can be legal, and shown, under more
+        // than one of them in the same format. It is one card, so list it once.
+        var representatives = [String: String]()
+        for card in visible {
+            let cardId = card.getCardId()
+            let key = RelatedCardCatalog.getVariantIds(cardId)[0]
+            if let existing = representatives[key], existing <= cardId {
+                continue
+            }
+            representatives[key] = cardId
+        }
+        return representatives.values.compactMap { cardId in Cards.by(cardId: cardId) }
     }
 
     // MARK: - Outfinder statistics

@@ -315,11 +315,13 @@ class Game: NSObject, PowerEventHandler {
 
                         // On the current arena rotation only one legendary is available
                         // per draft, so an active legendary package rules every other
-                        // legendary out of the related cards.
+                        // legendary out of the related cards. A card the user explicitly
+                        // forced on is exempt: that is the point of forcing it.
                         let hasLegendaryPackage = !packageCards.isEmpty
                         relatedCards = cardWithRelatedCards.filter({ card in
                             packageCards.allSatisfy({ $0.id != card.id })
-                                && !(hasLegendaryPackage && card.rarity == .legendary)
+                                && (!(hasLegendaryPackage && card.rarity == .legendary)
+                                    || RelatedCardVisibilitySettings.instance.getOpponent(card.id) == .enabled)
                         }).sortCardList()
                     }
 
@@ -1494,7 +1496,11 @@ class Game: NSObject, PowerEventHandler {
                                            Settings.opponent_deck_top, Settings.opponent_deck_left,
                                            Settings.opponent_deck_height, Settings.overlay_opponent_scaling,
                                            Settings.opponent_opacity, Settings.overlay_center_opponent_stack,
-                                           Settings.deck_panel_order_opponent]
+                                           Settings.deck_panel_order_opponent,
+                                           // HDT hooks RelatedCardVisibilitySettings.Changed up to
+                                           // Core.UpdateOpponentCards; here the setting's own
+                                           // notification does the same job.
+                                           Settings.related_card_visibility_overrides]
 		
 		// events that should update all trackers
 		let allTrackerUpdateEvents = [Settings.rarity_colors, Events.reload_decks, Settings.window_locked, Settings.auto_position_trackers,

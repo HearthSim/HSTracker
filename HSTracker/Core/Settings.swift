@@ -466,6 +466,11 @@ final class Settings {
     static var showPlayerCounters: Bool
     @UserDefault(key: Settings.player_related_cards, defaultValue: true)
     static var showPlayerRelatedCards
+    // Per-card overrides for the opponent's "Related Cards" list, read and written
+    // through RelatedCardVisibilitySettings. Sparse: only cards the user has customised
+    // get an entry, so a newly added related card needs no migration.
+    @UserDefault(key: Settings.related_card_visibility_overrides, defaultValue: [:])
+    static var relatedCardVisibilityOverrides: [String: Int]
     @UserDefault(key: Settings.player_highlight_synergies, defaultValue: true)
     static var showPlayerHighlightSynergies
     // The OutFinder settings pane, porting HDT's Config.Instance.Outfinder* block. These sit
@@ -921,6 +926,7 @@ extension Settings {
     static let show_battlegrounds_guides = "show_battlegrounds_guides"
     static let show_battlegrounds_guides_pre_lobby = "show_battlegrounds_guides_pre_lobby"
     static let show_battlegrounds_meta_snapshot = "show_battlegrounds_meta_snapshot"
+    static let related_card_visibility_overrides = "related_card_visibility_overrides"
     static let show_battlecry_deathrattle_on_tiers = "show_battlecry_deathrattle_on_tiers"
     static let show_tavern_spells = "show_tavern_spells"
     static let show_tavern_triples = "show_tavern_triples"

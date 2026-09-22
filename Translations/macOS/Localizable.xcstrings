@@ -27175,6 +27175,692 @@
         }
       }
     },
+    "Options_Overlay_RelatedCards_Header" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwandte Karten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Related Cards"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cartas relacionadas"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cartas relacionadas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cartes associées"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carte correlate"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "関連カード"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "관련된 카드"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Powiązane karty"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cards Relacionados"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Связанные карты"
+          }
+        },
+        "th-TH" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "การ์ดที่เกี่ยวข้อง"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "相关卡牌"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "相關卡牌"
+          }
+        }
+      }
+    },
+    "OptionsCounters_Column_Opponent" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gegner"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opponent"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oponente"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oponente"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adversaire"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avversario"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "対戦相手"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "상대"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przeciwnik"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oponente"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Противник"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "对手"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "對手"
+          }
+        }
+      }
+    },
+    "OptionsCounters_Mode_Auto" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatisch"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auto"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatique"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatico"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自動"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "자동"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatycznie"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automático"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Авто"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自动显示"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自動"
+          }
+        }
+      }
+    },
+    "OptionsCounters_Mode_Disabled" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie anzeigen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Never show"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nunca exibir"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不显示"
+          }
+        }
+      }
+    },
+    "OptionsCounters_Mode_Enabled" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Immer anzeigen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Always show"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exibir sempre"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "始终显示"
+          }
+        }
+      }
+    },
+    "OptionsCounters_ResetAll" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle auf Auto zurücksetzen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset all to Auto"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tudo Automático"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部重置为自动"
+          }
+        }
+      }
+    },
+    "OptionsRelatedCards_CustomizedOnly" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur angepasste"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Customized only"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo personalizadas"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo personalizadas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Personnalisées uniquement"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo personalizzate"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "カスタマイズ済みのみ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사용자화된 항목만"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tylko dostosowane"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apenas personalizadas"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Только настроенные"
+          }
+        },
+        "th-TH" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ที่ปรับแต่งแล้วเท่านั้น"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "仅限自定义"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "僅顯示已自訂"
+          }
+        }
+      }
+    },
+    "OptionsRelatedCards_Description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wähle, welche Karten unter den zugehörigen Karten des Gegners aufgelistet werden. \"Auto\" verwendet die integrierten Regeln, die eine Karte nur dann anzeigen, wenn sie wahrscheinlich relevant ist. \"Immer anzeigen\" listet eine Karte auf, auch wenn der Gegner sie noch nicht gespielt hat – für Karten, von denen du vermutest, dass er sie auf der Hand hält. \"Nie anzeigen\" blendet sie aus der Liste aus. Dies gilt nur, solange die zugehörigen Karten des Gegners in den Gegner-Optionen aktiviert sind."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose which cards are listed under the opponent's Related Cards. \"Auto\" uses the built-in rules, which only list a card when it is likely to matter. \"Always show\" lists a card even if the opponent has not played it yet, for cards you suspect they hold. \"Never show\" hides it from the list. This only applies while opponent related cards are enabled in the Opponent options."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige qué cartas aparecen en las Cartas relacionadas del oponente. \"Automático\" usa las reglas integradas, que solo muestran una carta cuando es probable que importe. \"Mostrar siempre\" muestra una carta incluso si el oponente aún no la ha jugado, para cartas que sospechas que tiene en la mano. \"No mostrar nunca\" la oculta de la lista. Esto solo se aplica mientras las cartas relacionadas del oponente están activadas en las opciones del Oponente."
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige qué cartas aparecen en las Cartas relacionadas del oponente. \"Automático\" usa las reglas integradas, que solo muestran una carta cuando es probable que importe. \"Mostrar siempre\" muestra una carta aunque el oponente aún no la haya jugado, para cartas que sospechas que tiene en mano. \"No mostrar nunca\" la oculta de la lista. Esto solo aplica cuando las cartas relacionadas del oponente están activadas en las opciones del Oponente."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisissez quelles cartes apparaissent dans les Cartes liées de l'adversaire. « Auto » utilise les règles intégrées, qui n'affichent une carte que lorsqu'elle est susceptible d'avoir de l'importance. « Toujours afficher » liste une carte même si l'adversaire ne l'a pas encore jouée, pour les cartes que vous soupçonnez qu'il détient. « Ne jamais afficher » la masque de la liste. Ceci ne s'applique que lorsque les cartes liées de l'adversaire sont activées dans les options Adversaire."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scegli quali carte vengono elencate tra le Carte Correlate dell'avversario. \"Auto\" usa le regole integrate, che elencano una carta solo quando è probabilmente rilevante. \"Mostra sempre\" elenca una carta anche se l'avversario non l'ha ancora giocata, per le carte che sospetti abbia in mano. \"Non mostrare mai\" la nasconde dall'elenco. Questo si applica solo quando le carte correlate dell'avversario sono abilitate nelle opzioni Avversario."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "対戦相手の関連カードにリストされるカードを選択します。「自動」は組み込みのルールを使用し、関連する可能性が高い場合のみカードを表示します。「常に表示」は、対戦相手がまだプレイしていなくても、相手が持っていると思われるカードを表示します。「表示しない」はリストから非表示にします。これは対戦相手のオプションで対戦相手の関連カードが有効になっている場合のみ適用されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "상대의 관련 카드 목록에 표시할 카드를 선택합니다. \"자동\"은 내장 규칙을 사용하여 중요할 가능성이 있는 카드만 표시합니다. \"항상 표시\"는 상대가 아직 사용하지 않은 카드라도 표시하므로, 상대가 들고 있다고 의심되는 카드에 유용합니다. \"표시 안 함\"은 목록에서 해당 카드를 숨깁니다. 이 설정은 상대 옵션에서 상대 관련 카드가 활성화된 경우에만 적용됩니다."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wybierz, które karty pojawiają się na liście Powiązanych kart przeciwnika. „Auto” korzysta z wbudowanych reguł, które pokazują kartę tylko wtedy, gdy prawdopodobnie ma znaczenie. „Zawsze pokazuj” wyświetla kartę, nawet jeśli przeciwnik jeszcze jej nie zagrał — dla kart, które według ciebie ma w ręce. „Nigdy nie pokazuj” ukrywa ją z listy. Działa to tylko wtedy, gdy powiązane karty przeciwnika są włączone w opcjach Przeciwnika."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha quais cartas são listadas em Cartas Relacionadas do oponente. \"Automático\" usa as regras internas, que listam uma carta apenas quando ela provavelmente importa. \"Sempre mostrar\" lista uma carta mesmo que o oponente ainda não a tenha jogado, para cartas que você suspeita que ele tenha na mão. \"Nunca mostrar\" oculta a carta da lista. Isso só se aplica enquanto as cartas relacionadas do oponente estiverem habilitadas nas opções de Oponente."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите, какие карты будут показаны в списке связанных карт противника. «Авто» использует встроенные правила, которые показывают карту только тогда, когда она, вероятно, будет важна. «Всегда показывать» отображает карту, даже если противник ещё её не разыграл — для карт, которые, по вашему мнению, у него на руке. «Никогда не показывать» скрывает её из списка. Это применяется только при включённых связанных картах противника в настройках противника."
+          }
+        },
+        "th-TH" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "เลือกว่าจะแสดงการ์ดใดในรายการการ์ดที่เกี่ยวข้องของคู่ต่อสู้ \"อัตโนมัติ\" จะใช้กฎในตัว ซึ่งจะแสดงการ์ดเฉพาะเมื่อมีแนวโน้มว่าจะสำคัญ \"แสดงเสมอ\" จะแสดงการ์ดแม้ว่าคู่ต่อสู้ยังไม่ได้เล่นการ์ดนั้น สำหรับการ์ดที่คุณสงสัยว่าพวกเขาถืออยู่ \"ไม่แสดงเลย\" จะซ่อนการ์ดจากรายการ ตัวเลือกนี้ใช้ได้เฉพาะเมื่อเปิดใช้งานการ์ดที่เกี่ยวข้องของคู่ต่อสู้ในตัวเลือกคู่ต่อสู้เท่านั้น"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择在对手的“相关卡牌”下列出哪些卡牌。“自动”使用内置规则，仅在卡牌可能产生影响时才列出。“总是显示”即使对手尚未打出该卡牌也会列出，适用于你怀疑对手持有的卡牌。“从不显示”将其从列表中隐藏。此设置仅在对手选项中启用对手相关卡牌时生效。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選擇哪些卡片會列在對手的相關卡片中。「自動」會使用內建規則，只在卡片可能有影響時才列出。「一律顯示」即使對手尚未使用該卡也會列出，適用於你懷疑對手手上握有的卡片。「永不顯示」則會將其從列表中隱藏。此設定僅在對手選項中啟用對手相關卡片時生效。"
+          }
+        }
+      }
+    },
+    "OptionsRelatedCards_Filter_Placeholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Karten filtern ..."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filter cards..."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtrar cartas..."
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtrar cartas..."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtrer les cartes..."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtra carte..."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "カードを検索..."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "카드 필터링..."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtruj karty..."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtrar cartas..."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Фильтр карт..."
+          }
+        },
+        "th-TH" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "กรองการ์ด..."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "筛选卡牌..."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "篩選卡片..."
+          }
+        }
+      }
+    },
+    "OptionsRelatedCards_NoResults" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Karten entsprechen deinem Filter."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No cards match your filter."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ninguna carta coincide con tu filtro."
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ninguna carta coincide con tu filtro."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune carte ne correspond à votre filtre."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessuna carta corrisponde al tuo filtro."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "フィルターに一致するカードがありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "필터와 일치하는 카드가 없습니다."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Żadne karty nie pasują do filtra."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenhuma carta encontrada para este filtro."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нет карт, соответствующих фильтру."
+          }
+        },
+        "th-TH" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ไม่มีการ์ดที่ตรงกับตัวกรองของคุณ"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没有符合过滤规则的卡牌。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒有符合篩選條件的卡片。"
+          }
+        }
+      }
+    },
     "Overlay_Layout" : {
       "extractionState" : "manual",
       "localizations" : {

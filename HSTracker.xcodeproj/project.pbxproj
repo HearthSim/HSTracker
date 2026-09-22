@@ -16,9 +16,15 @@
 		41CF366434305109269D5CB2 /* GodfreyOverdrawnTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59AC68FC073DF2A0DBAB9790 /* GodfreyOverdrawnTests.swift */; };
 		D0E7DEDC34BEFCFD07851AF5 /* BattlegroundsDbTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B107BF8118B600DF68D3BE /* BattlegroundsDbTests.swift */; };
 		528EEF50E2977AE5C12DA757 /* PlayerResourcesViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102EDFA463668F57A17A24D8 /* PlayerResourcesViewModelTests.swift */; };
+		361D169ACCA1FD1FF886552A /* RelatedCardVisibilitySettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A81ED9C5D9E0C8B7B59D47B /* RelatedCardVisibilitySettingsTests.swift */; };
 		B9C3AF598756A0C5A198E8DF /* GodfreyTheBetrayerEnchantment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74BD08816E92E43AFEE3FFE /* GodfreyTheBetrayerEnchantment.swift */; };
 		490B4D29E27587E59D52E1DD /* TrackerPanelLayoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EBCC58146CAD58B971A677 /* TrackerPanelLayoutTests.swift */; };
 		F1C70CEA18B1461A6180965A /* OverlayLayoutPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3FF944C22071399F580810 /* OverlayLayoutPreferences.swift */; };
+		5DDE2D94C8B949898C73E0F7 /* RelatedCardCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = D350676F36FC0084A41D865B /* RelatedCardCatalog.swift */; };
+		5D2B9A671CFF44678E753A8E /* RelatedCardDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B654050C238A5947C15F429 /* RelatedCardDescriptor.swift */; };
+		698DA55BA998DC87D1431251 /* RelatedCardVisibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119AE3929664A6667A10AEEE /* RelatedCardVisibility.swift */; };
+		EA0F8AF136B7C7E1E9123165 /* RelatedCardVisibilitySettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5977C15B761FBCC73BA4DB6A /* RelatedCardVisibilitySettings.swift */; };
+		7CEA5DD217F20B69CE40506B /* RelatedCardsPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E576F3EC8EA75CED83D3BE0 /* RelatedCardsPreferences.swift */; };
 		AF10F2FE865ACC3C498AE97C /* DeckPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF805F8203BB16596160FE4A /* DeckPanel.swift */; };
 		6620D2875F321BDE9FE7CB66 /* TrackerPanelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC6CF7AD394561BCF942E78 /* TrackerPanelViewModel.swift */; };
 		20B5343380EA15DFBC04F44E /* TrackerPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C1962A8F367BE809387B18 /* TrackerPanelView.swift */; };
@@ -1900,9 +1906,15 @@
 		59AC68FC073DF2A0DBAB9790 /* GodfreyOverdrawnTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GodfreyOverdrawnTests.swift; sourceTree = "<group>"; };
 		55B107BF8118B600DF68D3BE /* BattlegroundsDbTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsDbTests.swift; sourceTree = "<group>"; };
 		102EDFA463668F57A17A24D8 /* PlayerResourcesViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerResourcesViewModelTests.swift; sourceTree = "<group>"; };
+		8A81ED9C5D9E0C8B7B59D47B /* RelatedCardVisibilitySettingsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelatedCardVisibilitySettingsTests.swift; sourceTree = "<group>"; };
 		D74BD08816E92E43AFEE3FFE /* GodfreyTheBetrayerEnchantment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GodfreyTheBetrayerEnchantment.swift; sourceTree = "<group>"; };
 		00EBCC58146CAD58B971A677 /* TrackerPanelLayoutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerPanelLayoutTests.swift; sourceTree = "<group>"; };
 		DD3FF944C22071399F580810 /* OverlayLayoutPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayLayoutPreferences.swift; sourceTree = "<group>"; };
+		D350676F36FC0084A41D865B /* RelatedCardCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelatedCardCatalog.swift; sourceTree = "<group>"; };
+		2B654050C238A5947C15F429 /* RelatedCardDescriptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelatedCardDescriptor.swift; sourceTree = "<group>"; };
+		119AE3929664A6667A10AEEE /* RelatedCardVisibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelatedCardVisibility.swift; sourceTree = "<group>"; };
+		5977C15B761FBCC73BA4DB6A /* RelatedCardVisibilitySettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelatedCardVisibilitySettings.swift; sourceTree = "<group>"; };
+		1E576F3EC8EA75CED83D3BE0 /* RelatedCardsPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelatedCardsPreferences.swift; sourceTree = "<group>"; };
 		DF805F8203BB16596160FE4A /* DeckPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckPanel.swift; sourceTree = "<group>"; };
 		ADC6CF7AD394561BCF942E78 /* TrackerPanelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerPanelViewModel.swift; sourceTree = "<group>"; };
 		B9C1962A8F367BE809387B18 /* TrackerPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerPanelView.swift; sourceTree = "<group>"; };
@@ -3975,6 +3987,7 @@
 				432B5FBE1CB5373200B05D19 /* Splashscreen.xib */,
 				437B5BC11CD2568100DE0A41 /* TrackersPreferences.swift */,
 				DD3FF944C22071399F580810 /* OverlayLayoutPreferences.swift */,
+				1E576F3EC8EA75CED83D3BE0 /* RelatedCardsPreferences.swift */,
 				437B5BC31CD2568E00DE0A41 /* TrackersPreferences.xib */,
 			);
 			path = Preferences;
@@ -4131,6 +4144,7 @@
 				59AC68FC073DF2A0DBAB9790 /* GodfreyOverdrawnTests.swift */,
 				55B107BF8118B600DF68D3BE /* BattlegroundsDbTests.swift */,
 				102EDFA463668F57A17A24D8 /* PlayerResourcesViewModelTests.swift */,
+				8A81ED9C5D9E0C8B7B59D47B /* RelatedCardVisibilitySettingsTests.swift */,
 				00EBCC58146CAD58B971A677 /* TrackerPanelLayoutTests.swift */,
 				439C7E601C7772C100D29859 /* HSTrackerTests.swift */,
 				1CF1B58B1E815810007DCBF2 /* LogReaderTests.swift */,
@@ -5956,6 +5970,7 @@
 			isa = PBXGroup;
 			children = (
 				B8FDE92D2CDAFE6F0093BFF7 /* Cards */,
+				5C38F6FC51054184C0D0910D /* Settings */,
 				5C73C7FC0284A5D2CCA1360B /* BoardFill.swift */,
 				B898653B2D8B580900BA5649 /* HighlightColor.swift */,
 				B89865392D8B57E000BA5649 /* ICard.swift */,
@@ -5975,6 +5990,17 @@
 				87F213C266C5FFA8BAF416D6 /* StateValuePoolCard.swift */,
 			);
 			path = RelatedCardsSystem;
+			sourceTree = "<group>";
+		};
+		5C38F6FC51054184C0D0910D /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				D350676F36FC0084A41D865B /* RelatedCardCatalog.swift */,
+				2B654050C238A5947C15F429 /* RelatedCardDescriptor.swift */,
+				119AE3929664A6667A10AEEE /* RelatedCardVisibility.swift */,
+				5977C15B761FBCC73BA4DB6A /* RelatedCardVisibilitySettings.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		B8FDE92D2CDAFE6F0093BFF7 /* Cards */ = {
@@ -7511,6 +7537,11 @@
 				B89865F02D920FAC00BA5649 /* TownCrier.swift in Sources */,
 				437B5BC21CD2568100DE0A41 /* TrackersPreferences.swift in Sources */,
 				F1C70CEA18B1461A6180965A /* OverlayLayoutPreferences.swift in Sources */,
+				5DDE2D94C8B949898C73E0F7 /* RelatedCardCatalog.swift in Sources */,
+				5D2B9A671CFF44678E753A8E /* RelatedCardDescriptor.swift in Sources */,
+				698DA55BA998DC87D1431251 /* RelatedCardVisibility.swift in Sources */,
+				EA0F8AF136B7C7E1E9123165 /* RelatedCardVisibilitySettings.swift in Sources */,
+				7CEA5DD217F20B69CE40506B /* RelatedCardsPreferences.swift in Sources */,
 				439C7EC61C777F8900D29859 /* RachelleHandler.swift in Sources */,
 				B89343402CD07836009A8727 /* FatigueCounter.swift in Sources */,
 				B8AEB60B2FB270B900CDA2C0 /* SilverHandRecruitBuffCounter.swift in Sources */,
@@ -8716,6 +8747,7 @@
 				41CF366434305109269D5CB2 /* GodfreyOverdrawnTests.swift in Sources */,
 				D0E7DEDC34BEFCFD07851AF5 /* BattlegroundsDbTests.swift in Sources */,
 				528EEF50E2977AE5C12DA757 /* PlayerResourcesViewModelTests.swift in Sources */,
+				361D169ACCA1FD1FF886552A /* RelatedCardVisibilitySettingsTests.swift in Sources */,
 				490B4D29E27587E59D52E1DD /* TrackerPanelLayoutTests.swift in Sources */,
 				43C1C9F91E96CCE9008C20B1 /* LogReaderTests.swift in Sources */,
 				43C1C9FE1E96CCE9008C20B1 /* PowerParserTests.swift in Sources */,

@@ -56,8 +56,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
             MercenariesPreferences(nibName: "MercenariesPreferences", bundle: nil),
             ImportingPreferences(nibName: "ImportingPreferences", bundle: nil)
         ]
-        // Built in code, so it has no nib to name - see OverlayLayoutPreferences.
+        // Built in code, so they have no nib to name - see OverlayLayoutPreferences
+        // and RelatedCardsPreferences.
         panes.insert(OverlayLayoutPreferences(), at: 3)
+        // Next to the Opponent pane, whose "Show related cards" checkbox gates the list
+        // this one configures.
+        panes.insert(RelatedCardsPreferences(), at: 7)
         // Each pane fixes its own width (see PreferencePaneController), so the window keeps a
         // constant width across panes and only its height adapts.
         return PreferencesWindowController(preferencePanes: panes, style: .toolbarItems, animated: true)
