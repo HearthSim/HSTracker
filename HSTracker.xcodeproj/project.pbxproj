@@ -1561,6 +1561,7 @@
 		B8DEDCEB2547CFF200DF524B /* HearthMirror.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4C68AF2A2447D35A00E52834 /* HearthMirror.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B8E1E5A32CF94FB900383975 /* AppMover in Frameworks */ = {isa = PBXBuildFile; productRef = B8E1E5A22CF94FB900383975 /* AppMover */; };
 		B8E1E5A62D0B873E00383975 /* BeetlesSizeCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5A52D0B873E00383975 /* BeetlesSizeCounter.swift */; };
+		5185B63E0FD1BE9461AD08A9 /* DeitySizeCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E270CB7F3E83D61312873710 /* DeitySizeCounter.swift */; };
 		B8E1E5A82D0B883100383975 /* SpellsPlayedForNagasCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5A72D0B883100383975 /* SpellsPlayedForNagasCounter.swift */; };
 		B8E1E5AA2D0B891F00383975 /* UndeadBuffCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5A92D0B891F00383975 /* UndeadBuffCounter.swift */; };
 		B8E1E5AC2D0C708900383975 /* GrandMagisterRommath.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E1E5AB2D0C708900383975 /* GrandMagisterRommath.swift */; };
@@ -3461,6 +3462,7 @@
 		B8DC120424EC79370088A755 /* OutputProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutputProxy.swift; sourceTree = "<group>"; };
 		B8DC376025D06C2F00452A83 /* OpponentDeadForTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpponentDeadForTracker.swift; sourceTree = "<group>"; };
 		B8E1E5A52D0B873E00383975 /* BeetlesSizeCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeetlesSizeCounter.swift; sourceTree = "<group>"; };
+		E270CB7F3E83D61312873710 /* DeitySizeCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeitySizeCounter.swift; sourceTree = "<group>"; };
 		B8E1E5A72D0B883100383975 /* SpellsPlayedForNagasCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellsPlayedForNagasCounter.swift; sourceTree = "<group>"; };
 		B8E1E5A92D0B891F00383975 /* UndeadBuffCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UndeadBuffCounter.swift; sourceTree = "<group>"; };
 		B8E1E5AB2D0C708900383975 /* GrandMagisterRommath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrandMagisterRommath.swift; sourceTree = "<group>"; };
@@ -5866,6 +5868,7 @@
 			isa = PBXGroup;
 			children = (
 				B8E1E5A52D0B873E00383975 /* BeetlesSizeCounter.swift */,
+				E270CB7F3E83D61312873710 /* DeitySizeCounter.swift */,
 				B82901F02F0ED32A002F96FB /* BloodGemBarrageBuffCounter.swift */,
 				B8196F1E2CC87293007C0371 /* BloodGemCounter.swift */,
 				B8AEB6062F999A6E00CDA2C0 /* DemonFodderCounter.swift */,
@@ -7638,6 +7641,7 @@
 				B854622D2CE008360083BB31 /* BaconWatcher.swift in Sources */,
 				B8DB12C32EBAEB38004268FA /* PrecursoryStrike.swift in Sources */,
 				B8E1E5A62D0B873E00383975 /* BeetlesSizeCounter.swift in Sources */,
+				5185B63E0FD1BE9461AD08A9 /* DeitySizeCounter.swift in Sources */,
 				B8B287052E83838600C55767 /* CardLegalityChecker.swift in Sources */,
 				43C567E91D5D0F5700451B6F /* LogLineZone.swift in Sources */,
 				B8B790102C974E8700DD33EC /* SaboteurEnchantment.swift in Sources */,

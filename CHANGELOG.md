@@ -28,6 +28,7 @@
 - Fixed the trinket guide tooltip not showing for some of the offered trinkets in the trinket shop.
 - Added a Battlegrounds setting for whether the Meta Snapshot link is offered between games.
 - Hovering a player on the leaderboard now also shows the Deity they were last seen building, and the size it had grown to.
+- Added a counter for the size of your own Deity.
 ## Bob's Buddy
 - Bob's Buddy now knows about the Deity a Deity Sigil will summon, and the stats it has grown to.
 - Fixed Bob's Buddy simulating your own objectives for your opponent instead of theirs.
