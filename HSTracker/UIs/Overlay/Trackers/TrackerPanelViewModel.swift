@@ -307,7 +307,7 @@ class TrackerPanelViewModel: ObservableObject {
     /// were not auto-positioned, so neither is this.
     static func migratePlacementIfNeeded() {
         guard !Settings.migratedTrackerPlacement else { return }
-        let hearthstone = SizeHelper.hearthstoneWindow.frame
+        let hearthstone = SizeHelper.overHearthstoneFrame()
         guard hearthstone.width > 0, hearthstone.height > 0 else { return }
 
         if !Settings.autoPositionTrackers {

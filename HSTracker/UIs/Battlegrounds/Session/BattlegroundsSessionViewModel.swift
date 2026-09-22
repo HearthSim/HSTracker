@@ -148,7 +148,7 @@ class BattlegroundsSessionViewModel: ObservableObject {
     // were not auto-positioned, so neither is this.
     func migratePositionIfNeeded() {
         guard !Settings.migratedSessionPosition else { return }
-        let hearthstoneFrame = SizeHelper.hearthstoneWindow.frame
+        let hearthstoneFrame = SizeHelper.overHearthstoneFrame()
         guard hearthstoneFrame.width > 0, hearthstoneFrame.height > 0 else { return }
 
         if !Settings.autoPositionTrackers, let saved = Settings.battlegroundsSessionFrame,
