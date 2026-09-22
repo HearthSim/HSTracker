@@ -24,6 +24,10 @@ struct BattlegroundsMinionDisplay {
     var hasPoisonous = false
     var hasDivineShield = false
     var hasVenomous = false
+    /// HDT's BattlegroundsMinionViewModel.HighlightBuffedStats: green stats mean "buffed
+    /// above what the card prints", which is meaningless for a Deity, whose stats are its
+    /// running total rather than a buff on top of a printed 1/1.
+    var highlightBuffedStats = true
 
     init(entity: Entity) {
         let isPremium = entity.has(tag: .premium)
@@ -41,13 +45,14 @@ struct BattlegroundsMinionDisplay {
         hasVenomous = entity.has(tag: .venomous)
     }
 
-    init(card: Card, attack: Int, health: Int, isPremium: Bool) {
+    init(card: Card, attack: Int, health: Int, isPremium: Bool, highlightBuffedStats: Bool) {
         cardId = card.id
         self.attack = attack
         self.health = health
         originalAttack = isPremium ? card.attack * 2 : card.attack
         originalHealth = isPremium ? card.health * 2 : card.health
         self.isPremium = isPremium
+        self.highlightBuffedStats = highlightBuffedStats
     }
 }
 
@@ -168,13 +173,13 @@ class BattlegroundsMinionView: NSView {
         
         var color = NSColor.white
         
-        if display.attack > display.originalAttack {
+        if display.highlightBuffedStats && display.attack > display.originalAttack {
             color = NSColor(red: 0.109, green: 0.89, blue: 0.109, alpha: 1.0)
         }
         drawText(text: display.attack.description, rect: NSRect(x: 45, y: 90, width: 90, height: 45), color: color)
         
         color = NSColor.white
-        if display.health > display.originalHealth {
+        if display.highlightBuffedStats && display.health > display.originalHealth {
             color = NSColor(red: 0.109, green: 0.89, blue: 0.109, alpha: 1.0)
         }
         drawText(text: display.health.description, rect: NSRect(x: 165, y: 90, width: 90, height: 45), color: color)

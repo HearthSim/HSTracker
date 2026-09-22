@@ -217,7 +217,7 @@ final class BattlegroundsOpponentInfoViewModel: ObservableObject {
     private func setDeity(_ snapshot: DeitySnapshot?) {
         deity = snapshot.map {
             BattlegroundsMinionDisplay(card: $0.card, attack: $0.attack, health: $0.health,
-                                       isPremium: $0.isGolden)
+                                       isPremium: $0.isGolden, highlightBuffedStats: false)
         }
     }
 
