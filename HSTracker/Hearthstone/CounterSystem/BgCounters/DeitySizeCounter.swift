@@ -9,7 +9,8 @@
 import Foundation
 
 class DeitySizeCounter: StatsCounter {
-    private static let showAboveStats = 10
+    private static let minStatsToShow = 25
+    private static let minAberrationsToShow = 3
 
     override var isBattlegroundsCounter: Bool { true }
 
@@ -39,7 +40,23 @@ class DeitySizeCounter: StatsCounter {
 
     override func shouldShow() -> Bool {
         return game.isBattlegroundsMatch()
-            && (attackCounter > DeitySizeCounter.showAboveStats || healthCounter > DeitySizeCounter.showAboveStats)
+            && (attackCounter >= DeitySizeCounter.minStatsToShow || healthCounter >= DeitySizeCounter.minStatsToShow
+                || (hasValue && aberrationsOnBoard() >= DeitySizeCounter.minAberrationsToShow))
+    }
+
+    private func aberrationsOnBoard() -> Int {
+        let board = isPlayerCounter ? game.player.board : game.opponent.board
+        return board.filter(DeitySizeCounter.isAberration).count
+    }
+
+    // The static race misses a minion turned into an Aberration by an enchantment (Faceless
+    // Converter), which only the live CARDRACE tag carries.
+    private static func isAberration(_ entity: Entity) -> Bool {
+        if !entity.isMinion {
+            return false
+        }
+        let liveRace = Race.allCases[safeIndex: entity[.cardrace]] ?? .invalid
+        return entity.card.isAberration() || liveRace == .aberration || liveRace == .all
     }
 
     override func getCardsToDisplay() -> [String] {

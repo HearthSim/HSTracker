@@ -166,6 +166,10 @@ final class Card {
         return hasRace(.draenei)
     }
     
+    func isAberration() -> Bool {
+        return hasRace(.aberration)
+    }
+    
     func isDragon() -> Bool {
         return hasRace(.dragon)
     }
