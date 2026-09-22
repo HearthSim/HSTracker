@@ -24,6 +24,7 @@
 - Fixed the overlay not showing fully during a Timewarp tavern.
 - The minion browser's minion type filter now lists the minion types in the current Battlegrounds season rather than every type in the card data, puts them in alphabetical order, and shows an icon for Aberration.
 - Fixed long comp names being cut short in the comp guides, and the guide text sitting too close to the headings above and below it.
+- Fixed the trinket guide tooltip not showing for some of the offered trinkets in the trinket shop.
 ## Bob's Buddy
 - Bob's Buddy now says it failed to load when an incomplete copy of the runtime it simulates with stops it running, instead of leaving the panel empty on every combat, and no longer sends the same failure to HearthSim over and over.
 

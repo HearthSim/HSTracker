@@ -4232,6 +4232,13 @@ class Game: NSObject, PowerEventHandler {
 
         let trinketPickWidth = 0.192
         let leftEdge = 0.122
+        // Confirmed by direct testing: this zonePosition is already
+        // 0-indexed, unlike the unrelated tags used for board trinkets
+        // (RegionDrawer's position-1) and hero picking (zonePosition-1) -
+        // those come off different game state entirely, so their indexing
+        // doesn't carry over here. A prior "fix" that subtracted 1 landed
+        // the trigger one slot to the left of the hovered trinket instead;
+        // this is the same formula HDT's own SetTrinketGuidesTrigger uses.
         let trinketX = leftEdge + Double(zonePosition) * trinketPickWidth
 
         let trigger = BattlegroundsDiscoveryGuideTrigger(

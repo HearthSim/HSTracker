@@ -372,15 +372,17 @@ struct RootOverlayView: View {
                 BattlegroundsTrinketPickingView(viewModel: viewModel.battlegroundsTrinketPicking,
                                                 canvasWidth: canvasWidth)
 
-                // HDT's DiscoveryGuidesTooltipTrigger, laid over the game's
-                // own tooltip for a hovered quest reward or trinket.
-                // Declared after the pickers for the same reason the hero
-                // one is.
-                BattlegroundsDiscoveryGuideTriggerView(discoveryGuides: viewModel.battlegroundsDiscoveryGuides,
-                                                       trinketGuides: viewModel.battlegroundsTrinketGuides,
-                                                       questGuides: viewModel.battlegroundsQuestGuides,
-                                                       canvasWidth: canvasWidth,
-                                                       hoveredRegions: viewModel.hoveredRegionIds)
+                // The trinket/quest discovery guide trigger used to be
+                // declared here, but its card (positioned by
+                // Game.setTrinketGuidesTrigger to sit under the
+                // actually-hovered trinket) lands squarely inside the
+                // "DiscoverCard" region the opacity mask punches out for the
+                // row underneath it, so it got masked away along with
+                // everything else this ZStack draws there. HDT never hits
+                // this: its tooltip is a WPF Popup, a separate surface
+                // outside OverlayWindow's own OpacityMask entirely. Moved
+                // below, past the .mask(), to get the same immunity - see
+                // the comment there.
 
                 // The Tier7 Battlegrounds pre-lobby panel, declared ahead of
                 // BgsTopBar on HDT's own canvas (OverlayWindow.xaml) so the
@@ -625,5 +627,21 @@ struct RootOverlayView: View {
         // themselves cut away. Inert unless
         // OverlayOpacityMask.debugShowRegions is flipped on.
         .overlay(RootOverlayOpacityMaskDebugView(mask: viewModel.opacityMask, size: geometry.size))
+        // HDT's DiscoveryGuidesTooltipTrigger, laid over the game's own
+        // tooltip for a hovered quest reward or trinket. Applied after the
+        // mask rather than declared inside the scaled subtree above -
+        // see the comment left in its place there for why - with the same
+        // scale/position transform that subtree carries so its
+        // canvasWidth-relative coordinates still land correctly.
+        .overlay(
+            BattlegroundsDiscoveryGuideTriggerView(discoveryGuides: viewModel.battlegroundsDiscoveryGuides,
+                                                   trinketGuides: viewModel.battlegroundsTrinketGuides,
+                                                   questGuides: viewModel.battlegroundsQuestGuides,
+                                                   canvasWidth: canvasWidth,
+                                                   hoveredRegions: viewModel.hoveredRegionIds)
+                .frame(width: canvasWidth, height: 1080)
+                .scaleEffect(scale, anchor: .center)
+                .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
+        )
     }
 }
