@@ -196,7 +196,7 @@ class BattlegroundsQuestPickingViewModel: ObservableObject {
             return nil
         }
         
-        return BattlegroundsQuestPickParams(hero_dbf_id: heroCard.dbfId, hero_power_dbf_ids: game.player.pastHeroPowers.compactMap({ x in Cards.any(byId: x)?.dbfId }), turn: game.turnNumber(), minion_types: availableRaces.compactMap { x in Int(Race.allCases.firstIndex(of: x)!) }, anomaly_dbf_id: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: game.gameEntity), offered_rewards: getOfferedRewards(), game_language: "\(Settings.hearthstoneLanguage ?? .enUS)", game_type: BnetGameType.getGameType(mode: game.currentGameMode, format: game.currentFormat).rawValue, battlegrounds_rating: game.currentBattlegroundsRating)
+        return BattlegroundsQuestPickParams(hero_dbf_id: heroCard.dbfId, hero_power_dbf_ids: game.player.pastHeroPowers.compactMap({ x in Cards.any(byId: x)?.dbfId }), turn: game.turnNumber(), minion_types: availableRaces.compactMap { x in Int(Race.allCases.firstIndex(of: x)!) }, anomaly_dbf_id: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: game.gameEntity), deity_dbf_id: BattlegroundsUtils.getBattlegroundsDeityDbfId(game: game.gameEntity), offered_rewards: getOfferedRewards(), game_language: "\(Settings.hearthstoneLanguage ?? .enUS)", game_type: BnetGameType.getGameType(mode: game.currentGameMode, format: game.currentFormat).rawValue, battlegrounds_rating: game.currentBattlegroundsRating)
     }
     
     private func getOfferedRewards() -> [BattlegroundsQuestPickParams.OfferedReward] {

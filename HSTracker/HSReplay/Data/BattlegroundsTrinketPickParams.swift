@@ -13,6 +13,7 @@ struct BattlegroundsTrinketPickParams: Codable {
     var hero_power_dbf_ids: [Int]
     var minion_types: [Int]
     var anomaly_dbf_id: Int?
+    var deity_dbf_id: Int?
     var turn: Int
     var source_dbf_id: Int
     var offered_trinkets: [OfferedTrinket]

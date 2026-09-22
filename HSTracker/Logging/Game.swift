@@ -2211,6 +2211,7 @@ class Game: NSObject, PowerEventHandler {
             let finalPlacement = hero?[.player_leaderboard_place] ?? 0
             if battlegroundsDetails != nil {
                 battlegroundsDetails?.anomaly_dbf_id = gameEntity?[.bacon_global_anomaly_dbid]
+                battlegroundsDetails?.deity_dbf_id = BattlegroundsUtils.getBattlegroundsDeityDbfId(game: gameEntity)
                 battlegroundsDetails?.final_placement = finalPlacement
                 
                 battlegroundsDetails?.friendly_hero_raw_dbf_id = hero?.card.dbfId
@@ -3217,7 +3218,7 @@ class Game: NSObject, PowerEventHandler {
                 return
             }
 
-            self._battlegroundsHeroPickStatsParams = BattlegroundsHeroPickStatsParams(hero_dbf_ids: newHeroDbfIds, minion_types: _battlegroundsHeroPickStatsParams.minion_types, anomaly_dbf_id: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: gameEntity), game_language: "\(Settings.hearthstoneLanguage ?? .enUS)", battlegrounds_rating: battlegroundsRatingInfo?.rating.intValue, is_reroll: isReroll)
+            self._battlegroundsHeroPickStatsParams = BattlegroundsHeroPickStatsParams(hero_dbf_ids: newHeroDbfIds, minion_types: _battlegroundsHeroPickStatsParams.minion_types, anomaly_dbf_id: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: gameEntity), deity_dbf_id: BattlegroundsUtils.getBattlegroundsDeityDbfId(game: gameEntity), game_language: "\(Settings.hearthstoneLanguage ?? .enUS)", battlegrounds_rating: battlegroundsRatingInfo?.rating.intValue, is_reroll: isReroll)
             return
         }
 
@@ -3229,7 +3230,7 @@ class Game: NSObject, PowerEventHandler {
             return
         }
 
-        _battlegroundsHeroPickStatsParams = BattlegroundsHeroPickStatsParams(hero_dbf_ids: heroDbfIds, minion_types: availableRaces.compactMap { x in Int(Race.allCases.firstIndex(of: x)!) }, anomaly_dbf_id: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: gameEntity), game_language: "\(Settings.hearthstoneLanguage ?? .enUS)", battlegrounds_rating: battlegroundsRatingInfo?.rating.intValue, is_reroll: isReroll)
+        _battlegroundsHeroPickStatsParams = BattlegroundsHeroPickStatsParams(hero_dbf_ids: heroDbfIds, minion_types: availableRaces.compactMap { x in Int(Race.allCases.firstIndex(of: x)!) }, anomaly_dbf_id: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: gameEntity), deity_dbf_id: BattlegroundsUtils.getBattlegroundsDeityDbfId(game: gameEntity), game_language: "\(Settings.hearthstoneLanguage ?? .enUS)", battlegrounds_rating: battlegroundsRatingInfo?.rating.intValue, is_reroll: isReroll)
     }
     
     private func getBattlegroundsHeroPickParams() -> BattlegroundsHeroPickStatsParams? {
@@ -4116,7 +4117,7 @@ class Game: NSObject, PowerEventHandler {
             return nil
         }
         
-        let parameters = BattlegroundsTrinketPickParams(hero_dbf_id: heroCard.dbfId, hero_power_dbf_ids: player.pastHeroPowers.compactMap({ x in Cards.by(cardId: x)?.dbfId }), minion_types: availableRaces.compactMap { x in Int(Race.allCases.firstIndex(of: x)!) }, anomaly_dbf_id: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: gameEntity), turn: turnNumber(), source_dbf_id: sourceEntity.card.dbfId, offered_trinkets: offeredTrinkets, game_language: "\(Settings.hearthstoneLanguage ?? .enUS)", game_type: BnetGameType.getBnetGameType(gameType: currentGameType, format: currentFormat).rawValue, battlegrounds_rating: currentBattlegroundsRating)
+        let parameters = BattlegroundsTrinketPickParams(hero_dbf_id: heroCard.dbfId, hero_power_dbf_ids: player.pastHeroPowers.compactMap({ x in Cards.by(cardId: x)?.dbfId }), minion_types: availableRaces.compactMap { x in Int(Race.allCases.firstIndex(of: x)!) }, anomaly_dbf_id: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: gameEntity), deity_dbf_id: BattlegroundsUtils.getBattlegroundsDeityDbfId(game: gameEntity), turn: turnNumber(), source_dbf_id: sourceEntity.card.dbfId, offered_trinkets: offeredTrinkets, game_language: "\(Settings.hearthstoneLanguage ?? .enUS)", game_type: BnetGameType.getBnetGameType(gameType: currentGameType, format: currentFormat).rawValue, battlegrounds_rating: currentBattlegroundsRating)
         return parameters
     }
     

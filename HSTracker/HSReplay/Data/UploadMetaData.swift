@@ -473,6 +473,7 @@ class UploadMetaData: Encodable {
     struct BattlegroundsLobbyDetails: Encodable {
         var lobby_hero_dbf_ids: [Int]?
         var anomaly_dbf_id: Int?
+        var deity_dbf_id: Int?
         var friendly_player_entity_id: Int?
         var final_placement: Int?
         var friendly_hero_raw_dbf_id: Int?

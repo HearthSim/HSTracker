@@ -61,6 +61,17 @@ class BattlegroundsUtils {
         }
         return nil
     }
+
+    static func getBattlegroundsDeityDbfId(game: Entity?) -> Int? {
+        guard let game = game else {
+            return nil
+        }
+        let deityDbfId = game[.bacon_global_old_god_dbid]
+        if deityDbfId > 0 {
+            return deityDbfId
+        }
+        return nil
+    }
         
     // Mirrors HDT's BattlegroundsUtils._availableKeywords, in the same order -
     // the Mechanics list in the extra-filters panel renders it top to bottom.

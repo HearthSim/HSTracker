@@ -14,6 +14,7 @@ struct BattlegroundsQuestPickParams: Codable {
     var turn: Int
     var minion_types: [Int]
     var anomaly_dbf_id: Int?
+    var deity_dbf_id: Int?
     var offered_rewards: [OfferedReward]
     var game_language: String
     var game_type: Int
