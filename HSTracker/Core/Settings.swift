@@ -327,6 +327,10 @@ final class Settings {
     // browser also shows in the Battlegrounds pre-lobby, before a match starts.
     @UserDefault(key: Settings.show_battlegrounds_guides_pre_lobby, defaultValue: true)
     static var showBattlegroundsGuidesPreLobby: Bool
+    // Mirrors HDT's ShowBattlegroundsMetaSnapshot: whether the Meta Snapshot
+    // link is offered in the pre-lobby guides panel.
+    @UserDefault(key: Settings.show_battlegrounds_meta_snapshot, defaultValue: true)
+    static var showBattlegroundsMetaSnapshot: Bool
     @UserDefault(key: Settings.show_battlecry_deathrattle_on_tiers, defaultValue: true)
     static var showBattlecryDeathrattleOnTiers: Bool
     @UserDefault(key: Settings.show_tavern_spells, defaultValue: true)
@@ -916,6 +920,7 @@ extension Settings {
     static let show_tiers = "show_tiers"
     static let show_battlegrounds_guides = "show_battlegrounds_guides"
     static let show_battlegrounds_guides_pre_lobby = "show_battlegrounds_guides_pre_lobby"
+    static let show_battlegrounds_meta_snapshot = "show_battlegrounds_meta_snapshot"
     static let show_battlecry_deathrattle_on_tiers = "show_battlecry_deathrattle_on_tiers"
     static let show_tavern_spells = "show_tavern_spells"
     static let show_tavern_triples = "show_tavern_triples"

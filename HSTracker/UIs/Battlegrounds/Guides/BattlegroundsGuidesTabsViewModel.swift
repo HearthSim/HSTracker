@@ -29,6 +29,8 @@ final class BattlegroundsGuidesTabsViewModel: ObservableObject {
     // dependency to invalidate on when either checkbox is toggled mid-match.
     @Published private(set) var showBrowser = Settings.showBattlegroundsBrowser
     @Published private(set) var showGuides = Settings.showBattlegroundsGuides
+    // HDT's ShowBattlegroundsMetaSnapshot, snapshotted for the same reason.
+    @Published private(set) var showMetaSnapshot = Settings.showBattlegroundsMetaSnapshot
 
     /// True when the browser shows without the tabs above it - HDT's IsStandAloneMode.
     var isStandAlone: Bool { !showGuides }
@@ -74,7 +76,7 @@ final class BattlegroundsGuidesTabsViewModel: ObservableObject {
     // HDT's MetaSnapshotVisible. Unlike HDT this does not also require "room" for
     // it (HeroesTabVisible's aspect-ratio gate isn't ported), so it simply follows
     // whether a tab is open.
-    var metaSnapshotVisible: Bool { isPreLobby && !isInQueue && activeTab == nil }
+    var metaSnapshotVisible: Bool { showMetaSnapshot && isPreLobby && !isInQueue && activeTab == nil }
 
     func openMetaSnapshot() {
         let url = Helper.buildHsReplayNetUrl("/battlegrounds/", "bgs_lobby_meta_snapshot", nil, ["meta-snapshot"])
@@ -96,6 +98,9 @@ final class BattlegroundsGuidesTabsViewModel: ObservableObject {
         }
         if showGuides != Settings.showBattlegroundsGuides {
             showGuides = Settings.showBattlegroundsGuides
+        }
+        if showMetaSnapshot != Settings.showBattlegroundsMetaSnapshot {
+            showMetaSnapshot = Settings.showBattlegroundsMetaSnapshot
         }
     }
 

@@ -139,6 +139,96 @@
         }
       }
     },
+    "bms-ui-002.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Show link to Meta Snapshot between games\"; ObjectID = \"bms-ui-002\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Link zum Meta-Snapshot zwischen Partien anzeigen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show link to Meta Snapshot between games"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar enlace a Meta Snapshot entre partidas"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar enlace al Resumen del meta entre partidas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher le lien vers le Meta Snapshot entre les parties"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra il collegamento al Meta Snapshot tra una partita e l'altra"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ゲームの合間にMeta Snapshotへのリンクを表示"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "게임 사이에 메타 스냅샷 링크 표시"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pokazuj odnośnik do Meta Snapshot między grami"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exibir link para o Panorama do Meta entre partidas"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывать ссылку на Meta Snapshot между партиями"
+          }
+        },
+        "th-TH" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "แสดงลิงก์ไปยัง Meta Snapshot ระหว่างเกม"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在对局间显示环境快照链接"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在對戰之間顯示Meta Snapshot連結"
+          }
+        }
+      }
+    },
     "c2t-Sg-vNs.title" : {
       "comment" : "Class = \"NSButtonCell\"; title = \"Show turn counter\"; ObjectID = \"c2t-Sg-vNs\";",
       "extractionState" : "extracted_with_value",

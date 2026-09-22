@@ -37,6 +37,7 @@
                 <outlet property="showTiers" destination="66r-fs-Jja" id="g6P-yg-2Du"/>
                 <outlet property="showBattlegroundsGuides" destination="bgg-ui-001" id="bgg-ui-004"/>
                 <outlet property="showBattlegroundsGuidesPreLobby" destination="bgl-ui-001" id="bgl-ui-004"/>
+                <outlet property="showBattlegroundsMetaSnapshot" destination="bms-ui-001" id="bms-ui-004"/>
                 <outlet property="showTavernPinning" destination="tvp-ui-001" id="tvp-ui-004"/>
                 <outlet property="autoEnableTavernPinningRecommended" destination="tvp-ui-011" id="tvp-ui-014"/>
                 <outlet property="showTavernPinningQuickGuides" destination="tvp-ui-021" id="tvp-ui-024"/>
@@ -277,6 +278,16 @@
                             </buttonCell>
                             <connections>
                                 <action selector="checkboxClicked:" target="-2" id="bgl-ui-003"/>
+                            </connections>
+                        </button>
+                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bms-ui-001" userLabel="Show link to Meta Snapshot between games">
+                            <rect key="frame" x="8" y="388" width="290" height="18"/>
+                            <buttonCell key="cell" type="check" title="Show link to Meta Snapshot between games" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="bms-ui-002">
+                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <connections>
+                                <action selector="checkboxClicked:" target="-2" id="bms-ui-003"/>
                             </connections>
                         </button>
                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tvp-ui-001" userLabel="Show tavern pinning">
