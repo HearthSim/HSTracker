@@ -148,10 +148,11 @@ private struct GuideFlowWidthKey: PreferenceKey {
 // sub-range. Pre-Layout-protocol (this module's baseline is macOS 10.15,
 // Layout needs 13+), so wrapping is hand-rolled: measure each token via
 // NSAttributedString sizing, greedily pack into lines for the available
-// width, then self-size vertically via mathematical height computation
-// (line count × font line height + inter-line spacing) — a GeometryReader-
-// based measurement created a self-referential sizing loop that collapsed
-// to zero height.
+// width, and let the resulting rows size the view vertically. Only the
+// available *width* comes from a GeometryReader, and it is read through a
+// zero-height sibling rather than from the laid-out content — measuring the
+// content itself created a self-referential sizing loop that collapsed to
+// zero height.
 struct GuideFlowParagraph: View {
     let segments: [GuideTextSegment]
     var fontSize: CGFloat = 12
@@ -171,18 +172,6 @@ struct GuideFlowParagraph: View {
     // applied, so it takes over that role directly (falling back to a
     // font-relative default when a caller doesn't pass one).
     private var rowSpacing: CGFloat { lineSpacing > 0 ? lineSpacing : max(fontSize * 0.35, 3) }
-
-    private var singleLineHeight: CGFloat {
-        let font = nsFont
-        return ceil(font.ascender - font.descender + font.leading)
-    }
-
-    private var computedHeight: CGFloat {
-        guard containerWidth > 0 else { return singleLineHeight }
-        let allLines = lines(containerWidth: containerWidth)
-        guard !allLines.isEmpty else { return singleLineHeight }
-        return CGFloat(allLines.count) * singleLineHeight + CGFloat(max(0, allLines.count - 1)) * rowSpacing
-    }
 
     private var tokens: [GuideFlowToken] {
         var result: [GuideFlowToken] = []
@@ -247,9 +236,9 @@ struct GuideFlowParagraph: View {
     var body: some View {
         ZStack(alignment: .topLeading) {
             // Invisible zero-height reader just to capture the available
-            // width from the parent — the height is computed mathematically
-            // from line count × font metrics, breaking the self-referential
-            // sizing loop a GeometryReader-based measurement creates.
+            // width from the parent — it must not see the laid-out content,
+            // or it re-enters the sizing loop a GeometryReader-based
+            // measurement creates.
             GeometryReader { geo in
                 Color.clear.preference(key: GuideFlowWidthKey.self, value: geo.size.width)
             }
@@ -259,7 +248,17 @@ struct GuideFlowParagraph: View {
                 content(containerWidth: containerWidth)
             }
         }
-        .frame(height: computedHeight)
+        // Sized by the rendered rows themselves. Computing the height from
+        // font metrics instead (line count x ceil(ascender - descender +
+        // leading), as this did) lands a point short of the height SwiftUI
+        // actually gives a Text - at size 11 the metrics say 13 where a Text
+        // measures 14 - and .frame(height:) centres content it cannot fit, so
+        // a long paragraph spilled half of that accumulated error above its
+        // own frame and swallowed the 7pt gap under the "How to Play" row.
+        // Only the *width* still needs the preference reader; the height has
+        // no such loop to break, since nothing upstream proposes a width that
+        // depends on it.
+        .fixedSize(horizontal: false, vertical: true)
         .onPreferenceChange(GuideFlowWidthKey.self) { w in
             if abs(w - containerWidth) > 0.5 {
                 containerWidth = w
