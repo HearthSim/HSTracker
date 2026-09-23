@@ -144,6 +144,11 @@ class BobsBuddyInvoker {
     }
     
     static func instance(gameId: String, turn: Int, createInstanceIfNoneFound: Bool = true) -> BobsBuddyInvoker? {
+        // Mono starts in the background after launch. Until it is up, every caller carries on
+        // without Bob's Buddy, the same as it does for a turn with no instance.
+        guard MonoHelper.isReady else {
+            return nil
+        }
         if _currentGameId != gameId {
             logger.debug("New GameId. Clearing instances...")
             _instances.removeAll()

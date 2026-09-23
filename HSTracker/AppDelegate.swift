@@ -471,25 +471,26 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
                         // remove any old feed URL to fix users not getting notified of updates
             UserDefaults.standard.removeObject(forKey: "SUFeedURL")
             
+            DispatchQueue.main.async {
+                self.completeSetup()
+            }
+
 #if !HSTTEST
-            if MonoHelper.load() {
-                MonoHelper.initialize()
+            // Bob's Buddy is only needed in Battlegrounds combat, and the mono runtime takes
+            // several seconds to start, so the trackers come up without waiting for it.
+            // BobsBuddyInvoker stays unavailable until MonoHelper.isReady.
+            DispatchQueue.global(qos: .userInitiated).async {
+                MonoHelper.start()
 #if DEBUG
                 // Developer smoke test only. It runs a full 1000 iteration, 4 thread
                 // simulation, which is not something a shipping build should do on
                 // every launch (Sentry HSTRACKER-2XX).
-                DispatchQueue.global().async(qos: .userInitiated) {
+                if MonoHelper.isReady {
                     MonoHelper.testSimulation()
                 }
 #endif
-            } else {
-                logger.error("Failed to load BobsBuddy")
             }
 #endif
-
-            DispatchQueue.main.async {
-                self.completeSetup()
-            }
         }
     }
     
