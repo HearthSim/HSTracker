@@ -4,6 +4,7 @@
 - Added counters for Dragoncaller Alanna, Crystal Stag, Knight of the Wild and Frostsaber Matriarch, and the minions died and Imbue counters now also appear for Volcanic Lumberer and Hamuul Runetotem.
 - The settings window now lists its panes in a sidebar, grouped and with a search field that finds a setting by name, instead of a toolbar that had run out of room.
 - HSTracker's splash screen closes sooner when it starts.
+- The trackers now forget everything a Rewind from Semi-Stable Portal takes back.
 ## Battlegrounds
 - Added an All filter to the minion browser's card types, and refreshed the Other icon.
 - Fixed the Aberration icon in the session panel's minion types going blank while the Deity's portrait was loading.

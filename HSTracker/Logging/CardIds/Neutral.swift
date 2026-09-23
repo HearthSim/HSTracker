@@ -1353,5 +1353,6 @@ extension CardIds.NonCollectible {
         static let VulperaScoundrel_MysteryChoiceToken = "ULD_209t"
         static let InisToolkit = "Story_11_IniToolkit"
         static let WitchyLackey = "DAL_615"
+        static let SemiStablePortal_RewindTimelineToken = "TIME_000tb"
     }
 }

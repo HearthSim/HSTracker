@@ -56,6 +56,13 @@ final class LogReaderManager {
     public static let timeZone = TimeZone.current
     public static let calendar = Calendar.current
 
+    /// The stretches of the current game a Semi-Stable Portal's Rewind took
+    /// back. Their lines never happened as far as the game is concerned, so
+    /// they are skipped when the log is read again after the rewind.
+    var ignoredTimeRanges: [ClosedRange<LogDate>] = []
+
+    let logPath: String
+
     private(set) var running = false
     private var stopped = false
     private var queue: DispatchQueue?
@@ -67,6 +74,7 @@ final class LogReaderManager {
     
 	init(logPath: String, coreManager: CoreManager) {
         self.coreManager = coreManager
+        self.logPath = logPath
 		loadingScreenHandler = LoadingScreenHandler(with: coreManager)
 		powerGameStateParser = PowerGameStateParser(with: coreManager.game)
 		arenaHandler = ArenaHandler(with: coreManager)
@@ -150,6 +158,12 @@ final class LogReaderManager {
         }
     }
 
+    /// Makes the worker drop the rest of the lines it has collected, without
+    /// waiting for it. Safe to call from the worker itself, unlike stop().
+    func requestStop() {
+        stopped = true
+    }
+
 	func stop(eraseLogFile: Bool) {
         guard running else {
             return
@@ -187,6 +201,11 @@ final class LogReaderManager {
 	}
 	
 	private func processLine(line: LogLine) {
+        // skip rewound lines
+        if ignoredTimeRanges.contains(where: { $0.contains(line.time) }) {
+            return
+        }
+
         switch line.namespace {
         case .power:
             if line.content.hasPrefix("GameState.") {

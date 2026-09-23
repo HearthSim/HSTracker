@@ -374,7 +374,50 @@ final class CoreManager: NSObject {
         game.updateBattlegroundsOverlays()
         game.currentRegion = .unknown
     }
-    
+
+    // MARK: - Rewind
+
+    /// A Semi-Stable Portal's Rewind took back everything since the play that
+    /// started at `playTime`. The log still has those lines, so drop them and
+    /// read the game again from its start without them.
+    ///
+    /// Called from the log reader's worker, which the reset has to stop and
+    /// wait for, so the reset itself runs on `queue`.
+    func handleRewind(playTime: LogDate, rewindTime: LogDate) {
+        guard rewindTime >= playTime else {
+            return
+        }
+        let reader: LogReaderManager = logReaderManager
+        reader.ignoredTimeRanges.append(playTime ... rewindTime)
+        reader.requestStop()
+
+        let generation = trackingGeneration
+        queue.async {
+            self.resetAndReprocess(reader: reader, generation: generation)
+        }
+    }
+
+    private func resetAndReprocess(reader: LogReaderManager, generation: Int) {
+        reader.stop(eraseLogFile: false)
+
+        game.clearPowerLog()
+
+        let newReader = LogReaderManager(logPath: reader.logPath, coreManager: self)
+        newReader.ignoredTimeRanges = reader.ignoredTimeRanges
+        DispatchQueue.main.async {
+            // Hearthstone closed while the old reader was stopping.
+            guard generation == self.trackingGeneration, self.logReaderManager === reader else {
+                return
+            }
+            self.logReaderManager = newReader
+            newReader.start()
+        }
+    }
+
+    func handleGameEnd() {
+        logReaderManager.ignoredTimeRanges.removeAll()
+    }
+
     var triggers: [NSObjectProtocol] = []
 
     // MARK: - Events

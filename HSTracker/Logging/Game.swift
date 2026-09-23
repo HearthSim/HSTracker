@@ -1080,6 +1080,10 @@ class Game: NSObject, PowerEventHandler {
     func add(powerLog: LogLine) {
         self.powerLog.append(powerLog)
     }
+
+    func clearPowerLog() {
+        self.powerLog = []
+    }
     
     var playedCards: [PlayedCard] = []
     var proposedAttackerEntityId: Int = 0
@@ -1177,6 +1181,7 @@ class Game: NSObject, PowerEventHandler {
 
     var lastCardPlayed = 0
     var lastEntityChosenOnDiscover = 0
+    var lastPlayBlockTime: LogDate?
     var gameEnded = true
     internal private(set) var currentDeck: PlayingDeck?
 
@@ -1626,6 +1631,7 @@ class Game: NSObject, PowerEventHandler {
 		
         lastCardPlayed = 0
         lastEntityChosenOnDiscover = 0
+        lastPlayBlockTime = nil
         
         currentEntityHasCardId = false
         playerUsedHeroPower = false
@@ -2067,6 +2073,7 @@ class Game: NSObject, PowerEventHandler {
 		
         handleEndGame()
         self.powerLog = []
+        AppDelegate.instance().coreManager?.handleGameEnd()
 
         isReconnect = false
         secretsManager?.reset()

@@ -51,6 +51,8 @@ protocol PowerEventHandler: AnyObject {
 	var lastCardPlayed: Int { get set }
     
     var lastEntityChosenOnDiscover: Int { get set }
+
+    var lastPlayBlockTime: LogDate? { get set }
 	
 	var playerUsedHeroPower: Bool { get set }
 	
