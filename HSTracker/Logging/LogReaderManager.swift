@@ -129,8 +129,14 @@ final class LogReaderManager {
                 var processMap = [LogDate: [LogLine]]()
 
                 for reader in readers {
+                    if stopped {
+                        break
+                    }
                     let loglines = reader.collect()
                     for line in loglines {
+                        if stopped {
+                            break
+                        }
                         var lineList = processMap[line.time] ?? [LogLine]()
                         lineList.append(line)
                         processMap[line.time] = lineList
@@ -205,6 +211,8 @@ final class LogReaderManager {
         if ignoredTimeRanges.contains(where: { $0.contains(line.time) }) {
             return
         }
+
+        coreManager.game.gameTime = line.time
 
         switch line.namespace {
         case .power:

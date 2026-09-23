@@ -290,6 +290,10 @@ class Game: NSObject, PowerEventHandler {
                 return
             }
 
+            if self.gameTime == nil {
+                return
+            }
+
             if Settings.showOpponentTracker &&
                 (!self.isBattlegroundsMatch() && !self.isMercenariesMatch() && self.currentGameType != .gt_unknown) &&
             !(Settings.dontTrackWhileSpectating && self.spectator) &&
@@ -378,6 +382,10 @@ class Game: NSObject, PowerEventHandler {
     @objc func updatePlayerTracker(reset: Bool = false) {
         DispatchQueue.main.async { [weak self] in
             guard let self, let tracker = self.windowManager.rootOverlay?.viewModel.playerTracker else {
+                return
+            }
+
+            if self.gameTime == nil {
                 return
             }
             if Settings.showPlayerTracker &&
@@ -1182,6 +1190,11 @@ class Game: NSObject, PowerEventHandler {
     var lastCardPlayed = 0
     var lastEntityChosenOnDiscover = 0
     var lastPlayBlockTime: LogDate?
+    /// HDT's `GameTime.Time`: the time of the last log line read, nil from a
+    /// reset until the log reader reads the next one - while there is nothing
+    /// in the game worth drawing. Unlike HDT's it does not start out empty, so
+    /// the active deck still shows before Hearthstone has logged anything.
+    var gameTime: LogDate? = LogDate(date: Date.distantPast)
     var gameEnded = true
     internal private(set) var currentDeck: PlayingDeck?
 
@@ -1601,8 +1614,9 @@ class Game: NSObject, PowerEventHandler {
         })
     }
 
-    func reset() {
+    func reset(updateUI: Bool = true) {
         logger.verbose("Reseting Game")
+        gameTime = nil
         currentTurn = 0
         hasValidDeck = false
         gameId = UUID.init().uuidString
@@ -1661,9 +1675,11 @@ class Game: NSObject, PowerEventHandler {
         opponent.reset()
         activeEffects.reset()
         relatedCardsManager.reset()
-        updateSecretTracker(cards: [])
         resetPlayerResourcesWidgets()
-        windowManager.hideGameTrackers()
+        if updateUI {
+            updateSecretTracker(cards: [])
+            windowManager.hideGameTrackers()
+        }
 		
 		_spectator = nil
         _availableRaces = nil
