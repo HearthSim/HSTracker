@@ -5,6 +5,7 @@
 - The settings window now lists its panes in a sidebar, grouped and with a search field that finds a setting by name, instead of a toolbar that had run out of room.
 ## Battlegrounds
 - Added an All filter to the minion browser's card types, and refreshed the Other icon.
+- Fixed the Aberration icon in the session panel's minion types going blank while the Deity's portrait was loading.
 # 3.6.12
 ## Hearthstone
 - The player and opponent deck trackers, the secret helper and the "know your opponent's deck?" prompt are now part of the overlay rather than windows of their own, so they sit where Hearthstone Deck Tracker puts them, keep their place when the game's resolution changes, and are cut away wherever Hearthstone draws over the board.

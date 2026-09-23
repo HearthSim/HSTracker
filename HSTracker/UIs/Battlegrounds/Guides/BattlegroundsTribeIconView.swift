@@ -55,15 +55,14 @@ struct BattlegroundsTribeIconView: View {
             ZStack {
                 if let shownDeity {
                     // DeityVisibility: the Deity's portrait, keyed on its id so
-                    // a changed Deity loads its own art.
-                    DeityPortrait(cardId: shownDeity.id, size: circleSize)
-                        .id(shownDeity.id)
+                    // a changed Deity loads its own art. The generic icon stays
+                    // up until that art has loaded.
+                    DeityPortrait(cardId: shownDeity.id, size: circleSize) {
+                        tribeIcon
+                    }
+                    .id(shownDeity.id)
                 } else {
-                    Image(BattlegroundsMinionType.race(race).iconName)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: circleSize, height: circleSize)
-                        .clipShape(Circle())
+                    tribeIcon
                 }
                 // BorderColor defaults to "#16d220" (Availability.Available) -
                 // none of the guide call sites bind Availability, so there it's
@@ -93,14 +92,27 @@ struct BattlegroundsTribeIconView: View {
         }
         .fixedSize()
     }
+
+    private var tribeIcon: some View {
+        Image(BattlegroundsMinionType.race(race).iconName)
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+            .frame(width: circleSize, height: circleSize)
+            .clipShape(Circle())
+    }
 }
 
 // The Deity half of BattlegroundsTribe.xaml: a CardAssetType.Portrait ImageBrush
 // filling the 34pt ellipse under ScaleTransform ScaleX/Y="1.5" CenterX="18"
 // CenterY="13".
-private struct DeityPortrait: View {
+//
+// Until the portrait has loaded it shows `placeholder` - the generic Aberration
+// icon - rather than an empty circle, as HDT's ShowsDeity waits on the asset's
+// IsLoaded.
+private struct DeityPortrait<Placeholder: View>: View {
     let cardId: String
     let size: CGFloat
+    @ViewBuilder let placeholder: () -> Placeholder
 
     @SwiftUI.State private var portrait: NSImage?
 
@@ -112,8 +124,7 @@ private struct DeityPortrait: View {
                     .frame(width: size, height: size)
                     .scaleEffect(1.5, anchor: UnitPoint(x: 18.0 / 34.0, y: 13.0 / 34.0))
             } else {
-                Color.clear
-                    .frame(width: size, height: size)
+                placeholder()
             }
         }
         .frame(width: size, height: size)
