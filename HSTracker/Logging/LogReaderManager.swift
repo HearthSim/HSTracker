@@ -63,6 +63,8 @@ final class LogReaderManager {
 
     let logPath: String
 
+    private let rewoundEntityCreations = RewoundEntityCreationFilter()
+
     private(set) var running = false
     private var stopped = false
     private var queue: DispatchQueue?
@@ -207,11 +209,16 @@ final class LogReaderManager {
 	}
 	
 	private func processLine(line: LogLine) {
-        // skip rewound lines
+        // skip rewound lines, but keep the entities they created in the uploaded log:
+        // a rewind does not un-create them and later lines still reference them.
         if ignoredTimeRanges.contains(where: { $0.contains(line.time) }) {
+            if rewoundEntityCreations.keepInPowerLog(line) {
+                coreManager.game.add(powerLog: line)
+            }
             return
         }
 
+        rewoundEntityCreations.reset()
         coreManager.game.gameTime = line.time
 
         switch line.namespace {

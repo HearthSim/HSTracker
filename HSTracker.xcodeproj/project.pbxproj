@@ -322,6 +322,7 @@
 		439C7EC81C777F8900D29859 /* CoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EAC1C777F8900D29859 /* CoreManager.swift */; };
 		439C7EC91C777F8900D29859 /* LogLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EAD1C777F8900D29859 /* LogLine.swift */; };
 		439C7ECA1C777F8900D29859 /* LogReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EAF1C777F8900D29859 /* LogReader.swift */; };
+		010B5360BE3F93FCA330D716 /* RewoundEntityCreationFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12CB37BE5C722DAC9773D151 /* RewoundEntityCreationFilter.swift */; };
 		439C7ECB1C777F8900D29859 /* LogReaderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EB11C777F8900D29859 /* LogReaderManager.swift */; };
 		439C7ECC1C777F8900D29859 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EB31C777F8900D29859 /* Player.swift */; };
 		439C7EDE1C777FA900D29859 /* ImageUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7ECF1C777FA900D29859 /* ImageUtils.swift */; };
@@ -344,6 +345,7 @@
 		43C1C9F61E96CCDB008C20B1 /* SecretTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43640BE21E8A328700FAFD07 /* SecretTests.swift */; };
 		43C1C9F71E96CCE9008C20B1 /* AlgorithmTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF1B5891E81426D007DCBF2 /* AlgorithmTests.swift */; };
 		43C1C9F81E96CCE9008C20B1 /* HSTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E601C7772C100D29859 /* HSTrackerTests.swift */; };
+		84DDBA3920E4B65AA1387401 /* RewoundEntityCreationFilterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37377C1AC01A926B98E3110 /* RewoundEntityCreationFilterTests.swift */; };
 		43C1C9F91E96CCE9008C20B1 /* LogReaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF1B58B1E815810007DCBF2 /* LogReaderTests.swift */; };
 		43C1C9FB1E96CCE9008C20B1 /* StatsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94596811D174FBA008CD47A /* StatsTests.swift */; };
 		43C1C9FD1E96CCE9008C20B1 /* DatabaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439B1DF51E86CC280098BBBC /* DatabaseTests.swift */; };
@@ -2011,6 +2013,7 @@
 		1CCB4AEA1E8A4930003FD1AD /* LogEventHandlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogEventHandlers.swift; sourceTree = "<group>"; };
 		1CE57A6FD9E979D88473F5FD /* Cremate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cremate.swift; sourceTree = "<group>"; };
 		1CF1B5891E81426D007DCBF2 /* AlgorithmTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlgorithmTests.swift; sourceTree = "<group>"; };
+		E37377C1AC01A926B98E3110 /* RewoundEntityCreationFilterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewoundEntityCreationFilterTests.swift; sourceTree = "<group>"; };
 		1CF1B58B1E815810007DCBF2 /* LogReaderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogReaderTests.swift; sourceTree = "<group>"; };
 		1CF204F81E83B74300037A42 /* MirrorHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MirrorHelper.swift; sourceTree = "<group>"; };
 		1D0422A20A5FB8F80F170CE1 /* KaldoreiCultivator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KaldoreiCultivator.swift; sourceTree = "<group>"; };
@@ -2245,6 +2248,7 @@
 		439C7EAC1C777F8900D29859 /* CoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreManager.swift; sourceTree = "<group>"; };
 		439C7EAD1C777F8900D29859 /* LogLine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogLine.swift; sourceTree = "<group>"; };
 		439C7EAF1C777F8900D29859 /* LogReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogReader.swift; sourceTree = "<group>"; };
+		12CB37BE5C722DAC9773D151 /* RewoundEntityCreationFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewoundEntityCreationFilter.swift; sourceTree = "<group>"; };
 		439C7EB11C777F8900D29859 /* LogReaderManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogReaderManager.swift; sourceTree = "<group>"; };
 		439C7EB31C777F8900D29859 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		439C7ECF1C777FA900D29859 /* ImageUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageUtils.swift; sourceTree = "<group>"; };
@@ -4199,6 +4203,7 @@
 				B96127C26777821E51B4751B /* ReflectionHelperTests.swift */,
 				439C7E601C7772C100D29859 /* HSTrackerTests.swift */,
 				1CF1B58B1E815810007DCBF2 /* LogReaderTests.swift */,
+				E37377C1AC01A926B98E3110 /* RewoundEntityCreationFilterTests.swift */,
 				C94596811D174FBA008CD47A /* StatsTests.swift */,
 				439C7E621C7772C100D29859 /* Info.plist */,
 				439B1DF51E86CC280098BBBC /* DatabaseTests.swift */,
@@ -4275,6 +4280,7 @@
 				439C7EAF1C777F8900D29859 /* LogReader.swift */,
 				432A392E1CF0B0F80029F0EA /* LogReaderInfo.swift */,
 				439C7EB11C777F8900D29859 /* LogReaderManager.swift */,
+				12CB37BE5C722DAC9773D151 /* RewoundEntityCreationFilter.swift */,
 				3CB1A35E2E8C63010090486F /* MixpanelEvents.swift */,
 				B8591FF72B24919F00B907A4 /* MulliganState.swift */,
 				B8DC376025D06C2F00452A83 /* OpponentDeadForTracker.swift */,
@@ -7459,6 +7465,7 @@
 				B87216922F16ECBE00E848BA /* OverloadThisGameCounter.swift in Sources */,
 				B8DB12BF2EBAE910004268FA /* TinyRafaam.swift in Sources */,
 				439C7ECB1C777F8900D29859 /* LogReaderManager.swift in Sources */,
+				010B5360BE3F93FCA330D716 /* RewoundEntityCreationFilter.swift in Sources */,
 				B8815BF0302162F50016D77A /* ICopiesDeathrattlesProxy.swift in Sources */,
 				4B8A44DBE702C0F6C3BB0CA6 /* IDeathrattleProxy.swift in Sources */,
 				00861C0F306D142858D6A60E /* SneedsNewShredderProxy.swift in Sources */,
@@ -8807,6 +8814,7 @@
 				490B4D29E27587E59D52E1DD /* TrackerPanelLayoutTests.swift in Sources */,
 				A1FA0F4C87D99B499D313CA0 /* ReflectionHelperTests.swift in Sources */,
 				43C1C9F91E96CCE9008C20B1 /* LogReaderTests.swift in Sources */,
+				84DDBA3920E4B65AA1387401 /* RewoundEntityCreationFilterTests.swift in Sources */,
 				43C1C9FE1E96CCE9008C20B1 /* PowerParserTests.swift in Sources */,
 				1C561C991EC1EC6600007A46 /* ReplayUploadTests.swift in Sources */,
 				43C1C9F61E96CCDB008C20B1 /* SecretTests.swift in Sources */,
