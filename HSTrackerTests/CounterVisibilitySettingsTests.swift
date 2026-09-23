@@ -167,6 +167,21 @@ class CounterVisibilitySettingsTests: HSTrackerTests {
         XCTAssertEqual(showingTypeName.map { $0.counterId }, [])
     }
 
+    /// Card id constants are partly hand-maintained here, so a typo'd or stale id would
+    /// silently drop a card from a counter's deck check and tooltip.
+    func testEveryCounterRelatedCardIsInTheCardDatabase() {
+        let game = makeGame()
+        var missing = [String]()
+        for type in ReflectionHelper.getCounterClasses() {
+            let counter = type.init(controlledByPlayer: true, game: game)
+            for cardId in counter.relatedCards where Cards.any(byId: cardId) == nil {
+                missing.append("\(counter.counterId): \(cardId)")
+            }
+        }
+
+        XCTAssertEqual(missing, [])
+    }
+
     // MARK: - Visibility
 
     func testForcedCounterStaysHiddenOutsideItsGameMode() {

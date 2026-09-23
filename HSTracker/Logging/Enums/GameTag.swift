@@ -345,6 +345,7 @@ enum GameTag: Int, CaseIterable, Codable {
     zombeast = 823,
     modular = 849,
     overkill = 923,
+    amount_healed_this_game = 958,
     literally_unplayable = 1020,
     whizbang_deck_id = 1048,
     shrine = 1057,

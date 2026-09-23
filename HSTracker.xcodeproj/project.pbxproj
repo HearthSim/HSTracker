@@ -1155,6 +1155,8 @@
 		B89343482CD11E7A009A8727 /* LibramCostReductionCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89343472CD11E7A009A8727 /* LibramCostReductionCounter.swift */; };
 		B893434A2CD120C7009A8727 /* SelfDamageCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89343492CD120C7009A8727 /* SelfDamageCounter.swift */; };
 		B893434C2CD122C3009A8727 /* SummonedDragonsCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B893434B2CD122C3009A8727 /* SummonedDragonsCounter.swift */; };
+		0790E0476A59F667F7E50652 /* BeastsSummonedThisGameCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799ED5E58DFB642B2DAF14D1 /* BeastsSummonedThisGameCounter.swift */; };
+		9719FB593DFF3C57681637E2 /* AmountHealedThisGameCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3FFF20014756289FFB58D4 /* AmountHealedThisGameCounter.swift */; };
 		DAEB9FE80352951B2A091CC5 /* ExpensiveSpellsPlayedCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E9AE42CC5063C67B1C38F1 /* ExpensiveSpellsPlayedCounter.swift */; };
 		B893434E2CD1320F009A8727 /* WheelOfDeathTurnsCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B893434D2CD1320F009A8727 /* WheelOfDeathTurnsCounter.swift */; };
 		B89343502CD1520E009A8727 /* PlayedSpellSchoolsCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B893434F2CD1520E009A8727 /* PlayedSpellSchoolsCounter.swift */; };
@@ -3064,6 +3066,8 @@
 		B89343472CD11E7A009A8727 /* LibramCostReductionCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibramCostReductionCounter.swift; sourceTree = "<group>"; };
 		B89343492CD120C7009A8727 /* SelfDamageCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfDamageCounter.swift; sourceTree = "<group>"; };
 		B893434B2CD122C3009A8727 /* SummonedDragonsCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummonedDragonsCounter.swift; sourceTree = "<group>"; };
+		799ED5E58DFB642B2DAF14D1 /* BeastsSummonedThisGameCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeastsSummonedThisGameCounter.swift; sourceTree = "<group>"; };
+		2A3FFF20014756289FFB58D4 /* AmountHealedThisGameCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountHealedThisGameCounter.swift; sourceTree = "<group>"; };
 		F0E9AE42CC5063C67B1C38F1 /* ExpensiveSpellsPlayedCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensiveSpellsPlayedCounter.swift; sourceTree = "<group>"; };
 		B893434D2CD1320F009A8727 /* WheelOfDeathTurnsCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WheelOfDeathTurnsCounter.swift; sourceTree = "<group>"; };
 		B893434F2CD1520E009A8727 /* PlayedSpellSchoolsCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayedSpellSchoolsCounter.swift; sourceTree = "<group>"; };
@@ -4711,6 +4715,8 @@
 				B8AEB60A2FB270B900CDA2C0 /* SilverHandRecruitBuffCounter.swift */,
 				B872E0D82DB05ADA0023B24B /* SpellsPlayedInCharactersCounter.swift */,
 				B893434B2CD122C3009A8727 /* SummonedDragonsCounter.swift */,
+				799ED5E58DFB642B2DAF14D1 /* BeastsSummonedThisGameCounter.swift */,
+				2A3FFF20014756289FFB58D4 /* AmountHealedThisGameCounter.swift */,
 				F0E9AE42CC5063C67B1C38F1 /* ExpensiveSpellsPlayedCounter.swift */,
 				B85462292CDED2FE0083BB31 /* TheCeaselessExpanseCounter.swift */,
 				B8DB12C62EBEB93C004268FA /* TimethiefRafaamCounter.swift */,
@@ -7290,6 +7296,8 @@
 				B8B7903F2C9776EB00DD33EC /* SandboxScoundrelEnchantment.swift in Sources */,
 				B872E0D72DB059470023B24B /* HolySpellsPlayedCounter.swift in Sources */,
 				B893434C2CD122C3009A8727 /* SummonedDragonsCounter.swift in Sources */,
+				0790E0476A59F667F7E50652 /* BeastsSummonedThisGameCounter.swift in Sources */,
+				9719FB593DFF3C57681637E2 /* AmountHealedThisGameCounter.swift in Sources */,
 				DAEB9FE80352951B2A091CC5 /* ExpensiveSpellsPlayedCounter.swift in Sources */,
 				B846CC8C2E15C43300552F9C /* SizzlingSwarm.swift in Sources */,
 				B8B790682C978EC100DD33EC /* BloodsailDeckhandsEnchantment.swift in Sources */,
