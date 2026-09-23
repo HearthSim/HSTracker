@@ -20,7 +20,8 @@ enum BattlegroundsMinionType: Hashable {
     case buddies   // HDT's (Race)(-2)
 
     // HDT's BattlegroundsMinionType.TribeImages, mapped onto HSTracker's
-    // `tribe_<name>` image sets. Race.invalid is "Other".
+    // `tribe_<name>` image sets. Race.invalid is "Other"; Race.all is the
+    // "All" filter and has its own tribe_all icon.
     var iconName: String {
         switch self {
         case .spells: return "tribe_spell"
@@ -331,9 +332,10 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
     }
 
     // Mirrors HDT's MinionTypeButtons: the lobby's races (or every known race
-    // out of match), with ALL dropped, the rest sorted by their displayed name,
-    // "Other" (INVALID) forced to the end, and the Spells / Buddies sentinels
-    // appended after it.
+    // out of match) sorted by their displayed name, then "Other" (INVALID) and
+    // "All" (ALL) forced to the end, and the Spells / Buddies sentinels
+    // appended after them. ALL and INVALID are filtered out of the sort so they
+    // only ever appear in those fixed slots.
     var minionTypeButtons: [MinionTypeButton] {
         var races = (availableRaces ?? Array(BattlegroundsDbSingleton.instance.races))
             .filter { $0 != .invalid && $0 != .all }
@@ -342,6 +344,7 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
                     .localizedStandardCompare(BattlegroundsMinionType.raceName($1)) == .orderedAscending
             }
         races.append(.invalid)
+        races.append(.all)
 
         var types = races.map { BattlegroundsMinionType.race($0) }
         types.append(.spells)
