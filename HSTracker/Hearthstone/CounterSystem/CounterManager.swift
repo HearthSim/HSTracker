@@ -57,7 +57,7 @@ class CounterManager {
 
     func getVisibleCounters(controlledByPlayer: Bool) -> [BaseCounter] {
         let counters = controlledByPlayer ? playerCounters : opponentCounters
-        return counters.filter { $0.shouldShow() || $0.mirrorsPlayerDeckKnowledge }
+        return counters.filter { $0.isVisible() }
     }
 
     func getExampleCounters(controlledByPlayer: Bool) -> [BaseCounter] {

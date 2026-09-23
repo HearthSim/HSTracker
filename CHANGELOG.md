@@ -1,3 +1,6 @@
+# 3.6.13
+## Hearthstone
+- Added a Counters settings pane for choosing, separately for you and your opponent, whether each counter is always shown, never shown or shown only when it is relevant.
 # 3.6.12
 ## Hearthstone
 - The player and opponent deck trackers, the secret helper and the "know your opponent's deck?" prompt are now part of the overlay rather than windows of their own, so they sit where Hearthstone Deck Tracker puts them, keep their place when the game's resolution changes, and are cut away wherever Hearthstone draws over the board.

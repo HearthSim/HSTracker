@@ -26,15 +26,15 @@ final class RelatedCardVisibilitySettings {
     private init() {
     }
 
-    private var _lookup: [String: RelatedCardVisibility]?
+    private var _lookup: [String: CounterVisibility]?
 
-    private var lookup: [String: RelatedCardVisibility] {
+    private var lookup: [String: CounterVisibility] {
         if let lookup = _lookup {
             return lookup
         }
-        var lookup = [String: RelatedCardVisibility]()
+        var lookup = [String: CounterVisibility]()
         for (cardId, raw) in Settings.relatedCardVisibilityOverrides {
-            if !cardId.isEmpty, let value = RelatedCardVisibility(rawValue: raw), value != .auto {
+            if !cardId.isEmpty, let value = CounterVisibility(rawValue: raw), value != .auto {
                 lookup[cardId] = value
             }
         }
@@ -50,7 +50,7 @@ final class RelatedCardVisibilitySettings {
     /// `RelatedCardCatalog.getVariantIds`). Any id's entry counts, not just the
     /// representative's, so a card that later gains another id, or an entry saved before
     /// an id joined its group, keeps applying.
-    func getOpponent(_ cardId: String) -> RelatedCardVisibility {
+    func getOpponent(_ cardId: String) -> CounterVisibility {
         // Checked first: it is the common case (nothing customised), and it keeps the
         // catalog, and with it the card database, out of the picture for anyone who never
         // used this setting.
@@ -69,7 +69,7 @@ final class RelatedCardVisibilitySettings {
     /// Sets the override for every id of the card. It is stored once, under the
     /// representative id; entries under the card's other ids are folded into it, which
     /// also cleans up after the group changed shape.
-    func setOpponent(_ cardId: String, _ value: RelatedCardVisibility) {
+    func setOpponent(_ cardId: String, _ value: CounterVisibility) {
         if cardId.isEmpty {
             return
         }
@@ -104,7 +104,7 @@ final class RelatedCardVisibilitySettings {
     /// heuristic. Legality is deliberately not part of this - it is a hard gate the caller
     /// applies first, so a forced card can still never be one that cannot exist in the
     /// current format.
-    static func resolve(_ mode: RelatedCardVisibility, _ heuristic: () -> Bool) -> Bool {
+    static func resolve(_ mode: CounterVisibility, _ heuristic: () -> Bool) -> Bool {
         switch mode {
         case .disabled:
             return false

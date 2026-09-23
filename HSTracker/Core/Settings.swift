@@ -464,6 +464,11 @@ final class Settings {
     static var hidePlayerSideboards: Bool
     @UserDefault(key: Settings.player_counters, defaultValue: true)
     static var showPlayerCounters: Bool
+    // Per-counter, per-side visibility overrides, read and written through
+    // CounterVisibilitySettings. Sparse: only counters the user has actually customised
+    // get an entry, so a newly added counter needs no migration.
+    @UserDefault(key: Settings.counter_visibility_overrides, defaultValue: [:])
+    static var counterVisibilityOverrides: [String: [String: Int]]
     @UserDefault(key: Settings.player_related_cards, defaultValue: true)
     static var showPlayerRelatedCards
     // Per-card overrides for the opponent's "Related Cards" list, read and written
@@ -927,6 +932,7 @@ extension Settings {
     static let show_battlegrounds_guides_pre_lobby = "show_battlegrounds_guides_pre_lobby"
     static let show_battlegrounds_meta_snapshot = "show_battlegrounds_meta_snapshot"
     static let related_card_visibility_overrides = "related_card_visibility_overrides"
+    static let counter_visibility_overrides = "counter_visibility_overrides"
     static let show_battlecry_deathrattle_on_tiers = "show_battlecry_deathrattle_on_tiers"
     static let show_tavern_spells = "show_tavern_spells"
     static let show_tavern_triples = "show_tavern_triples"

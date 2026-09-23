@@ -36,7 +36,7 @@ extension Preferences.PaneIdentifier {
 /// One configurable card, and the override it currently resolves to.
 private struct RelatedCardRow: Identifiable {
     let descriptor: RelatedCardDescriptor
-    var visibility: RelatedCardVisibility
+    var visibility: CounterVisibility
 
     var id: String { descriptor.cardId }
     var displayName: String { descriptor.displayName }
@@ -111,7 +111,7 @@ struct RelatedCardsPreferencesView: View {
 
     private func rowView(_ row: RelatedCardRow) -> some View {
         HStack(spacing: 0) {
-            RelatedCardPortraitView(cardId: row.id)
+            CardPortraitView(cardId: row.id)
                 .frame(width: 30, height: 30)
 
             Text(row.displayName)
@@ -120,7 +120,7 @@ struct RelatedCardsPreferencesView: View {
                 // The tooltip listing every id of the card. HDT puts it on the name
                 // unconditionally; .help needs macOS 11, so below that the ids are
                 // still reachable through the filter box.
-                .modifier(RelatedCardIdsTooltip(text: row.cardIdsText))
+                .modifier(HelpTooltip(text: row.cardIdsText))
                 .padding(.leading, 8)
                 .padding(.trailing, 10)
 
@@ -128,18 +128,18 @@ struct RelatedCardsPreferencesView: View {
 
             Picker("", selection: binding(for: row)) {
                 Text(String.localizedString("OptionsCounters_Mode_Auto", comment: ""))
-                    .tag(RelatedCardVisibility.auto)
+                    .tag(CounterVisibility.auto)
                 Text(String.localizedString("OptionsCounters_Mode_Enabled", comment: ""))
-                    .tag(RelatedCardVisibility.enabled)
+                    .tag(CounterVisibility.enabled)
                 Text(String.localizedString("OptionsCounters_Mode_Disabled", comment: ""))
-                    .tag(RelatedCardVisibility.disabled)
+                    .tag(CounterVisibility.disabled)
             }
             .labelsHidden()
             .frame(width: Self.pickerWidth)
         }
     }
 
-    private func binding(for row: RelatedCardRow) -> Binding<RelatedCardVisibility> {
+    private func binding(for row: RelatedCardRow) -> Binding<CounterVisibility> {
         Binding(
             get: { row.visibility },
             set: { value in
@@ -194,8 +194,9 @@ struct RelatedCardsPreferencesView: View {
     }
 }
 
-/// `.help` is macOS 11 and up, and the deployment target is older.
-private struct RelatedCardIdsTooltip: ViewModifier {
+/// `.help` is macOS 11 and up, and the deployment target is older. Shared with the
+/// counters pane.
+struct HelpTooltip: ViewModifier {
     let text: String
 
     func body(content: Content) -> some View {
@@ -207,9 +208,10 @@ private struct RelatedCardIdsTooltip: ViewModifier {
 }
 
 /// The round card portrait at the head of each row - HDT's 30x30 ellipse filled with the
-/// card's art, zoomed so the card frame stays outside the circle.
-private struct RelatedCardPortraitView: View {
-    let cardId: String
+/// card's art, zoomed so the card frame stays outside the circle. Shared with the counters
+/// pane, whose rows HDT draws the same way.
+struct CardPortraitView: View {
+    let cardId: String?
 
     @SwiftUI.State private var image: NSImage?
 
@@ -232,6 +234,7 @@ private struct RelatedCardPortraitView: View {
     }
 
     private func load() {
+        guard let cardId else { return }
         if let cached = ImageUtils.cachedArt(cardId: cardId) {
             image = cached
             return

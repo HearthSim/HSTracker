@@ -508,7 +508,7 @@
 		68C40471D37F6CEFE00D3F58 /* LightforgedCrusader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3194C8C8D1A351EB6B7A79C /* LightforgedCrusader.swift */; };
 		68CD460E97F415B2B47ABA05 /* Sindragosa.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6AECCA6681E8361B86C1CCD /* Sindragosa.swift */; };
 		6973ED809BBB8F0AF330A16B /* BattlegroundsQuestGuideViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2590FF667758EDCBD66D8B /* BattlegroundsQuestGuideViewModel.swift */; };
-		698DA55BA998DC87D1431251 /* RelatedCardVisibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119AE3929664A6667A10AEEE /* RelatedCardVisibility.swift */; };
+		698DA55BA998DC87D1431251 /* CounterVisibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119AE3929664A6667A10AEEE /* CounterVisibility.swift */; };
 		6A35D4C1A830458DB48B03AD /* RootOverlayViewModel+OpacityMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F9E3A211164980BB8D0328 /* RootOverlayViewModel+OpacityMask.swift */; };
 		6A6DBCDF8F20EB7B84890175 /* Grunty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 295893302B04B560243748C8 /* Grunty.swift */; };
 		6AD577778A3725F42E4C12F8 /* TamePet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15ED013D0CA972B95871DE17 /* TamePet.swift */; };
@@ -562,6 +562,11 @@
 		7C59D30539522F2389E30CC7 /* FrostStrikeCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B240FA18672CA52E67621556 /* FrostStrikeCore.swift */; };
 		7CB5639F5373468CDEE7FAB2 /* AzureExplorer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99931A7DDF30051A1400D40D /* AzureExplorer.swift */; };
 		7CEA5DD217F20B69CE40506B /* RelatedCardsPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E576F3EC8EA75CED83D3BE0 /* RelatedCardsPreferences.swift */; };
+		1FF1181E24A5805352427D88 /* CounterVisibilitySettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30A65480677593C5B740634 /* CounterVisibilitySettingsTests.swift */; };
+		468AC36E56742E9711660132 /* CountersPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4591AE04BF811FC7880A6AC2 /* CountersPreferences.swift */; };
+		20C45D7CEA9161D9898492BA /* CounterDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865D84255EE383CE26D2A229 /* CounterDescriptor.swift */; };
+		0EB45D9B40B9B393EBEA96C9 /* CounterCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A16F7718B5B1857B76B0CB6 /* CounterCatalog.swift */; };
+		C8870B18A4DE166A0283273A /* CounterVisibilitySettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49D46DBCFC3F5746A31D8B5 /* CounterVisibilitySettings.swift */; };
 		7D116145900A69BD991C5B10 /* KaldoreiCultivator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0422A20A5FB8F80F170CE1 /* KaldoreiCultivator.swift */; };
 		7D791672371F7E63F158ADCC /* ExploreUngoro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FDF8CBFCB35E63F4AF8F68 /* ExploreUngoro.swift */; };
 		7DDF2942C3426ACCB245C6C6 /* BattlegroundsTrinketGuidesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234DB86891D3FE29C5EAFAC0 /* BattlegroundsTrinketGuidesViewModel.swift */; };
@@ -971,8 +976,8 @@
 		B852D8062DC171A500884B26 /* ContrabandStash.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D8052DC171A500884B26 /* ContrabandStash.swift */; };
 		B852D8082DCAA05D00884B26 /* LivingFlame.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D8072DCAA05D00884B26 /* LivingFlame.swift */; };
 		B852D80A2DCAA28400884B26 /* SearingReflection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D8092DCAA28400884B26 /* SearingReflection.swift */; };
-		B852D80F2DDAB97100884B26 /* ElementalsExtraStatsCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D80E2DDAB97100884B26 /* ElementalsExtraStatsCounter.swift */; };
-		B852D8112DDABB8800884B26 /* ShopBuffStatsCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D8102DDABB8800884B26 /* ShopBuffStatsCounter.swift */; };
+		B852D80F2DDAB97100884B26 /* ElementalExtraStatsCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D80E2DDAB97100884B26 /* ElementalExtraStatsCounter.swift */; };
+		B852D8112DDABB8800884B26 /* ElementalTavernBuffStatsCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D8102DDABB8800884B26 /* ElementalTavernBuffStatsCounter.swift */; };
 		B852D8132DDABE1E00884B26 /* FreeRefreshCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D8122DDABE1E00884B26 /* FreeRefreshCounter.swift */; };
 		B852D8152DDABEE400884B26 /* GoldNextTurnCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D8142DDABEE400884B26 /* GoldNextTurnCounter.swift */; };
 		B852D8172DDAC91A00884B26 /* TavernSpellsBuffCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852D8162DDAC91A00884B26 /* TavernSpellsBuffCounter.swift */; };
@@ -1329,7 +1334,7 @@
 		B8AC9A26293F92540047F438 /* BattlegroundsQuestPickingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AC9A25293F92530047F438 /* BattlegroundsQuestPickingViewModel.swift */; };
 		B8AC9A28293F9A680047F438 /* BattlegroundsComposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AC9A27293F9A680047F438 /* BattlegroundsComposition.swift */; };
 		B8AC9A2A293F9B120047F438 /* BattlegroundsQuestStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AC9A29293F9B120047F438 /* BattlegroundsQuestStats.swift */; };
-		B8AEB6072F999A6E00CDA2C0 /* DemonFodderCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AEB6062F999A6E00CDA2C0 /* DemonFodderCounter.swift */; };
+		B8AEB6072F999A6E00CDA2C0 /* NextRefreshDemonFodderCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AEB6062F999A6E00CDA2C0 /* NextRefreshDemonFodderCounter.swift */; };
 		B8AEB6092FB26BA200CDA2C0 /* AnimalCompanionCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AEB6082FB26BA200CDA2C0 /* AnimalCompanionCounter.swift */; };
 		B8AEB60B2FB270B900CDA2C0 /* SilverHandRecruitBuffCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AEB60A2FB270B900CDA2C0 /* SilverHandRecruitBuffCounter.swift */; };
 		B8AEB60D2FB2731E00CDA2C0 /* LeylineCostReductionCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AEB60C2FB2731E00CDA2C0 /* LeylineCostReductionCounter.swift */; };
@@ -1956,7 +1961,7 @@
 		10AE416D5D5D7B49CD1AAB52 /* KabalMastermindEnchantment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KabalMastermindEnchantment.swift; sourceTree = "<group>"; };
 		114EF0E0BA12DD9A5936DF21 /* AnomalyGuideBadgeTriggerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnomalyGuideBadgeTriggerView.swift; sourceTree = "<group>"; };
 		11949BF55565A37EC58A3B9C /* LandHo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandHo.swift; sourceTree = "<group>"; };
-		119AE3929664A6667A10AEEE /* RelatedCardVisibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelatedCardVisibility.swift; sourceTree = "<group>"; };
+		119AE3929664A6667A10AEEE /* CounterVisibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterVisibility.swift; sourceTree = "<group>"; };
 		119E509D669A5E3CD83E0271 /* ShadowflameSuffusion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowflameSuffusion.swift; sourceTree = "<group>"; };
 		11C1661227C63673E2984AEA /* MisterClocksworth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MisterClocksworth.swift; sourceTree = "<group>"; };
 		138F8E9B79B3E7A2A0CF48C9 /* TwistPlagueOfDeath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwistPlagueOfDeath.swift; sourceTree = "<group>"; };
@@ -2011,6 +2016,11 @@
 		1E2590FF667758EDCBD66D8B /* BattlegroundsQuestGuideViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsQuestGuideViewModel.swift; sourceTree = "<group>"; };
 		1E27FFD484D84943DA7D783E /* ActiveEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveEffectView.swift; sourceTree = "<group>"; };
 		1E576F3EC8EA75CED83D3BE0 /* RelatedCardsPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelatedCardsPreferences.swift; sourceTree = "<group>"; };
+		F30A65480677593C5B740634 /* CounterVisibilitySettingsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterVisibilitySettingsTests.swift; sourceTree = "<group>"; };
+		4591AE04BF811FC7880A6AC2 /* CountersPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountersPreferences.swift; sourceTree = "<group>"; };
+		865D84255EE383CE26D2A229 /* CounterDescriptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterDescriptor.swift; sourceTree = "<group>"; };
+		6A16F7718B5B1857B76B0CB6 /* CounterCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterCatalog.swift; sourceTree = "<group>"; };
+		C49D46DBCFC3F5746A31D8B5 /* CounterVisibilitySettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterVisibilitySettings.swift; sourceTree = "<group>"; };
 		1F235AAA5E1E30AFC2DA96F8 /* ObserverOfMysteries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserverOfMysteries.swift; sourceTree = "<group>"; };
 		2022DA12F2604E5A435A1FD6 /* DragonsHoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragonsHoard.swift; sourceTree = "<group>"; };
 		207A32CEFD3386149E40363B /* JailhouseManastorm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JailhouseManastorm.swift; sourceTree = "<group>"; };
@@ -2878,8 +2888,8 @@
 		B852D8052DC171A500884B26 /* ContrabandStash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContrabandStash.swift; sourceTree = "<group>"; };
 		B852D8072DCAA05D00884B26 /* LivingFlame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LivingFlame.swift; sourceTree = "<group>"; };
 		B852D8092DCAA28400884B26 /* SearingReflection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearingReflection.swift; sourceTree = "<group>"; };
-		B852D80E2DDAB97100884B26 /* ElementalsExtraStatsCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementalsExtraStatsCounter.swift; sourceTree = "<group>"; };
-		B852D8102DDABB8800884B26 /* ShopBuffStatsCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopBuffStatsCounter.swift; sourceTree = "<group>"; };
+		B852D80E2DDAB97100884B26 /* ElementalExtraStatsCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementalExtraStatsCounter.swift; sourceTree = "<group>"; };
+		B852D8102DDABB8800884B26 /* ElementalTavernBuffStatsCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementalTavernBuffStatsCounter.swift; sourceTree = "<group>"; };
 		B852D8122DDABE1E00884B26 /* FreeRefreshCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeRefreshCounter.swift; sourceTree = "<group>"; };
 		B852D8142DDABEE400884B26 /* GoldNextTurnCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoldNextTurnCounter.swift; sourceTree = "<group>"; };
 		B852D8162DDAC91A00884B26 /* TavernSpellsBuffCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TavernSpellsBuffCounter.swift; sourceTree = "<group>"; };
@@ -3252,7 +3262,7 @@
 		B8AC9A25293F92530047F438 /* BattlegroundsQuestPickingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsQuestPickingViewModel.swift; sourceTree = "<group>"; };
 		B8AC9A27293F9A680047F438 /* BattlegroundsComposition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsComposition.swift; sourceTree = "<group>"; };
 		B8AC9A29293F9B120047F438 /* BattlegroundsQuestStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsQuestStats.swift; sourceTree = "<group>"; };
-		B8AEB6062F999A6E00CDA2C0 /* DemonFodderCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemonFodderCounter.swift; sourceTree = "<group>"; };
+		B8AEB6062F999A6E00CDA2C0 /* NextRefreshDemonFodderCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextRefreshDemonFodderCounter.swift; sourceTree = "<group>"; };
 		B8AEB6082FB26BA200CDA2C0 /* AnimalCompanionCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalCompanionCounter.swift; sourceTree = "<group>"; };
 		B8AEB60A2FB270B900CDA2C0 /* SilverHandRecruitBuffCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SilverHandRecruitBuffCounter.swift; sourceTree = "<group>"; };
 		B8AEB60C2FB2731E00CDA2C0 /* LeylineCostReductionCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeylineCostReductionCounter.swift; sourceTree = "<group>"; };
@@ -4016,6 +4026,7 @@
 				437B5BC11CD2568100DE0A41 /* TrackersPreferences.swift */,
 				DD3FF944C22071399F580810 /* OverlayLayoutPreferences.swift */,
 				1E576F3EC8EA75CED83D3BE0 /* RelatedCardsPreferences.swift */,
+				4591AE04BF811FC7880A6AC2 /* CountersPreferences.swift */,
 				437B5BC31CD2568E00DE0A41 /* TrackersPreferences.xib */,
 			);
 			path = Preferences;
@@ -4173,6 +4184,7 @@
 				55B107BF8118B600DF68D3BE /* BattlegroundsDbTests.swift */,
 				102EDFA463668F57A17A24D8 /* PlayerResourcesViewModelTests.swift */,
 				8A81ED9C5D9E0C8B7B59D47B /* RelatedCardVisibilitySettingsTests.swift */,
+				F30A65480677593C5B740634 /* CounterVisibilitySettingsTests.swift */,
 				00EBCC58146CAD58B971A677 /* TrackerPanelLayoutTests.swift */,
 				439C7E601C7772C100D29859 /* HSTrackerTests.swift */,
 				1CF1B58B1E815810007DCBF2 /* LogReaderTests.swift */,
@@ -4527,7 +4539,6 @@
 			children = (
 				D350676F36FC0084A41D865B /* RelatedCardCatalog.swift */,
 				2B654050C238A5947C15F429 /* RelatedCardDescriptor.swift */,
-				119AE3929664A6667A10AEEE /* RelatedCardVisibility.swift */,
 				5977C15B761FBCC73BA4DB6A /* RelatedCardVisibilitySettings.swift */,
 			);
 			path = Settings;
@@ -4623,12 +4634,24 @@
 			children = (
 				B8196F132CC850BB007C0371 /* BaseCounter.swift */,
 				B8196F202CC9A203007C0371 /* CounterManager.swift */,
+				337839FABACC0FE68F2B0A03 /* Settings */,
 				B8E1E5A42D0B867B00383975 /* BgCounters */,
 				B8196F192CC87054007C0371 /* Counters */,
 				B8196F152CC86FB3007C0371 /* NumericCounter.swift */,
 				B8196F172CC87021007C0371 /* StatsCounter.swift */,
 			);
 			path = CounterSystem;
+			sourceTree = "<group>";
+		};
+		337839FABACC0FE68F2B0A03 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				6A16F7718B5B1857B76B0CB6 /* CounterCatalog.swift */,
+				865D84255EE383CE26D2A229 /* CounterDescriptor.swift */,
+				119AE3929664A6667A10AEEE /* CounterVisibility.swift */,
+				C49D46DBCFC3F5746A31D8B5 /* CounterVisibilitySettings.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		B8196F192CC87054007C0371 /* Counters */ = {
@@ -5882,12 +5905,12 @@
 				E270CB7F3E83D61312873710 /* DeitySizeCounter.swift */,
 				B82901F02F0ED32A002F96FB /* BloodGemBarrageBuffCounter.swift */,
 				B8196F1E2CC87293007C0371 /* BloodGemCounter.swift */,
-				B8AEB6062F999A6E00CDA2C0 /* DemonFodderCounter.swift */,
-				B852D80E2DDAB97100884B26 /* ElementalsExtraStatsCounter.swift */,
+				B8AEB6062F999A6E00CDA2C0 /* NextRefreshDemonFodderCounter.swift */,
+				B852D80E2DDAB97100884B26 /* ElementalExtraStatsCounter.swift */,
 				B852D8122DDABE1E00884B26 /* FreeRefreshCounter.swift */,
 				B852D8142DDABEE400884B26 /* GoldNextTurnCounter.swift */,
 				B82901F22F0ED3FE002F96FB /* RandomTavernMinionBuffCounter.swift */,
-				B852D8102DDABB8800884B26 /* ShopBuffStatsCounter.swift */,
+				B852D8102DDABB8800884B26 /* ElementalTavernBuffStatsCounter.swift */,
 				B8E1E5A72D0B883100383975 /* SpellsPlayedForNagasCounter.swift */,
 				B852D8162DDAC91A00884B26 /* TavernSpellsBuffCounter.swift */,
 				B8E1E5A92D0B891F00383975 /* UndeadBuffCounter.swift */,
@@ -7116,7 +7139,7 @@
 				B852D8432DDFBE6500884B26 /* ApothecarysCaravan.swift in Sources */,
 				B846CC502E09DAD400552F9C /* ClawMachine.swift in Sources */,
 				B898657C2D91AFC600BA5649 /* BlazingAccretion.swift in Sources */,
-				B852D80F2DDAB97100884B26 /* ElementalsExtraStatsCounter.swift in Sources */,
+				B852D80F2DDAB97100884B26 /* ElementalExtraStatsCounter.swift in Sources */,
 				B8B790252C9755F200DD33EC /* ResistanceAuraEnchantment.swift in Sources */,
 				B8AF0C792B91444200B65F63 /* ConstructedMulliganGuidePreLobbyViewModel.swift in Sources */,
 				B86D8A062D95F77B00AB65A5 /* NightmareLordXavius.swift in Sources */,
@@ -7469,7 +7492,7 @@
 				18E19B3316EF10428C6A3EE4 /* HeavyMetal.swift in Sources */,
 				B8449A062781CB6F0094E5B3 /* GenericDeathrattles.swift in Sources */,
 				B854622F2CE00B140083BB31 /* Watchers.swift in Sources */,
-				B852D8112DDABB8800884B26 /* ShopBuffStatsCounter.swift in Sources */,
+				B852D8112DDABB8800884B26 /* ElementalTavernBuffStatsCounter.swift in Sources */,
 				B8B78FE02C96344400DD33EC /* ParrotSanctuaryEnchantment.swift in Sources */,
 				B8B790412C97773000DD33EC /* SeaShillEnchantment.swift in Sources */,
 				B8DB12B72EBAE7E7004268FA /* Chronogor.swift in Sources */,
@@ -7515,7 +7538,7 @@
 				B846CCA22E1C38CD00552F9C /* WaveOfTarEnchantment.swift in Sources */,
 				B89865E62D920DDC00BA5649 /* MovementOfPride.swift in Sources */,
 				B833360F2F6214F400923513 /* CaliaMenethil.swift in Sources */,
-				B8AEB6072F999A6E00CDA2C0 /* DemonFodderCounter.swift in Sources */,
+				B8AEB6072F999A6E00CDA2C0 /* NextRefreshDemonFodderCounter.swift in Sources */,
 				B846CC8A2E15C3C100552F9C /* Cinderfin.swift in Sources */,
 				B8DC11EE24E5A8360088A755 /* MonoHandle.swift in Sources */,
 				A0E243AD589748DF96DA51B2 /* MonoList.swift in Sources */,
@@ -7550,9 +7573,13 @@
 				F1C70CEA18B1461A6180965A /* OverlayLayoutPreferences.swift in Sources */,
 				5DDE2D94C8B949898C73E0F7 /* RelatedCardCatalog.swift in Sources */,
 				5D2B9A671CFF44678E753A8E /* RelatedCardDescriptor.swift in Sources */,
-				698DA55BA998DC87D1431251 /* RelatedCardVisibility.swift in Sources */,
+				698DA55BA998DC87D1431251 /* CounterVisibility.swift in Sources */,
 				EA0F8AF136B7C7E1E9123165 /* RelatedCardVisibilitySettings.swift in Sources */,
 				7CEA5DD217F20B69CE40506B /* RelatedCardsPreferences.swift in Sources */,
+				468AC36E56742E9711660132 /* CountersPreferences.swift in Sources */,
+				20C45D7CEA9161D9898492BA /* CounterDescriptor.swift in Sources */,
+				0EB45D9B40B9B393EBEA96C9 /* CounterCatalog.swift in Sources */,
+				C8870B18A4DE166A0283273A /* CounterVisibilitySettings.swift in Sources */,
 				439C7EC61C777F8900D29859 /* RachelleHandler.swift in Sources */,
 				B89343402CD07836009A8727 /* FatigueCounter.swift in Sources */,
 				B8AEB60B2FB270B900CDA2C0 /* SilverHandRecruitBuffCounter.swift in Sources */,
@@ -8760,6 +8787,7 @@
 				D0E7DEDC34BEFCFD07851AF5 /* BattlegroundsDbTests.swift in Sources */,
 				528EEF50E2977AE5C12DA757 /* PlayerResourcesViewModelTests.swift in Sources */,
 				361D169ACCA1FD1FF886552A /* RelatedCardVisibilitySettingsTests.swift in Sources */,
+				1FF1181E24A5805352427D88 /* CounterVisibilitySettingsTests.swift in Sources */,
 				490B4D29E27587E59D52E1DD /* TrackerPanelLayoutTests.swift in Sources */,
 				43C1C9F91E96CCE9008C20B1 /* LogReaderTests.swift in Sources */,
 				43C1C9FE1E96CCE9008C20B1 /* PowerParserTests.swift in Sources */,

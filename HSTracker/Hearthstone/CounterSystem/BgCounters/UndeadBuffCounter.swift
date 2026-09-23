@@ -8,7 +8,7 @@
 
 import Foundation
 
-class UndeadfBuffCounter: StatsCounter {
+class UndeadBuffCounter: StatsCounter {
     override var isBattlegroundsCounter: Bool { true }
     override var cardIdToShowInUI: String? { CardIds.NonCollectible.Neutral.NerubianDeathswarmer }
     override var localizedName: String { String.localizedString("Counter_UndeadBuff", comment: "") }
